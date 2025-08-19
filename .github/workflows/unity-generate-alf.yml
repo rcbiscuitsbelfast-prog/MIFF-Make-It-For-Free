@@ -1,0 +1,23 @@
+name: Generate Unity Activation File (.alf)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-alf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create activation file via Unity docker
+        run: |
+          docker run --rm -v "$PWD":/project -w /project unityci/editor:2021.1.6f1-base \
+            bash -lc "/opt/unity/Editor/Unity -batchmode -nographics -quit -logFile - -createManualActivationFile || true; ls -al ~/*.alf || true; cp -v ~/*.alf /project/ || true; ls -al /project/*.alf || true"
+
+      - name: Upload activation file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-activation-file
+          path: "*.alf"
