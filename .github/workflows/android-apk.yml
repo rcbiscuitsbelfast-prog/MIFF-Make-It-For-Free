@@ -11,11 +11,20 @@ env:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           lfs: true
+          fetch-depth: 0
+
+      - name: Validate Unity license secret
+        if: env.UNITY_LICENSE == ''
+        run: |
+          echo "UNITY_LICENSE secret is not set."
+          echo "Run the 'Unity Activation (Request .alf)' workflow, activate manually to get a .ulf, base64 it, and set as repo secret UNITY_LICENSE."
+          exit 1
 
       - name: Cache Unity Library
         uses: actions/cache@v4
@@ -33,6 +42,7 @@ jobs:
           androidAppBundle: false
           buildName: NewBark
           buildPath: build
+          projectPath: .
           allowDirtyBuild: true
 
       - name: Upload APK artifact
