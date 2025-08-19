@@ -12,9 +12,39 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create activation file via Unity docker
+        shell: bash
         run: |
-          docker run --rm -v "$PWD":/project -w /project unityci/editor:2021.1.6f1-base \
-            bash -lc "/opt/unity/Editor/Unity -batchmode -nographics -quit -logFile - -createManualActivationFile || true; ls -al ~/*.alf || true; cp -v ~/*.alf /project/ || true; ls -al /project/*.alf || true"
+          set -euo pipefail
+          IMAGES=(
+            ghcr.io/game-ci/unity-editor:2021.1.6f1-base-3
+            ghcr.io/game-ci/unity-editor:2021.1.6f1-base
+            unityci/editor:2021.1.6f1-base-3
+            unityci/editor:2021.1.6f1-base
+          )
+          CREATED=0
+          for IMG in "${IMAGES[@]}"; do
+            echo "Trying image: $IMG"
+            if docker pull "$IMG"; then
+              if docker run --rm -v "$PWD":/project -w /project "$IMG" bash -lc \
+                "/opt/unity/Editor/Unity -batchmode -nographics -quit -logFile - -createManualActivationFile || true"; then
+                CREATED=1
+                break
+              fi
+            fi
+          done
+          if [[ "$CREATED" -eq 0 ]]; then
+            echo "Failed to run Unity to create activation file"
+          fi
+          echo "Searching for .alf files..."
+          set +e
+          docker run --rm "$IMG" bash -lc "ls -al ~ || true; ls -al /root || true; ls -al /home || true" || true
+          # Look for .alf produced in common locations and copy back to workspace
+          paths=("/root" "/root/.local/share/unity3d/Unity" "/project" "/home/unity" "/home" "/")
+          for p in "${paths[@]}"; do
+            docker run --rm -v "$PWD":/project "$IMG" bash -lc "shopt -s nullglob; for f in $p/*.alf; do cp -v \"$f\" /project/; done" || true
+          done
+          echo "Found in workspace:"
+          ls -al *.alf || true
 
       - name: Upload activation file artifact
         uses: actions/upload-artifact@v4
