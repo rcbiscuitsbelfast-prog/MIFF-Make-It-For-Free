@@ -3,7 +3,7 @@ name: Build Android APK (Unity)
 on:
   workflow_dispatch:
   push:
-    branches: [ master, main ]
+    branches: [ "**" ]
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
