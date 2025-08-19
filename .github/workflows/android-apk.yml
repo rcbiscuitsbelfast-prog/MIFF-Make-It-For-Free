@@ -45,6 +45,12 @@ jobs:
           projectPath: .
           allowDirtyBuild: true
 
+      - name: List build outputs
+        if: always()
+        run: |
+          ls -R
+          echo "If no APK found under build/Android, check previous step logs."
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
