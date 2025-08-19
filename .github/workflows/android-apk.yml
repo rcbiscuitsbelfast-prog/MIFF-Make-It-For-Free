@@ -23,7 +23,8 @@ jobs:
         if: env.UNITY_LICENSE == ''
         run: |
           echo "UNITY_LICENSE secret is not set."
-          echo "Run the 'Unity Activation (Request .alf)' workflow, activate manually to get a .ulf, base64 it, and set as repo secret UNITY_LICENSE."
+          echo "Run the 'Generate Unity Activation File (.alf)' workflow to download the .alf."
+          echo "Then activate it at https://license.unity3d.com/manual to get the .ulf, base64 it, and add as repo secret UNITY_LICENSE."
           exit 1
 
       - name: Cache Unity Library
