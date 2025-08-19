@@ -2,6 +2,8 @@ name: Generate Unity Activation File (.alf)
 
 on:
   workflow_dispatch:
+  push:
+    branches: ["**"]
 
 jobs:
   generate-alf:
@@ -26,7 +28,7 @@ jobs:
             echo "Trying image: $IMG"
             if docker pull "$IMG"; then
               if docker run --rm -v "$PWD":/project -w /project "$IMG" bash -lc \
-                "/opt/unity/Editor/Unity -batchmode -nographics -quit -logFile - -createManualActivationFile || true"; then
+                "/opt/unity/Editor/Unity -batchmode -nographics -quit -logFile /root/alf-generation.log -createManualActivationFile || true"; then
                 CREATED=1
                 break
               fi
@@ -35,19 +37,35 @@ jobs:
           if [[ "$CREATED" -eq 0 ]]; then
             echo "Failed to run Unity to create activation file"
           fi
-          echo "Searching for .alf files..."
+          echo "Searching for .alf files and copying to workspace..."
           set +e
-          docker run --rm "$IMG" bash -lc "ls -al ~ || true; ls -al /root || true; ls -al /home || true" || true
-          # Look for .alf produced in common locations and copy back to workspace
-          paths=("/root" "/root/.local/share/unity3d/Unity" "/project" "/home/unity" "/home" "/")
-          for p in "${paths[@]}"; do
-            docker run --rm -v "$PWD":/project "$IMG" bash -lc "shopt -s nullglob; for f in $p/*.alf; do cp -v \"$f\" /project/; done" || true
-          done
-          echo "Found in workspace:"
-          ls -al *.alf || true
+          docker run --rm -v "$PWD":/project "$IMG" bash -lc "\
+            set -e; \
+            for d in /root /root/.local/share/unity3d /root/.local/share/unity3d/Unity /home /home/unity /; do \
+              echo Checking $d; \
+            done; \
+            echo 'Find results:'; \
+            find /root /root/.local/share/unity3d /project -maxdepth 6 -type f -name '*.alf' -print || true; \
+            for f in $(find /root /root/.local/share/unity3d /project -maxdepth 6 -type f -name '*.alf' 2>/dev/null); do \
+              echo Copying $f; \
+              cp -v "$f" /project/; \
+            done; \
+            cp -v /root/alf-generation.log /project/ 2>/dev/null || true; \
+          " || true
+          echo "Workspace contents:"
+          ls -al || true
 
       - name: Upload activation file artifact
         uses: actions/upload-artifact@v4
         with:
           name: unity-activation-file
           path: "*.alf"
+          if-no-files-found: warn
+
+      - name: Upload generation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alf-generation-log
+          path: "alf-generation.log"
+          if-no-files-found: warn
