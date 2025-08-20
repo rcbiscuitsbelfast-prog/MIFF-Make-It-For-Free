@@ -133,6 +133,11 @@ namespace NewBark.Quests
             }
         }
 
+        public IEnumerable<Quest> GetActiveQuests()
+        {
+            return availableQuests.Where(q => q && _active.Contains(q.questID));
+        }
+
         public bool GetFlag(string flagId)
         {
             var data = GameManager.Data;
