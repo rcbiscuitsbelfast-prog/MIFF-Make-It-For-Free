@@ -42,6 +42,45 @@ jobs:
           path: "*.alf"
           if-no-files-found: warn
 
+      - name: Upload base64 of activation file
+        if: success()
+        shell: bash
+        run: |
+          set -e
+          FILE=$(ls *.alf 2>/dev/null | head -n1 || true)
+          if [ -z "$FILE" ]; then
+            echo "No .alf found, skipping base64 artifact"
+            exit 0
+          fi
+          base64 -w0 "$FILE" > alf-base64.txt
+        
+      - name: Upload base64 artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-activation-file-base64
+          path: alf-base64.txt
+          if-no-files-found: warn
+
+      - name: Add base64 to run summary
+        if: success()
+        shell: bash
+        run: |
+          set -e
+          if [ -f alf-base64.txt ]; then
+            echo "### Activation file (.alf) base64" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Copy all the text below and save it as a file ending in .alf, then upload it to Unity's manual activation page." >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "<details><summary>Click to expand</summary>" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat alf-base64.txt >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "</details>" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No base64 file to summarize" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Upload generation log
         if: always()
         uses: actions/upload-artifact@v4
