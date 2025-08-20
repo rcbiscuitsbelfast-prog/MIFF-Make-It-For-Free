@@ -83,6 +83,87 @@ namespace MIFF.Evolution
         }
         
         /// <summary>
+        /// Grant evolution from quest completion
+        /// </summary>
+        public bool GrantEvolutionFromQuest(string spiritID, EvolutionContext context)
+        {
+            if (!enableEvolution || string.IsNullOrEmpty(spiritID)) return false;
+            
+            Debug.Log($"Quest evolution requested for spirit: {spiritID}");
+            
+            // Find the spirit instance (this would integrate with your spirit collection system)
+            var spirit = FindSpiritInstance(spiritID);
+            if (spirit == null)
+            {
+                Debug.LogWarning($"Spirit {spiritID} not found for quest evolution");
+                return false;
+            }
+            
+            // Check if evolution is available
+            if (!evolutionLookup.ContainsKey(spirit.SpeciesID))
+            {
+                Debug.LogWarning($"No evolution available for spirit {spirit.SpeciesID}");
+                return false;
+            }
+            
+            var evolution = evolutionLookup[spirit.SpeciesID];
+            
+            // Force evolution for quest reward (bypass normal requirements)
+            return PerformQuestEvolution(spirit, evolution, context);
+        }
+        
+        /// <summary>
+        /// Perform quest-based evolution
+        /// </summary>
+        private bool PerformQuestEvolution(SpiritInstance spirit, SpiritEvolution_SO evolution, EvolutionContext context)
+        {
+            if (spirit == null || evolution == null) return false;
+            
+            Debug.Log($"Quest evolution triggered for {spirit.Nickname}: {evolution.GetEvolutionDisplayName()}");
+            
+            // Store old species ID for reference
+            string oldSpeciesID = spirit.SpeciesID;
+            
+            // Update spirit species
+            spirit.Evolve(evolution.EvolvedSpiritID);
+            
+            // Update evolution stage
+            if (evolution.EvolvedSpiritSpecies != null)
+            {
+                spirit.SetEvolutionStage(evolution.EvolvedSpiritSpecies.EvolutionStage);
+            }
+            
+            // Apply evolution bonuses
+            ApplyEvolutionBonuses(spirit, evolution);
+            
+            // Trigger evolution events
+            onSpiritEvolved?.Invoke(spirit, evolution);
+            
+            // Show evolution cutscene if enabled
+            if (showEvolutionCutscene)
+            {
+                ShowEvolutionCutscene(spirit, evolution);
+            }
+            
+            Debug.Log($"{spirit.Nickname} evolved from {oldSpeciesID} to {spirit.SpeciesID} via quest!");
+            
+            return true;
+        }
+        
+        /// <summary>
+        /// Find spirit instance by ID (placeholder for integration)
+        /// </summary>
+        private SpiritInstance FindSpiritInstance(string spiritID)
+        {
+            // This would integrate with your spirit collection system
+            // For now, create a test instance
+            Debug.Log($"Looking for spirit instance: {spiritID}");
+            
+            // Placeholder: create a new spirit instance for testing
+            return new SpiritInstance(spiritID, $"Quest_{spiritID}");
+        }
+        
+        /// <summary>
         /// Try to evolve a spirit
         /// </summary>
         public bool TryEvolve(SpiritInstance spirit, EvolutionContext context = null)
@@ -394,6 +475,16 @@ namespace MIFF.Evolution
         {
             Debug.Log("Forcing evolution check for all spirits...");
             // This would integrate with your spirit collection system
+        }
+        
+        /// <summary>
+        /// Test quest evolution (for testing)
+        /// </summary>
+        [ContextMenu("Test Quest Evolution")]
+        public void TestQuestEvolution()
+        {
+            var testContext = EvolutionContext.CreateQuestContext("test_quest");
+            GrantEvolutionFromQuest("test_spirit", testContext);
         }
     }
 }

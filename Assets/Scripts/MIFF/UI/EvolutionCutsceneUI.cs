@@ -21,6 +21,12 @@ namespace MIFF.UI
         [SerializeField] private Button continueButton;
         [SerializeField] private Button skipButton;
         
+        [Header("Tutorial Overlay")]
+        [SerializeField] private GameObject tutorialOverlay;
+        [SerializeField] private TextMeshProUGUI tutorialText;
+        [SerializeField] private Button spiritDexButton;
+        [SerializeField] private Button closeTutorialButton;
+        
         [Header("Animation")]
         [SerializeField] private float morphDuration = 2.0f;
         [SerializeField] private float fadeInDuration = 0.5f;
@@ -34,18 +40,21 @@ namespace MIFF.UI
         
         [Header("Visual Effects")]
         [SerializeField] private ParticleSystem evolutionParticles;
-        [SerializeField] private Color evolutionGlowColor = Color.yellow;
-        [SerializeField] private float glowIntensity = 1.5f;
+        [SerializeField] private Color evolutionColor = Color.white;
+        [SerializeField] private float evolutionDuration = 3.0f;
+        [SerializeField] private bool showParticles = true;
         
         [Header("Events")]
         [SerializeField] private UnityEvent onEvolutionCutsceneStarted;
         [SerializeField] private UnityEvent onEvolutionCutsceneCompleted;
         [SerializeField] private UnityEvent onEvolutionCutsceneSkipped;
+        [SerializeField] private UnityEvent onSpiritDexRequested;
         
         private SpiritInstance currentSpirit;
         private SpiritEvolution_SO currentEvolution;
         private bool isCutsceneActive = false;
         private Coroutine morphCoroutine;
+        private bool isFirstEvolution = false;
         
         private void Start()
         {
@@ -55,9 +64,18 @@ namespace MIFF.UI
             if (skipButton != null)
                 skipButton.onClick.AddListener(OnSkipClicked);
             
-            // Hide panel initially
+            if (spiritDexButton != null)
+                spiritDexButton.onClick.AddListener(OnSpiritDexClicked);
+            
+            if (closeTutorialButton != null)
+                closeTutorialButton.onClick.AddListener(OnCloseTutorialClicked);
+            
+            // Hide panels initially
             if (cutscenePanel != null)
                 cutscenePanel.SetActive(false);
+            
+            if (tutorialOverlay != null)
+                tutorialOverlay.SetActive(false);
         }
         
         /// <summary>
@@ -70,6 +88,10 @@ namespace MIFF.UI
             currentSpirit = spirit;
             currentEvolution = evolution;
             isCutsceneActive = true;
+            
+            // Check if this is the first evolution
+            var flagManager = MIFF.Core.OnboardingFlagManager.Instance;
+            isFirstEvolution = flagManager == null || !flagManager.GetFlag("FirstEvolutionSeen");
             
             // Show the panel
             if (cutscenePanel != null)
@@ -110,6 +132,13 @@ namespace MIFF.UI
             // Wait for player input
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0));
             
+            // Show tutorial overlay for first evolution
+            if (isFirstEvolution)
+            {
+                ShowTutorialOverlay();
+                yield return new WaitUntil(() => !tutorialOverlay.activeSelf);
+            }
+            
             // Fade out
             yield return StartCoroutine(FadeOut());
             
@@ -147,6 +176,87 @@ namespace MIFF.UI
             // Disable continue button until cutscene completes
             if (continueButton != null)
                 continueButton.interactable = false;
+        }
+        
+        /// <summary>
+        /// Show tutorial overlay for first evolution
+        /// </summary>
+        private void ShowTutorialOverlay()
+        {
+            if (tutorialOverlay == null) return;
+            
+            // Set tutorial text
+            if (tutorialText != null)
+            {
+                tutorialText.text = "Your bond and skill have unlocked a new form. " +
+                                   "Evolutions can happen through battles, quests, or special items — discover them all!";
+            }
+            
+            // Show the overlay
+            tutorialOverlay.SetActive(true);
+            
+            // Highlight the SpiritDex button
+            if (spiritDexButton != null)
+            {
+                StartCoroutine(PulseButton(spiritDexButton));
+            }
+        }
+        
+        /// <summary>
+        /// Pulse button to draw attention
+        /// </summary>
+        private IEnumerator PulseButton(Button button)
+        {
+            var originalScale = button.transform.localScale;
+            var pulseScale = originalScale * 1.2f;
+            
+            while (tutorialOverlay.activeSelf)
+            {
+                // Pulse up
+                float elapsed = 0f;
+                while (elapsed < 0.5f)
+                {
+                    elapsed += Time.deltaTime;
+                    float progress = elapsed / 0.5f;
+                    button.transform.localScale = Vector3.Lerp(originalScale, pulseScale, progress);
+                    yield return null;
+                }
+                
+                // Pulse down
+                elapsed = 0f;
+                while (elapsed < 0.5f)
+                {
+                    elapsed += Time.deltaTime;
+                    float progress = elapsed / 0.5f;
+                    button.transform.localScale = Vector3.Lerp(pulseScale, originalScale, progress);
+                    yield return null;
+                }
+            }
+            
+            // Reset scale
+            button.transform.localScale = originalScale;
+        }
+        
+        /// <summary>
+        /// Handle SpiritDex button click
+        /// </summary>
+        private void OnSpiritDexClicked()
+        {
+            Debug.Log("SpiritDex requested!");
+            onSpiritDexRequested?.Invoke();
+            
+            // Hide tutorial overlay
+            if (tutorialOverlay != null)
+                tutorialOverlay.SetActive(false);
+        }
+        
+        /// <summary>
+        /// Handle close tutorial button click
+        /// </summary>
+        private void OnCloseTutorialClicked()
+        {
+            if (tutorialOverlay != null)
+                tutorialOverlay.SetActive(false);
         }
         
         /// <summary>
@@ -204,7 +314,7 @@ namespace MIFF.UI
                 // Add glow effect
                 if (afterSprite != null)
                 {
-                    afterSprite.color = Color.Lerp(Color.white, evolutionGlowColor, curveValue * glowIntensity);
+                    afterSprite.color = Color.Lerp(Color.white, evolutionColor, curveValue * 1.5f);
                 }
                 
                 yield return null;
@@ -295,9 +405,22 @@ namespace MIFF.UI
                 evolutionParticles.Stop();
             }
             
-            // Hide panel
+            // Hide panels
             if (cutscenePanel != null)
                 cutscenePanel.SetActive(false);
+            
+            if (tutorialOverlay != null)
+                tutorialOverlay.SetActive(false);
+            
+            // Set first evolution flag
+            if (isFirstEvolution)
+            {
+                var flagManager = MIFF.Core.OnboardingFlagManager.Instance;
+                if (flagManager != null)
+                {
+                    flagManager.SetFlag("FirstEvolutionSeen", true);
+                }
+            }
             
             // Clear references
             currentSpirit = null;
@@ -368,6 +491,18 @@ namespace MIFF.UI
             if (isCutsceneActive)
             {
                 CompleteCutscene();
+            }
+        }
+        
+        /// <summary>
+        /// Test tutorial overlay (for testing)
+        /// </summary>
+        [ContextMenu("Test Tutorial Overlay")]
+        public void TestTutorialOverlay()
+        {
+            if (tutorialOverlay != null)
+            {
+                tutorialOverlay.SetActive(true);
             }
         }
         
