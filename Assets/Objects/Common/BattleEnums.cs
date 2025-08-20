@@ -98,5 +98,21 @@ namespace NewBark.SpiritBattles
         Escape,
         Revive
     }
+
+    public enum TerrainType
+    {
+        Grass,
+        Water,
+        Urban,
+        Cave,
+        Shrine
+    }
+
+    public enum TimeOfDay
+    {
+        Any,
+        Day,
+        Night
+    }
 }
 
