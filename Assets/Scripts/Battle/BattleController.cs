@@ -94,10 +94,7 @@ namespace NewBark.Battle
                     currentState = BattleState.PlayerTurn;
                     break;
                 case BattleState.PlayerTurn:
-                    // In a real UI, wait for inputs. For now, auto-pick: use first available move.
-                    var playerMove = GetDefaultPlayerMove();
-                    ResolveMove(userIsPlayer: true, playerMove);
-                    currentState = BattleState.EnemyTurn;
+                    // Wait for UI to feed an action; noop here. Designer should show command panel via UI.
                     break;
                 case BattleState.EnemyTurn:
                     var enemyMove = GetDefaultEnemyMove();
@@ -266,6 +263,49 @@ namespace NewBark.Battle
                     Log($"Used {item.displayName}. No implemented effect.");
                     break;
             }
+        }
+
+        // New: receive player action from UI, then advance state
+        public void ReceivePlayerAction(object action)
+        {
+            if (currentState != BattleState.PlayerTurn) return;
+
+            if (action is SongMove mv)
+            {
+                ResolveMove(true, mv);
+                currentState = BattleState.EnemyTurn;
+                return;
+            }
+
+            if (action is BattleItem item)
+            {
+                UseItem(item);
+                currentState = BattleState.EnemyTurn;
+                return;
+            }
+
+            if (action is SpiritSpecies spirit)
+            {
+                // Switch to the requested spirit if present in roster
+                var idx = System.Array.IndexOf(playerSpirits, spirit);
+                if (idx >= 0)
+                {
+                    SwitchPlayerSpirit(idx);
+                }
+                currentState = BattleState.EnemyTurn;
+                return;
+            }
+
+            Log("Unknown action type");
+        }
+
+        // Optional escape attempt stub (UI Run button)
+        public void AttemptEscape()
+        {
+            // Minimal: always succeed for now
+            Log("Escaped!");
+            OnBattleEnd(false);
+            currentState = BattleState.Idle;
         }
     }
 }
