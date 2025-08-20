@@ -1,0 +1,102 @@
+name: Generate Unity Activation File (.alf)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+
+jobs:
+  generate-alf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate activation file inside Unity Docker
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORKDIR="$PWD"
+          IMAGE="ghcr.io/game-ci/unity-editor:2021.1.6f1-base-3"
+          echo "Pulling $IMAGE"
+          docker pull "$IMAGE"
+          echo "Running Unity to create activation file..."
+          docker run --rm -v "$WORKDIR":/project -w /project "$IMAGE" bash -lc '
+            set -e
+            /opt/unity/Editor/Unity -batchmode -nographics -quit -logFile /project/alf-generation.log -createManualActivationFile || true
+            echo "Searching for .alf files..."
+            find /root /root/.local/share/unity3d -maxdepth 6 -type f -name "*.alf" -print || true
+            for f in $(find /root /root/.local/share/unity3d -maxdepth 6 -type f -name "*.alf" 2>/dev/null); do
+              echo Copying "$f" to /project/
+              cp -v "$f" /project/
+            done
+          '
+          echo "Workspace contents after run:"
+          ls -al
+
+      - name: Upload activation file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-activation-file
+          path: "*.alf"
+          if-no-files-found: warn
+
+      - name: Upload generation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alf-generation-log
+          path: "alf-generation.log"
+          if-no-files-found: warn
+name: Generate Unity Activation File (.alf)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+
+jobs:
+  generate-alf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate activation file inside Unity Docker
+        shell: bash
+        run: |
+          set -euo pipefail
+          WORKDIR="$PWD"
+          IMAGE="ghcr.io/game-ci/unity-editor:2021.1.6f1-base-3"
+          echo "Pulling $IMAGE"
+          docker pull "$IMAGE"
+          echo "Running Unity to create activation file..."
+          docker run --rm -v "$WORKDIR":/project -w /project "$IMAGE" bash -lc '
+            set -e
+            /opt/unity/Editor/Unity -batchmode -nographics -quit -logFile /project/alf-generation.log -createManualActivationFile || true
+            echo "Searching for .alf files..."
+            find /root /root/.local/share/unity3d -maxdepth 6 -type f -name "*.alf" -print || true
+            for f in $(find /root /root/.local/share/unity3d -maxdepth 6 -type f -name "*.alf" 2>/dev/null); do
+              echo Copying "$f" to /project/
+              cp -v "$f" /project/
+            done
+          '
+          echo "Workspace contents after run:"
+          ls -al
+
+      - name: Upload activation file artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unity-activation-file
+          path: "*.alf"
+          if-no-files-found: warn
+
+      - name: Upload generation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alf-generation-log
+          path: "alf-generation.log"
+          if-no-files-found: warn
