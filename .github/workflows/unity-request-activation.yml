@@ -1,0 +1,16 @@
+name: Unity Activation (Manual Instructions)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  instructions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print activation instructions
+        run: |
+          echo "This repository uses GameCI unity-builder. Manual activation is required."
+          echo "1) Locally open the project with Unity 2021.1.6f1 and go to Help > Manage License > Manual activation."
+          echo "2) Generate the .alf (activation request), upload to Unity's license portal, download .ulf."
+          echo "3) Base64 the .ulf and set repo secret UNITY_LICENSE."
+          echo "Docs: https://game.ci/docs/github/activation"

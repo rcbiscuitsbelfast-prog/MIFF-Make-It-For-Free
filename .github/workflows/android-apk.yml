@@ -1,0 +1,60 @@
+name: Build Android APK (Unity)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "**" ]
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Validate Unity license secret
+        if: env.UNITY_LICENSE == ''
+        run: |
+          echo "UNITY_LICENSE secret is not set."
+          echo "Run the 'Generate Unity Activation File (.alf)' workflow to download the .alf."
+          echo "Then activate it at https://license.unity3d.com/manual to get the .ulf, base64 it, and add as repo secret UNITY_LICENSE."
+          exit 1
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-Android-${{ hashFiles('**/*.cs', 'Packages/manifest.json', 'Packages/packages-lock.json', 'ProjectSettings/ProjectSettings.asset') }}
+          restore-keys: |
+            Library-Android-
+
+      - name: Build Android APK
+        uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 2021.1.6f1
+          targetPlatform: Android
+          androidAppBundle: false
+          buildName: NewBark
+          buildPath: build
+          projectPath: .
+          allowDirtyBuild: true
+
+      - name: List build outputs
+        if: always()
+        run: |
+          ls -R
+          echo "If no APK found under build/Android, check previous step logs."
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Android-APK
+          path: build/Android/*.apk
+          if-no-files-found: warn
