@@ -31,6 +31,11 @@ namespace NewBark.Battle
         public int playerHP;
         public int currentPlayerSpiritIndex;
         public int currentEnemySpiritIndex;
+        public bool isSoloMode;
+        public bool mustSwitchSpirit;
+
+        private int[] _playerSpiritHP;
+        private int[] _enemySpiritHP;
 
         private readonly List<string> _battleLog = new List<string>();
 
@@ -63,6 +68,13 @@ namespace NewBark.Battle
             currentPlayerSpiritIndex = 0;
             currentEnemySpiritIndex = 0;
             playerHP = playerProfile ? Mathf.Max(1, playerProfile.HP) : 100;
+
+            // Initialize per-spirit HP pools
+            _playerSpiritHP = InitSpiritHpArray(playerSpirits);
+            _enemySpiritHP = InitSpiritHpArray(enemySpirits);
+
+            isSoloMode = AreAllSpiritsDown(_playerSpiritHP);
+            mustSwitchSpirit = false;
 
             _battleLog.Clear();
             Log($"Battle started. Player HP: {playerHP}. Player Spirits: {playerSpirits?.Length ?? 0}, Enemy Spirits: {enemySpirits?.Length ?? 0}");
@@ -113,6 +125,23 @@ namespace NewBark.Battle
                     {
                         currentState = BattleState.Defeat;
                         break;
+                    }
+
+                    // Handle fainted player spirit
+                    if (!isSoloMode && GetPlayerCurrentSpiritHP() <= 0)
+                    {
+                        // Check for any remaining spirits with HP > 0
+                        int nextAlive = FindFirstAlive(_playerSpiritHP);
+                        if (nextAlive >= 0)
+                        {
+                            mustSwitchSpirit = true; // UI should prompt switch
+                            currentState = BattleState.PlayerTurn;
+                            break;
+                        }
+
+                        // Enter Solo mode
+                        isSoloMode = true;
+                        mustSwitchSpirit = false;
                     }
 
                     currentState = BattleState.PlayerTurn;
@@ -194,30 +223,53 @@ namespace NewBark.Battle
 
         private void ApplyEnemyDamage(int dmg)
         {
-            // In a more complete system, enemy HP would be tracked per spirit. Here we simulate by removing spirits.
             if (dmg <= 0 || enemySpirits == null || enemySpirits.Length == 0) return;
-            currentEnemySpiritIndex++;
-            if (currentEnemySpiritIndex >= enemySpirits.Length)
+            if (_enemySpiritHP == null || _enemySpiritHP.Length != enemySpirits.Length)
             {
-                currentEnemySpiritIndex = enemySpirits.Length - 1;
+                _enemySpiritHP = InitSpiritHpArray(enemySpirits);
+            }
+
+            _enemySpiritHP[currentEnemySpiritIndex] = Mathf.Max(0, _enemySpiritHP[currentEnemySpiritIndex] - dmg);
+
+            // Advance to next enemy spirit if fainted
+            if (_enemySpiritHP[currentEnemySpiritIndex] <= 0)
+            {
+                int next = FindFirstAliveFrom(_enemySpiritHP, currentEnemySpiritIndex + 1);
+                if (next >= 0)
+                {
+                    currentEnemySpiritIndex = next;
+                }
             }
         }
 
         private void ApplyPlayerDamage(int dmg)
         {
             playerHP = Mathf.Max(0, playerHP - dmg);
+            if (!isSoloMode)
+            {
+                if (_playerSpiritHP == null || _playerSpiritHP.Length != (playerSpirits?.Length ?? 0))
+                {
+                    _playerSpiritHP = InitSpiritHpArray(playerSpirits);
+                }
+                _playerSpiritHP[currentPlayerSpiritIndex] = Mathf.Max(0, _playerSpiritHP[currentPlayerSpiritIndex] - dmg);
+            }
         }
 
         private bool IsEnemyTeamDefeated()
         {
-            // Minimal logic: once we've advanced beyond last enemy, consider victory
-            return enemySpirits == null || enemySpirits.Length == 0 || currentEnemySpiritIndex >= enemySpirits.Length - 1;
+            if (enemySpirits == null || enemySpirits.Length == 0) return true;
+            if (_enemySpiritHP == null || _enemySpiritHP.Length != enemySpirits.Length)
+            {
+                _enemySpiritHP = InitSpiritHpArray(enemySpirits);
+            }
+            return AreAllSpiritsDown(_enemySpiritHP);
         }
 
         private bool IsPlayerDefeated()
         {
             var noSpirits = playerSpirits == null || playerSpirits.Length == 0;
-            return playerHP <= 0 && noSpirits;
+            bool spiritsAllDown = noSpirits || AreAllSpiritsDown(_playerSpiritHP);
+            return playerHP <= 0 && spiritsAllDown;
         }
 
         private void OnBattleEnd(bool victory)
@@ -237,9 +289,21 @@ namespace NewBark.Battle
         public void SwitchPlayerSpirit(int index)
         {
             if (playerSpirits == null || index < 0 || index >= playerSpirits.Length) return;
+            if (_playerSpiritHP == null || _playerSpiritHP.Length != playerSpirits.Length)
+            {
+                _playerSpiritHP = InitSpiritHpArray(playerSpirits);
+            }
+
+            if (_playerSpiritHP[index] <= 0)
+            {
+                Log("Cannot switch to a fainted spirit.");
+                return;
+            }
+
             currentPlayerSpiritIndex = index;
             Log($"Player switched to {playerSpirits[index].displayName}.");
-            // Typically ends turn; caller should manage state advance.
+            mustSwitchSpirit = false;
+            currentState = BattleState.EnemyTurn; // switching consumes turn
         }
 
         public void UseItem(BattleItem item)
@@ -272,6 +336,16 @@ namespace NewBark.Battle
 
             if (action is SongMove mv)
             {
+                if (isSoloMode)
+                {
+                    // Only allow player style moves in solo mode (we'll treat signature moves as allowed)
+                    bool isStyleMove = playerProfile && System.Array.IndexOf(playerProfile.signatureMoves, mv) >= 0;
+                    if (!isStyleMove)
+                    {
+                        Log("Cannot use spirit moves in Solo Mode.");
+                        return;
+                    }
+                }
                 ResolveMove(true, mv);
                 currentState = BattleState.EnemyTurn;
                 return;
@@ -306,6 +380,55 @@ namespace NewBark.Battle
             Log("Escaped!");
             OnBattleEnd(false);
             currentState = BattleState.Idle;
+        }
+
+        // Helpers for HP arrays and checks
+        private int[] InitSpiritHpArray(SpiritSpecies[] spirits)
+        {
+            if (spirits == null || spirits.Length == 0) return new int[0];
+            var arr = new int[spirits.Length];
+            for (int i = 0; i < spirits.Length; i++)
+            {
+                // Use simple base stat for demo; sync acts like HP pool here
+                arr[i] = Mathf.Max(1, spirits[i] ? spirits[i].sync : 1);
+            }
+            return arr;
+        }
+
+        private int GetPlayerCurrentSpiritHP()
+        {
+            if (_playerSpiritHP == null || _playerSpiritHP.Length == 0) return 0;
+            return _playerSpiritHP[Mathf.Clamp(currentPlayerSpiritIndex, 0, _playerSpiritHP.Length - 1)];
+        }
+
+        private static int FindFirstAlive(int[] hp)
+        {
+            if (hp == null) return -1;
+            for (int i = 0; i < hp.Length; i++)
+            {
+                if (hp[i] > 0) return i;
+            }
+            return -1;
+        }
+
+        private static int FindFirstAliveFrom(int[] hp, int start)
+        {
+            if (hp == null) return -1;
+            for (int i = start; i < hp.Length; i++)
+            {
+                if (hp[i] > 0) return i;
+            }
+            return -1;
+        }
+
+        private static bool AreAllSpiritsDown(int[] hp)
+        {
+            if (hp == null || hp.Length == 0) return true;
+            for (int i = 0; i < hp.Length; i++)
+            {
+                if (hp[i] > 0) return false;
+            }
+            return true;
         }
     }
 }

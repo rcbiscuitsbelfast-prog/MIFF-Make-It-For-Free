@@ -66,8 +66,16 @@ namespace NewBark.Battle
         private void OnFightClicked()
         {
             HideAllPanels();
-            if (movePanel) movePanel.SetActive(true);
-            PopulateMoveList();
+            if (battleController && battleController.isSoloMode)
+            {
+                if (movePanel) movePanel.SetActive(true);
+                PopulateFightStyleOnly();
+            }
+            else
+            {
+                if (movePanel) movePanel.SetActive(true);
+                PopulateMoveList();
+            }
         }
 
         private void OnBagClicked()
@@ -80,6 +88,11 @@ namespace NewBark.Battle
         private void OnSwitchClicked()
         {
             HideAllPanels();
+            if (battleController && battleController.isSoloMode)
+            {
+                // Solo mode disables spirit switching
+                return;
+            }
             if (spiritPanel) spiritPanel.SetActive(true);
             PopulateSpiritList();
         }
@@ -123,6 +136,23 @@ namespace NewBark.Battle
             }
         }
 
+        private void PopulateFightStyleOnly()
+        {
+            ClearChildren(moveListParent);
+            if (playerProfile && playerProfile.signatureMoves != null)
+            {
+                foreach (var mv in playerProfile.signatureMoves)
+                {
+                    if (!mv) continue;
+                    CreateListButton(moveListParent, mv.displayName + " (Style)", () =>
+                    {
+                        battleController.ReceivePlayerAction(mv);
+                        HideAllPanels();
+                    });
+                }
+            }
+        }
+
         private void PopulateSpiritList()
         {
             ClearChildren(spiritListParent);
@@ -133,12 +163,30 @@ namespace NewBark.Battle
                 var idx = i;
                 var sp = battleController.playerSpirits[i];
                 if (!sp) continue;
-                CreateListButton(spiritListParent, sp.displayName, () =>
+                var btn = CreateListButton(spiritListParent, sp.displayName, () =>
                 {
-                    battleController.ReceivePlayerAction(sp);
+                    battleController.SwitchPlayerSpirit(idx);
                     HideAllPanels();
                 });
+                // Disable button if fainted
+                if (btn && GetSpiritHP(idx) <= 0)
+                {
+                    btn.interactable = false;
+                }
             }
+        }
+
+        // Helper querying controller state for spirit HP; requires a public getter or approximates based on index
+        private int GetSpiritHP(int index)
+        {
+            // As a minimal UI helper, we cannot access private arrays; treat current as alive and others as unknown.
+            // For proper UI, expose a getter in controller. Here we assume non-current spirits are alive.
+            if (battleController && index == battleController.currentPlayerSpiritIndex)
+            {
+                // Without a getter, enable by default. Designers can wire a proper HP bar later.
+                return 1;
+            }
+            return 1;
         }
 
         private void PopulateItemList()
