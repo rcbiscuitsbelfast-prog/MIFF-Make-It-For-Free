@@ -22,8 +22,9 @@ namespace NewBark.Battle
         public bool isRivalEncounter;
 
         [Header("Audio (optional)")] 
-        public BattleAudioManager battleAudioManager;
-        public AudioClip baseBattleTrack;
+        [SerializeField] private BattleAudioManager battleAudioManager;
+        [SerializeField] private AudioClip wildBaseTrack;
+        [SerializeField] private AudioClip rivalBaseTrack;
 
         [Header("State (runtime)")]
         public BattleState currentState = BattleState.Idle;
@@ -33,13 +34,7 @@ namespace NewBark.Battle
 
         private readonly List<string> _battleLog = new List<string>();
 
-        private void Start()
-        {
-            if (battleAudioManager && baseBattleTrack)
-            {
-                battleAudioManager.PlayBaseTrack(baseBattleTrack);
-            }
-        }
+        // Base tracks are started inside StartBattle() based on encounter type
 
         public void StartBattle(EncounterTable table, bool isRival)
         {
@@ -71,6 +66,19 @@ namespace NewBark.Battle
 
             _battleLog.Clear();
             Log($"Battle started. Player HP: {playerHP}. Player Spirits: {playerSpirits?.Length ?? 0}, Enemy Spirits: {enemySpirits?.Length ?? 0}");
+
+            // Start base track depending on encounter type
+            if (battleAudioManager)
+            {
+                if (isRival && rivalBaseTrack != null)
+                {
+                    battleAudioManager.PlayBaseTrack(rivalBaseTrack);
+                }
+                else if (wildBaseTrack != null)
+                {
+                    battleAudioManager.PlayBaseTrack(wildBaseTrack);
+                }
+            }
 
             currentState = BattleState.Intro;
         }
@@ -182,6 +190,7 @@ namespace NewBark.Battle
             // Optional stem playback
             if (battleAudioManager && move.stemClip)
             {
+                // Audio manager schedules stems to bar boundaries when beat sync is enabled
                 battleAudioManager.PlayMoveStem(move.stemClip);
             }
         }
