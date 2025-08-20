@@ -33,6 +33,13 @@ namespace NewBark.Battle
         public int currentEnemySpiritIndex;
         public bool isSoloMode;
         public bool mustSwitchSpirit;
+        // Events
+        public System.Action<BattleContext> OnBattleStarted;
+        public System.Action<int> OnTurnChanged;
+        public System.Action<MoveResult> OnMoveResolved;
+        public System.Action<bool> OnBattleEnded;
+
+        private int _turnNumber;
 
         private int[] _playerSpiritHP;
         private int[] _enemySpiritHP;
@@ -93,6 +100,14 @@ namespace NewBark.Battle
             }
 
             currentState = BattleState.Intro;
+
+            _turnNumber = 0;
+            OnBattleStarted?.Invoke(new BattleContext
+            {
+                IsRival = isRivalEncounter,
+                PlayerSpiritCount = playerSpirits?.Length ?? 0,
+                EnemySpiritCount = enemySpirits?.Length ?? 0
+            });
         }
 
         private void Update()
@@ -104,6 +119,8 @@ namespace NewBark.Battle
                 case BattleState.Intro:
                     // TODO: Show intro UI/animations
                     currentState = BattleState.PlayerTurn;
+                    _turnNumber++;
+                    OnTurnChanged?.Invoke(_turnNumber);
                     break;
                 case BattleState.PlayerTurn:
                     // Wait for UI to feed an action; noop here. Designer should show command panel via UI.
@@ -145,6 +162,8 @@ namespace NewBark.Battle
                     }
 
                     currentState = BattleState.PlayerTurn;
+                    _turnNumber++;
+                    OnTurnChanged?.Invoke(_turnNumber);
                     break;
                 case BattleState.Victory:
                     OnBattleEnd(true);
@@ -177,7 +196,7 @@ namespace NewBark.Battle
             return null;
         }
 
-        private SpiritSpecies GetCurrentPlayerSpirit()
+        public SpiritSpecies GetCurrentPlayerSpirit()
         {
             if (playerSpirits == null || playerSpirits.Length == 0) return null;
             currentPlayerSpiritIndex = Mathf.Clamp(currentPlayerSpiritIndex, 0, playerSpirits.Length - 1);
@@ -219,6 +238,13 @@ namespace NewBark.Battle
                 // Audio manager schedules stems to bar boundaries when beat sync is enabled
                 battleAudioManager.PlayMoveStem(move.stemClip);
             }
+
+            OnMoveResolved?.Invoke(new MoveResult
+            {
+                UserIsPlayer = userIsPlayer,
+                Move = move,
+                Damage = dmg
+            });
         }
 
         private void ApplyEnemyDamage(int dmg)
@@ -277,6 +303,7 @@ namespace NewBark.Battle
             Log(victory ? "Victory!" : "Defeat...");
             battleAudioManager?.StopStems();
             // TODO: cleanup UI, rewards, return to overworld
+            OnBattleEnded?.Invoke(victory);
         }
 
         private void Log(string msg)
@@ -400,6 +427,16 @@ namespace NewBark.Battle
             if (_playerSpiritHP == null || _playerSpiritHP.Length == 0) return 0;
             return _playerSpiritHP[Mathf.Clamp(currentPlayerSpiritIndex, 0, _playerSpiritHP.Length - 1)];
         }
+
+        // Public safe getters for UI and systems
+        public int GetPlayerSpiritHP(int index)
+        {
+            if (_playerSpiritHP == null || index < 0 || index >= _playerSpiritHP.Length) return 0;
+            return _playerSpiritHP[index];
+        }
+
+        public int PlayerSpiritCount => playerSpirits?.Length ?? 0;
+        public bool MustSwitchSpirit => mustSwitchSpirit;
 
         private static int FindFirstAlive(int[] hp)
         {

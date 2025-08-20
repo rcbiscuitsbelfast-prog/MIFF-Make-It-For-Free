@@ -61,6 +61,7 @@ namespace NewBark.NPC
             // Configure enemy roster on the battle controller
             battleController.enemySpirits = trainerParty.spiritRoster;
             battleController.isRivalEncounter = true;
+            battleController.OnBattleEnded += HandleBattleEnd;
             battleController.StartBattle(null, isRival: true);
 
             if (transitionController)
@@ -69,8 +70,7 @@ namespace NewBark.NPC
             }
         }
 
-        // Call this from a global battle end event, or from BattleController when victory occurs
-        public void OnBattleEnd(bool playerWon)
+        private void HandleBattleEnd(bool playerWon)
         {
             if (playerWon)
             {
@@ -84,6 +84,7 @@ namespace NewBark.NPC
                     GameManager.Data.flags[defeatFlagID] = true;
                 }
             }
+            battleController.OnBattleEnded -= HandleBattleEnd;
         }
     }
 }

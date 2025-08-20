@@ -68,11 +68,18 @@ namespace NewBark.Encounters
             }
 
             battleController.StartBattle(encounterTable, isRival: false);
+            battleController.OnBattleEnded += ReenableAfterBattle;
 
             if (transitionController)
             {
                 transitionController.TransitionIn();
             }
+        }
+
+        private void ReenableAfterBattle(bool _)
+        {
+            isActive = true;
+            battleController.OnBattleEnded -= ReenableAfterBattle;
         }
 
         private TimeOfDay GetCurrentTimeOfDay()
