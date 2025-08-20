@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MIFF.Capture;
+using MIFF.Core;
 
 namespace MIFF.Battle
 {
@@ -38,6 +40,13 @@ namespace MIFF.Battle
         public bool enableEvolutionTriggers = true;
         public bool enableQuestTriggers = true;
         public bool enableLoreUnlocks = true;
+        public bool enableCaptureSystem = true;
+        
+        [Header("Capture System")]
+        public CaptureManager captureManager;
+        public bool autoAttemptCapture = true;
+        public bool captureOnlyWildSpirits = true;
+        public float captureAttemptDelay = 2.0f;
         
         // Events for remixers to hook into
         public event Action<BattleController> OnBattleStarted;
@@ -48,6 +57,10 @@ namespace MIFF.Battle
         public event Action<BattleController, BattleSpirit> OnSpiritSwitched;
         public event Action<BattleController, Move, BattleSpirit, BattleSpirit> OnMoveUsed;
         public event Action<BattleController, BattleSpirit> OnEvolutionTriggered;
+        public event Action<BattleController, CaptureResult> OnCaptureAttempted;
+        public event Action<BattleController, CaptureResult> OnCaptureSucceeded;
+        public event Action<BattleController, CaptureResult> OnCaptureFailed;
+        public event Action<BattleController, string> OnSpiritAlreadyCaptured;
         
         private Random random;
         
@@ -70,6 +83,9 @@ namespace MIFF.Battle
             
             // Create move resolver
             moveResolver = new MoveResolver();
+            
+            // Initialize capture system
+            InitializeCaptureSystem();
             
             // Subscribe to events
             SubscribeToEvents();
@@ -614,6 +630,231 @@ namespace MIFF.Battle
         }
         
         /// <summary>
+        /// Initialize capture system
+        /// </summary>
+        private void InitializeCaptureSystem()
+        {
+            if (enableCaptureSystem)
+            {
+                captureManager = new CaptureManager();
+                
+                // Subscribe to capture events
+                if (captureManager != null)
+                {
+                    captureManager.OnCaptureAttempted += OnCaptureManagerAttempted;
+                    captureManager.OnCaptureSucceeded += OnCaptureManagerSucceeded;
+                    captureManager.OnCaptureFailed += OnCaptureManagerFailed;
+                    captureManager.OnSpiritAlreadyCaptured += OnCaptureManagerAlreadyCaptured;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Attempt to capture a spirit after battle
+        /// </summary>
+        public CaptureResult AttemptCapture(BattleSpirit target, PlayerContext playerContext)
+        {
+            if (!enableCaptureSystem || captureManager == null || target == null || playerContext == null)
+            {
+                return CaptureResult.Fail("", "", 0.0f, "Capture system disabled or invalid parameters");
+            }
+            
+            try
+            {
+                // Check if this is a wild spirit (if captureOnlyWildSpirits is enabled)
+                if (captureOnlyWildSpirits && !IsWildSpirit(target))
+                {
+                    return CaptureResult.Fail(target.SpiritID, target.Nickname, 0.0f, "Can only capture wild spirits");
+                }
+                
+                // Convert BattleSpirit to SpiritInstance for capture
+                var spiritInstance = ConvertToSpiritInstance(target);
+                
+                // Attempt capture
+                var result = captureManager.TryCapture(spiritInstance, playerContext);
+                
+                // Process capture result
+                ProcessCaptureResult(result);
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during capture attempt: {ex.Message}");
+                return CaptureResult.Fail(target.SpiritID, target.Nickname, 0.0f, $"Capture error: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Check if a spirit is a wild spirit
+        /// </summary>
+        private bool IsWildSpirit(BattleSpirit spirit)
+        {
+            if (spirit == null) return false;
+            
+            // Wild spirits typically don't have a trainer ID or have a special wild trainer ID
+            return string.IsNullOrEmpty(spirit.TrainerID) || spirit.TrainerID == "WILD" || spirit.TrainerID == "WILD_SPIRIT";
+        }
+        
+        /// <summary>
+        /// Convert BattleSpirit to SpiritInstance for capture system
+        /// </summary>
+        private SpiritInstance ConvertToSpiritInstance(BattleSpirit battleSpirit)
+        {
+            if (battleSpirit == null) return null;
+            
+            // Create a new SpiritInstance with battle data
+            var spiritInstance = new SpiritInstance
+            {
+                SpiritID = battleSpirit.SpiritID,
+                Nickname = battleSpirit.Nickname,
+                Level = battleSpirit.Level,
+                CurrentHP = battleSpirit.CurrentHP,
+                MaxHP = battleSpirit.MaxHP,
+                Rarity = SpiritRarity.Common // Default, could be enhanced
+            };
+            
+            // Copy status effects if available
+            if (battleSpirit.HasStatusEffects)
+            {
+                // This would need to be implemented based on your status effect system
+                // spiritInstance.SetStatusEffect(...);
+            }
+            
+            return spiritInstance;
+        }
+        
+        /// <summary>
+        /// Process capture result and trigger appropriate events
+        /// </summary>
+        private void ProcessCaptureResult(CaptureResult result)
+        {
+            if (result == null) return;
+            
+            // Trigger capture events
+            OnCaptureAttempted?.Invoke(this, result);
+            
+            if (result.IsSuccess)
+            {
+                OnCaptureSucceeded?.Invoke(this, result);
+                
+                // Add to player's party if capture was successful
+                AddCapturedSpiritToParty(result);
+            }
+            else if (result.IsAlreadyCaptured)
+            {
+                OnSpiritAlreadyCaptured?.Invoke(this, result.spiritID);
+            }
+            else
+            {
+                OnCaptureFailed?.Invoke(this, result);
+            }
+        }
+        
+        /// <summary>
+        /// Add captured spirit to player's party
+        /// </summary>
+        private void AddCapturedSpiritToParty(CaptureResult result)
+        {
+            if (result == null || !result.IsSuccess) return;
+            
+            // This would integrate with your party management system
+            // For now, we'll just log the capture
+            Console.WriteLine($"Spirit {result.spiritName} ({result.spiritID}) captured successfully!");
+            
+            // You could add logic here to:
+            // 1. Add to player's party
+            // 2. Update inventory
+            // 3. Trigger tutorials
+            // 4. Update quest progress
+            // 5. Show capture celebration UI
+        }
+        
+        /// <summary>
+        /// Auto-attempt capture after wild battle ends
+        /// </summary>
+        public void AutoAttemptCaptureAfterBattle(PlayerContext playerContext)
+        {
+            if (!autoAttemptCapture || !enableCaptureSystem) return;
+            
+            // Find defeated wild spirits
+            var defeatedWildSpirits = GetDefeatedWildSpirits();
+            
+            foreach (var spirit in defeatedWildSpirits)
+            {
+                // Attempt capture with delay
+                var result = AttemptCapture(spirit, playerContext);
+                
+                // Process result
+                ProcessCaptureResult(result);
+            }
+        }
+        
+        /// <summary>
+        /// Get list of defeated wild spirits
+        /// </summary>
+        private List<BattleSpirit> GetDefeatedWildSpirits()
+        {
+            var wildSpirits = new List<BattleSpirit>();
+            
+            if (battleContext?.enemyTeam == null) return wildSpirits;
+            
+            foreach (var spirit in battleContext.enemyTeam)
+            {
+                if (IsWildSpirit(spirit) && spirit.IsFainted)
+                {
+                    wildSpirits.Add(spirit);
+                }
+            }
+            
+            return wildSpirits;
+        }
+        
+        /// <summary>
+        /// Get capture statistics for a spirit
+        /// </summary>
+        public CaptureStats GetCaptureStats(BattleSpirit spirit)
+        {
+            if (!enableCaptureSystem || captureManager == null || spirit == null) return null;
+            
+            var spiritInstance = ConvertToSpiritInstance(spirit);
+            return captureManager.GetCaptureStats(spiritInstance);
+        }
+        
+        /// <summary>
+        /// Get capture chance for a spirit
+        /// </summary>
+        public float GetCaptureChance(BattleSpirit spirit, PlayerContext playerContext)
+        {
+            if (!enableCaptureSystem || captureManager == null || spirit == null || playerContext == null) return 0.0f;
+            
+            var spiritInstance = ConvertToSpiritInstance(spirit);
+            return captureManager.GetCaptureChance(spiritInstance, playerContext);
+        }
+        
+        // Capture event handlers
+        
+        private void OnCaptureManagerAttempted(CaptureManager manager, CaptureResult result)
+        {
+            // Capture manager attempted event
+        }
+        
+        private void OnCaptureManagerSucceeded(CaptureManager manager, CaptureResult result)
+        {
+            // Capture manager succeeded event
+        }
+        
+        private void OnCaptureManagerFailed(CaptureManager manager, CaptureResult result)
+        {
+            // Capture manager failed event
+        }
+        
+        private void OnCaptureManagerAlreadyCaptured(CaptureManager manager, string spiritID)
+        {
+            // Capture manager already captured event
+        }
+        
+        /// <summary>
         /// Get battle controller summary for debugging
         /// </summary>
         public string GetBattleControllerSummary()
@@ -623,8 +864,9 @@ namespace MIFF.Battle
             string turn = battleContext?.turnNumber.ToString() ?? "N/A";
             string paused = isPaused ? " | PAUSED" : "";
             string auto = isAutoBattle ? " | AUTO" : "";
+            string capture = enableCaptureSystem ? " | Capture: ON" : " | Capture: OFF";
             
-            return $"Battle Controller | Status: {status} | Phase: {phase} | Turn: {turn}{paused}{auto}";
+            return $"Battle Controller | Status: {status} | Phase: {phase} | Turn: {turn}{paused}{auto}{capture}";
         }
     }
 }
