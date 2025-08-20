@@ -28,6 +28,8 @@ namespace NewBark.SpiritBattles.Objects.Creatures
         [Header("Presentation")]
         public Sprite frontSprite;
         public AudioClip cry;
+        [TextArea(2, 10)] public string lore;
+        public Sprite backSprite;
     }
 }
 

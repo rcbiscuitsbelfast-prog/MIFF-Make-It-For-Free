@@ -18,5 +18,7 @@ namespace NewBark.State
         public SerializableVector2 playerDirection;
         // Remix quest/dialog support
         public System.Collections.Generic.Dictionary<string, bool> flags;
+        // SpiritDex: store discovered species IDs
+        public System.Collections.Generic.List<string> discoveredSpiritIDs;
     }
 }
