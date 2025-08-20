@@ -16,6 +16,7 @@ namespace NewBark.Quests
     public class QuestObjective
     {
         public string objectiveID;
+        [TextArea(1, 3)] public string description;
         public ObjectiveType type;
         public string targetID;
         public bool isComplete;

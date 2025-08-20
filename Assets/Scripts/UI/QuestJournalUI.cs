@@ -44,9 +44,15 @@ namespace NewBark.UI
             {
                 foreach (var obj in q.objectives)
                 {
+                    var key = q.questID + "." + obj.objectiveID;
+                    bool done = false;
+                    var data = GameManager.Data;
+                    if (data != null && data.questObjectiveProgress != null)
+                        data.questObjectiveProgress.TryGetValue(key, out done);
                     var line = Instantiate(objectiveTextPrefab, objectivesParent);
-                    line.text = (obj.isComplete ? "[x] " : "[ ] ") + obj.targetID;
-                    if (obj.isComplete) line.color = Color.green;
+                    var desc = string.IsNullOrEmpty(obj.description) ? obj.targetID : obj.description;
+                    line.text = (done ? "[x] " : "[ ] ") + desc;
+                    if (done) line.color = Color.green;
                 }
             }
         }

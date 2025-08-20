@@ -281,6 +281,17 @@ namespace NewBark.Battle
             }
         }
 
+        // Example capture hook (call this when capture succeeds)
+        public void OnSpiritCaptured(NewBark.SpiritBattles.Objects.Creatures.SpiritSpecies species)
+        {
+            if (species == null) return;
+            var data = GameManager.Data;
+            if (data == null) return;
+            if (data.discoveredSpiritIDs == null) data.discoveredSpiritIDs = new System.Collections.Generic.HashSet<string>();
+            data.discoveredSpiritIDs.Add(species.spiritID);
+            SaveManager.Save(data);
+        }
+
         private bool IsEnemyTeamDefeated()
         {
             if (enemySpirits == null || enemySpirits.Length == 0) return true;

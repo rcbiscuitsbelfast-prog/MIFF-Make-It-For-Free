@@ -18,7 +18,18 @@ namespace NewBark.State
         public SerializableVector2 playerDirection;
         // Remix quest/dialog support
         public System.Collections.Generic.Dictionary<string, bool> flags;
-        // SpiritDex: store discovered species IDs
-        public System.Collections.Generic.List<string> discoveredSpiritIDs;
+
+        // Quest progress per save
+        public System.Collections.Generic.HashSet<string> activeQuestIDs;
+        public System.Collections.Generic.HashSet<string> completedQuestIDs;
+        // Key: "questID.objectiveID" → bool
+        public System.Collections.Generic.Dictionary<string, bool> questObjectiveProgress;
+
+        // Inventory and currency per save
+        public System.Collections.Generic.Dictionary<string, int> inventoryCounts;
+        public int playerCurrency;
+
+        // SpiritDex: discovered species IDs
+        public System.Collections.Generic.HashSet<string> discoveredSpiritIDs;
     }
 }

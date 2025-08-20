@@ -32,9 +32,10 @@ namespace NewBark.UI
             var data = GameManager.Data;
             if (data == null || data.discoveredSpiritIDs == null) return;
 
-            // In a real project, use an index/registry; here we search assets
-            var allSpirits = Resources.FindObjectsOfTypeAll<SpiritSpecies>();
-            var discovered = allSpirits.Where(s => s && data.discoveredSpiritIDs.Contains(s.spiritID)).ToArray();
+            // Use database instead of Resources search
+            var db = UnityEditor.AssetDatabase.LoadAssetAtPath<NewBark.Databases.SpiritDatabase>("Assets/Objects/Databases/SpiritDatabase.asset");
+            if (!db) return;
+            var discovered = db.spirits.Where(s => s && data.discoveredSpiritIDs.Contains(s.spiritID)).ToArray();
 
             foreach (var sp in discovered)
             {

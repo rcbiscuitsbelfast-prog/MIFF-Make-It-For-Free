@@ -164,7 +164,7 @@ namespace NewBark.Dialog
                         }
                         break;
                     case EffectType.GiveItem:
-                        // Hook into inventory when available
+                        questManager?.GiveItem(e.targetID, e.amount <= 0 ? 1 : e.amount);
                         break;
                     case EffectType.SetFlag:
                         questManager?.SetFlag(e.targetID, e.amount == 0 ? false : true);

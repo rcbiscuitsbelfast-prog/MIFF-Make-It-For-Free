@@ -21,42 +21,77 @@ namespace NewBark.Quests
 
         public void StartQuest(string questID)
         {
-            if (string.IsNullOrEmpty(questID) || _completed.Contains(questID) || _active.Contains(questID)) return;
-            _active.Add(questID);
+            if (string.IsNullOrEmpty(questID)) return;
+            var data = GameManager.Data;
+            if (data == null) return;
+            if (data.completedQuestIDs != null && data.completedQuestIDs.Contains(questID)) return;
+            if (data.activeQuestIDs == null) data.activeQuestIDs = new System.Collections.Generic.HashSet<string>();
+            if (data.activeQuestIDs.Contains(questID)) return;
+            data.activeQuestIDs.Add(questID);
+
+            // Reset objective progress for this quest
+            var q = availableQuests.FirstOrDefault(x => x && x.questID == questID);
+            if (!q) { SaveStateToGameData(); return; }
+            if (data.questObjectiveProgress == null) data.questObjectiveProgress = new System.Collections.Generic.Dictionary<string, bool>();
+            if (q.objectives != null)
+            {
+                foreach (var obj in q.objectives)
+                {
+                    var key = questID + "." + obj.objectiveID;
+                    data.questObjectiveProgress[key] = false;
+                }
+            }
             SaveStateToGameData();
         }
 
-        public void CompleteObjective(string objectiveID)
+        public void CompleteObjective(string questID, string objectiveID)
         {
-            if (string.IsNullOrEmpty(objectiveID)) return;
-
-            foreach (var q in GetActiveQuestAssets())
-            {
-                var obj = q.objectives?.FirstOrDefault(o => o.objectiveID == objectiveID);
-                if (obj != null)
-                {
-                    obj.isComplete = true;
-                }
-            }
-
+            if (string.IsNullOrEmpty(questID) || string.IsNullOrEmpty(objectiveID)) return;
+            var data = GameManager.Data;
+            if (data == null) return;
+            if (data.questObjectiveProgress == null) data.questObjectiveProgress = new System.Collections.Generic.Dictionary<string, bool>();
+            var key = questID + "." + objectiveID;
+            data.questObjectiveProgress[key] = true;
             SaveStateToGameData();
+            CheckQuestCompletion(questID);
         }
 
         public void CheckQuestCompletion(string questID)
         {
-            if (!_active.Contains(questID)) return;
+            var data = GameManager.Data;
+            if (data == null || data.activeQuestIDs == null || !data.activeQuestIDs.Contains(questID)) return;
             var q = availableQuests.FirstOrDefault(x => x && x.questID == questID);
             if (!q) return;
 
-            bool allDone = q.objectives != null && q.objectives.All(o => o.isComplete);
+            bool allDone = true;
+            if (q.objectives != null && q.objectives.Length > 0)
+            {
+                foreach (var obj in q.objectives)
+                {
+                    var key = questID + "." + obj.objectiveID;
+                    bool done = data.questObjectiveProgress != null && data.questObjectiveProgress.TryGetValue(key, out var v) && v;
+                    if (!done) { allDone = false; break; }
+                }
+            }
+
             if (allDone)
             {
-                GrantRewards(questID);
-                _active.Remove(questID);
-                _completed.Add(questID);
-                SaveStateToGameData();
+                CompleteQuest(questID);
             }
         }
+
+        public void CompleteQuest(string questID)
+        {
+            var data = GameManager.Data;
+            if (data == null) return;
+            if (data.activeQuestIDs != null) data.activeQuestIDs.Remove(questID);
+            if (data.completedQuestIDs == null) data.completedQuestIDs = new System.Collections.Generic.HashSet<string>();
+            data.completedQuestIDs.Add(questID);
+            GrantRewards(questID);
+            SaveStateToGameData();
+        }
+
+        public System.Action<string> OnRewardGranted;
 
         public void GrantRewards(string questID)
         {
@@ -69,16 +104,40 @@ namespace NewBark.Quests
                 {
                     case RewardType.Flag:
                         SetFlag(r.targetID, true);
+                        OnRewardGranted?.Invoke($"Flag:{r.targetID}");
                         break;
                     case RewardType.Money:
-                        // Extend GameData with currency if needed
+                        var data = GameManager.Data;
+                        if (data != null) data.playerCurrency += r.amount;
+                        OnRewardGranted?.Invoke($"Money:{r.amount}");
                         break;
                     case RewardType.Item:
+                        GiveItem(r.targetID, r.amount);
+                        OnRewardGranted?.Invoke($"Item:{r.targetID}:{r.amount}");
+                        break;
                     case RewardType.Spirit:
-                        // Hook into inventory/party systems when implemented
+                        DiscoverSpirit(r.targetID);
+                        OnRewardGranted?.Invoke($"Spirit:{r.targetID}");
                         break;
                 }
             }
+        }
+
+        public void GiveItem(string itemID, int amount)
+        {
+            if (string.IsNullOrEmpty(itemID) || amount <= 0) return;
+            var data = GameManager.Data; if (data == null) return;
+            if (data.inventoryCounts == null) data.inventoryCounts = new System.Collections.Generic.Dictionary<string, int>();
+            if (!data.inventoryCounts.ContainsKey(itemID)) data.inventoryCounts[itemID] = 0;
+            data.inventoryCounts[itemID] += amount;
+        }
+
+        public void DiscoverSpirit(string spiritID)
+        {
+            if (string.IsNullOrEmpty(spiritID)) return;
+            var data = GameManager.Data; if (data == null) return;
+            if (data.discoveredSpiritIDs == null) data.discoveredSpiritIDs = new System.Collections.Generic.HashSet<string>();
+            data.discoveredSpiritIDs.Add(spiritID);
         }
 
         private IEnumerable<Quest> GetActiveQuestAssets()
