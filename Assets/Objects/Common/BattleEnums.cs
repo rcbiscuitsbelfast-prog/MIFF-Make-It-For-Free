@@ -12,7 +12,10 @@ namespace NewBark.SpiritBattles
         Fear,
         Courage,
         Love,
-        Mystery
+        Mystery,
+        Longing,
+        Mischief,
+        Rage
     }
 
     public enum GenreBias
@@ -27,7 +30,9 @@ namespace NewBark.SpiritBattles
         Folk,
         Metal,
         World,
-        Experimental
+        Experimental,
+        Ballad,
+        Ambient
     }
 
     public enum AffinityType
@@ -42,7 +47,10 @@ namespace NewBark.SpiritBattles
         Electric,
         Psychic,
         Nature,
-        Sound
+        Sound,
+        Moon,
+        Neon,
+        Wind
     }
 
     public enum BattleRole
@@ -51,7 +59,9 @@ namespace NewBark.SpiritBattles
         Striker,
         Support,
         Tank,
-        Control
+        Control,
+        Debuff,
+        Evasion
     }
 
     public enum MoveType
@@ -60,7 +70,11 @@ namespace NewBark.SpiritBattles
         Special,
         Status,
         Buff,
-        Debuff
+        Debuff,
+        Verse,
+        Bridge,
+        Chorus,
+        Drop
     }
 
     public enum FightStyle
@@ -69,7 +83,8 @@ namespace NewBark.SpiritBattles
         Aggressive,
         Defensive,
         Technical,
-        Speed
+        Speed,
+        Pulsecaster
     }
 
     public enum ItemEffectType
