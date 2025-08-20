@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using NewBark.DialogTrees;
+using NewBark.Quests;
 
 namespace NewBark.Dialog
 {
@@ -18,6 +20,12 @@ namespace NewBark.Dialog
         private bool _inDialog;
         private Dialog _currentDialog;
         private DialogScroller _scroller;
+        // Extensions for dialog trees
+        public DialogTree currentTree;
+        public string currentNodeID;
+        public RectTransform choicesPanel;
+        public Button choiceButtonPrefab;
+        public QuestManager questManager;
 
         // Start is called before the first frame update
         void Start()
@@ -62,6 +70,107 @@ namespace NewBark.Dialog
             _inDialog = true;
 
             PrintNext();
+        }
+
+        public void StartDialogTree(DialogTree tree, string startNodeID)
+        {
+            currentTree = tree;
+            currentNodeID = startNodeID;
+            Clear();
+            ShowDialog();
+            _inDialog = true;
+            RenderCurrentNode();
+        }
+
+        private void RenderCurrentNode()
+        {
+            if (currentTree == null || string.IsNullOrEmpty(currentNodeID))
+            {
+                EndDialog();
+                return;
+            }
+
+            var node = System.Array.Find(currentTree.nodes, n => n.nodeID == currentNodeID);
+            if (node == null)
+            {
+                EndDialog();
+                return;
+            }
+
+            _scroller.Start(node.text);
+            PrintNext();
+            RenderChoices(node);
+            ApplyEffects(node);
+        }
+
+        private void RenderChoices(DialogNode node)
+        {
+            if (!choicesPanel || !choiceButtonPrefab) return;
+            foreach (Transform c in choicesPanel)
+            {
+                Destroy(c.gameObject);
+            }
+
+            if (node.choices == null || node.choices.Length == 0)
+            {
+                return;
+            }
+
+            foreach (var ch in node.choices)
+            {
+                if (!IsChoiceAvailable(ch)) continue;
+                var btn = Instantiate(choiceButtonPrefab, choicesPanel);
+                var txt = btn.GetComponentInChildren<Text>();
+                if (txt) txt.text = ch.choiceText;
+                var nextId = ch.nextNodeID;
+                btn.onClick.AddListener(() =>
+                {
+                    currentNodeID = nextId;
+                    RenderCurrentNode();
+                });
+            }
+        }
+
+        private bool IsChoiceAvailable(DialogChoice ch)
+        {
+            if (ch.condition == ConditionType.None) return true;
+            if (!questManager) return true;
+            bool flag = questManager.GetFlag(ch.conditionFlagID);
+            return ch.condition == ConditionType.FlagTrue ? flag : !flag;
+        }
+
+        private void ApplyEffects(DialogNode node)
+        {
+            if (node.effects == null || node.effects.Length == 0) return;
+            foreach (var e in node.effects)
+            {
+                switch (e.effectType)
+                {
+                    case EffectType.StartQuest:
+                        questManager?.StartQuest(e.targetID);
+                        break;
+                    case EffectType.CompleteObjective:
+                        questManager?.CompleteObjective(e.targetID);
+                        if (!string.IsNullOrEmpty(e.targetID))
+                        {
+                            // Attempt auto-completion check for the quest that contains this objective
+                            foreach (var q in questManager.availableQuests)
+                            {
+                                if (q && q.objectives != null && System.Array.Exists(q.objectives, o => o.objectiveID == e.targetID))
+                                {
+                                    questManager.CheckQuestCompletion(q.questID);
+                                }
+                            }
+                        }
+                        break;
+                    case EffectType.GiveItem:
+                        // Hook into inventory when available
+                        break;
+                    case EffectType.SetFlag:
+                        questManager?.SetFlag(e.targetID, e.amount == 0 ? false : true);
+                        break;
+                }
+            }
         }
 
         public bool InDialog()

@@ -16,5 +16,7 @@ namespace NewBark.State
         public string areaTitleTrigger;
         public SerializableVector2 playerPosition;
         public SerializableVector2 playerDirection;
+        // Remix quest/dialog support
+        public System.Collections.Generic.Dictionary<string, bool> flags;
     }
 }
