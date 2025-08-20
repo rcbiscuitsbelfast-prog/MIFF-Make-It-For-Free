@@ -5,8 +5,7 @@ using System.Linq;
 namespace MIFF.Spirits
 {
     /// <summary>
-    /// Database for looking up SpiritSpecies by ID
-    /// Provides metadata for SpiritDexViewer
+    /// Database for SpiritSpecies metadata and lookup
     /// Designed to be remix-safe and extensible for contributors
     /// </summary>
     [Serializable]
@@ -15,32 +14,22 @@ namespace MIFF.Spirits
         [Header("Database Configuration")]
         public bool enableAutoPopulation = true;
         public bool enableValidation = true;
-        public bool enableSearch = true;
-        public bool enableFiltering = true;
-        public bool enableCaching = true;
+        public bool enableStatistics = true;
         
-        [Header("Database Content")]
-        public Dictionary<string, SpiritSpecies> speciesDatabase = new Dictionary<string, SpiritSpecies>();
-        public Dictionary<string, SpiritType> typeDatabase = new Dictionary<string, SpiritType>();
-        public Dictionary<string, SpiritRarity> rarityDatabase = new Dictionary<string, SpiritRarity>();
+        // Core data storage
+        private Dictionary<string, SpiritSpecies> speciesDatabase;
+        private Dictionary<string, List<string>> typeIndex;
+        private Dictionary<string, List<string>> rarityIndex;
+        private Dictionary<string, List<string>> categoryIndex;
         
-        [Header("Database Statistics")]
-        public int totalSpecies = 0;
-        public int totalTypes = 0;
-        public int totalRarities = 0;
-        public DateTime lastUpdated = DateTime.Now;
-        
-        [Header("Remix Hooks")]
-        public bool enableCustomSpecies = true;
-        public bool enableCustomTypes = true;
-        public bool enableCustomRarities = true;
-        public bool enableCustomValidation = true;
+        // Statistics and tracking
+        private DatabaseStats statistics;
+        private DateTime lastUpdated;
         
         // Events for remixers to hook into
-        public event Action<SpiritDatabase, string> OnSpeciesAdded;
-        public event Action<SpiritDatabase, string> OnSpeciesRemoved;
-        public event Action<SpiritDatabase, string> OnSpeciesUpdated;
-        public event Action<SpiritDatabase> OnDatabaseUpdated;
+        public event Action<SpiritDatabase, SpiritSpecies> OnSpeciesAdded;
+        public event Action<SpiritDatabase, SpiritSpecies> OnSpeciesRemoved;
+        public event Action<SpiritDatabase, SpiritSpecies> OnSpeciesUpdated;
         
         public SpiritDatabase()
         {
@@ -52,180 +41,53 @@ namespace MIFF.Spirits
         /// </summary>
         private void InitializeDatabase()
         {
-            speciesDatabase.Clear();
-            typeDatabase.Clear();
-            rarityDatabase.Clear();
+            speciesDatabase = new Dictionary<string, SpiritSpecies>();
+            typeIndex = new Dictionary<string, List<string>>();
+            rarityIndex = new Dictionary<string, List<string>>();
+            categoryIndex = new Dictionary<string, List<string>>();
             
-            totalSpecies = 0;
-            totalTypes = 0;
-            totalRarities = 0;
+            statistics = new DatabaseStats();
             lastUpdated = DateTime.Now;
             
-            // Populate default types
-            PopulateDefaultTypes();
+            // Initialize indices
+            InitializeIndices();
             
-            // Populate default rarities
-            PopulateDefaultRarities();
-            
-            // Populate with sample species if auto-population is enabled
+            // Populate with sample data if enabled
             if (enableAutoPopulation)
             {
-                PopulateSampleSpecies();
+                PopulateSampleData();
             }
         }
         
         /// <summary>
-        /// Populate default spirit types
+        /// Initialize search and filter indices
         /// </summary>
-        private void PopulateDefaultTypes()
+        private void InitializeIndices()
         {
-            var types = Enum.GetValues(typeof(SpiritType));
-            foreach (SpiritType type in types)
+            // Initialize type index
+            foreach (SpiritType type in Enum.GetValues(typeof(SpiritType)))
             {
                 if (type != SpiritType.None)
                 {
-                    typeDatabase[type.ToString()] = type;
+                    typeIndex[type.ToString()] = new List<string>();
                 }
             }
-            totalTypes = typeDatabase.Count;
-        }
-        
-        /// <summary>
-        /// Populate default spirit rarities
-        /// </summary>
-        private void PopulateDefaultRarities()
-        {
-            var rarities = Enum.GetValues(typeof(SpiritRarity));
-            foreach (SpiritRarity rarity in rarities)
+            
+            // Initialize rarity index
+            foreach (SpiritRarity rarity in Enum.GetValues(typeof(SpiritRarity)))
             {
-                rarityDatabase[rarity.ToString()] = rarity;
+                rarityIndex[rarity.ToString()] = new List<string>();
             }
-            totalRarities = rarityDatabase.Count;
+            
+            // Initialize category index
+            foreach (SpiritCategory category in Enum.GetValues(typeof(SpiritCategory)))
+            {
+                categoryIndex[category.ToString()] = new List<string>();
+            }
         }
         
         /// <summary>
-        /// Populate with sample species for testing
-        /// </summary>
-        private void PopulateSampleSpecies()
-        {
-            // Starter Spirit
-            AddSpecies(new SpiritSpecies
-            {
-                speciesID = "starter_spirit",
-                speciesName = "Starter Spirit",
-                description = "A friendly spirit that accompanies new trainers on their journey.",
-                category = "Starter",
-                height = 0.7f,
-                weight = 9.0f,
-                primaryType = SpiritType.Normal,
-                secondaryType = SpiritType.None,
-                baseRarity = SpiritRarity.Common,
-                baseHP = 100,
-                baseAttack = 55,
-                baseDefense = 50,
-                baseSpeed = 60,
-                baseSpecialAttack = 45,
-                baseSpecialDefense = 50,
-                evolutionStage = "Base",
-                canEvolve = true,
-                evolutionRequirements = new string[] { "Level 20", "High Sync" }
-            });
-            
-            // Fire Spirit
-            AddSpecies(new SpiritSpecies
-            {
-                speciesID = "fire_spirit",
-                speciesName = "Fire Spirit",
-                description = "A passionate spirit with the power of flames.",
-                category = "Elemental",
-                height = 0.8f,
-                weight = 12.0f,
-                primaryType = SpiritType.Fire,
-                secondaryType = SpiritType.None,
-                baseRarity = SpiritRarity.Uncommon,
-                baseHP = 90,
-                baseAttack = 70,
-                baseDefense = 45,
-                baseSpeed = 75,
-                baseSpecialAttack = 80,
-                baseSpecialDefense = 45,
-                evolutionStage = "Base",
-                canEvolve = true,
-                evolutionRequirements = new string[] { "Level 25", "Fire Stone" }
-            });
-            
-            // Water Spirit
-            AddSpecies(new SpiritSpecies
-            {
-                speciesID = "water_spirit",
-                speciesName = "Water Spirit",
-                description = "A flowing spirit that adapts to any situation.",
-                category = "Elemental",
-                height = 0.9f,
-                weight = 15.0f,
-                primaryType = SpiritType.Water,
-                secondaryType = SpiritType.None,
-                baseRarity = SpiritRarity.Uncommon,
-                baseHP = 110,
-                baseAttack = 50,
-                baseDefense = 60,
-                baseSpeed = 55,
-                baseSpecialAttack = 65,
-                baseSpecialDefense = 70,
-                evolutionStage = "Base",
-                canEvolve = true,
-                evolutionRequirements = new string[] { "Level 25", "Water Stone" }
-            });
-            
-            // Electric Spirit
-            AddSpecies(new SpiritSpecies
-            {
-                speciesID = "electric_spirit",
-                speciesName = "Electric Spirit",
-                description = "A lightning-fast spirit full of energy.",
-                category = "Elemental",
-                height = 0.6f,
-                weight = 8.0f,
-                primaryType = SpiritType.Electric,
-                secondaryType = SpiritType.None,
-                baseRarity = SpiritRarity.Uncommon,
-                baseHP = 80,
-                baseAttack = 60,
-                baseDefense = 40,
-                baseSpeed = 90,
-                baseSpecialAttack = 85,
-                baseSpecialDefense = 40,
-                evolutionStage = "Base",
-                canEvolve = true,
-                evolutionRequirements = new string[] { "Level 25", "Thunder Stone" }
-            });
-            
-            // Legendary Spirit
-            AddSpecies(new SpiritSpecies
-            {
-                speciesID = "legendary_spirit",
-                speciesName = "Legendary Spirit",
-                description = "A mythical spirit of immense power and rarity.",
-                category = "Legendary",
-                height = 1.5f,
-                weight = 50.0f,
-                primaryType = SpiritType.Dragon,
-                secondaryType = SpiritType.Psychic,
-                baseRarity = SpiritRarity.Legendary,
-                baseHP = 150,
-                baseAttack = 120,
-                baseDefense = 100,
-                baseSpeed = 110,
-                baseSpecialAttack = 130,
-                baseSpecialDefense = 100,
-                evolutionStage = "Final",
-                canEvolve = false,
-                evolutionRequirements = new string[] { "Cannot Evolve" }
-            });
-        }
-        
-        /// <summary>
-        /// Add a new species to the database
+        /// Add new species
         /// </summary>
         public bool AddSpecies(SpiritSpecies species)
         {
@@ -240,20 +102,35 @@ namespace MIFF.Spirits
                 // Check if species already exists
                 if (speciesDatabase.ContainsKey(species.speciesID))
                 {
-                    Console.WriteLine($"Species {species.speciesID} already exists. Updating...");
-                    speciesDatabase[species.speciesID] = species;
-                    OnSpeciesUpdated?.Invoke(this, species.speciesID);
+                    Console.WriteLine($"Warning: Species already exists: {species.speciesID}");
+                    return UpdateSpecies(species);
                 }
-                else
+                
+                // Validate species
+                if (enableValidation && !ValidateSpecies(species))
                 {
-                    speciesDatabase[species.speciesID] = species;
-                    totalSpecies++;
-                    OnSpeciesAdded?.Invoke(this, species.speciesID);
+                    Console.WriteLine($"Error: Species validation failed: {species.speciesID}");
+                    return false;
                 }
                 
-                lastUpdated = DateTime.Now;
-                OnDatabaseUpdated?.Invoke(this);
+                // Add to main storage
+                speciesDatabase[species.speciesID] = species;
                 
+                // Update indices
+                UpdateTypeIndex(species);
+                UpdateRarityIndex(species);
+                UpdateCategoryIndex(species);
+                
+                // Update statistics
+                UpdateStatistics();
+                
+                // Update timestamps
+                lastUpdated = DateTime.Now;
+                
+                // Trigger event
+                OnSpeciesAdded?.Invoke(this, species);
+                
+                Console.WriteLine($"Added species: {species.speciesName} ({species.speciesID})");
                 return true;
             }
             catch (Exception ex)
@@ -264,24 +141,102 @@ namespace MIFF.Spirits
         }
         
         /// <summary>
-        /// Remove a species from the database
+        /// Update existing species
         /// </summary>
-        public bool RemoveSpecies(string speciesID)
+        public bool UpdateSpecies(SpiritSpecies species)
         {
-            if (string.IsNullOrEmpty(speciesID) || !speciesDatabase.ContainsKey(speciesID))
+            if (species == null || string.IsNullOrEmpty(species.speciesID))
             {
+                Console.WriteLine("Error: Invalid species data");
                 return false;
             }
             
             try
             {
-                speciesDatabase.Remove(speciesID);
-                totalSpecies--;
+                // Check if species exists
+                if (!speciesDatabase.ContainsKey(species.speciesID))
+                {
+                    Console.WriteLine($"Error: Species not found: {species.speciesID}");
+                    return false;
+                }
+                
+                // Get existing species
+                var existingSpecies = speciesDatabase[species.speciesID];
+                
+                // Update species
+                existingSpecies.UpdateSpecies(species);
+                
+                // Validate if enabled
+                if (enableValidation && !ValidateSpecies(existingSpecies))
+                {
+                    Console.WriteLine($"Error: Species validation failed after update: {species.speciesID}");
+                    return false;
+                }
+                
+                // Update indices
+                UpdateTypeIndex(existingSpecies);
+                UpdateRarityIndex(existingSpecies);
+                UpdateCategoryIndex(existingSpecies);
+                
+                // Update statistics
+                UpdateStatistics();
+                
+                // Update timestamps
                 lastUpdated = DateTime.Now;
                 
-                OnSpeciesRemoved?.Invoke(this, speciesID);
-                OnDatabaseUpdated?.Invoke(this);
+                // Trigger event
+                OnSpeciesUpdated?.Invoke(this, existingSpecies);
                 
+                Console.WriteLine($"Updated species: {species.speciesName} ({species.speciesID})");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating species: {ex.Message}");
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// Remove species
+        /// </summary>
+        public bool RemoveSpecies(string speciesID)
+        {
+            if (string.IsNullOrEmpty(speciesID))
+            {
+                Console.WriteLine("Error: Invalid species ID");
+                return false;
+            }
+            
+            try
+            {
+                // Check if species exists
+                if (!speciesDatabase.ContainsKey(speciesID))
+                {
+                    Console.WriteLine($"Error: Species not found: {speciesID}");
+                    return false;
+                }
+                
+                var species = speciesDatabase[speciesID];
+                
+                // Remove from main storage
+                speciesDatabase.Remove(speciesID);
+                
+                // Remove from indices
+                RemoveFromTypeIndex(species);
+                RemoveFromRarityIndex(species);
+                RemoveFromCategoryIndex(species);
+                
+                // Update statistics
+                UpdateStatistics();
+                
+                // Update timestamps
+                lastUpdated = DateTime.Now;
+                
+                // Trigger event
+                OnSpeciesRemoved?.Invoke(this, species);
+                
+                Console.WriteLine($"Removed species: {species.speciesName} ({speciesID})");
                 return true;
             }
             catch (Exception ex)
@@ -294,7 +249,7 @@ namespace MIFF.Spirits
         /// <summary>
         /// Get species by ID
         /// </summary>
-        public SpiritSpecies GetSpecies(string speciesID)
+        public SpiritSpecies GetSpeciesByID(string speciesID)
         {
             if (string.IsNullOrEmpty(speciesID) || !speciesDatabase.ContainsKey(speciesID))
                 return null;
@@ -303,11 +258,24 @@ namespace MIFF.Spirits
         }
         
         /// <summary>
+        /// Get species by name
+        /// </summary>
+        public SpiritSpecies GetSpeciesByName(string speciesName)
+        {
+            if (string.IsNullOrEmpty(speciesName))
+                return null;
+            
+            return speciesDatabase.Values.FirstOrDefault(s => 
+                s.speciesName.Equals(speciesName, StringComparison.OrdinalIgnoreCase) ||
+                s.displayName?.Equals(speciesName, StringComparison.OrdinalIgnoreCase) == true);
+        }
+        
+        /// <summary>
         /// Get all species
         /// </summary>
         public List<SpiritSpecies> GetAllSpecies()
         {
-            return new List<SpiritSpecies>(speciesDatabase.Values);
+            return speciesDatabase.Values.ToList();
         }
         
         /// <summary>
@@ -315,9 +283,11 @@ namespace MIFF.Spirits
         /// </summary>
         public List<SpiritSpecies> GetSpeciesByType(SpiritType type)
         {
-            return speciesDatabase.Values
-                .Where(s => s.primaryType == type || s.secondaryType == type)
-                .ToList();
+            if (type == SpiritType.None || !typeIndex.ContainsKey(type.ToString()))
+                return new List<SpiritSpecies>();
+            
+            var speciesIDs = typeIndex[type.ToString()];
+            return speciesIDs.Select(id => speciesDatabase[id]).ToList();
         }
         
         /// <summary>
@@ -325,254 +295,444 @@ namespace MIFF.Spirits
         /// </summary>
         public List<SpiritSpecies> GetSpeciesByRarity(SpiritRarity rarity)
         {
-            return speciesDatabase.Values
-                .Where(s => s.baseRarity == rarity)
-                .ToList();
+            if (!rarityIndex.ContainsKey(rarity.ToString()))
+                return new List<SpiritSpecies>();
+            
+            var speciesIDs = rarityIndex[rarity.ToString()];
+            return speciesIDs.Select(id => speciesDatabase[id]).ToList();
         }
         
         /// <summary>
         /// Get species by category
         /// </summary>
-        public List<SpiritSpecies> GetSpeciesByCategory(string category)
+        public List<SpiritSpecies> GetSpeciesByCategory(SpiritCategory category)
         {
-            if (string.IsNullOrEmpty(category)) return new List<SpiritSpecies>();
+            if (!categoryIndex.ContainsKey(category.ToString()))
+                return new List<SpiritSpecies>();
             
-            return speciesDatabase.Values
-                .Where(s => !string.IsNullOrEmpty(s.category) && 
-                           s.category.Contains(category, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            var speciesIDs = categoryIndex[category.ToString()];
+            return speciesIDs.Select(id => speciesDatabase[id]).ToList();
         }
         
         /// <summary>
-        /// Search species by name
+        /// Search species by text
         /// </summary>
-        public List<SpiritSpecies> SearchSpeciesByName(string searchTerm)
+        public List<SpiritSpecies> SearchSpecies(string searchTerm, int maxResults = -1)
         {
-            if (string.IsNullOrEmpty(searchTerm)) return new List<SpiritSpecies>();
+            if (string.IsNullOrEmpty(searchTerm))
+                return new List<SpiritSpecies>();
             
-            return speciesDatabase.Values
-                .Where(s => !string.IsNullOrEmpty(s.speciesName) && 
-                           s.speciesName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-        
-        /// <summary>
-        /// Search species by description
-        /// </summary>
-        public List<SpiritSpecies> SearchSpeciesByDescription(string searchTerm)
-        {
-            if (string.IsNullOrEmpty(searchTerm)) return new List<SpiritSpecies>();
-            
-            return speciesDatabase.Values
-                .Where(s => !string.IsNullOrEmpty(s.description) && 
-                           s.description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-        
-        /// <summary>
-        /// Get species that can evolve
-        /// </summary>
-        public List<SpiritSpecies> GetEvolvableSpecies()
-        {
-            return speciesDatabase.Values
-                .Where(s => s.canEvolve)
-                .ToList();
-        }
-        
-        /// <summary>
-        /// Get species by evolution stage
-        /// </summary>
-        public List<SpiritSpecies> GetSpeciesByEvolutionStage(string stage)
-        {
-            if (string.IsNullOrEmpty(stage)) return new List<SpiritSpecies>();
-            
-            return speciesDatabase.Values
-                .Where(s => !string.IsNullOrEmpty(s.evolutionStage) && 
-                           s.evolutionStage.Contains(stage, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-        
-        /// <summary>
-        /// Get species with specific stat requirements
-        /// </summary>
-        public List<SpiritSpecies> GetSpeciesByStatRequirement(int minStat, string statType)
-        {
-            return speciesDatabase.Values.Where(s =>
+            try
             {
-                int statValue = statType.ToLower() switch
+                var results = new List<SpiritSpecies>();
+                searchTerm = searchTerm.ToLower();
+                
+                // Search in various fields
+                foreach (var species in speciesDatabase.Values)
                 {
-                    "hp" => s.baseHP,
-                    "attack" => s.baseAttack,
-                    "defense" => s.baseDefense,
-                    "speed" => s.baseSpeed,
-                    "specialattack" => s.baseSpecialAttack,
-                    "specialdefense" => s.baseSpecialDefense,
-                    _ => 0
-                };
+                    bool matches = false;
+                    
+                    // Search in core fields
+                    if (species.speciesID.ToLower().Contains(searchTerm) ||
+                        species.speciesName.ToLower().Contains(searchTerm) ||
+                        species.displayName?.ToLower().Contains(searchTerm) == true)
+                    {
+                        matches = true;
+                    }
+                    
+                    // Search in description and lore
+                    if (!matches && (
+                        species.description?.ToLower().Contains(searchTerm) == true ||
+                        species.lore?.ToLower().Contains(searchTerm) == true))
+                    {
+                        matches = true;
+                    }
+                    
+                    // Search in abilities
+                    if (!matches && species.abilities.Any(a => a.ToLower().Contains(searchTerm)))
+                    {
+                        matches = true;
+                    }
+                    
+                    // Search in custom tags
+                    if (!matches && species.customTags.Any(t => t.ToLower().Contains(searchTerm)))
+                    {
+                        matches = true;
+                    }
+                    
+                    if (matches)
+                    {
+                        results.Add(species);
+                        
+                        // Check max results
+                        if (maxResults > 0 && results.Count >= maxResults)
+                            break;
+                    }
+                }
                 
-                return statValue >= minStat;
-            }).ToList();
+                return results;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error searching species: {ex.Message}");
+                return new List<SpiritSpecies>();
+            }
         }
         
         /// <summary>
-        /// Get database statistics
+        /// Get statistics
         /// </summary>
-        public DatabaseStats GetDatabaseStats()
+        public DatabaseStats GetStatistics()
         {
-            return new DatabaseStats
-            {
-                totalSpecies = totalSpecies,
-                totalTypes = totalTypes,
-                totalRarities = totalRarities,
-                lastUpdated = lastUpdated,
-                typeDistribution = GetTypeDistribution(),
-                rarityDistribution = GetRarityDistribution(),
-                categoryDistribution = GetCategoryDistribution()
-            };
+            UpdateStatistics();
+            return statistics;
         }
         
         /// <summary>
-        /// Get type distribution
+        /// Update type index
         /// </summary>
-        private Dictionary<SpiritType, int> GetTypeDistribution()
+        private void UpdateTypeIndex(SpiritSpecies species)
         {
-            var distribution = new Dictionary<SpiritType, int>();
-            
-            foreach (var species in speciesDatabase.Values)
+            try
             {
-                if (distribution.ContainsKey(species.primaryType))
-                    distribution[species.primaryType]++;
-                else
-                    distribution[species.primaryType] = 1;
+                // Remove old entries
+                RemoveFromTypeIndex(species);
                 
+                // Add to primary type
+                string primaryTypeKey = species.primaryType.ToString();
+                if (typeIndex.ContainsKey(primaryTypeKey))
+                {
+                    if (!typeIndex[primaryTypeKey].Contains(species.speciesID))
+                        typeIndex[primaryTypeKey].Add(species.speciesID);
+                }
+                
+                // Add to secondary type
                 if (species.secondaryType != SpiritType.None)
                 {
-                    if (distribution.ContainsKey(species.secondaryType))
-                        distribution[species.secondaryType]++;
-                    else
-                        distribution[species.secondaryType] = 1;
+                    string secondaryTypeKey = species.secondaryType.ToString();
+                    if (typeIndex.ContainsKey(secondaryTypeKey))
+                    {
+                        if (!typeIndex[secondaryTypeKey].Contains(species.speciesID))
+                            typeIndex[secondaryTypeKey].Add(species.speciesID);
+                    }
                 }
             }
-            
-            return distribution;
-        }
-        
-        /// <summary>
-        /// Get rarity distribution
-        /// </summary>
-        private Dictionary<SpiritRarity, int> GetRarityDistribution()
-        {
-            var distribution = new Dictionary<SpiritRarity, int>();
-            
-            foreach (var species in speciesDatabase.Values)
+            catch (Exception ex)
             {
-                if (distribution.ContainsKey(species.baseRarity))
-                    distribution[species.baseRarity]++;
-                else
-                    distribution[species.baseRarity] = 1;
+                Console.WriteLine($"Error updating type index: {ex.Message}");
             }
-            
-            return distribution;
         }
         
         /// <summary>
-        /// Get category distribution
+        /// Remove from type index
         /// </summary>
-        private Dictionary<string, int> GetCategoryDistribution()
+        private void RemoveFromTypeIndex(SpiritSpecies species)
         {
-            var distribution = new Dictionary<string, int>();
-            
-            foreach (var species in speciesDatabase.Values)
+            try
             {
-                string category = string.IsNullOrEmpty(species.category) ? "Unknown" : species.category;
+                // Remove from primary type
+                string primaryTypeKey = species.primaryType.ToString();
+                if (typeIndex.ContainsKey(primaryTypeKey))
+                {
+                    typeIndex[primaryTypeKey].Remove(species.speciesID);
+                }
                 
-                if (distribution.ContainsKey(category))
-                    distribution[category]++;
-                else
-                    distribution[category] = 1;
+                // Remove from secondary type
+                if (species.secondaryType != SpiritType.None)
+                {
+                    string secondaryTypeKey = species.secondaryType.ToString();
+                    if (typeIndex.ContainsKey(secondaryTypeKey))
+                    {
+                        typeIndex[secondaryTypeKey].Remove(species.speciesID);
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing from type index: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Update rarity index
+        /// </summary>
+        private void UpdateRarityIndex(SpiritSpecies species)
+        {
+            try
+            {
+                // Remove old entries
+                RemoveFromRarityIndex(species);
+                
+                // Add to rarity
+                string rarityKey = species.rarity.ToString();
+                if (rarityIndex.ContainsKey(rarityKey))
+                {
+                    if (!rarityIndex[rarityKey].Contains(species.speciesID))
+                        rarityIndex[rarityKey].Add(species.speciesID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating rarity index: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Remove from rarity index
+        /// </summary>
+        private void RemoveFromRarityIndex(SpiritSpecies species)
+        {
+            try
+            {
+                string rarityKey = species.rarity.ToString();
+                if (rarityIndex.ContainsKey(rarityKey))
+                {
+                    rarityIndex[rarityKey].Remove(species.speciesID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing from rarity index: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Update category index
+        /// </summary>
+        private void UpdateCategoryIndex(SpiritSpecies species)
+        {
+            try
+            {
+                // Remove old entries
+                RemoveFromCategoryIndex(species);
+                
+                // Add to category
+                string categoryKey = species.category.ToString();
+                if (categoryIndex.ContainsKey(categoryKey))
+                {
+                    if (!categoryIndex[categoryKey].Contains(species.speciesID))
+                        categoryIndex[categoryKey].Add(species.speciesID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating category index: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Remove from category index
+        /// </summary>
+        private void RemoveFromCategoryIndex(SpiritSpecies species)
+        {
+            try
+            {
+                string categoryKey = species.category.ToString();
+                if (categoryIndex.ContainsKey(categoryKey))
+                {
+                    categoryIndex[categoryKey].Remove(species.speciesID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing from category index: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// Update statistics
+        /// </summary>
+        private void UpdateStatistics()
+        {
+            if (!enableStatistics) return;
             
-            return distribution;
+            try
+            {
+                statistics.totalSpecies = speciesDatabase.Count;
+                statistics.speciesByType = new Dictionary<string, int>();
+                statistics.speciesByRarity = new Dictionary<string, int>();
+                statistics.speciesByCategory = new Dictionary<string, int>();
+                
+                // Count by type
+                foreach (var kvp in typeIndex)
+                {
+                    statistics.speciesByType[kvp.Key] = kvp.Value.Count;
+                }
+                
+                // Count by rarity
+                foreach (var kvp in rarityIndex)
+                {
+                    statistics.speciesByRarity[kvp.Key] = kvp.Value.Count;
+                }
+                
+                // Count by category
+                foreach (var kvp in categoryIndex)
+                {
+                    statistics.speciesByCategory[kvp.Key] = kvp.Value.Count;
+                }
+                
+                // Calculate type distribution
+                statistics.typeDistribution = new Dictionary<string, float>();
+                foreach (var kvp in statistics.speciesByType)
+                {
+                    statistics.typeDistribution[kvp.Key] = (float)kvp.Value / statistics.totalSpecies * 100.0f;
+                }
+                
+                // Calculate rarity distribution
+                statistics.rarityDistribution = new Dictionary<string, float>();
+                foreach (var kvp in statistics.speciesByRarity)
+                {
+                    statistics.rarityDistribution[kvp.Key] = (float)kvp.Value / statistics.totalSpecies * 100.0f;
+                }
+                
+                statistics.lastUpdated = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating statistics: {ex.Message}");
+            }
         }
         
         /// <summary>
         /// Validate species data
         /// </summary>
-        public List<string> ValidateSpecies(SpiritSpecies species)
+        private bool ValidateSpecies(SpiritSpecies species)
         {
-            var errors = new List<string>();
-            
-            if (species == null)
+            try
             {
-                errors.Add("Species is null");
-                return errors;
+                // Basic validation
+                if (string.IsNullOrEmpty(species.speciesID)) return false;
+                if (string.IsNullOrEmpty(species.speciesName)) return false;
+                if (species.primaryType == SpiritType.None) return false;
+                
+                // Level validation
+                if (species.baseLevel < 1 || species.maxLevel < species.baseLevel) return false;
+                if (species.experienceRate <= 0) return false;
+                
+                // Stats validation
+                if (species.baseHP < 0 || species.baseAttack < 0 || species.baseDefense < 0) return false;
+                if (species.baseSpeed < 0 || species.baseSpecialAttack < 0 || species.baseSpecialDefense < 0) return false;
+                
+                // Array validation
+                if (species.abilities == null || species.moves == null) return false;
+                
+                return true;
             }
-            
-            if (string.IsNullOrEmpty(species.speciesID))
-                errors.Add("Species ID is missing");
-            
-            if (string.IsNullOrEmpty(species.speciesName))
-                errors.Add("Species name is missing");
-            
-            if (species.baseHP <= 0)
-                errors.Add("Base HP must be greater than 0");
-            
-            if (species.baseAttack <= 0)
-                errors.Add("Base Attack must be greater than 0");
-            
-            if (species.baseDefense <= 0)
-                errors.Add("Base Defense must be greater than 0");
-            
-            if (species.baseSpeed <= 0)
-                errors.Add("Base Speed must be greater than 0");
-            
-            if (species.baseSpecialAttack <= 0)
-                errors.Add("Base Special Attack must be greater than 0");
-            
-            if (species.baseSpecialDefense <= 0)
-                errors.Add("Base Special Defense must be greater than 0");
-            
-            if (species.height <= 0)
-                errors.Add("Height must be greater than 0");
-            
-            if (species.weight <= 0)
-                errors.Add("Weight must be greater than 0");
-            
-            return errors;
+            catch
+            {
+                return false;
+            }
         }
         
         /// <summary>
-        /// Export database to string
+        /// Populate with sample data
         /// </summary>
-        public string ExportDatabase()
+        private void PopulateSampleData()
         {
-            var stats = GetDatabaseStats();
-            var species = GetAllSpecies();
-            
-            string export = $"Spirit Database Export - {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n";
-            export += $"Statistics: {stats}\n\n";
-            export += "Species:\n";
-            
-            foreach (var s in species.OrderBy(sp => sp.speciesID))
+            try
             {
-                export += $"- {s.speciesName} ({s.speciesID}) | Type: {s.primaryType}";
-                if (s.secondaryType != SpiritType.None)
-                    export += $"/{s.secondaryType}";
-                export += $" | Rarity: {s.baseRarity} | Category: {s.category}\n";
+                // Create sample starter species
+                var starterSpecies = new SpiritSpecies("starter_001", "Lumino", SpiritType.Pop)
+                {
+                    displayName = "Lumino the Starter",
+                    description = "A bright and energetic starter spirit that embodies the essence of K-pop",
+                    lore = "Born from the first light of dawn in New Bark City, Lumino represents hope and new beginnings",
+                    secondaryType = SpiritType.Light,
+                    rarity = SpiritRarity.Common,
+                    category = SpiritCategory.Starter,
+                    generation = "1",
+                    region = "New Bark",
+                    habitat = "Urban",
+                    height = 0.8f,
+                    weight = 15.0f,
+                    baseLevel = 5,
+                    maxLevel = 100,
+                    experienceRate = 1.0f,
+                    baseHP = 45,
+                    baseAttack = 49,
+                    baseDefense = 49,
+                    baseSpeed = 45,
+                    baseSpecialAttack = 65,
+                    baseSpecialDefense = 65,
+                    abilities = new[] { "Illuminate", "Charm", "Quick Attack" },
+                    moves = new[] { "Tackle", "Growl", "Light Screen", "Confuse Ray" },
+                    evolutionPath = new[] { "starter_001", "starter_002", "starter_003" },
+                    evolutionLevel = 16,
+                    customTags = new[] { "starter", "beginner-friendly", "evolves" }
+                };
+                
+                AddSpecies(starterSpecies);
+                
+                // Create sample evolved species
+                var evolvedSpecies = new SpiritSpecies("starter_002", "Luminara", SpiritType.Pop)
+                {
+                    displayName = "Luminara the Evolved",
+                    description = "An elegant evolved form of Lumino with enhanced musical abilities",
+                    lore = "Evolved through friendship and musical training, Luminara represents artistic growth",
+                    secondaryType = SpiritType.Light,
+                    rarity = SpiritRarity.Uncommon,
+                    category = SpiritCategory.Evolution,
+                    generation = "1",
+                    region = "New Bark",
+                    habitat = "Urban",
+                    height = 1.2f,
+                    weight = 25.0f,
+                    baseLevel = 16,
+                    maxLevel = 100,
+                    experienceRate = 1.2f,
+                    baseHP = 60,
+                    baseAttack = 62,
+                    baseDefense = 63,
+                    baseSpeed = 60,
+                    baseSpecialAttack = 80,
+                    baseSpecialDefense = 80,
+                    abilities = new[] { "Illuminate", "Charm", "Quick Attack", "Dazzle", "Musical Note" },
+                    moves = new[] { "Tackle", "Growl", "Light Screen", "Confuse Ray", "Dazzling Gleam", "Sing" },
+                    evolutionPath = new[] { "starter_001", "starter_002", "starter_003" },
+                    evolutionLevel = 32,
+                    customTags = new[] { "evolved", "musical", "cultural", "teacher" }
+                };
+                
+                AddSpecies(evolvedSpecies);
+                
+                // Create sample legendary species
+                var legendarySpecies = new SpiritSpecies("legendary_001", "Stellaris", SpiritType.Pop)
+                {
+                    displayName = "Stellaris the Legendary",
+                    description = "A majestic legendary spirit that embodies the essence of stardom",
+                    lore = "Born from the collision of two stars, Stellaris represents ultimate achievement in K-pop",
+                    secondaryType = SpiritType.Light,
+                    rarity = SpiritRarity.Legendary,
+                    category = SpiritCategory.Mythical,
+                    generation = "1",
+                    region = "Cosmic",
+                    habitat = "Stellar",
+                    height = 2.5f,
+                    weight = 100.0f,
+                    baseLevel = 50,
+                    maxLevel = 100,
+                    experienceRate = 2.0f,
+                    baseHP = 100,
+                    baseAttack = 100,
+                    baseDefense = 100,
+                    baseSpeed = 100,
+                    baseSpecialAttack = 150,
+                    baseSpecialDefense = 150,
+                    abilities = new[] { "Cosmic Blast", "Stardom Aura", "Legendary Presence", "Fame Wave" },
+                    moves = new[] { "Cosmic Power", "Stardom Strike", "Legendary Performance", "Supernova" },
+                    evolutionPath = new[] { "legendary_001" },
+                    evolutionLevel = 0,
+                    customTags = new[] { "legendary", "cosmic", "stardom", "ultimate" }
+                };
+                
+                AddSpecies(legendarySpecies);
+                
+                Console.WriteLine("Sample SpiritDatabase data created successfully");
             }
-            
-            return export;
-        }
-        
-        /// <summary>
-        /// Clear all data (for testing/reset)
-        /// </summary>
-        public void ClearAllData()
-        {
-            speciesDatabase.Clear();
-            totalSpecies = 0;
-            lastUpdated = DateTime.Now;
-            OnDatabaseUpdated?.Invoke(this);
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating sample data: {ex.Message}");
+            }
         }
         
         /// <summary>
@@ -580,28 +740,33 @@ namespace MIFF.Spirits
         /// </summary>
         public string GetDatabaseSummary()
         {
-            return $"Spirit Database | Species: {totalSpecies} | Types: {totalTypes} | " +
-                   $"Rarities: {totalRarities} | Last Updated: {lastUpdated:yyyy-MM-dd HH:mm}";
+            var stats = GetStatistics();
+            return $"Spirit Database | Species: {stats.totalSpecies} | " +
+                   $"Types: {stats.speciesByType.Count} | Rarities: {stats.speciesByRarity.Count} | " +
+                   $"Categories: {stats.speciesByCategory.Count}";
         }
     }
     
     /// <summary>
-    /// Statistics for the Spirit Database
+    /// Statistics for SpiritDatabase
     /// </summary>
     [Serializable]
     public class DatabaseStats
     {
         public int totalSpecies;
-        public int totalTypes;
-        public int totalRarities;
+        
+        public Dictionary<string, int> speciesByType;
+        public Dictionary<string, int> speciesByRarity;
+        public Dictionary<string, int> speciesByCategory;
+        
+        public Dictionary<string, float> typeDistribution;
+        public Dictionary<string, float> rarityDistribution;
+        
         public DateTime lastUpdated;
-        public Dictionary<SpiritType, int> typeDistribution;
-        public Dictionary<SpiritRarity, int> rarityDistribution;
-        public Dictionary<string, int> categoryDistribution;
         
         public override string ToString()
         {
-            return $"Species: {totalSpecies}, Types: {totalTypes}, Rarities: {totalRarities}";
+            return $"Total Species: {totalSpecies}";
         }
     }
 }

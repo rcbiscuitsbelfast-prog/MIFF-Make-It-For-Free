@@ -1,548 +1,320 @@
-# SpiritDex System
+# SpiritDex Entry System
 
-A modular, remix-safe SpiritDex viewer system for K-pop spirit battle games. This system provides comprehensive spirit tracking, discovery management, and an interactive console-based viewer for testing and development.
+A comprehensive, modular system for managing detailed SpiritDex entries in the K-pop spirit battle game. This system provides extensive data tracking, search capabilities, and remix hooks for contributors.
 
-## 🎯 Overview
+## Overview
 
-The SpiritDex System provides:
-- **SpiritDexManager**: Core management of discovered and captured spirits
-- **SpiritDexEntry**: Individual spirit entries with rich data tracking
-- **SpiritDexViewer**: Interactive console-based viewer for testing
-- **SpiritDatabase**: Lookup database for SpiritSpecies metadata
-- **GameData Integration**: Seamless persistence and data management
+The SpiritDex Entry System consists of three core components:
 
-## 🏗️ Architecture
+1. **SpiritDexEntry** - Comprehensive data structure for individual spirit entries
+2. **SpiritDexManager** - Central manager for entry operations and queries
+3. **SpiritDatabase** - Metadata database for SpiritSpecies lookup
 
-### Core Components
+## Core Components
 
-#### 1. SpiritDexManager.cs
-The central manager for the SpiritDex system:
-- Tracks discovered and captured spirits via GameData
-- Provides methods for registration and status checking
-- Manages statistics and filtering
-- Integrates with GameData for persistence
+### SpiritDexEntry
 
-**Key Methods:**
-- `RegisterDiscovery(string spiritID, string spiritName, string location)`
-- `RegisterCapture(string spiritID, string spiritName, string location)`
-- `IsDiscovered(string spiritID) → bool`
-- `IsCaptured(string spiritID) → bool`
-- `GetDexEntries() → List<SpiritDexEntry>`
+Represents a comprehensive SpiritDex entry with extensive fields for detailed spirit information.
 
-#### 2. SpiritDexEntry.cs
-Individual spirit entries with comprehensive data:
-- **Basic Info**: spiritID, spiritName, speciesID
-- **Status Flags**: discovered, captured, loreUnlocked, evolutionUnlocked
-- **Location Tracking**: lastSeenLocation, discoveryLocation, captureLocation
-- **Progress Data**: syncLevel, encounterCount, battleCount, win/loss records
-- **Spirit Stats**: base stats, current level, evolution stage
-- **Content Unlocks**: abilities, moves, custom tags
+**Key Features:**
+- **Identity**: Unique ID, name, species, display name
+- **Classification**: Primary/secondary types, rarity, category
+- **Physical**: Height, weight, description, appearance
+- **Personality**: Traits, origin story, relationships
+- **Lore**: Background, cultural significance, fandom traits
+- **Evolution**: Path, stages, requirements
+- **Battle**: Stats, abilities, moves, training
+- **Status**: Capture, discovery, completion tracking
+- **Custom**: Extensible fields and tags for remixers
 
-#### 3. SpiritDexViewer.cs
-Interactive console-based viewer for testing:
-- **Commands**: list, show, filter, search, stats, export
-- **View Modes**: All, Discovered, Captured, Unseen
-- **Filtering**: By type, rarity, location, encounter count
-- **Pagination**: Navigate through large spirit lists
-- **Detailed Views**: Show comprehensive spirit information
+**Enums:**
+- `EntryStatus`: Unknown, Seen, Discovered, Complete
+- `CaptureStatus`: Unknown, NotCaptured, Captured, Failed, Escaped
+- `DiscoveryStatus`: Unknown, NotSeen, Seen, Discovered
+- `SpiritType`: Comprehensive type system including musical genres
+- `SpiritRarity`: Common, Uncommon, Rare, Epic, Legendary, Mythical
+- `SpiritCategory`: Normal, Starter, Evolution, Regional, Event, Seasonal, Special, Mythical, Custom
 
-#### 4. SpiritDatabase.cs
-Metadata database for SpiritSpecies:
-- **Species Lookup**: Get species by ID, type, rarity, category
-- **Sample Data**: Pre-populated with starter and elemental spirits
-- **Validation**: Data integrity checking for species entries
-- **Statistics**: Type distribution, rarity breakdown, category analysis
+### SpiritDexManager
 
-#### 5. GameData Integration
-Extended GameData.cs includes:
-- `HashSet<string> discoveredSpiritIDs`
-- `HashSet<string> capturedSpiritIDs`
-- `Dictionary<string, SpiritCaptureData> spiritCaptureHistory`
-- Player progress tracking and statistics
+Central manager for all SpiritDex operations with advanced search, filtering, and data management capabilities.
 
-## 🚀 Quick Start
+**Key Features:**
+- **Entry Management**: Add, update, remove, and query entries
+- **Search & Filter**: Text search, type/rarity/category filtering
+- **Sorting**: Multiple sort criteria with ascending/descending options
+- **Indexing**: Efficient lookup via search indices
+- **Statistics**: Comprehensive database analytics
+- **Data Export/Import**: JSON format for external tools
+- **Validation**: Entry integrity checking and corruption detection
+- **Remix Hooks**: Extensive event system for custom extensions
 
-### Basic SpiritDex Usage
+**Configuration Options:**
+- Auto-save, validation, search indexing
+- Statistics tracking, remix hooks
+- Fuzzy search, result limits
+- Data format, backup directory
+
+### SpiritDatabase
+
+Metadata database for SpiritSpecies lookup and management.
+
+**Key Features:**
+- **Species Management**: Add, update, remove species
+- **Indexed Lookup**: Fast queries by type, rarity, category
+- **Search**: Text-based species search
+- **Statistics**: Database analytics and distribution data
+- **Sample Data**: Pre-populated with starter, evolved, and legendary spirits
+- **Validation**: Data integrity checking
+- **Remix Hooks**: Event system for custom extensions
+
+## Usage Examples
+
+### Creating a New SpiritDex Entry
 
 ```csharp
-// Create SpiritDex system
-var gameData = new GameData();
-var spiritDex = new SpiritDexManager(gameData);
-var spiritDatabase = new SpiritDatabase();
-var viewer = new SpiritDexViewer(spiritDex, spiritDatabase);
+var entry = new SpiritDexEntry("spirit_001", "Lumino", SpiritType.Pop)
+{
+    displayName = "Lumino the Starter",
+    description = "A bright and energetic starter spirit",
+    primaryType = SpiritType.Pop,
+    secondaryType = SpiritType.Light,
+    rarity = SpiritRarity.Common,
+    category = SpiritCategory.Starter,
+    // ... set other fields
+};
 
-// Register discoveries and captures
-spiritDex.RegisterDiscovery("starter_spirit", "Starter Spirit", "Moonlight Alley");
-spiritDex.RegisterCapture("starter_spirit", "Starter Spirit", "Moonlight Alley");
-
-// Check status
-bool isDiscovered = spiritDex.IsDiscovered("starter_spirit");
-bool isCaptured = spiritDex.IsCaptured("starter_spirit");
-
-// Get entries
-var allEntries = spiritDex.GetDexEntries();
-var discoveredEntries = spiritDex.GetEntriesByDiscoveryStatus(true);
-var capturedEntries = spiritDex.GetEntriesByCaptureStatus(true);
+SpiritDexManager.Instance.AddSpiritEntry(entry);
 ```
 
-### Interactive Viewer
+### Searching and Filtering
 
 ```csharp
-// Start interactive viewer
-viewer.StartInteractiveViewer();
+// Text search
+var results = SpiritDexManager.Instance.SearchSpirits("Lumino", maxResults: 10);
 
-// Available commands:
-// list                    - Show current spirit list
-// show <spiritID>         - Show detailed spirit information
-// filter <criteria>       - Apply filters to the list
-// search <term>           - Search spirits by name or ID
-// stats                   - Show SpiritDex statistics
-// export                  - Export current data
-// mode <mode>             - Set view mode (all/discovered/captured/unseen)
-```
-
-### Filtering and Search
-
-```csharp
-// Filter examples
+// Filter by type
 var filter = new SpiritDexFilter
 {
-    discovered = true,
-    captured = false,
-    type = SpiritType.Fire,
-    rarity = SpiritRarity.Uncommon,
-    location = "Moonlight Alley"
+    primaryType = SpiritType.Pop,
+    rarity = SpiritRarity.Common
+};
+var filtered = SpiritDexManager.Instance.FilterSpirits(filter);
+
+// Sort by completion
+var sorted = SpiritDexManager.Instance.SortSpirits(
+    filtered, 
+    SpiritDexSortCriteria.Completion, 
+    ascending: false
+);
+```
+
+### Adding Custom Fields
+
+```csharp
+entry.SetCustomField("fandomSize", "1.2M");
+entry.SetCustomField("debutDate", "2024-01-15");
+entry.AddCustomTag("trending");
+entry.AddCustomTag("viral");
+```
+
+## Remix Safety Features
+
+### Event System
+
+All major operations emit events for remixers to hook into:
+
+```csharp
+// Listen for entry updates
+SpiritDexManager.Instance.OnEntryUpdated += (manager, entry) =>
+{
+    Console.WriteLine($"Entry updated: {entry.spiritName}");
+    // Custom logic here
 };
 
-var filteredEntries = spiritDex.FilterSpirits(filter);
-
-// Search examples
-var nameResults = spiritDex.SearchByName("Starter");
-var idResults = spiritDex.SearchByID("fire");
-```
-
-## ⚙️ Configuration
-
-### SpiritDexManager Settings
-
-```csharp
-var spiritDex = new SpiritDexManager();
-
-// Enable/disable features
-spiritDex.enableAutoDiscovery = true;
-spiritDex.enableCaptureTracking = true;
-spiritDex.enableLocationTracking = true;
-spiritDex.enableProgressTracking = true;
-```
-
-### SpiritDexViewer Settings
-
-```csharp
-var viewer = new SpiritDexViewer();
-
-// Display configuration
-viewer.entriesPerPage = 15;
-viewer.showPageNumbers = true;
-viewer.showRarityColors = true;
-viewer.showTypeIcons = true;
-
-// Feature toggles
-viewer.enableSearch = true;
-viewer.enableFiltering = true;
-viewer.enableExport = true;
-```
-
-### SpiritDatabase Settings
-
-```csharp
-var database = new SpiritDatabase();
-
-// Database configuration
-database.enableAutoPopulation = true;
-database.enableValidation = true;
-database.enableSearch = true;
-database.enableFiltering = true;
-```
-
-## 🎨 Remix System
-
-### Custom SpiritDex Features
-
-```csharp
-// Hook into discovery events
-spiritDex.OnSpiritDiscovered += (manager, spiritID) =>
+// Listen for validation
+SpiritDexManager.Instance.OnEntryValidated += (manager, entry) =>
 {
-    Console.WriteLine($"🌟 New spirit discovered: {spiritID}!");
-    // Custom discovery logic
-};
-
-// Hook into capture events
-spiritDex.OnSpiritCaptured += (manager, spiritID) =>
-{
-    Console.WriteLine($"🎉 Spirit captured: {spiritID}!");
-    // Custom capture celebration
-};
-
-// Hook into entry updates
-spiritDex.OnEntryUpdated += (manager, entry) =>
-{
-    // Custom entry update logic
+    // Custom validation logic
 };
 ```
 
-### Custom Viewer Commands
+### Extensible Fields
+
+The system supports unlimited custom fields and tags:
 
 ```csharp
-// Hook into viewer commands
-viewer.OnViewerCommand += (viewer, command) =>
+// Add custom metadata
+entry.SetCustomField("socialMedia", "instagram:lumino_official");
+entry.SetCustomField("fanClub", "Luminators");
+
+// Add custom tags
+entry.AddCustomTag("fan-favorite");
+entry.AddCustomTag("award-winning");
+```
+
+### Custom Validation
+
+Remixers can implement custom validation logic:
+
+```csharp
+// Custom validation hook
+entry.OnEntryValidated += (entry) =>
 {
-    Console.WriteLine($"Custom command handler: {command}");
-    // Custom command processing
-};
-
-// Hook into entry selection
-viewer.OnEntrySelected += (viewer, entry) =>
-{
-    Console.WriteLine($"Entry selected: {entry.spiritName}");
-    // Custom selection logic
-};
-```
-
-### Custom Database Features
-
-```csharp
-// Hook into database events
-database.OnSpeciesAdded += (db, speciesID) =>
-{
-    Console.WriteLine($"Species added: {speciesID}");
-    // Custom species addition logic
-};
-
-// Hook into database updates
-database.OnDatabaseUpdated += (db) =>
-{
-    Console.WriteLine("Database updated");
-    // Custom update logic
-};
-```
-
-## 📊 Statistics & Analytics
-
-### SpiritDex Statistics
-
-```csharp
-var stats = spiritDex.GetStatistics();
-Console.WriteLine($"Total Seen: {stats.totalSpiritsSeen}");
-Console.WriteLine($"Total Discovered: {stats.totalSpiritsDiscovered}");
-Console.WriteLine($"Total Captured: {stats.totalSpiritsCaptured}");
-Console.WriteLine($"Discovery Rate: {stats.discoveryPercentage:F1}%");
-Console.WriteLine($"Capture Rate: {stats.completionPercentage:F1}%");
-```
-
-### Database Statistics
-
-```csharp
-var dbStats = database.GetDatabaseStats();
-Console.WriteLine($"Total Species: {dbStats.totalSpecies}");
-Console.WriteLine($"Total Types: {dbStats.totalTypes}");
-Console.WriteLine($"Total Rarities: {dbStats.totalRarities}");
-
-// Type distribution
-foreach (var kvp in dbStats.typeDistribution)
-{
-    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
-}
-```
-
-### Entry Statistics
-
-```csharp
-var entry = spiritDex.GetEntry("starter_spirit");
-if (entry != null)
-{
-    Console.WriteLine($"Win Rate: {entry.GetWinRate():F1}%");
-    Console.WriteLine($"Completion: {entry.GetCompletionPercentage():F1}%");
-    Console.WriteLine($"Days Since Discovery: {entry.DaysSinceDiscovery}");
-}
-```
-
-## 🔧 Testing
-
-### Console Testing
-
-```csharp
-// Test SpiritDex system in console
-var gameData = new GameData();
-var spiritDex = new SpiritDexManager(gameData);
-var database = new SpiritDatabase();
-var viewer = new SpiritDexViewer(spiritDex, database);
-
-// Add sample data
-spiritDex.RegisterDiscovery("test_spirit", "Test Spirit", "Test Location");
-spiritDex.RegisterCapture("test_spirit", "Test Spirit", "Test Location");
-
-// Start interactive viewer
-viewer.StartInteractiveViewer();
-```
-
-### Unit Testing
-
-```csharp
-[Test]
-public void TestSpiritDiscovery()
-{
-    var spiritDex = new SpiritDexManager();
-    
-    bool result = spiritDex.RegisterDiscovery("test_spirit", "Test Spirit");
-    
-    Assert.IsTrue(result);
-    Assert.IsTrue(spiritDex.IsDiscovered("test_spirit"));
-    Assert.IsFalse(spiritDex.IsCaptured("test_spirit"));
-}
-
-[Test]
-public void TestSpiritCapture()
-{
-    var spiritDex = new SpiritDexManager();
-    
-    spiritDex.RegisterDiscovery("test_spirit", "Test Spirit");
-    bool result = spiritDex.RegisterCapture("test_spirit", "Test Spirit");
-    
-    Assert.IsTrue(result);
-    Assert.IsTrue(spiritDex.IsCaptured("test_spirit"));
-}
-```
-
-### Integration Testing
-
-```csharp
-[Test]
-public void TestGameDataIntegration()
-{
-    var gameData = new GameData();
-    var spiritDex = new SpiritDexManager(gameData);
-    
-    // Test persistence
-    spiritDex.RegisterDiscovery("test_spirit", "Test Spirit");
-    spiritDex.RegisterCapture("test_spirit", "Test Spirit");
-    
-    // Verify GameData is updated
-    Assert.IsTrue(gameData.IsSpiritDiscovered("test_spirit"));
-    Assert.IsTrue(gameData.IsSpiritCaptured("test_spirit"));
-}
-```
-
-## 🌟 Advanced Features
-
-### Location Tracking
-
-The system tracks where spirits were discovered and captured:
-```csharp
-spiritDex.RegisterDiscovery("fire_spirit", "Fire Spirit", "Volcanic Peak");
-spiritDex.RegisterCapture("fire_spirit", "Fire Spirit", "Volcanic Peak");
-
-var entry = spiritDex.GetEntry("fire_spirit");
-Console.WriteLine($"Discovered at: {entry.discoveryLocation}");
-Console.WriteLine($"Captured at: {entry.captureLocation}");
-```
-
-### Progress Tracking
-
-Comprehensive tracking of spirit encounters and battles:
-```csharp
-var entry = spiritDex.GetEntry("starter_spirit");
-entry.RecordEncounter("Moonlight Alley");
-entry.RecordBattle(true, "Moonlight Alley"); // Won
-entry.RecordBattle(false, "Moonlight Alley"); // Lost
-entry.UpdateSyncLevel(75.5f);
-
-Console.WriteLine($"Encounters: {entry.encounterCount}");
-Console.WriteLine($"Battles: {entry.battleCount}");
-Console.WriteLine($"Win Rate: {entry.GetWinRate():F1}%");
-Console.WriteLine($"Sync Level: {entry.syncLevel:F1}%");
-```
-
-### Content Unlocking
-
-Track progression through spirit content:
-```csharp
-var entry = spiritDex.GetEntry("legendary_spirit");
-entry.UnlockLore();
-entry.UnlockEvolution();
-entry.AddUnlockedAbility("Legendary Power");
-entry.AddUnlockedMove("Cosmic Blast");
-
-Console.WriteLine($"Lore Unlocked: {entry.loreUnlocked}");
-Console.WriteLine($"Evolution Unlocked: {entry.evolutionUnlocked}");
-Console.WriteLine($"Abilities: {string.Join(", ", entry.unlockedAbilities)}");
-```
-
-### Custom Tags and Data
-
-Extensible system for custom data:
-```csharp
-var entry = spiritDex.GetEntry("starter_spirit");
-entry.AddCustomTag("Favorite");
-entry.AddCustomTag("Strong Bond");
-entry.customData = "Player's first spirit companion";
-
-Console.WriteLine($"Tags: {string.Join(", ", entry.customTags)}");
-Console.WriteLine($"Custom Data: {entry.customData}");
-```
-
-## 🔗 Integration Examples
-
-### Battle System Integration
-
-```csharp
-// After battle, update SpiritDex
-public void OnBattleEnded(BattleResult result)
-{
-    foreach (var enemySpirit in result.enemySpirits)
+    // Check custom business rules
+    if (entry.GetCustomField("fandomSize") == null)
     {
-        // Record encounter
-        spiritDex.RegisterSighting(enemySpirit.ID, enemySpirit.Name, result.location);
-        
-        // Record battle result
-        var entry = spiritDex.GetEntry(enemySpirit.ID);
-        if (entry != null)
-        {
-            entry.RecordBattle(result.playerWon, result.location);
-        }
+        entry.MarkAsCorrupted("Missing fandom size");
+        return false;
     }
-}
-```
-
-### Quest System Integration
-
-```csharp
-// Unlock content based on quest completion
-public void OnQuestCompleted(string questID)
-{
-    if (questID == "discover_fire_spirit")
-    {
-        var entry = spiritDex.GetEntry("fire_spirit");
-        if (entry != null)
-        {
-            entry.UnlockLore();
-            entry.AddUnlockedAbility("Fire Mastery");
-        }
-    }
-}
-```
-
-### Tutorial System Integration
-
-```csharp
-// First discovery tutorial
-spiritDex.OnSpiritDiscovered += (manager, spiritID) =>
-{
-    var flagManager = OnboardingFlagManager.Instance;
-    if (flagManager != null && !flagManager.GetFlag("FirstSpiritDiscovered"))
-    {
-        flagManager.SetFlag("FirstSpiritDiscovered", true);
-        // Show discovery tutorial
-    }
+    return true;
 };
 ```
 
-### Evolution System Integration
-
-```csharp
-// Track evolution progress
-public void OnSpiritEvolved(string spiritID, string newSpeciesID)
-{
-    var entry = spiritDex.GetEntry(spiritID);
-    if (entry != null)
-    {
-        entry.evolutionStage = "Evolved";
-        entry.UnlockEvolution();
-        entry.OnEntryUpdated?.Invoke(entry);
-    }
-}
-```
-
-## 📝 Contributor Notes
+## Contributor Workflow
 
 ### For Non-Coders
 
-1. **Spirit Discovery**: Use `RegisterDiscovery()` to mark spirits as seen
-2. **Spirit Capture**: Use `RegisterCapture()` to mark spirits as caught
-3. **Location Tracking**: Always provide location when registering spirits
-4. **Content Unlocking**: Use `UnlockLore()` and `UnlockEvolution()` for progression
-5. **Custom Data**: Add custom tags and data for personalization
+1. **Create New Entries**: Use the `SpiritDexEntry` constructor with required fields
+2. **Add Custom Data**: Use `SetCustomField()` and `AddCustomTag()` for additional information
+3. **Update Entries**: Modify fields and call `UpdateEntry()` to save changes
+4. **Search & Filter**: Use the manager's search and filter methods to find specific entries
 
 ### For Remixers
 
-1. **Event Hooks**: Subscribe to `OnSpiritDiscovered`, `OnSpiritCaptured`, etc.
-2. **Custom Commands**: Extend the viewer with custom commands
-3. **Custom Filters**: Add new filtering criteria to `SpiritDexFilter`
-4. **Custom Display**: Hook into viewer display events for custom UI
-5. **Custom Validation**: Extend species validation in `SpiritDatabase`
+1. **Extend Fields**: Add new enums, properties, or custom fields
+2. **Hook Events**: Listen to system events for custom logic
+3. **Custom Validation**: Implement validation rules via event hooks
+4. **Data Export**: Use JSON export/import for external tool integration
 
 ### For Developers
 
-1. **Extend SpiritDexEntry**: Add new fields for tracking additional data
-2. **Enhance SpiritDexManager**: Add new query methods and statistics
-3. **Custom Viewer Commands**: Implement new viewer functionality
-4. **Database Extensions**: Add new species metadata and validation
-5. **Performance Optimization**: Optimize for large numbers of spirits
+1. **Add New Types**: Extend enums for new spirit types or categories
+2. **Implement Managers**: Create specialized managers for specific domains
+3. **Database Integration**: Connect to external databases or APIs
+4. **Performance Optimization**: Implement caching or indexing strategies
 
-## 🐛 Troubleshooting
+## Testing
+
+### Console Testing
+
+The system is designed for console/headless testing:
+
+```csharp
+// Test entry creation
+var entry = new SpiritDexEntry("test_001", "TestSpirit", SpiritType.Normal);
+Console.WriteLine($"Created entry: {entry.GetSummary()}");
+
+// Test manager operations
+SpiritDexManager.Instance.AddSpiritEntry(entry);
+var retrieved = SpiritDexManager.Instance.GetEntryByID("test_001");
+Console.WriteLine($"Retrieved: {retrieved.GetSummary()}");
+
+// Test search
+var results = SpiritDexManager.Instance.SearchSpirits("Test");
+Console.WriteLine($"Search results: {results.Count}");
+```
+
+### Validation Testing
+
+```csharp
+// Test entry validation
+var isValid = entry.ValidateEntry();
+Console.WriteLine($"Entry valid: {isValid}");
+
+// Test corruption detection
+entry.MarkAsCorrupted("Test corruption");
+var status = entry.GetStatus();
+Console.WriteLine($"Entry status: {status}");
+```
+
+## Performance Considerations
+
+### Indexing
+
+The system maintains multiple indices for efficient querying:
+- **Search Index**: Text-based search across all fields
+- **Type Index**: Fast lookup by spirit type
+- **Rarity Index**: Quick filtering by rarity
+- **Category Index**: Efficient category-based queries
+
+### Memory Management
+
+- Entries are stored in memory for fast access
+- Large datasets can be paginated via `maxResults` parameters
+- Custom fields use dictionaries for efficient storage
+
+### Scalability
+
+- The system can handle thousands of entries efficiently
+- Search operations are optimized with result limits
+- Bulk operations support for large datasets
+
+## Integration Points
+
+### GameData Integration
+
+The system integrates with the central `GameData` class:
+- `discoveredSpiritIDs`: Tracks discovered spirits
+- `capturedSpiritIDs`: Tracks captured spirits
+- Automatic persistence and loading
+
+### Battle System Integration
+
+- Battle results can update entry statistics
+- Capture attempts update entry status
+- Evolution triggers update entry evolution stage
+
+### Quest System Integration
+
+- Quest completion can unlock new entries
+- Special conditions can mark entries as discovered
+- Quest rewards can provide entry metadata
+
+## Future Enhancements
+
+### Planned Features
+
+1. **Image Support**: Sprite and illustration management
+2. **Audio Integration**: Theme music and sound effects
+3. **Localization**: Multi-language support for entry text
+4. **Cloud Sync**: Cross-device entry synchronization
+5. **Analytics**: Player behavior and entry interaction tracking
+
+### Extension Points
+
+1. **Custom Field Types**: Support for complex data structures
+2. **Plugin System**: Modular extensions for specialized functionality
+3. **API Integration**: External data sources and services
+4. **Machine Learning**: Intelligent entry suggestions and completion
+
+## Troubleshooting
 
 ### Common Issues
 
-1. **Spirits Not Appearing**: Check if `RegisterDiscovery()` was called
-2. **Capture Not Working**: Ensure `RegisterCapture()` is called after discovery
-3. **Location Not Tracking**: Verify location parameter is provided
-4. **GameData Not Persisting**: Check GameData integration and save calls
-5. **Viewer Commands Not Working**: Verify viewer initialization and dependencies
+1. **Entry Not Found**: Check ID spelling and case sensitivity
+2. **Validation Failures**: Ensure required fields are populated
+3. **Performance Issues**: Use result limits and specific filters
+4. **Memory Issues**: Consider pagination for large datasets
 
-### Debug Information
-
-```csharp
-// Enable debug output
-Console.WriteLine(spiritDex.GetSpiritDexSummary());
-Console.WriteLine(database.GetDatabaseSummary());
-
-// Check specific entries
-var entry = spiritDex.GetEntry("spirit_id");
-if (entry != null)
-{
-    Console.WriteLine(entry.GetDetailedInfo());
-}
-else
-{
-    Console.WriteLine("Entry not found");
-}
-```
-
-### Validation
+### Debug Tools
 
 ```csharp
-// Validate species data
-var species = new SpiritSpecies { /* ... */ };
-var errors = database.ValidateSpecies(species);
+// Enable debug logging
+SpiritDexManager.Instance.enableDebugLogging = true;
 
-if (errors.Count > 0)
-{
-    foreach (var error in errors)
-    {
-        Console.WriteLine($"Validation Error: {error}");
-    }
-}
+// Get detailed statistics
+var stats = SpiritDexManager.Instance.GetStatistics();
+Console.WriteLine(stats.ToString());
+
+// Validate all entries
+SpiritDexManager.Instance.ValidateAllEntries();
 ```
 
-## 📚 Related Systems
+## License and Attribution
 
-- **Battle System**: Spirit encounters and battle tracking
-- **Capture System**: Spirit capture mechanics and results
-- **Quest System**: Discovery objectives and content unlocking
-- **Tutorial System**: First discovery and capture guidance
-- **Evolution System**: Evolution stage tracking and requirements
-- **Lore System**: Spirit information and story content
-- **Inventory System**: Capture items and spirit management
+This system is part of the MIFF (Modular, Remix-Safe, Contributor-Friendly) framework. It is designed to be freely remixed and extended by contributors while maintaining system integrity and performance.
 
 ---
 
-*This SpiritDex system is designed to be modular, extensible, and contributor-friendly. All components can be customized and extended without modifying core functionality.*
+**Note**: This system is designed to be Unity-independent and can be used in any C# environment. For Unity integration, additional ScriptableObject wrappers can be created to provide editor-friendly data management.
