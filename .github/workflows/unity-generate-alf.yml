@@ -18,7 +18,7 @@ jobs:
         run: |
           set -euo pipefail
           WORKDIR="$PWD"
-          IMAGE="ghcr.io/game-ci/unity-editor:2021.1.6f1-base-3"
+          IMAGE="unityci/editor:2021.1.6f1-base-3"
           echo "Pulling $IMAGE"
           docker pull "$IMAGE"
           echo "Running Unity to create activation file..."
@@ -35,6 +35,17 @@ jobs:
           echo "Workspace contents after run:"
           ls -al
 
+      - name: Prepare base64 of activation file
+        shell: bash
+        run: |
+          set -e
+          if ls *.alf >/dev/null 2>&1; then
+            FILE=$(ls *.alf | head -n1)
+            base64 -w0 "$FILE" > alf-base64.txt
+          else
+            echo "No .alf found" > no-alf.txt
+          fi
+
       - name: Upload activation file artifact
         uses: actions/upload-artifact@v4
         with:
@@ -42,45 +53,13 @@ jobs:
           path: "*.alf"
           if-no-files-found: warn
 
-      - name: Upload base64 of activation file
-        if: success()
-        shell: bash
-        run: |
-          set -e
-          FILE=$(ls *.alf 2>/dev/null | head -n1 || true)
-          if [ -z "$FILE" ]; then
-            echo "No .alf found, skipping base64 artifact"
-            exit 0
-          fi
-          base64 -w0 "$FILE" > alf-base64.txt
-        
       - name: Upload base64 artifact
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: unity-activation-file-base64
           path: alf-base64.txt
           if-no-files-found: warn
 
-      - name: Add base64 to run summary
-        if: success()
-        shell: bash
-        run: |
-          set -e
-          if [ -f alf-base64.txt ]; then
-            echo "### Activation file (.alf) base64" >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "Copy all the text below and save it as a file ending in .alf, then upload it to Unity's manual activation page." >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "<details><summary>Click to expand</summary>" >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            cat alf-base64.txt >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "</details>" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "No base64 file to summarize" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
       - name: Upload generation log
         if: always()
         uses: actions/upload-artifact@v4
@@ -88,54 +67,33 @@ jobs:
           name: alf-generation-log
           path: "alf-generation.log"
           if-no-files-found: warn
-name: Generate Unity Activation File (.alf)
 
-on:
-  workflow_dispatch:
-  push:
-    branches: ["**"]
-
-jobs:
-  generate-alf:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Generate activation file inside Unity Docker
+      - name: Add summary
+        if: always()
         shell: bash
         run: |
-          set -euo pipefail
-          WORKDIR="$PWD"
-          IMAGE="ghcr.io/game-ci/unity-editor:2021.1.6f1-base-3"
-          echo "Pulling $IMAGE"
-          docker pull "$IMAGE"
-          echo "Running Unity to create activation file..."
-          docker run --rm -v "$WORKDIR":/project -w /project "$IMAGE" bash -lc '
-            set -e
-            /opt/unity/Editor/Unity -batchmode -nographics -quit -logFile /project/alf-generation.log -createManualActivationFile || true
-            echo "Searching for .alf files..."
-            find /root /root/.local/share/unity3d -maxdepth 6 -type f -name "*.alf" -print || true
-            for f in $(find /root /root/.local/share/unity3d -maxdepth 6 -type f -name "*.alf" 2>/dev/null); do
-              echo Copying "$f" to /project/
-              cp -v "$f" /project/
-            done
-          '
-          echo "Workspace contents after run:"
-          ls -al
-
-      - name: Upload activation file artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: unity-activation-file
-          path: "*.alf"
-          if-no-files-found: warn
-
-      - name: Upload generation log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: alf-generation-log
-          path: "alf-generation.log"
-          if-no-files-found: warn
+          {
+            echo "### Unity activation (.alf) status"
+            if ls *.alf >/dev/null 2>&1; then
+              echo ""
+              echo "Activation request (.alf) generated successfully."
+              echo ""
+              echo "- Download the 'unity-activation-file' artifact (.alf) or copy the base64 below."
+              echo "- Visit https://license.unity3d.com/manual to upload the .alf and download your .ulf."
+              echo "- Base64 the .ulf and save as repo secret UNITY_LICENSE."
+              echo ""
+              if [ -f alf-base64.txt ]; then
+                echo "<details><summary>Click to show .alf base64</summary>"
+                echo ""
+                cat alf-base64.txt
+                echo ""
+                echo "</details>"
+              fi
+            else
+              echo ""
+              echo "No .alf found. Unity may have failed to create the activation file."
+              echo ""
+              echo "- Download the 'alf-generation-log' artifact to inspect errors."
+              echo "- This workflow does NOT require UNITY_LICENSE; it generates the request."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
