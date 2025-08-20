@@ -3,8 +3,31 @@
 ## Project Overview
 NewBark is a retro-style 2D RPG game engine for Unity, inspired by Pokémon Gold, Silver, and Crystal. This roadmap outlines the current state and future development priorities.
 
+## 🔄 Branching Strategy & Bot Instructions
+**IMPORTANT**: This roadmap must be updated with each new branch creation to reflect current project status.
+
+### For New Bots/Contributors:
+1. **Always read this roadmap first** to understand current project state
+2. **Create a new branch** for your work using the pattern: `feature/description` or `fix/description`
+3. **Update this roadmap** to reflect current status before starting development
+4. **Reference existing branches** in the repository to understand what's already implemented
+
+### Current Branch: `roadmap/current-status-assessment`
+- **Created**: [Current Date]
+- **Purpose**: Initial roadmap assessment and project structure analysis
+- **Status**: Active development planning
+
+---
+
 ## Current Status Assessment
 Based on the repository analysis, the project has a solid foundation with core systems implemented and is currently in low-maintenance mode. The engine includes basic movement, interaction, audio, and UI systems.
+
+### Repository Structure Analysis
+- **Unity Version**: 2021.1+ (ProjectSettings confirmed)
+- **Core Scripts**: Located in `Assets/Scripts/NewBark/`
+- **Scenes**: Main scene available in `Assets/Scenes/Main.unity`
+- **Documentation**: Dev notes and changelog available
+- **Existing Branches**: Multiple feature branches for various systems (battle, inventory, quests, etc.)
 
 ---
 
@@ -170,9 +193,18 @@ Based on the repository analysis, the project has a solid foundation with core s
 - Priorities may shift based on user feedback and development resources
 - The project is currently in low-maintenance mode, so new features will require dedicated development effort
 - All development should maintain the retro aesthetic and Pokémon-inspired gameplay feel
+- **Each new branch must update this roadmap to reflect current status**
+
+---
+
+## 🔍 Branch History & Status
+- `roadmap/current-status-assessment` - **ACTIVE** - Initial roadmap assessment
+- `master` - Main development branch
+- Multiple feature branches exist for various systems (see git branch -a for full list)
 
 ---
 
 *Last Updated: [Current Date]*
 *Project Status: Low-Maintenance Mode*
 *Unity Version: 2021.1+*
+*Current Branch: roadmap/current-status-assessment*
