@@ -1,0 +1,6 @@
+{
+  "entities": [
+    { "id": "hero", "stats": [ {"key":"hp","base":30}, {"key":"atk","base":8}, {"key":"def","base":5} ] },
+    { "id": "slime", "stats": [ {"key":"hp","base":12}, {"key":"atk","base":3}, {"key":"def","base":1} ] }
+  ]
+}
