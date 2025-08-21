@@ -58,9 +58,14 @@
 - `InventoryManager` is auto-instantiated by `GameManager.Awake()` if missing, and marked `DontDestroyOnLoad`.
 - `InventoryUI` stub logs Open/Close and can be wired to a menu later.
 
+## Audio Mixer Integration
+- `AudioMixerManager` maps linear [0..1] volumes to decibels via 20*log10(linear) with a floor at -80 dB.
+- Ensure Unity AudioMixer exposes parameters `MusicVolume` and `SFXVolume` and is loadable via Resources if not assigned.
+
 ## CLI
 - QuestsPure: npx ts-node --compiler-options '{"module":"commonjs"}' QuestsPure/cliHarness.ts QuestsPure/sample_quest_npc.json 1234
 - InventoryPure: npx ts-node --compiler-options '{"module":"commonjs"}' InventoryPure/cliHarness.ts InventoryPure/sample_commands.json
 - CreaturesPure: npx ts-node --compiler-options '{"module":"commonjs"}' CreaturesPure/cliHarness.ts Assets/Resources/species/species.json CreaturesPure/sample_commands.json
 - LorePure: npx ts-node --compiler-options '{"module":"commonjs"}' LorePure/cliHarness.ts LorePure/sample_commands.json
 - SettingsPure: npx ts-node --compiler-options '{"module":"commonjs"}' SettingsPure/cliHarness.ts SettingsPure/sample_init.json SettingsPure/sample_commands.json
+- AudioMixerPure: npx ts-node --compiler-options '{"module":"commonjs"}' AudioMixerPure/cliHarness.ts AudioMixerPure/sample_commands.json
