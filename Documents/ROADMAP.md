@@ -8,6 +8,7 @@
 - ZonesPure
 - CodexPure
 - SaveMigration
+- SaveLoadPure (v1 core)
 - XPLevelingPure (v1 core)
 - DialogManager
 - InventoryManager
@@ -19,7 +20,6 @@
 ## Pending Systems
 
 - CombatPure
-- SaveLoadPure
 - AIProfilesPure
 - StatusEffectsPure
 - FusionPure
@@ -28,7 +28,7 @@
 - VendorsPure
 - InputPure
 
-Note: Current schema version is v10. Next bumps will integrate CombatPure deeper with SaveLoadPure.
+Note: Current schema version is v11 (SaveLoadPure). Next bumps will integrate CombatPure deeper with SaveLoadPure.
 
 ## CLI Harness Coverage
 

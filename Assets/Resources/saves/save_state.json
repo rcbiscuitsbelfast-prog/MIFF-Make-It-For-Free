@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 11,
+  "currentSlot": "slot-a",
+  "saves": {
+    "slot-a": {
+      "id": "slot-a",
+      "timestamp": 1730000000000,
+      "autosave": false,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-a",
+        "saves": {},
+        "settings": { "musicVolume": 0.8, "sfxVolume": 0.7, "language": "en", "showSubtitles": true },
+        "quests": [{ "id": "q1", "step": 1, "status": "Active" }],
+        "inventory": [{ "id": "potion", "quantity": 3 }]
+      }
+    },
+    "slot-b": {
+      "id": "slot-b",
+      "timestamp": 1730000100000,
+      "autosave": true,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-b",
+        "saves": {},
+        "settings": { "musicVolume": 0.5, "sfxVolume": 0.6, "language": "en", "showSubtitles": false },
+        "quests": [{ "id": "q1", "step": 2, "status": "Active" }],
+        "inventory": [{ "id": "ether", "quantity": 1 }]
+      }
+    }
+  }
+}
