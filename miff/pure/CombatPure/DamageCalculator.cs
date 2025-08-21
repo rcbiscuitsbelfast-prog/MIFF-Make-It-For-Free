@@ -16,6 +16,7 @@ namespace MIFF.Pure.Combat
     public class DamageCalculator
     {
         private readonly TypeEffectiveness _types;
+        public Action<SpiritInstance, SpiritInstance, MoveData, DamageBreakdown>? OnComputed { get; set; }
 
         public DamageCalculator(TypeEffectiveness types)
         {
@@ -71,6 +72,7 @@ namespace MIFF.Pure.Combat
             breakdown.Final = Math.Max(0, (int)Math.Floor(total));
             breakdown.WasCritical = isCrit;
 
+            OnComputed?.Invoke(attacker, defender, move, breakdown);
             return breakdown.Final;
         }
     }

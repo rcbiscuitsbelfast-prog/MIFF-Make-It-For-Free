@@ -21,7 +21,7 @@ namespace MIFF.Pure.Log
             var rng = new RNGProvider(seed);
             var logger = new BattleLogger();
 
-            var controller = new BattleLoopController(rng);
+            var controller = new BattleLoopController(rng, logger);
 
             // Hook into phase changes by driving the phase manager through controller calls
             // For this simple playback: select three hardcoded actions
@@ -36,18 +36,28 @@ namespace MIFF.Pure.Log
             }
 
             // Manually log phases as controller advances
-            logger.LogPhaseChange(BattlePhase.PreTurn);
-            var ordered = controller.ExecuteTurn(seed, Selector);
-            logger.LogPhaseChange(BattlePhase.SelectAction);
-            logger.LogPhaseChange(BattlePhase.ResolveAction);
-            logger.LogPhaseChange(BattlePhase.EndTurn);
-
-            // Mock results (in a full integration, wire from DamageCalculator outcomes)
-            foreach (var a in ordered)
+            // Wire real damage calc with basic spirit roster and moves
+            var types = new TypeEffectiveness();
+            var calc = new DamageCalculator(types);
+            var roster = new Dictionary<int, SpiritInstance>
             {
-                var result = new BattleResult { Success = true, Damage = a.MoveId == "sap_weaken" ? 0 : 12, StatusApplied = a.MoveId == "sap_weaken" ? "attack_down" : null };
-                logger.LogAction(a, result);
-            }
+                {1, new SpiritInstance{ Id=1, Name="Alpha", TypeTag="neutral", Level=10, Attack=20, Defense=15, SpecialAttack=18, SpecialDefense=15, MaxHP=60, CurrentHP=60 }},
+                {2, new SpiritInstance{ Id=2, Name="Bravo", TypeTag="fire",    Level=10, Attack=18, Defense=18, SpecialAttack=20, SpecialDefense=18, MaxHP=60, CurrentHP=60 }},
+                {3, new SpiritInstance{ Id=3, Name="Charlie",TypeTag="nature",  Level=10, Attack=16, Defense=16, SpecialAttack=16, SpecialDefense=16, MaxHP=60, CurrentHP=60 }}
+            };
+            var moves = new Dictionary<string, MoveData>
+            {
+                {"basic_strike", new MoveData{ MoveId="basic_strike", Name="Basic Strike", Category=MoveCategory.Physical, Power=40, Accuracy=1f, Cost=0, TypeTag="neutral"}},
+                {"water_burst",  new MoveData{ MoveId="water_burst",  Name="Water Burst",  Category=MoveCategory.Special,  Power=55, Accuracy=0.95f, Cost=3, TypeTag="water"}},
+                {"sap_weaken",   new MoveData{ MoveId="sap_weaken",   Name="Sap Weaken",   Category=MoveCategory.Status,   Power=0,  Accuracy=1f,    Cost=2, TypeTag="nature", StatusEffectId="attack_down"}}
+            };
+
+            var ordered = controller.ExecuteTurn(
+                seed,
+                Selector,
+                id => roster.TryGetValue(id, out var sp) ? sp : null,
+                id => moves.TryGetValue(id, out var mv) ? mv : null,
+                calc);
 
             var log = logger.GetLog();
             BattleLogPrinter.PrintLog(log);
