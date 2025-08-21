@@ -197,6 +197,15 @@ Underdocumented but present:
 
 - ChallengesPure, SyncPure have harnesses without high‑level docs
 
+## CLI Harness Coverage
+
+| Module       | CLI Harness | Simulates                         |
+|--------------|-------------|-----------------------------------|
+| BattleAIPure | ✅           | Move selection, threat eval       |
+| SyncPure     | ✅           | Rhythm challenge, sync gain       |
+| LorePure     | ✅           | Unlock conditions, codex view     |
+| NPCsPure     | ❌           | —                                 |
+
 ### Still Needed (High‑Priority for Newhaven)
 
 - Data schemas + validation for Spirits/Moves/Items/Encounters
