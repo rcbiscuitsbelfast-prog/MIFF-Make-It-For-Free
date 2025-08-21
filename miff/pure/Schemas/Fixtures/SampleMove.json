@@ -1,0 +1,10 @@
+{
+  "moveId": "basic_strike",
+  "name": "Basic Strike",
+  "category": "Physical",
+  "power": 40,
+  "accuracy": 1.0,
+  "cost": 0,
+  "typeTag": "neutral"
+}
+

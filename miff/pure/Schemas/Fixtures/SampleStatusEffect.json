@@ -1,0 +1,9 @@
+{
+  "effectId": "attack_down",
+  "duration": 3,
+  "stackable": true,
+  "modifierType": "attack_percent",
+  "value": -0.2,
+  "immunityTags": ["boss"]
+}
+

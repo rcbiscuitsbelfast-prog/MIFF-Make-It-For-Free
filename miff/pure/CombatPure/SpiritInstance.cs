@@ -9,6 +9,7 @@ namespace MIFF.Pure.Combat
     public class SpiritInstance
     {
         public int Id { get; set; }
+        public string? SpiritId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string TypeTag { get; set; } = "neutral";
 
