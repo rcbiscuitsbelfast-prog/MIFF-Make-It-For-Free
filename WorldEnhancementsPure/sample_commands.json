@@ -1,0 +1,7 @@
+[
+  {"op":"triggerOverlay","type":"fadeIn","duration":1.5},
+  {"op":"triggerOverlay","type":"tint","color":"#000044","duration":2.0},
+  {"op":"setLightingPreset","preset":"dusk"},
+  {"op":"scheduleEvent","name":"show_hint","delay":3.0},
+  {"op":"defineZoneTrigger","id":"lab","onEnter":"show_lab_overlay","onExit":"hide_lab_overlay"}
+]

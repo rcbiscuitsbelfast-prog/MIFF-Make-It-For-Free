@@ -2,15 +2,9 @@
 
 ## CLI Harness Coverage
 
-| Module         | CLI Harness | Simulates                                           |
-|----------------|-------------|-----------------------------------------------------|
-| NPCsPure       | ✅           | Dialog + quest flag simulation                      |
-| QuestsPure     | ✅           | Quest flow and gating                               |
-| InventoryPure  | ✅           | Add/remove items, inspect, quest reward hooks       |
-| CreaturesPure  | ✅           | Create/swap/remove party; encounter and capture     |
-| LorePure       | ✅           | Load/list/unlock lore; dump codex                   |
-| SettingsPure   | ✅           | get/set/reset/dump settings                         |
-| AudioMixerPure | ✅           | setVolume (music/sfx), dumpMixerState               |
+| Module               | CLI Harness | Simulates                                           |
+|----------------------|-------------|-----------------------------------------------------|
+| WorldEnhancementsPure| ✅           | overlay/lighting/timed/zone commands                |
 
 ## Systems Overview
 
@@ -83,6 +77,11 @@
   - Status: v1 core added: `GameData` v8 settings (musicVolume, sfxVolume, language, showSubtitles), `SettingsManager` with get/set/apply.
   - Gaps: No in-game UI; no platform sync.
   - Next: Build Settings UI, hook ApplySettings to audio/localization.
+
+- World Enhancements
+  - Status: v1 core added: `WorldEnhancementsManager` facade with `OverlayManager`, `LightingManager`, `TimedEventManager`, `ZoneTriggerManager`.
+  - Gaps: No in-game bindings to actual overlays/lights yet; sample logging only.
+  - Next: Implement real overlay shaders/Canvas, hook timed events to gameplay.
 
 ## Technical Debt and Fixes
 
