@@ -130,26 +130,27 @@ namespace NewBark.Movement
         }
 
         public static float ClampAxis(float val, float offset)
-        {
-            if (Math.Abs(offset) > 0)
-            {
-                return val;
-            }
+{
+    // If no snapping requested, return value as-is
+    if (Math.Abs(offset) < double.Epsilon)
+    {
+        return val;
+    }
 
-            var mod = val % 1f;
+    var mod = val % 1f;
 
-            if (Math.Abs(mod - offset) < double.Epsilon) // more precise than: if (mod == fraction)
-            {
-                return val;
-            }
+    if (Math.Abs(mod - offset) < double.Epsilon)
+    {
+        return val;
+    }
 
-            if (val < 0f)
-            {
-                return (val - mod) - offset;
-            }
+    if (val < 0f)
+    {
+        return (val - mod) - offset;
+    }
 
-            return (val - mod) + offset;
-        }
+    return (val - mod) + offset;
+}
 
         private static RaycastHit2D GetFirstHit(Vector2 origin, Move move, int layerMask)
         {

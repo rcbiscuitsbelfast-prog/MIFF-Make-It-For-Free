@@ -1,6 +1,8 @@
 using System;
 using NewBark.Tilemap;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace NewBark

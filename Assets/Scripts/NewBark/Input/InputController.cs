@@ -7,7 +7,7 @@ namespace NewBark.Input
     public class InputController : MonoBehaviour
     {
         [Tooltip("Distance in milliseconds between each triggered hold-button message.")]
-        public int holdButtonThrottle = 2;
+        public float holdButtonThrottle = 75f;
 
         [Tooltip("GameObject that has the focus of the input and will receive the messages.")]
         public GameObject target;
