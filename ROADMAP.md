@@ -153,6 +153,24 @@ Goal: Smooth interactions, clear feedback, robust contributor onboarding.
 
 ---
 
+## Folder Map (miff/pure/)
+
+| Folder         | Purpose                             |
+|----------------|-------------------------------------|
+| BattleAIPure   | AI logic and test harness           |
+| EffectsPure    | Status effects and aggregator       |
+| TeamsPure      | Party composition and swap logic    |
+| LorePure       | Codex unlocks and lore flags        |
+| SyncPure       | Rhythm challenge and sync logic     |
+| ItemsPure      | Item usage flow and results         |
+| QuestsPure     | Objectives, flags, and progression  |
+| SpiritsPure    | Dex filters, sorting, and queries   |
+| EvolutionPure  | Evolution conditions and results    |
+| NPCsPure       | NPC data and interactions (stub)    |
+| FusionPure     | Fusion rules (experimental, stub)   |
+
+---
+
 ## Reality Check: Already Scaffolded vs Still Needed
 
 ### Already Scaffolded (Synced into `miff/pure/`)
