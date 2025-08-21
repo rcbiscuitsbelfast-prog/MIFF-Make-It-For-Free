@@ -2,9 +2,10 @@
 
 ## CLI Harness Coverage
 
-| Module               | CLI Harness | Simulates                                           |
-|----------------------|-------------|-----------------------------------------------------|
-| WorldEnhancementsPure| ✅           | overlay/lighting/timed/zone commands                |
+| Module           | CLI Harness | Simulates                                           |
+|------------------|-------------|-----------------------------------------------------|
+| WorldLayoutPure  | ✅           | loadMap/defineZone/linkTrigger                      |
+| MovementPure     | ✅           | assignMovement/simulateTick/setFollowTarget         |
 
 ## Systems Overview
 
@@ -82,6 +83,11 @@
   - Status: v1 core added: `WorldEnhancementsManager` facade with `OverlayManager`, `LightingManager`, `TimedEventManager`, `ZoneTriggerManager`.
   - Gaps: No in-game bindings to actual overlays/lights yet; sample logging only.
   - Next: Implement real overlay shaders/Canvas, hook timed events to gameplay.
+
+- World Layout and NPC Movement
+  - Status: v1 core added: `MapManager` (zones, map load stubs), `NPCMovementManager` (patterns: idle/patrol/follow/flee) with simulation hooks.
+  - Gaps: No real navmesh/tile system yet; movement not tied to physics.
+  - Next: Integrate with tile-based grid, add AI behavior profiles and collision.
 
 ## Technical Debt and Fixes
 
