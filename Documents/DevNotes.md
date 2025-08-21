@@ -41,6 +41,8 @@
 - Schema version bumped to 9 (doc sync); see ROADMAP for details.
 - Schema version bumped to 10 to include XP/Leveling (`xp`, `levels`).
 - Migration: `SaveManager.Load()` initializes `xp` and `levels` if missing.
+ - Schema version bumped to 11 to include `saves` map and `currentSlot` for SaveLoadPure.
+ - Migration: Legacy v10 data is wrapped into `saves["migrated-xp"]` as a v11 snapshot by SaveLoadPure.
 
 ## XPLevelingPure
 - Managers: `XPManager` (runtime XP/level) and `LevelUpManager` (curve loader)
@@ -77,6 +79,7 @@
 - LorePure: npx ts-node --compiler-options '{"module":"commonjs"}' LorePure/cliHarness.ts LorePure/sample_commands.json
 - SettingsPure: npx ts-node --compiler-options '{"module":"commonjs"}' SettingsPure/cliHarness.ts SettingsPure/sample_init.json SettingsPure/sample_commands.json
 - AudioMixerPure: npx ts-node --compiler-options '{"module":"commonjs"}' AudioMixerPure/cliHarness.ts AudioMixerPure/sample_commands.json
+ - SaveLoadPure: npx ts-node --compiler-options '{"module":"commonjs"}' SaveLoadPure/cliHarness.ts SaveLoadPure/tests/sample_commands.json Assets/Resources/saves/save_state.json
 
 ## World Enhancements
 - OverlayManager: fade/tint/flash stubs
