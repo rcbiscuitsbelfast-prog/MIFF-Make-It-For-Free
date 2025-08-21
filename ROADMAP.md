@@ -19,7 +19,7 @@ Guiding principles:
 - [x] Branching policy adopted (one branch per scaffold/update)
 - [x] Roadmap v2 (this document) with phases and checklists
 - [x] README aligned to Newhaven scope and non‑Unity stance
-- [ ] Data schema stubs drafted with validation strategy
+- [x] Data schema stubs drafted with validation strategy
 - [x] CLI harness skeleton (seedable, deterministic)
 - [x] Battle turn manager prototype
 
@@ -35,19 +35,19 @@ Goal: Deterministic, seedable battle simulation proving core combat.
 
 - Code Scaffolding
   - [x] Data Schemas (JSON + validation)
-    - [ ] `Spirit` (id, stats, types/tags, learnset refs)
-    - [ ] `Move` (id, category, power, accuracy, cost, tags)
-    - [ ] `StatusEffect` (id, duration, stacking, immunity tags)
-    - [ ] `Item` (id, type, effect hooks)
+    - [x] `Spirit` (id, stats, types/tags, learnset refs)
+    - [x] `Move` (id, category, power, accuracy, cost, tags)
+    - [x] `StatusEffect` (id, duration, stacking, immunity tags)
+    - [x] `Item` (id, type, effect hooks)
     - [x] `EncounterTable` (zone, weights, level ranges)
     - [x] JSON schema + validator and fixtures
-  - [ ] Battle Core
+  - [x] Battle Core
     - [x] Turn manager and phases (pre, select, resolve, end)
     - [x] Action queue with speed/priority ordering
     - [x] Deterministic RNG provider (seed injectable)
     - [x] Damage formula and type/resistance hooks
     - [x] Status/effect resolution order and timing
-    - [x] Win/lose/escape conditions
+    - [x] Win/lose/escape conditions (EscapeLogic)
   - [x] AI Baseline
     - [x] Rule evaluators (hp threshold, type advantage, PP/cost, kill‑secure)
     - [x] Simple priority model with weights
@@ -56,6 +56,7 @@ Goal: Deterministic, seedable battle simulation proving core combat.
     - [x] Start battle with seed, dump battle log
     - [x] Golden tests for canonical matchups
     - [x] Performance timing on hot paths
+
 - Asset Integration (optional at M0)
   - [ ] None required; use text logs and mock data
 - Loop Linkage
@@ -72,10 +73,10 @@ Goal: Trigger battles via Newhaven encounter tables, manage party swaps and KO.
   - [x] Team/Party Management
     - [x] Roster and active party slots
     - [x] Swap/KO/faint handling and post‑battle heal hook
-    - [ ] Reward grant stub (currency/item/xp placeholder)
+    - [x] Reward grant stub (currency/item/xp placeholder)
   - [x] Save/Load v1
     - [x] Versioned JSON snapshot + checksum
-    - [ ] Migration scaffold
+    - [x] Migration scaffold
   - [x] Input Abstraction
     - [x] Rebindable actions; keyboard/controller mapping model
   - [x] Minimal UI model
@@ -95,15 +96,15 @@ Goal: Progress feels meaningful; effects impact strategy; basic loot.
   - [x] Progression
     - [x] XP curves, level‑up, learnset unlocks
     - [x] Evolution conditions framework (level, item, quest flag)
-  - [ ] Status Effects
-    - [ ] Buff/debuff stack rules (flat/percent, additive/multiplicative)
-    - [ ] Timers (turns/seconds) and dispel/cleanse hooks
-    - [ ] Immunity and overwrite rules
-  - [ ] Rewards
-    - [ ] Currency/items/xp distribution
-    - [ ] Drop tables and rarity weights
-  - [ ] Lore/Codex hooks
-    - [ ] Unlock entries on discover/defeat/evolve
+  - [x] Status Effects
+    - [x] Buff/debuff stack rules (flat/percent, additive/multiplicative)
+    - [x] Timers (turns/seconds) and dispel/cleanse hooks
+    - [x] Immunity and overwrite rules
+  - [x] Rewards
+    - [x] Currency/items/xp distribution
+    - [x] Drop tables and rarity weights
+  - [x] Lore/Codex hooks
+    - [x] Unlock entries on discover/defeat/evolve
 - Asset Integration
   - [ ] Placeholder icons for effects and items
   - [ ] Basic codex entries for Newhaven spirits and landmarks
@@ -213,11 +214,12 @@ Underdocumented but present:
 | Input        | ✅           | Mapping and rebind                |
 | HUD          | ✅           | Print before/after resolve        |
 | Progression  | ✅           | XP gain, unlocks, evolution       |
+| Rewards      | ✅           | Currency/xp/item stub + drops     |
+| StatusEffects| ✅           | Stacks, timers, cleanse           |
+| Events       | ✅           | Publish/subscribe bus             |
 
 ### Still Needed (High‑Priority for Newhaven)
 
-- Reward currency/item/xp flow post-battle (full integration)
-- Event bus abstraction
 - Additional golden tests and broader fixtures
 
 ---
