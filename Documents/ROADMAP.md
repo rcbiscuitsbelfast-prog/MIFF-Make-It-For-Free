@@ -3,14 +3,14 @@
 ## Completed Systems
 
 - InventoryPure
-- DialogPure
 - QuestsPure
 - NPCsPure
 - ZonesPure
 - CodexPure
 - SaveMigration
-- InventoryManager
+- XPLevelingPure (v1 core)
 - DialogManager
+- InventoryManager
 - QuestManager
 - SaveManager
 - ZoneManager
@@ -21,7 +21,6 @@
 - CombatPure
 - SaveLoadPure
 - AIProfilesPure
-- XPLevelingPure
 - StatusEffectsPure
 - FusionPure
 - CraftingPure
@@ -46,6 +45,7 @@ Note: Current schema version is v10. Next bumps will integrate CombatPure deeper
 | InventoryPure  | ✅           | Add/remove items, inspect, quest reward hooks       |
 | QuestsPure     | ✅           | Quest flow and gating                               |
 | NPCsPure       | ✅           | Dialog + quest flag simulation                      |
+| DialogPure     | 🔜           | CLI harness pending                                  |
 
 ## Systems Overview
 
