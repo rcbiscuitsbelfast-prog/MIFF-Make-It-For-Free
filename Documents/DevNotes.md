@@ -69,3 +69,12 @@
 - LorePure: npx ts-node --compiler-options '{"module":"commonjs"}' LorePure/cliHarness.ts LorePure/sample_commands.json
 - SettingsPure: npx ts-node --compiler-options '{"module":"commonjs"}' SettingsPure/cliHarness.ts SettingsPure/sample_init.json SettingsPure/sample_commands.json
 - AudioMixerPure: npx ts-node --compiler-options '{"module":"commonjs"}' AudioMixerPure/cliHarness.ts AudioMixerPure/sample_commands.json
+
+## World Enhancements
+- OverlayManager: fade/tint/flash stubs
+- LightingManager: ambient presets (day/dusk/night)
+- TimedEventManager: schedule and repeat events (logs)
+- ZoneTriggerManager: define zones and log enter/exit
+
+## CLI
+- WorldEnhancementsPure: npx ts-node --compiler-options '{"module":"commonjs"}' WorldEnhancementsPure/cliHarness.ts WorldEnhancementsPure/sample_commands.json

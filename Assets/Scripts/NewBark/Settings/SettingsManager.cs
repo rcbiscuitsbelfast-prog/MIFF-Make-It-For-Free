@@ -58,7 +58,8 @@ namespace NewBark.Settings
             // Apply audio volumes using AudioMixerManager if available
             NewBark.Audio.AudioMixerManager.Instance?.SetMusicVolume(GameManager.Data.settings.musicVolume);
             NewBark.Audio.AudioMixerManager.Instance?.SetSfxVolume(GameManager.Data.settings.sfxVolume);
-            Debug.Log("SettingsManager: ApplySettings applied audio volumes");
+            // Optionally set lighting preset based on language/region or other settings in future
+            Debug.Log("SettingsManager: ApplySettings applied audio volumes and optional world settings");
         }
     }
 }

@@ -13,6 +13,7 @@ using NewBark.Localization;
 using NewBark.Creatures;
 using NewBark.Lore;
 using NewBark.Settings;
+using NewBark.World;
 
 namespace NewBark
 {
@@ -113,6 +114,13 @@ namespace NewBark
                 var go11 = new GameObject("AudioMixerManager");
                 go11.AddComponent<AudioMixerManager>();
                 Debug.Log("AudioMixerManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure WorldEnhancementsManager exists
+            if (WorldEnhancementsManager.Instance == null)
+            {
+                var go12 = new GameObject("WorldEnhancementsManager");
+                go12.AddComponent<WorldEnhancementsManager>();
+                Debug.Log("WorldEnhancementsManager was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 
