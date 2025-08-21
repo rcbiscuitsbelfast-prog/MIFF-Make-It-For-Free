@@ -2,11 +2,11 @@
 
 ## CLI Harness Coverage
 
-| Module   | CLI Harness | Simulates                         |
-|----------|-------------|-----------------------------------|
-| NPCsPure | ✅           | Dialog + quest flag simulation    |
-
-Note: NPCsPure CLI harness added with seedable interaction flow.
+| Module        | CLI Harness | Simulates                                      |
+|---------------|-------------|------------------------------------------------|
+| NPCsPure      | ✅           | Dialog + quest flag simulation                 |
+| QuestsPure    | ✅           | Quest flow and gating                          |
+| InventoryPure | ✅           | Add/remove items, inspect, quest reward hooks  |
 
 ## Systems Overview
 
@@ -60,6 +60,11 @@ Note: NPCsPure CLI harness added with seedable interaction flow.
   - Gaps: No quest editor, dialog editor, or tile metadata tools.
   - Next: Create ScriptableObject-based quest and dialog editors.
 
+- Inventory System
+  - Status: Core InventoryManager added (singleton, DontDestroyOnLoad), JSON persistence via `GameData.inventory`.
+  - Gaps: No in-game UI beyond stub; no item metadata registry; no stacking limits.
+  - Next: ScriptableObject ItemDatabase, in-game UI, and item pickup interactions.
+
 ## Technical Debt and Fixes
 
 - Fixed: Editor-only import in `PlayerController.cs` guarded by `#if UNITY_EDITOR`.
@@ -68,6 +73,7 @@ Note: NPCsPure CLI harness added with seedable interaction flow.
 - Fixed: Input hold throttle set to 75ms (float).
 - Fixed: QuestManager auto-instantiated by `GameManager.Awake()` (DontDestroyOnLoad); added debug log.
 - Fixed: Migration hook in `SaveManager.Load()` initializes empty QuestState for schema < 3.
+- Fixed: Inventory schema v4 with migration; InventoryManager auto-instantiated.
 - Pending: Replace SendMessage usages with events/interfaces.
 - Pending: Add unit tests for dialog pagination, movement clamp, and teleport edge cases.
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NewBark.State;
 using UnityEngine;
+using NewBark.InventoryPure;
 
 namespace NewBark.QuestsPure
 {
@@ -54,6 +55,12 @@ namespace NewBark.QuestsPure
             var entry = GetOrCreate(id);
             entry.step = step;
             if (!string.IsNullOrEmpty(status)) entry.status = status;
+        }
+
+        public void RewardItem(string itemId, int quantity = 1)
+        {
+            InventoryManager.Instance.AddItem(itemId, quantity);
+            Debug.Log($"Quest Reward: +{quantity} {itemId}");
         }
 
         public bool IsCompleted(string id)

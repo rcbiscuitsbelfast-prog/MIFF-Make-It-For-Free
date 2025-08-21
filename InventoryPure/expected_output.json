@@ -1,0 +1,12 @@
+{
+  "log": [
+    "ADD potion x2 -> 2",
+    "ADD pokeball x1 -> 1",
+    "REM potion x1 -> 1",
+    "INV [[\"potion\",1],[\"pokeball\",1]]"
+  ],
+  "inventory": [
+    {"id":"potion","quantity":1},
+    {"id":"pokeball","quantity":1}
+  ]
+}

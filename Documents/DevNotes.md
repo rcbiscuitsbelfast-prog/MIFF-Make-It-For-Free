@@ -28,7 +28,17 @@
 ## GameData Schema and Migration
 - Schema version bumped to 3 to include `quests` list for QuestState.
 - Migration: `SaveManager.Load()` initializes `quests` if missing and logs migration.
+- Schema version bumped to 4 to include `inventory` list for items.
+- Migration: `SaveManager.Load()` initializes `inventory` if missing and logs migration.
 
 ## Scene Setup: QuestManager Lifecycle
 - `QuestManager` is auto-instantiated by `GameManager.Awake()` if missing, and marked `DontDestroyOnLoad`.
 - For explicit scene setup, you may add a `QuestManager` GameObject to `Main.unity`.
+
+## Scene Setup: InventoryManager Lifecycle
+- `InventoryManager` is auto-instantiated by `GameManager.Awake()` if missing, and marked `DontDestroyOnLoad`.
+- `InventoryUI` stub logs Open/Close and can be wired to a menu later.
+
+## CLI
+- QuestsPure: npx ts-node --compiler-options '{"module":"commonjs"}' QuestsPure/cliHarness.ts QuestsPure/sample_quest_npc.json 1234
+- InventoryPure: npx ts-node --compiler-options '{"module":"commonjs"}' InventoryPure/cliHarness.ts InventoryPure/sample_commands.json
