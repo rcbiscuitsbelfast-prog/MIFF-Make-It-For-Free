@@ -1,0 +1,8 @@
+[
+  { "op": "listEquipment" },
+  { "op": "equip", "itemId": "dragon_lance", "slot": "weapon" },
+  { "op": "equip", "itemId": "frost_armor", "slot": "armor" },
+  { "op": "dumpModifiers" },
+  { "op": "unequip", "slot": "weapon" },
+  { "op": "syncInventory" }
+]
