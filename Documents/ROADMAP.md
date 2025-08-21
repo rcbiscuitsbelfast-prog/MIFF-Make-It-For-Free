@@ -66,6 +66,8 @@ Note: NPCsPure CLI harness added with seedable interaction flow.
 - Fixed: Snap/clamp behavior corrected in `MovePath.ClampAxis`.
 - Fixed: Save system now JSON-based; removed BinaryFormatter.
 - Fixed: Input hold throttle set to 75ms (float).
+- Fixed: QuestManager auto-instantiated by `GameManager.Awake()` (DontDestroyOnLoad); added debug log.
+- Fixed: Migration hook in `SaveManager.Load()` initializes empty QuestState for schema < 3.
 - Pending: Replace SendMessage usages with events/interfaces.
 - Pending: Add unit tests for dialog pagination, movement clamp, and teleport edge cases.
 

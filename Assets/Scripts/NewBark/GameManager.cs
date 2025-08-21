@@ -7,6 +7,7 @@ using NewBark.Support;
 using NewBark.Tilemap;
 using UnityEngine;
 using UnityEngine.Events;
+using NewBark.QuestsPure;
 
 namespace NewBark
 {
@@ -28,6 +29,17 @@ namespace NewBark
         public UnityEvent onBeforeLoadState;
         public UnityEvent onBeforeSaveState;
         public UnityEvent onSaveState;
+
+        private void Awake()
+        {
+            // Ensure QuestManager exists before state load
+            if (QuestManager.Instance == null)
+            {
+                var go = new GameObject("QuestManager");
+                go.AddComponent<QuestManager>();
+                Debug.Log("QuestManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+        }
 
         private void Start()
         {

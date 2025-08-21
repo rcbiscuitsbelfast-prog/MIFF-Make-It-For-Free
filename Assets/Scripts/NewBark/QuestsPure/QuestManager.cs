@@ -20,6 +20,7 @@ namespace NewBark.QuestsPure
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("QuestManager initialized (singleton, DontDestroyOnLoad).");
         }
 
         private void Start()
