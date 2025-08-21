@@ -96,6 +96,11 @@ if (data.codex.unlocked == null)
 {
     data.codex.unlocked = new System.Collections.Generic.List<string>();
 }
+// Migration hook: initialize settings for schema < 8
+if (data.settings == null)
+{
+    data.settings = new GameData.Settings();
+}
 
 Debug.Log("Game LOADED. ");
 return data;

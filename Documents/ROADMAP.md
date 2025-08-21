@@ -9,6 +9,7 @@
 | InventoryPure  | ✅           | Add/remove items, inspect, quest reward hooks       |
 | CreaturesPure  | ✅           | Create/swap/remove party; encounter and capture     |
 | LorePure       | ✅           | Load/list/unlock lore; dump codex                   |
+| SettingsPure   | ✅           | get/set/reset/dump settings                         |
 
 ## Systems Overview
 
@@ -77,6 +78,11 @@
   - Gaps: No in-game UI; no search/filter UI.
   - Next: Build Codex UI, integrate unlocks with quests/encounters and achievements.
 
+- Settings System
+  - Status: v1 core added: `GameData` v8 settings (musicVolume, sfxVolume, language, showSubtitles), `SettingsManager` with get/set/apply.
+  - Gaps: No in-game UI; no platform sync.
+  - Next: Build Settings UI, hook ApplySettings to audio/localization.
+
 ## Technical Debt and Fixes
 
 - Fixed: Inventory schema v4 with migration; InventoryManager auto-instantiated.
@@ -89,6 +95,7 @@
 - Fixed: Input hold throttle set to 75ms (float).
 - Fixed: QuestManager auto-instantiated by `GameManager.Awake()` (DontDestroyOnLoad); added debug log.
 - Fixed: Migration hook in `SaveManager.Load()` initializes empty QuestState for schema < 3.
+- Fixed: Settings schema v8 with migration; SettingsManager auto-instantiated.
 - Pending: Replace SendMessage usages with events/interfaces.
 - Pending: Add unit tests for dialog pagination, movement clamp, and teleport edge cases.
 
