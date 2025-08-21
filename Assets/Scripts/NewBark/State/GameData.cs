@@ -7,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 8;
+        public static readonly int SchemaVersion = 9;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;

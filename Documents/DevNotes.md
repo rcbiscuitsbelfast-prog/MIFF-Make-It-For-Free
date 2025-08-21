@@ -85,3 +85,23 @@
 - Core engine in TS: `CombatPure/engine.ts`
 - Hooks: InventoryHook (items), AIHook (pickAction), SaveHook (onCheckpoint)
 - CLI: npx ts-node --compiler-options '{"module":"commonjs"}' CombatPure/cliHarness.ts CombatPure/sample_commands.json
+
+## Completed Systems - Lifecycle Notes
+- InventoryPure/InventoryManager: JSON-persisted inventory, CLI for add/remove/inspect; game runtime via `InventoryManager` singleton.
+- DialogPure/DialogManager: Pagination, branching, localization integration; CLI for dialog flow.
+- QuestsPure/QuestManager: Quest flags, gating, triggers; CLI for quest simulation.
+- NPCsPure: Interaction triggers and dialog; CLI present under NPCsPure.
+- ZonesPure/ZoneTriggerManager: Define zones and link enter/exit triggers; CLI via WorldEnhancementsPure and WorldLayoutPure.
+- CodexPure/CodexManager: Lore unlocks and lookup; CLI for load/list/unlock.
+- SaveMigration/SaveManager: Versioned JSON save/load with migration hooks.
+
+## Pending Systems - TODO
+- SaveLoadPure: TODO - define multi-slot saves, autosave, rollback checkpoints.
+- AIProfilesPure: TODO - define behavior trees/profiles for NPCs/enemies.
+- XPLevelingPure: TODO - leveling curves, experience gain, level-up rewards.
+- StatusEffectsPure: TODO - buffs/debuffs with durations and resistances.
+- FusionPure: TODO - creature fusion mechanics and outcomes.
+- CraftingPure: TODO - item recipes and crafting stations.
+- EquipmentPure: TODO - gear slots, stat modifiers, and loadouts.
+- VendorsPure: TODO - buy/sell economy, inventory refresh.
+- InputPure: TODO - decoupled input abstraction with remapping.
