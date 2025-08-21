@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace NewBark.State
@@ -36,35 +35,28 @@ namespace NewBark.State
         }
 
         public static void Save(GameData data)
-        {
-            var stream = new FileStream(GetSaveFileName(), FileMode.Create);
-
-            var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, data);
-            stream.Close();
-
-            Debug.Log("Game SAVED. " + GetPlayTime(data));
-        }
+{
+    var json = JsonUtility.ToJson(data);
+    File.WriteAllText(GetSaveFileName(), json);
+    Debug.Log("Game SAVED. " + GetPlayTime(data));
+}
 
         public static GameData Load()
-        {
-            var fileName = FindSaveFileName();
-            if (fileName == null) return null;
+{
+    var fileName = FindSaveFileName();
+    if (fileName == null) return null;
 
-            var stream = new FileStream(fileName, FileMode.Open);
-            if (stream.Length == 0)
-            {
-                stream.Close();
-                return null;
-            }
+    var json = File.ReadAllText(fileName);
+    if (string.IsNullOrEmpty(json))
+    {
+        return null;
+    }
 
-            var formatter = new BinaryFormatter();
-            var data = formatter.Deserialize(stream) as GameData;
-            stream.Close();
+    var data = JsonUtility.FromJson<GameData>(json);
 
-            Debug.Log("Game LOADED. ");
-            return data;
-        }
+    Debug.Log("Game LOADED. ");
+    return data;
+}
 
         private static string GetPlayTime(GameData data)
         {

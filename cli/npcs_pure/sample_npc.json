@@ -1,0 +1,9 @@
+{
+  "name": "SampleNPC",
+  "start_id": "greet",
+  "dialog": [
+    {"id": "greet", "text": "Hello trainer!", "next_id": "quest"},
+    {"id": "quest", "text": "Could you fetch a potion?", "set_flag": "quest_started", "next_id": "end"},
+    {"id": "end", "text": "Good luck!"}
+  ]
+}
