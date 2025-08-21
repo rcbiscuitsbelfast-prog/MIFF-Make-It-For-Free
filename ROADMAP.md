@@ -116,14 +116,14 @@ Goal: Progress feels meaningful; effects impact strategy; basic loot.
 Goal: Minimal presentation layer via adapters; still engine‑agnostic.
 
 - Code Scaffolding
-  - [ ] Render Adapter Interface
-    - [ ] HUD binding layer; health bars, status badges, dialog
-    - [ ] Event bus → UI adapter mapping
-  - [ ] Audio Adapter Interface
-    - [ ] SFX/Music events and categories
-    - [ ] Seeded variation for repeated actions
-  - [ ] Data Tooling
-    - [ ] Lints, schema docs, fixtures, golden tests
+  - [x] Render Adapter Interface
+    - [x] HUD binding layer; health bars, status badges, dialog
+    - [x] Event bus → UI adapter mapping
+  - [x] Audio Adapter Interface
+    - [x] SFX/Music events and categories
+    - [x] Seeded variation for repeated actions
+  - [x] Data Tooling
+    - [x] Lints, schema docs, fixtures, golden tests
 - Asset Integration
   - [ ] Remix‑safe sprite placeholders (spirits/moves/UI skin)
   - [ ] SFX set (UI, hit, ambient Newhaven loop)
@@ -217,10 +217,14 @@ Underdocumented but present:
 | Rewards      | ✅           | Currency/xp/item stub + drops     |
 | StatusEffects| ✅           | Stacks, timers, cleanse           |
 | Events       | ✅           | Publish/subscribe bus             |
+| Render       | ✅           | CLI HUD/dialog adapters           |
+| Audio        | ✅           | CLI SFX/music adapters            |
+| Tooling      | ✅           | Linter/generator/golden runner    |
 
 ### Still Needed (High‑Priority for Newhaven)
 
 - Additional golden tests and broader fixtures
+- Optional: placeholder asset integration checklist (sprites, HUD skins, SFX)
 
 ---
 
@@ -282,7 +286,7 @@ Underdocumented but present:
 - [x] M0: Data + battle loop prototype (CLI, text‑only)
 - [x] M1: Newhaven encounters + party management
 - [x] M2: Progression + status effects + rewards
-- [ ] M3: Remix‑safe assets + adapter stubs (render/audio)
+- [x] M3: Remix‑safe assets + adapter stubs (render/audio)
 - [ ] M4: Polishing, QA scenarios, contributor docs
 
 ---
