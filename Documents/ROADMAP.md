@@ -2,11 +2,12 @@
 
 ## CLI Harness Coverage
 
-| Module        | CLI Harness | Simulates                                      |
-|---------------|-------------|------------------------------------------------|
-| NPCsPure      | ✅           | Dialog + quest flag simulation                 |
-| QuestsPure    | ✅           | Quest flow and gating                          |
-| InventoryPure | ✅           | Add/remove items, inspect, quest reward hooks  |
+| Module         | CLI Harness | Simulates                                           |
+|----------------|-------------|-----------------------------------------------------|
+| NPCsPure       | ✅           | Dialog + quest flag simulation                      |
+| QuestsPure     | ✅           | Quest flow and gating                               |
+| InventoryPure  | ✅           | Add/remove items, inspect, quest reward hooks       |
+| CreaturesPure  | ✅           | Create/swap/remove party; encounter and capture     |
 
 ## Systems Overview
 
@@ -65,15 +66,22 @@
   - Gaps: No in-game UI beyond stub; no item metadata registry; no stacking limits.
   - Next: ScriptableObject ItemDatabase, in-game UI, and item pickup interactions.
 
+- Creatures and Party System
+  - Status: v1 core added: `GameData` v6 with creatures and party, `PartyManager`, `SpeciesDatabase`, `CreatureFactory`, `EncounterManager`.
+  - Gaps: No battle system; no storage box UI; no move learning/XP.
+  - Next: Add storage box, leveling/XP and move learning, and basic battle loop.
+
 ## Technical Debt and Fixes
 
+- Fixed: Inventory schema v4 with migration; InventoryManager auto-instantiated.
+- Fixed: Dialog schema v5 with migration; Localization and DialogManager added.
+- Fixed: Creatures schema v6 with migration; Party/Encounter systems added.
 - Fixed: Editor-only import in `PlayerController.cs` guarded by `#if UNITY_EDITOR`.
 - Fixed: Snap/clamp behavior corrected in `MovePath.ClampAxis`.
 - Fixed: Save system now JSON-based; removed BinaryFormatter.
 - Fixed: Input hold throttle set to 75ms (float).
 - Fixed: QuestManager auto-instantiated by `GameManager.Awake()` (DontDestroyOnLoad); added debug log.
 - Fixed: Migration hook in `SaveManager.Load()` initializes empty QuestState for schema < 3.
-- Fixed: Inventory schema v4 with migration; InventoryManager auto-instantiated.
 - Pending: Replace SendMessage usages with events/interfaces.
 - Pending: Add unit tests for dialog pagination, movement clamp, and teleport edge cases.
 

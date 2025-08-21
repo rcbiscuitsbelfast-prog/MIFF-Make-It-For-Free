@@ -10,6 +10,7 @@ using UnityEngine.Events;
 using NewBark.QuestsPure;
 using NewBark.InventoryPure;
 using NewBark.Localization;
+using NewBark.Creatures;
 
 namespace NewBark
 {
@@ -61,6 +62,27 @@ namespace NewBark
                 var go4 = new GameObject("DialogManager");
                 go4.AddComponent<DialogManager>();
                 Debug.Log("DialogManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure PartyManager exists
+            if (PartyManager.Instance == null)
+            {
+                var go5 = new GameObject("PartyManager");
+                go5.AddComponent<PartyManager>();
+                Debug.Log("PartyManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure EncounterManager exists
+            if (EncounterManager.Instance == null)
+            {
+                var go6 = new GameObject("EncounterManager");
+                go6.AddComponent<EncounterManager>();
+                Debug.Log("EncounterManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure SpeciesDatabase exists
+            if (SpeciesDatabase.Instance == null)
+            {
+                var go7 = new GameObject("SpeciesDatabase");
+                go7.AddComponent<SpeciesDatabase>();
+                Debug.Log("SpeciesDatabase was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 

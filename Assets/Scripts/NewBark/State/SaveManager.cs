@@ -78,6 +78,15 @@ if (data.dialogs == null)
     data.dialogs = new System.Collections.Generic.List<GameData.DialogEntry>();
     Debug.Log("SaveManager: Migrated GameData to schema v5 - initialized empty Dialogs store.");
 }
+// Migration hook: initialize creatures/party for schema < 6
+if (data.creatures == null)
+{
+    data.creatures = new System.Collections.Generic.List<GameData.CreatureEntry>();
+}
+if (data.party == null)
+{
+    data.party = new System.Collections.Generic.List<string>();
+}
 
 Debug.Log("Game LOADED. ");
 return data;

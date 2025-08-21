@@ -1,0 +1,10 @@
+[
+  {"op":"create","speciesId":"sprout","level":3},
+  {"op":"create","speciesId":"ember","level":4},
+  {"op":"party:add","id":"$0"},
+  {"op":"party:add","id":"$1"},
+  {"op":"party:swap","a":0,"b":1},
+  {"op":"encounter:start","speciesId":"aqua","level":2},
+  {"op":"encounter:capture","id":"$2"},
+  {"op":"dump"}
+]
