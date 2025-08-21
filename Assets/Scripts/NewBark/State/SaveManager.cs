@@ -72,6 +72,12 @@ if (data.inventory == null)
     data.inventory = new System.Collections.Generic.List<GameData.ItemEntry>();
     Debug.Log("SaveManager: Migrated GameData to schema v4 - initialized empty Inventory.");
 }
+// Migration hook: initialize dialogs for schema < 5
+if (data.dialogs == null)
+{
+    data.dialogs = new System.Collections.Generic.List<GameData.DialogEntry>();
+    Debug.Log("SaveManager: Migrated GameData to schema v5 - initialized empty Dialogs store.");
+}
 
 Debug.Log("Game LOADED. ");
 return data;

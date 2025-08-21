@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using NewBark.QuestsPure;
 using NewBark.InventoryPure;
+using NewBark.Localization;
 
 namespace NewBark
 {
@@ -46,6 +47,20 @@ namespace NewBark
                 var go2 = new GameObject("InventoryManager");
                 go2.AddComponent<InventoryManager>();
                 Debug.Log("InventoryManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure LocalizationManager exists
+            if (LocalizationManager.Instance == null)
+            {
+                var go3 = new GameObject("LocalizationManager");
+                go3.AddComponent<LocalizationManager>();
+                Debug.Log("LocalizationManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure DialogManager exists
+            if (DialogManager.Instance == null)
+            {
+                var go4 = new GameObject("DialogManager");
+                go4.AddComponent<DialogManager>();
+                Debug.Log("DialogManager was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 

@@ -1,0 +1,14 @@
+{
+  "keys": [
+    "dlg.greeting",
+    "choice.yes",
+    "choice.no",
+    "dlg.thanks"
+  ],
+  "values": [
+    "Bonjour !",
+    "Oui",
+    "Non",
+    "Merci !"
+  ]
+}
