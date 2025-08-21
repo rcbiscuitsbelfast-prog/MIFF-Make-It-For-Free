@@ -32,6 +32,7 @@ namespace MIFF.Spirits
         
         // Core components
         private SpiritDexManager spiritDexManager;
+        private List<SpiritDexEntry> currentView = new List<SpiritDexEntry>();
         private ViewMode currentViewMode;
         private SpiritDexFilter currentFilter;
         private SpiritDexSortCriteria currentSortBy;
@@ -45,6 +46,28 @@ namespace MIFF.Spirits
         public SpiritDexViewer()
         {
             InitializeViewer();
+        }
+
+        // Extension: Apply external filter/sort for headless usage
+        public void ApplyFilter(MIFF.SpiritsPure.SpiritDexFilter filter,
+                                IDictionary<string, int> spiritIdToSync = null,
+                                ISet<string> unlockedLoreIds = null)
+        {
+            var all = spiritDexManager.GetAllEntries();
+            currentView = filter?.Apply(all, spiritIdToSync, unlockedLoreIds) ?? new List<SpiritDexEntry>(all);
+        }
+
+        public void ApplySort(MIFF.SpiritsPure.SortOption option,
+                               IDictionary<string, int> spiritIdToSync = null,
+                               IDictionary<string, DateTime> spiritIdToCaptureDate = null)
+        {
+            var sorter = new MIFF.SpiritsPure.SpiritDexSorter();
+            currentView = sorter.Sort(currentView.Count > 0 ? currentView : spiritDexManager.GetAllEntries(), option, spiritIdToSync, spiritIdToCaptureDate);
+        }
+
+        public void ResetView()
+        {
+            currentView = spiritDexManager.GetAllEntries();
         }
         
         /// <summary>
