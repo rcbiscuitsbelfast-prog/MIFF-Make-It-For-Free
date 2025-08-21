@@ -107,6 +107,13 @@ namespace NewBark
                 go10.AddComponent<SettingsManager>();
                 Debug.Log("SettingsManager was missing in scene. Auto-instantiated by GameManager.");
             }
+            // Ensure AudioMixerManager exists
+            if (AudioMixerManager.Instance == null)
+            {
+                var go11 = new GameObject("AudioMixerManager");
+                go11.AddComponent<AudioMixerManager>();
+                Debug.Log("AudioMixerManager was missing in scene. Auto-instantiated by GameManager.");
+            }
         }
 
         private void Start()

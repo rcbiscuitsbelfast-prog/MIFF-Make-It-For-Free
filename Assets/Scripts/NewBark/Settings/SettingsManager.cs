@@ -55,8 +55,10 @@ namespace NewBark.Settings
 
         public void ApplySettings()
         {
-            // Optional: hook into audio/localization subsystems in future
-            Debug.Log("SettingsManager: ApplySettings called");
+            // Apply audio volumes using AudioMixerManager if available
+            NewBark.Audio.AudioMixerManager.Instance?.SetMusicVolume(GameManager.Data.settings.musicVolume);
+            NewBark.Audio.AudioMixerManager.Instance?.SetSfxVolume(GameManager.Data.settings.sfxVolume);
+            Debug.Log("SettingsManager: ApplySettings applied audio volumes");
         }
     }
 }

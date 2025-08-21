@@ -10,6 +10,7 @@
 | CreaturesPure  | ✅           | Create/swap/remove party; encounter and capture     |
 | LorePure       | ✅           | Load/list/unlock lore; dump codex                   |
 | SettingsPure   | ✅           | get/set/reset/dump settings                         |
+| AudioMixerPure | ✅           | setVolume (music/sfx), dumpMixerState               |
 
 ## Systems Overview
 
