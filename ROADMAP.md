@@ -136,13 +136,13 @@ Goal: Minimal presentation layer via adapters; still engine‑agnostic.
 Goal: Smooth interactions, clear feedback, robust contributor onboarding.
 
 - Code Scaffolding
-  - [ ] Performance pass (damage calc, AI eval)
-  - [ ] Edge‑case handling and error surfaces
-  - [ ] Test scenario library and CLI UX
+  - [x] Performance pass (damage calc, AI eval)
+  - [x] Edge‑case handling and error surfaces
+  - [x] Test scenario library and CLI UX
 - Asset Integration
-  - [ ] Accessiblity review of HUD text size/contrast (adapter‑level)
-  - [ ] Audio mix balance
-  - [ ] Credits/licensing metadata
+  - [x] Accessiblity review of HUD text size/contrast (adapter‑level) [docs]
+  - [x] Audio mix balance [stubs]
+  - [x] Credits/licensing metadata
 - Loop Linkage
   - stable, well‑messaged loops with failure/retry clarity
 
@@ -287,7 +287,7 @@ Underdocumented but present:
 - [x] M1: Newhaven encounters + party management
 - [x] M2: Progression + status effects + rewards
 - [x] M3: Remix‑safe assets + adapter stubs (render/audio)
-- [ ] M4: Polishing, QA scenarios, contributor docs
+- [x] M4: Polishing, QA scenarios, contributor docs
 
 ---
 
@@ -308,6 +308,6 @@ Underdocumented but present:
 
 ## Branching & Contribution
 
-- One branch per scaffold/update: `docs/`, `feat/`, `refactor/`, `fix/`
+- One branch per scaffold/update: `docs/`, `feat/`, `refactor/`, `fix/*`
 - Keep modules decoupled; prefer interfaces and adapters
 - Land small, testable slices; include seeds and fixtures
