@@ -101,6 +101,9 @@ if (data.settings == null)
 {
     data.settings = new GameData.Settings();
 }
+// Migration hook: initialize XP/Levels for schema < 10
+if (data.xp == null) { data.xp = new System.Collections.Generic.List<GameData.XPEntry>(); }
+if (data.levels == null) { data.levels = new System.Collections.Generic.List<GameData.LevelEntry>(); }
 
 Debug.Log("Game LOADED. ");
 return data;

@@ -7,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 9;
+        public static readonly int SchemaVersion = 10;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;
@@ -129,5 +129,32 @@ namespace NewBark.State
         // Codex data and optional preload lore database
         public Codex codex = new Codex();
         public List<LoreEntry> loreEntries = new List<LoreEntry>();
+
+        // XP/Level progression (schema v10)
+        [Serializable]
+        public class XPEntry { public string id; public int xp; }
+
+        [Serializable]
+        public class LevelState
+        {
+            public int level;
+            public int xp;
+            public int nextLevelXp;
+            public SerializableDictionary[] statBoosts; // key/value pairs serialized
+            public string[] unlockedSkills;
+        }
+
+        [Serializable]
+        public class LevelEntry { public string id; public LevelState state; }
+
+        public List<XPEntry> xp = new List<XPEntry>();
+        public List<LevelEntry> levels = new List<LevelEntry>();
+
+        [Serializable]
+        public class SerializableDictionary
+        {
+            public string key;
+            public string value;
+        }
     }
 }

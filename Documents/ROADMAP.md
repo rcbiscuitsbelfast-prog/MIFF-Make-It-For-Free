@@ -29,7 +29,7 @@
 - VendorsPure
 - InputPure
 
-Note: Current schema version is v9. Next bump planned (v10) for CombatPure integration.
+Note: Current schema version is v10. Next bumps will integrate CombatPure deeper with SaveLoadPure.
 
 ## CLI Harness Coverage
 
@@ -133,6 +133,11 @@ Note: Current schema version is v9. Next bump planned (v10) for CombatPure integ
   - Status: v1 core (engine-agnostic) added: combatants, turn manager, actions, damage, victory conditions; hooks for Inventory/AI/Save.
   - Gaps: No full AI profiles, effects/buffs, or animations.
   - Next: Add status effects, AI profiles, and battle UI integration.
+
+- XP/Leveling System
+  - Status: v1 core added: `GameData` v10 XP and Levels; `LevelUpManager` loads curve; `XPManager` adds XP and applies level-ups.
+  - Gaps: No stat application to creatures; no skill unlock propagation.
+  - Next: Apply stat boosts to `CreatureEntry.stats` and integrate with AI/Combat.
 
 ## Technical Debt and Fixes
 

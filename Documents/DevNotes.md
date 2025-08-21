@@ -38,6 +38,14 @@
 - Migration: `SaveManager.Load()` initializes `codex.unlocked` if missing and logs migration.
 - Schema version bumped to 8 to include `settings` (musicVolume, sfxVolume, language, showSubtitles).
 - Migration: `SaveManager.Load()` initializes `settings` if missing and logs migration.
+- Schema version bumped to 9 (doc sync); see ROADMAP for details.
+- Schema version bumped to 10 to include XP/Leveling (`xp`, `levels`).
+- Migration: `SaveManager.Load()` initializes `xp` and `levels` if missing.
+
+## XPLevelingPure
+- Managers: `XPManager` (runtime XP/level) and `LevelUpManager` (curve loader)
+- Data: `Assets/Resources/levels/level_curve.json`
+- CLI: npx ts-node --compiler-options '{"module":"commonjs"}' XPLevelingPure/cliHarness.ts XPLevelingPure/sample_commands.json
 
 ## Species and Creatures JSON
 - Species JSON (`Resources/species/species.json`):
