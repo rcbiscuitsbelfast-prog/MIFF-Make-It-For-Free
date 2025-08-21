@@ -12,6 +12,7 @@ using NewBark.InventoryPure;
 using NewBark.Localization;
 using NewBark.Creatures;
 using NewBark.Lore;
+using NewBark.Settings;
 
 namespace NewBark
 {
@@ -98,6 +99,13 @@ namespace NewBark
                 var go9 = new GameObject("LoreDatabase");
                 go9.AddComponent<LoreDatabase>();
                 Debug.Log("LoreDatabase was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure SettingsManager exists
+            if (SettingsManager.Instance == null)
+            {
+                var go10 = new GameObject("SettingsManager");
+                go10.AddComponent<SettingsManager>();
+                Debug.Log("SettingsManager was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 

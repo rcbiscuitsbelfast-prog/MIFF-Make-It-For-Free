@@ -7,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 7;
+        public static readonly int SchemaVersion = 8;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;
@@ -17,6 +17,17 @@ namespace NewBark.State
         public string areaTitleTrigger;
         public SerializableVector2 playerPosition;
         public SerializableVector2 playerDirection;
+
+        [Serializable]
+        public class Settings
+        {
+            public float musicVolume = 0.8f;
+            public float sfxVolume = 0.7f;
+            public string language = "en";
+            public bool showSubtitles = true;
+        }
+
+        public Settings settings = new Settings();
 
         [Serializable]
         public class QuestEntry
