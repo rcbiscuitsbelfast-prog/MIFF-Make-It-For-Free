@@ -1,5 +1,5 @@
-# NewBark
-🌳 Retro-style 2D RPG game engine for Unity, inspired by Pokémon Gold, Silver and Crystal.
+# NewBark — Modular, CLI‑First Game Framework (Unity Runtime)
+🌳 Retro-style 2D RPG engine and a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
 
 ![screenshot](Assets/Graphics/Images/screenshot.png)
 
@@ -9,7 +9,27 @@ Looking for a GameMaker version? Check [newbark-gamemaker](https://github.com/it
 
 ## Requirements
 
-- Unity 2021.1 or greater
+- Unity 2021.1 or greater (for runtime)
+- Node.js 18+ (for CLI harnesses)
+
+## CLI-First Modules
+
+Each module comes with a self-contained CLI harness under the repository root. Run with ts-node:
+
+- QuestsPure: `npx ts-node --compiler-options '{"module":"commonjs"}' QuestsPure/cliHarness.ts QuestsPure/sample_quest_npc.json 1234`
+- InventoryPure: `npx ts-node --compiler-options '{"module":"commonjs"}' InventoryPure/cliHarness.ts InventoryPure/sample_commands.json`
+- CreaturesPure: `npx ts-node --compiler-options '{"module":"commonjs"}' CreaturesPure/cliHarness.ts Assets/Resources/species/species.json CreaturesPure/sample_commands.json`
+- LorePure: `npx ts-node --compiler-options '{"module":"commonjs"}' LorePure/cliHarness.ts LorePure/sample_commands.json`
+- SettingsPure: `npx ts-node --compiler-options '{"module":"commonjs"}' SettingsPure/cliHarness.ts SettingsPure/sample_init.json SettingsPure/sample_commands.json`
+- AudioMixerPure: `npx ts-node --compiler-options '{"module":"commonjs"}' AudioMixerPure/cliHarness.ts AudioMixerPure/sample_commands.json`
+- WorldEnhancementsPure: `npx ts-node --compiler-options '{"module":"commonjs"}' WorldEnhancementsPure/cliHarness.ts WorldEnhancementsPure/sample_commands.json`
+- WorldLayoutPure: `npx ts-node --compiler-options '{"module":"commonjs"}' WorldLayoutPure/cliHarness.ts WorldLayoutPure/sample_commands.json`
+- MovementPure: `npx ts-node --compiler-options '{"module":"commonjs"}' MovementPure/cliHarness.ts MovementPure/sample_commands.json`
+- XPLevelingPure: `npx ts-node --compiler-options '{"module":"commonjs"}' XPLevelingPure/cliHarness.ts XPLevelingPure/sample_commands.json`
+- CombatPure: `npx ts-node --compiler-options '{"module":"commonjs"}' CombatPure/cliHarness.ts CombatPure/sample_commands.json`
+- NPCsPure (Python): `python3 cli/npcs_pure/harness.py --npc cli/npcs_pure/sample_npc.json`
+
+See `Documents/Remix_Review_V3.md` for a full assessment including coverage and gaps.
 
 
 ## License
