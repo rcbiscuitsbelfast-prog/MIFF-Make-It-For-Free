@@ -1,78 +1,83 @@
 # Roadmap
 
-## ✅ Completed Systems
+## ✅ Completed Systems (Checklist)
 
-- InventoryPure
-- QuestsPure
-- NPCsPure
-- ZonesPure
-- CodexPure
-- SaveMigration
-- SaveLoadPure (v1 core)
-- XPLevelingPure (v1 core)
-- EquipmentPure (v1 core)
-- AIProfilesPure (v1 core)
-- DialogManager
-- InventoryManager
-- QuestManager
-- SaveManager
-- ZoneManager
-- CodexManager
+- [x] InventoryPure
+- [x] QuestsPure
+- [x] NPCsPure
+- [x] ZonesPure
+- [x] CodexPure
+- [x] SaveMigration
+- [x] SaveLoadPure (v1 core)
+- [x] XPLevelingPure (v1 core)
+- [x] EquipmentPure (v1 core)
+- [x] AIProfilesPure (v1 core)
+- [x] DialogManager
+- [x] InventoryManager
+- [x] QuestManager
+- [x] SaveManager
+- [x] ZoneManager
+- [x] CodexManager
 
 > Note: Current schema version is v11 (SaveLoadPure). CLI-first modules are preferred for rapid iteration and engine-agnostic design.
 
 ---
 
-## Phased Rollout v2.1
+## Phased Rollout v2.1 (Checklist)
 
 ### Phase 1: Core Gameplay
-- StatsSystemPure: base character stats + CLI
-- SkillTreePure: unlockable skills graph
-- CombatCorePure: turn/real-time engine
-- StatusEffectsPure: buff/debuff pipeline
-- PathfindingPure: grid & navmesh CLI hooks
+- [ ] StatsSystemPure: base character stats + CLI
+- [ ] SkillTreePure: unlockable skills graph
+- [ ] CombatCorePure: turn/real-time engine
+- [ ] StatusEffectsPure: buff/debuff pipeline
+- [ ] PathfindingPure: grid & navmesh CLI hooks
 
 ### Phase 2: Narrative & UI
-- DialogueChoicePure: branching convo CLI
-- CutscenePure: timeline + keyframe API
-- TutorialPure: guided walkthrough scaffolds
-- LocalizationPure: text + asset lookup
-- UIFrameworkPure: layout + skinning CLI
+- [ ] DialogueChoicePure: branching convo CLI
+- [ ] CutscenePure: timeline + keyframe API
+- [ ] TutorialPure: guided walkthrough scaffolds
+- [ ] LocalizationPure: text + asset lookup
+- [ ] UIFrameworkPure: layout + skinning CLI
 
 ### Phase 3: Services & Infrastructure
-- EventBusPure: pub/sub messaging
-- InputMappingPure: rebindable controls
-- AnalyticsPure: event tracking CLI
-- ValidationPure: data schema checks
-- TestHarnessPure: unit/integration CLI
-- LoggingPure: runtime diagnostics
-- PluginManagerPure: dynamic module loader
+- [ ] EventBusPure: pub/sub messaging
+- [ ] InputMappingPure: rebindable controls
+- [ ] AnalyticsPure: event tracking CLI
+- [ ] ValidationPure: data schema checks
+- [ ] TestHarnessPure: unit/integration CLI
+- [ ] LoggingPure: runtime diagnostics
+- [ ] PluginManagerPure: dynamic module loader
 
 ### Phase 4: Asset Pipeline
-- AssetManifestPure: metadata registry
-- TextureAtlasPure: sprite packing CLI
-- SpriteSheetPure: animation serialiser
-- AudioManagerPure: track mixer + loader
+- [ ] AssetManifestPure: metadata registry
+- [ ] TextureAtlasPure: sprite packing CLI
+- [ ] SpriteSheetPure: animation serialiser
+- [ ] AudioManagerPure: track mixer + loader
 
 ### Phase 5: Optional Features
-- NPCsPure: AI agent shell
-- FusionPure: entity-component tools
-- AchievementsPure: milestone rewards
-- LeaderboardPure: scoreboards API
-- CloudSavePure: remote persistence
-- InAppPurchasePure: transaction flow
-- SocialIntegrationPure: share/invite hooks
-- ProfilerPure: perf metrics dashboard
-- AccessibilityPure: UI/UX a11y toolkit
+- [ ] NPCsPure: AI agent shell
+- [ ] FusionPure: entity-component tools
+- [ ] AchievementsPure: milestone rewards
+- [ ] LeaderboardPure: scoreboards API
+- [ ] CloudSavePure: remote persistence
+- [ ] InAppPurchasePure: transaction flow
+- [ ] SocialIntegrationPure: share/invite hooks
+- [ ] ProfilerPure: perf metrics dashboard
+- [ ] AccessibilityPure: UI/UX a11y toolkit
 
 ### Phase 6: Engine Bridges
-- UnityBridgePure: C# adapter layer
-- UnrealBridgePure: C++/Blueprint hooks
-- GodotBridgePure: GDScript API
-- CreationEngineBridgePure: bespoke engine port
-- WebGLBridgePure: browser runtime layer
+- [ ] UnityBridgePure: C# adapter layer
+- [ ] UnrealBridgePure: C++/Blueprint hooks
+- [ ] GodotBridgePure: GDScript API
+- [ ] CreationEngineBridgePure: bespoke engine port
+- [ ] WebGLBridgePure: browser runtime layer
 
 ---
+
+## Redundancy & Cleanup
+- [ ] Archive large unused maps: `Documents/johto_map.jpg` (~3.9MB), `Documents/kanto_map.png`
+- [ ] Standardize harness language: consider porting `cli/npcs_pure/harness.py` to TypeScript for consistency
+- [ ] Add unified test runner (jest) and golden tests across modules
 
 ## Optional vs Core
 - Phases 1–4 are core pillars for gameplay, UX, and dev velocity.
