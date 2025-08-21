@@ -11,6 +11,7 @@
 - SaveLoadPure (v1 core)
 - XPLevelingPure (v1 core)
 - EquipmentPure (v1 core)
+- AIProfilesPure (v1 core)
 - DialogManager
 - InventoryManager
 - QuestManager
@@ -21,7 +22,6 @@
 ## Pending Systems
 
 - CombatPure
-- AIProfilesPure
 - StatusEffectsPure
 - FusionPure
 - CraftingPure

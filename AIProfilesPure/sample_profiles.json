@@ -1,0 +1,23 @@
+{
+  "profiles": [
+    {
+      "id": "elder",
+      "role": "questGiver",
+      "dialogId": "elder_intro",
+      "questId": "village_help",
+      "schedule": [ { "time": "08:00", "action": "at_square" } ]
+    },
+    {
+      "id": "merchant",
+      "role": "vendor",
+      "dialogId": "shop_welcome",
+      "schedule": [ { "time": "09:00", "action": "open_shop" } ]
+    },
+    {
+      "id": "guard1",
+      "role": "guard",
+      "behaviorTree": "guard_patrol_bt",
+      "schedule": [ { "time": "10:00", "action": "patrol_gate" } ]
+    }
+  ]
+}
