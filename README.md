@@ -21,7 +21,7 @@ See `ROADMAP.md` for prioritized tasks and milestone tracking.
 
 - Documentation: roadmap, contribution guidance, branch policy
 - Project direction: Newhaven‑first scope and expansion vision
-- Synced engine‑agnostic modules (see `miff/`): AI, effects, teams, items, lore, quests, spirits dex utils, sync, challenges, evolution (partial), NPC data (stub), fusion (stub)
+- Synced engine‑agnostic modules (see `miff/`): AI, effects, teams, items, lore, quests, spirits dex utils, sync, challenges, evolution (partial), NPCs (data + interaction), fusion (rules + harness)
 
 Note: Core runtime modules (battle loop, AI, encounters, team management, save/load, input abstraction, UI adapters) are being implemented next in focused branches.
 

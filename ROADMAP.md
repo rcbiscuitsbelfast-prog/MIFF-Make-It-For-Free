@@ -223,8 +223,7 @@ Underdocumented but present:
 
 ### Still Needed (High‑Priority for Newhaven)
 
-- Additional golden tests and broader fixtures
-- Optional: placeholder asset integration checklist (sprites, HUD skins, SFX)
+- Optional: expand golden library and docs per adapter runtime
 
 ---
 
