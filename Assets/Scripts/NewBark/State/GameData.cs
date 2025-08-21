@@ -7,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 5;
+        public static readonly int SchemaVersion = 6;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;
@@ -65,5 +65,38 @@ namespace NewBark.State
 
         // Dialogs: data-driven branching dialogs with localized text ids
         public List<DialogEntry> dialogs = new List<DialogEntry>();
+
+        [Serializable]
+        public class StatsEntry
+        {
+            public int level;
+            public int hp;
+            public int attack;
+            public int defense;
+            public int speed;
+        }
+
+        [Serializable]
+        public class MetadataEntry
+        {
+            public string key;
+            public string value;
+        }
+
+        [Serializable]
+        public class CreatureEntry
+        {
+            public string id; // unique creature id
+            public string nameId; // localization id for nickname/default
+            public string speciesId;
+            public bool isCaptured;
+            public StatsEntry stats;
+            public string[] moves;
+            public MetadataEntry[] metadata;
+        }
+
+        // Global collections
+        public List<CreatureEntry> creatures = new List<CreatureEntry>();
+        public List<string> party = new List<string>(); // ordered list of creature ids
     }
 }

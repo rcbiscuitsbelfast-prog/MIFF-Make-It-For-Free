@@ -30,6 +30,21 @@
 - Migration: `SaveManager.Load()` initializes `quests` if missing and logs migration.
 - Schema version bumped to 4 to include `inventory` list for items.
 - Migration: `SaveManager.Load()` initializes `inventory` if missing and logs migration.
+- Schema version bumped to 5 to include `dialogs` store for branching dialog.
+- Migration: `SaveManager.Load()` initializes `dialogs` if missing and logs migration.
+- Schema version bumped to 6 to include `creatures` and `party`.
+- Migration: `SaveManager.Load()` initializes `creatures` and `party` if missing and logs migration.
+
+## Species and Creatures JSON
+- Species JSON (`Resources/species/species.json`):
+```
+{
+  "species": [
+    {"id":"sprout","nameId":"species.sprout","baseHp":35,"baseAttack":10,"baseDefense":8,"baseSpeed":12,"captureRate":60,"allowedMoves":["tackle","grow"]}
+  ]
+}
+```
+- Creatures are generated at runtime by `CreatureFactory` and persisted in `GameData.creatures` as entries containing ids, stats, and moves.
 
 ## Scene Setup: QuestManager Lifecycle
 - `QuestManager` is auto-instantiated by `GameManager.Awake()` if missing, and marked `DontDestroyOnLoad`.
@@ -42,3 +57,4 @@
 ## CLI
 - QuestsPure: npx ts-node --compiler-options '{"module":"commonjs"}' QuestsPure/cliHarness.ts QuestsPure/sample_quest_npc.json 1234
 - InventoryPure: npx ts-node --compiler-options '{"module":"commonjs"}' InventoryPure/cliHarness.ts InventoryPure/sample_commands.json
+- CreaturesPure: npx ts-node --compiler-options '{"module":"commonjs"}' CreaturesPure/cliHarness.ts Assets/Resources/species/species.json CreaturesPure/sample_commands.json

@@ -1,0 +1,7 @@
+{
+  "species": [
+    {"id":"sprout","nameId":"species.sprout","baseHp":35,"baseAttack":10,"baseDefense":8,"baseSpeed":12,"captureRate":60,"allowedMoves":["tackle","grow"]},
+    {"id":"ember","nameId":"species.ember","baseHp":30,"baseAttack":12,"baseDefense":7,"baseSpeed":14,"captureRate":45,"allowedMoves":["scratch","ember"]},
+    {"id":"aqua","nameId":"species.aqua","baseHp":32,"baseAttack":11,"baseDefense":9,"baseSpeed":11,"captureRate":50,"allowedMoves":["splash","bubble"]}
+  ]
+}
