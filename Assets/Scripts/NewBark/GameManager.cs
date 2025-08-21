@@ -14,6 +14,8 @@ using NewBark.Creatures;
 using NewBark.Lore;
 using NewBark.Settings;
 using NewBark.World;
+using NewBark.WorldLayout;
+using NewBark.Movement;
 
 namespace NewBark
 {
@@ -121,6 +123,20 @@ namespace NewBark
                 var go12 = new GameObject("WorldEnhancementsManager");
                 go12.AddComponent<WorldEnhancementsManager>();
                 Debug.Log("WorldEnhancementsManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure MapManager exists
+            if (MapManager.Instance == null)
+            {
+                var go13 = new GameObject("MapManager");
+                go13.AddComponent<MapManager>();
+                Debug.Log("MapManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure NPCMovementManager exists
+            if (NPCMovementManager.Instance == null)
+            {
+                var go14 = new GameObject("NPCMovementManager");
+                go14.AddComponent<NPCMovementManager>();
+                Debug.Log("NPCMovementManager was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 
