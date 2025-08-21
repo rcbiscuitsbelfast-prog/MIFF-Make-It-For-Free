@@ -19,6 +19,13 @@ namespace MIFF.Pure.Combat
         public int SpecialAttack { get; set; } = 10;
         public int SpecialDefense { get; set; } = 10;
 
+        // HP pool for threshold checks
+        public int MaxHP { get; set; } = 50;
+        public int CurrentHP { get; set; } = 50;
+
+        // Simple resource points for move costs (PP/energy)
+        public int ResourcePoints { get; set; } = 10;
+
         // Status modifiers (temporary)
         public float AttackMultiplier { get; set; } = 1f;
         public float DefenseMultiplier { get; set; } = 1f;
