@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NewBark.Support;
 
 namespace NewBark.State
@@ -6,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 2;
+        public static readonly int SchemaVersion = 3;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;
@@ -16,5 +17,15 @@ namespace NewBark.State
         public string areaTitleTrigger;
         public SerializableVector2 playerPosition;
         public SerializableVector2 playerDirection;
+
+        [Serializable]
+        public class QuestEntry
+        {
+            public string id;
+            public int step;
+            public string status; // Active | Completed | Failed
+        }
+
+        public List<QuestEntry> quests = new List<QuestEntry>();
     }
 }
