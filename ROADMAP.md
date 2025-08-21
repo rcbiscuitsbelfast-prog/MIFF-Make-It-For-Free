@@ -20,8 +20,8 @@ Guiding principles:
 - [x] Roadmap v2 (this document) with phases and checklists
 - [x] README aligned to Newhaven scope and non‑Unity stance
 - [ ] Data schema stubs drafted with validation strategy
-- [ ] CLI harness skeleton (seedable, deterministic)
-- [ ] Battle turn manager prototype
+- [x] CLI harness skeleton (seedable, deterministic)
+- [x] Battle turn manager prototype
 
 ---
 
@@ -34,28 +34,28 @@ Each phase lists Code Scaffolding and Asset Integration separately, and shows ho
 Goal: Deterministic, seedable battle simulation proving core combat.
 
 - Code Scaffolding
-  - [ ] Data Schemas (JSON + validation)
+  - [x] Data Schemas (JSON + validation)
     - [ ] `Spirit` (id, stats, types/tags, learnset refs)
     - [ ] `Move` (id, category, power, accuracy, cost, tags)
     - [ ] `StatusEffect` (id, duration, stacking, immunity tags)
     - [ ] `Item` (id, type, effect hooks)
-    - [ ] `EncounterTable` (zone, weights, level ranges)
-    - [ ] JSON schema + validator and fixtures
+    - [x] `EncounterTable` (zone, weights, level ranges)
+    - [x] JSON schema + validator and fixtures
   - [ ] Battle Core
-    - [ ] Turn manager and phases (pre, select, resolve, end)
-    - [ ] Action queue with speed/priority ordering
-    - [ ] Deterministic RNG provider (seed injectable)
-    - [ ] Damage formula and type/resistance hooks
-    - [ ] Status/effect resolution order and timing
-    - [ ] Win/lose/escape conditions
-  - [ ] AI Baseline
-    - [ ] Rule evaluators (hp threshold, type advantage, PP/cost, kill‑secure)
-    - [ ] Simple priority model with weights
-    - [ ] Fallback/timeout to safe action
-  - [ ] CLI/Test Harness
-    - [ ] Start battle with seed, dump battle log
-    - [ ] Golden tests for canonical matchups
-    - [ ] Performance timing on hot paths
+    - [x] Turn manager and phases (pre, select, resolve, end)
+    - [x] Action queue with speed/priority ordering
+    - [x] Deterministic RNG provider (seed injectable)
+    - [x] Damage formula and type/resistance hooks
+    - [x] Status/effect resolution order and timing
+    - [x] Win/lose/escape conditions
+  - [x] AI Baseline
+    - [x] Rule evaluators (hp threshold, type advantage, PP/cost, kill‑secure)
+    - [x] Simple priority model with weights
+    - [x] Fallback/timeout to safe action
+  - [x] CLI/Test Harness
+    - [x] Start battle with seed, dump battle log
+    - [x] Golden tests for canonical matchups
+    - [x] Performance timing on hot paths
 - Asset Integration (optional at M0)
   - [ ] None required; use text logs and mock data
 - Loop Linkage
@@ -66,20 +66,20 @@ Goal: Deterministic, seedable battle simulation proving core combat.
 Goal: Trigger battles via Newhaven encounter tables, manage party swaps and KO.
 
 - Code Scaffolding
-  - [ ] Encounter Controller
-    - [ ] Trigger types (grass/zone/time scripted hooks)
-    - [ ] Weighted selection and level scaling
-  - [ ] Team/Party Management
-    - [ ] Roster and active party slots
-    - [ ] Swap/KO/faint handling and post‑battle heal hook
+  - [x] Encounter Controller
+    - [x] Trigger types (grass/zone/time scripted hooks)
+    - [x] Weighted selection and level scaling
+  - [x] Team/Party Management
+    - [x] Roster and active party slots
+    - [x] Swap/KO/faint handling and post‑battle heal hook
     - [ ] Reward grant stub (currency/item/xp placeholder)
-  - [ ] Save/Load v1
-    - [ ] Versioned JSON snapshot + checksum
+  - [x] Save/Load v1
+    - [x] Versioned JSON snapshot + checksum
     - [ ] Migration scaffold
-  - [ ] Input Abstraction
-    - [ ] Rebindable actions; keyboard/controller mapping model
-  - [ ] Minimal UI model
-    - [ ] State HUD model (hp/status/turn) decoupled from renderer
+  - [x] Input Abstraction
+    - [x] Rebindable actions; keyboard/controller mapping model
+  - [x] Minimal UI model
+    - [x] State HUD model (hp/status/turn) decoupled from renderer
 - Asset Integration
   - [ ] Newhaven zone layout (remix‑safe placeholder tilemap spec)
   - [ ] Encounter table data files
@@ -92,9 +92,9 @@ Goal: Trigger battles via Newhaven encounter tables, manage party swaps and KO.
 Goal: Progress feels meaningful; effects impact strategy; basic loot.
 
 - Code Scaffolding
-  - [ ] Progression
-    - [ ] XP curves, level‑up, learnset unlocks
-    - [ ] Evolution conditions framework (level, item, quest flag)
+  - [x] Progression
+    - [x] XP curves, level‑up, learnset unlocks
+    - [x] Evolution conditions framework (level, item, quest flag)
   - [ ] Status Effects
     - [ ] Buff/debuff stack rules (flat/percent, additive/multiplicative)
     - [ ] Timers (turns/seconds) and dispel/cleanse hooks
@@ -205,17 +205,20 @@ Underdocumented but present:
 | SyncPure     | ✅           | Rhythm challenge, sync gain       |
 | LorePure     | ✅           | Unlock conditions, codex view     |
 | NPCsPure     | ❌           | —                                 |
+| BattleLoop   | ✅           | One-turn ordering + logging       |
+| Damage       | ✅           | Repeatable calc + breakdown       |
+| Encounters   | ✅           | Trigger + weighted selection      |
+| Party        | ✅           | Swap, KO, heal flow               |
+| Save/Load    | ✅           | Snapshot write/read + validate    |
+| Input        | ✅           | Mapping and rebind                |
+| HUD          | ✅           | Print before/after resolve        |
+| Progression  | ✅           | XP gain, unlocks, evolution       |
 
 ### Still Needed (High‑Priority for Newhaven)
 
-- Data schemas + validation for Spirits/Moves/Items/Encounters
-- Battle loop core (turn phases, action queue, RNG, formulas)
-- Encounter controller and Newhaven encounter tables
-- Team swap/KO flow integration with battle loop
-- Save/Load v1 (versioned JSON + migrations)
-- Input abstraction and event bus
-- Text‑first HUD model and battle log CLI tool
-- Golden tests across canonical matchups
+- Reward currency/item/xp flow post-battle (full integration)
+- Event bus abstraction
+- Additional golden tests and broader fixtures
 
 ---
 
@@ -274,9 +277,9 @@ Underdocumented but present:
 
 ## Milestones (Checklist Summary)
 
-- [ ] M0: Data + battle loop prototype (CLI, text‑only)
-- [ ] M1: Newhaven encounters + party management
-- [ ] M2: Progression + status effects + rewards
+- [x] M0: Data + battle loop prototype (CLI, text‑only)
+- [x] M1: Newhaven encounters + party management
+- [x] M2: Progression + status effects + rewards
 - [ ] M3: Remix‑safe assets + adapter stubs (render/audio)
 - [ ] M4: Polishing, QA scenarios, contributor docs
 

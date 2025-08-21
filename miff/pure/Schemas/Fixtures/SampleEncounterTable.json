@@ -1,0 +1,8 @@
+{
+  "zoneId": "newhaven",
+  "entries": [
+    {"zoneId": "newhaven", "spiritId": "sprout", "weight": 60, "minLevel": 2, "maxLevel": 4},
+    {"zoneId": "newhaven", "spiritId": "ember",  "weight": 30, "minLevel": 3, "maxLevel": 5}
+  ]
+}
+

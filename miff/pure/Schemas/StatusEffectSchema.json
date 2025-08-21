@@ -1,0 +1,14 @@
+{
+  "title": "StatusEffect",
+  "type": "object",
+  "required": ["effectId", "duration", "stackable"],
+  "properties": {
+    "effectId": { "type": "string" },
+    "duration": { "type": "integer" },
+    "stackable": { "type": "boolean" },
+    "modifierType": { "type": "string" },
+    "value": { "type": "number" },
+    "immunityTags": { "type": "array", "items": { "type": "string" } }
+  }
+}
+
