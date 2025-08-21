@@ -21,6 +21,7 @@ See `ROADMAP.md` for prioritized tasks and milestone tracking.
 
 - Documentation: roadmap, contribution guidance, branch policy
 - Project direction: Newhaven‑first scope and expansion vision
+- Synced engine‑agnostic modules (see `miff/`): AI, effects, teams, items, lore, quests, spirits dex utils, sync, challenges, evolution (partial), NPC data (stub), fusion (stub)
 
 Note: Core runtime modules (battle loop, AI, encounters, team management, save/load, input abstraction, UI adapters) are being implemented next in focused branches.
 
@@ -40,7 +41,7 @@ Until M0 completes, there is no playable runtime in this repo. Contributions sho
 5. Introduce save/load (versioned JSON + migrations) and input abstraction
 6. Provide text‑first UI surfaces and a CLI test harness
 
-Details and acceptance criteria are tracked in `ROADMAP.md`.
+Details and acceptance criteria are tracked in `ROADMAP.md`. Module statuses live in `miff/README.md`.
 
 ## Phase Checklist (High‑Level)
 
