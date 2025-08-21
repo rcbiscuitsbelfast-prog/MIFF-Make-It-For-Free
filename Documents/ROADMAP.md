@@ -1,10 +1,51 @@
 # Roadmap
 
+## Completed Systems
+
+- InventoryPure
+- DialogPure
+- QuestsPure
+- NPCsPure
+- ZonesPure
+- CodexPure
+- SaveMigration
+- InventoryManager
+- DialogManager
+- QuestManager
+- SaveManager
+- ZoneManager
+- CodexManager
+
+## Pending Systems
+
+- CombatPure
+- SaveLoadPure
+- AIProfilesPure
+- XPLevelingPure
+- StatusEffectsPure
+- FusionPure
+- CraftingPure
+- EquipmentPure
+- VendorsPure
+- InputPure
+
+Note: Current schema version is v9. Next bump planned (v10) for CombatPure integration.
+
 ## CLI Harness Coverage
 
 | Module     | CLI Harness | Simulates                                   |
 |------------|-------------|---------------------------------------------|
 | CombatPure | ✅           | addCombatant, queueAction, stepTurn, dump   |
+| WorldLayoutPure  | ✅           | loadMap/defineZone/linkTrigger                      |
+| MovementPure     | ✅           | assignMovement/simulateTick/setFollowTarget         |
+| WorldEnhancementsPure| ✅           | overlay/lighting/timed/zone commands                |
+| AudioMixerPure | ✅           | setVolume (music/sfx), dumpMixerState               |
+| SettingsPure   | ✅           | get/set/reset/dump settings                         |
+| LorePure       | ✅           | Load/list/unlock lore; dump codex                   |
+| CreaturesPure  | ✅           | Create/swap/remove party; encounter and capture     |
+| InventoryPure  | ✅           | Add/remove items, inspect, quest reward hooks       |
+| QuestsPure     | ✅           | Quest flow and gating                               |
+| NPCsPure       | ✅           | Dialog + quest flag simulation                      |
 
 ## Systems Overview
 
@@ -88,55 +129,21 @@
   - Gaps: No real navmesh/tile system yet; movement not tied to physics.
   - Next: Integrate with tile-based grid, add AI behavior profiles and collision.
 
+- Combat System
+  - Status: v1 core (engine-agnostic) added: combatants, turn manager, actions, damage, victory conditions; hooks for Inventory/AI/Save.
+  - Gaps: No full AI profiles, effects/buffs, or animations.
+  - Next: Add status effects, AI profiles, and battle UI integration.
+
 ## Technical Debt and Fixes
 
 - Fixed: Inventory schema v4 with migration; InventoryManager auto-instantiated.
 - Fixed: Dialog schema v5 with migration; Localization and DialogManager added.
 - Fixed: Creatures schema v6 with migration; Party/Encounter systems added.
 - Fixed: Codex schema v7 with migration; CodexManager and LoreDatabase added.
+- Fixed: Settings schema v8 with migration; SettingsManager auto-instantiated.
 - Fixed: Editor-only import in `PlayerController.cs` guarded by `#if UNITY_EDITOR`.
 - Fixed: Snap/clamp behavior corrected in `MovePath.ClampAxis`.
 - Fixed: Save system now JSON-based; removed BinaryFormatter.
 - Fixed: Input hold throttle set to 75ms (float).
 - Fixed: QuestManager auto-instantiated by `GameManager.Awake()` (DontDestroyOnLoad); added debug log.
 - Fixed: Migration hook in `SaveManager.Load()` initializes empty QuestState for schema < 3.
-- Fixed: Settings schema v8 with migration; SettingsManager auto-instantiated.
-- Pending: Replace SendMessage usages with events/interfaces.
-- Pending: Add unit tests for dialog pagination, movement clamp, and teleport edge cases.
-
-## Near-Term Milestones (Next Stages)
-
-1) Quests v1
-- Add `QuestState` to `GameData` (dictionary of flags/steps)
-- ScriptableObject `QuestDefinition` with steps and conditions
-- NPC dialog integration to set/check quest flags
-
-2) Inventory v1
-- Add `InventoryState` to `GameData` (items + counts)
-- Basic inventory UI and item pickup interaction
-
-3) Party/Creatures v0 (stub)
-- Data model placeholders in `GameData`
-- CLI harness extension to simulate encounter -> capture flag
-
-4) Dialog Choices and Localization
-- Choice nodes with player selection
-- JSON/CSV localization and font switching
-
-5) Menu/Settings
-- Pause menu with audio/input settings and save/load slot UI
-
-6) Audio Mixer Integration
-- Add AudioMixer, expose BGM/SFX groups, implement ducking
-
-7) World Enhancements
-- Weather overlays, lighting, and schedule-aware BGM
-
-## Release Readiness Checklist
-
-- [x] Unity compile passes and scenes load
-- [x] Player movement, dialog, audio, teleport validated
-- [x] Save/Load JSON works cross-platform
-- [x] NPCsPure CLI harness green on golden
-- [ ] Basic quest flags persisted in `GameData`
-- [ ] Pause/inventory UI works on target platforms
