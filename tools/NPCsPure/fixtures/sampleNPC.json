@@ -1,0 +1,8 @@
+{
+  "id": "greeter",
+  "name": "Greeter",
+  "interactionType": "Dialogue",
+  "dialogue": [{"speaker": "Greeter", "text": "Welcome!"}],
+  "questFlagsToSet": ["MetGreeter"],
+  "codexUnlockFlags": ["Codex_Greeter"]
+}

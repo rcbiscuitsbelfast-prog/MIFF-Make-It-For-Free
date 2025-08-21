@@ -43,6 +43,8 @@ Until M0 completes, there is no playable runtime in this repo. Contributions sho
 
 Details and acceptance criteria are tracked in `ROADMAP.md`. Module statuses live in `miff/README.md`.
 
+TypeScript CLI tooling lives under `tools/` (e.g., `tools/NPCsPure`) for schema validation, headless harnesses, and golden tests.
+
 ## Phase Checklist (High‑Level)
 
 - M0: Data + battle loop (CLI, text‑only)
