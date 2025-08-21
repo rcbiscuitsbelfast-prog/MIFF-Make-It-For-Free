@@ -1,0 +1,6 @@
+[
+  {"op":"add", "id":"potion", "qty":2},
+  {"op":"add", "id":"pokeball", "qty":1},
+  {"op":"remove", "id":"potion", "qty":1},
+  {"op":"inspect"}
+]

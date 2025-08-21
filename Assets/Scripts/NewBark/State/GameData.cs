@@ -7,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 3;
+        public static readonly int SchemaVersion = 4;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;
@@ -27,5 +27,15 @@ namespace NewBark.State
         }
 
         public List<QuestEntry> quests = new List<QuestEntry>();
+
+        [Serializable]
+        public class ItemEntry
+        {
+            public string id;
+            public int quantity; // total quantity for stackable items
+        }
+
+        // Inventory: persisted as a list of item id + quantity
+        public List<ItemEntry> inventory = new List<ItemEntry>();
     }
 }

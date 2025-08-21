@@ -8,6 +8,7 @@ using NewBark.Tilemap;
 using UnityEngine;
 using UnityEngine.Events;
 using NewBark.QuestsPure;
+using NewBark.InventoryPure;
 
 namespace NewBark
 {
@@ -38,6 +39,13 @@ namespace NewBark
                 var go = new GameObject("QuestManager");
                 go.AddComponent<QuestManager>();
                 Debug.Log("QuestManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure InventoryManager exists before state load
+            if (InventoryManager.Instance == null)
+            {
+                var go2 = new GameObject("InventoryManager");
+                go2.AddComponent<InventoryManager>();
+                Debug.Log("InventoryManager was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 

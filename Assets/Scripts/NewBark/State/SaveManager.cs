@@ -60,15 +60,21 @@ namespace NewBark.State
     }
 
     // Migration hook: initialize quests for schema < 3
-    // If the persisted file name indicates an older schema or quests is null, ensure non-null list.
-    if (data.quests == null)
-    {
-        data.quests = new System.Collections.Generic.List<GameData.QuestEntry>();
-        Debug.Log("SaveManager: Migrated GameData to schema v3 - initialized empty QuestState.");
-    }
+// If the persisted file name indicates an older schema or quests is null, ensure non-null list.
+if (data.quests == null)
+{
+    data.quests = new System.Collections.Generic.List<GameData.QuestEntry>();
+    Debug.Log("SaveManager: Migrated GameData to schema v3 - initialized empty QuestState.");
+}
+// Migration hook: initialize inventory for schema < 4
+if (data.inventory == null)
+{
+    data.inventory = new System.Collections.Generic.List<GameData.ItemEntry>();
+    Debug.Log("SaveManager: Migrated GameData to schema v4 - initialized empty Inventory.");
+}
 
-    Debug.Log("Game LOADED. ");
-    return data;
+Debug.Log("Game LOADED. ");
+return data;
 }
 
         private static string GetPlayTime(GameData data)
