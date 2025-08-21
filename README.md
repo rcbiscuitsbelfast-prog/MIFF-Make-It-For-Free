@@ -70,3 +70,5 @@ Licensed under the MIT License. See `LICENSE`.
 ### Content and IP
 
 Only include remix‑safe, original assets and data. Do not include third‑party IP.
+
+All placeholder assets in `assets/` are original, remix‑safe scaffolds contributed under a CC0‑equivalent intent (public domain). Replace or extend freely.

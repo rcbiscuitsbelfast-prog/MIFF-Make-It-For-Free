@@ -125,9 +125,9 @@ Goal: Minimal presentation layer via adapters; still engine‑agnostic.
   - [x] Data Tooling
     - [x] Lints, schema docs, fixtures, golden tests
 - Asset Integration
-  - [ ] Remix‑safe sprite placeholders (spirits/moves/UI skin)
-  - [ ] SFX set (UI, hit, ambient Newhaven loop)
-  - [ ] Music stubs (Newhaven, battle)
+  - [x] Remix‑safe sprite placeholders (spirits/moves/UI skin)
+  - [x] SFX set (UI, hit, ambient Newhaven loop)
+  - [x] Music stubs (Newhaven, battle)
 - Loop Linkage
   - same loops, with presentational feedback
 
