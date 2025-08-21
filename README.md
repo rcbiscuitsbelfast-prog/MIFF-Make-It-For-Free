@@ -1,46 +1,63 @@
-# NewBark
-🌳 Retro-style 2D RPG game engine for Unity, inspired by Pokémon Gold, Silver and Crystal.
+# MIFF Game Platform — Newhaven (Pre‑Alpha)
 
-![screenshot](Assets/Graphics/Images/screenshot.png)
+Modular, remix‑safe spirit battle platform built code‑first and engine‑agnostic. The initial scope is the Newhaven zone to validate core systems (AI, team management, battle effects, progression). A 3rd‑person open‑world expansion is a future phase, not part of the current milestone.
 
-> IMPORTANT: This project is in low-maintainance mode, meaning that compatibility fixes with new Unity and package versions will be published but new additions or features are not going to happen any time soon and there are no plans for them yet. 
+## Principles
 
-Looking for a GameMaker version? Check [newbark-gamemaker](https://github.com/itsjavi/newbark-gamemaker)
+- Modular, decoupled scaffolding with clear interfaces and adapters
+- Remix‑safe data and assets; avoid franchise IP
+- Engine‑agnostic runtime; no Unity dependency required
+- Gameplay polish and player experience take priority
+- One small branch per scaffold/update
 
-## Requirements
+## Status
 
-- Unity 2021.1 or greater
+- Pre‑alpha. Documentation scaffolding and roadmap are in place.
+- Runtime scaffolding will land incrementally (see Roadmap for milestones).
 
+See `ROADMAP.md` for prioritized tasks and milestone tracking.
+
+## Current Scaffolded Systems
+
+- Documentation: roadmap, contribution guidance, branch policy
+- Project direction: Newhaven‑first scope and expansion vision
+
+Note: Core runtime modules (battle loop, AI, encounters, team management, save/load, input abstraction, UI adapters) are being implemented next in focused branches.
+
+## Newhaven Gameplay Loops
+
+- In progress for M0: text‑first battle loop prototype (deterministic, seedable)
+- Planned for M1+: overworld encounters and party management loop
+
+Until M0 completes, there is no playable runtime in this repo. Contributions should target the scaffolding defined in `ROADMAP.md`.
+
+## Next Steps for Development
+
+1. Land data schemas (spirits, moves, effects, items, encounters) with validation
+2. Implement battle loop: turn manager, action queue, damage/status formulas
+3. Add baseline AI policy with pluggable evaluators
+4. Implement team/party management and encounter controller for Newhaven
+5. Introduce save/load (versioned JSON + migrations) and input abstraction
+6. Provide text‑first UI surfaces and a CLI test harness
+
+Details and acceptance criteria are tracked in `ROADMAP.md`.
+
+## Future Expansion (Vision)
+
+- Open‑world 3rd‑person RPG layer (navigation, camera, streaming world)
+- Adapter‑based render/audio implementations (Unity/Godot/Web) kept out‑of‑tree
+- Modding APIs and content packaging for community extensions
+
+## Contributing
+
+- Create a new branch per change: `docs/*`, `feat/*`, `refactor/*`, `fix/*`
+- Keep modules decoupled and testable; prefer interfaces and adapters
+- Add fixtures and seeds for deterministic tests
 
 ## License
 
-This software is copyrighted and licensed under the 
-[MIT license](https://github.com/itsjavi/newbark-unity/LICENSE).
+Licensed under the MIT License. See `LICENSE`.
 
-### Disclaimer
+### Content and IP
 
-This software comes bundled with data and graphics extracted from the
-Pokémon series of video games. Some terminology from the Pokémon franchise is
-also necessarily used within the software itself. This is all the intellectual
-property of Nintendo, Creatures, inc., and GAME FREAK, inc. and is protected by
-various copyrights and trademarks.
-
-The goal of this project is not to create and/or distribute a game, but to learn
-how to create similar retro games in Unity. So this project, apart from being a possible
-base engine for future similar projects unrelated to the Pokémon franchise,
-has mainly educational purposes.
-
-The author believes that the use of this intellectual property for a fan reference
-is covered by fair use and that the software is significantly impaired without said
-property included. Any use of this copyrighted property is at your own legal risk.
-
-This software is not affiliated in any way with Nintendo,
-Pokémon or any other game company.
-
-A complete revision history of this software is available from
-https://github.com/itsjavi/newbark-unity
-
----
-
-
-Created by [@itsjavi](https://github.com/itsjavi)
+Only include remix‑safe, original assets and data. Do not include third‑party IP.
