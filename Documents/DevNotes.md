@@ -34,6 +34,8 @@
 - Migration: `SaveManager.Load()` initializes `dialogs` if missing and logs migration.
 - Schema version bumped to 6 to include `creatures` and `party`.
 - Migration: `SaveManager.Load()` initializes `creatures` and `party` if missing and logs migration.
+- Schema version bumped to 7 to include `codex` and optional `loreEntries` preload.
+- Migration: `SaveManager.Load()` initializes `codex.unlocked` if missing and logs migration.
 
 ## Species and Creatures JSON
 - Species JSON (`Resources/species/species.json`):
@@ -58,3 +60,4 @@
 - QuestsPure: npx ts-node --compiler-options '{"module":"commonjs"}' QuestsPure/cliHarness.ts QuestsPure/sample_quest_npc.json 1234
 - InventoryPure: npx ts-node --compiler-options '{"module":"commonjs"}' InventoryPure/cliHarness.ts InventoryPure/sample_commands.json
 - CreaturesPure: npx ts-node --compiler-options '{"module":"commonjs"}' CreaturesPure/cliHarness.ts Assets/Resources/species/species.json CreaturesPure/sample_commands.json
+- LorePure: npx ts-node --compiler-options '{"module":"commonjs"}' LorePure/cliHarness.ts LorePure/sample_commands.json

@@ -1,0 +1,8 @@
+[
+  {"op":"load","path":"Assets/Resources/lore/lore.json"},
+  {"op":"unlock","id":"origin"},
+  {"op":"list"},
+  {"op":"unlock","id":"quest_intro"},
+  {"op":"list"},
+  {"op":"dump"}
+]
