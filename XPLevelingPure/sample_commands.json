@@ -1,0 +1,8 @@
+[
+  {"op":"loadCurve","path":"Assets/Resources/levels/level_curve.json"},
+  {"op":"addXP","id":"hero","amount":120},
+  {"op":"checkLevelUp","id":"hero"},
+  {"op":"applyLevelUp","id":"hero"},
+  {"op":"getLevel","id":"hero"},
+  {"op":"dumpState"}
+]

@@ -16,6 +16,7 @@ using NewBark.Settings;
 using NewBark.World;
 using NewBark.WorldLayout;
 using NewBark.Movement;
+using NewBark.XP;
 
 namespace NewBark
 {
@@ -137,6 +138,20 @@ namespace NewBark
                 var go14 = new GameObject("NPCMovementManager");
                 go14.AddComponent<NPCMovementManager>();
                 Debug.Log("NPCMovementManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure LevelUpManager exists
+            if (LevelUpManager.Instance == null)
+            {
+                var go15 = new GameObject("LevelUpManager");
+                go15.AddComponent<LevelUpManager>();
+                Debug.Log("LevelUpManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure XPManager exists
+            if (XPManager.Instance == null)
+            {
+                var go16 = new GameObject("XPManager");
+                go16.AddComponent<XPManager>();
+                Debug.Log("XPManager was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 
