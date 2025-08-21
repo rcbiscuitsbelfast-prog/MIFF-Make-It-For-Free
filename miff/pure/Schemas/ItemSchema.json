@@ -1,0 +1,13 @@
+{
+  "title": "Item",
+  "type": "object",
+  "required": ["itemId", "name", "type"],
+  "properties": {
+    "itemId": { "type": "string" },
+    "name": { "type": "string" },
+    "type": { "type": "string" },
+    "effectId": { "type": ["string", "null"] },
+    "value": { "type": ["integer", "null"] }
+  }
+}
+

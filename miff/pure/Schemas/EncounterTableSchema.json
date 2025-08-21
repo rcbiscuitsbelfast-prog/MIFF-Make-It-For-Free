@@ -1,0 +1,23 @@
+{
+  "title": "EncounterTable",
+  "type": "object",
+  "required": ["zoneId", "entries"],
+  "properties": {
+    "zoneId": { "type": "string" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["zoneId", "spiritId", "weight", "minLevel", "maxLevel"],
+        "properties": {
+          "zoneId": { "type": "string" },
+          "spiritId": { "type": "string" },
+          "weight": { "type": "integer" },
+          "minLevel": { "type": "integer" },
+          "maxLevel": { "type": "integer" }
+        }
+      }
+    }
+  }
+}
+

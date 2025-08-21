@@ -1,0 +1,8 @@
+{
+  "itemId": "potion",
+  "name": "Potion",
+  "type": "heal",
+  "effectId": "heal_hp",
+  "value": 20
+}
+

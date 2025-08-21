@@ -1,0 +1,14 @@
+{
+  "id": 1,
+  "spiritId": "sprout",
+  "name": "Sprout",
+  "typeTag": "nature",
+  "level": 3,
+  "attack": 12,
+  "defense": 10,
+  "specialAttack": 11,
+  "specialDefense": 9,
+  "maxHP": 30,
+  "currentHP": 28
+}
+

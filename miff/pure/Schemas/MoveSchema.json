@@ -1,0 +1,17 @@
+{
+  "title": "Move",
+  "type": "object",
+  "required": ["moveId", "name", "category", "power", "accuracy", "typeTag"],
+  "properties": {
+    "moveId": { "type": "string" },
+    "name": { "type": "string" },
+    "category": { "type": "string", "enum": ["Status", "Physical", "Special"] },
+    "power": { "type": "integer" },
+    "accuracy": { "type": "number" },
+    "cost": { "type": "integer" },
+    "typeTag": { "type": "string" },
+    "statusEffectId": { "type": ["string", "null"] },
+    "animationTag": { "type": ["string", "null"] }
+  }
+}
+
