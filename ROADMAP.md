@@ -153,6 +153,45 @@ Goal: Smooth interactions, clear feedback, robust contributor onboarding.
 
 ---
 
+## Reality Check: Already Scaffolded vs Still Needed
+
+### Already Scaffolded (Synced into `miff/pure/`)
+
+- AI Baseline (BattleAIPure): rules/policies + harness [Partial]
+- Effects System (EffectsPure): effects + aggregator [Partial]
+- Teams (TeamsPure): composition rules + tests [Partial]
+- Items (ItemsPure): usage manager + results [Partial]
+- Lore/Codex (LorePure): flags/unlocks + tests [Partial]
+- Quests (QuestsPure): objectives/flags + tests [Partial]
+- Spirits Dex utilities (SpiritsPure): filter/sort + tests [Partial]
+- Sync (SyncPure): events/challenges + tests [Partial]
+- Challenges (ChallengesPure): battle challenges + rulesets [Partial]
+- Evolution (EvolutionPure): conditions/results/tests [Partial]
+- NPCs (NPCsPure): data + interaction tests [Stub]
+- Fusion (FusionPure): rules/results/tests [Stub]
+
+Related tooling present:
+
+- Test harness files for several modules (CLI‑like usage in code)
+- README snippets in some module families
+
+Underdocumented but present:
+
+- ChallengesPure, SyncPure have harnesses without high‑level docs
+
+### Still Needed (High‑Priority for Newhaven)
+
+- Data schemas + validation for Spirits/Moves/Items/Encounters
+- Battle loop core (turn phases, action queue, RNG, formulas)
+- Encounter controller and Newhaven encounter tables
+- Team swap/KO flow integration with battle loop
+- Save/Load v1 (versioned JSON + migrations)
+- Input abstraction and event bus
+- Text‑first HUD model and battle log CLI tool
+- Golden tests across canonical matchups
+
+---
+
 ## System ↔ Gameplay Loop Linkage Map
 
 - battle core → reward → progression → evolution → lore/codex
@@ -234,4 +273,3 @@ Goal: Smooth interactions, clear feedback, robust contributor onboarding.
 - One branch per scaffold/update: `docs/`, `feat/`, `refactor/`, `fix/`
 - Keep modules decoupled; prefer interfaces and adapters
 - Land small, testable slices; include seeds and fixtures
-
