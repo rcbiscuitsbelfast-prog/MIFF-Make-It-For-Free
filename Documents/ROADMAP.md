@@ -2,10 +2,9 @@
 
 ## CLI Harness Coverage
 
-| Module           | CLI Harness | Simulates                                           |
-|------------------|-------------|-----------------------------------------------------|
-| WorldLayoutPure  | ✅           | loadMap/defineZone/linkTrigger                      |
-| MovementPure     | ✅           | assignMovement/simulateTick/setFollowTarget         |
+| Module     | CLI Harness | Simulates                                   |
+|------------|-------------|---------------------------------------------|
+| CombatPure | ✅           | addCombatant, queueAction, stepTurn, dump   |
 
 ## Systems Overview
 
