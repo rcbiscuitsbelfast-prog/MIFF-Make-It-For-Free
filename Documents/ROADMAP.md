@@ -8,6 +8,7 @@
 | QuestsPure     | ✅           | Quest flow and gating                               |
 | InventoryPure  | ✅           | Add/remove items, inspect, quest reward hooks       |
 | CreaturesPure  | ✅           | Create/swap/remove party; encounter and capture     |
+| LorePure       | ✅           | Load/list/unlock lore; dump codex                   |
 
 ## Systems Overview
 
@@ -71,11 +72,17 @@
   - Gaps: No battle system; no storage box UI; no move learning/XP.
   - Next: Add storage box, leveling/XP and move learning, and basic battle loop.
 
+- Lore/Codex System
+  - Status: v1 core added: `GameData` v7 codex with unlocked list and optional preload entries, `LoreDatabase`, `CodexManager` with unlock/query APIs.
+  - Gaps: No in-game UI; no search/filter UI.
+  - Next: Build Codex UI, integrate unlocks with quests/encounters and achievements.
+
 ## Technical Debt and Fixes
 
 - Fixed: Inventory schema v4 with migration; InventoryManager auto-instantiated.
 - Fixed: Dialog schema v5 with migration; Localization and DialogManager added.
 - Fixed: Creatures schema v6 with migration; Party/Encounter systems added.
+- Fixed: Codex schema v7 with migration; CodexManager and LoreDatabase added.
 - Fixed: Editor-only import in `PlayerController.cs` guarded by `#if UNITY_EDITOR`.
 - Fixed: Snap/clamp behavior corrected in `MovePath.ClampAxis`.
 - Fixed: Save system now JSON-based; removed BinaryFormatter.

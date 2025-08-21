@@ -7,7 +7,7 @@ namespace NewBark.State
     [Serializable]
     public class GameData
     {
-        public static readonly int SchemaVersion = 6;
+        public static readonly int SchemaVersion = 7;
         public static readonly int MinCompatibleSchemaVersion = 2;
 
         public DateTime startDate = DateTime.Now;
@@ -98,5 +98,25 @@ namespace NewBark.State
         // Global collections
         public List<CreatureEntry> creatures = new List<CreatureEntry>();
         public List<string> party = new List<string>(); // ordered list of creature ids
+
+        [Serializable]
+        public class LoreEntry
+        {
+            public string id;
+            public string title;
+            public string body;
+            public string[] tags;
+            public string unlockHint;
+        }
+
+        [Serializable]
+        public class Codex
+        {
+            public List<string> unlocked = new List<string>();
+        }
+
+        // Codex data and optional preload lore database
+        public Codex codex = new Codex();
+        public List<LoreEntry> loreEntries = new List<LoreEntry>();
     }
 }

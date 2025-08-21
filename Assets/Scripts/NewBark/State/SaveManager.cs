@@ -87,6 +87,15 @@ if (data.party == null)
 {
     data.party = new System.Collections.Generic.List<string>();
 }
+// Migration hook: initialize codex for schema < 7
+if (data.codex == null)
+{
+    data.codex = new GameData.Codex();
+}
+if (data.codex.unlocked == null)
+{
+    data.codex.unlocked = new System.Collections.Generic.List<string>();
+}
 
 Debug.Log("Game LOADED. ");
 return data;

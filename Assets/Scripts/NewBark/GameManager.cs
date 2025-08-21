@@ -11,6 +11,7 @@ using NewBark.QuestsPure;
 using NewBark.InventoryPure;
 using NewBark.Localization;
 using NewBark.Creatures;
+using NewBark.Lore;
 
 namespace NewBark
 {
@@ -83,6 +84,20 @@ namespace NewBark
                 var go7 = new GameObject("SpeciesDatabase");
                 go7.AddComponent<SpeciesDatabase>();
                 Debug.Log("SpeciesDatabase was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure CodexManager exists
+            if (CodexManager.Instance == null)
+            {
+                var go8 = new GameObject("CodexManager");
+                go8.AddComponent<CodexManager>();
+                Debug.Log("CodexManager was missing in scene. Auto-instantiated by GameManager.");
+            }
+            // Ensure LoreDatabase exists
+            if (LoreDatabase.Instance == null)
+            {
+                var go9 = new GameObject("LoreDatabase");
+                go9.AddComponent<LoreDatabase>();
+                Debug.Log("LoreDatabase was missing in scene. Auto-instantiated by GameManager.");
             }
         }
 
