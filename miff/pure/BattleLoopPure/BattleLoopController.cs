@@ -4,6 +4,7 @@ using System.Text;
 using MIFF.Pure.RNG;
 using MIFF.Pure.Combat;
 using MIFF.Pure.Log;
+using MIFF.Pure.Events;
 
 namespace MIFF.Pure.BattleLoop
 {
@@ -17,15 +18,18 @@ namespace MIFF.Pure.BattleLoop
         private readonly BattlePhaseManager _phaseManager = new BattlePhaseManager();
         private readonly List<string> _log = new List<string>();
         private readonly BattleLogger? _logger;
+        private readonly EventBus? _eventBus;
 
-        public BattleLoopController(IRNGProvider rng, BattleLogger? logger = null)
+        public BattleLoopController(IRNGProvider rng, BattleLogger? logger = null, EventBus? eventBus = null)
         {
             _rng = rng;
             _logger = logger;
+            _eventBus = eventBus;
             _phaseManager.OnPhaseChanged += (from, to) =>
             {
                 _log.Add($"Phase: {from} -> {to}");
                 _logger?.LogPhaseChange(to);
+                _eventBus?.Publish("battle/phase", to.ToString());
             };
             _phaseManager.OnPhaseEntered += phase => { /* extension hook */ };
         }
@@ -68,9 +72,11 @@ namespace MIFF.Pure.BattleLoop
             }
             var ordered = queue.GetOrderedActions();
             _log.Add($"Ordered {ordered.Count} actions");
+            _eventBus?.Publish("battle/actions_ordered", ordered.Count);
             foreach (var a in ordered)
             {
                 _log.Add($"Execute: {a}");
+                _eventBus?.Publish("battle/action_execute", a);
 
                 BattleResult? result = null;
                 if (resolveSpiritById != null && resolveMoveById != null && damageCalculator != null)
@@ -92,6 +98,10 @@ namespace MIFF.Pure.BattleLoop
                 }
 
                 _logger?.LogAction(a, result);
+                if (result?.StatusApplied != null)
+                {
+                    _eventBus?.Publish("battle/status_applied", result.StatusApplied);
+                }
             }
             _phaseManager.Advance();
 
@@ -112,4 +122,3 @@ namespace MIFF.Pure.BattleLoop
         }
     }
 }
-
