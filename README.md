@@ -42,6 +42,14 @@ Until M0 completes, there is no playable runtime in this repo. Contributions sho
 
 Details and acceptance criteria are tracked in `ROADMAP.md`.
 
+## Phase Checklist (High‑Level)
+
+- M0: Data + battle loop (CLI, text‑only)
+- M1: Encounters + party management (Newhaven)
+- M2: Progression + status effects + rewards
+- M3: Remix‑safe assets + adapter stubs
+- M4: Polishing + QA + contributor docs
+
 ## Future Expansion (Vision)
 
 - Open‑world 3rd‑person RPG layer (navigation, camera, streaming world)
