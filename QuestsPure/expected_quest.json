@@ -1,0 +1,15 @@
+{
+  "seed": 1234,
+  "log": [
+    "NPC: Hello, can you help me?",
+    "NPC: Find the lost item.",
+    "QUEST: fetch_item -> step=0 status=Active",
+    "NPC: Have you found it?",
+    "QUEST: fetch_item -> step=1 status=Active",
+    "NPC: Thank you!",
+    "QUEST: fetch_item -> step=1 status=Completed"
+  ],
+  "quests": [
+    {"id": "fetch_item", "step": 1, "status": "Completed"}
+  ]
+}

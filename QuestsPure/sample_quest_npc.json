@@ -1,0 +1,10 @@
+{
+  "name": "QuestGiver",
+  "start_id": "intro",
+  "dialog": [
+    {"id": "intro", "text": "Hello, can you help me?", "next_id": "offer"},
+    {"id": "offer", "text": "Find the lost item.", "questId": "fetch_item", "questStep": 0, "next_id": "progress"},
+    {"id": "progress", "text": "Have you found it?", "requireQuestId": "fetch_item", "requireStatus": "Active", "questId": "fetch_item", "questStep": 1, "next_id": "complete"},
+    {"id": "complete", "text": "Thank you!", "questId": "fetch_item", "questStatus": "Completed"}
+  ]
+}
