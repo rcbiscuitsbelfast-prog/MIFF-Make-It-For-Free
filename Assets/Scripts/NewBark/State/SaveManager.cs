@@ -53,6 +53,19 @@ namespace NewBark.State
     }
 
     var data = JsonUtility.FromJson<GameData>(json);
+    if (data == null)
+    {
+        Debug.LogWarning("SaveManager: JSON parse returned null. Returning null data.");
+        return null;
+    }
+
+    // Migration hook: initialize quests for schema < 3
+    // If the persisted file name indicates an older schema or quests is null, ensure non-null list.
+    if (data.quests == null)
+    {
+        data.quests = new System.Collections.Generic.List<GameData.QuestEntry>();
+        Debug.Log("SaveManager: Migrated GameData to schema v3 - initialized empty QuestState.");
+    }
 
     Debug.Log("Game LOADED. ");
     return data;

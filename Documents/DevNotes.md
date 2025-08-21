@@ -4,7 +4,7 @@
 - TransparentFX layer has to be disabled in Camera's culling mask, to not render the elements on it
 - For the OnTriggerStay2D event to work properly, the Rigid2DBody Sleep Mode has to be on "Never Sleep", otherwise this is only triggered once
 - The Static flag in the inspector is useful, when enabled, for elements that never move. Optimizes the game, so less calculations are made.
-- 
+-
 
 ## ToDos
 - Refactor Movement system (using editor-assigned properties, events like onMoveEnd, move disable/enable, better decoupling,...)
@@ -24,3 +24,11 @@
 
 ## Resources
 - [Learning Unity 2D - Video Tutorials](https://www.youtube.com/playlist?list=PL0dOETTrhWWCuWcl2OjB3GfvrlfWEzx18)
+
+## GameData Schema and Migration
+- Schema version bumped to 3 to include `quests` list for QuestState.
+- Migration: `SaveManager.Load()` initializes `quests` if missing and logs migration.
+
+## Scene Setup: QuestManager Lifecycle
+- `QuestManager` is auto-instantiated by `GameManager.Awake()` if missing, and marked `DontDestroyOnLoad`.
+- For explicit scene setup, you may add a `QuestManager` GameObject to `Main.unity`.
