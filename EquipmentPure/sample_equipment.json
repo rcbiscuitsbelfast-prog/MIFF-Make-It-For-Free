@@ -1,0 +1,10 @@
+{
+  "items": [
+    { "id": "dragon_lance", "name": "Dragon Lance", "slot": "weapon", "modifiers": [ { "stat": "atk", "value": 10 }, { "stat": "spd", "value": 2 } ] },
+    { "id": "frost_armor", "name": "Frost Armor", "slot": "armor", "modifiers": [ { "stat": "def", "value": 8 }, { "stat": "hp", "value": 20 } ] }
+  ],
+  "inventory": [
+    { "id": "dragon_lance", "quantity": 1 },
+    { "id": "frost_armor", "quantity": 1 }
+  ]
+}

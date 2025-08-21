@@ -10,6 +10,7 @@
 - SaveMigration
 - SaveLoadPure (v1 core)
 - XPLevelingPure (v1 core)
+- EquipmentPure (v1 core)
 - DialogManager
 - InventoryManager
 - QuestManager
@@ -24,7 +25,6 @@
 - StatusEffectsPure
 - FusionPure
 - CraftingPure
-- EquipmentPure
 - VendorsPure
 - InputPure
 

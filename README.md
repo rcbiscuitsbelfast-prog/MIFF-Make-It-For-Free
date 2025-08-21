@@ -27,6 +27,7 @@ Each module comes with a self-contained CLI harness under the repository root. R
 - MovementPure: `npx ts-node --compiler-options '{"module":"commonjs"}' MovementPure/cliHarness.ts MovementPure/sample_commands.json`
 - XPLevelingPure: `npx ts-node --compiler-options '{"module":"commonjs"}' XPLevelingPure/cliHarness.ts XPLevelingPure/sample_commands.json`
 - CombatPure: `npx ts-node --compiler-options '{"module":"commonjs"}' CombatPure/cliHarness.ts CombatPure/sample_commands.json`
+- EquipmentPure: `npx ts-node --compiler-options '{"module":"commonjs"}' EquipmentPure/cliHarness.ts EquipmentPure/sample_equipment.json EquipmentPure/tests/commands.json`
 - NPCsPure (Python): `python3 cli/npcs_pure/harness.py --npc cli/npcs_pure/sample_npc.json`
 
 See `Documents/Remix_Review_V3.md` for a full assessment including coverage and gaps.
