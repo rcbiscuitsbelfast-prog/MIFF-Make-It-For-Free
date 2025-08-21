@@ -270,6 +270,8 @@ Underdocumented but present:
 
 ---
 
+> **Reminder**: After updating the roadmap, ensure `README.md` reflects the latest scaffolded systems, gameplay loops, and branching policy.
+
 ## Milestones (Checklist Summary)
 
 - [ ] M0: Data + battle loop prototype (CLI, text‑only)
