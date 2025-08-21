@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using NewBark.State;
-using System.Linq; // Added for OrderBy and Where
-using System.IO; // Added for File.WriteAllText
+using System.Linq;
+using System.IO;
 
 namespace MIFF.Core
 {
@@ -13,21 +12,18 @@ namespace MIFF.Core
     [Serializable]
     public class SaveTestHarness
     {
-        [Header("Test Configuration")]
         public bool enableInteractiveMode = true;
         public bool enableAutoTest = false;
         public bool enableVerboseOutput = true;
         public bool enablePerformanceTesting = false;
         public bool enableStressTesting = false;
         
-        [Header("Test Settings")]
         public int testIterations = 5;
         public int stressTestCount = 100;
         public float performanceThreshold = 100.0f; // milliseconds
         public bool enableDataValidation = true;
         public bool enableFileIntegrityCheck = true;
         
-        [Header("Remix Hooks")]
         public bool enableCustomTests = true;
         public bool enableCustomValidation = true;
         public bool enableCustomMetrics = true;

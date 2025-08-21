@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using NewBark.State;
 
 namespace MIFF.Core
 {
@@ -13,7 +12,6 @@ namespace MIFF.Core
     [Serializable]
     public class SaveManager
     {
-        [Header("Save Manager Configuration")]
         public bool enableAutoSave = false;
         public bool enableSaveValidation = true;
         public bool enableSaveCompression = false;
@@ -21,7 +19,6 @@ namespace MIFF.Core
         public bool enableSaveBackups = true;
         public bool enableSaveMetadata = true;
         
-        [Header("Save Settings")]
         public int maxSaveSlots = 10;
         public string defaultSlotID = "slot1";
         public string autoSaveSlotID = "autosave";
@@ -29,13 +26,11 @@ namespace MIFF.Core
         public bool enableQuickSave = true;
         public string quickSaveSlotID = "quicksave";
         
-        [Header("Serialization Settings")]
         public bool enablePrettyPrint = false;
         public bool enableIndentation = true;
         public bool enableNullHandling = true;
         public bool enableTypeInfo = false;
         
-        [Header("Remix Hooks")]
         public bool enableCustomSerialization = true;
         public bool enableCustomValidation = true;
         public bool enableCustomCompression = true;
@@ -54,6 +49,7 @@ namespace MIFF.Core
         private Dictionary<string, SaveSlot> saveSlots;
         private SaveSlot currentSaveSlot;
         private DateTime lastAutoSave;
+        private GameData currentGameData;
         
         // JSON serialization options
         private JsonSerializerOptions jsonOptions;
@@ -98,6 +94,27 @@ namespace MIFF.Core
             
             // Load existing save slots
             LoadSaveSlots();
+        }
+
+        /// <summary>
+        /// Set the current in-memory GameData used by parameterless SaveGame
+        /// </summary>
+        public void SetCurrentGameData(GameData gameData)
+        {
+            currentGameData = gameData;
+        }
+
+        /// <summary>
+        /// Save game using the internally set current GameData
+        /// </summary>
+        public bool SaveGame(string slotID)
+        {
+            if (currentGameData == null)
+            {
+                Console.WriteLine("Error: No current GameData set. Call SetCurrentGameData first or use SaveGame(slotID, gameData).");
+                return false;
+            }
+            return SaveGame(slotID, currentGameData, string.Empty);
         }
         
         /// <summary>
@@ -224,7 +241,8 @@ namespace MIFF.Core
                     OnSaveSlotUpdated?.Invoke(this, saveSlot);
                 }
                 
-                // Trigger event
+                // Cache as current GameData and trigger event
+                currentGameData = gameData;
                 OnGameLoaded?.Invoke(this, slotID);
                 
                 Console.WriteLine($"Game loaded successfully from slot: {slotID}");
@@ -602,7 +620,7 @@ namespace MIFF.Core
                     return false;
                 
                 // Basic validation
-                if (gameData.SchemaVersion <= 0)
+                if (GameData.SchemaVersion <= 0)
                     return false;
                 
                 if (enableCustomValidation)

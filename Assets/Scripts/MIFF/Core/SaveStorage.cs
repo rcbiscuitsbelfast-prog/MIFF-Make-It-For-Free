@@ -12,7 +12,6 @@ namespace MIFF.Core
     [Serializable]
     public class SaveStorage
     {
-        [Header("Storage Configuration")]
         public string saveDirectory = "Saves";
         public string saveFileExtension = ".save";
         public string backupFileExtension = ".backup";
@@ -21,13 +20,11 @@ namespace MIFF.Core
         public bool enableCompression = false;
         public bool enableEncryption = false;
         
-        [Header("File Management")]
         public int maxBackupFiles = 3;
         public bool autoCreateDirectory = true;
         public bool validateFileIntegrity = true;
         public bool enableFileLocking = false;
         
-        [Header("Remix Hooks")]
         public bool enableCustomStorage = true;
         public bool enableCustomValidation = true;
         public bool enableCustomCompression = true;

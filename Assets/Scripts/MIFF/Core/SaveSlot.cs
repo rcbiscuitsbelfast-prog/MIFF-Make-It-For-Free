@@ -11,7 +11,6 @@ namespace MIFF.Core
     [Serializable]
     public class SaveSlot
     {
-        [Header("Save Slot Identity")]
         public string slotID;
         public string slotName;
         public string playerName;
@@ -19,7 +18,6 @@ namespace MIFF.Core
         public DateTime lastSaveDate;
         public DateTime lastLoadDate;
         
-        [Header("Game Progress Summary")]
         public int playerLevel;
         public float playerExperience;
         public int totalPlayTime;
@@ -30,7 +28,6 @@ namespace MIFF.Core
         public int totalQuestsCompleted;
         public int totalLoreEntriesUnlocked;
         
-        [Header("Game State")]
         public string currentLocation;
         public string currentArea;
         public string lastVisitedLocation;
@@ -38,7 +35,6 @@ namespace MIFF.Core
         public string lastCompletedQuestID;
         public string currentEvolutionQuestID;
         
-        [Header("Inventory Summary")]
         public int totalItems;
         public int totalCurrency;
         public int totalCaptureItems;
@@ -46,7 +42,6 @@ namespace MIFF.Core
         public int totalEvolutionItems;
         public string[] rareItems;
         
-        [Header("Spirit Collection")]
         public int totalSpiritsInParty;
         public int totalSpiritsInStorage;
         public string[] legendarySpirits;
@@ -55,7 +50,6 @@ namespace MIFF.Core
         public string strongestSpiritID;
         public int strongestSpiritLevel;
         
-        [Header("Achievements & Flags")]
         public int totalAchievementsUnlocked;
         public int totalTutorialsCompleted;
         public bool firstEvolutionCompleted;
@@ -64,7 +58,6 @@ namespace MIFF.Core
         public string[] unlockedAchievements;
         public string[] completedTutorials;
         
-        [Header("Technical Information")]
         public string gameVersion;
         public string saveFormatVersion;
         public long fileSizeBytes;
@@ -72,7 +65,6 @@ namespace MIFF.Core
         public string corruptionReason;
         public DateTime lastValidationDate;
         
-        [Header("Remix Hooks")]
         public string customData;
         public bool isRemixable = true;
         public string[] customTags;
