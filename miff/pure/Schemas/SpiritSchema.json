@@ -1,0 +1,19 @@
+{
+  "title": "Spirit",
+  "type": "object",
+  "required": ["id", "spiritId", "name", "typeTag", "level", "maxHP", "currentHP"],
+  "properties": {
+    "id": { "type": "integer" },
+    "spiritId": { "type": "string" },
+    "name": { "type": "string" },
+    "typeTag": { "type": "string" },
+    "level": { "type": "integer" },
+    "attack": { "type": "integer" },
+    "defense": { "type": "integer" },
+    "specialAttack": { "type": "integer" },
+    "specialDefense": { "type": "integer" },
+    "maxHP": { "type": "integer" },
+    "currentHP": { "type": "integer" }
+  }
+}
+
