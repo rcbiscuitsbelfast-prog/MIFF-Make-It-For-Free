@@ -442,6 +442,16 @@ namespace MIFF.Battle
             
             return false;
         }
+
+        // Extension hook: allow pure C# AI controller to execute a turn using SpiritInstances
+        public bool ExecuteAITurn(MIFF.BattleAIPure.BattleAIController ai,
+                                  MIFF.Spirits.SpiritInstance self,
+                                  MIFF.Spirits.SpiritInstance opponent)
+        {
+            if (ai == null || self == null || opponent == null) return false;
+            var chosenMoveId = ai.SelectMove(self, opponent);
+            return !string.IsNullOrEmpty(chosenMoveId);
+        }
         
         /// <summary>
         /// Execute an item action
