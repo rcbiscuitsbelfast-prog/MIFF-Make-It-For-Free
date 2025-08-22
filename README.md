@@ -1,6 +1,8 @@
-MIFF: Make It For Free
+# MIFF: Make It For Free
 
 [![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/actions/workflows/miff-ci.yml)
+
+**🌐 [Documentation Site](https://miff-framework.github.io/miff)** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
 
 Modular, CLI‑First Game Framework (Unity Runtime)
 
@@ -34,6 +36,15 @@ Each module comes with a self-contained CLI harness under the repository root. R
 - NPCsPure (Python): `python3 cli/npcs_pure/harness.py --npc cli/npcs_pure/sample_npc.json`
 
 See `Documents/Remix_Review_V3.md` for a full assessment including coverage and gaps.
+
+## 📖 Documentation
+
+- **[🌐 Documentation Site](https://miff-framework.github.io/miff)** - Complete guides, API reference, and examples
+- **[🚀 Getting Started](https://miff-framework.github.io/miff/getting-started/install)** - Installation and setup guide
+- **[🎮 Simulate Tool](https://miff-framework.github.io/miff/getting-started/simulate)** - Scenario testing and validation
+- **[🎬 Replay Tool](https://miff-framework.github.io/miff/getting-started/replay)** - Visual replay and debugging
+- **[🔍 Inspect Tool](https://miff-framework.github.io/miff/getting-started/inspect)** - Bridge validation and analysis
+- **[📚 Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)** - How to contribute to MIFF
 
 
 ## License

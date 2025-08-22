@@ -134,11 +134,61 @@ Tag: `phase5-v13-cleanup-complete`
 - [x] READMEs with schema, CLI usage, remix hooks, dependencies
 - [x] Roadmap updated and tagged
 
+## Phase 6 — Engine Bridges (Schema v1)
+- [x] UnityBridgePure (new)
+- [x] WebBridgePure (new)
+- [x] GodotBridgePure (new)
+- [x] BridgeSchemaPure (new)
+
+Tag: `phase6-v1-engine-bridges`
+
+### Phase 6 Completion Checklist
+- [x] Engine-specific bridge modules with render/simulate/interop operations
+- [x] Unified BridgeSchemaPure for cross-engine compatibility
+- [x] CLI harnesses for each bridge with engine-specific configurations
+- [x] Golden tests for deterministic bridge output
+- [x] READMEs with schema v1, engine integration notes, remix hooks
+
+## Phase 7 — Visual Tools (Schema v1)
+- [x] RenderReplayPure (new)
+- [x] DebugOverlayPure (new)
+- [x] BridgeInspectorPure (new)
+
+Tag: `phase7-v1-visual-tools`
+
+### Phase 7 Completion Checklist
+- [x] Visual replay tool for renderData payloads
+- [x] Debug overlay for real-time visualization
+- [x] Bridge inspector for validation and analysis
+- [x] CLI harnesses with export and configuration options
+- [x] Golden tests for deterministic tool output
+
+## Phase 8 — Documentation Site (Schema v1)
+- [x] Comprehensive documentation site built with Astro
+- [x] GitHub Pages deployment with automatic CI/CD
+- [x] Auto-generated CLI documentation
+- [x] Getting started guides and tutorials
+- [x] Architecture and contributor documentation
+
+Tag: `phase8-v1-documentation`
+
+### Phase 8 Completion Checklist
+- [x] Documentation site at https://miff-framework.github.io/miff
+- [x] GitHub Actions workflow for automatic deployment
+- [x] Complete getting started guides (install, simulate, replay, inspect)
+- [x] Architecture documentation (modularity, engine-agnostic, remix-safety)
+- [x] Contributor onboarding and licensing guides
+- [x] Auto-generated CLI reference from harness files
+- [x] Responsive design with dark mode support
+- [x] SEO optimization and sitemap generation
+
 ## Next Phases (high level)
-- Phase 5: Tooling — Test harness runner, coverage, docs site generation
-- Phase 6: Engine bridges — Unity, Web, Godot bindings (no logic changes)
+- Phase 9: Advanced Tooling — Performance profiling, debugging tools
+- Phase 10: Community Features — Plugin system, marketplace
 
 ## Contributor Onboarding
 - Each module folder contains: Manager.ts, cliHarness.ts, sample_*.json, tests/golden*.test.ts, README.md
 - Run harnesses with `npx ts-node` as shown in module READMEs
 - Add new modules under schema v12+, keeping remix hooks isolated
+- **📚 [Complete Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
+- **🌐 [Documentation Site](https://miff-framework.github.io/miff)**
