@@ -5,6 +5,7 @@ const base = import.meta.env.BASE_URL || '/';
 
 <Layout title="Welcome to MIFF" description="Modular, CLI-first, engine-agnostic game dev for remixers and contributors.">
 	<section class="hero" aria-labelledby="hero-title">
+		<p class="remix-badge" aria-label="Remix-safe and contributor-first">♻️ Remix-safe · 🤝 Contributor-first</p>
 		<h1 id="hero-title" class="hero__title">Welcome to MIFF</h1>
 		<p class="hero__subtitle">Modular, CLI-first, engine-agnostic game dev for remixers and contributors.</p>
 		<p>
@@ -12,11 +13,20 @@ const base = import.meta.env.BASE_URL || '/';
 		</p>
 	</section>
 
-	<section class="features" aria-label="Highlights">
-		<ul class="feature-list">
-			<li><strong>Modular</strong> — pure modules, clean remix hooks</li>
-			<li><strong>CLI-first</strong> — deterministic, testable flows</li>
-			<li><strong>Engine-agnostic</strong> — Unity, Web, Godot via bridges</li>
-		</ul>
+	<section class="section" aria-label="Highlights">
+		<div class="feature-grid">
+			<div class="feature-card">
+				<h3>Modular by Design</h3>
+				<p>Pure modules with clear remix hooks and deterministic tests.</p>
+			</div>
+			<div class="feature-card">
+				<h3>CLI-first Workflows</h3>
+				<p>Simulate, diff, and replay from the command line for rapid iteration.</p>
+			</div>
+			<div class="feature-card">
+				<h3>Engine-agnostic</h3>
+				<p>Target Unity, Web, and Godot via bridge adapters.</p>
+			</div>
+		</div>
 	</section>
 </Layout>

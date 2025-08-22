@@ -18,7 +18,8 @@ const base = import.meta.env.BASE_URL || '/';
 		<header class="site-header" role="banner">
 			<div class="container header-inner">
 				<a href={`${base}`} class="brand" aria-label="MIFF Home">MIFF</a>
-				<Nav />
+				<button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation" onclick="document.getElementById('primary-nav').classList.toggle('open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='true'?'false':'true');">Menu ▾</button>
+				<nav id="primary-nav" class="site-nav"><Nav /></nav>
 			</div>
 		</header>
 

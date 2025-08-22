@@ -10,11 +10,16 @@ const base = import.meta.env.BASE_URL || '/';
 		<li><a href={`${base}contributors/roadmap`}>Roadmap</a></li>
 		<li><a href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></li>
 	</ul>
+	<div class="engine-row" aria-label="Supported engines">
+		<span class="engine-pill" title="Unity">🧩 Unity</span>
+		<span class="engine-pill" title="Web">🌐 Web</span>
+		<span class="engine-pill" title="Godot">🎮 Godot</span>
+	</div>
 </nav>
 
 <style>
 	.site-nav { display: block; }
-	.nav-list { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0; }
+	.nav-list { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0 0 .5rem; }
 	.nav-list a { text-decoration: none; color: var(--color-text); }
 	.nav-list a:hover { text-decoration: underline; }
 </style>
