@@ -1,5 +1,7 @@
 MIFF: Make It For Free
 
+[![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/actions/workflows/miff-ci.yml)
+
 Modular, CLI‑First Game Framework (Unity Runtime)
 
 Started with a Retro-style 2D RPG engine and became a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
