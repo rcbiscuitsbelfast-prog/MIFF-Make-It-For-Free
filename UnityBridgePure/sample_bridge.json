@@ -1,0 +1,174 @@
+{
+  "simulate": {
+    "npcs": {
+      "input": {
+        "npcId": "npc_001",
+        "duration": 3600
+      },
+      "output": {
+        "op": "simulate",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "npc_001",
+              "gameObject": "GameObject_npc_001",
+              "transform": {
+                "position": { "x": 10, "y": 15, "z": 0 },
+                "rotation": { "x": 0, "y": 0, "z": 0 },
+                "scale": { "x": 1, "y": 1, "z": 1 }
+              },
+              "components": {
+                "NPCController": { "npcId": "npc_001", "behavior": "quest_giver" },
+                "Transform": { "position": { "x": 10, "y": 15, "z": 0 } },
+                "Stats": { "stats": [{ "key": "health", "base": 100 }] }
+              }
+            }
+          ],
+          "components": [],
+          "prefabs": ["NPCPrefab", "QuestGiverPrefab"],
+          "scenes": ["MainScene"],
+          "scripts": ["NPCController", "QuestGiver"]
+        }
+      }
+    },
+    "combat": {
+      "input": {
+        "attacker": {
+          "id": "player_001",
+          "stats": [{ "key": "strength", "base": 20 }]
+        },
+        "defender": {
+          "id": "enemy_001",
+          "stats": [{ "key": "health", "base": 100 }]
+        }
+      },
+      "output": {
+        "op": "simulate",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "player_001",
+              "gameObject": "Combatant_player_001",
+              "transform": { "position": { "x": 0, "y": 0, "z": 0 } },
+              "components": {
+                "CombatController": { "combatantId": "player_001", "isAttacker": true },
+                "Stats": { "stats": [{ "key": "strength", "base": 20 }] }
+              }
+            }
+          ],
+          "components": [
+            {
+              "type": "CombatController",
+              "data": { "combatData": { "damage": 25, "result": "hit" } },
+              "enabled": true
+            }
+          ],
+          "prefabs": ["CombatantPrefab", "WeaponPrefab"],
+          "scenes": ["CombatScene"],
+          "scripts": ["CombatController", "WeaponSystem"]
+        }
+      }
+    }
+  },
+  "render": {
+    "npcs": {
+      "input": {
+        "zoneId": "zone_village",
+        "includeQuests": true
+      },
+      "output": {
+        "op": "render",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "npc_001",
+              "gameObject": "GameObject_npc_001",
+              "transform": { "position": { "x": 10, "y": 15, "z": 0 } },
+              "components": {
+                "NPCController": { "npcId": "npc_001", "behavior": "quest_giver" },
+                "QuestGiver": { "questIds": ["quest_tutorial"] }
+              }
+            },
+            {
+              "id": "npc_002",
+              "gameObject": "GameObject_npc_002",
+              "transform": { "position": { "x": 25, "y": 12, "z": 0 } },
+              "components": {
+                "NPCController": { "npcId": "npc_002", "behavior": "merchant" },
+                "Merchant": { "inventory": ["item_sword", "item_potion"] }
+              }
+            }
+          ],
+          "components": [
+            {
+              "type": "NPCController",
+              "data": { "npcId": "npc_001", "behavior": "quest_giver" },
+              "enabled": true
+            },
+            {
+              "type": "NPCController",
+              "data": { "npcId": "npc_002", "behavior": "merchant" },
+              "enabled": true
+            }
+          ],
+          "prefabs": ["NPCPrefab", "QuestGiverPrefab", "MerchantPrefab"],
+          "scenes": ["MainScene"],
+          "scripts": ["NPCController", "QuestGiver", "MerchantBehavior"]
+        }
+      }
+    }
+  },
+  "interop": {
+    "npcs": {
+      "input": {
+        "id": "npc_001",
+        "data": {
+          "transform": { "position": { "x": 15, "y": 20, "z": 0 } },
+          "stats": [{ "key": "health", "base": 95 }],
+          "questIds": ["quest_tutorial", "quest_side_quest"]
+        }
+      },
+      "output": {
+        "op": "interop",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "npc_001",
+              "gameObject": "GameObject_npc_001",
+              "transform": { "position": { "x": 15, "y": 20, "z": 0 } },
+              "components": {
+                "NPCController": { "npcId": "npc_001", "updated": true },
+                "Transform": { "position": { "x": 15, "y": 20, "z": 0 } },
+                "Stats": { "stats": [{ "key": "health", "base": 95 }] }
+              }
+            }
+          ],
+          "components": [],
+          "prefabs": [],
+          "scenes": [],
+          "scripts": []
+        }
+      }
+    }
+  },
+  "config": {
+    "unity": {
+      "targetVersion": "2022.3",
+      "useECS": false,
+      "prefabPath": "Assets/Prefabs/",
+      "scriptPath": "Assets/Scripts/",
+      "scenePath": "Assets/Scenes/"
+    },
+    "unity_ecs": {
+      "targetVersion": "2022.3",
+      "useECS": true,
+      "prefabPath": "Assets/Prefabs/",
+      "scriptPath": "Assets/Scripts/",
+      "scenePath": "Assets/Scenes/"
+    }
+  }
+}
