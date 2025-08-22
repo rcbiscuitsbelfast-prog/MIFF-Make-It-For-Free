@@ -1,0 +1,5 @@
+{
+  "recipes": [
+    { "id": "potion", "inputs": { "herb": 2, "water": 1 }, "outputs": { "potion": 1 }, "statMods": [ { "key": "hp", "base": 5 } ] }
+  ]
+}
