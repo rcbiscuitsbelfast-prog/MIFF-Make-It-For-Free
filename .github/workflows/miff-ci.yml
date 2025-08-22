@@ -19,20 +19,14 @@ jobs:
           node-version: '20'
 
       - name: 📦 Install deps
-        run: |
-          npm ci || npm i
-          npm i -D jest ts-jest @types/jest
-
-      - name: 🧪 Configure Jest (ts-jest)
-        run: |
-          if [ ! -f jest.config.js ]; then echo "module.exports={ preset:'ts-jest', testEnvironment:'node', testMatch:['**/?(*.)+(test).[tj]s?(x)'] }" > jest.config.js; fi
+        run: npm ci || npm i
 
       - name: 🧹 Type check (tsc --noEmit)
         run: npx tsc --noEmit
 
-      - name: 🟡 Run golden tests (best-effort)
+      - name: 🟡 Run Jest tests (best-effort)
         continue-on-error: true
-        run: npx jest --passWithNoTests
+        run: npm run test:ci
 
       - name: ▶️ Simulate scenario (tutorial)
         run: |
