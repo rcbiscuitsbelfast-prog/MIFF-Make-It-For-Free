@@ -28,7 +28,7 @@ class FileStorage implements StorageAdapter {
 
 async function main() {
   const cmdsPath = process.argv[2];
-  const saveFile = process.argv[3] || 'Assets/Resources/saves/save_state.json';
+  const saveFile = process.argv[3] || 'SaveLoadPure/tests/sample_save_state.json';
   if (!cmdsPath) {
     console.error('Usage: SaveLoadPure/cliHarness.ts <commands.json> [save_file.json]');
     process.exit(1);

@@ -1,0 +1,24 @@
+[
+  {
+    "op": "list"
+  },
+  {
+    "op": "canUnlock",
+    "id": "strike"
+  },
+  {
+    "op": "unlock",
+    "id": "root"
+  },
+  {
+    "op": "canUnlock",
+    "id": "strike"
+  },
+  {
+    "op": "unlock",
+    "id": "strike"
+  },
+  {
+    "op": "dump"
+  }
+]

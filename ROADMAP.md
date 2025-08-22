@@ -10,7 +10,7 @@
   - InventoryPure — CLI harness, samples, golden test
   - SaveLoadPure — CLI harness, samples
   - QuestsPure — CLI harness, samples, tests
-  - NPCsPure — CLI harness
+  - NPCsPure — CLI harness, samples, golden tests (v13)
 - Character Progression (completed)
   - StatsSystemPure — v12. CRUD and simulate totals
   - SkillTreePure — v12. Unlock with prerequisites
@@ -103,10 +103,28 @@ Tag: `phase3-v13-derived`
 Tag: `phase4-v13-scenarios`
 
 ### Phase 4 Completion Checklist
-- [x] scenario.json for each scenario
-- [x] CLI harness run/dump producing {op,status,events,finalState}
-- [x] Expected outputs and golden tests
-- [x] READMEs with overview, hooks, dependencies
+- [x] Scenario modules with run/dump operations
+- [x] CLI harnesses for scenario execution
+- [x] Sample scenarios and expected outputs
+- [x] Golden tests for deterministic scenario runs
+
+## Phase 5 — Codebase Cleanup & NPCsPure Regeneration (Schema v13)
+- [x] NPCsPure (regenerated in TypeScript)
+- [x] Unity artifacts cleanup
+- [x] Duplicate files removal
+- [x] CI pipeline verification
+
+Tag: `phase5-v13-cleanup-complete`
+
+### Phase 5 Completion Checklist
+- [x] NPCsPure module with complete TypeScript implementation
+- [x] Unity-specific directories removed (Assets/, Packages/, ProjectSettings/, UserSettings/)
+- [x] Duplicate files deleted (LICENSE, Documents/ROADMAP.md)
+- [x] Large unused assets removed (~9MB+ savings)
+- [x] .gitignore updated to exclude Unity artifacts
+- [x] CI pipeline verified and functional
+- [x] All test files updated to use ts-node
+- [x] No references to deleted files remain
 
 ## Completion Checklist
 - [x] Managers with core logic: list/create/simulate/dump

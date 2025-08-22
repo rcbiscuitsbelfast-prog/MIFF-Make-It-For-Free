@@ -1,5 +1,14 @@
 [
-  { "op": "listDialogs" },
-  { "op": "simulateDialog", "dialogId": "elder_intro" },
-  { "op": "simulateChoice", "dialogId": "elder_intro", "choiceId": "ask_item" }
+  {
+    "op": "listDialogs"
+  },
+  {
+    "op": "simulateDialog",
+    "dialogId": "elder_intro"
+  },
+  {
+    "op": "simulateChoice",
+    "dialogId": "elder_intro",
+    "choiceId": "ask_item"
+  }
 ]
