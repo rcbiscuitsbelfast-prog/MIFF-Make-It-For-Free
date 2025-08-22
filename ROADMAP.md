@@ -28,6 +28,10 @@
   - SharedSchemaPure — v12. Common types and CLI dumpTypes
   - EntityLinkerPure — v12. Cross-module reference resolution
   - ValidationPure — v12. Cross-module validation engine
+- Attribution & Licensing (completed in Phase 2.1/v13)
+  - MiffAttributionPure — v13. Attribution popup module
+  - LICENSE.md — Dual license (AGPLv3 + commercial)
+  - CONTRIBUTING.md — CLA and dual-license notes
 - Content & Systems (existing)
   - DialogPure — Branching text
   - LorePure — Databank
@@ -57,6 +61,18 @@ Tag: `phase2-v12-interop`
 - [x] EntityLinker supports extern map injection and deterministic resolution
 - [x] Validation supports configurable rules and deterministic reports
 - [x] Golden-output tests for all ops
+
+## Phase 2.1 — Attribution & Licensing (Schema v13)
+- [x] MiffAttributionPure (new)
+- [x] LICENSE.md (dual license)
+- [x] CONTRIBUTING.md (CLA + dual-license)
+
+Tag: `phase2-v13-attribution`
+
+### Attribution & Licensing Checklist
+- [x] Attribution module with override hooks and golden tests
+- [x] Dual-license file with commercial contact
+- [x] CLA in contributing guide
 
 ## Completion Checklist
 - [x] Managers with core logic: list/create/simulate/dump
