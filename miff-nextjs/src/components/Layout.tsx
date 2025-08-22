@@ -75,7 +75,9 @@ export default function Layout({
         <Header />
         
         <main className="flex-1">
-          {children}
+          <div className="max-w-4xl mx-auto p-6">
+            {children}
+          </div>
         </main>
         
         <Footer />
