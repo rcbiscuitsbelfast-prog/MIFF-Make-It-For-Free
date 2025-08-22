@@ -3,30 +3,34 @@ import Layout from '../layouts/SimpleLayout.astro';
 const base = import.meta.env.BASE_URL || '/';
 ---
 
-<Layout title="Welcome to MIFF" description="Modular, CLI-first, engine-agnostic game dev for remixers and contributors.">
-	<section class="hero" aria-labelledby="hero-title">
-		<p class="remix-badge" aria-label="Remix-safe and contributor-first">♻️ Remix-safe · 🤝 Contributor-first</p>
-		<h1 id="hero-title" class="hero__title">Welcome to MIFF</h1>
-		<p class="hero__subtitle">Modular, CLI-first, engine-agnostic game dev for remixers and contributors.</p>
-		<p>
-			<a class="btn btn--primary" href={`${base}getting-started/install`}>Get Started</a>
-		</p>
+<Layout title="MIFF — Modular, Engine-Agnostic Game Framework" description="Prompt. Remix. Play.">
+	<section class="py-12" aria-labelledby="hero-title">
+		<div class="max-w-6xl mx-auto px-4">
+			<div class="rounded-lg shadow p-6" style="background:linear-gradient(135deg, rgba(124,58,237,.12), rgba(99,102,241,.10));">
+				<div class="flex items-center gap-4">
+					<div class="rounded-full bg-purple-600 text-white inline-flex items-center justify-center" style="width:48px;height:48px;font-weight:800">M</div>
+					<div>
+						<h1 id="hero-title" class="text-slate-900" style="font-size:2rem;font-weight:900;line-height:1.2;margin:0">Welcome to MIFF</h1>
+						<p class="text-slate-600" style="margin:.25rem 0 0">Prompt. Remix. Play.</p>
+					</div>
+				</div>
+				<p class="text-slate-600" style="margin:1rem 0 1.25rem">Modular, CLI-first, engine-agnostic game dev for remixers and contributors.</p>
+				<p>
+					<a class="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white rounded-full px-4 py-2 transition hover:scale-[1.01]" href={`${base}modules/`}>Explore Modules</a>
+				</p>
+			</div>
+		</div>
 	</section>
 
-	<section class="section" aria-label="Highlights">
-		<div class="feature-grid">
-			<div class="feature-card">
-				<h3>Modular by Design</h3>
-				<p>Pure modules with clear remix hooks and deterministic tests.</p>
-			</div>
-			<div class="feature-card">
-				<h3>CLI-first Workflows</h3>
-				<p>Simulate, diff, and replay from the command line for rapid iteration.</p>
-			</div>
-			<div class="feature-card">
-				<h3>Engine-agnostic</h3>
-				<p>Target Unity, Web, and Godot via bridge adapters.</p>
-			</div>
+	<section class="py-12" aria-label="Quick links">
+		<div class="max-w-6xl mx-auto px-4">
+			<ul class="flex items-center gap-4 text-sm">
+				<li><a class="text-slate-800 hover:text-purple-700 hover:underline" href={`${base}docs/`}>Docs</a></li>
+				<li><a class="text-slate-800 hover:text-purple-700 hover:underline" href={`${base}contributors/onboarding`}>Contributors</a></li>
+				<li><a class="text-slate-800 hover:text-purple-700 hover:underline" href={`${base}contributors/roadmap`}>Roadmap</a></li>
+				<li><a class="text-slate-800 hover:text-purple-700 hover:underline" href={`${base}forum/`}>Forum</a></li>
+				<li><a class="text-slate-800 hover:text-purple-700 hover:underline" href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></li>
+			</ul>
 		</div>
 	</section>
 </Layout>
