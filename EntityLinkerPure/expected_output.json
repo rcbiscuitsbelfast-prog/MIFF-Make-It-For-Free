@@ -1,0 +1,14 @@
+{
+  "outputs": [
+    {
+      "op": "resolveRefs",
+      "status": "error",
+      "issues": [ { "code": "missing_item", "message": "Equipment sword references missing item itm_sword", "ref": "itm_sword" } ],
+      "resolvedRefs": {
+        "npc:bob:quest": { "ok": true, "target": "q1" },
+        "equip:sword:item": { "ok": false },
+        "place:townGate:zone": { "ok": true, "target": "z_town" }
+      }
+    }
+  ]
+}
