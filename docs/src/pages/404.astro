@@ -4,43 +4,41 @@ const base = import.meta.env.BASE_URL || '/';
 ---
 
 <SimpleLayout title="404 — Page Not Found" description="The page you were looking for doesn't exist.">
-	<section class="py-16" aria-labelledby="error-title">
-		<div class="max-w-4xl mx-auto px-4 text-center">
-			<div class="mb-8">
-				<h1 id="error-title" class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-					404 — Page Not Found
-				</h1>
-				<p class="text-xl text-slate-600 mb-8">
-					The page you were looking for doesn't exist. Try one of these instead:
-				</p>
-			</div>
-			
-			<div class="flex flex-wrap justify-center gap-4">
-				<a 
-					href={`${base}`}
-					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-				>
-					🏠 Home
-				</a>
-				<a 
-					href={`${base}modules/`}
-					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-				>
-					🧩 Modules
-				</a>
-				<a 
-					href={`${base}docs/`}
-					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-				>
-					📚 Docs
-				</a>
-				<a 
-					href={`${base}contributors/onboarding`}
-					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-				>
-					👥 Contributors
-				</a>
-			</div>
+	<section class="text-center py-12">
+		<div class="mb-8">
+			<h1 class="text-3xl font-bold text-purple-700 mb-4">
+				404 — Page Not Found
+			</h1>
+			<p class="text-gray-600 mb-6">
+				The page you were looking for doesn't exist. Try one of these instead:
+			</p>
+		</div>
+		
+		<div class="flex flex-wrap justify-center gap-4">
+			<a 
+				href={`${base}`}
+				class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 mx-2 transition-colors font-medium"
+			>
+				🏠 Home
+			</a>
+			<a 
+				href={`${base}modules/`}
+				class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 mx-2 transition-colors font-medium"
+			>
+				🧩 Modules
+			</a>
+			<a 
+				href={`${base}docs/`}
+				class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 mx-2 transition-colors font-medium"
+			>
+				📚 Docs
+			</a>
+			<a 
+				href={`${base}contributors/onboarding`}
+				class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 mx-2 transition-colors font-medium"
+			>
+				👥 Contributors
+			</a>
 		</div>
 	</section>
 </SimpleLayout>
