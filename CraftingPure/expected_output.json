@@ -1,0 +1,7 @@
+{
+  "outputs": [
+    { "op": "list", "status": "ok", "result": ["potion"], "issues": [] },
+    { "op": "simulate", "status": "ok", "result": { "crafted": {"potion":1}, "remaining": {"herb":1, "water":0}, "statMods": [ {"key":"hp","base":5} ] }, "issues": [] },
+    { "op": "dump", "status": "ok", "result": { "id": "potion", "inputs": {"herb":2, "water":1}, "outputs": {"potion":1}, "statMods": [ {"key":"hp","base":5} ] }, "issues": [] }
+  ]
+}
