@@ -32,6 +32,10 @@
   - MiffAttributionPure — v13. Attribution popup module
   - LICENSE.md — Dual license (AGPLv3 + commercial)
   - CONTRIBUTING.md — CLA and dual-license notes
+- Derived Systems (completed in Phase 3/v13)
+  - CraftingPure — v13. Recipes and stat modifiers
+  - LootTablesPure — v13. Drop rates and stat rolls
+  - EconomyPure — v13. Pricing and vendor logic
 - Content & Systems (existing)
   - DialogPure — Branching text
   - LorePure — Databank
@@ -74,6 +78,19 @@ Tag: `phase2-v13-attribution`
 - [x] Dual-license file with commercial contact
 - [x] CLA in contributing guide
 
+## Phase 3 — Derived Systems (Schema v13)
+- [x] CraftingPure (new)
+- [x] LootTablesPure (new)
+- [x] EconomyPure (new)
+
+Tag: `phase3-v13-derived`
+
+### Phase 3 Completion Checklist
+- [x] Managers with simulateCraft/rollLoot/calculatePrice
+- [x] CLI harnesses list/create/simulate/dump
+- [x] Samples and expected outputs for golden tests
+- [x] READMEs with schema v13, hooks, dependencies
+
 ## Completion Checklist
 - [x] Managers with core logic: list/create/simulate/dump
 - [x] CLI harnesses for each module
@@ -83,7 +100,6 @@ Tag: `phase2-v13-attribution`
 - [x] Roadmap updated and tagged
 
 ## Next Phases (high level)
-- Phase 3: Derived systems — Crafting, LootTables, Economy balancing (pure)
 - Phase 4: Scenario packs — End-to-end CLI campaigns for playtesting
 - Phase 5: Tooling — Test harness runner, coverage, docs site generation
 - Phase 6: Engine bridges — Unity, Web, Godot bindings (no logic changes)
