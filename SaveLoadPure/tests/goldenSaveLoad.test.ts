@@ -5,7 +5,7 @@ import fs from 'fs';
 test('golden save/load/delete/rollback flow', () => {
   const root = path.resolve(__dirname, '..');
   const harness = path.resolve(root, 'cliHarness.ts');
-  const saveFile = path.resolve('Assets/Resources/saves/save_state.json');
+  const saveFile = path.resolve('SaveLoadPure/tests/sample_save_state.json');
 
   const commands = [
     { op: 'listSlots' },
@@ -21,7 +21,7 @@ test('golden save/load/delete/rollback flow', () => {
   fs.mkdirSync(path.dirname(cmdsPath), { recursive: true });
   fs.writeFileSync(cmdsPath, JSON.stringify(commands, null, 2));
 
-  const out = execFileSync('node', [harness, cmdsPath, saveFile], { encoding: 'utf-8' });
+  const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', harness, cmdsPath, saveFile], { encoding: 'utf-8' });
   const got = JSON.parse(out);
 
   // Basic invariants (timestamps are dynamic, so avoid strict equality)

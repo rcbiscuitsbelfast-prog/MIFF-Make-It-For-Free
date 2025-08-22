@@ -1,0 +1,29 @@
+[
+  {
+    "op": "list"
+  },
+  {
+    "op": "create",
+    "id": "hero",
+    "stats": [
+      {
+        "key": "hp",
+        "base": 30
+      }
+    ]
+  },
+  {
+    "op": "setStat",
+    "id": "hero",
+    "key": "atk",
+    "base": 8
+  },
+  {
+    "op": "simulate",
+    "id": "hero"
+  },
+  {
+    "op": "dump",
+    "id": "hero"
+  }
+]

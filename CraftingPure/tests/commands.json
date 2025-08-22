@@ -1,0 +1,17 @@
+[
+  {
+    "op": "list"
+  },
+  {
+    "op": "simulate",
+    "recipeId": "potion",
+    "inventory": {
+      "herb": 3,
+      "water": 1
+    }
+  },
+  {
+    "op": "dump",
+    "id": "potion"
+  }
+]
