@@ -13,7 +13,7 @@ export interface WebEntity {
   y: number;
   width?: number;
   height?: number;
-  properties: Map<string, any>;
+  properties: { [key: string]: any };
   children?: WebEntity[];
 }
 
@@ -83,7 +83,7 @@ export class WebBridge {
           result = this.npcsManager.simulateNPC(data.npcId, data.duration);
           break;
         case 'combat':
-          result = this.combatManager.simulateCombat(data.attacker, data.defender);
+          result = this.combatManager.simulate(data.attacker, data.defender);
           break;
         case 'crafting':
           result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
@@ -196,7 +196,8 @@ export class WebBridge {
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
           break;
         case 'stats':
-          result = this.statsManager.updateStats(convertedData.id, convertedData);
+          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
+          result = this.statsManager.get(convertedData.id);
           break;
         default:
           return {
@@ -228,12 +229,12 @@ export class WebBridge {
       y: npc.location.y * 32,
       width: 32,
       height: 32,
-      properties: new Map([
-        ['npcId', npc.id],
-        ['behavior', npc.behavior.type],
-        ['faction', npc.faction || 'neutral'],
-        ['hasQuests', npc.questIds.length > 0]
-      ])
+      properties: {
+        npcId: npc.id,
+        behavior: npc.behavior.type,
+        faction: npc.faction || 'neutral',
+        hasQuests: npc.questIds.length > 0
+      }
     };
 
     // Add quest indicators as children if NPC has quests
@@ -245,10 +246,10 @@ export class WebBridge {
         y: -8,
         width: 16,
         height: 16,
-        properties: new Map([
-          ['questCount', npc.questIds.length],
-          ['questIds', npc.questIds]
-        ])
+        properties: {
+          questCount: npc.questIds.length,
+          questIds: npc.questIds
+        }
       }];
     }
 
@@ -278,11 +279,11 @@ export class WebBridge {
         y: data.attackerY || 0,
         width: 64,
         height: 64,
-        properties: new Map([
-          ['combatantId', data.attackerId],
-          ['isAttacker', true],
-          ['health', data.attackerStats?.health || 100]
-        ])
+        properties: {
+          combatantId: data.attackerId,
+          isAttacker: true,
+          health: data.attackerStats?.health || 100
+        }
       },
       {
         id: data.defenderId,
@@ -291,11 +292,11 @@ export class WebBridge {
         y: data.defenderY || 0,
         width: 64,
         height: 64,
-        properties: new Map([
-          ['combatantId', data.defenderId],
-          ['isAttacker', false],
-          ['health', data.defenderStats?.health || 100]
-        ])
+        properties: {
+          combatantId: data.defenderId,
+          isAttacker: false,
+          health: data.defenderStats?.health || 100
+        }
       }
     ];
   }
@@ -319,21 +320,21 @@ export class WebBridge {
         y: 10,
         width: 300,
         height: 200,
-        properties: new Map([
-          ['uiType', 'inventory'],
-          ['visible', true]
-        ]),
+        properties: {
+          uiType: 'inventory',
+          visible: true
+        },
         children: [
           {
             id: 'inventory_title',
             type: 'text',
             x: 0,
             y: 0,
-            properties: new Map([
-              ['text', 'Inventory'],
-              ['fontSize', '18px'],
-              ['color', '#ffffff']
-            ])
+            properties: {
+              text: 'Inventory',
+              fontSize: '18px',
+              color: '#ffffff'
+            }
           }
         ]
       }

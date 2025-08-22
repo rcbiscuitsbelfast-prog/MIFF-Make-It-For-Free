@@ -3,6 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { BridgeInspectorManager, InspectionConfig, BridgeInspectorOutput } from './Manager';
+import { RenderPayload } from '../BridgeSchemaPure/schema';
 
 const manager = new BridgeInspectorManager({
   validateSchema: true,
@@ -189,7 +190,7 @@ function exportInspection(args: string[], options: any): void {
 
   // For demo purposes, create a sample inspection
   // In a real implementation, you'd load the inspection from storage
-  const samplePayload = {
+  const samplePayload: RenderPayload = {
     op: 'render',
     status: 'ok',
     renderData: [

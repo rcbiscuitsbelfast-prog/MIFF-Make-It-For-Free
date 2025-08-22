@@ -13,7 +13,7 @@ export interface GodotNode {
   position: { x: number; y: number };
   scale?: { x: number; y: number };
   rotation?: number;
-  properties: Map<string, any>;
+  properties: { [key: string]: any };
   children?: GodotNode[];
   signals?: GodotSignal[];
 }
@@ -92,7 +92,7 @@ export class GodotBridge {
           result = this.npcsManager.simulateNPC(data.npcId, data.duration);
           break;
         case 'combat':
-          result = this.combatManager.simulateCombat(data.attacker, data.defender);
+          result = this.combatManager.simulate(data.attacker, data.defender);
           break;
         case 'crafting':
           result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
@@ -205,7 +205,8 @@ export class GodotBridge {
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
           break;
         case 'stats':
-          result = this.statsManager.updateStats(convertedData.id, convertedData);
+          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
+          result = this.statsManager.get(convertedData.id);
           break;
         default:
           return {
@@ -237,23 +238,23 @@ export class GodotBridge {
       position: { x: npc.location.x * 64, y: npc.location.y * 64 }, // Convert to Godot coordinates
       scale: { x: 1, y: 1 },
       rotation: 0,
-      properties: new Map([
-        ['npc_id', npc.id],
-        ['behavior_type', npc.behavior.type],
-        ['faction', npc.faction || 'neutral'],
-        ['has_quests', npc.questIds.length > 0],
-        ['quest_count', npc.questIds.length]
-      ]),
+      properties: {
+        npc_id: npc.id,
+        behavior_type: npc.behavior.type,
+        faction: npc.faction || 'neutral',
+        has_quests: npc.questIds.length > 0,
+        quest_count: npc.questIds.length
+      },
       children: [
         {
           id: `${npc.id}_sprite`,
           type: 'Sprite',
           name: 'Sprite',
           position: { x: 0, y: 0 },
-          properties: new Map([
-            ['texture', 'res://assets/npcs/npc_sprite.png'],
-            ['region_enabled', true]
-          ])
+          properties: {
+            texture: 'res://assets/npcs/npc_sprite.png',
+            region_enabled: true
+          }
         }
       ],
       signals: config.useSignals ? [
@@ -272,10 +273,10 @@ export class GodotBridge {
         type: 'Sprite',
         name: 'QuestIndicator',
         position: { x: 24, y: -24 },
-        properties: new Map([
-          ['texture', 'res://assets/ui/quest_icon.png'],
-          ['modulate', '#ffff00']
-        ])
+        properties: {
+          texture: 'res://assets/ui/quest_icon.png',
+          modulate: '#ffff00'
+        }
       });
     }
 
@@ -286,10 +287,10 @@ export class GodotBridge {
         type: 'AnimationPlayer',
         name: 'AnimationPlayer',
         position: { x: 0, y: 0 },
-        properties: new Map([
-          ['autoplay', 'idle'],
-          ['libraries', ['npc_animations']]
-        ])
+        properties: {
+          autoplay: 'idle',
+          libraries: ['npc_animations']
+        }
       });
     }
 
@@ -325,32 +326,32 @@ export class GodotBridge {
         type: 'Node2D',
         name: 'Combatant',
         position: { x: data.attackerX || 0, y: data.attackerY || 0 },
-        properties: new Map([
-          ['combatant_id', data.attackerId],
-          ['is_attacker', true],
-          ['health', data.attackerStats?.health || 100],
-          ['max_health', data.attackerStats?.maxHealth || 100]
-        ]),
+        properties: {
+          combatant_id: data.attackerId,
+          is_attacker: true,
+          health: data.attackerStats?.health || 100,
+          max_health: data.attackerStats?.maxHealth || 100
+        },
         children: [
           {
             id: `${data.attackerId}_sprite`,
             type: 'Sprite',
             name: 'Sprite',
             position: { x: 0, y: 0 },
-            properties: new Map([
-              ['texture', 'res://assets/combat/player_sprite.png']
-            ])
+            properties: {
+              texture: 'res://assets/combat/player_sprite.png'
+            }
           },
           {
             id: `${data.attackerId}_health_bar`,
             type: 'Control',
             name: 'HealthBar',
             position: { x: 0, y: -40 },
-            properties: new Map([
-              ['custom_minimum_size', { x: 64, y: 8 }],
-              ['value', data.attackerStats?.health || 100],
-              ['max_value', data.attackerStats?.maxHealth || 100]
-            ])
+            properties: {
+              custom_minimum_size: { x: 64, y: 8 },
+              value: data.attackerStats?.health || 100,
+              max_value: data.attackerStats?.maxHealth || 100
+            }
           }
         ],
         signals: config.useSignals ? [
@@ -393,22 +394,22 @@ export class GodotBridge {
         type: 'Control',
         name: 'InventoryPanel',
         position: { x: 10, y: 10 },
-        properties: new Map([
-          ['ui_type', 'inventory'],
-          ['visible', true],
-          ['custom_minimum_size', { x: 300, y: 200 }]
-        ]),
+        properties: {
+          ui_type: 'inventory',
+          visible: true,
+          custom_minimum_size: { x: 300, y: 200 }
+        },
         children: [
           {
             id: 'inventory_title',
             type: 'Label',
             name: 'Title',
             position: { x: 0, y: 0 },
-            properties: new Map([
-              ['text', 'Inventory'],
-              ['font_size', 18],
-              ['color', '#ffffff']
-            ])
+            properties: {
+              text: 'Inventory',
+              font_size: 18,
+              color: '#ffffff'
+            }
           }
         ],
         signals: config.useSignals ? [

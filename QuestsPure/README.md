@@ -27,3 +27,9 @@
 ## Remix Safety
 - No hardcoded quest logic in code. All triggers/gates are data-driven via `Dialog` fields and `QuestDefinition` assets.
 - Extendable: add new `QuestCondition`/`QuestReward` types in data; interpret them in systems (e.g., inventory) without modifying core quest schema.
+
+## Remix Hooks
+
+- quest branching logic: inject custom evaluators for conditions without editing core schema
+- reward injection: add new reward types (currency, items, reputation) via data and handler interfaces
+- external trigger support: allow external systems (e.g., web UI, engine bridges) to trigger quest state transitions through the CLI/bridge interop APIs

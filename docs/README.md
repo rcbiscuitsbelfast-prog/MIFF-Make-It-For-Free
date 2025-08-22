@@ -347,3 +347,7 @@ To contribute to the documentation:
 *Built with ❤️ by the MIFF Framework community*
 
 **🌐 Live Site**: [https://miff-framework.github.io/miff](https://miff-framework.github.io/miff)
+
+## 🔧 Remix Hooks
+
+Each module README documents `Remix Hooks` describing safe extension points (override logic, reward injection, external triggers) to keep forks remix-safe.

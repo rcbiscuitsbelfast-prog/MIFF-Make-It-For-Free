@@ -3,6 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import { RenderReplayManager, ReplayConfig, RenderReplayOutput } from './Manager';
+import { ReplaySession } from './Manager';
 
 const manager = new RenderReplayManager({
   engine: 'web',
@@ -195,7 +196,7 @@ function exportSession(args: string[], options: any): void {
 
   // For demo purposes, create a sample session
   // In a real implementation, you'd load the session from storage
-  const sampleSession = {
+  const sampleSession: ReplaySession = {
     sessionId,
     config: manager['config'],
     steps: [

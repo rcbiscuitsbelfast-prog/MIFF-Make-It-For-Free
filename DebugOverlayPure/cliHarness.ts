@@ -2,7 +2,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import { DebugOverlayManager, DebugConfig, DebugOverlayOutput } from './Manager';
+import { DebugOverlayManager, DebugOverlayOutput } from './Manager';
+import { RenderPayload } from '../BridgeSchemaPure/schema';
 
 const manager = new DebugOverlayManager({
   showOp: true,
@@ -13,11 +14,11 @@ const manager = new DebugOverlayManager({
   showEngineHints: true,
   showSignals: true,
   showMetadata: true,
-  colorize: true,
+  colorize: false,
   compact: false,
   maxRenderDataItems: 10,
-  maxIssueLength: 100,
-  outputFormat: 'text'
+  maxIssueLength: 200,
+  outputFormat: 'json'
 });
 
 function printUsage(): void {
@@ -241,7 +242,7 @@ function exportOverlay(args: string[], options: any): void {
 
   // For demo purposes, create a sample overlay
   // In a real implementation, you'd load the overlay from storage
-  const samplePayload = {
+  const samplePayload: RenderPayload = {
     op: 'render',
     status: 'ok',
     renderData: [

@@ -44,6 +44,10 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 - **[🔍 Inspect Tool](https://miff-framework.github.io/miff/getting-started/inspect)** - Bridge validation and analysis
 - **[📚 Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)** - How to contribute to MIFF
 
+## Remix Hooks
+
+See each module README for `Remix Hooks` sections describing override points and safe extension guidelines.
+
 
 ## License
 
