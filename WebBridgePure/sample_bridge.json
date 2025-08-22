@@ -1,0 +1,306 @@
+{
+  "simulate": {
+    "npcs": {
+      "input": {
+        "npcId": "npc_001",
+        "duration": 3600
+      },
+      "output": {
+        "op": "simulate",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "npc_001",
+              "type": "sprite",
+              "x": 320,
+              "y": 480,
+              "width": 32,
+              "height": 32,
+              "properties": {
+                "npcId": "npc_001",
+                "behavior": "quest_giver",
+                "faction": "village_elders",
+                "hasQuests": true
+              },
+              "children": [
+                {
+                  "id": "npc_001_quest_indicator",
+                  "type": "sprite",
+                  "x": 24,
+                  "y": -8,
+                  "width": 16,
+                  "height": 16,
+                  "properties": {
+                    "questCount": 1,
+                    "questIds": ["quest_tutorial"]
+                  }
+                }
+              ]
+            }
+          ],
+          "components": [],
+          "sprites": ["npc_sprite.png", "quest_icon.png"],
+          "sounds": ["npc_greeting.mp3"],
+          "scripts": ["NPCController.js", "QuestSystem.js"],
+          "styles": ["npc-styles.css"]
+        }
+      }
+    },
+    "combat": {
+      "input": {
+        "attacker": {
+          "id": "player_001",
+          "stats": [{ "key": "strength", "base": 20 }]
+        },
+        "defender": {
+          "id": "enemy_001",
+          "stats": [{ "key": "health", "base": 100 }]
+        }
+      },
+      "output": {
+        "op": "simulate",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "player_001",
+              "type": "sprite",
+              "x": 0,
+              "y": 0,
+              "width": 64,
+              "height": 64,
+              "properties": {
+                "combatantId": "player_001",
+                "isAttacker": true,
+                "health": 100
+              }
+            },
+            {
+              "id": "enemy_001",
+              "type": "sprite",
+              "x": 100,
+              "y": 0,
+              "width": 64,
+              "height": 64,
+              "properties": {
+                "combatantId": "enemy_001",
+                "isAttacker": false,
+                "health": 75
+              }
+            }
+          ],
+          "components": [
+            {
+              "type": "CombatController",
+              "data": { "combatData": { "damage": 25, "result": "hit" } },
+              "enabled": true
+            }
+          ],
+          "sprites": ["sword_sprite.png", "shield_sprite.png"],
+          "sounds": ["sword_swing.mp3", "hit_sound.mp3"],
+          "scripts": ["CombatController.js", "WeaponSystem.js"],
+          "styles": ["combat-ui.css"]
+        }
+      }
+    }
+  },
+  "render": {
+    "npcs": {
+      "input": {
+        "zoneId": "zone_village",
+        "includeQuests": true
+      },
+      "output": {
+        "op": "render",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "npc_001",
+              "type": "sprite",
+              "x": 320,
+              "y": 480,
+              "width": 32,
+              "height": 32,
+              "properties": {
+                "npcId": "npc_001",
+                "behavior": "quest_giver",
+                "faction": "village_elders",
+                "hasQuests": true
+              },
+              "children": [
+                {
+                  "id": "npc_001_quest_indicator",
+                  "type": "sprite",
+                  "x": 24,
+                  "y": -8,
+                  "width": 16,
+                  "height": 16,
+                  "properties": {
+                    "questCount": 1,
+                    "questIds": ["quest_tutorial"]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "npc_002",
+              "type": "sprite",
+              "x": 800,
+              "y": 384,
+              "width": 32,
+              "height": 32,
+              "properties": {
+                "npcId": "npc_002",
+                "behavior": "merchant",
+                "faction": "merchants",
+                "hasQuests": false
+              }
+            }
+          ],
+          "components": [
+            {
+              "type": "NPCController",
+              "data": {
+                "npcId": "npc_001",
+                "behavior": "quest_giver",
+                "questIds": ["quest_tutorial"]
+              },
+              "enabled": true
+            },
+            {
+              "type": "NPCController",
+              "data": {
+                "npcId": "npc_002",
+                "behavior": "merchant",
+                "questIds": []
+              },
+              "enabled": true
+            }
+          ],
+          "sprites": ["npc_sprite.png", "quest_icon.png", "merchant_icon.png"],
+          "sounds": ["npc_greeting.mp3", "quest_accept.mp3"],
+          "scripts": ["NPCController.js", "QuestSystem.js", "MerchantUI.js"],
+          "styles": ["npc-styles.css", "quest-ui.css"]
+        }
+      }
+    },
+    "ui": {
+      "input": {
+        "uiType": "inventory",
+        "items": [
+          { "id": "item_sword", "quantity": 1 },
+          { "id": "item_potion", "quantity": 3 }
+        ]
+      },
+      "output": {
+        "op": "render",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "inventory_panel",
+              "type": "container",
+              "x": 10,
+              "y": 10,
+              "width": 300,
+              "height": 200,
+              "properties": {
+                "uiType": "inventory",
+                "visible": true
+              },
+              "children": [
+                {
+                  "id": "inventory_title",
+                  "type": "text",
+                  "x": 0,
+                  "y": 0,
+                  "properties": {
+                    "text": "Inventory",
+                    "fontSize": "18px",
+                    "color": "#ffffff"
+                  }
+                }
+              ]
+            }
+          ],
+          "components": [
+            {
+              "type": "UIController",
+              "data": { "uiData": { "uiType": "inventory" } },
+              "enabled": true
+            }
+          ],
+          "sprites": ["button_normal.png", "button_hover.png", "inventory_bg.png"],
+          "sounds": ["button_click.mp3", "menu_open.mp3"],
+          "scripts": ["UIController.js", "InventoryUI.js", "MenuSystem.js"],
+          "styles": ["ui-styles.css", "inventory.css", "menu.css"]
+        }
+      }
+    }
+  },
+  "interop": {
+    "npcs": {
+      "input": {
+        "id": "npc_001",
+        "data": {
+          "position": { "x": 15, "y": 20 },
+          "stats": [{ "key": "health", "base": 95 }],
+          "questIds": ["quest_tutorial", "quest_side_quest"]
+        }
+      },
+      "output": {
+        "op": "interop",
+        "status": "ok",
+        "renderData": {
+          "entities": [
+            {
+              "id": "npc_001",
+              "type": "sprite",
+              "x": 480,
+              "y": 640,
+              "width": 32,
+              "height": 32,
+              "properties": {
+                "npcId": "npc_001",
+                "updated": true
+              }
+            }
+          ],
+          "components": [],
+          "sprites": [],
+          "sounds": [],
+          "scripts": [],
+          "styles": []
+        }
+      }
+    }
+  },
+  "config": {
+    "phaser": {
+      "renderer": "phaser",
+      "targetVersion": "3.60",
+      "assetPath": "assets/",
+      "scriptPath": "js/",
+      "stylePath": "css/",
+      "useWebGL": true
+    },
+    "canvas": {
+      "renderer": "canvas",
+      "targetVersion": "2d",
+      "assetPath": "assets/",
+      "scriptPath": "js/",
+      "stylePath": "css/",
+      "useWebGL": false
+    },
+    "dom": {
+      "renderer": "dom",
+      "targetVersion": "html5",
+      "assetPath": "assets/",
+      "scriptPath": "js/",
+      "stylePath": "css/",
+      "useWebGL": false
+    }
+  }
+}
