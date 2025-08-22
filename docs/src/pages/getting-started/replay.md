@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 title: "Replay Tool Guide"
 description: "Learn to use RenderReplayPure for visual replay and debugging"
 ---

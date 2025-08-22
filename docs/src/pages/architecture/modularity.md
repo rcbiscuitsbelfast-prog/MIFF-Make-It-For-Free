@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 title: "Modularity Architecture"
 description: "Understanding MIFF's modular design principles and system architecture"
 ---

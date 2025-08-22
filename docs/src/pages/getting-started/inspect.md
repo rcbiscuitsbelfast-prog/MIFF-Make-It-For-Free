@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 title: "Inspect Tool Guide"
 description: "Learn to use BridgeInspectorPure for bridge validation and compatibility analysis"
 ---

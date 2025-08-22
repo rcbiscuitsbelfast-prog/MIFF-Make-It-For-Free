@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import markdown from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
@@ -35,9 +34,6 @@ export default defineConfig({
   },
   build: {
     assets: '_assets'
-  },
-  experimental: {
-    assets: true
   },
   outDir: './dist',
   publicDir: './public'

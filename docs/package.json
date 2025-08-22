@@ -19,7 +19,6 @@
     "setup": "node scripts/setup-deployment.js"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^2.0.0",
     "@astrojs/mdx": "^2.0.0",
     "@astrojs/sitemap": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",

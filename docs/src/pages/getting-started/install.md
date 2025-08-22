@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 title: "Installation Guide"
 description: "Set up MIFF Framework for development and contribution"
 ---

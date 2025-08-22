@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/Layout.astro
+layout: ../layouts/Layout.astro
 title: "Welcome to MIFF Framework"
 description: "Modular, CLI-first, engine-agnostic game development framework built for contributors"
 ---
