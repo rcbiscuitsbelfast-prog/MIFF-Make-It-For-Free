@@ -4,8 +4,10 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 
+// https://astro.build/config
 export default defineConfig({
-  site: 'https://docs.miff.dev',
+  site: 'https://miff-framework.github.io',
+  base: '/miff',
   title: 'MIFF Framework Documentation',
   description: 'Modular, CLI-first, engine-agnostic game development framework',
   markdown: {
@@ -21,7 +23,9 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('404')
+    }),
     tailwind()
   ],
   vite: {
@@ -34,5 +38,7 @@ export default defineConfig({
   },
   experimental: {
     assets: true
-  }
+  },
+  outDir: './dist',
+  publicDir: './public'
 });

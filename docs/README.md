@@ -2,6 +2,8 @@
 
 This is the documentation site for MIFF Framework, built with [Astro](https://astro.build/). The site provides comprehensive guides, API references, and examples for contributors.
 
+**🌐 Live Site**: [https://miff-framework.github.io/miff](https://miff-framework.github.io/miff)
+
 ## 🚀 Quick Start
 
 ### **Development**
@@ -40,6 +42,34 @@ npm run generate-diagrams
 npm run validate-links
 ```
 
+## 🚀 Deployment
+
+### **Automatic Deployment**
+
+The documentation site is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. The deployment process:
+
+1. **Triggers on push** to `main` branch with changes in `docs/` directory
+2. **Installs dependencies** and generates CLI documentation
+3. **Builds the site** using Astro
+4. **Deploys to GitHub Pages** at `https://miff-framework.github.io/miff`
+
+### **Manual Deployment**
+
+```bash
+# Build the site
+npm run build
+
+# Deploy (pushes to main branch)
+npm run deploy
+```
+
+### **GitHub Pages Setup**
+
+The site is configured for GitHub Pages with:
+- **Base path**: `/miff`
+- **Site URL**: `https://miff-framework.github.io`
+- **Custom domain**: Ready for `docs.miff.dev` (if configured)
+
 ## 📁 Site Structure
 
 ```
@@ -55,7 +85,8 @@ docs/
 │   │   └── Layout.astro                # Main layout component
 │   └── assets/                         # Static assets
 ├── scripts/                            # Documentation generation scripts
-├── public/                             # Public assets
+├── public/                             # Public assets (favicon, 404 page)
+├── .github/workflows/                  # GitHub Actions deployment
 └── astro.config.mjs                    # Astro configuration
 ```
 
@@ -86,7 +117,7 @@ Edit the navigation in `src/layouts/Layout.astro`:
 ```astro
 <nav class="space-y-2">
   <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Section</div>
-  <a href="/new-page" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">New Page</a>
+  <a href={`${basePath}new-page`} class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">New Page</a>
 </nav>
 ```
 
@@ -159,9 +190,12 @@ The site uses Astro with the following integrations:
 - **@astrojs/sitemap**: Automatic sitemap generation
 - **@astrojs/tailwind**: Tailwind CSS styling
 
-### **Tailwind CSS**
+### **GitHub Pages Configuration**
 
-Custom styles can be added in `src/styles/` and imported in the layout.
+- **Base path**: `/miff` (for repository-based deployment)
+- **Site URL**: `https://miff-framework.github.io`
+- **Custom 404 page**: `public/404.html`
+- **Favicon**: `public/favicon.svg`
 
 ### **SEO and Meta**
 
@@ -173,34 +207,41 @@ layout: ../../layouts/Layout.astro
 title: "Page Title"
 description: "Page description for SEO"
 image: "/assets/images/page-preview.png"
-canonical: "https://docs.miff.dev/page-url"
+canonical: "https://miff-framework.github.io/miff/page-url"
 ---
 ```
 
 ## 🚀 Deployment
 
-### **GitHub Pages**
+### **GitHub Actions**
 
-The site is configured for GitHub Pages deployment:
+The site is automatically deployed via GitHub Actions:
 
-1. **Build the site**:
-   ```bash
-   npm run build
-   ```
+1. **Trigger**: Push to `main` branch with changes in `docs/`
+2. **Build**: Install dependencies, generate docs, build site
+3. **Deploy**: Upload to GitHub Pages
+4. **URL**: `https://miff-framework.github.io/miff`
 
-2. **Deploy to GitHub Pages**:
-   ```bash
-   npm run deploy
-   ```
+### **Manual Deployment**
 
-### **Vercel**
+For manual deployment:
 
-For Vercel deployment:
+```bash
+# Build the site
+npm run build
 
-1. **Connect repository** to Vercel
-2. **Set build command**: `npm run build`
-3. **Set output directory**: `dist`
-4. **Deploy automatically** on push to main branch
+# The site will be available in dist/
+# Push to main branch to trigger automatic deployment
+```
+
+### **Custom Domain**
+
+To use a custom domain (e.g., `docs.miff.dev`):
+
+1. **Configure DNS**: Point domain to GitHub Pages
+2. **Update Astro config**: Change `site` URL in `astro.config.mjs`
+3. **Update base path**: Remove `/miff` base path
+4. **Update navigation**: Remove base path from all links
 
 ## 📊 Analytics
 
@@ -292,6 +333,17 @@ To contribute to the documentation:
 - **Cross-references** to related content
 - **Regular updates** with framework changes
 
+### **Deployment Workflow**
+
+1. **Make changes** to documentation
+2. **Test locally** with `npm run dev`
+3. **Generate docs** with `npm run generate-cli-docs`
+4. **Build and test** with `npm run build`
+5. **Push to main** to trigger automatic deployment
+6. **Verify deployment** at `https://miff-framework.github.io/miff`
+
 ---
 
 *Built with ❤️ by the MIFF Framework community*
+
+**🌐 Live Site**: [https://miff-framework.github.io/miff](https://miff-framework.github.io/miff)

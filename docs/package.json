@@ -14,7 +14,9 @@
     "generate-diagrams": "node scripts/generate-diagrams.js",
     "validate-links": "node scripts/validate-links.js",
     "lint": "eslint . --ext .js,.ts,.astro",
-    "lint:fix": "eslint . --ext .js,.ts,.astro --fix"
+    "lint:fix": "eslint . --ext .js,.ts,.astro --fix",
+    "deploy": "npm run build && echo 'Build complete. Push to main branch to deploy.'",
+    "setup": "node scripts/setup-deployment.js"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^2.0.0",
@@ -50,7 +52,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/miff-framework/docs.miff.dev"
+    "url": "https://github.com/miff-framework/miff"
   },
-  "homepage": "https://docs.miff.dev"
+  "homepage": "https://miff-framework.github.io/miff"
 }
