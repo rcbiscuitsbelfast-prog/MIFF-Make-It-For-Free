@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/SimpleLayout.astro';
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<Layout title="Welcome to MIFF" description="Modular, CLI-first, engine-agnostic game dev for remixers and contributors.">
+	<section class="hero" aria-labelledby="hero-title">
+		<h1 id="hero-title" class="hero__title">Welcome to MIFF</h1>
+		<p class="hero__subtitle">Modular, CLI-first, engine-agnostic game dev for remixers and contributors.</p>
+		<p>
+			<a class="btn btn--primary" href={`${base}getting-started/install`}>Get Started</a>
+		</p>
+	</section>
+
+	<section class="features" aria-label="Highlights">
+		<ul class="feature-list">
+			<li><strong>Modular</strong> — pure modules, clean remix hooks</li>
+			<li><strong>CLI-first</strong> — deterministic, testable flows</li>
+			<li><strong>Engine-agnostic</strong> — Unity, Web, Godot via bridges</li>
+		</ul>
+	</section>
+</Layout>

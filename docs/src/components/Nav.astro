@@ -1,0 +1,20 @@
+---
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<nav class="site-nav" aria-label="Primary">
+	<ul class="nav-list">
+		<li><a href={`${base}`}>Home</a></li>
+		<li><a href={`${base}getting-started/install`}>Installation</a></li>
+		<li><a href={`${base}contributors/onboarding`}>Contributors</a></li>
+		<li><a href={`${base}contributors/roadmap`}>Roadmap</a></li>
+		<li><a href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></li>
+	</ul>
+</nav>
+
+<style>
+	.site-nav { display: block; }
+	.nav-list { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0; }
+	.nav-list a { text-decoration: none; color: var(--color-text); }
+	.nav-list a:hover { text-decoration: underline; }
+</style>
