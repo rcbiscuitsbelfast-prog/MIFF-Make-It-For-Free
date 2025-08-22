@@ -58,3 +58,11 @@ sysinfo.txt
 *.zip
 *.gz
 .DS_Store
+
+# Node/TypeScript
+node_modules/
+dist/
+coverage/
+
+# CI outputs
+out_*.json

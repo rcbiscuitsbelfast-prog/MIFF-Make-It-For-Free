@@ -1,14 +1,12 @@
 # MIFF: Make It For Free
 
-[![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/actions/workflows/miff-ci.yml)
+[![MIFF CI](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
 
 **🌐 [Documentation Site](https://miff-framework.github.io/miff)** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
 
 Modular, CLI‑First Game Framework (Unity Runtime)
 
 Started with a Retro-style 2D RPG engine and became a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
-
-![screenshot](Assets/Graphics/Images/screenshot.png)
 
 ## Requirements
 
@@ -33,7 +31,7 @@ Each module comes with a self-contained CLI harness under the repository root. R
 - SaveLoadPure: `npx ts-node --compiler-options '{"module":"commonjs"}' SaveLoadPure/cliHarness.ts SaveLoadPure/tests/sample_commands.json Assets/Resources/saves/save_state.json`
 - EquipmentPure: `npx ts-node --compiler-options '{"module":"commonjs"}' EquipmentPure/cliHarness.ts EquipmentPure/sample_equipment.json EquipmentPure/tests/commands.json`
 - AIProfilesPure: `npx ts-node --compiler-options '{"module":"commonjs"}' AIProfilesPure/cliHarness.ts AIProfilesPure/sample_profiles.json AIProfilesPure/tests/commands.json`
-- NPCsPure (Python): `python3 cli/npcs_pure/harness.py --npc cli/npcs_pure/sample_npc.json`
+- NPCsPure (Python): coming soon
 
 See `Documents/Remix_Review_V3.md` for a full assessment including coverage and gaps.
 
@@ -49,8 +47,11 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 ## License
 
-This software is copyrighted and licensed under the 
-[MIT license](https://github.com/itsjavi/newbark-unity/LICENSE).
+This project is offered under a dual-license model:
+- GNU Affero General Public License v3.0 (AGPLv3)
+- Commercial license (contact per LICENSE.md)
+
+See LICENSE.md for full terms.
 
 ### Disclaimer
 
