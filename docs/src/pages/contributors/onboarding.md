@@ -564,3 +564,29 @@ README.md                  # Schema, CLI usage, remix hooks, dependencies
 ```
 
 > Tip: Keep engine-specific behaviors in bridge modules. Pure modules must remain engine-agnostic.
+
+## 🔀 Fork & Remix Guide
+
+1. Fork the repo on GitHub and clone your fork.
+2. Create a feature branch (e.g., `feature/your-module-remix`).
+3. Copy an existing Pure module as a baseline and rename it.
+4. Update `Manager.ts` with your logic; keep CLI harness signature stable.
+5. Add sample JSON and golden tests to validate deterministic outputs.
+6. Document `Remix Hooks` in your module README.
+7. Open a PR; include before/after outputs and hook docs.
+
+## ✅ Remix Safety Checklist
+
+- [ ] No proprietary assets included (images, audio, IP-bound data)
+- [ ] License headers present in new files
+- [ ] Module remains engine-agnostic (no engine APIs in Pure modules)
+- [ ] Golden tests pass deterministically
+- [ ] Hooks documented and typed
+- [ ] Attribution and license (AGPLv3 + commercial) acknowledged in README
+- [ ] External data sources validated and referenced properly
+
+### Licensing Audit Steps
+
+- Confirm all dependencies have permissive licenses compatible with AGPLv3.
+- Verify no third-party content is embedded without permission.
+- Ensure README clearly states dual-licensing and remix hooks.

@@ -33,7 +33,7 @@ const basePath = import.meta.env.BASE_URL || '/';
   <body class="bg-white dark:bg-gray-900">
     <div class="min-h-screen flex">
       <!-- Sidebar -->
-      <aside class="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 fixed h-full overflow-y-auto">
+      <aside class="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 fixed h-full overflow-y-auto hidden md:block">
         <div class="p-4">
           <div class="flex items-center space-x-2 mb-6">
             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -79,7 +79,7 @@ const basePath = import.meta.env.BASE_URL || '/';
       </aside>
 
       <!-- Main content -->
-      <main class="flex-1 ml-64">
+      <main class="flex-1 md:ml-64">
         <!-- Header -->
         <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <div class="flex items-center justify-between">
@@ -103,7 +103,7 @@ const basePath = import.meta.env.BASE_URL || '/';
         </header>
 
         <!-- Content -->
-        <div class="px-6 py-8">
+        <div class="px-4 sm:px-6 py-8">
           <article class="prose prose-lg dark:prose-invert max-w-none">
             <slot />
           </article>
@@ -139,7 +139,7 @@ const basePath = import.meta.env.BASE_URL || '/';
             </div>
             <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
               <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
-                © 2024 MIFF Framework. Licensed under AGPL-3.0 (commercial licenses available).
+               Built by R.C. Biscuits · License: MIT · <a class="underline hover:no-underline" href="https://github.com/miffframework">GitHub</a>
               </p>
             </div>
           </div>
