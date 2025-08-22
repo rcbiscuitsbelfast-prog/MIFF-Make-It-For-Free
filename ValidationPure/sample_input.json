@@ -1,0 +1,5 @@
+{
+  "refs": { "equip:sword:item": { "ok": false } },
+  "stats": [ { "id": "hero", "stats": [ { "key": "hp", "base": 1000 } ] } ],
+  "zones": [ { "id": "A", "x": 0, "y": 0, "w": 2, "h": 2 }, { "id": "B", "x": 1, "y": 1, "w": 2, "h": 2 } ]
+}

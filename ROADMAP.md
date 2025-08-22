@@ -24,6 +24,10 @@
   - WorldLayoutPure — Tiles/regions (existing)
   - MovementPure — Kinematic intents (existing)
   - ZonesPure — Area definitions (existing)
+- Interop & Validation (completed in Phase 2)
+  - SharedSchemaPure — v12. Common types and CLI dumpTypes
+  - EntityLinkerPure — v12. Cross-module reference resolution
+  - ValidationPure — v12. Cross-module validation engine
 - Content & Systems (existing)
   - DialogPure — Branching text
   - LorePure — Databank
@@ -40,6 +44,20 @@
 
 Tag: `phase1-v12-core`
 
+## Phase 2 — Interop & Validation (Schema v12)
+- [x] SharedSchemaPure (new)
+- [x] EntityLinkerPure (new)
+- [x] ValidationPure (new)
+
+Tag: `phase2-v12-interop`
+
+### Phase 2 Completion Checklist
+- [x] Standardized output format: { op, status, issues, resolvedRefs }
+- [x] Shared types exported and consumable across modules
+- [x] EntityLinker supports extern map injection and deterministic resolution
+- [x] Validation supports configurable rules and deterministic reports
+- [x] Golden-output tests for all ops
+
 ## Completion Checklist
 - [x] Managers with core logic: list/create/simulate/dump
 - [x] CLI harnesses for each module
@@ -49,7 +67,6 @@ Tag: `phase1-v12-core`
 - [x] Roadmap updated and tagged
 
 ## Next Phases (high level)
-- Phase 2: Data interop — Shared schemas, cross-module references, validation
 - Phase 3: Derived systems — Crafting, LootTables, Economy balancing (pure)
 - Phase 4: Scenario packs — End-to-end CLI campaigns for playtesting
 - Phase 5: Tooling — Test harness runner, coverage, docs site generation
