@@ -1,0 +1,13 @@
+{
+	"schema": "v13",
+	"name": "Tutorial: Basics",
+	"entities": [
+		{ "id": "hero", "stats": [ {"key":"hp","base":30}, {"key":"atk","base":6}, {"key":"def","base":2} ] },
+		{ "id": "slime", "stats": [ {"key":"hp","base":10}, {"key":"atk","base":3}, {"key":"def","base":1} ] }
+	],
+	"steps": [
+		{ "op": "showStats", "args": { "id": "hero" } },
+		{ "op": "startQuest", "args": { "id": "q_intro" } },
+		{ "op": "combat", "args": { "attacker": "hero", "defender": "slime" } }
+	]
+}

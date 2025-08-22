@@ -1,0 +1,13 @@
+import { execFileSync } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+
+test('golden quest scenario', () => {
+	const root = path.resolve(__dirname, '..');
+	const harness = path.resolve(root, 'cliHarness.ts');
+	const scenario = path.resolve(root, 'scenario.json');
+	const out = execFileSync('node', [harness, scenario, 'run'], { encoding: 'utf-8' });
+	const got = JSON.parse(out);
+	const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
+	expect(got).toEqual(expected);
+});

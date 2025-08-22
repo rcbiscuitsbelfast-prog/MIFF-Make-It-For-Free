@@ -1,0 +1,10 @@
+{
+	"schema": "v13",
+	"name": "Quest Scenario: Delivery",
+	"npcs": [ { "id": "villager" } ],
+	"inventory": { "apple": 1 },
+	"branches": [
+		{ "choice": "give_apple", "effect": { "inventory": { "apple": -1, "coin": 5 }, "statusEffect": { "type": "bless", "magnitude": 1 } } },
+		{ "choice": "refuse", "effect": { "inventory": { "coin": 0 } } }
+	]
+}
