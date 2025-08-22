@@ -1,12 +1,10 @@
 MIFF: Make It For Free
+
 Modular, CLI‑First Game Framework (Unity Runtime)
-🌳 Retro-style 2D RPG engine and a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
+
+Started with a Retro-style 2D RPG engine and became a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
 
 ![screenshot](Assets/Graphics/Images/screenshot.png)
-
-> IMPORTANT: This project is in low-maintainance mode, meaning that compatibility fixes with new Unity and package versions will be published but new additions or features are not going to happen any time soon and there are no plans for them yet. 
-
-Looking for a GameMaker version? Check [newbark-gamemaker](https://github.com/itsjavi/newbark-gamemaker)
 
 ## Requirements
 
