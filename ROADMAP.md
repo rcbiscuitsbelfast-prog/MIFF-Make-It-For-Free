@@ -192,3 +192,96 @@ Tag: `phase8-v1-documentation`
 - Add new modules under schema v12+, keeping remix hooks isolated
 - **📚 [Complete Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
 - **🌐 [Documentation Site](https://miff-framework.github.io/miff)**
+
+// 🧩 MIFF Roadmap Extension: Modular Scaffolding + Genre Validation
+
+## 🔧 Stage 1: Full Module Scaffolding
+
+### 🎯 Goal  
+Scaffold all core Pure modules needed to support three target genres. Each module must be:
+- Engine-agnostic  
+- Remix-safe  
+- Scenario-testable  
+- CI-validated with golden fixtures  
+
+### 📦 Modules to Scaffold
+
+| Category         | Module Name             | Purpose                                           |
+|------------------|--------------------------|---------------------------------------------------|
+| Core Systems     | PhysicsSystemPure        | Simulate forces, velocity, collisions             |
+|                  | ProjectileSystemPure     | Spawn/update/despawn projectiles                 |
+|                  | CollisionSystemPure      | Detect overlaps, trigger hit events              |
+|                  | ScoreSystemPure          | Track player score                               |
+|                  | HealthSystemPure         | Manage entity health and death                   |
+| Input & Control  | InputSystemPure          | Unified input mapping                            |
+|                  | CameraBridgePure         | Decoupled camera control                         |
+| Rhythm Gameplay  | RhythmSystemPure         | Beat timing, input windows, combo logic          |
+|                  | AudioBridgePure          | Abstract audio playback                          |
+| Mount & Movement | MountSystemPure          | Entity mounting/dismounting                      |
+| Adventure Logic  | DialogueSystemPure       | Branching dialogue, triggers, conditions         |
+|                  | QuestSystemPure          | Track quest states and objectives                |
+| Narrative Flow   | CutsceneSystemPure       | Scripted non-blocking sequences                  |
+| Navigation       | NavigationSystemPure     | Pathfinding and movement goals                   |
+
+Use CLI:  
+```bash
+miff scaffold module <ModuleName> --pure
+```
+## 🎮 Stage 2: Game-by-Game Build
+
+Build one game at a time using only the scaffolded Pure modules.
+
+### 🕹️ Game 1: Physics Shooter – *Toppler*
+
+| Systems Used                          |
+|--------------------------------------|
+| PhysicsSystemPure, ProjectileSystemPure, CollisionSystemPure  
+| ScoreSystemPure, HealthSystemPure, InputSystemPure  
+| CameraBridgePure  
+
+Steps:
+- Write scenario harness: projectile → collision → score  
+- Build CLI test suite  
+- Scaffold Unity/WebGL adapter  
+- Fetch free pixel-art assets  
+- Deploy playable demo  
+
+---
+
+### 🎵 Game 2: Rhythm RPG – *Newhaven K-Pop Exorcist*
+
+| Systems Used                          |
+|--------------------------------------|
+| RhythmSystemPure, AudioBridgePure, ScoreSystemPure  
+| HealthSystemPure, DialogueSystemPure, CutsceneSystemPure  
+| InputSystemPure  
+
+Steps:
+- Write beat-timing scenario harness  
+- Validate combo logic and health impact  
+- Integrate audio events  
+- Build visual adapter  
+- Deploy playable demo  
+
+---
+
+### 🗺️ Game 3: Open-World Adventure – *Witcher-style Explorer*
+
+| Systems Used                          |
+|--------------------------------------|
+| NavigationSystemPure, MountSystemPure, DialogueSystemPure  
+| QuestSystemPure, CameraBridgePure, InputSystemPure  
+
+Steps:
+- Write mount → navigate → dialogue → quest scenario  
+- Validate branching logic  
+- Build adapter and UI overlays  
+- Deploy playable demo  
+
+---
+
+## ✅ Final Deliverables
+
+- Three genre demos with free assets  
+- CI coverage, remix-ready docs  
+- Foundation for Auto-Builder CLI
