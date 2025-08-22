@@ -1,7 +1,0 @@
-{
-  "entries": [
-    {"id":"origin","title":"Origins","body":"Long ago, the world was formed...","tags":["history"],"unlockHint":"Complete the intro quest"},
-    {"id":"species_alpha","title":"Species Alpha","body":"The first species cataloged by researchers.","tags":["species"],"unlockHint":"Capture a wild Alpha"},
-    {"id":"quest_intro","title":"A New Journey","body":"Your journey begins in a quiet town...","tags":["quest"],"unlockHint":"Talk to the professor"}
-  ]
-}
