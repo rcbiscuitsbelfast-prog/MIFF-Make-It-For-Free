@@ -20,10 +20,10 @@ description: "Modular, CLI-first, engine-agnostic game development framework bui
 </div>
 
 <div class="not-prose mb-8">
-  <a href="/demos/tutorial" class="inline-flex items-center px-5 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mr-3">
+  <a href="/demos/tutorial" class="inline-flex items-center px-5 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mr-3 transition-colors duration-200">
     Try a Scenario
   </a>
-  <a href="/demos/combat" class="inline-flex items-center px-5 py-3 bg-gray-800 text-white rounded-md shadow hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2">
+  <a href="/demos/combat" class="inline-flex items-center px-5 py-3 bg-gray-800 text-white rounded-md shadow hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 transition-colors duration-200">
     Combat Demo
   </a>
 </div>
@@ -48,6 +48,12 @@ npx ts-node BridgeInspectorPure/cliHarness.ts inspect-golden WebBridgePure/tests
 
 ### **Engine Agnostic**
 Write once, deploy everywhere. MIFF's pure logic modules work across Unity, Web, and Godot through dedicated bridge adapters.
+
+<ul class="not-prose flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-300 mb-3">
+  <li class="inline-flex items-center space-x-1"><span>🧩</span><span>Unity</span></li>
+  <li class="inline-flex items-center space-x-1"><span>🌐</span><span>Web</span></li>
+  <li class="inline-flex items-center space-x-1"><span>🎮</span><span>Godot</span></li>
+</ul>
 
 ```typescript
 // Pure logic - works everywhere
