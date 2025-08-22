@@ -1,4 +1,5 @@
-# NewBark — Modular, CLI‑First Game Framework (Unity Runtime)
+MIFF: Make It For Free
+Modular, CLI‑First Game Framework (Unity Runtime)
 🌳 Retro-style 2D RPG engine and a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
 
 ![screenshot](Assets/Graphics/Images/screenshot.png)
