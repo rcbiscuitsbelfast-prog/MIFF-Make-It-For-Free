@@ -29,3 +29,8 @@ Stay up to date with MIFF's roadmap and current development phase.
 - [ ] NavigationSystemPure
 
 > Progress badges and checklists update as modules land in master with golden tests.
+
+## 🎬 Demos
+
+- Tutorial Scenario: [/demos/tutorial](/demos/tutorial)
+- Combat Scenario: [/demos/combat](/demos/combat)
