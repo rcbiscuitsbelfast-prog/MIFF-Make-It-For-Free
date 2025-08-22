@@ -36,18 +36,18 @@ jobs:
 
       - name: ▶️ Simulate scenario (tutorial)
         run: |
-          node cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json
           node scripts/validateOutputFormat.js out_tutorial.json scenario
 
       - name: 🔁 Diff scenario output (self-compare)
         run: |
-          node cli/miff-diff.ts out_tutorial.json out_tutorial.json > out_diff.json
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-diff.ts out_tutorial.json out_tutorial.json > out_diff.json
           node scripts/validateOutputFormat.js out_diff.json diff
 
       - name: 🧪 Init scenario template (tutorial)
         run: |
-          node cli/miff-init.ts TmpScenarioPure tutorial
-          node TmpScenarioPure/cliHarness.ts TmpScenarioPure/scenario.json > out_init.json
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-init.ts TmpScenarioPure tutorial
+          npx ts-node --compiler-options '{"module":"commonjs"}' TmpScenarioPure/cliHarness.ts TmpScenarioPure/scenario.json > out_init.json
           node scripts/validateOutputFormat.js out_init.json scenario
 
       - name: 🧩 Check remix hooks
