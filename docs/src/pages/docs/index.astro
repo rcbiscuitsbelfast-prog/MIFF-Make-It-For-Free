@@ -1,19 +1,51 @@
 ---
+import SimpleLayout from '../../layouts/SimpleLayout.astro';
 const base = import.meta.env.BASE_URL || '/';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Docs — MIFF</title>
-	</head>
-	<body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,sans-serif; background:#f8fafc; color:#0f172a;">
-		<main style="max-width:60rem;margin:2rem auto;padding:0 1rem;">
-			<h1 style="font-size:1.75rem;margin:0 0 .5rem;">Docs</h1>
-			<p style="color:#475569;">Start with the Installation guide.</p>
-			<p><a href={`${base}getting-started/install`}>Getting Started → Install</a></p>
-		</main>
-	</body>
-</html>
+<SimpleLayout title="Documentation — MIFF" description="Comprehensive guides and API reference">
+	<section class="py-16" aria-labelledby="docs-title">
+		<div class="max-w-6xl mx-auto px-4">
+			<div class="mb-8">
+				<h1 id="docs-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+					📚 Documentation
+				</h1>
+				<p class="text-lg text-slate-600 leading-relaxed">
+					Comprehensive guides and API reference for the MIFF framework.
+				</p>
+			</div>
+			
+			<div class="bg-white rounded-lg border border-gray-200 p-8">
+				<div class="mb-6">
+					<h2 class="text-xl font-semibold text-slate-900 mb-4">Getting Started</h2>
+					<p class="text-slate-600 mb-4">Start with the Installation guide to get up and running with MIFF.</p>
+					<a 
+						href={`${base}getting-started/install`}
+						class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+					>
+						🚀 Getting Started → Install
+					</a>
+				</div>
+				
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div class="p-6 bg-gray-50 rounded-lg">
+						<h3 class="text-lg font-semibold text-slate-900 mb-2">📖 Guides</h3>
+						<ul class="space-y-2 text-slate-600">
+							<li><a href={`${base}getting-started/install`} class="text-purple-700 hover:text-purple-800 hover:underline">Installation</a></li>
+							<li><a href={`${base}getting-started/quickstart`} class="text-purple-700 hover:text-purple-800 hover:underline">Quick Start</a></li>
+							<li><a href={`${base}getting-started/tutorial`} class="text-purple-700 hover:text-purple-800 hover:underline">Tutorial</a></li>
+						</ul>
+					</div>
+					<div class="p-6 bg-gray-50 rounded-lg">
+						<h3 class="text-lg font-semibold text-slate-900 mb-2">🔧 API Reference</h3>
+						<ul class="space-y-2 text-slate-600">
+							<li><a href={`${base}docs/api`} class="text-purple-700 hover:text-purple-800 hover:underline">Core API</a></li>
+							<li><a href={`${base}docs/modules`} class="text-purple-700 hover:text-purple-800 hover:underline">Modules</a></li>
+							<li><a href={`${base}docs/bridges`} class="text-purple-700 hover:text-purple-800 hover:underline">Bridges</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</SimpleLayout>
