@@ -6,6 +6,25 @@ description: "Modular, CLI-first, engine-agnostic game development framework bui
 
 # 🎮 Welcome to MIFF Framework
 
+<div class="not-prose mb-6">
+  <div class="inline-flex items-center space-x-3 bg-blue-600 text-white px-3 py-1 rounded-full">
+    <span class="w-5 h-5 bg-white/20 rounded-sm flex items-center justify-center font-bold">M</span>
+    <span class="text-sm font-semibold">MIFF</span>
+  </div>
+</div>
+
+<div class="not-prose bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+  <p class="text-blue-900 dark:text-blue-100 text-lg font-semibold">
+    Build modular games with AI prompts. Remix-safe. Engine-agnostic. Contributor-first.
+  </p>
+</div>
+
+<div class="not-prose mb-8">
+  <a href="/demos/tutorial" class="inline-flex items-center px-5 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+    Try a Scenario
+  </a>
+</div>
+
 **MIFF** is a modular, CLI-first, engine-agnostic game development framework designed from the ground up for contributors. Whether you're building for Unity, Web, or Godot, MIFF provides the tools and architecture to create remix-safe, testable game systems.
 
 ## 🚀 Why MIFF?

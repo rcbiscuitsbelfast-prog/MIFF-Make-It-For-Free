@@ -529,3 +529,38 @@ Once you're comfortable with the contribution process:
 ---
 
 *Ready to start contributing? Check out the [Architecture Guide](/architecture/modularity) to understand MIFF's design principles!* 🚀
+
+## 🔌 Remix Hooks Guide
+
+Remix hooks are explicit, documented extension points that allow contributors to override behavior safely without modifying core schemas or breaking compatibility.
+
+### What they are
+- Named override points declared in module READMEs (see `Remix Hooks` section)
+- Example: custom quest branching evaluators, reward handlers, or external triggers
+
+### How to declare
+- Document the hook in the module README under `Remix Hooks`
+- Provide types/interfaces for the hook input/output
+- Ensure golden tests for hook-driven behaviors
+
+### Examples
+- **QuestsPure**
+  - Hooks: quest branching logic, reward injection, external trigger support
+  - See `QuestsPure/README.md` for details
+- **CombatCorePure**
+  - Hooks: damage formula override, status effect resolution order
+  - Golden tests should demonstrate deterministic behavior with custom hooks
+
+## 🧩 Module Anatomy
+
+Each Pure module should include the following files:
+
+```text
+Manager.ts                 # Core logic
+cliHarness.ts              # CLI entrypoint
+sample_*.json              # Sample data inputs
+tests/golden*.test.ts      # Deterministic golden tests
+README.md                  # Schema, CLI usage, remix hooks, dependencies
+```
+
+> Tip: Keep engine-specific behaviors in bridge modules. Pure modules must remain engine-agnostic.
