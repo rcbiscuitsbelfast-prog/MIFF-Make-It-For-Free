@@ -8,6 +8,43 @@ description: "Set up MIFF Framework for development and contribution"
 
 Get MIFF Framework up and running on your system for development and contribution.
 
+## ⚡ No-Code Setup
+
+<div class="not-prose">
+  <div class="flex flex-wrap gap-2 mb-4">
+    <button class="px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-sm bg-blue-600 text-white">No-Code Setup</button>
+    <button class="px-3 py-1 rounded border border-gray-300 dark:border-gray-700 text-sm">Developer Setup</button>
+  </div>
+</div>
+
+### One-command CLI walkthrough
+
+```bash
+# Initialize a tutorial scenario template
+npx ts-node cli/miff-init.ts MyFirstScenario --template tutorial
+
+# Simulate the scenario and save output
+npx ts-node cli/miff-simulate.ts MyFirstScenario/scenario.json > out.json
+
+# Replay the render data (web)
+npx ts-node RenderReplayPure/cliHarness.ts replay-payload out.json --engine web --format html > replay.html
+```
+
+### Sample terminal output
+
+```text
+▶ Initializing scenario: tutorial
+✓ Wrote MyFirstScenario/scenario.json
+▶ Simulating: MyFirstScenario/scenario.json
+✓ Outputs: out.json (status: ok)
+▶ Replay (web)
+✓ Report: replay.html
+```
+
+### ▶️ Video preview (placeholder)
+
+[Watch: Run your first scenario with MIFF](https://example.com/video-placeholder)
+
 ## 📋 Prerequisites
 
 ### **Required Software**
@@ -80,8 +117,30 @@ npm install --save-dev
 # Set up pre-commit hooks (optional)
 npm run setup-hooks
 
-# Verify TypeScript compilation
+# Type check
 npx tsc --noEmit
+```
+
+## 🧪 Prompt Example
+
+> Prompt: “Build me a physics shooter with pixel-art enemies on Mars”
+
+```bash
+# Scaffold modules and scenario
+npx ts-node cli/miff-init.ts Toppler --template physics-shooter
+
+# Example scaffold output
+# ✓ PhysicsSystemPure scaffolded
+# ✓ ProjectileSystemPure scaffolded
+# ✓ CollisionSystemPure scaffolded
+# ✓ Tutorial scenario configured for Mars theme
+```
+
+```text
+Assets preview (placeholder):
+- square-red.png (enemy)
+- square-yellow.png (projectile)
+- mars-bg.png (background)
 ```
 
 ## 🧪 Testing Your Installation
