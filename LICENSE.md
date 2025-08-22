@@ -8,7 +8,7 @@ MIFF is offered under a dual-license model:
 
 2) Commercial License
    - Commercial use (including SaaS/closed-source integration, removal of attribution, or redistribution under a proprietary license) requires a paid commercial license.
-   - Contact: miff@yourdomain.dev to obtain pricing and terms.
+   - Contact: r.c.biscuits.belfast@gmail.com to obtain pricing and terms.
 
 Attribution Requirement
 - The default build shows a small “Powered by MIFF” attribution in UI or console during boot. This attribution may be removed only under a commercial license.
