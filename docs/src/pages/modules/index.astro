@@ -1,22 +1,44 @@
 ---
+import SimpleLayout from '../../layouts/SimpleLayout.astro';
 const base = import.meta.env.BASE_URL || '/';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Modules — MIFF</title>
-	</head>
-	<body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,sans-serif; background:#f8fafc; color:#0f172a;">
-		<main style="max-width:60rem;margin:2rem auto;padding:0 1rem;">
-			<h1 style="font-size:1.75rem;margin:0 0 .5rem;">Modules</h1>
-			<p style="color:#475569;">Browse MIFF Pure modules and bridges. This is a placeholder page.</p>
-			<ul style="margin:1rem 0 0;">
-				<li><a href={`${base}contributors/roadmap`}>Roadmap</a></li>
-				<li><a href={`${base}getting-started/install`}>Installation</a></li>
-			</ul>
-		</main>
-	</body>
-</html>
+<SimpleLayout title="Modules — MIFF" description="Browse MIFF Pure modules and bridges">
+	<section class="py-16" aria-labelledby="modules-title">
+		<div class="max-w-6xl mx-auto px-4">
+			<div class="mb-8">
+				<h1 id="modules-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+					🧩 MIFF Modules
+				</h1>
+				<p class="text-lg text-slate-600 leading-relaxed">
+					Browse MIFF Pure modules and bridges. This is a placeholder page.
+				</p>
+			</div>
+			
+			<div class="bg-white rounded-lg border border-gray-200 p-8">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div class="p-6 bg-purple-50 rounded-lg border border-purple-200">
+						<h2 class="text-xl font-semibold text-slate-900 mb-2">🚀 Getting Started</h2>
+						<p class="text-slate-600 mb-4">Learn how to install and set up MIFF</p>
+						<a 
+							href={`${base}getting-started/install`}
+							class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+						>
+							Installation Guide
+						</a>
+					</div>
+					<div class="p-6 bg-purple-50 rounded-lg border border-purple-200">
+						<h2 class="text-xl font-semibold text-slate-900 mb-2">🗺️ Roadmap</h2>
+						<p class="text-slate-600 mb-4">See what's coming next in MIFF</p>
+						<a 
+							href={`${base}contributors/roadmap`}
+							class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+						>
+							View Roadmap
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</SimpleLayout>

@@ -1,24 +1,46 @@
 ---
+import SimpleLayout from '../layouts/SimpleLayout.astro';
 const base = import.meta.env.BASE_URL || '/';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Page Not Found — MIFF</title>
-	</head>
-	<body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,sans-serif; background:#f8fafc; color:#0f172a;">
-		<main style="max-width:48rem;margin:4rem auto;padding:0 1rem;">
-			<h1 style="font-size:2rem;margin:0 0 .5rem;">404 — Page Not Found</h1>
-			<p style="color:#475569;">The page you were looking for doesn’t exist. Try one of these links instead:</p>
-			<ul style="display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 0;padding:0;list-style:none;">
-				<li><a style="background:#7c3aed;color:#fff;padding:.6rem .9rem;border-radius:999px;text-decoration:none;" href={`${base}`}>Home</a></li>
-				<li><a style="background:#7c3aed;color:#fff;padding:.6rem .9rem;border-radius:999px;text-decoration:none;" href={`${base}modules/`}>Modules</a></li>
-				<li><a style="background:#7c3aed;color:#fff;padding:.6rem .9rem;border-radius:999px;text-decoration:none;" href={`${base}docs/`}>Docs</a></li>
-				<li><a style="background:#7c3aed;color:#fff;padding:.6rem .9rem;border-radius:999px;text-decoration:none;" href={`${base}contributors/onboarding`}>Contributors</a></li>
-			</ul>
-		</main>
-	</body>
-</html>
+<SimpleLayout title="404 — Page Not Found" description="The page you were looking for doesn't exist.">
+	<section class="py-16" aria-labelledby="error-title">
+		<div class="max-w-4xl mx-auto px-4 text-center">
+			<div class="mb-8">
+				<h1 id="error-title" class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+					404 — Page Not Found
+				</h1>
+				<p class="text-xl text-slate-600 mb-8">
+					The page you were looking for doesn't exist. Try one of these instead:
+				</p>
+			</div>
+			
+			<div class="flex flex-wrap justify-center gap-4">
+				<a 
+					href={`${base}`}
+					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+				>
+					🏠 Home
+				</a>
+				<a 
+					href={`${base}modules/`}
+					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+				>
+					🧩 Modules
+				</a>
+				<a 
+					href={`${base}docs/`}
+					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+				>
+					📚 Docs
+				</a>
+				<a 
+					href={`${base}contributors/onboarding`}
+					class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+				>
+					👥 Contributors
+				</a>
+			</div>
+		</div>
+	</section>
+</SimpleLayout>
