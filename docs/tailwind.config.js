@@ -2,7 +2,7 @@
 export default {
   content: [
     "./src/**/*.{astro,html,js,ts,md,mdx}",
-    "./src/**/*.{astro,html,js,ts,md,mdx}",
+    "./docs/src/**/*.{astro,html,js,ts,md,mdx}",
     "./pages/**/*.{astro,html,js,ts,md,mdx}"
   ],
   theme: {

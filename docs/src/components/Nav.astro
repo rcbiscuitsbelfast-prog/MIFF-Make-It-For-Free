@@ -2,13 +2,13 @@
 const base = import.meta.env.BASE_URL || '/';
 ---
 
-<nav class="w-full" aria-label="Primary">
+<nav class="flex gap-4 justify-center bg-purple-600 p-4">
 	<ul class="flex items-center gap-4 text-sm">
-		<li><a class="text-slate-700 hover:text-purple-700 hover:underline transition-colors font-medium" href={`${base}`}>Home</a></li>
-		<li><a class="text-slate-700 hover:text-purple-700 hover:underline transition-colors font-medium" href={`${base}modules/`}>Modules</a></li>
-		<li><a class="text-slate-700 hover:text-purple-700 hover:underline transition-colors font-medium" href={`${base}docs/`}>Docs</a></li>
-		<li><a class="text-slate-700 hover:text-purple-700 hover:underline transition-colors font-medium" href={`${base}forum/`}>Forum</a></li>
-		<li><a class="text-slate-700 hover:text-purple-700 hover:underline transition-colors font-medium" href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}`}>Home</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}modules/`}>Modules</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}docs/`}>Docs</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}forum/`}>Forum</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></li>
 	</ul>
 </nav>
 
