@@ -20,8 +20,11 @@ description: "Modular, CLI-first, engine-agnostic game development framework bui
 </div>
 
 <div class="not-prose mb-8">
-  <a href="/demos/tutorial" class="inline-flex items-center px-5 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+  <a href="/demos/tutorial" class="inline-flex items-center px-5 py-3 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mr-3">
     Try a Scenario
+  </a>
+  <a href="/demos/combat" class="inline-flex items-center px-5 py-3 bg-gray-800 text-white rounded-md shadow hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2">
+    Combat Demo
   </a>
 </div>
 
