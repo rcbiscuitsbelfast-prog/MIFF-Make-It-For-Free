@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rcbiscuitsbelfast-prog/K-pop-remix.git"
+    "url": "git+https://github.com/miff-framework/miff.git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
-    "url": "https://github.com/rcbiscuitsbelfast-prog/K-pop-remix/issues"
+    "url": "https://github.com/miff-framework/miff/issues"
   },
-  "homepage": "https://github.com/rcbiscuitsbelfast-prog/K-pop-remix#readme",
+  "homepage": "https://github.com/miff-framework/miff#readme",
   "devDependencies": {
     "@types/node": "^24.3.0",
     "@types/jest": "^29.5.0",

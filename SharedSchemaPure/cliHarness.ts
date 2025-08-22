@@ -1,4 +1,3 @@
-#!/usr/bin/env -S node --no-warnings
 import { SharedSchemaManager } from './Manager';
 
 type Cmd = { op: 'dumpTypes' } | { op: 'list' } | { op: 'dump' };
