@@ -12,13 +12,13 @@ function run(cmds:Cmd[]){
   const log:string[]=[];
   for(const c of cmds){
     if(c.op==='assignMovement'){
-      const npc = npcs[c.id] || {id:c.id, pattern:'idle' as Pattern};
+      const npc: NPC = npcs[c.id] || {id:c.id, pattern:'idle' as Pattern};
       npc.pattern = c.pattern;
       if(c.waypoints) npc.waypoints = c.waypoints;
       npcs[c.id] = npc;
       log.push(`ASSIGN ${c.id} ${c.pattern}`);
     } else if(c.op==='setFollowTarget'){
-      const npc = npcs[c.id] || {id:c.id, pattern:'follow' as Pattern};
+      const npc: NPC = npcs[c.id] || {id:c.id, pattern:'follow' as Pattern};
       npc.pattern = 'follow'; npc.followTargetId = c.targetId; npcs[c.id]=npc;
       log.push(`FOLLOW ${c.id} -> ${c.targetId}`);
     } else if(c.op==='simulateTick'){
