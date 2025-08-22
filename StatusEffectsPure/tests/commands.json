@@ -1,0 +1,5 @@
+[
+  { "op": "list" },
+  { "op": "simulate", "id": "hero" },
+  { "op": "dump", "id": "hero" }
+]

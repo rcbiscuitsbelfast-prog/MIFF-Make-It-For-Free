@@ -1,0 +1,5 @@
+[
+  { "op": "list" },
+  { "op": "simulate", "attackerId": "hero", "defenderId": "slime" },
+  { "op": "dump", "id": "slime" }
+]

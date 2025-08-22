@@ -1,0 +1,5 @@
+{
+  "entities": [
+    { "id": "hero", "hp": 12, "effects": [ { "id": "p1", "type": "poison", "magnitude": 2, "duration": 2 } ] }
+  ]
+}
