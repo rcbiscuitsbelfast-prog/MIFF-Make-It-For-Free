@@ -1,0 +1,37 @@
+---
+import Nav from '../components/Nav.astro';
+const title = Astro.props.title || 'MIFF';
+const description = Astro.props.description || 'Modular, CLI-first, engine-agnostic game dev for remixers and contributors.';
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="stylesheet" href={`${base}styles/global.css`} />
+	</head>
+	<body>
+		<header class="site-header" role="banner">
+			<div class="container header-inner">
+				<a href={`${base}`} class="brand" aria-label="MIFF Home">MIFF</a>
+				<Nav />
+			</div>
+		</header>
+
+		<main id="main" class="site-main" role="main">
+			<div class="container">
+				<slot />
+			</div>
+		</main>
+
+		<footer class="site-footer" role="contentinfo">
+			<div class="container footer-inner">
+				<p>Built by R.C. Biscuits · <a href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></p>
+			</div>
+		</footer>
+	</body>
+</html>
