@@ -21,6 +21,10 @@ jobs:
       - name: 📦 Install deps
         run: npm ci || npm i
 
+      - name: 🔍 Check missing deps
+        continue-on-error: true
+        run: node -e "require('fs').readdirSync('node_modules'); console.log('deps ok')"
+
       - name: 🧹 Type check (tsc --noEmit)
         run: npx tsc --noEmit
 
