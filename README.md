@@ -2,7 +2,7 @@
 
 [![MIFF CI](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
 
-**🌐 [Documentation Site](https://miff-framework.github.io/miff)** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
+**🌐 [Documentation Site]([https://miff-framework.github.io/miff](https://miffgamemain.vercel.app/getting-started/install))** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
 
 Modular, CLI‑First Game Framework (Unity Runtime)
 
