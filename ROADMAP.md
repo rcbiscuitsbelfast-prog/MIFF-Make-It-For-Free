@@ -36,6 +36,10 @@
   - CraftingPure — v13. Recipes and stat modifiers
   - LootTablesPure — v13. Drop rates and stat rolls
   - EconomyPure — v13. Pricing and vendor logic
+- Scenario Packs (completed in Phase 4/v13)
+  - TutorialScenarioPure — v13. Basics walkthrough
+  - QuestScenarioPure — v13. Branching questline
+  - CombatScenarioPure — v13. Arena combat demo
 - Content & Systems (existing)
   - DialogPure — Branching text
   - LorePure — Databank
@@ -91,6 +95,19 @@ Tag: `phase3-v13-derived`
 - [x] Samples and expected outputs for golden tests
 - [x] READMEs with schema v13, hooks, dependencies
 
+## Phase 4 — Scenario Packs (Schema v13)
+- [x] TutorialScenarioPure (new)
+- [x] QuestScenarioPure (new)
+- [x] CombatScenarioPure (new)
+
+Tag: `phase4-v13-scenarios`
+
+### Phase 4 Completion Checklist
+- [x] scenario.json for each scenario
+- [x] CLI harness run/dump producing {op,status,events,finalState}
+- [x] Expected outputs and golden tests
+- [x] READMEs with overview, hooks, dependencies
+
 ## Completion Checklist
 - [x] Managers with core logic: list/create/simulate/dump
 - [x] CLI harnesses for each module
@@ -100,7 +117,6 @@ Tag: `phase3-v13-derived`
 - [x] Roadmap updated and tagged
 
 ## Next Phases (high level)
-- Phase 4: Scenario packs — End-to-end CLI campaigns for playtesting
 - Phase 5: Tooling — Test harness runner, coverage, docs site generation
 - Phase 6: Engine bridges — Unity, Web, Godot bindings (no logic changes)
 
