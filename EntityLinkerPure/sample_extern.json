@@ -1,5 +1,5 @@
 {
-  "quests": { "q1": true },
-  "items": { },
-  "zones": { "z_town": true }
+  "quests": { "quest_intro": true, "quest_boss": true },
+  "items": { "item_potion": true, "item_sword": true, "item_shield": true },
+  "zones": { "zone_village": true, "zone_forest": true, "zone_castle": true }
 }
