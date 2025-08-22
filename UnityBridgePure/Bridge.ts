@@ -10,7 +10,7 @@ export interface UnityEntity {
   id: string;
   gameObject: any; // Unity GameObject reference
   transform: any; // Unity Transform component
-  components: Map<string, any>; // Unity components
+  components: { [key: string]: any }; // Unity components
 }
 
 export interface UnityComponent {
@@ -77,7 +77,7 @@ export class UnityBridge {
           result = this.npcsManager.simulateNPC(data.npcId, data.duration);
           break;
         case 'combat':
-          result = this.combatManager.simulateCombat(data.attacker, data.defender);
+          result = this.combatManager.simulate(data.attacker, data.defender);
           break;
         case 'crafting':
           result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
@@ -181,7 +181,8 @@ export class UnityBridge {
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
           break;
         case 'stats':
-          result = this.statsManager.updateStats(convertedData.id, convertedData);
+          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
+          result = this.statsManager.get(convertedData.id);
           break;
         default:
           return {
@@ -214,11 +215,11 @@ export class UnityBridge {
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 }
       },
-      components: new Map([
-        ['NPCController', { npcId: npc.id, behavior: npc.behavior }],
-        ['Transform', { position: npc.location }],
-        ['Stats', { stats: npc.stats }]
-      ])
+      components: {
+        NPCController: { npcId: npc.id, behavior: npc.behavior },
+        Transform: { position: npc.location },
+        Stats: { stats: npc.stats }
+      }
     };
   }
 
@@ -241,10 +242,10 @@ export class UnityBridge {
         id: data.attackerId,
         gameObject: `Combatant_${data.attackerId}`,
         transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
-        components: new Map([
-          ['CombatController', { combatantId: data.attackerId, isAttacker: true }],
-          ['Stats', { stats: data.attackerStats }]
-        ])
+        components: {
+          CombatController: { combatantId: data.attackerId, isAttacker: true },
+          Stats: { stats: data.attackerStats }
+        }
       }
     ];
   }
@@ -264,9 +265,9 @@ export class UnityBridge {
       id: zone.id,
       gameObject: `Zone_${zone.id}`,
       transform: { position: { x: zone.x, y: zone.y, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
-      components: new Map([
-        ['ZoneController', { zoneId: zone.id, zoneData: zone }]
-      ])
+      components: {
+        ZoneController: { zoneId: zone.id, zoneData: zone }
+      }
     })) || [];
   }
 

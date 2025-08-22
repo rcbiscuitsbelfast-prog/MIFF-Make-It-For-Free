@@ -229,7 +229,7 @@ export class DebugOverlayManager {
    */
   generateDebugDisplay(overlay: DebugOverlay): string {
     const lines: string[] = [];
-    
+
     // Header
     if (this.config.colorize) {
       lines.push('🔍 \x1b[36mDEBUG OVERLAY\x1b[0m');
@@ -270,11 +270,6 @@ export class DebugOverlayManager {
       lines.push(this.config.colorize ? `\x1b[36m${signalsLine}\x1b[0m` : signalsLine);
     }
 
-    if (this.config.showPerformance && overlay.debugInfo.performance) {
-      const perfLine = `Duration: ${overlay.debugInfo.performance.duration}ms`;
-      lines.push(this.config.colorize ? `\x1b[90m${perfLine}\x1b[0m` : perfLine);
-    }
-
     lines.push('');
 
     // Issues
@@ -284,9 +279,9 @@ export class DebugOverlayManager {
       } else {
         lines.push('⚠️ ISSUES:');
       }
-      
+
       overlay.issues.forEach(issue => {
-        const truncatedIssue = this.config.maxIssueLength > 0 
+        const truncatedIssue = this.config.maxIssueLength > 0
           ? issue.substring(0, this.config.maxIssueLength) + (issue.length > this.config.maxIssueLength ? '...' : '')
           : issue;
         const issueLine = `  - ${truncatedIssue}`;
@@ -302,7 +297,7 @@ export class DebugOverlayManager {
       } else {
         lines.push('📝 ANNOTATIONS:');
       }
-      
+
       overlay.annotations.forEach(annotation => {
         const annotationLine = `  - ${annotation}`;
         lines.push(this.config.colorize ? `\x1b[32m${annotationLine}\x1b[0m` : annotationLine);
@@ -317,25 +312,25 @@ export class DebugOverlayManager {
       } else {
         lines.push('🎨 RENDERDATA PREVIEW:');
       }
-      
+
       const maxItems = this.config.maxRenderDataItems > 0 ? this.config.maxRenderDataItems : overlay.renderData.length;
       const itemsToShow = overlay.renderData.slice(0, maxItems);
-      
+
       itemsToShow.forEach((data, index) => {
         const dataLine = `  ${index + 1}. ${data.type} (${data.id})`;
         lines.push(this.config.colorize ? `\x1b[34m${dataLine}\x1b[0m` : dataLine);
-        
+
         if (data.position) {
           const posLine = `     Position: ${JSON.stringify(data.position)}`;
           lines.push(this.config.colorize ? `\x1b[90m${posLine}\x1b[0m` : posLine);
         }
-        
+
         if (data.asset) {
           const assetLine = `     Asset: ${data.asset}`;
           lines.push(this.config.colorize ? `\x1b[90m${assetLine}\x1b[0m` : assetLine);
         }
       });
-      
+
       if (overlay.renderData.length > maxItems) {
         const moreLine = `  ... and ${overlay.renderData.length - maxItems} more items`;
         lines.push(this.config.colorize ? `\x1b[90m${moreLine}\x1b[0m` : moreLine);
@@ -347,7 +342,7 @@ export class DebugOverlayManager {
 
   private extractDebugInfo(payload: RenderPayload): DebugInfo {
     const duration = Date.now() - this.startTime;
-    
+
     const engineHints = payload.renderData
       ?.map(data => data.engineHints)
       .filter(hints => hints)
@@ -370,8 +365,8 @@ export class DebugOverlayManager {
       metadata: payload.metadata,
       performance: {
         duration,
-        memoryUsage: process.memoryUsage?.()?.heapUsed,
-        cpuUsage: process.cpuUsage?.()
+        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : undefined,
+        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : undefined
       }
     };
   }
@@ -484,7 +479,7 @@ export class DebugOverlayManager {
       });
     }
 
-    return payloads.filter(payload => 
+    return payloads.filter(payload =>
       payload.renderData && Array.isArray(payload.renderData)
     );
   }
@@ -495,7 +490,7 @@ export class DebugOverlayManager {
 
   private generateHTMLReport(overlay: DebugOverlay): string {
     const lines: string[] = [];
-    
+
     lines.push('<!DOCTYPE html>');
     lines.push('<html>');
     lines.push('<head>');
@@ -520,9 +515,9 @@ export class DebugOverlayManager {
     lines.push('</style>');
     lines.push('</head>');
     lines.push('<body>');
-    
+
     lines.push('<div class="header">🔍 DEBUG OVERLAY</div>');
-    
+
     // Debug Info
     lines.push('<div class="section">');
     lines.push('<div class="section-title">Debug Information:</div>');
@@ -530,18 +525,18 @@ export class DebugOverlayManager {
     lines.push(`<div class="info status-${overlay.debugInfo.status}">Status: ${overlay.debugInfo.status}</div>`);
     lines.push(`<div class="info timestamp">Timestamp: ${overlay.debugInfo.timestamp}</div>`);
     lines.push(`<div class="info renderdata">RenderData: ${overlay.debugInfo.renderDataCount} items</div>`);
-    
+
     if (overlay.debugInfo.engineHints && overlay.debugInfo.engineHints.length > 0) {
       lines.push(`<div class="info hints">Engine Hints: ${overlay.debugInfo.engineHints.join(', ')}</div>`);
     }
-    
+
     lines.push(`<div class="info signals">Signals: ${overlay.debugInfo.signalsCount}</div>`);
-    
+
     if (overlay.debugInfo.performance) {
       lines.push(`<div class="info performance">Duration: ${overlay.debugInfo.performance.duration}ms</div>`);
     }
     lines.push('</div>');
-    
+
     // Issues
     if (overlay.issues.length > 0) {
       lines.push('<div class="section">');
@@ -551,7 +546,7 @@ export class DebugOverlayManager {
       });
       lines.push('</div>');
     }
-    
+
     // Annotations
     if (overlay.annotations.length > 0) {
       lines.push('<div class="section">');
@@ -561,36 +556,36 @@ export class DebugOverlayManager {
       });
       lines.push('</div>');
     }
-    
+
     // RenderData Preview
     if (overlay.renderData.length > 0) {
       lines.push('<div class="section">');
       lines.push('<div class="section-title renderdata">🎨 RENDERDATA PREVIEW:</div>');
-      
+
       const maxItems = this.config.maxRenderDataItems > 0 ? this.config.maxRenderDataItems : overlay.renderData.length;
       const itemsToShow = overlay.renderData.slice(0, maxItems);
-      
+
       itemsToShow.forEach((data, index) => {
         lines.push(`<div class="item renderdata">${index + 1}. ${data.type} (${data.id})</div>`);
-        
+
         if (data.position) {
           lines.push(`<div class="item timestamp">   Position: ${JSON.stringify(data.position)}</div>`);
         }
-        
+
         if (data.asset) {
           lines.push(`<div class="item timestamp">   Asset: ${data.asset}</div>`);
         }
       });
-      
+
       if (overlay.renderData.length > maxItems) {
         lines.push(`<div class="item timestamp">... and ${overlay.renderData.length - maxItems} more items</div>`);
       }
       lines.push('</div>');
     }
-    
+
     lines.push('</body>');
     lines.push('</html>');
-    
+
     return lines.join('\n');
   }
 }
