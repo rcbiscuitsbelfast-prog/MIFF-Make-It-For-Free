@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 title: "Contributor Onboarding"
 description: "Complete guide for contributing to MIFF Framework"
 ---

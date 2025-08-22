@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/Layout.astro
+layout: ../../layouts/Layout.astro
 title: "Simulate Tool Guide"
 description: "Learn to use miff-simulate for scenario testing and validation"
 ---
