@@ -2,7 +2,7 @@
 
 [![MIFF CI](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
 
-**🌐 [Documentation Site](https://miff-framework.github.io/miff)** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
+**🌐 [Documentation Site]([https://miff-framework.github.io/miff](https://miffgamemain.vercel.app/getting-started/install))** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
 
 Modular, CLI‑First Game Framework (Unity Runtime)
 
@@ -37,7 +37,7 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 ## 📖 Documentation
 
-- **[🌐 Documentation Site](https://miff-framework.github.io/miff)** - Complete guides, API reference, and examples
+- **[🌐 Documentation Site](https://miffgamemain.vercel.app/getting-started/install)** - Complete guides, API reference, and examples
 - **[🚀 Getting Started](https://miff-framework.github.io/miff/getting-started/install)** - Installation and setup guide
 - **[🎮 Simulate Tool](https://miff-framework.github.io/miff/getting-started/simulate)** - Scenario testing and validation
 - **[🎬 Replay Tool](https://miff-framework.github.io/miff/getting-started/replay)** - Visual replay and debugging
