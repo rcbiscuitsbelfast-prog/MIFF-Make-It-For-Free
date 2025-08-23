@@ -277,6 +277,22 @@ Checklist:
 
 Tag: `phase14-v1-visual-replay-complete`
 
+## Phase 15 — Funding, Outreach & Global Deployment (Schema v15)
+- [ ] Funding strategy and sustainability planning
+- [ ] Global contributor outreach and community building
+- [ ] Remix safety enforcement and compliance monitoring
+- [ ] Multi-language documentation and localization
+- [ ] Enterprise partnerships and commercial licensing
+
+### Phase 15 Goals
+- **Funding**: Secure sustainable funding for continued development
+- **Outreach**: Build global community of contributors and users
+- **Compliance**: Maintain remix safety across all modules and contributions
+- **Localization**: Support multiple languages and regional markets
+- **Partnerships**: Establish commercial partnerships for enterprise use
+
+Tag: `phase15-v15-funding-outreach`
+
 ## Phase 12 — Custom Content & Asset Validation (Schema v13/14)
 - [x] QuestModulePure (v13) — Parse/validate quest DSL; normalized objects
 - [x] AssetManifestPure (v13) — Normalize manifests; remix-safe audit
