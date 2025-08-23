@@ -14,6 +14,8 @@ import * as fs from 'fs';
 describe('AutoBuilderCLI golden tests', () => {
   const root = path.resolve(__dirname, '..');
   const assetsFixture = path.resolve(root, 'fixtures/sample_assets.json');
+  const physicsAssetsFixture = path.resolve(root, 'fixtures/assets_physics.json');
+  const goldenHtmlFixture = path.resolve(root, 'fixtures/golden_toppler.html');
   
   test('golden web build flow', () => {
     // Test basic web build
@@ -177,6 +179,142 @@ describe('AutoBuilderCLI golden tests', () => {
           expect(error.message).toContain('Invalid platform: invalid');
         }
       }
+    }
+  });
+
+  /**
+   * Comprehensive golden test for full build flow
+   * Validates the complete pipeline: scenario loading → asset injection → platform conversion → output generation
+   */
+  test('golden full build flow - physics scenario to web platform', () => {
+    // Step 1: Create build directory structure
+    const buildDir = path.resolve(root, 'build');
+    if (!fs.existsSync(buildDir)) {
+      fs.mkdirSync(buildDir, { recursive: true });
+    }
+    
+    // Step 2: Simulate CLI run with full parameter set
+    // This tests: --genre physics --platform web --assets ./fixtures/assets_physics.json --out ./build/toppler.html
+    const out = (global as any).testUtils.runCLI(
+      path.resolve(root, 'cli.ts'),
+      [
+        'TopplerDemoPure',           // Load the TopplerDemoPure scenario
+        '--fps', '24',               // Set FPS to 24
+        '--debug',                   // Enable debug mode
+        '--genre', 'physics',        // Explicitly set physics genre
+        '--platform', 'web',         // Target web platform
+        '--assets', physicsAssetsFixture,  // Inject physics-specific assets
+        '--out', './build/toppler.html'    // Specify output location
+      ]
+    );
+    
+    // Step 3: Parse and validate CLI output
+    const result = JSON.parse(out);
+    
+    // Verify build result structure
+    expect(result.op).toBe('build');
+    expect(result.status).toBe('ok');
+    expect(result.scenario).toBe('TopplerDemoPure');
+    expect(result.genre).toBe('physics');
+    expect(result.platform).toBe('web');
+    expect(result.frames).toBeGreaterThan(0);
+    expect(result.assets).toBe(6); // 6 assets in physics fixture
+    
+    // Step 4: Verify output file was created at specified location
+    const outputPath = path.resolve(result.out);
+    expect(fs.existsSync(outputPath)).toBe(true);
+    
+    // Verify the output path matches our expected build directory
+    expect(outputPath).toContain('build/toppler.html');
+    
+    // Step 5: Load and validate generated HTML content
+    const generatedHtml = fs.readFileSync(outputPath, 'utf-8');
+    
+    // Basic HTML structure validation
+    expect(generatedHtml).toContain('<!doctype html>');
+    expect(generatedHtml).toContain('<html>');
+    expect(generatedHtml).toContain('<head>');
+    expect(generatedHtml).toContain('<body>');
+    expect(generatedHtml).toContain('<canvas id="stage">');
+    
+    // Step 6: Validate scenario-specific content
+    // Check that physics-specific elements are present
+    expect(generatedHtml).toContain('block');
+    expect(generatedHtml).toContain('CanvasRenderPlayer');
+    
+    // Step 7: Validate asset integration
+    // Note: Assets are loaded and validated but not embedded in HTML content
+    // The asset count is verified in the CLI output (result.assets === 6)
+    // This ensures AssetManifestPure integration is working correctly
+    
+    // Step 8: Validate platform-specific conversion
+    // Check that ConvertToWebPure output is properly integrated
+    expect(generatedHtml).toContain('import { CanvasRenderPlayer }');
+    expect(generatedHtml).toContain('fps: 24');
+    expect(generatedHtml).toContain('debug: true');
+    
+    // Step 9: Validate frame data structure
+    // Check that RenderPayloadPure frames are properly formatted
+    expect(generatedHtml).toContain('"frameIndex":');
+    expect(generatedHtml).toContain('"sprites":');
+    expect(generatedHtml).toContain('"camera":');
+    expect(generatedHtml).toContain('"backgroundColor":');
+    
+    // Step 10: Compare against golden fixture (structural validation)
+    const goldenHtml = fs.readFileSync(goldenHtmlFixture, 'utf-8');
+    
+    // Extract key structural elements for comparison
+    const extractStructure = (html: string) => {
+      return {
+        hasDoctype: html.includes('<!doctype html>'),
+        hasCanvas: html.includes('<canvas id="stage">'),
+        hasControls: html.includes('id="play"') && html.includes('id="pause"') && html.includes('id="stop"'),
+        hasCanvasRenderPlayer: html.includes('CanvasRenderPlayer'),
+        hasFrameData: html.includes('"frameIndex":') && html.includes('"sprites":')
+      };
+    };
+    
+    const generatedStructure = extractStructure(generatedHtml);
+    const goldenStructure = extractStructure(goldenHtml);
+    
+    // Verify structural equivalence
+    expect(generatedStructure.hasDoctype).toBe(goldenStructure.hasDoctype);
+    expect(generatedStructure.hasCanvas).toBe(goldenStructure.hasCanvas);
+    expect(generatedStructure.hasControls).toBe(goldenStructure.hasControls);
+    expect(generatedStructure.hasCanvasRenderPlayer).toBe(goldenStructure.hasCanvasRenderPlayer);
+    expect(generatedStructure.hasFrameData).toBe(goldenStructure.hasFrameData);
+    
+    // Step 11: Validate deterministic behavior
+    // Run the build again to ensure consistency
+    const out2 = (global as any).testUtils.runCLI(
+      path.resolve(root, 'cli.ts'),
+      [
+        'TopplerDemoPure',
+        '--fps', '24',
+        '--debug',
+        '--genre', 'physics',
+        '--platform', 'web',
+        '--assets', physicsAssetsFixture,
+        '--out', './build/toppler2.html'
+      ]
+    );
+    
+    const result2 = JSON.parse(out2);
+    const outputPath2 = path.resolve(result2.out);
+    const generatedHtml2 = fs.readFileSync(outputPath2, 'utf-8');
+    
+    // Verify deterministic output (same content for same inputs)
+    expect(generatedHtml2).toBe(generatedHtml);
+    
+    // Step 12: Cleanup test files
+    fs.unlinkSync(outputPath);
+    fs.unlinkSync(outputPath2);
+    
+    // Remove build directory if empty
+    try {
+      fs.rmdirSync(buildDir);
+    } catch (e) {
+      // Directory not empty, leave it
     }
   });
 });
