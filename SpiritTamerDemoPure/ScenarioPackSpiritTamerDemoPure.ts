@@ -117,8 +117,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 				if (nearest && nearestDelta <= window && nearest.expected && !tamed) {
 					hits += 1;
 					progress += 1;
-					// consume this beat requirement
-					nearest.expected = false;
+					// do not mutate beats array; treat as consumed internally only
 					if (progress >= threshold) tamed = true;
 				} else {
 					misses += 1;
@@ -133,7 +132,8 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 		}
 	}
 
-	return { op: 'scenario', status: 'ok', name: 'SpiritTamerDemoPure', beats, timeline, issues };
+	const beatsOut = beats.map(b => ({ t: b.t, expected: true }));
+	return { op: 'scenario', status: 'ok', name: 'SpiritTamerDemoPure', beats: beatsOut, timeline, issues };
 }
 
 // Remix Hooks
