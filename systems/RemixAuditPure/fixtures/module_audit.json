@@ -1,0 +1,8 @@
+{
+  "modulePaths": [
+    "systems/QuestSystemPure",
+    "systems/AssetValidatorPure",
+    "systems/RemixAuditPure"
+  ],
+  "verbose": true
+}
