@@ -1,0 +1,135 @@
+{
+  "state": {
+    "quests": {
+      "quest_herb_collection": {
+        "id": "quest_herb_collection",
+        "title": "Herb Collection",
+        "description": "Collect healing herbs for the village elder",
+        "steps": {
+          "step_1": {
+            "id": "step_1",
+            "description": "Talk to the village elder",
+            "triggers": [
+              {
+                "type": "talk",
+                "target": "elder",
+                "completed": false
+              }
+            ],
+            "next": "step_2",
+            "completed": false,
+            "requiredTriggers": 1
+          },
+          "step_2": {
+            "id": "step_2",
+            "description": "Collect 5 healing herbs",
+            "triggers": [
+              {
+                "type": "collect",
+                "target": "healing_herb",
+                "amount": 5,
+                "completed": false
+              }
+            ],
+            "next": "step_3",
+            "completed": false,
+            "requiredTriggers": 1
+          },
+          "step_3": {
+            "id": "step_3",
+            "description": "Return to the elder",
+            "triggers": [
+              {
+                "type": "talk",
+                "target": "elder",
+                "completed": false
+              }
+            ],
+            "completed": false,
+            "requiredTriggers": 1
+          }
+        },
+        "start": "step_1",
+        "rewards": [
+          {
+            "type": "xp",
+            "amount": 100,
+            "granted": false
+          },
+          {
+            "type": "item",
+            "id": "healing_potion",
+            "amount": 2,
+            "granted": false
+          },
+          {
+            "type": "reputation",
+            "id": "village",
+            "amount": 10,
+            "granted": false
+          }
+        ],
+        "status": "available",
+        "currentStep": "step_1",
+        "progress": 0
+      }
+    },
+    "activeQuests": [],
+    "completedQuests": [],
+    "failedQuests": [],
+    "playerStats": {
+      "level": 1,
+      "xp": 0,
+      "inventory": {
+        "healing_herb": 0,
+        "gold": 50
+      },
+      "location": {
+        "x": 0,
+        "y": 0
+      },
+      "reputation": {
+        "village": 0
+      }
+    }
+  },
+  "events": [
+    {
+      "type": "start",
+      "questId": "quest_herb_collection",
+      "timestamp": 1000
+    },
+    {
+      "type": "progress",
+      "questId": "quest_herb_collection",
+      "stepId": "step_1",
+      "triggerData": {
+        "type": "talk",
+        "target": "elder"
+      },
+      "timestamp": 1100
+    },
+    {
+      "type": "progress",
+      "questId": "quest_herb_collection",
+      "stepId": "step_2",
+      "triggerData": {
+        "type": "collect",
+        "target": "healing_herb",
+        "amount": 5
+      },
+      "timestamp": 2000
+    },
+
+    {
+      "type": "progress",
+      "questId": "quest_herb_collection",
+      "stepId": "step_3",
+      "triggerData": {
+        "type": "talk",
+        "target": "elder"
+      },
+      "timestamp": 3000
+    }
+  ]
+}
