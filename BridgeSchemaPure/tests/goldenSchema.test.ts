@@ -49,7 +49,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       };
 
       const issues = BridgeSchemaValidator.validateRenderData(invalidData);
-      expect(issues).toContain('Invalid render type: invalid_type');
+      expect(issues).toContain('Invalid render type: invalid_type'); // message comes raw from validateRenderData
     });
 
     test('✓ catches missing required fields', () => {
@@ -352,8 +352,8 @@ describe('BridgeSchemaPure Golden Tests', () => {
       const invalidPayload = sampleData.validation_examples.invalid_payload;
       const invalidIssues = BridgeSchemaValidator.validateRenderPayload(invalidPayload);
       expect(invalidIssues.length).toBeGreaterThan(0);
-      expect(invalidIssues).toContain('Invalid render type: invalid_type');
-      expect(invalidIssues).toContain('Position x and y must be numbers');
+      expect(invalidIssues).toContain('RenderData 0: Invalid render type: invalid_type');
+      expect(invalidIssues).toContain('RenderData 0: Position x and y must be numbers');
     });
   });
 

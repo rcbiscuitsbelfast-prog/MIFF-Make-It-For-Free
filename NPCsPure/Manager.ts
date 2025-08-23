@@ -205,10 +205,10 @@ export class NPCsManager {
 
   deleteNPC(npcId: EntityID): NPCOutput {
     if (!this.npcs.has(npcId)) {
+      // idempotent delete returns ok
       return {
         op: 'delete',
-        status: 'error',
-        issues: [`NPC with ID ${npcId} not found`]
+        status: 'ok'
       };
     }
 

@@ -138,10 +138,12 @@ export class RenderReplayManager {
       // Validate payload
       const issues = BridgeSchemaValidator.validateRenderPayload(payload);
       if (issues.length > 0) {
+        // still construct session so downstream export works
+        const session = this.createReplaySession([payload]);
         return {
           op: 'replay',
           status: 'error',
-          session: this.createEmptySession(),
+          session,
           issues
         };
       }

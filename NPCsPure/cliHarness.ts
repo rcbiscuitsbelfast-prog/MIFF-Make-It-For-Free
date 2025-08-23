@@ -117,7 +117,9 @@ function main(): void {
         break;
 
       case 'dump':
-        result = manager.listNPCs();
+        // Dump all NPCs
+        const list = manager.listNPCs();
+        result = { op: 'dump', status: 'ok', result: (list as any).result } as any;
         break;
 
       default:

@@ -27,8 +27,8 @@ function main(){
     else if(c.op==='createRule') outputs.push(mgr.createRule(c.rule));
     else if(c.op==='createVendor') outputs.push(mgr.createVendor(c.vendor));
     else if(c.op==='simulate') outputs.push(mgr.calculatePrice(c.vendorId, c.itemId));
-    else if(c.op==='dumpRule') outputs.push(mgr.dumpRule(c.id));
-    else if(c.op==='dumpVendor') outputs.push(mgr.dumpVendor(c.id));
+    else if(c.op==='dumpRule') { const r=mgr.dumpRule(c.id); outputs.push({ ...r, op:'dumpRule' }); }
+    else if(c.op==='dumpVendor') { const v=mgr.dumpVendor(c.id); outputs.push({ ...v, op:'dumpVendor' }); }
   }
   console.log(JSON.stringify({outputs}, null, 2));
 }

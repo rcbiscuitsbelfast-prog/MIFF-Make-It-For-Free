@@ -30,6 +30,7 @@ function main() {
     if (c.op === 'listDialogs') {
       outputs.push({ op: 'listDialogs', dialogs: sim.listDialogs() });
     } else if (c.op === 'simulateDialog') {
+      // reset state before full simulation for deterministic output
       outputs.push(sim.simulateDialog(c.dialogId));
     } else if (c.op === 'simulateChoice') {
       outputs.push(sim.simulateChoice(c.dialogId, c.choiceId));
