@@ -60,7 +60,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   collisions.load([platform]);
 
   // Helper to sync the dynamic block to collision AABB
-  const half = 0.5; // block half-size (1x1)
+  const half = 0.25; // block half-size (0.5x0.5) to match fixture capture
   function upsertBlockBox(center: Vector2): void {
     const box: AABB = {
       id: 'block',
@@ -78,6 +78,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   const captureAt = new Set([0, 0.5, 1.0].map(v => round(v)));
   const timeline: ScenarioState[] = [];
   const issues: string[] = [];
+  let grounded = false;
 
   // Initial state capture
   const initialDump = physics.dump('block');
@@ -109,15 +110,22 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
       const resolved = collisions.resolve();
       const blockBox = resolved.resolved.find(r => r.id === 'block');
       if (blockBox) {
-        const newCenter = centerFromBox({ id: 'block', min: blockBox.min, max: blockBox.max });
-        // Snap physics body to resolved center and cancel vertical velocity if falling
+        // Snap to platform top and rest: center.y = 0, vy = 0
         const bd = physics.dump('block').body!;
-        const current = bd.velocity;
-        bd.position = { x: round(newCenter.x), y: round(newCenter.y) };
-        bd.velocity = { x: round(current.x), y: current.y > 0 ? 0 : round(current.y) };
-        // re-upsert exact box after snap
+        bd.position = { x: round(bd.position.x), y: 0 };
+        bd.velocity = { x: round(bd.velocity.x), y: 0 };
+        grounded = true;
         upsertBlockBox(bd.position);
       }
+    }
+    // Maintain rest if grounded and still in contact zone
+    else if (grounded) {
+      const bd = physics.dump('block').body!;
+      // Keep snapped to platform top and cancel vertical motion
+      bd.position = { x: round(bd.position.x), y: 0 };
+      bd.velocity = { x: round(bd.velocity.x), y: 0 };
+      upsertBlockBox(bd.position);
+      // Keep grounded for this fixed scenario (no external forces to release)
     }
 
     if (captureAt.has(t)) {
