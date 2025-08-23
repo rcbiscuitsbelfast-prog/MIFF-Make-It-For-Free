@@ -1,0 +1,12 @@
+{
+  "cutscene": {
+    "id": "intro_sequence",
+    "duration": 10.0,
+    "events": [
+      { "at": 0.0, "cmd": "fadeIn", "args": { "duration": 2.0 } },
+      { "at": 2.0, "cmd": "showText", "args": { "text": "Welcome to the adventure!" } },
+      { "at": 5.0, "cmd": "playMusic", "args": { "track": "intro_theme" } },
+      { "at": 8.0, "cmd": "fadeOut", "args": { "duration": 2.0 } }
+    ]
+  }
+}

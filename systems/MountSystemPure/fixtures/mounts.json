@@ -1,0 +1,13 @@
+{
+  "state": {
+    "mounted": {
+      "player_001": "horse_001",
+      "npc_001": undefined
+    }
+  },
+  "events": [
+    { "type": "mount", "rider": "player_002", "mount": "horse_002" },
+    { "type": "dismount", "rider": "player_001" },
+    { "type": "mount", "rider": "npc_001", "mount": "cart_001" }
+  ]
+}

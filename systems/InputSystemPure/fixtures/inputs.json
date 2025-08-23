@@ -1,0 +1,14 @@
+{
+  "events": [
+    { "t": 0.1, "type": "key", "key": "Space" },
+    { "t": 0.2, "type": "tap", "key": "left" },
+    { "t": 0.3, "type": "key", "key": "E" },
+    { "t": 0.4, "type": "key", "key": "Escape" }
+  ],
+  "bindings": [
+    { "type": "key", "code": "Space", "action": "jump" },
+    { "type": "tap", "code": "left", "action": "attack" },
+    { "type": "key", "code": "E", "action": "interact" },
+    { "type": "key", "code": "Escape", "action": "pause" }
+  ]
+}

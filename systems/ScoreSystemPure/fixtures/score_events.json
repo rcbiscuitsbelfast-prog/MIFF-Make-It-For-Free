@@ -1,0 +1,10 @@
+{
+  "state": {
+    "score": 100
+  },
+  "events": [
+    { "type": "add", "value": 50 },
+    { "type": "mult", "value": 2 },
+    { "type": "add", "value": 25 }
+  ]
+}

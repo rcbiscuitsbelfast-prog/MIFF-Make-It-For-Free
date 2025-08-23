@@ -1,0 +1,35 @@
+{
+  "dialogue": {
+    "start": "greeting",
+    "nodes": {
+      "greeting": {
+        "id": "greeting",
+        "text": "Hello, traveler!",
+        "choices": [
+          { "text": "Hello there!", "next": "quest_offer" },
+          { "text": "Goodbye", "next": "farewell" }
+        ]
+      },
+      "quest_offer": {
+        "id": "quest_offer",
+        "text": "Would you like a quest?",
+        "choices": [
+          { "text": "Yes, please!", "next": "quest_details" },
+          { "text": "Not now", "next": "farewell" }
+        ]
+      },
+      "quest_details": {
+        "id": "quest_details",
+        "text": "Find the lost artifact in the cave.",
+        "choices": []
+      },
+      "farewell": {
+        "id": "farewell",
+        "text": "Safe travels!",
+        "choices": []
+      }
+    }
+  },
+  "current": "greeting",
+  "choiceIndex": 0
+}

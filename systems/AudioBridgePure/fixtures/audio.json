@@ -1,0 +1,8 @@
+{
+  "commands": [
+    { "op": "play", "id": "music_001" },
+    { "op": "setVolume", "id": "music_001", "volume": 0.8 },
+    { "op": "play", "id": "sfx_jump" },
+    { "op": "stop", "id": "music_001" }
+  ]
+}
