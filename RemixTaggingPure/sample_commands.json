@@ -1,0 +1,29 @@
+[
+  {
+    "op": "tagModule",
+    "moduleId": "CombatPure",
+    "moduleName": "Combat System",
+    "level": "remix-required",
+    "reason": "Required due to dependencies on CombatCorePure and StatsSystemPure"
+  },
+  {
+    "op": "tagModule",
+    "moduleId": "QuestsPure",
+    "moduleName": "Quest System",
+    "level": "remix-optional",
+    "reason": "Optional for enhanced functionality with NPCsPure and DialogPure"
+  },
+  {
+    "op": "tagModule",
+    "moduleId": "PathfindingPure",
+    "moduleName": "Pathfinding Algorithms",
+    "level": "remix-safe",
+    "reason": "Safe to remix - no external dependencies"
+  },
+  {
+    "op": "getStats"
+  },
+  {
+    "op": "listTags"
+  }
+]
