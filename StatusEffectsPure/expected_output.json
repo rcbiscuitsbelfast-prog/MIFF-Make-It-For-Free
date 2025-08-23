@@ -1,0 +1,7 @@
+{
+  "outputs": [
+    { "op": "list", "ids": ["hero"] },
+    { "id": "hero", "hpDelta": -2, "remainingEffects": 1 },
+    { "op": "dump", "id": "hero", "hp": 10, "effects": [ { "id": "p1", "type": "poison", "magnitude": 2, "duration": 1 } ] }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "op": "dump",
+  "status": "ok",
+  "renderData": {
+    "nodes": [],
+    "resources": [],
+    "scripts": [],
+    "scenes": [],
+    "animations": [],
+    "inputs": []
+  }
+}

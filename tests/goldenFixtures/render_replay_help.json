@@ -1,0 +1,33 @@
+
+RenderReplayPure CLI - Visual replay tool for MIFF engine bridges
+
+Usage:
+  npx ts-node RenderReplayPure/cliHarness.ts <command> [options]
+
+Commands:
+  replay-golden <test-path>     Replay renderData from golden test file
+  replay-cli <output-file>      Replay renderData from CLI output file
+  replay-payload <json-file>    Replay renderData from JSON payload file
+  export <session-id> <output>  Export replay session to file
+
+Options:
+  --engine <engine>             Target engine (unity|web|godot) [default: web]
+  --speed <speed>               Replay speed multiplier [default: 1.0]
+  --loop                        Enable loop mode
+  --no-debug                    Disable debug overlay
+  --format <format>             Output format (json|markdown|html) [default: json]
+  --no-timestamp                Disable timestamps
+
+Examples:
+  # Replay UnityBridgePure golden test
+  npx ts-node RenderReplayPure/cliHarness.ts replay-golden UnityBridgePure/tests/goldenBridge.test.ts --engine unity
+
+  # Replay WebBridgePure CLI output
+  npx ts-node RenderReplayPure/cliHarness.ts replay-cli web_output.json --engine web --format html
+
+  # Replay GodotBridgePure JSON payload
+  npx ts-node RenderReplayPure/cliHarness.ts replay-payload godot_payload.json --engine godot --format markdown
+
+  # Export replay session
+  npx ts-node RenderReplayPure/cliHarness.ts export replay_1234567890 replay_report.html --format html
+

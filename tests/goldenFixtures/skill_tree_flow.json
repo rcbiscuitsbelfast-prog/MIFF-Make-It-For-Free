@@ -1,0 +1,39 @@
+{
+  "outputs": [
+    {
+      "op": "list",
+      "skills": [
+        "root",
+        "strike",
+        "guard"
+      ]
+    },
+    {
+      "op": "canUnlock",
+      "id": "strike",
+      "ok": false
+    },
+    {
+      "op": "unlock",
+      "id": "root",
+      "ok": true
+    },
+    {
+      "op": "canUnlock",
+      "id": "strike",
+      "ok": true
+    },
+    {
+      "op": "unlock",
+      "id": "strike",
+      "ok": true
+    },
+    {
+      "op": "dump",
+      "unlocked": [
+        "root",
+        "strike"
+      ]
+    }
+  ]
+}

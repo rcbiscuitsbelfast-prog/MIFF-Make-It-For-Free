@@ -1,0 +1,139 @@
+{
+  "list": {
+    "op": "list",
+    "status": "ok",
+    "result": [
+      {
+        "id": "npc_001",
+        "name": "Elder Oak",
+        "stats": [
+          { "key": "health", "base": 100 },
+          { "key": "mana", "base": 50 },
+          { "key": "strength", "base": 15 },
+          { "key": "wisdom", "base": 20 }
+        ],
+        "behavior": {
+          "type": "quest_giver",
+          "aggression": 0,
+          "curiosity": 80,
+          "loyalty": 90,
+          "schedule": {
+            "activities": [
+              {
+                "time": "06:00",
+                "activity": "meditation",
+                "location": {
+                  "zoneId": "zone_village",
+                  "x": 10,
+                  "y": 15
+                }
+              },
+              {
+                "time": "12:00",
+                "activity": "counseling",
+                "location": {
+                  "zoneId": "zone_village",
+                  "x": 10,
+                  "y": 15
+                }
+              },
+              {
+                "time": "18:00",
+                "activity": "evening_walk",
+                "location": {
+                  "zoneId": "zone_forest",
+                  "x": 5,
+                  "y": 8
+                }
+              }
+            ]
+          }
+        },
+        "location": {
+          "zoneId": "zone_village",
+          "x": 10,
+          "y": 15
+        },
+        "questIds": ["quest_tutorial"],
+        "movementPattern": {
+          "type": "idle",
+          "speed": 1
+        },
+        "faction": "village_elders",
+        "reputation": 100
+      },
+      {
+        "id": "npc_002",
+        "name": "Merchant Sarah",
+        "stats": [
+          { "key": "health", "base": 80 },
+          { "key": "mana", "base": 30 },
+          { "key": "strength", "base": 8 },
+          { "key": "wisdom", "base": 15 }
+        ],
+        "behavior": {
+          "type": "merchant",
+          "aggression": 10,
+          "curiosity": 60,
+          "loyalty": 70
+        },
+        "location": {
+          "zoneId": "zone_market",
+          "x": 25,
+          "y": 12
+        },
+        "questIds": [],
+        "movementPattern": {
+          "type": "patrol",
+          "speed": 2,
+          "range": 5
+        },
+        "faction": "merchants",
+        "reputation": 75
+      }
+    ]
+  },
+  "simulate": {
+    "op": "simulate",
+    "status": "ok",
+    "result": {
+      "duration": 3600,
+      "events": [
+        "Elder Oak is going about their day",
+        "Elder Oak is staying in place",
+        "Elder Oak is available for quests"
+      ],
+      "interactions": []
+    }
+  },
+  "create": {
+    "op": "create",
+    "status": "ok",
+    "result": {
+      "id": "npc_test",
+      "name": "Test NPC",
+      "stats": [
+        { "key": "health", "base": 100 },
+        { "key": "mana", "base": 50 },
+        { "key": "strength", "base": 10 },
+        { "key": "wisdom", "base": 10 }
+      ],
+      "behavior": {
+        "type": "passive",
+        "aggression": 0,
+        "curiosity": 50,
+        "loyalty": 50
+      },
+      "location": {
+        "zoneId": "zone_test",
+        "x": 0,
+        "y": 0
+      },
+      "questIds": [],
+      "movementPattern": {
+        "type": "idle",
+        "speed": 1
+      }
+    }
+  }
+}

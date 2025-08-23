@@ -1,0 +1,27 @@
+[
+  { "op": "defineZone", "id": "town" },
+  { "op": "defineZone", "id": "cave" },
+  { "op": "registerTrigger", "trigger": {
+    "id": "enter_cave",
+    "kind": "enter",
+    "toZone": "cave",
+    "effects": [
+      { "type": "dialog", "dialogId": "intro.cave" },
+      { "type": "lightingPreset", "preset": "dusk" },
+      { "type": "overlay", "action": "fadeIn", "duration": 300 }
+    ]
+  } },
+  { "op": "registerTrigger", "trigger": {
+    "id": "cave_reward",
+    "kind": "interact",
+    "conditions": [],
+    "effects": [
+      { "type": "rewardItem", "itemId": "torch", "quantity": 1 },
+      { "type": "questAdvance", "questId": "main", "step": 2, "status": "Active" }
+    ]
+  } },
+  { "op": "enter", "id": "town" },
+  { "op": "enter", "id": "cave" },
+  { "op": "interact" }
+]
+

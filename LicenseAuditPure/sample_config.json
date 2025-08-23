@@ -1,0 +1,9 @@
+{
+  "strictMode": true,
+  "checkDependencies": true,
+  "validateSpdx": true,
+  "requireLicenseFiles": true,
+  "maxRemixScore": 80,
+  "allowedLicenses": ["AGPLv3", "GPLv3", "MIT", "CC-BY-SA-4.0", "CC-BY-4.0"],
+  "blockedLicenses": ["Proprietary"]
+}

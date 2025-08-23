@@ -1,0 +1,18 @@
+[
+  {
+    "op": "list"
+  },
+  {
+    "op": "simulate",
+    "vendorId": "shop",
+    "itemId": "potion"
+  },
+  {
+    "op": "dumpVendor",
+    "id": "shop"
+  },
+  {
+    "op": "dumpRule",
+    "id": "r_potion"
+  }
+]

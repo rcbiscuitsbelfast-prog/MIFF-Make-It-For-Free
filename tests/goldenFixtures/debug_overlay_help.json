@@ -1,0 +1,40 @@
+
+DebugOverlayPure CLI - Real-time debug overlay for MIFF engine bridges
+
+Usage:
+  npx ts-node DebugOverlayPure/cliHarness.ts <command> [options]
+
+Commands:
+  overlay <json-file>           Create debug overlay from JSON payload file
+  overlay-cli <output-file>     Create debug overlay from CLI output file
+  overlay-golden <test-path>    Create debug overlay from golden test file
+  export <overlay-id> <output>  Export debug overlay to file
+
+Options:
+  --no-op                       Hide operation information
+  --no-status                   Hide status information
+  --no-issues                   Hide issues
+  --no-timestamps               Hide timestamps
+  --no-renderdata               Hide renderData information
+  --no-engine-hints             Hide engine hints
+  --no-signals                  Hide signals information
+  --no-metadata                 Hide metadata
+  --no-color                    Disable colorized output
+  --compact                     Use compact output format
+  --max-items <number>          Maximum renderData items to show [default: 10]
+  --max-issue-length <number>   Maximum issue length [default: 100]
+  --format <format>             Output format (text|json|html) [default: text]
+
+Examples:
+  # Create debug overlay from JSON payload
+  npx ts-node DebugOverlayPure/cliHarness.ts overlay payload.json --color --max-items 5
+
+  # Create debug overlay from CLI output
+  npx ts-node DebugOverlayPure/cliHarness.ts overlay-cli cli_output.json --no-color --compact
+
+  # Create debug overlay from golden test
+  npx ts-node DebugOverlayPure/cliHarness.ts overlay-golden BridgeSchemaPure/sample_render.json --format html
+
+  # Export debug overlay
+  npx ts-node DebugOverlayPure/cliHarness.ts export debug_1234567890 debug_report.html --format html
+

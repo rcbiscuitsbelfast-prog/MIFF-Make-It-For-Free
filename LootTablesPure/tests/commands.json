@@ -1,0 +1,14 @@
+[
+  {
+    "op": "list"
+  },
+  {
+    "op": "simulate",
+    "tableId": "starter",
+    "count": 2
+  },
+  {
+    "op": "dump",
+    "id": "starter"
+  }
+]

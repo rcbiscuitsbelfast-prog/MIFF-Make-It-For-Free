@@ -1,0 +1,6 @@
+[
+  { "op": "list" },
+  { "op": "check" },
+  { "op": "resolve" },
+  { "op": "dump", "id": "b" }
+]

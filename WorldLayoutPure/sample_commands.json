@@ -1,0 +1,5 @@
+[
+  {"op":"loadMap","name":"new_bark_town"},
+  {"op":"defineZone","id":"lab","name":"Professor's Lab","bounds":[0,0,10,8],"tags":["interior","npc"]},
+  {"op":"linkTrigger","id":"lab","onEnter":"lab_enter","onExit":"lab_exit"}
+]

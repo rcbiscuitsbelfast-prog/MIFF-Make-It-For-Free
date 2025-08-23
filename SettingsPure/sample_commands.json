@@ -1,0 +1,10 @@
+[
+  {"op":"get","key":"musicVolume"},
+  {"op":"set","key":"musicVolume","value":"0.9"},
+  {"op":"get","key":"musicVolume"},
+  {"op":"set","key":"language","value":"fr"},
+  {"op":"get","key":"language"},
+  {"op":"dump"},
+  {"op":"reset"},
+  {"op":"dump"}
+]

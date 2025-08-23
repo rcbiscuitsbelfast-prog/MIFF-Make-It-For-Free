@@ -1,0 +1,5 @@
+[
+  {"op":"assignMovement","id":"npc_1","pattern":"patrol","waypoints":[[0,0],[5,0],[5,5],[0,5]]},
+  {"op":"setFollowTarget","id":"npc_2","targetId":"player"},
+  {"op":"simulateTick","delta":0.16}
+]

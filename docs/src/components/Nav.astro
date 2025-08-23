@@ -1,0 +1,20 @@
+---
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<nav class="flex gap-4 justify-center bg-purple-600 p-4">
+	<ul class="flex items-center gap-4 text-sm">
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}`}>Home</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}modules/`}>Modules</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}docs/`}>Docs</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href={`${base}forum/`}>Forum</a></li>
+		<li><a class="text-white hover:text-purple-300 font-medium transition-colors" href="https://github.com/miffframework" rel="noopener noreferrer">GitHub</a></li>
+	</ul>
+</nav>
+
+<style>
+	.site-nav { display: block; }
+	.nav-list { display: flex; gap: 1rem; list-style: none; padding: 0; margin: 0 0 .5rem; }
+	.nav-list a { text-decoration: none; color: var(--color-text); }
+	.nav-list a:hover { text-decoration: underline; }
+</style>

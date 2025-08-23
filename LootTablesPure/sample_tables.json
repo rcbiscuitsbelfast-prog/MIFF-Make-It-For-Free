@@ -1,0 +1,12 @@
+{
+  "tables": [
+    {
+      "id": "starter",
+      "entries": [
+        { "id": "coin", "weight": 10, "rarity": "common" },
+        { "id": "gem", "weight": 3, "rarity": "rare", "statRolls": [ { "key": "luck", "min": 1, "max": 5 } ] },
+        { "id": "relic", "weight": 1, "rarity": "epic" }
+      ]
+    }
+  ]
+}

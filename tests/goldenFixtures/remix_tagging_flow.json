@@ -1,0 +1,138 @@
+{
+  "outputs": [
+    {
+      "op": "tagModule",
+      "status": "ok",
+      "moduleId": "CombatPure",
+      "remixLevel": "remix-required",
+      "issues": [],
+      "warnings": [
+        "Unknown dependencies: CombatCorePure, StatsSystemPure"
+      ],
+      "metadata": {
+        "taggedAt": "2025-08-23T12:53:21.418Z",
+        "config": {
+          "strictMode": true,
+          "autoTag": false,
+          "requireReason": true,
+          "validateDependencies": true
+        },
+        "dependencies": [
+          "CombatCorePure",
+          "StatsSystemPure"
+        ]
+      }
+    },
+    {
+      "op": "tagModule",
+      "status": "ok",
+      "moduleId": "QuestsPure",
+      "remixLevel": "remix-optional",
+      "issues": [],
+      "warnings": [
+        "Unknown dependencies: NPCsPure, DialogPure"
+      ],
+      "metadata": {
+        "taggedAt": "2025-08-23T12:53:21.418Z",
+        "config": {
+          "strictMode": true,
+          "autoTag": false,
+          "requireReason": true,
+          "validateDependencies": true
+        },
+        "dependencies": [
+          "NPCsPure",
+          "DialogPure"
+        ]
+      }
+    },
+    {
+      "op": "tagModule",
+      "status": "ok",
+      "moduleId": "PathfindingPure",
+      "remixLevel": "remix-safe",
+      "issues": [],
+      "warnings": [],
+      "metadata": {
+        "taggedAt": "2025-08-23T12:53:21.418Z",
+        "config": {
+          "strictMode": true,
+          "autoTag": false,
+          "requireReason": true,
+          "validateDependencies": true
+        },
+        "dependencies": []
+      }
+    },
+    {
+      "op": "getStats",
+      "status": "ok",
+      "stats": {
+        "total": 3,
+        "byLevel": {
+          "remix-required": 1,
+          "remix-optional": 1,
+          "remix-safe": 1
+        },
+        "lastUpdated": "2025-08-23T12:53:21.418Z"
+      }
+    },
+    {
+      "op": "listTags",
+      "status": "ok",
+      "level": "all",
+      "count": 3,
+      "tags": [
+        {
+          "moduleId": "CombatPure",
+          "moduleName": "Combat System",
+          "remixLevel": "remix-required",
+          "reason": "Required due to dependencies on CombatCorePure and StatsSystemPure",
+          "requirements": [
+            "Must maintain attribution",
+            "Cannot be closed-source",
+            "Must preserve license headers",
+            "Dependencies must be tracked"
+          ],
+          "dependencies": [
+            "CombatCorePure",
+            "StatsSystemPure"
+          ],
+          "lastUpdated": "2025-08-23T12:53:21.418Z",
+          "version": "1.0.0"
+        },
+        {
+          "moduleId": "QuestsPure",
+          "moduleName": "Quest System",
+          "remixLevel": "remix-optional",
+          "reason": "Optional for enhanced functionality with NPCsPure and DialogPure",
+          "requirements": [
+            "Attribution recommended",
+            "License preservation advised",
+            "Dependency tracking suggested"
+          ],
+          "dependencies": [
+            "NPCsPure",
+            "DialogPure"
+          ],
+          "lastUpdated": "2025-08-23T12:53:21.418Z",
+          "version": "1.0.0"
+        },
+        {
+          "moduleId": "PathfindingPure",
+          "moduleName": "Pathfinding Algorithms",
+          "remixLevel": "remix-safe",
+          "reason": "Safe to remix - no external dependencies",
+          "requirements": [
+            "No special requirements",
+            "Safe for commercial use",
+            "Safe for closed-source projects"
+          ],
+          "dependencies": [],
+          "lastUpdated": "2025-08-23T12:53:21.418Z",
+          "version": "1.0.0"
+        }
+      ]
+    }
+  ]
+}

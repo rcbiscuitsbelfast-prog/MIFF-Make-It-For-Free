@@ -1,0 +1,9 @@
+[
+  { "op": "list" },
+  { "op": "addTimer", "timer": { "id": "t1", "duration": 2, "remaining": 2, "repeat": false } },
+  { "op": "addCooldown", "id": "cd1", "duration": 1.5 },
+  { "op": "schedule", "id": "ev1", "at": 1 },
+  { "op": "tick", "dt": 1 },
+  { "op": "tick", "dt": 1 },
+  { "op": "dump" }
+]

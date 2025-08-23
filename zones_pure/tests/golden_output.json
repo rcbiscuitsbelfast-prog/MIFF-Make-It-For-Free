@@ -1,0 +1,29 @@
+{
+  "log": [
+    "ZONE DEF town",
+    "ZONE DEF cave",
+    "TRIGGER REG enter_cave enter",
+    "TRIGGER REG cave_reward interact",
+    "ENTER town",
+    "ENTER cave",
+    "DIALOG intro.cave",
+    "LIGHT dusk",
+    "OVERLAY fadeIn 300",
+    "TRIGGER OK enter_cave",
+    "TRIGGER OK cave_reward"
+  ],
+  "zone": "cave",
+  "inventory": [
+    { "id": "torch", "quantity": 1 }
+  ],
+  "quests": [
+    { "id": "main", "step": 2, "status": "Active" }
+  ],
+  "world": {
+    "light": "dusk",
+    "overlay": [
+      "OVERLAY_fadeIn__300"
+    ]
+  }
+}
+
