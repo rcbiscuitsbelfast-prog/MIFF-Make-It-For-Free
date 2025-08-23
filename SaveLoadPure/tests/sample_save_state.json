@@ -1,46 +1,269 @@
 {
   "schemaVersion": 11,
-  "timestamp": "2025-08-22T10:00:00Z",
-  "player": {
-    "id": "player_001",
-    "name": "Test Player",
-    "level": 5,
-    "experience": 1250,
-    "location": {
-      "zoneId": "zone_village",
-      "x": 10,
-      "y": 15
-    }
-  },
-  "inventory": {
-    "items": [
-      {
-        "id": "item_sword",
-        "quantity": 1,
-        "durability": 100
+  "currentSlot": "slot-c",
+  "saves": {
+    "migrated-xp": {
+      "id": "migrated-xp",
+      "timestamp": 1755951797210,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "migrated-xp",
+        "saves": {},
+        "xp": [],
+        "levels": [],
+        "quests": {
+          "active": [
+            {
+              "id": "quest_tutorial",
+              "progress": 0.5,
+              "started": "2025-08-22T09:00:00Z"
+            }
+          ],
+          "completed": []
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "item_sword",
+              "quantity": 1,
+              "durability": 100
+            },
+            {
+              "id": "item_potion",
+              "quantity": 3,
+              "durability": 100
+            }
+          ],
+          "gold": 150
+        },
+        "timestamp": "2025-08-22T10:00:00Z",
+        "player": {
+          "id": "player_001",
+          "name": "Test Player",
+          "level": 5,
+          "experience": 1250,
+          "location": {
+            "zoneId": "zone_village",
+            "x": 10,
+            "y": 15
+          }
+        },
+        "stats": {
+          "health": 100,
+          "mana": 50,
+          "strength": 15,
+          "wisdom": 10
+        }
       },
-      {
-        "id": "item_potion",
-        "quantity": 3,
-        "durability": 100
+      "autosave": false
+    },
+    "slot-a": {
+      "id": "slot-a",
+      "timestamp": 1755951866468,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-a",
+        "saves": {},
+        "xp": [],
+        "levels": [],
+        "quests": {
+          "active": [
+            {
+              "id": "quest_tutorial",
+              "progress": 0.5,
+              "started": "2025-08-22T09:00:00Z"
+            }
+          ],
+          "completed": []
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "item_sword",
+              "quantity": 1,
+              "durability": 100
+            },
+            {
+              "id": "item_potion",
+              "quantity": 3,
+              "durability": 100
+            }
+          ],
+          "gold": 150
+        },
+        "timestamp": "2025-08-22T10:00:00Z",
+        "player": {
+          "id": "player_001",
+          "name": "Test Player",
+          "level": 5,
+          "experience": 1250,
+          "location": {
+            "zoneId": "zone_village",
+            "x": 10,
+            "y": 15
+          }
+        },
+        "stats": {
+          "health": 100,
+          "mana": 50,
+          "strength": 15,
+          "wisdom": 10
+        }
+      },
+      "rollbackCheckpoint": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-a",
+        "saves": {},
+        "xp": [],
+        "levels": [],
+        "quests": {
+          "active": [
+            {
+              "id": "quest_tutorial",
+              "progress": 0.5,
+              "started": "2025-08-22T09:00:00Z"
+            }
+          ],
+          "completed": []
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "item_sword",
+              "quantity": 1,
+              "durability": 100
+            },
+            {
+              "id": "item_potion",
+              "quantity": 3,
+              "durability": 100
+            }
+          ],
+          "gold": 150
+        },
+        "timestamp": "2025-08-22T10:00:00Z",
+        "player": {
+          "id": "player_001",
+          "name": "Test Player",
+          "level": 5,
+          "experience": 1250,
+          "location": {
+            "zoneId": "zone_village",
+            "x": 10,
+            "y": 15
+          }
+        },
+        "stats": {
+          "health": 100,
+          "mana": 50,
+          "strength": 15,
+          "wisdom": 10
+        }
       }
-    ],
-    "gold": 150
-  },
-  "quests": {
-    "active": [
-      {
-        "id": "quest_tutorial",
-        "progress": 0.5,
-        "started": "2025-08-22T09:00:00Z"
+    },
+    "slot-c": {
+      "id": "slot-c",
+      "timestamp": 1755951866482,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-c",
+        "saves": {},
+        "xp": [],
+        "levels": [],
+        "quests": {
+          "active": [
+            {
+              "id": "quest_tutorial",
+              "progress": 0.5,
+              "started": "2025-08-22T09:00:00Z"
+            }
+          ],
+          "completed": []
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "item_sword",
+              "quantity": 1,
+              "durability": 100
+            },
+            {
+              "id": "item_potion",
+              "quantity": 3,
+              "durability": 100
+            }
+          ],
+          "gold": 150
+        },
+        "timestamp": "2025-08-22T10:00:00Z",
+        "player": {
+          "id": "player_001",
+          "name": "Test Player",
+          "level": 5,
+          "experience": 1250,
+          "location": {
+            "zoneId": "zone_village",
+            "x": 10,
+            "y": 15
+          }
+        },
+        "stats": {
+          "health": 100,
+          "mana": 50,
+          "strength": 15,
+          "wisdom": 10
+        }
+      },
+      "rollbackCheckpoint": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-c",
+        "saves": {},
+        "xp": [],
+        "levels": [],
+        "quests": {
+          "active": [
+            {
+              "id": "quest_tutorial",
+              "progress": 0.5,
+              "started": "2025-08-22T09:00:00Z"
+            }
+          ],
+          "completed": []
+        },
+        "inventory": {
+          "items": [
+            {
+              "id": "item_sword",
+              "quantity": 1,
+              "durability": 100
+            },
+            {
+              "id": "item_potion",
+              "quantity": 3,
+              "durability": 100
+            }
+          ],
+          "gold": 150
+        },
+        "timestamp": "2025-08-22T10:00:00Z",
+        "player": {
+          "id": "player_001",
+          "name": "Test Player",
+          "level": 5,
+          "experience": 1250,
+          "location": {
+            "zoneId": "zone_village",
+            "x": 10,
+            "y": 15
+          }
+        },
+        "stats": {
+          "health": 100,
+          "mana": 50,
+          "strength": 15,
+          "wisdom": 10
+        }
       }
-    ],
-    "completed": []
-  },
-  "stats": {
-    "health": 100,
-    "mana": 50,
-    "strength": 15,
-    "wisdom": 10
+    }
   }
 }

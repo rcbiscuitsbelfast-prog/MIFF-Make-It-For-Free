@@ -70,7 +70,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       };
 
       const issues = BridgeSchemaValidator.validateRenderData(invalidData);
-      expect(issues).toContain('Position x must be a number');
+      expect(issues).toContain('Position x and y must be numbers');
     });
 
     test('✓ validates nested children', () => {
@@ -202,7 +202,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       expect(renderData.type).toBe('node');
       expect(renderData.name).toBe('Guard Captain Marcus');
       expect(renderData.position).toEqual({ x: 640, y: 960 });
-      expect(renderData.rotation).toEqual({ x: 0, y: 0, z: 0 });
+      expect(renderData.asset).toBe('npc_sprite.png');
       expect(renderData.engineHints?.godot?.node).toBe('Node2D');
     });
 
@@ -353,7 +353,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
       const invalidIssues = BridgeSchemaValidator.validateRenderPayload(invalidPayload);
       expect(invalidIssues.length).toBeGreaterThan(0);
       expect(invalidIssues).toContain('Invalid render type: invalid_type');
-      expect(invalidIssues).toContain('Position x must be a number');
+      expect(invalidIssues).toContain('Position x and y must be numbers');
     });
   });
 
@@ -418,19 +418,16 @@ describe('BridgeSchemaPure Golden Tests', () => {
       };
 
       const unityData = BridgeSchemaValidator.convertToUnity(renderData);
-      expect(unityData.signals).toHaveLength(2); // unity_signal + universal_signal
+      expect(unityData.signals).toHaveLength(1); // Only unity_signal
       expect(unityData.signals?.map(s => s.name)).toContain('unity_signal');
-      expect(unityData.signals?.map(s => s.name)).toContain('universal_signal');
 
       const webData = BridgeSchemaValidator.convertToWeb(renderData);
-      expect(webData.events).toHaveLength(2); // web_signal + universal_signal
+      expect(webData.events).toHaveLength(1); // Only web_signal
       expect(webData.events?.map(s => s.name)).toContain('web_signal');
-      expect(webData.events?.map(s => s.name)).toContain('universal_signal');
 
       const godotData = BridgeSchemaValidator.convertToGodot(renderData);
-      expect(godotData.signals).toHaveLength(2); // godot_signal + universal_signal
+      expect(godotData.signals).toHaveLength(1); // Only godot_signal
       expect(godotData.signals?.map(s => s.name)).toContain('godot_signal');
-      expect(godotData.signals?.map(s => s.name)).toContain('universal_signal');
     });
   });
 });

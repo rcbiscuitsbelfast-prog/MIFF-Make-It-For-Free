@@ -3,6 +3,10 @@
     "op": "listSlots"
   },
   {
+    "op": "save",
+    "slotId": "slot-a"
+  },
+  {
     "op": "load",
     "slotId": "slot-a"
   },
@@ -12,6 +16,10 @@
   },
   {
     "op": "save",
+    "slotId": "slot-c"
+  },
+  {
+    "op": "setRollback",
     "slotId": "slot-c"
   },
   {
