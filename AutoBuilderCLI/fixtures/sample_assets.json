@@ -1,0 +1,39 @@
+{
+  "assets": [
+    {
+      "id": "hero_sprite",
+      "path": "assets/sprites/hero.png",
+      "type": "sprite",
+      "license": "cc0",
+      "platform": "all"
+    },
+    {
+      "id": "block_sprite",
+      "path": "assets/sprites/block.png",
+      "type": "sprite",
+      "license": "cc0",
+      "platform": "all"
+    },
+    {
+      "id": "background_music",
+      "path": "assets/audio/background.mp3",
+      "type": "audio",
+      "license": "cc-by",
+      "platform": "all"
+    },
+    {
+      "id": "jump_sound",
+      "path": "assets/audio/jump.wav",
+      "type": "audio",
+      "license": "cc0",
+      "platform": "all"
+    },
+    {
+      "id": "game_font",
+      "path": "assets/fonts/game.ttf",
+      "type": "font",
+      "license": "cc0",
+      "platform": "all"
+    }
+  ]
+}
