@@ -1,7 +1,7 @@
 #!/usr/bin/env ts-node
 
 import { applyMount, MountState, MountEvent } from './index';
-import fs from 'fs';
+import * as fs from 'fs';
 
 const inputFile = process.argv[2];
 if (!inputFile) {
@@ -11,6 +11,16 @@ if (!inputFile) {
 
 try {
   const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+  
+  // Validate input structure before destructuring
+  if (!input || typeof input !== 'object') {
+    throw new Error('Invalid input: expected JSON object');
+  }
+  
+  if (!input.state || !input.events) {
+    throw new Error('Invalid input: missing required fields "state" and "events"');
+  }
+  
   const state: MountState = input.state;
   const events: MountEvent[] = input.events;
   
