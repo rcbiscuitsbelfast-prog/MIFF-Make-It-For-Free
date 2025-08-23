@@ -99,6 +99,9 @@ Tag: `phase3-v13-derived`
 - [x] TutorialScenarioPure (new)
 - [x] QuestScenarioPure (new)
 - [x] CombatScenarioPure (new)
+- [x] TopplerDemoPure — Physics + Collision + Time (genre: physics platform)
+- [x] SpiritTamerDemoPure — Rhythm + Collision + Time (genre: rhythm taming)
+- [ ] WitcherExplorerDemoPure — Navigation + Dialogue + Quests (genre: explorer)
 
 Tag: `phase4-v13-scenarios`
 
@@ -107,6 +110,8 @@ Tag: `phase4-v13-scenarios`
 - [x] CLI harnesses for scenario execution
 - [x] Sample scenarios and expected outputs
 - [x] Golden tests for deterministic scenario runs
+- [x] Asset injection hooks
+- [x] Visual replay via RenderReplayPure
 
 ## Phase 5 — Codebase Cleanup & NPCsPure Regeneration (Schema v13)
 - [x] NPCsPure (regenerated in TypeScript)
@@ -200,8 +205,10 @@ Tag: `phase8-v1-documentation`
 - [x] Responsive design with dark mode support
 - [x] SEO optimization and sitemap generation
 
-## Next Phases (high level)
-- Phase 10: Performance Profiling — Memory usage optimization, execution time analysis
+## Phase 10 — Performance Profiling (Schema v1)
+- [ ] Memory usage baselines
+- [ ] Hot-path timers and budgets
+- [ ] Profiling harness CLI
 
 ## Phase 11 — Auto Builder (Schema v1)
 - [x] RenderPayloadPure — GameState to frames generator
@@ -209,6 +216,21 @@ Tag: `phase8-v1-documentation`
 - [x] AutoBuilderCLI — Build demo.html from scenario pack
 
 Tag: `phase11-v1-auto-builder`
+
+## Phase 12 — Custom Content & Asset Validation (Schema v13/14)
+- [x] QuestModulePure (v13) — Parse/validate quest DSL; normalized objects
+- [x] AssetManifestPure (v13) — Normalize manifests; remix-safe audit
+
+Checklist:
+- [x] CLI harnesses: `quest`, `manifest`
+- [x] Golden fixtures for branching/timed quests and sprite/audio/bundle manifests
+- [x] Remix-safe hooks for overrides and audit policies
+
+## Phase 13 — CI Enforcement & Contributor Safety (Schema v14)
+- [x] Type checks (tsconfig + tsconfig.test)
+- [x] Golden tests on PR
+- [x] CLI validation runs in CI
+- [x] Remix audit gates for manifests
 
 ## Patch 3 — Physics & Time Systems (Schema v1) ✅ COMPLETED
 - [x] PhysicsSystemPure — CLI harness, samples, golden test

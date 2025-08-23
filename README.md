@@ -51,6 +51,11 @@ Each module comes with a self-contained CLI harness under the repository root. R
 - AIProfilesPure: `npx ts-node --compiler-options '{"module":"commonjs"}' AIProfilesPure/cliHarness.ts AIProfilesPure/sample_profiles.json AIProfilesPure/tests/commands.json`
 - NPCsPure (Python): coming soon
 
+New tools:
+- QuestModulePure: `npx ts-node cli/quest.ts systems/QuestModulePure/fixtures/branching.quest`
+- AssetManifestPure: `npx ts-node cli/manifest.ts systems/AssetManifestPure/fixtures/sprites.json`
+- AutoBuilderCLI: `npx ts-node AutoBuilderCLI/cli.ts TopplerDemoPure --fps 24 --debug --out toppler.html`
+
 See `Documents/Remix_Review_V3.md` for a full assessment including coverage and gaps.
 
 ## 📖 Documentation
@@ -64,7 +69,7 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 ## 🚀 Project Status
 
-**Current Phase**: Phase 9 - Advanced Testing Infrastructure ✅ **COMPLETED**
+**Current Phase**: Phase 12 - Custom Content & Asset Validation ✅ **ACTIVE**
 
 **Recent Milestones**:
 - 🧪 CLI Harness Test Refactoring (18 modules updated)
@@ -72,9 +77,8 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 - 📚 Comprehensive Testing Documentation
 - 📦 Golden Fixtures for Deterministic Testing
 
-**What's Next**: 
-- Phase 10: Performance Profiling & Optimization
-- Advanced debugging tools and memory usage analysis
+**What's Next**:
+- Phase 13: CI Enforcement & Contributor Safety
 
 **📋 [View Full Roadmap](ROADMAP.md)** - Complete development phases and progress tracking
 
