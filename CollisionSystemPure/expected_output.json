@@ -1,0 +1,8 @@
+{
+  "outputs": [
+    { "op": "list", "ids": ["a", "b", "t"] },
+    { "op": "check", "collisions": [ { "a":"a", "b":"b", "overlap": { "x": 2, "y": 2 } } ], "triggers": [ { "a":"a","b":"t" }, { "a":"b","b":"t" } ] },
+    { "op": "resolve", "resolved": [ { "id":"b", "min": { "x": 10, "y": 8 }, "max": { "x": 18, "y": 16 } } ], "collisions": [ { "a":"a", "b":"b", "overlap": { "x": 2, "y": 2 } } ] },
+    { "op": "dump", "box": { "id":"b", "min": { "x": 10, "y": 8 }, "max": { "x": 18, "y": 16 } } }
+  ]
+}

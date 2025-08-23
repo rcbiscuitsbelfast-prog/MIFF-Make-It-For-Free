@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    { "op": "list", "timers": [], "cooldowns": [], "scheduled": [] },
+    { "op": "addTimer", "id": "t1" },
+    { "op": "addCooldown", "id": "cd1", "duration": 1.5 },
+    { "op": "schedule", "id": "ev1", "at": 1 },
+    { "op": "tick", "dt": 1, "time": 1, "fired": ["scheduled:ev1"] },
+    { "op": "tick", "dt": 1, "time": 2, "fired": ["timer:t1", "cooldown:cd1"] },
+    { "op": "dump", "time": 2, "timers": [], "cooldowns": [ { "id": "cd1", "duration": 1.5, "remaining": 0 } ], "scheduled": [] }
+  ]
+}
