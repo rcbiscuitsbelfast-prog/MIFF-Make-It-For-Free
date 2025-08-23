@@ -1,0 +1,7 @@
+{
+  "outputs": [
+    { "op": "list", "ids": ["b1"] },
+    { "op": "step", "dt": 1, "updated": [ { "id": "b1", "position": { "x": 9, "y": -8.82 }, "velocity": { "x": 9, "y": -8.82 } } ] },
+    { "op": "dump", "body": { "id": "b1", "position": { "x": 9, "y": -8.82 }, "velocity": { "x": 9, "y": -8.82 }, "mass": 1, "gravity": { "x": 0, "y": -9.8 }, "friction": 0.1 } }
+  ]
+}
