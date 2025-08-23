@@ -40,6 +40,26 @@
   - TutorialScenarioPure — v13. Basics walkthrough
   - QuestScenarioPure — v13. Branching questline
   - CombatScenarioPure — v13. Arena combat demo
+- Gameplay Systems (completed in Phase 10)
+  - ProjectileSystemPure — v14. Projectile physics and lifecycle
+  - ScoreSystemPure — v14. Score tracking and events
+  - HealthSystemPure — v14. Health management and events
+  - InputSystemPure — v14. Input mapping and processing
+  - CameraBridgePure — v14. Camera control and following
+  - RhythmSystemPure — v14. Beat timing and rhythm logic
+  - AudioBridgePure — v14. Audio playback and control
+  - MountSystemPure — v14. Entity mounting and movement
+  - DialogueSystemPure — v14. Branching dialogue system
+  - CutsceneSystemPure — v14. Scripted sequence control
+  - NavigationSystemPure — v14. Pathfinding and movement
+- Quest & Asset Management (completed in Phase 12)
+  - QuestSystemPure — v14. Quest logic and progress tracking
+  - AssetValidatorPure — v14. Asset validation and compliance
+- CI & Remix Safety (completed in Phase 13)
+  - RemixAuditPure — v14. Module compliance and remix-safety
+  - CIEnforcerPure — v14. Contributor standards and CI validation
+- Visual Replay & Testing (completed in Phase 14)
+  - VisualReplaySystemPure — v14. Deterministic replay with visual hooks
 - Content & Systems (existing)
   - DialogPure — Branching text
   - LorePure — Databank
@@ -157,6 +177,32 @@ Tag: `phase9-v1-testing-overhaul`
 - [x] READMEs with schema, CLI usage, remix hooks, dependencies
 - [x] Roadmap updated and tagged
 
+## Recent Phase Completions
+
+### Phase 10 — Core Gameplay Systems ✅ COMPLETED
+- [x] All 11 core gameplay modules scaffolded with CLI harnesses
+- [x] Golden tests for deterministic behavior validation
+- [x] Complete documentation and remix-safe hooks
+- [x] Ready for contributor onboarding and integration
+
+### Phase 12 — Quest & Asset Management ✅ COMPLETED  
+- [x] QuestSystemPure with quest logic and progress tracking
+- [x] AssetValidatorPure with compliance and remix-safety validation
+- [x] Golden tests and comprehensive documentation
+- [x] CLI harnesses for all operations
+
+### Phase 13 — CI & Remix Safety ✅ COMPLETED
+- [x] RemixAuditPure for module compliance scanning
+- [x] CIEnforcerPure for contributor standards validation
+- [x] Automated remix-safety compliance checking
+- [x] Golden tests for audit and enforcement systems
+
+### Phase 14 — Visual Replay & Testing ✅ COMPLETED
+- [x] VisualReplaySystemPure for deterministic scenario replay
+- [x] Enhanced AutoBuilderCLI with multi-platform support
+- [x] Asset injection and build flow validation
+- [x] Performance analysis and bottleneck identification
+
 ## Phase 6 — Engine Bridges (Schema v1)
 - [x] UnityBridgePure (new)
 - [x] WebBridgePure (new)
@@ -217,20 +263,46 @@ Tag: `phase8-v1-documentation`
 
 Tag: `phase11-v1-auto-builder`
 
+## Phase 14 — Visual Replay & Testing Infrastructure (Schema v14)
+- [x] VisualReplaySystemPure (v14) — Deterministic scenario replay with visual hooks
+- [x] Enhanced AutoBuilderCLI — Multi-platform support with asset injection
+
+Checklist:
+- [x] Deterministic replay of game states and input streams
+- [x] Visual hooks for engine-agnostic replay
+- [x] Performance analysis and bottleneck identification
+- [x] Multi-platform build support (Web, Unity, Godot)
+- [x] Asset injection via AssetManifestPure
+- [x] Golden tests for full build flow validation
+
+Tag: `phase14-v1-visual-replay-complete`
+
 ## Phase 12 — Custom Content & Asset Validation (Schema v13/14)
 - [x] QuestModulePure (v13) — Parse/validate quest DSL; normalized objects
 - [x] AssetManifestPure (v13) — Normalize manifests; remix-safe audit
+- [x] QuestSystemPure (v14) — Quest logic, progress tracking, completion system
+- [x] AssetValidatorPure (v14) — Asset bundle validation, remix-safe compliance
 
 Checklist:
-- [x] CLI harnesses: `quest`, `manifest`
+- [x] CLI harnesses: `quest`, `manifest`, `quest-system`, `asset-validator`
 - [x] Golden fixtures for branching/timed quests and sprite/audio/bundle manifests
 - [x] Remix-safe hooks for overrides and audit policies
+- [x] Quest state management and event processing
+- [x] Asset validation with license and platform compliance
 
 ## Phase 13 — CI Enforcement & Contributor Safety (Schema v14)
 - [x] Type checks (tsconfig + tsconfig.test)
 - [x] Golden tests on PR
 - [x] CLI validation runs in CI
 - [x] Remix audit gates for manifests
+- [x] RemixAuditPure (v14) — Module compliance scanning and remix-safety validation
+- [x] CIEnforcerPure (v14) — Contributor onboarding standards and CI validation
+
+Checklist:
+- [x] Automated remix-safety compliance checking
+- [x] CI standards enforcement for all modules
+- [x] Contributor onboarding validation
+- [x] Golden tests for audit and enforcement systems
 
 ## Patch 3 — Physics & Time Systems (Schema v1) ✅ COMPLETED
 - [x] PhysicsSystemPure — CLI harness, samples, golden test
