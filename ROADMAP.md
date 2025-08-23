@@ -203,6 +203,13 @@ Tag: `phase8-v1-documentation`
 ## Next Phases (high level)
 - Phase 10: Performance Profiling — Memory usage optimization, execution time analysis
 
+## Phase 11 — Auto Builder (Schema v1)
+- [x] RenderPayloadPure — GameState to frames generator
+- [x] ConvertToWebPure — CanvasRenderPlayer for HTML5
+- [x] AutoBuilderCLI — Build demo.html from scenario pack
+
+Tag: `phase11-v1-auto-builder`
+
 ## Patch 3 — Physics & Time Systems (Schema v1) ✅ COMPLETED
 - [x] PhysicsSystemPure — CLI harness, samples, golden test
 - [x] CollisionSystemPure — CLI harness, samples, golden test
