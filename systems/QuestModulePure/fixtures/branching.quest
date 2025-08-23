@@ -1,0 +1,7 @@
+id: quest_branch
+title: The Forking Path
+start: s1
+step s1: Talk to elder | trigger: talk elder | next: s2
+step s2: Choose your path | trigger: talk elder | branch: brave->s3, cautious->s4
+step s3: Defeat 3 wolves | trigger: defeat wolf 3 | reward: xp 150
+step s4: Collect 2 herbs | trigger: collect herb 2 | reward: item herb 2
