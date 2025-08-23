@@ -1,0 +1,11 @@
+{
+  "op": "dump",
+  "status": "ok",
+  "renderData": {
+    "entities": [],
+    "components": [],
+    "prefabs": [],
+    "scenes": [],
+    "scripts": []
+  }
+}

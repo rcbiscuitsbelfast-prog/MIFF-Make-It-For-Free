@@ -1,0 +1,64 @@
+{
+  "outputs": [
+    {
+      "op": "list",
+      "status": "ok",
+      "result": [
+        "starter"
+      ],
+      "issues": []
+    },
+    {
+      "op": "simulate",
+      "status": "ok",
+      "result": {
+        "drops": [
+          {
+            "id": "coin",
+            "rarity": "common"
+          },
+          {
+            "id": "gem",
+            "rarity": "rare",
+            "rolledStats": {
+              "luck": 1
+            }
+          }
+        ]
+      },
+      "issues": []
+    },
+    {
+      "op": "dump",
+      "status": "ok",
+      "result": {
+        "id": "starter",
+        "entries": [
+          {
+            "id": "coin",
+            "weight": 10,
+            "rarity": "common"
+          },
+          {
+            "id": "gem",
+            "weight": 3,
+            "rarity": "rare",
+            "statRolls": [
+              {
+                "key": "luck",
+                "min": 1,
+                "max": 5
+              }
+            ]
+          },
+          {
+            "id": "relic",
+            "weight": 1,
+            "rarity": "epic"
+          }
+        ]
+      },
+      "issues": []
+    }
+  ]
+}

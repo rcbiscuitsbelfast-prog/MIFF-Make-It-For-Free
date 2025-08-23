@@ -1,0 +1,84 @@
+{
+  "log": [
+    "EQUIP dragon_lance -> weapon",
+    "EQUIP frost_armor -> armor",
+    "UNEQUIP weapon dragon_lance"
+  ],
+  "outputs": [
+    {
+      "op": "listEquipment",
+      "equipped": [
+        {
+          "slot": "weapon",
+          "item": null
+        },
+        {
+          "slot": "armor",
+          "item": null
+        },
+        {
+          "slot": "mount",
+          "item": null
+        }
+      ]
+    },
+    {
+      "op": "equip",
+      "slot": "weapon",
+      "itemId": "dragon_lance"
+    },
+    {
+      "op": "equip",
+      "slot": "armor",
+      "itemId": "frost_armor"
+    },
+    {
+      "op": "dumpModifiers",
+      "modifiers": [
+        {
+          "stat": "atk",
+          "value": 10
+        },
+        {
+          "stat": "spd",
+          "value": 2
+        },
+        {
+          "stat": "def",
+          "value": 8
+        },
+        {
+          "stat": "hp",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "op": "unequip",
+      "slot": "weapon"
+    },
+    {
+      "op": "syncInventory",
+      "inventory": [
+        {
+          "id": "dragon_lance",
+          "quantity": 1
+        },
+        {
+          "id": "frost_armor",
+          "quantity": 0
+        }
+      ]
+    }
+  ],
+  "inventory": [
+    {
+      "id": "dragon_lance",
+      "quantity": 1
+    },
+    {
+      "id": "frost_armor",
+      "quantity": 0
+    }
+  ]
+}

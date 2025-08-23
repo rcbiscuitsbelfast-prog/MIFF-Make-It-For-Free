@@ -1,0 +1,46 @@
+{
+  "outputs": [
+    {
+      "op": "list",
+      "status": "ok",
+      "result": [
+        "r_potion",
+        "shop"
+      ],
+      "issues": []
+    },
+    {
+      "op": "simulate",
+      "status": "ok",
+      "result": {
+        "itemId": "potion",
+        "buy": 60,
+        "sell": 25
+      },
+      "issues": []
+    },
+    {
+      "op": "dump",
+      "status": "ok",
+      "result": {
+        "id": "shop",
+        "inventory": {
+          "potion": 10
+        },
+        "markup": 0.2,
+        "markdown": 0.5
+      },
+      "issues": []
+    },
+    {
+      "op": "dump",
+      "status": "ok",
+      "result": {
+        "id": "r_potion",
+        "itemId": "potion",
+        "basePrice": 50
+      },
+      "issues": []
+    }
+  ]
+}

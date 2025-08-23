@@ -1,0 +1,35 @@
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "npcDialog",
+          "id": "villager",
+          "choice": "give_apple"
+        },
+        {
+          "type": "statusApplied",
+          "to": "hero",
+          "effect": {
+            "type": "bless",
+            "magnitude": 1
+          }
+        }
+      ],
+      "finalState": {
+        "inventory": {
+          "apple": 0,
+          "coin": 5
+        },
+        "statuses": [
+          {
+            "type": "bless",
+            "magnitude": 1
+          }
+        ]
+      }
+    }
+  ]
+}

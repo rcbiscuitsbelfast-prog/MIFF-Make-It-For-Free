@@ -1,0 +1,17 @@
+{
+  "outputs": [
+    {
+      "op": "dumpTypes",
+      "status": "ok",
+      "issues": [],
+      "resolvedRefs": {},
+      "types": [
+        "EntityID",
+        "StatBlock",
+        "ZoneRef",
+        "EquipmentRef",
+        "QuestRef"
+      ]
+    }
+  ]
+}
