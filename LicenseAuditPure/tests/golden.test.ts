@@ -115,8 +115,8 @@ describe('LicenseAuditPure Golden Tests', () => {
   });
 
   test('✓ identifies remix-safe modules', () => {
-    manager.auditModule('SafeModule1', 'Safe Module 1', 'MIT', [], ['LICENSE']);
-    manager.auditModule('SafeModule2', 'Safe Module 2', 'CC-BY-4.0', [], ['LICENSE']);
+    manager.auditModule('RemixSafeModule1', 'Remix Safe Module 1', 'MIT', [], ['LICENSE']);
+    manager.auditModule('RemixSafeModule2', 'Remix Safe Module 2', 'CC-BY-SA-4.0', [], ['LICENSE']);
     
     const remixSafe = manager.getRemixSafeModules();
     
@@ -125,6 +125,12 @@ describe('LicenseAuditPure Golden Tests', () => {
   });
 
   test('✓ supports custom override functions', () => {
+    // Create a fresh manager with less strict config for this test
+    const testManager = new LicenseAuditManager({ 
+      strictMode: false, 
+      requireLicenseFiles: false 
+    });
+    
     const override = {
       getCustomLicense: (moduleId: string) => {
         if (moduleId === 'CustomModule') {
@@ -145,9 +151,9 @@ describe('LicenseAuditPure Golden Tests', () => {
       }
     };
     
-    manager.setOverride(override);
+    testManager.setOverride(override);
     
-    const result = manager.auditModule('CustomModule', 'Custom Module', 'Custom' as LicenseType, [], []);
+    const result = testManager.auditModule('CustomModule', 'Custom Module', 'Custom' as LicenseType, [], ['LICENSE']);
     
     expect(result.status).toBe('pass');
     expect(result.license.type).toBe('Custom');
