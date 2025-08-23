@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/SimpleLayout.astro';
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<Layout title="MIFF — Modular, Engine-Agnostic Game Framework" description="Prompt. Remix. Play.">
+	<section class="bg-purple-100 text-center py-12 rounded-lg shadow">
+		<div class="mb-8">
+			<div class="rounded-xl bg-purple-600 text-white inline-flex items-center justify-center w-20 h-20 font-bold text-3xl shadow-lg mb-6">
+				M
+			</div>
+			<h1 class="text-4xl font-bold text-purple-700 mb-4">
+				Welcome to MIFF
+			</h1>
+			<p class="text-xl font-semibold text-purple-600 mb-2">
+				Prompt. Remix. Play.
+			</p>
+			<p class="text-lg text-gray-700 mt-2">
+				Modular, CLI-first, engine-agnostic game development for remixers and contributors.
+			</p>
+		</div>
+		
+		<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<a 
+				class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold shadow-lg hover:shadow-xl" 
+				href={`${base}modules/`}
+			>
+				🧩 Explore Modules
+			</a>
+			<a 
+				class="bg-white text-purple-700 px-6 py-3 rounded-lg border-2 border-purple-600 hover:bg-purple-50 transition-colors font-semibold" 
+				href={`${base}docs/`}
+			>
+				📚 View Documentation
+			</a>
+		</div>
+	</section>
+
+	<section class="py-8" aria-label="Quick links">
+		<div class="text-center mb-8">
+			<h2 class="text-2xl font-bold text-gray-900 mb-2">Get Started</h2>
+			<p class="text-gray-600">Quick access to essential resources</p>
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+			<a 
+				class="block p-6 bg-white rounded-lg border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-center group" 
+				href={`${base}docs/`}
+			>
+				<div class="text-2xl mb-2">📚</div>
+				<h3 class="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">Documentation</h3>
+				<p class="text-sm text-gray-600 mt-1">Comprehensive guides and API reference</p>
+			</a>
+			<a 
+				class="block p-6 bg-white rounded-lg border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-center group" 
+				href={`${base}contributors/onboarding`}
+			>
+				<div class="text-2xl mb-2">👥</div>
+				<h3 class="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">Contributors</h3>
+				<p class="text-sm text-gray-600 mt-1">Join the community and contribute</p>
+			</a>
+			<a 
+				class="block p-6 bg-white rounded-lg border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-center group" 
+				href={`${base}contributors/roadmap`}
+			>
+				<div class="text-2xl mb-2">🗺️</div>
+				<h3 class="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">Roadmap</h3>
+				<p class="text-sm text-gray-600 mt-1">See what's coming next</p>
+			</a>
+			<a 
+				class="block p-6 bg-white rounded-lg border border-gray-200 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-center group" 
+				href={`${base}forum/`}
+			>
+				<div class="text-2xl mb-2">💬</div>
+				<h3 class="font-semibold text-gray-900 group-hover:text-purple-700 transition-colors">Forum</h3>
+				<p class="text-sm text-gray-600 mt-1">Connect with the community</p>
+			</a>
+		</div>
+	</section>
+</Layout>

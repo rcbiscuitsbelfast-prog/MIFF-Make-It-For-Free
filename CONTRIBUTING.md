@@ -1,27 +1,29 @@
-# Contributing to MIFF (Newhaven)
+# Contributing to MIFF
 
-- Branching: `docs/*`, `feat/*`, `refactor/*`, `fix/*`
-- Commit style: scope in parentheses, concise summary
-- PRs: small, focused, with deterministic CLI steps and seeds
+Thank you for your interest in contributing!
 
-## Remix-Safe Principles
-- Only include original or public-domain assets (CC0 preferred)
-- Data-first; JSON fixtures and schemas over binary blobs when possible
-- Keep adapters engine-agnostic; no Unity references in `miff/pure`
+## Code of Conduct
+Be respectful and collaborative.
 
-## Getting Started
-- Read `ROADMAP.md` for active phase and checklists
-- Run CLI harnesses (see modules under `miff/pure/*TestHarness.cs`)
-- Add seeds/fixtures for deterministic golden tests
+## Development
+- CLI-first modules, engine-agnostic, remix-safe
+- Deterministic golden-output tests for new features
+- Schema version: use v12+ and document changes
 
-## Naming
-- Classes: PascalCase; methods: PascalCase; fields: camelCase
-- Avoid abbreviations; aim for clarity over brevity
+## Contributor License Agreement (CLA)
+By submitting a contribution (code, docs, assets) to this repository, you agree to the following:
+- You certify that you have the right to submit the contribution under the open-source license(s) indicated in this repository (AGPLv3) and the MIFF commercial license.
+- You grant the MIFF maintainers a perpetual, worldwide, non-exclusive, sublicensable, transferable license to use, reproduce, modify, distribute, and relicense your contribution under the MIFF commercial license.
+- You retain copyright in your contributions.
 
-## Tests
-- Prefer pure C# unit tests and CLI harness demos
-- Use seeds for RNG to ensure reproducibility
+## Dual-License Model
+- MIFF is available under AGPLv3 and a separate commercial license.
+- Commercial use (including closed-source or removal of attribution) requires a paid license. Contact: miff@yourdomain.dev
+- Contributions may be incorporated into commercial offerings; contributors are not owed royalties for such uses.
 
-## Code Review
-- Explain trade-offs; link to roadmap items
-- Include before/after behavior when applicable
+## How to Contribute
+1. Fork and create a feature branch
+2. Add module code with CLI harness, samples, golden tests, README
+3. Ensure consistency with standardized JSON outputs { op, status, issues, resolvedRefs }
+4. Update ROADMAP.md if adding new module/phase
+5. Open a PR describing changes and schema impact

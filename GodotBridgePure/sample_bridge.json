@@ -1,0 +1,464 @@
+{
+  "simulate": {
+    "npcs": {
+      "input": {
+        "npcId": "npc_001",
+        "duration": 3600
+      },
+      "output": {
+        "op": "simulate",
+        "status": "ok",
+        "renderData": {
+          "nodes": [
+            {
+              "id": "npc_001",
+              "type": "Node2D",
+              "name": "Guard Captain Marcus",
+              "position": { "x": 640, "y": 960 },
+              "scale": { "x": 1, "y": 1 },
+              "rotation": 0,
+              "properties": {
+                "npc_id": "npc_001",
+                "behavior_type": "quest_giver",
+                "faction": "village_elders",
+                "has_quests": true,
+                "quest_count": 1
+              },
+              "children": [
+                {
+                  "id": "npc_001_sprite",
+                  "type": "Sprite",
+                  "name": "Sprite",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "texture": "res://assets/npcs/npc_sprite.png",
+                    "region_enabled": true
+                  }
+                },
+                {
+                  "id": "npc_001_quest_indicator",
+                  "type": "Sprite",
+                  "name": "QuestIndicator",
+                  "position": { "x": 24, "y": -24 },
+                  "properties": {
+                    "texture": "res://assets/ui/quest_icon.png",
+                    "modulate": "#ffff00"
+                  }
+                },
+                {
+                  "id": "npc_001_animations",
+                  "type": "AnimationPlayer",
+                  "name": "AnimationPlayer",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "autoplay": "idle",
+                    "libraries": ["npc_animations"]
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "npc_interacted",
+                  "parameters": ["player_id", "interaction_type"],
+                  "connectedTo": ["QuestSystem", "DialogSystem"]
+                }
+              ]
+            }
+          ],
+          "resources": [
+            {
+              "type": "Script",
+              "path": "res://scripts/NPCController.gd",
+              "data": {
+                "language": "gdscript",
+                "extends": "Node2D",
+                "variables": ["npc_id", "behavior_type", "faction"],
+                "functions": ["_ready", "_process", "interact_with_player"]
+              }
+            },
+            {
+              "type": "AnimationLibrary",
+              "path": "res://animations/npc_animations.tres",
+              "data": {
+                "animations": ["idle", "walk", "talk", "quest_indicator"]
+              }
+            }
+          ],
+          "scripts": [
+            "res://scripts/NPCController.gd",
+            "res://scripts/QuestSystem.gd",
+            "res://scripts/MerchantBehavior.gd"
+          ],
+          "scenes": ["NPCScene.tscn", "QuestGiverScene.tscn", "MerchantScene.tscn"],
+          "animations": ["npc_idle.anim", "npc_walk.anim", "quest_indicator.anim"],
+          "inputs": ["npc_interact", "quest_accept", "quest_decline"]
+        }
+      }
+    },
+    "combat": {
+      "input": {
+        "attacker": {
+          "id": "player_001",
+          "stats": [{ "key": "strength", "base": 20 }]
+        },
+        "defender": {
+          "id": "enemy_001",
+          "stats": [{ "key": "health", "base": 100 }]
+        }
+      },
+      "output": {
+        "op": "simulate",
+        "status": "ok",
+        "renderData": {
+          "nodes": [
+            {
+              "id": "player_001",
+              "type": "Node2D",
+              "name": "Combatant",
+              "position": { "x": 0, "y": 0 },
+              "properties": {
+                "combatant_id": "player_001",
+                "is_attacker": true,
+                "health": 100,
+                "max_health": 100
+              },
+              "children": [
+                {
+                  "id": "player_001_sprite",
+                  "type": "Sprite",
+                  "name": "Sprite",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "texture": "res://assets/combat/player_sprite.png"
+                  }
+                },
+                {
+                  "id": "player_001_health_bar",
+                  "type": "Control",
+                  "name": "HealthBar",
+                  "position": { "x": 0, "y": -40 },
+                  "properties": {
+                    "custom_minimum_size": { "x": 64, "y": 8 },
+                    "value": 100,
+                    "max_value": 100
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "combat_action",
+                  "parameters": ["action_type", "target_id"],
+                  "connectedTo": ["CombatSystem", "EffectSystem"]
+                }
+              ]
+            },
+            {
+              "id": "enemy_001",
+              "type": "Node2D",
+              "name": "Combatant",
+              "position": { "x": 100, "y": 0 },
+              "properties": {
+                "combatant_id": "enemy_001",
+                "is_attacker": false,
+                "health": 75,
+                "max_health": 100
+              },
+              "children": [
+                {
+                  "id": "enemy_001_sprite",
+                  "type": "Sprite",
+                  "name": "Sprite",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "texture": "res://assets/combat/enemy_sprite.png"
+                  }
+                },
+                {
+                  "id": "enemy_001_health_bar",
+                  "type": "Control",
+                  "name": "HealthBar",
+                  "position": { "x": 0, "y": -40 },
+                  "properties": {
+                    "custom_minimum_size": { "x": 64, "y": 8 },
+                    "value": 75,
+                    "max_value": 100
+                  }
+                }
+              ]
+            }
+          ],
+          "resources": [
+            {
+              "type": "Script",
+              "path": "res://scripts/CombatController.gd",
+              "data": {
+                "language": "gdscript",
+                "extends": "Node2D",
+                "variables": ["combatant_id", "health", "max_health"],
+                "functions": ["_ready", "take_damage", "heal", "perform_action"]
+              }
+            },
+            {
+              "type": "AnimationLibrary",
+              "path": "res://animations/combat_animations.tres",
+              "data": {
+                "animations": ["attack", "defend", "hit", "victory"]
+              }
+            }
+          ],
+          "scripts": [
+            "res://scripts/CombatController.gd",
+            "res://scripts/WeaponSystem.gd",
+            "res://scripts/EffectManager.gd"
+          ],
+          "scenes": ["CombatScene.tscn", "WeaponScene.tscn", "EffectScene.tscn"],
+          "animations": ["sword_swing.anim", "hit_effect.anim", "victory_dance.anim"],
+          "inputs": ["attack", "defend", "use_item", "flee"]
+        }
+      }
+    }
+  },
+  "render": {
+    "npcs": {
+      "input": {
+        "zoneId": "zone_village",
+        "includeQuests": true
+      },
+      "output": {
+        "op": "render",
+        "status": "ok",
+        "renderData": {
+          "nodes": [
+            {
+              "id": "npc_001",
+              "type": "Node2D",
+              "name": "Guard Captain Marcus",
+              "position": { "x": 640, "y": 960 },
+              "properties": {
+                "npc_id": "npc_001",
+                "behavior_type": "quest_giver",
+                "faction": "village_elders",
+                "has_quests": true,
+                "quest_count": 1
+              },
+              "children": [
+                {
+                  "id": "npc_001_sprite",
+                  "type": "Sprite",
+                  "name": "Sprite",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "texture": "res://assets/npcs/npc_sprite.png"
+                  }
+                },
+                {
+                  "id": "npc_001_quest_indicator",
+                  "type": "Sprite",
+                  "name": "QuestIndicator",
+                  "position": { "x": 24, "y": -24 },
+                  "properties": {
+                    "texture": "res://assets/ui/quest_icon.png",
+                    "modulate": "#ffff00"
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "npc_interacted",
+                  "parameters": ["player_id", "interaction_type"],
+                  "connectedTo": ["QuestSystem", "DialogSystem"]
+                }
+              ]
+            },
+            {
+              "id": "npc_002",
+              "type": "Node2D",
+              "name": "Mystic Elara",
+              "position": { "x": 1600, "y": 768 },
+              "properties": {
+                "npc_id": "npc_002",
+                "behavior_type": "merchant",
+                "faction": "merchants",
+                "has_quests": false,
+                "quest_count": 0
+              },
+              "children": [
+                {
+                  "id": "npc_002_sprite",
+                  "type": "Sprite",
+                  "name": "Sprite",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "texture": "res://assets/npcs/merchant_sprite.png"
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "npc_interacted",
+                  "parameters": ["player_id", "interaction_type"],
+                  "connectedTo": ["MerchantSystem", "TradeSystem"]
+                }
+              ]
+            }
+          ],
+          "resources": [
+            {
+              "type": "Script",
+              "path": "res://scripts/NPCController.gd",
+              "data": {
+                "language": "gdscript",
+                "extends": "Node2D",
+                "variables": ["npc_id", "behavior_type", "faction"],
+                "functions": ["_ready", "_process", "interact_with_player"]
+              }
+            }
+          ],
+          "scripts": [
+            "res://scripts/NPCController.gd",
+            "res://scripts/QuestSystem.gd",
+            "res://scripts/MerchantBehavior.gd"
+          ],
+          "scenes": ["NPCScene.tscn", "QuestGiverScene.tscn", "MerchantScene.tscn"],
+          "animations": ["npc_idle.anim", "npc_walk.anim", "quest_indicator.anim"],
+          "inputs": ["npc_interact", "quest_accept", "quest_decline"]
+        }
+      }
+    },
+    "ui": {
+      "input": {
+        "uiType": "inventory",
+        "items": [
+          { "id": "item_sword", "quantity": 1 },
+          { "id": "item_potion", "quantity": 3 }
+        ]
+      },
+      "output": {
+        "op": "render",
+        "status": "ok",
+        "renderData": {
+          "nodes": [
+            {
+              "id": "inventory_panel",
+              "type": "Control",
+              "name": "InventoryPanel",
+              "position": { "x": 10, "y": 10 },
+              "properties": {
+                "ui_type": "inventory",
+                "visible": true,
+                "custom_minimum_size": { "x": 300, "y": 200 }
+              },
+              "children": [
+                {
+                  "id": "inventory_title",
+                  "type": "Label",
+                  "name": "Title",
+                  "position": { "x": 0, "y": 0 },
+                  "properties": {
+                    "text": "Inventory",
+                    "font_size": 18,
+                    "color": "#ffffff"
+                  }
+                }
+              ],
+              "signals": [
+                {
+                  "name": "inventory_opened",
+                  "parameters": ["player_id"],
+                  "connectedTo": ["UISystem", "InventorySystem"]
+                }
+              ]
+            }
+          ],
+          "resources": [
+            {
+              "type": "Script",
+              "path": "res://scripts/UIController.gd",
+              "data": {
+                "language": "gdscript",
+                "extends": "Control",
+                "variables": ["ui_type", "is_visible"],
+                "functions": ["_ready", "show_ui", "hide_ui", "update_content"]
+              }
+            }
+          ],
+          "scripts": [
+            "res://scripts/UIController.gd",
+            "res://scripts/InventoryUI.gd",
+            "res://scripts/MenuSystem.gd"
+          ],
+          "scenes": ["InventoryScene.tscn", "MenuScene.tscn", "DialogScene.tscn"],
+          "animations": ["menu_open.anim", "inventory_slide.anim", "dialog_fade.anim"],
+          "inputs": ["inventory_toggle", "menu_navigate", "dialog_next"]
+        }
+      }
+    }
+  },
+  "interop": {
+    "npcs": {
+      "input": {
+        "id": "npc_001",
+        "data": {
+          "position": { "x": 15, "y": 20 },
+          "stats": [{ "key": "health", "base": 95 }],
+          "questIds": ["quest_tutorial", "quest_side_quest"]
+        }
+      },
+      "output": {
+        "op": "interop",
+        "status": "ok",
+        "renderData": {
+          "nodes": [
+            {
+              "id": "npc_001",
+              "type": "Node2D",
+              "name": "Guard Captain Marcus",
+              "position": { "x": 960, "y": 1280 },
+              "properties": {
+                "npc_id": "npc_001",
+                "updated": true
+              }
+            }
+          ],
+          "resources": [],
+          "scripts": [],
+          "scenes": [],
+          "animations": [],
+          "inputs": []
+        }
+      }
+    }
+  },
+  "config": {
+    "gdscript": {
+      "language": "gdscript",
+      "targetVersion": "4.0",
+      "projectPath": "godot_project/",
+      "scriptPath": "res://scripts/",
+      "scenePath": "res://scenes/",
+      "resourcePath": "res://resources/",
+      "useSignals": true,
+      "useAnimations": true
+    },
+    "csharp": {
+      "language": "csharp",
+      "targetVersion": "4.0",
+      "projectPath": "godot_project/",
+      "scriptPath": "res://scripts/",
+      "scenePath": "res://scenes/",
+      "resourcePath": "res://resources/",
+      "useSignals": true,
+      "useAnimations": true
+    },
+    "godot3": {
+      "language": "gdscript",
+      "targetVersion": "3.5",
+      "projectPath": "godot_project/",
+      "scriptPath": "res://scripts/",
+      "scenePath": "res://scenes/",
+      "resourcePath": "res://resources/",
+      "useSignals": true,
+      "useAnimations": false
+    }
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "op": "listProfiles"
+  },
+  {
+    "op": "simulateBehavior",
+    "npcId": "elder"
+  },
+  {
+    "op": "simulateBehavior",
+    "npcId": "merchant"
+  },
+  {
+    "op": "simulateBehavior",
+    "npcId": "guard1"
+  },
+  {
+    "op": "assignRole",
+    "npcId": "merchant",
+    "role": "wanderer"
+  },
+  {
+    "op": "simulateBehavior",
+    "npcId": "merchant"
+  },
+  {
+    "op": "dumpSchedule",
+    "npcId": "merchant"
+  }
+]

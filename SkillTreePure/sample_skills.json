@@ -1,0 +1,7 @@
+{
+  "skills": [
+    { "id": "root", "name": "Root" },
+    { "id": "strike", "name": "Power Strike", "requires": ["root"] },
+    { "id": "guard", "name": "Shield Guard", "requires": ["root"] }
+  ]
+}

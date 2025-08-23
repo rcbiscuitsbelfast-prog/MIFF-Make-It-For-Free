@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "v1",
+  "examples": {
+    "unity_replay": {
+      "description": "UnityBridgePure replay session example",
+      "session": {
+        "sessionId": "replay_1703123456789",
+        "config": {
+          "engine": "unity",
+          "speed": 1.0,
+          "loop": false,
+          "showDebug": true,
+          "outputFormat": "json",
+          "timestamp": true
+        },
+        "steps": [
+          {
+            "step": 1,
+            "timestamp": "2025-08-22T10:00:00.000Z",
+            "renderData": [
+              {
+                "id": "npc_001",
+                "type": "component",
+                "name": "GameObject_npc_001",
+                "position": { "x": 640, "y": 960, "z": 0 },
+                "scale": { "x": 1, "y": 1, "z": 1 },
+                "rotation": { "x": 0, "y": 0, "z": 0 },
+                "asset": "NPCPrefab",
+                "props": {
+                  "npc_id": "npc_001",
+                  "behavior_type": "quest_giver"
+                },
+                "engineHints": {
+                  "unity": {
+                    "gameObject": "GameObject_npc_001",
+                    "component": "NPCController",
+                    "prefab": "NPCPrefab",
+                    "useECS": false
+                  }
+                },
+                "signals": [
+                  {
+                    "name": "npc_interacted",
+                    "parameters": ["player_id", "interaction_type"],
+                    "connectedTo": ["QuestSystem", "DialogSystem"],
+                    "engine": "unity"
+                  }
+                ]
+              }
+            ],
+            "issues": [],
+            "annotations": [
+              "Operation: render",
+              "Status: ok",
+              "RenderData Count: 1",
+              "Engine Hints: unity",
+              "Schema Version: v1",
+              "Module: npcs"
+            ]
+          },
+          {
+            "step": 2,
+            "timestamp": "2025-08-22T10:00:01.000Z",
+            "renderData": [
+              {
+                "id": "npc_001_sprite",
+                "type": "sprite",
+                "name": "Sprite",
+                "position": { "x": 0, "y": 0, "z": 0 },
+                "asset": "npc_sprite.png",
+                "props": {
+                  "texture": "npc_sprite.png",
+                  "region_enabled": true
+                },
+                "engineHints": {
+                  "unity": {
+                    "gameObject": "npc_001_sprite",
+                    "component": "SpriteRenderer",
+                    "prefab": "SpritePrefab"
+                  }
+                }
+              },
+              {
+                "id": "npc_001_quest_indicator",
+                "type": "sprite",
+                "name": "QuestIndicator",
+                "position": { "x": 24, "y": -24, "z": 0 },
+                "asset": "quest_icon.png",
+                "props": {
+                  "texture": "quest_icon.png",
+                  "modulate": "#ffff00"
+                },
+                "engineHints": {
+                  "unity": {
+                    "gameObject": "npc_001_quest_indicator",
+                    "component": "SpriteRenderer",
+                    "prefab": "QuestIconPrefab"
+                  }
+                }
+              }
+            ],
+            "issues": [],
+            "annotations": [
+              "Operation: render",
+              "Status: ok",
+              "RenderData Count: 2",
+              "Engine Hints: unity",
+              "Schema Version: v1",
+              "Module: npcs"
+            ]
+          }
+        ],
+        "summary": {
+          "totalSteps": 2,
+          "totalRenderData": 3,
+          "totalIssues": 0,
+          "duration": "2000ms",
+          "engine": "unity"
+        }
+      }
+    },
+    "web_replay": {
+      "description": "WebBridgePure replay session example",
+      "session": {
+        "sessionId": "replay_1703123456790",
+        "config": {
+          "engine": "web",
+          "speed": 2.0,
+          "loop": true,
+          "showDebug": true,
+          "outputFormat": "html",
+          "timestamp": true
+        },
+        "steps": [
+          {
+            "step": 1,
+            "timestamp": "2025-08-22T10:00:00.000Z",
+            "renderData": [
+              {
+                "id": "npc_001",
+                "type": "sprite",
+                "name": "Guard Captain Marcus",
+                "position": { "x": 640, "y": 960 },
+                "scale": { "x": 32, "y": 32 },
+                "asset": "npc_sprite.png",
+                "props": {
+                  "npc_id": "npc_001",
+                  "behavior_type": "quest_giver"
+                },
+                "engineHints": {
+                  "web": {
+                    "element": "sprite",
+                    "canvas": "gameCanvas",
+                    "useWebGL": true
+                  }
+                },
+                "signals": [
+                  {
+                    "name": "click",
+                    "parameters": ["event"],
+                    "connectedTo": ["QuestSystem", "DialogSystem"],
+                    "engine": "web"
+                  }
+                ]
+              }
+            ],
+            "issues": [],
+            "annotations": [
+              "Operation: render",
+              "Status: ok",
+              "RenderData Count: 1",
+              "Engine Hints: web",
+              "Schema Version: v1",
+              "Module: npcs"
+            ]
+          }
+        ],
+        "summary": {
+          "totalSteps": 1,
+          "totalRenderData": 1,
+          "totalIssues": 0,
+          "duration": "500ms",
+          "engine": "web"
+        }
+      }
+    },
+    "godot_replay": {
+      "description": "GodotBridgePure replay session example",
+      "session": {
+        "sessionId": "replay_1703123456791",
+        "config": {
+          "engine": "godot",
+          "speed": 0.5,
+          "loop": false,
+          "showDebug": false,
+          "outputFormat": "markdown",
+          "timestamp": true
+        },
+        "steps": [
+          {
+            "step": 1,
+            "timestamp": "2025-08-22T10:00:00.000Z",
+            "renderData": [
+              {
+                "id": "npc_001",
+                "type": "node",
+                "name": "Guard Captain Marcus",
+                "position": { "x": 640, "y": 960 },
+                "scale": { "x": 1, "y": 1 },
+                "rotation": { "x": 0, "y": 0, "z": 0 },
+                "asset": "npc_sprite.png",
+                "props": {
+                  "npc_id": "npc_001",
+                  "behavior_type": "quest_giver"
+                },
+                "engineHints": {
+                  "godot": {
+                    "node": "Node2D",
+                    "script": "NPCController.gd",
+                    "scene": "NPCScene.tscn",
+                    "language": "gdscript"
+                  }
+                },
+                "signals": [
+                  {
+                    "name": "npc_interacted",
+                    "parameters": ["player_id", "interaction_type"],
+                    "connectedTo": ["QuestSystem", "DialogSystem"],
+                    "engine": "godot"
+                  }
+                ]
+              }
+            ],
+            "issues": [],
+            "annotations": [
+              "Operation: render",
+              "Status: ok",
+              "RenderData Count: 1",
+              "Engine Hints: godot",
+              "Schema Version: v1",
+              "Module: npcs"
+            ]
+          }
+        ],
+        "summary": {
+          "totalSteps": 1,
+          "totalRenderData": 1,
+          "totalIssues": 0,
+          "duration": "2000ms",
+          "engine": "godot"
+        }
+      }
+    }
+  },
+  "replay_configs": {
+    "fast_replay": {
+      "description": "Fast replay configuration for quick debugging",
+      "config": {
+        "engine": "web",
+        "speed": 5.0,
+        "loop": true,
+        "showDebug": false,
+        "outputFormat": "json",
+        "timestamp": false
+      }
+    },
+    "detailed_replay": {
+      "description": "Detailed replay configuration for thorough analysis",
+      "config": {
+        "engine": "unity",
+        "speed": 0.5,
+        "loop": false,
+        "showDebug": true,
+        "outputFormat": "html",
+        "timestamp": true
+      }
+    },
+    "export_replay": {
+      "description": "Export replay configuration for documentation",
+      "config": {
+        "engine": "godot",
+        "speed": 1.0,
+        "loop": false,
+        "showDebug": true,
+        "outputFormat": "markdown",
+        "timestamp": true
+      }
+    }
+  },
+  "test_scenarios": {
+    "npc_interaction": {
+      "description": "NPC interaction replay scenario",
+      "golden_test": "NPCsPure/tests/goldenNPCsPure.test.ts",
+      "expected_steps": 3,
+      "expected_renderData": 5,
+      "config": {
+        "engine": "web",
+        "speed": 1.0,
+        "loop": false,
+        "showDebug": true
+      }
+    },
+    "combat_sequence": {
+      "description": "Combat sequence replay scenario",
+      "golden_test": "CombatCorePure/tests/goldenCombatCorePure.test.ts",
+      "expected_steps": 5,
+      "expected_renderData": 8,
+      "config": {
+        "engine": "unity",
+        "speed": 2.0,
+        "loop": true,
+        "showDebug": true
+      }
+    },
+    "ui_rendering": {
+      "description": "UI rendering replay scenario",
+      "golden_test": "WebBridgePure/tests/goldenBridge.test.ts",
+      "expected_steps": 2,
+      "expected_renderData": 3,
+      "config": {
+        "engine": "web",
+        "speed": 1.0,
+        "loop": false,
+        "showDebug": false
+      }
+    }
+  },
+  "export_examples": {
+    "json_export": {
+      "description": "JSON export format example",
+      "format": "json",
+      "filename": "replay_session.json",
+      "content_preview": {
+        "sessionId": "replay_1703123456789",
+        "config": { "engine": "web", "speed": 1.0 },
+        "steps": [],
+        "summary": { "totalSteps": 0, "totalRenderData": 0 }
+      }
+    },
+    "markdown_export": {
+      "description": "Markdown export format example",
+      "format": "markdown",
+      "filename": "replay_report.md",
+      "content_preview": "# Render Replay Session: replay_1703123456789\n\nEngine: web\nSteps: 2\nRenderData: 3\nIssues: 0\nDuration: 2000ms"
+    },
+    "html_export": {
+      "description": "HTML export format example",
+      "format": "html",
+      "filename": "replay_report.html",
+      "content_preview": "<!DOCTYPE html>\n<html>\n<head>\n<title>Render Replay Report</title>\n</head>\n<body>\n<h1>Render Replay Session: replay_1703123456789</h1>"
+    }
+  }
+}

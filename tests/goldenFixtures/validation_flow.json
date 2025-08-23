@@ -1,0 +1,26 @@
+{
+  "outputs": [
+    {
+      "op": "validateAll",
+      "status": "error",
+      "issues": [
+        {
+          "code": "missing_ref",
+          "message": "Missing reference equip:sword:item",
+          "ref": "equip:sword:item"
+        },
+        {
+          "code": "stat_bounds",
+          "message": "hero.hp out of bounds: 1000",
+          "ref": "hero.hp"
+        },
+        {
+          "code": "zone_overlap",
+          "message": "Zones A and B overlap",
+          "ref": "A|B"
+        }
+      ],
+      "resolvedRefs": {}
+    }
+  ]
+}

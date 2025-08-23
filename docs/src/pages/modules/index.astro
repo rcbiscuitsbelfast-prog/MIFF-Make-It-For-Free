@@ -1,0 +1,42 @@
+---
+import SimpleLayout from '../../layouts/SimpleLayout.astro';
+const base = import.meta.env.BASE_URL || '/';
+---
+
+<SimpleLayout title="Modules — MIFF" description="Browse MIFF Pure modules and bridges">
+	<section class="py-8">
+		<div class="mb-8">
+			<h1 class="text-3xl font-bold text-purple-700 mb-4">
+				🧩 MIFF Modules
+			</h1>
+			<p class="text-lg text-gray-600">
+				Browse MIFF Pure modules and bridges. This is a placeholder page.
+			</p>
+		</div>
+		
+		<div class="bg-white rounded-lg border border-gray-200 p-8">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="p-6 bg-purple-50 rounded-lg border border-purple-200">
+					<h2 class="text-xl font-semibold text-gray-900 mb-2">🚀 Getting Started</h2>
+					<p class="text-gray-600 mb-4">Learn how to install and set up MIFF</p>
+					<a 
+						href={`${base}getting-started/install`}
+						class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+					>
+						Installation Guide
+					</a>
+				</div>
+				<div class="p-6 bg-purple-50 rounded-lg border border-purple-200">
+					<h2 class="text-xl font-semibold text-gray-900 mb-2">🗺️ Roadmap</h2>
+					<p class="text-gray-600 mb-4">See what's coming next in MIFF</p>
+					<a 
+						href={`${base}contributors/roadmap`}
+						class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+					>
+						View Roadmap
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</SimpleLayout>

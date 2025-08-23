@@ -1,0 +1,3 @@
+{
+  "rules": ["missing_refs", "stat_bounds", "zone_overlap"]
+}

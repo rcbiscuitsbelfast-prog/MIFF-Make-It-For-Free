@@ -1,0 +1,6 @@
+{
+  "entities": [
+    { "id": "hero", "hp": 20, "atk": 7, "def": 2 },
+    { "id": "slime", "hp": 10, "atk": 3, "def": 1 }
+  ]
+}

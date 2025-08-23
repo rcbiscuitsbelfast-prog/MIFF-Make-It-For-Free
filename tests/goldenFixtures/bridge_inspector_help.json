@@ -1,0 +1,32 @@
+
+BridgeInspectorPure CLI - Bridge inspection and validation tool for MIFF engine bridges
+
+Usage:
+  npx ts-node BridgeInspectorPure/cliHarness.ts <command> [options]
+
+Commands:
+  inspect <json-file>              Inspect renderData payload for bridge compatibility
+  inspect-golden <test-path>...    Inspect multiple bridges from golden test files
+  export <inspection-id> <output>  Export inspection results to file
+
+Options:
+  --no-schema                      Skip schema validation
+  --no-engine-hints               Skip engine hints validation
+  --no-signals                    Skip signals validation
+  --no-metadata                   Skip metadata validation
+  --no-compatibility              Skip cross-engine compatibility check
+  --no-details                    Exclude detailed analysis
+  --no-warnings                   Exclude warnings
+  --max-issues <number>           Maximum issues per category [default: 10]
+  --format <format>               Output format (json|markdown|html) [default: json]
+
+Examples:
+  # Inspect JSON payload
+  npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --format html
+
+  # Inspect golden tests
+  npx ts-node BridgeInspectorPure/cliHarness.ts inspect-golden UnityBridgePure/tests/goldenBridge.test.ts WebBridgePure/tests/goldenBridge.test.ts
+
+  # Export inspection results
+  npx ts-node BridgeInspectorPure/cliHarness.ts export inspection_1234567890 inspection_report.html --format html
+

@@ -1,0 +1,48 @@
+{
+  "outputs": [
+    {
+      "op": "listDialogs",
+      "dialogs": [
+        "elder_intro"
+      ]
+    },
+    {
+      "dialogId": "elder_intro",
+      "log": [
+        "DIALOG elder_intro",
+        "TXT start Greetings, traveler. Will you help our village?",
+        "CHOICE accept Yes, I will help.",
+        "QUEST village_help",
+        "TXT thanks Thank you. Seek the cave to the east."
+      ],
+      "triggers": {
+        "quests": [
+          "village_help"
+        ],
+        "items": []
+      }
+    },
+    {
+      "dialogId": "elder_intro",
+      "log": [
+        "DIALOG elder_intro",
+        "TXT start Greetings, traveler. Will you help our village?",
+        "CHOICE accept Yes, I will help.",
+        "QUEST village_help",
+        "TXT thanks Thank you. Seek the cave to the east.",
+        "CHOICE_RUN elder_intro ask_item",
+        "CHOICE ask_item Any supplies for the road?",
+        "ITEM potion x1",
+        "TXT gift Take this potion and be safe."
+      ],
+      "triggers": {
+        "quests": [
+          "village_help"
+        ],
+        "items": [
+          "potion"
+        ]
+      }
+    }
+  ]
+}

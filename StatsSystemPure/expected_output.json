@@ -1,0 +1,9 @@
+{
+  "outputs": [
+    { "op": "list", "ids": [] },
+    { "id": "hero", "stats": [ {"key":"hp","base":30} ] },
+    { "op": "setStat", "id": "hero", "key": "atk", "base": 8 },
+    { "id": "hero", "total": 38 },
+    { "op": "dump", "id": "hero", "stats": [ {"key":"hp","base":30}, {"key":"atk","base":8} ] }
+  ]
+}

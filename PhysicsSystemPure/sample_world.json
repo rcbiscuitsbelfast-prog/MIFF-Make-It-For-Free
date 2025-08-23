@@ -1,0 +1,7 @@
+{
+  "defaultGravity": { "x": 0, "y": 0 },
+  "defaultFriction": 0,
+  "bodies": [
+    { "id": "b1", "position": { "x": 0, "y": 0 }, "velocity": { "x": 10, "y": 0 }, "mass": 1, "gravity": { "x": 0, "y": -9.8 }, "friction": 0.1 }
+  ]
+}

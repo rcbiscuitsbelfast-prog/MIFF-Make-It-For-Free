@@ -1,0 +1,10 @@
+{
+	"schema": "v13",
+	"name": "Combat Scenario: Arena",
+	"arena": { "enemies": [
+		{ "id": "slime", "hp": 10, "atk": 3, "def": 1 },
+		{ "id": "goblin", "hp": 12, "atk": 4, "def": 2 }
+	] },
+	"loot": { "tableId": "starter" },
+	"progression": { "xpPerWin": 5 }
+}

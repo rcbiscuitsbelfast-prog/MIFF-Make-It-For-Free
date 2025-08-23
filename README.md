@@ -1,74 +1,102 @@
-# MIFF Game Platform — Newhaven (Pre‑Alpha)
+# MIFF: Make It For Free
 
-Modular, remix‑safe spirit battle platform built code‑first and engine‑agnostic. The initial scope is the Newhaven zone to validate core systems (AI, team management, battle effects, progression). A 3rd‑person open‑world expansion is a future phase, not part of the current milestone.
+## 🧭 MIFF Framework — Modular, Remix-Safe Game Development
 
-## Principles
+This project is now maintained as **MIFF**, a modular, engine-agnostic framework stewarded by **R.C. Biscuits**.
 
-- Modular, decoupled scaffolding with clear interfaces and adapters
-- Remix‑safe data and assets; avoid franchise IP
-- Engine‑agnostic runtime; no Unity dependency required
-- Gameplay polish and player experience take priority
-- One small branch per scaffold/update
+> Originally forked from [original repo name], MIFF has been rebuilt for remix safety, contributor empowerment, and AI-driven modularity.  
+> All legacy contributions are preserved in commit history. The framework now follows a dual-license model (AGPLv3 + commercial).
 
-## Status
+📦 Installation: [miffgamemain.vercel.app/getting-started/install](https://miffgamemain.vercel.app/getting-started/install)  
+🧑‍💻 Contributor Onboarding: [miffgamemain.vercel.app/contributors/onboarding](https://miffgamemain.vercel.app/contributors/onboarding)
 
-- Pre‑alpha. Documentation scaffolding and roadmap are in place.
-- Runtime scaffolding will land incrementally (see Roadmap for milestones).
+Maintainer: **R.C. Biscuits**  
+Visionary architect of MIFF — building a global, remixable ecosystem for modular game creation.
 
-See `ROADMAP.md` for prioritized tasks and milestone tracking.
+---
 
-## Current Scaffolded Systems
+[![MIFF CI](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
 
-- Documentation: roadmap, contribution guidance, branch policy
-- Project direction: Newhaven‑first scope and expansion vision
-- Synced engine‑agnostic modules (see `miff/`): AI, effects, teams, items, lore, quests, spirits dex utils, sync, challenges, evolution (partial), NPCs (data + interaction), fusion (rules + harness)
+**🌐 [Documentation Site](https://miff-framework.github.io/miff)** | **📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
 
-Note: Core runtime modules (battle loop, AI, encounters, team management, save/load, input abstraction, UI adapters) are being implemented next in focused branches.
+Modular, engine‑agnostic, CLI‑first game framework
 
-## Newhaven Gameplay Loops
+Started with a Retro-style 2D RPG engine and became a set of engine-agnostic, CLI-first gameplay modules for rapid iteration.
 
-- In progress for M0: text‑first battle loop prototype (deterministic, seedable)
-- Planned for M1+: overworld encounters and party management loop
+## Requirements
 
-Until M0 completes, there is no playable runtime in this repo. Contributions should target the scaffolding defined in `ROADMAP.md`.
+- Node.js 18+ (for CLI harnesses)  
+- Optional runtime adapters (choose what you need):
+  - Unity 2021.3+
+  - Modern browser (Web)
+  - Godot 4.2+
 
-## Next Steps for Development
+## CLI-First Modules
 
-1. Land data schemas (spirits, moves, effects, items, encounters) with validation
-2. Implement battle loop: turn manager, action queue, damage/status formulas
-3. Add baseline AI policy with pluggable evaluators
-4. Implement team/party management and encounter controller for Newhaven
-5. Introduce save/load (versioned JSON + migrations) and input abstraction
-6. Provide text‑first UI surfaces and a CLI test harness
+Each module comes with a self-contained CLI harness under the repository root. Run with ts-node:
 
-Details and acceptance criteria are tracked in `ROADMAP.md`. Module statuses live in `miff/README.md`.
+- QuestsPure: `npx ts-node --compiler-options '{"module":"commonjs"}' QuestsPure/cliHarness.ts QuestsPure/sample_quest_npc.json 1234`
+- InventoryPure: `npx ts-node --compiler-options '{"module":"commonjs"}' InventoryPure/cliHarness.ts InventoryPure/sample_commands.json`
+- CreaturesPure: `npx ts-node --compiler-options '{"module":"commonjs"}' CreaturesPure/cliHarness.ts CreaturesPure/sample_commands.json`
+- LorePure: `npx ts-node --compiler-options '{"module":"commonjs"}' LorePure/cliHarness.ts LorePure/sample_commands.json`
+- SettingsPure: `npx ts-node --compiler-options '{"module":"commonjs"}' SettingsPure/cliHarness.ts SettingsPure/sample_init.json SettingsPure/sample_commands.json`
+- AudioMixerPure: `npx ts-node --compiler-options '{"module":"commonjs"}' AudioMixerPure/cliHarness.ts AudioMixerPure/sample_commands.json`
+- WorldEnhancementsPure: `npx ts-node --compiler-options '{"module":"commonjs"}' WorldEnhancementsPure/cliHarness.ts WorldEnhancementsPure/sample_commands.json`
+- WorldLayoutPure: `npx ts-node --compiler-options '{"module":"commonjs"}' WorldLayoutPure/cliHarness.ts WorldLayoutPure/sample_commands.json`
+- MovementPure: `npx ts-node --compiler-options '{"module":"commonjs"}' MovementPure/cliHarness.ts MovementPure/sample_commands.json`
+- XPLevelingPure: `npx ts-node --compiler-options '{"module":"commonjs"}' XPLevelingPure/cliHarness.ts XPLevelingPure/sample_commands.json`
+- CombatPure: `npx ts-node --compiler-options '{"module":"commonjs"}' CombatPure/cliHarness.ts CombatPure/sample_commands.json`
+- SaveLoadPure: `npx ts-node --compiler-options '{"module":"commonjs"}' SaveLoadPure/cliHarness.ts SaveLoadPure/tests/sample_commands.json SaveLoadPure/tests/save_state.json`
+- EquipmentPure: `npx ts-node --compiler-options '{"module":"commonjs"}' EquipmentPure/cliHarness.ts EquipmentPure/sample_equipment.json EquipmentPure/tests/commands.json`
+- AIProfilesPure: `npx ts-node --compiler-options '{"module":"commonjs"}' AIProfilesPure/cliHarness.ts AIProfilesPure/sample_profiles.json AIProfilesPure/tests/commands.json`
+- NPCsPure (Python): coming soon
 
-## Phase Checklist (High‑Level)
+See `Documents/Remix_Review_V3.md` for a full assessment including coverage and gaps.
 
-- M0: Data + battle loop (CLI, text‑only)
-- M1: Encounters + party management (Newhaven)
-- M2: Progression + status effects + rewards
-- M3: Remix‑safe assets + adapter stubs
-- M4: Polishing + QA + contributor docs
+## 📖 Documentation
 
-## Future Expansion (Vision)
+- **🌐 Documentation Site**: https://miff-framework.github.io/miff
+- **🚀 Getting Started**: https://miffgamemain.vercel.app/getting-started/install
+- **🎮 Simulate Tool**: https://miff-framework.github.io/miff/getting-started/simulate
+- **🎬 Replay Tool**: https://miff-framework.github.io/miff/getting-started/replay
+- **🔍 Inspect Tool**: https://miff-framework.github.io/miff/getting-started/inspect
+- **📚 Contributor Guide**: https://miffgamemain.vercel.app/contributors/onboarding
 
-- Open‑world 3rd‑person RPG layer (navigation, camera, streaming world)
-- Adapter‑based render/audio implementations (Unity/Godot/Web) kept out‑of‑tree
-- Modding APIs and content packaging for community extensions
+## 🚀 Project Status
 
-## Contributing
+**Current Phase**: Phase 9 - Advanced Testing Infrastructure ✅ **COMPLETED**
 
-- Create a new branch per change: `docs/*`, `feat/*`, `refactor/*`, `fix/*`
-- Keep modules decoupled and testable; prefer interfaces and adapters
-- Add fixtures and seeds for deterministic tests
+**Recent Milestones**:
+- 🧪 CLI Harness Test Refactoring (18 modules updated)
+- 🔧 Type Safety & Build Fixes (TypeScript compilation resolved)
+- 📚 Comprehensive Testing Documentation
+- 📦 Golden Fixtures for Deterministic Testing
+
+**What's Next**: 
+- Phase 10: Performance Profiling & Optimization
+- Advanced debugging tools and memory usage analysis
+
+**📋 [View Full Roadmap](ROADMAP.md)** - Complete development phases and progress tracking
+
+### Patch Status
+
+- Patch 3 (PhysicsSystemPure, CollisionSystemPure, TimeSystemPure): ✅ Completed, CLIs and golden tests passing
+- Patch 4 (Rendering & Bridge Modules — RenderPayloadPure, ConvertToUnityPure, ConvertToWebPure, ConvertToGodotPure): ✅ Completed, CLIs and golden tests passing
+
+## Remix Hooks
+
+See each module README for `Remix Hooks` sections describing override points and safe extension guidelines.
+
+### Remix-Safe Disclaimer
+
+- MIFF ships without proprietary assets or IP.  
+- Modules are engine-agnostic and data-driven.  
+- Forks and remixes should maintain modular boundaries and avoid embedding closed assets.
 
 ## License
 
-Licensed under the MIT License. See `LICENSE`.
+This project is offered under a dual-license model:
+- GNU Affero General Public License v3.0 (AGPLv3)
+- Commercial license (contact per LICENSE.md)
 
-### Content and IP
-
-Only include remix‑safe, original assets and data. Do not include third‑party IP.
-
-All placeholder assets in `assets/` are original, remix‑safe scaffolds contributed under a CC0‑equivalent intent (public domain). Replace or extend freely.
+See LICENSE.md for full terms.

@@ -1,0 +1,35 @@
+{
+  "outputs": [
+    {
+      "op": "showAttribution",
+      "status": "ok",
+      "issues": [],
+      "resolvedRefs": {},
+      "rendered": {
+        "message": "Powered by MIFF",
+        "style": "console:info",
+        "durationMs": 1500,
+        "remixStatus": "remix-safe",
+        "license": {
+          "type": "AGPLv3 + Commercial",
+          "version": "3.0",
+          "url": "https://www.gnu.org/licenses/agpl-3.0.en.html",
+          "requirements": [
+            "Attribution required",
+            "Source code must be open",
+            "Commercial use requires license"
+          ],
+          "remixSafe": true
+        },
+        "contributors": [
+          {
+            "name": "R.C. Biscuits",
+            "role": "Framework Architect",
+            "contact": "miff@yourdomain.dev",
+            "license": "CC-BY-SA 4.0"
+          }
+        ]
+      }
+    }
+  ]
+}

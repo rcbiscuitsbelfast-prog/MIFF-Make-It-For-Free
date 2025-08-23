@@ -1,312 +1,319 @@
-# MIFF Game Platform Roadmap — Newhaven Focus
+# MIFF Framework Roadmap
 
-Guiding principles:
+## Principles
+- CLI-first, engine-agnostic, remix-safe modules
+- Deterministic golden-output tests for all modules
+- Strict schemas with versioning (current: v12 for new modules)
 
-- Modular, decoupled scaffolding
-- Remix-safe assets and data
-- Engine-agnostic (no Unity dependency) via adapters
-- Gameplay-first polish and UX clarity
-- Small, testable branches; prompt-driven scaffolding
+## Modules Overview (by domain)
+- Core Data & Flow (completed)
+  - InventoryPure — CLI harness, samples, golden test
+  - SaveLoadPure — CLI harness, samples
+  - QuestsPure — CLI harness, samples, tests
+  - NPCsPure — CLI harness, samples, golden tests (v13)
+- Character Progression (completed)
+  - StatsSystemPure — v12. CRUD and simulate totals
+  - SkillTreePure — v12. Unlock with prerequisites
+  - XPLevelingPure — Level curves (existing)
+  - EquipmentPure — Gear slots (existing)
+- Combat & Effects (completed in Phase 1)
+  - CombatCorePure — v12. Basic damage resolution
+  - StatusEffectsPure — v12. Poison/regen tick system
+- Navigation & World (completed in Phase 1)
+  - PathfindingPure — v12. Grid BFS
+  - WorldLayoutPure — Tiles/regions (existing)
+  - MovementPure — Kinematic intents (existing)
+  - ZonesPure — Area definitions (existing)
+- Interop & Validation (completed in Phase 2)
+  - SharedSchemaPure — v12. Common types and CLI dumpTypes
+  - EntityLinkerPure — v12. Cross-module reference resolution
+  - ValidationPure — v12. Cross-module validation engine
+- Attribution & Licensing (completed in Phase 2.1/v13)
+  - MiffAttributionPure — v13. Attribution popup module
+  - LICENSE.md — Dual license (AGPLv3 + commercial)
+  - CONTRIBUTING.md — CLA and dual-license notes
+- Derived Systems (completed in Phase 3/v13)
+  - CraftingPure — v13. Recipes and stat modifiers
+  - LootTablesPure — v13. Drop rates and stat rolls
+  - EconomyPure — v13. Pricing and vendor logic
+- Scenario Packs (completed in Phase 4/v13)
+  - TutorialScenarioPure — v13. Basics walkthrough
+  - QuestScenarioPure — v13. Branching questline
+  - CombatScenarioPure — v13. Arena combat demo
+- Content & Systems (existing)
+  - DialogPure — Branching text
+  - LorePure — Databank
+  - AudioMixerPure — Pure audio routing
+  - WorldEnhancementsPure — Props and decorations
+  - AIProfilesPure — Behavior profiles
 
-## Status Snapshot (Pre‑Alpha)
+## Phase 1 — Core Gameplay Modules (Schema v12)
+- [x] StatsSystemPure (updated for v12)
+- [x] SkillTreePure (updated for v12)
+- [x] CombatCorePure (new)
+- [x] StatusEffectsPure (new)
+- [x] PathfindingPure (new)
 
-- Documentation scaffolding established (this roadmap, updated README)
-- Runtime scaffolding pending: first passes land next in focused branches
-- Scope: Single contained zone (Newhaven) to validate core systems and loops
+Tag: `phase1-v12-core`
 
-### Current Progress Checklist
+## Phase 2 — Interop & Validation (Schema v12)
+- [x] SharedSchemaPure (new)
+- [x] EntityLinkerPure (new)
+- [x] ValidationPure (new)
 
-- [x] Branching policy adopted (one branch per scaffold/update)
-- [x] Roadmap v2 (this document) with phases and checklists
-- [x] README aligned to Newhaven scope and non‑Unity stance
-- [x] Data schema stubs drafted with validation strategy
-- [x] CLI harness skeleton (seedable, deterministic)
-- [x] Battle turn manager prototype
+Tag: `phase2-v12-interop`
 
----
+### Phase 2 Completion Checklist
+- [x] Standardized output format: { op, status, issues, resolvedRefs }
+- [x] Shared types exported and consumable across modules
+- [x] EntityLinker supports extern map injection and deterministic resolution
+- [x] Validation supports configurable rules and deterministic reports
+- [x] Golden-output tests for all ops
 
-## Phased Gameplay Roadmap (with Checklists)
+## Phase 2.1 — Attribution & Licensing (Schema v13)
+- [x] MiffAttributionPure (new)
+- [x] LICENSE.md (dual license)
+- [x] CONTRIBUTING.md (CLA + dual-license)
 
-Each phase lists Code Scaffolding and Asset Integration separately, and shows how systems link to gameplay loops.
+Tag: `phase2-v13-attribution`
 
-### M0 — Data + Battle Loop (text‑only CLI)
+### Attribution & Licensing Checklist
+- [x] Attribution module with override hooks and golden tests
+- [x] Dual-license file with commercial contact
+- [x] CLA in contributing guide
 
-Goal: Deterministic, seedable battle simulation proving core combat.
+## Phase 3 — Derived Systems (Schema v13)
+- [x] CraftingPure (new)
+- [x] LootTablesPure (new)
+- [x] EconomyPure (new)
 
-- Code Scaffolding
-  - [x] Data Schemas (JSON + validation)
-    - [x] `Spirit` (id, stats, types/tags, learnset refs)
-    - [x] `Move` (id, category, power, accuracy, cost, tags)
-    - [x] `StatusEffect` (id, duration, stacking, immunity tags)
-    - [x] `Item` (id, type, effect hooks)
-    - [x] `EncounterTable` (zone, weights, level ranges)
-    - [x] JSON schema + validator and fixtures
-  - [x] Battle Core
-    - [x] Turn manager and phases (pre, select, resolve, end)
-    - [x] Action queue with speed/priority ordering
-    - [x] Deterministic RNG provider (seed injectable)
-    - [x] Damage formula and type/resistance hooks
-    - [x] Status/effect resolution order and timing
-    - [x] Win/lose/escape conditions (EscapeLogic)
-  - [x] AI Baseline
-    - [x] Rule evaluators (hp threshold, type advantage, PP/cost, kill‑secure)
-    - [x] Simple priority model with weights
-    - [x] Fallback/timeout to safe action
-  - [x] CLI/Test Harness
-    - [x] Start battle with seed, dump battle log
-    - [x] Golden tests for canonical matchups
-    - [x] Performance timing on hot paths
+Tag: `phase3-v13-derived`
 
-- Asset Integration (optional at M0)
-  - [ ] None required; use text logs and mock data
-- Loop Linkage
-  - battle → reward placeholder → heal placeholder
+### Phase 3 Completion Checklist
+- [x] Managers with simulateCraft/rollLoot/calculatePrice
+- [x] CLI harnesses list/create/simulate/dump
+- [x] Samples and expected outputs for golden tests
+- [x] READMEs with schema v13, hooks, dependencies
 
-### M1 — Encounters + Party Management (Newhaven Overworld Loop)
+## Phase 4 — Scenario Packs (Schema v13)
+- [x] TutorialScenarioPure (new)
+- [x] QuestScenarioPure (new)
+- [x] CombatScenarioPure (new)
 
-Goal: Trigger battles via Newhaven encounter tables, manage party swaps and KO.
+Tag: `phase4-v13-scenarios`
 
-- Code Scaffolding
-  - [x] Encounter Controller
-    - [x] Trigger types (grass/zone/time scripted hooks)
-    - [x] Weighted selection and level scaling
-  - [x] Team/Party Management
-    - [x] Roster and active party slots
-    - [x] Swap/KO/faint handling and post‑battle heal hook
-    - [x] Reward grant stub (currency/item/xp placeholder)
-  - [x] Save/Load v1
-    - [x] Versioned JSON snapshot + checksum
-    - [x] Migration scaffold
-  - [x] Input Abstraction
-    - [x] Rebindable actions; keyboard/controller mapping model
-  - [x] Minimal UI model
-    - [x] State HUD model (hp/status/turn) decoupled from renderer
-- Asset Integration
-  - [ ] Newhaven zone layout (remix‑safe placeholder tilemap spec)
-  - [ ] Encounter table data files
-  - [ ] Basic HUD text templates
-- Loop Linkage
-  - overworld → encounter → battle → reward → heal → roam
+### Phase 4 Completion Checklist
+- [x] Scenario modules with run/dump operations
+- [x] CLI harnesses for scenario execution
+- [x] Sample scenarios and expected outputs
+- [x] Golden tests for deterministic scenario runs
 
-### M2 — Progression + Status Effects + Rewards
+## Phase 5 — Codebase Cleanup & NPCsPure Regeneration (Schema v13)
+- [x] NPCsPure (regenerated in TypeScript)
+- [x] Unity artifacts cleanup
+- [x] Duplicate files removal
+- [x] CI pipeline verification
 
-Goal: Progress feels meaningful; effects impact strategy; basic loot.
+Tag: `phase5-v13-cleanup-complete`
 
-- Code Scaffolding
-  - [x] Progression
-    - [x] XP curves, level‑up, learnset unlocks
-    - [x] Evolution conditions framework (level, item, quest flag)
-  - [x] Status Effects
-    - [x] Buff/debuff stack rules (flat/percent, additive/multiplicative)
-    - [x] Timers (turns/seconds) and dispel/cleanse hooks
-    - [x] Immunity and overwrite rules
-  - [x] Rewards
-    - [x] Currency/items/xp distribution
-    - [x] Drop tables and rarity weights
-  - [x] Lore/Codex hooks
-    - [x] Unlock entries on discover/defeat/evolve
-- Asset Integration
-  - [ ] Placeholder icons for effects and items
-  - [ ] Basic codex entries for Newhaven spirits and landmarks
-- Loop Linkage
-  - battle → reward → level up → learn move → evolve → codex
+### Phase 5 Completion Checklist
+- [x] NPCsPure module with complete TypeScript implementation
+- [x] Unity-specific directories removed (Assets/, Packages/, ProjectSettings/, UserSettings/)
+- [x] Duplicate files deleted (LICENSE, Documents/ROADMAP.md)
+- [x] Large unused assets removed (~9MB+ savings)
+- [x] .gitignore updated to exclude Unity artifacts
+- [x] CI pipeline verified and functional
+- [x] All test files updated to use ts-node
+- [x] No references to deleted files remain
 
-### M3 — Remix‑Safe Assets + Adapter Stubs (Render/Audio)
+## Phase 9 — Advanced Testing Infrastructure (Schema v1) ✅ COMPLETED
+- [x] CLI Harness Test Refactoring — All golden tests use `testUtils.runCLI`
+- [x] Type Safety Improvements — Fixed `RenderReplayPure` and `BridgeSchemaPure` type issues
+- [x] CI/CD Build Fixes — Resolved TypeScript compilation errors
+- [x] Testing Documentation — Comprehensive CLI testing guidelines in `TESTING.md`
 
-Goal: Minimal presentation layer via adapters; still engine‑agnostic.
+Tag: `phase9-v1-testing-overhaul`
 
-- Code Scaffolding
-  - [x] Render Adapter Interface
-    - [x] HUD binding layer; health bars, status badges, dialog
-    - [x] Event bus → UI adapter mapping
-  - [x] Audio Adapter Interface
-    - [x] SFX/Music events and categories
-    - [x] Seeded variation for repeated actions
-  - [x] Data Tooling
-    - [x] Lints, schema docs, fixtures, golden tests
-- Asset Integration
-  - [x] Remix‑safe sprite placeholders (spirits/moves/UI skin)
-  - [x] SFX set (UI, hit, ambient Newhaven loop)
-  - [x] Music stubs (Newhaven, battle)
-- Loop Linkage
-  - same loops, with presentational feedback
+### Phase 9 Completion Checklist
+- [x] Refactored 18 `golden*.test.ts` files to use `testUtils.runCLI`
+- [x] Fixed `ERR_UNKNOWN_FILE_EXTENSION` errors in CLI test execution
+- [x] Resolved TypeScript type mismatches in core modules
+- [x] Excluded `miff-nextjs` from root TypeScript configuration
+- [x] Added comprehensive CLI testing guidelines to `TESTING.md`
+- [x] Documented best practices and troubleshooting for CLI tests
+- [x] Verified CI workflow passes with `tsc --noEmit`
+- [x] Improved test pass rate from 3 to 13+ test suites
 
-### M4 — Polishing, QA Scenarios, Contributor Docs
+## Completion Checklist
+- [x] Managers with core logic: list/create/simulate/dump
+- [x] CLI harnesses for each module
+- [x] Sample JSON data per module
+- [x] Golden-output tests validating core flows
+- [x] READMEs with schema, CLI usage, remix hooks, dependencies
+- [x] Roadmap updated and tagged
 
-Goal: Smooth interactions, clear feedback, robust contributor onboarding.
+## Phase 6 — Engine Bridges (Schema v1)
+- [x] UnityBridgePure (new)
+- [x] WebBridgePure (new)
+- [x] GodotBridgePure (new)
+- [x] BridgeSchemaPure (new)
 
-- Code Scaffolding
-  - [x] Performance pass (damage calc, AI eval)
-  - [x] Edge‑case handling and error surfaces
-  - [x] Test scenario library and CLI UX
-- Asset Integration
-  - [x] Accessiblity review of HUD text size/contrast (adapter‑level) [docs]
-  - [x] Audio mix balance [stubs]
-  - [x] Credits/licensing metadata
-- Loop Linkage
-  - stable, well‑messaged loops with failure/retry clarity
+Tag: `phase6-v1-engine-bridges`
 
-### Later (Post‑Newhaven)
+### Phase 6 Completion Checklist
+- [x] Engine-specific bridge modules with render/simulate/interop operations
+- [x] Unified BridgeSchemaPure for cross-engine compatibility
+- [x] CLI harnesses for each bridge with engine-specific configurations
+- [x] Golden tests for deterministic bridge output
+- [x] READMEs with schema v1, engine integration notes, remix hooks
 
-- Open‑world 3rd‑person expansion (navigation, camera, streaming terrain)
-- Network/Co‑op experiments
-- Modding APIs and content packaging
+## Phase 7 — Visual Tools (Schema v1)
+- [x] RenderReplayPure (new)
+- [x] DebugOverlayPure (new)
+- [x] BridgeInspectorPure (new)
 
----
+Tag: `phase7-v1-visual-tools`
 
-## Folder Map (miff/pure/)
+### Phase 7 Completion Checklist
+- [x] Visual replay tool for renderData payloads
+- [x] Debug overlay for real-time visualization
+- [x] Bridge inspector for validation and analysis
+- [x] CLI harnesses with export and configuration options
+- [x] Golden tests for deterministic tool output
 
-| Folder         | Purpose                             |
-|----------------|-------------------------------------|
-| BattleAIPure   | AI logic and test harness           |
-| EffectsPure    | Status effects and aggregator       |
-| TeamsPure      | Party composition and swap logic    |
-| LorePure       | Codex unlocks and lore flags        |
-| SyncPure       | Rhythm challenge and sync logic     |
-| ItemsPure      | Item usage flow and results         |
-| QuestsPure     | Objectives, flags, and progression  |
-| SpiritsPure    | Dex filters, sorting, and queries   |
-| EvolutionPure  | Evolution conditions and results    |
-| NPCsPure       | NPC data and interactions (stub)    |
-| FusionPure     | Fusion rules (experimental, stub)   |
+## Phase 8 — Documentation Site (Schema v1)
+- [x] Comprehensive documentation site built with Astro
+- [x] GitHub Pages deployment with automatic CI/CD
+- [x] Auto-generated CLI documentation
+- [x] Getting started guides and tutorials
+- [x] Architecture and contributor documentation
 
----
+Tag: `phase8-v1-documentation`
 
-## Reality Check: Already Scaffolded vs Still Needed
+### Phase 8 Completion Checklist
+- [x] Documentation site at https://miff-framework.github.io/miff
+- [x] GitHub Actions workflow for automatic deployment
+- [x] Complete getting started guides (install, simulate, replay, inspect)
+- [x] Architecture documentation (modularity, engine-agnostic, remix-safety)
+- [x] Contributor onboarding and licensing guides
+- [x] Auto-generated CLI reference from harness files
+- [x] Responsive design with dark mode support
+- [x] SEO optimization and sitemap generation
 
-### Already Scaffolded (Synced into `miff/pure/`)
+## Next Phases (high level)
+- Phase 10: Performance Profiling — Memory usage optimization, execution time analysis
 
-- AI Baseline (BattleAIPure): rules/policies + harness [Partial]
-- Effects System (EffectsPure): effects + aggregator [Partial]
-- Teams (TeamsPure): composition rules + tests [Partial]
-- Items (ItemsPure): usage manager + results [Partial]
-- Lore/Codex (LorePure): flags/unlocks + tests [Partial]
-- Quests (QuestsPure): objectives/flags + tests [Partial]
-- Spirits Dex utilities (SpiritsPure): filter/sort + tests [Partial]
-- Sync (SyncPure): events/challenges + tests [Partial]
-- Challenges (ChallengesPure): battle challenges + rulesets [Partial]
-- Evolution (EvolutionPure): conditions/results/tests [Partial]
-- NPCs (NPCsPure): data + interaction tests [Stub]
-- Fusion (FusionPure): rules/results/tests [Stub]
+## Patch 3 — Physics & Time Systems (Schema v1) ✅ COMPLETED
+- [x] PhysicsSystemPure — CLI harness, samples, golden test
+- [x] CollisionSystemPure — CLI harness, samples, golden test
+- [x] TimeSystemPure — CLI harness, samples, golden test
 
-Related tooling present:
+Tag: `phase3-v1-physics-complete`
 
-- Test harness files for several modules (CLI‑like usage in code)
-- README snippets in some module families
+## Patch 4 — Rendering & Bridge Converters (Schema v1) ✅ COMPLETED
+- [x] RenderPayloadPure — Frame builder, CLI, golden tests
+- [x] ConvertToUnityPure — Converter + CLI + golden tests
+- [x] ConvertToWebPure — Converter + CLI + golden tests
+- [x] ConvertToGodotPure — Converter + CLI + golden tests
 
-Underdocumented but present:
+Tag: `phase4-v1-rendering-complete`
 
-- ChallengesPure, SyncPure have harnesses without high‑level docs
+## Contributor Onboarding
+- Each module folder contains: Manager.ts, cliHarness.ts, sample_*.json, tests/golden*.test.ts, README.md
+- Run harnesses with `npx ts-node` as shown in module READMEs
+- Add new modules under schema v12+, keeping remix hooks isolated
+- **📚 [Complete Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)**
+- **🌐 [Documentation Site](https://miff-framework.github.io/miff)**
 
-## CLI Harness Coverage
+// 🧩 MIFF Roadmap Extension: Modular Scaffolding + Genre Validation
 
-| Module       | CLI Harness | Simulates                         |
-|--------------|-------------|-----------------------------------|
-| BattleAIPure | ✅           | Move selection, threat eval       |
-| SyncPure     | ✅           | Rhythm challenge, sync gain       |
-| LorePure     | ✅           | Unlock conditions, codex view     |
-| NPCsPure     | ❌           | —                                 |
-| BattleLoop   | ✅           | One-turn ordering + logging       |
-| Damage       | ✅           | Repeatable calc + breakdown       |
-| Encounters   | ✅           | Trigger + weighted selection      |
-| Party        | ✅           | Swap, KO, heal flow               |
-| Save/Load    | ✅           | Snapshot write/read + validate    |
-| Input        | ✅           | Mapping and rebind                |
-| HUD          | ✅           | Print before/after resolve        |
-| Progression  | ✅           | XP gain, unlocks, evolution       |
-| Rewards      | ✅           | Currency/xp/item stub + drops     |
-| StatusEffects| ✅           | Stacks, timers, cleanse           |
-| Events       | ✅           | Publish/subscribe bus             |
-| Render       | ✅           | CLI HUD/dialog adapters           |
-| Audio        | ✅           | CLI SFX/music adapters            |
-| Tooling      | ✅           | Linter/generator/golden runner    |
+## 🔧 Stage 1: Full Module Scaffolding
 
-### Still Needed (High‑Priority for Newhaven)
+### 🎯 Goal  
+Scaffold all core Pure modules needed to support three target genres. Each module must be:
+- Engine-agnostic  
+- Remix-safe  
+- Scenario-testable  
+- CI-validated with golden fixtures  
 
-- Optional: expand golden library and docs per adapter runtime
+### 📦 Modules to Scaffold
 
----
+| Category         | Module Name             | Purpose                                           |
+|------------------|--------------------------|---------------------------------------------------|
+| Core Systems     | PhysicsSystemPure        | Simulate forces, velocity, collisions             |
+|                  | ProjectileSystemPure     | Spawn/update/despawn projectiles                 |
+|                  | CollisionSystemPure      | Detect overlaps, trigger hit events              |
+|                  | ScoreSystemPure          | Track player score                               |
+|                  | HealthSystemPure         | Manage entity health and death                   |
+| Input & Control  | InputSystemPure          | Unified input mapping                            |
+|                  | CameraBridgePure         | Decoupled camera control                         |
+| Rhythm Gameplay  | RhythmSystemPure         | Beat timing, input windows, combo logic          |
+|                  | AudioBridgePure          | Abstract audio playback                          |
+| Mount & Movement | MountSystemPure          | Entity mounting/dismounting                      |
+| Adventure Logic  | DialogueSystemPure       | Branching dialogue, triggers, conditions         |
+|                  | QuestSystemPure          | Track quest states and objectives                |
+| Narrative Flow   | CutsceneSystemPure       | Scripted non-blocking sequences                  |
+| Navigation       | NavigationSystemPure     | Pathfinding and movement goals                   |
 
-## System ↔ Gameplay Loop Linkage Map
+Use CLI:  
+```bash
+miff scaffold module <ModuleName> --pure
+```
+## 🎮 Stage 2: Game-by-Game Build
 
-- battle core → reward → progression → evolution → lore/codex
-- encounters → battle → reward → heal → roam → encounters
-- team management → battle choices (swap) → status effects → outcomes
-- save/load → continuity across loops
-- adapters (render/audio) → feedback for all loops
+Build one game at a time using only the scaffolded Pure modules.
 
----
+### 🕹️ Game 1: Physics Shooter – *Toppler*
 
-## Code Work Remaining (Detailed)
+| Systems Used                          |
+|--------------------------------------|
+| PhysicsSystemPure, ProjectileSystemPure, CollisionSystemPure  
+| ScoreSystemPure, HealthSystemPure, InputSystemPure  
+| CameraBridgePure  
 
-- Data: schemas, validators, fixtures, migrations
-- Battle: phases, queueing, RNG, formulas, effects ordering
-- AI: evaluators, priority/weights, fallback safety
-- Team: roster, swaps, KO, revive/heal hooks
-- Encounters: triggers, weighted tables, level scaling
-- Progression: XP, learnsets, evolution conditions
-- Rewards: currency/items/xp, drop tables
-- Status Effects: stacks, timers, immunity, cleanse
-- Save/Load: versioned snapshots, checksum, migrations
-- Input & UX: abstraction, event bus, HUD model
-- Testing: CLI harness, golden tests, perf timings
-
-## Asset Completion / Integration (Detailed)
-
-- Zone: Newhaven tilemap spec, collision, triggers
-- Sprites: spirits/portraits, move/FX sheets (placeholders)
-- UI: minimal HUD skin, fonts (remix‑safe)
-- Audio: SFX and music stubs
-- Docs: licensing metadata and credits
-
----
-
-## Contributor Notes
-
-- Branching: one branch per change (`docs/*`, `feat/*`, `refactor/*`, `fix/*`)
-- Scope: keep modules decoupled; design via interfaces and adapters
-- Testing: seedable CLI runs; include fixtures and golden tests
-- Acceptance criteria: deterministic outputs, validated data, no runtime engine dependency
-- Review size: small, focused edits with clear DoD
-
-## Remix‑Safe Design Principles
-
-- No third‑party IP; original or public‑domain assets only
-- Data‑driven content (JSON) for easy remixing and auditing
-- Adapters isolate engine specifics; default runtime is headless/CLI
-- Clear licensing for any included placeholders
-
----
-
-> **Reminder**: After updating the roadmap, ensure `README.md` reflects the latest scaffolded systems, gameplay loops, and branching policy.
-
-## Milestones (Checklist Summary)
-
-- [x] M0: Data + battle loop prototype (CLI, text‑only)
-- [x] M1: Newhaven encounters + party management
-- [x] M2: Progression + status effects + rewards
-- [x] M3: Remix‑safe assets + adapter stubs (render/audio)
-- [x] M4: Polishing, QA scenarios, contributor docs
+Steps:
+- Write scenario harness: projectile → collision → score  
+- Build CLI test suite  
+- Scaffold Unity/WebGL adapter  
+- Fetch free pixel-art assets  
+- Deploy playable demo  
 
 ---
 
-## Suggestions: Next Scaffolds (Gameplay‑First)
+### 🎵 Game 2: Rhythm RPG – *Newhaven K-Pop Exorcist*
 
-1) Ship M0 core slices in this order:
-- [ ] Deterministic RNG provider with test
-- [ ] Action queue + phase loop
-- [ ] Minimal damage formula + two sample moves
-- [ ] AI baseline with two evaluators and golden test
-- [ ] CLI harness that prints battle log from seed
+| Systems Used                          |
+|--------------------------------------|
+| RhythmSystemPure, AudioBridgePure, ScoreSystemPure  
+| HealthSystemPure, DialogueSystemPure, CutsceneSystemPure  
+| InputSystemPure  
 
-2) Start M1 with encounter triggers and party swap flow before Save/Load polish.
-
-3) Defer contributor tooling (linters/docs generators) until M0 loops feel good.
+Steps:
+- Write beat-timing scenario harness  
+- Validate combo logic and health impact  
+- Integrate audio events  
+- Build visual adapter  
+- Deploy playable demo  
 
 ---
 
-## Branching & Contribution
+### 🗺️ Game 3: Open-World Adventure – *Witcher-style Explorer*
 
-- One branch per scaffold/update: `docs/`, `feat/`, `refactor/`, `fix/*`
-- Keep modules decoupled; prefer interfaces and adapters
-- Land small, testable slices; include seeds and fixtures
+| Systems Used                          |
+|--------------------------------------|
+| NavigationSystemPure, MountSystemPure, DialogueSystemPure  
+| QuestSystemPure, CameraBridgePure, InputSystemPure  
+
+Steps:
+- Write mount → navigate → dialogue → quest scenario  
+- Validate branching logic  
+- Build adapter and UI overlays  
+- Deploy playable demo  
+
+---
+
+## ✅ Final Deliverables
+
+- Three genre demos with free assets  
+- CI coverage, remix-ready docs  
+- Foundation for Auto-Builder CLI

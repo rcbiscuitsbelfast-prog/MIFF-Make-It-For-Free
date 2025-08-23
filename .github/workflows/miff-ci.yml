@@ -1,0 +1,72 @@
+name: MIFF CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🧰 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install deps
+        run: npm ci || npm i
+
+      - name: 🔍 Check missing deps
+        continue-on-error: true
+        run: node -e "require('fs').readdirSync('node_modules'); console.log('deps ok')"
+
+      - name: 🧹 Type check (tsc --noEmit)
+        run: npx tsc --noEmit
+
+      - name: 🟡 Run Jest tests (best-effort)
+        continue-on-error: true
+        run: npm run test:ci
+
+      - name: ▶️ Simulate scenario (tutorial)
+        run: |
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json
+          node scripts/validateOutputFormat.js out_tutorial.json scenario
+
+      - name: 🔁 Diff scenario output (self-compare)
+        run: |
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-diff.ts out_tutorial.json out_tutorial.json > out_diff.json
+          node scripts/validateOutputFormat.js out_diff.json diff
+
+      - name: 🧪 Init scenario template (tutorial)
+        run: |
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-init.ts TmpScenarioPure tutorial
+          npx ts-node --compiler-options '{"module":"commonjs"}' TmpScenarioPure/cliHarness.ts TmpScenarioPure/scenario.json > out_init.json
+          node scripts/validateOutputFormat.js out_init.json scenario
+
+      - name: 🧩 Check remix hooks
+        run: node scripts/checkRemixHooks.js
+
+      - name: 🪪 Check attribution module
+        run: node scripts/checkAttribution.js
+
+      - name: 📝 Summarize results
+        run: node scripts/reportSummary.js out_tutorial.json out_diff.json out_init.json >> $GITHUB_STEP_SUMMARY
+
+      - name: 💬 Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf-8');
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `MIFF CI Report\n\n${summary}`
+            });

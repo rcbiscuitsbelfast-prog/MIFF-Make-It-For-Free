@@ -1,0 +1,21 @@
+{
+  "dialogs": [
+    {
+      "id": "elder_intro",
+      "npc": "Elder",
+      "nodes": [
+        {
+          "id": "start",
+          "text": "Greetings, traveler. Will you help our village?",
+          "choices": [
+            { "id": "accept", "text": "Yes, I will help.", "nextNodeId": "thanks", "triggers": { "questId": "village_help" } },
+            { "id": "ask_item", "text": "Any supplies for the road?", "nextNodeId": "gift", "triggers": { "itemId": "potion" } },
+            { "id": "exit", "text": "Not now.", "nextNodeId": null }
+          ]
+        },
+        { "id": "thanks", "text": "Thank you. Seek the cave to the east.", "choices": [] },
+        { "id": "gift", "text": "Take this potion and be safe.", "choices": [] }
+      ]
+    }
+  ]
+}
