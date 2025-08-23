@@ -239,8 +239,15 @@ function main(){
     const frames = generateRenderPayload(gameState);
     const output = buildOutput(frames, flags, assetManifest);
     
+    // Ensure output directory exists
+    const outputPath = path.resolve(flags.out);
+    const outputDir = path.dirname(outputPath);
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+    
     // Write output to file
-    fs.writeFileSync(path.resolve(flags.out), output, 'utf-8');
+    fs.writeFileSync(outputPath, output, 'utf-8');
     
     // Log build result
     const result = {

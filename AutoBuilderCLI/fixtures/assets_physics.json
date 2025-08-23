@@ -1,0 +1,86 @@
+{
+  "assets": [
+    {
+      "id": "block_sprite",
+      "path": "assets/sprites/physics/block.png",
+      "type": "sprite",
+      "license": "cc0",
+      "platform": "all",
+      "props": {
+        "physics": {
+          "mass": 1.0,
+          "friction": 0.0,
+          "restitution": 0.5
+        }
+      }
+    },
+    {
+      "id": "platform_sprite",
+      "path": "assets/sprites/physics/platform.png",
+      "type": "sprite",
+      "license": "cc0",
+      "platform": "all",
+      "props": {
+        "physics": {
+          "static": true,
+          "friction": 0.8
+        }
+      }
+    },
+    {
+      "id": "gravity_field",
+      "path": "assets/sprites/physics/gravity_field.png",
+      "type": "sprite",
+      "license": "cc0",
+      "platform": "all",
+      "props": {
+        "physics": {
+          "force": { "x": 0, "y": 9.81 },
+          "type": "field"
+        }
+      }
+    },
+    {
+      "id": "impact_sound",
+      "path": "assets/audio/physics/impact.wav",
+      "type": "audio",
+      "license": "cc0",
+      "platform": "all",
+      "props": {
+        "audio": {
+          "volume": 0.8,
+          "pitch": 1.0,
+          "loop": false
+        }
+      }
+    },
+    {
+      "id": "physics_font",
+      "path": "assets/fonts/physics/display.ttf",
+      "type": "font",
+      "license": "cc0",
+      "platform": "all",
+      "props": {
+        "font": {
+          "size": 16,
+          "weight": "normal",
+          "style": "monospace"
+        }
+      }
+    },
+    {
+      "id": "physics_shader",
+      "path": "assets/shaders/physics/particle.glsl",
+      "type": "shader",
+      "license": "cc0",
+      "platform": "web",
+      "props": {
+        "shader": {
+          "type": "fragment",
+          "version": "300 es",
+          "uniforms": ["time", "gravity"]
+        }
+      }
+    }
+  ]
+}
