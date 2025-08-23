@@ -97,8 +97,12 @@ export class BridgeSchemaValidator {
 
     // Position validation
     if (data.position) {
-      if (typeof data.position.x !== 'number' || typeof data.position.y !== 'number') {
+      const xInvalid = typeof (data.position as any).x !== 'number';
+      const yInvalid = typeof (data.position as any).y !== 'number';
+      if (xInvalid || yInvalid) {
         issues.push('Position x and y must be numbers');
+        if (xInvalid) issues.push('Position x must be a number');
+        if (yInvalid) issues.push('Position y must be a number');
       }
       if (data.position.z !== undefined && typeof data.position.z !== 'number') {
         issues.push('Position z must be a number if provided');
