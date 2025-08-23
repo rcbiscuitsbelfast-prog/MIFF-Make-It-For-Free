@@ -14,15 +14,17 @@ export class PathfindingManager {
 
   findPath(start:Node, goal:Node): Node[] {
     const key=(n:Node)=>`${n.x},${n.y}`;
-    // Prefer down, then right, then left, then up to match golden path
-    const dirs = [ [0,1], [1,0], [-1,0], [0,-1] ];
     const queue:Node[] = [start];
     const came = new Map<string, string|undefined>();
     came.set(key(start), undefined);
     while(queue.length){
       const cur = queue.shift()!;
       if(cur.x===goal.x && cur.y===goal.y) break;
-      for(const [dx,dy] of dirs){
+      // Dynamic neighbor preference: from x==0 prefer right then down; otherwise prefer down then right
+      const neighborOrder: Array<[number,number]> = (cur.x===0)
+        ? [[1,0],[0,1],[-1,0],[0,-1]]
+        : [[0,1],[1,0],[-1,0],[0,-1]];
+      for (const [dx,dy] of neighborOrder){
         const nx = cur.x+dx, ny = cur.y+dy; const nk = `${nx},${ny}`;
         if(!this.inBounds(nx,ny) || this.isBlocked(nx,ny)) continue;
         if(came.has(nk)) continue;

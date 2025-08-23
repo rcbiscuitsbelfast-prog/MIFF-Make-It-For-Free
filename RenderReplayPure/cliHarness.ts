@@ -233,16 +233,17 @@ function exportSession(args: string[], options: any): void {
 
 function outputResult(result: RenderReplayOutput): void {
   if (result.status === 'error') {
-    console.error(`❌ Replay failed:`);
+    console.log(`❌ Replay failed:`);
     result.issues?.forEach(issue => {
-      console.error(`  - ${issue}`);
+      console.log(`  - ${issue}`);
     });
-    // do not exit non-zero; tests read output
   }
 
   const session = result.session;
   
-  console.log(`✅ Replay successful!`);
+  if (result.status === 'ok') {
+    console.log(`✅ Replay successful!`);
+  }
   console.log(`📊 Session ID: ${session.sessionId}`);
   console.log(`🎯 Engine: ${session.summary.engine}`);
   console.log(`📈 Steps: ${session.summary.totalSteps}`);
