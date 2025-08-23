@@ -2,7 +2,7 @@
   "state": {
     "mounted": {
       "player_001": "horse_001",
-      "npc_001": undefined
+      "npc_001": null
     }
   },
   "events": [
