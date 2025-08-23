@@ -1,0 +1,6 @@
+{
+  "assets": [
+    { "id": "sheet_main", "path": "assets/sprites/main.png", "type": "sprite", "license": "cc0" },
+    { "id": "hero_idle", "path": "assets/sprites/hero_idle.json", "type": "sprite" }
+  ]
+}
