@@ -97,12 +97,6 @@ describe('VisualReplaySystemPure golden tests', () => {
     expect(statistics.performanceMetrics.avgMemory).toBeGreaterThan(0);
     expect(statistics.performanceMetrics.minRenderTime).toBeGreaterThan(0);
     expect(statistics.performanceMetrics.maxRenderTime).toBeGreaterThan(0);
-    // Debug: log the actual values to see what's happening
-    console.log('Render time metrics:', {
-      min: statistics.performanceMetrics.minRenderTime,
-      max: statistics.performanceMetrics.maxRenderTime,
-      avg: statistics.performanceMetrics.avgRenderTime
-    });
     expect(statistics.performanceMetrics.avgRenderTime).toBeGreaterThan(0);
     
     // Verify input analysis
@@ -118,6 +112,10 @@ describe('VisualReplaySystemPure golden tests', () => {
     expect(statistics.visualAnalysis.soundPlays).toBe(1);
     expect(statistics.visualAnalysis.uiChanges).toBe(0);
     expect(statistics.visualAnalysis.cameraMoves).toBe(0);
+    
+    // Verify ReplayMetadata includes frame count and render duration
+    expect(result.session.metadata.frameCount).toBe(3);
+    expect(result.session.metadata.renderDuration).toBeGreaterThan(0);
   });
   
   test('golden visual replay - analysis generation', () => {
