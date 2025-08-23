@@ -1,0 +1,36 @@
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "statsTotal",
+          "id": "hero",
+          "total": 38
+        },
+        {
+          "type": "questStarted",
+          "id": "q_intro"
+        },
+        {
+          "type": "combat",
+          "attacker": "hero",
+          "defender": "slime",
+          "damage": 6,
+          "victory": true
+        }
+      ],
+      "finalState": {
+        "hero": {
+          "hp": 24,
+          "atk": 6,
+          "def": 2
+        },
+        "quests": [
+          "q_intro"
+        ]
+      }
+    }
+  ]
+}

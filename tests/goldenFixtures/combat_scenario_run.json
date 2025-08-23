@@ -1,0 +1,52 @@
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "combat",
+          "attacker": "hero",
+          "defender": "slime",
+          "damage": 6,
+          "victory": true
+        },
+        {
+          "type": "loot",
+          "from": "slime",
+          "drops": [
+            {
+              "id": "coin",
+              "rarity": "common"
+            }
+          ]
+        },
+        {
+          "type": "combat",
+          "attacker": "hero",
+          "defender": "goblin",
+          "damage": 5,
+          "victory": true
+        },
+        {
+          "type": "loot",
+          "from": "goblin",
+          "drops": [
+            {
+              "id": "coin",
+              "rarity": "common"
+            }
+          ]
+        }
+      ],
+      "finalState": {
+        "hero": {
+          "xp": 10
+        },
+        "inventory": {
+          "coin": 2
+        }
+      }
+    }
+  ]
+}

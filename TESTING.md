@@ -53,6 +53,31 @@ test('✓ CLI operation test', () => {
 });
 ```
 
+### Golden Fixtures for Deterministic Testing
+
+**🎯 NEW**: Golden fixtures are now available in `/tests/goldenFixtures/` for all CLI tools:
+
+```typescript
+test('✓ golden output validation', () => {
+  const root = path.resolve(__dirname, '..');
+  const goldenFixture = path.resolve(root, 'tests/goldenFixtures/stats_system_flow.json');
+  
+  const output = (global as any).testUtils.runCLI(cliPath, ['list']);
+  const got = JSON.parse(output);
+  const expected = JSON.parse(fs.readFileSync(goldenFixture, 'utf-8'));
+  
+  expect(got).toEqual(expected);
+});
+```
+
+**Available Fixtures**:
+- Core modules: `stats_system_flow.json`, `combat_core_flow.json`, `crafting_flow.json`
+- Scenarios: `tutorial_scenario_run.json`, `combat_scenario_run.json`
+- Bridges: `unity_bridge_dump_npcs.json`, `godot_bridge_dump_npcs.json`
+- Tools: `render_replay_help.json`, `debug_overlay_help.json`
+
+See `/tests/goldenFixtures/README.md` for complete fixture documentation.
+
 ### Common Pitfalls to Avoid
 
 **❌ DON'T**: Use direct `node` execution on TypeScript files:
@@ -165,6 +190,28 @@ test('✓ golden output validation', () => {
 **Issue**: Inconsistent test results
 - **Cause**: Non-deterministic data (timestamps, random IDs)
 - **Fix**: Use fixed test data and avoid time-dependent logic in tests
+
+## TypeScript Execution Requirements
+
+### Required Setup
+- **ts-node**: Must be available for CLI test execution
+- **Module Resolution**: Use `--compiler-options '{"module":"commonjs"}'`
+- **No Shebangs**: Remove `#!/usr/bin/env node` from CLI harnesses
+- **Global testUtils**: Available via Jest setup for consistent CLI execution
+
+### Recent CLI Fixes (Phase 9)
+- ✅ **Refactored 18 CLI test files** to use `testUtils.runCLI`
+- ✅ **Fixed TypeScript compilation** by excluding `miff-nextjs` from root config
+- ✅ **Resolved type mismatches** in `RenderReplayPure` and `BridgeSchemaPure`
+- ✅ **Added golden fixtures** for deterministic CLI output validation
+- ✅ **Improved test reliability** from 3 to 13+ passing test suites
+
+### CLI Testing Best Practices
+1. **Use testUtils.runCLI**: Never call `node` directly on `.ts` files
+2. **Golden Fixtures**: Compare actual output to stored fixtures for consistency
+3. **File Cleanup**: Always clean up temporary files in `finally` blocks
+4. **Path Resolution**: Use `path.resolve()` for cross-platform compatibility
+5. **Error Handling**: Test both success and error scenarios
 
 ## Expected Behavior
 
