@@ -78,6 +78,11 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 **📋 [View Full Roadmap](ROADMAP.md)** - Complete development phases and progress tracking
 
+### Patch Status
+
+- Patch 3 (PhysicsSystemPure, CollisionSystemPure, TimeSystemPure): ✅ Completed, CLIs and golden tests passing
+- Patch 4 (Rendering & Bridge Modules — RenderPayloadPure, ConvertToUnityPure, ConvertToWebPure, ConvertToGodotPure): ✅ Completed, CLIs and golden tests passing
+
 ## Remix Hooks
 
 See each module README for `Remix Hooks` sections describing override points and safe extension guidelines.

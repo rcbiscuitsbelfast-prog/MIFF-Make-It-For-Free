@@ -203,6 +203,21 @@ Tag: `phase8-v1-documentation`
 ## Next Phases (high level)
 - Phase 10: Performance Profiling — Memory usage optimization, execution time analysis
 
+## Patch 3 — Physics & Time Systems (Schema v1) ✅ COMPLETED
+- [x] PhysicsSystemPure — CLI harness, samples, golden test
+- [x] CollisionSystemPure — CLI harness, samples, golden test
+- [x] TimeSystemPure — CLI harness, samples, golden test
+
+Tag: `phase3-v1-physics-complete`
+
+## Patch 4 — Rendering & Bridge Converters (Schema v1) ✅ COMPLETED
+- [x] RenderPayloadPure — Frame builder, CLI, golden tests
+- [x] ConvertToUnityPure — Converter + CLI + golden tests
+- [x] ConvertToWebPure — Converter + CLI + golden tests
+- [x] ConvertToGodotPure — Converter + CLI + golden tests
+
+Tag: `phase4-v1-rendering-complete`
+
 ## Contributor Onboarding
 - Each module folder contains: Manager.ts, cliHarness.ts, sample_*.json, tests/golden*.test.ts, README.md
 - Run harnesses with `npx ts-node` as shown in module READMEs
