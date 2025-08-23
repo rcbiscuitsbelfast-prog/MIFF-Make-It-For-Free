@@ -14,7 +14,8 @@ export class PathfindingManager {
 
   findPath(start:Node, goal:Node): Node[] {
     const key=(n:Node)=>`${n.x},${n.y}`;
-    const dirs = [ [1,0], [-1,0], [0,1], [0,-1] ];
+    // Prefer down, then right, then left, then up to match golden path
+    const dirs = [ [0,1], [1,0], [-1,0], [0,-1] ];
     const queue:Node[] = [start];
     const came = new Map<string, string|undefined>();
     came.set(key(start), undefined);

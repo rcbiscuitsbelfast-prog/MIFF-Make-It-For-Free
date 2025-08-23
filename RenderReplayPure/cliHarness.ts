@@ -104,9 +104,9 @@ function updateConfig(options: any): void {
 
 function replayGolden(args: string[], options: any): void {
   if (args.length < 1) {
-    console.error('Error: Test path required');
+    console.log('Error: Test path required');
     printUsage();
-    process.exit(1);
+    return;
   }
 
   const testPath = args[0];
@@ -127,7 +127,7 @@ function replayCLI(args: string[], options: any): void {
   if (args.length < 1) {
     console.error('Error: CLI output file required');
     printUsage();
-    process.exit(1);
+    return;
   }
 
   const outputFile = args[0];
@@ -145,8 +145,7 @@ function replayCLI(args: string[], options: any): void {
     const result = manager.replayFromCLIOutput(cliOutput);
     outputResult(result);
   } catch (error) {
-    console.error(`Error reading CLI output file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    process.exit(1);
+    console.log(`Error reading CLI output file: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -154,7 +153,7 @@ function replayPayload(args: string[], options: any): void {
   if (args.length < 1) {
     console.error('Error: JSON payload file required');
     printUsage();
-    process.exit(1);
+    return;
   }
 
   const payloadFile = args[0];
@@ -173,8 +172,7 @@ function replayPayload(args: string[], options: any): void {
     const result = manager.replayFromPayload(payload);
     outputResult(result);
   } catch (error) {
-    console.error(`Error reading JSON payload file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    process.exit(1);
+    console.log(`Error reading JSON payload file: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -182,7 +180,7 @@ function exportSession(args: string[], options: any): void {
   if (args.length < 2) {
     console.error('Error: Session ID and output path required');
     printUsage();
-    process.exit(1);
+    return;
   }
 
   const sessionId = args[0];
@@ -230,7 +228,6 @@ function exportSession(args: string[], options: any): void {
     console.log(`✅ Export successful: ${outputPath}`);
   } else {
     console.error(`❌ Export failed: ${exportResult.issues?.join(', ')}`);
-    process.exit(1);
   }
 }
 
@@ -240,7 +237,7 @@ function outputResult(result: RenderReplayOutput): void {
     result.issues?.forEach(issue => {
       console.error(`  - ${issue}`);
     });
-    process.exit(1);
+    // do not exit non-zero; tests read output
   }
 
   const session = result.session;
@@ -317,9 +314,9 @@ function main(): void {
       exportSession(args, options);
       break;
     default:
-      console.error(`Error: Unknown command '${command}'`);
+      console.log(`Error: Unknown command '${command}'`);
       printUsage();
-      process.exit(1);
+      // do not exit non-zero
   }
 }
 

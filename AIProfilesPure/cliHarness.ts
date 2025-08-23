@@ -17,9 +17,17 @@ function main() {
   const obj = JSON.parse(fs.readFileSync(path.resolve(profilesPath), 'utf-8')) as { profiles: any[] };
 
   const log: string[] = [];
+  const interacted = new Set<string>();
+  const scheduled = new Set<string>();
   const mgr = new AIProfileManager({
-    onNPCInteract: (id, role) => log.push(`INTERACT ${id} ${role}`),
-    onScheduleTrigger: (id, e) => log.push(`SCHEDULE ${id} ${e.time} ${e.action}`),
+    onNPCInteract: (id, role) => {
+      const key = `INTERACT ${id}`;
+      if (!interacted.has(key)) { interacted.add(key); log.push(`INTERACT ${id} ${role}`); }
+    },
+    onScheduleTrigger: (id, e) => {
+      const key = `SCHEDULE ${id} ${e.time} ${e.action}`;
+      if (!scheduled.has(key)) { scheduled.add(key); log.push(key); }
+    },
     onRoleAssigned: (id, role) => log.push(`ROLE ${id} ${role}`),
   });
   mgr.load(obj.profiles);

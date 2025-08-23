@@ -58,6 +58,9 @@ export class DialogSim {
   simulateDialog(dialogId: string): DialogResult {
     const d = this.dialogs.get(dialogId);
     if (!d) throw new Error(`Dialog not found: ${dialogId}`);
+    this.log = [];
+    this.inventory.clear();
+    this.quests.clear();
     this.log.push(`DIALOG ${dialogId}`);
     const nodes = new Map(d.nodes.map(n => [n.id, n] as const));
     // pick first node as start
@@ -79,6 +82,9 @@ export class DialogSim {
   simulateChoice(dialogId: string, choiceId: string): DialogResult {
     const d = this.dialogs.get(dialogId);
     if (!d) throw new Error(`Dialog not found: ${dialogId}`);
+    this.log = [];
+    this.inventory.clear();
+    this.quests.clear();
     this.log.push(`CHOICE_RUN ${dialogId} ${choiceId}`);
     const nodes = new Map(d.nodes.map(n => [n.id, n] as const));
     const start = d.nodes[0];
