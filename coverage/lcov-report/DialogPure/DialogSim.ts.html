@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/68</span>
+                <span class='fraction'>0/74</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/65</span>
+                <span class='fraction'>0/71</span>
             </div>
         
             
@@ -188,7 +188,13 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -216,25 +222,31 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -339,61 +351,67 @@ export type Dialog<span class="cstat-no" title="statement not covered" >Result =
 };<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
 export inter<span class="cstat-no" title="statement not covered" >face Hooks {</span>
-  onDial<span class="cstat-no" title="statement not covered" >ogChoiceMade?: (dialogId: string, cho</span>iceId: string) =&gt; void;
-  onDialogComplete?: (<span class="cstat-no" title="statement not covered" >dialogId: string) =&gt;<span class="fstat-no" title="function not covered" > v</span>oid<span class="cstat-no" title="statement not covered" >;</span></span>
-  addItem?: (itemId: string, quantity?: number) =&gt; void;
-  startQuest?: (qu<span class="cstat-no" title="statement not covered" >estId: stri</span>ng) =&gt; void;
-}<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" ></span>
-export class<span class="cstat-no" title="statement not covered" > DialogSim {</span>
-  private dialog<span class="cstat-no" title="statement not covered" >s = new</span> Map&lt;string, DialogTree&gt;();
-  private hooks: Hooks<span class="cstat-no" title="statement not covered" >;</span>
+  onDial<span class="cstat-no" title="statement not covered" >ogChoiceMade?: </span>(dialogId: string, choiceId: string) =&gt; void;
+  onDial<span class="cstat-no" title="statement not covered" >ogComplete?: (dialogId: </span>string) =&gt; void;
+  addIte<span class="cstat-no" title="statement not covered" >m?: (itemId: string, </span>quantity?: number) =&gt; void;
+  startQ<span class="cstat-no" title="statement not covered" >uest?: (questId: string) =&gt; void;</span>
+}<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
+&nbsp;
+export class Dialo<span class="cstat-no" title="statement not covered" >gSim {</span>
+  privat<span class="cstat-no" title="statement not covered" >e dialogs = new Map&lt;string, DialogTree&gt;();</span>
+  private ho<span class="cstat-no" title="statement not covered" >oks: Hooks;</span>
   private lo<span class="cstat-no" title="statement not covered" >g: string[] = [];</span>
-  private in<span class="cstat-no" title="statement not covered" >ventory = new Map&lt;string, number&gt;();</span>
-  private quests<span class="cstat-no" title="statement not covered" > = new </span>Set&lt;string&gt;();
+  private invent<span class="cstat-no" title="statement not covered" >ory = n</span>ew Map&lt;string, number&gt;();
+  private quests = new<span class="cstat-no" title="statement not covered" > Set&lt;string&gt;();</span>
 <span class="cstat-no" title="statement not covered" ></span>
   constructo<span class="cstat-no" title="statement not covered" >r(hooks: Hooks = {}) {</span>
     this.hooks =<span class="cstat-no" title="statement not covered" > hooks;</span>
   }<span class="cstat-no" title="statement not covered" ></span>
-&nbsp;
-  loadFr<span class="cstat-no" title="statement not covered" >omObject(obj: { dialogs: DialogTree[] }) </span>{
-    this<span class="cstat-no" title="statement not covered" >.dialogs.clear();</span>
+<span class="cstat-no" title="statement not covered" ></span>
+  loadFromObject<span class="cstat-no" title="statement not covered" >(obj: {</span> dialogs: DialogTree[] }) {
+    this.dia<span class="cstat-no" title="statement not covered" >logs.clear(</span>);
     for (const d of obj.dialogs) this.dialogs.set(d.id, d);
-  }<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" ></span>
-  listDi<span class="cstat-no" title="statement not covered" >alogs(): string[] { return Array.from(this.dialogs.keys()); }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-  getDia<span class="cstat-no" title="statement not covered" >log(id: string): DialogTree | undefined { return this</span>.dialogs.get(id); }
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
-  exportDialog(id: str<span class="cstat-no" title="statement not covered" >ing): Dialo</span>gTree | undefined {
-    const d = this.dial<span class="cstat-no" title="statement not covered" >ogs.get(id);<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
-    retu<span class="cstat-no" title="statement not covered" >rn d ? JSON.parse(JSON.stringify(d)) : undefined;</span>
   }<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
-  simula<span class="cstat-no" title="statement not covered" >teDialog(dialogId: string): DialogResult {</span>
-    const d = this.dialo<span class="cstat-no" title="statement not covered" >gs.get(dialogId);</span>
-    if (!d) <span class="cstat-no" title="statement not covered" >throw new Error(`Dialog not found: ${dialogId}`);</span>
-    this.log.pus<span class="cstat-no" title="statement not covered" >h(`DIALOG ${dialogId}`);</span>
-    const nodes = new Map(d.nodes.map(n =&gt; [n.id, n] as const));
-    // p<span class="cstat-no" title="statement not covered" >ick first node as start</span>
-    let <span class="cstat-no" title="statement not covered" >cur = d.nodes[0];</span>
+  listDialogs(): string[] { return Array.from(this.dialogs.keys()); }
+<span class="fstat-no" title="function not covered" ></span>
+  getDialog(id: st<span class="cstat-no" title="statement not covered" >ring): DialogTree | undefin</span>ed { return this.dialogs.get(id); }
+<span class="cstat-no" title="statement not covered" ></span>
+  exportDial<span class="cstat-no" title="statement not covered" >og(id: string): DialogTree | undefined {</span>
+    cons<span class="cstat-no" title="statement not covered" >t d = this.dial</span>ogs.get(id);
+    retu<span class="cstat-no" title="statement not covered" >rn d ? JSON.parse(JSON.s</span>tringify(d)) : undefined;
+  }<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ></span>
+  simulateDialog(dialo<span class="cstat-no" title="statement not covered" >gId: string): Dialog<span class="fstat-no" title="function not covered" >Re</span>sul<span class="cstat-no" title="statement not covered" >t {</span></span>
+    const d = this.dia<span class="cstat-no" title="statement not covered" >logs.get(di</span>alogId);
+    if (!d) throw new E<span class="cstat-no" title="statement not covered" >rror(`Dialog not found: ${d<span class="fstat-no" title="function not covered" >ia</span>log<span class="cstat-no" title="statement not covered" >Id}`);</span></span>
+    this<span class="cstat-no" title="statement not covered" >.log = [];</span>
+    this.inv<span class="cstat-no" title="statement not covered" >entory.clear();</span>
+    this<span class="cstat-no" title="statement not covered" >.quests.clear();</span>
+    this<span class="cstat-no" title="statement not covered" >.log.push(`DIALOG ${dialogId}`);</span>
+    const nodes = new Ma<span class="cstat-no" title="statement not covered" >p(d.nodes.map(n =&gt; [n.id, n] </span>as const));
+    // pick <span class="cstat-no" title="statement not covered" >first node as start</span>
+    let cur = d.<span class="cstat-no" title="statement not covered" >nodes[0];</span>
     while (cur) {
-<span class="fstat-no" title="function not covered" ></span>      this.log.push(`TXT ${cur.id} ${cur.text}`);
-      if<span class="cstat-no" title="statement not covered" > (!cur.choices || cur.choices.length === 0)</span> break;
-      co<span class="cstat-no" title="statement not covered" >nst c = cur.choices[0];</span>
-      th<span class="cstat-no" title="statement not covered" >is.applyChoice(dialogId, c);</span>
-      if (!c.nextNodeI<span class="cstat-no" title="statement not covered" >d) break;</span>
-      const <span class="cstat-no" title="statement not covered" >nxt = nodes.get(c.ne</span>xtNodeId);
-      if (!n<span class="cstat-no" title="statement not covered" >xt) break;</span>
-      cur = <span class="cstat-no" title="statement not covered" >nxt;</span>
-    }
-    this<span class="cstat-no" title="statement not covered" >.hooks.onDialogComplete?.(dialogId);</span>
-    return this.dumpRes<span class="cstat-no" title="statement not covered" >ult(dialogId);</span>
-  }<span class="cstat-no" title="statement not covered" ></span>
+      th<span class="cstat-no" title="statement not covered" >is.log.push(`TXT ${cur.id} ${cur.text}`);</span>
+      if<span class="cstat-no" title="statement not covered" > (!cur.choices || cur.choices.leng</span>th === 0) break;
+      const c = cur.choices[0];
+<span class="fstat-no" title="function not covered" ></span>      this.applyChoice(dialogId, c);
+      if<span class="cstat-no" title="statement not covered" > (!c.nextNodeId) break;</span>
+      co<span class="cstat-no" title="statement not covered" >nst nxt = nodes.get(c.nextNodeId);</span>
+      if<span class="cstat-no" title="statement not covered" > (!nxt) break;</span>
+      cur = nxt;<span class="cstat-no" title="statement not covered" ></span>
+    }<span class="cstat-no" title="statement not covered" ></span>
+    this.hoo<span class="cstat-no" title="statement not covered" >ks.onDialogComplete?.(dialog</span>Id);
+    return t<span class="cstat-no" title="statement not covered" >his.dumpResult(dialogId);</span>
+  }
 <span class="cstat-no" title="statement not covered" ></span>
-  simulateCh<span class="cstat-no" title="statement not covered" >oice(dialogId: string, choice</span>Id: string): DialogResult {
-    const d <span class="cstat-no" title="statement not covered" >= this.dialogs.get(dialogId);</span>
-    if (!d) throw new Error(`Dialog not found: ${dialogId}`);
+  simulateChoice(dialog<span class="cstat-no" title="statement not covered" >Id: string, choice</span>Id: string): DialogResult {
+    const d = this.dia<span class="cstat-no" title="statement not covered" >logs.get(dialogId);</span>
+    if (!d) <span class="cstat-no" title="statement not covered" >throw new Error(`Dialog not</span> found: ${dialogId}`);
+    this.log<span class="cstat-no" title="statement not covered" > = [];</span>
+    this.inv<span class="cstat-no" title="statement not covered" >entory.clear();</span>
+    this.quests.clear();
     this.log.push(`CHOICE_RUN ${dialogId} ${choiceId}`);
 <span class="fstat-no" title="function not covered" >    co</span>nst nodes = new Map(d.nodes.map(n =&gt; [n.id, n] as const));
     cons<span class="cstat-no" title="statement not covered" >t start = d.nodes[0];</span>
@@ -445,7 +463,7 @@ export class<span class="cstat-no" title="statement not covered" > DialogSim {</
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-22T11:28:18.357Z
+                at 2025-08-23T17:46:45.847Z
             </div>
         <script src="../prettify.js"></script>
         <script>
