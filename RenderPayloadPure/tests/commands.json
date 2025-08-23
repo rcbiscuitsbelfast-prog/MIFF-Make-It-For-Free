@@ -1,0 +1,4 @@
+[
+  { "op": "validate", "file": "RenderPayloadPure/sample_frame.json" },
+  { "op": "dump", "file": "RenderPayloadPure/sample_frame.json" }
+]

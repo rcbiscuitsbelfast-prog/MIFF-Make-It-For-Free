@@ -1,0 +1,10 @@
+{
+  "frameId": "f1",
+  "timestampMs": 1000,
+  "entities": [
+    { "id": "player", "type": "sprite", "position": { "x": 100, "y": 200 }, "animation": { "name": "idle", "playing": true }, "effects": ["outline"] },
+    { "id": "label_fps", "type": "text", "position": { "x": 10, "y": 10 }, "props": { "text": "FPS:60" } }
+  ],
+  "uiOverlays": [ { "id": "dbg1", "kind": "debug", "text": "coords" } ],
+  "annotations": ["Frame start"]
+}
