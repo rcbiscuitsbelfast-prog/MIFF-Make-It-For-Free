@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ConvertToWebPure Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0f1115; color: #e6e6e6; }
+    #stage { width: 640px; height: 360px; border: 1px solid #333; background: #000; }
+    .controls { margin: 8px 0; display: flex; gap: 8px; align-items: center; }
+    button { padding: 6px 10px; }
+    label { display: inline-flex; align-items: center; gap: 6px; }
+  </style>
+</head>
+<body>
+  <h1>ConvertToWebPure Demo</h1>
+  <canvas id="stage"></canvas>
+  <div class="controls">
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+    <label><input type="checkbox" id="debug" checked /> Debug</label>
+    <label><input type="checkbox" id="interp" /> Interpolate</label>
+  </div>
+
+  <script type="module">
+    import { CanvasRenderPlayer } from './CanvasPlayer.ts';
+    import { generateRenderPayload } from '../RenderPayloadPure/GameStateToFrames.ts';
+
+    const sampleState = {
+      frames: [
+        { camera: { x: 0, y: 0, zoom: 1 }, backgroundColor: '#1b1e24', entities: [
+          { id:'e1', x: 50, y: 50, spriteId: 'hero', layer: 1 },
+          { id:'e2', x: 10, y: 20, spriteId: 'npc', layer: 0 },
+          { id:'e3', x: 80, y: 60, spriteId: 'tree', layer: 2 }
+        ]},
+        { camera: { x: 5, y: 0, zoom: 1 }, backgroundColor: '#1b1e24', entities: [
+          { id:'e1', x: 60, y: 50, spriteId: 'hero', layer: 1 },
+          { id:'e2', x: 15, y: 20, spriteId: 'npc', layer: 0 },
+          { id:'e3', x: 80, y: 60, spriteId: 'tree', layer: 2 }
+        ]}
+      ]
+    };
+
+    const frames = generateRenderPayload(sampleState);
+    const canvas = document.getElementById('stage');
+    const player = new CanvasRenderPlayer(canvas, frames, { fps: 10, debug: true, spriteSize: 14 });
+
+    document.getElementById('play').addEventListener('click', () => player.play());
+    document.getElementById('pause').addEventListener('click', () => player.pause());
+    document.getElementById('stop').addEventListener('click', () => player.stop());
+    document.getElementById('debug').addEventListener('change', (e) => player.setDebug(e.target.checked));
+    document.getElementById('interp').addEventListener('change', (e) => player.setInterpolation(e.target.checked));
+  </script>
+</body>
+</html>
+
