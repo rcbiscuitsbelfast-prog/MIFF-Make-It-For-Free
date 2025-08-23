@@ -8,7 +8,8 @@ Be respectful and collaborative.
 ## Development
 - CLI-first modules, engine-agnostic, remix-safe
 - Deterministic golden-output tests for new features
-- Schema version: use v12+ and document changes
+- Schema version: use v14+ and document changes
+- Current development phase: Phase 16 (Funding & Global Outreach)
 
 ## Remix-Safe Onboarding
 
@@ -51,6 +52,20 @@ By submitting a contribution (code, docs, assets) to this repository, you agree 
 3. Ensure consistency with standardized JSON outputs { op, status, issues, resolvedRefs }
 4. Update ROADMAP.md if adding new module/phase
 5. Open a PR describing changes and schema impact
+
+## Current Development Phases
+
+### Completed Phases (1-15)
+- **Phase 1-5**: Core systems, interop, attribution, derived systems, scenarios
+- **Phase 6-8**: Codebase cleanup, engine bridges, visual tools
+- **Phase 9-11**: Documentation, testing infrastructure, auto builder
+- **Phase 12-14**: Core gameplay systems, quest/asset management, CI & remix safety
+- **Phase 15**: Visual replay & testing infrastructure
+
+### Current Phase (16)
+- **Phase 16**: Funding, Outreach & Global Deployment
+- Focus: Sustainability, community building, international expansion
+- Goal: Establish MIFF as a global, sustainable framework
 
 ## Extending Modules & Adding New Genres
 
