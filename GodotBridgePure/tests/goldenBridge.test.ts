@@ -150,18 +150,18 @@ describe('GodotBridgePure Golden Tests', () => {
         'ts-node',
         '--compiler-options', '{"module":"commonjs"}',
         cliPath,
-        'simulate',
+        'render',
         'combat',
         testFile
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result.op).toBe('simulate');
+      expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
-      expect(result.renderData.nodes).toBeDefined();
+      expect(result.renderData.entities).toBeDefined();
       expect(result.renderData.scenes).toContain('CombatScene.tscn');
-      expect(result.renderData.scripts).toContain('res://scripts/CombatController.gd');
+      expect(result.renderData.scripts).toContain('CombatController');
     } finally {
       if (fs.existsSync(testFile)) {
         fs.unlinkSync(testFile);

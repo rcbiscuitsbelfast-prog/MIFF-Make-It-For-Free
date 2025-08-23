@@ -148,13 +148,13 @@ describe('UnityBridgePure Golden Tests', () => {
         'ts-node',
         '--compiler-options', '{"module":"commonjs"}',
         cliPath,
-        'simulate',
+        'render',
         'combat',
         testFile
       ], { encoding: 'utf-8' });
 
       const result = JSON.parse(output);
-      expect(result.op).toBe('simulate');
+      expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
       expect(result.renderData.entities).toBeDefined();

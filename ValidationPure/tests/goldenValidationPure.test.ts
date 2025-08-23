@@ -1,16 +1,12 @@
-import { execFileSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
 test('golden validateAll output', () => {
-  const root = path.resolve(__dirname, '..');
-  const harness = path.resolve(root, 'cliHarness.ts');
-  const sample = path.resolve(root, 'sample_input.json');
-  const commands = [ { op: 'validateAll' } ];
-  const cmdsPath = path.resolve(root, 'tests', 'commands.json');
-  fs.writeFileSync(cmdsPath, JSON.stringify(commands, null, 2));
-  const out = execFileSync('node', [harness, sample, '', cmdsPath], { encoding: 'utf-8' });
-  const got = JSON.parse(out);
-  const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
-  expect(got).toEqual(expected);
+	const root = path.resolve(__dirname, '..');
+	const input = path.resolve(root, 'sample_input.json');
+	const commands = path.resolve(root, 'tests/commands.json');
+	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [input, '', commands]);
+	const got = JSON.parse(out);
+	const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
+	expect(got).toEqual(expected);
 });

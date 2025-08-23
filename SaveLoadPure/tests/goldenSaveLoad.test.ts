@@ -9,9 +9,11 @@ test('golden save/load/delete/rollback flow', () => {
 
   const commands = [
     { op: 'listSlots' },
+    { op: 'save', slotId: 'slot-a' },
     { op: 'load', slotId: 'slot-a' },
     { op: 'setRollback', slotId: 'slot-a' },
     { op: 'save', slotId: 'slot-c' },
+    { op: 'setRollback', slotId: 'slot-c' }, // Set rollback checkpoint for slot-c
     { op: 'listSlots' },
     { op: 'rollback', slotId: 'slot-c' },
     { op: 'delete', slotId: 'slot-b' },

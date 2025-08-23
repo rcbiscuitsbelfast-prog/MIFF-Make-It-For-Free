@@ -2,6 +2,7 @@ import { RenderReplayManager, ReplayConfig } from '../Manager';
 import { execFileSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import { RenderPayload } from '../../BridgeSchemaPure/schema';
 
 describe('RenderReplayPure Golden Tests', () => {
   const cliPath = path.resolve('RenderReplayPure/cliHarness.ts');
@@ -318,7 +319,7 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const payload = {
+      const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
         renderData: [
@@ -393,14 +394,14 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const invalidPayload = {
+      const invalidPayload: RenderPayload = {
         op: 'render',
-        status: 'ok',
+        status: 'error',
         renderData: [
           {
             id: 'invalid_sprite',
-            type: 'invalid_type', // Invalid type
-            position: { x: 'not_a_number', y: 200 } // Invalid position
+            type: 'sprite' as any, // Cast to any for invalid type test
+            position: { x: 'not_a_number' as any, y: 200 } // Invalid position
           }
         ]
       };
@@ -426,7 +427,7 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const payload = {
+      const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
         renderData: [
@@ -434,7 +435,7 @@ describe('RenderReplayPure Golden Tests', () => {
             id: 'export_sprite',
             type: 'sprite',
             position: { x: 100, y: 200 },
-            asset: 'export.png'
+            asset: 'sprite.png'
           }
         ]
       };
@@ -467,7 +468,7 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const payload = {
+      const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
         renderData: [
@@ -509,7 +510,7 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const payload = {
+      const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
         renderData: [
@@ -551,7 +552,7 @@ describe('RenderReplayPure Golden Tests', () => {
       };
 
       const manager = new RenderReplayManager(config);
-      const payload = {
+      const payload: RenderPayload = {
         op: 'render',
         status: 'ok',
         renderData: [

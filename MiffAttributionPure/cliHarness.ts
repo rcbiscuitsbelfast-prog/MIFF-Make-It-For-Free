@@ -1,4 +1,3 @@
-#!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
 import { MiffAttributionManager } from './Manager';

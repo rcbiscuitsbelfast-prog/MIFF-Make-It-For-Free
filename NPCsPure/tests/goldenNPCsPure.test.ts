@@ -1,4 +1,3 @@
-import { execFileSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 
@@ -15,13 +14,7 @@ describe('NPCsPure Golden Tests', () => {
   });
 
   test('✓ list NPCs returns expected output', () => {
-    const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
-      cliPath,
-      'list'
-    ], { encoding: 'utf-8' });
-
+    const output = (global as any).testUtils.runCLI(cliPath, ['list']);
     const result = JSON.parse(output);
     const expected = JSON.parse(fs.readFileSync(expectedPath, 'utf-8'));
 
@@ -42,15 +35,7 @@ describe('NPCsPure Golden Tests', () => {
   });
 
   test('✓ simulate NPC returns expected output', () => {
-    const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
-      cliPath,
-      'simulate',
-      'npc_001',
-      '3600'
-    ], { encoding: 'utf-8' });
-
+    const output = (global as any).testUtils.runCLI(cliPath, ['simulate', 'npc_001', '3600']);
     const result = JSON.parse(output);
     const expected = JSON.parse(fs.readFileSync(expectedPath, 'utf-8'));
 
@@ -96,14 +81,7 @@ describe('NPCsPure Golden Tests', () => {
     fs.writeFileSync(testFile, JSON.stringify(testNPC, null, 2));
 
     try {
-      const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'create',
-        testFile
-      ], { encoding: 'utf-8' });
-
+      const output = (global as any).testUtils.runCLI(cliPath, ['create', testFile]);
       const result = JSON.parse(output);
       expect(result.op).toBe('create');
       expect(result.status).toBe('ok');
@@ -118,14 +96,7 @@ describe('NPCsPure Golden Tests', () => {
   });
 
   test('✓ get NPC by ID', () => {
-    const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
-      cliPath,
-      'get',
-      'npc_001'
-    ], { encoding: 'utf-8' });
-
+    const output = (global as any).testUtils.runCLI(cliPath, ['get', 'npc_001']);
     const result = JSON.parse(output);
     expect(result.op).toBe('get');
     expect(result.status).toBe('ok');
@@ -134,14 +105,7 @@ describe('NPCsPure Golden Tests', () => {
   });
 
   test('✓ list NPCs with filter', () => {
-    const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
-      cliPath,
-      'list',
-      'zoneId=zone_village'
-    ], { encoding: 'utf-8' });
-
+    const output = (global as any).testUtils.runCLI(cliPath, ['list', 'zoneId=zone_village']);
     const result = JSON.parse(output);
     expect(result.op).toBe('list');
     expect(result.status).toBe('ok');
@@ -170,23 +134,10 @@ describe('NPCsPure Golden Tests', () => {
 
     try {
       // Create the NPC
-      execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'create',
-        testFile
-      ], { encoding: 'utf-8' });
+      (global as any).testUtils.runCLI(cliPath, ['create', testFile]);
 
       // Delete the NPC
-      const output = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'delete',
-        'npc_delete_test'
-      ], { encoding: 'utf-8' });
-
+      const output = (global as any).testUtils.runCLI(cliPath, ['delete', 'npc_delete_test']);
       const result = JSON.parse(output);
       expect(result.op).toBe('delete');
       expect(result.status).toBe('ok');
@@ -199,13 +150,7 @@ describe('NPCsPure Golden Tests', () => {
   });
 
   test('✓ dump all NPCs', () => {
-    const output = execFileSync('npx', [
-      'ts-node',
-      '--compiler-options', '{"module":"commonjs"}',
-      cliPath,
-      'dump'
-    ], { encoding: 'utf-8' });
-
+    const output = (global as any).testUtils.runCLI(cliPath, ['dump']);
     const result = JSON.parse(output);
     expect(result.op).toBe('dump');
     expect(result.status).toBe('ok');
