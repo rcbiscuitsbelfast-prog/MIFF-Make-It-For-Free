@@ -351,3 +351,25 @@ To contribute to the documentation:
 ## 🔧 Remix Hooks
 
 Each module README documents `Remix Hooks` describing safe extension points (override logic, reward injection, external triggers) to keep forks remix-safe.
+
+## 🧩 Systems Index (Modular, Aesthetic-first)
+
+- ProjectileSystemPure — deterministic projectile updates
+- ScoreSystemPure — additive/multiplicative scoring
+- HealthSystemPure — clamped damage/heal pipeline
+- InputSystemPure — raw → actions mapping
+- CameraSystemPure — follow/lerp (bridge)
+- RhythmSystemPure — beat generation and judge
+- AudioSystemPure — abstract audio commands
+- MountSystemPure — mount/dismount
+- DialogueSystemPure — branching dialogue
+- CutsceneSystemPure — timed tracks
+- NavigationSystemPure — grid navigation
+
+### Scenario Packs
+- WitcherExplorerDemoPure — navigation + dialogue + quests
+
+### Contributor Notes
+- All systems include remix hooks and are engine-agnostic.
+- Golden tests validate CLI and module behavior.
+- See root README for `quest`, `manifest`, and `builder` tooling.
