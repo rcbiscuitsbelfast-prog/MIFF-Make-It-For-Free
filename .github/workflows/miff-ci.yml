@@ -25,12 +25,14 @@ jobs:
         continue-on-error: true
         run: node -e "require('fs').readdirSync('node_modules'); console.log('deps ok')"
 
-      - name: 🧹 Type check (tsc --noEmit)
-        run: npx tsc --noEmit
+      - name: 🧹 Type check (tsconfig)
+        run: npx tsc --noEmit -p tsconfig.json
 
-      - name: 🟡 Run Jest tests (best-effort)
-        continue-on-error: true
-        run: npm run test:ci
+      - name: 🧪 Type check (tests)
+        run: npx tsc --noEmit -p tsconfig.test.json
+
+      - name: 🟢 Run Jest tests
+        run: npm test
 
       - name: ▶️ Simulate scenario (tutorial)
         run: |
