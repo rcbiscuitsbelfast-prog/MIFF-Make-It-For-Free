@@ -1,0 +1,120 @@
+{
+  "scenarioAssets": [
+    {
+      "id": "player_sprite",
+      "path": "assets/sprites/player.png",
+      "type": "sprite",
+      "required": true,
+      "source": "scenario"
+    },
+    {
+      "id": "background_music",
+      "path": "assets/audio/background.mp3",
+      "type": "audio",
+      "required": true,
+      "source": "scenario"
+    },
+    {
+      "id": "game_font",
+      "path": "assets/fonts/game.ttf",
+      "type": "font",
+      "required": true,
+      "source": "scenario"
+    },
+    {
+      "id": "particle_shader",
+      "path": "assets/shaders/particle.glsl",
+      "type": "shader",
+      "required": false,
+      "source": "scenario"
+    },
+    {
+      "id": "missing_asset",
+      "path": "assets/sprites/missing.png",
+      "type": "sprite",
+      "required": true,
+      "source": "scenario"
+    }
+  ],
+  "manifestAssets": {
+    "assets": [
+      {
+        "id": "player_sprite",
+        "path": "assets/sprites/player.png",
+        "type": "sprite",
+        "license": "cc-by",
+        "platform": "all",
+        "properties": {
+          "size": { "width": 64, "height": 64 },
+          "format": "png",
+          "transparent": true
+        },
+        "attribution": "Created by Artist Name",
+        "dependencies": []
+      },
+      {
+        "id": "background_music",
+        "path": "assets/audio/background.mp3",
+        "type": "audio",
+        "license": "cc0",
+        "platform": "all",
+        "properties": {
+          "duration": 180,
+          "format": "mp3",
+          "bitrate": 128
+        },
+        "attribution": null,
+        "dependencies": []
+      },
+      {
+        "id": "game_font",
+        "path": "assets/fonts/game.ttf",
+        "type": "font",
+        "license": "ofl",
+        "platform": "all",
+        "properties": {
+          "family": "GameFont",
+          "style": "normal",
+          "weight": "400"
+        },
+        "attribution": "Designed by Font Designer",
+        "dependencies": []
+      },
+      {
+        "id": "particle_shader",
+        "path": "assets/shaders/particle.glsl",
+        "type": "shader",
+        "license": "cc-by-sa",
+        "platform": "web",
+        "properties": {
+          "version": "300 es",
+          "type": "fragment",
+          "uniforms": ["time", "position"]
+        },
+        "attribution": "Written by Shader Author",
+        "dependencies": []
+      },
+      {
+        "id": "unused_asset",
+        "path": "assets/sprites/unused.png",
+        "type": "sprite",
+        "license": "cc-by",
+        "platform": "all",
+        "properties": {
+          "size": { "width": 32, "height": 32 }
+        },
+        "attribution": "Created by Another Artist",
+        "dependencies": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "author": "Game Studio",
+      "description": "Game asset bundle",
+      "license": "cc-by",
+      "platform": "all"
+    }
+  },
+  "platform": "web",
+  "strictMode": true
+}
