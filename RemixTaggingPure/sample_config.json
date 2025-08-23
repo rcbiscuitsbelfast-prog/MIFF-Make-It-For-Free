@@ -1,0 +1,6 @@
+{
+  "strictMode": true,
+  "autoTag": false,
+  "requireReason": true,
+  "validateDependencies": true
+}

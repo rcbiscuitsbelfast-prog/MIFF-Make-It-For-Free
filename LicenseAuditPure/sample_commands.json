@@ -1,0 +1,32 @@
+[
+  {
+    "op": "auditModule",
+    "moduleId": "CombatPure",
+    "moduleName": "Combat System",
+    "licenseType": "AGPLv3",
+    "dependencies": ["CombatCorePure", "StatsSystemPure"],
+    "licenseFiles": ["LICENSE", "COPYING"]
+  },
+  {
+    "op": "auditModule",
+    "moduleId": "QuestsPure",
+    "moduleName": "Quest System",
+    "licenseType": "MIT",
+    "dependencies": ["NPCsPure", "DialogPure"],
+    "licenseFiles": ["LICENSE"]
+  },
+  {
+    "op": "auditModule",
+    "moduleId": "PathfindingPure",
+    "moduleName": "Pathfinding Algorithms",
+    "licenseType": "CC-BY-SA-4.0",
+    "dependencies": [],
+    "licenseFiles": ["LICENSE", "COPYING"]
+  },
+  {
+    "op": "getAuditStats"
+  },
+  {
+    "op": "getRemixSafe"
+  }
+]
