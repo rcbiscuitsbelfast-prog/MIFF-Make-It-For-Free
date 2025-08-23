@@ -1,0 +1,11 @@
+{
+  "health": {
+    "hp": 80,
+    "max": 100
+  },
+  "events": [
+    { "type": "damage", "amount": 20 },
+    { "type": "heal", "amount": 15 },
+    { "type": "damage", "amount": 10 }
+  ]
+}
