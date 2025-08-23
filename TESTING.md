@@ -36,6 +36,136 @@ npm run test:coverage
 npm run test:ci
 ```
 
+## CLI Testing Guidelines
+
+### Using testUtils.runCLI
+
+**✅ RECOMMENDED**: Use the provided `testUtils.runCLI` utility for testing CLI harnesses:
+
+```typescript
+test('✓ CLI operation test', () => {
+  const cliPath = path.resolve('ModulePure/cliHarness.ts');
+  const output = (global as any).testUtils.runCLI(cliPath, ['arg1', 'arg2']);
+  const result = JSON.parse(output);
+  
+  expect(result.op).toBe('expectedOperation');
+  expect(result.status).toBe('ok');
+});
+```
+
+### Common Pitfalls to Avoid
+
+**❌ DON'T**: Use direct `node` execution on TypeScript files:
+```typescript
+// WRONG - This will fail with ERR_UNKNOWN_FILE_EXTENSION
+const output = execFileSync('node', [cliPath, 'arg1'], { encoding: 'utf-8' });
+```
+
+**❌ DON'T**: Use manual `ts-node` execution:
+```typescript
+// WRONG - This bypasses the shared configuration
+const output = execFileSync('npx', [
+  'ts-node', 
+  '--compiler-options', '{"module":"commonjs"}',
+  cliPath, 
+  'arg1'
+], { encoding: 'utf-8' });
+```
+
+**✅ DO**: Use the provided utility:
+```typescript
+// CORRECT - Uses shared ts-node configuration
+const output = (global as any).testUtils.runCLI(cliPath, ['arg1']);
+```
+
+### CLI Test Structure
+
+```typescript
+import path from 'path';
+import fs from 'fs';
+
+describe('ModulePure Golden Tests', () => {
+  const cliPath = path.resolve('ModulePure/cliHarness.ts');
+
+  test('✓ operation returns expected output', () => {
+    const sampleFile = path.resolve('ModulePure/sample_data.json');
+    const output = (global as any).testUtils.runCLI(cliPath, ['list', sampleFile]);
+    const result = JSON.parse(output);
+    
+    expect(result.op).toBe('list');
+    expect(result.status).toBe('ok');
+    expect(Array.isArray(result.result)).toBe(true);
+  });
+
+  test('✓ handles file operations', () => {
+    const testData = { id: 'test', name: 'Test Item' };
+    const testFile = path.resolve('ModulePure/test_data.json');
+    fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
+
+    try {
+      const output = (global as any).testUtils.runCLI(cliPath, ['create', testFile]);
+      const result = JSON.parse(output);
+      
+      expect(result.op).toBe('create');
+      expect(result.status).toBe('ok');
+    } finally {
+      // Always clean up test files
+      if (fs.existsSync(testFile)) {
+        fs.unlinkSync(testFile);
+      }
+    }
+  });
+});
+```
+
+### Golden Test Pattern
+
+For deterministic CLI output validation:
+
+```typescript
+test('✓ golden output validation', () => {
+  const root = path.resolve(__dirname, '..');
+  const sampleFile = path.resolve(root, 'sample_data.json');
+  const expectedFile = path.resolve(root, 'expected_output.json');
+  
+  const output = (global as any).testUtils.runCLI(
+    path.resolve(root, 'cliHarness.ts'), 
+    ['operation', sampleFile]
+  );
+  
+  const got = JSON.parse(output);
+  const expected = JSON.parse(fs.readFileSync(expectedFile, 'utf-8'));
+  
+  expect(got).toEqual(expected);
+});
+```
+
+### Testing Best Practices
+
+1. **File Cleanup**: Always clean up temporary files in `finally` blocks
+2. **Path Resolution**: Use `path.resolve()` for cross-platform compatibility
+3. **Error Handling**: Test both success and error scenarios
+4. **Deterministic Data**: Use fixed timestamps/IDs in test data for consistent results
+5. **Isolation**: Each test should be independent and not rely on previous test state
+
+### Troubleshooting CLI Tests
+
+**Issue**: `ERR_UNKNOWN_FILE_EXTENSION`
+- **Cause**: Direct execution of `.ts` files with `node`
+- **Fix**: Use `testUtils.runCLI` instead
+
+**Issue**: JSON parsing errors
+- **Cause**: CLI outputting non-JSON content (console.log, errors to stdout)
+- **Fix**: Ensure CLI only outputs JSON, check for stderr output
+
+**Issue**: File not found errors
+- **Cause**: Incorrect path resolution or missing test files
+- **Fix**: Use `path.resolve()` and verify file existence with `fs.existsSync()`
+
+**Issue**: Inconsistent test results
+- **Cause**: Non-deterministic data (timestamps, random IDs)
+- **Fix**: Use fixed test data and avoid time-dependent logic in tests
+
 ## Expected Behavior
 
 ### ✅ Passing Tests
