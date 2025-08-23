@@ -59,6 +59,7 @@
         }
       ],
       "metadata": {
+        "timestamp": 1755989449000,
         "frameRate": 60,
         "deltaTime": 16.67,
         "performance": {
@@ -90,7 +91,6 @@
         {
           "id": "player_sprite",
           "type": "sprite",
-          "target": "player",
           "action": "update",
           "data": { "texture": "player_idle.png" },
           "position": { "x": 100, "y": 100 },
@@ -98,6 +98,7 @@
         }
       ],
       "metadata": {
+        "timestamp": 1755989449017,
         "frameRate": 60,
         "deltaTime": 16.67,
         "performance": {
@@ -152,6 +153,7 @@
         }
       ],
       "metadata": {
+        "timestamp": 1755989449033,
         "frameRate": 60,
         "deltaTime": 16.67,
         "performance": {
@@ -162,7 +164,7 @@
         "debug": {
           "entities": 2,
           "systems": 3,
-          "events": 1
+          "events": 0
         }
       }
     }
