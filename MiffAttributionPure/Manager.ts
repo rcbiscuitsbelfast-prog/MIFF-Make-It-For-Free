@@ -105,7 +105,8 @@ export class MiffAttributionManager {
       const rendered: AttributionOutput['rendered'] = {
         message: cfg.message,
         style: cfg.style,
-        durationMs: cfg.durationMs
+        durationMs: cfg.durationMs,
+        remixStatus: remixStatus
       };
 
       if (cfg.showLicense !== false) {
