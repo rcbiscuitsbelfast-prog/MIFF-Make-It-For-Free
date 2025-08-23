@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/36</span>
+                <span class='fraction'>0/44</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/27</span>
+                <span class='fraction'>0/31</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/36</span>
+                <span class='fraction'>0/44</span>
             </div>
         
             
@@ -106,7 +106,15 @@
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
-<a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -123,6 +131,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -143,13 +165,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">#!/usr/bin/env -S node --no-warnings
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">#!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path<span class="cstat-no" title="statement not covered" >';<span class="fstat-no" title="function not covered" ></span></span>
 impo<span class="cstat-no" title="statement not covered" >rt { AIProfileManager, Role } from './AIProfileManager';</span>
@@ -163,43 +179,51 @@ impo<span class="cstat-no" title="statement not covered" >rt { AIProfileManager,
   | { op: 'linkQuest'; np<span class="cstat-no" title="statement not covered" >cId: string; questId: </span>string };
 <span class="cstat-no" title="statement not covered" ></span>
 function main() <span class="cstat-no" title="statement not covered" >{</span>
-  const profiles<span class="cstat-no" title="statement not covered" >Path = process.argv[2] || 'AIProfilesPure/sample_profiles.json';</span>
-  const commandsPath = <span class="fstat-no" title="function not covered" >pr</span>ocess.argv[3<span class="cstat-no" title="statement not covered" >] || '';</span>
-  const obj = JSON.parse(fs<span class="fstat-no" title="function not covered" >.r</span>eadFileSy<span class="cstat-no" title="statement not covered" >nc(path.resolve(profilesPath), 'utf-8')) as { pro</span>files: any[] };
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-  const log: string[] = [];
-  co<span class="cstat-no" title="statement not covered" >nst mgr = new AIProfileM</span>anager({
-    onNPCInteract<span class="cstat-no" title="statement not covered" >: (id, role) =&gt; log.push(`INTERACT ${id} ${role}`),</span>
-    onScheduleTrigge<span class="cstat-no" title="statement not covered" >r: </span>(id, e) =&gt; log.push(`SCHEDULE ${id} ${e.time} ${e.action}`),
-<span class="cstat-no" title="statement not covered" >    onRoleAssigned: (id, role) =&gt; log.push(`ROLE ${id} ${role}`),</span>
-  });<span class="cstat-no" title="statement not covered" ></span>
-  mgr.load(o<span class="cstat-no" title="statement not covered" >bj.profiles);</span>
+  const profilesPath = <span class="cstat-no" title="statement not covered" >process.ar</span>gv[2] || 'AIProfilesPure/sample_profiles.json';
+  const commandsPath =<span class="cstat-no" title="statement not covered" > process.a</span>rgv[3] || '';
+  const obj = JS<span class="cstat-no" title="statement not covered" >ON.parse(fs.readFileSync(path.resolve(profilesPath), 'utf-8')) as { profiles: any[] };</span>
+<span class="fstat-no" title="function not covered" ></span>
+  const log: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
+  const inte<span class="cstat-no" title="statement not covered" >racted = new Set&lt;string&gt;();</span>
+  const schedule<span class="cstat-no" title="statement not covered" >d = new Set&lt;string&gt;()</span>;
+  const mgr = ne<span class="cstat-no" title="statement not covered" >w AIProfileManager({</span>
+    onNPCInteract: (id, role) =&gt; {
+      const key = `INTERACT ${id}`;
+      if (!interacted.has(k<span class="fstat-no" title="function not covered" >ey</span>)) { interacted.add(key); log.push(`INTERACT ${id} ${role}`); }
+    },<span class="cstat-no" title="statement not covered" ></span>
+    onSchedu<span class="cstat-no" title="statement not covered" >leTrigger: (id, e) =&gt; {</span>
+      const key <span class="cstat-no" title="statement not covered" >= `SCHEDULE ${id} ${</span>e.time} ${e.action}`;
+      if (!sched<span class="cstat-no" title="statement not covered" >uled.has(key)) </span>{ scheduled.add(key); log.push(key); }
+    },
+    onRoleAssigned: (id, role) =&gt; log.push(`ROLE ${id} ${role}`),
+  });<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+  mgr.load(obj.profiles);
 <span class="cstat-no" title="statement not covered" ></span>
-  const cmds<span class="cstat-no" title="statement not covered" >: Cmd[] = commandsPath ? JSON.parse(fs.readFi</span>leSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listProfiles' } as Cmd];
-  const outpu<span class="cstat-no" title="statement not covered" >ts: any[] = [];</span>
+  const cmds: Cmd<span class="cstat-no" title="statement not covered" >[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listProfiles' } as Cmd];</span>
+  const outputs: any<span class="cstat-no" title="statement not covered" >[] </span>= [];
 <span class="cstat-no" title="statement not covered" ></span>
-  for (const <span class="cstat-no" title="statement not covered" >c of cmds) {</span>
-    if (c.op<span class="cstat-no" title="statement not covered" > === 'listProfiles') outputs.push</span>({ op: 'listProfiles', profiles: mgr.listProfiles() });
-    else if <span class="cstat-no" title="statement not covered" >(c.op === 'simulateBehavior') outputs.push(mgr.simulateBehavior(c.</span>npcId));
-    else if (c.op === 'dumpSchedule') outputs.push({ op: 'dumpSchedule', schedule: mgr.getSchedule(c.npcId) });
+  for (c<span class="cstat-no" title="statement not covered" >onst c of cmds) {</span>
+    if (c.op<span class="cstat-no" title="statement not covered" > === 'listProfiles') outputs.push({ op: 'listProfiles', profiles: mg</span>r.listProfiles() });
+    else if (<span class="cstat-no" title="statement not covered" >c.op === 'simulateBehavior') outputs.push(mgr.simulateBehavior(c.npcId));</span>
+    else if <span class="cstat-no" title="statement not covered" >(c.op === 'dumpSchedule') outputs.push({ op: </span>'dumpSchedule', schedule: mgr.getSchedule(c.npcId) });
     else if (<span class="cstat-no" title="statement not covered" >c.op === 'assignRole') { mgr.assignRole(c.npcId, c.role); outputs.push({ op: 'assignRole', npcId: c.npcId, role: c.role }); }</span>
-    else if <span class="cstat-no" title="statement not covered" >(c.op === 'linkDialog') { mgr.linkDia</span>log(c.npcId, c.dialogId); outputs.push({ op: 'linkDialog', npcId: c.npcId, dialogId: c.dialogId }); }
-    else if <span class="cstat-no" title="statement not covered" >(c.op === 'linkQuest') { mgr.linkQuest(c.npcId, c.questId); outputs.push({</span> op: 'linkQuest', npcId: c.npcId, questId: c.questId }); }
-  }
+    else if <span class="cstat-no" title="statement not covered" >(c.op === 'linkDialog') { mgr.linkDialog(c.npcId, c.dialogId); outputs.pus</span>h({ op: 'linkDialog', npcId: c.npcId, dialogId: c.dialogId }); }
+    else if (<span class="cstat-no" title="statement not covered" >c.op === 'linkQuest') { mgr.linkQuest(c.npcId, c.questId); outputs.push({ op: 'linkQuest', npcId: c.npcId, questId: c.questId }); }</span>
+  }<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
-  console.lo<span class="cstat-no" title="statement not covered" >g(JSON.stringify({ log, outputs }, </span>null, 2));
+  console.log(JSON.stringify({ log, outputs }, null, 2));
 }<span class="cstat-no" title="statement not covered" ></span>
-&nbsp;
-if (require.main === module) main();
 <span class="cstat-no" title="statement not covered" ></span>
-&nbsp;</pre></td></tr></table></pre>
+if (require.<span class="cstat-no" title="statement not covered" >main === module) main();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" ></span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-22T11:28:18.357Z
+                at 2025-08-23T18:13:14.118Z
             </div>
         <script src="../prettify.js"></script>
         <script>

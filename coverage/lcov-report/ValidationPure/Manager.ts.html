@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/30</span>
+                <span class='fraction'>0/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/26</span>
+                <span class='fraction'>0/38</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/27</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
@@ -120,7 +120,19 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,6 +169,19 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,64 +201,75 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export type ValidationRule = 'missing_refs' | 'stat_bounds' | 'zone_overlap';
-<span class="cstat-no" title="statement not covered" >export type ValidationConfig = { rules: ValidationRule[] };</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export type ValidationRule = 'missing_refs' | 'stat_bounds' | 'zone_overlap' | 'combat_stat_keys';
+<span class="cstat-no" title="statement not covered" >export type ValidationConfig = { rules: ValidationRule[], comba</span>tExpectedStatKeys?: string[] };
 <span class="cstat-no" title="statement not covered" ></span>
 export type ValidationInput = {
-  re<span class="fstat-no" title="function not covered" >fs</span>?: Record&lt;string, { ok: boolean }&gt;; // from EntityLinker
-  stats?<span class="cstat-no" title="statement not covered" >: { id: string; stats: { key: string; base: number }[] }[];</span>
-  zones?<span class="cstat-no" title="statement not covered" >: { id: string; x: num</span>ber; y: number; w: number; h: number }[];
+	ref<span class="fstat-no" title="function not covered" >s?</span>: Record&lt;string, { ok: boolean }&gt;; // from EntityLinker
+	stats?:<span class="cstat-no" title="statement not covered" > { id: string; stats: { key: string; base: number }[] }[];</span>
+	zones?:<span class="cstat-no" title="statement not covered" > { id: string; x: numb</span>er; y: number; w: number; h: number }[];
 };
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
 expo<span class="fstat-no" title="function not covered" >rt</span> type ValidateOutput = {
-  op: 'validateAll';<span class="cstat-no" title="statement not covered" ></span>
-  status: 'ok'|'error';
-  issues<span class="cstat-no" title="statement not covered" >: { code: string; message: string; ref?: string }[];</span>
-  resolvedRe<span class="cstat-no" title="statement not covered" >fs: {};</span>
+	op: 'validateAll';<span class="cstat-no" title="statement not covered" ></span>
+	status: 'ok'|'error';
+	issues:<span class="cstat-no" title="statement not covered" > { code: string; message: string; ref?: string }[];</span>
+	resolvedRef<span class="cstat-no" title="statement not covered" >s: {};</span>
 };<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
 export type ReportOutput = {
-  op: 'reportIssues';
-  status<span class="cstat-no" title="statement not covered" >: 'ok';</span>
-  issues: Va<span class="cstat-no" title="statement not covered" >lidateOutput['issues'];</span>
-  resolvedRefs: <span class="cstat-no" title="statement not covered" >{};</span>
+	op: 'reportIssues';
+	status:<span class="cstat-no" title="statement not covered" > 'ok';</span>
+	issues: Val<span class="cstat-no" title="statement not covered" >idateOutput['issues'];</span>
+	resolvedRefs: {<span class="cstat-no" title="statement not covered" >};</span>
 };<span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" ></span>
 export class ValidationManager {
-  private config: ValidationConfig = { rules: ['missing_refs','stat_bounds','zone_overlap'] };
-  private lastIssues: ValidateOutput['issues'] = [];
+	private config: ValidationConfig = { rules: ['missing_refs','stat_bounds','zone_overlap'] };
+	private lastIssues: ValidateOutput['issues'] = [];
 &nbsp;
-  config<span class="cstat-no" title="statement not covered" >ure(cfg: ValidationConfig){ this.config = cfg; }</span>
+	configu<span class="cstat-no" title="statement not covered" >re(cfg: ValidationConfig){ this.config = cfg; }</span>
 <span class="cstat-no" title="statement not covered" ></span>
-  validateAl<span class="cstat-no" title="statement not covered" >l(input: Vali<span class="cstat-no" title="statement not covered" >da</span>tionInput): ValidateOutput {</span>
-    const issues<span class="cstat-no" title="statement not covered" >: ValidateOut<span class="cstat-no" title="statement not covered" >put['i</span>ssues'] = [];</span>
-    // missing_refs<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span>
-    if(this.config.rules.includes('m<span class="cstat-no" title="statement not covered" >issing_refs')){</span>
-      for(const [k,v<span class="cstat-no" title="statement not covered" >] of Object.entries(input.refs||{})) if(!v.ok) issues.push({ code:'missing_ref', message:`Missing reference ${k}`, ref:k });</span>
-    }<span class="cstat-no" title="statement not covered" ></span>
-    // stat_bounds (ensure base within 0..999)
-    if(this.config.rules.includes('stat_bounds')){
-      fo<span class="cstat-no" title="statement not covered" >r(const e of input.stats||</span>[]){
-<span class="cstat-no" title="statement not covered" >        for(const s of e.stats){</span>
-          if(s.base &lt; 0 || s.base &gt; 999) issues.push({ code:'stat_bounds', message:`${e.id}.${s.key} out of bounds: ${s.base}`, ref:`${e.id}.${s.key}` });
-<span class="fstat-no" title="function not covered" ></span>        }<span class="cstat-no" title="statement not covered" ></span>
-      }
-<span class="cstat-no" title="statement not covered" >    }</span>
-    // zone_overlap (naive AABB overlap check)
-    if(this.config.rules.includes('zone_overlap')){
-      const zs = input.zones||[];
-      for(let i=0;i&lt;zs.length;i++) for(let j=i+1;j&lt;zs.length;j++){
-        const a = zs[i], b = zs[j];
-        const overlap = !(a.x+a.w&lt;=b.x || b.x+b.w&lt;=a.x || a.y+a.h&lt;=b.y || b.y+b.h&lt;=a.y);
-        if(overlap) issues.push({ code:'zone_overlap', message:`Zones ${a.id} and ${b.id} overlap`, ref:`${a.id}|${b.id}` });
-      }
-    }
-    this.lastIssues = issues;
-    return { op:'validateAll', status: issues.length? 'error':'ok', issues, resolvedRefs:{} };
-  }
+	validateAll<span class="cstat-no" title="statement not covered" >(input: Valid<span class="cstat-no" title="statement not covered" >at</span>ionInput): ValidateOutput {</span>
+		const issues: <span class="cstat-no" title="statement not covered" >ValidateOutpu<span class="cstat-no" title="statement not covered" >t['iss</span>ues'] = [];</span>
+		// missing_refs<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span>
+		if(this.config.rules.includes('mis<span class="cstat-no" title="statement not covered" >sing_refs')){</span>
+			for(const [k,v] o<span class="cstat-no" title="statement not covered" >f Object.entries(input.refs||{})) if(!v.ok) issues.push({ code:'missing_ref', message:`Missing reference ${k}`, ref:k });</span>
+		}<span class="cstat-no" title="statement not covered" ></span>
+		// stat_bounds (ensure base within 0..999)
+		if(this.config.rules.includes('stat_bounds')){
+			for(const e of input.stats||[]){
+				for(<span class="cstat-no" title="statement not covered" >const s of e.stats){</span>
+					if(s.base &lt; 0 || s.base <span class="cstat-no" title="statement not covered" >&gt; 999) issues.push({ code:'stat_bounds', message:`</span>${e.id}.${s.key} out of bounds: ${s.base}`, ref:`${e.id}.${s.key}` });
+				}<span class="cstat-no" title="statement not covered" ></span>
+			}<span class="cstat-no" title="statement not covered" ></span>
+		}<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span></span>
+		// zone_overlap (n<span class="cstat-no" title="statement not covered" >aive AABB overlap check)</span>
+		if(this.config.rules.i<span class="cstat-no" title="statement not covered" >ncludes('zone_overlap')){</span>
+			const zs = input.zones||[<span class="cstat-no" title="statement not covered" >];</span>
+			for(let i=0;i&lt;zs.length;i++) for(let j=i+1;j&lt;zs.length;j++){
+				const a = zs[i], b = zs[j];
+				const overlap = !(a.x+a.w&lt;=b.x || b.x+b.w&lt;=a.x || a.y+a.h&lt;=b.y || b.y+b.h&lt;=a.y);
+				if(overlap) issues.push({ code:'zone_overlap', message:`Zones ${a.id} and ${b.id} overlap`, ref:`${a.id}|${b.id}` });
+			}<span class="cstat-no" title="statement not covered" ></span>
+		}<span class="cstat-no" title="statement not covered" ></span>
+		// combat_stat_keys (ensure provided stats include expected keys)
+		if<span class="fstat-no" title="function not covered" >(t</span>his.config.rule<span class="cstat-no" title="statement not covered" >s.includes('combat_stat_keys')){</span>
+			const expected = new Set(this.config.combatExpectedStatKeys||[]);
+<span class="cstat-no" title="statement not covered" >			if(expected.size&gt;0){</span>
+				for(const e of input.stats||[]){
+					const keys = new Set((e.stats||[]).map(s=&gt;s.key));
+					for(const need of expected){
+						if(!keys.has(need)) issues.push({ code:'combat_stat_keys', message:`${e.id} missing required combat stat '${need}'`, ref:`${e.id}.${need}` });
+					}
+				}
+			}
+		}
+		this.lastIssues = issues;
+		return { op:'validateAll', status: issues.length? 'error':'ok', issues, resolvedRefs:{} };
+	}
 &nbsp;
-  reportIssues(): ReportOutput { return { op:'reportIssues', status:'ok', issues:this.lastIssues, resolvedRefs:{} } }
+	reportIssues(): ReportOutput { return { op:'reportIssues', status:'ok', issues:this.lastIssues, resolvedRefs:{} } }
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -241,7 +277,7 @@ export class ValidationManager {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-22T11:28:18.357Z
+                at 2025-08-23T18:13:14.118Z
             </div>
         <script src="../prettify.js"></script>
         <script>

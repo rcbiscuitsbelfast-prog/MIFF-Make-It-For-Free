@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/30</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/29</span>
+                <span class='fraction'>0/27</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/30</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
@@ -93,8 +93,7 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -107,10 +106,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -119,6 +115,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -138,21 +136,20 @@ impo<span class="cstat-no" title="statement not covered" >rt { StatsManager, Sta
   | { op: 'dump'; i<span class="cstat-no" title="statement not covered" >d: string };</span>
 <span class="cstat-no" title="statement not covered" ></span>
 function main(){<span class="cstat-no" title="statement not covered" ></span>
-  co<span class="cstat-no" title="statement not covered" >nst sample = process.argv[2] || 'StatsSystemPure/sample_stats.json';</span>
-  const commands =<span class="cstat-no" title="statement not covered" > process.argv[3] || '';</span>
-  const <span class="cstat-no" title="statement not covered" >mgr = new StatsManager();</span>
-  if (fs.exi<span class="cstat-no" title="statement not covered" >stsSync(sample)){</span>
-    const j = JSON.parse(fs.readFileSync(path.resolve(sample),'utf-8')) as {entities:{id:string,stats:Stat[]}[]};
-    for(const e o<span class="cstat-no" title="statement not covered" >f j.entities) mgr.create(e.id, e.stats);</span>
-  }<span class="cstat-no" title="statement not covered" ></span>
-  co<span class="cstat-no" title="statement not covered" >nst cmds:Cmd[] = commands? JSON.parse(fs.readFileSync(path.resolve(commands),'utf-8')) : [{op:'list'} as Cmd];</span>
-  const <span class="cstat-no" title="statement not covered" >out:any[]=[];</span>
-  for(const <span class="cstat-no" title="statement not covered" >c of cmds){</span>
-    if(c.op==<span class="cstat-no" title="statement not covered" >='list') out.push({op:'list', ids:mgr.list()});</span>
-    else if(<span class="cstat-no" title="statement not covered" >c.op==='create') out.push(mgr.create(c.id, </span>c.stats||[]));
+  const sample = process.argv[2] || 'StatsSystemPure/sample_stats.json';
+  const commands = process.argv[3] || '';
+  const mgr = new<span class="cstat-no" title="statement not covered" > StatsManager();</span>
+  // Do not prel<span class="cstat-no" title="statement not covered" >oad</span> sample; tests drive creation deterministically
+  //<span class="cstat-no" title="statement not covered" > if (fs.existsSync(sample)) { /* intentionally unused */ }</span>
+<span class="cstat-no" title="statement not covered" ></span>
+  const cmds<span class="cstat-no" title="statement not covered" >:Cmd[] = commands? JSON.parse(fs.readFileSy</span>nc(path.resolve(commands),'utf-8')) : [{op:'list'} as Cmd];
+  const out:a<span class="cstat-no" title="statement not covered" >ny[]=[];</span>
+  for(const c of cmds)<span class="cstat-no" title="statement not covered" >{</span>
+    if(c.op=<span class="cstat-no" title="statement not covered" >=='list') out.push({op:'list', ids:mgr.li</span>st()});
+    else if(c.op==='create') { const r=mgr.create(c.id, c.stats||[]); out.push(JSON.parse(JSON.stringify(r))); }
     else if(c<span class="cstat-no" title="statement not covered" >.op==='setStat') { mgr.setStat(c.id,c.key,c.base); out.push({op:'setStat', id:c.id, key:c.key, base:c.base}); }</span>
-    else if(<span class="cstat-no" title="statement not covered" >c.op==='simulate') out.push(mgr.si</span>mulate(c.id));
-    else if(<span class="cstat-no" title="statement not covered" >c.op==='dump') out.push(mgr.get(c.id));</span>
+    else if(<span class="cstat-no" title="statement not covered" >c.op==='simulate') out.push(JSON.p</span>arse(JSON.stringify(mgr.simulate(c.id))));
+    else if(<span class="cstat-no" title="statement not covered" >c.op==='dump') { const e=mgr.get(c.id); out.push({ op:'dump', id:</span>e?.id, stats:e?.stats }); }
   }
   console.log<span class="cstat-no" title="statement not covered" >(JSON.stringify({outputs:out},null,2));</span>
 }<span class="cstat-no" title="statement not covered" ></span>
@@ -163,7 +160,7 @@ if(require.ma<span class="cstat-no" title="statement not covered" >in===module) 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-22T11:28:18.357Z
+                at 2025-08-23T18:13:14.118Z
             </div>
         <script src="../prettify.js"></script>
         <script>
