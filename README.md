@@ -1,8 +1,10 @@
 # MIFF: Make It For Free
 
+**© R.C. Biscuits. All rights reserved. Generated using AI tools under user direction.**
+
 ## 🧭 MIFF Framework — Modular, Remix-Safe Game Development
 
-This project is now maintained as **MIFF**, a modular, engine-agnostic framework stewarded by **R.C. Biscuits**.
+**MIFF** is a modular, remix-safe, multi-platform game framework designed for rapid iteration and contributor empowerment. Built with engine-agnostic modules that can be composed into complete games across Unity, Web, and Godot platforms.
 
 > Originally forked from [original repo name], MIFF has been rebuilt for remix safety, contributor empowerment, and AI-driven modularity.  
 > All legacy contributions are preserved in commit history. The framework now follows a dual-license model (AGPLv3 + commercial).
@@ -12,6 +14,58 @@ This project is now maintained as **MIFF**, a modular, engine-agnostic framework
 
 Maintainer: **R.C. Biscuits**  
 Visionary architect of MIFF — building a global, remixable ecosystem for modular game creation.
+
+## 🎯 What's Included
+
+### 🧩 Core Systems
+- **[ProjectileSystemPure](systems/ProjectileSystemPure/README.md)** - Projectile physics and lifecycle management
+- **[ScoreSystemPure](systems/ScoreSystemPure/README.md)** - Score tracking and event processing
+- **[HealthSystemPure](systems/HealthSystemPure/README.md)** - Health management and damage events
+- **[InputSystemPure](systems/InputSystemPure/README.md)** - Input mapping and processing
+- **[CameraBridgePure](systems/CameraBridgePure/README.md)** - Camera control and following
+- **[RhythmSystemPure](systems/RhythmSystemPure/README.md)** - Beat timing and rhythm logic
+- **[AudioBridgePure](systems/AudioBridgePure/README.md)** - Audio playback and control
+- **[MountSystemPure](systems/MountSystemPure/README.md)** - Entity mounting and movement
+- **[DialogueSystemPure](systems/DialogueSystemPure/README.md)** - Branching dialogue system
+- **[CutsceneSystemPure](systems/CutsceneSystemPure/README.md)** - Scripted sequence control
+- **[NavigationSystemPure](systems/NavigationSystemPure/README.md)** - Pathfinding and movement
+
+### 🔗 Engine Bridges
+- **[UnityBridgePure](UnityBridgePure/README.md)** - Unity integration and rendering
+- **[WebBridgePure](WebBridgePure/README.md)** - Web/HTML5 platform support
+- **[GodotBridgePure](GodotBridgePure/README.md)** - Godot engine integration
+- **[BridgeSchemaPure](BridgeSchemaPure/README.md)** - Unified cross-engine schema
+
+### 🎮 Scenario Packs
+- **[TopplerDemoPure](TopplerDemoPure/README.md)** - Physics platformer demo
+- **[SpiritTamerDemoPure](SpiritTamerDemoPure/README.md)** - Rhythm taming game
+- **[WitcherExplorerDemoPure](WitcherExplorerDemoPure/README.md)** - Open-world adventure
+
+### 🛠️ CLI Tools & Builders
+- **[AutoBuilderCLI](AutoBuilderCLI/README.md)** - Multi-platform game builder
+- **[RenderPayloadPure](RenderPayloadPure/README.md)** - GameState to frame converter
+- **[ConvertToWebPure](ConvertToWebPure/README.md)** - Web platform converter
+- **[ConvertToUnityPure](ConvertToUnityPure/README.md)** - Unity platform converter
+- **[ConvertToGodotPure](ConvertToGodotPure/README.md)** - Godot platform converter
+
+### 🔍 Audit & Validation Modules
+- **[QuestSystemPure](systems/QuestSystemPure/README.md)** - Quest logic and progress tracking
+- **[AssetValidatorPure](systems/AssetValidatorPure/README.md)** - Asset validation and compliance
+- **[RemixAuditPure](systems/RemixAuditPure/README.md)** - Module compliance and remix-safety
+- **[CIEnforcerPure](systems/CIEnforcerPure/README.md)** - Contributor standards and CI validation
+- **[VisualReplaySystemPure](systems/VisualReplaySystemPure/README.md)** - Deterministic replay with visual hooks
+
+### 📊 Legacy & Core Modules
+- **[InventoryPure](InventoryPure/README.md)** - Inventory management system
+- **[SaveLoadPure](SaveLoadPure/README.md)** - Save/load functionality
+- **[QuestsPure](QuestsPure/README.md)** - Quest system (legacy)
+- **[NPCsPure](NPCsPure/README.md)** - NPC management
+- **[CombatPure](CombatPure/README.md)** - Combat system
+- **[StatsSystemPure](StatsSystemPure/README.md)** - Character statistics
+- **[SkillTreePure](SkillTreePure/README.md)** - Skill progression
+- **[CraftingPure](CraftingPure/README.md)** - Crafting system
+- **[LootTablesPure](LootTablesPure/README.md)** - Loot generation
+- **[EconomyPure](EconomyPure/README.md)** - Economic systems
 
 ---
 

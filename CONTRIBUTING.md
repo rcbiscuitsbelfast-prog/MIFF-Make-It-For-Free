@@ -10,6 +10,30 @@ Be respectful and collaborative.
 - Deterministic golden-output tests for new features
 - Schema version: use v12+ and document changes
 
+## Remix-Safe Onboarding
+
+### What is Remix-Safe?
+MIFF modules are designed to be **remix-safe**, meaning they can be safely forked, modified, and redistributed without legal concerns. This is achieved through:
+
+- **No Proprietary Assets**: All modules ship without copyrighted content
+- **Engine-Agnostic Design**: Modules work across Unity, Web, and Godot
+- **Deterministic Outputs**: Same inputs always produce same outputs
+- **Clear Attribution**: All external dependencies are properly documented
+
+### Remix Safety Checklist
+Before contributing, ensure your module:
+- [ ] Contains no hardcoded assets or proprietary content
+- [ ] Uses only open-source dependencies with compatible licenses
+- [ ] Includes proper attribution for any external resources
+- [ ] Has clear documentation of remix hooks and override points
+- [ ] Passes automated remix-safety audits
+
+### Audit Tools
+Use these tools to validate remix safety:
+- **[RemixAuditPure](systems/RemixAuditPure/README.md)** - Scans modules for compliance
+- **[CIEnforcerPure](systems/CIEnforcerPure/README.md)** - Validates contributor standards
+- **[AssetValidatorPure](systems/AssetValidatorPure/README.md)** - Checks asset licensing and attribution
+
 ## Contributor License Agreement (CLA)
 By submitting a contribution (code, docs, assets) to this repository, you agree to the following:
 - You certify that you have the right to submit the contribution under the open-source license(s) indicated in this repository (AGPLv3) and the MIFF commercial license.
@@ -27,3 +51,33 @@ By submitting a contribution (code, docs, assets) to this repository, you agree 
 3. Ensure consistency with standardized JSON outputs { op, status, issues, resolvedRefs }
 4. Update ROADMAP.md if adding new module/phase
 5. Open a PR describing changes and schema impact
+
+## Extending Modules & Adding New Genres
+
+### Module Extension
+Each MIFF module is designed to be extensible through **remix hooks**:
+- **Override Points**: Well-defined interfaces for custom behavior
+- **Plugin System**: Modular architecture for adding new features
+- **Event System**: Hook into module lifecycle events
+- **Configuration**: JSON-based configuration for customization
+
+### Adding New Genres
+To add support for new game genres:
+
+1. **Identify Required Systems**: Determine which core systems the genre needs
+2. **Create Genre-Specific Modules**: Build new modules following MIFF patterns
+3. **Add Platform Support**: Ensure Unity, Web, and Godot compatibility
+4. **Create Demo Scenarios**: Build example games showcasing the genre
+5. **Update Documentation**: Add genre-specific guides and examples
+
+### Example Genre Extensions
+- **Racing Games**: Extend `PhysicsSystemPure` with vehicle physics
+- **Strategy Games**: Add turn-based logic to `TimeSystemPure`
+- **Puzzle Games**: Create new `PuzzleSystemPure` module
+- **Roguelikes**: Extend `ProceduralGenerationPure` for dungeon generation
+
+### Testing New Extensions
+- Run `RemixAuditPure` to ensure compliance
+- Use `CIEnforcerPure` to validate standards
+- Create golden tests for deterministic behavior
+- Test across all supported platforms
