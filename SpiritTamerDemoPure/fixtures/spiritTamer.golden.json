@@ -1,0 +1,19 @@
+{
+	"op": "scenario",
+	"status": "ok",
+	"name": "SpiritTamerDemoPure",
+	"beats": [
+		{ "t": 0.5, "expected": true },
+		{ "t": 1,   "expected": true },
+		{ "t": 1.5, "expected": true },
+		{ "t": 2,   "expected": true }
+	],
+	"timeline": [
+		{ "t": 0,   "hits": 0, "misses": 0, "aggression": 0, "progress": 0, "tamed": false },
+		{ "t": 0.5, "hits": 1, "misses": 0, "aggression": 0, "progress": 1, "tamed": false },
+		{ "t": 1,   "hits": 2, "misses": 0, "aggression": 0, "progress": 2, "tamed": false },
+		{ "t": 1.5, "hits": 3, "misses": 0, "aggression": 0, "progress": 3, "tamed": true },
+		{ "t": 2,   "hits": 3, "misses": 0, "aggression": 0, "progress": 3, "tamed": true }
+	],
+	"issues": []
+}
