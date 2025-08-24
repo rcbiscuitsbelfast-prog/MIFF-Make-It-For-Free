@@ -1,26 +1,58 @@
-// Zone: Spirit Tamer - Minimal dialogue and interaction sampler
-// Purpose: Demonstrate dialogue progression and simple input mapping
-// Modules: DialogSim (DialogPure), InputSystemPure
+// Zone: Spirit Tamer - Tame spirits via tap, track count, route back
+// Purpose: Engine-agnostic sampler using Pure modules only
+// Modules used:
+// - InputSystemPure: map taps
+// - CollisionSystemPure: detect overlap triggers (placeholder)
+// - TimeSystemPure: animate fade via timers (placeholder)
+// - UISystemPure: display spirit count + Back button
+// - ZoneSystemPure: route back to synth_nexus
 
 require('ts-node/register/transpile-only');
 const path = require('path');
 const fs = require('fs');
-const { DialogSim } = require('../../DialogPure/DialogSim');
 const { mapInputs } = require('../../modules/pure/InputSystemPure.ts');
+const { CollisionManager } = require('../../CollisionSystemPure/Manager');
+const { TimeManager } = require('../../TimeSystemPure/Manager');
+const UI = require('../../modules/pure/UISystemPure.ts');
+const { route } = require('../../modules/pure/ZoneSystemPure.ts');
 
-function loadScenario(){
-	const p = path.resolve(__dirname, '../scenarios/spirit_tamer.fixture.json');
-	return JSON.parse(fs.readFileSync(p, 'utf-8'));
-}
+function startZone(opts){
+	// Load fixture if not provided
+	const fixture = opts?.fixture || JSON.parse(fs.readFileSync(path.resolve(__dirname, '../scenarios/spirit_tamer.fixture.json'), 'utf-8'));
+	const spirits = new Set((fixture.dialogs ? [] : []).concat(['spirit_fox'])); // placeholder id list
 
-function startZone(){
-	const data = loadScenario();
-	const sim = new DialogSim();
-	sim.loadFromObject(data);
-	const result = sim.simulateDialog(data.dialogs[0].id);
-	const input = mapInputs([{ t:0, type:'key', key:'e' }], [{ type:'key', code:'e', action:'interact' }]);
-	console.log('[Spirit Tamer] dialog:', JSON.stringify({ result, actions: input.actions }, null, 2));
-	return { status:'ok', zone:'spirit_tamer' };
+	// Initialize systems
+	const cm = new CollisionManager();
+	cm.load([ { id:'spirit_fox', min:{ x:0, y:0 }, max:{ x:1, y:1 }, isTrigger:true } ]);
+	const tm = new TimeManager();
+	const input = mapInputs([{ t:0, type:'tap' }], [{ type:'tap', code:'screen', action:'interact' }]);
+
+	let tamed = 0;
+	let ui = UI.renderUI([
+		UI.createButton('btn_back', '← Back to Synth Nexus', 'full')
+	]);
+	console.log('[Spirit Tamer] Ready. Spirits:', Array.from(spirits.values()));
+
+	function onTap(targetId){
+		if(targetId==='btn_back'){
+			const r = route('spirit_tamer', 'synth_nexus');
+			console.log('[Spirit Tamer] Route:', JSON.stringify(r.route));
+			return r;
+		}
+		if(spirits.has(targetId)){
+			// Simulate tame: start a small timer to "fade"
+			tm.addTimer({ id:`fade_${targetId}`, duration:0.1, remaining:0.1 });
+			tm.tick(0.1);
+			tamed += 1;
+			spirits.delete(targetId);
+			ui = UI.renderUI([ UI.createButton('btn_back', `Tamed: ${tamed}  ← Back`, 'full') ]);
+			console.log('[Spirit Tamer] Tamed', targetId, 'count=', tamed);
+			return { op:'tame', status:'ok', id: targetId, tamed };
+		}
+		return { op:'noop', status:'ok' };
+	}
+
+	return { status:'ok', zone:'spirit_tamer', onTap };
 }
 
 module.exports = { startZone };
