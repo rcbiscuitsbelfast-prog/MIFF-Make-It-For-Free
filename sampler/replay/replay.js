@@ -1,3 +1,5 @@
+import { createRemixOverlay, renderReplayUI } from './remix_overlay.js';
+
 const $ = (id) => document.getElementById(id);
 
 function logLine(text){ const el = $('log'); if(el) el.textContent += text + '\n'; else console.log(text); }
@@ -37,6 +39,14 @@ async function runReplay(zone){
 			logLine(JSON.stringify(fx.expected, null, 2));
 			logLine('Got:');
 			logLine(JSON.stringify(state, null, 2));
+			// Show Remix overlay with tabs
+			renderReplayUI();
+			const overlay = createRemixOverlay({ zone, scenario: fx.scenario, actual: state, expected: fx.expected });
+			overlay.show();
+			// Attach Remix button to rerun with editor reducer (no eval for security; just logs code for now)
+			overlay.onRunWithEditor(({ reducerCode })=>{
+				console.log('Editor reducer code captured (save locally to apply):\n', reducerCode);
+			});
 		}
 		return { zone, id: fx.scenario?.id || 'unknown', pass };
 	}catch(err){
@@ -54,7 +64,6 @@ if(typeof window !== 'undefined'){
 	});
 }
 
-// Export for potential Node/CI usage (headless routing to be added later)
 export async function runAll(zones){
 	const results = [];
 	for(const z of zones) results.push(await runReplay(z));
