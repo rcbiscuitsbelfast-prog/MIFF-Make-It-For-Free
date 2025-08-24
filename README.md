@@ -2,9 +2,9 @@
 
 **© R.C. Biscuits. All rights reserved. Generated using AI tools under user direction.**
 
-## 🎮 [▶️ Play MIFF Sampler](https://miff-demo.vercel.app)
+## ▶️ Play MIFF Sampler
 
-**Experience the modular, remix-safe game framework in action!** Play through Toppler, Spirit Tamer, Witcher Grove, and OverlinkPure zones with full mobile support and remix mode.
+Try the live demo here: [Play on GitHub Pages](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
 
 ---
 
