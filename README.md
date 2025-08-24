@@ -2,6 +2,12 @@
 
 **© R.C. Biscuits. All rights reserved. Generated using AI tools under user direction.**
 
+## 🎮 [▶️ Play MIFF Sampler](https://miff-demo.vercel.app)
+
+**Experience the modular, remix-safe game framework in action!** Play through Toppler, Spirit Tamer, Witcher Grove, and OverlinkPure zones with full mobile support and remix mode.
+
+---
+
 ## 🧭 MIFF Framework — Modular, Remix-Safe Game Development
 
 **MIFF** is a modular, remix-safe, multi-platform game framework designed for rapid iteration and contributor empowerment. Built with engine-agnostic modules that can be composed into complete games across Unity, Web, and Godot platforms.
