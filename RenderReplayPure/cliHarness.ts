@@ -58,7 +58,7 @@ function parseArgs(): { command: string; args: string[]; options: any } {
 
   // Parse options
   for (let i = 0; i < commandArgs.length; i++) {
-    const arg = commandArgs[i];
+    const arg: string = commandArgs[i];
     
     if (arg === '--engine') {
       options.engine = commandArgs[++i];
