@@ -189,3 +189,34 @@ See LICENSE.md for full terms.
 5. Validation
 - Use CLI harnesses to replay fixtures and run golden tests
 - Zones must pass Remix Mode and mobile-first layout checks
+
+## Adding a New Zone to MIFF Sampler
+
+🧩 Zone Setup
+- [ ] Create a new file in `sampler/zones/` named `your_zone.js`
+- [ ] Export a `startZone()` function
+- [ ] Use only Pure modules (no engine dependencies)
+
+📦 Fixture File
+- [ ] Create a matching fixture in `sampler/scenarios/your_zone.fixture.json`
+- [ ] Include tap sequence and expected state transitions
+- [ ] Validate with `npm run test:golden`
+
+🎨 Assets
+- [ ] Add sprites, audio, and fonts to `sampler/assets/`
+- [ ] Use only remix-safe licenses (CC0, GPL, or public domain)
+- [ ] Document asset sources in `sampler/assets/README.md`
+
+🧪 Remix Mode
+- [ ] Support Remix Mode toggle (debug overlays, CLI triggers)
+- [ ] Confirm layout works on mobile and desktop
+
+🔁 Routing
+- [ ] Include a back button to return to Synth Nexus
+- [ ] Use `ZoneSystemPure` for navigation
+
+📚 Documentation
+- [ ] Add a comment header to your zone file explaining its purpose and modules used
+- [ ] Update the README with your zone name and description
+
+Keep everything modular, remix-safe, and contributor-friendly. Zones should be playable, testable, and easy to remix.
