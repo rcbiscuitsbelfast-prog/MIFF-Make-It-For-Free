@@ -2,6 +2,9 @@
 // Purpose: Connects other modules (Toppler, Spirit Tamer) as a hub for transitions, overlays, and remix previews
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
+import { OverlinkThemes, ThemeId, ThemeConfig } from './OverlinkThemes';
+import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTracker';
+
 export type ZoneId = string;
 export type ModuleId = string;
 
@@ -50,6 +53,8 @@ export type OverlinkState = {
   assetBindings: AssetBinding[];
   transitions: TransitionConfig[];
   debugMode: boolean;
+  activeTheme: string | null;
+  lineageTracking: boolean;
 };
 
 export class OverlinkZone {
@@ -57,6 +62,8 @@ export class OverlinkZone {
   private moduleRegistry = new Map<ModuleId, ModuleConnection>();
   private zoneRegistry = new Map<ZoneId, { name: string; tags: string[] }>();
   private transitionQueue: TransitionConfig[] = [];
+  private themes: OverlinkThemes;
+  private lineageTracker: RemixLineageTracker;
 
   constructor() {
     this.state = {
@@ -72,8 +79,14 @@ export class OverlinkZone {
       drawReducers: [],
       assetBindings: [],
       transitions: [],
-      debugMode: false
+      debugMode: false,
+      activeTheme: null,
+      lineageTracking: false
     };
+
+    // Initialize theme and lineage systems
+    this.themes = new OverlinkThemes();
+    this.lineageTracker = new RemixLineageTracker();
   }
 
   // Zone Management
@@ -223,6 +236,81 @@ export class OverlinkZone {
     return [...this.state.assetBindings];
   }
 
+  // Theme Management
+  activateTheme(themeId: ThemeId): boolean {
+    const success = this.themes.activateTheme(themeId);
+    if (success) {
+      this.state.activeTheme = themeId;
+    }
+    return success;
+  }
+
+  deactivateTheme(): void {
+    this.themes.deactivateTheme();
+    this.state.activeTheme = null;
+  }
+
+  getActiveTheme(): ThemeId | null {
+    return this.themes.getActiveTheme();
+  }
+
+  getAvailableThemes(): ThemeId[] {
+    return this.themes.getAvailableThemes();
+  }
+
+  getThemeConfig(themeId: ThemeId) {
+    return this.themes.getThemeConfig(themeId);
+  }
+
+  toggleThemeLayer(layer: string): boolean {
+    return this.themes.toggleLayer(layer as any);
+  }
+
+  getThemeCLIPreview(themeId: ThemeId): string {
+    return this.themes.getCLIPreview(themeId);
+  }
+
+  // Lineage Tracking
+  enableLineageTracking(): void {
+    this.state.lineageTracking = true;
+  }
+
+  disableLineageTracking(): void {
+    this.state.lineageTracking = false;
+  }
+
+  isLineageTrackingEnabled(): boolean {
+    return this.state.lineageTracking;
+  }
+
+  registerRemixOrigin(origin: RemixOrigin): void {
+    this.lineageTracker.registerRemixOrigin(origin);
+  }
+
+  registerAssetLineage(lineage: AssetLineage): void {
+    this.lineageTracker.registerAssetLineage(lineage);
+  }
+
+  getRemixOrigins() {
+    return this.lineageTracker.getRemixOrigins();
+  }
+
+  getAllAssetLineages() {
+    return this.lineageTracker.getAllAssetLineages();
+  }
+
+  validateAllAssets() {
+    return this.lineageTracker.validateAllAssets();
+  }
+
+  getLineageCLISummary(): string {
+    return this.lineageTracker.getCLISummary();
+  }
+
+  getLineageSamplerIntegration() {
+    return this.lineageTracker.getSamplerIntegration();
+  }
+
   // Utility Methods
   private updateActiveModules(): void {
     this.state.activeModules = Array.from(this.moduleRegistry.values())
@@ -252,6 +340,8 @@ export class OverlinkZone {
     if (state.drawReducers) this.state.drawReducers = [...state.drawReducers];
     if (state.assetBindings) this.state.assetBindings = [...state.assetBindings];
     if (state.transitions) this.state.transitions = [...state.transitions];
+    if (state.activeTheme !== undefined) this.state.activeTheme = state.activeTheme;
+    if (state.lineageTracking !== undefined) this.state.lineageTracking = state.lineageTracking;
     
     this.updateActiveModules();
     this.sortDrawReducers();

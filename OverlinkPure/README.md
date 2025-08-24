@@ -18,11 +18,23 @@
 - **Transition Effects**: Smooth zone transitions with configurable effects
 - **Navigation UI**: Zone navigation with breadcrumb trails
 
+### Visual Theme System
+- **Theme Overlays**: neonGrid, forestGlade, cosmicVoid with custom assets
+- **Priority-based Rendering**: Optimized draw reducers for each theme
+- **Layer Management**: Toggleable background, foreground, UI, effects, and audio layers
+- **Asset Integration**: Remix-safe textures, shaders, and audio with fallbacks
+
 ### Remix-Safe Asset Bindings
 - **Texture Assets**: Remix-safe texture atlases with fallback support
 - **Audio Assets**: Conditional audio binding based on remix mode
 - **Shader Assets**: Remix-safe shader compilation and validation
 - **Data Assets**: JSON configuration with remix validation
+
+### Remix Lineage Tracking
+- **Origin Tracking**: Complete remix origin and contributor history
+- **Asset Lineage**: Full asset dependency and modification tracking
+- **Validation Hooks**: Customizable asset validation with audit logging
+- **Metadata Export**: JSON metadata for remix compliance and attribution
 
 ## 🏗️ Architecture
 
@@ -89,6 +101,9 @@ npx ts-node OverlinkPure/cliHarness.ts OverlinkPure/sample_config_debug.json
 
 # Run with remix mode
 npx ts-node OverlinkPure/cliHarness.ts OverlinkPure/sample_config_remix.json
+
+# Run with themes and lineage tracking
+npx ts-node OverlinkPure/cliHarness.ts OverlinkPure/sample_config_remix.json
 ```
 
 ### Golden Fixtures
@@ -132,6 +147,8 @@ zone.onTap('btn_preview');     // → Remix Preview
 - **Basic**: Standard zone navigation without debug features
 - **Debug**: Debug mode enabled with overlay controls
 - **Remix**: Remix preview mode with dependency validation
+- **Themes**: Visual theme system with neonGrid, forestGlade, cosmicVoid
+- **Lineage**: Complete remix origin and asset lineage tracking
 
 ### Overlay Layer Controls
 - **UI Layer**: Always enabled for navigation
@@ -172,6 +189,8 @@ zone.onTap('btn_preview');     // → Remix Preview
 
 ### Core Classes
 - `OverlinkZone`: Main zone management class
+- `OverlinkThemes`: Visual theme system with asset management
+- `RemixLineageTracker`: Remix origin and asset lineage tracking
 - `DrawReducer`: Renderer configuration and management
 - `AssetBinding`: Asset binding and validation
 - `ModuleConnection`: Module dependency management
@@ -182,6 +201,12 @@ zone.onTap('btn_preview');     // → Remix Preview
 - `addDrawReducer()`: Add renderer with priority
 - `bindAsset()`: Bind remix-safe assets
 - `toggleOverlayLayer()`: Control overlay visibility
+- `activateTheme()`: Activate visual theme with assets
+- `toggleThemeLayer()`: Control theme layer visibility
+- `enableLineageTracking()`: Enable remix origin tracking
+- `registerRemixOrigin()`: Register remix project origin
+- `registerAssetLineage()`: Track asset modifications and dependencies
+- `validateAllAssets()`: Run asset validation with hooks
 - `exportState()`: Serialize zone state for testing
 
 ## 🤝 Contributing
