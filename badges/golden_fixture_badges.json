@@ -1,0 +1,317 @@
+{
+  "testName": "Badge System Golden Fixture",
+  "description": "Expected deterministic output for badge system tests",
+  "timestamp": "2025-01-27T10:00:00Z",
+  "version": "1.0.0",
+  "badgeSystem": {
+    "badgeTypes": {
+      "Remix Pioneer": {
+        "description": "Recognizes contributors who have created significant remix content",
+        "criteria": {
+          "remixDepth": "Minimum 3 remix generations",
+          "assetValidation": "Minimum 20 assets validated",
+          "scenarioCreation": "Minimum 10 scenarios created",
+          "themeContributions": "Minimum 5 themes contributed",
+          "debugContributions": "Minimum 8 debug features added"
+        },
+        "levels": {
+          "Bronze": "Score 25-49",
+          "Silver": "Score 50-74",
+          "Gold": "Score 75-99",
+          "Platinum": "Score 100+"
+        }
+      },
+      "Asset Auditor": {
+        "description": "Recognizes contributors who excel at asset validation and remix safety",
+        "criteria": {
+          "remixDepth": "Minimum 2 remix generations",
+          "assetValidation": "Minimum 40 assets validated",
+          "scenarioCreation": "Minimum 8 scenarios created",
+          "themeContributions": "Minimum 4 themes contributed",
+          "debugContributions": "Minimum 6 debug features added"
+        },
+        "levels": {
+          "Bronze": "Score 20-39",
+          "Silver": "Score 40-59",
+          "Gold": "Score 60-79",
+          "Platinum": "Score 80+"
+        }
+      },
+      "Scenario Designer": {
+        "description": "Recognizes contributors who create engaging and comprehensive scenarios",
+        "criteria": {
+          "remixDepth": "Minimum 2 remix generations",
+          "assetValidation": "Minimum 15 assets validated",
+          "scenarioCreation": "Minimum 15 scenarios created",
+          "themeContributions": "Minimum 6 themes contributed",
+          "debugContributions": "Minimum 4 debug features added"
+        },
+        "levels": {
+          "Bronze": "Score 15-29",
+          "Silver": "Score 30-44",
+          "Gold": "Score 45-59",
+          "Platinum": "Score 60+"
+        }
+      },
+      "Theme Stylist": {
+        "description": "Recognizes contributors who create beautiful and cohesive visual themes",
+        "criteria": {
+          "remixDepth": "Minimum 1 remix generation",
+          "assetValidation": "Minimum 10 assets validated",
+          "scenarioCreation": "Minimum 5 scenarios created",
+          "themeContributions": "Minimum 10 themes contributed",
+          "debugContributions": "Minimum 3 debug features added"
+        },
+        "levels": {
+          "Bronze": "Score 10-19",
+          "Silver": "Score 20-29",
+          "Gold": "Score 30-39",
+          "Platinum": "Score 40+"
+        }
+      },
+      "Debug Master": {
+        "description": "Recognizes contributors who excel at debugging and system optimization",
+        "criteria": {
+          "remixDepth": "Minimum 1 remix generation",
+          "assetValidation": "Minimum 8 assets validated",
+          "scenarioCreation": "Minimum 3 scenarios created",
+          "themeContributions": "Minimum 2 themes contributed",
+          "debugContributions": "Minimum 15 debug features added"
+        },
+        "levels": {
+          "Bronze": "Score 8-14",
+          "Silver": "Score 15-21",
+          "Gold": "Score 22-28",
+          "Platinum": "Score 29+"
+        }
+      }
+    },
+    "sampleBadges": {
+      "miff_team_remix_pioneer": {
+        "id": "miff_team_Remix Pioneer_1738000000000",
+        "type": "Remix Pioneer",
+        "contributorId": "miff_team",
+        "timestamp": "2025-01-27T10:00:00.000Z",
+        "sourceZone": "miff_framework",
+        "criteria": {
+          "remixDepth": 5,
+          "assetValidation": 50,
+          "scenarioCreation": 20,
+          "themeContributions": 10,
+          "debugContributions": 15
+        },
+        "metadata": {
+          "remixLineage": ["MIFF Framework", "Core System"],
+          "contributorNotes": "Original framework creator and maintainer",
+          "badgeLevel": "Platinum",
+          "achievementDate": "2025-01-27T10:00:00.000Z"
+        }
+      },
+      "overlink_contributor_theme_stylist": {
+        "id": "overlink_contributor_Theme Stylist_1738000000000",
+        "type": "Theme Stylist",
+        "contributorId": "overlink_contributor",
+        "timestamp": "2025-01-27T10:00:00.000Z",
+        "sourceZone": "overlink_pure",
+        "criteria": {
+          "remixDepth": 2,
+          "assetValidation": 25,
+          "scenarioCreation": 8,
+          "themeContributions": 15,
+          "debugContributions": 5
+        },
+        "metadata": {
+          "remixLineage": ["MIFF Framework", "OverlinkPure Zone", "OverlinkThemes"],
+          "contributorNotes": "Created neonGrid, forestGlade, and cosmicVoid themes",
+          "badgeLevel": "Gold",
+          "achievementDate": "2025-01-27T10:00:00.000Z"
+        }
+      }
+    },
+    "remixLineage": {
+      "miff_framework": ["MIFF Framework", "Core System"],
+      "overlink_pure": ["MIFF Framework", "OverlinkPure Zone"],
+      "neon_grid": ["MIFF Framework", "OverlinkThemes", "NeonGrid Theme"],
+      "forest_glade": ["MIFF Framework", "OverlinkThemes", "ForestGlade Theme"],
+      "cosmic_void": ["MIFF Framework", "OverlinkThemes", "CosmicVoid Theme"],
+      "audio_manager": ["MIFF Framework", "AudioManager", "Theme Audio"],
+      "remix_lab": ["MIFF Framework", "RemixLineageTracker"]
+    }
+  },
+  "badgeRenderer": {
+    "themeStyles": {
+      "neon": {
+        "primary": "#00ffff",
+        "secondary": "#ff00ff",
+        "background": "#000000",
+        "border": "#00ff00",
+        "text": "#ffffff",
+        "glow": "#00ffff",
+        "shadow": "#0000ff"
+      },
+      "forest": {
+        "primary": "#90ee90",
+        "secondary": "#228b22",
+        "background": "#f0f8f0",
+        "border": "#006400",
+        "text": "#2f4f2f",
+        "glow": "#32cd32",
+        "shadow": "#228b22"
+      },
+      "cosmic": {
+        "primary": "#9370db",
+        "secondary": "#4b0082",
+        "background": "#0a0a0a",
+        "border": "#8a2be2",
+        "text": "#e6e6fa",
+        "glow": "#9932cc",
+        "shadow": "#4b0082"
+      }
+    },
+    "badgeIcons": {
+      "Remix Pioneer": {
+        "id": "remix_pioneer",
+        "symbol": "⚡",
+        "color": "#ffd700",
+        "backgroundColor": "#ff4500",
+        "borderColor": "#ff8c00",
+        "size": 24
+      },
+      "Asset Auditor": {
+        "id": "asset_auditor",
+        "symbol": "🔍",
+        "color": "#00bfff",
+        "backgroundColor": "#4169e1",
+        "borderColor": "#1e90ff",
+        "size": 24
+      },
+      "Scenario Designer": {
+        "id": "scenario_designer",
+        "symbol": "🎬",
+        "color": "#ff69b4",
+        "backgroundColor": "#da70d6",
+        "borderColor": "#c71585",
+        "size": 24
+      },
+      "Theme Stylist": {
+        "id": "theme_stylist",
+        "symbol": "🎨",
+        "color": "#32cd32",
+        "backgroundColor": "#228b22",
+        "borderColor": "#006400",
+        "size": 24
+      },
+      "Debug Master": {
+        "id": "debug_master",
+        "symbol": "🐛",
+        "color": "#ff6347",
+        "backgroundColor": "#dc143c",
+        "borderColor": "#b22222",
+        "size": 24
+      }
+    }
+  },
+  "creditsRenderer": {
+    "creditsSections": [
+      {
+        "title": "Core Framework",
+        "contributors": ["miff_team"],
+        "badges": ["Remix Pioneer", "Asset Auditor"]
+      },
+      {
+        "title": "Zone Development",
+        "contributors": ["overlink_contributor", "debug_master"],
+        "badges": ["Theme Stylist", "Scenario Designer", "Debug Master"]
+      },
+      {
+        "title": "Theme Development",
+        "contributors": ["overlink_contributor"],
+        "badges": ["Theme Stylist"]
+      },
+      {
+        "title": "Audio System",
+        "contributors": ["audio_contributor"],
+        "badges": ["Theme Stylist"]
+      },
+      {
+        "title": "Remix Lineage",
+        "contributors": ["lineage_tracker"],
+        "badges": ["Asset Auditor"]
+      }
+    ],
+    "contributorRoles": {
+      "miff_team": "Core Framework Developer",
+      "overlink_contributor": "Zone Developer",
+      "audio_contributor": "Audio Developer",
+      "lineage_tracker": "Data Developer",
+      "debug_master": "Debug Developer"
+    }
+  },
+  "cliPreviewOutputs": {
+    "general": {
+      "status": "=== Badge System Status ===\nTotal Badges: 0\nTotal Contributors: 0\n\n=== Badge Types ===\nRemix Pioneer: 0\nAsset Auditor: 0\nScenario Designer: 0\nTheme Stylist: 0\nDebug Master: 0",
+      "contains": [
+        "=== Badge System Status ===",
+        "Total Badges: 0",
+        "Total Contributors: 0",
+        "=== Badge Types ===",
+        "Remix Pioneer: 0",
+        "Asset Auditor: 0",
+        "Scenario Designer: 0",
+        "Theme Stylist: 0",
+        "Debug Master: 0"
+      ]
+    },
+    "contributor": {
+      "status": "=== Badge System Status ===\nTotal Badges: 1\nTotal Contributors: 1\n\n=== Contributor: test_contributor ===\nBadges: 1\n  Remix Pioneer (Gold) - 2025-01-27T10:00:00.000Z\n    Source: test_zone\n    Lineage: MIFF Framework → test_zone",
+      "contains": [
+        "=== Contributor: test_contributor ===",
+        "Badges: 1",
+        "Remix Pioneer (Gold)",
+        "Source: test_zone",
+        "Lineage: MIFF Framework → test_zone"
+      ]
+    }
+  },
+  "expectedBehaviors": {
+    "badgeGeneration": "Badges should be generated with unique IDs and correct metadata",
+    "badgeAssignment": "Badges should be assigned to contributors and stored correctly",
+    "badgeDisplay": "Badges should be displayed with filtering options",
+    "remixLineage": "Remix lineage should be generated based on source zone",
+    "badgeLevels": "Badge levels should be calculated based on criteria scores",
+    "stateManagement": "Badge system state should be exportable and importable",
+    "cliIntegration": "CLI preview should show badge system status and contributor info"
+  },
+  "testScenarios": {
+    "badgeWorkflow": {
+      "description": "Complete badge generation, assignment, and display workflow",
+      "steps": [
+        "Generate badge with criteria",
+        "Assign badge to contributor",
+        "Verify badge storage",
+        "Verify contributor mapping",
+        "Display badges with filters",
+        "Generate CLI preview"
+      ]
+    },
+    "multipleContributors": {
+      "description": "Handle multiple contributors with different badge types",
+      "steps": [
+        "Assign badges to contributor A",
+        "Assign badges to contributor B",
+        "Verify badge counts",
+        "Verify contributor counts",
+        "Verify badge type counts"
+      ]
+    },
+    "remixLineage": {
+      "description": "Generate and validate remix lineage for different source zones",
+      "steps": [
+        "Create badges for different source zones",
+        "Verify remix lineage generation",
+        "Validate lineage structure",
+        "Test lineage filtering"
+      ]
+    }
+  }
+}
