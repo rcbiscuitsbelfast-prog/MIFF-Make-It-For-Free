@@ -1,11 +1,17 @@
 {
-	"scenario": {
-		"note": "Initial world loaded via zone fixture"
-	},
+	"scenario": { "id": "toppler-basic" },
 	"steps": [
-		{ "action": "tap", "target": "btn_back", "delayMs": 200 }
+		{ "action": "move", "data": { "dx": 1, "dy": 0 } },
+		{ "action": "move", "data": { "dx": 1, "dy": 0 } },
+		{ "action": "move", "data": { "dx": 1, "dy": 0 } },
+		{ "action": "move", "data": { "dx": 1, "dy": 0 } },
+		{ "action": "move", "data": { "dx": 1, "dy": 0 } }
 	],
 	"expected": {
-		"routeTo": "synth_nexus"
+		"grid": { "width": 8, "height": 6 },
+		"player": { "x": 6, "y": 1 },
+		"blocks": [ { "id": "b1", "x": 7, "y": 1 } ],
+		"goals": [ { "x": 6, "y": 1 } ],
+		"completed": true
 	}
 }
