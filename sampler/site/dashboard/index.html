@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF Dashboard</title>
+	<style>
+		:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; --accent:#58a6ff; --border:#222 }
+		html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif }
+		.header{ padding:16px; border-bottom:1px solid var(--border) }
+		.wrap{ padding:16px; max-width:960px; margin:0 auto }
+		.grid{ display:grid; grid-template-columns:1fr; gap:12px }
+		.card{ background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px }
+		a{ color:var(--accent); text-decoration:none }
+		a:hover{ text-decoration:underline }
+		.footer{ padding:16px; text-align:center; color:var(--muted); border-top:1px solid var(--border); margin-top:16px }
+		@media (min-width: 760px){ .grid{ grid-template-columns:1fr 1fr } }
+	</style>
+</head>
+<body>
+	<header class="header">
+		<h1>MIFF Contributor Dashboard</h1>
+		<p class="small" style="color:var(--muted)">Tools for onboarding, fixtures, and remix checks.</p>
+	</header>
+	<main class="wrap">
+		<div class="grid">
+			<div class="card">
+				<h2>Onboarding Guides</h2>
+				<p>Open a zone contributor guide:</p>
+				<ul>
+					<li><a href="../onboarding.html?zone=toppler" target="_blank" rel="noopener noreferrer">Toppler</a></li>
+					<li><a href="../onboarding.html?zone=spirit_tamer" target="_blank" rel="noopener noreferrer">Spirit Tamer</a></li>
+					<li><a href="../onboarding.html?zone=witcher_grove" target="_blank" rel="noopener noreferrer">Witcher Grove</a></li>
+				</ul>
+			</div>
+			<div class="card">
+				<h2>Validation</h2>
+				<p>Run local fixture replays from your dev environment.</p>
+				<p style="color:var(--muted)">This dashboard keeps Pages deploys lightweight by not bundling replay tooling.</p>
+			</div>
+		</div>
+	</main>
+	<footer class="footer">
+		<p><a href="https://github.com/miff-framework/miff">GitHub</a> · <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko‑fi</a> · <a href="https://github.com/sponsors" target="_blank" rel="noopener noreferrer">GitHub Sponsors</a></p>
+	</footer>
+</body>
+</html>
