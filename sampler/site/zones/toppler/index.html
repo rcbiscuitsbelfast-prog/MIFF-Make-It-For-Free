@@ -1,22 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Toppler Demo</title>
-	<style>
-		body{margin:0;font-family:sans-serif;background:#0f1116;color:#e6edf3}
-		.wrap{padding:12px}
-		.badge{display:inline-block;background:#1f6feb;color:#fff;padding:2px 8px;border-radius:999px;font-size:12px}
-		.btn{appearance:none;border:1px solid #2a2f37;background:#161b22;color:#e6edf3;border-radius:8px;padding:8px 10px;font-size:14px;text-decoration:none}
-	</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toppler Demo</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1116;
+            color: #e6edf3;
+            line-height: 1.6;
+        }
+        .zone-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .zone-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .zone-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            color: #58a6ff;
+        }
+        .zone-header p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        .game-content {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+        .game-placeholder {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #1f6feb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin: 0 10px;
+        }
+        .btn:hover {
+            background: #388bfd;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #21262d;
+            border: 1px solid #30363d;
+        }
+        .btn-secondary:hover {
+            background: #30363d;
+        }
+        .remix-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15,17,22,.95);
+            color: #e6edf3;
+            border-top: 1px solid #222;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            z-index: 9999;
+        }
+        .remix-bar .msg {
+            font-size: 14px;
+            line-height: 1.3;
+        }
+        .remix-bar .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .remix-bar .btn {
+            margin: 0;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-	<div class="wrap">
-		<h1>🧱 Toppler Demo</h1>
-		<p id="status">Initializing…</p>
-		<button id="btn_back" class="btn">← Back</button>
-	</div>
-	<script type="module" src="./index.js"></script>
+    <div class="zone-container">
+        <header class="zone-header">
+            <h1>🧱 Toppler Puzzle</h1>
+            <p>Physics puzzle with modular ramps and remixable rules</p>
+        </header>
+
+        <main class="game-content">
+            <div class="game-placeholder">
+                <p>🧱 Welcome to the Toppler zone!</p>
+                <p>This zone demonstrates physics puzzles, modular ramp systems, and remixable game rules.</p>
+            </div>
+
+            <div class="game-actions">
+                <a href="../../zones/toppler/index.html" class="btn" target="_blank">🎮 Open Full Game</a>
+                <a href="../../zones/toppler.js" class="btn btn-secondary" target="_blank">📜 View Source</a>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: rgba(88, 166, 255, 0.1); border-radius: 8px;">
+                <h3>🎯 Zone Features</h3>
+                <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+                    <li>Physics-based puzzle mechanics</li>
+                    <li>Modular ramp and obstacle system</li>
+                    <li>Remixable game rules</li>
+                    <li>Remix-safe Pure modules</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function() {
+            // Check for remix mode
+            const params = new URLSearchParams(location.search);
+            const remixOn = params.get('remix') === '1';
+            const routerMode = params.get('router') === '1';
+
+            if (remixOn) {
+                const bar = document.createElement('div');
+                bar.className = 'remix-bar';
+                bar.innerHTML = '<span class="msg">Remix Mode: This zone is remix-safe. Click below to fork or customize.</span>'+
+                    '<span class="actions">'+
+                    '<a class="btn" target="_blank" rel="noopener noreferrer" href="https://github.com/miff-framework/miff/tree/main/sampler/zones/toppler">🔧 Fork on GitHub</a>'+
+                    '<a class="btn" target="_blank" rel="noopener noreferrer" href="../../onboarding.html?zone=toppler">📚 Contributor Guide</a>'+
+                    '</span>';
+                document.body.appendChild(bar);
+            }
+
+            // Send ready signal to parent router
+            if (routerMode && window.parent) {
+                window.parent.postMessage({
+                    type: 'MIFF_ZONE_READY',
+                    zone: 'toppler'
+                }, '*');
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Spirit Tamer Demo</title>
+    <title>Remix Lab Demo</title>
     <style>
         body {
             margin: 0;
@@ -101,27 +101,27 @@
 <body>
     <div class="zone-container">
         <header class="zone-header">
-            <h1>🐉 Spirit Tamer Combat</h1>
-            <p>Dialogue + interaction sampler for taming spirits</p>
+            <h1>🧪 Remix Lab</h1>
+            <p>Contributor-facing debug zone and CLI triggers</p>
         </header>
 
         <main class="game-content">
             <div class="game-placeholder">
-                <p>🧘‍♀️ Welcome to the Spirit Tamer zone!</p>
-                <p>This zone demonstrates dialogue systems, NPC interactions, and spirit taming mechanics.</p>
+                <p>🔬 Welcome to the Remix Lab!</p>
+                <p>This zone provides debugging tools, CLI triggers, and development utilities for MIFF contributors.</p>
             </div>
 
             <div class="game-actions">
-                <a href="../../zones/spirit_tamer/index.html" class="btn" target="_blank">🎮 Open Full Game</a>
-                <a href="../../zones/spirit_tamer.js" class="btn btn-secondary" target="_blank">📜 View Source</a>
+                <a href="../../zones/remix_lab/index.html" class="btn" target="_blank">🎮 Open Full Game</a>
+                <a href="../../zones/remix_lab.js" class="btn btn-secondary" target="_blank">📜 View Source</a>
             </div>
 
             <div style="margin-top: 30px; padding: 20px; background: rgba(88, 166, 255, 0.1); border-radius: 8px;">
                 <h3>🎯 Zone Features</h3>
                 <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
-                    <li>Interactive dialogue system</li>
-                    <li>Spirit taming mechanics</li>
-                    <li>NPC relationship building</li>
+                    <li>Debug overlays and tools</li>
+                    <li>CLI-style triggers and commands</li>
+                    <li>Development utilities</li>
                     <li>Remix-safe Pure modules</li>
                 </ul>
             </div>
@@ -139,9 +139,10 @@
                 const bar = document.createElement('div');
                 bar.className = 'remix-bar';
                 bar.innerHTML = '<span class="msg">Remix Mode: This zone is remix-safe. Click below to fork or customize.</span>'+
+                    '<span class="msg">🔬 Remix Lab is always in remix mode!</span>'+
                     '<span class="actions">'+
-                    '<a class="btn" target="_blank" rel="noopener noreferrer" href="https://github.com/miff-framework/miff/tree/main/sampler/zones/spirit_tamer">🔧 Fork on GitHub</a>'+
-                    '<a class="btn" target="_blank" rel="noopener noreferrer" href="../../onboarding.html?zone=spirit_tamer">📚 Contributor Guide</a>'+
+                    '<a class="btn" target="_blank" rel="noopener noreferrer" href="https://github.com/miff-framework/miff/tree/main/sampler/zones/remix_lab">🔧 Fork on GitHub</a>'+
+                    '<a class="btn" target="_blank" rel="noopener noreferrer" href="../../onboarding.html?zone=remix_lab">📚 Contributor Guide</a>'+
                     '</span>';
                 document.body.appendChild(bar);
             }
@@ -150,7 +151,7 @@
             if (routerMode && window.parent) {
                 window.parent.postMessage({
                     type: 'MIFF_ZONE_READY',
-                    zone: 'spirit_tamer'
+                    zone: 'remix_lab'
                 }, '*');
             }
         })();
