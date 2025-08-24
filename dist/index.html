@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIFF Sampler - Modular Game Framework Demo</title>
+  <meta name="description" content="Play the MIFF Sampler - a showcase of modular, remix-safe game systems including Toppler, Spirit Tamer, Witcher Grove, and OverlinkPure zones.">
+  <meta name="keywords" content="MIFF, game framework, modular, remix-safe, demo, sampler">
+  
+  <!-- Remix-safe asset preloads -->
+  <link rel="preload" href="assets/themes/fallback/silence.ogg" as="audio" type="audio/ogg">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0a0a0a;
+      color: #00ff00;
+      overflow: hidden;
+      user-select: none;
+    }
+    
+    #gameContainer {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #gameCanvas {
+      flex: 1;
+      background: #000;
+      border: 2px solid #00ff00;
+      cursor: crosshair;
+    }
+    
+    #mobileOverlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    #mobileControls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      pointer-events: auto;
+    }
+    
+    .mobileBtn {
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 255, 0, 0.2);
+      border: 2px solid #00ff00;
+      border-radius: 50%;
+      color: #00ff00;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .mobileBtn:hover {
+      background: rgba(0, 255, 0, 0.4);
+      transform: scale(1.1);
+    }
+    
+    #uiOverlay {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff00;
+      padding: 15px;
+      border-radius: 5px;
+      max-width: 300px;
+    }
+    
+    #zoneInfo {
+      margin-bottom: 15px;
+    }
+    
+    #remixToggle {
+      background: #00ff00;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: bold;
+    }
+    
+    #remixToggle:hover {
+      background: #00cc00;
+    }
+    
+    #loadingScreen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    #loadingScreen.hidden {
+      display: none;
+    }
+    
+    .loadingText {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .loadingBar {
+      width: 300px;
+      height: 20px;
+      background: #333;
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .loadingProgress {
+      height: 100%;
+      background: #00ff00;
+      width: 0%;
+      transition: width 0.3s;
+    }
+    
+    @media (max-width: 768px) {
+      #uiOverlay {
+        top: 10px;
+        right: 10px;
+        max-width: 250px;
+        padding: 10px;
+      }
+      
+      .loadingBar {
+        width: 250px;
+      }
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/main-DXQSXT7p.js"></script>
+</head>
+<body>
+  <div id="gameContainer">
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+      <div class="loadingText">Loading MIFF Sampler...</div>
+      <div class="loadingText">Initializing modular game systems</div>
+      <div class="loadingBar">
+        <div class="loadingProgress" id="loadingProgress"></div>
+      </div>
+    </div>
+    
+    <!-- Game Canvas -->
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay">
+      <div id="mobileControls">
+        <div class="mobileBtn" id="btnUp">↑</div>
+        <div class="mobileBtn" id="btnLeft">←</div>
+        <div class="mobileBtn" id="btnRight">→</div>
+        <div class="mobileBtn" id="btnDown">↓</div>
+        <div class="mobileBtn" id="btnAction">A</div>
+      </div>
+    </div>
+    
+    <!-- UI Overlay -->
+    <div id="uiOverlay">
+      <div id="zoneInfo">
+        <h3>Current Zone: <span id="currentZone">Loading...</span></h3>
+        <p>Remix Mode: <span id="remixStatus">Off</span></p>
+      </div>
+      <button id="remixToggle">Enable Remix Mode</button>
+      <div id="zoneDescription" style="margin-top: 15px; font-size: 12px;">
+        <p>Use arrow keys or mobile controls to navigate</p>
+        <p>Click/tap to interact with zone elements</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Entry Point -->
+</body>
+</html>

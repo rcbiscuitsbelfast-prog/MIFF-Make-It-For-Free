@@ -363,7 +363,7 @@ async function initOverlinkZone() {
     console.log('OverlinkZone module available for integration');
     
     // Make it available globally for testing
-    (window as any).overlinkZone = {
+    window.overlinkZone = {
       activateTheme: (theme: string) => console.log('Theme activated:', theme),
       getAudioPlaybackState: () => ({ isPlaying: false, currentTheme: null }),
       getBadgePreview: () => 'Badge system available'
