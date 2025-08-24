@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>MIFF Onboarding</title>
 	<style>
-		:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; }
+		:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; --accent:#58a6ff }
 		*{ box-sizing:border-box }
 		html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,Segoe UI,Roboto,sans-serif }
 		.header{ padding:16px; border-bottom:1px solid #222 }
@@ -13,37 +13,63 @@
 		.card{ background:var(--card); border:1px solid #222; border-radius:8px; padding:12px; margin:12px 0 }
 		.small{ color:var(--muted) }
 		.badge{ display:inline-block; background:#1f6feb; color:#fff; padding:2px 8px; border-radius:999px; font-size:12px }
+		.link{ color:var(--accent); text-decoration:none }
+		.link:hover{ text-decoration:underline }
+		.footer{ padding:16px; text-align:center; color:var(--muted); border-top:1px solid #222 }
 	</style>
 </head>
 <body>
 	<header class="header">
 		<h1 id="title">Welcome to the MIFF contributor guide</h1>
-		<p class="small">This zone is fully remix-safe and ready for forks.</p>
+		<p id="subtitle" class="small">This zone is fully remix-safe and ready for forks.</p>
 	</header>
-	<main class="wrap">
+	<main class="wrap" id="content">
 		<section class="card">
 			<h2>Setup Instructions</h2>
-			<ol>
-				<li>Clone or fork the repo.</li>
-				<li>Run <code>npm install</code> and <code>npm test</code>.</li>
-				<li>Use <code>npm run test:golden</code> and <code>npm run test:remix</code> to validate.</li>
-			</ol>
+			<ul>
+				<li>Clone the repo (or <a id="repo" class="link" href="#" target="_blank" rel="noopener noreferrer">open the zone repository</a>).</li>
+				<li>Open <code>index.html</code> in your browser and enable <span class="badge">Remix Mode</span>.</li>
+				<li>Use <code>npm run test:golden</code> and <code>npm run test:remix</code> to validate behavior.</li>
+			</ul>
 		</section>
 		<section class="card">
 			<h2>Asset Audit Summary</h2>
-			<p>All assets must be CC0, GPL, or public domain. See <a href="../assets/README.md">assets/README.md</a> for sources.</p>
+			<p>All assets are CC0 or GPL. See <a class="link" href="../assets/README.md">assets/README.md</a> for sources.</p>
 		</section>
 		<section class="card">
-			<h2>Remix Hooks & Fixtures</h2>
-			<p>Explore fixtures in <code>sampler/scenarios/</code> and zone code in <code>sampler/zones/</code>. Use Pure modules for deterministic behavior.</p>
-			<p class="small">Tip: Enable <span class="badge">Remix Mode</span> on the landing page to test overlays.</p>
+			<h2>Remix Hooks</h2>
+			<p>Use <code>startZone()</code> and fixture files to validate behavior. Zones are built with Pure modules for deterministic, engine‑agnostic logic.</p>
+		</section>
+		<section class="card">
+			<h2>Test Fixtures</h2>
+			<p>Replay <code id="fixtureName">ZONE.fixture.json</code> using the golden test runner: <code>npm run test:golden</code>.</p>
 		</section>
 	</main>
+	<footer class="footer">
+		<p><a class="link" href="./index.html">← Back to MIFF Sampler</a></p>
+		<p>Support MIFF’s remixable future 💖 <a class="link" href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko‑fi</a> · <a class="link" href="https://github.com/sponsors" target="_blank" rel="noopener noreferrer">GitHub Sponsors</a></p>
+	</footer>
 	<script>
 		(function(){
 			const params = new URLSearchParams(location.search);
-			const zone = params.get('zone') || 'zone';
-			document.getElementById('title').textContent = `Welcome to the ${zone.replace('_',' ')} contributor guide`;
+			const raw = (params.get('zone') || '').trim();
+			// Normalize underscores to hyphens to support both styles
+			const zoneKey = raw ? raw.replace(/_/g,'-') : '';
+			const ZONES = {
+				'toppler': { name: 'Toppler Puzzle Zone', repo: 'https://github.com/MIFF-framework/toppler-zone', fixture: 'toppler' },
+				'spirit-tamer': { name: 'Spirit Tamer Combat Zone', repo: 'https://github.com/MIFF-framework/spirit-tamer-zone', fixture: 'spirit_tamer' },
+				'witcher-grove': { name: 'Witcher Grove Narrative Zone', repo: 'https://github.com/MIFF-framework/witcher-grove-zone', fixture: 'witcher_grove' }
+			};
+			const data = ZONES[zoneKey];
+			if(!zoneKey || !data){
+				document.getElementById('title').textContent = 'No zone selected';
+				document.getElementById('subtitle').textContent = 'Please return to the Sampler.';
+				document.getElementById('content').innerHTML = '';
+				return;
+			}
+			document.getElementById('title').textContent = `Welcome to the ${data.name} Contributor Guide`;
+			document.getElementById('repo').setAttribute('href', data.repo);
+			document.getElementById('fixtureName').textContent = `${data.fixture}.fixture.json`;
 		})();
 	</script>
 </body>
