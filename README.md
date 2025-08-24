@@ -162,3 +162,30 @@ This project is offered under a dual-license model:
 - Commercial license (contact per LICENSE.md)
 
 See LICENSE.md for full terms.
+
+## MIFF Sampler Overview
+
+1. Purpose
+- The MIFF Sampler is a mobile-first showcase of modular zones built with Pure systems.
+- It demonstrates puzzle, combat, narrative, and debug flows using remix-safe assets and fixtures.
+
+2. Structure
+- `sampler/main.js`: Entry point
+- `sampler/zones/`: Contains Toppler, Spirit Tamer, Witcher Grove, Synth Nexus, and Remix Lab
+- `sampler/scenarios/`: Fixture files for each zone
+- `sampler/assets/`: Free, audit-safe sprites, audio, and fonts
+
+3. How to Run
+- Call `startSampler()` from `sampler/main.js` to launch Synth Nexus
+- Tap zone buttons to navigate
+- Use Remix Lab to toggle debug mode and replay fixtures
+
+4. How to Contribute
+- Add new zones using Pure modules only
+- Use fixture files for validation
+- Keep all assets remix-safe (CC0 or GPL)
+- Export `startZone()` from each zone file
+
+5. Validation
+- Use CLI harnesses to replay fixtures and run golden tests
+- Zones must pass Remix Mode and mobile-first layout checks
