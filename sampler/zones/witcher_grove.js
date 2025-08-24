@@ -27,8 +27,11 @@ function startZone(opts){
 	// Systems init
 	const input = mapInputs([{ t:0, type:'tap' }], [{ type:'tap', code:'screen', action:'interact' }]);
 	const dialog = new DialogSim();
-	dialog.loadFromObject({ dialogs: [fixture.dialog] });
-	let questState = fixture.questState;
+	const dialogDef = fixture.dialog ? { dialogs: [fixture.dialog] } : { dialogs: [] };
+	if(dialogDef.dialogs.length){ dialog.loadFromObject(dialogDef); }
+	let questState = (fixture.initialState && fixture.initialState.questState) || fixture.questState || {
+		quests:{}, activeQuests:[], completedQuests:[], failedQuests:[], playerStats:{ level:1, xp:0, inventory:{}, location:{x:0,y:0}, reputation:{} }
+	};
 	// Ensure quest exists in state for start event
 	const qId = 'find_griffin_feather';
 	if(!questState.quests[qId]){
@@ -40,12 +43,18 @@ function startZone(opts){
 	coll.load([ { id:'npc_witcher', min:{ x:0, y:0 }, max:{ x:1, y:2 }, isTrigger:true } ]);
 	const time = new TimeManager();
 
-	// UI: background and buttons
+	// UI: background and buttons (support both asset shapes)
+	const assets = fixture.assets || {};
+	const bg = assets.background || fixture.background || 'witcher_grove_bg.png';
+	const btnAccept = (assets.buttons && assets.buttons.accept) || (fixture.sprites && fixture.sprites.btnAccept) || 'btn_accept_quest.png';
+	const btnBack = (assets.buttons && assets.buttons.back) || (fixture.sprites && fixture.sprites.btnBack) || 'btn_back.png';
+	const npcIdle = (assets.sprites && assets.sprites.npcIdle) || (fixture.sprites && fixture.sprites.npcIdle) || 'npc_witcher_idle.png';
+
 	let ui = UI.renderUI([
-		UI.createButton('btn_accept_quest', 'Accept Quest', 'full', fixture.sprites.btnAccept),
-		UI.createButton('btn_back', '← Back', 'full', fixture.sprites.btnBack)
+		UI.createButton('btn_accept_quest', 'Accept Quest', 'full', btnAccept),
+		UI.createButton('btn_back', '← Back', 'full', btnBack)
 	]);
-	console.log('[Witcher Grove] Background:', fixture.background, 'NPC:', fixture.sprites.npcIdle);
+	console.log('[Witcher Grove] Background:', bg, 'NPC:', npcIdle);
 
 	function onTap(targetId){
 		if(targetId==='btn_back'){
@@ -54,8 +63,12 @@ function startZone(opts){
 			return r;
 		}
 		if(targetId==='npc_witcher'){
-			const res = dialog.simulateDialog('witcher_intro');
-			console.log('[Witcher Grove] Dialog run:', JSON.stringify(res.log));
+			if(dialogDef.dialogs.length){
+				const res = dialog.simulateDialog('witcher_intro');
+				console.log('[Witcher Grove] Dialog run:', JSON.stringify(res.log));
+				return { op:'dialog', status:'ok' };
+			}
+			console.log('[Witcher Grove] No dialog defined in fixture.');
 			return { op:'dialog', status:'ok' };
 		}
 		if(targetId==='btn_accept_quest'){
