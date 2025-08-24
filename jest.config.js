@@ -25,6 +25,9 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testTimeout: 10000,
   verbose: true,
+  // Improve test isolation
+  maxWorkers: 1, // Run tests sequentially to prevent interference
+  testSequencer: '<rootDir>/testSequencer.js', // Custom test sequencer for better isolation
   moduleNameMapper: {
     '^modules/(.*)$': '<rootDir>/modules/$1', // Map new modules facade
     '^modules/pure/(.*)$': '<rootDir>/modules/pure/$1.ts' // Map Pure modules to TS re-exports

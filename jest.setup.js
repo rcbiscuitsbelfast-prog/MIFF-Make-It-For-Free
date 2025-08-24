@@ -4,6 +4,24 @@
 // Set test timeout for CLI operations
 jest.setTimeout(10000);
 
+// Improve test isolation
+beforeEach(() => {
+  // Clear all timers before each test
+  jest.clearAllTimers();
+  
+  // Clear all mocks before each test
+  jest.clearAllMocks();
+  
+  // Reset modules if needed
+  jest.resetModules();
+});
+
+afterEach(() => {
+  // Clean up after each test
+  jest.clearAllTimers();
+  jest.clearAllMocks();
+});
+
 // Mock console.error to reduce noise in tests
 const originalError = console.error;
 console.error = (...args) => {
