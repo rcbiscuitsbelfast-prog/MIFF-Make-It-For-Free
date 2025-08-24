@@ -52,6 +52,7 @@ export class OverlinkThemes {
   private state: ThemeState;
   private assetRegistry = new Map<string, ThemeAsset>();
   private reducerRegistry = new Map<string, ThemeDrawReducer>();
+  private audioManager: any = null; // Will be AudioManager instance
 
   constructor() {
     this.state = {
@@ -243,6 +244,54 @@ export class OverlinkThemes {
     });
     
     return output;
+  }
+
+  // Audio Management
+  setAudioManager(audioManager: any): void {
+    this.audioManager = audioManager;
+  }
+
+  async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
+    if (!this.audioManager) {
+      console.warn('Audio manager not set');
+      return false;
+    }
+
+    return await this.audioManager.playThemeAudio(themeId, options);
+  }
+
+  async stopThemeAudio(): Promise<void> {
+    if (!this.audioManager) {
+      console.warn('Audio manager not set');
+      return;
+    }
+
+    await this.audioManager.stopCurrentAudio();
+  }
+
+  setThemeVolume(themeId: ThemeId, volume: number): void {
+    if (!this.audioManager) {
+      console.warn('Audio manager not set');
+      return;
+    }
+
+    this.audioManager.setThemeVolume(themeId, volume);
+  }
+
+  getAudioPreview(themeId: ThemeId): string {
+    if (!this.audioManager) {
+      return 'Audio manager not set';
+    }
+
+    return this.audioManager.getCLIPreview(themeId);
+  }
+
+  validateAudioRemixSafety(themeId: ThemeId): any {
+    if (!this.audioManager) {
+      return { theme: themeId, overall: false, error: 'Audio manager not set' };
+    }
+
+    return this.audioManager.validateRemixSafety(themeId);
   }
 
   // State Management

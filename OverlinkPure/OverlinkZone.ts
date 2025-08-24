@@ -4,6 +4,7 @@
 
 import { OverlinkThemes, ThemeId, ThemeConfig } from './OverlinkThemes';
 import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTracker';
+import { AudioManager } from './AudioManager';
 
 export type ZoneId = string;
 export type ModuleId = string;
@@ -64,6 +65,7 @@ export class OverlinkZone {
   private transitionQueue: TransitionConfig[] = [];
   private themes: OverlinkThemes;
   private lineageTracker: RemixLineageTracker;
+  private audioManager: AudioManager;
 
   constructor() {
     this.state = {
@@ -87,6 +89,13 @@ export class OverlinkZone {
     // Initialize theme and lineage systems
     this.themes = new OverlinkThemes();
     this.lineageTracker = new RemixLineageTracker();
+    this.audioManager = new AudioManager();
+    
+    // Connect audio manager to themes
+    this.themes.setAudioManager(this.audioManager);
+    
+    // Load audio configuration
+    this.audioManager.loadConfig().catch(console.error);
   }
 
   // Zone Management
@@ -268,6 +277,35 @@ export class OverlinkZone {
 
   getThemeCLIPreview(themeId: ThemeId): string {
     return this.themes.getCLIPreview(themeId);
+  }
+
+  // Audio Management
+  async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
+    return await this.themes.playThemeAudio(themeId, options);
+  }
+
+  async stopThemeAudio(): Promise<void> {
+    await this.themes.stopThemeAudio();
+  }
+
+  setThemeVolume(themeId: ThemeId, volume: number): void {
+    this.themes.setThemeVolume(themeId, volume);
+  }
+
+  getAudioPreview(themeId: ThemeId): string {
+    return this.themes.getAudioPreview(themeId);
+  }
+
+  validateAudioRemixSafety(themeId: ThemeId): any {
+    return this.themes.validateAudioRemixSafety(themeId);
+  }
+
+  setMasterVolume(volume: number): void {
+    this.audioManager.setMasterVolume(volume);
+  }
+
+  getAudioPlaybackState(): any {
+    return this.audioManager.getPlaybackState();
   }
 
   // Lineage Tracking

@@ -1,0 +1,221 @@
+{
+  "testName": "OverlinkPure Audio Integration Golden Fixture",
+  "description": "Expected deterministic output for audio integration tests",
+  "timestamp": "2025-01-27T10:00:00Z",
+  "version": "1.0.0",
+  "audioMetadata": {
+    "themeAudioBindings": {
+      "neonGrid": {
+        "ambient": {
+          "id": "neon_ambient",
+          "path": "assets/themes/neon_grid/ambient_synth.ogg",
+          "fallback": "assets/themes/fallback/silence.ogg",
+          "remixSafe": false,
+          "license": "CC0",
+          "description": "Cyberpunk synth ambient with electric pulses",
+          "volume": 0.7,
+          "loop": true,
+          "fadeIn": 2000,
+          "fadeOut": 1500,
+          "layers": ["background", "audio"]
+        },
+        "effects": {
+          "id": "neon_effects",
+          "path": "assets/themes/neon_grid/effect_pulses.ogg",
+          "fallback": "assets/themes/fallback/silence.ogg",
+          "remixSafe": false,
+          "license": "CC0",
+          "description": "Neon grid effect pulses and glitches",
+          "volume": 0.4,
+          "loop": true,
+          "fadeIn": 500,
+          "fadeOut": 300,
+          "layers": ["effects", "audio"]
+        }
+      },
+      "forestGlade": {
+        "ambient": {
+          "id": "forest_ambient",
+          "path": "assets/themes/forest_glade/ambient_nature.ogg",
+          "fallback": "assets/themes/fallback/silence.ogg",
+          "remixSafe": false,
+          "license": "CC0",
+          "description": "Peaceful forest sounds with birds and wind",
+          "volume": 0.6,
+          "loop": true,
+          "fadeIn": 3000,
+          "fadeOut": 2000,
+          "layers": ["background", "audio"]
+        },
+        "effects": {
+          "id": "forest_effects",
+          "path": "assets/themes/forest_glade/effect_leaves.ogg",
+          "fallback": "assets/themes/fallback/silence.ogg",
+          "remixSafe": false,
+          "license": "CC0",
+          "description": "Rustling leaves and gentle nature effects",
+          "volume": 0.3,
+          "loop": true,
+          "fadeIn": 1000,
+          "fadeOut": 800,
+          "layers": ["effects", "audio"]
+        }
+      },
+      "cosmicVoid": {
+        "ambient": {
+          "id": "cosmic_ambient",
+          "path": "assets/themes/cosmic_void/ambient_space.ogg",
+          "fallback": "assets/themes/fallback/silence.ogg",
+          "remixSafe": false,
+          "license": "CC0",
+          "description": "Deep space ambient with cosmic drones",
+          "volume": 0.5,
+          "loop": true,
+          "fadeIn": 4000,
+          "fadeOut": 3000,
+          "layers": ["background", "audio"]
+        },
+        "effects": {
+          "id": "cosmic_effects",
+          "path": "assets/themes/fallback/silence.ogg",
+          "fallback": "assets/themes/fallback/silence.ogg",
+          "remixSafe": true,
+          "license": "CC0",
+          "description": "Twinkling star effects and cosmic pulses",
+          "volume": 0.4,
+          "loop": true,
+          "fadeIn": 1500,
+          "fadeOut": 1200,
+          "layers": ["effects", "audio"]
+        }
+      }
+    },
+    "globalAudioSettings": {
+      "masterVolume": 1.0,
+      "ambientVolume": 0.8,
+      "effectsVolume": 0.6,
+      "fadeInDefault": 2000,
+      "fadeOutDefault": 1500,
+      "crossfadeDuration": 1000,
+      "remixModeFallback": "silence",
+      "debugModeAudio": true
+    },
+    "fallbackAssets": {
+      "silence": {
+        "path": "assets/themes/fallback/silence.ogg",
+        "description": "Silent audio file for fallback scenarios",
+        "remixSafe": true,
+        "license": "CC0"
+      },
+      "whiteNoise": {
+        "path": "assets/themes/fallback/white_noise.ogg",
+        "description": "Gentle white noise for fallback scenarios",
+        "remixSafe": true,
+        "license": "CC0"
+      }
+    }
+  },
+  "remixSafetyValidation": {
+    "neonGrid": {
+      "theme": "neonGrid",
+      "ambient": {
+        "safe": false,
+        "license": "CC0",
+        "fallback": "assets/themes/fallback/silence.ogg"
+      },
+      "effects": {
+        "safe": false,
+        "license": "CC0",
+        "fallback": "assets/themes/fallback/silence.ogg"
+      },
+      "overall": false
+    },
+    "forestGlade": {
+      "theme": "forestGlade",
+      "ambient": {
+        "safe": false,
+        "license": "CC0",
+        "fallback": "assets/themes/fallback/silence.ogg"
+      },
+      "effects": {
+        "safe": false,
+        "license": "CC0",
+        "fallback": "assets/themes/fallback/silence.ogg"
+      },
+      "overall": false
+    },
+    "cosmicVoid": {
+      "theme": "cosmicVoid",
+      "ambient": {
+        "safe": false,
+        "license": "CC0",
+        "fallback": "assets/themes/fallback/silence.ogg"
+      },
+      "effects": {
+        "safe": true,
+        "license": "CC0",
+        "fallback": "assets/themes/fallback/silence.ogg"
+      },
+      "overall": false
+    }
+  },
+  "cliPreviewOutputs": {
+    "neonGrid": {
+      "status": "=== Audio Manager Status ===\nPlaying: No\nCurrent Theme: None\nMaster Volume: 1\nMuted: No\nErrors: 0\n\n=== Theme: neonGrid ===\nAmbient: Cyberpunk synth ambient with electric pulses\n  Path: assets/themes/neon_grid/ambient_synth.ogg\n  Remix Safe: No\n  Volume: 0.7\n  Loop: Yes\n\nEffects: Neon grid effect pulses and glitches\n  Path: assets/themes/neon_grid/effect_pulses.ogg\n  Remix Safe: No\n  Volume: 0.4\n  Loop: Yes",
+      "contains": [
+        "=== Audio Manager Status ===",
+        "=== Theme: neonGrid ===",
+        "Cyberpunk synth ambient",
+        "Neon grid effect pulses",
+        "Remix Safe: No",
+        "Volume: 0.7",
+        "Loop: Yes"
+      ]
+    },
+    "cosmicVoid": {
+      "status": "=== Audio Manager Status ===\nPlaying: No\nCurrent Theme: None\nMaster Volume: 1\nMuted: No\nErrors: 0\n\n=== Theme: cosmicVoid ===\nAmbient: Deep space ambient with cosmic drones\n  Path: assets/themes/cosmic_void/ambient_space.ogg\n  Remix Safe: No\n  Volume: 0.5\n  Loop: Yes\n\nEffects: Twinkling star effects and cosmic pulses\n  Path: assets/themes/fallback/silence.ogg\n  Remix Safe: Yes\n  Volume: 0.4\n  Loop: Yes",
+      "contains": [
+        "=== Audio Manager Status ===",
+        "=== Theme: cosmicVoid ===",
+        "Deep space ambient",
+        "Twinkling star effects",
+        "Remix Safe: No",
+        "Remix Safe: Yes",
+        "Volume: 0.5",
+        "Loop: Yes"
+      ]
+    }
+  },
+  "playbackScenarios": {
+    "normalMode": {
+      "neonGrid": {
+        "ambient": "assets/themes/neon_grid/ambient_synth.ogg",
+        "effects": "assets/themes/neon_grid/effect_pulses.ogg",
+        "volume": 0.7,
+        "remixSafe": false
+      }
+    },
+    "remixMode": {
+      "neonGrid": {
+        "ambient": "assets/themes/fallback/silence.ogg",
+        "effects": "assets/themes/fallback/silence.ogg",
+        "volume": 0.7,
+        "remixSafe": true
+      },
+      "cosmicVoid": {
+        "ambient": "assets/themes/fallback/silence.ogg",
+        "effects": "assets/themes/fallback/silence.ogg",
+        "volume": 0.5,
+        "remixSafe": true
+      }
+    }
+  },
+  "expectedBehaviors": {
+    "fallbackLogic": "Audio assets that are not remix-safe should use fallback audio in remix mode",
+    "volumeControl": "Master and theme-specific volume controls should work independently",
+    "fadeEffects": "Audio should support fade in/out effects with configurable durations",
+    "remixSafety": "Only CC0-licensed fallback assets should be used in remix mode",
+    "errorHandling": "Invalid themes should increment error count and return false",
+    "stateManagement": "Audio state should be properly exported and imported"
+  }
+}
