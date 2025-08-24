@@ -4,7 +4,18 @@
 
 ## ▶️ Play MIFF Sampler
 
+[![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
+
 Try the live demo here: [Play on GitHub Pages](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
+
+---
+
+### ✅ Sampler Deployment Validation
+- Open: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/
+- Expect instant redirect to `/sampler/site/` (or click fallback link on the page)
+- Confirm onboarding index loads and links to scenario packs
+- Validate module presence (core UI links render; console has no 404s)
+- If Pages is still propagating (1–3 minutes), hard refresh or retry
 
 ---
 
