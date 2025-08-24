@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF Sampler</title>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+	<header class="site-header">
+		<h1>MIFF Sampler</h1>
+		<p class="tag">Modular, remix-safe, mobile-first game framework</p>
+	</header>
+
+	<main>
+		<section aria-labelledby="ov-title" class="section overview">
+			<h2 id="ov-title">Overview</h2>
+			<p><strong>MIFF</strong> is a modular, remixable framework for building engine-agnostic gameplay with Pure systems. The Sampler showcases puzzle, combat, narrative, and debug zones using remix-safe assets and fixtures.</p>
+		</section>
+
+		<section aria-labelledby="zones-title" class="section zones">
+			<h2 id="zones-title">Zones</h2>
+			<div class="grid">
+				<button class="card" data-zone="toppler" aria-label="Play Toppler Puzzle">
+					<h3>🧱 Toppler Puzzle</h3>
+					<p>Physics puzzle sampler</p>
+				</button>
+				<button class="card" data-zone="spirit_tamer" aria-label="Play Spirit Tamer Combat">
+					<h3>🐉 Spirit Tamer Combat</h3>
+					<p>Dialogue + interaction sampler</p>
+				</button>
+				<button class="card" data-zone="witcher_grove" aria-label="Play Witcher Grove Narrative">
+					<h3>🧙 Witcher Grove Narrative</h3>
+					<p>Quiet clearing with a mysterious NPC</p>
+				</button>
+				<button class="card" data-zone="remix_lab" aria-label="Open Remix Lab">
+					<h3>🧪 Remix Lab</h3>
+					<p>Contributor-facing debug zone</p>
+				</button>
+			</div>
+			<p class="hint">Each preview links to a playable zone or embedded demo.</p>
+		</section>
+
+		<section aria-labelledby="contrib-title" class="section contrib">
+			<h2 id="contrib-title">Contributors</h2>
+			<ul>
+				<li><a href="../../README.md">README</a></li>
+				<li><a href="../../CONTRIBUTING.md">CONTRIBUTING</a></li>
+				<li><a href="../../PUBLISHING.md">PUBLISHING</a></li>
+			</ul>
+			<p>Remix, fork, or add new zones. MIFF uses Pure modules and fixture-based validation for deterministic, remix-safe development.</p>
+		</section>
+
+		<section aria-labelledby="assets-title" class="section assets">
+			<h2 id="assets-title">Asset Licensing</h2>
+			<p>All assets are remix-safe (CC0, GPL, or public domain). See sources in <a href="../assets/README.md">assets/README.md</a>.</p>
+		</section>
+
+		<section aria-labelledby="remix-title" class="section remix">
+			<h2 id="remix-title">Remix Mode</h2>
+			<label class="toggle">
+				<input type="checkbox" id="remixToggle" aria-label="Toggle Remix Mode" />
+				<span>Enable Remix Mode overlays</span>
+			</label>
+			<p>Remix Mode enables debug overlays and CLI-style triggers to help contributors test and validate zones.</p>
+		</section>
+
+		<section aria-labelledby="support-title" class="section support">
+			<h2 id="support-title">Support & Funding</h2>
+			<p>Support MIFF on <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko-fi</a> or <a href="https://github.com/sponsors" target="_blank" rel="noopener noreferrer">GitHub Sponsors</a>.</p>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<p><a href="https://github.com/miff-framework/miff">GitHub</a> • License: AGPLv3 + Commercial • <span class="badge">Built with MIFF</span></p>
+	</footer>
+
+	<script src="main.js"></script>
+</body>
+</html>
