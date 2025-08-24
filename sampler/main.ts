@@ -2,6 +2,7 @@
 // Engine-agnostic, remix-safe, modular game framework demo
 
 import { OverlinkZone } from '../OverlinkPure/OverlinkZone';
+import { validateOverlinkZone, checkOverlinkZoneHealth, safeOverlinkZoneCall } from './validation/overlinkZoneValidator';
 
 // Game state
 interface GameState {
@@ -296,10 +297,14 @@ function initRemixToggle() {
       gameState.remixMode = !gameState.remixMode;
       updateUI();
       
-      // Update OverlinkZone remix mode if available
-      if (window.overlinkZone) {
-        // This would integrate with the actual OverlinkZone instance
-        console.log('Remix mode toggled:', gameState.remixMode);
+      // Update OverlinkZone remix mode if available using safe access
+      const remixStatus = safeOverlinkZoneCall('isRemixSafe', false);
+      console.log('Remix mode toggled:', gameState.remixMode, 'Remix safe:', remixStatus);
+      
+      // Log remix metadata if available
+      const metadata = safeOverlinkZoneCall('getRemixMetadata', null);
+      if (metadata) {
+        console.log('📋 Remix metadata:', metadata);
       }
     });
   }
@@ -362,12 +367,86 @@ async function initOverlinkZone() {
     // For now, we'll just log that it's available
     console.log('OverlinkZone module available for integration');
     
-    // Make it available globally for testing
+    // Make it available globally for testing with enhanced structure
     window.overlinkZone = {
+      // Core identification
+      id: 'miff-sampler-overlink',
+      
+      // Core functionality
+      mount: (container: HTMLElement) => {
+        console.log('Mounting overlinkZone to container:', container);
+        // Implementation would mount the zone to the container
+      },
+      unmount: () => {
+        console.log('Unmounting overlinkZone');
+        // Implementation would clean up the zone
+      },
+      
+      // Theme management
       activateTheme: (theme: string) => console.log('Theme activated:', theme),
+      getCurrentTheme: () => 'neonGrid',
+      
+      // Audio management
       getAudioPlaybackState: () => ({ isPlaying: false, currentTheme: null }),
-      getBadgePreview: () => 'Badge system available'
+      setAudioVolume: (volume: number) => console.log('Audio volume set to:', volume),
+      
+      // Badge system
+      getBadgePreview: () => 'Badge system available',
+      getContributorBadges: (contributorId: string) => [
+        { type: 'Remix Pioneer', level: 'Gold' },
+        { type: 'Asset Auditor', level: 'Silver' }
+      ],
+      
+      // Remix safety
+      isRemixSafe: () => true,
+      getRemixMetadata: () => ({
+        license: 'MIT',
+        remixDepth: 1,
+        contributor: 'miff_team'
+      }),
+      
+      // Zone management
+      getCurrentZone: () => gameState.currentZone,
+      switchZone: (zoneId: string) => {
+        if (zones[zoneId as keyof typeof zones]) {
+          gameState.currentZone = zoneId;
+          updateUI();
+          return true;
+        }
+        return false;
+      },
+      
+      // Debug and development
+      enableDebugMode: () => console.log('Debug mode enabled'),
+      disableDebugMode: () => console.log('Debug mode disabled'),
+      getDebugState: () => ({
+        debugMode: false,
+        currentZone: gameState.currentZone,
+        remixMode: gameState.remixMode
+      })
     };
+    
+    // Validate the overlinkZone after initialization
+    const validation = validateOverlinkZone();
+    if (validation.isValid) {
+      console.log('✅ OverlinkZone validation passed');
+      
+      // Log health status
+      const health = checkOverlinkZoneHealth();
+      console.log('🏥 OverlinkZone health check:', health);
+      
+      // Log any warnings or suggestions
+      if (validation.warnings.length > 0) {
+        console.log('⚠️ Validation warnings:', validation.warnings);
+      }
+      if (validation.suggestions.length > 0) {
+        console.log('💡 Suggestions:', validation.suggestions);
+      }
+    } else {
+      console.warn('⚠️ OverlinkZone validation failed:', validation.errors);
+      console.log('💡 Suggestions:', validation.suggestions);
+    }
+    
   } catch (error) {
     console.log('OverlinkZone not available:', error);
   }
