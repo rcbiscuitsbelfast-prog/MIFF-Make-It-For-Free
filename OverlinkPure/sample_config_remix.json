@@ -12,6 +12,14 @@
     "masterVolume": 0.8,
     "themeVolume": 0.7
   },
+  "enableBadges": true,
+  "badgeOptions": {
+    "display": true,
+    "showTooltips": true,
+    "showOverlay": true,
+    "theme": "neon",
+    "style": "badge-focused"
+  },
   "remixOrigin": {
     "id": "overlink_remix_001",
     "originalProject": "MIFF Framework",
@@ -19,6 +27,6 @@
     "remixContributor": "overlink_contributor",
     "remixDate": "2025-01-27",
     "remixLicense": "MIT",
-    "remixNotes": "Extended OverlinkPure with themes, lineage tracking, and ambient audio"
+    "remixNotes": "Extended OverlinkPure with themes, lineage tracking, ambient audio, and badge system"
   }
 }

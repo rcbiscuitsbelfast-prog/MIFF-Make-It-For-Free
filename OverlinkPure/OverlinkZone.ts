@@ -5,6 +5,8 @@
 import { OverlinkThemes, ThemeId, ThemeConfig } from './OverlinkThemes';
 import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTracker';
 import { AudioManager } from './AudioManager';
+import { BadgeSystem } from '../badges';
+import { CreditsRenderer } from '../badges/ui/renderCredits';
 
 export type ZoneId = string;
 export type ModuleId = string;
@@ -66,6 +68,8 @@ export class OverlinkZone {
   private themes: OverlinkThemes;
   private lineageTracker: RemixLineageTracker;
   private audioManager: AudioManager;
+  private badgeSystem: BadgeSystem;
+  private creditsRenderer: CreditsRenderer;
 
   constructor() {
     this.state = {
@@ -90,12 +94,17 @@ export class OverlinkZone {
     this.themes = new OverlinkThemes();
     this.lineageTracker = new RemixLineageTracker();
     this.audioManager = new AudioManager();
+    this.badgeSystem = new BadgeSystem();
+    this.creditsRenderer = new CreditsRenderer(this.badgeSystem);
     
     // Connect audio manager to themes
     this.themes.setAudioManager(this.audioManager);
     
     // Load audio configuration
     this.audioManager.loadConfig().catch(console.error);
+    
+    // Initialize badge system with sample data
+    this.initializeBadgeSystem();
   }
 
   // Zone Management
@@ -306,6 +315,75 @@ export class OverlinkZone {
 
   getAudioPlaybackState(): any {
     return this.audioManager.getPlaybackState();
+  }
+
+  // Badge System Management
+  private initializeBadgeSystem(): void {
+    // Initialize with sample badge data
+    const sampleAssignments = [
+      {
+        contributorId: 'miff_team',
+        badgeType: 'Remix Pioneer' as any,
+        sourceZone: 'miff_framework',
+        criteria: { remixDepth: 5, assetValidation: 50, scenarioCreation: 20, themeContributions: 10, debugContributions: 15 },
+        notes: 'Original framework creator and maintainer'
+      },
+      {
+        contributorId: 'overlink_contributor',
+        badgeType: 'Theme Stylist' as any,
+        sourceZone: 'overlink_pure',
+        criteria: { remixDepth: 2, assetValidation: 25, scenarioCreation: 8, themeContributions: 15, debugContributions: 5 },
+        notes: 'Created neonGrid, forestGlade, and cosmicVoid themes'
+      },
+      {
+        contributorId: 'audio_contributor',
+        badgeType: 'Theme Stylist' as any,
+        sourceZone: 'audio_manager',
+        criteria: { remixDepth: 1, assetValidation: 15, scenarioCreation: 5, themeContributions: 8, debugContributions: 2 },
+        notes: 'Implemented ambient audio system with remix safety'
+      }
+    ];
+
+    sampleAssignments.forEach(assignment => {
+      this.badgeSystem.assignBadge(assignment);
+    });
+  }
+
+  assignBadge(assignment: any): any {
+    return this.badgeSystem.assignBadge(assignment);
+  }
+
+  getContributorBadges(contributorId: string): any[] {
+    return this.badgeSystem.getContributorBadges(contributorId);
+  }
+
+  displayBadges(contributorId?: string, options?: any): any[] {
+    return this.badgeSystem.displayBadges(contributorId, options);
+  }
+
+  getBadgePreview(contributorId?: string): string {
+    return this.badgeSystem.getCLIPreview(contributorId);
+  }
+
+  // Credits and Badge Display
+  renderCredits(options: any): any {
+    return this.creditsRenderer.renderCreditsWithBadges(options);
+  }
+
+  renderCompactCredits(options: any): any {
+    return this.creditsRenderer.renderCompactCredits(options);
+  }
+
+  renderDetailedCredits(options: any): any {
+    return this.creditsRenderer.renderDetailedCredits(options);
+  }
+
+  renderBadgeFocusedCredits(options: any): any {
+    return this.creditsRenderer.renderBadgeFocusedCredits(options);
+  }
+
+  getCreditsPreview(options: any): string {
+    return this.creditsRenderer.getCLIPreview(options);
   }
 
   // Lineage Tracking

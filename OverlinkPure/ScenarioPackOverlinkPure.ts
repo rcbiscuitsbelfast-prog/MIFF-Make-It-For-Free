@@ -35,6 +35,8 @@ export interface ScenarioConfig {
   enableAudio?: boolean;
   defaultTheme?: string;
   audioOptions?: any;
+  enableBadges?: boolean;
+  badgeOptions?: any;
   remixOrigin?: any;
 }
 
@@ -51,6 +53,8 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   const enableAudio = cfg.enableAudio ?? false;
   const defaultTheme = cfg.defaultTheme ?? 'neonGrid';
   const audioOptions = cfg.audioOptions;
+  const enableBadges = cfg.enableBadges ?? false;
+  const badgeOptions = cfg.badgeOptions;
   const remixOrigin = cfg.remixOrigin;
   
   const overlink = new OverlinkZone();
@@ -171,6 +175,12 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     if (audioOptions.themeVolume !== undefined && defaultTheme) {
       overlink.setThemeVolume(defaultTheme as any, audioOptions.themeVolume);
     }
+  }
+
+  // Step 5.8: Setup badges if requested
+  if (enableBadges && badgeOptions) {
+    // Badge system is automatically initialized with sample data
+    console.log('Badge system initialized with contributor recognition');
   }
 
   // Step 6: Activate modules

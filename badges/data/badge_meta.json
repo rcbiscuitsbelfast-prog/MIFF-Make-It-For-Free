@@ -1,0 +1,302 @@
+{
+  "badgeSystem": {
+    "version": "1.0.0",
+    "created": "2025-01-27T10:00:00Z",
+    "description": "Contributor recognition and remix lineage tracking system"
+  },
+  "contributors": {
+    "miff_team": {
+      "id": "miff_team",
+      "name": "MIFF Framework Team",
+      "role": "Core Framework Developer",
+      "badges": [
+        {
+          "type": "Remix Pioneer",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "miff_framework",
+          "criteria": {
+            "remixDepth": 5,
+            "assetValidation": 50,
+            "scenarioCreation": 20,
+            "themeContributions": 10,
+            "debugContributions": 15
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "Core System"],
+            "contributorNotes": "Original framework creator and maintainer",
+            "badgeLevel": "Platinum",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        },
+        {
+          "type": "Asset Auditor",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "miff_framework",
+          "criteria": {
+            "remixDepth": 3,
+            "assetValidation": 100,
+            "scenarioCreation": 15,
+            "themeContributions": 8,
+            "debugContributions": 12
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "Asset System"],
+            "contributorNotes": "Asset validation and remix safety expert",
+            "badgeLevel": "Gold",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        }
+      ]
+    },
+    "overlink_contributor": {
+      "id": "overlink_contributor",
+      "name": "Overlink Zone Contributor",
+      "role": "Zone Developer",
+      "badges": [
+        {
+          "type": "Theme Stylist",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "overlink_pure",
+          "criteria": {
+            "remixDepth": 2,
+            "assetValidation": 25,
+            "scenarioCreation": 8,
+            "themeContributions": 15,
+            "debugContributions": 5
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "OverlinkPure Zone", "OverlinkThemes"],
+            "contributorNotes": "Created neonGrid, forestGlade, and cosmicVoid themes",
+            "badgeLevel": "Gold",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        },
+        {
+          "type": "Scenario Designer",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "overlink_pure",
+          "criteria": {
+            "remixDepth": 2,
+            "assetValidation": 20,
+            "scenarioCreation": 12,
+            "themeContributions": 10,
+            "debugContributions": 3
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "OverlinkPure Zone", "ScenarioPack"],
+            "contributorNotes": "Designed comprehensive zone testing scenarios",
+            "badgeLevel": "Silver",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        }
+      ]
+    },
+    "audio_contributor": {
+      "id": "audio_contributor",
+      "name": "Audio System Contributor",
+      "role": "Audio Developer",
+      "badges": [
+        {
+          "type": "Theme Stylist",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "audio_manager",
+          "criteria": {
+            "remixDepth": 1,
+            "assetValidation": 15,
+            "scenarioCreation": 5,
+            "themeContributions": 8,
+            "debugContributions": 2
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "AudioManager", "Theme Audio"],
+            "contributorNotes": "Implemented ambient audio system with remix safety",
+            "badgeLevel": "Silver",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        }
+      ]
+    },
+    "lineage_tracker": {
+      "id": "lineage_tracker",
+      "name": "Lineage Tracking Contributor",
+      "role": "Data Developer",
+      "badges": [
+        {
+          "type": "Asset Auditor",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "remix_lab",
+          "criteria": {
+            "remixDepth": 2,
+            "assetValidation": 30,
+            "scenarioCreation": 6,
+            "themeContributions": 4,
+            "debugContributions": 8
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "RemixLineageTracker"],
+            "contributorNotes": "Built comprehensive remix origin and asset lineage tracking",
+            "badgeLevel": "Silver",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        }
+      ]
+    },
+    "debug_master": {
+      "id": "debug_master",
+      "name": "Debug System Contributor",
+      "role": "Debug Developer",
+      "badges": [
+        {
+          "type": "Debug Master",
+          "timestamp": "2025-01-27T10:00:00Z",
+          "sourceZone": "overlink_pure",
+          "criteria": {
+            "remixDepth": 1,
+            "assetValidation": 10,
+            "scenarioCreation": 3,
+            "themeContributions": 2,
+            "debugContributions": 20
+          },
+          "metadata": {
+            "remixLineage": ["MIFF Framework", "OverlinkPure Zone", "Debug System"],
+            "contributorNotes": "Implemented comprehensive debug overlays and tools",
+            "badgeLevel": "Gold",
+            "achievementDate": "2025-01-27T10:00:00Z"
+          }
+        }
+      ]
+    }
+  },
+  "badgeTypes": {
+    "Remix Pioneer": {
+      "description": "Recognizes contributors who have created significant remix content",
+      "criteria": {
+        "remixDepth": "Minimum 3 remix generations",
+        "assetValidation": "Minimum 20 assets validated",
+        "scenarioCreation": "Minimum 10 scenarios created",
+        "themeContributions": "Minimum 5 themes contributed",
+        "debugContributions": "Minimum 8 debug features added"
+      },
+      "levels": {
+        "Bronze": "Score 25-49",
+        "Silver": "Score 50-74",
+        "Gold": "Score 75-99",
+        "Platinum": "Score 100+"
+      }
+    },
+    "Asset Auditor": {
+      "description": "Recognizes contributors who excel at asset validation and remix safety",
+      "criteria": {
+        "remixDepth": "Minimum 2 remix generations",
+        "assetValidation": "Minimum 40 assets validated",
+        "scenarioCreation": "Minimum 8 scenarios created",
+        "themeContributions": "Minimum 4 themes contributed",
+        "debugContributions": "Minimum 6 debug features added"
+      },
+      "levels": {
+        "Bronze": "Score 20-39",
+        "Silver": "Score 40-59",
+        "Gold": "Score 60-79",
+        "Platinum": "Score 80+"
+      }
+    },
+    "Scenario Designer": {
+      "description": "Recognizes contributors who create engaging and comprehensive scenarios",
+      "criteria": {
+        "remixDepth": "Minimum 2 remix generations",
+        "assetValidation": "Minimum 15 assets validated",
+        "scenarioCreation": "Minimum 15 scenarios created",
+        "themeContributions": "Minimum 6 themes contributed",
+        "debugContributions": "Minimum 4 debug features added"
+      },
+      "levels": {
+        "Bronze": "Score 15-29",
+        "Silver": "Score 30-44",
+        "Gold": "Score 45-59",
+        "Platinum": "Score 60+"
+      }
+    },
+    "Theme Stylist": {
+      "description": "Recognizes contributors who create beautiful and cohesive visual themes",
+      "criteria": {
+        "remixDepth": "Minimum 1 remix generation",
+        "assetValidation": "Minimum 10 assets validated",
+        "scenarioCreation": "Minimum 5 scenarios created",
+        "themeContributions": "Minimum 10 themes contributed",
+        "debugContributions": "Minimum 3 debug features added"
+      },
+      "levels": {
+        "Bronze": "Score 10-19",
+        "Silver": "Score 20-29",
+        "Gold": "Score 30-39",
+        "Platinum": "Score 40+"
+      }
+    },
+    "Debug Master": {
+      "description": "Recognizes contributors who excel at debugging and system optimization",
+      "criteria": {
+        "remixDepth": "Minimum 1 remix generation",
+        "assetValidation": "Minimum 8 assets validated",
+        "scenarioCreation": "Minimum 3 scenarios created",
+        "themeContributions": "Minimum 2 themes contributed",
+        "debugContributions": "Minimum 15 debug features added"
+      },
+      "levels": {
+        "Bronze": "Score 8-14",
+        "Silver": "Score 15-21",
+        "Gold": "Score 22-28",
+        "Platinum": "Score 29+"
+      }
+    }
+  },
+  "remixLineage": {
+    "miff_framework": {
+      "name": "MIFF Framework",
+      "description": "Core modular game development framework",
+      "contributors": ["miff_team"],
+      "badges": ["Remix Pioneer", "Asset Auditor"]
+    },
+    "overlink_pure": {
+      "name": "OverlinkPure Zone",
+      "description": "Meta-zone for transitions, overlays, and remix previews",
+      "contributors": ["overlink_contributor", "debug_master"],
+      "badges": ["Theme Stylist", "Scenario Designer", "Debug Master"],
+      "parent": "miff_framework"
+    },
+    "neon_grid": {
+      "name": "NeonGrid Theme",
+      "description": "Cyberpunk synth theme with electric pulses",
+      "contributors": ["overlink_contributor"],
+      "badges": ["Theme Stylist"],
+      "parent": "overlink_pure"
+    },
+    "forest_glade": {
+      "name": "ForestGlade Theme",
+      "description": "Peaceful nature theme with ambient sounds",
+      "contributors": ["overlink_contributor"],
+      "badges": ["Theme Stylist"],
+      "parent": "overlink_pure"
+    },
+    "cosmic_void": {
+      "name": "CosmicVoid Theme",
+      "description": "Deep space theme with cosmic drones",
+      "contributors": ["overlink_contributor"],
+      "badges": ["Theme Stylist"],
+      "parent": "overlink_pure"
+    },
+    "audio_manager": {
+      "name": "AudioManager",
+      "description": "Theme-based ambient audio with remix safety",
+      "contributors": ["audio_contributor"],
+      "badges": ["Theme Stylist"],
+      "parent": "overlink_pure"
+    },
+    "remix_lab": {
+      "name": "RemixLineageTracker",
+      "description": "Remix origin and asset lineage tracking system",
+      "contributors": ["lineage_tracker"],
+      "badges": ["Asset Auditor"],
+      "parent": "miff_framework"
+    }
+  }
+}
