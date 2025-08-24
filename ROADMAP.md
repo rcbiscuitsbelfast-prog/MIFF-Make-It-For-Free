@@ -501,3 +501,13 @@ Steps:
 - Three genre demos with free assets  
 - CI coverage, remix-ready docs  
 - Foundation for Auto-Builder CLI
+
+## Phase 17 — MIFF Sampler & Remix Overlay (Schema v15)
+- [x] MIFF Sampler zones scaffolded (Toppler, Spirit Tamer, Witcher Grove)
+- [x] Remix Lab + Remix Mode validator
+- [x] Browser-based Replay Harness with reducer-driven goldens
+- [x] Remix Overlay for golden failures (Scenario, Diff, Hooks)
+- [x] Onboarding pages (zone guide + index)
+
+**Goal**: Ship a remix-safe contributor pathway with instant previews and fixture validation.
+**Status**: Complete and CI-ready.
