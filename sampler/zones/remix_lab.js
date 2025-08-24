@@ -11,7 +11,7 @@ const Remix = require('../../modules/pure/RemixSystemPure.ts');
 const Test = require('../../modules/pure/TestSystemPure.ts');
 
 function startZone(opts){
-	let remixMode = !!opts?.remixMode;
+	let remixMode = !!(opts?.remix || opts?.remixMode);
 	const lastFixture = opts?.fixturePath || path.resolve(__dirname, '../scenarios/toppler.fixture.json');
 
 	// Input map placeholder
