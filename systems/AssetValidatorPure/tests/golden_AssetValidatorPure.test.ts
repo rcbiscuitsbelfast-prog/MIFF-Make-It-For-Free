@@ -47,36 +47,36 @@ describe('AssetValidatorPure golden tests', () => {
     const results = result.results;
     
     // Check valid assets
-    const playerSprite = results.find(r => r.id === 'player_sprite');
+    const playerSprite = results.find((r: any) => r.id === 'player_sprite');
     expect(playerSprite).toBeDefined();
     expect(playerSprite.status).toBe('valid');
     expect(playerSprite.metadata.license).toBe('cc-by');
     expect(playerSprite.metadata.platform).toBe('all');
     
-    const backgroundMusic = results.find(r => r.id === 'background_music');
+    const backgroundMusic = results.find((r: any) => r.id === 'background_music');
     expect(backgroundMusic).toBeDefined();
     expect(backgroundMusic.status).toBe('warning');
     expect(backgroundMusic.metadata.license).toBe('cc0');
     
-    const gameFont = results.find(r => r.id === 'game_font');
+    const gameFont = results.find((r: any) => r.id === 'game_font');
     expect(gameFont).toBeDefined();
     expect(gameFont.status).toBe('valid');
     expect(gameFont.metadata.license).toBe('ofl');
     
-    const particleShader = results.find(r => r.id === 'particle_shader');
+    const particleShader = results.find((r: any) => r.id === 'particle_shader');
     expect(particleShader).toBeDefined();
     expect(particleShader.status).toBe('valid');
     expect(particleShader.metadata.license).toBe('cc-by-sa');
     expect(particleShader.metadata.platform).toBe('web');
     
     // Check missing asset
-    const missingAsset = results.find(r => r.id === 'missing_asset');
+    const missingAsset = results.find((r: any) => r.id === 'missing_asset');
     expect(missingAsset).toBeDefined();
     expect(missingAsset.status).toBe('missing');
     expect(missingAsset.issues).toContain('Asset not found in manifest');
     
     // Check orphaned asset
-    const unusedAsset = results.find(r => r.id === 'unused_asset');
+    const unusedAsset = results.find((r: any) => r.id === 'unused_asset');
     expect(unusedAsset).toBeDefined();
     expect(unusedAsset.status).toBe('warning');
     expect(unusedAsset.warnings).toContain('Asset not referenced by any scenario');
@@ -156,7 +156,7 @@ describe('AssetValidatorPure golden tests', () => {
       expect(result.summary.warnings).toBe(0);
       
       // Verify no warnings about missing attribution
-      const testSprite = result.results.find(r => r.id === 'test_sprite');
+      const testSprite = result.results.find((r: any) => r.id === 'test_sprite');
       expect(testSprite.status).toBe('valid');
       expect(testSprite.warnings).toHaveLength(0);
       
@@ -221,7 +221,7 @@ describe('AssetValidatorPure golden tests', () => {
       expect(result.remixSafe).toBe(false);
       
       // Verify platform mismatch issue
-      const webShader = result.results.find(r => r.id === 'web_shader');
+      const webShader = result.results.find((r: any) => r.id === 'web_shader');
       expect(webShader.status).toBe('invalid');
       expect(webShader.issues).toContain('Platform mismatch: expected web, got unity');
       
@@ -285,7 +285,7 @@ describe('AssetValidatorPure golden tests', () => {
       expect(result.remixSafe).toBe(false);
       
       // Verify license compliance issue
-      const proprietarySprite = result.results.find(r => r.id === 'proprietary_sprite');
+      const proprietarySprite = result.results.find((r: any) => r.id === 'proprietary_sprite');
       expect(proprietarySprite.status).toBe('invalid');
       expect(proprietarySprite.issues).toContain("License 'proprietary' not in whitelist");
       

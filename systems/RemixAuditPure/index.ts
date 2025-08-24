@@ -215,12 +215,12 @@ function getRemixAuditRules(): RemixAuditRule[] {
       severity: 'critical',
       category: 'licensing',
       check: async (context) => {
-        const hasLicense = context.metadata.license && 
-                          ['MIT', 'Apache-2.0', 'CC0', 'CC-BY', 'CC-BY-SA'].includes(context.metadata.license);
+        const hasLicense = !!(context.metadata.license && 
+                          ['MIT', 'Apache-2.0', 'CC0', 'CC-BY', 'CC-BY-SA'].includes(context.metadata.license));
         
         return {
           ruleId: 'license_present',
-          passed: hasLicense,
+          passed: !!hasLicense,
           severity: 'critical',
           message: hasLicense ? 'License is present and valid' : 'Missing or invalid license',
           remediation: hasLicense ? undefined : 'Add a valid open source license to module metadata',
@@ -238,11 +238,11 @@ function getRemixAuditRules(): RemixAuditRule[] {
       severity: 'warning',
       category: 'attribution',
       check: async (context) => {
-        const hasAuthor = context.metadata.author && context.metadata.author !== 'Contributor';
+        const hasAuthor = !!(context.metadata.author && context.metadata.author !== 'Contributor');
         
         return {
           ruleId: 'attribution_present',
-          passed: hasAuthor,
+          passed: !!hasAuthor,
           severity: 'warning',
           message: hasAuthor ? 'Author attribution is present' : 'Missing or generic author attribution',
           remediation: hasAuthor ? undefined : 'Add proper author attribution in module metadata',

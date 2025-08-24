@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "react-jsx",
+    "types": ["react", "react-dom", "jest"]
   },
   "include": [
     "**/*.ts",

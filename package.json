@@ -19,7 +19,13 @@
     "type": "git",
     "url": "git+https://github.com/miff-framework/miff.git"
   },
-  "keywords": ["game-framework", "modular", "remix-safe", "miff", "sampler"],
+  "keywords": [
+    "game-framework",
+    "modular",
+    "remix-safe",
+    "miff",
+    "sampler"
+  ],
   "author": "",
   "license": "SEE LICENSE IN LICENSE.md",
   "bugs": {
@@ -27,8 +33,10 @@
   },
   "homepage": "https://github.com/miff-framework/miff#readme",
   "devDependencies": {
-    "@types/node": "^24.3.0",
     "@types/jest": "^29.5.0",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.11",
+    "@types/react-dom": "^19.1.7",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",

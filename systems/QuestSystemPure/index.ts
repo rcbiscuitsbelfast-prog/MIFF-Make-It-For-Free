@@ -270,7 +270,12 @@ function checkTriggerConditions(
                triggerData.target === trigger.target && 
                (triggerData.amount || 1) >= (trigger.amount || 1);
       case 'location':
-        if (triggerData.type === 'location' && trigger.location && state?.playerStats.location) {
+        if (
+          triggerData.type === 'location' &&
+          trigger.location &&
+          state?.playerStats.location &&
+          triggerData.location
+        ) {
           const dx = triggerData.location.x - trigger.location.x;
           const dy = triggerData.location.y - trigger.location.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
