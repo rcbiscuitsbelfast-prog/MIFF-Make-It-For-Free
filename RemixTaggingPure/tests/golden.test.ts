@@ -104,10 +104,10 @@ describe('RemixTaggingPure Golden Tests', () => {
     for (const cmd of commands) {
       switch (cmd.op) {
         case 'tagModule':
-          manager.tagModule(cmd.moduleId, cmd.moduleName, cmd.level);
+          manager.tagModule(cmd.moduleId ?? '', cmd.moduleName ?? '', cmd.level);
           break;
         case 'getTag':
-          const tag = manager.getModuleTag(cmd.moduleId);
+          const tag = manager.getModuleTag(cmd.moduleId ?? '');
           expect(tag).toBeTruthy();
           break;
         case 'listTags':

@@ -15,8 +15,8 @@ export class PathfindingManager {
   findPath(start:Node, goal:Node): Node[] {
     const key=(n:Node)=>`${n.x},${n.y}`;
     const queue:Node[] = [start];
-    const came = new Map<string, string|undefined>();
-    came.set(key(start), undefined);
+    const came = new Map<string, string>();
+    came.set(key(start), '');
     while(queue.length){
       const cur = queue.shift()!;
       if(cur.x===goal.x && cur.y===goal.y) break;
@@ -38,7 +38,7 @@ export class PathfindingManager {
     while(curKey){
       const [x,y] = curKey.split(',').map(Number);
       path.push({x,y});
-      curKey = came.get(curKey) as string|undefined;
+      curKey = came.get(curKey) ?? '';
     }
     return path.reverse();
   }

@@ -164,20 +164,25 @@ describe('AutoBuilderCLI golden tests', () => {
       fail('Expected error for invalid platform');
     } catch (error) {
       // The error might be a command failure or JSON error
-      if (error.message && error.message.includes('Invalid platform: invalid')) {
-        // Direct error message
-        expect(error.message).toContain('Invalid platform: invalid');
-      } else {
-        // Try to parse as JSON error
-        try {
-          const errorResult = JSON.parse(error.message);
-          expect(errorResult.op).toBe('build');
-          expect(errorResult.status).toBe('error');
-          expect(errorResult.issues).toContain('Invalid platform: invalid');
-        } catch (parseError) {
-          // If parsing fails, just verify the error contains the expected message
+      if (error instanceof Error) {
+        if (error.message && error.message.includes('Invalid platform: invalid')) {
+          // Direct error message
           expect(error.message).toContain('Invalid platform: invalid');
+        } else {
+          // Try to parse as JSON error
+          try {
+            const errorResult = JSON.parse(error.message);
+            expect(errorResult.op).toBe('build');
+            expect(errorResult.status).toBe('error');
+            expect(errorResult.issues).toContain('Invalid platform: invalid');
+          } catch (parseError) {
+            // If parsing fails, just verify the error contains the expected message
+            expect(error.message).toContain('Invalid platform: invalid');
+          }
         }
+      } else {
+        // Non-Error throwables
+        expect(String(error)).toContain('Invalid platform: invalid');
       }
     }
   });

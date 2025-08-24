@@ -419,15 +419,15 @@ describe('BridgeSchemaPure Golden Tests', () => {
 
       const unityData = BridgeSchemaValidator.convertToUnity(renderData);
       expect(unityData.signals).toHaveLength(1); // Only unity_signal
-      expect(unityData.signals?.map(s => s.name)).toContain('unity_signal');
+      expect(unityData.signals?.map((s: any) => s.name)).toContain('unity_signal');
 
       const webData = BridgeSchemaValidator.convertToWeb(renderData);
       expect(webData.events).toHaveLength(1); // Only web_signal
-      expect(webData.events?.map(s => s.name)).toContain('web_signal');
+      expect(webData.events?.map((s: any) => s.name)).toContain('web_signal');
 
       const godotData = BridgeSchemaValidator.convertToGodot(renderData);
       expect(godotData.signals).toHaveLength(1); // Only godot_signal
-      expect(godotData.signals?.map(s => s.name)).toContain('godot_signal');
+      expect(godotData.signals?.map((s: any) => s.name)).toContain('godot_signal');
     });
   });
 });

@@ -342,13 +342,13 @@ export class RenderReplayManager {
         step: index + 1,
         timestamp: new Date().toISOString(),
         renderData: payload.renderData || [],
-        issues: payload.issues || [],
+        issues: payload.issues ?? [],
         annotations: this.generateAnnotations(payload, index)
       };
 
       steps.push(step);
       totalRenderData += step.renderData.length;
-      totalIssues += step.issues.length;
+      totalIssues += (step.issues ?? []).length;
     });
 
     const startTime = new Date();

@@ -175,11 +175,11 @@ describe('LicenseAuditPure Golden Tests', () => {
     for (const cmd of commands) {
       switch (cmd.op) {
         case 'auditModule':
-          const auditResult = manager.auditModule(cmd.moduleId, cmd.moduleName, cmd.licenseType, cmd.dependencies, cmd.licenseFiles);
+          const auditResult = manager.auditModule(cmd.moduleId ?? '', cmd.moduleName ?? '', cmd.licenseType as LicenseType, cmd.dependencies ?? [], cmd.licenseFiles ?? []);
           expect(auditResult.status).toBe('pass');
           break;
         case 'getLicense':
-          const license = manager.getModuleLicense(cmd.moduleId);
+          const license = manager.getModuleLicense(cmd.moduleId ?? '');
           expect(license).toBeTruthy();
           break;
         case 'listLicenses':
