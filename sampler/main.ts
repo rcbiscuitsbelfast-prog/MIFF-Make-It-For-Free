@@ -1,8 +1,27 @@
 // MIFF Sampler Browser Entry Point
 // Engine-agnostic, remix-safe, modular game framework demo
 
-import { OverlinkZone } from '../OverlinkPure/OverlinkZone';
 import { validateOverlinkZone, checkOverlinkZoneHealth, safeOverlinkZoneCall } from './validation/overlinkZoneValidator';
+
+// Browser-safe interface for OverlinkZone (avoids Node.js dependencies)
+interface BrowserOverlinkZone {
+  id: string;
+  mount: (container: HTMLElement) => void;
+  unmount: () => void;
+  activateTheme: (theme: string) => void;
+  getCurrentTheme: () => string;
+  getAudioPlaybackState: () => { isPlaying: boolean; currentTheme: string | null };
+  setAudioVolume: (volume: number) => void;
+  getBadgePreview: () => string;
+  getContributorBadges: (contributorId: string) => any[];
+  isRemixSafe: () => boolean;
+  getRemixMetadata: () => any;
+  getCurrentZone: () => string;
+  switchZone: (zoneId: string) => boolean;
+  enableDebugMode: () => void;
+  disableDebugMode: () => void;
+  getDebugState: () => any;
+}
 
 // Game state
 interface GameState {
@@ -87,11 +106,13 @@ function initCanvas() {
     return false;
   }
   
-  gameState.ctx = gameState.canvas.getContext('2d');
-  if (!gameState.ctx) {
+  const ctx = gameState.canvas.getContext('2d');
+  if (!ctx) {
     console.error('Could not get 2D context');
     return false;
   }
+  
+  gameState.ctx = ctx;
   
   // Set canvas size to match container
   const container = document.getElementById('gameContainer');
