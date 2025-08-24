@@ -20,7 +20,7 @@ function buildMenu(remixMode){
 	];
 }
 
-function startZone(){
+function startZone(opts){
 	// 1) Touch input + cursor on load
 	const mapped = mapInputs(
 		[{ t:0, type:'tap' }], // touch event placeholder
@@ -29,7 +29,7 @@ function startZone(){
 	const cursor = 'visible';
 
 	// 2) Render UI buttons + toggle
-	let remixMode = false;
+	let remixMode = !!(opts?.remix || opts?.remixMode);
 	let uiElements = buildMenu(remixMode);
 	const uiFrame = UI.renderUI(uiElements, remixMode);
 	console.log('[Synth Nexus] UI frame:', JSON.stringify({ cursor, ui: uiFrame }, null, 2));
