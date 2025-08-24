@@ -576,7 +576,7 @@ export class AudioManager {
   exportState(): any {
     return {
       config: this.config,
-      playbackState: this.playbackState,
+      playbackState: { ...this.playbackState }, // Deep copy to prevent reference sharing
       currentAudio: Array.from(this.currentAudio.entries()),
       gainNodes: Array.from(this.gainNodes.entries())
     };
