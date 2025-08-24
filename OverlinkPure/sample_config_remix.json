@@ -1,5 +1,17 @@
 {
   "steps": 8,
   "enableDebug": false,
-  "enableRemixMode": true
+  "enableRemixMode": true,
+  "enableThemes": true,
+  "enableLineageTracking": true,
+  "defaultTheme": "neonGrid",
+  "remixOrigin": {
+    "id": "overlink_remix_001",
+    "originalProject": "MIFF Framework",
+    "originalContributor": "miff_team",
+    "remixContributor": "overlink_contributor",
+    "remixDate": "2025-01-27",
+    "remixLicense": "MIT",
+    "remixNotes": "Extended OverlinkPure with themes and lineage tracking"
+  }
 }

@@ -13,6 +13,8 @@ export type ScenarioState = {
   assetBindings: number;
   transitions: number;
   debugMode: boolean;
+  activeTheme: string | null;
+  lineageTracking: boolean;
 };
 
 export type ScenarioOutput = {
@@ -28,6 +30,10 @@ export interface ScenarioConfig {
   steps?: number;
   enableDebug?: boolean;
   enableRemixMode?: boolean;
+  enableThemes?: boolean;
+  enableLineageTracking?: boolean;
+  defaultTheme?: string;
+  remixOrigin?: any;
 }
 
 /**
@@ -38,6 +44,10 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   const steps = cfg.steps ?? 8;
   const enableDebug = cfg.enableDebug ?? false;
   const enableRemixMode = cfg.enableRemixMode ?? false;
+  const enableThemes = cfg.enableThemes ?? false;
+  const enableLineageTracking = cfg.enableLineageTracking ?? false;
+  const defaultTheme = cfg.defaultTheme ?? 'neonGrid';
+  const remixOrigin = cfg.remixOrigin;
   
   const overlink = new OverlinkZone();
   const timeline: ScenarioState[] = [];
@@ -126,6 +136,17 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     overlink.toggleDrawReducer('debug_renderer');
   }
 
+  // Step 5.5: Setup themes if requested
+  if (enableThemes) {
+    overlink.activateTheme(defaultTheme as any);
+  }
+
+  // Step 5.6: Setup lineage tracking if requested
+  if (enableLineageTracking && remixOrigin) {
+    overlink.enableLineageTracking();
+    overlink.registerRemixOrigin(remixOrigin);
+  }
+
   // Step 6: Activate modules
   overlink.activateModule('toppler_demo');
   overlink.activateModule('spirit_tamer_demo');
@@ -180,6 +201,14 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     issues.push(`Expected 3 asset bindings, got ${finalState.assetBindings.length}`);
   }
 
+  if (enableThemes && !finalState.activeTheme) {
+    issues.push(`Expected active theme when themes enabled, got none`);
+  }
+
+  if (enableLineageTracking && !finalState.lineageTracking) {
+    issues.push(`Expected lineage tracking when enabled, got disabled`);
+  }
+
   return {
     op: 'scenario',
     status: issues.length === 0 ? 'ok' : 'error',
@@ -191,7 +220,9 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
       overlayLayers: Object.fromEntries(finalState.overlayLayers),
       drawReducers: finalState.drawReducers.map(r => ({ id: r.id, enabled: r.enabled })),
       assetBindings: finalState.assetBindings.map(a => ({ id: a.id, type: a.type, remixSafe: a.remixSafe })),
-      debugMode: finalState.debugMode
+      debugMode: finalState.debugMode,
+      activeTheme: finalState.activeTheme,
+      lineageTracking: finalState.lineageTracking
     },
     issues
   };
@@ -208,6 +239,8 @@ function captureState(overlink: OverlinkZone, timeline: ScenarioState[], step: n
     drawReducers: state.drawReducers.length,
     assetBindings: state.assetBindings.length,
     transitions: state.transitions.length,
-    debugMode: state.debugMode
+    debugMode: state.debugMode,
+    activeTheme: state.activeTheme,
+    lineageTracking: state.lineageTracking
   });
 }
