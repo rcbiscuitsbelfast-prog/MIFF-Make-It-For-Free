@@ -1,0 +1,14 @@
+{
+	"scenario": {
+		"note": "Witcher Grove narrative setup"
+	},
+	"steps": [
+		{ "action": "tap", "target": "npc_witcher", "delayMs": 200 },
+		{ "action": "tap", "target": "btn_accept_quest", "delayMs": 200 },
+		{ "action": "tap", "target": "btn_back", "delayMs": 200 }
+	],
+	"expected": {
+		"quest": "find_griffin_feather",
+		"routeTo": "synth_nexus"
+	}
+}

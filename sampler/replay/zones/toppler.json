@@ -1,0 +1,11 @@
+{
+	"scenario": {
+		"note": "Initial world loaded via zone fixture"
+	},
+	"steps": [
+		{ "action": "tap", "target": "btn_back", "delayMs": 200 }
+	],
+	"expected": {
+		"routeTo": "synth_nexus"
+	}
+}

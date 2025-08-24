@@ -1,0 +1,12 @@
+{
+	"scenario": {
+		"note": "Dialog tree is loaded from zone fixture"
+	},
+	"steps": [
+		{ "action": "tap", "target": "spirit_fox", "delayMs": 150 },
+		{ "action": "tap", "target": "btn_back", "delayMs": 150 }
+	],
+	"expected": {
+		"routeTo": "synth_nexus"
+	}
+}
