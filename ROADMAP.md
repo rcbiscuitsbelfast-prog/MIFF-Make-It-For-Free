@@ -15,6 +15,100 @@
 - **Phase 15**: Advanced Features (Visual replay, enhanced building)
 - **Phase 16**: Global Expansion (Funding, outreach, sustainability)
 
+## Phase 3 — Rollout Validation (Finalized)
+- **Phase 3 checklist**:
+  - [x] Genre-module matrix finalized
+  - [x] Onboarding index synced
+  - [x] Vercel deploy workflow validated
+  - [x] Remix-safe audit complete
+  - [x] Contributor outreach prepped
+
+- **Genre → Game Types matrix**:
+
+| Category | Game Type | Description |
+|----------|-----------|-------------|
+| Exploration & Platforming | Metroidvania | Unlockable zones, ability gating, map traversal |
+|  | Puzzle Platformer | Physics or logic-based movement challenges |
+|  | Walking Sim / Surreal | Atmosphere-first, minimal input |
+| Combat & Strategy | Tactical Turn-Based | Grid-based combat with unit stats |
+|  | Real-Time Strategy | Base building, unit control, resource flow |
+|  | Action RPG | Stats, gear, quests, real-time combat |
+|  | Deckbuilder Roguelike | Card-based combat with procedural runs |
+|  | Creature Collector | Turn-based battles, evolution, team building |
+| Narrative & Social | Visual Novel | Branching dialogue, character relationships |
+|  | Social Deduction | Multiplayer deception, voting, sabotage |
+|  | Narrative Puzzle | Clue discovery, logic chains, timeline reconstruction |
+| Simulation & Management | City Builder / Colony Sim | Layout planning, citizen AI, resource management |
+|  | Idle / Incremental | Passive progression, exponential growth |
+|  | Life Sim / Dating Sim | Daily routines, relationship tracking |
+|  | Driving Sim / Drift Racer | Physics-based vehicle control, tuning |
+| Adventure & Survival | Open-World RPG | Exploration, crafting, quests |
+|  | Survival Crafting | Resource gathering, base building, hunger/thirst |
+|  | Space Sim / Ship Survival | Crew management, ship systems, procedural sectors |
+| Arcade & Rhythm | Endless Runner | Swipe/tap movement, terrain variation |
+|  | Rhythm Action | Input synced to music, combo chains |
+|  | Bullet Hell / Twin-Stick | Fast-paced shooting, pattern dodging |
+| Multiplayer & Party | Arena Brawler | Local or online combat, power-ups |
+|  | Co-op Puzzle | Team-based logic challenges |
+|  | MMO Lite | Persistent world, quests, trading |
+
+- **Validated modules**:
+
+| Module Name | Purpose | Reusable In |
+|-------------|---------|-------------|
+| scene-loader | Load zones, levels, or narrative scenes | All genres |
+| input-map | Abstracted input handling | All genres |
+| camera-float | Smooth camera movement | Platformers, walking sims |
+| map-reveal | Progressive map discovery | Metroidvania, RPG |
+| zone-lock | Gated access | Metroidvania, RPG |
+| ability-unlock | Track player abilities | Platformers, RPG |
+| enemy-loop | Enemy behaviors | Combat genres |
+| combat-loop | Core combat logic | RPG, tactics |
+| deck-loop | Card mechanics | Deckbuilders |
+| creature-roster | Team management | Collectors, RPG |
+| evolve-tree | Evolution paths | Collectors, idle |
+| npc-dialogue | Conversations and quests | RPG, visual novel |
+| event-chain | Narrative events | Survival, story games |
+| resource-flow | Resource tracking | Builders, idle, survival |
+| crafting-tree | Item creation | RPG, survival |
+| task-system | Assignable goals | Social deduction, colony sim |
+| vote-loop | Voting logic | Social deduction |
+| role-assign | Player roles | Multiplayer, narrative |
+| grid-core | Grid movement | Tactics, puzzles |
+| unit-stats | Combat stats | Combat games |
+| ai-director | AI decision-making | Strategy, combat |
+| beat-sync | Music sync | Rhythm, platformers |
+| combo-meter | Input chains | Rhythm, combat |
+| terrain-stream | Procedural terrain | Runners, RPG |
+| hazard-spawn | Obstacle placement | Runners, platformers |
+| powerup-loop | Buffs and cooldowns | Arcade, combat |
+| vehicle-physics | Car movement | Driving sims |
+| track-loader | Race tracks | Driving, RPG |
+| garage-builder | Car customization | Driving, idle |
+| mod-hook | Mod support | All genres |
+| prestige-loop | Reset mechanics | Idle, roguelike |
+| automation-hook | Passive systems | Idle, builders |
+| ghost-replay | Action replay | Driving, rhythm |
+| timeline-reveal | Past events | Puzzle, narrative |
+| clue-chain | Clue logic | Puzzle, detective |
+| evidence-grid | Deduction grid | Puzzle, narrative |
+| ambient-loop | Background effects | Walking sims, surreal |
+| rival-logic | AI opponents | Driving, combat |
+| ship-core | Ship systems | Space sims |
+| crew-roster | Crew management | Space sims, colony |
+| rogue-map | Sector traversal | Roguelike, space |
+| run-seed | Generation seed tracking | Roguelike, deckbuilder |
+| upgrade-tree | Upgrades | Idle, RPG |
+| career-track | Long-term progression | Driving, sports |
+| city-nav | Open-world navigation | Driving, RPG |
+
+- **Validation steps**:
+  - Golden fixture tests for each module  
+  - Remix audit: license check + asset sourcing  
+  - CLI harness stability confirmed  
+  - Engine-agnostic adapter hooks tested (Unity, Web, Godot)  
+  - Visual integration deferred until remix-safe confirmed  
+
 ## Principles
 - CLI-first, engine-agnostic, remix-safe modules
 - Deterministic golden-output tests for all modules
