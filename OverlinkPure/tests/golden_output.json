@@ -1,0 +1,162 @@
+{
+  "op": "scenario",
+  "status": "ok",
+  "name": "OverlinkPure",
+  "timeline": [
+    {
+      "step": 1,
+      "currentZone": "hub",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": false,
+        "ui": true,
+        "transition": true,
+        "preview": false,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 0,
+      "debugMode": false
+    },
+    {
+      "step": 2,
+      "currentZone": "toppler",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": false,
+        "ui": true,
+        "transition": true,
+        "preview": false,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 1,
+      "debugMode": false
+    },
+    {
+      "step": 3,
+      "currentZone": "spirit_tamer",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": false,
+        "ui": true,
+        "transition": true,
+        "preview": false,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 2,
+      "debugMode": false
+    },
+    {
+      "step": 4,
+      "currentZone": "preview",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": false,
+        "ui": true,
+        "transition": true,
+        "preview": false,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 3,
+      "debugMode": false
+    },
+    {
+      "step": 5,
+      "currentZone": "preview",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": false,
+        "ui": true,
+        "transition": true,
+        "preview": true,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 3,
+      "debugMode": false
+    },
+    {
+      "step": 6,
+      "currentZone": "debug",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": true,
+        "ui": true,
+        "transition": true,
+        "preview": true,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 3,
+      "debugMode": true
+    },
+    {
+      "step": 7,
+      "currentZone": "preview",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": true,
+        "ui": true,
+        "transition": true,
+        "preview": true,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 0,
+      "debugMode": true
+    },
+    {
+      "step": 8,
+      "currentZone": "hub",
+      "activeModules": ["toppler_demo", "spirit_tamer_demo"],
+      "overlayLayers": {
+        "debug": true,
+        "ui": true,
+        "transition": true,
+        "preview": true,
+        "navigation": true
+      },
+      "drawReducers": 4,
+      "assetBindings": 3,
+      "transitions": 1,
+      "debugMode": true
+    }
+  ],
+  "finalState": {
+    "currentZone": "hub",
+    "activeModules": [
+      { "id": "toppler_demo", "status": "active" },
+      { "id": "spirit_tamer_demo", "status": "active" }
+    ],
+    "overlayLayers": {
+      "debug": true,
+      "ui": true,
+      "transition": true,
+      "preview": true,
+      "navigation": true
+    },
+    "drawReducers": [
+      { "id": "sprite_renderer", "enabled": true },
+      { "id": "ui_renderer", "enabled": true },
+      { "id": "effect_renderer", "enabled": true },
+      { "id": "debug_renderer", "enabled": true }
+    ],
+    "assetBindings": [
+      { "id": "main_textures", "type": "texture", "remixSafe": true },
+      { "id": "background_music", "type": "audio", "remixSafe": false },
+      { "id": "transition_shader", "type": "shader", "remixSafe": true }
+    ],
+    "debugMode": true
+  },
+  "issues": []
+}

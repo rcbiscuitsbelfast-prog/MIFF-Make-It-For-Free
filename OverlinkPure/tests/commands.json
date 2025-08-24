@@ -1,0 +1,5 @@
+[
+  { "op": "runScenario", "config": "sample_config.json" },
+  { "op": "runScenario", "config": "sample_config_debug.json" },
+  { "op": "runScenario", "config": "sample_config_remix.json" }
+]
