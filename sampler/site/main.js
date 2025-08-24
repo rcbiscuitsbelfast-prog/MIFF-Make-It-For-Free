@@ -1,28 +1,30 @@
 'use strict';
 (function(){
 	const remixToggle = document.getElementById('remixToggle');
-	const cards = document.querySelectorAll('.card[data-zone]');
 	let remix = false;
 
-	function openZone(zone){
-		// For static hosting, link to README anchors or local dev routes.
-		const map = {
-			toppler: '../../sampler/zones/toppler.js',
-			spirit_tamer: '../../sampler/zones/spirit_tamer.js',
-			witcher_grove: '../../sampler/zones/witcher_grove.js',
-			remix_lab: '../../sampler/zones/remix_lab.js'
-		};
-		const url = map[zone] || '../../README.md';
-		window.open(url, '_blank', 'noopener,noreferrer');
+	function renderPreview(){
+		const zone = location.hash.replace('#','');
+		const preview = document.getElementById('zone-preview');
+		if(!preview) return;
+		if(zone){
+			const src = `../zones/${zone}/index.html${remix? '?remix=1':''}`;
+			preview.innerHTML = `
+				<iframe src="${src}" frameborder="0" width="100%" height="600" loading="lazy"
+					onerror="this.parentElement.innerHTML='Demo not available. Check your engine bridge or remix safety.'"></iframe>
+			`;
+		}else{
+			preview.innerHTML = '';
+		}
 	}
 
 	remixToggle.addEventListener('change', (e)=>{
 		remix = !!e.target.checked;
 		document.body.classList.toggle('remix-on', remix);
-		console.log('Remix Mode:', remix);
+		renderPreview();
 	});
 
-	cards.forEach(btn => btn.addEventListener('click', ()=>{
-		openZone(btn.getAttribute('data-zone'));
-	}));
+	window.addEventListener('hashchange', renderPreview);
+	// Render initial hash on load
+	renderPreview();
 })();

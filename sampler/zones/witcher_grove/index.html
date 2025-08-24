@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Witcher Grove Demo</title>
+	<style>body{margin:0;font-family:sans-serif;background:#0f1116;color:#e6edf3} .wrap{padding:12px} .badge{display:inline-block;background:#1f6feb;color:#fff;padding:2px 8px;border-radius:999px;font-size:12px}</style>
+</head>
+<body>
+	<div class="wrap">
+		<h1>🧙 Witcher Grove Demo</h1>
+		<p>Narrative placeholder demo in a quiet forest clearing.</p>
+		<p id="remix" class="badge" hidden>Remix Mode</p>
+	</div>
+	<script>
+		const params = new URLSearchParams(location.search);
+		if(params.get('remix')==='1') document.getElementById('remix').hidden = false;
+	</script>
+</body>
+</html>

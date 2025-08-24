@@ -11,5 +11,9 @@ html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-fami
 .toggle{ display:flex; align-items:center; gap:8px }
 .site-footer{ padding:16px; text-align:center; color:var(--muted); border-top:1px solid #222 }
 .badge{ display:inline-block; background:#1f6feb; color:#fff; padding:2px 8px; border-radius:999px; font-size:0.8rem }
+.preview-container{ margin-top:12px; border:1px solid #222; border-radius:8px; overflow:hidden; background:#0b0e14 }
+.zone-card{ background:var(--card); color:var(--fg); border:1px solid #222; border-radius:8px; padding:16px }
+.zone-card a{ display:inline-block; margin-top:8px; color:var(--accent); text-decoration:none }
+.zone-card a:hover{ text-decoration:underline }
 @media (min-width: 640px){ .grid{ grid-template-columns:repeat(2,1fr) } }
 @media (min-width: 960px){ .grid{ grid-template-columns:repeat(4,1fr) } }
