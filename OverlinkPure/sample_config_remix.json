@@ -4,7 +4,14 @@
   "enableRemixMode": true,
   "enableThemes": true,
   "enableLineageTracking": true,
+  "enableAudio": true,
   "defaultTheme": "neonGrid",
+  "audioOptions": {
+    "autoPlay": true,
+    "crossfade": true,
+    "masterVolume": 0.8,
+    "themeVolume": 0.7
+  },
   "remixOrigin": {
     "id": "overlink_remix_001",
     "originalProject": "MIFF Framework",
@@ -12,6 +19,6 @@
     "remixContributor": "overlink_contributor",
     "remixDate": "2025-01-27",
     "remixLicense": "MIT",
-    "remixNotes": "Extended OverlinkPure with themes and lineage tracking"
+    "remixNotes": "Extended OverlinkPure with themes, lineage tracking, and ambient audio"
   }
 }

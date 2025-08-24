@@ -36,6 +36,17 @@ export type {
   LineageState
 } from './RemixLineageTracker';
 
+export { AudioManager } from './AudioManager';
+export type {
+  AudioBinding,
+  ThemeAudioBindings,
+  GlobalAudioSettings,
+  FallbackAsset,
+  AudioBindingsConfig,
+  AudioPlaybackState,
+  AudioManagerOptions
+} from './AudioManager';
+
 export { runScenario } from './ScenarioPackOverlinkPure';
 export type {
   ScenarioState,

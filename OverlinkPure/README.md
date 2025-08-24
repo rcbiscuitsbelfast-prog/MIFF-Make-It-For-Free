@@ -23,6 +23,7 @@
 - **Priority-based Rendering**: Optimized draw reducers for each theme
 - **Layer Management**: Toggleable background, foreground, UI, effects, and audio layers
 - **Asset Integration**: Remix-safe textures, shaders, and audio with fallbacks
+- **Ambient Audio**: Theme-specific ambient audio with remix safety and fallbacks
 
 ### Remix-Safe Asset Bindings
 - **Texture Assets**: Remix-safe texture atlases with fallback support
@@ -35,6 +36,12 @@
 - **Asset Lineage**: Full asset dependency and modification tracking
 - **Validation Hooks**: Customizable asset validation with audit logging
 - **Metadata Export**: JSON metadata for remix compliance and attribution
+
+### Ambient Audio Management
+- **Theme Audio Bindings**: neonGrid, forestGlade, cosmicVoid with ambient and effects
+- **Remix Safety**: CC0-licensed fallbacks for remix-restricted audio
+- **Volume Control**: Master and theme-specific volume with fade in/out
+- **Conditional Playback**: Audio based on remix mode, debug state, and zone state
 
 ## 🏗️ Architecture
 
@@ -191,6 +198,7 @@ zone.onTap('btn_preview');     // → Remix Preview
 - `OverlinkZone`: Main zone management class
 - `OverlinkThemes`: Visual theme system with asset management
 - `RemixLineageTracker`: Remix origin and asset lineage tracking
+- `AudioManager`: Ambient audio management with remix safety
 - `DrawReducer`: Renderer configuration and management
 - `AssetBinding`: Asset binding and validation
 - `ModuleConnection`: Module dependency management
@@ -203,6 +211,9 @@ zone.onTap('btn_preview');     // → Remix Preview
 - `toggleOverlayLayer()`: Control overlay visibility
 - `activateTheme()`: Activate visual theme with assets
 - `toggleThemeLayer()`: Control theme layer visibility
+- `playThemeAudio()`: Play ambient audio for themes
+- `setThemeVolume()`: Control theme-specific audio volume
+- `validateAudioRemixSafety()`: Check audio remix compatibility
 - `enableLineageTracking()`: Enable remix origin tracking
 - `registerRemixOrigin()`: Register remix project origin
 - `registerAssetLineage()`: Track asset modifications and dependencies

@@ -32,7 +32,9 @@ export interface ScenarioConfig {
   enableRemixMode?: boolean;
   enableThemes?: boolean;
   enableLineageTracking?: boolean;
+  enableAudio?: boolean;
   defaultTheme?: string;
+  audioOptions?: any;
   remixOrigin?: any;
 }
 
@@ -46,7 +48,9 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   const enableRemixMode = cfg.enableRemixMode ?? false;
   const enableThemes = cfg.enableThemes ?? false;
   const enableLineageTracking = cfg.enableLineageTracking ?? false;
+  const enableAudio = cfg.enableAudio ?? false;
   const defaultTheme = cfg.defaultTheme ?? 'neonGrid';
+  const audioOptions = cfg.audioOptions;
   const remixOrigin = cfg.remixOrigin;
   
   const overlink = new OverlinkZone();
@@ -139,12 +143,34 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   // Step 5.5: Setup themes if requested
   if (enableThemes) {
     overlink.activateTheme(defaultTheme as any);
+    
+    // Play theme audio if enabled
+    if (enableAudio) {
+      const audioOpts = {
+        remix: enableRemixMode,
+        debug: enableDebug,
+        autoPlay: audioOptions?.autoPlay ?? true,
+        crossfade: audioOptions?.crossfade ?? true
+      };
+      
+      overlink.playThemeAudio(defaultTheme as any, audioOpts).catch(console.error);
+    }
   }
 
   // Step 5.6: Setup lineage tracking if requested
   if (enableLineageTracking && remixOrigin) {
     overlink.enableLineageTracking();
     overlink.registerRemixOrigin(remixOrigin);
+  }
+
+  // Step 5.7: Setup audio if requested
+  if (enableAudio && audioOptions) {
+    if (audioOptions.masterVolume !== undefined) {
+      overlink.setMasterVolume(audioOptions.masterVolume);
+    }
+    if (audioOptions.themeVolume !== undefined && defaultTheme) {
+      overlink.setThemeVolume(defaultTheme as any, audioOptions.themeVolume);
+    }
   }
 
   // Step 6: Activate modules
