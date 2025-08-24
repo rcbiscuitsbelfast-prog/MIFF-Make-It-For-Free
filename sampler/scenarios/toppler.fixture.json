@@ -1,0 +1,7 @@
+{
+	"bodies": [
+		{ "id": "player", "position": { "x": 0, "y": 0 }, "velocity": { "x": 1, "y": 0 }, "mass": 1 }
+	],
+	"defaultGravity": { "x": 0, "y": 0 },
+	"defaultFriction": 0.1
+}

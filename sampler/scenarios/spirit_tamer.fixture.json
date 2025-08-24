@@ -1,0 +1,12 @@
+{
+	"dialogs": [
+		{
+			"id": "welcome",
+			"npc": "spirit_guide",
+			"nodes": [
+				{ "id": "n1", "text": "Welcome, tamer.", "choices": [ { "id": "c1", "text": "Begin", "nextNodeId": "n2", "triggers": { "questId": "spirit_intro" } } ] },
+				{ "id": "n2", "text": "Catch your first spirit.", "choices": [] }
+			]
+		}
+	]
+}

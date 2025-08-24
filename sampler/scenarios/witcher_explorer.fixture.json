@@ -1,0 +1,5 @@
+{
+	"monsters": [
+		{ "id": "drowner", "hp": 12, "atk": 6, "def": 2 }
+	]
+}
