@@ -1,0 +1,9 @@
+{
+	"id": "helmet_of_fate",
+	"remixMode": true,
+	"events": [
+		{ "frame": 0, "op": "hit", "args": { "by": "arrow", "target": "player" } },
+		{ "frame": 0, "op": "visual.item", "args": { "type": "helmet.split" } },
+		{ "frame": 1, "op": "quest.start", "args": { "questId": "new_journey" } }
+	]
+}
