@@ -24,5 +24,9 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testTimeout: 10000,
-  verbose: true
+  verbose: true,
+  moduleNameMapper: {
+    '^modules/(.*)$': '<rootDir>/modules/$1', // Map new modules facade
+    '^modules/pure/(.*)$': '<rootDir>/modules/pure/$1.ts' // Map Pure modules to TS re-exports
+  }
 };
