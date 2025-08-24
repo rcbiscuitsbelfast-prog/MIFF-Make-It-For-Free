@@ -1,0 +1,29 @@
+{
+	"background": "witcher_grove_bg.png",
+	"sprites": {
+		"npcIdle": "npc_witcher_idle.png",
+		"npcTalk": "npc_witcher_talk.png",
+		"btnAccept": "btn_accept_quest.png",
+		"btnBack": "btn_back.png"
+	},
+	"dialog": {
+		"id": "witcher_intro",
+		"npc": "witcher",
+		"nodes": [
+			{ "id": "n1", "text": "You look lost.", "choices": [ { "id": "c1", "text": "Looking for work.", "nextNodeId": "n2" } ] },
+			{ "id": "n2", "text": "Find a griffin feather.", "choices": [ { "id": "c2", "text": "I accept.", "triggers": { "questId": "find_griffin_feather" } } ] }
+		]
+	},
+	"questState": {
+		"quests": {},
+		"activeQuests": [],
+		"completedQuests": [],
+		"failedQuests": [],
+		"playerStats": { "level": 1, "xp": 0, "inventory": {}, "location": { "x": 0, "y": 0 }, "reputation": {} }
+	},
+	"taps": [
+		"npc_witcher",
+		"btn_accept_quest",
+		"btn_back"
+	]
+}

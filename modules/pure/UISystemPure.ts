@@ -1,11 +1,11 @@
-export type UIButton = { id: string; type: 'button'; label: string; layout?: 'full'; };
+export type UIButton = { id: string; type: 'button'; label: string; layout?: 'full'; image?: string };
 export type UIToggle = { id: string; type: 'toggle'; label: string; value: boolean };
 export type UIElement = UIButton | UIToggle;
 
 export type UIRender = { op: 'ui.render'; status: 'ok'; elements: UIElement[]; remixMode?: boolean; debugOverlay?: boolean };
 
-export function createButton(id: string, label: string, layout: 'full' = 'full'): UIButton {
-	return { id, type: 'button', label, layout };
+export function createButton(id: string, label: string, layout: 'full' = 'full', image?: string): UIButton {
+	return { id, type: 'button', label, layout, image };
 }
 
 export function createToggle(id: string, label: string, value = false): UIToggle {
