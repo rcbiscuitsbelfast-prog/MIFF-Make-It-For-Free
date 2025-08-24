@@ -1,29 +1,57 @@
 {
-	"background": "witcher_grove_bg.png",
-	"sprites": {
-		"npcIdle": "npc_witcher_idle.png",
-		"npcTalk": "npc_witcher_talk.png",
-		"btnAccept": "btn_accept_quest.png",
-		"btnBack": "btn_back.png"
+	"initialState": {
+		"from": "synth_nexus",
+		"dialoguesAvailable": ["witcher_intro"],
+		"questState": {
+			"quests": {},
+			"activeQuests": [],
+			"completedQuests": [],
+			"failedQuests": [],
+			"playerStats": { "level": 1, "xp": 0, "inventory": {}, "location": { "x": 0, "y": 0 }, "reputation": {} }
+		}
+	},
+	"assets": {
+		"background": "witcher_grove_bg.png",
+		"sprites": {
+			"npcIdle": "npc_witcher_idle.png",
+			"npcTalk": "npc_witcher_talk.png"
+		},
+		"buttons": {
+			"accept": "btn_accept_quest.png",
+			"back": "btn_back.png"
+		}
 	},
 	"dialog": {
 		"id": "witcher_intro",
 		"npc": "witcher",
 		"nodes": [
-			{ "id": "n1", "text": "You look lost.", "choices": [ { "id": "c1", "text": "Looking for work.", "nextNodeId": "n2" } ] },
+			{ "id": "n1", "text": "You look lost.", "choices": [ { "id": "c1", "text": "Tell me more", "nextNodeId": "n2" } ] },
 			{ "id": "n2", "text": "Find a griffin feather.", "choices": [ { "id": "c2", "text": "I accept.", "triggers": { "questId": "find_griffin_feather" } } ] }
 		]
 	},
-	"questState": {
-		"quests": {},
-		"activeQuests": [],
-		"completedQuests": [],
-		"failedQuests": [],
-		"playerStats": { "level": 1, "xp": 0, "inventory": {}, "location": { "x": 0, "y": 0 }, "reputation": {} }
-	},
-	"taps": [
-		"npc_witcher",
-		"btn_accept_quest",
-		"btn_back"
-	]
+	"tapSequence": [
+		{ "step": 1, "label": "Tap Witcher to start dialogue", "target": "npc_witcher" },
+		{ "step": 2, "label": "Choose 'Tell me more' (branch to quest offer)", "target": "choice_tell_me_more" },
+		{ "step": 3, "label": "Accept quest", "target": "btn_accept_quest" },
+		{ "step": 4, "label": "Back to Synth Nexus", "target": "btn_back" }
+	],
+	"expected": {
+		"dialog": {
+			"dialogId": "witcher_intro",
+			"logContains": ["DIALOG witcher_intro", "TXT n1 You look lost.", "CHOICE c1 Tell me more", "TXT n2 Find a griffin feather."]
+		},
+		"quest": {
+			"questId": "find_griffin_feather",
+			"status": "active"
+		},
+		"routing": {
+			"from": "witcher_grove",
+			"to": "synth_nexus"
+		},
+		"ui": {
+			"accepted": true,
+			"acceptButtonId": "btn_accept_quest",
+			"backButtonId": "btn_back"
+		}
+	}
 }
