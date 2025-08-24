@@ -21,24 +21,29 @@
 		<section aria-labelledby="zones-title" class="section zones">
 			<h2 id="zones-title">Zones</h2>
 			<div class="grid">
-				<button class="card" data-zone="toppler" aria-label="Play Toppler Puzzle">
+				<div class="zone-card">
 					<h3>🧱 Toppler Puzzle</h3>
-					<p>Physics puzzle sampler</p>
-				</button>
-				<button class="card" data-zone="spirit_tamer" aria-label="Play Spirit Tamer Combat">
+					<p>Physics puzzle with modular ramps and remixable rules.</p>
+					<a href="#toppler" aria-label="Play Toppler demo">Play Demo</a>
+				</div>
+				<div class="zone-card">
 					<h3>🐉 Spirit Tamer Combat</h3>
-					<p>Dialogue + interaction sampler</p>
-				</button>
-				<button class="card" data-zone="witcher_grove" aria-label="Play Witcher Grove Narrative">
+					<p>Dialogue + interaction sampler for taming spirits.</p>
+					<a href="#spirit_tamer" aria-label="Play Spirit Tamer demo">Play Demo</a>
+				</div>
+				<div class="zone-card">
 					<h3>🧙 Witcher Grove Narrative</h3>
-					<p>Quiet clearing with a mysterious NPC</p>
-				</button>
-				<button class="card" data-zone="remix_lab" aria-label="Open Remix Lab">
+					<p>Quiet clearing with a mysterious NPC near a campfire.</p>
+					<a href="#witcher_grove" aria-label="Play Witcher Grove demo">Play Demo</a>
+				</div>
+				<div class="zone-card">
 					<h3>🧪 Remix Lab</h3>
-					<p>Contributor-facing debug zone</p>
-				</button>
+					<p>Contributor-facing debug zone and CLI triggers.</p>
+					<a href="#remix_lab" aria-label="Open Remix Lab">Open</a>
+				</div>
 			</div>
-			<p class="hint">Each preview links to a playable zone or embedded demo.</p>
+			<p class="hint">Each preview loads below. Use hash routing to deep-link to a demo.</p>
+			<div id="zone-preview" class="preview-container" aria-live="polite"></div>
 		</section>
 
 		<section aria-labelledby="contrib-title" class="section contrib">
