@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF Sampler — Fixture Replay</title>
+	<style>
+		:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; --accent:#58a6ff; --border:#222 }
+		*{ box-sizing:border-box }
+		html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif }
+		.header{ padding:16px; border-bottom:1px solid var(--border) }
+		.header h1{ margin:0 0 4px 0; font-size:1.4rem }
+		.header p{ margin:0; color:var(--muted) }
+		.wrap{ padding:16px; max-width:960px; margin:0 auto }
+		.card{ background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px; margin:12px 0 }
+		.controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
+		select, button{ background:#0b0f16; color:var(--fg); border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:14px }
+		button{ cursor:pointer }
+		button:hover{ border-color:var(--accent) }
+		pre{ background:#0b0f16; border:1px solid var(--border); border-radius:8px; padding:12px; overflow:auto; max-height:50vh; }
+		.footer{ padding:16px; text-align:center; color:var(--muted); border-top:1px solid var(--border) }
+		a{ color:var(--accent); text-decoration:none }
+		a:hover{ text-decoration:underline }
+	</style>
+</head>
+<body>
+	<header class="header">
+		<h1>Fixture Replay</h1>
+		<p>Replay golden fixtures in the browser using Pure modules. Mobile-first and remix-safe.</p>
+	</header>
+	<main class="wrap">
+		<section class="card">
+			<div class="controls">
+				<label for="zone">Zone:</label>
+				<select id="zone" aria-label="Select zone">
+					<option value="toppler">Toppler</option>
+					<option value="spirit_tamer">Spirit Tamer</option>
+					<option value="witcher_grove">Witcher Grove</option>
+				</select>
+				<button id="run">Run Replay</button>
+			</div>
+		</section>
+		<section class="card">
+			<h2>Logs</h2>
+			<pre id="log" aria-live="polite"></pre>
+		</section>
+	</main>
+	<footer class="footer">
+		<p><a href="../site/index.html">← Back to MIFF Sampler</a></p>
+	</footer>
+	<script type="module" src="./replay.js"></script>
+</body>
+</html>
