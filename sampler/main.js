@@ -1,48 +1,44 @@
-// Sampler Main Entry (engine-agnostic, remix-safe)
-// Zones: Synth Nexus (menu), routes to Toppler, Spirit Tamer, Witcher Grove, Remix Lab
-// Modules used: modules/pure facades only
+// MIFF Sampler Entry (engine-agnostic, remix-safe)
+// Modules: ZoneSystemPure, RemixSystemPure, InputSystemPure
 
-require('ts-node/register/transpile-only'); // allow TS facades
-const fs = require('fs');
+require('ts-node/register/transpile-only');
+const { load, route } = require('../modules/pure/ZoneSystemPure.ts');
+const Remix = require('../modules/pure/RemixSystemPure.ts');
+const { mapInputs } = require('../modules/pure/InputSystemPure.ts');
 
-// Import facades
-const { mapInputs } = require('../modules/pure/InputSystemPure.ts'); // facade to systems/InputSystemPure
-const { runTimeline } = require('../modules/pure/QuestTimelinePure.ts'); // used for simple scene ticks
-
-// Load scenarios (fixtures)
-const paths = {
-	toppler: require('path').resolve(__dirname, './scenarios/toppler.fixture.json'),
-	spirit: require('path').resolve(__dirname, './scenarios/spirit_tamer.fixture.json'),
-	witcher: require('path').resolve(__dirname, './scenarios/witcher_explorer.fixture.json')
+const zones = {
+	synth_nexus: require('./zones/synth_nexus'),
+	toppler: require('./zones/toppler'),
+	spirit_tamer: require('./zones/spirit_tamer'),
+	witcher_grove: require('./zones/witcher_grove'),
+	remix_lab: require('./zones/remix_lab')
 };
 
-function startZone(zoneName) {
-	const zones = require('./zones');
-	switch(zoneName){
-		case 'toppler': return zones.toppler.startZone();
-		case 'spirit_tamer': return zones.spirit_tamer.startZone();
-		case 'witcher_grove': return zones.witcher_grove.startZone();
-		case 'remix_lab': return zones.remix_lab.startZone();
-		default: return zones.synth_nexus.startZone();
+function startSampler(){
+	// Initialize Remix Mode (default: off)
+	let remix = false;
+	console.log('[Sampler] Remix mode:', Remix.getState(remix));
+
+	// Load Synth Nexus
+	const loaded = load('synth_nexus');
+	console.log('[Sampler] Loaded:', loaded.current);
+	let current = 'synth_nexus';
+	let zone = zones[current].startZone({ remix });
+
+	// Wire routing via menu tap handler
+	function handleTapInSynthNexus(targetId){
+		const r = zone.onTap ? zone.onTap(targetId) : { op:'noop' };
+		if(r && r.op==='zone.route'){
+			current = r.route.to;
+			zone = zones[current].startZone({ remix });
+			console.log('[Sampler] Switched zone ->', current);
+		}
 	}
+
+	// Placeholder: simulate tapping Toppler from menu
+	handleTapInSynthNexus('btn_toppler');
+
+	return { status:'ok', remix, current, zone, setRemix: (on)=>{ remix = !!on; console.log('[Sampler] Remix:', Remix.getState(remix)); } };
 }
 
-function renderMenu(){
-	// Engine-agnostic: Just log options as a placeholder UI
-	console.log('[Synth Nexus] Select a zone: [1] Toppler  [2] Spirit Tamer  [3] Witcher Grove  [4] Remix Lab');
-}
-
-function start(){
-	renderMenu();
-	// Minimal input mapping placeholder
-	const input = mapInputs([
-		{ t: 0, type: 'key', key: '1' }
-	], [
-		{ type:'key', code:'1', action:'interact' }
-	]);
-	if(input.actions.length){ startZone('toppler'); } else { startZone('synth_nexus'); }
-}
-
-if(require.main===module){ start(); }
-
-module.exports = { start, startZone };
+module.exports = { startSampler };
