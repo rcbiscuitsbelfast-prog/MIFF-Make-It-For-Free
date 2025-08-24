@@ -214,13 +214,13 @@ export function checkOverlinkZoneHealth(): OverlinkZoneHealthCheck {
 export function safeOverlinkZoneCall<T>(
   methodName: keyof Window['overlinkZone'],
   fallback: T,
-  ...args: any[]
+  ...args: unknown[]
 ): T {
   try {
     if (typeof window !== 'undefined' && 'overlinkZone' in window) {
       const zone = window.overlinkZone;
       if (zone && typeof zone[methodName] === 'function') {
-        return zone[methodName](...args) as T;
+        return (zone[methodName] as (...args: unknown[]) => T)(...args);
       }
     }
   } catch (error) {
