@@ -220,3 +220,11 @@ See LICENSE.md for full terms.
 - [ ] Update the README with your zone name and description
 
 Keep everything modular, remix-safe, and contributor-friendly. Zones should be playable, testable, and easy to remix.
+
+## MIFF Sampler Quick Links
+- Sampler Landing: `sampler/site/index.html`
+- Replay Harness: `sampler/replay/index.html`
+- Onboarding Index: `sampler/site/onboarding-index.html`
+- CLI Scripts:
+  - Golden fixtures: `npm run test:golden`
+  - Remix validation: `npm run test:remix`
