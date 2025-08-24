@@ -1,0 +1,12 @@
+{
+	"version": 2,
+	"name": "miff-sampler",
+	"builds": [
+		{ "src": "sampler/site/index.html", "use": "@vercel/static" },
+		{ "src": "sampler/site/styles.css", "use": "@vercel/static" },
+		{ "src": "sampler/site/main.js", "use": "@vercel/static" }
+	],
+	"routes": [
+		{ "src": "/", "dest": "sampler/site/index.html" }
+	]
+}

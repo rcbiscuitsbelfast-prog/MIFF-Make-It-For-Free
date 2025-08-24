@@ -1,0 +1,15 @@
+:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; --accent:#58a6ff; }
+*{ box-sizing:border-box }
+html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; }
+.site-header{ padding:16px; text-align:center; border-bottom:1px solid #222; }
+.site-header .tag{ color:var(--muted); margin:4px 0 0 }
+.section{ padding:16px; max-width:960px; margin:0 auto }
+.grid{ display:grid; grid-template-columns:1fr; gap:12px }
+.card{ background:var(--card); color:var(--fg); border:1px solid #222; border-radius:8px; padding:16px; text-align:left; width:100%; cursor:pointer }
+.card:hover{ border-color:var(--accent) }
+.hint{ color:var(--muted); font-size:0.9rem }
+.toggle{ display:flex; align-items:center; gap:8px }
+.site-footer{ padding:16px; text-align:center; color:var(--muted); border-top:1px solid #222 }
+.badge{ display:inline-block; background:#1f6feb; color:#fff; padding:2px 8px; border-radius:999px; font-size:0.8rem }
+@media (min-width: 640px){ .grid{ grid-template-columns:repeat(2,1fr) } }
+@media (min-width: 960px){ .grid{ grid-template-columns:repeat(4,1fr) } }
