@@ -1,6 +1,6 @@
 const $ = (id) => document.getElementById(id);
 
-function logLine(text){ const el = $('log'); el.textContent += text + '\n'; }
+function logLine(text){ const el = $('log'); if(el) el.textContent += text + '\n'; else console.log(text); }
 function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
 
 async function loadFixture(zone){
@@ -11,50 +11,54 @@ async function loadFixture(zone){
 }
 
 async function importZone(zone){
-	// Expect an ESM wrapper at sampler/zones/ZONE/index.js exporting startZone
 	const url = `../zones/${zone}/index.js`;
 	return import(url);
 }
 
+function deepEqual(a, b){ return JSON.stringify(a) === JSON.stringify(b); }
+
 async function runReplay(zone){
-	$('log').textContent = '';
+	if($('log')) $('log').textContent = '';
 	try{
-		logLine(`Loading fixture for zone: ${zone}`);
 		const fx = await loadFixture(zone);
 		const mod = await importZone(zone);
-		if(!mod || typeof mod.startZone !== 'function') throw new Error('Zone does not export startZone()');
-		logLine('Initializing zone...');
-		const game = mod.startZone({ fixture: fx.scenario, remix: true });
-		if(!game || typeof game.onTap !== 'function') logLine('Note: onTap not exposed; steps will be logged only.');
-
+		const reducer = mod && mod.default;
+		if(typeof reducer !== 'function') throw new Error('Zone default export is not a reducer');
+		logLine(`Running fixture: ${fx.scenario?.id || 'unknown'} for zone: ${zone}`);
+		let state = undefined;
 		for(const step of fx.steps || []){
-			logLine(`STEP ${step.action} ${step.target || ''}`.trim());
+			state = await reducer({ state, action: step.action, data: step.data });
 			if(step.delayMs) await sleep(step.delayMs);
-			if(game && typeof game.onTap==='function' && step.action==='tap'){
-				const ev = game.onTap(step.target);
-				if(ev) logLine(` -> event: ${JSON.stringify(ev)}`);
-			}
 		}
-
-		logLine('Replay complete. Checking expected outcomes...');
-		const { expected } = fx;
-		let pass = true;
-		if(expected){
-			if(expected.routeTo){
-				pass = pass && true; // placeholder; real zones may expose current route
-				logLine(`Expect route → ${expected.routeTo} (not validated in-browser)`);
-			}
-			if(expected.quest){
-				logLine(`Expect quest → ${expected.quest} (validate via golden tests)`);
-			}
+		const pass = deepEqual(state, fx.expected);
+		logLine(pass? 'RESULT: PASS' : 'RESULT: FAIL');
+		if(!pass){
+			logLine('Expected:');
+			logLine(JSON.stringify(fx.expected, null, 2));
+			logLine('Got:');
+			logLine(JSON.stringify(state, null, 2));
 		}
-		logLine(pass? 'RESULT: PASS (manual spot-check)': 'RESULT: REVIEW');
+		return { zone, id: fx.scenario?.id || 'unknown', pass };
 	}catch(err){
 		logLine(`ERROR: ${err.message}`);
+		return { zone, id: 'error', pass: false };
 	}
 }
 
-$('run').addEventListener('click', ()=>{
-	const zone = $('zone').value;
-	runReplay(zone);
-});
+// Browser UI
+if(typeof window !== 'undefined'){
+	$('run')?.addEventListener('click', async ()=>{
+		const zone = $('zone').value;
+		const res = await runReplay(zone);
+		logLine(`Summary: ${res.zone}#${res.id} -> ${res.pass? 'ok':'fail'}`);
+	});
+}
+
+// Export for potential Node/CI usage (headless routing to be added later)
+export async function runAll(zones){
+	const results = [];
+	for(const z of zones) results.push(await runReplay(z));
+	const anyFail = results.some(r=>!r.pass);
+	if(typeof process !== 'undefined' && process?.exit){ process.exit(anyFail? 1: 0); }
+	return results;
+}

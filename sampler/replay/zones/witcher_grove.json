@@ -1,14 +1,16 @@
 {
-	"scenario": {
-		"note": "Witcher Grove narrative setup"
-	},
+	"scenario": { "id": "grove-loop" },
 	"steps": [
-		{ "action": "tap", "target": "npc_witcher", "delayMs": 200 },
-		{ "action": "tap", "target": "btn_accept_quest", "delayMs": 200 },
-		{ "action": "tap", "target": "btn_back", "delayMs": 200 }
+		{ "action": "path", "data": { "target": { "x": 2, "y": 0 } } },
+		{ "action": "path", "data": { "target": { "x": 3, "y": 0 } } },
+		{ "action": "craft", "data": { "recipe": "healing" } },
+		{ "action": "patrol" },
+		{ "action": "patrol" }
 	],
 	"expected": {
-		"quest": "find_griffin_feather",
-		"routeTo": "synth_nexus"
+		"player": { "x": 2, "y": 0 },
+		"inventory": { "herb": 0 },
+		"potions": { "healing": 1 },
+		"enemies": [ { "id": "e1", "x": 3, "y": 2, "patrol": [ { "x": 3, "y": 0 }, { "x": 3, "y": 2 } ], "p": 1 } ]
 	}
 }

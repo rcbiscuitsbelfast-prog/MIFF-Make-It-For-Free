@@ -1,12 +1,13 @@
 {
-	"scenario": {
-		"note": "Dialog tree is loaded from zone fixture"
-	},
+	"scenario": { "id": "spirit-capture" },
 	"steps": [
-		{ "action": "tap", "target": "spirit_fox", "delayMs": 150 },
-		{ "action": "tap", "target": "btn_back", "delayMs": 150 }
+		{ "action": "tap", "data": { "id": "spirit_fox" } },
+		{ "action": "tap", "data": { "id": "spirit_fox" } },
+		{ "action": "tap", "data": { "id": "spirit_fox" } }
 	],
 	"expected": {
-		"routeTo": "synth_nexus"
+		"spirits": [ { "id": "spirit_fox", "hp": 0, "captured": true } ],
+		"inventory": { "spirit_fox": 1 },
+		"turn": 0
 	}
 }
