@@ -4,9 +4,11 @@
 	"builds": [
 		{ "src": "sampler/site/index.html", "use": "@vercel/static" },
 		{ "src": "sampler/site/styles.css", "use": "@vercel/static" },
-		{ "src": "sampler/site/main.js", "use": "@vercel/static" }
+		{ "src": "sampler/site/main.js", "use": "@vercel/static" },
+		{ "src": "sampler/site/onboarding.html", "use": "@vercel/static" }
 	],
 	"routes": [
-		{ "src": "/", "dest": "sampler/site/index.html" }
+		{ "src": "/", "dest": "sampler/site/index.html" },
+		{ "src": "/onboarding.html", "dest": "sampler/site/onboarding.html" }
 	]
 }

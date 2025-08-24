@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF Onboarding</title>
+	<style>
+		:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; }
+		*{ box-sizing:border-box }
+		html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,Segoe UI,Roboto,sans-serif }
+		.header{ padding:16px; border-bottom:1px solid #222 }
+		.wrap{ padding:16px; max-width:960px; margin:0 auto }
+		.card{ background:var(--card); border:1px solid #222; border-radius:8px; padding:12px; margin:12px 0 }
+		.small{ color:var(--muted) }
+		.badge{ display:inline-block; background:#1f6feb; color:#fff; padding:2px 8px; border-radius:999px; font-size:12px }
+	</style>
+</head>
+<body>
+	<header class="header">
+		<h1 id="title">Welcome to the MIFF contributor guide</h1>
+		<p class="small">This zone is fully remix-safe and ready for forks.</p>
+	</header>
+	<main class="wrap">
+		<section class="card">
+			<h2>Setup Instructions</h2>
+			<ol>
+				<li>Clone or fork the repo.</li>
+				<li>Run <code>npm install</code> and <code>npm test</code>.</li>
+				<li>Use <code>npm run test:golden</code> and <code>npm run test:remix</code> to validate.</li>
+			</ol>
+		</section>
+		<section class="card">
+			<h2>Asset Audit Summary</h2>
+			<p>All assets must be CC0, GPL, or public domain. See <a href="../assets/README.md">assets/README.md</a> for sources.</p>
+		</section>
+		<section class="card">
+			<h2>Remix Hooks & Fixtures</h2>
+			<p>Explore fixtures in <code>sampler/scenarios/</code> and zone code in <code>sampler/zones/</code>. Use Pure modules for deterministic behavior.</p>
+			<p class="small">Tip: Enable <span class="badge">Remix Mode</span> on the landing page to test overlays.</p>
+		</section>
+	</main>
+	<script>
+		(function(){
+			const params = new URLSearchParams(location.search);
+			const zone = params.get('zone') || 'zone';
+			document.getElementById('title').textContent = `Welcome to the ${zone.replace('_',' ')} contributor guide`;
+		})();
+	</script>
+</body>
+</html>
