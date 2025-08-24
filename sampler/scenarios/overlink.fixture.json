@@ -1,0 +1,65 @@
+{
+  "zone": "overlink",
+  "modules": [
+    {
+      "id": "toppler_demo",
+      "name": "Toppler Demo",
+      "type": "physics_puzzle",
+      "status": "active"
+    },
+    {
+      "id": "spirit_tamer_demo",
+      "name": "Spirit Tamer",
+      "type": "rpg_combat",
+      "status": "active"
+    },
+    {
+      "id": "remix_preview",
+      "name": "Remix Preview",
+      "type": "meta_preview",
+      "status": "inactive",
+      "dependencies": ["toppler_demo", "spirit_tamer_demo"]
+    }
+  ],
+  "drawReducers": [
+    {
+      "id": "sprite_renderer",
+      "type": "sprite",
+      "priority": 1,
+      "enabled": true
+    },
+    {
+      "id": "ui_renderer",
+      "type": "ui",
+      "priority": 10,
+      "enabled": true
+    },
+    {
+      "id": "debug_renderer",
+      "type": "debug",
+      "priority": 100,
+      "enabled": false
+    }
+  ],
+  "assetBindings": [
+    {
+      "id": "main_textures",
+      "type": "texture",
+      "path": "assets/textures/main.atlas",
+      "remixSafe": true
+    },
+    {
+      "id": "transition_shader",
+      "type": "shader",
+      "path": "assets/shaders/transition.glsl",
+      "remixSafe": true
+    }
+  ],
+  "overlayLayers": {
+    "debug": false,
+    "ui": true,
+    "transition": true,
+    "preview": false,
+    "navigation": true
+  }
+}
