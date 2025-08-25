@@ -1,43 +1,159 @@
-# MIFF: Make It For Free
+# MIFF: Make It For Free  
+[![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)  
+[![CI Status](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
 
-**© R.C. Biscuits. All rights reserved. Generated using AI tools under user direction.**
+**Modular. Remix-Safe. Built with Prompts.**
 
-## ▶️ Play MIFF Sampler
+MIFF is a CLI-first, engine-agnostic game development framework designed for creators of all skill levels—including those with no coding experience. Every module is self-contained, remixable, and validated for compliance, making it easy to build, test, and deploy games across Unity, Web, and Godot.
 
-[![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
-
-Try the live demo here: [Play on GitHub Pages](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
-
----
-
-### ✅ Sampler Deployment Validation
-- Open: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/
-- Expect instant redirect to `/sampler/site/` (or click fallback link on the page)
-- Confirm onboarding index loads and links to scenario packs
-- Validate module presence (core UI links render; console has no 404s)
-- If Pages is still propagating (1–3 minutes), hard refresh or retry
+Created by **R.C. Biscuits** using prompt-driven development and AI-assisted scaffolding, MIFF is more than a framework—it's a movement for accessible, remix-safe game creation.
 
 ---
 
-## 🧭 MIFF Framework — Modular, Remix-Safe Game Development
+## ✨ Features
 
-**MIFF** is a modular, remix-safe, multi-platform game framework designed for rapid iteration and contributor empowerment. Built with engine-agnostic modules that can be composed into complete games across Unity, Web, and Godot platforms.
+- 🧩 Modular gameplay systems (combat, dialogue, rhythm, quests, etc.)  
+- 🔗 Engine bridges for Unity, Web, and Godot  
+- 🛠️ CLI tools for building and testing  
+- 🎮 Scenario packs with playable demos  
+- 🔍 Audit modules for remix safety and compliance  
+- 📦 Remix-safe assets (CC0, GPL, public domain)  
+- 📚 Contributor onboarding with zero friction  
 
-> Originally forked from [original repo name], MIFF has been rebuilt for remix safety, contributor empowerment, and AI-driven modularity.  
-> All legacy contributions are preserved in commit history. The framework now follows a dual-license model (AGPLv3 + commercial).
+---
 
-📦 Installation: [miffgamemain.vercel.app/getting-started/install](https://miffgamemain.vercel.app/getting-started/install)  
-🧑‍💻 Contributor Onboarding: [miffgamemain.vercel.app/contributors/onboarding](https://miffgamemain.vercel.app/contributors/onboarding)
+## 📦 Modules Overview
 
-Maintainer: **R.C. Biscuits**  
-Visionary architect of MIFF — building a global, remixable ecosystem for modular game creation.
+### Core Systems
+| Module | Description |
+|--------|-------------|
+| `ProjectileSystemPure` | Projectile physics and lifecycle |
+| `HealthSystemPure` | Damage, healing, and health tracking |
+| `DialogueSystemPure` | Branching conversations |
+| `RhythmSystemPure` | Beat-based gameplay |
+| `CutsceneSystemPure` | Scripted sequences |
+| `NavigationSystemPure` | Pathfinding and movement |
 
-## 🎯 What's Included
+### Engine Bridges
+| Module | Description |
+|--------|-------------|
+| `UnityBridgePure` | Unity integration |
+| `WebBridgePure` | Browser support |
+| `GodotBridgePure` | Godot engine compatibility |
+| `BridgeSchemaPure` | Unified schema for cross-engine use |
 
-### 🧩 Core Systems
-- **[ProjectileSystemPure](systems/ProjectileSystemPure/README.md)** - Projectile physics and lifecycle management
-- **[ScoreSystemPure](systems/ScoreSystemPure/README.md)** - Score tracking and event processing
-- **[HealthSystemPure](systems/HealthSystemPure/README.md)** - Health management and damage events
+### CLI Tools
+| Tool | Purpose |
+|------|--------|
+| `AutoBuilderCLI` | Build games for Web, Unity, or Godot |
+| `RenderPayloadPure` | Convert game state to visual frames |
+| `ConvertToWebPure` | Web platform converter |
+| `ConvertToUnityPure` | Unity platform converter |
+| `ConvertToGodotPure` | Godot platform converter |
+
+### Audit & Validation
+| Module | Purpose |
+|--------|--------|
+| `RemixAuditPure` | Remix safety and modular boundaries |
+| `AssetValidatorPure` | Asset license and format checks |
+| `CIEnforcerPure` | Contributor standards and CI validation |
+| `VisualReplaySystemPure` | Deterministic replay with visual hooks |
+
+---
+
+## 🚀 Getting Started
+
+### Requirements
+- Node.js 18+  
+- Optional runtime adapters:
+  - Unity 2021.3+
+  - Modern browser (Web)
+  - Godot 4.2+
+
+### Installation
+```bash
+npm install
+```
+
+### Run a CLI Harness
+```bash
+npx ts-node systems/DialogueSystemPure/cliHarness.ts fixtures/sample_dialogue.json
+```
+
+### Build a Demo
+```bash
+npx ts-node AutoBuilderCLI/cli.ts TopplerDemoPure --fps 24 --debug --out toppler.html
+```
+
+---
+
+## 🧪 Try the Sampler
+
+Play the live demo:  
+👉 [MIFF Sampler on GitHub Pages](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
+
+Includes:
+- Toppler (physics platformer)  
+- Spirit Tamer (rhythm game)  
+- Witcher Grove (open-world zone)  
+- Remix Lab (debug and replay tools)
+
+---
+
+## 🤝 Contributing
+
+MIFF is built for remixing. To add a new zone or module:
+
+1. Fork the repo  
+2. Use only Pure Modules (no engine dependencies)  
+3. Add fixtures and assets under `sampler/`  
+4. Validate with CLI harnesses and golden tests  
+5. Submit a pull request with clear documentation
+
+See the [Contributor Guide](https://miffgamemain.vercel.app/contributors/onboarding) for full onboarding.
+
+---
+
+## 📜 License
+
+MIFF uses a dual-license model:
+- GNU Affero General Public License v3.0 (AGPLv3)
+- Commercial license (contact per LICENSE.md)
+
+All assets are remix-safe (CC0, GPL, or public domain).  
+See `LICENSE.md` for full terms.
+
+---
+
+## 🌍 Vision & Roadmap
+
+> **Ask MIFF AI for a game—and it builds the demo.**  
+> Downloadable. Remixable. Ready to expand.
+
+The long-term goal is to integrate MIFF with an AI companion that can:
+- Generate playable game demos from natural language prompts  
+- Scaffold zones, assets, and logic using Pure Modules  
+- Package the result for Web, Unity, or Godot  
+- Ensure remix safety and compliance automatically  
+- Offer instant onboarding for contributors and educators
+
+### Current Phase:  
+✅ Phase 15 — Visual Replay & Testing
+
+### Next Phase:  
+🚀 Phase 16 — Funding, Outreach & Global Deployment
+
+📋 [View Full Roadmap](ROADMAP.md)
+
+---
+
+## 📚 Resources
+
+- 🌐 [Documentation Site](https://miff-framework.github.io/miff)  
+- 🚀 [Getting Started](https://miffgamemain.vercel.app/getting-started/install)  
+- 🎬 [Replay Tool](https://miff-framework.github.io/miff/getting-started/replay)  
+- 🔍 [Inspect Tool](https://miff-framework.github.io/miff/getting-started/inspect)  
+- 📚 [Contributor Guide](https://miffgamemain.vercel.app/contributors/onboarding)- **[HealthSystemPure](systems/HealthSystemPure/README.md)** - Health management and damage events
 - **[InputSystemPure](systems/InputSystemPure/README.md)** - Input mapping and processing
 - **[CameraBridgePure](systems/CameraBridgePure/README.md)** - Camera control and following
 - **[RhythmSystemPure](systems/RhythmSystemPure/README.md)** - Beat timing and rhythm logic
