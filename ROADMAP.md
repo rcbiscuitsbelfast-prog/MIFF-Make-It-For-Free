@@ -18,7 +18,13 @@
 | 12–14       | Gameplay: Core systems, management, compliance  
 | 15          | Advanced Features: Visual replay, enhanced building  
 | 16          | Global Expansion: Funding, outreach, sustainability  
-| 17          | Remix Overlay: Sampler zones, browser replay, contributor onboarding  
+| 17          | Contributor Tooling: Sampler zones, remix overlay, onboarding  
+| 18          | Flagship Game: Full release to test modular model  
+| 19          | Feedback Loop: Scaffold audit, missing systems, remix trail  
+| 20          | Prompt-to-Game: Natural language → playable demo  
+| 21          | Asset Pipeline: Remix-safe packs, visual editor  
+| 22          | MIFF Studio: Web IDE, scenario builder, export tools  
+| 23+         | Education & Enterprise: Curriculum, SDK, licensing, global scale
 
 ---
 
