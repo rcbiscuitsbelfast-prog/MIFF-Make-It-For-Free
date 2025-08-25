@@ -1,4 +1,8 @@
 /**
+ * @jest-environment jsdom
+ */
+
+/**
  * This test uses browser-specific features like document.createElement,
  * which aren't available in Jest's default Node.js environment.
  * 
@@ -11,11 +15,6 @@
  * This allows DOM-based tests—like player movement and win/fail triggers—to run
  * without errors, while keeping the test modular and remix-safe.
  */
- 
-/**
- * @jest-environment jsdom
- */
-
 import { TopplerScene } from '../TopplerScene';
 
 function makeContainer(): HTMLElement {
