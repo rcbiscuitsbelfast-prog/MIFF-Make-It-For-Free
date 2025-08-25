@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toppler - Standalone</title>
+    <meta name="description" content="A tiny standalone Toppler demo you can open directly and share." />
+    <style>
+      html, body { margin: 0; padding: 0; background: #000; height: 100%; }
+      body { display: flex; align-items: flex-start; justify-content: center; }
+      .column { width: 100%; max-width: 420px; padding: 16px; box-sizing: border-box; }
+      #app { width: 360px; height: 640px; margin: 12px auto; border: 1px solid #333; background: #111; position: relative; }
+      .hint { color: #ccc; text-align: center; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif; }
+      .badge { color: #9aa; text-align: center; font-size: 12px; margin-top: 4px; }
+      .overlay {
+        position: absolute; inset: 0; display: none; align-items: center; justify-content: center;
+        background: rgba(0,0,0,0.6); color: #fff; font-family: system-ui, sans-serif;
+      }
+      .overlay.visible { display: flex; }
+      .overlay .card { background: #1b1b1b; padding: 16px 20px; border-radius: 8px; border: 1px solid #333; width: 85%; max-width: 320px; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+      .overlay .card h2 { margin: 0 0 10px 0; font-size: 18px; }
+      .overlay .card p { margin: 0 0 14px 0; font-size: 14px; line-height: 1.5; color: #ddd; }
+      .row { display: flex; gap: 8px; }
+      .btn { background: #fff; color: #222; border: 0; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+      .btn.secondary { background: #2a2a2a; color: #ddd; border: 1px solid #3a3a3a; }
+    </style>
+  </head>
+  <body>
+    <div class="column">
+      <div class="hint">Press Space/ArrowUp or tap canvas to jump</div>
+      <div id="app">
+        <div id="overlay" class="overlay">
+          <div class="card">
+            <h2 id="overlay-title">Toppler</h2>
+            <p id="overlay-msg">—</p>
+            <div class="row">
+              <button id="btn-close" class="btn">Close</button>
+              <button id="btn-retry" class="btn secondary">Retry</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="badge">Standalone build • No framework required</div>
+    </div>
+
+    <script>
+      (function(){
+        function TopplerScene(config){
+          this.config = {
+            theme: config && config.theme || 'classic',
+            width: config && config.width || 360,
+            height: config && config.height || 640,
+            gravity: config && config.gravity || 0.6,
+            jumpForce: config && config.jumpForce || 15,
+            winHeight: config && config.winHeight || 560,
+            failHeight: config && config.failHeight || -100
+          };
+          this.state = {
+            isPlaying: true,
+            isWon: false,
+            isFailed: false,
+            currentHeight: 0,
+            maxHeight: 0,
+            attempts: 0,
+            startTime: Date.now(),
+            theme: this.config.theme
+          };
+          this.canvas = null;
+          this.ctx = null;
+          this.player = { x: 0, y: 0, width: 30, height: 30 };
+          this.platforms = [];
+          this.velocityY = 0;
+          this.animationId = null;
+        }
+
+        TopplerScene.prototype.mount = function(container){
+          var canvas = document.createElement('canvas');
+          canvas.width = this.config.width;
+          canvas.height = this.config.height;
+          container.appendChild(canvas);
+          var ctx = canvas.getContext('2d');
+          if(!ctx) throw new Error('Canvas 2D context not available');
+          this.canvas = canvas;
+          this.ctx = ctx;
+
+          this.player.x = (this.config.width - this.player.width) / 2;
+          this.player.y = this.config.height - this.player.height - 8;
+
+          this.platforms = Array.from({ length: 8 }).map(function(_, i){
+            return {
+              x: 40 + ((i % 2) * 160),
+              y: this.config.height - 80 - i * 70,
+              width: 120,
+              height: 16
+            };
+          }, this);
+
+          var self = this;
+          function loop(){ self._loop(); }
+          this.animationId = requestAnimationFrame(loop);
+        };
+
+        TopplerScene.prototype.jump = function(){
+          if(this.state.isWon || this.state.isFailed) return;
+          if(this.velocityY >= 0){
+            this.velocityY = -this.config.jumpForce;
+          }
+        };
+
+        TopplerScene.prototype._loop = function(){
+          this.velocityY += this.config.gravity;
+          this.player.y += this.velocityY;
+
+          for(var i=0;i<this.platforms.length;i++){
+            var p = this.platforms[i];
+            var onTop = this.player.y + this.player.height <= p.y + 5;
+            if(this._intersects(this.player, p) && this.velocityY > 0 && onTop){
+              this.player.y = p.y - this.player.height;
+              this.velocityY = 0;
+            }
+          }
+
+          var heightFromBottom = this.config.height - this.player.y;
+          this.state.currentHeight = heightFromBottom;
+          this.state.maxHeight = Math.max(this.state.maxHeight, heightFromBottom);
+          if(heightFromBottom >= this.config.winHeight){
+            this.state.isWon = true;
+            this.state.isPlaying = false;
+          }
+          if(this.player.y > this.config.height - this.config.failHeight){
+            this.state.isFailed = true;
+            this.state.isPlaying = false;
+          }
+
+          this._render();
+
+          if(this.state.isPlaying){
+            var self = this;
+            this.animationId = requestAnimationFrame(function(){ self._loop(); });
+          } else {
+            if(this.state.isWon){ showOverlay('You Win!', 'Great climb! Press Retry to play again.'); }
+            else if(this.state.isFailed){ showOverlay('You Fell!', 'Try again. Tap Retry to climb higher.'); }
+          }
+        };
+
+        TopplerScene.prototype._intersects = function(a, b){
+          return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+        };
+
+        TopplerScene.prototype._render = function(){
+          this.ctx.clearRect(0, 0, this.config.width, this.config.height);
+          this.ctx.fillStyle = '#111';
+          this.ctx.fillRect(0, 0, this.config.width, this.config.height);
+          this.ctx.fillStyle = '#4ECDC4';
+          for(var i=0;i<this.platforms.length;i++){
+            var p = this.platforms[i];
+            this.ctx.fillRect(p.x, p.y, p.width, p.height);
+          }
+          this.ctx.fillStyle = '#FFE66D';
+          this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
+        };
+
+        TopplerScene.prototype.destroy = function(){
+          if(this.animationId) cancelAnimationFrame(this.animationId);
+          if(this.canvas && this.canvas.parentNode) this.canvas.parentNode.removeChild(this.canvas);
+        };
+
+        // UI helpers
+        function showOverlay(title, msg){
+          var overlay = document.getElementById('overlay');
+          if(!overlay) return;
+          document.getElementById('overlay-title').textContent = title;
+          document.getElementById('overlay-msg').textContent = msg;
+          overlay.classList.add('visible');
+        }
+        function hideOverlay(){
+          var overlay = document.getElementById('overlay');
+          if(!overlay) return;
+          overlay.classList.remove('visible');
+        }
+
+        function bootstrap(){
+          var container = document.getElementById('app');
+          if(!container) throw new Error('#app container missing');
+
+          var scene = new TopplerScene({});
+          scene.mount(container);
+
+          // keyboard
+          window.addEventListener('keydown', function(e){
+            if(e.key === ' ' || e.key === 'ArrowUp') scene.jump();
+            if(e.key === 'r' || e.key === 'R') { scene.destroy(); hideOverlay(); scene = new TopplerScene({}); scene.mount(container); }
+          });
+
+          // click / tap on canvas
+          container.addEventListener('pointerdown', function(){ scene.jump(); }, { passive: true });
+
+          // overlay buttons
+          var btnClose = document.getElementById('btn-close');
+          var btnRetry = document.getElementById('btn-retry');
+          if(btnClose) btnClose.addEventListener('click', hideOverlay);
+          if(btnRetry) btnRetry.addEventListener('click', function(){ scene.destroy(); hideOverlay(); scene = new TopplerScene({}); scene.mount(container); });
+
+          window.TopplerStandalone = { scene: scene };
+        }
+
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootstrap); else bootstrap();
+      })();
+    </script>
+  </body>
+  </html>
+
