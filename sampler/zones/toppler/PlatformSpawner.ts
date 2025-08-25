@@ -303,7 +303,7 @@ export class PlatformSpawner {
     }
 
     private getPlatformColor(theme: string, type: string): string {
-        const colorSchemes = {
+        const colorSchemes: Record<string, Record<string, string>> = {
             forest: {
                 static: '#228B22',
                 moving: '#32CD32',
@@ -326,18 +326,34 @@ export class PlatformSpawner {
             }
         };
         
-        return colorSchemes[theme]?.[type] || colorSchemes.classic.static;
+        const themeColors = colorSchemes[theme];
+        if (themeColors && themeColors[type]) {
+            return themeColors[type];
+        }
+        
+        const classicColors = colorSchemes['classic'];
+        if (classicColors && classicColors['static']) {
+            return classicColors['static'];
+        }
+        
+        return '#4ECDC4';
     }
 
     private getSpacingForDifficulty(difficulty: string): number {
-        const spacingMap = {
+        const spacingMap: Record<string, number> = {
             'easy': 80,
             'medium': 120,
             'hard': 160,
             'extreme': 200
         };
         
-        return spacingMap[difficulty] || spacingMap.medium;
+        const spacing = spacingMap[difficulty];
+        if (spacing !== undefined) {
+            return spacing;
+        }
+        
+        const mediumSpacing = spacingMap['medium'];
+        return mediumSpacing !== undefined ? mediumSpacing : 120;
     }
 
     private destroyPlatform(platform: Platform): void {
@@ -346,6 +362,10 @@ export class PlatformSpawner {
         if (index !== -1) {
             this.platforms.splice(index, 1);
         }
+    }
+
+    public updateScreenBounds(bounds: { width: number; height: number }): void {
+        this.screenBounds = bounds;
     }
 
     public addCustomLayout(name: string, layout: LayoutPreset): void {

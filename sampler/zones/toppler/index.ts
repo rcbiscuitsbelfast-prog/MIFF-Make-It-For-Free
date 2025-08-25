@@ -60,7 +60,6 @@ class TopplerGame {
         // Initialize platform spawner
         this.platformSpawner = new PlatformSpawner({
             theme: config.theme,
-            platformCount: config.platformCount,
             minSpacing: 80,
             maxSpacing: 150
         }, {
@@ -82,8 +81,7 @@ class TopplerGame {
             winHeight: config.winHeight,
             narrativeMode: true,
             remixMode: config.remixMode,
-            onWin: (condition) => this.handleWin(condition),
-            onReset: () => this.handleReset()
+            onWin: (condition) => this.handleWin(condition)
         });
 
         // Initialize fail zone
@@ -345,7 +343,7 @@ class TopplerGame {
 }
 
 // Initialize game when DOM is ready
-let game: TopplerGame;
+let game: TopplerGame | undefined;
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('[TopplerGame] DOM ready, initializing game...');

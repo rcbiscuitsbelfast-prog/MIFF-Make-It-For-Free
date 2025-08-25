@@ -86,7 +86,7 @@ export const TopplerUI: React.FC<UIProps> = ({
         }
     };
 
-    const currentTheme = themes[localTheme] || themes.classic;
+    const currentTheme = themes[localTheme] || themes['classic'];
 
     useEffect(() => {
         setLocalTheme(state.theme);
@@ -118,8 +118,14 @@ export const TopplerUI: React.FC<UIProps> = ({
     const getStatusColor = (): string => {
         if (state.isWon) return '#00ff00';
         if (state.isFailed) return '#ff0000';
-        return currentTheme.accent;
+        return currentTheme?.accent || '#FFEAA7';
     };
+
+    // Ensure currentTheme is always defined
+    if (!currentTheme) {
+        console.error('Theme not found:', localTheme);
+        return <div>Error: Theme not found</div>;
+    }
 
     return (
         <div className={`toppler-ui ${className}`} style={{ 

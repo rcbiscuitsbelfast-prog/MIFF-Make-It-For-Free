@@ -29,6 +29,7 @@ export interface GameState {
     maxHeight: number;
     attempts: number;
     startTime: number;
+    theme: string;
 }
 
 export class TopplerScene {
@@ -38,7 +39,6 @@ export class TopplerScene {
     private ctx: CanvasRenderingContext2D;
     private components: Map<string, any>;
     private animationId: number | null = null;
-    private lastTime: number = 0;
 
     constructor(config: Partial<TopplerConfig> = {}) {
         this.config = {
@@ -61,7 +61,8 @@ export class TopplerScene {
             currentHeight: this.config.playerStartHeight,
             maxHeight: this.config.playerStartHeight,
             attempts: 0,
-            startTime: Date.now()
+            startTime: Date.now(),
+            theme: this.config.theme
         };
 
         this.components = new Map();
@@ -87,13 +88,20 @@ export class TopplerScene {
     }
 
     private getThemeBackground(): string {
-        const themes = {
+        const themes: Record<string, string> = {
             forest: 'linear-gradient(to bottom, #2d5016, #1a2e0f)',
             ruins: 'linear-gradient(to bottom, #4a4a4a, #2a2a2a)',
             neon: 'linear-gradient(to bottom, #0a0a2a, #000000)',
             classic: 'linear-gradient(to bottom, #87ceeb, #98fb98)'
         };
-        return themes[this.config.theme] || themes.classic;
+        
+        const theme = themes[this.config.theme];
+        if (theme) {
+            return theme;
+        }
+        
+        const classicTheme = themes['classic'];
+        return classicTheme || 'linear-gradient(to bottom, #87ceeb, #98fb98)';
     }
 
     private loadComponents(): void {
@@ -114,22 +122,23 @@ export class TopplerScene {
             height: 30,
             velocityY: 0,
             isOnGround: false,
-            update: (deltaTime: number) => this.updatePlayer(deltaTime),
+            update: () => this.updatePlayer(),
             render: () => this.renderPlayer()
         };
     }
 
     private createPlatforms(): any[] {
-        const platforms = [];
+        const platforms: any[] = [];
         for (let i = 0; i < this.config.platformCount; i++) {
-            platforms.push({
+            const platform = {
                 x: Math.random() * (this.canvas.width - 100) + 50,
                 y: this.canvas.height - (i * this.config.platformSpacing + this.config.playerStartHeight),
                 width: 80 + Math.random() * 40,
                 height: 20,
-                update: (deltaTime: number) => this.updatePlatform(platforms[i], deltaTime),
-                render: () => this.renderPlatform(platforms[i])
-            });
+                update: () => this.updatePlatform(),
+                render: () => this.renderPlatform(platform)
+            };
+            platforms.push(platform);
         }
         return platforms;
     }
@@ -157,7 +166,7 @@ export class TopplerScene {
         };
     }
 
-    private updatePlayer(deltaTime: number): void {
+    private updatePlayer(): void {
         const player = this.components.get('player');
         
         // Apply gravity
@@ -193,8 +202,9 @@ export class TopplerScene {
         this.gameState.maxHeight = Math.max(this.gameState.maxHeight, this.gameState.currentHeight);
     }
 
-    private updatePlatform(platform: any, deltaTime: number): void {
+    private updatePlatform(): void {
         // Platform update logic (can be extended for moving platforms)
+        // Currently no update logic needed
     }
 
     private checkCollision(rect1: any, rect2: any): boolean {
@@ -318,7 +328,7 @@ export class TopplerScene {
     }
 
     private getThemeColor(element: string): string {
-        const colorSchemes = {
+        const colorSchemes: Record<string, Record<string, string>> = {
             forest: {
                 player: '#8B4513',
                 platform: '#228B22',
@@ -349,7 +359,26 @@ export class TopplerScene {
             }
         };
         
-        return colorSchemes[this.config.theme]?.[element] || colorSchemes.classic[element];
+        const themeColors = colorSchemes[this.config.theme];
+        if (themeColors && themeColors[element]) {
+            return themeColors[element];
+        }
+        
+        const classicColors = colorSchemes['classic'];
+        if (classicColors && classicColors[element]) {
+            return classicColors[element];
+        }
+        
+        // Fallback colors
+        const fallbackColors: Record<string, string> = {
+            player: '#FF6B6B',
+            platform: '#4ECDC4',
+            win: '#45B7D1',
+            fail: '#96CEB4',
+            progress: '#FFEAA7'
+        };
+        
+        return fallbackColors[element] || '#4ECDC4';
     }
 
     private setupEventListeners(): void {
@@ -360,12 +389,12 @@ export class TopplerScene {
         });
 
         // Handle input (will be connected to PlayerController)
-        this.canvas.addEventListener('click', (e) => this.handleInput(e));
-        this.canvas.addEventListener('touchstart', (e) => this.handleInput(e));
-        this.canvas.addEventListener('keydown', (e) => this.handleInput(e));
+        this.canvas.addEventListener('click', () => this.handleInput());
+        this.canvas.addEventListener('touchstart', () => this.handleInput());
+        this.canvas.addEventListener('keydown', () => this.handleInput());
     }
 
-    private handleInput(event: any): void {
+    private handleInput(): void {
         if (this.gameState.isWon || this.gameState.isFailed) {
             this.resetGame();
             return;
@@ -385,7 +414,8 @@ export class TopplerScene {
             currentHeight: this.config.playerStartHeight,
             maxHeight: this.config.playerStartHeight,
             attempts: this.gameState.attempts,
-            startTime: Date.now()
+            startTime: Date.now(),
+            theme: this.config.theme
         };
 
         const player = this.components.get('player');
@@ -396,17 +426,14 @@ export class TopplerScene {
     }
 
     private startGameLoop(): void {
-        const gameLoop = (currentTime: number) => {
-            const deltaTime = currentTime - this.lastTime;
-            this.lastTime = currentTime;
-
+        const gameLoop = () => {
             // Clear canvas
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             // Update components
             if (this.gameState.isPlaying) {
-                this.components.get('player').update(deltaTime);
-                this.components.get('platforms').forEach((platform: any) => platform.update(deltaTime));
+                this.components.get('player').update();
+                this.components.get('platforms').forEach((platform: any) => platform.update());
             }
 
             // Render components
@@ -431,11 +458,16 @@ export class TopplerScene {
 
     public setTheme(theme: TopplerConfig['theme']): void {
         this.config.theme = theme;
+        this.gameState.theme = theme;
         this.canvas.style.background = this.getThemeBackground();
     }
 
     public getGameState(): GameState {
         return { ...this.gameState };
+    }
+
+    public reset(): void {
+        this.resetGame();
     }
 
     public destroy(): void {

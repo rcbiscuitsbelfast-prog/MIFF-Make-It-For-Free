@@ -30,7 +30,7 @@ export interface TestResult {
     scenario: string;
     passed: boolean;
     duration: number;
-    error?: string;
+    error?: string | undefined;
     actualResult?: any;
 }
 
@@ -346,7 +346,7 @@ export class TopplerTest {
     private async runScenario(scenario: TestScenario): Promise<TestResult> {
         const startTime = Date.now();
         let actualResult: any;
-        let error: string | undefined;
+        let error: string | undefined = undefined;
 
         try {
             const gameState = scenario.setup();
@@ -359,19 +359,24 @@ export class TopplerTest {
         const duration = Date.now() - startTime;
         const passed = !error && this.compareResults(actualResult, scenario.expectedResult);
 
-        return {
+        const result: TestResult = {
             scenario: scenario.name,
             passed,
             duration,
-            error,
             actualResult
         };
+
+        if (error) {
+            result.error = error;
+        }
+
+        return result;
     }
 
     private async runFixture(fixture: GoldenFixture): Promise<TestResult> {
         const startTime = Date.now();
         let actualResult: any;
-        let error: string | undefined;
+        let error: string | undefined = undefined;
 
         try {
             // Simulate fixture execution
@@ -383,13 +388,18 @@ export class TopplerTest {
         const duration = Date.now() - startTime;
         const passed = !error && this.compareResults(actualResult, fixture.expectedOutput, fixture.tolerance);
 
-        return {
+        const result: TestResult = {
             scenario: `Fixture: ${fixture.name}`,
             passed,
             duration,
-            error,
             actualResult
         };
+
+        if (error) {
+            result.error = error;
+        }
+
+        return result;
     }
 
     private simulateFixture(input: any): any {
@@ -508,14 +518,21 @@ export const createTestScenario = (
     execute: (gameState: any) => void,
     expectedResult: any,
     timeout?: number
-): TestScenario => ({
-    name,
-    description,
-    setup,
-    execute,
-    expectedResult,
-    timeout
-});
+): TestScenario => {
+    const scenario: TestScenario = {
+        name,
+        description,
+        setup,
+        execute,
+        expectedResult
+    };
+
+    if (timeout !== undefined) {
+        scenario.timeout = timeout;
+    }
+
+    return scenario;
+};
 
 export const createGoldenFixture = (
     name: string,
@@ -523,10 +540,17 @@ export const createGoldenFixture = (
     input: any,
     expectedOutput: any,
     tolerance?: number
-): GoldenFixture => ({
-    name,
-    description,
-    input,
-    expectedOutput,
-    tolerance
-});
+): GoldenFixture => {
+    const fixture: GoldenFixture = {
+        name,
+        description,
+        input,
+        expectedOutput
+    };
+
+    if (tolerance !== undefined) {
+        fixture.tolerance = tolerance;
+    }
+
+    return fixture;
+};

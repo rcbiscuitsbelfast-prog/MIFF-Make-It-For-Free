@@ -45,7 +45,7 @@ export class WinTrigger {
     private triggeredCondition: WinCondition | null = null;
 
     constructor(config: WinTriggerConfig) {
-        this.config = {
+        const defaultConfig = {
             conditions: [
                 {
                     id: 'height_reach',
@@ -58,10 +58,10 @@ export class WinTrigger {
             winHeight: 800,
             narrativeMode: false,
             remixMode: false,
-            onWin: () => {},
-            ...config
+            onWin: () => {}
         };
 
+        this.config = { ...defaultConfig, ...config };
         this.startTime = Date.now();
     }
 
@@ -85,12 +85,12 @@ export class WinTrigger {
         }
 
         // Check time-based win condition
-        if (this.checkTimeWin(gameState)) {
+        if (this.checkTimeWin()) {
             return this.triggerWin('time_challenge', playerState, gameState);
         }
 
         // Check custom win conditions
-        const customWin = this.checkCustomWinConditions(playerState, gameState);
+        const customWin = this.checkCustomWinConditions();
         if (customWin) {
             return this.triggerWin(customWin.id, playerState, gameState);
         }
@@ -116,7 +116,7 @@ export class WinTrigger {
         return this.checkPlayerOnPlatform(playerState, winPlatform);
     }
 
-    private checkTimeWin(gameState: any): boolean {
+    private checkTimeWin(): boolean {
         const winCondition = this.config.conditions.find(c => c.type === 'time');
         if (!winCondition || !this.config.timeLimit) return false;
 
@@ -124,7 +124,7 @@ export class WinTrigger {
         return timeElapsed <= (winCondition.value as number);
     }
 
-    private checkCustomWinConditions(playerState: any, gameState: any): WinCondition | null {
+    private checkCustomWinConditions(): WinCondition | null {
         // Allow for custom win condition logic
         // This can be extended by remixers
         return null;
@@ -141,7 +141,6 @@ export class WinTrigger {
         const playerBottom = playerState.y + playerState.height;
         const playerTop = playerState.y;
         const platformTop = platform.y;
-        const platformBottom = platform.y + platform.height;
 
         return playerBottom <= platformTop + 5 && 
                playerTop >= platformTop - 5 &&
@@ -291,6 +290,10 @@ export class WinTrigger {
 
     public setNarrativeMode(enabled: boolean): void {
         this.config.narrativeMode = enabled;
+    }
+
+    public setRemixMode(enabled: boolean): void {
+        this.config.remixMode = enabled;
     }
 
     public isWinTriggered(): boolean {

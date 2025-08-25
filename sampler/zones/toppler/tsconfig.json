@@ -56,10 +56,5 @@
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
-  },
-  "references": [
-    {
-      "path": "./tsconfig.test.json"
-    }
-  ]
+  }
 }

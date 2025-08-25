@@ -44,7 +44,6 @@ export class PlayerController {
     private inputState: Map<string, boolean>;
     private touchStartY: number = 0;
     private touchStartTime: number = 0;
-    private isTouchActive: boolean = false;
 
     constructor(config: Partial<PlayerConfig> = {}) {
         this.config = {
@@ -86,15 +85,15 @@ export class PlayerController {
 
         // Touch input for mobile
         document.addEventListener('touchstart', (e) => this.handleTouchStart(e));
-        document.addEventListener('touchend', (e) => this.handleTouchEnd(e));
+        document.addEventListener('touchend', () => this.handleTouchEnd());
         document.addEventListener('touchmove', (e) => this.handleTouchMove(e));
 
         // Mouse input for desktop
         document.addEventListener('mousedown', (e) => this.handleMouseDown(e));
-        document.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+        document.addEventListener('mouseup', () => this.handleMouseUp());
 
         // Gamepad support (if available)
-        if (navigator.getGamepads) {
+        if (navigator.getGamepads && typeof navigator.getGamepads === 'function') {
             window.addEventListener('gamepadconnected', (e) => this.handleGamepadConnected(e));
         }
     }
@@ -118,15 +117,12 @@ export class PlayerController {
 
     private handleTouchStart(event: TouchEvent): void {
         if (event.touches.length > 0) {
-            this.isTouchActive = true;
-            this.touchStartY = event.touches[0].clientY;
+            this.touchStartY = event.touches[0]?.clientY || 0;
             this.touchStartTime = Date.now();
         }
     }
 
-    private handleTouchEnd(event: TouchEvent): void {
-        this.isTouchActive = false;
-        
+    private handleTouchEnd(): void {
         // Check if this was a tap (not a drag)
         const touchDuration = Date.now() - this.touchStartTime;
         if (touchDuration < 200) {
@@ -136,7 +132,7 @@ export class PlayerController {
 
     private handleTouchMove(event: TouchEvent): void {
         if (event.touches.length > 0) {
-            const currentY = event.touches[0].clientY;
+            const currentY = event.touches[0]?.clientY || 0;
             const deltaY = this.touchStartY - currentY;
             
             // Swipe up to jump
@@ -147,14 +143,11 @@ export class PlayerController {
     }
 
     private handleMouseDown(event: MouseEvent): void {
-        this.isTouchActive = true;
         this.touchStartY = event.clientY;
         this.touchStartTime = Date.now();
     }
 
-    private handleMouseUp(event: MouseEvent): void {
-        this.isTouchActive = false;
-        
+    private handleMouseUp(): void {
         const touchDuration = Date.now() - this.touchStartTime;
         if (touchDuration < 200) {
             this.triggerJump();
@@ -173,9 +166,9 @@ export class PlayerController {
         }
     }
 
-    public update(deltaTime: number, platforms: any[], bounds: { width: number; height: number }): void {
+    public update(platforms: any[], bounds: { width: number; height: number }): void {
         this.handleInput();
-        this.updatePhysics(deltaTime);
+        this.updatePhysics();
         this.checkCollisions(platforms);
         this.checkBounds(bounds);
         this.updateClimbing();
@@ -206,8 +199,10 @@ export class PlayerController {
         for (const gamepad of gamepads) {
             if (gamepad && gamepad.connected) {
                 const leftStick = gamepad.axes[0];
-                if (leftStick < -0.5) moveLeft = true;
-                if (leftStick > 0.5) moveRight = true;
+                if (leftStick !== undefined) {
+                    if (leftStick < -0.5) moveLeft = true;
+                    if (leftStick > 0.5) moveRight = true;
+                }
             }
         }
 
@@ -236,7 +231,7 @@ export class PlayerController {
         }
     }
 
-    private updatePhysics(deltaTime: number): void {
+    private updatePhysics(): void {
         // Apply gravity
         this.state.velocityY += this.config.gravity;
         

@@ -48,7 +48,7 @@ export class FailZone {
     private lastResetTime: number = 0;
 
     constructor(config: FailZoneConfig) {
-        this.config = {
+        const defaultConfig = {
             conditions: [
                 {
                     id: 'height_fall',
@@ -62,10 +62,10 @@ export class FailZone {
             feedbackMode: true,
             remixMode: false,
             onFail: () => {},
-            onReset: () => {},
-            ...config
+            onReset: () => {}
         };
 
+        this.config = { ...defaultConfig, ...config };
         this.startTime = Date.now();
     }
 
@@ -83,7 +83,7 @@ export class FailZone {
         }
 
         // Check time-based fail condition
-        if (this.checkTimeFail(gameState)) {
+        if (this.checkTimeFail()) {
             return this.triggerFail('time_limit', playerState, gameState);
         }
 
@@ -93,7 +93,7 @@ export class FailZone {
         }
 
         // Check custom fail conditions
-        const customFail = this.checkCustomFailConditions(playerState, gameState);
+        const customFail = this.checkCustomFailConditions();
         if (customFail) {
             return this.triggerFail(customFail.id, playerState, gameState);
         }
@@ -109,7 +109,7 @@ export class FailZone {
         return currentHeight <= (failCondition.value as number);
     }
 
-    private checkTimeFail(gameState: any): boolean {
+    private checkTimeFail(): boolean {
         const failCondition = this.config.conditions.find(c => c.type === 'time');
         if (!failCondition || !this.config.timeLimit) return false;
 
@@ -124,7 +124,7 @@ export class FailZone {
         return (gameState.attempts || 0) >= (failCondition.value as number);
     }
 
-    private checkCustomFailConditions(playerState: any, gameState: any): FailCondition | null {
+    private checkCustomFailConditions(): FailCondition | null {
         // Allow for custom fail condition logic
         // This can be extended by remixers
         return null;
@@ -132,6 +132,7 @@ export class FailZone {
 
     private calculatePlayerHeight(playerState: any): number {
         // Calculate player's height from bottom of screen
+        // This assumes the game canvas height is available
         const canvasHeight = window.innerHeight || 600;
         return canvasHeight - playerState.y;
     }
@@ -167,12 +168,12 @@ export class FailZone {
         return failEvent;
     }
 
-    private logFailEvent(failEvent: FailEvent): void {
+    private logFailEvent(winEvent: FailEvent): void {
         console.log('[FailZone] Fail condition triggered!', {
-            condition: failEvent.condition.description,
-            height: failEvent.playerStats.height,
-            attempts: failEvent.playerStats.attempts,
-            timeElapsed: `${(failEvent.playerStats.timeElapsed / 1000).toFixed(2)}s`
+            condition: winEvent.condition.description,
+            height: winEvent.playerStats.height,
+            attempts: winEvent.playerStats.attempts,
+            timeElapsed: `${(winEvent.playerStats.timeElapsed / 1000).toFixed(2)}s`
         });
     }
 
@@ -314,6 +315,10 @@ export class FailZone {
 
     public setResetCooldown(cooldown: number): void {
         this.resetCooldown = cooldown;
+    }
+
+    public setRemixMode(enabled: boolean): void {
+        this.config.remixMode = enabled;
     }
 
     public isFailTriggered(): boolean {
