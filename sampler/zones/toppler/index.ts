@@ -27,12 +27,12 @@ const gameConfig: TopplerConfig = {
 
 // Initialize game components
 class TopplerGame {
-    private scene: TopplerScene;
-    private playerController: PlayerController;
-    private platformSpawner: PlatformSpawner;
-    private winTrigger: WinTrigger;
-    private failZone: FailZone;
-    private testSuite: TopplerTest;
+    private scene!: TopplerScene;
+    private playerController!: PlayerController;
+    private platformSpawner!: PlatformSpawner;
+    private winTrigger!: WinTrigger;
+    private failZone!: FailZone;
+    private testSuite!: TopplerTest;
     private isInitialized: boolean = false;
 
     constructor(config: TopplerConfig) {

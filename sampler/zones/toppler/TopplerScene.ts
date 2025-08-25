@@ -35,8 +35,8 @@ export interface GameState {
 export class TopplerScene {
     private config: TopplerConfig;
     private gameState: GameState;
-    private canvas: HTMLCanvasElement;
-    private ctx: CanvasRenderingContext2D;
+    private canvas!: HTMLCanvasElement;
+    private ctx!: CanvasRenderingContext2D;
     private components: Map<string, any>;
     private animationId: number | null = null;
 
