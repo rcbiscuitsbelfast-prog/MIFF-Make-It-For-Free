@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toppler - Standalone</title>
+    <style>
+      html, body { margin: 0; padding: 0; height: 100%; background: #0b0b0d; }
+      .wrap { min-height: 100%; display: grid; place-items: center; }
+      #app { width: 360px; height: 640px; background: #111; border: 1px solid #222; }
+      .hint { position: fixed; bottom: 12px; left: 0; right: 0; color: #9aa1a9; font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div id="app"></div>
+    </div>
+    <div class="hint">Press Space/ArrowUp to jump • This page is remix-safe</div>
+    <script type="module" src="./main.js"></script>
+  </body>
+  </html>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toppler - Standalone</title>
+    <style>
+      html, body { margin: 0; padding: 0; background: #0b0b0b; height: 100%; }
+      body { display: flex; align-items: center; justify-content: center; }
+      #app { width: 360px; height: 640px; border: 1px solid #222; background: #111; }
+      .hint { position: fixed; top: 10px; left: 0; right: 0; text-align: center; color: #aaa; font-family: system-ui, sans-serif; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="hint">Press Space/ArrowUp to jump</div>
+    <div id="app"></div>
+    <script type="module" src="./index.ts"></script>
+    <script src="./main.js"></script>
+    <script>window.mountToppler();</script>
+  </body>
+  </html>
+

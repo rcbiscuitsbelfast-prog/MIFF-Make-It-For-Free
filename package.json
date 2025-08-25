@@ -13,7 +13,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && vercel --prod"
+    "deploy": "npm run build && vercel --prod",
+    "gen:html": "node -r ts-node/register scripts/gen-html.ts",
+    "gen-toppler": "ts-node ./scripts/gen-html.ts"
   },
   "repository": {
     "type": "git",
