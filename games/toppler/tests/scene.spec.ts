@@ -1,3 +1,21 @@
+/**
+ * This test uses browser-specific features like document.createElement,
+ * which aren't available in Jest's default Node.js environment.
+ * 
+ * Without this line, Jest throws a "ReferenceError: document is not defined"
+ * because it's running in a server-like context that doesn't simulate the DOM.
+ * 
+ * By specifying `@jest-environment jsdom`, we tell Jest to use a simulated
+ * browser environment (jsdom), which provides access to document, window, etc.
+ * 
+ * This allows DOM-based tests—like player movement and win/fail triggers—to run
+ * without errors, while keeping the test modular and remix-safe.
+ */
+ 
+/**
+ * @jest-environment jsdom
+ */
+
 import { TopplerScene } from '../TopplerScene';
 
 function makeContainer(): HTMLElement {
