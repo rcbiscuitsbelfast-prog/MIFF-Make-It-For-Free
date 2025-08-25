@@ -1,36 +1,5 @@
 import { writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
-
-const html = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Toppler - Standalone</title>
-    <style>
-      html, body { margin: 0; padding: 0; height: 100%; background: #0b0b0d; }
-      .wrap { min-height: 100%; display: grid; place-items: center; }
-      #app { width: 360px; height: 640px; background: #111; border: 1px solid #222; }
-      .hint { position: fixed; bottom: 12px; left: 0; right: 0; color: #9aa1a9; font: 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; text-align: center; }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <div id="app"></div>
-    </div>
-    <div class="hint">Press Space/ArrowUp to jump • This page is remix-safe</div>
-    <script type="module" src="./main.js"></script>
-  </body>
-  </html>`;
-
-const outDir = join(process.cwd(), 'games', 'toppler');
-mkdirSync(outDir, { recursive: true });
-const outPath = join(outDir, 'toppler.html');
-writeFileSync(outPath, html, { encoding: 'utf8' });
-console.log(`Wrote ${outPath}`);
-
-import { writeFileSync, mkdirSync } from 'fs';
-import { resolve, dirname, join } from 'path';
+import { resolve, dirname } from 'path';
 
 const html = `<!doctype html>
 <html lang="en">
