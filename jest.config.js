@@ -1,3 +1,13 @@
+/** @type {import('jest').Config} */
+module.exports = {
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/games/toppler/jest.setup.ts'],
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: './games/toppler/tsconfig.json' }]
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js']
+};
+
 module.exports = {
 	preset: 'ts-jest',
 	testEnvironment: 'node',
