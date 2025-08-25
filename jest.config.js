@@ -1,7 +1,7 @@
 /** @type {import('jest').Config} */
 module.exports = {
   testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/games/toppler/jest.setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.global.ts'],
   transform: {
     '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: './games/toppler/tsconfig.json' }]
   },
