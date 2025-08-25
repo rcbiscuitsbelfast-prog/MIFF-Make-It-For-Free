@@ -24,6 +24,34 @@ function makeContainer(): HTMLElement {
 }
 
 describe('TopplerScene (standalone)', () => {
+    beforeAll(() => {
+        // Fallback mock in case CI does not preload the global setup
+        if (!(HTMLCanvasElement.prototype as any).getContext ||
+            (HTMLCanvasElement.prototype.getContext as any)._stubbed !== true) {
+            const stub = function () {
+                return {
+                    fillStyle: '#000',
+                    strokeStyle: '#000',
+                    lineWidth: 1,
+                    clearRect: () => {},
+                    fillRect: () => {},
+                    strokeRect: () => {},
+                    beginPath: () => {},
+                    moveTo: () => {},
+                    lineTo: () => {},
+                    stroke: () => {},
+                    fillText: () => {},
+                    font: '',
+                } as any;
+            } as any;
+            stub._stubbed = true;
+            Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+                configurable: true,
+                writable: true,
+                value: stub
+            });
+        }
+    });
     it('initializes and mounts', () => {
         const scene = new TopplerScene({ width: 200, height: 300 });
         const container = makeContainer();
