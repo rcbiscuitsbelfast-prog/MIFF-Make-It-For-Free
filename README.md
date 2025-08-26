@@ -2,6 +2,11 @@
 [![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)  
 [![CI Status](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
 
+## 💸 Support MIFF
+
+- [Open Collective – MIFF Collective](https://opencollective.com/miff-collective)
+- [Ko-fi – Make It For Free](https://ko-fi.com/miffmakeitforfree#setGoalModal)
+
 **Modular. Remix-Safe. Built with Prompts.**
 
 MIFF is a CLI-first, engine-agnostic game development framework designed for creators of all skill levels—including those with no coding experience. Every module is self-contained, remixable, and validated for compliance, making it easy to build, test, and deploy games across Unity, Web, and Godot.
