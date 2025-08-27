@@ -14,12 +14,22 @@
   <body>
     <div class="hint">Bundled Version - No Dynamic Imports</div>
     <div id="app"></div>
-    <script src="./dist/bundle.js"></script>
     <script>
+        console.log('[HTML Debug] Page loaded');
+        console.log('[HTML Debug] URL:', window.location.href);
+        console.log('[HTML Debug] Autostart param:', window.location.search.includes('autostart=1'));
+        
         // Add autostart parameter if not present
         if (!window.location.search.includes('autostart=1')) {
+            console.log('[HTML Debug] Adding autostart parameter');
             window.history.replaceState({}, '', window.location.href + '?autostart=1');
         }
+        
+        console.log('[HTML Debug] Loading bundle.js...');
+    </script>
+    <script src="./dist/bundle.js"></script>
+    <script>
+        console.log('[HTML Debug] Bundle script loaded');
     </script>
   </body>
   </html>
