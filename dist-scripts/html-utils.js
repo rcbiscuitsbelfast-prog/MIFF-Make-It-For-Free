@@ -15,14 +15,15 @@ export function generateHTML() {
     </style>
   </head>
   <body>
-    <div class="hint">Press Space/ArrowUp to jump</div>
+    <div class="hint">Press Space/ArrowUp to jump — add ?autostart=1 to URL for auto-start</div>
     <div id="app"></div>
     <script type="module" src="./dist/index.js"></script>
-    <script src="./main.js"></script>
   </body>
   </html>`;
     const outPath = resolve(process.cwd(), 'games/toppler/toppler.html');
     mkdirSync(dirname(outPath), { recursive: true });
     writeFileSync(outPath, html, 'utf8');
-    console.log('[gen-html] Wrote', outPath);
+    if (process.env.CI || process.env.NODE_ENV !== 'production') {
+        console.log('[gen-html] Wrote', outPath);
+    }
 }

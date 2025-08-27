@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Module Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; color: white; font-family: monospace; }
+        #app { width: 360px; height: 640px; border: 2px solid #fff; background: #111; }
+        #status { margin: 20px 0; padding: 10px; background: #333; }
+    </style>
+</head>
+<body>
+    <h1>Module Test</h1>
+    <div id="status">Testing module import...</div>
+    <div id="app"></div>
+    
+    <script type="module">
+        const status = document.getElementById('status');
+        
+        try {
+            status.textContent = 'Importing module...';
+            
+            // Try to import the module
+            const module = await import('./dist/index.js');
+            
+            status.textContent = 'Module imported successfully!';
+            console.log('Module imported:', module);
+            
+            // Check if TopplerStandalone is available
+            if (window.TopplerStandalone) {
+                status.textContent = 'TopplerStandalone found!';
+                console.log('TopplerStandalone:', window.TopplerStandalone);
+            } else {
+                status.textContent = 'TopplerStandalone not found';
+                console.log('TopplerStandalone not found');
+            }
+            
+        } catch (error) {
+            status.textContent = 'Import failed: ' + error.message;
+            console.error('Import error:', error);
+        }
+    </script>
+</body>
+</html>

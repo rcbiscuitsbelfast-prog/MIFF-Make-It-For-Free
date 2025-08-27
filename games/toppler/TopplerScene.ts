@@ -2,8 +2,6 @@
  * Standalone TopplerScene
  * Engine-agnostic canvas-based scene controller.
  */
-import { StartMenu } from './StartMenu';
-import type { StartMenuConfig, StartMenuEvents } from './StartMenu';
 
 export type TopplerTheme = 'classic' | 'forest' | 'ruins' | 'neon';
 
