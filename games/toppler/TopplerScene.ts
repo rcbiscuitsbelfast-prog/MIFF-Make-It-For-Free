@@ -181,7 +181,11 @@ export class TopplerScene {
         return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
     }
 
-    private render(): void {
+    /**
+     * Render the current game state to the canvas.
+     * Called by the bootstrap loop every frame.
+     */
+    public render(): void {
         if (!this.ctx) return;
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         // bg
