@@ -72,37 +72,37 @@ export class TopplerScene {
         // The existing loop() method handles physics updates internally.
     }
 
-    public mount(container: HTMLElement): void {
-        // Render start menu first; game loop begins after user starts
-        const menuConfig: StartMenuConfig = { title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' };
-        const menu = new StartMenu(menuConfig);
-        const events: StartMenuEvents = {
-            onStart: (): void => {
-                if (process.env.NODE_ENV !== 'production') {
-                    console.log('[Toppler Debug] StartMenu onStart fired');
-                }
-                this.bootstrapCanvas(container);
-                this.loop();
-            },
-            onToggleContrast: (enabled: boolean): void => {
-                // High contrast palette
-                document.body.style.background = enabled ? '#000' : '#0b0b0b';
-            },
-            onToggleReducedMotion: (enabled: boolean): void => {
-                // If reduced motion is on, lower gravity to reduce rapid movement
-                this.config.gravity = enabled ? 0.3 : 0.6;
-            }
-        };
-        menu.mount(container, events);
-
-        // Optional: auto-start via URL param for testing (e.g., ?autostart=1)
-        try {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('autostart') === '1') {
-                if (typeof (menu as any).unmount === 'function') (menu as any).unmount();
-                events.onStart();
-            }
-        } catch {}
+    public mount(canvas: HTMLCanvasElement): void {
+        console.log('[TopplerScene Debug] mount() called with canvas:', canvas.id, canvas.width, 'x', canvas.height);
+        
+        // Store the canvas reference
+        this.canvas = canvas;
+        console.log('[TopplerScene Debug] Canvas stored in this.canvas');
+        
+        // Get the 2D context and store it
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('[TopplerScene Debug] Failed to get 2D context in mount()');
+            return;
+        }
+        this.ctx = ctx;
+        console.log('[TopplerScene Debug] 2D context stored in this.ctx');
+        
+        // Initialize player position
+        this.player.x = (this.config.width - this.player.width) / 2;
+        this.player.y = this.config.height - this.player.height - 8;
+        console.log('[TopplerScene Debug] Player positioned at:', this.player.x, this.player.y);
+        
+        // Initialize platforms
+        this.platforms = Array.from({ length: 8 }).map((_, i) => ({
+            x: 40 + ((i % 2) * 160),
+            y: this.config.height - 80 - i * 70,
+            width: 120,
+            height: 16
+        }));
+        console.log('[TopplerScene Debug] Platforms initialized:', this.platforms.length);
+        
+        console.log('[TopplerScene Debug] mount() complete');
     }
 
     private bootstrapCanvas(container: HTMLElement): void {
@@ -187,25 +187,41 @@ export class TopplerScene {
      * This debug implementation confirms loop activity and canvas access.
      */
     public render(): void {
+        // Check if canvas exists
+        if (!this.canvas) {
+            console.warn('[TopplerScene Debug] Canvas is null, cannot render');
+            return;
+        }
+        
         // Access the 2D rendering context
-        const ctx = this.canvas?.getContext("2d");
-        if (!ctx) return; // Fail silently if canvas isn't mounted
+        const ctx = this.canvas.getContext("2d");
+        if (!ctx) {
+            console.error('[TopplerScene Debug] Failed to get 2D context');
+            return;
+        }
 
         // Clear the canvas each frame
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Fill background with a dark debug color
-        ctx.fillStyle = "#222"; // Dark gray
+        // Fill background with a bright red color to ensure visibility
+        ctx.fillStyle = "#ff0000"; // Bright red
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Draw a cyan rectangle in the center
+        ctx.fillStyle = "#00ffff"; // Cyan
+        ctx.fillRect(100, 100, 200, 200);
+
         // Draw debug text to confirm render loop is active
-        ctx.fillStyle = "#0f0"; // Bright green
-        ctx.font = "16px monospace";
+        ctx.fillStyle = "#ffffff"; // White
+        ctx.font = "20px monospace";
         ctx.fillText("TopplerScene: render() active", 20, 40);
 
-        // Optional: draw frame count or timestamp for diagnostics
-        ctx.fillStyle = "#fff";
-        ctx.fillText(`Frame: ${performance.now().toFixed(0)}`, 20, 60);
+        // Draw frame count or timestamp for diagnostics
+        ctx.fillStyle = "#ffff00"; // Yellow
+        ctx.fillText(`Frame: ${performance.now().toFixed(0)}`, 20, 70);
+        
+        // Draw canvas info
+        ctx.fillText(`Canvas: ${this.canvas.width}x${this.canvas.height}`, 20, 100);
     }
 
     public getState(): GameState { return { ...this.state }; }
