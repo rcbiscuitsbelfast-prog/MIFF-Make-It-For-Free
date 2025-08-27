@@ -184,19 +184,28 @@ export class TopplerScene {
     /**
      * Render the current game state to the canvas.
      * Called by the bootstrap loop every frame.
+     * This debug implementation confirms loop activity and canvas access.
      */
     public render(): void {
-        if (!this.ctx) return;
-        this.ctx.clearRect(0, 0, this.config.width, this.config.height);
-        // bg
-        this.ctx.fillStyle = '#111';
-        this.ctx.fillRect(0, 0, this.config.width, this.config.height);
-        // platforms
-        this.ctx.fillStyle = '#4ECDC4';
-        for (const p of this.platforms) this.ctx.fillRect(p.x, p.y, p.width, p.height);
-        // player
-        this.ctx.fillStyle = '#FFE66D';
-        this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
+        // Access the 2D rendering context
+        const ctx = this.canvas?.getContext("2d");
+        if (!ctx) return; // Fail silently if canvas isn't mounted
+
+        // Clear the canvas each frame
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Fill background with a dark debug color
+        ctx.fillStyle = "#222"; // Dark gray
+        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Draw debug text to confirm render loop is active
+        ctx.fillStyle = "#0f0"; // Bright green
+        ctx.font = "16px monospace";
+        ctx.fillText("TopplerScene: render() active", 20, 40);
+
+        // Optional: draw frame count or timestamp for diagnostics
+        ctx.fillStyle = "#fff";
+        ctx.fillText(`Frame: ${performance.now().toFixed(0)}`, 20, 60);
     }
 
     public getState(): GameState { return { ...this.state }; }
