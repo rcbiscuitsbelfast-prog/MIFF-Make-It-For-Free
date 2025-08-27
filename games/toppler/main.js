@@ -3,7 +3,7 @@
 
 export async function mountToppler() {
   // Lazy import the module which mounts into #app
-  await import('./index.ts');
+  await import('./dist/index.js');
 }
 
 if (typeof window !== 'undefined') {
@@ -40,7 +40,7 @@ window.mountToppler = function mountToppler() {
   (function waitForScene() {
     if (window.TopplerStandalone && window.TopplerStandalone.scene) return;
     if (Date.now() - start > timeoutMs) {
-      console.warn('[Toppler] Scene not initialized yet. Ensure index.ts is included as a module.');
+      console.warn('[Toppler] Scene not initialized yet. Ensure dist/index.js is included as a module.');
       return;
     }
     requestAnimationFrame(waitForScene);

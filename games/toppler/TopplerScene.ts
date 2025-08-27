@@ -62,8 +62,10 @@ export class TopplerScene {
 
     public mount(container: HTMLElement): void {
         // Render start menu first; game loop begins after user starts
-        const { StartMenu } = require('./StartMenu');
-        const menu = new StartMenu({ title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' });
+        // Explicitly import StartMenu in ESM style for proper typing
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { StartMenu } = require('./StartMenu') as { StartMenu: any };
+        const menu: any = new StartMenu({ title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' });
         menu.mount(container, {
             onStart: () => {
                 this.bootstrapCanvas(container);
@@ -75,7 +77,7 @@ export class TopplerScene {
             },
             onToggleReducedMotion: (enabled) => {
                 // If reduced motion is on, lower gravity to reduce rapid movement
-                this.config.gravity = enabled ? 0.3 : (this.config.gravity ?? 0.6);
+                this.config.gravity = enabled ? 0.3 : 0.6;
             }
         });
     }
