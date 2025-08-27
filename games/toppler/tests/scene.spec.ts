@@ -16,6 +16,7 @@
  * without errors, while keeping the test modular and remix-safe.
  */
 import { TopplerScene } from '../TopplerScene';
+import { createTestCanvas } from './utils';
 
 function makeContainer(): HTMLElement {
     const div = document.createElement('div');
@@ -55,6 +56,8 @@ describe('TopplerScene (standalone)', () => {
     it('initializes and mounts', () => {
         const scene = new TopplerScene({ width: 200, height: 300 });
         const container = makeContainer();
+        // ensure canvas exists and context is initialized
+        const canvas = createTestCanvas(200, 300);
         scene.mount(container);
         const state = scene.getState();
         expect(state.isPlaying).toBe(true);
@@ -64,6 +67,7 @@ describe('TopplerScene (standalone)', () => {
     it('player can jump and move upward', () => {
         const scene = new TopplerScene({ width: 200, height: 300 });
         const container = makeContainer();
+        const canvas = createTestCanvas(200, 300);
         scene.mount(container);
         const before = scene.getPlayer().y;
         scene.jump();
@@ -77,6 +81,7 @@ describe('TopplerScene (standalone)', () => {
     it('win/fail triggers eventually toggle', () => {
         const scene = new TopplerScene({ width: 200, height: 300, winHeight: 100 });
         const container = makeContainer();
+        const canvas = createTestCanvas(200, 300);
         scene.mount(container);
         // force player high
         (scene as any).getPlayer().y = 100;

@@ -153,6 +153,7 @@ export class TopplerScene {
     }
 
     private render(): void {
+        if (!this.ctx) return;
         this.ctx.clearRect(0, 0, this.config.width, this.config.height);
         // bg
         this.ctx.fillStyle = '#111';
