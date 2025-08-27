@@ -1,4 +1,7 @@
-<!doctype html>
+import { writeFileSync, mkdirSync } from 'fs';
+import { resolve, dirname } from 'path';
+export function generateHTML() {
+    const html = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -17,4 +20,9 @@
     <script type="module" src="./dist/index.js"></script>
     <script src="./main.js"></script>
   </body>
-  </html>
+  </html>`;
+    const outPath = resolve(process.cwd(), 'games/toppler/toppler.html');
+    mkdirSync(dirname(outPath), { recursive: true });
+    writeFileSync(outPath, html, 'utf8');
+    console.log('[gen-html] Wrote', outPath);
+}

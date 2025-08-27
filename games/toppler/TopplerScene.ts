@@ -2,6 +2,7 @@
  * Standalone TopplerScene
  * Engine-agnostic canvas-based scene controller.
  */
+import { StartMenu, StartMenuConfig, StartMenuEvents } from './StartMenu';
 
 export type TopplerTheme = 'classic' | 'forest' | 'ruins' | 'neon';
 
@@ -62,24 +63,23 @@ export class TopplerScene {
 
     public mount(container: HTMLElement): void {
         // Render start menu first; game loop begins after user starts
-        // Explicitly import StartMenu in ESM style for proper typing
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { StartMenu } = require('./StartMenu') as { StartMenu: any };
-        const menu: any = new StartMenu({ title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' });
-        menu.mount(container, {
-            onStart: () => {
+        const menuConfig: StartMenuConfig = { title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' };
+        const menu = new StartMenu(menuConfig);
+        const events: StartMenuEvents = {
+            onStart: (): void => {
                 this.bootstrapCanvas(container);
                 this.loop();
             },
-            onToggleContrast: (enabled) => {
+            onToggleContrast: (enabled: boolean): void => {
                 // High contrast palette
                 document.body.style.background = enabled ? '#000' : '#0b0b0b';
             },
-            onToggleReducedMotion: (enabled) => {
+            onToggleReducedMotion: (enabled: boolean): void => {
                 // If reduced motion is on, lower gravity to reduce rapid movement
                 this.config.gravity = enabled ? 0.3 : 0.6;
             }
-        });
+        };
+        menu.mount(container, events);
     }
 
     private bootstrapCanvas(container: HTMLElement): void {
