@@ -14,8 +14,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
-    "gen:html": "node -r ts-node/register scripts/gen-html.ts",
-    "gen-toppler": "ts-node ./scripts/gen-html.ts"
+    "gen:html": "node --loader ts-node/esm scripts/gen-html.ts || node dist-scripts/gen-html.js",
+    "gen-toppler": "node --loader ts-node/esm ./scripts/gen-html.ts || node dist-scripts/gen-html.js",
+    "build:scripts": "tsc -p tsconfig.scripts.json"
   },
   "repository": {
     "type": "git",
