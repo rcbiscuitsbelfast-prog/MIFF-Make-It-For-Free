@@ -61,6 +61,26 @@ export class TopplerScene {
     }
 
     public mount(container: HTMLElement): void {
+        // Render start menu first; game loop begins after user starts
+        const { StartMenu } = require('./StartMenu');
+        const menu = new StartMenu({ title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' });
+        menu.mount(container, {
+            onStart: () => {
+                this.bootstrapCanvas(container);
+                this.loop();
+            },
+            onToggleContrast: (enabled) => {
+                // High contrast palette
+                document.body.style.background = enabled ? '#000' : '#0b0b0b';
+            },
+            onToggleReducedMotion: (enabled) => {
+                // If reduced motion is on, lower gravity to reduce rapid movement
+                this.config.gravity = enabled ? 0.3 : (this.config.gravity ?? 0.6);
+            }
+        });
+    }
+
+    private bootstrapCanvas(container: HTMLElement): void {
         this.canvas = document.createElement('canvas');
         this.canvas.width = this.config.width;
         this.canvas.height = this.config.height;
@@ -81,7 +101,6 @@ export class TopplerScene {
             height: 16
         }));
 
-        this.loop();
     }
 
     public jump(): void {

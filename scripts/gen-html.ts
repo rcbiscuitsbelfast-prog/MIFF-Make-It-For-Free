@@ -17,9 +17,8 @@ const html = `<!doctype html>
   <body>
     <div class="hint">Press Space/ArrowUp to jump</div>
     <div id="app"></div>
-    <script type="module" src="./index.ts"></script>
+    <script type="module" src="./dist/index.js"></script>
     <script src="./main.js"></script>
-    <script>window.mountToppler();</script>
   </body>
   </html>`;
 
