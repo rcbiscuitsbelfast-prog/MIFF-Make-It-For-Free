@@ -63,6 +63,15 @@ export class TopplerScene {
         };
     }
 
+    /**
+     * Update game state based on delta time.
+     * Called by the bootstrap loop to advance physics and game logic.
+     */
+    update(delta: number): void {
+        // No-op for now. Can be extended with platform/player tick logic later.
+        // The existing loop() method handles physics updates internally.
+    }
+
     public mount(container: HTMLElement): void {
         // Render start menu first; game loop begins after user starts
         const menuConfig: StartMenuConfig = { title: 'Toppler', instructions: 'Reach the top. Space/ArrowUp to jump.' };
