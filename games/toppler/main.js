@@ -10,7 +10,16 @@ if (typeof window !== 'undefined') {
   // @ts-ignore - expose for remixers
   window.mountToppler = mountToppler;
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => mountToppler());
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const app = document.getElementById('app');
+        if (app) {
+          const s = getComputedStyle(app);
+          console.log('[Toppler Debug] #app styles', { width: s.width, height: s.height, display: s.display });
+        }
+      } catch {}
+      mountToppler();
+    });
   } else {
     mountToppler();
   }

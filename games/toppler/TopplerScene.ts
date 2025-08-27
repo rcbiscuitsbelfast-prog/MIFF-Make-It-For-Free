@@ -39,6 +39,7 @@ export class TopplerScene {
     private velocityY = 0;
     private animationId: number | null = null;
     private hasStartedLoop: boolean = false;
+    private tickCount: number = 0;
 
     constructor(config: TopplerConfig = {}) {
         this.config = {
@@ -68,6 +69,9 @@ export class TopplerScene {
         const menu = new StartMenu(menuConfig);
         const events: StartMenuEvents = {
             onStart: (): void => {
+                if (process.env.NODE_ENV !== 'production') {
+                    console.log('[Toppler Debug] StartMenu onStart fired');
+                }
                 this.bootstrapCanvas(container);
                 this.loop();
             },
@@ -116,7 +120,9 @@ export class TopplerScene {
             width: 120,
             height: 16
         }));
-
+        if (process.env.NODE_ENV !== 'production') {
+            console.log('[Toppler Debug] Platforms spawned:', this.platforms.length);
+        }
     }
 
     public jump(): void {
@@ -133,6 +139,10 @@ export class TopplerScene {
             if (process.env.NODE_ENV !== 'production') {
                 console.log('[TopplerScene] Game loop started');
             }
+        }
+        this.tickCount++;
+        if (process.env.NODE_ENV !== 'production' && (this.tickCount % 30 === 0)) {
+            console.log('[Toppler Debug] Loop tick', this.tickCount, 'height', this.config.height - this.player.y);
         }
         // physics
         this.velocityY += this.config.gravity;
