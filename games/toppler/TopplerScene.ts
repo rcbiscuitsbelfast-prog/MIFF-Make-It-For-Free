@@ -80,6 +80,15 @@ export class TopplerScene {
             }
         };
         menu.mount(container, events);
+
+        // Optional: auto-start via URL param for testing (e.g., ?autostart=1)
+        try {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('autostart') === '1') {
+                if (typeof (menu as any).unmount === 'function') (menu as any).unmount();
+                events.onStart();
+            }
+        } catch {}
     }
 
     private bootstrapCanvas(container: HTMLElement): void {
