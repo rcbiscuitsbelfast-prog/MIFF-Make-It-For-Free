@@ -27,6 +27,7 @@ function makeContainer(): HTMLElement {
 describe('TopplerScene (standalone)', () => {
     beforeAll(() => {
         // Fallback mock in case CI does not preload the global setup
+        // Note: This is test-only scaffolding for jsdom. Real browsers provide a CanvasRenderingContext2D.
         if (!(HTMLCanvasElement.prototype as any).getContext ||
             (HTMLCanvasElement.prototype.getContext as any)._stubbed !== true) {
             const stub = function () {

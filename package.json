@@ -18,7 +18,8 @@
     "gen-toppler": "node --loader ts-node/esm ./scripts/gen-html.ts || (echo '[gen-toppler] ESM failed, using fallback' && node dist-scripts/gen-html.js)",
     "build:scripts": "tsc -p scripts/tsconfig.json",
     "build:toppler-standalone": "tsc -p games/toppler/tsconfig.standalone.json",
-    "ci:toppler": "npm run build:scripts && npm run build:toppler-standalone && npm run gen-toppler"
+    "ci:toppler": "npm run build:scripts && npm run build:toppler-standalone && npm run gen-toppler",
+    "lint:placeholders": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/validate-placeholders.ts"
   },
   "repository": {
     "type": "git",

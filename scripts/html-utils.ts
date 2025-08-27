@@ -26,5 +26,7 @@ export function generateHTML(): void {
 	const outPath = resolve(process.cwd(), 'games/toppler/toppler.html');
 	mkdirSync(dirname(outPath), { recursive: true });
 	writeFileSync(outPath, html, 'utf8');
-	console.log('[gen-html] Wrote', outPath);
+	if (process.env.CI || process.env.NODE_ENV !== 'production') {
+		console.log('[gen-html] Wrote', outPath);
+	}
 }

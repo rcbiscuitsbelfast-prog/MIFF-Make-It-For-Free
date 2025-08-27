@@ -35,6 +35,11 @@ Use these tools to validate remix safety:
 - **[CIEnforcerPure](systems/CIEnforcerPure/README.md)** - Validates contributor standards
 - **[AssetValidatorPure](systems/AssetValidatorPure/README.md)** - Checks asset licensing and attribution
 
+### Hygiene & Placeholders
+- **PLACEHOLDER_AUDIT.md**: Review current placeholders and cleanup suggestions
+- **scripts/validate-placeholders.ts**: Run to scan for new TODOs/stubs and brittle defaults
+- **cleanup-checklist.md**: Track and check off items as you resolve them
+
 ## Contributor License Agreement (CLA)
 By submitting a contribution (code, docs, assets) to this repository, you agree to the following:
 - You certify that you have the right to submit the contribution under the open-source license(s) indicated in this repository (AGPLv3) and the MIFF commercial license.
