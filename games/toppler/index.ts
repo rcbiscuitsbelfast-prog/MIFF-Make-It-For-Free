@@ -1,19 +1,20 @@
 import { TopplerScene } from './TopplerScene.js';
+import { createGameLauncher } from './src/bootstrap/GameBootstrap.js';
+import { loadResources } from './src/bootstrap/ResourceLoader.js';
 
 declare global { interface Window { TopplerStandalone?: any } }
 
-function bootstrap(): void {
-    const container = document.getElementById('app');
-    if (!container) throw new Error('#app container missing');
+async function bootstrap(): Promise<void> {
+    await loadResources({});
     const scene = new TopplerScene({});
-    scene.mount(container);
-
-    // Minimal input for local testing
-    window.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key === 'ArrowUp') scene.jump();
+    const launcher = createGameLauncher({
+        scene,
+        containerId: 'app',
+        autostart: window.location.search.includes('autostart=1'),
+        cssPath: './toppler.css'
     });
-
-    window.TopplerStandalone = { scene };
+    launcher.start();
+    (window as any).TopplerStandalone = { scene, launcher };
 }
 
 if (document.readyState === 'loading') {

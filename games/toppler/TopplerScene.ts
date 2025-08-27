@@ -40,7 +40,6 @@ export class TopplerScene {
     private velocityY = 0;
     private animationId: number | null = null;
     private hasStartedLoop: boolean = false;
-    private tickCount: number = 0;
 
     constructor(config: TopplerConfig = {}) {
         this.config = {
@@ -105,10 +104,7 @@ export class TopplerScene {
         const ctx = this.canvas.getContext('2d');
         if (!ctx) throw new Error('Canvas 2D context not available');
         this.ctx = ctx;
-        if (process.env.NODE_ENV !== 'production') {
-            // Debug: confirm canvas mount and size
-            console.log('[TopplerScene] Canvas mounted', { width: this.canvas.width, height: this.canvas.height });
-        }
+        // Canvas ready
 
         // Place player bottom center
         this.player.x = (this.config.width - this.player.width) / 2;
@@ -121,9 +117,7 @@ export class TopplerScene {
             width: 120,
             height: 16
         }));
-        if (process.env.NODE_ENV !== 'production') {
-            console.log('[Toppler Debug] Platforms spawned:', this.platforms.length);
-        }
+        // Platforms spawned
     }
 
     public jump(): void {
@@ -134,17 +128,12 @@ export class TopplerScene {
         }
     }
 
+    public startLoop(): void {
+        this.loop();
+    }
+
     private loop = (): void => {
-        if (!this.hasStartedLoop) {
-            this.hasStartedLoop = true;
-            if (process.env.NODE_ENV !== 'production') {
-                console.log('[TopplerScene] Game loop started');
-            }
-        }
-        this.tickCount++;
-        if (process.env.NODE_ENV !== 'production' && (this.tickCount % 30 === 0)) {
-            console.log('[Toppler Debug] Loop tick', this.tickCount, 'height', this.config.height - this.player.y);
-        }
+        if (!this.hasStartedLoop) this.hasStartedLoop = true;
         // physics
         this.velocityY += this.config.gravity;
         this.player.y += this.velocityY;
