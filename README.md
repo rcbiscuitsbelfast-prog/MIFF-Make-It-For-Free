@@ -366,3 +366,8 @@ Keep everything modular, remix-safe, and contributor-friendly. Zones should be p
 - CLI Scripts:
   - Golden fixtures: `npm run test:golden`
   - Remix validation: `npm run test:remix`
+
+### Notes on TypeScript Path Aliases
+
+- The `@/*` alias in the root `tsconfig.json` maps to `miff-nextjs/src/*` and is intended for the Next.js app under `miff-nextjs/`.
+- The web sampler (served by Vite with `root: 'sampler'`) does not use this alias. Sampler imports use relative paths or Vite aliases defined in `vite.config.ts` (`modules`, `OverlinkPure`, `badges`).
