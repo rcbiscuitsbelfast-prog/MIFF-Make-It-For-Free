@@ -3,7 +3,12 @@
 
 export async function mountToppler() {
   // Lazy import the module which mounts into #app
-  await import('./dist/index.js');
+  // Prefer compiled bundle if present; fallback to module path
+  try {
+    await import('./dist/index.js');
+  } catch {
+    await import('./index.js');
+  }
 }
 
 if (typeof window !== 'undefined') {

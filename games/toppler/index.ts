@@ -1,4 +1,4 @@
-import { TopplerScene } from './TopplerScene';
+import { TopplerScene } from './TopplerScene.js';
 
 declare global { interface Window { TopplerStandalone?: any } }
 
