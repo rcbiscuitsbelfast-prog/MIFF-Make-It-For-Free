@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bundle Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; color: white; font-family: monospace; }
+        #app { width: 360px; height: 640px; border: 2px solid #fff; background: #111; }
+        #log { margin: 20px 0; padding: 10px; background: #333; height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>Bundle Test</h1>
+    <div id="log">Loading...</div>
+    <div id="app"></div>
+    
+    <script>
+        // Capture console logs
+        const logDiv = document.getElementById('log');
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        function addToLog(level, ...args) {
+            const line = document.createElement('div');
+            line.style.color = level === 'error' ? '#ff6b6b' : level === 'warn' ? '#ffd93d' : '#6bcf7f';
+            line.textContent = `[${level.toUpperCase()}] ${args.join(' ')}`;
+            logDiv.appendChild(line);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            originalLog(...args);
+            addToLog('log', ...args);
+        };
+        
+        console.warn = (...args) => {
+            originalWarn(...args);
+            addToLog('warn', ...args);
+        };
+        
+        console.error = (...args) => {
+            originalError(...args);
+            addToLog('error', ...args);
+        };
+        
+        // Add autostart parameter
+        if (!window.location.search.includes('autostart=1')) {
+            window.history.replaceState({}, '', window.location.href + '?autostart=1');
+        }
+        
+        // Test script loading
+        addToLog('log', 'Testing bundle.js loading...');
+        
+        const script = document.createElement('script');
+        script.src = './dist/bundle.js';
+        
+        script.onload = () => {
+            addToLog('log', 'Bundle script loaded successfully');
+        };
+        
+        script.onerror = (error) => {
+            addToLog('error', 'Bundle script failed to load:', error.message);
+        };
+        
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
