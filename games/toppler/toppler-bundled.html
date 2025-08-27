@@ -15,5 +15,11 @@
     <div class="hint">Bundled Version - No Dynamic Imports</div>
     <div id="app"></div>
     <script src="./dist/bundle.js"></script>
+    <script>
+        // Add autostart parameter if not present
+        if (!window.location.search.includes('autostart=1')) {
+            window.history.replaceState({}, '', window.location.href + '?autostart=1');
+        }
+    </script>
   </body>
   </html>
