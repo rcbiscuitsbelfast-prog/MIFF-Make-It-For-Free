@@ -37,6 +37,15 @@ jobs:
       - name: 🟢 Run Jest tests
         run: npm test
 
+      - name: 🧱 Build scripts (fallback)
+        run: npm run build:scripts
+
+      - name: 🧱 Build Toppler standalone
+        run: npm run build:toppler-standalone
+
+      - name: 🧪 Generate Toppler HTML (with fallback)
+        run: npm run gen-toppler
+
       - name: ▶️ Simulate scenario (tutorial)
         run: |
           npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json

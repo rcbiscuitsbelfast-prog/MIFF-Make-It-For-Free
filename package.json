@@ -16,7 +16,7 @@
     "deploy": "npm run build && vercel --prod",
     "gen:html": "node --loader ts-node/esm scripts/gen-html.ts || (echo '[gen-toppler] ESM failed, using fallback' && node dist-scripts/gen-html.js)",
     "gen-toppler": "node --loader ts-node/esm ./scripts/gen-html.ts || (echo '[gen-toppler] ESM failed, using fallback' && node dist-scripts/gen-html.js)",
-    "build:scripts": "tsc -p tsconfig.scripts.json",
+    "build:scripts": "tsc -p scripts/tsconfig.json",
     "build:toppler-standalone": "tsc -p games/toppler/tsconfig.standalone.json",
     "ci:toppler": "npm run build:scripts && npm run build:toppler-standalone && npm run gen-toppler"
   },
