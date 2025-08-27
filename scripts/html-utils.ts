@@ -16,7 +16,7 @@ export function generateHTML(): void {
     </style>
   </head>
   <body>
-    <div class="hint">Press Space/ArrowUp to jump</div>
+    <div class="hint">Press Space/ArrowUp to jump — add ?autostart=1 to URL for auto-start</div>
     <div id="app"></div>
     <script type="module" src="./dist/index.js"></script>
     <script src="./main.js"></script>

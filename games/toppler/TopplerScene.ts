@@ -38,6 +38,7 @@ export class TopplerScene {
     private platforms: Rect[] = [];
     private velocityY = 0;
     private animationId: number | null = null;
+    private hasStartedLoop: boolean = false;
 
     constructor(config: TopplerConfig = {}) {
         this.config = {
@@ -99,6 +100,8 @@ export class TopplerScene {
         const ctx = this.canvas.getContext('2d');
         if (!ctx) throw new Error('Canvas 2D context not available');
         this.ctx = ctx;
+        // Debug: confirm canvas mount and size
+        console.log('[TopplerScene] Canvas mounted', { width: this.canvas.width, height: this.canvas.height });
 
         // Place player bottom center
         this.player.x = (this.config.width - this.player.width) / 2;
@@ -123,6 +126,10 @@ export class TopplerScene {
     }
 
     private loop = (): void => {
+        if (!this.hasStartedLoop) {
+            this.hasStartedLoop = true;
+            console.log('[TopplerScene] Game loop started');
+        }
         // physics
         this.velocityY += this.config.gravity;
         this.player.y += this.velocityY;
