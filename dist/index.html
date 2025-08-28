@@ -1,36 +1,46 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MIFF Toppler Demo</title>
-    <style>
-      body { font-family: system-ui, sans-serif; padding: 24px; background: #111; color: #eee; }
-      h1 { margin: 0 0 12px; font-size: 22px; }
-      p { color: #cfcfcf; }
-      a { color: #0ff; text-decoration: none; display: block; margin: 10px 0; }
-      a:hover { text-decoration: underline; }
-      .hint { color: #aaa; font-size: 12px; margin-top: 12px; }
-    </style>
-  </head>
-  <body>
-    <h1>🕹️ MIFF Toppler Demo</h1>
-    <p>Select an option below. Add <code>?autostart=1</code> to auto-run.</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIFF: Make It For Free</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #111;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    a {
+      color: #0ff;
+      margin: 1em;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+  </style>
+  <!-- Preload bundle for faster autostart -->
+  <link rel="preload" href="bundle.js" as="script">
+  <link rel="modulepreload" href="bundle.js">
+</head>
+<body>
+  <h1>🚀 MIFF: Make It For Free</h1>
+  <p>Modular game demos. Remix-safe. Ready to launch.</p>
 
-    <a href="./?autostart=1">▶️ Launch Toppler (this page)</a>
-    <a href="./canvas-test.html">🧪 Canvas Test</a>
-    <a href="./bundle-verify.html">📦 Bundle Verify</a>
-    <a href="./self-contained-test.html">🔧 Self-Contained Test</a>
+  <a href="toppler-bundled.html?autostart=1">▶️ Launch Toppler</a>
+  <a href="modules.html">📦 Browse Modules</a>
+  <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free">🛠 GitHub Repo</a>
 
-    <p class="hint">Tip: On phones, rotate to landscape for more play area.</p>
-
-    <script>
-      // If autostart=1, load the bundled game immediately from bundle.js
-      if (location.search.includes('autostart=1')) {
-        var s = document.createElement('script');
-        s.src = './bundle.js';
-        document.body.appendChild(s);
-      }
-    </script>
-  </body>
-  </html>
+  <script>
+    // Optional autostart after delay
+    setTimeout(() => {
+      window.location.href = "toppler-bundled.html?autostart=1";
+    }, 3000);
+  </script>
+</body>
+</html>
