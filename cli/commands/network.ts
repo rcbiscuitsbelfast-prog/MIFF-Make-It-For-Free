@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { createNetworkBridge, NetworkConfig } from '../miff/pure/NetworkBridgePure/NetworkBridgePure';
+import { createNetworkBridge, NetworkConfig } from '../../src/modules/NetworkBridgePure/NetworkBridgePure';
 
 const program = new Command();
 

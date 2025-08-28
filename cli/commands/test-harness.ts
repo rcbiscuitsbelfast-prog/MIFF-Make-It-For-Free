@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { createTestHarness, TestConfig, TestCase, TestSuite } from '../miff/pure/TestHarnessPure/TestHarnessPure';
+import { createTestHarness, TestConfig, TestCase, TestSuite } from '../../src/modules/TestHarnessPure/TestHarnessPure';
 
 const program = new Command();
 

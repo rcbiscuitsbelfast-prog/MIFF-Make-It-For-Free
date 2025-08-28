@@ -1,31 +1,30 @@
-#!/usr/bin/env node
-
 /**
- * audio.ts - CLI commands for AudioPure module
+ * AudioPure CLI Commands
  * 
- * Provides commands for validating, testing, and managing audio systems.
+ * Provides command-line interface for testing and validating the AudioPure module.
+ * Inspired by Panda3D AudioManager and Crystal Space FMOD plugin patterns.
  */
 
 import { Command } from 'commander';
-import { createAudioSystem, AudioConfig, SoundDefinition } from '../miff/pure/AudioPure/AudioPure';
+import { createAudioSystem, AudioConfig, SoundDefinition } from '../../src/modules/AudioPure/AudioPure';
 
 const program = new Command();
 
 program
   .name('audio')
-  .description('Audio and sound management commands for MIFF games')
+  .description('AudioPure system commands')
   .version('1.0.0');
 
 program
   .command('validate')
-  .description('Validate audio system configuration and test sound playback')
+  .description('Validate audio configuration and test playback')
   .option('-s, --sample-rate <number>', 'Sample rate in Hz', '44100')
   .option('-c, --channels <number>', 'Number of audio channels', '2')
-  .option('-b, --buffer-size <number>', 'Audio buffer size', '1024')
+  .option('-b, --buffer-size <number>', 'Audio buffer size', '2048')
   .option('-m, --max-sounds <number>', 'Maximum simultaneous sounds', '8')
   .option('--spatial', 'Enable spatial audio', false)
   .option('--headless', 'Run in headless mode (no actual audio output)', false)
-  .action(async (options) => {
+  .action(async (options: any) => {
     console.log('🔊 Validating AudioPure system...');
 
     const config: AudioConfig = {
@@ -122,232 +121,160 @@ program
 
     // Generate report
     console.log('\n📊 Audio System Report:');
-    console.log(audioSystem.generateAudioReport());
+    const report = audioSystem.generateAudioReport();
+    console.log(report);
 
-    // Cleanup
-    audioSystem.stopAllSounds();
-    console.log('\n✅ Audio validation completed');
+    console.log('\n✅ Audio validation completed successfully!');
   });
 
 program
   .command('test')
-  .description('Run comprehensive audio system tests')
+  .description('Run comprehensive audio tests')
   .option('--headless', 'Run in headless mode', false)
-  .action(async (options) => {
-    console.log('🧪 Running AudioPure tests...');
+  .option('--duration <seconds>', 'Test duration in seconds', '5')
+  .action(async (options: any) => {
+    console.log('🧪 Running comprehensive audio tests...');
 
-    const config: AudioConfig = {
+    const audioSystem = createAudioSystem({
       sampleRate: 44100,
       channels: 2,
-      bufferSize: 1024,
+      bufferSize: 2048,
       spatialAudio: true,
-      maxSimultaneousSounds: 4
-    };
+      maxSimultaneousSounds: 16
+    }, options.headless);
 
-    const audioSystem = createAudioSystem(config, options.headless);
+    // Register test sounds
+    const sounds = [
+      { id: 'bgm', name: 'Background Music', category: 'music', volume: 0.6, pitch: 1.0, loop: true, spatial: false },
+      { id: 'sfx1', name: 'Sound Effect 1', category: 'sfx', volume: 0.8, pitch: 1.0, loop: false, spatial: false },
+      { id: 'sfx2', name: 'Sound Effect 2', category: 'sfx', volume: 0.7, pitch: 1.0, loop: false, spatial: false },
+      { id: 'voice', name: 'Voice Line', category: 'voice', volume: 0.9, pitch: 1.0, loop: false, spatial: false }
+    ];
 
-    // Test 1: Basic sound registration
-    console.log('Test 1: Sound registration...');
-    const soundDef: SoundDefinition = {
-      id: 'test-sound',
-      name: 'Test Sound',
-      category: 'sfx',
-      volume: 0.8,
-      pitch: 1.0,
-      loop: false,
-      spatial: false
-    };
+    sounds.forEach(sound => audioSystem.registerSound(sound));
 
-    audioSystem.registerSound(soundDef);
-    const registeredSound = audioSystem.getSoundDefinition('test-sound');
-    if (registeredSound) {
-      console.log('✅ Sound registration successful');
-    } else {
-      console.log('❌ Sound registration failed');
-    }
-
-    // Test 2: Sound playback
-    console.log('Test 2: Sound playback...');
-    const instanceId = audioSystem.playSound('test-sound');
-    if (instanceId) {
-      console.log('✅ Sound playback successful');
-      
-      // Test volume control
-      audioSystem.setVolume(instanceId, 0.5);
-      console.log('✅ Volume control working');
-      
-      // Test stopping
-      audioSystem.stopSound(instanceId);
-      console.log('✅ Sound stopping working');
-    } else {
-      console.log('❌ Sound playback failed');
-    }
-
-    // Test 3: Spatial audio
-    console.log('Test 3: Spatial audio...');
-    const spatialSound: SoundDefinition = {
-      id: 'spatial-sound',
-      name: 'Spatial Sound',
-      category: 'sfx',
-      volume: 0.8,
-      pitch: 1.0,
-      loop: false,
-      spatial: true
-    };
-
-    audioSystem.registerSound(spatialSound);
-    const spatialId = audioSystem.playSpatialSound('spatial-sound', {
-      position: { x: 5, y: 0, z: 0 },
-      velocity: { x: 0, y: 0, z: 0 },
-      volume: 0.7,
-      pitch: 1.0,
-      dopplerEffect: true
-    });
-
-    if (spatialId) {
-      console.log('✅ Spatial audio working');
-      audioSystem.updateSpatialAudio();
-      console.log('✅ Spatial audio update working');
-    } else {
-      console.log('❌ Spatial audio failed');
-    }
-
-    // Test 4: Event callbacks
-    console.log('Test 4: Event callbacks...');
-    let eventCount = 0;
-    const callback = () => {
-      eventCount++;
-    };
-
-    audioSystem.addCallback(callback);
-    audioSystem.playSound('test-sound');
-    audioSystem.stopAllSounds();
-
-    if (eventCount > 0) {
-      console.log(`✅ Event callbacks working (${eventCount} events)`);
-    } else {
-      console.log('❌ Event callbacks failed');
-    }
-
-    // Test 5: Maximum sounds limit
-    console.log('Test 5: Maximum sounds limit...');
-    const limitSound: SoundDefinition = {
-      id: 'limit-test',
-      name: 'Limit Test',
-      category: 'sfx',
-      volume: 0.8,
-      pitch: 1.0,
-      loop: false,
-      spatial: false
-    };
-
-    audioSystem.registerSound(limitSound);
+    // Test sequence
+    console.log('Starting test sequence...');
     
-    const instances = [];
+    // Start background music
+    const bgmId = audioSystem.playSound('bgm');
+    console.log(`🎵 Background music started: ${bgmId}`);
+
+    // Play sound effects at intervals
+    const testDuration = parseInt(options.duration) * 1000;
+    const interval = testDuration / 10;
+
     for (let i = 0; i < 10; i++) {
-      const id = audioSystem.playSound('limit-test');
-      if (id) instances.push(id);
+      setTimeout(() => {
+        const sfxId = audioSystem.playSound(i % 2 === 0 ? 'sfx1' : 'sfx2');
+        console.log(`🔊 Sound effect ${i + 1}: ${sfxId}`);
+      }, i * interval);
     }
 
-    const activeSounds = audioSystem.getActiveSounds();
-    if (activeSounds.length <= config.maxSimultaneousSounds) {
-      console.log(`✅ Maximum sounds limit working (${activeSounds.length}/${config.maxSimultaneousSounds})`);
-    } else {
-      console.log('❌ Maximum sounds limit failed');
-    }
+    // Play voice line halfway through
+    setTimeout(() => {
+      const voiceId = audioSystem.playSound('voice');
+      console.log(`🗣️ Voice line: ${voiceId}`);
+    }, testDuration / 2);
 
-    console.log('\n📊 Final Test Report:');
-    console.log(audioSystem.generateAudioReport());
-    console.log('\n✅ Audio tests completed');
+    // Stop background music at the end
+    setTimeout(() => {
+      if (bgmId) {
+        audioSystem.stopSound(bgmId);
+        console.log('🛑 Background music stopped');
+      }
+      
+      const report = audioSystem.generateAudioReport();
+      console.log('\n📊 Final Test Report:');
+      console.log(report);
+      
+      console.log('\n✅ Audio tests completed!');
+    }, testDuration);
   });
 
 program
   .command('simulate')
-  .description('Simulate complex audio scenario with multiple sounds')
-  .option('-d, --duration <seconds>', 'Simulation duration in seconds', '5')
+  .description('Simulate complex audio scenario')
+  .option('--scenario <name>', 'Scenario to simulate', 'gameplay')
   .option('--headless', 'Run in headless mode', false)
-  .action(async (options) => {
-    const duration = parseInt(options.duration);
-    console.log(`🎵 Simulating audio scenario for ${duration} seconds...`);
+  .action(async (options: any) => {
+    console.log(`🎮 Simulating ${options.scenario} audio scenario...`);
 
-    const config: AudioConfig = {
-      sampleRate: 44100,
+    const audioSystem = createAudioSystem({
+      sampleRate: 48000,
       channels: 2,
-      bufferSize: 1024,
+      bufferSize: 4096,
       spatialAudio: true,
-      maxSimultaneousSounds: 6
+      maxSimultaneousSounds: 32
+    }, options.headless);
+
+    // Register scenario-specific sounds
+    const scenarioSounds = {
+      gameplay: [
+        { id: 'ambient', name: 'Ambient Background', category: 'ambient', volume: 0.4, pitch: 1.0, loop: true, spatial: false },
+        { id: 'footsteps', name: 'Footsteps', category: 'sfx', volume: 0.6, pitch: 1.0, loop: false, spatial: true },
+        { id: 'sword-swing', name: 'Sword Swing', category: 'sfx', volume: 0.8, pitch: 1.0, loop: false, spatial: true },
+        { id: 'magic-cast', name: 'Magic Cast', category: 'sfx', volume: 0.7, pitch: 1.0, loop: false, spatial: true },
+        { id: 'victory-fanfare', name: 'Victory Fanfare', category: 'music', volume: 0.9, pitch: 1.0, loop: false, spatial: false }
+      ],
+      menu: [
+        { id: 'menu-bgm', name: 'Menu Background', category: 'music', volume: 0.5, pitch: 1.0, loop: true, spatial: false },
+        { id: 'button-hover', name: 'Button Hover', category: 'ui', volume: 0.3, pitch: 1.0, loop: false, spatial: false },
+        { id: 'button-click', name: 'Button Click', category: 'ui', volume: 0.4, pitch: 1.0, loop: false, spatial: false },
+        { id: 'menu-transition', name: 'Menu Transition', category: 'ui', volume: 0.6, pitch: 1.0, loop: false, spatial: false }
+      ]
     };
 
-    const audioSystem = createAudioSystem(config, options.headless);
+    const sounds = scenarioSounds[options.scenario as keyof typeof scenarioSounds] || scenarioSounds.gameplay;
+    sounds.forEach(sound => audioSystem.registerSound(sound));
 
-    // Register game-like sounds
-    const gameSounds = [
-      { id: 'bgm', name: 'Background Music', category: 'music', volume: 0.6, pitch: 1.0, loop: true, spatial: false },
-      { id: 'jump', name: 'Jump Sound', category: 'sfx', volume: 0.8, pitch: 1.0, loop: false, spatial: true },
-      { id: 'coin', name: 'Coin Collect', category: 'sfx', volume: 0.9, pitch: 1.2, loop: false, spatial: false },
-      { id: 'explosion', name: 'Explosion', category: 'sfx', volume: 0.7, pitch: 0.8, loop: false, spatial: true },
-      { id: 'voice', name: 'Character Voice', category: 'voice', volume: 0.8, pitch: 1.0, loop: false, spatial: false }
-    ];
-
-    gameSounds.forEach(sound => audioSystem.registerSound(sound));
-
-    // Start background music
-    const bgmId = audioSystem.playSound('bgm', 0.5);
-    console.log('🎵 Background music started');
-
-    // Simulate game events
-    const events = [
-      { time: 1000, sound: 'jump', spatial: true, position: { x: 0, y: 0, z: 0 } },
-      { time: 2000, sound: 'coin', spatial: false },
-      { time: 3000, sound: 'jump', spatial: true, position: { x: 5, y: 0, z: 0 } },
-      { time: 4000, sound: 'explosion', spatial: true, position: { x: 10, y: 0, z: 0 } },
-      { time: 5000, sound: 'voice', spatial: false },
-      { time: 6000, sound: 'coin', spatial: false },
-      { time: 7000, sound: 'jump', spatial: true, position: { x: -5, y: 0, z: 0 } }
-    ];
-
-    const startTime = Date.now();
-    const eventPromises = events.map(event => {
-      return new Promise<void>(resolve => {
-        setTimeout(() => {
-          if (event.spatial) {
-            audioSystem.playSpatialSound(event.sound, {
-              position: event.position,
-              velocity: { x: 0, y: 0, z: 0 },
-              volume: 0.8,
-              pitch: 1.0,
-              dopplerEffect: true
-            });
-          } else {
-            audioSystem.playSound(event.sound);
-          }
-          console.log(`🎵 Played: ${event.sound}`);
-          resolve();
-        }, event.time);
-      });
-    });
-
-    // Update spatial audio periodically
-    const spatialUpdateInterval = setInterval(() => {
-      audioSystem.updateSpatialAudio();
-    }, 100);
-
-    // Wait for all events
-    await Promise.all(eventPromises);
-
-    // Let sounds play for remaining time
-    const remainingTime = (duration * 1000) - (Date.now() - startTime);
-    if (remainingTime > 0) {
-      await new Promise(resolve => setTimeout(resolve, remainingTime));
+    // Simulate scenario
+    if (options.scenario === 'gameplay') {
+      console.log('Simulating gameplay audio...');
+      
+      // Start ambient background
+      const ambientId = audioSystem.playSound('ambient');
+      
+      // Simulate player actions
+      setTimeout(() => audioSystem.playSound('footsteps'), 1000);
+      setTimeout(() => audioSystem.playSound('sword-swing'), 2000);
+      setTimeout(() => audioSystem.playSound('magic-cast'), 3500);
+      setTimeout(() => audioSystem.playSound('footsteps'), 4500);
+      setTimeout(() => audioSystem.playSound('sword-swing'), 5500);
+      setTimeout(() => audioSystem.playSound('victory-fanfare'), 7000);
+      
+      // Stop ambient after victory
+      setTimeout(() => {
+        if (ambientId) audioSystem.stopSound(ambientId);
+        console.log('🎉 Gameplay scenario completed!');
+      }, 8000);
+      
+    } else if (options.scenario === 'menu') {
+      console.log('Simulating menu audio...');
+      
+      // Start menu background
+      const menuBgmId = audioSystem.playSound('menu-bgm');
+      
+      // Simulate menu interactions
+      setTimeout(() => audioSystem.playSound('button-hover'), 1000);
+      setTimeout(() => audioSystem.playSound('button-click'), 1500);
+      setTimeout(() => audioSystem.playSound('menu-transition'), 2000);
+      setTimeout(() => audioSystem.playSound('button-hover'), 3000);
+      setTimeout(() => audioSystem.playSound('button-click'), 3500);
+      
+      // Stop menu background
+      setTimeout(() => {
+        if (menuBgmId) audioSystem.stopSound(menuBgmId);
+        console.log('📋 Menu scenario completed!');
+      }, 5000);
     }
 
-    // Cleanup
-    clearInterval(spatialUpdateInterval);
-    audioSystem.stopAllSounds();
-
-    console.log('\n📊 Simulation Report:');
-    console.log(audioSystem.generateAudioReport());
-    console.log('\n✅ Audio simulation completed');
+    // Generate final report
+    setTimeout(() => {
+      const report = audioSystem.generateAudioReport();
+      console.log('\n📊 Scenario Report:');
+      console.log(report);
+    }, 10000);
   });
 
-export default program;
+program.parse();

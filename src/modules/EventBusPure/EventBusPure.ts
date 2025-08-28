@@ -688,9 +688,9 @@ export class EventScheduler {
     await this.eventBus.publish(scheduledEvent.eventType, scheduledEvent.data, scheduledEvent.options);
 
     if (scheduledEvent.recurring) {
-      scheduledEvent.executions++;
+      scheduledEvent.executions = (scheduledEvent.executions || 0) + 1;
       
-      if (scheduledEvent.maxExecutions > 0 && scheduledEvent.executions >= scheduledEvent.maxExecutions) {
+      if (scheduledEvent.maxExecutions && scheduledEvent.maxExecutions > 0 && scheduledEvent.executions >= scheduledEvent.maxExecutions) {
         this.scheduledEvents.delete(scheduledEvent.id);
       } else {
         scheduledEvent.executeAt = Date.now() + scheduledEvent.interval;

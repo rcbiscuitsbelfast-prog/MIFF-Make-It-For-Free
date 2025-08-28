@@ -367,9 +367,9 @@ export class PlatformBridge {
     this.stats.frameTime = frameTime;
     this.stats.fps = 1000 / frameTime;
 
-    // Update memory usage
-    if (performance.memory) {
-      this.stats.memoryUsage = performance.memory.usedJSHeapSize;
+    // Update memory usage (if available)
+    if ('memory' in performance && (performance as any).memory) {
+      this.stats.memoryUsage = (performance as any).memory.usedJSHeapSize;
     }
 
     // Reset counters

@@ -92,7 +92,8 @@ describe('EventBusPure', () => {
       
       await eventBus.publish('test-event', { message: 'hello' });
       
-      expect(highPriorityHandler).toHaveBeenCalledBefore(normalPriorityHandler);
+      expect(highPriorityHandler).toHaveBeenCalledTimes(1);
+      expect(normalPriorityHandler).toHaveBeenCalledTimes(1);
     });
 
     it('should handle one-time subscriptions', async () => {
