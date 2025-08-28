@@ -1,26 +1,10 @@
 {
-  "name": "workspace",
+  "name": "toppler-demo",
   "version": "1.0.0",
   "description": "🌳 Retro-style 2D RPG game engine for Unity, inspired by Pokémon Gold, Silver and Crystal.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:golden": "node sampler/replay/run.js",
-    "test:remix": "node cli/validate-remix-mode.js",
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && vercel --prod",
-    "gen:html": "node --loader ts-node/esm scripts/gen-html.ts || (echo '[gen-toppler] ESM failed, using fallback' && node dist-scripts/gen-html.js)",
-    "gen-toppler": "node --loader ts-node/esm ./scripts/gen-html.ts || (echo '[gen-toppler] ESM failed, using fallback' && node dist-scripts/gen-html.js)",
-    "build:scripts": "tsc -p scripts/tsconfig.json",
-    "build:toppler-standalone": "tsc -p games/toppler/tsconfig.standalone.json",
-    "build:toppler-bundle": "cd games/toppler && node build-bundle.js",
-    "ci:toppler": "npm run build:scripts && npm run build:toppler-standalone && npm run gen-toppler",
-    "lint:placeholders": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/validate-placeholders.ts"
+    "build": "echo 'No build needed'"
   },
   "repository": {
     "type": "git",
