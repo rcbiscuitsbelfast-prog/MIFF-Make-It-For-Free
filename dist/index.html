@@ -1,46 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MIFF: Make It For Free</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #111;
-      color: #eee;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
-    a {
-      color: #0ff;
-      margin: 1em;
-      text-decoration: none;
-      font-size: 1.2em;
-    }
-  </style>
-  <!-- Preload bundle for faster autostart -->
-  <link rel="preload" href="bundle.js" as="script">
-  <link rel="modulepreload" href="bundle.js">
-</head>
-<body>
-  <h1>🚀 MIFF: Make It For Free</h1>
-  <p>Modular game demos. Remix-safe. Ready to launch.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Render Sanity Check</title>
+    <style>
+      html,body { margin:0; padding:0; background:#0b0b0b; color:#eaeaea; font-family:system-ui,sans-serif; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 24px; }
+      h1 { margin: 0 0 8px; font-size: 22px; }
+      code { background:#151515; padding:2px 6px; border:1px solid #222; border-radius:4px; }
+      a { color:#7fdcff; text-decoration:none; }
+      a:hover { text-decoration:underline; }
+      .ok { color:#7CFC00; }
+      .err { color:#ff6b6b; }
+      .row { margin: 10px 0; }
+      ul { line-height: 1.6; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Render Sanity Check</h1>
+      <div class="row">This page is <span class="ok">served from dist/index.html</span>.</div>
+      <div class="row">Location: <code id="loc"></code></div>
+      <div class="row">Timestamp: <code id="ts"></code></div>
 
-  <a href="toppler-bundled.html?autostart=1">▶️ Launch Toppler</a>
-  <a href="modules.html">📦 Browse Modules</a>
-  <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free">🛠 GitHub Repo</a>
+      <h3>Links</h3>
+      <ul>
+        <li><a href="./toppler-bundled.html?autostart=1">Launch Toppler (bundled)</a></li>
+        <li><a href="./canvas-test.html">Canvas Test</a></li>
+        <li><a href="./bundle-verify.html">Bundle Verify</a></li>
+        <li><a href="./self-contained-test.html">Self-contained Test</a></li>
+      </ul>
 
-  <script>
-    // Optional autostart after delay
-    setTimeout(() => {
-      window.location.href = "toppler-bundled.html?autostart=1";
-    }, 3000);
-  </script>
-</body>
-</html>
+      <h3>Runtime Checks</h3>
+      <div id="checks" class="row"></div>
+      <pre id="log" style="background:#0f0f0f; border:1px solid #222; padding:10px; border-radius:6px; overflow:auto; max-height:200px;"></pre>
+    </div>
+
+    <script>
+      const logEl = document.getElementById('log');
+      function log(msg) { logEl.textContent += msg + "\n"; }
+      document.getElementById('loc').textContent = window.location.href;
+      document.getElementById('ts').textContent = new Date().toISOString();
+
+      async function head(url) {
+        try {
+          const res = await fetch(url, { method: 'HEAD' });
+          return `${url} -> ${res.status} ${res.statusText} (content-type=${res.headers.get('content-type')||'n/a'})`;
+        } catch (e) {
+          return `${url} -> ERROR ${e.message}`;
+        }
+      }
+
+      (async () => {
+        const files = [ './bundle.js', './toppler-bundled.html', './canvas-test.html' ];
+        for (const f of files) log(await head(f));
+        log('Done.');
+      })();
+    </script>
+  </body>
+  </html>
