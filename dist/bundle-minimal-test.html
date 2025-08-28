@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minimal Bundle Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; color: white; font-family: monospace; }
+        #app { width: 360px; height: 640px; border: 2px solid #fff; background: #111; }
+        #log { margin: 20px 0; padding: 10px; background: #333; height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>Minimal Bundle Test</h1>
+    <div id="log">Testing...</div>
+    <div id="app"></div>
+    
+    <script>
+        const logDiv = document.getElementById('log');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? '#ff6b6b' : type === 'success' ? '#6bcf7f' : '#ffffff';
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(div);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Override console methods
+        console.log = (...args) => log(args.join(' '), 'info');
+        console.warn = (...args) => log(args.join(' '), 'error');
+        console.error = (...args) => log(args.join(' '), 'error');
+        
+        log('Page loaded');
+        log('Adding autostart parameter');
+        
+        // Add autostart parameter
+        if (!window.location.search.includes('autostart=1')) {
+            window.history.replaceState({}, '', window.location.href + '?autostart=1');
+        }
+        
+        log('Loading bundle...');
+        
+        // Load bundle
+        const script = document.createElement('script');
+        script.src = './dist/bundle.js';
+        
+        script.onload = () => {
+            log('Bundle loaded successfully', 'success');
+        };
+        
+        script.onerror = (error) => {
+            log('Bundle failed to load: ' + error.message, 'error');
+        };
+        
+        document.head.appendChild(script);
+        
+        // Check for TopplerStandalone after a delay
+        setTimeout(() => {
+            if (window.TopplerStandalone) {
+                log('TopplerStandalone found', 'success');
+            } else {
+                log('TopplerStandalone not found', 'error');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

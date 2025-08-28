@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Canvas Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; color: white; font-family: monospace; }
+        #test-canvas { border: 2px solid #fff; display: block; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>Canvas Test</h1>
+    <canvas id="test-canvas" width="800" height="600"></canvas>
+    <div id="status">Testing canvas...</div>
+    
+    <script>
+        console.log('[Canvas Test] Starting...');
+        
+        const canvas = document.getElementById('test-canvas');
+        const status = document.getElementById('status');
+        
+        if (!canvas) {
+            status.textContent = 'ERROR: Canvas not found';
+            console.error('[Canvas Test] Canvas element not found');
+        } else {
+            console.log('[Canvas Test] Canvas found:', canvas.width, 'x', canvas.height);
+            
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                status.textContent = 'ERROR: 2D context not available';
+                console.error('[Canvas Test] 2D context not available');
+            } else {
+                console.log('[Canvas Test] 2D context obtained');
+                
+                // Draw a test pattern
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#00ff00';
+                ctx.fillRect(100, 100, 200, 200);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '24px monospace';
+                ctx.fillText('Canvas Test Working!', 50, 50);
+                
+                status.textContent = 'SUCCESS: Canvas is working';
+                console.log('[Canvas Test] Test pattern drawn successfully');
+            }
+        }
+    </script>
+</body>
+</html>
