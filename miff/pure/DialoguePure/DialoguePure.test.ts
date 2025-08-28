@@ -261,7 +261,7 @@ describe('DialoguePure', () => {
       // Remove the quests_available flag
       const modifiedTree = {
         ...sampleTree,
-        flags: new Set()
+        flags: new Set<string>()
       };
       const modifiedEngine = new DialogueEngine(modifiedTree);
       

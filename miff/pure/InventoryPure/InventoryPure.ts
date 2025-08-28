@@ -68,6 +68,7 @@ export interface InventoryTransaction {
   quantity?: number;
   fromSlot?: string;
   toSlot?: string;
+  equipSlot?: string;
   timestamp: number;
   metadata?: Record<string, any>;
 }

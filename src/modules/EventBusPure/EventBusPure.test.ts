@@ -110,7 +110,7 @@ describe('EventBusPure', () => {
     it('should handle event filters', async () => {
       const handler = jest.fn();
       eventBus.subscribe('test-event', handler, {
-        filter: (event) => event.data.value > 5
+        filter: (event: any) => event.data.value > 5
       });
       
       await eventBus.publish('test-event', { value: 3 });
@@ -448,8 +448,8 @@ describe('EventBusPure', () => {
       
       const scheduledEvents = scheduler.getScheduledEvents();
       expect(scheduledEvents.length).toBe(2);
-      expect(scheduledEvents.some(e => e.eventType === 'event1')).toBe(true);
-      expect(scheduledEvents.some(e => e.eventType === 'event2')).toBe(true);
+      expect(scheduledEvents.some((e: any) => e.eventType === 'event1')).toBe(true);
+      expect(scheduledEvents.some((e: any) => e.eventType === 'event2')).toBe(true);
     });
   });
 
@@ -578,7 +578,15 @@ describe('EventBusPure', () => {
       expect(target2Handler).toHaveBeenCalled();
       
       // Verify filtering worked
-      expect(filter.passesFilters({ data: { value: 10 } })).toBe(true);
+      expect(filter.passesFilters({
+        id: 'test',
+        type: 'test-event',
+        timestamp: Date.now(),
+        source: 'test',
+        data: { value: 10 },
+        priority: EventPriority.NORMAL,
+        metadata: {}
+      })).toBe(true);
       
       // Verify replication worked
       expect(replicator.shouldReplicate({

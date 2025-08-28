@@ -104,7 +104,7 @@ program
           console.log(`  Assets: ${plugin.assets.size}`);
         }
       } catch (error) {
-        console.error(`❌ Failed to load plugin: ${error.message}`);
+        console.error(`❌ Failed to load plugin: ${error instanceof Error ? error.message : String(error)}`);
       }
     } else if (options.all) {
       console.log('🎯 Loading all enabled plugins...');
@@ -116,7 +116,7 @@ program
             await discovery.loadPlugin(plugin.id);
             console.log(`✅ Loaded: ${plugin.manifest.name}`);
           } catch (error) {
-            console.error(`❌ Failed to load ${plugin.manifest.name}: ${error.message}`);
+            console.error(`❌ Failed to load ${plugin.manifest.name}: ${error instanceof Error ? error.message : String(error)}`);
           }
         }
       }
@@ -221,7 +221,7 @@ program
       return;
     }
 
-    const pluginIds = options.plugins.split(',').map(id => id.trim());
+    const pluginIds = options.plugins.split(',').map((id: string) => id.trim());
     console.log(`📦 Creating bundle: ${options.name}`);
     console.log(`Plugins: ${pluginIds.join(', ')}`);
 
@@ -260,7 +260,7 @@ program
       }
       
     } catch (error) {
-      console.error(`❌ Failed to create bundle: ${error.message}`);
+      console.error(`❌ Failed to create bundle: ${error instanceof Error ? error.message : String(error)}`);
     }
   });
 
@@ -293,7 +293,7 @@ program
       
       if (options.verbose) {
         const templates = system.getExportTemplates();
-        const template = templates.find(t => t.id === templateId);
+        const template = templates.find((t: any) => t.id === templateId);
         
         if (template) {
           console.log('\n📋 Export template details:');
@@ -306,7 +306,7 @@ program
       }
       
     } catch (error) {
-      console.error(`❌ Failed to export bundle: ${error.message}`);
+      console.error(`❌ Failed to export bundle: ${error instanceof Error ? error.message : String(error)}`);
     }
   });
 
@@ -322,7 +322,7 @@ program
     let templates = pipeline.getExportTemplates();
     
     if (options.platform) {
-      templates = templates.filter(t => t.platform === options.platform);
+              templates = templates.filter((t: any) => t.platform === options.platform);
     }
 
     console.log(`📊 Found ${templates.length} templates:`);
@@ -497,7 +497,7 @@ program
       
       // Check dependencies
       for (const depId of plugin.manifest.dependencies) {
-        const dep = plugins.find(p => p.id === depId);
+        const dep = plugins.find((p: any) => p.id === depId);
         if (!dep) {
           errors.push(`${plugin.id}: Missing dependency ${depId}`);
           errorCount++;

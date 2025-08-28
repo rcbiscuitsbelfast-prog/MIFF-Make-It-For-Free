@@ -96,7 +96,7 @@ program
       }
 
     } catch (error) {
-      console.error('❌ Validation failed:', error.message);
+      console.error('❌ Validation failed:', error instanceof Error ? error.message : String(error));
       process.exit(1);
     }
   });

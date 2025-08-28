@@ -267,7 +267,7 @@ export class TestHarness {
             testId: testCase.id,
             name: testCase.name,
             category: testCase.category,
-            status: error.message === 'Test timeout' ? 'timeout' : 'failed',
+            status: error instanceof Error && error.message === 'Test timeout' ? 'timeout' : 'failed',
             duration,
             error: error as Error,
             retries,

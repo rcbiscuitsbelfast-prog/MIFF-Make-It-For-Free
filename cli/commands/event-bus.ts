@@ -70,7 +70,7 @@ program
         console.log(`  Replicate: ${options.replicate || false}`);
       }
     } catch (error) {
-      console.error(`❌ Failed to publish event: ${error.message}`);
+      console.error(`❌ Failed to publish event: ${error instanceof Error ? error.message : String(error)}`);
     }
   });
 
@@ -116,7 +116,7 @@ program
           // Simple filter evaluation (in production, use a proper expression parser)
           return eval(`event.${options.filter}`);
         } catch (error) {
-          console.error(`❌ Filter evaluation error: ${error.message}`);
+          console.error(`❌ Filter evaluation error: ${error instanceof Error ? error.message : String(error)}`);
           return false;
         }
       };
@@ -169,7 +169,7 @@ program
     const eventBus = createEventBus(config);
     const router = createEventRouter(eventBus);
 
-    const targetTypes = targets.split(',').map(t => t.trim());
+    const targetTypes = targets.split(',').map((t: string) => t.trim());
     router.addRoute(source, targetTypes);
 
     console.log(`✅ Route created: ${source} -> [${targetTypes.join(', ')}]`);
@@ -291,7 +291,7 @@ program
       await new Promise(() => {});
 
     } catch (error) {
-      console.error(`❌ Failed to schedule event: ${error.message}`);
+      console.error(`❌ Failed to schedule event: ${error instanceof Error ? error.message : String(error)}`);
     }
   });
 
@@ -437,7 +437,7 @@ program
     };
 
     const eventBus = createEventBus(config);
-    const eventTypes = options.types.split(',').map(t => t.trim());
+    const eventTypes = options.types.split(',').map((t: string) => t.trim());
     const numEvents = parseInt(options.events);
     const interval = parseInt(options.interval);
 
@@ -500,7 +500,7 @@ program
       try {
         return eval(`event.${expression}`);
       } catch (error) {
-        console.error(`❌ Filter evaluation error: ${error.message}`);
+        console.error(`❌ Filter evaluation error: ${error instanceof Error ? error.message : String(error)}`);
         return false;
       }
     });

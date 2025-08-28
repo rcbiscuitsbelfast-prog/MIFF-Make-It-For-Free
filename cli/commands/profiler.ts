@@ -180,7 +180,7 @@ program
       }
       
     } catch (error) {
-      console.error('❌ Failed to analyze performance data:', error.message);
+      console.error('❌ Failed to analyze performance data:', error instanceof Error ? error.message : String(error));
     }
   });
 
