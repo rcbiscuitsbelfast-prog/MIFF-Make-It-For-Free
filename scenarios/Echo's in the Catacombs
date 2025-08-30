@@ -1,0 +1,105 @@
+// echoes-in-the-catacombs.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on stealth, environmental triggers, and conditional dialogue
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'echoes-in-the-catacombs',
+  title: 'Echoes in the Catacombs',
+  description:
+    'Navigate the haunted catacombs without alerting the spectral sentries. Recover the Whispering Stone and uncover the truth behind the echoes.',
+
+  objectives: [
+    {
+      id: 'recover-stone',
+      description: 'Find and collect the Whispering Stone.',
+      condition: () => InventoryPure.has('whispering-stone'),
+    },
+    {
+      id: 'avoid-detection',
+      description: 'Reach the exit without triggering any sentry alerts.',
+      condition: () => StealthPure.alertsTriggered() === 0,
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'enter-catacombs',
+      event: 'enter',
+      condition: () => LocationPure.current() === 'catacombs-entrance',
+      action: () => AudioPure.playSpatialSound('ambient-echoes', {
+        position: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        volume: 0.6,
+        pitch: 1.0,
+        dopplerEffect: false,
+      }),
+    },
+    {
+      id: 'stone-pickup-dialog',
+      event: 'item_added',
+      condition: () => InventoryPure.has('whispering-stone'),
+      action: () => DialogPure.start('echo-reveal'),
+    },
+    {
+      id: 'trigger-alert',
+      event: 'stealth_failed',
+      action: () => AudioPure.playSound('sentry-alert'),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-stealth',
+      type: 'xp',
+      value: 300,
+      target: 'player-progress',
+    },
+    {
+      id: 'lore-echoes',
+      type: 'lore',
+      value: 'catacombs-echoes',
+      target: 'lore-system',
+    },
+    {
+      id: 'effect-shadowstep',
+      type: 'effect',
+      value: 'shadowstep',
+      target: 'player-effects',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'InventoryPure',
+    'StealthPure',
+    'AudioPure',
+    'DialogPure',
+    'LocationPure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type EchoesInTheCatacombs = typeof ScenarioPure;
+export default ScenarioPure;
