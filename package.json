@@ -15,7 +15,12 @@
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
     "gen:html": "node -r ts-node/register scripts/gen-html.ts",
-    "gen-toppler": "ts-node ./scripts/gen-html.ts"
+    "gen-toppler": "ts-node ./scripts/gen-html.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
+    "play:spirit": "vite --open sampler/site/zones/witcher_grove/index.html",
+    "start:grove": "vite --open sampler/site/zones/witcher_grove/index.html",
+    "validate:release": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json && node scripts/validateOutputFormat.js out_tutorial.json scenario && node scripts/checkRemixHooks.js && node scripts/checkAttribution.js",
+    "gen:manifests": "node scripts/gen-manifests.js"
   },
   "repository": {
     "type": "git",

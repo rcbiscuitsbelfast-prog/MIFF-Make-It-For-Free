@@ -366,3 +366,15 @@ Keep everything modular, remix-safe, and contributor-friendly. Zones should be p
 - CLI Scripts:
   - Golden fixtures: `npm run test:golden`
   - Remix validation: `npm run test:remix`
+
+### Spirit Tamer: Trial of the Grove (Quickstart)
+
+- Mapping:
+  - Fixture: `sampler/scenarios/witcher_grove.fixture.json`
+  - Zone: `sampler/zones/witcher_grove/`
+- Playtesting:
+  - Open `sampler/replay/index.html` and load the Witcher Grove fixture, or
+  - Run `npm run start:grove` to auto-open the Witcher Grove zone via Vite
+- Remix safety:
+  - Keep assets under `sampler/assets/` with CC0/GPL sources
+  - Use Pure modules only for logic; avoid engine dependencies

@@ -1,0 +1,21 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "artifacts": [
+    {
+      "name": "sampler.site",
+      "path": "sampler/site/index.html",
+      "type": "site"
+    },
+    {
+      "name": "sampler.replay",
+      "path": "sampler/replay/index.html",
+      "type": "tool"
+    },
+    {
+      "name": "toppler.standalone",
+      "path": "games/toppler/toppler.html",
+      "type": "game"
+    }
+  ]
+}

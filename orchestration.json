@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2025-08-30T20:34:34.287Z",
+  "entries": [
+    {
+      "name": "overlink",
+      "path": "sampler/scenarios/overlink.fixture.json",
+      "type": "scenario"
+    },
+    {
+      "name": "spirit_tamer",
+      "path": "sampler/scenarios/spirit_tamer.fixture.json",
+      "type": "scenario"
+    },
+    {
+      "name": "toppler",
+      "path": "sampler/scenarios/toppler.fixture.json",
+      "type": "scenario"
+    },
+    {
+      "name": "witcher_explorer",
+      "path": "sampler/scenarios/witcher_explorer.fixture.json",
+      "type": "scenario"
+    },
+    {
+      "name": "witcher_grove",
+      "path": "sampler/scenarios/witcher_grove.fixture.json",
+      "type": "scenario"
+    },
+    {
+      "name": "toppler.index",
+      "path": "games/toppler/index.html",
+      "type": "game"
+    },
+    {
+      "name": "toppler.toppler",
+      "path": "games/toppler/toppler.html",
+      "type": "game"
+    }
+  ]
+}
