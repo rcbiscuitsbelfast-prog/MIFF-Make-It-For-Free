@@ -1,0 +1,318 @@
+{
+  "id": "spirit_tamer_trial_grove",
+  "title": "Spirit Tamer: Trial of the Grove",
+  "description": "Embark on the Trial of the Grove, a sacred test to tame three elemental spirits—Emberfang, Mosshide, and Cloudtail—guided by mythic NPCs. Solve riddles, strike fae bargains, and restore forgotten names to earn the Grovekeeper’s blessing.",
+  "entryPoint": "grove_clearing",
+  "objectives": [
+    {
+      "objectiveId": "start_trial",
+      "description": "Speak to Elara the Grovekeeper to begin the trial.",
+      "condition": "dialogue_completed:npc_dialogue_trees.json:guidance"
+    },
+    {
+      "objectiveId": "defeat_emberfang",
+      "description": "Defeat the Emberfang in combat.",
+      "condition": "combat_completed:emberfang_battle"
+    },
+    {
+      "objectiveId": "defeat_mosshide",
+      "description": "Defeat the Mosshide in combat.",
+      "condition": "combat_completed:mosshide_battle"
+    },
+    {
+      "objectiveId": "defeat_cloudtail",
+      "description": "Defeat the Cloudtail in combat.",
+      "condition": "combat_completed:cloudtail_battle"
+    },
+    {
+      "objectiveId": "complete_veil_riddles",
+      "description": "Solve the Veil of Riddles with Mirath the Veilseeker.",
+      "condition": "quest_completed:veil_of_riddles"
+    },
+    {
+      "objectiveId": "complete_names_power",
+      "description": "Restore the Names of Power with Voryn the Namekeeper.",
+      "condition": "quest_completed:names_of_power"
+    },
+    {
+      "objectiveId": "complete_fae_bargain",
+      "description": "Strike a Fae Bargain with Faelys the Moonshadow.",
+      "condition": "quest_completed:fae_bargain"
+    },
+    {
+      "objectiveId": "return_sanctum",
+      "description": "Return to the Grove Sanctum to complete the trial.",
+      "condition": "location_entered:grove_sanctum"
+    }
+  ],
+  "triggers": [
+    {
+      "triggerId": "enter_grove_clearing",
+      "event": "scenario_start",
+      "action": {
+        "type": "set_location",
+        "value": "grove_clearing"
+      },
+      "effect": {
+        "dialogueStart": "npc_dialogue_trees.json:mentor_elara_start",
+        "audioPlay": "grove_ambient_hum",
+        "questActivate": "trial-of-grove"
+      }
+    },
+    {
+      "triggerId": "meet_mirath",
+      "event": "dialogue_completed",
+      "condition": "dialogue_completed:npc_dialogue_trees_fae.json:mirath_start",
+      "action": {
+        "type": "quest_trigger",
+        "value": "veil_of_riddles_start"
+      }
+    },
+    {
+      "triggerId": "meet_voryn",
+      "event": "dialogue_completed",
+      "condition": "dialogue_completed:npc_dialogue_trees_fae.json:voryn_start",
+      "action": {
+        "type": "quest_trigger",
+        "value": "names_of_power_start"
+      }
+    },
+    {
+      "triggerId": "meet_faelys",
+      "event": "dialogue_completed",
+      "condition": "dialogue_completed:npc_dialogue_trees_fae.json:faelys_start",
+      "action": {
+        "type": "quest_trigger",
+        "value": "fae_bargain_start"
+      }
+    },
+    {
+      "triggerId": "emberfang_defeated",
+      "event": "combat_completed",
+      "condition": "combat_completed:emberfang_battle",
+      "action": {
+        "type": "loot_drop",
+        "value": "emberfang_drops"
+      },
+      "effect": {
+        "xpAward": 200,
+        "itemAward": "emberfang_scale",
+        "loreUnlock": "emberfang_defeated"
+      }
+    },
+    {
+      "triggerId": "mosshide_defeated",
+      "event": "combat_completed",
+      "condition": "combat_completed:mosshide_battle",
+      "action": {
+        "type": "loot_drop",
+        "value": "mosshide_drops"
+      },
+      "effect": {
+        "xpAward": 250,
+        "itemAward": "mosshide_root",
+        "loreUnlock": "mosshide_defeated"
+      }
+    },
+    {
+      "triggerId": "cloudtail_defeated",
+      "event": "combat_completed",
+      "condition": "combat_completed:cloudtail_battle",
+      "action": {
+        "type": "loot_drop",
+        "value": "cloudtail_drops"
+      },
+      "effect": {
+        "xpAward": 300,
+        "itemAward": "cloudtail_feather",
+        "loreUnlock": "cloudtail_defeated"
+      }
+    },
+    {
+      "triggerId": "veil_riddles_completed",
+      "event": "quest_completed",
+      "condition": "quest_completed:veil_of_riddles",
+      "action": {
+        "type": "effect_apply",
+        "value": "spirit_summoned"
+      },
+      "effect": {
+        "xpAward": 600,
+        "itemAward": "dream_thread",
+        "loreUnlock": "veil_pierced"
+      }
+    },
+    {
+      "triggerId": "names_power_completed",
+      "event": "quest_completed",
+      "condition": "quest_completed:names_of_power",
+      "action": {
+        "type": "effect_apply",
+        "value": "scribe_blessing"
+      },
+      "effect": {
+        "xpAward": 800,
+        "itemAward": "namebound_quill",
+        "loreUnlock": "name_restored"
+      }
+    },
+    {
+      "triggerId": "fae_bargain_completed",
+      "event": "quest_completed",
+      "condition": "quest_completed:fae_bargain",
+      "action": {
+        "type": "effect_apply",
+        "value": "fae_pact"
+      },
+      "effect": {
+        "xpAward": 700,
+        "itemAward": "moonshadow_charm",
+        "loreUnlock": "bargain_sealed"
+      }
+    },
+    {
+      "triggerId": "enter_sanctum",
+      "event": "location_entered",
+      "condition": "location_entered:grove_sanctum && quest_completed:trial-of-grove",
+      "action": {
+        "type": "dialogue_start",
+        "value": "npc_dialogue_trees.json:mentor_elara_success"
+      },
+      "effect": {
+        "xpAward": 1000,
+        "itemAward": "grovekeeper_amulet",
+        "effectApply": "spirit_tamer_blessing",
+        "loreUnlock": "trial_completed"
+      }
+    }
+  ],
+  "rewards": [
+    {
+      "rewardId": "trial_completion",
+      "type": "xp",
+      "value": 1000,
+      "target": "progression_system.json:tamer"
+    },
+    {
+      "rewardId": "grovekeeper_amulet",
+      "type": "item",
+      "value": "grovekeeper_amulet",
+      "target": "inventory"
+    },
+    {
+      "rewardId": "spirit_tamer_blessing",
+      "type": "effect",
+      "value": "spirit_tamer_blessing",
+      "target": "player_effects"
+    },
+    {
+      "rewardId": "trial_lore",
+      "type": "lore",
+      "value": "trial_completed",
+      "target": "lore_system"
+    }
+  ],
+  "modules": [
+    {
+      "moduleId": "npc_dialogue_trees",
+      "path": "npc_dialogue_trees.json",
+      "npcs": ["mentor_elara", "guide_sylph"]
+    },
+    {
+      "moduleId": "npc_dialogue_trees_fae",
+      "path": "npc_dialogue_trees_fae.json",
+      "npcs": ["oracle_mirath", "scribe_voryn", "glimmerling"]
+    },
+    {
+      "moduleId": "quest_structure",
+      "path": "quest_structure.json",
+      "quests": ["trial-of-grove"]
+    },
+    {
+      "moduleId": "quest_pack_fae",
+      "path": "quest_pack_fae.json",
+      "quests": ["veil_of_riddles", "names_of_power", "fae_bargain"]
+    },
+    {
+      "moduleId": "combat_encounters",
+      "path": "combat_encounters.json",
+      "battles": ["emberfang_battle", "mosshide_battle", "cloudtail_battle"]
+    },
+    {
+      "moduleId": "loot_tables",
+      "path": "loot_tables.json",
+      "tables": ["emberfang_drops", "mosshide_drops", "cloudtail_drops"]
+    },
+    {
+      "moduleId": "progression_system",
+      "path": "progression_system.json",
+      "player": "tamer"
+    },
+    {
+      "moduleId": "npc_tables_mythic",
+      "path": "npc_tables_mythic.json",
+      "npcs": ["oracle_mirath", "scribe_voryn", "sentinel_thryme", "glimmerling"]
+    }
+  ],
+  "routing": {
+    "start": "grove_clearing",
+    "npcInteractions": [
+      {
+        "npcId": "mentor_elara",
+        "dialogue": "npc_dialogue_trees.json:mentor_elara_start"
+      },
+      {
+        "npcId": "guide_sylph",
+        "dialogue": "npc_dialogue_trees.json:guide_sylph_start"
+      },
+      {
+        "npcId": "oracle_mirath",
+        "dialogue": "npc_dialogue_trees_fae.json:mirath_start"
+      },
+      {
+        "npcId": "scribe_voryn",
+        "dialogue": "npc_dialogue_trees_fae.json:voryn_start"
+      },
+      {
+        "npcId": "glimmerling",
+        "dialogue": "npc_dialogue_trees_fae.json:glimmerling_start"
+      }
+    ],
+    "trials": [
+      {
+        "trialId": "emberfang",
+        "battle": "emberfang_battle",
+        "location": "cinder_glade"
+      },
+      {
+        "trialId": "mosshide",
+        "battle": "mosshide_battle",
+        "location": "verdant_hollow"
+      },
+      {
+        "trialId": "cloudtail",
+        "battle": "cloudtail_battle",
+        "location": "skyreach"
+      }
+    ],
+    "questCompletion": {
+      "location": "grove_sanctum",
+      "dialogue": "npc_dialogue_trees.json:mentor_elara_success"
+    }
+  },
+  "dependencies": [
+    "DialogPure",
+    "CombatCorePure",
+    "InventoryPure",
+    "QuestSystemPure",
+    "LootSystemPure",
+    "ProgressionSystemPure",
+    "AudioPure",
+    "LocationPure",
+    "LorePure",
+    "EventBusPure"
+  ],
+  "version": "1.0.0",
+  "author": "MIFF Community",
+  "license": "MIT"
+}
