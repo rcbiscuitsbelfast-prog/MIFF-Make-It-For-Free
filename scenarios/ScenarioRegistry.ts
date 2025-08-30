@@ -141,4 +141,4 @@ export type ScenarioTypes =
   | VaultOfThreeSigils
   | LoopBeneathLarkspire;
 
-export default ScenarioRegistry; and
+export default ScenarioRegistry;
