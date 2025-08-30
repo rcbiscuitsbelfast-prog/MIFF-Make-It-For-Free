@@ -1,0 +1,34 @@
+[
+  {
+    "npcId": "oracle_mirath",
+    "name": "Mirath the Veilseeker",
+    "tags": ["fae", "oracle", "mystic"],
+    "lore": "Mirath weaves truths from the threads of forgotten dreams, her eyes reflecting a shattered mirror that once held the secrets of the First Fae. She speaks in riddles, offering guidance only to those who dare to answer her questions.",
+    "dialogueHook": "npc_dialogue_trees.json:mirath_start",
+    "questTrigger": "quest_veil_of_riddles_start"
+  },
+  {
+    "npcId": "scribe_voryn",
+    "name": "Voryn the Namekeeper",
+    "tags": ["scribe", "scholar", "mythic"],
+    "lore": "Voryn guards an ancient tome inscribed with the names of lost spirits, each page a pact with a forgotten entity. His quill hums with power, but he trades knowledge only for promises that echo in eternity.",
+    "dialogueHook": "npc_dialogue_trees.json:voryn_start",
+    "questTrigger": "quest_names_of_power_start"
+  },
+  {
+    "npcId": "trickster_faelys",
+    "name": "Faelys the Moonshadow",
+    "tags": ["fae", "trickster", "illusion"],
+    "lore": "Faelys dances between moonlight and shadow, offering fae trades that twist fate. Her bargains promise great rewards but always carry a hidden cost, veiled in her playful laughter.",
+    "dialogueHook": "npc_dialogue_trees.json:faelys_start",
+    "questTrigger": "quest_fae_bargain_start"
+  },
+  {
+    "npcId": "sentinel_thryme",
+    "name": "Thryme the Grovebound",
+    "tags": ["fae", "guardian", "nature"],
+    "lore": "Bound to an ancient grove by a vow older than stone, Thryme protects a hidden glade where the roots whisper forgotten names. She tests travelers with trials of heart and will, granting passage only to the worthy.",
+    "dialogueHook": "npc_dialogue_trees.json:thryme_start",
+    "questTrigger": "quest_veil_of_riddles_start"
+  }
+]
