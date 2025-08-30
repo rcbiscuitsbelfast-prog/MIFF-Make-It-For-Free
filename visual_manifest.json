@@ -1,0 +1,511 @@
+{
+  "visualManifestId": "spirit_tamer_grove_visual_assets",
+  "purpose": "Define visual assets for Toppler overlays, item icons, and location art",
+  "targetScenario": "SpiritTamerDemoPure",
+  "remixSafe": true,
+  "manifestVersion": "1.0.0",
+  
+  "visualSystem": {
+    "architecture": "modular_asset_definition",
+    "loadingMethod": "manifest_based",
+    "executionMode": "runtime_loading",
+    "priority": "high"
+  },
+  
+  "topplerOverlays": {
+    "toppler_canvas": {
+      "assetId": "toppler_canvas",
+      "type": "game_canvas",
+      "file": "toppler_stub.json",
+      "description": "Toppler game canvas (360x640)",
+      "status": "stubbed",
+      
+      "specifications": {
+        "dimensions": { "width": 360, "height": 640 },
+        "background": "#0b0b0b",
+        "border": "#222",
+        "appBackground": "#111",
+        "format": "html5_canvas"
+      },
+      
+      "stubImplementation": {
+        "method": "css_based",
+        "fallback": "toppler_stub.json",
+        "priority": "high"
+      }
+    },
+    
+    "player_sprite": {
+      "assetId": "player_sprite",
+      "type": "sprite",
+      "file": "toppler_stub.json",
+      "description": "Player character sprite (32x32)",
+      "status": "stubbed",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "position": { "x": 180, "y": 320 },
+        "color": "#00ff00",
+        "type": "rectangle_sprite"
+      },
+      
+      "stubImplementation": {
+        "method": "css_rectangle",
+        "fallback": "toppler_stub.json",
+        "priority": "high"
+      }
+    },
+    
+    "platform_sprites": {
+      "assetId": "platform_sprites",
+      "type": "platform_sprites",
+      "file": "toppler_stub.json",
+      "description": "Platform and obstacle sprites",
+      "status": "stubbed",
+      
+      "specifications": {
+        "platforms": [
+          {
+            "dimensions": { "width": 360, "height": 40 },
+            "position": { "x": 0, "y": 600 },
+            "color": "#444"
+          },
+          {
+            "dimensions": { "width": 80, "height": 20 },
+            "position": { "x": 100, "y": 500 },
+            "color": "#666"
+          }
+        ],
+        "obstacles": [
+          {
+            "dimensions": { "width": 40, "height": 40 },
+            "position": { "x": 200, "y": 400 },
+            "color": "#ff0000"
+          }
+        ]
+      },
+      
+      "stubImplementation": {
+        "method": "css_rectangles",
+        "fallback": "toppler_stub.json",
+        "priority": "medium"
+      }
+    }
+  },
+  
+  "itemIcons": {
+    "grove_token": {
+      "assetId": "grove_token",
+      "type": "item_icon",
+      "quest": "grove_initiation",
+      "description": "Sacred grove access token icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "mystical_token",
+        "colors": ["#8B4513", "#DAA520", "#FFD700"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_circle",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "32px",
+          "height": "32px",
+          "borderRadius": "50%",
+          "background": "radial-gradient(circle, #FFD700, #DAA520, #8B4513)",
+          "border": "2px solid #8B4513"
+        }
+      }
+    },
+    
+    "wisdom_crystal": {
+      "assetId": "wisdom_crystal",
+      "type": "item_icon",
+      "quest": "grove_initiation",
+      "description": "Crystal of ancient wisdom icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "crystalline_gem",
+        "colors": ["#87CEEB", "#4682B4", "#FFFFFF"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_diamond",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "32px",
+          "height": "32px",
+          "background": "#87CEEB",
+          "transform": "rotate(45deg)",
+          "border": "2px solid #4682B4"
+        }
+      }
+    },
+    
+    "spirit_essence": {
+      "assetId": "spirit_essence",
+      "type": "item_icon",
+      "quest": "spirit_whisperer",
+      "description": "Essence of spirit magic icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "ethereal_essence",
+        "colors": ["#E6E6FA", "#9370DB", "#4B0082"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_oval",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "32px",
+          "height": "24px",
+          "borderRadius": "50%",
+          "background": "radial-gradient(ellipse, #E6E6FA, #9370DB)",
+          "border": "2px solid #4B0082"
+        }
+      }
+    },
+    
+    "whisper_scroll": {
+      "assetId": "whisper_scroll",
+      "type": "item_icon",
+      "quest": "spirit_whisperer",
+      "description": "Scroll of spirit whispering icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "ancient_scroll",
+        "colors": ["#F5DEB3", "#DEB887", "#8B4513"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_rectangle",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "24px",
+          "height": "32px",
+          "background": "#F5DEB3",
+          "border": "2px solid #8B4513",
+          "borderRadius": "4px"
+        }
+      }
+    },
+    
+    "courage_medallion": {
+      "assetId": "courage_medallion",
+      "type": "item_icon",
+      "quest": "trial_of_courage",
+      "description": "Medallion of courage icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "heroic_medallion",
+        "colors": ["#FFD700", "#FFA500", "#8B0000"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_circle",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "32px",
+          "height": "32px",
+          "borderRadius": "50%",
+          "background": "radial-gradient(circle, #FFD700, #FFA500)",
+          "border": "3px solid #8B0000"
+        }
+      }
+    },
+    
+    "shadow_essence": {
+      "assetId": "shadow_essence",
+      "type": "item_icon",
+      "quest": "trial_of_courage",
+      "description": "Essence of shadow magic icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "shadow_magic",
+        "colors": ["#2F4F4F", "#696969", "#000000"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_diamond",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "32px",
+          "height": "32px",
+          "background": "#2F4F4F",
+          "transform": "rotate(45deg)",
+          "border": "2px solid #000000"
+        }
+      }
+    },
+    
+    "beacon_crystal": {
+      "assetId": "beacon_crystal",
+      "type": "item_icon",
+      "quest": "trial_of_courage",
+      "description": "Crystal of light restoration icon",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 32, "height": 32 },
+        "format": "png",
+        "style": "light_crystal",
+        "colors": ["#FFFFFF", "#FFFFE0", "#FFD700"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_diamond",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "width": "32px",
+          "height": "32px",
+          "background": "radial-gradient(circle, #FFFFFF, #FFFFE0)",
+          "transform": "rotate(45deg)",
+          "border": "2px solid #FFD700"
+        }
+      }
+    }
+  },
+  
+  "locationArt": {
+    "grove_entrance_scene": {
+      "assetId": "grove_entrance_scene",
+      "type": "location_scene",
+      "location": "grove_entrance",
+      "description": "Ancient oak and guardian stone scene",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 800, "height": 600 },
+        "format": "png",
+        "style": "mystical_forest",
+        "elements": ["ancient_oak", "guardian_stone", "ethereal_mist"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_composition",
+        "fallback": "css_generated",
+        "priority": "high",
+        "css": {
+          "width": "800px",
+          "height": "600px",
+          "background": "linear-gradient(to bottom, #228B22, #006400)",
+          "position": "relative"
+        }
+      }
+    },
+    
+    "ancient_oak_bark": {
+      "assetId": "ancient_oak_bark",
+      "type": "texture",
+      "location": "grove_entrance",
+      "description": "Bark texture for ancient oak tree",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 256, "height": 256 },
+        "format": "png",
+        "style": "tree_bark",
+        "tiling": "repeat"
+      },
+      
+      "stubImplementation": {
+        "method": "css_pattern",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "background": "repeating-linear-gradient(45deg, #8B4513, #8B4513 10px, #A0522D 10px, #A0522D 20px)"
+        }
+      }
+    },
+    
+    "moss_covered_stones": {
+      "assetId": "moss_covered_stones",
+      "type": "texture",
+      "location": "grove_entrance",
+      "description": "Moss-covered stone textures",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 256, "height": 256 },
+        "format": "png",
+        "style": "mossy_stone",
+        "tiling": "repeat"
+      },
+      
+      "stubImplementation": {
+        "method": "css_pattern",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "background": "radial-gradient(circle at 30% 30%, #90EE90, #228B22, #556B2F)"
+        }
+      }
+    },
+    
+    "ethereal_mist": {
+      "assetId": "ethereal_mist",
+      "type": "effect_texture",
+      "location": "grove_entrance",
+      "description": "Ethereal mist effect textures",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 512, "height": 512 },
+        "format": "png",
+        "style": "ethereal_mist",
+        "animation": "swirling"
+      },
+      
+      "stubImplementation": {
+        "method": "css_animation",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "background": "radial-gradient(circle, rgba(255,255,255,0.3), transparent)",
+          "animation": "mist_swirl 10s infinite linear"
+        }
+      }
+    }
+  },
+  
+  "npcModels": {
+    "fae_guardian_ancient": {
+      "assetId": "fae_guardian_ancient",
+      "type": "npc_model",
+      "npc": "grove_guardian",
+      "description": "Ancient fae guardian character model",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 64, "height": 128 },
+        "format": "png",
+        "style": "ancient_fae",
+        "animations": ["idle", "speaking", "casting"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_silhouette",
+        "fallback": "css_generated",
+        "priority": "high",
+        "css": {
+          "width": "64px",
+          "height": "128px",
+          "background": "linear-gradient(to bottom, #8B4513, #A0522D)",
+          "borderRadius": "32px 32px 0 0"
+        }
+      }
+    },
+    
+    "grove_guardian_robes": {
+      "assetId": "grove_guardian_robes",
+      "type": "npc_texture",
+      "npc": "grove_guardian",
+      "description": "Guardian robes texture",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 128, "height": 256 },
+        "format": "png",
+        "style": "ancient_robes",
+        "tiling": "repeat"
+      },
+      
+      "stubImplementation": {
+        "method": "css_pattern",
+        "fallback": "css_generated",
+        "priority": "medium",
+        "css": {
+          "background": "linear-gradient(to bottom, #8B4513, #A0522D, #CD853F)"
+        }
+      }
+    },
+    
+    "spirit_guide_ethereal": {
+      "assetId": "spirit_guide_ethereal",
+      "type": "npc_model",
+      "npc": "spirit_guide",
+      "description": "Ethereal spirit guide model",
+      "status": "missing",
+      
+      "specifications": {
+        "dimensions": { "width": 64, "height": 128 },
+        "format": "png",
+        "style": "ethereal_spirit",
+        "animations": ["floating", "teaching", "casting"]
+      },
+      
+      "stubImplementation": {
+        "method": "css_ethereal",
+        "fallback": "css_generated",
+        "priority": "high",
+        "css": {
+          "width": "64px",
+          "height": "128px",
+          "background": "radial-gradient(ellipse, rgba(255,255,255,0.8), rgba(135,206,235,0.6))",
+          "borderRadius": "50%",
+          "opacity": "0.8"
+        }
+      }
+    }
+  },
+  
+  "cssAnimations": {
+    "mist_swirl": {
+      "keyframes": [
+        "0% { transform: rotate(0deg) scale(1); }",
+        "50% { transform: rotate(180deg) scale(1.2); }",
+        "100% { transform: rotate(360deg) scale(1); }"
+      ],
+      "duration": "10s",
+      "timing": "linear",
+      "iteration": "infinite"
+    }
+  },
+  
+  "ciIntegration": {
+    "visualGeneration": "bypassed",
+    "stubImplementation": "enabled",
+    "orchestrationReplay": "enabled",
+    "fallbackBehavior": "css_generated"
+  },
+  
+  "replaySimulation": {
+    "status": "ready",
+    "method": "stub_based_visuals",
+    "coverage": "complete",
+    "visualElements": "css_generated",
+    "fallbackBehavior": "functional"
+  },
+  
+  "metadata": {
+    "manifest_author": "MIFF_Asset_Validation_Agent",
+    "manifest_version": "1.0.0",
+    "compatibility": ["v13", "v14"],
+    "recovery_method": "css_based_visual_generation"
+  }
+}

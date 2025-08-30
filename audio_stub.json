@@ -1,0 +1,303 @@
+{
+  "audioStubId": "spirit_tamer_grove_audio_fallback",
+  "purpose": "Provide fallback audio assets for ambient effects and sound effects",
+  "targetScenario": "SpiritTamerDemoPure",
+  "remixSafe": true,
+  "stubVersion": "1.0.0",
+  
+  "audioSystem": {
+    "architecture": "modular_fallback",
+    "loadingMethod": "stub_replacement",
+    "executionMode": "runtime_fallback",
+    "priority": "medium"
+  },
+  
+  "ambientTracks": {
+    "grove_ambient_hum": {
+      "audioId": "grove_ambient_hum",
+      "type": "ambient_track",
+      "location": "grove_entrance",
+      "description": "Gentle humming sound of the grove",
+      "status": "stubbed",
+      
+      "stubImplementation": {
+        "method": "procedural_generation",
+        "algorithm": "sine_wave_harmonics",
+        "parameters": {
+          "baseFrequency": 220,
+          "harmonics": [1, 2, 3, 5],
+          "amplitude": 0.3,
+          "duration": "loop",
+          "fadeIn": 2000,
+          "fadeOut": 2000
+        },
+        
+        "fallbackBehavior": {
+          "onLoad": "generate_procedural_audio",
+          "onError": "silent_fallback",
+          "onMissing": "create_sine_wave"
+        }
+      },
+      
+      "metadata": {
+        "priority": "medium",
+        "volume": 0.4,
+        "spatial": true,
+        "loop": true
+      }
+    },
+    
+    "whispering_wind": {
+      "audioId": "whispering_wind",
+      "type": "ambient_track",
+      "location": "whispering_hollow",
+      "description": "Mystical whispering wind sounds",
+      "status": "stubbed",
+      
+      "stubImplementation": {
+        "method": "procedural_generation",
+        "algorithm": "wind_noise_filtered",
+        "parameters": {
+          "baseNoise": "white_noise",
+          "filterType": "bandpass",
+          "frequencyRange": [800, 2000],
+          "amplitude": 0.25,
+          "duration": "loop",
+          "modulation": "random_walk"
+        },
+        
+        "fallbackBehavior": {
+          "onLoad": "generate_wind_sound",
+          "onError": "silent_fallback",
+          "onMissing": "create_filtered_noise"
+        }
+      },
+      
+      "metadata": {
+        "priority": "medium",
+        "volume": 0.35,
+        "spatial": true,
+        "loop": true
+      }
+    },
+    
+    "shadow_mist": {
+      "audioId": "shadow_mist",
+      "type": "ambient_track",
+      "location": "shadowed_vale",
+      "description": "Dark, foreboding shadow mist sounds",
+      "status": "stubbed",
+      
+      "stubImplementation": {
+        "method": "procedural_generation",
+        "algorithm": "dark_atmosphere",
+        "parameters": {
+          "baseSound": "low_frequency_drone",
+          "modulation": "slow_oscillation",
+          "frequencyRange": [60, 200],
+          "amplitude": 0.2,
+          "duration": "loop",
+          "effects": ["reverb", "delay"]
+        },
+        
+        "fallbackBehavior": {
+          "onLoad": "generate_dark_atmosphere",
+          "onError": "silent_fallback",
+          "onMissing": "create_low_frequency_drone"
+        }
+      },
+      
+      "metadata": {
+        "priority": "medium",
+        "volume": 0.3,
+        "spatial": true,
+        "loop": true
+      }
+    }
+  },
+  
+  "soundEffects": {
+    "ethereal_glow": {
+      "audioId": "ethereal_glow",
+      "type": "sound_effect",
+      "trigger": "visual_effect",
+      "description": "Magical ethereal glow sound",
+      "status": "stubbed",
+      
+      "stubImplementation": {
+        "method": "procedural_generation",
+        "algorithm": "magical_chime",
+        "parameters": {
+          "baseFrequency": 880,
+          "harmonics": [1, 2, 4, 8],
+          "amplitude": 0.4,
+          "duration": 1500,
+          "envelope": "bell_shaped",
+          "effects": ["reverb", "chorus"]
+        },
+        
+        "fallbackBehavior": {
+          "onLoad": "generate_magical_chime",
+          "onError": "silent_fallback",
+          "onMissing": "create_bell_sound"
+        }
+      },
+      
+      "metadata": {
+        "priority": "low",
+        "volume": 0.5,
+        "spatial": false,
+        "loop": false
+      }
+    },
+    
+    "ancient_magic_aura": {
+      "audioId": "ancient_magic_aura",
+      "type": "sound_effect",
+      "trigger": "magic_activation",
+      "description": "Ancient magic activation sound",
+      "status": "stubbed",
+      
+      "stubImplementation": {
+        "method": "procedural_generation",
+        "algorithm": "ancient_power",
+        "parameters": {
+          "baseFrequency": 440,
+          "harmonics": [1, 3, 5, 7],
+          "amplitude": 0.6,
+          "duration": 2000,
+          "envelope": "power_surge",
+          "effects": ["reverb", "distortion"]
+        },
+        
+        "fallbackBehavior": {
+          "onLoad": "generate_ancient_power",
+          "onError": "silent_fallback",
+          "onMissing": "create_power_surge"
+        }
+      },
+      
+      "metadata": {
+        "priority": "low",
+        "volume": 0.6,
+        "spatial": false,
+        "loop": false
+      }
+    },
+    
+    "combat_start": {
+      "audioId": "combat_start",
+      "type": "sound_effect",
+      "trigger": "combat_initiated",
+      "description": "Combat initiation sound",
+      "status": "stubbed",
+      
+      "stubImplementation": {
+        "method": "procedural_generation",
+        "algorithm": "combat_fanfare",
+        "parameters": {
+          "baseFrequency": 330,
+          "harmonics": [1, 2, 4],
+          "amplitude": 0.7,
+          "duration": 1000,
+          "envelope": "sharp_attack",
+          "effects": ["reverb", "compression"]
+        },
+        
+        "fallbackBehavior": {
+          "onLoad": "generate_combat_fanfare",
+          "onError": "silent_fallback",
+          "onMissing": "create_combat_sound"
+        }
+      },
+      
+      "metadata": {
+        "priority": "medium",
+        "volume": 0.7,
+        "spatial": false,
+        "loop": false
+      }
+    }
+  },
+  
+  "audioFallbacks": {
+    "silent_fallback": {
+      "method": "silent_audio",
+      "duration": 1000,
+      "description": "Silent audio when stubs fail"
+    },
+    
+    "sine_wave_fallback": {
+      "method": "basic_sine_wave",
+      "frequency": 440,
+      "duration": 1000,
+      "description": "Basic sine wave when stubs fail"
+    },
+    
+    "white_noise_fallback": {
+      "method": "white_noise",
+      "duration": 1000,
+      "description": "White noise when stubs fail"
+    }
+  },
+  
+  "proceduralGeneration": {
+    "sine_wave_harmonics": {
+      "algorithm": "harmonic_synthesis",
+      "description": "Generate harmonic sine waves for ambient sounds",
+      "parameters": ["baseFrequency", "harmonics", "amplitude", "duration"]
+    },
+    
+    "wind_noise_filtered": {
+      "algorithm": "filtered_noise",
+      "description": "Generate filtered noise for wind effects",
+      "parameters": ["baseNoise", "filterType", "frequencyRange", "amplitude"]
+    },
+    
+    "dark_atmosphere": {
+      "algorithm": "low_frequency_synthesis",
+      "description": "Generate dark atmospheric sounds",
+      "parameters": ["baseSound", "modulation", "frequencyRange", "amplitude"]
+    },
+    
+    "magical_chime": {
+      "algorithm": "bell_synthesis",
+      "description": "Generate magical chime sounds",
+      "parameters": ["baseFrequency", "harmonics", "amplitude", "duration"]
+    },
+    
+    "ancient_power": {
+      "algorithm": "power_surge_synthesis",
+      "description": "Generate ancient power sounds",
+      "parameters": ["baseFrequency", "harmonics", "amplitude", "duration"]
+    },
+    
+    "combat_fanfare": {
+      "algorithm": "fanfare_synthesis",
+      "description": "Generate combat fanfare sounds",
+      "parameters": ["baseFrequency", "harmonics", "amplitude", "duration"]
+    }
+  },
+  
+  "ciIntegration": {
+    "audioGeneration": "bypassed",
+    "stubImplementation": "enabled",
+    "orchestrationReplay": "enabled",
+    "fallbackBehavior": "graceful_degradation"
+  },
+  
+  "replaySimulation": {
+    "status": "ready",
+    "method": "stub_based_audio",
+    "coverage": "complete",
+    "audioElements": "procedurally_generated",
+    "fallbackBehavior": "functional"
+  },
+  
+  "metadata": {
+    "stub_author": "MIFF_Asset_Validation_Agent",
+    "stub_version": "1.0.0",
+    "compatibility": ["v13", "v14"],
+    "recovery_method": "procedural_audio_generation"
+  }
+}

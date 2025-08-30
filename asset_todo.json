@@ -1,0 +1,557 @@
+{
+  "assetTodoId": "spirit_tamer_grove_contributor_tasks",
+  "purpose": "Track missing assets that need contributor follow-up",
+  "targetScenario": "SpiritTamerDemoPure",
+  "remixSafe": true,
+  "todoVersion": "1.0.0",
+  
+  "contributorTasks": {
+    "audioAssets": {
+      "category": "audio",
+      "priority": "medium",
+      "totalTasks": 6,
+      "completed": 0,
+      "tasks": [
+        {
+          "taskId": "audio_001",
+          "assetId": "grove_ambient_hum",
+          "type": "ambient_track",
+          "description": "Create gentle humming sound of the grove entrance",
+          "specifications": {
+            "duration": "loop",
+            "format": "ogg",
+            "sampleRate": "44100Hz",
+            "channels": "stereo",
+            "style": "peaceful_forest_ambience"
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["audio_design", "ambient_sound"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "audio_002",
+          "assetId": "whispering_wind",
+          "type": "ambient_track",
+          "description": "Create mystical whispering wind sounds for Whispering Hollow",
+          "specifications": {
+            "duration": "loop",
+            "format": "ogg",
+            "sampleRate": "44100Hz",
+            "channels": "stereo",
+            "style": "mystical_wind_whispers"
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["audio_design", "wind_effects"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "audio_003",
+          "assetId": "shadow_mist",
+          "type": "ambient_track",
+          "description": "Create dark, foreboding shadow mist sounds for Shadowed Vale",
+          "specifications": {
+            "duration": "loop",
+            "format": "ogg",
+            "sampleRate": "44100Hz",
+            "channels": "stereo",
+            "style": "dark_atmospheric_drone"
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["audio_design", "dark_atmosphere"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "audio_004",
+          "assetId": "ethereal_glow",
+          "type": "sound_effect",
+          "description": "Create magical ethereal glow sound effect",
+          "specifications": {
+            "duration": "1.5s",
+            "format": "ogg",
+            "sampleRate": "44100Hz",
+            "channels": "stereo",
+            "style": "magical_chime"
+          },
+          "priority": "low",
+          "estimatedEffort": "1-2 hours",
+          "skills": ["audio_design", "magical_effects"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "audio_005",
+          "assetId": "ancient_magic_aura",
+          "type": "sound_effect",
+          "description": "Create ancient magic activation sound effect",
+          "specifications": {
+            "duration": "2s",
+            "format": "ogg",
+            "sampleRate": "44100Hz",
+            "channels": "stereo",
+            "style": "ancient_power_surge"
+          },
+          "priority": "low",
+          "estimatedEffort": "1-2 hours",
+          "skills": ["audio_design", "power_effects"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "audio_006",
+          "assetId": "combat_start",
+          "type": "sound_effect",
+          "description": "Create combat initiation sound effect",
+          "specifications": {
+            "duration": "1s",
+            "format": "ogg",
+            "sampleRate": "44100Hz",
+            "channels": "stereo",
+            "style": "combat_fanfare"
+          },
+          "priority": "medium",
+          "estimatedEffort": "1-2 hours",
+          "skills": ["audio_design", "combat_audio"],
+          "status": "pending",
+          "assignee": "unassigned"
+        }
+      ]
+    },
+    
+    "visualAssets": {
+      "category": "visuals",
+      "priority": "high",
+      "totalTasks": 25,
+      "completed": 3,
+      "tasks": [
+        {
+          "taskId": "visual_001",
+          "assetId": "grove_token",
+          "type": "item_icon",
+          "description": "Create sacred grove access token icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "mystical_token",
+            "colors": ["#8B4513", "#DAA520", "#FFD700"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "mystical_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_002",
+          "assetId": "wisdom_crystal",
+          "type": "item_icon",
+          "description": "Create crystal of ancient wisdom icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "crystalline_gem",
+            "colors": ["#87CEEB", "#4682B4", "#FFFFFF"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "crystal_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_003",
+          "assetId": "spirit_essence",
+          "type": "item_icon",
+          "description": "Create essence of spirit magic icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "ethereal_essence",
+            "colors": ["#E6E6FA", "#9370DB", "#4B0082"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "ethereal_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_004",
+          "assetId": "whisper_scroll",
+          "type": "item_icon",
+          "description": "Create scroll of spirit whispering icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "ancient_scroll",
+            "colors": ["#F5DEB3", "#DEB887", "#8B4513"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "scroll_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_005",
+          "assetId": "courage_medallion",
+          "type": "item_icon",
+          "description": "Create medallion of courage icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "heroic_medallion",
+            "colors": ["#FFD700", "#FFA500", "#8B0000"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "medallion_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_006",
+          "assetId": "shadow_essence",
+          "type": "item_icon",
+          "description": "Create essence of shadow magic icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "shadow_magic",
+            "colors": ["#2F4F4F", "#696969", "#000000"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "shadow_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_007",
+          "assetId": "beacon_crystal",
+          "type": "item_icon",
+          "description": "Create crystal of light restoration icon",
+          "specifications": {
+            "dimensions": "32x32px",
+            "format": "png",
+            "style": "light_crystal",
+            "colors": ["#FFFFFF", "#FFFFE0", "#FFD700"]
+          },
+          "priority": "medium",
+          "estimatedEffort": "2-3 hours",
+          "skills": ["icon_design", "light_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_008",
+          "assetId": "grove_entrance_scene",
+          "type": "location_scene",
+          "description": "Create ancient oak and guardian stone scene",
+          "specifications": {
+            "dimensions": "800x600px",
+            "format": "png",
+            "style": "mystical_forest",
+            "elements": ["ancient_oak", "guardian_stone", "ethereal_mist"]
+          },
+          "priority": "high",
+          "estimatedEffort": "8-12 hours",
+          "skills": ["scene_design", "forest_art", "mystical_art"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_009",
+          "assetId": "ancient_oak_bark",
+          "type": "texture",
+          "description": "Create bark texture for ancient oak tree",
+          "specifications": {
+            "dimensions": "256x256px",
+            "format": "png",
+            "style": "tree_bark",
+            "tiling": "repeat"
+          },
+          "priority": "medium",
+          "estimatedEffort": "4-6 hours",
+          "skills": ["texture_design", "bark_texture"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_010",
+          "assetId": "moss_covered_stones",
+          "type": "texture",
+          "description": "Create moss-covered stone textures",
+          "specifications": {
+            "dimensions": "256x256px",
+            "format": "png",
+            "style": "mossy_stone",
+            "tiling": "repeat"
+          },
+          "priority": "medium",
+          "estimatedEffort": "4-6 hours",
+          "skills": ["texture_design", "stone_texture"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_011",
+          "assetId": "ethereal_mist",
+          "type": "effect_texture",
+          "description": "Create ethereal mist effect textures",
+          "specifications": {
+            "dimensions": "512x512px",
+            "format": "png",
+            "style": "ethereal_mist",
+            "animation": "swirling"
+          },
+          "priority": "medium",
+          "estimatedEffort": "6-8 hours",
+          "skills": ["effect_design", "mist_effects"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_012",
+          "assetId": "fae_guardian_ancient",
+          "type": "npc_model",
+          "description": "Create ancient fae guardian character model",
+          "specifications": {
+            "dimensions": "64x128px",
+            "format": "png",
+            "style": "ancient_fae",
+            "animations": ["idle", "speaking", "casting"]
+          },
+          "priority": "high",
+          "estimatedEffort": "10-15 hours",
+          "skills": ["character_design", "fae_art", "animation"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_013",
+          "assetId": "grove_guardian_robes",
+          "type": "npc_texture",
+          "description": "Create guardian robes texture",
+          "specifications": {
+            "dimensions": "128x256px",
+            "format": "png",
+            "style": "ancient_robes",
+            "tiling": "repeat"
+          },
+          "priority": "medium",
+          "estimatedEffort": "6-8 hours",
+          "skills": ["texture_design", "fabric_texture"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_014",
+          "assetId": "spirit_guide_ethereal",
+          "type": "npc_model",
+          "description": "Create ethereal spirit guide model",
+          "specifications": {
+            "dimensions": "64x128px",
+            "format": "png",
+            "style": "ethereal_spirit",
+            "animations": ["floating", "teaching", "casting"]
+          },
+          "priority": "high",
+          "estimatedEffort": "10-15 hours",
+          "skills": ["character_design", "spirit_art", "animation"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_015",
+          "assetId": "mist_swirl",
+          "type": "visual_effect",
+          "description": "Create swirling ethereal mist animation",
+          "specifications": {
+            "dimensions": "512x512px",
+            "format": "png",
+            "style": "ethereal_mist",
+            "frames": 24
+          },
+          "priority": "medium",
+          "estimatedEffort": "8-10 hours",
+          "skills": ["animation_design", "mist_effects"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_016",
+          "assetId": "leaves_rustle",
+          "type": "visual_effect",
+          "description": "Create rustling leaves animation",
+          "specifications": {
+            "dimensions": "256x256px",
+            "format": "png",
+            "style": "leaf_rustle",
+            "frames": 12
+          },
+          "priority": "low",
+          "estimatedEffort": "4-6 hours",
+          "skills": ["animation_design", "leaf_effects"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "visual_017",
+          "assetId": "guardian_idle",
+          "type": "animation",
+          "description": "Create guardian idle animation",
+          "specifications": {
+            "dimensions": "64x128px",
+            "format": "png",
+            "style": "guardian_idle",
+            "frames": 8
+          },
+          "priority": "medium",
+          "estimatedEffort": "6-8 hours",
+          "skills": ["animation_design", "character_animation"],
+          "status": "pending",
+          "assignee": "unassigned"
+        }
+      ]
+    },
+    
+    "loreArtifacts": {
+      "category": "lore",
+      "priority": "low",
+      "totalTasks": 2,
+      "completed": 0,
+      "tasks": [
+        {
+          "taskId": "lore_001",
+          "assetId": "dream_thread",
+          "type": "lore_artifact",
+          "description": "Create dream thread connecting to dream realm",
+          "specifications": {
+            "type": "lore_description",
+            "style": "mystical_artifact",
+            "context": "spirit_whisperer_quest"
+          },
+          "priority": "low",
+          "estimatedEffort": "1-2 hours",
+          "skills": ["lore_writing", "mystical_description"],
+          "status": "pending",
+          "assignee": "unassigned"
+        },
+        
+        {
+          "taskId": "lore_002",
+          "assetId": "moonshadow_charm",
+          "type": "lore_artifact",
+          "description": "Create charm of moon and shadow magic",
+          "specifications": {
+            "type": "lore_description",
+            "style": "mystical_artifact",
+            "context": "trial_of_courage_quest"
+          },
+          "priority": "low",
+          "estimatedEffort": "1-2 hours",
+          "skills": ["lore_writing", "mystical_description"],
+          "status": "pending",
+          "assignee": "unassigned"
+        }
+      ]
+    }
+  },
+  
+  "taskSummary": {
+    "totalTasks": 33,
+    "completedTasks": 3,
+    "pendingTasks": 30,
+    "completionRate": "9%",
+    
+    "byPriority": {
+      "high": 3,
+      "medium": 24,
+      "low": 6
+    },
+    
+    "byCategory": {
+      "audio": 6,
+      "visuals": 25,
+      "lore": 2
+    },
+    
+    "byStatus": {
+      "pending": 30,
+      "in_progress": 0,
+      "completed": 3,
+      "blocked": 0
+    }
+  },
+  
+  "contributionGuidelines": {
+    "assetStandards": {
+      "format": "png for visuals, ogg for audio",
+      "dimensions": "Specified per asset",
+      "style": "Mystical, fae-themed, consistent with scenario",
+      "quality": "Production-ready, no placeholders"
+    },
+    
+    "submissionProcess": {
+      "step1": "Create asset according to specifications",
+      "step2": "Test asset in scenario context",
+      "step3": "Submit via pull request",
+      "step4": "Asset review and integration"
+    },
+    
+    "skillRequirements": {
+      "audio": ["audio_design", "ambient_sound", "sound_effects"],
+      "visuals": ["icon_design", "texture_design", "animation_design"],
+      "lore": ["lore_writing", "mystical_description"]
+    }
+  },
+  
+  "ciIntegration": {
+    "assetGeneration": "bypassed",
+    "stubImplementation": "enabled",
+    "orchestrationReplay": "enabled",
+    "contributorTracking": "active"
+  },
+  
+  "replaySimulation": {
+    "status": "ready",
+    "method": "stub_based_assets",
+    "coverage": "complete",
+    "assetElements": "stub_generated",
+    "contributorFollowUp": "required"
+  },
+  
+  "metadata": {
+    "todo_author": "MIFF_Asset_Validation_Agent",
+    "todo_version": "1.0.0",
+    "compatibility": ["v13", "v14"],
+    "recovery_method": "contributor_asset_creation"
+  }
+}
