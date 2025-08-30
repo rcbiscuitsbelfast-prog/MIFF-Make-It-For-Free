@@ -1,0 +1,101 @@
+// forge-of-the-hollow-flame.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on crafting, environmental interaction, and modular item logic
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'forge-of-the-hollow-flame',
+  title: 'Forge of the Hollow Flame',
+  description:
+    'Reignite the ancient forge by crafting the Hollow Flame Core. Combine rare materials, activate the forge, and unlock forgotten crafting lore.',
+
+  objectives: [
+    {
+      id: 'craft-core',
+      description: 'Craft the Hollow Flame Core using rare materials.',
+      condition: () => CraftingPure.hasCrafted('hollow-flame-core'),
+    },
+    {
+      id: 'activate-forge',
+      description: 'Use the core to activate the forge.',
+      condition: () => LocationPure.hasActivated('ancient-forge'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'enter-forge',
+      event: 'enter',
+      condition: () => LocationPure.current() === 'ancient-forge',
+      action: () => AudioPure.playSound('forge-hum'),
+    },
+    {
+      id: 'core-crafted-dialog',
+      event: 'item_added',
+      condition: () => InventoryPure.has('hollow-flame-core'),
+      action: () => DialogPure.start('forge-reawakens'),
+    },
+    {
+      id: 'forge-activated-lore',
+      event: 'location_activated',
+      condition: () => LocationPure.hasActivated('ancient-forge'),
+      action: () => LorePure.unlock('hollow-flame-lore'),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-crafting',
+      type: 'xp',
+      value: 400,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-flame-blade',
+      type: 'item',
+      value: 'flame-blade',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'lore-flame',
+      type: 'lore',
+      value: 'hollow-flame-lore',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'CraftingPure',
+    'InventoryPure',
+    'LocationPure',
+    'DialogPure',
+    'AudioPure',
+    'LorePure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type ForgeOfTheHollowFlame = typeof ScenarioPure;
+export default ScenarioPure;
