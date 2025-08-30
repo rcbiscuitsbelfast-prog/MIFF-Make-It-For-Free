@@ -1,0 +1,151 @@
+// ember-pact.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "The Ember Pact" using pure, engine-agnostic subsystems
+// Focuses on crafting a forbidden item, faction dynamics, and high-stakes choices
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'item_crafted', 'dialog_choice')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., apply effect, update faction)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., InventoryPure, FactionSystemPure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'ember-pact',
+  title: 'The Ember Pact',
+  description:
+    'The player discovers a ritual to craft the Emberheart, a forbidden artifact of immense power. They must gather volatile ingredients, craft the item under risk of corruption, and choose to empower or destroy it, facing faction consequences.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'gather-ingredients',
+      description: 'Collect three volatile ingredients: Cinder Ash, Void Shard, and Flame Essence.',
+      condition: () =>
+        InventoryPure.has('cinder-ash') &&
+        InventoryPure.has('void-shard') &&
+        InventoryPure.has('flame-essence'),
+    },
+    {
+      id: 'craft-emberheart',
+      description: 'Craft the Emberheart at the Forgemaster’s Altar.',
+      condition: () => InventoryPure.has('emberheart'),
+    },
+    {
+      id: 'resolve-pact',
+      description: 'Choose to empower or destroy the Emberheart.',
+      condition: () => EventBusPure.wasPublished('emberheart-decision'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-altar',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'forgemaster-altar',
+      action: () => DialogPure.start('emberheart-ritual-prompt'),
+    },
+    {
+      id: 'craft-attempt',
+      event: 'crafting_attempt',
+      condition: () =>
+        CraftingPure.canCraft('emberheart') &&
+        LocationPure.current() === 'forgemaster-altar',
+      action: () => {
+        CraftingPure.craft('emberheart', ['cinder-ash', 'void-shard', 'flame-essence']);
+        StatusEffectPure.apply('corruption-risk', { chance: 0.3, duration: 300 });
+      },
+    },
+    {
+      id: 'corruption-fail',
+      event: 'effect_applied',
+      condition: () => StatusEffectPure.has('corruption-risk'),
+      action: () => {
+        FactionSystemPure.updateStanding('shadow-guild', -20);
+        DialogPure.start('corruption-warning');
+      },
+    },
+    {
+      id: 'empower-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('emberheart-decision') === 'empower',
+      action: () => {
+        EventBusPure.publish('emberheart-decision', { choice: 'empower' });
+        FactionSystemPure.updateStanding('flame-keepers', 50);
+        FactionSystemPure.updateStanding('shadow-guild', -50);
+        StatusEffectPure.apply('ember-power', { duration: 600 });
+      },
+    },
+    {
+      id: 'destroy-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('emberheart-decision') === 'destroy',
+      action: () => {
+        EventBusPure.publish('emberheart-decision', { choice: 'destroy' });
+        FactionSystemPure.updateStanding('shadow-guild', 30);
+        FactionSystemPure.updateStanding('flame-keepers', -30);
+        InventoryPure.remove('emberheart');
+        LorePure.unlock('emberheart-destruction');
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-craftmaster',
+      type: 'xp',
+      value: 750,
+      target: 'player-progress',
+    },
+    {
+      id: 'lore-emberheart',
+      type: 'lore',
+      value: 'emberheart-origins',
+      target: 'lore-system',
+    },
+    {
+      id: 'item-ashen-token',
+      type: 'item',
+      value: 'ashen-token',
+      target: 'InventoryPure',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'CraftingPure',
+    'InventoryPure',
+    'FactionSystemPure',
+    'StatusEffectPure',
+    'DialogPure',
+    'LocationPure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type EmberPact = typeof ScenarioPure;
+export default ScenarioPure;
