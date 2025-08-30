@@ -1,0 +1,172 @@
+// whispers-hollow-tree.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "Whispers from the Hollow Tree" using pure, engine-agnostic subsystems
+// Focuses on dialogue-driven mystery, audio cues, and lore discovery
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'dialog_completed', 'audio_triggered')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., play audio, unlock lore)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., LorePure, InventoryPure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'whispers-hollow-tree',
+  title: 'Whispers from the Hollow Tree',
+  description:
+    'The player discovers an ancient hollow tree that whispers cryptic phrases through ambient sounds. By engaging in dialogue and interpreting audio cues, they must uncover three pieces of hidden lore to reveal the tree’s forgotten truth.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'interpret-first-whisper',
+      description: 'Decipher the first cryptic phrase of the Hollow Tree.',
+      condition: () => LorePure.isUnlocked('hollow-tree-whisper-1'),
+    },
+    {
+      id: 'interpret-second-whisper',
+      description: 'Unravel the second cryptic phrase of the Hollow Tree.',
+      condition: () => LorePure.isUnlocked('hollow-tree-whisper-2'),
+    },
+    {
+      id: 'reveal-tree-truth',
+      description: 'Uncover the final truth of the Hollow Tree.',
+      condition: () => LorePure.isUnlocked('hollow-tree-truth'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'approach-tree',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'hollow-glade',
+      action: () => {
+        DialogPure.start('hollow-tree-greeting');
+        AudioPure.play('whisper-ambient-loop', { loop: true, volume: 0.7 });
+      },
+    },
+    {
+      id: 'first-whisper-dialog',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('whisper-interpret-1') === 'correct',
+      action: () => {
+        LorePure.unlock('hollow-tree-whisper-1');
+        AudioPure.play('whisper-reveal-1', { volume: 1.0 });
+        DialogPure.start('whisper-1-response');
+      },
+    },
+    {
+      id: 'first-whisper-fail',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('whisper-interpret-1') !== 'correct',
+      action: () => {
+        AudioPure.play('whisper-fail', { volume: 0.8 });
+        StatusEffectPure.apply('confusion', { duration: 120 });
+      },
+    },
+    {
+      id: 'second-whisper-unlock',
+      event: 'lore_unlocked',
+      condition: () => LorePure.isUnlocked('hollow-tree-whisper-1'),
+      action: () => {
+        DialogPure.start('whisper-interpret-2');
+        AudioPure.play('whisper-ambient-2', { loop: true, volume: 0.7 });
+      },
+    },
+    {
+      id: 'second-whisper-dialog',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('whisper-interpret-2') === 'correct',
+      action: () => {
+        LorePure.unlock('hollow-tree-whisper-2');
+        AudioPure.play('whisper-reveal-2', { volume: 1.0 });
+        DialogPure.start('whisper-2-response');
+      },
+    },
+    {
+      id: 'second-whisper-fail',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('whisper-interpret-2') !== 'correct',
+      action: () => {
+        AudioPure.play('whisper-fail', { volume: 0.8 });
+        StatusEffectPure.apply('confusion', { duration: 120 });
+      },
+    },
+    {
+      id: 'final-truth-unlock',
+      event: 'lore_unlocked',
+      condition: () =>
+        LorePure.isUnlocked('hollow-tree-whisper-1') &&
+        LorePure.isUnlocked('hollow-tree-whisper-2'),
+      action: () => {
+        DialogPure.start('hollow-tree-final');
+        AudioPure.stop('whisper-ambient-2');
+        AudioPure.play('truth-reveal', { volume: 1.2 });
+        LorePure.unlock('hollow-tree-truth');
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-loreseeker',
+      type: 'xp',
+      value: 600,
+      target: 'player-progress',
+    },
+    {
+      id: 'effect-whisper-blessing',
+      type: 'effect',
+      value: 'whisper-blessing',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-tree-legacy',
+      type: 'lore',
+      value: 'hollow-tree-legacy',
+      target: 'lore-system',
+    },
+    {
+      id: 'item-whisper-charm',
+      type: 'item',
+      value: 'whisper-charm',
+      target: 'InventoryPure',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'DialogPure',
+    'AudioPure',
+    'LorePure',
+    'LocationPure',
+    'StatusEffectPure',
+    'InventoryPure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type WhispersFromHollowTree = typeof ScenarioPure;
+export default ScenarioPure;
