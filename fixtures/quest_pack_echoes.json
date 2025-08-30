@@ -1,0 +1,71 @@
+[
+  {
+    "questId": "echoes_emberfang",
+    "title": "Echoes of Emberfang",
+    "description": "Uncover the Emberfang’s legacy by answering the Echo of Elara’s riddle and choosing to inherit its fiery blessing.",
+    "objectives": [
+      {
+        "objectiveId": "answer_emberfang_riddle",
+        "description": "Solve the Emberfang riddle with the Echo of Elara.",
+        "condition": "dialogue_completed:npc_dialogue_trees_echo.json:emberfang_answer"
+      },
+      {
+        "objectiveId": "inherit_emberfang",
+        "description": "Inherit the Emberfang’s blessing from Glimmerling’s Echo.",
+        "condition": "legacy_chosen:emberfang_blessing"
+      }
+    ],
+    "rewards": {
+      "xp": 500,
+      "items": ["ember_ash"],
+      "effect": "emberfang_blessing",
+      "lore": "emberfang_inherited"
+    }
+  },
+  {
+    "questId": "echoes_mosshide",
+    "title": "Echoes of Mosshide",
+    "description": "Uncover the Mosshide’s legacy by offering a relic to the Echo of Elara and inheriting its earthen blessing.",
+    "objectives": [
+      {
+        "objectiveId": "offer_mosshide_relic",
+        "description": "Offer a Mosshide Root to the Echo of Elara.",
+        "condition": "dialogue_completed:npc_dialogue_trees_echo.json:mosshide_answer"
+      },
+      {
+        "objectiveId": "inherit_mosshide",
+        "description": "Inherit the Mosshide’s blessing from Glimmerling’s Echo.",
+        "condition": "legacy_chosen:mosshide_blessing"
+      }
+    ],
+    "rewards": {
+      "xp": 600,
+      "items": ["root_talisman"],
+      "effect": "mosshide_blessing",
+      "lore": "mosshide_inherited"
+    }
+  },
+  {
+    "questId": "echoes_cloudtail",
+    "title": "Echoes of Cloudtail",
+    "description": "Uncover the Cloudtail’s legacy by solving the Echo of Elara’s riddle and inheriting its windy blessing.",
+    "objectives": [
+      {
+        "objectiveId": "answer_cloudtail_riddle",
+        "description": "Solve the Cloudtail riddle with the Echo of Elara.",
+        "condition": "dialogue_completed:npc_dialogue_trees_echo.json:cloudtail_answer"
+      },
+      {
+        "objectiveId": "inherit_cloudtail",
+        "description": "Inherit the Cloudtail’s blessing from Glimmerling’s Echo.",
+        "condition": "legacy_chosen:cloudtail_blessing"
+      }
+    ],
+    "rewards": {
+      "xp": 550,
+      "items": ["wind_chime"],
+      "effect": "cloudtail_blessing",
+      "lore": "cloudtail_inherited"
+    }
+  }
+]
