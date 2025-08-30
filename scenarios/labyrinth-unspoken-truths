@@ -1,0 +1,190 @@
+// labyrinth-unspoken-truths.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "The Labyrinth of Unspoken Truths" using pure, engine-agnostic subsystems
+// Focuses on maze traversal, environmental puzzles, and memory resets
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'location_entered', 'puzzle_solved')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., reset memory, unlock exit)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., MemorySystemPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'labyrinth-unspoken-truths',
+  title: 'The Labyrinth of Unspoken Truths',
+  description:
+    'The player is trapped in a shifting labyrinth that erases memories and hides its truths behind environmental puzzles. They must navigate the maze, solve three key puzzles, and resist memory resets to uncover the labyrinth’s secrets and escape.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'solve-puzzles',
+      description: 'Solve three environmental puzzles: the Rune Lock, the Shadow Gate, and the Echo Vault.',
+      condition: () =>
+        PuzzleCorePure.isSolved('rune-lock') &&
+        PuzzleCorePure.isSolved('shadow-gate') &&
+        PuzzleCorePure.isSolved('echo-vault'),
+    },
+    {
+      id: 'reach-exit',
+      description: 'Find and reach the labyrinth’s exit.',
+      condition: () => LocationPure.current() === 'labyrinth-exit',
+    },
+    {
+      id: 'retain-truth',
+      description: 'Retain the labyrinth’s truth despite memory resets.',
+      condition: () => LorePure.isUnlocked('labyrinth-truth'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-labyrinth',
+      event: 'scenario_start',
+      action: () => {
+        LocationPure.set('labyrinth-entrance');
+        AudioPure.play('labyrinth-ambient-drone', { loop: true, volume: 0.6 });
+        DialogPure.start('labyrinth-whisper');
+        PuzzleCorePure.activate('rune-lock');
+      },
+    },
+    {
+      id: 'rune-lock-solved',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('rune-lock'),
+      action: () => {
+        AudioPure.play('puzzle-success', { volume: 1.0 });
+        LocationPure.unlock('shadow-gate-chamber');
+        DialogPure.start('rune-lock-success');
+        MemorySystemPure.addFragment('truth-fragment-1');
+      },
+    },
+    {
+      id: 'shadow-gate-solved',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('shadow-gate'),
+      action: () => {
+        AudioPure.play('puzzle-success', { volume: 1.0 });
+        LocationPure.unlock('echo-vault-chamber');
+        DialogPure.start('shadow-gate-success');
+        MemorySystemPure.addFragment('truth-fragment-2');
+      },
+    },
+    {
+      id: 'echo-vault-solved',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('echo-vault'),
+      action: () => {
+        AudioPure.play('puzzle-success', { volume: 1.0 });
+        LocationPure.unlock('labyrinth-exit');
+        DialogPure.start('echo-vault-success');
+        MemorySystemPure.addFragment('truth-fragment-3');
+      },
+    },
+    {
+      id: 'memory-reset',
+      event: 'location_entered',
+      condition: () =>
+        LocationPure.current() !== 'labyrinth-exit' &&
+        MemorySystemPure.fragmentCount() >= 2 &&
+        !StatusEffectPure.has('memory-haze'),
+      action: () => {
+        MemorySystemPure.resetFragments(['truth-fragment-1', 'truth-fragment-2', 'truth-fragment-3']);
+        StatusEffectPure.apply('memory-haze', { duration: 180, target: 'player' });
+        AudioPure.play('memory-reset-hum', { volume: 0.9 });
+        DialogPure.start('memory-reset-warning');
+      },
+    },
+    {
+      id: 'puzzle-failure',
+      event: 'puzzle_failed',
+      condition: () =>
+        (PuzzleCorePure.getAttempts('rune-lock') > 2 ||
+         PuzzleCorePure.getAttempts('shadow-gate') > 2 ||
+         PuzzleCorePure.getAttempts('echo-vault') > 2) &&
+        !StatusEffectPure.has('disorientation'),
+      action: () => {
+        StatusEffectPure.apply('disorientation', { duration: 120, target: 'player' });
+        AudioPure.play('puzzle-fail', { volume: 0.8 });
+        DialogPure.start('puzzle-hint');
+      },
+    },
+    {
+      id: 'exit-reached',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'labyrinth-exit',
+      action: () => {
+        AudioPure.stop('labyrinth-ambient-drone');
+        AudioPure.play('truth-revealed', { volume: 1.2 });
+        LorePure.unlock('labyrinth-truth');
+        DialogPure.start('labyrinth-escape');
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-truthseeker',
+      type: 'xp',
+      value: 750,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-labyrinth-key',
+      type: 'item',
+      value: 'labyrinth-key',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'effect-truth-clarity',
+      type: 'effect',
+      value: 'truth-clarity',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-labyrinth-legacy',
+      type: 'lore',
+      value: 'labyrinth-legacy',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'LocationPure',
+    'PuzzleCorePure',
+    'MemorySystemPure',
+    'AudioPure',
+    'DialogPure',
+    'StatusEffectPure',
+    'InventoryPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type LabyrinthOfUnspokenTruths = typeof ScenarioPure;
+export default ScenarioPure;
