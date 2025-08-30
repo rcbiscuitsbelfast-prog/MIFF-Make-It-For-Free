@@ -1,0 +1,502 @@
+{
+  "runtimeConfigId": "spirit_tamer_grove_runtime",
+  "scenario": "Spirit Tamer: Trial of the Grove",
+  "version": "1.0.0",
+  "configType": "production_runtime",
+  "remixSafe": true,
+  
+  "engineConfiguration": {
+    "orchestrationEngine": {
+      "version": "v14",
+      "mode": "production",
+      "debug": false,
+      "logging": "info",
+      
+      "questSystem": {
+        "enabled": true,
+        "maxActiveQuests": 3,
+        "questPersistence": true,
+        "autoSave": true,
+        "saveInterval": 30000
+      },
+      
+      "dialogueSystem": {
+        "enabled": true,
+        "maxDialogueDepth": 10,
+        "choiceHistory": true,
+        "emotionTracking": true,
+        "voiceSynthesis": false
+      },
+      
+      "npcSystem": {
+        "enabled": true,
+        "maxActiveNPCs": 10,
+        "npcPersistence": true,
+        "relationshipTracking": true,
+        "scheduleSystem": true
+      },
+      
+      "locationSystem": {
+        "enabled": true,
+        "maxActiveLocations": 20,
+        "locationPersistence": true,
+        "environmentalEffects": true,
+        "weatherSystem": true
+      },
+      
+      "triggerSystem": {
+        "enabled": true,
+        "maxActiveTriggers": 50,
+        "triggerPersistence": true,
+        "eventLogging": true,
+        "performanceMonitoring": true
+      },
+      
+      "effectSystem": {
+        "enabled": true,
+        "maxActiveEffects": 100,
+        "effectPersistence": true,
+        "stackingRules": true,
+        "durationTracking": true
+      }
+    },
+    
+    "assetSystem": {
+      "loadingStrategy": "lazy_loading",
+      "fallbackStrategy": "graceful_degradation",
+      "cacheEnabled": true,
+      "cacheSize": "100MB",
+      "preloadCritical": true,
+      
+      "audioSystem": {
+        "enabled": true,
+        "masterVolume": 0.8,
+        "ambientVolume": 0.6,
+        "sfxVolume": 0.7,
+        "spatialAudio": true,
+        "fallbackAudio": "procedural_generation"
+      },
+      
+      "visualSystem": {
+        "enabled": true,
+        "renderQuality": "high",
+        "textureQuality": "high",
+        "animationQuality": "high",
+        "fallbackVisuals": "css_generated"
+      },
+      
+      "stubSystem": {
+        "enabled": true,
+        "audioStubs": "audio_stub.json",
+        "visualStubs": "visual_manifest.json",
+        "fallbackBehavior": "graceful_degradation"
+      }
+    },
+    
+    "performanceSystem": {
+      "targetFPS": 60,
+      "maxFrameTime": 16.67,
+      "adaptiveQuality": true,
+      "memoryLimit": "512MB",
+      "gcInterval": 30000,
+      
+      "profiling": {
+        "enabled": false,
+        "sampleRate": 1000,
+        "maxSamples": 10000
+      },
+      
+      "optimization": {
+        "objectPooling": true,
+        "textureAtlas": true,
+        "audioCompression": true,
+        "lazyInitialization": true
+      }
+    }
+  },
+  
+  "scenarioConfiguration": {
+    "questConfiguration": {
+      "grove_initiation": {
+        "questId": "grove_initiation",
+        "enabled": true,
+        "difficulty": "easy",
+        "estimatedTime": "15-20 minutes",
+        "autoStart": true,
+        "prerequisites": [],
+        "rewards": {
+          "xp": 150,
+          "items": ["grove_token", "wisdom_crystal"],
+          "flags": ["grove_initiate", "grove_access_granted", "riddle_master"]
+        }
+      },
+      
+      "spirit_whisperer": {
+        "questId": "spirit_whisperer",
+        "enabled": true,
+        "difficulty": "medium",
+        "estimatedTime": "45-60 minutes",
+        "autoStart": false,
+        "prerequisites": ["grove_initiation"],
+        "rewards": {
+          "xp": 300,
+          "items": ["spirit_essence", "whisper_scroll", "spirit_whisperer_badge"],
+          "flags": ["spirit_whisperer", "whisper_master", "whisper_practiced"]
+        }
+      },
+      
+      "trial_of_courage": {
+        "questId": "trial_of_courage",
+        "enabled": true,
+        "difficulty": "hard",
+        "estimatedTime": "60-90 minutes",
+        "autoStart": false,
+        "prerequisites": ["spirit_whisperer"],
+        "rewards": {
+          "xp": 450,
+          "items": ["courage_medallion", "shadow_essence", "beacon_crystal"],
+          "flags": ["courage_trial_complete", "vale_entered", "shadows_faced", "light_restored"]
+        }
+      }
+    },
+    
+    "npcConfiguration": {
+      "grove_guardian": {
+        "npcId": "grove_guardian",
+        "enabled": true,
+        "location": "grove_entrance",
+        "schedule": "always_present",
+        "interactionRange": 15,
+        "dialogueTree": "grove_guardian",
+        "questGiver": ["grove_initiation"]
+      },
+      
+      "spirit_guide": {
+        "npcId": "spirit_guide",
+        "enabled": true,
+        "location": "whispering_hollow",
+        "schedule": "always_present",
+        "interactionRange": 20,
+        "dialogueTree": "spirit_guide",
+        "questGiver": ["spirit_whisperer"]
+      },
+      
+      "ancient_spirit": {
+        "npcId": "ancient_spirit",
+        "enabled": true,
+        "location": "grove_center",
+        "schedule": "always_present",
+        "interactionRange": 15,
+        "dialogueTree": "ancient_spirit",
+        "questGiver": []
+      },
+      
+      "shadow_guardian": {
+        "npcId": "shadow_guardian",
+        "enabled": true,
+        "location": "shadowed_vale",
+        "schedule": "always_present",
+        "interactionRange": 25,
+        "dialogueTree": "shadow_guardian",
+        "questGiver": ["trial_of_courage"]
+      },
+      
+      "shadow_creature": {
+        "npcId": "shadow_creature",
+        "enabled": true,
+        "location": "shadowed_vale_deep",
+        "schedule": "always_present",
+        "interactionRange": 30,
+        "dialogueTree": "shadow_creature",
+        "questGiver": []
+      },
+      
+      "ancient_beacon": {
+        "npcId": "ancient_beacon",
+        "enabled": true,
+        "location": "shadowed_vale",
+        "schedule": "always_present",
+        "interactionRange": 10,
+        "dialogueTree": "ancient_beacon",
+        "questGiver": []
+      }
+    },
+    
+    "locationConfiguration": {
+      "grove_entrance": {
+        "locationId": "grove_entrance",
+        "enabled": true,
+        "type": "transition",
+        "zone": "grove_outer",
+        "ambientAudio": "grove_ambient_hum",
+        "environmentalEffects": ["ethereal_mist", "ancient_aura"],
+        "npcs": ["grove_guardian"],
+        "quests": ["grove_initiation"]
+      },
+      
+      "grove_center": {
+        "locationId": "grove_center",
+        "enabled": true,
+        "type": "hub",
+        "zone": "grove_inner",
+        "ambientAudio": "gentle_breeze",
+        "environmentalEffects": ["spirit_whispers", "healing_aura"],
+        "npcs": ["ancient_spirit"],
+        "quests": []
+      },
+      
+      "whispering_hollow": {
+        "locationId": "whispering_hollow",
+        "enabled": true,
+        "type": "quest_location",
+        "zone": "grove_inner",
+        "ambientAudio": "whispering_wind",
+        "environmentalEffects": ["mystical_atmosphere", "learning_enhancement"],
+        "npcs": ["spirit_guide"],
+        "quests": ["spirit_whisperer"]
+      },
+      
+      "shadowed_vale": {
+        "locationId": "shadowed_vale",
+        "enabled": true,
+        "type": "challenge_location",
+        "zone": "shadowed_valley",
+        "ambientAudio": "shadow_mist",
+        "environmentalEffects": ["fear_aura", "courage_testing"],
+        "npcs": ["shadow_guardian", "ancient_beacon"],
+        "quests": ["trial_of_courage"]
+      },
+      
+      "shadowed_vale_deep": {
+        "locationId": "shadowed_vale_deep",
+        "enabled": true,
+        "type": "combat_location",
+        "zone": "deep_shadows",
+        "ambientAudio": "absolute_darkness",
+        "environmentalEffects": ["fear_amplified", "courage_drain"],
+        "npcs": ["shadow_creature"],
+        "quests": []
+      }
+    }
+  },
+  
+  "multiAgentConfiguration": {
+    "enabled": true,
+    "maxAgents": 4,
+    "agentTypes": ["human", "ai", "hybrid"],
+    "collaborationMode": true,
+    "competitionMode": false,
+    
+    "agentCapabilities": {
+      "questUnderstanding": {
+        "enabled": true,
+        "maxDepth": 5,
+        "contextAwareness": true,
+        "goalOrientation": true
+      },
+      
+      "dialogueInteraction": {
+        "enabled": true,
+        "maxChoices": 10,
+        "emotionRecognition": true,
+        "relationshipBuilding": true
+      },
+      
+      "npcInteraction": {
+        "enabled": true,
+        "maxNPCs": 10,
+        "memoryPersistence": true,
+        "trustBuilding": true
+      },
+      
+      "locationNavigation": {
+        "enabled": true,
+        "maxLocations": 20,
+        "pathfinding": true,
+        "exploration": true
+      },
+      
+      "triggerRecognition": {
+        "enabled": true,
+        "maxTriggers": 50,
+        "patternMatching": true,
+        "predictiveAnalysis": true
+      },
+      
+      "effectApplication": {
+        "enabled": true,
+        "maxEffects": 100,
+        "comboChaining": true,
+        "resourceManagement": true
+      }
+    },
+    
+    "playtestingModes": {
+      "single_player": {
+        "enabled": true,
+        "difficulty": "adaptive",
+        "aiAssistance": true,
+        "hintSystem": true
+      },
+      
+      "multi_agent": {
+        "enabled": true,
+        "collaboration": true,
+        "communication": true,
+        "sharedObjectives": true
+      },
+      
+      "remix_challenge": {
+        "enabled": true,
+        "modificationTools": true,
+        "validationSystem": true,
+        "communitySharing": true
+      }
+    }
+  },
+  
+  "remixConfiguration": {
+    "enabled": true,
+    "mode": "challenge",
+    "constraints": {
+      "maintainRemixSafety": true,
+      "preserveModularity": true,
+      "ensureCompatibility": true,
+      "validateIntegrity": true
+    },
+    
+    "challengeTypes": {
+      "quest_modification": {
+        "enabled": true,
+        "maxModifications": 5,
+        "validationRequired": true,
+        "templates": ["quest_template.json"]
+      },
+      
+      "npc_creation": {
+        "enabled": true,
+        "maxNewNPCs": 3,
+        "validationRequired": true,
+        "templates": ["npc_template.json"]
+      },
+      
+      "location_expansion": {
+        "enabled": true,
+        "maxNewLocations": 2,
+        "validationRequired": true,
+        "templates": ["location_template.json"]
+      },
+      
+      "dialogue_extension": {
+        "enabled": true,
+        "maxNewNodes": 10,
+        "validationRequired": true,
+        "templates": ["dialogue_template.json"]
+      },
+      
+      "mechanic_innovation": {
+        "enabled": true,
+        "maxNewMechanics": 3,
+        "validationRequired": true,
+        "templates": ["mechanic_template.json"]
+      },
+      
+      "theme_variation": {
+        "enabled": true,
+        "maxVariations": 2,
+        "validationRequired": true,
+        "templates": ["theme_template.json"]
+      }
+    },
+    
+    "tools": {
+      "assetStubs": {
+        "enabled": true,
+        "audioStubs": "audio_stub.json",
+        "visualStubs": "visual_manifest.json",
+        "loreStubs": "asset_todo.json"
+      },
+      
+      "modularHooks": {
+        "enabled": true,
+        "hookSystem": "modular_hooks.json",
+        "injectionPoints": ["post_ci", "runtime", "user_interaction"]
+      },
+      
+      "orchestrationTemplates": {
+        "enabled": true,
+        "questTemplate": "quest_template.json",
+        "npcTemplate": "npc_template.json",
+        "locationTemplate": "location_template.json"
+      },
+      
+      "validationScripts": {
+        "enabled": true,
+        "integrityCheck": "validate_integrity.js",
+        "remixSafety": "validate_remix_safety.js",
+        "compatibility": "validate_compatibility.js"
+      }
+    }
+  },
+  
+  "deploymentConfiguration": {
+    "targetEnvironments": ["development", "staging", "production"],
+    "deploymentMethod": "drop_only_patches",
+    "rollbackStrategy": "version_rollback",
+    "monitoring": "active",
+    "logging": "comprehensive",
+    
+    "environmentVariables": {
+      "SCENARIO_VERSION": "1.0.0",
+      "REMIX_MODE": "enabled",
+      "ASSET_STUBS": "enabled",
+      "CI_RECOVERY": "enabled",
+      "MULTI_AGENT": "enabled",
+      "DEBUG_MODE": "false",
+      "LOG_LEVEL": "info"
+    },
+    
+    "performanceThresholds": {
+      "orchestrationLoadTime": 100,
+      "assetLoadTime": 500,
+      "questProgression": 50,
+      "dialogueResponse": 50,
+      "npcInteraction": 50,
+      "memoryUsage": 512,
+      "cpuUsage": 80
+    }
+  },
+  
+  "monitoringConfiguration": {
+    "enabled": true,
+    "metrics": {
+      "performance": true,
+      "errors": true,
+      "usage": true,
+      "quality": true
+    },
+    
+    "logging": {
+      "level": "info",
+      "format": "json",
+      "output": "file",
+      "maxSize": "100MB",
+      "maxFiles": 10
+    },
+    
+    "alerts": {
+      "enabled": true,
+      "performanceThreshold": 80,
+      "errorThreshold": 5,
+      "notificationChannels": ["email", "slack"]
+    }
+  },
+  
+  "metadata": {
+    "config_author": "MIFF_Runtime_Engineer",
+    "config_version": "1.0.0",
+    "compatibility": ["v13", "v14"],
+    "runtime_method": "comprehensive_configuration",
+    "quality_gate": "passed"
+  }
+}
