@@ -1,0 +1,108 @@
+// trial-of-forgotten-spirit.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "Trial of the Forgotten Spirit" using pure, engine-agnostic subsystems
+
+// Helper types for scenario structure
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Evaluates subsystem state (e.g., InventoryPure, CombatCorePure)
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Event name from subsystems (e.g., 'enter', 'dialog_end')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., spawn enemy, unlock lore)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect';
+  value: string | number; // Item ID, XP amount, lore ID, or effect ID
+  target?: string; // Optional subsystem target (e.g., InventoryPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'trial-of-forgotten-spirit',
+  title: 'Trial of the Forgotten Spirit',
+  description:
+    'The player enters an ancient shrine to face the trial of a forgotten spirit. They must defeat a phantom guardian, uncover hidden lore, and earn a sacred blessing.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'defeat-phantom',
+      description: 'Defeat the Phantom Guardian in the Shrine Chamber.',
+      condition: () => CombatCorePure.isEnemyDefeated('phantom-guardian'),
+    },
+    {
+      id: 'collect-relic',
+      description: 'Obtain the Ancient Relic from the shrine.',
+      condition: () => InventoryPure.has('ancient-relic'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-shrine-spawn',
+      event: 'enter',
+      condition: () => LocationPure.current() === 'shrine-chamber',
+      action: () => CombatCorePure.spawn('phantom-guardian', { health: 100, type: 'spirit' }),
+    },
+    {
+      id: 'phantom-defeated-lore',
+      event: 'combat_end',
+      condition: () => CombatCorePure.isEnemyDefeated('phantom-guardian'),
+      action: () => LorePure.unlock('forgotten-spirit-lore'),
+    },
+    {
+      id: 'relic-pickup-dialog',
+      event: 'item_added',
+      condition: () => InventoryPure.has('ancient-relic'),
+      action: () => DialogPure.start('spirit-blessing-conversation'),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-reward',
+      type: 'xp',
+      value: 500,
+      target: 'player-progress',
+    },
+    {
+      id: 'blessing-effect',
+      type: 'effect',
+      value: 'spirit-blessing',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-unlock',
+      type: 'lore',
+      value: 'forgotten-spirit-lore',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'CombatCorePure',
+    'InventoryPure',
+    'DialogPure',
+    'LorePure',
+    'LocationPure',
+  ],
+
+  // Optional metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type TrialOfForgottenSpirit = typeof ScenarioPure;
+export default ScenarioPure;trial of forgotten 
