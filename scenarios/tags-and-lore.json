@@ -1,0 +1,94 @@
+// tags-and-lore.json
+// Tags and mythic fragments for MIFF scenarios to aid remixing
+// MIT License, Copyright (c) 2025 MIFF Community
+{
+  "tags": {
+    "trial-of-forgotten-spirit": ["mystical", "combat", "lore", "exploration"],
+    "ember-pact": ["crafting", "faction", "choice", "ritual"],
+    "whispers-hollow-tree": ["mystery", "dialogue", "audio", "nature"],
+    "trial-of-echoes": ["dream", "memory", "nonlinear", "psychological"],
+    "siege-of-emberwatch": ["combat", "defense", "tactics", "survival"],
+    "altar-forgotten-names": ["ritual", "time-sensitive", "emotional", "lore"],
+    "mirror-many-paths": ["choice", "alternate-realities", "narrative", "branching"],
+    "harvest-red-moon": ["survival", "crafting", "weather", "time-sensitive"],
+    "song-silent-bell": ["puzzle", "audio", "lore", "intellectual"],
+    "pact-twin-flames": ["faction", "choice", "world-impact", "diplomacy"],
+    "labyrinth-unspoken-truths": ["maze", "puzzle", "memory", "psychological"],
+    "council-fractured-banner": ["diplomacy", "intrigue", "negotiation"],
+    "stormbound-expanse": ["exploration", "weather", "survival"],
+    "vault-three-sigils": ["puzzle", "exploration", "mystery"],
+    "loop-beneath-larkspire": ["time-loop", "exploration", "memory"]
+  },
+  "mythic_fragments": {
+    "forgotten-spirit": {
+      "description": "A spectral guardian tied to ancient shrines, seeking worthy challengers.",
+      "scenarios": ["trial-of-forgotten-spirit"],
+      "remix_ideas": ["Add new guardian types", "Link to other spirit-based scenarios"]
+    },
+    "emberheart": {
+      "description": "A forbidden artifact of fiery power, coveted by factions.",
+      "scenarios": ["ember-pact", "pact-twin-flames"],
+      "remix_ideas": ["Create rival artifacts", "Tie to elemental lore"]
+    },
+    "hollow-tree": {
+      "description": "A sentient tree whispering cryptic truths, tied to nature’s memory.",
+      "scenarios": ["whispers-hollow-tree"],
+      "remix_ideas": ["Add new whispers", "Link to forest-based scenarios"]
+    },
+    "echoes": {
+      "description": "Fragmented memories in a dreamscape, shaping identity.",
+      "scenarios": ["trial-of-echoes", "labyrinth-unspoken-truths"],
+      "remix_ideas": ["Introduce new memory types", "Expand dream layers"]
+    },
+    "emberwatch": {
+      "description": "A fortified outpost under siege, symbolizing resilience.",
+      "scenarios": ["siege-of-emberwatch"],
+      "remix_ideas": ["Add new enemy waves", "Vary defensive structures"]
+    },
+    "altar-names": {
+      "description": "An ancient altar preserving forgotten legacies through rituals.",
+      "scenarios": ["altar-forgotten-names"],
+      "remix_ideas": ["New ritual items", "Emotional dialogue branches"]
+    },
+    "mirror-paths": {
+      "description": "A mystical mirror opening portals to alternate realities.",
+      "scenarios": ["mirror-many-paths"],
+      "remix_ideas": ["Add new realities", "Vary choice consequences"]
+    },
+    "red-moon": {
+      "description": "A celestial event empowering rare herbs and survival challenges.",
+      "scenarios": ["harvest-red-moon"],
+      "remix_ideas": ["New herb types", "Alternate weather effects"]
+    },
+    "silent-bell": {
+      "description": "A resonant bell with lost tones, hiding ancient secrets.",
+      "scenarios": ["song-silent-bell"],
+      "remix_ideas": ["New tonal sequences", "Spatial audio enhancements"]
+    },
+    "twin-flames": {
+      "description": "Opposing elemental forces vying for dominance, shaping the world.",
+      "scenarios": ["pact-twin-flames", "ember-pact"],
+      "remix_ideas": ["Add new factions", "Expand world-altering effects"]
+    },
+    "fractured-banner": {
+      "description": "A council of rival leaders negotiating a broken alliance.",
+      "scenarios": ["council-fractured-banner"],
+      "remix_ideas": ["New diplomatic outcomes", "Intrigue subplots"]
+    },
+    "stormbound": {
+      "description": "A vast, storm-ravaged expanse filled with hidden dangers.",
+      "scenarios": ["stormbound-expanse"],
+      "remix_ideas": ["New weather patterns", "Exploration challenges"]
+    },
+    "three-sigils": {
+      "description": "A sealed vault guarded by mystical sigils, hiding secrets.",
+      "scenarios": ["vault-three-sigils"],
+      "remix_ideas": ["New puzzle mechanics", "Additional sigils"]
+    },
+    "larkspire-loop": {
+      "description": "A time-looped underground realm with recursive challenges.",
+      "scenarios": ["loop-beneath-larkspire"],
+      "remix_ideas": ["New loop triggers", "Memory-based puzzles"]
+    }
+  }
+}
