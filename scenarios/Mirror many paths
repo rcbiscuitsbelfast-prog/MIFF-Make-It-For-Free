@@ -1,0 +1,213 @@
+// mirror-many-paths.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "The Mirror of Many Paths" using pure, engine-agnostic subsystems
+// Focuses on dialogue-driven reality shifts, branching objectives, and memory-based progression
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'dialog_choice', 'location_entered')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., shift reality, unlock memory)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., MemorySystemPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'mirror-many-paths',
+  title: 'The Mirror of Many Paths',
+  description:
+    'The player discovers a mystical mirror that opens portals to alternate realities, each shaped by their dialogue choices. They must complete objectives unique to their chosen reality, collect memory fragments, and uncover the mirror’s ultimate truth.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'choose-reality',
+      description: 'Choose one of three realities through dialogue with the Mirror Spirit.',
+      condition: () => DialogPure.getChoice('reality-choice') !== null,
+    },
+    {
+      id: 'complete-reality-objective',
+      description: 'Fulfill the objective specific to the chosen reality.',
+      condition: () =>
+        MemorySystemPure.hasFragment('reality-war') ||
+        MemorySystemPure.hasFragment('reality-peace') ||
+        MemorySystemPure.hasFragment('reality-balance'),
+    },
+    {
+      id: 'uncover-mirror-truth',
+      description: 'Unlock the truth behind the Mirror of Many Paths.',
+      condition: () => LorePure.isUnlocked('mirror-truth'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-mirror-chamber',
+      event: 'scenario_start',
+      action: () => {
+        LocationPure.set('mirror-chamber');
+        DialogPure.start('mirror-spirit-greeting');
+        AudioPure.play('mirror-ambient-hum', { loop: true, volume: 0.7 });
+      },
+    },
+    {
+      id: 'reality-war-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('reality-choice') === 'war',
+      action: () => {
+        LocationPure.set('war-reality');
+        AudioPure.play('war-reality-shift', { volume: 1.0 });
+        DialogPure.start('war-reality-briefing');
+        StatusEffectPure.apply('battle-fever', { duration: 300, target: 'player' });
+        EventBusPure.publish('reality-chosen', { reality: 'war' });
+      },
+    },
+    {
+      id: 'reality-peace-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('reality-choice') === 'peace',
+      action: () => {
+        LocationPure.set('peace-reality');
+        AudioPure.play('peace-reality-shift', { volume: 1.0 });
+        DialogPure.start('peace-reality-briefing');
+        StatusEffectPure.apply('calm-mind', { duration: 300, target: 'player' });
+        EventBusPure.publish('reality-chosen', { reality: 'peace' });
+      },
+    },
+    {
+      id: 'reality-balance-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('reality-choice') === 'balance',
+      action: () => {
+        LocationPure.set('balance-reality');
+        AudioPure.play('balance-reality-shift', { volume: 1.0 });
+        DialogPure.start('balance-reality-briefing');
+        StatusEffectPure.apply('equilibrium', { duration: 300, target: 'player' });
+        EventBusPure.publish('reality-chosen', { reality: 'balance' });
+      },
+    },
+    {
+      id: 'war-objective',
+      event: 'combat_end',
+      condition: () =>
+        LocationPure.current() === 'war-reality' &&
+        CombatCorePure.isEnemyDefeated('war-lord'),
+      action: () => {
+        MemorySystemPure.addFragment('reality-war');
+        AudioPure.play('fragment-reveal', { volume: 1.0 });
+        DialogPure.start('war-victory');
+      },
+    },
+    {
+      id: 'peace-objective',
+      event: 'dialog_completed',
+      condition: () =>
+        LocationPure.current() === 'peace-reality' &&
+        DialogPure.wasCompleted('peace-negotiation'),
+      action: () => {
+        MemorySystemPure.addFragment('reality-peace');
+        AudioPure.play('fragment-reveal', { volume: 1.0 });
+        DialogPure.start('peace-resolution');
+      },
+    },
+    {
+      id: 'balance-objective',
+      event: 'puzzle_solved',
+      condition: () =>
+        LocationPure.current() === 'balance-reality' &&
+        PuzzleCorePure.isSolved('balance-puzzle'),
+      action: () => {
+        MemorySystemPure.addFragment('reality-balance');
+        AudioPure.play('fragment-reveal', { volume: 1.0 });
+        DialogPure.start('balance-harmony');
+      },
+    },
+    {
+      id: 'reality-complete',
+      event: 'memory_added',
+      condition: () =>
+        MemorySystemPure.hasFragment('reality-war') ||
+        MemorySystemPure.hasFragment('reality-peace') ||
+        MemorySystemPure.hasFragment('reality-balance'),
+      action: () => {
+        LocationPure.set('mirror-chamber');
+        AudioPure.stop('mirror-ambient-hum');
+        AudioPure.play('mirror-return', { volume: 1.0 });
+        DialogPure.start('mirror-truth-reveal');
+      },
+    },
+    {
+      id: 'mirror-truth-unlocked',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('mirror-truth-reveal'),
+      action: () => {
+        LorePure.unlock('mirror-truth');
+        AudioPure.play('truth-revealed', { volume: 1.2 });
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-pathfinder',
+      type: 'xp',
+      value: 900,
+      target: 'player-progress',
+    },
+    {
+      id: 'memory-mirror',
+      type: 'memory',
+      value: 'mirror-paths',
+      target: 'MemorySystemPure',
+    },
+    {
+      id: 'effect-mirror-insight',
+      type: 'effect',
+      value: 'mirror-insight',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-mirror-origins',
+      type: 'lore',
+      value: 'mirror-origins',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'DialogPure',
+    'LocationPure',
+    'MemorySystemPure',
+    'AudioPure',
+    'StatusEffectPure',
+    'CombatCorePure',
+    'PuzzleCorePure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type MirrorOfManyPaths = typeof ScenarioPure;
+export default ScenarioPure;
