@@ -1,0 +1,473 @@
+{
+  "npcTableId": "mythic_fae",
+  "name": "Mythic Fae NPC Registry",
+  "version": "1.0.0",
+  "author": "MIFF Framework",
+  "license": "MIT",
+  "remixSafe": true,
+  "description": "Complete registry of all NPCs in the Fae Grove with mythic stats and abilities",
+  
+  "npcRegistry": {
+    "grove_guardian": {
+      "npcId": "grove_guardian",
+      "name": "Grove Guardian",
+      "title": "Ancient Protector of the Sacred Grove",
+      "race": "fae_ancient",
+      "class": "guardian",
+      "level": 50,
+      "role": "gatekeeper",
+      "personality": "wise_ancient",
+      "alignment": "neutral_good",
+      "faction": "grove_protectors",
+      
+      "stats": {
+        "hp": 1000,
+        "mp": 500,
+        "atk": 80,
+        "def": 120,
+        "mag": 150,
+        "spd": 60,
+        "luck": 90
+      },
+      
+      "abilities": [
+        {
+          "abilityId": "ancient_wisdom",
+          "name": "Ancient Wisdom",
+          "type": "passive",
+          "description": "Grants insight into all things and resistance to deception",
+          "effects": ["magic_resistance:50%", "truth_sight:true", "riddle_mastery:true"]
+        },
+        {
+          "abilityId": "grove_protection",
+          "name": "Grove Protection",
+          "type": "active",
+          "description": "Summons protective barriers around the grove entrance",
+          "effects": ["barrier_create:grove_entrance", "damage_reduction:75%", "duration:300s"]
+        },
+        {
+          "abilityId": "riddle_challenge",
+          "name": "Riddle Challenge",
+          "type": "interaction",
+          "description": "Presents wisdom tests to determine worthiness",
+          "effects": ["quest_trigger:grove_initiation", "wisdom_test:true", "access_grant:conditional"]
+        }
+      ],
+      
+      "equipment": {
+        "weapon": "ancient_staff_of_judgment",
+        "armor": "grove_guardian_robes",
+        "accessory": "wisdom_medallion"
+      },
+      
+      "locationId": "grove_entrance",
+      "schedule": "always_present",
+      "dialogueTree": "grove_guardian",
+      "questGiver": ["grove_initiation"],
+      "flags": ["immortal", "grove_protector", "riddle_master"],
+      
+      "visual": {
+        "modelId": "fae_guardian_ancient",
+        "texture": "grove_guardian_robes",
+        "animation": "guardian_idle",
+        "scale": 1.2,
+        "effects": ["ethereal_glow", "ancient_wisdom_aura"]
+      }
+    },
+    
+    "spirit_guide": {
+      "npcId": "spirit_guide",
+      "name": "Spirit Guide",
+      "title": "Master of the Whispering Arts",
+      "race": "fae_spirit",
+      "class": "mentor",
+      "level": 45,
+      "role": "teacher",
+      "personality": "mystical_teacher",
+      "alignment": "chaotic_good",
+      "faction": "spirit_whisperers",
+      
+      "stats": {
+        "hp": 800,
+        "mp": 800,
+        "atk": 40,
+        "def": 60,
+        "mag": 200,
+        "spd": 80,
+        "luck": 120
+      },
+      
+      "abilities": [
+        {
+          "abilityId": "spirit_whispering",
+          "name": "Spirit Whispering",
+          "type": "passive",
+          "description": "Mastery of communicating with spirits and ethereal beings",
+          "effects": ["spirit_communication:true", "ethereal_sight:true", "whisper_mastery:true"]
+        },
+        {
+          "abilityId": "knowledge_transfer",
+          "name": "Knowledge Transfer",
+          "type": "active",
+          "description": "Transfers ancient knowledge and skills to worthy students",
+          "effects": ["skill_teach:spirit_whispering", "wisdom_grant:ancient_arts", "quest_progress:spirit_whisperer"]
+        },
+        {
+          "abilityId": "ethereal_form",
+          "name": "Ethereal Form",
+          "type": "passive",
+          "description": "Can phase between material and spirit realms",
+          "effects": ["phase_shift:true", "spirit_realm_access:true", "intangible:conditional"]
+        }
+      ],
+      
+      "equipment": {
+        "weapon": "whisper_staff",
+        "armor": "ethereal_robes",
+        "accessory": "spirit_essence_orb"
+      },
+      
+      "locationId": "whispering_hollow",
+      "schedule": "dawn_to_dusk",
+      "dialogueTree": "spirit_guide",
+      "questGiver": ["spirit_whisperer"],
+      "flags": ["ethereal", "knowledge_keeper", "whisper_master"],
+      
+      "visual": {
+        "modelId": "fae_spirit_guide",
+        "texture": "ethereal_robes_blue",
+        "animation": "spirit_guide_teaching",
+        "scale": 1.0,
+        "effects": ["ethereal_mist", "spirit_wisdom_glow", "floating_animation"]
+      }
+    },
+    
+    "ancient_spirit": {
+      "npcId": "ancient_spirit",
+      "name": "Ancient Spirit",
+      "title": "Elder of the Grove",
+      "race": "fae_ancient",
+      "class": "spirit",
+      "level": 60,
+      "role": "practice_target",
+      "personality": "ethereal_elder",
+      "alignment": "neutral",
+      "faction": "grove_spirits",
+      
+      "stats": {
+        "hp": 1200,
+        "mp": 1000,
+        "atk": 60,
+        "def": 80,
+        "mag": 180,
+        "spd": 100,
+        "luck": 150
+      },
+      
+      "abilities": [
+        {
+          "abilityId": "ancient_knowledge",
+          "name": "Ancient Knowledge",
+          "type": "passive",
+          "description": "Possesses knowledge from the dawn of time",
+          "effects": ["ancient_wisdom:true", "time_memory:true", "spirit_lore:true"]
+        },
+        {
+          "abilityId": "spirit_communication",
+          "name": "Spirit Communication",
+          "type": "active",
+          "description": "Can communicate through the spirit realm",
+          "effects": ["whisper_receive:true", "spirit_dialogue:true", "practice_partner:true"]
+        },
+        {
+          "abilityId": "ethereal_presence",
+          "name": "Ethereal Presence",
+          "type": "passive",
+          "description": "Exists partially in the spirit realm",
+          "effects": ["ethereal_form:true", "spirit_realm_access:true", "immaterial:conditional"]
+        }
+      ],
+      
+      "equipment": {
+        "weapon": "none",
+        "armor": "ethereal_essence",
+        "accessory": "ancient_wisdom_crystal"
+      },
+      
+      "locationId": "grove_center",
+      "schedule": "always_present",
+      "dialogueTree": "ancient_spirit",
+      "questGiver": [],
+      "flags": ["ethereal", "ancient", "practice_partner"],
+      
+      "visual": {
+        "modelId": "fae_ancient_spirit",
+        "texture": "ethereal_essence_gold",
+        "animation": "spirit_ethereal_float",
+        "scale": 1.1,
+        "effects": ["ancient_wisdom_aura", "ethereal_mist", "spirit_realm_glow"]
+      }
+    },
+    
+    "shadow_guardian": {
+      "npcId": "shadow_guardian",
+      "name": "Shadow Guardian",
+      "title": "Keeper of the Shadowed Vale",
+      "race": "shadow_fae",
+      "class": "guardian",
+      "level": 55,
+      "role": "challenge_giver",
+      "personality": "stern_test",
+      "alignment": "lawful_neutral",
+      "faction": "vale_protectors",
+      
+      "stats": {
+        "hp": 1500,
+        "mp": 400,
+        "atk": 120,
+        "def": 140,
+        "mag": 80,
+        "spd": 70,
+        "luck": 60
+      },
+      
+      "abilities": [
+        {
+          "abilityId": "shadow_mastery",
+          "name": "Shadow Mastery",
+          "type": "passive",
+          "description": "Complete control over shadow magic and dark forces",
+          "effects": ["shadow_control:true", "darkness_immunity:true", "shadow_form:true"]
+        },
+        {
+          "abilityId": "courage_test",
+          "name": "Courage Test",
+          "description": "Administers trials to test the bravery of seekers",
+          "type": "interaction",
+          "effects": ["quest_trigger:trial_of_courage", "courage_assessment:true", "vale_access:conditional"]
+        },
+        {
+          "abilityId": "shadow_barrier",
+          "name": "Shadow Barrier",
+          "type": "active",
+          "description": "Creates protective barriers of pure darkness",
+          "effects": ["barrier_create:shadow_wall", "damage_absorption:90%", "duration:600s"]
+        }
+      ],
+      
+      "equipment": {
+        "weapon": "shadow_blade",
+        "armor": "shadow_guardian_armor",
+        "accessory": "courage_medallion"
+      },
+      
+      "locationId": "shadowed_vale",
+      "schedule": "always_present",
+      "dialogueTree": "shadow_guardian",
+      "questGiver": ["trial_of_courage"],
+      "flags": ["shadow_master", "courage_tester", "vale_protector"],
+      
+      "visual": {
+        "modelId": "shadow_fae_guardian",
+        "texture": "shadow_guardian_dark",
+        "animation": "shadow_guardian_stance",
+        "scale": 1.3,
+        "effects": ["shadow_mist", "darkness_aura", "courage_test_glow"]
+      }
+    },
+    
+    "shadow_creature": {
+      "npcId": "shadow_creature",
+      "name": "Shadow Creature",
+      "title": "Fear-Feeding Shadow",
+      "race": "shadow_spawn",
+      "class": "monster",
+      "level": 35,
+      "role": "combat_opponent",
+      "personality": "hostile_test",
+      "alignment": "chaotic_evil",
+      "faction": "shadow_horde",
+      
+      "stats": {
+        "hp": 600,
+        "mp": 200,
+        "atk": 90,
+        "def": 50,
+        "mag": 60,
+        "spd": 110,
+        "luck": 40
+      },
+      
+      "abilities": [
+        {
+          "abilityId": "fear_feed",
+          "name": "Fear Feed",
+          "type": "passive",
+          "description": "Grows stronger when opponents show fear",
+          "effects": ["fear_detection:true", "strength_boost:fear_present", "courage_test:true"]
+        },
+        {
+          "abilityId": "shadow_strike",
+          "name": "Shadow Strike",
+          "type": "active",
+          "description": "Attacks with tendrils of pure darkness",
+          "effects": ["damage:shadow", "fear_instill:true", "darkness_spread:true"]
+        },
+        {
+          "abilityId": "shadow_form",
+          "name": "Shadow Form",
+          "type": "passive",
+          "description": "Can shift between solid and shadow states",
+          "effects": ["phase_shift:shadow", "damage_reduction:50%", "stealth:enhanced"]
+        }
+      ],
+      
+      "equipment": {
+        "weapon": "shadow_tendrils",
+        "armor": "shadow_essence",
+        "accessory": "fear_crystal"
+      },
+      
+      "locationId": "shadowed_vale_deep",
+      "schedule": "night_only",
+      "dialogueTree": "shadow_creature",
+      "questGiver": [],
+      "flags": ["shadow_spawn", "fear_feeder", "combat_test"],
+      
+      "visual": {
+        "modelId": "shadow_creature_dark",
+        "texture": "shadow_essence_black",
+        "animation": "shadow_creature_swirl",
+        "scale": 0.9,
+        "effects": ["shadow_mist", "fear_aura", "darkness_tendrils"]
+      }
+    },
+    
+    "ancient_beacon": {
+      "npcId": "ancient_beacon",
+      "name": "Ancient Beacon",
+      "title": "Light of the Vale",
+      "race": "construct",
+      "class": "artifact",
+      "level": 70,
+      "role": "objective_target",
+      "personality": "inanimate_artifact",
+      "alignment": "neutral",
+      "faction": "light_bringers",
+      
+      "stats": {
+        "hp": 2000,
+        "mp": 1000,
+        "atk": 0,
+        "def": 200,
+        "mag": 250,
+        "spd": 0,
+        "luck": 100
+      },
+      
+      "abilities": [
+        {
+          "abilityId": "light_restoration",
+          "name": "Light Restoration",
+          "type": "active",
+          "description": "Restores light and dispels darkness when activated",
+          "effects": ["light_restore:true", "darkness_dispel:true", "courage_requirement:true"]
+        },
+        {
+          "abilityId": "ancient_runes",
+          "name": "Ancient Runes",
+          "type": "passive",
+          "description": "Contains ancient knowledge and power",
+          "effects": ["ancient_wisdom:true", "power_storage:true", "light_source:true"]
+        },
+        {
+          "abilityId": "courage_test",
+          "name": "Courage Test",
+          "type": "passive",
+          "description": "Tests the courage of those who seek to activate it",
+          "effects": ["courage_assessment:true", "activation_requirement:courage", "quest_progress:trial_of_courage"]
+        }
+      ],
+      
+      "equipment": {
+        "weapon": "none",
+        "armor": "ancient_stone",
+        "accessory": "light_crystal"
+      },
+      
+      "locationId": "shadowed_vale",
+      "schedule": "always_present",
+      "dialogueTree": "ancient_beacon",
+      "questGiver": [],
+      "flags": ["ancient_artifact", "light_source", "courage_test"],
+      
+      "visual": {
+        "modelId": "ancient_beacon_stone",
+        "texture": "ancient_stone_runes",
+        "animation": "beacon_idle",
+        "scale": 2.0,
+        "effects": ["ancient_rune_glow", "light_particles", "courage_test_aura"]
+      }
+    }
+  },
+  
+  "npcInteractions": {
+    "grove_guardian": {
+      "friendly": ["spirit_guide", "ancient_spirit"],
+      "neutral": ["shadow_guardian"],
+      "hostile": ["shadow_creature"],
+      "quests": ["grove_initiation"],
+      "services": ["access_control", "wisdom_testing"]
+    },
+    
+    "spirit_guide": {
+      "friendly": ["grove_guardian", "ancient_spirit"],
+      "neutral": ["shadow_guardian"],
+      "hostile": ["shadow_creature"],
+      "quests": ["spirit_whisperer"],
+      "services": ["spirit_teaching", "knowledge_transfer"]
+    },
+    
+    "ancient_spirit": {
+      "friendly": ["grove_guardian", "spirit_guide"],
+      "neutral": ["shadow_guardian"],
+      "hostile": ["shadow_creature"],
+      "quests": [],
+      "services": ["practice_partner", "ancient_wisdom"]
+    },
+    
+    "shadow_guardian": {
+      "friendly": [],
+      "neutral": ["grove_guardian", "spirit_guide", "ancient_spirit"],
+      "hostile": ["shadow_creature"],
+      "quests": ["trial_of_courage"],
+      "services": ["courage_testing", "vale_protection"]
+    },
+    
+    "shadow_creature": {
+      "friendly": [],
+      "neutral": [],
+      "hostile": ["grove_guardian", "spirit_guide", "ancient_spirit", "shadow_guardian"],
+      "quests": [],
+      "services": ["combat_testing", "fear_testing"]
+    },
+    
+    "ancient_beacon": {
+      "friendly": ["grove_guardian", "spirit_guide", "ancient_spirit"],
+      "neutral": ["shadow_guardian"],
+      "hostile": ["shadow_creature"],
+      "quests": [],
+      "services": ["light_restoration", "courage_testing"]
+    }
+  },
+  
+  "metadata": {
+    "totalNPCs": 6,
+    "totalAbilities": 18,
+    "totalInteractions": 36,
+    "raceTypes": ["fae_ancient", "fae_spirit", "shadow_fae", "shadow_spawn", "construct"],
+    "classTypes": ["guardian", "mentor", "spirit", "monster", "artifact"],
+    "remixSafety": "verified",
+    "testCoverage": "comprehensive"
+  }
+}

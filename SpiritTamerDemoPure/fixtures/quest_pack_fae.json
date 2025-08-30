@@ -1,0 +1,207 @@
+{
+  "questPackId": "fae_trials",
+  "name": "Fae Trials of the Grove",
+  "version": "1.0.0",
+  "author": "MIFF Framework",
+  "license": "MIT",
+  "remixSafe": true,
+  "description": "A collection of mystical quests in the enchanted Fae Grove",
+  
+  "quests": {
+    "grove_initiation": {
+      "questId": "grove_initiation",
+      "title": "Grove Initiation",
+      "description": "Prove your worth to enter the sacred Fae Grove",
+      "type": "main",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "steps": [
+        {
+          "stepId": "approach_grove",
+          "description": "Approach the ancient oak at the grove entrance",
+          "locationId": "grove_entrance",
+          "npcId": "grove_guardian",
+          "dialogueNode": "grove_greeting",
+          "completed": false,
+          "triggers": ["location_entered", "npc_interaction"],
+          "rewards": {
+            "xp": 50,
+            "items": ["grove_token"],
+            "flags": ["grove_access_granted"]
+          }
+        },
+        {
+          "stepId": "prove_wisdom",
+          "description": "Answer the guardian's riddle correctly",
+          "locationId": "grove_entrance",
+          "npcId": "grove_guardian",
+          "dialogueNode": "riddle_challenge",
+          "completed": false,
+          "triggers": ["dialogue_choice", "riddle_solved"],
+          "rewards": {
+            "xp": 100,
+            "items": ["wisdom_crystal"],
+            "flags": ["riddle_master"]
+          }
+        }
+      ],
+      "start": "approach_grove",
+      "rewards": {
+        "xp": 150,
+        "items": ["grove_token", "wisdom_crystal"],
+        "flags": ["grove_initiate", "grove_access_granted", "riddle_master"]
+      },
+      "status": "available",
+      "currentStep": "approach_grove",
+      "progress": 0
+    },
+    
+    "spirit_whisperer": {
+      "questId": "spirit_whisperer",
+      "title": "Spirit Whisperer",
+      "description": "Learn to communicate with the ancient spirits of the grove",
+      "type": "main",
+      "difficulty": "medium",
+      "prerequisites": ["grove_initiation"],
+      "steps": [
+        {
+          "stepId": "find_spirit_guide",
+          "description": "Seek out the Spirit Guide in the Whispering Hollow",
+          "locationId": "whispering_hollow",
+          "npcId": "spirit_guide",
+          "dialogueNode": "spirit_greeting",
+          "completed": false,
+          "triggers": ["location_entered", "npc_interaction"],
+          "rewards": {
+            "xp": 75,
+            "items": ["spirit_essence"],
+            "flags": ["spirit_guide_found"]
+          }
+        },
+        {
+          "stepId": "learn_whisper",
+          "description": "Learn the ancient art of spirit whispering",
+          "locationId": "whispering_hollow",
+          "npcId": "spirit_guide",
+          "dialogueNode": "whisper_lesson",
+          "completed": false,
+          "triggers": ["dialogue_choice", "lesson_completed"],
+          "rewards": {
+            "xp": 125,
+            "items": ["whisper_scroll"],
+            "flags": ["whisper_master"]
+          }
+        },
+        {
+          "stepId": "practice_whisper",
+          "description": "Practice whispering to three different spirits",
+          "locationId": "grove_center",
+          "npcId": "ancient_spirit",
+          "dialogueNode": "whisper_practice",
+          "completed": false,
+          "triggers": ["spirit_whispered", "practice_complete"],
+          "rewards": {
+            "xp": 100,
+            "items": ["spirit_whisperer_badge"],
+            "flags": ["whisper_practiced"]
+          }
+        }
+      ],
+      "start": "find_spirit_guide",
+      "rewards": {
+        "xp": 300,
+        "items": ["spirit_essence", "whisper_scroll", "spirit_whisperer_badge"],
+        "flags": ["spirit_whisperer", "whisper_master", "whisper_practiced"]
+      },
+      "status": "locked",
+      "currentStep": "find_spirit_guide",
+      "progress": 0
+    },
+    
+    "trial_of_courage": {
+      "questId": "trial_of_courage",
+      "title": "Trial of Courage",
+      "description": "Face your fears in the depths of the Shadowed Vale",
+      "type": "main",
+      "difficulty": "hard",
+      "prerequisites": ["spirit_whisperer"],
+      "steps": [
+        {
+          "stepId": "enter_shadowed_vale",
+          "description": "Enter the foreboding Shadowed Vale",
+          "locationId": "shadowed_vale",
+          "npcId": "shadow_guardian",
+          "dialogueNode": "courage_challenge",
+          "completed": false,
+          "triggers": ["location_entered", "npc_interaction"],
+          "rewards": {
+            "xp": 100,
+            "items": ["courage_medallion"],
+            "flags": ["vale_entered"]
+          }
+        },
+        {
+          "stepId": "face_shadows",
+          "description": "Confront the shadow creatures without fear",
+          "locationId": "shadowed_vale",
+          "npcId": "shadow_creature",
+          "dialogueNode": "shadow_confrontation",
+          "completed": false,
+          "triggers": ["combat_initiated", "shadows_defeated"],
+          "rewards": {
+            "xp": 200,
+            "items": ["shadow_essence"],
+            "flags": ["shadows_faced"]
+          }
+        },
+        {
+          "stepId": "light_the_way",
+          "description": "Use your courage to light the ancient beacon",
+          "locationId": "shadowed_vale",
+          "npcId": "ancient_beacon",
+          "dialogueNode": "beacon_activation",
+          "completed": false,
+          "triggers": ["beacon_lit", "light_restored"],
+          "rewards": {
+            "xp": 150,
+            "items": ["beacon_crystal"],
+            "flags": ["light_restored"]
+          }
+        }
+      ],
+      "start": "enter_shadowed_vale",
+      "rewards": {
+        "xp": 450,
+        "items": ["courage_medallion", "shadow_essence", "beacon_crystal"],
+        "flags": ["courage_trial_complete", "vale_entered", "shadows_faced", "light_restored"]
+      },
+      "status": "locked",
+      "currentStep": "enter_shadowed_vale",
+      "progress": 0
+    }
+  },
+  
+  "questChains": {
+    "grove_mastery": {
+      "chainId": "grove_mastery",
+      "title": "Grove Mastery",
+      "description": "Complete all trials to become a master of the Fae Grove",
+      "quests": ["grove_initiation", "spirit_whisperer", "trial_of_courage"],
+      "rewards": {
+        "xp": 1000,
+        "items": ["grove_master_crown", "ancient_staff"],
+        "flags": ["grove_master", "fae_ally"],
+        "title": "Grove Master"
+      }
+    }
+  },
+  
+  "metadata": {
+    "totalQuests": 3,
+    "totalSteps": 8,
+    "difficultyRange": ["easy", "medium", "hard"],
+    "estimatedDuration": "2-3 hours",
+    "remixSafety": "verified",
+    "testCoverage": "comprehensive"
+  }
+}

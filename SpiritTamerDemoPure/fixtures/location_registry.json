@@ -1,0 +1,459 @@
+{
+  "locationRegistryId": "fae_grove_locations",
+  "name": "Fae Grove Location Registry",
+  "version": "1.0.0",
+  "author": "MIFF Framework",
+  "license": "MIT",
+  "remixSafe": true,
+  "description": "Complete registry of all locations in the Fae Grove with spatial metadata and visual hooks",
+  
+  "locations": {
+    "grove_entrance": {
+      "locationId": "grove_entrance",
+      "name": "Grove Entrance",
+      "type": "transition",
+      "zone": "grove_outer",
+      "description": "The sacred entrance to the Fae Grove, guarded by an ancient oak and the Grove Guardian",
+      
+      "coordinates": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "radius": 15
+      },
+      
+      "environment": {
+        "biome": "enchanted_forest",
+        "weather": "ethereal_mist",
+        "lighting": "dappled_sunlight",
+        "ambient": "gentle_breeze",
+        "timeOfDay": "all_day"
+      },
+      
+      "visual": {
+        "modelId": "grove_entrance_scene",
+        "textures": ["ancient_oak_bark", "moss_covered_stones", "ethereal_mist"],
+        "animations": ["mist_swirl", "leaves_rustle", "guardian_idle"],
+        "effects": ["ethereal_glow", "ancient_magic_aura", "transition_portal"],
+        "scale": 1.0,
+        "fog": {
+          "density": 0.3,
+          "color": "#7a9c8c",
+          "height": 5
+        }
+      },
+      
+      "npcs": ["grove_guardian"],
+      "quests": ["grove_initiation"],
+      "triggers": ["location_entered", "npc_interaction", "quest_start"],
+      
+      "connections": [
+        {
+          "to": "grove_center",
+          "type": "path",
+          "requirements": ["flag:grove_access_granted"],
+          "distance": 25
+        },
+        {
+          "to": "world_exterior",
+          "type": "exit",
+          "requirements": [],
+          "distance": 10
+        }
+      ],
+      
+      "interactables": [
+        {
+          "id": "ancient_oak",
+          "type": "landmark",
+          "description": "A massive oak tree with ancient runes carved into its bark",
+          "interaction": "examine",
+          "effects": ["lore_reveal:grove_history", "quest_hint:grove_initiation"]
+        },
+        {
+          "id": "guardian_stone",
+          "type": "platform",
+          "description": "A flat stone where the Grove Guardian stands",
+          "interaction": "approach",
+          "effects": ["npc_interaction:grove_guardian", "quest_trigger:grove_initiation"]
+        }
+      ],
+      
+      "loot": [],
+      "hazards": [],
+      "flags": ["grove_accessible", "guardian_present"]
+    },
+    
+    "grove_center": {
+      "locationId": "grove_center",
+      "name": "Grove Center",
+      "type": "hub",
+      "zone": "grove_inner",
+      "description": "The heart of the Fae Grove, a peaceful clearing where ancient spirits gather and wisdom flows freely",
+      
+      "coordinates": {
+        "x": 25,
+        "y": 0,
+        "z": 0,
+        "radius": 20
+      },
+      
+      "environment": {
+        "biome": "enchanted_clearing",
+        "weather": "gentle_breeze",
+        "lighting": "warm_sunlight",
+        "ambient": "spirit_whispers",
+        "timeOfDay": "all_day"
+      },
+      
+      "visual": {
+        "modelId": "grove_center_scene",
+        "textures": ["soft_grass", "flower_petals", "spirit_essence"],
+        "animations": ["petals_float", "spirit_wisps", "gentle_sway"],
+        "effects": ["spirit_aura", "healing_light", "wisdom_glow"],
+        "scale": 1.0,
+        "fog": {
+          "density": 0.1,
+          "color": "#a8d5ba",
+          "height": 3
+        }
+      },
+      
+      "npcs": ["ancient_spirit"],
+      "quests": ["spirit_whisperer"],
+      "triggers": ["location_entered", "spirit_interaction", "whisper_practice"],
+      
+      "connections": [
+        {
+          "to": "grove_entrance",
+          "type": "path",
+          "requirements": [],
+          "distance": 25
+        },
+        {
+          "to": "whispering_hollow",
+          "type": "path",
+          "requirements": [],
+          "distance": 30
+        },
+        {
+          "to": "shadowed_vale",
+          "type": "path",
+          "requirements": ["flag:whisper_master"],
+          "distance": 40
+        }
+      ],
+      
+      "interactables": [
+        {
+          "id": "wisdom_spring",
+          "type": "fountain",
+          "description": "A crystal-clear spring that bubbles with ancient wisdom",
+          "interaction": "drink",
+          "effects": ["wisdom_boost:temporary", "spirit_connection:enhanced"]
+        },
+        {
+          "id": "spirit_circle",
+          "type": "ritual_site",
+          "description": "A circular arrangement of stones where spirits gather",
+          "interaction": "meditate",
+          "effects": ["spirit_whisper:practice", "quest_progress:spirit_whisperer"]
+        }
+      ],
+      
+      "loot": ["spirit_essence", "ancient_wisdom_crystal"],
+      "hazards": [],
+      "flags": ["spirit_sanctuary", "healing_grounds", "wisdom_center"]
+    },
+    
+    "whispering_hollow": {
+      "locationId": "whispering_hollow",
+      "name": "Whispering Hollow",
+      "type": "training",
+      "zone": "grove_inner",
+      "description": "A secluded hollow where the Spirit Guide teaches the ancient art of spirit whispering",
+      
+      "coordinates": {
+        "x": 25,
+        "y": 0,
+        "z": 30,
+        "radius": 15
+      },
+      
+      "environment": {
+        "biome": "mystical_hollow",
+        "weather": "ethereal_mist",
+        "lighting": "soft_glow",
+        "ambient": "whispering_wind",
+        "timeOfDay": "dawn_to_dusk"
+      },
+      
+      "visual": {
+        "modelId": "whispering_hollow_scene",
+        "textures": ["moss_covered_walls", "crystal_formations", "ethereal_mist"],
+        "animations": ["mist_swirl", "crystal_glow", "wind_whisper"],
+        "effects": ["learning_aura", "spirit_wisdom", "ethereal_mist"],
+        "scale": 1.0,
+        "fog": {
+          "density": 0.4,
+          "color": "#8ba8c7",
+          "height": 4
+        }
+      },
+      
+      "npcs": ["spirit_guide"],
+      "quests": ["spirit_whisperer"],
+      "triggers": ["location_entered", "npc_interaction", "lesson_begin"],
+      
+      "connections": [
+        {
+          "to": "grove_center",
+          "type": "path",
+          "requirements": [],
+          "distance": 30
+        }
+      ],
+      
+      "interactables": [
+        {
+          "id": "lesson_stone",
+          "type": "platform",
+          "description": "A smooth stone where students sit during lessons",
+          "interaction": "sit",
+          "effects": ["lesson_ready:true", "quest_progress:spirit_whisperer"]
+        },
+        {
+          "id": "wisdom_crystals",
+          "type": "crystal_formation",
+          "description": "Crystals that resonate with ancient knowledge",
+          "interaction": "touch",
+          "effects": ["wisdom_insight:true", "spirit_connection:enhanced"]
+        }
+      ],
+      
+      "loot": ["whisper_scroll", "spirit_essence"],
+      "hazards": [],
+      "flags": ["learning_sanctuary", "spirit_guide_present", "lesson_available"]
+    },
+    
+    "shadowed_vale": {
+      "locationId": "shadowed_vale",
+      "name": "Shadowed Vale",
+      "type": "challenge",
+      "zone": "grove_outer",
+      "description": "A foreboding valley shrouded in darkness where courage is tested and fears are faced",
+      
+      "coordinates": {
+        "x": 65,
+        "y": 0,
+        "z": 0,
+        "radius": 25
+      },
+      
+      "environment": {
+        "biome": "shadowed_valley",
+        "weather": "perpetual_darkness",
+        "lighting": "dim_shadows",
+        "ambient": "eerie_silence",
+        "timeOfDay": "always_night"
+      },
+      
+      "visual": {
+        "modelId": "shadowed_vale_scene",
+        "textures": ["dark_stone", "shadow_mist", "ancient_runes"],
+        "animations": ["shadow_swirl", "darkness_pulse", "rune_glow"],
+        "effects": ["shadow_aura", "fear_inducing", "courage_test"],
+        "scale": 1.0,
+        "fog": {
+          "density": 0.7,
+          "color": "#2a2a2a",
+          "height": 8
+        }
+      },
+      
+      "npcs": ["shadow_guardian", "ancient_beacon"],
+      "quests": ["trial_of_courage"],
+      "triggers": ["location_entered", "courage_challenge", "shadow_confrontation"],
+      
+      "connections": [
+        {
+          "to": "grove_center",
+          "type": "path",
+          "requirements": ["flag:whisper_master"],
+          "distance": 40
+        },
+        {
+          "to": "shadowed_vale_deep",
+          "type": "path",
+          "requirements": ["flag:vale_entered"],
+          "distance": 15
+        }
+      ],
+      
+      "interactables": [
+        {
+          "id": "courage_test_platform",
+          "type": "ritual_site",
+          "description": "A platform where courage tests begin",
+          "interaction": "approach",
+          "effects": ["courage_test:begin", "quest_progress:trial_of_courage"]
+        },
+        {
+          "id": "ancient_beacon",
+          "type": "artifact",
+          "description": "An ancient beacon waiting to be lit by one with courage",
+          "interaction": "activate",
+          "effects": ["beacon_light:true", "quest_progress:trial_of_courage"]
+        }
+      ],
+      
+      "loot": ["courage_medallion", "shadow_essence"],
+      "hazards": ["fear_aura", "shadow_traps"],
+      "flags": ["courage_test_zone", "shadow_mastery", "beacon_present"]
+    },
+    
+    "shadowed_vale_deep": {
+      "locationId": "shadowed_vale_deep",
+      "name": "Deep Shadowed Vale",
+      "type": "combat",
+      "zone": "grove_outer",
+      "description": "The deepest part of the Shadowed Vale where shadow creatures dwell and courage is put to the ultimate test",
+      
+      "coordinates": {
+        "x": 80,
+        "y": 0,
+        "z": 0,
+        "radius": 20
+      },
+      
+      "environment": {
+        "biome": "deep_shadows",
+        "weather": "absolute_darkness",
+        "lighting": "minimal_light",
+        "ambient": "shadow_whispers",
+        "timeOfDay": "always_night"
+      },
+      
+      "visual": {
+        "modelId": "shadowed_vale_deep_scene",
+        "textures": ["pure_shadow", "dark_crystal", "void_essence"],
+        "animations": ["shadow_swarm", "darkness_flow", "void_pulse"],
+        "effects": ["pure_darkness", "fear_amplified", "courage_ultimate_test"],
+        "scale": 1.0,
+        "fog": {
+          "density": 0.9,
+          "color": "#000000",
+          "height": 10
+        }
+      },
+      
+      "npcs": ["shadow_creature"],
+      "quests": ["trial_of_courage"],
+      "triggers": ["location_entered", "combat_initiated", "shadows_defeated"],
+      
+      "connections": [
+        {
+          "to": "shadowed_vale",
+          "type": "path",
+          "requirements": [],
+          "distance": 15
+        }
+      ],
+      
+      "interactables": [
+        {
+          "id": "combat_arena",
+          "type": "battle_ground",
+          "description": "An open area where shadow creatures challenge intruders",
+          "interaction": "enter",
+          "effects": ["combat_zone:active", "shadow_creatures:spawn"]
+        },
+        {
+          "id": "courage_crystal",
+          "type": "artifact",
+          "description": "A crystal that glows brighter with courage",
+          "interaction": "touch",
+          "effects": ["courage_boost:true", "shadow_resistance:enhanced"]
+        }
+      ],
+      
+      "loot": ["shadow_essence", "courage_crystal"],
+      "hazards": ["fear_aura", "shadow_damage", "courage_drain"],
+      "flags": ["combat_zone", "courage_test", "shadow_mastery"]
+    }
+  },
+  
+  "locationConnections": {
+    "grove_entrance": {
+      "connectedTo": ["grove_center", "world_exterior"],
+      "pathTypes": ["sacred_path", "world_exit"],
+      "requirements": ["grove_access_granted", "none"]
+    },
+    
+    "grove_center": {
+      "connectedTo": ["grove_entrance", "whispering_hollow", "shadowed_vale"],
+      "pathTypes": ["sacred_path", "mystical_path", "courage_path"],
+      "requirements": ["none", "none", "whisper_master"]
+    },
+    
+    "whispering_hollow": {
+      "connectedTo": ["grove_center"],
+      "pathTypes": ["mystical_path"],
+      "requirements": ["none"]
+    },
+    
+    "shadowed_vale": {
+      "connectedTo": ["grove_center", "shadowed_vale_deep"],
+      "pathTypes": ["courage_path", "shadow_path"],
+      "requirements": ["whisper_master", "vale_entered"]
+    },
+    
+    "shadowed_vale_deep": {
+      "connectedTo": ["shadowed_vale"],
+      "pathTypes": ["shadow_path"],
+      "requirements": ["none"]
+    }
+  },
+  
+  "environmentalEffects": {
+    "grove_entrance": {
+      "positive": ["wisdom_boost", "spirit_protection", "ancient_magic"],
+      "negative": [],
+      "neutral": ["ethereal_mist", "ancient_aura"]
+    },
+    
+    "grove_center": {
+      "positive": ["healing", "wisdom_enhancement", "spirit_connection"],
+      "negative": [],
+      "neutral": ["spirit_whispers", "gentle_breeze"]
+    },
+    
+    "whispering_hollow": {
+      "positive": ["learning_enhancement", "spirit_wisdom", "ethereal_insight"],
+      "negative": [],
+      "neutral": ["whispering_wind", "mystical_atmosphere"]
+    },
+    
+    "shadowed_vale": {
+      "positive": ["courage_testing", "shadow_mastery"],
+      "negative": ["fear_aura", "darkness_effect"],
+      "neutral": ["shadow_mist", "ancient_runes"]
+    },
+    
+    "shadowed_vale_deep": {
+      "positive": ["courage_ultimate_test", "shadow_mastery"],
+      "negative": ["fear_amplified", "courage_drain", "shadow_damage"],
+      "neutral": ["pure_darkness", "void_essence"]
+    }
+  },
+  
+  "metadata": {
+    "totalLocations": 5,
+    "totalZones": 3,
+    "totalConnections": 8,
+    "biomeTypes": ["enchanted_forest", "enchanted_clearing", "mystical_hollow", "shadowed_valley", "deep_shadows"],
+    "weatherTypes": ["ethereal_mist", "gentle_breeze", "ethereal_mist", "perpetual_darkness", "absolute_darkness"],
+    "remixSafety": "verified",
+    "testCoverage": "comprehensive"
+  }
+}

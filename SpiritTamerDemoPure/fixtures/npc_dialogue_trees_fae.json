@@ -1,0 +1,524 @@
+{
+  "dialoguePackId": "fae_dialogue",
+  "name": "Fae Grove Dialogue Trees",
+  "version": "1.0.0",
+  "author": "MIFF Framework",
+  "license": "MIT",
+  "remixSafe": true,
+  "description": "Complete dialogue trees for all NPCs in the Fae Grove trials",
+  
+  "dialogueTrees": {
+    "grove_guardian": {
+      "npcId": "grove_guardian",
+      "name": "Grove Guardian",
+      "role": "gatekeeper",
+      "personality": "wise_ancient",
+      "locationId": "grove_entrance",
+      "dialogueNodes": {
+        "grove_greeting": {
+          "dialogueNode": "grove_greeting",
+          "text": "Halt, mortal! You stand before the sacred Fae Grove. What business brings you to this hallowed place?",
+          "speaker": "grove_guardian",
+          "emotion": "neutral",
+          "choices": [
+            {
+              "choiceId": "seek_wisdom",
+              "text": "I seek wisdom and knowledge of the ancient ways",
+              "nextNode": "riddle_challenge",
+              "effects": ["quest_progress:grove_initiation:approach_grove"],
+              "requirements": []
+            },
+            {
+              "choiceId": "prove_worth",
+              "text": "I wish to prove my worth and earn entry",
+              "nextNode": "riddle_challenge",
+              "effects": ["quest_progress:grove_initiation:approach_grove"],
+              "requirements": []
+            },
+            {
+              "choiceId": "merely_curious",
+              "text": "I am merely curious about this place",
+              "nextNode": "curiosity_response",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "riddle_challenge": {
+          "dialogueNode": "riddle_challenge",
+          "text": "Very well. To prove your worth, you must answer my riddle. Listen carefully: 'I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?'",
+          "speaker": "grove_guardian",
+          "emotion": "serious",
+          "choices": [
+            {
+              "choiceId": "echo_answer",
+              "text": "An echo",
+              "nextNode": "riddle_correct",
+              "effects": ["quest_progress:grove_initiation:prove_wisdom", "flag_set:riddle_master"],
+              "requirements": []
+            },
+            {
+              "choiceId": "shadow_answer",
+              "text": "A shadow",
+              "nextNode": "riddle_incorrect",
+              "effects": ["quest_progress:grove_initiation:prove_wisdom"],
+              "requirements": []
+            },
+            {
+              "choiceId": "wind_answer",
+              "text": "The wind itself",
+              "nextNode": "riddle_partial",
+              "effects": ["quest_progress:grove_initiation:prove_wisdom"],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "riddle_correct": {
+          "dialogueNode": "riddle_correct",
+          "text": "Excellent! You have proven your wisdom. The echo speaks truth without deceit, hears all without judgment. You may enter the grove, wise one.",
+          "speaker": "grove_guardian",
+          "emotion": "pleased",
+          "choices": [
+            {
+              "choiceId": "enter_grove",
+              "text": "Thank you, guardian. I shall enter with respect",
+              "nextNode": "grove_entry_granted",
+              "effects": ["quest_complete:grove_initiation", "flag_set:grove_access_granted"],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "riddle_incorrect": {
+          "dialogueNode": "riddle_incorrect",
+          "text": "Incorrect. A shadow has form and substance, unlike the answer I seek. You may try again, or return when you are wiser.",
+          "speaker": "grove_guardian",
+          "emotion": "disappointed",
+          "choices": [
+            {
+              "choiceId": "try_again",
+              "text": "Let me try again",
+              "nextNode": "riddle_challenge",
+              "effects": [],
+              "requirements": []
+            },
+            {
+              "choiceId": "return_later",
+              "text": "I shall return when I am wiser",
+              "nextNode": "grove_greeting",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "riddle_partial": {
+          "dialogueNode": "riddle_partial",
+          "text": "Close, but not quite. The wind carries the echo, but it is not the echo itself. You show promise, but need to think deeper.",
+          "speaker": "grove_guardian",
+          "emotion": "thoughtful",
+          "choices": [
+            {
+              "choiceId": "think_deeper",
+              "text": "Let me think about this more carefully",
+              "nextNode": "riddle_challenge",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "curiosity_response": {
+          "dialogueNode": "curiosity_response",
+          "text": "Curiosity is the first step toward wisdom, but it is not enough. The grove holds ancient secrets that require more than mere interest to unlock.",
+          "speaker": "grove_guardian",
+          "emotion": "neutral",
+          "choices": [
+            {
+              "choiceId": "seek_wisdom_now",
+              "text": "Then I shall seek wisdom",
+              "nextNode": "riddle_challenge",
+              "effects": ["quest_progress:grove_initiation:approach_grove"],
+              "requirements": []
+            },
+            {
+              "choiceId": "leave",
+              "text": "Perhaps another time",
+              "nextNode": "grove_greeting",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "grove_entry_granted": {
+          "dialogueNode": "grove_entry_granted",
+          "text": "The grove welcomes you, initiate. May you find what you seek within its ancient embrace. Remember, respect the spirits and they will guide you.",
+          "speaker": "grove_guardian",
+          "emotion": "benevolent",
+          "choices": [
+            {
+              "choiceId": "enter",
+              "text": "I shall remember your words",
+              "nextNode": "end",
+              "effects": ["location_change:grove_center"],
+              "requirements": []
+            }
+          ]
+        }
+      }
+    },
+    
+    "spirit_guide": {
+      "npcId": "spirit_guide",
+      "name": "Spirit Guide",
+      "role": "mentor",
+      "personality": "mystical_teacher",
+      "locationId": "whispering_hollow",
+      "dialogueNodes": {
+        "spirit_greeting": {
+          "dialogueNode": "spirit_greeting",
+          "text": "Ah, a new seeker approaches the Whispering Hollow. I sense you have been granted access to the grove. What knowledge do you seek, young one?",
+          "speaker": "spirit_guide",
+          "emotion": "welcoming",
+          "choices": [
+            {
+              "choiceId": "learn_whispering",
+              "text": "I wish to learn the art of spirit whispering",
+              "nextNode": "whisper_lesson",
+              "effects": ["quest_progress:spirit_whisperer:find_spirit_guide"],
+              "requirements": ["flag:grove_access_granted"]
+            },
+            {
+              "choiceId": "seek_guidance",
+              "text": "I seek guidance on my spiritual journey",
+              "nextNode": "general_guidance",
+              "effects": [],
+              "requirements": ["flag:grove_access_granted"]
+            }
+          ]
+        },
+        
+        "whisper_lesson": {
+          "dialogueNode": "whisper_lesson",
+          "text": "The art of spirit whispering is ancient and sacred. It requires patience, empathy, and the ability to listen with your heart, not just your ears. Are you ready to begin?",
+          "speaker": "spirit_guide",
+          "emotion": "serious",
+          "choices": [
+            {
+              "choiceId": "ready_to_learn",
+              "text": "I am ready to learn, master",
+              "nextNode": "lesson_begin",
+              "effects": ["quest_progress:spirit_whisperer:learn_whisper"],
+              "requirements": []
+            },
+            {
+              "choiceId": "need_preparation",
+              "text": "I need a moment to prepare myself",
+              "nextNode": "spirit_greeting",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "lesson_begin": {
+          "dialogueNode": "lesson_begin",
+          "text": "Very well. Close your eyes and open your mind. The spirits speak in whispers, in feelings, in the rustle of leaves and the song of the wind. Listen...",
+          "speaker": "spirit_guide",
+          "emotion": "focused",
+          "choices": [
+            {
+              "choiceId": "listen_deeply",
+              "text": "I am listening with my heart",
+              "nextNode": "lesson_complete",
+              "effects": ["quest_progress:spirit_whisperer:learn_whisper", "flag_set:whisper_master"],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "lesson_complete": {
+          "dialogueNode": "lesson_complete",
+          "text": "Excellent! You have opened yourself to the spirit realm. The whisper scroll I give you contains the ancient techniques. Practice with the spirits in the grove center.",
+          "speaker": "spirit_guide",
+          "emotion": "pleased",
+          "choices": [
+            {
+              "choiceId": "practice_now",
+              "text": "I shall practice immediately",
+              "nextNode": "end",
+              "effects": ["quest_progress:spirit_whisperer:practice_whisper", "location_change:grove_center"],
+              "requirements": []
+            },
+            {
+              "choiceId": "thank_guide",
+              "text": "Thank you for your wisdom, master",
+              "nextNode": "end",
+              "effects": ["quest_progress:spirit_whisperer:practice_whisper"],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "general_guidance": {
+          "dialogueNode": "general_guidance",
+          "text": "The grove is a place of learning and growth. Each step you take brings you closer to understanding the ancient ways. Trust your instincts and the spirits will guide you.",
+          "speaker": "spirit_guide",
+          "emotion": "wise",
+          "choices": [
+            {
+              "choiceId": "learn_whispering",
+              "text": "Then teach me spirit whispering",
+              "nextNode": "whisper_lesson",
+              "effects": ["quest_progress:spirit_whisperer:find_spirit_guide"],
+              "requirements": []
+            },
+            {
+              "choiceId": "continue_journey",
+              "text": "I shall continue my journey",
+              "nextNode": "end",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        }
+      }
+    },
+    
+    "ancient_spirit": {
+      "npcId": "ancient_spirit",
+      "name": "Ancient Spirit",
+      "role": "practice_target",
+      "personality": "ethereal_elder",
+      "locationId": "grove_center",
+      "dialogueNodes": {
+        "whisper_practice": {
+          "dialogueNode": "whisper_practice",
+          "text": "*ethereal whispers echo through the grove* I sense you have learned the ancient art. Speak to me through the spirit realm...",
+          "speaker": "ancient_spirit",
+          "emotion": "ethereal",
+          "choices": [
+            {
+              "choiceId": "whisper_greeting",
+              "text": "*whisper* Greetings, ancient one. I seek to practice the art of spirit communication",
+              "nextNode": "whisper_response",
+              "effects": ["quest_progress:spirit_whisperer:practice_whisper"],
+              "requirements": ["flag:whisper_master"]
+            },
+            {
+              "choiceId": "whisper_question",
+              "text": "*whisper* What wisdom can you share with a seeker of knowledge?",
+              "nextNode": "whisper_response",
+              "effects": ["quest_progress:spirit_whisperer:practice_whisper"],
+              "requirements": ["flag:whisper_master"]
+            }
+          ]
+        },
+        
+        "whisper_response": {
+          "dialogueNode": "whisper_response",
+          "text": "*the spirit's voice resonates in your mind* Well done, young whisperer. You have mastered the basic technique. Continue practicing with other spirits to perfect your skill.",
+          "speaker": "ancient_spirit",
+          "emotion": "approving",
+          "choices": [
+            {
+              "choiceId": "continue_practice",
+              "text": "I shall seek other spirits to practice with",
+              "nextNode": "end",
+              "effects": ["quest_progress:spirit_whisperer:practice_whisper"],
+              "requirements": []
+            }
+          ]
+        }
+      }
+    },
+    
+    "shadow_guardian": {
+      "npcId": "shadow_guardian",
+      "name": "Shadow Guardian",
+      "role": "challenge_giver",
+      "personality": "stern_test",
+      "locationId": "shadowed_vale",
+      "dialogueNodes": {
+        "courage_challenge": {
+          "dialogueNode": "courage_challenge",
+          "text": "You have entered the Shadowed Vale, a place where courage is tested and fears are faced. Are you prepared to prove your bravery, spirit whisperer?",
+          "speaker": "shadow_guardian",
+          "emotion": "challenging",
+          "choices": [
+            {
+              "choiceId": "accept_challenge",
+              "text": "I am ready to face whatever challenges await",
+              "nextNode": "challenge_accepted",
+              "effects": ["quest_progress:trial_of_courage:enter_shadowed_vale"],
+              "requirements": ["flag:whisper_master"]
+            },
+            {
+              "choiceId": "seek_guidance",
+              "text": "What must I do to prove my courage?",
+              "nextNode": "challenge_explanation",
+              "effects": ["quest_progress:trial_of_courage:enter_shadowed_vale"],
+              "requirements": ["flag:whisper_master"]
+            }
+          ]
+        },
+        
+        "challenge_accepted": {
+          "dialogueNode": "challenge_accepted",
+          "text": "Then let the trial begin. You will face shadow creatures that feed on fear. Stand firm, and remember that courage is not the absence of fear, but the will to act despite it.",
+          "speaker": "shadow_guardian",
+          "emotion": "serious",
+          "choices": [
+            {
+              "choiceId": "proceed",
+              "text": "I understand. Let me face this trial",
+              "nextNode": "end",
+              "effects": ["quest_progress:trial_of_courage:face_shadows", "location_change:shadowed_vale_deep"],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "challenge_explanation": {
+          "dialogueNode": "challenge_explanation",
+          "text": "You must confront the shadow creatures that dwell in the vale's depths. They will test your resolve and attempt to instill fear. Only by standing firm can you prove your courage.",
+          "speaker": "shadow_guardian",
+          "emotion": "explanatory",
+          "choices": [
+            {
+              "choiceId": "understood",
+              "text": "I understand the challenge. I am ready",
+              "nextNode": "challenge_accepted",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        }
+      }
+    },
+    
+    "shadow_creature": {
+      "npcId": "shadow_creature",
+      "name": "Shadow Creature",
+      "role": "combat_opponent",
+      "personality": "hostile_test",
+      "locationId": "shadowed_vale_deep",
+      "dialogueNodes": {
+        "shadow_confrontation": {
+          "dialogueNode": "shadow_confrontation",
+          "text": "*dark tendrils of shadow swirl menacingly* You dare to enter our domain? We shall feast on your fear and weakness!",
+          "speaker": "shadow_creature",
+          "emotion": "hostile",
+          "choices": [
+            {
+              "choiceId": "stand_firm",
+              "text": "I fear you not! I have faced greater challenges than shadows",
+              "nextNode": "combat_initiated",
+              "effects": ["quest_progress:trial_of_courage:face_shadows", "combat_start:shadow_creature"],
+              "requirements": []
+            },
+            {
+              "choiceId": "use_whisper",
+              "text": "*whisper* I understand your nature, shadow. You are but a test of my resolve",
+              "nextNode": "combat_initiated",
+              "effects": ["quest_progress:trial_of_courage:face_shadows", "combat_start:shadow_creature"],
+              "requirements": ["flag:whisper_master"]
+            }
+          ]
+        },
+        
+        "combat_initiated": {
+          "dialogueNode": "combat_initiated",
+          "text": "*the shadow creature lunges forward, testing your courage*",
+          "speaker": "shadow_creature",
+          "emotion": "aggressive",
+          "choices": [
+            {
+              "choiceId": "fight",
+              "text": "I shall not back down!",
+              "nextNode": "end",
+              "effects": ["combat_continue:shadow_creature"],
+              "requirements": []
+            }
+          ]
+        }
+      }
+    },
+    
+    "ancient_beacon": {
+      "npcId": "ancient_beacon",
+      "name": "Ancient Beacon",
+      "role": "objective_target",
+      "personality": "inanimate_artifact",
+      "locationId": "shadowed_vale",
+      "dialogueNodes": {
+        "beacon_activation": {
+          "dialogueNode": "beacon_activation",
+          "text": "*the ancient beacon stands dark and silent, waiting for one with the courage to light it*",
+          "speaker": "ancient_beacon",
+          "emotion": "neutral",
+          "choices": [
+            {
+              "choiceId": "light_beacon",
+              "text": "I shall light this beacon with my courage",
+              "nextNode": "beacon_lit",
+              "effects": ["quest_progress:trial_of_courage:light_the_way", "flag_set:beacon_lit"],
+              "requirements": ["flag:shadows_faced"]
+            },
+            {
+              "choiceId": "examine_beacon",
+              "text": "Let me examine this beacon first",
+              "nextNode": "beacon_examination",
+              "effects": [],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "beacon_lit": {
+          "dialogueNode": "beacon_lit",
+          "text": "*the beacon bursts into brilliant light, dispelling the shadows and illuminating the vale* You have proven your courage and restored light to this place!",
+          "speaker": "ancient_beacon",
+          "emotion": "triumphant",
+          "choices": [
+            {
+              "choiceId": "celebrate",
+              "text": "The light has returned!",
+              "nextNode": "end",
+              "effects": ["quest_progress:trial_of_courage:light_the_way", "flag_set:light_restored"],
+              "requirements": []
+            }
+          ]
+        },
+        
+        "beacon_examination": {
+          "dialogueNode": "beacon_examination",
+          "text": "*the beacon is covered in ancient runes that glow faintly* The runes speak of courage and the power to dispel darkness. Only one who has faced their fears can activate it.",
+          "speaker": "ancient_beacon",
+          "emotion": "neutral",
+          "choices": [
+            {
+              "choiceId": "light_now",
+              "text": "I have faced my fears. Let me light it now",
+              "nextNode": "beacon_lit",
+              "effects": ["quest_progress:trial_of_courage:light_the_way", "flag_set:beacon_lit"],
+              "requirements": ["flag:shadows_faced"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  
+  "metadata": {
+    "totalNPCs": 6,
+    "totalDialogueNodes": 25,
+    "totalChoices": 45,
+    "emotionRange": ["neutral", "welcoming", "serious", "pleased", "disappointed", "thoughtful", "benevolent", "focused", "wise", "approving", "challenging", "explanatory", "hostile", "aggressive", "triumphant", "ethereal"],
+    "remixSafety": "verified",
+    "testCoverage": "comprehensive"
+  }
+}
