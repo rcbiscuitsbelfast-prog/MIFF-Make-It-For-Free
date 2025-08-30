@@ -1,0 +1,116 @@
+// council-of-the-fractured-banner.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on faction reputation, multi-NPC coordination, and branching outcomes
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'faction';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'council-of-the-fractured-banner',
+  title: 'Council of the Fractured Banner',
+  description:
+    'Three rival factions convene to decide the fate of the borderlands. The player must earn trust, mediate disputes, and choose an allegiance—or forge a new path.',
+
+  objectives: [
+    {
+      id: 'gain-trust',
+      description: 'Earn reputation with at least two factions.',
+      condition: () =>
+        FactionSystemPure.reputation('IronWard') >= 50 &&
+        FactionSystemPure.reputation('AshCoven') >= 50,
+    },
+    {
+      id: 'mediate-dispute',
+      description: 'Resolve the dispute between IronWard and AshCoven.',
+      condition: () => DialogPure.wasCompleted('borderlands-mediation'),
+    },
+    {
+      id: 'choose-allegiance',
+      description: 'Declare allegiance or propose neutrality.',
+      condition: () => EventBusPure.wasPublished('allegiance-declared'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'enter-council-hall',
+      event: 'enter',
+      condition: () => LocationPure.current() === 'council-hall',
+      action: () => AudioPure.playSound('council-theme'),
+    },
+    {
+      id: 'dialog-ironward',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('ironward-intro'),
+      action: () => FactionSystemPure.adjustReputation('IronWard', 25),
+    },
+    {
+      id: 'dialog-ashcoven',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('ashcoven-intro'),
+      action: () => FactionSystemPure.adjustReputation('AshCoven', 25),
+    },
+    {
+      id: 'declare-allegiance',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('allegiance-decision') !== null,
+      action: () =>
+        EventBusPure.publish('allegiance-declared', {
+          faction: DialogPure.getChoice('allegiance-decision'),
+        }),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-diplomacy',
+      type: 'xp',
+      value: 800,
+      target: 'player-progress',
+    },
+    {
+      id: 'faction-boost',
+      type: 'faction',
+      value: 'IronWard',
+      target: 'FactionSystemPure',
+    },
+    {
+      id: 'lore-council',
+      type: 'lore',
+      value: 'fractured-banner-history',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'FactionSystemPure',
+    'DialogPure',
+    'EventBusPure',
+    'LocationPure',
+    'AudioPure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type CouncilOfTheFracturedBanner = typeof ScenarioPure;
+export default ScenarioPure;
