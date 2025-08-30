@@ -322,7 +322,7 @@ export class SystemPure {
    * Update all systems that support update cycles
    */
   updateAll(deltaTime: number): void {
-    for (const instance of this.instances.values()) {
+    for (const instance of Array.from(this.instances.values())) {
       if (instance.update) {
         try {
           instance.update(deltaTime);
@@ -364,7 +364,7 @@ export class SystemPure {
   getAllSystemInfo(): Record<string, any> {
     const info: Record<string, any> = {};
     
-    for (const name of this.systems.keys()) {
+    for (const name of Array.from(this.systems.keys())) {
       info[name] = this.getSystemInfo(name);
     }
     

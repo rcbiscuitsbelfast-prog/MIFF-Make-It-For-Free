@@ -172,7 +172,7 @@ export class AISystemPure extends BaseMIFFSystem {
       return;
     }
 
-    for (const agent of this.agents.values()) {
+    for (const agent of Array.from(this.agents.values())) {
       if (agent.enabled) {
         this.updateAgent(agent, deltaTime);
       }
@@ -229,7 +229,7 @@ export class AISystemPure extends BaseMIFFSystem {
    * Remove agent by associated entity ID
    */
   removeAgentByEntity(entityId: string): void {
-    for (const [id, agent] of this.agents.entries()) {
+    for (const [id, agent] of Array.from(this.agents.entries())) {
       if (agent.entityId === entityId) {
         this.removeAgent(id);
         break;
@@ -612,7 +612,7 @@ export class AISystemPure extends BaseMIFFSystem {
    * Pause all agents
    */
   private pauseAllAgents(): void {
-    for (const agent of this.agents.values()) {
+    for (const agent of Array.from(this.agents.values())) {
       agent.enabled = false;
     }
   }
@@ -621,7 +621,7 @@ export class AISystemPure extends BaseMIFFSystem {
    * Resume all agents
    */
   private resumeAllAgents(): void {
-    for (const agent of this.agents.values()) {
+    for (const agent of Array.from(this.agents.values())) {
       agent.enabled = true;
     }
   }
@@ -709,7 +709,7 @@ export class AISystemPure extends BaseMIFFSystem {
   getDebugInfo(): Record<string, any> {
     const agents: Record<string, any> = {};
     
-    for (const [id, agent] of this.agents.entries()) {
+    for (const [id, agent] of Array.from(this.agents.entries())) {
       agents[id] = {
         name: agent.name,
         state: agent.state,

@@ -204,7 +204,7 @@ export class BehaviorTree implements AIBehavior {
     };
 
     // Copy tree variables to shared context
-    for (const [key, value] of this.variables.entries()) {
+    for (const [key, value] of Array.from(this.variables.entries())) {
       context.sharedData.set(key, value);
     }
 
