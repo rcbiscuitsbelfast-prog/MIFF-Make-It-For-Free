@@ -1,0 +1,52 @@
+{
+  "id": "quest_1756565158807",
+  "type": "quest",
+  "name": "New Quest Creation",
+  "description": "Create a new quest line that integrates with the existing scenario",
+  "difficulty": "beginner",
+  "skills": [
+    "JSON",
+    "Quest Design",
+    "Game Balance",
+    "Storytelling"
+  ],
+  "template": {
+    "questId": "new_quest_id",
+    "title": "New Quest Title",
+    "description": "Description of the new quest",
+    "difficulty": "medium",
+    "estimatedTime": "30-45 minutes",
+    "prerequisites": [
+      "grove_initiation"
+    ],
+    "steps": [
+      {
+        "stepId": "step_1",
+        "description": "First step description",
+        "locationId": "grove_center",
+        "npcId": "ancient_spirit",
+        "triggers": [
+          "location_entered",
+          "npc_interaction"
+        ]
+      }
+    ],
+    "rewards": {
+      "xp": 200,
+      "items": [
+        "new_item"
+      ],
+      "flags": [
+        "new_flag"
+      ]
+    }
+  },
+  "files": [
+    "orchestration.json",
+    "quest_pack_fae.json"
+  ],
+  "validation": "npm run validate:orchestration",
+  "timestamp": "2025-08-30T14:45:58.807Z",
+  "framework": "MIFF: Make It For Free",
+  "version": "v14"
+}

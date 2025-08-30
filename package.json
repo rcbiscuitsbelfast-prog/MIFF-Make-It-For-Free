@@ -1,28 +1,61 @@
 {
-  "name": "toppler-demo",
+  "name": "miff-framework",
   "version": "1.0.0",
-  "description": "🌳 Retro-style 2D RPG game engine for Unity, inspired by Pokémon Gold, Silver and Crystal.",
+  "description": "🌿 MIFF: Make It For Free - A remix-safe, AI-native game ecosystem",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'No build needed'"
+    "build": "tsc",
+    "dev": "vite",
+    "preview": "vite preview",
+    "deploy": "npm run build && vercel --prod",
+    "gen:html": "node -r ts-node/register scripts/gen-html.ts",
+    "gen-toppler": "node scripts/gen-toppler-stub.js",
+    "gen-toppler:stub": "node scripts/gen-toppler-stub.js",
+    "gen-toppler:full": "ts-node ./scripts/gen-html.ts",
+    "ci:recovery": "npm run gen-toppler:stub && npm run test:ci",
+    "ci:full": "npm run gen-toppler:full && npm run test:ci",
+    "orchestration:validate": "node scripts/validate-orchestration.js",
+    "replay:simulate": "node scripts/simulate-replay.js",
+    "validate-release": "node SpiritTamerDemoPure/validate_release.js",
+    "run-tests": "jest",
+    "test:ci": "jest --ci --coverage",
+    "test:watch": "jest --watch",
+    "test:spirit-tamer": "node SpiritTamerDemoPure/start_grove.js",
+    "scenario:load": "ts-node scenarios/ScenarioLoader.ts",
+    "scenario:watch": "ts-node scenarios/ScenarioWatcher.ts",
+    "scenario:preview": "ts-node scenarios/ScenarioPreview.tsx",
+    "scenario:registry": "ts-node scenarios/ScenarioRegistry.ts",
+    "scenario:run": "ts-node scenarios/ScenarioRunnerPure.ts",
+    "start:grove": "node SpiritTamerDemoPure/start_grove.js",
+    "validate:orchestration": "node scripts/validate-orchestration.js",
+    "validate:assets": "node scripts/validate-assets.js",
+    "validate:ci": "node scripts/validate-ci.js",
+    "recover:workflow": "node scripts/recover-workflow.js",
+    "onboard:contributor": "node scripts/onboard-contributor.js",
+    "remix:challenge": "node scripts/remix-challenge.js",
+    "multi-agent:test": "node scripts/multi-agent-test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/miff-framework/miff.git"
+    "url": "git+https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free.git"
   },
   "keywords": [
     "game-framework",
     "modular",
     "remix-safe",
     "miff",
-    "sampler"
+    "ai-native",
+    "multi-agent",
+    "scenario-engine",
+    "rpg",
+    "spirit-tamer"
   ],
-  "author": "",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "author": "MIFF Framework Team",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/miff-framework/miff/issues"
+    "url": "https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/issues"
   },
-  "homepage": "https://github.com/miff-framework/miff#readme",
+  "homepage": "https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free#readme",
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^24.3.0",
@@ -45,5 +78,16 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "miff": {
+    "framework": "v14",
+    "scenarios": ["spirit-tamer-trial-of-grove"],
+    "remix-safe": true,
+    "multi-agent": true,
+    "ai-native": true
   }
 }

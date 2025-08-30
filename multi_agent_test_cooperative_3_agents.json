@@ -1,0 +1,2876 @@
+{
+  "testMode": "cooperative",
+  "agentCount": 3,
+  "startTime": "2025-08-30T14:46:02.204Z",
+  "agents": [
+    {
+      "id": "human_1756565162204_83t123d59",
+      "profile": {
+        "name": "Human Player",
+        "type": "human",
+        "behavior": "exploratory",
+        "decisionSpeed": "medium",
+        "creativity": "high",
+        "consistency": "medium"
+      },
+      "currentLocation": "grove_entrance",
+      "completedQuests": [],
+      "earnedXP": 0,
+      "collectedItems": [
+        "item_1756565162204"
+      ],
+      "actions": [
+        {
+          "type": "collect",
+          "description": "Collecting interesting items",
+          "target": "mystical_artifacts"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ai_1756565162204_tzl4i6qjh",
+      "profile": {
+        "name": "Curious AI",
+        "type": "ai",
+        "behavior": "exploratory",
+        "decisionSpeed": "fast",
+        "creativity": "medium",
+        "consistency": "high",
+        "traits": [
+          "explores_all_paths",
+          "asks_many_questions",
+          "tries_unusual_combinations"
+        ]
+      },
+      "currentLocation": "grove_entrance",
+      "completedQuests": [],
+      "earnedXP": 0,
+      "collectedItems": [],
+      "actions": [
+        {
+          "type": "interact",
+          "description": "Interacting with NPC to learn more (exploring all paths)",
+          "target": "ancient_spirit"
+        }
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ai_1756565162204_jjixm0o8u",
+      "profile": {
+        "name": "Efficient AI",
+        "type": "ai",
+        "behavior": "goal_oriented",
+        "decisionSpeed": "fast",
+        "creativity": "low",
+        "consistency": "very_high",
+        "traits": [
+          "optimizes_paths",
+          "minimizes_actions",
+          "focuses_on_objectives"
+        ]
+      },
+      "currentLocation": "grove_entrance",
+      "completedQuests": [],
+      "earnedXP": 0,
+      "collectedItems": [],
+      "actions": [
+        {
+          "type": "optimize",
+          "description": "Optimizing current path (optimizing path)",
+          "target": "efficiency"
+        }
+      ],
+      "status": "active"
+    }
+  ],
+  "interactions": [
+    {
+      "step": 1,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_php939f9h",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 1,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_cawwj6tef",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 1,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_8tnvb4yaw",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 2,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_hr76r60w1",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 2,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_7mx6jxhwr",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 2,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_trgehycv5",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 3,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_9d7atvbh0",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 3,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_rgwss7tsf",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 3,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_0ustj0j4n",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 4,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_bcxmv8jml",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 4,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_wa7h66y9m",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 4,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_g59flpmhx",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 5,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_55u5l1ubm",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 5,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_rzav44ix2",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 5,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_7p2r6deal",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 6,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_yl7srtslg",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 6,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_4lzpt9vht",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 6,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_9f0j2djva",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 7,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_j588g4r83",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 7,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_neicszzv0",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 7,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_ni9zqgy4y",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 8,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_hdoi2k4fg",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 8,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_3bgx6w5hw",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 8,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_nc36xtc0m",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 9,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_3cwp9iunl",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 9,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_rdb7cfosp",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 9,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_h061k49nm",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 10,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_ow1ldqpg6",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 10,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_6sxk7v8ow",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 10,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_ubh5id5cf",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 11,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_a6cd8cndw",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 11,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_auohu0674",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 11,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_gnto9q0ci",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 12,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_omux9gu7v",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 12,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_oiwc90wqp",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 12,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_py0n83vq9",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 13,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_doqp5bbyn",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 13,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_rinu3l5ns",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 13,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_b4zkbk9c3",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 14,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_7xmen6at0",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 14,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_wvuplfsce",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 14,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_ffxv6j957",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 15,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_4astzx0dx",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 15,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_zy2s3ky1a",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 15,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_jyme45h7k",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 16,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_p01t6jrkv",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 16,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_jslzdqdek",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 16,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_8hu1ujkqv",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 17,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_xmmthqbuo",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 17,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_o5esqjlbe",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 17,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_n1rn9xzl9",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 18,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_7am9x9h3u",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 18,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_jo45hsb8l",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 18,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_vg201e89g",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 19,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_p5s6dzi9p",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 19,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_nm0bu9luw",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 19,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_v49uhpqtl",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 20,
+      "agentId": "human_1756565162204_83t123d59",
+      "action": {
+        "id": "undefined_1756565162205_tn5nmijm3",
+        "profile": {
+          "id": "human_1756565162204_83t123d59",
+          "profile": {
+            "name": "Human Player",
+            "type": "human",
+            "behavior": "exploratory",
+            "decisionSpeed": "medium",
+            "creativity": "high",
+            "consistency": "medium"
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [
+            "item_1756565162204"
+          ],
+          "actions": [
+            {
+              "type": "collect",
+              "description": "Collecting interesting items",
+              "target": "mystical_artifacts"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 20,
+      "agentId": "ai_1756565162204_tzl4i6qjh",
+      "action": {
+        "id": "undefined_1756565162205_k0r6nqzcp",
+        "profile": {
+          "id": "ai_1756565162204_tzl4i6qjh",
+          "profile": {
+            "name": "Curious AI",
+            "type": "ai",
+            "behavior": "exploratory",
+            "decisionSpeed": "fast",
+            "creativity": "medium",
+            "consistency": "high",
+            "traits": [
+              "explores_all_paths",
+              "asks_many_questions",
+              "tries_unusual_combinations"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "interact",
+              "description": "Interacting with NPC to learn more (exploring all paths)",
+              "target": "ancient_spirit"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    },
+    {
+      "step": 20,
+      "agentId": "ai_1756565162204_jjixm0o8u",
+      "action": {
+        "id": "undefined_1756565162205_02zpfgw8x",
+        "profile": {
+          "id": "ai_1756565162204_jjixm0o8u",
+          "profile": {
+            "name": "Efficient AI",
+            "type": "ai",
+            "behavior": "goal_oriented",
+            "decisionSpeed": "fast",
+            "creativity": "low",
+            "consistency": "very_high",
+            "traits": [
+              "optimizes_paths",
+              "minimizes_actions",
+              "focuses_on_objectives"
+            ]
+          },
+          "currentLocation": "grove_entrance",
+          "completedQuests": [],
+          "earnedXP": 0,
+          "collectedItems": [],
+          "actions": [
+            {
+              "type": "optimize",
+              "description": "Optimizing current path (optimizing path)",
+              "target": "efficiency"
+            }
+          ],
+          "status": "active"
+        },
+        "currentLocation": "grove_center",
+        "completedQuests": [],
+        "earnedXP": 0,
+        "collectedItems": [],
+        "actions": [
+          {
+            "type": "move",
+            "description": "Moving to default location",
+            "target": "grove_entrance"
+          }
+        ],
+        "status": "active"
+      }
+    }
+  ],
+  "performance": {
+    "totalSteps": 60,
+    "activeAgents": 3,
+    "averageActionsPerAgent": 20,
+    "totalXP": 0,
+    "totalItems": 1,
+    "completedQuests": 0
+  },
+  "summary": {
+    "testName": "Cooperative Quest Completion",
+    "duration": "0 seconds",
+    "success": false,
+    "performance": {
+      "totalSteps": 60,
+      "activeAgents": 3,
+      "averageActionsPerAgent": 20,
+      "totalXP": 0,
+      "totalItems": 1,
+      "completedQuests": 0
+    },
+    "recommendations": [
+      "Increase quest completion rate by improving agent coordination",
+      "Optimize XP earning strategies for better performance"
+    ]
+  },
+  "endTime": "2025-08-30T14:46:02.205Z"
+}

@@ -1,0 +1,87 @@
+{
+  "timestamp": "2025-08-30T14:45:50.138Z",
+  "totalScenarios": 6,
+  "validScenarios": 1,
+  "invalidScenarios": 5,
+  "results": {
+    "helmet_of_fate.timeline.json": {
+      "file": "/workspace/scenarios/helmet_of_fate.timeline.json",
+      "valid": false,
+      "errors": [
+        "Missing required field: scenarioId",
+        "Missing required field: name",
+        "Missing required field: version",
+        "Missing required field: quests",
+        "Missing required field: npcs",
+        "Missing required field: locations",
+        "Missing required field: triggers"
+      ],
+      "warnings": [],
+      "metadata": {}
+    },
+    "scenario-metadata.json": {
+      "file": "/workspace/scenarios/scenario-metadata.json",
+      "valid": false,
+      "errors": [
+        "Parse error: Unexpected token '/', \"// scenari\"... is not valid JSON"
+      ],
+      "warnings": [],
+      "metadata": {}
+    },
+    "tags-and-lore.json": {
+      "file": "/workspace/scenarios/tags-and-lore.json",
+      "valid": false,
+      "errors": [
+        "Parse error: Unexpected token '/', \"// tags-an\"... is not valid JSON"
+      ],
+      "warnings": [],
+      "metadata": {}
+    },
+    "orchestration.json": {
+      "file": "/workspace/SpiritTamerDemoPure/orchestration.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "metadata": {
+        "questCount": 3,
+        "npcCount": 6,
+        "locationCount": 5,
+        "triggerCount": 11
+      }
+    },
+    "release_manifest.json": {
+      "file": "/workspace/SpiritTamerDemoPure/release_manifest.json",
+      "valid": false,
+      "errors": [
+        "Missing required field: scenarioId",
+        "Missing required field: name",
+        "Missing required field: quests",
+        "Missing required field: npcs",
+        "Missing required field: locations",
+        "Missing required field: triggers"
+      ],
+      "warnings": [],
+      "metadata": {}
+    },
+    "spiritTamer.golden.json": {
+      "file": "/workspace/SpiritTamerDemoPure/fixtures/spiritTamer.golden.json",
+      "valid": false,
+      "errors": [
+        "Missing required field: scenarioId",
+        "Missing required field: version",
+        "Missing required field: quests",
+        "Missing required field: npcs",
+        "Missing required field: locations",
+        "Missing required field: triggers"
+      ],
+      "warnings": [],
+      "metadata": {}
+    }
+  },
+  "summary": {
+    "totalScenarios": 6,
+    "validScenarios": 1,
+    "invalidScenarios": 5,
+    "successRate": "17%"
+  }
+}
