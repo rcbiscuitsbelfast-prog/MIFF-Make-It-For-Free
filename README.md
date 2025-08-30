@@ -292,6 +292,34 @@ See each module README for `Remix Hooks` sections describing override points and
 - MIFF ships without proprietary assets or IP.  
 - Modules are engine-agnostic and data-driven.  
 - Forks and remixes should maintain modular boundaries and avoid embedding closed assets.
+- 
+## 🧪 Scenario Suite & Modular Playtesting (Phase 16 Prep)
+
+MIFF now includes a fully scaffolded suite of **modular, remix-safe scenarios**, each defined as standalone `.ts` files using `ScenarioPure`. These scenarios are genre-agnostic, engine-agnostic, and ready for orchestration by AI agents or runtime loaders.
+
+### ✅ Scenario Highlights
+- **Ember Pact** – Ritual crafting and faction dynamics  
+- **Labyrinth of Unspoken Truths** – Puzzle traversal and memory resets  
+- **Council of the Fractured Banner** – Reputation and multi-NPC coordination  
+- **Dream of Hollow Vale** – Layered realities and memory gating  
+- **Stormbound Expanse** – Survival under dynamic weather  
+- **Vault of the Three Sigils** – Environmental puzzle progression  
+- **Loop Beneath Larkspire** – Time loops and causality  
+- **Song of the Silent Bell** – Audio puzzles and tonal sequencing  
+- **Harvest Under the Red Moon** – Crafting and weather-based gathering  
+- **Mirror of Many Paths** – Branching realities and identity choices  
+
+All scenarios are stored in `/scenarios/` and indexed for future hot-loading and runtime simulation.
+
+### 🧩 What’s Being Scaffolded Now
+- `ScenarioRegistry.ts` – for indexing and runtime loading  
+- `ScenarioRunnerPure.ts` – for dry-run simulation and logic testing  
+- `scenario-metadata.json` – for AI agents to sort, preview, and orchestrate  
+- `summaries/` – markdown files describing each scenario’s themes and subsystems  
+- `reload-hooks.md` – ideas for hot-loading and live scenario swapping  
+- `tags-and-lore.json` – remix hooks and mythic fragments for scenario expansion  
+
+These additions prepare MIFF for **multi-agent orchestration**, **live playtesting**, and **contributor remixing**—without requiring manual wiring. Cursor and Claude will handle integration once runtime orchestration is enabled.
 
 ## License
 
