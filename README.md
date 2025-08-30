@@ -367,6 +367,17 @@ Keep everything modular, remix-safe, and contributor-friendly. Zones should be p
   - Golden fixtures: `npm run test:golden`
   - Remix validation: `npm run test:remix`
 
+## 🚀 Milestone: v0.1.0 — Orchestrated & Remix-Ready
+- Spirit Tamer integrated
+- CI workflows passed
+- Multi-agent playtesting ready
+
+## 🧰 Quickstart
+```
+npm install && npm run typecheck
+npm run start:grove && npm run play:spirit
+```
+
 ### Spirit Tamer: Trial of the Grove (Quickstart)
 
 - Mapping:

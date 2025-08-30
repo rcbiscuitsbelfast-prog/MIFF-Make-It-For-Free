@@ -141,6 +141,17 @@ Deliverables:
 - Onboarding pages: zone guide, contributor index  
 - CI coverage and fixture validation
 
+## ✅ Completed
+- Spirit Tamer orchestration
+- CI recovery
+- Multi-agent playtesting
+- Remix-safe stubs
+
+## 🔜 Next
+- Remix challenge: mythic trial
+- RenderWorld scaffold
+- Contributor automation
+
 ---
 
 ### 🔹 Phase 18: Flagship Game Deployment
