@@ -1,0 +1,113 @@
+// loop-beneath-larkspire.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on time loops, memory resets, and causality-driven progression
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'loop-beneath-larkspire',
+  title: 'The Loop Beneath Larkspire',
+  description:
+    'Trapped in a temporal anomaly beneath the ruins of Larkspire, the player must uncover the cause of the loop and choose whether to break it, preserve it, or rewrite its rules.',
+
+  objectives: [
+    {
+      id: 'trigger-loop',
+      description: 'Experience the loop reset at least once.',
+      condition: () => TimerPure.loopCount('larkspire-loop') >= 1,
+    },
+    {
+      id: 'recover-memory',
+      description: 'Recover a lost memory fragment from a previous loop.',
+      condition: () => MemorySystemPure.hasFragment('loop-origin'),
+    },
+    {
+      id: 'make-final-choice',
+      description: 'Choose a resolution path: break, preserve, or rewrite.',
+      condition: () => EventBusPure.wasPublished('loop-resolution'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'loop-start',
+      event: 'scenario_start',
+      action: () => TimerPure.startLoop('larkspire-loop', 180),
+    },
+    {
+      id: 'loop-expire-reset',
+      event: 'loop_expired',
+      condition: () => TimerPure.loopCount('larkspire-loop') < 3,
+      action: () => MemorySystemPure.resetState({ preserveFragments: true }),
+    },
+    {
+      id: 'dialog-memory-reveal',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('loop-memory-dialog'),
+      action: () => MemorySystemPure.addFragment('loop-origin'),
+    },
+    {
+      id: 'final-decision',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('loop-resolution-dialog') !== null,
+      action: () =>
+        EventBusPure.publish('loop-resolution', {
+          path: DialogPure.getChoice('loop-resolution-dialog'),
+        }),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-loopmastery',
+      type: 'xp',
+      value: 900,
+      target: 'player-progress',
+    },
+    {
+      id: 'memory-loop-origin',
+      type: 'memory',
+      value: 'loop-origin',
+      target: 'MemorySystemPure',
+    },
+    {
+      id: 'lore-larkspire',
+      type: 'lore',
+      value: 'larkspire-anomaly',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'TimerPure',
+    'MemorySystemPure',
+    'DialogPure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type LoopBeneathLarkspire = typeof ScenarioPure;
+export default ScenarioPure;
