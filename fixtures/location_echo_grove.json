@@ -1,0 +1,56 @@
+[
+  {
+    "locationId": "grove_echo_chamber",
+    "name": "Echo Chamber",
+    "description": "A shimmering glade where the Grove’s echoes linger, whispering memories of past tamers. The air hums with forgotten voices.",
+    "interactions": [
+      {
+        "interactionId": "meet_elara_echo",
+        "type": "npc",
+        "target": "echo_elara",
+        "dialogue": "npc_dialogue_trees_echo.json:echo_elara_start"
+      },
+      {
+        "interactionId": "meet_glimmerling_echo",
+        "type": "npc",
+        "target": "glimmerling_echo",
+        "dialogue": "npc_dialogue_trees_echo.json:glimmerling_echo_start"
+      }
+    ],
+    "triggers": [
+      {
+        "triggerId": "enter_echo_chamber",
+        "event": "location_entered",
+        "condition": "location_entered:grove_echo_chamber",
+        "action": {
+          "type": "audio_play",
+          "value": "echo_ambient_hum"
+        }
+      }
+    ]
+  },
+  {
+    "locationId": "memory_vault",
+    "name": "Memory Vault",
+    "description": "A hidden vault where memory fragments of past tamers glow faintly, waiting to be claimed by those who seek the Grove’s legacies.",
+    "interactions": [
+      {
+        "interactionId": "collect_fragment",
+        "type": "item",
+        "target": "memory_fragment",
+        "condition": "inventory_missing:memory_fragment"
+      }
+    ],
+    "triggers": [
+      {
+        "triggerId": "fragment_collected",
+        "event": "item_added",
+        "condition": "inventory_contains:memory_fragment",
+        "action": {
+          "type": "effect_apply",
+          "value": "memory_vision"
+        }
+      }
+    ]
+  }
+]
