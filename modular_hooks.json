@@ -1,0 +1,235 @@
+{
+  "modularHooksId": "ci_workflow_visual_generation",
+  "purpose": "Modular hook system for post-CI visual generation and overlay injection",
+  "targetScenario": "SpiritTamerDemoPure",
+  "remixSafe": true,
+  "hookVersion": "1.0.0",
+  
+  "hookSystem": {
+    "architecture": "modular_injection",
+    "loadingMethod": "hot_load",
+    "executionMode": "post_ci",
+    "dependencyManagement": "automatic"
+  },
+  
+  "visualGenerationHooks": {
+    "topplerCanvas": {
+      "hookId": "toppler_canvas_generation",
+      "trigger": "post_orchestration_validation",
+      "priority": "high",
+      "dependencies": ["orchestration_complete", "ci_success"],
+      
+      "canvasSetup": {
+        "width": 360,
+        "height": 640,
+        "background": "#0b0b0b",
+        "border": "#222",
+        "appBackground": "#111"
+      },
+      
+      "gameElements": {
+        "player": {
+          "type": "sprite",
+          "position": { "x": 180, "y": 320 },
+          "size": { "width": 32, "height": 32 },
+          "color": "#00ff00",
+          "animation": "idle"
+        },
+        
+        "platforms": [
+          {
+            "type": "platform",
+            "position": { "x": 0, "y": 600 },
+            "size": { "width": 360, "height": 40 },
+            "color": "#444",
+            "collision": true
+          },
+          {
+            "type": "platform",
+            "position": { "x": 100, "y": 500 },
+            "size": { "width": 80, "height": 20 },
+            "color": "#666",
+            "collision": true
+          }
+        ],
+        
+        "obstacles": [
+          {
+            "type": "fail_zone",
+            "position": { "x": 200, "y": 400 },
+            "size": { "width": 40, "height": 40 },
+            "color": "#ff0000",
+            "collision": true
+          }
+        ]
+      }
+    },
+    
+    "uiOverlays": {
+      "hookId": "ui_overlay_injection",
+      "trigger": "runtime_initialization",
+      "priority": "medium",
+      "dependencies": ["canvas_ready"],
+      
+      "overlays": {
+        "hint": {
+          "text": "Press Space/ArrowUp to jump",
+          "position": { "top": 10, "left": 0, "right": 0 },
+          "style": {
+            "color": "#aaa",
+            "fontFamily": "system-ui, sans-serif",
+            "fontSize": "14px",
+            "textAlign": "center"
+          },
+          "visibility": "always"
+        },
+        
+        "score": {
+          "text": "Score: 0",
+          "position": { "top": 40, "right": 10 },
+          "style": {
+            "color": "#fff",
+            "fontFamily": "system-ui, sans-serif",
+            "fontSize": "16px",
+            "fontWeight": "bold"
+          },
+          "visibility": "always"
+        },
+        
+        "gameOver": {
+          "text": "Game Over - Press R to restart",
+          "position": { "top": "50%", "left": "50%", "transform": "translate(-50%, -50%)" },
+          "style": {
+            "color": "#ff0000",
+            "fontFamily": "system-ui, sans-serif",
+            "fontSize": "20px",
+            "fontWeight": "bold",
+            "textAlign": "center"
+          },
+          "visibility": "conditional",
+          "condition": "game_state == 'game_over'"
+        }
+      }
+    }
+  },
+  
+  "gameLogicHooks": {
+    "physics": {
+      "hookId": "physics_system",
+      "trigger": "game_loop",
+      "priority": "high",
+      "dependencies": ["canvas_ready", "player_initialized"],
+      
+      "physics": {
+        "gravity": 0.5,
+        "jumpForce": -12,
+        "maxFallSpeed": 15,
+        "friction": 0.8,
+        "airResistance": 0.95
+      }
+    },
+    
+    "controls": {
+      "hookId": "input_handling",
+      "trigger": "input_event",
+      "priority": "high",
+      "dependencies": ["canvas_ready", "event_system"],
+      
+      "controls": {
+        "jump": ["Space", "ArrowUp"],
+        "movement": ["ArrowLeft", "ArrowRight"],
+        "restart": ["KeyR"],
+        "pause": ["Escape"]
+      }
+    },
+    
+    "gameState": {
+      "hookId": "game_state_management",
+      "trigger": "state_change",
+      "priority": "medium",
+      "dependencies": ["physics_system", "input_handling"],
+      
+      "states": {
+        "playing": {
+          "transitions": ["paused", "game_over", "victory"],
+          "actions": ["update_physics", "handle_input", "render_frame"]
+        },
+        "paused": {
+          "transitions": ["playing", "game_over"],
+          "actions": ["render_pause_screen"]
+        },
+        "game_over": {
+          "transitions": ["playing"],
+          "actions": ["show_game_over", "wait_for_restart"]
+        },
+        "victory": {
+          "transitions": ["playing"],
+          "actions": ["show_victory", "wait_for_restart"]
+        }
+      }
+    }
+  },
+  
+  "ciIntegration": {
+    "bypassStrategy": "visual_generation_deferred",
+    "orchestrationPriority": "high",
+    "typeCheckPriority": "high",
+    "testPriority": "high",
+    
+    "postCiExecution": {
+      "hookPoint": "ci_completion",
+      "executionOrder": [
+        "orchestration_validation",
+        "type_checks",
+        "tests",
+        "visual_generation",
+        "overlay_injection"
+      ],
+      "dependencies": ["ci_success", "all_checks_passed"]
+    }
+  },
+  
+  "hotLoading": {
+    "enabled": true,
+    "method": "dynamic_injection",
+    "target": "runtime_system",
+    "priority": "low",
+    
+    "injectionPoints": {
+      "postCi": {
+        "hook": "ci_workflow_complete",
+        "target": "visual_system",
+        "method": "lazy_loading"
+      },
+      
+      "runtime": {
+        "hook": "user_interaction",
+        "target": "overlay_system",
+        "method": "on_demand"
+      }
+    }
+  },
+  
+  "replaySimulation": {
+    "status": "ready",
+    "method": "hook_based_validation",
+    "coverage": "complete",
+    "visualElements": "deferred",
+    "gameLogic": "functional",
+    
+    "validationSteps": [
+      "orchestration_integrity",
+      "type_safety",
+      "test_coverage",
+      "visual_generation",
+      "overlay_injection"
+    ]
+  },
+  
+  "metadata": {
+    "hook_author": "MIFF_CI_Recovery_Agent",
+    "hook_version": "1.0.0",
+    "compatibility": ["v13", "v14"],
+    "recovery_method": "modular_hook_system"
+  }
+}

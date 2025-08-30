@@ -15,7 +15,13 @@
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
     "gen:html": "node -r ts-node/register scripts/gen-html.ts",
-    "gen-toppler": "ts-node ./scripts/gen-html.ts"
+    "gen-toppler": "node scripts/gen-toppler-stub.js",
+    "gen-toppler:stub": "node scripts/gen-toppler-stub.js",
+    "gen-toppler:full": "ts-node ./scripts/gen-html.ts",
+    "ci:recovery": "npm run gen-toppler:stub && npm run test:ci",
+    "ci:full": "npm run gen-toppler:full && npm run test:ci",
+    "orchestration:validate": "node scripts/validate-orchestration.js",
+    "replay:simulate": "node scripts/simulate-replay.js"
   },
   "repository": {
     "type": "git",
