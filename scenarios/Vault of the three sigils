@@ -1,0 +1,122 @@
+// vault-of-the-three-sigils.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on environmental puzzles, item-based progression, and multi-step triggers
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'vault-of-the-three-sigils',
+  title: 'Vault of the Three Sigils',
+  description:
+    'Unlock the ancient vault by solving three elemental puzzles. Each puzzle grants a sigil—combine them to access the final chamber and uncover the vault’s secret.',
+
+  objectives: [
+    {
+      id: 'collect-sigil-fire',
+      description: 'Solve the fire puzzle and collect the Sigil of Flame.',
+      condition: () => InventoryPure.has('sigil-flame'),
+    },
+    {
+      id: 'collect-sigil-water',
+      description: 'Solve the water puzzle and collect the Sigil of Tides.',
+      condition: () => InventoryPure.has('sigil-tides'),
+    },
+    {
+      id: 'collect-sigil-stone',
+      description: 'Solve the stone puzzle and collect the Sigil of Earth.',
+      condition: () => InventoryPure.has('sigil-earth'),
+    },
+    {
+      id: 'unlock-vault',
+      description: 'Use all three sigils to unlock the vault.',
+      condition: () => LocationPure.hasActivated('vault-door'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'enter-vault-hall',
+      event: 'enter',
+      condition: () => LocationPure.current() === 'vault-hall',
+      action: () => AudioPure.playSound('vault-theme'),
+    },
+    {
+      id: 'solve-fire-puzzle',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.wasSolved('fire-puzzle'),
+      action: () => InventoryPure.add('sigil-flame'),
+    },
+    {
+      id: 'solve-water-puzzle',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.wasSolved('water-puzzle'),
+      action: () => InventoryPure.add('sigil-tides'),
+    },
+    {
+      id: 'solve-stone-puzzle',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.wasSolved('stone-puzzle'),
+      action: () => InventoryPure.add('sigil-earth'),
+    },
+    {
+      id: 'vault-unlocked-dialog',
+      event: 'location_activated',
+      condition: () => LocationPure.hasActivated('vault-door'),
+      action: () => DialogPure.start('vault-reveal'),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-vault',
+      type: 'xp',
+      value: 700,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-vault-key',
+      type: 'item',
+      value: 'vault-key',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'lore-vault',
+      type: 'lore',
+      value: 'vault-of-sigils',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'InventoryPure',
+    'LocationPure',
+    'PuzzleCorePure',
+    'DialogPure',
+    'AudioPure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type VaultOfTheThreeSigils = typeof ScenarioPure;
+export default ScenarioPure;
