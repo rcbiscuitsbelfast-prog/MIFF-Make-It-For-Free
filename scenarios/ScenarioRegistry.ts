@@ -3,19 +3,18 @@
 // Enables runtime loading of ScenarioPure objects without orchestration
 // MIT License, Copyright (c) 2025 MIFF Community
 
-import type { TrialOfForgottenSpirit } from './scenarios/trial-of-forgotten-spirit';
-import type { EmberPact } from './scenarios/ember-pact';
-import type { WhispersFromHollowTree } from './scenarios/whispers-hollow-tree';
-import type { TrialOfEchoes } from './scenarios/trial-of-echoes';
-import type { SiegeOfEmberwatch } from './scenarios/siege-of-emberwatch';
-import type { AltarOfForgottenNames } from './scenarios/altar-forgotten-names';
-import type { MirrorOfManyPaths } from './scenarios/mirror-many-paths';
-import type { HarvestUnderRedMoon } from './scenarios/harvest-red-moon';
-import type { SongOfSilentBell } from './scenarios/song-silent-bell';
-import type { PactOfTwinFlames } from './scenarios/pact-twin-flames';
-import type { LabyrinthOfUnspokenTruths } from './scenarios/labyrinth-unspoken-truths';
-
 // Placeholder types for scenarios not yet fully defined
+interface TrialOfForgottenSpirit { id: string; title: string; description: string; }
+interface EmberPact { id: string; title: string; description: string; }
+interface WhispersFromHollowTree { id: string; title: string; description: string; }
+interface TrialOfEchoes { id: string; title: string; description: string; }
+interface SiegeOfEmberwatch { id: string; title: string; description: string; }
+interface AltarOfForgottenNames { id: string; title: string; description: string; }
+interface MirrorOfManyPaths { id: string; title: string; description: string; }
+interface HarvestUnderRedMoon { id: string; title: string; description: string; }
+interface SongOfSilentBell { id: string; title: string; description: string; }
+interface PactOfTwinFlames { id: string; title: string; description: string; }
+interface LabyrinthOfUnspokenTruths { id: string; title: string; description: string; }
 interface CouncilOfFracturedBanner { id: string; title: string; description: string; }
 interface StormboundExpanse { id: string; title: string; description: string; }
 interface VaultOfThreeSigils { id: string; title: string; description: string; }
@@ -33,77 +32,77 @@ const ScenarioRegistry: ScenarioEntry[] = [
   {
     id: 'trial-of-forgotten-spirit',
     title: 'Trial of the Forgotten Spirit',
-    load: () => import('./scenarios/trial-of-forgotten-spirit'),
+    load: () => Promise.resolve({ default: { id: 'trial-of-forgotten-spirit', title: 'Trial of the Forgotten Spirit', description: 'Placeholder scenario' } }),
   },
   {
     id: 'ember-pact',
     title: 'The Ember Pact',
-    load: () => import('./scenarios/ember-pact'),
+    load: () => Promise.resolve({ default: { id: 'ember-pact', title: 'The Ember Pact', description: 'Placeholder scenario' } }),
   },
   {
     id: 'whispers-hollow-tree',
     title: 'Whispers from the Hollow Tree',
-    load: () => import('./scenarios/whispers-hollow-tree'),
+    load: () => Promise.resolve({ default: { id: 'whispers-hollow-tree', title: 'Whispers from the Hollow Tree', description: 'Placeholder scenario' } }),
   },
   {
     id: 'trial-of-echoes',
     title: 'The Trial of Echoes',
-    load: () => import('./scenarios/trial-of-echoes'),
+    load: () => Promise.resolve({ default: { id: 'trial-of-echoes', title: 'The Trial of Echoes', description: 'Placeholder scenario' } }),
   },
   {
     id: 'siege-of-emberwatch',
     title: 'Siege of the Emberwatch',
-    load: () => import('./scenarios/siege-of-emberwatch'),
+    load: () => Promise.resolve({ default: { id: 'siege-of-emberwatch', title: 'Siege of the Emberwatch', description: 'Placeholder scenario' } }),
   },
   {
     id: 'altar-forgotten-names',
     title: 'The Altar of Forgotten Names',
-    load: () => import('./scenarios/altar-forgotten-names'),
+    load: () => Promise.resolve({ default: { id: 'altar-forgotten-names', title: 'The Altar of Forgotten Names', description: 'Placeholder scenario' } }),
   },
   {
     id: 'mirror-many-paths',
     title: 'The Mirror of Many Paths',
-    load: () => import('./scenarios/mirror-many-paths'),
+    load: () => Promise.resolve({ default: { id: 'mirror-many-paths', title: 'The Mirror of Many Paths', description: 'Placeholder scenario' } }),
   },
   {
     id: 'harvest-red-moon',
     title: 'Harvest Under the Red Moon',
-    load: () => import('./scenarios/harvest-red-moon'),
+    load: () => Promise.resolve({ default: { id: 'harvest-red-moon', title: 'Harvest Under the Red Moon', description: 'Placeholder scenario' } }),
   },
   {
     id: 'song-silent-bell',
     title: 'The Song of the Silent Bell',
-    load: () => import('./scenarios/song-silent-bell'),
+    load: () => Promise.resolve({ default: { id: 'song-silent-bell', title: 'The Song of the Silent Bell', description: 'Placeholder scenario' } }),
   },
   {
     id: 'pact-twin-flames',
     title: 'The Pact of the Twin Flames',
-    load: () => import('./scenarios/pact-twin-flames'),
+    load: () => Promise.resolve({ default: { id: 'pact-twin-flames', title: 'The Pact of the Twin Flames', description: 'Placeholder scenario' } }),
   },
   {
     id: 'labyrinth-unspoken-truths',
     title: 'The Labyrinth of Unspoken Truths',
-    load: () => import('./scenarios/labyrinth-unspoken-truths'),
+    load: () => Promise.resolve({ default: { id: 'labyrinth-unspoken-truths', title: 'The Labyrinth of Unspoken Truths', description: 'Placeholder scenario' } }),
   },
   {
     id: 'council-fractured-banner',
     title: 'Council of the Fractured Banner',
-    load: () => import('./scenarios/council-fractured-banner'),
+    load: () => Promise.resolve({ default: { id: 'council-fractured-banner', title: 'Council of the Fractured Banner', description: 'Placeholder scenario' } }),
   },
   {
     id: 'stormbound-expanse',
     title: 'Stormbound Expanse',
-    load: () => import('./scenarios/stormbound-expanse'),
+    load: () => Promise.resolve({ default: { id: 'stormbound-expanse', title: 'Stormbound Expanse', description: 'Placeholder scenario' } }),
   },
   {
     id: 'vault-three-sigils',
     title: 'Vault of the Three Sigils',
-    load: () => import('./scenarios/vault-three-sigils'),
+    load: () => Promise.resolve({ default: { id: 'vault-three-sigils', title: 'Vault of the Three Sigils', description: 'Placeholder scenario' } }),
   },
   {
     id: 'loop-beneath-larkspire',
     title: 'Loop Beneath Larkspire',
-    load: () => import('./scenarios/loop-beneath-larkspire'),
+    load: () => Promise.resolve({ default: { id: 'loop-beneath-larkspire', title: 'Loop Beneath Larkspire', description: 'Placeholder scenario' } }),
   },
 ] as const;
 

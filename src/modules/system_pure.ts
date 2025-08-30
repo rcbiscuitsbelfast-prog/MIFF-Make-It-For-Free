@@ -86,7 +86,7 @@ export interface SystemRegistration<T = IMIFFSystem> {
  * Manages all MIFF subsystems with hot-swapping support
  */
 export class SystemPure {
-  private systems = new Map<string, SystemRegistration>();
+  private systems = new Map<string, SystemRegistration<IMIFFSystem>>();
   private instances = new Map<string, IMIFFSystem>();
   private initOrder: string[] = [];
   private eventBus?: EventBusPure;
@@ -136,7 +136,7 @@ export class SystemPure {
 
     const registration: SystemRegistration<T> = {
       name,
-      factory: factory as SystemFactory,
+      factory: factory,
       dependencies,
       singleton
     };

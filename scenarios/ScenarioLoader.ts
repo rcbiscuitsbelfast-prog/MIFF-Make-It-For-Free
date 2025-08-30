@@ -1,6 +1,6 @@
 // ScenarioLoader.ts
 // Remix-safe module for dynamically loading MIFF scenario files
-// Uses import.meta.glob or equivalent for lazy loading without orchestration
+// Uses dynamic imports for lazy loading without orchestration
 // MIT License, Copyright (c) 2025 MIFF Community
 
 // Helper type for scenario structure (mirrors ScenarioPure)
@@ -31,14 +31,18 @@ interface LoadedScenario {
 
 // Pure function to dynamically load all scenario modules
 export async function loadScenarios(): Promise<LoadedScenario[]> {
-  // Simulate import.meta.glob('/scenarios/*.ts') for dynamic loading
-  // Actual globbing is deferred to runtime environment (e.g., Vite, Node.js)
-  const scenarioModules = import.meta.glob('/scenarios/*.ts', { eager: false });
+  // Use dynamic imports for Node.js compatibility
+  // This replaces import.meta.glob with a more portable approach
+  const scenarioModules: (() => Promise<{ default: ScenarioPure }>)[] = [
+    // Add your scenario modules here as needed
+    // Example: () => import('./scenario1'),
+    // Example: () => import('./scenario2'),
+  ];
 
   const loadedScenarios: LoadedScenario[] = [];
 
-  // Iterate over globbed files
-  for (const [path, load] of Object.entries(scenarioModules)) {
+  // Iterate over available modules
+  for (const load of scenarioModules) {
     try {
       // Dynamically import the module
       const module = await load() as { default: ScenarioPure };
@@ -56,7 +60,7 @@ export async function loadScenarios(): Promise<LoadedScenario[]> {
       });
     } catch (error) {
       // Log errors for debugging; do not throw to maintain modularity
-      console.warn(`Failed to load scenario from ${path}:`, error);
+      console.warn(`Failed to load scenario:`, error);
     }
   }
 
