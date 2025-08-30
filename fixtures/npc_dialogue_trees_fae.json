@@ -1,0 +1,240 @@
+[
+  {
+    "npcId": "fae_mirror",
+    "name": "Mirror of Whispers",
+    "dialogueTree": {
+      "start": {
+        "text": "I am the Mirror of Whispers, reflecting truths unseen. Answer my riddle to glimpse the Veil of Dreams. What speaks without voice, hears without ears, and comes alive with wind?",
+        "choices": [
+          {
+            "choiceId": "c1_riddle_answer",
+            "text": "An echo.",
+            "next": "riddle_correct",
+            "effect": { "questActivated": "veil_of_riddles" }
+          },
+          {
+            "choiceId": "c1_riddle_wrong",
+            "text": "A shadow.",
+            "next": "riddle_wrong"
+          },
+          {
+            "choiceId": "c1_decline",
+            "text": "I cannot answer now.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "riddle_correct": {
+        "text": "The echo speaks truly! The Veil of Dreams opens to you. Will you face its riddles?",
+        "choices": [
+          {
+            "choiceId": "c2_accept",
+            "text": "I will face the riddles.",
+            "next": "quest_begin",
+            "effect": { "dialogueCompleted": "npc_dialogue_trees.json:mirath_riddle_one" }
+          },
+          {
+            "choiceId": "c2_decline",
+            "text": "Not yet, Mirror.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "riddle_wrong": {
+        "text": "A shadow? No, seeker. The answer is an echo. Try again when your mind is clear.",
+        "choices": [
+          {
+            "choiceId": "c2_retry",
+            "text": "Let me try again.",
+            "next": "start"
+          },
+          {
+            "choiceId": "c2_leave",
+            "text": "I’ll return later.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "quest_begin": {
+        "text": "The Veil awaits. Seek Mirath, the Veilseeker, to unravel its secrets.",
+        "choices": [],
+        "end": true
+      },
+      "decline": {
+        "text": "The whispers wait, seeker. Return when you are ready.",
+        "choices": [],
+        "end": true
+      }
+    }
+  },
+  {
+    "npcId": "thorn_scribe",
+    "name": "Thorn the Scribe",
+    "dialogueTree": {
+      "start": {
+        "text": "I am Thorn, keeper of names lost to time. Bring me a relic of star or moon, and I will inscribe a name of power for you. Do you have such a relic?",
+        "choices": [
+          {
+            "choiceId": "c1_offer_star",
+            "text": "I offer a Star Relic.",
+            "next": "offer_star",
+            "effect": { "inventoryCheck": "star_relic" }
+          },
+          {
+            "choiceId": "c1_offer_moon",
+            "text": "I offer a Moon Relic.",
+            "next": "offer_moon",
+            "effect": { "inventoryCheck": "moon_relic" }
+          },
+          {
+            "choiceId": "c1_no_relic",
+            "text": "I have no relics yet.",
+            "next": "no_relic"
+          }
+        ]
+      },
+      "offer_star": {
+        "text": "The Star Relic hums with ancient light. I shall inscribe its name. Seek another relic to complete the pact.",
+        "choices": [
+          {
+            "choiceId": "c2_continue",
+            "text": "I’ll find the Moon Relic.",
+            "next": "quest_continue",
+            "effect": { "dialogueCompleted": "npc_dialogue_trees.json:voryn_restore", "questActivated": "names_of_power" }
+          }
+        ]
+      },
+      "offer_moon": {
+        "text": "The Moon Relic glows with quiet secrets. I shall inscribe its name. Seek another relic to complete the pact.",
+        "choices": [
+          {
+            "choiceId": "c2_continue",
+            "text": "I’ll find the Star Relic.",
+            "next": "quest_continue",
+            "effect": { "dialogueCompleted": "npc_dialogue_trees.json:voryn_restore", "questActivated": "names_of_power" }
+          }
+        ]
+      },
+      "quest_continue": {
+        "text": "Return with both relics, and the name of power shall be yours.",
+        "choices": [],
+        "end": true
+      },
+      "no_relic": {
+        "text": "Without relics, no names can be written. Seek the star and moon, then return.",
+        "choices": [
+          {
+            "choiceId": "c2_accept",
+            "text": "I’ll search for them.",
+            "next": null,
+            "end": true,
+            "effect": { "questActivated": "names_of_power" }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "npcId": "glimmerling",
+    "name": "Glimmerling",
+    "dialogueTree": {
+      "start": {
+        "text": "Hee! I’m Glimmerling, the trickiest fae! Trade me something shiny, and I’ll weave you a boon… but it comes with a riddle! Got a shiny thing?",
+        "choices": [
+          {
+            "choiceId": "c1_trade",
+            "text": "I’ll trade a Crystal Shard.",
+            "next": "trade_offer",
+            "effect": { "inventoryCheck": "crystal_shard" }
+          },
+          {
+            "choiceId": "c1_no_trade",
+            "text": "I don’t have anything shiny.",
+            "next": "no_trade"
+          },
+          {
+            "choiceId": "c1_decline",
+            "text": "No tricks for me, Glimmerling.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "trade_offer": {
+        "text": "Ooh, shiny! Answer this riddle to seal the trade: I am taken from a mine and shut up in a wooden case, yet I free others. What am I?",
+        "choices": [
+          {
+            "choiceId": "c2_riddle_coal",
+            "text": "Coal.",
+            "next": "riddle_correct",
+            "effect": { "dialogueCompleted": "npc_dialogue_trees.json:faelys_offer" }
+          },
+          {
+            "choiceId": "c2_riddle_wrong",
+            "text": "A gem.",
+            "next": "riddle_wrong"
+          }
+        ]
+      },
+      "riddle_correct": {
+        "text": "Clever mortal! Coal it is! Take my boon, but beware my illusionary trap!",
+        "choices": [
+          {
+            "choiceId": "c3_accept_boon",
+            "text": "I’ll take the boon.",
+            "next": "boon_granted",
+            "effect": { "questActivated": "fae_bargain", "scenarioTriggered": "fae_illusion_cleared" }
+          }
+        ]
+      },
+      "riddle_wrong": {
+        "text": "A gem? Nope! It’s coal, silly! Try again or come back with another shiny!",
+        "choices": [
+          {
+            "choiceId": "c3_retry",
+            "text": "Let me try again.",
+            "next": "trade_offer"
+          },
+          {
+            "choiceId": "c3_leave",
+            "text": "I’ll come back later.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "boon_granted": {
+        "text": "The boon is yours, but the shadows shift. Survive my trick, and claim your reward!",
+        "choices": [
+          {
+            "choiceId": "c4_claim",
+            "text": "I’ll face the trap.",
+            "next": null,
+            "end": true,
+            "effect": { "dialogueCompleted": "npc_dialogue_trees.json:faelys_boon" }
+          }
+        ]
+      },
+      "no_trade": {
+        "text": "No shiny, no deal! Find me a Crystal Shard, and we’ll talk!",
+        "choices": [
+          {
+            "choiceId": "c2_accept",
+            "text": "I’ll find one.",
+            "next": null,
+            "end": true,
+            "effect": { "questActivated": "fae_bargain" }
+          }
+        ]
+      },
+      "decline": {
+        "text": "Boo, no fun! Come back when you’re ready to trade, mortal!",
+        "choices": [],
+        "end": true
+      }
+    }
+  }
+]
