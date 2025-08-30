@@ -1,0 +1,33 @@
+{
+  "playerId": "tamer",
+  "level": 1,
+  "xp": 0,
+  "xpThresholds": [
+    { "level": 2, "xpRequired": 500 },
+    { "level": 3, "xpRequired": 1200 },
+    { "level": 4, "xpRequired": 2000 }
+  ],
+  "levelUpRewards": [
+    {
+      "level": 2,
+      "rewards": {
+        "item": "tamer_bracer",
+        "effect": "spirit_resilience"
+      }
+    },
+    {
+      "level": 3,
+      "rewards": {
+        "item": "spirit_cord",
+        "effect": "enhanced_spirit_sense"
+      }
+    },
+    {
+      "level": 4,
+      "rewards": {
+        "item": "grove_talisman",
+        "effect": "master_tamer_aura"
+      }
+    }
+  ]
+}
