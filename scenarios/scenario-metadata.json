@@ -1,0 +1,110 @@
+// scenario-metadata.json
+// Metadata for MIFF scenarios, including themes, subsystems, and status
+// MIT License, Copyright (c) 2025 MIFF Community
+[
+  {
+    "id": "trial-of-forgotten-spirit",
+    "title": "Trial of the Forgotten Spirit",
+    "theme": "Mystical, Combat, Lore",
+    "subsystems": ["CombatCorePure", "InventoryPure", "DialogPure", "LorePure", "LocationPure"],
+    "status": "Complete"
+  },
+  {
+    "id": "ember-pact",
+    "title": "The Ember Pact",
+    "theme": "Crafting, Faction, Choice",
+    "subsystems": ["CraftingPure", "InventoryPure", "FactionSystemPure", "StatusEffectPure", "DialogPure", "LocationPure", "EventBusPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "whispers-hollow-tree",
+    "title": "Whispers from the Hollow Tree",
+    "theme": "Mystery, Dialogue, Audio",
+    "subsystems": ["DialogPure", "AudioPure", "LorePure", "LocationPure", "StatusEffectPure", "InventoryPure"],
+    "status": "Complete"
+  },
+  {
+    "id": "trial-of-echoes",
+    "title": "The Trial of Echoes",
+    "theme": "Dream, Memory, Nonlinear",
+    "subsystems": ["DreamSystemPure", "MemorySystemPure", "LocationPure", "DialogPure", "AudioPure", "PuzzleCorePure", "StatusEffectPure", "EventBusPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "siege-of-emberwatch",
+    "title": "Siege of the Emberwatch",
+    "theme": "Combat, Defense, Tactics",
+    "subsystems": ["CombatCorePure", "AISystemPure", "LocationPure", "TrapSystemPure", "DialogPure", "AudioPure", "StatusEffectPure", "InventoryPure", "EventBusPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "altar-forgotten-names",
+    "title": "The Altar of Forgotten Names",
+    "theme": "Ritual, Time-Sensitive, Emotional",
+    "subsystems": ["InventoryPure", "RitualSystemPure", "DialogPure", "TimerPure", "AudioPure", "LorePure", "LocationPure", "StatusEffectPure", "EventBusPure"],
+    "status": "Complete"
+  },
+  {
+    "id": "mirror-many-paths",
+    "title": "The Mirror of Many Paths",
+    "theme": "Choice, Alternate Realities, Narrative",
+    "subsystems": ["DialogPure", "LocationPure", "MemorySystemPure", "AudioPure", "StatusEffectPure", "CombatCorePure", "PuzzleCorePure", "EventBusPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "harvest-red-moon",
+    "title": "Harvest Under the Red Moon",
+    "theme": "Survival, Crafting, Weather",
+    "subsystems": ["WeatherSystemPure", "CraftingPure", "InventoryPure", "TimerPure", "AudioPure", "DialogPure", "StatusEffectPure", "LocationPure", "EventBusPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "song-silent-bell",
+    "title": "The Song of the Silent Bell",
+    "theme": "Puzzle, Audio, Lore",
+    "subsystems": ["AudioPure", "PuzzleCorePure", "LorePure", "DialogPure", "LocationPure", "StatusEffectPure", "InventoryPure"],
+    "status": "Complete"
+  },
+  {
+    "id": "pact-twin-flames",
+    "title": "The Pact of the Twin Flames",
+    "theme": "Faction, Choice, World Impact",
+    "subsystems": ["FactionSystemPure", "DialogPure", "EventBusPure", "LocationPure", "AudioPure", "StatusEffectPure", "CombatCorePure", "InventoryPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "labyrinth-unspoken-truths",
+    "title": "The Labyrinth of Unspoken Truths",
+    "theme": "Maze, Puzzle, Memory",
+    "subsystems": ["LocationPure", "PuzzleCorePure", "MemorySystemPure", "AudioPure", "DialogPure", "StatusEffectPure", "InventoryPure", "LorePure"],
+    "status": "Complete"
+  },
+  {
+    "id": "council-fractured-banner",
+    "title": "Council of the Fractured Banner",
+    "theme": "Diplomacy, Intrigue, Negotiation",
+    "subsystems": ["DialogPure", "FactionSystemPure", "EventBusPure"],
+    "status": "Placeholder"
+  },
+  {
+    "id": "stormbound-expanse",
+    "title": "Stormbound Expanse",
+    "theme": "Exploration, Weather, Survival",
+    "subsystems": ["WeatherSystemPure", "LocationPure", "InventoryPure"],
+    "status": "Placeholder"
+  },
+  {
+    "id": "vault-three-sigils",
+    "title": "Vault of the Three Sigils",
+    "theme": "Puzzle, Exploration, Mystery",
+    "subsystems": ["PuzzleCorePure", "LocationPure", "LorePure"],
+    "status": "Placeholder"
+  },
+  {
+    "id": "loop-beneath-larkspire",
+    "title": "Loop Beneath Larkspire",
+    "theme": "Time-Loop, Exploration, Memory",
+    "subsystems": ["MemorySystemPure", "LocationPure", "EventBusPure"],
+    "status": "Placeholder"
+  }
+]
