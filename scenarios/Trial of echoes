@@ -1,0 +1,187 @@
+// trial-of-echoes.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "The Trial of Echoes" using pure, engine-agnostic subsystems
+// Focuses on nonlinear dream traversal, memory recovery, and identity-defining choices
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'location_entered', 'memory_added')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., shift dream, unlock memory)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., MemorySystemPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'trial-of-echoes',
+  title: 'The Trial of Echoes',
+  description:
+    'The player is trapped in a fractured dreamscape, their identity shattered into memory fragments. They must traverse nonlinear dream layers, recover three key fragments, and choose which version of their identity to embrace, facing disorienting shifts and echoes of their past.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'recover-fragments',
+      description: 'Recover three memory fragments: Echo of Courage, Echo of Sorrow, and Echo of Hope.',
+      condition: () =>
+        MemorySystemPure.hasFragment('echo-courage') &&
+        MemorySystemPure.hasFragment('echo-sorrow') &&
+        MemorySystemPure.hasFragment('echo-hope'),
+    },
+    {
+      id: 'reach-nexus',
+      description: 'Reach the Nexus of Echoes to confront your identity.',
+      condition: () => LocationPure.current() === 'nexus-of-echoes',
+    },
+    {
+      id: 'choose-identity',
+      description: 'Choose which identity to embrace or reject.',
+      condition: () => EventBusPure.wasPublished('identity-choice'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-dreamscape',
+      event: 'scenario_start',
+      action: () => {
+        DreamSystemPure.enter('echo-dreamscape');
+        AudioPure.play('echo-ambient-loop', { loop: true, volume: 0.6 });
+        DialogPure.start('echo-welcome');
+      },
+    },
+    {
+      id: 'courage-fragment',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'courage-vista',
+      action: () => {
+        MemorySystemPure.addFragment('echo-courage');
+        AudioPure.play('fragment-reveal', { volume: 1.0 });
+        DreamSystemPure.shift('courage-vista-effect', { distortion: 0.2 });
+      },
+    },
+    {
+      id: 'sorrow-fragment',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('sorrow-reflection'),
+      action: () => {
+        MemorySystemPure.addFragment('echo-sorrow');
+        AudioPure.play('fragment-reveal', { volume: 1.0 });
+        DreamSystemPure.shift('sorrow-mist', { opacity: 0.5 });
+      },
+    },
+    {
+      id: 'hope-fragment',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('hope-puzzle'),
+      action: () => {
+        MemorySystemPure.addFragment('echo-hope');
+        AudioPure.play('fragment-reveal', { volume: 1.0 });
+        DreamSystemPure.shift('hope-glow', { brightness: 0.8 });
+      },
+    },
+    {
+      id: 'dream-disruption',
+      event: 'memory_added',
+      condition: () =>
+        MemorySystemPure.fragmentCount() === 2 &&
+        !StatusEffectPure.has('disorientation'),
+      action: () => {
+        StatusEffectPure.apply('disorientation', { duration: 180, intensity: 0.4 });
+        AudioPure.play('echo-disrupt', { volume: 0.9 });
+        DialogPure.start('disorientation-warning');
+      },
+    },
+    {
+      id: 'nexus-unlock',
+      event: 'memory_added',
+      condition: () =>
+        MemorySystemPure.hasFragment('echo-courage') &&
+        MemorySystemPure.hasFragment('echo-sorrow') &&
+        MemorySystemPure.hasFragment('echo-hope'),
+      action: () => {
+        LocationPure.unlock('nexus-of-echoes');
+        AudioPure.stop('echo-ambient-loop');
+        AudioPure.play('nexus-reveal', { volume: 1.2 });
+      },
+    },
+    {
+      id: 'identity-choice',
+      event: 'dialog_choice',
+      condition: () =>
+        DialogPure.getChoice('identity-choice') !== null &&
+        LocationPure.current() === 'nexus-of-echoes',
+      action: () => {
+        const choice = DialogPure.getChoice('identity-choice');
+        EventBusPure.publish('identity-choice', { path: choice });
+        LorePure.unlock(`identity-${choice}`);
+        AudioPure.play(`identity-${choice}-resolve`, { volume: 1.0 });
+        DreamSystemPure.exit('echo-dreamscape');
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-dreamweaver',
+      type: 'xp',
+      value: 800,
+      target: 'player-progress',
+    },
+    {
+      id: 'memory-identity',
+      type: 'memory',
+      value: 'echo-identity',
+      target: 'MemorySystemPure',
+    },
+    {
+      id: 'effect-dream-clarity',
+      type: 'effect',
+      value: 'dream-clarity',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-echoes',
+      type: 'lore',
+      value: 'echoes-legend',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'DreamSystemPure',
+    'MemorySystemPure',
+    'LocationPure',
+    'DialogPure',
+    'AudioPure',
+    'PuzzleCorePure',
+    'StatusEffectPure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type TrialOfEchoes = typeof ScenarioPure;
+export default ScenarioPure;
