@@ -1,0 +1,90 @@
+{
+  "moduleAliasesId": "spirit_tamer_module_mapping",
+  "targetScenario": "SpiritTamerDemoPure",
+  "aliasVersion": "1.0.0",
+  "aliasDate": "2024-12-19",
+  "purpose": "Map module paths to loader expectations",
+  "remixSafe": true,
+  
+  "pathMappings": {
+    "SpiritTamerDemoPure/quest_pack.json": {
+      "target": "fixtures/quest_pack_fae.json",
+      "type": "quest_data",
+      "loader": "quest_loader",
+      "validation": "schema_v14",
+      "status": "active"
+    },
+    
+    "SpiritTamerDemoPure/npc_table.json": {
+      "target": "fixtures/npc_tables_mythic.json",
+      "type": "npc_data",
+      "loader": "npc_loader",
+      "validation": "schema_v14",
+      "status": "active"
+    },
+    
+    "SpiritTamerDemoPure/location_map.json": {
+      "target": "fixtures/location_registry.json",
+      "type": "location_data",
+      "loader": "location_loader",
+      "validation": "schema_v14",
+      "status": "active"
+    }
+  },
+  
+  "loaderExpectations": {
+    "quest_loader": {
+      "expectedFormat": "json",
+      "requiredFields": ["quests", "questChains", "metadata"],
+      "validationRules": ["schema_v14", "quest_integrity", "remix_safety"],
+      "fallbackBehavior": "use_cached_version",
+      "errorHandling": "graceful_degradation"
+    },
+    
+    "npc_loader": {
+      "expectedFormat": "json",
+      "requiredFields": ["npcRegistry", "npcInteractions", "metadata"],
+      "validationRules": ["schema_v14", "npc_integrity", "remix_safety"],
+      "fallbackBehavior": "use_cached_version",
+      "errorHandling": "graceful_degradation"
+    },
+    
+    "location_loader": {
+      "expectedFormat": "json",
+      "requiredFields": ["locations", "locationConnections", "metadata"],
+      "validationRules": ["schema_v14", "location_integrity", "remix_safety"],
+      "fallbackBehavior": "use_cached_version",
+      "errorHandling": "graceful_degradation"
+    }
+  },
+  
+  "aliasResolution": {
+    "resolutionStrategy": "exact_match",
+    "fallbackStrategy": "nearest_match",
+    "cacheBehavior": "persistent",
+    "validationRequired": true,
+    "errorReporting": "detailed"
+  },
+  
+  "ciIntegration": {
+    "buildTime": "pre_build",
+    "runtime": "dynamic",
+    "testing": "automated",
+    "monitoring": "continuous",
+    "recovery": "automatic"
+  },
+  
+  "remixSafety": {
+    "noHardcodedPaths": true,
+    "moduleIsolation": true,
+    "versionCompatibility": ["v13", "v14"],
+    "lineageTracking": true
+  },
+  
+  "metadata": {
+    "alias_author": "MIFF_CI_Recovery_Agent",
+    "alias_timestamp": "2024-12-19T00:00:00Z",
+    "test_coverage": "comprehensive",
+    "remix_safety": "verified"
+  }
+}

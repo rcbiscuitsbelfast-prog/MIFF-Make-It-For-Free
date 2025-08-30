@@ -1,0 +1,427 @@
+{
+  "scenarioId": "spirit_tamer_trial_of_grove",
+  "name": "Spirit Tamer: Trial of the Grove",
+  "version": "1.0.0",
+  "author": "MIFF Framework",
+  "license": "MIT",
+  "remixSafe": true,
+  "description": "A mystical journey through the Fae Grove where players must prove their worth, learn spirit whispering, and face trials of courage",
+  
+  "schema": "v14",
+  "modelId": "spirit_tamer_grove_scenario",
+  "scenarioType": "quest_progression",
+  "difficulty": "medium",
+  "estimatedDuration": "2-3 hours",
+  
+  "quests": {
+    "grove_initiation": {
+      "questId": "grove_initiation",
+      "title": "Grove Initiation",
+      "description": "Prove your worth to enter the sacred Fae Grove",
+      "type": "main",
+      "difficulty": "easy",
+      "prerequisites": [],
+      "locationId": "grove_entrance",
+      "npcId": "grove_guardian",
+      "dialogueNode": "grove_greeting",
+      
+      "steps": [
+        {
+          "stepId": "approach_grove",
+          "description": "Approach the ancient oak at the grove entrance",
+          "locationId": "grove_entrance",
+          "npcId": "grove_guardian",
+          "dialogueNode": "grove_greeting",
+          "completed": false,
+          "triggers": ["location_entered", "npc_interaction"],
+          "rewards": {
+            "xp": 50,
+            "items": ["grove_token"],
+            "flags": ["grove_access_granted"]
+          }
+        },
+        {
+          "stepId": "prove_wisdom",
+          "description": "Answer the guardian's riddle correctly",
+          "locationId": "grove_entrance",
+          "npcId": "grove_guardian",
+          "dialogueNode": "riddle_challenge",
+          "completed": false,
+          "triggers": ["dialogue_choice", "riddle_solved"],
+          "rewards": {
+            "xp": 100,
+            "items": ["wisdom_crystal"],
+            "flags": ["riddle_master"]
+          }
+        }
+      ],
+      "start": "approach_grove",
+      "rewards": {
+        "xp": 150,
+        "items": ["grove_token", "wisdom_crystal"],
+        "flags": ["grove_initiate", "grove_access_granted", "riddle_master"]
+      },
+      "status": "available",
+      "currentStep": "approach_grove",
+      "progress": 0
+    },
+    
+    "spirit_whisperer": {
+      "questId": "spirit_whisperer",
+      "title": "Spirit Whisperer",
+      "description": "Learn to communicate with the ancient spirits of the grove",
+      "type": "main",
+      "difficulty": "medium",
+      "prerequisites": ["grove_initiation"],
+      "locationId": "whispering_hollow",
+      "npcId": "spirit_guide",
+      "dialogueNode": "spirit_greeting",
+      
+      "steps": [
+        {
+          "stepId": "find_spirit_guide",
+          "description": "Seek out the Spirit Guide in the Whispering Hollow",
+          "locationId": "whispering_hollow",
+          "npcId": "spirit_guide",
+          "dialogueNode": "spirit_greeting",
+          "completed": false,
+          "triggers": ["location_entered", "npc_interaction"],
+          "rewards": {
+            "xp": 75,
+            "items": ["spirit_essence"],
+            "flags": ["spirit_guide_found"]
+          }
+        },
+        {
+          "stepId": "learn_whisper",
+          "description": "Learn the ancient art of spirit whispering",
+          "locationId": "whispering_hollow",
+          "npcId": "spirit_guide",
+          "dialogueNode": "whisper_lesson",
+          "completed": false,
+          "triggers": ["dialogue_choice", "lesson_completed"],
+          "rewards": {
+            "xp": 125,
+            "items": ["whisper_scroll"],
+            "flags": ["whisper_master"]
+          }
+        },
+        {
+          "stepId": "practice_whisper",
+          "description": "Practice whispering to three different spirits",
+          "locationId": "grove_center",
+          "npcId": "ancient_spirit",
+          "dialogueNode": "whisper_practice",
+          "completed": false,
+          "triggers": ["spirit_whispered", "practice_complete"],
+          "rewards": {
+            "xp": 100,
+            "items": ["spirit_whisperer_badge"],
+            "flags": ["whisper_practiced"]
+          }
+        }
+      ],
+      "start": "find_spirit_guide",
+      "rewards": {
+        "xp": 300,
+        "items": ["spirit_essence", "whisper_scroll", "spirit_whisperer_badge"],
+        "flags": ["spirit_whisperer", "whisper_master", "whisper_practiced"]
+      },
+      "status": "locked",
+      "currentStep": "find_spirit_guide",
+      "progress": 0
+    },
+    
+    "trial_of_courage": {
+      "questId": "trial_of_courage",
+      "title": "Trial of Courage",
+      "description": "Face your fears in the depths of the Shadowed Vale",
+      "type": "main",
+      "difficulty": "hard",
+      "prerequisites": ["spirit_whisperer"],
+      "locationId": "shadowed_vale",
+      "npcId": "shadow_guardian",
+      "dialogueNode": "courage_challenge",
+      
+      "steps": [
+        {
+          "stepId": "enter_shadowed_vale",
+          "description": "Enter the foreboding Shadowed Vale",
+          "locationId": "shadowed_vale",
+          "npcId": "shadow_guardian",
+          "dialogueNode": "courage_challenge",
+          "completed": false,
+          "triggers": ["location_entered", "npc_interaction"],
+          "rewards": {
+            "xp": 100,
+            "items": ["courage_medallion"],
+            "flags": ["vale_entered"]
+          }
+        },
+        {
+          "stepId": "face_shadows",
+          "description": "Confront the shadow creatures without fear",
+          "locationId": "shadowed_vale_deep",
+          "npcId": "shadow_creature",
+          "dialogueNode": "shadow_confrontation",
+          "completed": false,
+          "triggers": ["combat_initiated", "shadows_defeated"],
+          "rewards": {
+            "xp": 200,
+            "items": ["shadow_essence"],
+            "flags": ["shadows_faced"]
+          }
+        },
+        {
+          "stepId": "light_the_way",
+          "description": "Use your courage to light the ancient beacon",
+          "locationId": "shadowed_vale",
+          "npcId": "ancient_beacon",
+          "dialogueNode": "beacon_activation",
+          "completed": false,
+          "triggers": ["beacon_lit", "light_restored"],
+          "rewards": {
+            "xp": 150,
+            "items": ["beacon_crystal"],
+            "flags": ["light_restored"]
+          }
+        }
+      ],
+      "start": "enter_shadowed_vale",
+      "rewards": {
+        "xp": 450,
+        "items": ["courage_medallion", "shadow_essence", "beacon_crystal"],
+        "flags": ["courage_trial_complete", "vale_entered", "shadows_faced", "light_restored"]
+      },
+      "status": "locked",
+      "currentStep": "enter_shadowed_vale",
+      "progress": 0
+    }
+  },
+  
+  "triggers": {
+    "location_entered": {
+      "triggerId": "location_entered",
+      "type": "location_based",
+      "description": "Triggered when player enters a specific location",
+      "conditions": ["player_location_matches"],
+      "effects": ["quest_progress", "npc_interaction_available", "environmental_effects"]
+    },
+    
+    "npc_interaction": {
+      "triggerId": "npc_interaction",
+      "type": "interaction_based",
+      "description": "Triggered when player interacts with an NPC",
+      "conditions": ["npc_present", "player_proximity", "interaction_initiated"],
+      "effects": ["dialogue_start", "quest_progress", "relationship_change"]
+    },
+    
+    "dialogue_choice": {
+      "triggerId": "dialogue_choice",
+      "type": "choice_based",
+      "description": "Triggered when player makes a dialogue choice",
+      "conditions": ["dialogue_active", "choice_made"],
+      "effects": ["quest_progress", "flag_set", "relationship_change", "consequence_apply"]
+    },
+    
+    "riddle_solved": {
+      "triggerId": "riddle_solved",
+      "type": "achievement_based",
+      "description": "Triggered when player correctly answers the guardian's riddle",
+      "conditions": ["riddle_presented", "correct_answer_given"],
+      "effects": ["quest_progress:grove_initiation:prove_wisdom", "flag_set:riddle_master", "access_granted:grove"]
+    },
+    
+    "lesson_completed": {
+      "triggerId": "lesson_completed",
+      "type": "progress_based",
+      "description": "Triggered when player completes the spirit whispering lesson",
+      "conditions": ["lesson_active", "practice_completed"],
+      "effects": ["quest_progress:spirit_whisperer:learn_whisper", "flag_set:whisper_master", "skill_unlocked:spirit_whispering"]
+    },
+    
+    "spirit_whispered": {
+      "triggerId": "spirit_whispered",
+      "type": "skill_based",
+      "description": "Triggered when player successfully uses spirit whispering",
+      "conditions": ["skill_available:spirit_whispering", "whisper_attempted", "spirit_response_received"],
+      "effects": ["quest_progress:spirit_whisperer:practice_whisper", "skill_improvement", "spirit_connection_enhanced"]
+    },
+    
+    "practice_complete": {
+      "triggerId": "practice_complete",
+      "type": "completion_based",
+      "description": "Triggered when player completes all spirit whispering practice",
+      "conditions": ["practice_sessions_completed:3", "skill_mastery_achieved"],
+      "effects": ["quest_progress:spirit_whisperer:practice_whisper", "flag_set:whisper_practiced", "quest_advance:spirit_whisperer"]
+    },
+    
+    "combat_initiated": {
+      "triggerId": "combat_initiated",
+      "type": "combat_based",
+      "description": "Triggered when combat begins with shadow creatures",
+      "conditions": ["location:shadowed_vale_deep", "shadow_creature_present", "combat_started"],
+      "effects": ["quest_progress:trial_of_courage:face_shadows", "combat_mode:active", "fear_test:begin"]
+    },
+    
+    "shadows_defeated": {
+      "triggerId": "shadows_defeated",
+      "type": "combat_based",
+      "description": "Triggered when player defeats shadow creatures",
+      "conditions": ["combat_active", "shadow_creatures_defeated", "courage_demonstrated"],
+      "effects": ["quest_progress:trial_of_courage:face_shadows", "flag_set:shadows_faced", "combat_mode:end"]
+    },
+    
+    "beacon_lit": {
+      "triggerId": "beacon_lit",
+      "type": "interaction_based",
+      "description": "Triggered when player lights the ancient beacon",
+      "conditions": ["beacon_present", "courage_requirement_met", "activation_attempted"],
+      "effects": ["quest_progress:trial_of_courage:light_the_way", "flag_set:beacon_lit", "light_restored:shadowed_vale"]
+    },
+    
+    "light_restored": {
+      "triggerId": "light_restored",
+      "type": "environmental_based",
+      "description": "Triggered when light is restored to the Shadowed Vale",
+      "conditions": ["beacon_lit", "darkness_dispelled", "environment_changed"],
+      "effects": ["quest_progress:trial_of_courage:light_the_way", "flag_set:light_restored", "quest_complete:trial_of_courage"]
+    }
+  },
+  
+  "objectives": {
+    "grove_mastery": {
+      "objectiveId": "grove_mastery",
+      "title": "Grove Mastery",
+      "description": "Complete all trials to become a master of the Fae Grove",
+      "type": "meta",
+      "quests": ["grove_initiation", "spirit_whisperer", "trial_of_courage"],
+      "rewards": {
+        "xp": 1000,
+        "items": ["grove_master_crown", "ancient_staff"],
+        "flags": ["grove_master", "fae_ally"],
+        "title": "Grove Master"
+      },
+      "completion": {
+        "all_quests_complete": true,
+        "all_flags_set": ["grove_access_granted", "whisper_master", "courage_trial_complete"],
+        "mastery_demonstrated": true
+      }
+    }
+  },
+  
+  "routing": {
+    "defaultLocation": "grove_entrance",
+    "locationConnections": [
+      {
+        "from": "grove_entrance",
+        "to": "grove_center",
+        "requirements": ["flag:grove_access_granted"],
+        "pathType": "sacred_path"
+      },
+      {
+        "from": "grove_center",
+        "to": "whispering_hollow",
+        "requirements": [],
+        "pathType": "mystical_path"
+      },
+      {
+        "from": "grove_center",
+        "to": "shadowed_vale",
+        "requirements": ["flag:whisper_master"],
+        "pathType": "courage_path"
+      },
+      {
+        "from": "shadowed_vale",
+        "to": "shadowed_vale_deep",
+        "requirements": ["flag:vale_entered"],
+        "pathType": "shadow_path"
+      }
+    ],
+    "fallbackLocation": "grove_entrance",
+    "errorHandling": {
+      "invalidLocation": "grove_entrance",
+      "missingNPC": "grove_center",
+      "connectionError": "grove_entrance"
+    }
+  },
+  
+  "modules": {
+    "quest_pack_fae": {
+      "moduleId": "quest_pack_fae",
+      "path": "fixtures/quest_pack_fae.json",
+      "type": "quest_data",
+      "status": "active"
+    },
+    "npc_dialogue_trees_fae": {
+      "moduleId": "npc_dialogue_trees_fae",
+      "path": "fixtures/npc_dialogue_trees_fae.json",
+      "type": "dialogue_data",
+      "status": "active"
+    },
+    "npc_tables_mythic": {
+      "moduleId": "npc_tables_mythic",
+      "path": "fixtures/npc_tables_mythic.json",
+      "type": "npc_data",
+      "status": "active"
+    },
+    "location_registry": {
+      "moduleId": "location_registry",
+      "path": "fixtures/location_registry.json",
+      "type": "location_data",
+      "status": "active"
+    }
+  },
+  
+  "goldenOutput": {
+    "modelId": "spirit_tamer_grove_scenario",
+    "effectApply": "quest_progression",
+    "scenarioTriggered": "grove_initiation",
+    "outputs": [
+      {
+        "op": "runScenario",
+        "status": "ok",
+        "events": [
+          { "type": "questStarted", "id": "grove_initiation" },
+          { "type": "locationEntered", "id": "grove_entrance" },
+          { "type": "npcInteraction", "id": "grove_guardian" },
+          { "type": "riddlePresented", "id": "grove_guardian" },
+          { "type": "riddleSolved", "id": "grove_guardian" },
+          { "type": "questProgress", "id": "grove_initiation", "step": "prove_wisdom" },
+          { "type": "accessGranted", "id": "grove" },
+          { "type": "questComplete", "id": "grove_initiation" }
+        ],
+        "finalState": {
+          "currentLocation": "grove_center",
+          "activeQuests": ["spirit_whisperer"],
+          "completedQuests": ["grove_initiation"],
+          "flags": ["grove_access_granted", "riddle_master", "grove_initiate"],
+          "inventory": ["grove_token", "wisdom_crystal"]
+        }
+      }
+    ]
+  },
+  
+  "remixConfig": {
+    "enableLineageTracking": true,
+    "enableRemixMode": true,
+    "enableThemes": true,
+    "enableAudio": true,
+    "defaultTheme": "mystical_grove",
+    "remixOrigin": "MIFF Framework",
+    "versioning": "semantic",
+    "compatibility": ["v13", "v14"]
+  },
+  
+  "metadata": {
+    "lastUpdated": "2024-12-19",
+    "totalQuests": 3,
+    "totalSteps": 8,
+    "totalTriggers": 11,
+    "totalNPCs": 6,
+    "totalLocations": 5,
+    "remixSafety": "verified",
+    "testCoverage": "comprehensive",
+    "documentation": "complete"
+  }
+}

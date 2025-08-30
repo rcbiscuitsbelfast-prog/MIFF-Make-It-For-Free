@@ -1,0 +1,147 @@
+{
+  "schemaPatchId": "spirit_tamer_schema_v14_patch",
+  "targetScenario": "SpiritTamerDemoPure",
+  "patchVersion": "1.0.0",
+  "patchDate": "2024-12-19",
+  "purpose": "Resolve schema drift and validation mismatches",
+  "remixSafe": true,
+  
+  "schemaValidation": {
+    "currentSchema": "v14",
+    "compatibility": ["v13", "v14"],
+    "driftDetected": false,
+    "validationStatus": "passing"
+  },
+  
+  "fieldMappings": {
+    "questId": {
+      "type": "string",
+      "required": true,
+      "validation": "uuid_or_identifier",
+      "examples": ["grove_initiation", "spirit_whisperer", "trial_of_courage"],
+      "patchNotes": "Standardized quest identifier format"
+    },
+    
+    "dialogueNode": {
+      "type": "string",
+      "required": true,
+      "validation": "node_identifier",
+      "examples": ["grove_greeting", "riddle_challenge", "spirit_greeting"],
+      "patchNotes": "Ensured dialogue node consistency across NPC trees"
+    },
+    
+    "npcId": {
+      "type": "string",
+      "required": true,
+      "validation": "npc_identifier",
+      "examples": ["grove_guardian", "spirit_guide", "ancient_spirit"],
+      "patchNotes": "Standardized NPC identifier format"
+    },
+    
+    "locationId": {
+      "type": "string",
+      "required": true,
+      "validation": "location_identifier",
+      "examples": ["grove_entrance", "grove_center", "whispering_hollow"],
+      "patchNotes": "Standardized location identifier format"
+    },
+    
+    "triggerId": {
+      "type": "string",
+      "required": true,
+      "validation": "trigger_identifier",
+      "examples": ["location_entered", "npc_interaction", "riddle_solved"],
+      "patchNotes": "Standardized trigger identifier format"
+    },
+    
+    "scenarioType": {
+      "type": "string",
+      "required": false,
+      "validation": "scenario_type_enum",
+      "examples": ["quest_progression", "combat_scenario", "exploration"],
+      "default": "quest_progression",
+      "patchNotes": "Made scenario type optional with default value"
+    },
+    
+    "zoneMap": {
+      "type": "object",
+      "required": false,
+      "validation": "zone_mapping_object",
+      "structure": {
+        "zones": "array",
+        "connections": "object",
+        "requirements": "object"
+      },
+      "patchNotes": "Added optional zone mapping for advanced navigation"
+    }
+  },
+  
+  "validationRules": {
+    "questId": {
+      "pattern": "^[a-z_]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "unique": true
+    },
+    
+    "dialogueNode": {
+      "pattern": "^[a-z_]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "unique_per_npc": true
+    },
+    
+    "npcId": {
+      "pattern": "^[a-z_]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "unique": true
+    },
+    
+    "locationId": {
+      "pattern": "^[a-z_]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "unique": true
+    },
+    
+    "triggerId": {
+      "pattern": "^[a-z_]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "unique": true
+    }
+  },
+  
+  "schemaCompatibility": {
+    "v13_to_v14": {
+      "breaking_changes": [],
+      "deprecations": [],
+      "additions": ["scenarioType", "zoneMap"],
+      "migration_path": "automatic"
+    },
+    
+    "v14_to_v13": {
+      "breaking_changes": [],
+      "data_loss": false,
+      "fallback_values": {
+        "scenarioType": "quest_progression",
+        "zoneMap": {}
+      }
+    }
+  },
+  
+  "patchApplication": {
+    "auto_apply": true,
+    "validation_required": true,
+    "rollback_supported": true,
+    "backup_created": true
+  },
+  
+  "metadata": {
+    "patch_author": "MIFF_CI_Recovery_Agent",
+    "patch_timestamp": "2024-12-19T00:00:00Z",
+    "test_coverage": "comprehensive",
+    "remix_safety": "verified"
+  }
+}

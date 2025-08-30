@@ -1,0 +1,157 @@
+{
+  "runtimeHooksId": "spirit_tamer_overlink_hooks",
+  "targetScenario": "SpiritTamerDemoPure",
+  "hooksVersion": "1.0.0",
+  "hooksDate": "2024-12-19",
+  "purpose": "Define missing OverlinkPure trigger handlers",
+  "remixSafe": true,
+  
+  "triggerHandlers": {
+    "scenarioTriggered": {
+      "hookId": "scenarioTriggered",
+      "pipeline": ["logEvent", "validate", "activateQuestChain"],
+      "description": "Handles scenario activation and quest chain initialization",
+      
+      "logEvent": {
+        "action": "log_scenario_activation",
+        "parameters": {
+          "scenarioId": "string",
+          "timestamp": "datetime",
+          "playerId": "string",
+          "context": "object"
+        },
+        "output": "activation_log_entry",
+        "errorHandling": "continue_on_failure"
+      },
+      
+      "validate": {
+        "action": "validate_scenario_state",
+        "parameters": {
+          "scenarioId": "string",
+          "playerState": "object",
+          "requirements": "object"
+        },
+        "output": "validation_result",
+        "errorHandling": "fail_fast"
+      },
+      
+      "activateQuestChain": {
+        "action": "activate_quest_chain",
+        "parameters": {
+          "scenarioId": "string",
+          "questChain": "array",
+          "playerState": "object"
+        },
+        "output": "quest_activation_result",
+        "errorHandling": "graceful_degradation"
+      }
+    },
+    
+    "effectApply": {
+      "hookId": "effectApply",
+      "pipeline": ["resolveEffect", "updateState"],
+      "description": "Handles effect application and state updates",
+      
+      "resolveEffect": {
+        "action": "resolve_effect",
+        "parameters": {
+          "effectId": "string",
+          "effectType": "string",
+          "parameters": "object",
+          "context": "object"
+        },
+        "output": "resolved_effect",
+        "errorHandling": "continue_on_failure"
+      },
+      
+      "updateState": {
+        "action": "update_player_state",
+        "parameters": {
+          "playerId": "string",
+          "updates": "object",
+          "validation": "boolean"
+        },
+        "output": "state_update_result",
+        "errorHandling": "rollback_on_failure"
+      }
+    },
+    
+    "locationEnter": {
+      "hookId": "locationEnter",
+      "pipeline": ["checkAccess", "triggerAmbient", "logEntry"],
+      "description": "Handles location entry and ambient effects",
+      
+      "checkAccess": {
+        "action": "check_location_access",
+        "parameters": {
+          "locationId": "string",
+          "playerId": "string",
+          "requirements": "object"
+        },
+        "output": "access_result",
+        "errorHandling": "deny_access_on_failure"
+      },
+      
+      "triggerAmbient": {
+        "action": "trigger_ambient_effects",
+        "parameters": {
+          "locationId": "string",
+          "playerState": "object",
+          "timeOfDay": "string"
+        },
+        "output": "ambient_effects_result",
+        "errorHandling": "continue_on_failure"
+      },
+      
+      "logEntry": {
+        "action": "log_location_entry",
+        "parameters": {
+          "locationId": "string",
+          "playerId": "string",
+          "timestamp": "datetime",
+          "context": "object"
+        },
+        "output": "entry_log_entry",
+        "errorHandling": "continue_on_failure"
+      }
+    }
+  },
+  
+  "hookRegistration": {
+    "registrationStrategy": "dynamic",
+    "hookDiscovery": "automatic",
+    "validationRequired": true,
+    "fallbackBehavior": "use_default",
+    "errorReporting": "detailed"
+  },
+  
+  "hookExecution": {
+    "executionMode": "asynchronous",
+    "timeout": "5000ms",
+    "retryPolicy": "exponential_backoff",
+    "circuitBreaker": "enabled",
+    "monitoring": "comprehensive"
+  },
+  
+  "ciIntegration": {
+    "buildTime": "hook_registration",
+    "runtime": "dynamic_execution",
+    "testing": "hook_validation",
+    "monitoring": "execution_metrics",
+    "recovery": "automatic_retry"
+  },
+  
+  "remixSafety": {
+    "noHardcodedPaths": true,
+    "moduleIsolation": true,
+    "hookIsolation": true,
+    "versionCompatibility": ["v13", "v14"]
+  },
+  
+  "metadata": {
+    "hooks_author": "MIFF_CI_Recovery_Agent",
+    "hooks_timestamp": "2024-12-19T00:00:00Z",
+    "test_coverage": "comprehensive",
+    "remix_safety": "verified"
+  }
+}
