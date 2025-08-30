@@ -1,0 +1,53 @@
+[
+  {
+    "lootTableId": "emberfang_drops",
+    "drops": [
+      {
+        "itemId": "emberfang_scale",
+        "name": "Emberfang Scale",
+        "rarity": "common",
+        "dropChance": 0.8
+      },
+      {
+        "itemId": "flame_essence",
+        "name": "Flame Essence",
+        "rarity": "rare",
+        "dropChance": 0.2
+      }
+    ]
+  },
+  {
+    "lootTableId": "mosshide_drops",
+    "drops": [
+      {
+        "itemId": "mosshide_root",
+        "name": "Mosshide Root",
+        "rarity": "common",
+        "dropChance": 0.8
+      },
+      {
+        "itemId": "earth_core",
+        "name": "Earth Core",
+        "rarity": "rare",
+        "dropChance": 0.2
+      }
+    ]
+  },
+  {
+    "lootTableId": "cloudtail_drops",
+    "drops": [
+      {
+        "itemId": "cloudtail_feather",
+        "name": "Cloudtail Feather",
+        "rarity": "common",
+        "dropChance": 0.8
+      },
+      {
+        "itemId": "wind_orb",
+        "name": "Wind Orb",
+        "rarity": "rare",
+        "dropChance": 0.2
+      }
+    ]
+  }
+]
