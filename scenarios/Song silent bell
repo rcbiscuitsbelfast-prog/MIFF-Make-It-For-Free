@@ -1,0 +1,175 @@
+// song-silent-bell.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "The Song of the Silent Bell" using pure, engine-agnostic subsystems
+// Focuses on audio puzzle-solving, spatial sound cues, and lore discovery
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'puzzle_solved', 'audio_triggered')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., play sound, unlock lore)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., LorePure, InventoryPure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'song-silent-bell',
+  title: 'The Song of the Silent Bell',
+  description:
+    'The player enters a resonant chamber where a silent bell hums with forgotten tones. By solving three audio-based puzzles using spatial sound cues, they must recreate the bell’s lost song to unlock its ancient lore.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'solve-first-tone',
+      description: 'Solve the first tonal sequence puzzle.',
+      condition: () => PuzzleCorePure.isSolved('tone-sequence-1'),
+    },
+    {
+      id: 'solve-second-tone',
+      description: 'Solve the second tonal sequence puzzle.',
+      condition: () => PuzzleCorePure.isSolved('tone-sequence-2'),
+    },
+    {
+      id: 'solve-final-song',
+      description: 'Recreate the Song of the Silent Bell.',
+      condition: () => LorePure.isUnlocked('silent-bell-song'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-chamber',
+      event: 'scenario_start',
+      action: () => {
+        LocationPure.set('resonant-chamber');
+        AudioPure.play('bell-ambient-drone', { loop: true, volume: 0.6 });
+        DialogPure.start('bell-keeper-greeting');
+        PuzzleCorePure.activate('tone-sequence-1');
+      },
+    },
+    {
+      id: 'first-tone-solved',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('tone-sequence-1'),
+      action: () => {
+        AudioPure.play('tone-reveal-1', { volume: 1.0 });
+        LorePure.unlock('bell-tone-1');
+        DialogPure.start('tone-1-success');
+        PuzzleCorePure.activate('tone-sequence-2');
+      },
+    },
+    {
+      id: 'first-tone-failed',
+      event: 'puzzle_failed',
+      condition: () => PuzzleCorePure.getAttempts('tone-sequence-1') > 2,
+      action: () => {
+        AudioPure.play('tone-fail', { volume: 0.8 });
+        StatusEffectPure.apply('sonic-disorientation', { duration: 120, target: 'player' });
+        DialogPure.start('tone-1-hint');
+      },
+    },
+    {
+      id: 'second-tone-solved',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('tone-sequence-2'),
+      action: () => {
+        AudioPure.play('tone-reveal-2', { volume: 1.0 });
+        LorePure.unlock('bell-tone-2');
+        DialogPure.start('tone-2-success');
+        PuzzleCorePure.activate('tone-sequence-final');
+      },
+    },
+    {
+      id: 'second-tone-failed',
+      event: 'puzzle_failed',
+      condition: () => PuzzleCorePure.getAttempts('tone-sequence-2') > 2,
+      action: () => {
+        AudioPure.play('tone-fail', { volume: 0.8 });
+        StatusEffectPure.apply('sonic-disorientation', { duration: 120, target: 'player' });
+        DialogPure.start('tone-2-hint');
+      },
+    },
+    {
+      id: 'final-song-solved',
+      event: 'puzzle_solved',
+      condition: () => PuzzleCorePure.isSolved('tone-sequence-final'),
+      action: () => {
+        AudioPure.stop('bell-ambient-drone');
+        AudioPure.play('silent-bell-song', { volume: 1.2 });
+        LorePure.unlock('silent-bell-song');
+        DialogPure.start('bell-song-revealed');
+      },
+    },
+    {
+      id: 'spatial-cue-trigger',
+      event: 'location_interacted',
+      condition: () => LocationPure.current() === 'resonant-chamber',
+      action: () => {
+        AudioPure.play('spatial-tone-cue', { volume: 0.9, spatial: { x: 0.5, y: 0.5, z: 0 } });
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-auditory-sage',
+      type: 'xp',
+      value: 650,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-bell-charm',
+      type: 'item',
+      value: 'bell-charm',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'effect-sonic-clarity',
+      type: 'effect',
+      value: 'sonic-clarity',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-bell-legacy',
+      type: 'lore',
+      value: 'silent-bell-legacy',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'AudioPure',
+    'PuzzleCorePure',
+    'LorePure',
+    'DialogPure',
+    'LocationPure',
+    'StatusEffectPure',
+    'InventoryPure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type SongOfSilentBell = typeof ScenarioPure;
+export default ScenarioPure;
