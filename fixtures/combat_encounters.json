@@ -1,0 +1,74 @@
+[
+  {
+    "battleId": "emberfang_battle",
+    "player": {
+      "hp": 100,
+      "moves": [
+        { "moveId": "slash", "name": "Slash", "damage": 20, "type": "physical" },
+        { "moveId": "water_blast", "name": "Water Blast", "damage": 30, "type": "water" }
+      ]
+    },
+    "enemy": {
+      "name": "Emberfang",
+      "hp": 80,
+      "moves": [
+        { "moveId": "fire_claw", "name": "Fire Claw", "damage": 25, "type": "fire" },
+        { "moveId": "blaze", "name": "Blaze", "damage": 15, "type": "fire" }
+      ],
+      "weakness": "water"
+    },
+    "victoryRewards": {
+      "xp": 200,
+      "items": ["emberfang_scale"],
+      "lore": "emberfang_defeated"
+    }
+  },
+  {
+    "battleId": "mosshide_battle",
+    "player": {
+      "hp": 100,
+      "moves": [
+        { "moveId": "slash", "name": "Slash", "damage": 20, "type": "physical" },
+        { "moveId": "quick_strike", "name": "Quick Strike", "damage": 15, "type": "physical", "speed": "fast" }
+      ]
+    },
+    "enemy": {
+      "name": "Mosshide",
+      "hp": 120,
+      "moves": [
+        { "moveId": "rock_smash", "name": "Rock Smash", "damage": 30, "type": "earth" },
+        { "moveId": "vine_bind", "name": "Vine Bind", "damage": 10, "type": "earth", "effect": "slow" }
+      ],
+      "weakness": "speed"
+    },
+    "victoryRewards": {
+      "xp": 250,
+      "items": ["mosshide_root"],
+      "lore": "mosshide_defeated"
+    }
+  },
+  {
+    "battleId": "cloudtail_battle",
+    "player": {
+      "hp": 100,
+      "moves": [
+        { "moveId": "slash", "name": "Slash", "damage": 20, "type": "physical" },
+        { "moveId": "aimed_shot", "name": "Aimed Shot", "damage": 25, "type": "ranged", "accuracy": "high" }
+      ]
+    },
+    "enemy": {
+      "name": "Cloudtail",
+      "hp": 60,
+      "moves": [
+        { "moveId": "wind_gust", "name": "Wind Gust", "damage": 20, "type": "wind" },
+        { "moveId": "dodge", "name": "Dodge", "damage": 0, "type": "wind", "effect": "evade" }
+      ],
+      "weakness": "accuracy"
+    },
+    "victoryRewards": {
+      "xp": 300,
+      "items": ["cloudtail_feather"],
+      "lore": "cloudtail_defeated"
+    }
+  }
+]
