@@ -1,0 +1,104 @@
+// ashes-of-the-timeless-pact.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on status effects, time-based progression, and conditional lore unlocks
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'ashes-of-the-timeless-pact',
+  title: 'Ashes of the Timeless Pact',
+  description:
+    'Bound by a forgotten oath, the player must endure the Mark of Ash for a full cycle. Survive its effects, uncover its origin, and decide whether to renew or break the pact.',
+
+  objectives: [
+    {
+      id: 'endure-mark',
+      description: 'Survive with the Mark of Ash for 5 minutes.',
+      condition: () => TimerPure.elapsed('mark-of-ash') >= 300,
+    },
+    {
+      id: 'unlock-origin',
+      description: 'Trigger the lore reveal through dialogue.',
+      condition: () => LorePure.isUnlocked('timeless-pact-origin'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'apply-mark',
+      event: 'scenario_start',
+      action: () => StatusEffectsPure.apply('mark-of-ash', {
+        duration: 300,
+        effects: ['slow', 'blur', 'whisper'],
+      }),
+    },
+    {
+      id: 'dialog-branch',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('pact-choice'),
+      action: () => {
+        const choice = DialogPure.getChoice('pact-choice');
+        if (choice === 'renew') {
+          StatusEffectsPure.apply('renewed-pact', { duration: 600 });
+          LorePure.unlock('pact-renewal-lore');
+        } else {
+          StatusEffectsPure.remove('mark-of-ash');
+          LorePure.unlock('pact-broken-lore');
+        }
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-endurance',
+      type: 'xp',
+      value: 600,
+      target: 'player-progress',
+    },
+    {
+      id: 'effect-pact',
+      type: 'effect',
+      value: 'renewed-pact',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-pact',
+      type: 'lore',
+      value: 'timeless-pact-origin',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'StatusEffectsPure',
+    'DialogPure',
+    'TimerPure',
+    'LorePure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type AshesOfTheTimelessPact = typeof ScenarioPure;
+export default ScenarioPure;
