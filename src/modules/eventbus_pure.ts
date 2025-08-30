@@ -153,4 +153,48 @@ export class EventBusPure {
 
   /**
    * Remove all listeners for a specific event type
-   * Useful for module clea
+   * Useful for module cleanup and event system reset
+   */
+  removeAllListeners(eventType: string): void {
+    this.listeners.delete(eventType);
+    this.onceListeners.delete(eventType);
+    this.eventHistory.delete(eventType);
+  }
+
+  /**
+   * Get all registered event types
+   */
+  getEventTypes(): string[] {
+    return Array.from(this.listeners.keys());
+  }
+
+  /**
+   * Get event history for debugging and replay
+   */
+  getEventHistory(eventType: string): EventData[] {
+    return this.eventHistory.get(eventType) || [];
+  }
+
+  /**
+   * Clear all event history
+   */
+  clearEventHistory(): void {
+    this.eventHistory.clear();
+  }
+
+  /**
+   * Get current listener count for an event type
+   */
+  getListenerCount(eventType: string): number {
+    const regularListeners = this.listeners.get(eventType)?.size || 0;
+    const onceListeners = this.onceListeners.get(eventType)?.size || 0;
+    return regularListeners + onceListeners;
+  }
+
+  /**
+   * Check if there are any listeners for an event type
+   */
+  hasListeners(eventType: string): boolean {
+    return this.getListenerCount(eventType) > 0;
+  }
+}

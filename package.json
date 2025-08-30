@@ -85,7 +85,9 @@
   },
   "miff": {
     "framework": "v14",
-    "scenarios": ["spirit-tamer-trial-of-grove"],
+    "scenarios": [
+      "spirit-tamer-trial-of-grove"
+    ],
     "remix-safe": true,
     "multi-agent": true,
     "ai-native": true

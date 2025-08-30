@@ -19,7 +19,7 @@
  *   - Hot-reload friendly with proper lifecycle management
  */
 
-import type { EventBusPure } from './EventBusPure';
+import type { EventBusPure } from './eventbus_pure';
 
 /**
  * Base interface that all MIFF systems should implement

@@ -21,7 +21,20 @@
  *   - Hot-reloadable behavior definitions
  */
 
-import { AIBehavior, BehaviorResult, AIAgent } from './AISystemPure';
+import { AIAgent } from './ai_system_pure';
+
+// remix-safe-start: Core behavior interfaces
+export interface AIBehavior {
+  execute(agent: AIAgent, deltaTime: number, context?: ExecutionContext): BehaviorResult;
+}
+
+export enum BehaviorResult {
+  SUCCESS = 'SUCCESS',
+  FAILURE = 'FAILURE',
+  RUNNING = 'RUNNING',
+  ABORTED = 'ABORTED'
+}
+// remix-safe-end
 
 /**
  * Base behavior tree node interface
@@ -200,4 +213,54 @@ export class BehaviorTree implements AIBehavior {
     try {
       result = this.root.execute(agent, deltaTime, context);
     } catch (error) {
-      console.error(`Error executing b
+      console.error(`Error executing behavior tree '${this.id}':`, error);
+      result = BehaviorResult.FAILURE;
+    }
+
+    // remix-safe-start: Execution statistics tracking
+    const executionTime = performance.now() - startTime;
+    this.executionStats.totalExecutions++;
+    
+    if (result === BehaviorResult.SUCCESS) {
+      this.executionStats.successCount++;
+    } else if (result === BehaviorResult.FAILURE) {
+      this.executionStats.failureCount++;
+    }
+
+    // Update average execution time
+    this.executionStats.avgExecutionTime = 
+      (this.executionStats.avgExecutionTime * (this.executionStats.totalExecutions - 1) + executionTime) / 
+      this.executionStats.totalExecutions;
+    // remix-safe-end
+
+    return result;
+  }
+
+  /**
+   * Get execution statistics for monitoring and debugging
+   */
+  getExecutionStats() {
+    return { ...this.executionStats };
+  }
+
+  /**
+   * Set a variable that can be accessed by behavior tree nodes
+   */
+  setVariable(key: string, value: any): void {
+    this.variables.set(key, value);
+  }
+
+  /**
+   * Get a variable value
+   */
+  getVariable(key: string): any {
+    return this.variables.get(key);
+  }
+
+  /**
+   * Clear all variables
+   */
+  clearVariables(): void {
+    this.variables.clear();
+  }
+}
