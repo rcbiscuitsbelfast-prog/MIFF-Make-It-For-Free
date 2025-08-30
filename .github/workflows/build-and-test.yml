@@ -1,4 +1,4 @@
-name: CI
+name: Build and Test
 
 on:
   push:
@@ -10,23 +10,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install dependencies (root)
         run: npm ci || npm install
-      - name: Ensure ts-node
+
+      - name: Ensure ts-node and typescript are available
         run: npm install --save-dev ts-node typescript
+
       - name: Generate Toppler HTML (ts-node)
         id: gen_ts
         continue-on-error: true
-        run: npx ts-node scripts/gen-toppler-html.ts
+        run: npx ts-node scripts/gen-html.ts
+
       - name: Fallback: Generate Toppler HTML via wrapper
         if: steps.gen_ts.outcome == 'failure'
-        run: node scripts/gen-toppler-wrapper.js
-      - name: Type check Toppler standalone
-        run: npx tsc --noEmit -p games/toppler/tsconfig.json
+        run: node scripts/gen-html-wrapper.js
+
+      - name: Type check
+        run: npm run typecheck
+
       - name: Run tests (root jest)
-        run: npx jest --config jest.config.js --runTestsByPath games/toppler/tests/scene.spec.ts
+        run: npm test
 

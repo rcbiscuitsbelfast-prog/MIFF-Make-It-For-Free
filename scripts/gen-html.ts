@@ -1,4 +1,36 @@
-import { generateHTML } from './html-utils.js';
+import { writeFileSync, mkdirSync } from 'fs';
+import { resolve, dirname } from 'path';
 
-generateHTML();
+const html = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toppler - Standalone</title>
+    <style>
+      html, body { margin: 0; padding: 0; background: #0b0b0b; height: 100%; }
+      body { display: flex; align-items: center; justify-content: center; }
+      #app { width: 360px; height: 640px; border: 1px solid #222; background: #111; }
+      .hint { position: fixed; top: 10px; left: 0; right: 0; text-align: center; color: #aaa; font-family: system-ui, sans-serif; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="hint">Press Space/ArrowUp to jump</div>
+    <div id="app"></div>
+    <script type="module" src="./index.ts"></script>
+    <script src="./main.js"></script>
+    <script>window.mountToppler();</script>
+  </body>
+  </html>`;
+
+console.log('Starting Toppler HTML generation...');
+try {
+  const outPath = resolve(process.cwd(), 'games/toppler/toppler.html');
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(outPath, html, 'utf8');
+  console.log('[gen-html] Wrote', outPath);
+} catch (err) {
+  console.error('Toppler generation failed:', err);
+  process.exit(1);
+}
 

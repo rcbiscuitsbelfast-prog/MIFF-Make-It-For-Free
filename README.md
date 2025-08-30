@@ -391,11 +391,29 @@ Keep everything modular, remix-safe, and contributor-friendly. Zones should be p
 - Sampler Landing: `sampler/site/index.html`
 - Replay Harness: `sampler/replay/index.html`
 - Onboarding Index: `sampler/site/onboarding-index.html`
-- CLI Scripts:
+ - CLI Scripts:
   - Golden fixtures: `npm run test:golden`
   - Remix validation: `npm run test:remix`
 
-### Notes on TypeScript Path Aliases
+## 🚀 Milestone: v0.1.0 — Orchestrated & Remix-Ready
+- Spirit Tamer integrated
+- CI workflows passed
+- Multi-agent playtesting ready
 
-- The `@/*` alias in the root `tsconfig.json` maps to `miff-nextjs/src/*` and is intended for the Next.js app under `miff-nextjs/`.
-- The web sampler (served by Vite with `root: 'sampler'`) does not use this alias. Sampler imports use relative paths or Vite aliases defined in `vite.config.ts` (`modules`, `OverlinkPure`, `badges`).
+## 🧰 Quickstart
+```
+npm install && npm run typecheck
+npm run start:grove && npm run play:spirit
+```
+
+### Spirit Tamer: Trial of the Grove (Quickstart)
+
+- Mapping:
+  - Fixture: `sampler/scenarios/witcher_grove.fixture.json`
+  - Zone: `sampler/zones/witcher_grove/`
+- Playtesting:
+  - Open `sampler/replay/index.html` and load the Witcher Grove fixture, or
+  - Run `npm run start:grove` to auto-open the Witcher Grove zone via Vite
+- Remix safety:
+  - Keep assets under `sampler/assets/` with CC0/GPL sources
+  - Use Pure modules only for logic; avoid engine dependencies

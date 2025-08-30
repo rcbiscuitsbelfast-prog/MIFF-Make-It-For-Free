@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
     "gen:html": "node -r ts-node/register scripts/gen-html.ts",
+<<<<<<< HEAD
     "gen-toppler": "node scripts/gen-toppler-stub.js",
     "gen-toppler:stub": "node scripts/gen-toppler-stub.js",
     "gen-toppler:full": "ts-node ./scripts/gen-html.ts",
@@ -34,6 +35,14 @@
     "onboard:contributor": "node scripts/onboard-contributor.js",
     "remix:challenge": "node scripts/remix-challenge.js",
     "multi-agent:test": "node scripts/multi-agent-test.js"
+=======
+    "gen-toppler": "ts-node ./scripts/gen-html.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
+    "play:spirit": "vite preview sampler/site",
+    "start:grove": "vite --open sampler/site/zones/witcher_grove/index.html",
+    "validate:release": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json && node scripts/validateOutputFormat.js out_tutorial.json scenario && node scripts/checkRemixHooks.js && node scripts/checkAttribution.js",
+    "gen:manifests": "node scripts/gen-manifests.js"
+>>>>>>> cursor/confirm-repository-access-920e
   },
   "repository": {
     "type": "git",
