@@ -1,0 +1,86 @@
+[
+  {
+    "questId": "veil_of_riddles",
+    "title": "Veil of Riddles",
+    "description": "Answer Mirath the Veilseeker’s three riddles to pierce the veil of dreams and summon a lost spirit to guide your path.",
+    "objectives": [
+      {
+        "objectiveId": "riddle_one",
+        "description": "Solve Mirath’s first riddle through dialogue.",
+        "condition": "dialogue_completed:npc_dialogue_trees.json:mirath_riddle_one"
+      },
+      {
+        "objectiveId": "riddle_two",
+        "description": "Solve Mirath’s second riddle through dialogue.",
+        "condition": "dialogue_completed:npc_dialogue_trees.json:mirath_riddle_two"
+      },
+      {
+        "objectiveId": "riddle_three",
+        "description": "Solve Mirath’s final riddle to summon the spirit.",
+        "condition": "dialogue_completed:npc_dialogue_trees.json:mirath_riddle_three"
+      }
+    ],
+    "rewards": {
+      "xp": 600,
+      "items": ["dream_thread"],
+      "effect": "spirit_summoned",
+      "lore": "veil_pierced"
+    }
+  },
+  {
+    "questId": "names_of_power",
+    "title": "Names of Power",
+    "description": "Assist Voryn the Namekeeper in recovering three lost names from scattered relics to restore a page in his ancient tome.",
+    "objectives": [
+      {
+        "objectiveId": "collect_star_relic",
+        "description": "Find the Star Relic for Voryn.",
+        "condition": "inventory_contains:star_relic"
+      },
+      {
+        "objectiveId": "collect_moon_relic",
+        "description": "Find the Moon Relic for Voryn.",
+        "condition": "inventory_contains:moon_relic"
+      },
+      {
+        "objectiveId": "restore_name",
+        "description": "Return relics to Voryn to restore a name.",
+        "condition": "dialogue_completed:npc_dialogue_trees.json:voryn_restore"
+      }
+    ],
+    "rewards": {
+      "xp": 800,
+      "items": ["namebound_quill"],
+      "effect": "scribe_blessing",
+      "lore": "name_restored"
+    }
+  },
+  {
+    "questId": "fae_bargain",
+    "title": "Fae Bargain",
+    "description": "Strike a deal with Faelys the Moonshadow, trading a precious item for her aid, but beware the hidden cost of her trickery.",
+    "objectives": [
+      {
+        "objectiveId": "offer_item",
+        "description": "Offer a valuable item to Faelys through dialogue.",
+        "condition": "dialogue_completed:npc_dialogue_trees.json:faelys_offer"
+      },
+      {
+        "objectiveId": "survive_trick",
+        "description": "Overcome Faelys’ illusionary trap.",
+        "condition": "scenario_triggered:fae_illusion_cleared"
+      },
+      {
+        "objectiveId": "claim_boon",
+        "description": "Claim Faelys’ boon through dialogue.",
+        "condition": "dialogue_completed:npc_dialogue_trees.json:faelys_boon"
+      }
+    ],
+    "rewards": {
+      "xp": 700,
+      "items": ["moonshadow_charm"],
+      "effect": "fae_pact",
+      "lore": "bargain_sealed"
+    }
+  }
+]
