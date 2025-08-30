@@ -1,0 +1,114 @@
+// stormbound-expanse.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on dynamic weather, survival mechanics, and environmental hazards
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'stormbound-expanse',
+  title: 'Stormbound Expanse',
+  description:
+    'Cross the volatile expanse during a lightning storm. Manage exposure, avoid hazards, and reach the shelter before the storm intensifies.',
+
+  objectives: [
+    {
+      id: 'reach-shelter',
+      description: 'Reach the storm shelter at the edge of the expanse.',
+      condition: () => LocationPure.current() === 'storm-shelter',
+    },
+    {
+      id: 'avoid-strikes',
+      description: 'Avoid being struck by lightning during traversal.',
+      condition: () => StatusEffectsPure.count('lightning-strike') === 0,
+    },
+    {
+      id: 'maintain-warmth',
+      description: 'Keep body temperature above critical threshold.',
+      condition: () => StatusEffectsPure.getValue('body-temp') > 35,
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'enter-expanse',
+      event: 'enter',
+      condition: () => LocationPure.current() === 'stormbound-expanse',
+      action: () => WeatherSystemPure.set('lightning-storm'),
+    },
+    {
+      id: 'lightning-strike',
+      event: 'weather_tick',
+      condition: () => WeatherSystemPure.randomChance(0.1),
+      action: () => StatusEffectsPure.apply('lightning-strike', {
+        damage: 50,
+        stun: true,
+      }),
+    },
+    {
+      id: 'use-warm-cloak',
+      event: 'item_used',
+      condition: () => InventoryPure.has('warm-cloak'),
+      action: () => StatusEffectsPure.adjust('body-temp', +5),
+    },
+    {
+      id: 'reach-shelter-dialog',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'storm-shelter',
+      action: () => DialogPure.start('storm-survivor-reflection'),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-survival',
+      type: 'xp',
+      value: 600,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-storm-talisman',
+      type: 'item',
+      value: 'storm-talisman',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'lore-stormbound',
+      type: 'lore',
+      value: 'stormbound-expanse-history',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'WeatherSystemPure',
+    'StatusEffectsPure',
+    'InventoryPure',
+    'LocationPure',
+    'DialogPure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type StormboundExpanse = typeof ScenarioPure;
+export default ScenarioPure;
