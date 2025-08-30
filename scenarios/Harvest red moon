@@ -1,0 +1,197 @@
+// harvest-red-moon.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "Harvest Under the Red Moon" using pure, engine-agnostic subsystems
+// Focuses on time-sensitive gathering, crafting, and survival under dynamic weather
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'item_added', 'weather_changed')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., update weather, apply effect)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., InventoryPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'harvest-red-moon',
+  title: 'Harvest Under the Red Moon',
+  description:
+    'The player ventures into a cursed forest during a rare red moon to gather elusive herbs needed for a survival elixir. They must craft the elixir before a deadly storm arrives, navigating dynamic weather and environmental hazards.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'gather-herbs',
+      description: 'Collect three rare herbs: Bloodbloom, Nightshade, and Moonsap.',
+      condition: () =>
+        InventoryPure.has('bloodbloom') &&
+        InventoryPure.has('nightshade') &&
+        InventoryPure.has('moonsap'),
+    },
+    {
+      id: 'craft-elixir',
+      description: 'Craft the Red Moon Elixir at the forest altar.',
+      condition: () => InventoryPure.has('red-moon-elixir'),
+    },
+    {
+      id: 'survive-storm',
+      description: 'Survive the storm by completing the elixir before the red moon phase ends.',
+      condition: () => !TimerPure.isExpired('red-moon-timer') && InventoryPure.has('red-moon-elixir'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-forest',
+      event: 'scenario_start',
+      action: () => {
+        LocationPure.set('cursed-forest');
+        TimerPure.start('red-moon-timer', { duration: 900 }); // 15-minute timer
+        WeatherSystemPure.set('red-moon-phase', { intensity: 0.5 });
+        AudioPure.play('forest-red-moon-ambient', { loop: true, volume: 0.7 });
+        DialogPure.start('forest-spirit-warning');
+      },
+    },
+    {
+      id: 'herb-bloodbloom',
+      event: 'item_added',
+      condition: () => InventoryPure.has('bloodbloom'),
+      action: () => {
+        AudioPure.play('herb-pickup', { volume: 0.8 });
+        StatusEffectPure.apply('moon-curse', { duration: 180, intensity: 0.3, target: 'player' });
+      },
+    },
+    {
+      id: 'herb-nightshade',
+      event: 'item_added',
+      condition: () => InventoryPure.has('nightshade'),
+      action: () => {
+        AudioPure.play('herb-pickup', { volume: 0.8 });
+        StatusEffectPure.apply('moon-curse', { duration: 180, intensity: 0.3, target: 'player' });
+      },
+    },
+    {
+      id: 'herb-moonsap',
+      event: 'item_added',
+      condition: () => InventoryPure.has('moonsap'),
+      action: () => {
+        AudioPure.play('herb-pickup', { volume: 0.8 });
+        StatusEffectPure.apply('moon-curse', { duration: 180, intensity: 0.3, target: 'player' });
+      },
+    },
+    {
+      id: 'herbs-complete',
+      event: 'item_added',
+      condition: () =>
+        InventoryPure.has('bloodbloom') &&
+        InventoryPure.has('nightshade') &&
+        InventoryPure.has('moonsap'),
+      action: () => {
+        CraftingPure.enableRecipe('red-moon-elixir');
+        DialogPure.start('elixir-crafting-prompt');
+        LocationPure.unlock('forest-altar');
+      },
+    },
+    {
+      id: 'storm-warning',
+      event: 'timer_tick',
+      condition: () => TimerPure.getRemaining('red-moon-timer') <= 300, // 5 minutes left
+      action: () => {
+        WeatherSystemPure.set('approaching-storm', { intensity: 0.8 });
+        AudioPure.play('storm-warning-rumble', { volume: 1.0 });
+        DialogPure.start('storm-approaching');
+      },
+    },
+    {
+      id: 'elixir-crafted',
+      event: 'crafting_completed',
+      condition: () => InventoryPure.has('red-moon-elixir'),
+      action: () => {
+        TimerPure.stop('red-moon-timer');
+        AudioPure.play('elixir-success', { volume: 1.0 });
+        StatusEffectPure.remove('moon-curse');
+        LorePure.unlock('red-moon-legacy');
+        DialogPure.start('elixir-success-dialog');
+      },
+    },
+    {
+      id: 'storm-failure',
+      event: 'timer_expired',
+      condition: () =>
+        TimerPure.isExpired('red-moon-timer') && !InventoryPure.has('red-moon-elixir'),
+      action: () => {
+        WeatherSystemPure.set('deadly-storm', { intensity: 1.0 });
+        AudioPure.stop('forest-red-moon-ambient');
+        AudioPure.play('storm-failure-dirge', { volume: 1.2 });
+        StatusEffectPure.apply('storm-exposure', { duration: 300, target: 'player' });
+        DialogPure.start('storm-failure');
+        EventBusPure.publish('harvest-failed', {});
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-survivor',
+      type: 'xp',
+      value: 800,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-moon-charm',
+      type: 'item',
+      value: 'moon-charm',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'effect-moon-resilience',
+      type: 'effect',
+      value: 'moon-resilience',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-red-moon',
+      type: 'lore',
+      value: 'red-moon-legacy',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'WeatherSystemPure',
+    'CraftingPure',
+    'InventoryPure',
+    'TimerPure',
+    'AudioPure',
+    'DialogPure',
+    'StatusEffectPure',
+    'LocationPure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type HarvestUnderRedMoon = typeof ScenarioPure;
+export default ScenarioPure;
