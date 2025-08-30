@@ -59,22 +59,10 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci || npm i
 
-      - name: 🔎 Validate assets script presence
-        id: has_validate
-        run: |
-          if [ -f scripts/validate-assets.js ]; then echo "exists=true" >> $GITHUB_OUTPUT; else echo "exists=false" >> $GITHUB_OUTPUT; fi
-
       - name: 🔍 Run asset validation
-        if: steps.has_validate.outputs.exists == 'true'
         run: |
           mkdir -p logs
           node scripts/validate-assets.js > logs/validate-assets.log 2>&1
-
-      - name: ⚠️ Skip asset validation (script missing)
-        if: steps.has_validate.outputs.exists != 'true'
-        run: |
-          mkdir -p logs
-          echo "scripts/validate-assets.js not found; skipping." | tee logs/validate-assets.log
 
       - name: 📤 Upload validation logs
         uses: actions/upload-artifact@v4
@@ -111,23 +99,10 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci || npm i
 
-      - name: 🔎 Orchestrator script presence
-        id: has_orchestrator
-        run: |
-          if [ -f scripts/orchestrate.js ]; then echo "exists=true" >> $GITHUB_OUTPUT; else echo "exists=false" >> $GITHUB_OUTPUT; fi
-
       - name: ▶️ Orchestrate (agent=${{ matrix.agent }}, seed=${{ matrix.seed }})
-        if: steps.has_orchestrator.outputs.exists == 'true'
         run: |
           mkdir -p logs
-          node scripts/orchestrate.js --agent ${{ matrix.agent }} --seed ${{ matrix.seed }} > logs/orchestrate-${{ matrix.agent }}-${{ matrix.seed }}.log 2>&1 || echo "first-run-failed" > .retry
-          if [ -f .retry ]; then echo "Retrying orchestrate..."; node scripts/orchestrate.js --agent ${{ matrix.agent }} --seed ${{ matrix.seed }} >> logs/orchestrate-${{ matrix.agent }}-${{ matrix.seed }}.log 2>&1; fi
-
-      - name: ⚠️ Skip orchestrate (script missing)
-        if: steps.has_orchestrator.outputs.exists != 'true'
-        run: |
-          mkdir -p logs
-          echo "scripts/orchestrate.js not found; skipping." | tee logs/orchestrate-${{ matrix.agent }}-${{ matrix.seed }}.log
+          node scripts/orchestrate.js --agent ${{ matrix.agent }} --seed ${{ matrix.seed }} > logs/orchestrate-${{ matrix.agent }}-${{ matrix.seed }}.log 2>&1
 
       - name: 📤 Upload orchestrate logs
         uses: actions/upload-artifact@v4
@@ -232,6 +207,10 @@ jobs:
           echo "- Lint: $(tail -n +1 artifacts/lint/eslint.log | sed -n '1,10p' | wc -l) lines captured" >> $GITHUB_STEP_SUMMARY || true
           echo "- Orchestration logs downloaded: $(ls -1 artifacts/orchestrate | wc -l) files" >> $GITHUB_STEP_SUMMARY || true
           echo "\nContributor tips: If a script is missing, see README quickstart. Ensure mobile-first layout and remix-safe assets." >> $GITHUB_STEP_SUMMARY
+
+      - name: 🌫️ Smoke check Witcher Grove
+        if: always()
+        run: node sampler/smoke.js
 
       - name: 💬 Comment on PR
         if: github.event_name == 'pull_request'
