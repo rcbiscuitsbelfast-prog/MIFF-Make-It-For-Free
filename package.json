@@ -16,7 +16,7 @@
     "ci:full": "npm run gen-toppler:full && npm run test:ci",
     "orchestration:validate": "node scripts/validate-orchestration.js",
     "replay:simulate": "node scripts/simulate-replay.js",
-    "validate-release": "node SpiritTamerDemoPure/validate_release.js",
+    "validate-release": "node scripts/validate-release.js",
     "run-tests": "jest",
     "test:ci": "jest --ci --coverage",
     "test:watch": "jest --watch",
