@@ -1,0 +1,28 @@
+{
+  "questId": "trial-of-grove",
+  "title": "Trial of the Grove",
+  "description": "Prove your worth as a Spirit Tamer by defeating Emberfang, Mosshide, and Cloudtail in the sacred grove, earning the blessing of the Grovekeeper.",
+  "objectives": [
+    {
+      "objectiveId": "defeat_emberfang",
+      "description": "Defeat the Emberfang in the Cinder Glade.",
+      "condition": "combat_completed:emberfang_battle"
+    },
+    {
+      "objectiveId": "defeat_mosshide",
+      "description": "Defeat the Mosshide in the Verdant Hollow.",
+      "condition": "combat_completed:mosshide_battle"
+    },
+    {
+      "objectiveId": "defeat_cloudtail",
+      "description": "Defeat the Cloudtail in the Skyreach.",
+      "condition": "combat_completed:cloudtail_battle"
+    }
+  ],
+  "rewards": {
+    "xp": 1000,
+    "items": ["grovekeeper_amulet"],
+    "effect": "spirit_tamer_blessing",
+    "lore": "trial_completed"
+  }
+}
