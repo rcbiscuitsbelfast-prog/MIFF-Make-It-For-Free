@@ -1,0 +1,183 @@
+// siege-of-emberwatch.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "Siege of the Emberwatch" using pure, engine-agnostic subsystems
+// Focuses on defensive combat, NPC coordination, and trap deployment
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'combat_wave_ended', 'trap_deployed')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., spawn wave, update NPC)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., InventoryPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'siege-of-emberwatch',
+  title: 'Siege of the Emberwatch',
+  description:
+    'The player must defend the Emberwatch, a strategic outpost, against three waves of shadowspawn enemies. Coordinate NPC allies, deploy defensive traps, and protect the outpost’s core to survive the siege.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'survive-waves',
+      description: 'Survive three waves of shadowspawn attacks.',
+      condition: () => CombatCorePure.getWaveCount('emberwatch-siege') >= 3,
+    },
+    {
+      id: 'protect-core',
+      description: 'Ensure the Emberwatch Core remains intact.',
+      condition: () => LocationPure.getHealth('emberwatch-core') > 0,
+    },
+    {
+      id: 'deploy-traps',
+      description: 'Deploy at least two defensive traps to bolster the defense.',
+      condition: () => TrapSystemPure.getDeployedCount('emberwatch') >= 2,
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'start-siege',
+      event: 'scenario_start',
+      action: () => {
+        LocationPure.lock('emberwatch-outpost'); // Prevent leaving during siege
+        AudioPure.play('siege-drum-loop', { loop: true, volume: 0.8 });
+        DialogPure.start('emberwatch-commander-briefing');
+        CombatCorePure.startWave('emberwatch-siege', 1);
+        AISystemPure.activateNPC('defender-captain', { role: 'ally', position: 'front-gate' });
+      },
+    },
+    {
+      id: 'wave-1-end',
+      event: 'combat_wave_ended',
+      condition: () => CombatCorePure.getWaveCount('emberwatch-siege') === 1,
+      action: () => {
+        CombatCorePure.startWave('emberwatch-siege', 2);
+        AISystemPure.activateNPC('archer-squad', { role: 'ally', position: 'battlements' });
+        AudioPure.play('wave-transition', { volume: 1.0 });
+        DialogPure.start('wave-2-warning');
+      },
+    },
+    {
+      id: 'wave-2-end',
+      event: 'combat_wave_ended',
+      condition: () => CombatCorePure.getWaveCount('emberwatch-siege') === 2,
+      action: () => {
+        CombatCorePure.startWave('emberwatch-siege', 3);
+        AudioPure.play('wave-transition', { volume: 1.0 });
+        TrapSystemPure.unlock('fire-trap'); // Unlock advanced trap for final wave
+        DialogPure.start('final-wave-rally');
+      },
+    },
+    {
+      id: 'trap-deployed',
+      event: 'trap_deployed',
+      condition: () => TrapSystemPure.getDeployedCount('emberwatch') > 0,
+      action: () => {
+        StatusEffectPure.apply('fortified', { duration: 300, target: 'emberwatch-core' });
+        AudioPure.play('trap-activate', { volume: 0.9 });
+      },
+    },
+    {
+      id: 'core-damaged',
+      event: 'location_damaged',
+      condition: () =>
+        LocationPure.getHealth('emberwatch-core') < 50 &&
+        LocationPure.getHealth('emberwatch-core') > 0,
+      action: () => {
+        DialogPure.start('core-damage-warning');
+        StatusEffectPure.apply('stress', { duration: 180, target: 'player' });
+        AudioPure.play('core-damage-alert', { volume: 1.2 });
+      },
+    },
+    {
+      id: 'siege-victory',
+      event: 'combat_wave_ended',
+      condition: () => CombatCorePure.getWaveCount('emberwatch-siege') === 3,
+      action: () => {
+        LocationPure.unlock('emberwatch-outpost');
+        AudioPure.stop('siege-drum-loop');
+        AudioPure.play('victory-fanfare', { volume: 1.0 });
+        LorePure.unlock('emberwatch-legacy');
+        DialogPure.start('commander-victory-speech');
+      },
+    },
+    {
+      id: 'core-destroyed',
+      event: 'location_damaged',
+      condition: () => LocationPure.getHealth('emberwatch-core') <= 0,
+      action: () => {
+        EventBusPure.publish('siege-failed');
+        AudioPure.play('defeat-dirge', { volume: 1.0 });
+        DialogPure.start('emberwatch-failure');
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-defender',
+      type: 'xp',
+      value: 1000,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-emberwatch-medal',
+      type: 'item',
+      value: 'emberwatch-medal',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'effect-iron-resolve',
+      type: 'effect',
+      value: 'iron-resolve',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-siege',
+      type: 'lore',
+      value: 'emberwatch-legacy',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'CombatCorePure',
+    'AISystemPure',
+    'LocationPure',
+    'TrapSystemPure',
+    'DialogPure',
+    'AudioPure',
+    'StatusEffectPure',
+    'InventoryPure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type SiegeOfEmberwatch = typeof ScenarioPure;
+export default ScenarioPure;
