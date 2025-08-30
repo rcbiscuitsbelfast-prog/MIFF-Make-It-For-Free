@@ -1,0 +1,233 @@
+[
+  {
+    "npcId": "echo_elara",
+    "name": "Echo of Elara",
+    "dialogueTree": {
+      "start": {
+        "text": "I am the Echo of Elara, lingering in the Grove’s heart. The legacies of past tamers call. Will you seek the Emberfang’s fire, Mosshide’s root, or Cloudtail’s wind?",
+        "choices": [
+          {
+            "choiceId": "c1_emberfang",
+            "text": "I seek the Emberfang’s legacy.",
+            "next": "emberfang_path",
+            "effect": { "questActivated": "echoes_emberfang" }
+          },
+          {
+            "choiceId": "c1_mosshide",
+            "text": "I seek the Mosshide’s legacy.",
+            "next": "mosshide_path",
+            "effect": { "questActivated": "echoes_mosshide" }
+          },
+          {
+            "choiceId": "c1_cloudtail",
+            "text": "I seek the Cloudtail’s legacy.",
+            "next": "cloudtail_path",
+            "effect": { "questActivated": "echoes_cloudtail" }
+          },
+          {
+            "choiceId": "c1_decline",
+            "text": "I’m not ready to choose.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "emberfang_path": {
+        "text": "The Emberfang’s fire burns eternal. Answer this: What is the flame that never dies? Speak your truth.",
+        "choices": [
+          {
+            "choiceId": "c2_passion",
+            "text": "The flame of passion.",
+            "next": "emberfang_correct",
+            "effect": { "dialogueCompleted": "npc_dialogue_trees_echo.json:emberfang_answer" }
+          },
+          {
+            "choiceId": "c2_wrong",
+            "text": "A literal flame.",
+            "next": "emberfang_wrong"
+          }
+        ]
+      },
+      "emberfang_correct": {
+        "text": "Passion fuels the Emberfang’s legacy. Embrace its fire to inherit its strength.",
+        "choices": [],
+        "end": true
+      },
+      "emberfang_wrong": {
+        "text": "No, mortal. The flame is passion, not mere fire. Try again or seek another path.",
+        "choices": [
+          {
+            "choiceId": "c3_retry",
+            "text": "Let me try again.",
+            "next": "emberfang_path"
+          },
+          {
+            "choiceId": "c3_return",
+            "text": "I’ll choose another legacy.",
+            "next": "start"
+          }
+        ]
+      },
+      "mosshide_path": {
+        "text": "Mosshide’s root anchors the Grove. Offer a relic of earth to prove your resolve. Do you have one?",
+        "choices": [
+          {
+            "choiceId": "c2_offer_root",
+            "text": "I offer a Mosshide Root.",
+            "next": "mosshide_correct",
+            "effect": { "inventoryCheck": "mosshide_root", "dialogueCompleted": "npc_dialogue_trees_echo.json:mosshide_answer" }
+          },
+          {
+            "choiceId": "c2_no_root",
+            "text": "I have no relic.",
+            "next": "mosshide_wrong"
+          }
+        ]
+      },
+      "mosshide_correct": {
+        "text": "The root binds you to Mosshide’s legacy. Its strength is yours to inherit.",
+        "choices": [],
+        "end": true
+      },
+      "mosshide_wrong": {
+        "text": "Without a relic, Mosshide’s legacy remains closed. Seek a Mosshide Root or choose another path.",
+        "choices": [
+          {
+            "choiceId": "c3_find_root",
+            "text": "I’ll find a Mosshide Root.",
+            "next": null,
+            "end": true
+          },
+          {
+            "choiceId": "c3_return",
+            "text": "I’ll choose another legacy.",
+            "next": "start"
+          }
+        ]
+      },
+      "cloudtail_path": {
+        "text": "Cloudtail’s wind dances free. Solve this riddle: I travel unseen, yet all feel my touch. What am I?",
+        "choices": [
+          {
+            "choiceId": "c2_wind",
+            "text": "The wind.",
+            "next": "cloudtail_correct",
+            "effect": { "dialogueCompleted": "npc_dialogue_trees_echo.json:cloudtail_answer" }
+          },
+          {
+            "choiceId": "c2_wrong",
+            "text": "A shadow.",
+            "next": "cloudtail_wrong"
+          }
+        ]
+      },
+      "cloudtail_correct": {
+        "text": "The wind speaks your truth! Cloudtail’s legacy of freedom is yours to claim.",
+        "choices": [],
+        "end": true
+      },
+      "cloudtail_wrong": {
+        "text": "A shadow? No, it is the wind. Try again or seek another path.",
+        "choices": [
+          {
+            "choiceId": "c3_retry",
+            "text": "Let me try again.",
+            "next": "cloudtail_path"
+          },
+          {
+            "choiceId": "c3_return",
+            "text": "I’ll choose another legacy.",
+            "next": "start"
+          }
+        ]
+      },
+      "decline": {
+        "text": "The echoes linger, Tamer. Return when you are ready to choose.",
+        "choices": [],
+        "end": true
+      }
+    }
+  },
+  {
+    "npcId": "glimmerling_echo",
+    "name": "Glimmerling’s Echo",
+    "dialogueTree": {
+      "start": {
+        "text": "Hee! I’m Glimmerling’s Echo, flickering in the Grove’s shadows! Trade a memory fragment for a fae blessing, but choose wisely! Got one?",
+        "choices": [
+          {
+            "choiceId": "c1_trade_fragment",
+            "text": "I offer a Memory Fragment.",
+            "next": "trade_accepted",
+            "effect": { "inventoryCheck": "memory_fragment" }
+          },
+          {
+            "choiceId": "c1_no_fragment",
+            "text": "I have no fragments.",
+            "next": "no_fragment"
+          },
+          {
+            "choiceId": "c1_decline",
+            "text": "No trades today.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "trade_accepted": {
+        "text": "Shiny fragment! Which blessing do you seek: fire, earth, or wind?",
+        "choices": [
+          {
+            "choiceId": "c2_fire",
+            "text": "Fire’s passion.",
+            "next": "fire_blessing",
+            "effect": { "legacyChosen": "emberfang_blessing" }
+          },
+          {
+            "choiceId": "c2_earth",
+            "text": "Earth’s strength.",
+            "next": "earth_blessing",
+            "effect": { "legacyChosen": "mosshide_blessing" }
+          },
+          {
+            "choiceId": "c2_wind",
+            "text": "Wind’s freedom.",
+            "next": "wind_blessing",
+            "effect": { "legacyChosen": "cloudtail_blessing" }
+          }
+        ]
+      },
+      "fire_blessing": {
+        "text": "Fire burns within you! The Emberfang’s blessing is yours, but its heat may consume.",
+        "choices": [],
+        "end": true
+      },
+      "earth_blessing": {
+        "text": "Earth roots you! Mosshide’s blessing grants you unyielding strength.",
+        "choices": [],
+        "end": true
+      },
+      "wind_blessing": {
+        "text": "Wind lifts you! Cloudtail’s blessing carries you to freedom.",
+        "choices": [],
+        "end": true
+      },
+      "no_fragment": {
+        "text": "No fragment, no blessing! Find a Memory Fragment in the Grove’s echoes!",
+        "choices": [
+          {
+            "choiceId": "c2_search",
+            "text": "I’ll find one.",
+            "next": null,
+            "end": true
+          }
+        ]
+      },
+      "decline": {
+        "text": "Boo, no fun! Come back with a shiny fragment, Tamer!",
+        "choices": [],
+        "end": true
+      }
+    }
+  }
+]
