@@ -1,0 +1,199 @@
+// pact-twin-flames.ts
+// Remix-safe, modular scenario definition for the MIFF Framework
+// Implements "The Pact of the Twin Flames" using pure, engine-agnostic subsystems
+// Focuses on dual-faction allegiance, mirrored objectives, and world-altering choices
+
+// Helper types for scenario structure (consistent with MIFF standards)
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean; // Queries subsystem state
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string; // Subsystem event (e.g., 'dialog_choice', 'faction_updated')
+  condition?: () => boolean; // Optional trigger condition
+  action: () => void; // Action to execute (e.g., update faction, unlock lore)
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number; // Item ID, XP amount, lore ID, effect ID, etc.
+  target?: string; // Subsystem target (e.g., FactionSystemPure, LorePure)
+}
+
+// Pure scenario definition, avoiding orchestration logic
+const ScenarioPure = {
+  id: 'pact-twin-flames',
+  title: 'The Pact of the Twin Flames',
+  description:
+    'The player is caught between two opposing factions, the Ember Flame and Frost Flame, each vying for control of an ancient power. Choose an allegiance through dialogue, complete mirrored objectives, and shape the world based on your pact.',
+
+  // Objectives: Define win conditions using subsystem queries
+  objectives: [
+    {
+      id: 'choose-faction',
+      description: 'Pledge allegiance to either the Ember Flame or Frost Flame faction.',
+      condition: () =>
+        FactionSystemPure.getStanding('ember-flame') > 0 ||
+        FactionSystemPure.getStanding('frost-flame') > 0,
+    },
+    {
+      id: 'complete-faction-task',
+      description: 'Fulfill the primary objective of your chosen faction.',
+      condition: () =>
+        (FactionSystemPure.getStanding('ember-flame') > 0 &&
+          CombatCorePure.isEnemyDefeated('frost-champion')) ||
+        (FactionSystemPure.getStanding('frost-flame') > 0 &&
+          InventoryPure.has('ember-relic')),
+    },
+    {
+      id: 'seal-pact',
+      description: 'Seal the pact with your chosen faction to shape the world.',
+      condition: () => EventBusPure.wasPublished('pact-sealed'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  // Triggers: Event-driven hooks for dynamic scenario progression
+  triggers: [
+    {
+      id: 'enter-twin-shrine',
+      event: 'scenario_start',
+      action: () => {
+        LocationPure.set('twin-flame-shrine');
+        DialogPure.start('twin-flame-council');
+        AudioPure.play('flame-ambient-hum', { loop: true, volume: 0.6 });
+      },
+    },
+    {
+      id: 'ember-flame-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('faction-choice') === 'ember-flame',
+      action: () => {
+        FactionSystemPure.updateStanding('ember-flame', 50);
+        FactionSystemPure.updateStanding('frost-flame', -50);
+        LocationPure.set('ember-flame-fortress');
+        AudioPure.play('ember-flame-shift', { volume: 1.0 });
+        DialogPure.start('ember-flame-mission');
+        StatusEffectPure.apply('ember-fervor', { duration: 300, target: 'player' });
+        EventBusPure.publish('faction-chosen', { faction: 'ember-flame' });
+      },
+    },
+    {
+      id: 'frost-flame-choice',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('faction-choice') === 'frost-flame',
+      action: () => {
+        FactionSystemPure.updateStanding('frost-flame', 50);
+        FactionSystemPure.updateStanding('ember-flame', -50);
+        LocationPure.set('frost-flame-sanctuary');
+        AudioPure.play('frost-flame-shift', { volume: 1.0 });
+        DialogPure.start('frost-flame-mission');
+        StatusEffectPure.apply('frost-calm', { duration: 300, target: 'player' });
+        EventBusPure.publish('faction-chosen', { faction: 'frost-flame' });
+      },
+    },
+    {
+      id: 'ember-objective-complete',
+      event: 'combat_end',
+      condition: () =>
+        FactionSystemPure.getStanding('ember-flame') > 0 &&
+        CombatCorePure.isEnemyDefeated('frost-champion'),
+      action: () => {
+        AudioPure.play('ember-victory', { volume: 1.0 });
+        DialogPure.start('ember-pact-sealing');
+        LorePure.unlock('ember-flame-legacy');
+      },
+    },
+    {
+      id: 'frost-objective-complete',
+      event: 'item_added',
+      condition: () =>
+        FactionSystemPure.getStanding('frost-flame') > 0 &&
+        InventoryPure.has('ember-relic'),
+      action: () => {
+        AudioPure.play('frost-victory', { volume: 1.0 });
+        DialogPure.start('frost-pact-sealing');
+        LorePure.unlock('frost-flame-legacy');
+      },
+    },
+    {
+      id: 'pact-sealed-ember',
+      event: 'dialog_completed',
+      condition: () =>
+        FactionSystemPure.getStanding('ember-flame') > 0 &&
+        DialogPure.wasCompleted('ember-pact-sealing'),
+      action: () => {
+        EventBusPure.publish('pact-sealed', { faction: 'ember-flame' });
+        AudioPure.stop('flame-ambient-hum');
+        AudioPure.play('pact-sealed-ember', { volume: 1.2 });
+        StatusEffectPure.apply('world-ember-shift', { duration: -1, target: 'world' });
+      },
+    },
+    {
+      id: 'pact-sealed-frost',
+      event: 'dialog_completed',
+      condition: () =>
+        FactionSystemPure.getStanding('frost-flame') > 0 &&
+        DialogPure.wasCompleted('frost-pact-sealing'),
+      action: () => {
+        EventBusPure.publish('pact-sealed', { faction: 'frost-flame' });
+        AudioPure.stop('flame-ambient-hum');
+        AudioPure.play('pact-sealed-frost', { volume: 1.2 });
+        StatusEffectPure.apply('world-frost-shift', { duration: -1, target: 'world' });
+      },
+    },
+  ] satisfies ScenarioTrigger[],
+
+  // Rewards: Granted upon scenario completion (all objectives met)
+  rewards: [
+    {
+      id: 'xp-pactmaker',
+      type: 'xp',
+      value: 850,
+      target: 'player-progress',
+    },
+    {
+      id: 'item-flame-token',
+      type: 'item',
+      value: DialogPure.getChoice('faction-choice') === 'ember-flame' ? 'ember-token' : 'frost-token',
+      target: 'InventoryPure',
+    },
+    {
+      id: 'effect-flame-aura',
+      type: 'effect',
+      value: DialogPure.getChoice('faction-choice') === 'ember-flame' ? 'ember-aura' : 'frost-aura',
+      target: 'player-effects',
+    },
+    {
+      id: 'lore-twin-flames',
+      type: 'lore',
+      value: 'twin-flames-legacy',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  // Subsystem dependencies (for documentation and remix safety)
+  dependencies: [
+    'FactionSystemPure',
+    'DialogPure',
+    'EventBusPure',
+    'LocationPure',
+    'AudioPure',
+    'StatusEffectPure',
+    'CombatCorePure',
+    'InventoryPure',
+    'LorePure',
+  ],
+
+  // Metadata for remixers
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT', // Ensures forkability and attribution
+} as const;
+
+// Type assertion for remix safety and type safety
+export type PactOfTwinFlames = typeof ScenarioPure;
+export default ScenarioPure;
