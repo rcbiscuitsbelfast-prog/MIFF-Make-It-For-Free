@@ -1,0 +1,35 @@
+{
+  "legacyId": "grove_legacies",
+  "legacies": [
+    {
+      "legacyId": "emberfang_blessing",
+      "name": "Emberfang’s Blessing",
+      "description": "A fiery legacy that enhances courage and destructive power, but risks burning out the Tamer’s spirit.",
+      "effect": {
+        "type": "stat_boost",
+        "stats": { "attack": 20, "spirit": -10 },
+        "lore": "emberfang_inherited"
+      }
+    },
+    {
+      "legacyId": "mosshide_blessing",
+      "name": "Mosshide’s Blessing",
+      "description": "An earthen legacy that grants resilience and stability, anchoring the Tamer to the Grove’s roots.",
+      "effect": {
+        "type": "stat_boost",
+        "stats": { "defense": 30, "speed": -5 },
+        "lore": "mosshide_inherited"
+      }
+    },
+    {
+      "legacyId": "cloudtail_blessing",
+      "name": "Cloudtail’s Blessing",
+      "description": "A windy legacy that bestows agility and freedom, but may leave the Tamer unmoored.",
+      "effect": {
+        "type": "stat_boost",
+        "stats": { "speed": 25, "defense": -10 },
+        "lore": "cloudtail_inherited"
+      }
+    }
+  ]
+}
