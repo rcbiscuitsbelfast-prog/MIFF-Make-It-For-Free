@@ -1,0 +1,123 @@
+// dream-of-hollow-vale.ts
+// Remix-safe scenario for MIFF Framework
+// Focuses on dream-state traversal, layered realities, and memory gating
+
+interface ScenarioObjective {
+  id: string;
+  description: string;
+  condition: () => boolean;
+}
+
+interface ScenarioTrigger {
+  id: string;
+  event: string;
+  condition?: () => boolean;
+  action: () => void;
+}
+
+interface ScenarioReward {
+  id: string;
+  type: 'item' | 'xp' | 'lore' | 'effect' | 'memory';
+  value: string | number;
+  target?: string;
+}
+
+const ScenarioPure = {
+  id: 'dream-of-hollow-vale',
+  title: 'The Dream of Hollow Vale',
+  description:
+    'The player awakens in a dreamscape shaped by forgotten memories. They must navigate shifting layers of reality, recover fragments of self, and choose which truth to awaken into.',
+
+  objectives: [
+    {
+      id: 'recover-fragments',
+      description: 'Recover three memory fragments hidden across dream layers.',
+      condition: () =>
+        MemorySystemPure.hasFragment('vale-origin') &&
+        MemorySystemPure.hasFragment('vale-loss') &&
+        MemorySystemPure.hasFragment('vale-choice'),
+    },
+    {
+      id: 'reach-core',
+      description: 'Reach the dream’s core chamber.',
+      condition: () => LocationPure.current() === 'dream-core',
+    },
+    {
+      id: 'make-awakening-choice',
+      description: 'Choose which reality to awaken into.',
+      condition: () => EventBusPure.wasPublished('awakening-path'),
+    },
+  ] satisfies ScenarioObjective[],
+
+  triggers: [
+    {
+      id: 'enter-dream',
+      event: 'scenario_start',
+      action: () => DreamSystemPure.enter('hollow-vale'),
+    },
+    {
+      id: 'fragment-valley',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'dream-valley',
+      action: () => MemorySystemPure.addFragment('vale-origin'),
+    },
+    {
+      id: 'fragment-ruins',
+      event: 'location_entered',
+      condition: () => LocationPure.current() === 'dream-ruins',
+      action: () => MemorySystemPure.addFragment('vale-loss'),
+    },
+    {
+      id: 'fragment-reflection',
+      event: 'dialog_completed',
+      condition: () => DialogPure.wasCompleted('vale-reflection'),
+      action: () => MemorySystemPure.addFragment('vale-choice'),
+    },
+    {
+      id: 'awakening-decision',
+      event: 'dialog_choice',
+      condition: () => DialogPure.getChoice('awakening-path') !== null,
+      action: () =>
+        EventBusPure.publish('awakening-path', {
+          path: DialogPure.getChoice('awakening-path'),
+        }),
+    },
+  ] satisfies ScenarioTrigger[],
+
+  rewards: [
+    {
+      id: 'xp-dreamwalker',
+      type: 'xp',
+      value: 1000,
+      target: 'player-progress',
+    },
+    {
+      id: 'memory-vale',
+      type: 'memory',
+      value: 'vale-complete',
+      target: 'MemorySystemPure',
+    },
+    {
+      id: 'lore-dreamvale',
+      type: 'lore',
+      value: 'hollow-vale-legend',
+      target: 'lore-system',
+    },
+  ] satisfies ScenarioReward[],
+
+  dependencies: [
+    'DreamSystemPure',
+    'MemorySystemPure',
+    'DialogPure',
+    'LocationPure',
+    'EventBusPure',
+    'LorePure',
+  ],
+
+  version: '1.0.0',
+  author: 'MIFF Community',
+  license: 'MIT',
+} as const;
+
+export type DreamOfHollowVale = typeof ScenarioPure;
+export default ScenarioPure;
