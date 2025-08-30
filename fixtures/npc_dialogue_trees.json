@@ -1,0 +1,148 @@
+[
+  {
+    "npcId": "mentor_elara",
+    "name": "Elara the Grovekeeper",
+    "dialogueTree": {
+      "start": {
+        "text": "Welcome, Spirit Tamer, to the Trial of the Grove. Three spirits await your challenge. Will you heed my guidance?",
+        "choices": [
+          {
+            "choiceId": "c1_accept",
+            "text": "I accept the trial. Guide me.",
+            "next": "guidance",
+            "effect": { "questActivated": "trial-of-grove" }
+          },
+          {
+            "choiceId": "c1_ask",
+            "text": "What are these spirits?",
+            "next": "spirit_info"
+          },
+          {
+            "choiceId": "c1_decline",
+            "text": "I’m not ready yet.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "guidance": {
+        "text": "Seek the Emberfang in the Cinder Glade, Mosshide in the Verdant Hollow, and Cloudtail in the Skyreach. Return when you’ve tamed them all.",
+        "choices": [
+          {
+            "choiceId": "c2_thanks",
+            "text": "Thank you, I’ll begin.",
+            "next": null,
+            "end": true
+          }
+        ]
+      },
+      "spirit_info": {
+        "text": "Emberfang burns with fiery rage, Mosshide is rooted in earth’s strength, and Cloudtail dances with the wind’s freedom. Each tests a different virtue.",
+        "choices": [
+          {
+            "choiceId": "c3_accept",
+            "text": "I’m ready to face them.",
+            "next": "guidance",
+            "effect": { "questActivated": "trial-of-grove" }
+          },
+          {
+            "choiceId": "c3_decline",
+            "text": "I need more time.",
+            "next": "decline",
+            "end": true
+          }
+        ]
+      },
+      "decline": {
+        "text": "The grove awaits when you are ready, Tamer.",
+        "choices": [],
+        "end": true
+      }
+    }
+  },
+  {
+    "npcId": "guide_sylph",
+    "name": "Sylph the Wisp",
+    "dialogueTree": {
+      "start": {
+        "text": "Heehee! You’re the new Tamer, right? Wanna know a secret about the spirits or just play a game?",
+        "choices": [
+          {
+            "choiceId": "c1_secret",
+            "text": "Tell me about the spirits.",
+            "next": "spirit_tips"
+          },
+          {
+            "choiceId": "c1_game",
+            "text": "Let’s play a game!",
+            "next": "game"
+          },
+          {
+            "choiceId": "c1_leave",
+            "text": "I’m busy, Sylph.",
+            "next": "leave",
+            "end": true
+          }
+        ]
+      },
+      "spirit_tips": {
+        "text": "Emberfang hates water, Mosshide’s slow but tough, and Cloudtail’s tricky to hit! Want another tip?",
+        "choices": [
+          {
+            "choiceId": "c2_more",
+            "text": "Another tip, please.",
+            "next": "more_tips"
+          },
+          {
+            "choiceId": "c2_thanks",
+            "text": "That’s enough, thanks!",
+            "next": null,
+            "end": true
+          }
+        ]
+      },
+      "more_tips": {
+        "text": "Okay! Use quick moves on Mosshide, and don’t let Cloudtail dodge you! Ready for the trial now?",
+        "choices": [
+          {
+            "choiceId": "c3_ready",
+            "text": "I’m ready!",
+            "next": null,
+            "end": true
+          }
+        ]
+      },
+      "game": {
+        "text": "Guess my favorite spirit! Hint: it’s fast and breezy! Is it Cloudtail?",
+        "choices": [
+          {
+            "choiceId": "c2_correct",
+            "text": "It’s Cloudtail!",
+            "next": "game_win",
+            "effect": { "itemAwarded": "wisp-token" }
+          },
+          {
+            "choiceId": "c2_wrong",
+            "text": "It’s Emberfang!",
+            "next": "game_lose"
+          }
+        ]
+      },
+      "game_win": {
+        "text": "Yay, you got it! Here’s a shiny token for you!",
+        "choices": [],
+        "end": true
+      },
+      "game_lose": {
+        "text": "Nope, try again next time!",
+        "choices": [],
+        "end": true
+      },
+      "leave": {
+        "text": "Boo, you’re no fun! Come back to play!",
+        "choices": [],
+        "end": true
+      }
+    }
+  }
+]
