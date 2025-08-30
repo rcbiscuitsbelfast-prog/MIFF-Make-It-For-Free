@@ -23,9 +23,15 @@ const html = `<!doctype html>
   </body>
   </html>`;
 
-// Resolve relative to repository root (current working directory in CI)
-const outPath = resolve(process.cwd(), 'games/toppler/toppler.html');
-mkdirSync(dirname(outPath), { recursive: true });
-writeFileSync(outPath, html, 'utf8');
-console.log('[gen-html] Wrote', outPath);
+console.log('Starting Toppler HTML generation...');
+try {
+  // Resolve relative to repository root (current working directory in CI)
+  const outPath = resolve(process.cwd(), 'games/toppler/toppler.html');
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(outPath, html, 'utf8');
+  console.log('[gen-html] Wrote', outPath);
+} catch (err) {
+  console.error('Toppler generation failed:', err);
+  process.exit(1);
+}
 

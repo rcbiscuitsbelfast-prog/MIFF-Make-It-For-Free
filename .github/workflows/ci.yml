@@ -16,8 +16,15 @@ jobs:
           node-version: '20'
       - name: Install dependencies (root)
         run: npm ci || npm install
-      - name: Generate Toppler HTML
-        run: npm run gen-toppler
+      - name: Ensure ts-node
+        run: npm install --save-dev ts-node typescript
+      - name: Generate Toppler HTML (ts-node)
+        id: gen_ts
+        continue-on-error: true
+        run: npx ts-node scripts/gen-toppler-html.ts
+      - name: Fallback: Generate Toppler HTML via wrapper
+        if: steps.gen_ts.outcome == 'failure'
+        run: node scripts/gen-toppler-wrapper.js
       - name: Type check Toppler standalone
         run: npx tsc --noEmit -p games/toppler/tsconfig.json
       - name: Run tests (root jest)
