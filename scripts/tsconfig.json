@@ -1,0 +1,21 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"noEmit": false,
+		"outDir": "../dist-scripts",
+		"target": "ES2020",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"lib": ["ES2020"],
+		"declaration": false,
+		"sourceMap": false
+	},
+	"include": [
+		"./**/*.ts"
+	],
+	"exclude": [
+		"../node_modules",
+		"../dist",
+		"../coverage"
+	]
+}

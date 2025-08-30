@@ -1,21 +1,10 @@
 {
-  "name": "workspace",
+  "name": "toppler-demo",
   "version": "1.0.0",
   "description": "🌳 Retro-style 2D RPG game engine for Unity, inspired by Pokémon Gold, Silver and Crystal.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage --watchAll=false",
-    "test:golden": "node sampler/replay/run.js",
-    "test:remix": "node cli/validate-remix-mode.js",
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && vercel --prod",
-    "gen:html": "node -r ts-node/register scripts/gen-html.ts",
-    "gen-toppler": "ts-node ./scripts/gen-html.ts"
+    "build": "echo 'No build needed'"
   },
   "repository": {
     "type": "git",
@@ -39,6 +28,7 @@
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.7",
+    "esbuild": "^0.25.9",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^30.0.5",
     "ts-jest": "^29.4.1",
@@ -48,6 +38,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.21",
+    "commander": "^14.0.0",
     "next": "^15.5.0",
     "next-seo": "^6.8.0",
     "postcss": "^8.5.6",

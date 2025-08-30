@@ -3,14 +3,28 @@
 
 export async function mountToppler() {
   // Lazy import the module which mounts into #app
-  await import('./index.ts');
+  // Prefer compiled bundle if present; fallback to module path
+  try {
+    await import('./dist/index.js');
+  } catch {
+    await import('./index.js');
+  }
 }
 
 if (typeof window !== 'undefined') {
   // @ts-ignore - expose for remixers
   window.mountToppler = mountToppler;
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => mountToppler());
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const app = document.getElementById('app');
+        if (app) {
+          const s = getComputedStyle(app);
+          console.log('[Toppler Debug] #app styles', { width: s.width, height: s.height, display: s.display });
+        }
+      } catch {}
+      mountToppler();
+    });
   } else {
     mountToppler();
   }
@@ -40,7 +54,7 @@ window.mountToppler = function mountToppler() {
   (function waitForScene() {
     if (window.TopplerStandalone && window.TopplerStandalone.scene) return;
     if (Date.now() - start > timeoutMs) {
-      console.warn('[Toppler] Scene not initialized yet. Ensure index.ts is included as a module.');
+      console.warn('[Toppler] Scene not initialized yet. Ensure dist/index.js is included as a module.');
       return;
     }
     requestAnimationFrame(waitForScene);

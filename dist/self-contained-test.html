@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Self-Contained Bundle Test</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; color: white; font-family: monospace; }
+        #app { width: 360px; height: 640px; border: 2px solid #fff; background: #111; }
+        #log { margin: 20px 0; padding: 10px; background: #333; height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>Self-Contained Bundle Test</h1>
+    <div id="log">Testing...</div>
+    <div id="app"></div>
+    
+    <script>
+        const logDiv = document.getElementById('log');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? '#ff6b6b' : type === 'success' ? '#6bcf7f' : '#ffffff';
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(div);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Override console methods
+        console.log = (...args) => log(args.join(' '), 'info');
+        console.warn = (...args) => log(args.join(' '), 'error');
+        console.error = (...args) => log(args.join(' '), 'error');
+        
+        log('Page loaded');
+        log('Testing basic canvas functionality...');
+        
+        // Test basic canvas
+        const app = document.getElementById('app');
+        const canvas = document.createElement('canvas');
+        canvas.width = 360;
+        canvas.height = 640;
+        app.appendChild(canvas);
+        
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            ctx.fillStyle = '#f00';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0ff';
+            ctx.fillRect(80, 220, 200, 200);
+            ctx.fillStyle = '#fff';
+            ctx.font = '20px monospace';
+            ctx.fillText('Canvas Test Working!', 20, 40);
+            log('Basic canvas test successful', 'success');
+        } else {
+            log('Canvas context failed', 'error');
+        }
+        
+        log('Testing bundle execution...');
+        
+        // Add autostart parameter
+        if (!window.location.search.includes('autostart=1')) {
+            window.history.replaceState({}, '', window.location.href + '?autostart=1');
+        }
+        
+        // Test if we can load the bundle file
+        fetch('./dist/bundle.js')
+            .then(response => {
+                if (response.ok) {
+                    log('Bundle file accessible', 'success');
+                    return response.text();
+                } else {
+                    log('Bundle file not accessible: ' + response.status, 'error');
+                    throw new Error('Bundle not accessible');
+                }
+            })
+            .then(bundleText => {
+                log('Bundle file loaded, length: ' + bundleText.length, 'success');
+                
+                // Try to execute the bundle
+                try {
+                    eval(bundleText);
+                    log('Bundle executed successfully', 'success');
+                    
+                    // Check if TopplerBundle was created
+                    setTimeout(() => {
+                        if (window.TopplerBundle) {
+                            log('TopplerBundle found', 'success');
+                        } else {
+                            log('TopplerBundle not found', 'error');
+                        }
+                    }, 1000);
+                    
+                } catch (error) {
+                    log('Bundle execution failed: ' + error.message, 'error');
+                }
+            })
+            .catch(error => {
+                log('Failed to load bundle: ' + error.message, 'error');
+            });
+    </script>
+</body>
+</html>

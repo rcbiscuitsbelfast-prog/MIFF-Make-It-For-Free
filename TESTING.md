@@ -55,7 +55,7 @@ test('✓ CLI operation test', () => {
 
 ### Golden Fixtures for Deterministic Testing
 
-**🎯 NEW**: Golden fixtures are now available in `/tests/goldenFixtures/` for all CLI tools:
+**🎯 NEW**: Golden fixtures are now available in `/tests/goldenFixtures/` for all CLI tools. Scenario packs such as `TopplerDemoPure` also ship module-local golden fixtures under their folder (e.g., `TopplerDemoPure/fixtures/toppler.golden.json`) with a CLI harness (`TopplerDemoPure/cliHarness.ts`).
 
 ```typescript
 test('✓ golden output validation', () => {
@@ -77,6 +77,23 @@ test('✓ golden output validation', () => {
 - Tools: `render_replay_help.json`, `debug_overlay_help.json`
 
 See `/tests/goldenFixtures/README.md` for complete fixture documentation.
+
+#### TopplerDemoPure Golden Test Example
+
+```typescript
+import fs from 'fs';
+import path from 'path';
+
+test('TopplerDemoPure scenario matches golden', () => {
+  const cli = path.resolve('TopplerDemoPure/cliHarness.ts');
+  const out = (global as any).testUtils.runCLI(cli, []);
+  const got = JSON.parse(out);
+  const expected = JSON.parse(
+    fs.readFileSync(path.resolve('TopplerDemoPure/fixtures/toppler.golden.json'), 'utf-8')
+  );
+  expect(got).toEqual(expected);
+});
+```
 
 ### Common Pitfalls to Avoid
 

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Toppler Diagnosis</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #000; color: white; font-family: monospace; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .status { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background: #2d5a2d; border: 1px solid #4caf50; }
+        .error { background: #5a2d2d; border: 1px solid #f44336; }
+        .info { background: #2d2d5a; border: 1px solid #2196f3; }
+        .log { background: #333; padding: 10px; border-radius: 5px; height: 300px; overflow-y: auto; margin: 20px 0; }
+        .log div { margin: 2px 0; }
+        .log .success { color: #4caf50; }
+        .log .error { color: #f44336; }
+        .log .info { color: #2196f3; }
+        button { background: #2196f3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #1976d2; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #555; padding: 8px; text-align: left; }
+        th { background: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Toppler Diagnosis</h1>
+        
+        <div class="status info">
+            <h3>Diagnostic Tools</h3>
+            <p>This page will check file accessibility, MIME types, and module loading.</p>
+            <button onclick="runDiagnosis()">Run Diagnosis</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+        
+        <div class="log" id="log">
+            <div class="info">Diagnosis log will appear here...</div>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+    
+    <script src="./diagnose.js"></script>
+    <script>
+        const logDiv = document.getElementById('log');
+        const resultsDiv = document.getElementById('results');
+        
+        // Override console methods to capture output
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        function addToLog(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = message;
+            logDiv.appendChild(div);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            originalLog(...args);
+            addToLog(args.join(' '), 'info');
+        };
+        
+        console.warn = (...args) => {
+            originalWarn(...args);
+            addToLog(args.join(' '), 'error');
+        };
+        
+        console.error = (...args) => {
+            originalError(...args);
+            addToLog(args.join(' '), 'error');
+        };
+        
+        function clearLog() {
+            logDiv.innerHTML = '<div class="info">Log cleared...</div>';
+            resultsDiv.innerHTML = '';
+        }
+        
+        async function runDiagnosis() {
+            clearLog();
+            addToLog('🔍 Starting Toppler diagnosis...', 'info');
+            
+            try {
+                const results = await diagnoseToppler();
+                displayResults(results);
+            } catch (error) {
+                addToLog(`❌ Diagnosis failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function displayResults(results) {
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Status</th>
+                        <th>Content-Type</th>
+                        <th>Accessible</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${results.map(r => `
+                        <tr>
+                            <td>${r.file}</td>
+                            <td>${r.status || 'N/A'}</td>
+                            <td>${r.contentType || 'N/A'}</td>
+                            <td>${r.accessible ? '✅ Yes' : '❌ No'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            
+            resultsDiv.innerHTML = '<h3>📊 File Accessibility Results</h3>';
+            resultsDiv.appendChild(table);
+        }
+        
+        // Auto-run diagnosis on page load
+        setTimeout(runDiagnosis, 1000);
+    </script>
+</body>
+</html>
