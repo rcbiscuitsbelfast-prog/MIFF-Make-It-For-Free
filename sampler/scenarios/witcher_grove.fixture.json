@@ -13,14 +13,14 @@
 	"assets": {
 		"background": "witcher_grove_bg.png",
 		"sprites": {
-			"player": "sprites/Player.png",
-			"playerActions": "sprites/Player_Actions.png",
-			"oakTree": "sprites/Outdoor decoration/Oak_Tree.png",
-			"oakTreeSmall": "sprites/Outdoor decoration/Oak_Tree_Small.png",
-			"fence": "sprites/Outdoor decoration/Fences.png",
-			"bridge": "sprites/Outdoor decoration/Bridge_Wood.png",
-			"house": "sprites/Outdoor decoration/House.png",
-			"chest": "sprites/Outdoor decoration/Chest.png"
+			"player": "Player.png",
+			"playerActions": "Player_Actions.png",
+			"oakTree": "Oak_Tree.png",
+			"oakTreeSmall": "Oak_Tree_Small.png",
+			"fence": "Fences.png",
+			"bridge": "Bridge_Wood.png",
+			"house": "House.png",
+			"chest": "Chest.png"
 		},
 		"buttons": {
 			"quest": "__TEXT__QUEST__",
@@ -44,23 +44,23 @@
 	],
 	"objects": [
 		{ "type": "tilemap", "tiles": [
-			{ "src": "sprites/Tiles/Grass_Middle.png", "x": 0, "y": 0, "w": 20, "h": 15 },
-			{ "src": "sprites/Tiles/Path_Tile.png", "x": 2, "y": 7, "w": 16, "h": 1 },
-			{ "src": "sprites/Tiles/Water_Tile.png", "x": 10, "y": 3, "w": 5, "h": 3 },
-			{ "src": "sprites/Tiles/Cliff_Tile.png", "x": 0, "y": 0, "w": 1, "h": 15 }
+			{ "src": "Grass_Middle.png", "x": 0, "y": 0, "w": 20, "h": 15 },
+			{ "src": "Path_Tile.png", "x": 2, "y": 7, "w": 16, "h": 1 },
+			{ "src": "Water_Tile.png", "x": 10, "y": 3, "w": 5, "h": 3 },
+			{ "src": "Cliff_Tile.png", "x": 0, "y": 0, "w": 1, "h": 15 }
 		]},
 		{ "type": "decor", "id": "tree_cluster", "sprites": [
-			{ "src": "sprites/Outdoor decoration/Oak_Tree.png", "x": 4, "y": 5 },
-			{ "src": "sprites/Outdoor decoration/Oak_Tree_Small.png", "x": 6, "y": 6 }
+			{ "src": "Oak_Tree.png", "x": 4, "y": 5 },
+			{ "src": "Oak_Tree_Small.png", "x": 6, "y": 6 }
 		]},
 		{ "type": "decor", "id": "fences", "sprites": [
-			{ "src": "sprites/Outdoor decoration/Fences.png", "x": 0, "y": 0, "w": 20, "h": 1 },
-			{ "src": "sprites/Outdoor decoration/Fences.png", "x": 0, "y": 14, "w": 20, "h": 1 }
+			{ "src": "Fences.png", "x": 0, "y": 0, "w": 20, "h": 1 },
+			{ "src": "Fences.png", "x": 0, "y": 14, "w": 20, "h": 1 }
 		]},
-		{ "type": "decor", "id": "bridge", "sprite": { "src": "sprites/Outdoor decoration/Bridge_Wood.png", "x": 11, "y": 5 } },
-		{ "type": "decor", "id": "house", "sprite": { "src": "sprites/Outdoor decoration/House.png", "x": 16, "y": 2 } },
-		{ "type": "loot", "id": "chest1", "sprite": { "src": "sprites/Outdoor decoration/Chest.png", "x": 8, "y": 7 }, "reward": "gold:50" },
-		{ "type": "player", "id": "hero", "spawn": { "x": 1, "y": 13 }, "sprites": { "idle": "sprites/Player.png", "actions": "sprites/Player_Actions.png" } },
+		{ "type": "decor", "id": "bridge", "sprite": { "src": "Bridge_Wood.png", "x": 11, "y": 5 } },
+		{ "type": "decor", "id": "house", "sprite": { "src": "House.png", "x": 16, "y": 2 } },
+		{ "type": "loot", "id": "chest1", "sprite": { "src": "Chest.png", "x": 8, "y": 7 }, "reward": "gold:50" },
+		{ "type": "player", "id": "hero", "spawn": { "x": 1, "y": 13 }, "sprites": { "idle": "Player.png", "actions": "Player_Actions.png" } },
 		{ "type": "ui", "id": "btn_quest", "label": "[Quest]", "position": "top-left" },
 		{ "type": "ui", "id": "btn_back", "label": "[Back]", "position": "top-right" }
 	],
