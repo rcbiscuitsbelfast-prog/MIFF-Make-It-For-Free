@@ -1,0 +1,5 @@
+[
+  ["Grass_Middle","Grass_Middle","Path_Tile","Path_Tile","Path_Tile","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle"],
+  ["Grass_Middle","Path_Tile","Path_Tile","Water_Tile","Water_Tile","Water_Tile","Grass_Middle","FarmLand_Tile","FarmLand_Tile","FarmLand_Tile","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle"],
+  ["Path_Tile","Water_Tile","Water_Tile","Water_Tile","Water_Tile","Water_Tile","Grass_Middle","FarmLand_Tile","FarmLand_Tile","FarmLand_Tile","Grass_Middle","Cliff_Tile","Cliff_Tile","Cliff_Tile","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle","Grass_Middle"]
+]
