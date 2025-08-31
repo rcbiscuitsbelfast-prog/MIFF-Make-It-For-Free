@@ -30,6 +30,9 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci || npm i
 
+      - name: 🔎 Preflight: root test script present
+        run: node scripts/ci-preflight.js
+
       - name: 📝 Onboarding hint
         run: |
           echo "MIFF CI initialized. For local dev: npm ci && npm run start:grove"
@@ -58,6 +61,9 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci || npm i
+
+      - name: 🔎 Validate nested packages scripts
+        run: node scripts/ci-script-validator.js
 
       - name: 🔍 Run asset validation
         run: |
