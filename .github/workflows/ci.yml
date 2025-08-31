@@ -26,7 +26,7 @@ jobs:
         if: steps.gen_ts.outcome == 'failure'
         run: node miff/scripts/gen-toppler-wrapper.js
       - name: Type check Toppler standalone
-        run: npx tsc --noEmit -p games/toppler/tsconfig.json
+        run: npx tsc --noEmit -p zones/toppler/tsconfig.json
       - name: Run tests (root jest)
-        run: npx jest --config jest.config.js --runTestsByPath games/toppler/tests/scene.spec.ts
+        run: npx jest --config jest.config.js --runTestsByPath zones/toppler/tests/scene.spec.ts
 

@@ -27,7 +27,7 @@ function simulate(s:Scenario, seed?:string): Output {
 
 function main(){
 	const args = parseArgs(process.argv);
-	const scenarioPath = args.scenario || 'TutorialScenarioPure/scenario.json';
+	const scenarioPath = args.scenario || 'miff/pure/TutorialScenarioPure/scenario.json';
 	const j = JSON.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
 	if(args.dump){
 		console.log(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:j }]}, null, 2));

@@ -3,7 +3,7 @@ import fs from 'fs';
 
 test('AssetManifestPure validates sprite sheet manifest', () => {
   const cli = path.resolve('cli/manifest.ts');
-  const file = path.resolve('systems/AssetManifestPure/fixtures/sprites.json');
+  const file = path.resolve('miff/pure/AssetManifestPure/fixtures/sprites.json');
   const out = (global as any).testUtils.runCLI(cli, [file]);
   const j = JSON.parse(out);
   expect(j.op).toBe('manifest');

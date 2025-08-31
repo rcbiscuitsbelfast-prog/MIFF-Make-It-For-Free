@@ -13,9 +13,9 @@ const orch = JSON.parse(fs.readFileSync(orchPath, 'utf8'));
 assert(Array.isArray(orch.entries), 'orchestration.json: entries[] missing');
 assert(orch.entries.length > 0, 'orchestration.json: entries[] empty');
 
-// Validate scenario registry presence
-const registryPath = './scenarios/scenario_registry.json';
-assert(fs.existsSync(registryPath), 'Missing scenarios/scenario_registry.json');
+// Validate scenario registry presence (moved to archive)
+const registryPath = './docs/archive/scenarios/scenario_registry.json';
+assert(fs.existsSync(registryPath), 'Missing docs/archive/scenarios/scenario_registry.json');
 const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
 assert(Array.isArray(registry.scenarios), 'scenario_registry.json: scenarios[] missing');
 

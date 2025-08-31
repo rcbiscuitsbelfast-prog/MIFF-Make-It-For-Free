@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 11,
+  "currentSlot": "slot-c",
+  "saves": {
+    "slot-a": {
+      "id": "slot-a",
+      "timestamp": 1756682741980,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-a",
+        "saves": {}
+      },
+      "rollbackCheckpoint": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-a",
+        "saves": {}
+      }
+    },
+    "slot-c": {
+      "id": "slot-c",
+      "timestamp": 1756682741983,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-c",
+        "saves": {}
+      },
+      "rollbackCheckpoint": {
+        "schemaVersion": 11,
+        "currentSlot": "slot-c",
+        "saves": {}
+      }
+    }
+  }
+}
