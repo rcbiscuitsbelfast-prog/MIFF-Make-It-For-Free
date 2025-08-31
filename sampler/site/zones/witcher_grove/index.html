@@ -106,14 +106,10 @@
         </header>
 
         <main class="game-content">
-            <div class="game-placeholder">
-                <p>🌲 Welcome to the Witcher Grove!</p>
-                <p>This zone demonstrates narrative storytelling, environmental storytelling, and NPC interactions in a peaceful forest setting.</p>
-            </div>
-
-            <div class="game-actions">
-                <a href="../../zones/witcher_grove/index.html" class="btn" target="_blank">🎮 Open Full Game</a>
-                <a href="../../zones/witcher_grove.js" class="btn btn-secondary" target="_blank">📜 View Source</a>
+            <div id="gameContainer" style="position:relative;display:inline-block">
+                <canvas id="gameCanvas" width="640" height="480" style="border:1px solid #222;background:#0b1020"></canvas>
+                <div id="btnQuest" class="btn btn-secondary" style="position:absolute;top:8px;left:8px">[Quest]</div>
+                <div id="btnBack" class="btn btn-secondary" style="position:absolute;top:8px;right:8px">[Back]</div>
             </div>
 
             <div style="margin-top: 30px; padding: 20px; background: rgba(88, 166, 255, 0.1); border-radius: 8px;">
@@ -153,6 +149,38 @@
                     zone: 'witcher_grove'
                 }, '*');
             }
+        })();
+    </script>
+    <script>
+        (async function(){
+            const TILE = 32;
+            const cvs = document.getElementById('gameCanvas');
+            if(!cvs) return;
+            const ctx = cvs.getContext('2d');
+            function loadImg(src){
+                return new Promise((res, rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('load fail '+src)); i.src=src; });
+            }
+            function asset(p){ return '../../../assets/' + p; }
+            try{
+                const fx = await fetch('../../../scenarios/witcher_grove.fixture.json').then(r=>r.json());
+                // background
+                try{
+                    const bg = await loadImg(asset('witcher_grove_bg.png'));
+                    ctx.drawImage(bg, 0, 0, cvs.width, cvs.height);
+                }catch{ ctx.fillStyle = '#163018'; ctx.fillRect(0,0,cvs.width,cvs.height); }
+                // player
+                const spawn = (fx.objects||[]).find(o=>o.type==='player')?.spawn || {x:1,y:13};
+                const playerSrc = fx.assets?.sprites?.player || 'Player.png';
+                const player = await loadImg(asset(playerSrc));
+                ctx.drawImage(player, spawn.x*TILE, spawn.y*TILE, TILE, TILE);
+                // decor
+                const treeSrc = fx.assets?.sprites?.oakTree || 'Oak_Tree.png';
+                const tree = await loadImg(asset(treeSrc));
+                ctx.drawImage(tree, 4*TILE, 5*TILE, TILE, TILE);
+                const houseSrc = fx.assets?.sprites?.house || 'House.png';
+                const house = await loadImg(asset(houseSrc));
+                ctx.drawImage(house, 16*TILE, 2*TILE, TILE, TILE);
+            }catch(e){ console.error('[grove-viewer]', e); }
         })();
     </script>
 </body>
