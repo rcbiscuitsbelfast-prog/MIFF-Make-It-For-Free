@@ -1,0 +1,8 @@
+{
+	"zones": [
+		{ "id": "toppler", "title": "Toppler Puzzle", "path": "/zones/toppler" },
+		{ "id": "spirit_tamer", "title": "Spirit Tamer Combat", "path": "/zones/spirit_tamer" },
+		{ "id": "witcher_grove", "title": "Witcher Grove Narrative", "path": "/zones/witcher_grove" }
+	]
+}
+
