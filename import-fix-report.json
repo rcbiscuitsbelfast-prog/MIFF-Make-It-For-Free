@@ -1,0 +1,118 @@
+{
+  "timestamp": "2025-08-31T22:50:02.607Z",
+  "mode": "apply",
+  "filesUpdated": 18,
+  "totalActions": 18,
+  "updatedFiles": [
+    "/workspace/AutoBuilderCLI/cli.ts",
+    "/workspace/AutoBuilderCLI/tests/goldenAutoBuilder.test.ts",
+    "/workspace/cli/commands/audio.ts",
+    "/workspace/cli/commands/dialogue.ts",
+    "/workspace/cli/commands/event-bus.ts",
+    "/workspace/cli/commands/inventory.ts",
+    "/workspace/cli/commands/modding.ts",
+    "/workspace/cli/commands/network.ts",
+    "/workspace/cli/commands/profiler.ts",
+    "/workspace/cli/commands/test-harness.ts",
+    "/workspace/cli/miff-init.ts",
+    "/workspace/cli/profile.ts",
+    "/workspace/cli/tests/goldenSimulate.test.ts",
+    "/workspace/example.test.ts",
+    "/workspace/src/modules/ai_system_pure.ts",
+    "/workspace/src/modules/module_loader_pure.ts",
+    "/workspace/tests/manifest/goldenAssetManifestPure.test.ts",
+    "/workspace/tests/quest/goldenQuestModulePure.test.ts"
+  ],
+  "plan": [
+    {
+      "action": "fixed",
+      "file": "/workspace/AutoBuilderCLI/cli.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/AutoBuilderCLI/tests/goldenAutoBuilder.test.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/audio.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/dialogue.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/event-bus.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/inventory.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/modding.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/network.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/profiler.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/commands/test-harness.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/miff-init.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/profile.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/cli/tests/goldenSimulate.test.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/example.test.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/src/modules/ai_system_pure.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/src/modules/module_loader_pure.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/tests/manifest/goldenAssetManifestPure.test.ts",
+      "type": "import_path"
+    },
+    {
+      "action": "fixed",
+      "file": "/workspace/tests/quest/goldenQuestModulePure.test.ts",
+      "type": "import_path"
+    }
+  ]
+}

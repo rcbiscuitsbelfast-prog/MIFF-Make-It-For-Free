@@ -8,8 +8,8 @@
       "type": "site"
     },
     {
-      "name": "sampler.replay",
-      "path": "sampler/replay/index.html",
+      "name": "miff.replay",
+      "path": "miff/replay/index.html",
       "type": "tool"
     },
     {

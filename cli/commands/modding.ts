@@ -13,7 +13,7 @@ import {
   createAssetPipeline,
   ModdingConfig,
   ExportTemplate
-} from '../../miff/pure/ModdingPure';
+} from '../../miff/pure/ModdingPure/ModdingPure';
 
 const program = new Command();
 

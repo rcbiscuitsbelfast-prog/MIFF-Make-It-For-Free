@@ -15,7 +15,7 @@ import {
   createEventScheduler,
   EventPriority,
   EventBusConfig
-} from '../../miff/pure/EventBusPure';
+} from '../../miff/pure/EventBusPure/EventBusPure';
 
 const program = new Command();
 

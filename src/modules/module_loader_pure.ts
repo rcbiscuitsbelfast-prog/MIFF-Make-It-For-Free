@@ -19,7 +19,7 @@
  *   - Validation prevents loading of incompatible modules
  */
 
-import type { SystemPure, IMIFFSystem, SystemFactory } from '../../miff/pure } from './eventbus_pure';
+import type { SystemPure, IMIFFSystem, SystemFactory } from '../../miff/pure/EventBusPure/EventBusPure';
 
 /**
  * Module metadata interface

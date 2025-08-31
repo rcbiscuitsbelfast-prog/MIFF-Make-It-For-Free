@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const fs = require('../../miff/pure/fs');
-const path = require('../../miff/pure/path');
+const fs = require('fs');
+const path = require('path');
 
 const lic = fs.existsSync(path.resolve('LICENSE.md'));
-const attribMod = fs.existsSync(path.resolve('MiffAttributionPure'));
+const attribMod = fs.existsSync(path.resolve('miff/pure/MiffAttributionPure'));
 let ok = true;
 if(!lic){ console.log('⚠️ LICENSE.md missing (dual license expected)'); ok=false; }
 if(!attribMod){ console.log('⚠️ MiffAttributionPure module missing'); ok=false; }

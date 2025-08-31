@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { createDialogueEngine, DialogueTree, DialogueNode } from '../../miff/pure/DialoguePure';
+import { createDialogueEngine, DialogueTree, DialogueNode } from '../../miff/pure/DialoguePure/DialoguePure';
 
 const program = new Command();
 

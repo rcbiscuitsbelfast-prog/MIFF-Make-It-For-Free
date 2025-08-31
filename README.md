@@ -117,12 +117,12 @@ workspace/
 │   ├── scenarios/          # Test fixtures and scenarios
 │   ├── replay/             # Replay and testing tools
 │   ├── scripts/            # Build and utility scripts
-│   └── pure/               # 80+ Pure modules (consolidated)
+│   └── pure/               # 100+ Pure modules (consolidated)
 │       ├── AIProfilesPure/ # AI and profiling systems
 │       ├── CombatPure/     # Combat mechanics
 │       ├── DialogPure/     # Dialogue systems
 │       ├── InventoryPure/  # Inventory management
-│       └── [76 more...]    # Complete engine-agnostic toolkit
+│       └── [97 more...]    # Complete engine-agnostic toolkit
 ├── site/                   # Web interface and routing
 │   ├── zones/              # Zone-specific web pages
 │   └── dashboard/          # Main dashboard
@@ -133,6 +133,8 @@ workspace/
 │   └── remix_lab/          # Debug and remix tools
 └── [Other modules]         # CLI tools, builders, and utilities
 ```
+
+**📚 [Contributor Guide](docs/CONTRIBUTOR_GUIDE.md)** - Learn how to contribute and add new zones/drops!
 
 ## 🧪 Try the Sampler
 
@@ -459,3 +461,29 @@ npm run start:grove && npm run play:spirit
 - Remix safety:
   - Keep assets under `miff/assets/` with CC0/GPL sources
   - Use Pure modules only for logic; avoid engine dependencies
+
+## 🤝 Contributing
+
+We welcome contributions! The project has been refactored for better contributor onboarding:
+
+- **📚 [Contributor Guide](docs/CONTRIBUTOR_GUIDE.md)** - Complete guide to contributing
+- **🎮 Add New Zones** - Create new game experiences using Pure modules
+- **🔧 Add New Drops** - Contribute engine-agnostic game systems
+- **📖 Improve Docs** - Help others understand and use MIFF
+
+### **Quick Start**
+```bash
+# Fork and clone the repository
+git clone https://github.com/your-username/MIFF-Make-It-For-Free.git
+
+# Install dependencies
+npm install
+
+# Run tests
+npm test
+
+# Start developing!
+npm run start:grove
+```
+
+See the [Contributor Guide](docs/CONTRIBUTOR_GUIDE.md) for detailed instructions!

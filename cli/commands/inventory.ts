@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { createInventoryManager, ItemDefinition } from '../../miff/pure/InventoryPure';
+import { createInventoryManager, ItemDefinition } from '../../miff/pure/InventoryPure/InventoryPure';
 
 const program = new Command();
 

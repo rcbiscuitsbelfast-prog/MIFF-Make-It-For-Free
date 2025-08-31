@@ -2,10 +2,10 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateRenderPayload, GameState, RenderPayload } from '../../miff/pure/GameStateToFrames';
-import { ConvertToWebManager } from '../../miff/pure/Manager';
-import { ConvertToUnityManager } from '../../miff/pure/Manager';
-import { ConvertToGodotManager } from '../../miff/pure/Manager';
+import { generateRenderPayload, GameState, RenderPayload } from '../../miff/pure/BridgeSchemaPure/schemaPure/GameStateToFrames';
+import { ConvertToWebManager } from '../../miff/pure/NPCsPure/Manager';
+import { ConvertToUnityManager } from '../../miff/pure/NPCsPure/Manager';
+import { ConvertToGodotManager } from '../../miff/pure/NPCsPure/Manager';
 import { normalizeManifest, validateManifest } from '../../miff/pure';
 
 type Flags = { 

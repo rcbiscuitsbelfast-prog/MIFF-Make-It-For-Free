@@ -31,7 +31,7 @@ jobs:
         run: npm ci || npm i
 
       - name: 🔎 Preflight: root test script present
-        run: node scripts/ci-preflight.js
+        run: node miff/scripts/ci-preflight.js
 
       - name: 📝 Onboarding hint
         run: |
@@ -63,12 +63,12 @@ jobs:
         run: npm ci || npm i
 
       - name: 🔎 Validate nested packages scripts
-        run: node scripts/ci-script-validator.js
+        run: node miff/scripts/ci-script-validator.js
 
       - name: 🔍 Run asset validation
         run: |
           mkdir -p logs
-          node scripts/validate-assets.js > logs/validate-assets.log 2>&1
+          node miff/scripts/validate-assets.js > logs/validate-assets.log 2>&1
 
       - name: 📤 Upload validation logs
         uses: actions/upload-artifact@v4
@@ -108,7 +108,7 @@ jobs:
       - name: ▶️ Orchestrate (agent=${{ matrix.agent }}, seed=${{ matrix.seed }})
         run: |
           mkdir -p logs
-          node scripts/orchestrate.js --agent ${{ matrix.agent }} --seed ${{ matrix.seed }} > logs/orchestrate-${{ matrix.agent }}-${{ matrix.seed }}.log 2>&1
+          node miff/scripts/orchestrate.js --agent ${{ matrix.agent }} --seed ${{ matrix.seed }} > logs/orchestrate-${{ matrix.agent }}-${{ matrix.seed }}.log 2>&1
 
       - name: 📤 Upload orchestrate logs
         uses: actions/upload-artifact@v4
@@ -147,7 +147,7 @@ jobs:
         if: steps.has_eslint.outputs.exists == 'true'
         run: |
           mkdir -p logs
-          npx eslint src/ sampler/scenarios/ > logs/eslint.log 2>&1 || true
+          npx eslint src/ miff/scenarios/ > logs/eslint.log 2>&1 || true
 
       - name: ⚠️ Skip ESLint (tooling not installed)
         if: steps.has_eslint.outputs.exists != 'true'

@@ -1,5 +1,5 @@
-import path from '../../miff/pure/path';
-import fs from '../../miff/pure/fs';
+import path from 'path';
+import fs from 'fs';
 
 test('QuestModulePure parses branching quest', () => {
   const cli = path.resolve('cli/quest.ts');

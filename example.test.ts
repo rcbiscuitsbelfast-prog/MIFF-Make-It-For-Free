@@ -1,4 +1,4 @@
-import { SharedSchemaManager } from '../../miff/pure/Manager';
+import { SharedSchemaManager } from '../../miff/pure/NPCsPure/Manager';
 
 describe('MIFF Example Tests', () => {
   test('✓ SharedSchemaManager returns expected types', () => {

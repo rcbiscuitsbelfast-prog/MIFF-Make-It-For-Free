@@ -25,11 +25,11 @@ jobs:
       - name: Generate Toppler HTML (ts-node)
         id: gen_ts
         continue-on-error: true
-        run: npx ts-node scripts/gen-html.ts
+        run: npx ts-node miff/scripts/gen-html.ts
 
       - name: Fallback: Generate Toppler HTML via wrapper
         if: steps.gen_ts.outcome == 'failure'
-        run: node scripts/gen-html-wrapper.js
+        run: node miff/scripts/gen-html-wrapper.js
 
       - name: Type check
         run: npm run typecheck
