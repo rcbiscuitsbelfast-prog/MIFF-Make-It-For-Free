@@ -280,3 +280,6 @@ export class BadgeSystem {
     return output;
   }
 }
+
+// Re-export CreditsRenderer from UI module
+export { CreditsRenderer } from './ui/renderCredits';

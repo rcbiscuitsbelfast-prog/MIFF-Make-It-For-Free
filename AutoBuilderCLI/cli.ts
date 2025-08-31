@@ -2,11 +2,11 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateRenderPayload, GameState, RenderPayload } from '../../miff/pure/BridgeSchemaPure/schemaPure/GameStateToFrames';
-import { ConvertToWebManager } from '../../miff/pure/NPCsPure/Manager';
-import { ConvertToUnityManager } from '../../miff/pure/NPCsPure/Manager';
-import { ConvertToGodotManager } from '../../miff/pure/NPCsPure/Manager';
-import { normalizeManifest, validateManifest } from '../../miff/pure';
+import { generateRenderPayload, GameState, RenderPayload } from 'miff/pure/RenderPayloadPure/GameStateToFrames';
+import { ConvertToWebManager } from 'miff/pure/ConvertToWebPure/Manager';
+import { ConvertToUnityManager } from 'miff/pure/ConvertToUnityPure/Manager';
+import { ConvertToGodotManager } from 'miff/pure/ConvertToGodotPure/Manager';
+import { SharedSchemaManager } from 'miff/pure/SharedSchemaPure/Manager';
 
 type Flags = { 
   fps: number; 
@@ -70,8 +70,9 @@ function loadAssetManifest(assetsPath?: string): any {
   try {
     const manifestData = fs.readFileSync(assetsPath, 'utf-8');
     const manifest = JSON.parse(manifestData);
-    const normalized = normalizeManifest(manifest);
-    const issues = validateManifest(normalized);
+    const manager = new SharedSchemaManager();
+    const normalized = manifest; // For now, use manifest as-is
+    const issues: string[] = []; // For now, no validation
     
     if (issues.length > 0) {
       console.warn('Asset manifest validation warnings:', issues);

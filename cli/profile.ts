@@ -1,8 +1,8 @@
 #!/usr/bin/env npx ts-node
 import { performance } from 'perf_hooks';
 import v8 from 'v8';
-import { PhysicsManager } from '../../miff/pure/NPCsPure/Manager';
-import { BridgeSchemaValidator } from '../../miff/pure/BridgeSchemaPure/schema';
+import { PhysicsManager } from '../miff/pure/PhysicsSystemPure/Manager';
+import { BridgeSchemaValidator } from '../miff/pure/BridgeSchemaPure/schema';
 
 function bytesHuman(n:number){ const u=['B','KB','MB','GB']; let i=0; while(n>1024 && i<u.length-1){ n/=1024; i++; } return `${n.toFixed(2)} ${u[i]}`; }
 

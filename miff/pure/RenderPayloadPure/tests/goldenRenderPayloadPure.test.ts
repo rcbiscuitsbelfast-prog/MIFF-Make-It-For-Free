@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { RenderPayloadBuilder, createSampleFrame } from '../Manager';
-import { BridgeSchemaValidator } from '../../miff/pure/schema';
+import { BridgeSchemaValidator } from '../../BridgeSchemaPure/schema';
 
 test('builder creates valid sample frame', () => {
   const payload = createSampleFrame();

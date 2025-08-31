@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
-import { pathfind } from '../systems/NavigationSystemPure/index';
-import { nextNode } from '../systems/DialogueSystemPure/index';
-import { parseQuestText } from '../systems/QuestModulePure/index';
+import { pathfind } from '../NavigationSystemPure/index';
+import { nextNode } from '../DialogueSystemPure/index';
+import { parseQuestText } from '../QuestModulePure/index';
 
 function main(){
   const nav = pathfind({ width:10, height:10, walls:new Set(['3,0','3,1']) }, { x:0,y:0 }, { x:5,y:0 });

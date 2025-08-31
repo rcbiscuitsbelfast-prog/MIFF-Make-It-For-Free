@@ -1,6 +1,6 @@
 import path from 'path';
 import { ConvertToUnityManager } from '../Manager';
-import { RenderPayload } from '../../miff/pure/schema';
+import { RenderPayload } from '../../BridgeSchemaPure/schema';
 
 test('manager converts sample payload to unity items', () => {
   const sample:RenderPayload = require('../../miff/pure/sample_render.json').examples.npc_rendering.unified;

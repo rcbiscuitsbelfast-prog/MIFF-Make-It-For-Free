@@ -2,7 +2,7 @@ import { RenderReplayManager, ReplayConfig } from '../Manager';
 import { execFileSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import { RenderPayload } from '../../miff/pure/schema';
+import { RenderPayload } from '../../BridgeSchemaPure/schema';
 
 describe('RenderReplayPure Golden Tests', () => {
   const cliPath = path.resolve('RenderReplayPure/cliHarness.ts');
