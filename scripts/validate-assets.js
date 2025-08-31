@@ -3,6 +3,7 @@ const path = require('path');
 
 const fixturesDir = path.join(process.cwd(), 'sampler', 'scenarios');
 const assetsDir = path.join(process.cwd(), 'sampler', 'assets');
+const missingLogPath = path.join(process.cwd(), 'missing_assets.log');
 const allowedExt = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.mp3', '.wav', '.ogg', '.ttf', '.woff', '.woff2']);
 
 function listFixtures() {
@@ -35,6 +36,7 @@ function collectAssetPathsFromFixture(fixturePath) {
 function validate() {
 	let missing = 0;
 	let invalidExt = 0;
+	const missingList = [];
 	const fixtures = listFixtures();
 	for (const f of fixtures) {
 		const fixturePath = path.join(fixturesDir, f);
@@ -49,7 +51,16 @@ function validate() {
 			if (!fs.existsSync(abs)) {
 				console.warn('[validate-assets] Missing asset referenced by', f, '->', rel);
 				missing++;
+				missingList.push(`${f}\t${rel}`);
 			}
+		}
+	}
+	if (missingList.length > 0) {
+		try {
+			fs.writeFileSync(missingLogPath, missingList.join('\n') + '\n', 'utf-8');
+			console.log('[validate-assets] Wrote missing assets log to', missingLogPath);
+		} catch (e) {
+			console.warn('[validate-assets] Failed to write missing assets log:', e.message);
 		}
 	}
 	if (missing === 0 && invalidExt === 0) {

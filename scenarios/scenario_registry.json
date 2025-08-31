@@ -1,0 +1,11 @@
+{
+	"scenarios": [
+		{
+			"id": "witcher_grove",
+			"name": "Witcher Grove",
+			"fixture": "sampler/scenarios/witcher_grove.fixture.json",
+			"zone": "sampler/zones/witcher_grove/"
+		}
+	]
+}
+
