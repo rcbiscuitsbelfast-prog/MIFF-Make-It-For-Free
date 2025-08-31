@@ -9,6 +9,9 @@
 	],
 	"routes": [
 		{ "src": "/", "dest": "sampler/site/index.html" },
-		{ "src": "/onboarding.html", "dest": "sampler/site/onboarding.html" }
+		{ "src": "/onboarding.html", "dest": "sampler/site/onboarding.html" },
+		{ "src": "/zones/witcher_grove", "dest": "sampler/site/zones/witcher_grove/index.html" },
+		{ "src": "/zones/spirit_tamer", "dest": "sampler/site/zones/spirit_tamer/index.html" },
+		{ "src": "/zones/toppler", "dest": "sampler/site/zones/toppler/index.html" }
 	]
 }
