@@ -37,7 +37,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
     "play:spirit": "vite preview sampler/site",
     "validate:release": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json && node scripts/validateOutputFormat.js out_tutorial.json scenario && node scripts/checkRemixHooks.js && node scripts/checkAttribution.js",
-    "gen:manifests": "node scripts/gen-manifests.js"
+    "gen:manifests": "node scripts/gen-manifests.js",
+    "test": "node test-scaffold.js"
   },
   "repository": {
     "type": "git",
