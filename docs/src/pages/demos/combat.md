@@ -17,7 +17,7 @@ npx ts-node cli/miff-simulate.ts CombatScenarioPure/scenario.json --seed 42 > ou
 ## 🔍 Validate Output
 
 ```bash
-node scripts/validateOutputFormat.js out_combat.json scenario
+node miff/scripts/validateOutputFormat.js out_combat.json scenario
 ```
 
 ## 📄 Expected Output

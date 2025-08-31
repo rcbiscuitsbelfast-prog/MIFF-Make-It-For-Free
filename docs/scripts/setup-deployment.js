@@ -19,7 +19,7 @@ const isDocsDir = fs.existsSync(path.join(currentDir, 'astro.config.mjs'));
 
 if (!isDocsDir) {
   console.error('❌ Error: This script must be run from the docs/ directory');
-  console.log('Please run: cd docs && node scripts/setup-deployment.js');
+  console.log('Please run: cd docs && node miff/scripts/setup-deployment.js');
   process.exit(1);
 }
 

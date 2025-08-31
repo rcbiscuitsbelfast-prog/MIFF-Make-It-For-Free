@@ -1,0 +1,17 @@
+{
+	"version": 2,
+	"name": "miff-sampler",
+	"builds": [
+		{ "src": "site/index.html", "use": "@vercel/static" },
+		{ "src": "site/styles.css", "use": "@vercel/static" },
+		{ "src": "site/main.js", "use": "@vercel/static" },
+		{ "src": "site/onboarding.html", "use": "@vercel/static" }
+	],
+	"routes": [
+		{ "src": "/", "dest": "site/index.html" },
+		{ "src": "/onboarding.html", "dest": "site/onboarding.html" },
+		{ "src": "/zones/witcher_grove", "dest": "site/zones/witcher_grove/index.html" },
+		{ "src": "/zones/spirit_tamer", "dest": "site/zones/spirit_tamer/index.html" },
+		{ "src": "/zones/toppler", "dest": "site/zones/toppler/index.html" }
+	]
+}

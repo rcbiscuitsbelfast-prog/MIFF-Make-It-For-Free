@@ -84,7 +84,7 @@ docs/
 │   ├── layouts/
 │   │   └── Layout.astro                # Main layout component
 │   └── assets/                         # Static assets
-├── scripts/                            # Documentation generation scripts
+├── miff/scripts/                            # Documentation generation scripts
 ├── public/                             # Public assets (favicon, 404 page)
 ├── .github/workflows/                  # GitHub Actions deployment
 └── astro.config.mjs                    # Astro configuration

@@ -1,4 +1,4 @@
 Zones (shim)
 
-Current zones live under `sampler/site/zones/` and `sampler/zones/`. This shim documents intended reorg.
+Current zones live under `site/zones/` and `zones/`. This shim documents intended reorg.
 

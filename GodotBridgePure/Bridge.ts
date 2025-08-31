@@ -306,7 +306,7 @@ export class GodotBridge {
     return [
       {
         type: 'Script',
-        path: 'res://scripts/NPCController.gd',
+        path: 'res://miff/scripts/NPCController.gd',
         data: {
           language: config.language,
           extends: 'Node2D',
@@ -374,7 +374,7 @@ export class GodotBridge {
     return [
       {
         type: 'Script',
-        path: 'res://scripts/CombatController.gd',
+        path: 'res://miff/scripts/CombatController.gd',
         data: {
           language: config.language,
           extends: 'Node2D',
@@ -432,7 +432,7 @@ export class GodotBridge {
     return [
       {
         type: 'Script',
-        path: 'res://scripts/UIController.gd',
+        path: 'res://miff/scripts/UIController.gd',
         data: {
           language: config.language,
           extends: 'Control',
@@ -446,7 +446,7 @@ export class GodotBridge {
   private getNPCScripts(config: GodotBridgeConfig): string[] {
     const baseScripts = ['NPCController', 'QuestSystem', 'MerchantBehavior'];
     const extension = config.language === 'csharp' ? '.cs' : '.gd';
-    return baseScripts.map(script => `res://scripts/${script}${extension}`);
+    return baseScripts.map(script => `res://miff/scripts/${script}${extension}`);
   }
 
   private getCombatScripts(config: GodotBridgeConfig): string[] {
@@ -458,7 +458,7 @@ export class GodotBridge {
   private getUIScripts(config: GodotBridgeConfig): string[] {
     const baseScripts = ['UIController', 'InventoryUI', 'MenuSystem'];
     const extension = config.language === 'csharp' ? '.cs' : '.gd';
-    return baseScripts.map(script => `res://scripts/${script}${extension}`);
+    return baseScripts.map(script => `res://miff/scripts/${script}${extension}`);
   }
 
   private convertFromGodot(godotData: any): any {

@@ -19,13 +19,13 @@ function listZones(dir){
 
 function loadZoneModule(zoneId){
 	const map = {
-		synth_nexus: '../sampler/zones/synth_nexus',
-		toppler: '../sampler/zones/toppler',
-		spirit_tamer: '../sampler/zones/spirit_tamer',
-		witcher_grove: '../sampler/zones/witcher_grove',
-		remix_lab: '../sampler/zones/remix_lab'
+		synth_nexus: '../zones/synth_nexus',
+		toppler: '../zones/toppler',
+		spirit_tamer: '../zones/spirit_tamer',
+		witcher_grove: '../zones/witcher_grove',
+		remix_lab: '../zones/remix_lab'
 	};
-	try { return require(map[zoneId] || `../sampler/zones/${zoneId}`); } catch { return null; }
+	try { return require(map[zoneId] || `../zones/${zoneId}`); } catch { return null; }
 }
 
 function captureLogs(fn){
@@ -41,7 +41,7 @@ function checkOverlayFromLogs(logs){
 }
 
 function run(){
-	const zonesDir = path.resolve(__dirname, '../sampler/zones');
+	const zonesDir = path.resolve(__dirname, '../zones');
 	const zones = listZones(zonesDir);
 	const results = [];
 	let anyFail = false;

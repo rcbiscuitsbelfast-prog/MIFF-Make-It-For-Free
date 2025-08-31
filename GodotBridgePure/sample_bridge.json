@@ -68,7 +68,7 @@
           "resources": [
             {
               "type": "Script",
-              "path": "res://scripts/NPCController.gd",
+              "path": "res://miff/scripts/NPCController.gd",
               "data": {
                 "language": "gdscript",
                 "extends": "Node2D",
@@ -85,9 +85,9 @@
             }
           ],
           "scripts": [
-            "res://scripts/NPCController.gd",
-            "res://scripts/QuestSystem.gd",
-            "res://scripts/MerchantBehavior.gd"
+            "res://miff/scripts/NPCController.gd",
+            "res://miff/scripts/QuestSystem.gd",
+            "res://miff/scripts/MerchantBehavior.gd"
           ],
           "scenes": ["NPCScene.tscn", "QuestGiverScene.tscn", "MerchantScene.tscn"],
           "animations": ["npc_idle.anim", "npc_walk.anim", "quest_indicator.anim"],
@@ -190,7 +190,7 @@
           "resources": [
             {
               "type": "Script",
-              "path": "res://scripts/CombatController.gd",
+              "path": "res://miff/scripts/CombatController.gd",
               "data": {
                 "language": "gdscript",
                 "extends": "Node2D",
@@ -207,9 +207,9 @@
             }
           ],
           "scripts": [
-            "res://scripts/CombatController.gd",
-            "res://scripts/WeaponSystem.gd",
-            "res://scripts/EffectManager.gd"
+            "res://miff/scripts/CombatController.gd",
+            "res://miff/scripts/WeaponSystem.gd",
+            "res://miff/scripts/EffectManager.gd"
           ],
           "scenes": ["CombatScene.tscn", "WeaponScene.tscn", "EffectScene.tscn"],
           "animations": ["sword_swing.anim", "hit_effect.anim", "victory_dance.anim"],
@@ -305,7 +305,7 @@
           "resources": [
             {
               "type": "Script",
-              "path": "res://scripts/NPCController.gd",
+              "path": "res://miff/scripts/NPCController.gd",
               "data": {
                 "language": "gdscript",
                 "extends": "Node2D",
@@ -315,9 +315,9 @@
             }
           ],
           "scripts": [
-            "res://scripts/NPCController.gd",
-            "res://scripts/QuestSystem.gd",
-            "res://scripts/MerchantBehavior.gd"
+            "res://miff/scripts/NPCController.gd",
+            "res://miff/scripts/QuestSystem.gd",
+            "res://miff/scripts/MerchantBehavior.gd"
           ],
           "scenes": ["NPCScene.tscn", "QuestGiverScene.tscn", "MerchantScene.tscn"],
           "animations": ["npc_idle.anim", "npc_walk.anim", "quest_indicator.anim"],
@@ -373,7 +373,7 @@
           "resources": [
             {
               "type": "Script",
-              "path": "res://scripts/UIController.gd",
+              "path": "res://miff/scripts/UIController.gd",
               "data": {
                 "language": "gdscript",
                 "extends": "Control",
@@ -383,9 +383,9 @@
             }
           ],
           "scripts": [
-            "res://scripts/UIController.gd",
-            "res://scripts/InventoryUI.gd",
-            "res://scripts/MenuSystem.gd"
+            "res://miff/scripts/UIController.gd",
+            "res://miff/scripts/InventoryUI.gd",
+            "res://miff/scripts/MenuSystem.gd"
           ],
           "scenes": ["InventoryScene.tscn", "MenuScene.tscn", "DialogScene.tscn"],
           "animations": ["menu_open.anim", "inventory_slide.anim", "dialog_fade.anim"],
@@ -434,7 +434,7 @@
       "language": "gdscript",
       "targetVersion": "4.0",
       "projectPath": "godot_project/",
-      "scriptPath": "res://scripts/",
+      "scriptPath": "res://miff/scripts/",
       "scenePath": "res://scenes/",
       "resourcePath": "res://resources/",
       "useSignals": true,
@@ -444,7 +444,7 @@
       "language": "csharp",
       "targetVersion": "4.0",
       "projectPath": "godot_project/",
-      "scriptPath": "res://scripts/",
+      "scriptPath": "res://miff/scripts/",
       "scenePath": "res://scenes/",
       "resourcePath": "res://resources/",
       "useSignals": true,
@@ -454,7 +454,7 @@
       "language": "gdscript",
       "targetVersion": "3.5",
       "projectPath": "godot_project/",
-      "scriptPath": "res://scripts/",
+      "scriptPath": "res://miff/scripts/",
       "scenePath": "res://scenes/",
       "resourcePath": "res://resources/",
       "useSignals": true,

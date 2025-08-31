@@ -9,14 +9,14 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-cli-docs": "node scripts/generate-cli-docs.js",
-    "generate-schemas": "node scripts/generate-schemas.js",
-    "generate-diagrams": "node scripts/generate-diagrams.js",
-    "validate-links": "node scripts/validate-links.js",
+    "generate-cli-docs": "node miff/scripts/generate-cli-docs.js",
+    "generate-schemas": "node miff/scripts/generate-schemas.js",
+    "generate-diagrams": "node miff/scripts/generate-diagrams.js",
+    "validate-links": "node miff/scripts/validate-links.js",
     "lint": "eslint . --ext .js,.ts,.astro",
     "lint:fix": "eslint . --ext .js,.ts,.astro --fix",
     "deploy": "npm run build && echo 'Build complete. Push to main branch to deploy.'",
-    "setup": "node scripts/setup-deployment.js"
+    "setup": "node miff/scripts/setup-deployment.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^2.0.0",

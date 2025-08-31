@@ -122,7 +122,7 @@ All modules listed in ROADMAP.md are actively maintained:
 
 #### CI/CD Infrastructure:
 - `.github/workflows/miff-ci.yml` - GitHub Actions
-- `scripts/` - CI validation scripts
+- `miff/scripts/` - CI validation scripts
 - `jest.config.js` - Testing configuration
 
 ### **Core Framework Files**

@@ -25,11 +25,11 @@ function inferZoneId(fixtureFile){
 
 function loadZone(zoneId){
 	const zones = {
-		synth_nexus: require('../sampler/zones/synth_nexus'),
-		toppler: require('../sampler/zones/toppler'),
-		spirit_tamer: require('../sampler/zones/spirit_tamer'),
-		witcher_grove: require('../sampler/zones/witcher_grove'),
-		remix_lab: require('../sampler/zones/remix_lab')
+		synth_nexus: require('../zones/synth_nexus'),
+		toppler: require('../zones/toppler'),
+		spirit_tamer: require('../zones/spirit_tamer'),
+		witcher_grove: require('../zones/witcher_grove'),
+		remix_lab: require('../zones/remix_lab')
 	};
 	return zones[zoneId];
 }
@@ -56,7 +56,7 @@ function validateExpected(expected, events){
 
 function run(){
 	const root = path.resolve(__dirname, '..');
-	const fixturesDir = path.resolve(root, 'sampler/scenarios');
+	const fixturesDir = path.resolve(root, 'miff/scenarios');
 	const files = listFixtures(fixturesDir);
 	const results = [];
 	let anyFail = false;

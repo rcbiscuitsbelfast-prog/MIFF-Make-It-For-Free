@@ -38,7 +38,7 @@
       "directories": [
         "scenarios/ - Core scenario modules and registry",
         "SpiritTamerDemoPure/ - Complete RPG scenario example",
-        "scripts/ - Validation and utility scripts",
+        "miff/scripts/ - Validation and utility scripts",
         ".github/workflows/ - CI/CD configuration",
         "fixtures/ - Game content and assets"
       ]

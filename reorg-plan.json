@@ -1,0 +1,662 @@
+[
+  {
+    "rewrite": "/workspace/CI_RECOVERY_SUMMARY.md"
+  },
+  {
+    "rewrite": "/workspace/CONTRIBUTING.md"
+  },
+  {
+    "rewrite": "/workspace/Documents/Toppler_Audit_Report.md"
+  },
+  {
+    "rewrite": "/workspace/Documents/redundancy-audit.md"
+  },
+  {
+    "rewrite": "/workspace/GodotBridgePure/Bridge.ts"
+  },
+  {
+    "rewrite": "/workspace/GodotBridgePure/README.md"
+  },
+  {
+    "rewrite": "/workspace/GodotBridgePure/cliHarness.ts"
+  },
+  {
+    "rewrite": "/workspace/GodotBridgePure/sample_bridge.json"
+  },
+  {
+    "rewrite": "/workspace/GodotBridgePure/tests/goldenBridge.test.ts"
+  },
+  {
+    "rewrite": "/workspace/OverlinkPure/STATUS.md"
+  },
+  {
+    "rewrite": "/workspace/PLACEHOLDER_AUDIT.md"
+  },
+  {
+    "rewrite": "/workspace/PUBLISHING.md"
+  },
+  {
+    "rewrite": "/workspace/README.md"
+  },
+  {
+    "rewrite": "/workspace/cli/run-golden-tests.js"
+  },
+  {
+    "rewrite": "/workspace/cli/validate-remix-mode.js"
+  },
+  {
+    "rewrite": "/workspace/contributor_onboarding.json"
+  },
+  {
+    "rewrite": "/workspace/docs/DEPLOYMENT.md"
+  },
+  {
+    "rewrite": "/workspace/docs/README.md"
+  },
+  {
+    "rewrite": "/workspace/docs/ZONE_REGISTRY.md"
+  },
+  {
+    "rewrite": "/workspace/docs/package.json"
+  },
+  {
+    "rewrite": "/workspace/docs/redundancy-audit.md"
+  },
+  {
+    "rewrite": "/workspace/docs/scripts/setup-deployment.js"
+  },
+  {
+    "rewrite": "/workspace/docs/src/pages/demos/combat.md"
+  },
+  {
+    "rewrite": "/workspace/docs/src/pages/demos/tutorial.md"
+  },
+  {
+    "rewrite": "/workspace/index.html"
+  },
+  {
+    "rewrite": "/workspace/miff/scripts/refactor-reorg.js"
+  },
+  {
+    "rewrite": "/workspace/onboarding.md"
+  },
+  {
+    "rewrite": "/workspace/orchestration.json"
+  },
+  {
+    "rewrite": "/workspace/package.json"
+  },
+  {
+    "rewrite": "/workspace/release_manifest.json"
+  },
+  {
+    "rewrite": "/workspace/reorg-plan.json"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/IMPLEMENTATION_SUMMARY.md"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/README.md"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/vercel.json"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/zones/remix_lab/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/zones/spirit_tamer/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/zones/toppler/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/site/zones/witcher_grove/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/remix_lab/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/spirit_tamer/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/toppler/BUILD_SUMMARY.md"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/toppler/README.md"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/toppler/index.html"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/toppler/package.json"
+  },
+  {
+    "rewrite": "/workspace/sampler/zones/witcher_grove/index.html"
+  },
+  {
+    "rewrite": "/workspace/scenarios/scenario_registry.json"
+  },
+  {
+    "rewrite": "/workspace/scripts/README.md"
+  },
+  {
+    "rewrite": "/workspace/scripts/gen-manifests.js"
+  },
+  {
+    "rewrite": "/workspace/scripts/gen-manifests.ts"
+  },
+  {
+    "rewrite": "/workspace/scripts/onboard-contributor.js"
+  },
+  {
+    "rewrite": "/workspace/scripts/serve-grove.js"
+  },
+  {
+    "rewrite": "/workspace/scripts/start_grove.js"
+  },
+  {
+    "rewrite": "/workspace/site/README.md"
+  },
+  {
+    "rewrite": "/workspace/test-scaffold.js"
+  },
+  {
+    "rewrite": "/workspace/tsconfig.scripts.json"
+  },
+  {
+    "rewrite": "/workspace/zones/README.md"
+  },
+  {
+    "src": "sampler/assets/Beach_Tile.png",
+    "dest": "miff/assets/Beach_Tile.png"
+  },
+  {
+    "src": "sampler/assets/Bridge_Wood.png",
+    "dest": "miff/assets/Bridge_Wood.png"
+  },
+  {
+    "src": "sampler/assets/Chest.png",
+    "dest": "miff/assets/Chest.png"
+  },
+  {
+    "src": "sampler/assets/Cliff_Tile.png",
+    "dest": "miff/assets/Cliff_Tile.png"
+  },
+  {
+    "src": "sampler/assets/FarmLand_Tile.png",
+    "dest": "miff/assets/FarmLand_Tile.png"
+  },
+  {
+    "src": "sampler/assets/Fences.png",
+    "dest": "miff/assets/Fences.png"
+  },
+  {
+    "src": "sampler/assets/Grass_Middle.png",
+    "dest": "miff/assets/Grass_Middle.png"
+  },
+  {
+    "src": "sampler/assets/House.png",
+    "dest": "miff/assets/House.png"
+  },
+  {
+    "src": "sampler/assets/Oak_Tree.png",
+    "dest": "miff/assets/Oak_Tree.png"
+  },
+  {
+    "src": "sampler/assets/Oak_Tree_Small.png",
+    "dest": "miff/assets/Oak_Tree_Small.png"
+  },
+  {
+    "src": "sampler/assets/Outdoor_Decor_Free.png",
+    "dest": "miff/assets/Outdoor_Decor_Free.png"
+  },
+  {
+    "src": "sampler/assets/Path_Middle.png",
+    "dest": "miff/assets/Path_Middle.png"
+  },
+  {
+    "src": "sampler/assets/Path_Tile.png",
+    "dest": "miff/assets/Path_Tile.png"
+  },
+  {
+    "src": "sampler/assets/Player.png",
+    "dest": "miff/assets/Player.png"
+  },
+  {
+    "src": "sampler/assets/Player_Actions.png",
+    "dest": "miff/assets/Player_Actions.png"
+  },
+  {
+    "src": "sampler/assets/README.md",
+    "dest": "miff/assets/README.md"
+  },
+  {
+    "src": "sampler/assets/Skeleton.png",
+    "dest": "miff/assets/Skeleton.png"
+  },
+  {
+    "src": "sampler/assets/Slime_Green.png",
+    "dest": "miff/assets/Slime_Green.png"
+  },
+  {
+    "src": "sampler/assets/Water_Middle.png",
+    "dest": "miff/assets/Water_Middle.png"
+  },
+  {
+    "src": "sampler/assets/Water_Tile.png",
+    "dest": "miff/assets/Water_Tile.png"
+  },
+  {
+    "src": "sampler/assets/audio/.keep",
+    "dest": "miff/assets/audio/.keep"
+  },
+  {
+    "src": "sampler/assets/sprites/.keep",
+    "dest": "miff/assets/sprites/.keep"
+  },
+  {
+    "src": "sampler/assets/witcher_grove_bg.png",
+    "dest": "miff/assets/witcher_grove_bg.png"
+  },
+  {
+    "src": "sampler/global.d.ts",
+    "dest": "miff/global.d.ts"
+  },
+  {
+    "src": "sampler/index.html",
+    "dest": "miff/index.html"
+  },
+  {
+    "src": "sampler/main.js",
+    "dest": "miff/main.js"
+  },
+  {
+    "src": "sampler/main.ts",
+    "dest": "miff/main.ts"
+  },
+  {
+    "src": "sampler/replay/index.html",
+    "dest": "miff/replay/index.html"
+  },
+  {
+    "src": "sampler/replay/remix_overlay.js",
+    "dest": "miff/replay/remix_overlay.js"
+  },
+  {
+    "src": "sampler/replay/replay.js",
+    "dest": "miff/replay/replay.js"
+  },
+  {
+    "src": "sampler/replay/run.js",
+    "dest": "miff/replay/run.js"
+  },
+  {
+    "src": "sampler/replay/zones/spirit_tamer.json",
+    "dest": "miff/replay/zones/spirit_tamer.json"
+  },
+  {
+    "src": "sampler/replay/zones/toppler.json",
+    "dest": "miff/replay/zones/toppler.json"
+  },
+  {
+    "src": "sampler/replay/zones/witcher_grove.json",
+    "dest": "miff/replay/zones/witcher_grove.json"
+  },
+  {
+    "src": "sampler/scenarios/overlink.fixture.json",
+    "dest": "miff/scenarios/overlink.fixture.json"
+  },
+  {
+    "src": "sampler/scenarios/spirit_tamer.fixture.json",
+    "dest": "miff/scenarios/spirit_tamer.fixture.json"
+  },
+  {
+    "src": "sampler/scenarios/toppler.fixture.json",
+    "dest": "miff/scenarios/toppler.fixture.json"
+  },
+  {
+    "src": "sampler/scenarios/witcher_explorer.fixture.json",
+    "dest": "miff/scenarios/witcher_explorer.fixture.json"
+  },
+  {
+    "src": "sampler/scenarios/witcher_grove.fixture.json",
+    "dest": "miff/scenarios/witcher_grove.fixture.json"
+  },
+  {
+    "src": "sampler/site/.nojekyll",
+    "dest": "site/.nojekyll"
+  },
+  {
+    "src": "sampler/site/IMPLEMENTATION_SUMMARY.md",
+    "dest": "site/IMPLEMENTATION_SUMMARY.md"
+  },
+  {
+    "src": "sampler/site/README.md",
+    "dest": "site/README.md"
+  },
+  {
+    "src": "sampler/site/dashboard/index.html",
+    "dest": "site/dashboard/index.html"
+  },
+  {
+    "src": "sampler/site/index.html",
+    "dest": "site/index.html"
+  },
+  {
+    "src": "sampler/site/main.js",
+    "dest": "site/main.js"
+  },
+  {
+    "src": "sampler/site/onboarding-index.html",
+    "dest": "site/onboarding-index.html"
+  },
+  {
+    "src": "sampler/site/onboarding.html",
+    "dest": "site/onboarding.html"
+  },
+  {
+    "src": "sampler/site/sitemap.json",
+    "dest": "site/sitemap.json"
+  },
+  {
+    "src": "sampler/site/styles.css",
+    "dest": "site/styles.css"
+  },
+  {
+    "src": "sampler/site/test-router.html",
+    "dest": "site/test-router.html"
+  },
+  {
+    "src": "sampler/site/vercel.json",
+    "dest": "site/vercel.json"
+  },
+  {
+    "src": "sampler/site/zone-router.js",
+    "dest": "site/zone-router.js"
+  },
+  {
+    "src": "sampler/site/zones/remix_lab/index.html",
+    "dest": "site/zones/remix_lab/index.html"
+  },
+  {
+    "src": "sampler/site/zones/spirit_tamer/index.html",
+    "dest": "site/zones/spirit_tamer/index.html"
+  },
+  {
+    "src": "sampler/site/zones/spirit_tamer/index.js",
+    "dest": "site/zones/spirit_tamer/index.js"
+  },
+  {
+    "src": "sampler/site/zones/toppler/index.html",
+    "dest": "site/zones/toppler/index.html"
+  },
+  {
+    "src": "sampler/site/zones/toppler/index.js",
+    "dest": "site/zones/toppler/index.js"
+  },
+  {
+    "src": "sampler/site/zones/witcher_grove/index.html",
+    "dest": "site/zones/witcher_grove/index.html"
+  },
+  {
+    "src": "sampler/site/zones/witcher_grove/index.js",
+    "dest": "site/zones/witcher_grove/index.js"
+  },
+  {
+    "src": "sampler/smoke.js",
+    "dest": "miff/smoke.js"
+  },
+  {
+    "src": "sampler/tsconfig.sampler.json",
+    "dest": "miff/tsconfig.sampler.json"
+  },
+  {
+    "src": "sampler/validation/index.ts",
+    "dest": "miff/validation/index.ts"
+  },
+  {
+    "src": "sampler/validation/overlinkZoneValidator.ts",
+    "dest": "miff/validation/overlinkZoneValidator.ts"
+  },
+  {
+    "src": "sampler/zones/index.js",
+    "dest": "zones/index.js"
+  },
+  {
+    "src": "sampler/zones/overlink.js",
+    "dest": "zones/overlink.js"
+  },
+  {
+    "src": "sampler/zones/remix_lab/index.html",
+    "dest": "zones/remix_lab/index.html"
+  },
+  {
+    "src": "sampler/zones/remix_lab/index.js",
+    "dest": "zones/remix_lab/index.js"
+  },
+  {
+    "src": "sampler/zones/remix_lab.js",
+    "dest": "zones/remix_lab.js"
+  },
+  {
+    "src": "sampler/zones/spirit_tamer/index.html",
+    "dest": "zones/spirit_tamer/index.html"
+  },
+  {
+    "src": "sampler/zones/spirit_tamer/index.js",
+    "dest": "zones/spirit_tamer/index.js"
+  },
+  {
+    "src": "sampler/zones/spirit_tamer.js",
+    "dest": "zones/spirit_tamer.js"
+  },
+  {
+    "src": "sampler/zones/synth_nexus.js",
+    "dest": "zones/synth_nexus.js"
+  },
+  {
+    "src": "sampler/zones/toppler/BUILD_SUMMARY.md",
+    "dest": "zones/toppler/BUILD_SUMMARY.md"
+  },
+  {
+    "src": "sampler/zones/toppler/FailZone.ts",
+    "dest": "zones/toppler/FailZone.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/PlatformSpawner.ts",
+    "dest": "zones/toppler/PlatformSpawner.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/PlayerController.ts",
+    "dest": "zones/toppler/PlayerController.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/README.md",
+    "dest": "zones/toppler/README.md"
+  },
+  {
+    "src": "sampler/zones/toppler/TopplerScene.ts",
+    "dest": "zones/toppler/TopplerScene.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/TopplerTest.ts",
+    "dest": "zones/toppler/TopplerTest.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/TopplerUI.tsx",
+    "dest": "zones/toppler/TopplerUI.tsx"
+  },
+  {
+    "src": "sampler/zones/toppler/WinTrigger.ts",
+    "dest": "zones/toppler/WinTrigger.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/index.html",
+    "dest": "zones/toppler/index.html"
+  },
+  {
+    "src": "sampler/zones/toppler/index.js",
+    "dest": "zones/toppler/index.js"
+  },
+  {
+    "src": "sampler/zones/toppler/index.ts",
+    "dest": "zones/toppler/index.ts"
+  },
+  {
+    "src": "sampler/zones/toppler/package-lock.json",
+    "dest": "zones/toppler/package-lock.json"
+  },
+  {
+    "src": "sampler/zones/toppler/package.json",
+    "dest": "zones/toppler/package.json"
+  },
+  {
+    "src": "sampler/zones/toppler/tsconfig.json",
+    "dest": "zones/toppler/tsconfig.json"
+  },
+  {
+    "src": "sampler/zones/toppler.js",
+    "dest": "zones/toppler.js"
+  },
+  {
+    "src": "sampler/zones/witcher_grove/index.html",
+    "dest": "zones/witcher_grove/index.html"
+  },
+  {
+    "src": "sampler/zones/witcher_grove/index.js",
+    "dest": "zones/witcher_grove/index.js"
+  },
+  {
+    "src": "sampler/zones/witcher_grove.js",
+    "dest": "zones/witcher_grove.js"
+  },
+  {
+    "src": "scripts/README.md",
+    "dest": "miff/scripts/README.md"
+  },
+  {
+    "src": "scripts/build-grove-bg.js",
+    "dest": "miff/scripts/build-grove-bg.js"
+  },
+  {
+    "src": "scripts/checkAttribution.js",
+    "dest": "miff/scripts/checkAttribution.js"
+  },
+  {
+    "src": "scripts/checkRemixHooks.js",
+    "dest": "miff/scripts/checkRemixHooks.js"
+  },
+  {
+    "src": "scripts/ci-preflight.js",
+    "dest": "miff/scripts/ci-preflight.js"
+  },
+  {
+    "src": "scripts/ci-script-validator.js",
+    "dest": "miff/scripts/ci-script-validator.js"
+  },
+  {
+    "src": "scripts/gen-html-wrapper.js",
+    "dest": "miff/scripts/gen-html-wrapper.js"
+  },
+  {
+    "src": "scripts/gen-html.ts",
+    "dest": "miff/scripts/gen-html.ts"
+  },
+  {
+    "src": "scripts/gen-manifests.js",
+    "dest": "miff/scripts/gen-manifests.js"
+  },
+  {
+    "src": "scripts/gen-manifests.ts",
+    "dest": "miff/scripts/gen-manifests.ts"
+  },
+  {
+    "src": "scripts/gen-toppler-html.ts",
+    "dest": "miff/scripts/gen-toppler-html.ts"
+  },
+  {
+    "src": "scripts/gen-toppler-stub.js",
+    "dest": "miff/scripts/gen-toppler-stub.js"
+  },
+  {
+    "src": "scripts/gen-toppler-wrapper.js",
+    "dest": "miff/scripts/gen-toppler-wrapper.js"
+  },
+  {
+    "src": "scripts/grove_layout.json",
+    "dest": "miff/scripts/grove_layout.json"
+  },
+  {
+    "src": "scripts/html-utils.ts",
+    "dest": "miff/scripts/html-utils.ts"
+  },
+  {
+    "src": "scripts/jest-scaffold.js",
+    "dest": "miff/scripts/jest-scaffold.js"
+  },
+  {
+    "src": "scripts/multi-agent-test.js",
+    "dest": "miff/scripts/multi-agent-test.js"
+  },
+  {
+    "src": "scripts/onboard-contributor.js",
+    "dest": "miff/scripts/onboard-contributor.js"
+  },
+  {
+    "src": "scripts/onboarding.ts",
+    "dest": "miff/scripts/onboarding.ts"
+  },
+  {
+    "src": "scripts/orchestrate.js",
+    "dest": "miff/scripts/orchestrate.js"
+  },
+  {
+    "src": "scripts/remix-challenge.js",
+    "dest": "miff/scripts/remix-challenge.js"
+  },
+  {
+    "src": "scripts/reportSummary.js",
+    "dest": "miff/scripts/reportSummary.js"
+  },
+  {
+    "src": "scripts/serve-grove.js",
+    "dest": "miff/scripts/serve-grove.js"
+  },
+  {
+    "src": "scripts/start.js",
+    "dest": "miff/scripts/start.js"
+  },
+  {
+    "src": "scripts/start_grove.js",
+    "dest": "miff/scripts/start_grove.js"
+  },
+  {
+    "src": "scripts/tsconfig.json",
+    "dest": "miff/scripts/tsconfig.json"
+  },
+  {
+    "src": "scripts/validate-assets.js",
+    "dest": "miff/scripts/validate-assets.js"
+  },
+  {
+    "src": "scripts/validate-ci.js",
+    "dest": "miff/scripts/validate-ci.js"
+  },
+  {
+    "src": "scripts/validate-orchestration.js",
+    "dest": "miff/scripts/validate-orchestration.js"
+  },
+  {
+    "src": "scripts/validate-placeholders.ts",
+    "dest": "miff/scripts/validate-placeholders.ts"
+  },
+  {
+    "src": "scripts/validate-release.js",
+    "dest": "miff/scripts/validate-release.js"
+  },
+  {
+    "src": "scripts/validateOutputFormat.js",
+    "dest": "miff/scripts/validateOutputFormat.js"
+  }
+]

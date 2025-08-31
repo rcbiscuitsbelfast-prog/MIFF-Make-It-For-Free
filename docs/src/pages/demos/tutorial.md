@@ -17,7 +17,7 @@ npx ts-node cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 >
 ## 🔍 Validate Output
 
 ```bash
-node scripts/validateOutputFormat.js out_tutorial.json scenario
+node miff/scripts/validateOutputFormat.js out_tutorial.json scenario
 ```
 
 ## 📄 Expected Output

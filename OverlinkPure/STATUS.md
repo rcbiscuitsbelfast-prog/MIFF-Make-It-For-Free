@@ -57,7 +57,7 @@
 - **Sample Configs**: Basic, debug, and remix mode configurations
 
 ### 3. MIFF Sampler Integration ✅
-- **Zone Entry Point**: `sampler/zones/overlink.js` for sampler loading
+- **Zone Entry Point**: `zones/overlink.js` for sampler loading
 - **Navigation Flow**: Seamless routing between connected zones
 - **UI Controls**: Touch-optimized navigation and debug controls
 - **Fixture Support**: Sample scenario data for sampler testing

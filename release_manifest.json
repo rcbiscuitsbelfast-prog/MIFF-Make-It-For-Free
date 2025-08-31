@@ -4,7 +4,7 @@
   "artifacts": [
     {
       "name": "sampler.site",
-      "path": "sampler/site/index.html",
+      "path": "site/index.html",
       "type": "site"
     },
     {

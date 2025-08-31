@@ -86,7 +86,7 @@ docs/
 ├── public/                        # Static assets
 │   ├── favicon.svg               # Site favicon
 │   └── 404.html                  # Custom 404 page
-└── scripts/                       # Build scripts
+└── miff/scripts/                       # Build scripts
     ├── generate-cli-docs.js      # CLI documentation generator
     └── setup-deployment.js       # Setup verification script
 ```
@@ -117,7 +117,7 @@ Key configuration in `package.json`:
   },
   "scripts": {
     "deploy": "npm run build && echo 'Build complete. Push to main branch to deploy.'",
-    "setup": "node scripts/setup-deployment.js"
+    "setup": "node miff/scripts/setup-deployment.js"
   }
 }
 ```

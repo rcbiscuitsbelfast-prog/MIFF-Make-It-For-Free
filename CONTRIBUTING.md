@@ -37,7 +37,7 @@ Use these tools to validate remix safety:
 
 ### Hygiene & Placeholders
 - **PLACEHOLDER_AUDIT.md**: Review current placeholders and cleanup suggestions
-- **scripts/validate-placeholders.ts**: Run to scan for new TODOs/stubs and brittle defaults
+- **miff/scripts/validate-placeholders.ts**: Run to scan for new TODOs/stubs and brittle defaults
 - **cleanup-checklist.md**: Track and check off items as you resolve them
 
 ## Contributor License Agreement (CLA)

@@ -25,7 +25,7 @@ This audit identifies placeholder code, stubs, and incomplete scaffolds across t
 - Impact: Noise in production logs
 - Suggestion: Gate behind `process.env.NODE_ENV !== 'production'` or remove
 
-```28:30:scripts/html-utils.ts
+```28:30:miff/scripts/html-utils.ts
     writeFileSync(outPath, html, 'utf8');
     console.log('[gen-html] Wrote', outPath);
 ```

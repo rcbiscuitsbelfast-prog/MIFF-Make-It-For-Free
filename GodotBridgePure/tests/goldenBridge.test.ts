@@ -197,7 +197,7 @@ describe('GodotBridgePure Golden Tests', () => {
       expect(result.renderData).toBeDefined();
       expect(result.renderData.nodes).toBeDefined();
       expect(result.renderData.scenes).toContain('InventoryScene.tscn');
-      expect(result.renderData.scripts).toContain('res://scripts/UIController.gd');
+      expect(result.renderData.scripts).toContain('res://miff/scripts/UIController.gd');
     } finally {
       if (fs.existsSync(testFile)) {
         fs.unlinkSync(testFile);
@@ -239,7 +239,7 @@ describe('GodotBridgePure Golden Tests', () => {
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
-      expect(result.renderData.scripts).toContain('res://scripts/NPCController.gd');
+      expect(result.renderData.scripts).toContain('res://miff/scripts/NPCController.gd');
     } finally {
       if (fs.existsSync(testFile)) {
         fs.unlinkSync(testFile);
@@ -284,7 +284,7 @@ describe('GodotBridgePure Golden Tests', () => {
       expect(result.op).toBe('render');
       expect(result.status).toBe('ok');
       expect(result.renderData).toBeDefined();
-      expect(result.renderData.scripts).toContain('res://scripts/NPCController.cs');
+      expect(result.renderData.scripts).toContain('res://miff/scripts/NPCController.cs');
     } finally {
       if (fs.existsSync(testFile)) {
         fs.unlinkSync(testFile);

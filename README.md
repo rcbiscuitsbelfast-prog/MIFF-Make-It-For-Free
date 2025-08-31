@@ -90,7 +90,43 @@ npx ts-node systems/DialogueSystemPure/cliHarness.ts fixtures/sample_dialogue.js
 npx ts-node AutoBuilderCLI/cli.ts TopplerDemoPure --fps 24 --debug --out toppler.html
 ```
 
+### Access the Web Interface
+```bash
+# Start the development server
+cd site && python3 -m http.server 8000
+# Or open directly: site/index.html
+```
+
+### Run Game Zones
+```bash
+# Test individual zones
+cd zones/witcher_grove && npm test
+cd zones/toppler && npm test
+```
+
 ---
+
+## 🏗️ Project Structure
+
+MIFF has been refactored for better modularity and contributor onboarding:
+
+```
+workspace/
+├── miff/                    # Core sampler functionality
+│   ├── assets/             # Game assets (sprites, audio, etc.)
+│   ├── scenarios/          # Test fixtures and scenarios
+│   ├── replay/             # Replay and testing tools
+│   └── scripts/            # Build and utility scripts
+├── site/                   # Web interface and routing
+│   ├── zones/              # Zone-specific web pages
+│   └── dashboard/          # Main dashboard
+├── zones/                  # Game zone implementations
+│   ├── witcher_grove/      # Witcher Grove zone
+│   ├── spirit_tamer/       # Spirit Tamer zone
+│   ├── toppler/            # Toppler physics game
+│   └── remix_lab/          # Debug and remix tools
+└── [Pure modules]          # Engine-agnostic game systems
+```
 
 ## 🧪 Try the Sampler
 
@@ -337,9 +373,9 @@ See LICENSE.md for full terms.
 
 2. Structure
 - `sampler/main.js`: Entry point
-- `sampler/zones/`: Contains Toppler, Spirit Tamer, Witcher Grove, Synth Nexus, and Remix Lab
-- `sampler/scenarios/`: Fixture files for each zone
-- `sampler/assets/`: Free, audit-safe sprites, audio, and fonts
+- `zones/`: Contains Toppler, Spirit Tamer, Witcher Grove, Synth Nexus, and Remix Lab
+- `miff/scenarios/`: Fixture files for each zone
+- `miff/assets/`: Free, audit-safe sprites, audio, and fonts
 
 3. How to Run
 - Call `startSampler()` from `sampler/main.js` to launch Synth Nexus
@@ -359,19 +395,19 @@ See LICENSE.md for full terms.
 ## Adding a New Zone to MIFF Sampler
 
 🧩 Zone Setup
-- [ ] Create a new file in `sampler/zones/` named `your_zone.js`
+- [ ] Create a new file in `zones/` named `your_zone.js`
 - [ ] Export a `startZone()` function
 - [ ] Use only Pure modules (no engine dependencies)
 
 📦 Fixture File
-- [ ] Create a matching fixture in `sampler/scenarios/your_zone.fixture.json`
+- [ ] Create a matching fixture in `miff/scenarios/your_zone.fixture.json`
 - [ ] Include tap sequence and expected state transitions
 - [ ] Validate with `npm run test:golden`
 
 🎨 Assets
-- [ ] Add sprites, audio, and fonts to `sampler/assets/`
+- [ ] Add sprites, audio, and fonts to `miff/assets/`
 - [ ] Use only remix-safe licenses (CC0, GPL, or public domain)
-- [ ] Document asset sources in `sampler/assets/README.md`
+- [ ] Document asset sources in `miff/assets/README.md`
 
 🧪 Remix Mode
 - [ ] Support Remix Mode toggle (debug overlays, CLI triggers)
@@ -388,9 +424,9 @@ See LICENSE.md for full terms.
 Keep everything modular, remix-safe, and contributor-friendly. Zones should be playable, testable, and easy to remix.
 
 ## MIFF Sampler Quick Links
-- Sampler Landing: `sampler/site/index.html`
+- Sampler Landing: `site/index.html`
 - Replay Harness: `sampler/replay/index.html`
-- Onboarding Index: `sampler/site/onboarding-index.html`
+- Onboarding Index: `site/onboarding-index.html`
  - CLI Scripts:
   - Golden fixtures: `npm run test:golden`
   - Remix validation: `npm run test:remix`
@@ -409,11 +445,11 @@ npm run start:grove && npm run play:spirit
 ### Spirit Tamer: Trial of the Grove (Quickstart)
 
 - Mapping:
-  - Fixture: `sampler/scenarios/witcher_grove.fixture.json`
-  - Zone: `sampler/zones/witcher_grove/`
+  - Fixture: `miff/scenarios/witcher_grove.fixture.json`
+  - Zone: `zones/witcher_grove/`
 - Playtesting:
   - Open `sampler/replay/index.html` and load the Witcher Grove fixture, or
   - Run `npm run start:grove` to auto-open the Witcher Grove zone via Vite
 - Remix safety:
-  - Keep assets under `sampler/assets/` with CC0/GPL sources
+  - Keep assets under `miff/assets/` with CC0/GPL sources
   - Use Pure modules only for logic; avoid engine dependencies

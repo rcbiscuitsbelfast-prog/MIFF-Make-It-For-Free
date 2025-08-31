@@ -32,7 +32,7 @@ function loadConfig(configFile?: string): GodotBridgeConfig {
     language: 'gdscript',
     targetVersion: '4.0',
     projectPath: 'godot_project/',
-    scriptPath: 'res://scripts/',
+    scriptPath: 'res://miff/scripts/',
     scenePath: 'res://scenes/',
     resourcePath: 'res://resources/',
     useSignals: true,

@@ -6,13 +6,13 @@
 - [ ] Back button routes correctly to Synth Nexus
 
 📦 Fixture Coverage
-- [ ] Each zone has a matching fixture in `sampler/scenarios/`
+- [ ] Each zone has a matching fixture in `miff/scenarios/`
 - [ ] All fixtures pass `npm run test:golden`
 - [ ] Remix Mode validator passes `npm run test:remix`
 
 🎨 Asset Audit
 - [ ] All assets are remix-safe (CC0, GPL, or public domain)
-- [ ] Sources documented in `sampler/assets/README.md`
+- [ ] Sources documented in `miff/assets/README.md`
 - [ ] No proprietary or restricted files
 
 📱 Mobile Readiness

@@ -16,13 +16,13 @@ The MIFF framework has been successfully recovered from CI failures and fully sc
 ## ✅ Summary of Scaffolded Files
 
 ### 🔧 **CI Recovery Scripts**
-- **`scripts/gen-toppler-stub.js`** ✅
+- **`miff/scripts/gen-toppler-stub.js`** ✅
   - Generates HTML preview for CI compatibility
   - Creates `games/toppler/toppler.html` and `toppler-stub.json`
   - Maintains remix safety with drop-only approach
   - Resolves `gen-toppler` script reference in GitHub Actions
 
-- **`scripts/validate-release.js`** ✅
+- **`miff/scripts/validate-release.js`** ✅
   - Validates release manifests for production readiness
   - Checks required fields, files, and orchestration integrity
   - Generates comprehensive release validation reports
@@ -157,7 +157,7 @@ The MIFF framework has been successfully recovered from CI failures and fully sc
 
 ### 📁 **File Structure**
 ```
-scripts/
+miff/scripts/
 ├── gen-toppler-stub.js      # CI compatibility stub
 ├── validate-release.js      # Release validation
 ├── validate-orchestration.js # Orchestration validation

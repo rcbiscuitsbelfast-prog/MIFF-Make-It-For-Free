@@ -12,7 +12,7 @@
 		"jsx": "preserve"
 	},
 	"include": [
-		"scripts/**/*.ts"
+		"miff/scripts/**/*.ts"
 	],
 	"exclude": [
 		"node_modules",

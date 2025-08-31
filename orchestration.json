@@ -3,27 +3,27 @@
   "entries": [
     {
       "name": "overlink",
-      "path": "sampler/scenarios/overlink.fixture.json",
+      "path": "miff/scenarios/overlink.fixture.json",
       "type": "scenario"
     },
     {
       "name": "spirit_tamer",
-      "path": "sampler/scenarios/spirit_tamer.fixture.json",
+      "path": "miff/scenarios/spirit_tamer.fixture.json",
       "type": "scenario"
     },
     {
       "name": "toppler",
-      "path": "sampler/scenarios/toppler.fixture.json",
+      "path": "miff/scenarios/toppler.fixture.json",
       "type": "scenario"
     },
     {
       "name": "witcher_explorer",
-      "path": "sampler/scenarios/witcher_explorer.fixture.json",
+      "path": "miff/scenarios/witcher_explorer.fixture.json",
       "type": "scenario"
     },
     {
       "name": "witcher_grove",
-      "path": "sampler/scenarios/witcher_grove.fixture.json",
+      "path": "miff/scenarios/witcher_grove.fixture.json",
       "type": "scenario"
     },
     {

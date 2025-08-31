@@ -3,8 +3,8 @@
 		{
 			"id": "witcher_grove",
 			"name": "Witcher Grove",
-			"fixture": "sampler/scenarios/witcher_grove.fixture.json",
-			"zone": "sampler/site/zones/witcher_grove/",
+			"fixture": "miff/scenarios/witcher_grove.fixture.json",
+			"zone": "site/zones/witcher_grove/",
 			"sitePath": "/zones/witcher_grove"
 		}
 	]

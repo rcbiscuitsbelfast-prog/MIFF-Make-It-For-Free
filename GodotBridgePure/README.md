@@ -160,10 +160,10 @@ export function getCustomGodotScripts(module: string, config: GodotBridgeConfig)
   const extension = config.language === 'csharp' ? '.cs' : '.gd';
   
   if (config.targetVersion === '4.0') {
-    return [...baseScripts, 'Godot4Extensions'].map(script => `res://scripts/${script}${extension}`);
+    return [...baseScripts, 'Godot4Extensions'].map(script => `res://miff/scripts/${script}${extension}`);
   }
   
-  return baseScripts.map(script => `res://scripts/${script}${extension}`);
+  return baseScripts.map(script => `res://miff/scripts/${script}${extension}`);
 }
 ```
 
@@ -323,7 +323,7 @@ func _on_npc_interacted(player_id: String, interaction_type: String):
   "language": "gdscript",
   "targetVersion": "4.0",
   "projectPath": "godot_project/",
-  "scriptPath": "res://scripts/",
+  "scriptPath": "res://miff/scripts/",
   "scenePath": "res://scenes/",
   "resourcePath": "res://resources/",
   "useSignals": true,
@@ -337,7 +337,7 @@ func _on_npc_interacted(player_id: String, interaction_type: String):
   "language": "csharp",
   "targetVersion": "4.0",
   "projectPath": "godot_project/",
-  "scriptPath": "res://scripts/",
+  "scriptPath": "res://miff/scripts/",
   "scenePath": "res://scenes/",
   "resourcePath": "res://resources/",
   "useSignals": true,
@@ -351,7 +351,7 @@ func _on_npc_interacted(player_id: String, interaction_type: String):
   "language": "gdscript",
   "targetVersion": "3.5",
   "projectPath": "godot_project/",
-  "scriptPath": "res://scripts/",
+  "scriptPath": "res://miff/scripts/",
   "scenePath": "res://scenes/",
   "resourcePath": "res://resources/",
   "useSignals": true,
@@ -398,7 +398,7 @@ Tests cover:
 ### Project Structure
 ```
 godot_project/
-├── scripts/
+├── miff/scripts/
 │   ├── NPCController.gd
 │   ├── CombatController.gd
 │   └── UIController.gd
