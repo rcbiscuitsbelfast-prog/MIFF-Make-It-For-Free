@@ -224,13 +224,7 @@ export class ModuleManager {
 ```typescript
 #!/usr/bin/env npx ts-node
 
-import { ModuleManager } from './Manager';
-
-const manager = new ModuleManager();
-
-function printUsage(): void {
-  console.log(`
-Usage: npx ts-node ModuleNamePure/cliHarness.ts <command> [options]
+import { ModuleManager } from '../../miff/pure/cliHarness.ts <command> [options]
 
 Commands:
   create    Create a new item
@@ -509,7 +503,7 @@ createNPC(data: any): NPC {
 
 ```typescript
 // NPCsPure depends on SharedSchemaPure
-import { EntityID, StatBlock } from '../SharedSchemaPure/Manager';
+import { EntityID, StatBlock } from '../../miff/pure/Manager';
 
 export interface NPC {
   id: EntityID;
@@ -518,7 +512,7 @@ export interface NPC {
 }
 
 // QuestsPure depends on NPCsPure
-import { NPC } from '../NPCsPure/Manager';
+import { NPC } from '../../miff/pure/Manager';
 
 export interface Quest {
   id: string;
@@ -531,7 +525,7 @@ export interface Quest {
 
 ```typescript
 // UnityBridgePure depends on NPCsPure
-import { NPCsManager } from '../NPCsPure/Manager';
+import { NPCsManager } from '../../miff/pure/Manager';
 
 export class UnityBridge {
   private npcManager = new NPCsManager();

@@ -1,4 +1,4 @@
-import path from 'path';
+import path from '../../miff/pure/path';
 
 test('golden miff-simulate run', () => {
 	const sim = path.resolve(__dirname, '..', 'miff-simulate.ts');

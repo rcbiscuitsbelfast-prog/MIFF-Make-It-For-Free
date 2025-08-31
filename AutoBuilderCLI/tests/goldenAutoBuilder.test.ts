@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+import path from '../../miff/pure/path';
+import fs from '../../miff/pure/fs';
 
 test('AutoBuilderCLI builds HTML for TopplerDemoPure', () => {
   const cli = path.resolve('AutoBuilderCLI/cli.ts');

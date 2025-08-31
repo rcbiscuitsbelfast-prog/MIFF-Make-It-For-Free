@@ -1,1 +1,1 @@
-export * from '../../systems/ProjectileSystemPure/index';
+export * from '../../miff/pure/ProjectileSystemPure/index';

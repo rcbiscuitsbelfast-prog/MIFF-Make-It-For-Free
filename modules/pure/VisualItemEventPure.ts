@@ -1,1 +1,1 @@
-export * from '../../systems/VisualItemEventPure/index';
+export * from '../../miff/pure/VisualItemEventPure/index';

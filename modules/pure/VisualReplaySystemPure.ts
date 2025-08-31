@@ -1,1 +1,1 @@
-export * from '../../systems/VisualReplaySystemPure/index';
+export * from '../../miff/pure/VisualReplaySystemPure/index';

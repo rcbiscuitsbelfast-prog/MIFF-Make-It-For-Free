@@ -1,2 +1,2 @@
 // Facade re-export for CutsceneSystemPure
-export * from '../../systems/CutsceneSystemPure/index';
+export * from '../../miff/pure/CutsceneSystemPure/index';

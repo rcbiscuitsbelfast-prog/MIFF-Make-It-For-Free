@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --no-warnings
-import fs from 'fs';
-import path from 'path';
+import fs from '../../miff/pure/fs';
+import path from '../../miff/pure/path';
 
 function main(){
 	const name = process.argv[2] || 'MyScenarioPure';

@@ -6,7 +6,7 @@
  */
 
 import { Command } from 'commander';
-import { createAudioSystem, AudioConfig, SoundDefinition } from '../../src/modules/AudioPure/AudioPure';
+import { createAudioSystem, AudioConfig, SoundDefinition } from '../../miff/pure/AudioPure';
 
 const program = new Command();
 

@@ -10,8 +10,8 @@
 require('ts-node/register/transpile-only');
 const path = require('path');
 const fs = require('fs');
-const { PhysicsManager } = require('../../PhysicsSystemPure/Manager');
-const { CollisionManager } = require('../../CollisionSystemPure/Manager');
+const { PhysicsManager } = require('../../miff/pure/Manager');
+const { CollisionManager } = require('../../miff/pure/Manager');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
 const UI = require('../../modules/pure/UISystemPure.ts');
 const { mapInputs } = require('../../modules/pure/InputSystemPure.ts');

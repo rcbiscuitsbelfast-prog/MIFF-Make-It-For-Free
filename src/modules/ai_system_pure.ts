@@ -19,8 +19,7 @@
  *   - Built-in debugging and introspection tools
  */
 
-import { BaseMIFFSystem, type SystemDependencies } from './system_pure';
-import type { EventBusPure } from './eventbus_pure';
+import { BaseMIFFSystem, type SystemDependencies } from '../../miff/pure } from './eventbus_pure';
 
 /**
  * AI agent state and properties

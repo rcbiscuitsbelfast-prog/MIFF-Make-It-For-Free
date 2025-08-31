@@ -116,7 +116,13 @@ workspace/
 │   ├── assets/             # Game assets (sprites, audio, etc.)
 │   ├── scenarios/          # Test fixtures and scenarios
 │   ├── replay/             # Replay and testing tools
-│   └── scripts/            # Build and utility scripts
+│   ├── scripts/            # Build and utility scripts
+│   └── pure/               # 80+ Pure modules (consolidated)
+│       ├── AIProfilesPure/ # AI and profiling systems
+│       ├── CombatPure/     # Combat mechanics
+│       ├── DialogPure/     # Dialogue systems
+│       ├── InventoryPure/  # Inventory management
+│       └── [76 more...]    # Complete engine-agnostic toolkit
 ├── site/                   # Web interface and routing
 │   ├── zones/              # Zone-specific web pages
 │   └── dashboard/          # Main dashboard
@@ -125,7 +131,7 @@ workspace/
 │   ├── spirit_tamer/       # Spirit Tamer zone
 │   ├── toppler/            # Toppler physics game
 │   └── remix_lab/          # Debug and remix tools
-└── [Pure modules]          # Engine-agnostic game systems
+└── [Other modules]         # CLI tools, builders, and utilities
 ```
 
 ## 🧪 Try the Sampler

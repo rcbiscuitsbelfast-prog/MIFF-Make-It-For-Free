@@ -1,1 +1,1 @@
-export * from '../../systems/RhythmSystemPure/index';
+export * from '../../miff/pure/RhythmSystemPure/index';

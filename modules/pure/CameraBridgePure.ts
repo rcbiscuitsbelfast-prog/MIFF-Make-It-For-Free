@@ -1,1 +1,1 @@
-export * from '../../systems/CameraBridgePure/index';
+export * from '../../miff/pure/CameraBridgePure/index';

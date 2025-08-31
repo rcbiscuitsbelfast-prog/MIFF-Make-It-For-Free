@@ -1,1 +1,1 @@
-export * from '../../systems/AssetValidatorPure/index';
+export * from '../../miff/pure/AssetValidatorPure/index';

@@ -81,8 +81,8 @@ See `/tests/goldenFixtures/README.md` for complete fixture documentation.
 #### TopplerDemoPure Golden Test Example
 
 ```typescript
-import fs from 'fs';
-import path from 'path';
+import fs from '../../miff/pure/fs';
+import path from '../../miff/pure/path';
 
 test('TopplerDemoPure scenario matches golden', () => {
   const cli = path.resolve('TopplerDemoPure/cliHarness.ts');
@@ -123,8 +123,8 @@ const output = (global as any).testUtils.runCLI(cliPath, ['arg1']);
 ### CLI Test Structure
 
 ```typescript
-import path from 'path';
-import fs from 'fs';
+import path from '../../miff/pure/path';
+import fs from '../../miff/pure/fs';
 
 describe('ModulePure Golden Tests', () => {
   const cliPath = path.resolve('ModulePure/cliHarness.ts');
@@ -264,7 +264,7 @@ Tests may show passing results like:
 ### Test Structure
 
 ```typescript
-import { SharedSchemaManager } from './SharedSchemaPure/Manager';
+import { SharedSchemaManager } from '../../miff/pure/Manager';
 
 describe('MIFF Example Tests', () => {
   test('✓ module functionality', () => {

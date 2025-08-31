@@ -1,1 +1,1 @@
-export * from '../../systems/QuestTimelinePure/index';
+export * from '../../miff/pure/QuestTimelinePure/index';

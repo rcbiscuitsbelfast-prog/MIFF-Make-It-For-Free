@@ -2,11 +2,11 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateRenderPayload, GameState, RenderPayload } from '../RenderPayloadPure/GameStateToFrames';
-import { ConvertToWebManager } from '../ConvertToWebPure/Manager';
-import { ConvertToUnityManager } from '../ConvertToUnityPure/Manager';
-import { ConvertToGodotManager } from '../ConvertToGodotPure/Manager';
-import { normalizeManifest, validateManifest } from '../systems/AssetManifestPure';
+import { generateRenderPayload, GameState, RenderPayload } from '../../miff/pure/GameStateToFrames';
+import { ConvertToWebManager } from '../../miff/pure/Manager';
+import { ConvertToUnityManager } from '../../miff/pure/Manager';
+import { ConvertToGodotManager } from '../../miff/pure/Manager';
+import { normalizeManifest, validateManifest } from '../../miff/pure';
 
 type Flags = { 
   fps: number; 
@@ -196,7 +196,7 @@ function buildHtml(frames: RenderPayload[], flags: Flags): string{
     <label><input type="checkbox" id="debug" ${flags.debug ? 'checked' : ''}/> Debug</label>
   </div>
   <script type="module">
-    import { CanvasRenderPlayer } from '../ConvertToWebPure/CanvasPlayer.ts';
+    import { CanvasRenderPlayer } from '../../miff/pure/CanvasPlayer.ts';
     const frames = ${framesJson};
     const canvas = document.getElementById('stage');
     const player = new CanvasRenderPlayer(canvas, frames, { fps: ${flags.fps}, debug: ${flags.debug ? 'true' : 'false'} });

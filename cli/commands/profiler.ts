@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { createProfiler, ProfilerConfig } from '../../src/modules/ProfilerPure/ProfilerPure';
+import { createProfiler, ProfilerConfig } from '../../miff/pure/ProfilerPure';
 
 const program = new Command();
 

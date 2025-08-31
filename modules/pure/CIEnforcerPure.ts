@@ -1,1 +1,1 @@
-export * from '../../systems/CIEnforcerPure/index';
+export * from '../../miff/pure/CIEnforcerPure/index';

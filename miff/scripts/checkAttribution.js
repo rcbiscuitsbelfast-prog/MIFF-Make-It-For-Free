@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
+const fs = require('../../miff/pure/fs');
+const path = require('../../miff/pure/path');
 
 const lic = fs.existsSync(path.resolve('LICENSE.md'));
 const attribMod = fs.existsSync(path.resolve('MiffAttributionPure'));

@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+import path from '../../miff/pure/path';
+import fs from '../../miff/pure/fs';
 
 test('AssetManifestPure validates sprite sheet manifest', () => {
   const cli = path.resolve('cli/manifest.ts');

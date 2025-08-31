@@ -1,1 +1,1 @@
-export * from '../../systems/HealthSystemPure/index';
+export * from '../../miff/pure/HealthSystemPure/index';

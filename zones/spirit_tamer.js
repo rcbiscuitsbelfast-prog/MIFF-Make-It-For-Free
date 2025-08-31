@@ -11,8 +11,8 @@ require('ts-node/register/transpile-only');
 const path = require('path');
 const fs = require('fs');
 const { mapInputs } = require('../../modules/pure/InputSystemPure.ts');
-const { CollisionManager } = require('../../CollisionSystemPure/Manager');
-const { TimeManager } = require('../../TimeSystemPure/Manager');
+const { CollisionManager } = require('../../miff/pure/Manager');
+const { TimeManager } = require('../../miff/pure/Manager');
 const UI = require('../../modules/pure/UISystemPure.ts');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
 

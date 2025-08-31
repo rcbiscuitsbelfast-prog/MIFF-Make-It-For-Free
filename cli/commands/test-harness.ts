@@ -7,7 +7,7 @@
  */
 
 import { Command } from 'commander';
-import { createTestHarness, TestConfig, TestCase, TestSuite, TestResult, CodeInjection } from '../../src/modules/TestHarnessPure/TestHarnessPure';
+import { createTestHarness, TestConfig, TestCase, TestSuite, TestResult, CodeInjection } from '../../miff/pure/TestHarnessPure';
 
 const program = new Command();
 
@@ -420,7 +420,7 @@ function setupSampleTestSuites(harness: any): void {
 }
 
 function generateTestSuiteTemplate(name: string, template: string): string {
-  return `import { TestSuite, TestCase } from '../../src/modules/TestHarnessPure/TestHarnessPure';
+  return `import { TestSuite, TestCase } from '../../miff/pure/TestHarnessPure';
 
 export const ${name}TestSuite: TestSuite = {
   id: '${name}',
@@ -442,7 +442,7 @@ export const ${name}TestSuite: TestSuite = {
 }
 
 function generateTestCaseTemplate(name: string, template: string): string {
-  return `import { TestCase } from '../../src/modules/TestHarnessPure/TestHarnessPure';
+  return `import { TestCase } from '../../miff/pure/TestHarnessPure';
 
 export const ${name}Test: TestCase = {
   id: '${name}',

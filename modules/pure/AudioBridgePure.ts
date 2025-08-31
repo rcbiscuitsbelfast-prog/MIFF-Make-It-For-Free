@@ -1,1 +1,1 @@
-export * from '../../systems/AudioBridgePure/index';
+export * from '../../miff/pure/AudioBridgePure/index';

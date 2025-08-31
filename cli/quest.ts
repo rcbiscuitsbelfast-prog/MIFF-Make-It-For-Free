@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 import fs from 'fs';
 import path from 'path';
-import { parseQuestText } from '../systems/QuestModulePure/index';
+import { parseQuestText } from '../../miff/pure/index';
 
 function main(){
   const file = process.argv[2];

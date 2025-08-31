@@ -1,1 +1,1 @@
-export * from '../../systems/ScoreSystemPure/index';
+export * from '../../miff/pure/ScoreSystemPure/index';

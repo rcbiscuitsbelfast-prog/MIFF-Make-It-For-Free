@@ -1,1 +1,1 @@
-export * from '../../systems/MountSystemPure/index';
+export * from '../../miff/pure/MountSystemPure/index';

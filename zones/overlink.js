@@ -9,7 +9,7 @@
 require('ts-node/register/transpile-only');
 const path = require('path');
 const fs = require('fs');
-const { OverlinkZone } = require('../../OverlinkPure/OverlinkZone');
+const { OverlinkZone } = require('../../miff/pure/OverlinkZone');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
 const UI = require('../../modules/pure/UISystemPure.ts');
 const { mapInputs } = require('../../modules/pure/InputSystemPure.ts');

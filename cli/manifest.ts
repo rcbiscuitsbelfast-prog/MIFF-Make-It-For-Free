@@ -1,7 +1,7 @@
 #!/usr/bin/env npx ts-node
 import fs from 'fs';
 import path from 'path';
-import { normalizeManifest, validateManifest, remixAudit } from '../systems/AssetManifestPure/index';
+import { normalizeManifest, validateManifest, remixAudit } from '../../miff/pure/index';
 
 function main(){
   const file = process.argv[2];

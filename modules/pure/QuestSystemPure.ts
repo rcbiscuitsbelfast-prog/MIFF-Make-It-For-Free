@@ -1,2 +1,2 @@
 // Facade re-export for QuestSystemPure
-export * from '../../systems/QuestSystemPure/index';
+export * from '../../miff/pure/QuestSystemPure/index';

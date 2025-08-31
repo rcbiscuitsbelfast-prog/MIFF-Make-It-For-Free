@@ -1,1 +1,1 @@
-export * from '../../systems/NavigationSystemPure/index';
+export * from '../../miff/pure/NavigationSystemPure/index';

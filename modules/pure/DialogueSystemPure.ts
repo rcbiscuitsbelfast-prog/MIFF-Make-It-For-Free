@@ -1,1 +1,1 @@
-export * from '../../systems/DialogueSystemPure/index';
+export * from '../../miff/pure/DialogueSystemPure/index';

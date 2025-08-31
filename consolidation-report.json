@@ -1,0 +1,323 @@
+{
+  "timestamp": "2025-08-31T22:39:37.894Z",
+  "mode": "apply",
+  "modulesFound": 51,
+  "modulesMoved": 45,
+  "plan": [
+    {
+      "action": "moved",
+      "src": "/workspace/AIProfilesPure",
+      "dest": "/workspace/miff/pure/AIProfilesPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/AudioMixerPure",
+      "dest": "/workspace/miff/pure/AudioMixerPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/BridgeInspectorPure",
+      "dest": "/workspace/miff/pure/BridgeInspectorPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/BridgeSchemaPure",
+      "dest": "/workspace/miff/pure/BridgeSchemaPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/CollisionSystemPure",
+      "dest": "/workspace/miff/pure/CollisionSystemPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/CombatCorePure",
+      "dest": "/workspace/miff/pure/CombatCorePure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/CombatScenarioPure",
+      "dest": "/workspace/miff/pure/CombatScenarioPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/ConvertToGodotPure",
+      "dest": "/workspace/miff/pure/ConvertToGodotPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/ConvertToUnityPure",
+      "dest": "/workspace/miff/pure/ConvertToUnityPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/ConvertToWebPure",
+      "dest": "/workspace/miff/pure/ConvertToWebPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/CraftingPure",
+      "dest": "/workspace/miff/pure/CraftingPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/CreaturesPure",
+      "dest": "/workspace/miff/pure/CreaturesPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/DebugOverlayPure",
+      "dest": "/workspace/miff/pure/DebugOverlayPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/DialogPure",
+      "dest": "/workspace/miff/pure/DialogPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/EconomyPure",
+      "dest": "/workspace/miff/pure/EconomyPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/EntityLinkerPure",
+      "dest": "/workspace/miff/pure/EntityLinkerPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/EquipmentPure",
+      "dest": "/workspace/miff/pure/EquipmentPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/GodotBridgePure",
+      "dest": "/workspace/miff/pure/GodotBridgePure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/LicenseAuditPure",
+      "dest": "/workspace/miff/pure/LicenseAuditPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/LootTablesPure",
+      "dest": "/workspace/miff/pure/LootTablesPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/MiffAttributionPure",
+      "dest": "/workspace/miff/pure/MiffAttributionPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/MovementPure",
+      "dest": "/workspace/miff/pure/MovementPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/OverlinkPure",
+      "dest": "/workspace/miff/pure/OverlinkPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/PathfindingPure",
+      "dest": "/workspace/miff/pure/PathfindingPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/PhysicsSystemPure",
+      "dest": "/workspace/miff/pure/PhysicsSystemPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/QuestScenarioPure",
+      "dest": "/workspace/miff/pure/QuestScenarioPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/RemixTaggingPure",
+      "dest": "/workspace/miff/pure/RemixTaggingPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/RenderPayloadPure",
+      "dest": "/workspace/miff/pure/RenderPayloadPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/RenderReplayPure",
+      "dest": "/workspace/miff/pure/RenderReplayPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/SaveLoadPure",
+      "dest": "/workspace/miff/pure/SaveLoadPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/SettingsPure",
+      "dest": "/workspace/miff/pure/SettingsPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/SharedSchemaPure",
+      "dest": "/workspace/miff/pure/SharedSchemaPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/SkillTreePure",
+      "dest": "/workspace/miff/pure/SkillTreePure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/SpiritTamerDemoPure",
+      "dest": "/workspace/miff/pure/SpiritTamerDemoPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/StatsSystemPure",
+      "dest": "/workspace/miff/pure/StatsSystemPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/TimeSystemPure",
+      "dest": "/workspace/miff/pure/TimeSystemPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/TopplerDemoPure",
+      "dest": "/workspace/miff/pure/TopplerDemoPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/TutorialScenarioPure",
+      "dest": "/workspace/miff/pure/TutorialScenarioPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/UnityBridgePure",
+      "dest": "/workspace/miff/pure/UnityBridgePure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/ValidationPure",
+      "dest": "/workspace/miff/pure/ValidationPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/WebBridgePure",
+      "dest": "/workspace/miff/pure/WebBridgePure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/WitcherExplorerDemoPure",
+      "dest": "/workspace/miff/pure/WitcherExplorerDemoPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/WorldEnhancementsPure",
+      "dest": "/workspace/miff/pure/WorldEnhancementsPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/WorldLayoutPure",
+      "dest": "/workspace/miff/pure/WorldLayoutPure",
+      "type": "module"
+    },
+    {
+      "action": "moved",
+      "src": "/workspace/XPLevelingPure",
+      "dest": "/workspace/miff/pure/XPLevelingPure",
+      "type": "module"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/miff/pure/ConvertToGodotPure/tests/goldenConvertToGodotPure.test.ts",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/miff/pure/ConvertToUnityPure/tests/goldenConvertToUnityPure.test.ts",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/miff/pure/ConvertToWebPure/tests/goldenConvertToWebPure.test.ts",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/miff/pure/RenderPayloadPure/tests/goldenRenderPayloadPure.test.ts",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/miff/pure/RenderReplayPure/tests/goldenReplay.test.ts",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/zones/overlink.js",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/zones/spirit_tamer.js",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/zones/toppler.js",
+      "type": "reference"
+    },
+    {
+      "action": "updated",
+      "file": "/workspace/zones/witcher_grove.js",
+      "type": "reference"
+    }
+  ]
+}
