@@ -26,18 +26,21 @@ function send(res, code, body, headers={}){
 
 function filePathFromUrl(urlPath){
 	// Normalize and prevent traversal
-	let p = decodeURIComponent(urlPath.split('?')[0]);
+	let p = decodeURIComponent((urlPath || '/').split('?')[0]);
 	if (p === '/' || p === '') p = '/sampler/site/zones/witcher_grove/index.html';
 	// Common aliases
 	if (p === '/viewer') p = '/sampler/site/zones/witcher_grove/index.html';
-	// Map to filesystem
-	const safe = p.replace(/\\/g,'/').replace(/\.+/g, '.');
-	return path.join(ROOT, safe.replace(/^\//, ''));
+	// Normalize as POSIX path for URLs and disallow traversals
+	const normalized = path.posix.normalize(p);
+	if (normalized.includes('..')) return null;
+	const safe = normalized.startsWith('/') ? normalized.slice(1) : normalized;
+	return path.join(ROOT, safe);
 }
 
 const server = http.createServer((req, res) => {
 	try{
 		const fp = filePathFromUrl(req.url || '/');
+		if (!fp) return send(res, 403, 'Forbidden');
 		let stat;
 		try { stat = fs.statSync(fp); } catch {}
 		if (!stat) {
