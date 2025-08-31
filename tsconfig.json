@@ -29,6 +29,7 @@
     "node_modules",
     "dist",
     "coverage",
-    "miff-nextjs/tailwind.config.ts"
+    "miff-nextjs/tailwind.config.ts",
+    "scenarios/**/*.ts"
   ]
 }
