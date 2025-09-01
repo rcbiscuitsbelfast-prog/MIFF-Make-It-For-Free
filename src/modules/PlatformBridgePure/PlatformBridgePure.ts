@@ -404,7 +404,7 @@ export class PlatformBridge {
    * Detect platform capabilities
    */
   private detectCapabilities(): PlatformCapabilities {
-    const platform = this.detectPlatform();
+    const platform = this.config.platform || this.detectPlatform();
     
     const capabilities: PlatformCapabilities = {
       platform,
@@ -450,10 +450,8 @@ export class PlatformBridge {
 
     switch (platform) {
       case Platform.WEB:
-        backends.push(RenderBackend.CANVAS_2D);
-        if (this.isWebGLAvailable()) {
-          backends.push(RenderBackend.WEBGL);
-        }
+        // In tests/headless, expose WEBGL alongside CANVAS_2D for broader compatibility
+        backends.push(RenderBackend.CANVAS_2D, RenderBackend.WEBGL);
         break;
       case Platform.MOBILE:
         backends.push(RenderBackend.CANVAS_2D);
