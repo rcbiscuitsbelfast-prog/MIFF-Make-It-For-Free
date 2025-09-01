@@ -95,6 +95,18 @@ test('TopplerDemoPure scenario matches golden', () => {
 });
 ```
 
+### Demo Suite CLI Harness Stubs
+
+**📝 NOTE**: Demo suites use stubbed CLI harnesses for CI compatibility. These stubs resolve MODULENOTFOUND errors and allow tests to run without requiring full CLI implementation. Replace with real CLI logic when ready.
+
+**Stubbed Modules**:
+- `RenderPayloadPure/cliHarness.ts`
+- `WitcherExplorerDemoPure/cliHarness.ts` 
+- `SpiritTamerDemoPure/cliHarness.ts`
+- `TopplerDemoPure/cliHarness.ts`
+- Bridge modules: `UnityBridgePure`, `GodotBridgePure`, `BridgeSchemaPure`
+- Core modules: `NPCsPure`, `DialoguePure`
+
 ### Common Pitfalls to Avoid
 
 **❌ DON'T**: Use direct `node` execution on TypeScript files:
