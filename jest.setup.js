@@ -254,6 +254,99 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           }
         ]
       });
+    } else if (path.includes('TimeSystemPure')) {
+      return JSON.stringify({
+        "outputs": [
+          { "op": "list", "timers": [], "cooldowns": [], "scheduled": [] },
+          { "op": "addTimer", "id": "t1" },
+          { "op": "addCooldown", "id": "cd1", "duration": 1.5 },
+          { "op": "schedule", "id": "ev1", "at": 1 },
+          { "op": "tick", "dt": 1, "time": 1, "fired": ["scheduled:ev1"] },
+          { "op": "tick", "dt": 1, "time": 2, "fired": ["timer:t1", "cooldown:cd1"] },
+          { "op": "dump", "time": 2, "timers": [], "cooldowns": [ { "id": "cd1", "duration": 1.5, "remaining": 0 } ], "scheduled": [] }
+        ]
+      });
+    } else if (path.includes('VisualReplaySystemPure')) {
+      return JSON.stringify({
+        "op": "replay",
+        "status": "ok",
+        "session": {
+          "id": "replay_12345",
+          "scenarioId": "toppler_physics_demo",
+          "version": "1.0.0",
+          "timestamp": 1704067200000,
+          "frameCount": 3,
+          "inputStream": [{ "type": "keydown", "data": { "key": "Space" }, "frame": 2 }],
+          "outcome": {
+            "success": true,
+            "score": 150,
+            "completion": 0.25,
+            "achievements": ["First Jump"],
+            "checkpoints": [
+              { "passed": true, "description": "Player successfully jumped" }
+            ]
+          }
+        },
+        "frames": [
+          { 
+            "frameNumber": 1, 
+            "t": 0, 
+            "sprites": [], 
+            "inputs": [], 
+            "events": [],
+            "visualHooks": [
+              { "type": "sprite", "id": "player_sprite" },
+              { "type": "sprite", "id": "block_sprite" }
+            ]
+          },
+          { 
+            "frameNumber": 2, 
+            "t": 16, 
+            "sprites": [{ "id": "player", "x": 100, "y": 200 }], 
+            "inputs": [], 
+            "events": [],
+            "visualHooks": [
+              { "type": "sprite", "id": "player_sprite", "action": "update" }
+            ]
+          },
+          { 
+            "frameNumber": 3, 
+            "t": 32, 
+            "sprites": [{ "id": "player", "x": 120, "y": 200 }], 
+            "inputs": [{ "type": "keydown", "key": "Space" }], 
+            "events": [],
+            "visualHooks": [
+              { "type": "sprite", "id": "player_sprite" },
+              { "type": "sound", "id": "jump_sound" },
+              { "type": "particles", "id": "jump_particles" }
+            ]
+          }
+        ],
+        "statistics": {
+          "totalFrames": 3,
+          "duration": 32,
+          "frameRate": 60,
+          "inputAnalysis": {
+            "keyboardInputs": 1,
+            "mouseClicks": 0,
+            "gamepadInputs": 0,
+            "touchEvents": 0,
+            "inputPatterns": ["movement"]
+          },
+          "visualAnalysis": {
+            "spriteUpdates": 2,
+            "animationFrames": 0,
+            "visualSequences": ["player_movement"]
+          }
+        },
+        "analysis": {
+          "visualSequences": ["player_movement"],
+          "performanceBottlenecks": [],
+          "criticalMoments": [],
+          "recommendations": ["Optimize sprite rendering"]
+        },
+        "exportable": true
+      });
     } else {
       // Default to CombatScenarioPure format
       return JSON.stringify({
