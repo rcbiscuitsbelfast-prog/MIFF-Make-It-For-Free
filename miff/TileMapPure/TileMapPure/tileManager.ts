@@ -1,4 +1,4 @@
-tileManager.tsimport { TileType } from './tileTypes';
+import { TileType } from './tileTypes';
 import { isWalkable, getMovementCost } from './tileUtils';
 
 export interface Tile {
