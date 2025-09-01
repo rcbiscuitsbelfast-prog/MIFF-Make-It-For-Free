@@ -8,6 +8,11 @@
     "dev": "vite",
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
+    "test": "jest",
+    "test:ci": "jest --config jest.config.js --coverage",
+    "test:dom": "jest --selectProjects dom-tests",
+    "test:node": "jest --selectProjects node-tests",
+    "test:leak": "jest --detectOpenHandles --config jest.config.js",
     "gen:html": "node -r ts-node/register miff/scripts/gen-html.ts",
     "gen-toppler": "node miff/scripts/gen-toppler-stub.js",
     "gen-toppler:stub": "node miff/scripts/gen-toppler-stub.js",
@@ -18,7 +23,6 @@
     "replay:simulate": "node miff/scripts/simulate-replay.js",
     "validate-release": "node miff/scripts/validate-release.js",
     "run-tests": "jest",
-    "test:ci": "jest --ci --coverage",
     "test:watch": "jest --watch",
     "test:spirit-tamer": "node SpiritTamerDemoPure/start_grove.js",
     "scenario:load": "ts-node scenarios/ScenarioLoader.ts",
@@ -37,8 +41,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
     "play:spirit": "vite preview sampler/site",
     "validate:release": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json && node miff/scripts/validateOutputFormat.js out_tutorial.json scenario && node miff/scripts/checkRemixHooks.js && node miff/scripts/checkAttribution.js",
-    "gen:manifests": "node miff/scripts/gen-manifests.js",
-    "test": "node test-scaffold.js"
+    "gen:manifests": "node miff/scripts/gen-manifests.js"
   },
   "repository": {
     "type": "git",
