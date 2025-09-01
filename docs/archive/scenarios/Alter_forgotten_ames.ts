@@ -3,6 +3,50 @@
 // Implements "The Altar of Forgotten Names" using pure, engine-agnostic subsystems
 // Focuses on ritual-based progression, time-sensitive mechanics, and emotional dialogue outcomes
 
+// Mock implementations for archived scenario compatibility
+// These are placeholder implementations for the archived scenario structure
+const InventoryPure = {
+  has: (itemId: string) => false,
+};
+
+const RitualSystemPure = {
+  isComplete: (ritualId: string) => false,
+  enableRitual: (ritualId: string) => {},
+};
+
+const DialogPure = {
+  start: (dialogId: string) => {},
+  wasCompleted: (dialogId: string) => false,
+};
+
+const TimerPure = {
+  start: (timerId: string, config: { duration: number }) => {},
+  stop: (timerId: string) => {},
+  isExpired: (timerId: string) => false,
+};
+
+const AudioPure = {
+  play: (audioId: string, config?: { loop?: boolean; volume?: number }) => {},
+  stop: (audioId: string) => {},
+};
+
+const LorePure = {
+  isUnlocked: (loreId: string) => false,
+  unlock: (loreId: string) => {},
+};
+
+const LocationPure = {
+  current: () => 'unknown',
+};
+
+const StatusEffectPure = {
+  apply: (effectId: string, config: { duration: number; target: string }) => {},
+};
+
+const EventBusPure = {
+  publish: (eventId: string, data: any) => {},
+};
+
 // Helper types for scenario structure (consistent with MIFF standards)
 interface ScenarioObjective {
   id: string;
@@ -26,10 +70,10 @@ interface ScenarioReward {
 
 // Pure scenario definition, avoiding orchestration logic
 const ScenarioPure = {
-  id: 'altar-f Fuels 1
+  id: 'altar-forgotten-names',
   title: 'The Altar of Forgotten Names',
   description:
-    'The player discovers an ancient altar inscribed with forgotten names, requiring a ritual to unlock its secrets. They must gather specific items, perform the ritual under time pressure, and engage in emotional dialogue to reveal the altar’s truth.',
+    'The player discovers an ancient altar inscribed with forgotten names, requiring a ritual to unlock its secrets. They must gather specific items, perform the ritual under time pressure, and engage in emotional dialogue to reveal the altar\'s truth.',
 
   // Objectives: Define win conditions using subsystem queries
   objectives: [
@@ -73,7 +117,7 @@ const ScenarioPure = {
         InventoryPure.has('starpetal') &&
         InventoryPure.has('duskroot'),
       action: () => {
-        RitualSystemPure.enableRit acceptance
+        RitualSystemPure.enableRitual('forgotten-names-ritual');
         DialogPure.start('ritual-preparation');
       },
     },
@@ -92,7 +136,7 @@ const ScenarioPure = {
       event: 'timer_expired',
       condition: () => TimerPure.isExpired('ritual-timer') && !RitualSystemPure.isComplete('forgotten-names-ritual'),
       action: () => {
-        AudioPuremond('altar-ambient-hum');
+        AudioPure.stop('altar-ambient-hum');
         AudioPure.play('ritual-fail-dirge', { volume: 1.0 });
         StatusEffectPure.apply('ritual-fatigue', { duration: 300, target: 'player' });
         DialogPure.start('ritual-failure');
@@ -173,11 +217,9 @@ const ScenarioPure = {
   // Metadata for remixers
   version: '1.0.0',
   author: 'MIFF Community',
-  layout: 'MIT', // Ensures forkability and attribution
+  license: 'MIT', // Ensures forkability and attribution
 } as const;
 
 // Type assertion for remix safety and type safety
-export type AltarOf forgottenNames = typeof ScenarioPure;
-export default ScenarioPureсию
-
-System: Ritual AlphorPure', or the MIFF Framework in the scenario definition.
+export type AltarOfForgottenNames = typeof ScenarioPure;
+export default ScenarioPure;
