@@ -1,25 +1,41 @@
 /**
- * AISystemPure.ts - Event-driven AI system with scriptable behaviors
+ * AI System Pure Module
  * 
- * MIFF Framework - Make It For Free
- * License: AGPL-3.0 (remix-safe, see LICENSE.md)
+ * Provides AI agent management, behavior trees, state machines, and goal-oriented behavior.
+ * Designed to be engine-agnostic and remix-safe.
  * 
- * Inspired by Crystal Space's CEL (Crystal Entity Layer) and Delta Engine's behavior system.
- * Provides event-driven AI with support for state machines, goal-oriented behavior, and scripting.
- * 
- * Usage:
- *   const aiSystem = new AISystemPure(dependencies);
- *   const agent = aiSystem.createAgent('enemy', { maxHealth: 100 });
- *   aiSystem.setGoal(agent.id, 'patrol', { waypoints: [...] });
- * 
- * Remix Safety:
- *   - AI behaviors are data-driven and scriptable
- *   - No hardcoded game logic - everything is configurable
- *   - Event-driven design allows hot-swapping of behaviors
- *   - Built-in debugging and introspection tools
+ * Features:
+ * - AI agent lifecycle management
+ * - Behavior tree implementation
+ * - State machine system
+ * - Goal-oriented behavior
+ * - Script-based AI behaviors
+ * - Performance monitoring and optimization
  */
 
-import { BaseMIFFSystem, type SystemDependencies } from '../../miff/pure/EventBusPure/EventBusPure';
+// Mock implementations for archived module compatibility
+interface BaseMIFFSystem {
+  name: string;
+  version: string;
+  dependencies: string[];
+}
+
+interface SystemDependencies {
+  [key: string]: any;
+}
+
+interface EventBusPure {
+  subscribe: (event: string, handler: (data: any) => void) => void;
+  emit: (event: string, data: any) => void;
+  publish: (event: string, data: any) => void;
+}
+
+// Mock EventBusPure implementation
+const mockEventBus: EventBusPure = {
+  subscribe: () => {},
+  emit: () => {},
+  publish: () => {},
+};
 
 /**
  * AI agent state and properties
@@ -119,9 +135,10 @@ export interface AIScript {
 /**
  * Main AI system managing agents, behaviors, and state machines
  */
-export class AISystemPure extends BaseMIFFSystem {
+export class AISystemPure implements BaseMIFFSystem {
   readonly name = 'AISystemPure';
   readonly version = '1.0.0';
+  readonly dependencies: string[] = [];
 
   private agents = new Map<string, AIAgent>();
   private stateMachines = new Map<string, AIStateMachine>();
@@ -131,8 +148,17 @@ export class AISystemPure extends BaseMIFFSystem {
   private updateInterval: number = 100; // Update every 100ms
   private lastUpdate: number = 0;
 
+  // Mock properties for archived module compatibility
+  public emit: (event: string, data: any) => void;
+  public subscribe: (event: string, handler: (data: any) => void) => void;
+  public eventBus: EventBusPure;
+
   constructor(dependencies: SystemDependencies) {
-    super(dependencies);
+    // Initialize mock properties
+    this.emit = mockEventBus.emit;
+    this.subscribe = mockEventBus.subscribe;
+    this.eventBus = mockEventBus;
+    
     this.registerBuiltinHandlers();
   }
 
@@ -140,7 +166,7 @@ export class AISystemPure extends BaseMIFFSystem {
     console.log('Initializing AI System');
 
     // Subscribe to game events that might affect AI
-    this.subscribe('entity.destroyed', (data) => {
+    this.subscribe('entity.destroyed', (data: { entityId: string }) => {
       this.removeAgentByEntity(data.entityId);
     });
 
@@ -692,7 +718,6 @@ export class AISystemPure extends BaseMIFFSystem {
    */
   getConfig(): Record<string, any> {
     return {
-      ...super.getConfig(),
       agentCount: this.agents.size,
       stateMachineCount: this.stateMachines.size,
       actionHandlerCount: this.actionHandlers.size,

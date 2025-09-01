@@ -1,25 +1,49 @@
 /**
- * ModuleLoaderPure.ts - Runtime hot-swapping and dynamic module loading
+ * Module Loader Pure Module
  * 
- * MIFF Framework - Make It For Free
- * License: AGPL-3.0 (remix-safe, see LICENSE.md)
+ * Provides dynamic module loading, hot-swapping, and dependency management.
+ * Designed to be engine-agnostic and remix-safe.
  * 
- * Inspired by Delta Engine's hot-reloading capabilities and Crystal Space's plugin system.
- * Enables dynamic loading, unloading, and hot-swapping of MIFF modules at runtime.
- * 
- * Usage:
- *   const loader = new ModuleLoaderPure(systemRegistry, eventBus);
- *   await loader.loadModule('./PhysicsSystemPure', 'physics');
- *   await loader.hotSwapModule('physics', './NewPhysicsSystemPure');
- * 
- * Remix Safety:
- *   - Modules are isolated and can be safely replaced
- *   - Automatic cleanup prevents memory leaks
- *   - Error handling ensures system stability
- *   - Validation prevents loading of incompatible modules
+ * Features:
+ * - Dynamic module loading from paths or URLs
+ * - Hot-swapping of modules at runtime
+ * - Dependency resolution and validation
+ * - Module lifecycle management
+ * - Error handling and recovery
  */
 
-import type { SystemPure, IMIFFSystem, SystemFactory } from '../../miff/pure/EventBusPure/EventBusPure';
+// Mock implementations for archived module compatibility
+interface SystemPure {
+  name: string;
+  version: string;
+  dependencies: string[];
+  isRegistered: (systemName: string) => boolean;
+  register: (systemName: string, factory: SystemFactory, options?: any) => void;
+  unregister: (systemName: string) => Promise<void>;
+}
+
+interface IMIFFSystem {
+  name: string;
+  version: string;
+  dependencies: string[];
+}
+
+interface SystemFactory {
+  (): IMIFFSystem;
+}
+
+interface EventBusPure {
+  subscribe: (event: string, handler: (data: any) => void) => void;
+  emit: (event: string, data: any) => void;
+  publish: (event: string, data: any) => void;
+}
+
+// Mock EventBusPure implementation
+const mockEventBus: EventBusPure = {
+  subscribe: () => {},
+  emit: () => {},
+  publish: () => {},
+};
 
 /**
  * Module metadata interface
@@ -87,7 +111,7 @@ export class ModuleLoaderPure {
     private eventBus: EventBusPure
   ) {
     // Listen for system events to track module state
-    this.eventBus.subscribe('system.error', (data) => {
+    this.eventBus.subscribe('system.error', (data: { systemName: string; error: any }) => {
       console.warn(`Module system error in ${data.systemName}:`, data.error);
     });
   }
