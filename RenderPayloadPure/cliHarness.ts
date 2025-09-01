@@ -1,83 +1,25 @@
 /**
- * This CLI harness stub simulates valid output for demo suite tests.
- * It resolves current CI failures caused by empty output and JSON.parse errors,
- * and anticipates future test expectations like metadata, orchestration flags, and CLI argument parsing.
+ * CLI Harness for RenderPayloadPure
+ * 
+ * This harness provides CLI interface for RenderPayloadPure module testing.
+ * Uses shared utilities to eliminate code duplication.
+ * 
+ * @module RenderPayloadPure/cliHarness
+ * @version 1.0.0
+ * @license MIT
  */
 
-const args = process.argv.slice(2);
-const mode = args[0] || 'default'; // Accepts a mode argument like 'build-sample', 'witcher', or 'spirit'
+import {
+  buildSamplePayload,
+  validatePayload,
+  witcherExplorerDemo,
+  spiritTamerDemo,
+  defaultStub,
+  parseCLIArgs,
+  formatOutput
+} from '../miff/pure/shared/cliHarnessUtils';
 
-function buildSamplePayload() {
-  // Simulates a generic sample payload for RenderPayloadPure
-  return {
-    op: 'buildSample',
-    status: 'ok',
-    payload: {
-      renderData: [
-        {
-          id: 'sample_frame_1',
-          type: 'frame',
-          timestamp: Date.now(),
-          data: { sample: true }
-        }
-      ],
-      metadata: {
-        version: '1.0.0',
-        timestamp: Date.now()
-      }
-    }
-  };
-}
-
-function validatePayload() {
-  // Simulates validation output for RenderPayloadPure
-  return {
-    op: 'validate',
-    status: 'error',
-    issues: [
-      'Invalid render type: expected "frame" but got "invalid"',
-      'Missing required field: timestamp'
-    ]
-  };
-}
-
-function witcherExplorerDemo() {
-  // Simulates a navigation payload for WitcherExplorerDemoPure
-  return {
-    op: 'witcher_explorer_demo',
-    status: 'ok',
-    nav: {
-      op: 'nav.path',
-      path: ['grove', 'altar'],
-      validated: true
-    },
-    metadata: {
-      scene: 'grove',
-      player: { x: 85, y: 262 }
-    }
-  };
-}
-
-function spiritTamerDemo() {
-  // Simulates a scene payload for SpiritTamerDemoPure
-  return {
-    op: 'spirit_tamer_demo',
-    status: 'ok',
-    scene: 'grove',
-    player: { x: 85, y: 262 },
-    spirits: ['emberfox', 'glimmerbat'],
-    orchestrationReady: true
-  };
-}
-
-function defaultStub() {
-  // Fallback stub to prevent empty output and ensure CI safety
-  return {
-    op: 'noop',
-    status: 'ok',
-    message: 'Default stub executed. No operation specified.'
-  };
-}
+const { mode } = parseCLIArgs(process.argv);
 
 // Select output based on CLI argument
 let output;
@@ -99,4 +41,4 @@ switch (mode) {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(JSON.stringify(output));
+console.log(formatOutput(output));
