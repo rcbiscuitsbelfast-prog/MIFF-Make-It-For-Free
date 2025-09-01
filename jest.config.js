@@ -11,7 +11,9 @@ module.exports = {
 			moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 			testMatch: [
 				'<rootDir>/src/modules/PlatformBridgePure/**/*.test.ts',
-				'<rootDir>/miff/pure/DialoguePure/**/*.test.ts'
+				'<rootDir>/miff/pure/DialoguePure/**/*.test.ts',
+				'<rootDir>/games/**/*.spec.ts',
+				'<rootDir>/games/**/*.test.ts'
 			]
 		},
 		{
@@ -23,8 +25,18 @@ module.exports = {
 			moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 			testMatch: [
 				'<rootDir>/miff/pure/**/*.test.ts',
-				'<rootDir>/src/**/*.test.ts'
+				'<rootDir>/src/**/*.test.ts',
+				'<rootDir>/games/**/*.test.ts'
 			]
 		}
+	],
+	// Global test configuration
+	testTimeout: 10000,
+	collectCoverageFrom: [
+		'src/**/*.{ts,tsx}',
+		'miff/**/*.{ts,tsx}',
+		'games/**/*.{ts,tsx}',
+		'!**/*.d.ts',
+		'!**/node_modules/**'
 	]
 };
