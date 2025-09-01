@@ -24,6 +24,12 @@ interface CLIOutput {
   status?: string;
   scenarioId?: string;
   timestamp?: number;
+  // Additional properties for specific scenario types
+  session?: any;
+  frames?: any[];
+  statistics?: any;
+  timeline?: any[];
+  issues?: any[];
 }
 
 interface ReplayHook {
@@ -59,17 +65,17 @@ export function runCLI(cliPath: string, args: string[] = []): string {
     
     try {
       // Enhanced scenario orchestration
-      const scenarioId = extractScenarioId(resolvedPath);
-      const fixture = loadFixture(scenarioId);
+      const scenarioId: string | null = extractScenarioId(resolvedPath);
+      const fixture: any = scenarioId ? loadFixture(scenarioId) : null;
       
       if (scenarioId && fixture) {
-        const result = orchestrateScenario(scenarioId, fixture, args);
+        const result: CLIOutput = orchestrateScenario(scenarioId, fixture, args);
         console.log(JSON.stringify(result));
         return output.trim();
       }
       
       // Fallback to existing mock logic for backward compatibility
-      let mockResponse = generateMockResponse(resolvedPath, args);
+      let mockResponse: any = generateMockResponse(resolvedPath, args);
       console.log(JSON.stringify(mockResponse));
       
     } finally {
@@ -181,9 +187,9 @@ function loadFixture(scenarioId: string): any {
  * Orchestrate scenario execution
  */
 function orchestrateScenario(scenarioId: string, fixture: any, args: string[]): CLIOutput {
-  const finalState = executeScenario(scenarioId, fixture, args);
-  const outputs = extractOutputs(finalState);
-  const logs = collectLogs();
+  const finalState: any = executeScenario(scenarioId, fixture, args);
+  const outputs: any[] = extractOutputs(finalState);
+  const logs: string[] = collectLogs();
   
   // Return specific format based on scenario type
   if (scenarioId === 'visual_replay') {
@@ -348,7 +354,7 @@ function extractOutputs(finalState: any): any[] {
   }
   
   if (finalState.session) {
-    return { op: "replay", session: finalState.session, frames: finalState.frames, statistics: finalState.statistics };
+    return [{ op: "replay", session: finalState.session, frames: finalState.frames, statistics: finalState.statistics }];
   }
   
   return [{ op: "demo", status: "ok", data: finalState }];
@@ -663,7 +669,7 @@ export const validationChecklist = {
   },
   
   fixturesInjected: (scenarioId: string): boolean => {
-    return loadFixture(scenarioId) !== null;
+    return loadFixtureForScenario(scenarioId) !== null;
   },
   
   jestSnapshotsPass: (testResults: any): boolean => {
