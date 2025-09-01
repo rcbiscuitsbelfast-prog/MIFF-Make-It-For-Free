@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
     "typecheck": "tsc --noEmit",
+    "test": "jest --config jest.config.js",
     "gen:html": "node -r ts-node/register scripts/gen-html.ts",
     "gen-toppler": "node scripts/gen-toppler-stub.js",
     "gen-toppler:stub": "node scripts/gen-toppler-stub.js",

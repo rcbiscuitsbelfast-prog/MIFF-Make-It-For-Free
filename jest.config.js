@@ -25,8 +25,8 @@ module.exports = {
 			moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 			testMatch: [
 				'<rootDir>/miff/pure/**/*.test.ts',
-				'<rootDir>/src/**/*.test.ts',
-				'<rootDir>/games/**/*.test.ts'
+				'<rootDir>/src/modules/**/*.test.ts',
+				'<rootDir>/src/modules/**/*.spec.ts'
 			]
 		}
 	],
@@ -38,5 +38,9 @@ module.exports = {
 		'games/**/*.{ts,tsx}',
 		'!**/*.d.ts',
 		'!**/node_modules/**'
-	]
+	],
+	// Ensure proper test isolation
+	testEnvironmentOptions: {
+		url: 'http://localhost'
+	}
 };
