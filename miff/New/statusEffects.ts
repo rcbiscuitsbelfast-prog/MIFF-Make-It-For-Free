@@ -25,3 +25,14 @@ export function tickStatusEffects(): void {
 export function listStatusEffects(): StatusEffect[] {
   return [...activeEffects];
 }
+
+export function removeStatusEffect(effectId: string): void {
+  const index = activeEffects.findIndex(effect => effect.id === effectId);
+  if (index !== -1) {
+    activeEffects.splice(index, 1);
+  }
+}
+
+export function getStatusEffects(): StatusEffect[] {
+  return [...activeEffects];
+}

@@ -11,8 +11,8 @@
  */
 
 import { MainOrchestrator, mainOrchestrator, GameState } from './mainOrchestrator';
-import { TileManager } from '../TileMapPure/TileMapPure/tileManager';
-import { TileType } from '../TileMapPure/TileMapPure/tileTypes';
+import { TileManager } from '../TileMapPure/tileManager';
+import { TileType } from '../TileMapPure/tileTypes';
 import { loadZone } from './zoneLoader';
 import { setPlayerPosition } from './playerPosition';
 import { registerNPC } from './npcRegistry';

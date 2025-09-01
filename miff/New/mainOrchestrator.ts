@@ -30,19 +30,19 @@ import { addQuest, completeQuest, getQuestStatus, listQuests } from './questTrac
 import { addItem, removeItem, listInventory } from './inventoryState';
 
 // Tile System Imports
-import { TileManager } from '../TileMapPure/TileMapPure/tileManager';
-import { TileType } from '../TileMapPure/TileMapPure/tileTypes';
-import { isWalkable, getMovementCost, getTileColor, getTileLabel } from '../TileMapPure/TileMapPure/tileUtils';
-import { registerTileEvent, triggerTileEvent } from '../TileMapPure/TileMapPure/tileEvents';
-import { registerTileTrigger, runTileTrigger } from '../TileMapPure/TileMapPure/tileTriggers';
-import { snapshotTileState, restoreTileState } from '../TileMapPure/TileMapPure/tileState';
-import { applyScenarioTiles } from '../TileMapPure/TileMapPure/tileOrchestrator';
+import { TileManager } from '../TileMapPure/tileManager';
+import { TileType } from '../TileMapPure/tileTypes';
+import { isWalkable, getMovementCost, getTileColor, getTileLabel } from '../TileMapPure/tileUtils';
+import { registerTileEvent, triggerTileEvent } from '../TileMapPure/tileEvents';
+import { registerTileTrigger, runTileTrigger } from '../TileMapPure/tileTriggers';
+import { snapshotTileState, restoreTileState } from '../TileMapPure/tileState';
+import { applyScenarioTiles } from '../TileMapPure/tileOrchestrator';
 
 // Advanced Tile Modules
-import { addFogTile, removeFogTile, isFogged } from '../TileMapPure/TileMapPure/tileFog';
-import { spawnLoot, collectLoot, getLootAt } from '../TileMapPure/TileMapPure/tileLoot';
-import { startCrafting, completeCrafting, getCraftingRecipe } from '../TileMapPure/TileMapPure/tileCrafting';
-import { playTileAudio, stopTileAudio, setTileAmbient } from '../TileMapPure/TileMapPure/tileAudio';
+import { addFogTile, removeFogTile, isFogged } from '../TileMapPure/tileFog';
+import { spawnLoot, collectLoot, getLootAt } from '../TileMapPure/tileLoot';
+import { startCrafting, completeCrafting, getCraftingRecipe } from '../TileMapPure/tileCrafting';
+import { playTileAudio, stopTileAudio, setTileAmbient } from '../TileMapPure/tileAudio';
 import { applyStatusEffect, removeStatusEffect, getStatusEffects } from './statusEffects';
 import { setCombatFlag, getCombatFlag, clearCombatFlags } from './combatFlags';
 
@@ -216,7 +216,7 @@ export class MainOrchestrator {
       type: 'enter',
       handler: (x, y, tile) => {
         this.showMessage('Sand slows your movement...');
-        applyStatusEffect('slowed', 5000); // 5 second slow effect
+        applyStatusEffect({ id: 'slowed', name: 'Slowed', duration: 5000, impact: 'movement' }); // 5 second slow effect
       }
     });
   }
@@ -790,7 +790,9 @@ export class MainOrchestrator {
     this.context.fillText('Inventory', 70, 80);
     
     inventory.forEach((item, index) => {
-      this.context.fillText(`${item.name} x${item.quantity}`, 70, 110 + index * 25);
+      if (this.context) {
+        this.context.fillText(`${item.name} x${item.quantity}`, 70, 110 + index * 25);
+      }
     });
   }
 
@@ -807,7 +809,9 @@ export class MainOrchestrator {
     
     quests.forEach((quest, index) => {
       const status = quest.completed ? '✓' : '○';
-      this.context.fillText(`${status} ${quest.description}`, 420, 110 + index * 25);
+      if (this.context) {
+        this.context.fillText(`${status} ${quest.description}`, 420, 110 + index * 25);
+      }
     });
   }
 

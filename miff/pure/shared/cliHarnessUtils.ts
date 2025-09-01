@@ -232,7 +232,7 @@ function defaultStub() {
  * @param argv Process arguments array
  * @returns Parsed mode and arguments
  */
-function parseCLIArgs(argv) {
+function parseCLIArgs(argv: string[]) {
   const args = argv.slice(2);
   const mode = args[0] || 'default';
   return { mode, args };
@@ -243,11 +243,11 @@ function parseCLIArgs(argv) {
  * @param argv Process arguments array
  * @returns Parsed command, arguments, and options
  */
-function parseComplexCLIArgs(argv) {
+function parseComplexCLIArgs(argv: string[]) {
   const args = argv.slice(2);
   const command = args[0];
   const commandArgs = args.slice(1);
-  const options = {};
+  const options: Record<string, any> = {};
 
   // Parse options
   for (let i = 0; i < commandArgs.length; i++) {
@@ -268,7 +268,7 @@ function parseComplexCLIArgs(argv) {
 
   return { 
     command, 
-    args: commandArgs.filter(arg => !arg.startsWith('--')), 
+    args: commandArgs.filter((arg: string) => !arg.startsWith('--')), 
     options 
   };
 }
@@ -278,7 +278,7 @@ function parseComplexCLIArgs(argv) {
  * @param data Data to output
  * @returns Formatted JSON string
  */
-function formatOutput(data) {
+function formatOutput(data: any) {
   return JSON.stringify(data, null, 2);
 }
 
@@ -288,7 +288,7 @@ function formatOutput(data) {
  * @param exitCode Exit code to use
  * @returns Formatted error output
  */
-function handleError(error, exitCode = 1) {
+function handleError(error: any, exitCode = 1) {
   const errorOutput = {
     op: 'error',
     status: 'error',
@@ -306,7 +306,7 @@ function handleError(error, exitCode = 1) {
  * @param operation Operation name
  * @returns Formatted success output
  */
-function handleSuccess(data, operation = 'operation') {
+function handleSuccess(data: any, operation = 'operation') {
   const successOutput = {
     op: operation,
     status: 'ok',
@@ -317,7 +317,7 @@ function handleSuccess(data, operation = 'operation') {
   console.log(formatOutput(successOutput));
 }
 
-module.exports = {
+export {
   buildSamplePayload,
   validatePayload,
   witcherExplorerDemo,

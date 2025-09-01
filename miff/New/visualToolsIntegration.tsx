@@ -11,9 +11,9 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { TileManager } from '../TileMapPure/TileMapPure/tileManager';
-import { TileType } from '../TileMapPure/TileMapPure/tileTypes';
-import { getTileColor, getTileLabel } from '../TileMapPure/TileMapPure/tileUtils';
+import { TileManager } from '../TileMapPure/tileManager';
+import { TileType } from '../TileMapPure/tileTypes';
+import { getTileColor, getTileLabel } from '../TileMapPure/tileUtils';
 import { mainOrchestrator, GameState } from './mainOrchestrator';
 
 // Enhanced Tile Editor with orchestrator integration
