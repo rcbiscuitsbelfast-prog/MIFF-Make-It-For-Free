@@ -1,6 +1,7 @@
 # MIFF: Make It For Free  
 [![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)  
-[![CI Status](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/miff-framework/miff/actions/workflows/miff-ci.yml)
+[![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml)  
+[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](docs/audit/MIFF_Audit_2025-09.md)
 
 ## 💸 Support MIFF
 
@@ -115,7 +116,7 @@ MIFF is built for remixing. To add a new zone or module:
 4. Validate with CLI harnesses and golden tests  
 5. Submit a pull request with clear documentation
 
-See the [Contributor Guide](https://miffgamemain.vercel.app/contributors/onboarding) for full onboarding.
+See the [Contributor Guide](https://miffgamemain.vercel.app/contributors/onboarding) for full onboarding. New? Try the [Onboarding Challenge](docs/ONBOARDING_CHALLENGE.md).
 
 ---
 

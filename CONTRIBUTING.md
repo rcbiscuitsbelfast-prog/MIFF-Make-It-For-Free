@@ -33,7 +33,7 @@ Before contributing, ensure your module:
 Use these tools to validate remix safety:
 - **[RemixAuditPure](systems/RemixAuditPure/README.md)** - Scans modules for compliance
 - **[CIEnforcerPure](systems/CIEnforcerPure/README.md)** - Validates contributor standards
-- **[AssetValidatorPure](systems/AssetValidatorPure/README.md)** - Checks asset licensing and attribution
+- **[AssetValidatorPure](systems/AssetManifestPure/README.md)** - Checks asset licensing and attribution
 
 ### Hygiene & Placeholders
 - **PLACEHOLDER_AUDIT.md**: Review current placeholders and cleanup suggestions
@@ -101,3 +101,8 @@ To add support for new game genres:
 - Use `CIEnforcerPure` to validate standards
 - Create golden tests for deterministic behavior
 - Test across all supported platforms
+
+## Onboarding Flow
+- Read Quick Start: `docs/QUICK_START.md`
+- Review latest audit: `docs/audit/MIFF_Audit_2025-09.md`
+- Try the Onboarding Challenge: `docs/ONBOARDING_CHALLENGE.md`

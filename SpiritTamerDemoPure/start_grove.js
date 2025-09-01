@@ -554,12 +554,19 @@ function main() {
 
 // Export for modular use
 if (typeof module !== 'undefined' && module.exports) {
+  // Provide a simple entry for external orchestration
+  function startGrove() {
+    const session = new GroveSession();
+    session.simulateSession();
+    return session;
+  }
   module.exports = {
     GroveSession,
     SCENARIO_CONFIG,
     NPC_REGISTRY,
     QUEST_REGISTRY,
-    LOCATION_REGISTRY
+    LOCATION_REGISTRY,
+    startGrove
   };
 }
 
