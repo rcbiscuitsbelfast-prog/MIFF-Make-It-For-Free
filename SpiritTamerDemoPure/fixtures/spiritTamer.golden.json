@@ -1,0 +1,8 @@
+{
+  "op": "spirit_tamer_demo",
+  "status": "ok",
+  "scene": "grove",
+  "player": { "x": 85, "y": 262 },
+  "spirits": ["emberfox", "glimmerbat"],
+  "orchestrationReady": true
+}
