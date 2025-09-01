@@ -35,3 +35,23 @@ export function revealFog(x: number, y: number, radius: number): void {
 export function getFogState(): FogTile[][] {
   return fogGrid;
 }
+
+export function addFogTile(x: number, y: number): void {
+  const tile = fogGrid[y]?.[x];
+  if (tile) {
+    tile.visible = false;
+  }
+}
+
+export function removeFogTile(x: number, y: number): void {
+  const tile = fogGrid[y]?.[x];
+  if (tile) {
+    tile.visible = true;
+    tile.discovered = true;
+  }
+}
+
+export function isFogged(x: number, y: number): boolean {
+  const tile = fogGrid[y]?.[x];
+  return tile ? !tile.visible : false;
+}

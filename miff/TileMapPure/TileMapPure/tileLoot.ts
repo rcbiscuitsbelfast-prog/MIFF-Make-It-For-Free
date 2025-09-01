@@ -27,3 +27,27 @@ registerLoot(TileType.Forest, [
 registerLoot(TileType.Cliff, [
   { item: 'stone', chance: 0.9 },
 ]);
+
+// Additional functions for orchestrator integration
+const activeLoot = new Map<string, { x: number; y: number; items: string[] }>();
+
+export function spawnLoot(x: number, y: number, items: string[]): void {
+  const key = `${x},${y}`;
+  activeLoot.set(key, { x, y, items });
+}
+
+export function collectLoot(x: number, y: number): string[] {
+  const key = `${x},${y}`;
+  const loot = activeLoot.get(key);
+  if (loot) {
+    activeLoot.delete(key);
+    return loot.items;
+  }
+  return [];
+}
+
+export function getLootAt(x: number, y: number): string[] {
+  const key = `${x},${y}`;
+  const loot = activeLoot.get(key);
+  return loot ? loot.items : [];
+}
