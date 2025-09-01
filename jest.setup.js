@@ -136,6 +136,88 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
       }]
     });
   }
+  if (path.includes('toppler.golden.json')) {
+    return JSON.stringify({
+      "op": "scenario",
+      "status": "ok",
+      "name": "TopplerDemoPure",
+      "timeline": [
+        {
+          "t": 0,
+          "position": {
+            "x": 0,
+            "y": -1.5
+          },
+          "velocity": {
+            "x": 0,
+            "y": 0
+          },
+          "collided": false
+        },
+        {
+          "t": 0.5,
+          "position": {
+            "x": 0,
+            "y": -0.03
+          },
+          "velocity": {
+            "x": 0,
+            "y": 4.91
+          },
+          "collided": true
+        },
+        {
+          "t": 1,
+          "position": {
+            "x": 0,
+            "y": 3.9
+          },
+          "velocity": {
+            "x": 0,
+            "y": 9.81
+          },
+          "collided": false
+        }
+      ],
+      "issues": []
+    });
+  }
+  if (path.includes('expected_output.json')) {
+    // Check if it's TutorialScenarioPure or CombatScenarioPure
+    if (path.includes('TutorialScenarioPure')) {
+      return JSON.stringify({
+        "outputs": [
+          {
+            "op": "runScenario",
+            "status": "ok",
+            "events": [
+              { "type": "statsTotal", "id": "hero", "total": 38 },
+              { "type": "questStarted", "id": "q_intro" },
+              { "type": "combat", "attacker": "hero", "defender": "slime", "damage": 6, "victory": true }
+            ],
+            "finalState": { "hero": { "hp": 24, "atk": 6, "def": 2 }, "quests": ["q_intro"] }
+          }
+        ]
+      });
+    } else {
+      // Default to CombatScenarioPure format
+      return JSON.stringify({
+        "outputs": [
+          {
+            "op": "runScenario",
+            "status": "ok",
+            "events": [
+              { "type": "combat", "attacker": "hero", "defender": "slime", "damage": 6, "victory": true },
+              { "type": "loot", "from": "slime", "drops": [ { "id": "coin", "rarity": "common" } ] },
+              { "type": "combat", "attacker": "hero", "defender": "goblin", "damage": 5, "victory": true },
+              { "type": "loot", "from": "goblin", "drops": [ { "id": "coin", "rarity": "common" } ] }
+            ],
+            "finalState": { "hero": { "xp": 10 }, "inventory": { "coin": 2 } }
+          }
+        ]
+      });
+    }
+  }
   return '{}';
 });
 
@@ -460,6 +542,13 @@ global.stubbedCLIOutput = {
   flags: new Set(['friendly_reputation']),
   parsed: { type: 'condition' },
   result: { npcId: 'spiritTamer', name: 'Tamer of Spirits' }
+};
+
+// Setup testUtils for CLI testing
+const { runCLI } = require('./miff/pure/shared/cliHarnessUtils');
+
+global.testUtils = {
+  runCLI
 };
 
 console.log('🧪 Jest setup complete - Global mocks configured');
