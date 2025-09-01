@@ -183,7 +183,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
     });
   }
   if (path.includes('expected_output.json')) {
-    // Check if it's TutorialScenarioPure or CombatScenarioPure
+    // Check specific module types
     if (path.includes('TutorialScenarioPure')) {
       return JSON.stringify({
         "outputs": [
@@ -196,6 +196,61 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
               { "type": "combat", "attacker": "hero", "defender": "slime", "damage": 6, "victory": true }
             ],
             "finalState": { "hero": { "hp": 24, "atk": 6, "def": 2 }, "quests": ["q_intro"] }
+          }
+        ]
+      });
+    } else if (path.includes('CombatCorePure')) {
+      return JSON.stringify({
+        "outputs": [
+          { "op": "list", "ids": ["hero", "slime"] },
+          { "attackerId": "hero", "defenderId": "slime", "damage": 6, "defenderHpAfter": 4, "victory": false },
+          { "op": "dump", "id": "slime", "hp": 4 }
+        ]
+      });
+    } else if (path.includes('SkillTreePure')) {
+      return JSON.stringify({
+        "outputs": [
+          { "op": "list", "skills": ["root", "strike", "guard"] },
+          { "op": "canUnlock", "id": "strike", "ok": false },
+          { "op": "unlock", "id": "root", "ok": true },
+          { "op": "canUnlock", "id": "strike", "ok": true },
+          { "op": "unlock", "id": "strike", "ok": true },
+          { "op": "dump", "unlocked": ["root", "strike"] }
+        ]
+      });
+    } else if (path.includes('AIProfilesPure')) {
+      return JSON.stringify({
+        "log": [
+          "INTERACT elder questGiver",
+          "SCHEDULE elder 08:00 at_square",
+          "INTERACT merchant vendor",
+          "SCHEDULE merchant 09:00 open_shop",
+          "INTERACT guard1 guard",
+          "SCHEDULE guard1 10:00 patrol_gate",
+          "ROLE merchant wanderer"
+        ],
+        "outputs": [
+          { "op": "listProfiles", "profiles": ["elder", "merchant", "guard1"] },
+          { "npcId": "elder", "role": "questGiver", "actions": ["offerQuest:village_help", "talk", "schedule:08:00:at_square"], "dialogId": "elder_intro", "questId": "village_help" },
+          { "npcId": "merchant", "role": "vendor", "actions": ["openShop", "talk", "schedule:09:00:open_shop"], "dialogId": "shop_welcome" },
+          { "npcId": "guard1", "role": "guard", "actions": ["patrol", "schedule:10:00:patrol_gate"] },
+          { "op": "assignRole", "npcId": "merchant", "role": "wanderer" },
+          { "npcId": "merchant", "role": "wanderer", "actions": ["wander", "schedule:09:00:open_shop"], "dialogId": "shop_welcome" },
+          { "op": "dumpSchedule", "schedule": [ { "time": "09:00", "action": "open_shop" } ] }
+        ]
+      });
+    } else if (path.includes('ValidationPure')) {
+      return JSON.stringify({
+        "outputs": [
+          {
+            "op": "validateAll",
+            "status": "error",
+            "issues": [
+              { "code": "missing_ref", "message": "Missing reference equip:sword:item", "ref": "equip:sword:item" },
+              { "code": "stat_bounds", "message": "hero.hp out of bounds: 1000", "ref": "hero.hp" },
+              { "code": "zone_overlap", "message": "Zones A and B overlap", "ref": "A|B" }
+            ],
+            "resolvedRefs": {}
           }
         ]
       });
