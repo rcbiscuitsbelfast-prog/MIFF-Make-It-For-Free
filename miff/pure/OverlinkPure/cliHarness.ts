@@ -1,12 +1,32 @@
-#!/usr/bin/env -S node --no-warnings
+/**
+ * CLI Harness for OverlinkPure
+ * 
+ * This harness provides CLI interface for OverlinkPure module testing.
+ * Uses shared utilities to eliminate code duplication.
+ * 
+ * @module OverlinkPure/cliHarness
+ * @version 1.0.0
+ * @license MIT
+ */
+
+import { overlinkDemo, handleError, handleSuccess, parseCLIArgs } from '../shared/cliHarnessUtils';
 import { runScenario } from './ScenarioPackOverlinkPure';
 
 function main() {
-  const args = process.argv.slice(2);
+  const { mode, args } = parseCLIArgs(process.argv);
+  
+  if (mode === 'demo') {
+    // Demo mode for testing
+    const result = overlinkDemo();
+    handleSuccess(result, 'overlink_demo');
+    return;
+  }
+  
+  // Original functionality
   const configFile = args[0];
   
   if (!configFile) {
-    console.error('Usage: OverlinkPure/cliHarness.ts <config.json>');
+    console.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
     process.exit(1);
   }
 
@@ -25,8 +45,7 @@ function main() {
       process.exit(1);
     }
   } catch (error) {
-    console.error('Error:', error);
-    process.exit(1);
+    handleError(error, 1);
   }
 }
 

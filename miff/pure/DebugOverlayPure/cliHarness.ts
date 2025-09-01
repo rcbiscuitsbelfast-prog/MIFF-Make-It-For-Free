@@ -1,9 +1,24 @@
-#!/usr/bin/env npx ts-node
+/**
+ * CLI Harness for DebugOverlayPure
+ * 
+ * This harness provides CLI interface for DebugOverlayPure module testing.
+ * Uses shared utilities to eliminate code duplication.
+ * 
+ * @module DebugOverlayPure/cliHarness
+ * @version 1.0.0
+ * @license MIT
+ */
 
 import fs from 'fs';
 import path from 'path';
 import { DebugOverlayManager, DebugOverlayOutput } from './Manager';
 import { RenderPayload } from '../BridgeSchemaPure/schema';
+import { 
+  debugOverlayDemo, 
+  handleError, 
+  handleSuccess, 
+  parseComplexCLIArgs 
+} from '../shared/cliHarnessUtils';
 
 const manager = new DebugOverlayManager({
   showOp: true,
@@ -29,6 +44,7 @@ Usage:
   npx ts-node DebugOverlayPure/cliHarness.ts <command> [options]
 
 Commands:
+  demo                           Run demo mode for testing
   overlay <json-file>           Create debug overlay from JSON payload file
   overlay-cli <output-file>     Create debug overlay from CLI output file
   overlay-golden <test-path>    Create debug overlay from golden test file
@@ -50,6 +66,9 @@ Options:
   --format <format>             Output format (text|json|html) [default: text]
 
 Examples:
+  # Run demo mode
+  npx ts-node DebugOverlayPure/cliHarness.ts demo
+
   # Create debug overlay from JSON payload
   npx ts-node DebugOverlayPure/cliHarness.ts overlay payload.json --color --max-items 5
 
@@ -65,48 +84,7 @@ Examples:
 }
 
 function parseArgs(): { command: string; args: string[]; options: any } {
-  const args = process.argv.slice(2);
-  const command = args[0];
-  const commandArgs = args.slice(1);
-  const options: any = {};
-
-  // Parse options
-  for (let i = 0; i < commandArgs.length; i++) {
-    const arg = commandArgs[i];
-    
-    if (arg === '--no-op') {
-      options.showOp = false;
-    } else if (arg === '--no-status') {
-      options.showStatus = false;
-    } else if (arg === '--no-issues') {
-      options.showIssues = false;
-    } else if (arg === '--no-timestamps') {
-      options.showTimestamps = false;
-    } else if (arg === '--no-renderdata') {
-      options.showRenderData = false;
-    } else if (arg === '--no-engine-hints') {
-      options.showEngineHints = false;
-    } else if (arg === '--no-signals') {
-      options.showSignals = false;
-    } else if (arg === '--no-metadata') {
-      options.showMetadata = false;
-    } else if (arg === '--no-color') {
-      options.colorize = false;
-    } else if (arg === '--compact') {
-      options.compact = true;
-    } else if (arg === '--max-items') {
-      options.maxRenderDataItems = parseInt(commandArgs[++i]);
-    } else if (arg === '--max-issue-length') {
-      options.maxIssueLength = parseInt(commandArgs[++i]);
-    } else if (arg === '--format') {
-      options.outputFormat = commandArgs[++i];
-    } else if (!arg.startsWith('--')) {
-      // This is a positional argument
-      continue;
-    }
-  }
-
-  return { command, args: commandArgs.filter(arg => !arg.startsWith('--')), options };
+  return parseComplexCLIArgs(process.argv);
 }
 
 function updateConfig(options: any): void {
@@ -173,8 +151,7 @@ function overlay(args: string[], options: any): void {
     const result = manager.createOverlay(payload);
     outputResult(result);
   } catch (error) {
-    console.error(`Error reading JSON file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    process.exit(1);
+    handleError(error, 1);
   }
 }
 
@@ -199,8 +176,7 @@ function overlayCLI(args: string[], options: any): void {
     const result = manager.createOverlayFromCLI(cliOutput);
     outputResult(result);
   } catch (error) {
-    console.error(`Error reading CLI output file: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    process.exit(1);
+    handleError(error, 1);
   }
 }
 
@@ -318,6 +294,13 @@ function main(): void {
 
   if (!command || command === 'help' || command === '--help' || command === '-h') {
     printUsage();
+    return;
+  }
+
+  if (command === 'demo') {
+    // Demo mode for testing
+    const result = debugOverlayDemo();
+    handleSuccess(result, 'debug_overlay_demo');
     return;
   }
 

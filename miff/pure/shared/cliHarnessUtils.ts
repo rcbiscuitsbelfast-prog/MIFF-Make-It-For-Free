@@ -129,6 +129,93 @@ export function topplerDemo() {
 }
 
 /**
+ * Simulates Overlink scenario output
+ * @returns Overlink scenario result
+ */
+export function overlinkDemo() {
+  return {
+    op: 'overlink_scenario',
+    status: 'ok',
+    scenario: 'overlink_demo',
+    result: {
+      nodes: ['start', 'process', 'end'],
+      connections: ['start->process', 'process->end'],
+      metadata: { version: '1.0.0' }
+    }
+  };
+}
+
+/**
+ * Simulates Debug Overlay output
+ * @returns Debug overlay result
+ */
+export function debugOverlayDemo() {
+  return {
+    op: 'debug_overlay',
+    status: 'ok',
+    overlay: {
+      debugInfo: {
+        op: 'render',
+        status: 'ok',
+        renderDataCount: 3
+      },
+      issues: [],
+      annotations: []
+    }
+  };
+}
+
+/**
+ * Simulates Bridge Inspector output
+ * @returns Bridge inspection result
+ */
+export function bridgeInspectorDemo() {
+  return {
+    op: 'bridge_inspection',
+    status: 'ok',
+    inspection: {
+      schemaValid: true,
+      engineHintsValid: true,
+      signalsValid: true,
+      metadataValid: true,
+      compatibility: 'high'
+    }
+  };
+}
+
+/**
+ * Simulates Render Replay output
+ * @returns Render replay result
+ */
+export function renderReplayDemo() {
+  return {
+    op: 'render_replay',
+    status: 'ok',
+    replay: {
+      frames: 60,
+      duration: 1000,
+      data: [{ frame: 1, timestamp: Date.now() }]
+    }
+  };
+}
+
+/**
+ * Simulates Web Bridge output
+ * @returns Web bridge result
+ */
+export function webBridgeDemo() {
+  return {
+    op: 'web_bridge',
+    status: 'ok',
+    bridge: {
+      platform: 'web',
+      capabilities: ['canvas2d', 'webgl'],
+      compatibility: 'modern'
+    }
+  };
+}
+
+/**
  * Default stub output for fallback cases
  * @returns Safe default output
  */
@@ -152,10 +239,80 @@ export function parseCLIArgs(argv: string[]) {
 }
 
 /**
+ * Enhanced CLI argument parser for complex commands
+ * @param argv Process arguments array
+ * @returns Parsed command, arguments, and options
+ */
+export function parseComplexCLIArgs(argv: string[]) {
+  const args = argv.slice(2);
+  const command = args[0];
+  const commandArgs = args.slice(1);
+  const options: any = {};
+
+  // Parse options
+  for (let i = 0; i < commandArgs.length; i++) {
+    const arg = commandArgs[i];
+    
+    if (arg.startsWith('--')) {
+      const optionName = arg.slice(2);
+      const nextArg = commandArgs[i + 1];
+      
+      if (nextArg && !nextArg.startsWith('--')) {
+        options[optionName] = nextArg;
+        i++; // Skip next arg since we consumed it
+      } else {
+        options[optionName] = true;
+      }
+    }
+  }
+
+  return { 
+    command, 
+    args: commandArgs.filter(arg => !arg.startsWith('--')), 
+    options 
+  };
+}
+
+/**
  * Output formatter for consistent JSON output
  * @param data Data to output
  * @returns Formatted JSON string
  */
 export function formatOutput(data: any): string {
   return JSON.stringify(data, null, 2);
+}
+
+/**
+ * Error handler for consistent error output
+ * @param error Error object or message
+ * @param exitCode Exit code to use
+ * @returns Formatted error output
+ */
+export function handleError(error: any, exitCode: number = 1) {
+  const errorOutput = {
+    op: 'error',
+    status: 'error',
+    error: error instanceof Error ? error.message : String(error),
+    timestamp: Date.now()
+  };
+  
+  console.error(formatOutput(errorOutput));
+  process.exit(exitCode);
+}
+
+/**
+ * Success handler for consistent success output
+ * @param data Success data
+ * @param operation Operation name
+ * @returns Formatted success output
+ */
+export function handleSuccess(data: any, operation: string = 'operation') {
+  const successOutput = {
+    op: operation,
+    status: 'ok',
+    data,
+    timestamp: Date.now()
+  };
+  
+  console.log(formatOutput(successOutput));
 }
