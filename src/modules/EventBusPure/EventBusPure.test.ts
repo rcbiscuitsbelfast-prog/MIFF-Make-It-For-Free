@@ -413,6 +413,7 @@ describe('EventBusPure', () => {
     });
 
     it('should schedule recurring events', async () => {
+      jest.useFakeTimers();
       const handler = jest.fn();
       eventBus.subscribe('recurring-event', handler);
       
@@ -421,10 +422,11 @@ describe('EventBusPure', () => {
       });
       expect(eventId).toBeDefined();
       
-      // Wait for multiple executions
-      await new Promise(resolve => setTimeout(resolve, 200));
+      // Advance enough time for 3 executions (scheduler checks every 100ms)
+      jest.advanceTimersByTime(240);
       
       expect(handler).toHaveBeenCalledTimes(3);
+      jest.useRealTimers();
     });
 
     it('should cancel scheduled events', async () => {

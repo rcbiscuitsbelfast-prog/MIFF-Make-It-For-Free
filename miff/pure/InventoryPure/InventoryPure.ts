@@ -160,8 +160,12 @@ export class InventoryManager {
     // Check if item is stackable and already exists
     if (itemDef.stackable) {
       const existingItem = this.findItemInInventory(inventory, itemId);
-      if (existingItem && existingItem.quantity + quantity <= itemDef.maxStack) {
-        existingItem.quantity += quantity;
+      if (existingItem) {
+        const newQty = existingItem.quantity + quantity;
+        if (newQty > itemDef.maxStack) {
+          return false;
+        }
+        existingItem.quantity = newQty;
         this.recordTransaction('add', entityId, itemId, quantity, slot);
         return true;
       }
@@ -347,8 +351,8 @@ export class InventoryManager {
         // Apply filters
         if (query.itemType && itemDef.type !== query.itemType) continue;
         if (query.rarity && itemDef.rarity !== query.rarity) continue;
-        if (query.minValue && itemDef.value < query.minValue) continue;
-        if (query.maxValue && itemDef.value > query.maxValue) continue;
+        if (query.minValue !== undefined && itemDef.value < query.minValue) continue;
+        if (query.maxValue !== undefined && itemDef.value > query.maxValue) continue;
         if (query.hasEnchantment && !item.enchantments?.some(e => e.id === query.hasEnchantment)) continue;
         if (query.customProperty && item.customProperties?.[query.customProperty.key] !== query.customProperty.value) continue;
 
