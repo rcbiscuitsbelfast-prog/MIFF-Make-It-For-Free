@@ -11,7 +11,10 @@ module.exports = {
     '<rootDir>/games/**/*.test.ts',
     '<rootDir>/games/**/*.spec.ts'
   ],
-  transform: {},
+  transform: {
+    '^.+\\.ts$': 'esbuild-jest',
+    '^.+\\.tsx$': 'esbuild-jest'
+  },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/miff-nextjs/src/$1'
   },
@@ -19,5 +22,7 @@ module.exports = {
     '/node_modules/',
     '/dist/',
     '/coverage/'
-  ]
+  ],
+  cache: false,
+  maxWorkers: 1
 };

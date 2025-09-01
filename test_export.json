@@ -1,0 +1,41 @@
+{
+  "sessionId": "replay_1704067200000",
+  "config": {
+    "engine": "web",
+    "speed": 1,
+    "loop": false,
+    "showDebug": true,
+    "outputFormat": "json",
+    "timestamp": true
+  },
+  "steps": [
+    {
+      "step": 1,
+      "timestamp": "2025-09-01T21:32:37.646Z",
+      "renderData": [
+        {
+          "id": "export_sprite",
+          "type": "sprite",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "asset": "sprite.png"
+        }
+      ],
+      "issues": [],
+      "annotations": [
+        "Operation: render",
+        "Status: ok",
+        "RenderData Count: 1"
+      ]
+    }
+  ],
+  "summary": {
+    "totalSteps": 1,
+    "totalRenderData": 1,
+    "totalIssues": 0,
+    "duration": "1000ms",
+    "engine": "web"
+  }
+}

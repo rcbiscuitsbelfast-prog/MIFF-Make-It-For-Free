@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-09-01T21:32:00.438Z",
+  "totalScenarios": 1,
+  "validScenarios": 0,
+  "invalidScenarios": 1,
+  "results": {
+    "spiritTamer.golden.json": {
+      "file": "/workspace/SpiritTamerDemoPure/fixtures/spiritTamer.golden.json",
+      "valid": false,
+      "errors": [
+        "Missing required field: scenarioId",
+        "Missing required field: name",
+        "Missing required field: version",
+        "Missing required field: quests",
+        "Missing required field: npcs",
+        "Missing required field: locations",
+        "Missing required field: triggers"
+      ],
+      "warnings": [],
+      "metadata": {}
+    }
+  },
+  "summary": {
+    "totalScenarios": 1,
+    "validScenarios": 0,
+    "invalidScenarios": 1,
+    "successRate": "0%"
+  }
+}
