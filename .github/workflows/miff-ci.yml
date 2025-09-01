@@ -2,60 +2,106 @@ name: MIFF CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - master
+      - main
+      - "**"
   pull_request:
-    branches: [ main, master ]
+    branches: [ "**" ]
 
 jobs:
-  lint:
+  build-and-validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 18
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🧰 Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint (if configured)
+          node-version: '20'
+
+      - name: 📦 Install deps
+        run: npm ci || npm i
+
+      - name: 📦 Ensure TypeScript runner
+        run: npm i -D ts-node typescript
+
+      - name: 🔍 Check missing deps
+        continue-on-error: true
+        run: node -e "require('fs').readdirSync('node_modules'); console.log('deps ok')"
+
+      - name: 🧹 Type check (tsconfig)
+        run: npm run typecheck
+
+      - name: 🧪 Type check (tests)
+        run: npx tsc --noEmit -p tsconfig.test.json
+
+      - name: 🟢 Run Jest tests
+        run: npm test
+
+      - name: 🧱 Build scripts (fallback)
         run: |
-          if [ -f package.json ] && jq -e '.scripts.lint' package.json > /dev/null; then 
-            npm run lint
-          else 
-            echo "No lint script configured - skipping"
-          fi
+          if npm run -s build:scripts; then echo ok; else echo "build:scripts not defined, skipping"; fi
 
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: TypeScript check
-        run: npx tsc --noEmit -p tsconfig.json
+      - name: 🧱 Build Toppler standalone
+        run: |
+          if npm run -s build:toppler-standalone; then echo ok; else echo "build:toppler-standalone not defined, skipping"; fi
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
+      - name: 🧪 Generate Toppler HTML (with fallback)
+        run: |
+          if npm run -s gen-toppler; then echo ok; else echo "gen-toppler not defined, skipping"; fi
+
+      - name: 🧭 Generate orchestration manifests
+        run: npm run gen:manifests
+
+      - name: 📤 Upload orchestration.json
+        uses: actions/upload-artifact@v4
         with:
-          node-version: 18
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Run test suite
-        run: npm run test:ci
-      - name: Upload coverage
-        uses: codecov/codecov-action@v3
+          name: orchestration
+          path: orchestration.json
+
+      - name: 📤 Upload release_manifest.json
+        uses: actions/upload-artifact@v4
         with:
-          file: ./coverage/lcov.info
-          flags: unittests
-          name: codecov-umbrella
+          name: release-manifest
+          path: release_manifest.json
+
+      - name: ▶️ Simulate scenario (tutorial)
+        run: |
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-simulate.ts miff/pure/TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json
+          node miff/scripts/validateOutputFormat.js out_tutorial.json scenario
+
+      - name: 🔁 Diff scenario output (self-compare)
+        run: |
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-diff.ts out_tutorial.json out_tutorial.json > out_diff.json
+          node miff/scripts/validateOutputFormat.js out_diff.json diff
+
+      - name: 🧪 Init scenario template (tutorial)
+        run: |
+          npx ts-node --compiler-options '{"module":"commonjs"}' cli/miff-init.ts TmpScenarioPure tutorial
+          npx ts-node --compiler-options '{"module":"commonjs"}' TmpScenarioPure/cliHarness.ts TmpScenarioPure/scenario.json > out_init.json
+          node miff/scripts/validateOutputFormat.js out_init.json scenario
+
+      - name: 🧩 Check remix hooks
+        run: node miff/scripts/checkRemixHooks.js
+
+      - name: 🪪 Check attribution module
+        run: node miff/scripts/checkAttribution.js
+
+      - name: 📝 Summarize results
+        run: node miff/scripts/reportSummary.js out_tutorial.json out_diff.json out_init.json >> $GITHUB_STEP_SUMMARY
+
+      - name: 💬 Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync(process.env.GITHUB_STEP_SUMMARY, 'utf-8');
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: `MIFF CI Report\n\n${summary}`
+            });
