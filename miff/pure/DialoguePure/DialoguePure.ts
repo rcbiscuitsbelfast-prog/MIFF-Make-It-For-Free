@@ -240,7 +240,7 @@ export class DialogueEngine {
 
   selectChoice(choiceId: string): DialogueResult | null {
     const currentNode = this.tree.nodes.get(this.context.currentNode!);
-    if (!currentNode || currentNode.type !== 'choice') {
+    if (!currentNode) {
       return null;
     }
 
@@ -396,9 +396,9 @@ export class DialogueEngine {
     
     return {
       ...parsed,
-      nodes: new Map(Object.entries(parsed.nodes)),
-      variables: new Map(Object.entries(parsed.variables)),
-      flags: new Set(parsed.flags)
+      nodes: new Map(Object.entries(parsed.nodes || {})),
+      variables: new Map(Object.entries(parsed.variables || {})),
+      flags: new Set(parsed.flags || [])
     };
   }
 }

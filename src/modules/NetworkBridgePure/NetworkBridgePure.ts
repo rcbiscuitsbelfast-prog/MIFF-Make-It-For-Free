@@ -197,10 +197,9 @@ export class NetworkBridge {
     this.scheduler.submitInput(this.localPeerId, currentFrame, input);
     
     // Broadcast to other peers
-    for (const [peerId, peer] of this.peers) {
-      if (peerId !== this.localPeerId && peer.isConnected) {
-        this.transport.send(peerId, this.serializeInput(currentFrame, input));
-      }
+    const connectedPeers = Array.from(this.peers.values()).filter(p => p.isConnected && p.id !== this.localPeerId);
+    for (const peer of connectedPeers) {
+      this.transport.send(peer.id, this.serializeInput(currentFrame, input));
     }
   }
 
@@ -237,10 +236,9 @@ export class NetworkBridge {
   }
 
   disconnect(): void {
-    for (const [peerId, peer] of this.peers) {
-      if (peerId !== this.localPeerId) {
-        this.transport.disconnect(peerId);
-      }
+    const remotePeers = Array.from(this.peers.values()).filter(p => p.id !== this.localPeerId);
+    for (const peer of remotePeers) {
+      this.transport.disconnect(peer.id);
     }
     this.peers.clear();
   }

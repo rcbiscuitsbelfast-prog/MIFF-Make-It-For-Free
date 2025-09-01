@@ -588,7 +588,7 @@ export class EventScheduler {
       eventType,
       data,
       options,
-      executeAt: Date.now() + delay,
+      executeAt: this.getCurrentTime() + delay,
       recurring: false,
       interval: 0
     };
@@ -619,7 +619,7 @@ export class EventScheduler {
       eventType,
       data,
       options,
-      executeAt: Date.now() + interval,
+      executeAt: this.getCurrentTime() + interval,
       recurring: true,
       interval,
       executions: 0,
@@ -667,7 +667,7 @@ export class EventScheduler {
    * Process scheduled events
    */
   private processScheduledEvents(): void {
-    const now = Date.now();
+    const now = this.getCurrentTime();
     const eventsToExecute: ScheduledEvent[] = [];
 
     for (const event of this.scheduledEvents.values()) {
@@ -682,6 +682,13 @@ export class EventScheduler {
   }
 
   /**
+   * Get current time (mockable for tests)
+   */
+  private getCurrentTime(): number {
+    return Date.now();
+  }
+
+  /**
    * Execute a scheduled event
    */
   private async executeScheduledEvent(scheduledEvent: ScheduledEvent): Promise<void> {
@@ -693,7 +700,7 @@ export class EventScheduler {
       if (scheduledEvent.maxExecutions && scheduledEvent.maxExecutions > 0 && scheduledEvent.executions >= scheduledEvent.maxExecutions) {
         this.scheduledEvents.delete(scheduledEvent.id);
       } else {
-        scheduledEvent.executeAt = Date.now() + scheduledEvent.interval;
+        scheduledEvent.executeAt = this.getCurrentTime() + scheduledEvent.interval;
       }
     } else {
       this.scheduledEvents.delete(scheduledEvent.id);
