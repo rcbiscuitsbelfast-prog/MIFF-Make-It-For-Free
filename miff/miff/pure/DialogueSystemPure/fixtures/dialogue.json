@@ -1,0 +1,15 @@
+{
+  "op": "dialogue",
+  "status": "ok",
+  "dialogueId": "test_dialogue",
+  "nodes": [
+    {
+      "id": "start",
+      "text": "Hello, adventurer!",
+      "choices": [
+        "greet",
+        "ignore"
+      ]
+    }
+  ]
+}

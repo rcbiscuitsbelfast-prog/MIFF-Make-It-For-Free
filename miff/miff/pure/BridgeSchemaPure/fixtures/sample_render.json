@@ -1,0 +1,48 @@
+{
+  "op": "render",
+  "status": "ok",
+  "renderData": [
+    {
+      "id": "demo_sprite",
+      "type": "sprite",
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "asset": "demo.png",
+      "engineHints": {
+        "web": {
+          "element": "sprite",
+          "canvas": "gameCanvas"
+        },
+        "unity": {
+          "gameObject": "DemoSprite",
+          "component": "SpriteRenderer"
+        },
+        "godot": {
+          "node": "Sprite2D",
+          "script": "demo_sprite.gd"
+        }
+      },
+      "signals": [
+        {
+          "name": "click",
+          "parameters": [
+            "event"
+          ],
+          "connectedTo": [
+            "ClickHandler"
+          ],
+          "engine": "web"
+        }
+      ],
+      "children": []
+    }
+  ],
+  "metadata": {
+    "schemaVersion": "v1",
+    "engine": "web",
+    "timestamp": "2025-09-01T11:33:48.566Z",
+    "module": "demo"
+  }
+}

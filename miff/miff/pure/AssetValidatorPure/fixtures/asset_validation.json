@@ -1,0 +1,12 @@
+{
+  "op": "validation",
+  "status": "ok",
+  "assets": [
+    {
+      "id": "sprite_1",
+      "type": "sprite",
+      "valid": true,
+      "issues": []
+    }
+  ]
+}

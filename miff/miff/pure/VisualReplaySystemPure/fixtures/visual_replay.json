@@ -1,0 +1,21 @@
+{
+  "op": "visual_replay",
+  "status": "ok",
+  "replayId": "test_replay",
+  "frames": [
+    {
+      "frame": 1,
+      "timestamp": 1756726428566,
+      "renderData": [
+        {
+          "id": "sprite_1",
+          "type": "sprite",
+          "position": {
+            "x": 100,
+            "y": 200
+          }
+        }
+      ]
+    }
+  ]
+}

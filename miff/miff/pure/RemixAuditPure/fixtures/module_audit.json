@@ -1,0 +1,14 @@
+{
+  "op": "audit",
+  "status": "ok",
+  "module": "test_module",
+  "license": "MIT",
+  "assets": [
+    "sprite.png",
+    "sound.wav"
+  ],
+  "dependencies": [
+    "core",
+    "utils"
+  ]
+}

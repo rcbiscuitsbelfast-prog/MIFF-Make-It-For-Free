@@ -1,0 +1,31 @@
+{
+  "op": "replay",
+  "status": "ok",
+  "sessionId": "test_session_123",
+  "config": {
+    "engine": "web",
+    "speed": 1,
+    "loop": false
+  },
+  "steps": [
+    {
+      "step": 1,
+      "timestamp": "2025-09-01T11:33:48.566Z",
+      "renderData": [
+        {
+          "id": "demo_sprite",
+          "type": "sprite",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "asset": "demo.png"
+        }
+      ],
+      "issues": [],
+      "annotations": [
+        "Demo replay step"
+      ]
+    }
+  ]
+}

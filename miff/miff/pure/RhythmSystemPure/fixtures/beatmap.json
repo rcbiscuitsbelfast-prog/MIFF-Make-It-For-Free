@@ -1,0 +1,18 @@
+{
+  "op": "beatmap",
+  "status": "ok",
+  "beatmap": {
+    "id": "beatmap_1",
+    "bpm": 120,
+    "beats": [
+      {
+        "time": 0,
+        "type": "beat"
+      },
+      {
+        "time": 500,
+        "type": "offbeat"
+      }
+    ]
+  }
+}

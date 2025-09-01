@@ -1,46 +1,23 @@
 /** @type {import('jest').Config} */
 module.exports = {
-	preset: 'ts-jest',
-	projects: [
-		{
-			displayName: 'dom-tests',
-			testEnvironment: 'jsdom',
-			testMatch: [
-				'<rootDir>/miff/pure/PlatformBridgePure/**/*.test.ts',
-				'<rootDir>/miff/pure/DialoguePure/**/*.test.ts',
-				'<rootDir>/games/**/*.test.ts',
-				'<rootDir>/zones/**/*.test.ts',
-			],
-			setupFilesAfterEnv: ['<rootDir>/jest.setup.dom.js'],
-			transform: {
-				'^.+\\.(ts|tsx)$': 'ts-jest'
-			},
-			moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-		},
-		{
-			displayName: 'node-tests',
-			testEnvironment: 'node',
-			testMatch: [
-				'<rootDir>/miff/pure/**/*.test.ts',
-				'<rootDir>/src/modules/**/*.test.ts',
-				'<rootDir>/**/*.golden.test.ts',
-			],
-			setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-			transform: {
-				'^.+\\.(ts|tsx)$': 'ts-jest'
-			},
-			moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-		},
-	],
-	setupFilesAfterEnv: ['./jest.setup.js'],
-	transform: {
-		'^.+\\.(ts|tsx)$': 'ts-jest'
-	},
-	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-	testMatch: [
-		'**/?(*.)+(test|spec).ts',
-		'**/?(*.)+(test|spec).tsx',
-		'**/*.golden.test.ts',
-		'**/*.golden.test.tsx'
-	]
+  testEnvironment: 'node',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  testMatch: [
+    '<rootDir>/miff/pure/**/*.test.ts',
+    '<rootDir>/miff/pure/**/*.spec.ts',
+    '<rootDir>/miff/pure/**/*.golden.test.ts',
+    '<rootDir>/src/**/*.test.ts',
+    '<rootDir>/src/**/*.spec.ts',
+    '<rootDir>/games/**/*.test.ts',
+    '<rootDir>/games/**/*.spec.ts'
+  ],
+  transform: {},
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/miff-nextjs/src/$1'
+  },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/dist/',
+    '/coverage/'
+  ]
 };

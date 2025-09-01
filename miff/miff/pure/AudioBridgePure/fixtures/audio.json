@@ -1,0 +1,12 @@
+{
+  "op": "audio",
+  "status": "ok",
+  "audio": [
+    {
+      "id": "music_1",
+      "type": "music",
+      "file": "background_music.mp3",
+      "volume": 0.8
+    }
+  ]
+}

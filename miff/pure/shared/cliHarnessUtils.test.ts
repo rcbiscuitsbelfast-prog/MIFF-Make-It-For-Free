@@ -5,7 +5,7 @@
  * and maintain the expected data structures for tests.
  */
 
-import {
+const {
   buildSamplePayload,
   validatePayload,
   witcherExplorerDemo,
@@ -14,7 +14,7 @@ import {
   defaultStub,
   parseCLIArgs,
   formatOutput
-} from './cliHarnessUtils';
+} = require('./cliHarnessUtils');
 
 describe('CLI Harness Utilities', () => {
   describe('buildSamplePayload', () => {

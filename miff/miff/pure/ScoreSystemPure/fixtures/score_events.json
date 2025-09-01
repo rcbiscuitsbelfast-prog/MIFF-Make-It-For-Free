@@ -1,0 +1,11 @@
+{
+  "op": "score",
+  "status": "ok",
+  "events": [
+    {
+      "id": "score_1",
+      "points": 100,
+      "reason": "enemy_defeated"
+    }
+  ]
+}

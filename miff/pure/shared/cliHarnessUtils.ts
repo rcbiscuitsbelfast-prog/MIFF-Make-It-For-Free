@@ -13,7 +13,7 @@
  * Builds a sample payload for RenderPayloadPure tests
  * @returns Sample payload with renderData structure
  */
-export function buildSamplePayload() {
+function buildSamplePayload() {
   return {
     op: 'buildSample',
     status: 'ok',
@@ -38,7 +38,7 @@ export function buildSamplePayload() {
  * Simulates validation output for payload validation tests
  * @returns Validation result with error issues
  */
-export function validatePayload() {
+function validatePayload() {
   return {
     op: 'validate',
     status: 'error',
@@ -53,7 +53,7 @@ export function validatePayload() {
  * Simulates Witcher Explorer demo output
  * @returns Navigation, dialogue, and quest data
  */
-export function witcherExplorerDemo() {
+function witcherExplorerDemo() {
   return {
     op: 'witcher_explorer_demo',
     status: 'ok',
@@ -84,7 +84,7 @@ export function witcherExplorerDemo() {
  * Simulates Spirit Tamer demo output
  * @returns Scene, player, and spirit data
  */
-export function spiritTamerDemo() {
+function spiritTamerDemo() {
   return {
     op: 'spirit_tamer_demo',
     status: 'ok',
@@ -99,7 +99,7 @@ export function spiritTamerDemo() {
  * Simulates Toppler demo output
  * @returns Game scenario with timeline data
  */
-export function topplerDemo() {
+function topplerDemo() {
   return {
     op: 'scenario',
     status: 'ok',
@@ -132,7 +132,7 @@ export function topplerDemo() {
  * Simulates Overlink scenario output
  * @returns Overlink scenario result
  */
-export function overlinkDemo() {
+function overlinkDemo() {
   return {
     op: 'overlink_scenario',
     status: 'ok',
@@ -149,7 +149,7 @@ export function overlinkDemo() {
  * Simulates Debug Overlay output
  * @returns Debug overlay result
  */
-export function debugOverlayDemo() {
+function debugOverlayDemo() {
   return {
     op: 'debug_overlay',
     status: 'ok',
@@ -169,7 +169,7 @@ export function debugOverlayDemo() {
  * Simulates Bridge Inspector output
  * @returns Bridge inspection result
  */
-export function bridgeInspectorDemo() {
+function bridgeInspectorDemo() {
   return {
     op: 'bridge_inspection',
     status: 'ok',
@@ -187,7 +187,7 @@ export function bridgeInspectorDemo() {
  * Simulates Render Replay output
  * @returns Render replay result
  */
-export function renderReplayDemo() {
+function renderReplayDemo() {
   return {
     op: 'render_replay',
     status: 'ok',
@@ -203,7 +203,7 @@ export function renderReplayDemo() {
  * Simulates Web Bridge output
  * @returns Web bridge result
  */
-export function webBridgeDemo() {
+function webBridgeDemo() {
   return {
     op: 'web_bridge',
     status: 'ok',
@@ -219,7 +219,7 @@ export function webBridgeDemo() {
  * Default stub output for fallback cases
  * @returns Safe default output
  */
-export function defaultStub() {
+function defaultStub() {
   return {
     op: 'noop',
     status: 'ok',
@@ -232,7 +232,7 @@ export function defaultStub() {
  * @param argv Process arguments array
  * @returns Parsed mode and arguments
  */
-export function parseCLIArgs(argv: string[]) {
+function parseCLIArgs(argv) {
   const args = argv.slice(2);
   const mode = args[0] || 'default';
   return { mode, args };
@@ -243,11 +243,11 @@ export function parseCLIArgs(argv: string[]) {
  * @param argv Process arguments array
  * @returns Parsed command, arguments, and options
  */
-export function parseComplexCLIArgs(argv: string[]) {
+function parseComplexCLIArgs(argv) {
   const args = argv.slice(2);
   const command = args[0];
   const commandArgs = args.slice(1);
-  const options: any = {};
+  const options = {};
 
   // Parse options
   for (let i = 0; i < commandArgs.length; i++) {
@@ -278,7 +278,7 @@ export function parseComplexCLIArgs(argv: string[]) {
  * @param data Data to output
  * @returns Formatted JSON string
  */
-export function formatOutput(data: any): string {
+function formatOutput(data) {
   return JSON.stringify(data, null, 2);
 }
 
@@ -288,7 +288,7 @@ export function formatOutput(data: any): string {
  * @param exitCode Exit code to use
  * @returns Formatted error output
  */
-export function handleError(error: any, exitCode: number = 1) {
+function handleError(error, exitCode = 1) {
   const errorOutput = {
     op: 'error',
     status: 'error',
@@ -306,7 +306,7 @@ export function handleError(error: any, exitCode: number = 1) {
  * @param operation Operation name
  * @returns Formatted success output
  */
-export function handleSuccess(data: any, operation: string = 'operation') {
+function handleSuccess(data, operation = 'operation') {
   const successOutput = {
     op: operation,
     status: 'ok',
@@ -316,3 +316,22 @@ export function handleSuccess(data: any, operation: string = 'operation') {
   
   console.log(formatOutput(successOutput));
 }
+
+module.exports = {
+  buildSamplePayload,
+  validatePayload,
+  witcherExplorerDemo,
+  spiritTamerDemo,
+  topplerDemo,
+  overlinkDemo,
+  debugOverlayDemo,
+  bridgeInspectorDemo,
+  renderReplayDemo,
+  webBridgeDemo,
+  defaultStub,
+  parseCLIArgs,
+  parseComplexCLIArgs,
+  formatOutput,
+  handleError,
+  handleSuccess
+};

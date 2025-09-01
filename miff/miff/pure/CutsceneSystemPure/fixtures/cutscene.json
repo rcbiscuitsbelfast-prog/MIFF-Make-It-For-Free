@@ -1,0 +1,15 @@
+{
+  "op": "cutscene",
+  "status": "ok",
+  "cutsceneId": "test_cutscene",
+  "scenes": [
+    {
+      "id": "scene_1",
+      "duration": 5000,
+      "elements": [
+        "npc_dialogue",
+        "camera_pan"
+      ]
+    }
+  ]
+}

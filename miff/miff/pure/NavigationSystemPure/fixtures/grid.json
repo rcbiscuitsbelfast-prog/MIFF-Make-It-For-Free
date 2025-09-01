@@ -1,0 +1,20 @@
+{
+  "op": "navigation",
+  "status": "ok",
+  "grid": {
+    "width": 10,
+    "height": 10,
+    "nodes": [
+      {
+        "x": 0,
+        "y": 0,
+        "walkable": true
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "walkable": true
+      }
+    ]
+  }
+}

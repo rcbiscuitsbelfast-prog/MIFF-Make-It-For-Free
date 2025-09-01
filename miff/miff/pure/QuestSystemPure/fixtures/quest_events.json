@@ -1,0 +1,12 @@
+{
+  "op": "quest",
+  "status": "ok",
+  "questId": "test_quest",
+  "events": [
+    {
+      "id": "quest_start",
+      "type": "start",
+      "timestamp": 1756726428566
+    }
+  ]
+}

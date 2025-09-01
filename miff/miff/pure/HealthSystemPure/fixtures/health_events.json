@@ -1,0 +1,12 @@
+{
+  "op": "health",
+  "status": "ok",
+  "events": [
+    {
+      "id": "heal_1",
+      "type": "heal",
+      "amount": 25,
+      "target": "player_1"
+    }
+  ]
+}

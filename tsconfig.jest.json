@@ -1,18 +1,21 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "jest"]
   },
   "include": [
     "**/*.test.ts",
     "**/*.spec.ts",
-    "**/*.golden.test.ts"
+    "**/*.golden.test.ts",
+    "jest.setup.js"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "build"
+    "coverage"
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "op": "projectiles",
+  "status": "ok",
+  "projectiles": [
+    {
+      "id": "arrow_1",
+      "type": "arrow",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "velocity": {
+        "x": 10,
+        "y": 0
+      }
+    }
+  ]
+}

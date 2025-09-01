@@ -1,0 +1,12 @@
+{
+  "op": "mounts",
+  "status": "ok",
+  "mounts": [
+    {
+      "id": "horse_1",
+      "type": "horse",
+      "speed": 10,
+      "rider": "player_1"
+    }
+  ]
+}

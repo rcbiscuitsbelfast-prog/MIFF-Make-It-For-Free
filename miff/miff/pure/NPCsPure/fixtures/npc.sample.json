@@ -1,0 +1,13 @@
+{
+  "op": "create",
+  "npcId": "test_npc",
+  "name": "Test NPC",
+  "position": {
+    "x": 100,
+    "y": 200
+  },
+  "stats": {
+    "health": 100,
+    "mana": 50
+  }
+}

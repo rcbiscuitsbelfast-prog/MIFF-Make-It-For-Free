@@ -1,0 +1,12 @@
+{
+  "op": "inputs",
+  "status": "ok",
+  "inputs": [
+    {
+      "id": "key_press",
+      "type": "keydown",
+      "key": "Space",
+      "timestamp": 1756726428566
+    }
+  ]
+}

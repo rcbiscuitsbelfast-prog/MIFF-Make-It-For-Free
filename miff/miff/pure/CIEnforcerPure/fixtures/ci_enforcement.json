@@ -1,0 +1,12 @@
+{
+  "op": "ci_enforcement",
+  "status": "ok",
+  "rules": [
+    {
+      "id": "rule_1",
+      "type": "lint",
+      "enabled": true,
+      "severity": "error"
+    }
+  ]
+}
