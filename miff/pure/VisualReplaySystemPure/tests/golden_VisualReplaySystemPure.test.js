@@ -132,7 +132,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Verify input patterns
     expect(Array.isArray(analysis.inputPatterns)).toBe(true);
     if (analysis.inputPatterns.length > 0) {
-      const keydownPattern = analysis.inputPatterns.find((p: any) => p.type === 'keydown');
+      const keydownPattern = analysis.inputPatterns.find((p) => p.type === 'keydown');
       expect(keydownPattern).toBeDefined();
       expect(keydownPattern.frequency).toBe(1);
       expect(keydownPattern.timing).toHaveLength(1);
@@ -141,7 +141,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Verify visual sequences
     expect(Array.isArray(analysis.visualSequences)).toBe(true);
     if (analysis.visualSequences.length > 0) {
-      const spriteSequence = analysis.visualSequences.find((s: any) => s.type === 'sprite');
+      const spriteSequence = analysis.visualSequences.find((s) => s.type === 'sprite');
       expect(spriteSequence).toBeDefined();
       expect(spriteSequence.startFrame).toBe(1);
       expect(spriteSequence.endFrame).toBe(3);
@@ -215,22 +215,22 @@ describe('VisualReplaySystemPure golden tests', () => {
     const result = JSON.parse(out);
     
     // Verify visual hook types
-    const allHooks = result.frames.flatMap((f: any) => f.visualHooks);
-    const hookTypes = [...new Set(allHooks.map((h: any) => h.type))];
+    const allHooks = result.frames.flatMap((f) => f.visualHooks);
+    const hookTypes = [...new Set(allHooks.map((h) => h.type))];
     
     expect(hookTypes).toContain('sprite');
     expect(hookTypes).toContain('sound');
     expect(hookTypes).toContain('particle');
     
     // Verify visual hook actions
-    const actions = [...new Set(allHooks.map((h: any) => h.action))];
+    const actions = [...new Set(allHooks.map((h) => h.action))];
     expect(actions).toContain('show');
     expect(actions).toContain('update');
     expect(actions).toContain('play');
     expect(actions).toContain('trigger');
     
     // Verify visual hook data
-    const playerHook = allHooks.find((h: any) => h.id === 'player_sprite');
+    const playerHook = allHooks.find((h) => h.id === 'player_sprite');
     expect(playerHook).toBeDefined();
     expect(playerHook.target).toBe('player');
     expect(playerHook.position).toBeDefined();
@@ -238,7 +238,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     expect(playerHook.position.y).toBe(100);
     
     // Verify sound hook
-    const soundHook = allHooks.find((h: any) => h.id === 'jump_sound');
+    const soundHook = allHooks.find((h) => h.id === 'jump_sound');
     expect(soundHook).toBeDefined();
     expect(soundHook.type).toBe('sound');
     expect(soundHook.action).toBe('play');
@@ -246,7 +246,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     expect(soundHook.data.volume).toBe(0.8);
     
     // Verify particle hook
-    const particleHook = allHooks.find((h: any) => h.id === 'jump_particles');
+    const particleHook = allHooks.find((h) => h.id === 'jump_particles');
     expect(particleHook).toBeDefined();
     expect(particleHook.type).toBe('particle');
     expect(particleHook.action).toBe('trigger');
@@ -263,7 +263,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     const result = JSON.parse(out);
     
     // Verify frame metadata
-    result.frames.forEach((frame: any) => {
+    result.frames.forEach((frame) => {
       expect(frame.metadata.frameRate).toBe(60);
       expect(frame.metadata.deltaTime).toBe(16.67);
       expect(frame.metadata.performance).toBeDefined();
@@ -305,7 +305,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     const result = JSON.parse(out);
     
     // Verify input state capture
-    result.frames.forEach((frame: any) => {
+    result.frames.forEach((frame) => {
       expect(frame.inputState).toBeDefined();
       expect(frame.inputState.keys).toBeDefined();
       expect(frame.inputState.mouse).toBeDefined();

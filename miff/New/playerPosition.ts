@@ -1,6 +1,6 @@
-import { TileType } from '../TileMapPure/tileTypes';
-import { TileManager } from '../TileMapPure/tileManager';
-import { isWalkable } from '../TileMapPure/tileUtils';
+import { TileType } from '../TileMapPure/TileMapPure/tileTypes';
+import { TileManager } from '../TileMapPure/TileMapPure/tileManager';
+import { isWalkable } from '../TileMapPure/TileMapPure/tileUtils';
 
 export interface PlayerPosition {
   x: number;

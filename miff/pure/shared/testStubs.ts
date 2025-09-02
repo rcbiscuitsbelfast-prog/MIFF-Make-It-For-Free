@@ -23,7 +23,7 @@ export const DialogueParser = {
 };
 
 // ✅ Mock inventory system
-export const mockInventory = {
+const mockInventory = {
   addItem: jest.fn().mockReturnValue(true),
   removeItem: jest.fn().mockReturnValue(true),
   getItem: jest.fn().mockReturnValue({ id: 'test_item', name: 'Test Item' }),
@@ -31,14 +31,14 @@ export const mockInventory = {
 };
 
 // ✅ Mock quest system
-export const mockQuestSystem = {
+const mockQuestSystem = {
   addQuest: jest.fn().mockReturnValue(true),
   completeQuest: jest.fn().mockReturnValue(true),
   getQuest: jest.fn().mockReturnValue({ id: 'test_quest', status: 'active' })
 };
 
 // ✅ Mock dialogue engine
-export const mockDialogueEngine = {
+const mockDialogueEngine = {
   flags: new Set(['friendly_reputation']),
   inventory: mockInventory,
   quests: mockQuestSystem,
@@ -53,7 +53,7 @@ export const mockDialogueEngine = {
 };
 
 // ✅ Mock network transport
-export const mockTransport = {
+const mockTransport = {
   connect: jest.fn().mockReturnValue(Promise.resolve()),
   disconnect: jest.fn().mockReturnValue(Promise.resolve()),
   send: jest.fn().mockReturnValue(Promise.resolve()),
@@ -62,7 +62,7 @@ export const mockTransport = {
 };
 
 // ✅ Mock scheduler
-export const mockScheduler = {
+const mockScheduler = {
   start: jest.fn(),
   stop: jest.fn(),
   tickCount: 0,
@@ -72,7 +72,7 @@ export const mockScheduler = {
 };
 
 // ✅ Mock platform bridge
-export const mockPlatformBridge = {
+const mockPlatformBridge = {
   platform: 'web',
   capabilities: ['canvas2d', 'webgl'],
   createCanvas: jest.fn().mockReturnValue({
@@ -103,7 +103,7 @@ export const mockPlatformBridge = {
 };
 
 // ✅ Mock modding system
-export const mockModdingSystem = {
+const mockModdingSystem = {
   getPlugin: jest.fn().mockImplementation((name) => {
     if (name === 'physics-extended') {
       return { name: 'physics-extended', version: '1.0.0' };
@@ -115,21 +115,21 @@ export const mockModdingSystem = {
 };
 
 // ✅ Mock event bus
-export const mockEventBus = {
+const mockEventBus = {
   emit: jest.fn(),
   subscribe: jest.fn().mockReturnValue(() => {}),
   unsubscribe: jest.fn()
 };
 
 // ✅ Mock AI system
-export const mockAISystem = {
+const mockAISystem = {
   emit: jest.fn(),
   subscribe: jest.fn().mockReturnValue(() => {}),
   eventBus: mockEventBus
 };
 
 // ✅ Mock validation functions
-export const mockValidation = {
+const mockValidation = {
   validateSchema: jest.fn().mockReturnValue({ valid: true, issues: [] }),
   validateEngineHints: jest.fn().mockReturnValue({ valid: true, issues: [] }),
   validateSignals: jest.fn().mockReturnValue({ valid: true, issues: [] }),
@@ -137,14 +137,14 @@ export const mockValidation = {
 };
 
 // ✅ Mock export functions
-export const mockExport = {
+const mockExport = {
   exportToJSON: jest.fn().mockReturnValue({ success: true, data: {} }),
   exportToMarkdown: jest.fn().mockReturnValue({ success: true, data: '' }),
   exportToHTML: jest.fn().mockReturnValue({ success: true, data: '' })
 };
 
 // ✅ Mock file system operations
-export const mockFileSystem = {
+const mockFileSystem = {
   readFileSync: jest.fn().mockImplementation((path) => {
     if (path.includes('npc.sample.json')) {
       return JSON.stringify({
@@ -174,20 +174,20 @@ export const mockFileSystem = {
 };
 
 // ✅ Mock console operations
-export const mockConsole = {
+const mockConsole = {
   log: jest.fn(),
   error: jest.fn(),
   warn: jest.fn()
 };
 
 // ✅ Mock process operations
-export const mockProcess = {
+const mockProcess = {
   exit: jest.fn(),
   argv: ['node', 'test.js', 'demo']
 };
 
 // ✅ Mock timers
-export const mockTimers = {
+const mockTimers = {
   setTimeout: jest.fn().mockReturnValue(1),
   clearTimeout: jest.fn(),
   setInterval: jest.fn().mockReturnValue(1),
@@ -196,7 +196,7 @@ export const mockTimers = {
 };
 
 // ✅ Mock browser APIs for Node environment
-export const mockBrowserAPIs = {
+const mockBrowserAPIs = {
   requestAnimationFrame: jest.fn().mockReturnValue(1),
   cancelAnimationFrame: jest.fn(),
   ResizeObserver: jest.fn().mockImplementation(() => ({
@@ -231,7 +231,7 @@ export const mockBrowserAPIs = {
 };
 
 // ✅ Mock canvas element
-export const mockCanvas = {
+const mockCanvas = {
   getContext: jest.fn().mockReturnValue({
     fillRect: jest.fn(),
     clearRect: jest.fn(),
@@ -261,7 +261,7 @@ export const mockCanvas = {
 };
 
 // ✅ Mock HTML elements
-export const mockHTMLElements = {
+const mockHTMLElements = {
   createElement: jest.fn().mockImplementation((tagName) => {
     if (tagName === 'canvas') {
       return mockCanvas;
@@ -281,7 +281,7 @@ export const mockHTMLElements = {
 };
 
 // ✅ Mock document object
-export const mockDocument = {
+const mockDocument = {
   ...mockHTMLElements,
   body: {
     appendChild: jest.fn(),
@@ -296,7 +296,7 @@ export const mockDocument = {
 };
 
 // ✅ Mock window object
-export const mockWindow = {
+const mockWindow = {
   innerWidth: 1024,
   innerHeight: 768,
   devicePixelRatio: 1,
@@ -313,11 +313,11 @@ export const mockWindow = {
 // ✅ Global mock setup function
 export function setupGlobalMocks() {
   // Mock global objects
-  global.console = mockConsole;
-  global.process = mockProcess;
+  global.console = mockConsole as any;
+  global.process = mockProcess as any;
   
   // Mock timers
-  global.setTimeout = mockTimers.setTimeout;
+  global.setTimeout = mockTimers.setTimeout as any;
   global.clearTimeout = mockTimers.clearTimeout;
   global.setInterval = mockTimers.setInterval;
   global.clearInterval = mockTimers.clearInterval;
@@ -327,12 +327,12 @@ export function setupGlobalMocks() {
   global.cancelAnimationFrame = mockBrowserAPIs.cancelAnimationFrame;
   global.ResizeObserver = mockBrowserAPIs.ResizeObserver;
   global.IntersectionObserver = mockBrowserAPIs.IntersectionObserver;
-  global.performance = mockBrowserAPIs.performance;
-  global.WebGLRenderingContext = mockBrowserAPIs.WebGLRenderingContext;
+  global.performance = mockBrowserAPIs.performance as any;
+  global.WebGLRenderingContext = mockBrowserAPIs.WebGLRenderingContext as any;
   
   // Mock DOM elements
-  global.document = mockDocument;
-  global.window = mockWindow;
+  global.document = mockDocument as any;
+  global.window = mockWindow as any;
   
   // Mock HTMLCanvasElement prototype
   if (typeof HTMLCanvasElement !== 'undefined') {

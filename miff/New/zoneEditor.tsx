@@ -1,6 +1,6 @@
 import React from 'react';
-import { TileManager } from '../TileMapPure/tileManager';
-import { TileType } from '../TileMapPure/tileTypes';
+import { TileManager } from '../TileMapPure/TileMapPure/tileManager';
+import { TileType } from '../TileMapPure/TileMapPure/tileTypes';
 
 interface ZoneEditorProps {
   manager: TileManager;
@@ -17,7 +17,7 @@ export const ZoneEditor: React.FC<ZoneEditorProps> = ({ manager, onSave }) => {
       <h3>Zone Editor</h3>
       <button onClick={onSave}>Save Zone</button>
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${manager.getGrid()[0].length}, 32px)` }}>
-        {manager.getGrid().flat().map(tile => (
+        {manager.getGrid().flat().map((tile: any) => (
           <div
             key={`${tile.x}-${tile.y}`}
             onClick={() => handleClick(tile.x, tile.y)}

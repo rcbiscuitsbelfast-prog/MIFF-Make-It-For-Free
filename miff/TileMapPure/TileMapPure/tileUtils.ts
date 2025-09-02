@@ -1,5 +1,5 @@
 import { TileType } from './tileTypes';
-import { tileConfigMap } from './tileConfig';
+import { tileConfigMap } from './TileMapPure/tileConfig';
 
 export function isWalkable(type: TileType): boolean {
   return tileConfigMap[type].walkable;

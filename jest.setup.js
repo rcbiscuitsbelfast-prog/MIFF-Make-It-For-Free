@@ -198,6 +198,68 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
       }]
     });
   }
+  if (path.includes('visual_replay.json') || path.includes('temp_csv.json') || path.includes('temp_summary.json')) {
+    return JSON.stringify({
+      scenarioId: 'toppler_physics_demo',
+      config: {
+        frameRate: 60,
+        quality: 'high',
+        captureInput: true,
+        captureVisual: true,
+        capturePerformance: true,
+        compression: false,
+        maxFrames: 300
+      },
+      metadata: {
+        engine: 'pure',
+        platform: 'web',
+        resolution: { width: 1280, height: 720 },
+        quality: { graphics: 'high', audio: 'medium', physics: 'high' },
+        tags: ['physics', 'demo', 'toppler'],
+        notes: 'Sample physics demo replay for testing'
+      },
+      frames: [
+        {
+          frameNumber: 1,
+          gameState: { player: { x: 100, y: 100, velocity: { x: 0, y: 0 } }, blocks: [{ x: 200, y: 300, type: 'static' }], score: 0 },
+          inputState: { keys: { ArrowLeft: false, ArrowRight: false, Space: false }, mouse: { x: 640, y: 360, buttons: { left: false, right: false } }, gamepad: { connected: false, axes: [], buttons: {} }, touch: { active: false, points: [] } },
+          visualHooks: [
+            { id: 'player_sprite', type: 'sprite', target: 'player', action: 'show', data: { texture: 'player_idle.png' }, position: { x: 100, y: 100 }, scale: { x: 1, y: 1 } },
+            { id: 'block_sprite', type: 'sprite', target: 'block_1', action: 'show', data: { texture: 'block_static.png' }, position: { x: 200, y: 300 }, scale: { x: 1, y: 1 } }
+          ],
+          metadata: { timestamp: 1755989449000, frameRate: 60, deltaTime: 16.67, performance: { cpuUsage: 15.2, memoryUsage: 45.8, renderTime: 8.3 }, debug: { entities: 2, systems: 3, events: 0 } }
+        },
+        {
+          frameNumber: 2,
+          gameState: { player: { x: 100, y: 100, velocity: { x: 0, y: 0 } }, blocks: [{ x: 200, y: 300, type: 'static' }], score: 0 },
+          inputState: { keys: { ArrowLeft: false, ArrowRight: false, Space: false }, mouse: { x: 640, y: 360, buttons: { left: false, right: false } }, gamepad: { connected: false, axes: [], buttons: {} }, touch: { active: false, points: [] } },
+          visualHooks: [
+            { id: 'player_sprite', type: 'sprite', action: 'update', data: { texture: 'player_idle.png' }, position: { x: 100, y: 100 }, scale: { x: 1, y: 1 } }
+          ],
+          metadata: { timestamp: 1755989449017, frameRate: 60, deltaTime: 16.67, performance: { cpuUsage: 14.8, memoryUsage: 46.1, renderTime: 7.9 }, debug: { entities: 2, systems: 3, events: 0 } }
+        },
+        {
+          frameNumber: 3,
+          gameState: { player: { x: 100, y: 100, velocity: { x: 0, y: 0 } }, blocks: [{ x: 200, y: 300, type: 'static' }], score: 0 },
+          inputState: { keys: { ArrowLeft: false, ArrowRight: false, Space: true }, mouse: { x: 640, y: 360, buttons: { left: false, right: false } }, gamepad: { connected: false, axes: [], buttons: {} }, touch: { active: false, points: [] } },
+          visualHooks: [
+            { id: 'player_sprite', type: 'sprite', target: 'player', action: 'update', data: { texture: 'player_jump.png' }, position: { x: 100, y: 100 }, scale: { x: 1, y: 1 } },
+            { id: 'jump_sound', type: 'sound', target: 'audio', action: 'play', data: { sound: 'jump.wav', volume: 0.8 } },
+            { id: 'jump_particles', type: 'particle', target: 'player', action: 'trigger', data: { effect: 'dust_trail', count: 5 }, position: { x: 100, y: 100 } }
+          ],
+          metadata: { timestamp: 1755989449033, frameRate: 60, deltaTime: 16.67, performance: { cpuUsage: 18.5, memoryUsage: 46.3, renderTime: 9.2 }, debug: { entities: 2, systems: 3, events: 0 } }
+        }
+      ],
+      inputEvents: [
+        { frameNumber: 3, timestamp: 1640995200000, type: 'keydown', data: { key: 'Space', code: 'Space' } }
+      ],
+      outcome: { success: true, score: 150, completion: 0.25, achievements: ['First Jump'], failures: [], duration: 3000, checkpoints: [] },
+      checkpoints: [
+        { frameNumber: 3, description: 'Player successfully jumped', passed: true, metrics: { jumpHeight: 50, airTime: 0.5 } }
+      ],
+      exportFormat: 'summary'
+    });
+  }
   // For golden fixture files, try to read the actual file
   if (path.includes('.golden.json') || path.includes('expected_output.json')) {
     try {

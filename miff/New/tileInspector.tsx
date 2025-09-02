@@ -1,6 +1,6 @@
 import React from 'react';
-import { TileType } from '../TileMapPure/tileTypes';
-import { getTileColor, getTileLabel } from '../TileMapPure/tileUtils';
+import { TileType } from '../TileMapPure/TileMapPure/tileTypes';
+import { getTileColor, getTileLabel } from '../TileMapPure/TileMapPure/tileUtils';
 
 interface TileInspectorProps {
   type: TileType;

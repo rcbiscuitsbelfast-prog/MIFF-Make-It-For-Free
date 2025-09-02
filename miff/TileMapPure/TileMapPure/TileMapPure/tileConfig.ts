@@ -1,4 +1,4 @@
-import { TileType } from './tileTypes';
+import { TileType } from '../tileTypes';
 
 export interface TileConfig {
   movementCost: number;

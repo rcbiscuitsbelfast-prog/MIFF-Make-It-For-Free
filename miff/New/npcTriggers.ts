@@ -8,4 +8,5 @@ export function registerNPCTrigger(npcId: string, fn: TriggerFn): void {
 
 export function runNPCTrigger(npcId: string, x: number, y: number): void {
   const fn = npcTriggers.get(npcId);
-  if (fn) fn(npcId, x
+  if (fn) fn(npcId, x, y);
+}

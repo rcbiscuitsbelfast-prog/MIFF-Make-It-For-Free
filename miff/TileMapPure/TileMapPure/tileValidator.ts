@@ -1,5 +1,5 @@
 import { TileType } from './tileTypes';
-import { tileConfigMap } from './tileConfig';
+import { tileConfigMap } from './TileMapPure/tileConfig';
 
 export function validateTileConfig(type: TileType): string[] {
   const config = tileConfigMap[type];
