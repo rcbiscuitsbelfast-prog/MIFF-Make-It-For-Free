@@ -91,7 +91,7 @@ describe('GodotBridgePure Golden Tests', () => {
         questIds: ['quest_tutorial', 'quest_side_quest']
       }
     };
-    const testFile = path.resolve(__dirname, '../test_'godot_npc.json');
+    const testFile = path.resolve(__dirname, '../test_godot_npc.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -142,7 +142,7 @@ describe('GodotBridgePure Golden Tests', () => {
         stats: [{ key: 'health', base: 100 }]
       }
     };
-    const testFile = path.resolve(__dirname, '../test_'combat_sim.json');
+    const testFile = path.resolve(__dirname, '../test_combat_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -178,7 +178,7 @@ describe('GodotBridgePure Golden Tests', () => {
         { id: 'item_potion', quantity: 3 }
       ]
     };
-    const testFile = path.resolve(__dirname, '../test_'ui_render.json');
+    const testFile = path.resolve(__dirname, '../test_ui_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -212,7 +212,7 @@ describe('GodotBridgePure Golden Tests', () => {
       includeQuests: true
     };
     const testFile = path.resolve(__dirname, '../test_npc_render.json');
-    const configFile = path.resolve(__dirname, '../test_'gdscript_config.json');
+    const configFile = path.resolve(__dirname, '../test_gdscript_config.json');
     
     const config = {
       language: 'gdscript',
@@ -257,7 +257,7 @@ describe('GodotBridgePure Golden Tests', () => {
       includeQuests: true
     };
     const testFile = path.resolve(__dirname, '../test_npc_render.json');
-    const configFile = path.resolve(__dirname, '../test_'csharp_config.json');
+    const configFile = path.resolve(__dirname, '../test_csharp_config.json');
     
     const config = {
       language: 'csharp',

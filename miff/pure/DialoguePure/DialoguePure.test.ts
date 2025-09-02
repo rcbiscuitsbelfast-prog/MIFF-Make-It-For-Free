@@ -185,10 +185,10 @@ describe('DialoguePure', () => {
       // Create a context with the variable
       const context = {
         variables: new Map([['player_name', 'Traveler']]),
-        flags: new Set(),
-        inventory: new Set(),
-        quests: new Map(),
-        history: []
+        flags: new Set<string>(),
+        inventory: new Set<string>(),
+        quests: new Map<string, { status: 'active' | 'completed' | 'failed'; progress: number }>(),
+        history: [] as string[]
       };
 
       const result = DialogueParser.parseCondition(condition, context);
@@ -204,11 +204,11 @@ describe('DialoguePure', () => {
 
       // Create a context with the flag
       const context = {
-        variables: new Map(),
-        flags: new Set(['quests_available']),
-        inventory: new Set(),
-        quests: new Map(),
-        history: []
+        variables: new Map<string, any>(),
+        flags: new Set<string>(['quests_available']),
+        inventory: new Set<string>(),
+        quests: new Map<string, { status: 'active' | 'completed' | 'failed'; progress: number }>(),
+        history: [] as string[]
       };
 
       const result = DialogueParser.parseCondition(condition, context);

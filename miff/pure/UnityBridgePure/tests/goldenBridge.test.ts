@@ -18,7 +18,7 @@ describe('UnityBridgePure Golden Tests', () => {
       npcId: 'npc_001',
       duration: 3600
     };
-    const testFile = path.resolve(__dirname, '../test_'npc_sim.json');
+    const testFile = path.resolve(__dirname, '../test_npc_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -89,7 +89,7 @@ describe('UnityBridgePure Golden Tests', () => {
         questIds: ['quest_tutorial', 'quest_side_quest']
       }
     };
-    const testFile = path.resolve(__dirname, '../test_'unity_npc.json');
+    const testFile = path.resolve(__dirname, '../test_unity_npc.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -140,7 +140,7 @@ describe('UnityBridgePure Golden Tests', () => {
         stats: [{ key: 'health', base: 100 }]
       }
     };
-    const testFile = path.resolve(__dirname, '../test_'combat_sim.json');
+    const testFile = path.resolve(__dirname, '../test_combat_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -175,7 +175,7 @@ describe('UnityBridgePure Golden Tests', () => {
         { id: 'zone_forest', x: 100, y: 100, type: 'forest' }
       ]
     };
-    const testFile = path.resolve(__dirname, '../test_'world_render.json');
+    const testFile = path.resolve(__dirname, '../test_world_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {

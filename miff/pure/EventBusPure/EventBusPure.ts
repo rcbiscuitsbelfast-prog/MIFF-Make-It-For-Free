@@ -397,6 +397,15 @@ export class EventBus {
     
     return this.subscriptions.size;
   }
+  /**
+   * Destroy the event bus and clean up resources
+   */
+  destroy(): void {
+    this.handlers.clear();
+    this.events = [];
+    this.subscriptions.clear();
+    this.networkCallbacks.clear();
+  }
 }
 
 /**
