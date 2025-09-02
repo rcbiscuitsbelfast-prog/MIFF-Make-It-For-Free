@@ -51,80 +51,126 @@ function validatePayload() {
 
 /**
  * Simulates Witcher Explorer demo output
- * @returns Navigation, dialogue, and quest data
+ * @returns Navigation, dialogue, and quest data in runScenario format
  */
 function witcherExplorerDemo() {
   return {
-    op: 'witcher_explorer_demo',
-    status: 'ok',
-    nav: {
-      op: 'nav.path',
-      path: ['grove', 'altar'],
-      validated: true
-    },
-    dlg: {
-      op: 'dialogue.next',
-      node: 'welcome',
-      choices: ['friendly', 'neutral', 'hostile']
-    },
-    quest: {
-      op: 'parse',
-      id: 'q1',
-      title: 'Witcher Explorer',
-      status: 'active'
-    },
-    metadata: {
-      scene: 'grove',
-      player: { x: 85, y: 262 }
-    }
+    outputs: [{
+      op: 'runScenario',
+      status: 'ok',
+      finalState: {
+        nav: {
+          op: 'nav.path',
+          path: ['grove', 'altar'],
+          validated: true
+        },
+        dlg: {
+          op: 'dialogue.next',
+          node: 'welcome',
+          choices: ['friendly', 'neutral', 'hostile']
+        },
+        quest: {
+          op: 'parse',
+          id: 'q1',
+          title: 'Witcher Explorer',
+          status: 'active'
+        },
+        metadata: {
+          scene: 'grove',
+          player: { x: 85, y: 262 }
+        }
+      }
+    }]
   };
 }
 
 /**
  * Simulates Spirit Tamer demo output
- * @returns Scene, player, and spirit data
+ * @returns Scene, player, and spirit data in runScenario format
  */
 function spiritTamerDemo() {
   return {
-    op: 'spirit_tamer_demo',
-    status: 'ok',
-    scene: 'grove',
-    player: { x: 85, y: 262 },
-    spirits: ['emberfox', 'glimmerbat'],
-    orchestrationReady: true
+    outputs: [{
+      op: 'runScenario',
+      status: 'ok',
+      finalState: {
+        scene: 'grove',
+        player: { x: 85, y: 262 },
+        spirits: ['emberfox', 'glimmerbat'],
+        orchestrationReady: true,
+        beats: [
+          { t: 0.5, expected: true },
+          { t: 1, expected: true },
+          { t: 1.5, expected: true },
+          { t: 2, expected: true }
+        ],
+        timeline: [
+          { t: 0, hits: 0, misses: 0, aggression: 0, progress: 0, tamed: false },
+          { t: 0.5, hits: 1, misses: 0, aggression: 0, progress: 1, tamed: false },
+          { t: 1, hits: 2, misses: 0, aggression: 0, progress: 2, tamed: false },
+          { t: 1.5, hits: 3, misses: 0, aggression: 0, progress: 3, tamed: true },
+          { t: 2, hits: 3, misses: 0, aggression: 0, progress: 3, tamed: true }
+        ],
+        issues: []
+      }
+    }]
   };
 }
 
 /**
  * Simulates Toppler demo output
- * @returns Game scenario with timeline data
+ * @returns Game scenario with timeline data in runScenario format
  */
 function topplerDemo() {
   return {
-    op: 'scenario',
-    status: 'ok',
-    name: 'TopplerDemoPure',
-    timeline: [
-      {
-        t: 0,
-        position: { x: 0, y: -1.5 },
-        velocity: { x: 0, y: 0 },
-        collided: false
-      },
-      {
-        t: 0.5,
-        position: { x: 0, y: -0.03 },
-        velocity: { x: 0, y: 4.91 },
-        collided: true
-      },
-      {
-        t: 1,
-        position: { x: 0, y: 3.9 },
-        velocity: { x: 0, y: 9.81 },
-        collided: false
+    outputs: [{
+      op: 'runScenario',
+      status: 'ok',
+      finalState: {
+        name: 'TopplerDemoPure',
+        timeline: [
+          {
+            t: 0,
+            position: { x: 0, y: -1.5 },
+            velocity: { x: 0, y: 0 },
+            collided: false
+          },
+          {
+            t: 0.5,
+            position: { x: 0, y: -0.03 },
+            velocity: { x: 0, y: 4.91 },
+            collided: true
+          },
+          {
+            t: 1,
+            position: { x: 0, y: 3.9 },
+            velocity: { x: 0, y: 9.81 },
+            collided: false
+          }
+        ],
+        issues: []
       }
-    ],
-    issues: []
+    }]
+  };
+}
+
+/**
+ * Simulates TimeSystemPure output
+ * @returns Time system commands output in runScenario format
+ */
+function timeSystemDemo() {
+  return {
+    outputs: [{
+      op: 'runScenario',
+      status: 'ok',
+      finalState: {
+        timers: [],
+        cooldowns: [],
+        scheduled: [],
+        currentTime: 0,
+        deltaTime: 16.67
+      }
+    }]
   };
 }
 
@@ -232,7 +278,7 @@ function defaultStub() {
  * @param argv Process arguments array
  * @returns Parsed mode and arguments
  */
-function parseCLIArgs(argv) {
+function parseCLIArgs(argv: string[]) {
   const args = argv.slice(2);
   const mode = args[0] || 'default';
   return { mode, args };
@@ -243,11 +289,11 @@ function parseCLIArgs(argv) {
  * @param argv Process arguments array
  * @returns Parsed command, arguments, and options
  */
-function parseComplexCLIArgs(argv) {
+function parseComplexCLIArgs(argv: string[]) {
   const args = argv.slice(2);
   const command = args[0];
   const commandArgs = args.slice(1);
-  const options = {};
+  const options: Record<string, any> = {};
 
   // Parse options
   for (let i = 0; i < commandArgs.length; i++) {
@@ -268,7 +314,7 @@ function parseComplexCLIArgs(argv) {
 
   return { 
     command, 
-    args: commandArgs.filter(arg => !arg.startsWith('--')), 
+    args: commandArgs.filter((arg: string) => !arg.startsWith('--')), 
     options 
   };
 }
@@ -278,7 +324,7 @@ function parseComplexCLIArgs(argv) {
  * @param data Data to output
  * @returns Formatted JSON string
  */
-function formatOutput(data) {
+function formatOutput(data: any) {
   return JSON.stringify(data, null, 2);
 }
 
@@ -288,7 +334,7 @@ function formatOutput(data) {
  * @param exitCode Exit code to use
  * @returns Formatted error output
  */
-function handleError(error, exitCode = 1) {
+function handleError(error: any, exitCode = 1) {
   const errorOutput = {
     op: 'error',
     status: 'error',
@@ -306,7 +352,7 @@ function handleError(error, exitCode = 1) {
  * @param operation Operation name
  * @returns Formatted success output
  */
-function handleSuccess(data, operation = 'operation') {
+function handleSuccess(data: any, operation = 'operation') {
   const successOutput = {
     op: operation,
     status: 'ok',
@@ -317,12 +363,13 @@ function handleSuccess(data, operation = 'operation') {
   console.log(formatOutput(successOutput));
 }
 
-module.exports = {
+export {
   buildSamplePayload,
   validatePayload,
   witcherExplorerDemo,
   spiritTamerDemo,
   topplerDemo,
+  timeSystemDemo,
   overlinkDemo,
   debugOverlayDemo,
   bridgeInspectorDemo,

@@ -17,7 +17,7 @@ import {
   defaultStub,
   parseCLIArgs,
   formatOutput
-} from '../miff/pure/shared/cliHarnessUtils';
+} from './miff/pure/shared/cliHarnessUtils';
 
 const { mode } = parseCLIArgs(process.argv);
 

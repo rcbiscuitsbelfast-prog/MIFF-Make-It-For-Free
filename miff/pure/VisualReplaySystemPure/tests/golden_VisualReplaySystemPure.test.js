@@ -1,5 +1,6 @@
-import * as path from 'path';
-import * as fs from 'fs';
+const { execFileSync } = require('child_process');
+const path = require('path');
+const fs = require('fs');
 
 /**
  * Golden test for VisualReplaySystemPure
@@ -19,10 +20,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test comprehensive visual replay functionality
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const result = JSON.parse(out);
     
@@ -73,10 +71,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test statistics calculation accuracy
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const result = JSON.parse(out);
     const { statistics } = result;
@@ -122,10 +117,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test replay analysis functionality
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const result = JSON.parse(out);
     const { analysis } = result;
@@ -171,10 +163,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
     // Test JSON export (default)
-    const jsonOut = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const jsonOut = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const jsonResult = JSON.parse(jsonOut);
     expect(jsonResult.op).toBe('replay');
@@ -188,10 +177,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     fs.writeFileSync(tempCsvFixture, JSON.stringify(csvFixture, null, 2));
     
     try {
-      const csvOut = (global as any).testUtils.runCLI(
-        path.resolve(root, 'cliHarness.ts'),
-        [tempCsvFixture]
-      );
+      const csvOut = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), tempCsvFixture], { encoding: 'utf-8' });
       
       const csvResult = JSON.parse(csvOut);
       expect(csvResult.op).toBe('replay');
@@ -209,10 +195,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     fs.writeFileSync(tempSummaryFixture, JSON.stringify(summaryFixture, null, 2));
     
     try {
-      const summaryOut = (global as any).testUtils.runCLI(
-        path.resolve(root, 'cliHarness.ts'),
-        [tempSummaryFixture]
-      );
+      const summaryOut = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), tempSummaryFixture], { encoding: 'utf-8' });
       
       const summaryResult = JSON.parse(summaryOut);
       expect(summaryResult.op).toBe('replay');
@@ -227,10 +210,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test visual hooks capture and analysis
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const result = JSON.parse(out);
     
@@ -278,10 +258,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test performance analysis and bottleneck detection
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const result = JSON.parse(out);
     
@@ -323,10 +300,7 @@ describe('VisualReplaySystemPure golden tests', () => {
     // Test input event analysis and pattern detection
     const replayFixture = path.resolve(root, 'fixtures/visual_replay.json');
     
-    const out = (global as any).testUtils.runCLI(
-      path.resolve(root, 'cliHarness.ts'),
-      [replayFixture]
-    );
+    const out = execFileSync('npx', ['ts-node', '--compiler-options', '{"module":"commonjs"}', path.resolve(root, 'cliHarness.ts'), replayFixture], { encoding: 'utf-8' });
     
     const result = JSON.parse(out);
     

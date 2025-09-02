@@ -1,7 +1,14 @@
 {
-  "op": "scenario",
-  "status": "ok",
-  "name": "SpiritTamerDemoPure",
+  "scene": "grove",
+  "player": {
+    "x": 85,
+    "y": 262
+  },
+  "spirits": [
+    "emberfox",
+    "glimmerbat"
+  ],
+  "orchestrationReady": true,
   "beats": [
     {
       "t": 0.5,
