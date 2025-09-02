@@ -11,7 +11,7 @@ import {
   InventoryComponent,
   InventoryTransaction,
   InventoryObserver 
-} from './InventoryPure';
+} from '../../../miff/pure/InventoryPure/InventoryPure';
 
 describe('InventoryPure', () => {
   let manager: InventoryManager;
