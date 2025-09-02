@@ -12,6 +12,7 @@ module.exports = {
     '<rootDir>/games/**/*.spec.ts'
   ],
   testTimeout: 10000,
+  cache: false,
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     'miff/**/*.{ts,tsx}',
