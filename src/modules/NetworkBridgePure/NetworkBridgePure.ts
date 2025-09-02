@@ -226,8 +226,13 @@ export class NetworkBridge {
       const message = await this.transport.receive();
       if (!message) break;
 
-      const { frame, input } = this.deserializeInput(message.data);
-      this.scheduler.submitInput(message.peerId, frame, input);
+      try {
+        const { frame, input } = this.deserializeInput(message.data);
+        this.scheduler.submitInput(message.peerId, frame, input);
+      } catch (error) {
+        console.warn(`Failed to process incoming message: ${error}`);
+        // Continue processing other messages
+      }
     }
   }
 

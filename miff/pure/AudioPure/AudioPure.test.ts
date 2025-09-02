@@ -92,19 +92,34 @@ describe('AudioPure', () => {
         spatial: false
       };
 
-      // Make overflow deterministic for this test
-      (audioSystem as any).config.maxSimultaneousSounds = 2;
+      // Create a new audio system with limited simultaneous sounds for this test
+      const limitedConfig = { ...config, maxSimultaneousSounds: 2 };
+      const limitedAudioSystem = new AudioSystem(limitedConfig, true);
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-      audioSystem.registerSound(soundDef);
+      limitedAudioSystem.registerSound(soundDef);
 
       // Try to play more sounds than the limit
+      const results = [];
       for (let i = 0; i < 4; i++) {
-        audioSystem.playSound('test-sound');
+        const beforeSize = limitedAudioSystem.getActiveSounds().length;
+        const result = limitedAudioSystem.playSound('test-sound');
+        const afterSize = limitedAudioSystem.getActiveSounds().length;
+        results.push(result);
+        console.log(`Call ${i + 1}: result=${result}, beforeSize=${beforeSize}, afterSize=${afterSize}`);
       }
 
-      expect(audioSystem.getActiveSounds()).toHaveLength(2); // Max limit
-      expect(warnSpy).toHaveBeenCalled();
+      console.log('Final results:', results);
+      console.log('Final active sounds:', limitedAudioSystem.getActiveSounds());
+
+      // First 2 should succeed, last 2 should return null
+      expect(results[0]).toBeTruthy();
+      expect(results[1]).toBeTruthy();
+      expect(results[2]).toBeNull();
+      expect(results[3]).toBeNull();
+      
+      expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
+      expect(warnSpy).toHaveBeenCalledTimes(2); // Warning for the 2 failed attempts
     });
 
     it('should stop sounds correctly', () => {

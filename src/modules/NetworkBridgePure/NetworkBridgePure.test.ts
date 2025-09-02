@@ -128,18 +128,17 @@ describe('NetworkBridgePure', () => {
   });
 
   describe('NetworkBridge', () => {
-    let mockTransport: any;
     let bridge: NetworkBridge;
+    let mockTransport: any;
 
     beforeEach(() => {
       mockTransport = {
         connect: jest.fn().mockResolvedValue(true),
         disconnect: jest.fn(),
         send: jest.fn().mockResolvedValue(true),
-        receive: jest.fn().mockResolvedValue(null),
+        receive: jest.fn().mockResolvedValue(null), // Return null to indicate no messages
         getConnectedPeers: jest.fn().mockReturnValue([])
       };
-      
       bridge = new NetworkBridge(mockTransport, config);
     });
 
@@ -169,6 +168,11 @@ describe('NetworkBridgePure', () => {
       // Start hosting first
       await bridge.startHosting();
       
+      // Add a remote peer to simulate a joined player
+      const remotePeer = new Peer('remote-peer', false);
+      remotePeer.markConnected();
+      (bridge as any).peers.set('remote-peer', remotePeer);
+      
       const input = { move: 'left' };
       await bridge.submitLocalInput(input);
       await Promise.resolve();
@@ -178,6 +182,14 @@ describe('NetworkBridgePure', () => {
     });
 
     it('should disconnect all peers', async () => {
+      // Start hosting first
+      await bridge.startHosting();
+      
+      // Add a remote peer to simulate a joined player
+      const remotePeer = new Peer('remote-peer', false);
+      remotePeer.markConnected();
+      (bridge as any).peers.set('remote-peer', remotePeer);
+      
       await bridge.disconnect();
       await Promise.resolve();
       
