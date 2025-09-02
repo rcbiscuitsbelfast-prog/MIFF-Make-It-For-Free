@@ -97,7 +97,42 @@ global.DialogueParser = {
     ],
     start: 'root'
   }),
-  parseCELScript: () => ({ type: 'condition' }),
+  parseCELScript: (script) => {
+    if (typeof script === 'string') {
+      const assign = script.match(/^\s*([a-zA-Z_][\w]*)\s*=\s*(.+)\s*$/);
+      if (assign) {
+        return { type: 'assignment', variable: assign[1], value: assign[2] };
+      }
+      const cond = script.match(/^\s*if\s*\((.+)\)\s*([\w_]+)\s*$/);
+      if (cond) {
+        return { type: 'condition', condition: cond[1].trim(), action: cond[2].trim() };
+      }
+    }
+    return { type: 'script', raw: script };
+  },
+  executeAction: (action, context) => {
+    if (!action || !context) return;
+    switch (action.type) {
+      case 'set_flag':
+        context.flags?.add?.(action.target);
+        break;
+      case 'start_quest': {
+        const q = context.quests?.get?.(action.target) || { status: 'active', progress: 0 };
+        context.quests?.set?.(action.target, q);
+        break; }
+      case 'complete_quest': {
+        const q = context.quests?.get?.(action.target) || { status: 'active', progress: 0 };
+        q.status = 'completed';
+        q.progress = 100;
+        context.quests?.set?.(action.target, q);
+        break; }
+      case 'add_item':
+        context.inventory?.add?.(action.target);
+        break;
+      default:
+        break;
+    }
+  },
   destroy: () => {}
 };
 
