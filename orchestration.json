@@ -1,11 +1,6 @@
 {
-  "generatedAt": "2025-08-31T22:52:40.331Z",
+  "generatedAt": "2025-09-02T19:17:10.474Z",
   "entries": [
-    {
-      "name": "toppler.index",
-      "path": "games/toppler/index.html",
-      "type": "game"
-    },
     {
       "name": "toppler.toppler",
       "path": "games/toppler/toppler.html",
