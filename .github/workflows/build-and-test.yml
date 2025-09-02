@@ -27,15 +27,9 @@ jobs:
       - name: Ensure ts-node and typescript are available
         run: npm install --save-dev ts-node typescript
 
-      - name: Generate Toppler HTML (ts-node)
-        id: gen_ts
-        continue-on-error: true
+      - name: Generate Toppler HTML (ts-node with fallback)
         run: |
-          npx ts-node miff/scripts/gen-html.ts
-      - name: Fallback: Generate Toppler HTML via wrapper
-        if: steps.gen_ts.outcome == 'failure'
-        run: |
-          node miff/scripts/gen-html-wrapper.js
+          npx ts-node miff/scripts/gen-html.ts || node miff/scripts/gen-html-wrapper.js
 
       - name: Type check
         run: npm run typecheck
