@@ -7,6 +7,7 @@ if (typeof window !== 'undefined') {
   const twoDContext = {
     clearRect: () => {},
     fillRect: () => {},
+    setTransform: () => {},
     strokeRect: () => {},
     beginPath: () => {},
     moveTo: () => {},
@@ -42,8 +43,47 @@ if (typeof window !== 'undefined') {
 
 // Minimal DialogueParser stub for DialoguePure tests
 global.DialogueParser = {
-  parseCELScript: () => ({ type: 'condition' })
+  parse: () => ({
+    nodes: [{ id: 'root', content: 'Hello', choices: [] }],
+    start: 'root'
+  }),
+  parseCELScript: () => ({ type: 'condition' }),
+  destroy: () => {}
 };
+
+// NetworkBridge transport mock with clean teardown
+global.mockTransport = {
+  connect: jest.fn().mockResolvedValue(undefined),
+  send: jest.fn().mockResolvedValue(undefined),
+  onMessage: jest.fn().mockImplementation((cb) => {
+    // Return an unsubscribe that does nothing to avoid lingering listeners
+    return () => {};
+  }),
+  disconnect: jest.fn().mockResolvedValue(undefined)
+};
+
+// Global teardown guard
+if (typeof afterEach === 'function') {
+  afterEach(() => {
+    if (typeof jest !== 'undefined' && jest.clearAllTimers) {
+      jest.clearAllTimers();
+    }
+    // Reset transport mocks
+    if (global.mockTransport) {
+      Object.values(global.mockTransport).forEach((fn) => {
+        if (fn && typeof fn.mockClear === 'function') fn.mockClear();
+      });
+    }
+    // Flush microtasks/hooks
+    if (typeof setImmediate !== 'undefined') {
+      setImmediate(() => {}).unref?.();
+    }
+    // Hint GC in environments that expose it
+    if (global.gc) {
+      try { global.gc(); } catch (_) {}
+    }
+  });
+}
 
 function runCLI(cliPath, args = []) {
 	const absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
