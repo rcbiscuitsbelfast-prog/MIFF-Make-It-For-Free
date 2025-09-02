@@ -31,11 +31,13 @@ export type TamingState = {
 };
 
 export type SpiritTamerOutput = {
-	op: 'scenario';
+	op: 'runScenario';
 	status: 'ok' | 'error';
 	name: 'SpiritTamerDemoPure';
 	beats: Beat[];
 	timeline: TamingState[];
+	events: any[];
+	finalState: any;
 	issues: string[];
 };
 
@@ -133,7 +135,44 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 	}
 
 	const beatsOut = beats.map(b => ({ t: b.t, expected: true }));
-	return { op: 'scenario', status: 'ok', name: 'SpiritTamerDemoPure', beats: beatsOut, timeline, issues };
+	
+	// Extract events for golden fixture compatibility
+	const events = [];
+	if (tamed) {
+		events.push({
+			type: 'spiritTamed',
+			finalHits: hits,
+			finalProgress: progress,
+			completionTime: timeline[timeline.length - 1]?.t || 0
+		});
+	}
+	
+	// Extract final state for golden fixture compatibility
+	const finalState = timeline.length > 0 ? {
+		spirit: {
+			tamed,
+			progress,
+			hits,
+			misses,
+			aggression
+		},
+		scenario: {
+			completed: true,
+			totalBeats: beats.length,
+			successfulTaps: hits
+		}
+	} : {};
+	
+	return { 
+		op: 'runScenario', 
+		status: 'ok', 
+		name: 'SpiritTamerDemoPure', 
+		beats: beatsOut, 
+		timeline, 
+		events,
+		finalState,
+		issues 
+	};
 }
 
 // Remix Hooks

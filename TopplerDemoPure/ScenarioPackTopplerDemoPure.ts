@@ -14,10 +14,12 @@ export type ScenarioState = {
 };
 
 export type ScenarioOutput = {
-  op: 'scenario';
+  op: 'runScenario';
   status: 'ok' | 'error';
   name: 'TopplerDemoPure';
   timeline: ScenarioState[];
+  events: any[];
+  finalState: any;
   issues: string[];
 };
 
@@ -134,7 +136,39 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
     }
   }
 
-  return { op: 'scenario', status: 'ok', name: 'TopplerDemoPure', timeline, issues };
+  // Extract events from timeline for golden fixture compatibility
+  const events = timeline
+    .filter(state => state.collided)
+    .map(state => ({
+      type: 'collision',
+      t: state.t,
+      position: state.position,
+      velocity: state.velocity
+    }));
+  
+  // Extract final state for golden fixture compatibility
+  const finalState = timeline.length > 0 ? {
+    player: {
+      position: timeline[timeline.length - 1].position,
+      velocity: timeline[timeline.length - 1].velocity,
+      grounded: timeline[timeline.length - 1].collided
+    },
+    scenario: {
+      completed: true,
+      duration: total,
+      steps: timeline.length
+    }
+  } : {};
+
+  return { 
+    op: 'runScenario', 
+    status: 'ok', 
+    name: 'TopplerDemoPure', 
+    timeline, 
+    events,
+    finalState,
+    issues 
+  };
 }
 
 // Remix Hooks

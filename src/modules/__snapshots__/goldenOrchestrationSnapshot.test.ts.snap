@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Golden Orchestration Fidelity Tests Golden Fixture Compatibility SpiritTamerDemoPure should be compatible with golden fixture format: SpiritTamerDemoPure-golden-format 1`] = `
+{
+  "outputs": [
+    {
+      "events": [
+        {
+          "completionTime": 2,
+          "finalHits": 3,
+          "finalProgress": 3,
+          "type": "spiritTamed",
+        },
+      ],
+      "finalState": {
+        "scenario": {
+          "completed": true,
+          "successfulTaps": 3,
+          "totalBeats": 4,
+        },
+        "spirit": {
+          "aggression": 0,
+          "hits": 3,
+          "misses": 0,
+          "progress": 3,
+          "tamed": true,
+        },
+      },
+      "op": "runScenario",
+      "status": "ok",
+    },
+  ],
+}
+`;
+
+exports[`Golden Orchestration Fidelity Tests Golden Fixture Compatibility TopplerDemoPure should be compatible with golden fixture format: TopplerDemoPure-golden-format 1`] = `
+{
+  "outputs": [
+    {
+      "events": [
+        {
+          "position": {
+            "x": 0,
+            "y": -0.03,
+          },
+          "t": 0.5,
+          "type": "collision",
+          "velocity": {
+            "x": 0,
+            "y": 4.91,
+          },
+        },
+      ],
+      "finalState": {
+        "player": {
+          "grounded": false,
+          "position": {
+            "x": 0,
+            "y": 3.9,
+          },
+          "velocity": {
+            "x": 0,
+            "y": 9.81,
+          },
+        },
+        "scenario": {
+          "completed": true,
+          "duration": 1,
+          "steps": 3,
+        },
+      },
+      "op": "runScenario",
+      "status": "ok",
+    },
+  ],
+}
+`;
+
+exports[`Golden Orchestration Fidelity Tests Golden Fixture Compatibility WitcherExplorerDemoPure should be compatible with golden fixture format: WitcherExplorerDemoPure-golden-format 1`] = `
+{
+  "outputs": [
+    {
+      "events": [
+        {
+          "path": [
+            {
+              "x": 1,
+              "y": 0,
+            },
+            {
+              "x": 2,
+              "y": 0,
+            },
+          ],
+          "pathLength": 2,
+          "type": "pathfindingCompleted",
+        },
+        {
+          "nodeId": "b",
+          "status": "ok",
+          "type": "dialogueProgressed",
+        },
+        {
+          "questId": "q1",
+          "status": "ok",
+          "type": "questParsed",
+        },
+      ],
+      "finalState": {
+        "dialogue": {
+          "completed": true,
+          "currentNode": "b",
+        },
+        "navigation": {
+          "destination": {
+            "x": 5,
+            "y": 0,
+          },
+          "pathFound": true,
+          "pathLength": 2,
+        },
+        "quest": {
+          "id": "q1",
+          "parsed": true,
+          "title": "Witcher Explorer",
+        },
+      },
+      "op": "runScenario",
+      "status": "ok",
+    },
+  ],
+}
+`;
+
+exports[`Golden Orchestration Fidelity Tests Snapshot Tests for events SpiritTamerDemoPure events should match snapshot: SpiritTamerDemoPure-events 1`] = `
+[
+  {
+    "completionTime": 2,
+    "finalHits": 3,
+    "finalProgress": 3,
+    "type": "spiritTamed",
+  },
+]
+`;
+
+exports[`Golden Orchestration Fidelity Tests Snapshot Tests for events TopplerDemoPure events should match snapshot: TopplerDemoPure-events 1`] = `
+[
+  {
+    "position": {
+      "x": 0,
+      "y": -0.03,
+    },
+    "t": 0.5,
+    "type": "collision",
+    "velocity": {
+      "x": 0,
+      "y": 4.91,
+    },
+  },
+]
+`;
+
+exports[`Golden Orchestration Fidelity Tests Snapshot Tests for events WitcherExplorerDemoPure events should match snapshot: WitcherExplorerDemoPure-events 1`] = `
+[
+  {
+    "path": [
+      {
+        "x": 1,
+        "y": 0,
+      },
+      {
+        "x": 2,
+        "y": 0,
+      },
+    ],
+    "pathLength": 2,
+    "type": "pathfindingCompleted",
+  },
+  {
+    "nodeId": "b",
+    "status": "ok",
+    "type": "dialogueProgressed",
+  },
+  {
+    "questId": "q1",
+    "status": "ok",
+    "type": "questParsed",
+  },
+]
+`;
+
+exports[`Golden Orchestration Fidelity Tests Snapshot Tests for finalState SpiritTamerDemoPure finalState should match snapshot: SpiritTamerDemoPure-finalState 1`] = `
+{
+  "scenario": {
+    "completed": true,
+    "successfulTaps": 3,
+    "totalBeats": 4,
+  },
+  "spirit": {
+    "aggression": 0,
+    "hits": 3,
+    "misses": 0,
+    "progress": 3,
+    "tamed": true,
+  },
+}
+`;
+
+exports[`Golden Orchestration Fidelity Tests Snapshot Tests for finalState TopplerDemoPure finalState should match snapshot: TopplerDemoPure-finalState 1`] = `
+{
+  "player": {
+    "grounded": false,
+    "position": {
+      "x": 0,
+      "y": 3.9,
+    },
+    "velocity": {
+      "x": 0,
+      "y": 9.81,
+    },
+  },
+  "scenario": {
+    "completed": true,
+    "duration": 1,
+    "steps": 3,
+  },
+}
+`;
+
+exports[`Golden Orchestration Fidelity Tests Snapshot Tests for finalState WitcherExplorerDemoPure finalState should match snapshot: WitcherExplorerDemoPure-finalState 1`] = `
+{
+  "dialogue": {
+    "completed": true,
+    "currentNode": "b",
+  },
+  "navigation": {
+    "destination": {
+      "x": 5,
+      "y": 0,
+    },
+    "pathFound": true,
+    "pathLength": 2,
+  },
+  "quest": {
+    "id": "q1",
+    "parsed": true,
+    "title": "Witcher Explorer",
+  },
+}
+`;
