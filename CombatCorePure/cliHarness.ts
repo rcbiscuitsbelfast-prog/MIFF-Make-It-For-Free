@@ -23,7 +23,7 @@ function main(){
     if(c.op==='list') outputs.push({op:'list', ids:mgr.list()});
     else if(c.op==='create') outputs.push(mgr.create(c.id, c.hp, c.atk, c.def));
     else if(c.op==='simulate') outputs.push(mgr.simulate(c.attackerId, c.defenderId));
-    else if(c.op==='dump') { const e=mgr.get(c.id); outputs.push(e? {op:'dump', id:e.id, hp:e.hp} : {op:'dump', id:c.id, missing:true}); }
+    else if(c.op==='dump') { const e=mgr.get(c.id); outputs.push(e? {op:'dump', id:e.id, hp:e.hp, atk:e.atk, def:e.def} : {op:'dump', id:c.id, missing:true}); }
   }
   console.log(JSON.stringify({outputs}, null, 2));
 }
