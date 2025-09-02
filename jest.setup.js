@@ -9,38 +9,46 @@
  * @license MIT
  */
 
-<<<<<<< HEAD
-// Mock canvas for DOM tests
-if (typeof HTMLCanvasElement !== 'undefined') {
-  HTMLCanvasElement.prototype.getContext = function(type) {
-    if (type === '2d' || type === 'webgl' || type === 'webgl2') {
-      return {
-        fillRect: jest.fn(),
-        clearRect: jest.fn(),
-        getImageData: jest.fn().mockReturnValue({ data: new Uint8ClampedArray(4) }),
-        putImageData: jest.fn(),
-        createImageData: jest.fn().mockReturnValue(new Uint8ClampedArray(4)),
-        setTransform: jest.fn(),
-        drawImage: jest.fn(),
-        save: jest.fn(),
-        fillText: jest.fn(),
-        restore: jest.fn(),
-        beginPath: jest.fn(),
-        moveTo: jest.fn(),
-        lineTo: jest.fn(),
-        closePath: jest.fn(),
-        stroke: jest.fn(),
-        translate: jest.fn(),
-        scale: jest.fn(),
-        rotate: jest.fn(),
-        arc: jest.fn(),
-        fill: jest.fn(),
-        measureText: jest.fn().mockReturnValue({ width: 0 })
-      };
-    }
-    return null;
+// Setup canvas for jsdom tests
+if (typeof window !== 'undefined') {
+  // Provide a minimal 2D/WebGL context stub for jsdom
+  const twoDContext = {
+    clearRect: () => {},
+    fillRect: () => {},
+    setTransform: () => {},
+    strokeRect: () => {},
+    beginPath: () => {},
+    moveTo: () => {},
+    lineTo: () => {},
+    arc: () => {},
+    closePath: () => {},
+    stroke: () => {},
+    fill: () => {},
+    fillText: () => {},
+    save: () => {},
+    restore: () => {},
+    translate: () => {},
+    scale: () => {},
+    rotate: () => {},
+    drawImage: () => {},
+    getImageData: () => ({ data: new Uint8ClampedArray(4) }),
+    putImageData: () => {},
+    createImageData: () => new Uint8ClampedArray(4),
+    measureText: () => ({ width: 0 }),
+    fillStyle: '#000',
+    strokeStyle: '#000',
+    font: ''
   };
-=======
+
+  const webglContext = {};
+
+  const originalGetContext = HTMLCanvasElement.prototype.getContext;
+  HTMLCanvasElement.prototype.getContext = function(type, attributes) {
+    if (type === '2d') return twoDContext;
+    if (type === 'webgl' || type === 'webgl2') return webglContext;
+    return originalGetContext ? originalGetContext.call(this, type, attributes) : null;
+  };
+}
 // Setup canvas for jsdom tests
 if (typeof window !== 'undefined') {
   // Provide a minimal 2D/WebGL context stub for jsdom
@@ -206,7 +214,6 @@ function runCLI(cliPath, args = []) {
 	} finally {
 		console.log(`[runCLI] Teardown status: COMPLETED`);
 	}
->>>>>>> cursor/golden-scenario-validation-fix
 }
 
 // Mock browser APIs
