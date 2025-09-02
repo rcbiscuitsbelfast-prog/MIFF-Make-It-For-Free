@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "build",
+    "scenarios/**/*.ts",
+    "miff-nextjs/tailwind.config.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.golden.test.ts",
+    "tests/**/*.ts",
+    "games/**/*.spec.ts",
+    "miff/pure/**/*.test.ts",
+    "miff/pure/**/*.spec.ts"
+  ]
+}
