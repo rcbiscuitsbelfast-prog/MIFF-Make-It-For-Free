@@ -16,6 +16,7 @@ if (typeof window !== 'undefined') {
     closePath: () => {},
     stroke: () => {},
     fill: () => {},
+    fillText: () => {},
     save: () => {},
     restore: () => {},
     translate: () => {},
