@@ -95,24 +95,37 @@ describe('AudioPure', () => {
       // Create a new audio system with limited simultaneous sounds for this test
       const limitedConfig = { ...config, maxSimultaneousSounds: 2 };
       const limitedAudioSystem = new AudioSystem(limitedConfig, true);
+      
+      // Clear any previous console.warn calls and create a fresh spy
+      jest.clearAllMocks();
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-      limitedAudioSystem.registerSound(soundDef);
+      try {
+        limitedAudioSystem.registerSound(soundDef);
 
-      // Try to play more sounds than the limit
-      const results = [];
-      for (let i = 0; i < 4; i++) {
-        results.push(limitedAudioSystem.playSound('test-sound'));
+        // Try to play more sounds than the limit
+        const results = [];
+        for (let i = 0; i < 4; i++) {
+          const result = limitedAudioSystem.playSound('test-sound');
+          results.push(result);
+        }
+
+        // First 2 should succeed, last 2 should return null
+        expect(results[0]).toBeTruthy();
+        expect(results[1]).toBeTruthy();
+        expect(results[2]).toBeNull();
+        expect(results[3]).toBeNull();
+        
+        expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
+        
+        // Check that we got exactly 2 warnings about maximum simultaneous sounds
+        const maxSoundsWarnings = warnSpy.mock.calls.filter(call => 
+          call[0] && call[0].includes('Maximum simultaneous sounds reached')
+        );
+        expect(maxSoundsWarnings).toHaveLength(2);
+      } finally {
+        warnSpy.mockRestore();
       }
-
-      // First 2 should succeed, last 2 should return null
-      expect(results[0]).toBeTruthy();
-      expect(results[1]).toBeTruthy();
-      expect(results[2]).toBeNull();
-      expect(results[3]).toBeNull();
-      
-      expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
-      expect(warnSpy).toHaveBeenCalledTimes(2); // Warning for the 2 failed attempts
     });
 
     it('should stop sounds correctly', () => {

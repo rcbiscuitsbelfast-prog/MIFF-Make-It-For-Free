@@ -52,6 +52,7 @@ export class AudioSystem {
   private listenerPosition: { x: number; y: number; z: number };
   private listenerVelocity: { x: number; y: number; z: number };
   private isHeadless: boolean;
+  private instanceCounter: number; // Add counter for unique instance IDs
 
   constructor(config: AudioConfig, headless: boolean = false) {
     this.config = config;
@@ -61,6 +62,7 @@ export class AudioSystem {
     this.listenerPosition = { x: 0, y: 0, z: 0 };
     this.listenerVelocity = { x: 0, y: 0, z: 0 };
     this.isHeadless = headless;
+    this.instanceCounter = 0; // Initialize counter
 
     if (this.isHeadless) {
       console.log('[AudioPure] Running in headless mode - audio events will be logged only');
@@ -130,7 +132,8 @@ export class AudioSystem {
       return null;
     }
 
-    const instanceId = `${soundId}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Use counter for deterministic unique IDs in test environments
+    const instanceId = `${soundId}_${Date.now()}_${this.instanceCounter++}`;
     
     const instance = {
       id: instanceId,
