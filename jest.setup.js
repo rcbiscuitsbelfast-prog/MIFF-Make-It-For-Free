@@ -3,19 +3,47 @@ const { execFileSync } = require('child_process');
 
 // Setup canvas for jsdom tests
 if (typeof window !== 'undefined') {
-  // This will run in jsdom environment
-  const { createCanvas } = require('canvas');
-  
-  // Mock HTMLCanvasElement.prototype.getContext
+  // Provide a minimal 2D/WebGL context stub for jsdom
+  const twoDContext = {
+    clearRect: () => {},
+    fillRect: () => {},
+    strokeRect: () => {},
+    beginPath: () => {},
+    moveTo: () => {},
+    lineTo: () => {},
+    arc: () => {},
+    closePath: () => {},
+    stroke: () => {},
+    fill: () => {},
+    save: () => {},
+    restore: () => {},
+    translate: () => {},
+    scale: () => {},
+    rotate: () => {},
+    drawImage: () => {},
+    getImageData: () => ({ data: new Uint8ClampedArray(4) }),
+    putImageData: () => {},
+    createImageData: () => new Uint8ClampedArray(4),
+    measureText: () => ({ width: 0 }),
+    fillStyle: '#000',
+    strokeStyle: '#000',
+    font: ''
+  };
+
+  const webglContext = {};
+
   const originalGetContext = HTMLCanvasElement.prototype.getContext;
   HTMLCanvasElement.prototype.getContext = function(type, attributes) {
-    if (type === '2d') {
-      const canvas = createCanvas(this.width, this.height);
-      return canvas.getContext('2d');
-    }
-    return originalGetContext.call(this, type, attributes);
+    if (type === '2d') return twoDContext;
+    if (type === 'webgl' || type === 'webgl2') return webglContext;
+    return originalGetContext ? originalGetContext.call(this, type, attributes) : null;
   };
 }
+
+// Minimal DialogueParser stub for DialoguePure tests
+global.DialogueParser = {
+  parseCELScript: () => ({ type: 'condition' })
+};
 
 function runCLI(cliPath, args = []) {
 	const absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
