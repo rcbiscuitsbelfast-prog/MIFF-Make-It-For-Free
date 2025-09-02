@@ -577,7 +577,8 @@ describe('EventBusPure', () => {
       expect(eventId).toBeDefined();
       expect(sourceHandler).toHaveBeenCalled();
       
-      // Verify routing worked
+      // Verify routing worked (flush microtasks)
+      await Promise.resolve();
       expect(target1Handler).toHaveBeenCalled();
       expect(target2Handler).toHaveBeenCalled();
       
@@ -658,7 +659,7 @@ describe('EventBusPure', () => {
       
       // Should not throw error
       await eventBus.publish('test-event', { data: 'test' }, { replicate: true });
-      
+      await Promise.resolve();
       expect(errorCallback).toHaveBeenCalled();
     });
 
