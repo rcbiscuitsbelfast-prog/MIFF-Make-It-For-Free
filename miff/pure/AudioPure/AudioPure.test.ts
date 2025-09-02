@@ -9,8 +9,12 @@ import { AudioSystem, AudioConfig, SoundDefinition, SpatialAudioConfig, AudioEve
 describe('AudioPure', () => {
   let config: AudioConfig;
   let audioSystem: AudioSystem;
+  let origError: any;
+  let origWarn: any;
 
   beforeEach(() => {
+    origError = console.error;
+    origWarn = console.warn;
     config = {
       sampleRate: 44100,
       channels: 2,
@@ -19,6 +23,11 @@ describe('AudioPure', () => {
       maxSimultaneousSounds: 8
     };
     audioSystem = new AudioSystem(config, true); // Headless mode for testing
+  });
+
+  afterEach(() => {
+    console.error = origError;
+    console.warn = origWarn;
   });
 
   describe('AudioSystem', () => {
@@ -83,14 +92,19 @@ describe('AudioPure', () => {
         spatial: false
       };
 
+      // Make overflow deterministic for this test
+      (audioSystem as any).config.maxSimultaneousSounds = 2;
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
       audioSystem.registerSound(soundDef);
 
       // Try to play more sounds than the limit
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 4; i++) {
         audioSystem.playSound('test-sound');
       }
 
-      expect(audioSystem.getActiveSounds()).toHaveLength(8); // Max limit
+      expect(audioSystem.getActiveSounds()).toHaveLength(2); // Max limit
+      expect(warnSpy).toHaveBeenCalled();
     });
 
     it('should stop sounds correctly', () => {
@@ -347,10 +361,12 @@ describe('AudioPure', () => {
       };
 
       // Should not throw, should log error instead
+      const errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       expect(() => {
         audioSystem.registerSound(soundDef);
         audioSystem.playSound('test-sound');
       }).not.toThrow();
+      expect(errSpy).toHaveBeenCalled();
     });
   });
 
