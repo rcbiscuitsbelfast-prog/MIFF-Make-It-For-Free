@@ -1,0 +1,75 @@
+name: CI Guard
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate workflow syntax
+        run: |
+          echo "🔍 Validating workflow files..."
+          for workflow in .github/workflows/*.yml; do
+            echo "Checking $workflow..."
+            if ! yamllint "$workflow"; then
+              echo "❌ YAML syntax error in $workflow"
+              exit 1
+            fi
+            echo "✅ $workflow syntax OK"
+          done
+      
+      - name: Check required workflows
+        run: |
+          echo "🔍 Checking required CI workflows..."
+          required_workflows=("miff-ci.yml" "pages.yml")
+          for workflow in "${required_workflows[@]}"; do
+            if [ ! -f ".github/workflows/$workflow" ]; then
+              echo "❌ Missing required workflow: $workflow"
+              exit 1
+            fi
+            echo "✅ Found $workflow"
+          done
+      
+      - name: Validate Jest config
+        run: |
+          echo "🔍 Validating Jest configuration..."
+          if [ ! -f "jest.config.js" ]; then
+            echo "❌ Missing jest.config.js"
+            exit 1
+          fi
+          node -e "
+            try {
+              require('./jest.config.js');
+              console.log('✅ Jest config syntax OK');
+            } catch (e) {
+              console.error('❌ Jest config error:', e.message);
+              process.exit(1);
+            }
+          "
+      
+      - name: Validate TypeScript config
+        run: |
+          echo "🔍 Validating TypeScript configuration..."
+          if [ ! -f "tsconfig.json" ]; then
+            echo "❌ Missing tsconfig.json"
+            exit 1
+          fi
+          npx tsc --noEmit --showConfig > /dev/null
+          echo "✅ TypeScript config OK"
+      
+      - name: Check test coverage
+        run: |
+          echo "🔍 Checking test coverage..."
+          test_dirs=("src" "miff" "games")
+          for dir in "${test_dirs[@]}"; do
+            if [ -d "$dir" ]; then
+              test_count=$(find "$dir" -name "*.test.ts" -o -name "*.spec.ts" | wc -l)
+              echo "📊 $dir: $test_count test files"
+            fi
+          done

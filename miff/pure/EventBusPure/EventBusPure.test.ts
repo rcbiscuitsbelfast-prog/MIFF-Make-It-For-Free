@@ -385,11 +385,13 @@ describe('EventBusPure', () => {
     let scheduler: any;
 
     beforeEach(() => {
+      jest.useFakeTimers({ now: 0 });
       scheduler = createEventScheduler(eventBus);
     });
 
     afterEach(() => {
       scheduler.stopScheduler();
+      jest.useRealTimers();
     });
 
     it('should create event scheduler', () => {
@@ -403,8 +405,8 @@ describe('EventBusPure', () => {
       const eventId = scheduler.scheduleDelayed('delayed-event', { message: 'delayed' }, 50);
       expect(eventId).toBeDefined();
       
-      // Wait for event to be scheduled
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Advance time to trigger delayed event
+      jest.advanceTimersByTime(150);
       
       expect(handler).toHaveBeenCalledWith(expect.objectContaining({
         type: 'delayed-event',
@@ -421,8 +423,10 @@ describe('EventBusPure', () => {
       });
       expect(eventId).toBeDefined();
       
-      // Wait for multiple executions
-      await new Promise(resolve => setTimeout(resolve, 200));
+      // Advance enough time for 3 executions 
+      // Scheduler checks every 100ms, events at 50ms intervals
+      // Need multiple scheduler cycles: 100ms, 200ms, 300ms
+      jest.advanceTimersByTime(350);
       
       expect(handler).toHaveBeenCalledTimes(3);
     });
@@ -436,8 +440,8 @@ describe('EventBusPure', () => {
       const result = scheduler.cancelScheduled(eventId);
       expect(result).toBe(true);
       
-      // Wait to ensure event doesn't fire
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Advance past when event would have fired
+      jest.advanceTimersByTime(150);
       
       expect(handler).not.toHaveBeenCalled();
     });
@@ -668,8 +672,8 @@ describe('EventBusPure', () => {
       const scheduler = createEventScheduler(eventBus);
       scheduler.scheduleDelayed('error-event', { data: 'test' }, 50);
       
-      // Wait for event to be scheduled
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Advance past scheduled time
+      jest.advanceTimersByTime(100);
       
       // Should not throw error
       expect(errorHandler).toHaveBeenCalled();

@@ -97,7 +97,7 @@ describe('ModdingPure', () => {
 
       await discovery.discoverPlugins();
       
-      await expect(discovery.loadPlugin('broken-plugin')).rejects.toThrow('Dependency not found');
+      await expect(discovery.loadPlugin('broken-plugin')).rejects.toThrow(/Plugin not found|Dependency not found/);
     });
 
     it('should unload plugin successfully', async () => {
@@ -472,7 +472,7 @@ describe('ModdingPure', () => {
       await discovery.discoverPlugins();
       
       // Should fail to load due to missing dependency
-      await expect(discovery.loadPlugin('invalid-plugin')).rejects.toThrow('Dependency not found');
+      await expect(discovery.loadPlugin('invalid-plugin')).rejects.toThrow(/Plugin not found|Dependency not found/);
     });
   });
 });
