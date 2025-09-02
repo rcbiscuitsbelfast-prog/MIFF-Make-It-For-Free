@@ -182,7 +182,16 @@ describe('DialoguePure', () => {
         value: 'Traveler'
       };
 
-      const result = DialogueParser.parseCondition(condition);
+      // Create a context with the variable
+      const context = {
+        variables: new Map([['player_name', 'Traveler']]),
+        flags: new Set(),
+        inventory: new Set(),
+        quests: new Map(),
+        history: []
+      };
+
+      const result = DialogueParser.parseCondition(condition, context);
       expect(result).toBe(true);
     });
 
@@ -193,7 +202,16 @@ describe('DialoguePure', () => {
         target: 'quests_available'
       };
 
-      const result = DialogueParser.parseCondition(condition);
+      // Create a context with the flag
+      const context = {
+        variables: new Map(),
+        flags: new Set(['quests_available']),
+        inventory: new Set(),
+        quests: new Map(),
+        history: []
+      };
+
+      const result = DialogueParser.parseCondition(condition, context);
       expect(result).toBe(true);
     });
   });

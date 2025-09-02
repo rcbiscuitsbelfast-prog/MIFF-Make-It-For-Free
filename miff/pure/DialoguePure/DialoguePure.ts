@@ -102,7 +102,7 @@ export class DialogueParser {
     return result;
   }
 
-  static parseCondition(condition: DialogueCondition): boolean {
+  static parseCondition(condition: DialogueCondition, context?: DialogueContext): boolean {
     if (condition.script) {
       const parsed = this.parseCELScript(condition.script);
       // Simplified evaluation - in full implementation would use proper CEL interpreter
@@ -112,33 +112,43 @@ export class DialogueParser {
     // Basic condition evaluation
     switch (condition.type) {
       case 'variable':
-        return this.evaluateVariableCondition(condition);
+        return this.evaluateVariableCondition(condition, context);
       case 'flag':
-        return this.evaluateFlagCondition(condition);
+        return this.evaluateFlagCondition(condition, context);
       case 'inventory':
-        return this.evaluateInventoryCondition(condition);
+        return this.evaluateInventoryCondition(condition, context);
       case 'quest':
-        return this.evaluateQuestCondition(condition);
+        return this.evaluateQuestCondition(condition, context);
       default:
         return false;
     }
   }
 
-  private static evaluateVariableCondition(condition: DialogueCondition): boolean {
+  private static evaluateVariableCondition(condition: DialogueCondition, context?: DialogueContext): boolean {
     // This would be evaluated against the current context
     // For now, return a simple boolean based on the condition
+    if (context && condition.operator === 'equals' && condition.value) {
+      const variableValue = context.variables.get(condition.target);
+      return variableValue === condition.value;
+    }
     return condition.operator === 'exists' || condition.operator === 'equals';
   }
 
-  private static evaluateFlagCondition(condition: DialogueCondition): boolean {
+  private static evaluateFlagCondition(condition: DialogueCondition, context?: DialogueContext): boolean {
+    if (context && condition.operator === 'exists') {
+      return context.flags.has(condition.target);
+    }
     return condition.operator === 'exists';
   }
 
-  private static evaluateInventoryCondition(condition: DialogueCondition): boolean {
+  private static evaluateInventoryCondition(condition: DialogueCondition, context?: DialogueContext): boolean {
+    if (context && condition.operator === 'contains') {
+      return context.inventory.has(condition.target);
+    }
     return condition.operator === 'contains';
   }
 
-  private static evaluateQuestCondition(condition: DialogueCondition): boolean {
+  private static evaluateQuestCondition(condition: DialogueCondition, context?: DialogueContext): boolean {
     return condition.operator === 'equals';
   }
 
@@ -235,17 +245,27 @@ export class DialogueEngine {
       return null;
     }
 
-    return this.processNode(currentNode);
+    const result = this.processNode(currentNode);
+    
+    // Update currentNode to the next node if there is one
+    if (result && currentNode.next) {
+      this.context.currentNode = Array.isArray(currentNode.next) ? currentNode.next[0] : currentNode.next;
+    }
+    
+    return result;
   }
 
   selectChoice(choiceId: string): DialogueResult | null {
     const currentNode = this.tree.nodes.get(this.context.currentNode!);
     if (!currentNode) {
+      console.error(`[DialoguePure] Current node not found: ${this.context.currentNode}`);
       return null;
     }
 
     const choice = currentNode.choices?.find(c => c.id === choiceId);
     if (!choice) {
+      console.error(`[DialoguePure] Choice not found: ${choiceId} in node ${currentNode.id}`);
+      console.error(`[DialoguePure] Available choices:`, currentNode.choices?.map(c => c.id));
       return null;
     }
 
@@ -277,7 +297,7 @@ export class DialogueEngine {
     // Check conditions
     if (node.conditions) {
       const allConditionsMet = node.conditions.every(condition => 
-        DialogueParser.parseCondition(condition)
+        DialogueParser.parseCondition(condition, this.context)
       );
 
       if (!allConditionsMet) {
@@ -315,7 +335,7 @@ export class DialogueEngine {
       // Filter choices based on conditions
       result.choices = node.choices.filter(choice => {
         if (!choice.condition) return true;
-        return DialogueParser.parseCondition(choice.condition);
+        return DialogueParser.parseCondition(choice.condition, this.context);
       });
     }
 

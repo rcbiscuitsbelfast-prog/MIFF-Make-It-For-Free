@@ -9,6 +9,9 @@
  * @license MIT
  */
 
+const { execFileSync } = require('child_process');
+const path = require('path');
+
 // Setup canvas for jsdom tests
 if (typeof window !== 'undefined') {
   // Provide a minimal 2D/WebGL context stub for jsdom
@@ -547,7 +550,6 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
 jest.spyOn(fs, 'existsSync').mockReturnValue(true);
 
 // Mock path operations
-const path = require('path');
 jest.spyOn(path, 'resolve').mockImplementation((...args) => {
   return args.join('/');
 });
@@ -865,6 +867,11 @@ global.stubbedCLIOutput = {
   flags: new Set(['friendly_reputation']),
   parsed: { type: 'condition' },
   result: { npcId: 'spiritTamer', name: 'Tamer of Spirits' }
+};
+
+// Export test utilities to global scope
+global.testUtils = {
+  runCLI: runCLI
 };
 
 console.log('🧪 Jest setup complete - Global mocks configured');

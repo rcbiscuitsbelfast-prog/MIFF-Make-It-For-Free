@@ -119,6 +119,7 @@ describe('AudioPure', () => {
       expect(results[3]).toBeNull();
       
       expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
+      // Check that warnings were called for the failed attempts (2nd and 3rd calls that failed)
       expect(warnSpy).toHaveBeenCalledTimes(2); // Warning for the 2 failed attempts
     });
 
