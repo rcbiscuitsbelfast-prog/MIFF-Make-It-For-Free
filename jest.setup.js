@@ -45,7 +45,16 @@ if (typeof window !== 'undefined') {
 // Minimal DialogueParser stub for DialoguePure tests
 global.DialogueParser = {
   parse: () => ({
-    nodes: [{ id: 'root', content: 'Hello', choices: [] }],
+    nodes: [
+      { id: 'root', content: 'Hello, traveler! Welcome to our village.', choices: [
+        { id: 'friendly', text: 'Be friendly', next: 'friendly_response' },
+        { id: 'rude', text: 'Be rude', next: 'rude_response' },
+        { id: 'quest', text: 'Ask about quests', next: 'quest_offer', condition: 'quests_available' }
+      ]},
+      { id: 'friendly_response', content: 'You seem like a nice person.' },
+      { id: 'rude_response', content: 'That was uncalled for.' },
+      { id: 'quest_offer', content: 'There is a wolf causing trouble.' }
+    ],
     start: 'root'
   }),
   parseCELScript: () => ({ type: 'condition' }),

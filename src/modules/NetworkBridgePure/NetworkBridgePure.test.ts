@@ -165,19 +165,21 @@ describe('NetworkBridgePure', () => {
       expect(peers[0].isHost).toBe(false);
     });
 
-    it('should submit local input and broadcast to peers', () => {
+    it('should submit local input and broadcast to peers', async () => {
       // Start hosting first
-      bridge.startHosting();
+      await bridge.startHosting();
       
       const input = { move: 'left' };
-      bridge.submitLocalInput(input);
+      await bridge.submitLocalInput(input);
+      await Promise.resolve();
       
       // Should have called send for each connected peer (except self)
       expect(mockTransport.send).toHaveBeenCalled();
     });
 
-    it('should disconnect all peers', () => {
-      bridge.disconnect();
+    it('should disconnect all peers', async () => {
+      await bridge.disconnect();
+      await Promise.resolve();
       
       expect(mockTransport.disconnect).toHaveBeenCalled();
       const peers = bridge.getConnectedPeers();
