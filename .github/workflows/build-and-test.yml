@@ -24,12 +24,8 @@ jobs:
         run: |
           npm ci || npm install
 
-      - name: Ensure ts-node and typescript are available
-        run: npm install --save-dev ts-node typescript
-
-      - name: Generate Toppler HTML (ts-node with fallback)
-        run: |
-          npx ts-node miff/scripts/gen-html.ts || node miff/scripts/gen-html-wrapper.js
+      - name: Generate Toppler HTML
+        run: node miff/scripts/gen-html-wrapper.js
 
       - name: Type check (CI config)
         run: npm run typecheck

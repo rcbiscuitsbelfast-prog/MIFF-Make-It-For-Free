@@ -1,5 +1,5 @@
 {
-	"extends": "../tsconfig.json",
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"noEmit": false,
 		"outDir": "../dist-scripts",
@@ -14,7 +14,7 @@
 		"./**/*.ts"
 	],
 	"exclude": [
-		"../node_modules",
+		"../../node_modules",
 		"../dist",
 		"../coverage"
 	]

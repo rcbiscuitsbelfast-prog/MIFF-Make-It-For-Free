@@ -867,16 +867,4 @@ global.stubbedCLIOutput = {
   result: { npcId: 'spiritTamer', name: 'Tamer of Spirits' }
 };
 
-// Setup testUtils for CLI testing with enhanced functionality
-// Use enhanced runCLI for better scenario orchestration
-const { runCLI: enhancedRunCLI, registerReplayHooks, loadFixtureForScenario, validationChecklist } = require('./miff/pure/shared/enhancedCliHarnessUtils');
-
-// Override the global runCLI with the enhanced version
-global.testUtils = {
-  runCLI: enhancedRunCLI,
-  registerReplayHooks,
-  loadFixture: loadFixtureForScenario,
-  validationChecklist
-};
-
 console.log('🧪 Jest setup complete - Global mocks configured');
