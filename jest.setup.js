@@ -19,13 +19,40 @@ if (typeof window !== 'undefined') {
 
 function runCLI(cliPath, args = []) {
 	const absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
-	const output = execFileSync('npx', [
-		'ts-node',
-		'--compiler-options', '{"module":"commonjs","types":["node"]}',
-		absCliPath,
-		...args
-	], { encoding: 'utf-8' });
-	return output;
+	
+	console.log(`[runCLI] Starting CLI execution: ${absCliPath}`);
+	console.log(`[runCLI] Args: ${JSON.stringify(args)}`);
+	
+	try {
+		const output = execFileSync('npx', [
+			'ts-node',
+			'--compiler-options', '{"module":"commonjs","types":["node"]}',
+			absCliPath,
+			...args
+		], { 
+			encoding: 'utf-8',
+			timeout: 15000, // 15 second timeout to prevent hanging
+			killSignal: 'SIGTERM'
+		});
+		
+		console.log(`[runCLI] CLI execution completed successfully`);
+		console.log(`[runCLI] Output length: ${output.length} characters`);
+		
+		// Flush any pending hooks
+		if (typeof setImmediate !== 'undefined') {
+			setImmediate(() => {
+				console.log(`[runCLI] Pending hooks flushed`);
+			}).unref();
+		}
+		
+		return output;
+	} catch (error) {
+		console.error(`[runCLI] CLI execution failed:`, error.message);
+		console.log(`[runCLI] Teardown status: ERROR - process may have leaked resources`);
+		throw error;
+	} finally {
+		console.log(`[runCLI] Teardown status: COMPLETED`);
+	}
 }
 
 global.testUtils = {

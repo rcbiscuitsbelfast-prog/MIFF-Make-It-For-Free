@@ -651,6 +651,11 @@ export class EventScheduler {
     this.interval = setInterval(() => {
       this.processScheduledEvents();
     }, 100); // Check every 100ms
+    
+    // Unref the interval to prevent hanging in tests
+    if (this.interval && typeof this.interval.unref === 'function') {
+      this.interval.unref();
+    }
   }
 
   /**

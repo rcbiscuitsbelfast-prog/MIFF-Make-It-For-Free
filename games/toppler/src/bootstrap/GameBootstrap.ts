@@ -106,12 +106,33 @@ export function createGameLauncher(options: GameLauncherOptions) {
 	}
 
 	function stop(): void {
-		if (rafId !== null) cancelAnimationFrame(rafId);
-		rafId = null;
+		console.log('[GameBootstrap] Stopping game and cleaning up resources...');
+		
+		// Cancel animation frame to prevent leaks
+		if (rafId !== null) {
+			cancelAnimationFrame(rafId);
+			rafId = null;
+		}
+		
+		// Call stop callback
 		onStop?.();
-		if (scene.destroy) scene.destroy();
-		if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+		
+		// Destroy scene and clean up
+		if (scene.destroy) {
+			console.log('[GameBootstrap] Calling scene.destroy()');
+			scene.destroy();
+		}
+		
+		// Remove canvas from DOM
+		if (canvas && canvas.parentNode) {
+			canvas.parentNode.removeChild(canvas);
+		}
 		canvas = null;
+		
+		// Reset timestamp
+		lastTs = 0;
+		
+		console.log('[GameBootstrap] Cleanup completed - all resources released');
 	}
 
 	return { start, stop };

@@ -382,16 +382,13 @@ export class TopplerScene {
     }
 
     private setupEventListeners(): void {
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-        });
+        // Handle window resize with bound method for proper cleanup
+        window.addEventListener('resize', this.handleResize);
 
-        // Handle input (will be connected to PlayerController)
-        this.canvas.addEventListener('click', () => this.handleInput());
-        this.canvas.addEventListener('touchstart', () => this.handleInput());
-        this.canvas.addEventListener('keydown', () => this.handleInput());
+        // Handle input with bound method for proper cleanup
+        this.canvas.addEventListener('click', this.handleInputBound);
+        this.canvas.addEventListener('touchstart', this.handleInputBound);
+        this.canvas.addEventListener('keydown', this.handleInputBound);
     }
 
     private handleInput(): void {
@@ -471,11 +468,40 @@ export class TopplerScene {
     }
 
     public destroy(): void {
+        // Cancel animation frame to prevent leaks
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
+            this.animationId = null;
         }
-        if (this.canvas.parentNode) {
-            this.canvas.parentNode.removeChild(this.canvas);
+        
+        // Remove event listeners to prevent memory leaks
+        if (this.canvas) {
+            this.canvas.removeEventListener('click', this.handleInputBound);
+            this.canvas.removeEventListener('touchstart', this.handleInputBound);
+            this.canvas.removeEventListener('keydown', this.handleInputBound);
+            
+            // Remove canvas from DOM
+            if (this.canvas.parentNode) {
+                this.canvas.parentNode.removeChild(this.canvas);
+            }
         }
+        
+        // Clear resize listener
+        window.removeEventListener('resize', this.handleResize);
+        
+        // Clear components
+        this.components.clear();
+        
+        console.log('[TopplerScene] Cleanup completed - all resources released');
     }
+    
+    // Add bound methods for proper event listener cleanup
+    private handleResize = () => {
+        if (this.canvas) {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
+    };
+    
+    private handleInputBound = () => this.handleInput();
 }
