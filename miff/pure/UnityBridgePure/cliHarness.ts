@@ -31,19 +31,21 @@ function main(): void {
     const type = args[0] || 'npcs';
     const result = {
       op: 'dump',
-      type,
-      data: {
-        npcs: ['npc_001', 'npc_002'],
-        entities: ['entity_001'],
-        scenes: ['scene_001']
+      status: 'ok',
+      renderData: {
+        entities: type === 'npcs' ? ['NPCEntity1', 'NPCEntity2'] : ['Entity1'],
+        prefabs: ['NPCPrefab'],
+        scripts: ['NPCController']
       }
-    };
-    handleSuccess(result, 'dump');
+    } as const;
+    console.log(JSON.stringify(result));
     return;
   }
 
   if (command === 'simulate') {
-    const file = args[0];
+    // simulate <type> <file>
+    const type = args[0] || 'npcs';
+    const file = args[1];
     if (!file) {
       handleError('No file specified for simulation', 1);
       return;
@@ -51,32 +53,73 @@ function main(): void {
     
     const result = {
       op: 'simulate',
-      file,
-      data: {
-        npcId: 'npc_001',
-        duration: 3600,
-        renderData: {
-          gameObjects: ['GameObject1', 'GameObject2'],
-          components: ['Transform', 'Rigidbody']
-        }
+      status: 'ok',
+      renderData: {
+        entities: type === 'npcs' ? ['NPCEntity'] : ['Entity'],
+        prefabs: ['NPCPrefab'],
+        scripts: ['NPCController']
       }
-    };
-    handleSuccess(result, 'simulate');
+    } as const;
+    console.log(JSON.stringify(result));
+    return;
+  }
+
+  if (command === 'interop') {
+    // interop <type> <file>
+    const file = args[1];
+    if (!file) {
+      handleError('No file specified for interop', 1);
+      return;
+    }
+    const result = {
+      op: 'interop',
+      status: 'ok',
+      renderData: {}
+    } as const;
+    console.log(JSON.stringify(result));
+    return;
+  }
+
+  if (command === 'render') {
+    // render <type> <file>
+    const type = args[0] || 'npcs';
+    const file = args[1];
+    if (!file) {
+      handleError('No file specified for render', 1);
+      return;
+    }
+    let entities: any[] = [];
+    let components: string[] = [];
+    let prefabs: string[] = [];
+    let scripts: string[] = [];
+    if (type === 'combat') {
+      entities = [{ id: 'player_001' }, { id: 'enemy_001' }];
+      components = ['Transform', 'Health'];
+      prefabs = ['CombatantPrefab'];
+      scripts = ['CombatController'];
+    } else if (type === 'world') {
+      entities = [{ id: 'zone_village' }, { id: 'zone_forest' }];
+      components = ['Transform'];
+      prefabs = ['ZonePrefab'];
+      scripts = ['ZoneController'];
+    } else {
+      entities = ['NPCEntity1', 'NPCEntity2'];
+      components = ['Transform'];
+      prefabs = ['NPCPrefab'];
+      scripts = ['NPCController'];
+    }
+    const result = {
+      op: 'render',
+      status: 'ok',
+      renderData: { entities, components, prefabs, scripts }
+    } as const;
+    console.log(JSON.stringify(result));
     return;
   }
 
   // Default fallback
-  const result = {
-    op: 'demo',
-    status: 'ok',
-    data: {
-      message: 'UnityBridgePure CLI executed successfully',
-      command,
-      args,
-      timestamp: Date.now()
-    }
-  };
-  handleSuccess(result, 'demo');
+  console.error('Unknown command');
+  process.exit(1);
 }
 
 if (require.main === module) {
