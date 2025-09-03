@@ -22,7 +22,7 @@ jobs:
         id: gen_ts
         continue-on-error: true
         run: npx ts-node miff/scripts/gen-toppler-html.ts
-      - name: Fallback: Generate Toppler HTML via wrapper
+      - name: Fallback Generate Toppler HTML via wrapper
         if: steps.gen_ts.outcome == 'failure'
         run: node miff/scripts/gen-toppler-wrapper.js
       - name: Type check Toppler standalone

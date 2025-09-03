@@ -38,7 +38,7 @@ jobs:
         run: npx tsc --noEmit -p tsconfig.test.json
 
       - name: 🟢 Run Jest tests
-        run: npm test
+        run: npm test -- --runInBand
 
       - name: 🧱 Build scripts (fallback)
         run: |

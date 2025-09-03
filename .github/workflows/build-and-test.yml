@@ -31,5 +31,5 @@ jobs:
         run: npm run typecheck
 
       - name: Run tests (root jest)
-        run: npm test
+        run: npm test -- --runInBand
 

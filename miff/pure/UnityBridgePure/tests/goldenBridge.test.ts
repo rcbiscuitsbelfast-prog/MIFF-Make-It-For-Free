@@ -3,8 +3,8 @@ import path from 'path';
 import fs from 'fs';
 
 describe('UnityBridgePure Golden Tests', () => {
-  const cliPath = path.resolve('UnityBridgePure/cliHarness.ts');
-  const samplePath = path.resolve('UnityBridgePure/sample_bridge.json');
+  const cliPath = path.resolve(__dirname, '../cliHarness.ts');
+  const samplePath = path.resolve(__dirname, '../sample_bridge.json');
 
   beforeAll(() => {
     // Ensure test files exist
@@ -18,7 +18,7 @@ describe('UnityBridgePure Golden Tests', () => {
       npcId: 'npc_001',
       duration: 3600
     };
-    const testFile = path.resolve('UnityBridgePure/test_npc_sim.json');
+    const testFile = path.resolve(__dirname, '../test_npc_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -51,7 +51,7 @@ describe('UnityBridgePure Golden Tests', () => {
       zoneId: 'zone_village',
       includeQuests: true
     };
-    const testFile = path.resolve('UnityBridgePure/test_npc_render.json');
+    const testFile = path.resolve(__dirname, '../test_npc_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -89,7 +89,7 @@ describe('UnityBridgePure Golden Tests', () => {
         questIds: ['quest_tutorial', 'quest_side_quest']
       }
     };
-    const testFile = path.resolve('UnityBridgePure/test_unity_npc.json');
+    const testFile = path.resolve(__dirname, '../test_unity_npc.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -140,7 +140,7 @@ describe('UnityBridgePure Golden Tests', () => {
         stats: [{ key: 'health', base: 100 }]
       }
     };
-    const testFile = path.resolve('UnityBridgePure/test_combat_sim.json');
+    const testFile = path.resolve(__dirname, '../test_combat_sim.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
@@ -175,7 +175,7 @@ describe('UnityBridgePure Golden Tests', () => {
         { id: 'zone_forest', x: 100, y: 100, type: 'forest' }
       ]
     };
-    const testFile = path.resolve('UnityBridgePure/test_world_render.json');
+    const testFile = path.resolve(__dirname, '../test_world_render.json');
     fs.writeFileSync(testFile, JSON.stringify(testData, null, 2));
 
     try {
