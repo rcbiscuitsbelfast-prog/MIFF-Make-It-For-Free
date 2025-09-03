@@ -6,6 +6,8 @@ export type IGameScene = {
 	update: (delta: number) => void;
 	render: () => void;
 	getSize?: () => { width: number; height: number };
+	// Optional input handler for CLI or DOM adapters
+	handleInput?: (evt: { type: string; payload?: any }) => void;
 	destroy?: () => void;
 };
 
