@@ -9,6 +9,9 @@
  * @license MIT
  */
 
+const { execFileSync } = require('child_process');
+const path = require('path');
+
 // Setup canvas for jsdom tests
 if (typeof window !== 'undefined') {
   // Provide a minimal 2D/WebGL context stub for jsdom
@@ -193,7 +196,8 @@ function runCLI(cliPath, args = []) {
 		], { 
 			encoding: 'utf-8',
 			timeout: 15000, // 15 second timeout to prevent hanging
-			killSignal: 'SIGTERM'
+			killSignal: 'SIGTERM',
+			env: { ...process.env, TEST_CLI: '1' }
 		});
 		
 		console.log(`[runCLI] CLI execution completed successfully`);
@@ -214,6 +218,12 @@ function runCLI(cliPath, args = []) {
 	} finally {
 		console.log(`[runCLI] Teardown status: COMPLETED`);
 	}
+}
+
+// Expose testUtils on global namespace for golden tests
+if (typeof global !== 'undefined') {
+	(global).testUtils = (global).testUtils || {};
+	(global).testUtils.runCLI = runCLI;
 }
 
 // Mock browser APIs
@@ -547,7 +557,6 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
 jest.spyOn(fs, 'existsSync').mockReturnValue(true);
 
 // Mock path operations
-const path = require('path');
 jest.spyOn(path, 'resolve').mockImplementation((...args) => {
   return args.join('/');
 });

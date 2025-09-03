@@ -42,17 +42,17 @@ export class Peer {
     this.isHost = isHost;
     this.isConnected = false;
     this.latency = 0;
-    this.lastSeen = Date.now();
+    this.lastSeen = (global as any).__NET_NOW__ ? (global as any).__NET_NOW__() : Date.now();
   }
 
   updateLatency(latency: number): void {
     this.latency = latency;
-    this.lastSeen = Date.now();
+    this.lastSeen = (global as any).__NET_NOW__ ? (global as any).__NET_NOW__() : Date.now();
   }
 
   markConnected(): void {
     this.isConnected = true;
-    this.lastSeen = Date.now();
+    this.lastSeen = (global as any).__NET_NOW__ ? (global as any).__NET_NOW__() : Date.now();
   }
 
   markDisconnected(): void {
@@ -169,7 +169,8 @@ export class NetworkBridge {
   }
 
   private generatePeerId(): string {
-    return Math.random().toString(36).substring(2, 15);
+    const rand = (global as any).__NET_RAND__ ? (global as any).__NET_RAND__() : Math.random();
+    return rand.toString(36).substring(2, 15);
   }
 
   async startHosting(): Promise<string> {

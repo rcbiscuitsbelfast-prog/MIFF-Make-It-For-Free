@@ -336,7 +336,8 @@ export class DialogueEngine {
 
   private selectNextBranch(branches: string[]): string {
     // Simple random selection - could be enhanced with weighted selection
-    return branches[Math.floor(Math.random() * branches.length)];
+    const rand = (global as any).__DP_RAND__ ? (global as any).__DP_RAND__() : Math.random();
+    return branches[Math.floor(rand * branches.length)];
   }
 
   getContext(): DialogueContext {

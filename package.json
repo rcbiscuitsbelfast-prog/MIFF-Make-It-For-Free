@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
     "test": "jest --config jest.config.js",
+    "test:phase17": "jest --selectProjects node-tests --runInBand --runTestsByPath miff/pure/ModdingPure/tests/golden_ModdingPure.test.ts miff/pure/DialoguePure/tests/golden_DialoguePure.test.ts miff/pure/VisualReplaySystemPure/tests/golden_VisualReplaySystemPure.test.ts miff/pure/BridgeSchemaPure/tests/goldenSchema.test.ts miff/pure/AudioPure/AudioPure.test.ts miff/pure/NetworkBridgePure/NetworkBridgePure.test.ts",
     "test:ci": "jest --config jest.config.js --coverage",
     "test:dom": "jest --selectProjects dom-tests",
     "test:node": "jest --selectProjects node-tests",

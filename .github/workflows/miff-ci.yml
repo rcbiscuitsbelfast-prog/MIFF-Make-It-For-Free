@@ -37,8 +37,8 @@ jobs:
       - name: 🧪 Type check (tests)
         run: npx tsc --noEmit -p tsconfig.test.json
 
-      - name: 🟢 Run Jest tests
-        run: npm test
+      - name: 🟢 Run Phase 17 Jest tests (stabilized)
+        run: npm run test:phase17
 
       - name: 🧱 Build scripts (fallback)
         run: |

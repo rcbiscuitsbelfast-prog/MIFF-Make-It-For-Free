@@ -1,0 +1,23 @@
+{
+  "tree": {
+    "id": "village_greeting",
+    "name": "Village Greeting",
+    "version": "1.0.0",
+    "nodes": {
+      "start": { "id": "start", "type": "text", "content": "Hello!", "next": "choice" },
+      "choice": {
+        "id": "choice",
+        "type": "choice",
+        "content": "Pick",
+        "choices": [
+          { "id": "friendly", "text": "Hi", "next": "end" }
+        ]
+      },
+      "end": { "id": "end", "type": "end", "content": "Bye" }
+    },
+    "variables": {},
+    "flags": []
+  },
+  "path": ["friendly"]
+}
+
