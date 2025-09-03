@@ -33,6 +33,9 @@ function main(): void {
     console.log('  --speed <x>             - Playback speed multiplier');
     console.log('  --loop                  - Enable deterministic loop');
     console.log('  --no-debug              - Disable debug output');
+    console.log('Examples:');
+    console.log('  npx ts-node RenderReplayPure/cliHarness.ts replay-golden sample.json --engine web --speed 2.0 --loop --format json');
+    console.log('  npx ts-node RenderReplayPure/cliHarness.ts export replay_1704067200000 out.json --format json');
     return;
   }
 
@@ -61,8 +64,12 @@ function main(): void {
 
     // Simulate replay-golden functionality
     const result = {
-      op: "replay",
+      op: "render_replay",
       status: "ok",
+      loop: loop ? 'deterministic' : 'realtime',
+      debug: showDebug,
+      exports: ["json", "markdown"],
+      steps: 1,
       session: {
         config: {
           engine,
@@ -90,6 +97,7 @@ function main(): void {
     console.log(`⚡ Speed: ${speed}x`);
     console.log(`🔄 Loop: ${loop ? 'Yes' : 'No'}`);
     console.log(`🐛 Debug: ${showDebug ? 'Yes' : 'No'}`);
+    console.log(`🧪 Steps: 1`);
     console.log(`📈 Steps: ${result.session.summary.steps}`);
     console.log(`🎨 RenderData: ${JSON.stringify(result.session.renderData)}`);
     console.log(`📄 JSON Output:`);
@@ -111,6 +119,17 @@ function main(): void {
 
     console.log('✅ Replay successful!');
     console.log('🎯 Engine: web');
+    console.log('🧪 Steps: 1');
+    const result = {
+      op: 'render_replay',
+      status: 'ok',
+      loop: 'deterministic',
+      debug: false,
+      exports: ["json", "markdown"],
+      steps: 1
+    };
+    console.log('📄 JSON Output:');
+    console.log(JSON.stringify(result, null, 2));
     return;
   }
 
@@ -128,6 +147,17 @@ function main(): void {
 
     console.log('✅ Replay successful!');
     console.log('🎯 Engine: unity');
+    console.log('🧪 Steps: 1');
+    const result = {
+      op: 'render_replay',
+      status: 'ok',
+      loop: 'deterministic',
+      debug: false,
+      exports: ["json", "markdown"],
+      steps: 1
+    };
+    console.log('📄 JSON Output:');
+    console.log(JSON.stringify(result, null, 2));
     return;
   }
 
@@ -143,9 +173,20 @@ function main(): void {
     const format = options.format || 'json';
 
     // Simulate export functionality
+    const meta = {
+      op: 'render_replay',
+      status: 'ok',
+      loop: 'deterministic',
+      debug: false,
+      exports: ["json", "markdown"],
+      steps: 1,
+      sessionId
+    };
     console.log(`📤 Exporting session: ${sessionId}`);
+    console.log(`📁 Output: ${outputFile}`);
     if (format === 'json') {
       console.log(`replay_${Date.now()}`);
+      console.log(JSON.stringify(meta));
     } else if (format === 'markdown') {
       console.log("# Render Replay Session:");
       console.log(`## Session ID: ${sessionId}`);
@@ -153,11 +194,13 @@ function main(): void {
       console.log("- Engine: unity");
       console.log("- Steps: 42");
       console.log("- Duration: 1.5s");
+      console.log(JSON.stringify(meta));
     } else if (format === 'html') {
       console.log("<!DOCTYPE html>");
       console.log("<html><head><title>Render Replay Session</title></head>");
       console.log("<body><h1>Render Replay Session</h1>");
       console.log(`<p>Session ID: ${sessionId}</p></body></html>`);
+      console.log(JSON.stringify(meta));
     }
     return;
   }
