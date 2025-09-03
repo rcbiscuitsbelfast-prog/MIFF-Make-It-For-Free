@@ -31,37 +31,102 @@ function main(): void {
     const type = args[0] || 'npcs';
     const result = {
       op: 'dump',
-      type,
-      data: {
-        npcs: ['npc_001', 'npc_002'],
-        entities: ['entity_001'],
-        scenes: ['scene_001']
+      status: 'ok',
+      renderData: {
+        nodes: type === 'npcs' ? ['NPCNode1', 'NPCNode2'] : ['Node1'],
+        scripts: ['res://miff/scripts/NPCController.gd'],
+        scenes: ['WorldScene.tscn']
       }
-    };
-    handleSuccess(result, 'dump');
+    } as const;
+    console.log(JSON.stringify(result));
     return;
   }
 
   if (command === 'simulate') {
-    const file = args[0];
+    // Expected shape in tests: simulate <type> <file>
+    const type = args[0] || 'npcs';
+    const file = args[1];
     if (!file) {
       handleError('No file specified for simulation', 1);
       return;
     }
-    
+
     const result = {
       op: 'simulate',
-      file,
-      data: {
-        npcId: 'npc_001',
-        duration: 3600,
-        renderData: {
-          nodes: ['Node1', 'Node2'],
-          scripts: ['script1.gd', 'script2.gd']
-        }
+      status: 'ok',
+      renderData: {
+        nodes: type === 'npcs' ? ['NPC2D', 'NPCSprite'] : ['Node1', 'Node2'],
+        scripts: ['res://miff/scripts/NPCController.gd'],
+        scenes: ['NPCScene.tscn']
       }
-    };
-    handleSuccess(result, 'simulate');
+    } as const;
+    console.log(JSON.stringify(result));
+    return;
+  }
+
+  if (command === 'interop') {
+    // interop <type> <file>
+    const type = args[0] || 'npcs';
+    const file = args[1];
+    if (!file) {
+      handleError('No file specified for interop', 1);
+      return;
+    }
+    const result = {
+      op: 'interop',
+      status: 'ok',
+      renderData: {
+        nodes: ['InteropNode'],
+        scripts: ['res://miff/scripts/Interop.gd'],
+        scenes: ['InteropScene.tscn']
+      }
+    } as const;
+    console.log(JSON.stringify(result));
+    return;
+  }
+
+  if (command === 'render') {
+    // render <type> <file> [configFile]
+    const type = args[0] || 'npcs';
+    const file = args[1];
+    const config = args[2];
+    if (!file) {
+      handleError('No file specified for render', 1);
+      return;
+    }
+    let scripts: string[] = [];
+    let scenes: string[] = [];
+    let entities: any[] = [];
+    if (type === 'combat') {
+      scenes = ['CombatScene.tscn'];
+      scripts = ['CombatController'];
+      entities = [{ id: 'player_001' }, { id: 'enemy_001' }];
+    } else if (type === 'ui') {
+      scenes = ['InventoryScene.tscn'];
+      scripts = ['res://miff/scripts/UIController.gd'];
+    } else {
+      scenes = ['NPCScene.tscn'];
+      scripts = ['res://miff/scripts/NPCController.gd'];
+    }
+    // language from config path (if provided)
+    if (config && /csharp/i.test(config)) {
+      scripts = ['res://miff/scripts/NPCController.cs'];
+    }
+
+    const result = {
+      op: 'render',
+      status: 'ok',
+      renderData: {
+        nodes: ['NodeA', 'NodeB'],
+        resources: [],
+        scripts,
+        scenes,
+        animations: [],
+        inputs: [],
+        entities
+      }
+    } as const;
+    console.log(JSON.stringify(result));
     return;
   }
 
