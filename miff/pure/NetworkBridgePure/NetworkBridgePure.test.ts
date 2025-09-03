@@ -8,6 +8,10 @@ import { NetworkBridge, Peer, StateSyncScheduler, NetworkConfig, GameState } fro
 
 describe('NetworkBridgePure', () => {
   let config: NetworkConfig;
+  const nowStub = () => 1700000000000;
+  let randIndex = 0;
+  const randSeq = [0.12345, 0.6789, 0.4242, 0.9999];
+  const randStub = () => randSeq[(randIndex++) % randSeq.length];
 
   beforeEach(() => {
     config = {
@@ -16,8 +20,14 @@ describe('NetworkBridgePure', () => {
       rollbackFrames: 7,
       inputDelay: 2
     };
+    (global as any).__NET_NOW__ = nowStub;
+    (global as any).__NET_RAND__ = randStub;
   });
 
+  afterEach(() => {
+    delete (global as any).__NET_NOW__;
+    delete (global as any).__NET_RAND__;
+  });
   describe('Peer', () => {
     it('should create a peer with correct initial state', () => {
       const peer = new Peer('test-peer', true);
@@ -30,7 +40,7 @@ describe('NetworkBridgePure', () => {
 
     it('should update latency and last seen timestamp', () => {
       const peer = new Peer('test-peer');
-      const before = Date.now();
+      const before = nowStub();
       
       peer.updateLatency(50);
       
@@ -168,6 +178,11 @@ describe('NetworkBridgePure', () => {
     it('should submit local input and broadcast to peers', async () => {
       // Start hosting first
       await bridge.startHosting();
+      // Add a remote connected peer to trigger broadcast
+      const remote = new Peer('remote-peer');
+      remote.markConnected();
+      (bridge as any).peers.set('remote-peer', remote);
+      (bridge as any).scheduler.addPeer(remote);
       
       const input = { move: 'left' };
       await bridge.submitLocalInput(input);
@@ -178,6 +193,11 @@ describe('NetworkBridgePure', () => {
     });
 
     it('should disconnect all peers', async () => {
+      // Arrange: add a remote peer to disconnect
+      const remote = new Peer('remote-peer');
+      remote.markConnected();
+      (bridge as any).peers.set('remote-peer', remote);
+      
       await bridge.disconnect();
       await Promise.resolve();
       
