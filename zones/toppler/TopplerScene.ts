@@ -73,6 +73,7 @@ export class TopplerScene {
         this.createCanvas();
         this.loadComponents();
         this.setupEventListeners();
+        this.gameState.isPlaying = true;
         this.startGameLoop();
     }
 
@@ -446,6 +447,59 @@ export class TopplerScene {
         this.animationId = requestAnimationFrame(gameLoop);
     }
 
+    // Test helper: single-step the internal loop once (no RAF)
+    public loop(): void {
+        if (!this.canvas || !this.ctx) return;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        if (this.gameState.isPlaying) {
+            this.components.get('player').update();
+            this.components.get('platforms').forEach((platform: any) => platform.update());
+        }
+        this.components.get('platforms').forEach((platform: any) => platform.render());
+        this.components.get('winTrigger').render();
+        this.components.get('failZone').render();
+        this.components.get('player').render();
+        this.components.get('ui').render();
+    }
+
+    /**
+     * IGameScene adapter: mount(canvas)
+     * TopplerScene manages its own canvas, so this is a no-op to satisfy the bootstrap interface.
+     */
+    public mount(_canvas: HTMLCanvasElement): void {
+        // No-op; the scene already created and attached its own canvas in init().
+    }
+
+    /**
+     * IGameScene adapter: update(delta)
+     * Executes a single logical update step (physics, collisions, win/fail checks).
+     */
+    public update(_delta: number): void {
+        if (!this.canvas || !this.ctx) return;
+        if (this.gameState.isPlaying) {
+            this.components.get('player').update();
+            this.components.get('platforms').forEach((platform: any) => platform.update());
+        }
+        // Keep gameState metrics fresh even if render not called yet
+        const player = this.components.get('player');
+        this.gameState.currentHeight = this.canvas.height - player.y;
+        this.gameState.maxHeight = Math.max(this.gameState.maxHeight, this.gameState.currentHeight);
+    }
+
+    /**
+     * IGameScene adapter: render()
+     * Renders the current frame once.
+     */
+    public render(): void {
+        if (!this.canvas || !this.ctx) return;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.components.get('platforms').forEach((platform: any) => platform.render());
+        this.components.get('winTrigger').render();
+        this.components.get('failZone').render();
+        this.components.get('player').render();
+        this.components.get('ui').render();
+    }
+
     public setRemixMode(enabled: boolean): void {
         this.config.remixMode = enabled;
         if (enabled) {
@@ -504,4 +558,9 @@ export class TopplerScene {
     };
     
     private handleInputBound = () => this.handleInput();
+
+    // Test helper: expose player for tests
+    public getPlayer(): any {
+        return this.components.get('player');
+    }
 }
