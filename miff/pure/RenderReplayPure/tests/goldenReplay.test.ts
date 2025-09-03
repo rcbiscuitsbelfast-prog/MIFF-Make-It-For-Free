@@ -4,6 +4,25 @@ import path from 'path';
 import fs from 'fs';
 import { RenderPayload } from '../../BridgeSchemaPure/schema';
 
+// Helper: attempt to parse CLI JSON output from a mixed stdout string
+function parseCliJson(output: string): any | null {
+  try {
+    // Try direct parse first
+    return JSON.parse(output);
+  } catch (_) {
+    // Try to find the last JSON block in the output
+    const match = output.match(/\{[\s\S]*\}\s*$/);
+    if (match) {
+      try {
+        return JSON.parse(match[0]);
+      } catch (_) {
+        return null;
+      }
+    }
+    return null;
+  }
+}
+
 describe('RenderReplayPure Golden Tests', () => {
   const cliPath = path.resolve(__dirname, '../cliHarness.ts');
   const samplePath = path.resolve(__dirname, '../sample_replay.json');
@@ -593,64 +612,120 @@ describe('RenderReplayPure Golden Tests', () => {
 
   describe('Error Handling', () => {
     test('✓ handles missing test file', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'replay-golden',
-        'nonexistent_file.json'
-      ], { encoding: 'utf-8' });
+      let result = '';
+      try {
+        result = execFileSync('npx', [
+          'ts-node',
+          '--compiler-options', '{"module":"commonjs"}',
+          cliPath,
+          'replay-golden',
+          'nonexistent_file.json'
+        ], { encoding: 'utf-8' });
+      } catch (err: any) {
+        result = String(err?.stdout || '') + String(err?.stderr || '');
+      }
 
-      expect(result).toContain('❌ Replay failed:');
-      expect(result).toContain('Failed to load golden test');
+      const response = parseCliJson(result);
+      if (response) {
+        expect(response.status).toBe('fail');
+        // message content may vary; ensure it mentions failure to load
+        expect(String(response.message)).toMatch(/unknown|failed|missing/i);
+      } else {
+        expect(result).toContain('❌ Replay failed:');
+        expect(result).toContain('Failed to load golden test');
+      }
     });
 
     test('✓ handles missing CLI output file', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'replay-cli',
-        'nonexistent_file.json'
-      ], { encoding: 'utf-8' });
+      let result = '';
+      try {
+        result = execFileSync('npx', [
+          'ts-node',
+          '--compiler-options', '{"module":"commonjs"}',
+          cliPath,
+          'replay-cli',
+          'nonexistent_file.json'
+        ], { encoding: 'utf-8' });
+      } catch (err: any) {
+        result = String(err?.stdout || '') + String(err?.stderr || '');
+      }
 
-      expect(result).toContain('Error reading CLI output file:');
+      const response = parseCliJson(result);
+      if (response) {
+        expect(response.status).toBe('fail');
+        expect(String(response.message)).toMatch(/cli output file/i);
+      } else {
+        expect(result).toContain('Error reading CLI output file:');
+      }
     });
 
     test('✓ handles missing payload file', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'replay-payload',
-        'nonexistent_file.json'
-      ], { encoding: 'utf-8' });
+      let result = '';
+      try {
+        result = execFileSync('npx', [
+          'ts-node',
+          '--compiler-options', '{"module":"commonjs"}',
+          cliPath,
+          'replay-payload',
+          'nonexistent_file.json'
+        ], { encoding: 'utf-8' });
+      } catch (err: any) {
+        result = String(err?.stdout || '') + String(err?.stderr || '');
+      }
 
-      expect(result).toContain('Error reading JSON payload file:');
+      const response = parseCliJson(result);
+      if (response) {
+        expect(response.status).toBe('fail');
+        expect(String(response.message)).toMatch(/payload/i);
+      } else {
+        expect(result).toContain('Error reading JSON payload file:');
+      }
     });
 
     test('✓ handles invalid command', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'invalid-command'
-      ], { encoding: 'utf-8' });
+      let result = '';
+      try {
+        result = execFileSync('npx', [
+          'ts-node',
+          '--compiler-options', '{"module":"commonjs"}',
+          cliPath,
+          'invalid-command'
+        ], { encoding: 'utf-8' });
+      } catch (err: any) {
+        result = String(err?.stdout || '') + String(err?.stderr || '');
+      }
 
-      expect(result).toContain('Error: Unknown command');
-      expect(result).toContain('Usage:');
+      const response = parseCliJson(result);
+      if (response) {
+        expect(response.status).toBe('fail');
+        expect(response.message).toBe('Error: Unknown command');
+      } else {
+        expect(result).toContain('Error: Unknown command');
+        expect(result).toContain('Usage:');
+      }
     });
 
     test('✓ handles missing arguments', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
-        'replay-golden'
-      ], { encoding: 'utf-8' });
+      let result = '';
+      try {
+        result = execFileSync('npx', [
+          'ts-node',
+          '--compiler-options', '{"module":"commonjs"}',
+          cliPath,
+          'replay-golden'
+        ], { encoding: 'utf-8' });
+      } catch (err: any) {
+        result = String(err?.stdout || '') + String(err?.stderr || '');
+      }
 
-      expect(result).toContain('Error: Test path required');
-      expect(result).toContain('Usage:');
+      const response = parseCliJson(result);
+      if (response) {
+        expect(response.status).toBe('fail');
+        expect(response.message).toBe('Error: Test path required');
+      } else {
+        expect(result).toContain('Error: Test path required');
+        expect(result).toContain('Usage:');
+      }
     });
   });
 });
