@@ -322,7 +322,7 @@ describe('ModdingPure', () => {
     });
   });
 
-  describe.skip('Integration Tests (legacy, to be stabilized)', () => {
+  (process.env.CI === 'true' ? describe.skip : describe)('Integration Tests (legacy, to be stabilized)', () => {
     it('should handle complete plugin lifecycle', async () => {
       const system = createModdingSystem(config);
       await system.initialize();
