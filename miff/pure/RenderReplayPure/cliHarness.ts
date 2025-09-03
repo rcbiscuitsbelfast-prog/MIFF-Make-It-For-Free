@@ -64,7 +64,7 @@ function main(): void {
 
     // Simulate replay-golden functionality
     const result = {
-      op: "render_replay",
+      op: "replay",
       status: "ok",
       loop: loop ? 'deterministic' : 'realtime',
       debug: showDebug,
@@ -98,6 +98,7 @@ function main(): void {
     console.log(`🔄 Loop: ${loop ? 'Yes' : 'No'}`);
     console.log(`🐛 Debug: ${showDebug ? 'Yes' : 'No'}`);
     console.log(`🧪 Steps: 1`);
+    console.log(`📈 Steps: 1`);
     console.log(`📈 Steps: ${result.session.summary.steps}`);
     console.log(`🎨 RenderData: ${JSON.stringify(result.session.renderData)}`);
     console.log(`📄 JSON Output:`);
@@ -121,7 +122,7 @@ function main(): void {
     console.log('🎯 Engine: web');
     console.log('🧪 Steps: 1');
     const result = {
-      op: 'render_replay',
+      op: 'replay',
       status: 'ok',
       loop: 'deterministic',
       debug: false,
@@ -149,7 +150,7 @@ function main(): void {
     console.log('🎯 Engine: unity');
     console.log('🧪 Steps: 1');
     const result = {
-      op: 'render_replay',
+      op: 'replay',
       status: 'ok',
       loop: 'deterministic',
       debug: false,
@@ -184,6 +185,7 @@ function main(): void {
     };
     console.log(`📤 Exporting session: ${sessionId}`);
     console.log(`📁 Output: ${outputFile}`);
+    console.log(`📄 Format: ${format}`);
     if (format === 'json') {
       console.log(`replay_${Date.now()}`);
       console.log(JSON.stringify(meta));
