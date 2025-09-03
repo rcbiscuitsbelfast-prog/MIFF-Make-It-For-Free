@@ -4,6 +4,25 @@ import fs from 'fs';
 import path from 'path';
 import { createModdingSystem, ModdingConfig } from './ModdingPure';
 
+function parseArgs(argv: string[]) {
+  const [,, cmdOrFile, ...rest] = argv;
+  const isCommand = ['init', 'teardown', 'replay', 'export'].includes(cmdOrFile || '');
+  const args = isCommand ? rest : [cmdOrFile, ...rest];
+  const command = isCommand ? cmdOrFile : 'replay';
+  const opts: Record<string, any> = {};
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a?.startsWith('--')) {
+      const k = a.slice(2);
+      const v = args[i+1] && !args[i+1].startsWith('--') ? args[++i] : true;
+      opts[k] = v;
+    } else if (!opts.input) {
+      opts.input = a;
+    }
+  }
+  return { command, opts };
+}
+
 interface HarnessInput {
   config?: Partial<ModdingConfig>;
   actions?: Array<
@@ -15,13 +34,24 @@ interface HarnessInput {
 }
 
 (async function main() {
-  const inputFile = process.argv[2];
-  if (!inputFile) {
-    console.error('Usage: ts-node cliHarness.ts <input-file>');
-    process.exit(1);
-  }
+  const { command, opts } = parseArgs(process.argv);
 
   try {
+    if (command === 'init') {
+      process.stdout.write(JSON.stringify({ op: 'init', module: 'ModdingPure', status: 'ok', timestamp: Date.now() }));
+      return;
+    }
+    if (command === 'teardown') {
+      process.stdout.write(JSON.stringify({ op: 'teardown', module: 'ModdingPure', status: 'ok', timestamp: Date.now() }));
+      return;
+    }
+
+    const inputFile = opts.input;
+    if (!inputFile) {
+      console.error('Usage: ts-node cliHarness.ts replay <input-file> [--config path]');
+      process.exit(1);
+    }
+
     const input: HarnessInput = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
 
     const baseConfig: ModdingConfig = {

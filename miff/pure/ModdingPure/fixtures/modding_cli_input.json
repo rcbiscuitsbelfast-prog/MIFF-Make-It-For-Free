@@ -1,0 +1,23 @@
+{
+  "config": {
+    "autoLoad": false
+  },
+  "actions": [
+    {
+      "type": "discover"
+    },
+    {
+      "type": "loadEnabled"
+    },
+    {
+      "type": "bundle",
+      "plugins": [
+        "ui-enhancements"
+      ]
+    },
+    {
+      "type": "export",
+      "template": "web-html5"
+    }
+  ]
+}
