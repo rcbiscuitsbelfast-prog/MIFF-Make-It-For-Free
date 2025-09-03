@@ -65,7 +65,7 @@ export class AudioSystem {
     this.instanceCounter = 0; // Initialize counter
 
     if (this.isHeadless) {
-      console.log('[AudioPure] Running in headless mode - audio events will be logged only');
+      console.error('[AudioPure] Running in headless mode - audio events will be logged only');
     }
   }
 
@@ -100,7 +100,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'play',
       soundId: definition.id,
-      timestamp: Date.now(),
+      timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
       data: { action: 'registered', definition }
     });
   }
@@ -113,7 +113,7 @@ export class AudioSystem {
       this.emitEvent({
         type: 'stop',
         soundId,
-        timestamp: Date.now(),
+        timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
         data: { action: 'unregistered' }
       });
     }
@@ -133,7 +133,8 @@ export class AudioSystem {
     }
 
     // Use counter for deterministic unique IDs in test environments
-    const instanceId = `${soundId}_${Date.now()}_${this.instanceCounter++}`;
+    const now = (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now();
+    const instanceId = `${soundId}_${now}_${this.instanceCounter++}`;
     
     const instance = {
       id: instanceId,
@@ -142,7 +143,7 @@ export class AudioSystem {
       pitch: pitch * sound.pitch,
       loop: sound.loop,
       spatial: sound.spatial,
-      startTime: Date.now(),
+      startTime: ((global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now()),
       position: { x: 0, y: 0, z: 0 },
       velocity: { x: 0, y: 0, z: 0 }
     };
@@ -152,7 +153,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'play',
       soundId,
-      timestamp: Date.now(),
+      timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
       data: { instanceId, volume, pitch, loop: sound.loop }
     });
 
@@ -172,7 +173,7 @@ export class AudioSystem {
         this.emitEvent({
           type: 'spatial',
           soundId,
-          timestamp: Date.now(),
+          timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
           data: { instanceId, spatialConfig }
         });
       }
@@ -192,8 +193,8 @@ export class AudioSystem {
     this.emitEvent({
       type: 'stop',
       soundId: instance.soundId,
-      timestamp: Date.now(),
-      data: { instanceId, duration: Date.now() - instance.startTime }
+      timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
+      data: { instanceId, duration: ((global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now()) - instance.startTime }
     });
 
     return true;
@@ -215,7 +216,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'pause',
       soundId: instance.soundId,
-      timestamp: Date.now(),
+      timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
       data: { instanceId, paused: true }
     });
 
@@ -233,7 +234,7 @@ export class AudioSystem {
     this.emitEvent({
       type: 'volume',
       soundId: instance.soundId,
-      timestamp: Date.now(),
+      timestamp: (global as any).__AUDIO_NOW__ ? (global as any).__AUDIO_NOW__() : Date.now(),
       data: { instanceId, volume: instance.volume }
     });
 
