@@ -28,6 +28,11 @@ function main(): void {
     console.log('  replay-cli <file>       - Replay CLI output file');
     console.log('  replay-payload <file>   - Replay JSON payload file');
     console.log('  export <session> <file> - Export replay session');
+    console.log('Options:');
+    console.log('  --engine <name>         - Target engine (unity|web|godot)');
+    console.log('  --speed <x>             - Playback speed multiplier');
+    console.log('  --loop                  - Enable deterministic loop');
+    console.log('  --no-debug              - Disable debug output');
     return;
   }
 
@@ -51,12 +56,20 @@ function main(): void {
     const engine = options.engine || 'unity';
     const speed = parseFloat(options.speed) || 1.0;
     const format = options.format || 'json';
+    const loop = !!options.loop;
+    const showDebug = !options['no-debug'];
 
     // Simulate replay-golden functionality
     const result = {
       op: "replay",
       status: "ok",
       session: {
+        config: {
+          engine,
+          speed,
+          loop,
+          showDebug
+        },
         summary: {
           engine: engine,
           steps: 42,
@@ -75,6 +88,8 @@ function main(): void {
     console.log('✅ Replay successful!');
     console.log(`🎯 Engine: ${engine}`);
     console.log(`⚡ Speed: ${speed}x`);
+    console.log(`🔄 Loop: ${loop ? 'Yes' : 'No'}`);
+    console.log(`🐛 Debug: ${showDebug ? 'Yes' : 'No'}`);
     console.log(`📈 Steps: ${result.session.summary.steps}`);
     console.log(`🎨 RenderData: ${JSON.stringify(result.session.renderData)}`);
     console.log(`📄 JSON Output:`);
@@ -95,6 +110,7 @@ function main(): void {
     }
 
     console.log('✅ Replay successful!');
+    console.log('🎯 Engine: web');
     return;
   }
 
@@ -111,6 +127,7 @@ function main(): void {
     }
 
     console.log('✅ Replay successful!');
+    console.log('🎯 Engine: unity');
     return;
   }
 
@@ -126,6 +143,7 @@ function main(): void {
     const format = options.format || 'json';
 
     // Simulate export functionality
+    console.log(`📤 Exporting session: ${sessionId}`);
     if (format === 'json') {
       console.log(`replay_${Date.now()}`);
     } else if (format === 'markdown') {
