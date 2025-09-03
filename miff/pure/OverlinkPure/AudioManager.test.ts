@@ -1,5 +1,36 @@
 import { AudioManager, AudioManagerOptions } from './AudioManager';
 
+// Ensure tests do not exceed a hard cap to avoid CI stalls
+jest.setTimeout(5000);
+
+// Use fake timers to control async behavior and prevent hangs
+beforeAll(() => {
+  jest.useFakeTimers();
+  // Mock native audio APIs
+  (global as any).AudioContext = class {
+    close() { return Promise.resolve(); }
+  };
+  (global as any).HTMLAudioElement = class {
+    play() { return Promise.resolve(); }
+    pause() {}
+    addEventListener() {}
+    removeEventListener() {}
+  };
+});
+
+afterEach(async () => {
+  // Flush any pending timers between tests
+  jest.runOnlyPendingTimers();
+  jest.clearAllTimers();
+});
+
+afterAll(() => {
+  // Restore real timers after suite completes
+  jest.useRealTimers();
+  jest.runOnlyPendingTimers();
+  jest.clearAllTimers();
+});
+
 // Mock AudioManager for testing to avoid timeout issues
 jest.mock('./AudioManager', () => {
   const originalModule = jest.requireActual('./AudioManager');
