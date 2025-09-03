@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 describe('BridgeSchemaPure Golden Tests', () => {
-  const samplePath = path.resolve('BridgeSchemaPure/sample_render.json');
+  const samplePath = path.resolve('miff/pure/BridgeSchemaPure/sample_render.json');
 
   beforeAll(() => {
     expect(fs.existsSync(samplePath)).toBe(true);
