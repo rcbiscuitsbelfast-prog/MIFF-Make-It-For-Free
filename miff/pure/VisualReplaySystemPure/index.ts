@@ -231,7 +231,7 @@ export function createReplaySession(
   metadata: Partial<ReplayMetadata> = {}
 ): ReplaySession {
   // Use a base timestamp that will be updated when the first frame is recorded
-  const timestamp = Date.now();
+  const timestamp = (global as any).__VRSP_NOW__ ? (global as any).__VRSP_NOW__() : Date.now();
   
   return {
     id: generateReplayId(),
@@ -315,7 +315,7 @@ export function recordInputEvent(
 ): InputEvent {
   const event: InputEvent = {
     frameNumber,
-    timestamp: Date.now(),
+    timestamp: (global as any).__VRSP_NOW__ ? (global as any).__VRSP_NOW__() : Date.now(),
     type,
     data
   };
@@ -351,7 +351,7 @@ export function addCheckpoint(
 ): Checkpoint {
   const checkpoint: Checkpoint = {
     frameNumber,
-    timestamp: Date.now(),
+    timestamp: (global as any).__VRSP_NOW__ ? (global as any).__VRSP_NOW__() : Date.now(),
     description,
     passed,
     metrics
@@ -803,8 +803,10 @@ function findPerformanceDrops(frames: ReplayFrame[]): Array<{ frameNumber: numbe
  * generateReplayId - Generate a unique replay ID
  */
 function generateReplayId(): string {
-  const timestamp = Date.now().toString(36);
-  const random = Math.random().toString(36).substr(2, 5);
+  const now = (global as any).__VRSP_NOW__ ? (global as any).__VRSP_NOW__() : Date.now();
+  const timestamp = now.toString(36);
+  const rand = (global as any).__VRSP_RAND__ ? (global as any).__VRSP_RAND__() : Math.random();
+  const random = rand.toString(36).substr(2, 5);
   return `replay_${timestamp}_${random}`;
 }
 
