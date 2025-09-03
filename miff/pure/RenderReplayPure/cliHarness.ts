@@ -175,7 +175,7 @@ function main(): void {
 
     // Simulate export functionality
     const meta = {
-      op: 'render_replay',
+      op: 'replay',
       status: 'ok',
       loop: 'deterministic',
       debug: false,
