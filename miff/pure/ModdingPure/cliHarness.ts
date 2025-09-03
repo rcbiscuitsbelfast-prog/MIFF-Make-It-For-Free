@@ -82,7 +82,7 @@ interface HarnessInput {
       }
     }
 
-    console.log(JSON.stringify(summary));
+    process.stdout.write(JSON.stringify(summary));
   } catch (error) {
     console.error(JSON.stringify({ op: 'modding_replay', status: 'error', error: (error as Error)?.message || String(error) }));
     process.exit(1);

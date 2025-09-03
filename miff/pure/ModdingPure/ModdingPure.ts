@@ -12,6 +12,11 @@
  * that supports plugin discovery, dependency management, and asset bundling.
  */
 
+const QUIET = process.env.TEST_CLI === '1';
+function log(...args: any[]) { if (!QUIET) console.log(...args); }
+function warn(...args: any[]) { if (!QUIET) console.warn(...args); }
+function error(...args: any[]) { if (!QUIET) console.error(...args); }
+
 export interface PluginManifest {
   id: string;
   name: string;
@@ -89,7 +94,7 @@ export class PluginDiscovery {
    * Discover plugins in the plugin directory
    */
   async discoverPlugins(): Promise<PluginInstance[]> {
-    console.log(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
+    log(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
     
     // In a real implementation, this would scan the filesystem
     // For now, we'll return mock plugins
@@ -99,7 +104,7 @@ export class PluginDiscovery {
       this.plugins.set(plugin.id, plugin);
     }
     
-    console.log(`✅ Discovered ${mockPlugins.length} plugins`);
+    log(`✅ Discovered ${mockPlugins.length} plugins`);
     return mockPlugins;
   }
 
@@ -116,7 +121,7 @@ export class PluginDiscovery {
       return plugin;
     }
 
-    console.log(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
+    log(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
     
     try {
       // Check dependencies
@@ -129,12 +134,13 @@ export class PluginDiscovery {
       await this.loadPluginAssets(plugin);
       
       plugin.status = 'loaded';
-      console.log(`✅ Plugin loaded: ${plugin.manifest.name}`);
+      log(`✅ Plugin loaded: ${plugin.manifest.name}`);
       
-    } catch (error) {
+    } catch (err) {
       plugin.status = 'error';
-      plugin.error = error instanceof Error ? error.message : 'Unknown error';
-      console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, error);
+      const message = (err && (err as any).message) ? (err as any).message : 'Unknown error';
+      plugin.error = message;
+      error(`❌ Failed to load plugin ${plugin.manifest.name}:`, message);
     }
 
     return plugin;
@@ -149,14 +155,14 @@ export class PluginDiscovery {
       return false;
     }
 
-    console.log(`📦 Unloading plugin: ${plugin.manifest.name}`);
+    log(`📦 Unloading plugin: ${plugin.manifest.name}`);
     
     // Cleanup plugin resources
     plugin.assets.clear();
     plugin.entryPoint = null;
     plugin.status = 'disabled';
     
-    console.log(`✅ Plugin unloaded: ${plugin.manifest.name}`);
+    log(`✅ Plugin unloaded: ${plugin.manifest.name}`);
     return true;
   }
 
@@ -250,14 +256,14 @@ export class PluginDiscovery {
   private createMockEntryPoint(manifest: PluginManifest): any {
     return {
       initialize: () => {
-        console.log(`🎮 Initializing plugin: ${manifest.name}`);
+        log(`🎮 Initializing plugin: ${manifest.name}`);
         return { success: true };
       },
       update: (delta: number) => {
         // Plugin update logic
       },
       cleanup: () => {
-        console.log(`🧹 Cleaning up plugin: ${manifest.name}`);
+        log(`🧹 Cleaning up plugin: ${manifest.name}`);
       }
     };
   }
@@ -368,7 +374,7 @@ export class AssetPipeline {
     assets: Map<string, any>,
     metadata: Record<string, any> = {}
   ): Promise<AssetBundle> {
-    console.log(`📦 Creating asset bundle: ${name}`);
+    log(`📦 Creating asset bundle: ${name}`);
 
     const bundle: AssetBundle = {
       id,
@@ -380,7 +386,7 @@ export class AssetPipeline {
     };
 
     this.bundles.set(id, bundle);
-    console.log(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
+    log(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
     
     return bundle;
   }
@@ -403,7 +409,7 @@ export class AssetPipeline {
       throw new Error(`Template not found: ${templateId}`);
     }
 
-    console.log(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
+    log(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
 
     // Apply template configuration
     const exportedAssets = this.applyTemplateConfig(bundle, template);
@@ -414,7 +420,7 @@ export class AssetPipeline {
     // In a real implementation, this would write files to disk
     const exportPath = `${outputPath}/${bundle.id}-${template.platform}.json`;
     
-    console.log(`✅ Bundle exported to: ${exportPath}`);
+    log(`✅ Bundle exported to: ${exportPath}`);
     return exportPath;
   }
 
@@ -430,7 +436,7 @@ export class AssetPipeline {
    */
   addExportTemplate(template: ExportTemplate): void {
     this.templates.set(template.id, template);
-    console.log(`📋 Added export template: ${template.name}`);
+    log(`📋 Added export template: ${template.name}`);
   }
 
   /**
@@ -621,14 +627,14 @@ export class ModdingSystem {
    * Initialize the modding system
    */
   async initialize(): Promise<void> {
-    console.log('🎮 Initializing modding system...');
+    log('🎮 Initializing modding system...');
     
     if (this.config.autoLoad) {
       await this.discovery.discoverPlugins();
       await this.loadEnabledPlugins();
     }
     
-    console.log('✅ Modding system initialized');
+    log('✅ Modding system initialized');
   }
 
   /**

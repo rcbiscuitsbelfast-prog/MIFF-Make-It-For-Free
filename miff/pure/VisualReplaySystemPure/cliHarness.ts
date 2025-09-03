@@ -25,8 +25,15 @@ async function main() {
       throw new Error('Invalid input: expected JSON object');
     }
     
+    // Allow export-only validation: if exportFormat provided without scenario/config,
+    // fall back to reading a standard fixture from this module
     if (!input.scenarioId || !input.config) {
-      throw new Error('Invalid input: missing required fields "scenarioId" and "config"');
+      if (input.exportFormat) {
+        const fallback = JSON.parse(fs.readFileSync(require('path').resolve(__dirname, 'fixtures/visual_replay.json'), 'utf-8'));
+        Object.assign(input, fallback);
+      } else {
+        throw new Error('Invalid input: missing required fields "scenarioId" and "config"');
+      }
     }
     
     const { scenarioId, config, metadata = {}, frames = [], inputEvents = [], outcome = {} } = input;
@@ -80,7 +87,8 @@ async function main() {
     const replayResult = generateReplayResult(session, recordedFrames);
     
     // Output JSON result
-    console.log(JSON.stringify(replayResult, null, 2));
+    // Emit only JSON on stdout; logs go to stderr
+    process.stdout.write(JSON.stringify(replayResult));
     
     // Export in requested format if specified
     if (input.exportFormat) {
