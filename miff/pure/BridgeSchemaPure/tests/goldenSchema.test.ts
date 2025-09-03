@@ -1,12 +1,18 @@
 import { BridgeSchemaValidator, RenderData, RenderPayload, RenderDataType } from '../schema';
 import fs from 'fs';
 import path from 'path';
+// Load JSON fixture directly to avoid path/env issues
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const sampleDataFixture: any = require('../sample_render.json');
 
 describe('BridgeSchemaPure Golden Tests', () => {
-  const samplePath = path.resolve('miff/pure/BridgeSchemaPure/sample_render.json');
+  const samplePath = path.resolve(__dirname, '../sample_render.json');
 
   beforeAll(() => {
-    expect(fs.existsSync(samplePath)).toBe(true);
+    expect(sampleDataFixture).toBeDefined();
+    expect(sampleDataFixture.examples).toBeDefined();
+    expect(sampleDataFixture.engine_conversions).toBeDefined();
+    expect(sampleDataFixture.validation_examples).toBeDefined();
   });
 
   describe('Schema Validation', () => {
@@ -300,7 +306,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
 
   describe('Sample Data Validation', () => {
     test('✓ validates sample render data from file', () => {
-      const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
+      const sampleData = sampleDataFixture;
       
       // Test NPC rendering example
       const npcPayload = sampleData.examples.npc_rendering.unified;
@@ -319,7 +325,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     });
 
     test('✓ validates engine conversion examples', () => {
-      const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
+      const sampleData = sampleDataFixture;
       
       // Test Unity conversion
       const unityExample = sampleData.engine_conversions.unity_example;
@@ -341,7 +347,7 @@ describe('BridgeSchemaPure Golden Tests', () => {
     });
 
     test('✓ validates validation examples', () => {
-      const sampleData = JSON.parse(fs.readFileSync(samplePath, 'utf-8'));
+      const sampleData = sampleDataFixture;
       
       // Test valid payload
       const validPayload = sampleData.validation_examples.valid_payload;
