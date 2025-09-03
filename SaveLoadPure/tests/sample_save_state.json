@@ -4,11 +4,7 @@
   "saves": {
     "slot-a": {
       "id": "slot-a",
-<<<<<<< HEAD
-      "timestamp": 1756764166043,
-=======
-      "timestamp": 1756709455173,
->>>>>>> cursor/golden-scenario-validation-fix
+      "timestamp": 1756903329214,
       "data": {
         "schemaVersion": 11,
         "currentSlot": "slot-a",
@@ -22,11 +18,7 @@
     },
     "slot-c": {
       "id": "slot-c",
-<<<<<<< HEAD
-      "timestamp": 1756764166045,
-=======
-      "timestamp": 1756709455175,
->>>>>>> cursor/golden-scenario-validation-fix
+      "timestamp": 1756903329215,
       "data": {
         "schemaVersion": 11,
         "currentSlot": "slot-c",
