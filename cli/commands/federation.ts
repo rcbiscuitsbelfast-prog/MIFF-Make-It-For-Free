@@ -33,12 +33,12 @@ program
     // Initialize federation manager
     const federationState = {
       sessionId,
-      modules: modules.map(name => ({
+      modules: modules.map((name: string) => ({
         name,
-        status: 'initializing',
-        hooks: []
+        status: 'initializing' as const,
+        hooks: [] as string[]
       })),
-      events: [],
+      events: [] as any[],
       startTime: Date.now()
     };
     
@@ -78,7 +78,12 @@ program
       scenarioId: scenarioConfig.scenarioId,
       executionTime: Date.now(),
       modules: scenarioConfig.modules,
-      events: [],
+      events: [] as Array<{
+        timestamp: number;
+        module: string;
+        event: string;
+        success: boolean;
+      }>,
       success: true,
       metadata: {
         deterministic: !!options.deterministic,
@@ -154,7 +159,7 @@ program
     } else {
       console.log('✅ Federation replay completed');
       console.log(`Events replayed: ${replayResult.eventsReplayed}`);
-      if (options.validate) {
+      if (options.validate && replayResult.validation) {
         console.log(`Validation: ${replayResult.validation.checksumMatch ? '✅' : '❌'} Checksum match`);
         console.log(`Timing accuracy: ${replayResult.validation.timingAccuracy}%`);
       }
@@ -181,7 +186,7 @@ program
     let exportData;
     switch (options.format) {
       case 'logs':
-        exportData = sessionData.events?.map(e => 
+        exportData = sessionData.events?.map((e: any) => 
           `[${new Date(e.timestamp).toISOString()}] ${e.module}: ${e.event}`
         ).join('\n');
         break;
