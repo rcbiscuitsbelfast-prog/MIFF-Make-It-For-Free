@@ -179,24 +179,39 @@ function bindInput(){
     container.addEventListener('touchend', (e)=>{ if (e.touches.length===0) touchState.mode=null; }, { passive:true });
 }
 
-// Build modular map from a manifest; fallback to repeating tiles
+// Build terrain from assets/blocks/isometric/tile_manifest.json
 async function buildMap(){
+    const base = '../../../assets/blocks/isometric';
+    const manifestUrl = `${base}/tile_manifest.json`;
+    let loaded = 0;
     try{
-        const res = await fetch('../witcher_grove/tile_manifest.json');
+        const res = await fetch(manifestUrl);
+        if (!res.ok) throw new Error('manifest fetch failed');
         const manifest = await res.json();
-        const tiles = manifest.tiles || [];
+        const tiles = Array.isArray(manifest.tiles) ? manifest.tiles : [];
         for (const t of tiles){
-            const tex = await texLoader.loadAsync(`../../../assets/${t.path}`);
+            const file = t.filename || t.file || t.path; // support multiple keys
+            if (!file) { console.warn('Tile entry missing filename', t); continue; }
+            const tex = await texLoader.loadAsync(`${base}/${file}`);
             tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-            const m = new THREE.MeshBasicMaterial({ map: tex });
-            const g = new THREE.PlaneGeometry( t.size || 10, t.size || 10 );
-            const p = new THREE.Mesh(g, m);
-            p.rotation.x = -Math.PI/2;
-            p.position.set(t.x || 0, 0.01, t.z || 0);
-            scene.add(p); MAP_TILES.push(p);
+            const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
+            const size = t.size || 1;
+            const geo = new THREE.PlaneGeometry(size, size);
+            const mesh = new THREE.Mesh(geo, mat);
+            // Isometric-style: lay flat, face upward
+            mesh.rotation.x = -Math.PI/2;
+            // Optional additional rotation around Y for angled tiles
+            if (typeof t.rotationY === 'number') mesh.rotation.y = t.rotationY;
+            // Position
+            mesh.position.set(t.x || 0, (t.y || 0) + 0.01, t.z || 0);
+            // Optional scale override
+            if (typeof t.scale === 'number') mesh.scale.setScalar(t.scale);
+            scene.add(mesh); MAP_TILES.push(mesh); loaded++;
         }
-    }catch{
-        // fallback: simple ground already exists
+        console.log(`[Grove3D] Loaded ${loaded} isometric tiles from manifest.`);
+    }catch(err){
+        console.warn('[Grove3D] Isometric tile manifest missing or invalid:', err);
+        console.warn('[Grove3D] Terrain fallback disabled; no legacy tiles will be created.');
     }
 }
 
