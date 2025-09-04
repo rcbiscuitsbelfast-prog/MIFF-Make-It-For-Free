@@ -141,29 +141,34 @@ function validateOrchestrationFile(filePath) {
   }
 }
 
+function walk(dir, acc) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const e of entries) {
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) walk(full, acc);
+    else if (e.isFile() && full.endsWith('.json')) acc.push(full);
+  }
+}
+
 function findOrchestrationFiles() {
-  const scenariosDir = path.resolve(process.cwd(), 'scenarios');
-  const spiritTamerDir = path.resolve(process.cwd(), 'SpiritTamerDemoPure');
-  
   const files = [];
-  
-  // Check scenarios directory
-  if (fs.existsSync(scenariosDir)) {
-    const scenarioFiles = fs.readdirSync(scenariosDir, { recursive: true })
-      .filter(file => file.endsWith('.json'))
-      .map(file => path.join(scenariosDir, file));
-    files.push(...scenarioFiles);
+  // Prefer curated scenario files; ignore legacy golden outputs that don't follow orchestration schema
+  const roots = [
+    path.resolve(process.cwd(), 'scenarios'),
+    path.resolve(process.cwd(), 'miff/pure/WitcherExplorerDemoPure/fixtures'),
+  ];
+  for (const root of roots) {
+    if (fs.existsSync(root)) {
+      walk(root, files);
+    }
   }
-  
-  // Check SpiritTamerDemoPure directory
-  if (fs.existsSync(spiritTamerDir)) {
-    const spiritTamerFiles = fs.readdirSync(spiritTamerDir, { recursive: true })
-      .filter(file => file.endsWith('.json'))
-      .map(file => path.join(spiritTamerDir, file));
-    files.push(...spiritTamerFiles);
-  }
-  
-  return files;
+  // Filter out known non-orchestration outputs
+  const ignoredNames = new Set([
+    'spiritTamer.golden.json',
+    'toppler.golden.json',
+    'topplerDemo.golden.json'
+  ]);
+  return files.filter(f => !ignoredNames.has(path.basename(f)));
 }
 
 function generateValidationReport() {

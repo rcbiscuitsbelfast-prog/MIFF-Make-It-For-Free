@@ -1,0 +1,17 @@
+{
+  "scenarioId": "toppler-demo-v1",
+  "name": "Toppler Demo",
+  "version": "1.0.0",
+  "schema": "v14",
+  "quests": {
+    "intro": { "steps": ["start", "reach_goal"] }
+  },
+  "npcs": {},
+  "locations": {
+    "arena": { "description": "Physics puzzle arena" }
+  },
+  "triggers": {
+    "onStart": { "type": "event", "action": "initLevel" }
+  },
+  "remixSafe": true
+}

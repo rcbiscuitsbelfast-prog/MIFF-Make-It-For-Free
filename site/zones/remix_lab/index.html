@@ -111,6 +111,12 @@
                 <p>This zone provides debugging tools, CLI triggers, and development utilities for MIFF contributors.</p>
             </div>
 
+            <div id="gameContainer" style="position:relative;display:inline-block">
+                <canvas id="gameCanvas" width="640" height="480" style="border:1px solid #222;background:#0b1020"></canvas>
+                <div id="status" style="margin-top:10px;opacity:.8">Loading…</div>
+                <div id="btn_back" class="btn btn-secondary" style="position:absolute;top:8px;right:8px">[Back]</div>
+            </div>
+
             <div class="game-actions">
                 <a href="../../zones/remix_lab/index.html" class="btn" target="_blank">🎮 Open Full Game</a>
                 <a href="../../zones/remix_lab.js" class="btn btn-secondary" target="_blank">📜 View Source</a>
@@ -156,5 +162,15 @@
             }
         })();
     </script>
+    <script>
+        // Minimal viewer placeholder for Remix Lab
+        (function(){
+            const back = document.getElementById('btn_back');
+            if (back) back.addEventListener('click', ()=>{ location.href='../../index.html'; });
+            const status = document.getElementById('status');
+            if (status) status.textContent = 'Ready. Tap Back to return.';
+        })();
+    </script>
+    <script src="index.js"></script>
 </body>
 </html>

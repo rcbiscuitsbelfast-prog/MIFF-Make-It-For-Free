@@ -1,29 +1,64 @@
 {
-  "timestamp": "2025-09-04T06:59:46.206Z",
-  "totalScenarios": 1,
-  "validScenarios": 0,
-  "invalidScenarios": 1,
+  "timestamp": "2025-09-04T07:24:49.509Z",
+  "totalScenarios": 4,
+  "validScenarios": 4,
+  "invalidScenarios": 0,
   "results": {
-    "spiritTamer.golden.json": {
-      "file": "/workspace/SpiritTamerDemoPure/fixtures/spiritTamer.golden.json",
-      "valid": false,
-      "errors": [
-        "Missing required field: scenarioId",
-        "Missing required field: name",
-        "Missing required field: version",
-        "Missing required field: quests",
-        "Missing required field: npcs",
-        "Missing required field: locations",
-        "Missing required field: triggers"
-      ],
+    "spirit_tamer_scenario.json": {
+      "file": "/workspace/scenarios/spirit_tamer_scenario.json",
+      "valid": true,
+      "errors": [],
       "warnings": [],
-      "metadata": {}
+      "metadata": {
+        "questCount": 1,
+        "npcCount": 1,
+        "locationCount": 1,
+        "triggerCount": 1
+      }
+    },
+    "toppler_scenario.json": {
+      "file": "/workspace/scenarios/toppler_scenario.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        "No NPCs defined"
+      ],
+      "metadata": {
+        "questCount": 1,
+        "npcCount": 0,
+        "locationCount": 1,
+        "triggerCount": 1
+      }
+    },
+    "witcher_grove_scenario.json": {
+      "file": "/workspace/scenarios/witcher_grove_scenario.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "metadata": {
+        "questCount": 1,
+        "npcCount": 1,
+        "locationCount": 1,
+        "triggerCount": 1
+      }
+    },
+    "witcher_grove.golden.json": {
+      "file": "/workspace/miff/pure/WitcherExplorerDemoPure/fixtures/witcher_grove.golden.json",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "metadata": {
+        "questCount": 1,
+        "npcCount": 1,
+        "locationCount": 1,
+        "triggerCount": 1
+      }
     }
   },
   "summary": {
-    "totalScenarios": 1,
-    "validScenarios": 0,
-    "invalidScenarios": 1,
-    "successRate": "0%"
+    "totalScenarios": 4,
+    "validScenarios": 4,
+    "invalidScenarios": 0,
+    "successRate": "100%"
   }
 }
