@@ -155,6 +155,19 @@
         })();
     </script>
     <script>
+        // Remix toggle: append ?mode=3d to enable 3D bootstrap
+        (function(){
+            const params = new URLSearchParams(location.search);
+            const mode3D = params.get('mode') === '3d';
+            if (mode3D){
+                const s = document.createElement('script');
+                s.type = 'module';
+                s.src = './3d/bootstrap.js';
+                document.body.appendChild(s);
+            }
+        })();
+    </script>
+    <script>
         (async function(){
             const TILE = 32;
             const cvs = document.getElementById('gameCanvas');
