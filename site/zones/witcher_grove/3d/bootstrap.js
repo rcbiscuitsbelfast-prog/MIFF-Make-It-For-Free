@@ -8,7 +8,7 @@ const statusEl = document.getElementById('status');
 let renderer, scene, camera, player, controls = { left:false, right:false, up:false, down:false };
 let ORCH = null;
 const OBJECTS = [];
-let uiOverlay;
+let uiOverlay, journalEl;
 const gltfLoader = new GLTFLoader();
 
 function initScene(){
@@ -152,7 +152,7 @@ async function start(){
     await loadOrchestration();
     await loadPlayer();
     await placeProps();
-    ensureUI();
+    ensureUI(); restoreJournal();
     bindInput();
     if (statusEl) statusEl.textContent = 'Use WASD (or touch) to move. Toggle at top to switch modes.';
     requestAnimationFrame(loop);
@@ -168,6 +168,14 @@ function ensureUI(){
     uiOverlay.style.fontSize='12px'; uiOverlay.style.color='#d0d7de';
     uiOverlay.textContent = 'Quest: Find the chest near the oak tree';
     container.appendChild(uiOverlay);
+
+    // Journal overlay
+    journalEl = document.createElement('div');
+    journalEl.style.position='absolute'; journalEl.style.left='8px'; journalEl.style.top='8px';
+    journalEl.style.background='rgba(0,0,0,0.4)'; journalEl.style.padding='6px 8px'; journalEl.style.borderRadius='6px';
+    journalEl.style.fontSize='11px'; journalEl.style.color='#d0d7de'; journalEl.textContent='Journal:';
+    container.appendChild(journalEl);
+    addJournalEntry('Arrived at grove.');
 }
 
 function checkQuestZones(){
@@ -178,7 +186,28 @@ function checkQuestZones(){
     const dz = Math.abs(player.position.z - chest.position.z);
     if (dx < 1 && dz < 1){
         if (uiOverlay) uiOverlay.textContent = 'Quest Complete: Herb obtained!';
+        addJournalEntry('Found an Herb in the chest.');
         chest.userData = {}; // prevent repeat
+        persistJournal();
     }
+}
+
+function addJournalEntry(text){
+    if (!journalEl) return;
+    const line = document.createElement('div'); line.textContent = '• ' + text; journalEl.appendChild(line);
+}
+
+function persistJournal(){
+    try {
+        const lines = Array.from(journalEl?.children || []).map(n=>n.textContent);
+        localStorage.setItem('grove_journal', JSON.stringify(lines));
+    } catch {}
+}
+
+function restoreJournal(){
+    try {
+        const s = localStorage.getItem('grove_journal'); if (!s) return; const lines = JSON.parse(s);
+        if (!Array.isArray(lines)) return; for (const t of lines){ addJournalEntry(t.replace(/^•\s*/, '')); }
+    } catch {}
 }
 
