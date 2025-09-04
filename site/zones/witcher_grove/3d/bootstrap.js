@@ -14,6 +14,8 @@ const gltfLoader = new GLTFLoader();
 function initScene(){
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x0b1020);
+    // Subtle fog
+    scene.fog = new THREE.Fog(0x0b1020, 20, 60);
 
     camera = new THREE.PerspectiveCamera(60, 640/480, 0.1, 1000);
     camera.position.set(0, 6, 10);
@@ -29,6 +31,8 @@ function initScene(){
     const dir = new THREE.DirectionalLight(0xffffff, 0.8);
     dir.position.set(5,10,7);
     scene.add(dir);
+    // Light flicker effect
+    setInterval(()=>{ dir.intensity = 0.7 + Math.random()*0.2; }, 300);
 
     // Ground
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(50, 50), new THREE.MeshStandardMaterial({ color: 0x12361f }));
