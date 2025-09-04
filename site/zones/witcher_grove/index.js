@@ -2,11 +2,13 @@ function $(id){ return document.getElementById(id); }
 
 let ORCH = null;
 const State = { Exploring: 'exploring', Dialogue: 'dialogue' };
-let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null, muted:false } };
+let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null, muted:false }, weather: { t:0 } };
 
 async function loadOrchestration(){
 	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
 	if (ORCH?.npcs?.npc1){ vm.npc.x = ORCH.npcs.npc1.x; vm.npc.y = ORCH.npcs.npc1.y; vm.npc.name = ORCH.npcs.npc1.name; }
+	// Timed events (e.g., show hint after 5s)
+	if (ORCH?.triggers?.hintAfterMs){ setTimeout(()=>{ openDialogue(['A soft breeze carries a whisper: "Seek the chest by the oak."']); }, ORCH.triggers.hintAfterMs); }
 }
 
 async function loadAssets(){
@@ -29,18 +31,21 @@ function fitCanvas(cvs){
 	cvs.style.height = Math.round(maxWidth / aspect) + 'px';
 }
 
-function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); }
+function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); ensureJournal(); }
 
 function renderInventory(){ const bar = $('inventoryBar'); if (!bar) return; bar.innerHTML = 'Inventory: ' + (vm.inventory.length ? vm.inventory.join(', ') : '(empty)'); }
+
+function ensureJournal(){ if ($('journal')) return; const j=document.createElement('div'); j.id='journal'; j.style.marginTop='6px'; j.style.fontSize='12px'; $('gameContainer').appendChild(j); updateJournal('Arrived at grove.'); }
+function updateJournal(entry){ const j=$('journal'); if (!j) return; const p=document.createElement('div'); p.textContent='• '+entry; j.appendChild(p); }
 
 function bindInputs(){
 	$('btn_back')?.addEventListener('click', ()=>{ try{ vm.audio.music?.pause(); }catch{} location.href='../../index.html'; });
 	if (!$('btnQuest')){ const btn=document.createElement('div'); btn.id='btnQuest'; btn.className='btn btn-secondary'; btn.textContent='[Quest]'; btn.style.position='absolute'; btn.style.top='8px'; btn.style.left='8px'; $('gameContainer').appendChild(btn); }
-	$('btnQuest')?.addEventListener('click', ()=>{ try{ vm.audio.ui?.play(); }catch{} openDialogue(['Welcome to the grove.', 'Collect 1 herb and return.']); });
+	$('btnQuest')?.addEventListener('click', ()=>{ try{ vm.audio.ui?.play(); }catch{} openDialogue(['Welcome to the grove.', 'Collect 1 herb and return.']); updateJournal('Accepted quest: Gather herb.'); });
 	vm.cvs.addEventListener('click', (ev)=>{ // chest interaction
 		const rect = vm.cvs.getBoundingClientRect(); const mx = (ev.clientX-rect.left)*(vm.cvs.width/rect.width); const my = (ev.clientY-rect.top)*(vm.cvs.height/rect.height);
 		const chest = vm.props.find(p=>p.name==='chest' && mx>=p.x && mx<=p.x+24 && my>=p.y && my<=p.y+24);
-		if (chest){ addItem('Herb'); try{ vm.audio.ui?.play(); }catch{} }
+		if (chest){ addItem('Herb'); try{ vm.audio.ui?.play(); }catch{} updateJournal('Found an Herb in the chest.'); }
 	});
 	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} } });
 }
@@ -55,7 +60,7 @@ function ensureOverlay(lines){
 	div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; div.style.color='#d0d7de';
 	lines.forEach(text=>{ const p=document.createElement('p'); p.textContent=text; div.appendChild(p); });
 	const row = document.createElement('div');
-	const btn1 = document.createElement('button'); btn1.className='btn'; btn1.textContent='[Accept]'; btn1.onclick=()=>{ try{ vm.audio.ui?.play(); }catch{} addItem('Herb'); closeDialogue(); };
+	const btn1 = document.createElement('button'); btn1.className='btn'; btn1.textContent='[Accept]'; btn1.onclick=()=>{ try{ vm.audio.ui?.play(); }catch{} addItem('Herb'); updateJournal('Herb added to inventory.'); closeDialogue(); };
 	const btn2 = document.createElement('button'); btn2.className='btn btn-secondary'; btn2.textContent='[Decline]'; btn2.onclick=()=>{ try{ vm.audio.ui?.play(); }catch{} closeDialogue(); };
 	row.appendChild(btn1); row.appendChild(btn2); div.appendChild(row);
 	$('gameContainer').appendChild(div);
@@ -71,13 +76,14 @@ function render(){
 	else { ctx.fillStyle = '#14361f'; for (let x=0;x<cvs.width;x+=32){ for(let y=0;y<cvs.height;y+=32){ ctx.fillRect(x, y, 30, 30); } } }
 	// Props
 	for (const p of vm.props){ if (p.img) ctx.drawImage(p.img, p.x, p.y, 24, 24); }
-	// NPC
+	// NPC (replace square with portrait indicator near position)
 	ctx.fillStyle = '#d35400'; ctx.fillRect(vm.npc.x, vm.npc.y, 24, 24);
-	// Portrait
-	if (vm.portrait){ ctx.globalAlpha=0.12; ctx.drawImage(vm.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; }
+	if (vm.portrait){ ctx.globalAlpha=0.18; ctx.drawImage(vm.portrait, vm.npc.x-20, vm.npc.y-64, 64, 64); ctx.globalAlpha=1; }
+	// Weather overlay (soft drifting particles)
+	vm.weather.t += 0.016; ctx.globalAlpha=0.08; ctx.fillStyle = '#ffffff'; for (let i=0;i<40;i++){ const t=vm.weather.t+i*0.13; const x=(t*37)%cvs.width; const y=(t*23)%cvs.height; ctx.fillRect(x, y, 2, 2); } ctx.globalAlpha=1;
 	// HUD
 	ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${vm.state}`, 10, 20);
-	ctx.fillText('M to mute music.', 10, 40);
+	ctx.fillText('M to mute music. Click chest to pick up herb.', 10, 40);
 }
 
 function loop(){ render(); requestAnimationFrame(loop); }

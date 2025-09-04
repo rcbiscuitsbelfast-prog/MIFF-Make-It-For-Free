@@ -10,6 +10,7 @@
     "campfire_intro": { "steps": ["enter_grove", "speak_to_npc", "accept_task"] }
   },
   "triggers": {
-    "onClickQuest": { "type": "ui" }
+    "onClickQuest": { "type": "ui" },
+    "hintAfterMs": 5000
   }
 }
