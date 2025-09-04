@@ -15,6 +15,7 @@ let camZoom = 1.0;
 let panX = 0, panZ = 0;
 let touchState = { mode: null, startDist: 0, lastX: 0, lastY: 0 };
 let quest2Started = false, quest2Completed = false;
+let lastTapTime = 0, touchHoldTimer = null;
 const gltfLoader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
 
@@ -213,7 +214,7 @@ async function buildMap(){
             if (typeof t.scale === 'number') mesh.scale.setScalar(t.scale);
             scene.add(mesh); MAP_TILES.push(mesh); loaded++;
         }
-        console.log(`[Grove3D] Loaded ${loaded} isometric tiles from manifest.`);
+        console.log(`Grove3D Loaded! ${loaded} isometric tiles from manifest.`);
     }catch(err){
         console.warn('[Grove3D] Isometric tile manifest missing or invalid:', err);
         console.warn('[Grove3D] Terrain fallback disabled; no legacy tiles will be created.');
@@ -317,22 +318,33 @@ function ensureMainMenu(){
     mainMenu.style.background='rgba(0,0,0,0.7)'; mainMenu.style.padding='16px'; mainMenu.style.borderRadius='8px'; mainMenu.style.zIndex='15'; mainMenu.style.textAlign='center';
     const title=document.createElement('h3'); title.textContent='Witcher Grove 3D'; mainMenu.appendChild(title);
     const start=document.createElement('button'); start.className='btn'; start.textContent='Start Game'; start.onclick=()=>{ requestFullscreenSafe(); mainMenu.remove(); };
-    const opts=document.createElement('button'); opts.className='btn btn-secondary'; opts.textContent='Options'; opts.style.marginLeft='8px'; opts.onclick=()=>{ toggleOptions(); };
+    const opts=document.createElement('button'); opts.className='btn btn-secondary'; opts.textContent='Options'; opts.style.marginLeft='8px'; opts.onclick=()=>{ showDevUI(); };
     mainMenu.appendChild(start); mainMenu.appendChild(opts); container.appendChild(mainMenu);
 
     let holdTimer=null; container.onmousedown = ()=>{ holdTimer=setTimeout(()=>{ if (!document.body.contains(mainMenu)) container.appendChild(mainMenu); }, 800); };
     container.onmouseup = ()=>{ if (holdTimer) clearTimeout(holdTimer); };
+    // Touch long-press to open menu
+    container.addEventListener('touchstart', ()=>{ touchHoldTimer = setTimeout(()=>{ if (!document.body.contains(mainMenu)) container.appendChild(mainMenu); }, 800); }, { passive:true });
+    container.addEventListener('touchend', ()=>{ if (touchHoldTimer) clearTimeout(touchHoldTimer); }, { passive:true });
+    // Double-tap to request fullscreen
+    container.addEventListener('touchend', ()=>{ const now=performance.now(); if (now - lastTapTime < 300){ requestFullscreenSafe(); } lastTapTime = now; }, { passive:true });
 }
 
-function toggleOptions(){
-    const panel=document.createElement('div'); panel.style.marginTop='8px';
+function showDevUI(){
+    // Modal panel overlay
+    const overlay = document.createElement('div');
+    overlay.style.position='absolute'; overlay.style.left='0'; overlay.style.top='0'; overlay.style.right='0'; overlay.style.bottom='0';
+    overlay.style.background='rgba(0,0,0,0.6)'; overlay.style.zIndex='20';
+    const panel=document.createElement('div'); panel.style.position='absolute'; panel.style.left='50%'; panel.style.top='50%'; panel.style.transform='translate(-50%,-50%)'; panel.style.background='rgba(20,22,26,0.95)'; panel.style.padding='16px'; panel.style.borderRadius='8px'; panel.style.minWidth='240px';
     panel.innerHTML = '<div style="margin:6px 0">Fullscreen: <button class="btn" id="fsBtn">Toggle</button></div>'+
-        '<div style="margin:6px 0">Sound: <button class="btn" id="soundBtn">Toggle</button></div>'+
-        '<div style="margin:6px 0">Difficulty: <select class="btn" id="diffSel"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></div>';
-    mainMenu.appendChild(panel);
+        '<div style="margin:6px 0">Sound: <button class="btn" id="soundBtn">'+((localStorage.getItem('grove_muted')==='true')?'Unmute':'Mute')+'</button></div>'+
+        '<div style="margin:6px 0">Difficulty: <select class="btn" id="diffSel"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></div>'+
+        '<div style="margin-top:10px;text-align:right"><button class="btn btn-secondary" id="closeDev">Close</button></div>';
+    overlay.appendChild(panel); container.appendChild(overlay);
     const fs=document.getElementById('fsBtn'); if (fs) fs.onclick=()=>requestFullscreenSafe();
     const sb=document.getElementById('soundBtn'); if (sb) sb.onclick=()=>{ const v = localStorage.getItem('grove_muted')==='true'; const nv = (!v).toString(); localStorage.setItem('grove_muted', nv); sb.textContent = (nv==='true')? 'Unmute' : 'Mute'; };
     const ds=document.getElementById('diffSel'); if (ds){ const cur = localStorage.getItem('grove_difficulty')||'normal'; ds.value = cur; ds.onchange=()=>localStorage.setItem('grove_difficulty', ds.value); }
+    const cl=document.getElementById('closeDev'); if (cl) cl.onclick=()=>overlay.remove();
 }
 
 function requestFullscreenSafe(){ try{ container.requestFullscreen && container.requestFullscreen(); }catch{} }

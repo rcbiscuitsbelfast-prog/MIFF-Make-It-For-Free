@@ -10,7 +10,7 @@
 - Orchestration (3D): `site/zones/witcher_grove/orchestration.json`
 - 2D fallback: `site/zones/witcher_grove/index.js` (canvas), auto-loaded when `mode!=3d`
 - Mobile: WASD on desktop; touch gestures on mobile (pinch/drag)
-- Camera: smooth follow, adjustable in `followCamera()`
+- Camera: smooth follow, centered on spawn, responsive resize
 
 ## Orchestration → 3D Scene
 - Props array defines what is placed in the scene:
@@ -76,10 +76,11 @@
 - 2D and 3D modes use the same key to stay in sync
 
 ## Camera, Gestures, and Fullscreen
-- Desktop wheel to zoom; clamped to prevent extreme FOV changes
+- Desktop wheel to zoom (clamped), smooth camera follow
 - Touch pinch to zoom; one-finger drag to pan
-- Long-press the scene to reopen the in-game menu
-- Start button requests fullscreen (browser permission-gated)
+- Long-press to open the main menu; double-tap to request fullscreen
+- Start button also requests fullscreen
+- Window resize updates renderer size and camera aspect
 
 ## Tiles and Modular Map
 - Loader path: `assets/Isometric Blocks/tile_manifest.json`
@@ -88,11 +89,12 @@
   - `x` maps to world X; `y` maps to world Z; optional `alt` maps to world Y (height)
 - Each entry becomes a plane rotated flat (isometric-up), with transparent PNG support
 - No legacy fallback terrain is used if the manifest is missing
+- Console confirms: `Grove3D Loaded! N isometric tiles from manifest.`
 
-## Adding New Props
-1. Drop GLTF under `assets/New Assets/`
-2. Add entry to `orchestration.json` `props[]` with `model`, `x`, `z`, and optional `scale`, `rotationY`
-3. Reload with `?mode=3d` to verify placement
+## Options Menu (showDevUI)
+- In-game modal: `Start` and `Options`
+- Options include fullscreen toggle, sound toggle, difficulty selector
+- Trigger via menu button, long-press gesture, or call `showDevUI()`
 
 ## Performance
 - Pixel ratio is capped to reduce overdraw on mobile devices
