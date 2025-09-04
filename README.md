@@ -191,7 +191,7 @@ The long-term goal is to integrate MIFF with an AI companion that can:
 ✅ Phase 15 — Visual Replay & Testing
 
 ### Next Phase:  
-🚀 Phase 16 — Funding, Outreach & Global Deployment
+🚀 Phase 18 — Federation Hooks & Orchestration Expansion
 
 📋 [View Full Roadmap](ROADMAP.md)
 
@@ -306,12 +306,13 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 ## 🚀 Project Status
 
-**Current Phase**: Phase 15 - Visual Replay & Testing ✅ **COMPLETED**
+**Current Phase**: Phase 17 - CLI Orchestration & Module Stabilization ✅ **COMPLETED**
 
 **Recent Milestones**:
+- 🎯 Phase 17 CLI Orchestration (6 modules stabilized: ModdingPure, DialoguePure, VisualReplaySystemPure, BridgeSchemaPure, AudioPure, NetworkBridgePure)
 - 🧪 CLI Harness Test Refactoring (18+ modules updated)
 - 🔧 Type Safety & Build Fixes (TypeScript compilation resolved)
-- 📚 Comprehensive Testing Documentation
+- 📚 Comprehensive Testing Documentation & Onboarding Packs
 - 📦 Golden Fixtures for Deterministic Testing
 - 🎮 Core Gameplay Systems (11 modules scaffolded)
 - 🔍 Quest & Asset Management (2 modules completed)
@@ -319,7 +320,7 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 - 🎬 Visual Replay & Testing (1 system completed)
 
 **What's Next**:
-- Phase 16: Funding, Outreach & Global Deployment
+- Phase 18: Federation Hooks & Orchestration Expansion
 
 **📋 [View Full Roadmap](ROADMAP.md)** - Complete development phases and progress tracking
 
