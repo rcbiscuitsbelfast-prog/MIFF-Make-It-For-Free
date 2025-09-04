@@ -5,7 +5,7 @@ import { GLTFLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders
 const container = document.getElementById('gameContainer');
 const statusEl = document.getElementById('status');
 
-let renderer, scene, camera, player, controls = { left:false, right:false, up:false, down:false };
+let renderer, scene, camera, player, mixer, controls = { left:false, right:false, up:false, down:false };
 let ORCH = null;
 const OBJECTS = [];
 let uiOverlay, journalEl;
@@ -26,9 +26,9 @@ function initScene(){
     container.appendChild(renderer.domElement);
 
     // Light
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, ORCH?.lights?.hemi ?? 1.0);
     scene.add(hemi);
-    const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+    const dir = new THREE.DirectionalLight(0xffffff, ORCH?.lights?.dir ?? 0.8);
     dir.position.set(5,10,7);
     scene.add(dir);
     // Light flicker effect
@@ -48,6 +48,10 @@ async function loadPlayer(){
         player.scale.set(0.02, 0.02, 0.02);
         player.position.set(0,0,0);
         scene.add(player);
+        if (glb.animations && glb.animations.length){
+            mixer = new THREE.AnimationMixer(player);
+            const clip = glb.animations[0]; const action = mixer.clipAction(clip); action.play();
+        }
     }catch{
         // Fallback cube
         player = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xd35400 }));
@@ -122,7 +126,9 @@ function bindInput(){
 
 function followCamera(){
     if (!player) return;
-    const target = new THREE.Vector3(player.position.x, 2.5, player.position.z + 6);
+    const offY = ORCH?.camera?.offsetY ?? 2.5;
+    const offZ = ORCH?.camera?.offsetZ ?? 6;
+    const target = new THREE.Vector3(player.position.x, offY, player.position.z + offZ);
     camera.position.lerp(target, 0.1);
     camera.lookAt(player.position.x, 1.5, player.position.z);
 }
@@ -141,6 +147,7 @@ let last;
 function loop(ts){
     if (!last) last = ts; const dt = Math.min(0.033, (ts-last)/1000); last = ts;
     update(dt);
+    if (mixer) mixer.update(dt);
     followCamera();
     renderer.render(scene, camera);
     requestAnimationFrame(loop);

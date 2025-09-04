@@ -14,9 +14,16 @@
     "hintAfterMs": 5000
   },
   "props": [
-    { "type": "tree", "x": -3, "z": -4 },
-    { "type": "house", "x": 4, "z": 3 },
+    { "type": "tree", "model": "shield_round.gltf", "x": -3, "z": -4, "scale": 0.02 },
+    { "type": "house", "model": "shield_badge.gltf", "x": 4, "z": 3, "scale": 0.02 },
     { "type": "chest", "x": 2, "z": -2 },
     { "type": "prop", "model": "shield_round.gltf", "x": -1, "z": 1, "scale": 0.02, "rotationY": 1.2 }
+  ],
+  "camera": { "offsetY": 6, "offsetZ": 10, "fov": 60 },
+  "lights": { "dir": 0.8, "hemi": 1.0 },
+  "questZones": [
+    { "id": "arrival", "x": 0, "z": 0, "radius": 1.5, "journal": "Arrived at the grove clearing." },
+    { "id": "oak_hint", "x": -3, "z": -4, "radius": 1.5, "journal": "An old oak watches silently.", "reward": null },
+    { "id": "chest_reward", "x": 2, "z": -2, "radius": 1.2, "journal": "You discover a chest.", "reward": "Herb" }
   ]
 }
