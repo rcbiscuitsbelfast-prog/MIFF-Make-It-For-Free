@@ -6,6 +6,9 @@ const container = document.getElementById('gameContainer');
 const statusEl = document.getElementById('status');
 
 let renderer, scene, camera, player, controls = { left:false, right:false, up:false, down:false };
+let ORCH = null;
+const OBJECTS = [];
+let uiOverlay;
 
 function initScene(){
     scene = new THREE.Scene();
@@ -48,6 +51,24 @@ async function loadPlayer(){
     }
 }
 
+async function loadOrchestration(){
+    try { ORCH = await (await fetch('../witcher_grove/orchestration.json')).json(); } catch { ORCH = null; }
+}
+
+async function placeProps(){
+    if (!ORCH) return;
+    const loader = new GLTFLoader();
+    const addMesh = (mesh)=>{ scene.add(mesh); OBJECTS.push(mesh); };
+    // Simple prop placement using 3D primitives as stand-ins
+    const chestPos = new THREE.Vector3(2,0.5,-2);
+    const chest = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xaa8833 }));
+    chest.position.copy(chestPos); addMesh(chest); chest.userData = { type:'chest', questReward:'Herb' };
+    const tree = new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.0, 8), new THREE.MeshStandardMaterial({ color: 0x1f5c2e }));
+    tree.position.set(-3,1.0,-4); addMesh(tree);
+    const house = new THREE.Mesh(new THREE.BoxGeometry(2,1.2,2), new THREE.MeshStandardMaterial({ color: 0x664d3b }));
+    house.position.set(4,0.6,3); addMesh(house);
+}
+
 function bindInput(){
     window.addEventListener('keydown', (e)=>{
         if (e.key==='a'||e.key==='A') controls.left=true;
@@ -87,6 +108,7 @@ function update(dt){
     if (controls.right) player.position.x += speed*dt;
     if (controls.up) player.position.z -= speed*dt;
     if (controls.down) player.position.z += speed*dt;
+    checkQuestZones();
 }
 
 let last;
@@ -101,11 +123,36 @@ function loop(ts){
 async function start(){
     if (statusEl) statusEl.textContent = 'Loading 3D…';
     initScene();
+    await loadOrchestration();
     await loadPlayer();
+    await placeProps();
+    ensureUI();
     bindInput();
     if (statusEl) statusEl.textContent = 'Use WASD (or touch) to move. Toggle at top to switch modes.';
     requestAnimationFrame(loop);
 }
 
 start();
+
+function ensureUI(){
+    if (uiOverlay) return;
+    uiOverlay = document.createElement('div');
+    uiOverlay.style.position='absolute'; uiOverlay.style.left='50%'; uiOverlay.style.top='8px'; uiOverlay.style.transform='translateX(-50%)';
+    uiOverlay.style.background='rgba(0,0,0,0.5)'; uiOverlay.style.padding='8px 12px'; uiOverlay.style.borderRadius='8px';
+    uiOverlay.style.fontSize='12px'; uiOverlay.style.color='#d0d7de';
+    uiOverlay.textContent = 'Quest: Find the chest near the oak tree';
+    container.appendChild(uiOverlay);
+}
+
+function checkQuestZones(){
+    // AABB around chest triggers
+    const chest = OBJECTS.find(o=>o.userData?.type==='chest');
+    if (!chest || !player) return;
+    const dx = Math.abs(player.position.x - chest.position.x);
+    const dz = Math.abs(player.position.z - chest.position.z);
+    if (dx < 1 && dz < 1){
+        if (uiOverlay) uiOverlay.textContent = 'Quest Complete: Herb obtained!';
+        chest.userData = {}; // prevent repeat
+    }
+}
 
