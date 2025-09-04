@@ -323,11 +323,20 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 **Current Phase**: Phase 17 - CLI Orchestration & Module Stabilization ✅ **COMPLETED**
 
-## 🧩 Current Module Scope
+## 🧩 Current Module Scope & Implementation Status
 
-MIFF currently includes **102 Pure modules** in the `miff/pure/` directory, with **6 CI-stable modules** featuring full CLI orchestration:
+MIFF contains **102 Pure modules** across 16 categories, with varying levels of implementation readiness:
 
-### Phase 17 CLI-Stable Modules
+### 📊 **Module Readiness Overview**
+- **Total Modules**: 102 (across gameplay, infrastructure, tools, etc.)
+- **CLI Ready**: 69 modules (67%) - Have `cliHarness.ts` files
+- **Test Ready**: 61 modules (59%) - Have test coverage
+- **Fixture Ready**: 58 modules (56%) - Have sample data/fixtures
+- **Orchestration Ready**: 6 modules (5%) - Full CLI orchestration support
+
+### 🎯 **Phase 17 Orchestration-Ready Modules**
+These 6 modules have **complete CLI orchestration, federation support, and comprehensive documentation**:
+
 - **ModdingPure** - Plugin loading, asset bundling, hot-reload
 - **DialoguePure** - Branching dialogue engine with variables/flags  
 - **VisualReplaySystemPure** - Deterministic visual replay and testing
@@ -335,9 +344,16 @@ MIFF currently includes **102 Pure modules** in the `miff/pure/` directory, with
 - **AudioPure** - Spatial audio system with dynamic mixing
 - **NetworkBridgePure** - Multiplayer networking with rollback netcode
 
-Each supports standardized CLI orchestration, deterministic replay, and comprehensive contributor onboarding.
+### 📈 **High-Readiness Categories**
+- **Character Systems** (6 modules): 100% CLI ready, 83% test ready
+- **Engine Bridges** (8 modules): 75% CLI ready, 63% test ready
+- **Inventory & Items** (7 modules): 86% CLI ready, 71% test ready
 
-> ⚠️ **Note**: While MIFF contains 102+ modules with various levels of implementation, the current Phase 17 focus stabilized 6 core modules for orchestration. Future phases will incrementally enhance additional subsystems with CLI orchestration and federation support.
+### 🔜 **Phase 18 Expansion Candidates**
+Based on readiness assessment, these modules are prime candidates for orchestration expansion:
+- **InventoryPure**, **QuestSystemPure**, **CombatCorePure**, **StatsSystemPure**, **HealthSystemPure**
+
+> 📋 **[View Complete Module Inventory](CATEGORIZED_MODULE_INVENTORY.md)** - Detailed breakdown of all 102 modules by category and readiness status
 
 **Phase 17 Achievements**:
 - 🔗 **6 modules now CLI-stable and orchestration-ready**
