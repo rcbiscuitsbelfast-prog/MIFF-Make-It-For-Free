@@ -1,0 +1,19 @@
+{
+  "scenarioId": "witcher-grove-demo-v1",
+  "name": "Witcher Grove Demo",
+  "version": "1.0.0",
+  "schema": "v14",
+  "quests": {
+    "campfire_intro": { "steps": ["enter_grove", "speak_to_npc", "accept_task"] }
+  },
+  "npcs": {
+    "npc1": { "name": "Wandering Hunter" }
+  },
+  "locations": {
+    "grove_clearing": { "description": "A quiet forest clearing with a campfire." }
+  },
+  "triggers": {
+    "onStart": { "type": "event", "action": "spawnNPCs" }
+  },
+  "remixSafe": true
+}

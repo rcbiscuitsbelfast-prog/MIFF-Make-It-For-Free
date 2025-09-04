@@ -1,0 +1,19 @@
+{
+  "scenarioId": "spirit-tamer-demo-v1",
+  "name": "Spirit Tamer Demo",
+  "version": "1.0.0",
+  "schema": "v14",
+  "quests": {
+    "taming_trial": { "steps": ["talk_to_spirit", "keep_beat", "calm_spirit"] }
+  },
+  "npcs": {
+    "spirit": { "name": "Ancient Spirit", "mood": "agitated" }
+  },
+  "locations": {
+    "grove": { "description": "Quiet grove clearing" }
+  },
+  "triggers": {
+    "onBeat": { "type": "beat", "action": "advanceProgress" }
+  },
+  "remixSafe": true
+}
