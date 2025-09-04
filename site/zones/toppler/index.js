@@ -12,7 +12,7 @@ let game = {
 	ctx: null,
 	cvs: null,
 	trail: [],
-	audio: { music:null, ui:null, muted:false },
+	audio: { music:null, ui:null, muted:false, sfx:{ jump:null, collect:null, curse:null } },
 	score: 0,
 	enemies: [],
 	chests: []
@@ -45,7 +45,7 @@ function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ 
 		if (e.key === 'ArrowRight') game.player.vx = 140; 
 		if (e.key === 'ArrowLeft') game.player.vx = -140; 
-		if (e.key === 'ArrowUp' && onGround() && game.state!==State.Paused) game.player.vy = -360; 
+		if (e.key === 'ArrowUp' && onGround() && game.state!==State.Paused){ game.player.vy = -360; try{ game.audio.sfx.jump && game.audio.sfx.jump.play(); }catch{} }
 		if (e.key === 'Enter' && game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} }
 		if (e.key.toLowerCase() === 'm'){ game.audio.muted = !game.audio.muted; try{ game.audio.music && (game.audio.music.muted = game.audio.muted); }catch{} persist(); }
 		if (e.key.toLowerCase() === 'p'){ togglePause(); }
@@ -141,12 +141,12 @@ function ensureSpawns(){
 
 function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
 
-function gameOver(){ setState(State.Paused); const o=ensureOverlay('gameOver'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='You were taken by the curse...'; const r=document.createElement('button'); r.className='btn'; r.textContent='Respawn'; r.onclick=()=>{ hideOverlay('gameOver'); applyLevel(game.levelIndex); setState(State.Idle); }; o.appendChild(h); o.appendChild(r); }
+function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }catch{} setState(State.Paused); const o=ensureOverlay('gameOver'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='You were taken by the curse...'; const r=document.createElement('button'); r.className='btn'; r.textContent='Respawn'; r.onclick=()=>{ hideOverlay('gameOver'); applyLevel(game.levelIndex); setState(State.Idle); }; o.appendChild(h); o.appendChild(r); }
 
 function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += game.player.vx * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
     // Chests collect
-    for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); try{ /* collect sfx placeholder */ }catch{} } }
+    for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} } }
     if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; const w=ensureOverlay('winOverlay'); w.innerHTML=''; const h=document.createElement('h3'); h.textContent='Level Complete!'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Next Level'; btn.onclick=()=>{ hideOverlay('winOverlay'); const next=(game.levelIndex+1)% (ORCH?.levels?.length||1); applyLevel(next); setState(State.Idle); const sel=$('levelSelector'); if (sel) sel.value=String(next); }; w.appendChild(h); w.appendChild(btn); persist(); } } }
 
 function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); const pulse = 8 + Math.abs(Math.sin(performance.now()/200))*10; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 3, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); } // Enemies
@@ -159,6 +159,6 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} bindInputs(); ensureStartMenu(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} bindInputs(); ensureStartMenu(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);
