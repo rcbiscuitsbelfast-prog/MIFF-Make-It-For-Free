@@ -61,21 +61,31 @@ async function placeProps(){
     const add = (mesh, type)=>{ scene.add(mesh); mesh.userData = { type }; OBJECTS.push(mesh); };
     const props = ORCH.props || [];
     for (const p of props){
+        if (p.model){
+            try {
+                const glb = await gltfLoader.loadAsync(`../../../assets/New Assets/${p.model}`);
+                const obj = glb.scene; const s = p.scale ?? 0.02; obj.scale.set(s,s,s);
+                obj.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0);
+                if (p.rotationY) obj.rotation.y = p.rotationY;
+                scene.add(obj); obj.userData = { type: p.type || 'prop' }; OBJECTS.push(obj);
+                continue;
+            } catch { /* fall through to primitives */ }
+        }
         if (p.type==='tree'){
             const tree = new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.0, 8), new THREE.MeshStandardMaterial({ color: 0x1f5c2e }));
-            tree.position.set(p.x, 1.0, p.z); add(tree, 'tree');
+            tree.position.set(p.x ?? 0, 1.0, p.z ?? 0); add(tree, 'tree');
         } else if (p.type==='house'){
             const house = new THREE.Mesh(new THREE.BoxGeometry(2,1.2,2), new THREE.MeshStandardMaterial({ color: 0x664d3b }));
-            house.position.set(p.x, 0.6, p.z); add(house, 'house');
+            house.position.set(p.x ?? 0, 0.6, p.z ?? 0); add(house, 'house');
         } else if (p.type==='chest'){
             // Try loading a GLTF as a chest stand-in (mug_full)
             try {
                 const glb = await gltfLoader.loadAsync('../../../assets/New Assets/mug_full.gltf');
-                const chest = glb.scene; chest.scale.set(0.02,0.02,0.02); chest.position.set(p.x, 0, p.z);
+                const chest = glb.scene; const s = p.scale ?? 0.02; chest.scale.set(s,s,s); chest.position.set(p.x ?? 0, p.y ?? 0, p.z ?? 0);
                 scene.add(chest); chest.userData = { type:'chest', questReward:'Herb' }; OBJECTS.push(chest);
             } catch {
                 const chest = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xaa8833 }));
-                chest.position.set(p.x, 0.5, p.z); chest.userData = { type:'chest', questReward:'Herb' }; scene.add(chest); OBJECTS.push(chest);
+                chest.position.set(p.x ?? 0, 0.5, p.z ?? 0); chest.userData = { type:'chest', questReward:'Herb' }; scene.add(chest); OBJECTS.push(chest);
             }
         }
     }

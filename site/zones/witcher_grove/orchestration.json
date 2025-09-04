@@ -16,6 +16,7 @@
   "props": [
     { "type": "tree", "x": -3, "z": -4 },
     { "type": "house", "x": 4, "z": 3 },
-    { "type": "chest", "x": 2, "z": -2 }
+    { "type": "chest", "x": 2, "z": -2 },
+    { "type": "prop", "model": "shield_round.gltf", "x": -1, "z": 1, "scale": 0.02, "rotationY": 1.2 }
   ]
 }
