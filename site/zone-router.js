@@ -19,28 +19,28 @@
         toppler: {
             title: '🧱 Toppler Puzzle',
             description: 'Physics puzzle with modular ramps and remixable rules',
-            src: '../zones/toppler/index.html',
+            src: './zones/toppler/index.html',
             type: 'game',
             remixSafe: true
         },
         spirit_tamer: {
             title: '🐉 Spirit Tamer Combat',
             description: 'Dialogue + interaction sampler for taming spirits',
-            src: '../zones/spirit_tamer/index.html',
+            src: './zones/spirit_tamer/index.html',
             type: 'game',
             remixSafe: true
         },
         witcher_grove: {
             title: '🧙 Witcher Grove Narrative',
             description: 'Quiet clearing with a mysterious NPC near a campfire',
-            src: '../zones/witcher_grove/index.html',
+            src: './zones/witcher_grove/index.html',
             type: 'game',
             remixSafe: true
         },
         remix_lab: {
             title: '🧪 Remix Lab',
             description: 'Contributor-facing debug zone and CLI triggers',
-            src: '../zones/remix_lab/index.html',
+            src: './zones/remix_lab/index.html',
             type: 'tool',
             remixSafe: true
         },
