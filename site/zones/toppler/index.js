@@ -69,7 +69,7 @@ function ensureStartMenu(){
     for (const opt of ORCH.ui.startMenu.options){
         const btn = document.createElement('button'); btn.className='btn'; btn.textContent = opt.label; o.appendChild(btn);
         if (opt.action === 'startGame') btn.onclick=()=>{ hideOverlay(id); setState(State.Playing); try{ game.audio.music?.play(); }catch{} };
-        else if (opt.action === 'showCredits') btn.onclick=()=>{ alert('Lore: Cursed isles and ancient knights.'); };
+        else if (opt.action === 'showCredits') btn.onclick=()=>{ showLoreModal(); };
         else if (opt.submenu){
             btn.onclick=()=>{
                 const sub = document.createElement('div'); sub.style.marginTop='8px';
@@ -92,6 +92,24 @@ function ensureStartMenu(){
             };
         }
     }
+}
+
+function showLoreModal(){
+    const m = ensureOverlay('loreModal');
+    m.innerHTML = '';
+    const html = `
+    <div style="max-width:520px;text-align:left">
+      <h2 style="margin:0 0 8px 0">The Hollow Isles</h2>
+      <p>Long ago, the Bone King cursed these lands. Only the brave may cross the crumbling paths and reclaim the lost relics.</p>
+      <p><em>Tip:</em> Chests hold secrets. Skeletons guard them fiercely.</p>
+      <p><small>Assets: KayKit, CC0. Framework: MIFF.</small></p>
+      <div style="margin-top:10px">
+        <button class="btn" id="closeLore">Close</button>
+      </div>
+    </div>`;
+    m.insertAdjacentHTML('beforeend', html);
+    const c = document.getElementById('closeLore');
+    if (c) c.onclick = ()=> hideOverlay('loreModal');
 }
 
 function ensureMobileControls(){
