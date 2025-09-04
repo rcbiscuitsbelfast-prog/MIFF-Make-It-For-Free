@@ -8,6 +8,7 @@ const statusEl = document.getElementById('status');
 let renderer, scene, camera, player, mixer, controls = { left:false, right:false, up:false, down:false };
 let ORCH = null;
 const OBJECTS = [];
+const NPCS = [];
 let uiOverlay, journalEl;
 const gltfLoader = new GLTFLoader();
 
@@ -99,6 +100,23 @@ async function placeProps(){
     }
 }
 
+async function spawnNPCs(){
+    if (!ORCH?.npcPaths) return;
+    for (const npc of ORCH.npcPaths){
+        let obj, mixerNPC, clips;
+        try{
+            const glb = await gltfLoader.loadAsync(`../../../assets/New Assets/${npc.model}`);
+            obj = glb.scene; const s = npc.scale ?? 0.02; obj.scale.set(s,s,s);
+            scene.add(obj); clips = glb.animations || [];
+            if (clips.length){ mixerNPC = new THREE.AnimationMixer(obj); const idle = clips[npc.clipIdle||0]; mixerNPC.clipAction(idle).play(); }
+        }catch{
+            obj = new THREE.Mesh(new THREE.SphereGeometry(0.6,16,16), new THREE.MeshStandardMaterial({ color: 0x8888ff }));
+            obj.position.set(0,0.6,0); scene.add(obj);
+        }
+        NPCS.push({ obj, mixer: mixerNPC, clips, path: npc.waypoints||[], idx: 0, waitUntil: 0, walking:false, clipWalkIdx: npc.clipWalk||0, clipIdleIdx: npc.clipIdle||0 });
+    }
+}
+
 function bindInput(){
     window.addEventListener('keydown', (e)=>{
         if (e.key==='a'||e.key==='A') controls.left=true;
@@ -141,6 +159,26 @@ function update(dt){
     if (controls.up) player.position.z -= speed*dt;
     if (controls.down) player.position.z += speed*dt;
     checkQuestZones();
+    updateNPCs(dt);
+}
+
+function updateNPCs(dt){
+    const now = performance.now();
+    for (const n of NPCS){
+        if (!n.path.length) continue;
+        const wp = n.path[n.idx];
+        if (n.waitUntil && now < n.waitUntil) continue;
+        const p = n.obj.position; const tx = wp.x, tz = wp.z; const dx = tx - p.x, dz = tz - p.z; const dist = Math.hypot(dx, dz);
+        const sp = 1.8*dt; // slower than player
+        if (dist > 0.05){
+            p.x += (dx/dist)*sp; p.z += (dz/dist)*sp; n.walking = true;
+            if (n.mixer && n.clips[n.clipWalkIdx]){ const act = n.mixer.clipAction(n.clips[n.clipWalkIdx]); act.play(); }
+        } else {
+            n.idx = (n.idx + 1) % n.path.length; n.waitUntil = now + (wp.waitMs||500); n.walking=false;
+            if (n.mixer && n.clips[n.clipIdleIdx]){ const act = n.mixer.clipAction(n.clips[n.clipIdleIdx]); act.play(); }
+        }
+        if (n.mixer) n.mixer.update(dt);
+    }
 }
 
 let last;
@@ -159,6 +197,7 @@ async function start(){
     await loadOrchestration();
     await loadPlayer();
     await placeProps();
+    await spawnNPCs();
     ensureUI(); restoreJournal();
     bindInput();
     if (statusEl) statusEl.textContent = 'Use WASD (or touch) to move. Toggle at top to switch modes.';
@@ -183,6 +222,10 @@ function ensureUI(){
     journalEl.style.fontSize='11px'; journalEl.style.color='#d0d7de'; journalEl.textContent='Journal:';
     container.appendChild(journalEl);
     addJournalEntry('Arrived at grove.');
+    // Timed story hooks
+    if (ORCH?.story){
+        for (const s of ORCH.story){ setTimeout(()=>{ addJournalEntry(s.text); }, s.t||0); }
+    }
 }
 
 function checkQuestZones(){

@@ -25,5 +25,24 @@
     { "id": "arrival", "x": 0, "z": 0, "radius": 1.5, "journal": "Arrived at the grove clearing." },
     { "id": "oak_hint", "x": -3, "z": -4, "radius": 1.5, "journal": "An old oak watches silently.", "reward": null },
     { "id": "chest_reward", "x": 2, "z": -2, "radius": 1.2, "journal": "You discover a chest.", "reward": "Herb" }
+  ],
+  "npcPaths": [
+    {
+      "id": "hunter_patrol",
+      "model": "Rogue.glb",
+      "scale": 0.02,
+      "clipIdle": 0,
+      "clipWalk": 0,
+      "waypoints": [
+        { "x": -2, "z": -1, "waitMs": 800 },
+        { "x": 1, "z": -3, "waitMs": 600 },
+        { "x": 3, "z": 2, "waitMs": 1000 },
+        { "x": -1, "z": 1, "waitMs": 500 }
+      ]
+    }
+  ],
+  "story": [
+    { "t": 1500, "text": "A whisper rides the wind..." },
+    { "t": 4500, "text": "The oak remembers." }
   ]
 }

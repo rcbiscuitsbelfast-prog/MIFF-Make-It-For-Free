@@ -32,6 +32,30 @@
   - Unknown or missing models gracefully fall back to simple primitives
   - `chest` without `model` uses `mug_full.gltf` when available
 
+### NPC Pathing
+```
+{
+  "npcPaths": [
+    {
+      "id": "hunter_patrol",
+      "model": "Rogue.glb",
+      "scale": 0.02,
+      "clipIdle": 0,
+      "clipWalk": 0,
+      "waypoints": [ { "x": -2, "z": -1, "waitMs": 800 }, { "x": 1, "z": -3, "waitMs": 600 } ]
+    }
+  ]
+}
+```
+
+### Quest Zones and Story Hooks
+```
+{
+  "questZones": [ { "id": "chest_reward", "x": 2, "z": -2, "radius": 1.2, "journal": "You discover a chest.", "reward": "Herb" } ],
+  "story": [ { "t": 1500, "text": "A whisper rides the wind..." } ]
+}
+```
+
 ## Quests and Triggers
 - A simple quest zone trigger checks player proximity to the chest
 - Update UI overlay via `uiOverlay` when quest completes
