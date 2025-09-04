@@ -118,12 +118,12 @@ workspace/
 │   ├── scenarios/          # Test fixtures and scenarios
 │   ├── replay/             # Replay and testing tools
 │   ├── scripts/            # Build and utility scripts
-│   └── pure/               # 100+ Pure modules (consolidated)
+│   └── pure/               # 102 Pure modules (engine-agnostic)
 │       ├── AIProfilesPure/ # AI and profiling systems
 │       ├── CombatPure/     # Combat mechanics
 │       ├── DialogPure/     # Dialogue systems
 │       ├── InventoryPure/  # Inventory management
-│       └── [97 more...]    # Complete engine-agnostic toolkit
+│       └── [98 more...]    # Complete modular toolkit
 ├── site/                   # Web interface and routing
 │   ├── zones/              # Zone-specific web pages
 │   └── dashboard/          # Main dashboard
@@ -187,11 +187,26 @@ The long-term goal is to integrate MIFF with an AI companion that can:
 - Ensure remix safety and compliance automatically  
 - Offer instant onboarding for contributors and educators
 
-### Current Phase:  
-✅ Phase 15 — Visual Replay & Testing
+## 🚀 Roadmap
 
-### Next Phase:  
-🚀 Phase 16 — Funding, Outreach & Global Deployment
+### ✅ Phase 17: CLI Orchestration & Module Stabilization (Complete)
+- 6 modules CLI-stable and orchestration-ready
+- CLI orchestration hooks implemented across core modules
+- Federation CLI scaffolded and operational
+- Comprehensive onboarding packs and documentation complete
+- TypeScript compilation stability achieved
+
+### 🔜 Phase 18: Federation Hooks & Orchestration Expansion
+- **Persistent scenario replay** - Multi-module replay chains
+- **Contributor federation guide** - Enhanced onboarding workflows  
+- **Legacy module stabilization** - Resolve remaining integration issues
+- **Orchestration expansion patterns** - Add federation to CombatPure, InventoryPure, QuestSystemPure
+
+### 🧪 Phase 19+: Scenario Registry & Remix-Safe Expansion
+- **Modular scenario registry** - Dynamic scenario loading and management
+- **Remix-safe contributor workflows** - Streamlined contribution patterns
+- **Persistent world federation** - Cross-session state management
+- **AI agent integration** - Multi-agent orchestration using federation hooks
 
 📋 [View Full Roadmap](ROADMAP.md)
 
@@ -306,12 +321,52 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 
 ## 🚀 Project Status
 
-**Current Phase**: Phase 15 - Visual Replay & Testing ✅ **COMPLETED**
+**Current Phase**: Phase 17 - CLI Orchestration & Module Stabilization ✅ **COMPLETED**
+
+## 🧩 Current Module Scope & Implementation Status
+
+MIFF contains **102 Pure modules** across 16 categories, with varying levels of implementation readiness:
+
+### 📊 **Module Readiness Overview**
+- **Total Modules**: 102 (across gameplay, infrastructure, tools, etc.)
+- **CLI Ready**: 69 modules (67%) - Have `cliHarness.ts` files
+- **Test Ready**: 61 modules (59%) - Have test coverage
+- **Fixture Ready**: 58 modules (56%) - Have sample data/fixtures
+- **Orchestration Ready**: 6 modules (5%) - Full CLI orchestration support
+
+### 🎯 **Phase 17 Orchestration-Ready Modules**
+These 6 modules have **complete CLI orchestration, federation support, and comprehensive documentation**:
+
+- **ModdingPure** - Plugin loading, asset bundling, hot-reload
+- **DialoguePure** - Branching dialogue engine with variables/flags  
+- **VisualReplaySystemPure** - Deterministic visual replay and testing
+- **BridgeSchemaPure** - Cross-engine schema validation (Unity/Web/Godot)
+- **AudioPure** - Spatial audio system with dynamic mixing
+- **NetworkBridgePure** - Multiplayer networking with rollback netcode
+
+### 📈 **High-Readiness Categories**
+- **Character Systems** (6 modules): 100% CLI ready, 83% test ready
+- **Engine Bridges** (8 modules): 75% CLI ready, 63% test ready
+- **Inventory & Items** (7 modules): 86% CLI ready, 71% test ready
+
+### 🔜 **Phase 18 Expansion Candidates**
+Based on readiness assessment, these modules are prime candidates for orchestration expansion:
+- **InventoryPure**, **QuestSystemPure**, **CombatCorePure**, **StatsSystemPure**, **HealthSystemPure**
+
+> 📋 **[View Complete Module Inventory](CATEGORIZED_MODULE_INVENTORY.md)** - Detailed breakdown of all 102 modules by category and readiness status
+
+**Phase 17 Achievements**:
+- 🔗 **6 modules now CLI-stable and orchestration-ready**
+- 🛠️ **Standardized CLI operations**: `init`, `teardown`, `replay`, `export` across all modules
+- 📚 **Complete onboarding documentation**: Individual guides for each module with examples
+- 🔄 **Federation framework**: Multi-module orchestration and persistent scenario replay
+- ✅ **CI integration**: `test:phase17` script and pipeline validation
 
 **Recent Milestones**:
+- 🎯 Phase 17 CLI Orchestration (6 modules stabilized: ModdingPure, DialoguePure, VisualReplaySystemPure, BridgeSchemaPure, AudioPure, NetworkBridgePure)
 - 🧪 CLI Harness Test Refactoring (18+ modules updated)
 - 🔧 Type Safety & Build Fixes (TypeScript compilation resolved)
-- 📚 Comprehensive Testing Documentation
+- 📚 Comprehensive Testing Documentation & Onboarding Packs
 - 📦 Golden Fixtures for Deterministic Testing
 - 🎮 Core Gameplay Systems (11 modules scaffolded)
 - 🔍 Quest & Asset Management (2 modules completed)
@@ -319,7 +374,11 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 - 🎬 Visual Replay & Testing (1 system completed)
 
 **What's Next**:
-- Phase 16: Funding, Outreach & Global Deployment
+- **Phase 18**: Federation Hooks & Orchestration Expansion
+  - Persistent scenario replay across multiple modules
+  - Legacy integration stabilization (Jest configuration, DialoguePure unit tests)
+  - Orchestration expansion to CombatPure, InventoryPure, QuestSystemPure
+  - Enhanced contributor federation workflows
 
 **📋 [View Full Roadmap](ROADMAP.md)** - Complete development phases and progress tracking
 

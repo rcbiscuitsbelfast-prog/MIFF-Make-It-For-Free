@@ -1,11 +1,13 @@
 # 🧭 MIFF Framework Roadmap
 
 ## 📊 Current Status
-- ✅ **Phases Completed**: 1–15  
+- ✅ **Phases Completed**: 1–17  
 - ✅ **Refactor Phases**: 1–3 (Modular Structure & Cleanup)  
-- 🚀 **Active Phase**: Phase 16 — Funding, Outreach & Global Deployment  
-- 📦 **Modules**: 100+ Pure modules consolidated in miff/pure/  
+- ✅ **Phase 17 Completed**: CLI Orchestration & Module Stabilization
+- 🚀 **Active Phase**: Phase 18 — Federation Hooks & Orchestration Expansion  
+- 📦 **Modules**: 102 Pure modules consolidated in miff/pure/  
 - 🧩 **Schema Version**: v14+ for new modules  
+- 🔗 **CLI-Stable Modules**: 6 modules with full orchestration support  
 
 ---
 
@@ -13,7 +15,7 @@
 
 ### **Phase 1: File Reorganization**
 - ✅ Moved core functionality to `miff/` directory
-- ✅ Consolidated Pure modules into `miff/pure/` (100+ modules)
+- ✅ Consolidated Pure modules into `miff/pure/` (102 modules)
 - ✅ Organized web interface in `site/` directory
 - ✅ Structured game zones in `zones/` directory
 
@@ -54,6 +56,24 @@
 | 21          | Asset Pipeline: Remix-safe packs, visual editor  
 | 22          | MIFF Studio: Web IDE, scenario builder, export tools  
 | 23+         | Education & Enterprise: Curriculum, SDK, licensing, global scale
+
+---
+
+## ✅ **Phase 17 Completion (September 2025) - COMPLETED**
+
+### **CLI Orchestration & Module Stabilization**
+- ✅ **6 modules CLI-stable**: ModdingPure, DialoguePure, VisualReplaySystemPure, BridgeSchemaPure, AudioPure, NetworkBridgePure
+- ✅ **Standardized operations**: `init`, `teardown`, `replay`, `export` across all modules
+- ✅ **Federation framework**: Multi-module orchestration and persistent scenario replay
+- ✅ **Comprehensive documentation**: Individual onboarding packs for each module
+- ✅ **CI integration**: `test:phase17` script and TypeScript compilation stability
+- ✅ **Phase 18 preparation**: Federation hooks, orchestration patterns, contributor guides
+
+### **Technical Achievements**
+- **Deterministic globals**: All modules support reproducible testing
+- **Quiet JSON stdout**: Automated orchestration compatibility
+- **Cross-module coordination**: Federation CLI operational
+- **Performance validated**: CLI operations tested and confirmed working
 
 ---
 

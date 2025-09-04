@@ -41,7 +41,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.ci.json",
     "play:spirit": "vite preview sampler/site",
     "validate:release": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' cli/miff-simulate.ts TutorialScenarioPure/scenario.json --seed 123 > out_tutorial.json && node miff/scripts/validateOutputFormat.js out_tutorial.json scenario && node miff/scripts/checkRemixHooks.js && node miff/scripts/checkAttribution.js",
-    "gen:manifests": "node miff/scripts/gen-manifests.js"
+    "gen:manifests": "node miff/scripts/gen-manifests.js",
+    "test:phase17": "jest --testNamePattern='(ModdingPure|DialoguePure|VisualReplaySystemPure|BridgeSchemaPure|AudioPure|NetworkBridgePure)' --config jest.config.js",
+    "test:phase18": "jest --testNamePattern='Phase18' --config jest.config.js"
   },
   "repository": {
     "type": "git",
