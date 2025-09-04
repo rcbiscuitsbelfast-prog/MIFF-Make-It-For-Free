@@ -18,6 +18,10 @@ let game = {
 	chests: []
 };
 
+// Medieval sprite/tiles
+let SPRITES = { player:null, enemy:null, cliff:null, bridge:null, chest:null };
+let FX = [];
+
 function persist(){ try { localStorage.setItem('toppler_state', JSON.stringify({ levelIndex: game.levelIndex, muted: game.audio.muted })); } catch {} }
 function restore(){ try { const s=localStorage.getItem('toppler_state'); if (s){ const d=JSON.parse(s); if (typeof d.levelIndex==='number') game.levelIndex=d.levelIndex; if (typeof d.muted==='boolean') game.audio.muted=d.muted; } } catch {} }
 
@@ -146,19 +150,30 @@ function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }
 function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += game.player.vx * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
     // Chests collect
-    for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} } }
+    for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); FX.push({ t:0, x:c.x+c.w/2, y:c.y+c.h/2 }); try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} } }
     if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; const w=ensureOverlay('winOverlay'); w.innerHTML=''; const h=document.createElement('h3'); h.textContent='Level Complete!'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Next Level'; btn.onclick=()=>{ hideOverlay('winOverlay'); const next=(game.levelIndex+1)% (ORCH?.levels?.length||1); applyLevel(next); setState(State.Idle); const sel=$('levelSelector'); if (sel) sel.value=String(next); }; w.appendChild(h); w.appendChild(btn); persist(); } } }
 
-function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); const pulse = 8 + Math.abs(Math.sin(performance.now()/200))*10; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 3, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); } // Enemies
-    for (const e of game.enemies){ ctx.fillStyle = '#bd4b4b'; ctx.fillRect(e.x, e.y, e.w, e.h); }
-    // Chests
-    for (const c of game.chests){ ctx.fillStyle = '#d4b35f'; ctx.fillRect(c.x, c.y, c.w, c.h); }
+function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); // Tiles
+    if (SPRITES.cliff){ for (let x=0; x<cvs.width; x+=32){ ctx.drawImage(SPRITES.cliff, x, cvs.height-32, 32, 32); } }
+    const pulse = 8 + Math.abs(Math.sin(performance.now()/200))*10; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 3, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); } // Enemies
+    for (const e of game.enemies){ if (SPRITES.enemy) ctx.drawImage(SPRITES.enemy, e.x, e.y, e.w, e.h); else { ctx.fillStyle = '#bd4b4b'; ctx.fillRect(e.x, e.y, e.w, e.h); } }
+    // Chests (tinted)
+    for (let i=0;i<game.chests.length;i++){ const c=game.chests[i]; if (SPRITES.chest){ ctx.save(); ctx.globalAlpha=1; ctx.filter = `hue-rotate(${(i%2)*180}deg)`; ctx.drawImage(SPRITES.chest, c.x, c.y, c.w, c.h); ctx.filter='none'; ctx.restore(); } else { ctx.fillStyle = i%2? '#d46f6f':'#6fb7d4'; ctx.fillRect(c.x, c.y, c.w, c.h); } }
     // Player
-    ctx.fillStyle = game.state === State.Completed ? '#2ecc71' : '#58a6ff'; ctx.fillRect(game.player.x, game.player.y, game.player.w, game.player.h);
+    if (SPRITES.player) ctx.drawImage(SPRITES.player, game.player.x, game.player.y, game.player.w, game.player.h); else { ctx.fillStyle = game.state === State.Completed ? '#2ecc71' : '#58a6ff'; ctx.fillRect(game.player.x, game.player.y, game.player.w, game.player.h); }
+    // FX
+    for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
     ctx.fillStyle = '#d0d7de'; ctx.font = '14px sans-serif'; ctx.fillText(`State: ${game.state}  |  Level: ${ORCH?.levels?.[game.levelIndex]?.id ?? 'L?'}  |  Score: ${game.score}`, 10, 20); ctx.fillText('Enter/click start. Arrows move/jump. [Next Level]. P pause. M mute.', 10, 40); }
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} bindInputs(); ensureStartMenu(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
+    function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
+    try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
+    try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}
+    try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
+    try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
+    try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
+    bindInputs(); ensureStartMenu(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);
