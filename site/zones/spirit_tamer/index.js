@@ -3,7 +3,7 @@ function $(id){ return document.getElementById(id); }
 let ORCH = null;
 const State = { Idle: 'idle', Playing: 'playing', Tamed: 'tamed', Dialogue: 'dialogue' };
 let model = { state: State.Idle, hits: 0, progress: 0, ctx: null, cvs: null, npc: { x:320, y:240, name:'Spirit' }, sprite: null, choice: null, portrait: null, props: [] };
-let audio = { music: null, sfxBeat: null, sfxUI: null };
+let audio = { music: null, sfxBeat: null, sfxUI: null, muted:false };
 
 async function loadOrchestration(){
 	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
@@ -17,7 +17,7 @@ async function loadAssets(){
 	const props = ['Oak_Tree_Small.png', 'Outdoor_Decor_Free.png'];
 	for (const p of props){ const img = await loadImg('../../../assets/' + p).catch(()=>null); if (img) model.props.push({ img, dx: Math.random()*80-40, dy: Math.random()*40-20 }); }
 	// audio
-	try { audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); audio.music.loop = true; audio.music.volume = 0.3; } catch {}
+	try { audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); audio.music.loop = true; audio.music.volume = 0.3; audio.music.muted = audio.muted; } catch {}
 	try { audio.sfxBeat = new Audio('../../../assets/audio/sfx/hit_basic.txt'); } catch {}
 	try { audio.sfxUI = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {}
 }
@@ -39,6 +39,7 @@ function bindInputs(){
 		if (e.key === 'Enter' && model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} }
 		if (e.key === ' ') onBeat();
 		if (e.key.toLowerCase() === 'd') openDialogue();
+		if (e.key.toLowerCase() === 'm'){ audio.muted = !audio.muted; try{ audio.music && (audio.music.muted = audio.muted); }catch{} }
 	});
 	const cvs = model.cvs;
 	cvs.addEventListener('click', ()=>{ if (model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} } else onBeat(); });
@@ -125,7 +126,7 @@ function render(){
 	if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; }
 	// HUD
 	ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20);
-	ctx.fillText('Space/click for beats. Enter to start. D for dialogue.', 10, 40);
+	ctx.fillText('Space/click for beats. Enter to start. D for dialogue. M to mute.', 10, 40);
 }
 
 function loop(){ render(); requestAnimationFrame(loop); }

@@ -12,7 +12,7 @@ let game = {
 	ctx: null,
 	cvs: null,
 	trail: [],
-	audio: { music:null, ui:null }
+	audio: { music:null, ui:null, muted:false }
 };
 
 async function loadOrchestration(){ try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; } if (ORCH?.levels?.length){ applyLevel(0); } }
@@ -24,7 +24,13 @@ function setState(next){ game.state = next; }
 function startReplay(){ /* reserved for timed triggers in future */ }
 
 function bindInputs(){
-	window.addEventListener('keydown', (e)=>{ if (e.key === 'ArrowRight') game.player.vx = 140; if (e.key === 'ArrowLeft') game.player.vx = -140; if (e.key === 'ArrowUp' && onGround()) game.player.vy = -360; if (e.key === 'Enter' && game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } });
+	window.addEventListener('keydown', (e)=>{ 
+		if (e.key === 'ArrowRight') game.player.vx = 140; 
+		if (e.key === 'ArrowLeft') game.player.vx = -140; 
+		if (e.key === 'ArrowUp' && onGround()) game.player.vy = -360; 
+		if (e.key === 'Enter' && game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} }
+		if (e.key.toLowerCase() === 'm'){ game.audio.muted = !game.audio.muted; try{ game.audio.music && (game.audio.music.muted = game.audio.muted); }catch{} }
+	});
 	window.addEventListener('keyup', (e)=>{ if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') game.player.vx = 0; });
 	game.cvs.addEventListener('click', ()=>{ if (game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } });
 	$('btn_back')?.addEventListener('click', ()=>{ try{ game.audio.music?.pause(); }catch{} location.href='../../index.html'; });
@@ -36,10 +42,10 @@ function onGround(){ return game.player.y + game.player.h >= 480 - 20; }
 
 function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; game.player.vy += L.gravity * dt; game.player.x += game.player.vx * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; } } }
 
-function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); const pulse = 8 + Math.abs(Math.sin(performance.now()/300))*8; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 2, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.fillRect(p.x-3, p.y-3, 6, 6); } ctx.fillStyle = game.state === State.Completed ? '#2ecc71' : '#58a6ff'; ctx.fillRect(game.player.x, game.player.y, game.player.w, game.player.h); ctx.fillStyle = '#d0d7de'; ctx.font = '14px sans-serif'; ctx.fillText(`State: ${game.state}  |  Level: ${ORCH?.levels?.[game.levelIndex]?.id ?? 'L?'}`, 10, 20); ctx.fillText('Enter/click to start. Arrows to move/jump. [Next Level] to switch.', 10, 40); }
+function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); const pulse = 8 + Math.abs(Math.sin(performance.now()/300))*8; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 2, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.fillRect(p.x-3, p.y-3, 6, 6); } ctx.fillStyle = game.state === State.Completed ? '#2ecc71' : '#58a6ff'; ctx.fillRect(game.player.x, game.player.y, game.player.w, game.player.h); ctx.fillStyle = '#d0d7de'; ctx.font = '14px sans-serif'; ctx.fillText(`State: ${game.state}  |  Level: ${ORCH?.levels?.[game.levelIndex]?.id ?? 'L?'}`, 10, 20); ctx.fillText('Enter/click to start. Arrows to move/jump. [Next Level] to switch. M to mute.', 10, 40); }
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; update(dt); render(); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} bindInputs(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} bindInputs(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);

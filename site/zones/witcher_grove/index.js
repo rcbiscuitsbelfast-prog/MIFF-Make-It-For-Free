@@ -2,7 +2,7 @@ function $(id){ return document.getElementById(id); }
 
 let ORCH = null;
 const State = { Exploring: 'exploring', Dialogue: 'dialogue' };
-let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null } };
+let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null, muted:false } };
 
 async function loadOrchestration(){
 	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
@@ -14,7 +14,7 @@ async function loadAssets(){
 	vm.tileset = await loadImg('../../../assets/Grass_Middle.png').catch(()=>null);
 	const propNames = ['Oak_Tree.png', 'House.png', 'Chest.png'];
 	for (const p of propNames){ const img = await loadImg('../../../assets/' + p).catch(()=>null); if (img) vm.props.push({ name:p.replace('.png','').toLowerCase(), img, x: Math.random()*500+40, y: Math.random()*350+40 }); }
-	try { vm.audio.music = new Audio('../../../assets/audio/music/Tracks/1. Dawn of Blades.ogg'); vm.audio.music.loop=true; vm.audio.music.volume=0.25; } catch {}
+	try { vm.audio.music = new Audio('../../../assets/audio/music/Tracks/1. Dawn of Blades.ogg'); vm.audio.music.loop=true; vm.audio.music.volume=0.25; vm.audio.music.muted = vm.audio.muted; } catch {}
 	try { vm.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {}
 }
 
@@ -42,6 +42,7 @@ function bindInputs(){
 		const chest = vm.props.find(p=>p.name==='chest' && mx>=p.x && mx<=p.x+24 && my>=p.y && my<=p.y+24);
 		if (chest){ addItem('Herb'); try{ vm.audio.ui?.play(); }catch{} }
 	});
+	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} } });
 }
 
 function openDialogue(lines){ vm.state = State.Dialogue; ensureOverlay(lines); }
@@ -76,6 +77,7 @@ function render(){
 	if (vm.portrait){ ctx.globalAlpha=0.12; ctx.drawImage(vm.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; }
 	// HUD
 	ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${vm.state}`, 10, 20);
+	ctx.fillText('M to mute music.', 10, 40);
 }
 
 function loop(){ render(); requestAnimationFrame(loop); }
