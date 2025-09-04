@@ -9,7 +9,7 @@
 - Renderer and scene: `site/zones/witcher_grove/3d/bootstrap.js` (ES module)
 - Orchestration (3D): `site/zones/witcher_grove/orchestration.json`
 - 2D fallback: `site/zones/witcher_grove/index.js` (canvas), auto-loaded when `mode!=3d`
-- Mobile: WASD on desktop; touch buttons on mobile
+- Mobile: WASD on desktop; touch gestures on mobile (pinch/drag)
 - Camera: smooth follow, adjustable in `followCamera()`
 
 ## Orchestration → 3D Scene
@@ -67,7 +67,7 @@
 ## Quests and Triggers
 - Quest 1: proximity to the chest completes and grants Herb
 - Quest 2: after the chest, visit the house, then the oak tree to receive the Oak Relic
-- UI overlay updates on completion; journal entries persist
+- UI overlay updates on completion; journal entries persist (modal overlay)
 
 ## Inventory and Persistence
 - Shared localStorage key: `grove_state`
@@ -77,14 +77,17 @@
 
 ## Camera, Gestures, and Fullscreen
 - Desktop wheel to zoom; clamped to prevent extreme FOV changes
-- Touch pinch to zoom; one-finger drag to pan the camera target subtly
+- Touch pinch to zoom; one-finger drag to pan
 - Long-press the scene to reopen the in-game menu
 - Start button requests fullscreen (browser permission-gated)
 
 ## Tiles and Modular Map
-- `tile_manifest.json` can define multiple ground tiles with coordinates and sizes
-- Each tile references a texture under `assets/` and is added as a plane to the scene
-- If manifest is missing, a fallback ground plane is used
+- Loader path: `assets/Isometric Blocks/tile_manifest.json`
+- Manifest format accepts either `{ "tiles": [...] }` or array; entries use:
+  - `{ "src": "grass_01.png", "x": 0, "y": 0, "rotationY": 0, "scale": 1 }`
+  - `x` maps to world X; `y` maps to world Z; optional `alt` maps to world Y (height)
+- Each entry becomes a plane rotated flat (isometric-up), with transparent PNG support
+- No legacy fallback terrain is used if the manifest is missing
 
 ## Adding New Props
 1. Drop GLTF under `assets/New Assets/`
@@ -102,6 +105,6 @@
 - Contributors can safely add/replace props via orchestration only
 
 ## Testing
-- Desktop: WASD; Mobile: on-screen buttons, pinch/drag
+- Desktop: WASD; Mobile: pinch/drag
 - Toggle music with `M` in 2D mode; 3D mode uses browser media controls
 - Validate both `mode=3d` and default 2D paths

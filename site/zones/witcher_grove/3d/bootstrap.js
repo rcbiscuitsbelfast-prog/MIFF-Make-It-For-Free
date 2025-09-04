@@ -65,6 +65,11 @@ async function loadPlayer(){
         player.position.set(0,0.5,0);
         scene.add(player);
     }
+    // Center camera on player at spawn (instant)
+    const offY0 = (ORCH?.camera?.offsetY ?? 2.5) * camZoom;
+    const offZ0 = (ORCH?.camera?.offsetZ ?? 6) * camZoom;
+    camera.position.set(player.position.x + panX, offY0, player.position.z + offZ0 + panZ);
+    camera.lookAt(player.position.x + panX, 1.5, player.position.z + panZ);
 }
 
 async function loadOrchestration(){
@@ -136,16 +141,7 @@ function bindInput(){
         if (e.key==='w'||e.key==='W') controls.up=false;
         if (e.key==='s'||e.key==='S') controls.down=false;
     });
-    // Touch joystick (simple left/right/up)
-    if (window.innerWidth<=768){
-        const ui = document.createElement('div'); ui.style.position='absolute'; ui.style.bottom='8px'; ui.style.right='8px'; ui.style.display='flex'; ui.style.gap='6px';
-        const mk=(t)=>{ const b=document.createElement('button'); b.textContent=t; b.className='btn'; b.style.opacity='0.85'; b.style.padding='8px 12px'; return b; };
-        const L=mk('◀'), U=mk('⤴'), R=mk('▶');
-        L.ontouchstart=(e)=>{ e.preventDefault(); controls.left=true; }; L.ontouchend=(e)=>{ e.preventDefault(); controls.left=false; };
-        R.ontouchstart=(e)=>{ e.preventDefault(); controls.right=true; }; R.ontouchend=(e)=>{ e.preventDefault(); controls.right=false; };
-        U.ontouchstart=(e)=>{ e.preventDefault(); controls.up=true; setTimeout(()=>controls.up=false, 150); };
-        ui.appendChild(L); ui.appendChild(U); ui.appendChild(R); container.appendChild(ui);
-    }
+    // Removed persistent on-screen buttons; gestures used instead
 
     // Wheel zoom (desktop)
     container.addEventListener('wheel', (e)=>{ e.preventDefault(); const z = camZoom + Math.sign(e.deltaY)*0.05; camZoom = Math.max(0.6, Math.min(1.8, z)); }, { passive:false });
@@ -177,20 +173,27 @@ function bindInput(){
         }
     }, { passive:true });
     container.addEventListener('touchend', (e)=>{ if (e.touches.length===0) touchState.mode=null; }, { passive:true });
+
+    // Responsive resize for canvas and camera aspect
+    window.addEventListener('resize', ()=>{
+        const w = container.clientWidth || 640, h = container.clientHeight || 480;
+        renderer.setSize(w, h);
+        camera.aspect = w/h; camera.updateProjectionMatrix();
+    });
 }
 
-// Build terrain from assets/blocks/isometric/tile_manifest.json
+// Build terrain from assets/Isometric Blocks/tile_manifest.json
 async function buildMap(){
-    const base = '../../../assets/blocks/isometric';
+    const base = '../../../assets/Isometric Blocks';
     const manifestUrl = `${base}/tile_manifest.json`;
     let loaded = 0;
     try{
         const res = await fetch(manifestUrl);
         if (!res.ok) throw new Error('manifest fetch failed');
         const manifest = await res.json();
-        const tiles = Array.isArray(manifest.tiles) ? manifest.tiles : [];
+        const tiles = Array.isArray(manifest.tiles) ? manifest.tiles : (Array.isArray(manifest) ? manifest : []);
         for (const t of tiles){
-            const file = t.filename || t.file || t.path; // support multiple keys
+            const file = t.src || t.filename || t.file || t.path; // support new 'src'
             if (!file) { console.warn('Tile entry missing filename', t); continue; }
             const tex = await texLoader.loadAsync(`${base}/${file}`);
             tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
@@ -203,7 +206,9 @@ async function buildMap(){
             // Optional additional rotation around Y for angled tiles
             if (typeof t.rotationY === 'number') mesh.rotation.y = t.rotationY;
             // Position
-            mesh.position.set(t.x || 0, (t.y || 0) + 0.01, t.z || 0);
+            // Manifest: { src, x, y } => map to x,z; optional alt for height
+            const px = t.x || 0; const pz = (typeof t.z === 'number') ? t.z : (t.y || 0);
+            mesh.position.set(px, (t.alt || 0) + 0.01, pz);
             // Optional scale override
             if (typeof t.scale === 'number') mesh.scale.setScalar(t.scale);
             scene.add(mesh); MAP_TILES.push(mesh); loaded++;
@@ -290,16 +295,15 @@ function ensureUI(){
     uiOverlay.style.position='absolute'; uiOverlay.style.left='50%'; uiOverlay.style.top='8px'; uiOverlay.style.transform='translateX(-50%)';
     uiOverlay.style.background='rgba(0,0,0,0.5)'; uiOverlay.style.padding='8px 12px'; uiOverlay.style.borderRadius='8px';
     uiOverlay.style.fontSize='12px'; uiOverlay.style.color='#d0d7de';
-    uiOverlay.textContent = 'Quest: Find the chest near the oak tree';
+    uiOverlay.style.display='none';
     container.appendChild(uiOverlay);
 
     // Journal overlay
     journalEl = document.createElement('div');
-    journalEl.style.position='absolute'; journalEl.style.left='8px'; journalEl.style.top='8px';
-    journalEl.style.background='rgba(0,0,0,0.4)'; journalEl.style.padding='6px 8px'; journalEl.style.borderRadius='6px';
-    journalEl.style.fontSize='11px'; journalEl.style.color='#d0d7de'; journalEl.textContent='Journal:';
+    journalEl.style.position='absolute'; journalEl.style.left='50%'; journalEl.style.top='50%'; journalEl.style.transform='translate(-50%,-50%)';
+    journalEl.style.background='rgba(0,0,0,0.7)'; journalEl.style.padding='10px 12px'; journalEl.style.borderRadius='6px';
+    journalEl.style.fontSize='12px'; journalEl.style.color='#d0d7de'; journalEl.style.display='none'; journalEl.textContent='Journal:';
     container.appendChild(journalEl);
-    addJournalEntry('Arrived at grove.');
     // Timed story hooks
     if (ORCH?.story){
         for (const s of ORCH.story){ setTimeout(()=>{ addJournalEntry(s.text); }, s.t||0); }
@@ -322,9 +326,13 @@ function ensureMainMenu(){
 
 function toggleOptions(){
     const panel=document.createElement('div'); panel.style.marginTop='8px';
-    panel.innerHTML = '<div style="margin:6px 0">Fullscreen: <button class="btn" id="fsBtn">Toggle</button></div>';
+    panel.innerHTML = '<div style="margin:6px 0">Fullscreen: <button class="btn" id="fsBtn">Toggle</button></div>'+
+        '<div style="margin:6px 0">Sound: <button class="btn" id="soundBtn">Toggle</button></div>'+
+        '<div style="margin:6px 0">Difficulty: <select class="btn" id="diffSel"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></div>';
     mainMenu.appendChild(panel);
     const fs=document.getElementById('fsBtn'); if (fs) fs.onclick=()=>requestFullscreenSafe();
+    const sb=document.getElementById('soundBtn'); if (sb) sb.onclick=()=>{ const v = localStorage.getItem('grove_muted')==='true'; const nv = (!v).toString(); localStorage.setItem('grove_muted', nv); sb.textContent = (nv==='true')? 'Unmute' : 'Mute'; };
+    const ds=document.getElementById('diffSel'); if (ds){ const cur = localStorage.getItem('grove_difficulty')||'normal'; ds.value = cur; ds.onchange=()=>localStorage.setItem('grove_difficulty', ds.value); }
 }
 
 function requestFullscreenSafe(){ try{ container.requestFullscreen && container.requestFullscreen(); }catch{} }
@@ -337,7 +345,7 @@ function checkQuestZones(){
         const dx = Math.abs(player.position.x - chest.position.x);
         const dz = Math.abs(player.position.z - chest.position.z);
         if (dx < 1 && dz < 1){
-            if (uiOverlay) uiOverlay.textContent = 'Quest Complete: Herb obtained!';
+            if (uiOverlay){ uiOverlay.textContent = 'Quest Complete: Herb obtained!'; uiOverlay.style.display='block'; setTimeout(()=>{ if (uiOverlay) uiOverlay.style.display='none'; }, 2000); }
             addJournalEntry('Found an Herb in the chest.');
             chest.userData = {}; // prevent repeat
             persistJournal();
@@ -351,11 +359,11 @@ function checkQuestZones(){
         if (house && !house.userData?.visited){
             const dx = Math.abs(player.position.x - house.position.x);
             const dz = Math.abs(player.position.z - house.position.z);
-            if (dx<1.2 && dz<1.2){ house.userData.visited = true; addJournalEntry('Visited the old house. A whisper points to the oak.'); persistJournal(); }
+            if (dx<1.2 && dz<1.2){ house.userData.visited = true; addJournalEntry('Visited the old house. A whisper points to the oak.'); if (uiOverlay){ uiOverlay.textContent='House visited. Seek the oak.'; uiOverlay.style.display='block'; setTimeout(()=>{ if (uiOverlay) uiOverlay.style.display='none'; }, 2000);} persistJournal(); }
         } else if (house?.userData?.visited && tree && !quest2Completed){
             const dx = Math.abs(player.position.x - tree.position.x);
             const dz = Math.abs(player.position.z - tree.position.z);
-            if (dx<1.2 && dz<1.2){ quest2Completed = true; addJournalEntry('At the oak: You receive the Oak Relic.'); if (uiOverlay) uiOverlay.textContent='Quest Chain Complete: Oak Relic acquired!'; persistJournal(); }
+            if (dx<1.2 && dz<1.2){ quest2Completed = true; addJournalEntry('At the oak: You receive the Oak Relic.'); if (uiOverlay){ uiOverlay.textContent='Quest Chain Complete: Oak Relic acquired!'; uiOverlay.style.display='block'; setTimeout(()=>{ if (uiOverlay) uiOverlay.style.display='none'; }, 2200);} persistJournal(); }
         }
     }
 }
