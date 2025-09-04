@@ -15,12 +15,15 @@ let game = {
 	audio: { music:null, ui:null, muted:false, sfx:{ jump:null, collect:null, curse:null } },
 	score: 0,
 	enemies: [],
-	chests: []
+	chests: [],
+	platforms: []
 };
 
 // Medieval sprite/tiles
 let SPRITES = { player:null, enemy:null, cliff:null, bridge:null, chest:null };
 let FX = [];
+let lastSfx = { jump:0, collect:0, curse:0 };
+let gamepadEnabled = true;
 
 function persist(){ try { localStorage.setItem('toppler_state', JSON.stringify({ levelIndex: game.levelIndex, muted: game.audio.muted })); } catch {} }
 function restore(){ try { const s=localStorage.getItem('toppler_state'); if (s){ const d=JSON.parse(s); if (typeof d.levelIndex==='number') game.levelIndex=d.levelIndex; if (typeof d.muted==='boolean') game.audio.muted=d.muted; } } catch {} }
@@ -49,7 +52,7 @@ function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ 
 		if (e.key === 'ArrowRight') game.player.vx = 140; 
 		if (e.key === 'ArrowLeft') game.player.vx = -140; 
-		if (e.key === 'ArrowUp' && onGround() && game.state!==State.Paused){ game.player.vy = -360; try{ game.audio.sfx.jump && game.audio.sfx.jump.play(); }catch{} }
+		if (e.key === 'ArrowUp' && onGround() && game.state!==State.Paused){ game.player.vy = -360; const now=performance.now(); if (now-lastSfx.jump>150){ try{ game.audio.sfx.jump && game.audio.sfx.jump.play(); }catch{} lastSfx.jump=now; } }
 		if (e.key === 'Enter' && game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} }
 		if (e.key.toLowerCase() === 'm'){ game.audio.muted = !game.audio.muted; try{ game.audio.music && (game.audio.music.muted = game.audio.muted); }catch{} persist(); }
 		if (e.key.toLowerCase() === 'p'){ togglePause(); }
@@ -141,6 +144,15 @@ function getDifficulty(){
 function ensureSpawns(){
     if (!game.enemies.length){ game.enemies = [ { x: 200, y: 460, w: 28, h: 28, dir: 1 }, { x: 360, y: 460, w: 28, h: 28, dir: -1 } ]; }
     if (!game.chests.length){ game.chests = [ { x: 120, y: 460, w: 22, h: 22 }, { x: 480, y: 460, w: 22, h: 22 } ]; }
+    if (!game.platforms.length){
+        const diff = getDifficulty(); const life = (diff.g>1000)? 4.0 : (diff.g>900? 6.0 : 8.0);
+        game.platforms = [
+            { x: 80, y: 420, w: 60, h: 10, t: life },
+            { x: 200, y: 380, w: 60, h: 10, t: life },
+            { x: 320, y: 400, w: 60, h: 10, t: life },
+            { x: 440, y: 360, w: 60, h: 10, t: life }
+        ];
+    }
 }
 
 function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
@@ -150,11 +162,13 @@ function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }
 function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += game.player.vx * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
     // Chests collect
-    for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); FX.push({ t:0, x:c.x+c.w/2, y:c.y+c.h/2 }); try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} } }
+    for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); FX.push({ t:0, x:c.x+c.w/2, y:c.y+c.h/2 }); const now=performance.now(); if (now-lastSfx.collect>150){ try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} lastSfx.collect=now; } } }
     if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; const w=ensureOverlay('winOverlay'); w.innerHTML=''; const h=document.createElement('h3'); h.textContent='Level Complete!'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Next Level'; btn.onclick=()=>{ hideOverlay('winOverlay'); const next=(game.levelIndex+1)% (ORCH?.levels?.length||1); applyLevel(next); setState(State.Idle); const sel=$('levelSelector'); if (sel) sel.value=String(next); }; w.appendChild(h); w.appendChild(btn); persist(); } } }
 
 function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); // Tiles
     if (SPRITES.cliff){ for (let x=0; x<cvs.width; x+=32){ ctx.drawImage(SPRITES.cliff, x, cvs.height-32, 32, 32); } }
+    // Platforms
+    for (const p of game.platforms){ if (p.t>0){ const alpha=Math.max(0.2, p.t/8); ctx.save(); ctx.globalAlpha=alpha; const tile=SPRITES.bridge||SPRITES.cliff; if (tile) ctx.drawImage(tile, p.x, p.y, p.w, p.h); else { ctx.fillStyle='rgba(120,120,180,'+alpha+')'; ctx.fillRect(p.x,p.y,p.w,p.h); } ctx.restore(); } }
     const pulse = 8 + Math.abs(Math.sin(performance.now()/200))*10; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 3, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); } // Enemies
     for (const e of game.enemies){ if (SPRITES.enemy) ctx.drawImage(SPRITES.enemy, e.x, e.y, e.w, e.h); else { ctx.fillStyle = '#bd4b4b'; ctx.fillRect(e.x, e.y, e.w, e.h); } }
     // Chests (tinted)
