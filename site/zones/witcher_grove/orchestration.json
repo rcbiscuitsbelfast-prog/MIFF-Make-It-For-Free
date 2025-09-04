@@ -39,6 +39,19 @@
         { "x": 3, "z": 2, "waitMs": 1000 },
         { "x": -1, "z": 1, "waitMs": 500 }
       ]
+    },
+    {
+      "id": "scout_loop",
+      "model": "Knight.glb",
+      "scale": 0.02,
+      "clipIdle": 0,
+      "clipWalk": 0,
+      "waypoints": [
+        { "x": 5, "z": -1, "waitMs": 700 },
+        { "x": 6.5, "z": 2.5, "waitMs": 700 },
+        { "x": 4, "z": 4, "waitMs": 900 },
+        { "x": 3, "z": 1, "waitMs": 600 }
+      ]
     }
   ],
   "story": [

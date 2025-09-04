@@ -11,6 +11,10 @@ const OBJECTS = [];
 const NPCS = [];
 const MAP_TILES = [];
 let uiOverlay, journalEl, mainMenu;
+let camZoom = 1.0;
+let panX = 0, panZ = 0;
+let touchState = { mode: null, startDist: 0, lastX: 0, lastY: 0 };
+let quest2Started = false, quest2Completed = false;
 const gltfLoader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
 
@@ -142,6 +146,37 @@ function bindInput(){
         U.ontouchstart=(e)=>{ e.preventDefault(); controls.up=true; setTimeout(()=>controls.up=false, 150); };
         ui.appendChild(L); ui.appendChild(U); ui.appendChild(R); container.appendChild(ui);
     }
+
+    // Wheel zoom (desktop)
+    container.addEventListener('wheel', (e)=>{ e.preventDefault(); const z = camZoom + Math.sign(e.deltaY)*0.05; camZoom = Math.max(0.6, Math.min(1.8, z)); }, { passive:false });
+
+    // Touch: pinch to zoom, one-finger pan
+    container.addEventListener('touchstart', (e)=>{
+        if (e.touches.length===2){
+            touchState.mode='pinch';
+            const dx=e.touches[0].clientX - e.touches[1].clientX;
+            const dy=e.touches[0].clientY - e.touches[1].clientY;
+            touchState.startDist = Math.hypot(dx,dy);
+        } else if (e.touches.length===1){
+            touchState.mode='pan'; touchState.lastX=e.touches[0].clientX; touchState.lastY=e.touches[0].clientY;
+        }
+    }, { passive:true });
+    container.addEventListener('touchmove', (e)=>{
+        if (touchState.mode==='pinch' && e.touches.length===2){
+            const dx=e.touches[0].clientX - e.touches[1].clientX;
+            const dy=e.touches[0].clientY - e.touches[1].clientY;
+            const dist = Math.hypot(dx,dy);
+            const factor = (touchState.startDist>0) ? dist/touchState.startDist : 1;
+            camZoom = Math.max(0.6, Math.min(1.8, camZoom * (1/factor)));
+            touchState.startDist = dist;
+        } else if (touchState.mode==='pan' && e.touches.length===1){
+            const nx=e.touches[0].clientX, ny=e.touches[0].clientY;
+            const dx = (nx - touchState.lastX) * 0.01;
+            const dy = (ny - touchState.lastY) * 0.01;
+            panX -= dx; panZ += dy; touchState.lastX=nx; touchState.lastY=ny;
+        }
+    }, { passive:true });
+    container.addEventListener('touchend', (e)=>{ if (e.touches.length===0) touchState.mode=null; }, { passive:true });
 }
 
 // Build modular map from a manifest; fallback to repeating tiles
@@ -167,11 +202,11 @@ async function buildMap(){
 
 function followCamera(){
     if (!player) return;
-    const offY = ORCH?.camera?.offsetY ?? 2.5;
-    const offZ = ORCH?.camera?.offsetZ ?? 6;
-    const target = new THREE.Vector3(player.position.x, offY, player.position.z + offZ);
+    const offY = (ORCH?.camera?.offsetY ?? 2.5) * camZoom;
+    const offZ = (ORCH?.camera?.offsetZ ?? 6) * camZoom;
+    const target = new THREE.Vector3(player.position.x + panX, offY, player.position.z + offZ + panZ);
     camera.position.lerp(target, 0.1);
-    camera.lookAt(player.position.x, 1.5, player.position.z);
+    camera.lookAt(player.position.x + panX, 1.5, player.position.z + panZ);
 }
 
 function update(dt){
@@ -201,6 +236,10 @@ function updateNPCs(dt){
             if (n.mixer && n.clips[n.clipIdleIdx]){ const act = n.mixer.clipAction(n.clips[n.clipIdleIdx]); act.play(); }
         }
         if (n.mixer) n.mixer.update(dt);
+        // Proximity journal ping
+        if (player && Math.hypot(n.obj.position.x - player.position.x, n.obj.position.z - player.position.z) < 1.25){
+            addJournalEntry('You encounter a wandering hunter.');
+        }
     }
 }
 
@@ -276,16 +315,33 @@ function toggleOptions(){
 function requestFullscreenSafe(){ try{ container.requestFullscreen && container.requestFullscreen(); }catch{} }
 
 function checkQuestZones(){
-    // AABB around chest triggers
+    if (!player) return;
+    // Quest 1: Chest
     const chest = OBJECTS.find(o=>o.userData?.type==='chest');
-    if (!chest || !player) return;
-    const dx = Math.abs(player.position.x - chest.position.x);
-    const dz = Math.abs(player.position.z - chest.position.z);
-    if (dx < 1 && dz < 1){
-        if (uiOverlay) uiOverlay.textContent = 'Quest Complete: Herb obtained!';
-        addJournalEntry('Found an Herb in the chest.');
-        chest.userData = {}; // prevent repeat
-        persistJournal();
+    if (chest){
+        const dx = Math.abs(player.position.x - chest.position.x);
+        const dz = Math.abs(player.position.z - chest.position.z);
+        if (dx < 1 && dz < 1){
+            if (uiOverlay) uiOverlay.textContent = 'Quest Complete: Herb obtained!';
+            addJournalEntry('Found an Herb in the chest.');
+            chest.userData = {}; // prevent repeat
+            persistJournal();
+            quest2Started = true; addJournalEntry('New Quest: Visit the old house, then the oak.');
+        }
+    }
+    // Quest 2: House then tree sequence
+    if (quest2Started && !quest2Completed){
+        const house = OBJECTS.find(o=>o.userData?.type==='house');
+        const tree = OBJECTS.find(o=>o.userData?.type==='tree');
+        if (house && !house.userData?.visited){
+            const dx = Math.abs(player.position.x - house.position.x);
+            const dz = Math.abs(player.position.z - house.position.z);
+            if (dx<1.2 && dz<1.2){ house.userData.visited = true; addJournalEntry('Visited the old house. A whisper points to the oak.'); persistJournal(); }
+        } else if (house?.userData?.visited && tree && !quest2Completed){
+            const dx = Math.abs(player.position.x - tree.position.x);
+            const dz = Math.abs(player.position.z - tree.position.z);
+            if (dx<1.2 && dz<1.2){ quest2Completed = true; addJournalEntry('At the oak: You receive the Oak Relic.'); if (uiOverlay) uiOverlay.textContent='Quest Chain Complete: Oak Relic acquired!'; persistJournal(); }
+        }
     }
 }
 

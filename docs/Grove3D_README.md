@@ -43,6 +43,14 @@
       "clipIdle": 0,
       "clipWalk": 0,
       "waypoints": [ { "x": -2, "z": -1, "waitMs": 800 }, { "x": 1, "z": -3, "waitMs": 600 } ]
+    },
+    {
+      "id": "scout_loop",
+      "model": "Knight.glb",
+      "scale": 0.02,
+      "clipIdle": 0,
+      "clipWalk": 0,
+      "waypoints": [ { "x": 5, "z": -1, "waitMs": 700 }, { "x": 6.5, "z": 2.5, "waitMs": 700 } ]
     }
   ]
 }
@@ -57,9 +65,9 @@
 ```
 
 ## Quests and Triggers
-- A simple quest zone trigger checks player proximity to the chest
-- Update UI overlay via `uiOverlay` when quest completes
-- Extend with more triggers in orchestration (`triggers`) and handle in `checkQuestZones()`
+- Quest 1: proximity to the chest completes and grants Herb
+- Quest 2: after the chest, visit the house, then the oak tree to receive the Oak Relic
+- UI overlay updates on completion; journal entries persist
 
 ## Inventory and Persistence
 - Shared localStorage key: `grove_state`
@@ -67,10 +75,26 @@
   - `muted`: boolean for music
 - 2D and 3D modes use the same key to stay in sync
 
+## Camera, Gestures, and Fullscreen
+- Desktop wheel to zoom; clamped to prevent extreme FOV changes
+- Touch pinch to zoom; one-finger drag to pan the camera target subtly
+- Long-press the scene to reopen the in-game menu
+- Start button requests fullscreen (browser permission-gated)
+
+## Tiles and Modular Map
+- `tile_manifest.json` can define multiple ground tiles with coordinates and sizes
+- Each tile references a texture under `assets/` and is added as a plane to the scene
+- If manifest is missing, a fallback ground plane is used
+
 ## Adding New Props
 1. Drop GLTF under `assets/New Assets/`
 2. Add entry to `orchestration.json` `props[]` with `model`, `x`, `z`, and optional `scale`, `rotationY`
 3. Reload with `?mode=3d` to verify placement
+
+## Performance
+- Pixel ratio is capped to reduce overdraw on mobile devices
+- Prefer low-poly GLTFs and modest texture sizes
+- Consider frustum culling and merging static meshes for larger scenes
 
 ## Remix Safety
 - No proprietary code/assets baked into scene; GLTFs are referenced by path
@@ -78,6 +102,6 @@
 - Contributors can safely add/replace props via orchestration only
 
 ## Testing
-- Desktop: WASD; Mobile: on-screen buttons
+- Desktop: WASD; Mobile: on-screen buttons, pinch/drag
 - Toggle music with `M` in 2D mode; 3D mode uses browser media controls
 - Validate both `mode=3d` and default 2D paths
