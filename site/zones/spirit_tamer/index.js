@@ -11,13 +11,16 @@ async function loadOrchestration(){
 }
 
 async function loadAssets(){
-	model.sprite = await loadImg('../../../assets/Slime_Green.png').catch(()=>null);
-	model.portrait = await loadImg('../../../assets/KayKitAssets/knight_texture.png').catch(()=>null);
+	const spiritSprite = ORCH?.assets?.sprites?.spirit || '../../../assets/Slime_Green.png';
+	const portraitSprite = ORCH?.assets?.sprites?.portrait || '../../../assets/KayKitAssets/knight_texture.png';
+	model.sprite = await loadImg(spiritSprite).catch(()=>null);
+	model.portrait = await loadImg(portraitSprite).catch(()=>null);
 	// ambient props around spirit
 	const props = ['Oak_Tree_Small.png', 'Outdoor_Decor_Free.png'];
 	for (const p of props){ const img = await loadImg('../../../assets/' + p).catch(()=>null); if (img) model.props.push({ img, dx: Math.random()*80-40, dy: Math.random()*40-20 }); }
 	// audio
-	try { audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); audio.music.loop = true; audio.music.volume = 0.3; audio.music.muted = audio.muted; } catch {}
+	const musicPath = ORCH?.assets?.music || '../../../assets/audio/music/Loops/1. Dawn of Blades.ogg';
+	try { audio.music = new Audio(musicPath); audio.music.loop = true; audio.music.volume = 0.3; audio.music.muted = audio.muted; } catch {}
 	try { audio.sfxBeat = new Audio('../../../assets/audio/sfx/hit_basic.txt'); } catch {}
 	try { audio.sfxUI = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {}
 }
@@ -43,7 +46,10 @@ function bindInputs(){
 	});
 	const cvs = model.cvs;
 	cvs.addEventListener('click', ()=>{ if (model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} } else onBeat(); });
+	ensureMobileTap();
 }
+
+function ensureMobileTap(){ if (window.innerWidth<=768 && !$('tapHint')){ const h=document.createElement('div'); h.id='tapHint'; h.textContent='[Tap for beats]'; h.style.position='absolute'; h.style.bottom='8px'; h.style.right='8px'; h.className='btn'; h.style.opacity='0.85'; h.onclick=()=>onBeat(); $('gameContainer').appendChild(h); } }
 
 // Expanded dialogue tree with evolution
 const Dialogue = {
@@ -107,8 +113,8 @@ function onBeat(){
 	persist();
 }
 
-function persist(){ try { localStorage.setItem('spirit_tamer_progress', JSON.stringify({ progress: model.progress, choice: model.choice })); } catch {} }
-function restore(){ try { const s = localStorage.getItem('spirit_tamer_progress'); if (s){ const d=JSON.parse(s); model.progress=d.progress||0; model.choice=d.choice||null; } } catch {} }
+function persist(){ try { localStorage.setItem('spirit_tamer_progress', JSON.stringify({ progress: model.progress, choice: model.choice, muted: audio.muted })); } catch {} }
+function restore(){ try { const s = localStorage.getItem('spirit_tamer_progress'); if (s){ const d=JSON.parse(s); model.progress=d.progress||0; model.choice=d.choice||null; if (typeof d.muted==='boolean') audio.muted=d.muted; } } catch {} }
 
 function easeInOutSine(x){ return -(Math.cos(Math.PI * x) - 1) / 2; }
 

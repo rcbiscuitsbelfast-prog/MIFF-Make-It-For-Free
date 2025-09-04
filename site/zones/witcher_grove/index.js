@@ -4,6 +4,9 @@ let ORCH = null;
 const State = { Exploring: 'exploring', Dialogue: 'dialogue' };
 let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null, muted:false }, weather: { t:0 } };
 
+function persist(){ try { localStorage.setItem('grove_state', JSON.stringify({ inventory: vm.inventory, muted: vm.audio.muted })); } catch {} }
+function restore(){ try { const s=localStorage.getItem('grove_state'); if (s){ const d=JSON.parse(s); if (Array.isArray(d.inventory)) vm.inventory=d.inventory; if (typeof d.muted==='boolean') vm.audio.muted=d.muted; } } catch {} }
+
 async function loadOrchestration(){
 	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
 	if (ORCH?.npcs?.npc1){ vm.npc.x = ORCH.npcs.npc1.x; vm.npc.y = ORCH.npcs.npc1.y; vm.npc.name = ORCH.npcs.npc1.name; }
@@ -31,12 +34,14 @@ function fitCanvas(cvs){
 	cvs.style.height = Math.round(maxWidth / aspect) + 'px';
 }
 
-function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); ensureJournal(); }
+function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); ensureJournal(); ensureMobileHint(); }
 
 function renderInventory(){ const bar = $('inventoryBar'); if (!bar) return; bar.innerHTML = 'Inventory: ' + (vm.inventory.length ? vm.inventory.join(', ') : '(empty)'); }
 
 function ensureJournal(){ if ($('journal')) return; const j=document.createElement('div'); j.id='journal'; j.style.marginTop='6px'; j.style.fontSize='12px'; $('gameContainer').appendChild(j); updateJournal('Arrived at grove.'); }
 function updateJournal(entry){ const j=$('journal'); if (!j) return; const p=document.createElement('div'); p.textContent='• '+entry; j.appendChild(p); }
+
+function ensureMobileHint(){ if (window.innerWidth<=768 && !$('tapQuest')){ const h=document.createElement('div'); h.id='tapQuest'; h.textContent='[Tap chest/NPC]'; h.style.position='absolute'; h.style.bottom='8px'; h.style.right='8px'; h.className='btn'; h.style.opacity='0.85'; $('gameContainer').appendChild(h); } }
 
 function bindInputs(){
 	$('btn_back')?.addEventListener('click', ()=>{ try{ vm.audio.music?.pause(); }catch{} location.href='../../index.html'; });
@@ -47,7 +52,7 @@ function bindInputs(){
 		const chest = vm.props.find(p=>p.name==='chest' && mx>=p.x && mx<=p.x+24 && my>=p.y && my<=p.y+24);
 		if (chest){ addItem('Herb'); try{ vm.audio.ui?.play(); }catch{} updateJournal('Found an Herb in the chest.'); }
 	});
-	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} } });
+	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} persist(); } });
 }
 
 function openDialogue(lines){ vm.state = State.Dialogue; ensureOverlay(lines); }
@@ -66,7 +71,7 @@ function ensureOverlay(lines){
 	$('gameContainer').appendChild(div);
 }
 
-function addItem(item){ vm.inventory.push(item); renderInventory(); }
+function addItem(item){ vm.inventory.push(item); renderInventory(); persist(); }
 
 function render(){
 	const { ctx, cvs } = vm;
@@ -92,9 +97,9 @@ async function init(){
 	const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…';
 	const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs));
 	vm.cvs = cvs; vm.ctx = cvs.getContext('2d');
-	await loadOrchestration(); await loadAssets(); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
+	restore(); await loadOrchestration(); await loadAssets(); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
 	try{ vm.audio.music?.play(); }catch{}
-	ensureUI(); bindInputs(); requestAnimationFrame(loop);
+	ensureUI(); bindInputs(); renderInventory(); requestAnimationFrame(loop);
 }
 
 window.addEventListener('DOMContentLoaded', init);
