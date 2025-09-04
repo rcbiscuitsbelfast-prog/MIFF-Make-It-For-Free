@@ -9,6 +9,7 @@ let renderer, scene, camera, player, controls = { left:false, right:false, up:fa
 let ORCH = null;
 const OBJECTS = [];
 let uiOverlay;
+const gltfLoader = new GLTFLoader();
 
 function initScene(){
     scene = new THREE.Scene();
@@ -67,8 +68,15 @@ async function placeProps(){
             const house = new THREE.Mesh(new THREE.BoxGeometry(2,1.2,2), new THREE.MeshStandardMaterial({ color: 0x664d3b }));
             house.position.set(p.x, 0.6, p.z); add(house, 'house');
         } else if (p.type==='chest'){
-            const chest = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xaa8833 }));
-            chest.position.set(p.x, 0.5, p.z); chest.userData = { type:'chest', questReward:'Herb' }; scene.add(chest); OBJECTS.push(chest);
+            // Try loading a GLTF as a chest stand-in (mug_full)
+            try {
+                const glb = await gltfLoader.loadAsync('../../../assets/New Assets/mug_full.gltf');
+                const chest = glb.scene; chest.scale.set(0.02,0.02,0.02); chest.position.set(p.x, 0, p.z);
+                scene.add(chest); chest.userData = { type:'chest', questReward:'Herb' }; OBJECTS.push(chest);
+            } catch {
+                const chest = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xaa8833 }));
+                chest.position.set(p.x, 0.5, p.z); chest.userData = { type:'chest', questReward:'Herb' }; scene.add(chest); OBJECTS.push(chest);
+            }
         }
     }
 }
