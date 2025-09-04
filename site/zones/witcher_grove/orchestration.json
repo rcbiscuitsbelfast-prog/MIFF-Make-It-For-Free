@@ -12,5 +12,10 @@
   "triggers": {
     "onClickQuest": { "type": "ui" },
     "hintAfterMs": 5000
-  }
+  },
+  "props": [
+    { "type": "tree", "x": -3, "z": -4 },
+    { "type": "house", "x": 4, "z": 3 },
+    { "type": "chest", "x": 2, "z": -2 }
+  ]
 }

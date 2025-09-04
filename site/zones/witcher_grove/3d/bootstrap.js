@@ -57,16 +57,20 @@ async function loadOrchestration(){
 
 async function placeProps(){
     if (!ORCH) return;
-    const loader = new GLTFLoader();
-    const addMesh = (mesh)=>{ scene.add(mesh); OBJECTS.push(mesh); };
-    // Simple prop placement using 3D primitives as stand-ins
-    const chestPos = new THREE.Vector3(2,0.5,-2);
-    const chest = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xaa8833 }));
-    chest.position.copy(chestPos); addMesh(chest); chest.userData = { type:'chest', questReward:'Herb' };
-    const tree = new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.0, 8), new THREE.MeshStandardMaterial({ color: 0x1f5c2e }));
-    tree.position.set(-3,1.0,-4); addMesh(tree);
-    const house = new THREE.Mesh(new THREE.BoxGeometry(2,1.2,2), new THREE.MeshStandardMaterial({ color: 0x664d3b }));
-    house.position.set(4,0.6,3); addMesh(house);
+    const add = (mesh, type)=>{ scene.add(mesh); mesh.userData = { type }; OBJECTS.push(mesh); };
+    const props = ORCH.props || [];
+    for (const p of props){
+        if (p.type==='tree'){
+            const tree = new THREE.Mesh(new THREE.ConeGeometry(0.8, 2.0, 8), new THREE.MeshStandardMaterial({ color: 0x1f5c2e }));
+            tree.position.set(p.x, 1.0, p.z); add(tree, 'tree');
+        } else if (p.type==='house'){
+            const house = new THREE.Mesh(new THREE.BoxGeometry(2,1.2,2), new THREE.MeshStandardMaterial({ color: 0x664d3b }));
+            house.position.set(p.x, 0.6, p.z); add(house, 'house');
+        } else if (p.type==='chest'){
+            const chest = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xaa8833 }));
+            chest.position.set(p.x, 0.5, p.z); chest.userData = { type:'chest', questReward:'Herb' }; scene.add(chest); OBJECTS.push(chest);
+        }
+    }
 }
 
 function bindInput(){
