@@ -1,0 +1,50 @@
+{
+  "zone": "TopplerMedieval",
+  "title": "Toppler: Curse of the Hollow Isles",
+  "description": "Leap across haunted isles, evade undead foes, and collect enchanted chests in this medieval survival challenge.",
+  "ui": {
+    "startMenu": {
+      "enabled": true,
+      "options": [
+        { "label": "Start Quest", "action": "startGame" },
+        { "label": "Options", "submenu": [
+          { "label": "Mute Audio", "toggle": "audioMuted" },
+          { "label": "Difficulty", "choices": ["Squire", "Knight", "Warlord"], "bind": "difficultyLevel" },
+          { "label": "Input Mode", "choices": ["Touch", "Keyboard", "Gamepad"], "bind": "inputMode" }
+        ]},
+        { "label": "Lore", "action": "showCredits" }
+      ]
+    }
+  },
+  "systems": [
+    "IslandManager",
+    "KnightController",
+    "SkeletonAI",
+    "ChestSystem",
+    "DeathHandler",
+    "CurseScaler"
+  ],
+  "assets": {
+    "sprites": [
+      "knight.png",
+      "skeleton.png",
+      "isle.png",
+      "chest_red.png",
+      "chest_blue.png"
+    ],
+    "audio": [
+      "jump.wav",
+      "splash.wav",
+      "collect.wav",
+      "curse.wav"
+    ]
+  },
+  "orchestration": {
+    "startScene": "TopplerIntro",
+    "scenes": ["TopplerIntro", "TopplerPlay", "TopplerGameOver"],
+    "transitions": {
+      "startGame": { "from": "TopplerIntro", "to": "TopplerPlay" },
+      "showCredits": { "from": "*", "to": "TopplerIntro", "modal": "LoreModal" }
+    }
+  }
+}

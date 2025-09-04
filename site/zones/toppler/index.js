@@ -18,7 +18,14 @@ let game = {
 function persist(){ try { localStorage.setItem('toppler_state', JSON.stringify({ levelIndex: game.levelIndex, muted: game.audio.muted })); } catch {} }
 function restore(){ try { const s=localStorage.getItem('toppler_state'); if (s){ const d=JSON.parse(s); if (typeof d.levelIndex==='number') game.levelIndex=d.levelIndex; if (typeof d.muted==='boolean') game.audio.muted=d.muted; } } catch {} }
 
-async function loadOrchestration(){ try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; } if (ORCH?.levels?.length){ applyLevel(game.levelIndex||0); ensureLevelSelector(); } }
+async function loadOrchestration(){
+    // Choose medieval theme if present via query ?theme=medieval
+    const params = new URLSearchParams(location.search);
+    const medieval = params.get('theme') === 'medieval';
+    const path = medieval ? './orchestration.medieval.json' : './orchestration.json';
+    try { ORCH = await fetch(path).then(r=>r.json()); } catch { ORCH = null; }
+    if (ORCH?.levels?.length){ applyLevel(game.levelIndex||0); ensureLevelSelector(); }
+}
 function applyLevel(idx){ game.levelIndex = idx; const L = ORCH.levels[idx]; game.goalX = L.goalX; game.player.x = 20; game.player.y = L.height - 60; game.player.vx = 0; game.player.vy = 0; game.trail = []; hideOverlay('winOverlay'); hideOverlay('pauseOverlay'); persist(); }
 
 function fitCanvas(cvs) { const container = document.getElementById('gameContainer'); if (!container || !cvs) return; const maxWidth = Math.min(800, container.clientWidth || 800); const aspect = 640/480; cvs.style.width = maxWidth + 'px'; cvs.style.height = Math.round(maxWidth / aspect) + 'px'; }
@@ -48,6 +55,42 @@ function bindInputs(){
 	ensureMobileControls();
 }
 
+// Start menu overlay for medieval theme
+function ensureStartMenu(){
+    const params = new URLSearchParams(location.search);
+    if (params.get('theme') !== 'medieval') return;
+    if (!ORCH?.ui?.startMenu?.enabled) return;
+    const id='startMenu'; if ($(id)) return;
+    const o = ensureOverlay(id); o.innerHTML='';
+    const title = document.createElement('h3'); title.textContent = ORCH.title || 'Toppler Medieval'; o.appendChild(title);
+    for (const opt of ORCH.ui.startMenu.options){
+        const btn = document.createElement('button'); btn.className='btn'; btn.textContent = opt.label; o.appendChild(btn);
+        if (opt.action === 'startGame') btn.onclick=()=>{ hideOverlay(id); setState(State.Playing); try{ game.audio.music?.play(); }catch{} };
+        else if (opt.action === 'showCredits') btn.onclick=()=>{ alert('Lore: Cursed isles and ancient knights.'); };
+        else if (opt.submenu){
+            btn.onclick=()=>{
+                const sub = document.createElement('div'); sub.style.marginTop='8px';
+                for (const s of opt.submenu){
+                    const row = document.createElement('div'); row.style.margin='4px 0';
+                    const lab = document.createElement('span'); lab.textContent = s.label + ': ';
+                    row.appendChild(lab);
+                    if (s.toggle){
+                        const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!game.audio.muted; cb.onchange=()=>{ game.audio.muted = cb.checked; try{ game.audio.music && (game.audio.music.muted = game.audio.muted); }catch{} persist(); };
+                        row.appendChild(cb);
+                    } else if (s.choices && s.bind){
+                        const sel = document.createElement('select');
+                        for (const c of s.choices){ const optEl=document.createElement('option'); optEl.value=c; optEl.textContent=c; sel.appendChild(optEl); }
+                        sel.onchange=()=>{ try { const st=JSON.parse(localStorage.getItem('toppler_state')||'{}'); st[s.bind]=sel.value; localStorage.setItem('toppler_state', JSON.stringify(st)); } catch {} };
+                        row.appendChild(sel);
+                    }
+                    sub.appendChild(row);
+                }
+                o.appendChild(sub);
+            };
+        }
+    }
+}
+
 function ensureMobileControls(){
 	if (window.innerWidth > 768 || $('mobileControls')) return;
 	const wrap = document.createElement('div'); wrap.id='mobileControls'; wrap.style.position='absolute'; wrap.style.bottom='8px'; wrap.style.right='8px'; wrap.style.display='flex'; wrap.style.gap='6px';
@@ -72,6 +115,6 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} bindInputs(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} bindInputs(); ensureStartMenu(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);
