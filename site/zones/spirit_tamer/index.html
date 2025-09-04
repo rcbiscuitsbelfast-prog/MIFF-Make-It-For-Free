@@ -40,6 +40,9 @@
             padding: 30px;
             text-align: center;
         }
+        #gameContainer { display:inline-block; max-width:100%; }
+        #gameCanvas { width:100%; height:auto; image-rendering:pixelated; }
+        @media (max-width:700px){ #gameCanvas { width:100%; height:auto; } }
         .game-placeholder {
             font-size: 1.2em;
             opacity: 0.8;
