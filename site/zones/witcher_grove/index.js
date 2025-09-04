@@ -1,15 +1,13 @@
 function $(id){ return document.getElementById(id); }
 
-const ORCH = {
-	scenarioId: 'witcher-grove-demo-v1',
-	name: 'Witcher Grove Demo',
-	version: '1.0.0',
-	npcs: { npc1: { name: 'Wandering Hunter', x: 200, y: 300 } },
-	triggers: { onClickQuest: { type: 'ui' } }
-};
-
+let ORCH = null;
 const State = { Exploring: 'exploring', Dialogue: 'dialogue' };
-let vm = { state: State.Exploring, ctx: null, cvs: null, showQuest: false };
+let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' } };
+
+async function loadOrchestration(){
+	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
+	if (ORCH?.npcs?.npc1){ vm.npc.x = ORCH.npcs.npc1.x; vm.npc.y = ORCH.npcs.npc1.y; vm.npc.name = ORCH.npcs.npc1.name; }
+}
 
 function fitCanvas(cvs){
 	const container = document.getElementById('gameContainer');
@@ -22,26 +20,30 @@ function fitCanvas(cvs){
 
 function bindInputs(){
 	$('btn_back')?.addEventListener('click', ()=>{ location.href='../../index.html'; });
-	$('btnQuest')?.addEventListener('click', ()=>{ vm.showQuest = !vm.showQuest; vm.state = vm.showQuest ? State.Dialogue : State.Exploring; });
+	if (!$('btnQuest')){
+		const btn = document.createElement('div'); btn.id='btnQuest'; btn.className='btn btn-secondary'; btn.textContent='[Quest]';
+		btn.style.position='absolute'; btn.style.top='8px'; btn.style.left='8px'; $('gameContainer').appendChild(btn);
+	}
+	$('btnQuest')?.addEventListener('click', ()=>{ vm.state = (vm.state === State.Exploring) ? State.Dialogue : State.Exploring; });
 	vm.cvs.addEventListener('click', ()=>{ vm.state = State.Dialogue; });
 }
 
 function render(){
 	const { ctx, cvs } = vm; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height);
-	// NPC placeholder
-	ctx.fillStyle = '#d35400';
-	ctx.fillRect(ORCH.npcs.npc1.x, ORCH.npcs.npc1.y, 24, 24);
-	ctx.fillStyle = '#d0d7de';
-	ctx.fillText(`State: ${vm.state}`, 10, 20);
-	if (vm.state === State.Dialogue){ ctx.fillText('NPC: "Welcome to the grove."', 10, 40); }
+	// NPC
+	ctx.fillStyle = '#d35400'; ctx.fillRect(vm.npc.x, vm.npc.y, 24, 24);
+	ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${vm.state}`, 10, 20);
+	ctx.fillText(`NPC: ${vm.npc.name}`, 10, 40);
+	if (vm.state === State.Dialogue){ ctx.fillText('"Welcome to the grove."', 10, 60); }
 }
 
 function loop(){ render(); requestAnimationFrame(loop); }
 
-function init(){
-	const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
+async function init(){
+	const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…';
 	const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs));
 	vm.cvs = cvs; vm.ctx = cvs.getContext('2d');
+	await loadOrchestration(); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
 	bindInputs(); requestAnimationFrame(loop);
 }
 
