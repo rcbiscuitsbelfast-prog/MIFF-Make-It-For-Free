@@ -9,8 +9,10 @@ let renderer, scene, camera, player, mixer, controls = { left:false, right:false
 let ORCH = null;
 const OBJECTS = [];
 const NPCS = [];
-let uiOverlay, journalEl;
+const MAP_TILES = [];
+let uiOverlay, journalEl, mainMenu;
 const gltfLoader = new GLTFLoader();
+const texLoader = new THREE.TextureLoader();
 
 function initScene(){
     scene = new THREE.Scene();
@@ -23,7 +25,7 @@ function initScene(){
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(640, 480);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     container.appendChild(renderer.domElement);
 
     // Light
@@ -142,6 +144,27 @@ function bindInput(){
     }
 }
 
+// Build modular map from a manifest; fallback to repeating tiles
+async function buildMap(){
+    try{
+        const res = await fetch('../witcher_grove/tile_manifest.json');
+        const manifest = await res.json();
+        const tiles = manifest.tiles || [];
+        for (const t of tiles){
+            const tex = await texLoader.loadAsync(`../../../assets/${t.path}`);
+            tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+            const m = new THREE.MeshBasicMaterial({ map: tex });
+            const g = new THREE.PlaneGeometry( t.size || 10, t.size || 10 );
+            const p = new THREE.Mesh(g, m);
+            p.rotation.x = -Math.PI/2;
+            p.position.set(t.x || 0, 0.01, t.z || 0);
+            scene.add(p); MAP_TILES.push(p);
+        }
+    }catch{
+        // fallback: simple ground already exists
+    }
+}
+
 function followCamera(){
     if (!player) return;
     const offY = ORCH?.camera?.offsetY ?? 2.5;
@@ -195,10 +218,11 @@ async function start(){
     if (statusEl) statusEl.textContent = 'Loading 3D…';
     initScene();
     await loadOrchestration();
+    await buildMap();
     await loadPlayer();
     await placeProps();
     await spawnNPCs();
-    ensureUI(); restoreJournal();
+    ensureUI(); restoreJournal(); ensureMainMenu();
     bindInput();
     if (statusEl) statusEl.textContent = 'Use WASD (or touch) to move. Toggle at top to switch modes.';
     requestAnimationFrame(loop);
@@ -227,6 +251,29 @@ function ensureUI(){
         for (const s of ORCH.story){ setTimeout(()=>{ addJournalEntry(s.text); }, s.t||0); }
     }
 }
+
+function ensureMainMenu(){
+    if (mainMenu) return;
+    mainMenu = document.createElement('div');
+    mainMenu.style.position='absolute'; mainMenu.style.left='50%'; mainMenu.style.top='50%'; mainMenu.style.transform='translate(-50%,-50%)';
+    mainMenu.style.background='rgba(0,0,0,0.7)'; mainMenu.style.padding='16px'; mainMenu.style.borderRadius='8px'; mainMenu.style.zIndex='15'; mainMenu.style.textAlign='center';
+    const title=document.createElement('h3'); title.textContent='Witcher Grove 3D'; mainMenu.appendChild(title);
+    const start=document.createElement('button'); start.className='btn'; start.textContent='Start Game'; start.onclick=()=>{ requestFullscreenSafe(); mainMenu.remove(); };
+    const opts=document.createElement('button'); opts.className='btn btn-secondary'; opts.textContent='Options'; opts.style.marginLeft='8px'; opts.onclick=()=>{ toggleOptions(); };
+    mainMenu.appendChild(start); mainMenu.appendChild(opts); container.appendChild(mainMenu);
+
+    let holdTimer=null; container.onmousedown = ()=>{ holdTimer=setTimeout(()=>{ if (!document.body.contains(mainMenu)) container.appendChild(mainMenu); }, 800); };
+    container.onmouseup = ()=>{ if (holdTimer) clearTimeout(holdTimer); };
+}
+
+function toggleOptions(){
+    const panel=document.createElement('div'); panel.style.marginTop='8px';
+    panel.innerHTML = '<div style="margin:6px 0">Fullscreen: <button class="btn" id="fsBtn">Toggle</button></div>';
+    mainMenu.appendChild(panel);
+    const fs=document.getElementById('fsBtn'); if (fs) fs.onclick=()=>requestFullscreenSafe();
+}
+
+function requestFullscreenSafe(){ try{ container.requestFullscreen && container.requestFullscreen(); }catch{} }
 
 function checkQuestZones(){
     // AABB around chest triggers
