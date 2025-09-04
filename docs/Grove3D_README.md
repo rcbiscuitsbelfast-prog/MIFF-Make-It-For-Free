@@ -65,15 +65,21 @@
 ```
 
 ## Quests and Triggers
-- Quest 1: proximity to the chest completes and grants Herb
+- Quest 1: proximity to the chest completes and grants Herb (added to inventory)
 - Quest 2: after the chest, visit the house, then the oak tree to receive the Oak Relic
 - UI overlay updates on completion; journal entries persist (modal overlay)
+- Items are automatically added to inventory with localStorage persistence
 
 ## Inventory and Persistence
-- Shared localStorage key: `grove_state`
-  - `inventory`: array of strings
-  - `muted`: boolean for music
-- 2D and 3D modes use the same key to stay in sync
+- **Inventory**: Modal overlay accessible via main menu or gesture
+  - Items automatically added on quest completion
+  - localStorage key: `grove_inventory` (array of strings)
+  - Modal shows scrollable list with close button
+- **Journal**: Modal overlay with quest progress and story entries
+  - localStorage key: `grove_journal` (array of text entries)
+- **Settings**: Sound, difficulty, fullscreen preferences
+  - localStorage keys: `grove_muted`, `grove_difficulty`
+- 2D and 3D modes use the same keys to stay in sync
 
 ## Camera, Gestures, and Fullscreen
 - Desktop wheel to zoom (clamped), smooth camera follow
@@ -91,10 +97,17 @@
 - No legacy fallback terrain is used if the manifest is missing
 - Console confirms: `Grove3D Loaded! N isometric tiles from manifest.`
 
-## Options Menu (showDevUI)
-- In-game modal: `Start` and `Options`
-- Options include fullscreen toggle, sound toggle, difficulty selector
-- Trigger via menu button, long-press gesture, or call `showDevUI()`
+## Main Menu and UI
+- **Main Menu**: Modal with Start Game, Inventory, Options
+  - Styled with tile-based background and modern UI
+  - Trigger via long-press gesture or first load
+- **Inventory Modal**: Scrollable list of collected items
+  - Accessible via main menu or gesture
+  - Auto-populated on quest completion
+- **Options Modal (showDevUI)**: Fullscreen, sound, difficulty toggles
+  - Trigger via main menu Options button
+- **Legacy UI Removed**: No persistent buttons ([Quest], [Back], [Tap chest/NPC])
+  - All interactions via gestures and proximity
 
 ## Performance
 - Pixel ratio is capped to reduce overdraw on mobile devices

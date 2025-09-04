@@ -41,12 +41,11 @@ function renderInventory(){ const bar = $('inventoryBar'); if (!bar) return; bar
 function ensureJournal(){ if ($('journal')) return; const j=document.createElement('div'); j.id='journal'; j.style.marginTop='6px'; j.style.fontSize='12px'; $('gameContainer').appendChild(j); updateJournal('Arrived at grove.'); }
 function updateJournal(entry){ const j=$('journal'); if (!j) return; const p=document.createElement('div'); p.textContent='• '+entry; j.appendChild(p); }
 
-function ensureMobileHint(){ if (window.innerWidth<=768 && !$('tapQuest')){ const h=document.createElement('div'); h.id='tapQuest'; h.textContent='[Tap chest/NPC]'; h.style.position='absolute'; h.style.bottom='8px'; h.style.right='8px'; h.className='btn'; h.style.opacity='0.85'; $('gameContainer').appendChild(h); } }
+// Legacy mobile hint removed - gestures used instead
 
 function bindInputs(){
-	$('btn_back')?.addEventListener('click', ()=>{ try{ vm.audio.music?.pause(); }catch{} location.href='../../index.html'; });
-	if (!$('btnQuest')){ const btn=document.createElement('div'); btn.id='btnQuest'; btn.className='btn btn-secondary'; btn.textContent='[Quest]'; btn.style.position='absolute'; btn.style.top='8px'; btn.style.left='8px'; $('gameContainer').appendChild(btn); }
-	$('btnQuest')?.addEventListener('click', ()=>{ try{ vm.audio.ui?.play(); }catch{} openDialogue(['Welcome to the grove.', 'Collect 1 herb and return.']); updateJournal('Accepted quest: Gather herb.'); });
+	// Legacy buttons removed - use gestures instead
+	// Quest interaction via proximity/click on chest
 	vm.cvs.addEventListener('click', (ev)=>{ // chest interaction
 		const rect = vm.cvs.getBoundingClientRect(); const mx = (ev.clientX-rect.left)*(vm.cvs.width/rect.width); const my = (ev.clientY-rect.top)*(vm.cvs.height/rect.height);
 		const chest = vm.props.find(p=>p.name==='chest' && mx>=p.x && mx<=p.x+24 && my>=p.y && my<=p.y+24);

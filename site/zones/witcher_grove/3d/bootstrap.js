@@ -10,12 +10,13 @@ let ORCH = null;
 const OBJECTS = [];
 const NPCS = [];
 const MAP_TILES = [];
-let uiOverlay, journalEl, mainMenu;
+let uiOverlay, journalEl, mainMenu, inventoryModal;
 let camZoom = 1.0;
 let panX = 0, panZ = 0;
 let touchState = { mode: null, startDist: 0, lastX: 0, lastY: 0 };
 let quest2Started = false, quest2Completed = false;
 let lastTapTime = 0, touchHoldTimer = null;
+let inventory = JSON.parse(localStorage.getItem('grove_inventory') || '[]');
 const gltfLoader = new GLTFLoader();
 const texLoader = new THREE.TextureLoader();
 
@@ -315,11 +316,27 @@ function ensureMainMenu(){
     if (mainMenu) return;
     mainMenu = document.createElement('div');
     mainMenu.style.position='absolute'; mainMenu.style.left='50%'; mainMenu.style.top='50%'; mainMenu.style.transform='translate(-50%,-50%)';
-    mainMenu.style.background='rgba(0,0,0,0.7)'; mainMenu.style.padding='16px'; mainMenu.style.borderRadius='8px'; mainMenu.style.zIndex='15'; mainMenu.style.textAlign='center';
-    const title=document.createElement('h3'); title.textContent='Witcher Grove 3D'; mainMenu.appendChild(title);
-    const start=document.createElement('button'); start.className='btn'; start.textContent='Start Game'; start.onclick=()=>{ requestFullscreenSafe(); mainMenu.remove(); };
-    const opts=document.createElement('button'); opts.className='btn btn-secondary'; opts.textContent='Options'; opts.style.marginLeft='8px'; opts.onclick=()=>{ showDevUI(); };
-    mainMenu.appendChild(start); mainMenu.appendChild(opts); container.appendChild(mainMenu);
+    mainMenu.style.background='rgba(20,22,26,0.95)'; mainMenu.style.padding='24px'; mainMenu.style.borderRadius='12px'; 
+    mainMenu.style.zIndex='15'; mainMenu.style.textAlign='center'; mainMenu.style.minWidth='280px';
+    mainMenu.style.border='1px solid rgba(255,255,255,0.1)'; mainMenu.style.boxShadow='0 8px 32px rgba(0,0,0,0.3)';
+    
+    const title=document.createElement('h2'); title.textContent='🌲 Witcher Grove 3D'; title.style.margin='0 0 20px 0'; title.style.color='#58a6ff';
+    mainMenu.appendChild(title);
+    
+    const start=document.createElement('button'); start.className='btn'; start.textContent='Start Game'; 
+    start.style.width='100%'; start.style.marginBottom='12px'; start.style.padding='12px';
+    start.onclick=()=>{ requestFullscreenSafe(); mainMenu.remove(); };
+    
+    const inventory=document.createElement('button'); inventory.className='btn btn-secondary'; inventory.textContent='Inventory'; 
+    inventory.style.width='100%'; inventory.style.marginBottom='12px'; inventory.style.padding='12px';
+    inventory.onclick=()=>{ showInventoryModal(); };
+    
+    const opts=document.createElement('button'); opts.className='btn btn-secondary'; opts.textContent='Options'; 
+    opts.style.width='100%'; opts.style.padding='12px';
+    opts.onclick=()=>{ showDevUI(); };
+    
+    mainMenu.appendChild(start); mainMenu.appendChild(inventory); mainMenu.appendChild(opts); 
+    container.appendChild(mainMenu);
 
     let holdTimer=null; container.onmousedown = ()=>{ holdTimer=setTimeout(()=>{ if (!document.body.contains(mainMenu)) container.appendChild(mainMenu); }, 800); };
     container.onmouseup = ()=>{ if (holdTimer) clearTimeout(holdTimer); };
@@ -358,6 +375,7 @@ function checkQuestZones(){
         const dz = Math.abs(player.position.z - chest.position.z);
         if (dx < 1 && dz < 1){
             if (uiOverlay){ uiOverlay.textContent = 'Quest Complete: Herb obtained!'; uiOverlay.style.display='block'; setTimeout(()=>{ if (uiOverlay) uiOverlay.style.display='none'; }, 2000); }
+            addToInventory('Herb');
             addJournalEntry('Found an Herb in the chest.');
             chest.userData = {}; // prevent repeat
             persistJournal();
@@ -375,7 +393,7 @@ function checkQuestZones(){
         } else if (house?.userData?.visited && tree && !quest2Completed){
             const dx = Math.abs(player.position.x - tree.position.x);
             const dz = Math.abs(player.position.z - tree.position.z);
-            if (dx<1.2 && dz<1.2){ quest2Completed = true; addJournalEntry('At the oak: You receive the Oak Relic.'); if (uiOverlay){ uiOverlay.textContent='Quest Chain Complete: Oak Relic acquired!'; uiOverlay.style.display='block'; setTimeout(()=>{ if (uiOverlay) uiOverlay.style.display='none'; }, 2200);} persistJournal(); }
+            if (dx<1.2 && dz<1.2){ quest2Completed = true; addToInventory('Oak Relic'); addJournalEntry('At the oak: You receive the Oak Relic.'); if (uiOverlay){ uiOverlay.textContent='Quest Chain Complete: Oak Relic acquired!'; uiOverlay.style.display='block'; setTimeout(()=>{ if (uiOverlay) uiOverlay.style.display='none'; }, 2200);} persistJournal(); }
         }
     }
 }
@@ -397,5 +415,53 @@ function restoreJournal(){
         const s = localStorage.getItem('grove_journal'); if (!s) return; const lines = JSON.parse(s);
         if (!Array.isArray(lines)) return; for (const t of lines){ addJournalEntry(t.replace(/^•\s*/, '')); }
     } catch {}
+}
+
+function addToInventory(item){
+    if (!inventory.includes(item)){
+        inventory.push(item);
+        localStorage.setItem('grove_inventory', JSON.stringify(inventory));
+        showOverlay(`Added ${item} to inventory`);
+    }
+}
+
+function showInventoryModal(){
+    if (inventoryModal) return;
+    inventoryModal = document.createElement('div');
+    inventoryModal.style.position='absolute'; inventoryModal.style.left='0'; inventoryModal.style.top='0'; 
+    inventoryModal.style.right='0'; inventoryModal.style.bottom='0'; inventoryModal.style.background='rgba(0,0,0,0.7)'; 
+    inventoryModal.style.zIndex='25'; inventoryModal.style.display='flex'; inventoryModal.style.alignItems='center'; 
+    inventoryModal.style.justifyContent='center';
+    
+    const panel = document.createElement('div');
+    panel.style.background='rgba(20,22,26,0.95)'; panel.style.padding='20px'; panel.style.borderRadius='12px'; 
+    panel.style.minWidth='300px'; panel.style.maxHeight='400px'; panel.style.overflowY='auto';
+    
+    const title = document.createElement('h3'); title.textContent='Inventory'; title.style.margin='0 0 15px 0'; title.style.color='#d0d7de';
+    panel.appendChild(title);
+    
+    if (inventory.length === 0){
+        const empty = document.createElement('div'); empty.textContent='Your inventory is empty.'; empty.style.color='#8b949e'; panel.appendChild(empty);
+    } else {
+        inventory.forEach(item => {
+            const itemEl = document.createElement('div'); 
+            itemEl.textContent=`• ${item}`; 
+            itemEl.style.padding='8px 0'; 
+            itemEl.style.borderBottom='1px solid rgba(255,255,255,0.1)';
+            itemEl.style.color='#d0d7de';
+            panel.appendChild(itemEl);
+        });
+    }
+    
+    const closeBtn = document.createElement('button'); closeBtn.textContent='Close'; closeBtn.className='btn'; 
+    closeBtn.style.marginTop='15px'; closeBtn.style.width='100%';
+    closeBtn.onclick = () => { inventoryModal.remove(); inventoryModal = null; };
+    panel.appendChild(closeBtn);
+    
+    inventoryModal.appendChild(panel);
+    container.appendChild(inventoryModal);
+    
+    // Close on background click
+    inventoryModal.onclick = (e) => { if (e.target === inventoryModal) { inventoryModal.remove(); inventoryModal = null; } };
 }
 
