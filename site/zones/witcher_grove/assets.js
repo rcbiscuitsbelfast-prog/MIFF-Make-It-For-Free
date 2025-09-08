@@ -13,8 +13,8 @@ const registry = {
         idle: [0],
         walk: [0, 1, 2, 3]
       },
-      // Using a single image placeholder; frames simulated by bobbing in renderer
-      src: '../../../assets/Player.png'
+      // Use Player_Actions.png for proper sprite sheet with frames
+      src: '../../../assets/Player_Actions.png'
     },
     npcElder: {
       id: 'npcElder',

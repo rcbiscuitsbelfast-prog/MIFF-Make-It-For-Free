@@ -58,7 +58,16 @@ function bindInput(){
 function ensureJoystick(){
   if (joy.base) return;
   const ui = getUIComponent('joystick'); if (!ui) return;
-  const { base, knob, spec } = ui; base.style.zIndex='20'; base.style.left=spec.left+'px'; base.style.bottom=spec.bottom+'px'; base.style.width=spec.base+'px'; base.style.height=spec.base+'px'; knob.style.width=spec.knob+'px'; knob.style.height=spec.knob+'px';
+  const { base, knob, spec } = ui; 
+  // Apply positioning and sizing from spec
+  base.style.position = 'absolute';
+  base.style.left = spec.left + 'px';
+  base.style.bottom = spec.bottom + 'px';
+  base.style.width = spec.base + 'px';
+  base.style.height = spec.base + 'px';
+  base.style.zIndex = '20';
+  knob.style.width = spec.knob + 'px';
+  knob.style.height = spec.knob + 'px';
   $('gameContainer').appendChild(base);
   function setKnob(dx,dy){ const r=(spec.base-spec.knob)/2; const nx=Math.max(-r,Math.min(r,dx)); const ny=Math.max(-r,Math.min(r,dy)); knob.style.left=(r+nx)+'px'; knob.style.top=(r+ny)+'px'; joy.dx=nx/r; joy.dy=ny/r; }
   function start(e){ joy.active=true; const b=base.getBoundingClientRect(); joy.cx=b.left+b.width/2; joy.cy=b.top+b.height/2; move(e); }
@@ -67,6 +76,7 @@ function ensureJoystick(){
   base.addEventListener('mousedown',start); window.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
   base.addEventListener('touchstart',start,{passive:false}); base.addEventListener('touchmove',e=>{ e.preventDefault(); move(e); },{passive:false}); base.addEventListener('touchend',end);
   joy.base=base; joy.knob=knob;
+  console.log('[GroveJoystick] Positioned at', spec.left, 'px left,', spec.bottom, 'px bottom');
 }
 
 function updateCamera(){
@@ -127,16 +137,63 @@ function render(){
   if (!chest.taken){ const cp=worldToScreen(chest.x,chest.y); const cTile=getTile(chest.id); if (cTile?.img && cTile.img.complete) ctx.drawImage(cTile.img, cp.x-16, cp.y-16, 32, 32); }
   if (npc.sprite?.img && npc.sprite.img.complete){ const np=worldToScreen(npc.x,npc.y); ctx.drawImage(npc.sprite.img, np.x-20, np.y-36, npc.sprite.meta.frame.w, npc.sprite.meta.frame.h); }
   const s = character.sprite?.meta; const img=character.sprite?.img; const csp=worldToScreen(character.x, character.y); const bob = Math.sin(character.bobT)*2;
-  if (s && img && img.complete){ const frames = s.sequences[character.anim.seq] || [0]; const frameIdx = frames[character.anim.frame] || 0; const sx = frameIdx * s.frame.w; const sy = 0; const sw=s.frame.w; const sh=s.frame.h; if (img.naturalWidth >= sx+sw){ ctx.drawImage(img, sx, sy, sw, sh, csp.x - sw/2, csp.y - sh + bob, sw, sh); } else { ctx.drawImage(img, csp.x - sw/2, csp.y - sh + bob, sw, sh); } }
+  if (s && img && img.complete){ 
+    const frames = s.sequences[character.anim.seq] || [0]; 
+    const frameIdx = frames[character.anim.frame] || 0; 
+    const sx = frameIdx * s.frame.w; 
+    const sy = 0; 
+    const sw = s.frame.w; 
+    const sh = s.frame.h; 
+    const dx = csp.x - sw/2; 
+    const dy = csp.y - sh + bob; 
+    const dw = sw; 
+    const dh = sh;
+    
+    // Use proper frame cropping with drawImage
+    if (img.naturalWidth >= sx + sw && img.naturalHeight >= sy + sh){
+      ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
+      if (tick % 60 === 0) console.log('[GroveSprite] Frame:', frameIdx, 'seq:', character.anim.seq, 'sx:', sx, 'sw:', sw, 'img:', img.naturalWidth, 'x', img.naturalHeight);
+    } else {
+      // Fallback: draw entire image if frame cropping fails
+      ctx.drawImage(img, dx, dy, dw, dh);
+      if (tick % 60 === 0) console.log('[GroveSprite] Fallback draw - img:', img.naturalWidth, 'x', img.naturalHeight);
+    }
+  }
 }
 
 function loop(ts){ const dt = (loop._last? (ts-loop._last):16)/1000; loop._last = ts; tick++; update(dt); render(); UI && UI.showHUD({ inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
-// Fullscreen toggle handler
-window.__miffToggleFullscreen = ()=>{ const el = document.documentElement; if (!document.fullscreenElement){ el.requestFullscreen?.(); } else { document.exitFullscreen?.(); } setTimeout(()=>{ if (!cvs) return; const rect=cvs.getBoundingClientRect(); cvs.width = rect.width; cvs.height = rect.height; }, 200); };
+// Fullscreen toggle handler with proper canvas resize
+window.__miffToggleFullscreen = ()=>{ 
+  const el = document.documentElement; 
+  if (!document.fullscreenElement){ 
+    el.requestFullscreen?.(); 
+  } else { 
+    document.exitFullscreen?.(); 
+  } 
+  setTimeout(()=>{ 
+    if (!cvs) return; 
+    resizeCanvas();
+  }, 200); 
+};
+
+// Canvas resize function
+function resizeCanvas(){
+  if (!cvs) return;
+  const rect = cvs.getBoundingClientRect();
+  cvs.width = rect.width;
+  cvs.height = rect.height;
+  console.log('[GroveResize] Canvas:', cvs.width, 'x', cvs.height);
+}
+
+// Window resize handler
+window.addEventListener('resize', ()=>{
+  resizeCanvas();
+});
 
 async function init(){
   cvs=$('gameCanvas'); ctx=cvs.getContext('2d');
+  resizeCanvas(); // Initial canvas sizing
   UI = createOverlayDispatcher($('gameContainer'));
   UI.showHUD({ loadingText: 'Loading… 0%' });
   preloadAll();

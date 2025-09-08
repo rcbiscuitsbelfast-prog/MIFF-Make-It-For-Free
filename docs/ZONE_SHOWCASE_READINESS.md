@@ -120,8 +120,8 @@ Grove activation:
 - Remix scaffolds wired in GameOver modal and credits overlay; links to starter packs and onboarding.
 - Screenshots: `tests/showcase_grove_animation.png`, `tests/showcase_grove_interaction.png`, `tests/showcase_grove_remix_ui.png`.
 
-Grove visual polish:
-- Sprite animation timed to ~120ms per frame while walking; idle holds; synced to movement state.
-- Joystick positioned bottom-left (96px base / 48px knob); non-overlapping with HUD.
-- Fullscreen toggle added to PlayHUD; canvas resizes accordingly.
-- Screenshots: `tests/showcase_grove_animation_fixed.png`, `tests/showcase_grove_joystick_layout.png`, `tests/showcase_grove_fullscreen.png`.
+Grove visual recovery:
+- Fullscreen canvas resize: Canvas properly resizes to window dimensions on fullscreen toggle and window resize events.
+- Joystick layout fixed: Positioned at 80px left, 80px bottom with 96px base and 48px knob; responsive and non-overlapping.
+- Sprite frame rendering: Proper frame cropping using drawImage with Player_Actions.png sprite sheet; 120ms walk animation, idle holds.
+- Screenshots: `tests/showcase_grove_fullscreen_canvas.png`, `tests/showcase_grove_joystick_fixed.png`, `tests/showcase_grove_sprite_frame.png`.
