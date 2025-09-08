@@ -43,10 +43,7 @@ function initScene(){
     // Light flicker effect
     setInterval(()=>{ dir.intensity = 0.7 + Math.random()*0.2; }, 300);
 
-    // Ground
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(50, 50), new THREE.MeshStandardMaterial({ color: 0x12361f }));
-    ground.rotation.x = -Math.PI/2;
-    scene.add(ground);
+    // Fallback ground plane removed - only isometric tiles from tile_manifest.json are rendered
 }
 
 async function loadPlayer(){

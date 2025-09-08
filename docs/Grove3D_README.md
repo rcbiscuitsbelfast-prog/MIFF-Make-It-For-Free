@@ -89,13 +89,20 @@
 - Window resize updates renderer size and camera aspect
 
 ## Tiles and Modular Map
+### Fallback Terrain Removal ✅
+- **Legacy 50x50 green plane removed** from `initScene()` function
+- Only isometric tiles from `tile_manifest.json` are rendered as terrain
+- Cleaner scene with no hardcoded fallback meshes
+
+### Tile Loading
 - Loader path: `assets/Isometric Blocks/tile_manifest.json`
 - Manifest format accepts either `{ "tiles": [...] }` or array; entries use:
   - `{ "src": "grass_01.png", "x": 0, "y": 0, "rotationY": 0, "scale": 1 }`
   - `x` maps to world X; `y` maps to world Z; optional `alt` maps to world Y (height)
 - Each entry becomes a plane rotated flat (isometric-up), with transparent PNG support
-- No legacy fallback terrain is used if the manifest is missing
-- Console confirms: `Grove3D Loaded! N isometric tiles from manifest.`
+- **Fallback terrain removed**: No legacy 50x50 green plane is created; only isometric tiles are rendered
+- If tile manifest is missing/invalid, no terrain is created (graceful degradation)
+- Console confirms: `Grove3D Loaded! N isometric tiles from manifest.` (21 tiles expected)
 
 ## Main Menu and UI
 - **Main Menu**: Modal with Start Game, Inventory, Options
