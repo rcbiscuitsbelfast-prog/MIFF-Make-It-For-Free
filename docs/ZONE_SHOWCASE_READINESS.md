@@ -82,6 +82,9 @@ Screenshots:
   - [x] Trigger assignment system with live preview
   - [x] Overlay wiring with dispatcher integration
   - [x] Playtest mode with live gameplay logic
+  - [x] Persistent zone saving with contributor metadata
+  - [x] Live collaboration mode with contributor sync
+  - [x] Remix sharing with preview and metadata
 - UI Consistency
   - [x] Serif typography + tile background overlays
   - [x] Fade transitions
@@ -89,6 +92,7 @@ Screenshots:
   - [x] Fullscreen toggle with proper canvas resize
   - [x] Live canvas with drag-and-drop tile placement
   - [x] Trigger panel with assignment controls
+  - [x] Collaboration panel with contributor list and sharing
 - Assets
   - [x] Registry-backed tiles from tile_manifest.json
   - [x] Sprite selection and placement
@@ -100,6 +104,7 @@ Screenshots:
   - [x] Export overlay with remix links
   - [x] Builder guide integration
   - [x] Live orchestration preview and testing
+  - [x] Gallery integration for zone submissions
 
 Screenshots:
 - `tests/showcase_map_builder_live_canvas.png`
@@ -108,6 +113,9 @@ Screenshots:
 - `tests/showcase_map_builder_triggers.png`
 - `tests/showcase_map_builder_playtest.png`
 - `tests/showcase_map_builder_overlay_wiring.png`
+- `tests/showcase_map_builder_collaboration.png`
+- `tests/showcase_map_builder_persistent_saving.png`
+- `tests/showcase_map_builder_remix_sharing.png`
 
 ## Contributor Readiness
 - Docs

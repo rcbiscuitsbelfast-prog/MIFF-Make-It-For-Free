@@ -158,6 +158,83 @@
             background: #30363d;
         }
         
+        .collaboration-panel {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            width: 200px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+        
+        .collaboration-panel.active {
+            display: block;
+        }
+        
+        .collaboration-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #58a6ff;
+        }
+        
+        .contributor-list {
+            margin-bottom: 15px;
+        }
+        
+        .contributor-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        
+        .contributor-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+        
+        .contributor-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #4ecdc4;
+            background: rgba(78, 205, 196, 0.3);
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+        
+        .contributor-cursor.active {
+            display: block;
+        }
+        
+        .contributor-cursor::after {
+            content: attr(data-name);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+        
         .toolbar-section {
             display: flex;
             align-items: center;
@@ -218,6 +295,22 @@
         </div>
         <a href="index.html" class="back-button">← Back to MIFF</a>
         <canvas id="gameCanvas"></canvas>
+        
+        <div class="collaboration-panel" id="collaborationPanel">
+            <h3>👥 Contributors</h3>
+            <div class="contributor-list" id="contributorList">
+                <div class="contributor-item">
+                    <div class="contributor-avatar">U</div>
+                    <span>You</span>
+                </div>
+            </div>
+            <div class="toolbar-section">
+                <button id="shareRemix" class="primary">🔗 Share Remix</button>
+            </div>
+            <div class="toolbar-section">
+                <button id="submitToGallery" class="secondary">📤 Submit to Gallery</button>
+            </div>
+        </div>
         
         <div class="trigger-panel" id="triggerPanel">
             <h3>🎯 Trigger Assignment</h3>
@@ -310,6 +403,8 @@
             
             <div class="toolbar-section">
                 <button id="toggleTriggers" class="secondary">🎯 Triggers</button>
+                <button id="toggleLiveMode" class="secondary">🔗 Live Mode</button>
+                <button id="saveZone" class="primary">💾 Save Zone</button>
                 <button id="clearMap" class="primary">Clear Map</button>
                 <button id="exportMap" class="primary">Export Remix</button>
             </div>

@@ -22,7 +22,13 @@ let builder = {
   inputMode: 'mouse',
   playtestMode: false,
   selectedTileForTrigger: null,
-  player: { x: 0, y: 0, inventory: [] }
+  player: { x: 0, y: 0, inventory: [] },
+  // Collaboration state
+  contributorId: null,
+  liveMode: false,
+  contributors: new Map(), // contributorId -> { name, avatar, cursor }
+  zoneId: null,
+  lastSaved: null
 };
 
 // UI elements
@@ -46,6 +52,13 @@ let triggerPanel = {
   assignTrigger: null,
   clearTrigger: null,
   togglePlaytest: null
+};
+
+let collaborationPanel = {
+  panel: null,
+  contributorList: null,
+  shareRemix: null,
+  submitToGallery: null
 };
 
 // Helper functions
@@ -141,6 +154,11 @@ function placeTileAtMouse() {
   });
   
   console.log('[MapBuilder] Placed tile:', builder.selectedTile, 'at', grid.x, grid.y);
+  
+  // Sync to other contributors if in live mode
+  if (builder.liveMode) {
+    syncTilePlacement(grid.x, grid.y, builder.selectedTile, builder.selectedSprite);
+  }
 }
 
 function selectTileForTrigger() {
@@ -249,6 +267,8 @@ function setupToolbar() {
   toolbar.clearMap = $('clearMap');
   toolbar.exportMap = $('exportMap');
   toolbar.toggleTriggers = $('toggleTriggers');
+  toolbar.toggleLiveMode = $('toggleLiveMode');
+  toolbar.saveZone = $('saveZone');
   
   // Setup trigger panel
   triggerPanel.panel = $('triggerPanel');
@@ -259,6 +279,12 @@ function setupToolbar() {
   triggerPanel.assignTrigger = $('assignTrigger');
   triggerPanel.clearTrigger = $('clearTrigger');
   triggerPanel.togglePlaytest = $('togglePlaytest');
+  
+  // Setup collaboration panel
+  collaborationPanel.panel = $('collaborationPanel');
+  collaborationPanel.contributorList = $('contributorList');
+  collaborationPanel.shareRemix = $('shareRemix');
+  collaborationPanel.submitToGallery = $('submitToGallery');
   
   // Event listeners
   toolbar.gameType.addEventListener('change', (e) => {
@@ -296,6 +322,14 @@ function setupToolbar() {
     toggleTriggerPanel();
   });
   
+  toolbar.toggleLiveMode.addEventListener('click', () => {
+    toggleLiveMode();
+  });
+  
+  toolbar.saveZone.addEventListener('click', () => {
+    saveZone();
+  });
+  
   // Trigger panel event listeners
   triggerPanel.assignTrigger.addEventListener('click', () => {
     assignTrigger();
@@ -307,6 +341,15 @@ function setupToolbar() {
   
   triggerPanel.togglePlaytest.addEventListener('click', () => {
     togglePlaytestMode();
+  });
+  
+  // Collaboration panel event listeners
+  collaborationPanel.shareRemix.addEventListener('click', () => {
+    shareRemix();
+  });
+  
+  collaborationPanel.submitToGallery.addEventListener('click', () => {
+    submitToGallery();
   });
   
   // Initial setup
@@ -397,6 +440,267 @@ function togglePlaytestMode() {
     triggerPanel.togglePlaytest.textContent = '🎮 Playtest Mode';
     console.log('[MapBuilder] Exited playtest mode');
   }
+}
+
+// Collaboration functions
+function initializeCollaboration() {
+  builder.contributorId = window.MapBuilderAssets.generateContributorId();
+  console.log('[MapBuilder] Initialized contributor ID:', builder.contributorId);
+  
+  // Add self to contributors list
+  builder.contributors.set(builder.contributorId, {
+    name: 'You',
+    avatar: 'U',
+    cursor: { x: 0, y: 0 }
+  });
+  
+  updateContributorList();
+}
+
+function toggleLiveMode() {
+  builder.liveMode = !builder.liveMode;
+  
+  if (builder.liveMode) {
+    toolbar.toggleLiveMode.textContent = '🔗 Live Mode ON';
+    toolbar.toggleLiveMode.style.background = '#4ecdc4';
+    console.log('[MapBuilder] Live mode enabled');
+    
+    // Simulate other contributors for demo
+    simulateContributors();
+  } else {
+    toolbar.toggleLiveMode.textContent = '🔗 Live Mode';
+    toolbar.toggleLiveMode.style.background = '#21262d';
+    console.log('[MapBuilder] Live mode disabled');
+    
+    // Clear simulated contributors
+    clearSimulatedContributors();
+  }
+}
+
+function simulateContributors() {
+  // Add simulated contributors for demo
+  const simulatedContributors = [
+    { id: 'contrib_1', name: 'Alice', avatar: 'A' },
+    { id: 'contrib_2', name: 'Bob', avatar: 'B' }
+  ];
+  
+  simulatedContributors.forEach(contrib => {
+    builder.contributors.set(contrib.id, {
+      name: contrib.name,
+      avatar: contrib.avatar,
+      cursor: { x: Math.random() * 4, y: Math.random() * 4 }
+    });
+  });
+  
+  updateContributorList();
+  updateContributorCursors();
+}
+
+function clearSimulatedContributors() {
+  // Remove all contributors except self
+  const selfId = builder.contributorId;
+  builder.contributors.clear();
+  builder.contributors.set(selfId, {
+    name: 'You',
+    avatar: 'U',
+    cursor: { x: 0, y: 0 }
+  });
+  
+  updateContributorList();
+  updateContributorCursors();
+}
+
+function syncTilePlacement(x, y, tile, sprite) {
+  const syncData = {
+    type: 'tile_placement',
+    contributorId: builder.contributorId,
+    position: { x, y },
+    tile: tile,
+    sprite: sprite,
+    timestamp: Date.now()
+  };
+  
+  console.log('[MapBuilder] Syncing tile placement:', syncData);
+  
+  // In a real implementation, this would send to WebSocket server
+  // For demo, we'll just log the sync event
+  broadcastSyncEvent(syncData);
+}
+
+function broadcastSyncEvent(data) {
+  // Simulate receiving sync events from other contributors
+  if (builder.liveMode && Math.random() > 0.7) {
+    setTimeout(() => {
+      console.log('[MapBuilder] Received sync event:', data);
+    }, 100);
+  }
+}
+
+function updateContributorList() {
+  if (!collaborationPanel.contributorList) return;
+  
+  collaborationPanel.contributorList.innerHTML = '';
+  
+  builder.contributors.forEach((contrib, id) => {
+    const item = document.createElement('div');
+    item.className = 'contributor-item';
+    item.innerHTML = `
+      <div class="contributor-avatar">${contrib.avatar}</div>
+      <span>${contrib.name}</span>
+    `;
+    collaborationPanel.contributorList.appendChild(item);
+  });
+}
+
+function updateContributorCursors() {
+  // Remove existing cursors
+  document.querySelectorAll('.contributor-cursor').forEach(cursor => {
+    cursor.remove();
+  });
+  
+  // Add cursors for other contributors
+  builder.contributors.forEach((contrib, id) => {
+    if (id !== builder.contributorId) {
+      const cursor = document.createElement('div');
+      cursor.className = 'contributor-cursor active';
+      cursor.setAttribute('data-name', contrib.name);
+      cursor.style.left = (contrib.cursor.x * 64 + 100) + 'px';
+      cursor.style.top = (contrib.cursor.y * 32 + 100) + 'px';
+      document.body.appendChild(cursor);
+    }
+  });
+}
+
+function saveZone() {
+  const zoneData = {
+    title: prompt('Zone title:', 'My Collaborative Zone') || 'Untitled Zone',
+    description: prompt('Zone description:', 'A collaborative zone') || 'A collaborative zone',
+    tags: ['collaborative', builder.gameType, builder.biome],
+    gameType: builder.gameType,
+    biome: builder.biome,
+    size: { width: builder.gridSize, height: builder.gridSize },
+    layers: {
+      terrain: {},
+      props: {},
+      npcs: {}
+    },
+    triggers: {},
+    orchestration: {
+      spawn: { x: 0, y: 0 },
+      gameType: builder.gameType,
+      features: window.MapBuilderAssets.getGameType(builder.gameType)?.features || [],
+      triggers: []
+    }
+  };
+  
+  // Convert map to layers
+  builder.map.forEach((data, key) => {
+    const [x, y] = key.split(',').map(Number);
+    zoneData.layers.terrain[`${x},${y}`] = data.tile;
+    if (data.sprite) {
+      zoneData.layers.npcs[`${x},${y}`] = data.sprite;
+    }
+  });
+  
+  // Convert triggers to orchestration
+  builder.triggers.forEach((trigger, key) => {
+    const [x, y] = key.split(',').map(Number);
+    zoneData.triggers[key] = trigger;
+    zoneData.orchestration.triggers.push({
+      position: { x, y },
+      type: trigger.type,
+      event: trigger.event,
+      data: trigger.data
+    });
+  });
+  
+  // Create zone metadata
+  const zoneMetadata = window.MapBuilderAssets.createZoneMetadata(zoneData, builder.contributorId);
+  builder.zoneId = zoneMetadata.id;
+  builder.lastSaved = Date.now();
+  
+  // Save to localStorage for demo (in real implementation, would save to server)
+  localStorage.setItem(`miff_zone_${zoneMetadata.id}`, JSON.stringify(zoneMetadata));
+  
+  console.log('[MapBuilder] Zone saved:', zoneMetadata);
+  
+  UI.showLore({
+    title: '💾 Zone Saved',
+    text: `Zone "${zoneMetadata.title}" saved successfully!`,
+    links: [
+      {
+        label: 'View Saved Zone',
+        href: `#zone_${zoneMetadata.id}`
+      }
+    ]
+  });
+}
+
+function shareRemix() {
+  if (!builder.zoneId) {
+    UI.showLore({
+      title: '⚠️ Save Required',
+      text: 'Please save your zone before sharing.'
+    });
+    return;
+  }
+  
+  const zoneData = JSON.parse(localStorage.getItem(`miff_zone_${builder.zoneId}`));
+  const shareUrl = `${window.location.origin}${window.location.pathname}?remix=${builder.zoneId}`;
+  
+  UI.showLore({
+    title: '🔗 Share Remix',
+    text: `Share this zone with other contributors!`,
+    links: [
+      {
+        label: 'Copy Remix Link',
+        href: shareUrl
+      },
+      {
+        label: 'Download Zone JSON',
+        href: 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(zoneData, null, 2))
+      },
+      {
+        label: 'Remix Starter Pack',
+        href: '../contrib/remix-packs/README.md'
+      }
+    ]
+  });
+  
+  console.log('[MapBuilder] Sharing remix:', shareUrl);
+}
+
+function submitToGallery() {
+  if (!builder.zoneId) {
+    UI.showLore({
+      title: '⚠️ Save Required',
+      text: 'Please save your zone before submitting to gallery.'
+    });
+    return;
+  }
+  
+  const zoneData = JSON.parse(localStorage.getItem(`miff_zone_${builder.zoneId}`));
+  
+  UI.showLore({
+    title: '📤 Submit to Gallery',
+    text: `Submit "${zoneData.title}" to the MIFF Gallery?`,
+    links: [
+      {
+        label: 'Submit to Gallery',
+        href: '../gallery/index.html'
+      },
+      {
+        label: 'View Gallery',
+        href: '../gallery/index.html'
+      },
+      {
+        label: 'Gallery Guidelines',
+        href: '../docs/GALLERY_GUIDELINES.md'
+      }
+    ]
+  });
+  
+  console.log('[MapBuilder] Submitting to gallery:', zoneData);
 }
 
 // Export functionality
@@ -597,6 +901,7 @@ function updateHUD() {
   const inputMode = detectInputMode();
   const tileCount = builder.map.size;
   const triggerCount = builder.triggers.size;
+  const contributorCount = builder.contributors.size;
   
   let progress = `${tileCount} tiles placed`;
   let inventory = `${builder.gameType} | ${builder.biome}`;
@@ -606,6 +911,14 @@ function updateHUD() {
     inventory = `Inventory: ${builder.player.inventory.length} items`;
   } else if (triggerCount > 0) {
     progress = `${tileCount} tiles, ${triggerCount} triggers`;
+  }
+  
+  if (builder.liveMode) {
+    inventory += ` | ${contributorCount} contributors`;
+  }
+  
+  if (builder.zoneId) {
+    inventory += ` | Saved: ${builder.zoneId.substr(-8)}`;
   }
   
   UI.showHUD({
@@ -698,6 +1011,9 @@ async function init() {
   
   // Setup toolbar
   setupToolbar();
+  
+  // Initialize collaboration
+  initializeCollaboration();
   
   // Load assets
   window.MapBuilderAssets.preloadAll();

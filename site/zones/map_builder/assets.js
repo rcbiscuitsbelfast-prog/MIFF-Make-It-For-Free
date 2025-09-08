@@ -222,6 +222,27 @@ function getAllTriggerTypes(){
   return Object.values(registry.triggers);
 }
 
+function generateContributorId(){
+  return 'contributor_' + Math.random().toString(36).substr(2, 9);
+}
+
+function generateZoneId(){
+  return 'zone_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+}
+
+function createZoneMetadata(zoneData, contributorId){
+  return {
+    id: generateZoneId(),
+    contributorId: contributorId,
+    timestamp: Date.now(),
+    version: '1.0',
+    title: zoneData.title || 'Untitled Zone',
+    description: zoneData.description || 'A collaborative zone',
+    tags: zoneData.tags || [],
+    ...zoneData
+  };
+}
+
 // Export for use in Map Builder
 window.MapBuilderAssets = {
   preloadAll,
@@ -235,6 +256,9 @@ window.MapBuilderAssets = {
   getTilesByBiome,
   getTriggerType,
   getAllTriggerTypes,
+  generateContributorId,
+  generateZoneId,
+  createZoneMetadata,
   registry
 };
 
