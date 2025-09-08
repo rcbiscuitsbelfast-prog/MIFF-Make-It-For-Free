@@ -79,3 +79,8 @@ Screenshots:
 - Finalize unified overlay styling and dispatcher for Toppler/Grove.
 - Add onboarding overlays to Spirit/Toppler and shared attribution footer.
 - Promote remix starter packs and gallery submission flow in overlays.
+
+Reset status:
+- Grove 3D reset to minimal scene (2×2 tiles + character) and dispatcher main menu.
+- Screenshot: `tests/showcase_grove_minimal.png`
+- Removed prior quest/overlay/trigger logic from orchestration and scene.

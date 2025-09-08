@@ -2,113 +2,66 @@ import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
 
 function $(id){ return document.getElementById(id); }
 
-let ORCH = null;
-const State = { Exploring: 'exploring', Dialogue: 'dialogue' };
-let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null, muted:false }, weather: { t:0 }, inputMode: 'Keyboard' };
-let UI = null;
+let manifest=null;
+const tileW=64, tileH=32; // iso base
+let ctx=null, cvs=null, UI=null;
+let idToImg=new Map();
+let character={ x:0, y:0, img:null };
+let keys={};
 
-function persist(){ try { localStorage.setItem('grove_state', JSON.stringify({ inventory: vm.inventory, muted: vm.audio.muted, inputMode: vm.inputMode })); } catch {} }
-function restore(){ try { const s=localStorage.getItem('grove_state'); if (s){ const d=JSON.parse(s); if (Array.isArray(d.inventory)) vm.inventory=d.inventory; if (typeof d.muted==='boolean') vm.audio.muted=d.muted; if (d.inputMode) vm.inputMode=d.inputMode; } } catch {} }
-
-async function loadOrchestration(){
-	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
-	if (ORCH?.npcs?.npc1){ vm.npc.x = ORCH.npcs.npc1.x; vm.npc.y = ORCH.npcs.npc1.y; vm.npc.name = ORCH.npcs.npc1.name; }
-	if (ORCH?.triggers?.hintAfterMs){ setTimeout(()=>{ showLore({ title:'A Whisper', text:'Seek the chest by the oak.' }); }, ORCH.triggers.hintAfterMs); }
+function isoToScreen(ix, iy){
+  const x = (ix - iy) * (tileW/2) + 320;
+  const y = (ix + iy) * (tileH/2) + 80;
+  return { x, y };
 }
 
-async function loadAssets(){
-	// KayKit / CC0 textures; ensure remix-safe attribution
-	vm.portrait = await loadImg('../../../assets/KayKitAssets/rogue_texture.png').catch(()=>null);
-	vm.tileset = await loadImg('../../../assets/Grass_Middle.png').catch(()=>null);
-	const propNames = ['Oak_Tree.png', 'House.png', 'Chest.png'];
-	for (const p of propNames){ const img = await loadImg('../../../assets/' + p).catch(()=>null); if (img) vm.props.push({ name:p.replace('.png','').toLowerCase(), img, x: Math.random()*500+40, y: Math.random()*350+40 }); }
-	try { vm.audio.music = new Audio('../../../assets/audio/music/Tracks/1. Dawn of Blades.ogg'); vm.audio.music.loop=true; vm.audio.music.volume=0.25; vm.audio.music.muted = vm.audio.muted; } catch {}
-	try { vm.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {}
+async function loadManifest(){
+  manifest = await fetch('../../maps/tile_manifest.json').then(r=>r.json());
+  for (const t of manifest.tiles){ const img=new Image(); img.src=t.src; idToImg.set(t.id,img); }
 }
 
-function loadImg(src){ return new Promise((res, rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('load fail '+src)); i.src=src; }); }
-
-function fitCanvas(cvs){
-	const container = document.getElementById('gameContainer');
-	if(!container || !cvs) return;
-	const maxWidth = Math.min(800, container.clientWidth || 800);
-	const aspect = 640/480;
-	cvs.style.width = maxWidth + 'px';
-	cvs.style.height = Math.round(maxWidth / aspect) + 'px';
+async function loadCharacter(){
+  // CC0/KayKit-like placeholder sprite
+  const img=new Image(); img.src='../../../assets/Player.png';
+  character.img = img; character.x=1; character.y=1;
 }
 
-function detectInputMode(){
-	function setMode(m){ if (vm.inputMode !== m){ vm.inputMode = m; persist(); } }
-	window.addEventListener('keydown', ()=>setMode('Keyboard'));
-	window.addEventListener('pointerdown', ()=>setMode('Touch'));
-	setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) setMode('Gamepad'); }, 1000);
+function bindInput(){
+  window.addEventListener('keydown',e=>{ keys[e.key.toLowerCase()]=true; });
+  window.addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=false; });
 }
 
-function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); ensureJournal(); showIntro(); }
-
-function renderInventory(){ const bar = $('inventoryBar'); if (!bar) return; bar.innerHTML = 'Inventory: ' + (vm.inventory.length ? vm.inventory.join(', ') : '(empty)'); }
-
-function ensureJournal(){ if ($('journal')) return; const j=document.createElement('div'); j.id='journal'; j.style.marginTop='6px'; j.style.fontSize='12px'; $('gameContainer').appendChild(j); updateJournal('Arrived at grove.'); }
-function updateJournal(entry){ const j=$('journal'); if (!j) return; const p=document.createElement('div'); p.textContent='• '+entry; j.appendChild(p); }
-
-function bindInputs(){
-	$('gameContainer')?.addEventListener('click', (ev)=>{ // chest interaction
-		const rect = vm.cvs.getBoundingClientRect(); const mx = (ev.clientX-rect.left)*(vm.cvs.width/rect.width); const my = (ev.clientY-rect.top)*(vm.cvs.height/rect.height);
-		const chest = vm.props.find(p=>p.name==='chest' && mx>=p.x && mx<=p.x+24 && my>=p.y && my<=p.y+24);
-		if (chest){ addItem('Herb'); try{ vm.audio.ui?.play(); }catch{} updateJournal('Found an Herb in the chest.'); }
-	});
-	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} persist(); } });
+function update(){
+  if (keys['arrowup']||keys['w']) character.y -= 0.02;
+  if (keys['arrowdown']||keys['s']) character.y += 0.02;
+  if (keys['arrowleft']||keys['a']) character.x -= 0.02;
+  if (keys['arrowright']||keys['d']) character.x += 0.02;
 }
-
-function showIntro(){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title:'Grove 3D', message:'Explore the grove. Click chest to pick herb. M to mute.', onStart: ()=>{ /* resume play */ } }); }
-function showLore(opts){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showLore(opts||{ title:'Grove Lore', text:'KayKit/CC0 assets used. The grove hums with old songs.' }); }
-function showGameOver(){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showGameOver({ title:'Thanks for exploring!', message:'Remix this zone or expand the grove.', onRestart: ()=>{ /* soft reset */ vm.inventory=[]; renderInventory(); } }); }
-
-function openDialogue(lines){ vm.state = State.Dialogue; showDialogueOverlay(lines); }
-function closeDialogue(){ const d=$('dialogueOverlay'); if(d) d.remove(); vm.state = State.Exploring; }
-
-function showDialogueOverlay(lines){
-	if ($('dialogueOverlay')) $('dialogueOverlay').remove();
-	const div = document.createElement('div');
-	div.id = 'dialogueOverlay'; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)';
-	div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; div.style.color='#d0d7de';
-	lines.forEach(text=>{ const p=document.createElement('p'); p.textContent=text; div.appendChild(p); });
-	const row = document.createElement('div');
-	const btn1 = document.createElement('button'); btn1.className='btn'; btn1.textContent='[Accept]'; btn1.onclick=()=>{ try{ vm.audio.ui?.play(); }catch{} addItem('Herb'); updateJournal('Herb added to inventory.'); closeDialogue(); };
-	const btn2 = document.createElement('button'); btn2.className='btn btn-secondary'; btn2.textContent='[Decline]'; btn2.onclick=()=>{ try{ vm.audio.ui?.play(); }catch{} closeDialogue(); };
-	row.appendChild(btn1); row.appendChild(btn2); div.appendChild(row);
-	$('gameContainer').appendChild(div);
-}
-
-function addItem(item){ vm.inventory.push(item); renderInventory(); persist(); }
 
 function render(){
-	const { ctx, cvs } = vm;
-	ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height);
-	// Tiles
-	if (vm.tileset){ for (let x=0;x<cvs.width;x+=32){ for(let y=0;y<cvs.height;y+=32){ ctx.drawImage(vm.tileset, x, y, 32, 32); } } }
-	else { ctx.fillStyle = '#14361f'; for (let x=0;x<cvs.width;x+=32){ for(let y=0;y<cvs.height;y+=32){ ctx.fillRect(x, y, 30, 30); } } }
-	// Props
-	for (const p of vm.props){ if (p.img) ctx.drawImage(p.img, p.x, p.y, 24, 24); }
-	// NPC (replace square with portrait indicator near position)
-	ctx.fillStyle = '#d35400'; ctx.fillRect(vm.npc.x, vm.npc.y, 24, 24);
-	if (vm.portrait){ ctx.globalAlpha=0.18; ctx.drawImage(vm.portrait, vm.npc.x-20, vm.npc.y-64, 64, 64); ctx.globalAlpha=1; }
-	// Weather overlay (soft drifting particles)
-	vm.weather.t += 0.016; ctx.globalAlpha=0.08; ctx.fillStyle = '#ffffff'; for (let i=0;i<40;i++){ const t=vm.weather.t+i*0.13; const x=(t*37)%cvs.width; const y=(t*23)%cvs.height; ctx.fillRect(x, y, 2, 2); } ctx.globalAlpha=1;
-	// HUD
-	ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${vm.state}  |  Input: ${vm.inputMode}`, 10, 20);
-	ctx.fillText('M to mute music. Click chest to pick up herb.', 10, 40);
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  // 2x2 isometric tiles
+  const tiles=[['grass_01','path_stone'],['grass_02','path_stone']];
+  for (let iy=0; iy<2; iy++){
+    for (let ix=0; ix<2; ix++){
+      const id=tiles[iy][ix]; const img=idToImg.get(id);
+      const p=isoToScreen(ix,iy);
+      if (img && img.complete) ctx.drawImage(img, p.x, p.y - (tileH/2));
+    }
+  }
+  // character sprite centered on its iso position
+  const cp=isoToScreen(character.x, character.y);
+  if (character.img && character.img.complete) ctx.drawImage(character.img, cp.x-16, cp.y-28, 32, 32);
 }
 
-function loop(){ render(); requestAnimationFrame(loop); }
+function loop(){ update(); render(); requestAnimationFrame(loop); }
 
 async function init(){
-	const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…';
-	const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs));
-	vm.cvs = cvs; vm.ctx = cvs.getContext('2d');
-	restore(); await loadOrchestration(); await loadAssets(); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
-	try{ vm.audio.music?.play(); }catch{}
-	detectInputMode(); ensureUI(); bindInputs(); renderInventory(); requestAnimationFrame(loop);
+  cvs=$('gameCanvas'); ctx=cvs.getContext('2d');
+  await loadManifest(); await loadCharacter(); bindInput();
+  UI = createOverlayDispatcher($('gameContainer'));
+  UI.showIntro({ title:'Witcher Grove', message:'Arrow keys/WASD to move. Start to play.', onStart: ()=>{/* start loop */} });
+  requestAnimationFrame(loop);
 }
 
 window.addEventListener('DOMContentLoaded', init);
