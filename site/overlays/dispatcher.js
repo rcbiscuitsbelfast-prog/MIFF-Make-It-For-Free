@@ -12,12 +12,17 @@ export function createOverlayDispatcher(rootEl) {
     box.id='miffIntro';
     box.appendChild(el('h3', '', opts?.title || 'Welcome'));
     box.appendChild(el('p', '', opts?.message || 'Press Start to begin.'));
+    const row = el('div','');
     const start = el('button', 'miff-btn', 'Start');
     start.onclick = ()=>{ hide('intro'); opts?.onStart && opts.onStart(); };
-    const lore = el('button', 'miff-btn secondary', 'Lore');
-    lore.onclick = ()=>{ showLore(opts?.lore || { title:'Lore', text:'...' }); };
-    box.appendChild(start);
-    box.appendChild(lore);
+    const credits = el('button', 'miff-btn secondary', 'Credits');
+    credits.onclick = ()=>{ showLore(opts?.lore || { title:'Credits', text:'KayKit/CC0 assets. MIFF Framework.' }); };
+    const remix = el('a','miff-btn secondary','Remix');
+    remix.href = '../../contrib/remix-packs/README.md';
+    row.appendChild(start);
+    row.appendChild(credits);
+    row.appendChild(remix);
+    box.appendChild(row);
     state.nodes.intro = attach(box);
   }
 
@@ -36,11 +41,13 @@ export function createOverlayDispatcher(rootEl) {
     box.id='miffGameOver';
     box.appendChild(el('h3','', opts?.title || 'Game Over'));
     box.appendChild(el('p','', opts?.message || 'Try again or remix.'));
+    const row = el('div','');
     const restart = el('button','miff-btn','Restart');
     restart.onclick = ()=>{ hide('gameover'); opts?.onRestart && opts.onRestart(); };
     const remix = el('a','miff-btn secondary','Remix Packs');
     remix.href='../../contrib/remix-packs/README.md';
-    box.appendChild(restart); box.appendChild(remix);
+    row.appendChild(restart); row.appendChild(remix);
+    box.appendChild(row);
     state.nodes.gameover = attach(box);
   }
 
