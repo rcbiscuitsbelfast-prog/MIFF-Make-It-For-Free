@@ -84,3 +84,7 @@ Reset status:
 - Grove 3D reset to minimal scene (2×2 tiles + character) and dispatcher main menu.
 - Screenshot: `tests/showcase_grove_minimal.png`
 - Removed prior quest/overlay/trigger logic from orchestration and scene.
+
+Renderer fix:
+- Minimal scene uses registry tiles selected with `site/maps/grove3d.json` preferences.
+- Screenshot: `tests/showcase_grove_minimal_scene.png`
