@@ -108,3 +108,8 @@ Grove alignment:
 - Dispatcher overlays unified (Intro/PlayHUD/GameOver/Lore), joystick added, and HUD shows input mode.
 - Remix UI linked from GameOver modal; contributor credits overlay available via dispatcher.
 - Screenshots: `tests/showcase_grove_joystick.png`, `tests/showcase_grove_input_mode.png`, `tests/showcase_grove_remix_ui.png`.
+
+Grove asset module:
+- Asset definitions (sprites/tiles/UI) centralized in `site/zones/witcher_grove/assets.js` with preload and helpers (`getSprite`, `getTile`, `getUIComponent`).
+- Renderer integrated to consume module outputs immediately.
+- Screenshot: `tests/showcase_grove_assets_module.png`.
