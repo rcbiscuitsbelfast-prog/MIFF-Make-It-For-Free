@@ -11,8 +11,8 @@ let ctx=null, cvs=null, UI=null;
 const tileW=64, tileH=32;
 let camera={ x:0, y:0 };
 
-// Character with simple bob animation
-let character={ x:0.5, y:0.5, sprite:null, variant:'mainCharacter', speed:0.06, bobT:0 };
+// Character with animation
+let character={ x:0.5, y:0.5, sprite:null, variant:'mainCharacter', speed:0.06, bobT:0, anim:{ seq:'idle', frame:0, t:0 } };
 let keys={};
 let tiles2x2=[['grass_01','path_stone'],['grass_02','path_stone']];
 let inputMode='Keyboard';
@@ -49,7 +49,7 @@ async function loadCharacter(){
 }
 
 function bindInput(){
-  window.addEventListener('keydown',e=>{ keys[e.key.toLowerCase()]=true; inputMode='Keyboard'; });
+  window.addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); keys[k]=true; inputMode='Keyboard'; if (k==='c'){ UI && UI.showLore({ title:'Credits', text:'MIFF Framework • KayKit/CC0 assets • See README/CONTRIBUTING' }); } });
   window.addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=false; });
   window.addEventListener('pointerdown',()=>{ inputMode='Touch'; });
   setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) inputMode='Gamepad'; }, 1000);
@@ -76,6 +76,17 @@ function updateCamera(){
   camera.y += (target.y - cy) * 0.25;
 }
 
+function updateAnimation(speed){
+  const s = character.sprite?.meta; if (!s) return;
+  const moving = speed > 0.001;
+  const seq = moving ? 'walk' : 'idle';
+  if (character.anim.seq !== seq){ character.anim.seq = seq; character.anim.frame = 0; character.anim.t = 0; }
+  const frames = s.sequences[seq] || [0];
+  const rate = Math.min(0.35, 0.12 + speed*0.8);
+  character.anim.t += rate;
+  if (character.anim.t >= 1){ character.anim.t = 0; character.anim.frame = (character.anim.frame + 1) % frames.length; console.log('[Anim]', seq, character.anim.frame); }
+}
+
 function update(){
   const before={x:character.x,y:character.y};
   let vx=0,vy=0;
@@ -86,14 +97,16 @@ function update(){
   if (joy.active){ vx += joy.dx; vy += joy.dy; }
   const len=Math.hypot(vx,vy)||1; vx/=len; vy/=len;
   character.y += vy*character.speed; character.x += vx*character.speed;
+  const speed = Math.hypot(vx,vy)*character.speed;
+  updateAnimation(speed);
   if (vx||vy) character.bobT += 0.2; else character.bobT *= 0.9;
   if (before.x!==character.x || before.y!==character.y){ console.log('[GroveMove]', character.x.toFixed(2), character.y.toFixed(2)); }
   updateCamera();
   // Interactions
   const dChest=Math.hypot(character.x-chest.x, character.y-chest.y);
-  if (!chest.taken && dChest<0.2){ chest.taken=true; UI.showLore({ title:'You found a herb!', text:'Added Herb to inventory.' }); }
+  if (!chest.taken && dChest<0.2){ chest.taken=true; console.log('[Pickup] Herb'); UI.showLore({ title:'You found a herb!', text:'Added Herb to inventory.' }); }
   const dNpc=Math.hypot(character.x-npc.x, character.y-npc.y);
-  if (!npc.speaking && dNpc<0.25){ npc.speaking=true; UI.showLore({ title:'Elder', text:'Welcome to the Grove. The forest remembers.' }); setTimeout(()=>{ npc.speaking=false; },1200); }
+  if (!npc.speaking && dNpc<0.25){ npc.speaking=true; console.log('[Lore] Elder'); UI.showLore({ title:'Elder', text:'Welcome to the Grove. The forest remembers.' }); setTimeout(()=>{ npc.speaking=false; },1200); }
 }
 
 function renderParallax(){
@@ -118,8 +131,16 @@ function render(){
   if (!chest.taken){ const cp=worldToScreen(chest.x,chest.y); const cTile=getTile(chest.id); if (cTile?.img && cTile.img.complete) ctx.drawImage(cTile.img, cp.x-16, cp.y-16, 32, 32); }
   // NPC sprite
   if (npc.sprite?.img && npc.sprite.img.complete){ const np=worldToScreen(npc.x,npc.y); ctx.drawImage(npc.sprite.img, np.x-20, np.y-36, npc.sprite.meta.frame.w, npc.sprite.meta.frame.h); }
-  // Character sprite bobbing
-  const csp=worldToScreen(character.x, character.y); const bob = Math.sin(character.bobT)*2; if (character.sprite?.img && character.sprite.img.complete) ctx.drawImage(character.sprite.img, csp.x-32, csp.y-48-bob, character.sprite.meta.frame.w, character.sprite.meta.frame.h);
+  // Character sprite with frame slice if available
+  const s = character.sprite?.meta; const img=character.sprite?.img; const csp=worldToScreen(character.x, character.y); const bob = Math.sin(character.bobT)*2;
+  if (s && img && img.complete){
+    const frames = s.sequences[character.anim.seq] || [0];
+    const frameIdx = frames[character.anim.frame] || 0;
+    const sx = frameIdx * s.frame.w; const sy = 0; const sw=s.frame.w; const sh=s.frame.h;
+    // If spritesheet not wide enough, draw whole image
+    if (img.naturalWidth >= sx+sw){ ctx.drawImage(img, sx, sy, sw, sh, csp.x - sw/2, csp.y - sh + bob, sw, sh); }
+    else { ctx.drawImage(img, csp.x - sw/2, csp.y - sh + bob, sw, sh); }
+  }
 }
 
 function loop(){ tick++; update(); render(); UI && UI.showHUD({ inputMode }); requestAnimationFrame(loop); }
@@ -133,7 +154,7 @@ async function init(){
     await loadGroveMap(); await loadCharacter(); bindInput(); ensureJoystick();
     UI.showIntro({
       title:'Witcher Grove',
-      message:'Use joystick or Arrow/WASD to move. Start when ready.',
+      message:'Use joystick or Arrow/WASD. Press C for Credits.',
       onStart:()=>{ UI.showHUD({ inputMode }); }
     });
     requestAnimationFrame(loop);

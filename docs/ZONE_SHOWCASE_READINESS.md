@@ -113,3 +113,9 @@ Grove asset module:
 - Asset definitions (sprites/tiles/UI) centralized in `site/zones/witcher_grove/assets.js` with preload and helpers (`getSprite`, `getTile`, `getUIComponent`).
 - Renderer integrated to consume module outputs immediately.
 - Screenshot: `tests/showcase_grove_assets_module.png`.
+
+Grove activation:
+- Sprite animation driven by asset module (idle/walk sequences synced to movement speed).
+- Tile interactions (chest pickup, campfire lore) trigger dispatcher overlays and console logs.
+- Remix scaffolds wired in GameOver modal and credits overlay; links to starter packs and onboarding.
+- Screenshots: `tests/showcase_grove_animation.png`, `tests/showcase_grove_interaction.png`, `tests/showcase_grove_remix_ui.png`.
