@@ -7,6 +7,8 @@ const State = { Idle: 'idle', Playing: 'playing', Tamed: 'tamed', Dialogue: 'dia
 let model = { state: State.Idle, hits: 0, progress: 0, ctx: null, cvs: null, npc: { x:320, y:240, name:'Spirit' }, sprite: null, choice: null, portrait: null, props: [], anim: { t:0 }, inputMode: 'Keyboard' };
 let audio = { music: null, sfxBeat: null, sfxUI: null, muted:false };
 let UI = null;
+// Joystick
+let joy={ base:null, knob:null, active:false, cx:0, cy:0, dx:0, dy:0 };
 
 async function loadOrchestration(){
 	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
@@ -46,6 +48,20 @@ function detectInputMode(){
 	setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) setMode('Gamepad'); }, 1000);
 }
 
+function ensureJoystick(){
+	if (joy.base) return;
+	const base=document.createElement('div'); base.style.position='absolute'; base.style.left='80px'; base.style.bottom='80px'; base.style.width='96px'; base.style.height='96px'; base.style.border='2px solid rgba(255,255,255,0.2)'; base.style.borderRadius='50%'; base.style.background='rgba(0,0,0,0.2)'; base.style.touchAction='none';
+	const knob=document.createElement('div'); knob.style.position='absolute'; knob.style.left='38px'; knob.style.top='38px'; knob.style.width='20px'; knob.style.height='20px'; knob.style.borderRadius='50%'; knob.style.background='rgba(88,166,255,0.9)';
+	base.appendChild(knob); $('gameContainer').appendChild(base);
+	function setKnob(dx,dy){ const r=36; const nx=Math.max(-r,Math.min(r,dx)); const ny=Math.max(-r,Math.min(r,dy)); knob.style.left=(38+nx)+'px'; knob.style.top=(38+ny)+'px'; joy.dx=nx/r; joy.dy=ny/r; }
+	function start(e){ joy.active=true; const b=base.getBoundingClientRect(); joy.cx=b.left+b.width/2; joy.cy=b.top+b.height/2; move(e); }
+	function move(e){ if(!joy.active) return; const p=e.touches? e.touches[0]: e; const dx=p.clientX-joy.cx; const dy=p.clientY-joy.cy; setKnob(dx,dy); model.inputMode='Touch (Joystick)'; }
+	function end(){ joy.active=false; setKnob(0,0); }
+	base.addEventListener('mousedown',start); window.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
+	base.addEventListener('touchstart',start,{passive:false}); base.addEventListener('touchmove',e=>{ e.preventDefault(); move(e); },{passive:false}); base.addEventListener('touchend',end);
+	joy.base=base; joy.knob=knob;
+}
+
 function bindInputs(){
 	// legacy back removed
 	window.addEventListener('keydown', (e)=>{
@@ -78,7 +94,7 @@ function openDialogue(){ model.state = State.Dialogue; showDialogueNode('intro')
 
 function showDialogueNode(id){
 	const node = Dialogue[id]; if (!node) return;
-	ensureDialogueOverlay();
+	ensureOverlay();
 	const overlay = $('dialogueOverlay'); overlay.innerHTML = '';
 	const p = document.createElement('p'); p.textContent = node.line; overlay.appendChild(p);
 	if (node.choices){
@@ -86,7 +102,7 @@ function showDialogueNode(id){
 	} else if (node.end){ const btn = document.createElement('button'); btn.className='btn'; btn.textContent = 'Continue'; btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} closeDialogue(); model.state = State.Playing; startReplay(); }; overlay.appendChild(btn); }
 }
 
-function ensureDialogueOverlay(){ if ($('dialogueOverlay')) return; const div=document.createElement('div'); div.id='dialogueOverlay'; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; $('gameContainer').appendChild(div); }
+function ensureOverlay(){ if ($('dialogueOverlay')) return; const div=document.createElement('div'); div.id='dialogueOverlay'; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; $('gameContainer').appendChild(div); }
 function closeDialogue(){ const d=$('dialogueOverlay'); if(d) d.remove(); }
 
 let beatTimer = null;
@@ -99,12 +115,12 @@ function restore(){ try { const s = localStorage.getItem('spirit_tamer_progress'
 
 function easeInOutSine(x){ return -(Math.cos(Math.PI * x) - 1) / 2; }
 
-function renderUI(){ const { ctx, cvs } = model; const total = 6; const ratio = Math.min(1, model.progress / total); ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(10, cvs.height-26, cvs.width-20, 16); ctx.fillStyle = '#58a6ff'; ctx.fillRect(10, cvs.height-26, (cvs.width-20)*ratio, 16); ctx.fillStyle = '#d0d7de'; ctx.fillText(`Progress ${model.progress}/${total}  |  Input: ${model.inputMode}`, 14, cvs.height-32); UI && UI.showHUD({ progress: `${model.progress}/${total}`, inventory: [], inputMode: model.inputMode }); }
+function renderUI(){ const { ctx, cvs } = model; const total = 6; const ratio = Math.min(1, model.progress / total); ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(10, cvs.height-26, cvs.width-20, 16); ctx.fillStyle = '#58a6ff'; ctx.fillRect(10, cvs.height-26, (cvs.width-20)*ratio, 16); ctx.fillStyle = '#d0d7de'; ctx.fillText(`Progress ${model.progress}/${total}  |  Input: ${model.inputMode}`, 14, cvs.height-32); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/${total}` }); }
 
 function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle = '#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); for (let i=0;i<model.props.length;i++){ const pr=model.props[i]; if (pr.img) ctx.drawImage(pr.img, model.npc.x+pr.dx, model.npc.y+pr.dy, 32, 32); } model.anim.t += 0.016; const phase = model.anim.t % 1; const eased = easeInOutSine(phase); const baseR = 40 + model.progress*3; const pulseR = baseR + 8*eased; ctx.save(); ctx.shadowBlur = 16 + eased*16; ctx.shadowColor = '#58a6ff'; if (model.sprite){ ctx.drawImage(model.sprite, model.npc.x-24, model.npc.y-24, 48, 48); } else { ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(model.npc.x, model.npc.y, pulseR, 0, Math.PI*2); ctx.fill(); } ctx.restore(); if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; } ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20); ctx.fillText('Space/click for beats. Enter to start. D dialogue. M mute.', 10, 40); renderUI(); }
 
-function loop(){ render(); requestAnimationFrame(loop); }
+function loop(){ render(); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6` }); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); startReplay(); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); startReplay(); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);
