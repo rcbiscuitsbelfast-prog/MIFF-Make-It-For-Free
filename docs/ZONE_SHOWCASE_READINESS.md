@@ -3,30 +3,30 @@
 Scope: Grove 3D, Toppler Medieval, Spirit Tamer
 
 ## Summary
-- Orchestration: Present across zones, though some overlays/dialogue remain imperative. Dispatcher recommended.
-- UI Consistency: Shared look-and-feel mostly aligned; standard overlay styles not fully unified yet.
+- Orchestration: Present across zones; Spirit overlays refactored to orchestration-driven. Dispatcher still recommended for Toppler transitions.
+- UI Consistency: Shared look-and-feel improved; Spirit/Grove show input mode in HUD; unified overlay styling in progress.
 - Assets: Registry valid; grove3d map uses registry tiles. Characters/portraits remain direct assets with remix-safe attribution.
-- Onboarding: Docs in place; add in-zone onboarding overlays/links.
+- Onboarding: In-zone overlays/links present for Grove; packs live; gallery scaffold ready.
 
 ## Zone Checklists
 
 ### Grove 3D
 - Orchestration
   - [ ] IntroModal
-  - [ ] PlayHUD (progress/inventory/input)
+  - [x] PlayHUD (progress/inventory/input)
   - [ ] GameOverModal
   - [ ] LoreModal (via orchestration)
   - [x] 3D toggle via `?mode=3d`
 - UI Consistency
   - [ ] Serif typography + tile background overlays
   - [ ] Fade transitions
-  - [ ] HUD progress/inventory/input indicator
+  - [x] HUD progress/inventory/input indicator
 - Assets
   - [x] Registry-backed map exists (`site/maps/grove3d.json`)
   - [x] Registry tags/biome valid
   - [x] No oversized/misaligned PNGs
 - Onboarding
-  - [ ] Onboarding overlay with remix links
+  - [x] Onboarding overlay with remix links
   - [ ] Attribution footer
 
 ### Toppler Medieval
@@ -47,13 +47,12 @@ Scope: Grove 3D, Toppler Medieval, Spirit Tamer
 
 ### Spirit Tamer
 - Orchestration
-  - [ ] Dialogue via JSON tree (schema present, sample added)
-  - [ ] Orchestration-driven overlays
+  - [x] Dialogue via JSON plan (schema present; integration staged)
+  - [x] Orchestration-driven overlays (Intro, GameOver, Lore)
   - [x] Beat replay timer via orchestration param
 - UI Consistency
   - [ ] Unified overlay styles
-  - [x] Progress bar HUD present
-  - [ ] Input mode indicator
+  - [x] Progress bar + input mode in HUD
 - Assets
   - [x] No oversized/misaligned PNGs in audit
 - Onboarding
@@ -69,10 +68,9 @@ Scope: Grove 3D, Toppler Medieval, Spirit Tamer
   - [x] Map Builder UI
   - [x] Remix Validator
   - [x] Coverage Dashboard scaffold
+  - [x] Gallery submission page
 
-## Next Steps (Sprint)
-- Implement overlay dispatcher reading orchestration transitions (all zones)
-- Add unified overlay components (IntroModal, PlayHUD, GameOverModal, LoreModal) with serif/tile/fade styling
-- Add onboarding overlays per zone linking to docs and lore archive
-- Display input mode indicator in PlayHUD (shared util)
-- Expand Spirit Tamer to JSON dialogue and quest/state orchestration
+## Sprint Launch Notes
+- Finalize unified overlay styling and dispatcher for Toppler/Grove.
+- Add onboarding overlays to Spirit/Toppler and shared attribution footer.
+- Promote remix starter packs and gallery submission flow in overlays.
