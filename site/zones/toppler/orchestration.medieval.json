@@ -44,7 +44,42 @@
     "scenes": ["TopplerIntro", "TopplerPlay", "TopplerGameOver"],
     "transitions": {
       "startGame": { "from": "TopplerIntro", "to": "TopplerPlay" },
+      "gameOver": { "from": "TopplerPlay", "to": "TopplerGameOver" },
+      "restartGame": { "from": "TopplerGameOver", "to": "TopplerIntro" },
       "showCredits": { "from": "*", "to": "TopplerIntro", "modal": "LoreModal" }
+    },
+    "overlays": {
+      "TopplerIntro": {
+        "type": "modal",
+        "dismissible": true,
+        "style": "medieval-intro",
+        "fadeIn": 500,
+        "fadeOut": 300,
+        "triggers": ["zoneLoad", "restartGame"]
+      },
+      "TopplerPlay": {
+        "type": "hud",
+        "dismissible": false,
+        "style": "medieval-hud",
+        "fadeIn": 200,
+        "triggers": ["startGame"]
+      },
+      "TopplerGameOver": {
+        "type": "modal",
+        "dismissible": true,
+        "style": "medieval-gameover",
+        "fadeIn": 400,
+        "fadeOut": 300,
+        "triggers": ["playerDeath", "levelComplete"]
+      },
+      "LoreModal": {
+        "type": "modal",
+        "dismissible": true,
+        "style": "medieval-lore",
+        "fadeIn": 300,
+        "fadeOut": 200,
+        "triggers": ["showCredits"]
+      }
     }
   }
 }

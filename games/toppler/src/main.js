@@ -2,11 +2,11 @@
  * Main entry point for Toppler Medieval
  * Integrates with MIFF orchestration system
  */
-import { TopplerMedieval } from './TopplerMedieval.js';
+import { TopplerMedievalOverlays } from './TopplerMedievalOverlays.js';
 import { createGameLauncher } from './bootstrap/GameBootstrap.js';
 class TopplerMedievalScene {
     constructor() {
-        this.game = new TopplerMedieval();
+        this.game = new TopplerMedievalOverlays();
     }
     mount(canvas) {
         this.game.mount(canvas);

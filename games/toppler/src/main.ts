@@ -3,14 +3,14 @@
  * Integrates with MIFF orchestration system
  */
 
-import { TopplerMedieval } from './TopplerMedieval.js';
+import { TopplerMedievalOverlays } from './TopplerMedievalOverlays.js';
 import { createGameLauncher } from './bootstrap/GameBootstrap.js';
 
 class TopplerMedievalScene {
-    private game: TopplerMedieval;
+    private game: TopplerMedievalOverlays;
 
     constructor() {
-        this.game = new TopplerMedieval();
+        this.game = new TopplerMedievalOverlays();
     }
 
     mount(canvas: HTMLCanvasElement): void {

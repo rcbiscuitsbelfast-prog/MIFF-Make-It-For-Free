@@ -21,33 +21,126 @@ The game follows a strict orchestration-driven flow based on the configuration i
 TopplerIntro → TopplerPlay → TopplerGameOver → (loop back to TopplerIntro)
 ```
 
+#### Overlay System
+
+The orchestration system drives modal and HUD overlays with fade transitions:
+
+**Overlay Configuration:**
+```json
+{
+  "overlays": {
+    "TopplerIntro": {
+      "type": "modal",
+      "dismissible": true,
+      "style": "medieval-intro",
+      "fadeIn": 500,
+      "fadeOut": 300,
+      "triggers": ["zoneLoad", "restartGame"]
+    },
+    "TopplerPlay": {
+      "type": "hud",
+      "dismissible": false,
+      "style": "medieval-hud",
+      "fadeIn": 200,
+      "triggers": ["startGame"]
+    },
+    "TopplerGameOver": {
+      "type": "modal",
+      "dismissible": true,
+      "style": "medieval-gameover",
+      "fadeIn": 400,
+      "fadeOut": 300,
+      "triggers": ["playerDeath", "levelComplete"]
+    }
+  }
+}
+```
+
 #### Scene Transitions
 
 1. **TopplerIntro** 
-   - Displays game title, description, and current settings
-   - Shows input mode detection status
-   - Waits for user input to start the game
+   - **Triggers**: `zoneLoad`, `restartGame`
+   - **Type**: Modal overlay with medieval tile background
+   - **Features**: Game title, description, start button, options menu, lore button
+   - **Input Mode Display**: Shows current input method (gamepad/keyboard/touch)
+   - **Dismissible**: Yes (via Start Quest button or Enter/Space key)
 
 2. **TopplerPlay**
-   - Active gameplay state
-   - Handles player movement, enemy AI, and collision detection
-   - Manages score and progression
-   - Transitions to GameOver on completion or failure
+   - **Triggers**: `startGame`
+   - **Type**: HUD overlay (transparent background)
+   - **Features**: Score display, difficulty indicator, input mode status
+   - **Dismissible**: No (active during gameplay)
+   - **Touch Zones**: Rendered for touch input mode
 
 3. **TopplerGameOver**
-   - Displays final score and time
-   - Allows return to intro menu
-   - Resets game state for new session
+   - **Triggers**: `playerDeath`, `levelComplete`
+   - **Type**: Modal overlay with medieval styling
+   - **Features**: Final score, completion time, difficulty, restart button
+   - **Dismissible**: Yes (via New Quest button or any key/tap)
+
+#### Overlay Orchestration Hooks
+
+All overlays are driven by orchestration triggers, not hardcoded UI:
+
+- **`triggerOverlay(trigger)`**: Checks orchestration config for matching triggers
+- **`showOverlay(overlayId, config)`**: Creates and displays overlay with fade-in
+- **`hideOverlay(overlayId)`**: Removes overlay with fade-out transition
+- **`handleOverlayAction(action)`**: Processes orchestration-defined actions
 
 ### Input Handling System
 
-The game implements comprehensive input mode detection and handling:
+The game implements comprehensive input mode detection and handling with persistent storage:
 
-#### Input Mode Detection
+#### Input Mode Detection Logic
 
-1. **Gamepad Priority**: Automatically detects connected gamepads via `navigator.getGamepads()`
-2. **Touch Fallback**: Detects touch capability via `'ontouchstart' in window`
-3. **Keyboard Default**: Falls back to keyboard input when neither gamepad nor touch is available
+1. **Gamepad Polling**: 
+   - Uses `navigator.getGamepads()` with 1-second interval polling
+   - Listens for `gamepadconnected`/`gamepaddisconnected` events
+   - Automatically switches to gamepad mode when controller detected
+   - Priority: Highest (overrides other modes when connected)
+
+2. **Touch Detection**: 
+   - Checks `'ontouchstart' in window` and `navigator.maxTouchPoints > 0`
+   - Creates interactive touch zones for movement and jumping
+   - Fallback when no gamepad detected and touch capability exists
+   - Priority: Medium (used when gamepad unavailable)
+
+3. **Keyboard Fallback**: 
+   - Default mode when no gamepad or touch capability detected
+   - Uses standard arrow keys and space/enter for controls
+   - Priority: Lowest (baseline input method)
+
+#### Input Detection Implementation
+
+```typescript
+private initializeInputDetection(): void {
+    // Gamepad polling with interval checking
+    this.pollGamepads();
+    setInterval(() => this.pollGamepads(), 1000);
+    
+    // Touch capability detection
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        this.state.inputMode = 'touch';
+    }
+
+    // Event listeners for gamepad connection
+    window.addEventListener('gamepadconnected', (e) => {
+        this.gamepadIndex = e.gamepad.index;
+        this.state.inputMode = 'gamepad';
+        this.persistState();
+        this.updateInputModeDisplay();
+    });
+}
+```
+
+#### Input Mode Persistence
+
+The detected input mode is automatically stored and restored:
+
+- **Storage Key**: `localStorage.toppler_state`
+- **Auto-Save**: Input mode changes trigger immediate persistence
+- **Boot Restore**: Previous input mode restored on game initialization
+- **Real-time Updates**: UI displays update when input mode changes
 
 #### Input Controls
 
@@ -70,7 +163,7 @@ Zones are rendered as semi-transparent overlays with visual indicators.
 
 #### LocalStorage Schema
 
-The game uses `localStorage.toppler_state` with the following schema:
+The game uses `localStorage.toppler_state` with the following comprehensive schema:
 
 ```json
 {
@@ -80,11 +173,66 @@ The game uses `localStorage.toppler_state` with the following schema:
 }
 ```
 
+#### Persistence Implementation
+
+```typescript
+private persistState(): void {
+    try {
+        const persistedState = {
+            score: this.state.score,
+            difficulty: this.state.difficulty,
+            inputMode: this.state.inputMode
+        };
+        localStorage.setItem('toppler_state', JSON.stringify(persistedState));
+        console.log('[TopplerMedieval] State persisted:', persistedState);
+    } catch (error) {
+        console.error('Failed to persist state:', error);
+    }
+}
+
+private restoreState(): void {
+    try {
+        const saved = localStorage.getItem('toppler_state');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed.score !== undefined) this.state.score = parsed.score;
+            if (parsed.difficulty) this.state.difficulty = parsed.difficulty;
+            if (parsed.inputMode) this.state.inputMode = parsed.inputMode;
+            console.log('[TopplerMedieval] State restored:', parsed);
+        }
+    } catch (error) {
+        console.error('Failed to restore state:', error);
+    }
+}
+```
+
 #### Persistence Behavior
 
-- **Store**: Automatically saves state on score changes, difficulty updates, and input mode detection
-- **Restore**: Loads saved state on game initialization
-- **Reset**: Clears score on game over, preserves difficulty and input mode settings
+- **Auto-Save Triggers**: 
+  - Score changes during gameplay
+  - Difficulty selection in options menu
+  - Input mode detection/changes
+  - Game state transitions
+
+- **Boot Restore**: 
+  - Loads saved state on game initialization
+  - Applies restored settings to UI displays
+  - Maintains input mode preferences across sessions
+
+- **Reset Behavior**: 
+  - **Game Over**: Clears score only, preserves difficulty and input mode
+  - **New Session**: Retains all user preferences and settings
+  - **Error Handling**: Graceful fallback to defaults if localStorage fails
+
+#### State Management
+
+The persistence system ensures continuity across game sessions:
+
+1. **Score Persistence**: Current score maintained during active gameplay
+2. **Difficulty Retention**: Player's chosen difficulty level preserved
+3. **Input Mode Memory**: Remembers preferred/detected input method
+4. **Session Recovery**: Can restore interrupted game sessions
+5. **Cross-Device Sync**: Works across different browsers on same device
 
 ### Difficulty System
 
@@ -155,6 +303,49 @@ The orchestration system drives scene transitions via:
 - **Game Events**: Automatic transitions on win/lose conditions
 - **Modal Overlays**: Contextual information displays
 
+## UI Transition Notes
+
+### Overlay Styling and Theming
+
+The overlay system uses medieval-themed CSS with tile backgrounds:
+
+#### CSS Classes
+
+- **`.toppler-overlay`**: Base overlay with fade transitions
+- **`.medieval-intro`**: Intro screen with brown/gold gradient and tile pattern
+- **`.medieval-gameover`**: Game over screen with red tones and tile pattern  
+- **`.medieval-hud`**: Transparent HUD overlay for gameplay
+- **`.medieval-lore`**: Lore modal with purple/gold theming
+
+#### Fade Transitions
+
+All overlays support configurable fade transitions:
+
+```css
+.toppler-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.toppler-overlay.active {
+    opacity: 1;
+}
+```
+
+#### Medieval Asset Integration
+
+- **Tile Backgrounds**: Uses isometric block assets as repeating background patterns
+- **Color Scheme**: Gold (#d4af37), brown (#8b4513), and medieval tones
+- **Typography**: Serif fonts with text shadows for medieval aesthetic
+- **Button Styling**: Gradient backgrounds with gold borders and hover effects
+
+### Modal Interaction Patterns
+
+1. **Dismissible Modals**: Can be closed via buttons, keyboard, or clicks
+2. **Non-Dismissible HUD**: Gameplay overlay remains active during play
+3. **Action Buttons**: Orchestration-driven actions (Start Quest, New Quest, etc.)
+4. **Options Integration**: In-overlay settings for difficulty and preferences
+
 ## UI Cleanup Checklist
 
 ### ✅ Removed Legacy Elements
@@ -167,10 +358,11 @@ The orchestration system drives scene transitions via:
 
 ### ✅ Replaced With Orchestration
 
-1. **Scene-based Overlays**: Intro, Play, GameOver states
-2. **Input-driven Transitions**: Consistent across all input modes
-3. **Persistent Settings**: Difficulty and input mode preservation
-4. **Touch Gesture Support**: Swipe and tap zones for mobile
+1. **Scene-based Overlays**: Intro, Play, GameOver states with medieval styling
+2. **Input-driven Transitions**: Consistent across all input modes with fade effects
+3. **Persistent Settings**: Difficulty and input mode preservation with localStorage
+4. **Touch Gesture Support**: Interactive touch zones with visual feedback
+5. **Modal System**: Orchestration-driven overlay management with proper cleanup
 
 ## Implementation Verification
 
