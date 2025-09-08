@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "zone": "example_zone",
   "size": { "width": 64, "height": 64, "tile": { "w": 64, "h": 32 } },
   "layers": {
@@ -7,10 +7,29 @@
     "props": { "map": [] },
     "npcs": { "map": [] }
   },
+  "props3d": [
+    { "id": "altar_01", "gltf": "../../assets/gltf/altar_01.gltf", "pos": { "x": 2, "y": 1, "z": 0 }, "scale": 1.0 }
+  ],
   "orchestration": {
     "spawn": { "x": 2, "y": 1 },
-    "quests": [ { "trigger": "step_on", "tile": "mystic_stone", "action": "start_quest", "id": "grove_intro" } ],
+    "quests": [
+      {
+        "id": "grove_chain_1",
+        "steps": [
+          { "type": "visit_tile", "tile": "mystic_stone" },
+          { "type": "collect_item", "item": "herb_bundle", "count": 3 },
+          { "type": "talk_to_npc", "npc": "herbalist" }
+        ],
+        "branches": [
+          { "condition": { "has_item": "ancient_token" }, "next": "lore_reveal" }
+        ],
+        "lore_reveal": { "loreId": "grove_intro" }
+      }
+    ],
     "paths": [ { "npc": "skeleton_guard", "waypoints": [ { "x": 5, "y": 5 }, { "x": 8, "y": 6 } ] } ],
-    "lore": [ { "tile": "mystic_stone", "overlay": "LoreModal" } ]
+    "npcs": [
+      { "id": "herbalist", "path": ["1x1","2x1","2x2"], "dialogue": "Welcome to the Grove!", "lore": "herbalist_note" }
+    ],
+    "lore": [ { "tile": "mystic_stone", "overlay": "LoreModal", "id": "lore_ancient_isle" } ]
   }
 }
