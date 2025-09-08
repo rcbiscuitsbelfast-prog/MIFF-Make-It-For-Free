@@ -1,8 +1,11 @@
+import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+
 function $(id){ return document.getElementById(id); }
 
 let ORCH = null;
 const State = { Exploring: 'exploring', Dialogue: 'dialogue' };
 let vm = { state: State.Exploring, ctx: null, cvs: null, npc: { x:200, y:300, name:'NPC' }, inventory: [], portrait: null, tileset: null, props: [], audio: { music:null, ui:null, muted:false }, weather: { t:0 }, inputMode: 'Keyboard' };
+let UI = null;
 
 function persist(){ try { localStorage.setItem('grove_state', JSON.stringify({ inventory: vm.inventory, muted: vm.audio.muted, inputMode: vm.inputMode })); } catch {} }
 function restore(){ try { const s=localStorage.getItem('grove_state'); if (s){ const d=JSON.parse(s); if (Array.isArray(d.inventory)) vm.inventory=d.inventory; if (typeof d.muted==='boolean') vm.audio.muted=d.muted; if (d.inputMode) vm.inputMode=d.inputMode; } } catch {} }
@@ -56,15 +59,15 @@ function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} persist(); } });
 }
 
-function ensureOverlay(id){ if ($(id)) return $(id); const d=document.createElement('div'); d.id=id; d.style.position='absolute'; d.style.left='50%'; d.style.top='50%'; d.style.transform='translate(-50%,-50%)'; d.style.background='rgba(0,0,0,0.7)'; d.style.padding='16px'; d.style.borderRadius='8px'; d.style.zIndex='10'; d.style.maxWidth='80%'; d.style.color='#d0d7de'; $('gameContainer').appendChild(d); return d; }
+function createOverlay(id){ if ($(id)) return $(id); const d=document.createElement('div'); d.id=id; d.style.position='absolute'; d.style.left='50%'; d.style.top='50%'; d.style.transform='translate(-50%,-50%)'; d.style.background='rgba(0,0,0,0.7)'; d.style.padding='16px'; d.style.borderRadius='8px'; d.style.zIndex='10'; d.style.maxWidth='80%'; d.style.color='#d0d7de'; $('gameContainer').appendChild(d); return d; }
 function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
 
-function ensureOnboarding(){ if ($( 'onboardingOverlay')) return; const o=ensureOverlay('onboardingOverlay'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='Grove 3D — How to Remix'; const p=document.createElement('p'); p.innerHTML='Use the Map Builder to edit tiles and orchestration. See onboarding docs.'; const row=document.createElement('div'); const a1=document.createElement('a'); a1.href='../../map-builder.html'; a1.textContent='Open Map Builder'; a1.className='btn'; const a2=document.createElement('a'); a2.href='../../contrib/remix-packs/README.md'; a2.textContent='Remix Packs'; a2.className='btn btn-secondary'; const c=document.createElement('button'); c.className='btn'; c.textContent='Close'; c.onclick=()=>hideOverlay('onboardingOverlay'); row.appendChild(a1); row.appendChild(a2); row.appendChild(c); o.appendChild(h); o.appendChild(p); o.appendChild(row); }
+function ensureOnboarding(){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title:'Grove 3D', message:'Explore the grove. Click chest to pick herb. M mute.', onStart: ()=>{ hideOverlay('onboardingOverlay'); } }); }
 
-function openDialogue(lines){ vm.state = State.Dialogue; ensureOverlay(lines); }
+function openDialogue(lines){ vm.state = State.Dialogue; showDialogueOverlay(lines); }
 function closeDialogue(){ const d=$('dialogueOverlay'); if(d) d.remove(); vm.state = State.Exploring; }
 
-function ensureOverlay(lines){
+function showDialogueOverlay(lines){
 	if ($('dialogueOverlay')) $('dialogueOverlay').remove();
 	const div = document.createElement('div');
 	div.id = 'dialogueOverlay'; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)';
@@ -105,7 +108,7 @@ async function init(){
 	vm.cvs = cvs; vm.ctx = cvs.getContext('2d');
 	restore(); await loadOrchestration(); await loadAssets(); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
 	try{ vm.audio.music?.play(); }catch{}
-	detectInputMode(); ensureUI(); bindInputs(); renderInventory(); requestAnimationFrame(loop);
+	detectInputMode(); ensureUI(); bindInputs(); renderInventory(); ensureOnboarding(); requestAnimationFrame(loop);
 }
 
 window.addEventListener('DOMContentLoaded', init);
