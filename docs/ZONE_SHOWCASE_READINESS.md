@@ -102,3 +102,8 @@ Grove immersion upgrade:
 - Draggable joystick for touch/mouse; HUD shows "Touch (Joystick)" when active.
 - Remix button added in GameOverModal.
 - Screenshots: `tests/showcase_grove_joystick.png`, `tests/showcase_grove_interaction.png`, `tests/showcase_grove_npc_dialogue.png`, `tests/showcase_grove_scene_depth.png`, `tests/showcase_grove_remix_ui.png`.
+
+Grove alignment:
+- Dispatcher overlays unified (Intro/PlayHUD/GameOver/Lore), joystick added, and HUD shows input mode.
+- Remix UI linked from GameOver modal; contributor credits overlay available via dispatcher.
+- Screenshots: `tests/showcase_grove_joystick.png`, `tests/showcase_grove_input_mode.png`, `tests/showcase_grove_remix_ui.png`.
