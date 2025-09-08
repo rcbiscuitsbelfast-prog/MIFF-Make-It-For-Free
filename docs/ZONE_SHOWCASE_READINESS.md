@@ -88,3 +88,9 @@ Reset status:
 Renderer fix:
 - Minimal scene uses registry tiles selected with `site/maps/grove3d.json` preferences.
 - Screenshot: `tests/showcase_grove_minimal_scene.png`
+
+Enhancements:
+- Input mode detection displayed in HUD (auto-updates on Keyboard/Touch/Gamepad).
+- Preload HUD shows loading progress and fades into scene.
+- Character variant selector in Intro (Adventurer/Mage/Rogue/Knight) with remix-safe assets.
+- Screenshots: `tests/showcase_grove_input_mode.png`, `tests/showcase_grove_preload_hud.png`, `tests/showcase_grove_variant_selector.png`.

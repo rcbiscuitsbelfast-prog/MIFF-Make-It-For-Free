@@ -12,6 +12,14 @@ export function createOverlayDispatcher(rootEl) {
     box.id='miffIntro';
     box.appendChild(el('h3', '', opts?.title || 'Welcome'));
     box.appendChild(el('p', '', opts?.message || 'Press Start to begin.'));
+    if (opts?.variants && Array.isArray(opts.variants) && opts.variants.length){
+      const label = el('div','', '<strong>Character:</strong>');
+      const sel = el('select','', '');
+      sel.style.margin = '6px 0 10px 0';
+      for (const v of opts.variants){ const o=document.createElement('option'); o.value=v.value; o.textContent=v.label; sel.appendChild(o); }
+      sel.onchange = ()=>{ opts.onVariantChange && opts.onVariantChange(sel.value); };
+      box.appendChild(label); box.appendChild(sel);
+    }
     const row = el('div','');
     const start = el('button', 'miff-btn', 'Start');
     start.onclick = ()=>{ hide('intro'); opts?.onStart && opts.onStart(); };
@@ -31,7 +39,12 @@ export function createOverlayDispatcher(rootEl) {
     const hud = el('div','', '');
     hud.id='miffHUD';
     hud.style.position='absolute'; hud.style.left='10px'; hud.style.bottom='8px'; hud.style.color='#d0d7de'; hud.style.fontSize='14px';
-    hud.innerHTML = `Progress: ${opts?.progress ?? 0}  |  Inventory: ${(opts?.inventory||[]).join(', ')||'(empty)'}  |  Input: ${opts?.inputMode||'Keyboard'}`;
+    const parts=[];
+    if (opts?.progress != null) parts.push(`Progress: ${opts.progress}`);
+    if (opts?.inventory) parts.push(`Inventory: ${(opts.inventory||[]).join(', ')||'(empty)'}`);
+    if (opts?.inputMode) parts.push(`Input: ${opts.inputMode}`);
+    if (opts?.loadingText) parts.push(opts.loadingText);
+    hud.innerHTML = parts.join('  |  ');
     state.nodes.hud = attach(hud);
   }
 

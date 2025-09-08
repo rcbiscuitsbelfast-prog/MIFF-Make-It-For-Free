@@ -7,9 +7,11 @@ let groveMap=null;
 const tileW=64, tileH=32; // iso base
 let ctx=null, cvs=null, UI=null;
 let idToImg=new Map();
-let character={ x:0, y:0, img:null };
+let character={ x:0, y:0, img:null, variant:'adventurer' };
 let keys={};
 let tiles2x2=[['grass_01','path_stone'],['grass_02','path_stone']];
+let inputMode='Keyboard';
+let loadedCount=0, totalToLoad=0;
 
 function isoToScreen(ix, iy){
   const x = (ix - iy) * (tileW/2) + 320;
@@ -19,29 +21,37 @@ function isoToScreen(ix, iy){
 
 async function loadManifest(){
   manifest = await fetch('../../maps/tile_manifest.json').then(r=>r.json());
-  for (const t of manifest.tiles){ const img=new Image(); img.src=t.src; idToImg.set(t.id,img); }
+  totalToLoad += (manifest.tiles||[]).length;
+  for (const t of manifest.tiles){ const img=new Image(); img.onload=()=>{ loadedCount++; }; img.src=t.src; idToImg.set(t.id,img); }
 }
 
 async function loadGroveMap(){
   try { groveMap = await fetch('../../maps/grove3d.json').then(r=>r.json()); } catch { groveMap = null; }
-  // Choose up to 4 valid IDs from registry and grove usage preferences
   const preferred=['grass_01','path_stone','mystic_stone','chest_red','grass_02'];
   const valid=new Set((manifest?.tiles||[]).map(t=>t.id));
   const chosen=preferred.filter(id=>valid.has(id)).slice(0,4);
-  // Build 2x2 from chosen, pad with registry first if needed
   while (chosen.length<4){ const fallback=(manifest?.tiles||[])[chosen.length% (manifest?.tiles?.length||1)]; if (!fallback) break; chosen.push(fallback.id); }
   tiles2x2=[[chosen[0],chosen[1]],[chosen[2],chosen[3]]];
 }
 
+function characterVariantToSrc(v){
+  // Simplified mapping to existing placeholder assets
+  if (v==='mage') return '../../../assets/KayKitAssets/knight_texture.png';
+  if (v==='rogue') return '../../../assets/KayKitAssets/rogue_texture.png';
+  if (v==='knight') return '../../../assets/KayKitAssets/knight_texture.png';
+  return '../../../assets/Player.png'; // adventurer default
+}
+
 async function loadCharacter(){
-  // CC0/KayKit-like placeholder sprite
-  const img=new Image(); img.src='../../../assets/Player.png';
-  character.img = img; character.x=1; character.y=1;
+  const img=new Image(); img.onload=()=>{ loadedCount++; }; img.src=characterVariantToSrc(character.variant);
+  totalToLoad += 1; character.img = img; character.x=1; character.y=1;
 }
 
 function bindInput(){
-  window.addEventListener('keydown',e=>{ keys[e.key.toLowerCase()]=true; });
+  window.addEventListener('keydown',e=>{ keys[e.key.toLowerCase()]=true; inputMode='Keyboard'; });
   window.addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=false; });
+  window.addEventListener('pointerdown',()=>{ inputMode='Touch'; });
+  setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) inputMode='Gamepad'; }, 1000);
 }
 
 function update(){
@@ -55,7 +65,6 @@ function update(){
 
 function render(){
   ctx.clearRect(0,0,cvs.width,cvs.height);
-  // 2x2 isometric tiles
   for (let iy=0; iy<2; iy++){
     for (let ix=0; ix<2; ix++){
       const id=tiles2x2[iy][ix]; const img=idToImg.get(id);
@@ -63,18 +72,30 @@ function render(){
       if (img && img.complete) ctx.drawImage(img, p.x, p.y - (tileH/2));
     }
   }
-  // character sprite centered on its iso position
   const cp=isoToScreen(character.x, character.y);
   if (character.img && character.img.complete) ctx.drawImage(character.img, cp.x-16, cp.y-28, 32, 32);
 }
 
-function loop(){ update(); render(); requestAnimationFrame(loop); }
+function loop(){ update(); render(); UI && UI.showHUD({ inputMode }); requestAnimationFrame(loop); }
 
 async function init(){
   cvs=$('gameCanvas'); ctx=cvs.getContext('2d');
-  await loadManifest(); await loadGroveMap(); await loadCharacter(); bindInput();
   UI = createOverlayDispatcher($('gameContainer'));
-  UI.showIntro({ title:'Witcher Grove', message:'Arrow keys/WASD to move. Start to play.', onStart: ()=>{/* start loop */} });
+  UI.showHUD({ loadingText: 'Loading… 0%' });
+  await loadManifest(); await loadGroveMap(); await loadCharacter(); bindInput();
+  const preloadInterval = setInterval(()=>{ const pct = totalToLoad? Math.min(100, Math.round(loadedCount/totalToLoad*100)) : 100; UI.showHUD({ loadingText: `Loading… ${pct}%` }); if (pct>=100){ clearInterval(preloadInterval); } }, 100);
+  UI.showIntro({
+    title:'Witcher Grove',
+    message:'Arrow keys/WASD to move. Choose a variant and Start.',
+    variants:[
+      { label:'Adventurer', value:'adventurer' },
+      { label:'Mage', value:'mage' },
+      { label:'Rogue', value:'rogue' },
+      { label:'Knight', value:'knight' }
+    ],
+    onVariantChange:(val)=>{ character.variant=val; const img=new Image(); img.src=characterVariantToSrc(val); img.onload=()=>{ character.img=img; console.log('[Variant]', val); }; },
+    onStart:()=>{ UI.showHUD({ inputMode }); }
+  });
   requestAnimationFrame(loop);
 }
 
