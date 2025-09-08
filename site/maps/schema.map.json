@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "zone": "example_zone",
+  "size": { "width": 64, "height": 64, "tile": { "w": 64, "h": 32 } },
+  "layers": {
+    "terrain": { "map": [] },
+    "props": { "map": [] },
+    "npcs": { "map": [] }
+  },
+  "orchestration": {
+    "spawn": { "x": 2, "y": 1 },
+    "quests": [ { "trigger": "step_on", "tile": "mystic_stone", "action": "start_quest", "id": "grove_intro" } ],
+    "paths": [ { "npc": "skeleton_guard", "waypoints": [ { "x": 5, "y": 5 }, { "x": 8, "y": 6 } ] } ],
+    "lore": [ { "tile": "mystic_stone", "overlay": "LoreModal" } ]
+  }
+}
