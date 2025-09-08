@@ -13,12 +13,16 @@ let builder = {
   selectedSprite: 'mainCharacter',
   gameType: 'narrative',
   biome: 'grove',
-  map: new Map(), // gridX,gridY -> { tile, sprite, props }
+  map: new Map(), // gridX,gridY -> { tile, sprite, props, triggers }
+  triggers: new Map(), // gridX,gridY -> { type, event, data }
   gridSize: 8,
   tileW: 64,
   tileH: 32,
   camera: { x: 0, y: 0 },
-  inputMode: 'mouse'
+  inputMode: 'mouse',
+  playtestMode: false,
+  selectedTileForTrigger: null,
+  player: { x: 0, y: 0, inventory: [] }
 };
 
 // UI elements
@@ -29,7 +33,19 @@ let toolbar = {
   spriteSelect: null,
   tilePreview: null,
   clearMap: null,
-  exportMap: null
+  exportMap: null,
+  toggleTriggers: null
+};
+
+let triggerPanel = {
+  panel: null,
+  triggerType: null,
+  triggerEvent: null,
+  modalType: null,
+  triggerData: null,
+  assignTrigger: null,
+  clearTrigger: null,
+  togglePlaytest: null
 };
 
 // Helper functions
@@ -83,8 +99,16 @@ function handleMouseDown(e) {
   mouse.x = e.clientX - rect.left;
   mouse.y = e.clientY - rect.top;
   
-  // Place tile at mouse position
-  placeTileAtMouse();
+  if (builder.playtestMode) {
+    // In playtest mode, handle player movement and interactions
+    handlePlaytestClick();
+  } else if (triggerPanel.panel && triggerPanel.panel.classList.contains('active')) {
+    // In trigger mode, select tile for trigger assignment
+    selectTileForTrigger();
+  } else {
+    // Normal building mode - place tile at mouse position
+    placeTileAtMouse();
+  }
 }
 
 function handleMouseMove(e) {
@@ -119,6 +143,82 @@ function placeTileAtMouse() {
   console.log('[MapBuilder] Placed tile:', builder.selectedTile, 'at', grid.x, grid.y);
 }
 
+function selectTileForTrigger() {
+  const world = screenToWorld(mouse.x, mouse.y);
+  const grid = worldToGrid(world.x, world.y);
+  const tileKey = `${grid.x},${grid.y}`;
+  
+  if (builder.map.has(tileKey)) {
+    builder.selectedTileForTrigger = { x: grid.x, y: grid.y };
+    console.log('[MapBuilder] Selected tile for trigger:', grid.x, grid.y);
+    
+    // Show existing trigger if any
+    if (builder.triggers.has(tileKey)) {
+      const trigger = builder.triggers.get(tileKey);
+      triggerPanel.triggerType.value = trigger.type;
+      triggerPanel.triggerEvent.value = trigger.event;
+      triggerPanel.triggerData.value = trigger.data.text || trigger.data.item || '';
+    }
+  }
+}
+
+function handlePlaytestClick() {
+  const world = screenToWorld(mouse.x, mouse.y);
+  const grid = worldToGrid(world.x, world.y);
+  const tileKey = `${grid.x},${grid.y}`;
+  
+  // Move player to clicked position
+  builder.player.x = grid.x;
+  builder.player.y = grid.y;
+  
+  // Check for triggers
+  if (builder.triggers.has(tileKey)) {
+    const trigger = builder.triggers.get(tileKey);
+    executeTrigger(trigger);
+  }
+  
+  console.log('[MapBuilder] Player moved to:', grid.x, grid.y);
+}
+
+function executeTrigger(trigger) {
+  console.log('[MapBuilder] Executing trigger:', trigger);
+  
+  switch (trigger.type) {
+    case 'showModal':
+      const modalType = trigger.data.modalType || 'lore';
+      const text = trigger.data.text || 'Trigger activated!';
+      
+      if (modalType === 'lore') {
+        UI.showLore({ title: 'Lore', text: text });
+      } else if (modalType === 'pickup') {
+        UI.showLore({ title: 'Item Found!', text: text });
+      } else if (modalType === 'gameover') {
+        UI.showGameOver({ title: 'Game Over', message: text });
+      }
+      break;
+      
+    case 'addToInventory':
+      const item = trigger.data.item || 'Unknown Item';
+      builder.player.inventory.push(item);
+      UI.showLore({ title: 'Item Added', text: `Added ${item} to inventory!` });
+      break;
+      
+    case 'pickup':
+      const pickupItem = trigger.data.item || 'Item';
+      const message = trigger.data.message || `Picked up ${pickupItem}!`;
+      UI.showLore({ title: 'Pickup', text: message });
+      break;
+      
+    case 'teleport':
+      const x = trigger.data.x || 0;
+      const y = trigger.data.y || 0;
+      builder.player.x = x;
+      builder.player.y = y;
+      UI.showLore({ title: 'Teleport', text: `Teleported to ${x}, ${y}!` });
+      break;
+  }
+}
+
 // Keyboard handling
 function handleKeyDown(e) {
   keys[e.key.toLowerCase()] = true;
@@ -148,6 +248,17 @@ function setupToolbar() {
   toolbar.tilePreview = $('tilePreview');
   toolbar.clearMap = $('clearMap');
   toolbar.exportMap = $('exportMap');
+  toolbar.toggleTriggers = $('toggleTriggers');
+  
+  // Setup trigger panel
+  triggerPanel.panel = $('triggerPanel');
+  triggerPanel.triggerType = $('triggerType');
+  triggerPanel.triggerEvent = $('triggerEvent');
+  triggerPanel.modalType = $('modalType');
+  triggerPanel.triggerData = $('triggerData');
+  triggerPanel.assignTrigger = $('assignTrigger');
+  triggerPanel.clearTrigger = $('clearTrigger');
+  triggerPanel.togglePlaytest = $('togglePlaytest');
   
   // Event listeners
   toolbar.gameType.addEventListener('change', (e) => {
@@ -179,6 +290,23 @@ function setupToolbar() {
   
   toolbar.exportMap.addEventListener('click', () => {
     exportMap();
+  });
+  
+  toolbar.toggleTriggers.addEventListener('click', () => {
+    toggleTriggerPanel();
+  });
+  
+  // Trigger panel event listeners
+  triggerPanel.assignTrigger.addEventListener('click', () => {
+    assignTrigger();
+  });
+  
+  triggerPanel.clearTrigger.addEventListener('click', () => {
+    clearTrigger();
+  });
+  
+  triggerPanel.togglePlaytest.addEventListener('click', () => {
+    togglePlaytestMode();
   });
   
   // Initial setup
@@ -216,6 +344,61 @@ function updateTilePreview() {
   }
 }
 
+function toggleTriggerPanel() {
+  if (triggerPanel.panel) {
+    triggerPanel.panel.classList.toggle('active');
+    console.log('[MapBuilder] Trigger panel toggled');
+  }
+}
+
+function assignTrigger() {
+  if (!builder.selectedTileForTrigger) {
+    console.log('[MapBuilder] No tile selected for trigger');
+    return;
+  }
+  
+  const tileKey = `${builder.selectedTileForTrigger.x},${builder.selectedTileForTrigger.y}`;
+  const triggerType = triggerPanel.triggerType.value;
+  const triggerEvent = triggerPanel.triggerEvent.value;
+  const triggerData = {
+    text: triggerPanel.triggerData.value,
+    modalType: triggerPanel.modalType.value,
+    item: triggerPanel.triggerData.value
+  };
+  
+  const trigger = {
+    type: triggerType,
+    event: triggerEvent,
+    data: triggerData
+  };
+  
+  builder.triggers.set(tileKey, trigger);
+  console.log('[MapBuilder] Assigned trigger:', trigger, 'to tile:', tileKey);
+}
+
+function clearTrigger() {
+  if (!builder.selectedTileForTrigger) {
+    console.log('[MapBuilder] No tile selected for trigger');
+    return;
+  }
+  
+  const tileKey = `${builder.selectedTileForTrigger.x},${builder.selectedTileForTrigger.y}`;
+  builder.triggers.delete(tileKey);
+  console.log('[MapBuilder] Cleared trigger from tile:', tileKey);
+}
+
+function togglePlaytestMode() {
+  builder.playtestMode = !builder.playtestMode;
+  
+  if (builder.playtestMode) {
+    triggerPanel.togglePlaytest.textContent = '🏗️ Build Mode';
+    console.log('[MapBuilder] Entered playtest mode');
+  } else {
+    triggerPanel.togglePlaytest.textContent = '🎮 Playtest Mode';
+    console.log('[MapBuilder] Exited playtest mode');
+  }
+}
+
 // Export functionality
 function exportMap() {
   const mapData = {
@@ -229,10 +412,12 @@ function exportMap() {
       props: {},
       npcs: {}
     },
+    triggers: {},
     orchestration: {
       spawn: { x: 0, y: 0 },
       gameType: builder.gameType,
-      features: window.MapBuilderAssets.getGameType(builder.gameType)?.features || []
+      features: window.MapBuilderAssets.getGameType(builder.gameType)?.features || [],
+      triggers: []
     }
   };
   
@@ -245,10 +430,22 @@ function exportMap() {
     }
   });
   
+  // Convert triggers to orchestration
+  builder.triggers.forEach((trigger, key) => {
+    const [x, y] = key.split(',').map(Number);
+    mapData.triggers[key] = trigger;
+    mapData.orchestration.triggers.push({
+      position: { x, y },
+      type: trigger.type,
+      event: trigger.event,
+      data: trigger.data
+    });
+  });
+  
   // Show export overlay
   UI.showLore({
     title: '🎮 Export Your Remix',
-    text: `Your ${builder.gameType} game is ready!`,
+    text: `Your ${builder.gameType} game with ${builder.triggers.size} triggers is ready!`,
     links: [
       {
         label: 'Download Map JSON',
@@ -265,7 +462,7 @@ function exportMap() {
     ]
   });
   
-  console.log('[MapBuilder] Exported map:', mapData);
+  console.log('[MapBuilder] Exported map with triggers:', mapData);
 }
 
 // Rendering
@@ -332,7 +529,41 @@ function renderMap() {
         ctx.drawImage(sprite.img, pos.x - spriteW / 2, pos.y - spriteH, spriteW, spriteH);
       }
     }
+    
+    // Render trigger indicator
+    if (builder.triggers.has(key)) {
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle = '#ff6b6b';
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y - 20, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    
+    // Render selected tile indicator
+    if (builder.selectedTileForTrigger && 
+        builder.selectedTileForTrigger.x === x && 
+        builder.selectedTileForTrigger.y === y) {
+      ctx.strokeStyle = '#58a6ff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y - builder.tileH / 2);
+      ctx.lineTo(pos.x + builder.tileW / 2, pos.y);
+      ctx.lineTo(pos.x, pos.y + builder.tileH / 2);
+      ctx.lineTo(pos.x - builder.tileW / 2, pos.y);
+      ctx.closePath();
+      ctx.stroke();
+    }
   });
+  
+  // Render player in playtest mode
+  if (builder.playtestMode) {
+    const pos = worldToScreen(builder.player.x, builder.player.y);
+    ctx.fillStyle = '#4ecdc4';
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y - 15, 6, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
 function renderCursor() {
@@ -365,11 +596,22 @@ function renderCursor() {
 function updateHUD() {
   const inputMode = detectInputMode();
   const tileCount = builder.map.size;
+  const triggerCount = builder.triggers.size;
+  
+  let progress = `${tileCount} tiles placed`;
+  let inventory = `${builder.gameType} | ${builder.biome}`;
+  
+  if (builder.playtestMode) {
+    progress = `Playtest Mode | Player: ${builder.player.x},${builder.player.y}`;
+    inventory = `Inventory: ${builder.player.inventory.length} items`;
+  } else if (triggerCount > 0) {
+    progress = `${tileCount} tiles, ${triggerCount} triggers`;
+  }
   
   UI.showHUD({
     inputMode,
-    progress: `${tileCount} tiles placed`,
-    inventory: `${builder.gameType} | ${builder.biome}`,
+    progress,
+    inventory,
     fullscreenToggle: true
   });
 }

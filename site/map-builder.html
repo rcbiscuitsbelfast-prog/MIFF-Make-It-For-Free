@@ -89,6 +89,75 @@
             flex-wrap: wrap;
         }
         
+        .trigger-panel {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            width: 280px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+        
+        .trigger-panel.active {
+            display: block;
+        }
+        
+        .trigger-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #58a6ff;
+        }
+        
+        .trigger-panel .trigger-section {
+            margin-bottom: 15px;
+        }
+        
+        .trigger-panel .trigger-section label {
+            display: block;
+            font-size: 12px;
+            color: #9da7b1;
+            margin-bottom: 5px;
+        }
+        
+        .trigger-panel .trigger-section select,
+        .trigger-panel .trigger-section input {
+            width: 100%;
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .trigger-panel .trigger-section button {
+            background: #1f6feb;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        
+        .trigger-panel .trigger-section button:hover {
+            background: #388bfd;
+        }
+        
+        .trigger-panel .trigger-section button.secondary {
+            background: #21262d;
+            border: 1px solid #30363d;
+        }
+        
+        .trigger-panel .trigger-section button.secondary:hover {
+            background: #30363d;
+        }
+        
         .toolbar-section {
             display: flex;
             align-items: center;
@@ -150,6 +219,55 @@
         <a href="index.html" class="back-button">← Back to MIFF</a>
         <canvas id="gameCanvas"></canvas>
         
+        <div class="trigger-panel" id="triggerPanel">
+            <h3>🎯 Trigger Assignment</h3>
+            
+            <div class="trigger-section">
+                <label>Trigger Type:</label>
+                <select id="triggerType">
+                    <option value="showModal">Show Modal</option>
+                    <option value="addToInventory">Add to Inventory</option>
+                    <option value="startDialogue">Start Dialogue</option>
+                    <option value="teleport">Teleport</option>
+                    <option value="pickup">Pickup Item</option>
+                </select>
+            </div>
+            
+            <div class="trigger-section">
+                <label>Trigger Event:</label>
+                <select id="triggerEvent">
+                    <option value="onStep">On Step</option>
+                    <option value="onInteract">On Interact</option>
+                    <option value="onClick">On Click</option>
+                    <option value="onProximity">On Proximity</option>
+                </select>
+            </div>
+            
+            <div class="trigger-section">
+                <label>Modal Type (if Show Modal):</label>
+                <select id="modalType">
+                    <option value="lore">Lore Modal</option>
+                    <option value="pickup">Pickup Modal</option>
+                    <option value="gameover">Game Over Modal</option>
+                    <option value="intro">Intro Modal</option>
+                </select>
+            </div>
+            
+            <div class="trigger-section">
+                <label>Trigger Data:</label>
+                <input type="text" id="triggerData" placeholder="e.g., 'Welcome to the grove!'" />
+            </div>
+            
+            <div class="trigger-section">
+                <button id="assignTrigger">Assign Trigger</button>
+                <button id="clearTrigger" class="secondary">Clear Trigger</button>
+            </div>
+            
+            <div class="trigger-section">
+                <button id="togglePlaytest" class="primary">🎮 Playtest Mode</button>
+            </div>
+        </div>
+        
         <div class="builder-toolbar">
             <div class="toolbar-section">
                 <label>Game Type:</label>
@@ -191,6 +309,7 @@
             </div>
             
             <div class="toolbar-section">
+                <button id="toggleTriggers" class="secondary">🎯 Triggers</button>
                 <button id="clearMap" class="primary">Clear Map</button>
                 <button id="exportMap" class="primary">Export Remix</button>
             </div>

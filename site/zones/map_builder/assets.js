@@ -84,6 +84,54 @@ const registry = {
       description: 'Open-ended creative gameplay',
       features: ['building', 'exploration', 'creativity']
     }
+  },
+  triggers: {
+    showModal: {
+      name: 'Show Modal',
+      description: 'Display an overlay modal',
+      events: ['onStep', 'onInteract', 'onClick', 'onProximity'],
+      data: {
+        modalType: ['lore', 'pickup', 'gameover', 'intro'],
+        text: 'string'
+      }
+    },
+    addToInventory: {
+      name: 'Add to Inventory',
+      description: 'Add item to player inventory',
+      events: ['onStep', 'onInteract', 'onClick'],
+      data: {
+        item: 'string',
+        quantity: 'number'
+      }
+    },
+    startDialogue: {
+      name: 'Start Dialogue',
+      description: 'Begin a dialogue sequence',
+      events: ['onInteract', 'onClick'],
+      data: {
+        dialogueId: 'string',
+        npcId: 'string'
+      }
+    },
+    teleport: {
+      name: 'Teleport',
+      description: 'Move player to new location',
+      events: ['onStep', 'onInteract', 'onClick'],
+      data: {
+        x: 'number',
+        y: 'number',
+        zone: 'string'
+      }
+    },
+    pickup: {
+      name: 'Pickup Item',
+      description: 'Pick up and remove item from world',
+      events: ['onInteract', 'onClick'],
+      data: {
+        item: 'string',
+        message: 'string'
+      }
+    }
   }
 };
 
@@ -166,6 +214,14 @@ function getTilesByBiome(biome){
   );
 }
 
+function getTriggerType(type){
+  return registry.triggers[type] || null;
+}
+
+function getAllTriggerTypes(){
+  return Object.values(registry.triggers);
+}
+
 // Export for use in Map Builder
 window.MapBuilderAssets = {
   preloadAll,
@@ -177,6 +233,8 @@ window.MapBuilderAssets = {
   getAllTiles,
   getAllSprites,
   getTilesByBiome,
+  getTriggerType,
+  getAllTriggerTypes,
   registry
 };
 
