@@ -1,0 +1,23 @@
+{
+  "id": "herbalist_intro",
+  "nodes": [
+    {
+      "id": "start",
+      "text": "Welcome to the Grove! The herbs sing if you listen between breaths.",
+      "choices": [
+        { "label": "Any work for me?", "next": "quest" },
+        { "label": "Tell me about this place.", "next": "lore", "effects": [ { "type": "show_lore", "arg": "grove_intro" } ] }
+      ]
+    },
+    {
+      "id": "quest",
+      "text": "Gather three herb bundles and return. The forest will guide you.",
+      "choices": [ { "label": "I'll return soon.", "effects": [ { "type": "start_quest", "arg": "gather_items" } ] } ]
+    },
+    {
+      "id": "lore",
+      "text": "These isles were shaped by old songs. Some stones still hum.",
+      "choices": [ { "label": "Goodbye." } ]
+    }
+  ]
+}
