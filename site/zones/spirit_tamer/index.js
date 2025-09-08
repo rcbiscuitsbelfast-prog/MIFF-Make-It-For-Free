@@ -2,7 +2,7 @@ function $(id){ return document.getElementById(id); }
 
 let ORCH = null;
 const State = { Idle: 'idle', Playing: 'playing', Tamed: 'tamed', Dialogue: 'dialogue' };
-let model = { state: State.Idle, hits: 0, progress: 0, ctx: null, cvs: null, npc: { x:320, y:240, name:'Spirit' }, sprite: null, choice: null, portrait: null, props: [], anim: { t:0 } };
+let model = { state: State.Idle, hits: 0, progress: 0, ctx: null, cvs: null, npc: { x:320, y:240, name:'Spirit' }, sprite: null, choice: null, portrait: null, props: [], anim: { t:0 }, inputMode: 'Keyboard' };
 let audio = { music: null, sfxBeat: null, sfxUI: null, muted:false };
 
 async function loadOrchestration(){
@@ -36,129 +36,72 @@ function fitCanvas(cvs){
 	cvs.style.height = Math.round(maxWidth / aspect) + 'px';
 }
 
+function detectInputMode(){
+	function setMode(m){ if (model.inputMode !== m){ model.inputMode = m; persist(); } }
+	window.addEventListener('keydown', ()=>setMode('Keyboard'));
+	window.addEventListener('pointerdown', ()=>setMode('Touch'));
+	setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) setMode('Gamepad'); }, 1000);
+}
+
 function bindInputs(){
-	// removed [Back] button binding; use routing/orchestration overlays instead
+	// legacy back removed
 	window.addEventListener('keydown', (e)=>{
-		if (e.key === 'Enter' && model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} }
+		if (e.key === 'Enter' && model.state === State.Idle){ hideOverlay('introOverlay'); model.state = State.Playing; try{ audio.music?.play(); }catch{} }
 		if (e.key === ' ') onBeat();
 		if (e.key.toLowerCase() === 'd') openDialogue();
 		if (e.key.toLowerCase() === 'm'){ audio.muted = !audio.muted; try{ audio.music && (audio.music.muted = audio.muted); }catch{} }
 	});
 	const cvs = model.cvs;
-	cvs.addEventListener('click', ()=>{ if (model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} } else onBeat(); });
-	// removed ensureMobileTap()
+	cvs.addEventListener('click', ()=>{ if (model.state === State.Idle){ hideOverlay('introOverlay'); model.state = State.Playing; try{ audio.music?.play(); }catch{} } else onBeat(); });
 }
 
-function ensureMobileTap(){ /* removed legacy tap hint in favor of PlayHUD hints */ }
+// Overlay helpers
+function ensureOverlay(id){ if ($(id)) return $(id); const d=document.createElement('div'); d.id=id; d.style.position='absolute'; d.style.left='50%'; d.style.top='50%'; d.style.transform='translate(-50%,-50%)'; d.style.background='rgba(0,0,0,0.7)'; d.style.padding='16px'; d.style.borderRadius='8px'; d.style.zIndex='10'; d.style.color='#d0d7de'; d.style.maxWidth='80%'; $('gameContainer').appendChild(d); return d; }
+function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
 
-// Expanded dialogue tree with evolution
+function showIntro(){ const o=ensureOverlay('introOverlay'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent= ORCH?.title || 'Spirit Tamer'; const p=document.createElement('p'); p.textContent='Enter or click to start. Space for beats. D for dialogue. M mute.'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Start'; btn.onclick=()=>{ hideOverlay('introOverlay'); model.state=State.Playing; try{ audio.music?.play(); }catch{} }; o.appendChild(h); o.appendChild(p); o.appendChild(btn); }
+function showGameOver(){ const o=ensureOverlay('gameOverOverlay'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='Trial Complete'; const p=document.createElement('p'); p.textContent='Remix this zone or restart.'; const row=document.createElement('div'); const r=document.createElement('button'); r.className='btn'; r.textContent='Restart'; r.onclick=()=>{ hideOverlay('gameOverOverlay'); model.progress=0; model.hits=0; model.state=State.Idle; showIntro(); }; const link=document.createElement('a'); link.href='../../contrib/remix-packs/README.md'; link.textContent='Remix Packs'; link.className='btn btn-secondary'; row.appendChild(r); row.appendChild(link); o.appendChild(h); o.appendChild(p); o.appendChild(row); }
+function showLoreModal(){ const o=ensureOverlay('loreModal'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='Grove Lore'; const p=document.createElement('p'); p.textContent='These isles were shaped by old songs. Some stones still hum.'; const c=document.createElement('button'); c.className='btn'; c.textContent='Close'; c.onclick=()=>hideOverlay('loreModal'); o.appendChild(h); o.appendChild(p); o.appendChild(c); }
+
+// Dialogue tree (sample remains)
 const Dialogue = {
-	intro: {
-		line: 'The spirit regards you calmly. Will you approach?',
-		choices: [
-			{ key: 'A', text: 'Approach respectfully', next: 'calm' },
-			{ key: 'B', text: 'Challenge the spirit', next: 'challenge' }
-		]
-	},
+	intro: { line: 'The spirit regards you calmly. Will you approach?', choices: [ { key: 'A', text: 'Approach respectfully', next: 'calm' }, { key: 'B', text: 'Challenge the spirit', next: 'challenge' } ] },
 	calm: { line: 'You bow. The spirit hums with warmth. (Beat easier)', effect(){ model.choice='calm'; }, next: 'evolve' },
 	challenge: { line: 'You step forward. The air crackles. (Beat harder)', effect(){ model.choice='challenge'; }, next: 'evolve' },
-	evolve: { line: 'The spirit shifts shape slightly, acknowledging your intent.', effect(){ /* future: swap sprite */ }, end: true }
+	evolve: { line: 'The spirit shifts shape slightly, acknowledging your intent.', effect(){}, end: true }
 };
 
 function openDialogue(){ model.state = State.Dialogue; showDialogueNode('intro'); }
 
 function showDialogueNode(id){
 	const node = Dialogue[id]; if (!node) return;
-	ensureOverlay();
+	ensureDialogueOverlay();
 	const overlay = $('dialogueOverlay'); overlay.innerHTML = '';
 	const p = document.createElement('p'); p.textContent = node.line; overlay.appendChild(p);
 	if (node.choices){
-		node.choices.forEach(ch=>{
-			const btn = document.createElement('button'); btn.className='btn'; btn.textContent = `${ch.key}) ${ch.text}`;
-			btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} if (Dialogue[ch.next]?.effect) Dialogue[ch.next].effect(); showDialogueNode(ch.next); };
-			overlay.appendChild(btn);
-		});
-	} else if (node.end){
-		const btn = document.createElement('button'); btn.className='btn'; btn.textContent = 'Continue';
-		btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} closeDialogue(); model.state = State.Playing; startReplay(); };
-		overlay.appendChild(btn);
-	}
+		node.choices.forEach(ch=>{ const btn = document.createElement('button'); btn.className='btn'; btn.textContent = `${ch.key}) ${ch.text}`; btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} if (Dialogue[ch.next]?.effect) Dialogue[ch.next].effect(); showDialogueNode(ch.next); }; overlay.appendChild(btn); });
+	} else if (node.end){ const btn = document.createElement('button'); btn.className='btn'; btn.textContent = 'Continue'; btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} closeDialogue(); model.state = State.Playing; startReplay(); }; overlay.appendChild(btn); }
 }
 
-function ensureOverlay(){
-	if ($('dialogueOverlay')) return;
-	const div = document.createElement('div');
-	div.id = 'dialogueOverlay';
-	div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)';
-	div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; div.style.color='#d0d7de';
-	$('gameContainer').appendChild(div);
-}
-
+function ensureDialogueOverlay(){ if ($('dialogueOverlay')) return; const div=document.createElement('div'); div.id='dialogueOverlay'; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; $('gameContainer').appendChild(div); }
 function closeDialogue(){ const d=$('dialogueOverlay'); if(d) d.remove(); }
 
 let beatTimer = null;
-function startReplay(){
-	const base = ORCH?.triggers?.onBeat?.intervalMs ?? 500;
-	const interval = model.choice === 'challenge' ? Math.max(250, base-150) : base;
-	if (beatTimer) clearInterval(beatTimer);
-	beatTimer = setInterval(()=>{ if (model.state === State.Playing) onBeat(); }, interval);
-}
+function startReplay(){ const base = ORCH?.triggers?.onBeat?.intervalMs ?? 500; const interval = model.choice === 'challenge' ? Math.max(250, base-150) : base; if (beatTimer) clearInterval(beatTimer); beatTimer = setInterval(()=>{ if (model.state === State.Playing) onBeat(); }, interval); }
 
-function onBeat(){
-	model.hits += 1; model.progress += 1;
-	try{ audio.sfxBeat?.play(); }catch{}
-	if (model.progress >= 6) model.state = State.Tamed;
-	const status = $('status');
-	if (status) status.textContent = model.state === State.Tamed ? 'Spirit Tamed!' : `Beat! Progress ${model.progress}/6`;
-	persist();
-}
+function onBeat(){ model.hits += 1; model.progress += 1; try{ audio.sfxBeat?.play(); }catch{} if (model.progress >= 6){ model.state = State.Tamed; showGameOver(); } const status = $('status'); if (status) status.textContent = model.state === State.Tamed ? 'Spirit Tamed!' : `Beat! Progress ${model.progress}/6`; persist(); }
 
-function persist(){ try { localStorage.setItem('spirit_tamer_progress', JSON.stringify({ progress: model.progress, choice: model.choice, muted: audio.muted })); } catch {} }
-function restore(){ try { const s = localStorage.getItem('spirit_tamer_progress'); if (s){ const d=JSON.parse(s); model.progress=d.progress||0; model.choice=d.choice||null; if (typeof d.muted==='boolean') audio.muted=d.muted; } } catch {} }
+function persist(){ try { localStorage.setItem('spirit_tamer_progress', JSON.stringify({ progress: model.progress, choice: model.choice, muted: audio.muted, inputMode: model.inputMode })); } catch {} }
+function restore(){ try { const s = localStorage.getItem('spirit_tamer_progress'); if (s){ const d=JSON.parse(s); model.progress=d.progress||0; model.choice=d.choice||null; if (typeof d.muted==='boolean') audio.muted=d.muted; if (d.inputMode) model.inputMode=d.inputMode; } } catch {} }
 
 function easeInOutSine(x){ return -(Math.cos(Math.PI * x) - 1) / 2; }
 
-function renderUI(){
-	const { ctx, cvs } = model;
-	// Progress bar
-	const total = 6; const ratio = Math.min(1, model.progress / total);
-	ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(10, cvs.height-26, cvs.width-20, 16);
-	ctx.fillStyle = '#58a6ff'; ctx.fillRect(10, cvs.height-26, (cvs.width-20)*ratio, 16);
-	ctx.fillStyle = '#d0d7de'; ctx.fillText(`Progress ${model.progress}/${total}`, 14, cvs.height-32);
-}
+function renderUI(){ const { ctx, cvs } = model; const total = 6; const ratio = Math.min(1, model.progress / total); ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(10, cvs.height-26, cvs.width-20, 16); ctx.fillStyle = '#58a6ff'; ctx.fillRect(10, cvs.height-26, (cvs.width-20)*ratio, 16); ctx.fillStyle = '#d0d7de'; ctx.fillText(`Progress ${model.progress}/${total}  |  Input: ${model.inputMode}`, 14, cvs.height-32); }
 
-function render(){
-	const { ctx, cvs } = model;
-	ctx.clearRect(0,0,cvs.width,cvs.height);
-	// Ambient backdrop
-	ctx.fillStyle = '#081018'; ctx.fillRect(0,0,cvs.width,cvs.height);
-	// Props
-	for (let i=0;i<model.props.length;i++){ const pr=model.props[i]; if (pr.img) ctx.drawImage(pr.img, model.npc.x+pr.dx, model.npc.y+pr.dy, 32, 32); }
-	// Animated glow radius with easing
-	model.anim.t += 0.016; const phase = model.anim.t % 1; const eased = easeInOutSine(phase);
-	const baseR = 40 + model.progress*3; const pulseR = baseR + 8*eased;
-	ctx.save(); ctx.shadowBlur = 16 + eased*16; ctx.shadowColor = '#58a6ff';
-	if (model.sprite){ ctx.drawImage(model.sprite, model.npc.x-24, model.npc.y-24, 48, 48); }
-	else { ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(model.npc.x, model.npc.y, pulseR, 0, Math.PI*2); ctx.fill(); }
-	ctx.restore();
-	// Portrait
-	if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; }
-	// HUD
-	ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20);
-	ctx.fillText('Space/click for beats. Enter to start. D dialogue. M mute.', 10, 40);
-	// UI overlay
-	renderUI();
-}
+function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle = '#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); for (let i=0;i<model.props.length;i++){ const pr=model.props[i]; if (pr.img) ctx.drawImage(pr.img, model.npc.x+pr.dx, model.npc.y+pr.dy, 32, 32); } model.anim.t += 0.016; const phase = model.anim.t % 1; const eased = easeInOutSine(phase); const baseR = 40 + model.progress*3; const pulseR = baseR + 8*eased; ctx.save(); ctx.shadowBlur = 16 + eased*16; ctx.shadowColor = '#58a6ff'; if (model.sprite){ ctx.drawImage(model.sprite, model.npc.x-24, model.npc.y-24, 48, 48); } else { ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(model.npc.x, model.npc.y, pulseR, 0, Math.PI*2); ctx.fill(); } ctx.restore(); if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; } ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20); ctx.fillText('Space/click for beats. Enter to start. D dialogue. M mute.', 10, 40); renderUI(); }
 
 function loop(){ render(); requestAnimationFrame(loop); }
 
-async function init(){
-	const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…';
-	await loadOrchestration(); await loadAssets(); restore();
-	if(statusEl) statusEl.textContent = 'Ready. Enter to start.';
-	const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs));
-	model.cvs = cvs; model.ctx = cvs.getContext('2d');
-	bindInputs(); startReplay(); requestAnimationFrame(loop);
-}
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); showIntro(); startReplay(); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);
