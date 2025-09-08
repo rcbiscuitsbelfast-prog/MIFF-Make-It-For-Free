@@ -46,7 +46,7 @@ function startReplay(){ /* reserved for timed triggers in future */ }
 function ensureOverlay(id){ if ($(id)) return $(id); const div=document.createElement('div'); div.id=id; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.color='#d0d7de'; $('gameContainer').appendChild(div); return div; }
 function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
 
-function ensureLevelSelector(){ if ($('levelSelector') || !ORCH?.levels?.length) return; const sel = document.createElement('select'); sel.id='levelSelector'; sel.style.position='absolute'; sel.style.bottom='8px'; sel.style.left='8px'; for (let i=0;i<ORCH.levels.length;i++){ const opt=document.createElement('option'); opt.value=String(i); opt.textContent=ORCH.levels[i].id; sel.appendChild(opt); } sel.value=String(game.levelIndex); sel.onchange=(e)=>{ const idx=parseInt(sel.value,10); applyLevel(idx); setState(State.Idle); }; $('gameContainer').appendChild(sel); }
+function ensureLevelSelector(){ /* removed legacy level selector in favor of orchestration-driven overlays */ }
 
 function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ 
@@ -60,8 +60,7 @@ function bindInputs(){
 	window.addEventListener('keyup', (e)=>{ if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') game.player.vx = 0; });
 	game.cvs.addEventListener('click', ()=>{ if (game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } });
 	$('btn_back')?.addEventListener('click', ()=>{ try{ game.audio.music?.pause(); }catch{} location.href='../../index.html'; });
-	if (!$('btnQuest')){ const btn = document.createElement('div'); btn.id='btnQuest'; btn.className='btn btn-secondary'; btn.textContent='[Next Level]'; btn.style.position='absolute'; btn.style.top='8px'; btn.style.left='8px'; $('gameContainer').appendChild(btn); }
-	$('btnQuest')?.addEventListener('click', ()=>{ try{ game.audio.ui?.play(); }catch{} if (!ORCH?.levels?.length) return; const next = (game.levelIndex + 1) % ORCH.levels.length; applyLevel(next); setState(State.Idle); const status = $('status'); if (status) status.textContent = `Loaded ${ORCH.levels[next].id}. Press Enter.`; const sel=$('levelSelector'); if (sel) sel.value=String(next); });
+	// removed legacy [Next Level] button and handler
 	ensureMobileControls();
 }
 
