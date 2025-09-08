@@ -39,12 +39,21 @@ export function createOverlayDispatcher(rootEl) {
     const hud = el('div','', '');
     hud.id='miffHUD';
     hud.style.position='absolute'; hud.style.left='10px'; hud.style.bottom='8px'; hud.style.color='#d0d7de'; hud.style.fontSize='14px';
+    const row = el('div','');
     const parts=[];
     if (opts?.progress != null) parts.push(`Progress: ${opts.progress}`);
     if (opts?.inventory) parts.push(`Inventory: ${(opts.inventory||[]).join(', ')||'(empty)'}`);
     if (opts?.inputMode) parts.push(`Input: ${opts.inputMode}`);
     if (opts?.loadingText) parts.push(opts.loadingText);
-    hud.innerHTML = parts.join('  |  ');
+    const span = el('span','', parts.join('  |  '));
+    row.appendChild(span);
+    if (opts?.fullscreenToggle){
+      const btn = el('button','miff-btn','Fullscreen');
+      btn.style.marginLeft = '10px';
+      btn.onclick = ()=>{ if (window.__miffToggleFullscreen) window.__miffToggleFullscreen(); };
+      row.appendChild(btn);
+    }
+    hud.appendChild(row);
     state.nodes.hud = attach(hud);
   }
 

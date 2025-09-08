@@ -119,3 +119,9 @@ Grove activation:
 - Tile interactions (chest pickup, campfire lore) trigger dispatcher overlays and console logs.
 - Remix scaffolds wired in GameOver modal and credits overlay; links to starter packs and onboarding.
 - Screenshots: `tests/showcase_grove_animation.png`, `tests/showcase_grove_interaction.png`, `tests/showcase_grove_remix_ui.png`.
+
+Grove visual polish:
+- Sprite animation timed to ~120ms per frame while walking; idle holds; synced to movement state.
+- Joystick positioned bottom-left (96px base / 48px knob); non-overlapping with HUD.
+- Fullscreen toggle added to PlayHUD; canvas resizes accordingly.
+- Screenshots: `tests/showcase_grove_animation_fixed.png`, `tests/showcase_grove_joystick_layout.png`, `tests/showcase_grove_fullscreen.png`.

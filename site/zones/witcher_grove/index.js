@@ -11,8 +11,8 @@ let ctx=null, cvs=null, UI=null;
 const tileW=64, tileH=32;
 let camera={ x:0, y:0 };
 
-// Character with animation
-let character={ x:0.5, y:0.5, sprite:null, variant:'mainCharacter', speed:0.06, bobT:0, anim:{ seq:'idle', frame:0, t:0 } };
+// Character with animation timers (100–150ms)
+let character={ x:0.5, y:0.5, sprite:null, variant:'mainCharacter', speed:0.06, bobT:0, anim:{ seq:'idle', frame:0, timer:0, frameMs:120 } };
 let keys={};
 let tiles2x2=[['grass_01','path_stone'],['grass_02','path_stone']];
 let inputMode='Keyboard';
@@ -21,7 +21,7 @@ let tick=0;
 let chest={ x:1.4, y:0.6, id:'chest_red', taken:false };
 let campfire={ x:0.4, y:1.4, id:'mystic_stone' };
 let npc={ x:1.6, y:1.6, speaking:false, sprite:null };
-// Joystick anchored bottom-left
+// Joystick
 let joy={ base:null, knob:null, active:false, cx:0, cy:0, dx:0, dy:0 };
 
 function worldToScreen(ix, iy){
@@ -49,7 +49,7 @@ async function loadCharacter(){
 }
 
 function bindInput(){
-  window.addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); keys[k]=true; inputMode='Keyboard'; if (k==='c'){ UI && UI.showLore({ title:'Credits', text:'MIFF Framework • KayKit/CC0 assets • See README/CONTRIBUTING' }); } });
+  window.addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); keys[k]=true; inputMode='Keyboard'; if (k==='c'){ UI && UI.showLore({ title:'Credits', text:'MIFF • KayKit/CC0 • README/CONTRIBUTING' }); } });
   window.addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=false; });
   window.addEventListener('pointerdown',()=>{ inputMode='Touch'; });
   setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) inputMode='Gamepad'; }, 1000);
@@ -58,9 +58,9 @@ function bindInput(){
 function ensureJoystick(){
   if (joy.base) return;
   const ui = getUIComponent('joystick'); if (!ui) return;
-  const { base, knob } = ui; base.style.zIndex='20';
+  const { base, knob, spec } = ui; base.style.zIndex='20'; base.style.left=spec.left+'px'; base.style.bottom=spec.bottom+'px'; base.style.width=spec.base+'px'; base.style.height=spec.base+'px'; knob.style.width=spec.knob+'px'; knob.style.height=spec.knob+'px';
   $('gameContainer').appendChild(base);
-  function setKnob(dx,dy){ const r=(ui.spec.base-ui.spec.knob)/2; const nx=Math.max(-r,Math.min(r,dx)); const ny=Math.max(-r,Math.min(r,dy)); knob.style.left=(r+nx)+'px'; knob.style.top=(r+ny)+'px'; joy.dx=nx/r; joy.dy=ny/r; }
+  function setKnob(dx,dy){ const r=(spec.base-spec.knob)/2; const nx=Math.max(-r,Math.min(r,dx)); const ny=Math.max(-r,Math.min(r,dy)); knob.style.left=(r+nx)+'px'; knob.style.top=(r+ny)+'px'; joy.dx=nx/r; joy.dy=ny/r; }
   function start(e){ joy.active=true; const b=base.getBoundingClientRect(); joy.cx=b.left+b.width/2; joy.cy=b.top+b.height/2; move(e); }
   function move(e){ if(!joy.active) return; const p=e.touches? e.touches[0]: e; const dx=p.clientX-joy.cx; const dy=p.clientY-joy.cy; setKnob(dx,dy); inputMode='Touch (Joystick)'; }
   function end(){ joy.active=false; setKnob(0,0); }
@@ -76,18 +76,18 @@ function updateCamera(){
   camera.y += (target.y - cy) * 0.25;
 }
 
-function updateAnimation(speed){
+function updateAnimation(dt){
   const s = character.sprite?.meta; if (!s) return;
-  const moving = speed > 0.001;
+  const moving = Math.abs(joy.dx) > 0.01 || Math.abs(joy.dy) > 0.01 || keys['arrowup']||keys['w']||keys['arrowdown']||keys['s']||keys['arrowleft']||keys['a']||keys['arrowright']||keys['d'];
   const seq = moving ? 'walk' : 'idle';
-  if (character.anim.seq !== seq){ character.anim.seq = seq; character.anim.frame = 0; character.anim.t = 0; }
+  if (character.anim.seq !== seq){ character.anim.seq = seq; character.anim.frame = 0; character.anim.timer = 0; }
   const frames = s.sequences[seq] || [0];
-  const rate = Math.min(0.35, 0.12 + speed*0.8);
-  character.anim.t += rate;
-  if (character.anim.t >= 1){ character.anim.t = 0; character.anim.frame = (character.anim.frame + 1) % frames.length; console.log('[Anim]', seq, character.anim.frame); }
+  character.anim.timer += dt*1000;
+  const frameMs = moving ? 120 : 500; // 100–150ms walk, 500ms idle hold
+  if (character.anim.timer >= frameMs){ character.anim.timer = 0; character.anim.frame = (character.anim.frame + 1) % frames.length; }
 }
 
-function update(){
+function update(dt){
   const before={x:character.x,y:character.y};
   let vx=0,vy=0;
   if (keys['arrowup']||keys['w']) vy -= 1;
@@ -97,9 +97,8 @@ function update(){
   if (joy.active){ vx += joy.dx; vy += joy.dy; }
   const len=Math.hypot(vx,vy)||1; vx/=len; vy/=len;
   character.y += vy*character.speed; character.x += vx*character.speed;
-  const speed = Math.hypot(vx,vy)*character.speed;
-  updateAnimation(speed);
   if (vx||vy) character.bobT += 0.2; else character.bobT *= 0.9;
+  updateAnimation(dt);
   if (before.x!==character.x || before.y!==character.y){ console.log('[GroveMove]', character.x.toFixed(2), character.y.toFixed(2)); }
   updateCamera();
   // Interactions
@@ -117,33 +116,24 @@ function renderParallax(){
 function render(){
   ctx.clearRect(0,0,cvs.width,cvs.height);
   renderParallax();
-  // 2x2 tiles
   for (let iy=0; iy<2; iy++){
     for (let ix=0; ix<2; ix++){
-      const id=tiles2x2[iy][ix]; const t=getTile(id); const p=worldToScreen(ix,iy);
+      const t=getTile(tiles2x2[iy][ix]); const p=worldToScreen(ix,iy);
       ctx.globalAlpha=0.15; ctx.fillStyle='#000'; ctx.fillRect(p.x+4, p.y - (tileH/2)+4, tileW-8, 6); ctx.globalAlpha=1;
       if (t?.img && t.img.complete) ctx.drawImage(t.img, p.x, p.y - (tileH/2));
     }
   }
-  // campfire flicker
   const cf=worldToScreen(campfire.x,campfire.y); const pulse=0.3+0.3*Math.abs(Math.sin(tick*0.12)); ctx.globalAlpha=pulse; ctx.fillStyle='#ff9933'; ctx.beginPath(); ctx.arc(cf.x, cf.y-10, 8, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
-  // chest
   if (!chest.taken){ const cp=worldToScreen(chest.x,chest.y); const cTile=getTile(chest.id); if (cTile?.img && cTile.img.complete) ctx.drawImage(cTile.img, cp.x-16, cp.y-16, 32, 32); }
-  // NPC sprite
   if (npc.sprite?.img && npc.sprite.img.complete){ const np=worldToScreen(npc.x,npc.y); ctx.drawImage(npc.sprite.img, np.x-20, np.y-36, npc.sprite.meta.frame.w, npc.sprite.meta.frame.h); }
-  // Character sprite with frame slice if available
   const s = character.sprite?.meta; const img=character.sprite?.img; const csp=worldToScreen(character.x, character.y); const bob = Math.sin(character.bobT)*2;
-  if (s && img && img.complete){
-    const frames = s.sequences[character.anim.seq] || [0];
-    const frameIdx = frames[character.anim.frame] || 0;
-    const sx = frameIdx * s.frame.w; const sy = 0; const sw=s.frame.w; const sh=s.frame.h;
-    // If spritesheet not wide enough, draw whole image
-    if (img.naturalWidth >= sx+sw){ ctx.drawImage(img, sx, sy, sw, sh, csp.x - sw/2, csp.y - sh + bob, sw, sh); }
-    else { ctx.drawImage(img, csp.x - sw/2, csp.y - sh + bob, sw, sh); }
-  }
+  if (s && img && img.complete){ const frames = s.sequences[character.anim.seq] || [0]; const frameIdx = frames[character.anim.frame] || 0; const sx = frameIdx * s.frame.w; const sy = 0; const sw=s.frame.w; const sh=s.frame.h; if (img.naturalWidth >= sx+sw){ ctx.drawImage(img, sx, sy, sw, sh, csp.x - sw/2, csp.y - sh + bob, sw, sh); } else { ctx.drawImage(img, csp.x - sw/2, csp.y - sh + bob, sw, sh); } }
 }
 
-function loop(){ tick++; update(); render(); UI && UI.showHUD({ inputMode }); requestAnimationFrame(loop); }
+function loop(ts){ const dt = (loop._last? (ts-loop._last):16)/1000; loop._last = ts; tick++; update(dt); render(); UI && UI.showHUD({ inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
+
+// Fullscreen toggle handler
+window.__miffToggleFullscreen = ()=>{ const el = document.documentElement; if (!document.fullscreenElement){ el.requestFullscreen?.(); } else { document.exitFullscreen?.(); } setTimeout(()=>{ if (!cvs) return; const rect=cvs.getBoundingClientRect(); cvs.width = rect.width; cvs.height = rect.height; }, 200); };
 
 async function init(){
   cvs=$('gameCanvas'); ctx=cvs.getContext('2d');
@@ -152,14 +142,10 @@ async function init(){
   preloadAll();
   onAssetsReady(async ()=>{
     await loadGroveMap(); await loadCharacter(); bindInput(); ensureJoystick();
-    UI.showIntro({
-      title:'Witcher Grove',
-      message:'Use joystick or Arrow/WASD. Press C for Credits.',
-      onStart:()=>{ UI.showHUD({ inputMode }); }
-    });
+    UI.showIntro({ title:'Witcher Grove', message:'Use joystick or Arrow/WASD. Press C for Credits.', onStart:()=>{ UI.showHUD({ inputMode, fullscreenToggle: true }); } });
     requestAnimationFrame(loop);
   });
-  const preloadInterval = setInterval(()=>{ const pct = getProgress(); UI.showHUD({ loadingText: `Loading… ${pct}%`, inputMode }); if (pct>=100){ clearInterval(preloadInterval); } }, 100);
+  const preloadInterval = setInterval(()=>{ const pct = getProgress(); UI.showHUD({ loadingText: `Loading… ${pct}%`, inputMode, fullscreenToggle: true }); if (pct>=100){ clearInterval(preloadInterval); } }, 100);
 }
 
 window.addEventListener('DOMContentLoaded', init);
