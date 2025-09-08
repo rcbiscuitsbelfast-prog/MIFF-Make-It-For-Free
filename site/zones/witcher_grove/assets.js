@@ -11,10 +11,10 @@ const registry = {
       zIndex: 10,
       sequences: {
         idle: [0],
-        walk: [0, 1, 2, 3]
+        walk: [0] // Single frame with bobbing animation
       },
-      // Use Player_Actions.png for proper sprite sheet with frames
-      src: '../../../assets/Player_Actions.png'
+      // Use Player.png for reliable single-frame sprite
+      src: '../../../assets/Player.png'
     },
     npcElder: {
       id: 'npcElder',

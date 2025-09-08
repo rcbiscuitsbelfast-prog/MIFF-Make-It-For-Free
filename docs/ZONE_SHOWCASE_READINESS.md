@@ -131,3 +131,12 @@ Zone realignment complete:
 - Spirit Tamer overlay styles: Unified styling applied, legacy overlay functions removed, dialogue system uses dispatcher.
 - Attribution footer: Shared footer component added across all zones with KayKit/CC0 attribution and contributor links.
 - Screenshots: `tests/showcase_toppler_dispatcher.png`, `tests/showcase_spirit_overlay_styles.png`, `tests/showcase_grove_attribution_footer.png`.
+
+Grove visual debug fixes:
+- Joystick positioning: Fixed to bottom-left (80px left, 80px bottom) with correct sizing (96px base, 48px knob).
+- Canvas fullscreen resize: Fixed to properly resize canvas to window dimensions on fullscreen toggle and window resize.
+- Sprite rendering: Fixed to show single frame with enhanced bobbing animation based on movement state.
+- Animation timing: Synced to movement with proper 120ms timing and visual feedback.
+- Camera follow: Confirmed working with smooth scrolling and proper centering.
+- Dispatcher verification: All overlays route via dispatcher with input mode updates in HUD.
+- Screenshots: `tests/showcase_grove_joystick_fixed.png`, `tests/showcase_grove_sprite_animation.png`, `tests/showcase_grove_fullscreen_fixed.png`.

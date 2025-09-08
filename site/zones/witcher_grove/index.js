@@ -107,7 +107,10 @@ function createJoystick(){
   if (joystick.base) return;
   
   const ui = getUIComponent('joystick'); 
-  if (!ui) return;
+  if (!ui) {
+    console.log('[GroveJoystick] Failed to get UI component');
+    return;
+  }
   
   const { base, knob, spec } = ui;
   
@@ -123,6 +126,8 @@ function createJoystick(){
   knob.style.height = spec.knob + 'px';
   
   $('gameContainer').appendChild(base);
+  
+  console.log('[GroveJoystick] Created at', spec.left, 'px left,', spec.bottom, 'px bottom, size:', spec.base, 'px');
   
   // Joystick interaction handlers
   function setKnobPosition(dx, dy){
@@ -335,7 +340,14 @@ function renderCharacter(){
   if (!sprite || !img || !img.complete) return;
   
   const pos = worldToScreen(character.x, character.y);
-  const bob = Math.sin(character.bobT) * 2;
+  
+  // Enhanced bobbing animation based on movement
+  const isMoving = Math.abs(joystick.deltaX) > 0.01 || Math.abs(joystick.deltaY) > 0.01 || 
+                   keys['arrowup'] || keys['w'] || keys['arrowdown'] || keys['s'] || 
+                   keys['arrowleft'] || keys['a'] || keys['arrowright'] || keys['d'];
+  
+  const bobIntensity = isMoving ? 4 : 1;
+  const bob = Math.sin(character.bobT) * bobIntensity;
   
   // Get current frame
   const frames = sprite.sequences[character.anim.seq] || [0];
@@ -360,7 +372,7 @@ function renderCharacter(){
     // Debug logging
     if (tick % 60 === 0){
       console.log('[GroveSprite] Frame:', frameIndex, 'seq:', character.anim.seq, 
-                  'sx:', sx, 'sw:', sw, 'img:', img.naturalWidth, 'x', img.naturalHeight);
+                  'bob:', bob.toFixed(1), 'moving:', isMoving, 'img:', img.naturalWidth, 'x', img.naturalHeight);
     }
   } else {
     // Fallback: draw entire image
@@ -428,11 +440,18 @@ function gameLoop(ts){
 function resizeCanvas(){
   if (!cvs) return;
   
-  const rect = cvs.getBoundingClientRect();
-  cvs.width = rect.width;
-  cvs.height = rect.height;
+  // Use full window dimensions for fullscreen, or container size for normal mode
+  const isFullscreen = document.fullscreenElement !== null;
+  if (isFullscreen) {
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
+  } else {
+    const rect = cvs.getBoundingClientRect();
+    cvs.width = rect.width;
+    cvs.height = rect.height;
+  }
   
-  console.log('[GroveResize] Canvas:', cvs.width, 'x', cvs.height);
+  console.log('[GroveResize] Canvas:', cvs.width, 'x', cvs.height, 'fullscreen:', isFullscreen);
 }
 
 // Fullscreen system - completely rebuilt
@@ -440,15 +459,20 @@ window.__miffToggleFullscreen = () => {
   const el = document.documentElement;
   
   if (!document.fullscreenElement){
-    el.requestFullscreen?.();
+    el.requestFullscreen?.().then(() => {
+      // Resize immediately after entering fullscreen
+      setTimeout(() => {
+        resizeCanvas();
+      }, 100);
+    });
   } else {
-    document.exitFullscreen?.();
+    document.exitFullscreen?.().then(() => {
+      // Resize immediately after exiting fullscreen
+      setTimeout(() => {
+        resizeCanvas();
+      }, 100);
+    });
   }
-  
-  setTimeout(() => {
-    if (!cvs) return;
-    resizeCanvas();
-  }, 200);
 };
 
 // Window resize handler
