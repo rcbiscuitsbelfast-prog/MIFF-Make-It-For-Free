@@ -1,4 +1,6 @@
 // Toppler – minimal interactive scaffold with physics, levels, and replay
+import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+
 function $(id){ return document.getElementById(id); }
 
 let ORCH = null;
@@ -16,8 +18,10 @@ let game = {
 	score: 0,
 	enemies: [],
 	chests: [],
-	platforms: []
+	platforms: [],
+	inputMode: 'Keyboard'
 };
+let UI = null;
 
 // Medieval sprite/tiles
 let SPRITES = { player:null, enemy:null, cliff:null, bridge:null, chest:null };
@@ -69,35 +73,8 @@ function ensureStartMenu(){
     const params = new URLSearchParams(location.search);
     if (params.get('theme') !== 'medieval') return;
     if (!ORCH?.ui?.startMenu?.enabled) return;
-    const id='startMenu'; if ($(id)) return;
-    const o = ensureOverlay(id); o.innerHTML='';
-    const title = document.createElement('h3'); title.textContent = ORCH.title || 'Toppler Medieval'; o.appendChild(title);
-    for (const opt of ORCH.ui.startMenu.options){
-        const btn = document.createElement('button'); btn.className='btn'; btn.textContent = opt.label; o.appendChild(btn);
-        if (opt.action === 'startGame') btn.onclick=()=>{ hideOverlay(id); setState(State.Playing); try{ game.audio.music?.play(); }catch{} };
-        else if (opt.action === 'showCredits') btn.onclick=()=>{ showLoreModal(); };
-        else if (opt.submenu){
-            btn.onclick=()=>{
-                const sub = document.createElement('div'); sub.style.marginTop='8px';
-                for (const s of opt.submenu){
-                    const row = document.createElement('div'); row.style.margin='4px 0';
-                    const lab = document.createElement('span'); lab.textContent = s.label + ': ';
-                    row.appendChild(lab);
-                    if (s.toggle){
-                        const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!game.audio.muted; cb.onchange=()=>{ game.audio.muted = cb.checked; try{ game.audio.music && (game.audio.music.muted = game.audio.muted); }catch{} persist(); };
-                        row.appendChild(cb);
-                    } else if (s.choices && s.bind){
-                        const sel = document.createElement('select');
-                        for (const c of s.choices){ const optEl=document.createElement('option'); optEl.value=c; optEl.textContent=c; sel.appendChild(optEl); }
-                        sel.onchange=()=>{ try { const st=JSON.parse(localStorage.getItem('toppler_state')||'{}'); st[s.bind]=sel.value; localStorage.setItem('toppler_state', JSON.stringify(st)); } catch {} };
-                        row.appendChild(sel);
-                    }
-                    sub.appendChild(row);
-                }
-                o.appendChild(sub);
-            };
-        }
-    }
+    if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+    UI.showIntro({ title: ORCH.title || 'Toppler Medieval', onStart: ()=>{ game.state=State.Playing; try{ game.audio.music?.play(); }catch{} } , lore: { title:'Credits', text:'Assets: KayKit (CC0). Framework: MIFF.' } });
 }
 
 function showLoreModal(){
@@ -156,7 +133,7 @@ function ensureSpawns(){
 
 function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
 
-function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }catch{} setState(State.Paused); const o=ensureOverlay('gameOver'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='You were taken by the curse...'; const r=document.createElement('button'); r.className='btn'; r.textContent='Respawn'; r.onclick=()=>{ hideOverlay('gameOver'); applyLevel(game.levelIndex); setState(State.Idle); }; o.appendChild(h); o.appendChild(r); }
+function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }catch{} setState(State.Paused); if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showGameOver({ onRestart: ()=>{ applyLevel(game.levelIndex); setState(State.Idle); ensureStartMenu(); } }); }
 
 function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += game.player.vx * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
