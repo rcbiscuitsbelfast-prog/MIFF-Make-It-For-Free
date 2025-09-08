@@ -19,6 +19,9 @@
   .actions { display: flex; gap: 8px; margin-top: 8px; }
   .btn { background: #1f6feb; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
   .btn.secondary { background: #21262d; border: 1px solid #30363d; }
+  .stack { display: grid; gap: 6px; }
+  .small { font-size: 12px; opacity: .8; }
+  .log { background: #0c1220; border: 1px solid #1b2333; padding: 8px; border-radius: 6px; max-height: 180px; overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
 </style>
 </head>
 <body>
@@ -43,7 +46,9 @@
     <div class="actions">
       <button class="btn" id="btnExport">Export JSON</button>
       <button class="btn secondary" id="btnClear">Clear</button>
+      <button class="btn secondary" id="btnTest">Test Mode</button>
     </div>
+    <div class="log" id="log"></div>
   </div>
   <div class="panel">
     <h2>Orchestration</h2>
@@ -58,8 +63,45 @@
       <option value="start_quest">start_quest</option>
       <option value="show_lore">show_lore</option>
     </select>
+    <h2 style="margin-top:12px">Quest Chain</h2>
+    <div class="stack small">
+      <label>Template</label>
+      <select id="questTemplate">
+        <option value="gather_items">Gather Items</option>
+        <option value="escort_npc">Escort NPC</option>
+        <option value="unlock_chest">Unlock Chest</option>
+        <option value="decode_lore">Decode Lore</option>
+      </select>
+      <label>Quest Id</label>
+      <input id="questId" value="quest_1" />
+    </div>
+    <h2 style="margin-top:12px">NPCs</h2>
+    <div class="stack small">
+      <label>NPC Id</label>
+      <input id="npcId" value="herbalist" />
+      <label>Path (comma, e.g., 1x1,2x1,2x2)</label>
+      <input id="npcPath" value="1x1,2x1,2x2" />
+      <label>Dialogue Id</label>
+      <input id="npcDialogue" value="herbalist_intro" />
+    </div>
+    <h2 style="margin-top:12px">Props3D</h2>
+    <div class="stack small">
+      <label>GLTF</label>
+      <input id="propGltf" value="../../assets/gltf/altar_01.gltf" />
+      <label>Position (x,y,z)</label>
+      <input id="propPos" value="2,1,0" />
+      <label>Scale</label>
+      <input id="propScale" type="number" step="0.1" value="1.0" />
+    </div>
   </div>
 </div>
+<script>
+(function(){
+  const logEl = document.getElementById('log');
+  function log(msg){ const t=document.createElement('div'); t.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`; logEl.appendChild(t); logEl.scrollTop = logEl.scrollHeight; }
+  window.__mbLog = log;
+})();
+</script>
 <script>
 (async function(){
   const manifest = await fetch('./maps/tile_manifest.json').then(r=>r.json());
@@ -70,7 +112,6 @@
   const questTile = document.getElementById('questTile');
   let selectedId = null;
 
-  // load thumbnails lazily
   for (const t of tileList){
     const id = t.id || t.src.split('/').pop().replace(/\.png$/, '');
     idToDef.set(id, t);
@@ -82,7 +123,6 @@
     const img = new Image(); img.src = t.src; idToImg.set(id, img);
   }
 
-  // grid state
   const cvs = document.getElementById('cvs');
   const ctx = cvs.getContext('2d');
   const tileW = 64, tileH = 32;
@@ -114,7 +154,6 @@
     if (!selectedId) return;
     const rect = cvs.getBoundingClientRect();
     const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
-    // approximate inverse for diamond grid (simple pick)
     const ix = Math.floor((mx - 512)/ (tileW/2) + my/(tileH/2)) / 2;
     const iy = Math.floor(my/(tileH/2) - (mx - 512)/(tileW/2)) / 2;
     const gx = Math.max(0, Math.min(width-1, Math.round(ix)));
@@ -138,15 +177,27 @@
     const spawn = { x: parseInt(document.getElementById('spawnX').value,10), y: parseInt(document.getElementById('spawnY').value,10) };
     const qTile = document.getElementById('questTile').value;
     const qAction = document.getElementById('questAction').value;
+    const questTemplate = document.getElementById('questTemplate').value;
+    const questId = document.getElementById('questId').value || 'quest_1';
+    const npcId = document.getElementById('npcId').value.trim();
+    const npcDialogue = document.getElementById('npcDialogue').value.trim();
+    const npcPathStr = document.getElementById('npcPath').value.trim();
+    const npcPath = npcPathStr? npcPathStr.split(',').map(s=>s.trim()) : [];
+    const propGltf = document.getElementById('propGltf').value.trim();
+    const propPos = document.getElementById('propPos').value.trim().split(',').map(Number);
+    const propScale = parseFloat(document.getElementById('propScale').value);
+
     const payload = {
-      version: 1,
+      version: 2,
       zone: 'custom_zone',
       size: { width, height, tile: { w: tileW, h: tileH } },
       layers: { terrain: { map: terrain }, props: { map: props }, npcs: { map: [] } },
+      props3d: propGltf? [ { id: 'p1', gltf: propGltf, pos: { x: propPos[0]||0, y: propPos[1]||0, z: propPos[2]||0 }, scale: isFinite(propScale)? propScale : 1.0 } ] : [],
       orchestration: {
         spawn,
-        quests: qTile ? [ { trigger: 'step_on', tile: qTile, action: qAction, id: 'quest_1' } ] : [],
-        paths: [],
+        quests: qTile ? [ { trigger: 'step_on', tile: qTile, action: qAction, id: questId, template: questTemplate } ] : [],
+        paths: npcPath.length? [ { npc: npcId||'npc_1', waypoints: npcPath.map(s=>{ const [x,y]=s.split('x').map(Number); return { x, y }; }) } ] : [],
+        npcs: npcId? [ { id: npcId, path: npcPath, dialogue: npcDialogue } ] : [],
         lore: qAction === 'show_lore' ? [ { tile: qTile, overlay: 'LoreModal' } ] : []
       }
     };
@@ -156,6 +207,21 @@
     a.download = 'zone_map.json';
     a.click();
     URL.revokeObjectURL(a.href);
+  };
+
+  // Test Mode
+  document.getElementById('btnTest').onclick = ()=>{
+    const logs = [];
+    function emit(ev, data){ logs.push({ t: Date.now(), ev, data }); window.__mbLog(`${ev}: ${JSON.stringify(data)}`); }
+    // Simulate a step_on quest trigger on selected quest tile if present
+    const qTile = document.getElementById('questTile').value;
+    if (qTile){ emit('trigger.step_on', { tile: qTile }); }
+    // Simulate NPC path advance
+    const npcPathStr = document.getElementById('npcPath').value.trim();
+    if (npcPathStr){ emit('npc.advance', { id: document.getElementById('npcId').value.trim(), next: npcPathStr.split(',')[0] }); }
+    // Simulate lore show
+    const qAction = document.getElementById('questAction').value;
+    if (qAction==='show_lore'){ emit('overlay.show', { id: 'LoreModal' }); }
   };
 
   render();
