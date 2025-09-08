@@ -34,7 +34,7 @@ async function loadOrchestration(){
     const medieval = params.get('theme') === 'medieval';
     const path = medieval ? './orchestration.medieval.json' : './orchestration.json';
     try { ORCH = await fetch(path).then(r=>r.json()); } catch { ORCH = null; }
-    if (ORCH?.levels?.length){ applyLevel(game.levelIndex||0); ensureLevelSelector(); }
+    if (ORCH?.levels?.length){ applyLevel(game.levelIndex||0); }
 }
 function applyLevel(idx){ game.levelIndex = idx; const L = ORCH.levels[idx]; game.goalX = L.goalX; game.player.x = 20; game.player.y = L.height - 60; game.player.vx = 0; game.player.vy = 0; game.trail = []; hideOverlay('winOverlay'); hideOverlay('pauseOverlay'); persist(); }
 
@@ -46,7 +46,7 @@ function startReplay(){ /* reserved for timed triggers in future */ }
 function ensureOverlay(id){ if ($(id)) return $(id); const div=document.createElement('div'); div.id=id; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.color='#d0d7de'; $('gameContainer').appendChild(div); return div; }
 function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
 
-function ensureLevelSelector(){ if ($('levelSelector') || !ORCH?.levels?.length) return; const sel = document.createElement('select'); sel.id='levelSelector'; sel.style.position='absolute'; sel.style.bottom='8px'; sel.style.left='8px'; for (let i=0;i<ORCH.levels.length;i++){ const opt=document.createElement('option'); opt.value=String(i); opt.textContent=ORCH.levels[i].id; sel.appendChild(opt); } sel.value=String(game.levelIndex); sel.onchange=(e)=>{ const idx=parseInt(sel.value,10); applyLevel(idx); setState(State.Idle); }; $('gameContainer').appendChild(sel); }
+// Level selector removed - using orchestration-driven overlays instead
 
 function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ 
@@ -59,9 +59,7 @@ function bindInputs(){
 	});
 	window.addEventListener('keyup', (e)=>{ if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') game.player.vx = 0; });
 	game.cvs.addEventListener('click', ()=>{ if (game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } });
-	$('btn_back')?.addEventListener('click', ()=>{ try{ game.audio.music?.pause(); }catch{} location.href='../../index.html'; });
-	if (!$('btnQuest')){ const btn = document.createElement('div'); btn.id='btnQuest'; btn.className='btn btn-secondary'; btn.textContent='[Next Level]'; btn.style.position='absolute'; btn.style.top='8px'; btn.style.left='8px'; $('gameContainer').appendChild(btn); }
-	$('btnQuest')?.addEventListener('click', ()=>{ try{ game.audio.ui?.play(); }catch{} if (!ORCH?.levels?.length) return; const next = (game.levelIndex + 1) % ORCH.levels.length; applyLevel(next); setState(State.Idle); const status = $('status'); if (status) status.textContent = `Loaded ${ORCH.levels[next].id}. Press Enter.`; const sel=$('levelSelector'); if (sel) sel.value=String(next); });
+	// Legacy UI buttons removed - using orchestration-driven overlays instead
 	ensureMobileControls();
 }
 
@@ -163,7 +161,7 @@ function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
     // Chests collect
     for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); FX.push({ t:0, x:c.x+c.w/2, y:c.y+c.h/2 }); const now=performance.now(); if (now-lastSfx.collect>150){ try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} lastSfx.collect=now; } } }
-    if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; const w=ensureOverlay('winOverlay'); w.innerHTML=''; const h=document.createElement('h3'); h.textContent='Level Complete!'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Next Level'; btn.onclick=()=>{ hideOverlay('winOverlay'); const next=(game.levelIndex+1)% (ORCH?.levels?.length||1); applyLevel(next); setState(State.Idle); const sel=$('levelSelector'); if (sel) sel.value=String(next); }; w.appendChild(h); w.appendChild(btn); persist(); } } }
+    if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; const w=ensureOverlay('winOverlay'); w.innerHTML=''; const h=document.createElement('h3'); h.textContent='Level Complete!'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Next Level'; btn.onclick=()=>{ hideOverlay('winOverlay'); const next=(game.levelIndex+1)% (ORCH?.levels?.length||1); applyLevel(next); setState(State.Idle); }; w.appendChild(h); w.appendChild(btn); persist(); } } }
 
 function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); // Tiles
     if (SPRITES.cliff){ for (let x=0; x<cvs.width; x+=32){ ctx.drawImage(SPRITES.cliff, x, cvs.height-32, 32, 32); } }
@@ -177,7 +175,7 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     if (SPRITES.player) ctx.drawImage(SPRITES.player, game.player.x, game.player.y, game.player.w, game.player.h); else { ctx.fillStyle = game.state === State.Completed ? '#2ecc71' : '#58a6ff'; ctx.fillRect(game.player.x, game.player.y, game.player.w, game.player.h); }
     // FX
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
-    ctx.fillStyle = '#d0d7de'; ctx.font = '14px sans-serif'; ctx.fillText(`State: ${game.state}  |  Level: ${ORCH?.levels?.[game.levelIndex]?.id ?? 'L?'}  |  Score: ${game.score}`, 10, 20); ctx.fillText('Enter/click start. Arrows move/jump. [Next Level]. P pause. M mute.', 10, 40); }
+    ctx.fillStyle = '#d0d7de'; ctx.font = '14px sans-serif'; ctx.fillText(`State: ${game.state}  |  Level: ${ORCH?.levels?.[game.levelIndex]?.id ?? 'L?'}  |  Score: ${game.score}`, 10, 20); ctx.fillText('Enter/click start. Arrows move/jump. P pause. M mute.', 10, 40); }
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); requestAnimationFrame(loop); }
 
