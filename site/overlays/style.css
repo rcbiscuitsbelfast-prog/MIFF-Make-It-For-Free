@@ -1,0 +1,48 @@
+/* Shared overlay styles for MIFF zones */
+.miff-overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 10px;
+  padding: 16px 18px;
+  color: #e6edf3;
+  max-width: 82%;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.miff-overlay h1,
+.miff-overlay h2,
+.miff-overlay h3 {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  margin: 0 0 8px 0;
+}
+.miff-overlay.miff-tile-bg {
+  background-image: url("../maps/../..//assets/Isometric Blocks/isometric_0075.png");
+  background-size: 96px 96px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+.miff-fade-in {
+  animation: miffFadeIn 280ms ease-out;
+}
+@keyframes miffFadeIn {
+  from { opacity: 0; transform: translate(-50%, -44%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+.miff-btn {
+  display: inline-block;
+  padding: 8px 12px;
+  background: #1f6feb;
+  color: #fff;
+  border: 1px solid #275ecf;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 8px;
+}
+.miff-btn.secondary {
+  background: #21262d;
+  border-color: #30363d;
+}
