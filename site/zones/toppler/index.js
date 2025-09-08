@@ -52,10 +52,26 @@ function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
 
 function ensureLevelSelector(){ /* removed legacy level selector in favor of orchestration-driven overlays */ }
 
+// Draggable joystick (touch/mouse)
+let joy={ base:null, knob:null, active:false, cx:0, cy:0, dx:0 };
+function ensureJoystick(){
+	if (joy.base) return;
+	const base=document.createElement('div'); base.style.position='absolute'; base.style.left='80px'; base.style.bottom='80px'; base.style.width='96px'; base.style.height='96px'; base.style.border='2px solid rgba(255,255,255,0.2)'; base.style.borderRadius='50%'; base.style.background='rgba(0,0,0,0.2)'; base.style.touchAction='none';
+	const knob=document.createElement('div'); knob.style.position='absolute'; knob.style.left='38px'; knob.style.top='38px'; knob.style.width='20px'; knob.style.height='20px'; knob.style.borderRadius='50%'; knob.style.background='rgba(88,166,255,0.9)';
+	base.appendChild(knob); $('gameContainer').appendChild(base);
+	function setKnob(dx){ const r=36; const nx=Math.max(-r,Math.min(r,dx)); knob.style.left=(38+nx)+'px'; joy.dx=nx/r; }
+	function start(e){ joy.active=true; const b=base.getBoundingClientRect(); joy.cx=b.left+b.width/2; joy.cy=b.top+b.height/2; move(e); }
+	function move(e){ if(!joy.active) return; const p=e.touches? e.touches[0]: e; const dx=p.clientX-joy.cx; setKnob(dx); game.inputMode='Touch (Joystick)'; }
+	function end(){ joy.active=false; setKnob(0); }
+	base.addEventListener('mousedown',start); window.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
+	base.addEventListener('touchstart',start,{passive:false}); base.addEventListener('touchmove',e=>{ e.preventDefault(); move(e); },{passive:false}); base.addEventListener('touchend',end);
+	joy.base=base; joy.knob=knob;
+}
+
 function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ 
-		if (e.key === 'ArrowRight') game.player.vx = 140; 
-		if (e.key === 'ArrowLeft') game.player.vx = -140; 
+		if (e.key === 'ArrowRight') { game.player.vx = 140; game.inputMode='Keyboard'; }
+		if (e.key === 'ArrowLeft') { game.player.vx = -140; game.inputMode='Keyboard'; }
 		if (e.key === 'ArrowUp' && onGround() && game.state!==State.Paused){ game.player.vy = -360; const now=performance.now(); if (now-lastSfx.jump>150){ try{ game.audio.sfx.jump && game.audio.sfx.jump.play(); }catch{} lastSfx.jump=now; } }
 		if (e.key === 'Enter' && game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} }
 		if (e.key.toLowerCase() === 'm'){ game.audio.muted = !game.audio.muted; try{ game.audio.music && (game.audio.music.muted = game.audio.muted); }catch{} persist(); }
@@ -63,9 +79,8 @@ function bindInputs(){
 	});
 	window.addEventListener('keyup', (e)=>{ if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') game.player.vx = 0; });
 	game.cvs.addEventListener('click', ()=>{ if (game.state === State.Idle){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } });
-	$('btn_back')?.addEventListener('click', ()=>{ try{ game.audio.music?.pause(); }catch{} location.href='../../index.html'; });
-	// removed legacy [Next Level] button and handler
-	ensureMobileControls();
+	// removed legacy back/next/mobile controls; use joystick instead
+	setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) game.inputMode='Gamepad'; }, 1000);
 }
 
 // Start menu overlay for medieval theme
@@ -74,7 +89,7 @@ function ensureStartMenu(){
     if (params.get('theme') !== 'medieval') return;
     if (!ORCH?.ui?.startMenu?.enabled) return;
     if (!UI) UI = createOverlayDispatcher($('gameContainer'));
-    UI.showIntro({ title: ORCH.title || 'Toppler Medieval', onStart: ()=>{ game.state=State.Playing; try{ game.audio.music?.play(); }catch{} } , lore: { title:'Credits', text:'Assets: KayKit (CC0). Framework: MIFF.' } });
+    UI.showIntro({ title: ORCH.title || 'Toppler Medieval', message:'Use joystick or arrows to move & jump.', onStart: ()=>{ game.state=State.Playing; try{ game.audio.music?.play(); }catch{} } , lore: { title:'Credits', text:'Assets: KayKit (CC0). Framework: MIFF.' } });
 }
 
 function showLoreModal(){
@@ -93,20 +108,6 @@ function showLoreModal(){
     m.insertAdjacentHTML('beforeend', html);
     const c = document.getElementById('closeLore');
     if (c) c.onclick = ()=> hideOverlay('loreModal');
-}
-
-function ensureMobileControls(){
-	if (window.innerWidth > 768 || $('mobileControls')) return;
-	const wrap = document.createElement('div'); wrap.id='mobileControls'; wrap.style.position='absolute'; wrap.style.bottom='8px'; wrap.style.right='8px'; wrap.style.display='flex'; wrap.style.gap='6px';
-	function makeBtn(txt){ const b=document.createElement('button'); b.textContent=txt; b.className='btn'; b.style.opacity='0.85'; b.style.padding='8px 12px'; return b; }
-	const left = makeBtn('◀'); const jump = makeBtn('⤴'); const right = makeBtn('▶');
-	let leftHeld=false, rightHeld=false;
-	function start(dir){ if (dir==='L') { leftHeld=true; game.player.vx=-140; } if (dir==='R') { rightHeld=true; game.player.vx=140; } if (dir==='J' && onGround()) game.player.vy=-360; }
-	function end(dir){ if (dir==='L'){ leftHeld=false; if (!rightHeld) game.player.vx=0; else game.player.vx=140; } if (dir==='R'){ rightHeld=false; if (!leftHeld) game.player.vx=0; else game.player.vx=-140; } }
-	left.ontouchstart=(e)=>{ e.preventDefault(); start('L'); }; left.ontouchend=(e)=>{ e.preventDefault(); end('L'); };
-	right.ontouchstart=(e)=>{ e.preventDefault(); start('R'); }; right.ontouchend=(e)=>{ e.preventDefault(); end('R'); };
-	jump.ontouchstart=(e)=>{ e.preventDefault(); start('J'); };
-	wrap.appendChild(left); wrap.appendChild(jump); wrap.appendChild(right); $('gameContainer').appendChild(wrap);
 }
 
 function togglePause(){ if (game.state===State.Paused){ setState(State.Playing); hideOverlay('pauseOverlay'); } else if (game.state===State.Playing){ setState(State.Paused); const o=ensureOverlay('pauseOverlay'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='Paused'; o.appendChild(h); const row=document.createElement('div'); const r1=document.createElement('button'); r1.className='btn'; r1.textContent='Resume'; r1.onclick=()=>{ togglePause(); }; const r2=document.createElement('button'); r2.className='btn btn-secondary'; r2.textContent='Restart'; r2.onclick=()=>{ applyLevel(game.levelIndex); setState(State.Idle); hideOverlay('pauseOverlay'); }; row.appendChild(r1); row.appendChild(r2); o.appendChild(row); } }
@@ -135,7 +136,7 @@ function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b
 
 function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }catch{} setState(State.Paused); if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showGameOver({ onRestart: ()=>{ applyLevel(game.levelIndex); setState(State.Idle); ensureStartMenu(); } }); }
 
-function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += game.player.vx * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
+function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += (game.player.vx + (joy.active? joy.dx*180:0)) * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
     // Chests collect
     for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); FX.push({ t:0, x:c.x+c.w/2, y:c.y+c.h/2 }); const now=performance.now(); if (now-lastSfx.collect>150){ try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} lastSfx.collect=now; } } }
@@ -148,14 +149,15 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     const pulse = 8 + Math.abs(Math.sin(performance.now()/200))*10; ctx.fillStyle = '#0f2a3f'; ctx.fillRect(game.goalX, 0, cvs.width - game.goalX, cvs.height); ctx.fillStyle = '#13466e'; ctx.fillRect(game.goalX - pulse, 0, 3, cvs.height); for (let i=0;i<game.trail.length;i++){ const a = i/game.trail.length; ctx.fillStyle = `rgba(88,166,255,${a*0.6})`; const p = game.trail[i]; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill(); } // Enemies
     for (const e of game.enemies){ if (SPRITES.enemy) ctx.drawImage(SPRITES.enemy, e.x, e.y, e.w, e.h); else { ctx.fillStyle = '#bd4b4b'; ctx.fillRect(e.x, e.y, e.w, e.h); } }
     // Chests (tinted)
-    for (let i=0;i<game.chests.length;i++){ const c=game.chests[i]; if (SPRITES.chest){ ctx.save(); ctx.globalAlpha=1; ctx.filter = `hue-rotate(${(i%2)*180}deg)`; ctx.drawImage(SPRITES.chest, c.x, c.y, c.w, c.h); ctx.filter='none'; ctx.restore(); } else { ctx.fillStyle = i%2? '#d46f6f':'#6fb7d4'; ctx.fillRect(c.x, c.y, c.w, c.h); } }
+    for (let i=0;i<game.chests.length;i++){ const c=game.chests[i]; if (SPRITES.chest){ ctx.save(); ctx.globalAlpha=1; ctx.filter = `hue-rotate(${(i%2)*180}deg)`; ctx.drawImage(SPRITES.chest, c.x, c.y, c.w, c.h); ctx.filter='none'; ctx.restore(); } else { ctx.fillStyle = i%2? '#d46f6f':'#6fb7d4'; ctx.fillRect(c.x, c.y, c.w, c.h); }
+    }
     // Player
     if (SPRITES.player) ctx.drawImage(SPRITES.player, game.player.x, game.player.y, game.player.w, game.player.h); else { ctx.fillStyle = game.state === State.Completed ? '#2ecc71' : '#58a6ff'; ctx.fillRect(game.player.x, game.player.y, game.player.w, game.player.h); }
     // FX
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
-    ctx.fillStyle = '#d0d7de'; ctx.font = '14px sans-serif'; ctx.fillText(`State: ${game.state}  |  Level: ${ORCH?.levels?.[game.levelIndex]?.id ?? 'L?'}  |  Score: ${game.score}`, 10, 20); ctx.fillText('Enter/click start. Arrows move/jump. [Next Level]. P pause. M mute.', 10, 40); }
+}
 
-function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); requestAnimationFrame(loop); }
+function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); UI && UI.showHUD({ inputMode: game.inputMode }); requestAnimationFrame(loop); }
 
 async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
@@ -164,6 +166,6 @@ async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textC
     try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
     try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
     try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
-    bindInputs(); ensureStartMenu(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer')); ensureStartMenu(); ensureJoystick(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
 
 window.addEventListener('DOMContentLoaded', init);
