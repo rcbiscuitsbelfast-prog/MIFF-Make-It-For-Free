@@ -3,10 +3,10 @@
 Scope: Grove 3D, Toppler Medieval, Spirit Tamer
 
 ## Summary
-- Orchestration: Present across zones; Spirit overlays refactored to orchestration-driven. Dispatcher still recommended for Toppler transitions.
-- UI Consistency: Shared look-and-feel improved; Spirit/Grove show input mode in HUD; unified overlay styling in progress.
+- Orchestration: Present across all zones; all overlays refactored to orchestration-driven with unified dispatcher system.
+- UI Consistency: Complete unified look-and-feel with serif typography, tile backgrounds, fade transitions, and consistent HUD across all zones.
 - Assets: Registry valid; grove3d map uses registry tiles. Characters/portraits remain direct assets with remix-safe attribution.
-- Onboarding: In-zone overlays/links present for Grove; packs live; gallery scaffold ready.
+- Onboarding: Complete onboarding overlays and attribution footer across all zones; remix packs live; gallery scaffold ready.
 
 ## Zone Checklists
 
@@ -21,13 +21,16 @@ Scope: Grove 3D, Toppler Medieval, Spirit Tamer
   - [x] Serif typography + tile background overlays
   - [x] Fade transitions
   - [x] HUD progress/inventory/input indicator
+  - [x] Fullscreen toggle with proper canvas resize
+  - [x] Joystick positioning (bottom-left, 96px base, 48px knob)
 - Assets
   - [x] Registry-backed map exists (`site/maps/grove3d.json`)
   - [x] Registry tags/biome valid
   - [x] No oversized/misaligned PNGs
+  - [x] Sprite animation with proper frame cropping
 - Onboarding
   - [x] Onboarding overlay with remix links
-  - [ ] Attribution footer
+  - [x] Attribution footer
 
 Screenshots:
 - `tests/showcase_grove_intro.png`
@@ -37,17 +40,20 @@ Screenshots:
 ### Toppler Medieval
 - Orchestration
   - [x] Intro via start menu (orchestration JSON)
-  - [ ] Dispatcher for transitions (currently imperative)
+  - [x] Dispatcher for transitions (unified overlay system)
   - [x] LoreModal (credits)
   - [x] GameOver overlay
 - UI Consistency
-  - [ ] Unified overlay styles (serif, tile background, fade)
-  - [ ] PlayHUD with input mode
+  - [x] Unified overlay styles (serif, tile background, fade)
+  - [x] PlayHUD with input mode
+  - [x] Fullscreen toggle with proper canvas resize
+  - [x] Joystick positioning (bottom-left, 96px base, 48px knob)
 - Assets
   - [x] Uses remix-safe set; medieval theme
   - [x] No oversized/misaligned PNGs in audit
 - Onboarding
-  - [ ] Onboarding overlay with remix links
+  - [x] Onboarding overlay with remix links
+  - [x] Attribution footer
   - [x] Contributor docs present in repo
 
 ### Spirit Tamer
@@ -56,13 +62,15 @@ Screenshots:
   - [x] Orchestration-driven overlays (Intro, GameOver, Lore)
   - [x] Beat replay timer via orchestration param
 - UI Consistency
-  - [ ] Unified overlay styles
+  - [x] Unified overlay styles
   - [x] Progress bar + input mode in HUD
+  - [x] Fullscreen toggle with proper canvas resize
+  - [x] Joystick positioning (bottom-left, 96px base, 48px knob)
 - Assets
   - [x] No oversized/misaligned PNGs in audit
 - Onboarding
-  - [ ] Onboarding overlay
-  - [ ] Attribution footer
+  - [x] Onboarding overlay
+  - [x] Attribution footer
 
 ## Contributor Readiness
 - Docs
@@ -76,9 +84,10 @@ Screenshots:
   - [x] Gallery submission page
 
 ## Sprint Launch Notes
-- Finalize unified overlay styling and dispatcher for Toppler/Grove.
-- Add onboarding overlays to Spirit/Toppler and shared attribution footer.
-- Promote remix starter packs and gallery submission flow in overlays.
+- ✅ Unified overlay styling and dispatcher implemented across all zones.
+- ✅ Onboarding overlays and shared attribution footer added to all zones.
+- ✅ Remix starter packs and gallery submission flow integrated in overlays.
+- ✅ All zones ready for contributor showcase and remix sprint.
 
 Reset status:
 - Grove 3D reset to minimal scene (2×2 tiles + character) and dispatcher main menu.
