@@ -85,9 +85,10 @@ Reset status:
 - Screenshot: `tests/showcase_grove_minimal.png`
 - Removed prior quest/overlay/trigger logic from orchestration and scene.
 
-Renderer fix:
-- Minimal scene uses registry tiles selected with `site/maps/grove3d.json` preferences.
-- Screenshot: `tests/showcase_grove_minimal_scene.png`
+Renderer fix (camera/sprite/tiles):
+- Character scaled to 64×64 with bob animation; camera follows and keeps center.
+- Joystick anchored bottom-left; tiles centered with iso placement.
+- Screenshot: `tests/showcase_grove_render_fixed.png`.
 
 Enhancements:
 - Input mode detection displayed in HUD (auto-updates on Keyboard/Touch/Gamepad).

@@ -4,10 +4,15 @@ function $(id){ return document.getElementById(id); }
 
 let manifest=null;
 let groveMap=null;
-const tileW=64, tileH=32; // iso base
 let ctx=null, cvs=null, UI=null;
 let idToImg=new Map();
-let character={ x:0.5, y:0.5, img:null, variant:'adventurer', speed:0.06 };
+
+// Tile and camera
+const tileW=64, tileH=32;
+let camera={ x:0, y:0 };
+
+// Character with simple bob animation
+let character={ x:0.5, y:0.5, img:null, variant:'adventurer', speed:0.06, bobT:0 };
 let keys={};
 let tiles2x2=[['grass_01','path_stone'],['grass_02','path_stone']];
 let inputMode='Keyboard';
@@ -17,13 +22,16 @@ let tick=0;
 let chest={ x:1.4, y:0.6, id:'chest_red', taken:false };
 let campfire={ x:0.4, y:1.4, id:'mystic_stone' };
 let npc={ x:1.6, y:1.6, speaking:false, img:null };
-// Joystick
+// Joystick anchored bottom-left
 let joy={ base:null, knob:null, active:false, cx:0, cy:0, dx:0, dy:0 };
 
-function isoToScreen(ix, iy){
-  const x = (ix - iy) * (tileW/2) + 320;
-  const y = (ix + iy) * (tileH/2) + 80;
-  return { x, y };
+function worldToScreen(ix, iy){
+  // Compute base centered at canvas middle and apply camera scroll
+  const cx = cvs ? cvs.width/2 : 320;
+  const cy = cvs ? cvs.height/2.8 : 80; // slight top bias
+  const sx = (ix - iy) * (tileW/2) - camera.x + cx;
+  const sy = (ix + iy) * (tileH/2) - camera.y + cy;
+  return { x: sx, y: sy };
 }
 
 async function loadManifest(){
@@ -64,7 +72,7 @@ function bindInput(){
 
 function ensureJoystick(){
   if (joy.base) return;
-  const base=document.createElement('div'); base.style.position='absolute'; base.style.left='80px'; base.style.bottom='80px'; base.style.width='96px'; base.style.height='96px'; base.style.border='2px solid rgba(255,255,255,0.2)'; base.style.borderRadius='50%'; base.style.background='rgba(0,0,0,0.2)'; base.style.touchAction='none';
+  const base=document.createElement('div'); base.style.position='absolute'; base.style.left='80px'; base.style.bottom='80px'; base.style.width='96px'; base.style.height='96px'; base.style.border='2px solid rgba(255,255,255,0.2)'; base.style.borderRadius='50%'; base.style.background='rgba(0,0,0,0.2)'; base.style.touchAction='none'; base.style.zIndex='20';
   const knob=document.createElement('div'); knob.style.position='absolute'; knob.style.left='38px'; knob.style.top='38px'; knob.style.width='20px'; knob.style.height='20px'; knob.style.borderRadius='50%'; knob.style.background='rgba(88,166,255,0.9)';
   base.appendChild(knob); $('gameContainer').appendChild(base);
   function setKnob(dx,dy){ const r=36; const nx=Math.max(-r,Math.min(r,dx)); const ny=Math.max(-r,Math.min(r,dy)); knob.style.left=(38+nx)+'px'; knob.style.top=(38+ny)+'px'; joy.dx=nx/r; joy.dy=ny/r; }
@@ -74,6 +82,15 @@ function ensureJoystick(){
   base.addEventListener('mousedown',start); window.addEventListener('mousemove',move); window.addEventListener('mouseup',end);
   base.addEventListener('touchstart',start,{passive:false}); base.addEventListener('touchmove',e=>{ e.preventDefault(); move(e); },{passive:false}); base.addEventListener('touchend',end);
   joy.base=base; joy.knob=knob;
+}
+
+function updateCamera(){
+  // Keep character centered by computing desired screen pos and scrolling camera towards it
+  const target = worldToScreen(character.x, character.y); // uses current camera
+  const cx = cvs.width/2, cy = cvs.height/2.8;
+  // Adjust camera so that character screen equals (cx,cy)
+  camera.x += (target.x - cx) * 0.25;
+  camera.y += (target.y - cy) * 0.25;
 }
 
 function update(){
@@ -86,7 +103,9 @@ function update(){
   if (joy.active){ vx += joy.dx; vy += joy.dy; }
   const len=Math.hypot(vx,vy)||1; vx/=len; vy/=len;
   character.y += vy*character.speed; character.x += vx*character.speed;
+  if (vx||vy) character.bobT += 0.2; else character.bobT *= 0.9;
   if (before.x!==character.x || before.y!==character.y){ console.log('[GroveMove]', character.x.toFixed(2), character.y.toFixed(2)); }
+  updateCamera();
   // Interactions
   const dChest=Math.hypot(character.x-chest.x, character.y-chest.y);
   if (!chest.taken && dChest<0.2){ chest.taken=true; UI.showLore({ title:'You found a herb!', text:'Added Herb to inventory.' }); }
@@ -95,32 +114,29 @@ function update(){
 }
 
 function renderParallax(){
-  // Sky gradient
   const g=ctx.createLinearGradient(0,0,0,cvs.height); g.addColorStop(0,'#0a1322'); g.addColorStop(1,'#0b1020'); ctx.fillStyle=g; ctx.fillRect(0,0,cvs.width,cvs.height);
-  // Forest edge parallax bars
   ctx.globalAlpha=0.08; for (let i=0;i<8;i++){ const y=20+i*22+(Math.sin((tick+i)*0.03)*2); ctx.fillStyle='#0d1a2b'; ctx.fillRect(0,y,cvs.width,12); } ctx.globalAlpha=1;
 }
 
 function render(){
   ctx.clearRect(0,0,cvs.width,cvs.height);
   renderParallax();
-  // 2x2 isometric tiles with soft shadows
+  // 2x2 tiles centered with subtle shadow
   for (let iy=0; iy<2; iy++){
     for (let ix=0; ix<2; ix++){
-      const id=tiles2x2[iy][ix]; const img=idToImg.get(id); const p=isoToScreen(ix,iy);
-      // drop shadow
-      ctx.globalAlpha=0.15; ctx.fillStyle='#000'; ctx.fillRect(p.x+4, p.y - (tileH/2)+4, 56, 6); ctx.globalAlpha=1;
+      const id=tiles2x2[iy][ix]; const img=idToImg.get(id); const p=worldToScreen(ix,iy);
+      ctx.globalAlpha=0.15; ctx.fillStyle='#000'; ctx.fillRect(p.x+4, p.y - (tileH/2)+4, tileW-8, 6); ctx.globalAlpha=1;
       if (img && img.complete) ctx.drawImage(img, p.x, p.y - (tileH/2));
     }
   }
   // campfire ambient flicker
-  const cf=isoToScreen(campfire.x,campfire.y); const pulse=0.3+0.3*Math.abs(Math.sin(tick*0.12)); ctx.globalAlpha=pulse; ctx.fillStyle='#ff9933'; ctx.beginPath(); ctx.arc(cf.x, cf.y-10, 8, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
-  // chest sprite (reuse tile image)
-  if (!chest.taken){ const cp=isoToScreen(chest.x,chest.y); const img=idToImg.get(chest.id); if (img && img.complete) ctx.drawImage(img, cp.x-16, cp.y-16, 32, 32); }
+  const cf=worldToScreen(campfire.x,campfire.y); const pulse=0.3+0.3*Math.abs(Math.sin(tick*0.12)); ctx.globalAlpha=pulse; ctx.fillStyle='#ff9933'; ctx.beginPath(); ctx.arc(cf.x, cf.y-10, 8, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+  // chest tile sprite
+  if (!chest.taken){ const cp=worldToScreen(chest.x,chest.y); const img=idToImg.get(chest.id); if (img && img.complete) ctx.drawImage(img, cp.x-16, cp.y-16, 32, 32); }
   // NPC sprite
-  if (npc.img && npc.img.complete){ const np=isoToScreen(npc.x,npc.y); ctx.drawImage(npc.img, np.x-14, np.y-28, 28, 28); }
-  // character sprite centered
-  const cp=isoToScreen(character.x, character.y); if (character.img && character.img.complete) ctx.drawImage(character.img, cp.x-16, cp.y-28, 32, 32);
+  if (npc.img && npc.img.complete){ const np=worldToScreen(npc.x,npc.y); ctx.drawImage(npc.img, np.x-20, np.y-36, 40, 40); }
+  // Character scaled sprite with bobbing
+  const csp=worldToScreen(character.x, character.y); const bob = Math.sin(character.bobT)*2; if (character.img && character.img.complete) ctx.drawImage(character.img, csp.x-32, csp.y-48-bob, 64, 64);
 }
 
 function loop(){ tick++; update(); render(); UI && UI.showHUD({ inputMode }); requestAnimationFrame(loop); }
