@@ -12,14 +12,14 @@ Scope: Grove 3D, Toppler Medieval, Spirit Tamer
 
 ### Grove 3D
 - Orchestration
-  - [ ] IntroModal
+  - [x] IntroModal (dispatcher)
   - [x] PlayHUD (progress/inventory/input)
-  - [ ] GameOverModal
-  - [ ] LoreModal (via orchestration)
+  - [x] GameOverModal (dispatcher)
+  - [x] LoreModal (dispatcher)
   - [x] 3D toggle via `?mode=3d`
 - UI Consistency
-  - [ ] Serif typography + tile background overlays
-  - [ ] Fade transitions
+  - [x] Serif typography + tile background overlays
+  - [x] Fade transitions
   - [x] HUD progress/inventory/input indicator
 - Assets
   - [x] Registry-backed map exists (`site/maps/grove3d.json`)
@@ -28,6 +28,11 @@ Scope: Grove 3D, Toppler Medieval, Spirit Tamer
 - Onboarding
   - [x] Onboarding overlay with remix links
   - [ ] Attribution footer
+
+Screenshots:
+- `tests/showcase_grove_intro.png`
+- `tests/showcase_grove_lore.png`
+- `tests/showcase_grove_gameover.png`
 
 ### Toppler Medieval
 - Orchestration

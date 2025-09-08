@@ -13,10 +13,11 @@ function restore(){ try { const s=localStorage.getItem('grove_state'); if (s){ c
 async function loadOrchestration(){
 	try { ORCH = await fetch('./orchestration.json').then(r=>r.json()); } catch { ORCH = null; }
 	if (ORCH?.npcs?.npc1){ vm.npc.x = ORCH.npcs.npc1.x; vm.npc.y = ORCH.npcs.npc1.y; vm.npc.name = ORCH.npcs.npc1.name; }
-	if (ORCH?.triggers?.hintAfterMs){ setTimeout(()=>{ openDialogue(['A soft breeze carries a whisper: "Seek the chest by the oak."']); }, ORCH.triggers.hintAfterMs); }
+	if (ORCH?.triggers?.hintAfterMs){ setTimeout(()=>{ showLore({ title:'A Whisper', text:'Seek the chest by the oak.' }); }, ORCH.triggers.hintAfterMs); }
 }
 
 async function loadAssets(){
+	// KayKit / CC0 textures; ensure remix-safe attribution
 	vm.portrait = await loadImg('../../../assets/KayKitAssets/rogue_texture.png').catch(()=>null);
 	vm.tileset = await loadImg('../../../assets/Grass_Middle.png').catch(()=>null);
 	const propNames = ['Oak_Tree.png', 'House.png', 'Chest.png'];
@@ -43,7 +44,7 @@ function detectInputMode(){
 	setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) setMode('Gamepad'); }, 1000);
 }
 
-function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); ensureJournal(); ensureOnboarding(); }
+function ensureUI(){ if (!$('inventoryBar')){ const bar=document.createElement('div'); bar.id='inventoryBar'; bar.style.marginTop='10px'; $('gameContainer').appendChild(bar); } renderInventory(); ensureJournal(); showIntro(); }
 
 function renderInventory(){ const bar = $('inventoryBar'); if (!bar) return; bar.innerHTML = 'Inventory: ' + (vm.inventory.length ? vm.inventory.join(', ') : '(empty)'); }
 
@@ -59,10 +60,9 @@ function bindInputs(){
 	window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='m'){ vm.audio.muted = !vm.audio.muted; try{ vm.audio.music && (vm.audio.music.muted = vm.audio.muted); }catch{} persist(); } });
 }
 
-function createOverlay(id){ if ($(id)) return $(id); const d=document.createElement('div'); d.id=id; d.style.position='absolute'; d.style.left='50%'; d.style.top='50%'; d.style.transform='translate(-50%,-50%)'; d.style.background='rgba(0,0,0,0.7)'; d.style.padding='16px'; d.style.borderRadius='8px'; d.style.zIndex='10'; d.style.maxWidth='80%'; d.style.color='#d0d7de'; $('gameContainer').appendChild(d); return d; }
-function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
-
-function ensureOnboarding(){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title:'Grove 3D', message:'Explore the grove. Click chest to pick herb. M mute.', onStart: ()=>{ hideOverlay('onboardingOverlay'); } }); }
+function showIntro(){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title:'Grove 3D', message:'Explore the grove. Click chest to pick herb. M to mute.', onStart: ()=>{ /* resume play */ } }); }
+function showLore(opts){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showLore(opts||{ title:'Grove Lore', text:'KayKit/CC0 assets used. The grove hums with old songs.' }); }
+function showGameOver(){ if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showGameOver({ title:'Thanks for exploring!', message:'Remix this zone or expand the grove.', onRestart: ()=>{ /* soft reset */ vm.inventory=[]; renderInventory(); } }); }
 
 function openDialogue(lines){ vm.state = State.Dialogue; showDialogueOverlay(lines); }
 function closeDialogue(){ const d=$('dialogueOverlay'); if(d) d.remove(); vm.state = State.Exploring; }
@@ -108,7 +108,7 @@ async function init(){
 	vm.cvs = cvs; vm.ctx = cvs.getContext('2d');
 	restore(); await loadOrchestration(); await loadAssets(); if(statusEl) statusEl.textContent = 'Explore and click to talk.';
 	try{ vm.audio.music?.play(); }catch{}
-	detectInputMode(); ensureUI(); bindInputs(); renderInventory(); ensureOnboarding(); requestAnimationFrame(loop);
+	detectInputMode(); ensureUI(); bindInputs(); renderInventory(); requestAnimationFrame(loop);
 }
 
 window.addEventListener('DOMContentLoaded', init);
