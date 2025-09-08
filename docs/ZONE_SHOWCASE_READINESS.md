@@ -1,12 +1,13 @@
 # MIFF Zone Showcase Readiness
 
-Scope: Grove 3D, Toppler Medieval, Spirit Tamer
+Scope: Grove 3D, Toppler Medieval, Spirit Tamer, Map Builder
 
 ## Summary
 - Orchestration: Present across all zones; all overlays refactored to orchestration-driven with unified dispatcher system.
 - UI Consistency: Complete unified look-and-feel with serif typography, tile backgrounds, fade transitions, and consistent HUD across all zones.
 - Assets: Registry valid; grove3d map uses registry tiles. Characters/portraits remain direct assets with remix-safe attribution.
 - Onboarding: Complete onboarding overlays and attribution footer across all zones; remix packs live; gallery scaffold ready.
+- Map Builder: New playable zone for building games within the game, with live canvas, drag-and-drop placement, and export functionality.
 
 ## Zone Checklists
 
@@ -71,6 +72,33 @@ Screenshots:
 - Onboarding
   - [x] Onboarding overlay
   - [x] Attribution footer
+
+### Map Builder
+- Orchestration
+  - [x] IntroModal (dispatcher)
+  - [x] PlayHUD (progress/inventory/input)
+  - [x] LoreModal (dispatcher)
+  - [x] GameOverModal (dispatcher)
+- UI Consistency
+  - [x] Serif typography + tile background overlays
+  - [x] Fade transitions
+  - [x] HUD progress/inventory/input indicator
+  - [x] Fullscreen toggle with proper canvas resize
+  - [x] Live canvas with drag-and-drop tile placement
+- Assets
+  - [x] Registry-backed tiles from tile_manifest.json
+  - [x] Sprite selection and placement
+  - [x] Biome-based tile filtering
+  - [x] Game type configuration (narrative, puzzle, combat, sandbox)
+- Onboarding
+  - [x] Attribution footer
+  - [x] Export overlay with remix links
+  - [x] Builder guide integration
+
+Screenshots:
+- `tests/showcase_map_builder_live_canvas.png`
+- `tests/showcase_map_builder_sprite_picker.png`
+- `tests/showcase_map_builder_export_overlay.png`
 
 ## Contributor Readiness
 - Docs

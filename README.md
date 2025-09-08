@@ -143,9 +143,10 @@ Play the live demo:
 👉 [MIFF Sampler on GitHub Pages](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
 
 Includes:
-- Toppler (physics platformer)  
+- Toppler Medieval (physics platformer)  
 - Spirit Tamer (rhythm game)  
 - Witcher Grove (open-world zone)  
+- Map Builder (game about building games)
 - Remix Lab (debug and replay tools)
 
 ---
