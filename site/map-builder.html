@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MIFF Map Builder (Remix-Safe)</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 0; color: #e6edf3; background: #0f1116; }
+  .wrap { display: grid; grid-template-columns: 260px 1fr 300px; gap: 12px; padding: 12px; }
+  .panel { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; }
+  h2 { margin: 0 0 8px 0; font-size: 16px; color: #58a6ff; }
+  #tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 60vh; overflow: auto; }
+  #tiles button { padding: 6px; border: 1px solid #30363d; background: #161b22; color: #e6edf3; border-radius: 6px; font-size: 12px; }
+  #grid { position: relative; overflow: auto; background: #0b1020; border-radius: 6px; }
+  #grid canvas { display: block; image-rendering: pixelated; }
+  label { display: block; font-size: 12px; opacity: .9; margin: 8px 0 4px; }
+  input, select, textarea { width: 100%; background: #0f1116; border: 1px solid #30363d; color: #e6edf3; padding: 6px; border-radius: 6px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .actions { display: flex; gap: 8px; margin-top: 8px; }
+  .btn { background: #1f6feb; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+  .btn.secondary { background: #21262d; border: 1px solid #30363d; }
+  .stack { display: grid; gap: 6px; }
+  .small { font-size: 12px; opacity: .8; }
+  .log { background: #0c1220; border: 1px solid #1b2333; padding: 8px; border-radius: 6px; max-height: 180px; overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="panel">
+    <h2>Tiles</h2>
+    <div id="tiles"></div>
+  </div>
+  <div class="panel">
+    <h2>Grid</h2>
+    <div class="row">
+      <div>
+        <label>Width</label>
+        <input id="mapW" type="number" value="16" min="4" max="128" />
+      </div>
+      <div>
+        <label>Height</label>
+        <input id="mapH" type="number" value="12" min="4" max="128" />
+      </div>
+    </div>
+    <div id="grid"><canvas id="cvs" width="1024" height="768"></canvas></div>
+    <div class="actions">
+      <button class="btn" id="btnExport">Export JSON</button>
+      <button class="btn secondary" id="btnClear">Clear</button>
+      <button class="btn secondary" id="btnTest">Test Mode</button>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+  <div class="panel">
+    <h2>Orchestration</h2>
+    <label>Spawn X</label>
+    <input id="spawnX" type="number" value="1" />
+    <label>Spawn Y</label>
+    <input id="spawnY" type="number" value="1" />
+    <label>Quest Trigger Tile</label>
+    <select id="questTile"></select>
+    <label>Quest Action</label>
+    <select id="questAction">
+      <option value="start_quest">start_quest</option>
+      <option value="show_lore">show_lore</option>
+    </select>
+    <h2 style="margin-top:12px">Quest Chain</h2>
+    <div class="stack small">
+      <label>Template</label>
+      <select id="questTemplate">
+        <option value="gather_items">Gather Items</option>
+        <option value="escort_npc">Escort NPC</option>
+        <option value="unlock_chest">Unlock Chest</option>
+        <option value="decode_lore">Decode Lore</option>
+      </select>
+      <label>Quest Id</label>
+      <input id="questId" value="quest_1" />
+    </div>
+    <h2 style="margin-top:12px">NPCs</h2>
+    <div class="stack small">
+      <label>NPC Id</label>
+      <input id="npcId" value="herbalist" />
+      <label>Path (comma, e.g., 1x1,2x1,2x2)</label>
+      <input id="npcPath" value="1x1,2x1,2x2" />
+      <label>Dialogue Id</label>
+      <input id="npcDialogue" value="herbalist_intro" />
+    </div>
+    <h2 style="margin-top:12px">Props3D</h2>
+    <div class="stack small">
+      <label>GLTF</label>
+      <input id="propGltf" value="../../assets/gltf/altar_01.gltf" />
+      <label>Position (x,y,z)</label>
+      <input id="propPos" value="2,1,0" />
+      <label>Scale</label>
+      <input id="propScale" type="number" step="0.1" value="1.0" />
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const logEl = document.getElementById('log');
+  function log(msg){ const t=document.createElement('div'); t.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`; logEl.appendChild(t); logEl.scrollTop = logEl.scrollHeight; }
+  window.__mbLog = log;
+})();
+</script>
+<script>
+(async function(){
+  const manifest = await fetch('./maps/tile_manifest.json').then(r=>r.json());
+  const tileList = manifest.tiles;
+  const idToImg = new Map();
+  const idToDef = new Map();
+  const tilesEl = document.getElementById('tiles');
+  const questTile = document.getElementById('questTile');
+  let selectedId = null;
+
+  for (const t of tileList){
+    const id = t.id || t.src.split('/').pop().replace(/\.png$/, '');
+    idToDef.set(id, t);
+    const btn = document.createElement('button');
+    btn.textContent = id;
+    btn.onclick = ()=>{ selectedId = id; [...tilesEl.children].forEach(b=>b.style.outline='none'); btn.style.outline='2px solid #58a6ff'; };
+    tilesEl.appendChild(btn);
+    const opt = document.createElement('option'); opt.value = id; opt.textContent = id; questTile.appendChild(opt);
+    const img = new Image(); img.src = t.src; idToImg.set(id, img);
+  }
+
+  const cvs = document.getElementById('cvs');
+  const ctx = cvs.getContext('2d');
+  const tileW = 64, tileH = 32;
+  let width = parseInt(document.getElementById('mapW').value, 10);
+  let height = parseInt(document.getElementById('mapH').value, 10);
+  const terrain = Array.from({length: height}, ()=> Array.from({length: width}, ()=> null));
+  const props = Array.from({length: height}, ()=> Array.from({length: width}, ()=> null));
+
+  function isoToScreen(ix, iy){
+    const x = (ix - iy) * (tileW/2) + 512;
+    const y = (ix + iy) * (tileH/2) + 32;
+    return { x, y };
+  }
+
+  function render(){
+    ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height);
+    for (let y=0; y<height; y++){
+      for (let x=0; x<width; x++){
+        const base = terrain[y][x];
+        const p = props[y][x];
+        const {x: sx, y: sy} = isoToScreen(x,y);
+        if (base){ const img = idToImg.get(base); if (img && img.complete) ctx.drawImage(img, sx, sy - (tileH/2)); }
+        if (p){ const img = idToImg.get(p); if (img && img.complete) ctx.drawImage(img, sx, sy - (tileH/2)); }
+      }
+    }
+  }
+
+  cvs.addEventListener('click', (e)=>{
+    if (!selectedId) return;
+    const rect = cvs.getBoundingClientRect();
+    const mx = e.clientX - rect.left; const my = e.clientY - rect.top;
+    const ix = Math.floor((mx - 512)/ (tileW/2) + my/(tileH/2)) / 2;
+    const iy = Math.floor(my/(tileH/2) - (mx - 512)/(tileW/2)) / 2;
+    const gx = Math.max(0, Math.min(width-1, Math.round(ix)));
+    const gy = Math.max(0, Math.min(height-1, Math.round(iy)));
+    if (!terrain[gy][gx]) terrain[gy][gx] = selectedId; else props[gy][gx] = selectedId;
+    render();
+  });
+
+  document.getElementById('mapW').onchange = (e)=>{ width = parseInt(e.target.value,10); resize(); };
+  document.getElementById('mapH').onchange = (e)=>{ height = parseInt(e.target.value,10); resize(); };
+
+  function resize(){
+    terrain.length = height; for (let y=0; y<height; y++){ if (!terrain[y]) terrain[y] = Array.from({length: width}, ()=> null); terrain[y].length = width; }
+    props.length = height; for (let y=0; y<height; y++){ if (!props[y]) props[y] = Array.from({length: width}, ()=> null); props[y].length = width; }
+    render();
+  }
+
+  document.getElementById('btnClear').onclick = ()=>{ for (let y=0;y<height;y++){ for (let x=0;x<width;x++){ terrain[y][x]=null; props[y][x]=null; } } render(); };
+
+  document.getElementById('btnExport').onclick = ()=>{
+    const spawn = { x: parseInt(document.getElementById('spawnX').value,10), y: parseInt(document.getElementById('spawnY').value,10) };
+    const qTile = document.getElementById('questTile').value;
+    const qAction = document.getElementById('questAction').value;
+    const questTemplate = document.getElementById('questTemplate').value;
+    const questId = document.getElementById('questId').value || 'quest_1';
+    const npcId = document.getElementById('npcId').value.trim();
+    const npcDialogue = document.getElementById('npcDialogue').value.trim();
+    const npcPathStr = document.getElementById('npcPath').value.trim();
+    const npcPath = npcPathStr? npcPathStr.split(',').map(s=>s.trim()) : [];
+    const propGltf = document.getElementById('propGltf').value.trim();
+    const propPos = document.getElementById('propPos').value.trim().split(',').map(Number);
+    const propScale = parseFloat(document.getElementById('propScale').value);
+
+    const payload = {
+      version: 2,
+      zone: 'custom_zone',
+      size: { width, height, tile: { w: tileW, h: tileH } },
+      layers: { terrain: { map: terrain }, props: { map: props }, npcs: { map: [] } },
+      props3d: propGltf? [ { id: 'p1', gltf: propGltf, pos: { x: propPos[0]||0, y: propPos[1]||0, z: propPos[2]||0 }, scale: isFinite(propScale)? propScale : 1.0 } ] : [],
+      orchestration: {
+        spawn,
+        quests: qTile ? [ { trigger: 'step_on', tile: qTile, action: qAction, id: questId, template: questTemplate } ] : [],
+        paths: npcPath.length? [ { npc: npcId||'npc_1', waypoints: npcPath.map(s=>{ const [x,y]=s.split('x').map(Number); return { x, y }; }) } ] : [],
+        npcs: npcId? [ { id: npcId, path: npcPath, dialogue: npcDialogue } ] : [],
+        lore: qAction === 'show_lore' ? [ { tile: qTile, overlay: 'LoreModal' } ] : []
+      }
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'zone_map.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  // Test Mode
+  document.getElementById('btnTest').onclick = ()=>{
+    const logs = [];
+    function emit(ev, data){ logs.push({ t: Date.now(), ev, data }); window.__mbLog(`${ev}: ${JSON.stringify(data)}`); }
+    // Simulate a step_on quest trigger on selected quest tile if present
+    const qTile = document.getElementById('questTile').value;
+    if (qTile){ emit('trigger.step_on', { tile: qTile }); }
+    // Simulate NPC path advance
+    const npcPathStr = document.getElementById('npcPath').value.trim();
+    if (npcPathStr){ emit('npc.advance', { id: document.getElementById('npcId').value.trim(), next: npcPathStr.split(',')[0] }); }
+    // Simulate lore show
+    const qAction = document.getElementById('questAction').value;
+    if (qAction==='show_lore'){ emit('overlay.show', { id: 'LoreModal' }); }
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>

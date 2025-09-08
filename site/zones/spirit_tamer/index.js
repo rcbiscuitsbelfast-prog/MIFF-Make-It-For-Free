@@ -37,7 +37,7 @@ function fitCanvas(cvs){
 }
 
 function bindInputs(){
-	$('btn_back')?.addEventListener('click', ()=>{ try{ audio.music?.pause(); }catch{} location.href='../../index.html'; });
+	// removed [Back] button binding; use routing/orchestration overlays instead
 	window.addEventListener('keydown', (e)=>{
 		if (e.key === 'Enter' && model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} }
 		if (e.key === ' ') onBeat();
@@ -46,10 +46,10 @@ function bindInputs(){
 	});
 	const cvs = model.cvs;
 	cvs.addEventListener('click', ()=>{ if (model.state === State.Idle){ model.state = State.Playing; try{ audio.music?.play(); }catch{} } else onBeat(); });
-	ensureMobileTap();
+	// removed ensureMobileTap()
 }
 
-function ensureMobileTap(){ if (window.innerWidth<=768 && !$('tapHint')){ const h=document.createElement('div'); h.id='tapHint'; h.textContent='[Tap for beats]'; h.style.position='absolute'; h.style.bottom='8px'; h.style.right='8px'; h.className='btn'; h.style.opacity='0.85'; h.onclick=()=>onBeat(); $('gameContainer').appendChild(h); } }
+function ensureMobileTap(){ /* removed legacy tap hint in favor of PlayHUD hints */ }
 
 // Expanded dialogue tree with evolution
 const Dialogue = {
