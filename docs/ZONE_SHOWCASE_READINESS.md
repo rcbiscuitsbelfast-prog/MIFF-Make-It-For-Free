@@ -94,3 +94,11 @@ Enhancements:
 - Preload HUD shows loading progress and fades into scene.
 - Character variant selector in Intro (Adventurer/Mage/Rogue/Knight) with remix-safe assets.
 - Screenshots: `tests/showcase_grove_input_mode.png`, `tests/showcase_grove_preload_hud.png`, `tests/showcase_grove_variant_selector.png`.
+
+Grove immersion upgrade:
+- Parallax background and tile elevation cues implemented.
+- Chest interaction (herb pickup) and campfire ambient glow added.
+- NPC near campfire triggers Lore overlay with serif/fade styling.
+- Draggable joystick for touch/mouse; HUD shows "Touch (Joystick)" when active.
+- Remix button added in GameOverModal.
+- Screenshots: `tests/showcase_grove_joystick.png`, `tests/showcase_grove_interaction.png`, `tests/showcase_grove_npc_dialogue.png`, `tests/showcase_grove_scene_depth.png`, `tests/showcase_grove_remix_ui.png`.
