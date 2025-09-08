@@ -16,6 +16,48 @@ html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-fami
 .zone-card a{ display:inline-block; margin-top:8px; color:var(--accent); text-decoration:none }
 .zone-card a:hover{ text-decoration:underline }
 
+.card-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+	flex-wrap: wrap;
+}
+
+.btn-primary {
+	display: inline-block;
+	padding: 8px 16px;
+	background: #1f6feb;
+	color: white;
+	text-decoration: none;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+	background: #388bfd;
+	transform: translateY(-1px);
+}
+
+.btn-secondary {
+	display: inline-block;
+	padding: 8px 16px;
+	background: #21262d;
+	color: #e6edf3;
+	text-decoration: none;
+	border: 1px solid #30363d;
+	border-radius: 6px;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+	background: #30363d;
+	border-color: #58a6ff;
+}
+
 /* Zone Router Styles */
 .splash-screen {
 	display: flex;

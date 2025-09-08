@@ -324,9 +324,9 @@ function renderTiles(){
       ctx.fillRect(pos.x + 4, pos.y - (tileH/2) + 4, tileW - 8, 6);
       ctx.globalAlpha = 1;
       
-      // Tile
+      // Tile - properly scaled
       if (tile?.img && tile.img.complete){
-        ctx.drawImage(tile.img, pos.x, pos.y - (tileH/2));
+        ctx.drawImage(tile.img, pos.x, pos.y - (tileH/2), tileW, tileH);
       }
     }
   }
@@ -478,6 +478,13 @@ window.__miffToggleFullscreen = () => {
 // Window resize handler
 window.addEventListener('resize', () => {
   resizeCanvas();
+});
+
+// Fullscreen change handler
+document.addEventListener('fullscreenchange', () => {
+  setTimeout(() => {
+    resizeCanvas();
+  }, 100);
 });
 
 // Initialization

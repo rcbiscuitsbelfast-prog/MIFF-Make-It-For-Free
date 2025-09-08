@@ -87,6 +87,7 @@ Screenshots:
 - ✅ Unified overlay styling and dispatcher implemented across all zones.
 - ✅ Onboarding overlays and shared attribution footer added to all zones.
 - ✅ Remix starter packs and gallery submission flow integrated in overlays.
+- ✅ Website layout refactored to dedicated full-page routes for each zone.
 - ✅ All zones ready for contributor showcase and remix sprint.
 
 Reset status:
