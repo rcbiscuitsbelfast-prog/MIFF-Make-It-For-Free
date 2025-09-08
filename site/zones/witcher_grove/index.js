@@ -1,4 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+import { addAttributionFooter } from '../../overlays/footer.js';
 import { preloadAll, onAssetsReady, getSprite, getTile, getUIComponent, getProgress } from './assets.js';
 
 function $(id){ return document.getElementById(id); }
@@ -465,6 +466,7 @@ async function init(){
   
   // Initialize UI
   UI = createOverlayDispatcher($('gameContainer'));
+  addAttributionFooter();
   UI.showHUD({ loadingText: 'Loading… 0%' });
   
   // Preload assets

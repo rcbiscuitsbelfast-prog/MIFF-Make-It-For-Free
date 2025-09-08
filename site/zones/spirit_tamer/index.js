@@ -1,4 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+import { addAttributionFooter } from '../../overlays/footer.js';
 
 function $(id){ return document.getElementById(id); }
 
@@ -65,21 +66,45 @@ function ensureJoystick(){
 function bindInputs(){
 	// legacy back removed
 	window.addEventListener('keydown', (e)=>{
-		if (e.key === 'Enter' && model.state === State.Idle){ hideOverlay('introOverlay'); model.state = State.Playing; try{ audio.music?.play(); }catch{} }
+		if (e.key === 'Enter' && model.state === State.Idle){ 
+			if (UI) UI.hide('intro');
+			model.state = State.Playing; 
+			try{ audio.music?.play(); }catch{} 
+		}
 		if (e.key === ' ') onBeat();
 		if (e.key.toLowerCase() === 'd') openDialogue();
 		if (e.key.toLowerCase() === 'm'){ audio.muted = !audio.muted; try{ audio.music && (audio.music.muted = audio.muted); }catch{} }
 	});
 	const cvs = model.cvs;
-	cvs.addEventListener('click', ()=>{ if (model.state === State.Idle){ hideOverlay('introOverlay'); model.state = State.Playing; try{ audio.music?.play(); }catch{} } else onBeat(); });
+	cvs.addEventListener('click', ()=>{ 
+		if (model.state === State.Idle){ 
+			if (UI) UI.hide('intro');
+			model.state = State.Playing; 
+			try{ audio.music?.play(); }catch{} 
+		} else onBeat(); 
+	});
 }
 
-// Overlay helpers
-function ensureOverlay(id){ if ($(id)) return $(id); const d=document.createElement('div'); d.id=id; d.style.position='absolute'; d.style.left='50%'; d.style.top='50%'; d.style.transform='translate(-50%,-50%)'; d.style.background='rgba(0,0,0,0.7)'; d.style.padding='16px'; d.style.borderRadius='8px'; d.style.zIndex='10'; d.style.color='#d0d7de'; d.style.maxWidth='80%'; $('gameContainer').appendChild(d); return d; }
-function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
+// Legacy overlay functions removed - using dispatcher instead
 
-function showIntro(){ const o=ensureOverlay('introOverlay'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent= ORCH?.title || 'Spirit Tamer'; const p=document.createElement('p'); p.textContent='Enter or click to start. Space for beats. D for dialogue. M mute.'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Start'; btn.onclick=()=>{ hideOverlay('introOverlay'); model.state=State.Playing; try{ audio.music?.play(); }catch{} }; o.appendChild(h); o.appendChild(p); o.appendChild(btn); }
-function showGameOver(){ UI && UI.showGameOver({ onRestart: ()=>{ model.progress=0; model.hits=0; model.state=State.Idle; UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); } }); }
+// showIntro function removed - using dispatcher UI.showIntro instead
+function showGameOver(){ 
+    UI && UI.showGameOver({ 
+        title: 'Spirit Tamed!',
+        message: 'The spirit has accepted your bond. Ready to remix this experience?',
+        onRestart: ()=>{ 
+            model.progress=0; 
+            model.hits=0; 
+            model.state=State.Idle; 
+            UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); 
+        },
+        links: [
+            { label: 'Map Builder', href: '../../map-builder.html' },
+            { label: 'Remix Packs', href: '../../contrib/remix-packs/README.md' },
+            { label: 'Contributor Guide', href: '../../docs/MAP_BUILDER_ONBOARDING.md' }
+        ]
+    }); 
+}
 function showLoreModal(){ UI && UI.showLore({ title:'Grove Lore', text:'These isles were shaped by old songs. Some stones still hum.' }); }
 
 // Dialogue tree (sample remains)
@@ -94,16 +119,43 @@ function openDialogue(){ model.state = State.Dialogue; showDialogueNode('intro')
 
 function showDialogueNode(id){
 	const node = Dialogue[id]; if (!node) return;
-	ensureOverlay();
-	const overlay = $('dialogueOverlay'); overlay.innerHTML = '';
-	const p = document.createElement('p'); p.textContent = node.line; overlay.appendChild(p);
+	
+	// Use dispatcher for dialogue overlay
+	if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+	
+	let dialogueText = node.line;
 	if (node.choices){
-		node.choices.forEach(ch=>{ const btn = document.createElement('button'); btn.className='btn'; btn.textContent = `${ch.key}) ${ch.text}`; btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} if (Dialogue[ch.next]?.effect) Dialogue[ch.next].effect(); showDialogueNode(ch.next); }; overlay.appendChild(btn); });
-	} else if (node.end){ const btn = document.createElement('button'); btn.className='btn'; btn.textContent = 'Continue'; btn.onclick = ()=>{ try{ audio.sfxUI?.play(); }catch{} closeDialogue(); model.state = State.Playing; startReplay(); }; overlay.appendChild(btn); }
+		dialogueText += '\n\n';
+		node.choices.forEach(ch => {
+			dialogueText += `${ch.key}) ${ch.text}\n`;
+		});
+	}
+	
+	UI.showLore({
+		title: 'Spirit Dialogue',
+		text: dialogueText
+	});
+	
+	// Handle choices via keyboard
+	if (node.choices){
+		const choiceHandler = (e) => {
+			const choice = node.choices.find(ch => ch.key.toLowerCase() === e.key.toLowerCase());
+			if (choice){
+				window.removeEventListener('keydown', choiceHandler);
+				try{ audio.sfxUI?.play(); }catch{}
+				if (Dialogue[choice.next]?.effect) Dialogue[choice.next].effect();
+				showDialogueNode(choice.next);
+			}
+		};
+		window.addEventListener('keydown', choiceHandler);
+	} else if (node.end){
+		// Auto-close after showing
+		setTimeout(() => {
+			model.state = State.Playing;
+			startReplay();
+		}, 2000);
+	}
 }
-
-function ensureOverlay(){ if ($('dialogueOverlay')) return; const div=document.createElement('div'); div.id='dialogueOverlay'; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.maxWidth='80%'; $('gameContainer').appendChild(div); }
-function closeDialogue(){ const d=$('dialogueOverlay'); if(d) d.remove(); }
 
 let beatTimer = null;
 function startReplay(){ const base = ORCH?.triggers?.onBeat?.intervalMs ?? 500; const interval = model.choice === 'challenge' ? Math.max(250, base-150) : base; if (beatTimer) clearInterval(beatTimer); beatTimer = setInterval(()=>{ if (model.state === State.Playing) onBeat(); }, interval); }
@@ -119,8 +171,18 @@ function renderUI(){ const { ctx, cvs } = model; const total = 6; const ratio = 
 
 function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle = '#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); for (let i=0;i<model.props.length;i++){ const pr=model.props[i]; if (pr.img) ctx.drawImage(pr.img, model.npc.x+pr.dx, model.npc.y+pr.dy, 32, 32); } model.anim.t += 0.016; const phase = model.anim.t % 1; const eased = easeInOutSine(phase); const baseR = 40 + model.progress*3; const pulseR = baseR + 8*eased; ctx.save(); ctx.shadowBlur = 16 + eased*16; ctx.shadowColor = '#58a6ff'; if (model.sprite){ ctx.drawImage(model.sprite, model.npc.x-24, model.npc.y-24, 48, 48); } else { ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(model.npc.x, model.npc.y, pulseR, 0, Math.PI*2); ctx.fill(); } ctx.restore(); if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; } ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20); ctx.fillText('Space/click for beats. Enter to start. D dialogue. M mute.', 10, 40); renderUI(); }
 
-function loop(){ render(); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6` }); requestAnimationFrame(loop); }
+function loop(){ render(); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); startReplay(); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); startReplay(); requestAnimationFrame(loop); }
+
+// Fullscreen support
+window.__miffToggleFullscreen = () => {
+    const el = document.documentElement;
+    if (!document.fullscreenElement){
+        el.requestFullscreen?.();
+    } else {
+        document.exitFullscreen?.();
+    }
+};
 
 window.addEventListener('DOMContentLoaded', init);

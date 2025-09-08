@@ -125,3 +125,9 @@ Grove renderer reset:
 - Joystick system rebuilt: Complete rewrite using getUIComponent with clean CSS positioning (80px left, 80px bottom, 96px base, 48px knob); responsive and non-overlapping.
 - Fullscreen canvas rebuilt: Proper canvas resize system with window resize handler; overlays and joystick reposition correctly.
 - Screenshots: `tests/showcase_grove_sprite_fixed.png`, `tests/showcase_grove_joystick_rebuilt.png`, `tests/showcase_grove_fullscreen_responsive.png`.
+
+Zone realignment complete:
+- Toppler dispatcher integration: Unified overlay system with dispatcher, fullscreen toggle, and onboarding links in GameOver modal.
+- Spirit Tamer overlay styles: Unified styling applied, legacy overlay functions removed, dialogue system uses dispatcher.
+- Attribution footer: Shared footer component added across all zones with KayKit/CC0 attribution and contributor links.
+- Screenshots: `tests/showcase_toppler_dispatcher.png`, `tests/showcase_spirit_overlay_styles.png`, `tests/showcase_grove_attribution_footer.png`.

@@ -66,9 +66,23 @@ export function createOverlayDispatcher(rootEl) {
     const row = el('div','');
     const restart = el('button','miff-btn','Restart');
     restart.onclick = ()=>{ hide('gameover'); opts?.onRestart && opts.onRestart(); };
-    const remix = el('a','miff-btn secondary','Remix Packs');
-    remix.href='../../contrib/remix-packs/README.md';
-    row.appendChild(restart); row.appendChild(remix);
+    row.appendChild(restart);
+    
+    // Add custom links if provided
+    if (opts?.links && Array.isArray(opts.links)){
+      opts.links.forEach(link => {
+        const linkEl = el('a','miff-btn secondary', link.label);
+        linkEl.href = link.href;
+        linkEl.target = '_blank';
+        row.appendChild(linkEl);
+      });
+    } else {
+      // Default remix link
+      const remix = el('a','miff-btn secondary','Remix Packs');
+      remix.href='../../contrib/remix-packs/README.md';
+      row.appendChild(remix);
+    }
+    
     box.appendChild(row);
     state.nodes.gameover = attach(box);
   }

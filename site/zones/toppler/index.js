@@ -1,5 +1,6 @@
 // Toppler – minimal interactive scaffold with physics, levels, and replay
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+import { addAttributionFooter } from '../../overlays/footer.js';
 
 function $(id){ return document.getElementById(id); }
 
@@ -47,8 +48,7 @@ function fitCanvas(cvs) { const container = document.getElementById('gameContain
 function setState(next){ game.state = next; }
 function startReplay(){ /* reserved for timed triggers in future */ }
 
-function ensureOverlay(id){ if ($(id)) return $(id); const div=document.createElement('div'); div.id=id; div.style.position='absolute'; div.style.left='50%'; div.style.top='50%'; div.style.transform='translate(-50%,-50%)'; div.style.background='rgba(0,0,0,0.7)'; div.style.padding='16px'; div.style.borderRadius='8px'; div.style.zIndex='10'; div.style.color='#d0d7de'; $('gameContainer').appendChild(div); return div; }
-function hideOverlay(id){ const d=$(id); if (d) d.remove(); }
+// Legacy overlay functions removed - using dispatcher instead
 
 function ensureLevelSelector(){ /* removed legacy level selector in favor of orchestration-driven overlays */ }
 
@@ -93,24 +93,34 @@ function ensureStartMenu(){
 }
 
 function showLoreModal(){
-    const m = ensureOverlay('loreModal');
-    m.innerHTML = '';
-    const html = `
-    <div style="max-width:520px;text-align:left">
-      <h2 style="margin:0 0 8px 0">The Hollow Isles</h2>
-      <p>Long ago, the Bone King cursed these lands. Only the brave may cross the crumbling paths and reclaim the lost relics.</p>
-      <p><em>Tip:</em> Chests hold secrets. Skeletons guard them fiercely.</p>
-      <p><small>Assets: KayKit, CC0. Framework: MIFF.</small></p>
-      <div style="margin-top:10px">
-        <button class="btn" id="closeLore">Close</button>
-      </div>
-    </div>`;
-    m.insertAdjacentHTML('beforeend', html);
-    const c = document.getElementById('closeLore');
-    if (c) c.onclick = ()=> hideOverlay('loreModal');
+    if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+    UI.showLore({
+        title: 'The Hollow Isles',
+        text: 'Long ago, the Bone King cursed these lands. Only the brave may cross the crumbling paths and reclaim the lost relics.\n\nTip: Chests hold secrets. Skeletons guard them fiercely.\n\nAssets: KayKit, CC0. Framework: MIFF.'
+    });
 }
 
-function togglePause(){ if (game.state===State.Paused){ setState(State.Playing); hideOverlay('pauseOverlay'); } else if (game.state===State.Playing){ setState(State.Paused); const o=ensureOverlay('pauseOverlay'); o.innerHTML=''; const h=document.createElement('h3'); h.textContent='Paused'; o.appendChild(h); const row=document.createElement('div'); const r1=document.createElement('button'); r1.className='btn'; r1.textContent='Resume'; r1.onclick=()=>{ togglePause(); }; const r2=document.createElement('button'); r2.className='btn btn-secondary'; r2.textContent='Restart'; r2.onclick=()=>{ applyLevel(game.levelIndex); setState(State.Idle); hideOverlay('pauseOverlay'); }; row.appendChild(r1); row.appendChild(r2); o.appendChild(row); } }
+function togglePause(){ 
+    if (game.state === State.Paused){
+        setState(State.Playing);
+        if (UI) UI.hide('pause');
+    } else if (game.state === State.Playing){
+        setState(State.Paused);
+        if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+        // Create a simple pause overlay using dispatcher
+        const pauseDiv = document.createElement('div');
+        pauseDiv.id = 'miffPause';
+        pauseDiv.className = 'miff-overlay miff-tile-bg miff-fade-in';
+        pauseDiv.innerHTML = `
+            <h3>Paused</h3>
+            <div>
+                <button class="miff-btn" onclick="window.togglePause()">Resume</button>
+                <button class="miff-btn secondary" onclick="window.restartLevel()">Restart</button>
+            </div>
+        `;
+        $('gameContainer').appendChild(pauseDiv);
+    } 
+}
 
 function onGround(){ return game.player.y + game.player.h >= 480 - 20; }
 
@@ -134,13 +144,47 @@ function ensureSpawns(){
 
 function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
 
-function gameOver(){ try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }catch{} setState(State.Paused); if (!UI) UI = createOverlayDispatcher($('gameContainer')); UI.showGameOver({ onRestart: ()=>{ applyLevel(game.levelIndex); setState(State.Idle); ensureStartMenu(); } }); }
+function gameOver(){ 
+    try{ game.audio.sfx.curse && game.audio.sfx.curse.play(); }catch{} 
+    setState(State.Paused); 
+    if (!UI) UI = createOverlayDispatcher($('gameContainer')); 
+    UI.showGameOver({ 
+        title: 'Game Over',
+        message: 'The Hollow Isles have claimed another soul. Ready to remix the challenge?',
+        onRestart: ()=>{ 
+            applyLevel(game.levelIndex); 
+            setState(State.Idle); 
+            ensureStartMenu(); 
+        },
+        links: [
+            { label: 'Map Builder', href: '../../map-builder.html' },
+            { label: 'Remix Packs', href: '../../contrib/remix-packs/README.md' },
+            { label: 'Contributor Guide', href: '../../docs/TOPPLER_CONTRIBUTING.md' }
+        ]
+    }); 
+}
 
 function update(dt){ if (game.state === State.Playing){ const L = ORCH?.levels?.[game.levelIndex] || { gravity: 900, width: 640, height: 480 }; const diff = getDifficulty(); const grav = diff.g || L.gravity; game.player.vy += grav * dt; game.player.x += (game.player.vx + (joy.active? joy.dx*180:0)) * dt; game.player.y += game.player.vy * dt; const floorY = L.height - 20 - game.player.h; if (game.player.y > floorY){ game.player.y = floorY; game.player.vy = 0; } if (game.player.x < 0) game.player.x = 0; if (game.player.x + game.player.w > L.width) game.player.x = L.width - game.player.w; game.trail.push({ x: game.player.x + game.player.w/2, y: game.player.y + game.player.h/2, t: performance.now() }); if (game.trail.length > 30) game.trail.shift(); ensureSpawns(); // Enemies move
     const es = diff.enemy; for (const e of game.enemies){ e.x += e.dir * es * dt; if (e.x < 40){ e.x=40; e.dir=1; } if (e.x + e.w > L.width-40){ e.x = L.width-40 - e.w; e.dir=-1; } if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, e)){ gameOver(); } }
     // Chests collect
     for (let i=game.chests.length-1;i>=0;i--){ const c=game.chests[i]; if (rectsOverlap({x:game.player.x,y:game.player.y,w:game.player.w,h:game.player.h}, c)){ game.score += 10; game.chests.splice(i,1); FX.push({ t:0, x:c.x+c.w/2, y:c.y+c.h/2 }); const now=performance.now(); if (now-lastSfx.collect>150){ try{ game.audio.sfx.collect && game.audio.sfx.collect.play(); }catch{} lastSfx.collect=now; } } }
-    if (game.player.x + game.player.w >= game.goalX){ setState(State.Completed); const s=$('status'); if(s) s.textContent='Completed! 🎉'; const w=ensureOverlay('winOverlay'); w.innerHTML=''; const h=document.createElement('h3'); h.textContent='Level Complete!'; const btn=document.createElement('button'); btn.className='btn'; btn.textContent='Next Level'; btn.onclick=()=>{ hideOverlay('winOverlay'); const next=(game.levelIndex+1)% (ORCH?.levels?.length||1); applyLevel(next); setState(State.Idle); const sel=$('levelSelector'); if (sel) sel.value=String(next); }; w.appendChild(h); w.appendChild(btn); persist(); } } }
+    if (game.player.x + game.player.w >= game.goalX){ 
+        setState(State.Completed); 
+        const s=$('status'); 
+        if(s) s.textContent='Completed! 🎉'; 
+        if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+        UI.showGameOver({
+            title: 'Level Complete!',
+            message: 'Well done! Ready for the next challenge?',
+            onRestart: () => {
+                const next = (game.levelIndex + 1) % (ORCH?.levels?.length || 1);
+                applyLevel(next);
+                setState(State.Idle);
+                ensureStartMenu();
+            }
+        });
+        persist(); 
+    } } }
 
 function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); // Tiles
     if (SPRITES.cliff){ for (let x=0; x<cvs.width; x+=32){ ctx.drawImage(SPRITES.cliff, x, cvs.height-32, 32, 32); } }
@@ -157,7 +201,7 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
 }
 
-function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); UI && UI.showHUD({ inputMode: game.inputMode }); requestAnimationFrame(loop); }
+function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
@@ -166,6 +210,26 @@ async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textC
     try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
     try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
     try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
-    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer')); ensureStartMenu(); ensureJoystick(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer')); addAttributionFooter(); ensureStartMenu(); ensureJoystick(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+
+// Global functions for pause overlay
+window.togglePause = togglePause;
+window.restartLevel = () => {
+    applyLevel(game.levelIndex);
+    setState(State.Idle);
+    const pauseEl = $('miffPause');
+    if (pauseEl) pauseEl.remove();
+    ensureStartMenu();
+};
+
+// Fullscreen support
+window.__miffToggleFullscreen = () => {
+    const el = document.documentElement;
+    if (!document.fullscreenElement){
+        el.requestFullscreen?.();
+    } else {
+        document.exitFullscreen?.();
+    }
+};
 
 window.addEventListener('DOMContentLoaded', init);
