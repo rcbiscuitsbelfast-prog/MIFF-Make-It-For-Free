@@ -70,3 +70,19 @@ Remix safety:
 - Styles are applied inline to mounted module roots only
 - Defaults remain remix-safe; zones can override without affecting others
 
+
+### Live Style Switching with StyleSelector
+
+Use the built-in `StyleSelector` module to switch presets at runtime and re-render all mounted modules:
+```js
+import { StyleSelector } from 'site/ui_modules/index.js'
+import { UI_STYLES } from 'site/ui_modules/style_presets.js'
+
+// Open selector in a modal (e.g., on 'S' key)
+UI.showLore({ title: 'Style Selector' })
+UI.useModule('LoreModal', StyleSelector, { initial: 'default' })
+
+// Persisted selection is stored under localStorage key `miff_ui_style`
+// Dispatcher will re-mount modules when setDefaultStyle is called internally by StyleSelector
+```
+

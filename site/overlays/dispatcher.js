@@ -7,7 +7,7 @@ export function createOverlayDispatcher(rootEl) {
   function attach(node){ rootEl.appendChild(node); return node; }
   function ensureUIStyles(){ if (document.getElementById('miff-ui-styles')) return; const link=document.createElement('link'); link.id='miff-ui-styles'; link.rel='stylesheet'; link.href='../../ui_modules/style.css'; document.head.appendChild(link); }
   function applyStyle(node, style){ if (!node || !style) return; node.style.fontFamily = style.fontFamily || node.style.fontFamily; node.style.fontSize = style.fontSize || node.style.fontSize; node.style.color = style.color || node.style.color; node.style.background = style.background || node.style.background; node.style.borderRadius = style.borderRadius || node.style.borderRadius; node.style.padding = style.padding || node.style.padding; }
-  function mountInto(container, mod, opts){ try { ensureUIStyles(); const ctx = mod.init?.(opts||{}); const node = mod.render?.(ctx, opts?.style || state.style); if (node){ node.classList?.add('miff-ui-mounted'); applyStyle(node, opts?.style || state.style); container.appendChild(node); } return { ctx, mod, node, opts }; } catch (e){ console.error('[Dispatcher] Failed to mount UI module:', e); return null; } }
+  function mountInto(container, mod, opts){ try { ensureUIStyles(); const enhancedOpts = { ...(opts||{}), _ui: { setDefaultStyle, useModule, updateModule } }; const ctx = mod.init?.(enhancedOpts); const node = mod.render?.(ctx, enhancedOpts?.style || state.style); if (node){ node.classList?.add('miff-ui-mounted'); applyStyle(node, enhancedOpts?.style || state.style); container.appendChild(node); } return { ctx, mod, node, opts: enhancedOpts }; } catch (e){ console.error('[Dispatcher] Failed to mount UI module:', e); return null; } }
   function unmountModule(target){ const m = state.modules[target]; if (!m) return; try { m.mod.destroy?.(m.ctx); } catch {} if (m.node?.remove) m.node.remove(); delete state.modules[target]; }
   function containerFor(target){ if (target==='IntroModal') return document.getElementById('miffIntro'); if (target==='LoreModal') return document.getElementById('miffLore'); if (target==='GameOverModal') return document.getElementById('miffGameOver'); if (target==='HUD') return rootEl; return null; }
   function useModule(target, mod, opts){
@@ -21,8 +21,9 @@ export function createOverlayDispatcher(rootEl) {
   }
   function updateModule(target, data){ const m = state.modules[target]; if (!m) return; try { if (data && data.style && m.node) applyStyle(m.node, data.style); m.mod.update?.(m.ctx, data); } catch(e){ console.warn('[Dispatcher] update failed:', e); } }
   function setInputMode(mode){ state.inputMode = mode; updateModule('HUD', { inputMode: mode }); }
-  function setDefaultStyle(style){ state.style = style || state.style; // re-apply to mounted nodes
-    Object.keys(state.modules).forEach(key => { const m = state.modules[key]; if (m?.node) applyStyle(m.node, state.style); }); }
+  function setDefaultStyle(style){ state.style = style || state.style; // re-render all modules to apply new style thoroughly
+    Object.keys(state.modules).forEach(key => { const m = state.modules[key]; if (!m) return; const target = key; const container = containerFor(target) || rootEl; try { const prev = state.modules[target]; if (prev){ try{ prev.mod.destroy?.(prev.ctx); }catch{} if (prev.node?.remove) prev.node.remove(); }
+      const remounted = mountInto(container, m.mod, { ...(m.opts||{}), style: state.style }); state.modules[target] = remounted; } catch(e){ console.warn('[Dispatcher] remount failed for', key, e); } }); }
 
   function showIntro(opts){
     if (state.nodes.intro) state.nodes.intro.remove();

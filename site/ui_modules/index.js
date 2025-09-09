@@ -7,8 +7,9 @@ import * as InventoryGrid from './InventoryGrid.js';
 import * as DialogueBox from './DialogueBox.js';
 import * as HUDBar from './HUDBar.js';
 import * as PauseMenu from './PauseMenu.js';
+import * as StyleSelector from './StyleSelector.js';
 
-export { MainMenu, QuestLog, InventoryGrid, DialogueBox, HUDBar, PauseMenu };
+export { MainMenu, QuestLog, InventoryGrid, DialogueBox, HUDBar, PauseMenu, StyleSelector };
 
 export const UIModules = {
   MainMenu,
@@ -16,7 +17,8 @@ export const UIModules = {
   InventoryGrid,
   DialogueBox,
   HUDBar,
-  PauseMenu
+  PauseMenu,
+  StyleSelector
 };
 
 export default UIModules;
