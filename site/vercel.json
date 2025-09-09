@@ -12,6 +12,7 @@
 		{ "src": "/onboarding.html", "dest": "site/onboarding.html" },
 		{ "src": "/zones/witcher_grove", "dest": "site/zones/witcher_grove/index.html" },
 		{ "src": "/zones/spirit_tamer", "dest": "site/zones/spirit_tamer/index.html" },
-		{ "src": "/zones/toppler", "dest": "site/zones/toppler/index.html" }
+		{ "src": "/zones/toppler", "dest": "site/zones/toppler/index.html" },
+		{ "src": "/map-builder", "dest": "site/map-builder.html" }
 	]
 }

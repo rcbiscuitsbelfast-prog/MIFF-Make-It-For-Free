@@ -44,6 +44,13 @@
             type: 'tool',
             remixSafe: true
         },
+        map_builder: {
+            title: '🧭 Map Builder',
+            description: 'Build a game, inside the game',
+            src: './map-builder.html',
+            type: 'tool',
+            remixSafe: true
+        },
         // Contributor tools (load from site directory)
         dashboard: {
             title: '📊 Contributor Dashboard',

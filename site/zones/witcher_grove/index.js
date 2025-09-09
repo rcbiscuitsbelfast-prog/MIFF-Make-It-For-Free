@@ -490,8 +490,25 @@ document.addEventListener('fullscreenchange', () => {
 
 // Initialization
 async function init(){
-  cvs = $('gameCanvas');
+  // Inject or select mainCanvas
+  let main = document.getElementById('mainCanvas');
+  if (!main) {
+    main = document.createElement('canvas');
+    main.id = 'mainCanvas';
+    main.style.position = 'absolute';
+    main.style.top = '0';
+    main.style.left = '0';
+    main.style.zIndex = '0';
+    main.style.display = 'block';
+    main.width = window.innerWidth;
+    main.height = window.innerHeight;
+    const container = $('gameContainer') || document.body;
+    container.insertBefore(main, container.firstChild || null);
+    console.log('Canvas injected');
+  }
+  cvs = main;
   ctx = cvs.getContext('2d');
+  console.log('Renderer initialized');
   
   // Initial canvas sizing
   resizeCanvas();
@@ -507,6 +524,7 @@ async function init(){
   
   // Wait for assets to load
   onAssetsReady(async () => {
+    console.log('Assets loaded');
     await loadGroveMap();
     await loadCharacter();
     bindInput();
@@ -517,6 +535,7 @@ async function init(){
       UI.useModule && UI.useModule('IntroModal', MainMenu, { title: 'Witcher Grove', onAction: (id)=>{ if (id==='start'){ UI.showHUD({ inputMode, fullscreenToggle: true }); UI.hide && UI.hide('intro'); } if (id==='credits'){ UI.showLore && UI.showLore({ title:'Credits', text:'MIFF • KayKit/CC0' }); } } });
     } catch {}
     
+    console.log('Draw loop started');
     requestAnimationFrame(gameLoop);
   });
   

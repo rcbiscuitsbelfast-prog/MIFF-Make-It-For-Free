@@ -204,21 +204,21 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; let main = document.getElementById('mainCanvas'); if (!main){ main = document.createElement('canvas'); main.id = 'mainCanvas'; main.style.position='absolute'; main.style.top='0'; main.style.left='0'; main.style.zIndex='0'; main.style.display='block'; main.width = window.innerWidth; main.height = window.innerHeight; const container=$('gameContainer')||document.body; container.insertBefore(main, container.firstChild||null); console.log('Canvas injected'); } const cvs = main; fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; console.log('Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
     try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
     try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}
     try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
     try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
     try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
-    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer')); 
     // Mount modular HUD and Main Menu
     try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: game.inputMode, info: 'Toppler' }); } catch {}
     addAttributionFooter();
     ensureStartMenu();
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
     try { if (UI.useModule) { UI.showIntro && UI.showIntro({ title: 'Toppler Medieval' }); UI.useModule('IntroModal', MainMenu, { title: 'Toppler Medieval', onAction: (id)=>{ if (id==='start'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if (id==='credits'){ showLoreModal(); } } }); } } catch {}
-    ensureJoystick(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+    ensureJoystick(); startReplay(); setState(State.Idle); console.log('Draw loop started'); requestAnimationFrame(loop); }
 
 // Global functions for pause overlay
 window.togglePause = togglePause;
