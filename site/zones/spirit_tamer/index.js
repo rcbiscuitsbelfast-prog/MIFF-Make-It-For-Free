@@ -1,4 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+import { HUDBar, MainMenu, DialogueBox } from '../../ui_modules/index.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
 
 function $(id){ return document.getElementById(id); }
@@ -173,7 +174,7 @@ function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.h
 
 function loop(){ render(); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); startReplay(); requestAnimationFrame(loop); }
+async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; const cvs = $('gameCanvas'); fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit' }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} startReplay(); requestAnimationFrame(loop); }
 
 // Fullscreen support
 window.__miffToggleFullscreen = () => {

@@ -69,6 +69,8 @@ Scope: `/grove`, `/toppler`, `/spirit` (site pages) and router-driven zone pages
 - Ensured ES module script tags on zone pages (`type="module"`) so imports work consistently.
 - Added local static server `scripts/static-serve.js` with `/assets/*` mapping for audit and dev.
 - Added `scripts/canvas-audit-runner.js` to verify canvas presence, UI overlays, and capture screenshots.
+- Added modular UI system under `site/ui_modules/` with `MainMenu`, `QuestLog`, `InventoryGrid`, `DialogueBox`, `HUDBar`, `PauseMenu` and integrated with dispatcher.
+- Added UI demo and screenshots.
 
 ### Conclusion
 

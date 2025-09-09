@@ -1,4 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+import { HUDBar, MainMenu } from '../../ui_modules/index.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
 import { preloadAll, onAssetsReady, getSprite, getTile, getUIComponent, getProgress } from './assets.js';
 
@@ -497,6 +498,7 @@ async function init(){
   
   // Initialize UI
   UI = createOverlayDispatcher($('gameContainer'));
+  try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode }); } catch {}
   addAttributionFooter();
   UI.showHUD({ loadingText: 'Loading… 0%' });
   
@@ -510,13 +512,10 @@ async function init(){
     bindInput();
     createJoystick();
     
-    UI.showIntro({ 
-      title: 'Witcher Grove', 
-      message: 'Use joystick or Arrow/WASD. Press C for Credits.', 
-      onStart: () => { 
-        UI.showHUD({ inputMode, fullscreenToggle: true }); 
-      } 
-    });
+    try {
+      UI.showIntro && UI.showIntro({ title: 'Witcher Grove', message: 'Use joystick or Arrow/WASD. Press C for Credits.' });
+      UI.useModule && UI.useModule('IntroModal', MainMenu, { title: 'Witcher Grove', onAction: (id)=>{ if (id==='start'){ UI.showHUD({ inputMode, fullscreenToggle: true }); UI.hide && UI.hide('intro'); } if (id==='credits'){ UI.showLore && UI.showLore({ title:'Credits', text:'MIFF • KayKit/CC0' }); } } });
+    } catch {}
     
     requestAnimationFrame(gameLoop);
   });
@@ -529,6 +528,7 @@ async function init(){
       inputMode, 
       fullscreenToggle: true 
     });
+    try { UI.updateModule && UI.updateModule('HUD', { inputMode, info: `Loading ${pct}%` }); } catch {}
     if (pct >= 100){
       clearInterval(preloadInterval);
     }

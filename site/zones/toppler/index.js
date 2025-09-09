@@ -1,5 +1,6 @@
 // Toppler – minimal interactive scaffold with physics, levels, and replay
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
+import { HUDBar, MainMenu } from '../../ui_modules/index.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
 
 function $(id){ return document.getElementById(id); }
@@ -210,7 +211,14 @@ async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textC
     try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
     try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
     try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
-    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer')); addAttributionFooter(); ensureStartMenu(); ensureJoystick(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
+    bindInputs(); if (!UI) UI = createOverlayDispatcher($('gameContainer'));
+    // Mount modular HUD and Main Menu
+    try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: game.inputMode, info: 'Toppler' }); } catch {}
+    addAttributionFooter();
+    ensureStartMenu();
+    // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
+    try { if (UI.useModule) { UI.showIntro && UI.showIntro({ title: 'Toppler Medieval' }); UI.useModule('IntroModal', MainMenu, { title: 'Toppler Medieval', onAction: (id)=>{ if (id==='start'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if (id==='credits'){ showLoreModal(); } } }); } } catch {}
+    ensureJoystick(); startReplay(); setState(State.Idle); requestAnimationFrame(loop); }
 
 // Global functions for pause overlay
 window.togglePause = togglePause;

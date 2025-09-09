@@ -45,7 +45,8 @@
     "audit:games": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/audit-games.ts",
     "serve:site": "node scripts/static-serve.js",
     "audit:canvas": "node scripts/canvas-audit-runner.js",
-    "verify:canvas": "node scripts/canvas-smoke-verify.js"
+    "verify:canvas": "node scripts/canvas-smoke-verify.js",
+    "ui:screenshots": "node scripts/ui-screenshots.js"
   },
   "repository": {
     "type": "git",
