@@ -1,6 +1,7 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
 import { HUDBar, MainMenu, StyleSelector } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
+import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
 import { preloadAll, onAssetsReady, getSprite, getTile, getUIComponent, getProgress } from './assets.js';
 
@@ -80,6 +81,7 @@ function bindInput(){
     const k = e.key.toLowerCase(); 
     keys[k] = true; 
     inputMode = 'Keyboard'; 
+    try { updateGameState({ inputMode }); } catch {}
     if (k === 'c'){ 
       UI && UI.showLore({ 
         title: 'Credits', 
@@ -94,13 +96,14 @@ function bindInput(){
   
   window.addEventListener('pointerdown', () => { 
     inputMode = 'Touch'; 
+    try { updateGameState({ inputMode }); } catch {}
   });
   
   // Gamepad detection
   setInterval(() => { 
     const pads = navigator.getGamepads ? 
       Array.from(navigator.getGamepads()).filter(Boolean) : []; 
-    if (pads.length) inputMode = 'Gamepad'; 
+    if (pads.length){ inputMode = 'Gamepad'; try { updateGameState({ inputMode }); } catch {} }
   }, 1000);
 }
 
@@ -513,6 +516,7 @@ async function init(){
   
   // Initial canvas sizing
   resizeCanvas();
+  updateGameState && updateGameState({ currentZone: 'grove' });
   
   // Initialize UI
   UI = createOverlayDispatcher($('gameContainer'));
@@ -532,6 +536,8 @@ async function init(){
     await loadCharacter();
     bindInput();
     createJoystick();
+    updateGameState && updateGameState({ progress: { value: 0, total: 6, label: '' } });
+    updateGameState && updateGameState({ activeQuest: { title: 'Explore the Grove', description: 'Find the elder near the campfire', status: 'In progress' } });
     
     try {
       UI.showIntro && UI.showIntro({ title: 'Witcher Grove', message: 'Use joystick or Arrow/WASD. Press C for Credits.' });

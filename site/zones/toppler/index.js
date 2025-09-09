@@ -2,6 +2,7 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
 import { HUDBar, MainMenu, StyleSelector } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
+import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
 
 function $(id){ return document.getElementById(id); }
@@ -217,6 +218,7 @@ async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textC
     UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.sciFi);
     // Mount modular HUD and Main Menu
     try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: game.inputMode, info: 'Toppler', style: UI_STYLES.sciFi }); } catch {}
+    updateGameState && updateGameState({ currentZone: 'toppler', progress: { value: 0, total: (ORCH?.levels?.length)||6, label: '' }, activeQuest: { title:'Reach the Goal', description: 'Cross the platforms to the glowing gate', status:'In progress' }, inputMode: game.inputMode });
     addAttributionFooter();
     ensureStartMenu();
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
