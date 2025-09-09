@@ -23,6 +23,22 @@ export const UI_STYLES = {
     borderRadius: '12px',
     padding: '16px'
   },
+  neobrutalism: {
+    fontFamily: 'Courier New, Courier, monospace',
+    fontSize: '20px',
+    color: '#ffcc00',
+    background: '#1a1a1a',
+    borderRadius: '0px',
+    padding: '10px'
+  },
+  terminal: {
+    fontFamily: 'Monaco, Consolas, monospace',
+    fontSize: '14px',
+    color: '#00ff00',
+    background: '#000000',
+    borderRadius: '4px',
+    padding: '8px'
+  },
   sciFi: {
     fontFamily: 'Orbitron, Trebuchet MS, sans-serif',
     fontSize: '15px',

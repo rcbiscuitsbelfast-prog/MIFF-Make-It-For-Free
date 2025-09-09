@@ -12,10 +12,10 @@ const shots = [
   { id: 'pause', btn: '#showPause', out: 'tests/ui_pause_menu.png' },
 ];
 const styleVariants = [
-  { key: 'default', out: 'tests/ui_style_default.png' },
-  { key: 'fantasy', out: 'tests/ui_style_fantasy.png' },
-  { key: 'sciFi', out: 'tests/ui_style_sciFi.png' },
-  { key: 'override', out: 'tests/ui_style_override_custom.png' }
+  { key: 'fantasy', out: 'tests/ui_style_selector_fantasy.png' },
+  { key: 'terminal', out: 'tests/ui_style_selector_terminal.png' },
+  { key: 'minimal', out: 'tests/ui_style_selector_minimal.png' },
+  { key: 'live', out: 'tests/ui_style_selector_live_switch.png' }
 ];
 
 async function ensureDir(d){ await fs.promises.mkdir(d, { recursive: true }); }
@@ -32,13 +32,14 @@ async function run(){
   }
   // Style preset captures using Main Menu as sample
   for (const v of styleVariants){
-    if (v.key === 'override'){
-      await page.evaluate(() => {
-        const custom = { fontFamily: 'Courier New', fontSize: '20px', color: '#ffcc00', background: '#1a1a1a', borderRadius: '6px', padding: '14px' };
-        window.__applyOverride = custom;
-      });
+    if (v.key === 'live'){
+      await page.select('#styleSel', 'fantasy');
       await page.click('#showMain');
-      await new Promise(r=>setTimeout(r, 300));
+      await new Promise(r=>setTimeout(r, 200));
+      await page.select('#styleSel', 'terminal');
+      await new Promise(r=>setTimeout(r, 200));
+      await page.select('#styleSel', 'minimal');
+      await new Promise(r=>setTimeout(r, 200));
       await page.screenshot({ path: v.out });
     } else {
       await page.select('#styleSel', v.key);

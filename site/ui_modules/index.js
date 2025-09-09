@@ -10,6 +10,7 @@ import * as PauseMenu from './PauseMenu.js';
 import * as StyleSelector from './StyleSelector.js';
 
 export { MainMenu, QuestLog, InventoryGrid, DialogueBox, HUDBar, PauseMenu, StyleSelector };
+export const { wrap: StyleWrap } = StyleSelector;
 
 export const UIModules = {
   MainMenu,
