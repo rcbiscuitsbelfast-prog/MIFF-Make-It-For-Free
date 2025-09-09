@@ -74,3 +74,16 @@ Scope: `/grove`, `/toppler`, `/spirit` (site pages) and router-driven zone pages
 
 All three pages load a visible canvas, initialize overlays and input, and start the render/update loop. Minor non-blocking 404s were observed for optional resources; no critical runtime errors detected.
 
+## Verification (Smoke Test)
+
+- Method: scripts/canvas-smoke-verify.js against http://127.0.0.1:8080
+- Results: PASS for Grove, Toppler, Spirit
+  - Canvas present and sized
+  - Draw loop detected via requestAnimationFrame counter (>5 frames)
+  - HUD and footer overlays visible
+  - Joystick interaction simulated
+- Screenshots:
+  - tests/verify_grove_canvas_ok.png
+  - tests/verify_toppler_canvas_ok.png
+  - tests/verify_spirit_canvas_ok.png
+

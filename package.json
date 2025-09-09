@@ -44,7 +44,8 @@
     "gen:manifests": "node miff/scripts/gen-manifests.js",
     "audit:games": "npx ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/audit-games.ts",
     "serve:site": "node scripts/static-serve.js",
-    "audit:canvas": "node scripts/canvas-audit-runner.js"
+    "audit:canvas": "node scripts/canvas-audit-runner.js",
+    "verify:canvas": "node scripts/canvas-smoke-verify.js"
   },
   "repository": {
     "type": "git",
