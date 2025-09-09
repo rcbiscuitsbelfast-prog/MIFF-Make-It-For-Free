@@ -1,9 +1,11 @@
 export function init(opts = {}){
-  return { state: { inputMode: opts.inputMode || 'Keyboard', info: opts.info || '' }, el: null };
+  return { state: { inputMode: opts.inputMode || 'Keyboard', info: opts.info || '' }, el: null, style: opts.style || null };
 }
 
-export function render(ctx){
+export function render(ctx, style){
   const root = document.createElement('div'); root.className='miff-ui hud';
+  const s = style || ctx.style || {};
+  if (s){ root.style.fontFamily = s.fontFamily||''; root.style.fontSize = s.fontSize||''; root.style.color = s.color||''; }
   const span = document.createElement('span'); span.textContent = `Input: ${ctx.state.inputMode}${ctx.state.info? ' | '+ctx.state.info : ''}`; root.appendChild(span);
   ctx.el = root; return root;
 }

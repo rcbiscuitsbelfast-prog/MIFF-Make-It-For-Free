@@ -41,3 +41,32 @@ Remix notes:
 - Keep module state isolated; no side effects outside created elements
 - Avoid absolute positioning; rely on container positioning
 
+
+### Style Presets and Overrides
+
+Import presets:
+```js
+import { UI_STYLES } from 'site/ui_modules/style_presets.js'
+const style = UI_STYLES.fantasy
+```
+
+Pass style into modules via dispatcher:
+```js
+UI.setDefaultStyle(UI_STYLES.default)
+UI.useModule('IntroModal', MainMenu, { title: 'Zone', style: UI_STYLES.fantasy })
+UI.useModule('HUD', HUDBar, { inputMode: 'Keyboard', style: UI_STYLES.sciFi })
+```
+
+Custom override example:
+```js
+const customStyle = {
+  fontFamily: 'Courier New', fontSize: '20px', color: '#ffcc00',
+  background: '#1a1a1a', borderRadius: '6px', padding: '14px'
+}
+UI.useModule('IntroModal', MainMenu, { title:'My Zone', style: customStyle })
+```
+
+Remix safety:
+- Styles are applied inline to mounted module roots only
+- Defaults remain remix-safe; zones can override without affecting others
+

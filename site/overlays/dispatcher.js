@@ -2,15 +2,15 @@
 // Consumes a minimal UI orchestration spec to show IntroModal, PlayHUD, GameOverModal, LoreModal
 
 export function createOverlayDispatcher(rootEl) {
-  const state = { nodes: {}, modules: {}, inputMode: 'Keyboard' };
+  const state = { nodes: {}, modules: {}, inputMode: 'Keyboard', style: null };
   function el(tag, className, html){ const e=document.createElement(tag); if (className) e.className=className; if (html) e.innerHTML=html; return e; }
   function attach(node){ rootEl.appendChild(node); return node; }
   function ensureUIStyles(){ if (document.getElementById('miff-ui-styles')) return; const link=document.createElement('link'); link.id='miff-ui-styles'; link.rel='stylesheet'; link.href='../../ui_modules/style.css'; document.head.appendChild(link); }
-  function mountInto(container, mod, opts){ try { ensureUIStyles(); const ctx = mod.init?.(opts||{}); const node = mod.render?.(ctx); if (node){ node.classList?.add('miff-ui-mounted'); container.appendChild(node); } return { ctx, mod, node }; } catch (e){ console.error('[Dispatcher] Failed to mount UI module:', e); return null; } }
+  function applyStyle(node, style){ if (!node || !style) return; node.style.fontFamily = style.fontFamily || node.style.fontFamily; node.style.fontSize = style.fontSize || node.style.fontSize; node.style.color = style.color || node.style.color; node.style.background = style.background || node.style.background; node.style.borderRadius = style.borderRadius || node.style.borderRadius; node.style.padding = style.padding || node.style.padding; }
+  function mountInto(container, mod, opts){ try { ensureUIStyles(); const ctx = mod.init?.(opts||{}); const node = mod.render?.(ctx, opts?.style || state.style); if (node){ node.classList?.add('miff-ui-mounted'); applyStyle(node, opts?.style || state.style); container.appendChild(node); } return { ctx, mod, node, opts }; } catch (e){ console.error('[Dispatcher] Failed to mount UI module:', e); return null; } }
   function unmountModule(target){ const m = state.modules[target]; if (!m) return; try { m.mod.destroy?.(m.ctx); } catch {} if (m.node?.remove) m.node.remove(); delete state.modules[target]; }
   function containerFor(target){ if (target==='IntroModal') return document.getElementById('miffIntro'); if (target==='LoreModal') return document.getElementById('miffLore'); if (target==='GameOverModal') return document.getElementById('miffGameOver'); if (target==='HUD') return rootEl; return null; }
   function useModule(target, mod, opts){
-    // Ensure overlay exists when targeting a modal
     if (target==='IntroModal' && !document.getElementById('miffIntro')) showIntro(opts && opts.introFallback || {});
     if (target==='LoreModal' && !document.getElementById('miffLore')) showLore(opts && opts.loreFallback || {});
     if (target==='GameOverModal' && !document.getElementById('miffGameOver')) showGameOver(opts && opts.gameOverFallback || {});
@@ -19,9 +19,10 @@ export function createOverlayDispatcher(rootEl) {
     const mounted = mountInto(container, mod, opts);
     if (mounted) state.modules[target] = mounted;
   }
-  function updateModule(target, data){ const m = state.modules[target]; if (!m) return; try { m.mod.update?.(m.ctx, data); } catch(e){ console.warn('[Dispatcher] update failed:', e); } }
-  function setInputMode(mode){ state.inputMode = mode; // propagate to HUD module
-    updateModule('HUD', { inputMode: mode }); }
+  function updateModule(target, data){ const m = state.modules[target]; if (!m) return; try { if (data && data.style && m.node) applyStyle(m.node, data.style); m.mod.update?.(m.ctx, data); } catch(e){ console.warn('[Dispatcher] update failed:', e); } }
+  function setInputMode(mode){ state.inputMode = mode; updateModule('HUD', { inputMode: mode }); }
+  function setDefaultStyle(style){ state.style = style || state.style; // re-apply to mounted nodes
+    Object.keys(state.modules).forEach(key => { const m = state.modules[key]; if (m?.node) applyStyle(m.node, state.style); }); }
 
   function showIntro(opts){
     if (state.nodes.intro) state.nodes.intro.remove();
@@ -72,7 +73,6 @@ export function createOverlayDispatcher(rootEl) {
     }
     hud.appendChild(row);
     state.nodes.hud = attach(hud);
-    // Also update HUD module if present
     updateModule('HUD', { inputMode: opts?.inputMode, info: opts?.progress!=null? `Progress ${opts.progress}` : undefined });
   }
 
@@ -86,22 +86,11 @@ export function createOverlayDispatcher(rootEl) {
     const restart = el('button','miff-btn','Restart');
     restart.onclick = ()=>{ hide('gameover'); opts?.onRestart && opts.onRestart(); };
     row.appendChild(restart);
-    
-    // Add custom links if provided
     if (opts?.links && Array.isArray(opts.links)){
-      opts.links.forEach(link => {
-        const linkEl = el('a','miff-btn secondary', link.label);
-        linkEl.href = link.href;
-        linkEl.target = '_blank';
-        row.appendChild(linkEl);
-      });
+      opts.links.forEach(link => { const linkEl = el('a','miff-btn secondary', link.label); linkEl.href = link.href; linkEl.target = '_blank'; row.appendChild(linkEl); });
     } else {
-      // Default remix link
-      const remix = el('a','miff-btn secondary','Remix Packs');
-      remix.href='../../contrib/remix-packs/README.md';
-      row.appendChild(remix);
+      const remix = el('a','miff-btn secondary','Remix Packs'); remix.href='../../contrib/remix-packs/README.md'; row.appendChild(remix);
     }
-    
     box.appendChild(row);
     state.nodes.gameover = attach(box);
   }
@@ -120,5 +109,5 @@ export function createOverlayDispatcher(rootEl) {
 
   function hide(kind){ const id = kind==='intro'?'miffIntro' : kind==='hud'?'miffHUD' : kind==='gameover'?'miffGameOver':'miffLore'; const n = document.getElementById(id); if (n) n.remove(); state.nodes[kind]=null; }
 
-  return { showIntro, showHUD, showGameOver, showLore, hide, useModule, updateModule, setInputMode };
+  return { showIntro, showHUD, showGameOver, showLore, hide, useModule, updateModule, setInputMode, setDefaultStyle };
 }

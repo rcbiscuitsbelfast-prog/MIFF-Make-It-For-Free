@@ -11,6 +11,12 @@ const shots = [
   { id: 'dial', btn: '#showDial', out: 'tests/ui_dialogue_box.png' },
   { id: 'pause', btn: '#showPause', out: 'tests/ui_pause_menu.png' },
 ];
+const styleVariants = [
+  { key: 'default', out: 'tests/ui_style_default.png' },
+  { key: 'fantasy', out: 'tests/ui_style_fantasy.png' },
+  { key: 'sciFi', out: 'tests/ui_style_sciFi.png' },
+  { key: 'override', out: 'tests/ui_style_override_custom.png' }
+];
 
 async function ensureDir(d){ await fs.promises.mkdir(d, { recursive: true }); }
 
@@ -23,6 +29,23 @@ async function run(){
     await page.click(s.btn);
     await new Promise(r=>setTimeout(r, 400));
     await page.screenshot({ path: s.out });
+  }
+  // Style preset captures using Main Menu as sample
+  for (const v of styleVariants){
+    if (v.key === 'override'){
+      await page.evaluate(() => {
+        const custom = { fontFamily: 'Courier New', fontSize: '20px', color: '#ffcc00', background: '#1a1a1a', borderRadius: '6px', padding: '14px' };
+        window.__applyOverride = custom;
+      });
+      await page.click('#showMain');
+      await new Promise(r=>setTimeout(r, 300));
+      await page.screenshot({ path: v.out });
+    } else {
+      await page.select('#styleSel', v.key);
+      await page.click('#showMain');
+      await new Promise(r=>setTimeout(r, 300));
+      await page.screenshot({ path: v.out });
+    }
   }
   await browser.close();
   console.log('UI screenshots saved');
