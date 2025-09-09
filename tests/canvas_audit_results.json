@@ -1,12 +1,18 @@
 {
   "baseUrl": "http://127.0.0.1:8080",
-  "hadError": true,
+  "hadError": false,
   "results": [
     {
       "name": "grove",
       "url": "http://127.0.0.1:8080/grove.html",
-      "ok": false,
-      "fatal": "page.waitForTimeout is not a function",
+      "ok": true,
+      "details": [
+        "Navigated: http://127.0.0.1:8080/grove.html",
+        "Canvas element found and visible",
+        "Canvas size: buffer=1280x800, css=1280x800",
+        "UI init: footer=true, hud=true",
+        "Screenshot saved: tests/audit_grove_canvas_loaded.png"
+      ],
       "console": [
         {
           "type": "log",
@@ -27,16 +33,37 @@
         {
           "type": "error",
           "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+        },
+        {
+          "type": "log",
+          "text": "[GroveSprite] Frame: 0 seq: idle bob: 0.0 moving:  img: 96 x 576"
         }
       ],
       "errors": [],
-      "requestsFailed": []
+      "requestsFailed": [],
+      "canvas": {
+        "width": 1280,
+        "height": 800,
+        "cssW": 1280,
+        "cssH": 800
+      },
+      "ui": {
+        "footer": true,
+        "hud": true
+      },
+      "screenshot": "tests/audit_grove_canvas_loaded.png"
     },
     {
       "name": "toppler",
       "url": "http://127.0.0.1:8080/toppler.html",
-      "ok": false,
-      "fatal": "page.waitForTimeout is not a function",
+      "ok": true,
+      "details": [
+        "Navigated: http://127.0.0.1:8080/toppler.html",
+        "Canvas element found and visible",
+        "Canvas size: buffer=300x150, css=800x600",
+        "UI init: footer=true, hud=true",
+        "Screenshot saved: tests/audit_toppler_canvas_loaded.png"
+      ],
       "console": [
         {
           "type": "error",
@@ -44,13 +71,30 @@
         }
       ],
       "errors": [],
-      "requestsFailed": []
+      "requestsFailed": [],
+      "canvas": {
+        "width": 300,
+        "height": 150,
+        "cssW": 800,
+        "cssH": 600
+      },
+      "ui": {
+        "footer": true,
+        "hud": true
+      },
+      "screenshot": "tests/audit_toppler_canvas_loaded.png"
     },
     {
       "name": "spirit",
       "url": "http://127.0.0.1:8080/spirit.html",
-      "ok": false,
-      "fatal": "page.waitForTimeout is not a function",
+      "ok": true,
+      "details": [
+        "Navigated: http://127.0.0.1:8080/spirit.html",
+        "Canvas element found and visible",
+        "Canvas size: buffer=300x150, css=800x600",
+        "UI init: footer=true, hud=true",
+        "Screenshot saved: tests/audit_spirit_canvas_loaded.png"
+      ],
       "console": [
         {
           "type": "error",
@@ -62,7 +106,18 @@
         }
       ],
       "errors": [],
-      "requestsFailed": []
+      "requestsFailed": [],
+      "canvas": {
+        "width": 300,
+        "height": 150,
+        "cssW": 800,
+        "cssH": 600
+      },
+      "ui": {
+        "footer": true,
+        "hud": true
+      },
+      "screenshot": "tests/audit_spirit_canvas_loaded.png"
     }
   ]
 }

@@ -79,8 +79,8 @@ async function run() {
       }
 
       // Verify footer/dispatcher presence as a proxy for UI init
-      // Allow some time for initialization
-      await page.waitForTimeout(1000);
+      // Allow some time for initialization (use setTimeout to avoid API differences)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       const uiInited = await page.evaluate(() => {
         const footer = document.getElementById('miff-attribution-footer');
         const hud = document.getElementById('miffHUD');
