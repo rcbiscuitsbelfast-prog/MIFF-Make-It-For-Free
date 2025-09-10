@@ -1,0 +1,3 @@
+[Deploy] site/ mirrored to docs/
+[Deploy] docs/index.html redirect active
+[Deploy] GitHub Pages now serves gameplay

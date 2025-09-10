@@ -1,0 +1,3 @@
+[Deploy] GitHub Pages source set to root (or mirror active)
+[Deploy] index.html redirect active
+[Deploy] site/ playable zones now visible
