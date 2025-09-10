@@ -239,11 +239,13 @@ async function init(){
   console.log('[Renderer] init() called for zone:', 'spirit_tamer');
   console.log('[Zone] Renderer initialized'); 
   debugger;
+  if (!model.cvs || !model.ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { model.cvs = document.querySelector('canvas'); model.ctx = model.cvs && model.cvs.getContext('2d'); } catch {} }
   detectInputMode(); 
   bindInputs(); 
   ensureJoystick(); 
   UI = createOverlayDispatcher($('gameContainer'));
   console.log('[SpiritTamer] UI modules attached');
+  console.log('[UI] Injected modules for zone:', 'spirit_tamer');
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
   const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 

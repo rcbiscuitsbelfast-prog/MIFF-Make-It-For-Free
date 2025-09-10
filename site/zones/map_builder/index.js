@@ -1013,6 +1013,7 @@ async function init() {
   console.log('[Canvas] Element found:', cvs);
   ctx = cvs.getContext('2d');
   debugger;
+  if (!cvs || !ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { cvs = document.querySelector('canvas'); ctx = cvs && cvs.getContext('2d'); } catch {} }
   
   // Initial canvas sizing
   // Validate canvas sizing

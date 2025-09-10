@@ -549,6 +549,7 @@ async function init(){
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
   debugger;
+  if (!cvs || !ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { cvs = document.querySelector('canvas'); ctx = cvs && cvs.getContext('2d'); } catch {} }
   
   // Initial canvas sizing
   resizeCanvas();
@@ -560,7 +561,10 @@ async function init(){
   UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.fantasy);
   console.log('[Grove] UI modules attached');
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
-  try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode }); } catch {}
+  try {
+    UI.useModule && UI.useModule('HUD', HUDBar, { inputMode });
+    console.log('[UI] Injected modules for zone:', 'witcher_grove');
+  } catch {}
   addAttributionFooter();
   UI.showHUD({ loadingText: 'Loading… 0%' });
   

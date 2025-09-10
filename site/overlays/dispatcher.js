@@ -76,6 +76,7 @@ export function createOverlayDispatcher(rootEl) {
     state.nodes.hud = attach(hud);
     updateModule('HUD', { inputMode: opts?.inputMode, info: opts?.progress!=null? `Progress ${opts.progress}` : undefined });
     if (!state._hudLogged){ console.log('[UI] HUDBar rendered'); state._hudLogged = true; }
+    try { console.log('[UI] Overlay z-index:', hud.style.zIndex || '(none)'); } catch {}
   }
 
   function showGameOver(opts){
