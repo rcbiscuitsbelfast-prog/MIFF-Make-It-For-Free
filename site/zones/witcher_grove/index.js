@@ -615,6 +615,13 @@ async function init(){
     updateGameState && updateGameState({ progress: { value: 0, total: 6, label: '' } });
     updateGameState && updateGameState({ activeQuest: { title: 'Explore the Grove', description: 'Find the elder near the campfire', status: 'In progress' } });
     
+    // Hydration gate: verify entities present before starting loop
+    try {
+      const names = (scene.entities||[]).map(e=> (e && e.id) || (e && e.constructor && e.constructor.name) || 'Entity');
+      console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length);
+      if (!names.length){ console.warn('[Scene] Waiting for entity injection'); }
+    } catch {}
+
     try {
       UI.showIntro && UI.showIntro({ title: 'Witcher Grove', message: 'Use joystick or Arrow/WASD. Press C for Credits.' });
       UI.useModule && UI.useModule('IntroModal', MainMenu, { title: 'Witcher Grove', style: UI_STYLES[savedStyle] || UI_STYLES.fantasy, onAction: (id)=>{ if (id==='start'){ UI.showHUD({ inputMode, fullscreenToggle: true }); UI.hide && UI.hide('intro'); } if (id==='credits'){ UI.showLore && UI.showLore({ title:'Credits', text:'MIFF • KayKit/CC0' }); } } });
@@ -628,7 +635,7 @@ async function init(){
     // Zone-specific UI modules
     try { UI.useModule && UI.useModule('QuestLog', QuestLog, { style: UI_STYLES[savedStyle] || UI_STYLES.fantasy, entries: ['Meet the Spirit', 'Explore the Grove'] }); console.log('[Grove] UI modules attached: HUDBar, QuestLog'); } catch { console.warn('[UI] QuestLog unavailable — UI injection skipped'); }
     
-    console.log('[Renderer] Draw loop started');
+    console.log('[Renderer] Draw loop starting after hydration');
     requestAnimationFrame(gameLoop);
   });
   

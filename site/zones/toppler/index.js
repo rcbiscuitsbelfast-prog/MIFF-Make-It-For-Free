@@ -299,8 +299,9 @@ async function init(){
     if (missing.length) console.warn('[Assets] Missing:', missing);
     detectInputMode();
     // Scene graph population (diagnostic)
-    const player = { id: 'player', x: game.player.x, y: game.player.y };
+    const player = { id: 'player', x: game.player.x, y: game.player.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 8, 8); } };
     scene.addEntity(player);
+    try { const names=(scene.entities||[]).map(e=>e.id||'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); } catch {}
     bindInputs(); 
     if (!UI) UI = createOverlayDispatcher($('gameContainer'));
     console.log('[Toppler] UI modules attached'); 

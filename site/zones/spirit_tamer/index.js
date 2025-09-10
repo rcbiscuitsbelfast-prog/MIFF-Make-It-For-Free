@@ -253,7 +253,7 @@ async function init(){
   try { const style = getComputedStyle(cvs); console.log('[Canvas] Display:', style.display); console.log('[Canvas] Z-index:', style.zIndex); console.log('[Canvas] Visibility:', style.visibility); } catch {}
   detectInputMode(); 
   // Scene graph population (diagnostic)
-  const player = { id: 'player', x: model.npc.x, y: model.npc.y };
+  const player = { id: 'player', x: model.npc.x, y: model.npc.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 6, 6); } };
   scene.addEntity(player);
   // Gameplay entity injection
   const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit',
@@ -267,6 +267,7 @@ async function init(){
   ensureJoystick(); 
   try { const mt = document.querySelector('.movement-toggle'); if (mt){ const r=mt.getBoundingClientRect(); console.log('[UI] Movement toggle visible:', true); console.log('[UI] Toggle bounds:', r.x, r.y, r.width, r.height); } const o = (screen.orientation && screen.orientation.type)|| (window.innerWidth>window.innerHeight? 'landscape':'portrait'); console.log('[UI] Orientation:', o); } catch {}
   UI = createOverlayDispatcher($('gameContainer'));
+  try { const names=(scene.entities||[]).map(e=> e.id || 'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); } catch {}
   console.log('[SpiritTamer] UI modules attached');
   console.log('[UI] Injected modules for zone:', 'spirit_tamer');
   // Trigger bonding overlay

@@ -1062,7 +1062,7 @@ async function init() {
     
     // Start game loop
     // Scene graph population (diagnostic)
-    const cursorEntity = { id: 'cursor', x: 0, y: 0 };
+    const cursorEntity = { id: 'cursor', x: 0, y: 0, draw(c){ c.fillStyle='#4ecdc4'; c.fillRect(this.x, this.y, 4, 4); } };
     scene.addEntity(cursorEntity);
     // Gameplay entity injection: tile grid
     const grid = { id: 'tile_grid', type: 'TileGrid', biome: 'forest', tile: 'grass_01',
@@ -1073,6 +1073,7 @@ async function init() {
     };
     scene.addEntity(grid);
     console.log('[Map Builder] Tile grid added:', grid);
+    try { const names=(scene.entities||[]).map(e=> e.id || 'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); } catch {}
     // Trigger toolbar overlay (use existing UI)
     try { UI.showLore && UI.showLore({ title: 'Map Toolbar', text: 'Use the toolbar at the bottom to build.' }); console.log('[Map Builder] MapToolbar triggered'); console.log('[Dispatcher] Overlay shown:', 'MapToolbar'); } catch {}
     console.log('[Renderer] Draw loop started');
