@@ -990,11 +990,20 @@ document.addEventListener('fullscreenchange', () => {
 
 // Initialization
 async function init() {
+  console.log('[MapBuilder] Canvas injection starting...');
+  
   cvs = $('gameCanvas');
+  if (!cvs) {
+    console.error('[MapBuilder] Canvas element not found!');
+    return;
+  }
+  
   ctx = cvs.getContext('2d');
+  console.log('[MapBuilder] Canvas injected');
   
   // Initial canvas sizing
   resizeCanvas();
+  console.log('[MapBuilder] Renderer initialized');
   
   // Initialize UI
   UI = createOverlayDispatcher($('gameContainer'));
@@ -1019,6 +1028,7 @@ async function init() {
   window.MapBuilderAssets.preloadAll();
   window.MapBuilderAssets.onAssetsReady(() => {
     console.log('[MapBuilder] Assets loaded');
+    console.log('[MapBuilder] Draw loop started');
     UI.showHUD({ loadingText: 'Ready to build!' });
     
     // Start game loop
@@ -1033,6 +1043,8 @@ async function init() {
   window.addEventListener('keydown', handleKeyDown);
   window.addEventListener('keyup', handleKeyUp);
   
+  console.log('[MapBuilder] Dispatcher ready');
+  console.log('[MapBuilder] Input mode: mouse/touch/gamepad');
   console.log('[MapBuilder] Initialized');
 }
 

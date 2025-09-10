@@ -37,6 +37,13 @@
             type: 'game',
             remixSafe: true
         },
+        map_builder: {
+            title: '🧭 Map Builder',
+            description: 'Build a game, inside the game. Live canvas with drag-and-drop tile placement.',
+            src: './map-builder.html',
+            type: 'tool',
+            remixSafe: true
+        },
         remix_lab: {
             title: '🧪 Remix Lab',
             description: 'Contributor-facing debug zone and CLI triggers',

@@ -489,11 +489,20 @@ document.addEventListener('fullscreenchange', () => {
 
 // Initialization
 async function init(){
+  console.log('[Grove] Canvas injection starting...');
+  
   cvs = $('gameCanvas');
+  if (!cvs) {
+    console.error('[Grove] Canvas element not found!');
+    return;
+  }
+  
   ctx = cvs.getContext('2d');
+  console.log('[Grove] Canvas injected');
   
   // Initial canvas sizing
   resizeCanvas();
+  console.log('[Grove] Renderer initialized');
   
   // Initialize UI
   UI = createOverlayDispatcher($('gameContainer'));
@@ -505,10 +514,14 @@ async function init(){
   
   // Wait for assets to load
   onAssetsReady(async () => {
+    console.log('[Grove] Assets loaded');
     await loadGroveMap();
     await loadCharacter();
     bindInput();
     createJoystick();
+    
+    console.log('[Grove] Dispatcher ready');
+    console.log('[Grove] Input mode: touch/mouse/gamepad');
     
     UI.showIntro({ 
       title: 'Witcher Grove', 
@@ -518,6 +531,7 @@ async function init(){
       } 
     });
     
+    console.log('[Grove] Draw loop started');
     requestAnimationFrame(gameLoop);
   });
   
