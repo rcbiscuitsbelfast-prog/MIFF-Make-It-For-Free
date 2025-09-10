@@ -250,7 +250,9 @@ async function init(){
   const player = { id: 'player', x: model.npc.x, y: model.npc.y };
   scene.addEntity(player);
   // Gameplay entity injection
-  const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit' };
+  const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit',
+    draw(c){ if (model.sprite){ c.drawImage(model.sprite, this.x-24, this.y-24, 48, 48); console.log('[Draw] Spirit sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } }
+  };
   scene.addEntity(spirit);
   console.log('[Spirit] Spirit entity added:', spirit);
   bindInputs(); 

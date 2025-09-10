@@ -1057,7 +1057,10 @@ async function init() {
     const cursorEntity = { id: 'cursor', x: 0, y: 0 };
     scene.addEntity(cursorEntity);
     // Gameplay entity injection: tile grid
-    const grid = { id: 'tile_grid', type: 'TileGrid', biome: 'forest', tile: 'grass_01' };
+    const grid = { id: 'tile_grid', type: 'TileGrid', biome: 'forest', tile: 'grass_01',
+      tiles: (function generate(){ const out=[]; for (let i=0;i<8;i++){ out.push({ x:i*64, y: 200, sprite:'grass_01' }); } return out; })(),
+      draw(c){ if (!this.tiles) return; this.tiles.forEach(t=>{ const tile=window.MapBuilderAssets.getTile(t.sprite); if (tile && tile.img){ c.drawImage(tile.img, t.x, t.y-16, tile.meta?.w||64, tile.meta?.h||32); } else { console.warn('[Draw] Tile sprite missing:', t.sprite); } }); console.log('[Draw] TileGrid rendered'); }
+    };
     scene.addEntity(grid);
     console.log('[Map Builder] Tile grid added:', grid);
     // Trigger toolbar overlay (use existing UI)

@@ -447,6 +447,8 @@ function render(){
   
   renderBackground();
   renderTiles();
+  // Draw scene entities (diagnostic)
+  if (scene && scene.entities && scene.entities.length){ try { scene.entities.forEach(e=>{ if (typeof e.draw==='function') e.draw(ctx); }); } catch(e){ console.warn('[Draw] Entity draw failed', e); } }
   renderEffects();
   renderCharacter();
 }
@@ -585,7 +587,10 @@ async function init(){
     await loadGroveMap();
     await loadCharacter();
     // Gameplay entity injection
-    const npcEntity = { id: 'npc_spirit', x: 100, y: 200, type: 'SpiritNPC' };
+    const npcEntity = { 
+      id: 'npc_spirit', x: 100, y: 200, type: 'SpiritNPC',
+      draw(c){ const spr = getSprite('npcElder'); if (spr && spr.img && spr.img.complete){ c.drawImage(spr.img, this.x-20, this.y-36, spr.meta.frame.w, spr.meta.frame.h); console.log('[Draw] NPC sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } }
+    };
     scene.addEntity(npcEntity);
     console.log('[Grove] NPC added:', npcEntity);
     // Scene graph population (diagnostic)
