@@ -265,6 +265,7 @@ async function init(){
   console.log('[Spirit] Spirit entity added:', spirit);
   bindInputs(); 
   ensureJoystick(); 
+  try { const mt = document.querySelector('.movement-toggle'); if (mt){ const r=mt.getBoundingClientRect(); console.log('[UI] Movement toggle visible:', true); console.log('[UI] Toggle bounds:', r.x, r.y, r.width, r.height); } const o = (screen.orientation && screen.orientation.type)|| (window.innerWidth>window.innerHeight? 'landscape':'portrait'); console.log('[UI] Orientation:', o); } catch {}
   UI = createOverlayDispatcher($('gameContainer'));
   console.log('[SpiritTamer] UI modules attached');
   console.log('[UI] Injected modules for zone:', 'spirit_tamer');

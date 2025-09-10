@@ -1,3 +1,10 @@
+.movement-toggle { position: absolute; bottom: 10px; left: 10px; }
+@media screen and (orientation: landscape) {
+  .movement-toggle { bottom: 10px; left: 10px; transform: scale(1); }
+}
+@media screen and (orientation: portrait) {
+  .movement-toggle { bottom: 5px; left: 5px; transform: scale(0.8); }
+}
 /* Shared overlay styles for MIFF zones */
 .miff-overlay {
   position: absolute;
