@@ -206,7 +206,34 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
 
 function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; restore(); await loadOrchestration(); if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; let main = document.getElementById('mainCanvas'); if (!main){ main = document.createElement('canvas'); main.id = 'mainCanvas'; main.style.position='absolute'; main.style.top='0'; main.style.left='0'; main.style.zIndex='0'; main.style.display='block'; main.width = window.innerWidth; main.height = window.innerHeight; const container=$('gameContainer')||document.body; container.insertBefore(main, container.firstChild||null); console.log('Canvas injected'); } const cvs = main; fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; console.log('Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
+async function init(){ 
+  console.log('[Toppler] Canvas injection starting...');
+  
+  const statusEl = $('status'); 
+  if(statusEl) statusEl.textContent = 'Loading…'; 
+  restore(); 
+  await loadOrchestration(); 
+  if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; 
+  
+  // Use existing gameCanvas or create mainCanvas
+  let cvs = $('gameCanvas') || $('mainCanvas');
+  if (!cvs) {
+    console.log('[Toppler] Creating new canvas element...');
+    cvs = document.createElement('canvas');
+    cvs.id = 'mainCanvas';
+    cvs.style.position='absolute';
+    cvs.style.top='0';
+    cvs.style.left='0';
+    cvs.style.zIndex='0';
+    cvs.style.display='block';
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
+    const container=$('gameContainer')||document.body;
+    container.insertBefore(cvs, container.firstChild||null);
+    console.log('[Toppler] Canvas injected');
+  } else {
+    console.log('[Toppler] Canvas found:', cvs.id);
+  } fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); game.ctx = cvs.getContext('2d'); game.cvs = cvs; console.log('Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
     try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
     try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}

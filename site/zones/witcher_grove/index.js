@@ -494,23 +494,27 @@ document.addEventListener('fullscreenchange', () => {
 
 // Initialization
 async function init(){
-  // Inject or select mainCanvas
-  let main = document.getElementById('mainCanvas');
-  if (!main) {
-    main = document.createElement('canvas');
-    main.id = 'mainCanvas';
-    main.style.position = 'absolute';
-    main.style.top = '0';
-    main.style.left = '0';
-    main.style.zIndex = '0';
-    main.style.display = 'block';
-    main.width = window.innerWidth;
-    main.height = window.innerHeight;
+  console.log('[Grove] Canvas injection starting...');
+  
+  // Use existing gameCanvas or create mainCanvas
+  cvs = $('gameCanvas') || $('mainCanvas');
+  if (!cvs) {
+    console.log('[Grove] Creating new canvas element...');
+    cvs = document.createElement('canvas');
+    cvs.id = 'mainCanvas';
+    cvs.style.position = 'absolute';
+    cvs.style.top = '0';
+    cvs.style.left = '0';
+    cvs.style.zIndex = '0';
+    cvs.style.display = 'block';
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
     const container = $('gameContainer') || document.body;
-    container.insertBefore(main, container.firstChild || null);
-    console.log('Canvas injected');
+    container.insertBefore(cvs, container.firstChild || null);
+    console.log('[Grove] Canvas injected');
+  } else {
+    console.log('[Grove] Canvas found:', cvs.id);
   }
-  cvs = main;
   ctx = cvs.getContext('2d');
   console.log('Renderer initialized');
   

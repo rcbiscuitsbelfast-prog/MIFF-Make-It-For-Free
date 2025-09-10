@@ -176,7 +176,35 @@ function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.h
 
 function loop(){ render(); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
-async function init(){ const statusEl = $('status'); if(statusEl) statusEl.textContent = 'Loading…'; await loadOrchestration(); await loadAssets(); restore(); if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; let main = document.getElementById('mainCanvas'); if (!main){ main = document.createElement('canvas'); main.id='mainCanvas'; main.style.position='absolute'; main.style.top='0'; main.style.left='0'; main.style.zIndex='0'; main.style.display='block'; main.width=window.innerWidth; main.height=window.innerHeight; const container=$('gameContainer')||document.body; container.insertBefore(main, container.firstChild||null); console.log('Canvas injected'); } const cvs = main; fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); console.log('Renderer initialized'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('Draw loop started'); requestAnimationFrame(loop); }
+async function init(){ 
+  console.log('[SpiritTamer] Canvas injection starting...');
+  
+  const statusEl = $('status'); 
+  if(statusEl) statusEl.textContent = 'Loading…'; 
+  await loadOrchestration(); 
+  await loadAssets(); 
+  restore(); 
+  if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; 
+  
+  // Use existing gameCanvas or create mainCanvas
+  let cvs = $('gameCanvas') || $('mainCanvas');
+  if (!cvs) {
+    console.log('[SpiritTamer] Creating new canvas element...');
+    cvs = document.createElement('canvas');
+    cvs.id='mainCanvas';
+    cvs.style.position='absolute';
+    cvs.style.top='0';
+    cvs.style.left='0';
+    cvs.style.zIndex='0';
+    cvs.style.display='block';
+    cvs.width=window.innerWidth;
+    cvs.height=window.innerHeight;
+    const container=$('gameContainer')||document.body;
+    container.insertBefore(cvs, container.firstChild||null);
+    console.log('[SpiritTamer] Canvas injected');
+  } else {
+    console.log('[SpiritTamer] Canvas found:', cvs.id);
+  } fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); console.log('Renderer initialized'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('Draw loop started'); requestAnimationFrame(loop); }
 
 // Fullscreen support
 window.__miffToggleFullscreen = () => {
