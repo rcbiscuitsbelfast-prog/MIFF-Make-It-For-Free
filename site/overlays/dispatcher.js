@@ -26,6 +26,8 @@ export function createOverlayDispatcher(rootEl) {
       const remounted = mountInto(container, m.mod, { ...(m.opts||{}), style: state.style }); state.modules[target] = remounted; } catch(e){ console.warn('[Dispatcher] remount failed for', key, e); } }); }
 
   function showIntro(opts){
+    const dup = document.querySelector('#miffIntro');
+    if (dup){ console.warn('[UI] StartMenu already exists — skipping injection'); return; }
     if (state.nodes.intro) state.nodes.intro.remove();
     const box = el('div', 'miff-overlay miff-tile-bg miff-fade-in');
     box.id='miffIntro';
@@ -51,6 +53,8 @@ export function createOverlayDispatcher(rootEl) {
     row.appendChild(remix);
     box.appendChild(row);
     state.nodes.intro = attach(box);
+    console.log('[UI] Start button injected');
+    console.log('[UI] StartMenu overlay attached');
   }
 
   function showHUD(opts){

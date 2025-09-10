@@ -306,6 +306,8 @@ async function init(){
       UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: game.inputMode, info: 'Toppler', style: UI_STYLES.sciFi });
       console.log('[UI] Injected modules for zone:', 'toppler');
     } catch {}
+    // UI nesting audit
+    try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
     updateGameState && updateGameState({ currentZone: 'toppler', progress: { value: 0, total: (ORCH?.levels?.length)||6, label: '' }, activeQuest: { title:'Reach the Goal', description: 'Cross the platforms to the glowing gate', status:'In progress' }, inputMode: game.inputMode });
     addAttributionFooter();
     ensureStartMenu();

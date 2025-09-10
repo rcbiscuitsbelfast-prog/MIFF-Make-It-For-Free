@@ -574,6 +574,8 @@ async function init(){
     UI.useModule && UI.useModule('HUD', HUDBar, { inputMode });
     console.log('[UI] Injected modules for zone:', 'witcher_grove');
   } catch {}
+  // UI nesting audit
+  try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
   addAttributionFooter();
   UI.showHUD({ loadingText: 'Loading… 0%' });
   
