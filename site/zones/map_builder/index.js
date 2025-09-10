@@ -1064,7 +1064,9 @@ async function init() {
     // Gameplay entity injection: tile grid
     const grid = { id: 'tile_grid', type: 'TileGrid', biome: 'forest', tile: 'grass_01',
       tiles: (function generate(){ const out=[]; for (let i=0;i<8;i++){ out.push({ x:i*64, y: 200, sprite:'grass_01' }); } return out; })(),
-      draw(c){ if (!this.tiles) return; this.tiles.forEach(t=>{ const tile=window.MapBuilderAssets.getTile(t.sprite); if (tile && tile.img){ c.drawImage(tile.img, t.x, t.y-16, tile.meta?.w||64, tile.meta?.h||32); } else { console.warn('[Draw] Tile sprite missing:', t.sprite); } }); console.log('[Draw] TileGrid rendered'); }
+      draw(c){ if (!this.tiles) return; this.tiles.forEach(t=>{ const tile=window.MapBuilderAssets.getTile(t.sprite); if (tile && tile.img){ c.drawImage(tile.img, t.x, t.y-16, (tile.w||64), (tile.h||32)); } else { console.warn('[Draw] Tile sprite missing:', t.sprite); } }); console.log('[Draw] TileGrid rendered'); },
+      contains(px,py){ return py>150 && py<250; },
+      onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('MapToolbar', { title:'Toolbar', text:'Build your world', autoDismissMs: 2000 }) : UI.showLore({ title:'Toolbar', text:'Build your world' })); console.log('[Gameplay] Map toolbar shown'); } catch {} }
     };
     scene.addEntity(grid);
     console.log('[Map Builder] Tile grid added:', grid);

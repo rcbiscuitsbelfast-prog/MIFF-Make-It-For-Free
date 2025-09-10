@@ -119,6 +119,18 @@ export function createOverlayDispatcher(rootEl) {
 
   function hide(kind){ const id = kind==='intro'?'miffIntro' : kind==='hud'?'miffHUD' : kind==='gameover'?'miffGameOver':'miffLore'; const n = document.getElementById(id); if (n) n.remove(); state.nodes[kind]=null; }
 
+  // Public overlay helpers for lifecycle diagnostics
+  function showOverlay(name, opts){
+    try {
+      if (name==='StartModal' || name==='IntroModal') { showIntro(opts); console.log('[Overlay] StartModal shown'); }
+      else if (name==='LoreModal' || name==='DialogueBox' || name==='BondOverlay' || name==='MapToolbar') { showLore(opts); console.log(`[Overlay] ${name} shown`); }
+      else if (name==='GameOverModal') { showGameOver(opts); console.log('[Overlay] GameOver shown'); }
+      else { showLore(opts); console.log('[Overlay] Shown (fallback):', name); }
+      setTimeout(()=>{ try { if (name==='StartModal' || name==='IntroModal') hide('intro'); else if (name==='GameOverModal') hide('gameover'); else hide('lore'); console.log(`[Overlay] ${name} dismissed`); } catch {} }, opts?.autoDismissMs || 0);
+    } catch (e){ console.warn('[Dispatcher] Overlay failed to attach', e); }
+  }
+  function hideOverlay(name){ try { if (name==='StartModal' || name==='IntroModal') hide('intro'); else if (name==='GameOverModal') hide('gameover'); else hide('lore'); console.log(`[Overlay] ${name} dismissed`); } catch {} }
+
   console.log('[UI] Overlay DOM attached');
-  return { showIntro, showHUD, showGameOver, showLore, hide, useModule, updateModule, setInputMode, setDefaultStyle };
+  return { showIntro, showHUD, showGameOver, showLore, hide, showOverlay, hideOverlay, useModule, updateModule, setInputMode, setDefaultStyle };
 }

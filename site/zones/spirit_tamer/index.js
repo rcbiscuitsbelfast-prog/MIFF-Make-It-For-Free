@@ -255,7 +255,9 @@ async function init(){
   scene.addEntity(player);
   // Gameplay entity injection
   const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit',
-    draw(c){ if (model.sprite){ c.drawImage(model.sprite, this.x-24, this.y-24, 48, 48); console.log('[Draw] Spirit sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } }
+    draw(c){ if (model.sprite){ c.drawImage(model.sprite, this.x-24, this.y-24, 48, 48); console.log('[Draw] Spirit sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
+    contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
+    onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('DialogueBox', { title:'Spirit', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Spirit', text:'The bond strengthens…' })); updateGameState && updateGameState('questStatus','bond_started'); console.log('[Gameplay] Quest updated: bond_started'); } catch {} }
   };
   scene.addEntity(spirit);
   console.log('[Spirit] Spirit entity added:', spirit);
@@ -265,7 +267,7 @@ async function init(){
   console.log('[SpiritTamer] UI modules attached');
   console.log('[UI] Injected modules for zone:', 'spirit_tamer');
   // Trigger bonding overlay
-  try { UI.showLore && UI.showLore({ title: 'Bond Overlay', text: 'Reach out to the spirit…' }); console.log('[Spirit] BondOverlay triggered'); console.log('[Dispatcher] Overlay shown:', 'BondOverlay'); } catch {}
+  try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title: 'Bond Overlay', text: 'Reach out to the spirit…', autoDismissMs: 3000 }) : UI.showLore({ title: 'Bond Overlay', text: 'Reach out to the spirit…' })); console.log('[Spirit] BondOverlay triggered'); console.log('[Dispatcher] Overlay shown:', 'BondOverlay'); } catch {}
   // UI nesting audit
   try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);

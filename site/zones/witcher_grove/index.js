@@ -100,6 +100,8 @@ function detectInputMode() {
 function bindInput(){
   // Initial input mode detection
   detectInputMode();
+  // Click interaction for entities
+  try { const canvasEl = cvs; canvasEl && canvasEl.addEventListener('click', (e)=>{ const rect=canvasEl.getBoundingClientRect(); const px=e.clientX-rect.left; const py=e.clientY-rect.top; console.log('[Interaction] Click at:', px, py); const hit = scene.entities.find(ent=> typeof ent.contains==='function' && ent.contains(px,py)); if (hit && typeof hit.onInteract==='function'){ console.log('[Interaction] Entity clicked:', (hit.constructor&&hit.constructor.name)||hit.id||'Entity'); hit.onInteract(); } }); } catch {}
   window.addEventListener('keydown', e => { 
     const k = e.key.toLowerCase(); 
     keys[k] = true; 
@@ -595,7 +597,9 @@ async function init(){
     // Gameplay entity injection
     const npcEntity = { 
       id: 'npc_spirit', x: 100, y: 200, type: 'SpiritNPC',
-      draw(c){ const spr = getSprite('npcElder'); if (spr && spr.img && spr.img.complete){ c.drawImage(spr.img, this.x-20, this.y-36, spr.meta.frame.w, spr.meta.frame.h); console.log('[Draw] NPC sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } }
+      draw(c){ const spr = getSprite('npcElder'); if (spr && spr.img && spr.img.complete){ c.drawImage(spr.img, this.x-20, this.y-36, spr.meta.frame.w, spr.meta.frame.h); console.log('[Draw] NPC sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
+      contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
+      onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('DialogueBox', { title:'Elder', text:'Welcome, seeker.', autoDismissMs: 3000 }) : UI.showLore({ title:'Elder', text:'Welcome, seeker.' })); console.log('[Gameplay] Quest updated: elder_found'); updateGameState && updateGameState('questStatus','elder_found'); } catch {} }
     };
     scene.addEntity(npcEntity);
     console.log('[Grove] NPC added:', npcEntity);
@@ -614,7 +618,7 @@ async function init(){
       window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } });
     } catch {}
     // Trigger overlay (LoreModal)
-    try { UI.showLore && UI.showLore({ title: 'Grove Lore', text: 'The forest whispers. NPC nearby.' }); console.log('[Grove] LoreModal triggered'); console.log('[Dispatcher] Overlay shown:', 'LoreModal'); } catch {}
+    try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('LoreModal', { title: 'Grove Lore', text: 'The forest whispers. NPC nearby.', autoDismissMs: 3000 }) : UI.showLore({ title: 'Grove Lore', text: 'The forest whispers. NPC nearby.' })); console.log('[Grove] LoreModal triggered'); console.log('[Dispatcher] Overlay shown:', 'LoreModal'); } catch {}
     // Zone-specific UI modules
     try { UI.useModule && UI.useModule('QuestLog', QuestLog, { style: UI_STYLES[savedStyle] || UI_STYLES.fantasy, entries: ['Meet the Spirit', 'Explore the Grove'] }); console.log('[Grove] UI modules attached: HUDBar, QuestLog'); } catch { console.warn('[UI] QuestLog unavailable — UI injection skipped'); }
     
