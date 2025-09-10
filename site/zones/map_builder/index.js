@@ -1011,6 +1011,10 @@ async function init() {
   try { document.body.setAttribute('data-zone', 'map_builder'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
   // Visual zone marker
   try { const marker=document.createElement('div'); marker.innerText='ZONE: MAP BUILDER'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='cyan'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
+  // Unified Zone Boot Summary
+  console.log('[ZoneBoot] Zone loaded:', 'map_builder');
+  console.log('[ZoneBoot] DOM marker: data-zone="map_builder"');
+  console.log('[ZoneBoot] Visual marker injected');
   cvs = $('gameCanvas');
   console.log('[Canvas] Element found:', cvs);
   ctx = cvs.getContext('2d');

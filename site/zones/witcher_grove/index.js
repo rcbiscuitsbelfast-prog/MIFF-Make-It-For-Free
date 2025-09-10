@@ -530,6 +530,10 @@ async function init(){
   try { document.body.setAttribute('data-zone', 'witcher_grove'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
   // Visual zone marker
   try { const marker=document.createElement('div'); marker.innerText='ZONE: GROVE'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='red'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
+  // Unified Zone Boot Summary
+  console.log('[ZoneBoot] Zone loaded:', 'witcher_grove');
+  console.log('[ZoneBoot] DOM marker: data-zone="witcher_grove"');
+  console.log('[ZoneBoot] Visual marker injected');
   
   // Use existing gameCanvas or create mainCanvas
   cvs = $('gameCanvas') || $('mainCanvas');

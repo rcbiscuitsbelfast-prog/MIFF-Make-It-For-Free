@@ -201,6 +201,10 @@ async function init(){
   try { document.body.setAttribute('data-zone', 'spirit_tamer'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
   // Visual zone marker
   try { const marker=document.createElement('div'); marker.innerText='ZONE: SPIRIT'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='lime'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
+  // Unified Zone Boot Summary
+  console.log('[ZoneBoot] Zone loaded:', 'spirit_tamer');
+  console.log('[ZoneBoot] DOM marker: data-zone="spirit_tamer"');
+  console.log('[ZoneBoot] Visual marker injected');
   
   const statusEl = $('status'); 
   if(statusEl) statusEl.textContent = 'Loading…'; 
