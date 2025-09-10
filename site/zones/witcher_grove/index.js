@@ -457,7 +457,7 @@ function gameLoop(ts){
   tick++;
   update(dt);
   render();
-  console.log('[Renderer] requestAnimationFrame active');
+  console.log('[Renderer] requestAnimationFrame active for:', 'witcher_grove');
   UI && UI.showHUD({ inputMode, fullscreenToggle: true });
   requestAnimationFrame(gameLoop);
 }

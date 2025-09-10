@@ -1,5 +1,6 @@
 // Grove Asset Module (remix-safe)
 // Provides sprite/tile/UI metadata, preload interface, and helpers
+const __ZONE__ = 'witcher_grove';
 
 const registry = {
   tile: { w: 64, h: 32, originY: 16 },
@@ -35,6 +36,8 @@ const registry = {
     joystick: { base: 96, knob: 48, left: 80, bottom: 80 }
   }
 };
+
+console.log('[Assets] Loaded for zone:', __ZONE__);
 
 const cache = { images: new Map(), ready: false, total: 0, loaded: 0, cbs: [] };
 

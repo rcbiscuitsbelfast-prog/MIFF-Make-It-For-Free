@@ -228,7 +228,7 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
 }
 
-function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); console.log('[Renderer] requestAnimationFrame active'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
+function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); console.log('[Renderer] requestAnimationFrame active for:', 'toppler'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ 
   console.log('[Toppler] Canvas injection starting...');

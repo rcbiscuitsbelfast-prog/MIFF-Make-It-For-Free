@@ -934,7 +934,7 @@ function gameLoop() {
   const dt = 1/60;
   update(dt);
   render();
-  console.log('[Renderer] requestAnimationFrame active');
+  console.log('[Renderer] requestAnimationFrame active for:', 'map_builder');
   requestAnimationFrame(gameLoop);
 }
 

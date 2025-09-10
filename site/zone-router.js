@@ -202,6 +202,8 @@
             const zone = hash ? ZONES[hash] : null;
 
             if (zone) {
+                console.log('[Router] Route matched:', hash);
+                console.log('[Router] Loading zone:', zone.title);
                 this.loadZone(zone);
             } else {
                 this.showSplash();
