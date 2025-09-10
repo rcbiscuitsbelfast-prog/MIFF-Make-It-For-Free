@@ -451,6 +451,8 @@ function render(){
   renderTiles();
   // Draw scene entities (diagnostic)
   if (scene && scene.entities && scene.entities.length){ try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch(e){ console.warn('[Draw] Entity draw failed', e); } }
+  // Visual confirmation logs
+  try { const style = getComputedStyle(cvs); console.log('[Visual] Canvas z-index:', style.zIndex); } catch {}
   renderEffects();
   renderCharacter();
 }
