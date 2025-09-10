@@ -44,8 +44,8 @@ const cache = { images: new Map(), ready: false, total: 0, loaded: 0, cbs: [] };
 function preloadImage(src){
   cache.total += 1;
   const img = new Image();
-  img.onload = ()=>{ cache.loaded += 1; if (cache.loaded >= cache.total){ cache.ready = true; cache.cbs.forEach(fn=>fn()); cache.cbs.length=0; } };
-  img.onerror = ()=>{ cache.loaded += 1; if (cache.loaded >= cache.total){ cache.ready = true; cache.cbs.forEach(fn=>fn()); cache.cbs.length=0; } };
+  img.onload = ()=>{ cache.loaded += 1; console.log('[Assets] Sprite loaded:', src); if (cache.loaded >= cache.total){ cache.ready = true; cache.cbs.forEach(fn=>fn()); cache.cbs.length=0; } };
+  img.onerror = ()=>{ cache.loaded += 1; console.error('[Assets] Sprite failed to load:', src); if (cache.loaded >= cache.total){ cache.ready = true; cache.cbs.forEach(fn=>fn()); cache.cbs.length=0; } };
   img.src = src;
   cache.images.set(src, img);
   return img;

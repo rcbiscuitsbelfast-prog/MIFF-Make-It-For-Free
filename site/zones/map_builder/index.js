@@ -935,6 +935,7 @@ function updateHUD() {
 function gameLoop() {
   const dt = 1/60;
   update(dt);
+  try { if (scene && scene.entities){ scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x||0}, ${e.y||0})`); } }); } } catch{}
   render();
   console.log('[Renderer] requestAnimationFrame active for:', 'map_builder');
   requestAnimationFrame(gameLoop);

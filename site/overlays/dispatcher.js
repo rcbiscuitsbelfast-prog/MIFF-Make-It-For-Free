@@ -55,6 +55,7 @@ export function createOverlayDispatcher(rootEl) {
     state.nodes.intro = attach(box);
     console.log('[UI] Start button injected');
     console.log('[UI] StartMenu overlay attached');
+    try { const z = getComputedStyle(state.nodes.intro).zIndex; const vis = state.nodes.intro.style.display || getComputedStyle(state.nodes.intro).display; console.log('[UI] Overlay z-index:', z); console.log('[UI] Overlay visibility:', vis); } catch {}
   }
 
   function showHUD(opts){
@@ -100,6 +101,7 @@ export function createOverlayDispatcher(rootEl) {
     }
     box.appendChild(row);
     state.nodes.gameover = attach(box);
+    try { const z = getComputedStyle(state.nodes.gameover).zIndex; const vis = state.nodes.gameover.style.display || getComputedStyle(state.nodes.gameover).display; console.log('[UI] Overlay z-index:', z); console.log('[UI] Overlay visibility:', vis); } catch {}
   }
 
   function showLore(opts){
@@ -112,6 +114,7 @@ export function createOverlayDispatcher(rootEl) {
     close.onclick = ()=> hide('lore');
     box.appendChild(close);
     state.nodes.lore = attach(box);
+    try { const z = getComputedStyle(state.nodes.lore).zIndex; const vis = state.nodes.lore.style.display || getComputedStyle(state.nodes.lore).display; console.log('[UI] Overlay z-index:', z); console.log('[UI] Overlay visibility:', vis); } catch {}
   }
 
   function hide(kind){ const id = kind==='intro'?'miffIntro' : kind==='hud'?'miffHUD' : kind==='gameover'?'miffGameOver':'miffLore'; const n = document.getElementById(id); if (n) n.remove(); state.nodes[kind]=null; }
