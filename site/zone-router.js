@@ -204,6 +204,7 @@
             if (zone) {
                 console.log('[Router] Route matched:', hash);
                 console.log('[Router] Loading zone:', zone.title);
+                debugger;
                 this.loadZone(zone);
             } else {
                 this.showSplash();

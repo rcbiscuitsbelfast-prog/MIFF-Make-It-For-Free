@@ -195,6 +195,10 @@ function loop(){ render(); console.log('[Renderer] requestAnimationFrame active 
 async function init(){ 
   console.log('[SpiritTamer] Canvas injection starting...');
   console.log('[Zone] Booting:', 'spirit_tamer');
+  // DOM zone marker
+  try { document.body.setAttribute('data-zone', 'spirit_tamer'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
+  // Visual zone marker
+  try { const marker=document.createElement('div'); marker.innerText='ZONE: SPIRIT'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='lime'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
   
   const statusEl = $('status'); 
   if(statusEl) statusEl.textContent = 'Loading…'; 
@@ -234,6 +238,7 @@ async function init(){
   model.ctx = cvs.getContext('2d'); 
   console.log('[Renderer] init() called for zone:', 'spirit_tamer');
   console.log('[Zone] Renderer initialized'); 
+  debugger;
   detectInputMode(); 
   bindInputs(); 
   ensureJoystick(); 

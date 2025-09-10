@@ -520,6 +520,10 @@ document.addEventListener('fullscreenchange', () => {
 async function init(){
   console.log('[Grove] Canvas injection starting...');
   console.log('[Zone] Booting:', 'witcher_grove');
+  // DOM zone marker
+  try { document.body.setAttribute('data-zone', 'witcher_grove'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
+  // Visual zone marker
+  try { const marker=document.createElement('div'); marker.innerText='ZONE: GROVE'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='red'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
   
   // Use existing gameCanvas or create mainCanvas
   cvs = $('gameCanvas') || $('mainCanvas');
@@ -544,6 +548,7 @@ async function init(){
   ctx = cvs.getContext('2d');
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
+  debugger;
   
   // Initial canvas sizing
   resizeCanvas();

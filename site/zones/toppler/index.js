@@ -233,6 +233,10 @@ function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, 
 async function init(){ 
   console.log('[Toppler] Canvas injection starting...');
   console.log('[Zone] Booting:', 'toppler');
+  // DOM zone marker
+  try { document.body.setAttribute('data-zone', 'toppler'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
+  // Visual zone marker
+  try { const marker=document.createElement('div'); marker.innerText='ZONE: TOPPLER'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='orange'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
   
   const statusEl = $('status'); 
   if(statusEl) statusEl.textContent = 'Loading…'; 
@@ -271,6 +275,7 @@ async function init(){
   game.cvs = cvs; 
   console.log('[Renderer] init() called for zone:', 'toppler');
   console.log('[Zone] Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
+  debugger;
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
     try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
     try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}

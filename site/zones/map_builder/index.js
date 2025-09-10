@@ -1005,9 +1005,14 @@ document.addEventListener('fullscreenchange', () => {
 async function init() {
   console.log('[Zone] Booting:', 'map_builder');
   console.log('[Canvas] Injection starting...');
+  // DOM zone marker
+  try { document.body.setAttribute('data-zone', 'map_builder'); console.log('[Zone] DOM marked as:', document.body.dataset.zone); } catch {}
+  // Visual zone marker
+  try { const marker=document.createElement('div'); marker.innerText='ZONE: MAP BUILDER'; marker.style.position='absolute'; marker.style.top='10px'; marker.style.left='10px'; marker.style.color='cyan'; marker.style.zIndex='9999'; document.body.appendChild(marker); } catch {}
   cvs = $('gameCanvas');
   console.log('[Canvas] Element found:', cvs);
   ctx = cvs.getContext('2d');
+  debugger;
   
   // Initial canvas sizing
   // Validate canvas sizing
