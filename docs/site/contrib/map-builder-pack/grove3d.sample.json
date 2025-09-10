@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "zone": "grove3d",
+  "size": { "width": 8, "height": 6, "tile": { "w": 64, "h": 32 } },
+  "layers": {
+    "terrain": { "map": [
+      ["grass_01","grass_01","grass_02","path_stone","path_stone","grass_01","grass_01","grass_01"],
+      ["grass_01","grass_02","grass_02","path_stone","grass_01","grass_01","grass_01","grass_01"],
+      ["grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01"],
+      ["grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01"],
+      ["grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01"],
+      ["grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01","grass_01"]
+    ] },
+    "props": { "map": [
+      [null,null,null,null,null,null,null,null],
+      [null,"mystic_stone",null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null]
+    ] },
+    "npcs": { "map": [] }
+  },
+  "orchestration": {
+    "spawn": { "x": 1, "y": 1 },
+    "quests": [ { "trigger": "step_on", "tile": "mystic_stone", "action": "start_quest", "id": "grove_intro" } ],
+    "paths": [],
+    "lore": [ { "tile": "mystic_stone", "overlay": "LoreModal", "id": "lore_ancient_isle" } ]
+  }
+}

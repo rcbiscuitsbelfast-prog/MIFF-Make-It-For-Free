@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zone Router Test</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1116;
+            color: #e6edf3;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1f6feb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #388bfd;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #21262d;
+            border: 1px solid #30363d;
+        }
+        .btn-secondary:hover {
+            background: #30363d;
+        }
+        .test-status {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-status h3 {
+            margin: 0 0 15px 0;
+            color: #58a6ff;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        .status-label {
+            opacity: 0.7;
+        }
+        .status-value {
+            color: #58a6ff;
+            font-weight: 600;
+        }
+        .preview-container {
+            border: 1px solid #222;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0b0e14;
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <header class="test-header">
+            <h1>🧪 Zone Router Test</h1>
+            <p>Test the MIFF Zone Router functionality</p>
+        </header>
+
+        <div class="test-controls">
+            <button class="btn" onclick="testNavigate('toppler')">🧱 Toppler</button>
+            <button class="btn" onclick="testNavigate('spirit_tamer')">🐉 Spirit Tamer</button>
+            <button class="btn" onclick="testNavigate('witcher_grove')">🧙 Witcher Grove</button>
+            <button class="btn" onclick="testNavigate('remix_lab')">🧪 Remix Lab</button>
+            <button class="btn" onclick="testNavigate('dashboard')">📊 Dashboard</button>
+            <button class="btn btn-secondary" onclick="testNavigate('')">🏠 Home</button>
+        </div>
+
+        <div class="test-status">
+            <h3>Router Status</h3>
+            <div class="status-item">
+                <span class="status-label">Router Available:</span>
+                <span class="status-value" id="router-status">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Current Zone:</span>
+                <span class="status-value" id="current-zone">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Remix Mode:</span>
+                <span class="status-value" id="remix-mode">-</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Available Zones:</span>
+                <span class="status-value" id="available-zones">-</span>
+            </div>
+        </div>
+
+        <div class="test-controls">
+            <button class="btn" onclick="testRemixMode(true)">🔧 Enable Remix</button>
+            <button class="btn btn-secondary" onclick="testRemixMode(false)">🚫 Disable Remix</button>
+            <button class="btn" onclick="testRouterAPI()">📡 Test API</button>
+        </div>
+
+        <div id="zone-preview" class="preview-container" aria-live="polite"></div>
+    </div>
+
+    <script src="zone-router.js"></script>
+    <script>
+        // Test functions
+        function testNavigate(zone) {
+            if (zone) {
+                location.hash = zone;
+            } else {
+                location.hash = '';
+            }
+            updateStatus();
+        }
+
+        function testRemixMode(enabled) {
+            if (window.MIFFRouter) {
+                window.MIFFRouter.setRemixMode(enabled);
+                updateStatus();
+            }
+        }
+
+        function testRouterAPI() {
+            if (window.MIFFRouter) {
+                console.log('Testing Router API...');
+                console.log('Current Zone:', window.MIFFRouter.getCurrentZone());
+                console.log('Available Zones:', window.MIFFRouter.getZoneList());
+                console.log('Router instance:', window.MIFFRouter);
+            }
+        }
+
+        function updateStatus() {
+            const router = window.MIFFRouter;
+            
+            document.getElementById('router-status').textContent = router ? 'Yes' : 'No';
+            
+            if (router) {
+                const currentZone = router.getCurrentZone();
+                document.getElementById('current-zone').textContent = currentZone ? currentZone.title : 'None';
+                document.getElementById('remix-mode').textContent = router.remixMode ? 'ON' : 'OFF';
+                document.getElementById('available-zones').textContent = router.getZoneList().join(', ');
+            } else {
+                document.getElementById('current-zone').textContent = 'N/A';
+                document.getElementById('remix-mode').textContent = 'N/A';
+                document.getElementById('available-zones').textContent = 'N/A';
+            }
+        }
+
+        // Update status periodically
+        setInterval(updateStatus, 1000);
+        
+        // Initial status check
+        setTimeout(updateStatus, 100);
+    </script>
+</body>
+</html>

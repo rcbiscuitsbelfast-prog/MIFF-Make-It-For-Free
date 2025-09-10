@@ -1,0 +1,9 @@
+{
+  "scenarioId": "toppler-demo-v1",
+  "name": "Toppler Demo",
+  "version": "1.0.0",
+  "levels": [
+    { "id": "L1", "goalX": 560, "width": 640, "height": 480, "gravity": 900 },
+    { "id": "L2", "goalX": 520, "width": 640, "height": 480, "gravity": 900 }
+  ]
+}
