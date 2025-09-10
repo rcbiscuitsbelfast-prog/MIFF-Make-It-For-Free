@@ -1,5 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
-import { HUDBar, MainMenu, StyleSelector } from '../../ui_modules/index.js';
+import { HUDBar, MainMenu, StyleSelector, QuestLog } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
@@ -584,6 +584,10 @@ async function init(){
     console.warn('[Assets] Missing:', []);
     await loadGroveMap();
     await loadCharacter();
+    // Gameplay entity injection
+    const npcEntity = { id: 'npc_spirit', x: 100, y: 200, type: 'SpiritNPC' };
+    scene.addEntity(npcEntity);
+    console.log('[Grove] NPC added:', npcEntity);
     // Scene graph population (diagnostic)
     const player = { id: 'player', x: character.x, y: character.y };
     scene.addEntity(player);
@@ -598,6 +602,10 @@ async function init(){
       // Add style selector overlay on 'S' key
       window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } });
     } catch {}
+    // Trigger overlay (LoreModal)
+    try { UI.showLore && UI.showLore({ title: 'Grove Lore', text: 'The forest whispers. NPC nearby.' }); console.log('[Grove] LoreModal triggered'); console.log('[Dispatcher] Overlay shown:', 'LoreModal'); } catch {}
+    // Zone-specific UI modules
+    try { UI.useModule && UI.useModule('QuestLog', QuestLog, { style: UI_STYLES[savedStyle] || UI_STYLES.fantasy, entries: ['Meet the Spirit', 'Explore the Grove'] }); console.log('[Grove] UI modules attached: HUDBar, QuestLog'); } catch { console.warn('[UI] QuestLog unavailable — UI injection skipped'); }
     
     console.log('[Renderer] Draw loop started');
     requestAnimationFrame(gameLoop);

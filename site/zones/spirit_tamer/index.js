@@ -249,11 +249,17 @@ async function init(){
   // Scene graph population (diagnostic)
   const player = { id: 'player', x: model.npc.x, y: model.npc.y };
   scene.addEntity(player);
+  // Gameplay entity injection
+  const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit' };
+  scene.addEntity(spirit);
+  console.log('[Spirit] Spirit entity added:', spirit);
   bindInputs(); 
   ensureJoystick(); 
   UI = createOverlayDispatcher($('gameContainer'));
   console.log('[SpiritTamer] UI modules attached');
   console.log('[UI] Injected modules for zone:', 'spirit_tamer');
+  // Trigger bonding overlay
+  try { UI.showLore && UI.showLore({ title: 'Bond Overlay', text: 'Reach out to the spirit…' }); console.log('[Spirit] BondOverlay triggered'); console.log('[Dispatcher] Overlay shown:', 'BondOverlay'); } catch {}
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
   const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 
