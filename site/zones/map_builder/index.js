@@ -934,6 +934,7 @@ function gameLoop() {
   const dt = 1/60;
   update(dt);
   render();
+  console.log('[Renderer] requestAnimationFrame active');
   requestAnimationFrame(gameLoop);
 }
 
@@ -979,7 +980,19 @@ window.__miffToggleFullscreen = () => {
 
 // Event listeners
 window.addEventListener('resize', () => {
+  cvs.width = window.innerWidth;
+  cvs.height = window.innerHeight;
   resizeCanvas();
+  console.log('[Canvas] Resized on window change');
+});
+
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    cvs.width = window.innerWidth;
+    cvs.height = window.innerHeight;
+    resizeCanvas();
+    console.log('[Viewport] Orientation changed');
+  }, 100);
 });
 
 document.addEventListener('fullscreenchange', () => {
@@ -990,14 +1003,21 @@ document.addEventListener('fullscreenchange', () => {
 
 // Initialization
 async function init() {
+  console.log('[Zone] Booting:', 'map_builder');
+  console.log('[Canvas] Injection starting...');
   cvs = $('gameCanvas');
+  console.log('[Canvas] Element found:', cvs);
   ctx = cvs.getContext('2d');
   
   // Initial canvas sizing
+  // Validate canvas sizing
+  cvs.width = window.innerWidth;
+  cvs.height = window.innerHeight;
   resizeCanvas();
   
   // Initialize UI
   UI = createOverlayDispatcher($('gameContainer'));
+  console.log('[UI] HUDBar rendered');
   addAttributionFooter();
   
   // Show intro
@@ -1018,10 +1038,12 @@ async function init() {
   // Load assets
   window.MapBuilderAssets.preloadAll();
   window.MapBuilderAssets.onAssetsReady(() => {
-    console.log('[MapBuilder] Assets loaded');
+    console.log('[Assets] Loaded:', 'map_builder assets');
     UI.showHUD({ loadingText: 'Ready to build!' });
     
     // Start game loop
+    console.log('[Renderer] Draw loop started');
+    console.log('[Renderer] requestAnimationFrame active');
     gameLoop();
   });
   

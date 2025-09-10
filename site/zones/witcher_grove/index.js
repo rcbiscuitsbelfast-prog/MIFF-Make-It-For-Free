@@ -457,7 +457,7 @@ function gameLoop(ts){
   tick++;
   update(dt);
   render();
-  
+  console.log('[Renderer] requestAnimationFrame active');
   UI && UI.showHUD({ inputMode, fullscreenToggle: true });
   requestAnimationFrame(gameLoop);
 }
@@ -497,6 +497,7 @@ window.__miffToggleFullscreen = () => {
 // Window resize handler
 window.addEventListener('resize', () => {
   resizeCanvas();
+  console.log('[Canvas] Resized on window change');
 });
 
 // Orientation change handler for mobile devices
@@ -518,6 +519,7 @@ document.addEventListener('fullscreenchange', () => {
 // Initialization
 async function init(){
   console.log('[Grove] Canvas injection starting...');
+  console.log('[Zone] Booting:', 'witcher_grove');
   
   // Use existing gameCanvas or create mainCanvas
   cvs = $('gameCanvas') || $('mainCanvas');
@@ -536,10 +538,12 @@ async function init(){
     container.insertBefore(cvs, container.firstChild || null);
     console.log('[Grove] Canvas injected');
   } else {
+    console.log('[Canvas] Element found:', cvs);
     console.log('[Grove] Canvas found:', cvs.id);
   }
   ctx = cvs.getContext('2d');
-  console.log('Renderer initialized');
+  console.log('[Renderer] init() called for zone:', 'witcher_grove');
+  console.log('[Zone] Renderer initialized');
   
   // Initial canvas sizing
   resizeCanvas();
@@ -550,6 +554,7 @@ async function init(){
   const savedStyle = localStorage.getItem('miff_ui_style') || 'fantasy';
   UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.fantasy);
   console.log('[Grove] UI modules attached');
+  console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
   try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode }); } catch {}
   addAttributionFooter();
   UI.showHUD({ loadingText: 'Loading… 0%' });
@@ -559,7 +564,8 @@ async function init(){
   
   // Wait for assets to load
   onAssetsReady(async () => {
-    console.log('Assets loaded');
+    console.log('[Assets] Loaded:', 'grove assets');
+    console.warn('[Assets] Missing:', []);
     await loadGroveMap();
     await loadCharacter();
     bindInput();
@@ -574,7 +580,7 @@ async function init(){
       window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } });
     } catch {}
     
-    console.log('Draw loop started');
+    console.log('[Renderer] Draw loop started');
     requestAnimationFrame(gameLoop);
   });
   

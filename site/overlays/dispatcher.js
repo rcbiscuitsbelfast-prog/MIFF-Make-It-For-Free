@@ -75,6 +75,7 @@ export function createOverlayDispatcher(rootEl) {
     hud.appendChild(row);
     state.nodes.hud = attach(hud);
     updateModule('HUD', { inputMode: opts?.inputMode, info: opts?.progress!=null? `Progress ${opts.progress}` : undefined });
+    if (!state._hudLogged){ console.log('[UI] HUDBar rendered'); state._hudLogged = true; }
   }
 
   function showGameOver(opts){
@@ -110,5 +111,6 @@ export function createOverlayDispatcher(rootEl) {
 
   function hide(kind){ const id = kind==='intro'?'miffIntro' : kind==='hud'?'miffHUD' : kind==='gameover'?'miffGameOver':'miffLore'; const n = document.getElementById(id); if (n) n.remove(); state.nodes[kind]=null; }
 
+  console.log('[UI] Overlay DOM attached');
   return { showIntro, showHUD, showGameOver, showLore, hide, useModule, updateModule, setInputMode, setDefaultStyle };
 }

@@ -228,10 +228,11 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
 }
 
-function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
+function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; if (game.state!==State.Paused) update(dt); render(); console.log('[Renderer] requestAnimationFrame active'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ 
   console.log('[Toppler] Canvas injection starting...');
+  console.log('[Zone] Booting:', 'toppler');
   
   const statusEl = $('status'); 
   if(statusEl) statusEl.textContent = 'Loading…'; 
@@ -259,6 +260,7 @@ async function init(){
     console.log('[Toppler] Canvas found:', cvs.id);
   } fitCanvas(cvs); 
   window.addEventListener('resize', ()=>fitCanvas(cvs)); 
+  console.log('[Canvas] Resized on window change');
   window.addEventListener('orientationchange', () => {
     setTimeout(() => {
       fitCanvas(cvs);
@@ -267,17 +269,22 @@ async function init(){
   });
   game.ctx = cvs.getContext('2d'); 
   game.cvs = cvs; 
-  console.log('[Toppler] Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
+  console.log('[Renderer] init() called for zone:', 'toppler');
+  console.log('[Zone] Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
     try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
     try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}
     try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
     try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
     try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
+    console.log('[Assets] Loaded:', Object.keys(SPRITES).filter(k=>SPRITES[k]).join(','));
+    const missing = Object.keys(SPRITES).filter(k=>!SPRITES[k]);
+    if (missing.length) console.warn('[Assets] Missing:', missing);
     detectInputMode();
     bindInputs(); 
     if (!UI) UI = createOverlayDispatcher($('gameContainer'));
     console.log('[Toppler] UI modules attached'); 
+    console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
     const savedStyle = localStorage.getItem('miff_ui_style') || 'sciFi';
     UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.sciFi);
     // Mount modular HUD and Main Menu
@@ -288,7 +295,7 @@ async function init(){
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
     try { if (UI.useModule) { UI.showIntro && UI.showIntro({ title: 'Toppler Medieval' }); UI.useModule('IntroModal', MainMenu, { title: 'Toppler Medieval', style: UI_STYLES[savedStyle] || UI_STYLES.sciFi, onAction: (id)=>{ if (id==='start'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if (id==='credits'){ showLoreModal(); } } }); } } catch {}
     window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } });
-    ensureJoystick(); startReplay(); setState(State.Idle); console.log('Draw loop started'); requestAnimationFrame(loop); }
+    ensureJoystick(); startReplay(); setState(State.Idle); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 
 // Global functions for pause overlay
 window.togglePause = togglePause;

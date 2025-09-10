@@ -26,6 +26,11 @@ export function updateState(key, value){
     return;
   }
   subscribers.forEach(cb => { try { cb(getState()); } catch {} });
+  try {
+    if ((typeof key === 'string' && key === 'inputMode') || (typeof key === 'object' && key && 'inputMode' in key)){
+      console.log('[Input] Mode detected:', state.inputMode);
+    }
+  } catch {}
 }
 
 export function subscribe(cb){
