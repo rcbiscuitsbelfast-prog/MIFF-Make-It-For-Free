@@ -3,6 +3,8 @@
 
 let cvs, ctx, UI;
 let tick = 0;
+// Minimal scene graph for diagnostics
+const scene = { entities: [], addEntity(e){ this.entities.push(e); console.log('[Scene] Entity added:', e); console.log('[Scene] Entities count:', this.entities.length); } };
 let keys = {};
 let mouse = { x: 0, y: 0, down: false, drag: false };
 let joystick = { active: false, deltaX: 0, deltaY: 0, x: 0, y: 0 };
@@ -1014,6 +1016,9 @@ async function init() {
   ctx = cvs.getContext('2d');
   debugger;
   if (!cvs || !ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { cvs = document.querySelector('canvas'); ctx = cvs && cvs.getContext('2d'); } catch {} }
+  // Canvas context validation
+  const gl = cvs.getContext('webgl') || ctx;
+  if (!gl){ console.error('[Canvas] Context failed — rendering aborted'); } else { console.log('[Canvas] Context acquired:', gl); }
   
   // Initial canvas sizing
   // Validate canvas sizing
@@ -1048,6 +1053,9 @@ async function init() {
     UI.showHUD({ loadingText: 'Ready to build!' });
     
     // Start game loop
+    // Scene graph population (diagnostic)
+    const cursorEntity = { id: 'cursor', x: 0, y: 0 };
+    scene.addEntity(cursorEntity);
     console.log('[Renderer] Draw loop started');
     console.log('[Renderer] requestAnimationFrame active');
     gameLoop();

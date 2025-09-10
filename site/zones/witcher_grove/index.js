@@ -13,6 +13,8 @@ let camera = { x: 0, y: 0 };
 let keys = {};
 let inputMode = 'Keyboard';
 let tick = 0;
+// Minimal scene graph for diagnostics
+const scene = { entities: [], addEntity(e){ this.entities.push(e); console.log('[Scene] Entity added:', e); console.log('[Scene] Entities count:', this.entities.length); } };
 
 // Character with clean animation system
 let character = { 
@@ -455,6 +457,8 @@ function gameLoop(ts){
   gameLoop._last = ts;
   
   tick++;
+  console.log('[Draw] Frame rendering...');
+  if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); }
   update(dt);
   render();
   console.log('[Renderer] requestAnimationFrame active for:', 'witcher_grove');
@@ -546,6 +550,9 @@ async function init(){
     console.log('[Grove] Canvas found:', cvs.id);
   }
   ctx = cvs.getContext('2d');
+  // Canvas context validation
+  const gl = cvs.getContext('webgl') || ctx;
+  if (!gl){ console.error('[Canvas] Context failed — rendering aborted'); } else { console.log('[Canvas] Context acquired:', gl); }
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
   debugger;
@@ -577,6 +584,9 @@ async function init(){
     console.warn('[Assets] Missing:', []);
     await loadGroveMap();
     await loadCharacter();
+    // Scene graph population (diagnostic)
+    const player = { id: 'player', x: character.x, y: character.y };
+    scene.addEntity(player);
     bindInput();
     createJoystick();
     updateGameState && updateGameState({ progress: { value: 0, total: 6, label: '' } });

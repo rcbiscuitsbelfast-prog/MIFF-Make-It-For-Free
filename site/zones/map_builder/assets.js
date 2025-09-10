@@ -142,6 +142,7 @@ function preloadImage(src){
   const img = new Image();
   img.onload = ()=>{ 
     cache.loaded += 1; 
+    console.log('[Assets] Hydrated:', src);
     if (cache.loaded >= cache.total){ 
       cache.ready = true; 
       cache.cbs.forEach(fn=>fn()); 
@@ -150,6 +151,7 @@ function preloadImage(src){
   };
   img.onerror = ()=>{ 
     cache.loaded += 1; 
+    console.warn('[Assets] Missing texture/model — entity may be invisible');
     if (cache.loaded >= cache.total){ 
       cache.ready = true; 
       cache.cbs.forEach(fn=>fn()); 
