@@ -1,0 +1,8 @@
+{
+  "id": "placeholder_spirit_01",
+  "name": "Placeholder Spirit",
+  "description": "A remix-safe stand-in for spirit content.",
+  "tags": ["placeholder", "newhaven"],
+  "unlock": { "type": "discover", "objectId": "placeholder_spirit_01" },
+  "evolution": { "type": "level", "level": 5 }
+}
