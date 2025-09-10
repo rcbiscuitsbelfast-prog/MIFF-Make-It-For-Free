@@ -619,6 +619,8 @@ async function init(){
       // Add style selector overlay on 'S' key
       window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } });
     } catch {}
+    // Zone Boot guard for StartMenu
+    if (!window.__miffZoneBooted){ (UI.showOverlay||UI.showIntro) && (UI.showOverlay? UI.showOverlay('StartModal', { title:'Witcher Grove' }) : UI.showIntro({ title:'Witcher Grove' })); window.__miffZoneBooted = true; console.log('[ZoneBoot] StartMenu shown once'); }
     // Trigger overlay (LoreModal)
     try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('LoreModal', { title: 'Grove Lore', text: 'The forest whispers. NPC nearby.', autoDismissMs: 3000 }) : UI.showLore({ title: 'Grove Lore', text: 'The forest whispers. NPC nearby.' })); console.log('[Grove] LoreModal triggered'); console.log('[Dispatcher] Overlay shown:', 'LoreModal'); } catch {}
     // Zone-specific UI modules
