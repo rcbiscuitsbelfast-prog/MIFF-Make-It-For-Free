@@ -75,8 +75,29 @@ async function loadCharacter(){
   npc.sprite = getSprite('npcElder');
 }
 
+// Input mode detection
+function detectInputMode() {
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  const hasGamepad = navigator.getGamepads ? 
+    Array.from(navigator.getGamepads()).filter(Boolean).length > 0 : false;
+  
+  if (hasGamepad) {
+    inputMode = 'Gamepad';
+  } else if (isTouch) {
+    inputMode = 'Touch';
+  } else {
+    inputMode = 'Mouse';
+  }
+  
+  console.log('[Grove] Input mode detected:', inputMode, 'touch:', isTouch, 'gamepad:', hasGamepad);
+  try { updateGameState({ inputMode }); } catch {}
+  return inputMode;
+}
+
 // Input binding
 function bindInput(){
+  // Initial input mode detection
+  detectInputMode();
   window.addEventListener('keydown', e => { 
     const k = e.key.toLowerCase(); 
     keys[k] = true; 
@@ -441,22 +462,15 @@ function gameLoop(ts){
   requestAnimationFrame(gameLoop);
 }
 
-// Canvas resize system - completely rebuilt
+// Canvas resize system - always use full window dimensions
 function resizeCanvas(){
   if (!cvs) return;
   
-  // Use full window dimensions for fullscreen, or container size for normal mode
-  const isFullscreen = document.fullscreenElement !== null;
-  if (isFullscreen) {
-    cvs.width = window.innerWidth;
-    cvs.height = window.innerHeight;
-  } else {
-    const rect = cvs.getBoundingClientRect();
-    cvs.width = rect.width;
-    cvs.height = rect.height;
-  }
+  // Always use full window dimensions for consistent rendering
+  cvs.width = window.innerWidth;
+  cvs.height = window.innerHeight;
   
-  console.log('[GroveResize] Canvas:', cvs.width, 'x', cvs.height, 'fullscreen:', isFullscreen);
+  console.log('[GroveResize] Canvas:', cvs.width, 'x', cvs.height, 'viewport:', window.innerWidth, 'x', window.innerHeight);
 }
 
 // Fullscreen system - completely rebuilt
@@ -483,6 +497,15 @@ window.__miffToggleFullscreen = () => {
 // Window resize handler
 window.addEventListener('resize', () => {
   resizeCanvas();
+});
+
+// Orientation change handler for mobile devices
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    resizeCanvas();
+    // Re-detect input mode after orientation change
+    detectInputMode();
+  }, 100);
 });
 
 // Fullscreen change handler
@@ -526,6 +549,7 @@ async function init(){
   UI = createOverlayDispatcher($('gameContainer'));
   const savedStyle = localStorage.getItem('miff_ui_style') || 'fantasy';
   UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.fantasy);
+  console.log('[Grove] UI modules attached');
   try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode }); } catch {}
   addAttributionFooter();
   UI.showHUD({ loadingText: 'Loading… 0%' });

@@ -37,19 +37,29 @@ async function loadAssets(){
 function loadImg(src){ return new Promise((res, rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('load fail '+src)); i.src=src; }); }
 
 function fitCanvas(cvs){
-	const container = document.getElementById('gameContainer');
-	if(!container || !cvs) return;
-	const maxWidth = Math.min(800, container.clientWidth || 800);
-	const aspect = 640/480;
-	cvs.style.width = maxWidth + 'px';
-	cvs.style.height = Math.round(maxWidth / aspect) + 'px';
+	if (!cvs) return; 
+	// Always use full window dimensions for consistent rendering
+	cvs.width = window.innerWidth;
+	cvs.height = window.innerHeight;
+	console.log('[SpiritTamerResize] Canvas:', cvs.width, 'x', cvs.height, 'viewport:', window.innerWidth, 'x', window.innerHeight);
 }
 
 function detectInputMode(){
-	function setMode(m){ if (model.inputMode !== m){ model.inputMode = m; persist(); } }
-	window.addEventListener('keydown', ()=>setMode('Keyboard'));
-	window.addEventListener('pointerdown', ()=>setMode('Touch'));
-	setInterval(()=>{ const pads = navigator.getGamepads ? Array.from(navigator.getGamepads()).filter(Boolean) : []; if (pads.length) setMode('Gamepad'); }, 1000);
+	const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+	const hasGamepad = navigator.getGamepads ? 
+		Array.from(navigator.getGamepads()).filter(Boolean).length > 0 : false;
+	
+	if (hasGamepad) {
+		model.inputMode = 'Gamepad';
+	} else if (isTouch) {
+		model.inputMode = 'Touch';
+	} else {
+		model.inputMode = 'Mouse';
+	}
+	
+	console.log('[SpiritTamer] Input mode detected:', model.inputMode, 'touch:', isTouch, 'gamepad:', hasGamepad);
+	persist();
+	return model.inputMode;
 }
 
 function ensureJoystick(){
@@ -204,7 +214,22 @@ async function init(){
     console.log('[SpiritTamer] Canvas injected');
   } else {
     console.log('[SpiritTamer] Canvas found:', cvs.id);
-  } fitCanvas(cvs); window.addEventListener('resize', ()=>fitCanvas(cvs)); model.cvs = cvs; model.ctx = cvs.getContext('2d'); console.log('Renderer initialized'); detectInputMode(); bindInputs(); ensureJoystick(); UI = createOverlayDispatcher($('gameContainer')); const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('Draw loop started'); requestAnimationFrame(loop); }
+  } fitCanvas(cvs); 
+  window.addEventListener('resize', ()=>fitCanvas(cvs)); 
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      fitCanvas(cvs);
+      detectInputMode();
+    }, 100);
+  });
+  model.cvs = cvs; 
+  model.ctx = cvs.getContext('2d'); 
+  console.log('[SpiritTamer] Renderer initialized'); 
+  detectInputMode(); 
+  bindInputs(); 
+  ensureJoystick(); 
+  UI = createOverlayDispatcher($('gameContainer'));
+  console.log('[SpiritTamer] UI modules attached'); const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('Draw loop started'); requestAnimationFrame(loop); }
 
 // Fullscreen support
 window.__miffToggleFullscreen = () => {
