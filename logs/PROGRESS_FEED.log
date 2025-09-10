@@ -1,3 +1,4 @@
 [%(date)s] Feed: Scanned zones; entity injection logs present; continuing hydration and mobile fit work.
 [2025-09-10T14:22:32Z] Feed: Scanned zones; entity injection logs present; continuing hydration and mobile fit work.
 [2025-09-10T14:25:02Z] Feed: Verified Grove + Spirit hydration gates and pre-draw entity injection present; continuing on mobile fit + Toppler UI.
+[2025-09-10T14:29:43Z] Feed: Mobile movement toggle CSS fixed (position:fixed, z-index), Toppler legacy UI cleaned; pushing.
