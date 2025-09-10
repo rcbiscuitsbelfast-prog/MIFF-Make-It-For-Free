@@ -446,6 +446,9 @@ function renderEffects(){
 // Main render function
 function render(){
   ctx.clearRect(0, 0, cvs.width, cvs.height);
+  // Debug first-frame marker
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(18, 18, 2, 2);
   
   renderBackground();
   renderTiles();
@@ -565,6 +568,8 @@ async function init(){
   if (!gl){ console.error('[Canvas] Context failed — rendering aborted'); } else { console.log('[Canvas] Context acquired:', gl); }
   // Canvas visibility & z-index check
   try { const style = getComputedStyle(cvs); console.log('[Canvas] Display:', style.display); console.log('[Canvas] Z-index:', style.zIndex); console.log('[Canvas] Visibility:', style.visibility); } catch {}
+  if (!cvs.width || !cvs.height){ cvs.width = window.innerWidth; cvs.height = window.innerHeight; console.warn('[Canvas] Dimensions were zero — forced resize to', cvs.width, cvs.height); }
+  console.log('[Canvas] Size:', cvs.width, 'x', cvs.height);
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
   debugger;
