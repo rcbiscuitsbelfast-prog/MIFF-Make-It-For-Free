@@ -360,6 +360,7 @@ function renderTiles(){
       }
     }
   }
+  console.log('[Draw] Grove tiles rendered');
 }
 
 // Sprite rendering - completely rebuilt with proper frame cropping
