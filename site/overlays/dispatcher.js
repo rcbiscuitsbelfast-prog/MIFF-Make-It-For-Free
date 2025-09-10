@@ -115,6 +115,8 @@ export function createOverlayDispatcher(rootEl) {
     box.appendChild(close);
     state.nodes.lore = attach(box);
     try { const z = getComputedStyle(state.nodes.lore).zIndex; const vis = state.nodes.lore.style.display || getComputedStyle(state.nodes.lore).display; console.log('[UI] Overlay z-index:', z); console.log('[UI] Overlay visibility:', vis); } catch {}
+    // Overlay obstruction scan (basic)
+    try { const overlays = document.querySelectorAll('.miff-overlay'); overlays.forEach(ov=>{ const st=getComputedStyle(ov); console.log('[Overlay] Z-index:', st.zIndex); console.log('[Overlay] Pointer-events:', st.pointerEvents); console.log('[Overlay] Display:', st.display); }); } catch {}
   }
 
   function hide(kind){ const id = kind==='intro'?'miffIntro' : kind==='hud'?'miffHUD' : kind==='gameover'?'miffGameOver':'miffLore'; const n = document.getElementById(id); if (n) n.remove(); state.nodes[kind]=null; }

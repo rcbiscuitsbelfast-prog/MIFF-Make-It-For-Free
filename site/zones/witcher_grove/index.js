@@ -561,6 +561,8 @@ async function init(){
   // Canvas context validation
   const gl = cvs.getContext('webgl') || ctx;
   if (!gl){ console.error('[Canvas] Context failed — rendering aborted'); } else { console.log('[Canvas] Context acquired:', gl); }
+  // Canvas visibility & z-index check
+  try { const style = getComputedStyle(cvs); console.log('[Canvas] Display:', style.display); console.log('[Canvas] Z-index:', style.zIndex); console.log('[Canvas] Visibility:', style.visibility); } catch {}
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
   debugger;

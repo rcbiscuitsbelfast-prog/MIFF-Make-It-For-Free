@@ -281,6 +281,8 @@ async function init(){
   // Canvas context validation
   const gl = cvs.getContext('webgl') || game.ctx;
   if (!gl){ console.error('[Canvas] Context failed — rendering aborted'); } else { console.log('[Canvas] Context acquired:', gl); }
+  // Canvas visibility & z-index check
+  try { const style = getComputedStyle(cvs); console.log('[Canvas] Display:', style.display); console.log('[Canvas] Z-index:', style.zIndex); console.log('[Canvas] Visibility:', style.visibility); } catch {}
   game.cvs = cvs; 
   console.log('[Renderer] init() called for zone:', 'toppler');
   console.log('[Zone] Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
