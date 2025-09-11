@@ -1,5 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
-import { HUDBar, MainMenu, DialogueBox, StyleSelector } from '../../ui_modules/index.js';
+import { HUDBar, MainMenu, DialogueBox, StyleSelector, ContributorHUD, RemixBadge, QuestOverlay } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
@@ -287,7 +287,15 @@ async function init(){
   // UI nesting audit
   try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
-  const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
+  const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {}
+  // Contributor HUD + Remix Badge + Quest overlay (persistent)
+  try {
+    UI.useModule && UI.useModule('ContributorHUD', ContributorHUD, { inputMode: model.inputMode, zone: 'spirit_tamer' });
+    UI.useModule && UI.useModule('RemixBadge', RemixBadge, { url: 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free' });
+    UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Bond with the Spirit', lines: ['Beats: 0/6'] });
+  } catch {}
+  addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode });
+  startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 
 // Fullscreen support
 window.__miffToggleFullscreen = () => {

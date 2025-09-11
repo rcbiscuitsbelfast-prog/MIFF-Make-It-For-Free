@@ -1,5 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
-import { HUDBar, MainMenu, StyleSelector, QuestLog } from '../../ui_modules/index.js';
+import { HUDBar, MainMenu, StyleSelector, QuestLog, ContributorHUD, RemixBadge, QuestOverlay } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
@@ -653,6 +653,12 @@ async function init(){
     try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('LoreModal', { title: 'Grove Lore', text: 'The forest whispers. NPC nearby.', autoDismissMs: 3000 }) : UI.showLore({ title: 'Grove Lore', text: 'The forest whispers. NPC nearby.' })); console.log('[Grove] LoreModal triggered'); console.log('[Dispatcher] Overlay shown:', 'LoreModal'); } catch {}
     // Zone-specific UI modules
     try { UI.useModule && UI.useModule('QuestLog', QuestLog, { style: UI_STYLES[savedStyle] || UI_STYLES.fantasy, entries: ['Meet the Spirit', 'Explore the Grove'] }); console.log('[Grove] UI modules attached: HUDBar, QuestLog'); } catch { console.warn('[UI] QuestLog unavailable — UI injection skipped'); }
+    // Contributor HUD + Remix Badge + Quest overlay (persistent)
+    try {
+      UI.useModule && UI.useModule('ContributorHUD', ContributorHUD, { inputMode, zone: 'witcher_grove' });
+      UI.useModule && UI.useModule('RemixBadge', RemixBadge, { url: 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free' });
+      UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Explore the Grove', lines: ['Find the Elder', 'Collect a Herb'] });
+    } catch {}
     
     console.log('[Renderer] Draw loop starting after hydration');
     requestAnimationFrame(gameLoop);
