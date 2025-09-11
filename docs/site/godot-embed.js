@@ -8,6 +8,8 @@ export function embedGodot({ zone, path }){
   iframe.src = path;
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('allowfullscreen', '');
+  // Ensure iframe can receive focus and keyboard input
+  iframe.setAttribute('tabindex', '0');
   Object.assign(iframe.style, { position: 'absolute', inset: '0', width: '100vw', height: '100vh', border: 'none' });
   container.appendChild(iframe);
   // Remix bar
@@ -36,5 +38,12 @@ export function embedGodot({ zone, path }){
   container.appendChild(status);
   iframe.addEventListener('load', ()=>{ status.textContent = 'Godot loaded'; setTimeout(()=>status.remove(), 1000); });
   iframe.addEventListener('error', ()=>{ status.textContent = 'Failed to load Godot'; });
+
+  // Focus management: click to focus; auto-focus shortly after load
+  try {
+    iframe.addEventListener('load', ()=>{ setTimeout(()=>{ try{ iframe.focus(); }catch{} }, 50); });
+    iframe.addEventListener('pointerdown', ()=>{ try{ iframe.focus(); }catch{} });
+    container.addEventListener('pointerdown', ()=>{ try{ iframe.focus(); }catch{} });
+  } catch {}
 }
 
