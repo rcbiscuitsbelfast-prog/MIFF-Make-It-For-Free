@@ -61,6 +61,21 @@
         });
       }
       function render(){ ctx.fillStyle='#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); 
+      
+      // Draw ground platforms first
+      ctx.fillStyle='#8B4513'; // Brown for wood platforms
+      ents.forEach(e => {
+        if (e.type === 'tile' || (e.name && e.name.toLowerCase().includes('platform'))) {
+          ctx.fillRect(e.x, e.y, e.w, e.h);
+          ctx.strokeStyle='#654321';
+          ctx.strokeRect(e.x, e.y, e.w, e.h);
+        }
+      });
+      
+      // Draw main ground
+      ctx.fillStyle='#2F4F2F'; // Dark green ground
+      ctx.fillRect(0, cvs.height-20, cvs.width, 20);
+      
       ents.forEach(e=>{ 
         const img=getImg(e.src); 
         if(img && img.complete && loadedImgs.has(e.src)){ 

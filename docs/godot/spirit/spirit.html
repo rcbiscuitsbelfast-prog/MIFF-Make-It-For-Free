@@ -40,7 +40,11 @@
       }
     });
   }
-  let t=0; function render(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); ctx.fillStyle='#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); t+=dt; 
+  let t=0; function render(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); ctx.fillStyle='#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); t+=dt;
+  
+  // Draw ground
+  ctx.fillStyle='#2F4F2F'; // Dark green ground
+  ctx.fillRect(0, cvs.height-20, cvs.width, 20); 
   ents.forEach(e=>{ 
     const img=getImg(e.src); 
     if(img && img.complete && loadedImgs.has(e.src)){ 
