@@ -179,7 +179,7 @@
   </style>
 </head>
 <body>
-  <a href="../index.html" class="back-link">← Back to MIFF</a>
+  <a href="../index.html" class="back-link">← Back to MIFF Sampler</a>
   
   <div class="sampler-header">
     <h1>MIFF Sampler Worlds</h1>
@@ -350,11 +350,8 @@
             presetPath = '../studio/presets/sampler-3d-isometric.json';
             break;
           case 'static-overlay':
-            baseScene.entities = [
-              { id: 'hud', name: 'HUD', type: 'overlay', x: 0, y: 0, w: 100, h: 100 },
-              { id: 'info', name: 'Info Panel', type: 'overlay', x: 50, y: 50, w: 200, h: 100 }
-            ];
-            return baseScene;
+            presetPath = '../studio/presets/sampler-static-overlay.json';
+            break;
         }
         
         if (presetPath) {
