@@ -152,14 +152,9 @@ export function createMovementToggle() {
   return toggle;
 }
 
-// Auto-create on mobile devices
+// Auto-create on all devices for now
 if (typeof window !== 'undefined') {
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
-                   window.matchMedia('(max-width: 900px)').matches;
-  
-  if (isMobile) {
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(createMovementToggle, 1000); // Delay to let other UI load first
-    });
-  }
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(createMovementToggle, 1000); // Delay to let other UI load first
+  });
 }
