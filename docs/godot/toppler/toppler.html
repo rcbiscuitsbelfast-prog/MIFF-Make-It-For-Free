@@ -12,6 +12,15 @@
     // Placeholder: In real export, Godot loader will boot and you can postMessage from GDScript
     window.addEventListener('DOMContentLoaded', function(){
       try { parent.postMessage({ type: 'godot-ready', zone: 'toppler' }, '*'); } catch {}
+      // Render basic scene-data overlay rectangles to visualize preset
+      window.addEventListener('message', (e)=>{
+        if (e && e.data && e.data.type==='scene-data'){
+          const data = e.data.data || {}; const ents = data.entities||[];
+          const overlay = document.createElement('div'); overlay.style.position='absolute'; overlay.style.inset='0'; overlay.style.pointerEvents='none';
+          ents.forEach(en=>{ const d=document.createElement('div'); d.style.position='absolute'; d.style.left=en.x+'px'; d.style.top=en.y+'px'; d.style.width=en.w+'px'; d.style.height=en.h+'px'; d.style.border='1px solid #58a6ff'; d.title=en.name||en.type; overlay.appendChild(d); });
+          document.body.appendChild(overlay);
+        }
+      });
     });
   </script>
 </head>

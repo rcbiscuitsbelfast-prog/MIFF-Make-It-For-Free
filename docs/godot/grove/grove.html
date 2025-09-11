@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Grove (Godot Export Placeholder)</title>
   <style> html, body { margin:0; padding:0; height:100%; background:#000; } .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e6edf3;font-family:system-ui} </style>
-  <script>window.addEventListener('DOMContentLoaded',()=>{ try{ parent.postMessage({ type:'godot-ready', zone:'grove' }, '*'); }catch{} });</script>
+  <script>window.addEventListener('DOMContentLoaded',()=>{ try{ parent.postMessage({ type:'godot-ready', zone:'grove' }, '*'); }catch{}; window.addEventListener('message',(e)=>{ if(e&&e.data&&e.data.type==='scene-data'){ const data=e.data.data||{}; const ents=data.entities||[]; const ov=document.createElement('div'); ov.style.position='absolute'; ov.style.inset='0'; ov.style.pointerEvents='none'; ents.forEach(en=>{ const d=document.createElement('div'); d.style.position='absolute'; d.style.left=en.x+'px'; d.style.top=en.y+'px'; d.style.width=en.w+'px'; d.style.height=en.h+'px'; d.style.border='1px solid #58a6ff'; d.title=en.name||en.type; ov.appendChild(d); }); document.body.appendChild(ov); } }); });</script>
 </head>
 <body>
   <div class="placeholder">Godot export goes here (grove.wasm / grove.pck)</div>
