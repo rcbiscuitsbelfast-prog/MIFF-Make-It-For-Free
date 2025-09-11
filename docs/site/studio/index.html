@@ -22,6 +22,18 @@
         <button id="runPrompt">Run Prompt</button>
         <input type="text" id="assetSearch" placeholder="Search assets…" style="width:30%" />
       </div>
+      <div class="toolbar">
+        <select id="worldSelect">
+          <option value="">View World…</option>
+          <option value="../toppler.html">Toppler</option>
+          <option value="../spirit.html">Spirit</option>
+          <option value="../grove.html">Grove</option>
+        </select>
+        <button id="openWorld">Open</button>
+      </div>
+      <div class="panel" style="position:relative; height:50vh; margin-top:8px;">
+        <iframe id="worldFrame" style="position:absolute; inset:0; width:100%; height:100%; border:1px solid #1f2d3c" allowfullscreen></iframe>
+      </div>
       <pre id="promptResult" style="background:#0e1a2a;border:1px solid #1f2d3c;border-radius:10px;padding:10px;overflow:auto"></pre>
     </section>
   </main>
@@ -43,6 +55,7 @@
       };
       document.getElementById('promptResult').textContent = JSON.stringify({ search:q, matches }, null, 2);
     });
+    document.getElementById('openWorld').onclick = ()=>{ const s=document.getElementById('worldSelect'); const src=s&&s.value; const f=document.getElementById('worldFrame'); if (src){ f.src=src; } };
   </script>
 </body>
 </html>

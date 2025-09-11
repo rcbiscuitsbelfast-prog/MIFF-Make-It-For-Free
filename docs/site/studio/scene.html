@@ -29,9 +29,14 @@
           <button id="tool-resize">Resize</button>
           <select id="presetSelect"><option value="">Load Preset…</option><option value="presets/toppler.json">Toppler</option><option value="presets/spirit.json">Spirit</option><option value="presets/grove.json">Grove</option></select>
           <button id="btn-load-preset">Load</button>
+          <select id="spriteSelect"><option value="">Sprites…</option></select>
+          <select id="tileSelect"><option value="">Tiles…</option></select>
+          <button id="btn-preview-sprite">Preview Sprite</button>
+          <button id="btn-preview-map">Preview Map</button>
         </div>
         <div class="canvas-wrap">
           <canvas id="sceneCanvas"></canvas>
+          <canvas id="previewCanvas" style="position:absolute; right:10px; bottom:10px; width:160px; height:160px; border:1px solid #1f2d3c; background:#0006"></canvas>
         </div>
         <div class="export-bar">
           <button id="btn-export-json">Export JSON</button>

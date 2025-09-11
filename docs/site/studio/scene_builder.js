@@ -36,6 +36,12 @@ function initPalette(){
       row.appendChild(img); row.appendChild(b); list.appendChild(row);
     });
     sec.appendChild(list); pal.appendChild(sec);
+
+    // Populate dropdowns
+    const spriteSel = document.getElementById('spriteSelect');
+    const tileSel = document.getElementById('tileSelect');
+    (man.sprites||[]).forEach(s=>{ const o=document.createElement('option'); o.value=s.url; o.textContent=s.name; spriteSel && spriteSel.appendChild(o); });
+    (man.tiles||[]).forEach(t=>{ const o=document.createElement('option'); o.value=t.url; o.textContent=t.name; tileSel && tileSel.appendChild(o); });
   }).catch(()=>{});
 }
 
@@ -52,6 +58,9 @@ function initCanvas(){
   const ctx = cvs.getContext('2d');
   const fit = ()=>{ cvs.width = cvs.parentElement.clientWidth - 2; cvs.height = Math.max(360, window.innerHeight*0.6); draw(); };
   window.addEventListener('resize', fit); fit();
+  // sprite preview canvas
+  const pvs = document.getElementById('previewCanvas'); const pctx = pvs ? pvs.getContext('2d') : null; let pvAnim=0;
+  if (pvs && pctx){ pvs.width=160; pvs.height=160; setInterval(()=>{ pvAnim=(pvAnim+1)%60; const sel=document.getElementById('spriteSelect'); const url=sel && sel.value; pctx.clearRect(0,0,pvs.width,pvs.height); if (url){ const img=getImage(url); const t=(pvAnim/60); const scale=0.8+0.2*Math.sin(t*2*Math.PI); const w=Math.min(pvs.width*scale, img.naturalWidth||64); const h=Math.min(pvs.height*scale, img.naturalHeight||64); pctx.drawImage(img, (pvs.width-w)/2, (pvs.height-h)/2, w, h); } }, 1000/30); }
   let dragging = false; let dragId = null; let offset = {x:0,y:0};
   cvs.addEventListener('mousedown', (e)=>{
     let p = pointer(e, cvs);
@@ -121,6 +130,12 @@ function initCanvas(){
   // Load presets
   const presetBtn = document.getElementById('btn-load-preset');
   if (presetBtn){ presetBtn.onclick = async ()=>{ const selEl=document.getElementById('presetSelect'); const path=selEl&&selEl.value; if(!path) return; try { const pre=await fetch(path).then(r=>r.json()); state.entities=(pre.entities||[]).map(e=>({ ...e })); state.selectedId=null; draw(); } catch {} }; }
+
+  // Preview sprite & map: place selected into scene at origin
+  const prevSpriteBtn = document.getElementById('btn-preview-sprite');
+  if (prevSpriteBtn){ prevSpriteBtn.onclick = ()=>{ const sel=document.getElementById('spriteSelect'); const url=sel && sel.value; if (!url) return; state.currentType='sprite'; state.assetSelection={ name: sel.options[sel.selectedIndex].textContent, url }; const id='pv_'+Date.now(); state.entities.push({ id, name:'Preview Sprite', type:'sprite', src:url, x:16, y:16, w:64, h:64 }); draw(); } }
+  const prevMapBtn = document.getElementById('btn-preview-map');
+  if (prevMapBtn){ prevMapBtn.onclick = ()=>{ const sel=document.getElementById('tileSelect'); const url=sel && sel.value; if (!url) return; state.currentType='tile'; state.assetSelection={ name: sel.options[sel.selectedIndex].textContent, url }; const id='pv_'+Date.now(); state.entities.push({ id, name:'Preview Tile', type:'tile', src:url, x:100, y:100, w:64, h:64 }); draw(); } }
 }
 
 function exportJSON(){ return { version: 1, entities: state.entities.map(e=>({ id:e.id, name:e.name, type:e.type, x:e.x, y:e.y, w:e.w, h:e.h, r:e.r||0, tags:e.tags||[], behavior:e.behavior||'', src:e.src||null })) }; }
