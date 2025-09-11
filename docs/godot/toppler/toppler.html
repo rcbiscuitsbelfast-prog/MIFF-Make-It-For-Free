@@ -29,7 +29,7 @@
       if (window.__topplerBooted) return; window.__topplerBooted = true;
       const cvs = document.createElement('canvas'); Object.assign(cvs.style,{position:'absolute',inset:'0'}); document.body.appendChild(cvs); const ctx=cvs.getContext('2d');
       const fit=()=>{ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }; window.addEventListener('resize',fit); fit();
-      const imgs=new Map(); function getImg(src){ if(!src) return null; if(imgs.has(src)) return imgs.get(src); const i=new Image(); i.src=src; imgs.set(src,i); return i; }
+      const imgs=new Map(); const loadedImgs=new Set(); function getImg(src){ if(!src) return null; if(imgs.has(src)) return imgs.get(src); const i=new Image(); i.onload=()=>{console.log('[Toppler] Loaded:',src); loadedImgs.add(src);}; i.onerror=()=>{console.error('[Toppler] Failed to load:',src);}; i.src=src; imgs.set(src,i); return i; }
       const ents = entities.map(e=>({ ...e, vx:0, vy:0 }));
       // controls
       const keys={}; window.addEventListener('keydown',e=>keys[e.key]=true); window.addEventListener('keyup',e=>keys[e.key]=false);
@@ -58,7 +58,27 @@
           }
         });
       }
-      function render(){ ctx.fillStyle='#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); ents.forEach(e=>{ const img=getImg(e.src); if(img&&img.complete){ ctx.drawImage(img, e.x, e.y, e.w, e.h); } else { ctx.fillStyle='#58a6ff33'; ctx.fillRect(e.x,e.y,e.w,e.h); ctx.strokeStyle='#58a6ff'; ctx.strokeRect(e.x,e.y,e.w,e.h); } }); }
+      function render(){ ctx.fillStyle='#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); 
+      ents.forEach(e=>{ 
+        const img=getImg(e.src); 
+        if(img && img.complete && loadedImgs.has(e.src)){ 
+          // Sprite sheet slicing for character sprites
+          const frameW = e.type==='sprite' ? 32 : e.w; 
+          const frameH = e.type==='sprite' ? 32 : e.h;
+          const frameX = (e.frame || 0) * frameW;
+          const frameY = 0;
+          ctx.drawImage(img, frameX, frameY, frameW, frameH, e.x, e.y, e.w, e.h);
+        } else { 
+          // Debug overlay for failed loads
+          ctx.fillStyle='#58a6ff33'; 
+          ctx.fillRect(e.x,e.y,e.w,e.h); 
+          ctx.strokeStyle='#58a6ff'; 
+          ctx.strokeRect(e.x,e.y,e.w,e.h);
+          ctx.fillStyle='#fff'; ctx.font='10px monospace'; ctx.fillText(e.name||'?', e.x+2, e.y+12);
+          if(img && !img.complete) ctx.fillText('Loading...', e.x+2, e.y+24);
+        } 
+      }); 
+      }
       let last=performance.now(); function loop(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); render(); requestAnimationFrame(loop); }
       requestAnimationFrame(loop);
     }
