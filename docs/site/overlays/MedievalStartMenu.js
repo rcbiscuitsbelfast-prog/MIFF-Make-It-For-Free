@@ -1,7 +1,7 @@
 // MIFF Medieval Start Menu (simple, zone-agnostic)
 export function injectMedievalMenu(zoneName){
   const existing = document.querySelector('.start-menu.medieval');
-  if (existing) existing.remove();
+  if (existing) return;
   const menu = document.createElement('div');
   menu.className = 'start-menu medieval';
   menu.innerHTML = `
@@ -24,6 +24,7 @@ export function injectMedievalMenu(zoneName){
   if (options) options.onclick = () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'options' } })); console.log('[Menu] options requested'); } catch {} };
   const repo = 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free';
   if (remix) remix.onclick = () => window.open(repo, '_blank');
+  try { console.log('[Layout] medieval menu scaled for mobile'); } catch {}
 }
 try { window.injectMedievalMenu = injectMedievalMenu; } catch {}
 

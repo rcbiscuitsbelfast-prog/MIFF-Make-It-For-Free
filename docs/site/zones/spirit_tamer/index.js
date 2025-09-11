@@ -3,6 +3,7 @@ import { HUDBar, MainMenu, DialogueBox, StyleSelector, ContributorHUD, RemixBadg
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
+import { getMenuType, injectMenu } from '../../overlays/MenuRegistry.js';
 
 function $(id){ return document.getElementById(id); }
 
@@ -322,14 +323,26 @@ async function init(){
     UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Bond with the Spirit', lines: ['Beats: 0/6'] });
   } catch {}
   addAttributionFooter();
-  // Start via medieval start menu injection
-  try { window.injectMedievalMenu && window.injectMedievalMenu('Spirit Tamer'); } catch {}
+  // Menu injection via registry (prevent double)
+  try {
+    const zoneKey = 'spirit';
+    const menuType = getMenuType(zoneKey);
+    if (!document.querySelector('.start-menu')) injectMenu(menuType, 'Spirit Tamer');
+  } catch {}
   // Start via miff start menu action
   try {
     document.addEventListener('miff:start-menu:action', (e)=>{
       if (e && e.detail && e.detail.action === 'new'){
         model.state = State.Playing;
         try{ audio.music?.play(); }catch{}
+        console.log(`[Scene] spirit_tamer started`);
+        console.log(`[Hydration] ${scene.entities.length} entities loaded`);
+        if (model.cvs){
+          model.cvs.style.display = 'block';
+          model.cvs.width = window.innerWidth;
+          model.cvs.height = window.innerHeight;
+          console.log(`[Canvas] ${model.cvs.width}x${model.cvs.height}`);
+        }
       }
       if (e && e.detail && e.detail.action === 'load'){
         console.log('[Menu] Spirit load requested');

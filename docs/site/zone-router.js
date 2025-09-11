@@ -179,7 +179,10 @@
 
         setupEventListeners() {
             // Handle hash changes
-            window.addEventListener('hashchange', () => this.handleRoute());
+            window.addEventListener('hashchange', () => {
+                try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); console.log('[Overlay] cleaned up'); } catch {}
+                this.handleRoute();
+            });
             
             // Handle iframe load events
             window.addEventListener('message', (event) => {

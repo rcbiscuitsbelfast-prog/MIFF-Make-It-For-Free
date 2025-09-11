@@ -4,6 +4,7 @@ import { HUDBar, MainMenu, StyleSelector } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
+import { getMenuType, injectMenu } from '../../overlays/MenuRegistry.js';
 
 function $(id){ return document.getElementById(id); }
 
@@ -246,8 +247,12 @@ async function init(){
   console.log('[ZoneBoot] Zone loaded:', 'toppler');
   console.log('[ZoneBoot] DOM marker: data-zone="toppler"');
   console.log('[ZoneBoot] Visual marker injected');
-  // Inject medieval start menu
-  try { window.injectMedievalMenu && window.injectMedievalMenu('Toppler Medieval'); } catch {}
+  // Menu injection via registry (prevent double)
+  try {
+    const zoneKey = 'toppler';
+    const menuType = getMenuType(zoneKey);
+    if (!document.querySelector('.start-menu')) injectMenu(menuType, 'Toppler Medieval');
+  } catch {}
   console.log('[Toppler] Modular boot active');
   
   const statusEl = $('status'); 
@@ -343,7 +348,7 @@ async function init(){
     try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
     updateGameState && updateGameState({ currentZone: 'toppler', progress: { value: 0, total: (ORCH?.levels?.length)||6, label: '' }, activeQuest: { title:'Reach the Goal', description: 'Cross the platforms to the glowing gate', status:'In progress' }, inputMode: game.inputMode });
     // Listen for start menu NEW
-    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } }); } catch {}
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} console.log(`[Scene] toppler started`); console.log(`[Hydration] ${scene.entities.length} entities loaded`); if (game.cvs){ game.cvs.style.display='block'; game.cvs.width=window.innerWidth; game.cvs.height=window.innerHeight; console.log(`[Canvas] ${game.cvs.width}x${game.cvs.height}`); } } }); } catch {}
     addAttributionFooter();
     ensureStartMenu();
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
