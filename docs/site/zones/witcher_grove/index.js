@@ -343,6 +343,7 @@ function renderBackground(){
 
 // Tile rendering
 function renderTiles(){
+  let drawCount = 0;
   for (let iy = 0; iy < 2; iy++){
     for (let ix = 0; ix < 2; ix++){
       const tile = getTile(tiles2x2[iy][ix]);
@@ -357,10 +358,23 @@ function renderTiles(){
       // Tile - properly scaled
       if (tile?.img && tile.img.complete){
         ctx.drawImage(tile.img, pos.x, pos.y - (tileH/2), tileW, tileH);
+        drawCount++;
       }
     }
   }
-  console.log('[Draw] Grove tiles rendered');
+  if (drawCount === 0){
+    // Fallback debug grid for Pages safety (10x8 = 80 tiles)
+    const cols = 10, rows = 8;
+    for (let y = 0; y < rows; y++){
+      for (let x = 0; x < cols; x++){
+        const pos = worldToScreen(x * 0.5, y * 0.5);
+        ctx.fillStyle = (x + y) % 2 ? '#133047' : '#0f2539';
+        ctx.fillRect(pos.x, pos.y - (tileH/2), tileW, tileH);
+      }
+    }
+    drawCount = cols * rows;
+  }
+  console.log(`[Draw] Grove tiles rendered (count: ${drawCount})`);
 }
 
 // Sprite rendering - completely rebuilt with proper frame cropping
@@ -573,7 +587,6 @@ async function init(){
   console.log('[Canvas] Size:', cvs.width, 'x', cvs.height);
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
-  debugger;
   if (!cvs || !ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { cvs = document.querySelector('canvas'); ctx = cvs && cvs.getContext('2d'); } catch {} }
   
   // Initial canvas sizing

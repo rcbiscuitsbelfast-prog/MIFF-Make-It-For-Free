@@ -243,6 +243,7 @@ async function init(){
   console.log('[ZoneBoot] Zone loaded:', 'toppler');
   console.log('[ZoneBoot] DOM marker: data-zone="toppler"');
   console.log('[ZoneBoot] Visual marker injected');
+  console.log('[Toppler] Modular boot active');
   
   const statusEl = $('status'); 
   if(statusEl) statusEl.textContent = 'Loading…'; 

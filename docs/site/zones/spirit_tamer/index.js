@@ -244,7 +244,6 @@ async function init(){
   model.ctx = cvs.getContext('2d'); 
   console.log('[Renderer] init() called for zone:', 'spirit_tamer');
   console.log('[Zone] Renderer initialized'); 
-  debugger;
   if (!model.cvs || !model.ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { model.cvs = document.querySelector('canvas'); model.ctx = model.cvs && model.cvs.getContext('2d'); } catch {} }
   // Canvas context validation
   const gl = cvs.getContext('webgl') || model.ctx;
@@ -259,11 +258,24 @@ async function init(){
   const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit',
     draw(c){ if (model.sprite){ c.drawImage(model.sprite, this.x-24, this.y-24, 48, 48); console.log('[Draw] Spirit sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
     contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
-    onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title:'Bond Overlay', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Bond Overlay', text:'The bond strengthens…' })); updateGameState && updateGameState('bondLevel', 1); console.log('[Spirit] Interaction triggered — bondLevel set to 1'); } catch {} }
+    onInteract(){ try { console.log('[Interaction] Spirit clicked'); (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title:'Bond Overlay', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Bond Overlay', text:'The bond strengthens…' })); updateGameState && updateGameState('bondLevel', 1); console.log('[State] bondLevel = 1'); } catch {} }
   };
   scene.addEntity(spirit);
   console.log('[Spirit] Spirit entity added:', spirit);
   bindInputs(); 
+  // Pointer interaction hookup
+  try {
+    const canvasEl = cvs;
+    canvasEl && canvasEl.addEventListener('click', (e)=>{
+      const rect = canvasEl.getBoundingClientRect();
+      const px = e.clientX - rect.left;
+      const py = e.clientY - rect.top;
+      const hit = scene.entities.find(ent=> typeof ent.contains==='function' && ent.contains(px,py));
+      if (hit && typeof hit.onInteract==='function'){
+        hit.onInteract();
+      }
+    });
+  } catch {}
   ensureJoystick(); 
   try { const mt = document.querySelector('.movement-toggle'); if (mt){ const r=mt.getBoundingClientRect(); console.log('[UI] Movement toggle visible:', true); console.log('[UI] Toggle bounds:', r.x, r.y, r.width, r.height); } const o = (screen.orientation && screen.orientation.type)|| (window.innerWidth>window.innerHeight? 'landscape':'portrait'); console.log('[UI] Orientation:', o); } catch {}
   UI = createOverlayDispatcher($('gameContainer'));

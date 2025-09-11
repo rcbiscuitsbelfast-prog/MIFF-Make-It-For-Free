@@ -1,4 +1,4 @@
-.movement-toggle { position: fixed; bottom: 10px; left: 10px; z-index: 100; width: 80px; height: 80px; transform: scale(1); }
+.movement-toggle { position: fixed; bottom: 10px; left: 10px; z-index: 100; width: 80px; height: 80px; transform: scale(1); pointer-events: auto; }
 @media screen and (orientation: landscape) {
   .movement-toggle { bottom: 10px; left: 10px; transform: scale(1); }
 }
