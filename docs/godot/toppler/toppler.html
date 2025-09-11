@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toppler (Godot Export Placeholder)</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #000; }
+    .placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #e6edf3; font-family: system-ui, sans-serif; }
+  </style>
+  <script>
+    // Placeholder: In real export, Godot loader will boot and you can postMessage from GDScript
+    window.addEventListener('DOMContentLoaded', function(){
+      try { parent.postMessage({ type: 'godot-ready', zone: 'toppler' }, '*'); } catch {}
+    });
+  </script>
+</head>
+<body>
+  <div class="placeholder">Godot export goes here (toppler.wasm / toppler.pck)</div>
+</body>
+</html>

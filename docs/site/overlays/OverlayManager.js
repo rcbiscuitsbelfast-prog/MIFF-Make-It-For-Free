@@ -21,6 +21,11 @@ export function showOverlay(name, content){
   try { console.log('[Overlay] ' + name + ' shown'); } catch {}
 }
 
+export function showHUD(zone){
+  const html = `<div class="overlay"><h2>${zone} HUD</h2><p>Overlay hydrated.</p><button class="close" onclick="window.miffOverlay.remove('hud')">Close</button></div>`;
+  showOverlay('hud', html);
+}
+
 export function removeOverlay(name){
   const el = __miffOverlays[name];
   if (el && el.remove) el.remove();
@@ -33,5 +38,14 @@ export function cleanup(){
   try { Object.keys(__miffOverlays).forEach(k=>{ try{ __miffOverlays[k].remove?.(); }catch{} delete __miffOverlays[k]; }); console.log('[Overlay] cleaned up'); } catch {}
 }
 
-try { window.miffOverlay = { show: showOverlay, remove: removeOverlay, cleanup }; } catch {}
+try { window.miffOverlay = { show: showOverlay, remove: removeOverlay, cleanup, showHUD }; } catch {}
+
+// Listen for Godot ready events
+try {
+  window.addEventListener('message', (event) => {
+    if (event && event.data && event.data.type === 'godot-ready'){
+      try { showHUD(event.data.zone || 'zone'); console.log(`[Overlay] HUD hydrated for ${event.data.zone||'zone'}`); } catch {}
+    }
+  });
+} catch {}
 
