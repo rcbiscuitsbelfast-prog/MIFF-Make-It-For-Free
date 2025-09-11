@@ -80,15 +80,15 @@
 </head>
 <body>
     <div id="gameContainer">
-        <iframe src="../godot/spirit/spirit.html" id="godot-frame" frameborder="0" allowfullscreen></iframe>
-        <div class="remix-bar"><button onclick="window.open('https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free','_blank')">Remix This</button></div>
+        <div id="embed-hook"></div>
     </div>
     
-    <style>
-      #godot-frame { position: absolute; inset: 0; width: 100vw; height: 100vh; border: none; }
-      .remix-bar { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); padding: 0.5rem 1rem; border-radius: 8px; z-index: 1000; }
-    </style>
     <script type="module" src="overlays/OverlayManager.js?v=20250911"></script>
+    <script type="module" src="godot-embed.js?v=20250911"></script>
+    <script>
+      import { embedGodot } from './godot-embed.js?v=20250911';
+      window.addEventListener('DOMContentLoaded', ()=>{ embedGodot({ zone:'spirit', path:'../godot/spirit/spirit.html' }); });
+    </script>
     <script>
     (function(){
       function fit(){

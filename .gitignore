@@ -9,3 +9,5 @@ coverage/
 
 # Keep root dist for Render static hosting
 !dist/
+# Ignore core dumps
+core
