@@ -13,14 +13,32 @@
   // minimal controls: move first sprite left/right, jump
   const keys={}; window.addEventListener('keydown',e=>keys[e.key]=true); window.addEventListener('keyup',e=>keys[e.key]=false);
   let last=performance.now(); let vy=0; const GRAV=900, JUMP=-360;
-  function update(dt){ const p = ents.find(e=>e.type==='sprite') || ents[0]; if(!p) return; if(keys['ArrowLeft']) p.x -= 180*dt; if(keys['ArrowRight']) p.x += 180*dt; // simple floor
-    vy += GRAV*dt; p.y += vy*dt; const floor=cvs.height-24-(p.h||32); if(p.y>floor){ p.y=floor; vy=0; } if(keys['ArrowUp'] && vy===0){ vy=JUMP; } 
-    // Keep sprite on screen
-    if (p.x < 0) p.x = 0;
-    if (p.x + (p.w||32) > cvs.width) p.x = cvs.width - (p.w||32);
-    if (p.y < 0) p.y = 0;
-    // Animate sprite when moving
-    if (keys['ArrowLeft'] || keys['ArrowRight'] || keys['ArrowUp']) { p.frameTime += dt; if(p.frameTime > p.frameRate){ p.frameTime=0; p.frame = (p.frame+1) % 4; } }
+  function update(dt){ 
+    ents.forEach(e => {
+      const isPlayer = e.type==='sprite' && ((e.id||'').includes('spirit') || (e.name||'').toLowerCase().includes('spirit'));
+      if (isPlayer) {
+        // Player physics
+        if(keys['ArrowLeft']) e.x -= 180*dt; 
+        if(keys['ArrowRight']) e.x += 180*dt; 
+        vy += GRAV*dt; 
+        e.y += vy*dt; 
+        const floor=cvs.height-24-(e.h||32); 
+        if(e.y>floor){ e.y=floor; vy=0; } 
+        if(keys['ArrowUp'] && vy===0){ vy=JUMP; } 
+        // Keep sprite on screen
+        if (e.x < 0) e.x = 0;
+        if (e.x + (e.w||32) > cvs.width) e.x = cvs.width - (e.w||32);
+        if (e.y < 0) e.y = 0;
+        // Animate sprite when moving
+        if (keys['ArrowLeft'] || keys['ArrowRight'] || keys['ArrowUp']) { e.frameTime += dt; if(e.frameTime > e.frameRate){ e.frameTime=0; e.frame = (e.frame+1) % 4; } }
+      } else {
+        // Non-player entities: keep on screen but no physics
+        if (e.x < 0) e.x = 0;
+        if (e.x + (e.w||32) > cvs.width) e.x = cvs.width - (e.w||32);
+        if (e.y < 0) e.y = 0;
+        if (e.y + (e.h||32) > cvs.height) e.y = cvs.height - (e.h||32);
+      }
+    });
   }
   let t=0; function render(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); ctx.fillStyle='#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); t+=dt; 
   ents.forEach(e=>{ 

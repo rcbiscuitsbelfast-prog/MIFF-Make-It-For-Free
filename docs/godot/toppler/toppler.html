@@ -35,24 +35,24 @@
       const keys={}; window.addEventListener('keydown',e=>keys[e.key]=true); window.addEventListener('keyup',e=>keys[e.key]=false);
       const GRAV=900, SPEED=180, JUMP=-360, FLOOR=cvs.height-20;
       function update(dt){
-        // pick a player sprite if exists
-        const player = ents.find(e=> (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('player')) || ents.find(e=>e.type==='sprite');
-        if (player){
-          if (keys['ArrowRight']) player.vx = SPEED; else if (keys['ArrowLeft']) player.vx = -SPEED; else player.vx = 0;
-          if (keys['ArrowUp'] && player.y+player.h>=FLOOR) player.vy = JUMP;
-          player.vy += GRAV*dt;
-          player.x += player.vx*dt;
-          player.y += player.vy*dt;
-          // Keep player on screen
-          if (player.x < 0) player.x = 0;
-          if (player.x + player.w > cvs.width) player.x = cvs.width - player.w;
-          if (player.y+player.h>FLOOR){ player.y=FLOOR-player.h; player.vy=0; }
-          // Animate player
-          if (player.vx !== 0) { player.frameTime += dt; if(player.frameTime > player.frameRate){ player.frameTime=0; player.frame = (player.frame+1) % 4; } }
-        }
-        // Keep other entities on screen but don't apply physics to them
+        // Only apply physics to player entities
         ents.forEach(e => {
-          if (e !== player) {
+          const isPlayer = (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('player');
+          if (isPlayer) {
+            // Player physics
+            if (keys['ArrowRight']) e.vx = SPEED; else if (keys['ArrowLeft']) e.vx = -SPEED; else e.vx = 0;
+            if (keys['ArrowUp'] && e.y+e.h>=FLOOR) e.vy = JUMP;
+            e.vy += GRAV*dt;
+            e.x += e.vx*dt;
+            e.y += e.vy*dt;
+            // Keep player on screen
+            if (e.x < 0) e.x = 0;
+            if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
+            if (e.y+e.h>FLOOR){ e.y=FLOOR-e.h; e.vy=0; }
+            // Animate player
+            if (e.vx !== 0) { e.frameTime += dt; if(e.frameTime > e.frameRate){ e.frameTime=0; e.frame = (e.frame+1) % 4; } }
+          } else {
+            // Non-player entities: keep on screen but no physics
             if (e.x < 0) e.x = 0;
             if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
             if (e.y < 0) e.y = 0;
@@ -82,8 +82,11 @@
           ctx.fillRect(e.x,e.y,e.w,e.h); 
           ctx.strokeStyle='#58a6ff'; 
           ctx.strokeRect(e.x,e.y,e.w,e.h);
-          ctx.fillStyle='#fff'; ctx.font='10px monospace'; ctx.fillText(e.name||'?', e.x+2, e.y+12);
-          if(img && !img.complete) ctx.fillText('Loading...', e.x+2, e.y+24);
+          ctx.fillStyle='#fff'; ctx.font='10px monospace'; 
+          ctx.fillText(e.name||'?', e.x+2, e.y+12);
+          ctx.fillText(e.src?.split('/').pop()||'no src', e.x+2, e.y+24);
+          if(img && !img.complete) ctx.fillText('Loading...', e.x+2, e.y+36);
+          else if(!loadedImgs.has(e.src)) ctx.fillText('Failed', e.x+2, e.y+36);
         } 
       }); 
       }

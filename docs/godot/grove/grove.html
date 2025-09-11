@@ -12,14 +12,31 @@
   const ents=entities.map(e=>({ ...e, frame:0, frameTime:0, frameRate:0.1 })); console.log('[Grove] Booted with entities:',ents);
   // minimal controls: move first sprite with arrows to confirm input
   const keys={}; window.addEventListener('keydown',e=>keys[e.key]=true); window.addEventListener('keyup',e=>keys[e.key]=false);
-  let last=performance.now(); function update(dt){ const p=ents.find(e=>e.type==='sprite') || ents[0]; if(!p) return; const speed=140; if(keys['ArrowLeft']) p.x -= speed*dt; if(keys['ArrowRight']) p.x += speed*dt; if(keys['ArrowUp']) p.y -= speed*dt; if(keys['ArrowDown']) p.y += speed*dt; 
-    // Keep sprite on screen
-    if (p.x < 0) p.x = 0;
-    if (p.x + (p.w||32) > cvs.width) p.x = cvs.width - (p.w||32);
-    if (p.y < 0) p.y = 0;
-    if (p.y + (p.h||32) > cvs.height) p.y = cvs.height - (p.h||32);
-    // Animate sprite
-    if (keys['ArrowLeft'] || keys['ArrowRight'] || keys['ArrowUp'] || keys['ArrowDown']) { p.frameTime += dt; if(p.frameTime > p.frameRate){ p.frameTime=0; p.frame = (p.frame+1) % 4; } }
+  let last=performance.now(); function update(dt){ 
+    ents.forEach(e => {
+      const isPlayer = e.type==='sprite' && ((e.id||'').includes('hero') || (e.name||'').toLowerCase().includes('barbarian'));
+      if (isPlayer) {
+        // Player physics
+        const speed=140; 
+        if(keys['ArrowLeft']) e.x -= speed*dt; 
+        if(keys['ArrowRight']) e.x += speed*dt; 
+        if(keys['ArrowUp']) e.y -= speed*dt; 
+        if(keys['ArrowDown']) e.y += speed*dt; 
+        // Keep sprite on screen
+        if (e.x < 0) e.x = 0;
+        if (e.x + (e.w||32) > cvs.width) e.x = cvs.width - (e.w||32);
+        if (e.y < 0) e.y = 0;
+        if (e.y + (e.h||32) > cvs.height) e.y = cvs.height - (e.h||32);
+        // Animate sprite
+        if (keys['ArrowLeft'] || keys['ArrowRight'] || keys['ArrowUp'] || keys['ArrowDown']) { e.frameTime += dt; if(e.frameTime > e.frameRate){ e.frameTime=0; e.frame = (e.frame+1) % 4; } }
+      } else {
+        // Non-player entities: keep on screen but no physics
+        if (e.x < 0) e.x = 0;
+        if (e.x + (e.w||32) > cvs.width) e.x = cvs.width - (e.w||32);
+        if (e.y < 0) e.y = 0;
+        if (e.y + (e.h||32) > cvs.height) e.y = cvs.height - (e.h||32);
+      }
+    });
   }
   let tick=0; function render(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); ctx.fillStyle='#0a1322'; ctx.fillRect(0,0,cvs.width,cvs.height); tick++; 
   ents.forEach(e=>{ 
