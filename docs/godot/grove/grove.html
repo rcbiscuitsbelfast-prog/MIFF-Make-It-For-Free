@@ -26,7 +26,7 @@
     const img=getImg(e.src); 
     if(img && img.complete && loadedImgs.has(e.src)){ 
       // Check if this is a sprite sheet (width > height suggests multiple frames)
-      if(e.type==='sprite' && img.width > img.height && img.width > 64){
+      if(e.type==='sprite' && img.width > img.height && img.width > 64 && img.width % 32 === 0){
         // Sprite sheet slicing - assume 32x32 frames for character sprites
         const frameW = 32; 
         const frameH = 32;

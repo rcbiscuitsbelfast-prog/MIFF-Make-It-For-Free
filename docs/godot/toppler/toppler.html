@@ -50,7 +50,7 @@
           // Animate player
           if (player.vx !== 0) { player.frameTime += dt; if(player.frameTime > player.frameRate){ player.frameTime=0; player.frame = (player.frame+1) % 4; } }
         }
-        // Keep other entities on screen too
+        // Keep other entities on screen but don't apply physics to them
         ents.forEach(e => {
           if (e !== player) {
             if (e.x < 0) e.x = 0;
@@ -65,7 +65,7 @@
         const img=getImg(e.src); 
         if(img && img.complete && loadedImgs.has(e.src)){ 
           // Check if this is a sprite sheet (width > height suggests multiple frames)
-          if(e.type==='sprite' && img.width > img.height && img.width > 64){
+          if(e.type==='sprite' && img.width > img.height && img.width > 64 && img.width % 32 === 0){
             // Sprite sheet slicing for character sprites
             const frameW = 32; 
             const frameH = 32;
