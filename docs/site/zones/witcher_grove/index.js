@@ -617,14 +617,16 @@ async function init(){
   onAssetsReady(async () => {
     // WorldView + Procedural Map
     try {
-      const zoneConfig = { viewingType: 'isometric' };
-      const view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+      const zoneConfig = { viewingType: 'isometric', seed: 'grove123' };
+      let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
       console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
-      const tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: 'grove123', pattern: 'forest' })) || [];
+      let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || [];
       console.log(`[Map] Generated ${tiles.length} tiles`);
-      // Lightweight debug entity to visualize generation points
-      const grid = { id: 'proc_grid', x:0, y:0, draw(c){ c.save(); c.globalAlpha=0.08; for (const t of tiles){ const p = worldToScreen(t.x*0.5, t.y*0.5); c.fillStyle = '#58a6ff'; c.fillRect(p.x, p.y - (tileH/2), 2, 2); } c.restore(); } };
-      scene.addEntity(grid);
+      const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 64, tileH: 32, alpha: 0.08, color: '#58a6ff', tiles: ()=>tiles, project: (x,y)=> worldToScreen(x*0.5, y*0.5) })) || null;
+      if (grid) scene.addEntity(grid);
+      // Live toggles
+      document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; console.log('[WorldView] switched →', type, view.mapType); tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length); } catch {} });
+      document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'grove123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); } catch {} });
     } catch {}
     console.log('[Assets] Loaded:', 'grove assets');
     console.warn('[Assets] Missing:', []);

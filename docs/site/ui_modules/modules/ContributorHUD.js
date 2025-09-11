@@ -14,7 +14,26 @@ export function render(ctx, style){
     <div class="row"><strong>Zone</strong>: <span data-f="zone">-</span></div>
     <div class="row"><strong>Input</strong>: <span data-f="input">-</span></div>
     <div class="row"><strong>FPS</strong>: <span data-f="fps">-</span></div>
+    <div class="row"><strong>World</strong>:
+      <select data-f="worldview">
+        <option value="topdown">Top-down</option>
+        <option value="sidescroll">Side-scroll</option>
+        <option value="runner">Runner</option>
+        <option value="isometric">Isometric</option>
+        <option value="pointclick">Point & Click</option>
+        <option value="overworld">Overworld</option>
+      </select>
+    </div>
+    <div class="row"><strong>Seed</strong>: <input data-f="seed" type="text" placeholder="seed" style="width:110px"/> <button data-f="regen" class="miff-ui btn secondary">Regen</button></div>
   `;
+  // Wire events to broadcast
+  try {
+    const sel = el.querySelector('[data-f="worldview"]');
+    const seed = el.querySelector('[data-f="seed"]');
+    const regen = el.querySelector('[data-f="regen"]');
+    sel.addEventListener('change', ()=>{ try { document.dispatchEvent(new CustomEvent('miff:worldview:change', { detail: { type: sel.value } })); } catch {} });
+    regen.addEventListener('click', ()=>{ try { document.dispatchEvent(new CustomEvent('miff:world:regen', { detail: { seed: seed.value || 'default' } })); } catch {} });
+  } catch {}
   return el;
 }
 export function update(state, data){

@@ -299,14 +299,15 @@ async function init(){
     if (missing.length) console.warn('[Assets] Missing:', missing);
     // WorldView + Procedural Map (sidescroll layered)
     try {
-      const zoneConfig = { viewingType: 'sidescroll' };
-      const view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'layered' };
+      const zoneConfig = { viewingType: 'sidescroll', seed: 'toppler123' };
+      let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'layered' };
       console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
-      const tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: 'toppler123', pattern: 'stone' })) || [];
+      let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'stone' })) || [];
       console.log(`[Map] Generated ${tiles.length} tiles`);
-      // Lightweight debug: tint background blocks based on generated tiles rows
-      const proc = { id: 'proc_grid', draw(c){ c.save(); c.globalAlpha=0.05; for (const t of tiles){ if (t.y%2===0){ c.fillStyle='#58a6ff'; c.fillRect(t.x*8, game.cvs.height- t.y*8 - 8, 6, 6); } } c.restore(); } };
-      scene.addEntity(proc);
+      const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 8, tileH: 8, alpha: 0.05, color: '#58a6ff', tiles: ()=>tiles })) || null;
+      if (grid) scene.addEntity(grid);
+      document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'stone' })) || tiles; console.log('[WorldView] switched →', type, view.mapType, '[Map] Regenerated', tiles.length); } catch {} });
+      document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'toppler123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: 'stone' })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); } catch {} });
     } catch {}
     detectInputMode();
     // Scene graph population (diagnostic)
