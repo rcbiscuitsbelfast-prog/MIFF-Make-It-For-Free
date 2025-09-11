@@ -116,6 +116,8 @@
             });
           } catch {}
         }, 950);
+        // Click anywhere to focus inner iframe for input
+        document.body.addEventListener('pointerdown', ()=>{ try{ document.getElementById('godot-frame')?.focus(); }catch{} });
       });
     })();
     </script>

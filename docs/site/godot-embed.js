@@ -26,7 +26,13 @@ export function embedGodot({ zone, path }){
   // HUD hydration listener (in case OverlayManager not loaded yet)
   try {
     window.addEventListener('message', (event) => {
-      if (event && event.data && event.data.type === 'godot-ready'){
+      if (!event) return;
+      // Forward scene-data into the inner Godot iframe (from Studio preview or other parents)
+      if (event.data && event.data.type === 'scene-data'){
+        try { iframe.contentWindow?.postMessage(event.data, window.location.origin); } catch {}
+        return;
+      }
+      if (event.data && event.data.type === 'godot-ready'){
         try { window.miffOverlay && window.miffOverlay.showHUD && window.miffOverlay.showHUD(event.data.zone || zone || 'zone'); } catch {}
       }
     });
