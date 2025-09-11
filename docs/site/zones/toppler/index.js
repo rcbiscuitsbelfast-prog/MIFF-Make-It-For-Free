@@ -31,6 +31,9 @@ const scene = { entities: [], addEntity(e){ this.entities.push(e); console.log('
 
 // Medieval sprite/tiles
 let SPRITES = { player:null, enemy:null, cliff:null, bridge:null, chest:null };
+// Shape-only rendering toggle (enable via ?shapeOnly=1 or ?shapeOnly=true)
+const SHAPE_ONLY = (()=>{ try { const p = new URLSearchParams(location.search); return p.get('shapeOnly') === '1' || p.get('shapeOnly') === 'true'; } catch { return false; } })();
+if (SHAPE_ONLY) { try { console.log('[Render] Toppler in shape-only mode'); } catch {} }
 let FX = [];
 let lastSfx = { jump:0, collect:0, curse:0 };
 let gamepadEnabled = true;
@@ -293,14 +296,19 @@ async function init(){
   console.log('[Zone] Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
   if (!game.cvs || !game.ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { game.cvs = document.querySelector('canvas'); game.ctx = game.cvs && game.cvs.getContext('2d'); } catch {} }
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
-    try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
-    try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}
-    try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
-    try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
-    try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
-    console.log('[Assets] Loaded:', Object.keys(SPRITES).filter(k=>SPRITES[k]).join(','));
-    const missing = Object.keys(SPRITES).filter(k=>!SPRITES[k]);
-    if (missing.length) console.warn('[Assets] Missing:', missing);
+    if (!SHAPE_ONLY) {
+      try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
+      try { SPRITES.enemy = await loadImg('../../../assets/Skeleton.png'); } catch {}
+      try { SPRITES.cliff = await loadImg('../../../assets/Cliff_Tile.png'); } catch {}
+      try { SPRITES.bridge = await loadImg('../../../assets/Bridge_Wood.png'); } catch {}
+      try { SPRITES.chest = await loadImg('../../../assets/Chest.png'); } catch {}
+      console.log('[Assets] Loaded:', Object.keys(SPRITES).filter(k=>SPRITES[k]).join(','));
+      const missing = Object.keys(SPRITES).filter(k=>!SPRITES[k]);
+      if (missing.length) console.warn('[Assets] Missing:', missing);
+    } else {
+      SPRITES = { player:null, enemy:null, cliff:null, bridge:null, chest:null };
+      console.log('[Assets] Skipped sprite loading due to shape-only mode');
+    }
     // WorldView + Procedural Map (sidescroll layered)
     try {
       const zoneConfig = { viewingType: 'sidescroll', seed: 'toppler123', pattern: 'stone' };
