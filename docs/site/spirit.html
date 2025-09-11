@@ -90,6 +90,27 @@
     
     <script type="module" src="overlays/dispatcher.js"></script>
     <script type="module" src="overlays/footer.js"></script>
+    <script type="module" src="overlays/OverlayManager.js"></script>
+    <script type="module" src="overlays/SplashScreen.js"></script>
+    <script type="module" src="overlays/StartMenu.js"></script>
+    <script type="module" src="world/WorldViewRegistry.js"></script>
+    <script type="module" src="world/MapGenerator.js"></script>
+    <script type="module" src="world/TileGrid.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function(){
+        try {
+            if (window.miffStartSequence){
+                window.miffStartSequence({
+                    duration: 1600,
+                    title: 'SPIRIT TAMER',
+                    subtitle: 'Bond with the Spirit',
+                    themeClass: 'theme-sci-fi',
+                    startMenu: { themeClass: 'theme-sci-fi' }
+                });
+            }
+        } catch {}
+    });
+    </script>
     <script type="module" src="zones/spirit_tamer/index.js"></script>
 </body>
 </html>

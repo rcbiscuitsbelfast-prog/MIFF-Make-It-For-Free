@@ -3,3 +3,4 @@
 [2025-09-10T14:25:02Z] Feed: Verified Grove + Spirit hydration gates and pre-draw entity injection present; continuing on mobile fit + Toppler UI.
 [2025-09-10T14:29:43Z] Feed: Mobile movement toggle CSS fixed (position:fixed, z-index), Toppler legacy UI cleaned; pushing.
 [2025-09-10T14:34:27Z] Feed: Grove tiles draw logged; Spirit click triggers BondOverlay + bondLevel=1; pushing.
+[%NOW_ISO%] Feed: Grove fallback debug grid added (80 tiles) with first-frame draw count log; Spirit click interaction now logs and sets bondLevel=1; Toppler modular boot log injected and legacy UI removal guarded; Removed stray debugger statements; Mobile movement toggle CSS hardened (pointer-events). Pushing to master.

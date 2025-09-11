@@ -230,7 +230,7 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
 }
 
-function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } if (game.state!==State.Paused) update(dt); try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(game.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); try { const style = getComputedStyle(game.cvs); console.log('[Visual] Canvas z-index:', style.zIndex); } catch {} console.log('[Renderer] requestAnimationFrame active for:', 'toppler'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
+function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; const fps = Math.round(1 / Math.max(0.016, dt)); console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } if (game.state!==State.Paused) update(dt); try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(game.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); try { UI.updateModule && UI.updateModule('ContributorHUD', { fps, inputMode: game.inputMode, zone: 'toppler' }); } catch {} try { const style = getComputedStyle(game.cvs); console.log('[Visual] Canvas z-index:', style.zIndex); } catch {} console.log('[Renderer] requestAnimationFrame active for:', 'toppler'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ 
   console.log('[Toppler] Canvas injection starting...');
@@ -243,6 +243,7 @@ async function init(){
   console.log('[ZoneBoot] Zone loaded:', 'toppler');
   console.log('[ZoneBoot] DOM marker: data-zone="toppler"');
   console.log('[ZoneBoot] Visual marker injected');
+  console.log('[Toppler] Modular boot active');
   
   const statusEl = $('status'); 
   if(statusEl) statusEl.textContent = 'Loading…'; 
@@ -286,7 +287,6 @@ async function init(){
   game.cvs = cvs; 
   console.log('[Renderer] init() called for zone:', 'toppler');
   console.log('[Zone] Renderer initialized'); try { game.audio.music = new Audio('../../../assets/audio/music/Loops/1. Dawn of Blades.ogg'); game.audio.music.loop=true; game.audio.music.volume=0.2; game.audio.music.muted = game.audio.muted; } catch {} try { game.audio.ui = new Audio('../../../assets/audio/sfx/ui_click.txt'); } catch {} try { game.audio.sfx.jump = new Audio('../../../assets/audio/sfx/confirmation_3_sean.wav'); game.audio.sfx.collect = new Audio('../../../assets/audio/sfx/completion_4_sean.wav'); game.audio.sfx.curse = new Audio('../../../assets/audio/sfx/damage_5_sean.wav'); } catch {} // Load sprites
-  debugger;
   if (!game.cvs || !game.ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { game.cvs = document.querySelector('canvas'); game.ctx = game.cvs && game.cvs.getContext('2d'); } catch {} }
     function loadImg(p){ return new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(); i.src=p; }); }
     try { SPRITES.player = await loadImg('../../../assets/Player.png'); } catch {}
@@ -297,6 +297,20 @@ async function init(){
     console.log('[Assets] Loaded:', Object.keys(SPRITES).filter(k=>SPRITES[k]).join(','));
     const missing = Object.keys(SPRITES).filter(k=>!SPRITES[k]);
     if (missing.length) console.warn('[Assets] Missing:', missing);
+    // WorldView + Procedural Map (sidescroll layered)
+    try {
+      const zoneConfig = { viewingType: 'sidescroll', seed: 'toppler123', pattern: 'stone' };
+      let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'layered' };
+      console.log(`[Zone] ${zoneConfig.viewingType} view loaded`);
+      console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
+      let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: zoneConfig.pattern })) || [];
+      console.log(`[Map] ${tiles.length} tiles generated`);
+      const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 8, tileH: 8, alpha: 0.05, color: '#58a6ff', tiles: ()=>tiles })) || null;
+      if (grid) scene.addEntity(grid);
+      try { window.miffRemixConfig = { zone: 'Toppler Medieval', seed: zoneConfig.seed, pattern: zoneConfig.pattern, viewingType: zoneConfig.viewingType }; } catch {}
+      document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'stone' })) || tiles; console.log('[WorldView] switched →', type, view.mapType, '[Map] Regenerated', tiles.length); } catch {} });
+      document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'toppler123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: 'stone' })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); } catch {} });
+    } catch {}
     detectInputMode();
     // Scene graph population (diagnostic)
     const player = { id: 'player', x: game.player.x, y: game.player.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 8, 8); } };
@@ -316,6 +330,8 @@ async function init(){
     // UI nesting audit
     try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
     updateGameState && updateGameState({ currentZone: 'toppler', progress: { value: 0, total: (ORCH?.levels?.length)||6, label: '' }, activeQuest: { title:'Reach the Goal', description: 'Cross the platforms to the glowing gate', status:'In progress' }, inputMode: game.inputMode });
+    // Listen for start menu NEW
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } }); } catch {}
     addAttributionFooter();
     ensureStartMenu();
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle

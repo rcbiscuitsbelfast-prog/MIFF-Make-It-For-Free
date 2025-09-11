@@ -1,5 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
-import { HUDBar, MainMenu, DialogueBox, StyleSelector } from '../../ui_modules/index.js';
+import { HUDBar, MainMenu, DialogueBox, StyleSelector, ContributorHUD, RemixBadge, QuestOverlay } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
@@ -192,7 +192,7 @@ function renderUI(){ const { ctx, cvs } = model; const total = 6; const ratio = 
 
 function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle = '#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); for (let i=0;i<model.props.length;i++){ const pr=model.props[i]; if (pr.img) ctx.drawImage(pr.img, model.npc.x+pr.dx, model.npc.y+pr.dy, 32, 32); } model.anim.t += 0.016; const phase = model.anim.t % 1; const eased = easeInOutSine(phase); const baseR = 40 + model.progress*3; const pulseR = baseR + 8*eased; ctx.save(); ctx.shadowBlur = 16 + eased*16; ctx.shadowColor = '#58a6ff'; if (model.sprite){ ctx.drawImage(model.sprite, model.npc.x-24, model.npc.y-24, 48, 48); } else { ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(model.npc.x, model.npc.y, pulseR, 0, Math.PI*2); ctx.fill(); } ctx.restore(); if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; } ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20); ctx.fillText('Space/click for beats. Enter to start. D dialogue. M mute.', 10, 40); renderUI(); }
 
-function loop(){ console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(model.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); console.log('[Renderer] requestAnimationFrame active for:', 'spirit_tamer'); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
+function loop(ts){ const dt = (loop._last ? (ts - loop._last) : 16) / 1000; loop._last = ts; const fps = Math.round(1 / Math.max(0.016, dt)); console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(model.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); try { UI.updateModule && UI.updateModule('ContributorHUD', { fps, inputMode: model.inputMode, zone: 'spirit_tamer' }); } catch {} console.log('[Renderer] requestAnimationFrame active for:', 'spirit_tamer'); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ 
   console.log('[SpiritTamer] Canvas injection starting...');
@@ -244,7 +244,6 @@ async function init(){
   model.ctx = cvs.getContext('2d'); 
   console.log('[Renderer] init() called for zone:', 'spirit_tamer');
   console.log('[Zone] Renderer initialized'); 
-  debugger;
   if (!model.cvs || !model.ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { model.cvs = document.querySelector('canvas'); model.ctx = model.cvs && model.cvs.getContext('2d'); } catch {} }
   // Canvas context validation
   const gl = cvs.getContext('webgl') || model.ctx;
@@ -252,6 +251,30 @@ async function init(){
   // Canvas visibility & z-index check
   try { const style = getComputedStyle(cvs); console.log('[Canvas] Display:', style.display); console.log('[Canvas] Z-index:', style.zIndex); console.log('[Canvas] Visibility:', style.visibility); } catch {}
   detectInputMode(); 
+  // WorldView + Procedural Map
+  try {
+    const zoneConfig = { viewingType: 'topdown', seed: 'spirit123', pattern: 'forest' };
+    let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+    console.log(`[Zone] ${zoneConfig.viewingType} view loaded`);
+    console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
+    let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: zoneConfig.pattern })) || [];
+    console.log(`[Map] ${tiles.length} tiles generated`);
+    const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 6, tileH: 6, alpha: 0.06, color: '#00ffff', tiles: ()=>tiles })) || null;
+    if (grid) scene.addEntity(grid);
+    // Simple entity placement (trees)
+    try {
+      tiles.forEach(t=>{
+        if (t.entity === 'tree'){
+          const ent = { id: 'tree', x: t.x, y: t.y, draw(c){ c.save(); c.fillStyle = '#2ecc71'; c.fillRect(10 + this.x*6, 10 + this.y*6, 4, 4); c.restore(); } };
+          scene.addEntity(ent);
+        }
+      });
+    } catch {}
+    // Remix exposure
+    try { window.miffRemixConfig = { zone: 'Spirit Tamer', seed: zoneConfig.seed, pattern: zoneConfig.pattern, viewingType: zoneConfig.viewingType }; } catch {}
+    document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || tiles; console.log('[WorldView] switched →', type, view.mapType, '[Map] Regenerated', tiles.length); } catch {} });
+    document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'spirit123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: zoneConfig.pattern })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); try { window.miffRemixConfig.seed = seed; } catch {} } catch {} });
+  } catch {}
   // Scene graph population (diagnostic)
   const player = { id: 'player', x: model.npc.x, y: model.npc.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 6, 6); } };
   scene.addEntity(player);
@@ -259,11 +282,24 @@ async function init(){
   const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit',
     draw(c){ if (model.sprite){ c.drawImage(model.sprite, this.x-24, this.y-24, 48, 48); console.log('[Draw] Spirit sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
     contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
-    onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title:'Bond Overlay', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Bond Overlay', text:'The bond strengthens…' })); updateGameState && updateGameState('bondLevel', 1); console.log('[Spirit] Interaction triggered — bondLevel set to 1'); } catch {} }
+    onInteract(){ try { console.log('[Interaction] Spirit clicked'); (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title:'Bond Overlay', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Bond Overlay', text:'The bond strengthens…' })); updateGameState && updateGameState('bondLevel', 1); console.log('[State] bondLevel = 1'); if (window.miffOverlay && window.miffOverlay.show){ window.miffOverlay.show('bond', '<h2>Bond Level: 1</h2><p>You’ve connected with the spirit.</p>'); } } catch {} }
   };
   scene.addEntity(spirit);
   console.log('[Spirit] Spirit entity added:', spirit);
   bindInputs(); 
+  // Pointer interaction hookup
+  try {
+    const canvasEl = cvs;
+    canvasEl && canvasEl.addEventListener('click', (e)=>{
+      const rect = canvasEl.getBoundingClientRect();
+      const px = e.clientX - rect.left;
+      const py = e.clientY - rect.top;
+      const hit = scene.entities.find(ent=> typeof ent.contains==='function' && ent.contains(px,py));
+      if (hit && typeof hit.onInteract==='function'){
+        hit.onInteract();
+      }
+    });
+  } catch {}
   ensureJoystick(); 
   try { const mt = document.querySelector('.movement-toggle'); if (mt){ const r=mt.getBoundingClientRect(); console.log('[UI] Movement toggle visible:', true); console.log('[UI] Toggle bounds:', r.x, r.y, r.width, r.height); } const o = (screen.orientation && screen.orientation.type)|| (window.innerWidth>window.innerHeight? 'landscape':'portrait'); console.log('[UI] Orientation:', o); } catch {}
   UI = createOverlayDispatcher($('gameContainer'));
@@ -275,7 +311,27 @@ async function init(){
   // UI nesting audit
   try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
-  const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {} addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode }); startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
+  const savedStyle = localStorage.getItem('miff_ui_style') || 'default'; UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.default); try { UI.useModule && UI.useModule('HUD', HUDBar, { inputMode: model.inputMode, info: 'Spirit', style: UI_STYLES[savedStyle] || UI_STYLES.default }); } catch {}
+  // Contributor HUD + Remix Badge + Quest overlay (persistent)
+  try {
+    UI.useModule && UI.useModule('ContributorHUD', ContributorHUD, { inputMode: model.inputMode, zone: 'spirit_tamer' });
+    UI.useModule && UI.useModule('RemixBadge', RemixBadge, { url: 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free' });
+    UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Bond with the Spirit', lines: ['Beats: 0/6'] });
+  } catch {}
+  addAttributionFooter();
+  // Start via miff start menu action
+  try {
+    document.addEventListener('miff:start-menu:action', (e)=>{
+      if (e && e.detail && e.detail.action === 'new'){
+        model.state = State.Playing;
+        try{ audio.music?.play(); }catch{}
+      }
+    });
+  } catch {}
+  // Fallback legacy start menu kept
+  try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {}
+  window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode });
+  startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 
 // Fullscreen support
 window.__miffToggleFullscreen = () => {

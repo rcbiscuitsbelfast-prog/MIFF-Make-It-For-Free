@@ -1,4 +1,4 @@
-.movement-toggle { position: fixed; bottom: 10px; left: 10px; z-index: 100; width: 80px; height: 80px; transform: scale(1); }
+.movement-toggle { position: fixed; bottom: 10px; left: 10px; z-index: 100; width: 80px; height: 80px; transform: scale(1); pointer-events: auto; }
 @media screen and (orientation: landscape) {
   .movement-toggle { bottom: 10px; left: 10px; transform: scale(1); }
 }
@@ -53,3 +53,87 @@
   background: #21262d;
   border-color: #30363d;
 }
+
+/* --- Neon Arcade Splash & Start Menu --- */
+.splash-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: linear-gradient(180deg, #1a0033 0%, #000 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  color: #ff00cc;
+  z-index: 9999;
+  text-align: center;
+}
+.splash-screen .splash-title { text-shadow: 0 0 16px rgba(255,0,204,0.8), 0 0 32px rgba(88,166,255,0.5); letter-spacing: 2px; }
+.splash-screen .splash-subtitle { margin-top: 12px; font-size: 1rem; opacity: 0.85; color: #d0d7de; }
+
+.start-menu {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: radial-gradient(100% 100% at 50% 0%, rgba(88, 166, 255, 0.2) 0%, rgba(0,0,0,0.9) 60%),
+              linear-gradient(180deg, rgba(26,0,51,0.8) 0%, rgba(0,0,0,0.8) 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  z-index: 9980;
+  padding: 4vh 16px;
+}
+.start-menu .start-menu-inner { width: 100%; max-width: 560px; display: flex; flex-direction: column; align-items: center; gap: 3vh; }
+.start-menu .start-title { font-size: clamp(28px, 6vw, 56px); color: #ff00cc; text-shadow: 0 0 16px rgba(255,0,204,0.8), 0 0 32px rgba(88,166,255,0.5); letter-spacing: 2px; text-align: center; }
+.start-menu .start-subtitle { font-size: clamp(14px, 2.6vw, 20px); color: #d0d7de; opacity: 0.9; text-align: center; }
+.start-menu .start-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; width: min(90vw, 520px); }
+.start-menu .start-btn {
+  background: rgba(0,0,0,0.2);
+  border: 2px solid #ff00cc;
+  color: #fff;
+  font-size: clamp(16px, 4.5vw, 24px);
+  padding: 14px 28px;
+  border-radius: 10px;
+  text-shadow: 0 0 6px #ff00cc;
+  width: 100%;
+  min-height: 48px;
+}
+.start-menu .start-btn.primary { border-color: #58a6ff; text-shadow: 0 0 6px #58a6ff; }
+.start-menu .start-btn.remix { border-color: #00ffff; text-shadow: 0 0 6px #00ffff; }
+.start-menu .start-btn:active { transform: translateY(1px); }
+
+@media screen and (orientation: landscape) and (max-height: 440px) {
+  .start-menu { padding: 2vh 12px; }
+  .start-menu .start-actions { gap: 12px; }
+  .start-menu .start-btn { padding: 10px 20px; }
+}
+
+/* Theme variants */
+.start-menu.theme-sci-fi { background-blend-mode: screen; }
+.start-menu.theme-medieval { font-family: 'Cinzel', serif; background: linear-gradient(180deg, #2a1f13 0%, #0b0a09 100%); }
+.start-menu.theme-modern { font-family: system-ui, sans-serif; background: linear-gradient(180deg, #0b132b 0%, #000 100%); }
+
+/* Zone page themes on body */
+.theme-grove .start-menu { background: linear-gradient(180deg, #1e2a18 0%, #0a0f08 100%); font-family: 'Cinzel', serif; }
+.theme-spirit .start-menu { background: radial-gradient(circle at 50% 40%, rgba(0,120,255,0.25), rgba(0,0,0,0.9)); font-family: 'Orbitron', sans-serif; }
+.theme-toppler .start-menu { background: linear-gradient(180deg, #1b1b1b 0%, #0a0a0a 100%), repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 6px); font-family: 'Press Start 2P', monospace; }
+
+/* Persistent overlay manager */
+.overlay {
+  position: fixed;
+  top: 10vh; left: 10vw;
+  width: 80vw; height: auto;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 16px;
+  border: 2px solid #ff00cc;
+  border-radius: 10px;
+  z-index: 10000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.overlay h2 { margin: 0 0 8px 0; color: #ff86df; }
+.overlay .close { position: absolute; top: 8px; right: 10px; background: transparent; border: 1px solid #ff00cc; color: #fff; border-radius: 6px; padding: 4px 8px; }
+
+/* Procedural map debug hooks */
+.map-debug { outline: 1px dashed rgba(88,166,255,0.4); }
+.map-procedural { filter: saturate(1.1); }
+.map-entity { box-shadow: 0 0 8px rgba(255,0,204,0.5); }

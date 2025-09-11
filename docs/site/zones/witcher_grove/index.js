@@ -1,5 +1,5 @@
 import { createOverlayDispatcher } from '../../overlays/dispatcher.js';
-import { HUDBar, MainMenu, StyleSelector, QuestLog } from '../../ui_modules/index.js';
+import { HUDBar, MainMenu, StyleSelector, QuestLog, ContributorHUD, RemixBadge, QuestOverlay } from '../../ui_modules/index.js';
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
@@ -343,6 +343,7 @@ function renderBackground(){
 
 // Tile rendering
 function renderTiles(){
+  let drawCount = 0;
   for (let iy = 0; iy < 2; iy++){
     for (let ix = 0; ix < 2; ix++){
       const tile = getTile(tiles2x2[iy][ix]);
@@ -357,10 +358,23 @@ function renderTiles(){
       // Tile - properly scaled
       if (tile?.img && tile.img.complete){
         ctx.drawImage(tile.img, pos.x, pos.y - (tileH/2), tileW, tileH);
+        drawCount++;
       }
     }
   }
-  console.log('[Draw] Grove tiles rendered');
+  if (drawCount === 0){
+    // Fallback debug grid for Pages safety (10x8 = 80 tiles)
+    const cols = 10, rows = 8;
+    for (let y = 0; y < rows; y++){
+      for (let x = 0; x < cols; x++){
+        const pos = worldToScreen(x * 0.5, y * 0.5);
+        ctx.fillStyle = (x + y) % 2 ? '#133047' : '#0f2539';
+        ctx.fillRect(pos.x, pos.y - (tileH/2), tileW, tileH);
+      }
+    }
+    drawCount = cols * rows;
+  }
+  console.log(`[Draw] Grove tiles rendered (count: ${drawCount})`);
 }
 
 // Sprite rendering - completely rebuilt with proper frame cropping
@@ -465,12 +479,14 @@ function render(){
 function gameLoop(ts){
   const dt = (gameLoop._last ? (ts - gameLoop._last) : 16) / 1000;
   gameLoop._last = ts;
+  const fps = Math.round(1 / Math.max(0.016, dt));
   
   tick++;
   console.log('[Draw] Frame rendering...');
   if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); }
   update(dt);
   render();
+  try { UI.updateModule && UI.updateModule('ContributorHUD', { fps, inputMode, zone: 'witcher_grove' }); } catch {}
   console.log('[Renderer] requestAnimationFrame active for:', 'witcher_grove');
   UI && UI.showHUD({ inputMode, fullscreenToggle: true });
   requestAnimationFrame(gameLoop);
@@ -573,7 +589,6 @@ async function init(){
   console.log('[Canvas] Size:', cvs.width, 'x', cvs.height);
   console.log('[Renderer] init() called for zone:', 'witcher_grove');
   console.log('[Zone] Renderer initialized');
-  debugger;
   if (!cvs || !ctx){ console.warn('[Renderer] Canvas or renderer missing — fallback triggered'); try { cvs = document.querySelector('canvas'); ctx = cvs && cvs.getContext('2d'); } catch {} }
   
   // Initial canvas sizing
@@ -600,6 +615,34 @@ async function init(){
   
   // Wait for assets to load
   onAssetsReady(async () => {
+    // WorldView + Procedural Map
+    try {
+      const zoneConfig = { viewingType: 'isometric', seed: 'grove123', pattern: 'forest' };
+      let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+      console.log(`[Zone] ${zoneConfig.viewingType} view loaded`);
+      console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
+      let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: zoneConfig.pattern })) || [];
+      console.log(`[Map] ${tiles.length} tiles generated`);
+      const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 64, tileH: 32, alpha: 0.08, color: '#58a6ff', tiles: ()=>tiles, project: (x,y)=> worldToScreen(x*0.5, y*0.5) })) || null;
+      if (grid) scene.addEntity(grid);
+      // Simple entity placement (trees)
+      try {
+        tiles.forEach(t=>{
+          if (t.entity === 'tree'){
+            const p = worldToScreen(t.x*0.5, t.y*0.5);
+            const ent = { id: 'tree', x: p.x, y: p.y, draw(c){ c.save(); c.fillStyle = '#2ecc71'; c.beginPath(); c.arc(this.x, this.y-10, 5, 0, Math.PI*2); c.fill(); c.restore(); } };
+            scene.addEntity(ent);
+          }
+        });
+      } catch {}
+      // Remix exposure for contributors
+      try { window.miffRemixConfig = { zone: 'Witcher Grove', seed: zoneConfig.seed, pattern: zoneConfig.pattern, viewingType: zoneConfig.viewingType }; } catch {}
+      // Attempt to append a Remix button to current overlay
+      setTimeout(()=>{ try { const ov=document.querySelector('.miff-overlay'); if (ov && !ov.querySelector('.miff-remix-inline')){ const btn=document.createElement('button'); btn.className='miff-btn secondary miff-remix-inline'; btn.textContent='REMIX THIS ZONE'; btn.onclick=()=>window.open('https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free','_blank'); ov.appendChild(btn); } } catch {} }, 500);
+      // Live toggles
+      document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; console.log('[WorldView] switched →', type, view.mapType); tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length); } catch {} });
+      document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'grove123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); } catch {} });
+    } catch {}
     console.log('[Assets] Loaded:', 'grove assets');
     console.warn('[Assets] Missing:', []);
     await loadGroveMap();
@@ -609,7 +652,7 @@ async function init(){
       id: 'npc_spirit', x: 100, y: 200, type: 'SpiritNPC',
       draw(c){ const spr = getSprite('npcElder'); if (spr && spr.img && spr.img.complete){ c.drawImage(spr.img, this.x-20, this.y-36, spr.meta.frame.w, spr.meta.frame.h); console.log('[Draw] NPC sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
       contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
-      onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('DialogueBox', { title:'Elder', text:'Welcome, seeker.', autoDismissMs: 3000 }) : UI.showLore({ title:'Elder', text:'Welcome, seeker.' })); console.log('[Gameplay] Quest updated: elder_found'); updateGameState && updateGameState('questStatus','elder_found'); } catch {} }
+      onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('DialogueBox', { title:'Elder', text:'Welcome, seeker.', autoDismissMs: 3000 }) : UI.showLore({ title:'Elder', text:'Welcome, seeker.' })); console.log('[Gameplay] Quest updated: elder_found'); updateGameState && updateGameState('questStatus','elder_found'); if (window.miffOverlay && window.miffOverlay.show){ window.miffOverlay.show('elder', '<h2>Elder</h2><p>The forest remembers.</p>'); } } catch {} }
     };
     scene.addEntity(npcEntity);
     console.log('[Grove] NPC added:', npcEntity);
@@ -640,9 +683,17 @@ async function init(){
     try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('LoreModal', { title: 'Grove Lore', text: 'The forest whispers. NPC nearby.', autoDismissMs: 3000 }) : UI.showLore({ title: 'Grove Lore', text: 'The forest whispers. NPC nearby.' })); console.log('[Grove] LoreModal triggered'); console.log('[Dispatcher] Overlay shown:', 'LoreModal'); } catch {}
     // Zone-specific UI modules
     try { UI.useModule && UI.useModule('QuestLog', QuestLog, { style: UI_STYLES[savedStyle] || UI_STYLES.fantasy, entries: ['Meet the Spirit', 'Explore the Grove'] }); console.log('[Grove] UI modules attached: HUDBar, QuestLog'); } catch { console.warn('[UI] QuestLog unavailable — UI injection skipped'); }
+    // Contributor HUD + Remix Badge + Quest overlay (persistent)
+    try {
+      UI.useModule && UI.useModule('ContributorHUD', ContributorHUD, { inputMode, zone: 'witcher_grove' });
+      UI.useModule && UI.useModule('RemixBadge', RemixBadge, { url: 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free' });
+      UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Explore the Grove', lines: ['Find the Elder', 'Collect a Herb'] });
+    } catch {}
     
     console.log('[Renderer] Draw loop starting after hydration');
     requestAnimationFrame(gameLoop);
+    // Start via start menu action
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ try { UI.hide && UI.hide('intro'); } catch {} } }); } catch {}
   });
   
   // Progress tracking
