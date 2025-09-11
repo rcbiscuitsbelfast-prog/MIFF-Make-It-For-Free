@@ -54,7 +54,8 @@ function initCanvas(){
   window.addEventListener('resize', fit); fit();
   let dragging = false; let dragId = null; let offset = {x:0,y:0};
   cvs.addEventListener('mousedown', (e)=>{
-    const p = pointer(e, cvs);
+    let p = pointer(e, cvs);
+    if (document.getElementById('snapToGrid')?.checked){ const g = parseInt(document.getElementById('gridSize')?.value||'32',10)||32; p.x = Math.round(p.x/g)*g; p.y = Math.round(p.y/g)*g; }
     if (state.tool==='add'){
       const id = 'e'+(Date.now());
       const base = { id, name: (state.assetSelection?.name || state.currentType.toUpperCase()), type: state.currentType, x:p.x, y:p.y, w:48, h:48, r:0, tags:[], behavior:'' };
@@ -66,7 +67,8 @@ function initCanvas(){
     if (hit){ state.selectedId = hit.id; syncProps(); draw(); if (state.tool==='move'){ dragging=true; dragId=hit.id; offset.x=p.x-hit.x; offset.y=p.y-hit.y; } }
   });
   window.addEventListener('mousemove', (e)=>{
-    if (!dragging) return; const p = pointer(e, cvs); const ent = state.entities.find(e=>e.id===dragId); if (!ent) return; ent.x = p.x - offset.x; ent.y = p.y - offset.y; draw();
+    if (!dragging) return; let p = pointer(e, cvs); if (document.getElementById('snapToGrid')?.checked){ const g = parseInt(document.getElementById('gridSize')?.value||'32',10)||32; p.x = Math.round(p.x/g)*g; p.y = Math.round(p.y/g)*g; }
+    const ent = state.entities.find(e=>e.id===dragId); if (!ent) return; ent.x = p.x - offset.x; ent.y = p.y - offset.y; draw();
   });
   window.addEventListener('mouseup', ()=>{ dragging=false; dragId=null; });
 
@@ -110,6 +112,15 @@ function initCanvas(){
 
   // init types
   const sel = $('prop-type'); paletteTypes.forEach(t=>{ const o=document.createElement('option'); o.value=t.id; o.textContent=t.name; sel.appendChild(o); });
+
+  // Save/Load
+  document.getElementById('btn-save').onclick = ()=>{ try { localStorage.setItem('miff_studio_scene', JSON.stringify(exportJSON())); } catch {} };
+  document.getElementById('btn-load').onclick = async ()=>{ try { const s=localStorage.getItem('miff_studio_scene'); if (!s) return; const d=JSON.parse(s); state.entities=(d.entities||[]).map(x=>({ ...x })); state.selectedId=null; draw(); } catch {} };
+  try { const s=localStorage.getItem('miff_studio_scene'); if(s){ /* autosave restore optional */ } } catch {}
+
+  // Load presets
+  const presetBtn = document.getElementById('btn-load-preset');
+  if (presetBtn){ presetBtn.onclick = async ()=>{ const selEl=document.getElementById('presetSelect'); const path=selEl&&selEl.value; if(!path) return; try { const pre=await fetch(path).then(r=>r.json()); state.entities=(pre.entities||[]).map(e=>({ ...e })); state.selectedId=null; draw(); } catch {} }; }
 }
 
 function exportJSON(){ return { version: 1, entities: state.entities.map(e=>({ id:e.id, name:e.name, type:e.type, x:e.x, y:e.y, w:e.w, h:e.h, r:e.r||0, tags:e.tags||[], behavior:e.behavior||'', src:e.src||null })) }; }

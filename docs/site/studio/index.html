@@ -20,6 +20,7 @@
       <div class="toolbar">
         <input type="text" id="prompt" placeholder="e.g. Add NPC named 'Elder' to Grove zone" style="width:60%" />
         <button id="runPrompt">Run Prompt</button>
+        <input type="text" id="assetSearch" placeholder="Search assets…" style="width:30%" />
       </div>
       <pre id="promptResult" style="background:#0e1a2a;border:1px solid #1f2d3c;border-radius:10px;padding:10px;overflow:auto"></pre>
     </section>
@@ -31,6 +32,17 @@
       const res = runPrompt(p);
       document.getElementById('promptResult').textContent = JSON.stringify({ result: res, assets:listAssets() }, null, 2);
     };
+    const search = document.getElementById('assetSearch');
+    search.addEventListener('input', ()=>{
+      const q = (search.value||'').toLowerCase();
+      const a = listAssets();
+      const matches = {
+        sprites: a.sprites.filter(s=> (s.name||'').toLowerCase().includes(q) || (s.tags||[]).join(',').toLowerCase().includes(q)),
+        tiles: a.animations.filter(s=> false),
+        templates: a.templates.filter(s=> (s.name||'').toLowerCase().includes(q) || (s.tags||[]).join(',').toLowerCase().includes(q))
+      };
+      document.getElementById('promptResult').textContent = JSON.stringify({ search:q, matches }, null, 2);
+    });
   </script>
 </body>
 </html>

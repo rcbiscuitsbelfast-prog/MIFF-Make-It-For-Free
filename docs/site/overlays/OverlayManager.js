@@ -43,8 +43,10 @@ try { window.miffOverlay = { show: showOverlay, remove: removeOverlay, cleanup, 
 // Listen for Godot ready events
 try {
   window.addEventListener('message', (event) => {
+    const allowed = [location.origin].filter(Boolean);
+    if (allowed.length && event.origin && !allowed.includes(event.origin)) return;
     if (event && event.data && event.data.type === 'godot-ready'){
-      try { showHUD(event.data.zone || 'zone'); console.log(`[Overlay] HUD hydrated for ${event.data.zone||'zone'}`); } catch {}
+      try { showHUD(event.data.zone || 'zone'); console.log(`[Overlay] HUD hydrated for ${event.data.zone||'zone'}`); parent?.postMessage?.({ type:'scene-hydrated', zone: event.data.zone||'zone' }, '*'); } catch {}
     }
   });
 } catch {}
