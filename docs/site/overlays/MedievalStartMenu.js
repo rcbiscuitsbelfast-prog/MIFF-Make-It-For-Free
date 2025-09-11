@@ -5,13 +5,15 @@ export function injectMedievalMenu(zoneName){
   const menu = document.createElement('div');
   menu.className = 'start-menu medieval';
   menu.innerHTML = `
-    <h1>${zoneName}</h1>
-    <div class="buttons">
-      <button id="start-btn">Begin Quest</button>
-      <button id="load-btn">Load Game</button>
-      <button id="options-btn">Options</button>
-      <button id="tutorial-btn">How to Play</button>
-      <button id="remix-btn">Remix This</button>
+    <div class="medieval-card">
+      <h1>${zoneName}</h1>
+      <div class="buttons">
+        <button id="start-btn">Begin Quest</button>
+        <button id="load-btn">Load Game</button>
+        <button id="options-btn">Options</button>
+        <button id="tutorial-btn">How to Play</button>
+        <button id="remix-btn">Remix This</button>
+      </div>
     </div>
   `;
   document.body.appendChild(menu);
