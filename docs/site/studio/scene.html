@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Scene Builder</title>
+  <link rel="stylesheet" href="studio.css?v=20250911" />
+</head>
+<body>
+  <header class="studio-header">
+    <h1>Scene Builder</h1>
+    <nav>
+      <a href="./index.html">Studio</a>
+      <a href="./sprite.html">Sprite Studio</a>
+    </nav>
+  </header>
+  <main class="studio-main">
+    <div class="studio-grid">
+      <aside class="panel">
+        <h3>Palette</h3>
+        <div class="list" id="palette"></div>
+      </aside>
+      <section class="panel">
+        <div class="toolbar">
+          <button id="tool-select">Select</button>
+          <button id="tool-add">Add</button>
+          <button id="tool-move">Move</button>
+          <button id="tool-rotate">Rotate</button>
+          <button id="tool-resize">Resize</button>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="sceneCanvas"></canvas>
+        </div>
+        <div class="export-bar">
+          <button id="btn-export-json">Export JSON</button>
+          <button id="btn-export-yaml">Export YAML</button>
+          <button id="btn-inject-runtime">Inject to Runtime</button>
+        </div>
+      </section>
+      <aside class="panel">
+        <h3>Properties</h3>
+        <div id="props">
+          <label>Name <input type="text" id="prop-name" /></label>
+          <label>Type <select id="prop-type"></select></label>
+          <label>Tags <input type="text" id="prop-tags" placeholder="comma,separated" /></label>
+          <label>Behavior <textarea id="prop-behavior" rows="4"></textarea></label>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <script type="module" src="scene_builder.js?v=20250911"></script>
+</body>
+</html>

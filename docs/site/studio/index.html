@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Studio</title>
+  <link rel="stylesheet" href="studio.css?v=20250911" />
+</head>
+<body>
+  <header class="studio-header">
+    <h1>MIFF Studio</h1>
+    <nav>
+      <a href="./scene.html">Scene Builder</a>
+      <a href="./sprite.html">Sprite Studio</a>
+    </nav>
+  </header>
+  <main class="studio-main">
+    <section>
+      <p>Create and remix scenes, entities, sprites, and animations directly in your browser. Export remix-safe JSON and inject into runtime.</p>
+      <div class="toolbar">
+        <input type="text" id="prompt" placeholder="e.g. Add NPC named 'Elder' to Grove zone" style="width:60%" />
+        <button id="runPrompt">Run Prompt</button>
+      </div>
+      <pre id="promptResult" style="background:#0e1a2a;border:1px solid #1f2d3c;border-radius:10px;padding:10px;overflow:auto"></pre>
+    </section>
+  </main>
+  <script type="module">
+    import { runPrompt, listAssets } from './asset_registry.js?v=20250911';
+    document.getElementById('runPrompt').onclick = ()=>{
+      const p = document.getElementById('prompt').value||'';
+      const res = runPrompt(p);
+      document.getElementById('promptResult').textContent = JSON.stringify({ result: res, assets:listAssets() }, null, 2);
+    };
+  </script>
+</body>
+</html>
