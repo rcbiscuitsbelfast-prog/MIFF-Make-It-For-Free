@@ -192,7 +192,7 @@ function renderUI(){ const { ctx, cvs } = model; const total = 6; const ratio = 
 
 function render(){ const { ctx, cvs } = model; ctx.clearRect(0,0,cvs.width,cvs.height); ctx.fillStyle = '#081018'; ctx.fillRect(0,0,cvs.width,cvs.height); for (let i=0;i<model.props.length;i++){ const pr=model.props[i]; if (pr.img) ctx.drawImage(pr.img, model.npc.x+pr.dx, model.npc.y+pr.dy, 32, 32); } model.anim.t += 0.016; const phase = model.anim.t % 1; const eased = easeInOutSine(phase); const baseR = 40 + model.progress*3; const pulseR = baseR + 8*eased; ctx.save(); ctx.shadowBlur = 16 + eased*16; ctx.shadowColor = '#58a6ff'; if (model.sprite){ ctx.drawImage(model.sprite, model.npc.x-24, model.npc.y-24, 48, 48); } else { ctx.fillStyle = '#58a6ff'; ctx.beginPath(); ctx.arc(model.npc.x, model.npc.y, pulseR, 0, Math.PI*2); ctx.fill(); } ctx.restore(); if (model.portrait){ ctx.globalAlpha=0.15; ctx.drawImage(model.portrait, cvs.width-128, cvs.height-128, 120, 120); ctx.globalAlpha=1; } ctx.fillStyle = '#d0d7de'; ctx.fillText(`State: ${model.state}`, 10, 20); ctx.fillText('Space/click for beats. Enter to start. D dialogue. M mute.', 10, 40); renderUI(); }
 
-function loop(){ console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(model.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); console.log('[Renderer] requestAnimationFrame active for:', 'spirit_tamer'); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
+function loop(ts){ const dt = (loop._last ? (ts - loop._last) : 16) / 1000; loop._last = ts; const fps = Math.round(1 / Math.max(0.016, dt)); console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(model.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); try { UI.updateModule && UI.updateModule('ContributorHUD', { fps, inputMode: model.inputMode, zone: 'spirit_tamer' }); } catch {} console.log('[Renderer] requestAnimationFrame active for:', 'spirit_tamer'); UI && UI.showHUD({ inputMode: model.inputMode, progress: `${model.progress}/6`, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ 
   console.log('[SpiritTamer] Canvas injection starting...');
@@ -294,7 +294,19 @@ async function init(){
     UI.useModule && UI.useModule('RemixBadge', RemixBadge, { url: 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free' });
     UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Bond with the Spirit', lines: ['Beats: 0/6'] });
   } catch {}
-  addAttributionFooter(); UI.showIntro({ title: ORCH?.title||'Spirit Tamer', onStart: ()=>{ model.state=State.Playing; try{ audio.music?.play(); }catch{} } }); try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {} window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode });
+  addAttributionFooter();
+  // Start via miff start menu action
+  try {
+    document.addEventListener('miff:start-menu:action', (e)=>{
+      if (e && e.detail && e.detail.action === 'new'){
+        model.state = State.Playing;
+        try{ audio.music?.play(); }catch{}
+      }
+    });
+  } catch {}
+  // Fallback legacy start menu kept
+  try { UI.useModule && UI.useModule('IntroModal', MainMenu, { title: ORCH?.title||'Spirit Tamer', style: UI_STYLES[savedStyle] || UI_STYLES.default, onAction:(id)=>{ if(id==='start'){ model.state=State.Playing; try{ audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if(id==='credits'){ showLoreModal(); } } }); } catch {}
+  window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } }); updateGameState && updateGameState({ currentZone: 'spirit', progress: { value: 0, total: 6, label: '' }, activeQuest: { title:'Bond with the Spirit', description: 'Hit the beat 6 times', status:'Awaiting start' }, inputMode: model.inputMode });
   startReplay(); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 
 // Fullscreen support

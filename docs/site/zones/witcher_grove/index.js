@@ -479,12 +479,14 @@ function render(){
 function gameLoop(ts){
   const dt = (gameLoop._last ? (ts - gameLoop._last) : 16) / 1000;
   gameLoop._last = ts;
+  const fps = Math.round(1 / Math.max(0.016, dt));
   
   tick++;
   console.log('[Draw] Frame rendering...');
   if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); }
   update(dt);
   render();
+  try { UI.updateModule && UI.updateModule('ContributorHUD', { fps, inputMode, zone: 'witcher_grove' }); } catch {}
   console.log('[Renderer] requestAnimationFrame active for:', 'witcher_grove');
   UI && UI.showHUD({ inputMode, fullscreenToggle: true });
   requestAnimationFrame(gameLoop);
@@ -662,6 +664,8 @@ async function init(){
     
     console.log('[Renderer] Draw loop starting after hydration');
     requestAnimationFrame(gameLoop);
+    // Start via start menu action
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ try { UI.hide && UI.hide('intro'); } catch {} } }); } catch {}
   });
   
   // Progress tracking

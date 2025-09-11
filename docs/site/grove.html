@@ -91,6 +91,23 @@
     <script type="module" src="overlays/dispatcher.js"></script>
     <script type="module" src="overlays/footer.js"></script>
     <script type="module" src="overlays/OverlayManager.js"></script>
+    <script type="module" src="overlays/SplashScreen.js"></script>
+    <script type="module" src="overlays/StartMenu.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function(){
+        try {
+            if (window.miffStartSequence){
+                window.miffStartSequence({
+                    duration: 1600,
+                    title: 'GROVE',
+                    subtitle: 'Explore the Isles',
+                    themeClass: 'theme-medieval',
+                    startMenu: { themeClass: 'theme-medieval' }
+                });
+            }
+        } catch {}
+    });
+    </script>
     <script type="module" src="zones/witcher_grove/assets.js"></script>
     <script type="module" src="zones/witcher_grove/index.js"></script>
 </body>

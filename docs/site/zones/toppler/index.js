@@ -230,7 +230,7 @@ function render(){ const { ctx, cvs } = game; ctx.fillStyle = '#0b1020'; ctx.fil
     for (let i=FX.length-1;i>=0;i--){ const f=FX[i]; f.t += 0.016; const r = 3 + f.t*60; ctx.strokeStyle='rgba(255,255,255,'+(1-f.t)+')'; ctx.beginPath(); ctx.arc(f.x, f.y, r, 0, Math.PI*2); ctx.stroke(); if (f.t>1) FX.splice(i,1); }
 }
 
-function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } if (game.state!==State.Paused) update(dt); try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(game.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); try { const style = getComputedStyle(game.cvs); console.log('[Visual] Canvas z-index:', style.zIndex); } catch {} console.log('[Renderer] requestAnimationFrame active for:', 'toppler'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
+function loop(ts){ if (!game._last) game._last = ts; const dt = Math.min(0.033, (ts - game._last) / 1000); game._last = ts; const fps = Math.round(1 / Math.max(0.016, dt)); console.log('[Draw] Frame rendering...'); if (!scene || scene.entities.length === 0) { console.warn('[Draw] Scene empty — nothing to render'); } if (game.state!==State.Paused) update(dt); try { scene.entities.forEach(e=>{ if (typeof e.draw==='function'){ e.draw(game.ctx); const name=(e && e.constructor && e.constructor.name)||e.id||'Entity'; console.log(`[Trace] ${name} drawn at (${e.x}, ${e.y})`); } }); } catch{} render(); try { UI.updateModule && UI.updateModule('ContributorHUD', { fps, inputMode: game.inputMode, zone: 'toppler' }); } catch {} try { const style = getComputedStyle(game.cvs); console.log('[Visual] Canvas z-index:', style.zIndex); } catch {} console.log('[Renderer] requestAnimationFrame active for:', 'toppler'); UI && UI.showHUD({ inputMode: game.inputMode, fullscreenToggle: true }); requestAnimationFrame(loop); }
 
 async function init(){ 
   console.log('[Toppler] Canvas injection starting...');
@@ -316,6 +316,8 @@ async function init(){
     // UI nesting audit
     try { const dup = document.querySelector('#miffIntro'); if (dup && document.querySelectorAll('#miffIntro').length>1){ console.warn('[UI] Duplicate StartMenu detected'); } } catch {}
     updateGameState && updateGameState({ currentZone: 'toppler', progress: { value: 0, total: (ORCH?.levels?.length)||6, label: '' }, activeQuest: { title:'Reach the Goal', description: 'Cross the platforms to the glowing gate', status:'In progress' }, inputMode: game.inputMode });
+    // Listen for start menu NEW
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} } }); } catch {}
     addAttributionFooter();
     ensureStartMenu();
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
