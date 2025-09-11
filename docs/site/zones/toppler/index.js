@@ -254,7 +254,7 @@ async function init(){
   if(statusEl) statusEl.textContent = 'Ready. Press Enter to start.'; 
   
   // Use existing gameCanvas or create mainCanvas
-  let cvs = $('gameCanvas') || $('mainCanvas');
+  let cvs = $('gameCanvas') || $('game-canvas') || $('mainCanvas');
   if (!cvs) {
     console.log('[Toppler] Creating new canvas element...');
     cvs = document.createElement('canvas');

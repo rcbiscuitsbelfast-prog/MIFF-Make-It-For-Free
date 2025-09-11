@@ -214,7 +214,7 @@ async function init(){
   if(statusEl) statusEl.textContent = 'Ready. Enter to start.'; 
   
   // Use existing gameCanvas or create mainCanvas
-  let cvs = $('gameCanvas') || $('mainCanvas');
+  let cvs = $('gameCanvas') || $('game-canvas') || $('mainCanvas');
   if (!cvs) {
     console.log('[SpiritTamer] Creating new canvas element...');
     cvs = document.createElement('canvas');
