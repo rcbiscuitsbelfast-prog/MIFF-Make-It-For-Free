@@ -297,6 +297,17 @@ async function init(){
     console.log('[Assets] Loaded:', Object.keys(SPRITES).filter(k=>SPRITES[k]).join(','));
     const missing = Object.keys(SPRITES).filter(k=>!SPRITES[k]);
     if (missing.length) console.warn('[Assets] Missing:', missing);
+    // WorldView + Procedural Map (sidescroll layered)
+    try {
+      const zoneConfig = { viewingType: 'sidescroll' };
+      const view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'layered' };
+      console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
+      const tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: 'toppler123', pattern: 'stone' })) || [];
+      console.log(`[Map] Generated ${tiles.length} tiles`);
+      // Lightweight debug: tint background blocks based on generated tiles rows
+      const proc = { id: 'proc_grid', draw(c){ c.save(); c.globalAlpha=0.05; for (const t of tiles){ if (t.y%2===0){ c.fillStyle='#58a6ff'; c.fillRect(t.x*8, game.cvs.height- t.y*8 - 8, 6, 6); } } c.restore(); } };
+      scene.addEntity(proc);
+    } catch {}
     detectInputMode();
     // Scene graph population (diagnostic)
     const player = { id: 'player', x: game.player.x, y: game.player.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 8, 8); } };

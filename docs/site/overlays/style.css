@@ -132,3 +132,8 @@
 }
 .overlay h2 { margin: 0 0 8px 0; color: #ff86df; }
 .overlay .close { position: absolute; top: 8px; right: 10px; background: transparent; border: 1px solid #ff00cc; color: #fff; border-radius: 6px; padding: 4px 8px; }
+
+/* Procedural map debug hooks */
+.map-debug { outline: 1px dashed rgba(88,166,255,0.4); }
+.map-procedural { filter: saturate(1.1); }
+.map-entity { box-shadow: 0 0 8px rgba(255,0,204,0.5); }

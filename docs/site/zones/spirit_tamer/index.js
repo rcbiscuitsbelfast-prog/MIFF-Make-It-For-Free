@@ -251,6 +251,16 @@ async function init(){
   // Canvas visibility & z-index check
   try { const style = getComputedStyle(cvs); console.log('[Canvas] Display:', style.display); console.log('[Canvas] Z-index:', style.zIndex); console.log('[Canvas] Visibility:', style.visibility); } catch {}
   detectInputMode(); 
+  // WorldView + Procedural Map
+  try {
+    const zoneConfig = { viewingType: 'topdown' };
+    const view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+    console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
+    const tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: 'spirit123', pattern: 'forest' })) || [];
+    console.log(`[Map] Generated ${tiles.length} tiles`);
+    const grid = { id: 'proc_grid', x:0, y:0, draw(c){ c.save(); c.globalAlpha=0.06; for (const t of tiles){ c.fillStyle = '#00ffff'; c.fillRect(10 + t.x*6, 10 + t.y*6, 2, 2); } c.restore(); } };
+    scene.addEntity(grid);
+  } catch {}
   // Scene graph population (diagnostic)
   const player = { id: 'player', x: model.npc.x, y: model.npc.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 6, 6); } };
   scene.addEntity(player);

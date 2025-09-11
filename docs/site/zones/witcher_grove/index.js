@@ -615,6 +615,17 @@ async function init(){
   
   // Wait for assets to load
   onAssetsReady(async () => {
+    // WorldView + Procedural Map
+    try {
+      const zoneConfig = { viewingType: 'isometric' };
+      const view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+      console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
+      const tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: 'grove123', pattern: 'forest' })) || [];
+      console.log(`[Map] Generated ${tiles.length} tiles`);
+      // Lightweight debug entity to visualize generation points
+      const grid = { id: 'proc_grid', x:0, y:0, draw(c){ c.save(); c.globalAlpha=0.08; for (const t of tiles){ const p = worldToScreen(t.x*0.5, t.y*0.5); c.fillStyle = '#58a6ff'; c.fillRect(p.x, p.y - (tileH/2), 2, 2); } c.restore(); } };
+      scene.addEntity(grid);
+    } catch {}
     console.log('[Assets] Loaded:', 'grove assets');
     console.warn('[Assets] Missing:', []);
     await loadGroveMap();
