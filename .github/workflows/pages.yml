@@ -1,36 +1,47 @@
-name: Deploy Sampler to GitHub Pages
+name: GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Upload Pages artifact (site)
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          path: site
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+          node-version: 18
+
+      - name: Install yamllint
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y yamllint
+
+      - name: Lint YAML Front Matter
+        run: |
+          # Extract YAML front matter blocks and validate
+          # Validate .astro and .md files that use front matter
+          find docs/src -type f \( -name "*.astro" -o -name "*.md" \) -print0 | xargs -0 -I {} bash -c '
+            if head -1 "{}" | grep -q "^---"; then
+              # Extract the first YAML block delimited by --- ... ---
+              sed -n "/^---$/,/^---$/p" "{}" | sed '1d;$d' > /tmp/frontmatter.yml || true
+              if [ -s /tmp/frontmatter.yml ]; then
+                yamllint -d "{extends: default, rules: {line-length: disable}}" /tmp/frontmatter.yml
+              fi
+            fi'
+
+      - name: Build (noop for static docs)
+        run: |
+          echo "Build step placeholder"
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
