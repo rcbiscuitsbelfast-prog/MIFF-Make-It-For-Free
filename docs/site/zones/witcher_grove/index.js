@@ -3,6 +3,7 @@ import { HUDBar, MainMenu, StyleSelector, QuestLog, ContributorHUD, RemixBadge, 
 import { UI_STYLES } from '../../ui_modules/style_presets.js';
 import { updateState as updateGameState } from '../../state/game_state.js';
 import { addAttributionFooter } from '../../overlays/footer.js';
+import { getMenuType, injectMenu } from '../../overlays/MenuRegistry.js';
 import { preloadAll, onAssetsReady, getSprite, getTile, getUIComponent, getProgress } from './assets.js';
 
 function $(id){ return document.getElementById(id); }
@@ -601,6 +602,9 @@ async function init(){
   UI.setDefaultStyle && UI.setDefaultStyle(UI_STYLES[savedStyle] || UI_STYLES.fantasy);
   console.log('[Grove] UI modules attached');
   console.log('[Dispatcher] Overlays registered:', ['IntroModal','GameOver','LoreModal','HUD']);
+  // Cleanup overlays before injecting menu and ensure single menu
+  try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); console.log('[Overlay] cleaned up'); } catch {}
+  try { const zoneKey='grove'; const menuType=getMenuType(zoneKey); if (!document.querySelector('.start-menu')) injectMenu(menuType, 'Witcher Grove'); } catch {}
   try {
     UI.useModule && UI.useModule('HUD', HUDBar, { inputMode });
     console.log('[UI] Injected modules for zone:', 'witcher_grove');
@@ -693,7 +697,7 @@ async function init(){
     console.log('[Renderer] Draw loop starting after hydration');
     requestAnimationFrame(gameLoop);
     // Start via start menu action
-    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ try { UI.hide && UI.hide('intro'); } catch {} } }); } catch {}
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (e && e.detail && e.detail.action==='new'){ try { UI.hide && UI.hide('intro'); } catch {} console.log(`[Scene] witcher_grove started`); console.log(`[Hydration] ${scene.entities.length} entities loaded`); if (cvs){ cvs.style.display='block'; cvs.width=window.innerWidth; cvs.height=window.innerHeight; console.log(`[Canvas] ${cvs.width}x${cvs.height}`); } } }); } catch {}
   });
   
   // Progress tracking

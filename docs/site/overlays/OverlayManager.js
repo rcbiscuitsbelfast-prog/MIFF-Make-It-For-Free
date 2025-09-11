@@ -30,7 +30,7 @@ export function removeOverlay(name){
 
 // Global helper
 export function cleanup(){
-  try { Object.keys(__miffOverlays).forEach(k=>{ try{ __miffOverlays[k].remove?.(); }catch{} delete __miffOverlays[k]; }); console.log('[Overlay] cleanup complete'); } catch {}
+  try { Object.keys(__miffOverlays).forEach(k=>{ try{ __miffOverlays[k].remove?.(); }catch{} delete __miffOverlays[k]; }); console.log('[Overlay] cleaned up'); } catch {}
 }
 
 try { window.miffOverlay = { show: showOverlay, remove: removeOverlay, cleanup }; } catch {}
