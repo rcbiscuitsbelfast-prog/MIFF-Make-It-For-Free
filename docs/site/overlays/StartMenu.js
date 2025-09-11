@@ -35,10 +35,17 @@ export function showStartMenu(opts){
         <button class="start-btn primary" data-action="new">NEW GAME</button>
         <button class="start-btn" data-action="load">LOAD GAME</button>
         <button class="start-btn" data-action="tutorial">TUTORIAL</button>
+        <button class="start-btn remix" data-action="remix">REMIX THIS</button>
       </div>
     </div>
   `;
   document.body.appendChild(menu);
+
+  // Zone-specific theme class injection on <body>
+  try {
+    const zonePage = (window.location.pathname.split('/').pop() || '').replace('.html','');
+    if (zonePage){ document.body.classList.add(`theme-${zonePage}`); }
+  } catch {}
 
   const handle = (action) => {
     try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action } })); } catch {}
@@ -46,6 +53,11 @@ export function showStartMenu(opts){
     if (action === 'new') {
       if (typeof options.onStart === 'function') options.onStart();
       menu.remove();
+      return;
+    }
+    if (action === 'remix'){
+      const url = options.remixUrl || 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free';
+      try { window.open(url, '_blank'); } catch {}
       return;
     }
   };

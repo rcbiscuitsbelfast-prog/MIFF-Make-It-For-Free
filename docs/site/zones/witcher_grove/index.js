@@ -622,7 +622,7 @@ async function init(){
       id: 'npc_spirit', x: 100, y: 200, type: 'SpiritNPC',
       draw(c){ const spr = getSprite('npcElder'); if (spr && spr.img && spr.img.complete){ c.drawImage(spr.img, this.x-20, this.y-36, spr.meta.frame.w, spr.meta.frame.h); console.log('[Draw] NPC sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
       contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
-      onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('DialogueBox', { title:'Elder', text:'Welcome, seeker.', autoDismissMs: 3000 }) : UI.showLore({ title:'Elder', text:'Welcome, seeker.' })); console.log('[Gameplay] Quest updated: elder_found'); updateGameState && updateGameState('questStatus','elder_found'); } catch {} }
+      onInteract(){ try { (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('DialogueBox', { title:'Elder', text:'Welcome, seeker.', autoDismissMs: 3000 }) : UI.showLore({ title:'Elder', text:'Welcome, seeker.' })); console.log('[Gameplay] Quest updated: elder_found'); updateGameState && updateGameState('questStatus','elder_found'); if (window.miffOverlay && window.miffOverlay.show){ window.miffOverlay.show('elder', '<h2>Elder</h2><p>The forest remembers.</p>'); } } catch {} }
     };
     scene.addEntity(npcEntity);
     console.log('[Grove] NPC added:', npcEntity);

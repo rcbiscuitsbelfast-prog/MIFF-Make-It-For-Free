@@ -258,7 +258,7 @@ async function init(){
   const spirit = { id: 'bondable_spirit', x: 150, y: 150, type: 'BondableSpirit',
     draw(c){ if (model.sprite){ c.drawImage(model.sprite, this.x-24, this.y-24, 48, 48); console.log('[Draw] Spirit sprite rendered at:', this.x, this.y); } else { console.warn('[Draw] NPC sprite missing'); } },
     contains(px,py){ return Math.abs(px-this.x)<24 && Math.abs(py-this.y)<24; },
-    onInteract(){ try { console.log('[Interaction] Spirit clicked'); (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title:'Bond Overlay', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Bond Overlay', text:'The bond strengthens…' })); updateGameState && updateGameState('bondLevel', 1); console.log('[State] bondLevel = 1'); } catch {} }
+    onInteract(){ try { console.log('[Interaction] Spirit clicked'); (UI.showOverlay||UI.showLore) && (UI.showOverlay? UI.showOverlay('BondOverlay', { title:'Bond Overlay', text:'The bond strengthens…', autoDismissMs: 3000 }) : UI.showLore({ title:'Bond Overlay', text:'The bond strengthens…' })); updateGameState && updateGameState('bondLevel', 1); console.log('[State] bondLevel = 1'); if (window.miffOverlay && window.miffOverlay.show){ window.miffOverlay.show('bond', '<h2>Bond Level: 1</h2><p>You’ve connected with the spirit.</p>'); } } catch {} }
   };
   scene.addEntity(spirit);
   console.log('[Spirit] Spirit entity added:', spirit);
