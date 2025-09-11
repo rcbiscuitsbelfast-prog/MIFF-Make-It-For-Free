@@ -326,48 +326,71 @@
       };
     }
     
-    function generateSceneData(worldType) {
+    async function generateSceneData(worldType) {
       const baseScene = {
         version: 1,
         zone: worldType,
         entities: []
       };
       
-      switch(worldType) {
-        case '2d-side':
-          baseScene.entities = [
-            { id: 'player', name: 'Knight', type: 'sprite', src: '../../assets/KayKitAssets/knight_texture.png', x: 50, y: 300, w: 48, h: 48 },
-            { id: 'platform1', name: 'Platform', type: 'tile', src: '../../assets/Bridge_Wood.png', x: 100, y: 350, w: 80, h: 16 },
-            { id: 'platform2', name: 'Platform', type: 'tile', src: '../../assets/Bridge_Wood.png', x: 250, y: 300, w: 80, h: 16 }
-          ];
-          break;
-        case '2d-topdown':
-          baseScene.entities = [
-            { id: 'player', name: 'Barbarian', type: 'sprite', src: '../../assets/KayKitAssets/barbarian_texture.png', x: 200, y: 200, w: 48, h: 48 },
-            { id: 'tree1', name: 'Tree', type: 'tile', src: '../../assets/Isometric Blocks/isometric_0075.png', x: 150, y: 150, w: 32, h: 32 },
-            { id: 'tree2', name: 'Tree', type: 'tile', src: '../../assets/Isometric Blocks/isometric_0075.png', x: 250, y: 150, w: 32, h: 32 }
-          ];
-          break;
-        case 'runner':
-          baseScene.entities = [
-            { id: 'player', name: 'Spirit', type: 'sprite', src: '../../assets/Slime_Green.png', x: 100, y: 200, w: 48, h: 48 },
-            { id: 'obstacle1', name: 'Rock', type: 'tile', src: '../../assets/Isometric Blocks/isometric_0091.png', x: 300, y: 250, w: 32, h: 32 },
-            { id: 'obstacle2', name: 'Rock', type: 'tile', src: '../../assets/Isometric Blocks/isometric_0091.png', x: 500, y: 250, w: 32, h: 32 }
-          ];
-          break;
-        case '3d-topdown':
-          baseScene.entities = [
-            { id: 'player', name: 'Mage', type: 'sprite', src: '../../assets/KayKitAssets/mage_texture.png', x: 200, y: 200, w: 48, h: 48 },
-            { id: 'castle', name: 'Castle', type: 'tile', src: '../../assets/House.png', x: 100, y: 100, w: 64, h: 64 },
-            { id: 'tower', name: 'Tower', type: 'tile', src: '../../assets/House.png', x: 300, y: 100, w: 48, h: 64 }
-          ];
-          break;
-        case 'static-overlay':
-          baseScene.entities = [
-            { id: 'hud', name: 'HUD', type: 'overlay', x: 0, y: 0, w: 100, h: 100 },
-            { id: 'info', name: 'Info Panel', type: 'overlay', x: 50, y: 50, w: 200, h: 100 }
-          ];
-          break;
+      try {
+        // Load enhanced presets
+        let presetPath = '';
+        switch(worldType) {
+          case '2d-side':
+            presetPath = '../studio/presets/sampler-2d-side.json';
+            break;
+          case '2d-topdown':
+            presetPath = '../studio/presets/sampler-2d-topdown.json';
+            break;
+          case 'runner':
+            presetPath = '../studio/presets/sampler-runner.json';
+            break;
+          case '3d-topdown':
+            presetPath = '../studio/presets/sampler-3d-isometric.json';
+            break;
+          case 'static-overlay':
+            baseScene.entities = [
+              { id: 'hud', name: 'HUD', type: 'overlay', x: 0, y: 0, w: 100, h: 100 },
+              { id: 'info', name: 'Info Panel', type: 'overlay', x: 50, y: 50, w: 200, h: 100 }
+            ];
+            return baseScene;
+        }
+        
+        if (presetPath) {
+          const response = await fetch(presetPath);
+          const preset = await response.json();
+          baseScene.entities = preset.entities || [];
+        }
+      } catch (error) {
+        console.warn('Failed to load preset, using fallback:', error);
+        // Fallback to basic entities
+        switch(worldType) {
+          case '2d-side':
+            baseScene.entities = [
+              { id: 'player', name: 'Knight', type: 'sprite', src: '../../assets/KayKitAssets/knight_texture.png', x: 50, y: 300, w: 48, h: 48 },
+              { id: 'platform1', name: 'Platform', type: 'tile', src: '../../assets/Bridge_Wood.png', x: 100, y: 350, w: 80, h: 16 }
+            ];
+            break;
+          case '2d-topdown':
+            baseScene.entities = [
+              { id: 'player', name: 'Barbarian', type: 'sprite', src: '../../assets/KayKitAssets/barbarian_texture.png', x: 200, y: 200, w: 48, h: 48 },
+              { id: 'tree1', name: 'Tree', type: 'tile', src: '../../assets/Isometric Blocks/isometric_0075.png', x: 150, y: 150, w: 32, h: 32 }
+            ];
+            break;
+          case 'runner':
+            baseScene.entities = [
+              { id: 'player', name: 'Spirit', type: 'sprite', src: '../../assets/Slime_Green.png', x: 100, y: 200, w: 48, h: 48 },
+              { id: 'obstacle1', name: 'Rock', type: 'tile', src: '../../assets/Isometric Blocks/isometric_0091.png', x: 300, y: 250, w: 32, h: 32 }
+            ];
+            break;
+          case '3d-topdown':
+            baseScene.entities = [
+              { id: 'player', name: 'Mage', type: 'sprite', src: '../../assets/KayKitAssets/mage_texture.png', x: 200, y: 200, w: 48, h: 48 },
+              { id: 'castle', name: 'Castle', type: 'tile', src: '../../assets/House.png', x: 100, y: 100, w: 64, h: 64 }
+            ];
+            break;
+        }
       }
       
       return baseScene;

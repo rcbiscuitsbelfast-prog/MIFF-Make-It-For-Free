@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Static Overlay (Godot Export Placeholder)</title>
+  <style> html, body { margin:0; padding:0; height:100%; background:#000; } .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e6edf3;font-family:system-ui} </style>
+  <script>
+    window.addEventListener('DOMContentLoaded',()=>{ 
+      try{ parent.postMessage({ type:'godot-ready', zone:'static-overlay' }, '*'); }catch{}; 
+      window.addEventListener('message',(e)=>{ 
+        if(e&&e.data&&e.data.type==='scene-data'){ 
+          const data=e.data.data||{}; 
+          bootGame(data.entities||[]); 
+        } 
+      }); 
+      setTimeout(async ()=>{ 
+        if(!window.__overlayBooted){ 
+          bootGame([]); 
+        } 
+      },1000); 
+    });
+    
+    function bootGame(entities){ 
+      if(window.__overlayBooted) return; 
+      window.__overlayBooted=true; 
+      const cvs=document.createElement('canvas'); 
+      Object.assign(cvs.style,{position:'absolute',inset:'0'}); 
+      document.body.appendChild(cvs); 
+      const ctx=cvs.getContext('2d'); 
+      const fit=()=>{ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }; 
+      window.addEventListener('resize',fit); 
+      fit(); 
+      
+      const imgs=new Map(); 
+      const loadedImgs=new Set(); 
+      function getImg(s){ 
+        if(!s) return null; 
+        if(imgs.has(s)) return imgs.get(s); 
+        const i=new Image(); 
+        i.onload=()=>{console.log('[Static-Overlay] Loaded:',s); loadedImgs.add(s);}; 
+        i.onerror=()=>{console.error('[Static-Overlay] Failed to load:',s);}; 
+        i.src=s; 
+        imgs.set(s,i); 
+        return i; 
+      } 
+      
+      // Create overlay UI elements
+      const overlays = [
+        { id: 'main-hud', name: 'Main HUD', x: 20, y: 20, w: 300, h: 150, type: 'hud' },
+        { id: 'inventory', name: 'Inventory', x: 20, y: 200, w: 200, h: 300, type: 'panel' },
+        { id: 'stats', name: 'Stats', x: 250, y: 200, w: 150, h: 200, type: 'panel' },
+        { id: 'minimap', name: 'Minimap', x: cvs.width - 120, y: 20, w: 100, h: 100, type: 'minimap' },
+        { id: 'chat', name: 'Chat', x: 20, y: cvs.height - 120, w: 400, h: 100, type: 'chat' },
+        { id: 'toolbar', name: 'Toolbar', x: cvs.width/2 - 200, y: cvs.height - 60, w: 400, h: 40, type: 'toolbar' }
+      ];
+      
+      console.log('[Static-Overlay] Booted with overlays:',overlays);
+      
+      // Interactive overlay system
+      let selectedOverlay = null;
+      let dragOffset = { x: 0, y: 0 };
+      
+      cvs.addEventListener('mousedown', (e) => {
+        const rect = cvs.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Find clicked overlay
+        for (let overlay of overlays) {
+          if (x >= overlay.x && x <= overlay.x + overlay.w && 
+              y >= overlay.y && y <= overlay.y + overlay.h) {
+            selectedOverlay = overlay;
+            dragOffset.x = x - overlay.x;
+            dragOffset.y = y - overlay.y;
+            break;
+          }
+        }
+      });
+      
+      cvs.addEventListener('mousemove', (e) => {
+        if (selectedOverlay) {
+          const rect = cvs.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          selectedOverlay.x = Math.max(0, Math.min(cvs.width - selectedOverlay.w, x - dragOffset.x));
+          selectedOverlay.y = Math.max(0, Math.min(cvs.height - selectedOverlay.h, y - dragOffset.y));
+        }
+      });
+      
+      cvs.addEventListener('mouseup', () => {
+        selectedOverlay = null;
+      });
+      
+      function update(dt){ 
+        // No movement needed for static overlay
+      }
+      
+      function render(){ 
+        ctx.fillStyle='#0a1322'; 
+        ctx.fillRect(0,0,cvs.width,cvs.height); 
+        
+        // Draw background pattern
+        ctx.fillStyle = 'rgba(88,166,255,0.05)';
+        for (let x = 0; x < cvs.width; x += 50) {
+          for (let y = 0; y < cvs.height; y += 50) {
+            ctx.fillRect(x, y, 1, 1);
+          }
+        }
+        
+        // Draw overlays
+        overlays.forEach(overlay => {
+          const isSelected = selectedOverlay === overlay;
+          
+          // Overlay background
+          ctx.fillStyle = isSelected ? 'rgba(88,166,255,0.3)' : 'rgba(14,26,42,0.9)';
+          ctx.fillRect(overlay.x, overlay.y, overlay.w, overlay.h);
+          
+          // Overlay border
+          ctx.strokeStyle = isSelected ? '#58a6ff' : 'rgba(88,166,255,0.5)';
+          ctx.lineWidth = isSelected ? 2 : 1;
+          ctx.strokeRect(overlay.x, overlay.y, overlay.w, overlay.h);
+          
+          // Overlay content based on type
+          ctx.fillStyle = '#e6edf3';
+          ctx.font = '14px monospace';
+          
+          switch(overlay.type) {
+            case 'hud':
+              ctx.fillText('Main HUD', overlay.x + 10, overlay.y + 20);
+              ctx.fillText('Health: 100/100', overlay.x + 10, overlay.y + 40);
+              ctx.fillText('Mana: 50/100', overlay.x + 10, overlay.y + 60);
+              ctx.fillText('Level: 5', overlay.x + 10, overlay.y + 80);
+              ctx.fillText('XP: 1250/2000', overlay.x + 10, overlay.y + 100);
+              break;
+            case 'panel':
+              ctx.fillText(overlay.name, overlay.x + 10, overlay.y + 20);
+              ctx.fillText('Item 1', overlay.x + 10, overlay.y + 40);
+              ctx.fillText('Item 2', overlay.x + 10, overlay.y + 60);
+              ctx.fillText('Item 3', overlay.x + 10, overlay.y + 80);
+              break;
+            case 'minimap':
+              ctx.fillText('Map', overlay.x + 10, overlay.y + 20);
+              // Draw minimap grid
+              ctx.strokeStyle = 'rgba(88,166,255,0.3)';
+              ctx.lineWidth = 1;
+              for (let x = overlay.x + 10; x < overlay.x + overlay.w - 10; x += 20) {
+                ctx.beginPath();
+                ctx.moveTo(x, overlay.y + 30);
+                ctx.lineTo(x, overlay.y + overlay.h - 10);
+                ctx.stroke();
+              }
+              for (let y = overlay.y + 30; y < overlay.y + overlay.h - 10; y += 20) {
+                ctx.beginPath();
+                ctx.moveTo(overlay.x + 10, y);
+                ctx.lineTo(overlay.x + overlay.w - 10, y);
+                ctx.stroke();
+              }
+              // Player dot
+              ctx.fillStyle = '#58a6ff';
+              ctx.fillRect(overlay.x + overlay.w/2 - 2, overlay.y + overlay.h/2 - 2, 4, 4);
+              break;
+            case 'chat':
+              ctx.fillText('Chat Log', overlay.x + 10, overlay.y + 20);
+              ctx.fillText('Player1: Hello world!', overlay.x + 10, overlay.y + 40);
+              ctx.fillText('Player2: How are you?', overlay.x + 10, overlay.y + 60);
+              ctx.fillText('System: Welcome to MIFF!', overlay.x + 10, overlay.y + 80);
+              break;
+            case 'toolbar':
+              ctx.fillText('Tools', overlay.x + 10, overlay.y + 25);
+              // Tool buttons
+              const tools = ['Select', 'Move', 'Rotate', 'Scale', 'Delete'];
+              tools.forEach((tool, i) => {
+                const btnX = overlay.x + 60 + i * 60;
+                const btnY = overlay.y + 10;
+                ctx.fillStyle = 'rgba(88,166,255,0.2)';
+                ctx.fillRect(btnX, btnY, 50, 20);
+                ctx.fillStyle = '#e6edf3';
+                ctx.font = '10px monospace';
+                ctx.fillText(tool, btnX + 5, btnY + 15);
+              });
+              break;
+          }
+          
+          // Overlay title
+          ctx.fillStyle = '#58a6ff';
+          ctx.font = '12px monospace';
+          ctx.fillText(overlay.name, overlay.x + 5, overlay.y + 12);
+        });
+        
+        // Draw instructions
+        ctx.fillStyle = 'rgba(88,166,255,0.8)';
+        ctx.font = '14px monospace';
+        ctx.fillText('Drag overlays to move them around', 10, cvs.height - 20);
+        ctx.fillText('This demonstrates MIFF\'s overlay system', 10, cvs.height - 5);
+      }
+      
+      let last=performance.now(); 
+      function loop(ts){ 
+        const dt=Math.min(0.033,(ts-last)/1000); 
+        last=ts; 
+        update(dt); 
+        render(); 
+        requestAnimationFrame(loop); 
+      }
+      requestAnimationFrame(loop);
+    }
+  </script>
+</head>
+<body>
+  <div class="placeholder">Godot export goes here (static-overlay.wasm / static-overlay.pck)</div>
+</body>
+</html>

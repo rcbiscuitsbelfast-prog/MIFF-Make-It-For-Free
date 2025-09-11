@@ -17,7 +17,7 @@
       setTimeout(async ()=>{ 
         if(!window.__runnerBooted){ 
           try{ 
-            const pre=await fetch('../../../site/studio/presets/spirit.json').then(r=>r.json()); 
+            const pre=await fetch('../../../site/studio/presets/sampler-runner.json').then(r=>r.json()); 
             bootGame(pre.entities||[]); 
           }catch{} 
         } 

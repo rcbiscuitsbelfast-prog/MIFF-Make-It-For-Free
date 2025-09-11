@@ -17,7 +17,7 @@
       setTimeout(async ()=>{ 
         if(!window.__sideBooted){ 
           try{ 
-            const pre=await fetch('../../../site/studio/presets/toppler.json').then(r=>r.json()); 
+            const pre=await fetch('../../../site/studio/presets/sampler-2d-side.json').then(r=>r.json()); 
             bootGame(pre.entities||[]); 
           }catch{} 
         } 

@@ -14,6 +14,7 @@
 ## 🎮 Play Now
 
 - **Sampler Landing**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html
+- **MIFF Sampler Worlds**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/ (5 different gameplay styles)
 - **Toppler Medieval**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/toppler.html
 - **Spirit Tamer**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/spirit.html
 - **Witcher Grove**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/grove.html
