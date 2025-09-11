@@ -88,31 +88,19 @@
         <canvas id="gameCanvas"></canvas>
     </div>
     
-    <script>window.MIFF_DISABLE_ARCADE_UI = true;</script>
-    <script type="module" src="overlays/dispatcher.js?v=20250911"></script>
-    <script type="module" src="overlays/footer.js?v=20250911"></script>
     <script type="module" src="overlays/OverlayManager.js?v=20250911"></script>
-    <script type="module" src="overlays/SplashScreen.js?v=20250911"></script>
-    <script type="module" src="overlays/StartMenu.js?v=20250911"></script>
-    <script type="module" src="world/WorldViewRegistry.js"></script>
-    <script type="module" src="world/MapGenerator.js"></script>
-    <script type="module" src="world/TileGrid.js"></script>
+    <script type="module" src="overlays/ModernStartMenu.js?v=20250911"></script>
     <script>
-    window.addEventListener('DOMContentLoaded', function(){
-        try {
-            if (window.miffStartSequence){
-                window.miffStartSequence({
-                    duration: 1600,
-                    title: 'GROVE',
-                    subtitle: 'Explore the Isles',
-                    themeClass: 'theme-medieval',
-                    startMenu: { themeClass: 'theme-medieval' }
-                });
-            }
-        } catch {}
-    });
+    (function(){
+      function fit(){ const c=document.getElementById('gameCanvas'); if(!c) return; c.width=window.innerWidth; c.height=window.innerHeight; }
+      window.addEventListener('resize', fit);
+      window.addEventListener('orientationchange', ()=> setTimeout(fit,100));
+      window.addEventListener('DOMContentLoaded', ()=>{
+        fit();
+        try { document.body.setAttribute('data-zone','witcher_grove'); } catch {}
+        try { if (!document.querySelector('.start-menu')) window.injectModernMenu && window.injectModernMenu('Witcher Grove'); } catch {}
+      });
+    })();
     </script>
-    <script type="module" src="zones/witcher_grove/assets.js?v=20250911"></script>
-    <script type="module" src="zones/witcher_grove/index.js?v=20250911"></script>
 </body>
 </html>

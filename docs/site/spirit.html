@@ -88,31 +88,36 @@
         <canvas id="gameCanvas"></canvas>
     </div>
     
-    <script>window.MIFF_DISABLE_ARCADE_UI = true;</script>
-    <script type="module" src="overlays/dispatcher.js?v=20250911"></script>
-    <script type="module" src="overlays/footer.js?v=20250911"></script>
     <script type="module" src="overlays/OverlayManager.js?v=20250911"></script>
-    <script type="module" src="overlays/MedievalStartMenu.js?v=20250911"></script>
     <script type="module" src="overlays/SplashScreen.js?v=20250911"></script>
     <script type="module" src="overlays/StartMenu.js?v=20250911"></script>
-    <script type="module" src="world/WorldViewRegistry.js"></script>
-    <script type="module" src="world/MapGenerator.js"></script>
-    <script type="module" src="world/TileGrid.js"></script>
     <script>
-    window.addEventListener('DOMContentLoaded', function(){
-        try {
-            if (window.miffStartSequence){
-                window.miffStartSequence({
-                    duration: 1600,
-                    title: 'SPIRIT TAMER',
-                    subtitle: 'Bond with the Spirit',
-                    themeClass: 'theme-sci-fi',
-                    startMenu: { themeClass: 'theme-sci-fi' }
-                });
-            }
-        } catch {}
-    });
+    (function(){
+      function fit(){
+        const c = document.getElementById('gameCanvas');
+        if (!c) return; c.width = window.innerWidth; c.height = window.innerHeight;
+      }
+      window.addEventListener('resize', fit);
+      window.addEventListener('orientationchange', ()=> setTimeout(fit, 100));
+      window.addEventListener('DOMContentLoaded', ()=>{
+        fit();
+        try { document.body.setAttribute('data-zone','spirit_tamer'); } catch {}
+        try { window.miffShowSplash && window.miffShowSplash({ duration: 900, title: 'SPIRIT', subtitle: 'Made by MIFF', themeClass: 'theme-sci-fi' }); } catch {}
+        setTimeout(()=>{
+          try {
+            if (!document.querySelector('.start-menu')) window.miffShowStartMenu && window.miffShowStartMenu({
+              themeClass: 'theme-sci-fi',
+              title: 'SPIRIT TAMER',
+              subtitle: 'Made by MIFF',
+              onAction: (a)=>{
+                if (a==='options'){ window.miffOverlay && window.miffOverlay.show && window.miffOverlay.show('options', '<h2>Options</h2><p>Audio</p>'); }
+                if (a==='remix'){ try { window.open('https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free','_blank'); } catch {} }
+              }
+            });
+          } catch {}
+        }, 950);
+      });
+    })();
     </script>
-    <script type="module" src="zones/spirit_tamer/index.js?v=20250911"></script>
 </body>
 </html>
