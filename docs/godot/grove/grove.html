@@ -18,19 +18,27 @@
     if (p.x + (p.w||32) > cvs.width) p.x = cvs.width - (p.w||32);
     if (p.y < 0) p.y = 0;
     if (p.y + (p.h||32) > cvs.height) p.y = cvs.height - (p.h||32);
+    // Animate sprite
+    if (keys['ArrowLeft'] || keys['ArrowRight'] || keys['ArrowUp'] || keys['ArrowDown']) { p.frameTime += dt; if(p.frameTime > p.frameRate){ p.frameTime=0; p.frame = (p.frame+1) % 4; } }
   }
   let tick=0; function render(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); ctx.fillStyle='#0a1322'; ctx.fillRect(0,0,cvs.width,cvs.height); tick++; 
   ents.forEach(e=>{ 
     const img=getImg(e.src); 
     if(img && img.complete && loadedImgs.has(e.src)){ 
-      // Sprite sheet slicing - assume 32x32 frames for character sprites
-      const frameW = e.type==='sprite' ? 32 : e.w; 
-      const frameH = e.type==='sprite' ? 32 : e.h;
-      const frameX = (e.frame || 0) * frameW;
-      const frameY = 0;
-      ctx.drawImage(img, frameX, frameY, frameW, frameH, e.x, e.y, e.w, e.h);
-      // Animate frames for sprites
-      if(e.type==='sprite'){ e.frameTime += dt; if(e.frameTime > e.frameRate){ e.frameTime=0; e.frame = (e.frame+1) % 4; } }
+      // Check if this is a sprite sheet (width > height suggests multiple frames)
+      if(e.type==='sprite' && img.width > img.height && img.width > 64){
+        // Sprite sheet slicing - assume 32x32 frames for character sprites
+        const frameW = 32; 
+        const frameH = 32;
+        const frameX = (e.frame || 0) * frameW;
+        const frameY = 0;
+        ctx.drawImage(img, frameX, frameY, frameW, frameH, e.x, e.y, e.w, e.h);
+        // Animate frames for sprites
+        e.frameTime += dt; if(e.frameTime > e.frameRate){ e.frameTime=0; e.frame = (e.frame+1) % 4; }
+      } else {
+        // Single image - draw directly
+        ctx.drawImage(img, e.x, e.y, e.w, e.h);
+      }
     } else { 
       // Debug overlay for failed loads
       ctx.fillStyle= (tick%40<20)? '#2ecc7133':'#58a6ff33'; 
