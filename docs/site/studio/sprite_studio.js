@@ -21,6 +21,8 @@ function init(){
   $('tool-move').onclick = ()=> tool='move';
   $('btn-add-layer').onclick = addLayer;
   $('file-import').addEventListener('change', importLayer);
+  // load from manifest on prompt
+  document.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='i'){ promptImportFromManifest(); } });
   $('btn-add-key').onclick = addKey;
   $('btn-play').onclick = ()=>{ anim.playing=true; loop(); };
   $('btn-stop').onclick = ()=>{ anim.playing=false; };
@@ -45,6 +47,8 @@ function addLayer(){ const id='L'+Date.now(); const name='Layer '+(layers.length
 function syncLayers(){ const list=$('layerList'); list.innerHTML=''; layers.forEach((l,idx)=>{ const row=document.createElement('div'); row.innerHTML = `<label><input type="checkbox" ${l.visible!==false?'checked':''} data-id="${l.id}"/> ${l.name}</label>`; row.querySelector('input').onchange = (e)=>{ l.visible = e.target.checked; }; list.appendChild(row); }); }
 
 function importLayer(e){ const file=e.target.files[0]; if (!file) return; const img=new Image(); img.onload=()=>{ const a=activeCtx(); a.drawImage(img,0,0); e.target.value='';}; img.src=URL.createObjectURL(file); }
+
+async function promptImportFromManifest(){ try { const man = await fetch('../assets/manifest.json').then(r=>r.json()); const items=[...(man.sprites||[]), ...(man.tiles||[])]; const names=items.map(i=>i.name).join(', '); const pick = prompt('Import from manifest. Choose name:\n'+names); const found = items.find(i=>i.name.toLowerCase()===String(pick||'').toLowerCase()); if(found){ const img=new Image(); img.crossOrigin='anonymous'; img.onload=()=>{ activeCtx().drawImage(img,0,0); }; img.src=found.url; } } catch{} }
 
 function addKey(){ const d=$('drawCanvas'); const temp=document.createElement('canvas'); temp.width=d.width; temp.height=d.height; const tctx=temp.getContext('2d'); layers.filter(l=>l.visible!==false).forEach(l=>{ tctx.drawImage(l.canvas,0,0); }); const data=temp.toDataURL('image/png'); anim.frames.push({ data }); syncTimeline(); }
 

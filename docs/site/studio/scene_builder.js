@@ -2,7 +2,9 @@ const paletteTypes = [
   { id:'npc', name:'NPC' },
   { id:'trigger', name:'Trigger' },
   { id:'overlay', name:'Overlay' },
-  { id:'zoneLink', name:'Zone Link' }
+  { id:'zoneLink', name:'Zone Link' },
+  { id:'sprite', name:'Sprite' },
+  { id:'tile', name:'Tile' }
 ];
 
 const state = {
@@ -23,6 +25,18 @@ function initPalette(){
     btn.onclick = ()=>{ state.currentType = t.id; };
     pal.appendChild(btn);
   });
+  // Load assets manifest and allow selection
+  fetch('../assets/manifest.json').then(r=>r.json()).then(man=>{
+    const sec = document.createElement('div'); sec.style.marginTop='8px'; sec.innerHTML='<h4>Assets</h4>';
+    const list = document.createElement('div'); list.className='list';
+    ;[...(man.sprites||[]), ...(man.tiles||[])].forEach(a=>{
+      const row=document.createElement('div'); row.style.display='flex'; row.style.alignItems='center'; row.style.gap='6px';
+      const img=new Image(); img.src=a.url; img.width=24; img.height=24; img.style.objectFit='contain';
+      const b=document.createElement('button'); b.textContent=a.name; b.onclick=()=>{ state.currentType = (a.tags||[]).includes('tile')? 'tile':'sprite'; state.assetSelection = a; };
+      row.appendChild(img); row.appendChild(b); list.appendChild(row);
+    });
+    sec.appendChild(list); pal.appendChild(sec);
+  }).catch(()=>{});
 }
 
 function initTools(){
@@ -43,7 +57,9 @@ function initCanvas(){
     const p = pointer(e, cvs);
     if (state.tool==='add'){
       const id = 'e'+(Date.now());
-      state.entities.push({ id, name: state.currentType.toUpperCase(), type: state.currentType, x:p.x, y:p.y, w:48, h:48, r:0, tags:[], behavior:'' });
+      const base = { id, name: (state.assetSelection?.name || state.currentType.toUpperCase()), type: state.currentType, x:p.x, y:p.y, w:48, h:48, r:0, tags:[], behavior:'' };
+      if ((state.currentType==='sprite' || state.currentType==='tile') && state.assetSelection){ base.src = state.assetSelection.url; if (state.currentType==='tile'){ base.w = 64; base.h = 64; } }
+      state.entities.push(base);
       state.selectedId = id; syncProps(); draw(); return;
     }
     const hit = hitTest(p.x, p.y);
@@ -63,9 +79,8 @@ function initCanvas(){
     // entities
     state.entities.forEach(ent=>{
       ctx.save(); ctx.translate(ent.x, ent.y); ctx.rotate(ent.r||0);
-      ctx.fillStyle = ent.id===state.selectedId? 'rgba(88,166,255,0.4)' : 'rgba(255,255,255,0.15)';
-      ctx.fillRect(0,0, ent.w, ent.h);
-      ctx.strokeStyle = '#58a6ff'; ctx.strokeRect(0,0, ent.w, ent.h);
+      if (ent.src){ const img = getImage(ent.src); if (img && img.complete){ ctx.drawImage(img, 0, 0, ent.w, ent.h); } else { ctx.fillStyle='rgba(255,255,255,0.1)'; ctx.fillRect(0,0,ent.w,ent.h); } }
+      else { ctx.fillStyle = ent.id===state.selectedId? 'rgba(88,166,255,0.4)' : 'rgba(255,255,255,0.15)'; ctx.fillRect(0,0, ent.w, ent.h); ctx.strokeStyle = '#58a6ff'; ctx.strokeRect(0,0, ent.w, ent.h); }
       ctx.fillStyle = '#e6edf3'; ctx.font='12px system-ui'; ctx.fillText(ent.name||ent.type, 4, 14);
       ctx.restore();
     });
@@ -97,10 +112,13 @@ function initCanvas(){
   const sel = $('prop-type'); paletteTypes.forEach(t=>{ const o=document.createElement('option'); o.value=t.id; o.textContent=t.name; sel.appendChild(o); });
 }
 
-function exportJSON(){ return { version: 1, entities: state.entities.map(e=>({ id:e.id, name:e.name, type:e.type, x:e.x, y:e.y, w:e.w, h:e.h, r:e.r||0, tags:e.tags||[], behavior:e.behavior||'' })) }; }
+function exportJSON(){ return { version: 1, entities: state.entities.map(e=>({ id:e.id, name:e.name, type:e.type, x:e.x, y:e.y, w:e.w, h:e.h, r:e.r||0, tags:e.tags||[], behavior:e.behavior||'', src:e.src||null })) }; }
 function toYAML(obj){ const lines=[]; function w(k,v,i){ const ind='  '.repeat(i); if (Array.isArray(v)){ lines.push(`${ind}${k}:`); v.forEach(it=>{ if (typeof it==='object'){ lines.push(`${ind}-`); Object.entries(it).forEach(([kk,vv])=>w(kk,vv,i+2)); } else { lines.push(`${ind}- ${it}`); } }); } else if (typeof v==='object'){ lines.push(`${ind}${k}:`); Object.entries(v).forEach(([kk,vv])=>w(kk,vv,i+1)); } else { lines.push(`${ind}${k}: ${JSON.stringify(v)}`);} } Object.entries(obj).forEach(([k,v])=>w(k,v,0)); return lines.join('\n'); }
 function download(name, content){ const blob = new Blob([content], {type:'application/octet-stream'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
 
 initPalette();
 initTools();
 initCanvas();
+// image cache
+const __imgCache = new Map();
+function getImage(src){ if (__imgCache.has(src)) return __imgCache.get(src); const img=new Image(); img.src=src; __imgCache.set(src, img); return img; }

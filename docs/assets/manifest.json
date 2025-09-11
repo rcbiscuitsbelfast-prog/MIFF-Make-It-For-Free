@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "sprites": [
+    { "id": "player", "name": "Player", "url": "../assets/Player.png", "tags": ["char", "toppler"] },
+    { "id": "skeleton", "name": "Skeleton", "url": "../assets/Skeleton.png", "tags": ["enemy", "toppler"] },
+    { "id": "slime_green", "name": "Slime Green", "url": "../assets/Slime_Green.png", "tags": ["npc", "spirit"] },
+    { "id": "portrait_knight", "name": "Knight Portrait", "url": "../assets/KayKitAssets/knight_texture.png", "tags": ["ui", "spirit"] },
+    { "id": "chest", "name": "Chest", "url": "../assets/Chest.png", "tags": ["prop"] }
+  ],
+  "tiles": [
+    { "id": "cliff_tile", "name": "Cliff Tile", "url": "../assets/Cliff_Tile.png", "tags": ["tile", "toppler"] },
+    { "id": "bridge_wood", "name": "Bridge Wood", "url": "../assets/Bridge_Wood.png", "tags": ["tile", "toppler"] },
+    { "id": "iso_0075", "name": "Iso 0075", "url": "../assets/Isometric Blocks/isometric_0075.png", "tags": ["tile", "grove"] },
+    { "id": "iso_0076", "name": "Iso 0076", "url": "../assets/Isometric Blocks/isometric_0076.png", "tags": ["tile", "grove"] },
+    { "id": "iso_0082", "name": "Iso 0082", "url": "../assets/Isometric Blocks/isometric_0082.png", "tags": ["tile", "grove"] },
+    { "id": "iso_0091", "name": "Iso 0091", "url": "../assets/Isometric Blocks/isometric_0091.png", "tags": ["tile", "grove"] }
+  ]
+}
