@@ -9,7 +9,13 @@
   function bootGame(entities){ if(window.__groveBooted) return; window.__groveBooted=true; const cvs=document.createElement('canvas'); Object.assign(cvs.style,{position:'absolute',inset:'0'}); document.body.appendChild(cvs); const ctx=cvs.getContext('2d'); const fit=()=>{ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }; window.addEventListener('resize',fit); fit(); const imgs=new Map(); function getImg(s){ if(!s) return null; if(imgs.has(s)) return imgs.get(s); const i=new Image(); i.onload=()=>console.log('[Grove] Loaded:',s); i.onerror=()=>console.error('[Grove] Failed to load:',s); i.src=s; imgs.set(s,i); return i; } const ents=entities.map(e=>({ ...e })); console.log('[Grove] Booted with entities:',ents);
   // minimal controls: move first sprite with arrows to confirm input
   const keys={}; window.addEventListener('keydown',e=>keys[e.key]=true); window.addEventListener('keyup',e=>keys[e.key]=false);
-  let last=performance.now(); function update(dt){ const p=ents.find(e=>e.type==='sprite') || ents[0]; if(!p) return; const speed=140; if(keys['ArrowLeft']) p.x -= speed*dt; if(keys['ArrowRight']) p.x += speed*dt; if(keys['ArrowUp']) p.y -= speed*dt; if(keys['ArrowDown']) p.y += speed*dt; }
+  let last=performance.now(); function update(dt){ const p=ents.find(e=>e.type==='sprite') || ents[0]; if(!p) return; const speed=140; if(keys['ArrowLeft']) p.x -= speed*dt; if(keys['ArrowRight']) p.x += speed*dt; if(keys['ArrowUp']) p.y -= speed*dt; if(keys['ArrowDown']) p.y += speed*dt; 
+    // Keep sprite on screen
+    if (p.x < 0) p.x = 0;
+    if (p.x + (p.w||32) > cvs.width) p.x = cvs.width - (p.w||32);
+    if (p.y < 0) p.y = 0;
+    if (p.y + (p.h||32) > cvs.height) p.y = cvs.height - (p.h||32);
+  }
   let tick=0; function render(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); ctx.fillStyle='#0a1322'; ctx.fillRect(0,0,cvs.width,cvs.height); tick++; ents.forEach(e=>{ const img=getImg(e.src); if(img&&img.complete){ ctx.drawImage(img,e.x,e.y,e.w,e.h); } else { ctx.fillStyle= (tick%40<20)? '#2ecc7133':'#58a6ff33'; ctx.fillRect(e.x,e.y,e.w,e.h); ctx.strokeStyle='#58a6ff'; ctx.strokeRect(e.x,e.y,e.w,e.h); } }); requestAnimationFrame(render); }
   requestAnimationFrame(render); }
   </script>

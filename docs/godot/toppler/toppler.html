@@ -43,8 +43,20 @@
           player.vy += GRAV*dt;
           player.x += player.vx*dt;
           player.y += player.vy*dt;
+          // Keep player on screen
+          if (player.x < 0) player.x = 0;
+          if (player.x + player.w > cvs.width) player.x = cvs.width - player.w;
           if (player.y+player.h>FLOOR){ player.y=FLOOR-player.h; player.vy=0; }
         }
+        // Keep other entities on screen too
+        ents.forEach(e => {
+          if (e !== player) {
+            if (e.x < 0) e.x = 0;
+            if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
+            if (e.y < 0) e.y = 0;
+            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+          }
+        });
       }
       function render(){ ctx.fillStyle='#0b1020'; ctx.fillRect(0,0,cvs.width,cvs.height); ents.forEach(e=>{ const img=getImg(e.src); if(img&&img.complete){ ctx.drawImage(img, e.x, e.y, e.w, e.h); } else { ctx.fillStyle='#58a6ff33'; ctx.fillRect(e.x,e.y,e.w,e.h); ctx.strokeStyle='#58a6ff'; ctx.strokeRect(e.x,e.y,e.w,e.h); } }); }
       let last=performance.now(); function loop(ts){ const dt=Math.min(0.033,(ts-last)/1000); last=ts; update(dt); render(); requestAnimationFrame(loop); }
