@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Static Overlay - MIFF Sampler</title>
+  <link rel="stylesheet" href="../overlays/style.css?v=20250911">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a1322;
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+    
+    #gameContainer {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .world-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .world-header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #58a6ff;
+    }
+    
+    .world-header p {
+      margin: 5px 0 0 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .back-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.8);
+      color: #e6edf3;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    
+    .back-button:hover {
+      background: rgba(0, 0, 0, 0.9);
+      border-color: #58a6ff;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <div class="world-header">
+      <h1>🎛️ Control Center</h1>
+      <p>Static Overlay & HUD System</p>
+    </div>
+    <a href="index.html" class="back-button">← Back to Sampler</a>
+  </div>
+  
+  <script type="module" src="../overlays/OverlayManager.js?v=20250911"></script>
+  <script type="module" src="../overlays/MovementToggle.js?v=20250911"></script>
+  <script type="module" src="../godot-embed.js?v=20250911"></script>
+  <script type="module">
+    import { embedGodot } from '../godot-embed.js?v=20250911';
+    window.addEventListener('DOMContentLoaded', () => {
+      embedGodot({ zone: 'static-overlay', path: '../../godot/sampler/static-overlay.html' });
+    });
+  </script>
+  <script>
+    (function(){
+      function fit(){ const c=document.getElementById('gameCanvas'); if(!c) return; c.width=window.innerWidth; c.height=window.innerHeight; }
+      window.addEventListener('resize', fit);
+      window.addEventListener('orientationchange', ()=> setTimeout(fit,100));
+      function onFS(){ fit(); }
+      document.addEventListener('fullscreenchange', onFS);
+      window.addEventListener('DOMContentLoaded', ()=>{
+        fit();
+        try { document.body.setAttribute('data-zone','static-overlay'); } catch {}
+        // Click anywhere to focus inner iframe for input
+        document.body.addEventListener('pointerdown', ()=>{ try{ document.getElementById('godot-frame')?.focus(); }catch{} });
+      });
+    })();
+  </script>
+</body>
+</html>

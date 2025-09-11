@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2D Top-Down (Godot Export Placeholder)</title>
+  <style> html, body { margin:0; padding:0; height:100%; background:#000; } .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e6edf3;font-family:system-ui} </style>
+  <script>
+    window.addEventListener('DOMContentLoaded',()=>{ 
+      try{ parent.postMessage({ type:'godot-ready', zone:'2d-topdown' }, '*'); }catch{}; 
+      window.addEventListener('message',(e)=>{ 
+        if(e&&e.data&&e.data.type==='scene-data'){ 
+          const data=e.data.data||{}; 
+          bootGame(data.entities||[]); 
+        } 
+      }); 
+      setTimeout(async ()=>{ 
+        if(!window.__topdownBooted){ 
+          try{ 
+            const pre=await fetch('../../../site/studio/presets/grove.json').then(r=>r.json()); 
+            bootGame(pre.entities||[]); 
+          }catch{} 
+        } 
+      },1000); 
+    });
+    
+    function bootGame(entities){ 
+      if(window.__topdownBooted) return; 
+      window.__topdownBooted=true; 
+      const cvs=document.createElement('canvas'); 
+      Object.assign(cvs.style,{position:'absolute',inset:'0'}); 
+      document.body.appendChild(cvs); 
+      const ctx=cvs.getContext('2d'); 
+      const fit=()=>{ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }; 
+      window.addEventListener('resize',fit); 
+      fit(); 
+      
+      const imgs=new Map(); 
+      const loadedImgs=new Set(); 
+      function getImg(s){ 
+        if(!s) return null; 
+        if(imgs.has(s)) return imgs.get(s); 
+        const i=new Image(); 
+        i.onload=()=>{console.log('[2D-TopDown] Loaded:',s); loadedImgs.add(s);}; 
+        i.onerror=()=>{console.error('[2D-TopDown] Failed to load:',s);}; 
+        i.src=s; 
+        imgs.set(s,i); 
+        return i; 
+      } 
+      
+      const ents=entities.map(e=>({ ...e, frame:0, frameTime:0, frameRate:0.1 })); 
+      console.log('[2D-TopDown] Booted with entities:',ents);
+      
+      // 2D Top-down grid movement
+      const keys={}; 
+      window.addEventListener('keydown',e=>keys[e.key]=true); 
+      window.addEventListener('keyup',e=>keys[e.key]=false);
+      const GRID_SIZE = 32;
+      const SPEED = 120;
+      
+      function update(dt){ 
+        ents.forEach(e => {
+          const isPlayer = (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('barbarian');
+          if (isPlayer) {
+            // Grid-based movement for top-down
+            let targetX = e.x;
+            let targetY = e.y;
+            
+            if (keys['ArrowRight'] || keys['d'] || keys['D']) targetX += SPEED * dt;
+            if (keys['ArrowLeft'] || keys['a'] || keys['A']) targetX -= SPEED * dt;
+            if (keys['ArrowUp'] || keys['w'] || keys['W']) targetY -= SPEED * dt;
+            if (keys['ArrowDown'] || keys['s'] || keys['S']) targetY += SPEED * dt;
+            
+            // Snap to grid
+            e.x = Math.round(targetX / GRID_SIZE) * GRID_SIZE;
+            e.y = Math.round(targetY / GRID_SIZE) * GRID_SIZE;
+            
+            // Keep player on screen
+            if (e.x < 0) e.x = 0;
+            if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
+            if (e.y < 0) e.y = 0;
+            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+            
+            // Animate player
+            if (keys['ArrowLeft'] || keys['ArrowRight'] || keys['ArrowUp'] || keys['ArrowDown'] || 
+                keys['a'] || keys['d'] || keys['w'] || keys['s'] || 
+                keys['A'] || keys['D'] || keys['W'] || keys['S']) { 
+              e.frameTime += dt; 
+              if(e.frameTime > e.frameRate){ 
+                e.frameTime=0; 
+                e.frame = (e.frame+1) % 4; 
+              } 
+            }
+          } else {
+            // Non-player entities: keep on screen but no physics
+            if (e.x < 0) e.x = 0;
+            if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
+            if (e.y < 0) e.y = 0;
+            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+          }
+        });
+      }
+      
+      function render(){ 
+        ctx.fillStyle='#0a1322'; 
+        ctx.fillRect(0,0,cvs.width,cvs.height); 
+        
+        // Draw grid
+        ctx.strokeStyle = 'rgba(88,166,255,0.1)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < cvs.width; x += GRID_SIZE) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, cvs.height);
+          ctx.stroke();
+        }
+        for (let y = 0; y < cvs.height; y += GRID_SIZE) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(cvs.width, y);
+          ctx.stroke();
+        }
+        
+        // Draw ground
+        ctx.fillStyle='#2F4F2F'; 
+        ctx.fillRect(0, cvs.height-20, cvs.width, 20);
+        
+        ents.forEach(e=>{ 
+          const img=getImg(e.src); 
+          if(img && img.complete && loadedImgs.has(e.src)){ 
+            // Check if this is a sprite sheet
+            if(e.type==='sprite' && img.width > img.height && img.width > 64 && img.width % 32 === 0){
+              // Sprite sheet slicing
+              const frameW = 32; 
+              const frameH = 32;
+              const frameX = (e.frame || 0) * frameW;
+              const frameY = 0;
+              ctx.drawImage(img, frameX, frameY, frameW, frameH, e.x, e.y, e.w, e.h);
+            } else {
+              // Single image
+              ctx.drawImage(img, e.x, e.y, e.w, e.h);
+            }
+          } else { 
+            // Debug overlay
+            ctx.fillStyle='#58a6ff33'; 
+            ctx.fillRect(e.x,e.y,e.w,e.h); 
+            ctx.strokeStyle='#58a6ff'; 
+            ctx.strokeRect(e.x,e.y,e.w,e.h);
+            ctx.fillStyle='#fff'; ctx.font='10px monospace'; 
+            ctx.fillText(e.name||'?', e.x+2, e.y+12);
+            ctx.fillText(e.src?.split('/').pop()||'no src', e.x+2, e.y+24);
+            if(img && !img.complete) ctx.fillText('Loading...', e.x+2, e.y+36);
+            else if(!loadedImgs.has(e.src)) ctx.fillText('Failed', e.x+2, e.y+36);
+          } 
+        }); 
+      }
+      
+      let last=performance.now(); 
+      function loop(ts){ 
+        const dt=Math.min(0.033,(ts-last)/1000); 
+        last=ts; 
+        update(dt); 
+        render(); 
+        requestAnimationFrame(loop); 
+      }
+      requestAnimationFrame(loop);
+    }
+  </script>
+</head>
+<body>
+  <div class="placeholder">Godot export goes here (2d-topdown.wasm / 2d-topdown.pck)</div>
+</body>
+</html>

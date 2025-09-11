@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auto-Scroll Runner (Godot Export Placeholder)</title>
+  <style> html, body { margin:0; padding:0; height:100%; background:#000; } .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e6edf3;font-family:system-ui} </style>
+  <script>
+    window.addEventListener('DOMContentLoaded',()=>{ 
+      try{ parent.postMessage({ type:'godot-ready', zone:'runner' }, '*'); }catch{}; 
+      window.addEventListener('message',(e)=>{ 
+        if(e&&e.data&&e.data.type==='scene-data'){ 
+          const data=e.data.data||{}; 
+          bootGame(data.entities||[]); 
+        } 
+      }); 
+      setTimeout(async ()=>{ 
+        if(!window.__runnerBooted){ 
+          try{ 
+            const pre=await fetch('../../../site/studio/presets/spirit.json').then(r=>r.json()); 
+            bootGame(pre.entities||[]); 
+          }catch{} 
+        } 
+      },1000); 
+    });
+    
+    function bootGame(entities){ 
+      if(window.__runnerBooted) return; 
+      window.__runnerBooted=true; 
+      const cvs=document.createElement('canvas'); 
+      Object.assign(cvs.style,{position:'absolute',inset:'0'}); 
+      document.body.appendChild(cvs); 
+      const ctx=cvs.getContext('2d'); 
+      const fit=()=>{ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }; 
+      window.addEventListener('resize',fit); 
+      fit(); 
+      
+      const imgs=new Map(); 
+      const loadedImgs=new Set(); 
+      function getImg(s){ 
+        if(!s) return null; 
+        if(imgs.has(s)) return imgs.get(s); 
+        const i=new Image(); 
+        i.onload=()=>{console.log('[Runner] Loaded:',s); loadedImgs.add(s);}; 
+        i.onerror=()=>{console.error('[Runner] Failed to load:',s);}; 
+        i.src=s; 
+        imgs.set(s,i); 
+        return i; 
+      } 
+      
+      const ents=entities.map(e=>({ ...e, frame:0, frameTime:0, frameRate:0.1 })); 
+      console.log('[Runner] Booted with entities:',ents);
+      
+      // Auto-scroll runner physics
+      const keys={}; 
+      window.addEventListener('keydown',e=>keys[e.key]=true); 
+      window.addEventListener('keyup',e=>keys[e.key]=false);
+      const SCROLL_SPEED = 100;
+      const JUMP_FORCE = -200;
+      const GRAVITY = 500;
+      let scrollOffset = 0;
+      
+      function update(dt){ 
+        // Auto-scroll everything left
+        scrollOffset += SCROLL_SPEED * dt;
+        
+        ents.forEach(e => {
+          const isPlayer = (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('spirit');
+          if (isPlayer) {
+            // Player can jump and move vertically
+            if (keys['ArrowUp'] || keys[' '] || keys['Space']) {
+              if (e.vy === 0) { // Only jump if on ground
+                e.vy = JUMP_FORCE;
+              }
+            }
+            if (keys['ArrowDown']) {
+              e.vy += GRAVITY * 2 * dt; // Fast fall
+            }
+            
+            // Apply gravity
+            e.vy += GRAVITY * dt;
+            e.y += e.vy * dt;
+            
+            // Ground collision
+            const floor = cvs.height - 20;
+            if (e.y + e.h > floor) {
+              e.y = floor - e.h;
+              e.vy = 0;
+            }
+            
+            // Keep player on screen horizontally
+            if (e.x < 0) e.x = 0;
+            if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
+            
+            // Animate player
+            e.frameTime += dt; 
+            if(e.frameTime > e.frameRate){ 
+              e.frameTime=0; 
+              e.frame = (e.frame+1) % 4; 
+            }
+          } else {
+            // Obstacles scroll with the world
+            e.x -= SCROLL_SPEED * dt;
+            
+            // Reset obstacles that have scrolled off screen
+            if (e.x + e.w < 0) {
+              e.x = cvs.width + Math.random() * 200;
+            }
+            
+            // Keep on screen
+            if (e.y < 0) e.y = 0;
+            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+          }
+        });
+      }
+      
+      function render(){ 
+        ctx.fillStyle='#081018'; 
+        ctx.fillRect(0,0,cvs.width,cvs.height); 
+        
+        // Draw scrolling background
+        ctx.fillStyle='#1a2332';
+        for (let x = -scrollOffset % 100; x < cvs.width + 100; x += 100) {
+          ctx.fillRect(x, cvs.height - 40, 100, 40);
+        }
+        
+        // Draw ground
+        ctx.fillStyle='#2F4F2F'; 
+        ctx.fillRect(0, cvs.height-20, cvs.width, 20);
+        
+        ents.forEach(e=>{ 
+          const img=getImg(e.src); 
+          if(img && img.complete && loadedImgs.has(e.src)){ 
+            ctx.save(); 
+            // Pulsing effect for spirit
+            ctx.globalAlpha= e.name==='Spirit'? 0.8+0.2*Math.sin(Date.now()*0.005) : 1; 
+            
+            // Check if this is a sprite sheet
+            if(e.type==='sprite' && img.width > img.height && img.width > 64 && img.width % 32 === 0){
+              // Sprite sheet slicing
+              const frameW = 32; 
+              const frameH = 32;
+              const frameX = (e.frame || 0) * frameW;
+              const frameY = 0;
+              ctx.drawImage(img, frameX, frameY, frameW, frameH, e.x, e.y, e.w, e.h);
+            } else {
+              // Single image
+              ctx.drawImage(img, e.x, e.y, e.w, e.h);
+            }
+            ctx.restore();
+          } else { 
+            // Debug overlay
+            ctx.fillStyle='#58a6ff33'; 
+            ctx.fillRect(e.x,e.y,e.w,e.h); 
+            ctx.strokeStyle='#ff4bc0'; 
+            ctx.strokeRect(e.x,e.y,e.w,e.h);
+            ctx.fillStyle='#fff'; ctx.font='10px monospace'; 
+            ctx.fillText(e.name||'?', e.x+2, e.y+12);
+            ctx.fillText(e.src?.split('/').pop()||'no src', e.x+2, e.y+24);
+            if(img && !img.complete) ctx.fillText('Loading...', e.x+2, e.y+36);
+            else if(!loadedImgs.has(e.src)) ctx.fillText('Failed', e.x+2, e.y+36);
+          } 
+        }); 
+      }
+      
+      let last=performance.now(); 
+      function loop(ts){ 
+        const dt=Math.min(0.033,(ts-last)/1000); 
+        last=ts; 
+        update(dt); 
+        render(); 
+        requestAnimationFrame(loop); 
+      }
+      requestAnimationFrame(loop);
+    }
+  </script>
+</head>
+<body>
+  <div class="placeholder">Godot export goes here (runner.wasm / runner.pck)</div>
+</body>
+</html>
