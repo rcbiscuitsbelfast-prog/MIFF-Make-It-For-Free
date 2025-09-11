@@ -617,13 +617,28 @@ async function init(){
   onAssetsReady(async () => {
     // WorldView + Procedural Map
     try {
-      const zoneConfig = { viewingType: 'isometric', seed: 'grove123' };
+      const zoneConfig = { viewingType: 'isometric', seed: 'grove123', pattern: 'forest' };
       let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+      console.log(`[Zone] ${zoneConfig.viewingType} view loaded`);
       console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
-      let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || [];
-      console.log(`[Map] Generated ${tiles.length} tiles`);
+      let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: zoneConfig.pattern })) || [];
+      console.log(`[Map] ${tiles.length} tiles generated`);
       const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 64, tileH: 32, alpha: 0.08, color: '#58a6ff', tiles: ()=>tiles, project: (x,y)=> worldToScreen(x*0.5, y*0.5) })) || null;
       if (grid) scene.addEntity(grid);
+      // Simple entity placement (trees)
+      try {
+        tiles.forEach(t=>{
+          if (t.entity === 'tree'){
+            const p = worldToScreen(t.x*0.5, t.y*0.5);
+            const ent = { id: 'tree', x: p.x, y: p.y, draw(c){ c.save(); c.fillStyle = '#2ecc71'; c.beginPath(); c.arc(this.x, this.y-10, 5, 0, Math.PI*2); c.fill(); c.restore(); } };
+            scene.addEntity(ent);
+          }
+        });
+      } catch {}
+      // Remix exposure for contributors
+      try { window.miffRemixConfig = { zone: 'Witcher Grove', seed: zoneConfig.seed, pattern: zoneConfig.pattern, viewingType: zoneConfig.viewingType }; } catch {}
+      // Attempt to append a Remix button to current overlay
+      setTimeout(()=>{ try { const ov=document.querySelector('.miff-overlay'); if (ov && !ov.querySelector('.miff-remix-inline')){ const btn=document.createElement('button'); btn.className='miff-btn secondary miff-remix-inline'; btn.textContent='REMIX THIS ZONE'; btn.onclick=()=>window.open('https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free','_blank'); ov.appendChild(btn); } } catch {} }, 500);
       // Live toggles
       document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; console.log('[WorldView] switched →', type, view.mapType); tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length); } catch {} });
       document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'grove123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); } catch {} });

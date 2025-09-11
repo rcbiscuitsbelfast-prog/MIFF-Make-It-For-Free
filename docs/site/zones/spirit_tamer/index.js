@@ -253,15 +253,27 @@ async function init(){
   detectInputMode(); 
   // WorldView + Procedural Map
   try {
-    const zoneConfig = { viewingType: 'topdown', seed: 'spirit123' };
+    const zoneConfig = { viewingType: 'topdown', seed: 'spirit123', pattern: 'forest' };
     let view = (window.miffWorldView && window.miffWorldView.get(zoneConfig.viewingType)) || { mapType:'grid' };
+    console.log(`[Zone] ${zoneConfig.viewingType} view loaded`);
     console.log(`[WorldView] ${zoneConfig.viewingType} → ${view.mapType}`);
-    let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || [];
-    console.log(`[Map] Generated ${tiles.length} tiles`);
+    let tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: zoneConfig.pattern })) || [];
+    console.log(`[Map] ${tiles.length} tiles generated`);
     const grid = (window.createTileGrid && window.createTileGrid({ mapType: view.mapType, tileW: 6, tileH: 6, alpha: 0.06, color: '#00ffff', tiles: ()=>tiles })) || null;
     if (grid) scene.addEntity(grid);
+    // Simple entity placement (trees)
+    try {
+      tiles.forEach(t=>{
+        if (t.entity === 'tree'){
+          const ent = { id: 'tree', x: t.x, y: t.y, draw(c){ c.save(); c.fillStyle = '#2ecc71'; c.fillRect(10 + this.x*6, 10 + this.y*6, 4, 4); c.restore(); } };
+          scene.addEntity(ent);
+        }
+      });
+    } catch {}
+    // Remix exposure
+    try { window.miffRemixConfig = { zone: 'Spirit Tamer', seed: zoneConfig.seed, pattern: zoneConfig.pattern, viewingType: zoneConfig.viewingType }; } catch {}
     document.addEventListener('miff:worldview:change', (e)=>{ try { const type = e.detail?.type; view = (window.miffWorldView && window.miffWorldView.get(type)) || view; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed: zoneConfig.seed, pattern: 'forest' })) || tiles; console.log('[WorldView] switched →', type, view.mapType, '[Map] Regenerated', tiles.length); } catch {} });
-    document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'spirit123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: 'forest' })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); } catch {} });
+    document.addEventListener('miff:world:regen', (e)=>{ try { const seed = e.detail?.seed || 'spirit123'; zoneConfig.seed = seed; tiles = (window.miffMapGenerator && window.miffMapGenerator.generate({ type: view.mapType, seed, pattern: zoneConfig.pattern })) || tiles; console.log('[Map] Regenerated', tiles.length, 'seed=', seed); try { window.miffRemixConfig.seed = seed; } catch {} } catch {} });
   } catch {}
   // Scene graph population (diagnostic)
   const player = { id: 'player', x: model.npc.x, y: model.npc.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 6, 6); } };
