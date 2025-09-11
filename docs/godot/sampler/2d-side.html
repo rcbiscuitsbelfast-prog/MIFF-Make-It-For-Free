@@ -57,9 +57,27 @@
       window.addEventListener('keyup',e=>keys[e.key]=false);
       const GRAV=900, SPEED=180, JUMP=-360, FLOOR=cvs.height-20;
       
+      // Game state
+      let score = 0;
+      let lives = 3;
+      let gameTime = 0;
+      let gameStarted = false;
+      
       function update(dt){ 
+        if (!gameStarted) {
+          if (keys[' '] || keys['Enter']) {
+            gameStarted = true;
+          }
+          return;
+        }
+        
+        gameTime += dt;
+        
         ents.forEach(e => {
           const isPlayer = (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('knight');
+          const isEnemy = (e.name||'').toLowerCase().includes('skeleton');
+          const isChest = (e.name||'').toLowerCase().includes('chest');
+          
           if (isPlayer) {
             // Player physics for side-scrolling
             if (keys['ArrowRight']) e.vx = SPEED; 
@@ -75,6 +93,60 @@
             if (e.y+e.h>FLOOR){ e.y=FLOOR-e.h; e.vy=0; }
             // Animate player
             if (e.vx !== 0) { e.frameTime += dt; if(e.frameTime > e.frameRate){ e.frameTime=0; e.frame = (e.frame+1) % 4; } }
+            
+            // Check collisions with enemies
+            ents.forEach(other => {
+              if (other !== e && (other.name||'').toLowerCase().includes('skeleton')) {
+                if (e.x < other.x + other.w && e.x + e.w > other.x && 
+                    e.y < other.y + other.h && e.y + e.h > other.y) {
+                  // Player hit enemy
+                  lives--;
+                  if (lives <= 0) {
+                    gameStarted = false;
+                    score = 0;
+                    lives = 3;
+                    gameTime = 0;
+                  }
+                  // Bounce player back
+                  e.x -= e.vx * dt * 2;
+                }
+              }
+            });
+            
+            // Check collisions with chests
+            ents.forEach(other => {
+              if (other !== e && (other.name||'').toLowerCase().includes('chest')) {
+                if (e.x < other.x + other.w && e.x + e.w > other.x && 
+                    e.y < other.y + other.h && e.y + e.h > other.y) {
+                  // Collect chest
+                  score += 100;
+                  other.collected = true;
+                }
+              }
+            });
+          } else if (isEnemy) {
+            // Enemy AI - simple patrol
+            if (!e.patrolDirection) e.patrolDirection = 1;
+            e.vx = e.patrolDirection * 30;
+            e.x += e.vx * dt;
+            
+            // Turn around at edges
+            if (e.x <= 0 || e.x + e.w >= cvs.width) {
+              e.patrolDirection *= -1;
+            }
+            
+            // Keep on screen
+            if (e.x < 0) e.x = 0;
+            if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
+            if (e.y < 0) e.y = 0;
+            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+            
+            // Animate enemy
+            e.frameTime += dt;
+            if(e.frameTime > e.frameRate){ 
+              e.frameTime=0; 
+              e.frame = (e.frame+1) % 4; 
+            }
           } else {
             // Non-player entities: keep on screen but no physics
             if (e.x < 0) e.x = 0;
@@ -103,7 +175,10 @@
         ctx.fillStyle='#2F4F2F'; // Dark green ground
         ctx.fillRect(0, cvs.height-20, cvs.width, 20);
         
+        // Draw entities
         ents.forEach(e=>{ 
+          if (e.collected) return; // Skip collected chests
+          
           const img=getImg(e.src); 
           if(img && img.complete && loadedImgs.has(e.src)){ 
             // Check if this is a sprite sheet
@@ -131,6 +206,43 @@
             else if(!loadedImgs.has(e.src)) ctx.fillText('Failed', e.x+2, e.y+36);
           } 
         }); 
+        
+        // Draw UI
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillRect(0, 0, cvs.width, 60);
+        
+        ctx.fillStyle = '#e6edf3';
+        ctx.font = '16px monospace';
+        ctx.fillText(`Score: ${score}`, 10, 25);
+        ctx.fillText(`Lives: ${lives}`, 10, 45);
+        ctx.fillText(`Time: ${Math.floor(gameTime)}s`, cvs.width - 100, 25);
+        
+        if (!gameStarted) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+          ctx.fillRect(0, 0, cvs.width, cvs.height);
+          ctx.fillStyle = '#e6edf3';
+          ctx.font = '24px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🏃 2D Side-Scrolling Platformer', cvs.width/2, cvs.height/2 - 40);
+          ctx.font = '16px monospace';
+          ctx.fillText('Arrow Keys to Move, Space to Jump', cvs.width/2, cvs.height/2 - 10);
+          ctx.fillText('Collect chests, avoid skeletons!', cvs.width/2, cvs.height/2 + 20);
+          ctx.fillText('Press SPACE or ENTER to Start', cvs.width/2, cvs.height/2 + 50);
+          ctx.textAlign = 'left';
+        }
+        
+        if (lives <= 0) {
+          ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
+          ctx.fillRect(0, 0, cvs.width, cvs.height);
+          ctx.fillStyle = '#e6edf3';
+          ctx.font = '24px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('Game Over!', cvs.width/2, cvs.height/2 - 20);
+          ctx.font = '16px monospace';
+          ctx.fillText(`Final Score: ${score}`, cvs.width/2, cvs.height/2 + 10);
+          ctx.fillText('Press SPACE to Restart', cvs.width/2, cvs.height/2 + 40);
+          ctx.textAlign = 'left';
+        }
       }
       
       let last=performance.now(); 
@@ -146,6 +258,6 @@
   </script>
 </head>
 <body>
-  <div class="placeholder">Godot export goes here (2d-side.wasm / 2d-side.pck)</div>
+  <div id="gameCanvas" style="position:absolute;inset:0;background:#0b1020;"></div>
 </body>
 </html>

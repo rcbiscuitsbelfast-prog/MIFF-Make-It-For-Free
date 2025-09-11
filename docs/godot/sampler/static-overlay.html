@@ -60,11 +60,19 @@
       // Interactive overlay system
       let selectedOverlay = null;
       let dragOffset = { x: 0, y: 0 };
+      let gameStarted = false;
+      let score = 0;
+      let interactions = 0;
       
       cvs.addEventListener('mousedown', (e) => {
         const rect = cvs.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
+        
+        if (!gameStarted) {
+          gameStarted = true;
+          return;
+        }
         
         // Find clicked overlay
         for (let overlay of overlays) {
@@ -73,6 +81,10 @@
             selectedOverlay = overlay;
             dragOffset.x = x - overlay.x;
             dragOffset.y = y - overlay.y;
+            
+            // Interaction scoring
+            score += 10;
+            interactions++;
             break;
           }
         }
@@ -189,11 +201,34 @@
           ctx.fillText(overlay.name, overlay.x + 5, overlay.y + 12);
         });
         
-        // Draw instructions
-        ctx.fillStyle = 'rgba(88,166,255,0.8)';
-        ctx.font = '14px monospace';
-        ctx.fillText('Drag overlays to move them around', 10, cvs.height - 20);
-        ctx.fillText('This demonstrates MIFF\'s overlay system', 10, cvs.height - 5);
+        // Draw UI
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        ctx.fillRect(0, 0, cvs.width, 60);
+        
+        ctx.fillStyle = '#e6edf3';
+        ctx.font = '16px monospace';
+        ctx.fillText(`Score: ${score}`, 10, 25);
+        ctx.fillText(`Interactions: ${interactions}`, 10, 45);
+        
+        if (!gameStarted) {
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+          ctx.fillRect(0, 0, cvs.width, cvs.height);
+          ctx.fillStyle = '#e6edf3';
+          ctx.font = '24px monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🎛️ Static Overlay System', cvs.width/2, cvs.height/2 - 40);
+          ctx.font = '16px monospace';
+          ctx.fillText('Click and drag overlays to move them', cvs.width/2, cvs.height/2 - 10);
+          ctx.fillText('Demonstrates MIFF\'s overlay system', cvs.width/2, cvs.height/2 + 20);
+          ctx.fillText('Click anywhere to start', cvs.width/2, cvs.height/2 + 50);
+          ctx.textAlign = 'left';
+        } else {
+          // Draw instructions
+          ctx.fillStyle = 'rgba(88,166,255,0.8)';
+          ctx.font = '14px monospace';
+          ctx.fillText('Drag overlays to move them around', 10, cvs.height - 20);
+          ctx.fillText('This demonstrates MIFF\'s overlay system', 10, cvs.height - 5);
+        }
       }
       
       let last=performance.now(); 
@@ -209,6 +244,6 @@
   </script>
 </head>
 <body>
-  <div class="placeholder">Godot export goes here (static-overlay.wasm / static-overlay.pck)</div>
+  <div id="gameCanvas" style="position:absolute;inset:0;background:#0a1322;"></div>
 </body>
 </html>
