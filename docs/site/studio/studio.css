@@ -10,3 +10,11 @@
 label { display:block; margin:6px 0; font-size: 12px; }
 input[type="text"], select, textarea { width:100%; background:#0b1624; color:#e6edf3; border:1px solid #1f2d3c; border-radius:6px; padding:6px; }
 .export-bar { position:sticky; bottom:0; background:#0e1a2a; padding:8px; border-top:1px solid #1f2d3c; display:flex; gap:8px; }
+
+/* Mobile layout */
+@media (max-width: 900px) {
+  .studio-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+  .panel { margin-bottom: 10px; }
+  .export-bar { position: static; flex-wrap: wrap; }
+  .canvas-wrap { min-height: 48vh; }
+}

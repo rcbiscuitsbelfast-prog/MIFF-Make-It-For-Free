@@ -34,5 +34,11 @@
     </div>
   </main>
   <script type="module" src="sprite_studio.js?v=20250911"></script>
+  <script>
+    (function(){
+      function setLayout(){ const isMobile = window.matchMedia('(max-width: 900px)').matches || (navigator.userAgent||'').toLowerCase().includes('mobile'); document.documentElement.classList.toggle('mobile', !!isMobile); }
+      window.addEventListener('resize', setLayout); setLayout();
+    })();
+  </script>
 </body>
 </html>

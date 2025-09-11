@@ -57,5 +57,11 @@
     });
     document.getElementById('openWorld').onclick = ()=>{ const s=document.getElementById('worldSelect'); const src=s&&s.value; const f=document.getElementById('worldFrame'); if (src){ f.src=src; } };
   </script>
+  <script>
+    (function(){
+      function setLayout(){ const isMobile = window.matchMedia('(max-width: 900px)').matches || (navigator.userAgent||'').toLowerCase().includes('mobile'); document.documentElement.classList.toggle('mobile', !!isMobile); }
+      window.addEventListener('resize', setLayout); setLayout();
+    })();
+  </script>
 </body>
 </html>
