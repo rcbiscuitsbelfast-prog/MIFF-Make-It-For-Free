@@ -136,6 +136,12 @@ function initCanvas(){
   if (prevSpriteBtn){ prevSpriteBtn.onclick = ()=>{ const sel=document.getElementById('spriteSelect'); const url=sel && sel.value; if (!url) return; state.currentType='sprite'; state.assetSelection={ name: sel.options[sel.selectedIndex].textContent, url }; const id='pv_'+Date.now(); state.entities.push({ id, name:'Preview Sprite', type:'sprite', src:url, x:16, y:16, w:64, h:64 }); draw(); } }
   const prevMapBtn = document.getElementById('btn-preview-map');
   if (prevMapBtn){ prevMapBtn.onclick = ()=>{ const sel=document.getElementById('tileSelect'); const url=sel && sel.value; if (!url) return; state.currentType='tile'; state.assetSelection={ name: sel.options[sel.selectedIndex].textContent, url }; const id='pv_'+Date.now(); state.entities.push({ id, name:'Preview Tile', type:'tile', src:url, x:100, y:100, w:64, h:64 }); draw(); } }
+
+  // World preview open & inject
+  const openWorldBtn = document.getElementById('openWorldScene');
+  if (openWorldBtn){ openWorldBtn.onclick = ()=>{ const s=document.getElementById('worldSelectScene'); const src=s&&s.value; const f=document.getElementById('worldFrameScene'); if (src){ f.src=src; } } }
+  const injectPrevBtn = document.getElementById('injectPreview');
+  if (injectPrevBtn){ injectPrevBtn.onclick = ()=>{ const f=document.getElementById('worldFrameScene'); if (f && f.contentWindow){ try { f.contentWindow.postMessage({ type:'scene-data', zone:'preview', data: exportJSON() }, location.origin); } catch {} } } }
 }
 
 function exportJSON(){ return { version: 1, entities: state.entities.map(e=>({ id:e.id, name:e.name, type:e.type, x:e.x, y:e.y, w:e.w, h:e.h, r:e.r||0, tags:e.tags||[], behavior:e.behavior||'', src:e.src||null })) }; }

@@ -33,10 +33,16 @@
           <select id="tileSelect"><option value="">Tiles…</option></select>
           <button id="btn-preview-sprite">Preview Sprite</button>
           <button id="btn-preview-map">Preview Map</button>
+          <select id="worldSelectScene"><option value="">Preview World…</option><option value="../toppler.html">Toppler</option><option value="../spirit.html">Spirit</option><option value="../grove.html">Grove</option></select>
+          <button id="openWorldScene">Open</button>
+          <button id="injectPreview">Inject to Preview</button>
         </div>
         <div class="canvas-wrap">
           <canvas id="sceneCanvas"></canvas>
           <canvas id="previewCanvas" style="position:absolute; right:10px; bottom:10px; width:160px; height:160px; border:1px solid #1f2d3c; background:#0006"></canvas>
+        </div>
+        <div class="panel" style="position:relative; height:40vh; margin-top:8px;">
+          <iframe id="worldFrameScene" style="position:absolute; inset:0; width:100%; height:100%; border:1px solid #1f2d3c" allowfullscreen></iframe>
         </div>
         <div class="export-bar">
           <button id="btn-export-json">Export JSON</button>
