@@ -112,6 +112,13 @@
 .start-menu.theme-medieval { font-family: 'Cinzel', serif; background: linear-gradient(180deg, #2a1f13 0%, #0b0a09 100%); }
 .start-menu.theme-modern { font-family: system-ui, sans-serif; background: linear-gradient(180deg, #0b132b 0%, #000 100%); }
 
+/* Medieval start menu */
+.start-menu.medieval { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); z-index: 12000; }
+.start-menu.medieval > div, .start-menu.medieval { background: url('../assets/ui/parchment.jpg'), #2a1f13; background-size: cover; font-family: 'Cinzel', serif; color: #3b2f1e; padding: 2rem; border: 3px solid #8b5e3c; box-shadow: 0 0 20px #000; border-radius: 12px; }
+.start-menu.medieval h1 { color: #3b2f1e; text-shadow: 0 1px 0 #fff3; margin: 0 0 12px 0; }
+.start-menu.medieval .buttons { display: flex; flex-direction: column; gap: 10px; }
+.start-menu.medieval button { background: #8b5e3c; color: #fff; border: none; padding: 0.6rem 1.2rem; margin: 0.2rem 0; font-size: 1rem; border-radius: 8px; }
+
 /* Zone page themes on body */
 .theme-grove .start-menu { background: linear-gradient(180deg, #1e2a18 0%, #0a0f08 100%); font-family: 'Cinzel', serif; }
 .theme-spirit .start-menu { background: radial-gradient(circle at 50% 40%, rgba(0,120,255,0.25), rgba(0,0,0,0.9)); font-family: 'Orbitron', sans-serif; }

@@ -243,6 +243,8 @@ async function init(){
   console.log('[ZoneBoot] Zone loaded:', 'toppler');
   console.log('[ZoneBoot] DOM marker: data-zone="toppler"');
   console.log('[ZoneBoot] Visual marker injected');
+  // Inject medieval start menu
+  try { window.injectMedievalMenu && window.injectMedievalMenu('Toppler Medieval'); } catch {}
   console.log('[Toppler] Modular boot active');
   
   const statusEl = $('status'); 
@@ -269,7 +271,9 @@ async function init(){
     console.log('[Toppler] Canvas injected');
   } else {
     console.log('[Toppler] Canvas found:', cvs.id);
-  } fitCanvas(cvs); 
+  }
+  fitCanvas(cvs);
+  try { console.log('[Canvas] size:', cvs.width, 'x', cvs.height); } catch {}
   window.addEventListener('resize', ()=>fitCanvas(cvs)); 
   console.log('[Canvas] Resized on window change');
   window.addEventListener('orientationchange', () => {
@@ -315,7 +319,7 @@ async function init(){
     // Scene graph population (diagnostic)
     const player = { id: 'player', x: game.player.x, y: game.player.y, draw(c){ c.fillStyle='#58a6ff'; c.fillRect(this.x, this.y, 8, 8); } };
     scene.addEntity(player);
-    try { const names=(scene.entities||[]).map(e=>e.id||'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); } catch {}
+    try { const names=(scene.entities||[]).map(e=>e.id||'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); console.log('[Scene] Entities loaded:', (scene.entities||[]).length); } catch {}
     bindInputs(); 
     if (!UI) UI = createOverlayDispatcher($('gameContainer'));
     console.log('[Toppler] UI modules attached'); 

@@ -231,7 +231,10 @@ async function init(){
     console.log('[SpiritTamer] Canvas injected');
   } else {
     console.log('[SpiritTamer] Canvas found:', cvs.id);
-  } fitCanvas(cvs); 
+  }
+  // Canvas sizing diagnostics
+  fitCanvas(cvs);
+  try { console.log('[Canvas] size:', cvs.width, 'x', cvs.height); } catch {}
   window.addEventListener('resize', ()=>fitCanvas(cvs)); 
   console.log('[Canvas] Resized on window change');
   window.addEventListener('orientationchange', () => {
@@ -303,7 +306,7 @@ async function init(){
   ensureJoystick(); 
   try { const mt = document.querySelector('.movement-toggle'); if (mt){ const r=mt.getBoundingClientRect(); console.log('[UI] Movement toggle visible:', true); console.log('[UI] Toggle bounds:', r.x, r.y, r.width, r.height); } const o = (screen.orientation && screen.orientation.type)|| (window.innerWidth>window.innerHeight? 'landscape':'portrait'); console.log('[UI] Orientation:', o); } catch {}
   UI = createOverlayDispatcher($('gameContainer'));
-  try { const names=(scene.entities||[]).map(e=> e.id || 'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); } catch {}
+  try { const names=(scene.entities||[]).map(e=> e.id || 'Entity'); console.log('[Scene] Entities injected before draw loop:', names, 'count=', names.length); console.log('[Scene] Entities loaded:', (scene.entities||[]).length); } catch {}
   console.log('[SpiritTamer] UI modules attached');
   console.log('[UI] Injected modules for zone:', 'spirit_tamer');
   // Trigger bonding overlay
@@ -319,6 +322,8 @@ async function init(){
     UI.useModule && UI.useModule('Quest', QuestOverlay, { title: 'Bond with the Spirit', lines: ['Beats: 0/6'] });
   } catch {}
   addAttributionFooter();
+  // Start via medieval start menu injection
+  try { window.injectMedievalMenu && window.injectMedievalMenu('Spirit Tamer'); } catch {}
   // Start via miff start menu action
   try {
     document.addEventListener('miff:start-menu:action', (e)=>{
