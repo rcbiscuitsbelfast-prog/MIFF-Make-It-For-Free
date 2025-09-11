@@ -1,5 +1,5 @@
 # MIFF: Make It For Free  
-[![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)  
+[![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html)  
 [![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml)  
 [![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](docs/audit/MIFF_Audit_2025-09.md)
 
@@ -9,6 +9,13 @@
 - [Ko-fi – Make It For Free](https://ko-fi.com/miffmakeitforfree#setGoalModal)
 
 **Modular. Remix-Safe. Built with Prompts.**
+
+## 🎮 Play Now
+
+- **Sampler Landing**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html
+- **Toppler Medieval**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/toppler.html
+- **Spirit Tamer**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/spirit.html
+- **Witcher Grove**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/grove.html
 
 MIFF is a CLI-first, engine-agnostic game development framework designed for creators of all skill levels—including those with no coding experience. Every module is self-contained, remixable, and validated for compliance, making it easy to build, test, and deploy games across Unity, Web, and Godot.
 
