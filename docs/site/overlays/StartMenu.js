@@ -48,10 +48,11 @@ export function showStartMenu(opts){
     if (zonePage){ document.body.classList.add(`theme-${zonePage}`); }
   } catch {}
 
-  const handle = (action) => {
+  const handle = async (action) => {
     try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action } })); } catch {}
     if (typeof options.onAction === 'function') options.onAction(action);
     if (action === 'new') {
+      try { const el = document.documentElement; if (!document.fullscreenElement){ await (el.requestFullscreen?.()); setTimeout(()=>{ try { document.dispatchEvent(new Event('fullscreenchange')); } catch {} }, 50); } } catch {}
       if (typeof options.onStart === 'function') options.onStart();
       menu.remove();
       return;

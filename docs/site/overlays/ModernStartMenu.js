@@ -19,7 +19,7 @@ export function injectModernMenu(zoneName){
   const start = document.getElementById('modern-start');
   const options = document.getElementById('modern-options');
   const credits = document.getElementById('modern-credits');
-  if (start) start.onclick = () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'new' } })); } catch {} try { window.miffOverlay?.cleanup?.(); } catch {} menu.remove(); };
+  if (start) start.onclick = async () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'new' } })); } catch {} try { const el=document.documentElement; if (!document.fullscreenElement){ await (el.requestFullscreen?.()); setTimeout(()=>{ try { document.dispatchEvent(new Event('fullscreenchange')); } catch {} }, 50); } } catch {} try { window.miffOverlay?.cleanup?.(); } catch {} menu.remove(); };
   if (options) options.onclick = () => {
     const html = `<h2>Options</h2><p><label><input type='checkbox' id='opt-audio'/> Audio</label></p>`;
     try { window.miffOverlay?.show?.('options', html); } catch {}

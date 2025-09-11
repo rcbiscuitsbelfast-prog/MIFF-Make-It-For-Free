@@ -85,7 +85,7 @@
 .start-menu .start-menu-inner { width: 100%; max-width: 560px; display: flex; flex-direction: column; align-items: center; gap: 3vh; }
 .start-menu .start-title { font-size: clamp(28px, 6vw, 56px); color: #ff00cc; text-shadow: 0 0 16px rgba(255,0,204,0.8), 0 0 32px rgba(88,166,255,0.5); letter-spacing: 2px; text-align: center; }
 .start-menu .start-subtitle { font-size: clamp(14px, 2.6vw, 20px); color: #d0d7de; opacity: 0.9; text-align: center; }
-.start-menu .start-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; width: min(90vw, 520px); }
+.start-menu .start-actions { display: flex; flex-direction: column; align-items: center; gap: 16px; width: min(84vw, 500px); }
 .start-menu .start-btn {
   background: rgba(0,0,0,0.2);
   border: 2px solid #ff00cc;
@@ -114,7 +114,7 @@
 
 /* Medieval start menu */
 .start-menu.medieval { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); z-index: 12000; }
-.start-menu.medieval > div, .start-menu.medieval { background: url('../assets/ui/parchment.jpg'), #2a1f13; background-size: cover; font-family: 'Cinzel', serif; color: #3b2f1e; padding: 2rem; border: 3px solid #8b5e3c; box-shadow: 0 0 20px #000; border-radius: 12px; width: 90vw; max-width: 600px; box-sizing: border-box; }
+.start-menu.medieval > div, .start-menu.medieval { background: url('../assets/ui/parchment.jpg'), #2a1f13; background-size: cover; font-family: 'Cinzel', serif; color: #3b2f1e; padding: 2rem; border: 3px solid #8b5e3c; box-shadow: 0 0 20px #000; border-radius: 12px; width: 94vw; max-width: 720px; box-sizing: border-box; }
 .start-menu.medieval h1 { color: #3b2f1e; text-shadow: 0 1px 0 #fff3; margin: 0 0 12px 0; font-size: clamp(1.2rem, 4vw, 2rem); }
 .start-menu.medieval .buttons { display: flex; flex-direction: column; gap: 10px; }
 .start-menu.medieval button { background: #8b5e3c; color: #fff; border: none; padding: 0.6rem 1.2rem; margin: 0.2rem 0; font-size: clamp(1rem, 2.5vw, 1.5rem); border-radius: 8px; }
@@ -124,7 +124,7 @@
 
 /* Modern start menu */
 .start-menu.modern { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #0b132b 0%, #000 100%); z-index: 12000; padding: 4vh 4vw; }
-.start-menu.modern .modern-card { background: #0e1a2a; border: 1px solid #1f2d3c; border-radius: 16px; width: min(92vw, 560px); padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #e6edf3; text-align: center; }
+.start-menu.modern .modern-card { background: #0e1a2a; border: 1px solid #1f2d3c; border-radius: 16px; width: min(88vw, 520px); padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #e6edf3; text-align: center; }
 .start-menu.modern h1 { margin: 0 0 8px 0; font-size: clamp(22px, 6vw, 36px); }
 .start-menu.modern .tag { opacity: 0.8; margin-bottom: 16px; font-size: clamp(12px, 3.2vw, 14px); }
 .start-menu.modern .buttons { display: flex; flex-direction: column; gap: 12px; }

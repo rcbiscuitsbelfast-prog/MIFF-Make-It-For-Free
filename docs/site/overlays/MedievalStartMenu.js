@@ -19,7 +19,7 @@ export function injectMedievalMenu(zoneName){
   const load = document.getElementById('load-btn');
   const options = document.getElementById('options-btn');
   const remix = document.getElementById('remix-btn');
-  if (start) start.onclick = () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'new' } })); } catch {} try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {} menu.remove(); console.log('[StartMenu] Game started'); };
+  if (start) start.onclick = async () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'new' } })); } catch {} try { const el=document.documentElement; if (!document.fullscreenElement){ await (el.requestFullscreen?.()); setTimeout(()=>{ try { document.dispatchEvent(new Event('fullscreenchange')); } catch {} }, 50); } } catch {} try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {} menu.remove(); console.log('[StartMenu] Game started'); };
   if (load) load.onclick = () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'load' } })); console.log('[Menu] load requested'); } catch {} };
   if (options) options.onclick = () => { try { document.dispatchEvent(new CustomEvent('miff:start-menu:action', { detail: { action: 'options' } })); console.log('[Menu] options requested'); } catch {} };
   const repo = 'https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free';

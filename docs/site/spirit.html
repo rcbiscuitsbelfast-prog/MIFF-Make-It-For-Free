@@ -99,6 +99,8 @@
       }
       window.addEventListener('resize', fit);
       window.addEventListener('orientationchange', ()=> setTimeout(fit, 100));
+      function onFS(){ fit(); }
+      document.addEventListener('fullscreenchange', onFS);
       window.addEventListener('DOMContentLoaded', ()=>{
         fit();
         try { document.body.setAttribute('data-zone','spirit_tamer'); } catch {}
