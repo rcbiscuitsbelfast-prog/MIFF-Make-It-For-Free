@@ -80,16 +80,15 @@
 </head>
 <body>
     <div id="gameContainer">
-        <div class="zone-header">
-            <h1>🧙 Witcher Grove</h1>
-            <p>Environmental storytelling with NPC interactions</p>
-        </div>
-        <a href="index.html" class="back-button">← Back to MIFF</a>
-        <canvas id="gameCanvas"></canvas>
+        <iframe src="../godot/grove/grove.html" id="godot-frame" frameborder="0" allowfullscreen></iframe>
+        <div class="remix-bar"><button onclick="window.open('https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free','_blank')">Remix This</button></div>
     </div>
     
+    <style>
+      #godot-frame { position: absolute; inset: 0; width: 100vw; height: 100vh; border: none; }
+      .remix-bar { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); padding: 0.5rem 1rem; border-radius: 8px; z-index: 1000; }
+    </style>
     <script type="module" src="overlays/OverlayManager.js?v=20250911"></script>
-    <script type="module" src="overlays/ModernStartMenu.js?v=20250911"></script>
     <script>
     (function(){
       function fit(){ const c=document.getElementById('gameCanvas'); if(!c) return; c.width=window.innerWidth; c.height=window.innerHeight; }
