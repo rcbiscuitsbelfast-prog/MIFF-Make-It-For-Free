@@ -45,7 +45,7 @@ function showSplashInternal(opts){
     splash.remove();
     if (typeof options.onDone === 'function') {
       options.onDone();
-    } else if (typeof window.miffShowStartMenu === 'function') {
+    } else if (typeof window.miffShowStartMenu === 'function' && !window.MIFF_DISABLE_ARCADE_UI) {
       window.miffShowStartMenu(options.startMenu || {});
     } else {
       try { document.dispatchEvent(new CustomEvent('miff:show-start-menu')); } catch {}

@@ -22,8 +22,9 @@ export function showStartMenu(opts){
   ensureArcadeFonts();
 
   // Remove existing
+  if (window.MIFF_DISABLE_ARCADE_UI) return;
   const existing = document.querySelector('.start-menu');
-  if (existing) existing.remove();
+  if (existing) return;
 
   const menu = document.createElement('div');
   menu.className = `start-menu ${themeClass}`;

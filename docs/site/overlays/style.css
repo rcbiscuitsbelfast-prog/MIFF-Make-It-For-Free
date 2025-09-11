@@ -1,9 +1,9 @@
-.movement-toggle { position: fixed; bottom: 10px; left: 10px; z-index: 100; width: 80px; height: 80px; transform: scale(1); pointer-events: auto; }
+.movement-toggle { position: fixed; bottom: 4vh; left: 4vw; z-index: 10000; width: min(18vw, 96px); height: min(18vw, 96px); transform: scale(1); pointer-events: auto; }
 @media screen and (orientation: landscape) {
-  .movement-toggle { bottom: 10px; left: 10px; transform: scale(1); }
+  .movement-toggle { bottom: 4vh; left: 4vw; }
 }
 @media screen and (orientation: portrait) {
-  .movement-toggle { bottom: 5px; left: 5px; transform: scale(0.8); }
+  .movement-toggle { bottom: 6vh; left: 6vw; }
 }
 /* Shared overlay styles for MIFF zones */
 .miff-overlay {
