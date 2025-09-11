@@ -340,6 +340,7 @@ async function init(){
     ensureStartMenu();
     // Replace legacy intro with MainMenu via dispatcher IntroModal when idle
     try { if (UI.useModule) { UI.showIntro && UI.showIntro({ title: 'Toppler Medieval' }); UI.useModule('IntroModal', MainMenu, { title: 'Toppler Medieval', style: UI_STYLES[savedStyle] || UI_STYLES.sciFi, onAction: (id)=>{ if (id==='start'){ setState(State.Playing); try{ game.audio.music?.play(); }catch{} UI.hide && UI.hide('intro'); } if (id==='credits'){ showLoreModal(); } } }); } } catch {}
+    try { document.addEventListener('miff:start-menu:action', (e)=>{ if (!e || !e.detail) return; if (e.detail.action==='options'){ try { window.miffOverlay && window.miffOverlay.show && window.miffOverlay.show('options', '<h2>Options</h2><p>Coming soon.</p>'); } catch {} } if (e.detail.action==='load'){ console.log('[Menu] Toppler load requested'); } }); } catch {}
     window.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase()==='s'){ UI.showLore({ title:'Style Selector' }); UI.useModule && UI.useModule('LoreModal', StyleSelector, { initial: savedStyle }); } });
     ensureJoystick(); startReplay(); setState(State.Idle); console.log('[Renderer] Draw loop started'); console.log('[Renderer] requestAnimationFrame active'); requestAnimationFrame(loop); }
 

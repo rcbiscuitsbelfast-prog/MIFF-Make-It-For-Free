@@ -331,6 +331,14 @@ async function init(){
         model.state = State.Playing;
         try{ audio.music?.play(); }catch{}
       }
+      if (e && e.detail && e.detail.action === 'load'){
+        console.log('[Menu] Spirit load requested');
+        // placeholder load handler
+      }
+      if (e && e.detail && e.detail.action === 'options'){
+        console.log('[Menu] Spirit options requested');
+        try { window.miffOverlay && window.miffOverlay.show && window.miffOverlay.show('options', '<h2>Options</h2><p>Coming soon.</p>'); } catch {}
+      }
     });
   } catch {}
   // Fallback legacy start menu kept

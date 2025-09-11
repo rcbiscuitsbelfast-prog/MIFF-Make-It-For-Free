@@ -204,6 +204,8 @@
             if (zone) {
                 console.log('[Router] Route matched:', hash);
                 console.log('[Router] Loading zone:', zone.title);
+                try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {}
+                console.log(`[Router] ${hash} → patch + switch + event triggered`);
                 this.loadZone(zone);
             } else {
                 this.showSplash();
@@ -304,6 +306,7 @@
             }
 
             this.updateDebugInfo();
+            try { console.log(`[Router] onZoneLoaded: ${zone.title} ApplyPatch done`); } catch {}
         }
 
         onZoneError(zone, error = 'Unknown error') {
