@@ -224,46 +224,188 @@
         });
       }
       
+      // Draw 3D world with buildings, trees, and terrain
+      function draw3DWorld(offsetX, offsetY) {
+        const tileSize = 40;
+        const worldWidth = 20;
+        const worldHeight = 15;
+        
+        // Draw 3D buildings and structures
+        for (let x = 0; x < worldWidth; x++) {
+          for (let y = 0; y < worldHeight; y++) {
+            const screenX = x * tileSize + offsetX;
+            const screenY = y * tileSize + offsetY;
+            
+            // Create a simple world layout
+            const terrainType = getTerrainType(x, y);
+            
+            if (terrainType === 'building') {
+              draw3DBuilding(screenX, screenY, tileSize);
+            } else if (terrainType === 'tree') {
+              draw3DTree(screenX, screenY, tileSize);
+            } else if (terrainType === 'mountain') {
+              draw3DMountain(screenX, screenY, tileSize);
+            } else if (terrainType === 'water') {
+              draw3DWater(screenX, screenY, tileSize);
+            }
+          }
+        }
+      }
+      
+      // Determine terrain type based on position
+      function getTerrainType(x, y) {
+        // Create a simple world layout
+        if (x === 5 && y === 5) return 'building';
+        if (x === 8 && y === 3) return 'building';
+        if (x === 12 && y === 7) return 'building';
+        if (x === 3 && y === 10) return 'building';
+        if (x === 15 && y === 12) return 'building';
+        
+        if (x === 2 && y === 2) return 'tree';
+        if (x === 6 && y === 8) return 'tree';
+        if (x === 10 && y === 4) return 'tree';
+        if (x === 14 && y === 9) return 'tree';
+        if (x === 7 && y === 12) return 'tree';
+        if (x === 11 && y === 11) return 'tree';
+        
+        if (x === 1 && y === 1) return 'mountain';
+        if (x === 18 && y === 2) return 'mountain';
+        if (x === 16 && y === 14) return 'mountain';
+        
+        if (x === 0 || x === 19 || y === 0 || y === 14) return 'water';
+        
+        return 'grass';
+      }
+      
+      // Draw 3D building
+      function draw3DBuilding(x, y, size) {
+        const height = size * 2;
+        const depth = size * 0.8;
+        
+        // Building base
+        ctx.fillStyle = '#8B4513'; // Brown
+        ctx.fillRect(x, y + size - depth, size, depth);
+        
+        // Building walls
+        ctx.fillStyle = '#A0522D'; // Saddle brown
+        ctx.fillRect(x, y, size, height);
+        
+        // Building roof
+        ctx.fillStyle = '#B22222'; // Fire brick
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + size/2, y - size/2);
+        ctx.lineTo(x + size, y);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Windows
+        ctx.fillStyle = '#87CEEB'; // Sky blue
+        ctx.fillRect(x + 5, y + 10, 8, 12);
+        ctx.fillRect(x + 18, y + 10, 8, 12);
+        ctx.fillRect(x + 5, y + 30, 8, 12);
+        ctx.fillRect(x + 18, y + 30, 8, 12);
+        
+        // Door
+        ctx.fillStyle = '#654321'; // Dark brown
+        ctx.fillRect(x + size/2 - 6, y + height - 20, 12, 20);
+      }
+      
+      // Draw 3D tree
+      function draw3DTree(x, y, size) {
+        // Tree trunk
+        ctx.fillStyle = '#8B4513'; // Brown
+        ctx.fillRect(x + size/2 - 3, y + size/2, 6, size/2);
+        
+        // Tree leaves
+        ctx.fillStyle = '#228B22'; // Forest green
+        ctx.beginPath();
+        ctx.arc(x + size/2, y + size/2, size/3, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Tree shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(x + size/2 + 2, y + size - 5, size/2, 5);
+      }
+      
+      // Draw 3D mountain
+      function draw3DMountain(x, y, size) {
+        const height = size * 1.5;
+        
+        // Mountain base
+        ctx.fillStyle = '#696969'; // Dim gray
+        ctx.fillRect(x, y + size - size/2, size, size/2);
+        
+        // Mountain peak
+        ctx.fillStyle = '#A9A9A9'; // Dark gray
+        ctx.beginPath();
+        ctx.moveTo(x, y + size);
+        ctx.lineTo(x + size/2, y + size - height);
+        ctx.lineTo(x + size, y + size);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Snow cap
+        ctx.fillStyle = '#F0F8FF'; // Alice blue
+        ctx.beginPath();
+        ctx.moveTo(x + size/4, y + size - height/2);
+        ctx.lineTo(x + size/2, y + size - height);
+        ctx.lineTo(x + 3*size/4, y + size - height/2);
+        ctx.closePath();
+        ctx.fill();
+      }
+      
+      // Draw 3D water
+      function draw3DWater(x, y, size) {
+        // Water surface
+        ctx.fillStyle = '#4682B4'; // Steel blue
+        ctx.fillRect(x, y + size - size/3, size, size/3);
+        
+        // Water waves
+        ctx.strokeStyle = '#87CEEB'; // Sky blue
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath();
+          ctx.moveTo(x + i * size/3, y + size - size/6);
+          ctx.quadraticCurveTo(x + i * size/3 + size/6, y + size - size/6 - 3, x + (i + 1) * size/3, y + size - size/6);
+          ctx.stroke();
+        }
+      }
+      
       function render(){ 
-        ctx.fillStyle='#000000'; 
-        ctx.fillRect(0,0,cvs.width,cvs.height); 
+        // Draw sky gradient
+        const gradient = ctx.createLinearGradient(0, 0, 0, cvs.height);
+        gradient.addColorStop(0, '#87CEEB'); // Sky blue
+        gradient.addColorStop(0.7, '#98FB98'); // Light green
+        gradient.addColorStop(1, '#8FBC8F'); // Dark sea green
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, cvs.width, cvs.height);
         
         // Find player for camera positioning
         const player = ents.find(e => (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('mage'));
         const playerX = player ? player.x + player.w/2 : cvs.width/2;
         const playerY = player ? player.y + player.h/2 : cvs.height/2;
         
-        // Draw matrix-style 3D grid
-        ctx.strokeStyle = '#00ff00';
-        ctx.lineWidth = 1;
-        const gridSize = 40;
+        // Camera offset for 1st person view
         const offsetX = cameraView === '1st' ? cvs.width/2 - playerX : 0;
         const offsetY = cameraView === '1st' ? cvs.height/2 - playerY + cameraHeight : 0;
         
-        // Draw 3D grid lines
-        for (let x = -gridSize * 10; x < cvs.width + gridSize * 10; x += gridSize) {
-          for (let y = -gridSize * 10; y < cvs.height + gridSize * 10; y += gridSize) {
-            const screenX = x + offsetX;
-            const screenY = y + offsetY;
-            
-            // 3D perspective lines
-            ctx.beginPath();
-            // Horizontal lines
-            ctx.moveTo(screenX, screenY);
-            ctx.lineTo(screenX + gridSize, screenY);
-            // Vertical lines
-            ctx.moveTo(screenX, screenY);
-            ctx.lineTo(screenX, screenY + gridSize);
-            // Diagonal lines for 3D effect
-            ctx.moveTo(screenX, screenY);
-            ctx.lineTo(screenX + gridSize/2, screenY - gridSize/2);
-            ctx.stroke();
+        // Draw 3D terrain and structures
+        draw3DWorld(offsetX, offsetY);
+        
+        // Draw ground plane
+        ctx.fillStyle = '#90EE90'; // Light green ground
+        ctx.fillRect(0, cvs.height - 60 + offsetY, cvs.width, 60);
+        
+        // Draw ground texture (grass pattern)
+        ctx.fillStyle = '#7CCD7C';
+        for (let x = 0; x < cvs.width; x += 20) {
+          for (let y = cvs.height - 60 + offsetY; y < cvs.height + offsetY; y += 20) {
+            if ((x + y) % 40 < 20) {
+              ctx.fillRect(x, y, 10, 10);
+            }
           }
         }
-        
-        // Draw flat ground plane
-        ctx.fillStyle='#001100'; 
-        ctx.fillRect(0, cvs.height-40 + offsetY, cvs.width, 40);
         
         // Sort entities by depth (back to front) and apply camera transformations
         const sortedEnts = [...ents].sort((a, b) => {
@@ -340,42 +482,42 @@
           ctx.restore();
         }); 
         
-        // Draw matrix-style UI
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+        // Draw 3D world UI
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
         ctx.fillRect(0, 0, cvs.width, 80);
         
-        ctx.fillStyle = '#00ff00';
+        ctx.fillStyle = '#ffffff';
         ctx.font = '16px monospace';
-        ctx.fillText(`SCORE: ${score}`, 10, 25);
-        ctx.fillText(`TREASURES: ${treasures}`, 10, 45);
-        ctx.fillText(`TIME: ${Math.floor(gameTime)}s`, cvs.width - 150, 25);
+        ctx.fillText(`Score: ${score}`, 10, 25);
+        ctx.fillText(`Treasures: ${treasures}`, 10, 45);
+        ctx.fillText(`Time: ${Math.floor(gameTime)}s`, cvs.width - 150, 25);
         
         // Draw camera controls
-        ctx.fillStyle = '#00ff00';
+        ctx.fillStyle = '#e6edf3';
         ctx.font = '12px monospace';
-        ctx.fillText(`CAMERA: ${cameraView.toUpperCase()} PERSON`, 10, cvs.height - 80);
-        ctx.fillText(`ANGLE: ${Math.round(cameraAngle * 180 / Math.PI)}°`, 10, cvs.height - 65);
-        ctx.fillText(`ZOOM: ${cameraZoom.toFixed(1)}x`, 10, cvs.height - 50);
+        ctx.fillText(`Camera: ${cameraView.toUpperCase()} Person`, 10, cvs.height - 80);
+        ctx.fillText(`Angle: ${Math.round(cameraAngle * 180 / Math.PI)}°`, 10, cvs.height - 65);
+        ctx.fillText(`Zoom: ${cameraZoom.toFixed(1)}x`, 10, cvs.height - 50);
         if (cameraView === '1st') {
-          ctx.fillText(`HEIGHT: ${cameraHeight.toFixed(0)}`, 10, cvs.height - 35);
+          ctx.fillText(`Height: ${cameraHeight.toFixed(0)}`, 10, cvs.height - 35);
         }
         
         // Draw controls
-        ctx.fillText('WASD: MOVE | Q/E: ROTATE | V: TOGGLE VIEW', 10, cvs.height - 20);
-        ctx.fillText('+/-: ZOOM | R/F: HEIGHT (1ST PERSON)', 10, cvs.height - 5);
+        ctx.fillText('WASD: Move | Q/E: Rotate | V: Toggle View', 10, cvs.height - 20);
+        ctx.fillText('+/-: Zoom | R/F: Height | Space: Jump', 10, cvs.height - 5);
         
         if (!gameStarted) {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
           ctx.fillRect(0, 0, cvs.width, cvs.height);
-          ctx.fillStyle = '#00ff00';
+          ctx.fillStyle = '#e6edf3';
           ctx.font = '24px monospace';
           ctx.textAlign = 'center';
-          ctx.fillText('MATRIX 3D WORLD', cvs.width/2, cvs.height/2 - 80);
+          ctx.fillText('🏰 3D Adventure World', cvs.width/2, cvs.height/2 - 80);
           ctx.font = '16px monospace';
-          ctx.fillText('WASD: MOVE | Q/E: ROTATE CAMERA | V: TOGGLE VIEW', cvs.width/2, cvs.height/2 - 50);
-          ctx.fillText('+/-: ZOOM | R/F: HEIGHT (1ST PERSON)', cvs.width/2, cvs.height/2 - 30);
-          ctx.fillText('COLLECT CHESTS, DEFEAT ENEMIES!', cvs.width/2, cvs.height/2 - 10);
-          ctx.fillText('PRESS SPACE OR ENTER TO START', cvs.width/2, cvs.height/2 + 20);
+          ctx.fillText('WASD: Move | Q/E: Rotate Camera | V: Toggle View', cvs.width/2, cvs.height/2 - 50);
+          ctx.fillText('+/-: Zoom | R/F: Height | Space: Jump', cvs.width/2, cvs.height/2 - 30);
+          ctx.fillText('Explore buildings, trees, mountains, and water!', cvs.width/2, cvs.height/2 - 10);
+          ctx.fillText('Press SPACE or ENTER to Start', cvs.width/2, cvs.height/2 + 20);
           ctx.textAlign = 'left';
         }
       }
