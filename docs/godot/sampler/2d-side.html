@@ -17,9 +17,18 @@
       setTimeout(async ()=>{ 
         if(!window.__sideBooted){ 
           try{ 
+            console.log('[2D-Side] Loading preset from: ../../../docs/site/studio/presets/sampler-2d-side.json');
             const pre=await fetch('../../../docs/site/studio/presets/sampler-2d-side.json').then(r=>r.json()); 
+            console.log('[2D-Side] Preset loaded:', pre);
             bootGame(pre.entities||[]); 
-          }catch{} 
+          }catch(error){
+            console.error('[2D-Side] Failed to load preset:', error);
+            // Fallback with basic entities
+            bootGame([
+              { id: 'player', name: 'Knight', type: 'sprite', src: '../../../assets/KayKitAssets/knight_texture.png', x: 50, y: 300, w: 48, h: 48 },
+              { id: 'platform1', name: 'Platform', type: 'tile', src: '../../../assets/Bridge_Wood.png', x: 100, y: 350, w: 80, h: 16 }
+            ]);
+          } 
         } 
       },1000); 
     });
@@ -27,8 +36,13 @@
     function bootGame(entities){ 
       if(window.__sideBooted) return; 
       window.__sideBooted=true; 
+      // Remove existing gameCanvas div and create canvas
+      const existingCanvas = document.getElementById('gameCanvas');
+      if (existingCanvas) existingCanvas.remove();
+      
       const cvs=document.createElement('canvas'); 
-      Object.assign(cvs.style,{position:'absolute',inset:'0'}); 
+      cvs.id = 'gameCanvas';
+      Object.assign(cvs.style,{position:'absolute',inset:'0',zIndex:'1'}); 
       document.body.appendChild(cvs); 
       const ctx=cvs.getContext('2d'); 
       const fit=()=>{ 
@@ -166,6 +180,15 @@
       function render(){ 
         ctx.fillStyle='#0b1020'; 
         ctx.fillRect(0,0,cvs.width,cvs.height);
+        
+        // Always draw a test rectangle to verify rendering is working
+        ctx.fillStyle='#ff0000';
+        ctx.fillRect(10, 10, 200, 100);
+        ctx.fillStyle='#ffffff';
+        ctx.font='20px monospace';
+        ctx.fillText('Rendering Test - Canvas Working!', 15, 50);
+        ctx.fillText('Canvas Size: ' + cvs.width + 'x' + cvs.height, 15, 80);
+        
         console.log('[2D-Side] Rendering frame, entities:', ents.length); 
         
         // Draw ground platforms first
@@ -266,6 +289,11 @@
         requestAnimationFrame(loop); 
       }
       console.log('[2D-Side] Starting game loop');
+      console.log('[2D-Side] Canvas element:', cvs);
+      console.log('[2D-Side] Context:', ctx);
+      console.log('[2D-Side] Canvas dimensions:', cvs.width, 'x', cvs.height);
+      console.log('[2D-Side] Canvas style:', cvs.style.cssText);
+      console.log('[2D-Side] Canvas parent:', cvs.parentElement);
       requestAnimationFrame(loop);
     }
   </script>

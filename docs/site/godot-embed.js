@@ -42,8 +42,15 @@ export function embedGodot({ zone, path }){
   status.style.cssText = 'position:absolute;top:0.5rem;left:0.5rem;z-index:1000;background:rgba(0,0,0,0.5);color:#fff;padding:4px 8px;border-radius:6px;font:12px system-ui';
   status.textContent = 'Loading Godot…';
   container.appendChild(status);
-  iframe.addEventListener('load', ()=>{ status.textContent = 'Godot loaded'; setTimeout(()=>status.remove(), 1000); });
-  iframe.addEventListener('error', ()=>{ status.textContent = 'Failed to load Godot'; });
+  iframe.addEventListener('load', ()=>{ 
+    console.log('[Godot-Embed] Iframe loaded:', path);
+    status.textContent = 'Godot loaded'; 
+    setTimeout(()=>status.remove(), 1000); 
+  });
+  iframe.addEventListener('error', ()=>{ 
+    console.error('[Godot-Embed] Iframe failed to load:', path);
+    status.textContent = 'Failed to load Godot'; 
+  });
 
   // Focus management: click to focus; auto-focus shortly after load
   try {

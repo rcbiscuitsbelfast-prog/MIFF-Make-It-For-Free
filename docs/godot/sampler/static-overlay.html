@@ -24,8 +24,13 @@
     function bootGame(entities){ 
       if(window.__overlayBooted) return; 
       window.__overlayBooted=true; 
+      // Remove existing gameCanvas div and create canvas
+      const existingCanvas = document.getElementById('gameCanvas');
+      if (existingCanvas) existingCanvas.remove();
+      
       const cvs=document.createElement('canvas'); 
-      Object.assign(cvs.style,{position:'absolute',inset:'0'}); 
+      cvs.id = 'gameCanvas';
+      Object.assign(cvs.style,{position:'absolute',inset:'0',zIndex:'1'}); 
       document.body.appendChild(cvs); 
       const ctx=cvs.getContext('2d'); 
       const fit=()=>{ 
