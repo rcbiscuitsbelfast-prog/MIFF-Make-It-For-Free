@@ -28,7 +28,11 @@
       Object.assign(cvs.style,{position:'absolute',inset:'0'}); 
       document.body.appendChild(cvs); 
       const ctx=cvs.getContext('2d'); 
-      const fit=()=>{ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }; 
+      const fit=()=>{ 
+        cvs.width=window.innerWidth; 
+        cvs.height=window.innerHeight; 
+        console.log('[Static-Overlay] Canvas resized to:', cvs.width, 'x', cvs.height);
+      }; 
       window.addEventListener('resize',fit); 
       fit(); 
       
