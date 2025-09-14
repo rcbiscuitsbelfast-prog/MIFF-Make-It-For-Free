@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MIFF Sampler Debug</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0a1322;
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .debug-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: rgba(14, 26, 42, 0.8);
+    }
+    .test-canvas {
+      border: 2px solid #ff0000;
+      background: #000;
+    }
+    .status {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .success { background: rgba(0, 255, 0, 0.1); border-left: 4px solid #00ff00; }
+    .error { background: rgba(255, 0, 0, 0.1); border-left: 4px solid #ff0000; }
+    .info { background: rgba(0, 0, 255, 0.1); border-left: 4px solid #0000ff; }
+  </style>
+</head>
+<body>
+  <h1>🔍 MIFF Sampler Debug Page</h1>
+  
+  <div class="debug-section">
+    <h2>Canvas Test</h2>
+    <p>Testing basic canvas rendering:</p>
+    <canvas id="testCanvas" class="test-canvas" width="400" height="200"></canvas>
+    <div id="canvasStatus" class="status info">Canvas created, testing rendering...</div>
+  </div>
+
+  <div class="debug-section">
+    <h2>Asset Loading Test</h2>
+    <p>Testing asset loading:</p>
+    <div id="assetStatus" class="status info">Testing asset loading...</div>
+    <img id="testImage" style="display: none;" />
+  </div>
+
+  <div class="debug-section">
+    <h2>Iframe Test</h2>
+    <p>Testing iframe loading:</p>
+    <div id="iframeStatus" class="status info">Testing iframe...</div>
+    <iframe id="testIframe" src="docs/godot/sampler/2d-side.html" width="400" height="300" style="border: 1px solid #30363d;"></iframe>
+  </div>
+
+  <div class="debug-section">
+    <h2>Console Output</h2>
+    <p>Check browser console for detailed debugging information.</p>
+    <div id="consoleOutput" style="background: #000; padding: 10px; border-radius: 4px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+  </div>
+
+  <script>
+    // Test canvas rendering
+    const canvas = document.getElementById('testCanvas');
+    const ctx = canvas.getContext('2d');
+    const canvasStatus = document.getElementById('canvasStatus');
+    
+    try {
+      // Draw test content
+      ctx.fillStyle = '#0b1020';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = '#ff0000';
+      ctx.fillRect(10, 10, 100, 50);
+      
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '16px monospace';
+      ctx.fillText('Canvas Test Working!', 15, 35);
+      
+      canvasStatus.textContent = '✅ Canvas rendering works';
+      canvasStatus.className = 'status success';
+    } catch (error) {
+      canvasStatus.textContent = '❌ Canvas error: ' + error.message;
+      canvasStatus.className = 'status error';
+    }
+
+    // Test asset loading
+    const testImage = document.getElementById('testImage');
+    const assetStatus = document.getElementById('assetStatus');
+    
+    testImage.onload = () => {
+      assetStatus.textContent = '✅ Asset loading works';
+      assetStatus.className = 'status success';
+    };
+    
+    testImage.onerror = () => {
+      assetStatus.textContent = '❌ Asset loading failed';
+      assetStatus.className = 'status error';
+    };
+    
+    testImage.src = 'assets/KayKitAssets/knight_texture.png';
+
+    // Test iframe loading
+    const testIframe = document.getElementById('testIframe');
+    const iframeStatus = document.getElementById('iframeStatus');
+    
+    testIframe.onload = () => {
+      iframeStatus.textContent = '✅ Iframe loaded';
+      iframeStatus.className = 'status success';
+      
+      // Try to access iframe content
+      try {
+        const iframeDoc = testIframe.contentDocument || testIframe.contentWindow.document;
+        const canvas = iframeDoc.getElementById('gameCanvas');
+        if (canvas) {
+          iframeStatus.textContent += ' - Canvas found in iframe';
+        } else {
+          iframeStatus.textContent += ' - No canvas found in iframe';
+        }
+      } catch (e) {
+        iframeStatus.textContent += ' - Cannot access iframe content (CORS)';
+      }
+    };
+    
+    testIframe.onerror = () => {
+      iframeStatus.textContent = '❌ Iframe failed to load';
+      iframeStatus.className = 'status error';
+    };
+
+    // Capture console output
+    const consoleOutput = document.getElementById('consoleOutput');
+    const originalLog = console.log;
+    const originalError = console.error;
+    
+    function addToConsole(message, type = 'log') {
+      const div = document.createElement('div');
+      div.textContent = `[${type.toUpperCase()}] ${message}`;
+      div.style.color = type === 'error' ? '#ff0000' : '#00ff00';
+      consoleOutput.appendChild(div);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+    
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      addToConsole(args.join(' '), 'log');
+    };
+    
+    console.error = function(...args) {
+      originalError.apply(console, args);
+      addToConsole(args.join(' '), 'error');
+    };
+
+    // Test the actual sampler
+    setTimeout(() => {
+      console.log('Testing sampler iframe...');
+      try {
+        const iframeDoc = testIframe.contentDocument || testIframe.contentWindow.document;
+        console.log('Iframe document:', iframeDoc);
+        const canvas = iframeDoc.getElementById('gameCanvas');
+        console.log('Canvas in iframe:', canvas);
+        if (canvas) {
+          console.log('Canvas dimensions:', canvas.width, 'x', canvas.height);
+          console.log('Canvas style:', canvas.style.cssText);
+        }
+      } catch (e) {
+        console.error('Cannot access iframe content:', e.message);
+      }
+    }, 2000);
+  </script>
+</body>
+</html>

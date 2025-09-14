@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minimal Canvas Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a1322;
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #gameCanvas {
+      position: absolute;
+      inset: 0;
+      background: #0b1020;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameCanvas"></div>
+  
+  <script>
+    console.log('Starting minimal canvas test...');
+    
+    // Remove existing gameCanvas div and create canvas
+    const existingCanvas = document.getElementById('gameCanvas');
+    if (existingCanvas) existingCanvas.remove();
+    
+    const cvs = document.createElement('canvas');
+    cvs.id = 'gameCanvas';
+    Object.assign(cvs.style, { position: 'absolute', inset: '0', zIndex: '1' });
+    document.body.appendChild(cvs);
+    
+    const ctx = cvs.getContext('2d');
+    
+    const fit = () => {
+      cvs.width = window.innerWidth;
+      cvs.height = window.innerHeight;
+      console.log('Canvas resized to:', cvs.width, 'x', cvs.height);
+    };
+    
+    window.addEventListener('resize', fit);
+    fit();
+    
+    console.log('Canvas element:', cvs);
+    console.log('Context:', ctx);
+    console.log('Canvas dimensions:', cvs.width, 'x', cvs.height);
+    
+    // Simple rendering test
+    function render() {
+      // Clear canvas
+      ctx.fillStyle = '#0b1020';
+      ctx.fillRect(0, 0, cvs.width, cvs.height);
+      
+      // Draw test rectangle
+      ctx.fillStyle = '#ff0000';
+      ctx.fillRect(10, 10, 200, 100);
+      
+      // Draw test text
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '20px monospace';
+      ctx.fillText('Minimal Canvas Test Working!', 15, 50);
+      ctx.fillText('Canvas Size: ' + cvs.width + 'x' + cvs.height, 15, 80);
+      
+      console.log('Rendered frame');
+    }
+    
+    // Start rendering loop
+    function loop() {
+      render();
+      requestAnimationFrame(loop);
+    }
+    
+    console.log('Starting render loop...');
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>
