@@ -150,7 +150,7 @@
             
             // Ground collision
             const floor = cvs.height - 20;
-            if (e.y + e.h > floor) {
+            if (e.y + e.h >= floor) {
               e.y = floor - e.h;
               e.vy = 0;
             }

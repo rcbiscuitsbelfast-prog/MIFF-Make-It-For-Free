@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Floor Collision Test</title>
+  <style>
+    body { margin: 0; padding: 20px; background: #0a1322; color: #e6edf3; font-family: monospace; }
+    .test-world { margin: 20px 0; padding: 20px; border: 1px solid #333; border-radius: 8px; }
+    .test-world h3 { margin: 0 0 10px 0; color: #58a6ff; }
+    .test-world iframe { width: 100%; height: 400px; border: 1px solid #555; border-radius: 4px; }
+    .status { margin: 10px 0; padding: 10px; border-radius: 4px; }
+    .loading { background: rgba(255,255,0,0.2); }
+    .success { background: rgba(0,255,0,0.2); }
+    .error { background: rgba(255,0,0,0.2); }
+    .instructions { margin: 10px 0; font-size: 12px; opacity: 0.8; }
+  </style>
+</head>
+<body>
+  <h1>Floor Collision Test</h1>
+  <p>Testing floor collision across all worlds. Characters should not fall through the floor.</p>
+
+  <div class="test-world">
+    <h3>⚔️ 2D Side-Scrolling - Floor Test</h3>
+    <div class="status loading" id="status-2d-side">Loading 2D side world...</div>
+    <div class="instructions">WASD/Arrow Keys: Move | Space/Up: Jump | Should land on floor, not fall through</div>
+    <iframe id="iframe-2d-side" src="docs/site/sampler/2d-side.html" onload="updateStatus('2d-side', 'success')" onerror="updateStatus('2d-side', 'error')"></iframe>
+  </div>
+
+  <div class="test-world">
+    <h3>🏃 Runner - Floor Test</h3>
+    <div class="status loading" id="status-runner">Loading runner world...</div>
+    <div class="instructions">Space/Up: Jump | Should land on floor, not fall through</div>
+    <iframe id="iframe-runner" src="docs/site/sampler/runner.html" onload="updateStatus('runner', 'success')" onerror="updateStatus('runner', 'error')"></iframe>
+  </div>
+
+  <div class="test-world">
+    <h3>🏰 3D Matrix World - Floor Test</h3>
+    <div class="status loading" id="status-3d">Loading 3D matrix world...</div>
+    <div class="instructions">WASD: Move | Space/Up: Jump | Should land on floor, not fall through</div>
+    <iframe id="iframe-3d" src="docs/site/sampler/3d-topdown.html" onload="updateStatus('3d', 'success')" onerror="updateStatus('3d', 'error')"></iframe>
+  </div>
+
+  <div class="test-world">
+    <h3>🗺️ 2D Top-Down - No Gravity Test</h3>
+    <div class="status loading" id="status-2d-topdown">Loading 2D top-down world...</div>
+    <div class="instructions">WASD/Arrow Keys: Move | No gravity, should stay in place</div>
+    <iframe id="iframe-2d-topdown" src="docs/site/sampler/2d-topdown.html" onload="updateStatus('2d-topdown', 'success')" onerror="updateStatus('2d-topdown', 'error')"></iframe>
+  </div>
+
+  <script>
+    function updateStatus(world, status) {
+      const statusEl = document.getElementById(`status-${world}`);
+      statusEl.className = `status ${status}`;
+      
+      if (status === 'success') {
+        statusEl.textContent = `✅ ${world} world loaded - Test floor collision`;
+      } else if (status === 'error') {
+        statusEl.textContent = `❌ ${world} world failed to load`;
+      }
+    }
+
+    // Test instructions
+    console.log('Floor Collision Test Instructions:');
+    console.log('1. 2D Side-Scrolling: Use WASD or Arrow Keys to move, Space/Up to jump');
+    console.log('2. Runner: Use Space/Up to jump - should land on floor');
+    console.log('3. 3D Matrix: Use WASD to move, Space/Up to jump - should land on floor');
+    console.log('4. 2D Top-Down: Use WASD or Arrow Keys - no gravity, should stay in place');
+    console.log('5. Check browser console for movement logs');
+  </script>
+</body>
+</html>

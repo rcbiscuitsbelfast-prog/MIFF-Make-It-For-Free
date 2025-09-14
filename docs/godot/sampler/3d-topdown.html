@@ -106,6 +106,16 @@
             e.x += rotatedX;
             e.y += rotatedY;
             
+            // Jumping in 3D world
+            if ((keys[' '] || keys['ArrowUp'] || keys['w'] || keys['W']) && e.y + e.h >= cvs.height - 40) {
+              e.vy = -400; // Jump force
+            }
+            
+            // Apply gravity for 3D world
+            if (!e.vy) e.vy = 0;
+            e.vy += 500 * dt; // Gravity
+            e.y += e.vy * dt;
+            
             // Camera rotation with Q/E keys
             if (keys['q'] || keys['Q']) cameraAngle -= ROTATION_SPEED * dt;
             if (keys['e'] || keys['E']) cameraAngle += ROTATION_SPEED * dt;
@@ -126,11 +136,14 @@
               if (keys['f'] || keys['F']) cameraHeight = Math.max(-50, cameraHeight - 50 * dt);
             }
             
-            // Keep player on screen
+            // Keep player on screen and above floor
             if (e.x < 0) e.x = 0;
             if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
             if (e.y < 0) e.y = 0;
-            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+            if (e.y + e.h >= cvs.height - 40) {
+              e.y = cvs.height - 40 - e.h; // Floor constraint
+              e.vy = 0; // Stop falling
+            }
             
             // Update depth for sorting
             e.depth = e.y + e.h;
@@ -179,11 +192,14 @@
               e.patrolDirection *= -1;
             }
             
-            // Keep on screen
+            // Keep on screen and above floor
             if (e.x < 0) e.x = 0;
             if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
             if (e.y < 0) e.y = 0;
-            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+            if (e.y + e.h >= cvs.height - 40) {
+              e.y = cvs.height - 40 - e.h; // Floor constraint
+              if (e.vy) e.vy = 0; // Stop falling
+            }
             
             // Update depth for sorting
             e.depth = e.y + e.h;
@@ -195,11 +211,14 @@
               e.frame = (e.frame+1) % 4; 
             }
           } else {
-            // Non-player entities: keep on screen and update depth
+            // Non-player entities: keep on screen and above floor
             if (e.x < 0) e.x = 0;
             if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
             if (e.y < 0) e.y = 0;
-            if (e.y + e.h > cvs.height) e.y = cvs.height - e.h;
+            if (e.y + e.h >= cvs.height - 40) {
+              e.y = cvs.height - 40 - e.h; // Floor constraint
+              if (e.vy) e.vy = 0; // Stop falling
+            }
             e.depth = e.y + e.h;
           }
         });
