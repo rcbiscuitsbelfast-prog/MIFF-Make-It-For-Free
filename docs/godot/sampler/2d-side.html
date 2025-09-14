@@ -17,16 +17,16 @@
       setTimeout(async ()=>{ 
         if(!window.__sideBooted){ 
           try{ 
-            console.log('[2D-Side] Loading preset from: ../../../docs/site/studio/presets/sampler-2d-side.json');
-            const pre=await fetch('../../../docs/site/studio/presets/sampler-2d-side.json').then(r=>r.json()); 
+            console.log('[2D-Side] Loading preset from: ../../site/studio/presets/sampler-2d-side.json');
+            const pre=await fetch('../../site/studio/presets/sampler-2d-side.json').then(r=>r.json()); 
             console.log('[2D-Side] Preset loaded:', pre);
             bootGame(pre.entities||[]); 
           }catch(error){
             console.error('[2D-Side] Failed to load preset:', error);
             // Fallback with basic entities
             bootGame([
-              { id: 'player', name: 'Knight', type: 'sprite', src: '../../../assets/KayKitAssets/knight_texture.png', x: 50, y: 300, w: 48, h: 48 },
-              { id: 'platform1', name: 'Platform', type: 'tile', src: '../../../assets/Bridge_Wood.png', x: 100, y: 350, w: 80, h: 16 }
+              { id: 'player', name: 'Knight', type: 'sprite', src: '../../assets/KayKitAssets/knight_texture.png', x: 50, y: 300, w: 48, h: 48 },
+              { id: 'platform1', name: 'Platform', type: 'tile', src: '../../assets/Bridge_Wood.png', x: 100, y: 350, w: 80, h: 16 }
             ]);
           } 
         } 
