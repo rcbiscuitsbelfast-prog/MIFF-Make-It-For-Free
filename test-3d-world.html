@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D Isometric World Test</title>
+  <style>
+    body { margin: 0; padding: 0; background: #0a1322; color: #e6edf3; font-family: monospace; }
+    .test-container { position: relative; width: 100vw; height: 100vh; }
+    .controls { position: absolute; top: 10px; left: 10px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; }
+    .status { position: absolute; top: 10px; right: 10px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="controls">
+      <h3>3D Isometric World Test</h3>
+      <p>WASD: Move | Q/E: Rotate | V: Toggle View</p>
+      <p>+/-: Zoom | R/F: Height (1st person)</p>
+    </div>
+    <div class="status" id="status">Loading...</div>
+    <iframe id="godot-frame" src="docs/godot/sampler/3d-topdown.html" style="width:100%;height:100%;border:none;"></iframe>
+  </div>
+
+  <script>
+    const status = document.getElementById('status');
+    const iframe = document.getElementById('godot-frame');
+    
+    iframe.addEventListener('load', () => {
+      status.textContent = '3D World Loaded - Use controls above';
+      status.style.background = 'rgba(0,100,0,0.8)';
+    });
+    
+    iframe.addEventListener('error', () => {
+      status.textContent = 'Failed to load 3D World';
+      status.style.background = 'rgba(100,0,0,0.8)';
+    });
+  </script>
+</body>
+</html>

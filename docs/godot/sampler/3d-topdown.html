@@ -53,16 +53,19 @@
         return i; 
       } 
       
-      const ents=entities.map(e=>({ ...e, frame:0, frameTime:0, frameRate:0.1, depth: e.y + (e.h||32) })); 
+      const ents=entities.map(e=>({ ...e, frame:0, frameTime:0, frameRate:0.1, depth: e.y + (e.h||32), z: e.z || 0 })); 
       console.log('[3D-Isometric] Booted with entities:',ents);
       
-      // 3D Isometric movement with depth sorting
+      // 3D Isometric movement with depth sorting and camera views
       const keys={}; 
       window.addEventListener('keydown',e=>keys[e.key]=true); 
       window.addEventListener('keyup',e=>keys[e.key]=false);
       const SPEED = 100;
       const ROTATION_SPEED = 2;
       let cameraAngle = 0;
+      let cameraView = '3rd'; // '1st' or '3rd' person
+      let cameraZoom = 1.0;
+      let cameraHeight = 0; // For 1st person view
       
       // Game state
       let score = 0;
@@ -106,6 +109,22 @@
             // Camera rotation with Q/E keys
             if (keys['q'] || keys['Q']) cameraAngle -= ROTATION_SPEED * dt;
             if (keys['e'] || keys['E']) cameraAngle += ROTATION_SPEED * dt;
+            
+            // Camera view toggle with V key
+            if (keys['v'] || keys['V']) {
+              cameraView = cameraView === '3rd' ? '1st' : '3rd';
+              keys['v'] = false; keys['V'] = false; // Prevent rapid toggling
+            }
+            
+            // Camera zoom with +/- keys
+            if (keys['='] || keys['+']) cameraZoom = Math.min(2.0, cameraZoom + 0.1);
+            if (keys['-']) cameraZoom = Math.max(0.5, cameraZoom - 0.1);
+            
+            // Camera height adjustment for 1st person (R/F keys)
+            if (cameraView === '1st') {
+              if (keys['r'] || keys['R']) cameraHeight = Math.min(100, cameraHeight + 50 * dt);
+              if (keys['f'] || keys['F']) cameraHeight = Math.max(-50, cameraHeight - 50 * dt);
+            }
             
             // Keep player on screen
             if (e.x < 0) e.x = 0;
@@ -190,41 +209,67 @@
         ctx.fillStyle='#0a1322'; 
         ctx.fillRect(0,0,cvs.width,cvs.height); 
         
-        // Draw isometric grid
+        // Find player for camera positioning
+        const player = ents.find(e => (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('mage'));
+        const playerX = player ? player.x + player.w/2 : cvs.width/2;
+        const playerY = player ? player.y + player.h/2 : cvs.height/2;
+        
+        // Draw isometric grid with camera offset
         ctx.strokeStyle = 'rgba(88,166,255,0.1)';
         ctx.lineWidth = 1;
         const gridSize = 32;
-        for (let x = 0; x < cvs.width; x += gridSize) {
-          for (let y = 0; y < cvs.height; y += gridSize) {
+        const offsetX = cameraView === '1st' ? cvs.width/2 - playerX : 0;
+        const offsetY = cameraView === '1st' ? cvs.height/2 - playerY + cameraHeight : 0;
+        
+        for (let x = -gridSize; x < cvs.width + gridSize; x += gridSize) {
+          for (let y = -gridSize; y < cvs.height + gridSize; y += gridSize) {
+            const screenX = x + offsetX;
+            const screenY = y + offsetY;
+            
             // Isometric diamond pattern
             ctx.beginPath();
-            ctx.moveTo(x + gridSize/2, y);
-            ctx.lineTo(x + gridSize, y + gridSize/2);
-            ctx.lineTo(x + gridSize/2, y + gridSize);
-            ctx.lineTo(x, y + gridSize/2);
+            ctx.moveTo(screenX + gridSize/2, screenY);
+            ctx.lineTo(screenX + gridSize, screenY + gridSize/2);
+            ctx.lineTo(screenX + gridSize/2, screenY + gridSize);
+            ctx.lineTo(screenX, screenY + gridSize/2);
             ctx.closePath();
             ctx.stroke();
           }
         }
         
-        // Draw ground
+        // Draw ground with camera offset
         ctx.fillStyle='#2F4F2F'; 
-        ctx.fillRect(0, cvs.height-20, cvs.width, 20);
+        ctx.fillRect(0, cvs.height-20 + offsetY, cvs.width, 20);
         
-        // Sort entities by depth (back to front)
-        const sortedEnts = [...ents].sort((a, b) => a.depth - b.depth);
+        // Sort entities by depth (back to front) and apply camera transformations
+        const sortedEnts = [...ents].sort((a, b) => {
+          const depthA = a.depth + (a.z || 0);
+          const depthB = b.depth + (b.z || 0);
+          return depthA - depthB;
+        });
         
         sortedEnts.forEach(e=>{ 
           const img=getImg(e.src); 
           if(img && img.complete && loadedImgs.has(e.src)){ 
             ctx.save();
             
+            // Calculate screen position with camera transformations
+            let screenX = e.x + offsetX;
+            let screenY = e.y + offsetY;
+            let screenW = e.w * cameraZoom;
+            let screenH = e.h * cameraZoom;
+            
             // Apply isometric perspective transformation
-            const centerX = e.x + e.w/2;
-            const centerY = e.y + e.h/2;
+            const centerX = screenX + screenW/2;
+            const centerY = screenY + screenH/2;
             ctx.translate(centerX, centerY);
             ctx.rotate(cameraAngle);
-            ctx.translate(-centerX, -centerY);
+            ctx.scale(cameraZoom, cameraZoom);
+            ctx.translate(-centerX/cameraZoom, -centerY/cameraZoom);
+            
+            // Apply 3D isometric depth scaling
+            const depthScale = 1.0 - (e.z || 0) * 0.01;
+            ctx.scale(depthScale, depthScale);
             
             // Check if this is a sprite sheet
             if(e.type==='sprite' && img.width > img.height && img.width > 64 && img.width % 32 === 0){
@@ -233,10 +278,10 @@
               const frameH = 32;
               const frameX = (e.frame || 0) * frameW;
               const frameY = 0;
-              ctx.drawImage(img, frameX, frameY, frameW, frameH, e.x, e.y, e.w, e.h);
+              ctx.drawImage(img, frameX, frameY, frameW, frameH, screenX, screenY, screenW, screenH);
             } else {
               // Single image
-              ctx.drawImage(img, e.x, e.y, e.w, e.h);
+              ctx.drawImage(img, screenX, screenY, screenW, screenH);
             }
             ctx.restore();
           } else { 
@@ -263,7 +308,7 @@
         
         // Draw UI
         ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-        ctx.fillRect(0, 0, cvs.width, 60);
+        ctx.fillRect(0, 0, cvs.width, 80);
         
         ctx.fillStyle = '#e6edf3';
         ctx.font = '16px monospace';
@@ -271,11 +316,19 @@
         ctx.fillText(`Treasures: ${treasures}`, 10, 45);
         ctx.fillText(`Time: ${Math.floor(gameTime)}s`, cvs.width - 100, 25);
         
-        // Draw camera angle indicator
+        // Draw camera controls
         ctx.fillStyle = 'rgba(88,166,255,0.8)';
         ctx.font = '12px monospace';
-        ctx.fillText(`Camera: ${Math.round(cameraAngle * 180 / Math.PI)}°`, 10, cvs.height - 40);
-        ctx.fillText('Q/E to rotate', 10, cvs.height - 25);
+        ctx.fillText(`Camera: ${cameraView.toUpperCase()} Person`, 10, cvs.height - 80);
+        ctx.fillText(`Angle: ${Math.round(cameraAngle * 180 / Math.PI)}°`, 10, cvs.height - 65);
+        ctx.fillText(`Zoom: ${cameraZoom.toFixed(1)}x`, 10, cvs.height - 50);
+        if (cameraView === '1st') {
+          ctx.fillText(`Height: ${cameraHeight.toFixed(0)}`, 10, cvs.height - 35);
+        }
+        
+        // Draw controls
+        ctx.fillText('WASD: Move | Q/E: Rotate | V: Toggle View', 10, cvs.height - 20);
+        ctx.fillText('+/-: Zoom | R/F: Height (1st person)', 10, cvs.height - 5);
         
         if (!gameStarted) {
           ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
@@ -283,11 +336,12 @@
           ctx.fillStyle = '#e6edf3';
           ctx.font = '24px monospace';
           ctx.textAlign = 'center';
-          ctx.fillText('🏰 3D Isometric Adventure', cvs.width/2, cvs.height/2 - 40);
+          ctx.fillText('🏰 3D Isometric Adventure', cvs.width/2, cvs.height/2 - 80);
           ctx.font = '16px monospace';
-          ctx.fillText('WASD to Move, Q/E to Rotate Camera', cvs.width/2, cvs.height/2 - 10);
-          ctx.fillText('Collect chests, defeat enemies!', cvs.width/2, cvs.height/2 + 20);
-          ctx.fillText('Press SPACE or ENTER to Start', cvs.width/2, cvs.height/2 + 50);
+          ctx.fillText('WASD: Move | Q/E: Rotate Camera | V: Toggle View', cvs.width/2, cvs.height/2 - 50);
+          ctx.fillText('+/-: Zoom | R/F: Height (1st person)', cvs.width/2, cvs.height/2 - 30);
+          ctx.fillText('Collect chests, defeat enemies!', cvs.width/2, cvs.height/2 - 10);
+          ctx.fillText('Press SPACE or ENTER to Start', cvs.width/2, cvs.height/2 + 20);
           ctx.textAlign = 'left';
         }
       }
