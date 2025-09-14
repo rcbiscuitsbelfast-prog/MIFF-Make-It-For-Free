@@ -73,8 +73,14 @@
       
       // 2D Side-scrolling physics
       const keys={}; 
-      window.addEventListener('keydown',e=>keys[e.key]=true); 
-      window.addEventListener('keyup',e=>keys[e.key]=false);
+      window.addEventListener('keydown',e=>{
+        keys[e.key]=true; 
+        console.log('[2D-Side] Key pressed:', e.key);
+      }); 
+      window.addEventListener('keyup',e=>{
+        keys[e.key]=false;
+        console.log('[2D-Side] Key released:', e.key);
+      });
       const GRAV=900, SPEED=180, JUMP=-360, FLOOR=cvs.height-20;
       
       // Game state
@@ -100,13 +106,34 @@
           
           if (isPlayer) {
             // Player physics for side-scrolling
-            if (keys['ArrowRight']) e.vx = SPEED; 
-            else if (keys['ArrowLeft']) e.vx = -SPEED; 
-            else e.vx = 0;
-            if (keys['ArrowUp'] && e.y+e.h>=FLOOR) e.vy = JUMP;
+            let moving = false;
+            if (keys['ArrowRight'] || keys['d'] || keys['D']) {
+              e.vx = SPEED;
+              moving = true;
+              console.log('[2D-Side] Moving right, vx:', e.vx);
+            } else if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
+              e.vx = -SPEED;
+              moving = true;
+              console.log('[2D-Side] Moving left, vx:', e.vx);
+            } else {
+              e.vx = 0;
+            }
+            
+            if ((keys['ArrowUp'] || keys[' '] || keys['w'] || keys['W']) && e.y+e.h>=FLOOR) {
+              e.vy = JUMP;
+              console.log('[2D-Side] Jumping, vy:', e.vy);
+            }
+            
             e.vy += GRAV*dt;
+            const oldX = e.x;
+            const oldY = e.y;
             e.x += e.vx*dt;
             e.y += e.vy*dt;
+            
+            if (moving || oldX !== e.x || oldY !== e.y) {
+              console.log('[2D-Side] Player moved from', oldX, oldY, 'to', e.x, e.y);
+            }
+            
             // Keep player on screen
             if (e.x < 0) e.x = 0;
             if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;

@@ -206,7 +206,7 @@
       }
       
       function render(){ 
-        ctx.fillStyle='#0a1322'; 
+        ctx.fillStyle='#000000'; 
         ctx.fillRect(0,0,cvs.width,cvs.height); 
         
         // Find player for camera positioning
@@ -214,32 +214,37 @@
         const playerX = player ? player.x + player.w/2 : cvs.width/2;
         const playerY = player ? player.y + player.h/2 : cvs.height/2;
         
-        // Draw isometric grid with camera offset
-        ctx.strokeStyle = 'rgba(88,166,255,0.1)';
+        // Draw matrix-style 3D grid
+        ctx.strokeStyle = '#00ff00';
         ctx.lineWidth = 1;
-        const gridSize = 32;
+        const gridSize = 40;
         const offsetX = cameraView === '1st' ? cvs.width/2 - playerX : 0;
         const offsetY = cameraView === '1st' ? cvs.height/2 - playerY + cameraHeight : 0;
         
-        for (let x = -gridSize; x < cvs.width + gridSize; x += gridSize) {
-          for (let y = -gridSize; y < cvs.height + gridSize; y += gridSize) {
+        // Draw 3D grid lines
+        for (let x = -gridSize * 10; x < cvs.width + gridSize * 10; x += gridSize) {
+          for (let y = -gridSize * 10; y < cvs.height + gridSize * 10; y += gridSize) {
             const screenX = x + offsetX;
             const screenY = y + offsetY;
             
-            // Isometric diamond pattern
+            // 3D perspective lines
             ctx.beginPath();
-            ctx.moveTo(screenX + gridSize/2, screenY);
-            ctx.lineTo(screenX + gridSize, screenY + gridSize/2);
-            ctx.lineTo(screenX + gridSize/2, screenY + gridSize);
-            ctx.lineTo(screenX, screenY + gridSize/2);
-            ctx.closePath();
+            // Horizontal lines
+            ctx.moveTo(screenX, screenY);
+            ctx.lineTo(screenX + gridSize, screenY);
+            // Vertical lines
+            ctx.moveTo(screenX, screenY);
+            ctx.lineTo(screenX, screenY + gridSize);
+            // Diagonal lines for 3D effect
+            ctx.moveTo(screenX, screenY);
+            ctx.lineTo(screenX + gridSize/2, screenY - gridSize/2);
             ctx.stroke();
           }
         }
         
-        // Draw ground with camera offset
-        ctx.fillStyle='#2F4F2F'; 
-        ctx.fillRect(0, cvs.height-20 + offsetY, cvs.width, 20);
+        // Draw flat ground plane
+        ctx.fillStyle='#001100'; 
+        ctx.fillRect(0, cvs.height-40 + offsetY, cvs.width, 40);
         
         // Sort entities by depth (back to front) and apply camera transformations
         const sortedEnts = [...ents].sort((a, b) => {
@@ -248,100 +253,110 @@
           return depthA - depthB;
         });
         
+        // Draw matrix-style entities as simple geometric shapes
         sortedEnts.forEach(e=>{ 
-          const img=getImg(e.src); 
-          if(img && img.complete && loadedImgs.has(e.src)){ 
-            ctx.save();
-            
-            // Calculate screen position with camera transformations
-            let screenX = e.x + offsetX;
-            let screenY = e.y + offsetY;
-            let screenW = e.w * cameraZoom;
-            let screenH = e.h * cameraZoom;
-            
-            // Apply isometric perspective transformation
-            const centerX = screenX + screenW/2;
-            const centerY = screenY + screenH/2;
-            ctx.translate(centerX, centerY);
-            ctx.rotate(cameraAngle);
-            ctx.scale(cameraZoom, cameraZoom);
-            ctx.translate(-centerX/cameraZoom, -centerY/cameraZoom);
-            
-            // Apply 3D isometric depth scaling
-            const depthScale = 1.0 - (e.z || 0) * 0.01;
-            ctx.scale(depthScale, depthScale);
-            
-            // Check if this is a sprite sheet
-            if(e.type==='sprite' && img.width > img.height && img.width > 64 && img.width % 32 === 0){
-              // Sprite sheet slicing
-              const frameW = 32; 
-              const frameH = 32;
-              const frameX = (e.frame || 0) * frameW;
-              const frameY = 0;
-              ctx.drawImage(img, frameX, frameY, frameW, frameH, screenX, screenY, screenW, screenH);
-            } else {
-              // Single image
-              ctx.drawImage(img, screenX, screenY, screenW, screenH);
-            }
-            ctx.restore();
-          } else { 
-            // Debug overlay with isometric styling
-            ctx.save();
-            const centerX = e.x + e.w/2;
-            const centerY = e.y + e.h/2;
-            ctx.translate(centerX, centerY);
-            ctx.rotate(cameraAngle);
-            ctx.translate(-centerX, -centerY);
-            
-            ctx.fillStyle='#58a6ff33'; 
-            ctx.fillRect(e.x,e.y,e.w,e.h); 
-            ctx.strokeStyle='#58a6ff'; 
-            ctx.strokeRect(e.x,e.y,e.w,e.h);
-            ctx.fillStyle='#fff'; ctx.font='10px monospace'; 
-            ctx.fillText(e.name||'?', e.x+2, e.y+12);
-            ctx.fillText(e.src?.split('/').pop()||'no src', e.x+2, e.y+24);
-            if(img && !img.complete) ctx.fillText('Loading...', e.x+2, e.y+36);
-            else if(!loadedImgs.has(e.src)) ctx.fillText('Failed', e.x+2, e.y+36);
-            ctx.restore();
-          } 
+          const isPlayer = (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('mage');
+          const isEnemy = (e.name||'').toLowerCase().includes('rogue') || (e.name||'').toLowerCase().includes('skeleton');
+          const isChest = (e.name||'').toLowerCase().includes('chest');
+          
+          // Calculate screen position with camera transformations
+          let screenX = e.x + offsetX;
+          let screenY = e.y + offsetY;
+          let screenW = e.w * cameraZoom;
+          let screenH = e.h * cameraZoom;
+          
+          ctx.save();
+          
+          // Apply camera transformations
+          const centerX = screenX + screenW/2;
+          const centerY = screenY + screenH/2;
+          ctx.translate(centerX, centerY);
+          ctx.rotate(cameraAngle);
+          ctx.scale(cameraZoom, cameraZoom);
+          ctx.translate(-centerX/cameraZoom, -centerY/cameraZoom);
+          
+          // Draw matrix-style geometric shapes
+          if (isPlayer) {
+            // Player as green cube
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(screenX, screenY, screenW, screenH);
+            ctx.strokeStyle = '#ffffff';
+            ctx.strokeRect(screenX, screenY, screenW, screenH);
+            // Player indicator
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px monospace';
+            ctx.fillText('PLAYER', screenX + 2, screenY + 12);
+          } else if (isEnemy) {
+            // Enemy as red cube
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(screenX, screenY, screenW, screenH);
+            ctx.strokeStyle = '#ffffff';
+            ctx.strokeRect(screenX, screenY, screenW, screenH);
+            // Enemy indicator
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '10px monospace';
+            ctx.fillText('ENEMY', screenX + 2, screenY + 10);
+          } else if (isChest) {
+            // Chest as yellow cube
+            ctx.fillStyle = '#ffff00';
+            ctx.fillRect(screenX, screenY, screenW, screenH);
+            ctx.strokeStyle = '#ffffff';
+            ctx.strokeRect(screenX, screenY, screenW, screenH);
+            // Chest indicator
+            ctx.fillStyle = '#000000';
+            ctx.font = '10px monospace';
+            ctx.fillText('CHEST', screenX + 2, screenY + 10);
+          } else {
+            // Other entities as blue cubes
+            ctx.fillStyle = '#0088ff';
+            ctx.fillRect(screenX, screenY, screenW, screenH);
+            ctx.strokeStyle = '#ffffff';
+            ctx.strokeRect(screenX, screenY, screenW, screenH);
+            // Entity name
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '8px monospace';
+            ctx.fillText(e.name || '?', screenX + 2, screenY + 8);
+          }
+          
+          ctx.restore();
         }); 
         
-        // Draw UI
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+        // Draw matrix-style UI
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
         ctx.fillRect(0, 0, cvs.width, 80);
         
-        ctx.fillStyle = '#e6edf3';
+        ctx.fillStyle = '#00ff00';
         ctx.font = '16px monospace';
-        ctx.fillText(`Score: ${score}`, 10, 25);
-        ctx.fillText(`Treasures: ${treasures}`, 10, 45);
-        ctx.fillText(`Time: ${Math.floor(gameTime)}s`, cvs.width - 100, 25);
+        ctx.fillText(`SCORE: ${score}`, 10, 25);
+        ctx.fillText(`TREASURES: ${treasures}`, 10, 45);
+        ctx.fillText(`TIME: ${Math.floor(gameTime)}s`, cvs.width - 150, 25);
         
         // Draw camera controls
-        ctx.fillStyle = 'rgba(88,166,255,0.8)';
+        ctx.fillStyle = '#00ff00';
         ctx.font = '12px monospace';
-        ctx.fillText(`Camera: ${cameraView.toUpperCase()} Person`, 10, cvs.height - 80);
-        ctx.fillText(`Angle: ${Math.round(cameraAngle * 180 / Math.PI)}°`, 10, cvs.height - 65);
-        ctx.fillText(`Zoom: ${cameraZoom.toFixed(1)}x`, 10, cvs.height - 50);
+        ctx.fillText(`CAMERA: ${cameraView.toUpperCase()} PERSON`, 10, cvs.height - 80);
+        ctx.fillText(`ANGLE: ${Math.round(cameraAngle * 180 / Math.PI)}°`, 10, cvs.height - 65);
+        ctx.fillText(`ZOOM: ${cameraZoom.toFixed(1)}x`, 10, cvs.height - 50);
         if (cameraView === '1st') {
-          ctx.fillText(`Height: ${cameraHeight.toFixed(0)}`, 10, cvs.height - 35);
+          ctx.fillText(`HEIGHT: ${cameraHeight.toFixed(0)}`, 10, cvs.height - 35);
         }
         
         // Draw controls
-        ctx.fillText('WASD: Move | Q/E: Rotate | V: Toggle View', 10, cvs.height - 20);
-        ctx.fillText('+/-: Zoom | R/F: Height (1st person)', 10, cvs.height - 5);
+        ctx.fillText('WASD: MOVE | Q/E: ROTATE | V: TOGGLE VIEW', 10, cvs.height - 20);
+        ctx.fillText('+/-: ZOOM | R/F: HEIGHT (1ST PERSON)', 10, cvs.height - 5);
         
         if (!gameStarted) {
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
           ctx.fillRect(0, 0, cvs.width, cvs.height);
-          ctx.fillStyle = '#e6edf3';
+          ctx.fillStyle = '#00ff00';
           ctx.font = '24px monospace';
           ctx.textAlign = 'center';
-          ctx.fillText('🏰 3D Isometric Adventure', cvs.width/2, cvs.height/2 - 80);
+          ctx.fillText('MATRIX 3D WORLD', cvs.width/2, cvs.height/2 - 80);
           ctx.font = '16px monospace';
-          ctx.fillText('WASD: Move | Q/E: Rotate Camera | V: Toggle View', cvs.width/2, cvs.height/2 - 50);
-          ctx.fillText('+/-: Zoom | R/F: Height (1st person)', cvs.width/2, cvs.height/2 - 30);
-          ctx.fillText('Collect chests, defeat enemies!', cvs.width/2, cvs.height/2 - 10);
-          ctx.fillText('Press SPACE or ENTER to Start', cvs.width/2, cvs.height/2 + 20);
+          ctx.fillText('WASD: MOVE | Q/E: ROTATE CAMERA | V: TOGGLE VIEW', cvs.width/2, cvs.height/2 - 50);
+          ctx.fillText('+/-: ZOOM | R/F: HEIGHT (1ST PERSON)', cvs.width/2, cvs.height/2 - 30);
+          ctx.fillText('COLLECT CHESTS, DEFEAT ENEMIES!', cvs.width/2, cvs.height/2 - 10);
+          ctx.fillText('PRESS SPACE OR ENTER TO START', cvs.width/2, cvs.height/2 + 20);
           ctx.textAlign = 'left';
         }
       }

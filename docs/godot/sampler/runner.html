@@ -60,10 +60,14 @@
       const keys={}; 
       window.addEventListener('keydown',e=>keys[e.key]=true); 
       window.addEventListener('keyup',e=>keys[e.key]=false);
-      const SCROLL_SPEED = 100;
-      const JUMP_FORCE = -200;
-      const GRAVITY = 500;
+      const SCROLL_SPEED = 150;
+      const JUMP_FORCE = -300;
+      const GRAVITY = 600;
+      const FORWARD_SPEED = 200;
       let scrollOffset = 0;
+      let forwardOffset = 0;
+      let cameraAngle = 0;
+      let cameraHeight = 0;
       
       // Game state
       let score = 0;
@@ -100,10 +104,17 @@
           return;
         }
         
-        // Auto-scroll everything left
+        // 3D Forward running with auto-scroll
         scrollOffset += SCROLL_SPEED * dt;
+        forwardOffset += FORWARD_SPEED * dt;
         distance += SCROLL_SPEED * dt;
         gameTime += dt;
+        
+        // Camera controls for 3D effect
+        if (keys['q'] || keys['Q']) cameraAngle -= 2 * dt;
+        if (keys['e'] || keys['E']) cameraAngle += 2 * dt;
+        if (keys['r'] || keys['R']) cameraHeight = Math.min(100, cameraHeight + 50 * dt);
+        if (keys['f'] || keys['F']) cameraHeight = Math.max(-50, cameraHeight - 50 * dt);
         
         ents.forEach(e => {
           const isPlayer = (e.id||'').includes('player') || (e.name||'').toLowerCase().includes('spirit');
@@ -111,13 +122,25 @@
           const isChest = (e.name||'').toLowerCase().includes('chest');
           
           if (isPlayer) {
-            // Player can jump and move vertically
-            if (keys['ArrowUp'] || keys[' '] || keys['Space']) {
+            // 3D Forward running spirit - always moving forward
+            e.x += FORWARD_SPEED * dt; // Always moving forward
+            
+            // Side movement for dodging
+            if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
+              e.x -= 200 * dt;
+            }
+            if (keys['ArrowRight'] || keys['d'] || keys['D']) {
+              e.x += 200 * dt;
+            }
+            
+            // Jumping
+            if (keys['ArrowUp'] || keys[' '] || keys['Space'] || keys['w'] || keys['W']) {
               if (e.vy === 0) { // Only jump if on ground
                 e.vy = JUMP_FORCE;
+                console.log('[Runner] Spirit jumping, vy:', e.vy);
               }
             }
-            if (keys['ArrowDown']) {
+            if (keys['ArrowDown'] || keys['s'] || keys['S']) {
               e.vy += GRAVITY * 2 * dt; // Fast fall
             }
             
@@ -136,7 +159,7 @@
             if (e.x < 0) e.x = 0;
             if (e.x + e.w > cvs.width) e.x = cvs.width - e.w;
             
-            // Animate player
+            // Always animate player (running forward)
             e.frameTime += dt; 
             if(e.frameTime > e.frameRate){ 
               e.frameTime=0; 
