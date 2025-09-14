@@ -25,7 +25,7 @@ jobs:
           npm ci || npm install
 
       - name: Generate Toppler HTML
-        run: node miff/scripts/gen-html-wrapper.js
+        run: npm run gen-toppler
 
       - name: Type check (CI config)
         run: npm run typecheck

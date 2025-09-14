@@ -1,16 +1,19 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": false
+  },
   "include": [
     "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx"
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "coverage",
     "build",
+    "docs/**",
+    "docs/site/archive/**",
     "scenarios/**/*.ts",
     "miff-nextjs/tailwind.config.ts",
     "**/*.test.ts",
