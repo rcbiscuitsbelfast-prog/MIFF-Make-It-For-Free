@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MIFF Complete Verification</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #0a1322;
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .verification-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: rgba(14, 26, 42, 0.8);
+    }
+    .status {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .success { background: rgba(0, 255, 0, 0.1); border-left: 4px solid #00ff00; }
+    .error { background: rgba(255, 0, 0, 0.1); border-left: 4px solid #ff0000; }
+    .info { background: rgba(0, 0, 255, 0.1); border-left: 4px solid #0000ff; }
+    .warning { background: rgba(255, 255, 0, 0.1); border-left: 4px solid #ffff00; }
+    
+    .world-test {
+      margin: 10px 0;
+      padding: 15px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 MIFF Complete Verification</h1>
+  <p>Comprehensive verification of all 5 game worlds and their components.</p>
+
+  <div class="verification-section">
+    <h2>📁 File Structure Verification</h2>
+    <div id="fileStatus" class="status info">Checking file structure...</div>
+  </div>
+
+  <div class="verification-section">
+    <h2>🎮 Game Worlds Verification</h2>
+    
+    <div class="world-test">
+      <h3>🏃 2D Side-Scrolling (Toppler Medieval)</h3>
+      <div id="status-2d-side" class="status info">Loading...</div>
+      <iframe src="docs/site/sampler/2d-side.html" id="iframe-2d-side"></iframe>
+    </div>
+
+    <div class="world-test">
+      <h3>🗺️ 2D Top-Down (Grove Explorer)</h3>
+      <div id="status-2d-topdown" class="status info">Loading...</div>
+      <iframe src="docs/site/sampler/2d-topdown.html" id="iframe-2d-topdown"></iframe>
+    </div>
+
+    <div class="world-test">
+      <h3>🏃‍♂️ Auto-Scroll Runner (Spirit Runner)</h3>
+      <div id="status-runner" class="status info">Loading...</div>
+      <iframe src="docs/site/sampler/runner.html" id="iframe-runner"></iframe>
+    </div>
+
+    <div class="world-test">
+      <h3>🏰 3D Isometric (Isometric Grove)</h3>
+      <div id="status-3d-topdown" class="status info">Loading...</div>
+      <iframe src="docs/site/sampler/3d-topdown.html" id="iframe-3d-topdown"></iframe>
+    </div>
+
+    <div class="world-test">
+      <h3>🎛️ Static Overlay (Control Center)</h3>
+      <div id="status-static-overlay" class="status info">Loading...</div>
+      <iframe src="docs/site/sampler/static-overlay.html" id="iframe-static-overlay"></iframe>
+    </div>
+  </div>
+
+  <div class="verification-section">
+    <h2>🔧 Technical Verification</h2>
+    <div id="techStatus" class="status info">Running technical checks...</div>
+  </div>
+
+  <div class="verification-section">
+    <h2>📊 Console Output</h2>
+    <div id="consoleOutput" style="background: #000; padding: 10px; border-radius: 4px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+  </div>
+
+  <script>
+    // File structure verification
+    const fileStatus = document.getElementById('fileStatus');
+    const requiredFiles = [
+      'docs/site/sampler/index.html',
+      'docs/site/sampler/2d-side.html',
+      'docs/site/sampler/2d-topdown.html',
+      'docs/site/sampler/runner.html',
+      'docs/site/sampler/3d-topdown.html',
+      'docs/site/sampler/static-overlay.html',
+      'docs/godot/sampler/2d-side.html',
+      'docs/godot/sampler/2d-topdown.html',
+      'docs/godot/sampler/runner.html',
+      'docs/godot/sampler/3d-topdown.html',
+      'docs/godot/sampler/static-overlay.html',
+      'docs/site/studio/presets/sampler-2d-side.json',
+      'docs/site/studio/presets/sampler-2d-topdown.json',
+      'docs/site/studio/presets/sampler-runner.json',
+      'docs/site/studio/presets/sampler-3d-isometric.json',
+      'docs/site/studio/presets/sampler-static-overlay.json',
+      'assets/KayKitAssets/knight_texture.png',
+      'assets/KayKitAssets/barbarian_texture.png',
+      'assets/KayKitAssets/mage_texture.png',
+      'assets/KayKitAssets/rogue_texture.png',
+      'assets/KayKitAssets/skeleton_texture.png',
+      'assets/Bridge_Wood.png',
+      'assets/Chest.png',
+      'assets/Slime_Green.png',
+      'assets/Skeleton.png',
+      'assets/House.png'
+    ];
+
+    // Test file existence
+    let filesFound = 0;
+    requiredFiles.forEach(file => {
+      fetch(file, { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) filesFound++;
+          if (filesFound === requiredFiles.length) {
+            fileStatus.textContent = `✅ All ${requiredFiles.length} required files found`;
+            fileStatus.className = 'status success';
+          }
+        })
+        .catch(() => {
+          // File not found, but continue checking others
+        });
+    });
+
+    // Test each iframe
+    const iframes = [
+      { id: 'iframe-2d-side', status: 'status-2d-side', name: '2D Side-Scrolling' },
+      { id: 'iframe-2d-topdown', status: 'status-2d-topdown', name: '2D Top-Down' },
+      { id: 'iframe-runner', status: 'status-runner', name: 'Auto-Scroll Runner' },
+      { id: 'iframe-3d-topdown', status: 'status-3d-topdown', name: '3D Isometric' },
+      { id: 'iframe-static-overlay', status: 'status-static-overlay', name: 'Static Overlay' }
+    ];
+
+    iframes.forEach(({ id, status, name }) => {
+      const iframe = document.getElementById(id);
+      const statusEl = document.getElementById(status);
+      
+      iframe.addEventListener('load', () => {
+        statusEl.textContent = `✅ ${name} loaded successfully`;
+        statusEl.className = 'status success';
+        
+        // Try to access iframe content for additional verification
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          const canvas = iframeDoc.getElementById('gameCanvas');
+          if (canvas) {
+            statusEl.textContent += ' - Canvas found';
+          } else {
+            statusEl.textContent += ' - No canvas found';
+            statusEl.className = 'status warning';
+          }
+        } catch (e) {
+          statusEl.textContent += ' - Cannot access iframe content (CORS)';
+        }
+      });
+      
+      iframe.addEventListener('error', () => {
+        statusEl.textContent = `❌ ${name} failed to load`;
+        statusEl.className = 'status error';
+      });
+    });
+
+    // Technical verification
+    const techStatus = document.getElementById('techStatus');
+    setTimeout(() => {
+      let techChecks = [];
+      
+      // Check if we can create a canvas
+      try {
+        const testCanvas = document.createElement('canvas');
+        const testCtx = testCanvas.getContext('2d');
+        if (testCtx) {
+          techChecks.push('✅ Canvas 2D context available');
+        } else {
+          techChecks.push('❌ Canvas 2D context not available');
+        }
+      } catch (e) {
+        techChecks.push('❌ Canvas creation failed');
+      }
+      
+      // Check if we can load images
+      try {
+        const testImg = new Image();
+        testImg.onload = () => techChecks.push('✅ Image loading works');
+        testImg.onerror = () => techChecks.push('❌ Image loading failed');
+        testImg.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+      } catch (e) {
+        techChecks.push('❌ Image creation failed');
+      }
+      
+      // Check if requestAnimationFrame works
+      if (window.requestAnimationFrame) {
+        techChecks.push('✅ requestAnimationFrame available');
+      } else {
+        techChecks.push('❌ requestAnimationFrame not available');
+      }
+      
+      techStatus.innerHTML = techChecks.join('<br>');
+      techStatus.className = 'status success';
+    }, 1000);
+
+    // Console output capture
+    const consoleOutput = document.getElementById('consoleOutput');
+    const originalLog = console.log;
+    const originalError = console.error;
+    const originalWarn = console.warn;
+    
+    function addToConsole(message, type = 'log') {
+      const div = document.createElement('div');
+      div.textContent = `[${new Date().toLocaleTimeString()}] [${type.toUpperCase()}] ${message}`;
+      div.style.color = type === 'error' ? '#ff0000' : type === 'warn' ? '#ffff00' : '#00ff00';
+      consoleOutput.appendChild(div);
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+    
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      addToConsole(args.join(' '), 'log');
+    };
+    
+    console.error = function(...args) {
+      originalError.apply(console, args);
+      addToConsole(args.join(' '), 'error');
+    };
+    
+    console.warn = function(...args) {
+      originalWarn.apply(console, args);
+      addToConsole(args.join(' '), 'warn');
+    };
+
+    // Initial log
+    console.log('MIFF Complete Verification started');
+    console.log('Testing all 5 game worlds...');
+  </script>
+</body>
+</html>
