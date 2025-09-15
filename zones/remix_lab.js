@@ -9,6 +9,7 @@ const UI = require('../../modules/pure/UISystemPure.ts');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
 const Remix = require('../../modules/pure/RemixSystemPure.ts');
 const Test = require('../../modules/pure/TestSystemPure.ts');
+const DEBUG = (() => { try { return new URLSearchParams(process.env.MIFF_DEBUG_QUERY || '').get('debug')==='1'; } catch { return false; }})();
 
 function startZone(opts){
 	let remixMode = !!(opts?.remix || opts?.remixMode);
@@ -25,7 +26,7 @@ function startZone(opts){
 			UI.createButton('btn_back', '← Back to Synth Nexus', 'full')
 		];
 		const frame = UI.renderUI(elements, remixMode);
-		console.log('[Remix Lab] bg=remix_lab_bg.png overlay=', frame.debugOverlay);
+		if (DEBUG) console.log('[Remix Lab] bg=remix_lab_bg.png overlay=', frame.debugOverlay);
 		return frame;
 	}
 
@@ -37,22 +38,22 @@ function startZone(opts){
 			remixMode = !!act.value;
 			const state = Remix.toggle(remixMode);
 			ui = render();
-			console.log('[Remix Lab] Remix toggled:', state.state);
+			if (DEBUG) console.log('[Remix Lab] Remix toggled:', state.state);
 			return state;
 		}
 		if(act.kind==='button' && act.id==='btn_replay'){
 			const res = Test.replayFixture(lastFixture);
-			console.log('[Remix Lab] Replay:', res.fixture);
+			if (DEBUG) console.log('[Remix Lab] Replay:', res.fixture);
 			return res;
 		}
 		if(act.kind==='button' && act.id==='btn_golden'){
 			const res = Test.runGolden('sampler');
-			console.log('[Remix Lab] Golden:', res.summary);
+			if (DEBUG) console.log('[Remix Lab] Golden:', res.summary);
 			return res;
 		}
 		if(act.kind==='button' && act.id==='btn_back'){
 			const r = route('remix_lab', 'synth_nexus');
-			console.log('[Remix Lab] Route:', JSON.stringify(r.route));
+			if (DEBUG) console.log('[Remix Lab] Route:', JSON.stringify(r.route));
 			return r;
 		}
 		return { op:'noop', status:'ok' };
