@@ -43,8 +43,15 @@
 
     function loop(){
       const cvs = $('c'); const ctx = cvs.getContext('2d'); cvs.width=640; cvs.height=320;
-      function frame(){ server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height); const snap=server.getSnapshot();
-        for (const s of snap){ ctx.fillStyle = s.identity.playerId==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+s.position.x*0.1, 150+s.position.y*0.1, 16, 16); }
+      const netState = new Map();
+      // maintain netState from bridge
+      bridge.onMessage((ch, payload)=>{
+        if (payload.type === 'state-delta') {
+          for (const p of payload.players){ netState.set(p.playerId, p); }
+        }
+      });
+      function frame(){ server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height);
+        for (const [id,p] of netState){ ctx.fillStyle = id==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+p.position.x*0.1, 150+p.position.y*0.1, 16, 16); }
         requestAnimationFrame(frame);
       }
       frame();
