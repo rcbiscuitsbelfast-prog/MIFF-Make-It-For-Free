@@ -23,7 +23,8 @@ export default async function stepReducer(step){
 			return initialState();
 		}
 		case 'move': {
-			const { dx=0, dy=0 } = data;
+			const dx = Number.isFinite(data.dx) ? data.dx : 0;
+			const dy = Number.isFinite(data.dy) ? data.dy : 0;
 			return applyMove(prev, dx, dy);
 		}
 		default:

@@ -32,6 +32,42 @@ export interface RemixMetadata {
   validationHash?: string;
 }
 
+// --- Missing types filled in ---
+export interface PlacedBlock {
+  id: string;
+  position: [number, number];
+  type: string;
+}
+
+export interface PlacedProp {
+  id: string;
+  position: [number, number];
+  type: string;
+  rotation?: number;
+}
+
+export interface PlacedNPC {
+  id: string;
+  name: string;
+  position: [number, number];
+}
+
+export interface QuestTrigger {
+  id: string;
+  area: { min: [number, number]; max: [number, number] };
+  onEnter?: string;
+  onExit?: string;
+}
+
+export interface RemixManifest {
+  version: string;
+  baseScenario: string;
+  changes: RemixChange[];
+  assets: string[];
+  remixSafe: boolean;
+  shareableLink: string;
+}
+
 // Core remix mode manager
 export class RemixModeManager {
   private session: RemixSession;
@@ -103,7 +139,7 @@ export class RemixModeManager {
     }
   }
 
-  private validateBlockPlacement(data: any): boolean {
+  private validateBlockPlacement(data: { position: [number, number]; blockType: string }): boolean {
     const { position, blockType } = data;
     
     // Check bounds
@@ -172,7 +208,7 @@ export class RemixModeManager {
   private applyChange(change: RemixChange): void {
     switch (change.action) {
       case 'place_block':
-        const { position, blockType } = change.data;
+        const { position, blockType } = change.data as { position: [number, number]; blockType: string };
         this.session.currentMap.blocks.push({
           position,
           type: blockType,
@@ -237,3 +273,107 @@ export class RemixUI {
     this.showTutorialOverlay(steps);
   }
 }
+
+// --- Minimal helper implementations ---
+export class BlockPalette {
+  private selected: { type: string } | null = { type: 'stone_block' };
+  getSelected(): { type: string } | null { return this.selected; }
+  setSelected(t: string): void { this.selected = { type: t }; }
+}
+
+// RemixModeManager private helper definitions
+// Initialize a fresh session with an empty map
+// Note: kept public for documentation clarity
+export interface InternalInitOptions {
+  gridSize?: [number, number];
+}
+
+export class RemixModeManagerHelpers {
+  static defaultGrid: [number, number] = [16, 12];
+}
+
+// Augment class with helper methods
+export interface RemixModeManager {
+  initializeSession(baseScenario: string, opts?: InternalInitOptions): RemixSession;
+  isValidSandboxPath(name: string): boolean;
+  isWithinBounds(pos: [number, number]): boolean;
+  hasCollision(pos: [number, number]): boolean;
+  validateFileName(name: string): boolean;
+  commitChanges(change: RemixChange): Promise<boolean>;
+  getUsedAssets(): string[];
+  validateRemixSafety(): boolean;
+  generateShareableLink(): string;
+}
+
+// Provide concrete method bodies via prototype to keep file concise
+(RemixModeManager as any).prototype.initializeSession = function(baseScenario: string, opts?: InternalInitOptions): RemixSession {
+  const grid = opts?.gridSize || RemixModeManagerHelpers.defaultGrid;
+  return {
+    baseScenario,
+    currentMap: { gridSize: grid, blocks: [], props: [], npcs: [], questTriggers: [] },
+    changes: [],
+    metadata: {
+      created: new Date().toISOString(),
+      remixOf: baseScenario,
+      safeForSharing: true,
+      contributorMode: false
+    }
+  } as RemixSession;
+};
+
+(RemixModeManager as any).prototype.isValidSandboxPath = function(name: string): boolean {
+  return /^[a-zA-Z0-9_-]{1,64}$/.test(name);
+};
+
+(RemixModeManager as any).prototype.isWithinBounds = function(pos: [number, number]): boolean {
+  const [gx, gy] = this.session.currentMap.gridSize;
+  const [x, y] = pos;
+  return x >= 0 && y >= 0 && x < gx && y < gy;
+};
+
+(RemixModeManager as any).prototype.hasCollision = function(pos: [number, number]): boolean {
+  return this.session.currentMap.blocks.some((b: PlacedBlock) => b.position[0] === pos[0] && b.position[1] === pos[1]);
+};
+
+(RemixModeManager as any).prototype.validateFileName = function(name: string): boolean {
+  return /^[a-zA-Z0-9._-]{1,64}$/.test(name);
+};
+
+(RemixModeManager as any).prototype.commitChanges = async function(change: RemixChange): Promise<boolean> {
+  // In a real app, persist to storage; here we just record the change
+  this.session.changes.push(change);
+  return true;
+};
+
+(RemixModeManager as any).prototype.getUsedAssets = function(): string[] {
+  const assets = new Set<string>();
+  for (const b of this.session.currentMap.blocks) assets.add(b.type);
+  for (const p of this.session.currentMap.props) assets.add(p.type);
+  return Array.from(assets.values());
+};
+
+(RemixModeManager as any).prototype.validateRemixSafety = function(): boolean {
+  const safe = this.getUsedAssets().every((a: string) => this.isRemixSafeAsset(a));
+  return safe && this.session.metadata.safeForSharing;
+};
+
+(RemixModeManager as any).prototype.generateShareableLink = function(): string {
+  const base = 'https://miff.example/remix';
+  const params = new URLSearchParams({ base: this.session.baseScenario });
+  return `${base}?${params.toString()}`;
+};
+
+// UI shim methods (no-ops for documentation example)
+export interface RemixUI {
+  createSaveModal(): { onConfirm?: (name: string) => void };
+  showTooltip(text: string, at: [number, number]): void;
+  showSuccess(text: string): void;
+  showError(text: string): void;
+  showTutorialOverlay(steps: Array<{ text: string; highlight: string }>): void;
+}
+
+(RemixUI as any).prototype.createSaveModal = function() { return {}; };
+(RemixUI as any).prototype.showTooltip = function(_text: string, _at: [number, number]) { /* no-op */ };
+(RemixUI as any).prototype.showSuccess = function(_text: string) { /* no-op */ };
+(RemixUI as any).prototype.showError = function(_text: string) { /* no-op */ };
+(RemixUI as any).prototype.showTutorialOverlay = function(_steps: Array<{ text: string; highlight: string }>) { /* no-op */ };

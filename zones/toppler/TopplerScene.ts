@@ -32,12 +32,19 @@ export interface GameState {
     theme: string;
 }
 
+interface RectComponent { x: number; y: number; width: number; height: number }
+interface PlayerComponent extends RectComponent { velocityY: number; isOnGround: boolean; update(): void; render(): void }
+interface PlatformComponent extends RectComponent { update(): void; render(): void }
+interface TriggerComponent extends RectComponent { render(): void }
+interface FailZoneComponent { y: number; render(): void }
+interface UIComponent { render(): void }
+
 export class TopplerScene {
     private config: TopplerConfig;
     private gameState: GameState;
     private canvas!: HTMLCanvasElement;
     private ctx!: CanvasRenderingContext2D;
-    private components: Map<string, any>;
+    private components: Map<string, unknown>;
     private animationId: number | null = null;
 
     constructor(config: Partial<TopplerConfig> = {}) {
@@ -113,7 +120,7 @@ export class TopplerScene {
         this.components.set('ui', this.createUI());
     }
 
-    private createPlayer(): any {
+    private createPlayer(): PlayerComponent {
         // Temporary inline player; replace with PlayerController when integrated
         return {
             x: this.canvas.width / 2,
@@ -127,10 +134,10 @@ export class TopplerScene {
         };
     }
 
-    private createPlatforms(): any[] {
-        const platforms: any[] = [];
+    private createPlatforms(): PlatformComponent[] {
+        const platforms: PlatformComponent[] = [];
         for (let i = 0; i < this.config.platformCount; i++) {
-            const platform = {
+            const platform: PlatformComponent = {
                 x: Math.random() * (this.canvas.width - 100) + 50,
                 y: this.canvas.height - (i * this.config.platformSpacing + this.config.playerStartHeight),
                 width: 80 + Math.random() * 40,
@@ -143,7 +150,7 @@ export class TopplerScene {
         return platforms;
     }
 
-    private createWinTrigger(): any {
+    private createWinTrigger(): TriggerComponent {
         return {
             x: this.canvas.width / 2 - 50,
             y: this.canvas.height - this.config.winHeight,
@@ -153,28 +160,28 @@ export class TopplerScene {
         };
     }
 
-    private createFailZone(): any {
+    private createFailZone(): FailZoneComponent {
         return {
             y: this.canvas.height + this.config.failHeight,
             render: () => this.renderFailZone()
         };
     }
 
-    private createUI(): any {
+    private createUI(): UIComponent {
         return {
             render: () => this.renderUI()
         };
     }
 
     private updatePlayer(): void {
-        const player = this.components.get('player');
+        const player = this.components.get('player') as PlayerComponent;
         
         // Apply gravity
         player.velocityY += this.config.gravity;
         player.y += player.velocityY;
 
         // Check platform collisions
-        const platforms = this.components.get('platforms');
+        const platforms = this.components.get('platforms') as PlatformComponent[];
         player.isOnGround = false;
         
         for (const platform of platforms) {
@@ -207,7 +214,7 @@ export class TopplerScene {
         // Currently no update logic needed
     }
 
-    private checkCollision(rect1: any, rect2: any): boolean {
+    private checkCollision(rect1: RectComponent, rect2: RectComponent): boolean {
         return rect1.x < rect2.x + rect2.width &&
                rect1.x + rect1.width > rect2.x &&
                rect1.y < rect2.y + rect2.height &&
@@ -242,7 +249,7 @@ export class TopplerScene {
     }
 
     private renderPlayer(): void {
-        const player = this.components.get('player');
+        const player = this.components.get('player') as PlayerComponent;
         this.ctx.fillStyle = this.getThemeColor('player');
         this.ctx.fillRect(player.x, player.y, player.width, player.height);
         
@@ -253,7 +260,7 @@ export class TopplerScene {
         }
     }
 
-    private renderPlatform(platform: any): void {
+    private renderPlatform(platform: PlatformComponent): void {
         this.ctx.fillStyle = this.getThemeColor('platform');
         this.ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
         
@@ -265,7 +272,7 @@ export class TopplerScene {
     }
 
     private renderWinTrigger(): void {
-        const winTrigger = this.components.get('winTrigger');
+        const winTrigger = this.components.get('winTrigger') as TriggerComponent;
         this.ctx.fillStyle = this.getThemeColor('win');
         this.ctx.fillRect(winTrigger.x, winTrigger.y, winTrigger.width, winTrigger.height);
         
@@ -277,7 +284,7 @@ export class TopplerScene {
     }
 
     private renderFailZone(): void {
-        const failZone = this.components.get('failZone');
+        const failZone = this.components.get('failZone') as FailZoneComponent;
         this.ctx.fillStyle = this.getThemeColor('fail');
         this.ctx.fillRect(0, failZone.y, this.canvas.width, 50);
     }
@@ -436,7 +443,7 @@ export class TopplerScene {
             return;
         }
 
-        const player = this.components.get('player');
+        const player = this.components.get('player') as PlayerComponent;
         if (player.isOnGround) {
             player.velocityY = -this.config.jumpForce;
         }
@@ -454,7 +461,7 @@ export class TopplerScene {
             theme: this.config.theme
         };
 
-        const player = this.components.get('player');
+        const player = this.components.get('player') as PlayerComponent;
         player.x = this.canvas.width / 2;
         player.y = this.canvas.height - this.config.playerStartHeight;
         player.velocityY = 0;
@@ -468,16 +475,16 @@ export class TopplerScene {
 
             // Update components
             if (this.gameState.isPlaying) {
-                this.components.get('player').update();
-                this.components.get('platforms').forEach((platform: any) => platform.update());
+                (this.components.get('player') as PlayerComponent).update();
+                (this.components.get('platforms') as PlatformComponent[]).forEach((platform) => platform.update());
             }
 
             // Render components
-            this.components.get('platforms').forEach((platform: any) => platform.render());
-            this.components.get('winTrigger').render();
-            this.components.get('failZone').render();
-            this.components.get('player').render();
-            this.components.get('ui').render();
+            (this.components.get('platforms') as PlatformComponent[]).forEach((platform) => platform.render());
+            (this.components.get('winTrigger') as TriggerComponent).render();
+            (this.components.get('failZone') as FailZoneComponent).render();
+            (this.components.get('player') as PlayerComponent).render();
+            (this.components.get('ui') as UIComponent).render();
 
             this.animationId = requestAnimationFrame(gameLoop);
         };

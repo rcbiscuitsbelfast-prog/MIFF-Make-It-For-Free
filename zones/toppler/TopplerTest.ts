@@ -9,20 +9,20 @@
  * - Remix-safe architecture with no hardcoded dependencies
  */
 
-export interface TestScenario {
+export interface TestScenario<TState = Record<string, unknown>, TResult = unknown> {
     name: string;
     description: string;
-    setup: () => any;
-    execute: (gameState: any) => void;
-    expectedResult: any;
+    setup: () => TState;
+    execute: (gameState: TState) => void;
+    expectedResult: TResult;
     timeout?: number;
 }
 
 export interface GoldenFixture {
     name: string;
     description: string;
-    input: any;
-    expectedOutput: any;
+    input: Record<string, unknown>;
+    expectedOutput: Record<string, unknown>;
     tolerance?: number;
 }
 
@@ -31,11 +31,11 @@ export interface TestResult {
     passed: boolean;
     duration: number;
     error?: string | undefined;
-    actualResult?: any;
+    actualResult?: Record<string, unknown>;
 }
 
 export class TopplerTest {
-    private scenarios: TestScenario[];
+    private scenarios: TestScenario<any, Record<string, unknown>>[];
     private fixtures: GoldenFixture[];
     private results: TestResult[];
     private isRunning: boolean = false;
@@ -77,7 +77,7 @@ export class TopplerTest {
                 winPlatformId: 'win_platform',
                 onWinPlatform: false
             }),
-            execute: (gameState) => {
+            execute: (gameState: { player: { x: number; y: number }; onWinPlatform: boolean }) => {
                 gameState.player.x = 120;
                 gameState.player.y = 170;
                 gameState.onWinPlatform = true;
@@ -145,7 +145,7 @@ export class TopplerTest {
                 gravity: 0.6,
                 deltaTime: 16
             }),
-            execute: (gameState) => {
+            execute: (gameState: { player: { y: number; velocityY: number }; gravity: number }) => {
                 gameState.player.velocityY += gameState.gravity;
                 gameState.player.y += gameState.player.velocityY;
             },
@@ -159,7 +159,7 @@ export class TopplerTest {
                 player: { y: 100, velocityY: 0, isOnGround: true },
                 jumpForce: 15
             }),
-            execute: (gameState) => {
+            execute: (gameState: { player: { y: number; velocityY: number; isOnGround: boolean }; jumpForce: number }) => {
                 if (gameState.player.isOnGround) {
                     gameState.player.velocityY = -gameState.jumpForce;
                     gameState.player.isOnGround = false;
@@ -176,7 +176,7 @@ export class TopplerTest {
                 player: { x: 100, y: 179, width: 30, height: 30, velocityY: 5 },
                 platform: { x: 100, y: 180, width: 100, height: 20 }
             }),
-            execute: (gameState) => {
+            execute: (gameState: { player: { x: number; y: number; width: number; height: number; velocityY: number; isOnGround?: boolean }, platform: { x: number; y: number; width: number; height: number } }) => {
                 // Simulate collision detection
                 if (this.checkCollision(gameState.player, gameState.platform)) {
                     gameState.player.y = gameState.platform.y - gameState.player.height;
@@ -197,7 +197,7 @@ export class TopplerTest {
                 targetFPS: 60,
                 fps: 0
             }),
-            execute: (gameState) => {
+            execute: (gameState: { frameCount: number; fps: number }) => {
                 // Simulate a frame and set fps to target
                 gameState.frameCount++;
                 gameState.fps = 60;
@@ -320,7 +320,7 @@ export class TopplerTest {
         });
     }
 
-    private checkCollision(rect1: any, rect2: any): boolean {
+    private checkCollision(rect1: { x: number; y: number; width: number; height: number }, rect2: { x: number; y: number; width: number; height: number }): boolean {
         return rect1.x < rect2.x + rect2.width &&
                rect1.x + rect1.width > rect2.x &&
                rect1.y < rect2.y + rect2.height &&
@@ -354,15 +354,15 @@ export class TopplerTest {
         return this.results;
     }
 
-    private async runScenario(scenario: TestScenario): Promise<TestResult> {
+    private async runScenario(scenario: TestScenario<any, Record<string, unknown>>): Promise<TestResult> {
         const startTime = Date.now();
-        let actualResult: any;
+        let actualResult: Record<string, unknown> = {} as Record<string, unknown>;
         let error: string | undefined = undefined;
 
         try {
             const gameState = scenario.setup();
-            scenario.execute(gameState);
-            actualResult = gameState;
+            scenario.execute(gameState as any);
+            actualResult = gameState as unknown as Record<string, unknown>;
         } catch (err) {
             error = err instanceof Error ? err.message : 'Unknown error';
         }
@@ -370,8 +370,9 @@ export class TopplerTest {
         const duration = Date.now() - startTime;
         // Flatten actual results to align with expected shape
         const flattened = this.flattenObject(actualResult);
-        const tolerance = (scenario.expectedResult && typeof scenario.expectedResult.tolerance === 'number')
-            ? scenario.expectedResult.tolerance
+        const expTol = scenario.expectedResult as { tolerance?: number };
+        const tolerance = (scenario.expectedResult && typeof expTol.tolerance === 'number')
+            ? expTol.tolerance as number
             : 0;
         const passed = !error && this.compareResults(flattened, scenario.expectedResult, tolerance);
 
@@ -389,17 +390,13 @@ export class TopplerTest {
         return result;
     }
 
-    private flattenObject(input: any, prefix: string = '', out: any = {}): any {
-        if (input === null || input === undefined) return out;
-        if (typeof input !== 'object') return out;
-        for (const key of Object.keys(input)) {
-            const value = input[key];
+    private flattenObject(input: Record<string, unknown>, prefix: string = '', out: Record<string, unknown> = {}): Record<string, unknown> {
+        for (const [key, value] of Object.entries(input)) {
             const newKey = prefix ? `${prefix}.${key}` : key;
-            if (value !== null && typeof value === 'object') {
-                this.flattenObject(value, newKey, out);
+            if (value && typeof value === 'object' && !Array.isArray(value)) {
+                this.flattenObject(value as Record<string, unknown>, newKey, out);
             } else {
-                out[key] = value;
-                out[newKey] = value;
+                out[newKey] = value as unknown;
             }
         }
         return out;
@@ -407,12 +404,12 @@ export class TopplerTest {
 
     private async runFixture(fixture: GoldenFixture): Promise<TestResult> {
         const startTime = Date.now();
-        let actualResult: any;
+        let actualResult: Record<string, unknown> = {} as Record<string, unknown>;
         let error: string | undefined = undefined;
 
         try {
             // Simulate fixture execution
-            actualResult = this.simulateFixture(fixture.input);
+            actualResult = this.simulateFixture(fixture.input as any) as Record<string, unknown>;
         } catch (err) {
             error = err instanceof Error ? err.message : 'Unknown error';
         }
@@ -434,9 +431,21 @@ export class TopplerTest {
         return result;
     }
 
-    private simulateFixture(input: any): any {
+    private simulateFixture(
+        input: (
+            { theme: string; platformCount: number; spacing: number } |
+            { initialVelocity?: number; gravity: number; timeSteps: number; jumpForce?: number } |
+            { player: { x: number; y: number; width: number; height: number; velocityY: number }; platform: { x: number; y: number; width: number; height: number } }
+        )
+    ):
+        | { platforms: number; totalHeight: number; averageWidth: number }
+        | { peakHeight: number; timeToPeak: number }
+        | { finalVelocity: number; finalPosition: number }
+        | { collision: boolean; finalY: number; finalVelocityY: number }
+        | Record<string, unknown>
+    {
         // Simulate different fixture types
-        if (input.theme) {
+        if ((input as any).theme) {
             // Layout fixture
             const averageWidthByTheme: Record<string, number> = {
                 classic: 90,
@@ -445,52 +454,54 @@ export class TopplerTest {
                 neon: 80
             };
             return {
-                platforms: input.platformCount,
-                totalHeight: input.platformCount * input.spacing,
-                averageWidth: averageWidthByTheme[input.theme] ?? 90
+                platforms: (input as any).platformCount,
+                totalHeight: (input as any).platformCount * (input as any).spacing,
+                averageWidth: averageWidthByTheme[(input as any).theme] ?? 90
             };
-        } else if (input.gravity) {
+        } else if ((input as any).gravity) {
             // Physics fixture
-            if (input.jumpForce) {
+            if ((input as any).jumpForce) {
                 // Jump physics
-                const timeToPeak = input.jumpForce / input.gravity;
-                const peakHeight = (input.jumpForce * input.jumpForce) / (2 * input.gravity);
+                const timeToPeak = (input as any).jumpForce / (input as any).gravity;
+                const peakHeight = ((input as any).jumpForce * (input as any).jumpForce) / (2 * (input as any).gravity);
                 return { peakHeight, timeToPeak };
             } else {
                 // Gravity physics
-                const finalVelocity = input.gravity * input.timeSteps;
-                const finalPosition = (input.gravity * input.timeSteps * input.timeSteps) / 2;
+                const finalVelocity = (input as any).gravity * (input as any).timeSteps;
+                const finalPosition = ((input as any).gravity * (input as any).timeSteps * (input as any).timeSteps) / 2;
                 return { finalVelocity, finalPosition };
             }
-        } else if (input.player && input.platform) {
+        } else if ((input as any).player && (input as any).platform) {
             // Collision fixture
-            const collision = this.checkCollision(input.player, input.platform);
+            const collision = this.checkCollision((input as any).player, (input as any).platform);
             return {
                 collision,
-                finalY: collision ? input.platform.y - input.player.height : input.player.y,
-                finalVelocityY: collision ? 0 : input.player.velocityY
+                finalY: collision ? (input as any).platform.y - (input as any).player.height : (input as any).player.y,
+                finalVelocityY: collision ? 0 : (input as any).player.velocityY
             };
         }
 
         return {};
     }
 
-    private compareResults(actual: any, expected: any, tolerance: number = 0): boolean {
-        if (expected && typeof expected === 'object' && 'tolerance' in expected) {
+    private compareResults(actual: unknown, expected: unknown, tolerance: number = 0): boolean {
+        if (expected && typeof expected === 'object' && 'tolerance' in (expected as Record<string, unknown>)) {
             // Ignore tolerance key during deep compare
-            const { tolerance: _tol, ...rest } = expected;
-            expected = rest;
+            const { tolerance: _tol, ...rest } = expected as Record<string, unknown>;
+            expected = rest as unknown;
         }
         if (typeof actual !== typeof expected) return false;
 
-        if (typeof actual === 'number') {
+        if (typeof actual === 'number' && typeof expected === 'number') {
             return Math.abs(actual - expected) <= tolerance;
         }
 
-        if (typeof actual === 'object') {
-            for (const key in expected) {
-                if (!(key in actual)) return false;
-                if (!this.compareResults(actual[key], expected[key], tolerance)) return false;
+        if (actual && expected && typeof actual === 'object' && typeof expected === 'object') {
+            const aObj = actual as Record<string, unknown>;
+            const eObj = expected as Record<string, unknown>;
+            for (const key in eObj) {
+                if (!(key in aObj)) return false;
+                if (!this.compareResults(aObj[key], eObj[key], tolerance)) return false;
             }
             return true;
         }
@@ -523,7 +534,7 @@ export class TopplerTest {
         console.log('=' .repeat(50));
     }
 
-    public addScenario(scenario: TestScenario): void {
+    public addScenario(scenario: TestScenario<any, Record<string, unknown>>): void {
         this.scenarios.push(scenario);
     }
 
@@ -554,15 +565,15 @@ export class TopplerTest {
 }
 
 // Export test utilities for remixers
-export const createTestScenario = (
+export const createTestScenario = <TState = Record<string, unknown>, TResult extends Record<string, unknown> = Record<string, unknown>>(
     name: string,
     description: string,
-    setup: () => any,
-    execute: (gameState: any) => void,
-    expectedResult: any,
+    setup: () => TState,
+    execute: (gameState: TState) => void,
+    expectedResult: TResult,
     timeout?: number
-): TestScenario => {
-    const scenario: TestScenario = {
+): TestScenario<TState, TResult> => {
+    const scenario: TestScenario<TState, TResult> = {
         name,
         description,
         setup,
@@ -580,8 +591,8 @@ export const createTestScenario = (
 export const createGoldenFixture = (
     name: string,
     description: string,
-    input: any,
-    expectedOutput: any,
+    input: Record<string, unknown>,
+    expectedOutput: Record<string, unknown>,
     tolerance?: number
 ): GoldenFixture => {
     const fixture: GoldenFixture = {

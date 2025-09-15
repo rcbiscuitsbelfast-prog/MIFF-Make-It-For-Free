@@ -37,6 +37,10 @@ export interface WinEvent {
     };
 }
 
+export interface MinimalPlayerStateWin { x: number; y: number; width?: number; height?: number }
+export interface PlatformRect { id?: string; x: number; y: number; width: number; height: number }
+export interface MinimalGameStateWin { attempts?: number }
+
 export class WinTrigger {
     private config: WinTriggerConfig;
     private isTriggered: boolean = false;
@@ -66,9 +70,9 @@ export class WinTrigger {
     }
 
     public checkWinCondition(
-        playerState: any,
-        platforms: any[],
-        gameState: any
+        playerState: MinimalPlayerStateWin,
+        platforms: PlatformRect[],
+        gameState: MinimalGameStateWin
     ): WinEvent | null {
         if (this.isTriggered) {
             return null;
@@ -98,7 +102,7 @@ export class WinTrigger {
         return null;
     }
 
-    private checkHeightWin(playerState: any): boolean {
+    private checkHeightWin(playerState: MinimalPlayerStateWin): boolean {
         const winCondition = this.config.conditions.find(c => c.type === 'height');
         if (!winCondition) return false;
 
@@ -106,7 +110,7 @@ export class WinTrigger {
         return currentHeight >= (winCondition.value as number);
     }
 
-    private checkPlatformWin(playerState: any, platforms: any[]): boolean {
+    private checkPlatformWin(playerState: MinimalPlayerStateWin, platforms: PlatformRect[]): boolean {
         const winCondition = this.config.conditions.find(c => c.type === 'platform');
         if (!winCondition || !this.config.winPlatformId) return false;
 
@@ -130,25 +134,27 @@ export class WinTrigger {
         return null;
     }
 
-    private calculatePlayerHeight(playerState: any): number {
+    private calculatePlayerHeight(playerState: MinimalPlayerStateWin): number {
         // Calculate player's height from bottom of screen
         // This assumes the game canvas height is available
         const canvasHeight = window.innerHeight || 600;
         return canvasHeight - playerState.y;
     }
 
-    private checkPlayerOnPlatform(playerState: any, platform: any): boolean {
-        const playerBottom = playerState.y + playerState.height;
+    private checkPlayerOnPlatform(playerState: MinimalPlayerStateWin, platform: PlatformRect): boolean {
+        const h = playerState.height ?? 0;
+        const w = playerState.width ?? 0;
+        const playerBottom = playerState.y + h;
         const playerTop = playerState.y;
         const platformTop = platform.y;
 
         return playerBottom <= platformTop + 5 && 
                playerTop >= platformTop - 5 &&
-               playerState.x + playerState.width > platform.x &&
+               playerState.x + w > platform.x &&
                playerState.x < platform.x + platform.width;
     }
 
-    private triggerWin(conditionId: string, playerState: any, gameState: any): WinEvent {
+    private triggerWin(conditionId: string, playerState: MinimalPlayerStateWin, gameState: MinimalGameStateWin): WinEvent {
         const condition = this.config.conditions.find(c => c.id === conditionId);
         if (!condition) {
             throw new Error(`Win condition ${conditionId} not found`);

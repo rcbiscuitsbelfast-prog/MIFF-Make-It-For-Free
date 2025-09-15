@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Remix Mode</title>
+  <style>
+    body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+    .wrap{padding:12px}
+    .grid{display:grid;gap:2px;background:#1a212e;margin:12px auto}
+    .cell{width:24px;height:24px;background:#0b1220;border:1px solid #1f2a3a;cursor:pointer}
+    .cell.placed{background:#2a9d8f}
+    .toolbar{display:flex;gap:8px;align-items:center;margin:8px 0}
+    .btn{appearance:none;border:1px solid #2a2f37;background:#161b22;color:#e6edf3;border-radius:8px;padding:8px 10px;font-size:14px;text-decoration:none}
+    .btn:hover{border-color:#58a6ff}
+    .select{background:#161b22;color:#e6edf3;border:1px solid #2a2f37;border-radius:6px;padding:6px}
+  </style>
+  <script type="module">
+    import { RemixModeManager, RemixUI } from '../../docs/New additions/remix_architecture.ts';
+
+    const gridW = 16, gridH = 12;
+    const mgr = new RemixModeManager('tutorial_scenario');
+    const ui = new RemixUI('tutorial_scenario');
+
+    // Simple palette
+    const palette = ['stone_block','grass_block','tree_basic','water_tile'];
+    let selected = palette[0];
+
+    function buildGrid(){
+      const grid = document.getElementById('grid');
+      grid.style.gridTemplateColumns = `repeat(${gridW}, 24px)`;
+      grid.innerHTML='';
+      for(let y=0;y<gridH;y++){
+        for(let x=0;x<gridW;x++){
+          const cell = document.createElement('div');
+          cell.className='cell';
+          cell.dataset.x=String(x);
+          cell.dataset.y=String(y);
+          cell.addEventListener('click', ()=>{
+            const ok = mgr.placeBlock([x,y], selected);
+            if(ok){ cell.classList.add('placed'); }
+          });
+          grid.appendChild(cell);
+        }
+      }
+    }
+
+    function initPalette(){
+      const sel = document.getElementById('palette');
+      palette.forEach(v=>{
+        const opt=document.createElement('option');
+        opt.value=v; opt.textContent=v; sel.appendChild(opt);
+      });
+      sel.addEventListener('change',()=>{ selected = sel.value; });
+    }
+
+    function bindSave(){
+      const btn = document.getElementById('save');
+      btn.addEventListener('click', ()=>{
+        const name = prompt('Save remix as (alnum, -, _):','my_remix');
+        if(!name) return;
+        mgr.saveAs(name).then(()=>{
+          const manifest = mgr.generateRemixManifest();
+          const blob = new Blob([JSON.stringify(manifest,null,2)], { type:'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = `${name}.remix.json`;
+          a.click();
+        }).catch(e=>alert(e && e.message ? e.message : e));
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      initPalette();
+      buildGrid();
+      bindSave();
+    });
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <h1>MIFF Remix Mode</h1>
+    <div class="toolbar">
+      <label>Block: <select id="palette" class="select"></select></label>
+      <button id="save" class="btn">Save Remix</button>
+    </div>
+    <div id="grid" class="grid" aria-label="grid"></div>
+  </div>
+</body>
+</html>

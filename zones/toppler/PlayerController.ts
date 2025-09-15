@@ -52,7 +52,7 @@ export class PlayerController {
     private onTouchMove = (e: TouchEvent) => this.handleTouchMove(e);
     private onMouseDown = (e: MouseEvent) => this.handleMouseDown(e);
     private onMouseUp = () => this.handleMouseUp();
-    private onGamepadConnected = (e: any) => this.handleGamepadConnected(e);
+    private onGamepadConnected = (e: GamepadEvent) => this.handleGamepadConnected(e);
     private readonly DEBUG: boolean = (() => {
         try {
             const params = new URLSearchParams((window as any).MIFF_DEBUG_QUERY || '');
@@ -171,7 +171,7 @@ export class PlayerController {
         }
     }
 
-    private handleGamepadConnected(event: any): void {
+    private handleGamepadConnected(event: GamepadEvent): void {
         if (this.DEBUG) console.log('[PlayerController] Gamepad connected:', event.gamepad);
     }
 
@@ -183,7 +183,7 @@ export class PlayerController {
         }
     }
 
-    public update(platforms: any[], bounds: { width: number; height: number }): void {
+    public update(platforms: { x: number; y: number; width: number; height: number }[], bounds: { width: number; height: number }): void {
         this.handleInput();
         this.updatePhysics();
         this.checkCollisions(platforms);
@@ -265,7 +265,7 @@ export class PlayerController {
         this.state.isOnGround = false;
     }
 
-    private checkCollisions(platforms: any[]): void {
+    private checkCollisions(platforms: { x: number; y: number; width: number; height: number }[]): void {
         for (const platform of platforms) {
             if (this.checkCollisionWithPlatform(platform)) {
                 this.handlePlatformCollision(platform);
@@ -273,14 +273,14 @@ export class PlayerController {
         }
     }
 
-    private checkCollisionWithPlatform(platform: any): boolean {
+    private checkCollisionWithPlatform(platform: { x: number; y: number; width: number; height: number }): boolean {
         return this.state.x < platform.x + platform.width &&
                this.state.x + this.config.width > platform.x &&
                this.state.y < platform.y + platform.height &&
                this.state.y + this.config.height > platform.y;
     }
 
-    private handlePlatformCollision(platform: any): void {
+    private handlePlatformCollision(platform: { x: number; y: number; width: number; height: number }): void {
         const playerBottom = this.state.y + this.config.height;
         const playerTop = this.state.y;
         const platformTop = platform.y;

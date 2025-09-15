@@ -108,6 +108,9 @@ async function main() {
         if ((f.file.startsWith('zones/') || f.file.startsWith('src/')) && (f.type === 'PLACEHOLDER' || f.type === 'STUB' || f.type === 'TODO' || f.type === 'FIXME')) {
             hadStrict = true;
         }
+        if (f.file.startsWith('zones/') && f.type === 'BRITTLE_DEFAULT') {
+            hadStrict = true;
+        }
     }
     if (hadStrict) {
         console.error('\n❌ Strict placeholder policy violated in zones/ or src/.');
