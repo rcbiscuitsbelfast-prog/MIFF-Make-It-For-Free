@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Studio</title>
+  <style>
+    body{margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;background:#0f1116;color:#e6edf3}
+    header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .panel{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622}
+  </style>
+</head>
+<body>
+  <header class="studio-header">
+    <h1>MIFF Studio</h1>
+    <nav>
+      <a href="./scene.html">Scene Builder</a>
+      <a href="./sprite.html">Sprite Studio</a>
+    </nav>
+  </header>
+  <main class="studio-main">
+    <section>
+      <p>Seeded MIFF Studio with onboarding and Remix Mode link. Use the Scene Builder for placement, then export or inject to preview.</p>
+      <div class="toolbar">
+        <select id="worldSelect">
+          <option value="">View World…</option>
+          <option value="../toppler.html">Toppler</option>
+          <option value="../spirit.html">Spirit</option>
+          <option value="../grove.html">Grove</option>
+        </select>
+        <button id="openWorld">Open</button>
+      </div>
+      <div class="panel" style="position:relative; height:50vh; margin-top:8px;">
+        <iframe id="worldFrame" style="position:absolute; inset:0; width:100%; height:100%; border:1px solid #1f2d3c" allowfullscreen></iframe>
+      </div>
+    </section>
+    <section>
+      <div class="panel" style="padding:10px; position:relative;">
+        <div id="onboarding" style="position:absolute; inset:0; background:rgba(15,17,22,.96); display:flex; align-items:center; justify-content:center;">
+          <div style="max-width:720px; padding:20px; border:1px solid #1f2d3c; border-radius:12px; background:#0e1622; box-shadow:0 6px 24px rgba(0,0,0,0.4)">
+            <h2 style="margin-top:0">Welcome to MIFF Studio</h2>
+            <p>Remix a world, inject to preview, or export your pack. Use the Scene Builder to place blocks with Remix Mode core, then export a manifest or send it to the live preview using postMessage.</p>
+            <ol>
+              <li>Choose a world from the selector above and click Open.</li>
+              <li>Open Remix Mode to place blocks.</li>
+              <li>Click Inject to Preview to see your changes live.</li>
+              <li>Click Export to save your remix pack manifest.</li>
+            </ol>
+            <div style="display:flex; gap:8px; justify-content:flex-end">
+              <button id="dismissOnboarding" style="border:1px solid #2b3b4f;background:#101a28;color:#e6edf3;border-radius:8px;padding:6px 10px;cursor:pointer">Got it</button>
+              <a class="btn primary" href="../remix/index.html" target="_blank" style="text-decoration:none; border:1px solid #58a6ff;background:#0f243d;color:#e6edf3;border-radius:8px;padding:6px 10px;">Open Remix Mode</a>
+            </div>
+          </div>
+        </div>
+        <div style="min-height:120px"></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.getElementById('openWorld').onclick = ()=>{ const s=document.getElementById('worldSelect'); const src=s&&s.value; const f=document.getElementById('worldFrame'); if (src){ f.src=src; } };
+    (function(){
+      try{ const seen = localStorage.getItem('miff_studio_onboarding_v1'); if (seen==='1'){ const ov=document.getElementById('onboarding'); if (ov) ov.style.display='none'; } } catch {}
+      const dis = document.getElementById('dismissOnboarding'); if (dis){ dis.onclick = ()=>{ try{ localStorage.setItem('miff_studio_onboarding_v1','1'); } catch{} const ov=document.getElementById('onboarding'); if (ov) ov.style.display='none'; } }
+    })();
+  </script>
+</body>
+</html>
+

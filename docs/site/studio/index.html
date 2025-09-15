@@ -37,6 +37,27 @@
       <pre id="promptResult" style="background:#0e1a2a;border:1px solid #1f2d3c;border-radius:10px;padding:10px;overflow:auto"></pre>
     </section>
   </main>
+  <section>
+    <div class="panel" style="padding:10px; position:relative;">
+      <div id="onboarding" style="position:absolute; inset:0; background:rgba(15,17,22,.96); display:flex; align-items:center; justify-content:center;">
+        <div style="max-width:720px; padding:20px; border:1px solid #1f2d3c; border-radius:12px; background:#0e1622; box-shadow:0 6px 24px rgba(0,0,0,0.4)">
+          <h2 style="margin-top:0">Welcome to MIFF Studio</h2>
+          <p>Remix a world, inject to preview, or export your pack. Use the Scene Builder to place blocks with Remix Mode core, then export a manifest or send it to the live preview using postMessage.</p>
+          <ol>
+            <li>Choose a world from the selector above and click Open.</li>
+            <li>Go to Scene Builder to place blocks.</li>
+            <li>Click Inject to Preview to see your changes live.</li>
+            <li>Click Export to save your remix pack manifest.</li>
+          </ol>
+          <div style="display:flex; gap:8px; justify-content:flex-end">
+            <button id="dismissOnboarding" style="border:1px solid #2b3b4f;background:#101a28;color:#e6edf3;border-radius:8px;padding:6px 10px;cursor:pointer">Got it</button>
+            <a class="btn primary" href="../../site/remix/index.html" target="_blank" style="text-decoration:none; border:1px solid #58a6ff;background:#0f243d;color:#e6edf3;border-radius:8px;padding:6px 10px;">Open Remix Mode</a>
+          </div>
+        </div>
+      </div>
+      <div style="min-height:120px"></div>
+    </div>
+  </section>
   <script type="module">
     import { runPrompt, listAssets } from './asset_registry.js?v=20250911';
     document.getElementById('runPrompt').onclick = ()=>{
@@ -61,6 +82,8 @@
     (function(){
       function setLayout(){ const isMobile = window.matchMedia('(max-width: 900px)').matches || (navigator.userAgent||'').toLowerCase().includes('mobile'); document.documentElement.classList.toggle('mobile', !!isMobile); }
       window.addEventListener('resize', setLayout); setLayout();
+      try{ const seen = localStorage.getItem('miff_studio_onboarding_v1'); if (seen==='1'){ const ov=document.getElementById('onboarding'); if (ov) ov.style.display='none'; } } catch {}
+      const dis = document.getElementById('dismissOnboarding'); if (dis){ dis.onclick = ()=>{ try{ localStorage.setItem('miff_studio_onboarding_v1','1'); } catch{} const ov=document.getElementById('onboarding'); if (ov) ov.style.display='none'; } }
     })();
   </script>
 </body>
