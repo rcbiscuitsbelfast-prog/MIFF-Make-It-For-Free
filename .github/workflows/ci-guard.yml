@@ -21,6 +21,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y yamllint
+          sudo apt-get install -y jq
       
       - name: Validate workflow syntax
         run: |
@@ -33,6 +34,18 @@ jobs:
             fi
             echo "✅ $workflow syntax OK"
           done
+
+      - name: Lint Markdown front matter (docs and site)
+        run: |
+          echo "🔍 Linting Markdown front matter in docs and site..."
+          sudo apt-get install -y ripgrep >/dev/null 2>&1 || true
+          find docs site -type f \( -name "*.md" -o -name "*.astro" \) -print0 | xargs -0 -I {} bash -c '
+            if head -1 "{}" | grep -q "^---$"; then
+              awk "/^---$/{f=!f;next}f" "{}" | sed -n "1,/^---$/p" | sed "$ d" > /tmp/frontmatter.yml || true
+              if [ -s /tmp/frontmatter.yml ]; then
+                yamllint -d "{extends: default, rules: {line-length: disable}}" /tmp/frontmatter.yml || exit 1
+              fi
+            fi'
       
       - name: Check required workflows
         run: |
