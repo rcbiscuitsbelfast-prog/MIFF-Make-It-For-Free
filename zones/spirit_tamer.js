@@ -15,6 +15,7 @@ const { CollisionManager } = require('../../miff/pure/Manager');
 const { TimeManager } = require('../../miff/pure/Manager');
 const UI = require('../../modules/pure/UISystemPure.ts');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
+const DEBUG = (() => { try { return new URLSearchParams(process.env.MIFF_DEBUG_QUERY || '').get('debug')==='1'; } catch { return false; }})();
 
 function startZone(opts){
 	// Load fixture if not provided
@@ -31,12 +32,12 @@ function startZone(opts){
 	let ui = UI.renderUI([
 		UI.createButton('btn_back', '← Back to Synth Nexus', 'full')
 	]);
-	console.log('[Spirit Tamer] Ready. Spirits:', Array.from(spirits.values()));
+	if (DEBUG) console.log('[Spirit Tamer] Ready. Spirits:', Array.from(spirits.values()));
 
 	function onTap(targetId){
 		if(targetId==='btn_back'){
 			const r = route('spirit_tamer', 'synth_nexus');
-			console.log('[Spirit Tamer] Route:', JSON.stringify(r.route));
+			if (DEBUG) console.log('[Spirit Tamer] Route:', JSON.stringify(r.route));
 			return r;
 		}
 		if(spirits.has(targetId)){
@@ -46,7 +47,7 @@ function startZone(opts){
 			tamed += 1;
 			spirits.delete(targetId);
 			ui = UI.renderUI([ UI.createButton('btn_back', `Tamed: ${tamed}  ← Back`, 'full') ]);
-			console.log('[Spirit Tamer] Tamed', targetId, 'count=', tamed);
+			if (DEBUG) console.log('[Spirit Tamer] Tamed', targetId, 'count=', tamed);
 			return { op:'tame', status:'ok', id: targetId, tamed };
 		}
 		return { op:'noop', status:'ok' };
