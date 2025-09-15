@@ -147,6 +147,49 @@
         const payload = JSON.stringify({ schema: 'miff.perf.trace.v1', frames: trace }, null, 2);
         download('miff_perf_trace.json', payload);
       });
+      $('trace-file').addEventListener('change', (e)=>{
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ()=>{
+          try {
+            const data = JSON.parse(String(reader.result));
+            const frames = Array.isArray(data.frames) ? data.frames : [];
+            const cvs = $('trace-canvas') as HTMLCanvasElement; const ctx = cvs.getContext('2d');
+            if (!ctx) return;
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            // Find max for scaling
+            let maxVal = 0;
+            for (const f of frames){
+              if (f.perf) {
+                maxVal = Math.max(maxVal, f.perf.maxTickMs || 0, f.perf.avgTickMs || 0, f.perf.minTickMs || 0);
+              }
+            }
+            const pad = 6; const w = cvs.width - pad*2; const h = cvs.height - pad*2;
+            function y(v){ return pad + h - (h * (v / (maxVal || 1))); }
+            function x(i){ return pad + (w * (i / Math.max(1, frames.length-1))); }
+            // Grid
+            ctx.strokeStyle = '#182231'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, pad+h); ctx.lineTo(pad+w, pad+h); ctx.stroke();
+            // Draw series helper
+            function drawSeries(key, color){
+              ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.beginPath();
+              let started = false; let i = 0;
+              for (const f of frames){
+                const v = f?.perf?.[key];
+                if (typeof v !== 'number') { i++; continue; }
+                const px = x(i); const py = y(v);
+                if (!started) { ctx.moveTo(px, py); started = true; } else { ctx.lineTo(px, py); }
+                i++;
+              }
+              ctx.stroke();
+            }
+            drawSeries('minTickMs', '#2ea043');
+            drawSeries('avgTickMs', '#58a6ff');
+            drawSeries('maxTickMs', '#f85149');
+          } catch {}
+        };
+        reader.readAsText(file);
+      });
       loadPreset('../../presets/sessions/duel.json');
       loop();
     });
@@ -204,6 +247,12 @@
             <div class="toolbar" style="margin-top:8px">
               <button id="btn-trace-toggle">Start Trace</button>
               <button id="btn-trace-download">Download</button>
+            </div>
+            <div style="margin-top:10px">
+              <div style="margin-bottom:6px;color:#a9b8c6">Trace Viewer</div>
+              <input id="trace-file" type="file" accept="application/json" />
+              <canvas id="trace-canvas" width="280" height="120" style="margin-top:6px;background:#0a101a;border:1px solid #1f2d3c;border-radius:6px"></canvas>
+              <div style="font-size:12px;color:#a9b8c6;margin-top:4px">Shows avg/min/max tick (ms) over time</div>
             </div>
           </div>
         </div>
