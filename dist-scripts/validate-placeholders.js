@@ -72,6 +72,7 @@ function main() {
     console.log(`Scanned directories: ${INCLUDE_DIRS.join(', ')}`);
     console.log(`Findings: ${all.length}`);
     console.log();
+    let hadStrict = false;
     for (const f of all) {
         console.log(`- ${f.type} | ${f.file}:${f.line}`);
         console.log('  - Match:', f.match);
@@ -79,6 +80,13 @@ function main() {
         console.log('    ```');
         console.log(f.context);
         console.log('    ```');
+        if ((f.file.startsWith('zones/') || f.file.startsWith('src/')) && (f.type === 'PLACEHOLDER' || f.type === 'STUB' || f.type === 'TODO' || f.type === 'FIXME')) {
+            hadStrict = true;
+        }
+    }
+    if (hadStrict) {
+        console.error('\n❌ Strict placeholder policy violated in zones/ or src/.');
+        process.exit(1);
     }
 }
 main();
