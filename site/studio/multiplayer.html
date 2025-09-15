@@ -93,6 +93,19 @@
       updateStatus('Disconnected');
     }
 
+    let tracing = false;
+    const trace: any[] = [];
+
+    function download(filename, text) {
+      const a = document.createElement('a');
+      a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      a.setAttribute('download', filename);
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
     function loop(){
       const cvs = $('c'); const ctx = cvs.getContext('2d'); cvs.width=640; cvs.height=320;
       const netState = new Map();
@@ -113,6 +126,9 @@
           $('perf-min-tick').textContent = perf.minTickMs.toFixed(2);
           $('perf-ticks').textContent = String(perf.ticks);
           $('perf-players').textContent = String(perf.playersSimulatedLast);
+          if (tracing) {
+            trace.push({ t: Date.now(), perf });
+          }
         }
         requestAnimationFrame(frame);
       }
@@ -123,6 +139,14 @@
       $('preset').addEventListener('change', ()=>{ const v=$('preset').value; if(v) loadPreset(v); });
       $('btn-connect').addEventListener('click', connect);
       $('btn-disconnect').addEventListener('click', disconnect);
+      $('btn-trace-toggle').addEventListener('click', ()=>{
+        tracing = !tracing;
+        $('btn-trace-toggle').textContent = tracing ? 'Stop Trace' : 'Start Trace';
+      });
+      $('btn-trace-download').addEventListener('click', ()=>{
+        const payload = JSON.stringify({ schema: 'miff.perf.trace.v1', frames: trace }, null, 2);
+        download('miff_perf_trace.json', payload);
+      });
       loadPreset('../../presets/sessions/duel.json');
       loop();
     });
@@ -176,6 +200,10 @@
               <div>min tick: <span id="perf-min-tick">0</span> ms</div>
               <div>ticks: <span id="perf-ticks">0</span></div>
               <div>players: <span id="perf-players">0</span></div>
+            </div>
+            <div class="toolbar" style="margin-top:8px">
+              <button id="btn-trace-toggle">Start Trace</button>
+              <button id="btn-trace-download">Download</button>
             </div>
           </div>
         </div>
