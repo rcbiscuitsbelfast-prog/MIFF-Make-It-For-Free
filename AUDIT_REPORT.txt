@@ -1,0 +1,61 @@
+MIFF Repository Audit Report
+
+Date: 2025-09-15
+
+Scope
+- Full scan of modules, games, site, and docs
+- Placeholder hygiene, conflict markers, TS typecheck (schema only), structural inventory
+
+Findings
+1) Conflict markers
+- Found in: miff/pure/VisualReplaySystemPure/README.md (line ~294). Action: resolve markers and keep canonical doc content.
+
+2) Placeholder hygiene (high-signal excerpts)
+- BRITTLE_DEFAULT usages and any/unknown in:
+  - miff/pure/WebBridgePure/Bridge.ts (multiple private methods use any)
+  - src/modules/NetworkBridgePure/... several any-typed inputs/serialization
+  - miff/pure/shared/* utils: helper functions accept any
+- STUBs present by design for CI/dev flows:
+  - miff/pure/WebSocketBridgePure/index.ts connect() is a stub (intended)
+  - miff/scripts/* several generators and test fixture creators marked stub
+- PLACEHOLDER test content generator: miff/scripts/jest-scaffold.js (dev-only)
+
+3) TypeScript typecheck
+- Skipped full jest TS test compilation due to legacy suite volume; schema and new modules compile under tsconfig.ci baseline locally.
+- Recommend migrating test transforms away from esbuild-jest to ts-jest or Vitest to stabilize runner.
+
+4) Recent feature status
+- Remix UI and Studio: implemented with manifest export and onboarding
+- Avatar system: manifests, registry, presets, renderers, CLI, Studio editor
+- Multiplayer: player/session/sync/server/WS bridge, Studio preview, CI filters
+
+5) Docs and website
+- Studio pages exist for avatar and multiplayer; sampler pages added
+- Numerous docs folders present; roadmap distributed across multiple audit docs; no single up-to-date ROADMAP.md at root
+
+Risk and Priority Items
+- Resolve conflict markers promptly (blocks CI guard)
+- Reduce any/BRITTLE_DEFAULT in WebBridgePure and NetworkBridgePure critical paths
+- Replace placeholder/stub scripts in production execution paths; keep only in dev/CI
+- Stabilize Jest runner configuration for selective suites
+
+Recommended Next Steps (Roadmap)
+Short-term (1-2 days)
+- Resolve miff/pure/VisualReplaySystemPure/README.md conflict markers
+- Create root ROADMAP.md summarizing current pillars (Remix, Avatar, Multiplayer) and immediate tasks
+- Add CI jobs to run avatar and multiplayer suites (already added) and skip legacy heavy suites for now
+- Tighten types in WebBridgePure/Bridge.ts key APIs; eliminate obvious any
+
+Near-term (1 week)
+- Integrate real WebSocket server for multiplayer (behind feature flag); keep local bus fallback
+- Add Godot-side loader glue for avatar manifests
+- Add golden test fixtures for avatar layering across more styles
+- Introduce ts-jest config and migrate a subset of Pure tests to it
+
+Mid-term (2-3 weeks)
+- Full test modernization (Vitest or stable Jest config), retire esbuild-jest
+- Expand performance hygiene (texture sizes, polycount checks) into CI
+- Contributor flows: preset packs, validation UIs in Studio
+
+Appendix: Directory Inventory
+- See “Tree summary” sections from automated scan for modules, games, site, and docs.

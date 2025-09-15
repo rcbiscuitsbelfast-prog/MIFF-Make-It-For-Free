@@ -2,7 +2,15 @@
 [![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html)  
 [![MIFF Studio](https://img.shields.io/badge/MIFF%20Studio%20Builder-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/studio/index.html)  
 [![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml)  
-[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](docs/audit/MIFF_Audit_2025-09.md)
+[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPORT.txt)
+
+## Current Status (Sep 2025)
+- Remix Studio: Palette, grid, undo/redo, manifest export
+- Avatar System: Manifests + registry, presets (barbarian/mage/rogue), Studio editor, renderer stubs
+- Multiplayer: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
+- Open Items: resolve one conflict marker in docs; reduce any/BRITTLE_DEFAULT in bridges; modernize Jest runner
+
+See full audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
 
 ## 💸 Support MIFF
 
