@@ -11,6 +11,7 @@
 - Multiplayer: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
 - Multiplayer Contributor: Packs, onboarding overlay, perf diagnostics, keyboard input, WebSocket reconnect
 - Multiplayer Replay: Record/play/pause/step controls, CLI tools, sampler replay viewer
+- Pixel Art System: Draw, generate, animate, world building, CLI tools, Studio integration, demo forest
 - Open Items: resolve one conflict marker in docs; reduce any/BRITTLE_DEFAULT in bridges; modernize Jest runner
 
 See full audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
@@ -31,6 +32,7 @@ See full audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
   - **🏃‍♂️ Auto-Scroll Runner**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/runner.html
   - **🏰 3D Isometric**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/3d-topdown.html
   - **🎛️ Static Overlay**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/static-overlay.html
+  - **🧱 Pixel World**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/pixel-world.html
 - **Original Zones**:
   - **Toppler Medieval**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/toppler.html
   - **Spirit Tamer**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/spirit.html

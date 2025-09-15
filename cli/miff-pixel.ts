@@ -42,14 +42,51 @@ program.command('generate')
   });
 
 program.command('animate')
-  .requiredOption('--frames <list>', 'comma-separated PNGs')
+  .option('--preset <name>', 'animation preset (walk, idle, interact)')
+  .option('--frames <list>', 'comma-separated PNGs')
   .option('--out <path>', 'output metadata path', 'anim.json')
   .action((opts)=>{
-    const frames = String(opts.frames).split(',').map((s:string)=>s.trim()).filter(Boolean);
-    const meta = { schema:'miff.pixel.anim.v1', animation: { walk: frames } };
     const out = resolve(process.cwd(), String(opts.out));
+    let meta;
+    
+    if (opts.preset) {
+      // Use preset
+      const { PixelAnimPure } = require('../miff/pure/PixelAnimPure');
+      const anim = PixelAnimPure.createFromPreset(String(opts.preset));
+      meta = PixelAnimPure.exportAnimation(anim);
+    } else if (opts.frames) {
+      // Use custom frames
+      const frames = String(opts.frames).split(',').map((s:string)=>s.trim()).filter(Boolean);
+      meta = { schema:'miff.pixel.anim.v1', animation: { walk: frames } };
+    } else {
+      console.error('❌ Must specify either --preset or --frames');
+      process.exit(1);
+    }
+    
     writeFileSync(out, JSON.stringify(meta, null, 2));
     console.log('✅ animation metadata written to', out);
+  });
+
+program.command('remix')
+  .requiredOption('--input <path>', 'input asset path')
+  .option('--output <path>', 'output remix path', 'remix.json')
+  .action((opts)=>{
+    const inputPath = resolve(process.cwd(), String(opts.input));
+    const outputPath = resolve(process.cwd(), String(opts.output));
+    
+    try {
+      const asset = JSON.parse(readFileSync(inputPath, 'utf-8'));
+      asset.meta = asset.meta || {};
+      asset.meta.remix = true;
+      asset.meta.original = inputPath;
+      asset.meta.remixId = `remix_${Date.now()}`;
+      
+      writeFileSync(outputPath, JSON.stringify(asset, null, 2));
+      console.log('✅ asset remixed at', outputPath);
+    } catch(err) {
+      console.error('❌ Failed to remix asset:', err.message);
+      process.exit(1);
+    }
   });
 
 program.parse(process.argv);

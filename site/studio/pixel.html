@@ -65,11 +65,82 @@
 			download('pixel_sprite.json', payload);
 		}
 
+		function remixAsset(){
+			// Fork current grid as a remix
+			const remixGrid = JSON.parse(JSON.stringify(grid));
+			remixGrid.meta.remix = true;
+			remixGrid.meta.original = 'pixel_sprite';
+			remixGrid.meta.remixId = `remix_${Date.now()}`;
+			
+			// Update the current grid to the remix
+			grid = remixGrid;
+			render();
+			
+			// Show remix info
+			$('out').textContent = JSON.stringify(PixelDrawPure.exportJSON(grid), null, 2);
+			console.log('🎨 Asset remixed! Edit and export as new asset.');
+		}
+
+		function exportToGodot(){
+			// Create a simple world manifest for this sprite
+			const worldManifest = {
+				schema: "miff.world.v1",
+				version: "1.0.0",
+				zones: [{
+					id: "sprite_zone",
+					name: "Sprite Zone",
+					width: grid.meta.width,
+					height: grid.meta.height,
+					tiles: [],
+					metadata: { style: "pixel-topdown", generated: false }
+				}],
+				metadata: { title: "Pixel Sprite", created: new Date().toISOString() }
+			};
+			
+			// Add tiles for each colored cell
+			for (let y = 0; y < grid.meta.height; y++) {
+				for (let x = 0; x < grid.meta.width; x++) {
+					const color = PixelDrawPure.getColor(grid, x, y);
+					if (color) {
+						worldManifest.zones[0].tiles.push({
+							x, y, assetId: `pixel_${color.replace('#', '')}`, layer: 1
+						});
+					}
+				}
+			}
+			
+			// Convert to Godot scene JSON
+			const godotScene = {
+				scene: {
+					name: "PixelSprite",
+					type: "Node2D",
+					children: worldManifest.zones.map(zone => ({
+						name: zone.name,
+						type: "Node2D",
+						children: zone.tiles.map(tile => ({
+							name: `tile_${tile.x}_${tile.y}`,
+							type: "Sprite2D",
+							properties: {
+								texture: `res://assets/${tile.assetId}.png`,
+								position: { x: tile.x * 16, y: tile.y * 16 },
+								z_index: tile.layer
+							}
+						}))
+					}))
+				}
+			};
+			
+			download('godot_scene.json', JSON.stringify(godotScene, null, 2));
+			console.log('🎮 Godot scene exported!');
+		}
+
 		window.addEventListener('DOMContentLoaded', ()=>{
 			$('size').addEventListener('change', resize);
 			$('color').addEventListener('input', ()=>{ currentColor = $('color').value; });
 			$('c').addEventListener('click', canvasClick);
 			$('btn-export-json').addEventListener('click', exportJSON);
+			$('btn-remix').addEventListener('click', remixAsset);
+			$('btn-export-godot').addEventListener('click', exportToGodot);
 			render();
 		});
 	</script>
@@ -89,6 +160,8 @@
 				<div class="kv"><label>Color</label><input id="color" type="color" value="#58a6ff" /></div>
 				<div class="toolbar" style="margin-top:8px">
 					<button id="btn-export-json">Export JSON</button>
+					<button id="btn-remix">Remix Asset</button>
+					<button id="btn-export-godot">Export to Godot</button>
 				</div>
 				<details style="margin-top:8px"><summary>Output</summary><pre id="out"></pre></details>
 			</div>

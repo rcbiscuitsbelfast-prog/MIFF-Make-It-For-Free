@@ -17,6 +17,7 @@
 	<script type="module">
 		const $ = (id)=>document.getElementById(id);
 		let sprites = [];
+		let worldData = null;
 		let gridSize = 16;
 
 		function loadSprite(){
@@ -31,6 +32,16 @@
 			}; input.click();
 		}
 
+		async function loadDemoWorld(){
+			try {
+				const response = await fetch('../../presets/worlds/demo-forest.json');
+				worldData = await response.json();
+				render();
+			} catch(err) {
+				console.error('Failed to load demo world', err);
+			}
+		}
+
 		function render(){
 			const cvs = $('c'); const ctx = cvs.getContext('2d');
 			cvs.width = 640; cvs.height = 320; ctx.clearRect(0,0,cvs.width,cvs.height);
@@ -38,24 +49,45 @@
 			ctx.strokeStyle = '#1f2d3c'; ctx.lineWidth = 1;
 			for (let x=0;x<=cvs.width;x+=gridSize){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,cvs.height); ctx.stroke(); }
 			for (let y=0;y<=cvs.height;y+=gridSize){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(cvs.width,y); ctx.stroke(); }
-			// draw sprites (as colored pixels from JSON grid)
-			let ox = 16, oy = 16;
-			for (const s of sprites){
-				const meta = s.meta || s.sprite?.meta; const cells = s.cells || s.sprite?.cells;
-				if (!meta || !cells) continue;
-				const cs = 2; // scale for sampler
-				for (let y=0; y<meta.height; y++){
-					for (let x=0; x<meta.width; x++){
-						const c = cells[y*meta.width + x];
-						if (c){ ctx.fillStyle = c; ctx.fillRect(ox + x*cs, oy + y*cs, cs, cs); }
-					}
+			
+			if (worldData) {
+				// render world tiles
+				const zone = worldData.zones[0];
+				if (zone) {
+					zone.tiles.forEach(tile => {
+						const x = tile.x * gridSize;
+						const y = tile.y * gridSize;
+						// Simple colored rectangles for different asset types
+						const colors = {
+							'tree': '#228B22', 'bush': '#32CD32', 'rock': '#696969', 
+							'grass': '#90EE90'
+						};
+						const assetType = tile.assetId.split('_')[1];
+						ctx.fillStyle = colors[assetType] || '#888888';
+						ctx.fillRect(x, y, gridSize, gridSize);
+					});
 				}
-				ox += meta.width*cs + 12;
+			} else {
+				// draw sprites (as colored pixels from JSON grid)
+				let ox = 16, oy = 16;
+				for (const s of sprites){
+					const meta = s.meta || s.sprite?.meta; const cells = s.cells || s.sprite?.cells;
+					if (!meta || !cells) continue;
+					const cs = 2; // scale for sampler
+					for (let y=0; y<meta.height; y++){
+						for (let x=0; x<meta.width; x++){
+							const c = cells[y*meta.width + x];
+							if (c){ ctx.fillStyle = c; ctx.fillRect(ox + x*cs, oy + y*cs, cs, cs); }
+						}
+					}
+					ox += meta.width*cs + 12;
+				}
 			}
 		}
 
 		window.addEventListener('DOMContentLoaded', ()=>{
 			$('btn-load').addEventListener('click', loadSprite);
+			$('btn-demo').addEventListener('click', loadDemoWorld);
 			render();
 		});
 	</script>
@@ -72,10 +104,11 @@
 		<aside class="panel">
 			<h3>Assets</h3>
 			<div class="content">
-				<div class="toolbar">
-					<button id="btn-load">Load Pixel JSON</button>
-				</div>
-				<p style="font-size:12px;color:#a9b8c6;margin-top:8px">Load JSON exported from Pixel Draw Studio.</p>
+		<div class="toolbar">
+			<button id="btn-load">Load Pixel JSON</button>
+			<button id="btn-demo">Load Demo World</button>
+		</div>
+		<p style="font-size:12px;color:#a9b8c6;margin-top:8px">Load JSON exported from Pixel Draw Studio or try the demo forest world.</p>
 			</div>
 		</aside>
 		<main class="panel">

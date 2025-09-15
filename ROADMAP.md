@@ -4,6 +4,7 @@
 - Remix: Studio + site integration; manifest validation
 - Avatar: Cross-style manifests, registry, renderers, presets
 - Multiplayer: Deterministic player/session, sync, server, WS bridge
+- Pixel Art: Asset creation, generation, animation, world building
 
 ## Short-term (1–2 days)
 - Fix conflict markers in `miff/pure/VisualReplaySystemPure/README.md`
@@ -28,3 +29,6 @@
 - Multiplayer contributor expansion (packs, onboarding, perf diagnostics, keyboard input)
 - Multiplayer replay system (record/play/step, CLI, sampler viewer)
 - Vercel deployment automation with GitHub Actions
+- Pixel asset creation system (draw, generate, animate, world building, CLI tools)
+- Pixel world showcase with demo forest and contributor remix flow
+- Animation presets and export preview for Godot integration

@@ -9,11 +9,12 @@ program.name('miff-export').description('MIFF Export CLI').version('0.1.0');
 program.command('godot')
   .requiredOption('--world <path>', 'world manifest path')
   .option('--output <path>', 'output scene path', 'godot_scene.json')
+  .option('--preview', 'preview scene JSON in console')
   .action((opts) => {
     const worldPath = resolve(process.cwd(), String(opts.world));
     const world = JSON.parse(readFileSync(worldPath, 'utf-8'));
     
-    // Stub: Convert world manifest to Godot scene JSON
+    // Convert world manifest to Godot scene JSON
     const godotScene = {
       "scene": {
         "name": "World",
@@ -34,9 +35,14 @@ program.command('godot')
       }
     };
     
-    const outputPath = resolve(process.cwd(), String(opts.output));
-    writeFileSync(outputPath, JSON.stringify(godotScene, null, 2));
-    console.log('✅ Godot scene exported to', outputPath);
+    if (opts.preview) {
+      console.log('🎮 Godot Scene Preview:');
+      console.log(JSON.stringify(godotScene, null, 2));
+    } else {
+      const outputPath = resolve(process.cwd(), String(opts.output));
+      writeFileSync(outputPath, JSON.stringify(godotScene, null, 2));
+      console.log('✅ Godot scene exported to', outputPath);
+    }
   });
 
 program.parse(process.argv);
