@@ -1,0 +1,36 @@
+name: Avatar CI
+
+on:
+  push:
+    branches: [ "**" ]
+    paths:
+      - 'miff/pure/AvatarSystemPure/**'
+      - 'miff/pure/AvatarRendererWebPure/**'
+      - 'miff/pure/AvatarRendererGodotPure/**'
+      - 'site/studio/avatar.html'
+      - 'site/sampler/avatar.html'
+      - 'package.json'
+      - 'jest.config.cjs'
+  pull_request:
+    branches: [ "**" ]
+    paths:
+      - 'miff/pure/AvatarSystemPure/**'
+      - 'miff/pure/AvatarRendererWebPure/**'
+      - 'miff/pure/AvatarRendererGodotPure/**'
+      - 'site/studio/avatar.html'
+      - 'site/sampler/avatar.html'
+      - 'package.json'
+      - 'jest.config.cjs'
+
+jobs:
+  avatar-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci || npm i
+      - name: Run avatar tests only
+        run: npm run -s test:avatar:ci
+
