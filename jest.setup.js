@@ -9,6 +9,9 @@
  * @license MIT
  */
 
+// Provide execFileSync for CLI harness execution used by testUtils.runCLI
+const { execFileSync } = require('child_process');
+
 // Setup canvas for jsdom tests
 if (typeof window !== 'undefined') {
   // Provide a minimal 2D/WebGL context stub for jsdom
@@ -179,41 +182,49 @@ if (typeof afterEach === 'function') {
 }
 
 function runCLI(cliPath, args = []) {
-	const absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
-	
+	// Use a local path module instance to avoid any global jest spies/mocks
+	const pathModule = require('path');
+	const absCliPath = pathModule.isAbsolute(cliPath) ? cliPath : pathModule.resolve(cliPath);
+
 	console.log(`[runCLI] Starting CLI execution: ${absCliPath}`);
 	console.log(`[runCLI] Args: ${JSON.stringify(args)}`);
-	
+
 	try {
 		const output = execFileSync('npx', [
 			'ts-node',
 			'--compiler-options', '{"module":"commonjs","types":["node"]}',
 			absCliPath,
 			...args
-		], { 
+		], {
 			encoding: 'utf-8',
-			timeout: 15000, // 15 second timeout to prevent hanging
+			timeout: 15000,
 			killSignal: 'SIGTERM'
 		});
-		
+
 		console.log(`[runCLI] CLI execution completed successfully`);
 		console.log(`[runCLI] Output length: ${output.length} characters`);
-		
+
 		// Flush any pending hooks
 		if (typeof setImmediate !== 'undefined') {
 			setImmediate(() => {
 				console.log(`[runCLI] Pending hooks flushed`);
 			}).unref();
 		}
-		
+
 		return output;
 	} catch (error) {
-		console.error(`[runCLI] CLI execution failed:`, error.message);
+		console.error(`[runCLI] CLI execution failed:`, error && error.message ? error.message : String(error));
 		console.log(`[runCLI] Teardown status: ERROR - process may have leaked resources`);
 		throw error;
 	} finally {
 		console.log(`[runCLI] Teardown status: COMPLETED`);
 	}
+}
+
+// Expose test utilities globally for tests that call (global as any).testUtils.runCLI
+if (typeof global !== 'undefined') {
+	global.testUtils = global.testUtils || {};
+	global.testUtils.runCLI = runCLI;
 }
 
 // Mock browser APIs
