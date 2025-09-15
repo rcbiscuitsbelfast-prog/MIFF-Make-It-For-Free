@@ -104,6 +104,16 @@
       });
       function frame(){ server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height);
         for (const [id,p] of netState){ ctx.fillStyle = id==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+p.position.x*0.1, 150+p.position.y*0.1, 16, 16); }
+        // Update perf HUD
+        const perf = server.getPerfSnapshot ? server.getPerfSnapshot() : null;
+        if (perf) {
+          $('perf-avg-dt').textContent = perf.avgDtMs.toFixed(2);
+          $('perf-avg-tick').textContent = perf.avgTickMs.toFixed(2);
+          $('perf-max-tick').textContent = perf.maxTickMs.toFixed(2);
+          $('perf-min-tick').textContent = perf.minTickMs.toFixed(2);
+          $('perf-ticks').textContent = String(perf.ticks);
+          $('perf-players').textContent = String(perf.playersSimulatedLast);
+        }
         requestAnimationFrame(frame);
       }
       frame();
@@ -154,7 +164,22 @@
     </aside>
     <main class="panel">
       <h3>Preview</h3>
-      <div class="content"><canvas id="c" width="640" height="320"></canvas></div>
+      <div class="content">
+        <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+          <canvas id="c" width="640" height="320"></canvas>
+          <div style="min-width:220px;border:1px solid #1f2d3c;border-radius:8px;padding:8px;background:#0b1220">
+            <div style="margin-bottom:6px;color:#a9b8c6">Performance</div>
+            <div style="font-size:12px;line-height:1.6">
+              <div>avg dt: <span id="perf-avg-dt">0</span> ms</div>
+              <div>avg tick: <span id="perf-avg-tick">0</span> ms</div>
+              <div>max tick: <span id="perf-max-tick">0</span> ms</div>
+              <div>min tick: <span id="perf-min-tick">0</span> ms</div>
+              <div>ticks: <span id="perf-ticks">0</span></div>
+              <div>players: <span id="perf-players">0</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </body>
