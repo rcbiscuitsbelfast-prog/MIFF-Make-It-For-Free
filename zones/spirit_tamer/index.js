@@ -47,7 +47,7 @@ function handleTap(state, id){
 	if(!id) return next;
 	const spirit = next.spirits.find(s=> s.id===id);
 	if(spirit && !spirit.captured){
-		// Placeholder capture: reduce hp, capture at 0
+		// Simple capture mechanic: reduce hp, capture at 0
 		spirit.hp = Math.max(0, spirit.hp - 1);
 		if(spirit.hp===0){
 			spirit.captured = true;
