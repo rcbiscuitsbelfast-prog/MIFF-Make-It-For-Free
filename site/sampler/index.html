@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF Sampler Tools</title>
+	<style>
+		body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+		header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+		.wrap{padding:12px;max-width:1200px;margin:0 auto}
+		.zone-card{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622;padding:16px;margin-bottom:12px}
+		.zone-card h3{margin:0 0 8px 0;color:#58a6ff}
+		.zone-card p{margin:0 0 12px 0;color:#a9b8c6;font-size:14px}
+		.card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+		.btn-primary{background:#238636;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:500}
+		.btn-primary:hover{background:#2ea043}
+		.btn-secondary{background:#21262d;color:#e6edf3;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:500;border:1px solid #30363d}
+		.btn-secondary:hover{background:#30363d}
+		.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+	</style>
+</head>
+<body>
+	<header>
+		<strong>MIFF Sampler Tools</strong>
+		<nav class="toolbar">
+			<a href="../index.html" style="color:#58a6ff;text-decoration:none">← Back to MIFF</a>
+		</nav>
+	</header>
+	<div class="wrap">
+		<div class="zone-card">
+			<h3>🎨 Avatar Sampler</h3>
+			<p>Create and preview avatars across different styles (3D, 2D-side, static overlay). Export JSON and Godot nodes.</p>
+			<div class="card-actions">
+				<a href="avatar.html" class="btn-primary" aria-label="Open Avatar Sampler">Open Sampler</a>
+				<a href="../studio/avatar.html" class="btn-secondary" aria-label="Avatar Studio">Studio Editor</a>
+			</div>
+		</div>
+		<div class="zone-card">
+			<h3>🌐 Multiplayer Sampler</h3>
+			<p>Preview multiplayer sessions with real-time sync, performance diagnostics, and replay recording.</p>
+			<div class="card-actions">
+				<a href="multiplayer.html" class="btn-primary" aria-label="Open Multiplayer Sampler">Open Sampler</a>
+				<a href="../studio/multiplayer.html" class="btn-secondary" aria-label="Multiplayer Studio">Studio Preview</a>
+			</div>
+		</div>
+		<div class="zone-card">
+			<h3>🧱 Pixel World Sampler</h3>
+			<p>Draw, generate, and assemble pixel art worlds with animation. Load demo forest or create your own.</p>
+			<div class="card-actions">
+				<a href="pixel-world.html" class="btn-primary" aria-label="Open Pixel World Sampler">Open Sampler</a>
+				<a href="../studio/pixel.html" class="btn-secondary" aria-label="Pixel Studio">Studio Editor</a>
+			</div>
+		</div>
+		<div class="zone-card">
+			<h3>🎬 Replay Sampler</h3>
+			<p>Load and visualize replay manifests with step-through controls and export functionality.</p>
+			<div class="card-actions">
+				<a href="replay.html" class="btn-primary" aria-label="Open Replay Sampler">Open Sampler</a>
+				<a href="../studio/multiplayer.html" class="btn-secondary" aria-label="Replay Studio">Studio Controls</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

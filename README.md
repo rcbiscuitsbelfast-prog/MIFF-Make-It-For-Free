@@ -26,7 +26,7 @@ See full audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
 ## 🎮 Play Now
 
 - **Sampler Landing**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html
-- **MIFF Sampler Worlds**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/ (5 different gameplay styles)
+- **MIFF Sampler Tools**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/ (Avatar, Multiplayer, Pixel World, Replay)
   - **🏃 2D Side-Scrolling**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/2d-side.html
   - **🗺️ 2D Top-Down**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/2d-topdown.html
   - **🏃‍♂️ Auto-Scroll Runner**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/runner.html
