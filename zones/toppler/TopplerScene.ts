@@ -334,6 +334,15 @@ export class TopplerScene {
         this.ctx.fillText(`Remix Mode: ON`, 20, 185);
     }
 
+    private isDebug(): boolean {
+        try {
+            const params = new URLSearchParams((window as any).MIFF_DEBUG_QUERY || '');
+            return params.get('debug') === '1';
+        } catch {
+            return false;
+        }
+    }
+
     private renderEndOverlay(text: string, color: string): void {
         const w = this.canvas.width;
         const h = this.canvas.height;
@@ -478,7 +487,7 @@ export class TopplerScene {
 
     public setRemixMode(enabled: boolean): void {
         this.config.remixMode = enabled;
-        if (enabled) {
+        if (enabled && this.isDebug()) {
             console.log('[Toppler] Remix mode enabled');
         }
     }
@@ -522,7 +531,7 @@ export class TopplerScene {
         // Clear components
         this.components.clear();
         
-        console.log('[TopplerScene] Cleanup completed - all resources released');
+        if (this.isDebug()) console.log('[TopplerScene] Cleanup completed - all resources released');
     }
     
     // Add bound methods for proper event listener cleanup
