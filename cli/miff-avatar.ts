@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 import { Command } from 'commander';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { AvatarSystemPure } from '../miff/pure/AvatarSystemPure';
 import { AvatarManifest, AvatarStyle } from '../miff/pure/AvatarSystemPure/schema';
@@ -45,6 +45,25 @@ program.command('validate')
       process.exit(1);
     }
     console.log('✅ Manifest OK');
+  });
+
+program.command('init')
+  .option('--preset <name>', 'barbarian|mage|rogue', 'barbarian')
+  .option('--out <path>', 'output manifest path', 'avatar.json')
+  .action((opts)=>{
+    const name = String(opts.preset||'barbarian');
+    const presetPath = resolve(process.cwd(), `presets/avatars/${name}.json`);
+    try {
+      const data = readFileSync(presetPath, 'utf8');
+      const outPath = resolve(process.cwd(), String(opts.out||'avatar.json'));
+      const dir = outPath.substring(0, outPath.lastIndexOf('/'));
+      if (dir) { try { mkdirSync(dir, { recursive: true }); } catch {} }
+      writeFileSync(outPath, data);
+      console.log(`✅ Wrote ${outPath} from preset '${name}'`);
+    } catch (e:any) {
+      console.error(`❌ Failed to init from preset '${name}':`, e?.message||e);
+      process.exit(1);
+    }
   });
 
 program.parse(process.argv);

@@ -111,6 +111,13 @@
   "bin": {
     "miff-avatar": "cli/miff-avatar.ts"
   },
+  "miffAvatar": {
+    "presets": [
+      "presets/avatars/barbarian.json",
+      "presets/avatars/mage.json",
+      "presets/avatars/rogue.json"
+    ]
+  },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
