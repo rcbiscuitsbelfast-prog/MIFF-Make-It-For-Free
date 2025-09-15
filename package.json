@@ -118,7 +118,8 @@
   "bin": {
     "miff-avatar": "cli/miff-avatar.ts",
     "miff-session": "cli/miff-session.ts",
-    "miff-server": "cli/miff-server.ts"
+    "miff-server": "cli/miff-server.ts",
+    "miff-pixel": "cli/miff-pixel.ts"
   },
   "miffAvatar": {
     "presets": [
