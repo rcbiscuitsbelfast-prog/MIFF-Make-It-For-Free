@@ -19,6 +19,7 @@ const { CollisionManager } = require('../../miff/pure/Manager');
 const { TimeManager } = require('../../miff/pure/Manager');
 const UI = require('../../modules/pure/UISystemPure.ts');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
+const DEBUG = (() => { try { return new URLSearchParams(process.env.MIFF_DEBUG_QUERY || '').get('debug')==='1'; } catch { return false; }})();
 
 function startZone(opts){
 	const fixturePath = path.resolve(__dirname, '../scenarios/witcher_grove.fixture.json');
@@ -54,21 +55,21 @@ function startZone(opts){
 		UI.createButton('btn_accept_quest', 'Accept Quest', 'full', btnAccept),
 		UI.createButton('btn_back', '← Back', 'full', btnBack)
 	]);
-	console.log('[Witcher Grove] Background:', bg, 'NPC:', npcIdle);
+	if (DEBUG) console.log('[Witcher Grove] Background:', bg, 'NPC:', npcIdle);
 
 	function onTap(targetId){
 		if(targetId==='btn_back'){
 			const r = route('witcher_grove', 'synth_nexus');
-			console.log('[Witcher Grove] Route:', JSON.stringify(r.route));
+			if (DEBUG) console.log('[Witcher Grove] Route:', JSON.stringify(r.route));
 			return r;
 		}
 		if(targetId==='npc_witcher'){
 			if(dialogDef.dialogs.length){
 				const res = dialog.simulateDialog('witcher_intro');
-				console.log('[Witcher Grove] Dialog run:', JSON.stringify(res.log));
+				if (DEBUG) console.log('[Witcher Grove] Dialog run:', JSON.stringify(res.log));
 				return { op:'dialog', status:'ok' };
 			}
-			console.log('[Witcher Grove] No dialog defined in fixture.');
+			if (DEBUG) console.log('[Witcher Grove] No dialog defined in fixture.');
 			return { op:'dialog', status:'ok' };
 		}
 		if(targetId==='btn_accept_quest'){
@@ -76,7 +77,7 @@ function startZone(opts){
 			const event = { type:'start', questId:qId, timestamp: time.now? time.now(): 0 };
 			const result = applyQuestEvent(questState, event);
 			questState = result.questState;
-			console.log('[Witcher Grove] Quest started:', qId);
+			if (DEBUG) console.log('[Witcher Grove] Quest started:', qId);
 			return { op:'quest', status:'ok', id:qId };
 		}
 		return { op:'noop', status:'ok' };
