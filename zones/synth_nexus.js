@@ -23,7 +23,7 @@ function buildMenu(remixMode){
 function startZone(opts){
 	// 1) Touch input + cursor on load
 	const mapped = mapInputs(
-		[{ t:0, type:'tap' }], // touch event placeholder
+		[{ t:0, type:'tap' }], // initial touch event mapping
 		[{ type:'tap', code:'screen', action:'interact' }]
 	);
 	const cursor = 'visible';
@@ -34,7 +34,7 @@ function startZone(opts){
 	const uiFrame = UI.renderUI(uiElements, remixMode);
 	console.log('[Synth Nexus] UI frame:', JSON.stringify({ cursor, ui: uiFrame }, null, 2));
 
-	// 3) Routing via ZoneSystemPure on tap (placeholder tap targets)
+	// 3) Routing via ZoneSystemPure on tap (tap targets)
 	function onTap(targetId){
 		const act = UI.handleTap(uiElements, targetId);
 		if(act.kind === 'toggle' && act.id === 'tgl_remix'){
