@@ -9,6 +9,7 @@ require('ts-node/register/transpile-only');
 const { mapInputs } = require('../../modules/pure/InputSystemPure.ts');
 const UI = require('../../modules/pure/UISystemPure.ts');
 const { route } = require('../../modules/pure/ZoneSystemPure.ts');
+const DEBUG = (() => { try { return new URLSearchParams(process.env.MIFF_DEBUG_QUERY || '').get('debug')==='1'; } catch { return false; }})();
 
 function buildMenu(remixMode){
 	return [
@@ -32,7 +33,7 @@ function startZone(opts){
 	let remixMode = !!(opts?.remix || opts?.remixMode);
 	let uiElements = buildMenu(remixMode);
 	const uiFrame = UI.renderUI(uiElements, remixMode);
-	console.log('[Synth Nexus] UI frame:', JSON.stringify({ cursor, ui: uiFrame }, null, 2));
+	if (DEBUG) console.log('[Synth Nexus] UI frame:', JSON.stringify({ cursor, ui: uiFrame }, null, 2));
 
 	// 3) Routing via ZoneSystemPure on tap (tap targets)
 	function onTap(targetId){
@@ -41,7 +42,7 @@ function startZone(opts){
 			remixMode = !!act.value;
 			uiElements = buildMenu(remixMode);
 			const frame = UI.renderUI(uiElements, remixMode);
-			console.log('[Synth Nexus] Remix toggled:', remixMode, 'frame.debugOverlay=', frame.debugOverlay);
+			if (DEBUG) console.log('[Synth Nexus] Remix toggled:', remixMode, 'frame.debugOverlay=', frame.debugOverlay);
 			return { op:'ui', status:'ok' };
 		}
 		if(act.kind === 'button'){
@@ -51,7 +52,7 @@ function startZone(opts){
 			if(act.id==='btn_witcher') target = 'witcher_grove';
 			if(act.id==='btn_remix') target = 'remix_lab';
 			const r = route('synth_nexus', target);
-			console.log('[Synth Nexus] Route:', JSON.stringify(r.route));
+			if (DEBUG) console.log('[Synth Nexus] Route:', JSON.stringify(r.route));
 			return r;
 		}
 		return { op:'noop', status:'ok' };
