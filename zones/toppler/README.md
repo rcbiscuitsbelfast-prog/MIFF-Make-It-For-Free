@@ -274,7 +274,7 @@ console.log(`Frame time: ${endTime - startTime}ms`);
 
 ### Free Assets
 
-- **Placeholder Graphics** - Use simple geometric shapes
+- **Simple Vector Graphics** - Use clean shapes for initial visuals
 - **Open Source Fonts** - Google Fonts, Open Sans, etc.
 - **Creative Commons Audio** - Freesound.org, CCMixter
 
