@@ -140,6 +140,13 @@
     const thresholdMs = 10;
     const thresholdFrames = 60;
     let keys: Set<string> = new Set();
+    
+    // Replay system
+    let replayData: any[] = [];
+    let replayIndex = 0;
+    let isRecording = false;
+    let isPlaying = false;
+    let replayInterval: number | null = null;
 
     function download(filename, text) {
       const a = document.createElement('a');
@@ -149,6 +156,103 @@
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+
+    function startRecording() {
+      isRecording = true;
+      replayData = [];
+      $('btn-replay-record').textContent = 'Stop Recording';
+      $('btn-replay-record').style.background = '#f85149';
+    }
+
+    function stopRecording() {
+      isRecording = false;
+      $('btn-replay-record').textContent = 'Record';
+      $('btn-replay-record').style.background = '#238636';
+    }
+
+    function playReplay() {
+      if (replayData.length === 0) return;
+      isPlaying = true;
+      replayIndex = 0;
+      $('btn-replay-play').disabled = true;
+      $('btn-replay-pause').disabled = false;
+      $('btn-replay-step').disabled = false;
+      $('btn-replay-rewind').disabled = false;
+      
+      replayInterval = setInterval(() => {
+        if (replayIndex < replayData.length) {
+          const frame = replayData[replayIndex];
+          // Apply replay frame to netState
+          for (const player of frame.players || []) {
+            netState.set(player.playerId, player);
+          }
+          replayIndex++;
+        } else {
+          pauseReplay();
+        }
+      }, 100);
+    }
+
+    function pauseReplay() {
+      isPlaying = false;
+      if (replayInterval) {
+        clearInterval(replayInterval);
+        replayInterval = null;
+      }
+      $('btn-replay-play').disabled = false;
+      $('btn-replay-pause').disabled = true;
+    }
+
+    function stepReplay() {
+      if (replayIndex < replayData.length) {
+        const frame = replayData[replayIndex];
+        for (const player of frame.players || []) {
+          netState.set(player.playerId, player);
+        }
+        replayIndex++;
+      }
+    }
+
+    function rewindReplay() {
+      replayIndex = 0;
+      netState.clear();
+    }
+
+    function loadReplay() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(String(reader.result));
+            replayData = data.frames || [];
+            replayIndex = 0;
+            console.log('📼 Replay loaded:', replayData.length, 'frames');
+          } catch (error) {
+            console.error('Failed to load replay:', error);
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+
+    function exportReplay() {
+      const manifest = {
+        schema: 'miff.replay.v1',
+        timestamp: Date.now(),
+        session: {
+          zone: server?.config?.zone || 'unknown',
+          players: Array.from(netState.values())
+        },
+        frames: replayData
+      };
+      download('miff_replay.json', JSON.stringify(manifest, null, 2));
     }
 
     function loop(){
@@ -161,26 +265,36 @@
         }
       });
       function frame(){ 
-        // Handle keyboard input for p1
-        if (keys.has('w') || keys.has('arrowup')) {
-          const p1 = netState.get('p1');
-          if (p1) { p1.position.y -= 2; netState.set('p1', p1); }
-        }
-        if (keys.has('s') || keys.has('arrowdown')) {
-          const p1 = netState.get('p1');
-          if (p1) { p1.position.y += 2; netState.set('p1', p1); }
-        }
-        if (keys.has('a') || keys.has('arrowleft')) {
-          const p1 = netState.get('p1');
-          if (p1) { p1.position.x -= 2; netState.set('p1', p1); }
-        }
-        if (keys.has('d') || keys.has('arrowright')) {
-          const p1 = netState.get('p1');
-          if (p1) { p1.position.x += 2; netState.set('p1', p1); }
+        // Handle keyboard input for p1 (only if not playing replay)
+        if (!isPlaying) {
+          if (keys.has('w') || keys.has('arrowup')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.y -= 2; netState.set('p1', p1); }
+          }
+          if (keys.has('s') || keys.has('arrowdown')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.y += 2; netState.set('p1', p1); }
+          }
+          if (keys.has('a') || keys.has('arrowleft')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.x -= 2; netState.set('p1', p1); }
+          }
+          if (keys.has('d') || keys.has('arrowright')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.x += 2; netState.set('p1', p1); }
+          }
         }
         
         server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height);
         for (const [id,p] of netState){ ctx.fillStyle = id==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+p.position.x*0.1, 150+p.position.y*0.1, 16, 16); }
+        
+        // Record replay data if recording
+        if (isRecording) {
+          replayData.push({
+            timestamp: Date.now(),
+            players: Array.from(netState.entries()).map(([id, p]) => ({ playerId: id, ...p }))
+          });
+        }
         // Update perf HUD
         const perf = server.getPerfSnapshot ? server.getPerfSnapshot() : null;
         if (perf) {
@@ -221,6 +335,19 @@
       });
       $('btn-copy-url').addEventListener('click', copyUrl);
       $('btn-ping').addEventListener('click', ping);
+      $('btn-replay-record').addEventListener('click', ()=>{
+        if (isRecording) {
+          stopRecording();
+        } else {
+          startRecording();
+        }
+      });
+      $('btn-replay-play').addEventListener('click', playReplay);
+      $('btn-replay-pause').addEventListener('click', pauseReplay);
+      $('btn-replay-step').addEventListener('click', stepReplay);
+      $('btn-replay-rewind').addEventListener('click', rewindReplay);
+      $('btn-replay-load').addEventListener('click', loadReplay);
+      $('btn-replay-export').addEventListener('click', exportReplay);
       $('btn-load-pack').addEventListener('click', ()=>{
         const input = document.createElement('input');
         input.type = 'file';
@@ -422,10 +549,24 @@
               <div>ticks: <span id="perf-ticks">0</span></div>
               <div>players: <span id="perf-players">0</span></div>
             </div>
-            <div class="toolbar" style="margin-top:8px">
-              <button id="btn-trace-toggle">Start Trace</button>
-              <button id="btn-trace-download">Download</button>
-            </div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="btn-trace-toggle">Start Trace</button>
+          <button id="btn-trace-download">Download</button>
+        </div>
+        <div style="margin-top:10px">
+          <div style="margin-bottom:6px;color:#a9b8c6">Replay</div>
+          <div class="toolbar">
+            <button id="btn-replay-record">Record</button>
+            <button id="btn-replay-play" disabled>Play</button>
+            <button id="btn-replay-pause" disabled>Pause</button>
+            <button id="btn-replay-step" disabled>Step</button>
+            <button id="btn-replay-rewind" disabled>Rewind</button>
+          </div>
+          <div class="toolbar" style="margin-top:6px">
+            <button id="btn-replay-load">Load Replay</button>
+            <button id="btn-replay-export">Export Replay</button>
+          </div>
+        </div>
             <div style="margin-top:10px">
               <div style="margin-bottom:6px;color:#a9b8c6">Trace Viewer</div>
               <input id="trace-file" type="file" accept="application/json" />

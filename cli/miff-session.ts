@@ -65,5 +65,57 @@ program.command('scaffold')
     }
   });
 
+program.command('replay')
+  .requiredOption('--manifest <path>', 'replay manifest path')
+  .option('--step', 'step through replay frame by frame')
+  .option('--out <path>', 'output replay path', 'replay.json')
+  .action((opts)=>{
+    const manifestPath = resolve(process.cwd(), String(opts.manifest));
+    const outputPath = resolve(process.cwd(), String(opts.out));
+    try {
+      const data = JSON.parse(readFileSync(manifestPath, 'utf8'));
+      if (opts.step) {
+        console.log('📼 Replay manifest loaded:', data.frames?.length || 0, 'frames');
+        console.log('ℹ️ Step mode: use Studio multiplayer to load and step through replay');
+        writeFileSync(outputPath, JSON.stringify(data, null, 2));
+        console.log('✅ Replay saved to', outputPath);
+      } else {
+        console.log('📼 Replay manifest:', data.frames?.length || 0, 'frames');
+        console.log('ℹ️ Use --step flag to enable step-through mode');
+      }
+    } catch (error) {
+      console.error('❌ Failed to load replay manifest:', error);
+      process.exit(1);
+    }
+  });
+
+program.command('export-video')
+  .requiredOption('--manifest <path>', 'session manifest path')
+  .option('--out <path>', 'output video metadata path', 'video.json')
+  .action((opts)=>{
+    const manifestPath = resolve(process.cwd(), String(opts.manifest));
+    const outputPath = resolve(process.cwd(), String(opts.out));
+    try {
+      const data = JSON.parse(readFileSync(manifestPath, 'utf8'));
+      const videoMetadata = {
+        schema: 'miff.video.v1',
+        status: 'not_implemented',
+        message: 'Video export not yet implemented',
+        session: {
+          zone: data.zone,
+          players: data.players?.length || 0,
+          duration: 'unknown'
+        },
+        timestamp: Date.now()
+      };
+      writeFileSync(outputPath, JSON.stringify(videoMetadata, null, 2));
+      console.log('⚠️ Video export not yet implemented');
+      console.log('📄 Video metadata saved to', outputPath);
+    } catch (error) {
+      console.error('❌ Failed to process manifest:', error);
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
 
