@@ -53,6 +53,14 @@ export class PlayerController {
     private onMouseDown = (e: MouseEvent) => this.handleMouseDown(e);
     private onMouseUp = () => this.handleMouseUp();
     private onGamepadConnected = (e: any) => this.handleGamepadConnected(e);
+    private readonly DEBUG: boolean = (() => {
+        try {
+            const params = new URLSearchParams((window as any).MIFF_DEBUG_QUERY || '');
+            return params.get('debug') === '1';
+        } catch {
+            return false;
+        }
+    })();
 
     constructor(config: Partial<PlayerConfig> = {}) {
         this.config = {
@@ -164,7 +172,7 @@ export class PlayerController {
     }
 
     private handleGamepadConnected(event: any): void {
-        console.log('[PlayerController] Gamepad connected:', event.gamepad);
+        if (this.DEBUG) console.log('[PlayerController] Gamepad connected:', event.gamepad);
     }
 
     private triggerJump(): void {
