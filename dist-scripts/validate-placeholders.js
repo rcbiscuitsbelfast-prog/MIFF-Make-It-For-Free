@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { readdirSync, readFileSync, statSync } from 'fs';
+import { readdirSync, readFileSync, statSync, existsSync } from 'fs';
 import { join, relative } from 'path';
 const ROOT = process.cwd();
-const INCLUDE_DIRS = ['games', 'scripts', 'modules', 'systems', 'sampler'];
+const INCLUDE_DIRS = ['games', 'scripts', 'modules', 'systems', 'sampler', 'zones', 'miff', 'src'];
 const PLACEHOLDER_PATTERNS = [
     { re: /\bTODO\b/i, type: 'TODO' },
     { re: /\bFIXME\b/i, type: 'FIXME' },
@@ -62,7 +62,10 @@ function scanFile(path) {
     return findings;
 }
 function main() {
-    const files = INCLUDE_DIRS.flatMap(d => collectFiles(join(ROOT, d)));
+    const roots = INCLUDE_DIRS
+        .map(d => join(ROOT, d))
+        .filter(p => existsSync(p));
+    const files = roots.flatMap(d => collectFiles(d));
     const all = files.flatMap(scanFile);
     console.log('# Placeholder Hygiene Report');
     console.log();
