@@ -44,6 +44,15 @@ export class PlayerController {
     private inputState: Map<string, boolean>;
     private touchStartY: number = 0;
     private touchStartTime: number = 0;
+    // Stable handler references for add/removeEventListener
+    private onKeyDown = (e: KeyboardEvent) => this.handleKeyDown(e);
+    private onKeyUp = (e: KeyboardEvent) => this.handleKeyUp(e);
+    private onTouchStart = (e: TouchEvent) => this.handleTouchStart(e);
+    private onTouchEnd = () => this.handleTouchEnd();
+    private onTouchMove = (e: TouchEvent) => this.handleTouchMove(e);
+    private onMouseDown = (e: MouseEvent) => this.handleMouseDown(e);
+    private onMouseUp = () => this.handleMouseUp();
+    private onGamepadConnected = (e: any) => this.handleGamepadConnected(e);
 
     constructor(config: Partial<PlayerConfig> = {}) {
         this.config = {
@@ -80,21 +89,21 @@ export class PlayerController {
 
     private setupInputHandlers(): void {
         // Keyboard input
-        document.addEventListener('keydown', (e) => this.handleKeyDown(e));
-        document.addEventListener('keyup', (e) => this.handleKeyUp(e));
+        document.addEventListener('keydown', this.onKeyDown);
+        document.addEventListener('keyup', this.onKeyUp);
 
         // Touch input for mobile
-        document.addEventListener('touchstart', (e) => this.handleTouchStart(e));
-        document.addEventListener('touchend', () => this.handleTouchEnd());
-        document.addEventListener('touchmove', (e) => this.handleTouchMove(e));
+        document.addEventListener('touchstart', this.onTouchStart);
+        document.addEventListener('touchend', this.onTouchEnd);
+        document.addEventListener('touchmove', this.onTouchMove);
 
         // Mouse input for desktop
-        document.addEventListener('mousedown', (e) => this.handleMouseDown(e));
-        document.addEventListener('mouseup', () => this.handleMouseUp());
+        document.addEventListener('mousedown', this.onMouseDown);
+        document.addEventListener('mouseup', this.onMouseUp);
 
         // Gamepad support (if available)
         if (navigator.getGamepads && typeof navigator.getGamepads === 'function') {
-            window.addEventListener('gamepadconnected', (e) => this.handleGamepadConnected(e));
+            window.addEventListener('gamepadconnected', this.onGamepadConnected);
         }
     }
 
@@ -363,12 +372,15 @@ export class PlayerController {
 
     public destroy(): void {
         // Remove event listeners
-        document.removeEventListener('keydown', this.handleKeyDown.bind(this));
-        document.removeEventListener('keyup', this.handleKeyUp.bind(this));
-        document.removeEventListener('touchstart', this.handleTouchStart.bind(this));
-        document.removeEventListener('touchend', this.handleTouchEnd.bind(this));
-        document.removeEventListener('touchmove', this.handleTouchMove.bind(this));
-        document.removeEventListener('mousedown', this.handleMouseDown.bind(this));
-        document.removeEventListener('mouseup', this.handleMouseUp.bind(this));
+        document.removeEventListener('keydown', this.onKeyDown);
+        document.removeEventListener('keyup', this.onKeyUp);
+        document.removeEventListener('touchstart', this.onTouchStart);
+        document.removeEventListener('touchend', this.onTouchEnd);
+        document.removeEventListener('touchmove', this.onTouchMove);
+        document.removeEventListener('mousedown', this.onMouseDown);
+        document.removeEventListener('mouseup', this.onMouseUp);
+        if (navigator.getGamepads && typeof navigator.getGamepads === 'function') {
+            window.removeEventListener('gamepadconnected', this.onGamepadConnected);
+        }
     }
 }

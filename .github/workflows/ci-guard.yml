@@ -70,7 +70,8 @@ jobs:
             echo "❌ Missing tsconfig.json"
             exit 1
           fi
-          npx tsc --noEmit --showConfig > /dev/null
+          npx typescript --version || npm i -g typescript@latest
+          npx tsc --noEmit -p tsconfig.ci.json
           echo "✅ TypeScript config OK"
       
       - name: Check test coverage
@@ -83,3 +84,18 @@ jobs:
               echo "📊 $dir: $test_count test files"
             fi
           done
+
+      - name: Placeholder hygiene
+        run: |
+          echo "🔍 Scanning for placeholders and brittle defaults..."
+          npm run -s lint:placeholders || true
+
+      - name: Check merge conflict markers
+        run: |
+          echo "🔍 Checking for merge conflict markers..."
+          if git grep -n "^<<<<<<<\|^=======\|^>>>>>>>" -- ":(exclude).git"; then
+            echo "❌ Merge conflict markers found. Please resolve before merging."
+            exit 1
+          else
+            echo "✅ No merge conflict markers detected"
+          fi
