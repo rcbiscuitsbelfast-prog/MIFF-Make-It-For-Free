@@ -1,1 +1,1 @@
-Placeholder: add real Godot .pck here
+Note: add real Godot .pck here when exporting. This placeholder is intentional.
