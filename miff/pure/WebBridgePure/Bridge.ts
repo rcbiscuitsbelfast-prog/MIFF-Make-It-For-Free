@@ -13,13 +13,13 @@ export interface WebEntity {
   y: number;
   width?: number;
   height?: number;
-  properties: { [key: string]: any };
+  properties: { [key: string]: unknown };
   children?: WebEntity[];
 }
 
 export interface WebComponent {
   type: string;
-  data: any;
+  data: Record<string, unknown>;
   enabled: boolean;
 }
 
@@ -35,7 +35,7 @@ export interface WebRenderData {
 export interface WebBridgeOperation {
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
-  data?: any;
+  data?: Record<string, unknown>;
   config?: WebBridgeConfig;
 }
 
@@ -54,6 +54,22 @@ export interface WebBridgeOutput {
   renderData?: WebRenderData;
   issues?: string[];
 }
+
+type CombatData = {
+  attacker: string;
+  defender: string;
+  attackerId: string;
+  defenderId: string;
+  attackerX?: number;
+  attackerY?: number;
+  defenderX?: number;
+  defenderY?: number;
+  attackerStats?: { health?: number };
+  defenderStats?: { health?: number };
+  [key: string]: unknown;
+};
+
+type UIData = { [key: string]: unknown };
 
 export class WebBridge {
   private npcsManager: NPCsManager;
@@ -74,49 +90,35 @@ export class WebBridge {
     this.economyManager = new EconomyManager();
   }
 
-  simulate(module: string, data: any, config: WebBridgeConfig): WebBridgeOutput {
+  simulate(module: string, data: Record<string, unknown>, config: WebBridgeConfig): WebBridgeOutput {
     try {
-      let result: any;
-      
+      let result: unknown;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.simulateNPC(data.npcId, data.duration);
+          result = this.npcsManager.simulateNPC(String((data as any).npcId), Number((data as any).duration));
           break;
         case 'combat':
-          result = this.combatManager.simulate(data.attacker, data.defender);
+          result = this.combatManager.simulate((data as any).attacker, (data as any).defender);
           break;
         case 'crafting':
-          result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
+          result = this.craftingManager.simulateCraft(String((data as any).recipeId), (data as any).ingredients);
           break;
         case 'loot':
-          result = this.lootManager.rollLoot(data.tableId, data.level);
+          result = this.lootManager.rollLoot(String((data as any).tableId), Number((data as any).level));
           break;
         case 'economy':
-          result = this.economyManager.calculatePrice(data.itemId, data.quantity);
+          result = this.economyManager.calculatePrice(String((data as any).itemId), Number((data as any).quantity));
           break;
         default:
-          return {
-            op: 'simulate',
-            status: 'error',
-            issues: [`Unknown module: ${module}`]
-          };
+          return { op: 'simulate', status: 'error', issues: [`Unknown module: ${module}`] };
       }
-
-      return {
-        op: 'simulate',
-        status: 'ok',
-        renderData: this.convertToWebRenderData(result, config)
-      };
+      return { op: 'simulate', status: 'ok', renderData: this.convertToWebRenderData(result, config) };
     } catch (error) {
-      return {
-        op: 'simulate',
-        status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
-      };
+      return { op: 'simulate', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
     }
   }
 
-  render(module: string, data: any, config: WebBridgeConfig): WebBridgeOutput {
+  render(module: string, data: Record<string, unknown>, config: WebBridgeConfig): WebBridgeOutput {
     try {
       let entities: WebEntity[] = [];
       let components: WebComponent[] = [];
@@ -138,86 +140,52 @@ export class WebBridge {
           }
           break;
         case 'combat':
-          entities = this.createCombatEntities(data, config);
-          components = this.createCombatComponents(data);
+          entities = this.createCombatEntities(data as CombatData, config);
+          components = this.createCombatComponents(data as CombatData);
           sprites = ['sword_sprite.png', 'shield_sprite.png', 'effect_particles.png'];
           sounds = ['sword_swing.mp3', 'hit_sound.mp3', 'victory_fanfare.mp3'];
           scripts = ['CombatController.js', 'WeaponSystem.js', 'EffectManager.js'];
           styles = ['combat-ui.css', 'effects.css'];
           break;
         case 'ui':
-          entities = this.createUIEntities(data, config);
-          components = this.createUIComponents(data);
+          entities = this.createUIEntities(data as UIData, config);
+          components = this.createUIComponents(data as UIData);
           sprites = ['button_normal.png', 'button_hover.png', 'inventory_bg.png'];
           sounds = ['button_click.mp3', 'menu_open.mp3'];
           scripts = ['UIController.js', 'InventoryUI.js', 'MenuSystem.js'];
           styles = ['ui-styles.css', 'inventory.css', 'menu.css'];
           break;
         default:
-          return {
-            op: 'render',
-            status: 'error',
-            issues: [`Unknown module: ${module}`]
-          };
+          return { op: 'render', status: 'error', issues: [`Unknown module: ${module}`] };
       }
 
-      return {
-        op: 'render',
-        status: 'ok',
-        renderData: {
-          entities,
-          components,
-          sprites,
-          sounds,
-          scripts,
-          styles
-        }
-      };
+      return { op: 'render', status: 'ok', renderData: { entities, components, sprites, sounds, scripts, styles } };
     } catch (error) {
-      return {
-        op: 'render',
-        status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
-      };
+      return { op: 'render', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
     }
   }
 
-  interop(module: string, data: any, config: WebBridgeConfig): WebBridgeOutput {
+  interop(module: string, data: Record<string, unknown>, config: WebBridgeConfig): WebBridgeOutput {
     try {
-      // Handle web-specific data conversion
       const convertedData = this.convertFromWeb(data);
-      
-      let result: any;
+      let result: unknown;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.updateNPC(convertedData.id, convertedData);
+          result = this.npcsManager.updateNPC(String((convertedData as any).id), convertedData);
           break;
         case 'quests':
-          result = this.questsManager.updateQuest(convertedData.id, convertedData);
+          result = this.questsManager.updateQuest(String((convertedData as any).id), convertedData);
           break;
         case 'stats':
-          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
-          result = this.statsManager.get(convertedData.id);
+          this.statsManager.setStat(String((convertedData as any).id), String((convertedData as any).key), Number((convertedData as any).base));
+          result = this.statsManager.get(String((convertedData as any).id));
           break;
         default:
-          return {
-            op: 'interop',
-            status: 'error',
-            issues: [`Unknown module: ${module}`]
-          };
+          return { op: 'interop', status: 'error', issues: [`Unknown module: ${module}`] };
       }
-
-      return {
-        op: 'interop',
-        status: 'ok',
-        renderData: this.convertToWebRenderData(result, config)
-      };
+      return { op: 'interop', status: 'ok', renderData: this.convertToWebRenderData(result, config) };
     } catch (error) {
-      return {
-        op: 'interop',
-        status: 'error',
-        issues: [error instanceof Error ? error.message : String(error)]
-      };
+      return { op: 'interop', status: 'error', issues: [error instanceof Error ? error.message : String(error)] };
     }
   }
 
@@ -225,148 +193,48 @@ export class WebBridge {
     const entity: WebEntity = {
       id: npc.id,
       type: 'sprite',
-      x: npc.location.x * 32, // Convert to pixel coordinates
+      x: npc.location.x * 32,
       y: npc.location.y * 32,
       width: 32,
       height: 32,
-      properties: {
-        npcId: npc.id,
-        behavior: npc.behavior.type,
-        faction: npc.faction || 'neutral',
-        hasQuests: npc.questIds.length > 0
-      }
+      properties: { npcId: npc.id, behavior: npc.behavior.type, faction: npc.faction || 'neutral', hasQuests: npc.questIds.length > 0 }
     };
-
-    // Add quest indicators as children if NPC has quests
     if (npc.questIds.length > 0) {
-      entity.children = [{
-        id: `${npc.id}_quest_indicator`,
-        type: 'sprite',
-        x: 24,
-        y: -8,
-        width: 16,
-        height: 16,
-        properties: {
-          questCount: npc.questIds.length,
-          questIds: npc.questIds
-        }
-      }];
+      entity.children = [{ id: `${npc.id}_quest_indicator`, type: 'sprite', x: 24, y: -8, width: 16, height: 16, properties: { questCount: npc.questIds.length, questIds: npc.questIds } }];
     }
-
     return entity;
   }
 
   private createNPCComponents(npcs: NPC[]): WebComponent[] {
-    return npcs.map(npc => ({
-      type: 'NPCController',
-      data: {
-        npcId: npc.id,
-        behavior: npc.behavior,
-        movementPattern: npc.movementPattern,
-        questIds: npc.questIds,
-        stats: npc.stats
-      },
-      enabled: true
-    }));
+    return npcs.map(npc => ({ type: 'NPCController', data: { npcId: npc.id, behavior: npc.behavior, movementPattern: npc.movementPattern, questIds: npc.questIds, stats: npc.stats }, enabled: true }));
   }
 
-  private createCombatEntities(data: any, config: WebBridgeConfig): WebEntity[] {
+  private createCombatEntities(data: CombatData, config: WebBridgeConfig): WebEntity[] {
     return [
-      {
-        id: data.attackerId,
-        type: 'sprite',
-        x: data.attackerX || 0,
-        y: data.attackerY || 0,
-        width: 64,
-        height: 64,
-        properties: {
-          combatantId: data.attackerId,
-          isAttacker: true,
-          health: data.attackerStats?.health || 100
-        }
-      },
-      {
-        id: data.defenderId,
-        type: 'sprite',
-        x: data.defenderX || 100,
-        y: data.defenderY || 0,
-        width: 64,
-        height: 64,
-        properties: {
-          combatantId: data.defenderId,
-          isAttacker: false,
-          health: data.defenderStats?.health || 100
-        }
-      }
+      { id: data.attackerId, type: 'sprite', x: data.attackerX || 0, y: data.attackerY || 0, width: 64, height: 64, properties: { combatantId: data.attackerId, isAttacker: true, health: data.attackerStats?.health || 100 } },
+      { id: data.defenderId, type: 'sprite', x: data.defenderX || 100, y: data.defenderY || 0, width: 64, height: 64, properties: { combatantId: data.defenderId, isAttacker: false, health: data.defenderStats?.health || 100 } }
     ];
   }
 
-  private createCombatComponents(data: any): WebComponent[] {
+  private createCombatComponents(data: CombatData): WebComponent[] {
+    return [{ type: 'CombatController', data: { combatData: data } as Record<string, unknown>, enabled: true }];
+  }
+
+  private createUIEntities(data: UIData, config: WebBridgeConfig): WebEntity[] {
     return [
-      {
-        type: 'CombatController',
-        data: { combatData: data },
-        enabled: true
-      }
+      { id: 'inventory_panel', type: 'container', x: 10, y: 10, width: 300, height: 200, properties: { uiType: 'inventory', visible: true }, children: [ { id: 'inventory_title', type: 'text', x: 0, y: 0, properties: { text: 'Inventory', fontSize: '18px', color: '#ffffff' } } ] }
     ];
   }
 
-  private createUIEntities(data: any, config: WebBridgeConfig): WebEntity[] {
-    return [
-      {
-        id: 'inventory_panel',
-        type: 'container',
-        x: 10,
-        y: 10,
-        width: 300,
-        height: 200,
-        properties: {
-          uiType: 'inventory',
-          visible: true
-        },
-        children: [
-          {
-            id: 'inventory_title',
-            type: 'text',
-            x: 0,
-            y: 0,
-            properties: {
-              text: 'Inventory',
-              fontSize: '18px',
-              color: '#ffffff'
-            }
-          }
-        ]
-      }
-    ];
+  private createUIComponents(data: UIData): WebComponent[] {
+    return [{ type: 'UIController', data: { uiData: data } as Record<string, unknown>, enabled: true }];
   }
 
-  private createUIComponents(data: any): WebComponent[] {
-    return [
-      {
-        type: 'UIController',
-        data: { uiData: data },
-        enabled: true
-      }
-    ];
+  private convertFromWeb(webData: Record<string, unknown>): Record<string, unknown> {
+    return { id: (webData as any).id, ...(webData as any).data };
   }
 
-  private convertFromWeb(webData: any): any {
-    // Convert web-specific data back to MIFF format
-    return {
-      id: webData.id,
-      ...webData.data
-    };
-  }
-
-  private convertToWebRenderData(result: any, config: WebBridgeConfig): WebRenderData {
-    return {
-      entities: [],
-      components: [],
-      sprites: [],
-      sounds: [],
-      scripts: [],
-      styles: []
-    };
+  private convertToWebRenderData(result: unknown, config: WebBridgeConfig): WebRenderData {
+    return { entities: [], components: [], sprites: [], sounds: [], scripts: [], styles: [] };
   }
 }
