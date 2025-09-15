@@ -2,8 +2,8 @@
 // Purpose: Engine-agnostic sampler using Pure modules only
 // Modules used:
 // - InputSystemPure: map taps
-// - CollisionSystemPure: detect overlap triggers (placeholder)
-// - TimeSystemPure: animate fade via timers (placeholder)
+// - CollisionSystemPure: detect overlap triggers
+// - TimeSystemPure: animate fade via timers
 // - UISystemPure: display spirit count + Back button
 // - ZoneSystemPure: route back to synth_nexus
 
@@ -19,7 +19,7 @@ const { route } = require('../../modules/pure/ZoneSystemPure.ts');
 function startZone(opts){
 	// Load fixture if not provided
 	const fixture = opts?.fixture || JSON.parse(fs.readFileSync(path.resolve(__dirname, '../scenarios/spirit_tamer.fixture.json'), 'utf-8'));
-	const spirits = new Set((fixture.dialogs ? [] : []).concat(['spirit_fox'])); // placeholder id list
+	const spirits = new Set((fixture.dialogs ? [] : []).concat(['spirit_fox'])); // initial id list
 
 	// Initialize systems
 	const cm = new CollisionManager();
