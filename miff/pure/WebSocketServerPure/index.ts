@@ -217,6 +217,10 @@ export class WebSocketServerPure extends EventEmitter {
           this.broadcast(message.channel, message.payload, clientId);
         }
         break;
+      case 'ping':
+        // Echo back with pong and original timestamp
+        this.sendToClient(clientId, { type: 'pong', t: message.t || Date.now() });
+        break;
       default:
         this.emit('message', { clientId, message });
     }

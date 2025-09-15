@@ -94,6 +94,36 @@
       updateStatus('Disconnected');
     }
 
+    function copyUrl() {
+      const url = $('server-url').value;
+      navigator.clipboard.writeText(url).then(()=>{
+        $('status').textContent = 'URL copied';
+        setTimeout(()=>updateStatus(isConnected ? 'Connected' : 'Disconnected'), 800);
+      }).catch(()=>{});
+    }
+
+    function ping() {
+      if (!isConnected) return;
+      const t0 = performance.now();
+      let responded = false;
+      const onMsg = (ch, payload)=>{
+        if (payload && payload.type === 'pong') {
+          const t1 = performance.now();
+          $('rtt').textContent = (t1 - t0).toFixed(2);
+          responded = true;
+          bridge.offMessage();
+        }
+      };
+      bridge.onMessage(onMsg);
+      bridge.send({ type: 'ping', t: Date.now() });
+      setTimeout(()=>{
+        if (!responded) {
+          $('rtt').textContent = 'timeout';
+          bridge.offMessage();
+        }
+      }, 2000);
+    }
+
     let tracing = false;
     const trace: any[] = [];
     let overThresholdStreak = 0;
@@ -159,6 +189,8 @@
         tracing = !tracing;
         $('btn-trace-toggle').textContent = tracing ? 'Stop Trace' : 'Start Trace';
       });
+      $('btn-copy-url').addEventListener('click', copyUrl);
+      $('btn-ping').addEventListener('click', ping);
       $('btn-trace-download').addEventListener('click', ()=>{
         const payload = JSON.stringify({ schema: 'miff.perf.trace.v1', frames: trace }, null, 2);
         download('miff_perf_trace.json', payload);
@@ -238,10 +270,13 @@
         <div class="toolbar" style="margin-top:8px">
           <button id="btn-connect">Connect</button>
           <button id="btn-disconnect">Disconnect</button>
+          <button id="btn-copy-url">Copy URL</button>
+          <button id="btn-ping">Ping</button>
         </div>
         <div style="margin-top:8px;font-size:12px;color:#a9b8c6">
           <div>Status: <span id="status">Disconnected</span></div>
           <div>Clients: <span id="client-count">0</span></div>
+          <div>RTT: <span id="rtt">-</span> ms</div>
         </div>
       </div>
     </aside>
