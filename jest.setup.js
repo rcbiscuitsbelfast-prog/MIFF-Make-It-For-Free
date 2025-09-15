@@ -288,7 +288,17 @@ global.clearInterval = jest.fn();
 
 // Mock file system operations
 const fs = require('fs');
-jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+const originalReadFileSync = fs.readFileSync.bind(fs);
+jest.spyOn(fs, 'readFileSync').mockImplementation((filePath, options) => {
+  try {
+    // Prefer real golden fixtures when available
+    const filePathStr = String(filePath);
+    if (filePathStr.includes('expected_output.json')) {
+      return originalReadFileSync(filePath, options);
+    }
+  } catch (_) {
+    // fall through to synthetic fixtures below
+  }
   if (path.includes('npc.sample.json')) {
     return JSON.stringify({
       op: 'create',
@@ -368,9 +378,9 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
       "issues": []
     });
   }
-  if (path.includes('expected_output.json')) {
+  if (String(filePath).includes('expected_output.json')) {
     // Check specific module types
-    if (path.includes('TutorialScenarioPure')) {
+    if (String(filePath).includes('TutorialScenarioPure')) {
       return JSON.stringify({
         "outputs": [
           {
@@ -385,7 +395,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           }
         ]
       });
-    } else if (path.includes('CombatCorePure')) {
+    } else if (String(filePath).includes('CombatCorePure')) {
       return JSON.stringify({
         "outputs": [
           { "op": "list", "ids": ["hero", "slime"] },
@@ -393,7 +403,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           { "op": "dump", "id": "slime", "hp": 4 }
         ]
       });
-    } else if (path.includes('SkillTreePure')) {
+    } else if (String(filePath).includes('SkillTreePure')) {
       return JSON.stringify({
         "outputs": [
           { "op": "list", "skills": ["root", "strike", "guard"] },
@@ -404,7 +414,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           { "op": "dump", "unlocked": ["root", "strike"] }
         ]
       });
-    } else if (path.includes('AIProfilesPure')) {
+    } else if (String(filePath).includes('AIProfilesPure')) {
       return JSON.stringify({
         "log": [
           "INTERACT elder questGiver",
@@ -425,7 +435,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           { "op": "dumpSchedule", "schedule": [ { "time": "09:00", "action": "open_shop" } ] }
         ]
       });
-    } else if (path.includes('ValidationPure')) {
+    } else if (String(filePath).includes('ValidationPure')) {
       return JSON.stringify({
         "outputs": [
           {
@@ -440,7 +450,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           }
         ]
       });
-    } else if (path.includes('TimeSystemPure')) {
+    } else if (String(filePath).includes('TimeSystemPure')) {
       return JSON.stringify({
         "outputs": [
           { "op": "list", "timers": [], "cooldowns": [], "scheduled": [] },
@@ -452,7 +462,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
           { "op": "dump", "time": 2, "timers": [], "cooldowns": [ { "id": "cd1", "duration": 1.5, "remaining": 0 } ], "scheduled": [] }
         ]
       });
-    } else if (path.includes('VisualReplaySystemPure')) {
+    } else if (String(filePath).includes('VisualReplaySystemPure')) {
       return JSON.stringify({
         "op": "replay",
         "status": "ok",
@@ -552,7 +562,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
       });
     }
   }
-  return '{}';
+  return originalReadFileSync(filePath, options);
 });
 
 jest.spyOn(fs, 'existsSync').mockReturnValue(true);

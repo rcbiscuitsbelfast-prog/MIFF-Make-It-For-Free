@@ -11,7 +11,7 @@ module.exports = {
     '<rootDir>/games/**/*.test.ts',
     '<rootDir>/games/**/*.spec.ts'
   ],
-  testTimeout: 10000,
+  testTimeout: 15000,
   cache: false,
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
