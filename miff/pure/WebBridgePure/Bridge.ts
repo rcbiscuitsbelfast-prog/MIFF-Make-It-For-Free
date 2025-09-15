@@ -107,7 +107,7 @@ export class WebBridge {
           result = this.lootManager.rollLoot(String((data as any).tableId), Number((data as any).level));
           break;
         case 'economy':
-          result = this.economyManager.calculatePrice(String((data as any).itemId), Number((data as any).quantity));
+          result = this.economyManager.calculatePrice(String((data as any).itemId), String((data as any).quantity));
           break;
         default:
           return { op: 'simulate', status: 'error', issues: [`Unknown module: ${module}`] };

@@ -84,7 +84,7 @@ program.command('remix')
       writeFileSync(outputPath, JSON.stringify(asset, null, 2));
       console.log('✅ asset remixed at', outputPath);
     } catch(err) {
-      console.error('❌ Failed to remix asset:', err.message);
+      console.error('❌ Failed to remix asset:', (err as Error).message);
       process.exit(1);
     }
   });

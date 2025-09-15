@@ -47,7 +47,7 @@ export class WebSocketServerPure extends EventEmitter {
         host: this.options.host
       });
 
-      this.server.on('connection', (ws: WebSocket, req) => {
+      this.server.on('connection', (ws: WebSocket, req: any) => {
         const clientId = this.generateClientId();
         const client: ClientConnection = {
           id: clientId,
@@ -72,12 +72,12 @@ export class WebSocketServerPure extends EventEmitter {
           this.handleClientDisconnect(clientId);
         });
 
-        ws.on('error', (error) => {
+        ws.on('error', (error: any) => {
           this.emit('error', { clientId, error: error.message });
         });
       });
 
-      this.server.on('error', (error) => {
+      this.server.on('error', (error: any) => {
         this.emit('error', { error: error.message });
       });
 
