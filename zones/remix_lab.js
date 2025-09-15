@@ -14,7 +14,7 @@ function startZone(opts){
 	let remixMode = !!(opts?.remix || opts?.remixMode);
 	const lastFixture = opts?.fixturePath || path.resolve(__dirname, '../scenarios/toppler.fixture.json');
 
-	// Input map placeholder
+	// Map minimal tap input for menu actions
 	const input = mapInputs([{ t:0, type:'tap' }], [{ type:'tap', code:'screen', action:'interact' }]);
 
 	function render(){
