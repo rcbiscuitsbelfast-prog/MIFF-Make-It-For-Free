@@ -114,7 +114,7 @@ export class TopplerScene {
     }
 
     private createPlayer(): any {
-        // Placeholder - will be replaced with PlayerController
+        // Temporary inline player; replace with PlayerController when integrated
         return {
             x: this.canvas.width / 2,
             y: this.canvas.height - this.config.playerStartHeight,
