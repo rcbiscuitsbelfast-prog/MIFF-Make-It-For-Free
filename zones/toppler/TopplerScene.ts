@@ -290,6 +290,13 @@ export class TopplerScene {
         if (this.config.remixMode) {
             this.renderDebugInfo();
         }
+
+        // Render end-state overlays
+        if (this.gameState.isWon) {
+            this.renderEndOverlay('You Win!', '#16a34a');
+        } else if (this.gameState.isFailed) {
+            this.renderEndOverlay('Try Again', '#dc2626');
+        }
     }
 
     private renderProgressBar(): void {
@@ -325,6 +332,29 @@ export class TopplerScene {
         this.ctx.fillText(`Gravity: ${this.config.gravity}`, 20, 155);
         this.ctx.fillText(`Jump Force: ${this.config.jumpForce}`, 20, 170);
         this.ctx.fillText(`Remix Mode: ON`, 20, 185);
+    }
+
+    private renderEndOverlay(text: string, color: string): void {
+        const w = this.canvas.width;
+        const h = this.canvas.height;
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        this.ctx.fillRect(0, 0, w, h);
+        this.ctx.fillStyle = color;
+        this.ctx.strokeStyle = '#ffffff';
+        this.ctx.lineWidth = 2;
+        this.ctx.font = 'bold 48px Arial';
+        const metrics = this.ctx.measureText(text);
+        const tx = (w - metrics.width) / 2;
+        const ty = h / 2;
+        this.ctx.fillText(text, tx, ty);
+        this.ctx.strokeText(text, tx, ty);
+        this.ctx.font = '16px Arial';
+        const sub = 'Click or tap to restart';
+        const m2 = this.ctx.measureText(sub);
+        this.ctx.fillStyle = '#e6edf3';
+        this.ctx.fillText(sub, (w - m2.width) / 2, ty + 36);
+        this.ctx.restore();
     }
 
     private getThemeColor(element: string): string {
