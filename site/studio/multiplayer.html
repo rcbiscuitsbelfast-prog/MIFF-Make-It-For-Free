@@ -42,7 +42,8 @@
         
         bridge = new WebSocketBridgePure({ 
           useRealWebSocket,
-          serverUrl: useRealWebSocket ? serverUrl : undefined
+          serverUrl: useRealWebSocket ? serverUrl : undefined,
+          onStatusChange: (status)=>{ $('status').textContent = status; }
         });
         server.setBridge(bridge);
         m.players.forEach(p=>{ server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); });
@@ -65,7 +66,8 @@
         
         bridge = new WebSocketBridgePure({ 
           useRealWebSocket,
-          serverUrl: useRealWebSocket ? serverUrl : undefined
+          serverUrl: useRealWebSocket ? serverUrl : undefined,
+          onStatusChange: (status)=>{ $('status').textContent = status; }
         });
         
         await bridge.connect();

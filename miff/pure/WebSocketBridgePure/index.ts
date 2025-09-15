@@ -5,6 +5,7 @@ export interface WebSocketBridgeOptions {
   protocols?: string[];
   useRealWebSocket?: boolean;
   serverUrl?: string;
+  onStatusChange?: (status: string) => void;
 }
 
 export class WebSocketBridgePure {
@@ -15,6 +16,8 @@ export class WebSocketBridgePure {
   private isConnected: boolean = false;
   private handler?: MessageHandler;
   private ws?: WebSocket;
+  private reconnectAttempts: number = 0;
+  private onStatusChange?: (status: string) => void;
 
   // In-memory bus fallback for local simulation
   private static localBus = new Map<string, Set<MessageHandler>>();
@@ -25,6 +28,7 @@ export class WebSocketBridgePure {
     this.protocols = opts.protocols;
     this.useRealWebSocket = opts.useRealWebSocket || false;
     this.serverUrl = opts.serverUrl || 'ws://localhost:8080';
+    this.onStatusChange = opts.onStatusChange;
   }
 
   public setChannel(channel: string){ this.channel = channel || 'miff'; }
@@ -42,6 +46,8 @@ export class WebSocketBridgePure {
 
           this.ws.onopen = () => {
             this.isConnected = true;
+            this.reconnectAttempts = 0;
+            this.onStatusChange?.('connected');
             // Join the channel
             this.ws!.send(JSON.stringify({
               type: 'join',
@@ -63,22 +69,38 @@ export class WebSocketBridgePure {
             }
           };
 
-          this.ws.onerror = (error) => {
-            reject(error);
-          };
+          this.ws.onerror = (error) => { reject(error); };
 
           this.ws.onclose = () => {
             this.isConnected = false;
+            this.onStatusChange?.('disconnected');
+            this.scheduleReconnect();
           };
         });
       } catch (error) {
         console.warn('WebSocket connection failed, falling back to simulation:', error);
         this.isConnected = true; // Fallback to simulation
+        this.onStatusChange?.('simulation');
       }
     } else {
       // Simulation mode
       this.isConnected = true;
+      this.onStatusChange?.('simulation');
     }
+  }
+
+  private scheduleReconnect(): void {
+    if (!this.useRealWebSocket) return;
+    const attempt = Math.min(this.reconnectAttempts + 1, 6);
+    this.reconnectAttempts = attempt;
+    const delayMs = Math.floor(500 * Math.pow(2, attempt - 1)); // 0.5s,1s,2s,4s,8s,16s
+    this.onStatusChange?.(`reconnecting in ${delayMs}ms`);
+    setTimeout(()=>{
+      // Only reconnect if still intended to use real WS and not connected
+      if (!this.isConnected) {
+        this.connect().catch(()=>{});
+      }
+    }, delayMs);
   }
 
   public onMessage(handler: MessageHandler): void {
