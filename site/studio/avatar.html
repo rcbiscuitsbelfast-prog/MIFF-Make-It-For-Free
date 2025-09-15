@@ -20,6 +20,7 @@
   <script type="module">
     import { AvatarSystemPure } from '../../miff/pure/AvatarSystemPure/index.ts';
     import { AvatarRendererWebPure } from '../../miff/pure/AvatarRendererWebPure/index.ts';
+    import { AvatarRendererGodotPure } from '../../miff/pure/AvatarRendererGodotPure/index.ts';
 
     const $ = (id)=>document.getElementById(id);
     const registry = {
@@ -52,8 +53,15 @@
       $('out').textContent = JSON.stringify({ m3d:r3d, m2d:r2d }, null, 2);
     }
 
+    function exportGodot(){
+      const manifest = { base: $('base').value||'barbarian', style:'2d-side', layers:{ body:'body.png', clothing:($('clothing').value||'').split(',').filter(Boolean), face:'face.png' }, anchor:{ head:{x:16,y:4}, torso:{x:16,y:16} } };
+      const nodes = AvatarRendererGodotPure.manifestToGodotNodes(manifest);
+      $('out').textContent = JSON.stringify({ godotNodes: nodes }, null, 2);
+    }
+
     window.addEventListener('DOMContentLoaded', ()=>{
       ['base','clothing'].forEach(id=>$(id).addEventListener('input', render));
+      $('btn-godot').addEventListener('click', exportGodot);
       render();
     });
   </script>
@@ -74,6 +82,7 @@
         <div class="kv"><label>Clothing</label><input id="clothing" type="text" value="tunic" placeholder="comma,separated" /></div>
         <div class="toolbar" style="margin-top:8px">
           <button onclick="location.reload()">Reset</button>
+          <button id="btn-godot">Export Godot Nodes</button>
         </div>
         <details style="margin-top:8px"><summary>Output</summary><pre id="out"></pre></details>
       </div>
