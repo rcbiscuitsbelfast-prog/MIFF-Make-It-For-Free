@@ -70,6 +70,7 @@
     "url": "https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/issues"
   },
   "homepage": "https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free#readme",
+  "type": "module",
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@babel/preset-env": "^7.28.3",

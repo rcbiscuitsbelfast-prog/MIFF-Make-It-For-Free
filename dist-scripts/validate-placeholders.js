@@ -1,6 +1,8 @@
 #!/usr/bin/env node
-import { readdirSync, readFileSync, statSync, existsSync } from 'fs';
-import { join, relative } from 'path';
+import { readdir, readFile, stat, access } from 'node:fs/promises';
+import { constants as FS_CONSTANTS } from 'node:fs';
+import { join, relative } from 'node:path';
+
 const ROOT = process.cwd();
 const INCLUDE_DIRS = ['games', 'scripts', 'modules', 'systems', 'sampler', 'zones', 'miff', 'src'];
 const PLACEHOLDER_PATTERNS = [
@@ -16,23 +18,40 @@ const BRITTLE_DEFAULTS = [
     /\b=\s*''\b/,
     /\b=\s*0\b/
 ];
-function collectFiles(dir, acc = []) {
-    for (const entry of readdirSync(dir)) {
+
+async function pathExists(p) {
+    try { await access(p, FS_CONSTANTS.F_OK); return true; } catch { return false; }
+}
+
+async function collectFiles(dir, acc = []) {
+    let entries;
+    try {
+        entries = await readdir(dir);
+    } catch {
+        return acc;
+    }
+    for (const entry of entries) {
         const p = join(dir, entry);
         try {
-            const st = statSync(p);
-            if (st.isDirectory())
-                collectFiles(p, acc);
-            else if (/\.(ts|tsx|js|jsx|md)$/.test(p))
+            const st = await stat(p);
+            if (st.isDirectory()) {
+                await collectFiles(p, acc);
+            } else if (/\.(ts|tsx|js|jsx|md)$/.test(p)) {
                 acc.push(p);
-        }
-        catch { }
+            }
+        } catch {}
     }
     return acc;
 }
-function scanFile(path) {
+
+async function scanFile(path) {
     const findings = [];
-    const content = readFileSync(path, 'utf8');
+    let content = '';
+    try {
+        content = await readFile(path, 'utf8');
+    } catch {
+        return findings;
+    }
     const lines = content.split(/\r?\n/);
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -61,12 +80,18 @@ function scanFile(path) {
     }
     return findings;
 }
-function main() {
-    const roots = INCLUDE_DIRS
-        .map(d => join(ROOT, d))
-        .filter(p => existsSync(p));
-    const files = roots.flatMap(d => collectFiles(d));
-    const all = files.flatMap(scanFile);
+
+async function main() {
+    const roots = [];
+    for (const d of INCLUDE_DIRS) {
+        const p = join(ROOT, d);
+        if (await pathExists(p)) roots.push(p);
+    }
+    const filesArrays = await Promise.all(roots.map((d) => collectFiles(d)));
+    const files = filesArrays.flat();
+    const findingsArrays = await Promise.all(files.map((f) => scanFile(f)));
+    const all = findingsArrays.flat();
+
     console.log('# Placeholder Hygiene Report');
     console.log();
     console.log(`Scanned directories: ${INCLUDE_DIRS.join(', ')}`);
@@ -89,4 +114,5 @@ function main() {
         process.exit(1);
     }
 }
-main();
+
+main().catch((e) => { console.error('Placeholder hygiene failed:', e?.message || e); process.exit(1); });

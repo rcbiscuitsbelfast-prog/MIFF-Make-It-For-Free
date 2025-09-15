@@ -38,6 +38,14 @@ export interface FailEvent {
     };
 }
 
+export interface MinimalPlayerState {
+    y: number;
+}
+
+export interface MinimalGameState {
+    attempts?: number;
+}
+
 export class FailZone {
     private config: FailZoneConfig;
     private isTriggered: boolean = false;
@@ -70,8 +78,8 @@ export class FailZone {
     }
 
     public checkFailCondition(
-        playerState: any,
-        gameState: any
+        playerState: MinimalPlayerState,
+        gameState: MinimalGameState
     ): FailEvent | null {
         if (this.isTriggered) {
             return null;
@@ -101,7 +109,7 @@ export class FailZone {
         return null;
     }
 
-    private checkHeightFail(playerState: any): boolean {
+    private checkHeightFail(playerState: MinimalPlayerState): boolean {
         const failCondition = this.config.conditions.find(c => c.type === 'height');
         if (!failCondition) return false;
 
@@ -117,7 +125,7 @@ export class FailZone {
         return timeElapsed >= (failCondition.value as number);
     }
 
-    private checkAttemptsFail(gameState: any): boolean {
+    private checkAttemptsFail(gameState: MinimalGameState): boolean {
         const failCondition = this.config.conditions.find(c => c.type === 'attempts');
         if (!failCondition || !this.config.maxAttempts) return false;
 
@@ -130,14 +138,14 @@ export class FailZone {
         return null;
     }
 
-    private calculatePlayerHeight(playerState: any): number {
+    private calculatePlayerHeight(playerState: MinimalPlayerState): number {
         // Calculate player's height from bottom of screen
         // This assumes the game canvas height is available
         const canvasHeight = window.innerHeight || 600;
         return canvasHeight - playerState.y;
     }
 
-    private triggerFail(conditionId: string, playerState: any, gameState: any): FailEvent {
+    private triggerFail(conditionId: string, playerState: MinimalPlayerState, gameState: MinimalGameState): FailEvent {
         const condition = this.config.conditions.find(c => c.id === conditionId);
         if (!condition) {
             throw new Error(`Fail condition ${conditionId} not found`);
@@ -177,10 +185,10 @@ export class FailZone {
         });
     }
 
-    public handleInput(event: any): boolean {
+    public handleInput(event: KeyboardEvent | { key?: string; code?: string }): boolean {
         // Check if reset input is pressed
-        const resetKeys = ['r', 'R', 'Enter', ' '];
-        const key = event.key || event.code;
+        const resetKeys: string[] = ['r', 'R', 'Enter', ' '];
+        const key: string = (event.key || event.code || '').toString();
         
         if (resetKeys.includes(key) && this.isTriggered) {
             const now = Date.now();
