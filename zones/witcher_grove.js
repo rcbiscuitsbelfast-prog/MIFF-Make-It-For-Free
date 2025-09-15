@@ -4,7 +4,7 @@
 // - InputSystemPure: map taps
 // - DialogPure: run dialogue tree 'witcher_intro'
 // - QuestSystemPure: update quest state on accept
-// - CollisionSystemPure: placeholder AABB for NPC interaction
+// - CollisionSystemPure: simple AABB for NPC interaction
 // - TimeSystemPure: timers for ambient pacing
 // - UISystemPure: render buttons (accept quest, back) and background sprite refs
 // - ZoneSystemPure: route back to synth_nexus
