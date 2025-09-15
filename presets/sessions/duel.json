@@ -1,0 +1,10 @@
+{
+  "id": "duel_demo",
+  "zone": "toppler",
+  "players": [
+    { "playerId": "p1", "avatar": "presets/avatars/barbarian.json", "style": "2d-side", "team": "blue", "status": "active" },
+    { "playerId": "p2", "avatar": "presets/avatars/mage.json", "style": "2d-side", "team": "red", "status": "active" }
+  ],
+  "seed": 12345,
+  "createdAt": ""
+}

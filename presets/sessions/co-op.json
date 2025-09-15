@@ -1,0 +1,10 @@
+{
+  "id": "coop_demo",
+  "zone": "witcher_grove",
+  "players": [
+    { "playerId": "p1", "avatar": "presets/avatars/rogue.json", "style": "2d-side", "team": "alpha", "status": "active" },
+    { "playerId": "p2", "avatar": "presets/avatars/barbarian.json", "style": "2d-side", "team": "alpha", "status": "active" }
+  ],
+  "seed": 424242,
+  "createdAt": ""
+}

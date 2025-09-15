@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Studio — Multiplayer Preview</title>
+  <style>
+    body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+    header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+    .wrap{padding:12px;display:grid;grid-template-columns:300px 1fr;gap:12px}
+    .panel{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622}
+    .panel h3{margin:0;padding:10px;border-bottom:1px solid #1f2d3c}
+    .panel .content{padding:10px}
+    .kv{display:grid;grid-template-columns:120px 1fr;gap:6px;align-items:center}
+    input[type="text"],select{width:100%;background:#0b1320;border:1px solid #2b3b4f;color:#e6edf3;border-radius:6px;padding:6px}
+    canvas{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px}
+  </style>
+  <script type="module">
+    import { PlayerStatePure } from '../../miff/pure/PlayerStatePure/index.ts';
+    import { ZoneServerPure } from '../../miff/pure/ZoneServerPure/index.ts';
+    import { SessionManifestPure } from '../../miff/pure/SessionManifestPure/index.ts';
+
+    const $ = (id)=>document.getElementById(id);
+    let server = new ZoneServerPure({ zone:'toppler' });
+
+    function loadPreset(path){
+      fetch(path).then(r=>r.json()).then(m=>{
+        const v = SessionManifestPure.validate(m); if(!v.ok){ alert('Invalid preset'); return; }
+        server = new ZoneServerPure({ zone: m.zone });
+        m.players.forEach(p=>{ server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); });
+      }).catch(()=>{});
+    }
+
+    function loop(){
+      const cvs = $('c'); const ctx = cvs.getContext('2d'); cvs.width=640; cvs.height=320;
+      function frame(){ server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height); const snap=server.getSnapshot();
+        for (const s of snap){ ctx.fillStyle = s.identity.playerId==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+s.position.x*0.1, 150+s.position.y*0.1, 16, 16); }
+        requestAnimationFrame(frame);
+      }
+      frame();
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      $('preset').addEventListener('change', ()=>{ const v=$('preset').value; if(v) loadPreset(v); });
+      loadPreset('../../presets/sessions/duel.json');
+      loop();
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <strong>MIFF Studio — Multiplayer Preview</strong>
+    <nav><a href="./index.html" style="color:#58a6ff;text-decoration:none">Studio Home</a></nav>
+  </header>
+  <div class="wrap">
+    <aside class="panel">
+      <h3>Session</h3>
+      <div class="content">
+        <div class="kv"><label>Preset</label>
+          <select id="preset">
+            <option value="../../presets/sessions/duel.json">Duel</option>
+            <option value="../../presets/sessions/co-op.json">Co-op</option>
+          </select>
+        </div>
+      </div>
+    </aside>
+    <main class="panel">
+      <h3>Preview</h3>
+      <div class="content"><canvas id="c" width="640" height="320"></canvas></div>
+    </main>
+  </div>
+</body>
+</html>
