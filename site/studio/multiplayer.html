@@ -24,14 +24,28 @@
     const $ = (id)=>document.getElementById(id);
     let server = new ZoneServerPure({ zone:'toppler' });
     let bridge = new WebSocketBridgePure();
+    let isConnected = false;
+
+    function updateStatus(status, clientCount = 0) {
+      $('status').textContent = status;
+      $('client-count').textContent = clientCount.toString();
+    }
 
     function loadPreset(path){
       fetch(path).then(r=>r.json()).then(m=>{
         const v = SessionManifestPure.validate(m); if(!v.ok){ alert('Invalid preset'); return; }
         server = new ZoneServerPure({ zone: m.zone });
-        bridge = new WebSocketBridgePure();
+        
+        const useRealWebSocket = $('websocket-mode').value === 'realtime';
+        const serverUrl = $('server-url').value;
+        
+        bridge = new WebSocketBridgePure({ 
+          useRealWebSocket,
+          serverUrl: useRealWebSocket ? serverUrl : undefined
+        });
         server.setBridge(bridge);
         m.players.forEach(p=>{ server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); });
+        
         // Listen for network updates
         bridge.onMessage((ch, payload)=>{
           if (payload.type === 'state-delta') {
@@ -39,6 +53,44 @@
           }
         });
       }).catch(()=>{});
+    }
+
+    async function connect() {
+      if (isConnected) return;
+      
+      try {
+        const useRealWebSocket = $('websocket-mode').value === 'realtime';
+        const serverUrl = $('server-url').value;
+        
+        bridge = new WebSocketBridgePure({ 
+          useRealWebSocket,
+          serverUrl: useRealWebSocket ? serverUrl : undefined
+        });
+        
+        await bridge.connect();
+        isConnected = true;
+        updateStatus(useRealWebSocket ? 'Connected (WebSocket)' : 'Connected (Simulation)');
+        
+        // Listen for network updates
+        bridge.onMessage((ch, payload)=>{
+          if (payload.type === 'state-delta') {
+            console.log('📡 Network update:', payload.players.length, 'players');
+          }
+        });
+        
+        server.setBridge(bridge);
+      } catch (error) {
+        console.error('Connection failed:', error);
+        updateStatus('Connection Failed');
+      }
+    }
+
+    function disconnect() {
+      if (!isConnected) return;
+      
+      bridge.close();
+      isConnected = false;
+      updateStatus('Disconnected');
     }
 
     function loop(){
@@ -59,6 +111,8 @@
 
     window.addEventListener('DOMContentLoaded', ()=>{
       $('preset').addEventListener('change', ()=>{ const v=$('preset').value; if(v) loadPreset(v); });
+      $('btn-connect').addEventListener('click', connect);
+      $('btn-disconnect').addEventListener('click', disconnect);
       loadPreset('../../presets/sessions/duel.json');
       loop();
     });
@@ -78,6 +132,23 @@
             <option value="../../presets/sessions/duel.json">Duel</option>
             <option value="../../presets/sessions/co-op.json">Co-op</option>
           </select>
+        </div>
+        <div class="kv"><label>WebSocket</label>
+          <select id="websocket-mode">
+            <option value="simulation">Simulation (Local)</option>
+            <option value="realtime">Real-time (WebSocket)</option>
+          </select>
+        </div>
+        <div class="kv"><label>Server URL</label>
+          <input id="server-url" type="text" value="ws://localhost:8080" placeholder="ws://localhost:8080" />
+        </div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="btn-connect">Connect</button>
+          <button id="btn-disconnect">Disconnect</button>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:#a9b8c6">
+          <div>Status: <span id="status">Disconnected</span></div>
+          <div>Clients: <span id="client-count">0</span></div>
         </div>
       </div>
     </aside>
