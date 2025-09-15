@@ -23,10 +23,12 @@ export interface NetworkConfig {
   inputDelay: number;
 }
 
+export type InputPayload = Record<string, unknown>;
+
 export interface GameState {
   frame: number;
-  inputs: Map<string, any>;
-  entities: Map<string, any>;
+  inputs: Map<string, InputPayload>;
+  entities: Map<string, unknown>;
   checksum: number;
 }
 
@@ -63,7 +65,7 @@ export class Peer {
 export class StateSyncScheduler {
   private config: NetworkConfig;
   private peers: Map<string, Peer>;
-  private inputBuffer: Map<string, Map<number, any>>;
+  private inputBuffer: Map<string, Map<number, InputPayload>>;
   private stateHistory: Map<number, GameState>;
   private currentFrame: number;
 
@@ -85,7 +87,7 @@ export class StateSyncScheduler {
     this.inputBuffer.delete(peerId);
   }
 
-  submitInput(peerId: string, frame: number, input: any): void {
+  submitInput(peerId: string, frame: number, input: InputPayload): void {
     const buffer = this.inputBuffer.get(peerId);
     if (buffer) {
       buffer.set(frame, input);
@@ -113,7 +115,7 @@ export class StateSyncScheduler {
   advanceFrame(): GameState | null {
     if (!this.canAdvanceFrame()) return null;
 
-    const inputs = new Map();
+    const inputs = new Map<string, InputPayload>();
     for (const [peerId, buffer] of this.inputBuffer) {
       const input = buffer.get(this.currentFrame);
       if (input) {
@@ -124,7 +126,7 @@ export class StateSyncScheduler {
     const state: GameState = {
       frame: this.currentFrame,
       inputs,
-      entities: new Map(), // Would be populated by game logic
+      entities: new Map<string, unknown>(),
       checksum: this.calculateChecksum(inputs)
     };
 
@@ -134,7 +136,7 @@ export class StateSyncScheduler {
     return state;
   }
 
-  private calculateChecksum(inputs: Map<string, any>): number {
+  private calculateChecksum(inputs: Map<string, InputPayload>): number {
     let checksum = 0;
     for (const [peerId, input] of inputs) {
       checksum += peerId.charCodeAt(0) + JSON.stringify(input).length;
@@ -144,7 +146,6 @@ export class StateSyncScheduler {
 
   rollbackToFrame(frame: number): void {
     this.currentFrame = frame;
-    // Clear future state history
     for (const key of this.stateHistory.keys()) {
       if (key > frame) {
         this.stateHistory.delete(key);
@@ -192,32 +193,30 @@ export class NetworkBridge {
     return success;
   }
 
-  submitLocalInput(input: any): void {
-    const currentFrame = this.scheduler['currentFrame'];
+  submitLocalInput(input: InputPayload): void {
+    const currentFrame = (this.scheduler as any)['currentFrame'] as number;
     this.scheduler.submitInput(this.localPeerId, currentFrame, input);
-    
-    // Broadcast to other peers
     const connectedPeers = Array.from(this.peers.values()).filter(p => p.isConnected && p.id !== this.localPeerId);
     for (const peer of connectedPeers) {
       this.transport.send(peer.id, this.serializeInput(currentFrame, input));
     }
   }
 
-  private serializeInput(frame: number, input: any): Uint8Array {
+  private serializeInput(frame: number, input: InputPayload): Uint8Array {
     const data = JSON.stringify({ frame, input });
     return new TextEncoder().encode(data);
   }
 
-  private deserializeInput(data: Uint8Array): { frame: number; input: any } {
+  private deserializeInput(data: Uint8Array): { frame: number; input: InputPayload } {
     const text = new TextDecoder().decode(data);
-    return JSON.parse(text);
+    const parsed = JSON.parse(text);
+    const frame = Number(parsed?.frame);
+    const input = (parsed?.input && typeof parsed.input === 'object') ? parsed.input as InputPayload : {};
+    return { frame, input };
   }
 
   update(): GameState | null {
-    // Process incoming messages
     this.processIncomingMessages();
-    
-    // Try to advance frame
     return this.scheduler.advanceFrame();
   }
 
@@ -225,13 +224,11 @@ export class NetworkBridge {
     while (true) {
       const message = await this.transport.receive();
       if (!message) break;
-
       try {
         const { frame, input } = this.deserializeInput(message.data);
         this.scheduler.submitInput(message.peerId, frame, input);
       } catch (error) {
         console.warn(`Failed to process incoming message: ${error}`);
-        // Continue processing other messages
       }
     }
   }
@@ -249,9 +246,7 @@ export class NetworkBridge {
   }
 }
 
-// CLI interface
 export function createNetworkBridge(config: NetworkConfig): NetworkBridge {
-  // Mock transport for CLI usage
   const mockTransport: INetworkTransport = {
     connect: async () => true,
     disconnect: () => {},
@@ -259,9 +254,7 @@ export function createNetworkBridge(config: NetworkConfig): NetworkBridge {
     receive: async () => null,
     getConnectedPeers: () => []
   };
-
   return new NetworkBridge(mockTransport, config);
 }
 
-// Export for CLI usage
 export default NetworkBridge;

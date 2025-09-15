@@ -13,6 +13,7 @@
     "test:mp:session": "jest --config jest.config.cjs --testPathPattern SessionManifestPure",
     "test:mp:sync": "jest --config jest.config.cjs --testPathPattern SyncManagerPure",
     "test:mp:ci": "npm run -s test:mp:player && npm run -s test:mp:session && npm run -s test:mp:sync",
+    "test:pure": "jest --config jest.pure.config.cjs",
     "build": "tsc",
     "dev": "vite",
     "preview": "vite preview",
