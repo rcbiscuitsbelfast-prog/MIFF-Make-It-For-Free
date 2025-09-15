@@ -19,15 +19,25 @@
     import { PlayerStatePure } from '../../miff/pure/PlayerStatePure/index.ts';
     import { ZoneServerPure } from '../../miff/pure/ZoneServerPure/index.ts';
     import { SessionManifestPure } from '../../miff/pure/SessionManifestPure/index.ts';
+    import { WebSocketBridgePure } from '../../miff/pure/WebSocketBridgePure/index.ts';
 
     const $ = (id)=>document.getElementById(id);
     let server = new ZoneServerPure({ zone:'toppler' });
+    let bridge = new WebSocketBridgePure();
 
     function loadPreset(path){
       fetch(path).then(r=>r.json()).then(m=>{
         const v = SessionManifestPure.validate(m); if(!v.ok){ alert('Invalid preset'); return; }
         server = new ZoneServerPure({ zone: m.zone });
+        bridge = new WebSocketBridgePure();
+        server.setBridge(bridge);
         m.players.forEach(p=>{ server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); });
+        // Listen for network updates
+        bridge.onMessage((ch, payload)=>{
+          if (payload.type === 'state-delta') {
+            console.log('📡 Network update:', payload.players.length, 'players');
+          }
+        });
       }).catch(()=>{});
     }
 
