@@ -40,5 +40,30 @@ program.command('sync')
     console.log('ℹ️ Sync would broadcast session state for', data.players.length, 'players');
   });
 
+program.command('scaffold')
+  .requiredOption('--preset <name>', 'preset name (duel, co-op)')
+  .option('--out <path>', 'output pack path', 'pack.json')
+  .action((opts)=>{
+    const preset = String(opts.preset);
+    const out = resolve(process.cwd(), String(opts.out));
+    const presetPath = resolve(process.cwd(), 'packs', 'multiplayer', `${preset}-pack.json`);
+    try {
+      const packData = readFileSync(presetPath, 'utf8');
+      const pack = JSON.parse(packData);
+      pack.name = `${pack.name} (Remix)`;
+      pack.version = '1.0.0-remix';
+      if (pack.remixInstructions?.steps) {
+        pack.remixInstructions.steps.unshift('0. This is a remix of the original pack');
+      }
+      writeFileSync(out, JSON.stringify(pack, null, 2));
+      console.log('✅ Pack scaffolded at', out);
+      console.log('📦 Based on:', preset, 'preset');
+    } catch (error) {
+      console.error('❌ Failed to load preset:', preset);
+      console.error('Available presets: duel, co-op');
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
 

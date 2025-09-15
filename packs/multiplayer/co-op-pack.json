@@ -1,0 +1,62 @@
+{
+  "schema": "miff.multiplayer.pack.v1",
+  "name": "Co-op Pack",
+  "description": "2-player cooperative adventure with rogue and mage",
+  "version": "1.0.0",
+  "remixSafety": "CC0",
+  "compatibility": ["web", "godot"],
+  "session": {
+    "name": "Co-op Adventure",
+    "zone": "toppler",
+    "maxPlayers": 2,
+    "players": [
+      {
+        "playerId": "p1",
+        "avatar": "rogue.json",
+        "style": "2d-side",
+        "team": "adventurers",
+        "position": { "x": 80, "y": 0 }
+      },
+      {
+        "playerId": "p2",
+        "avatar": "mage.json", 
+        "style": "2d-side",
+        "team": "adventurers",
+        "position": { "x": 120, "y": 0 }
+      }
+    ]
+  },
+  "avatars": [
+    {
+      "id": "rogue",
+      "base": "rogue",
+      "clothing": ["leather", "boots"],
+      "face": "cunning",
+      "style": "2d-side"
+    },
+    {
+      "id": "mage",
+      "base": "mage",
+      "clothing": ["robe", "hat"],
+      "face": "wise", 
+      "style": "2d-side"
+    }
+  ],
+  "zone": {
+    "name": "toppler",
+    "type": "2d-side",
+    "bounds": { "width": 640, "height": 320 },
+    "physics": "platformer"
+  },
+  "remixInstructions": {
+    "steps": [
+      "1. Load this pack in MIFF Studio",
+      "2. Adjust starting positions for better cooperation",
+      "3. Add shared objectives or win conditions",
+      "4. Test with real-time sync enabled",
+      "5. Export and share your co-op experience"
+    ],
+    "customizable": ["avatars", "positions", "objectives", "zone", "cooperation"],
+    "required": ["session", "avatars", "zone"]
+  }
+}

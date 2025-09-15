@@ -15,6 +15,14 @@
     input[type="text"],select{width:100%;background:#0b1320;border:1px solid #2b3b4f;color:#e6edf3;border-radius:6px;padding:6px}
     canvas{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px}
     .warn{position:fixed;right:12px;bottom:12px;background:#2b1520;border:1px solid #5a1a2a;color:#ff9ba3;padding:10px 12px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.4);display:none;z-index:20}
+    .onboarding{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:30;display:flex;align-items:center;justify-content:center}
+    .onboarding .card{background:#0e1622;border:1px solid #1f2d3c;border-radius:12px;padding:24px;max-width:500px;text-align:center}
+    .onboarding h2{margin:0 0 16px;color:#e6edf3}
+    .onboarding p{margin:0 0 20px;color:#a9b8c6;line-height:1.5}
+    .onboarding .toolbar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .onboarding button{background:#238636;border:1px solid #2ea043;color:#e6edf3;padding:8px 16px;border-radius:6px;cursor:pointer}
+    .onboarding button:hover{background:#2ea043}
+    .onboarding .close{position:absolute;top:12px;right:12px;background:none;border:none;color:#a9b8c6;cursor:pointer;font-size:18px}
   </style>
   <script type="module">
     import { PlayerStatePure } from '../../miff/pure/PlayerStatePure/index.ts';
@@ -131,6 +139,7 @@
     let overThresholdStreak = 0;
     const thresholdMs = 10;
     const thresholdFrames = 60;
+    let keys: Set<string> = new Set();
 
     function download(filename, text) {
       const a = document.createElement('a');
@@ -151,7 +160,26 @@
           for (const p of payload.players){ netState.set(p.playerId, p); }
         }
       });
-      function frame(){ server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height);
+      function frame(){ 
+        // Handle keyboard input for p1
+        if (keys.has('w') || keys.has('arrowup')) {
+          const p1 = netState.get('p1');
+          if (p1) { p1.position.y -= 2; netState.set('p1', p1); }
+        }
+        if (keys.has('s') || keys.has('arrowdown')) {
+          const p1 = netState.get('p1');
+          if (p1) { p1.position.y += 2; netState.set('p1', p1); }
+        }
+        if (keys.has('a') || keys.has('arrowleft')) {
+          const p1 = netState.get('p1');
+          if (p1) { p1.position.x -= 2; netState.set('p1', p1); }
+        }
+        if (keys.has('d') || keys.has('arrowright')) {
+          const p1 = netState.get('p1');
+          if (p1) { p1.position.x += 2; netState.set('p1', p1); }
+        }
+        
+        server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height);
         for (const [id,p] of netState){ ctx.fillStyle = id==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+p.position.x*0.1, 150+p.position.y*0.1, 16, 16); }
         // Update perf HUD
         const perf = server.getPerfSnapshot ? server.getPerfSnapshot() : null;
@@ -193,6 +221,83 @@
       });
       $('btn-copy-url').addEventListener('click', copyUrl);
       $('btn-ping').addEventListener('click', ping);
+      $('btn-load-pack').addEventListener('click', ()=>{
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+        input.onchange = (e)=>{
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = ()=>{
+            try {
+              const pack = JSON.parse(String(reader.result));
+              if (pack.session) {
+                // Load session from pack
+                const session = pack.session;
+                server = new ZoneServerPure({ zone: session.zone });
+                const useRealWebSocket = $('websocket-mode').value === 'realtime';
+                const serverUrl = $('server-url').value;
+                bridge = new WebSocketBridgePure({ 
+                  useRealWebSocket,
+                  serverUrl: useRealWebSocket ? serverUrl : undefined,
+                  onStatusChange: (status)=>{ $('status').textContent = status; }
+                });
+                server.setBridge(bridge);
+                session.players.forEach((p: any)=>{ 
+                  server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); 
+                });
+                bridge.onMessage((ch, payload)=>{
+                  if (payload.type === 'state-delta') {
+                    console.log('📡 Network update:', payload.players.length, 'players');
+                  }
+                });
+                console.log('📦 Pack loaded:', pack.name);
+              }
+            } catch (error) {
+              console.error('Failed to load pack:', error);
+            }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      });
+      $('btn-remix-pack').addEventListener('click', ()=>{
+        const preset = prompt('Enter preset (duel, co-op):', 'duel');
+        if (preset) {
+          const packName = `${preset}-remix-${Date.now()}.json`;
+          download(packName, JSON.stringify({
+            schema: 'miff.multiplayer.pack.v1',
+            name: `${preset} (Remix)`,
+            version: '1.0.0-remix',
+            remixInstructions: { steps: ['0. This is a remix of the original pack'] }
+          }, null, 2));
+        }
+      });
+      $('btn-perf-summary').addEventListener('click', ()=>{
+        const perf = server.getPerfSnapshot ? server.getPerfSnapshot() : null;
+        if (perf) {
+          const summary = {
+            schema: 'miff.perf.summary.v1',
+            timestamp: Date.now(),
+            metrics: {
+              avgTickMs: perf.avgTickMs,
+              maxTickMs: perf.maxTickMs,
+              minTickMs: perf.minTickMs,
+              totalTicks: perf.ticks,
+              playersSimulated: perf.playersSimulatedLast
+            },
+            analysis: {
+              performance: perf.avgTickMs > 10 ? 'poor' : perf.avgTickMs > 5 ? 'fair' : 'good',
+              stability: (perf.maxTickMs - perf.minTickMs) > 20 ? 'unstable' : 'stable',
+              recommendations: []
+            }
+          };
+          if (perf.avgTickMs > 10) summary.analysis.recommendations.push('Consider reducing player count or optimizing simulation');
+          if ((perf.maxTickMs - perf.minTickMs) > 20) summary.analysis.recommendations.push('High variance detected - check for frame drops');
+          download('miff_perf_summary.json', JSON.stringify(summary, null, 2));
+        }
+      });
       $('btn-trace-download').addEventListener('click', ()=>{
         const payload = JSON.stringify({ schema: 'miff.perf.trace.v1', frames: trace }, null, 2);
         download('miff_perf_trace.json', payload);
@@ -240,6 +345,22 @@
         };
         reader.readAsText(file);
       });
+      // Keyboard input
+      document.addEventListener('keydown', (e)=>{
+        keys.add(e.key.toLowerCase());
+        if (['w','a','s','d','arrowup','arrowleft','arrowdown','arrowright'].includes(e.key.toLowerCase())) {
+          e.preventDefault();
+        }
+      });
+      document.addEventListener('keyup', (e)=>{
+        keys.delete(e.key.toLowerCase());
+      });
+      
+      // Show onboarding on first visit
+      if (!localStorage.getItem('miff-multiplayer-onboarded')) {
+        $('onboarding').style.display = 'flex';
+        localStorage.setItem('miff-multiplayer-onboarded', 'true');
+      }
       loadPreset('../../presets/sessions/duel.json');
       loop();
     });
@@ -275,6 +396,10 @@
           <button id="btn-copy-url">Copy URL</button>
           <button id="btn-ping">Ping</button>
         </div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="btn-load-pack">Load Pack</button>
+          <button id="btn-remix-pack">Remix Pack</button>
+        </div>
         <div style="margin-top:8px;font-size:12px;color:#a9b8c6">
           <div>Status: <span id="status">Disconnected</span></div>
           <div>Clients: <span id="client-count">0</span></div>
@@ -306,6 +431,9 @@
               <input id="trace-file" type="file" accept="application/json" />
               <canvas id="trace-canvas" width="280" height="120" style="margin-top:6px;background:#0a101a;border:1px solid #1f2d3c;border-radius:6px"></canvas>
               <div style="font-size:12px;color:#a9b8c6;margin-top:4px">Shows avg/min/max tick (ms) over time</div>
+              <div class="toolbar" style="margin-top:6px">
+                <button id="btn-perf-summary">Export Summary</button>
+              </div>
             </div>
           </div>
         </div>
@@ -313,5 +441,17 @@
     </main>
   </div>
   <div id="perf-warn" class="warn">Performance warning: avg tick > 10 ms sustained</div>
+  <div id="onboarding" class="onboarding" style="display:none">
+    <div class="card" style="position:relative">
+      <button class="close" onclick="$('onboarding').style.display='none'">×</button>
+      <h2>Welcome to MIFF Multiplayer</h2>
+      <p>Remix avatars, simulate sessions, and preview sync. Load presets, connect to WebSocket servers, and export your multiplayer experiences.</p>
+      <div class="toolbar">
+        <button onclick="loadPreset('../../presets/sessions/duel.json'); $('onboarding').style.display='none'">Load Duel</button>
+        <button onclick="loadPreset('../../presets/sessions/co-op.json'); $('onboarding').style.display='none'">Load Co-op</button>
+        <button onclick="$('onboarding').style.display='none'">Start Exploring</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

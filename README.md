@@ -8,6 +8,7 @@
 - Remix Studio: Palette, grid, undo/redo, manifest export
 - Avatar System: Manifests + registry, presets (barbarian/mage/rogue), Studio editor, renderer stubs
 - Multiplayer: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
+- Multiplayer Contributor: Packs, onboarding overlay, perf diagnostics, keyboard input, WebSocket reconnect
 - Open Items: resolve one conflict marker in docs; reduce any/BRITTLE_DEFAULT in bridges; modernize Jest runner
 
 See full audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.

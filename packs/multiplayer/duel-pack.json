@@ -1,0 +1,62 @@
+{
+  "schema": "miff.multiplayer.pack.v1",
+  "name": "Duel Pack",
+  "description": "Classic 1v1 duel with barbarian and mage avatars",
+  "version": "1.0.0",
+  "remixSafety": "CC0",
+  "compatibility": ["web", "godot"],
+  "session": {
+    "name": "Duel",
+    "zone": "toppler",
+    "maxPlayers": 2,
+    "players": [
+      {
+        "playerId": "p1",
+        "avatar": "barbarian.json",
+        "style": "2d-side",
+        "team": "blue",
+        "position": { "x": 100, "y": 0 }
+      },
+      {
+        "playerId": "p2", 
+        "avatar": "mage.json",
+        "style": "2d-side",
+        "team": "red",
+        "position": { "x": 200, "y": 0 }
+      }
+    ]
+  },
+  "avatars": [
+    {
+      "id": "barbarian",
+      "base": "barbarian",
+      "clothing": ["tunic", "boots"],
+      "face": "neutral",
+      "style": "2d-side"
+    },
+    {
+      "id": "mage",
+      "base": "mage", 
+      "clothing": ["robe", "hat"],
+      "face": "wise",
+      "style": "2d-side"
+    }
+  ],
+  "zone": {
+    "name": "toppler",
+    "type": "2d-side",
+    "bounds": { "width": 640, "height": 320 },
+    "physics": "platformer"
+  },
+  "remixInstructions": {
+    "steps": [
+      "1. Load this pack in MIFF Studio",
+      "2. Modify avatars, positions, or team assignments",
+      "3. Test with WebSocket simulation or real server",
+      "4. Export your remixed session manifest",
+      "5. Share your pack with the community"
+    ],
+    "customizable": ["avatars", "positions", "teams", "zone", "rules"],
+    "required": ["session", "avatars", "zone"]
+  }
+}
