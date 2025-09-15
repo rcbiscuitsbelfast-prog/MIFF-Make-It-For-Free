@@ -8,6 +8,7 @@
     "test:avatar:layering": "jest --config jest.config.cjs --testPathPattern AvatarRendererWebPure",
     "test:avatar:anchors": "jest --config jest.config.cjs --testPathPattern AvatarRendererGodotPure",
     "test:avatar:ci": "npm run -s test:avatar:translation && npm run -s test:avatar:layering && npm run -s test:avatar:anchors",
+    "test:avatar:performance": "jest --config jest.config.cjs --testPathPattern AvatarSystemPure/tests/performance",
     "build": "tsc",
     "dev": "vite",
     "preview": "vite preview",

@@ -1,0 +1,20 @@
+{
+  "base": "barbarian",
+  "style": "2d-side",
+  "layers": {
+    "body": "assets/avatars/barbarian/barbarian_base.png",
+    "clothing": ["assets/avatars/barbarian/tunic_plain.png", "assets/avatars/barbarian/boots.png"],
+    "face": "assets/avatars/barbarian/neutral.png"
+  },
+  "anchor": {
+    "head": { "x": 16, "y": 4 },
+    "torso": { "x": 16, "y": 16 },
+    "feet": { "x": 16, "y": 28 }
+  },
+  "performance": {
+    "polyCount": 0,
+    "textureSize": "64x64",
+    "mobileOptimized": true
+  }
+}
+

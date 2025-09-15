@@ -1,0 +1,20 @@
+{
+  "base": "rogue",
+  "style": "2d-side",
+  "layers": {
+    "body": "assets/avatars/rogue/rogue_base.png",
+    "clothing": ["assets/avatars/rogue/leather_vest.png", "assets/avatars/rogue/boots.png"],
+    "face": "assets/avatars/rogue/neutral.png"
+  },
+  "anchor": {
+    "head": { "x": 16, "y": 4 },
+    "torso": { "x": 16, "y": 16 },
+    "feet": { "x": 16, "y": 28 }
+  },
+  "performance": {
+    "polyCount": 0,
+    "textureSize": "64x64",
+    "mobileOptimized": true
+  }
+}
+

@@ -5,11 +5,26 @@ export interface AvatarComponent {
   id: string; // e.g. "tunic_blue_v1"
 }
 
+export interface AvatarAnchors {
+  head?: { x: number; y: number };
+  torso?: { x: number; y: number };
+  feet?: { x: number; y: number };
+  [key: string]: { x: number; y: number } | undefined;
+}
+
+export interface AvatarLayers {
+  body?: string; // url or asset id
+  clothing?: string[];
+  face?: string; // url or asset id
+}
+
 export interface AvatarManifest {
   base: 'barbarian' | 'mage' | 'rogue' | string;
   clothing: string[];
   face: 'neutral' | 'smile' | 'angry' | string;
   style: AvatarStyle;
+  layers?: AvatarLayers;
+  anchor?: AvatarAnchors;
   performance?: {
     polyCount?: number;
     textureSize?: string;
