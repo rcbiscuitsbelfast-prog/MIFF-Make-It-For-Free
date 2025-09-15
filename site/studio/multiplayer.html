@@ -14,6 +14,7 @@
     .kv{display:grid;grid-template-columns:120px 1fr;gap:6px;align-items:center}
     input[type="text"],select{width:100%;background:#0b1320;border:1px solid #2b3b4f;color:#e6edf3;border-radius:6px;padding:6px}
     canvas{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px}
+    .warn{position:fixed;right:12px;bottom:12px;background:#2b1520;border:1px solid #5a1a2a;color:#ff9ba3;padding:10px 12px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.4);display:none;z-index:20}
   </style>
   <script type="module">
     import { PlayerStatePure } from '../../miff/pure/PlayerStatePure/index.ts';
@@ -95,6 +96,9 @@
 
     let tracing = false;
     const trace: any[] = [];
+    let overThresholdStreak = 0;
+    const thresholdMs = 10;
+    const thresholdFrames = 60;
 
     function download(filename, text) {
       const a = document.createElement('a');
@@ -128,6 +132,18 @@
           $('perf-players').textContent = String(perf.playersSimulatedLast);
           if (tracing) {
             trace.push({ t: Date.now(), perf });
+          }
+          // Perf warning logic
+          if (perf.avgTickMs > thresholdMs) {
+            overThresholdStreak++;
+          } else {
+            overThresholdStreak = 0;
+          }
+          const warnEl = $('perf-warn');
+          if (overThresholdStreak > thresholdFrames) {
+            warnEl.style.display = 'block';
+          } else if (warnEl.style.display !== 'none' && overThresholdStreak === 0) {
+            warnEl.style.display = 'none';
           }
         }
         requestAnimationFrame(frame);
@@ -259,5 +275,6 @@
       </div>
     </main>
   </div>
+  <div id="perf-warn" class="warn">Performance warning: avg tick > 10 ms sustained</div>
 </body>
 </html>
