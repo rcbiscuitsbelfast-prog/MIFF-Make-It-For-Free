@@ -109,7 +109,8 @@
     "tailwindcss": "^4.1.12"
   },
   "bin": {
-    "miff-avatar": "cli/miff-avatar.ts"
+    "miff-avatar": "cli/miff-avatar.ts",
+    "miff-session": "cli/miff-session.ts"
   },
   "miffAvatar": {
     "presets": [
