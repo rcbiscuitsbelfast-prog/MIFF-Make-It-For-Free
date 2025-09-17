@@ -600,6 +600,13 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
 const path = require('path');
 const childProcess = require('child_process');
 
+// Restore real fs.readFileSync so CLIs/tests can read actual fixture files
+try {
+  const fsActual = jest.requireActual('fs');
+  const fsModule = require('fs');
+  fsModule.readFileSync = fsActual.readFileSync;
+} catch (_) {}
+
 // Shim child_process.execFileSync to translate `npx ts-node ...` into `npx tsx ...`
 // for ESM-friendly TS execution in Node 22+ environments.
 (() => {
