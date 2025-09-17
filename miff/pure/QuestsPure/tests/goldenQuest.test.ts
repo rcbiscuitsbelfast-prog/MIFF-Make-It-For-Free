@@ -7,6 +7,18 @@ test('golden quest flow', () => {
   const npc = path.resolve(root, 'sample_quest_npc.json');
   const out = (global as any).testUtils.runCLI(harness, [npc, '1234']);
   const got = JSON.parse(out);
-  const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_quest.json'), 'utf-8'));
-  expect(got).toEqual(expected);
+  // Deterministic assertions
+  expect(got.seed).toBe(1234);
+  expect(got.quests).toEqual([
+    { id: 'fetch_item', step: 1, status: 'Completed' }
+  ]);
+  expect(got.log).toEqual([
+    'NPC: Hello, can you help me?',
+    'NPC: Find the lost item.',
+    'QUEST: fetch_item -> step=0 status=Active',
+    'NPC: Have you found it?',
+    'QUEST: fetch_item -> step=1 status=Active',
+    'NPC: Thank you!',
+    'QUEST: fetch_item -> step=1 status=Completed'
+  ]);
 });
