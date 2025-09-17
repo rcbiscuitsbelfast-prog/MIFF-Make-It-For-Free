@@ -1,5 +1,18 @@
 import { AudioManager, AudioManagerOptions } from './AudioManager';
 
+// Use fake timers and stub fade methods to avoid long-running timers
+jest.useFakeTimers();
+
+beforeAll(() => {
+  // Stub fades to be instantaneous in tests
+  jest.spyOn(AudioManager.prototype as any, 'startFadeIn').mockImplementation(() => {});
+  jest.spyOn(AudioManager.prototype as any, 'startFadeOut').mockImplementation(async () => {});
+});
+
+afterAll(() => {
+  jest.restoreAllMocks();
+});
+
 describe('AudioManager', () => {
   jest.setTimeout(30000);
   let audioManager: AudioManager;
@@ -36,7 +49,7 @@ describe('AudioManager', () => {
     });
   });
 
-  describe.skip('Theme Audio Playback', () => {
+  describe('Theme Audio Playback', () => {
     test('should play neonGrid theme audio', async () => {
       const result = await audioManager.playThemeAudio('neonGrid');
       expect(result).toBe(true);
@@ -73,7 +86,7 @@ describe('AudioManager', () => {
     });
   });
 
-  describe.skip('Audio Control Methods', () => {
+  describe('Audio Control Methods', () => {
     beforeEach(async () => {
       // Ensure clean state before each test
       await audioManager.stopCurrentAudio();
@@ -139,7 +152,7 @@ describe('AudioManager', () => {
     });
   });
 
-  describe.skip('Remix Safety and Options', () => {
+  describe('Remix Safety and Options', () => {
     beforeEach(async () => {
       // Ensure clean state before remix safety tests
       await audioManager.stopCurrentAudio();
@@ -304,7 +317,7 @@ describe('AudioManager', () => {
     });
   });
 
-  describe.skip('Error Handling', () => {
+  describe('Error Handling', () => {
     beforeEach(async () => {
       // Ensure clean state before error handling tests
       await audioManager.stopCurrentAudio();
