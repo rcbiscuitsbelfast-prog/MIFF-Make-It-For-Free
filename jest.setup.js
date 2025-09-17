@@ -235,17 +235,24 @@ function runCLI(cliPath, args = []) {
 	console.log(`[runCLI] CWD: ${cliCwd}`);
 	console.log(`[runCLI] Args: ${JSON.stringify(args)}`);
 
-	try {
-		let output = execFileSync('npx', npxArgs, {
-			cwd: cliCwd,
-			encoding: 'utf-8',
-			timeout: 25000,
-			killSignal: 'SIGTERM'
-		});
-
+    try {
+        // Prefer Node ESM loader path to avoid npx behavior under Jest
+        const nodeArgs = ['--loader', 'tsx', absCliPath, ...args];
+        let res = spawnSync(process.execPath, nodeArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
+        let output = (res.stdout || '') + (res.stderr || '');
         if (!output || output.trim() === '') {
-            const res = spawnSync('npx', npxArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
-            output = (res.stdout || '') + (res.stderr || '');
+            // Fallback to npx tsx
+            try {
+                output = execFileSync('npx', npxArgs, {
+                    cwd: cliCwd,
+                    encoding: 'utf-8',
+                    timeout: 25000,
+                    killSignal: 'SIGTERM'
+                });
+            } catch (e) {
+                const res2 = spawnSync('npx', npxArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
+                output = (res2.stdout || '') + (res2.stderr || '');
+            }
         }
 
 		console.log(`[runCLI] CLI execution completed successfully`);
