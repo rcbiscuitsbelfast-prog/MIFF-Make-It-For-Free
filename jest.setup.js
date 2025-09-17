@@ -227,7 +227,7 @@ function runCLI(cliPath, args = []) {
         }
     }
 
-    const cliCwd = process.cwd();
+    const cliCwd = path.dirname(absCliPath);
     const runner = 'tsx';
     const npxArgs = [runner, absCliPath, ...args];
 
@@ -238,8 +238,8 @@ function runCLI(cliPath, args = []) {
     try {
         // Prefer Node ESM loader path to avoid npx behavior under Jest
         const nodeArgs = ['--import', 'tsx', absCliPath, ...args];
-        let res = spawnSync(process.execPath, nodeArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
-        let output = (res.stdout || '') + (res.stderr || '');
+        let res = spawnSync(process.execPath, nodeArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','ignore'] });
+        let output = (res.stdout || '');
         if (!output || output.trim() === '') {
             // Fallback to npx tsx
             try {
@@ -250,8 +250,8 @@ function runCLI(cliPath, args = []) {
                     killSignal: 'SIGTERM'
                 });
             } catch (e) {
-                const res2 = spawnSync('npx', npxArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
-                output = (res2.stdout || '') + (res2.stderr || '');
+                const res2 = spawnSync('npx', npxArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','ignore'] });
+                output = (res2.stdout || '');
             }
         }
 
@@ -313,19 +313,12 @@ global.WebGLRenderingContext = jest.fn().mockImplementation(() => ({
 }));
 
 // Mock console methods to reduce noise in tests
-global.console = {
-  ...console,
-  log: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn()
-};
+// Keep console intact so child CLI outputs are not suppressed in some environments
+global.console = console;
 
 // Mock process methods
-global.process = {
-  ...process,
-  exit: jest.fn(),
-  argv: ['node', 'test.js', 'demo']
-};
+// Avoid overriding the global process object to preserve execPath/env for child processes
+// If needed, individual fields can be mocked within specific tests.
 
 // Mock timers
 global.setTimeout = jest.fn().mockReturnValue(1);
