@@ -37,6 +37,6 @@ function main(): void {
   handleSuccess(result, 'bridge_inspection');
 }
 
-if (require.main === module) {
+if(import.meta.url === ) {
   main();
 }

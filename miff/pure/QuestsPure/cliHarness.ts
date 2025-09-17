@@ -48,4 +48,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if (require.main === module) main();
+if(import.meta.url === ) main();
