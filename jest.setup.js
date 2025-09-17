@@ -33,7 +33,12 @@ if (typeof window !== 'undefined') {
     drawImage: () => {},
     getImageData: () => ({ data: new Uint8ClampedArray(4) }),
     putImageData: () => {},
-    createImageData: () => new Uint8ClampedArray(4),
+    // Return an ImageData-like object with a backing Uint8ClampedArray
+    createImageData: (w, h) => ({
+      data: new Uint8ClampedArray(Math.max(1, (w || 1) * (h || 1) * 4)),
+      width: w || 1,
+      height: h || 1
+    }),
     measureText: () => ({ width: 0 }),
     fillStyle: '#000',
     strokeStyle: '#000',
@@ -48,47 +53,17 @@ if (typeof window !== 'undefined') {
     if (type === 'webgl' || type === 'webgl2') return webglContext;
     return originalGetContext ? originalGetContext.call(this, type, attributes) : null;
   };
+
+  // Provide a simple toDataURL implementation for jsdom canvas elements
+  if (typeof HTMLCanvasElement.prototype.toDataURL !== 'function') {
+    HTMLCanvasElement.prototype.toDataURL = function() {
+      // 1x1 transparent PNG
+      return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+    };
+  }
 }
 // Setup canvas for jsdom tests
-if (typeof window !== 'undefined') {
-  // Provide a minimal 2D/WebGL context stub for jsdom
-  const twoDContext = {
-    clearRect: () => {},
-    fillRect: () => {},
-    setTransform: () => {},
-    strokeRect: () => {},
-    beginPath: () => {},
-    moveTo: () => {},
-    lineTo: () => {},
-    arc: () => {},
-    closePath: () => {},
-    stroke: () => {},
-    fill: () => {},
-    fillText: () => {},
-    save: () => {},
-    restore: () => {},
-    translate: () => {},
-    scale: () => {},
-    rotate: () => {},
-    drawImage: () => {},
-    getImageData: () => ({ data: new Uint8ClampedArray(4) }),
-    putImageData: () => {},
-    createImageData: () => new Uint8ClampedArray(4),
-    measureText: () => ({ width: 0 }),
-    fillStyle: '#000',
-    strokeStyle: '#000',
-    font: ''
-  };
-
-  const webglContext = {};
-
-  const originalGetContext = HTMLCanvasElement.prototype.getContext;
-  HTMLCanvasElement.prototype.getContext = function(type, attributes) {
-    if (type === '2d') return twoDContext;
-    if (type === 'webgl' || type === 'webgl2') return webglContext;
-    return originalGetContext ? originalGetContext.call(this, type, attributes) : null;
-  };
-}
+// (Removed duplicate jsdom canvas setup block)
 
 // Minimal DialogueParser stub for DialoguePure tests
 global.DialogueParser = {
