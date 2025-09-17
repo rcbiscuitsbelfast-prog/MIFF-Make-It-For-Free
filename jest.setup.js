@@ -202,7 +202,7 @@ if (typeof afterEach === 'function') {
 
 function runCLI(cliPath, args = []) {
 	const path = require('path');
-	const { execFileSync } = require('child_process');
+	const { execFileSync, spawnSync } = require('child_process');
 	let absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
 
 	// Auto-remap legacy paths used in some tests that assume repo root as CWD
@@ -233,12 +233,17 @@ function runCLI(cliPath, args = []) {
 	console.log(`[runCLI] Args: ${JSON.stringify(args)}`);
 
 	try {
-		const output = execFileSync('npx', npxArgs, {
+		let output = execFileSync('npx', npxArgs, {
 			cwd: cliCwd,
 			encoding: 'utf-8',
 			timeout: 25000,
 			killSignal: 'SIGTERM'
 		});
+
+        if (!output || output.trim() === '') {
+            const res = spawnSync('npx', npxArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
+            output = (res.stdout || '') + (res.stderr || '');
+        }
 
 		console.log(`[runCLI] CLI execution completed successfully`);
 		console.log(`[runCLI] Output length: ${output.length} characters`);
