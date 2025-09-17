@@ -216,13 +216,16 @@ function runCLI(cliPath, args = []) {
 	}
 	absCliPath = parts.join(path.sep);
 
-	// If the CLI file is not found, try to resolve within miff/pure
-	if (!fs.existsSync(absCliPath)) {
-		const candidate = path.join(process.cwd(), 'miff', 'pure', cliPath);
-		if (fs.existsSync(candidate)) {
-			absCliPath = candidate;
-		}
-	}
+    // If the CLI file is not found, try to resolve within miff/pure
+    {
+        const fsLocal = require('fs');
+        if (!fsLocal.existsSync(absCliPath)) {
+            const candidate = path.join(process.cwd(), 'miff', 'pure', cliPath);
+            if (fsLocal.existsSync(candidate)) {
+                absCliPath = candidate;
+            }
+        }
+    }
 
     const cliCwd = process.cwd();
     const runner = 'tsx';
