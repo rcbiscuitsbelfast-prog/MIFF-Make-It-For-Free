@@ -1,0 +1,182 @@
+# MIFF Placeholder & Scaffolding Audit Report
+## Date: September 15, 2025
+## Status: COMPREHENSIVE AUDIT COMPLETED
+
+## Executive Summary
+A comprehensive audit of placeholder patterns, scaffolding status, and CLI harness implementation across all Pure modules has been completed. The audit reveals a mixed state with some modules fully implemented, others using synthetic output, and several CLI harnesses still in stub state.
+
+## Key Findings
+
+### 1. Placeholder Patterns Found
+
+#### STUB Patterns
+- **UnityBridgePure/cliHarness.ts**: Stub implementation - outputs nothing
+- **NPCsPure/cliHarness.ts**: Stub implementation - outputs nothing  
+- **GodotBridgePure/cliHarness.ts**: Stub implementation - outputs nothing
+- **BridgeSchemaPure/cliHarness.ts**: Uses shared utilities with synthetic output
+
+#### TODO/FIXME Patterns
+- **StatsSystemPure/tests/integration.stats-combat.test.ts**: "TODO: implement when CombatCorePure typings stabilized"
+- **SkillTreePure/tests/integration.skilltree-xp.test.ts**: "TODO: implement when XPLevelingPure harness is stable"
+
+#### BRITTLE_DEFAULT Types
+- **No active BRITTLE_DEFAULT usage found** - previous audit successfully removed these
+
+### 2. Any Type Usage Analysis
+
+#### Remaining Any Usage (16 instances)
+- **CombatCorePure/cliHarness.ts**: `const outputs:any[] = [];` (1 instance)
+- **VisualReplaySystemPure/index.ts**: `context: any;` (1 instance)
+- **CLI tools**: Multiple instances in miff-export.ts, miff-diff.ts, miff-avatar.ts, miff-simulate.ts
+- **Test files**: `(global as any).testUtils.runCLI` pattern (2 instances)
+
+#### Type Safety Status
+- **UnityBridgePure**: ✅ Fully refactored - all `any` types replaced with proper interfaces
+- **VisualReplaySystemPure**: ✅ Mostly refactored - only 1 remaining `any` usage
+- **CLI tools**: ⚠️ Still using `any` types for flexibility
+- **Test files**: ⚠️ Using `any` for global test utilities
+
+### 3. Scaffolding Status Assessment
+
+#### Fully Implemented Modules ✅
+- **CombatCorePure**: Real combat simulation with proper damage calculations
+- **ValidationPure**: Real validation logic with error reporting
+- **TimeSystemPure**: Real timer/cooldown/scheduling system
+- **VisualReplaySystemPure**: Complete replay system implementation
+- **TopplerDemoPure**: Physics simulation with deterministic output
+- **SessionManifestPure**: Complete session management (has `create` method, not `createSession`)
+
+#### Partially Scaffolded Modules ⚠️
+- **PixelGenPure**: 
+  - ✅ Has proper preset system and asset generation
+  - ⚠️ Comment indicates "Stub: would generate actual pixel data"
+  - ⚠️ Returns filename strings instead of actual pixel data
+- **PixelAnimPure**: 
+  - ✅ Complete animation and sprite sheet system
+  - ✅ No stub comments found
+  - ✅ Real frame data processing
+- **WorldManifestPure**: 
+  - ✅ Complete world/tile management system
+  - ❌ No `scaffoldWorld` method found (method name mismatch in audit checklist)
+
+#### Stub Modules ❌
+- **UnityBridgePure/cliHarness.ts**: Stub implementation
+- **NPCsPure/cliHarness.ts**: Stub implementation
+- **GodotBridgePure/cliHarness.ts**: Stub implementation
+
+### 4. CLI Harness Implementation Analysis
+
+#### Real Implementation (Produces Actual Output) ✅
+- **CombatCorePure**: Real combat simulation output
+- **ValidationPure**: Real validation error reporting
+- **TimeSystemPure**: Real timer system output
+- **TopplerDemoPure**: Real physics simulation output
+- **VisualReplaySystemPure**: Real replay data processing
+
+#### Synthetic Output (Uses Shared Utilities) ⚠️
+- **BridgeSchemaPure**: Uses `buildSamplePayload()`, `validatePayload()`, `defaultStub()`
+- **RenderPayloadPure**: Likely uses similar shared utilities
+- **Multiple modules**: Using shared CLI harness utilities for consistent output
+
+#### Stub Implementation (No Output) ❌
+- **UnityBridgePure**: Stub - no output
+- **NPCsPure**: Stub - no output
+- **GodotBridgePure**: Stub - no output
+
+### 5. Golden Test Dependencies
+
+#### Tests Using Real Logic ✅
+- **CombatCorePure**: Tests real combat simulation
+- **ValidationPure**: Tests real validation logic
+- **TimeSystemPure**: Tests real timer system
+- **TopplerDemoPure**: Tests real physics simulation
+
+#### Tests Using Synthetic Data ⚠️
+- **BridgeSchemaPure**: Tests synthetic payload generation
+- **RenderPayloadPure**: Likely tests synthetic render data
+- **Multiple modules**: Using shared utilities for test data
+
+#### Tests Using Mocks ❌
+- **WebSocketBridgePure**: Uses mock transport for testing
+- **NetworkBridgePure**: Uses mock transport for testing
+
+## Detailed Module Analysis
+
+### PixelGenPure
+**Status**: Partially Scaffolded
+- ✅ Complete preset system with forest, village, dungeon presets
+- ✅ Proper asset generation with metadata
+- ✅ Seeded random number generation
+- ⚠️ Returns filename strings instead of actual pixel data
+- ⚠️ Comment indicates "Stub: would generate actual pixel data"
+
+### PixelAnimPure  
+**Status**: Fully Implemented
+- ✅ Complete animation system with presets
+- ✅ Real sprite sheet generation
+- ✅ Frame data processing
+- ✅ Export functionality
+- ✅ No stub comments found
+
+### WorldManifestPure
+**Status**: Fully Implemented
+- ✅ Complete world/tile management
+- ✅ Zone creation and manipulation
+- ✅ Tile placement and removal
+- ✅ Validation system
+- ❌ No `scaffoldWorld` method (audit checklist error)
+
+### SessionManifestPure
+**Status**: Fully Implemented
+- ✅ Complete session management
+- ✅ Player reference management
+- ✅ Validation system
+- ❌ Has `create` method, not `createSession` (audit checklist error)
+
+## Recommendations
+
+### Immediate Actions (High Priority)
+1. **Fix ES Module Issues**: Update remaining CLI harnesses to use `import.meta.url` instead of `require.main`
+2. **Implement Stub CLI Harnesses**: Replace stub implementations in UnityBridgePure, NPCsPure, GodotBridgePure
+3. **Complete PixelGenPure**: Implement actual pixel data generation instead of filename strings
+
+### Medium Priority
+1. **Refactor Remaining Any Types**: Replace `any` usage in CLI tools and test files
+2. **Audit Shared Utilities**: Review shared CLI harness utilities for synthetic vs real output
+3. **Standardize Method Names**: Align method names with audit checklist expectations
+
+### Low Priority
+1. **Documentation Updates**: Update audit checklist to reflect actual method names
+2. **Test Coverage**: Add more comprehensive tests for fully implemented modules
+3. **Performance Optimization**: Optimize real implementations for production use
+
+## Files Requiring Attention
+
+### CLI Harnesses Needing ES Module Fix
+- `miff/pure/TimeSystemPure/cliHarness.ts` ✅ Fixed
+- `miff/pure/ValidationPure/cliHarness.ts` ✅ Fixed  
+- `miff/pure/CombatCorePure/cliHarness.ts` ✅ Fixed
+- Additional harnesses may need similar fixes
+
+### Stub CLI Harnesses Needing Implementation
+- `miff/pure/UnityBridgePure/cliHarness.ts`
+- `miff/pure/NPCsPure/cliHarness.ts`
+- `miff/pure/GodotBridgePure/cliHarness.ts`
+
+### Modules Needing Completion
+- `miff/pure/PixelGenPure/index.ts` - Implement actual pixel data generation
+
+## Conclusion
+
+The MIFF codebase shows a mixed state of implementation maturity:
+- **Core systems** (Combat, Validation, Time, Replay) are fully implemented
+- **Asset generation** modules are partially scaffolded with some stub elements
+- **CLI harnesses** range from fully functional to complete stubs
+- **Type safety** has been significantly improved but some `any` usage remains
+
+The audit reveals that the previous claim of "all placeholder and scaffolding issues resolved" was premature. While significant progress has been made, several modules still require completion to reach full production readiness.
+
+---
+**Audit Completed By**: AI Assistant
+**Completion Date**: September 15, 2025
+**Next Review**: Q4 2025
