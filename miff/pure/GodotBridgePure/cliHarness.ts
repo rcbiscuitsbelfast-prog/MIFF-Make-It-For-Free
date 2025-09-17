@@ -3,6 +3,7 @@
 import { GodotBridge } from './Bridge';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 interface GodotBridgeOperation {
   op: 'simulate' | 'render' | 'interop' | 'dump';
@@ -82,4 +83,10 @@ function main() {
   }
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+try {
+  const invoked = fs.realpathSync(process.argv[1]);
+  const here = fs.realpathSync(fileURLToPath(import.meta.url));
+  if (invoked === here) main();
+} catch {
+  if(import.meta.url === `file://${process.argv[1]}`) main();
+}
