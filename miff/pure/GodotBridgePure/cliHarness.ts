@@ -12,14 +12,23 @@ interface GodotBridgeOperation {
 }
 
 function main() {
-  const inputFile = process.argv[2];
-  if (!inputFile) {
-    console.error('Usage: tsx cliHarness.ts <input-file>');
+  const argv = process.argv.slice(2);
+  if (argv.length === 0) {
+    console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
     process.exit(1);
   }
 
   try {
-    const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
+    let input: GodotBridgeOperation;
+    if (argv.length >= 2 && !argv[2]?.endsWith('.json')) {
+      input = { op: argv[0] as any, module: argv[1] } as GodotBridgeOperation;
+    } else if (argv.length >= 3) {
+      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
+      input = { op: argv[0] as any, module: argv[1], data: payload } as GodotBridgeOperation;
+    } else {
+      const inputFile = argv[0];
+      input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
+    }
     
     if (!input || typeof input !== 'object') {
       throw new Error('Invalid input: expected JSON object');

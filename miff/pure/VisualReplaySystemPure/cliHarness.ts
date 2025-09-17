@@ -79,18 +79,13 @@ async function main() {
     // Generate replay result
     const replayResult = generateReplayResult(session, recordedFrames);
     
-    // Export in requested format if specified, but always print a JSON envelope to stdout
+    // Always emit full JSON on stdout; attach exports to stderr only
+    console.log(JSON.stringify(replayResult, null, 2));
     if (input.exportFormat) {
       const exported = exportReplayData(replayResult, input.exportFormat);
-      const envelope = { op: 'replay', session: replayResult.session };
-      console.log(JSON.stringify(envelope, null, 2));
-      // Attach exported artifact to stderr to avoid polluting stdout JSON
       if (input.exportFormat === 'csv' || input.exportFormat === 'summary') {
         console.error('\n' + exported);
       }
-    } else {
-      // Default JSON output
-      console.log(JSON.stringify(replayResult, null, 2));
     }
     
   } catch (error) {

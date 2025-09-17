@@ -952,4 +952,4 @@ global.testUtils = {
   runCLI: runCLI
 };
 
-console.log('🧪 Jest setup complete - Global mocks configured');
+// Setup complete
