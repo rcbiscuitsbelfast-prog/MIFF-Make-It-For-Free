@@ -1,9 +1,41 @@
 // VisualReplaySystemPure - Deterministic visual replay system for MIFF scenario tests
 
+export interface GameState {
+  entities: Record<string, EntityState>;
+  world: WorldState;
+  ui: UIState;
+  audio: AudioState;
+}
+
+export interface EntityState {
+  id: string;
+  position: { x: number; y: number; z?: number };
+  rotation: { x: number; y: number; z?: number };
+  scale: { x: number; y: number; z?: number };
+  visible: boolean;
+  active: boolean;
+}
+
+export interface WorldState {
+  time: number;
+  weather: string;
+  lighting: { ambient: number; directional: number };
+}
+
+export interface UIState {
+  menus: Array<{ id: string; visible: boolean }>;
+  notifications: Array<{ id: string; message: string; type: string }>;
+}
+
+export interface AudioState {
+  music: { track: string; volume: number; playing: boolean };
+  sfx: Array<{ id: string; volume: number; playing: boolean }>;
+}
+
 export interface ReplayFrame {
   frameNumber: number;
   timestamp: number;
-  gameState: any;
+  gameState: GameState;
   inputState: InputState;
   visualHooks: VisualHook[];
   metadata: FrameMetadata;
@@ -37,7 +69,7 @@ export interface VisualHook {
   type: 'sprite' | 'animation' | 'particle' | 'sound' | 'ui' | 'camera' | 'light';
   target: string;
   action: 'show' | 'hide' | 'play' | 'stop' | 'update' | 'trigger';
-  data: any;
+  data: Record<string, unknown>;
   position?: {
     x: number;
     y: number;
@@ -85,7 +117,7 @@ export interface InputEvent {
   frameNumber: number;
   timestamp: number;
   type: 'keydown' | 'keyup' | 'mousedown' | 'mouseup' | 'mousemove' | 'gamepad' | 'touch';
-  data: any;
+  data: Record<string, unknown>;
 }
 
 export interface ReplayOutcome {
@@ -268,7 +300,7 @@ export function createReplaySession(
 export function recordFrame(
   session: ReplaySession,
   frameNumber: number,
-  gameState: any,
+  gameState: GameState,
   inputState: InputState,
   visualHooks: VisualHook[],
   metadata: FrameMetadata
@@ -311,7 +343,7 @@ export function recordInputEvent(
   session: ReplaySession,
   frameNumber: number,
   type: InputEvent['type'],
-  data: any
+  data: Record<string, unknown>
 ): InputEvent {
   const event: InputEvent = {
     frameNumber,

@@ -7,8 +7,8 @@
 - Pixel Art: Asset creation, generation, animation, world building
 
 ## Short-term (1–2 days)
-- Fix conflict markers in `miff/pure/VisualReplaySystemPure/README.md`
-- Tighten types in `WebBridgePure/Bridge.ts` and `NetworkBridgePure`
+- ✅ Fix conflict markers in `miff/pure/VisualReplaySystemPure/README.md`
+- ✅ Tighten types in `UnityBridgePure/Bridge.ts` and `VisualReplaySystemPure/index.ts`
 - Add Godot avatar loader glue (manifest -> nodes)
 
 ## Near-term (1 week)

@@ -6,16 +6,29 @@ import { CraftingManager } from '../CraftingPure/Manager';
 import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
 
+export interface UnityGameObject {
+  name: string;
+  active: boolean;
+  layer: number;
+  tag: string;
+}
+
+export interface UnityTransform {
+  position: { x: number; y: number; z: number };
+  rotation: { x: number; y: number; z: number; w: number };
+  scale: { x: number; y: number; z: number };
+}
+
 export interface UnityEntity {
   id: string;
-  gameObject: any; // Unity GameObject reference
-  transform: any; // Unity Transform component
-  components: { [key: string]: any }; // Unity components
+  gameObject: UnityGameObject;
+  transform: UnityTransform;
+  components: { [key: string]: UnityComponent };
 }
 
 export interface UnityComponent {
   type: string;
-  data: any;
+  data: Record<string, unknown>;
   enabled: boolean;
 }
 
@@ -30,7 +43,7 @@ export interface UnityRenderData {
 export interface UnityBridgeOperation {
   op: 'simulate' | 'render' | 'interop' | 'dump';
   module: string;
-  data?: any;
+  data?: Record<string, unknown>;
   config?: UnityBridgeConfig;
 }
 
@@ -68,9 +81,9 @@ export class UnityBridge {
     this.economyManager = new EconomyManager();
   }
 
-  simulate(module: string, data: any, config: UnityBridgeConfig): UnityBridgeOutput {
+  simulate(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
     try {
-      let result: any;
+      let result: Record<string, unknown>;
       
       switch (module) {
         case 'npcs':
@@ -110,7 +123,7 @@ export class UnityBridge {
     }
   }
 
-  render(module: string, data: any, config: UnityBridgeConfig): UnityBridgeOutput {
+  render(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
     try {
       let entities: UnityEntity[] = [];
       let components: UnityComponent[] = [];
@@ -167,12 +180,12 @@ export class UnityBridge {
     }
   }
 
-  interop(module: string, data: any, config: UnityBridgeConfig): UnityBridgeOutput {
+  interop(module: string, data: Record<string, unknown>, config: UnityBridgeConfig): UnityBridgeOutput {
     try {
       // Handle Unity-specific data conversion
       const convertedData = this.convertFromUnity(data);
       
-      let result: any;
+      let result: Record<string, unknown>;
       switch (module) {
         case 'npcs':
           result = this.npcsManager.updateNPC(convertedData.id, convertedData);
@@ -236,7 +249,7 @@ export class UnityBridge {
     }));
   }
 
-  private createCombatEntities(data: any, config: UnityBridgeConfig): UnityEntity[] {
+  private createCombatEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
     return [
       {
         id: data.attackerId,
@@ -250,7 +263,7 @@ export class UnityBridge {
     ];
   }
 
-  private createCombatComponents(data: any): UnityComponent[] {
+  private createCombatComponents(data: Record<string, unknown>): UnityComponent[] {
     return [
       {
         type: 'CombatController',
@@ -260,8 +273,8 @@ export class UnityBridge {
     ];
   }
 
-  private createWorldEntities(data: any, config: UnityBridgeConfig): UnityEntity[] {
-    return data.zones?.map((zone: any) => ({
+  private createWorldEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
+    return (data.zones as Array<Record<string, unknown>>)?.map((zone: Record<string, unknown>) => ({
       id: zone.id,
       gameObject: `Zone_${zone.id}`,
       transform: { position: { x: zone.x, y: zone.y, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
@@ -271,7 +284,7 @@ export class UnityBridge {
     })) || [];
   }
 
-  private createWorldComponents(data: any): UnityComponent[] {
+  private createWorldComponents(data: Record<string, unknown>): UnityComponent[] {
     return [
       {
         type: 'ZoneController',
@@ -281,7 +294,7 @@ export class UnityBridge {
     ];
   }
 
-  private convertFromUnity(unityData: any): any {
+  private convertFromUnity(unityData: Record<string, unknown>): Record<string, unknown> {
     // Convert Unity-specific data back to MIFF format
     return {
       id: unityData.id,
@@ -289,7 +302,7 @@ export class UnityBridge {
     };
   }
 
-  private convertToUnityRenderData(result: any, config: UnityBridgeConfig): UnityRenderData {
+  private convertToUnityRenderData(result: Record<string, unknown>, config: UnityBridgeConfig): UnityRenderData {
     return {
       entities: [],
       components: [],

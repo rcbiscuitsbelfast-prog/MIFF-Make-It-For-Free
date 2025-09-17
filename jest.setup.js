@@ -179,6 +179,8 @@ if (typeof afterEach === 'function') {
 }
 
 function runCLI(cliPath, args = []) {
+	const path = require('path');
+	const { execFileSync } = require('child_process');
 	const absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
 	
 	console.log(`[runCLI] Starting CLI execution: ${absCliPath}`);
@@ -186,8 +188,7 @@ function runCLI(cliPath, args = []) {
 	
 	try {
 		const output = execFileSync('npx', [
-			'ts-node',
-			'--compiler-options', '{"module":"commonjs","types":["node"]}',
+			'tsx',
 			absCliPath,
 			...args
 		], { 
@@ -865,6 +866,11 @@ global.stubbedCLIOutput = {
   flags: new Set(['friendly_reputation']),
   parsed: { type: 'condition' },
   result: { npcId: 'spiritTamer', name: 'Tamer of Spirits' }
+};
+
+// Export runCLI for tests
+global.testUtils = {
+  runCLI: runCLI
 };
 
 console.log('🧪 Jest setup complete - Global mocks configured');

@@ -14,7 +14,7 @@
 - Pixel Art System: Draw, generate, animate, world building, CLI tools, Studio integration, demo forest
 - Open Items: resolve one conflict marker in docs; reduce any/BRITTLE_DEFAULT in bridges; modernize Jest runner
 
-See full audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
+See full audit: `COMPREHENSIVE_AUDIT_REPORT.txt`. Detailed fixes: `DETAILED_FIX_PLAN.txt`. Roadmap: `ROADMAP.md`.
 
 ## 💸 Support MIFF
 

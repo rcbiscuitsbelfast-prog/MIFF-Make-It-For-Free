@@ -1,7 +1,9 @@
 /** @type {import('jest').Config} */
 module.exports = {
   testEnvironment: 'jsdom',
-  transform: { '^.+\\.(ts|tsx)$': [ 'ts-jest', { tsconfig: 'tsconfig.ci.json', isolatedModules: true } ] },
+  setupFilesAfterEnv: ['./jest.setup.js'],
+  preset: 'ts-jest',
+  transform: { '^.+\\.(ts|tsx)$': 'ts-jest' },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testMatch: [
     '<rootDir>/miff/pure/**/tests/**/*.test.ts',
@@ -9,5 +11,10 @@ module.exports = {
   ],
   cache: false,
   testTimeout: 15000,
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json'
+    }
+  }
 };
 
