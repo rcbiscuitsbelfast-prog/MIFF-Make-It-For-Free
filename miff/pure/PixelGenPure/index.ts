@@ -82,8 +82,40 @@ export const PixelGenPure = {
 	generatePixelData(pattern: string, preset: PixelGenPreset, seed: number): string {
 		// Check if we're in a browser environment
 		if (typeof document === 'undefined') {
-			// Fallback for Node.js environment
-			return `data:image/png;base64,${this.generateFallbackPixelData(pattern, preset, seed)}`;
+			// Use Node.js canvas polyfill
+			try {
+				const { createCanvas } = require('canvas');
+				const canvas = createCanvas(preset.width, preset.height);
+				const ctx = canvas.getContext('2d');
+				
+				// Generate pixel art based on pattern
+				const imageData = ctx.createImageData(preset.width, preset.height);
+				const data = imageData.data;
+				
+				// Use seeded random for consistent generation
+				const rng = (offset: number) => this.random(seed + offset);
+				
+				for (let y = 0; y < preset.height; y++) {
+					for (let x = 0; x < preset.width; x++) {
+						const idx = (y * preset.width + x) * 4;
+						const pixelSeed = seed + x + y * preset.width;
+						
+						// Generate pattern-specific pixel data
+						const pixel = this.generatePatternPixel(pattern, x, y, preset, pixelSeed);
+						
+						data[idx] = pixel.r;     // Red
+						data[idx + 1] = pixel.g; // Green
+						data[idx + 2] = pixel.b; // Blue
+						data[idx + 3] = pixel.a; // Alpha
+					}
+				}
+				
+				ctx.putImageData(imageData, 0, 0);
+				return canvas.toDataURL('image/png');
+			} catch (error) {
+				// Fallback if canvas polyfill fails
+				return `data:image/png;base64,${this.generateFallbackPixelData(pattern, preset, seed)}`;
+			}
 		}
 		
 		const canvas = document.createElement('canvas');

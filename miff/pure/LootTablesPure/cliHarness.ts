@@ -18,7 +18,7 @@ function main(){
     for(const t of j.tables) mgr.create(t);
   }
   const cmds:Cmd[] = commands? JSON.parse(fs.readFileSync(path.resolve(commands),'utf-8')) : [{op:'list'} as Cmd];
-  const outputs:any[] = [];
+  const outputs:Record<string, unknown>[] = [];
   for(const c of cmds){
     if(c.op==='list') outputs.push({ op:'list', status:'ok', result:mgr.list(), issues:[] });
     else if(c.op==='create') outputs.push(mgr.create(c.table));

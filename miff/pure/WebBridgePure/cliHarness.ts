@@ -1,42 +1,75 @@
-/**
- * CLI Harness for WebBridgePure
- * 
- * This harness provides CLI interface for WebBridgePure module testing.
- * Uses shared utilities to eliminate code duplication.
- * 
- * @module WebBridgePure/cliHarness
- * @version 1.0.0
- * @license MIT
- */
+#!/usr/bin/env tsx
 
-import { 
-  webBridgeDemo, 
-  handleError, 
-  handleSuccess, 
-  parseComplexCLIArgs 
-} from '../shared/cliHarnessUtils';
+import { WebBridge } from './Bridge';
+import * as fs from 'fs';
+import * as path from 'path';
 
-function main(): void {
-  const { command, args, options } = parseComplexCLIArgs(process.argv);
-
-  if (!command || command === 'help' || command === '--help' || command === '-h') {
-    console.log('WebBridgePure CLI - Web bridge tool');
-    console.log('Usage: WebBridgePure/cliHarness.ts demo');
-    return;
-  }
-
-  if (command === 'demo') {
-    // Demo mode for testing
-    const result = webBridgeDemo();
-    handleSuccess(result, 'web_bridge_demo');
-    return;
-  }
-
-  // For now, just run demo mode
-  const result = webBridgeDemo();
-  handleSuccess(result, 'web_bridge');
+interface WebBridgeOperation {
+  op: 'simulate' | 'render' | 'interop' | 'dump';
+  module: string;
+  data?: Record<string, unknown>;
+  config?: Record<string, unknown>;
 }
 
-if (require.main === module) {
-  main();
+function main() {
+  const inputFile = process.argv[2];
+  if (!inputFile) {
+    console.error('Usage: tsx cliHarness.ts <input-file>');
+    process.exit(1);
+  }
+
+  try {
+    const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as WebBridgeOperation;
+    
+    if (!input || typeof input !== 'object') {
+      throw new Error('Invalid input: expected JSON object');
+    }
+    
+    if (!input.op || !input.module) {
+      throw new Error('Invalid input: missing required fields "op" and "module"');
+    }
+    
+    const bridge = new WebBridge();
+    const config = input.config || {
+      targetVersion: 'ES2020',
+      useWebGL: true,
+      canvasId: 'gameCanvas',
+      assetPath: '/assets'
+    };
+    
+    let result;
+    switch (input.op) {
+      case 'simulate':
+        result = bridge.simulate(input.module, input.data || {}, config);
+        break;
+      case 'render':
+        result = bridge.render(input.module, input.data || {}, config);
+        break;
+      case 'interop':
+        result = bridge.interop(input.module, input.data || {}, config);
+        break;
+      case 'dump':
+        result = {
+          op: 'dump',
+          status: 'ok',
+          info: {
+            module: input.module,
+            config,
+            capabilities: ['simulate', 'render', 'interop'],
+            platform: 'web'
+          }
+        };
+        break;
+      default:
+        throw new Error(`Unknown operation: ${input.op}`);
+    }
+    
+    console.log(JSON.stringify(result, null, 2));
+    
+  } catch (error) {
+    console.error('Error:', error);
+    process.exit(1);
+  }
 }
+
+if(import.meta.url === `file://${process.argv[1]}`) main();

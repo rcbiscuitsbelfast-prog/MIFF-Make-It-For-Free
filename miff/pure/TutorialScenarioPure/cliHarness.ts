@@ -6,13 +6,13 @@ type Scenario = {
 	schema: 'v13';
 	name: string;
 	entities: { id:string; stats:{key:string;base:number}[] }[];
-	steps: { op:string; args?:any }[];
+	steps: { op:string; args?:Record<string, unknown> }[];
 };
 
-type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:any[]; finalState:any };
+type Output = { op:'runScenario'|'dumpScenario'; status:'ok'|'error'; events:Record<string, unknown>[]; finalState:Record<string, unknown> };
 
 function runScenario(s:Scenario): Output {
-	const events:any[]=[];
+	const events:Record<string, unknown>[]=[];
 	// deterministic walkthrough: stats total, quest start, combat victory
 	const hero = s.entities.find(e=>e.id==='hero');
 	const total = (hero?.stats||[]).reduce((a,x)=>a+x.base,0);

@@ -1,10 +1,22 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  preset: 'ts-jest',
   testEnvironment: 'node',
   setupFilesAfterEnv: ['./jest.setup.js'],
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest'
+    '^.+\\.(ts|tsx)$': ['@swc/jest', {
+      jsc: {
+        parser: {
+          syntax: 'typescript',
+          tsx: true,
+          decorators: true
+        },
+        transform: {
+          react: {
+            runtime: 'automatic'
+          }
+        }
+      }
+    }]
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testMatch: [

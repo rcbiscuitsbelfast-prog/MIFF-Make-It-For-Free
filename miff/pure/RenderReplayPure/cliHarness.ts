@@ -1,42 +1,76 @@
-/**
- * CLI Harness for RenderReplayPure
- * 
- * This harness provides CLI interface for RenderReplayPure module testing.
- * Uses shared utilities to eliminate code duplication.
- * 
- * @module RenderReplayPure/cliHarness
- * @version 1.0.0
- * @license MIT
- */
+#!/usr/bin/env tsx
 
-import { 
-  renderReplayDemo, 
-  handleError, 
-  handleSuccess, 
-  parseComplexCLIArgs 
-} from '../shared/cliHarnessUtils';
+import { RenderReplaySystem } from './index';
+import * as fs from 'fs';
+import * as path from 'path';
 
-function main(): void {
-  const { command, args, options } = parseComplexCLIArgs(process.argv);
-
-  if (!command || command === 'help' || command === '--help' || command === '-h') {
-    console.log('RenderReplayPure CLI - Render replay tool');
-    console.log('Usage: RenderReplayPure/cliHarness.ts demo');
-    return;
-  }
-
-  if (command === 'demo') {
-    // Demo mode for testing
-    const result = renderReplayDemo();
-    handleSuccess(result, 'render_replay_demo');
-    return;
-  }
-
-  // For now, just run demo mode
-  const result = renderReplayDemo();
-  handleSuccess(result, 'render_replay');
+interface RenderReplayOperation {
+  op: 'record' | 'playback' | 'analyze' | 'export' | 'dump';
+  sessionId?: string;
+  data?: Record<string, unknown>;
+  config?: Record<string, unknown>;
 }
 
-if (require.main === module) {
-  main();
+function main() {
+  const inputFile = process.argv[2];
+  if (!inputFile) {
+    console.error('Usage: tsx cliHarness.ts <input-file>');
+    process.exit(1);
+  }
+
+  try {
+    const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as RenderReplayOperation;
+    
+    if (!input || typeof input !== 'object') {
+      throw new Error('Invalid input: expected JSON object');
+    }
+    
+    if (!input.op) {
+      throw new Error('Invalid input: missing required field "op"');
+    }
+    
+    const replaySystem = new RenderReplaySystem();
+    const config = input.config || {
+      frameRate: 60,
+      quality: 'high',
+      compression: true
+    };
+    
+    let result;
+    switch (input.op) {
+      case 'record':
+        result = replaySystem.startRecording(input.sessionId || 'default', config);
+        break;
+      case 'playback':
+        result = replaySystem.playback(input.sessionId || 'default', config);
+        break;
+      case 'analyze':
+        result = replaySystem.analyze(input.sessionId || 'default', config);
+        break;
+      case 'export':
+        result = replaySystem.export(input.sessionId || 'default', config);
+        break;
+      case 'dump':
+        result = {
+          op: 'dump',
+          status: 'ok',
+          info: {
+            sessionId: input.sessionId || 'default',
+            config,
+            capabilities: ['record', 'playback', 'analyze', 'export']
+          }
+        };
+        break;
+      default:
+        throw new Error(`Unknown operation: ${input.op}`);
+    }
+    
+    console.log(JSON.stringify(result, null, 2));
+    
+  } catch (error) {
+    console.error('Error:', error);
+    process.exit(1);
+  }
 }
+
+if(import.meta.url === `file://${process.argv[1]}`) main();
