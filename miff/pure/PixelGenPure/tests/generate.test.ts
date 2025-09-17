@@ -6,16 +6,15 @@ describe('PixelGenPure', () => {
     expect(assets).toHaveLength(3);
     
     assets.forEach(asset => {
-      expect(asset).toMatchObject({
-        id: expect.stringMatching(/^forest_\w+_\d+$/),
-        style: 'pixel-topdown',
-        layer: expect.stringMatching(/\.png$/),
-        anchor: { x: 8, y: 14 },
-        metadata: {
-          seed: expect.any(Number),
-          preset: 'forest',
-          generated: true
-        }
+      expect(asset.id).toMatch(/^forest_\w+_\d+$/);
+      expect(asset.style).toBe('pixel-topdown');
+      expect(typeof asset.layer).toBe('string');
+      expect(asset.layer.startsWith('data:image/png;base64,')).toBe(true);
+      expect(asset.anchor).toEqual({ x: 8, y: 14 });
+      expect(asset.metadata).toMatchObject({
+        seed: expect.any(Number),
+        preset: 'forest',
+        generated: true
       });
     });
   });

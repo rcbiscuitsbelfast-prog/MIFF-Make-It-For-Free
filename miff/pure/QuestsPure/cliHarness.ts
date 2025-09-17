@@ -48,4 +48,4 @@ function main() {
   console.log(JSON.stringify(out, null, 2));
 }
 
-if(import.meta.url === ) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
