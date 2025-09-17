@@ -9,15 +9,21 @@
  * @license MIT
  */
 
-import { overlinkDemo, handleError, handleSuccess, parseCLIArgs } from '../shared/cliHarnessUtils';
+import { handleError, handleSuccess, parseCLIArgs } from '../shared/cliHarnessUtils';
 import { runScenario } from './ScenarioPackOverlinkPure';
 
 function main() {
   const { mode, args } = parseCLIArgs(process.argv);
   
   if (mode === 'demo') {
-    // Demo mode for testing
-    const result = overlinkDemo();
+    // Demo mode for testing - use real scenario implementation
+    const result = runScenario({
+      steps: 8,
+      enableDebug: true,
+      enableRemixMode: false,
+      enableThemes: true,
+      enableLineageTracking: true
+    });
     handleSuccess(result, 'overlink_demo');
     return;
   }
