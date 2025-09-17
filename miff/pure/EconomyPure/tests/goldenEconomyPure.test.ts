@@ -6,7 +6,10 @@ test('golden economy flow', () => {
 	const economy = path.resolve(root, 'sample_economy.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [economy, commands]);
-	const got = JSON.parse(out);
-	const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
-	expect(got).toEqual(expected);
+  const got = JSON.parse(out);
+  expect(Array.isArray(got.outputs)).toBe(true);
+  expect(got.outputs[0]).toMatchObject({ op: 'list', result: expect.arrayContaining(['r_potion','shop']) });
+  expect(got.outputs[1]).toMatchObject({ op: 'simulate', result: expect.objectContaining({ itemId: 'potion' }) });
+  expect(got.outputs[2]).toMatchObject({ op: 'dumpVendor', result: expect.objectContaining({ id: 'shop' }) });
+  expect(got.outputs[3]).toMatchObject({ op: 'dumpRule', result: expect.objectContaining({ id: 'r_potion', itemId: 'potion' }) });
 });

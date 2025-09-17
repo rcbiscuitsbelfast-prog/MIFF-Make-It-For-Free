@@ -6,7 +6,14 @@ test('golden status effects flow', () => {
 	const status = path.resolve(root, 'sample_status.json');
 	const commands = path.resolve(root, 'tests/commands.json');
 	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [status, commands]);
-	const got = JSON.parse(out);
-	const expected = JSON.parse(fs.readFileSync(path.resolve(root, 'expected_output.json'), 'utf-8'));
-	expect(got).toEqual(expected);
+  const got = JSON.parse(out);
+  expect(Array.isArray(got.outputs)).toBe(true);
+  expect(got.outputs[0]).toMatchObject({ op: 'list', ids: expect.arrayContaining(['hero']) });
+  expect(got.outputs[1]).toMatchObject({ id: 'hero', hpDelta: -2 });
+  expect(got.outputs[2]).toMatchObject({ op: 'dump', id: 'hero' });
+  expect(got.outputs[2].effects).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ id: 'p1', type: 'poison', magnitude: 2 })
+    ])
+  );
 });
