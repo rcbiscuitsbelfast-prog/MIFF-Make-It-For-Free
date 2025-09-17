@@ -237,7 +237,7 @@ function runCLI(cliPath, args = []) {
 
     try {
         // Prefer Node ESM loader path to avoid npx behavior under Jest
-        const nodeArgs = ['--loader', 'tsx', absCliPath, ...args];
+        const nodeArgs = ['--import', 'tsx', absCliPath, ...args];
         let res = spawnSync(process.execPath, nodeArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','pipe'] });
         let output = (res.stdout || '') + (res.stderr || '');
         if (!output || output.trim() === '') {
