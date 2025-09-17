@@ -18,7 +18,7 @@ function main(){
     ? JSON.parse(fs.readFileSync(path.resolve(sample),'utf-8')) as ValidationInput
     : {};
   const commands:Cmd[] = cmdsPath? JSON.parse(fs.readFileSync(path.resolve(cmdsPath),'utf-8')) : [{op:'validateAll'}];
-  const outputs:any[] = [];
+  const outputs:Record<string, unknown>[] = [];
   for(const c of commands){
     if(c.op==='validateAll') outputs.push(mgr.validateAll(input));
     else if(c.op==='reportIssues') outputs.push(mgr.reportIssues());

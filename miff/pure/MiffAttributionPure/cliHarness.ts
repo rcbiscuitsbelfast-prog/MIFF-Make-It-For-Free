@@ -17,4 +17,4 @@ function main(){
   for(const c of commands){ if(c.op==='showAttribution') outputs.push(mgr.showAttribution(cfg)); }
   console.log(JSON.stringify({outputs}, null, 2));
 }
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

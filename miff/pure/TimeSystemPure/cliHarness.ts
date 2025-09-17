@@ -16,7 +16,7 @@ function main(){
   const commands = process.argv[2] || '';
   const mgr = new TimeManager();
   const cmds:Cmd[] = commands? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) : [{op:'list'} as Cmd];
-  const outputs:any[] = [];
+  const outputs:Record<string, unknown>[] = [];
   for(const c of cmds){
     if(c.op==='list') outputs.push(mgr.list());
     else if(c.op==='addTimer') { mgr.addTimer(c.timer); outputs.push({ op:'addTimer', id:c.timer.id }); }

@@ -24,4 +24,4 @@ function run(cmds:Cmd[]){
 }
 
 function main(){ const path=process.argv[2]; if(!path){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1);} const cmds:Cmd[] = JSON.parse(fs.readFileSync(path,'utf-8')); const out = run(cmds); console.log(JSON.stringify(out,null,2)); }
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -18,7 +18,7 @@ function main(){
     for(const e of j.entities) mgr.create(e.id, e.hp, e.atk, e.def);
   }
   const cmds:Cmd[] = commands? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) : [{op:'list'} as Cmd];
-  const outputs:any[] = [];
+  const outputs:Record<string, unknown>[] = [];
   for(const c of cmds){
     if(c.op==='list') outputs.push({op:'list', ids:mgr.list()});
     else if(c.op==='create') outputs.push(mgr.create(c.id, c.hp, c.atk, c.def));

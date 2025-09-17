@@ -28,4 +28,4 @@ function main(){
   }
   console.log(JSON.stringify({outputs:out},null,2));
 }
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
