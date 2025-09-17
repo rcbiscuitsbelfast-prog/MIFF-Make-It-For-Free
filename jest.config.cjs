@@ -4,6 +4,8 @@ module.exports = {
   setupFilesAfterEnv: ['./jest.setup.js'],
   // Avoid flaky worker issues by running tests in a single worker by default
   maxWorkers: 1,
+  // Force running in-band to avoid worker IPC issues until jest-worker is stabilized
+  runInBand: true,
   transform: {
     '^.+\\.(ts|tsx)$': ['@swc/jest', {
       jsc: {

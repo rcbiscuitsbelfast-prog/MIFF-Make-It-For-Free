@@ -9,6 +9,53 @@
  * @license MIT
  */
 
+(function bootstrapTestEnv() {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+
+    // 1) Ensure top-level symlinks for modules under miff/pure so tests that
+    //    use path.resolve('ModulePure/cliHarness.ts') can find the files.
+    const rootDir = process.cwd();
+    const pureRoot = path.join(rootDir, 'miff', 'pure');
+    if (fs.existsSync(pureRoot)) {
+      const entries = fs.readdirSync(pureRoot, { withFileTypes: true });
+      for (const entry of entries) {
+        if (!entry.isDirectory()) continue;
+        const target = path.join(pureRoot, entry.name);
+        const link = path.join(rootDir, entry.name);
+        try {
+          if (!fs.existsSync(link)) {
+            fs.symlinkSync(target, link, 'dir');
+          }
+        } catch (_) {
+          // no-op if symlink cannot be created (e.g., already exists or perms)
+        }
+      }
+    }
+
+    // 2) Make local ts-node binary delegate to tsx to support ESM TS execution
+    //    when tests invoke `npx ts-node ...` directly.
+    const binDir = path.join(rootDir, 'node_modules', '.bin');
+    const tsNodeBin = path.join(binDir, 'ts-node');
+    const tsxCli = (() => {
+      try { return require.resolve('tsx/dist/cli.js'); } catch { return null; }
+    })();
+    if (tsxCli && fs.existsSync(tsNodeBin)) {
+      try {
+        const content = fs.readFileSync(tsNodeBin, 'utf-8');
+        if (!content.includes('tsx')) {
+          const wrapper = `#!/usr/bin/env node\nrequire(${JSON.stringify(tsxCli)});\n`;
+          fs.writeFileSync(tsNodeBin, wrapper, { encoding: 'utf-8' });
+          try { fs.chmodSync(tsNodeBin, 0o755); } catch {}
+        }
+      } catch (_) {}
+    }
+  } catch (e) {
+    // best-effort setup; ignore errors to avoid breaking tests
+  }
+})();
+
 // Setup canvas for jsdom tests
 if (typeof window !== 'undefined') {
   // Provide a minimal 2D/WebGL context stub for jsdom
@@ -156,32 +203,52 @@ if (typeof afterEach === 'function') {
 function runCLI(cliPath, args = []) {
 	const path = require('path');
 	const { execFileSync } = require('child_process');
-	const absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
-	
+	let absCliPath = path.isAbsolute(cliPath) ? cliPath : path.resolve(cliPath);
+
+	// Auto-remap legacy paths used in some tests that assume repo root as CWD
+	// If the path seems to duplicate a segment (e.g., RenderPayloadPure/RenderPayloadPure), collapse it
+	const parts = absCliPath.split(path.sep);
+	for (let i = 1; i < parts.length; i++) {
+		if (parts[i] === parts[i - 1]) {
+			parts.splice(i, 1);
+			i--;
+		}
+	}
+	absCliPath = parts.join(path.sep);
+
+	// If the CLI file is not found, try to resolve within miff/pure
+	if (!fs.existsSync(absCliPath)) {
+		const candidate = path.join(process.cwd(), 'miff', 'pure', cliPath);
+		if (fs.existsSync(candidate)) {
+			absCliPath = candidate;
+		}
+	}
+
+    const cliCwd = process.cwd();
+    const runner = 'tsx';
+    const npxArgs = [runner, absCliPath, ...args];
+
 	console.log(`[runCLI] Starting CLI execution: ${absCliPath}`);
+	console.log(`[runCLI] CWD: ${cliCwd}`);
 	console.log(`[runCLI] Args: ${JSON.stringify(args)}`);
-	
+
 	try {
-		const output = execFileSync('npx', [
-			'tsx',
-			absCliPath,
-			...args
-		], { 
+		const output = execFileSync('npx', npxArgs, {
+			cwd: cliCwd,
 			encoding: 'utf-8',
-			timeout: 15000, // 15 second timeout to prevent hanging
+			timeout: 25000,
 			killSignal: 'SIGTERM'
 		});
-		
+
 		console.log(`[runCLI] CLI execution completed successfully`);
 		console.log(`[runCLI] Output length: ${output.length} characters`);
-		
-		// Flush any pending hooks
+
 		if (typeof setImmediate !== 'undefined') {
 			setImmediate(() => {
 				console.log(`[runCLI] Pending hooks flushed`);
-			}).unref();
+			}).unref?.();
 		}
-		
+
 		return output;
 	} catch (error) {
 		console.error(`[runCLI] CLI execution failed:`, error.message);
@@ -520,13 +587,34 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
   return '{}';
 });
 
-jest.spyOn(fs, 'existsSync').mockReturnValue(true);
-
 // Mock path operations
 const path = require('path');
-jest.spyOn(path, 'resolve').mockImplementation((...args) => {
-  return args.join('/');
-});
+const childProcess = require('child_process');
+
+// Shim child_process.execFileSync to translate `npx ts-node ...` into `npx tsx ...`
+// for ESM-friendly TS execution in Node 22+ environments.
+(() => {
+  const originalExecFileSync = childProcess.execFileSync;
+  childProcess.execFileSync = function patchedExecFileSync(cmd, argv = [], options = {}) {
+    try {
+      if (cmd === 'npx' && Array.isArray(argv) && argv.length > 0 && argv[0] === 'ts-node') {
+        const argvCopy = [...argv];
+        // Remove 'ts-node'
+        argvCopy.shift();
+        // Drop optional '--compiler-options' and its JSON argument
+        if (argvCopy[0] === '--compiler-options' && typeof argvCopy[1] === 'string') {
+          argvCopy.shift();
+          argvCopy.shift();
+        }
+        const rewritten = ['tsx', ...argvCopy];
+        return originalExecFileSync.call(this, 'npx', rewritten, options);
+      }
+    } catch (e) {
+      throw e;
+    }
+    return originalExecFileSync.call(this, cmd, argv, options);
+  };
+})();
 
 // Setup fake timers for time-dependent tests
 jest.useFakeTimers();

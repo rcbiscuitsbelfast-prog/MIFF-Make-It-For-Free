@@ -15,16 +15,13 @@ describe('RenderReplayPure Golden Tests', () => {
 
   describe('CLI Commands', () => {
     test('✓ replay-golden command with Unity engine', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
         'BridgeSchemaPure/sample_render.json',
         '--engine', 'unity',
         '--speed', '1.0',
         '--format', 'json'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('✅ Replay successful!');
       expect(result).toContain('🎯 Engine: unity');
@@ -44,17 +41,14 @@ describe('RenderReplayPure Golden Tests', () => {
     });
 
     test('✓ replay-golden command with Web engine', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
         'BridgeSchemaPure/sample_render.json',
         '--engine', 'web',
         '--speed', '2.0',
         '--loop',
         '--format', 'html'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('✅ Replay successful!');
       expect(result).toContain('🎯 Engine: web');
@@ -75,17 +69,14 @@ describe('RenderReplayPure Golden Tests', () => {
     });
 
     test('✓ replay-golden command with Godot engine', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
         'BridgeSchemaPure/sample_render.json',
         '--engine', 'godot',
         '--speed', '0.5',
         '--no-debug',
         '--format', 'markdown'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('✅ Replay successful!');
       expect(result).toContain('🎯 Engine: godot');
@@ -124,14 +115,11 @@ describe('RenderReplayPure Golden Tests', () => {
       fs.writeFileSync(tempFile, sampleCLIOutput);
 
       try {
-        const result = execFileSync('npx', [
-          'ts-node',
-          '--compiler-options', '{"module":"commonjs"}',
-          cliPath,
+        const result = (global as any).testUtils.runCLI(cliPath, [
           'replay-cli',
           tempFile,
           '--engine', 'web'
-        ], { encoding: 'utf-8' });
+        ]);
 
         expect(result).toContain('✅ Replay successful!');
         expect(result).toContain('🎯 Engine: web');
@@ -177,14 +165,11 @@ describe('RenderReplayPure Golden Tests', () => {
       fs.writeFileSync(tempFile, JSON.stringify(samplePayload));
 
       try {
-        const result = execFileSync('npx', [
-          'ts-node',
-          '--compiler-options', '{"module":"commonjs"}',
-          cliPath,
+        const result = (global as any).testUtils.runCLI(cliPath, [
           'replay-payload',
           tempFile,
           '--engine', 'unity'
-        ], { encoding: 'utf-8' });
+        ]);
 
         expect(result).toContain('✅ Replay successful!');
         expect(result).toContain('🎯 Engine: unity');
@@ -211,15 +196,12 @@ describe('RenderReplayPure Golden Tests', () => {
     });
 
     test('✓ export command with session', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'export',
         'test_session_123',
         'test_export.json',
         '--format', 'json'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('📤 Exporting session: test_session_123');
       expect(result).toContain('📁 Output: test_export.json');
@@ -233,12 +215,9 @@ describe('RenderReplayPure Golden Tests', () => {
     });
 
     test('✓ help command displays usage', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'help'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('RenderReplayPure CLI - Visual replay tool for MIFF engine bridges');
       expect(result).toContain('Usage:');
@@ -593,61 +572,46 @@ describe('RenderReplayPure Golden Tests', () => {
 
   describe('Error Handling', () => {
     test('✓ handles missing test file', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
         'nonexistent_file.json'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('❌ Replay failed:');
       expect(result).toContain('Failed to load golden test');
     });
 
     test('✓ handles missing CLI output file', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-cli',
         'nonexistent_file.json'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('Error reading CLI output file:');
     });
 
     test('✓ handles missing payload file', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-payload',
         'nonexistent_file.json'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('Error reading JSON payload file:');
     });
 
     test('✓ handles invalid command', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'invalid-command'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('Error: Unknown command');
       expect(result).toContain('Usage:');
     });
 
     test('✓ handles missing arguments', () => {
-      const result = execFileSync('npx', [
-        'ts-node',
-        '--compiler-options', '{"module":"commonjs"}',
-        cliPath,
+      const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden'
-      ], { encoding: 'utf-8' });
+      ]);
 
       expect(result).toContain('Error: Test path required');
       expect(result).toContain('Usage:');
