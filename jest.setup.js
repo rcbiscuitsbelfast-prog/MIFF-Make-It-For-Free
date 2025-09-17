@@ -229,6 +229,11 @@ function runCLI(cliPath, args = []) {
 
     const cliCwd = path.dirname(absCliPath);
     const runner = 'tsx';
+    // Resolve symlinks so import.meta.url === file://process.argv[1] inside CLIs
+    try {
+      const fsLocal = require('fs');
+      absCliPath = fsLocal.realpathSync.native ? fsLocal.realpathSync.native(absCliPath) : fsLocal.realpathSync(absCliPath);
+    } catch {}
     const npxArgs = [runner, absCliPath, ...args];
 
 	console.log(`[runCLI] Starting CLI execution: ${absCliPath}`);
@@ -236,23 +241,19 @@ function runCLI(cliPath, args = []) {
 	console.log(`[runCLI] Args: ${JSON.stringify(args)}`);
 
     try {
-        // Prefer Node ESM loader path to avoid npx behavior under Jest
-        const nodeArgs = ['--import', 'tsx', absCliPath, ...args];
-        let res = spawnSync(process.execPath, nodeArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','ignore'] });
-        let output = (res.stdout || '');
+        // Prefer npx tsx for reliable stdout capture
+        let output = execFileSync('npx', npxArgs, {
+            cwd: cliCwd,
+            encoding: 'utf-8',
+            timeout: 25000,
+            killSignal: 'SIGTERM'
+        });
+
         if (!output || output.trim() === '') {
-            // Fallback to npx tsx
-            try {
-                output = execFileSync('npx', npxArgs, {
-                    cwd: cliCwd,
-                    encoding: 'utf-8',
-                    timeout: 25000,
-                    killSignal: 'SIGTERM'
-                });
-            } catch (e) {
-                const res2 = spawnSync('npx', npxArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','ignore'] });
-                output = (res2.stdout || '');
-            }
+            // Fallback to Node with tsx registered via --import
+            const nodeArgs = ['--import', 'tsx', absCliPath, ...args];
+            const res = spawnSync(process.execPath, nodeArgs, { cwd: cliCwd, encoding: 'utf-8', stdio: ['ignore','pipe','ignore'] });
+            output = (res.stdout || '');
         }
 
 		console.log(`[runCLI] CLI execution completed successfully`);
