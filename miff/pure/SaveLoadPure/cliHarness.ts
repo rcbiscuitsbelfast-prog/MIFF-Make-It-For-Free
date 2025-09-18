@@ -1,6 +1,6 @@
-#!/usr/bin/env -S node --no-warnings
-import fs from 'fs';
-import path from 'path';
+#!/usr/bin/env tsx
+import * as fs from 'fs';
+import * as path from 'path';
 import { SaveLoadManager, GameDataV11, StorageAdapter } from './SaveLoadManager';
 
 type Cmd =
@@ -10,7 +10,9 @@ type Cmd =
   | { op: 'delete'; slotId: string }
   | { op: 'setRollback'; slotId: string }
   | { op: 'rollback'; slotId: string }
-  | { op: 'dumpState' };
+  | { op: 'dumpState' }
+  | { op: 'validate' }
+  | { op: 'export'; format?: 'json' | 'markdown' | 'html' };
 
 class FileStorage implements StorageAdapter {
   constructor(private filePath: string) {}
@@ -58,12 +60,44 @@ async function main() {
       await mgr.persist();
     } else if (c.op === 'dumpState') {
       // no-op; the final output includes the current store
+    } else if (c.op === 'validate') {
+      const issues: string[] = [];
+      if (!mgr.data || typeof mgr.data !== 'object') issues.push('missing data');
+      // basic schema check
+      // @ts-ignore
+      if (!mgr.data.schemaVersion) issues.push('missing schemaVersion');
+      log.push(`VALIDATE ${issues.length ? 'error' : 'ok'}${issues.length ? ' ' + issues.join('|') : ''}`);
+    } else if (c.op === 'export') {
+      const fmt = c.format || 'json';
+      if (fmt === 'markdown') {
+        const md = [
+          '# Save State',
+          '',
+          `Version: ${(mgr as any).data?.schemaVersion ?? 'n/a'}`,
+          '',
+          '```json',
+          JSON.stringify(mgr.data, null, 2),
+          '```'
+        ].join('\n');
+        log.push(`EXPORT markdown ${md.length}b`);
+        (mgr as any).__export = { markdown: md };
+      } else if (fmt === 'html') {
+        const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Save State</title></head><body><pre>${
+          JSON.stringify(mgr.data, null, 2).replace(/[&<>]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;'} as any)[s])
+        }</pre></body></html>`;
+        log.push(`EXPORT html ${html.length}b`);
+        (mgr as any).__export = { html };
+      } else {
+        log.push('EXPORT json');
+        (mgr as any).__export = { json: mgr.data };
+      }
     }
   }
 
   const out = {
     log,
     data: mgr.data,
+    export: (mgr as any).__export || undefined,
   };
   console.log(JSON.stringify(out, null, 2));
 }

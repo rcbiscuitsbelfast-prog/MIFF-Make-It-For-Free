@@ -1,0 +1,1 @@
+[{"op":"create","id":"player_1","stats":[{"key":"health","base":100}]},{"op":"setStat","id":"player_1","key":"strength","base":15},{"op":"validate","id":"player_1"},{"op":"export","id":"player_1","format":"markdown"}]
