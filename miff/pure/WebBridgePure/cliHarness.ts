@@ -9,7 +9,7 @@ interface WebBridgeOperation {
   module: string;
   data?: Record<string, unknown>;
   config?: Record<string, unknown>;
-  format?: 'json' | 'csv' | 'markdown' | 'html';
+  format?: 'json' | 'csv' | 'markdown' | 'html' | 'yaml' | 'xml';
 }
 
 function main() {
@@ -91,6 +91,12 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
 <ul>${(rd.sprites||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
 </body></html>`;
           result = { op: 'export', status: 'ok', format: 'html', result: { html } };
+        } else if (fmt === 'yaml') {
+          const yaml = toYAML(rd);
+          result = { op: 'export', status: 'ok', format: 'yaml', result: { yaml } };
+        } else if (fmt === 'xml') {
+          const xml = toXML(rd, 'render');
+          result = { op: 'export', status: 'ok', format: 'xml', result: { xml } };
         } else {
           result = { op: 'export', status: 'ok', format: 'json', result: rd };
         }
@@ -121,3 +127,24 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();
+
+function toYAML(obj: any, indent = 0): string {
+  const pad = '  '.repeat(indent);
+  if (obj === null || obj === undefined) return 'null';
+  if (typeof obj !== 'object') return String(obj);
+  if (Array.isArray(obj)) {
+    return obj.map(v => `${pad}- ${toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+  }
+  return Object.entries(obj).map(([k, v]) => {
+    const val = typeof v === 'object' && v !== null ? `\n${toYAML(v, indent + 1)}` : `${toYAML(v, 0)}`;
+    return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
+  }).join('\n');
+}
+
+function toXML(obj: any, tag = 'root'): string {
+  if (obj === null || obj === undefined) return `<${tag}/>`;
+  if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
+  if (Array.isArray(obj)) return `<${tag}>${obj.map(v => toXML(v, 'item')).join('')}</${tag}>`;
+  const children = Object.entries(obj).map(([k, v]) => toXML(v as any, k)).join('');
+  return `<${tag}>${children}</${tag}>`;
+}

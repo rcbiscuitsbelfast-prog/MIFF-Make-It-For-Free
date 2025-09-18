@@ -292,6 +292,14 @@ class CombatCLI {
         return this.exportMarkdown(data);
       case 'html':
         return this.exportHTML(data);
+      case 'yaml': {
+        const yaml = this.toYAML(data);
+        return { op: 'export', status: 'ok', result: { yaml }, format: 'yaml', timestamp: Date.now() };
+      }
+      case 'xml': {
+        const xml = this.toXML(data);
+        return { op: 'export', status: 'ok', result: { xml }, format: 'xml', timestamp: Date.now() };
+      }
       default:
         return {
           op: 'export',
@@ -301,6 +309,27 @@ class CombatCLI {
           timestamp: Date.now()
         };
     }
+  }
+
+  private toYAML(obj: any, indent = 0): string {
+    const pad = '  '.repeat(indent);
+    if (obj === null || obj === undefined) return 'null';
+    if (typeof obj !== 'object') return String(obj);
+    if (Array.isArray(obj)) {
+      return obj.map(v => `${pad}- ${this.toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+    }
+    return Object.entries(obj).map(([k, v]) => {
+      const val = typeof v === 'object' && v !== null ? `\n${this.toYAML(v, indent + 1)}` : `${this.toYAML(v, 0)}`;
+      return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
+    }).join('\n');
+  }
+
+  private toXML(obj: any, tag = 'root'): string {
+    if (obj === null || obj === undefined) return `<${tag}/>`;
+    if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
+    if (Array.isArray(obj)) return `<${tag}>${obj.map(v => this.toXML(v, 'item')).join('')}</${tag}>`;
+    const children = Object.entries(obj).map(([k, v]) => this.toXML(v as any, k)).join('');
+    return `<${tag}>${children}</${tag}>`;
   }
 
   private exportCSV(data: any): any {

@@ -12,7 +12,7 @@ type Cmd =
   | { op: 'rollback'; slotId: string }
   | { op: 'dumpState' }
   | { op: 'validate' }
-  | { op: 'export'; format?: 'json' | 'markdown' | 'html' };
+  | { op: 'export'; format?: 'json' | 'markdown' | 'html' | 'yaml' | 'xml' };
 
 class FileStorage implements StorageAdapter {
   constructor(private filePath: string) {}
@@ -87,6 +87,14 @@ async function main() {
         }</pre></body></html>`;
         log.push(`EXPORT html ${html.length}b`);
         (mgr as any).__export = { html };
+      } else if (fmt === 'yaml') {
+        const yaml = toYAML(mgr.data);
+        log.push(`EXPORT yaml ${yaml.length}b`);
+        (mgr as any).__export = { yaml };
+      } else if (fmt === 'xml') {
+        const xml = toXML(mgr.data, 'save');
+        log.push(`EXPORT xml ${xml.length}b`);
+        (mgr as any).__export = { xml };
       } else {
         log.push('EXPORT json');
         (mgr as any).__export = { json: mgr.data };
@@ -104,3 +112,24 @@ async function main() {
 
 if(import.meta.url === `file://${process.argv[1]}`) main();
 
+
+function toYAML(obj: any, indent = 0): string {
+  const pad = '  '.repeat(indent);
+  if (obj === null || obj === undefined) return 'null';
+  if (typeof obj !== 'object') return String(obj);
+  if (Array.isArray(obj)) {
+    return obj.map(v => `${pad}- ${toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+  }
+  return Object.entries(obj).map(([k, v]) => {
+    const val = typeof v === 'object' && v !== null ? `\n${toYAML(v, indent + 1)}` : `${toYAML(v, 0)}`;
+    return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
+  }).join('\n');
+}
+
+function toXML(obj: any, tag = 'root'): string {
+  if (obj === null || obj === undefined) return `<${tag}/>`;
+  if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
+  if (Array.isArray(obj)) return `<${tag}>${obj.map(v => toXML(v, 'item')).join('')}</${tag}>`;
+  const children = Object.entries(obj).map(([k, v]) => toXML(v as any, k)).join('');
+  return `<${tag}>${children}</${tag}>`;
+}
