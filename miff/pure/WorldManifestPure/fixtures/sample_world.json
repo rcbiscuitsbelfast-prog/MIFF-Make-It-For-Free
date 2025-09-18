@@ -1,0 +1,43 @@
+{
+  "schema": "miff.world.v1",
+  "version": "1.0.0",
+  "zones": [
+    {
+      "id": "test-zone",
+      "name": "Test Zone",
+      "width": 10,
+      "height": 8,
+      "tiles": [
+        {
+          "x": 2,
+          "y": 3,
+          "assetId": "tree-oak",
+          "layer": 1
+        },
+        {
+          "x": 5,
+          "y": 5,
+          "assetId": "rock-moss",
+          "layer": 0
+        },
+        {
+          "x": 7,
+          "y": 2,
+          "assetId": "bush-small",
+          "layer": 1
+        }
+      ],
+      "metadata": {
+        "style": "pixel-topdown",
+        "preset": "forest",
+        "generated": false
+      }
+    }
+  ],
+  "metadata": {
+    "title": "Test World",
+    "description": "A test world for validation",
+    "created": "2025-09-18T10:00:00.000Z",
+    "author": "MIFF Framework"
+  }
+}

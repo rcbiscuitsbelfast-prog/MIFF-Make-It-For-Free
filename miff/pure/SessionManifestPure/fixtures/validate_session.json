@@ -1,0 +1,22 @@
+{
+  "id": "test-validation",
+  "zone": "witcher_grove",
+  "players": [
+    {
+      "playerId": "explorer1",
+      "avatar": "presets/avatars/rogue.json",
+      "style": "3d",
+      "team": "red",
+      "status": "active"
+    },
+    {
+      "playerId": "explorer2",
+      "avatar": "presets/avatars/barbarian.json",
+      "style": "3d",
+      "team": "blue",
+      "status": "active"
+    }
+  ],
+  "seed": 98765,
+  "createdAt": "2025-09-18T10:00:00.000Z"
+}

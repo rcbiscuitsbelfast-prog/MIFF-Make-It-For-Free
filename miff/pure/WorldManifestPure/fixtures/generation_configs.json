@@ -1,0 +1,42 @@
+[
+  {
+    "name": "forest_dense",
+    "config": {
+      "seed": 12345,
+      "density": 0.8,
+      "style": "forest",
+      "layering": "complex",
+      "assetPool": ["tree-oak", "tree-pine", "bush-small", "rock-moss", "grass-patch", "flower-wild"]
+    }
+  },
+  {
+    "name": "dungeon_sparse",
+    "config": {
+      "seed": 54321,
+      "density": 0.4,
+      "style": "dungeon",
+      "layering": "simple",
+      "assetPool": ["wall-stone", "floor-stone", "torch", "chest", "door-wood", "trap-spike"]
+    }
+  },
+  {
+    "name": "city_mixed",
+    "config": {
+      "seed": 98765,
+      "density": 0.6,
+      "style": "city",
+      "layering": "complex",
+      "assetPool": ["building-house", "building-shop", "road-cobble", "lamp-post", "fountain", "tree-city"]
+    }
+  },
+  {
+    "name": "desert_minimal",
+    "config": {
+      "seed": 13579,
+      "density": 0.2,
+      "style": "desert",
+      "layering": "simple",
+      "assetPool": ["sand-dune", "cactus-tall", "rock-desert", "oasis-small", "skull-animal"]
+    }
+  }
+]
