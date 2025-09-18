@@ -1,0 +1,27 @@
+{
+  "name": "Custom Walk",
+  "frames": [
+    {
+      "frame": 0,
+      "duration": 125,
+      "layer": "custom_walk1.png"
+    },
+    {
+      "frame": 1,
+      "duration": 125,
+      "layer": "custom_walk2.png"
+    },
+    {
+      "frame": 2,
+      "duration": 125,
+      "layer": "custom_walk3.png"
+    },
+    {
+      "frame": 3,
+      "duration": 125,
+      "layer": "custom_walk4.png"
+    }
+  ],
+  "loop": true,
+  "speed": 8
+}

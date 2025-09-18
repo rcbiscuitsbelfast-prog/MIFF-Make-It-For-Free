@@ -1,0 +1,28 @@
+{
+  "element": {
+    "tag": "div",
+    "id": "game-player",
+    "className": "player character",
+    "style": {
+      "position": "absolute",
+      "left": "100px",
+      "top": "200px",
+      "width": "32px",
+      "height": "48px",
+      "transform": "translate3d(0px, 0px, 0px)"
+    },
+    "attributes": {
+      "data-health": "100",
+      "data-team": "player"
+    },
+    "children": [
+      {
+        "tag": "img",
+        "attributes": {
+          "src": "player-sprite.png",
+          "alt": "Player character"
+        }
+      }
+    ]
+  }
+}

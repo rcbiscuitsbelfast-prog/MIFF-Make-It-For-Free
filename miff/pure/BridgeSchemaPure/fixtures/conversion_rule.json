@@ -1,0 +1,17 @@
+{
+  "id": "godot-to-unity",
+  "name": "Godot to Unity Conversion",
+  "fromEngine": "godot",
+  "toEngine": "unity",
+  "mappings": {
+    "node.name": "gameObject.name",
+    "node.position": "gameObject.transform.position",
+    "node.rotation": "gameObject.transform.rotation",
+    "node.scale": "gameObject.transform.scale",
+    "node.properties": "gameObject.components"
+  },
+  "transformations": {
+    "rotation": "function(rotation) { return [0, 0, Math.sin(rotation/2), Math.cos(rotation/2)]; }",
+    "position": "function(pos) { return pos.length === 2 ? [pos[0], pos[1], 0] : pos; }"
+  }
+}

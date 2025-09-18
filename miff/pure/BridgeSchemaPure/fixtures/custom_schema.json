@@ -1,0 +1,37 @@
+{
+  "id": "custom-test-schema",
+  "name": "Custom Test Schema",
+  "version": "1.0.0",
+  "engine": "universal",
+  "schema": {
+    "$schema": "miff.bridge.custom.v1",
+    "type": "object",
+    "properties": {
+      "entity": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["player", "npc", "item", "environment"] },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number" },
+              "z": { "type": "number" }
+            },
+            "required": ["x", "y"]
+          },
+          "properties": { "type": "object" }
+        },
+        "required": ["id", "type", "position"]
+      }
+    },
+    "required": ["entity"]
+  },
+  "metadata": {
+    "description": "Custom test schema for validation",
+    "author": "MIFF Test Suite",
+    "tags": ["test", "custom", "universal"],
+    "compatibility": ["miff-framework"]
+  }
+}
