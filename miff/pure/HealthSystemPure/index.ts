@@ -1,15 +1,21 @@
-// HealthSystemPure - hp damage/heal with clamps
+/**
+ * HealthSystemPure Module
+ * 
+ * Advanced health system including damage/healing, status effects,
+ * regeneration, shields, and comprehensive health management.
+ * 
+ * @module HealthSystemPure
+ * @version 1.0.0
+ * @license MIT
+ */
 
-export type Health = { hp: number; max: number };
-export type HealthEvent = { type:'damage'|'heal'; amount: number };
-
-export function applyHealth(h: Health, events: HealthEvent[]): { op:'health'; status:'ok'; result: Health }{
-  let hp = h.hp;
-  for(const e of events){
-    if(e.type==='damage') hp -= e.amount;
-    else hp += e.amount;
-    hp = Math.min(h.max, Math.max(0, hp));
-  }
-  return { op:'health', status:'ok', result: { hp, max: h.max } };
-}
-
+export { 
+  HealthSystemManager,
+  type HealthEntity,
+  type Shield,
+  type RegenerationEffect,
+  type HealthEvent,
+  type HealthStats,
+  type HealthFilter,
+  type HealthOutput
+} from './Manager';
