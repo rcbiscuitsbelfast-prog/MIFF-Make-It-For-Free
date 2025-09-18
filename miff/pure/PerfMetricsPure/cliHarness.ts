@@ -1,277 +1,169 @@
-#!/usr/bin/env tsx
-
-import { PerfMetricsPure, PerfSample } from './index';
-import { addExportSupport } from '../shared/exportUtils';
-import * as fs from 'fs';
-import * as path from 'path';
-
-interface PerfMetricsOperation {
-  op: 'record' | 'snapshot' | 'simulate' | 'benchmark' | 'dump';
-  dtMs?: number;
-  tickStartMs?: number;
-  tickEndMs?: number;
-  playersSimulated?: number;
-  maxSamples?: number;
-  iterations?: number;
-  data?: Record<string, unknown>;
-  exportFormat?: string;
-}
+#!/usr/bin/env -S node --no-warnings
+import fs from 'fs';
+import path from 'path';
+import { 
+  PerfMetricsPure, 
+  PerfConfig, 
+  PerfSample, 
+  PerfMetrics, 
+  PerfStats 
+} from './index';
 
 function main() {
-  const argv = process.argv.slice(2);
+  const args = process.argv.slice(2);
+  const command = args[0] || 'help';
+  const configFile = args[1];
   
-  if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
-    process.exit(1);
+  let config: Partial<PerfConfig> = {};
+  if (configFile && fs.existsSync(configFile)) {
+    try {
+      config = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
+    } catch (error) {
+      console.error('Error loading config:', error);
+      process.exit(1);
+    }
   }
 
+  const perf = new PerfMetricsPure(config);
+  let result: any = { op: command, status: 'ok', result: null };
+
   try {
-    const first = argv[0];
-    let operation: PerfMetricsOperation;
-
-    // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
-      operation = content as PerfMetricsOperation;
-    } else {
-      // Parse subcommand
-      switch (first) {
-        case 'record':
-          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
-            throw new Error('record requires dtMs, tickStartMs, tickEndMs, playersSimulated');
-          }
-          operation = { 
-            op: 'record', 
-            dtMs: parseFloat(argv[1]),
-            tickStartMs: parseFloat(argv[2]),
-            tickEndMs: parseFloat(argv[3]),
-            playersSimulated: parseInt(argv[4])
-          };
-          break;
-        case 'snapshot':
-          operation = { op: 'snapshot' };
-          break;
-        case 'simulate':
-          operation = { 
-            op: 'simulate',
-            maxSamples: parseInt(argv[1]) || 120,
-            iterations: parseInt(argv[2]) || 50
-          };
-          break;
-        case 'benchmark':
-          operation = { 
-            op: 'benchmark',
-            iterations: parseInt(argv[1]) || 1000
-          };
-          break;
-        case 'dump':
-          operation = { op: 'dump' };
-          break;
-        default:
-          throw new Error(`Unknown command: ${first}`);
-      }
-    }
-
-    const perfMetrics = new PerfMetricsPure(operation.maxSamples || 120);
-    let result: any;
-
-    switch (operation.op) {
+    switch (command) {
       case 'record':
-        perfMetrics.record(
-          operation.dtMs!,
-          operation.tickStartMs!,
-          operation.tickEndMs!,
-          operation.playersSimulated!
-        );
-        const snapshot = perfMetrics.snapshot();
-        result = {
-          recorded: {
-            dtMs: operation.dtMs,
-            tickStartMs: operation.tickStartMs,
-            tickEndMs: operation.tickEndMs,
-            playersSimulated: operation.playersSimulated,
-            tickDuration: operation.tickEndMs! - operation.tickStartMs!
-          },
-          currentSnapshot: snapshot
-        };
+        const sampleData = args[1];
+        if (sampleData && fs.existsSync(sampleData)) {
+          const samples = JSON.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
+          samples.forEach(sample => {
+            perf.record(
+              sample.dtMs, 
+              sample.tickStartMs, 
+              sample.tickEndMs, 
+              sample.playersSimulated,
+              sample.category,
+              sample.metadata
+            );
+          });
+          result.result = { message: `Recorded ${samples.length} samples` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Sample data file required' };
+        }
         break;
 
       case 'snapshot':
-        result = {
-          snapshot: perfMetrics.snapshot(),
-          timestamp: Date.now()
-        };
+        result.result = perf.snapshot();
         break;
 
-      case 'simulate':
-        // Simulate realistic performance data
-        const baseTime = Date.now();
-        const samples: PerfSample[] = [];
-        
-        for (let i = 0; i < operation.iterations!; i++) {
-          // Simulate varying performance
-          const dtMs = 16 + Math.random() * 4; // 16-20ms (60-50 FPS)
-          const tickStartMs = baseTime + i * 16;
-          const tickEndMs = tickStartMs + dtMs + Math.random() * 2; // Some variation
-          const playersSimulated = 1 + Math.floor(Math.random() * 10); // 1-10 players
-          
-          perfMetrics.record(dtMs, tickStartMs, tickEndMs, playersSimulated);
-          samples.push({ dtMs, tickStartMs, tickEndMs, playersSimulated });
+      case 'getMetrics':
+        result.result = perf.getMetrics();
+        break;
+
+      case 'getStats':
+        result.result = perf.getStats();
+        break;
+
+      case 'export':
+        const format = (args[1] as 'json' | 'csv' | 'markdown') || 'json';
+        result.result = { data: perf.exportMetrics(format), format };
+        break;
+
+      case 'reset':
+        perf.reset();
+        result.result = { message: 'PerfMetricsPure reset successfully' };
+        break;
+
+      case 'updateConfig':
+        const newConfigFile = args[1];
+        if (newConfigFile && fs.existsSync(newConfigFile)) {
+          const newConfig = JSON.parse(fs.readFileSync(path.resolve(newConfigFile), 'utf-8'));
+          perf.updateConfig(newConfig);
+          result.result = { message: 'Configuration updated successfully' };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Config file required' };
         }
-        
-        const finalSnapshot = perfMetrics.snapshot();
-        
-        result = {
-          simulation: {
-            iterations: operation.iterations,
-            maxSamples: operation.maxSamples,
-            samples: samples.slice(-10), // Show last 10 samples
-            totalSamples: samples.length
-          },
-          finalSnapshot,
-          analysis: {
-            averageFPS: 1000 / finalSnapshot.avgDtMs,
-            performanceGrade: finalSnapshot.avgTickMs < 16 ? 'Excellent' : 
-                            finalSnapshot.avgTickMs < 20 ? 'Good' :
-                            finalSnapshot.avgTickMs < 33 ? 'Fair' : 'Poor',
-            stability: finalSnapshot.maxTickMs - finalSnapshot.minTickMs < 5 ? 'Stable' : 'Variable'
-          }
-        };
         break;
 
-      case 'benchmark':
-        // Run a performance benchmark
-        const benchmarkStart = Date.now();
-        const benchmarkSamples: PerfSample[] = [];
-        
-        // Simulate different load scenarios
-        const scenarios = [
-          { players: 1, name: 'Light Load' },
-          { players: 5, name: 'Medium Load' },
-          { players: 10, name: 'Heavy Load' },
-          { players: 20, name: 'Extreme Load' }
-        ];
-        
-        const scenarioResults: any[] = [];
-        
-        for (const scenario of scenarios) {
-          const scenarioStart = Date.now();
-          const scenarioMetrics = new PerfMetricsPure(50);
-          
-          for (let i = 0; i < 100; i++) {
-            const dtMs = 16 + Math.random() * 4;
-            const tickStartMs = scenarioStart + i * 16;
-            const tickEndMs = tickStartMs + dtMs + (scenario.players * 0.1); // More players = more processing
-            const playersSimulated = scenario.players;
-            
-            scenarioMetrics.record(dtMs, tickStartMs, tickEndMs, playersSimulated);
-          }
-          
-          const scenarioSnapshot = scenarioMetrics.snapshot();
-          scenarioResults.push({
-            scenario: scenario.name,
-            players: scenario.players,
-            snapshot: scenarioSnapshot,
-            fps: 1000 / scenarioSnapshot.avgDtMs,
-            performance: scenarioSnapshot.avgTickMs < 16 ? 'Excellent' : 
-                        scenarioSnapshot.avgTickMs < 20 ? 'Good' :
-                        scenarioSnapshot.avgTickMs < 33 ? 'Fair' : 'Poor'
-          });
-        }
-        
-        const benchmarkEnd = Date.now();
-        
-        result = {
-          benchmark: {
-            totalDuration: benchmarkEnd - benchmarkStart,
-            scenarios: scenarioResults,
-            summary: {
-              bestScenario: scenarioResults.reduce((best, current) => 
-                current.fps > best.fps ? current : best
-              ),
-              worstScenario: scenarioResults.reduce((worst, current) => 
-                current.fps < worst.fps ? current : worst
-              ),
-              averageFPS: scenarioResults.reduce((sum, s) => sum + s.fps, 0) / scenarioResults.length
-            }
-          }
-        };
+      case 'demo':
+        result.result = runDemo(perf);
         break;
 
-      case 'dump':
-        result = {
-          operations: ['record', 'snapshot', 'simulate', 'benchmark', 'dump'],
-          description: 'PerfMetricsPure - Performance metrics collection and analysis',
-          features: [
-            'Performance sample recording',
-            'Real-time metrics calculation',
-            'Rolling window statistics',
-            'Performance benchmarking',
-            'Load testing scenarios',
-            'FPS and frame time analysis'
+      case 'help':
+        result.result = {
+          usage: 'PerfMetricsPure CLI Harness',
+          commands: [
+            'record [sampleFile] - Record performance samples',
+            'snapshot - Get current performance snapshot',
+            'getMetrics - Get comprehensive metrics',
+            'getStats - Get performance statistics',
+            'export [format] - Export metrics (json|csv|markdown)',
+            'reset - Reset performance metrics',
+            'updateConfig [configFile] - Update configuration',
+            'demo - Run demonstration scenarios',
+            'help - Show this help'
           ],
-          metrics: [
-            'dtMs - Delta time in milliseconds',
-            'tickStartMs - Tick start timestamp',
-            'tickEndMs - Tick end timestamp',
-            'playersSimulated - Number of players processed',
-            'avgDtMs - Average delta time',
-            'avgTickMs - Average tick duration',
-            'maxTickMs - Maximum tick duration',
-            'minTickMs - Minimum tick duration'
-          ],
-          defaultMaxSamples: 120,
-          performanceGrades: {
-            'Excellent': '< 16ms (60+ FPS)',
-            'Good': '16-20ms (50-60 FPS)',
-            'Fair': '20-33ms (30-50 FPS)',
-            'Poor': '> 33ms (< 30 FPS)'
-          }
+          examples: [
+            'node cliHarness.ts record samples.json',
+            'node cliHarness.ts snapshot',
+            'node cliHarness.ts export csv',
+            'node cliHarness.ts demo'
+          ]
         };
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        result.status = 'error';
+        result.result = { error: `Unknown command: ${command}` };
     }
-
-    // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
-                           argv[argv.indexOf('--format') + 1];
-    const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
-
-    // Handle export format
-    const { result: finalResult, exportData } = addExportSupport(
-      result,
-      exportFormat,
-      'PerfMetricsPure Export',
-      'Performance metrics and benchmarking data'
-    );
-
-    // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
-      status: 'ok',
-      result: finalResult,
-      timestamp: Date.now()
-    }, null, 2));
-
-    // Output export data to stderr if available
-    if (exportData) {
-      console.error('\n' + exportData);
-    }
-
   } catch (error) {
-    console.error(JSON.stringify({
-      op: 'error',
-      status: 'error',
-      error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
-    }, null, 2));
-    process.exit(1);
+    result.status = 'error';
+    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
+
+  console.log(JSON.stringify(result, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main();
+function runDemo(perf: PerfMetricsPure): any {
+  // Simulate various performance scenarios
+  const scenarios = [
+    { name: 'Excellent Performance', dtMs: 16.67, players: 100, category: 'rendering' },
+    { name: 'Good Performance', dtMs: 20, players: 150, category: 'physics' },
+    { name: 'Fair Performance', dtMs: 25, players: 200, category: 'ai' },
+    { name: 'Poor Performance', dtMs: 40, players: 300, category: 'networking' },
+    { name: 'Critical Performance', dtMs: 50, players: 500, category: 'database' }
+  ];
+
+  // Record samples for each scenario
+  scenarios.forEach((scenario, index) => {
+    for (let i = 0; i < 10; i++) {
+      const tickStart = Date.now() - scenario.dtMs;
+      const tickEnd = Date.now();
+      perf.record(
+        scenario.dtMs,
+        tickStart,
+        tickEnd,
+        scenario.players,
+        scenario.category,
+        { scenario: scenario.name, iteration: i }
+      );
+    }
+  });
+
+  // Get metrics and stats
+  const metrics = perf.getMetrics();
+  const stats = perf.getStats();
+
+  return {
+    message: 'PerfMetricsPure Demo completed',
+    scenarios: scenarios.map(s => s.name),
+    metrics,
+    stats,
+    exportFormats: {
+      json: perf.exportMetrics('json'),
+      csv: perf.exportMetrics('csv'),
+      markdown: perf.exportMetrics('markdown')
+    }
+  };
 }
+
+if (import.meta.url === `file://${process.argv[1]}`) main();

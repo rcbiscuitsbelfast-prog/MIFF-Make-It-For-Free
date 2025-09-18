@@ -1,327 +1,256 @@
-#!/usr/bin/env tsx
-
+#!/usr/bin/env -S node --no-warnings
+import fs from 'fs';
+import path from 'path';
 import { 
   Profiler, 
   ProfilerConfig, 
-  ProfilerSample, 
+  ProfilerReport, 
+  ProfilerFrame,
+  ProfilerSample,
   ProfilerMetric,
-  ProfilerReport 
+  ProfilerObserver
 } from './ProfilerPure';
-import { addExportSupport } from '../shared/exportUtils';
-import * as fs from 'fs';
-import * as path from 'path';
 
-interface ProfilerOperation {
-  op: 'create' | 'start' | 'stop' | 'begin-sample' | 'end-sample' | 'record-metric' | 'get-report' | 'demo' | 'dump';
-  config?: ProfilerConfig;
-  sampleName?: string;
-  category?: string;
-  metricId?: string;
-  metricName?: string;
-  metricValue?: number;
-  metricUnit?: string;
-  exportFormat?: string;
-}
-
-async function main() {
-  const argv = process.argv.slice(2);
+function main() {
+  const args = process.argv.slice(2);
+  const command = args[0] || 'help';
+  const configFile = args[1];
   
-  if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
-    process.exit(1);
+  let config: ProfilerConfig = {
+    enabled: true,
+    maxFrames: 100,
+    sampleRate: 60,
+    categories: ['default'],
+    autoStart: false,
+    outputFormat: 'json'
+  };
+
+  if (configFile && fs.existsSync(configFile)) {
+    try {
+      const loadedConfig = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
+      config = { ...config, ...loadedConfig };
+    } catch (error) {
+      console.error('Error loading config:', error);
+      process.exit(1);
+    }
   }
 
+  const profiler = new Profiler(config);
+  let result: any = { op: command, status: 'ok', result: null };
+
   try {
-    const first = argv[0];
-    let operation: ProfilerOperation;
-
-    // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
-      operation = content as ProfilerOperation;
-    } else {
-      // Parse subcommand
-      switch (first) {
-        case 'create':
-          const configFile = argv[1];
-          const config = configFile && fs.existsSync(configFile) 
-            ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
-            : {
-                enabled: true,
-                maxFrames: 100,
-                sampleRate: 60,
-                categories: ['rendering', 'physics', 'ai', 'networking'],
-                autoStart: false,
-                outputFormat: 'json' as const
-              };
-          operation = { op: 'create', config };
-          break;
-        case 'start':
-          operation = { op: 'start' };
-          break;
-        case 'stop':
-          operation = { op: 'stop' };
-          break;
-        case 'begin-sample':
-          if (!argv[1] || !argv[2]) throw new Error('begin-sample requires name and category');
-          operation = { 
-            op: 'begin-sample', 
-            sampleName: argv[1],
-            category: argv[2]
-          };
-          break;
-        case 'end-sample':
-          if (!argv[1]) throw new Error('end-sample requires sample name');
-          operation = { op: 'end-sample', sampleName: argv[1] };
-          break;
-        case 'record-metric':
-          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
-            throw new Error('record-metric requires id, name, value, and unit');
-          }
-          operation = { 
-            op: 'record-metric',
-            metricId: argv[1],
-            metricName: argv[2],
-            metricValue: parseFloat(argv[3]),
-            metricUnit: argv[4]
-          };
-          break;
-        case 'get-report':
-          operation = { op: 'get-report' };
-          break;
-        case 'demo':
-          operation = { op: 'demo' };
-          break;
-        case 'dump':
-          operation = { op: 'dump' };
-          break;
-        default:
-          throw new Error(`Unknown command: ${first}`);
-      }
-    }
-
-    // Create profiler instance
-    const profiler = new Profiler(operation.config || {
-      enabled: true,
-      maxFrames: 100,
-      sampleRate: 60,
-      categories: ['rendering', 'physics', 'ai', 'networking'],
-      autoStart: false,
-      outputFormat: 'json'
-    });
-
-    let result: any;
-
-    switch (operation.op) {
-      case 'create':
-        result = {
-          profiler: {
-            config: profiler['config'],
-            isRunning: profiler['isRunning'],
-            frameCount: profiler['frames'].length
-          }
-        };
-        break;
-
+    switch (command) {
       case 'start':
         profiler.start();
-        result = {
-          action: 'started',
-          isRunning: profiler['isRunning'],
-          timestamp: Date.now()
-        };
+        result.result = { message: 'Profiler started successfully' };
         break;
 
       case 'stop':
         profiler.stop();
-        result = {
-          action: 'stopped',
-          isRunning: profiler['isRunning'],
-          totalFrames: profiler['frames'].length,
-          timestamp: Date.now()
-        };
+        result.result = { message: 'Profiler stopped successfully' };
         break;
 
-      case 'begin-sample':
-        profiler.beginSample(operation.sampleName!, operation.category!);
-        result = {
-          action: 'sample_started',
-          sampleName: operation.sampleName,
-          category: operation.category,
-          activeSamples: profiler['activeSamples'].size,
-          timestamp: Date.now()
-        };
+      case 'startFrame':
+        const frameNumber = parseInt(args[1]) || 0;
+        profiler.startFrame(frameNumber);
+        result.result = { message: `Frame ${frameNumber} started` };
         break;
 
-      case 'end-sample':
-        profiler.endSample(operation.sampleName!);
-        result = {
-          action: 'sample_ended',
-          sampleName: operation.sampleName,
-          activeSamples: profiler['activeSamples'].size,
-          timestamp: Date.now()
-        };
+      case 'endFrame':
+        profiler.endFrame();
+        result.result = { message: 'Frame ended' };
         break;
 
-      case 'record-metric':
-        profiler.recordMetric(
-          operation.metricId!,
-          operation.metricName!,
-          operation.metricValue!,
-          operation.metricUnit!
-        );
-        result = {
-          action: 'metric_recorded',
-          metric: {
-            id: operation.metricId,
-            name: operation.metricName,
-            value: operation.metricValue,
-            unit: operation.metricUnit
-          },
-          totalMetrics: profiler['metrics'].size,
-          timestamp: Date.now()
-        };
+      case 'beginSample':
+        const sampleName = args[1] || 'sample';
+        const category = args[2] || 'default';
+        const sampleId = profiler.beginSample(sampleName, category);
+        result.result = { sampleId, message: `Sample '${sampleName}' started` };
         break;
 
-      case 'get-report':
+      case 'endSample':
+        const sampleId = args[1];
+        if (sampleId) {
+          profiler.endSample(sampleId);
+          result.result = { message: `Sample ${sampleId} ended` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Sample ID required' };
+        }
+        break;
+
+      case 'recordMetric':
+        const metricName = args[1] || 'metric';
+        const value = parseFloat(args[2]) || 0;
+        const unit = args[3] || '';
+        const metricCategory = args[4] || 'default';
+        profiler.recordMetric(metricName, value, unit, metricCategory);
+        result.result = { message: `Metric '${metricName}' recorded` };
+        break;
+
+      case 'getCurrentFrame':
+        const currentFrame = profiler.getCurrentFrame();
+        result.result = currentFrame || { message: 'No active frame' };
+        break;
+
+      case 'getFrames':
+        const frames = profiler.getFrames();
+        result.result = { frames, count: frames.length };
+        break;
+
+      case 'getActiveSamples':
+        const activeSamples = profiler.getActiveSamples();
+        result.result = { samples: activeSamples, count: activeSamples.length };
+        break;
+
+      case 'getMetrics':
+        const metrics = profiler.getMetrics();
+        result.result = { metrics, count: metrics.length };
+        break;
+
+      case 'generateReport':
         const report = profiler.generateReport();
-        result = {
-          report,
-          timestamp: Date.now()
-        };
+        result.result = report;
+        break;
+
+      case 'exportReport':
+        const format = (args[1] as 'json' | 'csv' | 'console') || 'json';
+        const reportData = profiler.exportReport(format);
+        result.result = { data: reportData, format };
+        break;
+
+      case 'reset':
+        profiler.reset();
+        result.result = { message: 'Profiler reset successfully' };
         break;
 
       case 'demo':
-        // Create a comprehensive profiling demo
-        const demoProfiler = new Profiler({
-          enabled: true,
-          maxFrames: 10,
-          sampleRate: 60,
-          categories: ['rendering', 'physics', 'ai', 'networking', 'audio'],
-          autoStart: true,
-          outputFormat: 'json'
-        });
-
-        // Simulate a game frame with various operations
-        for (let frame = 0; frame < 5; frame++) {
-          demoProfiler.startFrame(frame);
-          
-          // Rendering phase
-          demoProfiler.beginSample('render_setup', 'rendering');
-          await new Promise(resolve => setTimeout(resolve, 2)); // Simulate work
-          demoProfiler.endSample('render_setup');
-          
-          demoProfiler.beginSample('render_draw', 'rendering');
-          await new Promise(resolve => setTimeout(resolve, 8)); // Simulate work
-          demoProfiler.endSample('render_draw');
-          
-          // Physics phase
-          demoProfiler.beginSample('physics_update', 'physics');
-          await new Promise(resolve => setTimeout(resolve, 3)); // Simulate work
-          demoProfiler.endSample('physics_update');
-          
-          // AI phase
-          demoProfiler.beginSample('ai_decision', 'ai');
-          await new Promise(resolve => setTimeout(resolve, 1)); // Simulate work
-          demoProfiler.endSample('ai_decision');
-          
-          // Networking phase
-          demoProfiler.beginSample('network_sync', 'networking');
-          await new Promise(resolve => setTimeout(resolve, 1)); // Simulate work
-          demoProfiler.endSample('network_sync');
-          
-          // Record some metrics
-          demoProfiler.recordMetric('fps', 'Frames Per Second', 60 - Math.random() * 5, 'fps');
-          demoProfiler.recordMetric('memory', 'Memory Usage', 100 + Math.random() * 50, 'MB');
-          demoProfiler.recordMetric('cpu', 'CPU Usage', 20 + Math.random() * 30, '%');
-          
-          demoProfiler.endFrame();
-        }
-
-        const demoReport = demoProfiler.generateReport();
-        demoProfiler.stop();
-
-        result = {
-          demo: {
-            frames: demoProfiler['frames'].length,
-            totalSamples: demoReport.samples.length,
-            totalMetrics: demoReport.metrics.length,
-            categories: Array.from(demoReport.categories.keys()),
-            summary: demoReport.summary,
-            recommendations: demoReport.recommendations
-          },
-          report: demoReport
-        };
+        result.result = runDemo(profiler);
         break;
 
-      case 'dump':
-        result = {
-          operations: ['create', 'start', 'stop', 'begin-sample', 'end-sample', 'record-metric', 'get-report', 'demo', 'dump'],
-          description: 'ProfilerPure - Performance profiling and debugging system',
-          features: [
-            'Frame-based profiling',
-            'Sample timing and hierarchy',
-            'Metric collection and analysis',
-            'Performance report generation',
-            'Category-based organization',
-            'Hot-reload support',
-            'Performance recommendations'
+      case 'help':
+        result.result = {
+          usage: 'ProfilerPure CLI Harness',
+          commands: [
+            'start - Start profiling',
+            'stop - Stop profiling',
+            'startFrame [frameNumber] - Start a new frame',
+            'endFrame - End current frame',
+            'beginSample [name] [category] - Begin a sample',
+            'endSample [sampleId] - End a sample',
+            'recordMetric [name] [value] [unit] [category] - Record a metric',
+            'getCurrentFrame - Get current frame info',
+            'getFrames - Get all frames',
+            'getActiveSamples - Get active samples',
+            'getMetrics - Get all metrics',
+            'generateReport - Generate performance report',
+            'exportReport [format] - Export report (json|csv|console)',
+            'reset - Reset profiler',
+            'demo - Run demonstration scenarios',
+            'help - Show this help'
           ],
-          categories: ['rendering', 'physics', 'ai', 'networking', 'audio', 'input', 'ui'],
-          outputFormats: ['json', 'csv', 'console'],
-          defaultConfig: {
-            enabled: true,
-            maxFrames: 100,
-            sampleRate: 60,
-            categories: ['rendering', 'physics', 'ai', 'networking'],
-            autoStart: false,
-            outputFormat: 'json'
-          }
+          examples: [
+            'node cliHarness.ts start',
+            'node cliHarness.ts beginSample "render" "graphics"',
+            'node cliHarness.ts generateReport',
+            'node cliHarness.ts demo'
+          ]
         };
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        result.status = 'error';
+        result.result = { error: `Unknown command: ${command}` };
     }
-
-    // Check for export format option
-    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
-                           argv[argv.indexOf('--format') + 1];
-    const validFormats = ['json', 'csv', 'markdown', 'html'];
-    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
-
-    // Handle export format
-    const { result: finalResult, exportData } = addExportSupport(
-      result,
-      exportFormat,
-      'ProfilerPure Export',
-      'Performance profiling and debugging data'
-    );
-
-    // Output in JSON envelope format
-    console.log(JSON.stringify({
-      op: operation.op,
-      status: 'ok',
-      result: finalResult,
-      timestamp: Date.now()
-    }, null, 2));
-
-    // Output export data to stderr if available
-    if (exportData) {
-      console.error('\n' + exportData);
-    }
-
   } catch (error) {
-    console.error(JSON.stringify({
-      op: 'error',
-      status: 'error',
-      error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
-    }, null, 2));
-    process.exit(1);
+    result.status = 'error';
+    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
+
+  console.log(JSON.stringify(result, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main().catch(console.error);
+function runDemo(profiler: Profiler): any {
+  // Start profiling
+  profiler.start();
+
+  // Simulate a game frame
+  profiler.startFrame(1);
+  
+  // Begin various samples
+  const renderSample = profiler.beginSample('render', 'graphics');
+  const physicsSample = profiler.beginSample('physics', 'simulation');
+  const aiSample = profiler.beginSample('ai', 'logic');
+  
+  // Simulate some work
+  const startTime = performance.now();
+  while (performance.now() - startTime < 10) {
+    // Simulate work
+  }
+  
+  // End samples
+  profiler.endSample(aiSample);
+  profiler.endSample(physicsSample);
+  profiler.endSample(renderSample);
+  
+  // Record some metrics
+  profiler.recordMetric('fps', 60, 'fps', 'performance');
+  profiler.recordMetric('memory', 128, 'MB', 'memory');
+  profiler.recordMetric('drawCalls', 150, 'calls', 'rendering');
+  
+  // End frame
+  profiler.endFrame();
+  
+  // Start another frame
+  profiler.startFrame(2);
+  
+  const updateSample = profiler.beginSample('update', 'logic');
+  const inputSample = profiler.beginSample('input', 'io');
+  
+  // Simulate more work
+  const startTime2 = performance.now();
+  while (performance.now() - startTime2 < 5) {
+    // Simulate work
+  }
+  
+  profiler.endSample(inputSample);
+  profiler.endSample(updateSample);
+  
+  profiler.recordMetric('fps', 58, 'fps', 'performance');
+  profiler.recordMetric('memory', 132, 'MB', 'memory');
+  
+  profiler.endFrame();
+  
+  // Stop profiling
+  profiler.stop();
+  
+  // Get results
+  const frames = profiler.getFrames();
+  const report = profiler.generateReport();
+  const stats = {
+    totalFrames: frames.length,
+    averageFrameTime: report.summary.averageFrameTime,
+    totalSamples: report.samples.length,
+    totalMetrics: report.metrics.length,
+    recommendations: report.recommendations.length
+  };
+
+  return {
+    message: 'ProfilerPure Demo completed',
+    scenarios: [
+      'Frame profiling with multiple samples',
+      'Metric recording and tracking',
+      'Performance analysis and reporting',
+      'Category-based profiling'
+    ],
+    stats,
+    report,
+    exportFormats: {
+      json: profiler.exportReport('json'),
+      csv: profiler.exportReport('csv'),
+      console: profiler.exportReport('console')
+    }
+  };
 }
+
+if (import.meta.url === `file://${process.argv[1]}`) main();

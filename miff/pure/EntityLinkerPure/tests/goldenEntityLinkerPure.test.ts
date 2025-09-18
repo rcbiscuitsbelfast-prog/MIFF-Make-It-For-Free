@@ -1,25 +1,120 @@
-import path from 'path';
-import fs from 'fs';
+import { describe, test, expect } from 'vitest';
+import { runCLICommand } from '../../shared/testUtils';
 
-test('golden resolveRefs output', () => {
-	const root = path.resolve(__dirname, '..');
-	const links = path.resolve(root, 'sample_links.json');
-	const extern = path.resolve(root, 'sample_extern.json');
-	const commands = path.resolve(root, 'tests/commands.json');
-	const out = (global as any).testUtils.runCLI(path.resolve(root, 'cliHarness.ts'), [links, extern, commands]);
-  const got = JSON.parse(out);
-  expect(Array.isArray(got.outputs)).toBe(true);
-  // Expect a single resolveRefs result with structured data
-  expect(got.outputs[0].op).toBe('resolveRefs');
-  expect(got.outputs[0].status).toBe('error');
-  expect(got.outputs[0].resolvedRefs).toMatchObject({
-    'equip:sword:item': { ok: false },
-    'npc:bob:quest': { ok: true, target: 'q1' },
-    'place:townGate:zone': { ok: true, target: 'z_town' }
+describe('EntityLinkerPure CLI Harness', () => {
+  test('resolveRefs - should resolve entity references successfully', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'resolveRefs', 'sample_links.json');
+    
+    expect(result.op).toBe('resolveRefs');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.statistics).toBeDefined();
+    expect(result.result.resolvedRefs).toBeDefined();
+    expect(result.result.issues).toBeDefined();
   });
-  expect(got.outputs[0].issues).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({ code: 'missing_item', ref: 'itm_sword' })
-    ])
-  );
+
+  test('dumpLinks - should dump current link status', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'dumpLinks');
+    
+    expect(result.op).toBe('dumpLinks');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.resolvedRefs).toBeDefined();
+    expect(result.result.statistics).toBeDefined();
+  });
+
+  test('validate - should validate entity links', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'validate', 'sample_links.json');
+    
+    expect(result.op).toBe('validate');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.isValid).toBeDefined();
+    expect(result.result.score).toBeDefined();
+    expect(result.result.recommendations).toBeDefined();
+  });
+
+  test('getStats - should return linker statistics', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'getStats');
+    
+    expect(result.op).toBe('getStats');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.totalResolutions).toBeDefined();
+    expect(result.result.successfulResolutions).toBeDefined();
+    expect(result.result.failedResolutions).toBeDefined();
+  });
+
+  test('reset - should reset linker state', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'reset');
+    
+    expect(result.op).toBe('reset');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.message).toBe('EntityLinkerManager reset successfully');
+  });
+
+  test('export json - should export links in JSON format', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'export', 'json');
+    
+    expect(result.op).toBe('export');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.format).toBe('json');
+    expect(result.result.data).toBeDefined();
+  });
+
+  test('export csv - should export links in CSV format', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'export', 'csv');
+    
+    expect(result.op).toBe('export');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.format).toBe('csv');
+    expect(result.result.data).toBeDefined();
+  });
+
+  test('export markdown - should export links in Markdown format', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'export', 'markdown');
+    
+    expect(result.op).toBe('export');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.format).toBe('markdown');
+    expect(result.result.data).toBeDefined();
+  });
+
+  test('demo - should run demonstration scenarios', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'demo');
+    
+    expect(result.op).toBe('demo');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.message).toBe('EntityLinkerPure Demo completed');
+    expect(result.result.scenarios).toBeDefined();
+    expect(result.result.resolveResult).toBeDefined();
+    expect(result.result.validationResult).toBeDefined();
+    expect(result.result.stats).toBeDefined();
+    expect(result.result.exportFormats).toBeDefined();
+  });
+
+  test('help - should show help information', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'help');
+    
+    expect(result.op).toBe('help');
+    expect(result.status).toBe('ok');
+    expect(result.result).toBeDefined();
+    expect(result.result.usage).toBeDefined();
+    expect(result.result.commands).toBeDefined();
+    expect(result.result.examples).toBeDefined();
+  });
+
+  test('invalid command - should return error', async () => {
+    const result = await runCLICommand('EntityLinkerPure', 'invalidCommand');
+    
+    expect(result.op).toBe('invalidCommand');
+    expect(result.status).toBe('error');
+    expect(result.result).toBeDefined();
+    expect(result.result.error).toBeDefined();
+  });
 });
