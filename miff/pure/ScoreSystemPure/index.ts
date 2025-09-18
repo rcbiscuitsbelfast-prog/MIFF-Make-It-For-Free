@@ -1,14 +1,26 @@
-// ScoreSystemPure - simple deterministic score accumulator
+/**
+ * ScoreSystemPure Module
+ * 
+ * Advanced score management system including score tracking,
+ * leaderboards, achievements, and comprehensive scoring workflows.
+ * 
+ * @module ScoreSystemPure
+ * @version 1.0.0
+ * @license MIT
+ */
 
-export type ScoreEvent = { type: 'add' | 'mult'; value: number };
-export type ScoreState = { score: number };
-
-export function apply(state: ScoreState, events: ScoreEvent[]): { op:'score'; status:'ok'; result: ScoreState }{
-  let s = state.score;
-  for(const e of events){
-    if(e.type==='add') s += e.value;
-    else if(e.type==='mult') s = Math.round(s * e.value);
-  }
-  return { op:'score', status:'ok', result: { score: s } };
-}
-
+export { 
+  ScoreManager,
+  type ScoreEvent,
+  type ScoreState,
+  type ScoreBonus,
+  type ScorePenalty,
+  type Achievement,
+  type AchievementRequirement,
+  type ScoreReward,
+  type Leaderboard,
+  type LeaderboardEntry,
+  type ScoreStats,
+  type ScoreFilter,
+  type ScoreOutput
+} from './Manager';
