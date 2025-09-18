@@ -1,168 +1,483 @@
 #!/usr/bin/env tsx
 
+import { 
+  EconomyManager, 
+  EconomyConfig, 
+  Currency,
+  PriceRule,
+  VendorState,
+  EconomicEvent,
+  TradeTransaction,
+  EconomyOutput
+} from './Manager';
+import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
-import { EconomyManager, PriceRule, VendorState } from './Manager';
 
-type Command =
-  | { op: 'list' }
-  | { op: 'createRule'; rule: PriceRule }
-  | { op: 'createVendor'; vendor: VendorState }
-  | { op: 'simulate'; vendorId: string; itemId: string }
-  | { op: 'simulateAll' }
-  | { op: 'dumpRule'; id: string }
-  | { op: 'dumpVendor'; id: string }
-  | { op: 'export'; format?: 'json' | 'csv' | 'markdown' | 'html' }
-  | { op: 'validate' };
-
-type BootstrapData = { rules: PriceRule[]; vendors: VendorState[] };
-
-function bootstrapManager(samplePath: string): EconomyManager {
-  const manager = new EconomyManager();
-  if (fs.existsSync(samplePath)) {
-    const parsed = JSON.parse(fs.readFileSync(path.resolve(samplePath), 'utf-8')) as BootstrapData;
-    for (const rule of parsed.rules) manager.createRule(rule);
-    for (const vendor of parsed.vendors) manager.createVendor(vendor);
-  }
-  return manager;
+interface EconomyOperation {
+  op: 'create-rule' | 'create-vendor' | 'create-currency' | 'create-event' | 'calculate-price' | 
+      'execute-trade' | 'get-market-data' | 'get-stats' | 'list-rules' | 'list-vendors' | 
+      'list-currencies' | 'export' | 'reset' | 'demo' | 'dump';
+  rule?: PriceRule;
+  vendor?: VendorState;
+  currency?: Currency;
+  event?: EconomicEvent;
+  vendorId?: string;
+  itemId?: string;
+  quantity?: number;
+  type?: 'buy' | 'sell';
+  playerId?: string;
+  format?: string;
+  config?: Partial<EconomyConfig>;
+  exportFormat?: string;
 }
 
-function exportAs(format: string, manager: EconomyManager) {
-  // Gather snapshot data
-  const rules: any[] = [];
-  const vendors: any[] = [];
-
-  // Dump known ids via list(); then try to resolve entities
-  for (const id of manager.list()) {
-    const r = manager.dumpRule(id);
-    if (r.result) rules.push(r.result);
-    const v = manager.dumpVendor(id);
-    if (v.result) vendors.push(v.result);
+async function main() {
+  const argv = process.argv.slice(2);
+  
+  if (argv.length === 0) {
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    process.exit(1);
   }
 
-  const snapshot = { rules, vendors };
+  try {
+    const first = argv[0];
+    let operation: EconomyOperation;
 
-  if (format === 'csv') {
-    const ruleCsv = [
-      'id,itemId,basePrice,modifiers',
-      ...rules.map(r => `${r.id},${r.itemId},${r.basePrice},"${(r.modifiers||[]).map((m:any)=>`${m.key}:${m.value}`).join(';')}"`)
-    ].join('\n');
-    const vendorCsv = [
-      'id,markup,markdown,inventory',
-      ...vendors.map(v => `${v.id},${v.markup},${v.markdown},"${Object.entries(v.inventory).map(([k,val])=>`${k}:${val}`).join(';')}"`)
-    ].join('\n');
-    return { op: 'export', status: 'ok', format: 'csv', result: { rules: ruleCsv, vendors: vendorCsv }, issues: [] };
-  }
-
-  if (format === 'markdown') {
-    const md = [
-      '# Economy Snapshot',
-      '',
-      '## Price Rules',
-      '',
-      '| id | itemId | basePrice | modifiers |',
-      '|----|--------|-----------|-----------|',
-      ...rules.map(r => `| ${r.id} | ${r.itemId} | ${r.basePrice} | ${(r.modifiers||[]).map((m:any)=>`${m.key}:${m.value}`).join(', ')} |`),
-      '',
-      '## Vendors',
-      '',
-      '| id | markup | markdown | inventory |',
-      '|----|--------|----------|-----------|',
-      ...vendors.map(v => `| ${v.id} | ${v.markup} | ${v.markdown} | ${Object.entries(v.inventory).map(([k,val])=>`${k}:${val}`).join(', ')} |`)
-    ].join('\n');
-    return { op: 'export', status: 'ok', format: 'markdown', result: { markdown: md }, issues: [] };
-  }
-
-  if (format === 'html') {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Economy Snapshot</title>
-<style>body{font-family:Arial,sans-serif;margin:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f5f5f5}</style>
-</head><body>
-  <h1>Economy Snapshot</h1>
-  <h2>Price Rules</h2>
-  <table><tr><th>id</th><th>itemId</th><th>basePrice</th><th>modifiers</th></tr>
-  ${rules.map(r=>`<tr><td>${r.id}</td><td>${r.itemId}</td><td>${r.basePrice}</td><td>${(r.modifiers||[]).map((m:any)=>`${m.key}:${m.value}`).join(', ')}</td></tr>`).join('')}
-  </table>
-  <h2>Vendors</h2>
-  <table><tr><th>id</th><th>markup</th><th>markdown</th><th>inventory</th></tr>
-  ${vendors.map(v=>`<tr><td>${v.id}</td><td>${v.markup}</td><td>${v.markdown}</td><td>${Object.entries(v.inventory).map(([k,val])=>`${k}:${val}`).join(', ')}</td></tr>`).join('')}
-  </table>
-</body></html>`;
-    return { op: 'export', status: 'ok', format: 'html', result: { html }, issues: [] };
-  }
-
-  return { op: 'export', status: 'ok', format: 'json', result: snapshot, issues: [] };
-}
-
-function validate(manager: EconomyManager) {
-  const issues: string[] = [];
-  // Simple validations
-  // 1. Each rule must have a corresponding itemId string and non-negative basePrice
-  for (const id of manager.list()) {
-    const r = manager.dumpRule(id).result as any;
-    if (r) {
-      if (typeof r.itemId !== 'string' || r.itemId.length === 0) issues.push(`Rule ${r.id} has invalid itemId`);
-      if (typeof r.basePrice !== 'number' || r.basePrice < 0) issues.push(`Rule ${r.id} has invalid basePrice`);
-    }
-  }
-  return { op: 'validate', status: issues.length ? 'error' : 'ok', result: { issues }, issues: [] };
-}
-
-function main() {
-  const sample = process.argv[2] || 'miff/pure/EconomyPure/sample_economy.json';
-  const commands = process.argv[3] || '';
-
-  const mgr = bootstrapManager(sample);
-  const cmds: Command[] = commands ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) : [{ op: 'list' } as Command];
-
-  const outputs: any[] = [];
-  for (const c of cmds) {
-    switch (c.op) {
-      case 'list':
-        outputs.push({ op: 'list', status: 'ok', result: mgr.list(), issues: [] });
-        break;
-      case 'createRule':
-        outputs.push(mgr.createRule(c.rule));
-        break;
-      case 'createVendor':
-        outputs.push(mgr.createVendor(c.vendor));
-        break;
-      case 'simulate':
-        outputs.push(mgr.calculatePrice(c.vendorId, c.itemId));
-        break;
-      case 'simulateAll': {
-        // Simulate all vendor x item combos that have rules
-        const sims: any[] = [];
-        for (const id of mgr.list()) {
-          const v = mgr.dumpVendor(id).result as VendorState | undefined;
-          if (!v) continue;
-          for (const itemId of Object.keys(v.inventory)) {
-            sims.push({ vendorId: v.id, itemId, result: mgr.calculatePrice(v.id, itemId) });
+    // Handle direct command or JSON file input
+    if (first.endsWith('.json') && fs.existsSync(first)) {
+      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      operation = content as EconomyOperation;
+    } else {
+      // Parse subcommand
+      switch (first) {
+        case 'create-rule':
+          if (!argv[1]) throw new Error('create-rule requires rule JSON');
+          operation = { op: 'create-rule', rule: JSON.parse(argv[1]) };
+          break;
+        case 'create-vendor':
+          if (!argv[1]) throw new Error('create-vendor requires vendor JSON');
+          operation = { op: 'create-vendor', vendor: JSON.parse(argv[1]) };
+          break;
+        case 'create-currency':
+          if (!argv[1]) throw new Error('create-currency requires currency JSON');
+          operation = { op: 'create-currency', currency: JSON.parse(argv[1]) };
+          break;
+        case 'create-event':
+          if (!argv[1]) throw new Error('create-event requires event JSON');
+          operation = { op: 'create-event', event: JSON.parse(argv[1]) };
+          break;
+        case 'calculate-price':
+          if (!argv[1] || !argv[2]) throw new Error('calculate-price requires vendorId and itemId');
+          operation = { 
+            op: 'calculate-price', 
+            vendorId: argv[1], 
+            itemId: argv[2],
+            quantity: argv[3] ? parseInt(argv[3]) : 1
+          };
+          break;
+        case 'execute-trade':
+          if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
+            throw new Error('execute-trade requires vendorId, itemId, quantity, and type (buy/sell)');
           }
-        }
-        outputs.push({ op: 'simulateAll', status: 'ok', result: sims, issues: [] });
-        break;
+          operation = { 
+            op: 'execute-trade', 
+            vendorId: argv[1], 
+            itemId: argv[2],
+            quantity: parseInt(argv[3]),
+            type: argv[4] as 'buy' | 'sell',
+            playerId: argv[5]
+          };
+          break;
+        case 'get-market-data':
+          if (!argv[1]) throw new Error('get-market-data requires itemId');
+          operation = { op: 'get-market-data', itemId: argv[1] };
+          break;
+        case 'get-stats':
+          operation = { op: 'get-stats' };
+          break;
+        case 'list-rules':
+          operation = { op: 'list-rules' };
+          break;
+        case 'list-vendors':
+          operation = { op: 'list-vendors' };
+          break;
+        case 'list-currencies':
+          operation = { op: 'list-currencies' };
+          break;
+        case 'export':
+          const exportFormat = argv[1] || 'json';
+          operation = { op: 'export', exportFormat };
+          break;
+        case 'reset':
+          operation = { op: 'reset' };
+          break;
+        case 'demo':
+          operation = { op: 'demo' };
+          break;
+        case 'dump':
+          operation = { op: 'dump' };
+          break;
+        default:
+          throw new Error(`Unknown command: ${first}`);
       }
-      case 'dumpRule': {
-        const r = mgr.dumpRule(c.id);
-        outputs.push({ ...r, op: 'dumpRule' });
-        break;
-      }
-      case 'dumpVendor': {
-        const v = mgr.dumpVendor(c.id);
-        outputs.push({ ...v, op: 'dumpVendor' });
-        break;
-      }
-      case 'export':
-        outputs.push(exportAs(c.format || 'json', mgr));
-        break;
-      case 'validate':
-        outputs.push(validate(mgr));
-        break;
-      default:
-        outputs.push({ op: (c as any).op, status: 'error', result: null, issues: [{ code: 'unknown_op', message: `Unknown op ${(c as any).op}` }] });
     }
+
+    // Create economy manager instance
+    const economyManager = new EconomyManager(operation.config);
+    let result: any;
+
+    switch (operation.op) {
+      case 'create-rule':
+        const ruleResult = economyManager.createRule(operation.rule!);
+        result = {
+          action: 'rule_created',
+          rule: operation.rule,
+          success: ruleResult.status === 'ok',
+          issues: ruleResult.issues || []
+        };
+        break;
+
+      case 'create-vendor':
+        const vendorResult = economyManager.createVendor(operation.vendor!);
+        result = {
+          action: 'vendor_created',
+          vendor: operation.vendor,
+          success: vendorResult.status === 'ok',
+          issues: vendorResult.issues || []
+        };
+        break;
+
+      case 'create-currency':
+        // Note: Currency creation would need to be added to EnhancedManager
+        result = {
+          action: 'currency_created',
+          currency: operation.currency,
+          success: true,
+          note: 'Currency creation not yet implemented in manager'
+        };
+        break;
+
+      case 'create-event':
+        const eventResult = economyManager.createEconomicEvent(operation.event!);
+        result = {
+          action: 'event_created',
+          event: operation.event,
+          success: eventResult.status === 'ok',
+          issues: eventResult.issues || []
+        };
+        break;
+
+      case 'calculate-price':
+        const priceResult = economyManager.calculatePrice(
+          operation.vendorId!, 
+          operation.itemId!, 
+          operation.quantity || 1
+        );
+        result = {
+          action: 'price_calculated',
+          vendorId: operation.vendorId,
+          itemId: operation.itemId,
+          quantity: operation.quantity || 1,
+          success: priceResult.status === 'ok',
+          priceData: priceResult.result,
+          issues: priceResult.issues || []
+        };
+        break;
+
+      case 'execute-trade':
+        const tradeResult = economyManager.executeTrade(
+          operation.vendorId!,
+          operation.itemId!,
+          operation.quantity!,
+          operation.type!,
+          operation.playerId
+        );
+        result = {
+          action: 'trade_executed',
+          vendorId: operation.vendorId,
+          itemId: operation.itemId,
+          quantity: operation.quantity,
+          type: operation.type,
+          playerId: operation.playerId,
+          success: tradeResult.status === 'ok',
+          tradeData: tradeResult.result,
+          issues: tradeResult.issues || []
+        };
+        break;
+
+      case 'get-market-data':
+        const marketResult = economyManager.getMarketData(operation.itemId!);
+        result = {
+          action: 'market_data_retrieved',
+          itemId: operation.itemId,
+          success: marketResult.status === 'ok',
+          marketData: marketResult.result,
+          issues: marketResult.issues || []
+        };
+        break;
+
+      case 'get-stats':
+        const statsResult = economyManager.getEconomyStats();
+        result = {
+          action: 'stats_retrieved',
+          success: statsResult.status === 'ok',
+          stats: statsResult.result,
+          issues: statsResult.issues || []
+        };
+        break;
+
+      case 'list-rules':
+        const rulesResult = economyManager.listRules();
+        result = {
+          action: 'rules_listed',
+          success: rulesResult.status === 'ok',
+          rules: rulesResult.result,
+          count: Array.isArray(rulesResult.result) ? rulesResult.result.length : 0,
+          issues: rulesResult.issues || []
+        };
+        break;
+
+      case 'list-vendors':
+        const vendorsResult = economyManager.listVendors();
+        result = {
+          action: 'vendors_listed',
+          success: vendorsResult.status === 'ok',
+          vendors: vendorsResult.result,
+          count: Array.isArray(vendorsResult.result) ? vendorsResult.result.length : 0,
+          issues: vendorsResult.issues || []
+        };
+        break;
+
+      case 'list-currencies':
+        const currenciesResult = economyManager.listCurrencies();
+        result = {
+          action: 'currencies_listed',
+          success: currenciesResult.status === 'ok',
+          currencies: currenciesResult.result,
+          count: Array.isArray(currenciesResult.result) ? currenciesResult.result.length : 0,
+          issues: currenciesResult.issues || []
+        };
+        break;
+
+      case 'export':
+        const exportResult = economyManager.exportEconomy(operation.exportFormat as any);
+        result = {
+          action: 'economy_exported',
+          format: operation.exportFormat,
+          success: exportResult.status === 'ok',
+          data: exportResult.result,
+          issues: exportResult.issues || []
+        };
+        break;
+
+      case 'reset':
+        const resetResult = economyManager.resetEconomy();
+        result = {
+          action: 'economy_reset',
+          success: resetResult.status === 'ok',
+          message: resetResult.result?.message,
+          issues: resetResult.issues || []
+        };
+        break;
+
+      case 'demo':
+        // Create a comprehensive economy demo
+        const demoManager = new EconomyManager({
+          baseInflationRate: 0.03,
+          marketVolatility: 0.15,
+          supplyDemandSensitivity: 0.4,
+          globalMarketEnabled: true,
+          currencyExchangeEnabled: true
+        });
+
+        // Add custom items and vendors
+        const customRule: PriceRule = {
+          id: 'rare_gem_rule',
+          itemId: 'rare_gem',
+          basePrice: 1000,
+          currency: 'gold',
+          category: 'gems',
+          rarity: 'rare',
+          modifiers: [
+            { key: 'rarity_bonus', value: 0.5, type: 'percentage' },
+            { key: 'scarcity', value: 0.3, type: 'percentage' }
+          ]
+        };
+
+        const customVendor: VendorState = {
+          id: 'black_market',
+          name: 'Black Market Trader',
+          type: 'black_market',
+          inventory: {
+            'rare_gem': { 
+              quantity: 2, 
+              maxStock: 5, 
+              restockRate: 0.5, 
+              lastRestock: Date.now(), 
+              demand: 0.9, 
+              supply: 0.2 
+            }
+          },
+          markup: 0.8,
+          markdown: 0.3,
+          location: 'underground',
+          reputation: 30,
+          specialties: ['gems', 'black_market'],
+          currency: 'gold',
+          acceptedCurrencies: ['gold', 'gems'],
+          marketShare: 0.05,
+          operatingHours: { open: 20, close: 4 }
+        };
+
+        const economicEvent: EconomicEvent = {
+          id: 'gem_shortage',
+          name: 'Rare Gem Shortage',
+          type: 'shortage',
+          description: 'A mining accident has caused a shortage of rare gems',
+          duration: 24, // 24 hours
+          startTime: Date.now(),
+          effects: [
+            {
+              target: 'category',
+              targetId: 'gems',
+              modifier: 0.5, // 50% price increase
+              type: 'price'
+            }
+          ]
+        };
+
+        demoManager.createRule(customRule);
+        demoManager.createVendor(customVendor);
+        demoManager.createEconomicEvent(economicEvent);
+
+        // Execute some trades
+        const trade1 = demoManager.executeTrade('general_store', 'health_potion', 5, 'buy', 'player_1');
+        const trade2 = demoManager.executeTrade('black_market', 'rare_gem', 1, 'buy', 'player_1');
+        const trade3 = demoManager.executeTrade('magic_emporium', 'magic_scroll', 2, 'buy', 'player_2');
+
+        // Get comprehensive data
+        const demoStats = demoManager.getEconomyStats();
+        const marketData = demoManager.getMarketData('rare_gem');
+        const exportData = demoManager.exportEconomy('summary');
+
+        result = {
+          demo: {
+            configuration: {
+              baseInflationRate: 0.03,
+              marketVolatility: 0.15,
+              supplyDemandSensitivity: 0.4,
+              globalMarketEnabled: true,
+              currencyExchangeEnabled: true
+            },
+            customContent: {
+              rule: customRule,
+              vendor: customVendor,
+              event: economicEvent
+            },
+            trades: [
+              { 
+                description: 'Buy 5 health potions from general store',
+                result: trade1.result,
+                success: trade1.status === 'ok'
+              },
+              { 
+                description: 'Buy 1 rare gem from black market',
+                result: trade2.result,
+                success: trade2.status === 'ok'
+              },
+              { 
+                description: 'Buy 2 magic scrolls from magic emporium',
+                result: trade3.result,
+                success: trade3.status === 'ok'
+              }
+            ],
+            analysis: {
+              stats: demoStats.result,
+              rareGemMarket: marketData.result,
+              exportSample: exportData.result
+            },
+            summary: {
+              totalVendors: demoStats.result?.totalVendors || 0,
+              totalItems: demoStats.result?.totalItems || 0,
+              totalCurrencies: demoStats.result?.totalCurrencies || 0,
+              economicHealth: demoStats.result?.economicHealth || 0,
+              marketVolume: demoStats.result?.marketVolume || 0,
+              activeEvents: demoStats.result?.activeEvents || 0
+            }
+          }
+        };
+        break;
+
+      case 'dump':
+        result = {
+          operations: [
+            'create-rule', 'create-vendor', 'create-currency', 'create-event',
+            'calculate-price', 'execute-trade', 'get-market-data', 'get-stats',
+            'list-rules', 'list-vendors', 'list-currencies', 'export', 'reset', 'demo', 'dump'
+          ],
+          description: 'EconomyPure - Advanced economic system with market simulation',
+          features: [
+            'Multi-currency support with exchange rates',
+            'Dynamic pricing with supply and demand',
+            'Vendor reputation and specialties',
+            'Economic events and market volatility',
+            'Inflation and market trends tracking',
+            'Transaction history and analytics',
+            'Market data and statistics',
+            'Advanced pricing modifiers'
+          ],
+          currencies: ['gold', 'silver', 'gems'],
+          vendorTypes: ['general', 'specialist', 'black_market', 'auction_house'],
+          categories: ['consumables', 'weapons', 'magic', 'gems', 'enchantments'],
+          rarities: ['common', 'uncommon', 'rare', 'epic', 'legendary'],
+          exportFormats: ['json', 'manifest', 'summary', 'transactions'],
+          eventTypes: ['inflation', 'deflation', 'shortage', 'surplus', 'crisis', 'boom']
+        };
+        break;
+
+      default:
+        throw new Error(`Unknown operation: ${operation.op}`);
+    }
+
+    // Check for export format option
+    const exportFormatArg = argv.find(arg => arg.startsWith('--format='))?.split('=')[1] || 
+                           argv[argv.indexOf('--format') + 1];
+    const validFormats = ['json', 'csv', 'markdown', 'html', 'yaml', 'xml'];
+    const exportFormat = validFormats.includes(exportFormatArg) ? exportFormatArg : undefined;
+
+    // Handle export format
+    const { result: finalResult, exportData } = addExportSupport(
+      result,
+      exportFormat,
+      'EconomyPure Export',
+      'Advanced economic system data and analytics'
+    );
+
+    // Output in JSON envelope format
+    console.log(JSON.stringify({
+      op: operation.op,
+      status: 'ok',
+      result: finalResult,
+      timestamp: Date.now()
+    }, null, 2));
+
+    // Output export data to stderr if available
+    if (exportData) {
+      console.error('\n' + exportData);
+    }
+
+  } catch (error) {
+    console.error(JSON.stringify({
+      op: 'error',
+      status: 'error',
+      error: error instanceof Error ? error.message : String(error),
+      timestamp: Date.now()
+    }, null, 2));
+    process.exit(1);
   }
-  console.log(JSON.stringify({ outputs }, null, 2));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(console.error);
+}
