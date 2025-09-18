@@ -1,17 +1,93 @@
-export type StatModifier = { stat: string; value: number };
+/**
+ * EquipmentPure Manager
+ * 
+ * Advanced equipment management system including stat modifiers,
+ * equipment sets, durability, enchantments, and comprehensive equipment workflows.
+ */
 
-export type EquippedItem = {
+export interface StatModifier {
+  stat: string;
+  value: number;
+  type: 'additive' | 'multiplicative' | 'percentage';
+  source: string;
+  metadata?: Record<string, any>;
+}
+
+export interface EquippedItem {
   id: string;
   name: string;
-  slot: string; // e.g., weapon, armor, mount
+  slot: string;
   modifiers: StatModifier[];
-  source: string; // e.g., inventory id
-};
+  source: string;
+  durability?: number;
+  maxDurability?: number;
+  enchantments?: Enchantment[];
+  set?: string;
+  rarity: ItemRarity;
+  level: number;
+  metadata?: Record<string, any>;
+}
+
+export interface Enchantment {
+  id: string;
+  name: string;
+  level: number;
+  effects: StatModifier[];
+  duration?: number;
+  metadata?: Record<string, any>;
+}
+
+export interface EquipmentSet {
+  id: string;
+  name: string;
+  pieces: string[];
+  bonuses: SetBonus[];
+  metadata?: Record<string, any>;
+}
+
+export interface SetBonus {
+  piecesRequired: number;
+  bonuses: StatModifier[];
+  description: string;
+}
+
+export interface EquipmentStats {
+  totalItems: number;
+  itemsBySlot: Record<string, number>;
+  itemsByRarity: Record<ItemRarity, number>;
+  totalModifiers: number;
+  averageLevel: number;
+  durability: number;
+  enchantments: number;
+}
+
+export interface EquipmentFilter {
+  slot?: string;
+  rarity?: ItemRarity;
+  minLevel?: number;
+  maxLevel?: number;
+  hasEnchantments?: boolean;
+  hasSet?: boolean;
+  minDurability?: number;
+}
+
+export interface EquipmentOutput {
+  op: string;
+  status: 'ok' | 'error';
+  result?: EquippedItem | EquipmentStats | StatModifier[] | string;
+  issues?: string[];
+}
+
+export type ItemRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic';
 
 export interface Hooks {
   onEquip?: (item: EquippedItem) => void;
   onUnequip?: (slot: string, item?: EquippedItem) => void;
   onModifierApplied?: (modifier: StatModifier, item: EquippedItem) => void;
+  onDurabilityChange?: (item: EquippedItem, oldDurability: number, newDurability: number) => void;
+  onEnchantmentAdded?: (item: EquippedItem, enchantment: Enchantment) => void;
+  onEnchantmentRemoved?: (item: EquippedItem, enchantmentId: string) => void;
+  onSetBonusActivated?: (setId: string, bonus: SetBonus) => void;
 }
 
 export interface InventoryPort {
@@ -22,60 +98,442 @@ export interface InventoryPort {
 
 export class EquipmentManager {
   private equipped = new Map<string, EquippedItem>();
+  private equipmentSets = new Map<string, EquipmentSet>();
   private hooks: Hooks;
   private inventory?: InventoryPort;
+  private stats: EquipmentStats;
 
   constructor(hooks: Hooks = {}, inventory?: InventoryPort) {
     this.hooks = hooks;
     this.inventory = inventory;
+    this.stats = {
+      totalItems: 0,
+      itemsBySlot: {},
+      itemsByRarity: {
+        common: 0,
+        uncommon: 0,
+        rare: 0,
+        epic: 0,
+        legendary: 0,
+        mythic: 0
+      },
+      totalModifiers: 0,
+      averageLevel: 0,
+      durability: 0,
+      enchantments: 0
+    };
   }
 
-  syncInventory(port: InventoryPort) {
+  /**
+   * Sync with inventory system
+   */
+  syncInventory(port: InventoryPort): EquipmentOutput {
     this.inventory = port;
+    return {
+      op: 'sync-inventory',
+      status: 'ok',
+      result: 'Inventory synced'
+    };
   }
 
-  listSlots(): string[] { return Array.from(this.equipped.keys()); }
-
-  getEquipped(slot: string): EquippedItem | undefined {
-    return this.equipped.get(slot);
+  /**
+   * List all equipped slots
+   */
+  listSlots(): EquipmentOutput {
+    return {
+      op: 'list-slots',
+      status: 'ok',
+      result: Array.from(this.equipped.keys())
+    };
   }
 
-  getModifiers(): StatModifier[] {
+  /**
+   * Get equipped item in slot
+   */
+  getEquipped(slot: string): EquipmentOutput {
+    const item = this.equipped.get(slot);
+    if (!item) {
+      return {
+        op: 'get-equipped',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+    return {
+      op: 'get-equipped',
+      status: 'ok',
+      result: item
+    };
+  }
+
+  /**
+   * Get all stat modifiers from equipped items
+   */
+  getModifiers(): EquipmentOutput {
     const mods: StatModifier[] = [];
     for (const item of this.equipped.values()) {
-      for (const m of item.modifiers) {
-        mods.push({ stat: m.stat, value: m.value });
-        this.hooks.onModifierApplied?.(m, item);
+      for (const modifier of item.modifiers) {
+        mods.push({ ...modifier });
+        this.hooks.onModifierApplied?.(modifier, item);
       }
     }
-    return mods;
+    return {
+      op: 'get-modifiers',
+      status: 'ok',
+      result: mods
+    };
   }
 
-  equip(itemId: string, slot: string, catalogLookup: (id: string) => Omit<EquippedItem, 'source'> | undefined): void {
+  /**
+   * Equip an item
+   */
+  equip(itemId: string, slot: string, catalogLookup: (id: string) => Omit<EquippedItem, 'source'> | undefined): EquipmentOutput {
     const def = catalogLookup(itemId);
-    if (!def) throw new Error(`Item not found: ${itemId}`);
-    if (def.slot !== slot) throw new Error(`Item ${itemId} incompatible with slot ${slot}`);
+    if (!def) {
+      return {
+        op: 'equip',
+        status: 'error',
+        issues: [`Item not found: ${itemId}`]
+      };
+    }
+    if (def.slot !== slot) {
+      return {
+        op: 'equip',
+        status: 'error',
+        issues: [`Item ${itemId} incompatible with slot ${slot}`]
+      };
+    }
 
     if (this.inventory) {
       const ok = this.inventory.removeItem(itemId, 1);
-      if (!ok) throw new Error(`Not enough in inventory: ${itemId}`);
+      if (!ok) {
+        return {
+          op: 'equip',
+          status: 'error',
+          issues: [`Not enough in inventory: ${itemId}`]
+        };
+      }
     }
 
     // Unequip existing in slot (return to inventory)
     const prev = this.equipped.get(slot);
-    if (prev && this.inventory) this.inventory.addItem(prev.id, 1);
+    if (prev && this.inventory) {
+      this.inventory.addItem(prev.id, 1);
+    }
 
     const item: EquippedItem = { ...def, source: 'inventory' };
     this.equipped.set(slot, item);
     this.hooks.onEquip?.(item);
+    this.updateStats();
+    return {
+      op: 'equip',
+      status: 'ok',
+      result: item
+    };
   }
 
-  unequip(slot: string): void {
+  /**
+   * Unequip item from slot
+   */
+  unequip(slot: string): EquipmentOutput {
     const prev = this.equipped.get(slot);
-    if (!prev) return;
-    if (this.inventory) this.inventory.addItem(prev.id, 1);
+    if (!prev) {
+      return {
+        op: 'unequip',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+
+    if (this.inventory) {
+      this.inventory.addItem(prev.id, 1);
+    }
     this.equipped.delete(slot);
     this.hooks.onUnequip?.(slot, prev);
+    this.updateStats();
+    return {
+      op: 'unequip',
+      status: 'ok',
+      result: `Item unequipped from ${slot}`
+    };
+  }
+
+  /**
+   * Add enchantment to item
+   */
+  addEnchantment(slot: string, enchantment: Enchantment): EquipmentOutput {
+    const item = this.equipped.get(slot);
+    if (!item) {
+      return {
+        op: 'add-enchantment',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+
+    if (!item.enchantments) {
+      item.enchantments = [];
+    }
+    item.enchantments.push(enchantment);
+    this.hooks.onEnchantmentAdded?.(item, enchantment);
+    this.updateStats();
+    return {
+      op: 'add-enchantment',
+      status: 'ok',
+      result: item
+    };
+  }
+
+  /**
+   * Remove enchantment from item
+   */
+  removeEnchantment(slot: string, enchantmentId: string): EquipmentOutput {
+    const item = this.equipped.get(slot);
+    if (!item) {
+      return {
+        op: 'remove-enchantment',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+
+    if (!item.enchantments) {
+      return {
+        op: 'remove-enchantment',
+        status: 'error',
+        issues: [`No enchantments on item in slot ${slot}`]
+      };
+    }
+
+    const index = item.enchantments.findIndex(e => e.id === enchantmentId);
+    if (index === -1) {
+      return {
+        op: 'remove-enchantment',
+        status: 'error',
+        issues: [`Enchantment ${enchantmentId} not found`]
+      };
+    }
+
+    item.enchantments.splice(index, 1);
+    this.hooks.onEnchantmentRemoved?.(item, enchantmentId);
+    this.updateStats();
+    return {
+      op: 'remove-enchantment',
+      status: 'ok',
+      result: item
+    };
+  }
+
+  /**
+   * Update item durability
+   */
+  updateDurability(slot: string, durability: number): EquipmentOutput {
+    const item = this.equipped.get(slot);
+    if (!item) {
+      return {
+        op: 'update-durability',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+
+    const oldDurability = item.durability || 0;
+    item.durability = Math.max(0, Math.min(durability, item.maxDurability || 100));
+    this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
+    this.updateStats();
+    return {
+      op: 'update-durability',
+      status: 'ok',
+      result: item
+    };
+  }
+
+  /**
+   * Repair item durability
+   */
+  repairItem(slot: string, amount?: number): EquipmentOutput {
+    const item = this.equipped.get(slot);
+    if (!item) {
+      return {
+        op: 'repair',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+
+    const repairAmount = amount || (item.maxDurability || 100);
+    const oldDurability = item.durability || 0;
+    item.durability = Math.min(repairAmount, item.maxDurability || 100);
+    this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
+    this.updateStats();
+    return {
+      op: 'repair',
+      status: 'ok',
+      result: item
+    };
+  }
+
+  /**
+   * Get equipment statistics
+   */
+  getStats(): EquipmentOutput {
+    return {
+      op: 'get-stats',
+      status: 'ok',
+      result: { ...this.stats }
+    };
+  }
+
+  /**
+   * List equipped items with filter
+   */
+  listEquipped(filter?: EquipmentFilter): EquipmentOutput {
+    let items = Array.from(this.equipped.values());
+
+    if (filter) {
+      items = items.filter(item => {
+        if (filter.slot && item.slot !== filter.slot) return false;
+        if (filter.rarity && item.rarity !== filter.rarity) return false;
+        if (filter.minLevel !== undefined && item.level < filter.minLevel) return false;
+        if (filter.maxLevel !== undefined && item.level > filter.maxLevel) return false;
+        if (filter.hasEnchantments !== undefined) {
+          if (filter.hasEnchantments && (!item.enchantments || item.enchantments.length === 0)) return false;
+          if (!filter.hasEnchantments && item.enchantments && item.enchantments.length > 0) return false;
+        }
+        if (filter.hasSet !== undefined) {
+          if (filter.hasSet && !item.set) return false;
+          if (!filter.hasSet && item.set) return false;
+        }
+        if (filter.minDurability !== undefined && (item.durability || 0) < filter.minDurability) return false;
+        return true;
+      });
+    }
+
+    return {
+      op: 'list-equipped',
+      status: 'ok',
+      result: items
+    };
+  }
+
+  /**
+   * Export equipment data
+   */
+  exportEquipment(format: 'json' | 'manifest' | 'summary' | 'items' = 'json'): EquipmentOutput {
+    const items = Array.from(this.equipped.values());
+
+    switch (format) {
+      case 'json':
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            items,
+            stats: this.stats
+          }
+        };
+      
+      case 'manifest':
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            schema: 'miff.equipment.export.v1',
+            items,
+            stats: this.stats,
+            exportedAt: new Date().toISOString()
+          }
+        };
+      
+      case 'summary':
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            summary: this.stats,
+            totalItems: items.length,
+            itemsBySlot: this.stats.itemsBySlot,
+            itemsByRarity: this.stats.itemsByRarity
+          }
+        };
+      
+      case 'items':
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            items,
+            total: items.length
+          }
+        };
+      
+      default:
+        return {
+          op: 'export',
+          status: 'error',
+          issues: [`Unknown export format: ${format}`]
+        };
+    }
+  }
+
+  /**
+   * Reset equipment system
+   */
+  resetEquipment(): EquipmentOutput {
+    this.equipped.clear();
+    this.equipmentSets.clear();
+    this.stats = {
+      totalItems: 0,
+      itemsBySlot: {},
+      itemsByRarity: {
+        common: 0,
+        uncommon: 0,
+        rare: 0,
+        epic: 0,
+        legendary: 0,
+        mythic: 0
+      },
+      totalModifiers: 0,
+      averageLevel: 0,
+      durability: 0,
+      enchantments: 0
+    };
+    return {
+      op: 'reset',
+      status: 'ok',
+      result: 'Equipment system reset'
+    };
+  }
+
+  /**
+   * Private helper methods
+   */
+  private updateStats(): void {
+    const items = Array.from(this.equipped.values());
+    this.stats.totalItems = items.length;
+
+    // Reset counts
+    this.stats.itemsBySlot = {};
+    this.stats.itemsByRarity = {
+      common: 0,
+      uncommon: 0,
+      rare: 0,
+      epic: 0,
+      legendary: 0,
+      mythic: 0
+    };
+
+    // Count by slot and rarity
+    items.forEach(item => {
+      this.stats.itemsBySlot[item.slot] = (this.stats.itemsBySlot[item.slot] || 0) + 1;
+      this.stats.itemsByRarity[item.rarity]++;
+    });
+
+    // Calculate totals
+    this.stats.totalModifiers = items.reduce((acc, item) => acc + item.modifiers.length, 0);
+    this.stats.averageLevel = items.length > 0 ? items.reduce((acc, item) => acc + item.level, 0) / items.length : 0;
+    this.stats.durability = items.reduce((acc, item) => acc + (item.durability || 0), 0);
+    this.stats.enchantments = items.reduce((acc, item) => acc + (item.enchantments?.length || 0), 0);
   }
 }
 
