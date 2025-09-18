@@ -1,122 +1,216 @@
-#!/usr/bin/env tsx
+/**
+ * CLI Harness for RenderPayloadPure
+ * 
+ * Provides comprehensive CLI interface for render payload management including
+ * frame building, asset management, validation, and multi-format export.
+ * 
+ * @module RenderPayloadPure/cliHarness
+ * @version 1.0.0
+ * @license MIT
+ */
 
-import { RenderPayloadBuilder, createSampleFrame } from './Manager';
-import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
-import * as fs from 'fs';
-import * as path from 'path';
+import { RenderPayloadManager, FrameBuildOptions } from './Manager';
+import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
-interface RenderPayloadOperation {
-  op: 'build-sample' | 'validate' | 'build' | 'dump';
-  data?: Record<string, unknown>;
-  config?: Record<string, unknown>;
-}
+const { mode, args } = parseCLIArgs(process.argv);
+const manager = new RenderPayloadManager();
 
-function main() {
-  const argv = process.argv.slice(2);
-  
-  if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
-    process.exit(1);
-  }
+// Parse additional arguments
+const frameId = args.find(arg => arg.startsWith('--frame-id='))?.split('=')[1] || 'default';
+const engine = args.find(arg => arg.startsWith('--engine='))?.split('=')[1] || 'unified';
+const quality = args.find(arg => arg.startsWith('--quality='))?.split('=')[1] as 'low' | 'medium' | 'high' | 'ultra' || 'medium';
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'assets' || 'json';
 
-  try {
-    const first = argv[0];
-    let operation: RenderPayloadOperation;
+let output: any;
 
-    // Handle direct command or JSON file input
-    if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
-      operation = content as RenderPayloadOperation;
-    } else {
-      // Parse subcommand
-      switch (first) {
-        case 'build-sample':
-          operation = { op: 'build-sample' };
-          break;
-        case 'validate':
-          if (!argv[1]) throw new Error('validate requires a JSON file');
-          const payload = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
-          operation = { op: 'validate', data: payload };
-          break;
-        case 'build':
-          operation = { op: 'build', config: { engine: argv[1] || 'unified' } };
-          break;
-        case 'dump':
-          operation = { op: 'dump' };
-          break;
-        default:
-          throw new Error(`Unknown command: ${first}`);
+try {
+  switch (mode) {
+    case 'create-frame':
+      const createResult = manager.createFrame(frameId, `Frame ${frameId}`, engine);
+      output = {
+        op: 'create_frame',
+        status: createResult.ok ? 'ok' : 'error',
+        result: createResult.frame,
+        issues: createResult.errors
+      };
+      break;
+
+    case 'build-frame':
+      const buildOptions: FrameBuildOptions = {
+        engine,
+        quality,
+        optimization: args.includes('--optimize')
+      };
+      const buildResult = manager.buildFrame(buildOptions);
+      output = {
+        op: 'build_frame',
+        status: buildResult.ok ? 'ok' : 'error',
+        result: buildResult.result,
+        issues: buildResult.errors
+      };
+      break;
+
+    case 'get-frame':
+      const getResult = manager.getFrame(frameId);
+      output = {
+        op: 'get_frame',
+        status: getResult.ok ? 'ok' : 'error',
+        result: getResult.frame,
+        issues: getResult.errors
+      };
+      break;
+
+    case 'list-frames':
+      const listResult = manager.listFrames();
+      output = {
+        op: 'list_frames',
+        status: 'ok',
+        result: {
+          frames: listResult.frames,
+          total: listResult.total
+        }
+      };
+      break;
+
+    case 'validate-frame':
+      const validateResult = manager.validateFrame(frameId);
+      output = {
+        op: 'validate_frame',
+        status: validateResult.ok ? 'ok' : 'error',
+        result: validateResult.validation,
+        issues: validateResult.errors
+      };
+      break;
+
+    case 'export-frame':
+      const exportResult = manager.exportFrame(frameId, format);
+      output = {
+        op: 'export_frame',
+        status: exportResult.ok ? 'ok' : 'error',
+        result: exportResult.data,
+        format,
+        issues: exportResult.errors
+      };
+      break;
+
+    case 'delete-frame':
+      const deleteResult = manager.deleteFrame(frameId);
+      output = {
+        op: 'delete_frame',
+        status: deleteResult.ok ? 'ok' : 'error',
+        issues: deleteResult.errors
+      };
+      break;
+
+    case 'stats':
+      const statsResult = manager.getStats();
+      output = {
+        op: 'stats',
+        status: 'ok',
+        result: statsResult.stats
+      };
+      break;
+
+    case 'clear-frames':
+      const clearResult = manager.clearFrames();
+      output = {
+        op: 'clear_frames',
+        status: 'ok',
+        result: { cleared: clearResult.cleared }
+      };
+      break;
+
+    case 'sample':
+      // Create a sample frame with default content
+      const sampleCreate = manager.createFrame('sample', 'Sample Frame', engine);
+      if (sampleCreate.ok) {
+        const sampleBuild = manager.buildFrame({ engine, quality });
+        output = {
+          op: 'sample',
+          status: 'ok',
+          result: sampleBuild.result,
+          frameId: 'sample'
+        };
+      } else {
+        output = {
+          op: 'sample',
+          status: 'error',
+          issues: sampleCreate.errors
+        };
       }
-    }
+      break;
 
-    let result;
-    switch (operation.op) {
-      case 'build-sample':
-        const samplePayload = createSampleFrame();
-        result = {
-          op: 'buildSample',
-          status: 'ok',
-          payload: samplePayload
-        };
-        break;
-
-      case 'validate':
-        if (!operation.data) throw new Error('validate requires data');
-        const issues = BridgeSchemaValidator.validateRenderPayload(operation.data as any);
-        result = {
-          op: 'validate',
-          status: issues.length === 0 ? 'ok' : 'error',
-          issues
-        };
-        break;
-
-      case 'build':
-        const builder = new RenderPayloadBuilder();
-        builder.addNode({
-          id: 'demo_node',
-          name: 'Demo Node',
-          position: { x: 100, y: 200, z: 0 },
-          props: { demo: true }
+    case 'demo':
+      // Create a demo frame with multiple render elements
+      const demoCreate = manager.createFrame('demo', 'Demo Frame', engine);
+      if (demoCreate.ok) {
+        // Add some sample render data
+        manager.addRenderData('demo', {
+          id: 'demo_sprite',
+          type: 'sprite',
+          name: 'Demo Sprite',
+          position: { x: 100, y: 100 },
+          asset: 'demo_sprite',
+          props: { texture: 'demo_sprite.png' }
         });
-        
-        const buildResult = builder.build(operation.config || {});
-        result = {
-          op: 'build',
-          status: buildResult.status,
-          payload: buildResult.payload,
-          issues: buildResult.issues
-        };
-        break;
 
-      case 'dump':
-        result = {
-          op: 'dump',
+        manager.addRenderData('demo', {
+          id: 'demo_text',
+          type: 'text',
+          name: 'Demo Text',
+          position: { x: 100, y: 150 },
+          props: { text: 'Hello World!', color: '#ffffff', fontSize: 16 }
+        });
+
+        const demoFrame = manager.getFrame('demo');
+        output = {
+          op: 'demo',
           status: 'ok',
-          info: {
-            capabilities: ['build-sample', 'validate', 'build'],
-            version: '1.0.0',
-            schemaVersion: 'v1'
-          }
+          result: demoFrame.frame
         };
-        break;
+      } else {
+        output = {
+          op: 'demo',
+          status: 'error',
+          issues: demoCreate.errors
+        };
+      }
+      break;
 
-      default:
-        throw new Error(`Unknown operation: ${(operation as any).op}`);
-    }
-
-    console.log(JSON.stringify(result, null, 2));
-
-  } catch (error) {
-    const errorResult = {
-      op: 'error',
-      status: 'error',
-      error: error instanceof Error ? error.message : String(error),
-      timestamp: Date.now()
-    };
-    console.error(JSON.stringify(errorResult, null, 2));
-    process.exit(1);
+    default:
+      output = {
+        op: 'help',
+        status: 'ok',
+        result: {
+          availableCommands: [
+            'create-frame --frame-id=<id> --engine=<engine>',
+            'build-frame --engine=<engine> --quality=<low|medium|high|ultra> --optimize',
+            'get-frame --frame-id=<id>',
+            'list-frames',
+            'validate-frame --frame-id=<id>',
+            'export-frame --frame-id=<id> --format=<json|manifest|summary|assets>',
+            'delete-frame --frame-id=<id>',
+            'stats',
+            'clear-frames',
+            'sample --engine=<engine> --quality=<quality>',
+            'demo --engine=<engine>'
+          ],
+          examples: [
+            'node cliHarness.ts create-frame --frame-id=my-frame --engine=unity',
+            'node cliHarness.ts build-frame --engine=web --quality=high --optimize',
+            'node cliHarness.ts export-frame --frame-id=my-frame --format=manifest',
+            'node cliHarness.ts sample --engine=godot --quality=ultra'
+          ]
+        }
+      };
   }
+} catch (error) {
+  output = {
+    op: mode || 'unknown',
+    status: 'error',
+    issues: [error instanceof Error ? error.message : 'Unknown error']
+  };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
-
+// Output valid JSON to stdout for test runner to consume
+console.log(formatOutput(output));

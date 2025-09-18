@@ -1,145 +1,265 @@
-#!/usr/bin/env tsx
+/**
+ * CLI Harness for NPCsPure
+ * 
+ * Provides comprehensive CLI interface for NPC management including
+ * creation, updates, simulation, and multi-format export.
+ * 
+ * @module NPCsPure/cliHarness
+ * @version 1.0.0
+ * @license MIT
+ */
 
-import { NPCsManager, NPC, StatBlock } from './Manager';
-import * as fs from 'fs';
-import * as path from 'path';
+import { NPCsManager, NPC, NPBehavior } from './Manager';
+import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
-interface NPCsOperationInput {
-	op: 'list' | 'create' | 'update' | 'delete' | 'simulate' | 'dump' | 'get';
-	npcId?: string;
-	data?: Record<string, unknown>;
-	duration?: number;
+const { mode, args } = parseCLIArgs(process.argv);
+const manager = new NPCsManager();
+
+// Parse additional arguments
+const npcId = args.find(arg => arg.startsWith('--npc-id='))?.split('=')[1] || 'npc_001';
+const questId = args.find(arg => arg.startsWith('--quest-id='))?.split('=')[1] || 'quest_001';
+const zoneId = args.find(arg => arg.startsWith('--zone-id='))?.split('=')[1] || 'zone_village';
+const faction = args.find(arg => arg.startsWith('--faction='))?.split('=')[1] || 'village_elders';
+const behaviorType = args.find(arg => arg.startsWith('--behavior='))?.split('=')[1] || 'quest_giver';
+const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as 'json' | 'manifest' | 'summary' | 'quests' || 'json';
+const x = parseInt(args.find(arg => arg.startsWith('--x='))?.split('=')[1] || '0');
+const y = parseInt(args.find(arg => arg.startsWith('--y='))?.split('=')[1] || '0');
+const z = parseInt(args.find(arg => arg.startsWith('--z='))?.split('=')[1] || '0');
+const reputation = parseInt(args.find(arg => arg.startsWith('--reputation='))?.split('=')[1] || '50');
+const duration = parseInt(args.find(arg => arg.startsWith('--duration='))?.split('=')[1] || '60');
+
+let output: any;
+
+try {
+  switch (mode) {
+    case 'create':
+      const newNPC: NPC = {
+        id: npcId as any,
+        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
+        stats: [
+          { key: 'health', base: 100 },
+          { key: 'mana', base: 50 },
+          { key: 'strength', base: 10 },
+          { key: 'wisdom', base: 10 }
+        ],
+        behavior: {
+          type: behaviorType as any,
+          aggression: 0,
+          curiosity: 50,
+          loyalty: 50
+        },
+        location: { zoneId: zoneId as any, x, y, z },
+        questIds: [],
+        movementPattern: { type: 'idle', speed: 1 },
+        faction,
+        reputation: 50
+      };
+      output = manager.createNPC(newNPC);
+      break;
+
+    case 'get':
+      output = manager.getNPC(npcId as any);
+      break;
+
+    case 'update':
+      const updates: Partial<NPC> = {};
+      if (args.includes('--name')) {
+        updates.name = args.find(arg => arg.startsWith('--name='))?.split('=')[1];
+      }
+      if (args.includes('--reputation')) {
+        updates.reputation = reputation;
+      }
+      output = manager.updateNPC(npcId as any, updates);
+      break;
+
+    case 'delete':
+      output = manager.deleteNPC(npcId as any);
+      break;
+
+    case 'list':
+      const filter: any = {};
+      if (args.includes('--zone-id')) filter.zoneId = zoneId;
+      if (args.includes('--behavior')) filter.behaviorType = behaviorType;
+      if (args.includes('--faction')) filter.faction = faction;
+      if (args.includes('--has-quest')) filter.hasQuest = true;
+      
+      output = manager.listNPCs(filter);
+      break;
+
+    case 'simulate':
+      output = manager.simulateNPC(npcId as any, duration);
+      break;
+
+    case 'update-location':
+      output = manager.updateNPCLocation(npcId as any, x, y, z);
+      break;
+
+    case 'add-quest':
+      output = manager.addQuestToNPC(npcId as any, questId as any);
+      break;
+
+    case 'remove-quest':
+      output = manager.removeQuestFromNPC(npcId as any, questId as any);
+      break;
+
+    case 'update-behavior':
+      const behavior: Partial<NPBehavior> = {};
+      if (args.includes('--aggression')) {
+        behavior.aggression = parseInt(args.find(arg => arg.startsWith('--aggression='))?.split('=')[1] || '0');
+      }
+      if (args.includes('--curiosity')) {
+        behavior.curiosity = parseInt(args.find(arg => arg.startsWith('--curiosity='))?.split('=')[1] || '50');
+      }
+      if (args.includes('--loyalty')) {
+        behavior.loyalty = parseInt(args.find(arg => arg.startsWith('--loyalty='))?.split('=')[1] || '50');
+      }
+      output = manager.updateNPCBehavior(npcId as any, behavior);
+      break;
+
+    case 'update-reputation':
+      output = manager.updateNPCReputation(npcId as any, reputation);
+      break;
+
+    case 'get-by-behavior':
+      output = manager.getNPCsByBehavior(behaviorType);
+      break;
+
+    case 'get-by-reputation':
+      const minRep = parseInt(args.find(arg => arg.startsWith('--min-rep='))?.split('=')[1] || '0');
+      const maxRep = parseInt(args.find(arg => arg.startsWith('--max-rep='))?.split('=')[1] || '100');
+      output = manager.getNPCsByReputation(minRep, maxRep);
+      break;
+
+    case 'stats':
+      output = manager.getNPCStats();
+      break;
+
+    case 'export':
+      output = manager.exportNPCs(format);
+      break;
+
+    case 'reset':
+      output = manager.resetNPCs();
+      break;
+
+    case 'demo':
+      // Create a demo NPC with various properties
+      const demoNPC: NPC = {
+        id: 'demo_npc' as any,
+        name: 'Demo Character',
+        stats: [
+          { key: 'health', base: 120 },
+          { key: 'mana', base: 80 },
+          { key: 'strength', base: 15 },
+          { key: 'wisdom', base: 20 }
+        ],
+        behavior: {
+          type: 'friendly',
+          aggression: 10,
+          curiosity: 80,
+          loyalty: 90
+        },
+        location: { zoneId: 'demo_zone' as any, x: 50, y: 50, z: 0 },
+        questIds: ['demo_quest_1' as any, 'demo_quest_2' as any],
+        movementPattern: { type: 'patrol', speed: 2, range: 10 },
+        faction: 'demo_faction',
+        reputation: 85
+      };
+      
+      const createResult = manager.createNPC(demoNPC);
+      if (createResult.status === 'ok') {
+        output = {
+          op: 'demo',
+          status: 'ok',
+          result: {
+            message: 'Demo NPC created successfully',
+            npc: createResult.result
+          }
+        };
+      } else {
+        output = createResult;
+      }
+      break;
+
+    case 'sample':
+      // Create sample NPCs for testing
+      const sampleNPCs = [
+        {
+          id: 'sample_guard' as any,
+          name: 'Town Guard',
+          stats: [{ key: 'health', base: 150 }, { key: 'strength', base: 20 }],
+          behavior: { type: 'aggressive', aggression: 30, curiosity: 20, loyalty: 80 },
+          location: { zoneId: 'town_gate' as any, x: 10, y: 10 },
+          questIds: [],
+          movementPattern: { type: 'patrol', speed: 3, range: 15 },
+          faction: 'town_guards',
+          reputation: 60
+        },
+        {
+          id: 'sample_merchant' as any,
+          name: 'Traveling Merchant',
+          stats: [{ key: 'health', base: 80 }, { key: 'wisdom', base: 25 }],
+          behavior: { type: 'merchant', aggression: 5, curiosity: 70, loyalty: 40 },
+          location: { zoneId: 'market_square' as any, x: 25, y: 25 },
+          questIds: ['trade_quest' as any],
+          movementPattern: { type: 'wander', speed: 1, range: 20 },
+          faction: 'merchants',
+          reputation: 75
+        }
+      ];
+
+      const results = sampleNPCs.map(npc => manager.createNPC(npc));
+      output = {
+        op: 'sample',
+        status: 'ok',
+        result: {
+          message: 'Sample NPCs created',
+          results: results.map(r => ({ status: r.status, npc: r.result }))
+        }
+      };
+      break;
+
+    default:
+      output = {
+        op: 'help',
+        status: 'ok',
+        result: {
+          availableCommands: [
+            'create --npc-id=<id> --name=<name> --behavior=<type> --faction=<faction>',
+            'get --npc-id=<id>',
+            'update --npc-id=<id> --name=<name> --reputation=<rep>',
+            'delete --npc-id=<id>',
+            'list [--zone-id=<zone>] [--behavior=<type>] [--faction=<faction>] [--has-quest]',
+            'simulate --npc-id=<id> --duration=<seconds>',
+            'update-location --npc-id=<id> --x=<x> --y=<y> [--z=<z>]',
+            'add-quest --npc-id=<id> --quest-id=<quest>',
+            'remove-quest --npc-id=<id> --quest-id=<quest>',
+            'update-behavior --npc-id=<id> [--aggression=<val>] [--curiosity=<val>] [--loyalty=<val>]',
+            'update-reputation --npc-id=<id> --reputation=<rep>',
+            'get-by-behavior --behavior=<type>',
+            'get-by-reputation --min-rep=<min> --max-rep=<max>',
+            'stats',
+            'export --format=<json|manifest|summary|quests>',
+            'reset',
+            'demo',
+            'sample'
+          ],
+          examples: [
+            'node cliHarness.ts create --npc-id=guard_001 --name="Town Guard" --behavior=aggressive --faction=guards',
+            'node cliHarness.ts simulate --npc-id=npc_001 --duration=120',
+            'node cliHarness.ts export --format=manifest',
+            'node cliHarness.ts get-by-behavior --behavior=quest_giver'
+          ]
+        }
+      };
+  }
+} catch (error) {
+  output = {
+    op: mode || 'unknown',
+    status: 'error',
+    issues: [error instanceof Error ? error.message : 'Unknown error']
+  };
 }
 
-function main() {
-	const mgr = new NPCsManager();
-
-	// Support two invocation styles:
-	// 1) Subcommand args: cliHarness.ts <op> [...args]
-	// 2) JSON file arg:  cliHarness.ts <json-file>
-	const argv = process.argv.slice(2);
-	if (argv.length === 0) {
-		console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
-		process.exit(1);
-	}
-
-	let op: NPCsOperationInput | null = null;
-	const first = argv[0];
-	const isJsonFile = first.endsWith('.json') && fs.existsSync(first);
-
-	try {
-		if (isJsonFile) {
-			// JSON file may contain an array of ops or a single op
-			const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
-			if (Array.isArray(content)) {
-				// Execute first op only for this harness to match test expectations
-				op = content[0] as NPCsOperationInput;
-			} else {
-				op = content as NPCsOperationInput;
-			}
-		} else {
-			// Parse subcommand
-			switch (first) {
-				case 'list': {
-					const filterArg = argv[1];
-					let filter: any = undefined;
-					if (filterArg && filterArg.includes('=')) {
-						const [key, value] = filterArg.split('=');
-						if (key === 'zoneId') filter = { zoneId: value };
-					}
-					const result = mgr.listNPCs(filter);
-					console.log(JSON.stringify(result, null, 2));
-					return;
-				}
-				case 'simulate': {
-					const npcId = argv[1];
-					const duration = Number(argv[2] || '0');
-					const result = mgr.simulateNPC(npcId, duration);
-					console.log(JSON.stringify(result, null, 2));
-					return;
-				}
-				case 'create': {
-					const file = argv[1];
-					if (!file) throw new Error('create requires a JSON file');
-					const npc: NPC = JSON.parse(fs.readFileSync(file, 'utf-8'));
-					const result = mgr.createNPC(npc);
-					console.log(JSON.stringify(result, null, 2));
-					return;
-				}
-				case 'get': {
-					const npcId = argv[1];
-					const result = mgr.getNPC(npcId);
-					console.log(JSON.stringify(result, null, 2));
-					return;
-				}
-				case 'delete': {
-					const npcId = argv[1];
-					const result = mgr.deleteNPC(npcId);
-					console.log(JSON.stringify(result, null, 2));
-					return;
-				}
-				case 'dump': {
-					// Dump all NPCs via list
-					const result = mgr.listNPCs();
-					result.op = 'dump';
-					console.log(JSON.stringify(result, null, 2));
-					return;
-				}
-				default:
-					throw new Error(`Unknown command: ${first}`);
-			}
-		}
-
-		if (!op || typeof op !== 'object') {
-			throw new Error('Invalid input: expected operation');
-		}
-
-		let out;
-		switch (op.op) {
-			case 'list':
-				out = mgr.listNPCs();
-				break;
-			case 'create':
-				if (!op.data || !op.npcId) throw new Error('create requires npcId and data');
-				out = mgr.createNPC({
-					id: op.npcId,
-					name: (op.data.name as string) || 'Unknown',
-					stats: (op.data.stats as StatBlock) || [],
-					behavior: { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50 },
-					location: { zoneId: 'default', x: 0, y: 0 },
-					questIds: [],
-					movementPattern: { type: 'idle', speed: 1 }
-				});
-				break;
-			case 'update':
-				if (!op.npcId || !op.data) throw new Error('update requires npcId and data');
-				out = mgr.updateNPC(op.npcId, op.data as Partial<NPC>);
-				break;
-			case 'delete':
-				if (!op.npcId) throw new Error('delete requires npcId');
-				out = mgr.deleteNPC(op.npcId);
-				break;
-			case 'simulate':
-				if (!op.npcId || typeof op.duration !== 'number') throw new Error('simulate requires npcId and duration');
-				out = mgr.simulateNPC(op.npcId, op.duration);
-				break;
-			case 'get':
-				if (!op.npcId) throw new Error('get requires npcId');
-				out = mgr.getNPC(op.npcId);
-				break;
-			case 'dump':
-				out = mgr.listNPCs();
-				(out as any).op = 'dump';
-				break;
-			default:
-				throw new Error(`Unknown op: ${(op as any).op}`);
-		}
-
-		console.log(JSON.stringify(out, null, 2));
-	} catch (error) {
-		console.error('Error:', error);
-		process.exit(1);
-	}
-}
-
-if(import.meta.url === `file://${process.argv[1]}`) main();
+// Output valid JSON to stdout for test runner to consume
+console.log(formatOutput(output));

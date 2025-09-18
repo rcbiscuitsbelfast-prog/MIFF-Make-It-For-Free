@@ -325,6 +325,273 @@ export class NPCsManager {
     };
   }
 
+  /**
+   * Update NPC location
+   */
+  updateNPCLocation(npcId: EntityID, x: number, y: number, z?: number): NPCOutput {
+    const npc = this.npcs.get(npcId);
+    if (!npc) {
+      return {
+        op: 'update_location',
+        status: 'error',
+        issues: [`NPC with ID ${npcId} not found`]
+      };
+    }
+
+    npc.location.x = x;
+    npc.location.y = y;
+    if (z !== undefined) npc.location.z = z;
+
+    this.npcs.set(npcId, npc);
+    return {
+      op: 'update_location',
+      status: 'ok',
+      result: npc
+    };
+  }
+
+  /**
+   * Add quest to NPC
+   */
+  addQuestToNPC(npcId: EntityID, questId: EntityID): NPCOutput {
+    const npc = this.npcs.get(npcId);
+    if (!npc) {
+      return {
+        op: 'add_quest',
+        status: 'error',
+        issues: [`NPC with ID ${npcId} not found`]
+      };
+    }
+
+    if (npc.questIds.includes(questId)) {
+      return {
+        op: 'add_quest',
+        status: 'error',
+        issues: [`NPC ${npcId} already has quest ${questId}`]
+      };
+    }
+
+    npc.questIds.push(questId);
+    this.npcs.set(npcId, npc);
+    return {
+      op: 'add_quest',
+      status: 'ok',
+      result: npc
+    };
+  }
+
+  /**
+   * Remove quest from NPC
+   */
+  removeQuestFromNPC(npcId: EntityID, questId: EntityID): NPCOutput {
+    const npc = this.npcs.get(npcId);
+    if (!npc) {
+      return {
+        op: 'remove_quest',
+        status: 'error',
+        issues: [`NPC with ID ${npcId} not found`]
+      };
+    }
+
+    const index = npc.questIds.indexOf(questId);
+    if (index === -1) {
+      return {
+        op: 'remove_quest',
+        status: 'error',
+        issues: [`NPC ${npcId} does not have quest ${questId}`]
+      };
+    }
+
+    npc.questIds.splice(index, 1);
+    this.npcs.set(npcId, npc);
+    return {
+      op: 'remove_quest',
+      status: 'ok',
+      result: npc
+    };
+  }
+
+  /**
+   * Update NPC behavior
+   */
+  updateNPCBehavior(npcId: EntityID, behavior: Partial<NPBehavior>): NPCOutput {
+    const npc = this.npcs.get(npcId);
+    if (!npc) {
+      return {
+        op: 'update_behavior',
+        status: 'error',
+        issues: [`NPC with ID ${npcId} not found`]
+      };
+    }
+
+    npc.behavior = { ...npc.behavior, ...behavior };
+    this.npcs.set(npcId, npc);
+    return {
+      op: 'update_behavior',
+      status: 'ok',
+      result: npc
+    };
+  }
+
+  /**
+   * Update NPC reputation
+   */
+  updateNPCReputation(npcId: EntityID, reputation: number): NPCOutput {
+    const npc = this.npcs.get(npcId);
+    if (!npc) {
+      return {
+        op: 'update_reputation',
+        status: 'error',
+        issues: [`NPC with ID ${npcId} not found`]
+      };
+    }
+
+    npc.reputation = Math.max(0, Math.min(100, reputation));
+    this.npcs.set(npcId, npc);
+    return {
+      op: 'update_reputation',
+      status: 'ok',
+      result: npc
+    };
+  }
+
+  /**
+   * Get NPCs by behavior type
+   */
+  getNPCsByBehavior(behaviorType: string): NPCOutput {
+    const npcs = Array.from(this.npcs.values()).filter(npc => npc.behavior.type === behaviorType);
+    return {
+      op: 'get_by_behavior',
+      status: 'ok',
+      result: npcs
+    };
+  }
+
+  /**
+   * Get NPCs by reputation range
+   */
+  getNPCsByReputation(minRep: number, maxRep: number): NPCOutput {
+    const npcs = Array.from(this.npcs.values()).filter(npc => {
+      const rep = npc.reputation || 0;
+      return rep >= minRep && rep <= maxRep;
+    });
+    return {
+      op: 'get_by_reputation',
+      status: 'ok',
+      result: npcs
+    };
+  }
+
+  /**
+   * Get NPC statistics
+   */
+  getNPCStats(): NPCOutput {
+    const npcs = Array.from(this.npcs.values());
+    const stats = {
+      total: npcs.length,
+      byBehavior: {} as Record<string, number>,
+      byFaction: {} as Record<string, number>,
+      withQuests: npcs.filter(npc => npc.questIds.length > 0).length,
+      averageReputation: npcs.reduce((sum, npc) => sum + (npc.reputation || 0), 0) / npcs.length,
+      totalQuests: npcs.reduce((sum, npc) => sum + npc.questIds.length, 0)
+    };
+
+    npcs.forEach(npc => {
+      stats.byBehavior[npc.behavior.type] = (stats.byBehavior[npc.behavior.type] || 0) + 1;
+      if (npc.faction) {
+        stats.byFaction[npc.faction] = (stats.byFaction[npc.faction] || 0) + 1;
+      }
+    });
+
+    return {
+      op: 'stats',
+      status: 'ok',
+      result: stats
+    };
+  }
+
+  /**
+   * Export NPCs in various formats
+   */
+  exportNPCs(format: 'json' | 'manifest' | 'summary' | 'quests' = 'json'): NPCOutput {
+    const npcs = Array.from(this.npcs.values());
+
+    switch (format) {
+      case 'json':
+        return {
+          op: 'export',
+          status: 'ok',
+          result: { npcs, total: npcs.length }
+        };
+      
+      case 'manifest':
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            schema: 'miff.npcs.export.v1',
+            npcs,
+            exportedAt: new Date().toISOString(),
+            total: npcs.length
+          }
+        };
+      
+      case 'summary':
+        const stats = this.getNPCStats();
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            summary: stats.result,
+            npcs: npcs.map(npc => ({
+              id: npc.id,
+              name: npc.name,
+              behavior: npc.behavior.type,
+              faction: npc.faction,
+              questCount: npc.questIds.length,
+              reputation: npc.reputation
+            }))
+          }
+        };
+      
+      case 'quests':
+        const questNPCs = npcs.filter(npc => npc.questIds.length > 0);
+        return {
+          op: 'export',
+          status: 'ok',
+          result: {
+            questNPCs: questNPCs.map(npc => ({
+              id: npc.id,
+              name: npc.name,
+              questIds: npc.questIds,
+              location: npc.location
+            })),
+            total: questNPCs.length
+          }
+        };
+      
+      default:
+        return {
+          op: 'export',
+          status: 'error',
+          issues: [`Unknown export format: ${format}`]
+        };
+    }
+  }
+
+  /**
+   * Reset all NPCs to default state
+   */
+  resetNPCs(): NPCOutput {
+    this.npcs.clear();
+    this.loadDefaultNPCs();
+    return {
+      op: 'reset',
+      status: 'ok',
+      result: { message: 'All NPCs reset to default state' }
+    };
+  }
+
   // Integration methods for QuestsPure and MovementPure
   getNPCsWithQuests(): NPC[] {
     return Array.from(this.npcs.values()).filter(npc => npc.questIds.length > 0);

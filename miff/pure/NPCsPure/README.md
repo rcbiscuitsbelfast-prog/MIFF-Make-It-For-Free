@@ -1,26 +1,106 @@
 # NPCsPure
 
-**Schema Version**: v13  
-**Module Type**: Core Gameplay  
-**Dependencies**: SharedSchemaPure
-
-## Overview
-
-NPCsPure provides comprehensive NPC (Non-Player Character) management for the MIFF framework. It handles NPC creation, behavior simulation, location tracking, quest associations, and dialogue systems. The module is designed to integrate seamlessly with QuestsPure and MovementPure for complete character interaction systems.
+Comprehensive NPC management system including behavior simulation, quest integration, faction management, and location tracking for game development.
 
 ## Features
 
-- **NPC Management**: Create, update, delete, and query NPCs
-- **Behavior Simulation**: AI-driven behavior patterns and daily schedules
-- **Location Tracking**: Zone-based positioning with movement patterns
-- **Quest Integration**: Associate NPCs with quests and quest chains
-- **Dialogue System**: Branching dialogue trees with conditions and actions
-- **Faction System**: NPC affiliations and reputation tracking
-- **Inventory Support**: NPC item management and trading capabilities
+- **NPC Management**: Create, update, and manage NPCs with full lifecycle support
+- **Behavior Simulation**: Simulate NPC behavior based on type and schedule
+- **Quest Integration**: Link NPCs to quests and track quest assignments
+- **Faction System**: Manage NPC factions and reputation
+- **Location Tracking**: Track NPC positions and movement patterns
+- **Export Support**: Export NPCs in multiple formats (JSON, manifest, summary, quests)
 
-## Schema v13
+## CLI Usage
 
-### Core Types
+### Basic Commands
+
+```bash
+# Create a new NPC
+node cliHarness.ts create --npc-id=guard_001 --name="Town Guard" --behavior=aggressive --faction=guards
+
+# Get NPC details
+node cliHarness.ts get --npc-id=npc_001
+
+# Update NPC
+node cliHarness.ts update --npc-id=npc_001 --name="Updated Name" --reputation=85
+
+# List NPCs with filters
+node cliHarness.ts list --zone-id=zone_village --behavior=quest_giver
+
+# Simulate NPC behavior
+node cliHarness.ts simulate --npc-id=npc_001 --duration=120
+
+# Update NPC location
+node cliHarness.ts update-location --npc-id=npc_001 --x=10 --y=20 --z=5
+
+# Add quest to NPC
+node cliHarness.ts add-quest --npc-id=npc_001 --quest-id=quest_001
+
+# Get NPCs by behavior
+node cliHarness.ts get-by-behavior --behavior=merchant
+
+# Get NPCs by reputation
+node cliHarness.ts get-by-reputation --min-rep=70 --max-rep=100
+
+# Export NPCs
+node cliHarness.ts export --format=manifest
+
+# Get statistics
+node cliHarness.ts stats
+
+# Create demo NPCs
+node cliHarness.ts demo
+```
+
+### Export Formats
+
+- **JSON**: Raw NPC data
+- **Manifest**: Complete export with metadata
+- **Summary**: NPC statistics and overview
+- **Quests**: NPCs with quest assignments
+
+## API Usage
+
+```typescript
+import { NPCsManager, NPC } from './Manager';
+
+const manager = new NPCsManager();
+
+// Create NPC
+const npc: NPC = {
+  id: 'guard_001',
+  name: 'Town Guard',
+  stats: [
+    { key: 'health', base: 150 },
+    { key: 'strength', base: 20 }
+  ],
+  behavior: {
+    type: 'aggressive',
+    aggression: 30,
+    curiosity: 20,
+    loyalty: 80
+  },
+  location: { zoneId: 'town_gate', x: 10, y: 10 },
+  questIds: [],
+  movementPattern: { type: 'patrol', speed: 3, range: 15 },
+  faction: 'town_guards',
+  reputation: 60
+};
+
+const result = manager.createNPC(npc);
+
+// Update NPC
+manager.updateNPC('guard_001', { reputation: 75 });
+
+// Simulate behavior
+const simulation = manager.simulateNPC('guard_001', 60);
+
+// Export NPCs
+const exportData = manager.exportNPCs('manifest');
+```
+
+## NPC Structure
 
 ```typescript
 interface NPC {
@@ -38,187 +118,150 @@ interface NPC {
 }
 ```
 
-### Behavior Types
-- `passive` - Non-aggressive, friendly NPCs
-- `aggressive` - Hostile or territorial NPCs
-- `friendly` - Helpful and cooperative NPCs
-- `merchant` - Trading and commerce NPCs
-- `quest_giver` - Quest distribution NPCs
+## Behavior Types
 
-### Movement Patterns
-- `idle` - Stationary NPCs
-- `patrol` - Guarding or patrolling NPCs
-- `follow` - Following a target NPC
-- `wander` - Random movement NPCs
+- **Passive**: Non-aggressive, friendly NPCs
+- **Aggressive**: Hostile NPCs that attack
+- **Friendly**: Helpful NPCs that assist players
+- **Merchant**: NPCs that trade items
+- **Quest Giver**: NPCs that provide quests
 
-## CLI Usage
+## Movement Patterns
 
-### Commands
+- **Idle**: NPCs that stay in place
+- **Patrol**: NPCs that follow a patrol route
+- **Follow**: NPCs that follow a target
+- **Wander**: NPCs that move randomly
 
-```bash
-# List all NPCs
-npx ts-node NPCsPure/cliHarness.ts list
+## Faction System
 
-# List NPCs with filter
-npx ts-node NPCsPure/cliHarness.ts list zoneId=zone_village
-npx ts-node NPCsPure/cliHarness.ts list behaviorType=merchant
-npx ts-node NPCsPure/cliHarness.ts list faction=city_guards
-npx ts-node NPCsPure/cliHarness.ts list hasQuest=true
+NPCs can belong to factions with reputation tracking:
+- **Village Elders**: High reputation, quest givers
+- **Merchants**: Trading faction
+- **Town Guards**: Protective faction
+- **Bandits**: Hostile faction
 
-# Create NPC from JSON file
-npx ts-node NPCsPure/cliHarness.ts create sample_npcs.json
-
-# Update NPC
-npx ts-node NPCsPure/cliHarness.ts update npc_001 update_data.json
-
-# Delete NPC
-npx ts-node NPCsPure/cliHarness.ts delete npc_001
-
-# Get NPC by ID
-npx ts-node NPCsPure/cliHarness.ts get npc_001
-
-# Simulate NPC behavior
-npx ts-node NPCsPure/cliHarness.ts simulate npc_001 3600
-
-# Dump all NPCs
-npx ts-node NPCsPure/cliHarness.ts dump
-```
-
-### Output Format
-
-All operations return standardized JSON output:
-
-```json
-{
-  "op": "list|create|update|delete|get|simulate|dump",
-  "status": "ok|error",
-  "result": "NPC data or array",
-  "issues": ["error messages if any"]
-}
-```
-
-## Remix Hooks
-
-### 1. Behavior Customization
-Override default behavior patterns by extending the `NPBehavior` interface:
+## Quest Integration
 
 ```typescript
-// In your remix module
-interface CustomBehavior extends NPBehavior {
-  customTraits: string[];
-  specialAbilities: string[];
-}
+// Add quest to NPC
+manager.addQuestToNPC('npc_001', 'quest_tutorial');
+
+// Remove quest from NPC
+manager.removeQuestFromNPC('npc_001', 'quest_tutorial');
+
+// Get NPCs with quests
+const questNPCs = manager.getNPCsWithQuests();
 ```
 
-### 2. Dialogue System Extension
-Extend dialogue conditions and actions for custom interactions:
+## Location Management
 
 ```typescript
-// Add custom dialogue conditions
-interface CustomDialogueCondition extends DialogueCondition {
-  type: 'custom_check' | 'skill_requirement' | 'item_combination';
-  customLogic: (npc: NPC, player: any) => boolean;
-}
+// Update NPC location
+manager.updateNPCLocation('npc_001', 100, 200, 0);
+
+// Get NPCs in zone
+const zoneNPCs = manager.getNPCsInZone('zone_village');
+
+// Get NPCs by faction
+const factionNPCs = manager.getNPCsByFaction('village_elders');
 ```
 
-### 3. Movement Pattern Override
-Customize movement patterns for specific NPC types:
+## Behavior Simulation
 
 ```typescript
-// In override.ts
-export function getCustomMovementPattern(npc: NPC): MovementPattern {
-  if (npc.behavior.type === 'merchant') {
-    return {
-      type: 'patrol',
-      speed: 1.5,
-      range: 8
-    };
-  }
-  return npc.movementPattern;
-}
+// Simulate NPC behavior for 60 seconds
+const simulation = manager.simulateNPC('npc_001', 60);
+
+// Results include:
+// - Events: What the NPC is doing
+// - Interactions: NPC interactions with others
+// - Duration: Simulation duration
 ```
 
-### 4. Schedule Integration
-Hook into daily schedules for custom activities:
+## Statistics
 
 ```typescript
-// Override schedule activities
-export function getCustomSchedule(npc: NPC): DailySchedule {
-  const baseSchedule = npc.behavior.schedule;
-  return {
-    activities: [
-      ...baseSchedule.activities,
-      {
-        time: "20:00",
-        activity: "custom_night_activity",
-        location: { zoneId: 'zone_custom', x: 0, y: 0 }
-      }
-    ]
-  };
-}
+const stats = manager.getNPCStats();
+// Returns:
+// - Total NPCs
+// - NPCs by behavior type
+// - NPCs by faction
+// - NPCs with quests
+// - Average reputation
+// - Total quest assignments
 ```
 
-## Dependencies
+## Integration
 
-### Required
-- **SharedSchemaPure**: Uses `EntityID` and `StatBlock` types
+NPCsPure integrates with:
+- **QuestsPure**: Quest assignment and tracking
+- **MovementPure**: Location and movement management
+- **DialoguePure**: Dialogue tree management
+- **FactionPure**: Faction and reputation systems
 
-### Optional Integration
-- **QuestsPure**: NPC quest associations and quest giver functionality
-- **MovementPure**: Advanced movement patterns and pathfinding
-- **InventoryPure**: NPC inventory management
-- **DialogPure**: Enhanced dialogue system integration
+## Examples
 
-## Sample Data
+### Creating a Quest Giver
 
-The module includes sample NPCs demonstrating various behavior types:
+```typescript
+const questGiver: NPC = {
+  id: 'elder_oak',
+  name: 'Elder Oak',
+  stats: [
+    { key: 'health', base: 100 },
+    { key: 'wisdom', base: 25 }
+  ],
+  behavior: {
+    type: 'quest_giver',
+    aggression: 0,
+    curiosity: 80,
+    loyalty: 90
+  },
+  location: { zoneId: 'village_center', x: 50, y: 50 },
+  questIds: ['tutorial_quest', 'main_quest_1'],
+  movementPattern: { type: 'idle', speed: 1 },
+  faction: 'village_elders',
+  reputation: 100
+};
 
-- **Elder Oak**: Quest giver with daily schedule
-- **Merchant Sarah**: Merchant with patrol movement
-- **Guard Captain Marcus**: Aggressive guard with complex schedule
-- **Mystic Elara**: Friendly mystic with dialogue tree
-- **Blacksmith Thorin**: Merchant with crafting quests
+manager.createNPC(questGiver);
+```
+
+### Creating a Merchant
+
+```typescript
+const merchant: NPC = {
+  id: 'merchant_sarah',
+  name: 'Merchant Sarah',
+  stats: [
+    { key: 'health', base: 80 },
+    { key: 'wisdom', base: 15 }
+  ],
+  behavior: {
+    type: 'merchant',
+    aggression: 10,
+    curiosity: 60,
+    loyalty: 70
+  },
+  location: { zoneId: 'market_square', x: 25, y: 25 },
+  questIds: [],
+  movementPattern: { type: 'patrol', speed: 2, range: 10 },
+  faction: 'merchants',
+  reputation: 75
+};
+
+manager.createNPC(merchant);
+```
 
 ## Testing
 
-Run golden tests to verify deterministic output:
+Run the golden tests to verify functionality:
 
 ```bash
-npm test -- NPCsPure/tests/goldenNPCsPure.test.ts
+npm test -- --testPathPattern=NPCsPure
 ```
 
-Tests cover:
-- NPC listing and filtering
-- Creation and deletion operations
-- Behavior simulation
-- Integration with other modules
+## License
 
-## Integration Examples
-
-### With QuestsPure
-```typescript
-// Get all NPCs that give quests
-const questGivers = manager.getNPCsWithQuests();
-
-// Check if NPC has specific quest
-const hasQuest = npc.questIds.includes('quest_tutorial');
-```
-
-### With MovementPure
-```typescript
-// Get NPCs in specific zone
-const zoneNPCs = manager.getNPCsInZone('zone_village');
-
-// Filter by movement pattern
-const patrollingNPCs = npcs.filter(npc => 
-  npc.movementPattern.type === 'patrol'
-);
-```
-
-## License Notes
-
-This module is part of the MIFF framework and follows the dual-license model:
-- **AGPLv3**: Open source use with attribution
-- **Commercial**: Paid license for commercial use without attribution
-
-See `LICENSE.md` for full terms.
+MIT License - see LICENSE file for details.
