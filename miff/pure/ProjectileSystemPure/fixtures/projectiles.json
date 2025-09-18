@@ -1,19 +1,43 @@
 {
-  "world": {
-    "dt": 0.1,
-    "projectiles": [
-      {
-        "id": "arrow_001",
-        "pos": { "x": 0, "y": 0 },
-        "vel": { "x": 10, "y": 5 },
-        "ttl": 2.0
-      },
-      {
-        "id": "bolt_001", 
-        "pos": { "x": 5, "y": 10 },
-        "vel": { "x": -5, "y": 8 },
-        "ttl": 1.5
-      }
-    ]
-  }
+  "projectiles": [
+    {
+      "id": "bullet1",
+      "position": { "x": 0, "y": 0 },
+      "velocity": { "x": 15, "y": 2 },
+      "ttl": 3,
+      "type": "bullet",
+      "damage": 20,
+      "radius": 0.05,
+      "mass": 0.1,
+      "ownerId": "player1"
+    },
+    {
+      "id": "arrow1",
+      "position": { "x": -10, "y": 5 },
+      "velocity": { "x": 12, "y": -1 },
+      "ttl": 5,
+      "type": "arrow",
+      "damage": 30,
+      "radius": 0.1,
+      "mass": 0.2,
+      "friction": 0.015,
+      "ownerId": "archer1"
+    },
+    {
+      "id": "fireball1",
+      "position": { "x": 8, "y": 3 },
+      "velocity": { "x": -8, "y": 0 },
+      "ttl": 4,
+      "type": "fireball",
+      "damage": 50,
+      "radius": 0.25,
+      "mass": 0.3,
+      "gravity": { "x": 0, "y": -4 },
+      "ownerId": "mage1"
+    }
+  ],
+  "defaultGravity": { "x": 0, "y": -9.8 },
+  "defaultFriction": 0.01,
+  "bounds": { "min": { "x": -20, "y": -10 }, "max": { "x": 20, "y": 10 } },
+  "timeStep": 0.016
 }

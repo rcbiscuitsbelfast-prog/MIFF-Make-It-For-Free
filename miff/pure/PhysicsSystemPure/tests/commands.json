@@ -1,5 +1,35 @@
 [
   { "op": "list" },
-  { "op": "step", "dt": 1.0 },
-  { "op": "dump", "id": "b1" }
+  { "op": "analytics" },
+  { "op": "step", "dt": 0.016 },
+  { "op": "step", "dt": 0.016 },
+  { "op": "step", "dt": 0.016 },
+  { "op": "analytics" },
+  { "op": "dump", "id": "ball1" },
+  { "op": "dump", "id": "ball2" },
+  { 
+    "op": "addForce", 
+    "force": {
+      "id": "impulse",
+      "vector": { "x": 0, "y": 20 },
+      "duration": 0.1,
+      "bodyId": "ball1"
+    }
+  },
+  { "op": "step", "dt": 0.016 },
+  { "op": "removeForce", "id": "wind" },
+  { 
+    "op": "addConstraint",
+    "constraint": {
+      "id": "pin1",
+      "type": "pin",
+      "bodyA": "ball2",
+      "anchorPoint": { "x": 3, "y": 5 }
+    }
+  },
+  { "op": "step", "dt": 0.016 },
+  { "op": "analytics" },
+  { "op": "export", "format": "json" },
+  { "op": "export", "format": "manifest" },
+  { "op": "export", "format": "summary" }
 ]

@@ -1,7 +1,62 @@
 {
-  "boxes": [
-    { "id": "a", "min": { "x": 0, "y": 0 }, "max": { "x": 10, "y": 10 } },
-    { "id": "b", "min": { "x": 8, "y": 8 }, "max": { "x": 16, "y": 16 } },
-    { "id": "t", "min": { "x": 4, "y": 4 }, "max": { "x": 6, "y": 6 }, "isTrigger": true }
+  "shapes": [
+    {
+      "id": "player",
+      "min": { "x": 0, "y": 0 },
+      "max": { "x": 1, "y": 2 },
+      "layer": 0,
+      "mask": 1,
+      "tags": ["player", "dynamic"]
+    },
+    {
+      "id": "enemy1",
+      "center": { "x": 3, "y": 1 },
+      "radius": 0.5,
+      "layer": 1,
+      "mask": 3,
+      "tags": ["enemy", "dynamic"]
+    },
+    {
+      "id": "enemy2",
+      "center": { "x": 5, "y": 2 },
+      "radius": 0.7,
+      "layer": 1,
+      "mask": 3,
+      "tags": ["enemy", "dynamic"]
+    },
+    {
+      "id": "wall1",
+      "min": { "x": -1, "y": -1 },
+      "max": { "x": 10, "y": 0 },
+      "layer": 2,
+      "mask": 7,
+      "tags": ["static", "wall"]
+    },
+    {
+      "id": "wall2",
+      "min": { "x": 9, "y": 0 },
+      "max": { "x": 10, "y": 5 },
+      "layer": 2,
+      "mask": 7,
+      "tags": ["static", "wall"]
+    },
+    {
+      "id": "pickup_trigger",
+      "center": { "x": 2, "y": 3 },
+      "radius": 1,
+      "isTrigger": true,
+      "layer": 3,
+      "mask": 1,
+      "tags": ["trigger", "pickup"]
+    },
+    {
+      "id": "exit_trigger",
+      "min": { "x": 7, "y": 1 },
+      "max": { "x": 9, "y": 3 },
+      "isTrigger": true,
+      "layer": 3,
+      "mask": 1,
+      "tags": ["trigger", "exit"]
+    }
   ]
 }
