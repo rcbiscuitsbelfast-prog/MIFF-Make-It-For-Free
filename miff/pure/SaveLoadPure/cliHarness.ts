@@ -1,135 +1,232 @@
-#!/usr/bin/env tsx
-import * as fs from 'fs';
-import * as path from 'path';
-import { SaveLoadManager, GameDataV11, StorageAdapter } from './SaveLoadManager';
+#!/usr/bin/env -S node --no-warnings
+import fs from 'fs';
+import path from 'path';
+import { SaveLoadManager, GameDataV11, SaveSlot, StorageAdapter } from './SaveLoadManager';
 
-type Cmd =
-  | { op: 'listSlots' }
-  | { op: 'save'; slotId: string }
-  | { op: 'load'; slotId: string }
-  | { op: 'delete'; slotId: string }
-  | { op: 'setRollback'; slotId: string }
-  | { op: 'rollback'; slotId: string }
-  | { op: 'dumpState' }
-  | { op: 'validate' }
-  | { op: 'export'; format?: 'json' | 'markdown' | 'html' | 'yaml' | 'xml' };
-
-class FileStorage implements StorageAdapter {
+class FileStorageAdapter implements StorageAdapter {
   constructor(private filePath: string) {}
+
   async read(): Promise<unknown | null> {
-    if (!fs.existsSync(this.filePath)) return null;
-    const txt = fs.readFileSync(this.filePath, 'utf-8');
-    try { return JSON.parse(txt); } catch { return null; }
-  }
-  async write(data: unknown): Promise<void> {
-    const dir = path.dirname(this.filePath);
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
-  }
-}
-
-async function main() {
-  const cmdsPath = process.argv[2];
-  const saveFile = process.argv[3] || 'SaveLoadPure/tests/sample_save_state.json';
-  if (!cmdsPath) {
-    console.error('Usage: SaveLoadPure/cliHarness.ts <commands.json> [save_file.json]');
-    process.exit(1);
-  }
-  const cmds: Cmd[] = JSON.parse(fs.readFileSync(path.resolve(cmdsPath), 'utf-8'));
-  const mgr = await SaveLoadManager.create(new FileStorage(path.resolve(saveFile)));
-
-  const log: string[] = [];
-
-  for (const c of cmds) {
-    if (c.op === 'listSlots') {
-      const slots = mgr.listSlots();
-      log.push(`SLOTS ${slots.map(s => s.id).join(',')}`);
-    } else if (c.op === 'save') {
-      mgr.save(c.slotId); log.push(`SAVE ${c.slotId}`);
-      await mgr.persist();
-    } else if (c.op === 'load') {
-      const data = mgr.load(c.slotId); log.push(`LOAD ${c.slotId} v${data.schemaVersion}`);
-    } else if (c.op === 'delete') {
-      mgr.delete(c.slotId); log.push(`DEL ${c.slotId}`);
-      await mgr.persist();
-    } else if (c.op === 'setRollback') {
-      mgr.setRollback(c.slotId); log.push(`SET_RB ${c.slotId}`);
-      await mgr.persist();
-    } else if (c.op === 'rollback') {
-      mgr.rollback(c.slotId); log.push(`RB ${c.slotId}`);
-      await mgr.persist();
-    } else if (c.op === 'dumpState') {
-      // no-op; the final output includes the current store
-    } else if (c.op === 'validate') {
-      const issues: string[] = [];
-      if (!mgr.data || typeof mgr.data !== 'object') issues.push('missing data');
-      // basic schema check
-      // @ts-ignore
-      if (!mgr.data.schemaVersion) issues.push('missing schemaVersion');
-      log.push(`VALIDATE ${issues.length ? 'error' : 'ok'}${issues.length ? ' ' + issues.join('|') : ''}`);
-    } else if (c.op === 'export') {
-      const fmt = c.format || 'json';
-      if (fmt === 'markdown') {
-        const md = [
-          '# Save State',
-          '',
-          `Version: ${(mgr as any).data?.schemaVersion ?? 'n/a'}`,
-          '',
-          '```json',
-          JSON.stringify(mgr.data, null, 2),
-          '```'
-        ].join('\n');
-        log.push(`EXPORT markdown ${md.length}b`);
-        (mgr as any).__export = { markdown: md };
-      } else if (fmt === 'html') {
-        const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>Save State</title></head><body><pre>${
-          JSON.stringify(mgr.data, null, 2).replace(/[&<>]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;'} as any)[s])
-        }</pre></body></html>`;
-        log.push(`EXPORT html ${html.length}b`);
-        (mgr as any).__export = { html };
-      } else if (fmt === 'yaml') {
-        const yaml = toYAML(mgr.data);
-        log.push(`EXPORT yaml ${yaml.length}b`);
-        (mgr as any).__export = { yaml };
-      } else if (fmt === 'xml') {
-        const xml = toXML(mgr.data, 'save');
-        log.push(`EXPORT xml ${xml.length}b`);
-        (mgr as any).__export = { xml };
-      } else {
-        log.push('EXPORT json');
-        (mgr as any).__export = { json: mgr.data };
+    try {
+      if (fs.existsSync(this.filePath)) {
+        const data = fs.readFileSync(this.filePath, 'utf-8');
+        return JSON.parse(data);
       }
+      return null;
+    } catch (error) {
+      console.error('Error reading save file:', error);
+      return null;
     }
   }
 
-  const out = {
-    log,
-    data: mgr.data,
-    export: (mgr as any).__export || undefined,
-  };
-  console.log(JSON.stringify(out, null, 2));
-}
-
-if(import.meta.url === `file://${process.argv[1]}`) main();
-
-
-function toYAML(obj: any, indent = 0): string {
-  const pad = '  '.repeat(indent);
-  if (obj === null || obj === undefined) return 'null';
-  if (typeof obj !== 'object') return String(obj);
-  if (Array.isArray(obj)) {
-    return obj.map(v => `${pad}- ${toYAML(v, indent + 1).replace(/^\s+/, '')}`).join('\n');
+  async write(data: unknown): Promise<void> {
+    try {
+      fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
+    } catch (error) {
+      console.error('Error writing save file:', error);
+      throw error;
+    }
   }
-  return Object.entries(obj).map(([k, v]) => {
-    const val = typeof v === 'object' && v !== null ? `\n${toYAML(v, indent + 1)}` : `${toYAML(v, 0)}`;
-    return `${pad}${k}: ${typeof v === 'object' && v !== null ? '' : ''}${val}`;
-  }).join('\n');
 }
 
-function toXML(obj: any, tag = 'root'): string {
-  if (obj === null || obj === undefined) return `<${tag}/>`;
-  if (typeof obj !== 'object') return `<${tag}>${String(obj)}</${tag}>`;
-  if (Array.isArray(obj)) return `<${tag}>${obj.map(v => toXML(v, 'item')).join('')}</${tag}>`;
-  const children = Object.entries(obj).map(([k, v]) => toXML(v as any, k)).join('');
-  return `<${tag}>${children}</${tag}>`;
+function main() {
+  const args = process.argv.slice(2);
+  const command = args[0] || 'help';
+  const saveFile = args[1] || 'save.json';
+  
+  const storage = new FileStorageAdapter(saveFile);
+  let manager: SaveLoadManager;
+  let result: any = { op: command, status: 'ok', result: null };
+
+  try {
+    switch (command) {
+      case 'create':
+        const createResult = await SaveLoadManager.create(storage);
+        manager = createResult;
+        result.result = { message: 'SaveLoadManager created successfully' };
+        break;
+
+      case 'listSlots':
+        const listResult = await SaveLoadManager.create(storage);
+        manager = listResult;
+        const slots = manager.listSlots();
+        result.result = { slots, count: slots.length };
+        break;
+
+      case 'load':
+        const loadSlotId = args[2];
+        if (loadSlotId) {
+          const loadResult = await SaveLoadManager.create(storage);
+          manager = loadResult;
+          const gameData = manager.load(loadSlotId);
+          result.result = { gameData, message: `Slot ${loadSlotId} loaded` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Slot ID required' };
+        }
+        break;
+
+      case 'save':
+        const saveSlotId = args[2];
+        if (saveSlotId) {
+          const saveResult = await SaveLoadManager.create(storage);
+          manager = saveResult;
+          manager.save(saveSlotId);
+          await manager.persist();
+          result.result = { message: `Slot ${saveSlotId} saved` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Slot ID required' };
+        }
+        break;
+
+      case 'delete':
+        const deleteSlotId = args[2];
+        if (deleteSlotId) {
+          const deleteResult = await SaveLoadManager.create(storage);
+          manager = deleteResult;
+          manager.delete(deleteSlotId);
+          await manager.persist();
+          result.result = { message: `Slot ${deleteSlotId} deleted` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Slot ID required' };
+        }
+        break;
+
+      case 'setRollback':
+        const rollbackSlotId = args[2];
+        if (rollbackSlotId) {
+          const rollbackResult = await SaveLoadManager.create(storage);
+          manager = rollbackResult;
+          manager.setRollback(rollbackSlotId);
+          result.result = { message: `Rollback checkpoint set for slot ${rollbackSlotId}` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Slot ID required' };
+        }
+        break;
+
+      case 'rollback':
+        const rollbackToSlotId = args[2];
+        if (rollbackToSlotId) {
+          const rollbackToResult = await SaveLoadManager.create(storage);
+          manager = rollbackToResult;
+          manager.rollback(rollbackToSlotId);
+          await manager.persist();
+          result.result = { message: `Slot ${rollbackToSlotId} rolled back` };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Slot ID required' };
+        }
+        break;
+
+      case 'getData':
+        const getDataResult = await SaveLoadManager.create(storage);
+        manager = getDataResult;
+        const data = manager.data;
+        result.result = { data };
+        break;
+
+      case 'persist':
+        const persistResult = await SaveLoadManager.create(storage);
+        manager = persistResult;
+        await manager.persist();
+        result.result = { message: 'Data persisted to storage' };
+        break;
+
+      case 'migrate':
+        const migrateData = args[2];
+        if (migrateData && fs.existsSync(migrateData)) {
+          const rawData = JSON.parse(fs.readFileSync(path.resolve(migrateData), 'utf-8'));
+          const migratedData = SaveLoadManager.migrateToV11(rawData);
+          result.result = { migratedData, message: 'Data migrated to V11' };
+        } else {
+          result.status = 'error';
+          result.result = { error: 'Data file required' };
+        }
+        break;
+
+      case 'demo':
+        result.result = await runDemo(storage);
+        break;
+
+      case 'help':
+        result.result = {
+          usage: 'SaveLoadPure CLI Harness',
+          commands: [
+            'create - Create SaveLoadManager',
+            'listSlots - List all save slots',
+            'load [slotId] - Load save slot',
+            'save [slotId] - Save to slot',
+            'delete [slotId] - Delete save slot',
+            'setRollback [slotId] - Set rollback checkpoint',
+            'rollback [slotId] - Rollback to checkpoint',
+            'getData - Get current game data',
+            'persist - Persist data to storage',
+            'migrate [dataFile] - Migrate data to V11',
+            'demo - Run demonstration scenarios',
+            'help - Show this help'
+          ],
+          examples: [
+            'node cliHarness.ts create',
+            'node cliHarness.ts save slot_001',
+            'node cliHarness.ts load slot_001',
+            'node cliHarness.ts demo'
+          ]
+        };
+        break;
+
+      default:
+        result.status = 'error';
+        result.result = { error: `Unknown command: ${command}` };
+    }
+  } catch (error) {
+    result.status = 'error';
+    result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+
+  console.log(JSON.stringify(result, null, 2));
 }
+
+async function runDemo(storage: StorageAdapter): Promise<any> {
+  // Create manager
+  const manager = await SaveLoadManager.create(storage);
+  
+  // Create some demo save slots
+  manager.save('demo_slot_1');
+  manager.save('demo_slot_2');
+  manager.save('demo_slot_3');
+  
+  // Set rollback for one slot
+  manager.setRollback('demo_slot_1');
+  
+  // List slots
+  const slots = manager.listSlots();
+  
+  // Get current data
+  const data = manager.data;
+  
+  // Persist changes
+  await manager.persist();
+  
+  return {
+    message: 'SaveLoadPure Demo completed',
+    scenarios: [
+      'Save slot management',
+      'Rollback checkpoint system',
+      'Data migration and persistence',
+      'Multi-slot save system'
+    ],
+    slots: slots.length,
+    data,
+    features: [
+      'Multi-slot saves',
+      'Rollback checkpoints',
+      'Data migration',
+      'Persistence'
+    ]
+  };
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) main();
