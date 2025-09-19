@@ -91,7 +91,7 @@ export class BridgeSchemaValidator {
     }
 
     // Type validation
-    if (data.type && !['sprite', 'text', 'sound', 'animation', 'node', 'component', 'resource', 'scene', 'input'].includes(data.type)) {
+    if (data.type && !['sprite', 'text', 'sound', 'animation', 'node', 'component', 'resource', 'scene', 'input', 'ui'].includes(data.type)) {
       issues.push(`Invalid render type: ${data.type}`);
     }
 
