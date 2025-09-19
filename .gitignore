@@ -7,7 +7,14 @@ coverage/
 .env.*.local
 *.log
 
-# Keep root dist for Render static hosting
-!dist/
+# Built artifacts
+dist/
+
+# Temporary files
+tmp-*.json
+logs/
+
+# Legacy site artifacts
+site/legacy/
 # Ignore core dumps
 core
