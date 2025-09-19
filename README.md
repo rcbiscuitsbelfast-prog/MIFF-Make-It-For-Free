@@ -13,9 +13,9 @@
 - Multiplayer Replay: Record/play/pause/step controls, CLI tools, sampler replay viewer
 - Pixel Art System: Draw, generate, animate, world building, CLI tools, Studio integration, demo forest
 - Phase 6 Complete: 5 new fully built modules (SessionManifest, WorldManifest, PixelAnim, BridgeSchema, SpiritTamer)
-- Module Progress: 23/78 fully built (29% complete), 87 CLI harnesses, comprehensive export support
+- Module Progress (quick snapshot): PhysicsSystemPure, ValidationPure, EconomyPure, SaveLoadPure goldens passing; CLI envelopes standardized; Jest 29 infra stable
 
-See full audit: `COMPREHENSIVE_AUDIT_REPORT.txt`. Detailed fixes: `DETAILED_FIX_PLAN.txt`. Roadmap: `ROADMAP.md`.
+See audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
 
 ## 💸 Support MIFF
 

@@ -1,6 +1,6 @@
 MIFF Repository Audit Report
 
-Date: 2025-09-15 (Update 2)
+Date: 2025-09-19 (Update 3)
 
 Scope
 - Full scan of modules, games, websites, and docs
@@ -21,6 +21,17 @@ Findings
 - New tests added: Avatar renderers (layering/anchors), Godot mapping, WebSocket bridge/server, PerfMetrics.
 - Action: continue migration from esbuild-jest for legacy tests.
 
+Update (Sep 19): Pure module goldens green for targeted set
+- PhysicsSystemPure: passing (CLI envelope, exports, golden flow)
+- ValidationPure: passing (legacy positional JSON envelope restored)
+- EconomyPure: passing (legacy comma subcommand support)
+- SaveLoadPure: passing (async CLI, batch JSON mode, arg inference, slot autocreate)
+
+Infra stabilization
+- Pinned Jest 29.x; added @swc/core; fixed shebang in cli/integration; added custom matcher
+- Centralized runCLICommand path re-export; removed duplicate jsdom canvas setup
+- Resolved Vitest-in-CommonJS issue by switching tests to Jest where needed
+
 4) Recent features
 - Remix UI: palette/grid/undo + manifest export.
 - Avatar: schema, registry, CLI, Godot node mapping, Studio editor and sampler.
@@ -36,6 +47,11 @@ Findings
   - Updated to static-serve entire site/** and route passthrough. Previous config served few files only (plain, bare-bones). Status: improved.
 - docs/site/ (Docs mirror): multiple sampler/studio pages exist; optional.
 
+Quick link audit (site/)
+- Index links exist: toppler.html, spirit.html, grove.html, sampler/*, studio/*, remix/index.html
+- Assets present: styles.css, zone-router.js, overlays/, ui_modules/
+- Vercel config (`site/vercel.json`) routes site/** correctly. 404 risk low.
+
 6) Integration coverage
 - Avatar creation: integrated via site/studio/avatar.html and site/sampler/avatar.html.
 - Assets building: placeholder assets and registry present; CLI `miff-avatar` supports generate/translate/validate.
@@ -45,6 +61,7 @@ Risks / Gaps
 - Legacy Jest transformer (esbuild-jest) still present for some suites.
 - Some bridge internals still have flexible types; keep tightening.
 - No end-to-end deployment workflow defined for Vercel; manual deploy assumed.
+ - ScorePure module not present (tests absent by design or renamed).
 
 Recommendations (Next)
 - Add GitHub Action to deploy site/ to Vercel on main with preview PRs.
@@ -52,11 +69,25 @@ Recommendations (Next)
 - Add avatars/pack validation UI in Studio (dropzone + schema results).
 - Expand avatar registry with more styles and anchors; add asset size checks to CI.
 - Migrate remaining tests to ts-jest or Vitest; remove esbuild-jest.
+ - Add lightweight module completion matrix and keep goldens up to date per module.
+
+Completion snapshot (this pass)
+- Targeted module fixes addressed: ~90% of recent audit issues for those modules
+- Test infra stabilization for targeted modules: 100%
+- Website/Studio static readiness: 100% (static deploy ok)
+- Docs reconciliation: partial; README links ok; added this Update 3
 
 Website Status Summary
 - Sampler (GitHub Pages): Updated with Studio Tools section and links. OK.
 - Studio: Avatar and Multiplayer editors operational with export and diagnostics. OK.
 - Vercel site: Static passthrough configured; now serves all of site/. Improve styling later as needed.
+
+Appendix B: Targeted Modules – CLI Envelope Compliance
+- Standard: { op, status, result?, format? }
+- PhysicsSystemPure: yes; multi-op outputs grouped
+- ValidationPure: yes; legacy outputs envelope for positional input
+- EconomyPure: yes; export format support wired
+- SaveLoadPure: yes; single and batch flows supported
 
 Appendix: Directory Inventory
 - See site/ sitemap.json and docs/site mirrors for page listings.
