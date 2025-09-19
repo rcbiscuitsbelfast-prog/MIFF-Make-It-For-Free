@@ -321,6 +321,11 @@ describe('MovementPure Golden Tests', () => {
         manager.createEntity(entity.id, entity.position, entity.pattern);
       });
 
+      // Simulate movement to get entities moving (need multiple ticks to reach target speed)
+      for (let i = 0; i < 10; i++) {
+        manager.simulateTick(0.016);
+      }
+
       const filterResult = manager.listEntities({ minSpeed: 1.0, maxSpeed: 4.0 });
       expect(filterResult.status).toBe('ok');
       expect(filterResult.result?.length).toBe(1);

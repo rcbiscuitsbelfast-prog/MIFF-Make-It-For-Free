@@ -322,8 +322,10 @@ describe('StatusEffectsPure Golden Tests', () => {
         manager.createEntity(entity.id, entity.maxHp, entity.effects);
       });
 
-      // Simulate to reduce HP
-      manager.simulateAll();
+      // Simulate multiple times to reduce HP below 80
+      for (let i = 0; i < 5; i++) {
+        manager.simulateAll();
+      }
 
       const filterResult = manager.listEntities({ maxHp: 80 });
       expect(filterResult.status).toBe('ok');

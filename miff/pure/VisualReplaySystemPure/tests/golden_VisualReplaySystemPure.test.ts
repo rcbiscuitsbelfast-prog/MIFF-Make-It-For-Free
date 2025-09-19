@@ -187,6 +187,12 @@ describe('VisualReplaySystemPure golden tests', () => {
     const tempCsvFixture = path.resolve(root, 'fixtures/temp_csv.json');
     fs.writeFileSync(tempCsvFixture, JSON.stringify(csvFixture, null, 2));
     
+    // Verify the temp file has required fields
+    const tempContent = JSON.parse(fs.readFileSync(tempCsvFixture, 'utf-8'));
+    expect(tempContent.scenarioId).toBeDefined();
+    expect(tempContent.config).toBeDefined();
+    expect(tempContent.exportFormat).toBe('csv');
+    
     try {
       const csvOut = (global as any).testUtils.runCLI(
         path.resolve(root, 'cliHarness.ts'),

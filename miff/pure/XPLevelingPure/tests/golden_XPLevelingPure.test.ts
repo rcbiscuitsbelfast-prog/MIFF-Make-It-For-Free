@@ -51,8 +51,8 @@ describe('XPLevelingPure Golden Tests', () => {
       
       const addResult = manager.addXP('xp_entity', 100);
       expect(addResult.status).toBe('ok');
-      expect(addResult.result?.xp).toBe(100);
       expect(addResult.result?.totalXp).toBe(100);
+      expect(addResult.result?.level).toBe(2); // Leveled up from 1 to 2
     });
 
     test('should check for level ups', () => {

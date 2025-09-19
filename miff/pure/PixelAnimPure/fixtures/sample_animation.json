@@ -1,5 +1,7 @@
 {
   "name": "Custom Walk",
+  "loop": true,
+  "speed": 8,
   "frames": [
     {
       "frame": 0,
