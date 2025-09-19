@@ -21,11 +21,10 @@
     "types": ["vite/client"]
   },
   "include": [
-    "sampler/**/*",
-    "sampler/global.d.ts",
-    "OverlinkPure/**/*",
+    "site/**/*",
+    "site/global.d.ts",
     "badges/**/*",
-    "modules/pure/**/*"
+    "miff/pure/**/*"
   ],
   "exclude": [
     "node_modules",

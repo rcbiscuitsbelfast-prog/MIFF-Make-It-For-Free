@@ -6,6 +6,10 @@
 [![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPORT.txt)
 
 ## Current Status (Sep 2025)
+- **Repository Cleanup**: Removed 130+ symlinks, organized demo modules, consolidated configs
+- **Clean Structure**: Demo modules moved to `miff/pure/demos/`, artifacts organized in `docs/`
+- **Testing**: Canonical Jest config (`jest.pure.config.cjs`), comprehensive test coverage
+- **Documentation**: Legacy audits archived, testing guide created, structure documented
 - Remix Studio: Palette, grid, undo/redo, manifest export
 - Avatar System: Manifests + registry, presets (barbarian/mage/rogue), Studio editor, renderer stubs
 - Multiplayer: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
@@ -15,7 +19,33 @@
 - Phase 6 Complete: 5 new fully built modules (SessionManifest, WorldManifest, PixelAnim, BridgeSchema, SpiritTamer)
 - Module Progress (quick snapshot): PhysicsSystemPure, ValidationPure, EconomyPure, SaveLoadPure goldens passing; CLI envelopes standardized; Jest 29 infra stable
 
-See audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`.
+See audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
+
+## 📁 Repository Structure
+
+```
+miff/
+├── pure/                    # Core pure modules
+│   ├── demos/              # Demo modules (RenderPayloadPure, SaveLoadPure, etc.)
+│   ├── AvatarSystemPure/   # Avatar system modules
+│   ├── CombatPure/         # Combat system modules
+│   └── ...                 # Other pure modules
+├── nextjs/                 # Next.js website application
+└── scripts/               # Build and utility scripts
+
+docs/
+├── demos/                 # Demo HTML files and artifacts
+├── archive/               # Legacy audit reports and summaries
+└── TESTING.md            # Testing configuration guide
+
+site/                      # Static website with samplers and demos
+├── sampler/              # Interactive samplers
+├── studio/               # MIFF Studio builder
+└── legacy/               # Outdated pages
+
+scripts/                   # Build scripts and utilities
+tests/                     # Integration tests
+```
 
 ## 💸 Support MIFF
 

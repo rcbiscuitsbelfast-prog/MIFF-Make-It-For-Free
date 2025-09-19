@@ -1,0 +1,18 @@
+{
+  "sessionId": "test_session_123",
+  "config": {
+    "engine": "web",
+    "speed": 1,
+    "loop": false,
+    "showDebug": true,
+    "outputFormat": "json"
+  },
+  "steps": [],
+  "summary": {
+    "totalSteps": 0,
+    "totalRenderData": 0,
+    "totalIssues": 0,
+    "duration": "0ms",
+    "engine": "web"
+  }
+}
