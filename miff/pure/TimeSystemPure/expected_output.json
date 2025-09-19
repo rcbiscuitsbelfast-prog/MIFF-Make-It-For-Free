@@ -42,10 +42,10 @@
       "timers": [],
       "cooldowns": [
         {
-          "category": "general",
-          "duration": 1.5,
           "id": "cd1",
-          "remaining": 0
+          "duration": 1.5,
+          "remaining": 0,
+          "category": "general"
         }
       ],
       "scheduled": []

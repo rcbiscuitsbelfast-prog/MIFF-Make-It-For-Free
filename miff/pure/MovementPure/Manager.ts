@@ -401,8 +401,15 @@ export class MovementManager {
    * Update wander movement
    */
   private updateWanderMovement(entity: MovementEntity, deltaTime: number): void {
+    // If entity is not moving, give it an initial random direction
+    const currentSpeed = Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2);
+    if (currentSpeed < 0.1) {
+      const angle = Math.random() * Math.PI * 2;
+      entity.velocity.x = Math.cos(angle) * entity.pattern.speed;
+      entity.velocity.y = Math.sin(angle) * entity.pattern.speed;
+    }
     // Random direction changes
-    if (Math.random() < 0.1) {
+    else if (Math.random() < 0.1) {
       const angle = Math.random() * Math.PI * 2;
       entity.velocity.x = Math.cos(angle) * entity.pattern.speed;
       entity.velocity.y = Math.sin(angle) * entity.pattern.speed;
@@ -413,12 +420,29 @@ export class MovementManager {
    * Update seek movement
    */
   private updateSeekMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity.state.target) {
+    if (!entity.pattern.target) {
       this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    this.moveTowards(entity, entity.state.target, entity.pattern.speed);
+    const distance = this.calculateDistance(entity.position, entity.pattern.target);
+    const arrivalThreshold = 0.1; // Stop when within 0.1 units of target
+
+    if (distance > arrivalThreshold) {
+      // Check if we would overshoot the target
+      const maxDistanceThisTick = entity.pattern.speed * deltaTime;
+      if (distance <= maxDistanceThisTick) {
+        // Move directly to target to avoid overshooting
+        entity.velocity.x = (entity.pattern.target.x - entity.position.x) / deltaTime;
+        entity.velocity.y = (entity.pattern.target.y - entity.position.y) / deltaTime;
+      } else {
+        this.moveTowards(entity, entity.pattern.target, entity.pattern.speed);
+      }
+    } else {
+      // Stop when reached target
+      entity.velocity.x = 0;
+      entity.velocity.y = 0;
+    }
   }
 
   /**
