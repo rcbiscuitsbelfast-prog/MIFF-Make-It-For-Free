@@ -1,0 +1,17 @@
+[
+  {
+    "op": "parse"
+  },
+  {
+    "op": "validate"
+  },
+  {
+    "op": "list"
+  },
+  {
+    "op": "steps"
+  },
+  {
+    "op": "dump"
+  }
+]

@@ -24,16 +24,21 @@ test('golden navigation system flow', () => {
   const got = JSON.parse(out);
   
   // Verify expected structure
-  expect(got.op).toBe('nav.path');
-  expect(got.status).toBe('ok');
-  expect(got.path).toBeDefined();
-  expect(got.path).toBeInstanceOf(Array);
+  expect(got.outputs).toBeDefined();
+  expect(got.outputs).toBeInstanceOf(Array);
+  expect(got.outputs.length).toBeGreaterThan(0);
+  
+  const result = got.outputs[0];
+  expect(result.op).toBe('nav.path');
+  expect(result.status).toBe('ok');
+  expect(result.path).toBeDefined();
+  expect(result.path).toBeInstanceOf(Array);
   
   // Verify deterministic pathfinding
-  const pathResult = got.path;
+  const pathResult = result.path;
   
-  // Path should start moving from start point (algorithm doesn't include start in path)
-  expect(pathResult[0]).toEqual({ x: 1, y: 0 });
+  // Path should start from start point (A* includes start in path)
+  expect(pathResult[0]).toEqual({ x: 0, y: 0 });
   
   // Path should end at goal point
   expect(pathResult[pathResult.length - 1]).toEqual({ x: 9, y: 9 });

@@ -1,27 +1,51 @@
-#!/usr/bin/env ts-node
-
-import { follow, Camera, Vec2 } from './index';
+#!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
+import path from 'path';
+import { CameraManager, CameraCommand } from './index';
 
-const inputFile = process.argv[2];
-if (!inputFile) {
-  console.error('Usage: ts-node cliHarness.ts <input-file>');
-  process.exit(1);
-}
+type Cmd =
+  | { op: 'process'; commands: CameraCommand[] }
+  | { op: 'follow'; target: { x: number; y: number }; alpha?: number }
+  | { op: 'setPosition'; position: { x: number; y: number } }
+  | { op: 'setZoom'; zoom: number }
+  | { op: 'shake'; intensity: number; duration: number }
+  | { op: 'list' }
+  | { op: 'dump' };
 
-try {
-  const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
-  const camera: Camera = input.camera;
-  const target: Vec2 = input.target;
-  const alpha: number = input.alpha || 1;
+function main() {
+  const inputPath = process.argv[2] || 'CameraBridgePure/fixtures/camera.json';
+  const commandsPath = process.argv[3] || '';
   
-  const result = follow(camera, target, alpha);
-  console.log(JSON.stringify({
-    op: 'camera.follow',
-    status: 'ok',
-    result
-  }, null, 2));
-} catch (error) {
-  console.error('Error:', error);
-  process.exit(1);
+  const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
+  const manager = new CameraManager();
+
+  const log: string[] = [];
+
+  const cmds: CameraCommand[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
+    { op: 'follow', target: input.target, alpha: input.alpha ?? 1 } as CameraCommand
+  ];
+  const outputs: any[] = [];
+
+  // Process commands
+  const result = manager.process(cmds);
+  outputs.push(result);
+
+  // Additional commands
+  if (commandsPath) {
+    const additionalCmds: Cmd[] = JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8'));
+    for (const c of additionalCmds) {
+      if (c.op === 'list') {
+        const camera = manager.getCamera();
+        outputs.push({ op: 'list', camera });
+      } else if (c.op === 'dump') {
+        const camera = manager.getCamera();
+        outputs.push({ op: 'dump', camera });
+      }
+    }
+  }
+
+  const out = { log, outputs };
+  console.log(JSON.stringify(out, null, 2));
 }
+
+if(import.meta.url === `file://${process.argv[1]}`) main();

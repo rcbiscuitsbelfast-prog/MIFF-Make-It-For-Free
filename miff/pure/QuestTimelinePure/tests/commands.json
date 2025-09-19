@@ -1,0 +1,14 @@
+[
+  {
+    "op": "run"
+  },
+  {
+    "op": "validate"
+  },
+  {
+    "op": "list"
+  },
+  {
+    "op": "dump"
+  }
+]

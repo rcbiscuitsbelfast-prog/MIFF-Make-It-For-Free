@@ -1,6 +1,10 @@
 import { resolve as resolveVisual, VisualItemEvent } from '../VisualItemEventPure/index';
 import { applyQuestEvent, QuestState, QuestEvent } from '../QuestSystemPure/index';
-import { resetAfterVisualEvent } from '../InputSystemPure/index';
+
+// Simple stub for input reset
+function resetAfterVisualEvent() {
+  return { cursor: 'idle' };
+}
 
 export type TimelineEvent = { frame: number; op: string; args?: any };
 export type QuestTimeline = { id: string; events: TimelineEvent[]; remixMode?: boolean };

@@ -1,0 +1,21 @@
+[
+  {
+    "op": "resolve",
+    "event": {
+      "type": "helmet.split",
+      "payload": {
+        "intensity": "high"
+      }
+    },
+    "options": {
+      "maxFrames": 1,
+      "timeoutMs": 16
+    }
+  },
+  {
+    "op": "list"
+  },
+  {
+    "op": "dump"
+  }
+]

@@ -13,7 +13,7 @@ test('golden status effects flow', () => {
   expect(got.outputs[2]).toMatchObject({ op: 'dump', id: 'hero' });
   expect(got.outputs[2].effects).toEqual(
     expect.arrayContaining([
-      expect.objectContaining({ id: 'p1', type: 'poison', magnitude: 2 })
+      expect.objectContaining({ id: 'p1', category: 'poison', magnitude: 2 })
     ])
   );
 });

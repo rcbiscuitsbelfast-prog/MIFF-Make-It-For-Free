@@ -24,13 +24,18 @@ test('golden audio bridge flow', () => {
   const got = JSON.parse(out);
   
   // Verify expected structure
-  expect(got.op).toBe('audio');
-  expect(got.status).toBe('ok');
-  expect(got.applied).toBeDefined();
-  expect(got.applied).toHaveLength(4);
+  expect(got.outputs).toBeDefined();
+  expect(got.outputs).toBeInstanceOf(Array);
+  expect(got.outputs.length).toBeGreaterThan(0);
+  
+  const result = got.outputs[0];
+  expect(result.op).toBe('audio');
+  expect(result.status).toBe('ok');
+  expect(result.applied).toBeDefined();
+  expect(result.applied).toHaveLength(4);
   
   // Verify deterministic command processing
-  const commands = got.applied;
+  const commands = result.applied;
   
   // First command: play music_001
   expect(commands[0].op).toBe('play');

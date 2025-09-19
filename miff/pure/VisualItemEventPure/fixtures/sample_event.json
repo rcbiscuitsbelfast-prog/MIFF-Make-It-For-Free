@@ -1,0 +1,13 @@
+{
+  "event": {
+    "type": "helmet.split",
+    "payload": {
+      "intensity": "high",
+      "particles": true
+    }
+  },
+  "options": {
+    "maxFrames": 1,
+    "timeoutMs": 16
+  }
+}
