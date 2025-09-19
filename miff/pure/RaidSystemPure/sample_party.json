@@ -1,0 +1,64 @@
+{
+  "id": "heroes_of_light",
+  "name": "Heroes of Light",
+  "members": [
+    {
+      "id": "tank_1",
+      "name": "Guardian",
+      "level": 50,
+      "health": 5000,
+      "maxHealth": 5000,
+      "attack": 200,
+      "defense": 400,
+      "role": "tank",
+      "abilities": ["taunt", "shield_wall", "provoke"],
+      "position": { "x": 0, "y": 0 }
+    },
+    {
+      "id": "healer_1",
+      "name": "Priest",
+      "level": 48,
+      "health": 3000,
+      "maxHealth": 3000,
+      "attack": 150,
+      "defense": 200,
+      "role": "healer",
+      "abilities": ["heal", "greater_heal", "divine_shield"],
+      "position": { "x": 2, "y": 0 }
+    },
+    {
+      "id": "dps_1",
+      "name": "Warrior",
+      "level": 49,
+      "health": 4000,
+      "maxHealth": 4000,
+      "attack": 350,
+      "defense": 250,
+      "role": "dps",
+      "abilities": ["power_strike", "whirlwind", "berserker_rage"],
+      "position": { "x": 1, "y": 1 }
+    },
+    {
+      "id": "dps_2",
+      "name": "Mage",
+      "level": 47,
+      "health": 2500,
+      "maxHealth": 2500,
+      "attack": 400,
+      "defense": 150,
+      "role": "dps",
+      "abilities": ["fireball", "ice_bolt", "lightning_storm"],
+      "position": { "x": 3, "y": 1 }
+    }
+  ],
+  "averageLevel": 48.5,
+  "totalHealth": 14500,
+  "totalDamage": 1100,
+  "buffs": [],
+  "debuffs": [],
+  "metadata": {
+    "guild": "Knights of Light",
+    "formation": "balanced",
+    "experience": "experienced"
+  }
+}

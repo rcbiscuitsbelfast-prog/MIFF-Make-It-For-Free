@@ -1,0 +1,96 @@
+{
+  "id": "dragon_boss",
+  "name": "Ancient Dragon",
+  "level": 50,
+  "health": 10000,
+  "maxHealth": 10000,
+  "attack": 500,
+  "defense": 300,
+  "abilities": [
+    {
+      "id": "fire_breath",
+      "name": "Fire Breath",
+      "description": "Breathes fire on all enemies in a cone",
+      "cooldown": 10,
+      "damage": 200,
+      "effects": [
+        {
+          "type": "debuff",
+          "value": 10,
+          "duration": 5,
+          "stackable": false,
+          "description": "Burning damage over time"
+        }
+      ],
+      "targetType": "all",
+      "range": 5
+    },
+    {
+      "id": "wing_beat",
+      "name": "Wing Beat",
+      "description": "Powerful wing attack that knocks back enemies",
+      "cooldown": 15,
+      "damage": 150,
+      "effects": [
+        {
+          "type": "debuff",
+          "value": 0,
+          "duration": 3,
+          "stackable": false,
+          "description": "Knocked back and stunned"
+        }
+      ],
+      "targetType": "all",
+      "range": 3
+    },
+    {
+      "id": "dragon_roar",
+      "name": "Dragon Roar",
+      "description": "Terrifying roar that reduces enemy attack power",
+      "cooldown": 20,
+      "damage": 0,
+      "effects": [
+        {
+          "type": "debuff",
+          "value": 25,
+          "duration": 10,
+          "stackable": false,
+          "description": "Reduced attack power"
+        }
+      ],
+      "targetType": "all",
+      "range": 8
+    }
+  ],
+  "lootTable": [
+    {
+      "itemId": "dragon_scale",
+      "dropRate": 0.8,
+      "quantity": 1,
+      "rarity": "epic",
+      "requiredLevel": 45
+    },
+    {
+      "itemId": "dragon_heart",
+      "dropRate": 0.3,
+      "quantity": 1,
+      "rarity": "legendary",
+      "requiredLevel": 50
+    },
+    {
+      "itemId": "dragon_wing",
+      "dropRate": 0.5,
+      "quantity": 2,
+      "rarity": "rare",
+      "requiredLevel": 40
+    }
+  ],
+  "scalingFactor": 1.0,
+  "metadata": {
+    "type": "dragon",
+    "element": "fire",
+    "faction": "neutral",
+    "biome": "volcanic",
+    "difficulty": "hard"
+  }
+}
