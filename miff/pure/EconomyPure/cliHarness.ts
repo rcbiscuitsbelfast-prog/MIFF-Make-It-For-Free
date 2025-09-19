@@ -49,6 +49,37 @@ async function main() {
       const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as EconomyOperation;
     } else {
+      // Legacy compatibility: allow "op,arg1,arg2,..." packed in first token
+      if (first.includes(',')) {
+        const parts = first.split(',');
+        const op = parts[0];
+        const rest = parts.slice(1);
+        switch (op) {
+          case 'create-rule':
+            operation = { op: 'create-rule', rule: JSON.parse(rest.join(',')) };
+            break;
+          case 'create-vendor':
+            operation = { op: 'create-vendor', vendor: JSON.parse(rest.join(',')) };
+            break;
+          case 'create-event':
+            operation = { op: 'create-event', event: JSON.parse(rest.join(',')) };
+            break;
+          case 'calculate-price':
+            operation = { op: 'calculate-price', vendorId: rest[0], itemId: rest[1], quantity: rest[2] ? parseInt(rest[2]) : 1 };
+            break;
+          case 'execute-trade':
+            operation = { op: 'execute-trade', vendorId: rest[0], itemId: rest[1], quantity: parseInt(rest[2]||'1'), type: rest[3] as any, playerId: rest[4] };
+            break;
+          case 'get-market-data':
+            operation = { op: 'get-market-data', itemId: rest[0] };
+            break;
+          case 'export':
+            operation = { op: 'export', exportFormat: rest[0] };
+            break;
+          default:
+            throw new Error(`Unknown command: ${first}`);
+        }
+      } else {
       // Parse subcommand
       switch (first) {
         case 'create-rule':
@@ -120,6 +151,7 @@ async function main() {
           break;
         default:
           throw new Error(`Unknown command: ${first}`);
+      }
       }
     }
 
