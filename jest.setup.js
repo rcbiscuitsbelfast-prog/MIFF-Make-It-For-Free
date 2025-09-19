@@ -642,10 +642,17 @@ jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime());
 // Mock Math.random for deterministic tests
 jest.spyOn(Math, 'random').mockReturnValue(0.5);
 
-// Mock crypto.randomUUID for consistent IDs
-if (typeof crypto !== 'undefined') {
-  jest.spyOn(crypto, 'randomUUID').mockReturnValue('test-uuid-123');
-}
+// Mock crypto.randomUUID for consistent IDs (guard for environments without it)
+try {
+  if (typeof global.crypto === 'undefined') {
+    global.crypto = {};
+  }
+  if (typeof global.crypto.randomUUID !== 'function') {
+    global.crypto.randomUUID = () => 'test-uuid-123';
+  } else {
+    jest.spyOn(global.crypto, 'randomUUID').mockReturnValue('test-uuid-123');
+  }
+} catch (_) {}
 
 // Mock TextEncoder/TextDecoder for Node environment
 if (typeof TextEncoder === 'undefined') {
