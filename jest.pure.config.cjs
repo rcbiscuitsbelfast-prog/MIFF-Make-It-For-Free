@@ -2,6 +2,9 @@
 module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['./jest.setup.js'],
+  // Run in-band with a single worker to avoid jest-worker IPC incompatibilities
+  maxWorkers: 1,
+  runInBand: true,
   transform: { 
     '^.+\\.(ts|tsx)$': ['@swc/jest', {
       jsc: {
