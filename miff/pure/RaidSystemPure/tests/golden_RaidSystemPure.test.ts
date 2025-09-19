@@ -56,6 +56,22 @@ describe('RaidSystemPure Golden', () => {
     expect(stats.totalBosses).toBe(1);
     expect(stats.totalParties).toBe(1);
     expect(stats.totalEncounters).toBe(1);
+
+    // Test simulateRaid functionality
+    const simulatedEncounter = raid.startEncounter('dragon', 'alpha', 'mythic');
+    expect(simulatedEncounter).toBeDefined();
+    expect(simulatedEncounter?.difficulty).toBe('mythic');
+
+    // Test exportRaidStats functionality
+    const exportStats = raid.exportRaidStats();
+    expect(exportStats.op).toBe('exportRaidStats');
+    expect(exportStats.status).toBe('ok');
+    expect(exportStats.data.summary.totalBosses).toBe(1);
+    expect(exportStats.data.summary.totalParties).toBe(1);
+    expect(exportStats.data.summary.totalEncounters).toBeGreaterThanOrEqual(1);
+    expect(exportStats.data.bosses).toHaveLength(1);
+    expect(exportStats.data.parties).toHaveLength(1);
+    expect(exportStats.data.difficultyBreakdown).toBeDefined();
   });
 });
 

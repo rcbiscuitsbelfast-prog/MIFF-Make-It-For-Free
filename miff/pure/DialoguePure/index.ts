@@ -9,4 +9,4 @@ export {
   type DialogueContext,
   type DialogueResult,
   createDialogueEngine
-} from './DialoguePure';
+} from './Manager';

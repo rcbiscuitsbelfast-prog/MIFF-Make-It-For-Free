@@ -18,6 +18,7 @@ type Cmd =
   | { op: 'getActiveEncounters' }
   | { op: 'getStatistics' }
   | { op: 'simulateRaid'; bossId: string; partyId: string; difficulty: string }
+  | { op: 'exportRaidStats' }
   | { op: 'dump' };
 
 function main() {
@@ -121,6 +122,9 @@ function main() {
             partyId: argv[2],
             difficulty: argv[3]
           };
+          break;
+        case 'exportRaidStats':
+          operation = { op: 'exportRaidStats' };
           break;
         case 'dump':
           operation = { op: 'dump' };
@@ -260,13 +264,17 @@ function main() {
         };
         break;
 
+      case 'exportRaidStats':
+        result = raidManager.exportRaidStats();
+        break;
+
       case 'dump':
         result = {
           operations: [
             'createBoss', 'createParty', 'startEncounter', 'processEncounter',
             'completeEncounter', 'getBoss', 'getParty', 'getEncounter',
             'getAllBosses', 'getAllParties', 'getActiveEncounters',
-            'getStatistics', 'simulateRaid', 'dump'
+            'getStatistics', 'simulateRaid', 'exportRaidStats', 'dump'
           ],
           description: 'RaidSystemPure - Enemy scaling and raid management',
           features: [

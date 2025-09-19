@@ -8,7 +8,7 @@ import {
   DialogueNode, 
   DialogueContext,
   DialogueResult 
-} from './DialoguePure';
+} from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
