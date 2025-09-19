@@ -1,0 +1,57 @@
+{
+  "op": "validate:modules",
+  "status": "error",
+  "result": [
+    {
+      "module": "ChainValidatorPure",
+      "missing": [],
+      "tests": [
+        "/workspace/miff/pure/ChainValidatorPure/tests/golden_ChainValidatorPure.test.ts"
+      ]
+    },
+    {
+      "module": "StorySystemPure",
+      "missing": [
+        "tests/*.test.ts"
+      ],
+      "tests": []
+    },
+    {
+      "module": "RaidSystemPure",
+      "missing": [
+        "tests/*.test.ts"
+      ],
+      "tests": []
+    },
+    {
+      "module": "ChainManagerPure",
+      "missing": [
+        "tests/*.test.ts"
+      ],
+      "tests": []
+    },
+    {
+      "module": "AIProfileIntegrationLayer",
+      "missing": [
+        "tests/*.test.ts"
+      ],
+      "tests": []
+    },
+    {
+      "module": "RemixTaggingPure",
+      "missing": [],
+      "tests": [
+        "/workspace/miff/pure/RemixTaggingPure/tests/golden.test.ts"
+      ]
+    },
+    {
+      "module": "DialoguePure",
+      "missing": [
+        "Manager.ts",
+        "tests/*.test.ts"
+      ],
+      "tests": []
+    }
+  ],
+  "timestamp": 1758291846125
+}
