@@ -491,14 +491,16 @@ export class PixelAnimManager {
       errors.push('Animation speed must be between 1 and 60 FPS');
     }
 
-    animation.frames.forEach((frame, index) => {
+    if (animation.frames && animation.frames.length > 0) {
+      animation.frames.forEach((frame, index) => {
       if (!frame.layer || frame.layer.trim() === '') {
         errors.push(`Frame ${index}: layer is required`);
       }
       if (frame.duration <= 0) {
         errors.push(`Frame ${index}: duration must be positive`);
       }
-    });
+      });
+    }
 
     return { valid: errors.length === 0, errors };
   }

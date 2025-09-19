@@ -322,7 +322,7 @@ describe('MovementPure Golden Tests', () => {
       });
 
       // Simulate movement to get entities moving (need multiple ticks to reach target speed)
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 20; i++) {
         manager.simulateTick(0.016);
       }
 

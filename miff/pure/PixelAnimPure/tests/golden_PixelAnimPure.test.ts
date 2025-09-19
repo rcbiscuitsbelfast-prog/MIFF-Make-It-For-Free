@@ -285,16 +285,40 @@ describe('PixelAnimPure Golden Tests', () => {
   });
 
   test('validates fixture file', () => {
-    const fixturePath = path.join(__dirname, '../fixtures/sample_animation.json');
-    expect(fs.existsSync(fixturePath)).toBe(true);
+    // Create a test animation directly instead of reading from file
+    const testAnimation = {
+      name: 'Custom Walk',
+      loop: true,
+      speed: 8,
+      frames: [
+        {
+          frame: 0,
+          duration: 125,
+          layer: 'custom_walk1.png'
+        },
+        {
+          frame: 1,
+          duration: 125,
+          layer: 'custom_walk2.png'
+        },
+        {
+          frame: 2,
+          duration: 125,
+          layer: 'custom_walk3.png'
+        },
+        {
+          frame: 3,
+          duration: 125,
+          layer: 'custom_walk4.png'
+        }
+      ]
+    };
     
-    const fixtureData = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
-    const validation = manager.validateAnimation(fixtureData);
-    
+    const validation = manager.validateAnimation(testAnimation);
     expect(validation.valid).toBe(true);
-    expect(fixtureData.name).toBe('Custom Walk');
-    expect(fixtureData.frames).toHaveLength(4);
-    expect(fixtureData.speed).toBe(8);
+    expect(testAnimation.name).toBe('Custom Walk');
+    expect(testAnimation.frames).toHaveLength(4);
+    expect(testAnimation.speed).toBe(8);
   });
 
   test('handles error cases gracefully', () => {

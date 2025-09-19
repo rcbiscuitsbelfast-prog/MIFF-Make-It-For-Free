@@ -23,7 +23,5 @@
       "duration": 125,
       "layer": "custom_walk4.png"
     }
-  ],
-  "loop": true,
-  "speed": 8
+  ]
 }

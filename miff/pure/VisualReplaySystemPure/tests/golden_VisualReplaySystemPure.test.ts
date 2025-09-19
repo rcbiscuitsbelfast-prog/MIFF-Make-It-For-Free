@@ -180,12 +180,12 @@ describe('VisualReplaySystemPure golden tests', () => {
     expect(jsonResult.op).toBe('replay');
     expect(jsonResult.session).toBeDefined();
     
-    // Test CSV export
-    const csvFixture = JSON.parse(fs.readFileSync(replayFixture, 'utf-8'));
-    csvFixture.exportFormat = 'csv';
-    
+    // Test CSV export - create temp file with proper content
     const tempCsvFixture = path.resolve(root, 'fixtures/temp_csv.json');
-    fs.writeFileSync(tempCsvFixture, JSON.stringify(csvFixture, null, 2));
+    const originalContent = fs.readFileSync(replayFixture, 'utf-8');
+    const csvData = JSON.parse(originalContent);
+    csvData.exportFormat = 'csv';
+    fs.writeFileSync(tempCsvFixture, JSON.stringify(csvData, null, 2));
     
     // Verify the temp file has required fields
     const tempContent = JSON.parse(fs.readFileSync(tempCsvFixture, 'utf-8'));
