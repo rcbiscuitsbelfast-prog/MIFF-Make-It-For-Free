@@ -13,6 +13,15 @@ import { ValidationManager, ValidationConfig, ValidationInput } from './Manager'
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
+
+// Legacy compatibility: allow positional [inputPath] ['' for config] [commandsPath]
+let legacyInputPath: string | null = null;
+let legacyCommandsPath: string | null = null;
+try {
+  const ar = process.argv.slice(2);
+  if (ar.length >= 1 && ar[0] && !ar[0].startsWith('--')) legacyInputPath = ar[0];
+  if (ar.length >= 3 && ar[2] && !ar[2].startsWith('--')) legacyCommandsPath = ar[2];
+} catch {}
 const manager = new ValidationManager();
 
 // Parse additional arguments
@@ -31,7 +40,11 @@ try {
       break;
 
     case 'validate-all':
-      const input: ValidationInput = args.includes('--input') ? JSON.parse(args.find(arg => arg.startsWith('--input='))!.split('=')[1]) : {
+      const input: ValidationInput = args.includes('--input')
+        ? JSON.parse(args.find(arg => arg.startsWith('--input='))!.split('=')[1])
+        : (legacyInputPath && require('fs').existsSync(legacyInputPath)
+            ? JSON.parse(require('fs').readFileSync(legacyInputPath, 'utf-8'))
+            : {
         refs: {
           'ref1': { ok: true },
           'ref2': { ok: false }
@@ -102,7 +115,8 @@ try {
             dependencies: ['library1']
           }
         ]
-      };
+          }
+        });
       output = manager.validateAll(input);
       break;
 
