@@ -39,86 +39,36 @@ try {
       output = manager.configure(config);
       break;
 
-    case 'validate-all':
-      const input: ValidationInput = args.includes('--input')
-        ? JSON.parse(args.find(arg => arg.startsWith('--input='))!.split('=')[1])
-        : (legacyInputPath && require('fs').existsSync(legacyInputPath)
-            ? JSON.parse(require('fs').readFileSync(legacyInputPath, 'utf-8'))
-            : {
-        refs: {
-          'ref1': { ok: true },
-          'ref2': { ok: false }
-        },
-        stats: [
-          {
-            id: 'entity1',
-            stats: [
-              { key: 'hp', base: 100 },
-              { key: 'attack', base: 50 },
-              { key: 'defense', base: 25 }
-            ]
-          },
-          {
-            id: 'entity2',
-            stats: [
-              { key: 'hp', base: 150 },
-              { key: 'attack', base: 75 },
-              { key: 'defense', base: 30 }
-            ]
-          }
-        ],
-        zones: [
-          { id: 'zone1', x: 0, y: 0, w: 100, h: 100 },
-          { id: 'zone2', x: 50, y: 50, w: 100, h: 100 }
-        ],
-        entities: [
-          {
-            id: 'entity1',
-            name: 'Test Entity 1',
-            type: 'character',
-            position: { x: 10, y: 20 },
-            properties: { health: 100, level: 1 }
-          },
-          {
-            id: 'entity2',
-            name: 'Test Entity 2',
-            type: 'character',
-            position: { x: 30, y: 40 },
-            properties: { health: 150, level: 2 }
-          }
-        ],
-        assets: [
-          {
-            id: 'asset1',
-            name: 'Test Asset 1',
-            type: 'texture',
-            path: '/assets/texture1.png',
-            size: 1024,
-            checksum: 'abc123'
-          },
-          {
-            id: 'asset2',
-            name: 'Test Asset 2',
-            type: 'model',
-            path: '/assets/model1.obj',
-            size: 2048,
-            checksum: 'def456'
-          }
-        ],
-        scripts: [
-          {
-            id: 'script1',
-            name: 'Test Script 1',
-            type: 'behavior',
-            content: 'function update() { console.log("test"); }',
-            language: 'javascript',
-            dependencies: ['library1']
-          }
-        ]
-          }
-        });
+    case 'validate-all': {
+      let input: ValidationInput;
+      const fsLocal = require('fs');
+      const inline = args.find(arg => arg.startsWith('--input='));
+      if (inline) {
+        input = JSON.parse(inline.split('=')[1]);
+      } else if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
+        input = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
+      } else {
+        input = {
+          refs: { 'ref1': { ok: true }, 'ref2': { ok: false } },
+          stats: [
+            { id: 'entity1', stats: [ { key: 'hp', base: 100 }, { key: 'attack', base: 50 }, { key: 'defense', base: 25 } ] },
+            { id: 'entity2', stats: [ { key: 'hp', base: 150 }, { key: 'attack', base: 75 }, { key: 'defense', base: 30 } ] }
+          ],
+          zones: [ { id: 'zone1', x: 0, y: 0, w: 100, h: 100 }, { id: 'zone2', x: 50, y: 50, w: 100, h: 100 } ],
+          entities: [
+            { id: 'entity1', name: 'Test Entity 1', type: 'character', position: { x: 10, y: 20 }, properties: { health: 100, level: 1 } },
+            { id: 'entity2', name: 'Test Entity 2', type: 'character', position: { x: 30, y: 40 }, properties: { health: 150, level: 2 } }
+          ],
+          assets: [
+            { id: 'asset1', name: 'Test Asset 1', type: 'texture', path: '/assets/texture1.png', size: 1024, checksum: 'abc123' },
+            { id: 'asset2', name: 'Test Asset 2', type: 'model', path: '/assets/model1.obj', size: 2048, checksum: 'def456' }
+          ],
+          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { console.log("test"); }', language: 'javascript', dependencies: ['library1'] } ]
+        };
+      }
       output = manager.validateAll(input);
       break;
+    }
 
     case 'report-issues':
       output = manager.reportIssues();
