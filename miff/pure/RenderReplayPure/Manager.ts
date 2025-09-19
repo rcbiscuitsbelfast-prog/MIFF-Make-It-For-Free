@@ -172,6 +172,60 @@ export class RenderReplayManager {
   }
 
   /**
+   * Load a session from data
+   */
+  loadSession(sessionData: any): { ok: boolean; session?: ReplaySession; issues?: string[] } {
+    try {
+      // Validate session data
+      if (!sessionData || !sessionData.id) {
+        return {
+          ok: false,
+          issues: ['Invalid session data: missing id']
+        };
+      }
+
+      if (!sessionData.frames || !Array.isArray(sessionData.frames)) {
+        return {
+          ok: false,
+          issues: ['Invalid session data: frames must be an array']
+        };
+      }
+
+      // Convert to ReplaySession format
+      const session: ReplaySession = {
+        sessionId: sessionData.id,
+        config: this.config,
+        steps: sessionData.frames.map((frame: any, index: number) => ({
+          step: index + 1,
+          timestamp: frame.timestamp || new Date().toISOString(),
+          renderData: frame.data ? [frame.data] : [],
+          issues: frame.issues || [],
+          annotations: frame.annotations || []
+        })),
+        summary: {
+          totalSteps: sessionData.frames.length,
+          totalRenderData: sessionData.frames.reduce((sum: number, frame: any) => 
+            sum + (frame.data ? 1 : 0), 0),
+          totalIssues: sessionData.frames.reduce((sum: number, frame: any) => 
+            sum + (frame.issues ? frame.issues.length : 0), 0),
+          duration: sessionData.metadata?.duration || '0ms',
+          engine: this.config.engine
+        }
+      };
+
+      return {
+        ok: true,
+        session
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        issues: [`Failed to load session: ${error instanceof Error ? error.message : 'Unknown error'}`]
+      };
+    }
+  }
+
+  /**
    * Export replay session to specified format
    */
   exportReplay(session: ReplaySession, outputPath: string): { success: boolean; issues?: string[] } {

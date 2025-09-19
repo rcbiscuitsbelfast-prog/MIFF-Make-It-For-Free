@@ -9,9 +9,11 @@
 ## Short-term (1–2 days)
 - ✅ Fix conflict markers in `miff/pure/VisualReplaySystemPure/README.md`
 - ✅ Tighten types in `UnityBridgePure/Bridge.ts` and `VisualReplaySystemPure/index.ts`
-- ✅ Comprehensive module analysis completed (510 tests analyzed)
-- **Priority**: Fix 66 failing tests (import/export issues, CLI problems)
-- **Priority**: Add missing tests for AssetManifestPure, QuestModulePure, QuestTimelinePure, VisualItemEventPure
+- ✅ Comprehensive module analysis completed (515 tests analyzed)
+- ✅ Phase 11 Module Stabilization completed (CLI fixes, golden tests, stub enhancements)
+- ✅ Phase 12 Legacy Recovery started (RNGPure C# to TypeScript conversion completed)
+- **Priority**: Fix remaining 51 failing tests (import/export issues, CLI problems)
+- **Priority**: Continue C# legacy module conversion (Phase 1 complete)
 
 ## Near-term (1 week)
 - ✅ Real WebSocket server behind flag; keep local bus fallback
