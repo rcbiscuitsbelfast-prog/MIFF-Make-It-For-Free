@@ -37,7 +37,8 @@ function main(){
       ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
       : [{ op: 'demo' } as Cmd];
     
-    const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
+    // Tests expect raw operation objects (legacy shape), not wrapped in {op,status,result}
+    const outputs: any[] = [];
     
     for (const c of cmds) {
       const timestamp = new Date().toISOString();
@@ -47,7 +48,7 @@ function main(){
         switch (c.op) {
           case 'list':
             result = mgr.list();
-            outputs.push({ op: 'list', status: 'ok', timestamp, result });
+            outputs.push(result);
             break;
           case 'create':
             result = mgr.create(c.body);
@@ -55,11 +56,11 @@ function main(){
             break;
           case 'step':
             result = mgr.step(c.dt);
-            outputs.push({ op: 'step', status: 'ok', timestamp, result });
+            outputs.push(result);
             break;
           case 'dump':
             result = mgr.dump(c.id);
-            outputs.push({ op: 'dump', status: 'ok', timestamp, result });
+            outputs.push(result);
             break;
           case 'addForce':
             result = mgr.addForce(c.force);
@@ -108,12 +109,7 @@ function main(){
             });
         }
       } catch (error) {
-        outputs.push({ 
-          op: c.op, 
-          status: 'error', 
-          timestamp, 
-          issues: [String(error)] 
-        });
+        outputs.push({ op: 'error', status: 'error', timestamp, issues: [String(error)] });
       }
     }
     
