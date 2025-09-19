@@ -116,7 +116,7 @@ try {
           }
         ]
           }
-        }));
+        }))
       output = manager.validateAll(input);
       break;
 
