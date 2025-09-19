@@ -30,7 +30,7 @@ function main() {
     },
     onRoleAssigned: (id, role) => log.push(`ROLE ${id} ${role}`),
   });
-  mgr.load(obj.profiles);
+  mgr.loadProfiles(obj.profiles);
 
   const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listProfiles' } as Cmd];
   const outputs: any[] = [];

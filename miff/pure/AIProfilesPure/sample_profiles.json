@@ -2,22 +2,76 @@
   "profiles": [
     {
       "id": "elder",
+      "name": "Elder",
       "role": "questGiver",
       "dialogId": "elder_intro",
       "questId": "village_help",
-      "schedule": [ { "time": "08:00", "action": "at_square" } ]
+      "schedule": [ { "id": "morning", "time": "08:00", "action": "at_square", "priority": 1 } ],
+      "personality": {
+        "friendliness": 85,
+        "aggression": 10,
+        "intelligence": 90,
+        "courage": 70,
+        "loyalty": 95,
+        "curiosity": 60
+      },
+      "skills": {
+        "combat": 20,
+        "magic": 80,
+        "crafting": 30,
+        "trading": 40,
+        "diplomacy": 90,
+        "stealth": 10
+      },
+      "relationships": {}
     },
     {
       "id": "merchant",
+      "name": "Merchant",
       "role": "vendor",
       "dialogId": "shop_welcome",
-      "schedule": [ { "time": "09:00", "action": "open_shop" } ]
+      "schedule": [ { "id": "open", "time": "09:00", "action": "open_shop", "priority": 1 } ],
+      "personality": {
+        "friendliness": 70,
+        "aggression": 5,
+        "intelligence": 75,
+        "courage": 40,
+        "loyalty": 60,
+        "curiosity": 80
+      },
+      "skills": {
+        "combat": 10,
+        "magic": 20,
+        "crafting": 60,
+        "trading": 95,
+        "diplomacy": 85,
+        "stealth": 30
+      },
+      "relationships": {}
     },
     {
       "id": "guard1",
+      "name": "Guard",
       "role": "guard",
       "behaviorTree": "guard_patrol_bt",
-      "schedule": [ { "time": "10:00", "action": "patrol_gate" } ]
+      "schedule": [ { "id": "patrol", "time": "10:00", "action": "patrol_gate", "priority": 1 } ],
+      "personality": {
+        "friendliness": 40,
+        "aggression": 60,
+        "intelligence": 50,
+        "courage": 90,
+        "loyalty": 95,
+        "curiosity": 30
+      },
+      "skills": {
+        "combat": 85,
+        "magic": 10,
+        "crafting": 20,
+        "trading": 30,
+        "diplomacy": 40,
+        "stealth": 60
+      },
+      "relationships": {}
     }
   ]
 }
