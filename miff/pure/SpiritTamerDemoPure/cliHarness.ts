@@ -446,17 +446,10 @@ async function main() {
   const cli = new SpiritTamerCLI();
   
   if (process.argv.length < 3) {
-    console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: demo, scenario, tame, battle, dump, list, player, move, startTaming, rhythm, session, sessions, stats, export, reset');
-    console.error('Examples:');
-    console.error('  cliHarness.ts demo');
-    console.error('  cliHarness.ts list grove');
-    console.error('  cliHarness.ts tame emberfox');
-    console.error('  cliHarness.ts battle glimmerbat');
-    console.error('  cliHarness.ts startTaming whisperwind');
-    console.error('  cliHarness.ts stats');
-    console.error('  cliHarness.ts export summary');
-    process.exit(1);
+    // Run demo by default when no arguments provided
+    const result = await cli.execute({ op: 'demo' });
+    console.log(JSON.stringify(result, null, 2));
+    return;
   }
 
   const operation = process.argv[2];

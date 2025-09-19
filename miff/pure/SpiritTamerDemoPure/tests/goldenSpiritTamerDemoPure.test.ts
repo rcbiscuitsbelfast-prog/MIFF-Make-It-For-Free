@@ -6,10 +6,12 @@ test('SpiritTamerDemoPure scenario matches golden', () => {
 	const out = (global as any).testUtils.runCLI(cli, []);
   const got = JSON.parse(out);
   expect(got).toMatchObject({
-    op: 'spirit_tamer_demo',
+    op: 'demo',
     status: 'ok',
-    scene: 'grove',
-    player: { x: 85, y: 262 },
-    spirits: expect.arrayContaining(['emberfox','glimmerbat'])
+    result: {
+      scene: 'grove',
+      player: { x: 85, y: 262 },
+      spirits: expect.arrayContaining(['emberfox','glimmerbat'])
+    }
   });
 });
