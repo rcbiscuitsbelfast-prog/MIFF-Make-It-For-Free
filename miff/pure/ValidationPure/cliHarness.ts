@@ -44,7 +44,7 @@ try {
         ? JSON.parse(args.find(arg => arg.startsWith('--input='))!.split('=')[1])
         : (legacyInputPath && require('fs').existsSync(legacyInputPath)
             ? JSON.parse(require('fs').readFileSync(legacyInputPath, 'utf-8'))
-            : ({
+            : {
         refs: {
           'ref1': { ok: true },
           'ref2': { ok: false }
@@ -116,7 +116,7 @@ try {
           }
         ]
           }
-        }))
+        });
       output = manager.validateAll(input);
       break;
 
