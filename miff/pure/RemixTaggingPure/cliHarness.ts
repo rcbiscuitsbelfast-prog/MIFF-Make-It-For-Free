@@ -1,88 +1,160 @@
-import fs from 'fs';
-import path from 'path';
-import { RemixTaggingManager, RemixLevel } from './Manager';
+#!/usr/bin/env -S node --no-warnings
+import * as fs from 'fs';
+import * as path from 'path';
+import { RemixTaggingManager, type RemixLevel } from './Manager';
+import { addExportSupport } from '../shared/exportUtils';
 
-type Cmd = 
-  | { op: 'tagModule'; moduleId: string; moduleName: string; level?: RemixLevel; reason?: string }
-  | { op: 'getTag'; moduleId: string }
-  | { op: 'listTags'; level?: RemixLevel }
-  | { op: 'getStats' }
-  | { op: 'removeTag'; moduleId: string };
+type Operation =
+  | { op: 'tag'; moduleId: string; moduleName: string; level?: RemixLevel; reason?: string }
+  | { op: 'get'; moduleId: string }
+  | { op: 'list' }
+  | { op: 'stats' }
+  | { op: 'config'; file: string }
+  | { op: 'batch'; file: string }
+  | { op: 'dump' };
 
-function main() {
-  const configPath = process.argv[2] || '';
-  const cmdsPath = process.argv[3] || '';
-  
-  const mgr = new RemixTaggingManager();
-  
-  // Load config if provided
-  if (configPath && fs.existsSync(configPath)) {
-    const config = JSON.parse(fs.readFileSync(path.resolve(configPath), 'utf-8'));
-    mgr.setConfig(config);
-  }
-  
-  // Load commands
-  const commands: Cmd[] = cmdsPath && fs.existsSync(cmdsPath) 
-    ? JSON.parse(fs.readFileSync(path.resolve(cmdsPath), 'utf-8'))
-    : [{ op: 'getStats' }];
-  
-  const outputs: any[] = [];
-  
-  for (const cmd of commands) {
-    switch (cmd.op) {
-      case 'tagModule':
-        outputs.push(mgr.tagModule(cmd.moduleId, cmd.moduleName, cmd.level, cmd.reason));
-        break;
-        
-      case 'getTag':
-        const tag = mgr.getModuleTag(cmd.moduleId);
-        outputs.push({
-          op: 'getTag',
-          status: tag ? 'ok' : 'not_found',
-          moduleId: cmd.moduleId,
-          tag: tag
-        });
-        break;
-        
-      case 'listTags':
-        const tags = cmd.level ? mgr.getTagsByLevel(cmd.level) : mgr.getAllTags();
-        outputs.push({
-          op: 'listTags',
-          status: 'ok',
-          level: cmd.level || 'all',
-          count: tags.length,
-          tags: tags
-        });
-        break;
-        
-      case 'getStats':
-        outputs.push({
-          op: 'getStats',
-          status: 'ok',
-          stats: mgr.getTaggingStats()
-        });
-        break;
-        
-      case 'removeTag':
-        const removed = mgr.removeTag(cmd.moduleId);
-        outputs.push({
-          op: 'removeTag',
-          status: removed ? 'ok' : 'not_found',
-          moduleId: cmd.moduleId,
-          removed: removed
-        });
-        break;
-        
-      default:
-        outputs.push({
-          op: 'unknown',
-          status: 'error',
-          message: `Unknown operation: ${(cmd as any).op}`
-        });
-    }
-  }
-  
-  console.log(JSON.stringify({ outputs }, null, 2));
+function readJSON(file: string): any {
+  const p = path.isAbsolute(file) ? file : path.resolve(process.cwd(), file);
+  return JSON.parse(fs.readFileSync(p, 'utf-8'));
 }
 
-if(import.meta.url === `file://${process.argv[1]}`) main();
+function main() {
+  const argv = process.argv.slice(2);
+  if (argv.length === 0) {
+    console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');
+    process.exit(1);
+  }
+  try {
+    const mgr = new RemixTaggingManager();
+    const first = argv[0];
+    let op: Operation;
+
+    if (first.endsWith('.json') && fs.existsSync(first)) {
+      op = readJSON(first) as Operation;
+    } else {
+      switch (first) {
+        case 'tag': {
+          const moduleId = argv[1];
+          const moduleName = argv[2] || moduleId;
+          const level = argv[3] as RemixLevel | undefined;
+          const reason = argv[4];
+          if (!moduleId) throw new Error('tag requires moduleId');
+          op = { op: 'tag', moduleId, moduleName, level, reason };
+          break;
+        }
+        case 'get': {
+          const moduleId = argv[1];
+          if (!moduleId) throw new Error('get requires moduleId');
+          op = { op: 'get', moduleId };
+          break;
+        }
+        case 'list': {
+          op = { op: 'list' };
+          break;
+        }
+        case 'stats': {
+          op = { op: 'stats' };
+          break;
+        }
+        case 'config': {
+          const file = argv[1];
+          if (!file) throw new Error('config requires JSON file');
+          op = { op: 'config', file };
+          break;
+        }
+        case 'batch': {
+          const file = argv[1];
+          if (!file) throw new Error('batch requires commands JSON file');
+          op = { op: 'batch', file };
+          break;
+        }
+        case 'dump': {
+          op = { op: 'dump' };
+          break;
+        }
+        default:
+          throw new Error(`Unknown command: ${first}`);
+      }
+    }
+
+    let result: any;
+    switch (op.op) {
+      case 'tag': {
+        result = mgr.tagModule(op.moduleId, op.moduleName, op.level, op.reason);
+        break;
+      }
+      case 'get': {
+        result = mgr.getModuleTag(op.moduleId);
+        break;
+      }
+      case 'list': {
+        result = mgr.getAllTags();
+        break;
+      }
+      case 'stats': {
+        result = mgr.getTaggingStats();
+        break;
+      }
+      case 'config': {
+        const cfg = readJSON(op.file);
+        mgr.setConfig(cfg);
+        result = { applied: true, config: cfg };
+        break;
+      }
+      case 'batch': {
+        const cmds = readJSON(op.file) as Array<{ op: string; [k: string]: any }>;
+        const outputs: any[] = [];
+        for (const cmd of cmds) {
+          if (cmd.op === 'tag') {
+            outputs.push(mgr.tagModule(cmd.moduleId, cmd.moduleName || cmd.moduleId, cmd.level, cmd.reason));
+          } else if (cmd.op === 'get') {
+            outputs.push(mgr.getModuleTag(cmd.moduleId));
+          } else if (cmd.op === 'list') {
+            outputs.push(mgr.getAllTags());
+          } else if (cmd.op === 'stats') {
+            outputs.push(mgr.getTaggingStats());
+          }
+        }
+        result = { outputs, total: outputs.length };
+        break;
+      }
+      case 'dump': {
+        result = {
+          operations: ['tag', 'get', 'list', 'stats', 'config', 'batch', 'dump'],
+          description: 'RemixTaggingPure - compliance tagging and stats'
+        };
+        break;
+      }
+    }
+
+    const fmtArg = argv.find(a => a.startsWith('--format='))?.split('=')[1] || argv[argv.indexOf('--format') + 1];
+    const valid = ['json', 'csv', 'markdown', 'html'];
+    const exportFormat = valid.includes(fmtArg || '') ? fmtArg : undefined;
+    const { result: finalResult, exportData } = addExportSupport(
+      result,
+      exportFormat,
+      'RemixTaggingPure Export',
+      'Module tagging results'
+    );
+
+    console.log(JSON.stringify({
+      op: op.op,
+      status: 'ok',
+      result: finalResult,
+      timestamp: Date.now()
+    }, null, 2));
+    if (exportData) console.error('\n' + exportData);
+  } catch (error) {
+    console.error(JSON.stringify({
+      op: 'error',
+      status: 'error',
+      error: error instanceof Error ? error.message : String(error),
+      timestamp: Date.now()
+    }, null, 2));
+    process.exit(1);
+  }
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}
