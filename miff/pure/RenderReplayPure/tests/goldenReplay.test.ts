@@ -17,7 +17,7 @@ describe('RenderReplayPure Golden Tests', () => {
     test('✓ replay-golden command with Unity engine', () => {
       const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
-        'BridgeSchemaPure/sample_render.json',
+        'sample_replay.json',
         '--engine', 'unity',
         '--speed', '1.0',
         '--format', 'json'
@@ -43,7 +43,7 @@ describe('RenderReplayPure Golden Tests', () => {
     test('✓ replay-golden command with Web engine', () => {
       const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
-        'BridgeSchemaPure/sample_render.json',
+        'sample_replay.json',
         '--engine', 'web',
         '--speed', '2.0',
         '--loop',
@@ -71,7 +71,7 @@ describe('RenderReplayPure Golden Tests', () => {
     test('✓ replay-golden command with Godot engine', () => {
       const result = (global as any).testUtils.runCLI(cliPath, [
         'replay-golden',
-        'BridgeSchemaPure/sample_render.json',
+        'sample_replay.json',
         '--engine', 'godot',
         '--speed', '0.5',
         '--no-debug',
