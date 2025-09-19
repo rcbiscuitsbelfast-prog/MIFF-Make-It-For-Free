@@ -11,6 +11,7 @@
 
 import { ValidationManager, ValidationConfig, ValidationInput } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import * as fsLocal from 'fs';
 
 const { mode, args } = parseCLIArgs(process.argv);
 
@@ -29,6 +30,18 @@ const format = args.find(arg => arg.startsWith('--format='))?.split('=')[1] as '
 
 let output: any;
 
+// Legacy positional short-circuit: if an input path is provided as first arg,
+// run validate-all and emit historical { outputs: [...] } envelope
+try {
+  const candidatePath = legacyInputPath || mode;
+  if (candidatePath && !String(candidatePath).startsWith('--') && String(candidatePath).endsWith('.json') && fsLocal.existsSync(candidatePath)) {
+    const legacyInput = JSON.parse(fsLocal.readFileSync(candidatePath, 'utf-8')) as ValidationInput;
+    const legacyResult = manager.validateAll(legacyInput);
+    console.log(formatOutput({ outputs: [legacyResult] }));
+    process.exit(0);
+  }
+} catch {}
+
 try {
   switch (mode) {
     case 'configure':
@@ -41,7 +54,6 @@ try {
 
     case 'validate-all': {
       let input: ValidationInput;
-      const fsLocal = require('fs');
       const inline = args.find(arg => arg.startsWith('--input='));
       if (inline) {
         input = JSON.parse(inline.split('=')[1]);
@@ -249,29 +261,37 @@ try {
       };
       break;
 
-    default:
-      output = {
-        op: 'help',
-        status: 'ok',
-        result: {
-          availableCommands: [
-            'configure --config=<json>',
-            'validate-all --input=<json>',
-            'report-issues',
-            'stats',
-            'export --format=<json|manifest|summary|report>',
-            'reset',
-            'demo',
-            'sample'
-          ],
-          examples: [
-            'node cliHarness.ts configure --config={"rules":["missing_refs","stat_bounds"]}',
-            'node cliHarness.ts validate-all --input={"refs":{"ref1":{"ok":true}}}',
-            'node cliHarness.ts report-issues',
-            'node cliHarness.ts export --format=manifest'
-          ]
-        }
-      };
+    default: {
+      if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
+        const legacyInput = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
+        const legacyResult = manager.validateAll(legacyInput);
+        output = { outputs: [legacyResult] };
+      } else {
+        output = {
+          op: 'help',
+          status: 'ok',
+          result: {
+            availableCommands: [
+              'configure --config=<json>',
+              'validate-all --input=<json>',
+              'report-issues',
+              'stats',
+              'export --format=<json|manifest|summary|report>',
+              'reset',
+              'demo',
+              'sample'
+            ],
+            examples: [
+              'node cliHarness.ts configure --config={"rules":["missing_refs","stat_bounds"]}',
+              'node cliHarness.ts validate-all --input={"refs":{"ref1":{"ok":true}}}',
+              'node cliHarness.ts report-issues',
+              'node cliHarness.ts export --format=manifest'
+            ]
+          }
+        };
+      }
+      break;
+    }
   }
 } catch (error) {
   output = {
