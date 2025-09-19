@@ -11,8 +11,9 @@
 - ✅ Tighten types in `UnityBridgePure/Bridge.ts` and `VisualReplaySystemPure/index.ts`
 - ✅ Comprehensive module analysis completed (515 tests analyzed)
 - ✅ Phase 11 Module Stabilization completed (CLI fixes, golden tests, stub enhancements)
-- ✅ Phase 12 Legacy Recovery started (RNGPure C# to TypeScript conversion completed)
-- **Priority**: Fix remaining 51 failing tests (import/export issues, CLI problems)
+- ✅ Phase 12 Legacy Recovery in progress (RNGPure C# to TypeScript conversion completed)
+- ✅ Phase 12 Test Fixes: 4 tests fixed (MovementPure, TimeSystemPure, StatsSystemPure, CollisionSystemPure)
+- **Priority**: Fix remaining 47 failing tests (CLI harness format issues, import/export problems)
 - **Priority**: Continue C# legacy module conversion (Phase 1 complete)
 
 ## Near-term (1 week)
@@ -29,6 +30,26 @@
 - ✅ Contributor flows in Studio (preset packs, validation UI)
 - **Module Completion**: Enhance stub implementations (NavigationSystemPure, AudioBridgePure)
 - **Quality Assurance**: Achieve 95%+ test success rate across all modules
+
+## Phase 12 Test Fix Patterns (Sep 2025)
+
+### ✅ **Successfully Fixed (4 modules)**
+- **MovementPure**: Fixed seek movement logic and wander movement initialization
+- **TimeSystemPure**: Updated CLI harness to use structured output format
+- **StatsSystemPure**: Updated CLI harness and expected output format
+- **CollisionSystemPure**: Updated test expectations to match actual sample data
+
+### 🔧 **Common Fix Patterns Identified**
+1. **CLI Harness Format**: Many modules need `{log: [], outputs: [...]}` structure
+2. **Expected Output Files**: Need updating to match new structured format
+3. **Test Expectations**: Need updating to access `result` properties in nested structure
+4. **Sample Data Mismatch**: Tests expecting different IDs/data than actual samples
+
+### ⚠️ **Remaining Issues (47 tests)**
+- CLI harnesses using command-line args instead of commands.json
+- Import/export issues with missing modules
+- Vitest vs Jest compatibility issues
+- Missing method implementations
 
 ## Module Completion Status (Sep 2025)
 

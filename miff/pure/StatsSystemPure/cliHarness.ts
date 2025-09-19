@@ -30,6 +30,6 @@ function main(){
     else if(c.op==='validate') { const e=mgr.get(c.id); const ok=!!e && Array.isArray(e.stats); out.push({ op:'validate', id:c.id, status: ok?'ok':'error' }); }
     else if(c.op==='export') { const e=mgr.get(c.id); if(!e){ out.push({op:'export', status:'error', id:c.id}); } else { const s=JSON.stringify(e,null,2); const fmt=c.format||'json'; out.push({ op:'export', status:'ok', id:c.id, format:fmt, bytes:s.length }); } }
   }
-  console.log(JSON.stringify({outputs:out},null,2));
+  console.log(JSON.stringify({log: [], outputs: out},null,2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();
