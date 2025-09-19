@@ -66,7 +66,6 @@ export function runCLICommand(moduleOrPath: string, ...args: string[]): CLIResul
 }
 
 export default { runCLICommand };
-
 #!/usr/bin/env tsx
 
 import { execFileSync } from 'node:child_process';
