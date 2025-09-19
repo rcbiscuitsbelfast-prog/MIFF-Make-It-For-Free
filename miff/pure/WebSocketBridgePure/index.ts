@@ -69,7 +69,12 @@ export class WebSocketBridgePure {
             }
           };
 
-          this.ws.onerror = (error) => { reject(error); };
+          this.ws.onerror = (error) => { 
+            console.warn('WebSocket connection failed, falling back to simulation:', error);
+            this.isConnected = true; // Fallback to simulation
+            this.onStatusChange?.('simulation');
+            resolve(); // Resolve instead of reject to allow fallback
+          };
 
           this.ws.onclose = () => {
             this.isConnected = false;

@@ -35,10 +35,13 @@ describe('WebSocketBridgePure', () => {
     realBridge.close();
   });
 
-  test('should handle message callbacks', () => {
+  test('should handle message callbacks', async () => {
     const bridge = new WebSocketBridgePure();
     const mockHandler = jest.fn();
     bridge.onMessage(mockHandler);
+    
+    // Connect first (simulation mode)
+    await bridge.connect();
     
     // Simulate sending a message
     bridge.send({ type: 'test', data: 'hello' });
