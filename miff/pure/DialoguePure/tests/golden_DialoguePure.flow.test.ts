@@ -1,4 +1,4 @@
-import { DialogueEngine, DialogueTree, DialogueNode } from '../DialoguePure';
+import { DialogueEngine, DialogueTree, DialogueNode } from '../Manager';
 
 describe('DialoguePure Flow', () => {
   test('continue, make-choice, get-context', () => {

@@ -41,7 +41,10 @@ function main() {
 
   for (const c of cmds) {
     if (c.op === 'listEquipment') {
-      const eq = ['weapon', 'armor', 'mount'].map(s => ({ slot: s, item: mgr.getEquipped(s) || null }));
+      const eq = ['weapon', 'armor', 'mount'].map(s => {
+        const result = mgr.getEquipped(s);
+        return { slot: s, item: result.status === 'ok' ? result.result : null };
+      });
       outputs.push({ op: 'listEquipment', equipped: eq });
     } else if (c.op === 'equip') {
       mgr.equip(c.itemId, c.slot, lookup);
@@ -50,7 +53,8 @@ function main() {
       mgr.unequip(c.slot);
       outputs.push({ op: 'unequip', slot: c.slot });
     } else if (c.op === 'dumpModifiers') {
-      outputs.push({ op: 'dumpModifiers', modifiers: mgr.getModifiers() });
+      const result = mgr.getModifiers();
+      outputs.push({ op: 'dumpModifiers', modifiers: result.status === 'ok' ? result.result : [] });
     } else if (c.op === 'syncInventory') {
       // no-op in this harness; inventory is already synced
       outputs.push({ op: 'syncInventory', inventory: Array.from(inventory.entries()).map(([id, quantity]) => ({ id, quantity })) });

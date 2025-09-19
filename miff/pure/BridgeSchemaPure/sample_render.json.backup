@@ -1,0 +1,428 @@
+{
+  "schemaVersion": "v1",
+  "examples": {
+    "npc_rendering": {
+      "description": "NPC rendering across all engines",
+      "unified": {
+        "op": "render",
+        "status": "ok",
+        "renderData": [
+          {
+            "id": "npc_001",
+            "type": "node",
+            "name": "Guard Captain Marcus",
+            "position": { "x": 640, "y": 960, "z": 0 },
+            "scale": { "x": 1, "y": 1, "z": 1 },
+            "rotation": { "x": 0, "y": 0, "z": 0 },
+            "asset": "npc_sprite.png",
+            "props": {
+              "npc_id": "npc_001",
+              "behavior_type": "quest_giver",
+              "faction": "village_elders",
+              "has_quests": true,
+              "quest_count": 1
+            },
+            "engineHints": {
+              "unity": {
+                "gameObject": "GameObject_npc_001",
+                "component": "NPCController",
+                "prefab": "NPCPrefab",
+                "useECS": false
+              },
+              "web": {
+                "element": "sprite",
+                "canvas": "gameCanvas",
+                "useWebGL": true
+              },
+              "godot": {
+                "node": "Node2D",
+                "script": "NPCController.gd",
+                "scene": "NPCScene.tscn",
+                "language": "gdscript"
+              }
+            },
+            "children": [
+              {
+                "id": "npc_001_sprite",
+                "type": "sprite",
+                "name": "Sprite",
+                "position": { "x": 0, "y": 0, "z": 0 },
+                "asset": "npc_sprite.png",
+                "props": {
+                  "texture": "npc_sprite.png",
+                  "region_enabled": true
+                }
+              },
+              {
+                "id": "npc_001_quest_indicator",
+                "type": "sprite",
+                "name": "QuestIndicator",
+                "position": { "x": 24, "y": -24, "z": 0 },
+                "asset": "quest_icon.png",
+                "props": {
+                  "texture": "quest_icon.png",
+                  "modulate": "#ffff00"
+                }
+              }
+            ],
+            "signals": [
+              {
+                "name": "npc_interacted",
+                "parameters": ["player_id", "interaction_type"],
+                "connectedTo": ["QuestSystem", "DialogSystem"],
+                "engine": "unity"
+              },
+              {
+                "name": "npc_interacted",
+                "parameters": ["player_id", "interaction_type"],
+                "connectedTo": ["QuestSystem", "DialogSystem"],
+                "engine": "web"
+              },
+              {
+                "name": "npc_interacted",
+                "parameters": ["player_id", "interaction_type"],
+                "connectedTo": ["QuestSystem", "DialogSystem"],
+                "engine": "godot"
+              }
+            ],
+            "metadata": {
+              "created": "2025-08-22T10:00:00Z",
+              "module": "npcs",
+              "version": "1.0"
+            }
+          }
+        ],
+        "metadata": {
+          "schemaVersion": "v1",
+          "engine": "unified",
+          "timestamp": "2025-08-22T10:00:00Z",
+          "module": "npcs"
+        }
+      }
+    },
+    "combat_rendering": {
+      "description": "Combat system rendering",
+      "unified": {
+        "op": "render",
+        "status": "ok",
+        "renderData": [
+          {
+            "id": "player_001",
+            "type": "node",
+            "name": "Combatant",
+            "position": { "x": 0, "y": 0, "z": 0 },
+            "scale": { "x": 1, "y": 1, "z": 1 },
+            "props": {
+              "combatant_id": "player_001",
+              "is_attacker": true,
+              "health": 100,
+              "max_health": 100
+            },
+            "engineHints": {
+              "unity": {
+                "gameObject": "Combatant_player_001",
+                "component": "CombatController",
+                "prefab": "CombatantPrefab"
+              },
+              "web": {
+                "element": "sprite",
+                "canvas": "combatCanvas"
+              },
+              "godot": {
+                "node": "Node2D",
+                "script": "CombatController.gd"
+              }
+            },
+            "children": [
+              {
+                "id": "player_001_sprite",
+                "type": "sprite",
+                "name": "Sprite",
+                "position": { "x": 0, "y": 0, "z": 0 },
+                "asset": "player_sprite.png",
+                "props": {
+                  "texture": "player_sprite.png"
+                }
+              },
+              {
+                "id": "player_001_health_bar",
+                "type": "component",
+                "name": "HealthBar",
+                "position": { "x": 0, "y": -40, "z": 0 },
+                "props": {
+                  "value": 100,
+                  "max_value": 100,
+                  "custom_minimum_size": { "x": 64, "y": 8 }
+                }
+              }
+            ],
+            "signals": [
+              {
+                "name": "combat_action",
+                "parameters": ["action_type", "target_id"],
+                "connectedTo": ["CombatSystem", "EffectSystem"]
+              }
+            ]
+          },
+          {
+            "id": "enemy_001",
+            "type": "node",
+            "name": "Combatant",
+            "position": { "x": 100, "y": 0, "z": 0 },
+            "props": {
+              "combatant_id": "enemy_001",
+              "is_attacker": false,
+              "health": 75,
+              "max_health": 100
+            },
+            "children": [
+              {
+                "id": "enemy_001_sprite",
+                "type": "sprite",
+                "name": "Sprite",
+                "position": { "x": 0, "y": 0, "z": 0 },
+                "asset": "enemy_sprite.png"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ui_rendering": {
+      "description": "User interface rendering",
+      "unified": {
+        "op": "render",
+        "status": "ok",
+        "renderData": [
+          {
+            "id": "inventory_panel",
+            "type": "node",
+            "name": "InventoryPanel",
+            "position": { "x": 10, "y": 10, "z": 0 },
+            "scale": { "x": 300, "y": 200, "z": 1 },
+            "props": {
+              "ui_type": "inventory",
+              "visible": true
+            },
+            "engineHints": {
+              "unity": {
+                "gameObject": "InventoryPanel",
+                "component": "UIController",
+                "prefab": "UIPrefab"
+              },
+              "web": {
+                "element": "container",
+                "dom": "inventory-panel"
+              },
+              "godot": {
+                "node": "Control",
+                "script": "UIController.gd"
+              }
+            },
+            "children": [
+              {
+                "id": "inventory_title",
+                "type": "text",
+                "name": "Title",
+                "position": { "x": 0, "y": 0, "z": 0 },
+                "props": {
+                  "text": "Inventory",
+                  "font_size": 18,
+                  "color": "#ffffff"
+                }
+              }
+            ],
+            "signals": [
+              {
+                "name": "inventory_opened",
+                "parameters": ["player_id"],
+                "connectedTo": ["UISystem", "InventorySystem"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "engine_conversions": {
+    "unity_example": {
+      "description": "Unity-specific renderData conversion",
+      "unity_data": {
+        "id": "npc_001",
+        "gameObject": "GameObject_npc_001",
+        "transform": {
+          "position": { "x": 640, "y": 960, "z": 0 },
+          "scale": { "x": 1, "y": 1, "z": 1 },
+          "rotation": { "x": 0, "y": 0, "z": 0 }
+        },
+        "componentType": "NPCController",
+        "prefab": "NPCPrefab",
+        "components": {
+          "npc_id": "npc_001",
+          "behavior_type": "quest_giver"
+        },
+        "signals": [
+          {
+            "name": "npc_interacted",
+            "parameters": ["player_id", "interaction_type"],
+            "connectedTo": ["QuestSystem", "DialogSystem"]
+          }
+        ]
+      },
+      "converted_renderData": {
+        "id": "npc_001",
+        "type": "component",
+        "name": "GameObject_npc_001",
+        "position": { "x": 640, "y": 960, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "asset": "NPCPrefab",
+        "props": {
+          "npc_id": "npc_001",
+          "behavior_type": "quest_giver"
+        },
+        "engineHints": {
+          "unity": {
+            "gameObject": "GameObject_npc_001",
+            "component": "NPCController",
+            "prefab": "NPCPrefab"
+          }
+        },
+        "signals": [
+          {
+            "name": "npc_interacted",
+            "parameters": ["player_id", "interaction_type"],
+            "connectedTo": ["QuestSystem", "DialogSystem"],
+            "engine": "unity"
+          }
+        ]
+      }
+    },
+    "web_example": {
+      "description": "Web-specific renderData conversion",
+      "web_data": {
+        "id": "npc_001",
+        "type": "sprite",
+        "x": 640,
+        "y": 960,
+        "width": 32,
+        "height": 32,
+        "texture": "npc_sprite.png",
+        "properties": {
+          "npc_id": "npc_001",
+          "behavior_type": "quest_giver"
+        },
+        "events": [
+          {
+            "name": "click",
+            "parameters": ["event"],
+            "handlers": ["QuestSystem", "DialogSystem"]
+          }
+        ]
+      },
+      "converted_renderData": {
+        "id": "npc_001",
+        "type": "sprite",
+        "position": { "x": 640, "y": 960 },
+        "scale": { "x": 32, "y": 32 },
+        "asset": "npc_sprite.png",
+        "props": {
+          "npc_id": "npc_001",
+          "behavior_type": "quest_giver"
+        },
+        "engineHints": {
+          "web": {
+            "element": "sprite"
+          }
+        },
+        "signals": [
+          {
+            "name": "click",
+            "parameters": ["event"],
+            "connectedTo": ["QuestSystem", "DialogSystem"],
+            "engine": "web"
+          }
+        ]
+      }
+    },
+    "godot_example": {
+      "description": "Godot-specific renderData conversion",
+      "godot_data": {
+        "id": "npc_001",
+        "type": "Node2D",
+        "name": "Guard Captain Marcus",
+        "position": { "x": 640, "y": 960 },
+        "scale": { "x": 1, "y": 1 },
+        "rotation": 0,
+        "texture": "npc_sprite.png",
+        "properties": {
+          "npc_id": "npc_001",
+          "behavior_type": "quest_giver"
+        },
+        "signals": [
+          {
+            "name": "npc_interacted",
+            "parameters": ["player_id", "interaction_type"],
+            "connectedTo": ["QuestSystem", "DialogSystem"]
+          }
+        ]
+      },
+      "converted_renderData": {
+        "id": "npc_001",
+        "type": "node",
+        "name": "Guard Captain Marcus",
+        "position": { "x": 640, "y": 960 },
+        "scale": { "x": 1, "y": 1 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "asset": "npc_sprite.png",
+        "props": {
+          "npc_id": "npc_001",
+          "behavior_type": "quest_giver"
+        },
+        "engineHints": {
+          "godot": {
+            "node": "Node2D",
+            "script": "NPCController.gd"
+          }
+        },
+        "signals": [
+          {
+            "name": "npc_interacted",
+            "parameters": ["player_id", "interaction_type"],
+            "connectedTo": ["QuestSystem", "DialogSystem"],
+            "engine": "godot"
+          }
+        ]
+      }
+    }
+  },
+  "validation_examples": {
+    "valid_payload": {
+      "op": "render",
+      "status": "ok",
+      "renderData": [
+        {
+          "id": "test_sprite",
+          "type": "sprite",
+          "position": { "x": 100, "y": 200 },
+          "asset": "test.png"
+        }
+      ]
+    },
+    "invalid_payload": {
+      "op": "render",
+      "status": "error",
+      "renderData": [
+        {
+          "id": "test_sprite",
+          "type": "invalid_type",
+          "position": { "x": "not_a_number", "y": 200 }
+        }
+      ],
+      "issues": [
+        "Invalid render type: invalid_type",
+        "Position x must be a number"
+      ]
+    }
+  }
+}

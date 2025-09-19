@@ -222,7 +222,13 @@ export class DialogueEngine {
     }
 
     this.context.currentNode = startNodeId;
-    return this.processNode(startNode);
+    // Don't process the node, just return it
+    return {
+      node: startNode,
+      canContinue: !!startNode.next,
+      isEnd: !startNode.next || startNode.next === 'end',
+      context: { ...this.context }
+    };
   }
 
   continue(): DialogueResult | null {
@@ -235,7 +241,21 @@ export class DialogueEngine {
       return null;
     }
 
-    return this.processNode(currentNode);
+    // Process current node to advance to next
+    this.processNode(currentNode);
+    
+    // Return the next node
+    const nextNode = this.tree.nodes.get(this.context.currentNode!);
+    if (nextNode) {
+      return {
+        node: nextNode,
+        canContinue: !!nextNode.next,
+        isEnd: !nextNode.next || nextNode.next === 'end',
+        context: { ...this.context }
+      };
+    }
+    
+    return null;
   }
 
   selectChoice(choiceId: string): DialogueResult | null {
@@ -263,7 +283,13 @@ export class DialogueEngine {
       return this.processNode(nextNode);
     }
 
-    return null;
+    // If next node doesn't exist, return a result indicating end
+    return {
+      node: currentNode, // Return current node as fallback
+      canContinue: false,
+      isEnd: true,
+      context: { ...this.context }
+    };
   }
 
   private processNode(node: DialogueNode): DialogueResult {
