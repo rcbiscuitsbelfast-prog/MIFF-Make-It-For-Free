@@ -1,0 +1,24 @@
+[
+  {
+    "dtMs": 16.67,
+    "tickStartMs": 1000,
+    "tickEndMs": 1016.67,
+    "playersSimulated": 4,
+    "category": "gameplay",
+    "metadata": {
+      "scene": "forest",
+      "entities": 150
+    }
+  },
+  {
+    "dtMs": 16.67,
+    "tickStartMs": 1016.67,
+    "tickEndMs": 1033.34,
+    "playersSimulated": 4,
+    "category": "rendering",
+    "metadata": {
+      "scene": "forest",
+      "drawCalls": 45
+    }
+  }
+]

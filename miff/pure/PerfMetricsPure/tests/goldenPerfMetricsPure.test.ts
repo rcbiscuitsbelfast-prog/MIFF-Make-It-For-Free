@@ -1,4 +1,3 @@
-import { describe, test, expect } from 'vitest';
 import { runCLICommand } from '../../shared/testUtils';
 
 describe('PerfMetricsPure CLI Harness', () => {
