@@ -1,0 +1,37 @@
+{
+  "id": "tutorial_chain",
+  "name": "Tutorial Chain",
+  "description": "Learn the basics of the game through a series of guided quests",
+  "quests": [
+    "learn_movement",
+    "learn_combat", 
+    "learn_crafting",
+    "first_dungeon",
+    "boss_fight"
+  ],
+  "prerequisites": [],
+  "rewards": [
+    {
+      "type": "xp",
+      "amount": 1000,
+      "description": "Tutorial completion XP"
+    },
+    {
+      "type": "unlock",
+      "id": "advanced_features",
+      "description": "Unlock advanced game features"
+    },
+    {
+      "type": "item",
+      "id": "starter_equipment",
+      "amount": 1,
+      "description": "Starter equipment set"
+    }
+  ],
+  "metadata": {
+    "difficulty": "easy",
+    "estimated_time": "30 minutes",
+    "target_audience": "new_players",
+    "tags": ["tutorial", "beginner", "essential"]
+  }
+}

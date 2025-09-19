@@ -1,0 +1,270 @@
+{
+  "id": "tutorial_arc",
+  "name": "Tutorial Arc",
+  "description": "Learn the basics of the game through an interactive tutorial",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "title": "Welcome to the Game",
+      "content": "Welcome, brave adventurer! You find yourself in a mysterious land full of danger and opportunity. Let's learn the basics of survival and combat.",
+      "type": "narrative",
+      "conditions": [],
+      "rewards": [
+        {
+          "type": "xp",
+          "amount": 100,
+          "description": "Welcome bonus XP"
+        },
+        {
+          "type": "flag",
+          "id": "tutorial_started",
+          "description": "Tutorial has begun"
+        }
+      ],
+      "nextNodes": ["movement_tutorial"],
+      "metadata": {
+        "voice_actor": "narrator",
+        "background_music": "tutorial_theme"
+      }
+    },
+    "movement_tutorial": {
+      "id": "movement_tutorial",
+      "title": "Movement Tutorial",
+      "content": "Use WASD keys to move around. Try moving to the glowing marker in front of you. This will teach you basic movement controls.",
+      "type": "action",
+      "conditions": [],
+      "rewards": [
+        {
+          "type": "flag",
+          "id": "movement_learned",
+          "description": "Movement tutorial completed"
+        },
+        {
+          "type": "xp",
+          "amount": 50,
+          "description": "Movement tutorial XP"
+        }
+      ],
+      "nextNodes": ["combat_tutorial"],
+      "metadata": {
+        "tutorial_type": "movement",
+        "required_action": "move_to_marker"
+      }
+    },
+    "combat_tutorial": {
+      "id": "combat_tutorial",
+      "title": "Combat Tutorial",
+      "content": "Now let's learn combat! Click on the training dummy to attack it. You'll learn about basic attack mechanics and damage dealing.",
+      "type": "action",
+      "conditions": [
+        {
+          "type": "flag",
+          "target": "movement_learned",
+          "operator": "exists",
+          "value": true,
+          "description": "Must complete movement tutorial first"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "flag",
+          "id": "combat_learned",
+          "description": "Combat tutorial completed"
+        },
+        {
+          "type": "xp",
+          "amount": 75,
+          "description": "Combat tutorial XP"
+        },
+        {
+          "type": "item",
+          "id": "training_sword",
+          "amount": 1,
+          "description": "Basic training sword"
+        }
+      ],
+      "nextNodes": ["crafting_tutorial"],
+      "metadata": {
+        "tutorial_type": "combat",
+        "required_action": "attack_dummy"
+      }
+    },
+    "crafting_tutorial": {
+      "id": "crafting_tutorial",
+      "title": "Crafting Tutorial",
+      "content": "Great! Now let's learn about crafting. Open your inventory and use the materials to craft a simple potion. This will teach you the basics of item creation.",
+      "type": "action",
+      "conditions": [
+        {
+          "type": "flag",
+          "target": "combat_learned",
+          "operator": "exists",
+          "value": true,
+          "description": "Must complete combat tutorial first"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "flag",
+          "id": "crafting_learned",
+          "description": "Crafting tutorial completed"
+        },
+        {
+          "type": "xp",
+          "amount": 100,
+          "description": "Crafting tutorial XP"
+        },
+        {
+          "type": "item",
+          "id": "health_potion",
+          "amount": 3,
+          "description": "Basic health potions"
+        }
+      ],
+      "nextNodes": ["first_dungeon"],
+      "metadata": {
+        "tutorial_type": "crafting",
+        "required_action": "craft_potion"
+      }
+    },
+    "first_dungeon": {
+      "id": "first_dungeon",
+      "title": "First Dungeon",
+      "content": "Excellent! You've learned the basics. Now it's time for your first real challenge. Enter the nearby dungeon and defeat the monsters inside. Be careful - this is real combat!",
+      "type": "battle",
+      "conditions": [
+        {
+          "type": "flag",
+          "target": "crafting_learned",
+          "operator": "exists",
+          "value": true,
+          "description": "Must complete crafting tutorial first"
+        },
+        {
+          "type": "level",
+          "target": "level",
+          "operator": "greater",
+          "value": 2,
+          "description": "Must be at least level 2"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "flag",
+          "id": "first_dungeon_completed",
+          "description": "First dungeon completed"
+        },
+        {
+          "type": "xp",
+          "amount": 200,
+          "description": "Dungeon completion XP"
+        },
+        {
+          "type": "item",
+          "id": "dungeon_key",
+          "amount": 1,
+          "description": "Key to the next area"
+        }
+      ],
+      "nextNodes": ["boss_fight"],
+      "metadata": {
+        "dungeon_type": "tutorial",
+        "difficulty": "easy",
+        "enemies": ["goblin", "skeleton", "spider"]
+      }
+    },
+    "boss_fight": {
+      "id": "boss_fight",
+      "title": "Boss Fight",
+      "content": "Congratulations! You've made it to the boss room. Face the mighty Orc Warlord in your first boss battle. Use everything you've learned to defeat him!",
+      "type": "battle",
+      "conditions": [
+        {
+          "type": "flag",
+          "target": "first_dungeon_completed",
+          "operator": "exists",
+          "value": true,
+          "description": "Must complete first dungeon first"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "flag",
+          "id": "tutorial_completed",
+          "description": "Tutorial arc completed"
+        },
+        {
+          "type": "xp",
+          "amount": 500,
+          "description": "Boss defeat XP"
+        },
+        {
+          "type": "item",
+          "id": "warlord_axe",
+          "amount": 1,
+          "description": "Orc Warlord's axe"
+        },
+        {
+          "type": "unlock",
+          "id": "advanced_features",
+          "description": "Unlock advanced game features"
+        }
+      ],
+      "nextNodes": ["tutorial_complete"],
+      "metadata": {
+        "boss_type": "orc_warlord",
+        "difficulty": "medium",
+        "special_mechanics": ["enrage", "summon_minions"]
+      }
+    },
+    "tutorial_complete": {
+      "id": "tutorial_complete",
+      "title": "Tutorial Complete",
+      "content": "Amazing work! You've successfully completed the tutorial and are now ready to face the challenges of the wider world. Your adventure begins now!",
+      "type": "narrative",
+      "conditions": [
+        {
+          "type": "flag",
+          "target": "tutorial_completed",
+          "operator": "exists",
+          "value": true,
+          "description": "Must complete tutorial first"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "xp",
+          "amount": 1000,
+          "description": "Tutorial completion bonus XP"
+        },
+        {
+          "type": "currency",
+          "amount": 100,
+          "description": "Starting gold"
+        },
+        {
+          "type": "unlock",
+          "id": "main_world",
+          "description": "Access to the main world"
+        }
+      ],
+      "nextNodes": [],
+      "metadata": {
+        "ending_type": "tutorial_complete",
+        "next_arc": "main_story"
+      }
+    }
+  },
+  "startNode": "start",
+  "endNodes": ["tutorial_complete"],
+  "flags": {},
+  "progress": {},
+  "metadata": {
+    "difficulty": "tutorial",
+    "estimated_time": "15 minutes",
+    "target_audience": "new_players",
+    "tags": ["tutorial", "beginner", "essential"],
+    "voice_acting": true,
+    "background_music": true
+  }
+}
