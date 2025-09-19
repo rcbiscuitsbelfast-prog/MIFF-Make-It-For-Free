@@ -1,4 +1,5 @@
 #!/usr/bin/env tsx
+/// <reference types="node" />
 
 import { 
   DialogueParser, 
@@ -221,24 +222,81 @@ function main() {
         break;
 
       case 'continue':
+        // Use a minimal ephemeral tree to demonstrate continue
+        const contTreeData = {
+          id: 'cont_dialogue',
+          name: 'Continue Demo',
+          version: '1.0.0',
+          nodes: {},
+          variables: {},
+          flags: []
+        };
+        const contTree = DialogueEngine.deserialize(JSON.stringify(contTreeData));
+        const contStart: DialogueNode = { id: 'start', type: 'text', content: 'Step 1', next: 'step2' };
+        const contStep2: DialogueNode = { id: 'step2', type: 'text', content: 'Step 2', next: 'end' };
+        const contEnd: DialogueNode = { id: 'end', type: 'end', content: 'Done' };
+        contTree.nodes.set('start', contStart);
+        contTree.nodes.set('step2', contStep2);
+        contTree.nodes.set('end', contEnd);
+        const contEngine = new DialogueEngine(contTree);
+        const contStartRes = contEngine.start('start');
+        const contRes = contEngine.continue();
         result = {
-          action: 'continue_not_implemented',
-          message: 'Continue functionality requires active dialogue session'
+          action: 'continued',
+          start: contStartRes,
+          next: contRes,
+          final: contEngine.continue()
         };
         break;
 
       case 'make-choice':
-        result = {
-          action: 'make_choice_not_implemented',
-          message: 'Make choice functionality requires active dialogue session'
+        // Small tree to exercise selectChoice
+        const choiceTreeData = {
+          id: 'choice_dialogue',
+          name: 'Choice Demo',
+          version: '1.0.0',
+          nodes: {},
+          variables: {},
+          flags: []
         };
+        const choiceTree = DialogueEngine.deserialize(JSON.stringify(choiceTreeData));
+        const choiceStart: DialogueNode = {
+          id: 'start', type: 'choice', content: 'Pick one', choices: [
+            { id: 'c1', text: 'One', next: 'n1' },
+            { id: 'c2', text: 'Two', next: 'n2' }
+          ]
+        };
+        const n1: DialogueNode = { id: 'n1', type: 'text', content: 'You chose one', next: 'end' };
+        const n2: DialogueNode = { id: 'n2', type: 'text', content: 'You chose two', next: 'end' };
+        const cEnd: DialogueNode = { id: 'end', type: 'end', content: 'Finished' };
+        choiceTree.nodes.set('start', choiceStart);
+        choiceTree.nodes.set('n1', n1);
+        choiceTree.nodes.set('n2', n2);
+        choiceTree.nodes.set('end', cEnd);
+        const choiceEngine = new DialogueEngine(choiceTree);
+        choiceEngine.start('start');
+        const choiceId = operation.choiceId || 'c1';
+        const choiceRes = choiceEngine.selectChoice(choiceId);
+        result = { action: 'choice_made', choiceId, result: choiceRes, context: choiceEngine.getContext() };
         break;
 
       case 'get-context':
-        result = {
-          action: 'get_context_not_implemented',
-          message: 'Get context functionality requires active dialogue session'
+        const ctxTreeData = {
+          id: 'ctx_dialogue',
+          name: 'Context Demo',
+          version: '1.0.0',
+          nodes: {},
+          variables: { v: 1 },
+          flags: ['f']
         };
+        const ctxTree = DialogueEngine.deserialize(JSON.stringify(ctxTreeData));
+        const ctxStart: DialogueNode = { id: 'start', type: 'text', content: 'Ctx', next: 'end' };
+        const ctxEnd: DialogueNode = { id: 'end', type: 'end', content: 'E' };
+        ctxTree.nodes.set('start', ctxStart);
+        ctxTree.nodes.set('end', ctxEnd);
+        const ctxEngine = new DialogueEngine(ctxTree);
+        ctxEngine.start('start');
+        result = { action: 'context', context: ctxEngine.getContext() };
         break;
 
       case 'demo':

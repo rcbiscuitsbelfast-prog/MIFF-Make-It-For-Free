@@ -23,7 +23,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "**/*.jsx"
+    "**/*.jsx",
+    "types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
