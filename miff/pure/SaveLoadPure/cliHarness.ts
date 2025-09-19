@@ -32,7 +32,12 @@ class FileStorageAdapter implements StorageAdapter {
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
-  const saveFile = args[1] || 'save.json';
+  // Normalize arguments: allow "command slotId" (no save file) or "command save.json slotId"
+  const second = args[1];
+  const third = args[2];
+  const inferredSaveFile = (second && second.endsWith('.json')) ? second : 'save.json';
+  const inferredSlot = (second && !second.endsWith('.json')) ? second : third;
+  const saveFile = inferredSaveFile || 'save.json';
   
   const storage = new FileStorageAdapter(saveFile);
   let manager: SaveLoadManager;
@@ -80,7 +85,7 @@ async function main() {
         break;
 
       case 'load':
-        const loadSlotId = args[2];
+        const loadSlotId = inferredSlot;
         if (loadSlotId) {
           const loadResult = await SaveLoadManager.create(storage);
           manager = loadResult;
@@ -96,7 +101,7 @@ async function main() {
         break;
 
       case 'save':
-        const saveSlotId = args[2];
+        const saveSlotId = inferredSlot;
         if (saveSlotId) {
           const saveResult = await SaveLoadManager.create(storage);
           manager = saveResult;
@@ -110,7 +115,7 @@ async function main() {
         break;
 
       case 'delete':
-        const deleteSlotId = args[2];
+        const deleteSlotId = inferredSlot;
         if (deleteSlotId) {
           const deleteResult = await SaveLoadManager.create(storage);
           manager = deleteResult;
@@ -124,7 +129,7 @@ async function main() {
         break;
 
       case 'setRollback':
-        const rollbackSlotId = args[2];
+        const rollbackSlotId = inferredSlot;
         if (rollbackSlotId) {
           const rollbackResult = await SaveLoadManager.create(storage);
           manager = rollbackResult;
@@ -140,7 +145,7 @@ async function main() {
         break;
 
       case 'rollback':
-        const rollbackToSlotId = args[2];
+        const rollbackToSlotId = inferredSlot;
         if (rollbackToSlotId) {
           const rollbackToResult = await SaveLoadManager.create(storage);
           manager = rollbackToResult;
@@ -173,7 +178,7 @@ async function main() {
 
       case 'migrate':
         {
-          const migrateData = args[2];
+          const migrateData = [second, third].find(a => typeof a === 'string' && a.endsWith('.json'));
           let rawData: any = null;
           if (migrateData && fs.existsSync(migrateData)) {
             rawData = JSON.parse(fs.readFileSync(path.resolve(migrateData), 'utf-8'));
