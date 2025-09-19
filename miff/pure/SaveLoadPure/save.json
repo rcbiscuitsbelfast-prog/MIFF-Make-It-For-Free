@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 11,
+  "currentSlot": "demo_slot_3",
+  "saves": {
+    "demo_slot_1": {
+      "id": "demo_slot_1",
+      "timestamp": 1758274199850,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "demo_slot_1",
+        "saves": {}
+      },
+      "rollbackCheckpoint": {
+        "schemaVersion": 11,
+        "currentSlot": "demo_slot_1",
+        "saves": {}
+      }
+    },
+    "demo_slot_2": {
+      "id": "demo_slot_2",
+      "timestamp": 1758274199850,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "demo_slot_2",
+        "saves": {}
+      }
+    },
+    "demo_slot_3": {
+      "id": "demo_slot_3",
+      "timestamp": 1758274199850,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "demo_slot_3",
+        "saves": {}
+      }
+    }
+  }
+}

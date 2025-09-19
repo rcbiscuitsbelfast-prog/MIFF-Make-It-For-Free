@@ -29,7 +29,7 @@ class FileStorageAdapter implements StorageAdapter {
   }
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   const saveFile = args[1] || 'save.json';

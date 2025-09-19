@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect } from '@jest/globals';
 import { runCLICommand } from '../../shared/testUtils';
 
 describe('SaveLoadPure CLI Harness', () => {
