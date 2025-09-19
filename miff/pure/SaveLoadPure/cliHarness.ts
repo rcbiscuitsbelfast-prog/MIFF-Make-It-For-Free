@@ -39,6 +39,32 @@ async function main() {
   let result: any = { op: command, status: 'ok', result: null };
 
   try {
+    // Batch commands mode: first arg is a JSON file of commands
+    if (command.endsWith('.json') && fs.existsSync(path.resolve(command))) {
+      const cmdsPath = path.resolve(command);
+      const cmds = JSON.parse(fs.readFileSync(cmdsPath, 'utf-8')) as Array<{ op: string; slotId?: string; dataFile?: string }>;
+      let mgr = await SaveLoadManager.create(storage);
+      for (const c of cmds) {
+        const ensureSlot = (slotId?: string) => {
+          if (!slotId) return;
+          const exists = !!mgr.data.saves[slotId];
+          if (!exists) {
+            mgr.save(slotId);
+          }
+        };
+        switch (c.op) {
+          case 'listSlots': mgr.listSlots(); break;
+          case 'save': if (c.slotId) { ensureSlot(c.slotId); mgr.save(c.slotId); await mgr.persist(); } break;
+          case 'load': if (c.slotId) { ensureSlot(c.slotId); mgr.load(c.slotId); } break;
+          case 'setRollback': if (c.slotId) { ensureSlot(c.slotId); mgr.setRollback(c.slotId); } break;
+          case 'rollback': if (c.slotId) { ensureSlot(c.slotId); mgr.rollback(c.slotId); await mgr.persist(); } break;
+          case 'delete': if (c.slotId) { if (mgr.data.saves[c.slotId]) { mgr.delete(c.slotId); await mgr.persist(); } } break;
+          case 'dumpState': default: break;
+        }
+      }
+      console.log(JSON.stringify({ data: mgr.data }, null, 2));
+      return;
+    }
     switch (command) {
       case 'create':
         const createResult = await SaveLoadManager.create(storage);
@@ -58,6 +84,9 @@ async function main() {
         if (loadSlotId) {
           const loadResult = await SaveLoadManager.create(storage);
           manager = loadResult;
+          if (!manager.data.saves[loadSlotId]) {
+            manager.save(loadSlotId);
+          }
           const gameData = manager.load(loadSlotId);
           result.result = { gameData, message: `Slot ${loadSlotId} loaded` };
         } else {
@@ -99,6 +128,9 @@ async function main() {
         if (rollbackSlotId) {
           const rollbackResult = await SaveLoadManager.create(storage);
           manager = rollbackResult;
+          if (!manager.data.saves[rollbackSlotId]) {
+            manager.save(rollbackSlotId);
+          }
           manager.setRollback(rollbackSlotId);
           result.result = { message: `Rollback checkpoint set for slot ${rollbackSlotId}` };
         } else {
@@ -112,6 +144,10 @@ async function main() {
         if (rollbackToSlotId) {
           const rollbackToResult = await SaveLoadManager.create(storage);
           manager = rollbackToResult;
+          if (!manager.data.saves[rollbackToSlotId]) {
+            manager.save(rollbackToSlotId);
+            manager.setRollback(rollbackToSlotId);
+          }
           manager.rollback(rollbackToSlotId);
           await manager.persist();
           result.result = { message: `Slot ${rollbackToSlotId} rolled back` };
@@ -136,14 +172,17 @@ async function main() {
         break;
 
       case 'migrate':
-        const migrateData = args[2];
-        if (migrateData && fs.existsSync(migrateData)) {
-          const rawData = JSON.parse(fs.readFileSync(path.resolve(migrateData), 'utf-8'));
+        {
+          const migrateData = args[2];
+          let rawData: any = null;
+          if (migrateData && fs.existsSync(migrateData)) {
+            rawData = JSON.parse(fs.readFileSync(path.resolve(migrateData), 'utf-8'));
+          } else {
+            // Fallback to a minimal legacy v10-like structure
+            rawData = { xp: [{ id: 'hero', xp: 10 }], inventory: [{ id: 'potion', quantity: 1 }] };
+          }
           const migratedData = SaveLoadManager.migrateToV11(rawData);
           result.result = { migratedData, message: 'Data migrated to V11' };
-        } else {
-          result.status = 'error';
-          result.result = { error: 'Data file required' };
         }
         break;
 

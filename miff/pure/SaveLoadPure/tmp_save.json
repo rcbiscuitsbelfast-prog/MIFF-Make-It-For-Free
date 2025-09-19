@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 11,
+  "currentSlot": "slot_001",
+  "saves": {
+    "slot_001": {
+      "id": "slot_001",
+      "timestamp": 1758274461421,
+      "data": {
+        "schemaVersion": 11,
+        "currentSlot": "slot_001",
+        "saves": {}
+      }
+    }
+  }
+}
