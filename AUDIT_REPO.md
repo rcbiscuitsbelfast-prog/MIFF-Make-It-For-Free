@@ -1,23 +1,20 @@
-# MIFF Repository Audit — Sep 2025
+# MIFF Repository Audit — Sep 2025 (Phase 13)
 
 This audit summarizes current repo health, module completeness, test status, placeholders/stubs, and recommended next steps.
 
 ## Executive Summary
-- Master is green for build; default Jest worker mode issues mitigated. In-band runs configured for reliability.
-- Phase 13 completed: full procedural generation suite added (terrain/biomes/rivers, meshes, textures, node graph).
-- Many placeholder demo docs/assets are intentionally present; production modules are TypeScript and deterministic.
+- Master is buildable; tests run in-band for reliability due to worker IPC concerns.
+- Phase 13 delivered a complete, engine-agnostic procedural generation suite (ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure) with CLI harnesses, schemas, and golden tests. These new modules are deterministic (seeded) and pass.
+- Ongoing stabilization work from Phase 12 was merged (ours-precedence) to avoid conflicts; targeted fixes will be reconciled in follow-up PRs.
 
 ## Test Status (in-band Jest)
-- Global run (workers): widespread runner error. Resolution: use `--runInBand` or limit workers in `jest.pure.config.cjs` (now set to 1).
-- Targeted modules:
-  - TimeSystemPure: PASS (2 suites)
-  - VisualReplaySystemPure: 1 failed (export csv/summary temp verification), others PASS
-  - HealthSystemPure: 1 failed (aliveEntities expectation off by 1), others PASS
-  - RenderReplayPure: CLI golden flow failing due to golden fixture path/shape; exports verified via Manager need tightening
+- Full run result (Sep 22, 2025): 121 suites total (117 run, 4 skipped). 643 tests total — 614 passed, 24 failed, 5 skipped.
+- New Phase 13 suites: all PASS (ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure).
+- Skipped tests remain as before (legacy/slow paths).
 
 ## High-Risk/Red Items
-- Jest worker IPC incompatibility: causes mass “messageParent is not a function” failures. Workaround active; consider pinning/minor version alignment or Vitest migration.
-- RenderReplayPure golden test fixture shape/path mismatch; export serialization wrote `{}` in some cases (improved), and CLI path resolution fixed; still needs final alignment.
+- Jest worker IPC incompatibility: continue using in-band; consider pinning Jest or migrating subset to Vitest.
+- RenderReplayPure golden flow relies on `sample_replay.json` presence; exports for JSON/MD/HTML currently produce empty `{}` or fail — fix manager/exporters and include stable golden.
 
 ## Placeholders, Stubs, and Incomplete Code
 - Intentional placeholders in `docs/` and `docs/godot/` for web/Godot exports and demo pages.
@@ -25,8 +22,8 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Minor placeholder comment in `miff/pure/RenderPayloadPure/cliHarness.ts` (ok).
 
 ## Module Completeness Snapshot
-- Strong: AssetValidatorPure, CIEnforcerPure, QuestSystemPure, TimeSystemPure, PathfindingPure, AIProfileIntegrationLayer, ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure
-- Needs attention: RenderReplayPure (golden/exports alignment), VisualReplaySystemPure (export temp validation), HealthSystemPure (stats expectation)
+- Strong: AssetValidatorPure, CIEnforcerPure, QuestSystemPure, TimeSystemPure, AIProfileIntegrationLayer, ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure
+- Needs attention: RenderReplayPure (golden/exports alignment), VisualReplaySystemPure (temp export content), PathfindingPure (algorithm/diagonal + stats), HealthSystemPure (aliveEntities expectation), SessionManifestPure (fixtures/validation), NPCsPure (filters/CLI modes), SettingsPure (save command), ProjectileSystemPure (CLI output shape), RemixModePure (manifest minimal shape)
 - Missing/legacy: Several C# legacy modules remain (conversion/removal backlog)
 
 ## Repo Hygiene
@@ -34,14 +31,50 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Jest single-config canonicalized; setup provides stable CI environment.
 - Numerous docs/audits exist under `docs/`; keep and link from README.
 
+## Failing Areas (from latest run)
+1) RenderReplayPure
+- CLI `replay-golden` cannot find `sample_replay.json` and marks sessions as error; JSON/MD/HTML exporters write `{}`.
+- Action: Add/verify `sample_replay.json`, fix loader to support both embedded and file-based formats, ensure exporters write non-empty content with summaries.
+
+2) VisualReplaySystemPure
+- Temp export validation fields are `undefined` in golden test.
+- Action: Ensure writer emits scenarioId/config/exportFormat fields; update test or shape accordingly.
+
+3) PathfindingPure
+- Dijkstra/diagonal tests fail; stats show mismatched counts (expected 3 successes, saw 2).
+- Action: Review neighbor generation and cost heuristics; verify diagonal allowance and stats accumulation.
+
+4) HealthSystemPure
+- Stats test expects 2 alive, got 3.
+- Action: Align test fixture operations or update manager semantics (dead vs <=0 HP) consistently.
+
+5) SessionManifestPure
+- List total/filters return 0; validation fails for a test fixture; duplicate errors mismatch.
+- Action: Seed default sessions in test harness or load fixtures; align error messages.
+
+6) SettingsPure
+- `save` command returns error.
+- Action: Ensure CLI writes expected path and returns structured envelope.
+
+7) NPCsPure
+- Creation returns error; zone filter expectation mismatched; `dump` falls back to help.
+- Action: Validate sample paths, ensure `dump` command implemented; adjust fixtures/zones.
+
+8) ProjectileSystemPure
+- CLI output missing `op: 'projectiles.step'` and fields expected by golden.
+- Action: Standardize CLI output envelope and operation naming.
+
+9) RemixModePure
+- Minimal manifest fields `firstChange.block/pos` are undefined.
+- Action: Ensure sample mutation populates `firstChange` or adjust expectations.
+
 ## Recommendations (Actionable)
 1) Testing infrastructure
 - Pin `jest-worker`/`jest-runner` and `jest` to known-good set; or force in-band in CI.
 - Evaluate Vitest migration for speed/stability in Node 18+/22.
 
 2) RenderReplayPure
-- Ensure golden fixture `sample_replay.json` shape matches extractor. Add robust loader for both shapes used in tests.
-- Guarantee export content non-empty and matching expectations across json/markdown/html.
+- Add stable golden fixture and unify loader. Fix exporters to produce non-empty JSON/MD/HTML per expectations.
 
 3) VisualReplaySystemPure
 - Confirm csv/summary temp export verification reads stderr note or decouple export side-effects from stdout JSON.
@@ -53,8 +86,7 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Continue C# conversions or mark as archived; reduce surface area.
 
 6) Documentation
-- Update README “Current Status” (Phase 13 complete) and link to this audit.
-- Update ROADMAP priorities to include RenderReplayPure/VisualReplaySystemPure/HealthSystemPure fixes and CI stabilization. Add Phase 13 deliverables summary.
+- README, ROADMAP updated for Phase 13 (done). Keep audit linked; add developer notes for CLI envelope and seed reproducibility.
 
 ## Phase 13 Addendum
 - Added engine-agnostic procedural generation modules:
@@ -65,6 +97,12 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Standardized CLI envelope: { log: string[], outputs: any[] }
 - Golden tests per module with fixed seeds ensure reproducibility
 - Schemas added for terrain, mesh, texture, graph
+
+## Next Steps (5–7 days)
+- Day 1–2: Fix RenderReplayPure golden + exporters; VisualReplay temp export fields
+- Day 2–3: PathfindingPure algorithm/diagonal/statistics alignment; HealthSystemPure stat semantics
+- Day 3–4: SessionManifestPure/NPCsPure/SettingsPure CLI and fixtures; ProjectileSystemPure CLI op naming
+- Day 5–7: Re-run full suite; target >95% pass; open PR reconciling stabilization branch contents beyond ours-merge
 
 ## Next Steps (7–10 days)
 - Day 1–2: Fix RenderReplayPure golden/exports, HealthSystemPure stats, VisualReplay csv/summary checks.
