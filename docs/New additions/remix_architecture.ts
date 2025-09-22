@@ -187,16 +187,12 @@ export class RemixModeManager {
       assets: this.getUsedAssets(),
       remixSafe: this.validateRemixSafety(),
       shareableLink: this.generateShareableLink()
-<<<<<<< HEAD
-    } as any;
-=======
     } as RemixManifest;
     // Back-compat: expose firstChange snapshot fields
     (manifest as any).firstChange = this.session.changes[0]
       ? { pos: (this.session.changes[0] as any).data?.position, block: (this.session.changes[0] as any).data?.blockType }
       : { pos: undefined, block: undefined };
     return manifest;
->>>>>>> cursor/phase12-final-stabilization-sweep
   }
 
   // Undo/Redo system

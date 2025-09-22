@@ -20,13 +20,6 @@ function main() {
     switch (command) {
       case 'load':
         const skillsFile = args[1];
-<<<<<<< HEAD
-        if (skillsFile && fs.existsSync(skillsFile)) {
-          const raw = JSON.parse(fs.readFileSync(path.resolve(skillsFile), 'utf-8')) as any;
-          const skills: Skill[] = Array.isArray(raw) ? raw : (raw.skills || []);
-          mgr.load(skills);
-          result.result = { message: `Loaded ${skills.length} skills` };
-=======
         if (skillsFile) {
           const candidates: string[] = [];
           const absGiven = path.isAbsolute(skillsFile) ? skillsFile : path.resolve(skillsFile);
@@ -59,7 +52,6 @@ function main() {
             result.status = 'error';
             result.result = { error: `Skills file not found: ${skillsFile}` };
           }
->>>>>>> cursor/phase12-final-stabilization-sweep
         } else {
           result.status = 'error';
           result.result = { error: 'Skills file required' };
