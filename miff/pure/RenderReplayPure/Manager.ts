@@ -362,6 +362,15 @@ export class RenderReplayManager {
         if (example.payload) {
           payloads.push(example.payload);
         }
+        // Handle embedded session format used in sample_replay.json
+        if (example.session && Array.isArray(example.session.steps)) {
+          const frames = example.session.steps;
+          frames.forEach((frame: any) => {
+            if (frame && Array.isArray(frame.renderData)) {
+              payloads.push({ op: 'render', status: 'ok', renderData: frame.renderData });
+            }
+          });
+        }
       });
     }
 
