@@ -329,7 +329,7 @@ global.clearInterval = jest.fn();
 
 // Mock file system operations
 const fs = require('fs');
-const fsActual = jest.requireActual('fs');
+const readFileSyncReal = fs.readFileSync.bind(fs);
 jest.spyOn(fs, 'readFileSync').mockImplementation((path, options) => {
   if (path.includes('npc.sample.json')) {
     return JSON.stringify({
@@ -595,7 +595,7 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path, options) => {
     }
   }
   // Default: delegate to real fs for any other path
-  return fsActual.readFileSync(path, options || 'utf-8');
+  return readFileSyncReal(path, options || 'utf-8');
 });
 
 // Mock path operations

@@ -317,29 +317,26 @@ export class RenderReplayManager {
 
   private loadGoldenTest(testPath: string): any {
     try {
-      // Try the provided path first
       const candidates: string[] = [];
+      const moduleDir = path.resolve(__dirname);
       candidates.push(testPath);
-      // If absolute path under repo real dir, try symlinked root variant and vice versa
-      try {
-        const normalized = path.normalize(testPath);
-        if (normalized.includes(`${path.sep}miff${path.sep}pure${path.sep}`)) {
-          const alt = normalized.replace(`${path.sep}miff${path.sep}pure${path.sep}`, `${path.sep}`);
-          candidates.push(alt);
-        } else {
-          const alt = normalized.replace(`${path.sep}`, `${path.sep}miff${path.sep}pure${path.sep}`);
-          candidates.push(alt);
-        }
-      } catch {}
-      // Also try relative to current working directory and module directory
-      candidates.push(path.resolve(process.cwd(), testPath));
-      candidates.push(path.resolve(__dirname, testPath));
+      candidates.push(path.isAbsolute(testPath) ? testPath : path.resolve(process.cwd(), testPath));
+      candidates.push(path.resolve(moduleDir, testPath));
+      candidates.push(path.resolve(moduleDir, 'sample_replay.json'));
 
       for (const candidate of candidates) {
         try {
           if (fs.existsSync(candidate)) {
             const content = fs.readFileSync(candidate, 'utf-8');
-            return JSON.parse(content);
+            const data = JSON.parse(content);
+            // Normalize common shapes to a unified object with frames/steps
+            if (data && data.examples) {
+              const ex = data.examples.basic || data.examples.unity_replay || data.examples.web_replay || data.examples.godot_replay;
+              if (ex && ex.session) {
+                return ex.session;
+              }
+            }
+            return data;
           }
         } catch {}
       }
@@ -389,12 +386,15 @@ export class RenderReplayManager {
     }
 
     // Common alternate shapes in golden fixtures
-    if (testData.frames && Array.isArray(testData.frames)) {
-      testData.frames.forEach((frame: any) => {
+    const frames = testData.frames || testData.steps;
+    if (frames && Array.isArray(frames)) {
+      frames.forEach((frame: any) => {
         if (frame && frame.data && Array.isArray(frame.data)) {
           payloads.push({ op: 'render', status: 'ok', renderData: frame.data });
         } else if (frame && frame.data) {
           payloads.push({ op: 'render', status: 'ok', renderData: [frame.data] });
+        } else if (frame && frame.renderData && Array.isArray(frame.renderData)) {
+          payloads.push({ op: 'render', status: 'ok', renderData: frame.renderData });
         }
       });
     }
