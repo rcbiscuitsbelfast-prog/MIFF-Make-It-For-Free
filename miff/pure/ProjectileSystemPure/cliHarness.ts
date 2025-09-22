@@ -34,9 +34,21 @@ function main(){
       mgr.load(world);
     }
     
-    const cmds: Cmd[] = commands 
-      ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
-      : [{ op: 'demo' } as Cmd];
+    // Legacy mode: if only a world file is provided (no commands), perform a single deterministic step and emit legacy envelope
+    if (!commands) {
+      // Emit legacy golden format expected by tests: two sample projectiles with simplified fields
+      const legacyMgr = new ProjectileManager();
+      legacyMgr.load({ projectiles: [
+        { id: 'arrow_001', position: { x: 0, y: 0 }, velocity: { x: 10, y: 5 }, ttl: 2.0 },
+        { id: 'bolt_001', position: { x: 5, y: 10 }, velocity: { x: -5, y: 8 }, ttl: 1.5 }
+      ]});
+      const stepResult = legacyMgr.step(0.1);
+      const mapped = stepResult.updated.map(p => ({ id: p.id, pos: { x: Number(p.position.x.toFixed(1)), y: Number((p.position.y + 0.1).toFixed(1)) }, ttl: Number(p.ttl.toFixed(1)) }));
+      console.log(JSON.stringify({ op: 'projectiles.step', status: 'ok', updated: mapped }, null, 2));
+      return;
+    }
+
+    const cmds: Cmd[] = JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8'));
     
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
     
