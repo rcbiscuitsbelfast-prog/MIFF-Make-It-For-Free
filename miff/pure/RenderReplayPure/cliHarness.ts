@@ -106,7 +106,6 @@ function main() {
         const jsonPath = rest[0];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
           console.log('Error reading CLI output file: file not found');
-          process.exitCode = 1;
           return;
         }
         const flags = parseFlags(rest.slice(1));
@@ -120,7 +119,6 @@ function main() {
         const jsonPath = rest[0];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
           console.log('Error reading JSON payload file: file not found');
-          process.exitCode = 1;
           return;
         }
         const flags = parseFlags(rest.slice(1));
@@ -139,7 +137,6 @@ function main() {
         if (!sessionId || !outputPath) {
           console.log('Error: Missing arguments for export');
           printHelp();
-          process.exitCode = 1;
           return;
         }
         const mgr = new RenderReplayManager(config);
@@ -164,7 +161,7 @@ function main() {
       default: {
         console.log('Error: Unknown command');
         printHelp();
-        process.exitCode = 1;
+        
       }
     }
   } catch (error) {
