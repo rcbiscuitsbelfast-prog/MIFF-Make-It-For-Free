@@ -234,13 +234,20 @@ export class RenderReplayManager {
 
       switch (this.config.outputFormat) {
         case 'json':
-          content = JSON.stringify(session, null, 2);
+          // Explicitly serialize expected fields to avoid empty-object edge cases
+          const serializable = {
+            sessionId: session.sessionId,
+            config: session.config,
+            steps: session.steps,
+            summary: session.summary
+          };
+          content = JSON.stringify(serializable, null, 2);
           break;
         case 'markdown':
-          content = this.generateMarkdownReport(session);
+          content = this.generateMarkdownReport(session) || '# Render Replay Session\n';
           break;
         case 'html':
-          content = this.generateHTMLReport(session);
+          content = this.generateHTMLReport(session) || '<!DOCTYPE html>\n<html><body>Empty</body></html>';
           break;
         default:
           throw new Error(`Unsupported output format: ${this.config.outputFormat}`);
