@@ -351,9 +351,8 @@ export class TimeManager {
     // Update timers
     for (const timer of this.timers.values()) {
       timer.remaining -= scaledDt;
-      const initialFireThreshold = scaledDt * 2; // lenient first-tick threshold
-      const shouldFire = timer.remaining <= 0 || (allowLenientTimerFire && (timer.currentRepeats ?? 0) === 0 && timer.remaining <= initialFireThreshold);
-      if (shouldFire) {
+      // Simple timer firing - fire when remaining time reaches zero or below
+      if (timer.remaining <= 0) {
         fired.push(`timer:${timer.id}`);
         
         if (timer.callback) {
@@ -375,7 +374,6 @@ export class TimeManager {
         } else {
           this.timers.delete(timer.id);
           this.stats.activeTimers--;
-          // Ensure fired events include at least one timer when threshold crossed
         }
       }
     }
