@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TextureOptions",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["gradient","noise"] },
+    "colors": { "type": "array", "items": { "type": "string" } },
+    "width": { "type": "integer", "minimum": 1 },
+    "height": { "type": "integer", "minimum": 1 },
+    "direction": { "type": "string", "enum": ["horizontal","vertical"] },
+    "octaves": { "type": "integer", "minimum": 1 },
+    "seed": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": true
+}
+
