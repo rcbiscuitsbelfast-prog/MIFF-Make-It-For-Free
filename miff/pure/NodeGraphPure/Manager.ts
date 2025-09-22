@@ -36,10 +36,10 @@ export class NodeGraphManager {
 			}
 			let out: any;
 			switch (node.type) {
-				case 'texture.noise': out = services.textureNoise(resolvedInputs); break;
-				case 'texture.gradient': out = services.textureGradient(resolvedInputs); break;
-				case 'mesh.tree': out = services.meshTree(resolvedInputs); break;
-				case 'mesh.rock': out = services.meshRock(resolvedInputs); break;
+				case 'texture.noise': out = { texture: services.textureNoise(resolvedInputs) }; break;
+				case 'texture.gradient': out = { texture: services.textureGradient(resolvedInputs) }; break;
+				case 'mesh.tree': out = { mesh: services.meshTree(resolvedInputs) }; break;
+				case 'mesh.rock': out = { mesh: services.meshRock(resolvedInputs) }; break;
 				default: out = { error: `Unknown node type: ${node.type}` };
 			}
 			results[node.id] = out;

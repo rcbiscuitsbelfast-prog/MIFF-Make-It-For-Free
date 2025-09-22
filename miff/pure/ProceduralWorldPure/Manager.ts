@@ -34,14 +34,12 @@ export interface RiverOptions {
 	maxLength?: number; // safety cap
 }
 
-export interface LineSegment {
-	x1: number; y1: number; x2: number; y2: number;
-}
+export interface RiverSegment { start: [number, number]; end: [number, number] }
 
 export interface WorldAssets {
 	heightmap: number[][]; // [y][x] normalized 0..1
 	biomes?: string[][]; // [y][x]
-	rivers?: LineSegment[];
+	rivers?: RiverSegment[];
 }
 
 // Simple fast deterministic PRNG (Mulberry32)
@@ -162,7 +160,7 @@ export class ProceduralWorldManager {
 		return biomes;
 	}
 
-	carveRivers(heightmap: number[][], opts: RiverOptions): LineSegment[] {
+	carveRivers(heightmap: number[][], opts: RiverOptions): RiverSegment[] {
 		const h = heightmap.length; if (h === 0) return [];
 		const w = heightmap[0].length;
 		const flat: { x: number; y: number; z: number }[] = [];
@@ -171,7 +169,7 @@ export class ProceduralWorldManager {
 		const numSources = Math.max(1, Math.min(flat.length, Math.floor((opts.threshold <= 1 ? opts.threshold : 0.1) * flat.length)));
 		const maxR = opts.maxRivers ?? Math.min(10, numSources);
 		const maxLen = opts.maxLength ?? (w + h) * 4;
-		const segs: LineSegment[] = [];
+		const segs: RiverSegment[] = [];
 		const used: boolean[][] = Array.from({ length: h }, () => Array<boolean>(w).fill(false));
 		const neighbors = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
 		let started = 0;
@@ -192,7 +190,7 @@ export class ProceduralWorldManager {
 				}
 				if (bestDz <= 0.0001) break; // reached basin or flat
 				const nx = cx + bestDx, ny = cy + bestDy;
-				segs.push({ x1: cx, y1: cy, x2: nx, y2: ny });
+				segs.push({ start: [cx, cy], end: [nx, ny] });
 				used[cy][cx] = true;
 				cx = nx; cy = ny; cz = heightmap[cy][cx];
 				if (cx === 0 || cy === 0 || cx === w - 1 || cy === h - 1) break; // reached border

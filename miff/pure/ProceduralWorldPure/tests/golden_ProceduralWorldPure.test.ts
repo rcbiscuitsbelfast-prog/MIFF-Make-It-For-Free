@@ -11,9 +11,9 @@ test('golden terrain + biomes + rivers deterministic', () => {
 	const heightmap = (got1.outputs[0].heightmap as number[][]);
 	expect(heightmap.length).toBe(24);
 	expect(heightmap[0].length).toBe(32);
-	// determinism: sample a few cells
+	// determinism: sample a few cells - assert stable rounded values for seed 123
 	const sample = [heightmap[0][0], heightmap[5][10], heightmap[23][31]].map(v => Number(v.toFixed(4)));
-	expect(sample).toEqual([0.5, sample[1], sample[2]]); // midpoint around 0.5 is plausible; rest fixed by seed
+	expect(sample).toEqual([0.4886, 0.5750, 0.4926]);
 
 	const biomeSchema = path.resolve(root, 'schemas/biomeSchema.example.json');
 	const tmpHeight = path.resolve(root, 'tests/tmp_heightmap.json');
