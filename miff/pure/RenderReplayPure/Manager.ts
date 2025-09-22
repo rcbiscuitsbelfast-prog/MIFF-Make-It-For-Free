@@ -359,6 +359,20 @@ export class RenderReplayManager {
         if (example.renderData) {
           payloads.push(example);
         }
+        if (example.payload) {
+          payloads.push(example.payload);
+        }
+      });
+    }
+
+    // Common alternate shapes in golden fixtures
+    if (testData.frames && Array.isArray(testData.frames)) {
+      testData.frames.forEach((frame: any) => {
+        if (frame && frame.data && Array.isArray(frame.data)) {
+          payloads.push({ op: 'render', status: 'ok', renderData: frame.data });
+        } else if (frame && frame.data) {
+          payloads.push({ op: 'render', status: 'ok', renderData: [frame.data] });
+        }
       });
     }
 

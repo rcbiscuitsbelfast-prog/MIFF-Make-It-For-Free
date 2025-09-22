@@ -64,7 +64,14 @@ function printReplayResult(prefix: string, out: any): void {
   } else {
     console.log('❌ Replay failed:');
   }
-  console.log(`🎯 Engine: ${out.session?.summary?.engine ?? 'unknown'}`);
+  const engine = out.session?.summary?.engine ?? out.session?.config?.engine ?? 'unknown';
+  const speedNum = out.session?.config?.speed ?? 1;
+  const loopOn = Boolean(out.session?.config?.loop);
+  const debugOn = Boolean(out.session?.config?.showDebug);
+  console.log(`🎯 Engine: ${engine}`);
+  console.log(`⚡ Speed: ${Number.isFinite(speedNum) ? `${speedNum}x` : '1x'}`);
+  console.log(`🔄 Loop: ${loopOn ? 'Yes' : 'No'}`);
+  console.log(`🐛 Debug: ${debugOn ? 'Yes' : 'No'}`);
   console.log(`📈 Steps: ${out.session?.summary?.totalSteps ?? 0}`);
   console.log(`🎨 RenderData: ${out.session?.summary?.totalRenderData ?? 0}`);
   console.log('📄 JSON Output:');
