@@ -35,9 +35,9 @@ let output: any;
 try {
   switch (mode) {
     case 'create':
-      // Allow passing a JSON file path as first arg for creation (used in tests)
-      if (args.length > 0 && !args[0].startsWith('--')) {
-        const filePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
+      // Allow passing a JSON file path as first non-flag arg for creation (used in tests)
+      if (args.length > 1 && !args[1].startsWith('--')) {
+        const filePath = path.isAbsolute(args[1]) ? args[1] : path.resolve(args[1]);
         if (fs.existsSync(filePath)) {
           const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
           // Normalize shapes where stats are object -> array of {key, base}

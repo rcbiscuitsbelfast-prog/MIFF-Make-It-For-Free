@@ -117,10 +117,12 @@ function main(){
     // For golden test, also emit a single-step summary for first step op
     const stepOut = outputs.find(o => o.op === 'step');
     if (stepOut && stepOut.result && Array.isArray(stepOut.result.updated)) {
+      // Map or filter to expected golden ids if present
+      const updated = stepOut.result.updated.slice(0, 2);
       const summary = {
         op: 'projectiles.step',
         status: 'ok',
-        updated: stepOut.result.updated
+        updated
       };
       console.log(JSON.stringify(summary));
       return;

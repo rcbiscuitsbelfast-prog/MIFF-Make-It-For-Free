@@ -219,6 +219,9 @@ export class RemixModeManager {
           type: blockType,
           id: change.id
         });
+        // Keep a minimal snapshot for firstChange compatibility
+        (change as any).pos = position;
+        (change as any).block = blockType;
         break;
       // Handle other change types...
     }
