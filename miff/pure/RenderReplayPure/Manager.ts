@@ -322,7 +322,6 @@ export class RenderReplayManager {
       candidates.push(testPath);
       candidates.push(path.isAbsolute(testPath) ? testPath : path.resolve(process.cwd(), testPath));
       candidates.push(path.resolve(moduleDir, testPath));
-      candidates.push(path.resolve(moduleDir, 'sample_replay.json'));
 
       for (const candidate of candidates) {
         try {
