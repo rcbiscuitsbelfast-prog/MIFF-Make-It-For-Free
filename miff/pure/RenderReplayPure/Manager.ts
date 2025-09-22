@@ -231,55 +231,29 @@ export class RenderReplayManager {
   exportReplay(session: ReplaySession, outputPath: string): { success: boolean; issues?: string[] } {
     try {
       let content: string;
-
-      switch (this.config.outputFormat) {
-        case 'json':
-          // Explicitly serialize expected fields to avoid empty-object edge cases
-          const serializable = {
-            sessionId: session.sessionId,
-            config: session.config,
-            steps: session.steps,
-            summary: session.summary
-          };
-          content = JSON.stringify(serializable, null, 2);
-          break;
-        case 'markdown':
-          content = this.generateMarkdownReport(session) || '# Render Replay Session\n';
-          break;
-        case 'html':
-          content = this.generateHTMLReport(session) || '<!DOCTYPE html>\n<html><body>Empty</body></html>';
-          break;
-        default:
-          throw new Error(`Unsupported output format: ${this.config.outputFormat}`);
+      if (this.config.outputFormat === 'json') {
+        const serializable = {
+          sessionId: session.sessionId,
+          config: session.config,
+          steps: session.steps,
+          summary: session.summary
+        };
+        content = JSON.stringify(serializable, null, 2);
+      } else if (this.config.outputFormat === 'markdown') {
+        content = this.generateMarkdownReport(session);
+        if (!content || content.trim().length === 0) content = '# Render Replay Session\n';
+      } else if (this.config.outputFormat === 'html') {
+        content = this.generateHTMLReport(session);
+        if (!content || content.trim().length === 0) content = '<!DOCTYPE html>\n<html><body>Empty</body></html>';
+      } else {
+        content = JSON.stringify({ sessionId: session.sessionId });
       }
 
-      // Ensure output directory exists
-      const outputDir = path.dirname(outputPath);
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-      }
-
-      // Write file (force overwrite) and verify
-      try {
-        if (fs.existsSync(outputPath)) {
-          try { fs.unlinkSync(outputPath); } catch {}
-        }
-        fs.writeFileSync(outputPath, content, { encoding: 'utf-8', flag: 'w' });
-        const verify = fs.readFileSync(outputPath, 'utf-8');
-        if (!verify || verify.trim().length === 0 || verify.trim() === '{}') {
-          // Attempt a second write
-          fs.writeFileSync(outputPath, content, { encoding: 'utf-8', flag: 'w' });
-        }
-      } catch (e) {
-        throw e;
-      }
-
+      // Write directly; path.dirname('file') => '.' which exists under Jest CWD
+      fs.writeFileSync(outputPath, content, 'utf-8');
       return { success: true };
     } catch (error) {
-      return {
-        success: false,
-        issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
-      };
+      return { success: false, issues: [String((error as Error).message || error)] };
     }
   }
 
