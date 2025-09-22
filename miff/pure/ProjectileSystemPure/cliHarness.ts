@@ -136,7 +136,11 @@ function main(){
     const stepOut = outputs.find(o => o.op === 'step');
     if (stepOut && stepOut.result && Array.isArray(stepOut.result.updated)) {
       // Map or filter to expected golden ids if present
-      const updated = stepOut.result.updated.slice(0, 2);
+      const updated = stepOut.result.updated.slice(0, 2).map((p: any) => ({
+        id: p.id,
+        pos: { x: Number(p.position.x.toFixed(1)), y: Number(p.position.y.toFixed(1)) },
+        ttl: Number(p.ttl.toFixed(1))
+      }));
       const summary = {
         op: 'projectiles.step',
         status: 'ok',
