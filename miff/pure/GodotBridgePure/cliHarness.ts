@@ -13,80 +13,88 @@ interface GodotBridgeOperation {
   format?: 'json' | 'csv' | 'markdown' | 'html';
 }
 
+function printHelp(): void {
+  console.log('GodotBridgePure CLI - Godot engine bridge for MIFF modules');
+  console.log('');
+  console.log('Usage:');
+  console.log('  tsx cliHarness.ts <commands.json> [--flags]');
+  console.log('');
+  console.log('Examples:');
+  console.log('  tsx cliHarness.ts commands.json');
+}
+
 function main() {
-  const argv = process.argv.slice(2);
-  if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
-    process.exit(1);
+  const [commandsPath, ...rest] = process.argv.slice(2);
+  
+  if (!commandsPath || commandsPath === 'help' || commandsPath === '--help' || commandsPath === '-h') {
+    printHelp();
+    return;
   }
 
   try {
-    let input: GodotBridgeOperation;
-    if (argv.length >= 2 && !argv[2]?.endsWith('.json')) {
-      input = { op: argv[0] as any, module: argv[1] } as GodotBridgeOperation;
-    } else if (argv.length >= 3) {
-      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
-      input = { op: argv[0] as any, module: argv[1], data: payload } as GodotBridgeOperation;
-    } else {
-      const inputFile = argv[0];
-      input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
+    if (!fs.existsSync(commandsPath)) {
+      console.log(`Error: Commands file not found: ${commandsPath}`);
+      process.exitCode = 1;
+      return;
     }
-    
-    if (!input || typeof input !== 'object') {
-      throw new Error('Invalid input: expected JSON object');
-    }
-    
-    if (!input.op || !input.module) {
-      throw new Error('Invalid input: missing required fields "op" and "module"');
-    }
-    
+
+    const cmds: GodotBridgeOperation[] = JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8'));
     const bridge = new GodotBridge();
-    const config = input.config || {
-      targetVersion: '4.0',
-      useGDScript: true,
-      scenePath: '/scenes',
-      scriptPath: '/scripts',
-      resourcePath: '/resources'
-    };
-    
-    let result;
-    switch (input.op) {
-      case 'simulate':
-        result = bridge.simulate(input.module, input.data || {}, config);
-        break;
-      case 'render':
-        result = bridge.render(input.module, input.data || {}, config);
-        break;
-      case 'interop':
-        result = bridge.interop(input.module, input.data || {}, config);
-        break;
-      case 'export': {
-        const rendered: any = bridge.render(input.module, input.data || {}, config);
-        const rd = rendered?.renderData || { entities: [], components: [], sprites: [], sounds: [], scripts: [], styles: [] };
-        const fmt = input.format || 'json';
-        if (fmt === 'csv') {
-          const entitiesCsv = [
-            'id,type,x,y,width,height,properties',
-            ...rd.entities.map((e: any) => `${e.id},${e.type},${e.x||0},${e.y||0},${e.width||''},${e.height||''},"${JSON.stringify(e.properties||{}).replace(/"/g,'""')}"`)
-          ].join('\n');
-          result = { op: 'export', status: 'ok', format: 'csv', result: { entities: entitiesCsv } };
-        } else if (fmt === 'markdown') {
-          const md = [
-            '# GodotBridge Render Export',
-            '',
-            '## Entities',
-            '',
-            '| id | type | x | y | size |',
-            '|----|------|---|---|------|',
-            ...rd.entities.map((e: any) => `| ${e.id} | ${e.type} | ${e.x||0} | ${e.y||0} | ${e.width||''}x${e.height||''} |`),
-            '',
-            '## Scripts',
-            '',
-            ...(rd.scripts||[]).map((s:string)=>`- ${s}`)
-          ].join('\n');
-          result = { op: 'export', status: 'ok', format: 'markdown', result: { markdown: md } };
-        } else if (fmt === 'html') {
-          const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>GodotBridge Export</title>
+    const results: { op: string; status: string; result?: any }[] = [];
+
+    for (const cmd of cmds) {
+      try {
+        if (!cmd.op || !cmd.module) {
+          throw new Error('Missing required fields "op" and "module"');
+        }
+
+        const config = cmd.config || {
+          targetVersion: '4.0',
+          useGDScript: true,
+          scenePath: '/scenes',
+          scriptPath: '/scripts',
+          resourcePath: '/resources'
+        };
+        
+        let result: any;
+        
+        switch (cmd.op) {
+          case 'simulate':
+            result = bridge.simulate(cmd.module, cmd.data || {}, config);
+            break;
+          case 'render':
+            result = bridge.render(cmd.module, cmd.data || {}, config);
+            break;
+          case 'interop':
+            result = bridge.interop(cmd.module, cmd.data || {}, config);
+            break;
+          case 'export': {
+            const rendered: any = bridge.render(cmd.module, cmd.data || {}, config);
+            const rd = rendered?.renderData || { entities: [], components: [], sprites: [], sounds: [], scripts: [], styles: [] };
+            const fmt = cmd.format || 'json';
+            if (fmt === 'csv') {
+              const entitiesCsv = [
+                'id,type,x,y,width,height,properties',
+                ...rd.entities.map((e: any) => `${e.id},${e.type},${e.x||0},${e.y||0},${e.width||''},${e.height||''},"${JSON.stringify(e.properties||{}).replace(/"/g,'""')}"`)
+              ].join('\n');
+              result = { format: 'csv', entities: entitiesCsv };
+            } else if (fmt === 'markdown') {
+              const md = [
+                '# GodotBridge Render Export',
+                '',
+                '## Entities',
+                '',
+                '| id | type | x | y | size |',
+                '|----|------|---|---|------|',
+                ...rd.entities.map((e: any) => `| ${e.id} | ${e.type} | ${e.x||0} | ${e.y||0} | ${e.width||''}x${e.height||''} |`),
+                '',
+                '## Scripts',
+                '',
+                ...(rd.scripts||[]).map((s:string)=>`- ${s}`)
+              ].join('\n');
+              result = { format: 'markdown', markdown: md };
+            } else if (fmt === 'html') {
+              const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>GodotBridge Export</title>
 <style>body{font-family:Arial;margin:20px}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f5f5f5}</style>
 </head><body>
 <h1>GodotBridge Render Export</h1>
@@ -97,29 +105,31 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
 <h2>Scripts</h2>
 <ul>${(rd.scripts||[]).map((s:string)=>`<li>${s}</li>`).join('')}</ul>
 </body></html>`;
-          result = { op: 'export', status: 'ok', format: 'html', result: { html } };
-        } else {
-          result = { op: 'export', status: 'ok', format: 'json', result: rd };
-        }
-        break;
-      }
-      case 'dump':
-        result = {
-          op: 'dump',
-          status: 'ok',
-          info: {
-            module: input.module,
-            config,
-            capabilities: ['simulate', 'render', 'interop'],
-            engine: 'godot'
+              result = { format: 'html', html };
+            } else {
+              result = rd;
+            }
+            break;
           }
-        };
-        break;
-      default:
-        throw new Error(`Unknown operation: ${input.op}`);
+          case 'dump':
+            result = {
+              module: cmd.module,
+              config,
+              capabilities: ['simulate', 'render', 'interop'],
+              engine: 'godot'
+            };
+            break;
+          default:
+            throw new Error(`Unknown operation: ${cmd.op}`);
+        }
+        
+        results.push({ op: cmd.op, status: 'ok', result });
+      } catch (error) {
+        results.push({ op: cmd.op, status: 'error', result: { error: error.message } });
+      }
     }
-    
-    console.log(JSON.stringify(result, null, 2));
+
+    console.log(JSON.stringify(results, null, 2));
     
   } catch (error) {
     console.error('Error:', error);
