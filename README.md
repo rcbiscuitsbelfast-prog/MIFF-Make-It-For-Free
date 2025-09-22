@@ -3,7 +3,7 @@
 [![MIFF Studio](https://img.shields.io/badge/MIFF%20Studio%20Builder-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/studio/index.html)  
 [![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml)  
 [![Vercel Deploy](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/deploy-vercel.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/deploy-vercel.yml)  
-[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPORT.txt)
+[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPO.md)
 
 ## Current Status (Sep 2025)
 - **Phase 10 Complete**: Advanced module standardization with comprehensive testing
@@ -52,7 +52,7 @@
 - **Multiplayer**: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
 - **Pixel Art System**: Draw, generate, animate, world building, CLI tools, Studio integration, demo forest
 
-See audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
+See audit: `AUDIT_REPO.md`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
 
 ## 📁 Repository Structure
 
