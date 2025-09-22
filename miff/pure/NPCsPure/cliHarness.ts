@@ -10,6 +10,8 @@
  */
 
 import { NPCsManager, NPC, NPBehavior } from './Manager';
+import * as fs from 'fs';
+import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
 const { mode, args } = parseCLIArgs(process.argv);
@@ -33,28 +35,35 @@ let output: any;
 try {
   switch (mode) {
     case 'create':
-      const newNPC: NPC = {
-        id: npcId as any,
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
-        stats: [
-          { key: 'health', base: 100 },
-          { key: 'mana', base: 50 },
-          { key: 'strength', base: 10 },
-          { key: 'wisdom', base: 10 }
-        ],
-        behavior: {
-          type: behaviorType as any,
-          aggression: 0,
-          curiosity: 50,
-          loyalty: 50
-        },
-        location: { zoneId: zoneId as any, x, y, z },
-        questIds: [],
-        movementPattern: { type: 'idle', speed: 1 },
-        faction,
-        reputation: 50
-      };
-      output = manager.createNPC(newNPC);
+      // If first arg is a JSON file path, load NPC from file (test expects this)
+      if (args[0] && args[0].endsWith('.json')) {
+        const filePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
+        const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        output = manager.createNPC(data as NPC);
+      } else {
+        const newNPC: NPC = {
+          id: npcId as any,
+          name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
+          stats: [
+            { key: 'health', base: 100 },
+            { key: 'mana', base: 50 },
+            { key: 'strength', base: 10 },
+            { key: 'wisdom', base: 10 }
+          ],
+          behavior: {
+            type: behaviorType as any,
+            aggression: 0,
+            curiosity: 50,
+            loyalty: 50
+          },
+          location: { zoneId: zoneId as any, x, y, z },
+          questIds: [],
+          movementPattern: { type: 'idle', speed: 1 },
+          faction,
+          reputation: 50
+        };
+        output = manager.createNPC(newNPC);
+      }
       break;
 
     case 'get':
@@ -219,6 +228,10 @@ try {
       };
       break;
 
+    case 'dump':
+      output = { op: 'dump', status: 'ok', result: manager.getNPCsInZone(zoneId as any) } as any;
+      break;
+
     default:
       output = {
         op: 'help',
@@ -241,6 +254,7 @@ try {
             'stats',
             'export --format=<json|manifest|summary|quests>',
             'reset',
+            'dump',
             'demo',
             'sample'
           ],
