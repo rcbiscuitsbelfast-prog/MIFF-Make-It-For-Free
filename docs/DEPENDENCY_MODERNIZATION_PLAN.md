@@ -26,10 +26,11 @@
 - Ensure runInBand in CI; document worker-mode risks
 
 ### Phase C (Vite/Vitest track) [separate feature branch]
-- Create branch: feature/tooling-vite7-vitest3
-- Upgrade vite 5.x -> 7.x; vitest 2.x -> 3.x
-- Run sampler/site builds; adjust config (vite.config.ts)
-- Replace deprecated APIs; run perf smoke tests
+- Branch: feature/tooling-vite7-vitest3 (created)
+- Upgrades: vite 5.x -> 7.x; vitest 2.x -> 3.x (completed)
+- Config: add fallback when sampler/index.html absent (vite.config.ts)
+- Current Status: build requires explicit HTML entry; acceptable for tooling PR
+- Next: add minimal index.html for smoke, or limit CI to Jest path
 
 ## Validation
 - Full in-band test run must be green

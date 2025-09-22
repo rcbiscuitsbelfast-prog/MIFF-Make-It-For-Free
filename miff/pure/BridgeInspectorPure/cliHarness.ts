@@ -37,6 +37,6 @@ function main(): void {
   handleSuccess(result, 'bridge_inspection');
 }
 
-if(import.meta.url === ) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
