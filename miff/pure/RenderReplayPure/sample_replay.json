@@ -11,6 +11,9 @@
         "summary": { "totalSteps": 1, "totalRenderData": 1, "totalIssues": 0, "duration": "1000ms", "engine": "web" }
       }
     },
+    "flat_render": {
+      "renderData": [ { "id": "sprite_flat", "type": "sprite", "position": { "x": 1, "y": 1 } } ]
+    },
     "unity_replay": {
       "description": "UnityBridgePure replay session example",
       "session": {

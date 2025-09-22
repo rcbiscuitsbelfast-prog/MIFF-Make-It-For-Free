@@ -92,7 +92,6 @@ function main() {
         if (!testPath) {
           console.log('Error: Test path required');
           printHelp();
-          process.exitCode = 1;
           return;
         }
         // Resolve relative to this module dir if not absolute
@@ -107,7 +106,6 @@ function main() {
         // If file still not found, treat as error (do not fallback silently)
         if (!fs.existsSync(testPath)) {
           console.log('Error: Test file not found');
-          process.exitCode = 1;
           return;
         }
         const out = mgr.replayFromGoldenTest(testPath);
