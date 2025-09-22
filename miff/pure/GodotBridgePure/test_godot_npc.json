@@ -1,0 +1,19 @@
+{
+  "id": "npc_001",
+  "data": {
+    "position": {
+      "x": 15,
+      "y": 20
+    },
+    "stats": [
+      {
+        "key": "health",
+        "base": 95
+      }
+    ],
+    "questIds": [
+      "quest_tutorial",
+      "quest_side_quest"
+    ]
+  }
+}
