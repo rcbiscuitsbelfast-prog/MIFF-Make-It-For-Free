@@ -88,17 +88,23 @@ function main() {
   try {
     switch (cmd) {
       case 'replay-golden': {
-        const testPath = rest[0];
+        let testPath = rest[0];
         if (!testPath) {
           console.log('Error: Test path required');
           printHelp();
           process.exitCode = 1;
           return;
         }
+        // Resolve relative to this module dir if not absolute
+        if (!path.isAbsolute(testPath)) {
+          const local = path.resolve(process.cwd(), testPath);
+          const moduleLocal = path.resolve(path.dirname(new URL(import.meta.url).pathname), testPath);
+          testPath = fs.existsSync(local) ? local : moduleLocal;
+        }
         const flags = parseFlags(rest.slice(1));
         const config = ensureConfig(flags);
         const mgr = new RenderReplayManager(config);
-        const out = mgr.replayFromGoldenTest(path.isAbsolute(testPath) ? testPath : path.resolve(testPath));
+        const out = mgr.replayFromGoldenTest(testPath);
         printReplayResult('replay-golden', out);
         break;
       }

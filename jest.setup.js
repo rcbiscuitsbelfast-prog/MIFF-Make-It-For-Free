@@ -329,7 +329,8 @@ global.clearInterval = jest.fn();
 
 // Mock file system operations
 const fs = require('fs');
-jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+const fsActual = jest.requireActual('fs');
+jest.spyOn(fs, 'readFileSync').mockImplementation((path, options) => {
   if (path.includes('npc.sample.json')) {
     return JSON.stringify({
       op: 'create',
@@ -593,7 +594,12 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
       });
     }
   }
-  return '{}';
+  // Default: delegate to real fs for any other path
+  try {
+    return fsActual.readFileSync(path, options || 'utf-8');
+  } catch (_) {
+    return '';
+  }
 });
 
 // Mock path operations
@@ -602,7 +608,6 @@ const childProcess = require('child_process');
 
 // Restore real fs.readFileSync so CLIs/tests can read actual fixture files
 try {
-  const fsActual = jest.requireActual('fs');
   const fsModule = require('fs');
   fsModule.readFileSync = fsActual.readFileSync;
 } catch (_) {}
