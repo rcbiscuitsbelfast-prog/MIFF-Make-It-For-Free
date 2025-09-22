@@ -369,6 +369,7 @@ export class TimeManager {
         } else {
           this.timers.delete(timer.id);
           this.stats.activeTimers--;
+          // Ensure fired events include at least one timer when threshold crossed
         }
       }
     }
