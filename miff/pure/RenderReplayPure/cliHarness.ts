@@ -97,13 +97,19 @@ function main() {
         }
         // Resolve relative to this module dir if not absolute
         if (!path.isAbsolute(testPath)) {
-          const local = path.resolve(process.cwd(), testPath);
-          const moduleLocal = path.resolve(path.dirname(new URL(import.meta.url).pathname), testPath);
-          testPath = fs.existsSync(local) ? local : moduleLocal;
+          const cwdPath = path.resolve(process.cwd(), testPath);
+          const modulePath = path.resolve(path.dirname(new URL(import.meta.url).pathname), testPath);
+          if (fs.existsSync(cwdPath)) testPath = cwdPath; else if (fs.existsSync(modulePath)) testPath = modulePath;
         }
         const flags = parseFlags(rest.slice(1));
         const config = ensureConfig(flags);
         const mgr = new RenderReplayManager(config);
+        // If file still not found, treat as error (do not fallback silently)
+        if (!fs.existsSync(testPath)) {
+          console.log('Error: Test file not found');
+          process.exitCode = 1;
+          return;
+        }
         const out = mgr.replayFromGoldenTest(testPath);
         printReplayResult('replay-golden', out);
         break;
