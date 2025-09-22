@@ -99,15 +99,16 @@ export const WorldManifestPure = {
 		
 		if (!world.zones || world.zones.length === 0) {
 			errors.push("No zones defined");
+			return { valid: false, errors };
 		}
 		
-		world.zones.forEach((zone, index) => {
+		(world.zones || []).forEach((zone, index) => {
 			if (!zone.id) errors.push(`Zone ${index}: missing ID`);
 			if (!zone.name) errors.push(`Zone ${index}: missing name`);
 			if (zone.width <= 0) errors.push(`Zone ${index}: invalid width`);
 			if (zone.height <= 0) errors.push(`Zone ${index}: invalid height`);
 			
-			zone.tiles.forEach((tile, tileIndex) => {
+			(zone.tiles || []).forEach((tile, tileIndex) => {
 				if (!tile.assetId) errors.push(`Zone ${index}, Tile ${tileIndex}: missing assetId`);
 				if (tile.x < 0 || tile.x >= zone.width) errors.push(`Zone ${index}, Tile ${tileIndex}: x out of bounds`);
 				if (tile.y < 0 || tile.y >= zone.height) errors.push(`Zone ${index}, Tile ${tileIndex}: y out of bounds`);

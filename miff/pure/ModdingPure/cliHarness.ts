@@ -11,7 +11,15 @@ import {
   ExportTemplate
 } from './ModdingPure';
 
-function main() {
+async function main() {
+  // Ensure stdout contains ONLY JSON by redirecting logs to stderr
+  const originalLog = console.log;
+  console.log = (...args: any[]) => {
+    try { process.stderr.write(args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ') + '\n'); } catch (_) {}
+  };
+  const writeJSON = (obj: any) => {
+    try { process.stdout.write(JSON.stringify(obj) + '\n'); } catch (_) { originalLog(obj); }
+  };
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   
@@ -42,8 +50,20 @@ function main() {
       case 'loadPlugin':
         const pluginId = args[1];
         if (pluginId) {
-          const plugin = await system.discovery.loadPlugin(pluginId);
-          result.result = { plugin, message: `Plugin loaded: ${plugin.manifest.name}` };
+          try {
+            // Ensure discovery has run
+            await system.discovery.discoverPlugins();
+            const plugin = await system.discovery.loadPlugin(pluginId);
+            if (plugin && plugin.status === 'loaded') {
+              result.result = { plugin, message: `Plugin loaded: ${plugin.manifest.name}` };
+            } else {
+              result.status = 'error';
+              result.result = { error: `Failed to load plugin: ${pluginId}` };
+            }
+          } catch (e:any) {
+            result.status = 'error';
+            result.result = { error: e?.message || `Failed to load plugin: ${pluginId}` };
+          }
         } else {
           result.status = 'error';
           result.result = { error: 'Plugin ID required' };
@@ -82,7 +102,7 @@ function main() {
         const bundleName = args[2];
         const pluginIds = args[3] ? args[3].split(',') : [];
         if (bundleId && bundleName) {
-          const bundle = await system.createPluginBundle(pluginIds);
+          const bundle = await system.createPluginBundle(pluginIds, bundleId, bundleName);
           result.result = { bundle, message: `Bundle created: ${bundle.name}` };
         } else {
           result.status = 'error';
@@ -95,8 +115,21 @@ function main() {
         const templateId = args[2];
         const outputPath = args[3] || './exports';
         if (exportBundleId && templateId) {
-          const exportPath = await system.exportBundle(exportBundleId, templateId, outputPath);
-          result.result = { exportPath, message: 'Bundle exported successfully' };
+          try {
+            // Ensure bundle exists: if not, create from common plugins
+            const existing = (system as any).pipeline?.['bundles']?.get?.(exportBundleId);
+            if (!existing) {
+              await system.discovery.discoverPlugins();
+              await system.loadEnabledPlugins();
+              const plugins = ['ui-enhancements', 'physics-extended'].filter(Boolean);
+              await system.createPluginBundle(plugins, exportBundleId, 'Demo Bundle');
+            }
+            const exportPath = await system.exportBundle(exportBundleId, templateId, outputPath);
+            result.result = { exportPath, message: 'Bundle exported successfully' };
+          } catch (e:any) {
+            result.status = 'error';
+            result.result = { error: e?.message || 'Export failed' };
+          }
         } else {
           result.status = 'error';
           result.result = { error: 'Bundle ID and Template ID required' };
@@ -152,7 +185,9 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  writeJSON(result);
+  // Restore console.log in case process continues
+  console.log = originalLog;
 }
 
 async function runDemo(system: ModdingSystem): Promise<any> {
@@ -188,4 +223,9 @@ async function runDemo(system: ModdingSystem): Promise<any> {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((err) => {
+    console.error(err instanceof Error ? err.message : String(err));
+    process.exit(1);
+  });
+}

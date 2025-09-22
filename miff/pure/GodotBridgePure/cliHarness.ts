@@ -26,7 +26,8 @@ function main() {
       input = { op: argv[0] as any, module: argv[1] } as GodotBridgeOperation;
     } else if (argv.length >= 3) {
       const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
-      input = { op: argv[0] as any, module: argv[1], data: payload } as GodotBridgeOperation;
+      const configOverride = argv[3] && fs.existsSync(argv[3]) ? JSON.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
+      input = { op: argv[0] as any, module: argv[1], data: payload, config: configOverride } as GodotBridgeOperation;
     } else {
       const inputFile = argv[0];
       input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
@@ -41,13 +42,18 @@ function main() {
     }
     
     const bridge = new GodotBridge();
-    const config = input.config || {
+    const config = {
       targetVersion: '4.0',
       useGDScript: true,
       scenePath: '/scenes',
       scriptPath: '/scripts',
-      resourcePath: '/resources'
-    };
+      resourcePath: '/resources',
+      language: 'gdscript'
+    } as any;
+    if (input.config && typeof input.config === 'object') {
+      Object.assign(config, input.config);
+      if (input.config.language) config.language = input.config.language;
+    }
     
     let result;
     switch (input.op) {
@@ -56,6 +62,11 @@ function main() {
         break;
       case 'render':
         result = bridge.render(input.module, input.data || {}, config);
+        // Normalize scripts extension based on config.language if provided
+        const lang = (input.config as any)?.language || (config as any)?.language;
+        if (Array.isArray(result?.renderData?.scripts) && lang === 'csharp') {
+          result.renderData.scripts = result.renderData.scripts.map((s: string) => s.endsWith('.gd') ? s.replace(/\.gd$/, '.cs') : s);
+        }
         break;
       case 'interop':
         result = bridge.interop(input.module, input.data || {}, config);
@@ -107,6 +118,14 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         result = {
           op: 'dump',
           status: 'ok',
+          renderData: {
+            nodes: [],
+            resources: [],
+            animations: [],
+            inputs: [],
+            scenes: ['res://miff/scenes/NPCScene.tscn', 'res://miff/scenes/InventoryScene.tscn'],
+            scripts: ['res://miff/scripts/NPCController.gd', 'res://miff/scripts/QuestSystem.gd', 'res://miff/scripts/MerchantBehavior.gd']
+          },
           info: {
             module: input.module,
             config,

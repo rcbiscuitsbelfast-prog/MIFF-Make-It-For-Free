@@ -664,7 +664,32 @@ class DialogueCLI {
 
 async function main() {
   const cli = new DialogueCLI();
-  
+  const argv = process.argv.slice(2);
+
+  // Legacy mode: single JSON path argument triggers one deterministic next step
+  if (argv.length === 1 && argv[0].endsWith('.json')) {
+    try {
+      const jsonPath = argv[0];
+      const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
+      const data: Dialogue = (raw && raw.dialogue) ? raw.dialogue : raw;
+      const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw.choiceIndex : 0;
+      // Start then take first choice deterministically
+      await cli.execute({ op: 'start', dialogue: data });
+      const step = await cli.execute({ op: 'next', choiceIndex });
+      const id = step.result?.id;
+      const issue = step.result?.issue;
+      const status = step.status;
+      const out = { op: 'dialogue.next', status, id, issue };
+      console.log(JSON.stringify(out));
+      return;
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Unknown error';
+      const out = { op: 'dialogue.next', status: 'error', issue: message };
+      console.log(JSON.stringify(out));
+      process.exit(1);
+    }
+  }
+
   if (process.argv.length < 3) {
     console.error('Usage: cliHarness.ts <operation> [args...]');
     console.error('Operations: start, next [choiceIndex], dump, simulate, validate, reset, export [format]');

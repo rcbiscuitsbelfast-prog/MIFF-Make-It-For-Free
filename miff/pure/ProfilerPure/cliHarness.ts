@@ -64,15 +64,15 @@ function main() {
       case 'beginSample':
         const sampleName = args[1] || 'sample';
         const category = args[2] || 'default';
-        const sampleId = profiler.beginSample(sampleName, category);
-        result.result = { sampleId, message: `Sample '${sampleName}' started` };
+        const newSampleId = profiler.beginSample(sampleName, category);
+        result.result = { sampleId: newSampleId, message: `Sample '${sampleName}' started` };
         break;
 
       case 'endSample':
-        const sampleId = args[1];
-        if (sampleId) {
-          profiler.endSample(sampleId);
-          result.result = { message: `Sample ${sampleId} ended` };
+        const endSampleId = args[1];
+        if (endSampleId) {
+          profiler.endSample(endSampleId);
+          result.result = { message: `Sample ${endSampleId} ended` };
         } else {
           result.status = 'error';
           result.result = { error: 'Sample ID required' };

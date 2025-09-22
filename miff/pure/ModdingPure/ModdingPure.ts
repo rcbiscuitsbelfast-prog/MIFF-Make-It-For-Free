@@ -672,9 +672,17 @@ export class ModdingSystem {
   /**
    * Create asset bundle from plugins
    */
-  async createPluginBundle(pluginIds: string[]): Promise<AssetBundle> {
+  async createPluginBundle(pluginIds: string[], forcedId?: string, forcedName?: string): Promise<AssetBundle> {
     const assets = new Map<string, any>();
     
+    // Ensure discovery has run so assets exist on loaded plugins
+    if ((this.discovery as any).discoverPlugins) {
+      await this.discovery.discoverPlugins();
+    }
+    if (this.getLoadedPlugins().length === 0) {
+      await this.loadEnabledPlugins();
+    }
+
     for (const pluginId of pluginIds) {
       const plugin = this.discovery.getPlugin(pluginId);
       if (plugin && plugin.status === 'loaded') {
@@ -686,8 +694,8 @@ export class ModdingSystem {
     }
     
     const bundle = await this.pipeline.createBundle(
-      `bundle-${Date.now()}`,
-      `Plugin Bundle (${pluginIds.join(', ')})`,
+      forcedId || `bundle-${Date.now()}`,
+      forcedName || `Plugin Bundle (${pluginIds.join(', ')})`,
       assets,
       { plugins: pluginIds, timestamp: new Date().toISOString() }
     );

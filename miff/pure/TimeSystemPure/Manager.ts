@@ -344,9 +344,14 @@ export class TimeManager {
     this.time = Math.max(0, this.time + scaledDt);
     const fired: string[] = [];
 
+    // Determine if scheduled events will fire this tick; used to gate lenient timer firing
+    const willFireScheduledThisTick = this.scheduled.length > 0 && this.scheduled[0].at <= this.time;
+    const allowLenientTimerFire = !willFireScheduledThisTick;
+
     // Update timers
     for (const timer of this.timers.values()) {
       timer.remaining -= scaledDt;
+      // Simple timer firing - fire when remaining time reaches zero or below
       if (timer.remaining <= 0) {
         fired.push(`timer:${timer.id}`);
         
