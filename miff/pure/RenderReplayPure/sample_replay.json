@@ -1,4 +1,18 @@
 {
+  "examples": {
+    "basic": {
+      "session": {
+        "id": "replay_1704067200000",
+        "config": { "engine": "web", "speed": 1, "loop": false, "showDebug": true },
+        "steps": [
+          { "renderData": [ { "id": "sprite1", "type": "sprite", "position": { "x": 0, "y": 0 } } ] }
+        ]
+      }
+    }
+  }
+}
+
+{
   "schemaVersion": "v1",
   "examples": {
     "unity_replay": {

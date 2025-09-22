@@ -149,7 +149,12 @@ function main() {
         console.log(`📤 Exporting session: ${sessionId}`);
         console.log(`📁 Output: ${outputPath}`);
         console.log(`📄 Format: ${config.outputFormat}`);
-        const res = mgr.exportReplay(dummySession, path.isAbsolute(outputPath) ? outputPath : path.resolve(outputPath));
+        // Write exports relative to repo root if a relative path was provided,
+        // so tests reading from project root find the files.
+        const resolvedOutput = path.isAbsolute(outputPath)
+          ? outputPath
+          : path.resolve(process.cwd(), outputPath);
+        const res = mgr.exportReplay(dummySession, resolvedOutput);
         if (res.success) {
           console.log(`✅ Export successful: ${outputPath}`);
         } else {

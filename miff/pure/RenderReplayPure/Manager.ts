@@ -343,12 +343,33 @@ export class RenderReplayManager {
 
   private loadGoldenTest(testPath: string): any {
     try {
-      if (!fs.existsSync(testPath)) {
-        return null;
-      }
+      // Try the provided path first
+      const candidates: string[] = [];
+      candidates.push(testPath);
+      // If absolute path under repo real dir, try symlinked root variant and vice versa
+      try {
+        const normalized = path.normalize(testPath);
+        if (normalized.includes(`${path.sep}miff${path.sep}pure${path.sep}`)) {
+          const alt = normalized.replace(`${path.sep}miff${path.sep}pure${path.sep}`, `${path.sep}`);
+          candidates.push(alt);
+        } else {
+          const alt = normalized.replace(`${path.sep}`, `${path.sep}miff${path.sep}pure${path.sep}`);
+          candidates.push(alt);
+        }
+      } catch {}
+      // Also try relative to current working directory and module directory
+      candidates.push(path.resolve(process.cwd(), testPath));
+      candidates.push(path.resolve(__dirname, testPath));
 
-      const content = fs.readFileSync(testPath, 'utf-8');
-      return JSON.parse(content);
+      for (const candidate of candidates) {
+        try {
+          if (fs.existsSync(candidate)) {
+            const content = fs.readFileSync(candidate, 'utf-8');
+            return JSON.parse(content);
+          }
+        } catch {}
+      }
+      return null;
     } catch (error) {
       return null;
     }
