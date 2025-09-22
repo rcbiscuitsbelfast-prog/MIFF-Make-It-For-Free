@@ -670,10 +670,12 @@ async function main() {
   if (argv.length === 1 && argv[0].endsWith('.json')) {
     try {
       const jsonPath = argv[0];
-      const data = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as Dialogue;
+      const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
+      const data: Dialogue = (raw && raw.dialogue) ? raw.dialogue : raw;
+      const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw.choiceIndex : 0;
       // Start then take first choice deterministically
       await cli.execute({ op: 'start', dialogue: data });
-      const step = await cli.execute({ op: 'next', choiceIndex: 0 });
+      const step = await cli.execute({ op: 'next', choiceIndex });
       const id = step.result?.id;
       const issue = step.result?.issue;
       const status = step.status;
