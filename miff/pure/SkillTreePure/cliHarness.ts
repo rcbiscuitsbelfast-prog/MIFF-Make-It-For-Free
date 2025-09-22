@@ -21,7 +21,8 @@ function main() {
       case 'load':
         const skillsFile = args[1];
         if (skillsFile && fs.existsSync(skillsFile)) {
-          const skills = JSON.parse(fs.readFileSync(path.resolve(skillsFile), 'utf-8')) as Skill[];
+          const raw = JSON.parse(fs.readFileSync(path.resolve(skillsFile), 'utf-8')) as any;
+          const skills: Skill[] = Array.isArray(raw) ? raw : (raw.skills || []);
           mgr.load(skills);
           result.result = { message: `Loaded ${skills.length} skills` };
         } else {
