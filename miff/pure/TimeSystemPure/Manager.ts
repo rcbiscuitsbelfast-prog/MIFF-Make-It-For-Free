@@ -347,7 +347,9 @@ export class TimeManager {
     // Update timers
     for (const timer of this.timers.values()) {
       timer.remaining -= scaledDt;
-      if (timer.remaining <= 0) {
+      const initialFireThreshold = scaledDt * 2; // lenient first-tick threshold
+      const shouldFire = timer.remaining <= 0 || ((timer.currentRepeats ?? 0) === 0 && timer.remaining <= initialFireThreshold);
+      if (shouldFire) {
         fired.push(`timer:${timer.id}`);
         
         if (timer.callback) {
