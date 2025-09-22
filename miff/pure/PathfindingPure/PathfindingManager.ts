@@ -366,6 +366,7 @@ export class PathfindingManager {
     const dist = new Map<string, number>();
     const prev = new Map<string, Node>();
     const pq: { key: string; d: number }[] = [];
+    const visited = new Set<string>();
     const pushPQ = (k: string, d: number) => {
       pq.push({ key: k, d });
     };
@@ -399,6 +400,8 @@ export class PathfindingManager {
       iterations++;
       const current = popMin();
       const [cx, cy] = current.key.split(',').map(Number);
+      if (visited.has(current.key)) continue;
+      visited.add(current.key);
       if (current.key === goalKey) {
         const path: Node[] = [];
         let node: Node | undefined = { x: cx, y: cy };
