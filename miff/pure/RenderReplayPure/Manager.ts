@@ -2,8 +2,8 @@
 // Schema Version: v1
 
 import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface ReplayConfig {
   engine: 'unity' | 'web' | 'godot';
@@ -620,6 +620,7 @@ export class RenderReplayManager {
     lines.push('</body>');
     lines.push('</html>');
     
-    return lines.join('\n');
+    const html = lines.join('\n');
+    return html && html.trim().length > 0 ? html : '<!DOCTYPE html>\n<html><body>Empty</body></html>';
   }
 }

@@ -1,20 +1,16 @@
 {
+  "schemaVersion": "v1",
   "examples": {
     "basic": {
       "session": {
-        "id": "replay_1704067200000",
+        "sessionId": "replay_1704067200000",
         "config": { "engine": "web", "speed": 1, "loop": false, "showDebug": true },
         "steps": [
-          { "renderData": [ { "id": "sprite1", "type": "sprite", "position": { "x": 0, "y": 0 } } ] }
-        ]
+          { "step": 1, "timestamp": "2025-01-01T00:00:00.000Z", "renderData": [ { "id": "sprite1", "type": "sprite", "position": { "x": 0, "y": 0 } } ] }
+        ],
+        "summary": { "totalSteps": 1, "totalRenderData": 1, "totalIssues": 0, "duration": "1000ms", "engine": "web" }
       }
-    }
-  }
-}
-
-{
-  "schemaVersion": "v1",
-  "examples": {
+    },
     "unity_replay": {
       "description": "UnityBridgePure replay session example",
       "session": {
