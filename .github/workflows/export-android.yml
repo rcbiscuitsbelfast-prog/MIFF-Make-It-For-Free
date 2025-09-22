@@ -1,0 +1,36 @@
+name: Export Android (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: Godot export preset
+        default: Release
+        required: true
+      format:
+        description: aab or apk
+        default: aab
+        required: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install deps
+        run: npm ci
+      - name: Show config
+        run: |
+          node -e "console.log('preset=${{ github.event.inputs.preset }} format=${{ github.event.inputs.format }}')"
+      - name: Dry-run ExportAndroidPure (placeholder)
+        run: |
+          npx ts-node miff/pure/ExportAndroidPure/cliHarness.ts --preset "${{ github.event.inputs.preset }}" --project ./docs/godot $([ "${{ github.event.inputs.format }}" = "aab" ] && echo --aab || echo --apk)
+      - name: Upload placeholder artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-export-logs
+          path: |
+            **/export-*.log
