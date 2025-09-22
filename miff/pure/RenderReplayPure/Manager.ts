@@ -259,8 +259,20 @@ export class RenderReplayManager {
         fs.mkdirSync(outputDir, { recursive: true });
       }
 
-      // Write file
-      fs.writeFileSync(outputPath, content, 'utf-8');
+      // Write file (force overwrite) and verify
+      try {
+        if (fs.existsSync(outputPath)) {
+          try { fs.unlinkSync(outputPath); } catch {}
+        }
+        fs.writeFileSync(outputPath, content, { encoding: 'utf-8', flag: 'w' });
+        const verify = fs.readFileSync(outputPath, 'utf-8');
+        if (!verify || verify.trim().length === 0 || verify.trim() === '{}') {
+          // Attempt a second write
+          fs.writeFileSync(outputPath, content, { encoding: 'utf-8', flag: 'w' });
+        }
+      } catch (e) {
+        throw e;
+      }
 
       return { success: true };
     } catch (error) {
