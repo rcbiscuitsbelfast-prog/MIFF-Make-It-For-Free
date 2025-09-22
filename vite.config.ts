@@ -1,14 +1,21 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import fs from 'fs';
 
-export default defineConfig(({ mode }) => ({
-  root: 'sampler',
+export default defineConfig(({ mode }) => {
+  const samplerRoot = resolve(__dirname, 'sampler');
+  const hasSampler = fs.existsSync(samplerRoot) && fs.existsSync(resolve(samplerRoot, 'index.html'));
+  const root = hasSampler ? 'sampler' : '.';
+  const inputHtml = hasSampler ? resolve(__dirname, 'sampler/index.html') : resolve(__dirname, 'index.html');
+
+  return {
+  root,
   build: {
     outDir: '../dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'sampler/index.html')
+        main: inputHtml
       },
       output: {
         manualChunks: {
@@ -36,4 +43,5 @@ export default defineConfig(({ mode }) => ({
   define: {
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || mode)
   }
-}));
+};
+});
