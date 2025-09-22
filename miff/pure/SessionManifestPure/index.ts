@@ -24,7 +24,7 @@ export class SessionManifestPure {
     if (!manifest || typeof manifest !== 'object') errors.push('manifest missing');
     if (!manifest.id) errors.push('id missing');
     if (!manifest.zone) errors.push('zone missing');
-    if (!Array.isArray(manifest.players) || manifest.players.length === 0) errors.push('players missing');
+    if (!Array.isArray(manifest.players)) errors.push('players missing');
     return { ok: errors.length === 0, errors };
   }
 }

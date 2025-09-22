@@ -44,7 +44,11 @@ export class SessionManifestManager {
         return { ok: false, errors: [`Session ${id} already exists`] };
       }
 
-      if (players.length > this.config.maxPlayers) {
+    if (!Array.isArray(players)) {
+      return { ok: false, errors: ['players missing'] };
+    }
+
+    if (players.length > this.config.maxPlayers) {
         return { ok: false, errors: [`Too many players: ${players.length}/${this.config.maxPlayers}`] };
       }
 
