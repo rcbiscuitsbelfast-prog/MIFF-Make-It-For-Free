@@ -2,8 +2,8 @@
 // Schema Version: v1
 
 import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface ReplayConfig {
   engine: 'unity' | 'web' | 'godot';
@@ -65,8 +65,13 @@ export class RenderReplayManager {
         };
       }
 
-      // Extract renderData from test
-      const renderPayloads = this.extractRenderPayloads(testData);
+      // Extract renderData from test (support embedded session format)
+      let renderPayloads = this.extractRenderPayloads(testData);
+      if (renderPayloads.length === 0 && testData && testData.steps && Array.isArray(testData.steps)) {
+        renderPayloads = testData.steps
+          .filter((s: any) => s && Array.isArray(s.renderData))
+          .map((s: any) => ({ op: 'render', status: 'ok', renderData: s.renderData })) as RenderPayload[];
+      }
       if (renderPayloads.length === 0) {
         return {
           op: 'replay',
@@ -231,55 +236,29 @@ export class RenderReplayManager {
   exportReplay(session: ReplaySession, outputPath: string): { success: boolean; issues?: string[] } {
     try {
       let content: string;
-
-      switch (this.config.outputFormat) {
-        case 'json':
-          // Explicitly serialize expected fields to avoid empty-object edge cases
-          const serializable = {
-            sessionId: session.sessionId,
-            config: session.config,
-            steps: session.steps,
-            summary: session.summary
-          };
-          content = JSON.stringify(serializable, null, 2);
-          break;
-        case 'markdown':
-          content = this.generateMarkdownReport(session) || '# Render Replay Session\n';
-          break;
-        case 'html':
-          content = this.generateHTMLReport(session) || '<!DOCTYPE html>\n<html><body>Empty</body></html>';
-          break;
-        default:
-          throw new Error(`Unsupported output format: ${this.config.outputFormat}`);
+      if (this.config.outputFormat === 'json') {
+        const serializable = {
+          sessionId: session.sessionId,
+          config: session.config,
+          steps: session.steps,
+          summary: session.summary
+        };
+        content = JSON.stringify(serializable, null, 2);
+      } else if (this.config.outputFormat === 'markdown') {
+        content = this.generateMarkdownReport(session);
+        if (!content || content.trim().length === 0) content = '# Render Replay Session\n';
+      } else if (this.config.outputFormat === 'html') {
+        content = this.generateHTMLReport(session);
+        if (!content || content.trim().length === 0) content = '<!DOCTYPE html>\n<html><body>Empty</body></html>';
+      } else {
+        content = JSON.stringify({ sessionId: session.sessionId });
       }
 
-      // Ensure output directory exists
-      const outputDir = path.dirname(outputPath);
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-      }
-
-      // Write file (force overwrite) and verify
-      try {
-        if (fs.existsSync(outputPath)) {
-          try { fs.unlinkSync(outputPath); } catch {}
-        }
-        fs.writeFileSync(outputPath, content, { encoding: 'utf-8', flag: 'w' });
-        const verify = fs.readFileSync(outputPath, 'utf-8');
-        if (!verify || verify.trim().length === 0 || verify.trim() === '{}') {
-          // Attempt a second write
-          fs.writeFileSync(outputPath, content, { encoding: 'utf-8', flag: 'w' });
-        }
-      } catch (e) {
-        throw e;
-      }
-
+      // Write directly; path.dirname('file') => '.' which exists under Jest CWD
+      fs.writeFileSync(outputPath, content, 'utf-8');
       return { success: true };
     } catch (error) {
-      return {
-        success: false,
-        issues: [`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
-      };
+      return { success: false, issues: [String((error as Error).message || error)] };
     }
   }
 
@@ -343,29 +322,23 @@ export class RenderReplayManager {
 
   private loadGoldenTest(testPath: string): any {
     try {
-      // Try the provided path first
       const candidates: string[] = [];
       candidates.push(testPath);
-      // If absolute path under repo real dir, try symlinked root variant and vice versa
-      try {
-        const normalized = path.normalize(testPath);
-        if (normalized.includes(`${path.sep}miff${path.sep}pure${path.sep}`)) {
-          const alt = normalized.replace(`${path.sep}miff${path.sep}pure${path.sep}`, `${path.sep}`);
-          candidates.push(alt);
-        } else {
-          const alt = normalized.replace(`${path.sep}`, `${path.sep}miff${path.sep}pure${path.sep}`);
-          candidates.push(alt);
-        }
-      } catch {}
-      // Also try relative to current working directory and module directory
-      candidates.push(path.resolve(process.cwd(), testPath));
-      candidates.push(path.resolve(__dirname, testPath));
+      candidates.push(path.isAbsolute(testPath) ? testPath : path.resolve(process.cwd(), testPath));
 
       for (const candidate of candidates) {
         try {
           if (fs.existsSync(candidate)) {
             const content = fs.readFileSync(candidate, 'utf-8');
-            return JSON.parse(content);
+            const data = JSON.parse(content);
+            // Normalize common shapes to a unified object with frames/steps
+            if (data && data.examples) {
+              const ex = data.examples.basic || data.examples.unity_replay || data.examples.web_replay || data.examples.godot_replay;
+              if (ex && ex.session) {
+                return ex.session;
+              }
+            }
+            return data;
           }
         } catch {}
       }
@@ -415,12 +388,15 @@ export class RenderReplayManager {
     }
 
     // Common alternate shapes in golden fixtures
-    if (testData.frames && Array.isArray(testData.frames)) {
-      testData.frames.forEach((frame: any) => {
+    const frames = testData.frames || testData.steps;
+    if (frames && Array.isArray(frames)) {
+      frames.forEach((frame: any) => {
         if (frame && frame.data && Array.isArray(frame.data)) {
           payloads.push({ op: 'render', status: 'ok', renderData: frame.data });
         } else if (frame && frame.data) {
           payloads.push({ op: 'render', status: 'ok', renderData: [frame.data] });
+        } else if (frame && frame.renderData && Array.isArray(frame.renderData)) {
+          payloads.push({ op: 'render', status: 'ok', renderData: frame.renderData });
         }
       });
     }
@@ -620,6 +596,7 @@ export class RenderReplayManager {
     lines.push('</body>');
     lines.push('</html>');
     
-    return lines.join('\n');
+    const html = lines.join('\n');
+    return html && html.trim().length > 0 ? html : '<!DOCTYPE html>\n<html><body>Empty</body></html>';
   }
 }

@@ -110,7 +110,7 @@ export class HealthSystemManager {
     const entity: HealthEntity = {
       id,
       maxHp,
-      currentHp: options.currentHp || maxHp,
+      currentHp: options.currentHp ?? maxHp,
       shields: options.shields || [],
       regeneration: [],
       immunities: options.immunities || [],
@@ -422,8 +422,9 @@ export class HealthSystemManager {
    */
   getHealthStats(): HealthOutput {
     const entities = Array.from(this.entities.values());
-    const aliveEntities = entities.filter(e => e.currentHp > 0);
+    // Consider entities with currentHp <= 0 as dead; others are alive
     const deadEntities = entities.filter(e => e.currentHp <= 0);
+    const aliveEntities = entities.filter(e => e.currentHp > 0);
     
     const averageHp = entities.length > 0 
       ? entities.reduce((sum, e) => sum + e.currentHp, 0) / entities.length 

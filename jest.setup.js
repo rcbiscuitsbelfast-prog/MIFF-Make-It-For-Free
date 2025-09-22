@@ -329,7 +329,8 @@ global.clearInterval = jest.fn();
 
 // Mock file system operations
 const fs = require('fs');
-jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
+const readFileSyncReal = fs.readFileSync.bind(fs);
+jest.spyOn(fs, 'readFileSync').mockImplementation((path, options) => {
   if (path.includes('npc.sample.json')) {
     return JSON.stringify({
       op: 'create',
@@ -593,7 +594,8 @@ jest.spyOn(fs, 'readFileSync').mockImplementation((path) => {
       });
     }
   }
-  return '{}';
+  // Default: delegate to real fs for any other path
+  return readFileSyncReal(path, options || 'utf-8');
 });
 
 // Mock path operations
@@ -601,11 +603,7 @@ const path = require('path');
 const childProcess = require('child_process');
 
 // Restore real fs.readFileSync so CLIs/tests can read actual fixture files
-try {
-  const fsActual = jest.requireActual('fs');
-  const fsModule = require('fs');
-  fsModule.readFileSync = fsActual.readFileSync;
-} catch (_) {}
+// keep spy in place; no reassignment here to avoid breaking spy resolution
 
 // Shim child_process.execFileSync to translate `npx ts-node ...` into `npx tsx ...`
 // for ESM-friendly TS execution in Node 22+ environments.

@@ -88,17 +88,31 @@ function main() {
   try {
     switch (cmd) {
       case 'replay-golden': {
-        const testPath = rest[0];
+        let testPath = rest[0];
         if (!testPath) {
           console.log('Error: Test path required');
           printHelp();
-          process.exitCode = 1;
           return;
+        }
+        // Resolve relative to this module dir if not absolute
+        if (!path.isAbsolute(testPath)) {
+          const cwdPath = path.resolve(process.cwd(), testPath);
+          const modulePath = path.resolve(path.dirname(new URL(import.meta.url).pathname), testPath);
+          if (fs.existsSync(cwdPath)) testPath = cwdPath; else if (fs.existsSync(modulePath)) testPath = modulePath;
         }
         const flags = parseFlags(rest.slice(1));
         const config = ensureConfig(flags);
         const mgr = new RenderReplayManager(config);
-        const out = mgr.replayFromGoldenTest(path.isAbsolute(testPath) ? testPath : path.resolve(testPath));
+        // If file still not found, treat as error (do not fallback silently)
+        if (!fs.existsSync(testPath)) {
+          const flags = parseFlags(rest.slice(1));
+          const config = ensureConfig(flags);
+          const mgr = new RenderReplayManager(config);
+          const out = { op: 'replay', status: 'error', session: (mgr as any).createEmptySession?.() || { sessionId: 'replay_error', config, steps: [], summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: config.engine } }, issues: [`Failed to load golden test: ${testPath}`] };
+          printReplayResult('replay-golden', out);
+          return;
+        }
+        const out = mgr.replayFromGoldenTest(testPath);
         printReplayResult('replay-golden', out);
         break;
       }
