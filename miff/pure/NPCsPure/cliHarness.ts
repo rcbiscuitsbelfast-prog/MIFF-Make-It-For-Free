@@ -35,9 +35,10 @@ let output: any;
 try {
   switch (mode) {
     case 'create':
-      // If first arg is a JSON file path, load NPC from file (test expects this)
-      if (args[0] && args[0].endsWith('.json')) {
-        const filePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
+      // If any arg is a JSON file path, load NPC from file (test expects this)
+      const fileArg = args.find(a => a.endsWith && a.endsWith('.json'));
+      if (fileArg) {
+        const filePath = path.isAbsolute(fileArg) ? fileArg : path.resolve(fileArg);
         const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
         // Normalize stats shape: object -> array of { key, base }
         if (data && data.stats && !Array.isArray(data.stats) && typeof data.stats === 'object') {
