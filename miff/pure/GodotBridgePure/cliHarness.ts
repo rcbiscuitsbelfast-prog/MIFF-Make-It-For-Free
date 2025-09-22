@@ -26,7 +26,8 @@ function main() {
       input = { op: argv[0] as any, module: argv[1] } as GodotBridgeOperation;
     } else if (argv.length >= 3) {
       const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
-      input = { op: argv[0] as any, module: argv[1], data: payload } as GodotBridgeOperation;
+      const configOverride = argv[3] && fs.existsSync(argv[3]) ? JSON.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
+      input = { op: argv[0] as any, module: argv[1], data: payload, config: configOverride } as GodotBridgeOperation;
     } else {
       const inputFile = argv[0];
       input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
@@ -41,13 +42,18 @@ function main() {
     }
     
     const bridge = new GodotBridge();
-    const config = input.config || {
+    const config = {
       targetVersion: '4.0',
       useGDScript: true,
       scenePath: '/scenes',
       scriptPath: '/scripts',
-      resourcePath: '/resources'
-    };
+      resourcePath: '/resources',
+      language: 'gdscript'
+    } as any;
+    if (input.config && typeof input.config === 'object') {
+      Object.assign(config, input.config);
+      if (input.config.language) config.language = input.config.language;
+    }
     
     let result;
     switch (input.op) {
