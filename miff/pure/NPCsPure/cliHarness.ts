@@ -54,10 +54,8 @@ try {
         if (data && !data.movementPattern) {
           data.movementPattern = { type: 'idle', speed: 1 };
         }
-        // Avoid duplicate id collisions with default NPCs
-        if (!data.id || manager.getNPC(data.id as any).status === 'ok') {
-          data.id = 'npc_test';
-        }
+        // Set deterministic id for test-created NPCs to avoid collisions
+        data.id = 'npc_test';
         output = manager.createNPC(data as NPC);
       } else {
         const newNPC: NPC = {
