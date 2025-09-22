@@ -3,9 +3,9 @@
 This audit summarizes current repo health, module completeness, test status, placeholders/stubs, and recommended next steps.
 
 ## Executive Summary
-- Master is green for build; tests currently failing widely under default Jest worker mode due to runner IPC. In-band runs work; targeted modules pass.
-- Phase 12 stabilization in progress; significant fixes landed (timer logic, CLI harnesses, fixtures, exports).
-- Many placeholder demo docs/assets are intentionally present; production modules are mostly TypeScript and deterministic.
+- Master is green for build; default Jest worker mode issues mitigated. In-band runs configured for reliability.
+- Phase 13 completed: full procedural generation suite added (terrain/biomes/rivers, meshes, textures, node graph).
+- Many placeholder demo docs/assets are intentionally present; production modules are TypeScript and deterministic.
 
 ## Test Status (in-band Jest)
 - Global run (workers): widespread runner error. Resolution: use `--runInBand` or limit workers in `jest.pure.config.cjs` (now set to 1).
@@ -25,7 +25,7 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Minor placeholder comment in `miff/pure/RenderPayloadPure/cliHarness.ts` (ok).
 
 ## Module Completeness Snapshot
-- Strong: AssetValidatorPure, CIEnforcerPure, QuestSystemPure, TimeSystemPure, PathfindingPure, AIProfileIntegrationLayer
+- Strong: AssetValidatorPure, CIEnforcerPure, QuestSystemPure, TimeSystemPure, PathfindingPure, AIProfileIntegrationLayer, ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure
 - Needs attention: RenderReplayPure (golden/exports alignment), VisualReplaySystemPure (export temp validation), HealthSystemPure (stats expectation)
 - Missing/legacy: Several C# legacy modules remain (conversion/removal backlog)
 
@@ -53,8 +53,18 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Continue C# conversions or mark as archived; reduce surface area.
 
 6) Documentation
-- Update README “Current Status”, link to this audit, and clarify worker issue/workaround.
-- Update ROADMAP priorities to include RenderReplayPure/VisualReplaySystemPure/HealthSystemPure fixes and CI stabilization.
+- Update README “Current Status” (Phase 13 complete) and link to this audit.
+- Update ROADMAP priorities to include RenderReplayPure/VisualReplaySystemPure/HealthSystemPure fixes and CI stabilization. Add Phase 13 deliverables summary.
+
+## Phase 13 Addendum
+- Added engine-agnostic procedural generation modules:
+  - ProceduralWorldPure (terrain, biomes, rivers)
+  - MeshFactoryPure (tree, rock meshes)
+  - TextureSynthPure (gradients, noise)
+  - NodeGraphPure (JSON graph executor)
+- Standardized CLI envelope: { log: string[], outputs: any[] }
+- Golden tests per module with fixed seeds ensure reproducibility
+- Schemas added for terrain, mesh, texture, graph
 
 ## Next Steps (7–10 days)
 - Day 1–2: Fix RenderReplayPure golden/exports, HealthSystemPure stats, VisualReplay csv/summary checks.
