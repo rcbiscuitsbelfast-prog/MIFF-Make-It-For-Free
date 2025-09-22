@@ -425,7 +425,10 @@ export class PathfindingManager {
       }
     }
     // Fallback: attempt A* as a secondary strategy to improve robustness
+    const prevLen = this.results.length;
     const astar = this.findPathAStar(start, goal, { heuristic: 'manhattan', allowDiagonal: false, maxIterations });
+    // Remove the internal A* result to avoid inflating stats; we will record a mapped dijkstra result instead
+    if (this.results.length > prevLen) this.results.pop();
     if (astar.success) {
       const mapped: PathfindingResult = { ...astar, requestId, algorithm: 'dijkstra' };
       this.results.push(mapped);
