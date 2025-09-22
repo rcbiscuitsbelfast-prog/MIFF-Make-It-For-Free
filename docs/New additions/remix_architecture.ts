@@ -174,7 +174,7 @@ export class RemixModeManager {
 
   // Phase 4: Export and sharing
   generateRemixManifest(): RemixManifest {
-    return {
+    const manifest = {
       version: "1.0",
       baseScenario: this.session.baseScenario,
       changes: this.session.changes.map((c) => {
@@ -187,7 +187,16 @@ export class RemixModeManager {
       assets: this.getUsedAssets(),
       remixSafe: this.validateRemixSafety(),
       shareableLink: this.generateShareableLink()
+<<<<<<< HEAD
     } as any;
+=======
+    } as RemixManifest;
+    // Back-compat: expose firstChange snapshot fields
+    (manifest as any).firstChange = this.session.changes[0]
+      ? { pos: (this.session.changes[0] as any).data?.position, block: (this.session.changes[0] as any).data?.blockType }
+      : { pos: undefined, block: undefined };
+    return manifest;
+>>>>>>> cursor/phase12-final-stabilization-sweep
   }
 
   // Undo/Redo system
@@ -220,6 +229,9 @@ export class RemixModeManager {
           type: blockType,
           id: change.id
         });
+        // Keep a minimal snapshot for firstChange compatibility
+        (change as any).pos = position;
+        (change as any).block = blockType;
         break;
       // Handle other change types...
     }

@@ -20,11 +20,46 @@ function main() {
     switch (command) {
       case 'load':
         const skillsFile = args[1];
+<<<<<<< HEAD
         if (skillsFile && fs.existsSync(skillsFile)) {
           const raw = JSON.parse(fs.readFileSync(path.resolve(skillsFile), 'utf-8')) as any;
           const skills: Skill[] = Array.isArray(raw) ? raw : (raw.skills || []);
           mgr.load(skills);
           result.result = { message: `Loaded ${skills.length} skills` };
+=======
+        if (skillsFile) {
+          const candidates: string[] = [];
+          const absGiven = path.isAbsolute(skillsFile) ? skillsFile : path.resolve(skillsFile);
+          const cwdPath = path.isAbsolute(skillsFile) ? skillsFile : path.resolve(process.cwd(), skillsFile);
+          const modulePath = path.isAbsolute(skillsFile)
+            ? skillsFile
+            : path.resolve(path.dirname(new URL(import.meta.url).pathname), skillsFile);
+          candidates.push(absGiven);
+          if (!candidates.includes(cwdPath)) candidates.push(cwdPath);
+          if (!candidates.includes(modulePath)) candidates.push(modulePath);
+
+          let fileToRead: string | undefined;
+          for (const p of candidates) {
+            try {
+              if (fs.existsSync(p)) { fileToRead = p; break; }
+            } catch {}
+          }
+
+          if (fileToRead) {
+            const raw = JSON.parse(fs.readFileSync(fileToRead, 'utf-8')) as any;
+            const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? raw.skills : []);
+            if (!Array.isArray(skills) || skills.length === 0) {
+              result.status = 'error';
+              result.result = { error: 'No skills found in file' };
+              break;
+            }
+            mgr.load(skills);
+            result.result = { message: `Loaded ${skills.length} skills` };
+          } else {
+            result.status = 'error';
+            result.result = { error: `Skills file not found: ${skillsFile}` };
+          }
+>>>>>>> cursor/phase12-final-stabilization-sweep
         } else {
           result.status = 'error';
           result.result = { error: 'Skills file required' };

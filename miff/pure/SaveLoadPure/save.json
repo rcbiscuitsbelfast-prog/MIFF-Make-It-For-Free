@@ -4,7 +4,11 @@
   "saves": {
     "demo_slot_1": {
       "id": "demo_slot_1",
+<<<<<<< HEAD
       "timestamp": 1758558651641,
+=======
+      "timestamp": 1758571158688,
+>>>>>>> cursor/phase12-final-stabilization-sweep
       "data": {
         "schemaVersion": 11,
         "currentSlot": "demo_slot_1",
@@ -18,7 +22,11 @@
     },
     "demo_slot_2": {
       "id": "demo_slot_2",
+<<<<<<< HEAD
       "timestamp": 1758558651641,
+=======
+      "timestamp": 1758571158688,
+>>>>>>> cursor/phase12-final-stabilization-sweep
       "data": {
         "schemaVersion": 11,
         "currentSlot": "demo_slot_2",
@@ -27,7 +35,11 @@
     },
     "demo_slot_3": {
       "id": "demo_slot_3",
+<<<<<<< HEAD
       "timestamp": 1758558651641,
+=======
+      "timestamp": 1758571158688,
+>>>>>>> cursor/phase12-final-stabilization-sweep
       "data": {
         "schemaVersion": 11,
         "currentSlot": "demo_slot_3",
@@ -36,7 +48,11 @@
     },
     "slot_001": {
       "id": "slot_001",
+<<<<<<< HEAD
       "timestamp": 1758558644613,
+=======
+      "timestamp": 1758571150320,
+>>>>>>> cursor/phase12-final-stabilization-sweep
       "data": {
         "schemaVersion": 11,
         "currentSlot": "slot_001",

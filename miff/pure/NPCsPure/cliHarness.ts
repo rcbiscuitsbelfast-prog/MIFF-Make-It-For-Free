@@ -13,6 +13,8 @@ import { NPCsManager, NPC, NPBehavior } from './Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import fs from 'fs';
+import path from 'path';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new NPCsManager();
@@ -35,6 +37,7 @@ let output: any;
 try {
   switch (mode) {
     case 'create':
+<<<<<<< HEAD
       // If any arg is a JSON file path, load NPC from file (test expects this)
       const fileArg = args.find(a => a.endsWith && a.endsWith('.json'));
       if (fileArg) {
@@ -82,6 +85,54 @@ try {
         };
         output = manager.createNPC(newNPC);
       }
+=======
+      // Allow passing a JSON file path as first non-flag arg for creation (used in tests)
+      if (args.length > 1 && !args[1].startsWith('--')) {
+        const filePath = path.isAbsolute(args[1]) ? args[1] : path.resolve(args[1]);
+        if (fs.existsSync(filePath)) {
+          const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+          // Normalize shapes where stats are object -> array of {key, base}
+          const statsArr = Array.isArray(raw.stats)
+            ? raw.stats
+            : Object.entries(raw.stats || {}).map(([key, base]) => ({ key, base }));
+          const created = manager.createNPC({
+            id: raw.id,
+            name: raw.name,
+            stats: statsArr,
+            behavior: raw.behavior,
+            location: raw.location,
+            questIds: raw.questIds || [],
+            movementPattern: raw.movementPattern || { type: 'idle', speed: 1 },
+            faction: raw.faction,
+            reputation: raw.reputation
+          } as any);
+          output = created;
+          break;
+        }
+      }
+      const newNPC: NPC = {
+        id: npcId as any,
+        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
+        stats: [
+          { key: 'health', base: 100 },
+          { key: 'mana', base: 50 },
+          { key: 'strength', base: 10 },
+          { key: 'wisdom', base: 10 }
+        ],
+        behavior: {
+          type: behaviorType as any,
+          aggression: 0,
+          curiosity: 50,
+          loyalty: 50
+        },
+        location: { zoneId: zoneId as any, x, y, z },
+        questIds: [],
+        movementPattern: { type: 'idle', speed: 1 },
+        faction,
+        reputation: 50
+      };
+      output = manager.createNPC(newNPC);
+>>>>>>> cursor/phase12-final-stabilization-sweep
       break;
 
     case 'get':
@@ -105,6 +156,7 @@ try {
 
     case 'list':
       const filter: any = {};
+<<<<<<< HEAD
       // Support key=value args, e.g., zoneId=zone_village
       for (const a of args) {
         if (a.includes('=') && !a.startsWith('--')) {
@@ -118,6 +170,16 @@ try {
       if (args.includes('--behavior')) filter.behaviorType = behaviorType;
       if (args.includes('--faction')) filter.faction = faction;
       if (args.includes('--has-quest')) filter.hasQuest = true;
+=======
+      // Support both --zone-id= and positional key=value used by tests
+      const zoneArg = args.find(a => a.startsWith('--zone-id=')) || args.find(a => a.startsWith('zoneId='));
+      if (zoneArg) filter.zoneId = (zoneArg.split('=')[1]);
+      const behArg = args.find(a => a.startsWith('--behavior=')) || args.find(a => a.startsWith('behavior='));
+      if (behArg) filter.behaviorType = (behArg.split('=')[1]);
+      const facArg = args.find(a => a.startsWith('--faction=')) || args.find(a => a.startsWith('faction='));
+      if (facArg) filter.faction = (facArg.split('=')[1]);
+      if (args.includes('--has-quest') || args.includes('hasQuest')) filter.hasQuest = true;
+>>>>>>> cursor/phase12-final-stabilization-sweep
       
       output = manager.listNPCs(filter);
       break;
@@ -256,7 +318,11 @@ try {
       break;
 
     case 'dump':
+<<<<<<< HEAD
       output = { op: 'dump', status: 'ok', result: manager.getNPCsInZone(zoneId as any) } as any;
+=======
+      output = manager.dumpAll?.() || { op: 'dump', status: 'ok', result: manager.listNPCs({}).result };
+>>>>>>> cursor/phase12-final-stabilization-sweep
       break;
 
     default:

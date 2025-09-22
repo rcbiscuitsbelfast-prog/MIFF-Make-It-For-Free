@@ -56,7 +56,11 @@
   },
   "metadata": {
     "version": "1.0.0",
+<<<<<<< HEAD
     "timestamp": "2025-09-22T18:59:51.641Z",
+=======
+    "timestamp": "2025-09-22T20:09:49.237Z",
+>>>>>>> cursor/phase12-final-stabilization-sweep
     "stats": {
       "totalSettings": 39,
       "modifiedSettings": 0,

@@ -59,7 +59,11 @@
     },
     "slot-a": {
       "id": "slot-a",
+<<<<<<< HEAD
       "timestamp": 1758558719458,
+=======
+      "timestamp": 1758571225226,
+>>>>>>> cursor/phase12-final-stabilization-sweep
       "data": {
         "schemaVersion": 11,
         "currentSlot": "slot-a",
@@ -163,7 +167,11 @@
     },
     "slot-c": {
       "id": "slot-c",
+<<<<<<< HEAD
       "timestamp": 1758558719463,
+=======
+      "timestamp": 1758571225230,
+>>>>>>> cursor/phase12-final-stabilization-sweep
       "data": {
         "schemaVersion": 11,
         "currentSlot": "slot-c",
