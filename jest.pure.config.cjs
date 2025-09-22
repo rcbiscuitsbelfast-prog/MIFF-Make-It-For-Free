@@ -4,6 +4,12 @@ module.exports = {
   setupFilesAfterEnv: ['./jest.setup.js'],
   // Limit concurrency to avoid worker IPC incompatibilities
   maxWorkers: 1,
+  coverageDirectory: './coverage',
+  collectCoverageFrom: [
+    'miff/pure/**/*.ts',
+    '!miff/pure/**/tests/**',
+    '!miff/pure/**/cliHarness.ts'
+  ],
   transform: { 
     '^.+\\.(ts|tsx)$': ['@swc/jest', {
       jsc: {
