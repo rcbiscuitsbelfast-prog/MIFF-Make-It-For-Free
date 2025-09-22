@@ -265,6 +265,108 @@ export class RenderReplayManager {
   }
 
   /**
+   * Generate Markdown report
+   */
+  private generateMarkdownReport(session: ReplaySession): string {
+    const lines: string[] = [];
+    
+    lines.push(`# Render Replay Session: ${session.sessionId}`);
+    lines.push(`Engine: ${session.summary.engine}`);
+    lines.push(`Steps: ${session.summary.totalSteps}`);
+    lines.push(`RenderData: ${session.summary.totalRenderData}`);
+    lines.push(`Issues: ${session.summary.totalIssues}`);
+    lines.push(`Duration: ${session.summary.duration}`);
+    lines.push('');
+
+    session.steps.forEach((step) => {
+      lines.push(`## Step ${step.step} (${step.timestamp})`);
+      
+      if (step.annotations && step.annotations.length > 0) {
+        lines.push('### Annotations:');
+        step.annotations.forEach(annotation => {
+          lines.push(`- ${annotation}`);
+        });
+        lines.push('');
+      }
+
+      if (step.renderData && step.renderData.length > 0) {
+        lines.push('### Render Data:');
+        step.renderData.forEach((data, idx) => {
+          lines.push(`- **${data.id}** (${data.type})`);
+        });
+        lines.push('');
+      }
+
+      if (step.issues && step.issues.length > 0) {
+        lines.push('### Issues:');
+        step.issues.forEach(issue => {
+          lines.push(`- ⚠️ ${issue}`);
+        });
+        lines.push('');
+      }
+    });
+
+    return lines.join('\n');
+  }
+
+  /**
+   * Generate HTML report
+   */
+  private generateHTMLReport(session: ReplaySession): string {
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Render Replay Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .step { border: 1px solid #ddd; margin-bottom: 15px; padding: 15px; border-radius: 5px; }
+        .step h2 { margin-top: 0; color: #333; }
+        .annotations, .issues { margin: 10px 0; }
+        .annotation { background: #e8f4fd; padding: 5px; margin: 2px 0; border-radius: 3px; }
+        .issue { background: #fff2cc; padding: 5px; margin: 2px 0; border-radius: 3px; }
+        ul { margin: 5px 0; padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Render Replay Session: ${session.sessionId}</h1>
+        <p><strong>Engine:</strong> ${session.summary.engine}</p>
+        <p><strong>Steps:</strong> ${session.summary.totalSteps}</p>
+        <p><strong>RenderData:</strong> ${session.summary.totalRenderData}</p>
+        <p><strong>Issues:</strong> ${session.summary.totalIssues}</p>
+        <p><strong>Duration:</strong> ${session.summary.duration}</p>
+    </div>
+    ${session.steps.map(step => `
+    <div class="step">
+        <h2>Step ${step.step} (${step.timestamp})</h2>
+        ${step.annotations && step.annotations.length > 0 ? `
+        <h3>Annotations:</h3>
+        <ul>
+            ${step.annotations.map(annotation => `<li class="annotation">${annotation}</li>`).join('')}
+        </ul>
+        ` : ''}
+        ${step.renderData && step.renderData.length > 0 ? `
+        <h3>Render Data:</h3>
+        <ul>
+            ${step.renderData.map(data => `<li><strong>${data.id}</strong> (${data.type})</li>`).join('')}
+        </ul>
+        ` : ''}
+        ${step.issues && step.issues.length > 0 ? `
+        <h3>Issues:</h3>
+        <ul>
+            ${step.issues.map(issue => `<li class="issue">⚠️ ${issue}</li>`).join('')}
+        </ul>
+        ` : ''}
+    </div>
+    `).join('')}
+</body>
+</html>`;
+    return html;
+  }
+
+  /**
    * Generate annotated replay log
    */
   generateAnnotatedLog(session: ReplaySession): string {
