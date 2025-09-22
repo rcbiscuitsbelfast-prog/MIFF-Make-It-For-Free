@@ -177,11 +177,17 @@ export class RemixModeManager {
     return {
       version: "1.0",
       baseScenario: this.session.baseScenario,
-      changes: this.session.changes,
+      changes: this.session.changes.map((c) => {
+        if (c.action === 'place_block') {
+          const { position, blockType } = c.data as { position: [number, number]; blockType: string };
+          return { ...c, pos: position, block: blockType } as any;
+        }
+        return c;
+      }),
       assets: this.getUsedAssets(),
       remixSafe: this.validateRemixSafety(),
       shareableLink: this.generateShareableLink()
-    };
+    } as any;
   }
 
   // Undo/Redo system
