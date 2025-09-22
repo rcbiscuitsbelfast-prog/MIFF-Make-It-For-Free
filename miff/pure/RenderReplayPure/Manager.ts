@@ -65,8 +65,13 @@ export class RenderReplayManager {
         };
       }
 
-      // Extract renderData from test
-      const renderPayloads = this.extractRenderPayloads(testData);
+      // Extract renderData from test (support embedded session format)
+      let renderPayloads = this.extractRenderPayloads(testData);
+      if (renderPayloads.length === 0 && testData && testData.steps && Array.isArray(testData.steps)) {
+        renderPayloads = testData.steps
+          .filter((s: any) => s && Array.isArray(s.renderData))
+          .map((s: any) => ({ op: 'render', status: 'ok', renderData: s.renderData })) as RenderPayload[];
+      }
       if (renderPayloads.length === 0) {
         return {
           op: 'replay',
@@ -318,10 +323,8 @@ export class RenderReplayManager {
   private loadGoldenTest(testPath: string): any {
     try {
       const candidates: string[] = [];
-      const moduleDir = path.resolve(__dirname);
       candidates.push(testPath);
       candidates.push(path.isAbsolute(testPath) ? testPath : path.resolve(process.cwd(), testPath));
-      candidates.push(path.resolve(moduleDir, testPath));
 
       for (const candidate of candidates) {
         try {

@@ -105,7 +105,11 @@ function main() {
         const mgr = new RenderReplayManager(config);
         // If file still not found, treat as error (do not fallback silently)
         if (!fs.existsSync(testPath)) {
-          console.log('Error: Test file not found');
+          const flags = parseFlags(rest.slice(1));
+          const config = ensureConfig(flags);
+          const mgr = new RenderReplayManager(config);
+          const out = { op: 'replay', status: 'error', session: (mgr as any).createEmptySession?.() || { sessionId: 'replay_error', config, steps: [], summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: config.engine } }, issues: [`Failed to load golden test: ${testPath}`] };
+          printReplayResult('replay-golden', out);
           return;
         }
         const out = mgr.replayFromGoldenTest(testPath);
