@@ -344,11 +344,15 @@ export class TimeManager {
     this.time = Math.max(0, this.time + scaledDt);
     const fired: string[] = [];
 
+    // Determine if scheduled events will fire this tick; used to gate lenient timer firing
+    const willFireScheduledThisTick = this.scheduled.length > 0 && this.scheduled[0].at <= this.time;
+    const allowLenientTimerFire = !willFireScheduledThisTick;
+
     // Update timers
     for (const timer of this.timers.values()) {
       timer.remaining -= scaledDt;
       const initialFireThreshold = scaledDt * 2; // lenient first-tick threshold
-      const shouldFire = timer.remaining <= 0 || ((timer.currentRepeats ?? 0) === 0 && timer.remaining <= initialFireThreshold);
+      const shouldFire = timer.remaining <= 0 || (allowLenientTimerFire && (timer.currentRepeats ?? 0) === 0 && timer.remaining <= initialFireThreshold);
       if (shouldFire) {
         fired.push(`timer:${timer.id}`);
         
