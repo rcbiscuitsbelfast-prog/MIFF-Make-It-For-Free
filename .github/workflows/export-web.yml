@@ -1,0 +1,29 @@
+name: Export Web (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy target (none|pages)
+        default: none
+        required: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install deps
+        run: npm ci
+      - name: Dry-run ExportWebPure (placeholder)
+        run: |
+          npx ts-node miff/pure/ExportWebPure/cliHarness.ts --project ./docs/godot --output ./build/web --deploy "${{ github.event.inputs.deploy }}"
+      - name: Upload placeholder artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-export-logs
+          path: |
+            **/export-*.log

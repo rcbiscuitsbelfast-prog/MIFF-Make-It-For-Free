@@ -53,6 +53,7 @@
 - **Pixel Art System**: Draw, generate, animate, world building, CLI tools, Studio integration, demo forest
 
 See audit: `AUDIT_REPO.md`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
+Integration and export plans: `docs/INTEGRATION_AND_EXPORT_PLAN.md`, `docs/EXPORT_WEB_PLAN.md`, `docs/site/LAUNCHER_PLAN.md`.
 
 ## 📁 Repository Structure
 
