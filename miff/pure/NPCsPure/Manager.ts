@@ -175,6 +175,23 @@ export class NPCsManager {
         issues: [`NPC with ID ${npc.id} already exists`]
       };
     }
+    // Validate minimal fields
+    if (!npc.name) {
+      return { op: 'create', status: 'error', issues: ['name missing'] };
+    }
+    if (!npc.stats || (Array.isArray(npc.stats) && npc.stats.length === 0)) {
+      return { op: 'create', status: 'error', issues: ['stats missing'] };
+    }
+    if (!npc.location || !npc.location.zoneId) {
+      return { op: 'create', status: 'error', issues: ['location missing'] };
+    }
+    if (!npc.behavior) {
+      npc.behavior = { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50 } as any;
+    }
+    if (!npc.movementPattern) {
+      npc.movementPattern = { type: 'idle', speed: 1 };
+    }
+    if (!npc.questIds) npc.questIds = [];
 
     this.npcs.set(npc.id, npc);
     return {

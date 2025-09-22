@@ -39,6 +39,21 @@ try {
       if (args[0] && args[0].endsWith('.json')) {
         const filePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
         const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        // Normalize stats shape: object -> array of { key, base }
+        if (data && data.stats && !Array.isArray(data.stats) && typeof data.stats === 'object') {
+          const statArr = Object.entries(data.stats).map(([key, base]) => ({ key, base }));
+          data.stats = statArr;
+        }
+        // Ensure behavior completeness
+        if (data && data.behavior) {
+          data.behavior.aggression = data.behavior.aggression ?? 0;
+          data.behavior.curiosity = data.behavior.curiosity ?? 50;
+          data.behavior.loyalty = data.behavior.loyalty ?? 50;
+        }
+        // Ensure movementPattern default
+        if (data && !data.movementPattern) {
+          data.movementPattern = { type: 'idle', speed: 1 };
+        }
         output = manager.createNPC(data as NPC);
       } else {
         const newNPC: NPC = {
@@ -87,6 +102,15 @@ try {
 
     case 'list':
       const filter: any = {};
+      // Support key=value args, e.g., zoneId=zone_village
+      for (const a of args) {
+        if (a.includes('=') && !a.startsWith('--')) {
+          const [k, v] = a.split('=');
+          if (k === 'zoneId') filter.zoneId = v;
+          if (k === 'behavior') filter.behaviorType = v;
+          if (k === 'faction') filter.faction = v;
+        }
+      }
       if (args.includes('--zone-id')) filter.zoneId = zoneId;
       if (args.includes('--behavior')) filter.behaviorType = behaviorType;
       if (args.includes('--faction')) filter.faction = faction;
