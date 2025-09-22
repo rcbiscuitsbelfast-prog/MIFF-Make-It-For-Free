@@ -36,7 +36,7 @@ function main(){
     
     const cmds: Cmd[] = commands 
       ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
-      : [{ op: 'demo' } as Cmd];
+      : [{ op: 'step', dt: 0.1 } as any];
     
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
     

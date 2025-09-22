@@ -11,6 +11,8 @@
 
 import { NPCsManager, NPC, NPBehavior } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import fs from 'fs';
+import path from 'path';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new NPCsManager();
@@ -35,7 +37,7 @@ try {
     case 'create':
       // Allow passing a JSON file path as first arg for creation (used in tests)
       if (args.length > 0 && !args[0].startsWith('--')) {
-        const filePath = (args[0].startsWith('/') ? args[0] : (globalThis as any).process?.cwd ? (globalThis as any).process.cwd() + '/' + args[0] : args[0]);
+        const filePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
         if (fs.existsSync(filePath)) {
           const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
           // Normalize shapes where stats are object -> array of {key, base}
