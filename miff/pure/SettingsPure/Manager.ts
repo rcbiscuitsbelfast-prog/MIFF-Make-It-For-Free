@@ -61,6 +61,9 @@ export interface SettingsStats {
   categories: Record<string, number>;
 }
 
+import * as fs from 'fs';
+import * as path from 'path';
+
 export class SettingsManager {
   private settings: SettingsConfig;
   private defaults: SettingsConfig;

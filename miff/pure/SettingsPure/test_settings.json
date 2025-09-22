@@ -1,0 +1,79 @@
+{
+  "settings": {
+    "musicVolume": 0.8,
+    "sfxVolume": 0.8,
+    "language": "en",
+    "showSubtitles": true,
+    "graphics": {
+      "resolution": "1920x1080",
+      "fullscreen": false,
+      "vsync": true,
+      "antiAliasing": true,
+      "shadows": true,
+      "textureQuality": "high"
+    },
+    "controls": {
+      "mouseSensitivity": 1,
+      "invertMouse": false,
+      "keyBindings": {
+        "move_forward": "W",
+        "move_backward": "S",
+        "move_left": "A",
+        "move_right": "D",
+        "jump": "Space",
+        "crouch": "Ctrl",
+        "run": "Shift"
+      }
+    },
+    "audio": {
+      "masterVolume": 1,
+      "musicVolume": 0.8,
+      "sfxVolume": 0.8,
+      "voiceVolume": 0.9,
+      "ambientVolume": 0.7,
+      "audioDevice": "default"
+    },
+    "gameplay": {
+      "difficulty": "normal",
+      "autoSave": true,
+      "autoSaveInterval": 300,
+      "tutorialEnabled": true,
+      "hintsEnabled": true
+    },
+    "accessibility": {
+      "colorBlindSupport": false,
+      "fontSize": "medium",
+      "highContrast": false,
+      "screenReader": false,
+      "reducedMotion": false
+    },
+    "advanced": {
+      "debugMode": false,
+      "loggingLevel": "info",
+      "performanceMode": "balanced",
+      "experimentalFeatures": false
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "timestamp": "2025-09-22T20:09:49.237Z",
+    "stats": {
+      "totalSettings": 39,
+      "modifiedSettings": 0,
+      "defaultSettings": 39,
+      "lastModified": 0,
+      "categories": {
+        "musicVolume": 1,
+        "sfxVolume": 1,
+        "language": 1,
+        "showSubtitles": 1,
+        "graphics": 6,
+        "controls": 3,
+        "audio": 6,
+        "gameplay": 5,
+        "accessibility": 5,
+        "advanced": 4
+      }
+    }
+  }
+}

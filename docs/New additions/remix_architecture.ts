@@ -174,14 +174,19 @@ export class RemixModeManager {
 
   // Phase 4: Export and sharing
   generateRemixManifest(): RemixManifest {
-    return {
+    const manifest = {
       version: "1.0",
       baseScenario: this.session.baseScenario,
       changes: this.session.changes,
       assets: this.getUsedAssets(),
       remixSafe: this.validateRemixSafety(),
       shareableLink: this.generateShareableLink()
-    };
+    } as RemixManifest;
+    // Back-compat: expose firstChange snapshot fields
+    (manifest as any).firstChange = this.session.changes[0]
+      ? { pos: (this.session.changes[0] as any).data?.position, block: (this.session.changes[0] as any).data?.blockType }
+      : { pos: undefined, block: undefined };
+    return manifest;
   }
 
   // Undo/Redo system

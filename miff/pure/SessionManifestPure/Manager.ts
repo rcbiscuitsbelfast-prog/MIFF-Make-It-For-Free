@@ -80,6 +80,8 @@ export class SessionManifestManager {
    */
   listSessions(filter?: { zone?: string; status?: 'active' | 'expired' }): { ok: boolean; sessions: SessionManifest[]; total: number } {
     let sessions = Array.from(this.sessions.values());
+    // Provide stable ordering for deterministic tests
+    sessions.sort((a, b) => a.id.localeCompare(b.id));
 
     if (filter?.zone) {
       sessions = sessions.filter(s => s.zone === filter.zone);
