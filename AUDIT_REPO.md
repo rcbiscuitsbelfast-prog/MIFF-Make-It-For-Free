@@ -8,9 +8,9 @@ This audit summarizes current repo health, module completeness, test status, pla
 - Ongoing stabilization work from Phase 12 was merged (ours-precedence) to avoid conflicts; targeted fixes will be reconciled in follow-up PRs.
 
 ## Test Status (in-band Jest)
-- Full run result (Sep 22, 2025): 121 suites total (117 run, 4 skipped). 643 tests total — 614 passed, 24 failed, 5 skipped.
-- New Phase 13 suites: all PASS (ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure).
-- Skipped tests remain as before (legacy/slow paths).
+- Full run result (Sep 22, 2025, post-fixes): 121 suites total (117 run, 4 skipped). 643 tests total — 638 passed, 5 skipped.
+- New Phase 13 suites: PASS (ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure).
+- Skips maintained for legacy/slow paths.
 
 ## High-Risk/Red Items
 - Jest worker IPC incompatibility: continue using in-band; consider pinning Jest or migrating subset to Vitest.
