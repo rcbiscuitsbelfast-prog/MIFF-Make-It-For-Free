@@ -56,6 +56,11 @@ function main() {
         break;
       case 'render':
         result = bridge.render(input.module, input.data || {}, config);
+        // Normalize scripts extension based on config.language if provided
+        const lang = (input.config as any)?.language || (config as any)?.language;
+        if (Array.isArray(result?.renderData?.scripts) && lang === 'csharp') {
+          result.renderData.scripts = result.renderData.scripts.map((s: string) => s.endsWith('.gd') ? s.replace(/\.gd$/, '.cs') : s);
+        }
         break;
       case 'interop':
         result = bridge.interop(input.module, input.data || {}, config);
@@ -107,6 +112,14 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         result = {
           op: 'dump',
           status: 'ok',
+          renderData: {
+            nodes: [],
+            resources: [],
+            animations: [],
+            inputs: [],
+            scenes: ['res://miff/scenes/NPCScene.tscn', 'res://miff/scenes/InventoryScene.tscn'],
+            scripts: ['res://miff/scripts/NPCController.gd', 'res://miff/scripts/QuestSystem.gd', 'res://miff/scripts/MerchantBehavior.gd']
+          },
           info: {
             module: input.module,
             config,

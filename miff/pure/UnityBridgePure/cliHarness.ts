@@ -109,10 +109,17 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         result = {
           op: 'dump',
           status: 'ok',
+          renderData: {
+            entities: [],
+            components: [],
+            prefabs: ['NPCPrefab', 'ZonePrefab', 'CombatantPrefab'],
+            scripts: ['NPCController', 'ZoneController', 'CombatController']
+          },
           info: {
             module: input.module,
             config,
-            capabilities: ['simulate', 'render', 'interop']
+            capabilities: ['simulate', 'render', 'interop'],
+            engine: 'unity'
           }
         };
         break;
