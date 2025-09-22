@@ -182,16 +182,17 @@ describe('VisualReplaySystemPure golden tests', () => {
     
     // Test CSV export - create temp file with proper content
     const tempCsvFixture = path.resolve(root, 'fixtures/temp_csv.json');
+    
+    // Ensure clean slate - remove temp file if it exists
+    if (fs.existsSync(tempCsvFixture)) {
+      fs.unlinkSync(tempCsvFixture);
+    }
+    
+    // Use the original fixture file and modify it for CSV export test
     const originalContent = fs.readFileSync(replayFixture, 'utf-8');
     const csvData = JSON.parse(originalContent);
     csvData.exportFormat = 'csv';
     fs.writeFileSync(tempCsvFixture, JSON.stringify(csvData, null, 2));
-    
-    // Verify the temp file has required fields
-    const tempContent = JSON.parse(fs.readFileSync(tempCsvFixture, 'utf-8'));
-    expect(tempContent.scenarioId).toBeDefined();
-    expect(tempContent.config).toBeDefined();
-    expect(tempContent.exportFormat).toBe('csv');
     
     try {
       const csvOut = (global as any).testUtils.runCLI(
@@ -202,7 +203,7 @@ describe('VisualReplaySystemPure golden tests', () => {
       const csvResult = JSON.parse(csvOut);
       expect(csvResult.op).toBe('replay');
       expect(csvResult.session).toBeDefined();
-      
+      expect(csvResult.session.scenarioId).toBe('toppler_physics_demo');
     } finally {
       fs.unlinkSync(tempCsvFixture);
     }

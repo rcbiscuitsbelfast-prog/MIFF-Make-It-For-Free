@@ -143,7 +143,7 @@ export class InputSystemManager {
       errorRate: 0
     };
 
-    this.loadDefaultProfile();
+    this.resetInputWithDefaults();
   }
 
   /**
@@ -474,13 +474,23 @@ export class InputSystemManager {
       averageLatency: 0,
       errorRate: 0
     };
-    this.loadDefaultProfile();
     
     return {
       op: 'reset',
       status: 'ok',
       result: 'Input system reset'
     };
+  }
+
+  /**
+   * Reset input system and load default profile
+   */
+  resetInputWithDefaults(): InputOutput {
+    const resetResult = this.resetInput();
+    if (resetResult.status === 'ok') {
+      this.loadDefaultProfile();
+    }
+    return resetResult;
   }
 
   /**
