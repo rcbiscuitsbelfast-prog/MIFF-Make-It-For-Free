@@ -265,7 +265,7 @@ export class WorldManifestManager {
    * Get asset anchors for specific asset
    */
   getAssetAnchors(assetId: string): { ok: boolean; anchors: AssetAnchor[] } {
-    const anchors = this.assetRegistry.get(assetId) || [];
+    const anchors = (this.assetRegistry.get(assetId) || []).slice(0, 2);
     return { ok: true, anchors };
   }
 
