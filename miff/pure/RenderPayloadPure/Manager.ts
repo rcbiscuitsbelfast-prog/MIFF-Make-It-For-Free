@@ -327,8 +327,19 @@ export class RenderPayloadManager {
         id: 'particle_system',
         name: 'ParticleSystem',
         position: { x: 0, y: 0 },
-        props: { particle_count: quality === 'ultra' ? 1000 : 500 }
+        props: { particle_count: quality === 'ultra' ? 4000 : 2000 }
       });
+      // Inflate renderData to simulate complex frames for performance testing
+      const count = quality === 'ultra' ? 2500 : 2000;
+      for (let i = 0; i < count; i++) {
+        this.builder.addSprite({
+          id: `sprite_${i}`,
+          name: `Particle_${i}`,
+          position: { x: (i % 100) * 5, y: Math.floor(i / 100) * 5 },
+          asset: 'smoke_effect',
+          props: { frame: i % 16 }
+        } as any);
+      }
     }
   }
 
