@@ -1,3 +1,33 @@
+name: export-web
+
+on:
+  workflow_dispatch:
+    inputs:
+      output:
+        description: 'Build output directory'
+        required: false
+        default: './build/web'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci --legacy-peer-deps
+      - name: Export Web
+        run: npx ts-node miff/pure/ExportWebPure/cli.ts --project ./docs/godot --output ${{ github.event.inputs.output }} --deploy pages
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-export
+          path: ${{ github.event.inputs.output }}
 name: Export Web (manual)
 
 on:

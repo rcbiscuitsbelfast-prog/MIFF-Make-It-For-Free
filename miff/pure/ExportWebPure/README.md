@@ -2,9 +2,9 @@
 
 Web export orchestrator for Godot-based MIFF games (HTML5 builds with asset manifests).
 
-## CLI (planned)
+## CLI
 ```
-export:web --project ./docs/godot --output ./build/web --deploy pages
+npx ts-node miff/pure/ExportWebPure/cli.ts --project ./docs/godot --output ./build/web --deploy pages
 ```
 
 ## Features
@@ -13,6 +13,6 @@ export:web --project ./docs/godot --output ./build/web --deploy pages
 - Upload artifacts; optional auto-deploy to Pages/Netlify/Vercel
 
 ## Roadmap
-- [ ] CLI harness (`cliHarness.ts`) to run export and emit manifest
+- [x] CLI harness to package export and emit manifest
 - [ ] GitHub Actions `export-web.yml` (manual trigger)
 - [ ] Docs for custom domains and cache headers
