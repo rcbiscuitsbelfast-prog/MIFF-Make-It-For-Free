@@ -15,8 +15,9 @@
   <header class="studio-header">
     <h1>MIFF Studio</h1>
     <nav>
-      <a href="./scene.html">Scene Builder</a>
-      <a href="./sprite.html">Sprite Studio</a>
+      <a href="./pixel.html">Pixel Builder</a>
+      <a href="./avatar.html">Avatar Editor</a>
+      <a href="../map-builder.html">Map Builder</a>
     </nav>
   </header>
   <main class="studio-main">
@@ -30,6 +31,9 @@
           <option value="../grove.html">Grove</option>
         </select>
         <button id="openWorld">Open</button>
+        <button id="injectPreview">Inject to Preview</button>
+        <a href="../remix/index.html" target="_blank" class="btn" style="text-decoration:none;border:1px solid #58a6ff;background:#0f243d;color:#e6edf3;border-radius:8px;padding:6px 10px;">Open Remix Mode</a>
+        <a href="../map-builder.html" target="_blank" class="btn" style="text-decoration:none;border:1px solid #58a6ff;background:#0f243d;color:#e6edf3;border-radius:8px;padding:6px 10px;">Open Map Builder</a>
       </div>
       <div class="panel" style="position:relative; height:50vh; margin-top:8px;">
         <iframe id="worldFrame" style="position:absolute; inset:0; width:100%; height:100%; border:1px solid #1f2d3c" allowfullscreen></iframe>
@@ -59,6 +63,7 @@
   </main>
   <script>
     document.getElementById('openWorld').onclick = ()=>{ const s=document.getElementById('worldSelect'); const src=s&&s.value; const f=document.getElementById('worldFrame'); if (src){ f.src=src; } };
+    document.getElementById('injectPreview').onclick = ()=>{ try{ const f=document.getElementById('worldFrame'); const w=f&&f.contentWindow; if (w){ w.postMessage({ type:'MIFF_START', scenario:'studio_inject', seed: String(Date.now()) }, '*'); } } catch {} };
     (function(){
       try{ const seen = localStorage.getItem('miff_studio_onboarding_v1'); if (seen==='1'){ const ov=document.getElementById('onboarding'); if (ov) ov.style.display='none'; } } catch {}
       const dis = document.getElementById('dismissOnboarding'); if (dis){ dis.onclick = ()=>{ try{ localStorage.setItem('miff_studio_onboarding_v1','1'); } catch{} const ov=document.getElementById('onboarding'); if (ov) ov.style.display='none'; } }
