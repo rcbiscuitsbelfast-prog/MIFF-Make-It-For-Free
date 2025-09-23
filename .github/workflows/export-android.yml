@@ -1,3 +1,46 @@
+name: export-android
+
+on:
+  workflow_dispatch:
+    inputs:
+      output:
+        description: 'Build output directory'
+        required: false
+        default: './build/android'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci --legacy-peer-deps
+      - name: Prepare keystore
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > keystore.jks
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+      - name: Export Android (placeholder)
+        run: >-
+          npx ts-node miff/pure/ExportAndroidPure/cli.ts
+          --project ./docs/godot
+          --output ${{ github.event.inputs.output }}
+          --aab
+          --keystore ./keystore.jks
+          --alias ${{ secrets.KEY_ALIAS }}
+          --ks-pass ${{ secrets.KS_PASS }}
+          --key-pass ${{ secrets.KEY_PASS }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-export
+          path: ${{ github.event.inputs.output }}
 name: Export Android (manual)
 
 on:

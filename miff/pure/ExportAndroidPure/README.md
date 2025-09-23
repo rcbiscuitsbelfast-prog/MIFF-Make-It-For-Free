@@ -2,17 +2,17 @@
 
 Android export orchestrator for Godot-based MIFF games. Builds signed AAB/APK via Godot 4 headless.
 
-## CLI (planned)
+## CLI
 
 ```
-export:android --preset Release \
-  --aab \
+npx ts-node miff/pure/ExportAndroidPure/cli.ts \
   --project ./docs/godot \
   --output ./build/android \
-  --version-code 100 \
-  --version-name 1.0.0 \
-  --keystore @env:KEYSTORE --alias @env:ALIAS \
-  --ks-pass @env:KSPASS --key-pass @env:KEYPASS
+  --aab \
+  --keystore ./keystore.jks \
+  --alias app \
+  --ks-pass $KSPASS \
+  --key-pass $KEYPASS
 ```
 
 ## Requirements
@@ -20,7 +20,12 @@ export:android --preset Release \
 - Android SDK/NDK, Java toolchain
 - Keystore and credentials (provided via env/Secrets in CI)
 
+Outputs JSON:
+```
+{ "op": "export:android", "status": "ok", "outputs": ["build/android/app.aab"], "signing": { "alias": "app" } }
+```
+
 ## Roadmap
-- [ ] CLI harness (`cliHarness.ts`) with validation and spawn of Godot exporter
+- [x] CLI harness with signing validation and CI-safe placeholders
 - [ ] GitHub Actions workflow (manual trigger) to produce signed AAB
 - [ ] Docs for Play Console upload
