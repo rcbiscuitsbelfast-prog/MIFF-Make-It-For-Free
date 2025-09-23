@@ -1,0 +1,118 @@
+{
+  "schema": "PhysicsWorld",
+  "version": "2.0",
+  "timestamp": "2025-09-23T10:47:36.696Z",
+  "data": {
+    "bodies": [
+      {
+        "id": "ball1",
+        "position": {
+          "x": 0.40203666853389153,
+          "y": 9.978188051931033
+        },
+        "velocity": {
+          "x": 5.031060967445529,
+          "y": -0.13374855889897025
+        },
+        "mass": 1,
+        "shape": "circle",
+        "radius": 0.5,
+        "restitution": 0.8,
+        "friction": 0.05
+      },
+      {
+        "id": "ball2",
+        "position": {
+          "x": 2.84981750701615,
+          "y": 8.025671133107895
+        },
+        "velocity": {
+          "x": -1.7903353143665337,
+          "y": -0.7790851447700523
+        },
+        "mass": 0.5,
+        "shape": "circle",
+        "radius": 0.3,
+        "restitution": 0.9
+      },
+      {
+        "id": "ground",
+        "position": {
+          "x": 0,
+          "y": -2
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "mass": 1000,
+        "isStatic": true,
+        "shape": "box",
+        "width": 20,
+        "height": 1,
+        "friction": 0.3
+      },
+      {
+        "id": "platform",
+        "position": {
+          "x": 5,
+          "y": 2
+        },
+        "velocity": {
+          "x": 0,
+          "y": 0
+        },
+        "mass": 100,
+        "isStatic": true,
+        "shape": "box",
+        "width": 4,
+        "height": 0.5,
+        "friction": 0.2
+      }
+    ],
+    "forces": [
+      {
+        "id": "impulse",
+        "vector": {
+          "x": 0,
+          "y": 20
+        },
+        "duration": 0.068,
+        "bodyId": "ball1"
+      }
+    ],
+    "constraints": [
+      {
+        "id": "spring1",
+        "type": "spring",
+        "bodyA": "ball1",
+        "bodyB": "ball2",
+        "restLength": 2,
+        "stiffness": 0.3,
+        "damping": 0.1
+      },
+      {
+        "id": "pin1",
+        "type": "pin",
+        "bodyA": "ball2",
+        "anchorPoint": {
+          "x": 3,
+          "y": 5
+        }
+      }
+    ],
+    "defaultGravity": {
+      "x": 0,
+      "y": -9.8
+    },
+    "defaultFriction": 0.1,
+    "timeStep": 0.016,
+    "maxVelocity": 50
+  },
+  "metadata": {
+    "simulationTime": 0.08,
+    "bodyCount": 4,
+    "forceCount": 1,
+    "constraintCount": 2
+  }
+}

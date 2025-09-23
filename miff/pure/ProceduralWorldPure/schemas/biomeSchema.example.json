@@ -1,0 +1,10 @@
+{
+  "biomes": [
+    { "name": "water", "maxHeight": 0.3 },
+    { "name": "sand", "minHeight": 0.3, "maxHeight": 0.4 },
+    { "name": "grass", "minHeight": 0.4, "maxHeight": 0.7 },
+    { "name": "rock", "minHeight": 0.7, "maxHeight": 0.9 },
+    { "name": "snow", "minHeight": 0.9 }
+  ]
+}
+

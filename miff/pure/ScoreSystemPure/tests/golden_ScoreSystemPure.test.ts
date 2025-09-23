@@ -1,4 +1,4 @@
-import { runCLICommand } from '../../../cli/integration';
+import { runCLICommand } from '../../../../cli/integration';
 
 describe('ScoreSystemPure CLI Harness', () => {
   beforeEach(async () => {

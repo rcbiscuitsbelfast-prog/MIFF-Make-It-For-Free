@@ -1,0 +1,9 @@
+{
+  "trunkHeight": 4,
+  "trunkRadius": 0.3,
+  "trunkSegments": 12,
+  "canopyRadius": 1.2,
+  "canopyHeight": 1.5,
+  "canopySegments": 12
+}
+

@@ -1,0 +1,24 @@
+name: bridge-contract-tests
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    paths:
+      - 'miff/pure/GodotBridgePure/**'
+      - 'jest.pure.config.cjs'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci --legacy-peer-deps
+      - name: Run bridge contract tests
+        run: npx jest --config jest.pure.config.cjs --runInBand miff/pure/GodotBridgePure/tests/contract.test.ts

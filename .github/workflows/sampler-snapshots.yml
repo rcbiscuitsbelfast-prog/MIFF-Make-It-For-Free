@@ -1,0 +1,42 @@
+name: sampler-snapshots
+
+on:
+  pull_request:
+    paths:
+      - 'miff/**'
+      - 'site/**'
+      - 'scripts/**'
+  workflow_dispatch: {}
+
+jobs:
+  snapshots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci --legacy-peer-deps
+      - name: Export snapshots (placeholder)
+        run: node scripts/export-snapshots.js build/snapshots
+      - name: Replay a payload to produce frame-based snapshots (JSON → PPM)
+        run: |
+          node scripts/export-snapshots.js build/snapshots
+      - name: Upload snapshot artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sampler-snapshots
+          path: build/snapshots
+      - name: Comment PR with snapshot info
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: snapshots
+          message: |
+            Snapshots generated for this PR.
+            - Artifact: sampler-snapshots (PPM images per engine)
+            - Tools: site/tools/diff.html for golden vs actual JSON comparison

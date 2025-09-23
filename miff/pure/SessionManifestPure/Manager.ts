@@ -44,7 +44,11 @@ export class SessionManifestManager {
         return { ok: false, errors: [`Session ${id} already exists`] };
       }
 
-      if (players.length > this.config.maxPlayers) {
+    if (!Array.isArray(players)) {
+      return { ok: false, errors: ['players missing'] };
+    }
+
+    if (players.length > this.config.maxPlayers) {
         return { ok: false, errors: [`Too many players: ${players.length}/${this.config.maxPlayers}`] };
       }
 
@@ -80,6 +84,8 @@ export class SessionManifestManager {
    */
   listSessions(filter?: { zone?: string; status?: 'active' | 'expired' }): { ok: boolean; sessions: SessionManifest[]; total: number } {
     let sessions = Array.from(this.sessions.values());
+    // Provide stable ordering for deterministic tests
+    sessions.sort((a, b) => a.id.localeCompare(b.id));
 
     if (filter?.zone) {
       sessions = sessions.filter(s => s.zone === filter.zone);

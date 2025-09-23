@@ -3,13 +3,14 @@
 [![MIFF Studio](https://img.shields.io/badge/MIFF%20Studio%20Builder-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/studio/index.html)  
 [![MIFF CI](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/miff-ci.yml)  
 [![Vercel Deploy](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/deploy-vercel.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/deploy-vercel.yml)  
-[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPORT.txt)
+[![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPO.md)
 
 ## Current Status (Sep 2025)
-- **Phase 10 Complete**: Advanced module standardization with comprehensive testing
-- **Module Compliance**: 7 core modules pass validate:modules compliance check
-- **Test Coverage**: 510 total tests (440 passing, 66 failing, 4 skipped) - 86% success rate
-- **Module Health**: 29 TypeScript modules active, 21 C# legacy modules identified for cleanup
+- **Phases Completed**: Export Web/Android (M2/M3), Bridge contracts (Godot/Web/Unity), Sampler Launcher (M1), Mobile UX (M4)
+- **Test Suites**: 130 total (126 passing, 4 skipped)
+- **Tests**: 656 total (651 passing, 5 skipped) — 0 failing
+- **CI**: Sharded Jest, sampler snapshots (PPM) on PRs, README→docs auto-sync
+- **Module Health**: 100+ TypeScript modules; legacy C# modules flagged for cleanup
 
 ### ✅ **Fully Compliant Modules (7)**
 - **RaidSystemPure**: Complete with simulateRaid and exportRaidStats functionality
@@ -52,7 +53,9 @@
 - **Multiplayer**: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
 - **Pixel Art System**: Draw, generate, animate, world building, CLI tools, Studio integration, demo forest
 
-See audit: `AUDIT_REPORT.txt`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
+See audit: `AUDIT_REPO.md`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
+Integration and export plans: `docs/INTEGRATION_AND_EXPORT_PLAN.md`, `docs/EXPORT_WEB_PLAN.md`, `docs/site/LAUNCHER_PLAN.md`.
+Tools: Golden diff visualizer (`site/tools/diff.html`). Auto-synced module docs in `docs/modules/`.
 
 ## 📁 Repository Structure
 
@@ -281,7 +284,7 @@ The long-term goal is to integrate MIFF with an AI companion that can:
 - Offer instant onboarding for contributors and educators
 
 ### Current Phase:  
-✅ Phase 6 — Module Expansion & CLI Implementation (Complete)
+✅ Phase 13 — Procedural Generation Modules (Complete)
 
 ### Next Phase:  
 🚀 Phase 16 — Funding, Outreach & Global Deployment

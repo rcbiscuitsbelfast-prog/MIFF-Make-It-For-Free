@@ -474,7 +474,8 @@ export class InputSystemManager {
       averageLatency: 0,
       errorRate: 0
     };
-    this.loadDefaultProfile();
+    // Do not auto-load a default profile here to allow tests to verify
+    // behavior when no active profile is set.
     
     return {
       op: 'reset',

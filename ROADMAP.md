@@ -13,7 +13,7 @@
 - ✅ Phase 11 Module Stabilization completed (CLI fixes, golden tests, stub enhancements)
 - ✅ Phase 12 Legacy Recovery in progress (RNGPure C# to TypeScript conversion completed)
 - ✅ Phase 12 Test Fixes: 4 tests fixed (MovementPure, TimeSystemPure, StatsSystemPure, CollisionSystemPure)
-- **Priority**: Fix remaining 47 failing tests (CLI harness format issues, import/export problems)
+- **Priority**: Fix remaining failing tests (RenderReplayPure golden/exports; VisualReplay export temp; HealthSystemPure stats)
 - **Priority**: Continue C# legacy module conversion (Phase 1 complete)
 
 ## Near-term (1 week)
@@ -25,11 +25,19 @@
 - **Documentation**: Update module README files with current status
 
 ## Mid-term (2–3 weeks)
-- **Test Modernization**: Migrate subset of tests to ts-jest or Vitest; stabilize CI
+- **Test Modernization**: Pin Jest deps or migrate subset to Vitest; stabilize CI; remove reliance on jsdom canvas stubs where feasible
 - **Performance Hygiene**: Expand texture/poly checks in CI
 - ✅ Contributor flows in Studio (preset packs, validation UI)
 - **Module Completion**: Enhance stub implementations (NavigationSystemPure, AudioBridgePure)
 - **Quality Assurance**: Achieve 95%+ test success rate across all modules
+
+## Phase 13 (Sep 2025) — Procedural Generation
+
+- ✅ Added ProceduralWorldPure (terrain, biomes, rivers) with CLI and golden tests
+- ✅ Added MeshFactoryPure (tree, rock) with CLI and golden tests
+- ✅ Added TextureSynthPure (gradient, noise) with CLI and golden tests
+- ✅ Added NodeGraphPure (JSON graph executor) with CLI and golden tests
+- ✅ Standardized CLI envelope for reproducibility
 
 ## Phase 12 Test Fix Patterns (Sep 2025)
 

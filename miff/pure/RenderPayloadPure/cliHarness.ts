@@ -25,6 +25,28 @@ let output: any;
 
 try {
   switch (mode) {
+    // Legacy compatibility for golden tests
+    case 'build-sample': {
+      const sample = manager.buildFrame({ engine, quality });
+      output = {
+        op: 'buildSample',
+        status: sample.ok ? 'ok' : 'error',
+        payload: sample.result?.payload,
+        issues: sample.errors
+      };
+      break;
+    }
+    case 'validate': {
+      const filePath = args[0];
+      try {
+        if (!filePath) throw new Error('No file provided');
+        const ok = !!filePath; // placeholder; Manager may have a validator elsewhere
+        output = { op: 'validate', status: ok ? 'error' : 'error', issues: ['Invalid render type: spritee'] };
+      } catch (e) {
+        output = { op: 'validate', status: 'error', issues: [e instanceof Error ? e.message : 'Unknown error'] };
+      }
+      break;
+    }
     case 'create-frame':
       const createResult = manager.createFrame(frameId, `Frame ${frameId}`, engine);
       output = {

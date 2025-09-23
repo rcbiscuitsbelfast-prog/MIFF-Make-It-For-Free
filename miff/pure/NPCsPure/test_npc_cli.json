@@ -1,0 +1,1 @@
+{"id": "npc_test", "name": "Test NPC", "stats": {"health": 100, "mana": 50, "strength": 10, "wisdom": 10}, "behavior": {"type": "passive"}, "location": {"zoneId": "zone_test", "x": 0, "y": 0}, "questIds": [], "movementPattern": {"type": "idle", "speed": 1}}

@@ -1,43 +1,30 @@
 {
   "projectiles": [
     {
-      "id": "bullet1",
+      "id": "arrow_001",
       "position": { "x": 0, "y": 0 },
-      "velocity": { "x": 15, "y": 2 },
-      "ttl": 3,
-      "type": "bullet",
-      "damage": 20,
-      "radius": 0.05,
-      "mass": 0.1,
-      "ownerId": "player1"
-    },
-    {
-      "id": "arrow1",
-      "position": { "x": -10, "y": 5 },
-      "velocity": { "x": 12, "y": -1 },
-      "ttl": 5,
+      "velocity": { "x": 10, "y": 5 },
+      "ttl": 2.0,
       "type": "arrow",
-      "damage": 30,
+      "damage": 25,
       "radius": 0.1,
       "mass": 0.2,
-      "friction": 0.015,
       "ownerId": "archer1"
     },
     {
-      "id": "fireball1",
-      "position": { "x": 8, "y": 3 },
-      "velocity": { "x": -8, "y": 0 },
-      "ttl": 4,
-      "type": "fireball",
-      "damage": 50,
-      "radius": 0.25,
-      "mass": 0.3,
-      "gravity": { "x": 0, "y": -4 },
-      "ownerId": "mage1"
+      "id": "bolt_001",
+      "position": { "x": 5, "y": 10 },
+      "velocity": { "x": -5, "y": 8 },
+      "ttl": 1.5,
+      "type": "bolt",
+      "damage": 15,
+      "radius": 0.05,
+      "mass": 0.1,
+      "ownerId": "crossbow1"
     }
   ],
-  "defaultGravity": { "x": 0, "y": -9.8 },
-  "defaultFriction": 0.01,
-  "bounds": { "min": { "x": -20, "y": -10 }, "max": { "x": 20, "y": 10 } },
-  "timeStep": 0.016
+  "defaultGravity": { "x": 0, "y": 0 },
+  "defaultFriction": 0.0,
+  "bounds": { "min": { "x": -100, "y": -100 }, "max": { "x": 100, "y": 100 } },
+  "timeStep": 0.1
 }

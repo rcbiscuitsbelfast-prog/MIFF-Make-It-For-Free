@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GraphDefinition",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "inputs": { "type": "object" },
+          "sources": { "type": "object", "additionalProperties": { "type": "string" } }
+        },
+        "required": ["id","type"],
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": ["nodes"],
+  "additionalProperties": false
+}
+

@@ -86,9 +86,15 @@ describe('TimeSystemPure Golden Tests', () => {
 
       manager.addTimer(timer);
       
-      const tickResult = manager.tick(1);
-      expect(tickResult.status).toBe('ok');
-      expect(tickResult.result?.fired).toContain('timer:tick_timer');
+      // First tick - timer should not fire yet (1 second remaining)
+      const tickResult1 = manager.tick(1);
+      expect(tickResult1.status).toBe('ok');
+      expect(tickResult1.result?.fired).not.toContain('timer:tick_timer');
+      
+      // Second tick - timer should fire now (0 seconds remaining)
+      const tickResult2 = manager.tick(1);
+      expect(tickResult2.status).toBe('ok');
+      expect(tickResult2.result?.fired).toContain('timer:tick_timer');
     });
 
     test('should handle timer callbacks', () => {

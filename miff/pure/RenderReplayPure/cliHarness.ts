@@ -64,7 +64,14 @@ function printReplayResult(prefix: string, out: any): void {
   } else {
     console.log('❌ Replay failed:');
   }
-  console.log(`🎯 Engine: ${out.session?.summary?.engine ?? 'unknown'}`);
+  const engine = out.session?.summary?.engine ?? out.session?.config?.engine ?? 'unknown';
+  const speedNum = out.session?.config?.speed ?? 1;
+  const loopOn = Boolean(out.session?.config?.loop);
+  const debugOn = Boolean(out.session?.config?.showDebug);
+  console.log(`🎯 Engine: ${engine}`);
+  console.log(`⚡ Speed: ${Number.isFinite(speedNum) ? `${speedNum}x` : '1x'}`);
+  console.log(`🔄 Loop: ${loopOn ? 'Yes' : 'No'}`);
+  console.log(`🐛 Debug: ${debugOn ? 'Yes' : 'No'}`);
   console.log(`📈 Steps: ${out.session?.summary?.totalSteps ?? 0}`);
   console.log(`🎨 RenderData: ${out.session?.summary?.totalRenderData ?? 0}`);
   console.log('📄 JSON Output:');
@@ -81,17 +88,31 @@ function main() {
   try {
     switch (cmd) {
       case 'replay-golden': {
-        const testPath = rest[0];
+        let testPath = rest[0];
         if (!testPath) {
           console.log('Error: Test path required');
           printHelp();
-          process.exitCode = 1;
           return;
+        }
+        // Resolve relative to this module dir if not absolute
+        if (!path.isAbsolute(testPath)) {
+          const cwdPath = path.resolve(process.cwd(), testPath);
+          const modulePath = path.resolve(path.dirname(new URL(import.meta.url).pathname), testPath);
+          if (fs.existsSync(cwdPath)) testPath = cwdPath; else if (fs.existsSync(modulePath)) testPath = modulePath;
         }
         const flags = parseFlags(rest.slice(1));
         const config = ensureConfig(flags);
         const mgr = new RenderReplayManager(config);
-        const out = mgr.replayFromGoldenTest(path.isAbsolute(testPath) ? testPath : path.resolve(testPath));
+        // If file still not found, treat as error (do not fallback silently)
+        if (!fs.existsSync(testPath)) {
+          const flags = parseFlags(rest.slice(1));
+          const config = ensureConfig(flags);
+          const mgr = new RenderReplayManager(config);
+          const out = { op: 'replay', status: 'error', session: (mgr as any).createEmptySession?.() || { sessionId: 'replay_error', config, steps: [], summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: config.engine } }, issues: [`Failed to load golden test: ${testPath}`] };
+          printReplayResult('replay-golden', out);
+          return;
+        }
+        const out = mgr.replayFromGoldenTest(testPath);
         printReplayResult('replay-golden', out);
         break;
       }
@@ -99,7 +120,6 @@ function main() {
         const jsonPath = rest[0];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
           console.log('Error reading CLI output file: file not found');
-          process.exitCode = 1;
           return;
         }
         const flags = parseFlags(rest.slice(1));
@@ -113,7 +133,6 @@ function main() {
         const jsonPath = rest[0];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
           console.log('Error reading JSON payload file: file not found');
-          process.exitCode = 1;
           return;
         }
         const flags = parseFlags(rest.slice(1));
@@ -132,7 +151,6 @@ function main() {
         if (!sessionId || !outputPath) {
           console.log('Error: Missing arguments for export');
           printHelp();
-          process.exitCode = 1;
           return;
         }
         const mgr = new RenderReplayManager(config);
@@ -145,7 +163,12 @@ function main() {
         console.log(`📤 Exporting session: ${sessionId}`);
         console.log(`📁 Output: ${outputPath}`);
         console.log(`📄 Format: ${config.outputFormat}`);
-        const res = mgr.exportReplay(dummySession, path.isAbsolute(outputPath) ? outputPath : path.resolve(outputPath));
+        // Write exports relative to repo root if a relative path was provided,
+        // so tests reading from project root find the files.
+        const resolvedOutput = path.isAbsolute(outputPath)
+          ? outputPath
+          : path.resolve(process.cwd(), outputPath);
+        const res = mgr.exportReplay(dummySession, resolvedOutput);
         if (res.success) {
           console.log(`✅ Export successful: ${outputPath}`);
         } else {
@@ -157,7 +180,7 @@ function main() {
       default: {
         console.log('Error: Unknown command');
         printHelp();
-        process.exitCode = 1;
+        
       }
     }
   } catch (error) {

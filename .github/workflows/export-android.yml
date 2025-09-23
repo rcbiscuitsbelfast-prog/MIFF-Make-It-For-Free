@@ -1,0 +1,86 @@
+name: export-android
+
+on:
+  workflow_dispatch:
+    inputs:
+      output:
+        description: 'Build output directory'
+        required: false
+        default: './build/android'
+      headless:
+        description: 'Run optional Godot headless export prep'
+        required: false
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci --legacy-peer-deps
+      - name: Optional Godot headless export (gated)
+        if: ${{ inputs.headless == 'true' }}
+        run: node scripts/android-headless-export.js --project ./docs/godot --output ${{ github.event.inputs.output }}
+      - name: Prepare keystore
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > keystore.jks
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+      - name: Export Android (placeholder)
+        run: >-
+          npx ts-node miff/pure/ExportAndroidPure/cli.ts
+          --project ./docs/godot
+          --output ${{ github.event.inputs.output }}
+          --aab
+          --keystore ./keystore.jks
+          --alias ${{ secrets.KEY_ALIAS }}
+          --ks-pass ${{ secrets.KS_PASS }}
+          --key-pass ${{ secrets.KEY_PASS }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-export
+          path: ${{ github.event.inputs.output }}
+name: Export Android (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: Godot export preset
+        default: Release
+        required: true
+      format:
+        description: aab or apk
+        default: aab
+        required: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install deps
+        run: npm ci
+      - name: Show config
+        run: |
+          node -e "console.log('preset=${{ github.event.inputs.preset }} format=${{ github.event.inputs.format }}')"
+      - name: Dry-run ExportAndroidPure (placeholder)
+        run: |
+          npx ts-node miff/pure/ExportAndroidPure/cliHarness.ts --preset "${{ github.event.inputs.preset }}" --project ./docs/godot $([ "${{ github.event.inputs.format }}" = "aab" ] && echo --aab || echo --apk)
+      - name: Upload placeholder artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-export-logs
+          path: |
+            **/export-*.log

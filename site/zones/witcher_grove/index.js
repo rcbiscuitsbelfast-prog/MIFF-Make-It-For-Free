@@ -661,3 +661,26 @@ async function init(){
 }
 
 window.addEventListener('DOMContentLoaded', init);
+// Handle MIFF_* messages from site launcher HUD
+window.addEventListener('message', (ev)=>{
+  const msg = ev.data || {};
+  if (msg.type === 'MIFF_INPUT'){
+    if (msg.input === 'tap' || msg.input === 'doubleTap'){
+      character.bobT += 0.5;
+    }
+    if (msg.input === 'longPress'){
+      UI && UI.showLore && UI.showLore({ title: 'Campfire', text: 'Warmth surrounds you.' });
+    }
+    if (msg.input === 'swipe'){
+      character.x += (msg.dir==='right'? 0.1 : -0.1);
+    }
+  }
+  if (msg.type === 'MIFF_EVENT'){
+    if (msg.name === 'questUpdate'){
+      UI && UI.showLore && UI.showLore({ title: 'Quest Updated', text: 'Find the elder.' });
+    }
+    if (msg.name === 'hit'){
+      camera.x += 4; setTimeout(()=> camera.x -= 4, 120);
+    }
+  }
+});
