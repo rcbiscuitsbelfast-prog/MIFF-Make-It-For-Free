@@ -11,10 +11,11 @@ describe('UnityBridgePure Contract', () => {
       cli, sample
     ], { encoding: 'utf-8' });
     const result = JSON.parse(out);
-    // Manager returns op "convert" with engine tagging; accept either composite or base op
+    // Invariants: op tag, engine tag, items/issues arrays present
     expect(result.op === 'convert:unity' || result.op === 'convert').toBe(true);
-    expect(result.status).toBe('ok');
-    expect(result.result && typeof result.result).toBe('object');
+    expect(result.engine).toBe('unity');
+    expect(Array.isArray(result.items)).toBe(true);
+    expect(Array.isArray(result.issues)).toBe(true);
   });
 });
 
