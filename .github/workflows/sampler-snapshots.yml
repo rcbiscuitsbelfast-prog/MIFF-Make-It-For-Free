@@ -1,0 +1,30 @@
+name: sampler-snapshots
+
+on:
+  pull_request:
+    paths:
+      - 'miff/**'
+      - 'site/**'
+      - 'scripts/**'
+  workflow_dispatch: {}
+
+jobs:
+  snapshots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install deps
+        run: npm ci --legacy-peer-deps
+      - name: Export snapshots (placeholder)
+        run: node scripts/export-snapshots.js build/snapshots
+      - name: Upload snapshot artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sampler-snapshots
+          path: build/snapshots
