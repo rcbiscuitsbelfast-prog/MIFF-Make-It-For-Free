@@ -6,10 +6,11 @@
 [![Audit](https://img.shields.io/badge/Audit-Sep_2025-green)](AUDIT_REPO.md)
 
 ## Current Status (Sep 2025)
-- **Phase 10 Complete**: Advanced module standardization with comprehensive testing
-- **Module Compliance**: 7 core modules pass validate:modules compliance check
-- **Test Coverage**: 510 total tests (440 passing, 66 failing, 4 skipped) - 86% success rate
-- **Module Health**: 29 TypeScript modules active, 21 C# legacy modules identified for cleanup
+- **Phases Completed**: Export Web/Android (M2/M3), Bridge contracts (Godot/Web/Unity), Sampler Launcher (M1), Mobile UX (M4)
+- **Test Suites**: 130 total (126 passing, 4 skipped)
+- **Tests**: 656 total (651 passing, 5 skipped) — 0 failing
+- **CI**: Sharded Jest, sampler snapshots (PPM) on PRs, README→docs auto-sync
+- **Module Health**: 100+ TypeScript modules; legacy C# modules flagged for cleanup
 
 ### ✅ **Fully Compliant Modules (7)**
 - **RaidSystemPure**: Complete with simulateRaid and exportRaidStats functionality
@@ -54,6 +55,7 @@
 
 See audit: `AUDIT_REPO.md`. Roadmap: `ROADMAP.md`. Testing: `docs/TESTING.md`.
 Integration and export plans: `docs/INTEGRATION_AND_EXPORT_PLAN.md`, `docs/EXPORT_WEB_PLAN.md`, `docs/site/LAUNCHER_PLAN.md`.
+Tools: Golden diff visualizer (`site/tools/diff.html`). Auto-synced module docs in `docs/modules/`.
 
 ## 📁 Repository Structure
 
