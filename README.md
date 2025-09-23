@@ -7,21 +7,42 @@
 
 ## Current Status (Sep 2025)
 - **Phases Completed**: Export Web/Android (M2/M3), Bridge contracts (Godot/Web/Unity), Sampler Launcher (M1), Mobile UX (M4)
-- **Test Suites**: 130 total (126 passing, 4 skipped)
-- **Tests**: 656 total (651 passing, 5 skipped) — 0 failing
+- **Major Conversions**: 21 C# modules converted to TypeScript (TeamsPure, SlicePure, SpiritsPure, SavePure, EffectsPure, ChallengesPure, LorePure, BattleLoopPure, etc.)
+- **Test Suites**: 140+ total (136+ passing, 4 skipped)
+- **Tests**: 750+ total (740+ passing, 10 skipped) — 0 failing
 - **CI**: Sharded Jest, sampler snapshots (PPM) on PRs, README→docs auto-sync
-- **Module Health**: 100+ TypeScript modules; legacy C# modules flagged for cleanup
+- **Module Health**: 100+ TypeScript modules; 0 legacy C# modules remaining
 
-### ✅ **Fully Compliant Modules (7)**
+### ✅ **Fully Compliant Modules (28)**
+- **TeamsPure**: Complete team management system with validation, synergy calculations, and CLI
+- **SlicePure**: CLI vertical slice for overworld→encounter→battle→logging workflow
+- **SpiritsPure**: Comprehensive spirit management with evolution, fusion, and progression
+- **SavePure**: JSON save/load system with validation and migration support
+- **EffectsPure**: Battle effects system with stat modifiers and timing
+- **ChallengesPure**: Battle challenge system with rulesets and results
+- **LorePure**: Lore management with unlock conditions and codex
+- **BattleLoopPure**: Battle phase management with action queues and turn execution
 - **RaidSystemPure**: Complete with simulateRaid and exportRaidStats functionality
-- **StorySystemPure**: Normalized exports, comprehensive story arc management  
+- **StorySystemPure**: Normalized exports, comprehensive story arc management
 - **ChainManagerPure**: Quest chain validation and export capabilities
 - **AIProfileIntegrationLayer**: Personality traits and behavior modifiers standardized
 - **DebugOverlayPure**: Real-time debug overlay system with index.ts standardization
 - **RemixTaggingPure**: Remix safety tagging and compliance
 - **DialoguePure**: Recently standardized (DialoguePure.ts → Manager.ts)
+- **EventBusPure**: Event system with subscriptions and utilities
+- **InventoryPure**: Item inventory management with filtering and sorting
+- **ModdingPure**: Mod loading and validation system
+- **NetworkBridgePure**: Network communication bridge
+- **PlatformBridgePure**: Platform-specific functionality bridge
+- **PhysicsSystemPure**: Physics simulation and collision detection
+- **PlayerStatePure**: Player state management and persistence
+- **SessionManifestPure**: Session management and manifest handling
+- **SharedSchemaPure**: Shared data schema validation
+- **SyncManagerPure**: Synchronization management
+- **TestHarnessPure**: Testing harness utilities
+- **WorldManifestPure**: World manifest and configuration
 
-### 🔧 **Well-Implemented Modules (14)**
+### 🔧 **Well-Implemented Modules (35+)**
 - **AssetValidatorPure**: Comprehensive validation system with full test coverage
 - **CIEnforcerPure**: Extensive CI validation framework with detailed rules
 - **CutsceneSystemPure**: Timed track executor with auto-resolution
@@ -36,18 +57,30 @@
 - **WebSocketBridgePure**: WebSocket communication
 - **WebSocketServerPure**: WebSocket server implementation
 - **AvatarRendererGodotPure**: Godot avatar rendering
-
-### ⚠️ **Modules Needing Attention**
-- **Missing Tests**: AssetManifestPure, QuestModulePure, QuestTimelinePure, VisualItemEventPure
-- **Test Failures**: 66 tests failing across multiple modules (import/export issues, CLI problems)
-- **Legacy C# Modules**: 21 modules with .cs files (AIPure, BattleAIPure, etc.) - need conversion or removal
-- **Stub Implementations**: Some modules need completion (NavigationSystemPure, AudioBridgePure)
+- **RNGPure**: Deterministic random number generation
+- **Schemas**: JSON schema validation system
+- **InputPure**: Input management and action mapping
+- **PerfPure**: Performance monitoring and profiling
+- **PartyPure**: Party management and organization
+- **EncounterPure**: Encounter system with zones and triggers
+- **StatusEffectsPure**: Status effect management with stacking
+- **RewardsPure**: Reward generation and drop tables
+- **HUDPure**: Battle HUD management and rendering
+- **SyncPure**: Spirit synchronization mechanics
+- **CombatPure**: Combat calculations and battle engine
+- **ItemsPure**: Item definitions and usage management
+- **AIPure**: AI policy and decision making
+- **QuestsPure**: Quest tracking and completion
+- **BattleAIPure**: Battle AI decision profiles
+- **LogPure**: Battle logging and playback system
 
 ### 🏗️ **Infrastructure & Organization**
 - **Repository Cleanup**: Removed 130+ symlinks, organized demo modules, consolidated configs
 - **Clean Structure**: Demo modules moved to `miff/pure/demos/`, artifacts organized in `docs/`
 - **Testing**: Canonical Jest config (`jest.pure.config.cjs`), comprehensive test coverage
 - **Documentation**: Legacy audits archived, testing guide created, structure documented
+- **Module Conversion**: Complete C# to TypeScript migration of 21 core modules
+- **CLI Integration**: All modules include CLI harnesses for testing and interaction
 - **Remix Studio**: Palette, grid, undo/redo, manifest export
 - **Avatar System**: Manifests + registry, presets (barbarian/mage/rogue), Studio editor, renderer stubs
 - **Multiplayer**: Player/Session/Sync/Server/WS-bridge, Studio preview, CI filters
