@@ -144,6 +144,25 @@ export class GodotBridge {
             scenes = ['NPCScene.tscn', 'QuestGiverScene.tscn', 'MerchantScene.tscn'];
             animations = ['npc_idle.anim', 'npc_walk.anim', 'quest_indicator.anim'];
             inputs = ['npc_interact', 'quest_accept', 'quest_decline'];
+            // Add a simple camera rig node to ensure camera presence in scenes
+            nodes.unshift({
+              id: 'camera_2d_main',
+              type: 'Node2D',
+              name: 'Camera2D',
+              position: { x: 0, y: 0 },
+              properties: { current: true } as any
+            });
+            // Tilemap/navmesh placeholders for contract coverage
+            resources.push({
+              type: 'TileMap',
+              path: 'res://miff/tilemaps/world_tiles.tres',
+              data: { tileset: 'res://miff/tilesets/base.tres' }
+            });
+            resources.push({
+              type: 'NavigationRegion',
+              path: 'res://miff/nav/world_nav.tres',
+              data: { layers: ['ground', 'obstacles'] }
+            });
           }
           break;
         case 'combat':

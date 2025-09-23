@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MIFF Launcher</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from 'https://esm.sh/react@18.3.1';
+      import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';
+      import { Launcher } from './launcher.tsx';
+      const root = createRoot(document.getElementById('root'));
+      root.render(React.createElement(Launcher));
+      // Receive frame commands and relay to Godot if needed
+      window.addEventListener('message', (ev) => {
+        if (!ev?.data) return;
+        // Hook for future: translate RenderPayload frames to Godot calls via JS bridge
+      });
+    </script>
+  </body>
+  </html>
+
