@@ -201,6 +201,47 @@ export interface ITeamManager {
   getTeamStatistics(teamId: string): Record<string, number>;
   exportTeam(teamId: string): Record<string, any>;
   importTeam(teamId: string, data: Record<string, any>): TeamOperationResult;
+  getStrategicAnalysis(teamId: string): IStrategicAnalysis;
+  getOptimalTeamComposition(teamId: string, availableSpirits: ISpiritInstance[]): ITeamCompositionRecommendation;
+  analyzeThreats(teamId: string, enemyTeams: ITeam[]): IThreatAnalysis;
+}
+
+/**
+ * Strategic analysis interface
+ */
+export interface IStrategicAnalysis {
+  overallStrength: number;
+  defensiveRating: number;
+  offensiveRating: number;
+  mobilityRating: number;
+  synergyRating: number;
+  typeCoverage: number;
+  weaknesses: string[];
+  strengths: string[];
+  recommendedStrategies: string[];
+  riskFactors: string[];
+}
+
+/**
+ * Team composition recommendation interface
+ */
+export interface ITeamCompositionRecommendation {
+  recommendedTeam: ISpiritInstance[];
+  alternativeCompositions: ISpiritInstance[][];
+  reasoning: string[];
+  predictedPerformance: number;
+  riskLevel: 'low' | 'medium' | 'high';
+}
+
+/**
+ * Threat analysis interface
+ */
+export interface IThreatAnalysis {
+  primaryThreats: string[];
+  vulnerabilityScore: number;
+  counterStrategies: string[];
+  recommendedCounters: ISpiritInstance[];
+  threatLevel: 'low' | 'medium' | 'high' | 'critical';
 }
 
 /**
@@ -1539,6 +1580,42 @@ export class TeamManager implements ITeamManager {
       return TeamOperationResult.FAILURE;
     }
   }
+
+  /**
+   * Get strategic analysis for team
+   */
+  getStrategicAnalysis(teamId: string): IStrategicAnalysis {
+    const team = this.getTeam(teamId);
+    if (!team) {
+      throw new Error('Team not found');
+    }
+
+    return TeamStrategyAnalyzer.analyzeTeam(team);
+  }
+
+  /**
+   * Get optimal team composition
+   */
+  getOptimalTeamComposition(teamId: string, availableSpirits: ISpiritInstance[]): ITeamCompositionRecommendation {
+    const team = this.getTeam(teamId);
+    if (!team) {
+      throw new Error('Team not found');
+    }
+
+    return TeamStrategyAnalyzer.getOptimalComposition(team, availableSpirits);
+  }
+
+  /**
+   * Analyze threats against enemy teams
+   */
+  analyzeThreats(teamId: string, enemyTeams: ITeam[]): IThreatAnalysis {
+    const team = this.getTeam(teamId);
+    if (!team) {
+      throw new Error('Team not found');
+    }
+
+    return TeamStrategyAnalyzer.analyzeThreats(team, enemyTeams);
+  }
 }
 
 /**
@@ -1759,6 +1836,622 @@ export const TeamUtils = {
     return 'balanced';
   }
 };
+
+/**
+ * Team Strategy Analyzer - Advanced strategic analysis for teams
+ */
+export class TeamStrategyAnalyzer {
+  /**
+   * Analyze team strategically
+   */
+  static analyzeTeam(team: ITeam): IStrategicAnalysis {
+    const spirits = team.spirits;
+    if (spirits.length === 0) {
+      return this.createEmptyAnalysis();
+    }
+
+    // Calculate ratings (0-100 scale)
+    const offensiveRating = this.calculateOffensiveRating(spirits);
+    const defensiveRating = this.calculateDefensiveRating(spirits);
+    const mobilityRating = this.calculateMobilityRating(spirits);
+    const synergyRating = team.calculateSynergy();
+    const typeCoverage = this.calculateTypeCoverage(spirits);
+
+    // Calculate overall strength
+    const overallStrength = Math.round(
+      (offensiveRating * 0.3) +
+      (defensiveRating * 0.3) +
+      (mobilityRating * 0.2) +
+      (synergyRating * 0.1) +
+      (typeCoverage * 0.1)
+    );
+
+    // Identify strengths and weaknesses
+    const strengths = this.identifyStrengths(spirits, offensiveRating, defensiveRating, mobilityRating);
+    const weaknesses = this.identifyWeaknesses(spirits, offensiveRating, defensiveRating, mobilityRating);
+
+    // Generate strategic recommendations
+    const recommendedStrategies = this.generateStrategyRecommendations(
+      spirits, offensiveRating, defensiveRating, mobilityRating, typeCoverage
+    );
+
+    // Identify risk factors
+    const riskFactors = this.identifyRiskFactors(spirits, synergyRating, typeCoverage);
+
+    return {
+      overallStrength,
+      defensiveRating,
+      offensiveRating,
+      mobilityRating,
+      synergyRating,
+      typeCoverage,
+      weaknesses,
+      strengths,
+      recommendedStrategies,
+      riskFactors
+    };
+  }
+
+  /**
+   * Get optimal team composition
+   */
+  static getOptimalTeamComposition(team: ITeam, availableSpirits: ISpiritInstance[]): ITeamCompositionRecommendation {
+    if (availableSpirits.length === 0) {
+      return this.createEmptyRecommendation();
+    }
+
+    // Sort spirits by strategic value
+    const sortedSpirits = this.rankSpiritsByStrategicValue(availableSpirits);
+
+    // Generate recommended team (best spirits first)
+    const recommendedTeam = sortedSpirits.slice(0, Math.min(team.maxSize, sortedSpirits.length));
+
+    // Generate alternative compositions
+    const alternativeCompositions = this.generateAlternativeCompositions(
+      availableSpirits,
+      team.maxSize
+    );
+
+    // Calculate predicted performance
+    const predictedPerformance = this.predictTeamPerformance(recommendedTeam);
+
+    // Assess risk level
+    const riskLevel = this.assessRiskLevel(recommendedTeam);
+
+    // Generate reasoning
+    const reasoning = this.generateCompositionReasoning(recommendedTeam, team);
+
+    return {
+      recommendedTeam,
+      alternativeCompositions,
+      reasoning,
+      predictedPerformance,
+      riskLevel
+    };
+  }
+
+  /**
+   * Analyze threats against enemy teams
+   */
+  static analyzeThreats(team: ITeam, enemyTeams: ITeam[]): IThreatAnalysis {
+    if (enemyTeams.length === 0) {
+      return this.createEmptyThreatAnalysis();
+    }
+
+    const spirits = team.spirits;
+    const primaryThreats: string[] = [];
+    let vulnerabilityScore = 0;
+    const counterStrategies: string[] = [];
+    const recommendedCounters: ISpiritInstance[] = [];
+
+    // Analyze each enemy team
+    enemyTeams.forEach(enemyTeam => {
+      const enemyAnalysis = this.analyzeTeam(enemyTeam);
+      const vulnerabilities = this.identifyVulnerabilitiesAgainstEnemy(spirits, enemyAnalysis);
+
+      if (vulnerabilities.length > 0) {
+        primaryThreats.push(...vulnerabilities.map(v => `${enemyTeam.name}: ${v}`));
+        vulnerabilityScore += Math.min(100, vulnerabilities.length * 25);
+      }
+
+      // Generate counter strategies
+      const counters = this.generateCounterStrategies(spirits, enemyAnalysis);
+      counterStrategies.push(...counters);
+    });
+
+    // Normalize vulnerability score
+    vulnerabilityScore = Math.min(100, vulnerabilityScore);
+
+    // Determine threat level
+    let threatLevel: 'low' | 'medium' | 'high' | 'critical';
+    if (vulnerabilityScore < 25) threatLevel = 'low';
+    else if (vulnerabilityScore < 50) threatLevel = 'medium';
+    else if (vulnerabilityScore < 75) threatLevel = 'high';
+    else threatLevel = 'critical';
+
+    return {
+      primaryThreats,
+      vulnerabilityScore,
+      counterStrategies,
+      recommendedCounters,
+      threatLevel
+    };
+  }
+
+  /**
+   * Calculate offensive rating for spirits
+   */
+  private static calculateOffensiveRating(spirits: ISpiritInstance[]): number {
+    if (spirits.length === 0) return 0;
+
+    let totalOffense = 0;
+    spirits.forEach(spirit => {
+      const stats = spirit.getEffectiveStats();
+      const attack = stats.attack || 0;
+      const specialAttack = stats.specialAttack || 0;
+      const speed = stats.speed || 0;
+      const level = spirit.level;
+
+      // Weighted offensive calculation
+      const offensivePower = (attack * 0.4) + (specialAttack * 0.3) + (speed * 0.2) + (level * 0.1);
+      totalOffense += offensivePower;
+    });
+
+    return Math.min(100, totalOffense / spirits.length);
+  }
+
+  /**
+   * Calculate defensive rating for spirits
+   */
+  private static calculateDefensiveRating(spirits: ISpiritInstance[]): number {
+    if (spirits.length === 0) return 0;
+
+    let totalDefense = 0;
+    spirits.forEach(spirit => {
+      const stats = spirit.getEffectiveStats();
+      const defense = stats.defense || 0;
+      const specialDefense = stats.specialDefense || 0;
+      const hp = stats.hp || 0;
+      const level = spirit.level;
+
+      // Weighted defensive calculation
+      const defensivePower = (defense * 0.3) + (specialDefense * 0.3) + (hp * 0.25) + (level * 0.15);
+      totalDefense += defensivePower;
+    });
+
+    return Math.min(100, totalDefense / spirits.length);
+  }
+
+  /**
+   * Calculate mobility rating for spirits
+   */
+  private static calculateMobilityRating(spirits: ISpiritInstance[]): number {
+    if (spirits.length === 0) return 0;
+
+    let totalMobility = 0;
+    spirits.forEach(spirit => {
+      const stats = spirit.getEffectiveStats();
+      const speed = stats.speed || 0;
+      const level = spirit.level;
+
+      // Higher weight on speed for mobility
+      const mobilityScore = (speed * 0.7) + (level * 0.3);
+      totalMobility += mobilityScore;
+    });
+
+    return Math.min(100, totalMobility / spirits.length);
+  }
+
+  /**
+   * Calculate type coverage for spirits
+   */
+  private static calculateTypeCoverage(spirits: ISpiritInstance[]): number {
+    if (spirits.length === 0) return 0;
+
+    const types = new Set(spirits.map(spirit => spirit.type));
+    const typeCount = types.size;
+
+    // Ideal type coverage based on team size
+    const idealTypes = Math.min(spirits.length, 6); // Max 6 different types needed
+
+    return Math.min(100, (typeCount / idealTypes) * 100);
+  }
+
+  /**
+   * Identify team strengths
+   */
+  private static identifyStrengths(
+    spirits: ISpiritInstance[],
+    offensiveRating: number,
+    defensiveRating: number,
+    mobilityRating: number
+  ): string[] {
+    const strengths: string[] = [];
+
+    if (offensiveRating > 70) strengths.push('High offensive power');
+    if (defensiveRating > 70) strengths.push('Strong defensive capabilities');
+    if (mobilityRating > 70) strengths.push('Excellent mobility and speed');
+
+    if (spirits.length >= 4) strengths.push('Good team size for synergy');
+
+    const avgLevel = spirits.reduce((sum, s) => sum + s.level, 0) / spirits.length;
+    if (avgLevel > 40) strengths.push('High average level');
+
+    const typeCoverage = this.calculateTypeCoverage(spirits);
+    if (typeCoverage > 80) strengths.push('Excellent type coverage');
+
+    return strengths;
+  }
+
+  /**
+   * Identify team weaknesses
+   */
+  private static identifyWeaknesses(
+    spirits: ISpiritInstance[],
+    offensiveRating: number,
+    defensiveRating: number,
+    mobilityRating: number
+  ): string[] {
+    const weaknesses: string[] = [];
+
+    if (offensiveRating < 40) weaknesses.push('Low offensive power');
+    if (defensiveRating < 40) weaknesses.push('Weak defensive capabilities');
+    if (mobilityRating < 40) weaknesses.push('Poor mobility and speed');
+
+    if (spirits.length < 3) weaknesses.push('Small team size reduces synergy');
+
+    const avgLevel = spirits.reduce((sum, s) => sum + s.level, 0) / spirits.length;
+    if (avgLevel < 25) weaknesses.push('Low average level');
+
+    const typeCoverage = this.calculateTypeCoverage(spirits);
+    if (typeCoverage < 50) weaknesses.push('Limited type coverage');
+
+    return weaknesses;
+  }
+
+  /**
+   * Generate strategy recommendations
+   */
+  private static generateStrategyRecommendations(
+    spirits: ISpiritInstance[],
+    offensiveRating: number,
+    defensiveRating: number,
+    mobilityRating: number,
+    typeCoverage: number
+  ): string[] {
+    const strategies: string[] = [];
+
+    if (offensiveRating > defensiveRating) {
+      strategies.push('Aggressive strategy: Focus on quick, powerful attacks');
+      strategies.push('Target enemy weaknesses with type advantages');
+    } else if (defensiveRating > offensiveRating) {
+      strategies.push('Defensive strategy: Endure and counter-attack');
+      strategies.push('Protect key team members and control the pace');
+    }
+
+    if (mobilityRating > 60) {
+      strategies.push('Mobility strategy: Use speed to control positioning');
+      strategies.push('Focus on hit-and-run tactics');
+    }
+
+    if (typeCoverage > 70) {
+      strategies.push('Versatile strategy: Adapt to any situation');
+      strategies.push('Exploit enemy type weaknesses');
+    }
+
+    if (spirits.length >= 5) {
+      strategies.push('Team coordination: Use combined attacks and support');
+    }
+
+    return strategies;
+  }
+
+  /**
+   * Identify risk factors
+   */
+  private static identifyRiskFactors(
+    spirits: ISpiritInstance[],
+    synergyRating: number,
+    typeCoverage: number
+  ): string[] {
+    const risks: string[] = [];
+
+    if (synergyRating < 40) {
+      risks.push('Low team synergy may cause coordination issues');
+    }
+
+    if (typeCoverage < 30) {
+      risks.push('Limited type coverage makes team vulnerable to specific types');
+    }
+
+    const levels = spirits.map(s => s.level);
+    const maxLevel = Math.max(...levels);
+    const minLevel = Math.min(...levels);
+    const levelDifference = maxLevel - minLevel;
+
+    if (levelDifference > 30) {
+      risks.push('Large level disparity may cause balance issues');
+    }
+
+    if (spirits.length < 3) {
+      risks.push('Small team size increases risk of being overwhelmed');
+    }
+
+    return risks;
+  }
+
+  /**
+   * Rank spirits by strategic value
+   */
+  private static rankSpiritsByStrategicValue(spirits: ISpiritInstance[]): ISpiritInstance[] {
+    return spirits.sort((a, b) => {
+      const scoreA = this.calculateSpiritStrategicValue(a);
+      const scoreB = this.calculateSpiritStrategicValue(b);
+      return scoreB - scoreA;
+    });
+  }
+
+  /**
+   * Calculate strategic value for a spirit
+   */
+  private static calculateSpiritStrategicValue(spirit: ISpiritInstance): number {
+    const stats = spirit.getEffectiveStats();
+    const attack = stats.attack || 0;
+    const defense = stats.defense || 0;
+    const speed = stats.speed || 0;
+    const hp = stats.hp || 0;
+    const level = spirit.level;
+
+    // Strategic value calculation
+    return (attack * 0.25) + (defense * 0.2) + (speed * 0.2) + (hp * 0.15) + (level * 0.2);
+  }
+
+  /**
+   * Generate alternative team compositions
+   */
+  private static generateAlternativeCompositions(
+    availableSpirits: ISpiritInstance[],
+    teamSize: number
+  ): ISpiritInstance[][] {
+    const compositions: ISpiritInstance[][] = [];
+    const rankedSpirits = this.rankSpiritsByStrategicValue(availableSpirits);
+
+    // Generate different composition strategies
+    const strategies = [
+      'balanced',    // Mixed types and roles
+      'offensive',   // Focus on high attack spirits
+      'defensive',   // Focus on high defense spirits
+      'speed',       // Focus on high speed spirits
+      'diverse'      // Maximize type coverage
+    ];
+
+    strategies.forEach(strategy => {
+      const composition = this.generateCompositionByStrategy(rankedSpirits, teamSize, strategy);
+      if (composition.length > 0) {
+        compositions.push(composition);
+      }
+    });
+
+    return compositions;
+  }
+
+  /**
+   * Generate composition by strategy
+   */
+  private static generateCompositionByStrategy(
+    rankedSpirits: ISpiritInstance[],
+    teamSize: number,
+    strategy: string
+  ): ISpiritInstance[] {
+    const composition: ISpiritInstance[] = [];
+    const usedTypes = new Set<string>();
+
+    for (const spirit of rankedSpirits) {
+      if (composition.length >= teamSize) break;
+
+      let includeSpirit = false;
+
+      switch (strategy) {
+        case 'balanced':
+          includeSpirit = composition.length < teamSize;
+          break;
+        case 'offensive':
+          const stats = spirit.getEffectiveStats();
+          includeSpirit = (stats.attack || 0) > 80;
+          break;
+        case 'defensive':
+          const defStats = spirit.getEffectiveStats();
+          includeSpirit = (defStats.defense || 0) > 80;
+          break;
+        case 'speed':
+          const speedStats = spirit.getEffectiveStats();
+          includeSpirit = (speedStats.speed || 0) > 90;
+          break;
+        case 'diverse':
+          if (!usedTypes.has(spirit.type)) {
+            includeSpirit = true;
+            usedTypes.add(spirit.type);
+          }
+          break;
+      }
+
+      if (includeSpirit) {
+        composition.push(spirit);
+      }
+    }
+
+    return composition;
+  }
+
+  /**
+   * Predict team performance
+   */
+  private static predictTeamPerformance(team: ISpiritInstance[]): number {
+    if (team.length === 0) return 0;
+
+    const offensiveRating = this.calculateOffensiveRating(team);
+    const defensiveRating = this.calculateDefensiveRating(team);
+    const mobilityRating = this.calculateMobilityRating(team);
+    const typeCoverage = this.calculateTypeCoverage(team);
+
+    const avgLevel = team.reduce((sum, s) => sum + s.level, 0) / team.length;
+
+    return Math.round(
+      (offensiveRating * 0.25) +
+      (defensiveRating * 0.25) +
+      (mobilityRating * 0.2) +
+      (typeCoverage * 0.15) +
+      (avgLevel * 0.15)
+    );
+  }
+
+  /**
+   * Assess risk level for team
+   */
+  private static assessRiskLevel(team: ISpiritInstance[]): 'low' | 'medium' | 'high' {
+    const performance = this.predictTeamPerformance(team);
+    const typeCoverage = this.calculateTypeCoverage(team);
+
+    if (performance > 80 && typeCoverage > 70) return 'low';
+    if (performance > 60 && typeCoverage > 50) return 'medium';
+    return 'high';
+  }
+
+  /**
+   * Generate composition reasoning
+   */
+  private static generateCompositionReasoning(
+    team: ISpiritInstance[],
+    baseTeam: ITeam
+  ): string[] {
+    const reasoning: string[] = [];
+
+    if (team.length === 0) {
+      reasoning.push('No spirits available for team composition');
+      return reasoning;
+    }
+
+    const performance = this.predictTeamPerformance(team);
+    const typeCoverage = this.calculateTypeCoverage(team);
+    const avgLevel = team.reduce((sum, s) => sum + s.level, 0) / team.length;
+
+    reasoning.push(`Predicted performance: ${performance}/100`);
+    reasoning.push(`Type coverage: ${typeCoverage.toFixed(1)}%`);
+    reasoning.push(`Average level: ${avgLevel.toFixed(1)}`);
+
+    const types = new Set(team.map(s => s.type));
+    reasoning.push(`Types represented: ${Array.from(types).join(', ')}`);
+
+    if (performance > 70) {
+      reasoning.push('Strong team composition with good balance');
+    } else if (performance > 50) {
+      reasoning.push('Moderate team composition with room for improvement');
+    } else {
+      reasoning.push('Weak team composition - consider alternative strategies');
+    }
+
+    return reasoning;
+  }
+
+  /**
+   * Identify vulnerabilities against enemy
+   */
+  private static identifyVulnerabilitiesAgainstEnemy(
+    spirits: ISpiritInstance[],
+    enemyAnalysis: IStrategicAnalysis
+  ): string[] {
+    const vulnerabilities: string[] = [];
+
+    const ourOffense = this.calculateOffensiveRating(spirits);
+    const ourDefense = this.calculateDefensiveRating(spirits);
+
+    if (enemyAnalysis.offensiveRating > ourDefense) {
+      vulnerabilities.push('Outmatched in offense - enemy can break through defenses');
+    }
+
+    if (enemyAnalysis.defensiveRating > ourOffense) {
+      vulnerabilities.push('Outmatched in defense - may struggle to deal damage');
+    }
+
+    if (enemyAnalysis.mobilityRating > ourOffense * 0.8) {
+      vulnerabilities.push('Enemy has superior mobility - may be outmaneuvered');
+    }
+
+    return vulnerabilities;
+  }
+
+  /**
+   * Generate counter strategies
+   */
+  private static generateCounterStrategies(
+    spirits: ISpiritInstance[],
+    enemyAnalysis: IStrategicAnalysis
+  ): string[] {
+    const strategies: string[] = [];
+
+    if (enemyAnalysis.weaknesses.includes('Low offensive power')) {
+      strategies.push('Focus on defensive positioning and counter-attacks');
+    }
+
+    if (enemyAnalysis.weaknesses.includes('Weak defensive capabilities')) {
+      strategies.push('Use aggressive tactics to overwhelm enemy defenses');
+    }
+
+    if (enemyAnalysis.weaknesses.includes('Poor mobility and speed')) {
+      strategies.push('Control positioning and prevent enemy movement');
+    }
+
+    if (enemyAnalysis.weaknesses.includes('Limited type coverage')) {
+      strategies.push('Exploit type advantages to maximize damage');
+    }
+
+    return strategies;
+  }
+
+  /**
+   * Create empty analysis
+   */
+  private static createEmptyAnalysis(): IStrategicAnalysis {
+    return {
+      overallStrength: 0,
+      defensiveRating: 0,
+      offensiveRating: 0,
+      mobilityRating: 0,
+      synergyRating: 0,
+      typeCoverage: 0,
+      weaknesses: ['No spirits in team'],
+      strengths: [],
+      recommendedStrategies: ['Add spirits to team'],
+      riskFactors: ['Empty team composition']
+    };
+  }
+
+  /**
+   * Create empty recommendation
+   */
+  private static createEmptyRecommendation(): ITeamCompositionRecommendation {
+    return {
+      recommendedTeam: [],
+      alternativeCompositions: [],
+      reasoning: ['No spirits available'],
+      predictedPerformance: 0,
+      riskLevel: 'high'
+    };
+  }
+
+  /**
+   * Create empty threat analysis
+   */
+  private static createEmptyThreatAnalysis(): IThreatAnalysis {
+    return {
+      primaryThreats: [],
+      vulnerabilityScore: 0,
+      counterStrategies: [],
+      recommendedCounters: [],
+      threatLevel: 'low'
+    };
+  }
+}
 
 // Export default instances
 export const defaultTeamManager = new TeamManager();
