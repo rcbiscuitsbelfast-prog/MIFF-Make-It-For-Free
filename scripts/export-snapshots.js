@@ -54,8 +54,11 @@ function main(){
       const ppm = drawFrameToPPM(f.frame);
       fs.writeFileSync(path.join(outDir, `${f.name}.${eng}.ppm`), ppm);
     }
+    // replay stub alongside snapshots
+    const stub = { seed: '123', scenario: f.name, steps: [f.frame] };
+    fs.writeFileSync(path.join(outDir, `${f.name}.replay.json`), JSON.stringify(stub, null, 2));
   }
-  console.log(`Exported ${frames.length * engines.length} PPM snapshots to ${outDir}`);
+  console.log(`Exported ${frames.length * engines.length} PPM snapshots and replays to ${outDir}`);
 }
 
 main();
