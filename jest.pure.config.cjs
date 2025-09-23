@@ -13,6 +13,24 @@ module.exports = {
   collectCoverage: true,
   coverageThreshold: {
     global: {
+      branches: 20,
+      functions: 25,
+      lines: 25,
+      statements: 25
+    },
+    './miff/pure/PathfindingPure/**/*.ts': {
+      branches: 70,
+      functions: 85,
+      lines: 85,
+      statements: 85
+    },
+    './miff/pure/TouchGesturePure/**/*.ts': {
+      branches: 70,
+      functions: 85,
+      lines: 85,
+      statements: 85
+    },
+    './miff/pure/BridgeSchemaPure/**/*.ts': {
       branches: 70,
       functions: 80,
       lines: 80,
