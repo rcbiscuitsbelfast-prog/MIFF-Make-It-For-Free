@@ -14,6 +14,15 @@ export interface AudioConfig {
   bufferSize: number;
   spatialAudio: boolean;
   maxSimultaneousSounds: number;
+  enableHRTF?: boolean;
+  enableReverb?: boolean;
+  enableFFT?: boolean;
+  fftSize?: number;
+  roomDimensions?: { width: number; height: number; depth: number };
+  reverbDecay?: number;
+  reverbDamping?: number;
+  masterVolume?: number;
+  enableAudioAnalysis?: boolean;
 }
 
 export interface AudioEvent {
@@ -29,6 +38,13 @@ export interface SpatialAudioConfig {
   volume: number;
   pitch: number;
   dopplerEffect: boolean;
+  coneInnerAngle?: number;
+  coneOuterAngle?: number;
+  coneOuterVolume?: number;
+  maxDistance?: number;
+  referenceDistance?: number;
+  rolloffFactor?: number;
+  directivityPattern?: 'omnidirectional' | 'cardioid' | 'figure8' | 'custom';
 }
 
 export interface SoundDefinition {
@@ -51,8 +67,17 @@ export class AudioSystem {
   private callbacks: AudioCallback[];
   private listenerPosition: { x: number; y: number; z: number };
   private listenerVelocity: { x: number; y: number; z: number };
+  private listenerOrientation: { forward: { x: number; y: number; z: number }; up: { x: number; y: number; z: number } };
   private isHeadless: boolean;
   private instanceCounter: number; // Add counter for unique instance IDs
+  private hrtfEnabled: boolean;
+  private reverbEnabled: boolean;
+  private fftEnabled: boolean;
+  private masterVolume: number;
+  private audioContext?: AudioContext;
+  private analyser?: AnalyserNode;
+  private reverbNode?: ConvolverNode;
+  private masterGain?: GainNode;
 
   constructor(config: AudioConfig, headless: boolean = false) {
     this.config = config;
@@ -61,12 +86,78 @@ export class AudioSystem {
     this.callbacks = [];
     this.listenerPosition = { x: 0, y: 0, z: 0 };
     this.listenerVelocity = { x: 0, y: 0, z: 0 };
+    this.listenerOrientation = { forward: { x: 0, y: 0, z: -1 }, up: { x: 0, y: 1, z: 0 } };
     this.isHeadless = headless;
     this.instanceCounter = 0; // Initialize counter
+    this.hrtfEnabled = config.enableHRTF ?? false;
+    this.reverbEnabled = config.enableReverb ?? false;
+    this.fftEnabled = config.enableFFT ?? false;
+    this.masterVolume = config.masterVolume ?? 1.0;
+
+    if (!headless) {
+      this.initializeAudioContext();
+    }
 
     if (this.isHeadless) {
       console.log('[AudioPure] Running in headless mode - audio events will be logged only');
     }
+  }
+
+  private async initializeAudioContext(): Promise<void> {
+    try {
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({
+        sampleRate: this.config.sampleRate,
+        latencyHint: 'interactive'
+      });
+
+      // Create master gain node
+      this.masterGain = this.audioContext.createGain();
+      this.masterGain.gain.value = this.masterVolume;
+      this.masterGain.connect(this.audioContext.destination);
+
+      // Create analyser for audio analysis
+      if (this.fftEnabled) {
+        this.analyser = this.audioContext.createAnalyser();
+        this.analyser.fftSize = this.config.fftSize || 2048;
+        this.analyser.smoothingTimeConstant = 0.8;
+        this.analyser.connect(this.masterGain);
+      }
+
+      // Create reverb effect
+      if (this.reverbEnabled) {
+        await this.createReverbNode();
+      }
+
+      console.log('[AudioPure] Audio context initialized successfully');
+    } catch (error) {
+      console.error('[AudioPure] Failed to initialize audio context:', error);
+    }
+  }
+
+  private async createReverbNode(): Promise<void> {
+    if (!this.audioContext) return;
+
+    this.reverbNode = this.audioContext.createConvolver();
+
+    // Create a realistic reverb impulse response
+    const sampleRate = this.audioContext.sampleRate;
+    const decay = this.config.reverbDecay || 2.0;
+    const damping = this.config.reverbDamping || 0.5;
+    const length = sampleRate * decay;
+
+    const impulse = this.audioContext.createBuffer(2, length, sampleRate);
+
+    for (let channel = 0; channel < 2; channel++) {
+      const channelData = impulse.getChannelData(channel);
+
+      for (let i = 0; i < length; i++) {
+        const time = i / sampleRate;
+        const envelope = Math.exp(-time * damping);
+        channelData[i] = (Math.random() * 2 - 1) * envelope;
+      }
+    }
+
+    this.reverbNode.buffer = impulse;
   }
 
   addCallback(callback: AudioCallback): void {
@@ -161,13 +252,26 @@ export class AudioSystem {
 
   playSpatialSound(soundId: string, spatialConfig: SpatialAudioConfig): string | null {
     const instanceId = this.playSound(soundId, spatialConfig.volume, spatialConfig.pitch);
-    
-    if (instanceId) {
+
+    if (instanceId && this.audioContext) {
       const instance = this.activeSounds.get(instanceId);
       if (instance) {
         instance.position = spatialConfig.position;
         instance.velocity = spatialConfig.velocity;
         instance.spatial = true;
+        instance.direction = (spatialConfig as any).direction || { x: 0, y: 0, z: 0 };
+        instance.coneInnerAngle = spatialConfig.coneInnerAngle;
+        instance.coneOuterAngle = spatialConfig.coneOuterAngle;
+        instance.coneOuterVolume = spatialConfig.coneOuterVolume;
+        instance.maxDistance = spatialConfig.maxDistance;
+        instance.referenceDistance = spatialConfig.referenceDistance;
+        instance.rolloffFactor = spatialConfig.rolloffFactor;
+        instance.directivityPattern = spatialConfig.directivityPattern;
+
+        // Create panner node for advanced spatial audio
+        if (this.hrtfEnabled) {
+          instance.pannerNode = this.createPannerNode(spatialConfig);
+        }
 
         this.emitEvent({
           type: 'spatial',
@@ -179,6 +283,120 @@ export class AudioSystem {
     }
 
     return instanceId;
+  }
+
+  private createPannerNode(spatialConfig: SpatialAudioConfig): PannerNode | null {
+    if (!this.audioContext) return null;
+
+    const panner = this.audioContext.createPanner();
+    panner.panningModel = this.hrtfEnabled ? 'HRTF' : 'equalpower';
+    panner.distanceModel = 'inverse';
+    panner.refDistance = spatialConfig.referenceDistance || 1;
+    panner.maxDistance = spatialConfig.maxDistance || 10000;
+    panner.rolloffFactor = spatialConfig.rolloffFactor || 1;
+    panner.coneInnerAngle = spatialConfig.coneInnerAngle || 360;
+    panner.coneOuterAngle = spatialConfig.coneOuterAngle || 360;
+    panner.coneOuterGain = spatialConfig.coneOuterVolume || 0;
+
+    return panner;
+  }
+
+  public getAudioAnalysis(): any {
+    if (!this.analyser || !this.fftEnabled) {
+      return null;
+    }
+
+    const bufferLength = this.analyser.frequencyBinCount;
+    const frequencyData = new Float32Array(bufferLength);
+    const timeData = new Float32Array(bufferLength);
+
+    this.analyser.getFloatFrequencyData(frequencyData);
+    this.analyser.getFloatTimeDomainData(timeData);
+
+    // Calculate RMS volume
+    let sum = 0;
+    for (let i = 0; i < timeData.length; i++) {
+      sum += timeData[i] * timeData[i];
+    }
+    const rms = Math.sqrt(sum / timeData.length);
+
+    // Calculate spectral centroid
+    let centroidSum = 0;
+    let magnitudeSum = 0;
+    const nyquist = this.config.sampleRate / 2;
+
+    for (let i = 0; i < frequencyData.length; i++) {
+      const frequency = (i / frequencyData.length) * nyquist;
+      const magnitude = Math.abs(frequencyData[i]);
+      centroidSum += frequency * magnitude;
+      magnitudeSum += magnitude;
+    }
+
+    const spectralCentroid = magnitudeSum > 0 ? centroidSum / magnitudeSum : 0;
+
+    // Calculate spectral rolloff
+    const rolloffPercentile = 0.85;
+    let rolloffMagnitude = magnitudeSum * rolloffPercentile;
+    let spectralRolloff = 0;
+    let currentMagnitude = 0;
+
+    for (let i = 0; i < frequencyData.length; i++) {
+      currentMagnitude += Math.abs(frequencyData[i]);
+      if (currentMagnitude >= rolloffMagnitude) {
+        spectralRolloff = (i / frequencyData.length) * nyquist;
+        break;
+      }
+    }
+
+    return {
+      frequencyData,
+      timeData,
+      rms,
+      spectralCentroid,
+      spectralRolloff,
+      sampleRate: this.config.sampleRate,
+      timestamp: Date.now()
+    };
+  }
+
+  public setListenerOrientation(forward: { x: number; y: number; z: number }, up: { x: number; y: number; z: number }): void {
+    this.listenerOrientation.forward = forward;
+    this.listenerOrientation.up = up;
+
+    if (this.audioContext?.listener) {
+      this.audioContext.listener.forwardX.value = forward.x;
+      this.audioContext.listener.forwardY.value = forward.y;
+      this.audioContext.listener.forwardZ.value = forward.z;
+      this.audioContext.listener.upX.value = up.x;
+      this.audioContext.listener.upY.value = up.y;
+      this.audioContext.listener.upZ.value = up.z;
+    }
+  }
+
+  public setMasterVolume(volume: number): void {
+    this.masterVolume = Math.max(0, Math.min(1, volume));
+    if (this.masterGain) {
+      this.masterGain.gain.value = this.masterVolume;
+    }
+  }
+
+  public enableHRTF(enable: boolean): void {
+    this.hrtfEnabled = enable;
+    console.log(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
+  }
+
+  public enableReverb(enable: boolean): void {
+    this.reverbEnabled = enable;
+    console.log(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
+  }
+
+  public setReverbParameters(decay: number, damping: number): void {
+    this.config.reverbDecay = decay;
+    this.config.reverbDamping = damping;
+
+    if (this.reverbEnabled) {
+      this.createReverbNode();
+    }
   }
 
   stopSound(instanceId: string): boolean {
@@ -248,23 +466,151 @@ export class AudioSystem {
     this.listenerVelocity = velocity;
   }
 
+  private updateSoundPitch(instanceId: string, pitch: number): void {
+    const instance = this.activeSounds.get(instanceId);
+    if (instance) {
+      instance.pitch = pitch;
+    }
+  }
+
   updateSpatialAudio(): void {
-    if (!this.config.spatialAudio) return;
+    if (!this.config.spatialAudio || !this.audioContext) return;
 
-    for (const [instanceId, instance] of this.activeSounds) {
+    for (const [instanceId, instance] of Array.from(this.activeSounds.entries())) {
       if (instance.spatial) {
-        const distance = this.calculateDistance(instance.position, this.listenerPosition);
-        const volume = this.calculateSpatialVolume(distance, instance.volume);
-        
-        // Apply doppler effect if enabled
-        if (this.config.spatialAudio) {
-          const dopplerPitch = this.calculateDopplerEffect(instance.velocity, this.listenerVelocity);
-          instance.pitch *= dopplerPitch;
-        }
-
-        this.setVolume(instanceId, volume);
+        this.updateSpatialSource(instanceId, instance);
       }
     }
+  }
+
+  private updateSpatialSource(instanceId: string, instance: any): void {
+    if (!this.audioContext) return;
+
+    const spatial = instance.spatial as SpatialAudioConfig;
+    const distance = this.calculateDistance(spatial.position, this.listenerPosition);
+    const volume = this.calculateSpatialVolume(distance, spatial.volume, spatial);
+    const dopplerShift = this.calculateAdvancedDopplerEffect(spatial.velocity, this.listenerVelocity);
+    const directivity = this.calculateDirectivity(spatial);
+
+    // Apply spatial effects
+    const finalVolume = volume * directivity;
+    const finalPitch = spatial.pitch * dopplerShift;
+
+    this.setVolume(instanceId, finalVolume);
+    this.updateSoundPitch(instanceId, finalPitch);
+
+    // Apply HRTF if enabled
+    if (this.hrtfEnabled && instance.pannerNode) {
+      this.updateHRTF(instance.pannerNode, spatial);
+    }
+  }
+
+  private calculateDirectivity(spatial: SpatialAudioConfig): number {
+    const listenerToSource = {
+      x: spatial.position.x - this.listenerPosition.x,
+      y: spatial.position.y - this.listenerPosition.y,
+      z: spatial.position.z - this.listenerPosition.z
+    };
+
+    const distance = Math.sqrt(listenerToSource.x ** 2 + listenerToSource.y ** 2 + listenerToSource.z ** 2);
+
+    if (distance === 0) return 1.0;
+
+    const normalizedDirection = {
+      x: listenerToSource.x / distance,
+      y: listenerToSource.y / distance,
+      z: listenerToSource.z / distance
+    };
+
+    // Calculate angle between source direction and listener
+    const dotProduct = normalizedDirection.x * this.listenerOrientation.forward.x +
+                      normalizedDirection.y * this.listenerOrientation.forward.y +
+                      normalizedDirection.z * this.listenerOrientation.forward.z;
+
+    const angle = Math.acos(Math.max(-1, Math.min(1, dotProduct)));
+
+    // Apply directivity pattern
+    switch (spatial.directivityPattern || 'omnidirectional') {
+      case 'cardioid':
+        return 0.5 + 0.5 * Math.cos(angle);
+      case 'figure8':
+        return Math.cos(angle);
+      case 'custom':
+        // Custom directivity calculation based on cone angles
+        const innerAngle = (spatial.coneInnerAngle || 360) * Math.PI / 180;
+        const outerAngle = (spatial.coneOuterAngle || 360) * Math.PI / 180;
+
+        if (angle <= innerAngle) return 1.0;
+        if (angle >= outerAngle) return spatial.coneOuterVolume || 0.0;
+
+        const t = (angle - innerAngle) / (outerAngle - innerAngle);
+        return 1.0 - t * (1.0 - (spatial.coneOuterVolume || 0.0));
+      default: // omnidirectional
+        return 1.0;
+    }
+  }
+
+  private calculateAdvancedDopplerEffect(sourceVelocity: { x: number; y: number; z: number }, listenerVelocity: { x: number; y: number; z: number }): number {
+    const speedOfSound = 343; // m/s
+    const relativeVelocity = {
+      x: sourceVelocity.x - listenerVelocity.x,
+      y: sourceVelocity.y - listenerVelocity.y,
+      z: sourceVelocity.z - listenerVelocity.z
+    };
+
+    const sourceToListener = {
+      x: this.listenerPosition.x - sourceVelocity.x,
+      y: this.listenerPosition.y - sourceVelocity.y,
+      z: this.listenerPosition.z - sourceVelocity.z
+    };
+
+    const distance = Math.sqrt(sourceToListener.x ** 2 + sourceToListener.y ** 2 + sourceToListener.z ** 2);
+
+    if (distance === 0) return 1.0;
+
+    const normalizedDirection = {
+      x: sourceToListener.x / distance,
+      y: sourceToListener.y / distance,
+      z: sourceToListener.z / distance
+    };
+
+    const projectedVelocity = relativeVelocity.x * normalizedDirection.x +
+                             relativeVelocity.y * normalizedDirection.y +
+                             relativeVelocity.z * normalizedDirection.z;
+
+    return 1 + (projectedVelocity / speedOfSound);
+  }
+
+  private updateHRTF(pannerNode: PannerNode, spatial: SpatialAudioConfig): void {
+    // Update HRTF parameters
+    pannerNode.positionX.value = spatial.position.x;
+    pannerNode.positionY.value = spatial.position.y;
+    pannerNode.positionZ.value = spatial.position.z;
+
+    const direction = (spatial as any).direction || { x: 0, y: 0, z: 0 };
+    pannerNode.orientationX.value = direction.x;
+    pannerNode.orientationY.value = direction.y;
+    pannerNode.orientationZ.value = direction.z;
+
+    pannerNode.refDistance = spatial.referenceDistance || 1;
+    pannerNode.maxDistance = spatial.maxDistance || 10000;
+    pannerNode.rolloffFactor = spatial.rolloffFactor || 1;
+    pannerNode.coneInnerAngle = spatial.coneInnerAngle || 360;
+    pannerNode.coneOuterAngle = spatial.coneOuterAngle || 360;
+    pannerNode.coneOuterGain = spatial.coneOuterVolume || 0;
+  }
+
+  private calculateSpatialVolume(distance: number, baseVolume: number, spatial: SpatialAudioConfig): number {
+    if (distance <= (spatial.referenceDistance || 1)) {
+      return baseVolume;
+    }
+
+    const maxDistance = spatial.maxDistance || 100;
+    const rolloffFactor = spatial.rolloffFactor || 1;
+
+    // Inverse distance model (more realistic than inverse square)
+    const attenuation = Math.min(1, (spatial.referenceDistance || 1) / (distance * rolloffFactor));
+    return baseVolume * attenuation;
   }
 
   private calculateDistance(pos1: { x: number; y: number; z: number }, pos2: { x: number; y: number; z: number }): number {
@@ -274,12 +620,6 @@ export class AudioSystem {
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
-  private calculateSpatialVolume(distance: number, baseVolume: number): number {
-    // Simple inverse square law for volume falloff
-    const maxDistance = 100; // Configurable
-    const falloff = Math.max(0, 1 - (distance / maxDistance));
-    return baseVolume * falloff * falloff;
-  }
 
   private calculateDopplerEffect(sourceVelocity: { x: number; y: number; z: number }, listenerVelocity: { x: number; y: number; z: number }): number {
     // Simplified doppler effect calculation
@@ -309,7 +649,23 @@ export class AudioSystem {
       activeSounds: this.activeSounds.size,
       maxSimultaneous: this.config.maxSimultaneousSounds,
       spatialAudio: this.config.spatialAudio,
-      headless: this.isHeadless
+      hrtfEnabled: this.hrtfEnabled,
+      reverbEnabled: this.reverbEnabled,
+      fftEnabled: this.fftEnabled,
+      masterVolume: this.masterVolume,
+      audioContextState: this.audioContext?.state || 'none',
+      sampleRate: this.audioContext?.sampleRate || 0,
+      currentTime: this.audioContext?.currentTime || 0,
+      listenerPosition: this.listenerPosition,
+      listenerOrientation: this.listenerOrientation,
+      headless: this.isHeadless,
+      advancedFeatures: {
+        directivityPatterns: true,
+        dopplerEffects: true,
+        hrtf: this.hrtfEnabled,
+        reverb: this.reverbEnabled,
+        audioAnalysis: this.fftEnabled
+      }
     };
   }
 
