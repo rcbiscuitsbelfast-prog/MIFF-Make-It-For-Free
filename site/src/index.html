@@ -13,11 +13,28 @@
       import { Launcher } from './launcher.tsx';
       const root = createRoot(document.getElementById('root'));
       root.render(React.createElement(Launcher));
-      // Receive frame commands and relay to Godot if needed
+
+      // JS Bridge: forward RenderPayload frames to embedded Godot iframe
+      const godotIframe = () => document.querySelector('iframe');
+
+      // External producers can post frames to the launcher window
       window.addEventListener('message', (ev) => {
         if (!ev?.data) return;
-        // Hook for future: translate RenderPayload frames to Godot calls via JS bridge
+        const data = ev.data;
+        // Accept frames as { type: 'MIFF_FRAME', frame } and forward to Godot
+        if (data.type === 'MIFF_FRAME') {
+          const target = godotIframe()?.contentWindow;
+          if (target) target.postMessage({ type: 'MIFF_FRAME', frame: data.frame }, '*');
+        }
       });
+
+      // Expose a simple global for debugging
+      window.MIFF_BRIDGE = {
+        sendFrame(frame) {
+          const target = godotIframe()?.contentWindow;
+          if (target) target.postMessage({ type: 'MIFF_FRAME', frame }, '*');
+        }
+      };
     </script>
   </body>
   </html>

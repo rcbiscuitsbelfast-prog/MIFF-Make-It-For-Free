@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
+import { prewarmAssets } from './prewarm';
 
 type ScenarioId = 'TutorialScenarioPure' | 'SpiritTamerDemoPure';
 
@@ -13,6 +14,12 @@ export function Launcher() {
     if (!target) return;
     const message = { type: 'MIFF_START', scenario, seed };
     target.postMessage(message, '*');
+    // Best-effort prewarm common assets
+    prewarmAssets([
+      '/assets/sprites/npcs.png',
+      '/assets/sprites/ui.png',
+      '/assets/audio/click.ogg'
+    ]);
   }
 
   function toggleDebug() {
