@@ -436,7 +436,9 @@ export class KOHandler {
       return false;
     }
 
-    return this._fainted.add(spiritId).size > this._fainted.size;
+    const sizeBefore = this._fainted.size;
+    this._fainted.add(spiritId);
+    return this._fainted.size > sizeBefore;
   }
 
   /**
