@@ -1,0 +1,6 @@
+{
+  "language": "gdscript",
+  "targetVersion": "4.0",
+  "useSignals": true,
+  "useAnimations": true
+}
