@@ -1,64 +1,68 @@
-# MIFF Repository Audit — Phase 13 Completion (Sep 22, 2025)
+# MIFF Repository Audit (Sep 2025)
 
-## Executive Summary
-- Status: Full in-band Jest run is green (117 passed, 4 skipped; 638/643 tests passing).
-- Phase 13 delivered engine-agnostic procedural generation modules (ProceduralWorldPure, MeshFactoryPure, TextureSynthPure, NodeGraphPure) with deterministic CLIs and golden tests.
-- Stabilization merged: RenderReplayPure, VisualReplaySystemPure, PathfindingPure; remaining risk areas documented with mitigations.
+## Summary
+- Status: Stable. Core phases M1–M4 completed; exports/launcher/contracts in place
+- Tests: 130 suites total (126 passing, 4 skipped), 656 tests (651 passing, 5 skipped)
+- CI: Sharded Jest, PR snapshot artifacts (PPM), README→docs auto-sync
+- Docs/Tools: Golden diff visualizer (`site/tools/diff.html`), `docs/modules/` auto-synced
 
-## Scope & Methodology
-- Scope: `miff/pure/*` modules, bridges, demos, CLIs, site, docs.
-- Methods: Automated tests, targeted CLI replays, dependency audit/outdated scan, config/code review, asset/license spot checks.
+## Phases & Deliverables
+- M1 Godot bridge contracts + launcher
+  - GodotBridgePure contract tests passing
+  - Site launcher with scenario picker, seed, JS bridge and prewarm
+  - CI job for bridge contract tests
+- M2 ExportWebPure
+  - CLI to emit web export + `preload.manifest.json`
+  - `export-web.yml` workflow (manual trigger)
+- M3 ExportAndroidPure
+  - CLI with signing validation; CI-safe placeholders (AAB/APK)
+  - `export-android.yml` workflow (manual trigger)
+- M4 Mobile UX
+  - HapticsPure, TouchGesturePure, PermissionsPure: managers, CLIs, tests (passing)
 
-## Key Findings
-1) Test & Stability
-- Full in-band test run (Jest): stable; worker-mode remains flaky on some runners.
-- Golden tests validate deterministic outputs and CLI envelopes.
+## Bridges & Contracts
+- GodotBridgePure
+  - Adapters include TileMap (materialAtlas, tileIndices) and NavigationRegion (polygons)
+  - ProceduralWorld → Godot contract test (tilemap/nav) passing
+- Web/Unity contracts
+  - Invariant tests validate engine tag and items/issues structure
+- Camera/WebSocket bridges
+  - Contract tests pass (API/envelope invariants)
 
-2) Dependencies & Tooling
-- Outdated majors: vite (7.x available), vitest (3.x), puppeteer (24.x). Jest kept on 29.x for stability.
-- Audit advisories (moderate): vite/vitest chain (esbuild advisory addressed by bumping vite). No high/critical currently.
+## CI & Automation
+- Sharded Jest: matrix runs via `scripts/jest-shard.js`, `jest-sharded.yml`
+- Snapshots on PRs: `sampler-snapshots.yml` produces per-engine `.ppm` artifacts; comments PR with artifact info
+- README sync: `scripts/sync-readmes.js` → `docs/modules/` + `readme-sync.yml` artifact
 
-3) Modules & Coverage
-- Strong modules: AssetValidatorPure, CIEnforcerPure, QuestSystemPure, TimeSystemPure, AIProfileIntegrationLayer, PathfindingPure, ProceduralWorldPure suite.
-- Bridges and demos functional; CLIs standardized with `{ log, outputs }` envelope in new modules.
+## Site & Tools
+- `site/src` launcher integrated; `site/tools/diff.html` for golden vs actual JSON comparison
+- `docs/site/TOOLS.md` created; `site/index.html` links tools
 
-4) Compliance & Licensing
-- Assets marked remix-safe (CC0/GPL). Dual-license model (AGPLv3 + commercial) documented.
-- No proprietary blobs detected; added scheduled license scan workflow for Node deps and asset attribution checks.
+## Test & Coverage
+- Suites: 126/130 passing; tests: 651/656 passing; 0 failing in full suite runs
+- Coverage gates set globally (22/18/22/22) with per-module ratchets for highly covered modules
 
-5) CI/CD & Quality
-- Added CI workflow to enforce Jest in-band execution.
-- Recommend Node 18/20 matrix and caching; pin Jest@29.x.
+## Modules (Highlights)
+- Strong: BridgeSchemaPure, PathfindingPure, RenderPayloadPure, TimeSystemPure, StatusEffectsPure
+- New: HapticsPure, TouchGesturePure, PermissionsPure (tests passing)
+- Needs attention: Some legacy and low-coverage modules (e.g., EconomyPure, large managers with sparse tests); C# legacy modules earmarked for cleanup
 
-6) Security Posture
-- No secrets in repo; CLIs operate on local files. No unsafe network by default.
-- Recommend secret scanning and output path allow-lists for exporters.
+## Exports & Launcher
+- Web export CLI working (copy+manifest; headless export pending)
+- Android export CLI placeholder outputs for CI; headless + Gradle integration pending
+- Launcher: embeds Godot export; frame forwarding and prewarm in place
 
-## Remediations Completed
-- ProjectileSystemPure: legacy envelope for golden tests.
-- SessionManifestPure: validation, list/duplicate handling.
-- SettingsPure: fs/path imports for save/load.
-- NPCsPure: JSON create, zone filter parsing, dump mode; manager defaults.
-- RemixMode manifest: expose `pos`/`block` on `place_block` changes.
-- SkillTreePure: load accepts raw/wrapped inputs.
-- CI: Added `.github/workflows/ci-jest-pin.yml` (in-band tests).
-- License scan: Added `.github/workflows/license-scan.yml`.
-- Docs: `docs/DEPENDENCY_MODERNIZATION_PLAN.md` added.
+## Pending / Next Steps
+- Replace Android placeholder with real Godot headless export + Gradle signing
+- Expand Godot adapter to generate tile indices from ProceduralWorld biomes/heights; deeper atlas mapping tests
+- Wire RenderReplayPure to produce real per-step frames in snapshots (beyond sample)
+- Strengthen per-module coverage ratchets; add more fuzzing (Physics/Collision)
+- Optional: PR bot enhancements (link diff visualizer with baseline/actual JSON)
 
-## Risks & Mitigations
-- Jest worker IPC: Run in-band; consider Vitest migration in a tracked branch after vite upgrade.
-- Dependency drift: Follow the modernization plan; upgrade vite/vitest in a dedicated branch.
-- Large CLI outputs: Prefer artifact files for large exports; keep stdout concise in CLIs.
+## Risks
+- Toolchain setup for real Android exports (SDK/NDK, templates)
+- Maintaining determinism across bridge layers and replay
+- Performance/size of web assets without headless export pipeline
 
-## Action Plan (next 7–10 days)
-- Day 1–2: Pin Jest in CI, publish dependency report; open PR for puppeteer/sharp/@types updates (safe upgrades).
-- Day 3–4: Branch `feature/tooling-vite7-vitest3`; attempt vite/vitest upgrades; smoke-test site/samplers.
-- Day 5–7: License attribution audit pass; add coverage reporting and thresholds; raise coverage toward 90%.
-- Day 8–10: Demo polish, README/docs updates; prep release notes.
-
-## Appendices
-- Dependency Modernization: `docs/DEPENDENCY_MODERNIZATION_PLAN.md`
-- Current Audit (live): `AUDIT_REPO.md`
-
-Prepared by: Automated + manual audit (Cursor agent)
-Date: Sep 22, 2025
+---
+Generated automatically during Phase 12+ stabilization and integration work.
