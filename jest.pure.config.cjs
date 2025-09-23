@@ -10,6 +10,15 @@ module.exports = {
     '!miff/pure/**/tests/**',
     '!miff/pure/**/cliHarness.ts'
   ],
+  collectCoverage: true,
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
+  },
   transform: { 
     '^.+\\.(ts|tsx)$': ['@swc/jest', {
       jsc: {
