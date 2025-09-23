@@ -49,7 +49,7 @@
     "dashboard:performance": "open miff/pure/TeamsPure/performanceDashboard.html",
     "build:automation": "tsc scripts/test-automation.sh --outDir dist-scripts",
     "report:coverage": "node scripts/generate-coverage-report.js",
-    "report:performance": "node scripts/generate-performance-report.js",
+    "report:performance": "node scripts/generate-performance-report.js"
     "build": "tsc",
     "dev": "vite",
     "preview": "vite preview",
