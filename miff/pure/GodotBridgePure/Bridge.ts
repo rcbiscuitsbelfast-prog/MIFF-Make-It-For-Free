@@ -161,7 +161,11 @@ export class GodotBridge {
                 materialAtlas: {
                   terrain: ['water','sand','grass','rock'],
                   rivers: ['river_main']
-                }
+                },
+                tileIndices: [
+                  // grid indices mapping sample
+                  [0,1,2,3]
+                ]
               }
             });
             resources.push({

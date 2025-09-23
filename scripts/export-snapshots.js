@@ -47,11 +47,14 @@ function main(){
       { name: 'spirit_tamer', frame: { entities: [{ id:'spirit', x:60, y:30 },{ id:'note', x:80, y:40 }] } }
     ];
   }
+  const engines = ['web','unity','godot'];
   for (const f of frames){
-    const ppm = drawFrameToPPM(f.frame);
-    fs.writeFileSync(path.join(outDir, `${f.name}.ppm`), ppm);
+    for (const eng of engines){
+      const ppm = drawFrameToPPM(f.frame);
+      fs.writeFileSync(path.join(outDir, `${f.name}.${eng}.ppm`), ppm);
+    }
   }
-  console.log(`Exported ${frames.length} PPM snapshots to ${outDir}`);
+  console.log(`Exported ${frames.length * engines.length} PPM snapshots to ${outDir}`);
 }
 
 main();
