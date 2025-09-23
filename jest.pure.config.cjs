@@ -1,6 +1,6 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
   setupFilesAfterEnv: ['./jest.setup.js'],
   // Limit concurrency to avoid worker IPC incompatibilities
   maxWorkers: 1,
@@ -35,24 +35,20 @@ module.exports = {
       functions: 70,
       lines: 70,
       statements: 70
+    },
+    './miff/pure/TeamsPure/**/*.ts': {
+      branches: 70,
+      functions: 75,
+      lines: 75,
+      statements: 75
     }
   },
-  transform: { 
-    '^.+\\.(ts|tsx)$': ['@swc/jest', {
-      jsc: {
-        parser: {
-          syntax: 'typescript',
-          tsx: true,
-          decorators: true
-        },
-        transform: {
-          react: {
-            runtime: 'automatic'
-          }
-        }
-      }
-    }]
+  transform: {
+    '^.+\\.(ts|tsx)$': 'babel-jest'
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@babel)/)'
+  ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testMatch: [
     '<rootDir>/miff/pure/**/tests/**/*.test.ts',
