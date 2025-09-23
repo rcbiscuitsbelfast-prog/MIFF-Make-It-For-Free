@@ -104,8 +104,13 @@ function main() {
 
       case 'save':
         const savePath = args[1] || 'settings.json';
-        manager.save(savePath);
-        result.result = { message: `Settings saved to ${savePath}` };
+        try {
+          manager.save(savePath);
+          result.result = { message: `Settings saved to ${savePath}` };
+        } catch (error) {
+          result.status = 'error';
+          result.result = { error: `Failed to save settings: ${error instanceof Error ? error.message : 'Unknown error'}` };
+        }
         break;
 
       case 'load':

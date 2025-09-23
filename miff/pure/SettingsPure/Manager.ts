@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export interface SettingsConfig {
   musicVolume: number;
   sfxVolume: number;

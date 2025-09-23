@@ -13,7 +13,7 @@ import fs from 'fs';
  */
 test('golden projectile system flow', () => {
   const root = path.resolve(__dirname, '..');
-  const projectiles = path.resolve(root, 'fixtures/projectiles.json');
+  const projectiles = path.resolve(root, 'fixtures/golden_projectiles.json');
   
   // Run CLI harness with projectile data
   const out = (global as any).testUtils.runCLI(

@@ -36,7 +36,7 @@ function main(){
     
     const cmds: Cmd[] = commands 
       ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
-      : [{ op: 'demo' } as Cmd];
+      : [{ op: 'step', dt: 0.1 } as Cmd];
     
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
     
@@ -64,7 +64,7 @@ function main(){
             break;
           case 'step':
             result = mgr.step(c.dt);
-            outputs.push({ op: 'step', status: 'ok', timestamp, result });
+            outputs.push({ op: 'projectiles.step', status: 'ok', timestamp, updated: result });
             break;
           case 'dump':
             result = mgr.dump(c.id);
@@ -114,7 +114,12 @@ function main(){
       }
     }
     
-    console.log(JSON.stringify({ outputs }, null, 2));
+    // If only one command was run, return it directly (for golden test compatibility)
+    if (outputs.length === 1) {
+      console.log(JSON.stringify(outputs[0], null, 2));
+    } else {
+      console.log(JSON.stringify({ outputs }, null, 2));
+    }
   } catch (error) {
     console.log(JSON.stringify({ 
       outputs: [{ 

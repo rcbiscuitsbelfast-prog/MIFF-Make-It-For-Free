@@ -66,6 +66,10 @@ export interface RemixManifest {
   assets: string[];
   remixSafe: boolean;
   shareableLink: string;
+  firstChange?: {
+    pos: [number, number];
+    block: string;
+  };
 }
 
 // Core remix mode manager
@@ -84,7 +88,7 @@ export class RemixModeManager {
       id: crypto.randomUUID(),
       timestamp: Date.now(),
       action: 'place_block',
-      data: { position, blockType },
+      data: { pos: position, block: blockType },
       reversible: true
     };
 
@@ -174,7 +178,7 @@ export class RemixModeManager {
 
   // Phase 4: Export and sharing
   generateRemixManifest(): RemixManifest {
-    return {
+    const manifest: RemixManifest = {
       version: "1.0",
       baseScenario: this.session.baseScenario,
       changes: this.session.changes,
@@ -182,6 +186,19 @@ export class RemixModeManager {
       remixSafe: this.validateRemixSafety(),
       shareableLink: this.generateShareableLink()
     };
+    
+    // Add firstChange if there are changes
+    if (this.session.changes.length > 0) {
+      const firstChange = this.session.changes[0];
+      if (firstChange.action === 'place_block' && firstChange.data) {
+        manifest.firstChange = {
+          pos: firstChange.data.pos,
+          block: firstChange.data.block
+        };
+      }
+    }
+    
+    return manifest;
   }
 
   // Undo/Redo system

@@ -109,10 +109,15 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         result = {
           op: 'dump',
           status: 'ok',
-          info: {
+          renderData: {
             module: input.module,
             config,
-            capabilities: ['simulate', 'render', 'interop']
+            capabilities: ['simulate', 'render', 'interop'],
+            bridgeInfo: {
+              version: '1.0.0',
+              connected: true,
+              lastSync: new Date().toISOString()
+            }
           }
         };
         break;

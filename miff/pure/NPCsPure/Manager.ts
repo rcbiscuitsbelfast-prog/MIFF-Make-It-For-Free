@@ -156,7 +156,7 @@ export class NPCsManager {
           curiosity: 60,
           loyalty: 70
         },
-        location: { zoneId: 'zone_market' as EntityID, x: 25, y: 12 },
+        location: { zoneId: 'zone_village' as EntityID, x: 25, y: 12 },
         questIds: [],
         movementPattern: { type: 'patrol', speed: 2, range: 5 },
         faction: 'merchants',

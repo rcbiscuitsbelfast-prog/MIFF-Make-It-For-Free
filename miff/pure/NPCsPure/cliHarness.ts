@@ -33,27 +33,38 @@ let output: any;
 try {
   switch (mode) {
     case 'create':
-      const newNPC: NPC = {
-        id: npcId as any,
-        name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
-        stats: [
-          { key: 'health', base: 100 },
-          { key: 'mana', base: 50 },
-          { key: 'strength', base: 10 },
-          { key: 'wisdom', base: 10 }
-        ],
-        behavior: {
-          type: behaviorType as any,
-          aggression: 0,
-          curiosity: 50,
-          loyalty: 50
-        },
-        location: { zoneId: zoneId as any, x, y, z },
-        questIds: [],
-        movementPattern: { type: 'idle', speed: 1 },
-        faction,
-        reputation: 50
-      };
+      let newNPC: NPC;
+      
+      // Check if first argument is a file path
+      const firstArg = args[0];
+      if (firstArg && !firstArg.startsWith('--') && require('fs').existsSync(firstArg)) {
+        // Load NPC from file
+        const fileContent = require('fs').readFileSync(firstArg, 'utf8');
+        newNPC = JSON.parse(fileContent);
+      } else {
+        // Create NPC from CLI arguments
+        newNPC = {
+          id: npcId as any,
+          name: args.find(arg => arg.startsWith('--name='))?.split('=')[1] || 'New NPC',
+          stats: [
+            { key: 'health', base: 100 },
+            { key: 'mana', base: 50 },
+            { key: 'strength', base: 10 },
+            { key: 'wisdom', base: 10 }
+          ],
+          behavior: {
+            type: behaviorType as any,
+            aggression: 0,
+            curiosity: 50,
+            loyalty: 50
+          },
+          location: { zoneId: zoneId as any, x, y, z },
+          questIds: [],
+          movementPattern: { type: 'idle', speed: 1 },
+          faction,
+          reputation: 50
+        };
+      }
       output = manager.createNPC(newNPC);
       break;
 
@@ -132,6 +143,14 @@ try {
 
     case 'stats':
       output = manager.getNPCStats();
+      break;
+
+    case 'dump':
+      output = {
+        op: 'dump',
+        status: 'ok',
+        result: manager.getAllNPCs()
+      };
       break;
 
     case 'export':

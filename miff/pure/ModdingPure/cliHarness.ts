@@ -11,7 +11,7 @@ import {
   ExportTemplate
 } from './ModdingPure';
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   

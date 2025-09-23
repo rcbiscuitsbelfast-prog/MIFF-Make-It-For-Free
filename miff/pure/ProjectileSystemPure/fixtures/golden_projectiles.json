@@ -1,0 +1,30 @@
+{
+  "projectiles": [
+    {
+      "id": "arrow_001",
+      "position": { "x": 0, "y": 0 },
+      "velocity": { "x": 10, "y": 5 },
+      "ttl": 2.0,
+      "type": "arrow",
+      "damage": 30,
+      "radius": 0.1,
+      "mass": 0.2,
+      "ownerId": "archer1"
+    },
+    {
+      "id": "bolt_001",
+      "position": { "x": 5, "y": 10 },
+      "velocity": { "x": -5, "y": 8 },
+      "ttl": 3.0,
+      "type": "bolt",
+      "damage": 25,
+      "radius": 0.08,
+      "mass": 0.15,
+      "ownerId": "crossbow1"
+    }
+  ],
+  "defaultGravity": { "x": 0, "y": -9.8 },
+  "defaultFriction": 0.01,
+  "bounds": { "min": { "x": -20, "y": -10 }, "max": { "x": 20, "y": 20 } },
+  "timeStep": 0.016
+}

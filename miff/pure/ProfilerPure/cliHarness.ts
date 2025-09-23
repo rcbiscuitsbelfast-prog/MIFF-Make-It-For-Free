@@ -69,10 +69,10 @@ function main() {
         break;
 
       case 'endSample':
-        const sampleId = args[1];
-        if (sampleId) {
-          profiler.endSample(sampleId);
-          result.result = { message: `Sample ${sampleId} ended` };
+        const endSampleId = args[1];
+        if (endSampleId) {
+          profiler.endSample(endSampleId);
+          result.result = { message: `Sample ${endSampleId} ended` };
         } else {
           result.status = 'error';
           result.result = { error: 'Sample ID required' };
