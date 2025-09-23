@@ -6,6 +6,30 @@
 			"fixture": "miff/scenarios/witcher_grove.fixture.json",
 			"zone": "site/zones/witcher_grove/",
 			"sitePath": "/zones/witcher_grove"
+		},
+		{
+			"id": "combat_arena",
+			"name": "Combat Arena",
+			"fixture": "fixtures/combat_encounters.json",
+			"sitePath": "/sampler/index.html"
+		},
+		{
+			"id": "town_quest",
+			"name": "Town Quest",
+			"fixture": "fixtures/quest_pack_echoes.json",
+			"sitePath": "/sampler/index.html"
+		},
+		{
+			"id": "rhythm_minigame",
+			"name": "Rhythm Minigame",
+			"fixture": "miff/miff/pure/RhythmSystemPure/fixtures/beatmap.json",
+			"sitePath": "/sampler/index.html"
+		},
+		{
+			"id": "proc_world_stroll",
+			"name": "Proc World Stroll",
+			"fixture": "miff/pure/WorldManifestPure/fixtures/sample_world.json",
+			"sitePath": "/sampler/pixel-world.html"
 		}
 	]
 }
