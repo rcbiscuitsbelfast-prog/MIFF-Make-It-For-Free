@@ -14,15 +14,48 @@ export interface LevelEntry {
   metadata?: Record<string, any>;
 }
 
+export enum XPCurrency {
+  COMBAT = 'combat',
+  QUEST = 'quest',
+  EXPLORATION = 'exploration',
+  CRAFTING = 'crafting',
+  SOCIAL = 'social',
+  ACHIEVEMENT = 'achievement',
+  EVENT = 'event',
+  CUSTOM = 'custom'
+}
+
+export interface XPMultiplier {
+  source: XPCurrency | string;
+  multiplier: number;
+  duration?: number; // in milliseconds, undefined = permanent
+  description?: string;
+}
+
+export interface XPChallenge {
+  id: string;
+  name: string;
+  description: string;
+  xpReward: number;
+  currency: XPCurrency;
+  requirements: Record<string, any>;
+  timeLimit?: number;
+  isActive: boolean;
+  completedBy?: string[];
+}
+
 export interface XPEntity {
   id: string;
   level: number;
   xp: number;
   nextLevelXp: number;
   totalXp: number;
+  xpByCurrency: Map<XPCurrency, number>; // XP earned by currency type
   skills: Map<string, number>; // skill -> level
   stats: Map<string, number>; // stat -> value
   lastLevelUp: number;
+  xpMultipliers: XPMultiplier[];
+  activeChallenges: string[];
   metadata?: Record<string, any>;
 }
 
@@ -71,7 +104,7 @@ export interface XPFilter {
 export interface XPOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: XPEntity | XPEntity[] | LevelUpResult | XPStats | XPCurve;
+  result?: XPEntity | XPEntity[] | LevelUpResult | XPStats | XPCurve | any;
   issues?: string[];
 }
 
@@ -79,6 +112,9 @@ export class XPLevelingManager {
   private entities: Map<string, XPEntity> = new Map();
   private curves: Map<string, XPCurve> = new Map();
   private levelUpHistory: LevelUpResult[] = [];
+  private activeMultipliers: XPMultiplier[] = [];
+  private challenges: Map<string, XPChallenge> = new Map();
+  private globalMultipliers: XPMultiplier[] = [];
 
   constructor() {
     this.initializeDefaultCurves();
@@ -183,9 +219,12 @@ export class XPLevelingManager {
       xp: 0,
       nextLevelXp: levelEntry.nextLevelXp,
       totalXp: 0,
+      xpByCurrency: new Map(),
       skills: new Map(),
       stats: new Map(),
-      lastLevelUp: Date.now()
+      lastLevelUp: Date.now(),
+      xpMultipliers: [],
+      activeChallenges: []
     };
 
     this.entities.set(id, entity);
@@ -196,34 +235,7 @@ export class XPLevelingManager {
     };
   }
 
-  /**
-   * Add XP to an entity
-   */
-  addXP(entityId: string, amount: number, source?: string): XPOutput {
-    const entity = this.entities.get(entityId);
-    if (!entity) {
-      return {
-        op: 'add_xp',
-        status: 'error',
-        issues: [`Entity ${entityId} not found`]
-      };
-    }
-
-    entity.xp += amount;
-    entity.totalXp += amount;
-
-    // Check for level up
-    const levelUpResult = this.checkAndApplyLevelUp(entity);
-    if (levelUpResult) {
-      this.levelUpHistory.push(levelUpResult);
-    }
-
-    return {
-      op: 'add_xp',
-      status: 'ok',
-      result: entity
-    };
-  }
+  // Legacy addXP method removed - use the new multi-currency version
 
   /**
    * Get entity level
@@ -641,12 +653,385 @@ export class XPLevelingManager {
 
   private findLevelEntry(level: number): LevelEntry | null {
     // Find the curve that contains this level
-    for (const curve of this.curves.values()) {
+    for (const curve of Array.from(this.curves.values())) {
       const entry = curve.levels.find(l => l.level === level);
       if (entry) {
         return entry;
       }
     }
     return null;
+  }
+
+  /**
+   * Add XP with multi-currency support and multipliers
+   */
+  addXP(entityId: string, amount: number, source: XPCurrency | string = XPCurrency.CUSTOM): XPOutput {
+    const entity = this.entities.get(entityId);
+    if (!entity) {
+      return {
+        op: 'add_xp',
+        status: 'error',
+        issues: [`Entity ${entityId} not found`]
+      };
+    }
+
+    // Calculate multiplier for this source
+    const multiplier = this.calculateMultiplier(source, entity);
+    const finalAmount = Math.floor(amount * multiplier);
+
+    // Add to currency-specific XP
+    const currentCurrencyXp = entity.xpByCurrency.get(source as XPCurrency) || 0;
+    entity.xpByCurrency.set(source as XPCurrency, currentCurrencyXp + finalAmount);
+
+    // Add to total XP
+    entity.xp += finalAmount;
+    entity.totalXp += finalAmount;
+
+    // Check for level up
+    const levelUpResult = this.checkAndApplyLevelUp(entity);
+    if (levelUpResult) {
+      this.levelUpHistory.push(levelUpResult);
+    }
+
+    return {
+      op: 'add_xp',
+      status: 'ok',
+      result: {
+        ...entity,
+        multiplierUsed: multiplier,
+        originalAmount: amount,
+        finalAmount,
+        source: source as XPCurrency
+      }
+    };
+  }
+
+  /**
+   * Calculate XP multiplier for a given source and entity
+   */
+  private calculateMultiplier(source: XPCurrency | string, entity: XPEntity): number {
+    let multiplier = 1.0;
+
+    // Apply global multipliers
+    for (const globalMult of this.globalMultipliers) {
+      if (globalMult.source === source || globalMult.source === '*') {
+        multiplier *= globalMult.multiplier;
+      }
+    }
+
+    // Apply entity-specific multipliers
+    for (const entityMult of entity.xpMultipliers) {
+      if (entityMult.source === source || entityMult.source === '*') {
+        multiplier *= entityMult.multiplier;
+
+        // Check if temporary multiplier has expired
+        if (entityMult.duration) {
+          const now = Date.now();
+          if (now - (entityMult as any).appliedAt > entityMult.duration) {
+            multiplier /= entityMult.multiplier; // Remove expired multiplier
+          }
+        }
+      }
+    }
+
+    return Math.max(0.1, multiplier); // Minimum 0.1x to prevent zero XP
+  }
+
+  /**
+   * Add XP multiplier to an entity
+   */
+  addXPMultiplier(entityId: string, multiplier: XPMultiplier): XPOutput {
+    const entity = this.entities.get(entityId);
+    if (!entity) {
+      return {
+        op: 'add_multiplier',
+        status: 'error',
+        issues: [`Entity ${entityId} not found`]
+      };
+    }
+
+    // Add timestamp for temporary multipliers
+    if (multiplier.duration) {
+      (multiplier as any).appliedAt = Date.now();
+    }
+
+    entity.xpMultipliers.push(multiplier);
+
+    return {
+      op: 'add_multiplier',
+      status: 'ok',
+      result: entity
+    };
+  }
+
+  /**
+   * Add global XP multiplier
+   */
+  addGlobalXPMultiplier(multiplier: XPMultiplier): XPOutput {
+    if (multiplier.duration) {
+      (multiplier as any).appliedAt = Date.now();
+    }
+
+    this.globalMultipliers.push(multiplier);
+
+    return {
+      op: 'add_global_multiplier',
+      status: 'ok',
+      result: { message: 'Global XP multiplier added', multiplier }
+    };
+  }
+
+  /**
+   * Create and activate an XP challenge
+   */
+  createChallenge(challenge: XPChallenge): XPOutput {
+    if (this.challenges.has(challenge.id)) {
+      return {
+        op: 'create_challenge',
+        status: 'error',
+        issues: [`Challenge ${challenge.id} already exists`]
+      };
+    }
+
+    this.challenges.set(challenge.id, { ...challenge, isActive: true });
+
+    return {
+      op: 'create_challenge',
+      status: 'ok',
+      result: challenge
+    };
+  }
+
+  /**
+   * Complete an XP challenge
+   */
+  completeChallenge(entityId: string, challengeId: string): XPOutput {
+    const entity = this.entities.get(entityId);
+    const challenge = this.challenges.get(challengeId);
+
+    if (!entity) {
+      return {
+        op: 'complete_challenge',
+        status: 'error',
+        issues: [`Entity ${entityId} not found`]
+      };
+    }
+
+    if (!challenge) {
+      return {
+        op: 'complete_challenge',
+        status: 'error',
+        issues: [`Challenge ${challengeId} not found`]
+      };
+    }
+
+    if (!challenge.isActive) {
+      return {
+        op: 'complete_challenge',
+        status: 'error',
+        issues: [`Challenge ${challengeId} is not active`]
+      };
+    }
+
+    if (entity.activeChallenges.includes(challengeId)) {
+      return {
+        op: 'complete_challenge',
+        status: 'error',
+        issues: [`Challenge ${challengeId} already completed by ${entityId}`]
+      };
+    }
+
+    // Award XP for completing challenge
+    const xpResult = this.addXP(entityId, challenge.xpReward, challenge.currency);
+
+    if (xpResult.status === 'ok') {
+      entity.activeChallenges.push(challengeId);
+      challenge.completedBy = challenge.completedBy || [];
+      challenge.completedBy.push(entityId);
+    }
+
+    return xpResult;
+  }
+
+  /**
+   * Get XP statistics including currency breakdown
+   */
+  getDetailedXPStats(): XPOutput {
+    const entities = Array.from(this.entities.values());
+
+    const detailedStats = {
+      totalEntities: entities.length,
+      averageLevel: 0,
+      totalXp: 0,
+      totalXpByCurrency: {} as Record<XPCurrency, number>,
+      levelDistribution: {} as Record<number, number>,
+      skillDistribution: {} as Record<string, number>,
+      mostCommonLevel: 1,
+      highestLevel: 1,
+      activeChallenges: this.challenges.size,
+      completedChallenges: Array.from(this.challenges.values()).filter(c => !c.isActive).length,
+      globalMultipliers: this.globalMultipliers.length
+    };
+
+    if (entities.length > 0) {
+      const totalLevel = entities.reduce((sum, e) => sum + e.level, 0);
+      detailedStats.averageLevel = totalLevel / entities.length;
+      detailedStats.totalXp = entities.reduce((sum, e) => sum + e.totalXp, 0);
+      detailedStats.highestLevel = Math.max(...entities.map(e => e.level));
+
+      // Calculate XP by currency
+      entities.forEach(entity => {
+        entity.xpByCurrency.forEach((xp, currency) => {
+          detailedStats.totalXpByCurrency[currency] = (detailedStats.totalXpByCurrency[currency] || 0) + xp;
+        });
+      });
+
+      // Calculate level distribution
+      entities.forEach(entity => {
+        detailedStats.levelDistribution[entity.level] = (detailedStats.levelDistribution[entity.level] || 0) + 1;
+      });
+
+      // Find most common level
+      const sortedLevels = Object.entries(detailedStats.levelDistribution)
+        .sort(([,a], [,b]) => b - a);
+      detailedStats.mostCommonLevel = parseInt(sortedLevels[0]?.[0] || '1');
+
+      // Calculate skill distribution
+      entities.forEach(entity => {
+        entity.skills.forEach((level, skillId) => {
+          detailedStats.skillDistribution[skillId] = (detailedStats.skillDistribution[skillId] || 0) + level;
+        });
+      });
+    }
+
+    return {
+      op: 'detailed_stats',
+      status: 'ok',
+      result: detailedStats
+    };
+  }
+
+  /**
+   * Get active challenges for an entity
+   */
+  getActiveChallenges(entityId: string): XPOutput {
+    const entity = this.entities.get(entityId);
+    if (!entity) {
+      return {
+        op: 'get_active_challenges',
+        status: 'error',
+        issues: [`Entity ${entityId} not found`]
+      };
+    }
+
+    const activeChallenges = Array.from(this.challenges.values())
+      .filter(challenge => challenge.isActive && !entity.activeChallenges.includes(challenge.id));
+
+    return {
+      op: 'get_active_challenges',
+      status: 'ok',
+      result: activeChallenges
+    };
+  }
+
+  /**
+   * Get currency-specific XP for an entity
+   */
+  getXPCurrencyBreakdown(entityId: string): XPOutput {
+    const entity = this.entities.get(entityId);
+    if (!entity) {
+      return {
+        op: 'get_xp_currency_breakdown',
+        status: 'error',
+        issues: [`Entity ${entityId} not found`]
+      };
+    }
+
+    const breakdown = {
+      entityId,
+      totalXp: entity.totalXp,
+      currencyBreakdown: Object.fromEntries(entity.xpByCurrency),
+      multipliers: entity.xpMultipliers,
+      activeChallenges: entity.activeChallenges
+    };
+
+    return {
+      op: 'get_xp_currency_breakdown',
+      status: 'ok',
+      result: breakdown
+    };
+  }
+
+  /**
+   * Create sample challenges for testing
+   */
+  createSampleChallenges(): void {
+    const sampleChallenges: XPChallenge[] = [
+      {
+        id: 'first_kill',
+        name: 'First Blood',
+        description: 'Defeat your first enemy in combat',
+        xpReward: 100,
+        currency: XPCurrency.COMBAT,
+        requirements: { combat: { victories: 1 } },
+        isActive: true
+      },
+      {
+        id: 'level_up',
+        name: 'Growing Stronger',
+        description: 'Reach level 5',
+        xpReward: 250,
+        currency: XPCurrency.ACHIEVEMENT,
+        requirements: { level: 5 },
+        isActive: true
+      },
+      {
+        id: 'skill_master',
+        name: 'Skill Master',
+        description: 'Reach level 10 in any skill',
+        xpReward: 500,
+        currency: XPCurrency.ACHIEVEMENT,
+        requirements: { skill: { level: 10 } },
+        isActive: true
+      },
+      {
+        id: 'explorer',
+        name: 'Explorer',
+        description: 'Complete 5 exploration activities',
+        xpReward: 150,
+        currency: XPCurrency.EXPLORATION,
+        requirements: { exploration: { activities: 5 } },
+        isActive: true
+      }
+    ];
+
+    sampleChallenges.forEach(challenge => this.challenges.set(challenge.id, challenge));
+  }
+
+  /**
+   * Initialize with sample data for testing
+   */
+  initializeSampleData(): void {
+    // Create sample entities
+    this.createEntity('warrior', 'standard', 1);
+    this.createEntity('mage', 'fast', 1);
+    this.createEntity('tank', 'slow', 1);
+
+    // Add sample XP multipliers
+    this.addGlobalXPMultiplier({
+      source: XPCurrency.COMBAT,
+      multiplier: 1.2,
+      description: 'Weekend combat bonus'
+    });
+
+    this.addGlobalXPMultiplier({
+      source: XPCurrency.QUEST,
+      multiplier: 1.5,
+      duration: 3600000, // 1 hour
+      description: 'Quest event bonus'
+    });
+
+    // Create sample challenges
+    this.createSampleChallenges();
   }
 }

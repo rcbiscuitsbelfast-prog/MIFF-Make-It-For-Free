@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-export { 
+export {
   XPLevelingManager,
   type LevelEntry,
   type XPEntity,
@@ -17,5 +17,8 @@ export {
   type LevelUpResult,
   type XPStats,
   type XPFilter,
-  type XPOutput
+  type XPOutput,
+  type XPMultiplier,
+  type XPChallenge,
+  XPCurrency
 } from './Manager';
