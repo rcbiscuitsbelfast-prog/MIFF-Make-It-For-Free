@@ -7,6 +7,10 @@ on:
         description: 'Build output directory'
         required: false
         default: './build/android'
+      headless:
+        description: 'Run optional Godot headless export prep'
+        required: false
+        default: 'false'
 
 jobs:
   build:
@@ -21,6 +25,9 @@ jobs:
           cache: 'npm'
       - name: Install deps
         run: npm ci --legacy-peer-deps
+      - name: Optional Godot headless export (gated)
+        if: ${{ inputs.headless == 'true' }}
+        run: node scripts/android-headless-export.js --project ./docs/godot --output ${{ github.event.inputs.output }}
       - name: Prepare keystore
         run: |
           echo "$KEYSTORE_B64" | base64 -d > keystore.jks

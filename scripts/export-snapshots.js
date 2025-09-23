@@ -38,7 +38,8 @@ function main(){
     if (fs.existsSync(samplePath)){
       const data = JSON.parse(fs.readFileSync(samplePath,'utf-8'));
       const steps = data?.examples?.basic?.session?.steps || [];
-      frames = steps.slice(0,2).map((s, i) => ({ name: `replay_${i+1}`, frame: { entities: (s.renderData||[]).map((rd)=>({ id: rd.id||'ent', x: (rd.position?.x)||0, y: (rd.position?.y)||0 })) } }));
+      const max = Math.min(10, steps.length || 0);
+      frames = steps.slice(0,max).map((s, i) => ({ name: `replay_step_${i+1}`, frame: { entities: (s.renderData||[]).map((rd)=>({ id: rd.id||'ent', x: (rd.position?.x)||0, y: (rd.position?.y)||0 })) } }));
     }
   } catch {}
   if (frames.length === 0){
