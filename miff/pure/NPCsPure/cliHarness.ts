@@ -9,6 +9,7 @@
  * @license MIT
  */
 
+import fs from 'fs';
 import { NPCsManager, NPC, NPBehavior } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 
@@ -35,11 +36,11 @@ try {
     case 'create':
       let newNPC: NPC;
       
-      // Check if first argument is a file path
-      const firstArg = args[0];
-      if (firstArg && !firstArg.startsWith('--') && require('fs').existsSync(firstArg)) {
+      // Check if second argument is a file path (first is the command 'create')
+      const fileArg = args[1];
+      if (fileArg && !fileArg.startsWith('--') && fs.existsSync(fileArg)) {
         // Load NPC from file
-        const fileContent = require('fs').readFileSync(firstArg, 'utf8');
+        const fileContent = fs.readFileSync(fileArg, 'utf8');
         newNPC = JSON.parse(fileContent);
       } else {
         // Create NPC from CLI arguments

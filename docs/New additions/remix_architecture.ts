@@ -88,7 +88,7 @@ export class RemixModeManager {
       id: crypto.randomUUID(),
       timestamp: Date.now(),
       action: 'place_block',
-      data: { pos: position, block: blockType },
+      data: { position: position, blockType: blockType },
       reversible: true
     };
 
@@ -192,8 +192,8 @@ export class RemixModeManager {
       const firstChange = this.session.changes[0];
       if (firstChange.action === 'place_block' && firstChange.data) {
         manifest.firstChange = {
-          pos: firstChange.data.pos,
-          block: firstChange.data.block
+          pos: firstChange.data.position,
+          block: firstChange.data.blockType
         };
       }
     }

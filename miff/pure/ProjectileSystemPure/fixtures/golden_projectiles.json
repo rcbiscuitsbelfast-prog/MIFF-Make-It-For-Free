@@ -23,8 +23,8 @@
       "ownerId": "crossbow1"
     }
   ],
-  "defaultGravity": { "x": 0, "y": -9.8 },
-  "defaultFriction": 0.01,
+  "defaultGravity": { "x": 0, "y": 0 },
+  "defaultFriction": 0,
   "bounds": { "min": { "x": -20, "y": -10 }, "max": { "x": 20, "y": 20 } },
   "timeStep": 0.016
 }

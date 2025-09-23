@@ -64,7 +64,7 @@ function main(){
             break;
           case 'step':
             result = mgr.step(c.dt);
-            outputs.push({ op: 'projectiles.step', status: 'ok', timestamp, updated: result });
+            outputs.push({ op: 'projectiles.step', status: 'ok', timestamp, updated: result.updated });
             break;
           case 'dump':
             result = mgr.dump(c.id);

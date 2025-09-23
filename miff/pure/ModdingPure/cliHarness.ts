@@ -15,6 +15,12 @@ async function main() {
   const args = process.argv.slice(2);
   const command = args[0] || 'help';
   
+  // Suppress console output for clean JSON parsing in tests
+  const originalConsoleLog = console.log;
+  const originalConsoleError = console.error;
+  console.log = () => {};
+  console.error = () => {};
+  
   const config: ModdingConfig = {
     pluginDirectory: './plugins',
     autoLoad: true,
@@ -152,6 +158,9 @@ async function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
+  // Restore console and output result
+  console.log = originalConsoleLog;
+  console.error = originalConsoleError;
   console.log(JSON.stringify(result, null, 2));
 }
 
