@@ -91,9 +91,21 @@ export function Launcher() {
           )}
           <button onClick={replay}>Replay</button>
         </div>
-        <p style={{ fontSize: 12, color: '#666', marginTop: 8 }}>
-          Loads scenarios from docs/archive/scenarios. Posts MIFF_* events to the embedded Godot export.
-        </p>
+        <div style={{ marginTop: 12, padding: 8, border: '1px solid #eee', borderRadius: 4 }}>
+          <strong>HUD</strong>
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <button onClick={() => post({ type: 'MIFF_INPUT', input: 'tap' })}>Tap</button>
+            <button onClick={() => post({ type: 'MIFF_INPUT', input: 'doubleTap' })}>Double Tap</button>
+            <button onClick={() => post({ type: 'MIFF_INPUT', input: 'longPress' })}>Long Press</button>
+            <button onClick={() => post({ type: 'MIFF_INPUT', input: 'swipe', dir: 'right' })}>Swipe →</button>
+            <button onClick={() => post({ type: 'MIFF_INPUT', input: 'pinch', scale: 0.9 })}>Pinch</button>
+          </div>
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <button onClick={() => post({ type: 'MIFF_EVENT', name: 'questUpdate' })}>Quest Update</button>
+            <button onClick={() => post({ type: 'MIFF_EVENT', name: 'hit' })}>Hit</button>
+            <button onClick={() => post({ type: 'MIFF_EVENT', name: 'loot' })}>Loot</button>
+          </div>
+        </div>
       </div>
       <iframe ref={iframeRef} src={godotSrc} title="Godot Export" style={{ width: '100%', height: '80vh', border: '1px solid #ddd' }} />
     </div>
