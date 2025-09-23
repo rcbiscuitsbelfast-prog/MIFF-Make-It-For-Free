@@ -288,3 +288,19 @@ window.__miffToggleFullscreen = () => {
 };
 
 window.addEventListener('DOMContentLoaded', init);
+// Handle MIFF_* messages from site launcher HUD
+window.addEventListener('message', (ev)=>{
+    const msg = ev.data || {};
+    if (msg.type === 'MIFF_INPUT'){
+        if (msg.input === 'tap' || msg.input === 'doubleTap'){ onBeat(); }
+        if (msg.input === 'longPress'){ openDialogue(); }
+        if (msg.input === 'swipe'){ model.npc.x += (msg.dir==='right'? 10 : -10); }
+    }
+    if (msg.type === 'MIFF_EVENT'){
+        if (msg.name === 'hit'){ onBeat(); }
+        if (msg.name === 'questUpdate'){ showLoreModal(); }
+    }
+    if (msg.type === 'MIFF_RECORD_START'){ /* hook into replay recorder if present */ }
+    if (msg.type === 'MIFF_RECORD_STOP'){ /* stop recorder */ }
+    if (msg.type === 'MIFF_REPLAY_START'){ /* play back stub if present */ }
+});
