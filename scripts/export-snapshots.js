@@ -1,23 +1,44 @@
 #!/usr/bin/env node
-// Simple placeholder snapshot exporter: emits JSON summaries as artifacts
-// Future: render replay frames to PNG/GIF from RenderReplayPure outputs
+// Snapshot exporter: renders minimal PPM images from RenderReplayPure frames
 const fs = require('fs');
 const path = require('path');
 
 function ensureDir(dir){ fs.mkdirSync(dir, { recursive: true }); }
 
+function makePPM(width, height, pixels /* Uint8 RGB flat */){
+  const header = `P6\n${width} ${height}\n255\n`;
+  return Buffer.concat([Buffer.from(header,'ascii'), Buffer.from(pixels)]);
+}
+
+function drawFrameToPPM(frame, width=128, height=72){
+  // Simple renderer: clear, draw entities as colored pixels (hash id→color)
+  const pix = new Uint8Array(width*height*3);
+  function colorFromId(id){
+    let h = 2166136261; for (let i=0;i<id.length;i++){ h ^= id.charCodeAt(i); h = Math.imul(h, 16777619); }
+    const r = (h>>>16)&255, g=(h>>>8)&255, b=(h)&255; return [r,g,b];
+  }
+  const ents = frame?.entities || [];
+  for (const e of ents){
+    const x = Math.max(0, Math.min(width-1, Math.floor((e.x||0) % width)));
+    const y = Math.max(0, Math.min(height-1, Math.floor((e.y||0) % height)));
+    const idx = (y*width + x)*3; const [r,g,b]=colorFromId(String(e.id||'e'));
+    pix[idx]=r; pix[idx+1]=g; pix[idx+2]=b;
+  }
+  return makePPM(width, height, pix);
+}
+
 function main(){
   const outDir = process.argv[2] || 'build/snapshots';
   ensureDir(outDir);
-  const stamp = Date.now();
-  const samples = [
-    { name: 'witcher_grove', info: 'Replay snapshot placeholder', ts: stamp },
-    { name: 'spirit_tamer', info: 'Replay snapshot placeholder', ts: stamp }
+  const frames = [
+    { name: 'witcher_grove', frame: { entities: [{ id:'npc_a', x:10, y:20 },{ id:'tree', x:40, y:10 }] } },
+    { name: 'spirit_tamer', frame: { entities: [{ id:'spirit', x:60, y:30 },{ id:'note', x:80, y:40 }] } }
   ];
-  for (const s of samples){
-    fs.writeFileSync(path.join(outDir, `${s.name}.json`), JSON.stringify(s, null, 2));
+  for (const f of frames){
+    const ppm = drawFrameToPPM(f.frame);
+    fs.writeFileSync(path.join(outDir, `${f.name}.ppm`), ppm);
   }
-  console.log(`Exported ${samples.length} snapshots to ${outDir}`);
+  console.log(`Exported ${frames.length} PPM snapshots to ${outDir}`);
 }
 
 main();

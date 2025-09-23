@@ -21,6 +21,11 @@ describe('GodotBridgePure ← ProceduralWorldPure integration', () => {
     expect(Array.isArray(rd.resources)).toBe(true);
     const types = rd.resources.map((r: any) => r.type);
     expect(types).toEqual(expect.arrayContaining(['TileMap','NavigationRegion']));
+    const tile = rd.resources.find((r: any)=>r.type==='TileMap');
+    expect(tile?.data?.materialAtlas?.terrain).toEqual(expect.arrayContaining(['water','sand','grass','rock']));
+    const nav = rd.resources.find((r: any)=>r.type==='NavigationRegion');
+    expect(Array.isArray(nav?.data?.polygons)).toBe(true);
+    expect(nav.data.polygons[0].points.length).toBeGreaterThan(2);
     // Future: assert material atlas and nav polygon counts once fully wired
   });
 });
