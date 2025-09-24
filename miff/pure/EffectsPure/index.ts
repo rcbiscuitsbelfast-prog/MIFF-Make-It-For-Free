@@ -853,17 +853,21 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   }
 
   /**
-   * Get total additive bonus (all additive modifiers)
+   * Get total additive bonus (only flat modifiers)
    */
   getTotalAdditive(): number {
-    return this.additive.reduce((sum, mod) => sum + mod.value, 0);
+    return this.additive
+      .filter(mod => mod.type === ModifierType.FLAT)
+      .reduce((sum, mod) => sum + mod.value, 0);
   }
 
   /**
-   * Get total multiplicative bonus (all multiplicative modifiers)
+   * Get total multiplicative bonus (only percent modifiers)
    */
   getTotalMultiplicative(): number {
-    return this.multiplicative.reduce((product, mod) => product * (1 + mod.value), 1);
+    return this.multiplicative
+      .filter(mod => mod.type === ModifierType.PERCENT)
+      .reduce((product, mod) => product * (1 + mod.value), 1);
   }
 }
 
@@ -1104,7 +1108,7 @@ export class EffectResolver implements IEffectResolver {
         if (effect.effect.effectType === EffectType.DAMAGE_OVER_TIME && immuneTag.includes('damage')) {
           return false;
         }
-        if (effectName.includes(immuneTag.toLowerCase())) {
+        if (effectName.includes(immuneTag.toLowerCase()) || immuneTag.toLowerCase().includes(effectName)) {
           return false;
         }
       }
