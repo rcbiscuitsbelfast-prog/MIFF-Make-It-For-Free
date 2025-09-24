@@ -1,0 +1,19 @@
+{
+	"version": 2,
+	"name": "miff-framework-docs",
+	"builds": [
+		{
+			"src": "docs/package.json",
+			"use": "@vercel/static-build",
+			"config": {
+				"distDir": "dist"
+			}
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "docs/dist/$1"
+		}
+	]
+}
