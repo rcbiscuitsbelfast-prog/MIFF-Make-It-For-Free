@@ -1,8 +1,8 @@
 /**
- * TimeSystemPure Manager
- * 
- * Advanced time management system including timers, cooldowns,
- * scheduled events, time scaling, and comprehensive time workflows.
+ * TimeManagerPure - Advanced Time Management Manager
+ *
+ * Manages timers, cooldowns, scheduled events, and time scaling
+ * with AAA-quality features and integration capabilities.
  */
 
 export type TimerId = string;
@@ -69,6 +69,13 @@ export interface TimeOutput {
   issues?: string[];
 }
 
+export interface TimeManagerConfig {
+  initialTime?: number;
+  updateInterval?: number;
+  enablePersistence?: boolean;
+  debugMode?: boolean;
+}
+
 export class TimeManager {
   private time = 0; // seconds
   private timers = new Map<string, Timer>();
@@ -78,8 +85,19 @@ export class TimeManager {
   private paused = false;
   private timeScale = 1.0;
   private stats: TimeStats;
+  private config: TimeManagerConfig;
+  private updateInterval: number;
 
-  constructor() {
+  constructor(config: TimeManagerConfig = {
+    initialTime: 0,
+    updateInterval: 1000,
+    enablePersistence: false,
+    debugMode: false
+  }) {
+    this.config = config;
+    this.updateInterval = config.updateInterval || 1000;
+    this.time = config.initialTime || 0;
+
     this.stats = {
       totalTimers: 0,
       activeTimers: 0,
@@ -90,6 +108,8 @@ export class TimeManager {
       averageTimerDuration: 0,
       averageCooldownDuration: 0
     };
+
+    this.startUpdateLoop();
   }
 
   /**
