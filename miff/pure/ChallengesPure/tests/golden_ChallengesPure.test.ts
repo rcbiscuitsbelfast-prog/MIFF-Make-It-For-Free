@@ -543,10 +543,10 @@ describe('ChallengesPure Golden Tests', () => {
 
     test('should calculate estimated duration correctly', () => {
       const easyChallenge = BattleChallenge.tutorial('easy', 'Easy', 'Easy challenge', ['opp'], 5);
-      expect(easyChallenge.getEstimatedDuration()).toBe(5);
+      expect(easyChallenge.getEstimatedDuration()).toBe(3); // 5 base * 1 opponent * 0.5 turns (5/10)
 
       const mediumChallenge = BattleChallenge.mainStory('medium', 'Medium', 'Medium challenge', ['opp1', 'opp2'], ['flag']);
-      expect(mediumChallenge.getEstimatedDuration()).toBe(10);
+      expect(mediumChallenge.getEstimatedDuration()).toBe(10); // 10 base * 1 opponent * 1.0 turns
 
       const hardChallenge = BattleChallenge.boss('hard', 'Hard', 'Hard challenge', ['opp1', 'opp2', 'opp3'], ['flag']);
       expect(hardChallenge.getEstimatedDuration()).toBe(23); // 15 base * 1.5 opponents * 1.0 turns
