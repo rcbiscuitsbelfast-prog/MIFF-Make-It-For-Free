@@ -11,7 +11,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus } from '../EventBusPure/EventBusPure';
 
 export type GameRole = 'innocent' | 'traitor' | 'detective' | 'neutral';
 export type GamePhase = 'lobby' | 'role_assignment' | 'discussion' | 'voting' | 'night' | 'day' | 'ended';
@@ -64,7 +64,7 @@ export interface VotingResults {
 export interface AbilityEffect {
   abilityId: string;
   targetId?: string;
-  effectType: 'kill' | 'protect' | 'investigate' | 'block' | 'redirect';
+  effectType: 'kill' | 'protect' | 'investigate' | 'block' | 'redirect' | 'special';
   success: boolean;
   message: string;
 }
@@ -120,7 +120,7 @@ export class SocialDeductionPure {
 
     this.players.set(playerId, player);
 
-    this.eventBus.emit('social:player_joined', {
+    this.eventBus.publish('social:player_joined', {
       playerId: playerId,
       player: player,
       timestamp: Date.now()
@@ -156,7 +156,7 @@ export class SocialDeductionPure {
 
     this.currentPhase = 'role_assignment';
 
-    this.eventBus.emit('social:roles_assigned', {
+    this.eventBus.publish('social:roles_assigned', {
       players: this.players,
       timestamp: Date.now()
     });
@@ -171,7 +171,7 @@ export class SocialDeductionPure {
 
     this.currentPhase = 'discussion';
 
-    this.eventBus.emit('social:game_started', {
+    this.eventBus.publish('social:game_started', {
       phase: this.currentPhase,
       timestamp: Date.now()
     });
@@ -198,7 +198,7 @@ export class SocialDeductionPure {
     this.votes.push(vote);
     voter.canVote = false;
 
-    this.eventBus.emit('social:vote_cast', {
+    this.eventBus.publish('social:vote_cast', {
       vote: vote,
       timestamp: Date.now()
     });
@@ -222,7 +222,7 @@ export class SocialDeductionPure {
     // Set cooldown (24 hours for most abilities)
     player.cooldowns.set(abilityId, Date.now() + 86400000);
 
-    this.eventBus.emit('social:ability_used', {
+    this.eventBus.publish('social:ability_used', {
       playerId: playerId,
       abilityId: abilityId,
       targetId: targetId,
@@ -299,7 +299,7 @@ export class SocialDeductionPure {
   public endGame(winner: GameRole): void {
     this.currentPhase = 'ended';
 
-    this.eventBus.emit('social:game_ended', {
+    this.eventBus.publish('social:game_ended', {
       winner: winner,
       finalVotes: this.votes,
       timestamp: Date.now()
@@ -312,7 +312,7 @@ export class SocialDeductionPure {
     this.discussionRounds = [];
     this.currentPhase = 'lobby';
 
-    this.eventBus.emit('social:game_reset', {
+    this.eventBus.publish('social:game_reset', {
       timestamp: Date.now()
     });
   }
