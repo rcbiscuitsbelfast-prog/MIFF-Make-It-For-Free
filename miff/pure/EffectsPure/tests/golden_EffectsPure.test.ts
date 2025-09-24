@@ -99,6 +99,14 @@ class MockEntityContext implements IEntityContext {
   reviveEntity(entityId: string): void {
     this.aliveEntities.add(entityId);
   }
+
+  setEntityHp(entityId: string, hp: number): void {
+    this.setEntityStat(entityId, TargetStat.HP, hp);
+  }
+
+  setEntityAtk(entityId: string, atk: number): void {
+    this.setEntityStat(entityId, TargetStat.ATK, atk);
+  }
 }
 
 describe('EffectsPure Golden Tests', () => {

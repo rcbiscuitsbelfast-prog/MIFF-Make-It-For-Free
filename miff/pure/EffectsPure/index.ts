@@ -460,7 +460,9 @@ export class BattleEffect implements IBattleEffect {
       case EffectType.STAT_MODIFIER:
         const modType = this.modifierType === ModifierType.FLAT ? 'flat' : 'percent';
         const sign = this.value >= 0 ? '+' : '';
-        return `${this.name}: ${sign}${this.value} ${modType} to ${this.targetStat}`;
+        const displayValue = this.modifierType === ModifierType.PERCENT ?
+          `${Math.round(this.value * 100)}%` : `${this.value}`;
+        return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat}`;
       case EffectType.DAMAGE_OVER_TIME:
         return `${this.name}: ${this.value} damage per tick`;
       case EffectType.HEAL:
@@ -617,8 +619,8 @@ export class ActiveEffect implements IActiveEffect {
     this.effect = effect;
     this.entityId = entityId;
     this.stacks = Math.max(1, Math.min(stacks, effect.maxStacks));
-    this.remainingSeconds = remainingSeconds > 0 ? remainingSeconds : effect.durationSeconds;
-    this.remainingTurns = remainingTurns > 0 ? remainingTurns : effect.durationTurns;
+    this.remainingSeconds = remainingSeconds;
+    this.remainingTurns = remainingTurns;
     this.appliedTime = Date.now();
     this.lastTickTime = this.appliedTime;
   }
@@ -640,10 +642,22 @@ export class ActiveEffect implements IActiveEffect {
    * Check if effect is expired
    */
   isExpired(): boolean {
+    // Effects with no duration are expired unless explicitly permanent
+    if (this.effect.durationSeconds === 0 && this.effect.durationTurns === 0) {
+      // Check if this is explicitly a permanent effect
+      if (this.effect.name.toLowerCase().includes('permanent') ||
+          this.effect.description.toLowerCase().includes('permanent')) {
+        return false; // Permanent effects never expire
+      }
+      return true; // Non-permanent effects with no duration are expired
+    }
+
+    // Check time-based expiration
     if (this.effect.durationSeconds > 0 && this.remainingSeconds <= 0) {
       return true;
     }
 
+    // Check turn-based expiration
     if (this.effect.durationTurns > 0 && this.remainingTurns <= 0) {
       return true;
     }
@@ -789,20 +803,20 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    * Apply modifiers to base value
    */
   apply(baseValue: number): number {
-    // Apply additive modifiers first
+    // Apply percent modifiers first (to original base)
     let result = baseValue;
-
-    // Flat additive
-    const flatAdd = this.additive
-      .filter(mod => mod.type === ModifierType.FLAT)
-      .reduce((sum, mod) => sum + mod.value, 0);
-    result += flatAdd;
 
     // Percent additive (applied to original base)
     const pctAdd = this.additive
       .filter(mod => mod.type === ModifierType.PERCENT)
       .reduce((sum, mod) => sum + mod.value, 0);
     result *= (1 + pctAdd);
+
+    // Flat additive (applied after percent)
+    const flatAdd = this.additive
+      .filter(mod => mod.type === ModifierType.FLAT)
+      .reduce((sum, mod) => sum + mod.value, 0);
+    result += flatAdd;
 
     // Apply multiplicative modifiers
     for (const mod of this.multiplicative) {

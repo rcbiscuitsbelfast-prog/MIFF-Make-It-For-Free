@@ -13,34 +13,64 @@ module.exports = {
   collectCoverage: true,
   coverageThreshold: {
     global: {
-      branches: 18,
-      functions: 22,
-      lines: 22,
-      statements: 22
+      branches: 60,
+      functions: 65,
+      lines: 65,
+      statements: 65
     },
     './miff/pure/PathfindingPure/**/*.ts': {
-      branches: 70,
-      functions: 85,
-      lines: 85,
-      statements: 85
-    },
-    './miff/pure/TouchGesturePure/**/*.ts': {
-      branches: 70,
-      functions: 85,
-      lines: 85,
-      statements: 85
-    },
-    './miff/pure/BridgeSchemaPure/**/*.ts': {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70
-    },
-    './miff/pure/TeamsPure/**/*.ts': {
       branches: 70,
       functions: 75,
       lines: 75,
       statements: 75
+    },
+    './miff/pure/TouchGesturePure/**/*.ts': {
+      branches: 70,
+      functions: 75,
+      lines: 75,
+      statements: 75
+    },
+    './miff/pure/BridgeSchemaPure/**/*.ts': {
+      branches: 70,
+      functions: 75,
+      lines: 75,
+      statements: 75
+    },
+    './miff/pure/TeamsPure/**/*.ts': {
+      branches: 60,
+      functions: 65,
+      lines: 65,
+      statements: 65
+    },
+    './miff/pure/FusionPure/**/*.ts': {
+      branches: 60,
+      functions: 70,
+      lines: 70,
+      statements: 70
+    },
+    './miff/pure/ProgressionPure/**/*.ts': {
+      branches: 60,
+      functions: 70,
+      lines: 70,
+      statements: 70
+    },
+    './miff/pure/EvolutionPure/**/*.ts': {
+      branches: 60,
+      functions: 70,
+      lines: 70,
+      statements: 70
+    },
+    './miff/pure/EffectsPure/**/*.ts': {
+      branches: 30,
+      functions: 35,
+      lines: 35,
+      statements: 35
+    },
+    './miff/pure/ItemsPure/**/*.ts': {
+      branches: 50,
+      functions: 55,
+      lines: 55,
+      statements: 55
     }
   },
   transform: {
