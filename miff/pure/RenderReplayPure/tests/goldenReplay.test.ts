@@ -5,8 +5,8 @@ import fs from 'fs';
 import { RenderPayload } from '../../BridgeSchemaPure/schema';
 
 describe('RenderReplayPure Golden Tests', () => {
-  const cliPath = path.resolve('RenderReplayPure/cliHarness.ts');
-  const samplePath = path.resolve('RenderReplayPure/sample_replay.json');
+  const cliPath = path.resolve(__dirname, '../cliHarness.ts');
+  const samplePath = path.resolve(__dirname, '../sample_replay.json');
 
   beforeAll(() => {
     expect(fs.existsSync(cliPath)).toBe(true);
