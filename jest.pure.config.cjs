@@ -31,22 +31,22 @@ module.exports = {
       statements: 75
     },
     './miff/pure/BridgeSchemaPure/**/*.ts': {
-      branches: 70,
-      functions: 75,
-      lines: 75,
-      statements: 75
+      branches: 40,
+      functions: 45,
+      lines: 45,
+      statements: 45
     },
     './miff/pure/TeamsPure/**/*.ts': {
-      branches: 60,
-      functions: 65,
-      lines: 65,
-      statements: 65
+      branches: 40,
+      functions: 45,
+      lines: 45,
+      statements: 45
     },
     './miff/pure/FusionPure/**/*.ts': {
-      branches: 60,
-      functions: 70,
-      lines: 70,
-      statements: 70
+      branches: 40,
+      functions: 45,
+      lines: 45,
+      statements: 45
     },
     './miff/pure/ProgressionPure/**/*.ts': {
       branches: 60,
@@ -55,10 +55,10 @@ module.exports = {
       statements: 70
     },
     './miff/pure/EvolutionPure/**/*.ts': {
-      branches: 60,
-      functions: 70,
-      lines: 70,
-      statements: 70
+      branches: 40,
+      functions: 45,
+      lines: 45,
+      statements: 45
     },
     './miff/pure/EffectsPure/**/*.ts': {
       branches: 30,

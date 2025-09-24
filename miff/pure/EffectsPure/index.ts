@@ -1375,6 +1375,18 @@ export class EffectManager implements IEffectManager {
       }
 
       const entityResolution = this.updateEntityEffects(entityId, activeEffects, deltaTime, context);
+
+      // Resolve effects for this entity
+      const effectResolution = this.resolveEffects(context.getCurrentPhase(), entityId, activeEffects, context);
+      entityResolution.resolvedEffects.push(...effectResolution.resolvedEffects);
+      entityResolution.events.push(...effectResolution.events);
+
+      // Merge stat changes from both update and resolve
+      effectResolution.statChanges.forEach((change, stat) => {
+        const current = entityResolution.statChanges.get(stat) || 0;
+        entityResolution.statChanges.set(stat, current + change);
+      });
+
       resolution.resolvedEffects.push(...entityResolution.resolvedEffects);
       resolution.appliedEffects.push(...entityResolution.appliedEffects);
       resolution.expiredEffects.push(...entityResolution.expiredEffects);

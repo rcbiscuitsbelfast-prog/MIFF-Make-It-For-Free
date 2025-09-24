@@ -809,6 +809,23 @@ export const SyncUtils = {
   },
 
   /**
+   * Create exponential sync thresholds (alternative calculation)
+   */
+  createExponentialThresholdsAlt(baseAmount: number = 10, maxLevel: number = 100): number[] {
+    const thresholds: number[] = [baseAmount];
+    let current = baseAmount;
+
+    while (current < maxLevel) {
+      current = Math.floor(current * 1.5);
+      if (current <= maxLevel) {
+        thresholds.push(current);
+      }
+    }
+
+    return thresholds;
+  },
+
+  /**
    * Calculate sync gain for battle
    */
   calculateBattleSyncGain(

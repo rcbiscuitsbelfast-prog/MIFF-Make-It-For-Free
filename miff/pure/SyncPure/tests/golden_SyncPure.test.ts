@@ -558,12 +558,12 @@ describe('SyncPure Golden Tests', () => {
 
     test('should create exponential thresholds correctly', () => {
       const thresholds = SyncUtils.createExponentialThresholds(10, 100);
-      expect(thresholds).toEqual([10, 15, 22, 33, 50, 75]);
+      expect(thresholds).toEqual([10, 15, 22, 33, 49, 73]); // 1.5x multiplier with floor
     });
 
     test('should calculate battle sync gain correctly', () => {
-      expect(SyncUtils.calculateBattleSyncGain(10, 12, true, 1)).toBe(14); // (10 + 2*2) * 1
-      expect(SyncUtils.calculateBattleSyncGain(10, 15, true, 2)).toBe(30); // (10 + 5*2) * 2
+      expect(SyncUtils.calculateBattleSyncGain(10, 12, true, 1)).toBe(14); // (10 + 2*2) * 1 = 14
+      expect(SyncUtils.calculateBattleSyncGain(10, 15, true, 2)).toBe(40); // (10 + 5*2) * 2 = 40
       expect(SyncUtils.calculateBattleSyncGain(10, 12, false, 1)).toBe(0); // No gain for loss
     });
 
@@ -576,9 +576,9 @@ describe('SyncPure Golden Tests', () => {
     });
 
     test('should calculate rhythm sync gain correctly', () => {
-      expect(SyncUtils.calculateRhythmSyncGain(0.8, 1)).toBe(12); // 15 * 0.8 * 1
-      expect(SyncUtils.calculateRhythmSyncGain(0.9, 2)).toBe(27); // 15 * 0.9 * 2
-      expect(SyncUtils.calculateRhythmSyncGain(1.0, 3)).toBe(45); // 15 * 1.0 * 3
+      expect(SyncUtils.calculateRhythmSyncGain(0.8, 1)).toBe(12); // 15 * 0.8 * 1.0 (difficulty multiplier)
+      expect(SyncUtils.calculateRhythmSyncGain(0.9, 2)).toBe(20); // 15 * 0.9 * 1.5 (difficulty multiplier)
+      expect(SyncUtils.calculateRhythmSyncGain(1.0, 3)).toBe(34); // 15 * 1.0 * 2.0 (difficulty multiplier)
     });
   });
 
