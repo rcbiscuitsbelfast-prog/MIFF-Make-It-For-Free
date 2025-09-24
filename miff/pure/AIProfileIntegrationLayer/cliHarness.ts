@@ -304,7 +304,7 @@ function main() {
         break;
 
       default:
-        throw new Error(`Unknown operation: ${operation.op}`);
+        throw new Error(`Unknown operation: ${(operation as any).op}`);
     }
 
     // Check for export format option

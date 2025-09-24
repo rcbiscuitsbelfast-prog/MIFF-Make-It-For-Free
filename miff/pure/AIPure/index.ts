@@ -15,7 +15,9 @@ import { TypeEffectiveness, MoveData, MoveCategory, SpiritInstance, DamageCalcul
 import { IRNGProvider } from '../CombatPure/index';
 
 // Re-export for convenience
-export { TypeEffectiveness, MoveData, MoveCategory, SpiritInstance, DamageCalculator, IRNGProvider };
+export { TypeEffectiveness, MoveData, MoveCategory, DamageCalculator, IRNGProvider };
+export type { IRNGProvider };
+export type { SpiritInstance };
 
 /**
  * Action source enumeration
@@ -50,6 +52,7 @@ export interface IAIPolicy {
   efficiency: number;
   overrideRules: string[];
   clone(): IAIPolicy;
+  validate(): string[];
 }
 
 /**
@@ -503,7 +506,7 @@ export class BattleAI implements IBattleAI {
     score += (typeMultiplier - 1) * 2.0 * this.policy.aggression;
 
     // Expected damage estimate
-    const expectedDamage = this.damageCalculator.calculateExpectedDamage(self, opponent, move);
+    const expectedDamage = this.damageCalculator.calculateExpectedDamage(self as any, opponent as any, move as any);
     score += expectedDamage * 0.1 * this.policy.aggression;
 
     // Accuracy factor (cautious AI prefers high accuracy)
@@ -840,19 +843,19 @@ export const AIUtils = {
   getBehaviorDescription(policy: IAIPolicy): string {
     const behaviors: string[] = [];
 
-    if (policy.isAggressive) {
+    if (policy.aggression > 1.2) {
       behaviors.push('aggressive (prioritizes damage and type advantages)');
     } else if (policy.aggression < 0.8) {
       behaviors.push('passive (avoids risky moves)');
     }
 
-    if (policy.isCautious) {
+    if (policy.caution > 1.2) {
       behaviors.push('cautious (prefers high accuracy moves)');
     } else if (policy.caution < 0.8) {
       behaviors.push('reckless (accepts low accuracy moves)');
     }
 
-    if (policy.isEfficient) {
+    if (policy.efficiency > 1.2) {
       behaviors.push('efficient (minimizes resource usage)');
     } else if (policy.efficiency < 0.8) {
       behaviors.push('wasteful (ignores resource costs)');

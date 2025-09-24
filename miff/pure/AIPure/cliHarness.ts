@@ -146,6 +146,42 @@ class MockSpiritInstance {
     const empty = '░'.repeat(emptyLength);
     return `[${filled}${empty}]`;
   }
+
+  // Required methods for SpiritInstance compatibility
+  isFullHealth(): boolean {
+    return this.currentHP >= this.maxHP;
+  }
+
+  isCritical(): boolean {
+    return this.currentHP <= this.maxHP * 0.25;
+  }
+
+  isLowHealth(): boolean {
+    return this.currentHP <= this.maxHP * 0.5;
+  }
+
+  isKO(): boolean {
+    return this.currentHP <= 0;
+  }
+
+  getStatusEffects(): string[] {
+    return []; // Mock implementation
+  }
+
+  hasStatusEffect(effect: string): boolean {
+    return false; // Mock implementation
+  }
+
+  getEffectiveStats(): any {
+    return {
+      hp: this.maxHP,
+      attack: this.getEffectiveAttack(),
+      defense: this.getEffectiveDefense(),
+      specialAttack: this.getEffectiveSpecialAttack(),
+      specialDefense: this.getEffectiveSpecialDefense(),
+      speed: 50 // Mock speed
+    };
+  }
 }
 
 // CLI Application
@@ -483,7 +519,7 @@ class AIPureCLI {
         this.rng.setNextFloat(1.0); // Max variance for demo
         this.rng.setNextBool(false); // No crit for demo
 
-        const damage = damageCalculator.calculateDamage(spirit1, spirit2, move1, this.rng);
+        const damage = damageCalculator.calculateDamage(spirit1 as any, spirit2 as any, move1, this.rng);
         spirit2.takeDamage(damage);
         spirit1.resourcePoints -= move1.cost;
 
@@ -507,7 +543,7 @@ class AIPureCLI {
         this.rng.setNextFloat(1.0); // Max variance for demo
         this.rng.setNextBool(false); // No crit for demo
 
-        const damage = damageCalculator.calculateDamage(spirit2, spirit1, move2, this.rng);
+        const damage = damageCalculator.calculateDamage(spirit2 as any, spirit1 as any, move2, this.rng);
         spirit1.takeDamage(damage);
         spirit2.resourcePoints -= move2.cost;
 
@@ -609,7 +645,7 @@ class AIPureCLI {
       }
 
       const damageCalculator = new DamageCalculator(typeEffectiveness);
-      const expectedDamage = damageCalculator.calculateExpectedDamage(spirit, opponent, selectedMove);
+      const expectedDamage = damageCalculator.calculateExpectedDamage(spirit as any, opponent as any, selectedMove);
       console.log(`   📊 Expected damage: ~${expectedDamage}`);
     } else {
       console.log('🎯 AI chooses: Wait (no suitable move)');
@@ -763,7 +799,7 @@ class AIPureCLI {
       this.rng.setNextFloat(variance);
       this.rng.setNextBool(false); // No crit for this demo
 
-      const damage = damageCalculator.calculateDamage(attacker, defender, move, this.rng);
+      const damage = damageCalculator.calculateDamage(attacker as any, defender as any, move, this.rng);
       results.push(damage);
     }
 

@@ -283,7 +283,7 @@ export class AIProfileManager {
     return {
       op: 'list-profiles',
       status: 'ok',
-      result: profiles
+      result: profiles as any
     };
   }
 
@@ -368,7 +368,7 @@ export class AIProfileManager {
     return {
       op: 'get-schedule',
       status: 'ok',
-      result: profile.schedule || []
+      result: (profile.schedule || []) as any
     };
   }
 
@@ -394,7 +394,7 @@ export class AIProfileManager {
     return {
       op: 'add-schedule',
       status: 'ok',
-      result: profile.schedule
+      result: profile.schedule as any
     };
   }
 
@@ -569,7 +569,7 @@ export class AIProfileManager {
           result: {
             profiles,
             stats: this.stats
-          }
+          } as any
         };
       
       case 'manifest':
@@ -581,7 +581,7 @@ export class AIProfileManager {
             profiles,
             stats: this.stats,
             exportedAt: new Date().toISOString()
-          }
+          } as any
         };
       
       case 'summary':
@@ -592,7 +592,7 @@ export class AIProfileManager {
             summary: this.stats,
             totalProfiles: profiles.length,
             profilesByRole: this.stats.profilesByRole
-          }
+          } as any
         };
       
       case 'profiles':
@@ -602,7 +602,7 @@ export class AIProfileManager {
           result: {
             profiles,
             total: profiles.length
-          }
+          } as any
         };
       
       default:

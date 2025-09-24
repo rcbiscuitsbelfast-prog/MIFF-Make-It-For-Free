@@ -1,0 +1,15 @@
+
+MIFF Performance Benchmark Summary
+==================================
+Date: 2025-09-24T08:15:36.889Z
+Overall Score: 99.1/100
+
+Module Performance:
+  HealthSystemPure: 3.67ms avg, score: 98.1
+  CombatPure: 0.80ms avg, score: 99.4
+  TeamsPure: 0.33ms avg, score: 99.6
+
+System Info:
+  Node.js: v22.16.0
+  Platform: linux x64
+  Memory: 4MB used
