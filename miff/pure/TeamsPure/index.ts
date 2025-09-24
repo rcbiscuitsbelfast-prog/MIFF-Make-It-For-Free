@@ -1757,16 +1757,16 @@ export const TeamUtils = {
       diversityScore,
       averageLevel,
       averageSync,
-      typeBreakdown: this.getTypeBreakdown(spirits),
+      typeBreakdown: this.calculateTypeBreakdown(spirits),
       roleBreakdown: this.getRoleBreakdown(spirits),
       recommendations: this.getTeamRecommendations(team, syncMap)
     };
   },
 
   /**
-   * Get type breakdown
+   * Calculate type breakdown
    */
-  private getTypeBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
+  private calculateTypeBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
     const typeCount: Record<string, number> = {};
 
     spirits.forEach(spirit => {

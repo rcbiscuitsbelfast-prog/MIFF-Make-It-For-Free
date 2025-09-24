@@ -28,6 +28,7 @@
     "test:log": "jest --config jest.pure.config.cjs --testPathPattern LogPure",
     "test:challenges": "jest --config jest.pure.config.cjs --testPathPattern ChallengesPure",
     "test:effects": "jest --config jest.pure.config.cjs --testPathPattern EffectsPure",
+    "test:camera": "jest --config jest.pure.config.cjs --testPathPattern CameraSystemPure",
     "test:automation": "bash scripts/test-automation.sh",
     "test:automation:unit": "npm run test:unit",
     "test:automation:integration": "npm run test:integration",
