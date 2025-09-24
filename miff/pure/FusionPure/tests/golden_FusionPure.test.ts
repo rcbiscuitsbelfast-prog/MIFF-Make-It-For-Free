@@ -91,7 +91,7 @@ describe('FusionPure Module', () => {
   });
 
   afterEach(() => {
-    eventBus.clear();
+    eventBus.clearOldEvents();
   });
 
   describe('FusionManager Basic Functionality', () => {

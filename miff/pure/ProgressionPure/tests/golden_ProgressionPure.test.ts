@@ -85,7 +85,7 @@ describe('ProgressionPure Module', () => {
   });
 
   afterEach(() => {
-    eventBus.clear();
+    eventBus.clearOldEvents();
   });
 
   describe('XPManager Basic Functionality', () => {
