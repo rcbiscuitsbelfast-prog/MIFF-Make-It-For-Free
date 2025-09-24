@@ -220,7 +220,7 @@ export class ItemEffect implements IItemEffect {
 
     const healAmount = Math.min(this.amount, target.maxHP - target.currentHP);
     if (healAmount <= 0) {
-      return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Target is already at full health');
+      return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'already at full health');
     }
 
     target.currentHP += healAmount;
@@ -319,7 +319,7 @@ export class ItemEffect implements IItemEffect {
       case ItemEffectType.HEAL:
       case ItemEffectType.REVIVE:
         if (this.amount <= 0) {
-          errors.push(`${this.effectType} effect requires positive amount`);
+          errors.push(`${this.effectType.toUpperCase()} effect requires positive amount`);
         }
         break;
       case ItemEffectType.EVOLVE:
