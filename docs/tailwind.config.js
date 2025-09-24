@@ -3,7 +3,8 @@ export default {
   content: [
     "./src/**/*.{astro,html,js,ts,md,mdx}",
     "./docs/src/**/*.{astro,html,js,ts,md,mdx}",
-    "./pages/**/*.{astro,html,js,ts,md,mdx}"
+    "./pages/**/*.{astro,html,js,ts,md,mdx}",
+    "./site/**/*.{html,js}"
   ],
   theme: {
     extend: {
