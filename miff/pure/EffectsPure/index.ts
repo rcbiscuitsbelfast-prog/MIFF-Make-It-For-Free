@@ -131,6 +131,7 @@ export interface IBattleEffect {
   clone(): IBattleEffect;
   validate(): string[];
   getEffectDescription(): string;
+  hasTrigger(trigger: EffectTrigger): boolean;
 }
 
 /**
@@ -462,7 +463,7 @@ export class BattleEffect implements IBattleEffect {
         const sign = this.value >= 0 ? '+' : '';
         const displayValue = this.modifierType === ModifierType.PERCENT ?
           `${Math.round(this.value * 100)}%` : `${this.value}`;
-        return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat}`;
+        return `${this.name}: ${sign}${displayValue} ${modType} to ${this.targetStat.toUpperCase()}`;
       case EffectType.DAMAGE_OVER_TIME:
         return `${this.name}: ${this.value} damage per tick`;
       case EffectType.HEAL:
@@ -803,22 +804,19 @@ export class StatModifierAggregator implements IStatModifierAggregator {
    * Apply modifiers to base value
    */
   apply(baseValue: number): number {
-    // Apply percent modifiers first (to original base)
+    // Apply additive modifiers first (flat + percent)
     let result = baseValue;
 
-    // Percent additive (applied to original base)
-    const pctAdd = this.additive
-      .filter(mod => mod.type === ModifierType.PERCENT)
-      .reduce((sum, mod) => sum + mod.value, 0);
-    result *= (1 + pctAdd);
+    // Apply ALL additive modifiers (both flat and percent)
+    for (const mod of this.additive) {
+      if (mod.type === ModifierType.FLAT) {
+        result += mod.value;
+      } else {
+        result *= (1 + mod.value);
+      }
+    }
 
-    // Flat additive (applied after percent)
-    const flatAdd = this.additive
-      .filter(mod => mod.type === ModifierType.FLAT)
-      .reduce((sum, mod) => sum + mod.value, 0);
-    result += flatAdd;
-
-    // Apply multiplicative modifiers
+    // Apply multiplicative modifiers second (flat + percent)
     for (const mod of this.multiplicative) {
       if (mod.type === ModifierType.FLAT) {
         result += mod.value;
@@ -855,14 +853,14 @@ export class StatModifierAggregator implements IStatModifierAggregator {
   }
 
   /**
-   * Get total additive bonus
+   * Get total additive bonus (all additive modifiers)
    */
   getTotalAdditive(): number {
     return this.additive.reduce((sum, mod) => sum + mod.value, 0);
   }
 
   /**
-   * Get total multiplicative bonus
+   * Get total multiplicative bonus (all multiplicative modifiers)
    */
   getTotalMultiplicative(): number {
     return this.multiplicative.reduce((product, mod) => product * (1 + mod.value), 1);
@@ -1094,10 +1092,23 @@ export class EffectResolver implements IEffectResolver {
 
     // Filter out immune effects
     resolvedEffects = resolvedEffects.filter(effect => {
-      if (effect.effect.effectType === EffectType.STAT_MODIFIER) {
-        // For stat modifiers, check immunity
-        return true; // Assume no immunity for now
+      // Check if effect has immunity tags
+      const effectTags = effect.effect.triggers || 0;
+      const effectName = effect.effect.name.toLowerCase();
+
+      // Check immunity against effect tags and name
+      for (const immuneTag of immuneTags) {
+        if ((effectTags & EffectTrigger.ON_HIT) !== 0 && immuneTag.includes('hit')) {
+          return false;
+        }
+        if (effect.effect.effectType === EffectType.DAMAGE_OVER_TIME && immuneTag.includes('damage')) {
+          return false;
+        }
+        if (effectName.includes(immuneTag.toLowerCase())) {
+          return false;
+        }
       }
+
       return true;
     });
 
@@ -1408,7 +1419,7 @@ export class EffectManager implements IEffectManager {
     for (const effect of activeEffects) {
       effect.tick(deltaTime);
 
-      if (effect.effect.hasTrigger(EffectTrigger.ON_TICK)) {
+      if ((effect.effect.triggers & EffectTrigger.ON_TICK) !== 0) {
         this.onEffectTick?.(entityId, effect.effect, effect);
         resolution.addEvent(EffectEvent.tick(entityId, effect.effect, effect, currentPhase));
       }

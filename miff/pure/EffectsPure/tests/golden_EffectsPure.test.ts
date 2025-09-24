@@ -624,8 +624,8 @@ describe('EffectsPure Golden Tests', () => {
       const totalAdditive = aggregator.getTotalAdditive();
       const totalMultiplicative = aggregator.getTotalMultiplicative();
 
-      expect(totalAdditive).toBe(15); // 10 - 5 + 25% - 10% = wait, no, getTotalAdditive just sums flat values
-      expect(totalMultiplicative).toBe(1.2); // 1 * 1.2 = 1.2
+      expect(totalAdditive).toBe(5); // 10 - 5 = flat additive values only
+      expect(totalMultiplicative).toBe(1.2); // 1 * 1.2 = multiplicative percent only
     });
 
     test('should clone correctly', () => {
