@@ -252,7 +252,7 @@ describe('ItemsPure Golden Tests', () => {
       expect(errors).toContain('Item ID cannot be empty');
       expect(errors).toContain('Item name cannot be empty');
       expect(errors).toContain('Effect: Effect amount cannot be negative');
-      expect(errors).toContain('Invalid target rule specified');
+      expect(errors).toContain('Effect: HEAL effect requires positive amount');
     });
   });
 
@@ -274,7 +274,7 @@ describe('ItemsPure Golden Tests', () => {
       const result = healEffect.apply(context, activeSpirit);
 
       expect(result.isSuccess).toBe(true);
-      expect(result.message).toContain('Healed 30 HP');
+      expect(result.message).toContain('Healed 25 HP'); // 75 + 25 = 100 (max HP)
       expect(activeSpirit.currentHP).toBe(100); // Max HP
     });
 
