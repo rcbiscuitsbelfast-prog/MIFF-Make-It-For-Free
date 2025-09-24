@@ -1,0 +1,402 @@
+{
+  "gameConfig": {
+    "name": "Idle Empire",
+    "version": "1.0.0",
+    "description": "A comprehensive idle game with multiple progression systems",
+    "startingCurrency": 100,
+    "maxIdleTime": 86400,
+    "offlineProgressMultiplier": 2.0,
+    "autoSaveInterval": 60
+  },
+  "resources": [
+    {
+      "id": "currency",
+      "name": "Gold Coins",
+      "description": "Basic currency for purchasing upgrades",
+      "type": "currency",
+      "baseValue": 1,
+      "currentAmount": 0,
+      "generationRate": 0,
+      "displayFormat": "currency",
+      "color": "#FFD700",
+      "unlocked": true
+    },
+    {
+      "id": "crystals",
+      "name": "Magic Crystals",
+      "description": "Rare magical crystals for advanced upgrades",
+      "type": "materials",
+      "baseValue": 100,
+      "currentAmount": 0,
+      "generationRate": 0,
+      "displayFormat": "number",
+      "color": "#9C27B0",
+      "unlocked": false
+    },
+    {
+      "id": "energy",
+      "name": "Mana Energy",
+      "description": "Magical energy for special abilities",
+      "type": "energy",
+      "baseValue": 1,
+      "currentAmount": 50,
+      "maxAmount": 100,
+      "generationRate": 0.5,
+      "displayFormat": "number",
+      "color": "#2196F3",
+      "unlocked": true
+    },
+    {
+      "id": "knowledge",
+      "name": "Ancient Knowledge",
+      "description": "Knowledge points for research",
+      "type": "experience",
+      "baseValue": 1,
+      "currentAmount": 0,
+      "generationRate": 0,
+      "displayFormat": "number",
+      "color": "#4CAF50",
+      "unlocked": false
+    }
+  ],
+  "generators": [
+    {
+      "id": "manual_worker",
+      "name": "Manual Worker",
+      "description": "Click to generate currency manually",
+      "type": "basic",
+      "baseCost": 0,
+      "currentCost": 0,
+      "costMultiplier": 1,
+      "owned": 0,
+      "baseProduction": 1,
+      "productionMultiplier": 1,
+      "unlocked": true,
+      "producesResource": "currency",
+      "efficiency": 1.0,
+      "autoBuyEnabled": false
+    },
+    {
+      "id": "coin_mint",
+      "name": "Coin Mint",
+      "description": "Automatically produces coins",
+      "type": "basic",
+      "baseCost": 25,
+      "currentCost": 25,
+      "costMultiplier": 1.15,
+      "owned": 0,
+      "baseProduction": 0.5,
+      "productionMultiplier": 1,
+      "unlocked": false,
+      "producesResource": "currency",
+      "efficiency": 1.0,
+      "autoBuyEnabled": true
+    },
+    {
+      "id": "gold_mine",
+      "name": "Gold Mine",
+      "description": "Produces currency from underground",
+      "type": "advanced",
+      "baseCost": 250,
+      "currentCost": 250,
+      "costMultiplier": 1.15,
+      "owned": 0,
+      "baseProduction": 4,
+      "productionMultiplier": 1,
+      "unlocked": false,
+      "producesResource": "currency",
+      "efficiency": 0.9,
+      "autoBuyEnabled": true
+    },
+    {
+      "id": "crystal_cave",
+      "name": "Crystal Cave",
+      "description": "Generates rare crystals",
+      "type": "premium",
+      "baseCost": 5000,
+      "currentCost": 5000,
+      "costMultiplier": 1.2,
+      "owned": 0,
+      "baseProduction": 2,
+      "productionMultiplier": 1,
+      "unlocked": false,
+      "producesResource": "crystals",
+      "efficiency": 0.8,
+      "autoBuyEnabled": true
+    },
+    {
+      "id": "research_lab",
+      "name": "Research Laboratory",
+      "description": "Generates knowledge points",
+      "type": "premium",
+      "baseCost": 10000,
+      "currentCost": 10000,
+      "costMultiplier": 1.25,
+      "owned": 0,
+      "baseProduction": 1,
+      "productionMultiplier": 1,
+      "unlocked": false,
+      "producesResource": "knowledge",
+      "efficiency": 0.95,
+      "autoBuyEnabled": true
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "worker_efficiency",
+      "name": "Worker Efficiency",
+      "description": "Increases manual worker production by 100%",
+      "category": "multiplier",
+      "cost": 100,
+      "costResource": "currency",
+      "maxLevel": 10,
+      "currentLevel": 0,
+      "unlocked": true,
+      "permanent": true,
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "manual_worker",
+          "value": 2,
+          "operation": "multiply"
+        }
+      ]
+    },
+    {
+      "id": "mint_automation",
+      "name": "Mint Automation",
+      "description": "Increases coin mint efficiency by 50%",
+      "category": "efficiency",
+      "cost": 500,
+      "costResource": "currency",
+      "maxLevel": 5,
+      "currentLevel": 0,
+      "unlocked": false,
+      "permanent": true,
+      "effects": [
+        {
+          "type": "efficiency",
+          "target": "coin_mint",
+          "value": 0.5,
+          "operation": "add"
+        }
+      ]
+    },
+    {
+      "id": "mine_multiplier",
+      "name": "Mine Multiplier",
+      "description": "Doubles gold mine production",
+      "category": "multiplier",
+      "cost": 2500,
+      "costResource": "currency",
+      "maxLevel": 10,
+      "currentLevel": 0,
+      "unlocked": false,
+      "permanent": true,
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "gold_mine",
+          "value": 2,
+          "operation": "multiply"
+        }
+      ]
+    },
+    {
+      "id": "unlock_crystals",
+      "name": "Crystal Research",
+      "description": "Unlocks crystal generation and related upgrades",
+      "category": "unlock",
+      "cost": 10000,
+      "costResource": "currency",
+      "maxLevel": 1,
+      "currentLevel": 0,
+      "unlocked": false,
+      "permanent": true,
+      "effects": [
+        {
+          "type": "unlock",
+          "target": "crystals",
+          "value": 1,
+          "operation": "unlock"
+        },
+        {
+          "type": "unlock",
+          "target": "crystal_cave",
+          "value": 1,
+          "operation": "unlock"
+        }
+      ]
+    }
+  ],
+  "achievements": [
+    {
+      "id": "first_purchase",
+      "name": "First Purchase",
+      "description": "Make your first generator purchase",
+      "type": "production",
+      "requirement": {
+        "type": "count",
+        "target": "purchases",
+        "value": 1
+      },
+      "reward": {
+        "type": "resource",
+        "target": "currency",
+        "value": 50,
+        "permanent": true
+      },
+      "unlocked": false,
+      "progress": 0,
+      "maxProgress": 1
+    },
+    {
+      "id": "currency_milestone",
+      "name": "Currency Collector",
+      "description": "Accumulate 1000 currency",
+      "type": "production",
+      "requirement": {
+        "type": "amount",
+        "target": "currency",
+        "value": 1000
+      },
+      "reward": {
+        "type": "multiplier",
+        "target": "all",
+        "value": 1.1,
+        "permanent": true
+      },
+      "unlocked": false,
+      "progress": 0,
+      "maxProgress": 1000
+    },
+    {
+      "id": "generator_master",
+      "name": "Generator Master",
+      "description": "Own 10 of any generator",
+      "type": "production",
+      "requirement": {
+        "type": "count",
+        "target": "generators_owned",
+        "value": 10
+      },
+      "reward": {
+        "type": "multiplier",
+        "target": "all",
+        "value": 1.25,
+        "permanent": true
+      },
+      "unlocked": false,
+      "progress": 0,
+      "maxProgress": 10
+    }
+  ],
+  "prestigeConfigs": [
+    {
+      "tier": "bronze",
+      "requirement": 10000,
+      "multiplier": 2,
+      "description": "First prestige tier - doubles production",
+      "unlocked": true,
+      "completed": false
+    },
+    {
+      "tier": "silver",
+      "requirement": 100000,
+      "multiplier": 3,
+      "description": "Second prestige tier - triples production",
+      "unlocked": false,
+      "completed": false
+    },
+    {
+      "tier": "gold",
+      "requirement": 1000000,
+      "multiplier": 5,
+      "description": "Third prestige tier - quintuples production",
+      "unlocked": false,
+      "completed": false
+    }
+  ],
+  "gameMechanics": {
+    "autoBuyThreshold": 1000,
+    "maxIdleTime": 86400,
+    "offlineProgressMultiplier": 2.0,
+    "enablePrestige": true,
+    "enableAchievements": true,
+    "enableAnalytics": true
+  },
+  "testScenarios": [
+    {
+      "name": "Basic progression test",
+      "description": "Test basic resource generation and purchasing",
+      "steps": [
+        {
+          "action": "set_currency",
+          "value": 1000,
+          "description": "Set initial currency"
+        },
+        {
+          "action": "buy_generator",
+          "generatorId": "coin_mint",
+          "amount": 5,
+          "description": "Purchase 5 coin mints"
+        },
+        {
+          "action": "wait",
+          "time": 5000,
+          "description": "Wait for production"
+        },
+        {
+          "action": "check_currency",
+          "minValue": 1000,
+          "description": "Verify currency increased"
+        }
+      ]
+    },
+    {
+      "name": "Upgrade progression test",
+      "description": "Test upgrade purchasing and effects",
+      "steps": [
+        {
+          "action": "set_currency",
+          "value": 5000,
+          "description": "Set currency for upgrades"
+        },
+        {
+          "action": "buy_upgrade",
+          "upgradeId": "worker_efficiency",
+          "level": 3,
+          "description": "Purchase worker efficiency upgrades"
+        },
+        {
+          "action": "check_upgrade_level",
+          "upgradeId": "worker_efficiency",
+          "expectedLevel": 3,
+          "description": "Verify upgrade level"
+        }
+      ]
+    },
+    {
+      "name": "Achievement test",
+      "description": "Test achievement unlocking",
+      "steps": [
+        {
+          "action": "set_currency",
+          "value": 2000,
+          "description": "Set currency for achievement"
+        },
+        {
+          "action": "wait",
+          "time": 1000,
+          "description": "Wait for achievement check"
+        },
+        {
+          "action": "check_achievement",
+          "achievementId": "currency_milestone",
+          "expectedUnlocked": true,
+          "description": "Verify achievement unlocked"
+        }
+      ]
+    }
+  ]
+}
