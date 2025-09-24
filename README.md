@@ -332,11 +332,11 @@ The long-term goal is to integrate MIFF with an AI companion that can:
 
 ## 📚 Resources
 
-- 🌐 [Documentation Site](https://miff-framework.github.io/miff)  
-- 🚀 [Getting Started](https://miff-framework.github.io/miff/getting-started/install)  
-- 🎬 [Replay Tool](https://miff-framework.github.io/miff/getting-started/replay)  
-- 🔍 [Inspect Tool](https://miff-framework.github.io/miff/getting-started/inspect)  
-- 📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)
+- 🌐 [Documentation Site](https://miff-framework.github.io/miff)
+- 🚀 [Getting Started](https://miff-framework.github.io/miff/onboarding.html)
+- 🎬 [Replay Tool](https://miff-framework.github.io/miff/onboarding.html)
+- 🔍 [Inspect Tool](https://miff-framework.github.io/miff/onboarding.html)
+- 📚 [Contributor Guide](https://miff-framework.github.io/miff/onboarding-index.html)
 - **[InputSystemPure](systems/InputSystemPure/README.md)** - Input mapping and processing
 - **[CameraBridgePure](systems/CameraBridgePure/README.md)** - Camera control and following
 - **[RhythmSystemPure](systems/RhythmSystemPure/README.md)** - Beat timing and rhythm logic
@@ -431,11 +431,11 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 ## 📖 Documentation
 
 - **🌐 Documentation Site**: https://miff-framework.github.io/miff
-- **🚀 Getting Started**: https://miff-framework.github.io/miff/getting-started/install
-- **🎮 Simulate Tool**: https://miff-framework.github.io/miff/getting-started/simulate
-- **🎬 Replay Tool**: https://miff-framework.github.io/miff/getting-started/replay
-- **🔍 Inspect Tool**: https://miff-framework.github.io/miff/getting-started/inspect
-- **📚 Contributor Guide**: https://miff-framework.github.io/miff/contributors/onboarding
+- **🚀 Getting Started**: https://miff-framework.github.io/miff/onboarding.html
+- **🎮 Simulate Tool**: https://miff-framework.github.io/miff/onboarding.html
+- **🎬 Replay Tool**: https://miff-framework.github.io/miff/onboarding.html
+- **🔍 Inspect Tool**: https://miff-framework.github.io/miff/onboarding.html
+- **📚 Contributor Guide**: https://miff-framework.github.io/miff/onboarding-index.html
 
 ## 🚀 Project Status
 
