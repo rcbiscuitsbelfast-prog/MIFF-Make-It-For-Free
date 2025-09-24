@@ -97,7 +97,8 @@ class MockSpiritInstance implements ISpiritInstance {
 
   clone(): ISpiritInstance {
     const cloned = new MockSpiritInstance(this.name, this.type, this.level, this.stats);
-    cloned.instanceId = this.instanceId;
+    // Generate new instanceId for cloned spirit
+    cloned.instanceId = `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     cloned.speciesId = this.speciesId;
     cloned.statusEffects = [...this.statusEffects];
     cloned.abilities = [...this.abilities];

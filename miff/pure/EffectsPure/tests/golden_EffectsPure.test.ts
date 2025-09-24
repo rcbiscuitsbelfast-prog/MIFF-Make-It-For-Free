@@ -554,8 +554,7 @@ describe('EffectsPure Golden Tests', () => {
       aggregator.add(ModifierType.PERCENT, 0.5, false);
 
       const result = aggregator.apply(100);
-      expect(result).toBeCloseTo(170, 1); // 100 + 20 = 120, * 1.5 = 180? Wait, let me recalculate
-      // Actually: 100 + 20 = 120, then 120 * (1 + 0.5) = 180
+      expect(result).toBeCloseTo(180, 1); // 100 + 20 = 120, then 120 * (1 + 0.5) = 180
     });
 
     test('should handle only multiplicative modifiers', () => {
@@ -565,8 +564,7 @@ describe('EffectsPure Golden Tests', () => {
       aggregator.add(ModifierType.PERCENT, 0.2, true);
 
       const result = aggregator.apply(100);
-      expect(result).toBeCloseTo(126, 1); // 100 + 30 = 130, * 1.2 = 156? Wait, let me recalculate properly
-      // Actually: 100 + 30 = 130, then 130 * (1 + 0.2) = 156
+      expect(result).toBeCloseTo(156, 1); // 100 + 30 = 130, then 130 * (1 + 0.2) = 156
     });
 
     test('should handle negative modifiers', () => {
@@ -578,7 +576,7 @@ describe('EffectsPure Golden Tests', () => {
       aggregator.add(ModifierType.PERCENT, -0.1, true);
 
       const result = aggregator.apply(100);
-      expect(result).toBeCloseTo(67.5, 1); // Let me calculate step by step:
+      expect(result).toBeCloseTo(60.75, 1); // Let me calculate step by step:
       // 100 + (-10) = 90
       // 90 * (1 + (-0.25)) = 90 * 0.75 = 67.5
       // 67.5 + 5 = 72.5

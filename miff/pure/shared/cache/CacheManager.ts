@@ -429,6 +429,130 @@ export class CacheManager {
   }
 
   /**
+   * Get cache performance metrics
+   */
+  getPerformanceMetrics(): {
+    hitRate: number;
+    missRate: number;
+    averageAccessTime: number;
+    cacheEfficiency: number;
+    memoryUsage: number;
+    entryDistribution: Record<string, number>;
+  } {
+    const totalAccesses = this.stats.hits + this.stats.misses;
+    const hitRate = totalAccesses > 0 ? (this.stats.hits / totalAccesses) * 100 : 0;
+    const missRate = totalAccesses > 0 ? (this.stats.misses / totalAccesses) * 100 : 0;
+    const averageAccessTime = this.stats.accessTime / Math.max(totalAccesses, 1);
+    
+    // Calculate cache efficiency based on hit rate and memory usage
+    const memoryUsage = this.getStats().totalSize / this.config.maxSize;
+    const cacheEfficiency = hitRate * (1 - memoryUsage);
+    
+    // Calculate entry distribution by TTL ranges
+    const entryDistribution: Record<string, number> = {
+      'short': 0,    // < 1 minute
+      'medium': 0,   // 1-10 minutes
+      'long': 0,     // 10-60 minutes
+      'permanent': 0 // > 60 minutes
+    };
+    
+    for (const entry of this.cache.values()) {
+      if (entry.ttl < 60000) entryDistribution.short++;
+      else if (entry.ttl < 600000) entryDistribution.medium++;
+      else if (entry.ttl < 3600000) entryDistribution.long++;
+      else entryDistribution.permanent++;
+    }
+    
+    return {
+      hitRate,
+      missRate,
+      averageAccessTime,
+      cacheEfficiency,
+      memoryUsage: memoryUsage * 100,
+      entryDistribution
+    };
+  }
+
+  /**
+   * Optimize cache based on performance metrics
+   */
+  optimize(): void {
+    const metrics = this.getPerformanceMetrics();
+    
+    // If hit rate is low, increase TTL for frequently accessed items
+    if (metrics.hitRate < 50) {
+      this.log('Low hit rate detected, optimizing TTL values');
+      for (const [key, entry] of this.cache.entries()) {
+        if (entry.accessCount > 5) {
+          entry.ttl = Math.min(entry.ttl * 1.5, this.config.defaultTTL * 2);
+        }
+      }
+    }
+    
+    // If memory usage is high, be more aggressive with cleanup
+    if (metrics.memoryUsage > 80) {
+      this.log('High memory usage detected, performing aggressive cleanup');
+      this.cleanup(true);
+    }
+    
+    // If cache efficiency is low, consider reducing max size
+    if (metrics.cacheEfficiency < 30) {
+      this.log('Low cache efficiency, considering size reduction');
+      this.config.maxSize = Math.max(this.config.maxSize * 0.8, 1024 * 1024); // Min 1MB
+    }
+  }
+
+  /**
+   * Preload frequently accessed items
+   */
+  preload(items: Array<{ key: string; data: any; ttl?: number }>): void {
+    this.log(`Preloading ${items.length} items`);
+    
+    for (const item of items) {
+      this.set(item.key, item.data, item.ttl);
+    }
+  }
+
+  /**
+   * Get cache health status
+   */
+  getHealthStatus(): {
+    status: 'healthy' | 'warning' | 'critical';
+    issues: string[];
+    recommendations: string[];
+  } {
+    const metrics = this.getPerformanceMetrics();
+    const issues: string[] = [];
+    const recommendations: string[] = [];
+    
+    if (metrics.hitRate < 30) {
+      issues.push('Low hit rate');
+      recommendations.push('Consider increasing TTL values or improving cache key strategy');
+    }
+    
+    if (metrics.memoryUsage > 90) {
+      issues.push('High memory usage');
+      recommendations.push('Reduce cache size or increase cleanup frequency');
+    }
+    
+    if (metrics.cacheEfficiency < 20) {
+      issues.push('Low cache efficiency');
+      recommendations.push('Review cache configuration and access patterns');
+    }
+    
+    if (metrics.averageAccessTime > 10) {
+      issues.push('Slow access times');
+      recommendations.push('Consider using faster data structures or reducing cache size');
+    }
+    
+    let status: 'healthy' | 'warning' | 'critical' = 'healthy';
+    if (issues.length > 2) status = 'critical';
+    else if (issues.length > 0) status = 'warning';
+    
+    return { status, issues, recommendations };
+  }
+
+  /**
    * Shutdown cache manager
    */
   shutdown(): void {

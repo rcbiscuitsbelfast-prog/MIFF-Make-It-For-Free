@@ -807,20 +807,30 @@ export class StatModifierAggregator implements IStatModifierAggregator {
     // Apply additive modifiers first (flat + percent)
     let result = baseValue;
 
-    // Apply ALL additive modifiers (both flat and percent)
+    // Apply additive flat modifiers
     for (const mod of this.additive) {
       if (mod.type === ModifierType.FLAT) {
         result += mod.value;
-      } else {
+      }
+    }
+
+    // Apply additive percent modifiers
+    for (const mod of this.additive) {
+      if (mod.type === ModifierType.PERCENT) {
         result *= (1 + mod.value);
       }
     }
 
-    // Apply multiplicative modifiers second (flat + percent)
+    // Apply multiplicative flat modifiers
     for (const mod of this.multiplicative) {
       if (mod.type === ModifierType.FLAT) {
         result += mod.value;
-      } else {
+      }
+    }
+
+    // Apply multiplicative percent modifiers
+    for (const mod of this.multiplicative) {
+      if (mod.type === ModifierType.PERCENT) {
         result *= (1 + mod.value);
       }
     }
@@ -1381,7 +1391,7 @@ export class EffectManager implements IEffectManager {
       const entityResolution = this.updateEntityEffects(entityId, activeEffects, deltaTime, context);
 
       // Resolve effects for this entity
-      const effectResolution = this.resolveEffects(context.getCurrentPhase(), entityId, activeEffects, context);
+      const effectResolution = this.effectResolver.resolveEffects(context.getCurrentPhase(), entityId, activeEffects, context);
       entityResolution.resolvedEffects.push(...effectResolution.resolvedEffects);
       entityResolution.events.push(...effectResolution.events);
 

@@ -2,15 +2,15 @@
 module.exports = {
   testEnvironment: 'node',
   setupFilesAfterEnv: ['./jest.setup.js'],
-  // Limit concurrency to avoid worker IPC incompatibilities
-  maxWorkers: 1,
+  // Optimize for speed - use more workers and disable coverage during development
+  maxWorkers: '50%',
   coverageDirectory: './coverage',
   collectCoverageFrom: [
     'miff/pure/**/*.ts',
     '!miff/pure/**/tests/**',
     '!miff/pure/**/cliHarness.ts'
   ],
-  collectCoverage: true,
+  collectCoverage: false, // Disable coverage for faster test runs
   coverageThreshold: {
     global: {
       branches: 60,
@@ -84,8 +84,8 @@ module.exports = {
     '<rootDir>/miff/pure/**/tests/**/*.test.ts',
     '<rootDir>/src/modules/**/tests/**/*.test.ts'
   ],
-  cache: false,
-  testTimeout: 15000
+  cache: true, // Enable caching for faster subsequent runs
+  testTimeout: 10000 // Reduce timeout for faster failure detection
 };
 
 

@@ -489,7 +489,7 @@ export class BattleChallenge implements IBattleChallenge {
       errors.push('Challenge description cannot be empty');
     }
 
-    if (this.opponentTeam.length === 0) {
+    if (this.opponentTeam.length === 0 && this.category !== ChallengeCategory.ACHIEVEMENT) {
       errors.push('Challenge must have at least one opponent');
     }
 
@@ -1329,7 +1329,7 @@ export const ChallengeUtils = {
       errors.push('Challenge description cannot be empty');
     }
 
-    if (challenge.opponentTeam.length === 0) {
+    if (challenge.opponentTeam.length === 0 && challenge.category !== ChallengeCategory.ACHIEVEMENT) {
       errors.push('Challenge must have at least one opponent');
     }
 
