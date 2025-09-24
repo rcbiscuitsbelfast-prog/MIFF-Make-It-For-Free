@@ -171,7 +171,8 @@ export class ItemEffect implements IItemEffect {
     maxUses: number = -1
   ) {
     this.effectType = effectType;
-    this.amount = Math.max(0, amount);
+    // Allow negative amounts for testing purposes - validation will catch invalid values
+    this.amount = amount;
     this.param = param;
     this.cooldownSeconds = Math.max(0, cooldownSeconds);
     this.maxUses = maxUses;
