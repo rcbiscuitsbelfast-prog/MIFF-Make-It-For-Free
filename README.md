@@ -133,12 +133,10 @@ tests/                     # Integration tests
 
 - **Sampler Landing**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html
 - **MIFF Sampler Tools**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/ (Avatar, Multiplayer, Pixel World, Replay)
-  - **🏃 2D Side-Scrolling**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/2d-side.html
-  - **🗺️ 2D Top-Down**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/2d-topdown.html
-  - **🏃‍♂️ Auto-Scroll Runner**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/runner.html
-  - **🏰 3D Isometric**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/3d-topdown.html
-  - **🎛️ Static Overlay**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/static-overlay.html
-  - **🧱 Pixel World**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/pixel-world.html
+  - **🎭 Avatar System**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/avatar.html
+  - **🕹️ Multiplayer Sync**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/multiplayer.html
+  - **🧱 Pixel World Builder**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/pixel-world.html
+  - **🔄 Replay System**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/replay.html
 - **Original Zones**:
   - **Toppler Medieval**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/toppler.html
   - **Spirit Tamer**: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/spirit.html
@@ -295,7 +293,7 @@ MIFF is built for remixing. To add a new zone or module:
 4. Validate with CLI harnesses and golden tests  
 5. Submit a pull request with clear documentation
 
-See the [Contributor Guide](https://miffgamemain.vercel.app/contributors/onboarding) for full onboarding. New? Try the [Onboarding Challenge](docs/ONBOARDING_CHALLENGE.md).
+See the [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding) for full onboarding. New? Try the [Onboarding Challenge](docs/ONBOARDING_CHALLENGE.md).
 
 ---
 
@@ -335,10 +333,10 @@ The long-term goal is to integrate MIFF with an AI companion that can:
 ## 📚 Resources
 
 - 🌐 [Documentation Site](https://miff-framework.github.io/miff)  
-- 🚀 [Getting Started](https://miffgamemain.vercel.app/getting-started/install)  
+- 🚀 [Getting Started](https://miff-framework.github.io/miff/getting-started/install)  
 - 🎬 [Replay Tool](https://miff-framework.github.io/miff/getting-started/replay)  
 - 🔍 [Inspect Tool](https://miff-framework.github.io/miff/getting-started/inspect)  
-- 📚 [Contributor Guide](https://miffgamemain.vercel.app/contributors/onboarding)- **[HealthSystemPure](systems/HealthSystemPure/README.md)** - Health management and damage events
+- 📚 [Contributor Guide](https://miff-framework.github.io/miff/contributors/onboarding)
 - **[InputSystemPure](systems/InputSystemPure/README.md)** - Input mapping and processing
 - **[CameraBridgePure](systems/CameraBridgePure/README.md)** - Camera control and following
 - **[RhythmSystemPure](systems/RhythmSystemPure/README.md)** - Beat timing and rhythm logic
@@ -433,11 +431,11 @@ See `Documents/Remix_Review_V3.md` for a full assessment including coverage and 
 ## 📖 Documentation
 
 - **🌐 Documentation Site**: https://miff-framework.github.io/miff
-- **🚀 Getting Started**: https://miffgamemain.vercel.app/getting-started/install
+- **🚀 Getting Started**: https://miff-framework.github.io/miff/getting-started/install
 - **🎮 Simulate Tool**: https://miff-framework.github.io/miff/getting-started/simulate
 - **🎬 Replay Tool**: https://miff-framework.github.io/miff/getting-started/replay
 - **🔍 Inspect Tool**: https://miff-framework.github.io/miff/getting-started/inspect
-- **📚 Contributor Guide**: https://miffgamemain.vercel.app/contributors/onboarding
+- **📚 Contributor Guide**: https://miff-framework.github.io/miff/contributors/onboarding
 
 ## 🚀 Project Status
 
