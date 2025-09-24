@@ -1,0 +1,269 @@
+{
+  "weatherPatterns": [
+    {
+      "id": "clear_sunny",
+      "name": "Clear Sunny",
+      "description": "Bright, clear skies with excellent visibility",
+      "baseType": "clear",
+      "possibleIntensities": ["light"],
+      "averageDuration": 3600,
+      "seasonalProbability": {
+        "spring": 0.4,
+        "summer": 0.6,
+        "autumn": 0.4,
+        "winter": 0.2
+      },
+      "timeOfDayProbability": {
+        "morning": 0.3,
+        "afternoon": 0.5,
+        "evening": 0.3,
+        "night": 0.1
+      },
+      "weatherEffects": {
+        "visibility": 1.0,
+        "movementSpeed": 1.0,
+        "combatAccuracy": 1.0,
+        "temperature": 22,
+        "precipitation": 0.0,
+        "windSpeed": 2,
+        "lightningFrequency": 0.0,
+        "humidity": 40,
+        "atmosphericPressure": 1013
+      },
+      "transitionEffects": {
+        "entering": {
+          "visibility": 1.0,
+          "combatAccuracy": 1.0
+        },
+        "exiting": {
+          "visibility": 0.9,
+          "combatAccuracy": 0.95
+        }
+      }
+    },
+    {
+      "id": "rain_moderate",
+      "name": "Moderate Rain",
+      "description": "Steady rainfall with reduced visibility and movement",
+      "baseType": "rain",
+      "possibleIntensities": ["light", "moderate"],
+      "averageDuration": 1800,
+      "seasonalProbability": {
+        "spring": 0.3,
+        "summer": 0.2,
+        "autumn": 0.4,
+        "winter": 0.1
+      },
+      "timeOfDayProbability": {
+        "morning": 0.2,
+        "afternoon": 0.4,
+        "evening": 0.3,
+        "night": 0.1
+      },
+      "weatherEffects": {
+        "visibility": 0.7,
+        "movementSpeed": 0.9,
+        "combatAccuracy": 0.8,
+        "temperature": 18,
+        "precipitation": 0.6,
+        "windSpeed": 8,
+        "lightningFrequency": 0.0,
+        "humidity": 85,
+        "atmosphericPressure": 1005
+      },
+      "transitionEffects": {
+        "entering": {
+          "visibility": 0.8,
+          "precipitation": 0.4
+        },
+        "exiting": {
+          "visibility": 0.9,
+          "precipitation": 0.2
+        }
+      }
+    },
+    {
+      "id": "storm_heavy",
+      "name": "Heavy Storm",
+      "description": "Intense storm with strong winds and heavy precipitation",
+      "baseType": "storm",
+      "possibleIntensities": ["heavy", "extreme"],
+      "averageDuration": 900,
+      "seasonalProbability": {
+        "spring": 0.1,
+        "summer": 0.15,
+        "autumn": 0.2,
+        "winter": 0.05
+      },
+      "timeOfDayProbability": {
+        "morning": 0.1,
+        "afternoon": 0.3,
+        "evening": 0.2,
+        "night": 0.1
+      },
+      "weatherEffects": {
+        "visibility": 0.3,
+        "movementSpeed": 0.6,
+        "combatAccuracy": 0.4,
+        "temperature": 15,
+        "precipitation": 0.9,
+        "windSpeed": 25,
+        "lightningFrequency": 0.3,
+        "humidity": 95,
+        "atmosphericPressure": 985
+      },
+      "transitionEffects": {
+        "entering": {
+          "visibility": 0.5,
+          "windSpeed": 15,
+          "precipitation": 0.7
+        },
+        "exiting": {
+          "visibility": 0.6,
+          "windSpeed": 10,
+          "precipitation": 0.3
+        }
+      }
+    },
+    {
+      "id": "fog_dense",
+      "name": "Dense Fog",
+      "description": "Thick fog severely limiting visibility but allowing normal movement",
+      "baseType": "fog",
+      "possibleIntensities": ["moderate", "heavy"],
+      "averageDuration": 1200,
+      "seasonalProbability": {
+        "spring": 0.2,
+        "summer": 0.05,
+        "autumn": 0.3,
+        "winter": 0.4
+      },
+      "timeOfDayProbability": {
+        "morning": 0.4,
+        "afternoon": 0.1,
+        "evening": 0.3,
+        "night": 0.5
+      },
+      "weatherEffects": {
+        "visibility": 0.2,
+        "movementSpeed": 0.8,
+        "combatAccuracy": 0.3,
+        "temperature": 12,
+        "precipitation": 0.1,
+        "windSpeed": 3,
+        "lightningFrequency": 0.0,
+        "humidity": 98,
+        "atmosphericPressure": 1010
+      },
+      "transitionEffects": {
+        "entering": {
+          "visibility": 0.5,
+          "humidity": 0.8
+        },
+        "exiting": {
+          "visibility": 0.7,
+          "humidity": 0.6
+        }
+      }
+    },
+    {
+      "id": "snow_light",
+      "name": "Light Snow",
+      "description": "Gentle snowfall with accumulating snow and reduced visibility",
+      "baseType": "snow",
+      "possibleIntensities": ["light", "moderate"],
+      "averageDuration": 2400,
+      "seasonalProbability": {
+        "spring": 0.05,
+        "summer": 0.0,
+        "autumn": 0.1,
+        "winter": 0.5
+      },
+      "timeOfDayProbability": {
+        "morning": 0.2,
+        "afternoon": 0.2,
+        "evening": 0.3,
+        "night": 0.4
+      },
+      "weatherEffects": {
+        "visibility": 0.8,
+        "movementSpeed": 0.7,
+        "combatAccuracy": 0.7,
+        "temperature": -2,
+        "precipitation": 0.4,
+        "windSpeed": 6,
+        "lightningFrequency": 0.0,
+        "humidity": 75,
+        "atmosphericPressure": 1008
+      },
+      "transitionEffects": {
+        "entering": {
+          "visibility": 0.9,
+          "temperature": -1
+        },
+        "exiting": {
+          "visibility": 0.9,
+          "temperature": 1
+        }
+      }
+    }
+  ],
+  "testScenarios": [
+    {
+      "name": "Clear weather test",
+      "weatherType": "clear",
+      "intensity": "light",
+      "expectedEffects": {
+        "visibility": 1.0,
+        "movementSpeed": 1.0,
+        "combatAccuracy": 1.0,
+        "precipitation": 0.0
+      }
+    },
+    {
+      "name": "Heavy rain test",
+      "weatherType": "rain",
+      "intensity": "heavy",
+      "expectedEffects": {
+        "visibility": 0.4,
+        "movementSpeed": 0.5,
+        "combatAccuracy": 0.3,
+        "precipitation": 1.5
+      }
+    },
+    {
+      "name": "Dense fog test",
+      "weatherType": "fog",
+      "intensity": "heavy",
+      "expectedEffects": {
+        "visibility": 0.2,
+        "movementSpeed": 0.8,
+        "combatAccuracy": 0.3,
+        "humidity": 98
+      }
+    }
+  ],
+  "integrationScenarios": [
+    {
+      "name": "Combat integration",
+      "weatherType": "rain",
+      "intensity": "heavy",
+      "expectedCombatModifier": 0.3,
+      "expectedMovementModifier": 0.5
+    },
+    {
+      "name": "Navigation integration",
+      "weatherType": "fog",
+      "intensity": "moderate",
+      "expectedVisibilityRange": 0.5,
+      "expectedMovementModifier": 0.9
+    },
+    {
+      "name": "Audio integration",
+      "weatherType": "storm",
+      "intensity": "heavy",
+      "expectedAudioLevel": "storm_heavy",
+      "expectedLightningFrequency": 0.3
+    }
+  ]
+}
