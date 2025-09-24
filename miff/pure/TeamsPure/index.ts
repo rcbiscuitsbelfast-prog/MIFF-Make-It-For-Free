@@ -1255,7 +1255,7 @@ export class Team implements ITeam {
    * Clone team
    */
   clone(): Team {
-    const cloned = Team.create(this.teamId, this.name, this.description, this.maxSize, this.rules.clone());
+    const cloned = new Team(this.teamId, this.name, this.description, this.maxSize, this.rules.clone());
     cloned.spirits = this.spirits.map(spirit => spirit.clone());
     cloned.reserves = this.reserves.map(spirit => spirit.clone());
     cloned.slots = this.slots.map(slot => slot.clone());
@@ -1357,7 +1357,7 @@ export class Team implements ITeam {
     const typeDiversity = types.size / this.spirits.length;
 
     // Role diversity
-    const roles = new Set(this.spirits.map(s => this.getSpiritRole(s)));
+    const roles = new Set(this.spirits.map(s => Team.getSpiritRole(s)));
     const roleDiversity = roles.size / this.spirits.length;
 
     // Level diversity
@@ -1372,7 +1372,7 @@ export class Team implements ITeam {
   /**
    * Get spirit role based on stats
    */
-  private getSpiritRole(spirit: ISpiritInstance): string {
+  private static getSpiritRole(spirit: ISpiritInstance): string {
     const stats = spirit.stats;
     const totalStats = stats.attack + stats.defense + stats.speed + (stats.specialAttack || 0) + (stats.specialDefense || 0);
 
@@ -1383,6 +1383,63 @@ export class Team implements ITeam {
     if (stats.speed > totalStats * 0.3) return 'speedster';
 
     return 'balanced';
+  }
+
+  /**
+   * Calculate type breakdown - static utility method
+   */
+  static calculateTypeBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
+    const typeCount: Record<string, number> = {};
+
+    spirits.forEach(spirit => {
+      typeCount[spirit.type] = (typeCount[spirit.type] || 0) + 1;
+    });
+
+    return typeCount;
+  }
+
+  /**
+   * Get role breakdown - static utility method
+   */
+  static getRoleBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
+    const roleCount: Record<string, number> = {};
+
+    spirits.forEach(spirit => {
+      const role = Team.getSpiritRole(spirit);
+      roleCount[role] = (roleCount[role] || 0) + 1;
+    });
+
+    return roleCount;
+  }
+
+  /**
+   * Get team recommendations - static utility method
+   */
+  static getTeamRecommendations(team: ITeam, syncMap?: Map<string, number>): string[] {
+    const recommendations: string[] = [];
+    const spirits = team.spirits;
+
+    if (spirits.length === 0) {
+      recommendations.push('Add spirits to your team');
+      return recommendations;
+    }
+
+    const averageSync = team.getAverageSync(syncMap);
+    if (averageSync < 30) {
+      recommendations.push('Improve sync levels with your spirits');
+    }
+
+    const diversityScore = team.getDiversityScore();
+    if (diversityScore < 0.5) {
+      recommendations.push('Add more type diversity to your team');
+    }
+
+    const averageLevel = team.getAverageLevel();
+    if (averageLevel < 25) {
+      recommendations.push('Train your spirits to higher levels');
+    }
+
+    return recommendations;
   }
 }
 
@@ -1405,7 +1462,7 @@ export class TeamManager implements ITeamManager {
    */
   createTeam(teamName: string, maxSize?: number): ITeam {
     const teamId = `team_${this.nextTeamId++}`;
-    const team = Team.create(teamId, teamName, '', maxSize);
+    const team = new Team(teamId, teamName, '', maxSize);
     this.teams.set(teamId, team);
     return team;
   }
@@ -1602,7 +1659,7 @@ export class TeamManager implements ITeamManager {
       throw new Error('Team not found');
     }
 
-    return TeamStrategyAnalyzer.getOptimalComposition(team, availableSpirits);
+    return TeamStrategyAnalyzer.getOptimalTeamComposition(team, availableSpirits);
   }
 
   /**
@@ -1671,21 +1728,21 @@ export const TeamUtils = {
    * Create team with balanced composition
    */
   createBalancedTeam(teamName: string): ITeam {
-    return Team.create(teamName, 'Balanced team composition', 6, TeamRules.balanced());
+    return Team.create(teamName, 'Balanced team composition', '', 6, TeamRules.balanced());
   },
 
   /**
    * Create competitive team
    */
   createCompetitiveTeam(teamName: string): ITeam {
-    return Team.create(teamName, 'Competitive team composition', 6, TeamRules.competitive());
+    return Team.create(teamName, 'Competitive team composition', '', 6, TeamRules.competitive());
   },
 
   /**
    * Create casual team
    */
   createCasualTeam(teamName: string): ITeam {
-    return Team.create(teamName, 'Casual team composition', 8, TeamRules.casual());
+    return Team.create(teamName, 'Casual team composition', '', 8, TeamRules.casual());
   },
 
   /**
@@ -1712,7 +1769,7 @@ export const TeamUtils = {
    * Get recommended team for spirits
    */
   getRecommendedTeamForSpirits(spirits: ISpiritInstance[]): ITeam {
-    const team = Team.create('recommended', 'Recommended team', 6, TeamRules.balanced());
+    const team = Team.create('recommended', 'Recommended team', '', 6, TeamRules.balanced());
 
     // Sort spirits by power rating (descending)
     const sortedSpirits = spirits.sort((a, b) => {
@@ -1757,84 +1814,12 @@ export const TeamUtils = {
       diversityScore,
       averageLevel,
       averageSync,
-      typeBreakdown: this.calculateTypeBreakdown(spirits),
-      roleBreakdown: this.getRoleBreakdown(spirits),
-      recommendations: this.getTeamRecommendations(team, syncMap)
+      typeBreakdown: Team.calculateTypeBreakdown(spirits),
+      roleBreakdown: Team.getRoleBreakdown(spirits),
+      recommendations: Team.getTeamRecommendations(team, syncMap)
     };
   },
 
-  /**
-   * Calculate type breakdown
-   */
-  private calculateTypeBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
-    const typeCount: Record<string, number> = {};
-
-    spirits.forEach(spirit => {
-      typeCount[spirit.type] = (typeCount[spirit.type] || 0) + 1;
-    });
-
-    return typeCount;
-  },
-
-  /**
-   * Get role breakdown
-   */
-  private getRoleBreakdown(spirits: ISpiritInstance[]): Record<string, number> {
-    const roleCount: Record<string, number> = {};
-
-    spirits.forEach(spirit => {
-      const role = this.getSpiritRole(spirit);
-      roleCount[role] = (roleCount[role] || 0) + 1;
-    });
-
-    return roleCount;
-  },
-
-  /**
-   * Get team recommendations
-   */
-  private getTeamRecommendations(team: ITeam, syncMap?: Map<string, number>): string[] {
-    const recommendations: string[] = [];
-    const spirits = team.spirits;
-
-    if (spirits.length === 0) {
-      recommendations.push('Add spirits to your team');
-      return recommendations;
-    }
-
-    const averageSync = team.getAverageSync(syncMap);
-    if (averageSync < 30) {
-      recommendations.push('Improve sync levels with your spirits');
-    }
-
-    const diversityScore = team.getDiversityScore();
-    if (diversityScore < 0.5) {
-      recommendations.push('Add more type diversity to your team');
-    }
-
-    const averageLevel = team.getAverageLevel();
-    if (averageLevel < 25) {
-      recommendations.push('Train your spirits to higher levels');
-    }
-
-    return recommendations;
-  },
-
-  /**
-   * Get spirit role
-   */
-  private getSpiritRole(spirit: ISpiritInstance): string {
-    const stats = spirit.stats;
-    const totalStats = stats.attack + stats.defense + stats.speed + (stats.specialAttack || 0) + (stats.specialDefense || 0);
-
-    if (stats.attack > totalStats * 0.3) return 'attacker';
-    if (stats.defense > totalStats * 0.3) return 'defender';
-    if ((stats.specialAttack || 0) > totalStats * 0.3) return 'special_attacker';
-    if ((stats.specialDefense || 0) > totalStats * 0.3) return 'special_defender';
-    if (stats.speed > totalStats * 0.3) return 'speedster';
-
-    return 'balanced';
-  }
 };
 
 /**
@@ -2456,6 +2441,6 @@ export class TeamStrategyAnalyzer {
 // Export default instances
 export const defaultTeamManager = new TeamManager();
 export const defaultTeamRules = TeamRules.balanced();
-export const defaultTeam = Team.create('default', 'Default Team');
+export const defaultTeam = new Team('default', 'Default Team');
 export const defaultTeamSlot = TeamSlot.front();
 export const defaultValidationResult = ValidationResult.ok();
