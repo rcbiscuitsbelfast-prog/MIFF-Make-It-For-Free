@@ -12,16 +12,100 @@
  * @author MIFF Framework
  */
 
-import {
-  WeatherSystemPure,
-  WeatherType,
-  WeatherIntensity,
-  WeatherEffect,
-  WeatherState,
-  WeatherPattern,
-  WeatherIntegration,
-  type EventBus
-} from './index.js';
+// ============================================================================
+// WEATHER SYSTEM TYPES
+// ============================================================================
+
+/**
+ * Weather types enumeration
+ */
+export enum WeatherType {
+  CLEAR = 'clear',
+  CLOUDY = 'cloudy',
+  RAINY = 'rainy',
+  STORMY = 'stormy',
+  SNOWY = 'snowy',
+  FOGGY = 'foggy',
+  WINDY = 'windy',
+  SUNNY = 'sunny',
+  OVERCAST = 'overcast',
+  THUNDERSTORM = 'thunderstorm'
+}
+
+/**
+ * Weather intensity levels
+ */
+export enum WeatherIntensity {
+  NONE = 0,
+  LIGHT = 1,
+  MODERATE = 2,
+  HEAVY = 3,
+  EXTREME = 4
+}
+
+/**
+ * Weather effect interface
+ */
+export interface WeatherEffect {
+  id: string;
+  type: WeatherType;
+  intensity: WeatherIntensity;
+  duration: number;
+  startTime: number;
+  endTime?: number;
+  properties: Record<string, any>;
+}
+
+/**
+ * Weather state interface
+ */
+export interface WeatherState {
+  current: WeatherType;
+  intensity: WeatherIntensity;
+  temperature: number;
+  humidity: number;
+  windSpeed: number;
+  windDirection: number;
+  visibility: number;
+  effects: WeatherEffect[];
+  timestamp: number;
+}
+
+/**
+ * Weather pattern interface
+ */
+export interface WeatherPattern {
+  id: string;
+  name: string;
+  type: WeatherType;
+  intensity: WeatherIntensity;
+  duration: number;
+  probability: number;
+  conditions: Record<string, any>;
+}
+
+/**
+ * Weather integration interface
+ */
+export interface WeatherIntegration {
+  systemId: string;
+  enabled: boolean;
+  priority: number;
+  callbacks: {
+    onWeatherChange?: (state: WeatherState) => void;
+    onEffectStart?: (effect: WeatherEffect) => void;
+    onEffectEnd?: (effect: WeatherEffect) => void;
+  };
+}
+
+/**
+ * EventBus type (simplified)
+ */
+export interface EventBus {
+  publish: (event: string, data: any) => void;
+  subscribe: (event: string, callback: (data: any) => void) => string;
+  unsubscribe: (id: string) => boolean;
+}
 
 // ============================================================================
 // WEATHER MANAGER INTERFACES
