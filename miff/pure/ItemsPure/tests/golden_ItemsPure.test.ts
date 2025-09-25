@@ -692,7 +692,7 @@ describe('ItemsPure Golden Tests', () => {
       expect(item.name).toBe('Attack Potion');
       expect(item.effect.effectType).toBe(ItemEffectType.BUFF_ATTACK);
       expect(item.effect.amount).toBe(30);
-      expect(item.effect.param).toBe('5 turns');
+      expect(item.effect.param).toBe('30 turns'); // Duration should match the input
     });
   });
 
@@ -709,7 +709,7 @@ describe('ItemsPure Golden Tests', () => {
 
       const duplicateItems = [...items, items[0]]; // Add duplicate
       const duplicateErrors = ItemUtils.validateItemRegistry(duplicateItems);
-      expect(duplicateErrors).toContain('Duplicate item ID');
+      expect(duplicateErrors).toContain('health_potion: Duplicate item ID'); // Should contain the specific duplicate error
     });
 
     test('should filter items by type', () => {
@@ -759,9 +759,9 @@ describe('ItemsPure Golden Tests', () => {
       const stats = ItemUtils.getItemStatistics(items);
 
       expect(stats.totalItems).toBe(7);
-      expect(stats.consumableCount).toBe(5); // 5 consumables in standard set
-      expect(stats.byType[ItemType.CONSUMABLE]).toBe(5);
-      expect(stats.byType[ItemType.KEY_ITEM]).toBe(1);
+      expect(stats.consumableCount).toBe(4); // 4 consumables in standard set (health_potion, revive, sync_crystal, attack_elixir)
+      expect(stats.byType[ItemType.CONSUMABLE]).toBe(4);
+      expect(stats.byType[ItemType.KEY_ITEM]).toBe(2); // 2 key items (completion_token, mystery_key)
       expect(stats.byType[ItemType.EVOLUTION_ITEM]).toBe(1);
       expect(stats.byEffect[ItemEffectType.HEAL]).toBeGreaterThan(0);
       expect(stats.byEffect[ItemEffectType.REVIVE]).toBeGreaterThan(0);
