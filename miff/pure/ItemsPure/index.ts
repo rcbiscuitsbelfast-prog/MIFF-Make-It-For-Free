@@ -296,7 +296,10 @@ export class ItemEffect {
         if (!target.isFainted()) {
           return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target is not fainted');
         }
-        target.currentHP = Math.max(1, Math.floor(target.maxHP * 0.5));
+        // Use the amount as percentage of max HP to restore (default to 50% if not specified)
+        const revivePercent = this.amount > 0 ? this.amount : 50;
+        const reviveAmount = Math.floor(target.maxHP * (revivePercent / 100));
+        target.currentHP = Math.max(1, reviveAmount);
         // Mark spirit as not fainted after revive
         if (target.isFainted && typeof target.isFainted === 'function') {
           // Note: This is a simplified approach for testing
@@ -404,7 +407,7 @@ export class ItemsManager {
    * Add an item definition
    */
   addItem(item: Item): void {
-    this.items.set(item.id, item);
+    this.items.set(item.itemID, item);
   }
 
   /**
@@ -551,16 +554,38 @@ export class ItemUsageManager {
       return UsageResult.fail(UsageStatus.ITEM_NOT_FOUND, `Item '${itemId}' not found`);
     }
 
-    if (!this.context.inventory[itemId] || this.context.inventory[itemId] <= 0) {
+    // Key items don't require inventory tracking
+    if (item.type !== ItemType.KEY_ITEM && (!this.context.inventory[itemId] || this.context.inventory[itemId] <= 0)) {
       return UsageResult.fail(UsageStatus.INSUFFICIENT_RESOURCES, 'Item not in inventory');
     }
 
     if (targetSpirit) {
-      if (targetSpirit.isFainted() && item.type === ItemType.CONSUMABLE) {
-        // Check if item can be used on fainted spirits
-        const effect = this.getItemEffect(item);
-        if (effect && effect.type !== ItemEffectType.REVIVE) {
-          return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Cannot use this item on fainted spirit');
+      // Check item-specific target rules
+      if (item.targetRule) {
+        switch (item.targetRule) {
+          case 'notfainted':
+            if (targetSpirit.isFainted()) {
+              return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target must not be fainted');
+            }
+            break;
+          case 'faintedonly':
+            if (!targetSpirit.isFainted()) {
+              return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target must be fainted');
+            }
+            break;
+          case 'any':
+            // Allow any target
+            break;
+          default:
+            return UsageResult.fail(UsageStatus.INVALID_TARGET, `Unknown target rule: ${item.targetRule}`);
+        }
+      } else {
+        // Default behavior for items without specific target rules
+        if (targetSpirit.isFainted() && item.type === ItemType.CONSUMABLE) {
+          const effect = this.getItemEffect(item);
+          if (effect && effect.type !== ItemEffectType.REVIVE) {
+            return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Cannot use this item on fainted spirit');
+          }
         }
       }
     }
@@ -579,8 +604,10 @@ export class ItemUsageManager {
       return UsageResult.fail(UsageStatus.ITEM_NOT_FOUND);
     }
 
-    // Consume item
-    this.context.inventory[itemId]--;
+    // Consume item (key items are not tracked in inventory)
+    if (item.type !== ItemType.KEY_ITEM) {
+      this.context.inventory[itemId]--;
+    }
 
     // Apply effects
     const effect = this.getItemEffect(item);

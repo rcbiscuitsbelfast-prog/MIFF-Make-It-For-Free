@@ -585,7 +585,7 @@ describe('ItemsPure Golden Tests', () => {
       const result = manager.useItem('unknown_item', activeSpirit);
 
       expect(result.isSuccess).toBe(false);
-      expect(result.message).toContain('Unknown item');
+      expect(result.message).toContain("Item 'unknown_item' not found");
     });
 
     test('should not consume key items', () => {

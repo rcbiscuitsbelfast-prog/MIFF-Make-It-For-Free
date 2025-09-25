@@ -7,6 +7,8 @@ export {
   AIDecisionStyle,
   AIActionType,
   AIPolicyType,
+} from './Manager';
+export {
   ActionSource,
   CombatResult,
   TypeEffectiveness,
@@ -16,6 +18,7 @@ export {
   DamageCalculator,
   BattleEngine,
   CombatUtils,
+} from '../CombatPure/engine';
   ItemType,
   ItemRarity,
   ItemEffectType,
