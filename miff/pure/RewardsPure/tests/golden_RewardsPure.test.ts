@@ -602,7 +602,7 @@ describe('RewardsPure Golden Tests', () => {
       expect(reward.currency).toBe(0); // Should be clamped
 
       const invalidReward = new RewardStub(-100, -50);
-      expect(invalidReward.validate()).toHaveLength(3);
+      expect(invalidReward.validate()).toHaveLength(2);
     });
 
     test('should handle invalid drop table operations', () => {

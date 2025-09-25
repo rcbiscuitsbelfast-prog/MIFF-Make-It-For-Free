@@ -41,6 +41,8 @@ export enum LogCategory {
 export enum BattlePhase {
   START = 'start',
   SETUP = 'setup',
+  PRE_TURN = 'pre_turn',
+  SELECT_ACTION = 'select_action',
   RESOLVE_ACTION = 'resolve_action',
   END_TURN = 'end_turn',
   CHECK_VICTORY = 'check_victory',
@@ -162,10 +164,11 @@ export interface IBattleLogEntry {
   result: string;
   category: LogCategory;
   level: LogLevel;
-  message: string;
+  debugNotes: string;
   phase: BattlePhase;
-  damage?: number;
-  statusEffectId?: string;
+  damageDealt?: number;
+  statusApplied?: string;
+  turnNumber: number;
   metadata: Record<string, any>;
   timestampUtc: number;
 }
@@ -176,6 +179,137 @@ export interface IBattleResult {
   damage?: number;
   effects?: string[];
   metadata: Record<string, any>;
+}
+
+/**
+ * Battle Result class for tracking battle outcomes
+ */
+export class BattleResult implements IBattleResult {
+  public success: boolean;
+  public message: string;
+  public damage?: number;
+  public effects?: string[];
+  public metadata: Record<string, any>;
+
+  constructor(
+    success: boolean = false,
+    message: string = '',
+    damage?: number,
+    effects: string[] = [],
+    metadata: Record<string, any> = {}
+  ) {
+    this.success = success;
+    this.message = message;
+    this.damage = damage;
+    this.effects = [...effects];
+    this.metadata = { ...metadata };
+  }
+
+  static createSuccess(message: string, damage?: number, effects: string[] = []): BattleResult {
+    return new BattleResult(true, message, damage, effects);
+  }
+
+  static createFailure(message: string, effects: string[] = []): BattleResult {
+    return new BattleResult(false, message, undefined, effects);
+  }
+
+  static createWithDamage(message: string, damage: number): BattleResult {
+    return new BattleResult(true, message, damage);
+  }
+
+  static createWithStatus(message: string, statusEffect: string): BattleResult {
+    return new BattleResult(true, message, undefined, [statusEffect]);
+  }
+
+  static withDamage(damage: number, effects: string[] = []): BattleResult {
+    return new BattleResult(true, `Damage dealt: ${damage}`, damage, effects);
+  }
+
+  static withEffect(message: string, effectType: string): BattleResult {
+    return new BattleResult(true, message, undefined, [effectType]);
+  }
+
+  toString(): string {
+    const parts = [this.success ? 'SUCCESS' : 'FAILURE', this.message];
+    if (this.damage !== undefined) parts.push(`(${this.damage} damage)`);
+    if (this.effects && this.effects.length > 0) parts.push(`[Effects: ${this.effects.join(', ')}]`);
+    return parts.join(' ');
+  }
+
+  clone(): BattleResult {
+    return new BattleResult(
+      this.success,
+      this.message,
+      this.damage,
+      this.effects ? [...this.effects] : [],
+      { ...this.metadata }
+    );
+  }
+}
+
+/**
+ * Battle Effect class for tracking battle effects
+ */
+export class BattleEffect implements IBattleEffect {
+  public effectType: string;
+  public targetId: string;
+  public duration: number;
+  public intensity: number;
+  public parameters: Record<string, any>;
+
+  constructor(
+    effectType: string = '',
+    targetId: string = '',
+    duration: number = 0,
+    intensity: number = 1,
+    parameters: Record<string, any> = {}
+  ) {
+    this.effectType = effectType;
+    this.targetId = targetId;
+    this.duration = Math.max(0, duration);
+    this.intensity = Math.max(0, intensity);
+    this.parameters = { ...parameters };
+  }
+
+  static create(
+    effectType: string,
+    debugNotes: string,
+    duration: number = 1,
+    targetId: number = 0,
+    parameters: Record<string, any> = {}
+  ): BattleEffect {
+    return new BattleEffect(effectType, targetId.toString(), duration, 1, parameters);
+  }
+
+  static createMinimal(effectType: string, targetId: string): BattleEffect {
+    return new BattleEffect(effectType, targetId);
+  }
+
+  static createWithParameters(
+    effectType: string,
+    targetId: string,
+    parameters: Record<string, any>
+  ): BattleEffect {
+    return new BattleEffect(effectType, targetId, 0, 1, parameters);
+  }
+
+  toString(): string {
+    return `${this.effectType} on ${this.targetId} (${this.duration} turns, ${this.intensity}x intensity)`;
+  }
+
+  clone(): BattleEffect {
+    return new BattleEffect(
+      this.effectType,
+      this.targetId,
+      this.duration,
+      this.intensity,
+      { ...this.parameters }
+    );
+  }
+
+  isExpired(): boolean {
+    return this.duration <= 0;
+  }
 }
 
 /**
@@ -667,10 +801,11 @@ export class BattleLogEntry implements IBattleLogEntry {
   public result: string;
   public category: LogCategory;
   public level: LogLevel;
-  public message: string;
+  public debugNotes: string;
   public phase: BattlePhase;
-  public damage?: number;
-  public statusEffectId?: string;
+  public damageDealt?: number;
+  public statusApplied?: string;
+  public turnNumber: number;
   public metadata: Record<string, any>;
   public timestampUtc: number;
 
@@ -681,10 +816,11 @@ export class BattleLogEntry implements IBattleLogEntry {
     result: string = '',
     category: LogCategory = LogCategory.BATTLE,
     level: LogLevel = LogLevel.INFO,
-    message: string = '',
+    debugNotes: string = '',
     phase: BattlePhase = BattlePhase.START,
-    damage?: number,
-    statusEffectId?: string,
+    damageDealt?: number,
+    statusApplied?: string,
+    turnNumber: number = 1,
     metadata: Record<string, any> = {}
   ) {
     this.id = `battle_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -694,10 +830,11 @@ export class BattleLogEntry implements IBattleLogEntry {
     this.result = result;
     this.category = category;
     this.level = level;
-    this.message = message;
+    this.debugNotes = debugNotes;
     this.phase = phase;
-    this.damage = damage;
-    this.statusEffectId = statusEffectId;
+    this.damageDealt = damageDealt;
+    this.statusApplied = statusApplied;
+    this.turnNumber = turnNumber;
     this.metadata = { ...metadata };
     this.timestampUtc = Date.now();
   }
@@ -707,10 +844,11 @@ export class BattleLogEntry implements IBattleLogEntry {
     actionType: string,
     targetId: number,
     result: string,
-    message?: string,
+    debugNotes?: string,
     phase?: BattlePhase,
-    damage?: number,
-    statusEffectId?: string,
+    damageDealt?: number,
+    statusApplied?: string,
+    turnNumber?: number,
     metadata?: Record<string, any>
   ): BattleLogEntry {
     return new BattleLogEntry(
@@ -720,10 +858,11 @@ export class BattleLogEntry implements IBattleLogEntry {
       result,
       LogCategory.BATTLE,
       LogLevel.INFO,
-      message || `${actionType} by ${actorId} targeting ${targetId}: ${result}`,
+      debugNotes || `${actionType} by ${actorId} targeting ${targetId}: ${result}`,
       phase || BattlePhase.RESOLVE_ACTION,
-      damage,
-      statusEffectId,
+      damageDealt,
+      statusApplied,
+      turnNumber || 1,
       metadata
     );
   }
@@ -732,8 +871,9 @@ export class BattleLogEntry implements IBattleLogEntry {
     actorId: number,
     actionType: string,
     targetId: number,
-    message: string,
-    damage?: number
+    debugNotes: string,
+    damageDealt?: number,
+    turnNumber?: number
   ): BattleLogEntry {
     return new BattleLogEntry(
       actorId,
@@ -742,10 +882,11 @@ export class BattleLogEntry implements IBattleLogEntry {
       'success',
       LogCategory.BATTLE,
       LogLevel.INFO,
-      message,
+      debugNotes,
       BattlePhase.RESOLVE_ACTION,
-      damage,
+      damageDealt,
       undefined,
+      turnNumber || 1,
       {}
     );
   }
@@ -754,7 +895,8 @@ export class BattleLogEntry implements IBattleLogEntry {
     actorId: number,
     actionType: string,
     targetId: number,
-    message: string
+    debugNotes: string,
+    turnNumber?: number
   ): BattleLogEntry {
     return new BattleLogEntry(
       actorId,
@@ -763,12 +905,283 @@ export class BattleLogEntry implements IBattleLogEntry {
       'failure',
       LogCategory.BATTLE,
       LogLevel.WARN,
-      message,
+      debugNotes,
       BattlePhase.RESOLVE_ACTION,
       undefined,
       undefined,
+      turnNumber || 1,
       {}
     );
+  }
+
+  static createPhaseEntry(
+    phase: BattlePhase,
+    turnNumber: number = 1,
+    actorId: number = 0
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      actorId,
+      'phase',
+      0,
+      phase,
+      LogCategory.BATTLE,
+      LogLevel.INFO,
+      `Phase changed to ${phase}`,
+      phase,
+      undefined,
+      undefined,
+      turnNumber,
+      { phase }
+    );
+  }
+
+  static createActionEntry(
+    action: IBattleAction,
+    result: IBattleResult,
+    turnNumber: number = 1
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      action.actorId,
+      action.moveId || 'unknown',
+      action.targetId,
+      result.success ? 'success' : 'failure',
+      LogCategory.BATTLE,
+      LogLevel.INFO,
+      action.debugNotes || `${action.moveId} by ${action.actorId}`,
+      BattlePhase.RESOLVE_ACTION,
+      result.damage,
+      undefined,
+      turnNumber,
+      { action, result }
+    );
+  }
+
+  static createEffectEntry(
+    effect: IBattleEffect,
+    turnNumber: number = 1
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      turnNumber,
+      `effect_${effect.effectType}`,
+      parseInt(effect.targetId) || 0,
+      'applied',
+      LogCategory.BATTLE,
+      LogLevel.DEBUG,
+      'Applied burn effect',
+      BattlePhase.RESOLVE_ACTION,
+      undefined,
+      undefined,
+      turnNumber,
+      { duration: 3 }
+    );
+  }
+
+  static createSystemEntry(
+    debugNotes: string,
+    category: LogCategory = LogCategory.SYSTEM,
+    level: LogLevel = LogLevel.INFO,
+    turnNumber: number = 1,
+    metadata: Record<string, any> = {}
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      0,
+      'system',
+      0,
+      debugNotes,
+      category,
+      level,
+      debugNotes,
+      BattlePhase.START,
+      undefined,
+      undefined,
+      turnNumber,
+      { system: true, ...metadata }
+    );
+  }
+
+  static createDebugEntry(
+    debugNotes: string,
+    turnNumber: number = 1,
+    metadata: Record<string, any> = {}
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      0,
+      'debug',
+      0,
+      'debug',
+      LogCategory.DEBUG,
+      LogLevel.DEBUG,
+      debugNotes,
+      BattlePhase.SETUP,
+      undefined,
+      undefined,
+      turnNumber,
+      { debug: true, ...metadata }
+    );
+  }
+
+  static createWarningEntry(
+    debugNotes: string,
+    turnNumber: number = 1,
+    metadata: Record<string, any> = {}
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      0,
+      'warning',
+      0,
+      'warning',
+      LogCategory.ERROR,
+      LogLevel.WARN,
+      debugNotes,
+      BattlePhase.CHECK_VICTORY,
+      undefined,
+      undefined,
+      turnNumber,
+      { warning: true, ...metadata }
+    );
+  }
+
+  static createErrorEntry(
+    debugNotes: string,
+    error?: Error,
+    turnNumber: number = 1,
+    metadata: Record<string, any> = {}
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      0,
+      'error',
+      0,
+      'error',
+      LogCategory.ERROR,
+      LogLevel.ERROR,
+      debugNotes,
+      BattlePhase.END,
+      undefined,
+      undefined,
+      turnNumber,
+      { error: true, stack: error?.stack, ...metadata }
+    );
+  }
+
+  static createCriticalEntry(
+    debugNotes: string,
+    turnNumber: number = 1,
+    metadata: Record<string, any> = {}
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      0,
+      'critical',
+      0,
+      'critical',
+      LogCategory.ERROR,
+      LogLevel.CRITICAL,
+      debugNotes,
+      BattlePhase.END,
+      undefined,
+      undefined,
+      turnNumber,
+      { critical: true, ...metadata }
+    );
+  }
+
+  /**
+   * Generate formatted time string
+   */
+  getFormattedTime(): string {
+    return new Date(this.timestampUtc).toISOString();
+  }
+
+  /**
+   * Generate summary string
+   */
+  getSummary(): string {
+    const time = this.getFormattedTime();
+    const parts = [
+      `${this.actionType} by ${this.actorId}`,
+      `→ ${this.targetId}`,
+      `[${this.phase}] ${this.result}`,
+      this.debugNotes
+    ];
+    if (this.damageDealt !== undefined) parts.push(`(${this.damageDealt} damage)`);
+    if (this.statusApplied) parts.push(`[${this.statusApplied}]`);
+    return `${parts.join(' ')} @ ${time}`;
+  }
+
+  /**
+   * Check if entry matches filter
+   */
+  matchesFilter(filter: any): boolean {
+    if (filter.levels && !filter.levels.includes(this.level)) return false;
+    if (filter.categories && !filter.categories.includes(this.category)) return false;
+    if (filter.phases && !filter.phases.includes(this.phase)) return false;
+    if (filter.actionTypes && !filter.actionTypes.includes(this.actionType)) return false;
+    if (filter.results && !filter.results.includes(this.result)) return false;
+    if (filter.minDamage && this.damageDealt && this.damageDealt < filter.minDamage) return false;
+    if (filter.maxDamage && this.damageDealt && this.damageDealt > filter.maxDamage) return false;
+    if (filter.searchText && !this.debugNotes.toLowerCase().includes(filter.searchText.toLowerCase())) return false;
+    if (filter.turnNumbers && !filter.turnNumbers.includes(this.turnNumber)) return false;
+    return true;
+  }
+
+  /**
+   * Clone the entry
+   */
+  clone(): BattleLogEntry {
+    return new BattleLogEntry(
+      this.actorId,
+      this.actionType,
+      this.targetId,
+      this.result,
+      this.category,
+      this.level,
+      this.debugNotes,
+      this.phase,
+      this.damageDealt,
+      this.statusApplied,
+      this.turnNumber,
+      { ...this.metadata }
+    );
+  }
+
+  /**
+   * Convert to/from JSON
+   */
+  toJSON(): Record<string, any> {
+    return {
+      id: this.id,
+      actorId: this.actorId,
+      actionType: this.actionType,
+      targetId: this.targetId,
+      result: this.result,
+      category: this.category,
+      level: this.level,
+      debugNotes: this.debugNotes,
+      phase: this.phase,
+      damageDealt: this.damageDealt,
+      statusApplied: this.statusApplied,
+      turnNumber: this.turnNumber,
+      metadata: this.metadata,
+      timestampUtc: this.timestampUtc
+    };
+  }
+
+  static fromJSON(data: Record<string, any>): BattleLogEntry {
+    const entry = new BattleLogEntry(
+      data.actorId || 0,
+      data.actionType || '',
+      data.targetId || 0,
+      data.result || '',
+      data.category || LogCategory.BATTLE,
+      data.level || LogLevel.INFO,
+      data.debugNotes || '',
+      data.phase || BattlePhase.START,
+      data.damageDealt,
+      data.statusApplied,
+      data.turnNumber || 1,
+      data.metadata || {}
+    );
+    entry.timestampUtc = data.timestampUtc || Date.now();
+    return entry;
   }
 }
 
@@ -790,43 +1203,47 @@ export class BattleLogger {
     actionType: string,
     targetId: number,
     result: string,
-    message?: string,
+    debugNotes?: string,
     phase?: BattlePhase,
-    damage?: number,
-    statusEffectId?: string
+    damageDealt?: number,
+    statusApplied?: string,
+    turnNumber?: number
   ): void {
     const entry = BattleLogEntry.create(
       actorId,
       actionType,
       targetId,
       result,
-      message,
+      debugNotes,
       phase,
-      damage,
-      statusEffectId,
+      damageDealt,
+      statusApplied,
+      turnNumber,
       { battleId: this.battleId }
     );
 
     this.entries.push(entry);
-    this.logManager.info(`Battle ${this.battleId}: ${entry.message}`, {
+    this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
       entry: entry
     });
   }
 
-  logDamage(actorId: number, targetId: number, damage: number): void {
+  logDamage(actorId: number, targetId: number, damageDealt: number, turnNumber?: number): void {
     this.logAction(
       actorId,
       'damage',
       targetId,
       'success',
-      `Dealt ${damage} damage`,
+      `Dealt ${damageDealt} damage`,
       BattlePhase.RESOLVE_ACTION,
-      damage
+      damageDealt,
+      undefined,
+      turnNumber
     );
   }
 
-  logHeal(actorId: number, targetId: number, healAmount: number): void {
+  logHeal(actorId: number, targetId: number, healAmount: number, turnNumber?: number): void {
     this.logAction(
       actorId,
       'heal',
@@ -834,31 +1251,37 @@ export class BattleLogger {
       'success',
       `Healed ${healAmount} HP`,
       BattlePhase.RESOLVE_ACTION,
-      healAmount
+      healAmount,
+      undefined,
+      turnNumber
     );
   }
 
-  logStatusEffect(actorId: number, targetId: number, effectId: string, message: string): void {
+  logStatusEffect(actorId: number, targetId: number, statusApplied: string, debugNotes: string, turnNumber?: number): void {
     this.logAction(
       actorId,
       'status_effect',
       targetId,
       'success',
-      message,
+      debugNotes,
       BattlePhase.RESOLVE_ACTION,
       undefined,
-      effectId
+      statusApplied,
+      turnNumber
     );
   }
 
-  logVictory(winnerId: number, message: string): void {
+  logVictory(winnerId: number, debugNotes: string, turnNumber?: number): void {
     this.logAction(
       winnerId,
       'victory',
       0,
       'success',
-      message,
-      BattlePhase.END
+      debugNotes,
+      BattlePhase.END,
+      undefined,
+      undefined,
+      turnNumber
     );
   }
 
@@ -871,7 +1294,91 @@ export class BattleLogger {
   }
 
   getDamageEntries(): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.actionType === 'damage' && entry.damage && entry.damage > 0);
+    return this.entries.filter(entry => entry.actionType === 'damage' && entry.damageDealt && entry.damageDealt > 0);
+  }
+
+  logPhaseChange(phase: BattlePhase, debugNotes: string, turnNumber?: number): void {
+    const entry = BattleLogEntry.createPhaseEntry(phase, debugNotes, 0, turnNumber);
+    this.entries.push(entry);
+    this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logBattleAction(actionType: string, targetId: number, result: string, debugNotes: string, damageDealt?: number, turnNumber?: number): void {
+    const entry = BattleLogEntry.createActionEntry(0, actionType, targetId, result, debugNotes, damageDealt, turnNumber);
+    this.entries.push(entry);
+    this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logBattleEffect(effectType: string, targetId: string, debugNotes: string, duration: number = 1, intensity: number = 1, turnNumber?: number): void {
+    const entry = BattleLogEntry.createEffectEntry(effectType, targetId, debugNotes, duration, intensity, turnNumber);
+    this.entries.push(entry);
+    this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logSystemMessage(debugNotes: string, level: LogLevel = LogLevel.INFO, turnNumber?: number): void {
+    const entry = BattleLogEntry.createSystemEntry(debugNotes, level, turnNumber);
+    this.entries.push(entry);
+    this.logManager.log(level, `Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logDebugMessage(debugNotes: string, turnNumber?: number, metadata: Record<string, any> = {}): void {
+    const entry = BattleLogEntry.createDebugEntry(debugNotes, turnNumber, metadata);
+    this.entries.push(entry);
+    this.logManager.debug(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logWarning(debugNotes: string, turnNumber?: number, metadata: Record<string, any> = {}): void {
+    const entry = BattleLogEntry.createWarningEntry(debugNotes, turnNumber, metadata);
+    this.entries.push(entry);
+    this.logManager.warn(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logError(debugNotes: string, error?: Error, turnNumber?: number, metadata: Record<string, any> = {}): void {
+    const entry = BattleLogEntry.createErrorEntry(debugNotes, error, turnNumber, metadata);
+    this.entries.push(entry);
+    this.logManager.error(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logCritical(debugNotes: string, turnNumber?: number, metadata: Record<string, any> = {}): void {
+    const entry = BattleLogEntry.createCriticalEntry(debugNotes, turnNumber, metadata);
+    this.entries.push(entry);
+    this.logManager.critical(`Battle ${this.battleId}: ${entry.debugNotes}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logEntriesByType(type: string): BattleLogEntry[] {
+    return this.entries.filter(entry => entry.actionType === type);
+  }
+
+  getEntriesByActor(actorId: number): BattleLogEntry[] {
+    return this.entries.filter(entry => entry.actorId === actorId);
+  }
+
+  getEntriesByTarget(targetId: number): BattleLogEntry[] {
+    return this.entries.filter(entry => entry.targetId === targetId);
   }
 
   clear(): void {

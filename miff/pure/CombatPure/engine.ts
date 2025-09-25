@@ -850,6 +850,55 @@ export class BattleEngine {
     };
   }
 
+  /**
+   * Get current battle phase (for testing purposes)
+   */
+  get phase(): string {
+    return this.state.phase;
+  }
+
+  /**
+   * Get current turn number (for testing purposes)
+   */
+  get turnNumber(): number {
+    return this.state.turnNumber;
+  }
+
+  /**
+   * Check if battle is over (for testing purposes)
+   */
+  get isBattleOver(): boolean {
+    return this.state.over;
+  }
+
+  /**
+   * Get combatants map (for testing purposes)
+   */
+  get combatants() {
+    return this.state.combatants;
+  }
+
+  /**
+   * Get turn order (for testing purposes)
+   */
+  get order() {
+    return this.state.order;
+  }
+
+  /**
+   * Get action queue (for testing purposes)
+   */
+  get queue() {
+    return this.state.queue;
+  }
+
+  /**
+   * Get winner team (for testing purposes)
+   */
+  get winnerTeam() {
+    return this.state.winnerTeam;
+  }
+
   // Missing BattleEngine methods for integration tests
   getLivingCombatantsByTeam(team: string): ICombatant[] {
     return Object.values(this.state.combatants).filter(c =>

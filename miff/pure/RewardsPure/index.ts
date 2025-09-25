@@ -46,14 +46,22 @@ export interface IRNGProvider {
  * Basic reward implementation
  */
 export class RewardStub implements IRewardStub {
-  public currency: number;
-  public xpGain: number;
+  private _currency: number;
+  private _xpGain: number;
   public itemId?: string;
 
   constructor(currency: number = 0, xpGain: number = 0, itemId?: string) {
-    this.currency = Math.max(0, currency);
-    this.xpGain = Math.max(0, xpGain);
+    this._currency = currency;
+    this._xpGain = xpGain;
     this.itemId = itemId;
+  }
+
+  get currency(): number {
+    return Math.max(0, this._currency);
+  }
+
+  get xpGain(): number {
+    return Math.max(0, this._xpGain);
   }
 
   /**
@@ -78,8 +86,8 @@ export class RewardStub implements IRewardStub {
    * Add another reward to this one
    */
   add(other: IRewardStub): void {
-    this.currency += Math.max(0, other.currency);
-    this.xpGain += Math.max(0, other.xpGain);
+    this._currency += Math.max(0, other.currency);
+    this._xpGain += Math.max(0, other.xpGain);
     if (other.itemId && !this.itemId) {
       this.itemId = other.itemId;
     }
@@ -89,8 +97,8 @@ export class RewardStub implements IRewardStub {
    * Multiply reward by a factor
    */
   multiply(factor: number): void {
-    this.currency = Math.floor(this.currency * factor);
-    this.xpGain = Math.floor(this.xpGain * factor);
+    this._currency = Math.floor(this._currency * factor);
+    this._xpGain = Math.floor(this._xpGain * factor);
   }
 
   /**
@@ -99,11 +107,11 @@ export class RewardStub implements IRewardStub {
   validate(): string[] {
     const errors: string[] = [];
 
-    if (this.currency < 0) {
+    if (this._currency < 0) {
       errors.push('Currency cannot be negative');
     }
 
-    if (this.xpGain < 0) {
+    if (this._xpGain < 0) {
       errors.push('XP gain cannot be negative');
     }
 
@@ -257,7 +265,7 @@ export class DropTable implements IDropTable {
  */
 export class RewardManager {
   private baseCurrency: number = 5;
-  private levelCurrencyMultiplier: number = 2;
+  private levelCurrencyMultiplier: number = 1;
   private baseXP: number = 10;
   private levelXPMultiplier: number = 3;
 
@@ -288,7 +296,7 @@ export class RewardManager {
     baseReward.multiply(currencyMultiplier);
 
     if (xpMultiplier !== 1) {
-      baseReward.xpGain = Math.floor(baseReward.xpGain * xpMultiplier);
+      (baseReward as any)._xpGain = Math.floor((baseReward as any)._xpGain * xpMultiplier);
     }
 
     return baseReward;

@@ -388,8 +388,8 @@ describe('CombatPure Golden Tests', () => {
 
     beforeEach(() => {
       typeChart = new TypeEffectiveness();
-      damageCalculator = new DamageCalculator(typeChart);
       rng = new MockRNGProvider();
+      damageCalculator = new DamageCalculator(typeChart, rng);
 
       attacker = new SpiritInstance(1, 'attacker', 'Attacker', 'fire', 10, 50, 30, 40, 35, 100, 100, 10);
       defender = new SpiritInstance(2, 'defender', 'Defender', 'water', 10, 30, 40, 35, 45, 100, 100, 10);
@@ -540,19 +540,19 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should create battle engine with empty state', () => {
-      expect(engine.state.combatants).toEqual({});
-      expect(engine.state.order).toHaveLength(0);
-      expect(engine.state.queue).toHaveLength(0);
-      expect(engine.state.over).toBe(false);
+      expect(engine.combatants).toEqual({});
+      expect(engine.order).toHaveLength(0);
+      expect(engine.queue).toHaveLength(0);
+      expect(engine.isBattleOver).toBe(false);
     });
 
     test('should add combatants correctly', () => {
       engine.addCombatant(playerCombatant);
-      expect(Object.keys(engine.state.combatants)).toHaveLength(1);
-      expect(engine.state.combatants['player1']).toBe(playerCombatant);
+      expect(Object.keys(engine.combatants)).toHaveLength(1);
+      expect(engine.combatants['player1']).toBe(playerCombatant);
 
       engine.addCombatant(enemyCombatant);
-      expect(Object.keys(engine.state.combatants)).toHaveLength(2);
+      expect(Object.keys(engine.combatants)).toHaveLength(2);
     });
 
     test('should reject duplicate combatants', () => {
@@ -587,8 +587,8 @@ describe('CombatPure Golden Tests', () => {
 
       const removed = engine.removeCombatant('player1');
       expect(removed).toBe(true);
-      expect(Object.keys(engine.state.combatants)).toHaveLength(1);
-      expect(engine.state.combatants['enemy1']).toBe(enemyCombatant);
+      expect(Object.keys(engine.combatants)).toHaveLength(1);
+      expect(engine.combatants['enemy1']).toBe(enemyCombatant);
 
       const notRemoved = engine.removeCombatant('nonexistent');
       expect(notRemoved).toBe(false);
@@ -614,7 +614,7 @@ describe('CombatPure Golden Tests', () => {
 
       engine.rebuildOrder();
 
-      expect(engine.state.order).toEqual(['fast', 'slow']); // Fast first
+      expect(engine.order).toEqual(['fast', 'slow']); // Fast first
     });
 
     test('should enqueue and process actions', () => {
@@ -658,12 +658,12 @@ describe('CombatPure Golden Tests', () => {
       engine.addCombatant(enemyCombatant);
 
       engine.startBattle();
-      expect(engine.state.phase).toBe('select_action');
-      expect(engine.state.turnNumber).toBe(1);
+      expect(engine.phase).toBe('select_action');
+      expect(engine.turnNumber).toBe(1);
 
       engine.endBattle();
-      expect(engine.state.phase).toBe('battle_end');
-      expect(engine.state.over).toBe(true);
+      expect(engine.phase).toBe('battle_end');
+      expect(engine.isBattleOver).toBe(true);
     });
 
     test('should get battle status correctly', () => {
