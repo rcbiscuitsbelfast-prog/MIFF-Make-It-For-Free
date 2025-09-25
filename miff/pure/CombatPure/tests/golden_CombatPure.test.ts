@@ -294,15 +294,15 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should calculate health percentage correctly', () => {
-      const spirit1 = new SpiritInstance(1, 'test1', 'Test1', 'neutral', 10, 10, 10, 10, 10, 100, 75, 10);
-      const spirit2 = new SpiritInstance(1, 'test2', 'Test2', 'neutral', 10, 10, 10, 10, 10, 100, 0, 10);
+      const spirit1 = new SpiritInstance('1', 'test1', 'neutral', { hp: 75, maxHp: 100, atk: 10, def: 10, spd: 10 });
+      const spirit2 = new SpiritInstance('2', 'test2', 'neutral', { hp: 0, maxHp: 100, atk: 10, def: 10, spd: 10 });
 
       expect(spirit1.healthPercentage).toBe(75);
       expect(spirit2.healthPercentage).toBe(0);
     });
 
     test('should handle damage correctly', () => {
-      const spirit = new SpiritInstance(1, 'test', 'Test', 'neutral', 10, 10, 10, 10, 10, 100, 80, 10);
+      const spirit = new SpiritInstance('1', 'test', 'neutral', { hp: 80, maxHp: 100, atk: 10, def: 10, spd: 10 });
 
       const damage1 = spirit.takeDamage(30);
       expect(damage1).toBe(30);
@@ -314,7 +314,7 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should handle healing correctly', () => {
-      const spirit = new SpiritInstance(1, 'test', 'Test', 'neutral', 10, 10, 10, 10, 10, 100, 30, 10);
+      const spirit = new SpiritInstance('1', 'test', 'neutral', { hp: 30, maxHp: 100, atk: 10, def: 10, spd: 10 });
 
       const heal1 = spirit.heal(25);
       expect(heal1).toBe(25);
@@ -326,7 +326,7 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should handle resource consumption correctly', () => {
-      const spirit = new SpiritInstance(1, 'test', 'Test', 'neutral', 10, 10, 10, 10, 10, 100, 80, 20);
+      const spirit = new SpiritInstance('1', 'test', 'neutral', { hp: 80, maxHp: 100, atk: 10, def: 10, spd: 10 }, [], undefined, 20);
 
       expect(spirit.consumeResource(5)).toBe(true);
       expect(spirit.resourcePoints).toBe(15);
@@ -340,7 +340,7 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should generate combat summary correctly', () => {
-      const spirit = new SpiritInstance(1, 'ember', 'Ember', 'fire', 15, 50, 30, 60, 40, 100, 85, 20);
+      const spirit = new SpiritInstance('1', 'ember', 'fire', { hp: 85, maxHp: 100, atk: 50, def: 30, spd: 60 }, ['tackle'], 'fire', 20);
       spirit.attackMultiplier = 1.2;
 
       const summary = spirit.getCombatSummary();
@@ -351,7 +351,7 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should clone correctly', () => {
-      const original = new SpiritInstance(1, 'ember', 'Ember', 'fire', 15, 50, 30, 60, 40, 100, 85, 20);
+      const original = new SpiritInstance('1', 'ember', 'fire', { hp: 85, maxHp: 100, atk: 50, def: 30, spd: 60 }, ['tackle'], 'fire', 20);
       original.attackMultiplier = 1.5;
       original.currentHP = 70; // Modify after creation
 

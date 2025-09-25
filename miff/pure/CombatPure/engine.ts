@@ -359,6 +359,14 @@ export class SpiritInstance implements ICombatant {
     return Math.round((this.stats.hp / Math.max(1, this.stats.maxHp)) * 100);
   }
 
+  get currentHP(): number {
+    return this.stats.hp;
+  }
+
+  set currentHP(value: number) {
+    this.stats.hp = Math.max(0, Math.min(this.stats.maxHp, value));
+  }
+
   get isFainted(): boolean {
     return this.stats.hp <= 0;
   }
