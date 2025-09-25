@@ -28,7 +28,7 @@ describe('ExportAndroidPure CLI', () => {
   it('produces placeholder AAB when args valid', () => {
     const cli = path.resolve('miff/pure/ExportAndroidPure/cli.ts');
     const output = execFileSync('npx', [
-      'ts-node', '--compiler-options', '{"module":"commonjs"}',
+      'tsx',
       cli,
       '--project', project,
       '--output', outDir,
