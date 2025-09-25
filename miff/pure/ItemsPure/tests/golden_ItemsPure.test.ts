@@ -875,7 +875,7 @@ describe('ItemsPure Golden Tests', () => {
     });
 
     test('should handle evolution and flag systems', () => {
-      const context = createMockContext({}, { 'evolution_available': false });
+      const context = createMockContext({ 'fire_stone': 1 }, { 'evolution_available': false });
       const manager = new ItemUsageManager(context);
 
       // Register evolution item
@@ -975,6 +975,9 @@ describe('ItemsPure Golden Tests', () => {
         );
         manager.registerItem(item);
       }
+
+      // Create a test spirit for usability checks
+      const spirit = new MockSpiritInstance('test', 'Test Spirit', 100, 75);
 
       const startTime = performance.now();
 
