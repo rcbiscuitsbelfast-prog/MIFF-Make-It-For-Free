@@ -567,9 +567,9 @@ export class DamageCalculator {
     if (move.category === MoveCategory.STATUS) {
       baseDamage = 0; // Status moves don't deal damage
     } else if (move.category === MoveCategory.PHYSICAL) {
-      baseDamage = Math.floor(baseDamage * attacker.stats.atk / 50); // Scale down by 50 for testing
+      baseDamage = Math.floor(baseDamage * attacker.stats.atk / 50); // Keep scaled for balanced gameplay
     } else if (move.category === MoveCategory.SPECIAL) {
-      baseDamage = Math.floor(baseDamage * (attacker.stats.specialAtk || attacker.stats.atk) / 50); // Scale down by 50 for testing
+      baseDamage = Math.floor(baseDamage * (attacker.stats.specialAtk || attacker.stats.atk) / 50); // Keep scaled for balanced gameplay
     }
 
     // Type effectiveness - use defender's type or default to 'normal'

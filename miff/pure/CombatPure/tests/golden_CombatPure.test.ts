@@ -970,7 +970,7 @@ describe('CombatPure Golden Tests', () => {
       engine.addCombatant(fireSpirit);
       engine.addCombatant(waterSpirit);
 
-      // Create fire attack (should be super effective)
+      // Create fire attack (should be NOT VERY effective against water - 0.5x)
       const fireMove = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 40, 1.0, 10, 'fire');
 
       // Calculate damage
@@ -980,10 +980,10 @@ describe('CombatPure Golden Tests', () => {
       rng.setNextFloat(1.0); // Max variance
       rng.setNextBool(false); // No critical
 
-      const damage = damageCalculator.calculateDamage(attackerInstance, defenderInstance, fireMove, rng);
+      const damageResult = damageCalculator.calculateDamage(fireMove, attackerInstance, defenderInstance);
 
-      // Fire vs Water should be super effective (2x)
-      expect(damage).toBeGreaterThan(40); // Base damage would be ~40, but with 2x effectiveness
+      // Fire vs Water should be NOT VERY effective (0.5x) - scaled damage calculation
+      expect(damageResult.damage).toBeLessThan(20); // Scaled: 40 power * 50 specialAtk / 50 * 0.5 effectiveness * 0.69 defense modifier
 
       // Apply damage through engine
       const attackAction: IBattleAction = {

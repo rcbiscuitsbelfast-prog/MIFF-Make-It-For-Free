@@ -576,7 +576,18 @@ export class TeamSlot implements ITeamSlot {
     );
 
     if (data.spirit) {
-      slot.spirit = {} as ISpiritInstance; // Would need proper spirit deserialization
+      // Create a proper spirit instance from the serialized data
+      slot.spirit = {
+        name: data.spirit.name || 'Unknown',
+        typeTag: data.spirit.typeTag || 'normal',
+        level: data.spirit.level || 1,
+        stats: data.spirit.stats || { hp: 100, maxHp: 100, atk: 50, def: 50, spd: 50 },
+        currentHP: data.spirit.currentHP || data.spirit.stats?.hp || 100,
+        moves: data.spirit.moves || [],
+        instanceId: data.spirit.instanceId || `spirit_${Date.now()}`,
+        toJSON: () => data.spirit,
+        clone: () => ({ ...slot.spirit } as ISpiritInstance)
+      } as ISpiritInstance;
     }
 
     return slot;

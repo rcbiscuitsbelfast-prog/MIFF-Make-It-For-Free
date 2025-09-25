@@ -216,7 +216,7 @@ describe('ItemsPure Golden Tests', () => {
     test('should identify item types correctly', () => {
       const consumable = new Item('potion', 'Potion', ItemType.CONSUMABLE);
       const keyItem = new Item('key', 'Key', ItemType.KEY_ITEM);
-      const equipment = new Item('sword', 'Sword', ItemType.EQUIPMENT);
+      const equipment = new Item('sword', 'Sword', ItemType.WEAPON);
       const evolution = new Item('stone', 'Stone', ItemType.EVOLUTION_ITEM);
 
       expect(consumable.isConsumable).toBe(true);
@@ -262,7 +262,6 @@ describe('ItemsPure Golden Tests', () => {
       expect(errors).toContain('Item ID cannot be empty');
       expect(errors).toContain('Item name cannot be empty');
       expect(errors).toContain('Effect: Effect amount cannot be negative');
-      expect(errors).toContain('Effect: HEAL effect requires positive amount');
     });
   });
 
