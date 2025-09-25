@@ -28,8 +28,11 @@ export enum AIActionType {
   HEAL = 'heal',
   BUFF = 'buff',
   DEBUFF = 'debuff',
-  FLEE = 'flee'
+  FLEE = 'flee',
+  WAIT = 'wait'
 }
+
+export { MoveCategory } from '../CombatPure/engine';
 
 export enum AIPolicyType {
   COMBAT = 'combat',
@@ -51,6 +54,7 @@ export interface IAIDecisionContext {
 
 export interface IAIAction {
   type: AIActionType;
+  moveId?: string;
   target?: string;
   value?: number;
   confidence: number;
@@ -115,18 +119,6 @@ export class AIPolicy {
     return this.efficiency > 1.2;
   }
 
-  addOverrideRule(ruleId: string, ruleValue: string): void {
-    this.overrideRules.push(`${ruleId}:${ruleValue}`);
-  }
-
-  getOverrideRule(ruleId: string): string | null {
-    const rule = this.overrideRules.find(r => r.startsWith(`${ruleId}:`));
-    return rule ? rule.substring(ruleId.length + 1) : null;
-  }
-
-  hasOverrideRule(ruleId: string): boolean {
-    return this.overrideRules.some(r => r.startsWith(`${ruleId}:`));
-  }
 
   validate(): string[] {
     const errors: string[] = [];
@@ -198,7 +190,7 @@ export class BattleAI {
     // Handle null context
     if (!context) {
       return {
-        type: 'wait',
+        type: AIActionType.WAIT,
         moveId: 'wait',
         confidence: 0.5,
         reasoning: 'No context available'
@@ -220,7 +212,7 @@ export class BattleAI {
     // If no actions available, return wait
     if (actions.length === 0) {
       return {
-        type: 'wait',
+        type: AIActionType.WAIT,
         moveId: 'wait',
         confidence: 0.5,
         reasoning: 'No valid actions available'

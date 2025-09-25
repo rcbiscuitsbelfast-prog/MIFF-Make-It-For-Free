@@ -13,14 +13,16 @@ import {
   AIPolicy,
   BattleAI,
   AIUtils,
+  MoveCategory
+} from './Manager';
+import {
   ActionSource,
   TypeEffectiveness,
   MoveData,
-  MoveCategory,
   SpiritInstance,
   DamageCalculator,
   IRNGProvider
-} from './index';
+} from '../CombatPure/engine';
 
 // Mock RNG provider for testing
 class MockRNGProvider implements IRNGProvider {
@@ -511,19 +513,25 @@ class AIPureCLI {
       console.log(`📍 Turn ${turn}`);
 
       // Spirit 1 attacks
-      const action1 = ai.selectAction(spirit1, spirit2, availableMoves, this.rng);
-      const move1 = this.moves.get(action1.moveId);
+      const context1 = {
+        playerSpirit: spirit1,
+        opponentSpirit: spirit2,
+        availableMoves: availableMoves,
+        rng: this.rng
+      };
+      const action1 = ai.selectAction(context1);
+      const move1 = action1.moveId ? this.moves.get(action1.moveId) : null;
 
       if (move1 && spirit1.resourcePoints >= move1.cost) {
         const damageCalculator = new DamageCalculator(new TypeEffectiveness());
         this.rng.setNextFloat(1.0); // Max variance for demo
         this.rng.setNextBool(false); // No crit for demo
 
-        const damage = damageCalculator.calculateDamage(spirit1 as any, spirit2 as any, move1, this.rng);
-        spirit2.takeDamage(damage);
+        const damageResult = damageCalculator.calculateDamage(move1, spirit1 as any, spirit2 as any);
+        spirit2.currentHP -= damageResult.damage;
         spirit1.resourcePoints -= move1.cost;
 
-        console.log(`🔥 ${spirit1.name} uses ${move1.name} for ${damage} damage!`);
+        console.log(`🔥 ${spirit1.name} uses ${move1.name} for ${damageResult.damage} damage!`);
       } else {
         console.log(`💤 ${spirit1.name} cannot attack!`);
       }
@@ -535,19 +543,25 @@ class AIPureCLI {
       }
 
       // Spirit 2 attacks (if still alive)
-      const action2 = ai.selectAction(spirit2, spirit1, availableMoves, this.rng);
-      const move2 = this.moves.get(action2.moveId);
+      const context2 = {
+        playerSpirit: spirit2,
+        opponentSpirit: spirit1,
+        availableMoves: availableMoves,
+        rng: this.rng
+      };
+      const action2 = ai.selectAction(context2);
+      const move2 = action2.moveId ? this.moves.get(action2.moveId) : null;
 
       if (move2 && spirit2.resourcePoints >= move2.cost) {
         const damageCalculator = new DamageCalculator(new TypeEffectiveness());
         this.rng.setNextFloat(1.0); // Max variance for demo
         this.rng.setNextBool(false); // No crit for demo
 
-        const damage = damageCalculator.calculateDamage(spirit2 as any, spirit1 as any, move2, this.rng);
-        spirit1.takeDamage(damage);
+        const damageResult = damageCalculator.calculateDamage(move2, spirit2 as any, spirit1 as any);
+        spirit1.currentHP -= damageResult.damage;
         spirit2.resourcePoints -= move2.cost;
 
-        console.log(`💥 ${spirit2.name} uses ${move2.name} for ${damage} damage!`);
+        console.log(`💥 ${spirit2.name} uses ${move2.name} for ${damageResult.damage} damage!`);
       } else {
         console.log(`💤 ${spirit2.name} cannot attack!`);
       }
@@ -625,8 +639,14 @@ class AIPureCLI {
     });
     console.log('');
 
-    const action = ai.selectAction(spirit, opponent, availableMoves, this.rng);
-    const selectedMove = this.moves.get(action.moveId);
+    const context = {
+      playerSpirit: spirit,
+      opponentSpirit: opponent,
+      availableMoves: availableMoves,
+      rng: this.rng
+    };
+    const action = ai.selectAction(context);
+    const selectedMove = action.moveId ? this.moves.get(action.moveId) : null;
 
     if (selectedMove) {
       console.log(`🎯 AI chooses: ${selectedMove.name}`);
@@ -645,7 +665,7 @@ class AIPureCLI {
       }
 
       const damageCalculator = new DamageCalculator(typeEffectiveness);
-      const expectedDamage = damageCalculator.calculateExpectedDamage(spirit as any, opponent as any, selectedMove);
+      const expectedDamage = damageCalculator.calculateExpectedDamage(selectedMove, spirit as any, opponent as any);
       console.log(`   📊 Expected damage: ~${expectedDamage}`);
     } else {
       console.log('🎯 AI chooses: Wait (no suitable move)');
@@ -733,9 +753,8 @@ class AIPureCLI {
     const comparison = AIUtils.comparePolicies(policy1, policy2);
 
     console.log('Differences:');
-    console.log(`  Aggression: ${comparison.aggressionDiff.toFixed(3)}`);
-    console.log(`  Caution: ${comparison.cautionDiff.toFixed(3)}`);
-    console.log(`  Efficiency: ${comparison.efficiencyDiff.toFixed(3)}`);
+    console.log(`  Attributes: ${comparison.attributeDifference.toFixed(3)}`);
+    console.log(`  Rules match: ${comparison.ruleMatch}`);
     console.log(`  Total: ${comparison.totalDifference.toFixed(3)}`);
     console.log('');
 
@@ -799,8 +818,8 @@ class AIPureCLI {
       this.rng.setNextFloat(variance);
       this.rng.setNextBool(false); // No crit for this demo
 
-      const damage = damageCalculator.calculateDamage(attacker as any, defender as any, move, this.rng);
-      results.push(damage);
+      const damageResult = damageCalculator.calculateDamage(move, attacker as any, defender as any);
+      results.push(damageResult.damage);
     }
 
     console.log('Damage Results:');

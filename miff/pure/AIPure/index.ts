@@ -8,43 +8,41 @@ export {
   AIActionType,
   AIPolicyType,
 } from './Manager';
-export {
+export type {
   ActionSource,
   CombatResult,
-  TypeEffectiveness,
   MoveCategory,
+  ICombatant,
+  IBattleAction,
+  IRNGProvider,
+  Stats,
+  Combatant,
+  Action,
+  CombatState
+} from '../CombatPure/engine';
+export type {
+  ItemType,
+  ItemRarity,
+  ItemEffectType,
+  UsageStatus,
+  IPlayerContext,
+  ISpiritInstance,
+  IItemEffectContext
+} from '../ItemsPure';
+export {
+  TypeEffectiveness,
   MoveData,
   SpiritInstance,
   DamageCalculator,
   BattleEngine,
   CombatUtils,
-} from '../CombatPure/engine';
-  ItemType,
-  ItemRarity,
-  ItemEffectType,
-  UsageStatus,
+  InventoryHook,
+  AIHook,
+  SaveHook,
   Item,
   ItemInstance,
   ItemEffect,
   ItemUsageManager,
   UsageResult,
-  IPlayerContext,
-  ISpiritInstance,
-  IItemEffectContext,
   ItemsManager
 } from '../ItemsPure';
-export {
-  ICombatant,
-  IBattleAction,
-  IRNGProvider,
-  InventoryHook,
-  AIHook,
-  SaveHook,
-  Stats,
-  Combatant,
-  Action,
-  CombatState,
-  MoveCategory,
-  ActionSource,
-  CombatResult
-} from '../CombatPure/engine';
