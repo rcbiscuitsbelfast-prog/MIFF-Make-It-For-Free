@@ -237,7 +237,7 @@ export class DialogueEngine {
         context: { ...this.context },
         choices: currentNode.choices.filter(choice => {
           if (!choice.condition) return true;
-          return DialogueParser.parseCondition(choice.condition);
+          return this.evaluateChoiceCondition(choice.condition);
         })
       };
       return result;
@@ -311,7 +311,7 @@ export class DialogueEngine {
         context: { ...this.context },
         choices: node.choices.filter(choice => {
           if (!choice.condition) return true;
-          return DialogueParser.parseCondition(choice.condition);
+          return this.evaluateChoiceCondition(choice.condition);
         })
       };
     }
@@ -369,6 +369,32 @@ export class DialogueEngine {
     }
 
     return result;
+  }
+
+  private evaluateChoiceCondition(condition: DialogueCondition): boolean {
+    // Prefer engine context for concrete checks
+    switch (condition.type) {
+      case 'flag':
+        if (condition.operator === 'exists') {
+          return this.context.flags.has(condition.target);
+        }
+        return false;
+      case 'variable':
+        const value = this.context.variables.get(condition.target);
+        switch (condition.operator) {
+          case 'equals':
+            return value === condition.value;
+          case 'not_equals':
+            return value !== condition.value;
+          case 'exists':
+            return typeof value !== 'undefined';
+          default:
+            return false;
+        }
+      default:
+        // Fallback to generic parser for script/inventory/quest
+        return DialogueParser.parseCondition(condition);
+    }
   }
 
   private handleConditionFailure(node: DialogueNode): DialogueResult {
