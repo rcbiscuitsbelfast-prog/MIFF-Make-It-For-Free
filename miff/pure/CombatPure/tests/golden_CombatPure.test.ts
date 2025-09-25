@@ -368,11 +368,11 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should validate correctly', () => {
-      const validSpirit = new SpiritInstance(100, 'test', 'Test Spirit', 'fire', 10, 20, 15, 25, 18, 100, 80, 10);
+      const validSpirit = new SpiritInstance('100', 'test', 'neutral', { hp: 80, maxHp: 100, atk: 20, def: 15, spd: 25 });
       expect(validSpirit.validate()).toHaveLength(0);
 
       // Test validation directly - create a valid spirit and modify its name
-      const testSpirit = new SpiritInstance(101, 'test', 'Test Spirit', 'fire', 0, 20, 15, 25, 18, 0, 150, -5);
+      const testSpirit = new SpiritInstance('101', 'test', 'neutral', { hp: 150, maxHp: 0, atk: 20, def: 15, spd: 25 });
       (testSpirit as any).name = ''; // Force empty name after construction
       const errors = testSpirit.validate();
       expect(errors).toContain('Spirit name cannot be empty');

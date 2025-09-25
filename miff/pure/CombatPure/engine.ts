@@ -341,7 +341,7 @@ export class SpiritInstance implements ICombatant {
     // Set HP values with constraint enforcement
     this.maxHP = Math.max(1, stats.maxHp);
     const defaultHP = this.maxHP;
-    this.currentHP = Math.max(0, Math.min(this.maxHP, stats.hp ?? defaultHP));
+    this.stats.hp = Math.max(0, Math.min(this.maxHP, stats.hp ?? defaultHP));
 
     // Set status effects and abilities
     this.statusEffects = statusEffects || [];
