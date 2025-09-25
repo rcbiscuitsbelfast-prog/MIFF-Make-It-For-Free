@@ -41,7 +41,7 @@ export class TimeSystemPure {
   private config: TimeSystemConfig;
   private currentTimeData: TimeData;
   private isPaused: boolean = false;
-  private lastUpdateTime: number = 0;
+  private lastUpdateTime: number = Date.now();
   private currentTimeScale: number = 1.0;
   private readonly UPDATE_INTERVAL = 1000;
   private readonly REAL_TIME_TO_GAME_TIME = 60; // 1 real second = 60 game seconds

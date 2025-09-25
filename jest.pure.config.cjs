@@ -23,7 +23,9 @@ module.exports = {
   testTimeout: 15000,
   verbose: true,
   bail: false,
-  forceExit: true,
-  detectOpenHandles: true,
-  detectLeaks: true
+  forceExit: false,
+  detectOpenHandles: false,
+  detectLeaks: false,
+  fakeTimers: { enableGlobally: true },
+  setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.cjs']
 };

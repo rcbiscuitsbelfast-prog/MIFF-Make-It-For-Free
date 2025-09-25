@@ -43,6 +43,7 @@ describe('TimeSystemPure', () => {
   let timeSystem: TimeSystemPure;
 
   beforeEach(() => {
+    jest.useFakeTimers();
     eventBus = createMockEventBus();
     timeSystem = new TimeSystemPure(eventBus, {
       initialTime: 0,
@@ -56,6 +57,7 @@ describe('TimeSystemPure', () => {
 
   afterEach(() => {
     timeSystem.setPaused(true); // Pause to prevent interference
+    jest.useRealTimers();
   });
 
   // ============================================================================
@@ -153,11 +155,11 @@ describe('TimeSystemPure', () => {
       const timeSystem = new TimeSystemPure(eventBus, { initialTime: 5 * 3600 + 59 * 60 });
 
       // Advance to 6:01 AM (dawn)
-      setTimeout(() => {
-        if (!eventReceived) {
-          done.fail('Time of day change event not received');
-        }
-      }, 2000);
+      jest.advanceTimersByTime(2000);
+      if (!eventReceived) {
+        done.fail('Time of day change event not received');
+      }
+      // done will be called in the event handler
     });
   });
 
@@ -197,11 +199,10 @@ describe('TimeSystemPure', () => {
       const timeSystem = new TimeSystemPure(eventBus, { initialTime: gameTime });
 
       // Advance to day 30 (first day of summer)
-      setTimeout(() => {
-        if (!eventReceived) {
-          done.fail('Season change event not received');
-        }
-      }, 2000);
+      jest.advanceTimersByTime(2000);
+      if (!eventReceived) {
+        done.fail('Season change event not received');
+      }
     });
 
     test('should handle season progression correctly', () => {
@@ -241,11 +242,10 @@ describe('TimeSystemPure', () => {
 
       timeSystem.setTimeAcceleration('paused');
 
-      setTimeout(() => {
-        const newTime = timeSystem.getCurrentTimeData().currentTime;
-        expect(newTime).toBe(initialTime); // Time should not have changed
-        done();
-      }, 1000);
+      jest.advanceTimersByTime(1000);
+      const newTime = timeSystem.getCurrentTimeData().currentTime;
+      expect(newTime).toBe(initialTime); // Time should not have changed
+      done();
     });
 
     test('should emit acceleration change events', (done) => {
@@ -260,11 +260,10 @@ describe('TimeSystemPure', () => {
 
       timeSystem.setTimeAcceleration('x5');
 
-      setTimeout(() => {
-        if (!eventReceived) {
-          done.fail('Acceleration change event not received');
-        }
-      }, 100);
+      jest.advanceTimersByTime(100);
+      if (!eventReceived) {
+        done.fail('Acceleration change event not received');
+      }
     });
   });
 
@@ -331,10 +330,9 @@ describe('TimeSystemPure', () => {
       });
 
       // Wait for a few updates
-      setTimeout(() => {
-        expect(eventCount).toBeGreaterThan(0);
-        done();
-      }, 3000);
+      jest.advanceTimersByTime(3000);
+      expect(eventCount).toBeGreaterThan(0);
+      done();
     });
 
     test('should handle multiple time systems', () => {
