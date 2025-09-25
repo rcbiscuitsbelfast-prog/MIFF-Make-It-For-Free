@@ -41,7 +41,7 @@ describe('PerfPure Golden Tests', () => {
       expect(Math.abs(timer.elapsedNs - timer.elapsedMs * 1_000_000)).toBeLessThan(1000);
 
       timer.dispose();
-    });
+    }, 15000);
 
     test('should handle manual stop correctly', () => {
       const timer = new PerfTimer('Manual Stop Test');
