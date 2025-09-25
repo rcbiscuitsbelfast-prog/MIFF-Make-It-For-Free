@@ -10,10 +10,24 @@
  */
 
 import { TeamManager, TeamRules, TeamUtils, TeamOperationResult, ValidationStatus } from '../index';
-import { CombatEngine, SpiritInstance, MoveData, TypeEffectiveness } from '../../CombatPure/index';
-import { Item, ItemEffect, UsageResult, ItemUsageManager } from '../../ItemsPure/index';
-import { SyncManager, SpiritSyncEntry } from '../../SyncPure/index';
-import { SpiritManager, Spirit } from '../../SpiritsPure/index';
+import { CombatEngine, SpiritInstance, MoveData, TypeEffectiveness } from '../../CombatPure/engine';
+import { Item, ItemEffect, UsageResult, ItemUsageManager, IPlayerContext } from '../../ItemsPure/index';
+
+// Mock the missing modules for integration testing
+class SyncManager {
+  getSyncMap(): Record<string, any> { return {}; }
+  calculateSyncBonus(): number { return 1.0; }
+}
+
+class SpiritManager {
+  createSpirit(name: string, type: string, level: number, stats: any) {
+    return new SpiritInstance(1, `spirit_${name.toLowerCase()}`, name, type, level, 0, stats.attack || 50, stats.defense || 40, stats.speed || 50, stats.hp || 100);
+  }
+}
+
+class Spirit {
+  constructor() {}
+}
 
 /**
  * Integration Test Suite for TeamsPure
@@ -29,7 +43,7 @@ describe('TeamsPure Integration Tests', () => {
   beforeEach(() => {
     teamManager = TeamManager.create();
     combatEngine = new CombatEngine();
-    itemManager = new ItemUsageManager({} as any); // Mock player context
+    itemManager = new ItemUsageManager({ playerId: 'test', inventory: {}, flags: {} } as IPlayerContext);
     syncManager = new SyncManager();
     spiritManager = new SpiritManager();
     typeEffectiveness = new TypeEffectiveness();
