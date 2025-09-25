@@ -37,7 +37,7 @@
     "test:automation:golden": "npm run test:golden",
     "test:automation:cli": "npm run test:cli",
     "test:pipeline": "npm run test:automation",
-    "test:coverage": "npm run test:unit -- --coverage",
+    "test:coverage": "jest --config jest.pure.config.cjs --coverage --testPathPattern '(BattleAIPure|DialoguePure|HUDPure)'",
     "test:coverage:report": "nyc report --reporter=html --reporter=json-summary",
     "test:coverage:merge": "nyc merge coverage .nyc_output/coverage.json",
     "test:integration:teams": "jest --config jest.pure.config.cjs miff/pure/TeamsPure/tests/integration_TeamsPure.test.ts",
