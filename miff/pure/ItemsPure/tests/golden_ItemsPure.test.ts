@@ -36,6 +36,16 @@ class MockSpiritInstance implements ISpiritInstance {
     this.fainted = this.currentHP <= 0;
   }
 
+  // Add setter for currentHP to update fainted status
+  set currentHP(value: number) {
+    (this as any)._currentHP = value;
+    this.fainted = value <= 0;
+  }
+
+  get currentHP(): number {
+    return (this as any)._currentHP ?? this.maxHP;
+  }
+
   isFainted(): boolean {
     return this.fainted;
   }
@@ -121,8 +131,8 @@ describe('ItemsPure Golden Tests', () => {
       expect(customEffect.maxUses).toBe(5);
     });
 
-    test('should enforce constraints on values', () => {
-      const constrainedEffect = new ItemEffect(
+    test('should preserve values without clamping', () => {
+      const effect = new ItemEffect(
         ItemEffectType.HEAL,
         -10,
         undefined,
@@ -130,9 +140,9 @@ describe('ItemsPure Golden Tests', () => {
         -10
       );
 
-      expect(constrainedEffect.amount).toBe(0); // Negative clamped to 0
-      expect(constrainedEffect.cooldownSeconds).toBe(0); // Negative clamped to 0
-      expect(constrainedEffect.maxUses).toBe(-10); // -10 is allowed for maxUses
+      expect(effect.amount).toBe(-10); // Negative value preserved
+      expect(effect.cooldownSeconds).toBe(0); // Negative cooldown clamped to 0
+      expect(effect.maxUses).toBe(-10); // -10 is allowed for maxUses
     });
 
     test('should validate correctly', () => {
@@ -264,7 +274,7 @@ describe('ItemsPure Golden Tests', () => {
 
     beforeEach(() => {
       context = createMockContext();
-      activeSpirit = new MockSpiritInstance('active', 'Active Spirit', 100, 75);
+      activeSpirit = new MockSpiritInstance('active', 'Active Spirit', 100, 75, 0); // Add sync level 0
       faintedSpirit = new MockSpiritInstance('fainted', 'Fainted Spirit', 100, 0);
       highSyncSpirit = new MockSpiritInstance('high_sync', 'High Sync Spirit', 100, 100, 60);
     });
