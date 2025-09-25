@@ -119,7 +119,6 @@ export class AIPolicy {
     return this.efficiency > 1.2;
   }
 
-
   validate(): string[] {
     const errors: string[] = [];
 
@@ -150,23 +149,35 @@ export class AIPolicy {
     return new AIPolicy(this.policyId, this.aggression, this.caution, this.efficiency, [...this.overrideRules]);
   }
 
-  addOverrideRule(rule: string): void {
-    if (!this.overrideRules.includes(rule)) {
-      this.overrideRules.push(rule);
+  addOverrideRule(ruleId: string, ruleValue: string): void {
+    const ruleString = `${ruleId}:${ruleValue}`;
+    if (!this.overrideRules.includes(ruleString)) {
+      this.overrideRules.push(ruleString);
     }
   }
 
-  removeOverrideRule(rule: string): boolean {
-    const index = this.overrideRules.indexOf(rule);
-    if (index > -1) {
-      this.overrideRules.splice(index, 1);
+  removeOverrideRule(ruleId: string): boolean {
+    const ruleString = `${ruleId}:`;
+    let removed = false;
+    this.overrideRules = this.overrideRules.filter(rule => {
+      if (rule.startsWith(ruleString)) {
+        removed = true;
+        return false;
+      }
       return true;
-    }
-    return false;
+    });
+    return removed;
   }
 
-  hasOverrideRule(rule: string): boolean {
-    return this.overrideRules.includes(rule);
+  hasOverrideRule(ruleId: string): boolean {
+    const ruleString = `${ruleId}:`;
+    return this.overrideRules.some(rule => rule.startsWith(ruleString));
+  }
+
+  getOverrideRule(ruleId: string): string | null {
+    const ruleString = `${ruleId}:`;
+    const rule = this.overrideRules.find(rule => rule.startsWith(ruleString));
+    return rule ? rule.substring(ruleString.length) : null;
   }
 
   getStyleDescription(): string {
