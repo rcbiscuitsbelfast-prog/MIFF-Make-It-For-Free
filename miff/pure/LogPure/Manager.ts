@@ -154,6 +154,30 @@ export interface IBattleEffect {
   parameters: Record<string, any>;
 }
 
+export interface IBattleLogEntry {
+  id: string;
+  actorId: number;
+  actionType: string;
+  targetId: number;
+  result: string;
+  category: LogCategory;
+  level: LogLevel;
+  message: string;
+  phase: BattlePhase;
+  damage?: number;
+  statusEffectId?: string;
+  metadata: Record<string, any>;
+  timestampUtc: number;
+}
+
+export interface IBattleResult {
+  success: boolean;
+  message: string;
+  damage?: number;
+  effects?: string[];
+  metadata: Record<string, any>;
+}
+
 /**
  * Log manager configuration
  */
@@ -629,6 +653,288 @@ export class LogManager {
       clearInterval(this.flushTimer);
     }
     this.flushBatch();
+  }
+}
+
+/**
+ * Battle Log Entry implementation
+ */
+export class BattleLogEntry implements IBattleLogEntry {
+  public id: string;
+  public actorId: number;
+  public actionType: string;
+  public targetId: number;
+  public result: string;
+  public category: LogCategory;
+  public level: LogLevel;
+  public message: string;
+  public phase: BattlePhase;
+  public damage?: number;
+  public statusEffectId?: string;
+  public metadata: Record<string, any>;
+  public timestampUtc: number;
+
+  constructor(
+    actorId: number = 0,
+    actionType: string = '',
+    targetId: number = 0,
+    result: string = '',
+    category: LogCategory = LogCategory.BATTLE,
+    level: LogLevel = LogLevel.INFO,
+    message: string = '',
+    phase: BattlePhase = BattlePhase.START,
+    damage?: number,
+    statusEffectId?: string,
+    metadata: Record<string, any> = {}
+  ) {
+    this.id = `battle_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    this.actorId = actorId;
+    this.actionType = actionType;
+    this.targetId = targetId;
+    this.result = result;
+    this.category = category;
+    this.level = level;
+    this.message = message;
+    this.phase = phase;
+    this.damage = damage;
+    this.statusEffectId = statusEffectId;
+    this.metadata = { ...metadata };
+    this.timestampUtc = Date.now();
+  }
+
+  static create(
+    actorId: number,
+    actionType: string,
+    targetId: number,
+    result: string,
+    message?: string,
+    phase?: BattlePhase,
+    damage?: number,
+    statusEffectId?: string,
+    metadata?: Record<string, any>
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      actorId,
+      actionType,
+      targetId,
+      result,
+      LogCategory.BATTLE,
+      LogLevel.INFO,
+      message || `${actionType} by ${actorId} targeting ${targetId}: ${result}`,
+      phase || BattlePhase.RESOLVE_ACTION,
+      damage,
+      statusEffectId,
+      metadata
+    );
+  }
+
+  static success(
+    actorId: number,
+    actionType: string,
+    targetId: number,
+    message: string,
+    damage?: number
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      actorId,
+      actionType,
+      targetId,
+      'success',
+      LogCategory.BATTLE,
+      LogLevel.INFO,
+      message,
+      BattlePhase.RESOLVE_ACTION,
+      damage,
+      undefined,
+      {}
+    );
+  }
+
+  static failure(
+    actorId: number,
+    actionType: string,
+    targetId: number,
+    message: string
+  ): BattleLogEntry {
+    return new BattleLogEntry(
+      actorId,
+      actionType,
+      targetId,
+      'failure',
+      LogCategory.BATTLE,
+      LogLevel.WARN,
+      message,
+      BattlePhase.RESOLVE_ACTION,
+      undefined,
+      undefined,
+      {}
+    );
+  }
+}
+
+/**
+ * Battle Logger implementation
+ */
+export class BattleLogger {
+  private logManager: LogManager;
+  private battleId: string;
+  private entries: BattleLogEntry[] = [];
+
+  constructor(logManager: LogManager, battleId: string = `battle_${Date.now()}`) {
+    this.logManager = logManager;
+    this.battleId = battleId;
+  }
+
+  logAction(
+    actorId: number,
+    actionType: string,
+    targetId: number,
+    result: string,
+    message?: string,
+    phase?: BattlePhase,
+    damage?: number,
+    statusEffectId?: string
+  ): void {
+    const entry = BattleLogEntry.create(
+      actorId,
+      actionType,
+      targetId,
+      result,
+      message,
+      phase,
+      damage,
+      statusEffectId,
+      { battleId: this.battleId }
+    );
+
+    this.entries.push(entry);
+    this.logManager.info(`Battle ${this.battleId}: ${entry.message}`, {
+      battleId: this.battleId,
+      entry: entry
+    });
+  }
+
+  logDamage(actorId: number, targetId: number, damage: number): void {
+    this.logAction(
+      actorId,
+      'damage',
+      targetId,
+      'success',
+      `Dealt ${damage} damage`,
+      BattlePhase.RESOLVE_ACTION,
+      damage
+    );
+  }
+
+  logHeal(actorId: number, targetId: number, healAmount: number): void {
+    this.logAction(
+      actorId,
+      'heal',
+      targetId,
+      'success',
+      `Healed ${healAmount} HP`,
+      BattlePhase.RESOLVE_ACTION,
+      healAmount
+    );
+  }
+
+  logStatusEffect(actorId: number, targetId: number, effectId: string, message: string): void {
+    this.logAction(
+      actorId,
+      'status_effect',
+      targetId,
+      'success',
+      message,
+      BattlePhase.RESOLVE_ACTION,
+      undefined,
+      effectId
+    );
+  }
+
+  logVictory(winnerId: number, message: string): void {
+    this.logAction(
+      winnerId,
+      'victory',
+      0,
+      'success',
+      message,
+      BattlePhase.END
+    );
+  }
+
+  getEntries(): BattleLogEntry[] {
+    return [...this.entries];
+  }
+
+  getEntriesByPhase(phase: BattlePhase): BattleLogEntry[] {
+    return this.entries.filter(entry => entry.phase === phase);
+  }
+
+  getDamageEntries(): BattleLogEntry[] {
+    return this.entries.filter(entry => entry.actionType === 'damage' && entry.damage && entry.damage > 0);
+  }
+
+  clear(): void {
+    this.entries = [];
+  }
+}
+
+/**
+ * Log Utils implementation
+ */
+export class LogUtils {
+  static formatLogEntry(entry: LogEntry): string {
+    return `[${entry.level}] [${entry.category}] ${entry.source}: ${entry.message}`;
+  }
+
+  static filterEntries(entries: LogEntry[], filter: ILogFilter): LogEntry[] {
+    return entries.filter(entry => {
+      if (filter.levels && !filter.levels.includes(entry.level)) return false;
+      if (filter.categories && !filter.categories.includes(entry.category)) return false;
+      if (filter.sources && !filter.sources.includes(entry.source)) return false;
+      if (filter.tags && !filter.tags.some(tag => entry.tags.includes(tag))) return false;
+      if (filter.startTime && entry.timestamp < filter.startTime) return false;
+      if (filter.endTime && entry.timestamp > filter.endTime) return false;
+      if (filter.searchText && !entry.message.toLowerCase().includes(filter.searchText.toLowerCase())) return false;
+      return true;
+    });
+  }
+
+  static createBattleSummary(entries: BattleLogEntry[]): string {
+    const damageEntries = entries.filter(e => e.actionType === 'damage' && e.damage && e.damage > 0);
+    const totalDamage = damageEntries.reduce((sum, entry) => sum + (entry.damage || 0), 0);
+    const uniqueActors = new Set(entries.map(e => e.actorId));
+    const phases = [...new Set(entries.map(e => e.phase))];
+
+    return `Battle Summary: ${entries.length} entries, ${uniqueActors.size} actors, ${totalDamage} total damage, phases: ${phases.join(', ')}`;
+  }
+
+  static getLogLevelName(level: LogLevel): string {
+    const names = ['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL'];
+    return names[level] || 'UNKNOWN';
+  }
+
+  static getCategoryName(category: LogCategory): string {
+    return category.toUpperCase();
+  }
+
+  static exportToJSON(entries: LogEntry[]): string {
+    return JSON.stringify(entries.map(entry => ({
+      ...entry,
+      timestamp: entry.timestamp.toISOString()
+    })), null, 2);
+  }
+
+  static importFromJSON(json: string): LogEntry[] {
+    try {
+      const data = JSON.parse(json);
+      return data.map((item: any) => ({
+        ...item,
+        timestamp: new Date(item.timestamp)
+      }));
+    } catch (error) {
+      throw new Error('Invalid JSON format');
+    }
   }
 }
 

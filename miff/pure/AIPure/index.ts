@@ -40,5 +40,8 @@ export {
   Stats,
   Combatant,
   Action,
-  CombatState
+  CombatState,
+  MoveCategory,
+  ActionSource,
+  CombatResult
 } from '../CombatPure/engine';

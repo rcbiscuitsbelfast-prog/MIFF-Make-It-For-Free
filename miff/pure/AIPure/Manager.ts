@@ -103,6 +103,31 @@ export class AIPolicy {
     return new AIPolicy(id, 1.0 + Math.random() * 0.5, 1.0 + Math.random() * 0.5, 1.0 + Math.random() * 0.5);
   }
 
+  get isAggressive(): boolean {
+    return this.aggression > 1.2;
+  }
+
+  get isCautious(): boolean {
+    return this.caution > 1.2;
+  }
+
+  get isEfficient(): boolean {
+    return this.efficiency > 1.2;
+  }
+
+  addOverrideRule(ruleId: string, ruleValue: string): void {
+    this.overrideRules.push(`${ruleId}:${ruleValue}`);
+  }
+
+  getOverrideRule(ruleId: string): string | null {
+    const rule = this.overrideRules.find(r => r.startsWith(`${ruleId}:`));
+    return rule ? rule.substring(ruleId.length + 1) : null;
+  }
+
+  hasOverrideRule(ruleId: string): boolean {
+    return this.overrideRules.some(r => r.startsWith(`${ruleId}:`));
+  }
+
   validate(): string[] {
     const errors: string[] = [];
 
@@ -169,17 +194,37 @@ export class BattleAI {
     this.rng = rng || Math;
   }
 
-  selectAction(context: IAIDecisionContext): IAIAction {
+  selectAction(context: IAIDecisionContext | null): IAIAction {
+    // Handle null context
+    if (!context) {
+      return {
+        type: 'wait',
+        moveId: 'wait',
+        confidence: 0.5,
+        reasoning: 'No context available'
+      };
+    }
+
     const actions: IAIAction[] = [];
 
     // Evaluate possible actions
-    if (context.availableMoves) {
+    if (context.availableMoves && context.availableMoves.length > 0) {
       for (const move of context.availableMoves) {
         const action = this.evaluateMove(move, context);
         if (action) {
           actions.push(action);
         }
       }
+    }
+
+    // If no actions available, return wait
+    if (actions.length === 0) {
+      return {
+        type: 'wait',
+        moveId: 'wait',
+        confidence: 0.5,
+        reasoning: 'No valid actions available'
+      };
     }
 
     // Add defensive actions if health is low
@@ -515,6 +560,10 @@ export class AIManager {
   /**
    * Update a policy
    */
+  getPolicyCount(): number {
+    return this.policies.size;
+  }
+
   updatePolicy(id: string, updates: Partial<AIPolicy>): boolean {
     const existing = this.policies.get(id);
     if (!existing) return false;
@@ -528,7 +577,7 @@ export class AIManager {
       overrideRules: updates.overrideRules ?? existing.overrideRules
     } as AIPolicy;
 
-    if (updated.validate().length > 0) return false;
+    if ((updated as any).validate().length > 0) return false;
     this.policies.set(updated.policyId, updated);
     return true;
   }

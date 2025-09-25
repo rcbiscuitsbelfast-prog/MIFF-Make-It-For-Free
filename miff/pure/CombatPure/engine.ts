@@ -188,7 +188,7 @@ export class MoveData {
     const categoryName = this.category.toLowerCase();
     let summary = `${this.name} (${categoryName}`;
     if (this.power > 0) summary += `, ${this.power} power`;
-    if (this.accuracy < 1.0) summary += `, ${Math.round(this.accuracy * 100)}% accuracy`;
+    summary += `, ${Math.round(this.accuracy * 100)}% accuracy`;
     if (this.cost > 0) summary += `, ${this.cost} cost`;
     summary += ')';
     return summary;
@@ -326,7 +326,8 @@ export class SpiritInstance {
 
     // Set HP values with constraint enforcement
     this.maxHP = Math.max(1, maxHP);
-    this.currentHP = Math.max(0, Math.min(this.maxHP, currentHP ?? this.maxHP));
+    const defaultHP = this.maxHP;
+    this.currentHP = Math.max(0, Math.min(this.maxHP, currentHP ?? defaultHP));
 
     // Clamp negative stats to 0
     const clampedAttack = Math.max(0, attack);
@@ -622,8 +623,8 @@ export class DamageCalculator {
 
     // Defense calculation
     const defense = move.category === MoveCategory.PHYSICAL
-      ? defender.stats.def
-      : (defender.stats.specialDef || defender.stats.def);
+      ? (defender.stats.def || 50)
+      : (defender.stats.specialDef || defender.stats.def || 50);
     const defenseModifier = 1 - (defense / (defense + 100));
     baseDamage *= defenseModifier;
 
@@ -716,7 +717,11 @@ export class BattleEngine {
     this.state = {
       combatants: {},
       order: [],
-      queue: []
+      queue: [],
+      over: false,
+      winnerTeam: undefined,
+      phase: 'setup',
+      turnNumber: 0
     };
   }
 
@@ -725,9 +730,13 @@ export class BattleEngine {
     this.rebuildOrder();
   }
 
-  removeCombatant(combatantId: string): void {
-    delete this.state.combatants[combatantId];
-    this.rebuildOrder();
+  removeCombatant(combatantId: string): boolean {
+    if (this.state.combatants[combatantId]) {
+      delete this.state.combatants[combatantId];
+      this.rebuildOrder();
+      return true;
+    }
+    return false;
   }
 
   rebuildOrder(): void {
@@ -781,7 +790,38 @@ export class BattleEngine {
 
   endBattle(): void {
     this.state.over = true;
-    this.state.phase = 'ended';
+    this.state.phase = 'battle_end';
+  }
+
+  isBattleOver(): boolean {
+    return this.state.over || this.checkVictory();
+  }
+
+  getWinner(): string | null {
+    if (!this.state.over) {
+      return null;
+    }
+    return this.state.winnerTeam || null;
+  }
+
+  checkVictory(): boolean {
+    const teams = new Set(Object.values(this.state.combatants).map(c => c.team));
+    const livingTeams = new Set(
+      Object.values(this.state.combatants)
+        .filter(c => !c.status?.ko && !c.status?.fled)
+        .map(c => c.team)
+    );
+
+    if (livingTeams.size <= 1) {
+      const winner = Array.from(livingTeams)[0];
+      if (winner) {
+        this.state.over = true;
+        this.state.winnerTeam = winner;
+        return true;
+      }
+    }
+
+    return false;
   }
 
   processNextAction(): boolean {
