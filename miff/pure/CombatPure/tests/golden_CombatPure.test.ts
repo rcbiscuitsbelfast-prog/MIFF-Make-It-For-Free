@@ -392,8 +392,8 @@ describe('CombatPure Golden Tests', () => {
       rng = new MockRNGProvider();
       damageCalculator = new DamageCalculator(typeChart, rng);
 
-      attacker = new SpiritInstance(1, 'attacker', 'Attacker', 'fire', 10, 50, 30, 40, 35, 100, 100, 10);
-      defender = new SpiritInstance(2, 'defender', 'Defender', 'water', 10, 30, 40, 35, 45, 100, 100, 10);
+      attacker = new SpiritInstance('1', 'attacker', 'fire', { hp: 100, maxHp: 100, atk: 50, def: 30, spd: 40 });
+      defender = new SpiritInstance('2', 'defender', 'water', { hp: 100, maxHp: 100, atk: 30, def: 40, spd: 35 });
       move = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 90, 1.0, 10, 'fire');
     });
 
