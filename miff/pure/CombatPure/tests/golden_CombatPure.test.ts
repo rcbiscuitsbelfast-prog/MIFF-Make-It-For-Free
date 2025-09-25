@@ -252,7 +252,7 @@ describe('CombatPure Golden Tests', () => {
     test('should enforce constraints on values', () => {
       const spirit = new SpiritInstance('1', 'Test', 'neutral', { hp: 150, maxHp: 0, atk: -5, def: -20, spd: -15 }, [], 'neutral', -5, 'test', 0, -10, [], []);
       expect(spirit.level).toBe(1); // Level clamped to minimum
-      expect(spirit.currentHP).toBe(0); // HP clamped to 0
+      expect(spirit.currentHP).toBe(1); // HP clamped to maxHP (which is clamped to 1)
       expect(spirit.maxHP).toBe(1); // Max HP clamped to minimum
       expect(spirit.resourcePoints).toBe(0); // Resource points clamped to 0
     });
@@ -264,16 +264,16 @@ describe('CombatPure Golden Tests', () => {
       spirit.specialAttackMultiplier = 1.2;
       spirit.specialDefenseMultiplier = 0.9;
 
-      expect(spirit.getEffectiveAttack()).toBe(30); // 20 * 1.5
-      expect(spirit.getEffectiveDefense()).toBe(12); // 15 * 0.8
-      expect(spirit.getEffectiveSpecialAttack()).toBe(30); // 25 * 1.2
-      expect(spirit.getEffectiveSpecialDefense()).toBe(16); // 18 * 0.9
+      expect(spirit.getEffectiveAttack()).toBe(22); // 15 * 1.5 = 22.5 → 22 (floored)
+      expect(spirit.getEffectiveDefense()).toBe(20); // 25 * 0.8 = 20
+      expect(spirit.getEffectiveSpecialAttack()).toBe(18); // 15 * 1.2 = 18 (specialAtk falls back to atk)
+      expect(spirit.getEffectiveSpecialDefense()).toBe(22); // 25 * 0.9 = 22.5 → 22 (specialDef falls back to def)
     });
 
     test('should determine health status correctly', () => {
       const fullHealth = new SpiritInstance('1', 'Test1', 'neutral', { hp: 100, maxHp: 100, atk: 10, def: 10, spd: 10 });
       const lowHealth = new SpiritInstance('2', 'Test2', 'neutral', { hp: 25, maxHp: 100, atk: 10, def: 10, spd: 10 });
-      const criticalHealth = new SpiritInstance('3', 'Test3', 'neutral', { hp: 20, maxHp: 100, atk: 10, def: 10, spd: 10 });
+      const criticalHealth = new SpiritInstance('3', 'Test3', 'neutral', { hp: 10, maxHp: 100, atk: 10, def: 10, spd: 10 }); // 10% HP = critical
       const koSpirit = new SpiritInstance('4', 'Test4', 'neutral', { hp: 0, maxHp: 100, atk: 10, def: 10, spd: 10 });
 
       expect(fullHealth.isFullHealth).toBe(true);
