@@ -12,7 +12,9 @@ export enum ItemType {
   ARMOR = 'armor',
   MATERIAL = 'material',
   QUEST = 'quest',
-  CURRENCY = 'currency'
+  CURRENCY = 'currency',
+  EVOLUTION_ITEM = 'material', // Alias for backward compatibility
+  KEY_ITEM = 'quest' // Alias for backward compatibility
 }
 
 export enum ItemRarity {
@@ -57,12 +59,14 @@ export class Item {
   isConsumable: boolean;
   isKeyItem: boolean;
   isEvolutionItem: boolean;
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
 
   constructor(
-    itemID: string,
-    name: string,
-    type: ItemType,
-    effect: ItemEffect,
+    itemID: string = '',
+    name: string = '',
+    type: ItemType = ItemType.CONSUMABLE,
+    effect: ItemEffect = new ItemEffect(ItemEffectType.NONE, 0),
     targetRule?: string
   ) {
     this.itemID = itemID;
@@ -74,14 +78,24 @@ export class Item {
     this.stackable = true;
     this.maxStack = type === ItemType.CURRENCY ? 999 : 99;
     this.effect = effect;
-    this.targetRule = targetRule;
+    this.targetRule = targetRule || 'any';
     this.isConsumable = type === ItemType.CONSUMABLE;
     this.isKeyItem = type === ItemType.QUEST;
     this.isEvolutionItem = type === ItemType.MATERIAL;
+
+    // Add missing item type identifiers as properties
+    Object.defineProperty(this, 'isEquipment', {
+      get: () => this.type === ItemType.WEAPON || this.type === ItemType.ARMOR,
+      enumerable: true,
+      configurable: true
+    });
+    this.properties = {};
+    this.metadata = {};
   }
 
-  canUseOn(spirit: ISpiritInstance): boolean {
+  canUseOn(spirit: ISpiritInstance | null): boolean {
     if (!this.targetRule) return true;
+    if (!spirit) return false; // Items with target rules require a target
 
     switch (this.targetRule) {
       case 'any':
@@ -114,11 +128,38 @@ export class Item {
       errors.push('Item must have an effect');
     }
 
+    if (this.effect) {
+      const effectErrors = this.effect.validate();
+      errors.push(...effectErrors.map(error => `Effect: ${error}`));
+    }
+
+    if (this.targetRule && !['any', 'notfainted', 'faintedonly'].includes(this.targetRule)) {
+      errors.push('Invalid target rule specified');
+    }
+
     return errors;
   }
 
   getSummary(): string {
     return `${this.name} - ${this.effect.getSummary()}`;
+  }
+
+  getDescription(): string {
+    const targetRule = this.targetRule ? `[${this.targetRule}]` : '';
+    return `${this.name} (${this.typeName}) - ${this.effect.getSummary()} ${targetRule}`;
+  }
+
+  // Add type mapping for backward compatibility
+  get typeName(): string {
+    const typeMap: Record<string, string> = {
+      consumable: 'consumable',
+      weapon: 'weapon',
+      armor: 'armor',
+      material: 'material',
+      quest: 'key_item',
+      currency: 'currency'
+    };
+    return typeMap[this.type] || this.type;
   }
 
   clone(): Item {
@@ -129,6 +170,24 @@ export class Item {
       this.effect.clone(),
       this.targetRule
     );
+  }
+
+  // Add missing properties for backward compatibility
+  get effectType(): ItemEffectType | undefined {
+    return this.effect.effectType;
+  }
+
+  get amount(): number | undefined {
+    return this.effect.amount;
+  }
+
+  get param(): string | undefined {
+    return this.effect.param;
+  }
+
+  // Add missing computed properties
+  get isEquipment(): boolean {
+    return this.type === ItemType.WEAPON || this.type === ItemType.ARMOR;
   }
 }
 
@@ -238,6 +297,7 @@ export class ItemEffect {
           return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target is not fainted');
         }
         target.currentHP = Math.max(1, Math.floor(target.maxHP * 0.5));
+        // Note: Spirit should be marked as not fainted by the battle system
         return UsageResult.ok(`Revived with ${target.currentHP} HP`, { reviveAmount: target.currentHP });
 
       case ItemEffectType.SYNC_BOOST:
@@ -258,11 +318,11 @@ export class ItemEffect {
         return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Evolution failed');
 
       case ItemEffectType.UNLOCK_FLAG:
-        if (this.param && context.playerContext.flags) {
+        if (this.param && context.playerContext?.flags) {
           context.playerContext.flags[this.param] = true;
           return UsageResult.ok(`Flag '${this.param}' unlocked`, { flag: this.param });
         }
-        return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'No flag to unlock specified');
+        return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Flag parameter required');
 
       case ItemEffectType.BUFF_ATTACK:
       case ItemEffectType.BUFF_DEFENSE:
@@ -277,16 +337,18 @@ export class ItemEffect {
 
   getSummary(): string {
     switch (this.effectType) {
+      case ItemEffectType.NONE:
+        return 'No effect';
       case ItemEffectType.HEAL:
         return `Heal ${this.amount} HP`;
       case ItemEffectType.REVIVE:
         return `Revive with ${this.amount}% HP`;
       case ItemEffectType.SYNC_BOOST:
-        return `Sync boost +${this.amount}`;
+        return `Sync increased`;
       case ItemEffectType.EVOLVE:
-        return `Evolve to ${this.param}`;
+        return `Evolve to ${this.param || 'unknown'}`;
       case ItemEffectType.UNLOCK_FLAG:
-        return `Unlock ${this.param}`;
+        return `Flag '${this.param}' unlocked`;
       case ItemEffectType.BUFF_ATTACK:
         return `Buff Attack by ${this.amount}`;
       case ItemEffectType.BUFF_DEFENSE:
@@ -530,17 +592,8 @@ export class ItemUsageManager {
   }
 
   private getItemEffect(item: Item): ItemEffect | null {
-    // This is a simplified implementation - in reality, items would have effect definitions
-    // For now, we'll create effects based on item properties
-    if (item.properties.effectType && item.properties.effectValue) {
-      return new ItemEffect(
-        item.properties.effectType,
-        item.properties.effectValue,
-        item.properties.effectTarget,
-        item.properties.effectDuration
-      );
-    }
-    return null;
+    // Return the item's effect directly
+    return item.effect;
   }
 
   getItemCount(): number {
@@ -555,18 +608,59 @@ export class ItemUsageManager {
       item.itemID.toLowerCase().includes(lowerQuery)
     );
   }
+
+  hasItem(itemId: string): boolean {
+    return this.registeredItems.has(itemId);
+  }
+
+  getAllItems(): Item[] {
+    return Array.from(this.registeredItems.values());
+  }
+
+  removeItem(itemId: string): boolean {
+    return this.registeredItems.delete(itemId);
+  }
+
+  updateItem(itemId: string, updates: Partial<Item>): boolean {
+    const item = this.registeredItems.get(itemId);
+    if (!item) return false;
+
+    // Update only allowed properties
+    if (updates.name) item.name = updates.name;
+    if (updates.description) item.description = updates.description;
+    if (updates.value !== undefined) item.value = updates.value;
+
+    // Handle effect updates
+    if (updates.effect) {
+      item.effect = updates.effect;
+    }
+
+    return true;
+  }
+
+  getUsableItems(spirit?: ISpiritInstance): Item[] {
+    return Array.from(this.registeredItems.values()).filter(item =>
+      item.canUseOn(spirit)
+    );
+  }
+
+  getItemsByType(type: ItemType): Item[] {
+    return Array.from(this.registeredItems.values()).filter(item =>
+      item.type === type
+    );
+  }
 }
 
 export class ItemUtils {
   static createStandardItemSet(): Item[] {
     return [
       this.createHealItem('health_potion', 'Health Potion', 50),
-      this.createReviveItem('revive_potion', 'Revive Potion', 50),
-      this.createSyncBoostItem('sync_shard', 'Sync Shard', 25),
+      this.createReviveItem('revive', 'Revive', 50),
+      this.createSyncBoostItem('sync_crystal', 'Sync Crystal', 10),
+      this.createBuffItem('attack_elixir', 'Attack Elixir', 'attack', 30),
       this.createEvolutionItem('fire_stone', 'Fire Stone', 'fire_spirit'),
       this.createFlagUnlockItem('completion_token', 'Completion Token', 'quest_complete'),
-      this.createBuffItem('attack_potion', 'Attack Potion', 'attack', 30),
-      this.createBuffItem('defense_potion', 'Defense Potion', 'defense', 30)
+      this.createKeyItem('mystery_key', 'Mystery Key')
     ];
   }
 
@@ -619,18 +713,40 @@ export class ItemUtils {
 
   static createBuffItem(itemId: string, name: string, buffType: string, duration: number): Item {
     let effectType: ItemEffectType;
+    let param: string;
     switch (buffType) {
-      case 'attack': effectType = ItemEffectType.BUFF_ATTACK; break;
-      case 'defense': effectType = ItemEffectType.BUFF_DEFENSE; break;
-      case 'speed': effectType = ItemEffectType.BUFF_SPEED; break;
-      default: effectType = ItemEffectType.BUFF_ATTACK; break;
+      case 'attack':
+        effectType = ItemEffectType.BUFF_ATTACK;
+        param = `${duration} turns`;
+        break;
+      case 'defense':
+        effectType = ItemEffectType.BUFF_DEFENSE;
+        param = `${duration} turns`;
+        break;
+      case 'speed':
+        effectType = ItemEffectType.BUFF_SPEED;
+        param = `${duration} turns`;
+        break;
+      default:
+        effectType = ItemEffectType.BUFF_ATTACK;
+        param = `${duration} turns`;
+        break;
     }
 
     return new Item(
       itemId,
       name,
       ItemType.CONSUMABLE,
-      new ItemEffect(effectType, duration, `${duration} turns`)
+      new ItemEffect(effectType, duration, param)
+    );
+  }
+
+  static createKeyItem(itemId: string, name: string): Item {
+    return new Item(
+      itemId,
+      name,
+      ItemType.QUEST,
+      new ItemEffect(ItemEffectType.NONE, 0)
     );
   }
 
@@ -687,17 +803,20 @@ export class ItemUtils {
     consumableCount: number;
     byType: Record<string, number>;
     byRarity: Record<string, number>;
+    byEffect: Record<string, number>;
     averageValue: number;
     totalValue: number;
   } {
     const byType: Record<string, number> = {};
     const byRarity: Record<string, number> = {};
+    const byEffect: Record<string, number> = {};
     let totalValue = 0;
     let consumableCount = 0;
 
     items.forEach(item => {
       byType[item.type] = (byType[item.type] || 0) + 1;
       byRarity[item.rarity] = (byRarity[item.rarity] || 0) + 1;
+      byEffect[item.effect.effectType] = (byEffect[item.effect.effectType] || 0) + 1;
       totalValue += item.value;
       if (item.isConsumable) consumableCount++;
     });
@@ -707,9 +826,25 @@ export class ItemUtils {
       consumableCount,
       byType,
       byRarity,
+      byEffect,
       averageValue: items.length > 0 ? totalValue / items.length : 0,
       totalValue
     };
+  }
+
+  static filterItems(items: Item[], criteria: {
+    type?: ItemType;
+    effectType?: ItemEffectType;
+    targetRule?: string;
+    hasEffect?: boolean;
+  }): Item[] {
+    return items.filter(item => {
+      if (criteria.type && item.type !== criteria.type) return false;
+      if (criteria.effectType && item.effect.effectType !== criteria.effectType) return false;
+      if (criteria.targetRule && item.targetRule !== criteria.targetRule) return false;
+      if (criteria.hasEffect !== undefined && (criteria.hasEffect ? item.effect.effectType === ItemEffectType.NONE : item.effect.effectType !== ItemEffectType.NONE)) return false;
+      return true;
+    });
   }
 
   static validateItemRegistry(items: Item[]): string[] {
