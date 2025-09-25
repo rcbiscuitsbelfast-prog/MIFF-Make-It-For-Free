@@ -74,32 +74,19 @@ export class DialogueParser {
   private static parseCELScript(script: string): any {
     // Simplified CEL-like parser stub
     // In a full implementation, this would parse Crystal Space's CEL syntax
-    const tokens = script.split(/\s+/);
-    const result: any = { type: 'script', tokens };
-    
-    // Basic variable assignment: var = value
-    if (tokens.length >= 3 && tokens[1] === '=') {
-      return {
-        type: 'assignment',
-        variable: tokens[0],
-        value: tokens.slice(2).join(' ')
-      };
+    const trimmed = script.trim();
+    const assignMatch = trimmed.match(/^(\w+)\s*=\s*(.+)$/);
+    if (assignMatch) {
+      return { type: 'assignment', variable: assignMatch[1], value: assignMatch[2] };
     }
-    
-    // Basic condition: if (condition) action
-    if (tokens[0] === 'if' && tokens.includes('(') && tokens.includes(')')) {
-      const conditionStart = tokens.indexOf('(') + 1;
-      const conditionEnd = tokens.indexOf(')');
-      const condition = tokens.slice(conditionStart, conditionEnd).join(' ');
-      
-      return {
-        type: 'condition',
-        condition,
-        action: tokens.slice(conditionEnd + 1).join(' ')
-      };
+
+    const condMatch = trimmed.match(/^if\s*\(([^)]+)\)\s*(.+)$/);
+    if (condMatch) {
+      return { type: 'condition', condition: condMatch[1].trim(), action: condMatch[2].trim() };
     }
-    
-    return result;
+
+    const tokens = trimmed.split(/\s+/);
+    return { type: 'script', tokens };
   }
 
   static parseCondition(condition: DialogueCondition): boolean {
@@ -208,7 +195,7 @@ export class DialogueEngine {
     this.context = {
       variables: new Map(tree.variables),
       flags: new Set(tree.flags),
-      inventory: new Set(),
+      inventory: new Set(Array.isArray(tree.metadata?.__inventory) ? tree.metadata?.__inventory : []),
       quests: new Map(),
       history: []
     };
@@ -241,18 +228,40 @@ export class DialogueEngine {
       return null;
     }
 
+    // If current node is a choice, return it with filtered choices without advancing
+    if (currentNode.type === 'choice' && currentNode.choices) {
+      const result: DialogueResult = {
+        node: currentNode,
+        canContinue: false,
+        isEnd: false,
+        context: { ...this.context },
+        choices: currentNode.choices.filter(choice => {
+          if (!choice.condition) return true;
+          return DialogueParser.parseCondition(choice.condition);
+        })
+      };
+      return result;
+    }
+
     // Process current node to advance to next
     this.processNode(currentNode);
     
     // Return the next node
     const nextNode = this.tree.nodes.get(this.context.currentNode!);
     if (nextNode) {
-      return {
+      const result: DialogueResult = {
         node: nextNode,
         canContinue: !!nextNode.next,
         isEnd: !nextNode.next || nextNode.next === 'end',
         context: { ...this.context }
       };
+      if (nextNode.type === 'choice' && nextNode.choices) {
+        result.choices = nextNode.choices.filter(choice => {
+          if (!choice.condition) return true;
+          return DialogueParser.parseCondition(choice.condition);
+        });
+      }
+      return result;
     }
     
     return null;
@@ -293,6 +302,20 @@ export class DialogueEngine {
   }
 
   private processNode(node: DialogueNode): DialogueResult {
+    // If this is a choice node, do not advance; present choices
+    if (node.type === 'choice' && node.choices) {
+      return {
+        node,
+        canContinue: false,
+        isEnd: false,
+        context: { ...this.context },
+        choices: node.choices.filter(choice => {
+          if (!choice.condition) return true;
+          return DialogueParser.parseCondition(choice.condition);
+        })
+      };
+    }
+
     // Execute node actions
     if (node.actions) {
       node.actions.forEach(action => {
@@ -410,8 +433,10 @@ export class DialogueEngine {
     const serializableTree = {
       ...this.tree,
       nodes: Object.fromEntries(this.tree.nodes),
-      variables: Object.fromEntries(this.tree.variables),
-      flags: Array.from(this.tree.flags)
+      // Preserve current context state
+      variables: Object.fromEntries(this.context.variables),
+      flags: Array.from(this.context.flags),
+      metadata: { ...(this.tree.metadata || {}), __inventory: Array.from(this.context.inventory) }
     };
 
     return JSON.stringify(serializableTree, null, 2);
