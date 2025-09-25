@@ -13,7 +13,8 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../EventBusPure/index.js';
+import { EventBus, createEventBus } from '../EventBusPure';
+import { AIDecisionStyle, MoveCategory, ThreatLevel, IAIDecisionProfile, IBattleAIController, IAIControllerManager, ISpiritInstance } from './types';
 
 // ============================================================================
 // BATTLE AI MANAGER INTERFACES
@@ -747,7 +748,7 @@ export class BattleAIManager {
  * Default battle AI manager instance
  */
 export const defaultBattleAIManager = new BattleAIManager({
-  eventBus: {} as EventBus,
+  eventBus: createEventBus(),
   config: {
     defaultDifficulty: AIDifficulty.NORMAL,
     defaultStrategy: AIStrategy.BALANCED,

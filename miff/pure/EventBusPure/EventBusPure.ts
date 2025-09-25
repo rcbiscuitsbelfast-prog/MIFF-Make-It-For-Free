@@ -104,6 +104,13 @@ export class EventBus {
   }
 
   /**
+   * Backward-compatible alias: some modules call eventBus.emit(type, data)
+   */
+  async emit(eventType: string, data: any, options: any = {}): Promise<string> {
+    return this.publish(eventType, data, options);
+  }
+
+  /**
    * Subscribe to an event type
    */
   subscribe(
