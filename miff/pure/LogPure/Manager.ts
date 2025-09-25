@@ -34,7 +34,25 @@ export enum LogCategory {
   ERROR = 'error',
   SECURITY = 'security',
   BUSINESS = 'business',
-  DEBUG = 'debug'
+  DEBUG = 'debug',
+  BATTLE = 'battle'
+}
+
+export enum BattlePhase {
+  START = 'start',
+  SETUP = 'setup',
+  RESOLVE_ACTION = 'resolve_action',
+  END_TURN = 'end_turn',
+  CHECK_VICTORY = 'check_victory',
+  END = 'end'
+}
+
+export enum LogOutputFormat {
+  JSON = 'json',
+  XML = 'xml',
+  CSV = 'csv',
+  TEXT = 'text',
+  HTML = 'html'
 }
 
 export interface LogEntry {
@@ -97,6 +115,43 @@ export interface LogIntegration {
     onLogBatch?: (entries: LogEntry[]) => void;
     onError?: (error: Error) => void;
   };
+}
+
+export interface ILogFilter {
+  levels?: LogLevel[];
+  categories?: LogCategory[];
+  sources?: string[];
+  userIds?: string[];
+  sessionIds?: string[];
+  tags?: string[];
+  startTime?: Date;
+  endTime?: Date;
+  searchText?: string;
+}
+
+export interface IBattleAction {
+  actorId: string;
+  actionType: string;
+  targetId: string;
+  moveId?: string;
+  itemId?: string;
+  parameters: Record<string, any>;
+}
+
+export interface IBattleResult {
+  success: boolean;
+  message: string;
+  damage?: number;
+  effects?: string[];
+  metadata: Record<string, any>;
+}
+
+export interface IBattleEffect {
+  effectType: string;
+  targetId: string;
+  duration: number;
+  intensity: number;
+  parameters: Record<string, any>;
 }
 
 /**

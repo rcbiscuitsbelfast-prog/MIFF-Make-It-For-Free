@@ -114,6 +114,51 @@ export interface ITeamSlot {
 }
 
 /**
+ * Spirit Sync Entry interface - for sync management
+ */
+export interface ISpiritSyncEntry {
+  spiritId: string;
+  trainerId: string;
+  syncLevel: number;
+  maxSyncLevel: number;
+  syncPoints: number;
+  evolutionStage: number;
+  unlockedAbilities: string[];
+  unlockedForms: string[];
+  syncBonuses: Record<string, number>;
+  lastInteraction: Date;
+  isFavorite: boolean;
+  notes: string;
+
+  // Methods
+  addSyncPoints(points: number): void;
+  canEvolve(): boolean;
+  getSyncBonus(statType: string): number;
+  unlockAbility(abilityId: string): boolean;
+  unlockForm(formId: string): boolean;
+  getEvolutionProgress(): number;
+  validate(): string[];
+  clone(): ISpiritSyncEntry;
+  toJSON(): Record<string, any>;
+}
+
+/**
+ * Sync Manager interface - for managing spirit sync
+ */
+export interface ISyncManager {
+  getSyncEntry(spiritId: string, trainerId: string): ISpiritSyncEntry | null;
+  createSyncEntry(spiritId: string, trainerId: string): ISpiritSyncEntry;
+  updateSyncEntry(entry: ISpiritSyncEntry): boolean;
+  deleteSyncEntry(spiritId: string, trainerId: string): boolean;
+  getSyncMap(trainerId: string): Map<string, number>;
+  getAllSyncEntries(trainerId: string): ISpiritSyncEntry[];
+  calculateSyncBonus(spiritId: string, trainerId: string, statType: string): number;
+  getSyncStatistics(trainerId: string): Record<string, any>;
+  exportSyncData(trainerId: string): Record<string, any>;
+  importSyncData(trainerId: string, data: Record<string, any>): boolean;
+}
+
+/**
  * Team interface
  */
 export interface ITeam {
@@ -2435,6 +2480,294 @@ export class TeamStrategyAnalyzer {
       recommendedCounters: [],
       threatLevel: 'low'
     };
+  }
+}
+
+/**
+ * Spirit Sync Entry implementation
+ */
+export class SpiritSyncEntry implements ISpiritSyncEntry {
+  public spiritId: string;
+  public trainerId: string;
+  public syncLevel: number;
+  public maxSyncLevel: number;
+  public syncPoints: number;
+  public evolutionStage: number;
+  public unlockedAbilities: string[];
+  public unlockedForms: string[];
+  public syncBonuses: Record<string, number>;
+  public lastInteraction: Date;
+  public isFavorite: boolean;
+  public notes: string;
+
+  constructor(
+    spiritId: string,
+    trainerId: string,
+    syncLevel: number = 0,
+    maxSyncLevel: number = 100,
+    syncPoints: number = 0,
+    evolutionStage: number = 1,
+    unlockedAbilities: string[] = [],
+    unlockedForms: string[] = [],
+    syncBonuses: Record<string, number> = {},
+    lastInteraction: Date = new Date(),
+    isFavorite: boolean = false,
+    notes: string = ''
+  ) {
+    this.spiritId = spiritId;
+    this.trainerId = trainerId;
+    this.syncLevel = Math.max(0, Math.min(maxSyncLevel, syncLevel));
+    this.maxSyncLevel = maxSyncLevel;
+    this.syncPoints = Math.max(0, syncPoints);
+    this.evolutionStage = Math.max(1, evolutionStage);
+    this.unlockedAbilities = [...unlockedAbilities];
+    this.unlockedForms = [...unlockedForms];
+    this.syncBonuses = { ...syncBonuses };
+    this.lastInteraction = new Date(lastInteraction);
+    this.isFavorite = isFavorite;
+    this.notes = notes;
+  }
+
+  addSyncPoints(points: number): void {
+    this.syncPoints += Math.max(0, points);
+    this.lastInteraction = new Date();
+
+    // Check if we can level up sync
+    const nextLevelCost = this.syncLevel * 100;
+    if (this.syncPoints >= nextLevelCost && this.syncLevel < this.maxSyncLevel) {
+      this.syncPoints -= nextLevelCost;
+      this.syncLevel++;
+      this.updateSyncBonuses();
+    }
+  }
+
+  canEvolve(): boolean {
+    return this.syncLevel >= this.maxSyncLevel && this.evolutionStage < 3;
+  }
+
+  getSyncBonus(statType: string): number {
+    return this.syncBonuses[statType] || 0;
+  }
+
+  unlockAbility(abilityId: string): boolean {
+    if (this.unlockedAbilities.includes(abilityId)) {
+      return false;
+    }
+    this.unlockedAbilities.push(abilityId);
+    return true;
+  }
+
+  unlockForm(formId: string): boolean {
+    if (this.unlockedForms.includes(formId)) {
+      return false;
+    }
+    this.unlockedForms.push(formId);
+    return true;
+  }
+
+  getEvolutionProgress(): number {
+    return this.syncLevel >= this.maxSyncLevel ? 100 : (this.syncLevel / this.maxSyncLevel) * 100;
+  }
+
+  validate(): string[] {
+    const errors: string[] = [];
+
+    if (!this.spiritId || this.spiritId.trim() === '') {
+      errors.push('Spirit ID cannot be empty');
+    }
+
+    if (!this.trainerId || this.trainerId.trim() === '') {
+      errors.push('Trainer ID cannot be empty');
+    }
+
+    if (this.syncLevel < 0 || this.syncLevel > this.maxSyncLevel) {
+      errors.push('Sync level must be between 0 and max sync level');
+    }
+
+    if (this.syncPoints < 0) {
+      errors.push('Sync points cannot be negative');
+    }
+
+    return errors;
+  }
+
+  clone(): SpiritSyncEntry {
+    return new SpiritSyncEntry(
+      this.spiritId,
+      this.trainerId,
+      this.syncLevel,
+      this.maxSyncLevel,
+      this.syncPoints,
+      this.evolutionStage,
+      this.unlockedAbilities,
+      this.unlockedForms,
+      this.syncBonuses,
+      this.lastInteraction,
+      this.isFavorite,
+      this.notes
+    );
+  }
+
+  toJSON(): Record<string, any> {
+    return {
+      spiritId: this.spiritId,
+      trainerId: this.trainerId,
+      syncLevel: this.syncLevel,
+      maxSyncLevel: this.maxSyncLevel,
+      syncPoints: this.syncPoints,
+      evolutionStage: this.evolutionStage,
+      unlockedAbilities: this.unlockedAbilities,
+      unlockedForms: this.unlockedForms,
+      syncBonuses: this.syncBonuses,
+      lastInteraction: this.lastInteraction.toISOString(),
+      isFavorite: this.isFavorite,
+      notes: this.notes
+    };
+  }
+
+  private updateSyncBonuses(): void {
+    // Update sync bonuses based on new sync level
+    const level = this.syncLevel;
+    this.syncBonuses.attack = level * 2;
+    this.syncBonuses.defense = level * 1.5;
+    this.syncBonuses.speed = level * 1.8;
+    this.syncBonuses.specialAttack = level * 2.2;
+    this.syncBonuses.specialDefense = level * 1.7;
+  }
+}
+
+/**
+ * Sync Manager implementation
+ */
+export class SyncManager implements ISyncManager {
+  private syncEntries = new Map<string, Map<string, ISpiritSyncEntry>>();
+
+  getSyncEntry(spiritId: string, trainerId: string): ISpiritSyncEntry | null {
+    const trainerSync = this.syncEntries.get(trainerId);
+    return trainerSync ? trainerSync.get(spiritId) || null : null;
+  }
+
+  createSyncEntry(spiritId: string, trainerId: string): ISpiritSyncEntry {
+    const entry = new SpiritSyncEntry(spiritId, trainerId);
+    this.getOrCreateTrainerSync(trainerId).set(spiritId, entry);
+    return entry;
+  }
+
+  updateSyncEntry(entry: ISpiritSyncEntry): boolean {
+    const trainerSync = this.syncEntries.get(entry.trainerId);
+    if (!trainerSync) return false;
+
+    trainerSync.set(entry.spiritId, entry);
+    return true;
+  }
+
+  deleteSyncEntry(spiritId: string, trainerId: string): boolean {
+    const trainerSync = this.syncEntries.get(trainerId);
+    return trainerSync ? trainerSync.delete(spiritId) : false;
+  }
+
+  getSyncMap(trainerId: string): Map<string, number> {
+    const syncMap = new Map<string, number>();
+    const trainerSync = this.syncEntries.get(trainerId);
+
+    if (trainerSync) {
+      trainerSync.forEach((entry, spiritId) => {
+        syncMap.set(spiritId, entry.syncLevel);
+      });
+    }
+
+    return syncMap;
+  }
+
+  getAllSyncEntries(trainerId: string): ISpiritSyncEntry[] {
+    const trainerSync = this.syncEntries.get(trainerId);
+    return trainerSync ? Array.from(trainerSync.values()) : [];
+  }
+
+  calculateSyncBonus(spiritId: string, trainerId: string, statType: string): number {
+    const entry = this.getSyncEntry(spiritId, trainerId);
+    return entry ? entry.getSyncBonus(statType) : 0;
+  }
+
+  getSyncStatistics(trainerId: string): Record<string, any> {
+    const entries = this.getAllSyncEntries(trainerId);
+
+    if (entries.length === 0) {
+      return {
+        totalSpirits: 0,
+        averageSyncLevel: 0,
+        maxSyncLevel: 0,
+        totalSyncPoints: 0,
+        favoriteCount: 0
+      };
+    }
+
+    const totalSync = entries.reduce((sum, entry) => sum + entry.syncLevel, 0);
+    const maxSync = Math.max(...entries.map(entry => entry.syncLevel));
+    const totalPoints = entries.reduce((sum, entry) => sum + entry.syncPoints, 0);
+    const favoriteCount = entries.filter(entry => entry.isFavorite).length;
+
+    return {
+      totalSpirits: entries.length,
+      averageSyncLevel: totalSync / entries.length,
+      maxSyncLevel: maxSync,
+      totalSyncPoints: totalPoints,
+      favoriteCount
+    };
+  }
+
+  exportSyncData(trainerId: string): Record<string, any> {
+    const entries = this.getAllSyncEntries(trainerId);
+    return {
+      trainerId,
+      syncEntries: entries.map(entry => entry.toJSON()),
+      exportDate: new Date().toISOString()
+    };
+  }
+
+  importSyncData(trainerId: string, data: Record<string, any>): boolean {
+    try {
+      if (data.syncEntries && Array.isArray(data.syncEntries)) {
+        const trainerSync = this.getOrCreateTrainerSync(trainerId);
+        data.syncEntries.forEach((entryData: any) => {
+          const entry = new SpiritSyncEntry(
+            entryData.spiritId,
+            entryData.trainerId,
+            entryData.syncLevel,
+            entryData.maxSyncLevel,
+            entryData.syncPoints,
+            entryData.evolutionStage,
+            entryData.unlockedAbilities,
+            entryData.unlockedForms,
+            entryData.syncBonuses,
+            new Date(entryData.lastInteraction),
+            entryData.isFavorite,
+            entryData.notes
+          );
+          trainerSync.set(entry.spiritId, entry);
+        });
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  private getOrCreateTrainerSync(trainerId: string): Map<string, ISpiritSyncEntry> {
+    if (!this.syncEntries.has(trainerId)) {
+      this.syncEntries.set(trainerId, new Map<string, ISpiritSyncEntry>());
+    }
+    return this.syncEntries.get(trainerId)!;
+  }
+
+  increaseSync(spiritId: string, trainerId: string, points: number): boolean {
+    const entry = this.getSyncEntry(spiritId, trainerId);
+    if (entry) {
+      entry.addSyncPoints(points);
+      this.updateSyncEntry(entry);
+      return true;
+    }
+    return false;
   }
 }
 
