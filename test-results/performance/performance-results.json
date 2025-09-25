@@ -1,0 +1,6 @@
+
+> miff-framework@1.0.0 test:performance
+> node scripts/performance-test.js --reporter=json
+
+Performance tests placeholder running...
+{"ok":true,"ts":1758809223519}
