@@ -149,6 +149,8 @@ export class MoveData {
   accuracy: number;
   cost: number;
   typeTag: string;
+  statusEffectId?: string;
+  animationTag?: string;
   effects?: string[];
   priority?: number;
 
@@ -160,6 +162,8 @@ export class MoveData {
     accuracy: number = 1.0,
     cost: number = 0,
     typeTag: string = 'neutral',
+    statusEffectId?: string,
+    animationTag?: string,
     effects?: string[],
     priority: number = 0
   ) {
@@ -170,13 +174,36 @@ export class MoveData {
     this.accuracy = Math.max(0, Math.min(1.0, accuracy));
     this.cost = Math.max(0, cost);
     this.typeTag = typeTag;
+    this.statusEffectId = statusEffectId;
+    this.animationTag = animationTag;
     this.effects = effects || [];
     this.priority = priority;
   }
 
   getSummary(): string {
     const categoryName = this.category.toLowerCase();
-    return `${this.name} (${categoryName}, ${Math.round(this.accuracy * 100)}% accuracy)`;
+    let summary = `${this.name} (${categoryName}, ${Math.round(this.accuracy * 100)}% accuracy`;
+    if (this.power > 0) summary += `, ${this.power} power`;
+    if (this.cost > 0) summary += `, ${this.cost} cost`;
+    summary += ')';
+    return summary;
+  }
+
+  // Computed properties for backward compatibility
+  get isPhysicalAttack(): boolean {
+    return this.category === MoveCategory.PHYSICAL;
+  }
+
+  get isSpecialAttack(): boolean {
+    return this.category === MoveCategory.SPECIAL;
+  }
+
+  get isStatusMove(): boolean {
+    return this.category === MoveCategory.STATUS;
+  }
+
+  get canDealDamage(): boolean {
+    return this.category === MoveCategory.PHYSICAL || this.category === MoveCategory.SPECIAL;
   }
 
   clone(): MoveData {
@@ -188,6 +215,8 @@ export class MoveData {
       this.accuracy,
       this.cost,
       this.typeTag,
+      this.statusEffectId,
+      this.animationTag,
       [...this.effects || []],
       this.priority
     );
@@ -224,7 +253,7 @@ export class SpiritInstance {
   id: number;
   spiritId: string;
   name: string;
-  type: string;
+  typeTag: string;
   level: number;
   experience: number;
   stats: Stats;
@@ -239,12 +268,14 @@ export class SpiritInstance {
   specialDefenseMultiplier?: number;
   resourcePoints?: number;
   maxResourcePoints?: number;
+  currentHP: number;
+  maxHP: number;
 
   constructor(
     id: number = 0,
     spiritId: string = '',
     name: string = '',
-    type: string = 'neutral',
+    typeTag: string = 'neutral',
     level: number = 1,
     experience: number = 0,
     attack: number = 10,
@@ -257,12 +288,17 @@ export class SpiritInstance {
     this.id = Math.max(0, id);
     this.spiritId = spiritId;
     this.name = name;
-    this.type = type;
+    this.typeTag = typeTag;
     this.level = Math.max(1, level);
     this.experience = Math.max(0, experience);
+
+    // Set HP values
+    this.maxHP = Math.max(1, maxHP);
+    this.currentHP = Math.max(0, Math.min(this.maxHP, currentHP ?? maxHP));
+
     this.stats = {
-      hp: currentHP ?? maxHP,
-      maxHp: Math.max(1, maxHP),
+      hp: this.currentHP,
+      maxHp: this.maxHP,
       atk: Math.max(0, attack),
       def: Math.max(0, defense),
       spd: Math.max(0, speed)
@@ -286,6 +322,40 @@ export class SpiritInstance {
     return this.stats.hp <= 0;
   }
 
+  // Add computed properties for backward compatibility
+  get isFullHealth(): boolean {
+    return this.stats.hp >= this.stats.maxHp;
+  }
+
+  get isLowHealth(): boolean {
+    return this.stats.hp <= this.stats.maxHp * 0.25;
+  }
+
+  get isCritical(): boolean {
+    return this.stats.hp <= this.stats.maxHp * 0.1;
+  }
+
+  get isKO(): boolean {
+    return this.isFainted;
+  }
+
+  // Add missing methods
+  getEffectiveAttack(): number {
+    return Math.floor(this.stats.atk * (this.attackMultiplier || 1.0));
+  }
+
+  getEffectiveDefense(): number {
+    return Math.floor(this.stats.def * (this.defenseMultiplier || 1.0));
+  }
+
+  getEffectiveSpecialAttack(): number {
+    return Math.floor((this.stats.specialAtk || this.stats.atk) * (this.specialAttackMultiplier || 1.0));
+  }
+
+  getEffectiveSpecialDefense(): number {
+    return Math.floor((this.stats.specialDef || this.stats.def) * (this.specialDefenseMultiplier || 1.0));
+  }
+
   takeDamage(amount: number): number {
     const actualDamage = Math.min(this.stats.hp, Math.max(0, Math.floor(amount)));
     this.stats.hp -= actualDamage;
@@ -293,10 +363,22 @@ export class SpiritInstance {
   }
 
   heal(amount: number): number {
-    const maxHeal = this.stats.maxHp - this.stats.hp;
-    const actualHeal = Math.min(maxHeal, Math.max(0, Math.floor(amount)));
+    const actualHeal = Math.min(this.stats.maxHp - this.stats.hp, Math.max(0, Math.floor(amount)));
     this.stats.hp += actualHeal;
     return actualHeal;
+  }
+
+  restoreResource(amount: number): number {
+    if (!this.resourcePoints || !this.maxResourcePoints) return 0;
+    const actualRestore = Math.min(this.maxResourcePoints - this.resourcePoints, Math.max(0, Math.floor(amount)));
+    this.resourcePoints += actualRestore;
+    return actualRestore;
+  }
+
+  getCombatSummary(): string {
+    const atk = this.getEffectiveAttack();
+    const def = this.getEffectiveDefense();
+    return `${this.name} (Lv.${this.level}) - HP: ${this.stats.hp}/${this.stats.maxHp} [${this.typeTag}] - ATK: ${atk} DEF: ${def}`;
   }
 
   consumeResource(amount: number): boolean {
