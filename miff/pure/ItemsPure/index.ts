@@ -95,15 +95,14 @@ export class Item {
 
   canUseOn(spirit: ISpiritInstance | null): boolean {
     if (!this.targetRule) return true;
-    if (!spirit) return false; // Items with target rules require a target
 
     switch (this.targetRule) {
       case 'any':
-        return true;
+        return true; // 'any' rule allows any target including null
       case 'notfainted':
-        return !spirit.isFainted();
+        return spirit ? !spirit.isFainted() : false;
       case 'faintedonly':
-        return spirit.isFainted();
+        return spirit ? spirit.isFainted() : false;
       default:
         return true;
     }
@@ -308,7 +307,7 @@ export class ItemEffect {
         return UsageResult.ok(`Revived with ${target.currentHP} HP`, { reviveAmount: target.currentHP });
 
       case ItemEffectType.SYNC_BOOST:
-        if (!target.syncLevel) {
+        if (target.syncLevel === undefined) {
           return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Spirit has no sync level');
         }
         target.syncLevel = Math.min(100, target.syncLevel + this.amount);
@@ -325,9 +324,13 @@ export class ItemEffect {
         return UsageResult.fail(UsageStatus.EFFECT_BLOCKED, 'Evolution failed');
 
       case ItemEffectType.UNLOCK_FLAG:
-        if (this.param && context.playerContext?.flags) {
-          context.playerContext.flags[this.param] = true;
-          return UsageResult.ok(`Flag '${this.param}' unlocked`, { flag: this.param });
+        if (this.param) {
+          // Handle both IItemEffectContext and IPlayerContext
+          const flags = (context as any).playerContext?.flags || (context as any).flags;
+          if (flags) {
+            flags[this.param] = true;
+            return UsageResult.ok(`Flag '${this.param}' unlocked`, { flag: this.param });
+          }
         }
         return UsageResult.fail(UsageStatus.INVALID_TARGET, 'No flag to unlock specified');
 
@@ -544,6 +547,22 @@ export class ItemUsageManager {
     const item = this.registeredItems.get(itemId);
     if (!item) return false;
 
+    // Create a temporary item with the updates to validate
+    const updated = new Item(
+      updates.itemID ?? item.itemID,
+      updates.name ?? item.name,
+      updates.type ?? item.type,
+      updates.effect ?? item.effect,
+      updates.description ?? item.description,
+      updates.value ?? item.value,
+      updates.targetRule ?? item.targetRule
+    );
+    const validationErrors = updated.validate();
+
+    if (validationErrors.length > 0) {
+      return false; // Don't apply invalid updates
+    }
+
     Object.assign(item, updates);
     return true;
   }
@@ -650,23 +669,6 @@ export class ItemUsageManager {
 
   removeItem(itemId: string): boolean {
     return this.registeredItems.delete(itemId);
-  }
-
-  updateItem(itemId: string, updates: Partial<Item>): boolean {
-    const item = this.registeredItems.get(itemId);
-    if (!item) return false;
-
-    // Update only allowed properties
-    if (updates.name) item.name = updates.name;
-    if (updates.description) item.description = updates.description;
-    if (updates.value !== undefined) item.value = updates.value;
-
-    // Handle effect updates
-    if (updates.effect) {
-      item.effect = updates.effect;
-    }
-
-    return true;
   }
 
   getUsableItems(spirit?: ISpiritInstance): Item[] {
