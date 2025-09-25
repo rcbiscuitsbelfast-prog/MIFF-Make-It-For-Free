@@ -13,19 +13,97 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
-import {
-  PetCollectionPure,
-  Pet,
-  Egg,
-  TradeOffer,
-  CollectionStats,
-  PetRarity,
-  EggType,
-  PetType,
-  PetStats,
-  TradeOffer as TradeOfferType,
-  CollectionStats as CollectionStatsType
-} from './index.js';
+// Types are defined in this file to avoid circular imports
+
+export enum PetRarity {
+  COMMON = 'common',
+  UNCOMMON = 'uncommon',
+  RARE = 'rare',
+  EPIC = 'epic',
+  LEGENDARY = 'legendary',
+  MYTHICAL = 'mythical'
+}
+
+export enum EggType {
+  BASIC = 'basic',
+  SPECIAL = 'special',
+  LEGENDARY = 'legendary',
+  MYTHICAL = 'mythical'
+}
+
+export enum PetType {
+  FIRE = 'fire',
+  WATER = 'water',
+  GRASS = 'grass',
+  ELECTRIC = 'electric',
+  PSYCHIC = 'psychic',
+  ICE = 'ice',
+  DRAGON = 'dragon',
+  DARK = 'dark',
+  FAIRY = 'fairy',
+  NORMAL = 'normal'
+}
+
+export interface PetStats {
+  health: number;
+  attack: number;
+  defense: number;
+  speed: number;
+  specialAttack: number;
+  specialDefense: number;
+}
+
+export interface Pet {
+  id: string;
+  name: string;
+  type: PetType;
+  rarity: PetRarity;
+  level: number;
+  experience: number;
+  stats: PetStats;
+  abilities: string[];
+  isShiny: boolean;
+  isTradable: boolean;
+  ownerId: string;
+  createdAt: Date;
+  lastFed: Date;
+  happiness: number;
+  hunger: number;
+}
+
+export interface Egg {
+  id: string;
+  type: EggType;
+  rarity: PetRarity;
+  hatchTime: number;
+  remainingTime: number;
+  ownerId: string;
+  createdAt: Date;
+  isIncubating: boolean;
+}
+
+export interface TradeOffer {
+  id: string;
+  offererId: string;
+  offeredPetIds: string[];
+  requestedPetIds: string[];
+  status: 'active' | 'accepted' | 'rejected' | 'cancelled';
+  createdAt: Date;
+  expiresAt: Date;
+  message?: string;
+}
+
+export interface CollectionStats {
+  totalPets: number;
+  petsByType: Record<PetType, number>;
+  petsByRarity: Record<PetRarity, number>;
+  shinyCount: number;
+  totalTrades: number;
+  successfulTrades: number;
+  averagePetLevel: number;
+  highestPetLevel: number;
+  lastUpdated: Date;
+}
 
 export interface PetCollectionConfig {
   maxPetsPerPlayer?: number;

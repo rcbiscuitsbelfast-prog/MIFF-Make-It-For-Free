@@ -14,8 +14,8 @@
  */
 
 import { EventBus } from '../../EventBusPure/index.js';
-import WeatherSystemPure, { WeatherType, WeatherIntensity } from '../index.js';
-import WeatherManagerPure from '../Manager.js';
+import WeatherSystemPure, { WeatherType, WeatherIntensity } from '../index';
+import WeatherManagerPure from '../Manager';
 import { jest } from '@jest/globals';
 
 // Mock EventBus for testing

@@ -13,23 +13,91 @@
  */
 
 import { EventBus } from '../EventBusPure/index.js';
-import {
-  SocialDeductionPure,
-  GamePlayer,
-  GamePhase,
-  GameRole,
-  GameVote,
-  DiscussionRound,
-  GameMessage,
-  VotingResults,
-  AbilityEffect,
-  type GamePlayer as GamePlayerType,
-  type GameVote as GameVoteType,
-  type DiscussionRound as DiscussionRoundType,
-  type GameMessage as GameMessageType,
-  type VotingResults as VotingResultsType,
-  type AbilityEffect as AbilityEffectType
-} from './index.js';
+// Types are defined in this file to avoid circular imports
+
+export enum GamePhase {
+  LOBBY = 'lobby',
+  DISCUSSION = 'discussion',
+  VOTING = 'voting',
+  NIGHT = 'night',
+  DAY = 'day',
+  GAME_OVER = 'game_over'
+}
+
+export enum GameRole {
+  VILLAGER = 'villager',
+  WEREWOLF = 'werewolf',
+  SEER = 'seer',
+  DOCTOR = 'doctor',
+  HUNTER = 'hunter',
+  WITCH = 'witch',
+  GUARD = 'guard',
+  CUPID = 'cupid',
+  MODERATOR = 'moderator'
+}
+
+export interface GamePlayer {
+  id: string;
+  name: string;
+  role: GameRole;
+  isAlive: boolean;
+  isVoted: boolean;
+  votes: number;
+  abilities: string[];
+  isProtected: boolean;
+  isRevealed: boolean;
+  joinTime: Date;
+  lastActive: Date;
+}
+
+export interface GameVote {
+  voterId: string;
+  targetId: string;
+  phase: GamePhase;
+  timestamp: Date;
+  isSecret: boolean;
+}
+
+export interface DiscussionRound {
+  id: string;
+  phase: GamePhase;
+  duration: number;
+  startTime: Date;
+  endTime?: Date;
+  participants: string[];
+  messages: GameMessage[];
+  isActive: boolean;
+}
+
+export interface GameMessage {
+  id: string;
+  playerId: string;
+  content: string;
+  timestamp: Date;
+  isSystem: boolean;
+  isPrivate: boolean;
+  targetPlayerId?: string;
+}
+
+export interface VotingResults {
+  phase: GamePhase;
+  votes: GameVote[];
+  results: Map<string, number>;
+  eliminatedPlayerId?: string;
+  isTie: boolean;
+  timestamp: Date;
+}
+
+export interface AbilityEffect {
+  id: string;
+  playerId: string;
+  targetId?: string;
+  ability: string;
+  phase: GamePhase;
+  timestamp: Date;
+  isSuccessful: boolean;
+  data?: any;
+}
 
 export interface SocialDeductionConfig {
   maxPlayers?: number;

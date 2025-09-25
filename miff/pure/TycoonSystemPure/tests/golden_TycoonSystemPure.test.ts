@@ -14,8 +14,8 @@
  */
 
 import { EventBus } from '../../EventBusPure/index.js';
-import TycoonSystemPure from '../index.js';
-import TycoonManagerPure from '../Manager.js';
+import TycoonSystemPure from '../index';
+import TycoonManagerPure from '../Manager';
 
 // Mock EventBus for testing
 const createMockEventBus = (): EventBus => {

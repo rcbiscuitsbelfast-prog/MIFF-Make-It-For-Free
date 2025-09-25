@@ -14,7 +14,7 @@
  */
 
 import { EventBus } from '../../EventBusPure/index.js';
-import TimeSystemPure, { TimeAcceleration, TimeOfDay, Season } from '../index.js';
+import TimeSystemPure, { TimeAcceleration, TimeOfDay, Season } from '../index';
 
 // Mock EventBus for testing
 const createMockEventBus = (): EventBus => {

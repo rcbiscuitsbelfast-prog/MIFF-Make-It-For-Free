@@ -14,8 +14,8 @@
  */
 
 import { EventBus } from '../../EventBusPure/EventBusPure';
-import { PetCollectionManager, PetCollectionConfig } from '../Manager.js';
-import { PetRarity, EggType, PetType } from '../index.js';
+import { PetCollectionManager, PetCollectionConfig } from '../Manager';
+import { PetRarity, EggType, PetType } from '../index';
 
 interface TestResult {
   passed: boolean;

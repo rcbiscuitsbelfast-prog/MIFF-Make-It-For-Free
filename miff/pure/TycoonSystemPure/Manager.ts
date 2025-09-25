@@ -14,23 +14,129 @@
  */
 
 import { EventBus } from '../EventBusPure/index.js';
-import TycoonSystemPure, {
-  BusinessFacility,
-  StaffMember,
-  RevenueStream,
-  MarketData,
-  BusinessStats,
-  TycoonIntegration,
-  BusinessType,
-  FacilityType,
-  StaffRole,
-  MarketCondition,
-  RevenueType
-} from './index.js';
+// Types are defined in this file to avoid circular imports
 
 // ============================================================================
 // TYCOON MANAGER INTERFACES
 // ============================================================================
+
+export enum BusinessType {
+  RESTAURANT = 'restaurant',
+  RETAIL = 'retail',
+  MANUFACTURING = 'manufacturing',
+  TECH = 'tech',
+  FINANCE = 'finance',
+  REAL_ESTATE = 'real_estate',
+  ENTERTAINMENT = 'entertainment',
+  HEALTHCARE = 'healthcare',
+  EDUCATION = 'education',
+  TRANSPORTATION = 'transportation'
+}
+
+export enum FacilityType {
+  HEADQUARTERS = 'headquarters',
+  BRANCH = 'branch',
+  WAREHOUSE = 'warehouse',
+  FACTORY = 'factory',
+  STORE = 'store',
+  OFFICE = 'office',
+  LAB = 'lab',
+  STUDIO = 'studio'
+}
+
+export enum StaffRole {
+  CEO = 'ceo',
+  MANAGER = 'manager',
+  EMPLOYEE = 'employee',
+  SPECIALIST = 'specialist',
+  CONSULTANT = 'consultant',
+  INTERN = 'intern'
+}
+
+export enum MarketCondition {
+  BOOM = 'boom',
+  GROWTH = 'growth',
+  STABLE = 'stable',
+  DECLINE = 'decline',
+  RECESSION = 'recession'
+}
+
+export enum RevenueType {
+  SALES = 'sales',
+  SUBSCRIPTION = 'subscription',
+  LICENSING = 'licensing',
+  ADVERTISING = 'advertising',
+  COMMISSION = 'commission',
+  RENTAL = 'rental'
+}
+
+export interface BusinessFacility {
+  id: string;
+  name: string;
+  type: FacilityType;
+  location: string;
+  capacity: number;
+  efficiency: number;
+  maintenanceCost: number;
+  upgradeCost: number;
+  level: number;
+  isActive: boolean;
+}
+
+export interface StaffMember {
+  id: string;
+  name: string;
+  role: StaffRole;
+  salary: number;
+  productivity: number;
+  satisfaction: number;
+  experience: number;
+  skills: string[];
+  isActive: boolean;
+}
+
+export interface RevenueStream {
+  id: string;
+  type: RevenueType;
+  amount: number;
+  frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  growthRate: number;
+  isActive: boolean;
+}
+
+export interface MarketData {
+  condition: MarketCondition;
+  demand: number;
+  competition: number;
+  trends: string[];
+  opportunities: string[];
+  threats: string[];
+  lastUpdated: Date;
+}
+
+export interface BusinessStats {
+  totalRevenue: number;
+  totalExpenses: number;
+  netProfit: number;
+  profitMargin: number;
+  growthRate: number;
+  marketShare: number;
+  customerSatisfaction: number;
+  employeeSatisfaction: number;
+  efficiency: number;
+  lastUpdated: Date;
+}
+
+export interface TycoonIntegration {
+  systemId: string;
+  enabled: boolean;
+  priority: number;
+  callbacks: {
+    onRevenueChange?: (revenue: number) => void;
+    onExpenseChange?: (expense: number) => void;
+    onMarketChange?: (marketData: MarketData) => void;
+  };
+}
 
 /**
  * Tycoon manager configuration

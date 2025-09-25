@@ -14,8 +14,8 @@
  */
 
 import { EventBus } from '../../EventBusPure/index.js';
-import IdleSystemPure from '../index.js';
-import IdleManagerPure from '../Manager.js';
+import IdleSystemPure from '../index';
+import IdleManagerPure from '../Manager';
 
 // Mock EventBus for testing
 const createMockEventBus = (): EventBus => {

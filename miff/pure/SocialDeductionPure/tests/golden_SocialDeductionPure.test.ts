@@ -13,9 +13,9 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../../EventBusPure/index.js';
-import { SocialDeductionManager, SocialDeductionConfig } from '../Manager.js';
-import { GamePhase, GameRole } from '../index.js';
+import { EventBus } from '../../EventBusPure/index';
+import { SocialDeductionManager, SocialDeductionConfig } from '../Manager';
+import { GamePhase, GameRole } from '../index';
 
 interface TestResult {
   passed: boolean;
