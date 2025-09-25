@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../../EventBusPure/index.js';
+import { EventBus } from '../../EventBusPure/index';
 import IdleSystemPure from '../index';
 import IdleManagerPure from '../Manager';
 

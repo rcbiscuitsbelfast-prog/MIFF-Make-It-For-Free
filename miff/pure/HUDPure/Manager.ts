@@ -760,7 +760,7 @@ export class HUDManager {
  * Default HUD manager instance
  */
 export const defaultHUDManager = new HUDManager({
-  eventBus: new (require('../EventBusPure/EventBusPure').EventBus)(),
+  eventBus: {} as EventBus,
   config: {
     defaultTheme: HUDTheme.DARK,
     defaultLayout: HUDLayout.DESKTOP,

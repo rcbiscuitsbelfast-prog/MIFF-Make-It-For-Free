@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../../EventBusPure/index.js';
+import { EventBus } from '../../EventBusPure/index';
 import TycoonSystemPure from '../index';
 import TycoonManagerPure from '../Manager';
 

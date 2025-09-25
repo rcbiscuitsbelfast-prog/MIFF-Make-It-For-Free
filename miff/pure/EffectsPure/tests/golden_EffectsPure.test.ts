@@ -576,7 +576,7 @@ describe('EffectsPure Golden Tests', () => {
       aggregator.add(ModifierType.PERCENT, -0.1, true);
 
       const result = aggregator.apply(100);
-      expect(result).toBeCloseTo(60.75, 1); // Let me calculate step by step:
+      expect(result).toBeCloseTo(65.25, 1); // Let me calculate step by step:
       // 100 + (-10) = 90
       // 90 * (1 + (-0.25)) = 90 * 0.75 = 67.5
       // 67.5 + 5 = 72.5

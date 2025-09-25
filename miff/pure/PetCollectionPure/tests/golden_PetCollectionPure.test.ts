@@ -31,6 +31,43 @@ interface GoldenTestSuite {
   teardown?: () => Promise<void>;
 }
 
+// Jest test suite
+describe('PetCollectionPure Golden Tests', () => {
+  test('should create PetCollectionManager', () => {
+    const manager = new PetCollectionManager({
+      eventBus: {} as EventBus,
+      config: {
+        maxPetsPerPlayer: 100,
+        maxEggsPerPlayer: 10,
+        maxActiveTradesPerPlayer: 5,
+        incubationUpdateInterval: 1000,
+        enablePersistence: true
+      },
+      integrations: []
+    });
+    
+    expect(manager).toBeDefined();
+  });
+
+  test('should handle pet rarities', () => {
+    expect(PetRarity.COMMON).toBe('common');
+    expect(PetRarity.RARE).toBe('rare');
+    expect(PetRarity.LEGENDARY).toBe('legendary');
+  });
+
+  test('should handle egg types', () => {
+    expect(EggType.BASIC).toBe('basic');
+    expect(EggType.SPECIAL).toBe('special');
+    expect(EggType.LEGENDARY).toBe('legendary');
+  });
+
+  test('should handle pet types', () => {
+    expect(PetType.FIRE).toBe('fire');
+    expect(PetType.WATER).toBe('water');
+    expect(PetType.GRASS).toBe('grass');
+  });
+});
+
 export async function performGoldenTests(): Promise<TestResult[]> {
   console.log('🐾 Starting PetCollectionPure Golden Tests...\n');
 

@@ -13,7 +13,7 @@
  * @author MIFF Framework
  */
 
-import { EventBus } from '../../EventBusPure/index.js';
+import { EventBus } from '../../EventBusPure/index';
 import WeatherSystemPure, { WeatherType, WeatherIntensity } from '../index';
 import WeatherManagerPure from '../Manager';
 import { jest } from '@jest/globals';

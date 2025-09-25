@@ -747,7 +747,7 @@ export class BattleAIManager {
  * Default battle AI manager instance
  */
 export const defaultBattleAIManager = new BattleAIManager({
-  eventBus: new (require('../EventBusPure/EventBusPure').EventBus)(),
+  eventBus: {} as EventBus,
   config: {
     defaultDifficulty: AIDifficulty.NORMAL,
     defaultStrategy: AIStrategy.BALANCED,

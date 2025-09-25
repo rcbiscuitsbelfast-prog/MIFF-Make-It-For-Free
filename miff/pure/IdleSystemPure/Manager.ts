@@ -14,18 +14,84 @@
  */
 
 import { EventBus } from '../EventBusPure/index.js';
-import IdleSystemPure, {
-  Resource,
-  Generator,
-  Upgrade,
-  Achievement,
-  PrestigeConfig,
-  IdleIntegration
-} from './index.js';
+// Types are defined in this file to avoid circular imports
 
 // ============================================================================
 // IDLE MANAGER INTERFACES
 // ============================================================================
+
+export interface Resource {
+  id: string;
+  name: string;
+  amount: number;
+  maxAmount: number;
+  generationRate: number;
+  unlocked: boolean;
+  description: string;
+  icon: string;
+  color: string;
+}
+
+export interface Generator {
+  id: string;
+  name: string;
+  description: string;
+  baseCost: number;
+  costMultiplier: number;
+  baseProduction: number;
+  productionMultiplier: number;
+  unlocked: boolean;
+  level: number;
+  maxLevel: number;
+  requirements: string[];
+  effects: Record<string, number>;
+}
+
+export interface Upgrade {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  unlocked: boolean;
+  purchased: boolean;
+  requirements: string[];
+  effects: Record<string, number>;
+  category: string;
+  tier: number;
+}
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  unlocked: boolean;
+  unlockedAt?: Date;
+  requirements: Record<string, number>;
+  rewards: Record<string, number>;
+  category: string;
+  hidden: boolean;
+}
+
+export interface PrestigeConfig {
+  enabled: boolean;
+  minLevel: number;
+  currency: string;
+  multiplier: number;
+  requirements: Record<string, number>;
+  rewards: Record<string, number>;
+}
+
+export interface IdleIntegration {
+  systemId: string;
+  enabled: boolean;
+  priority: number;
+  callbacks: {
+    onResourceChange?: (resource: Resource) => void;
+    onGeneratorLevelUp?: (generator: Generator) => void;
+    onUpgradePurchased?: (upgrade: Upgrade) => void;
+    onAchievementUnlocked?: (achievement: Achievement) => void;
+  };
+}
 
 /**
  * Idle manager configuration

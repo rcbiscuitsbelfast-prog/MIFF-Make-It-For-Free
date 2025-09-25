@@ -31,6 +31,37 @@ interface GoldenTestSuite {
   teardown?: () => Promise<void>;
 }
 
+// Jest test suite
+describe('SocialDeductionPure Golden Tests', () => {
+  test('should create SocialDeductionManager', () => {
+    const manager = new SocialDeductionManager({
+      eventBus: {} as EventBus,
+      config: {
+        maxPlayers: 8,
+        minPlayers: 4,
+        traitorCount: 2,
+        detectiveCount: 1,
+        phaseDuration: 30000
+      },
+      integrations: []
+    });
+    
+    expect(manager).toBeDefined();
+  });
+
+  test('should handle game phases', () => {
+    expect(GamePhase.LOBBY).toBe('lobby');
+    expect(GamePhase.DISCUSSION).toBe('discussion');
+    expect(GamePhase.VOTING).toBe('voting');
+  });
+
+  test('should handle game roles', () => {
+    expect(GameRole.VILLAGER).toBe('villager');
+    expect(GameRole.WEREWOLF).toBe('werewolf');
+    expect(GameRole.SEER).toBe('seer');
+  });
+});
+
 export async function performGoldenTests(): Promise<TestResult[]> {
   console.log('🧪 Starting SocialDeductionPure Golden Tests...\n');
 
