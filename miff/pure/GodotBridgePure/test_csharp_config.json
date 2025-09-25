@@ -1,6 +1,0 @@
-{
-  "language": "csharp",
-  "targetVersion": "4.0",
-  "useSignals": true,
-  "useAnimations": true
-}
