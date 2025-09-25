@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 
-import { CombatEngine, Combatant, Action, CombatState } from './engine';
+import { CombatEngine, Combatant, Action, CombatState, ActionSource } from './engine';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -14,6 +14,7 @@ interface CombatOperation {
   atk?: number;
   def?: number;
   spd?: number;
+  moves?: string[];
   actorId?: string;
   type?: 'attack' | 'defend' | 'item' | 'flee';
   targetId?: string;
@@ -38,19 +39,22 @@ class CombatCLI {
         id: 'hero',
         name: 'Hero',
         team: 'player',
-        stats: { hp: 100, maxHp: 100, atk: 15, def: 8, spd: 12 }
+        stats: { hp: 100, maxHp: 100, atk: 15, def: 8, spd: 12 },
+        moves: ['tackle', 'fire_blast']
       },
       {
         id: 'goblin1',
         name: 'Goblin Warrior',
         team: 'enemy',
-        stats: { hp: 60, maxHp: 60, atk: 12, def: 5, spd: 10 }
+        stats: { hp: 60, maxHp: 60, atk: 12, def: 5, spd: 10 },
+        moves: ['scratch', 'bite']
       },
       {
         id: 'goblin2',
         name: 'Goblin Archer',
         team: 'enemy',
-        stats: { hp: 40, maxHp: 40, atk: 10, def: 3, spd: 14 }
+        stats: { hp: 40, maxHp: 40, atk: 10, def: 3, spd: 14 },
+        moves: ['shoot', 'aim']
       }
     ];
 
@@ -114,7 +118,8 @@ class CombatCLI {
         atk: op.atk || 10,
         def: op.def || 5,
         spd: op.spd || 10
-      }
+      },
+      moves: op.moves || ['tackle']
     };
 
     this.engine.addCombatant(combatant);
@@ -141,7 +146,8 @@ class CombatCLI {
       actorId: op.actorId,
       type: op.type,
       targetId: op.targetId,
-      itemId: op.itemId
+      itemId: op.itemId,
+      source: ActionSource.PLAYER
     };
 
     this.engine.enqueue(action);
@@ -230,7 +236,8 @@ class CombatCLI {
         this.engine.enqueue({
           actorId: combatantId,
           type: 'attack',
-          targetId: target.id
+          targetId: target.id,
+          source: ActionSource.AI
         });
       }
     }

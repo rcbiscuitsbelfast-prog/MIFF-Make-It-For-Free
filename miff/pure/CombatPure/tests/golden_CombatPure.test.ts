@@ -225,18 +225,19 @@ describe('CombatPure Golden Tests', () => {
 
   describe('SpiritInstance Basic Functionality', () => {
     test('should create spirit with default values', () => {
-      const spirit = new SpiritInstance();
-      expect(spirit.id).toBe(0);
-      expect(spirit.name).toBe('');
+      const spirit = new SpiritInstance('0', 'Test Spirit', 'neutral', { hp: 100, maxHp: 100, atk: 10, def: 5, spd: 10 });
+      expect(spirit.id).toBe('0');
+      expect(spirit.name).toBe('Test Spirit');
+      expect(spirit.team).toBe('neutral');
       expect(spirit.level).toBe(1);
-      expect(spirit.currentHP).toBe(1);
-      expect(spirit.maxHP).toBe(1);
+      expect(spirit.currentHP).toBe(100);
+      expect(spirit.maxHP).toBe(100);
       expect(spirit.resourcePoints).toBe(10);
     });
 
     test('should create spirit with custom values', () => {
-      const spirit = new SpiritInstance(1, 'ember', 'Ember', 'fire', 15, 50, 30, 60, 40, 100, 85, 20);
-      expect(spirit.id).toBe(1);
+      const spirit = new SpiritInstance('1', 'Ember', 'fire', { hp: 85, maxHp: 100, atk: 30, def: 60, spd: 40 }, ['fire_blast', 'tackle'], 'fire', 20, 'ember', 15, 50, ['burning'], ['fire_resistance']);
+      expect(spirit.id).toBe('1');
       expect(spirit.spiritId).toBe('ember');
       expect(spirit.name).toBe('Ember');
       expect(spirit.typeTag).toBe('fire');
@@ -247,7 +248,7 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should enforce constraints on values', () => {
-      const spirit = new SpiritInstance(1, 'test', 'Test', 'neutral', 0, -10, -5, -20, -15, 0, 150, -5);
+      const spirit = new SpiritInstance('1', 'Test', 'neutral', { hp: 150, maxHp: 0, atk: -5, def: -20, spd: -15 }, [], 'neutral', -5, 'test', 0, -10, [], []);
       expect(spirit.level).toBe(1); // Level clamped to minimum
       expect(spirit.currentHP).toBe(0); // HP clamped to 0
       expect(spirit.maxHP).toBe(1); // Max HP clamped to minimum
@@ -255,7 +256,7 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should calculate effective stats correctly', () => {
-      const spirit = new SpiritInstance(1, 'test', 'Test', 'neutral', 10, 20, 15, 25, 18, 100, 80, 10);
+      const spirit = new SpiritInstance('1', 'Test', 'neutral', { hp: 80, maxHp: 100, atk: 15, def: 25, spd: 18 }, ['tackle'], 'neutral', 10, 'test', 10, 20, [], []);
       spirit.attackMultiplier = 1.5;
       spirit.defenseMultiplier = 0.8;
       spirit.specialAttackMultiplier = 1.2;
@@ -268,10 +269,10 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should determine health status correctly', () => {
-      const fullHealth = new SpiritInstance(1, 'test1', 'Test1', 'neutral', 10, 10, 10, 10, 10, 100, 100, 10);
-      const lowHealth = new SpiritInstance(1, 'test2', 'Test2', 'neutral', 10, 10, 10, 10, 10, 100, 25, 10);
-      const criticalHealth = new SpiritInstance(1, 'test3', 'Test3', 'neutral', 10, 10, 10, 10, 10, 100, 20, 10);
-      const koSpirit = new SpiritInstance(1, 'test4', 'Test4', 'neutral', 10, 10, 10, 10, 10, 100, 0, 10);
+      const fullHealth = new SpiritInstance('1', 'Test1', 'neutral', { hp: 100, maxHp: 100, atk: 10, def: 10, spd: 10 });
+      const lowHealth = new SpiritInstance('2', 'Test2', 'neutral', { hp: 25, maxHp: 100, atk: 10, def: 10, spd: 10 });
+      const criticalHealth = new SpiritInstance('3', 'Test3', 'neutral', { hp: 20, maxHp: 100, atk: 10, def: 10, spd: 10 });
+      const koSpirit = new SpiritInstance('4', 'Test4', 'neutral', { hp: 0, maxHp: 100, atk: 10, def: 10, spd: 10 });
 
       expect(fullHealth.isFullHealth).toBe(true);
       expect(fullHealth.isLowHealth).toBe(false);
@@ -632,10 +633,10 @@ describe('CombatPure Golden Tests', () => {
       };
 
       engine.enqueueAction(action);
-      expect(engine.state.queue).toHaveLength(1);
+      expect(engine.queue).toHaveLength(1);
 
       engine.processNextAction();
-      expect(engine.state.queue).toHaveLength(0);
+      expect(engine.queue).toHaveLength(0);
     });
 
     test('should handle battle victory conditions', () => {
@@ -649,8 +650,8 @@ describe('CombatPure Golden Tests', () => {
 
       engine.checkVictory();
 
-      expect(engine.state.over).toBe(true);
-      expect(engine.state.winnerTeam).toBe('player');
+      expect(engine.isBattleOver).toBe(true);
+      expect(engine.winnerTeam).toBe('player');
     });
 
     test('should start and end battles correctly', () => {
@@ -861,8 +862,8 @@ describe('CombatPure Golden Tests', () => {
 
       // Start battle
       engine.startBattle();
-      expect(engine.state.phase).toBe('select_action');
-      expect(engine.state.turnNumber).toBe(1);
+      expect(engine.phase).toBe('select_action');
+      expect(engine.turnNumber).toBe(1);
 
       // Create attack action
       const attackAction: IBattleAction = {
@@ -930,7 +931,7 @@ describe('CombatPure Golden Tests', () => {
       engine.addCombatant(enemy2);
 
       // Verify turn order (by speed: Archer 50, Warrior 45, Mage 35, Orc 30)
-      expect(engine.state.order).toEqual(['enemy2', 'player1', 'player2', 'enemy1']);
+      expect(engine.order).toEqual(['enemy2', 'player1', 'player2', 'enemy1']);
 
       // Test team-based queries
       const playerTeam = engine.getCombatantsByTeam('player');
@@ -1110,7 +1111,7 @@ describe('CombatPure Golden Tests', () => {
       const endTime = performance.now();
 
       expect(engine.getAllCombatants()).toHaveLength(100);
-      expect(engine.state.order).toHaveLength(100);
+      expect(engine.order).toHaveLength(100);
       expect(endTime - startTime).toBeLessThan(100); // Should be fast
     });
 
@@ -1159,7 +1160,7 @@ describe('CombatPure Golden Tests', () => {
       const endTime = performance.now();
 
       expect(endTime - startTime).toBeLessThan(200); // Should be reasonably fast
-      expect(engine.state.queue).toHaveLength(0); // All actions processed
+      expect(engine.queue).toHaveLength(0); // All actions processed
     });
 
     test('should handle complex calculations efficiently', () => {

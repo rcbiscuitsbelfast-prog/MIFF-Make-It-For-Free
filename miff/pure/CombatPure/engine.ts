@@ -79,7 +79,10 @@ export type Combatant = {
   name: string;
   team: string;
   stats: Stats;
-  status?: { defending?: boolean; ko?: boolean; fled?: boolean };
+  moves: string[];
+  typeTag?: string;
+  resourcePoints?: number;
+  status?: { defending?: boolean; ko?: boolean; fled?: boolean; [key: string]: any };
 };
 
 export type Action = {
@@ -87,6 +90,8 @@ export type Action = {
   type: 'attack' | 'defend' | 'item' | 'flee';
   targetId?: string;
   itemId?: string;
+  moveId?: string;
+  source: ActionSource;
 };
 
 export type CombatState = {
@@ -281,16 +286,19 @@ export class MoveData {
   }
 }
 
-export class SpiritInstance {
-  id: number;
-  spiritId: string;
+export class SpiritInstance implements ICombatant {
+  id: string;
   name: string;
-  typeTag: string;
+  team: string;
+  stats: Stats;
+  moves: string[];
+  typeTag?: string;
+  resourcePoints?: number;
+  status?: { defending?: boolean; ko?: boolean; fled?: boolean; [key: string]: any };
+  spiritId: string;
   level: number;
   experience: number;
-  stats: Stats;
   statusEffects: string[];
-  moves: string[];
   abilities: string[];
   isLeader?: boolean;
   loyalty?: number;
@@ -304,48 +312,41 @@ export class SpiritInstance {
   maxHP: number;
 
   constructor(
-    id: number = 0,
-    spiritId: string = '',
+    id: string = '0',
     name: string = '',
-    typeTag: string = 'neutral',
+    team: string = 'neutral',
+    stats: Stats,
+    moves: string[] = [],
+    typeTag?: string,
+    resourcePoints: number = 10,
+    spiritId: string = '',
     level: number = 1,
     experience: number = 0,
-    attack: number = 10,
-    defense: number = 10,
-    speed: number = 10,
-    maxHP: number = 1,
-    currentHP?: number,
-    resourcePoints?: number
+    statusEffects: string[] = [],
+    abilities: string[] = []
   ) {
-    this.id = Math.max(0, id);
-    this.spiritId = spiritId;
+    this.id = id;
     this.name = name;
+    this.team = team;
+    this.stats = stats;
+    this.moves = moves;
     this.typeTag = typeTag;
+    this.resourcePoints = resourcePoints;
+    this.spiritId = spiritId;
     this.level = Math.max(1, level);
     this.experience = Math.max(0, experience);
+    this.statusEffects = statusEffects;
+    this.abilities = abilities;
 
     // Set HP values with constraint enforcement
-    this.maxHP = Math.max(1, maxHP);
+    this.maxHP = Math.max(1, stats.maxHp);
     const defaultHP = this.maxHP;
-    this.currentHP = Math.max(0, Math.min(this.maxHP, currentHP ?? defaultHP));
+    this.currentHP = Math.max(0, Math.min(this.maxHP, stats.hp ?? defaultHP));
 
-    // Clamp negative stats to 0
-    const clampedAttack = Math.max(0, attack);
-    const clampedDefense = Math.max(0, defense);
-    const clampedSpeed = Math.max(0, speed);
-
-    this.stats = {
-      hp: this.currentHP,
-      maxHp: this.maxHP,
-      atk: clampedAttack,
-      def: clampedDefense,
-      spd: clampedSpeed,
-      specialAtk: clampedAttack, // Default to physical attack if not specified
-      specialDef: clampedDefense  // Default to physical defense if not specified
-    };
-    this.statusEffects = [];
-    this.moves = [];
-    this.abilities = [];
+    // Set status effects and abilities
+    this.statusEffects = statusEffects || [];
+    this.moves = moves || [];
+    this.abilities = abilities || [];
     this.attackMultiplier = 1.0;
     this.defenseMultiplier = 1.0;
     this.specialAttackMultiplier = 1.0;
@@ -415,12 +416,6 @@ export class SpiritInstance {
     return actualRestore;
   }
 
-  getCombatSummary(): string {
-    const atk = this.getEffectiveAttack();
-    const def = this.getEffectiveDefense();
-    return `${this.name} (Lv.${this.level}) - HP: ${this.stats.hp}/${this.stats.maxHp} [${this.typeTag}] - ATK: ${atk} DEF: ${def}`;
-  }
-
   // Add missing properties for backward compatibility
   get attack(): number {
     return this.stats.atk;
@@ -445,6 +440,10 @@ export class SpiritInstance {
     if (percentage <= 25) return 'low';
     if (percentage >= 100) return 'full';
     return 'normal';
+  }
+
+  getCombatSummary(): string {
+    return `${this.name} (Lv.${this.level}) - HP: ${this.stats.hp}/${this.stats.maxHp} [${this.typeTag}]`;
   }
 
   validate(): string[] {
@@ -481,29 +480,22 @@ export class SpiritInstance {
     return true;
   }
 
-  getCombatSummary(): string {
-    return `${this.name} (Lv.${this.level}) - HP: ${this.stats.hp}/${this.stats.maxHp} [${this.type}]`;
-  }
-
   clone(): SpiritInstance {
     const cloned = new SpiritInstance(
       this.id,
-      this.spiritId,
       this.name,
-      this.type,
+      this.team,
+      { ...this.stats },
+      [...this.moves],
+      this.typeTag,
+      this.resourcePoints,
+      this.spiritId,
       this.level,
       this.experience,
-      this.stats.atk,
-      this.stats.def,
-      this.stats.spd,
-      this.stats.maxHp,
-      this.stats.hp,
-      this.resourcePoints
+      [...this.statusEffects],
+      [...this.abilities]
     );
 
-    cloned.statusEffects = [...this.statusEffects];
-    cloned.moves = [...this.moves];
-    cloned.abilities = [...this.abilities];
     cloned.isLeader = this.isLeader;
     cloned.loyalty = this.loyalty;
     cloned.attackMultiplier = this.attackMultiplier;
@@ -515,31 +507,6 @@ export class SpiritInstance {
     return cloned;
   }
 
-  validate(): string[] {
-    const errors: string[] = [];
-
-    if (this.id < 0) {
-      errors.push('Spirit ID must be non-negative');
-    }
-
-    if (!this.name || this.name.trim() === '') {
-      errors.push('Spirit name cannot be empty');
-    }
-
-    if (this.level < 1) {
-      errors.push('Spirit level must be at least 1');
-    }
-
-    if (this.stats.maxHp <= 0) {
-      errors.push('Max HP must be greater than 0');
-    }
-
-    if (this.stats.hp > this.stats.maxHp) {
-      errors.push('Current HP cannot exceed max HP');
-    }
-
-    return errors;
-  }
 }
 
 export class CombatEngine {
@@ -760,8 +727,7 @@ export class BattleEngine {
       return { completed: false, results: ['No actions in queue'] };
     }
 
-    const results: string[] = [];
-    this.resolveAction(nextAction, results);
+    const results = this.resolveAction(nextAction);
     this.checkVictory();
     this.save?.onCheckpoint?.(this.state);
 
@@ -793,35 +759,44 @@ export class BattleEngine {
     this.state.phase = 'battle_end';
   }
 
-  isBattleOver(): boolean {
-    return this.state.over || this.checkVictory();
-  }
 
-  getWinner(): string | null {
-    if (!this.state.over) {
-      return null;
-    }
-    return this.state.winnerTeam || null;
-  }
 
-  checkVictory(): boolean {
-    const teams = new Set(Object.values(this.state.combatants).map(c => c.team));
-    const livingTeams = new Set(
-      Object.values(this.state.combatants)
-        .filter(c => !c.status?.ko && !c.status?.fled)
-        .map(c => c.team)
-    );
 
-    if (livingTeams.size <= 1) {
-      const winner = Array.from(livingTeams)[0];
-      if (winner) {
-        this.state.over = true;
-        this.state.winnerTeam = winner;
-        return true;
-      }
+  resolveAction(action: IBattleAction): string[] {
+    const results: string[] = [];
+    const actor = this.state.combatants[action.actorId];
+    const target = action.targetId ? this.state.combatants[action.targetId] : null;
+
+    if (!actor) {
+      results.push(`Actor ${action.actorId} not found`);
+      return results;
     }
 
-    return false;
+    if (!target && action.targetId) {
+      results.push(`Target ${action.targetId} not found`);
+      return results;
+    }
+
+    switch (action.type) {
+      case 'attack':
+        if (target && action.moveId) {
+          const move = new MoveData(action.moveId, action.moveId, MoveCategory.PHYSICAL, 40, 1.0, 0, 'normal');
+          const damageResult = this.damageCalculator.calculateDamage(move, actor, target);
+          target.stats.hp = Math.max(0, target.stats.hp - damageResult.damage);
+          results.push(`${actor.name} attacks ${target.name} for ${damageResult.damage} damage!`);
+        }
+        break;
+      case 'defend':
+        if (actor) {
+          actor.status = { ...actor.status, defending: true };
+          results.push(`${actor.name} is defending!`);
+        }
+        break;
+      default:
+        results.push(`Unknown action type: ${action.type}`);
+    }
+
+    return results;
   }
 
   processNextAction(): boolean {
@@ -830,45 +805,34 @@ export class BattleEngine {
     }
 
     const action = this.state.queue.shift()!;
-    this.processTurn();
+    const results = this.resolveAction(action);
+    this.checkVictory();
+    this.save?.onCheckpoint?.(this.state);
+
     return true;
   }
 
-  get isBattleOver(): boolean {
-    return this.state.over || false;
-  }
 
-  getWinner(): string | null {
-    return this.state.winnerTeam || null;
-  }
-
-  getBattleStatus(): { over: boolean; winner: string | null; turn: number } {
-    return {
-      over: this.state.over || false,
-      winner: this.state.winnerTeam || null,
-      turn: this.state.turnNumber || 0
-    };
-  }
 
   /**
    * Get current battle phase (for testing purposes)
    */
   get phase(): string {
-    return this.state.phase;
+    return this.state.phase || 'setup';
   }
 
   /**
    * Get current turn number (for testing purposes)
    */
   get turnNumber(): number {
-    return this.state.turnNumber;
+    return this.state.turnNumber || 0;
   }
 
   /**
    * Check if battle is over (for testing purposes)
    */
   get isBattleOver(): boolean {
-    return this.state.over;
+    return this.state.over || false;
   }
 
   /**
@@ -908,17 +872,12 @@ export class BattleEngine {
 
   combatantToSpiritInstance(combatant: ICombatant): SpiritInstance {
     return new SpiritInstance(
-      0,
       combatant.id,
       combatant.name,
-      combatant.typeTag || 'normal',
-      1,
-      0,
-      combatant.stats.atk || 10,
-      combatant.stats.def || 10,
-      combatant.stats.spd || 10,
-      combatant.stats.maxHp || 100,
-      combatant.stats.hp,
+      combatant.team,
+      combatant.stats,
+      combatant.moves,
+      combatant.typeTag,
       combatant.resourcePoints
     );
   }
@@ -983,52 +942,13 @@ export class BattleEngine {
     }
   }
 
-  private resolveItemUse(action: IBattleAction, results: string[]): void {
-    if (!this.inventory?.hasItem(action.itemId!)) {
-      results.push('Item not available');
-      return;
-    }
 
-    const actor = this.state.combatants[action.actorId];
-    if (action.itemId === 'potion') {
-      const healAmount = Math.min(50, actor.stats.maxHp - actor.stats.hp);
-      actor.stats.hp += healAmount;
-      this.inventory.consumeItem(action.itemId!);
-      results.push(`${actor.name} used a potion and recovered ${healAmount} HP`);
-    } else {
-      results.push(`Unknown item: ${action.itemId}`);
-    }
-  }
-
-  checkVictory(): CombatResult {
-    const teams = new Map<string, { alive: number; fled: number }>();
-
-    for (const combatant of Object.values(this.state.combatants)) {
-      const team = teams.get(combatant.team) || { alive: 0, fled: 0 };
-      if (!combatant.status?.ko) team.alive++;
-      if (combatant.status?.fled) team.fled++;
-      teams.set(combatant.team, team);
-    }
-
-    const aliveTeams = Array.from(teams.entries()).filter(([_, stats]) => stats.alive > 0);
-
-    if (aliveTeams.length === 0) {
-      return CombatResult.DRAW;
-    } else if (aliveTeams.length === 1) {
-      this.state.over = true;
-      this.state.winnerTeam = aliveTeams[0][0];
-      return this.state.winnerTeam ? CombatResult.VICTORY : CombatResult.DEFEAT;
-    }
-
-    return CombatResult.ONGOING;
-  }
-
-  getBattleStatus(): CombatResult {
-    return this.checkVictory();
-  }
-
-  getWinner(): string | null {
-    return this.state.winnerTeam || null;
+  getBattleStatus(): { over: boolean; winner: string | null; turn: number } {
+    return {
+      over: this.state.over || false,
+      winner: this.state.winnerTeam || null,
+      turn: this.state.turnNumber || 0
+    };
   }
 
   setInventoryHook(hook: InventoryHook): void {
@@ -1122,15 +1042,15 @@ export class CombatUtils {
       errors.push('Move name cannot be empty');
     }
 
-    if (move.power < 0) {
+    if (move.power !== undefined && move.power < 0) {
       errors.push('Move power cannot be negative');
     }
 
-    if (move.accuracy < 0 || move.accuracy > 1) {
+    if (move.accuracy !== undefined && (move.accuracy < 0 || move.accuracy > 1)) {
       errors.push('Move accuracy must be between 0 and 1');
     }
 
-    if (move.cost < 0) {
+    if (move.cost !== undefined && move.cost < 0) {
       errors.push('Move cost cannot be negative');
     }
 
