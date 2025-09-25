@@ -9,11 +9,14 @@ import { PerfTimer, HighResPerfTimer, PerfProfiler, PerfUtils, PerfResult, PerfS
 
 describe('PerfPure Golden Tests', () => {
   beforeEach(() => {
-    // Mock console.log to avoid test output noise
+    jest.useFakeTimers();
+    jest.spyOn(performance, 'now').mockImplementation(() => Date.now());
+    // Mock console.log to avoid test output noise and allow proper assertions
     jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     jest.restoreAllMocks();
   });
 
@@ -32,11 +35,11 @@ describe('PerfPure Golden Tests', () => {
     test('should measure elapsed time accurately', async () => {
       const timer = new PerfTimer('Accuracy Test');
 
-      // Wait for a small amount of time
-      await new Promise(resolve => setTimeout(resolve, 10));
+      // Advance time by 10ms using Jest's fake timers
+      jest.advanceTimersByTime(10);
 
-      expect(timer.elapsedMs).toBeGreaterThanOrEqual(0);
-      expect(timer.elapsedNs).toBeGreaterThanOrEqual(0);
+      expect(timer.elapsedMs).toBeGreaterThanOrEqual(5);
+      expect(timer.elapsedNs).toBeGreaterThanOrEqual(5000000);
       // Verify the relationship is approximately correct (allowing for floating point precision)
       expect(Math.abs(timer.elapsedNs - timer.elapsedMs * 1_000_000)).toBeLessThan(1000);
 
@@ -201,11 +204,10 @@ describe('PerfPure Golden Tests', () => {
       expect(summary.totalMs).toBe(0);
     });
 
-    test('should clear all data', async () => {
+    test('should clear all data', () => {
       profiler.start('Test 1');
       profiler.start('Test 2');
 
-      await new Promise(resolve => setTimeout(resolve, 1));
       expect(profiler.getResults().length).toBeGreaterThanOrEqual(0);
 
       profiler.clear();
@@ -250,7 +252,7 @@ describe('PerfPure Golden Tests', () => {
 
     test('should measure asynchronous functions', async () => {
       const result = await PerfUtils.measureAsync('Async Test', async () => {
-        await new Promise(resolve => setTimeout(resolve, 10));
+        await Promise.resolve(); // Use Promise.resolve instead of setTimeout
         return 'async_result';
       });
 
@@ -440,7 +442,7 @@ describe('PerfPure Golden Tests', () => {
 
       const asyncTimer = profiler.start('Async Operation');
 
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await Promise.resolve(); // Use Promise.resolve instead of setTimeout
 
       const result = profiler.stop('Async Operation');
       expect(result).toBeDefined();

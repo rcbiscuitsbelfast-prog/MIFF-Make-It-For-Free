@@ -11,7 +11,12 @@ describe('EventsPure Golden Tests', () => {
   let eventBus: EventBus;
 
   beforeEach(() => {
+    jest.useFakeTimers();
     eventBus = new EventBus();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   afterEach(() => {
@@ -140,6 +145,55 @@ describe('EventsPure Golden Tests', () => {
     });
   });
 
+  describe('Async Event Handling', () => {
+    test('EventBus should handle async event handlers', async () => {
+      const receivedEvents: any[] = [];
+
+      const listener = eventBus.subscribeAsync('async_test', async (payload) => {
+        // Simulate async operation without real setTimeout to avoid Jest issues
+        await Promise.resolve();
+        receivedEvents.push(payload);
+      });
+
+      await eventBus.publishAsync('async_test', 'async_event1');
+      await eventBus.publishAsync('async_test', 'async_event2');
+
+      expect(receivedEvents).toEqual(['async_event1', 'async_event2']);
+
+      listener.dispose();
+    });
+
+    test('EventBus should handle mixed sync and async handlers', async () => {
+      const syncEvents: any[] = [];
+      const asyncEvents: any[] = [];
+
+      eventBus.subscribe('mixed_test', (payload) => {
+        syncEvents.push(`sync_${payload}`);
+      });
+
+      eventBus.subscribeAsync('mixed_test', async (payload) => {
+        await Promise.resolve(); // Simple async operation
+        asyncEvents.push(`async_${payload}`);
+      });
+
+      await eventBus.publishAsync('mixed_test', 'test1');
+
+      expect(syncEvents).toEqual(['sync_test1']);
+      expect(asyncEvents).toEqual(['async_test1']);
+    });
+
+    test('EventBus should provide correct statistics with async handlers', () => {
+      eventBus.subscribe('stats_test', () => {});
+      eventBus.subscribeAsync('stats_test', async () => {});
+
+      const stats = eventBus.getStats();
+      expect(stats.syncHandlers).toBe(1);
+      expect(stats.asyncHandlers).toBe(1);
+      expect(stats.totalTopics).toBe(1);
+      expect(eventBus.getTotalSubscriptions()).toBe(2);
+    });
+  });
+
   describe('EventUtils', () => {
     test('EventUtils.once should only fire once', () => {
       const receivedEvents: any[] = [];
@@ -176,11 +230,45 @@ describe('EventsPure Golden Tests', () => {
       listener.dispose();
     });
 
+    test('EventUtils.onceAsync should work with async handlers', async () => {
+      const receivedEvents: any[] = [];
+
+      const listener = EventUtils.onceAsync(eventBus, 'once_async_test', async (payload) => {
+        await Promise.resolve(); // Simple async operation
+        receivedEvents.push(payload);
+      });
+
+      await eventBus.publishAsync('once_async_test', 'event1');
+      await eventBus.publishAsync('once_async_test', 'event2'); // Should be ignored
+
+      expect(receivedEvents).toEqual(['event1']);
+
+      listener.dispose();
+    });
+
+    test('EventUtils.filterAsync should work with async handlers', async () => {
+      const receivedEvents: any[] = [];
+
+      const listener = EventUtils.filterAsync(eventBus, 'filter_async_test', (payload: number) => payload > 10, async (payload) => {
+        await Promise.resolve(); // Simple async operation
+        receivedEvents.push(payload);
+      });
+
+      await eventBus.publishAsync('filter_async_test', 5);
+      await eventBus.publishAsync('filter_async_test', 15);
+      await eventBus.publishAsync('filter_async_test', 8);
+      await eventBus.publishAsync('filter_async_test', 20);
+
+      expect(receivedEvents).toEqual([15, 20]);
+
+      listener.dispose();
+    });
+
     test('EventUtils.debounce should debounce events', async () => {
       const receivedEvents: any[] = [];
       const receivedTimestamps: number[] = [];
 
-      const listener = EventUtils.debounce(eventBus, 'debounce_test', 100, (payload) => {
+      const listener = EventUtils.debounce(eventBus, 'debounce_test', 50, (payload) => {
         receivedEvents.push(payload);
         receivedTimestamps.push(Date.now());
       });
@@ -190,18 +278,18 @@ describe('EventsPure Golden Tests', () => {
       eventBus.publish('debounce_test', 'event2');
       eventBus.publish('debounce_test', 'event3');
 
-      // Wait for debounce to fire
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Advance time to trigger the debounced event
+      jest.advanceTimersByTime(100);
 
       expect(receivedEvents).toEqual(['event3']); // Only the last event should fire
 
       listener.dispose();
-    }, 200);
+    }, 500);
 
     test('EventUtils.throttle should throttle events', async () => {
       const receivedEvents: any[] = [];
 
-      const listener = EventUtils.throttle(eventBus, 'throttle_test', 100, (payload) => {
+      const listener = EventUtils.throttle(eventBus, 'throttle_test', 50, (payload) => {
         receivedEvents.push(payload);
       });
 
@@ -210,18 +298,18 @@ describe('EventsPure Golden Tests', () => {
       eventBus.publish('throttle_test', 'event2');
       eventBus.publish('throttle_test', 'event3');
 
-      // Wait for throttle interval
-      await new Promise(resolve => setTimeout(resolve, 50));
+      // Advance time to trigger the first throttled event
+      jest.advanceTimersByTime(50);
 
       eventBus.publish('throttle_test', 'event4');
 
-      // Wait for second throttle interval
-      await new Promise(resolve => setTimeout(resolve, 150));
+      // Advance time to trigger the second throttled event
+      jest.advanceTimersByTime(100);
 
       expect(receivedEvents).toEqual(['event1', 'event4']); // First and second interval events
 
       listener.dispose();
-    }, 250);
+    }, 500);
   });
 
   describe('Error Handling', () => {

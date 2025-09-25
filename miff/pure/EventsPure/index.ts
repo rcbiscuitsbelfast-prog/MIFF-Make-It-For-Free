@@ -14,7 +14,16 @@
  */
 export interface IEventListener extends Disposable {
   readonly topic: string;
-  readonly handler: (payload?: any) => void;
+  readonly handler: (payload?: any) => void | Promise<void>;
+  readonly disposed: boolean;
+}
+
+/**
+ * Async event listener interface for async event handling
+ */
+export interface IAsyncEventListener extends Disposable {
+  readonly topic: string;
+  readonly handler: (payload?: any) => Promise<void>;
   readonly disposed: boolean;
 }
 
@@ -22,10 +31,11 @@ export interface IEventListener extends Disposable {
  * Event bus for publish/subscribe messaging
  */
 export class EventBus {
-  private readonly topicToHandlers = new Map<string, Set<(payload?: any) => void>>();
+  private readonly topicToHandlers = new Map<string, Set<(payload?: any) => void | Promise<void>>>();
+  private readonly asyncTopicToHandlers = new Map<string, Set<(payload?: any) => Promise<void>>>();
 
   /**
-   * Publish an event to all subscribers of the topic
+   * Publish an event to all subscribers of the topic (synchronous)
    */
   publish(topic: string, payload?: any): void {
     if (!topic || topic.trim() === '') return;
@@ -36,7 +46,13 @@ export class EventBus {
       const handlersCopy = new Set(handlers);
       for (const handler of handlersCopy) {
         try {
-          handler(payload);
+          const result = handler(payload);
+          // If handler returns a Promise, we need to handle it
+          if (result && typeof result.then === 'function') {
+            result.catch(error => {
+              console.error(`Error in async event handler for topic '${topic}':`, error);
+            });
+          }
         } catch (error) {
           console.error(`Error in event handler for topic '${topic}':`, error);
         }
@@ -45,9 +61,59 @@ export class EventBus {
   }
 
   /**
+   * Publish an event to all subscribers of the topic (asynchronous)
+   */
+  async publishAsync(topic: string, payload?: any): Promise<void> {
+    if (!topic || topic.trim() === '') return;
+
+    const handlers = this.topicToHandlers.get(topic);
+    const asyncHandlers = this.asyncTopicToHandlers.get(topic);
+
+    // Execute sync handlers (with async support)
+    if (handlers) {
+      const handlersCopy = new Set(handlers);
+      const promises: Promise<void>[] = [];
+
+      for (const handler of handlersCopy) {
+        try {
+          const result = handler(payload);
+          if (result && typeof result.then === 'function') {
+            promises.push(result);
+          }
+        } catch (error) {
+          console.error(`Error in event handler for topic '${topic}':`, error);
+          // Don't add failed handlers to promises
+        }
+      }
+
+      if (promises.length > 0) {
+        await Promise.all(promises);
+      }
+    }
+
+    // Execute async handlers
+    if (asyncHandlers) {
+      const asyncHandlersCopy = new Set(asyncHandlers);
+      const promises: Promise<void>[] = [];
+
+      for (const handler of asyncHandlersCopy) {
+        try {
+          promises.push(handler(payload));
+        } catch (error) {
+          console.error(`Error in async event handler for topic '${topic}':`, error);
+        }
+      }
+
+      if (promises.length > 0) {
+        await Promise.all(promises);
+      }
+    }
+  }
+
+  /**
    * Subscribe to events on a topic
    */
-  subscribe(topic: string, handler: (payload?: any) => void): IEventListener {
+  subscribe(topic: string, handler: (payload?: any) => void | Promise<void>): IEventListener {
     if (!this.topicToHandlers.has(topic)) {
       this.topicToHandlers.set(topic, new Set());
     }
@@ -61,9 +127,25 @@ export class EventBus {
   }
 
   /**
+   * Subscribe to events on a topic with async handler
+   */
+  subscribeAsync(topic: string, handler: (payload?: any) => Promise<void>): IAsyncEventListener {
+    if (!this.asyncTopicToHandlers.has(topic)) {
+      this.asyncTopicToHandlers.set(topic, new Set());
+    }
+
+    const handlers = this.asyncTopicToHandlers.get(topic)!;
+    handlers.add(handler);
+
+    return new AsyncEventListener(topic, handler, (topic, handler) => {
+      this.unsubscribeAsync(topic, handler);
+    });
+  }
+
+  /**
    * Unsubscribe a handler from a topic
    */
-  private unsubscribe(topic: string, handler: (payload?: any) => void): void {
+  private unsubscribe(topic: string, handler: (payload?: any) => void | Promise<void>): void {
     const handlers = this.topicToHandlers.get(topic);
     if (handlers) {
       handlers.delete(handler);
@@ -74,17 +156,34 @@ export class EventBus {
   }
 
   /**
+   * Unsubscribe an async handler from a topic
+   */
+  private unsubscribeAsync(topic: string, handler: (payload?: any) => Promise<void>): void {
+    const handlers = this.asyncTopicToHandlers.get(topic);
+    if (handlers) {
+      handlers.delete(handler);
+      if (handlers.size === 0) {
+        this.asyncTopicToHandlers.delete(topic);
+      }
+    }
+  }
+
+  /**
    * Get the number of subscribers for a topic
    */
   getSubscriberCount(topic: string): number {
-    return this.topicToHandlers.get(topic)?.size || 0;
+    const syncCount = this.topicToHandlers.get(topic)?.size || 0;
+    const asyncCount = this.asyncTopicToHandlers.get(topic)?.size || 0;
+    return syncCount + asyncCount;
   }
 
   /**
    * Get all topics that have subscribers
    */
   getActiveTopics(): string[] {
-    return Array.from(this.topicToHandlers.keys());
+    const syncTopics = Array.from(this.topicToHandlers.keys());
+    const asyncTopics = Array.from(this.asyncTopicToHandlers.keys());
+    return [...new Set([...syncTopics, ...asyncTopics])];
   }
 
   /**
@@ -92,6 +191,7 @@ export class EventBus {
    */
   clear(): void {
     this.topicToHandlers.clear();
+    this.asyncTopicToHandlers.clear();
   }
 
   /**
@@ -102,7 +202,31 @@ export class EventBus {
     for (const handlers of this.topicToHandlers.values()) {
       total += handlers.size;
     }
+    for (const handlers of this.asyncTopicToHandlers.values()) {
+      total += handlers.size;
+    }
     return total;
+  }
+
+  /**
+   * Get statistics about event bus
+   */
+  getStats(): { syncHandlers: number; asyncHandlers: number; totalTopics: number } {
+    let syncHandlers = 0;
+    let asyncHandlers = 0;
+
+    for (const handlers of this.topicToHandlers.values()) {
+      syncHandlers += handlers.size;
+    }
+    for (const handlers of this.asyncTopicToHandlers.values()) {
+      asyncHandlers += handlers.size;
+    }
+
+    return {
+      syncHandlers,
+      asyncHandlers,
+      totalTopics: this.getActiveTopics().length
+    };
   }
 }
 
@@ -114,15 +238,56 @@ export class EventListener implements IEventListener {
 
   constructor(
     private readonly _topic: string,
-    private readonly _handler: (payload?: any) => void,
-    private readonly _unsubscribe: (topic: string, handler: (payload?: any) => void) => void
+    private readonly _handler: (payload?: any) => void | Promise<void>,
+    private readonly _unsubscribe: (topic: string, handler: (payload?: any) => void | Promise<void>) => void
   ) {}
 
   get topic(): string {
     return this._topic;
   }
 
-  get handler(): (payload?: any) => void {
+  get handler(): (payload?: any) => void | Promise<void> {
+    return this._handler;
+  }
+
+  get disposed(): boolean {
+    return this._disposed;
+  }
+
+  /**
+   * Dispose of this subscription
+   */
+  dispose(): void {
+    if (this._disposed) return;
+    this._unsubscribe(this._topic, this._handler);
+    this._disposed = true;
+  }
+
+  /**
+   * Manual unsubscribe (alias for dispose)
+   */
+  unsubscribe(): void {
+    this.dispose();
+  }
+}
+
+/**
+ * Disposable async event listener wrapper
+ */
+export class AsyncEventListener implements IAsyncEventListener {
+  private _disposed = false;
+
+  constructor(
+    private readonly _topic: string,
+    private readonly _handler: (payload?: any) => Promise<void>,
+    private readonly _unsubscribe: (topic: string, handler: (payload?: any) => Promise<void>) => void
+  ) {}
+
+  get topic(): string {
+    return this._topic;
+  }
+
+  get handler(): (payload?: any) => Promise<void> {
     return this._handler;
   }
 
@@ -166,13 +331,34 @@ export const EventUtils = {
   /**
    * Create a one-time event listener
    */
-  once(eventBus: EventBus, topic: string, handler: (payload?: any) => void): IEventListener {
+  once(eventBus: EventBus, topic: string, handler: (payload?: any) => void | Promise<void>): IEventListener {
     const onceHandler = (payload?: any) => {
-      handler(payload);
+      const result = handler(payload);
       listener.dispose();
+      return result;
     };
 
     const listener = eventBus.subscribe(topic, onceHandler);
+    return listener;
+  },
+
+  /**
+   * Create a one-time async event listener
+   */
+  onceAsync(eventBus: EventBus, topic: string, handler: (payload?: any) => Promise<void>): IAsyncEventListener {
+    let disposed = false;
+
+    const onceHandler = async (payload?: any) => {
+      if (disposed) return;
+      disposed = true;
+      try {
+        await handler(payload);
+      } finally {
+        listener.dispose();
+      }
+    };
+
+    const listener = eventBus.subscribeAsync(topic, onceHandler);
     return listener;
   },
 
@@ -183,15 +369,37 @@ export const EventUtils = {
     eventBus: EventBus,
     topic: string,
     predicate: (payload: T) => boolean,
-    handler: (payload: T) => void
+    handler: (payload: T) => void | Promise<void>
   ): IEventListener {
     const filterHandler = (payload: T) => {
       if (predicate(payload)) {
-        handler(payload);
+        return handler(payload);
       }
     };
 
     return eventBus.subscribe(topic, filterHandler);
+  },
+
+  /**
+   * Create a filtered async event listener
+   */
+  filterAsync<T>(
+    eventBus: EventBus,
+    topic: string,
+    predicate: (payload: T) => boolean,
+    handler: (payload: T) => Promise<void>
+  ): IAsyncEventListener {
+    const filterHandler = async (payload: T) => {
+      if (predicate(payload)) {
+        try {
+          await handler(payload);
+        } catch (error) {
+          console.error('Error in filtered async handler:', error);
+        }
+      }
+    };
+
+    return eventBus.subscribeAsync(topic, filterHandler);
   },
 
   /**
@@ -203,19 +411,25 @@ export const EventUtils = {
     delayMs: number,
     handler: (payload?: any) => void
   ): IEventListener {
-    let timeoutId: number | null = null;
+    let timeoutId: any = null;
     let lastPayload: any = null;
+    let isPending = false;
 
     const debouncedHandler = (payload: any) => {
       lastPayload = payload;
+      isPending = true;
+
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
       }
 
       timeoutId = setTimeout(() => {
-        handler(lastPayload);
+        if (isPending && lastPayload !== null) {
+          handler(lastPayload);
+          isPending = false;
+          lastPayload = null;
+        }
         timeoutId = null;
-        lastPayload = null;
       }, delayMs);
     };
 
@@ -226,7 +440,10 @@ export const EventUtils = {
     listener.dispose = () => {
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
+        timeoutId = null;
       }
+      isPending = false;
+      lastPayload = null;
       originalDispose();
     };
 
@@ -243,25 +460,37 @@ export const EventUtils = {
     handler: (payload?: any) => void
   ): IEventListener {
     let lastCall = 0;
-    let pendingCall: (() => void) | null = null;
+    let pendingTimeout: any = null;
+    let isThrottled = false;
 
     const throttledHandler = (payload: any) => {
       const now = Date.now();
 
-      if (now - lastCall >= intervalMs) {
+      if (!isThrottled) {
         handler(payload);
         lastCall = now;
-      } else if (pendingCall === null) {
-        pendingCall = () => {
-          handler(payload);
-          lastCall = Date.now();
-          pendingCall = null;
-        };
+        isThrottled = true;
 
-        setTimeout(pendingCall, intervalMs - (now - lastCall));
+        pendingTimeout = setTimeout(() => {
+          isThrottled = false;
+          pendingTimeout = null;
+        }, intervalMs);
       }
     };
 
-    return eventBus.subscribe(topic, throttledHandler);
+    const listener = eventBus.subscribe(topic, throttledHandler);
+
+    // Cleanup timeout on dispose
+    const originalDispose = listener.dispose.bind(listener);
+    listener.dispose = () => {
+      if (pendingTimeout !== null) {
+        clearTimeout(pendingTimeout);
+        pendingTimeout = null;
+      }
+      isThrottled = false;
+      originalDispose();
+    };
+
+    return listener;
   }
 };

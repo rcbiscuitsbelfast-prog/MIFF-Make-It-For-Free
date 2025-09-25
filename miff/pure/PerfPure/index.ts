@@ -198,13 +198,14 @@ export class HighResPerfTimer extends PerfTimer {
   stop(): PerfResult {
     const result = super.stop();
 
-    // Create performance marks and measures
+    // Create performance marks and measures if available
     if ('mark' in performance && 'measure' in performance) {
       try {
-        (performance as any).mark(`${this._markName}_end`);
-        (performance as any).measure(this._markName, `${this._markName}_start`, `${this._markName}_end`);
+        const perf = performance as any;
+        perf.mark(`${this._markName}_end`);
+        perf.measure(this._markName, `${this._markName}_start`, `${this._markName}_end`);
       } catch (e) {
-        // Ignore performance API errors
+        // Ignore performance API errors - this is expected in test environments
       }
     }
 
@@ -262,7 +263,9 @@ export class PerfProfiler {
    */
   start(label: string, highRes: boolean = false): PerfTimer {
     if (!this._enabled) {
-      return new PerfTimer(label, false);
+      // Return a disabled timer that doesn't actually track time
+      const disabledTimer = new PerfTimer(label, false);
+      return disabledTimer;
     }
 
     // Stop existing timer with same label
