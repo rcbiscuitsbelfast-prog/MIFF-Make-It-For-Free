@@ -1,12 +1,18 @@
 // MIFF Landing Page JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('MIFF Landing Page JavaScript loaded');
+
+    // Get DOM elements with error handling
     const splashScreen = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-content');
     const themeToggle = document.getElementById('theme-toggle');
 
+    console.log('DOM elements found:', { splashScreen: !!splashScreen, mainContent: !!mainContent, themeToggle: !!themeToggle });
+
     // Check for saved theme preference or default to light
     const savedTheme = localStorage.getItem('miff-theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
+    console.log('Theme set to:', savedTheme);
 
     // Update theme toggle icon
     updateThemeIcon(savedTheme);
@@ -20,27 +26,101 @@ document.addEventListener('DOMContentLoaded', function() {
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('miff-theme', newTheme);
             updateThemeIcon(newTheme);
+            console.log('Theme toggled to:', newTheme);
         });
     }
 
-    // Show splash screen for 2-3 seconds, then fade to main content
-    setTimeout(() => {
-        if (splashScreen && mainContent) {
+    // Fallback: If splash screen doesn't exist or main content doesn't exist, show main content immediately
+    if (!splashScreen || !mainContent) {
+        console.warn('Splash screen or main content not found, skipping splash');
+        showMainContent();
+        return;
+    }
+
+    // Function to show main content
+    function showMainContent() {
+        console.log('Showing main content');
+        if (splashScreen) {
+            splashScreen.style.display = 'none';
+        }
+        if (mainContent) {
+            mainContent.style.display = 'block';
+            mainContent.style.opacity = '1';
+        }
+    }
+
+    // Function to hide splash screen with animation
+    function hideSplashScreen() {
+        console.log('Hiding splash screen');
+        if (splashScreen) {
             splashScreen.style.opacity = '0';
             splashScreen.style.transition = 'opacity 1s ease-out';
 
             setTimeout(() => {
-                splashScreen.style.display = 'none';
-                mainContent.style.display = 'block';
-                mainContent.style.opacity = '0';
-                mainContent.style.transition = 'opacity 1s ease-in';
+                if (splashScreen) {
+                    splashScreen.style.display = 'none';
+                }
+                if (mainContent) {
+                    mainContent.style.display = 'block';
+                    mainContent.style.opacity = '0';
+                    mainContent.style.transition = 'opacity 1s ease-in';
 
-                setTimeout(() => {
-                    mainContent.style.opacity = '1';
-                }, 100);
+                    setTimeout(() => {
+                        if (mainContent) {
+                            mainContent.style.opacity = '1';
+                        }
+                    }, 100);
+                }
             }, 1000);
         }
-    }, 2000);
+    }
+
+    // Try to show splash screen for 3 seconds, then fade to main content
+    // Also add a fallback timeout in case the animation doesn't work
+    let splashTimeout = setTimeout(() => {
+        console.log('Splash screen timeout reached');
+        hideSplashScreen();
+    }, 3000);
+
+    // If user clicks anywhere, skip splash screen
+    document.addEventListener('click', function() {
+        console.log('User clicked, skipping splash');
+        clearTimeout(splashTimeout);
+        hideSplashScreen();
+    }, { once: true });
+
+    // Add keyboard shortcut to skip splash (ESC key)
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            console.log('ESC pressed, skipping splash');
+            clearTimeout(splashTimeout);
+            hideSplashScreen();
+        }
+    });
+
+    // Add additional debugging and error handling
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript error occurred:', e.error);
+        // If there's an error, immediately show main content as fallback
+        console.warn('Error detected, showing main content as fallback');
+        showMainContent();
+    });
+
+    // Monitor for any issues with the splash screen
+    setInterval(() => {
+        if (splashScreen && mainContent) {
+            const splashVisible = splashScreen.style.display !== 'none' && splashScreen.style.opacity !== '0';
+            const mainVisible = mainContent.style.display === 'block' && mainContent.style.opacity === '1';
+
+            if (splashVisible && mainVisible) {
+                console.warn('Both splash and main content are visible - fixing...');
+                splashScreen.style.display = 'none';
+                mainContent.style.opacity = '1';
+            }
+        }
+    }, 1000);
+
+    console.log('Splash screen setup complete');
 
     // Add click effects to experience cards
     document.querySelectorAll('.experience-card').forEach(card => {
@@ -162,10 +242,11 @@ style.textContent = `
         width: 100%;
         height: 100%;
         background: var(--bg-primary);
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         z-index: 9999;
+        opacity: 1;
         transition: opacity 1s ease-out;
     }
 
@@ -215,6 +296,30 @@ style.textContent = `
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+    }
+
+    /* Ensure main content is hidden initially */
+    #main-content {
+        display: none !important;
+        opacity: 0;
+        transition: opacity 1s ease-in;
+    }
+
+    /* Make sure splash screen elements are visible */
+    .splash-title, .splash-tagline, .splash-subtitle {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    /* Ensure splash content is properly centered */
+    .splash-content {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
     .experience-card {

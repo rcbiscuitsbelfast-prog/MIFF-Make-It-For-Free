@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+        }
+
+        #main-content {
+            display: none;
+            padding: 50px;
+            background: #f0f0f0;
+            min-height: 100vh;
+        }
+
+        .test-button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .test-button:hover {
+            background: #005999;
+        }
+    </style>
+</head>
+<body>
+    <div id="splash-screen">
+        <div>
+            <h1>🎮 Splash Screen Test</h1>
+            <p>This should automatically disappear after 3 seconds...</p>
+            <button class="test-button" onclick="skipSplash()">Skip Splash</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <h1>✅ Main Content Loaded!</h1>
+        <p>The splash screen should have hidden automatically.</p>
+        <p>If you can see this, the splash screen is working correctly.</p>
+        <button class="test-button" onclick="showSplash()">Show Splash Again</button>
+        <button class="test-button" onclick="window.location.href='index.html'">Go to Main Site</button>
+    </div>
+
+    <script>
+        console.log('Test page loaded');
+
+        // Auto-hide splash after 3 seconds
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            console.log('Splash screen auto-hidden');
+        }, 3000);
+
+        // Allow clicking to skip
+        document.getElementById('splash-screen').addEventListener('click', skipSplash);
+
+        function skipSplash() {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            console.log('Splash screen manually skipped');
+        }
+
+        function showSplash() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('splash-screen').style.display = 'flex';
+            console.log('Splash screen shown again');
+        }
+    </script>
+</body>
+</html>
