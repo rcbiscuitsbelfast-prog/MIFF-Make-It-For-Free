@@ -71,6 +71,8 @@ import { InventoryManager } from '../miff/pure/InventoryPure/index';
 // import { SettingsManager } from '../miff/pure/SettingsPure/index';
 // import { HapticsManager } from '../miff/pure/HapticsPure/index';
 // import { RhythmSystemPure } from '../miff/pure/RhythmSystemPure/index';
+import { CutScenePure } from '../miff/pure/CutScenePure/index';
+import { CutSceneWebBridge } from '../miff/pure/CutScenePure/bridges';
 
 // Export systems
 // import { AndroidExporterPure } from '../miff/pure/ExportAndroidPure/index';
@@ -163,6 +165,9 @@ class MIFFCLI {
 
     // Demo Projects
     this.setupDemoCommands();
+
+    // Cut Scene Commands
+    this.setupCutSceneCommands();
 
     // System Commands
     this.setupSystemCommands();
@@ -378,6 +383,68 @@ class MIFFCLI {
       .option('-f, --force', 'Force clean without confirmation')
       .action(async (options: any) => {
         await this.cleanSystem(options);
+      });
+  }
+
+  private setupCutSceneCommands(): void {
+    const cutsceneCommand = this.program
+      .command('cutscene')
+      .description('Cut scene management commands');
+
+    cutsceneCommand
+      .command('preview')
+      .description('Preview cut scene in browser with WebBridgePure')
+      .option('-i, --input <file>', 'Cut scene definition file (JSON)')
+      .option('--fullscreen', 'Run preview in fullscreen mode')
+      .option('--no-controls', 'Hide preview controls')
+      .option('--loop', 'Loop cut scene playback')
+      .option('--no-dialogue', 'Skip dialogue tracks in preview')
+      .option('--skip-animations', 'Skip animation tracks in preview')
+      .option('--debug', 'Enable debug output and validation')
+      .action(async (options: any) => {
+        await this.previewCutScene(options);
+      });
+
+    cutsceneCommand
+      .command('export')
+      .description('Export cut scene for specific engine')
+      .option('-e, --engine <engine>', 'Target engine: web, unity, unreal, godot', 'web')
+      .option('-i, --input <file>', 'Input cut scene definition file (JSON)')
+      .option('-o, --output <path>', 'Output file or directory', './export')
+      .option('-f, --format <format>', 'Export format: json, timeline, sequencer, scene', 'json')
+      .option('--optimize', 'Optimize for target engine')
+      .option('--include-assets', 'Include referenced assets in export')
+      .option('--no-dialogue', 'Skip dialogue tracks in export')
+      .option('--skip-animations', 'Skip animation tracks in export')
+      .action(async (options: any) => {
+        await this.exportCutScene(options);
+      });
+
+    cutsceneCommand
+      .command('validate')
+      .description('Validate cut scene definition JSON file')
+      .option('-i, --input <file>', 'Cut scene definition file (JSON)')
+      .option('--strict', 'Strict validation (fail on warnings)')
+      .option('--fix', 'Attempt to fix validation issues')
+      .action(async (options: any) => {
+        await this.validateCutScene(options);
+      });
+
+    cutsceneCommand
+      .command('simulate')
+      .description('Simulate cut scene timing and actions')
+      .option('-i, --input <file>', 'Cut scene definition file (JSON)')
+      .option('--debug', 'Enable debug output')
+      .action(async (options: any) => {
+        await this.simulateCutScene(options);
+      });
+
+    cutsceneCommand
+      .command('demo')
+      .description('Create sample cut scene definitions')
+      .option('-o, --output <path>', 'Output directory', './demo-scenes')
+      .action(async (options: any) => {
+        await this.createCutSceneDemo(options);
       });
   }
 
@@ -1279,6 +1346,8 @@ ${name}/
           return new (InputPure as any).InputSystem();
         case 'DebugOverlayPure':
           return new (DebugOverlayPure as any).DebugOverlayManager();
+        case 'CutScenePure':
+          return new CutScenePure({ config: {}, tracks: [], actions: [], variables: {}, events: [] });
         default:
           return null;
       }
@@ -1286,6 +1355,754 @@ ${name}/
       console.error(`Failed to load module ${moduleName}:`, error);
       return null;
     }
+  }
+
+  // Cut Scene Command Implementations
+  private async previewCutScene(options: any): Promise<void> {
+    console.log(chalk.blue(`\n🎬 Previewing cut scene...`));
+
+    try {
+      let cutSceneDefinition;
+
+      if (options.input) {
+        if (!fs.existsSync(options.input)) {
+          console.error(chalk.red(`❌ Cut scene file not found: ${options.input}`));
+          process.exit(1);
+        }
+        const fileContent = fs.readFileSync(options.input, 'utf8');
+        cutSceneDefinition = CutScenePure.parseFromJSON(fileContent);
+        console.log(chalk.green(`✅ Loaded cut scene: ${cutSceneDefinition.config.name}`));
+      } else {
+        // Use sample definition
+        cutSceneDefinition = CutScenePure.createSampleDefinition();
+        console.log(chalk.yellow(`📝 Using sample cut scene for preview`));
+      }
+
+      const webBridge = new CutSceneWebBridge();
+      console.log(chalk.blue(`🌐 Initializing WebBridge for preview...`));
+
+      // Create preview HTML
+      const previewHTML = this.generatePreviewHTML(cutSceneDefinition, options);
+
+      // Write preview file
+      const outputFile = path.join(process.cwd(), 'cutscene-preview.html');
+      fs.writeFileSync(outputFile, previewHTML);
+
+      console.log(chalk.green(`✅ Preview file created: ${outputFile}`));
+      console.log(chalk.blue(`🌐 Opening preview in browser...`));
+
+      // Open in browser
+      const { exec } = require('child_process');
+      const openCommand = process.platform === 'win32' ? 'start' :
+                          process.platform === 'darwin' ? 'open' : 'xdg-open';
+
+      exec(`${openCommand} ${outputFile}`, (error: any) => {
+        if (error) {
+          console.log(chalk.yellow(`⚠️  Could not open browser automatically`));
+          console.log(chalk.gray(`   Open manually: file://${outputFile}`));
+        }
+      });
+
+      console.log(chalk.green(`🎉 Preview started successfully!`));
+      this.stats.commandsExecuted++;
+
+    } catch (error) {
+      console.error(chalk.red(`❌ Preview failed: ${error}`));
+      this.stats.errors++;
+    }
+  }
+
+  private async exportCutScene(options: any): Promise<void> {
+    console.log(chalk.blue(`\n📦 Exporting cut scene for ${options.engine}...`));
+
+    try {
+      let cutSceneDefinition;
+
+      if (options.input) {
+        if (!fs.existsSync(options.input)) {
+          console.error(chalk.red(`❌ Cut scene file not found: ${options.input}`));
+          process.exit(1);
+        }
+        const fileContent = fs.readFileSync(options.input, 'utf8');
+        cutSceneDefinition = CutScenePure.parseFromJSON(fileContent);
+        console.log(chalk.green(`✅ Loaded cut scene: ${cutSceneDefinition.config.name}`));
+      } else {
+        cutSceneDefinition = CutScenePure.createSampleDefinition();
+        console.log(chalk.yellow(`📝 Using sample cut scene for export`));
+      }
+
+      const outputDir = path.resolve(options.output);
+      fs.mkdirSync(outputDir, { recursive: true });
+
+      console.log(chalk.blue(`🎯 Exporting for engine: ${options.engine}`));
+
+      switch (options.engine) {
+        case 'web':
+          await this.exportToWeb(cutSceneDefinition, outputDir, options);
+          break;
+        case 'unity':
+          await this.exportToUnity(cutSceneDefinition, outputDir, options);
+          break;
+        case 'godot':
+          await this.exportToGodot(cutSceneDefinition, outputDir, options);
+          break;
+        case 'unreal':
+          await this.exportToUnreal(cutSceneDefinition, outputDir, options);
+          break;
+        default:
+          console.error(chalk.red(`❌ Unsupported engine: ${options.engine}`));
+          process.exit(1);
+      }
+
+      console.log(chalk.green(`✅ Export completed successfully!`));
+      console.log(chalk.gray(`📂 Output directory: ${outputDir}`));
+      this.stats.commandsExecuted++;
+
+    } catch (error) {
+      console.error(chalk.red(`❌ Export failed: ${error}`));
+      this.stats.errors++;
+    }
+  }
+
+  private async validateCutScene(options: any): Promise<void> {
+    console.log(chalk.blue(`\n🔍 Validating cut scene definition...`));
+
+    try {
+      if (!options.input) {
+        console.error(chalk.red(`❌ Input file required for validation`));
+        console.error(chalk.gray(`   Use: --input <file> or -i <file>`));
+        process.exit(1);
+      }
+
+      if (!fs.existsSync(options.input)) {
+        console.error(chalk.red(`❌ Cut scene file not found: ${options.input}`));
+        process.exit(1);
+      }
+
+      const fileContent = fs.readFileSync(options.input, 'utf8');
+      const cutSceneDefinition = CutScenePure.parseFromJSON(fileContent);
+
+      console.log(chalk.green(`✅ JSON syntax valid`));
+      console.log(chalk.blue(`📋 Validating structure...`));
+
+      // Perform validation checks
+      const validation = this.validateCutSceneDefinition(cutSceneDefinition, options.strict);
+
+      if (validation.isValid) {
+        console.log(chalk.green(`🎉 Cut scene definition is valid!`));
+        console.log(chalk.gray(`   📊 Tracks: ${cutSceneDefinition.tracks.length}`));
+        console.log(chalk.gray(`   🎬 Actions: ${cutSceneDefinition.actions.length}`));
+        console.log(chalk.gray(`   ⏱️  Duration: ${cutSceneDefinition.config.duration}ms`));
+      } else {
+        console.error(chalk.red(`❌ Validation failed`));
+        validation.errors.forEach(error => console.error(chalk.red(`   • ${error}`)));
+
+        if (validation.warnings.length > 0) {
+          console.log(chalk.yellow(`⚠️  Warnings:`));
+          validation.warnings.forEach(warning => console.log(chalk.yellow(`   • ${warning}`)));
+        }
+
+        process.exit(1);
+      }
+
+      this.stats.commandsExecuted++;
+
+    } catch (error) {
+      console.error(chalk.red(`❌ Validation failed: ${error}`));
+      this.stats.errors++;
+    }
+  }
+
+  private async simulateCutScene(options: any): Promise<void> {
+    console.log(chalk.blue(`\n🎭 Simulating cut scene...`));
+
+    try {
+      let cutSceneDefinition;
+
+      if (options.input) {
+        if (!fs.existsSync(options.input)) {
+          console.error(chalk.red(`❌ Cut scene file not found: ${options.input}`));
+          process.exit(1);
+        }
+        const fileContent = fs.readFileSync(options.input, 'utf8');
+        cutSceneDefinition = CutScenePure.parseFromJSON(fileContent);
+        console.log(chalk.green(`✅ Loaded cut scene: ${cutSceneDefinition.config.name}`));
+      } else {
+        cutSceneDefinition = CutScenePure.createSampleDefinition();
+        console.log(chalk.yellow(`📝 Using sample cut scene for simulation`));
+      }
+
+      console.log(chalk.blue(`⏱️  Simulating ${cutSceneDefinition.config.duration}ms duration...`));
+      console.log(chalk.gray(`📊 Tracks: ${cutSceneDefinition.tracks.length}`));
+      console.log(chalk.gray(`🎬 Actions: ${cutSceneDefinition.actions.length}`));
+
+      const simulationSteps = this.simulateCutScenePlayback(cutSceneDefinition, options.debug);
+
+      for (const step of simulationSteps) {
+        console.log(chalk.gray(`[${step.time.toString().padStart(4, ' ')}ms] ${step.action}`));
+        await new Promise(resolve => setTimeout(resolve, Math.max(50, step.time * 0.05)));
+      }
+
+      console.log(chalk.green(`✅ Simulation completed successfully!`));
+      this.stats.commandsExecuted++;
+
+    } catch (error) {
+      console.error(chalk.red(`❌ Simulation failed: ${error}`));
+      this.stats.errors++;
+    }
+  }
+
+  private async createCutSceneDemo(options: any): Promise<void> {
+    console.log(chalk.blue(`\n🎬 Creating cut scene demo...`));
+
+    try {
+      const outputDir = path.resolve(options.output);
+      fs.mkdirSync(outputDir, { recursive: true });
+
+      const demoScenes = [
+        'renderworld_welcome_cutscene.json',
+        'battle_intro_cutscene.json',
+        'exploration_cutscene.json'
+      ];
+
+      console.log(chalk.blue(`📂 Creating demo scenes in: ${outputDir}`));
+
+      for (const sceneName of demoScenes) {
+        const scenePath = path.join(outputDir, sceneName);
+        console.log(chalk.gray(`   📄 Creating ${sceneName}...`));
+
+        let sceneContent;
+        switch (sceneName) {
+          case 'renderworld_welcome_cutscene.json':
+            sceneContent = fs.readFileSync(path.join(process.cwd(), 'demo-scenes', sceneName), 'utf8');
+            break;
+          case 'battle_intro_cutscene.json':
+            sceneContent = fs.readFileSync(path.join(process.cwd(), 'demo-scenes', sceneName), 'utf8');
+            break;
+          case 'exploration_cutscene.json':
+            sceneContent = fs.readFileSync(path.join(process.cwd(), 'demo-scenes', sceneName), 'utf8');
+            break;
+          default:
+            sceneContent = JSON.stringify(CutScenePure.createSampleDefinition(), null, 2);
+        }
+
+        fs.writeFileSync(scenePath, sceneContent);
+        console.log(chalk.green(`   ✅ ${sceneName} created`));
+      }
+
+      console.log(chalk.green(`🎉 Demo scenes created successfully!`));
+      console.log(chalk.gray(`📂 Location: ${outputDir}`));
+      console.log(chalk.gray(`📄 Files: ${demoScenes.length} scenes`));
+      this.stats.commandsExecuted++;
+
+    } catch (error) {
+      console.error(chalk.red(`❌ Demo creation failed: ${error}`));
+      this.stats.errors++;
+    }
+  }
+
+  private generatePreviewHTML(definition: any, options: any): string {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CutScene Preview - ${definition.config.name}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        #controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #00ff88;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        button:hover {
+            background: #00cc66;
+        }
+
+        #info {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        #preview-area {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cutscene-display {
+            width: 80%;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            background: #ff8800;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .status-indicator.playing {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .status-indicator.paused {
+            background: #ffaa00;
+            color: #000;
+        }
+
+        .status-indicator.stopped {
+            background: #666;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <h3>🎬 CutScene Preview</h3>
+        <div>
+            <button onclick="playCutScene()">▶️ Play</button>
+            <button onclick="pauseCutScene()">⏸️ Pause</button>
+            <button onclick="stopCutScene()">⏹️ Stop</button>
+            <button onclick="restartCutScene()">🔄 Restart</button>
+        </div>
+        <div style="margin-top: 10px;">
+            <label>Progress: <span id="progress">0</span>%</label>
+            <br>
+            <label>Time: <span id="current-time">0</span>ms / <span id="total-time">${definition.config.duration}</span>ms</label>
+        </div>
+        ${options.fullscreen ? '<div style="margin-top: 10px;"><button onclick="toggleFullscreen()">🖥️ Fullscreen</button></div>' : ''}
+        ${options.loop ? '<div style="margin-top: 10px; color: #00ff88;">🔄 Loop enabled</div>' : ''}
+    </div>
+
+    <div id="preview-area">
+        <div class="cutscene-display">
+            <div class="status-indicator stopped" id="status-indicator">Stopped</div>
+            <div id="cutscene-content">
+                <h2>${definition.config.name}</h2>
+                <p>${definition.config.description}</p>
+                <p><strong>Duration:</strong> ${definition.config.duration}ms</p>
+                <p><strong>Tracks:</strong> ${definition.tracks.length}</p>
+                <p><strong>Actions:</strong> ${definition.actions.length}</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="info">
+        <div>🎬 ${definition.config.name}</div>
+        <div>⏱️ ${definition.config.duration}ms</div>
+        <div>📊 ${definition.tracks.length} tracks</div>
+    </div>
+
+    <script>
+        const definition = ${JSON.stringify(definition, null, 2)};
+        let isPlaying = false;
+        let currentTime = 0;
+        let startTime = 0;
+        let animationFrame = null;
+
+        function updateDisplay() {
+            const progress = Math.min(100, (currentTime / definition.config.duration) * 100);
+            document.getElementById('progress').textContent = Math.round(progress);
+            document.getElementById('current-time').textContent = currentTime;
+            document.getElementById('total-time').textContent = definition.config.duration;
+
+            const statusIndicator = document.getElementById('status-indicator');
+            if (isPlaying) {
+                statusIndicator.className = 'status-indicator playing';
+                statusIndicator.textContent = 'Playing';
+            } else if (currentTime > 0) {
+                statusIndicator.className = 'status-indicator paused';
+                statusIndicator.textContent = 'Paused';
+            } else {
+                statusIndicator.className = 'status-indicator stopped';
+                statusIndicator.textContent = 'Stopped';
+            }
+        }
+
+        function playCutScene() {
+            if (isPlaying) return;
+
+            isPlaying = true;
+            startTime = performance.now() - currentTime;
+            updateDisplay();
+
+            const loop = (timestamp) => {
+                if (!isPlaying) return;
+
+                currentTime = timestamp - startTime;
+                updateDisplay();
+
+                if (currentTime >= definition.config.duration) {
+                    if (${options.loop || false}) {
+                        currentTime = 0;
+                        startTime = timestamp;
+                    } else {
+                        stopCutScene();
+                        return;
+                    }
+                }
+
+                animationFrame = requestAnimationFrame(loop);
+            };
+
+            animationFrame = requestAnimationFrame(loop);
+        }
+
+        function pauseCutScene() {
+            isPlaying = false;
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+            updateDisplay();
+        }
+
+        function stopCutScene() {
+            isPlaying = false;
+            currentTime = 0;
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+            updateDisplay();
+        }
+
+        function restartCutScene() {
+            stopCutScene();
+            setTimeout(() => playCutScene(), 100);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Initialize
+        updateDisplay();
+
+        // Auto-start if configured
+        ${definition.config.autoStart ? 'setTimeout(() => playCutScene(), 1000);' : ''}
+
+        console.log('🎬 CutScene Preview loaded:', definition.config.name);
+    </script>
+</body>
+</html>
+    `.trim();
+  }
+
+  private async exportToWeb(definition: any, outputDir: string, options: any): Promise<void> {
+    const webBridge = new CutSceneWebBridge();
+    const htmlContent = this.generatePreviewHTML(definition, options);
+
+    // Write files
+    fs.writeFileSync(path.join(outputDir, 'cutscene.json'), JSON.stringify(definition, null, 2));
+    fs.writeFileSync(path.join(outputDir, 'index.html'), htmlContent);
+
+    // Generate WebBridge script
+    const webScript = webBridge.generateCutSceneScript(definition);
+    fs.writeFileSync(path.join(outputDir, 'CutSceneWebPlayer.js'), webScript);
+
+    console.log(chalk.green(`✅ Web export completed`));
+    console.log(chalk.gray(`   📄 index.html - Preview page`));
+    console.log(chalk.gray(`   📄 cutscene.json - Definition file`));
+    console.log(chalk.gray(`   📄 CutSceneWebPlayer.js - Web player script`));
+  }
+
+  private async exportToUnity(definition: any, outputDir: string, options: any): Promise<void> {
+    // Generate Unity script
+    const unityScript = this.generateUnityScript(definition);
+    fs.writeFileSync(path.join(outputDir, 'CutScenePlayer.cs'), unityScript);
+
+    console.log(chalk.green(`✅ Unity export completed`));
+    console.log(chalk.gray(`   📄 CutScenePlayer.cs - Unity C# script`));
+  }
+
+  private async exportToGodot(definition: any, outputDir: string, options: any): Promise<void> {
+    // Generate Godot script
+    const godotScript = this.generateGodotScript(definition);
+    fs.writeFileSync(path.join(outputDir, 'CutSceneGodotPlayer.gd'), godotScript);
+
+    console.log(chalk.green(`✅ Godot export completed`));
+    console.log(chalk.gray(`   📄 CutSceneGodotPlayer.gd - Godot GDScript`));
+  }
+
+  private async exportToUnreal(definition: any, outputDir: string, options: any): Promise<void> {
+    // Generate Unreal scripts
+    const unrealHeader = this.generateUnrealHeader(definition);
+    const unrealSource = this.generateUnrealSource(definition);
+
+    fs.writeFileSync(path.join(outputDir, 'CutScenePlayer.h'), unrealHeader);
+    fs.writeFileSync(path.join(outputDir, 'CutScenePlayer.cpp'), unrealSource);
+
+    console.log(chalk.green(`✅ Unreal export completed`));
+    console.log(chalk.gray(`   📄 CutScenePlayer.h - Unreal header`));
+    console.log(chalk.gray(`   📄 CutScenePlayer.cpp - Unreal source`));
+  }
+
+  private generateUnityScript(definition: any): string {
+    return `
+using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
+using System.Collections;
+
+public class CutScenePlayer : MonoBehaviour
+{
+    public PlayableDirector director;
+    public TimelineAsset cutSceneTimeline;
+
+    void Start()
+    {
+        // Load and play cut scene: ${definition.config.name}
+        if (director != null)
+        {
+            director.Play();
+            Debug.Log("Playing cut scene: ${definition.config.name}");
+        }
+    }
+}
+    `.trim();
+  }
+
+  private generateGodotScript(definition: any): string {
+    return `
+extends Node
+
+# CutSceneGodotPlayer - Godot implementation of CutScenePure
+class_name CutSceneGodotPlayer
+
+var cut_scene_definition: Dictionary
+var is_playing: bool = false
+
+func _ready():
+    load_cut_scene_definition()
+    setup_scene()
+
+func load_cut_scene_definition():
+    # Load cut scene: ${definition.config.name}
+    cut_scene_definition = ${JSON.stringify(definition)}
+
+func setup_scene():
+    # Set up tracks based on definition
+    for track in cut_scene_definition.tracks:
+        setup_track(track)
+
+func setup_track(track: Dictionary):
+    match track.type:
+        "camera":
+            setup_camera_track(track)
+        "dialogue":
+            setup_dialogue_track(track)
+        "audio":
+            setup_audio_track(track)
+    `.trim();
+  }
+
+  private generateUnrealHeader(definition: any): string {
+    return `
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "CutScenePlayer.generated.h"
+
+UCLASS()
+class MIFF_API ACutScenePlayer : public AActor
+{
+    GENERATED_BODY()
+
+public:
+    ACutScenePlayer();
+
+    // Cut scene: ${definition.config.name}
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Cut Scene")
+    float Duration = ${definition.config.duration / 1000.0}f;
+
+    virtual void BeginPlay() override;
+
+    UFUNCTION(BlueprintCallable, Category = "Cut Scene")
+    void PlayCutScene();
+
+    UFUNCTION(BlueprintCallable, Category = "Cut Scene")
+    void StopCutScene();
+
+private:
+    bool bIsPlaying = false;
+    float CurrentTime = 0.0f;
+};
+    `.trim();
+  }
+
+  private generateUnrealSource(definition: any): string {
+    return `
+#include "CutScenePlayer.h"
+
+ACutScenePlayer::ACutScenePlayer()
+{
+    PrimaryActorTick.bCanEverTick = true;
+}
+
+void ACutScenePlayer::BeginPlay()
+{
+    Super::BeginPlay();
+    // Initialize cut scene: ${definition.config.name}
+}
+
+void ACutScenePlayer::PlayCutScene()
+{
+    if (bIsPlaying) return;
+    bIsPlaying = true;
+    CurrentTime = 0.0f;
+    UE_LOG(LogTemp, Log, TEXT("Playing cut scene: ${definition.config.name}"));
+}
+
+void ACutScenePlayer::StopCutScene()
+{
+    bIsPlaying = false;
+    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: ${definition.config.name}"));
+}
+    `.trim();
+  }
+
+  private validateCutSceneDefinition(definition: any, strict: boolean): any {
+    const errors: string[] = [];
+    const warnings: string[] = [];
+
+    // Basic structure validation
+    if (!definition.config) {
+      errors.push('Missing config section');
+    } else {
+      if (!definition.config.id) warnings.push('Missing cut scene ID');
+      if (!definition.config.name) warnings.push('Missing cut scene name');
+      if (!definition.config.duration) warnings.push('Missing duration');
+    }
+
+    if (!definition.tracks || definition.tracks.length === 0) {
+      errors.push('No tracks defined');
+    }
+
+    if (!definition.actions || definition.actions.length === 0) {
+      errors.push('No actions defined');
+    }
+
+    // Track validation
+    if (definition.tracks) {
+      definition.tracks.forEach((track: any, index: number) => {
+        if (!track.id) warnings.push(`Track ${index} missing ID`);
+        if (!track.type) warnings.push(`Track ${index} missing type`);
+        if (track.startTime >= track.endTime) {
+          errors.push(`Track ${index} has invalid timing`);
+        }
+      });
+    }
+
+    // Action validation
+    if (definition.actions) {
+      definition.actions.forEach((action: any, index: number) => {
+        if (!action.trackId) warnings.push(`Action ${index} missing trackId`);
+        if (!action.type) warnings.push(`Action ${index} missing type`);
+        if (!action.timestamp) warnings.push(`Action ${index} missing timestamp`);
+      });
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+      warnings
+    };
+  }
+
+  private simulateCutScenePlayback(definition: any, debug: boolean): any[] {
+    const steps: any[] = [];
+    const duration = definition.config.duration;
+
+    steps.push({ time: 0, action: `Initialize cut scene: ${definition.config.name}` });
+
+    if (definition.tracks) {
+      definition.tracks.forEach((track: any) => {
+        if (track.startTime > 0) {
+          steps.push({
+            time: track.startTime,
+            action: `Start ${track.type} track: ${track.name}`
+          });
+        }
+      });
+    }
+
+    if (definition.actions) {
+      definition.actions.forEach((action: any) => {
+        steps.push({
+          time: action.timestamp,
+          action: `Execute ${action.type} action: ${action.id}`
+        });
+      });
+    }
+
+    if (definition.tracks) {
+      definition.tracks.forEach((track: any) => {
+        if (track.endTime < duration) {
+          steps.push({
+            time: track.endTime,
+            action: `Complete ${track.type} track: ${track.name}`
+          });
+        }
+      });
+    }
+
+    steps.push({
+      time: duration,
+      action: `Cut scene completed: ${definition.config.name}`
+    });
+
+    return steps.sort((a, b) => a.time - b.time);
   }
 
   public async run(): Promise<void> {

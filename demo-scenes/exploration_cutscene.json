@@ -1,0 +1,411 @@
+{
+  "config": {
+    "id": "exploration_cutscene",
+    "name": "World Discovery Sequence",
+    "description": "Cut scene showcasing exploration mechanics and world discovery",
+    "duration": 7000,
+    "skippable": true,
+    "autoStart": false,
+    "engineTargets": ["web", "godot", "unity"],
+    "metadata": {
+      "author": "MIFF Team",
+      "version": "1.0.0",
+      "scene": "open_world",
+      "difficulty": "easy",
+      "tags": ["exploration", "discovery", "tutorial"]
+    }
+  },
+  "tracks": [
+    {
+      "id": "exploration_camera",
+      "name": "Exploration Camera",
+      "type": "camera",
+      "enabled": true,
+      "startTime": 0,
+      "endTime": 5000,
+      "data": {
+        "mode": "free_roam",
+        "smoothness": 0.8,
+        "focusPoints": [
+          { "position": { "x": 5, "y": 2, "z": 10 }, "duration": 1500 },
+          { "position": { "x": -8, "y": 3, "z": 15 }, "duration": 1500 },
+          { "position": { "x": 12, "y": 5, "z": 8 }, "duration": 2000 }
+        ],
+        "reticle": true,
+        "vignette": 0.3
+      }
+    },
+    {
+      "id": "discovery_dialogue",
+      "name": "Discovery Commentary",
+      "type": "dialogue",
+      "enabled": true,
+      "startTime": 1000,
+      "endTime": 6000,
+      "data": {
+        "speaker": "companion_ai",
+        "speakerName": "AI Companion",
+        "dialogueId": "exploration_guidance",
+        "text": "Look at this fascinating landscape! Each area has its own unique ecosystem. The glowing flora indicates high energy concentrations, while the crystalline structures suggest ancient magical activity.",
+        "voice": "curious_analytical",
+        "emotion": "excited",
+        "position": "bottom_left",
+        "tail": true
+      }
+    },
+    {
+      "id": "ambient_exploration",
+      "name": "Exploration Ambient Audio",
+      "type": "audio",
+      "enabled": true,
+      "startTime": 0,
+      "endTime": 7000,
+      "data": {
+        "soundId": "exploration_ambient",
+        "volume": 0.5,
+        "layers": [
+          { "id": "wind_chimes", "volume": 0.3, "pan": -0.5 },
+          { "id": "distant_birds", "volume": 0.4, "pan": 0.7 },
+          { "id": "magical_hum", "volume": 0.2, "pan": 0 }
+        ],
+        "spatial": true
+      }
+    },
+    {
+      "id": "poi_highlights",
+      "name": "Points of Interest",
+      "type": "animation",
+      "enabled": true,
+      "startTime": 2000,
+      "endTime": 6000,
+      "data": {
+        "highlights": [
+          {
+            "target": "glowing_flora",
+            "effect": "pulse_glow",
+            "color": "#00ff88",
+            "delay": 0,
+            "duration": 1500
+          },
+          {
+            "target": "crystal_formation",
+            "effect": "sparkle",
+            "color": "#ffffff",
+            "delay": 500,
+            "duration": 1500
+          },
+          {
+            "target": "ancient_ruins",
+            "effect": "mystic_glow",
+            "color": "#8844ff",
+            "delay": 1000,
+            "duration": 2000
+          }
+        ],
+        "scanLines": true
+      }
+    },
+    {
+      "id": "exploration_ui",
+      "name": "Exploration UI Elements",
+      "type": "event",
+      "enabled": true,
+      "startTime": 500,
+      "endTime": 7000,
+      "data": {
+        "elements": [
+          { "type": "mini_map", "position": "top_right", "show": true },
+          { "type": "compass", "position": "top_center", "show": true },
+          { "type": "poi_markers", "show": true, "fadeIn": true },
+          { "type": "distance_indicators", "show": true }
+        ]
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "camera_start_exploration",
+      "trackId": "exploration_camera",
+      "timestamp": 0,
+      "type": "start",
+      "payload": {
+        "mode": "free_roam",
+        "smoothness": 0.8
+      }
+    },
+    {
+      "id": "ambient_audio_start",
+      "trackId": "ambient_exploration",
+      "timestamp": 0,
+      "type": "start",
+      "payload": {
+        "soundId": "exploration_ambient",
+        "volume": 0.5
+      }
+    },
+    {
+      "id": "dialogue_begin",
+      "trackId": "discovery_dialogue",
+      "timestamp": 1000,
+      "type": "start",
+      "payload": {
+        "dialogueId": "exploration_guidance",
+        "position": "bottom_left",
+        "tail": true
+      }
+    },
+    {
+      "id": "ui_show",
+      "trackId": "exploration_ui",
+      "timestamp": 500,
+      "type": "trigger",
+      "payload": {
+        "elements": ["mini_map", "compass", "poi_markers", "distance_indicators"]
+      }
+    },
+    {
+      "id": "poi_highlights_start",
+      "trackId": "poi_highlights",
+      "timestamp": 2000,
+      "type": "start",
+      "payload": {
+        "highlights": ["glowing_flora", "crystal_formation", "ancient_ruins"]
+      }
+    },
+    {
+      "id": "camera_focus_1",
+      "trackId": "exploration_camera",
+      "timestamp": 500,
+      "type": "update",
+      "payload": {
+        "focusPoint": 0,
+        "position": { "x": 5, "y": 2, "z": 10 }
+      }
+    },
+    {
+      "id": "camera_focus_2",
+      "trackId": "exploration_camera",
+      "timestamp": 2000,
+      "type": "update",
+      "payload": {
+        "focusPoint": 1,
+        "position": { "x": -8, "y": 3, "z": 15 }
+      }
+    },
+    {
+      "id": "camera_focus_3",
+      "trackId": "exploration_camera",
+      "timestamp": 3500,
+      "type": "update",
+      "payload": {
+        "focusPoint": 2,
+        "position": { "x": 12, "y": 5, "z": 8 }
+      }
+    },
+    {
+      "id": "flora_highlight",
+      "trackId": "poi_highlights",
+      "timestamp": 2000,
+      "type": "update",
+      "payload": {
+        "target": "glowing_flora",
+        "effect": "pulse_glow",
+        "color": "#00ff88"
+      }
+    },
+    {
+      "id": "crystal_highlight",
+      "trackId": "poi_highlights",
+      "timestamp": 2500,
+      "type": "update",
+      "payload": {
+        "target": "crystal_formation",
+        "effect": "sparkle",
+        "color": "#ffffff"
+      }
+    },
+    {
+      "id": "ruins_highlight",
+      "trackId": "poi_highlights",
+      "timestamp": 3000,
+      "type": "update",
+      "payload": {
+        "target": "ancient_ruins",
+        "effect": "mystic_glow",
+        "color": "#8844ff"
+      }
+    },
+    {
+      "id": "dialogue_complete",
+      "trackId": "discovery_dialogue",
+      "timestamp": 6000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "camera_complete",
+      "trackId": "exploration_camera",
+      "timestamp": 5000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "audio_complete",
+      "trackId": "ambient_exploration",
+      "timestamp": 7000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "poi_complete",
+      "trackId": "poi_highlights",
+      "timestamp": 6000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "ui_complete",
+      "trackId": "exploration_ui",
+      "timestamp": 7000,
+      "type": "complete",
+      "payload": {}
+    }
+  ],
+  "branches": [
+    {
+      "id": "detailed_scan",
+      "name": "Detailed Scanning Mode",
+      "condition": {
+        "type": "variable",
+        "operator": "equals",
+        "target": "scan_mode",
+        "value": "detailed",
+        "negate": false
+      },
+      "actions": [
+        {
+          "id": "enable_scan_lines",
+          "trackId": "poi_highlights",
+          "timestamp": 0,
+          "type": "update",
+          "payload": {
+            "scanLines": true,
+            "scanSpeed": 2.0,
+            "scanColor": "#00ffff"
+          }
+        },
+        {
+          "id": "add_scan_audio",
+          "trackId": "ambient_exploration",
+          "timestamp": 0,
+          "type": "update",
+          "payload": {
+            "addLayer": "scanner_hum",
+            "volume": 0.2
+          }
+        }
+      ],
+      "weight": 1.0
+    },
+    {
+      "id": "quick_overview",
+      "name": "Quick Overview Mode",
+      "condition": {
+        "type": "variable",
+        "operator": "equals",
+        "target": "exploration_speed",
+        "value": "fast",
+        "negate": false
+      },
+      "actions": [
+        {
+          "id": "speed_up_camera",
+          "trackId": "exploration_camera",
+          "timestamp": 0,
+          "type": "update",
+          "payload": {
+            "smoothness": 0.95,
+            "transitionSpeed": 1.5
+          }
+        },
+        {
+          "id": "shorten_dialogue",
+          "trackId": "discovery_dialogue",
+          "timestamp": 0,
+          "type": "update",
+          "payload": {
+            "text": "Amazing discoveries await! The glowing flora shows high energy, crystals indicate ancient magic, and ruins hold untold secrets.",
+            "duration": 3000
+          }
+        }
+      ],
+      "weight": 1.0
+    }
+  ],
+  "variables": {
+    "explorationMode": "discovery",
+    "scanMode": "basic",
+    "explorationSpeed": "normal",
+    "discoveredPOIs": 0,
+    "totalPOIs": 3,
+    "currentBiome": "mystical_valley",
+    "playerCuriosity": "high"
+  },
+  "events": [
+    {
+      "id": "exploration_started",
+      "name": "Exploration Sequence Began",
+      "timestamp": 0,
+      "payload": {
+        "cutSceneId": "exploration_cutscene",
+        "mode": "discovery",
+        "biome": "mystical_valley"
+      },
+      "triggers": ["camera_start_exploration", "ambient_audio_start"]
+    },
+    {
+      "id": "flora_discovered",
+      "name": "Glowing Flora Discovered",
+      "timestamp": 2000,
+      "payload": {
+        "poi": "glowing_flora",
+        "type": "energy_source",
+        "value": "high"
+      },
+      "triggers": ["flora_highlight"]
+    },
+    {
+      "id": "crystal_analyzed",
+      "name": "Crystal Formation Analyzed",
+      "timestamp": 2500,
+      "payload": {
+        "poi": "crystal_formation",
+        "type": "magical_residue",
+        "age": "ancient"
+      },
+      "triggers": ["crystal_highlight"]
+    },
+    {
+      "id": "ruins_detected",
+      "name": "Ancient Ruins Detected",
+      "timestamp": 3000,
+      "payload": {
+        "poi": "ancient_ruins",
+        "type": "archaeological_site",
+        "significance": "high"
+      },
+      "triggers": ["ruins_highlight"]
+    },
+    {
+      "id": "exploration_complete",
+      "name": "Exploration Sequence Complete",
+      "timestamp": 7000,
+      "payload": {
+        "discoveredPOIs": 3,
+        "newKnowledge": "high",
+        "playerEngaged": true
+      },
+      "triggers": ["dialogue_complete", "camera_complete", "poi_complete"]
+    }
+  ]
+}

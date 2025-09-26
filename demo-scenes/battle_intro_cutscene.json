@@ -1,0 +1,319 @@
+{
+  "config": {
+    "id": "battle_intro_cutscene",
+    "name": "Epic Battle Introduction",
+    "description": "Dramatic opening sequence for a battle scene with cinematic camera work",
+    "duration": 6000,
+    "skippable": true,
+    "autoStart": false,
+    "engineTargets": ["unity", "unreal", "godot"],
+    "metadata": {
+      "author": "MIFF Team",
+      "version": "1.0.0",
+      "scene": "battle_arena",
+      "difficulty": "medium",
+      "tags": ["battle", "cinematic", "dramatic"]
+    }
+  },
+  "tracks": [
+    {
+      "id": "dramatic_camera",
+      "name": "Cinematic Camera",
+      "type": "camera",
+      "enabled": true,
+      "startTime": 0,
+      "endTime": 5000,
+      "data": {
+        "shots": [
+          {
+            "position": { "x": 10, "y": 5, "z": 10 },
+            "rotation": { "x": -0.5, "y": 0.3, "z": 0 },
+            "fov": 60,
+            "duration": 2000
+          },
+          {
+            "position": { "x": -5, "y": 3, "z": 8 },
+            "rotation": { "x": -0.2, "y": -0.5, "z": 0 },
+            "fov": 45,
+            "duration": 2000
+          },
+          {
+            "position": { "x": 0, "y": 8, "z": 15 },
+            "rotation": { "x": -0.8, "y": 0, "z": 0 },
+            "fov": 30,
+            "duration": 1000
+          }
+        ],
+        "transitionType": "cinematic",
+        "shakeIntensity": 0.3
+      }
+    },
+    {
+      "id": "hero_entrance",
+      "name": "Hero Character Entrance",
+      "type": "animation",
+      "enabled": true,
+      "startTime": 1000,
+      "endTime": 3000,
+      "data": {
+        "character": "hero_warrior",
+        "animationId": "heroic_entrance",
+        "position": { "x": 0, "y": 0, "z": 5 },
+        "scale": 1.2,
+        "effects": ["glow", "particles"]
+      }
+    },
+    {
+      "id": "epic_music",
+      "name": "Epic Battle Music",
+      "type": "audio",
+      "enabled": true,
+      "startTime": 0,
+      "endTime": 6000,
+      "data": {
+        "soundId": "battle_theme_epic",
+        "volume": 0.8,
+        "layers": [
+          { "id": "strings", "delay": 0, "volume": 0.6 },
+          { "id": "brass", "delay": 1000, "volume": 0.7 },
+          { "id": "percussion", "delay": 2000, "volume": 0.9 }
+        ]
+      }
+    },
+    {
+      "id": "narrator_voice",
+      "name": "Narrator Introduction",
+      "type": "dialogue",
+      "enabled": true,
+      "startTime": 2000,
+      "endTime": 5000,
+      "data": {
+        "speaker": "narrator",
+        "speakerName": "Narrator",
+        "dialogueId": "battle_intro_narration",
+        "text": "In the shadowed valleys of Eldoria, where ancient powers clash, a legendary battle unfolds. Heroes rise, destinies are forged, and legends are born in the fires of conflict.",
+        "voice": "deep_authoritative",
+        "emotion": "dramatic",
+        "position": "top_center",
+        "style": "cinematic"
+      }
+    },
+    {
+      "id": "battle_effects",
+      "name": "Battle Environment Effects",
+      "type": "event",
+      "enabled": true,
+      "startTime": 3000,
+      "endTime": 6000,
+      "data": {
+        "effects": [
+          { "type": "lightning", "intensity": 0.8, "frequency": 2 },
+          { "type": "wind", "strength": 0.6, "direction": "swirl" },
+          { "type": "ground_cracks", "amount": 5, "duration": 3000 }
+        ]
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "camera_shot_1",
+      "trackId": "dramatic_camera",
+      "timestamp": 0,
+      "type": "start",
+      "payload": {
+        "shotIndex": 0,
+        "position": { "x": 10, "y": 5, "z": 10 },
+        "fov": 60
+      }
+    },
+    {
+      "id": "hero_entrance_start",
+      "trackId": "hero_entrance",
+      "timestamp": 1000,
+      "type": "start",
+      "payload": {
+        "character": "hero_warrior",
+        "animationId": "heroic_entrance",
+        "effects": ["glow", "particles"]
+      }
+    },
+    {
+      "id": "epic_music_layer_1",
+      "trackId": "epic_music",
+      "timestamp": 0,
+      "type": "start",
+      "payload": {
+        "layer": "strings",
+        "volume": 0.6
+      }
+    },
+    {
+      "id": "narrator_begin",
+      "trackId": "narrator_voice",
+      "timestamp": 2000,
+      "type": "start",
+      "payload": {
+        "dialogueId": "battle_intro_narration",
+        "style": "cinematic"
+      }
+    },
+    {
+      "id": "battle_effects_activate",
+      "trackId": "battle_effects",
+      "timestamp": 3000,
+      "type": "trigger",
+      "payload": {
+        "effects": ["lightning", "wind", "ground_cracks"]
+      }
+    },
+    {
+      "id": "camera_transition_1",
+      "trackId": "dramatic_camera",
+      "timestamp": 2000,
+      "type": "update",
+      "payload": {
+        "shotIndex": 1,
+        "transition": "smooth_cut"
+      }
+    },
+    {
+      "id": "epic_music_layer_2",
+      "trackId": "epic_music",
+      "timestamp": 1000,
+      "type": "update",
+      "payload": {
+        "layer": "brass",
+        "volume": 0.7
+      }
+    },
+    {
+      "id": "camera_transition_2",
+      "trackId": "dramatic_camera",
+      "timestamp": 4000,
+      "type": "update",
+      "payload": {
+        "shotIndex": 2,
+        "transition": "dramatic_zoom"
+      }
+    },
+    {
+      "id": "epic_music_layer_3",
+      "trackId": "epic_music",
+      "timestamp": 2000,
+      "type": "update",
+      "payload": {
+        "layer": "percussion",
+        "volume": 0.9
+      }
+    },
+    {
+      "id": "hero_entrance_complete",
+      "trackId": "hero_entrance",
+      "timestamp": 3000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "narrator_complete",
+      "trackId": "narrator_voice",
+      "timestamp": 5000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "camera_complete",
+      "trackId": "dramatic_camera",
+      "timestamp": 5000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "epic_music_complete",
+      "trackId": "epic_music",
+      "timestamp": 6000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "battle_effects_complete",
+      "trackId": "battle_effects",
+      "timestamp": 6000,
+      "type": "complete",
+      "payload": {}
+    }
+  ],
+  "branches": [
+    {
+      "id": "intense_version",
+      "name": "More Intense Version",
+      "condition": {
+        "type": "variable",
+        "operator": "equals",
+        "target": "difficulty",
+        "value": "hard",
+        "negate": false
+      },
+      "actions": [
+        {
+          "id": "increase_intensity",
+          "trackId": "epic_music",
+          "timestamp": 0,
+          "type": "update",
+          "payload": {
+            "volume": 1.0,
+            "addLayer": "choir"
+          }
+        },
+        {
+          "id": "more_effects",
+          "trackId": "battle_effects",
+          "timestamp": 0,
+          "type": "update",
+          "payload": {
+            "lightning": { "intensity": 1.2, "frequency": 3 }
+          }
+        }
+      ],
+      "weight": 1.0
+    }
+  ],
+  "variables": {
+    "heroName": "Valerian",
+    "enemyFaction": "Shadow Legion",
+    "battleType": "epic",
+    "difficulty": "normal",
+    "cinematicMode": true
+  },
+  "events": [
+    {
+      "id": "battle_begins",
+      "name": "Battle Sequence Initiated",
+      "timestamp": 0,
+      "payload": {
+        "cutSceneId": "battle_intro_cutscene",
+        "type": "cinematic"
+      },
+      "triggers": ["camera_shot_1", "epic_music_layer_1"]
+    },
+    {
+      "id": "hero_appears",
+      "name": "Hero Makes Entrance",
+      "timestamp": 1000,
+      "payload": {
+        "character": "hero_warrior",
+        "animation": "heroic_entrance"
+      },
+      "triggers": ["hero_entrance_start"]
+    },
+    {
+      "id": "narration_peak",
+      "name": "Climactic Narration Moment",
+      "timestamp": 3500,
+      "payload": {
+        "speaker": "narrator",
+        "intensity": "high"
+      },
+      "triggers": ["camera_transition_2", "epic_music_layer_3"]
+    }
+  ]
+}

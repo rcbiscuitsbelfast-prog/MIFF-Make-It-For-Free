@@ -1,0 +1,376 @@
+{
+  "config": {
+    "id": "renderworld_welcome_cutscene",
+    "name": "RenderWorld Welcome",
+    "description": "Introduction cut scene for the RenderWorld Hub showcasing the Spirit Lens and portal system",
+    "duration": 8000,
+    "skippable": true,
+    "autoStart": true,
+    "engineTargets": ["web", "unity", "godot", "unreal"],
+    "metadata": {
+      "author": "MIFF Team",
+      "version": "1.0.0",
+      "scene": "warehouse_hub",
+      "difficulty": "easy",
+      "tags": ["introduction", "tutorial", "renderworld"]
+    }
+  },
+  "tracks": [
+    {
+      "id": "camera_intro",
+      "name": "Camera Introduction",
+      "type": "camera",
+      "enabled": true,
+      "startTime": 0,
+      "endTime": 4000,
+      "data": {
+        "startPosition": { "x": 0, "y": 1.7, "z": 8 },
+        "endPosition": { "x": 0, "y": 2.2, "z": 3 },
+        "startRotation": { "x": 0, "y": 0, "z": 0 },
+        "endRotation": { "x": -0.3, "y": 0, "z": 0 },
+        "transitionType": "smooth",
+        "easing": "easeInOutCubic",
+        "target": "central_table"
+      }
+    },
+    {
+      "id": "spirit_lens_glow",
+      "name": "Spirit Lens Activation",
+      "type": "animation",
+      "enabled": true,
+      "startTime": 2000,
+      "endTime": 6000,
+      "data": {
+        "target": "spirit_lens",
+        "animationId": "lens_glow_pulse",
+        "intensity": { "start": 0.5, "end": 2.0 },
+        "color": { "start": "#80ccff", "end": "#00ff88" },
+        "loop": true,
+        "speed": 1.0
+      }
+    },
+    {
+      "id": "npc_explorer_dialogue",
+      "name": "Explorer NPC Welcome",
+      "type": "dialogue",
+      "enabled": true,
+      "startTime": 3000,
+      "endTime": 6000,
+      "data": {
+        "speaker": "explorer_npc",
+        "speakerName": "Explorer",
+        "dialogueId": "welcome_renderworld",
+        "text": "Welcome to RenderWorld! This is the gateway to MIFF's demo worlds. Pick up the Spirit Lens from the central table to begin your journey.",
+        "voice": "friendly_guide",
+        "emotion": "welcoming",
+        "position": "bottom_center"
+      }
+    },
+    {
+      "id": "ambient_audio",
+      "name": "Warehouse Ambient Audio",
+      "type": "audio",
+      "enabled": true,
+      "startTime": 0,
+      "endTime": 8000,
+      "data": {
+        "soundId": "warehouse_ambient",
+        "volume": 0.4,
+        "loop": true,
+        "fadeIn": 1000,
+        "fadeOut": 2000,
+        "spatial": false
+      }
+    },
+    {
+      "id": "portal_highlights",
+      "name": "Portal Door Highlights",
+      "type": "animation",
+      "enabled": true,
+      "startTime": 5000,
+      "endTime": 8000,
+      "data": {
+        "targets": ["spirit_tamer_portal", "toppler_portal", "witcher_portal"],
+        "animationId": "portal_glow_sequence",
+        "sequence": [
+          { "target": "spirit_tamer_portal", "delay": 0, "duration": 800 },
+          { "target": "toppler_portal", "delay": 400, "duration": 800 },
+          { "target": "witcher_portal", "delay": 800, "duration": 800 }
+        ],
+        "intensity": 1.5,
+        "color": "#ffffff"
+      }
+    },
+    {
+      "id": "ui_instructions",
+      "name": "UI Instructions",
+      "type": "event",
+      "enabled": true,
+      "startTime": 1000,
+      "endTime": 3000,
+      "data": {
+        "eventName": "show_instructions",
+        "text": "Use WASD to move • Mouse to look • E to interact",
+        "position": "top_center",
+        "duration": 4000,
+        "style": "fade_in_out"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "id": "camera_start",
+      "trackId": "camera_intro",
+      "timestamp": 0,
+      "type": "start",
+      "payload": {
+        "transitionType": "smooth",
+        "duration": 4000,
+        "target": "central_table"
+      }
+    },
+    {
+      "id": "lens_glow_start",
+      "trackId": "spirit_lens_glow",
+      "timestamp": 2000,
+      "type": "start",
+      "payload": {
+        "animationId": "lens_glow_pulse",
+        "target": "spirit_lens",
+        "intensity": 0.5
+      }
+    },
+    {
+      "id": "dialogue_trigger",
+      "trackId": "npc_explorer_dialogue",
+      "timestamp": 3000,
+      "type": "start",
+      "payload": {
+        "dialogueId": "welcome_renderworld",
+        "speaker": "explorer_npc",
+        "position": "bottom_center"
+      }
+    },
+    {
+      "id": "audio_ambient_start",
+      "trackId": "ambient_audio",
+      "timestamp": 0,
+      "type": "start",
+      "payload": {
+        "soundId": "warehouse_ambient",
+        "volume": 0.4,
+        "loop": true
+      }
+    },
+    {
+      "id": "show_instructions",
+      "trackId": "ui_instructions",
+      "timestamp": 1000,
+      "type": "trigger",
+      "payload": {
+        "eventName": "show_instructions",
+        "text": "Use WASD to move • Mouse to look • E to interact",
+        "duration": 4000
+      }
+    },
+    {
+      "id": "portal_sequence_start",
+      "trackId": "portal_highlights",
+      "timestamp": 5000,
+      "type": "start",
+      "payload": {
+        "animationId": "portal_glow_sequence",
+        "sequence": [
+          { "target": "spirit_tamer_portal", "delay": 0 },
+          { "target": "toppler_portal", "delay": 400 },
+          { "target": "witcher_portal", "delay": 800 }
+        ]
+      }
+    },
+    {
+      "id": "camera_update_25",
+      "trackId": "camera_intro",
+      "timestamp": 1000,
+      "type": "update",
+      "payload": {
+        "progress": 0.25,
+        "position": { "x": 0, "y": 1.85, "z": 6.5 }
+      }
+    },
+    {
+      "id": "camera_update_50",
+      "trackId": "camera_intro",
+      "timestamp": 2000,
+      "type": "update",
+      "payload": {
+        "progress": 0.5,
+        "position": { "x": 0, "y": 2.0, "z": 5.0 }
+      }
+    },
+    {
+      "id": "camera_update_75",
+      "trackId": "camera_intro",
+      "timestamp": 3000,
+      "type": "update",
+      "payload": {
+        "progress": 0.75,
+        "position": { "x": 0, "y": 2.1, "z": 3.5 }
+      }
+    },
+    {
+      "id": "lens_intensity_increase",
+      "trackId": "spirit_lens_glow",
+      "timestamp": 3500,
+      "type": "update",
+      "payload": {
+        "intensity": 1.2,
+        "color": "#40ffaa"
+      }
+    },
+    {
+      "id": "lens_intensity_peak",
+      "trackId": "spirit_lens_glow",
+      "timestamp": 4500,
+      "type": "update",
+      "payload": {
+        "intensity": 2.0,
+        "color": "#00ff88"
+      }
+    },
+    {
+      "id": "dialogue_complete",
+      "trackId": "npc_explorer_dialogue",
+      "timestamp": 6000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "camera_complete",
+      "trackId": "camera_intro",
+      "timestamp": 4000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "audio_complete",
+      "trackId": "ambient_audio",
+      "timestamp": 8000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "lens_complete",
+      "trackId": "spirit_lens_glow",
+      "timestamp": 6000,
+      "type": "complete",
+      "payload": {}
+    },
+    {
+      "id": "portal_complete",
+      "trackId": "portal_highlights",
+      "timestamp": 8000,
+      "type": "complete",
+      "payload": {}
+    }
+  ],
+  "branches": [
+    {
+      "id": "skip_intro",
+      "name": "Skip Introduction",
+      "condition": {
+        "type": "user_input",
+        "operator": "equals",
+        "target": "skip_button",
+        "value": true,
+        "negate": false
+      },
+      "actions": [
+        {
+          "id": "skip_all",
+          "trackId": "camera_intro",
+          "timestamp": 0,
+          "type": "complete",
+          "payload": {
+            "immediate": true,
+            "finalPosition": { "x": 0, "y": 2.2, "z": 3 }
+          }
+        }
+      ],
+      "weight": 1.0
+    },
+    {
+      "id": "player_interaction",
+      "name": "Player Picked Up Lens",
+      "condition": {
+        "type": "variable",
+        "operator": "equals",
+        "target": "spirit_lens_picked_up",
+        "value": true,
+        "negate": false
+      },
+      "actions": [
+        {
+          "id": "highlight_portals",
+          "trackId": "portal_highlights",
+          "timestamp": 0,
+          "type": "start",
+          "payload": {
+            "immediate": true,
+            "intensity": 2.0
+          }
+        }
+      ],
+      "weight": 1.0
+    }
+  ],
+  "variables": {
+    "playerName": "Explorer",
+    "hasVisitedBefore": false,
+    "spirit_lens_picked_up": false,
+    "tutorial_completed": false,
+    "current_portal": "none",
+    "difficulty": "normal",
+    "preferred_engine": "web"
+  },
+  "events": [
+    {
+      "id": "scene_started",
+      "name": "Cut Scene Started",
+      "timestamp": 0,
+      "payload": {
+        "cutSceneId": "renderworld_welcome_cutscene",
+        "engineContext": "multi-platform"
+      },
+      "triggers": ["camera_start", "audio_ambient_start"]
+    },
+    {
+      "id": "lens_activated",
+      "name": "Spirit Lens Activated",
+      "timestamp": 2000,
+      "payload": {
+        "intensity": 0.5,
+        "color": "#80ccff"
+      },
+      "triggers": ["lens_glow_start"]
+    },
+    {
+      "id": "dialogue_begun",
+      "name": "Dialogue Started",
+      "timestamp": 3000,
+      "payload": {
+        "speaker": "explorer_npc",
+        "dialogueId": "welcome_renderworld"
+      },
+      "triggers": ["dialogue_trigger"]
+    },
+    {
+      "id": "portals_highlighted",
+      "name": "Portal Highlights Complete",
+      "timestamp": 8000,
+      "payload": {
+        "portals": ["spirit_tamer", "toppler", "witcher"]
+      },
+      "triggers": ["portal_sequence_start", "portal_complete"]
+    }
+  ]
+}
