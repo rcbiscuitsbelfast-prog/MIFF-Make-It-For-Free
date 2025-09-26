@@ -671,7 +671,8 @@ describe('CombatPure Golden Tests', () => {
       engine.addCombatant(playerCombatant);
       engine.addCombatant(enemyCombatant);
 
-      expect(engine.getWinner()).toBeNull();
+      const initialStatus = engine.getBattleStatus();
+      expect(initialStatus.winner).toBeNull();
       expect(engine.isBattleOver).toBe(false);
 
       // KO enemy
@@ -680,7 +681,8 @@ describe('CombatPure Golden Tests', () => {
       enemy.status = { ko: true };
 
       engine.checkVictory();
-      expect(engine.getWinner()).toBe('player');
+      const finalStatus = engine.getBattleStatus();
+      expect(finalStatus.winner).toBe('player');
       expect(engine.isBattleOver).toBe(true);
     });
   });
