@@ -10,7 +10,7 @@ Stay up to date with MIFF's roadmap and current development phase.
 
 ## 🔗 Source of Truth
 
-- Repository roadmap: [ROADMAP.md](https://github.com/miff-framework/miff/blob/master/ROADMAP.md)
+- Repository roadmap: [ROADMAP.md](../../ROADMAP.md)
 
 ## 🔧 Stage 1: Full Module Scaffolding (Current)
 

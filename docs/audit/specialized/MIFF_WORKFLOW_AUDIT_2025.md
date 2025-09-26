@@ -57,7 +57,7 @@ done
 ### **2. CI-CD.YML - MISSING DEPENDENCY SCRIPTS (SEVERITY: HIGH)**
 
 #### **Failure Points:**
-**File:** `.github/workflows/ci-cd.yml` (Lines 74, 127, 130, 155, 187)
+**File:** `.github/workflows/ci.yml` (Lines 74, 127, 130, 155, 187)
 
 ```yaml
 # MISSING SCRIPTS:
@@ -78,7 +78,7 @@ done
 ### **3. SITE-BUILD.YML - INVALID DIRECTORY REFERENCE (SEVERITY: HIGH)**
 
 #### **Failure Point:**
-**File:** `.github/workflows/site-build.yml` (Line 24)
+**File:** `.github/workflows/build-deploy.yml` (Line 24)
 
 ```yaml
 # PROBLEMATIC CODE:
@@ -95,7 +95,7 @@ rsync -a --exclude 'node_modules' --exclude '.git' site/ build/site/
 ### **4. BUILD-AND-VALIDATE.YML - MISSING SCRIPT REFERENCES (SEVERITY: MEDIUM)**
 
 #### **Failure Points:**
-**File:** `.github/workflows/build-and-validate.yml`
+**File:** `.github/workflows/ci-core.yml`
 
 ```yaml
 # MISSING SCRIPTS:
@@ -149,8 +149,8 @@ run: npx ts-node miff/scripts/gen-toppler-html.ts
 | **Coverage** | 2 | Duplicate coverage reporting |
 
 #### **Specific Conflicts:**
-1. **pages.yml vs site-build.yml vs site-deploy.yml** - Three different approaches to the same task
-2. **ci-cd.yml vs build-and-validate.yml vs ci.yml** - Multiple CI systems
+1. **pages.yml vs build-deploy.yml vs site-deploy.yml** - Three different approaches to the same task
+2. **ci.yml vs ci-core.yml vs ci.yml** - Multiple CI systems
 3. **coverage.yml vs jest-sharded.yml** - Duplicate coverage systems
 
 #### **Impact:**

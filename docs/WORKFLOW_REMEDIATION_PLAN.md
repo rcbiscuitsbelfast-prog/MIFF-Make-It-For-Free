@@ -29,17 +29,17 @@
 ### **1.2 Create Unified Build System** ✅ **HIGH PRIORITY**
 
 #### **Problem:** Multiple conflicting build processes
-#### **Current Issues:** site-build.yml references non-existent directories
+#### **Current Issues:** build-deploy.yml references non-existent directories
 
 **Actions:**
 1. **Consolidate build logic** - Single build system for all components
-2. **Fix site-build.yml** - Update directory references
+2. **Fix build-deploy.yml** - Update directory references
 3. **Integrate RenderWorld Hub** - Include in main build process
 4. **Add build verification** - Automated testing of build output
 
 **Files to Create/Modify:**
 - `.github/workflows/pages.yml` (enhance)
-- `.github/workflows/site-build.yml` (fix)
+- `.github/workflows/build-deploy.yml` (fix)
 - `docs/verify-build.js` (create if missing)
 
 ---
@@ -68,15 +68,15 @@
 #### **Problem:** 24 workflows with significant overlap and conflicts
 
 **Current Workflow Analysis:**
-- **ci-cd.yml** - Main CI/CD pipeline (comprehensive but missing scripts)
-- **build-and-validate.yml** - Asset validation (references missing scripts)
+- **ci.yml** - Main CI/CD pipeline (comprehensive but missing scripts)
+- **ci-core.yml** - Asset validation (references missing scripts)
 - **ci.yml** - Basic CI (simple but incomplete)
 - **pages.yml** - GitHub Pages (broken syntax)
-- **site-build.yml** - Site building (wrong directories)
+- **build-deploy.yml** - Site building (wrong directories)
 - **coverage.yml** - Coverage reporting (functional)
 
 **Consolidation Strategy:**
-1. **Merge CI workflows** - Combine ci-cd.yml, build-and-validate.yml, ci.yml
+1. **Merge CI workflows** - Combine ci.yml, ci-core.yml, ci.yml
 2. **Fix missing scripts** - Create stub implementations or remove references
 3. **Standardize naming** - Consistent workflow naming convention
 4. **Reduce complexity** - Eliminate redundant steps

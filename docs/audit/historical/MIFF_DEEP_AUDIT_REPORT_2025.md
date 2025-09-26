@@ -432,10 +432,10 @@ This deep audit represents the most comprehensive analysis of the MIFF Framework
 - **Deployment Automation:** Multi-environment deployment
 
 **Workflow Categories:**
-- **Primary CI/CD:** ci-cd.yml (comprehensive pipeline)
+- **Primary CI/CD:** ci.yml (comprehensive pipeline)
 - **Automated Testing:** automated-testing.yml (197 tests)
 - **Security Scanning:** license-scan.yml, coverage.yml
-- **Deployment:** site-deploy.yml, export-web.yml, export-android.yml
+- **Deployment:** build-deploy.yml, export-web.yml, export-android.yml
 - **Quality Assurance:** bridge-contract-tests.yml, pure-tests.yml
 
 ---

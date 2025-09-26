@@ -12,8 +12,8 @@
 
 #### **1. GitHub Workflows Updated**
 - **`.github/workflows/miff-ci.yml`**: ✅ Already correct
-- **`.github/workflows/build-and-validate.yml`**: ✅ Already correct  
-- **`.github/workflows/build-and-test.yml`**: ✅ Already correct
+- **`.github/workflows/ci-core.yml`**: ✅ Already correct  
+- **`.github/workflows/testing.yml`**: ✅ Already correct
 - **`.github/workflows/ci.yml`**: ✅ Fixed `games/toppler` → `zones/toppler` paths
 - **`.github/workflows/pages.yml`**: ✅ Already correct
 

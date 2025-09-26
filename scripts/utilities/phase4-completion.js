@@ -323,7 +323,7 @@ const criticalFiles = [
   'miff/pure/shared/integration/IntegrationManager.ts',
   'miff/pure/shared/docs/DocumentationGenerator.ts',
   'miff/pure/shared/audit/AuditSystem.ts',
-  '.github/workflows/ci-cd.yml'
+  '.github/workflows/ci.yml'
 ];
 
 let allFilesExist = true;

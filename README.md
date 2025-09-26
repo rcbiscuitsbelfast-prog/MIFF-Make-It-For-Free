@@ -3,17 +3,17 @@
 [![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html)
 [![MIFF Studio](https://img.shields.io/badge/MIFF%20Studio%20Builder-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/studio/index.html)
 [![RenderWorld Hub](https://img.shields.io/badge/RenderWorld%20Hub-orange)](https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/)
-[![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci-cd.yml)
+[![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml)
 
 ## 🚀 **Comprehensive Documentation Navigation**
 
 | Document | Description | Status |
 |----------|-------------|---------|
-| 📋 **[Module Index](MIFF_MODULE_INDEX_2025.md)** | Complete audit of all 157+ modules with implementation details | ✅ **Complete** |
-| 🔬 **[Ultimate Audit](MIFF_ULTIMATE_AUDIT_2025.md)** | Most comprehensive framework audit ever conducted | ✅ **Complete** |
-| 🧪 **[Deep Technical Audit](MIFF_DEEP_AUDIT_REPORT_2025.md)** | Technical analysis with implementation standards | ✅ **Complete** |
-| 🎯 **[Strategic Roadmap](MIFF_NEXT_PHASE_ROADMAP_2025.md)** | 18-month development plan and vision | ✅ **Complete** |
-| 📅 **[Implementation Plan](MIFF_IMPLEMENTATION_PLAN_2025.md)** | Detailed 72-week execution timeline | ✅ **Complete** |
+| 📋 **[Module Index](docs/MIFF_MODULE_INDEX_2025.md)** | Complete audit of all 157+ modules with implementation details | ✅ **Complete** |
+| 🔬 **[Ultimate Audit](docs/MIFF_ULTIMATE_AUDIT_2025.md)** | Most comprehensive framework audit ever conducted | ✅ **Complete** |
+| 🧪 **[Deep Technical Audit](docs/MIFF_DEEP_AUDIT_REPORT_2025.md)** | Technical analysis with implementation standards | ✅ **Complete** |
+| 🎯 **[Strategic Roadmap](docs/MIFF_NEXT_PHASE_ROADMAP_2025.md)** | 18-month development plan and vision | ✅ **Complete** |
+| 📅 **[Implementation Plan](docs/MIFF_IMPLEMENTATION_PLAN_2025.md)** | Detailed 72-week execution timeline | ✅ **Complete** |
 
 ---
 

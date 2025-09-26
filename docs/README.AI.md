@@ -117,7 +117,7 @@ Validation Checklist
 - Root overview: `README.md`
 - Tests: `docs/TESTING.md`
 - Contributor onboarding: `docs/CONTRIBUTOR_ONBOARDING.md`
-- CI/CD: `.github/workflows/ci-cd.yml`
+- CI/CD: `.github/workflows/ci.yml`
 - Module audits: `COMPLETE_MODULE_AUDIT.md`, `COMPREHENSIVE_AUDIT_REPORT.md`
 
 — Keep it deterministic, documented, and remix-safe.

@@ -266,7 +266,7 @@ cat > docs/audit/index.md << 'EOF'
 
 ## 🔍 Quick Navigation
 - **Workflow Issues:** See [Workflow Audit](./specialized/MIFF_WORKFLOW_AUDIT_2025.md)
-- **Module Status:** See [Module Index](../MIFF_MODULE_INDEX_2025.md)
+- **Module Status:** See [Module Index](MIFF_MODULE_INDEX_2025.md)
 - **Current Assessment:** See [Latest Audit](./latest/MIFF_ULTIMATE_AUDIT_2025.md)
 EOF
 ```

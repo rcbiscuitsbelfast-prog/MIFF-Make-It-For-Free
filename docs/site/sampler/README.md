@@ -199,7 +199,7 @@ sampler/
 - **MIFF Framework**: [Main Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
 - **Asset Manifest**: [sampler-manifest.json](../assets/sampler-manifest.json)
 - **MIFF Studio**: [Scene Builder](../studio/index.html)
-- **Contributor Guide**: [How to Contribute](../../../docs/CONTRIBUTOR_GUIDE.md)
+- **Contributor Guide**: [How to Contribute](CONTRIBUTOR_GUIDE.md)
 
 ---
 
