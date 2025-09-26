@@ -199,12 +199,12 @@ export class BattleAI {
 
   selectAction(context: IAIDecisionContext | null): IAIAction {
     // Handle null context
-    if (!context) {
+    if (!context || !context.availableMoves || context.availableMoves.length === 0) {
       return {
         type: AIActionType.WAIT,
         moveId: 'wait',
         confidence: 0.5,
-        reasoning: 'No context available'
+        reasoning: 'No context or moves available'
       };
     }
 

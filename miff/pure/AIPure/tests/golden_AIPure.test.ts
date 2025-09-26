@@ -354,8 +354,8 @@ describe('AIPure Golden Tests', () => {
       const waterSpirit = new MockSpiritInstance('2', 'Water Spirit', 'water', 15, 100, 40, 45, 55, 50, 20);
 
       const moves = [
-        new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 60, 0.9, 8, 'fire'),
-        new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral')
+        new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 60, 0.9, 8, 'fire', undefined, undefined, undefined, 0),
+        new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral', undefined, undefined, undefined, 0)
       ];
 
       // Fire should be super effective against water

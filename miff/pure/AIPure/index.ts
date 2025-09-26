@@ -36,13 +36,4 @@ export {
   DamageCalculator,
   BattleEngine,
   CombatUtils,
-  InventoryHook,
-  AIHook,
-  SaveHook,
-  Item,
-  ItemInstance,
-  ItemEffect,
-  ItemUsageManager,
-  UsageResult,
-  ItemsManager
-} from '../ItemsPure';
+} from '../CombatPure/engine';
