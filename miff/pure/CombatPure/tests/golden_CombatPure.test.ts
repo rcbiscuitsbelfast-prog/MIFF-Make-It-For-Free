@@ -392,8 +392,8 @@ describe('CombatPure Golden Tests', () => {
       rng = new MockRNGProvider();
       damageCalculator = new DamageCalculator(typeChart, rng);
 
-      attacker = new SpiritInstance('1', 'attacker', 'fire', { hp: 100, maxHp: 100, atk: 50, def: 30, spd: 40 });
-      defender = new SpiritInstance('2', 'defender', 'water', { hp: 100, maxHp: 100, atk: 30, def: 40, spd: 35 });
+      attacker = new SpiritInstance('1', 'attacker', 'neutral', { hp: 100, maxHp: 100, atk: 50, def: 30, spd: 40 }, [], 'fire');
+      defender = new SpiritInstance('2', 'defender', 'neutral', { hp: 100, maxHp: 100, atk: 30, def: 40, spd: 35 }, [], 'water');
       move = new MoveData('fire_blast', 'Fire Blast', MoveCategory.SPECIAL, 90, 1.0, 10, 'fire');
     });
 
@@ -438,8 +438,8 @@ describe('CombatPure Golden Tests', () => {
 
       // Water vs Fire should be not very effective (0.5x)
       const waterMove = new MoveData('water_blast', 'Water Blast', MoveCategory.SPECIAL, 40, 1.0, 0, 'water');
-      const waterAttacker = new SpiritInstance(3, 'water_attacker', 'Water Attacker', 'water', 10, 40, 35, 50, 40, 100, 100, 10);
-      const fireDefender = new SpiritInstance(4, 'fire_defender', 'Fire Defender', 'fire', 10, 50, 30, 40, 35, 100, 100, 10);
+      const waterAttacker = new SpiritInstance('3', 'water_attacker', 'neutral', { hp: 100, maxHp: 100, atk: 40, def: 35, spd: 50 }, [], 'water');
+      const fireDefender = new SpiritInstance('4', 'fire_defender', 'neutral', { hp: 100, maxHp: 100, atk: 50, def: 30, spd: 40 }, [], 'fire');
 
       const waterResult = damageCalculator.calculateDamage(waterMove, waterAttacker, fireDefender, false);
 

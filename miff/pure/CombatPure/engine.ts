@@ -580,7 +580,7 @@ export class DamageCalculator {
       baseDamage = Math.floor(baseDamage * (attacker.stats.specialAtk || attacker.stats.atk) / 50); // Keep scaled for balanced gameplay
     }
 
-    // Type effectiveness - use defender's type or default to 'normal'
+    // Apply type effectiveness - use defender's type or default to 'normal'
     const defenderType = (defender as any).typeTag || 'normal';
     const effectiveness = this.typeChart.getMultiplier(move.typeTag, defenderType);
     baseDamage = Math.floor(baseDamage * effectiveness);
