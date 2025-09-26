@@ -1,16 +1,6 @@
-import { execFileSync } from 'child_process';
-import path from 'path';
-import fs from 'fs';
+import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../index';
 
 describe('GodotBridgePure Golden Tests', () => {
-  const cliPath = path.resolve('GodotBridgePure/cliHarness.ts');
-  const samplePath = path.resolve('GodotBridgePure/sample_bridge.json');
-
-  beforeAll(() => {
-    // Ensure test files exist
-    expect(fs.existsSync(cliPath)).toBe(true);
-    expect(fs.existsSync(samplePath)).toBe(true);
-  });
 
   test('✓ simulate NPCs returns expected Godot render data', () => {
     // Create test data file

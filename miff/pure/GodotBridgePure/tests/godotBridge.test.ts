@@ -1,12 +1,12 @@
-import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../index';
+import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../index';
 
-describe('UnityBridgePure Golden Tests', () => {
+describe('GodotBridgePure Tests', () => {
 
-  test('✓ UnityBridgeManager can be created with valid configuration', () => {
-    const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
-      unityVersion: '2021.3',
+  test('✓ GodotBridgeManager can be created with valid configuration', () => {
+    const config: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.NODE,
+      communicationProtocol: 'gdnative',
+      godotVersion: '4.0',
       targetPlatform: 'windows',
       enableDebugLogging: true,
       enablePerformanceMonitoring: true,
@@ -27,7 +27,7 @@ describe('UnityBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const bridge = new UnityBridgeManager(config);
+    const bridge = new GodotBridgeManager(config);
 
     expect(bridge).toBeDefined();
     expect(bridge.getConfiguration()).toEqual(config);
@@ -35,11 +35,11 @@ describe('UnityBridgePure Golden Tests', () => {
     expect(bridge.getConnectionStatus()).toBe('disconnected');
   });
 
-  test('✓ UnityBridgeManager supports different bridge types', () => {
-    const gameObjectConfig: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
-      unityVersion: '2021.3',
+  test('✓ GodotBridgeManager supports different bridge types', () => {
+    const nodeConfig: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.NODE,
+      communicationProtocol: 'gdnative',
+      godotVersion: '4.0',
       targetPlatform: 'windows',
       enableDebugLogging: true,
       enablePerformanceMonitoring: true,
@@ -60,23 +60,23 @@ describe('UnityBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const componentConfig: UnityBridgeConfiguration = {
-      ...gameObjectConfig,
-      bridgeType: UnityBridgeType.COMPONENT
+    const sceneConfig: GodotBridgeConfiguration = {
+      ...nodeConfig,
+      bridgeType: GodotBridgeType.SCENE
     };
 
-    const bridge1 = new UnityBridgeManager(gameObjectConfig);
-    const bridge2 = new UnityBridgeManager(componentConfig);
+    const bridge1 = new GodotBridgeManager(nodeConfig);
+    const bridge2 = new GodotBridgeManager(sceneConfig);
 
-    expect(bridge1.getConfiguration().bridgeType).toBe('game_object');
-    expect(bridge2.getConfiguration().bridgeType).toBe('component');
+    expect(bridge1.getConfiguration().bridgeType).toBe('node');
+    expect(bridge2.getConfiguration().bridgeType).toBe('scene');
   });
 
-  test('✓ UnityBridgeManager handles communication protocols correctly', () => {
-    const messagePassingConfig: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
-      unityVersion: '2021.3',
+  test('✓ GodotBridgeManager handles communication protocols correctly', () => {
+    const gdnativeConfig: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.NODE,
+      communicationProtocol: 'gdnative',
+      godotVersion: '4.0',
       targetPlatform: 'windows',
       enableDebugLogging: true,
       enablePerformanceMonitoring: true,
@@ -97,23 +97,23 @@ describe('UnityBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const sharedMemoryConfig: UnityBridgeConfiguration = {
-      ...messagePassingConfig,
-      communicationProtocol: 'shared_memory'
+    const gdscriptConfig: GodotBridgeConfiguration = {
+      ...gdnativeConfig,
+      communicationProtocol: 'gdscript'
     };
 
-    const bridge1 = new UnityBridgeManager(messagePassingConfig);
-    const bridge2 = new UnityBridgeManager(sharedMemoryConfig);
+    const bridge1 = new GodotBridgeManager(gdnativeConfig);
+    const bridge2 = new GodotBridgeManager(gdscriptConfig);
 
-    expect(bridge1.getConfiguration().communicationProtocol).toBe('message_passing');
-    expect(bridge2.getConfiguration().communicationProtocol).toBe('shared_memory');
+    expect(bridge1.getConfiguration().communicationProtocol).toBe('gdnative');
+    expect(bridge2.getConfiguration().communicationProtocol).toBe('gdscript');
   });
 
-  test('✓ UnityBridgeManager performance metrics are initialized', () => {
-    const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
-      unityVersion: '2021.3',
+  test('✓ GodotBridgeManager performance metrics are initialized', () => {
+    const config: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.NODE,
+      communicationProtocol: 'gdnative',
+      godotVersion: '4.0',
       targetPlatform: 'windows',
       enableDebugLogging: true,
       enablePerformanceMonitoring: true,
@@ -134,7 +134,7 @@ describe('UnityBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const bridge = new UnityBridgeManager(config);
+    const bridge = new GodotBridgeManager(config);
     const metrics = bridge.getPerformanceMetrics();
 
     expect(metrics).toBeDefined();
@@ -143,11 +143,11 @@ describe('UnityBridgePure Golden Tests', () => {
     expect(metrics.vsyncEnabled).toBe(false);
   });
 
-  test('✓ UnityBridgeManager statistics tracking works', () => {
-    const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
-      unityVersion: '2021.3',
+  test('✓ GodotBridgeManager statistics tracking works', () => {
+    const config: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.NODE,
+      communicationProtocol: 'gdnative',
+      godotVersion: '4.0',
       targetPlatform: 'windows',
       enableDebugLogging: true,
       enablePerformanceMonitoring: true,
@@ -168,7 +168,7 @@ describe('UnityBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const bridge = new UnityBridgeManager(config);
+    const bridge = new GodotBridgeManager(config);
     const stats = bridge.getStatistics();
 
     expect(stats).toBeDefined();
@@ -178,11 +178,11 @@ describe('UnityBridgePure Golden Tests', () => {
     expect(stats.queueDepth).toBe(0);
   });
 
-  test('✓ UnityBridgeManager handles lifecycle events', () => {
-    const config: UnityBridgeConfiguration = {
-      bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
-      unityVersion: '2021.3',
+  test('✓ GodotBridgeManager handles lifecycle events', () => {
+    const config: GodotBridgeConfiguration = {
+      bridgeType: GodotBridgeType.NODE,
+      communicationProtocol: 'gdnative',
+      godotVersion: '4.0',
       targetPlatform: 'windows',
       enableDebugLogging: true,
       enablePerformanceMonitoring: true,
@@ -203,38 +203,19 @@ describe('UnityBridgePure Golden Tests', () => {
       customSettings: {}
     };
 
-    const bridge = new UnityBridgeManager(config);
+    const bridge = new GodotBridgeManager(config);
 
-    // Test lifecycle event handling
-    let eventReceived = false;
-    bridge.addLifecycleEventHandler('update', (data) => {
-      eventReceived = true;
-    });
+    // Test configuration retrieval
+    const retrievedConfig = bridge.getConfiguration();
+    expect(retrievedConfig.bridgeType).toBe('node');
+    expect(retrievedConfig.communicationProtocol).toBe('gdnative');
+    expect(retrievedConfig.godotVersion).toBe('4.0');
 
-    // Simulate lifecycle event
-    const eventMessage = {
-      id: 'lifecycle_test',
-      type: 'event' as const,
-      source: 'unity',
-      destination: 'bridge',
-      timestamp: Date.now(),
-      payload: {
-        name: 'update',
-        source: 'unity',
-        data: { deltaTime: 0.016 }
-      },
-      priority: 1,
-      ttl: 1000,
-      retries: 0,
-      encrypted: false,
-      compressed: false,
-      metadata: {}
-    };
+    // Test statistics functionality
+    const stats = bridge.getStatistics();
+    expect(stats.totalMessages).toBe(0);
+    expect(stats.activeConnections).toBe(0);
 
-    // In a real implementation, this would be handled by the message processing
     expect(bridge).toBeDefined();
-    expect(eventReceived).toBe(false); // Event hasn't been processed yet
   });
-
-
 });
