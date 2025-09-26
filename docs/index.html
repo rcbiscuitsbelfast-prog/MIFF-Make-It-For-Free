@@ -69,7 +69,15 @@
         <!-- Header -->
         <header class="header">
             <div class="container">
-                <div class="logo">
+                <div class="header-left">
+                    <button id="menu-toggle" class="menu-toggle" title="Open menu" aria-label="Open navigation menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" class="menu-icon">
+                            <g fill="#0b3d2e" stroke="#ffffff" stroke-width="2">
+                                <path d="M50,60 a40,40 0 0,1 80,0 q10,10 20,0 a40,40 0 0,1 80,0 q10,10 20,0 q0,40 -20,60 q-10,10 -20,0 a40,40 0 0,1 -80,0 q-10,-10 -20,0 a40,40 0 0,1 -80,0 q-10,-10 -20,0 q0,-40 20,-60 z"/>
+                            </g>
+                        </svg>
+                    </button>
+                    <div class="logo">
                     <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -89,6 +97,7 @@
                     </svg>
                     <span class="logo-text">MIFF</span>
                 </div>
+                </div>
                 <nav class="nav">
                     <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
                         <svg fill="currentColor" viewBox="0 0 20 20">
@@ -96,6 +105,46 @@
                         </svg>
                     </button>
                 </nav>
+            </div>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="mobile-menu">
+                <div class="mobile-menu-content">
+                    <div class="mobile-menu-header">
+                        <h3>MIFF Navigation</h3>
+                        <button id="menu-close" class="menu-close">&times;</button>
+                    </div>
+                    <div class="mobile-menu-links">
+                        <a href="/" class="mobile-menu-link">
+                            <span class="menu-icon">🏠</span>
+                            <span>Home</span>
+                        </a>
+                        <a href="sampler/" class="mobile-menu-link">
+                            <span class="menu-icon">🎮</span>
+                            <span>MIFF Sampler</span>
+                        </a>
+                        <a href="studio/" class="mobile-menu-link">
+                            <span class="menu-icon">🛠️</span>
+                            <span>MIFF Studio</span>
+                        </a>
+                        <a href="renderworld/" class="mobile-menu-link">
+                            <span class="menu-icon">🌐</span>
+                            <span>RenderWorld Hub</span>
+                        </a>
+                        <a href="docs-site/" class="mobile-menu-link">
+                            <span class="menu-icon">📘</span>
+                            <span>Documentation</span>
+                        </a>
+                        <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank" class="mobile-menu-link">
+                            <span class="menu-icon">🧬</span>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://ko-fi.com/miffmakeitforfree" target="_blank" class="mobile-menu-link">
+                            <span class="menu-icon">☕</span>
+                            <span>Ko-fi</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -211,6 +260,46 @@
             skipSplash();
         }, 3000);
         
+        // Menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuClose = document.getElementById('menu-close');
+
+            // Menu toggle handlers
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                });
+            }
+
+            if (menuClose && mobileMenu) {
+                menuClose.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            }
+
+            // Close menu when clicking outside
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', function(e) {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        document.body.style.overflow = ''; // Restore scrolling
+                    }
+                });
+            }
+
+            // Close menu on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                }
+            });
+        });
+
         // Force font loading
         document.addEventListener('DOMContentLoaded', function() {
             // Force apply fonts to all elements
