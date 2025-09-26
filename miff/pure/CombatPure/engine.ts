@@ -982,7 +982,20 @@ export class CombatUtils {
   }
 
   static createStandardSpirit(id: number, name: string, level: number, maxHP: number, attack: number, defense: number, speed?: number): SpiritInstance {
-    return new SpiritInstance(id, `spirit_${id}`, name, 'neutral', level, 0, attack, defense, speed || 10, maxHP);
+    return new SpiritInstance(
+      id.toString(), // id
+      name, // name
+      'neutral', // team
+      { hp: maxHP, maxHp: maxHP, atk: attack, def: defense, spd: speed || 10 }, // stats
+      [], // moves
+      undefined, // typeTag
+      10, // resourcePoints
+      '', // spiritId
+      level, // level
+      0, // experience
+      [], // statusEffects
+      [] // abilities
+    );
   }
 
   static calculateLevelModifier(attackerLevel: number, defenderLevel: number): number {

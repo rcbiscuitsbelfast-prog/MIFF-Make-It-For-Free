@@ -701,7 +701,7 @@ describe('CombatPure Golden Tests', () => {
     test('should create standard spirit instance', () => {
       const spirit = CombatUtils.createStandardSpirit('1', 'Test Spirit', 15, 100, 50, 40, 35);
 
-      expect(spirit.id).toBe(1);
+      expect(spirit.id).toBe('1');
       expect(spirit.name).toBe('Test Spirit');
       expect(spirit.level).toBe(15);
       expect(spirit.currentHP).toBe(100);
