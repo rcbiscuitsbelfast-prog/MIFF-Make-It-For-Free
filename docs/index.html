@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="splash-screen" class="splash-screen" style="display: flex; opacity: 1;">
+    <div id="splash-screen" class="splash-screen">
         <div class="splash-content">
             <div class="splash-logo">
                 <svg width="80" height="80" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div id="main-content" style="display: none; opacity: 0;">
+    <div id="main-content" style="display: none;">
         <!-- Header -->
         <header class="header">
             <div class="container">
@@ -172,29 +172,17 @@
 
     <script src="assets/script.js"></script>
 
-    <!-- Fallback: If JavaScript fails, show main content after 5 seconds -->
-    <noscript>
-        <style>
-            #splash-screen { display: none !important; }
-            #main-content { display: block !important; opacity: 1 !important; }
-        </style>
-    </noscript>
-
-    <script>
-        // Emergency fallback: If splash doesn't hide after 8 seconds, force show main content
-        setTimeout(function() {
-            const splash = document.getElementById('splash-screen');
-            const main = document.getElementById('main-content');
-
-            if (splash && splash.style.display !== 'none') {
-                console.warn('Emergency fallback: Forcing main content to show');
-                splash.style.display = 'none';
-                if (main) {
-                    main.style.display = 'block';
-                    main.style.opacity = '1';
-                }
-            }
-        }, 8000);
-    </script>
+    <!-- Ko-fi Footer -->
+    <div class="kofi-footer">
+        <div class="kofi-content">
+            <p class="kofi-text">Support MIFF development and hosting</p>
+            <a href="https://ko-fi.com/miffmakeitforfree" target="_blank" rel="noopener" class="kofi-button">
+                <svg class="kofi-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Support MIFF on Ko-fi
+            </a>
+        </div>
+    </div>
 </body>
 </html>

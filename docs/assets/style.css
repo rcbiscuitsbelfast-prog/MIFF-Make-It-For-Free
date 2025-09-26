@@ -847,3 +847,58 @@ body {
 .theme-toggle:hover svg {
   color: var(--bg-primary);
 }
+
+/* Ko-fi Footer Styles */
+.kofi-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  padding: 0.75rem 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.kofi-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.kofi-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #FF5E5B, #FF3B30);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 94, 91, 0.3);
+}
+
+.kofi-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 94, 91, 0.4);
+  background: linear-gradient(135deg, #FF4F50, #FF2D20);
+}
+
+.kofi-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.kofi-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
