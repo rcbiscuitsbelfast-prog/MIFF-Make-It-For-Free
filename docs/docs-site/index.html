@@ -14,11 +14,33 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <span class="logo-text">MIFF Docs</span>
+                <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
+                          fill="url(#logoGradient)" opacity="0.9"/>
+                    <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
+                          fill="url(#logoGradient)" opacity="0.8"/>
+                    <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
+                          fill="url(#logoGradient)" opacity="0.9"/>
+                    <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
+                          fill="url(#logoGradient)" opacity="0.7"/>
+                    <circle cx="40" cy="40" r="8" fill="url(#logoGradient)" opacity="0.5"/>
+                </svg>
+                <span class="logo-text">MIFF Documentation</span>
             </div>
             <nav class="nav">
                 <a href="../">← Back to MIFF</a>
                 <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
             </nav>
         </div>
     </header>
@@ -160,5 +182,120 @@
     </footer>
 
     <script src="../assets/script.js"></script>
+    <script>
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const savedTheme = localStorage.getItem('miff-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            // Update theme toggle icon
+            const updateThemeIcon = (theme) => {
+                const svgPath = themeToggle.querySelector('svg path');
+                if (theme === 'dark') {
+                    svgPath.setAttribute('d', 'M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z');
+                } else {
+                    svgPath.setAttribute('d', 'M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z');
+                }
+            };
+            updateThemeIcon(savedTheme);
+
+            // Theme toggle handler
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('miff-theme', newTheme);
+                    updateThemeIcon(newTheme);
+                });
+            }
+        });
+
+        // Navigation function with error handling
+        function navigateTo(path) {
+            try {
+                const normalizedPath = path.startsWith('./') ? path : `./${path}`;
+                console.log(`Navigating to: ${normalizedPath}`);
+                window.location.href = normalizedPath;
+            } catch (error) {
+                console.error('Navigation failed:', error);
+                window.location.href = path;
+            }
+        }
+
+        // Coming soon functionality
+        function showComingSoon(feature) {
+            alert(`${feature} is coming soon! This feature is currently under development and will be available in a future update.`);
+        }
+
+        // Add click effects to interactive elements
+        document.querySelectorAll('.experience-card, .feature, .demo-world').forEach(element => {
+            element.addEventListener('click', function() {
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(0, 255, 136, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '100px';
+                ripple.style.height = '100px';
+                ripple.style.marginLeft = '-50px';
+                ripple.style.marginTop = '-50px';
+
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple effect
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+
+            .experience-card, .feature, .demo-world {
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .experience-card:hover, .feature:hover, .demo-world:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-hover);
+            }
+
+            .card-arrow {
+                position: absolute;
+                top: 1.5rem;
+                right: 1.5rem;
+                font-size: 1.2rem;
+                color: var(--accent-primary);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+
+            .experience-card:hover .card-arrow,
+            .feature:hover .card-arrow,
+            .demo-world:hover .card-arrow {
+                opacity: 1;
+                transform: translateX(4px);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>

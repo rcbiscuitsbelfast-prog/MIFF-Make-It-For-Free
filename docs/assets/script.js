@@ -249,5 +249,123 @@ style.textContent = `
         background: var(--accent-primary);
         color: var(--bg-primary);
     }
+
+    /* Ko-fi footer styles */
+    .kofi-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-card);
+        border-top: 1px solid var(--border-color);
+        padding: 0.75rem 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .kofi-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .kofi-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #FF5E5B, #FF3B30);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(255, 94, 91, 0.3);
+    }
+
+    .kofi-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 94, 91, 0.4);
+        background: linear-gradient(135deg, #FF4F50, #FF2D20);
+    }
+
+    .kofi-text {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    /* RenderWorld styles */
+    .renderworld-container {
+        position: relative;
+        width: 100%;
+        height: 600px;
+        margin: 2rem 0;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--bg-secondary);
+    }
+
+    .renderworld-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: var(--bg-primary);
+    }
+
+    .renderworld-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .renderworld-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--border-color);
+        border-top: 3px solid var(--accent-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
 `;
 document.head.appendChild(style);
+
+// Add Ko-fi footer to all pages
+function addKofiFooter() {
+    // Only add if footer doesn't already exist
+    if (document.querySelector('.kofi-footer')) {
+        return;
+    }
+
+    const footer = document.createElement('div');
+    footer.className = 'kofi-footer';
+    footer.innerHTML = `
+        <div class="kofi-content">
+            <p class="kofi-text">Support MIFF development and hosting</p>
+            <a href="https://ko-fi.com/miffmakeitforfree" target="_blank" rel="noopener" class="kofi-button">
+                <svg class="kofi-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Support MIFF on Ko-fi
+            </a>
+        </div>
+    `;
+    document.body.appendChild(footer);
+}
+
+// Initialize Ko-fi footer on all pages
+document.addEventListener('DOMContentLoaded', function() {
+    addKofiFooter();
+});
