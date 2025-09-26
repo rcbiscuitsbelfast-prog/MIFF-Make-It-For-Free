@@ -1065,14 +1065,26 @@ export class Team implements ITeam {
    * Add spirit to team
    */
   addSpirit(spirit: ISpiritInstance): TeamOperationResult {
-    // Check if spirit already exists
+    // Check if spirit already exists (by instanceId)
     if (this.spirits.some(s => s.instanceId === spirit.instanceId)) {
       return TeamOperationResult.DUPLICATE_SPIRIT;
     }
 
-    // Validate against team rules
+    // Check for duplicate species if not allowed
+    if (!this.rules.allowDuplicates) {
+      const allSpecies = new Set([...this.spirits, ...this.reserves].map(s => s.speciesId));
+      if (allSpecies.has(spirit.speciesId)) {
+        return TeamOperationResult.DUPLICATE_SPIRIT;
+      }
+    }
+
+    // Validate against team rules (this will also check for duplicates in the full team)
     const validation = this.rules.validateTeam(this);
     if (!validation.isValid) {
+      // Check if the validation error is due to duplicates
+      if (validation.status === ValidationStatus.DUPLICATE_SPECIES) {
+        return TeamOperationResult.DUPLICATE_SPIRIT;
+      }
       return TeamOperationResult.INVALID_TEAM_SIZE;
     }
 
