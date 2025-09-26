@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="Modular, CLI-first, engine-agnostic game development framework"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/mifffavicon.svg"><meta name="generator" content="Astro v4.16.19"><title></title><meta property="og:title"><meta property="og:description" content="Modular, CLI-first, engine-agnostic game development framework"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title"><meta name="twitter:description" content="Modular, CLI-first, engine-agnostic game development framework"><link rel="stylesheet" href="/miff/_assets/modularity.CA2mC4wu.css"><script type="module">const a=document.getElementById("theme-toggle"),t=document.documentElement,l=localStorage.getItem("theme")||"light";t.classList.toggle("dark",l==="dark");a.addEventListener("click",()=>{const e=t.classList.contains("dark")?"light":"dark";t.classList.toggle("dark"),localStorage.setItem("theme",e)});const c=window.location.pathname,n=document.querySelectorAll("nav a");n.forEach(e=>{e.getAttribute("href")===c&&e.classList.add("bg-blue-100","dark:bg-blue-900","text-blue-700","dark:text-blue-300")});
+</script></head> <body class="bg-white dark:bg-gray-900"> <div class="min-h-screen flex"> <!-- Sidebar --> <aside class="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 fixed h-full overflow-y-auto hidden md:block"> <div class="p-4"> <div class="flex items-center space-x-2 mb-6"> <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center"> <span class="text-white font-bold text-sm">M</span> </div> <span class="text-xl font-bold text-gray-900 dark:text-white">MIFF</span> </div> <nav class="space-y-2"> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Getting Started</div> <a href="/miffgetting-started/install" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Installation</a> <a href="/miffgetting-started/simulate" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Simulate Tool</a> <a href="/miffgetting-started/replay" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Replay Tool</a> <a href="/miffgetting-started/inspect" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Inspect Tool</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Demos</div> <a href="/miffdemos/tutorial" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Tutorial Scenario</a> <a href="/miffdemos/combat" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Combat Scenario</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Modules by Domain</div> <a href="/miff#phase-1-4-core-gameplay" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Core Gameplay</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Scenario Packs</div> <a href="/miffcontributors/roadmap#-demos" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Tutorial & Combat</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Engine Bridges</div> <a href="/miffgetting-started/replay#engine" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Unity / Web / Godot</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Visual Tools</div> <a href="/miffgetting-started/replay" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Render Replay</a> <a href="/miffgetting-started/inspect" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Bridge Inspector</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">Contributors</div> <a href="/miffcontributors/onboarding" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Onboarding</a> <a href="/miffcontributors/licensing" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Licensing</a> <a href="/miffcontributors/roadmap" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Roadmap</a> <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-6">API Reference</div> <a href="/miffapi/cli" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">CLI Reference</a> <a href="/miffapi/schema" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Schema Reference</a> </nav> </div> </aside> <!-- Main content --> <main class="flex-1 md:ml-64"> <!-- Header --> <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4"> <div class="flex items-center justify-between"> <div> <h1 class="text-2xl font-bold text-gray-900 dark:text-white"></h1> <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Build modular games with AI prompts. Remix-safe. Engine-agnostic. Contributor-first.</p> </div> <div class="flex items-center space-x-4"> <a href="https://github.com/miff-framework" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path> </svg> </a> <button id="theme-toggle" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> </div> </div> </header> <!-- Content --> <div class="px-4 sm:px-6 py-8"> <article class="prose prose-lg dark:prose-invert max-w-none"> <h1 id="-inspect-tool-guide"><a aria-hidden="true" tabindex="-1" href="#-inspect-tool-guide"><span class="icon icon-link"></span></a>🔍 Inspect Tool Guide</h1>
+<p>The <code>BridgeInspectorPure</code> tool provides comprehensive validation and analysis of bridge <code>renderData</code> payloads. It helps you identify compatibility issues, validate schema integrity, and ensure your game data works correctly across all engine bridges.</p>
+<h2 id="-quick-start"><a aria-hidden="true" tabindex="-1" href="#-quick-start"><span class="icon icon-link"></span></a>🚀 Quick Start</h2>
+<h3 id="basic-usage"><a aria-hidden="true" tabindex="-1" href="#basic-usage"><span class="icon icon-link"></span></a><strong>Basic Usage</strong></h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect a single payload</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json
+
+<span class="token comment"># Inspect multiple golden tests</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect-golden UnityBridgePure/tests/goldenBridge.test.ts WebBridgePure/tests/goldenBridge.test.ts
+
+<span class="token comment"># Inspect with detailed output</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--verbose</span> <span class="token parameter variable">--format</span> html
+</code></pre>
+<h3 id="output-format"><a aria-hidden="true" tabindex="-1" href="#output-format"><span class="icon icon-link"></span></a><strong>Output Format</strong></h3>
+<p>The inspect tool produces detailed analysis reports:</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"op"</span><span class="token operator">:</span> <span class="token string">"inspect"</span><span class="token punctuation">,</span>
+  <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
+  <span class="token property">"inspections"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"source"</span><span class="token operator">:</span> <span class="token string">"payload.json"</span><span class="token punctuation">,</span>
+      <span class="token property">"bridge"</span><span class="token operator">:</span> <span class="token string">"UnityBridgePure"</span><span class="token punctuation">,</span>
+      <span class="token property">"engine"</span><span class="token operator">:</span> <span class="token string">"unity"</span><span class="token punctuation">,</span>
+      <span class="token property">"schemaValidation"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"valid"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token property">"issues"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"engineHints"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"unity"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"2022.3"</span><span class="token punctuation">,</span> <span class="token property">"components"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"Transform"</span><span class="token punctuation">,</span> <span class="token string">"NPCController"</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"web"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"phaser3"</span><span class="token punctuation">,</span> <span class="token property">"sprites"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"npc_sprite"</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"godot"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"4.0"</span><span class="token punctuation">,</span> <span class="token property">"nodes"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"Node2D"</span><span class="token punctuation">,</span> <span class="token string">"Sprite2D"</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"signals"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span><span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"npcCreated"</span><span class="token punctuation">,</span> <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"event"</span><span class="token punctuation">,</span> <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"npcId"</span><span class="token operator">:</span> <span class="token string">"guard_001"</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"metadata"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"timestamp"</span><span class="token operator">:</span> <span class="token string">"2024-01-15T10:30:00.000Z"</span><span class="token punctuation">,</span>
+        <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"v1"</span><span class="token punctuation">,</span>
+        <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">"MIFF Framework"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"compatibility"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"unity"</span><span class="token operator">:</span> <span class="token string">"compatible"</span><span class="token punctuation">,</span>
+        <span class="token property">"web"</span><span class="token operator">:</span> <span class="token string">"compatible"</span><span class="token punctuation">,</span> 
+        <span class="token property">"godot"</span><span class="token operator">:</span> <span class="token string">"compatible"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"warnings"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"issues"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"summary"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"totalInspections"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"passCount"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"warningCount"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"errorCount"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"overallStatus"</span><span class="token operator">:</span> <span class="token string">"pass"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="-command-reference"><a aria-hidden="true" tabindex="-1" href="#-command-reference"><span class="icon icon-link"></span></a>📋 Command Reference</h2>
+<h3 id="basic-commands"><a aria-hidden="true" tabindex="-1" href="#basic-commands"><span class="icon icon-link"></span></a><strong>Basic Commands</strong></h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect single payload</span>
+inspect <span class="token operator">&#x3C;</span>payload-file<span class="token operator">></span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span>
+
+<span class="token comment"># Inspect multiple golden tests</span>
+inspect-golden <span class="token operator">&#x3C;</span>test-files<span class="token punctuation">..</span>.<span class="token operator">></span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span>
+
+<span class="token comment"># Export inspection results</span>
+<span class="token builtin class-name">export</span> <span class="token operator">&#x3C;</span>output-file<span class="token operator">></span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span>
+
+<span class="token comment"># Show help</span>
+<span class="token parameter variable">--help</span>
+</code></pre>
+<h3 id="options"><a aria-hidden="true" tabindex="-1" href="#options"><span class="icon icon-link"></span></a><strong>Options</strong></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td><code>--verbose</code></td><td>Enable verbose output</td><td><code>false</code></td></tr><tr><td><code>--format &#x3C;format></code></td><td>Output format (json, markdown, html)</td><td><code>json</code></td></tr><tr><td><code>--include-warnings</code></td><td>Include warning-level issues</td><td><code>true</code></td></tr><tr><td><code>--max-issues &#x3C;number></code></td><td>Maximum issues to report</td><td><code>50</code></td></tr><tr><td><code>--validate-schema</code></td><td>Enable schema validation</td><td><code>true</code></td></tr><tr><td><code>--validate-hints</code></td><td>Enable engine hints validation</td><td><code>true</code></td></tr><tr><td><code>--validate-signals</code></td><td>Enable signals validation</td><td><code>true</code></td></tr><tr><td><code>--validate-metadata</code></td><td>Enable metadata validation</td><td><code>true</code></td></tr></tbody></table>
+<h2 id="-inspection-examples"><a aria-hidden="true" tabindex="-1" href="#-inspection-examples"><span class="icon icon-link"></span></a>🎯 Inspection Examples</h2>
+<h3 id="1-single-payload-inspection"><a aria-hidden="true" tabindex="-1" href="#1-single-payload-inspection"><span class="icon icon-link"></span></a><strong>1. Single Payload Inspection</strong></h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect Unity bridge payload</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect UnityBridgePure/sample_bridge.json <span class="token parameter variable">--verbose</span>
+</code></pre>
+<p><strong>Expected Output:</strong></p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"op"</span><span class="token operator">:</span> <span class="token string">"inspect"</span><span class="token punctuation">,</span>
+  <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"ok"</span><span class="token punctuation">,</span>
+  <span class="token property">"inspections"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"source"</span><span class="token operator">:</span> <span class="token string">"UnityBridgePure/sample_bridge.json"</span><span class="token punctuation">,</span>
+      <span class="token property">"bridge"</span><span class="token operator">:</span> <span class="token string">"UnityBridgePure"</span><span class="token punctuation">,</span>
+      <span class="token property">"engine"</span><span class="token operator">:</span> <span class="token string">"unity"</span><span class="token punctuation">,</span>
+      <span class="token property">"schemaValidation"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"valid"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token property">"issues"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"engineHints"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"unity"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"2022.3"</span><span class="token punctuation">,</span>
+          <span class="token property">"components"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"Transform"</span><span class="token punctuation">,</span> <span class="token string">"NPCController"</span><span class="token punctuation">,</span> <span class="token string">"Rigidbody"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token property">"prefabs"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"NPC_Prefab"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"NPCController.cs"</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"signals"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"npcCreated"</span><span class="token punctuation">,</span>
+          <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"event"</span><span class="token punctuation">,</span>
+          <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"npcId"</span><span class="token operator">:</span> <span class="token string">"guard_001"</span><span class="token punctuation">,</span> <span class="token property">"position"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"x"</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token property">"y"</span><span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"metadata"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"timestamp"</span><span class="token operator">:</span> <span class="token string">"2024-01-15T10:30:00.000Z"</span><span class="token punctuation">,</span>
+        <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"v1"</span><span class="token punctuation">,</span>
+        <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"NPCsPure"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"compatibility"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"unity"</span><span class="token operator">:</span> <span class="token string">"compatible"</span><span class="token punctuation">,</span>
+        <span class="token property">"web"</span><span class="token operator">:</span> <span class="token string">"compatible"</span><span class="token punctuation">,</span>
+        <span class="token property">"godot"</span><span class="token operator">:</span> <span class="token string">"compatible"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"warnings"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"issues"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"summary"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"totalInspections"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"passCount"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"warningCount"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"errorCount"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"overallStatus"</span><span class="token operator">:</span> <span class="token string">"pass"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="2-golden-test-inspection"><a aria-hidden="true" tabindex="-1" href="#2-golden-test-inspection"><span class="icon icon-link"></span></a><strong>2. Golden Test Inspection</strong></h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect multiple bridge golden tests</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect-golden UnityBridgePure/tests/goldenBridge.test.ts WebBridgePure/tests/goldenBridge.test.ts GodotBridgePure/tests/goldenBridge.test.ts <span class="token parameter variable">--format</span> html
+</code></pre>
+<h3 id="3-detailed-analysis"><a aria-hidden="true" tabindex="-1" href="#3-detailed-analysis"><span class="icon icon-link"></span></a><strong>3. Detailed Analysis</strong></h3>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect with all validations enabled</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--verbose</span> --validate-schema --validate-hints --validate-signals --validate-metadata <span class="token parameter variable">--format</span> markdown
+</code></pre>
+<h2 id="-advanced-usage"><a aria-hidden="true" tabindex="-1" href="#-advanced-usage"><span class="icon icon-link"></span></a>🔧 Advanced Usage</h2>
+<h3 id="export-inspection-results"><a aria-hidden="true" tabindex="-1" href="#export-inspection-results"><span class="icon icon-link"></span></a><strong>Export Inspection Results</strong></h3>
+<p>Export detailed inspection reports:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Export to JSON</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--format</span> json <span class="token parameter variable">--output</span> inspection.json
+
+<span class="token comment"># Export to Markdown</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--format</span> markdown <span class="token parameter variable">--output</span> inspection.md
+
+<span class="token comment"># Export to HTML</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--format</span> html <span class="token parameter variable">--output</span> inspection.html
+</code></pre>
+<h3 id="batch-inspection"><a aria-hidden="true" tabindex="-1" href="#batch-inspection"><span class="icon icon-link"></span></a><strong>Batch Inspection</strong></h3>
+<p>Inspect multiple files:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect all bridge sample files</span>
+<span class="token keyword">for</span> <span class="token for-or-select variable">bridge</span> <span class="token keyword">in</span> */sample_bridge.json<span class="token punctuation">;</span> <span class="token keyword">do</span>
+  npx ts-node BridgeInspectorPure/cliHarness.ts inspect <span class="token string">"<span class="token variable">$bridge</span>"</span> <span class="token parameter variable">--format</span> json
+<span class="token keyword">done</span>
+
+<span class="token comment"># Inspect all golden tests</span>
+<span class="token function">find</span> <span class="token builtin class-name">.</span> <span class="token parameter variable">-name</span> <span class="token string">"goldenBridge.test.ts"</span> <span class="token parameter variable">-exec</span> npx ts-node BridgeInspectorPure/cliHarness.ts inspect-golden <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">\</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="filtered-inspection"><a aria-hidden="true" tabindex="-1" href="#filtered-inspection"><span class="icon icon-link"></span></a><strong>Filtered Inspection</strong></h3>
+<p>Focus on specific validation areas:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Only schema validation</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --validate-schema --no-validate-hints --no-validate-signals --no-validate-metadata
+
+<span class="token comment"># Only engine hints validation</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --no-validate-schema --validate-hints --no-validate-signals --no-validate-metadata
+
+<span class="token comment"># Only signals validation</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --no-validate-schema --no-validate-hints --validate-signals --no-validate-metadata
+</code></pre>
+<h2 id="-testing-and-validation"><a aria-hidden="true" tabindex="-1" href="#-testing-and-validation"><span class="icon icon-link"></span></a>🧪 Testing and Validation</h2>
+<h3 id="golden-test-integration"><a aria-hidden="true" tabindex="-1" href="#golden-test-integration"><span class="icon icon-link"></span></a><strong>Golden Test Integration</strong></h3>
+<p>The inspect tool integrates with MIFF’s golden test system:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Run golden tests for BridgeInspectorPure</span>
+<span class="token function">npm</span> <span class="token builtin class-name">test</span> -- <span class="token parameter variable">--testNamePattern</span><span class="token operator">=</span><span class="token string">"BridgeInspectorPure"</span>
+
+<span class="token comment"># Test specific inspection scenarios</span>
+<span class="token function">npm</span> <span class="token builtin class-name">test</span> -- <span class="token parameter variable">--testNamePattern</span><span class="token operator">=</span><span class="token string">"inspect"</span>
+</code></pre>
+<h3 id="output-validation"><a aria-hidden="true" tabindex="-1" href="#output-validation"><span class="icon icon-link"></span></a><strong>Output Validation</strong></h3>
+<p>Validate inspection outputs:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Compare inspection outputs</span>
+npx ts-node cli/miff-diff.ts inspection1.json inspection2.json
+
+<span class="token comment"># Validate inspection report structure</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect inspection_report.json
+</code></pre>
+<h3 id="performance-testing"><a aria-hidden="true" tabindex="-1" href="#performance-testing"><span class="icon icon-link"></span></a><strong>Performance Testing</strong></h3>
+<p>Test inspection performance:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Benchmark inspection speed</span>
+<span class="token function">time</span> npx ts-node BridgeInspectorPure/cliHarness.ts inspect large_payload.json
+
+<span class="token comment"># Test memory usage</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect large_payload.json <span class="token parameter variable">--verbose</span>
+</code></pre>
+<h2 id="-validation-types"><a aria-hidden="true" tabindex="-1" href="#-validation-types"><span class="icon icon-link"></span></a>🔍 Validation Types</h2>
+<h3 id="schema-validation"><a aria-hidden="true" tabindex="-1" href="#schema-validation"><span class="icon icon-link"></span></a><strong>Schema Validation</strong></h3>
+<p>Validates <code>renderData</code> structure against BridgeSchemaPure:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Schema validation only</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --validate-schema <span class="token parameter variable">--verbose</span>
+</code></pre>
+<p><strong>Checks for:</strong></p>
+<ul>
+<li>Required fields presence</li>
+<li>Field type correctness</li>
+<li>Nested structure validity</li>
+<li>Array element consistency</li>
+</ul>
+<h3 id="engine-hints-validation"><a aria-hidden="true" tabindex="-1" href="#engine-hints-validation"><span class="icon icon-link"></span></a><strong>Engine Hints Validation</strong></h3>
+<p>Validates engine-specific hints:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Engine hints validation only</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --validate-hints <span class="token parameter variable">--verbose</span>
+</code></pre>
+<p><strong>Checks for:</strong></p>
+<ul>
+<li>Unity component compatibility</li>
+<li>Web sprite availability</li>
+<li>Godot node structure</li>
+<li>Version compatibility</li>
+</ul>
+<h3 id="signals-validation"><a aria-hidden="true" tabindex="-1" href="#signals-validation"><span class="icon icon-link"></span></a><strong>Signals Validation</strong></h3>
+<p>Validates signal structure and data:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Signals validation only</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --validate-signals <span class="token parameter variable">--verbose</span>
+</code></pre>
+<p><strong>Checks for:</strong></p>
+<ul>
+<li>Signal name consistency</li>
+<li>Signal data structure</li>
+<li>Event type validity</li>
+<li>Cross-engine compatibility</li>
+</ul>
+<h3 id="metadata-validation"><a aria-hidden="true" tabindex="-1" href="#metadata-validation"><span class="icon icon-link"></span></a><strong>Metadata Validation</strong></h3>
+<p>Validates metadata completeness:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Metadata validation only</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --validate-metadata <span class="token parameter variable">--verbose</span>
+</code></pre>
+<p><strong>Checks for:</strong></p>
+<ul>
+<li>Timestamp presence</li>
+<li>Version information</li>
+<li>Author attribution</li>
+<li>Module identification</li>
+</ul>
+<h2 id="-best-practices"><a aria-hidden="true" tabindex="-1" href="#-best-practices"><span class="icon icon-link"></span></a>🎯 Best Practices</h2>
+<h3 id="1-regular-inspection"><a aria-hidden="true" tabindex="-1" href="#1-regular-inspection"><span class="icon icon-link"></span></a><strong>1. Regular Inspection</strong></h3>
+<p>Inspect payloads regularly during development:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect after each change</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--verbose</span>
+
+<span class="token comment"># Inspect before committing</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect-golden */tests/goldenBridge.test.ts
+</code></pre>
+<h3 id="2-export-important-reports"><a aria-hidden="true" tabindex="-1" href="#2-export-important-reports"><span class="icon icon-link"></span></a><strong>2. Export Important Reports</strong></h3>
+<p>Save important inspection reports:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Export baseline inspection</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect baseline_payload.json <span class="token parameter variable">--format</span> html <span class="token parameter variable">--output</span> baseline_inspection.html
+
+<span class="token comment"># Export modified inspection</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect modified_payload.json <span class="token parameter variable">--format</span> html <span class="token parameter variable">--output</span> modified_inspection.html
+</code></pre>
+<h3 id="3-use-verbose-mode-for-debugging"><a aria-hidden="true" tabindex="-1" href="#3-use-verbose-mode-for-debugging"><span class="icon icon-link"></span></a><strong>3. Use Verbose Mode for Debugging</strong></h3>
+<p>Enable verbose output for detailed analysis:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Detailed inspection for debugging</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--verbose</span> <span class="token parameter variable">--format</span> markdown
+</code></pre>
+<h3 id="4-validate-cross-engine-compatibility"><a aria-hidden="true" tabindex="-1" href="#4-validate-cross-engine-compatibility"><span class="icon icon-link"></span></a><strong>4. Validate Cross-Engine Compatibility</strong></h3>
+<p>Always check cross-engine compatibility:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Check all engine compatibility</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json --validate-hints <span class="token parameter variable">--verbose</span>
+</code></pre>
+<h2 id="-integration-with-other-tools"><a aria-hidden="true" tabindex="-1" href="#-integration-with-other-tools"><span class="icon icon-link"></span></a>🔗 Integration with Other Tools</h2>
+<h3 id="visual-replay"><a aria-hidden="true" tabindex="-1" href="#visual-replay"><span class="icon icon-link"></span></a><strong>Visual Replay</strong></h3>
+<p>Use inspection with replay tool:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect payload first</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--format</span> json <span class="token parameter variable">--output</span> inspection.json
+
+<span class="token comment"># Replay with inspection results</span>
+npx ts-node RenderReplayPure/cliHarness.ts replay-payload payload.json <span class="token parameter variable">--engine</span> web <span class="token parameter variable">--debug</span>
+</code></pre>
+<h3 id="debug-overlay"><a aria-hidden="true" tabindex="-1" href="#debug-overlay"><span class="icon icon-link"></span></a><strong>Debug Overlay</strong></h3>
+<p>Use inspection with debug overlay:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Inspect payload</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect payload.json <span class="token parameter variable">--format</span> json <span class="token parameter variable">--output</span> inspection.json
+
+<span class="token comment"># Add debug overlay</span>
+npx ts-node DebugOverlayPure/cliHarness.ts overlay payload.json <span class="token parameter variable">--color</span> <span class="token parameter variable">--verbose</span>
+</code></pre>
+<h3 id="scenario-simulation"><a aria-hidden="true" tabindex="-1" href="#scenario-simulation"><span class="icon icon-link"></span></a><strong>Scenario Simulation</strong></h3>
+<p>Use inspection with scenario simulation:</p>
+<pre class="language-bash" data-language="bash"><code is:raw="" class="language-bash"><span class="token comment"># Simulate scenario</span>
+npx ts-node cli/miff-simulate.ts scenario.json <span class="token parameter variable">--output</span> simulation.json
+
+<span class="token comment"># Inspect simulation output</span>
+npx ts-node BridgeInspectorPure/cliHarness.ts inspect simulation.json <span class="token parameter variable">--verbose</span> <span class="token parameter variable">--format</span> html
+</code></pre>
+<h2 id="-common-issues-and-solutions"><a aria-hidden="true" tabindex="-1" href="#-common-issues-and-solutions"><span class="icon icon-link"></span></a>🚨 Common Issues and Solutions</h2>
+<h3 id="schema-validation-errors"><a aria-hidden="true" tabindex="-1" href="#schema-validation-errors"><span class="icon icon-link"></span></a><strong>Schema Validation Errors</strong></h3>
+<p><strong>Issue</strong>: Invalid <code>renderData</code> structure</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"error"</span><span class="token operator">:</span> <span class="token string">"Invalid renderData structure"</span><span class="token punctuation">,</span>
+  <span class="token property">"details"</span><span class="token operator">:</span> <span class="token string">"Missing required field 'type'"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Solution</strong>: Ensure payload follows BridgeSchemaPure structure:</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"renderData"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"sprite"</span><span class="token punctuation">,</span>
+      <span class="token property">"position"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"x"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token property">"y"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">"asset"</span><span class="token operator">:</span> <span class="token string">"npc_sprite.png"</span><span class="token punctuation">,</span>
+      <span class="token property">"props"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"scale"</span><span class="token operator">:</span> <span class="token number">1.0</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="engine-hints-warnings"><a aria-hidden="true" tabindex="-1" href="#engine-hints-warnings"><span class="icon icon-link"></span></a><strong>Engine Hints Warnings</strong></h3>
+<p><strong>Issue</strong>: Incompatible engine hints</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"warning"</span><span class="token operator">:</span> <span class="token string">"Unity component 'CustomComponent' not found"</span><span class="token punctuation">,</span>
+  <span class="token property">"suggestion"</span><span class="token operator">:</span> <span class="token string">"Use standard Unity components or add custom component definition"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Solution</strong>: Use standard components or define custom ones:</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"engineHints"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"unity"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"components"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"Transform"</span><span class="token punctuation">,</span> <span class="token string">"SpriteRenderer"</span><span class="token punctuation">,</span> <span class="token string">"NPCController"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="signal-validation-errors"><a aria-hidden="true" tabindex="-1" href="#signal-validation-errors"><span class="icon icon-link"></span></a><strong>Signal Validation Errors</strong></h3>
+<p><strong>Issue</strong>: Invalid signal structure</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"error"</span><span class="token operator">:</span> <span class="token string">"Invalid signal data structure"</span><span class="token punctuation">,</span>
+  <span class="token property">"details"</span><span class="token operator">:</span> <span class="token string">"Signal 'npcCreated' missing required field 'npcId'"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Solution</strong>: Ensure signals have required data:</p>
+<pre class="language-json" data-language="json"><code is:raw="" class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"signals"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"npcCreated"</span><span class="token punctuation">,</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"event"</span><span class="token punctuation">,</span>
+      <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"npcId"</span><span class="token operator">:</span> <span class="token string">"guard_001"</span><span class="token punctuation">,</span> <span class="token property">"position"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token property">"x"</span><span class="token operator">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token property">"y"</span><span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="-next-steps"><a aria-hidden="true" tabindex="-1" href="#-next-steps"><span class="icon icon-link"></span></a>🎉 Next Steps</h2>
+<p>Now that you understand the inspect tool:</p>
+<ol>
+<li><strong>Try the <a href="/architecture/modularity">Architecture Guide</a></strong> - Understand how inspection works</li>
+<li><strong>Check <a href="/contributors/onboarding">Contributor Guide</a></strong> - Start creating your own inspection scenarios</li>
+<li><strong>Read <a href="/api/cli">CLI Reference</a></strong> - Complete command documentation</li>
+<li><strong>Explore <a href="/contributors/roadmap">Roadmap</a></strong> - See what’s coming next</li>
+</ol>
+<hr>
+<p><em>Ready to validate your bridges? Check out the <a href="/architecture/modularity">Architecture Guide</a> to understand how inspection works!</em> 🚀</p> </article> </div> <!-- Footer --> <footer class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-8 mt-12"> <div class="max-w-7xl mx-auto"> <div class="grid grid-cols-1 md:grid-cols-3 gap-8"> <div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">MIFF Framework</h3> <p class="text-gray-600 dark:text-gray-400 text-sm">
+Modular, CLI-first, engine-agnostic game development framework built for contributors.
+</p> </div> <div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Resources</h3> <ul class="space-y-2 text-sm"> <li><a href="/miffcontributors/onboarding" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Contributor Guide</a></li> <li><a href="/miffcontributors/roadmap" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Roadmap</a></li> <li><a href="/miffgetting-started/install" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Getting Started</a></li> </ul> </div> <div> <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Community</h3> <ul class="space-y-2 text-sm"> <li><span class="text-gray-600 dark:text-gray-400">Maintainer: R.C. Biscuits</span></li> <li><span class="text-gray-600 dark:text-gray-400">License: AGPLv3 + commercial</span></li> <li><a href="https://github.com/miff-framework/miff" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">GitHub Repo</a></li> <li><a href="/miff" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Docs Home</a></li> </ul> </div> </div> <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"> <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
+Built by R.C. Biscuits · License: MIT · <a class="underline hover:no-underline" href="https://github.com/miffframework">GitHub</a> </p> </div> </div> </footer> </main> </div>  </body> </html>
