@@ -1,375 +1,144 @@
-# 📚 MIFF Framework Documentation
+# MIFF Unified GitHub Pages Site
 
-This is the documentation site for MIFF Framework, built with [Astro](https://astro.build/). The site provides comprehensive guides, API references, and examples for contributors.
+This directory contains the unified MIFF Framework GitHub Pages site, providing a professional landing page and navigation to all MIFF experiences.
 
-**🌐 Live Site**: [https://miff-framework.github.io/miff](https://miff-framework.github.io/miff)
+## 🌐 Live Site Structure
 
-## 🚀 Quick Start
+The site is deployed as a single GitHub Pages site with the following structure:
 
-### **Development**
+- **Main Landing Page**: `https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/`
+- **MIFF Sampler**: `https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/`
+- **MIFF Studio**: `https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/`
+- **RenderWorld Hub**: `https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/`
+- **Documentation**: `https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/`
 
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-### **Generate CLI Documentation**
-
-```bash
-# Generate CLI docs from harness files
-npm run generate-cli-docs
-
-# Generate schema documentation
-npm run generate-schemas
-
-# Generate architecture diagrams
-npm run generate-diagrams
-```
-
-### **Validate Links**
-
-```bash
-# Check for broken links
-npm run validate-links
-```
-
-## 🚀 Deployment
-
-### **Automatic Deployment**
-
-The documentation site is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. The deployment process:
-
-1. **Triggers on push** to `main` branch with changes in `docs/` directory
-2. **Installs dependencies** and generates CLI documentation
-3. **Builds the site** using Astro
-4. **Deploys to GitHub Pages** at `https://miff-framework.github.io/miff`
-
-### **Manual Deployment**
-
-```bash
-# Build the site
-npm run build
-
-# Deploy (pushes to main branch)
-npm run deploy
-```
-
-### **GitHub Pages Setup**
-
-The site is configured for GitHub Pages with:
-- **Base path**: `/miff`
-- **Site URL**: `https://miff-framework.github.io`
-- **Custom domain**: Ready for `docs.miff.dev` (if configured)
-
-## 📁 Site Structure
+## 📁 Directory Structure
 
 ```
 docs/
-├── src/
-│   ├── pages/
-│   │   ├── index.md                    # Welcome page
-│   │   ├── getting-started/            # Installation and setup guides
-│   │   ├── architecture/               # System design and principles
-│   │   ├── contributors/               # Contribution guides
-│   │   └── api/                        # Auto-generated API docs
-│   ├── layouts/
-│   │   └── Layout.astro                # Main layout component
-│   └── assets/                         # Static assets
-├── miff/scripts/                            # Documentation generation scripts
-├── public/                             # Public assets (favicon, 404 page)
-├── .github/workflows/                  # GitHub Actions deployment
-└── astro.config.mjs                    # Astro configuration
+├── index.html              # Main landing page: "Welcome to MIFF"
+├── assets/
+│   ├── style.css          # Shared styles with dark/light theme support
+│   └── script.js          # JavaScript for interactivity and navigation
+├── sampler/
+│   └── index.html         # MIFF Sampler - Interactive game demos
+├── studio/
+│   └── index.html         # MIFF Studio - Advanced scene builder
+├── renderworld/
+│   └── index.html         # RenderWorld Hub - AI-native preview engine
+└── docs-site/
+    └── index.html         # Documentation - Comprehensive guides & API
 ```
 
-## 🛠️ Development
+## 🎯 Features
 
-### **Adding New Pages**
+### Main Landing Page (`index.html`)
+- **Professional Design**: Clean, modern layout with MIFF branding
+- **Theme Support**: Dark/light theme toggle with user preference persistence
+- **Responsive Design**: Optimized for desktop and mobile devices
+- **Interactive Cards**: Smooth hover effects and navigation
+- **Performance Metrics**: Display of framework statistics
+- **Smooth Animations**: Entrance animations and micro-interactions
 
-1. **Create markdown file** in appropriate directory:
-   ```bash
-   touch src/pages/new-page.md
-   ```
+### Navigation Structure
+- **Unified Entry Point**: Single professional landing page
+- **Clear Hierarchy**: Four distinct experience areas
+- **Consistent Branding**: Shared assets and styling across all pages
+- **Easy Navigation**: Back buttons and cross-linking between sections
 
-2. **Add frontmatter**:
-   ```markdown
-   ---
-   layout: ../../layouts/Layout.astro
-   title: "Page Title"
-   description: "Page description"
-   ---
-   ```
-
-3. **Write content** using markdown with Astro components
-
-### **Updating Navigation**
-
-Edit the navigation in `src/layouts/Layout.astro`:
-
-```astro
-<nav class="space-y-2">
-  <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Section</div>
-  <a href={`${basePath}new-page`} class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">New Page</a>
-</nav>
-```
-
-### **Adding Components**
-
-Create new Astro components in `src/components/`:
-
-```astro
----
-// src/components/MyComponent.astro
-export interface Props {
-  title: string;
-}
-
-const { title } = Astro.props;
----
-
-<div class="my-component">
-  <h2>{title}</h2>
-  <slot />
-</div>
-```
-
-## 📝 Content Guidelines
-
-### **Markdown Standards**
-
-- Use **bold** for emphasis
-- Use `code` for inline code
-- Use ``` for code blocks with language specification
-- Use headings for structure (H1 for page title, H2+ for sections)
-- Use tables for structured data
-- Use lists for step-by-step instructions
-
-### **Code Examples**
-
-```markdown
-### Basic Usage
-
-```bash
-npx ts-node cli/miff-simulate.ts scenario.json
-```
-
-### Advanced Usage
-
-```typescript
-import { NPCsManager } from './Manager';
-
-const manager = new NPCsManager();
-const npc = manager.createNPC({ name: "Guard" });
-```
-```
-
-### **Images and Diagrams**
-
-Store images in `src/assets/` and reference them:
-
-```markdown
-![Diagram Description](/assets/diagrams/architecture.png)
-```
-
-## 🔧 Configuration
-
-### **Astro Configuration**
-
-The site uses Astro with the following integrations:
-
-- **@astrojs/markdown-remark**: Markdown processing
-- **@astrojs/mdx**: MDX support
-- **@astrojs/sitemap**: Automatic sitemap generation
-- **@astrojs/tailwind**: Tailwind CSS styling
-
-### **GitHub Pages Configuration**
-
-- **Base path**: `/miff` (for repository-based deployment)
-- **Site URL**: `https://miff-framework.github.io`
-- **Custom 404 page**: `public/404.html`
-- **Favicon**: `public/favicon.svg`
-
-### **SEO and Meta**
-
-Each page should include appropriate meta tags in the frontmatter:
-
-```markdown
----
-layout: ../../layouts/Layout.astro
-title: "Page Title"
-description: "Page description for SEO"
-image: "/assets/images/page-preview.png"
-canonical: "https://miff-framework.github.io/miff/page-url"
----
-```
+### Technical Features
+- **Single Deployment**: All experiences in one GitHub Pages site
+- **Shared Assets**: Common CSS and JavaScript for consistency
+- **Theme System**: Dark/light mode support throughout
+- **Performance Optimized**: Minimal dependencies, fast loading
+- **Accessibility**: WCAG compliant design patterns
 
 ## 🚀 Deployment
 
-### **GitHub Actions**
+The site is automatically deployed via GitHub Pages from the `main` branch, serving from the `/docs` folder:
 
-The site is automatically deployed via GitHub Actions:
+1. **Repository Settings**: GitHub Pages configured to serve from `/docs`
+2. **Branch**: Deployed from `main` branch
+3. **Source**: GitHub Pages automatically serves from `/docs` folder
+4. **Custom Domain**: Optional custom domain support
 
-1. **Trigger**: Push to `main` branch with changes in `docs/`
-2. **Build**: Install dependencies, generate docs, build site
-3. **Deploy**: Upload to GitHub Pages
-4. **URL**: `https://miff-framework.github.io/miff`
+## 🎨 Styling
 
-### **Manual Deployment**
+### Theme System
+- **CSS Variables**: Comprehensive theme system with CSS custom properties
+- **Dark Mode**: Professional dark theme with high contrast
+- **Light Mode**: Clean light theme for accessibility
+- **User Preference**: Respects system theme preferences
+- **Persistence**: Theme choice saved in localStorage
 
-For manual deployment:
+### Responsive Design
+- **Mobile First**: Optimized for all screen sizes
+- **Flexible Grid**: CSS Grid and Flexbox layouts
+- **Typography**: Scalable font sizes with clamp() functions
+- **Touch Friendly**: Appropriate touch targets for mobile devices
 
-```bash
-# Build the site
-npm run build
+## 📱 Browser Support
 
-# The site will be available in dist/
-# Push to main branch to trigger automatic deployment
-```
+- **Modern Browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
+- **Mobile Browsers**: iOS Safari, Chrome Mobile, Samsung Internet
+- **Feature Support**: CSS Grid, CSS Custom Properties, ES6+ JavaScript
+- **Fallbacks**: Graceful degradation for older browsers
 
-### **Custom Domain**
+## 🔧 Customization
 
-To use a custom domain (e.g., `docs.miff.dev`):
+### Adding New Sections
+1. Create a new subdirectory in `/docs`
+2. Add an `index.html` file with the required structure
+3. Update the main landing page navigation
+4. Add any section-specific assets to `/docs/assets/`
 
-1. **Configure DNS**: Point domain to GitHub Pages
-2. **Update Astro config**: Change `site` URL in `astro.config.mjs`
-3. **Update base path**: Remove `/miff` base path
-4. **Update navigation**: Remove base path from all links
+### Modifying Styling
+- **Global Styles**: Edit `/docs/assets/style.css`
+- **Theme Colors**: Modify CSS custom properties in `:root` and `[data-theme="dark"]`
+- **Component Styles**: Add new styles to the shared CSS file
+- **Page-Specific**: Override styles in individual page `<head>` sections
 
-## 📊 Analytics
+### JavaScript Functionality
+- **Navigation**: Update `navigateTo()` function in `/docs/assets/script.js`
+- **Interactivity**: Add new features to the shared JavaScript
+- **Theme Toggle**: Extend theme functionality as needed
 
-The site includes analytics tracking (if configured):
+## 📊 Analytics & Monitoring
 
-- **Google Analytics**: Track page views and user behavior
-- **GitHub Analytics**: Track repository engagement
+- **GitHub Pages**: Built-in analytics via GitHub repository insights
+- **Performance**: Monitor page load times and Core Web Vitals
+- **User Engagement**: Track navigation patterns and popular sections
+- **Error Monitoring**: GitHub Pages provides error reporting
 
-## 🔍 Search
+## 🔍 SEO & Meta Tags
 
-The site includes full-text search functionality:
+- **Meta Descriptions**: Each page has optimized meta descriptions
+- **Structured Data**: Schema.org markup for better search visibility
+- **Open Graph**: Social media sharing optimization
+- **Canonical URLs**: Proper canonical URL implementation
 
-- **Algolia DocSearch**: Index-based search (if configured)
-- **Client-side search**: Fallback search implementation
+## 🛡️ Security
 
-## 🎨 Theming
+- **Content Security Policy**: Implemented via GitHub Pages settings
+- **HTTPS**: All pages served over secure HTTPS
+- **No External Dependencies**: Minimal attack surface with shared assets
+- **Input Sanitization**: All user inputs properly sanitized
 
-The site supports light and dark themes:
+## 📝 Content Management
 
-- **Automatic detection** of system preference
-- **Manual toggle** in the header
-- **Persistent preference** stored in localStorage
+- **Static Content**: All content is static HTML/CSS/JS
+- **Version Control**: Full Git history and version management
+- **Branch Protection**: Main branch protected with required reviews
+- **Automated Deployment**: Changes automatically deploy to GitHub Pages
 
-## 📱 Responsive Design
+## 🚀 Performance
 
-The site is fully responsive:
-
-- **Desktop**: Full sidebar navigation
-- **Tablet**: Collapsible sidebar
-- **Mobile**: Hamburger menu navigation
-
-## 🔗 External Links
-
-External links are marked with appropriate icons and open in new tabs:
-
-```markdown
-[GitHub Repository](https://github.com/miff-framework/miff){:target="_blank"}
-```
-
-## 🧪 Testing
-
-### **Link Validation**
-
-```bash
-# Check all internal and external links
-npm run validate-links
-```
-
-### **Build Testing**
-
-```bash
-# Test production build
-npm run build
-npm run preview
-```
-
-### **Content Validation**
-
-```bash
-# Validate markdown syntax
-npm run lint:markdown
-
-# Check for broken references
-npm run check-refs
-```
-
-## 📚 Resources
-
-- **[Astro Documentation](https://docs.astro.build/)**
-- **[Tailwind CSS Documentation](https://tailwindcss.com/docs)**
-- **[Markdown Guide](https://www.markdownguide.org/)**
-- **[MIFF Framework](https://github.com/miff-framework/miff)**
-
-## 🤝 Contributing
-
-To contribute to the documentation:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-3. **Make your changes**
-4. **Test locally**: `npm run dev`
-5. **Submit a pull request**
-
-### **Documentation Standards**
-
-- **Clear and concise** writing
-- **Code examples** for all features
-- **Screenshots** for visual guides
-- **Cross-references** to related content
-- **Regular updates** with framework changes
-
-### **Deployment Workflow**
-
-1. **Make changes** to documentation
-2. **Test locally** with `npm run dev`
-3. **Generate docs** with `npm run generate-cli-docs`
-4. **Build and test** with `npm run build`
-5. **Push to main** to trigger automatic deployment
-6. **Verify deployment** at `https://miff-framework.github.io/miff`
+- **Fast Loading**: Optimized CSS and minimal JavaScript
+- **CDN Assets**: Google Fonts and optimized resource loading
+- **Image Optimization**: SVG icons and optimized graphics
+- **Lazy Loading**: Intersection Observer for performance
+- **Caching**: Browser caching with appropriate cache headers
 
 ---
 
-*Built with ❤️ by the MIFF Framework community*
-
-**🌐 Live Site**: [https://miff-framework.github.io/miff](https://miff-framework.github.io/miff)
-
-## 🔧 Remix Hooks
-
-Each module README documents `Remix Hooks` describing safe extension points (override logic, reward injection, external triggers) to keep forks remix-safe.
-
-## 🧩 Systems Index (Modular, Aesthetic-first)
-
-- ProjectileSystemPure — deterministic projectile updates
-- ScoreSystemPure — additive/multiplicative scoring
-- HealthSystemPure — clamped damage/heal pipeline
-- InputSystemPure — raw → actions mapping
-- CameraSystemPure — follow/lerp (bridge)
-- RhythmSystemPure — beat generation and judge
-- AudioSystemPure — abstract audio commands
-- MountSystemPure — mount/dismount
-- DialogueSystemPure — branching dialogue
-- CutsceneSystemPure — timed tracks
-- NavigationSystemPure — grid navigation
-
-### Scenario Packs
-- WitcherExplorerDemoPure — navigation + dialogue + quests
-
-### Contributor Notes
-- All systems include remix hooks and are engine-agnostic.
-- Golden tests validate CLI and module behavior.
-- See root README for `quest`, `manifest`, and `builder` tooling.
+**Built with MIFF Framework** • **Modular Architecture** • **AI Integration** • **Cross-Platform**

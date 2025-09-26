@@ -1,8 +1,9 @@
 # MIFF: Make It For Free
 
-[![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html)
-[![MIFF Studio](https://img.shields.io/badge/MIFF%20Studio%20Builder-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/studio/index.html)
-[![RenderWorld Hub](https://img.shields.io/badge/RenderWorld%20Hub-orange)](https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/)
+[![MIFF Unified Site](https://img.shields.io/badge/MIFF%20Unified%20Site-green)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
+[![MIFF Sampler](https://img.shields.io/badge/Sampler-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/)
+[![MIFF Studio](https://img.shields.io/badge/Studio-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)
+[![RenderWorld Hub](https://img.shields.io/badge/RenderWorld-orange)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)
 [![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml)
 
 ## 🚀 **Comprehensive Documentation Navigation**
@@ -17,28 +18,30 @@
 
 ---
 
-## 🌐 **RenderWorld Hub - Real-Time Game Preview Engine**
+## 🌐 **MIFF Unified Experience Hub**
 
-### **🎮 Live Experience**
-Experience the future of game previews with RenderWorld Hub - the central navigation scene showcasing MIFF's modular rendering capabilities.
+### **🎮 Complete MIFF Ecosystem**
+Experience the full power of MIFF through our unified GitHub Pages site featuring professional navigation and seamless access to all framework experiences.
 
-**🔗 [Launch RenderWorld Hub](https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/)**
+**🔗 [Launch MIFF Unified Site](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)**
 
-*Superhot-inspired warehouse environment with AI-powered NPCs, interactive Spirit Lens scanning, and portal doors leading to MIFF demo worlds.*
+*Professional landing page with navigation to all MIFF experiences, built with the framework's modular architecture and hosted as a single GitHub Pages deployment.*
+
+### **🎯 Individual Experiences**
+- **🎮 [MIFF Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/)** - Interactive game demos
+- **🛠️ [MIFF Studio](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)** - Advanced scene builder
+- **🌐 [RenderWorld Hub](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)** - AI-native preview engine
+- **📚 [Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/)** - Comprehensive guides & API
+
+*All experiences built with MIFF's 157+ modular systems, featuring real-time rendering, AI integration, and cross-platform deployment.*
 
 #### **✨ Key Features**
-- **🏭 Stylized Warehouse**: High-contrast, minimalist geometry with industrial aesthetics
-- **🔮 Spirit Lens**: Interactive scanning device that reveals hidden paths and triggers dialogue
-- **🚪 Portal Navigation**: Three glowing doorways to SpiritTamerDemoPure, TopplerDemoPure, and WitcherExplorerDemoPure
-- **🤖 AI NPCs**: Dynamic characters with realistic behaviors and contextual conversations
-- **⚡ 60fps Performance**: WebGL-optimized rendering with real-time physics and lighting
-- **📱 Cross-Platform**: Works seamlessly on desktop and mobile browsers
-
-#### **🎯 Technical Excellence**
-- **157+ Pure Modules** working in harmony with full WebGL rendering pipeline
-- **AI-Native Architecture** with intelligent NPC behaviors and dialogue systems
-- **Performance Monitoring** with live debug capabilities and quality scaling
-- **Modular Design** ensuring contributor-friendly expansion and customization
+- **🎯 Professional Landing Page** with unified navigation to all MIFF experiences
+- **🌙 Dark/Light Theme Support** with user preference persistence and accessibility
+- **📱 Responsive Design** optimized for desktop, tablet, and mobile devices
+- **⚡ Performance Optimized** with minimal dependencies and fast loading times
+- **🔄 Seamless Navigation** between all MIFF experiences in one deployment
+- **🎨 Consistent Branding** with shared assets and professional styling
 
 ---
 
