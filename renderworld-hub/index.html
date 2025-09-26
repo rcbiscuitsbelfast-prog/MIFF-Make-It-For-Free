@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RenderWorld Hub - MIFF Game Preview Engine</title>
+    <meta name="description" content="Explore the stylized warehouse hub scene—the entry point to MIFF's demo worlds and the beginning of RenderWorld.">
+
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Font loading -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #00d4ff, #090979, #ff006e);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #888;
+        }
+
+        .loading-progress {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #090979);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .loading-tips {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            max-width: 400px;
+            line-height: 1.4;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #render-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        #instructions {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 300px;
+            pointer-events: all;
+        }
+
+        #instructions h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        #instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #instructions li {
+            margin: 8px 0;
+            color: #ccc;
+        }
+
+        #instructions .key {
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+        }
+
+        #crosshair::before,
+        #crosshair::after {
+            content: '';
+            position: absolute;
+            background: #ffffff;
+        }
+
+        #crosshair::before {
+            width: 20px;
+            height: 2px;
+            top: 9px;
+            left: 0;
+        }
+
+        #crosshair::after {
+            width: 2px;
+            height: 20px;
+            top: 0;
+            left: 9px;
+        }
+
+        #notification {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            border: 1px solid #00d4ff;
+        }
+
+        #notification.show {
+            opacity: 1;
+        }
+
+        #notification.scan {
+            border-color: #90EE90;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        #notification.info {
+            border-color: #00d4ff;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        #error-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            display: none;
+        }
+
+        .error-title {
+            color: #ff6b6b;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .retry-button {
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+
+        .retry-button:hover {
+            background: #0099cc;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            #instructions {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+                font-size: 12px;
+            }
+
+            .loading-logo {
+                font-size: 2rem;
+            }
+
+            .loading-text {
+                font-size: 1rem;
+            }
+        }
+
+        /* Hide cursor when using mouse look */
+        .mouse-look {
+            cursor: none !important;
+        }
+
+        .mouse-look * {
+            cursor: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div id="loading-screen">
+        <div class="loading-logo">RENDERWORLD</div>
+        <div class="loading-text">Initializing MIFF Game Preview Engine...</div>
+        <div class="loading-progress">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
+        <div class="loading-tips">
+            💡 <strong>Tip:</strong> Move with WASD, look around with mouse.<br>
+            💡 Press <strong>E</strong> to use the Spirit Lens for scanning.<br>
+            💡 Walk through the glowing portals to enter demo worlds.
+        </div>
+    </div>
+
+    <!-- Main game container -->
+    <div id="game-container">
+        <canvas id="render-canvas"></canvas>
+
+        <!-- UI Overlay -->
+        <div id="ui-overlay">
+            <!-- Instructions panel -->
+            <div id="instructions">
+                <h3>🎮 RenderWorld Hub Controls</h3>
+                <ul>
+                    <li><span class="key">WASD</span> - Move around</li>
+                    <li><span class="key">Mouse</span> - Look around</li>
+                    <li><span class="key">E</span> - Use Spirit Lens (scan)</li>
+                    <li><span class="key">Space</span> - Jump</li>
+                    <li><span class="key">ESC</span> - Pause/Resume</li>
+                    <li><span class="key">Click NPCs</span> - Start dialogue</li>
+                </ul>
+                <br>
+                <strong>🌟 Features:</strong>
+                <ul>
+                    <li>✨ <strong>Spirit Lens</strong> - Pick up from central table</li>
+                    <li>🚪 <strong>Portal Doors</strong> - Three demo world entrances</li>
+                    <li>🤖 <strong>AI NPCs</strong> - Interactive characters with dialogue</li>
+                    <li>📊 <strong>Performance</strong> - 60fps with debug overlay</li>
+                </ul>
+            </div>
+
+            <!-- Crosshair -->
+            <div id="crosshair"></div>
+
+            <!-- Notifications -->
+            <div id="notification"></div>
+        </div>
+    </div>
+
+    <!-- Error display -->
+    <div id="error-display">
+        <div class="error-title">⚠️ RenderWorld Error</div>
+        <div class="error-message" id="error-message">Failed to initialize WebGL context.</div>
+        <button class="retry-button" onclick="location.reload()">Retry</button>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script type="module">
+        // Loading tips rotation
+        const loadingTips = [
+            "💡 Move with WASD, look around with mouse.",
+            "💡 Press E to use the Spirit Lens for scanning.",
+            "💡 Walk through the glowing portals to enter demo worlds.",
+            "💡 Talk to NPCs for hints and guidance.",
+            "💡 This is the beginning of RenderWorld - the future of game previews."
+        ];
+
+        let tipIndex = 0;
+        const tipsElement = document.querySelector('.loading-tips');
+
+        function rotateTips() {
+            tipIndex = (tipIndex + 1) % loadingTips.length;
+            tipsElement.innerHTML = loadingTips[tipIndex];
+        }
+
+        setInterval(rotateTips, 3000);
+
+        // Loading progress simulation
+        let progress = 0;
+        const loadingBar = document.getElementById('loading-bar');
+
+        function updateProgress() {
+            if (progress < 100) {
+                progress += Math.random() * 15;
+                loadingBar.style.width = Math.min(progress, 100) + '%';
+
+                if (progress > 25) document.querySelector('.loading-text').textContent = 'Loading warehouse geometry...';
+                if (progress > 50) document.querySelector('.loading-text').textContent = 'Initializing Spirit Lens...';
+                if (progress > 75) document.querySelector('.loading-text').textContent = 'Spawning NPCs and portals...';
+                if (progress > 90) document.querySelector('.loading-text').textContent = 'Finalizing RenderWorld hub...';
+            }
+        }
+
+        const progressInterval = setInterval(updateProgress, 200);
+
+        // Show notification utility
+        function showNotification(message, type = 'info', duration = 3000) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
+
+        // Error handling
+        function showError(message) {
+            clearInterval(progressInterval);
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-display').style.display = 'block';
+        }
+
+        // Main initialization
+        async function initializeRenderWorld() {
+            try {
+                // Wait for all modules to load
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const canvas = document.getElementById('render-canvas');
+                if (!canvas) {
+                    throw new Error('Canvas element not found');
+                }
+
+                // Import the RenderWorld module
+                const module = await import('./dist/renderworld.js');
+
+                if (!module.RenderWorldWebBridge) {
+                    throw new Error('RenderWorldWebBridge not found in module');
+                }
+
+                // Hide loading screen
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.classList.add('hidden');
+
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 1000);
+
+                // Initialize the renderer
+                const renderer = new module.RenderWorldWebBridge(canvas, {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    enableDebug: false,
+                    quality: 'high'
+                });
+
+                // Start the renderer
+                renderer.start();
+
+                // Setup global error handling
+                window.addEventListener('error', (event) => {
+                    console.error('RenderWorld Error:', event.error);
+                    showNotification('An error occurred: ' + event.error.message, 'error', 5000);
+                });
+
+                // Setup notification system
+                document.addEventListener('renderworld-notification', (event) => {
+                    showNotification(event.detail.message, event.detail.type, event.detail.duration);
+                });
+
+                // Make renderer globally accessible for debugging
+                window.renderworld = renderer;
+
+                console.log('🎮 RenderWorld Hub initialized successfully!');
+                showNotification('Welcome to RenderWorld! Use WASD to move and E to scan.', 'info', 4000);
+
+            } catch (error) {
+                console.error('Failed to initialize RenderWorld:', error);
+                showError(error.message);
+            }
+        }
+
+        // Start initialization when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeRenderWorld);
+        } else {
+            initializeRenderWorld();
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.renderworld) {
+                // Renderer will handle resize internally
+            }
+        });
+
+        // Handle visibility change (pause when tab is hidden)
+        document.addEventListener('visibilitychange', () => {
+            if (window.renderworld) {
+                if (document.hidden) {
+                    window.renderworld.pause();
+                } else {
+                    window.renderworld.resume();
+                }
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            // Toggle debug mode with F3
+            if (event.key === 'F3' && window.renderworld) {
+                window.renderworld.toggleDebug();
+            }
+
+            // Toggle quality with F2
+            if (event.key === 'F2' && window.renderworld) {
+                const currentQuality = window.renderworld.getConfig().quality;
+                const qualities = ['low', 'medium', 'high'];
+                const currentIndex = qualities.indexOf(currentQuality);
+                const nextIndex = (currentIndex + 1) % qualities.length;
+                window.renderworld.setQuality(qualities[nextIndex]);
+
+                const qualityNames = { low: 'Low', medium: 'Medium', high: 'High' };
+                showNotification(`Quality set to ${qualityNames[qualities[nextIndex]]}`, 'info', 2000);
+            }
+        });
+    </script>
+
+    <!-- Fallback message for browsers without JavaScript -->
+    <noscript>
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-family: monospace; font-size: 18px; text-align: center; padding: 20px;">
+            <div>
+                <h1>⚠️ JavaScript Required</h1>
+                <p>RenderWorld requires JavaScript to run. Please enable JavaScript in your browser settings and reload the page.</p>
+                <p><em>This is the entry point to MIFF's demo worlds and the beginning of RenderWorld.</em></p>
+            </div>
+        </div>
+    </noscript>
+</body>
+</html>

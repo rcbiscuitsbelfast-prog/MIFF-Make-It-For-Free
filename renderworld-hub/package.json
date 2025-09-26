@@ -1,0 +1,38 @@
+{
+  "name": "renderworld-hub",
+  "version": "1.0.0",
+  "description": "RenderWorld Hub - Real-Time AI-Native Game Preview Engine for MIFF",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "npx serve . -p 8000",
+    "build": "echo 'RenderWorld Hub is ready for deployment - no build step required'",
+    "deploy": "echo 'Deploy to GitHub Pages using: git subtree push --prefix renderworld-hub origin gh-pages'"
+  },
+  "keywords": [
+    "game-engine",
+    "webgl",
+    "ai",
+    "miff",
+    "renderworld",
+    "game-preview",
+    "superhot",
+    "modular-architecture"
+  ],
+  "author": "MIFF Framework Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rcbiscuitsbelfast-prog/renderworld-hub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rcbiscuitsbelfast-prog/renderworld-hub/issues"
+  },
+  "homepage": "https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}

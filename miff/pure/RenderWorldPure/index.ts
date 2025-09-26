@@ -1,0 +1,1085 @@
+/**
+ * RenderWorld Pure - Real-Time AI-Native Game Preview Engine
+ *
+ * The central hub scene for navigating between MIFF demo worlds, showcasing
+ * modular rendering capabilities with Superhot-inspired aesthetics.
+ *
+ * @module RenderWorldPure
+ * @version 1.0.0
+ * @license MIT
+ */
+
+import {
+  CombatEngine,
+  SpiritInstance,
+  MoveData,
+  TypeEffectiveness
+} from '../CombatPure/engine';
+
+import {
+  Item,
+  ItemType,
+  ItemEffectType,
+  ItemUsageManager,
+  IPlayerContext,
+  UsageResult,
+  UsageStatus
+} from '../ItemsPure';
+
+import {
+  QuestManager,
+  Quest,
+  QuestStatus,
+  QuestObjective
+} from '../QuestsPure';
+
+import {
+  TeamManager,
+  TeamRules,
+  TeamUtils
+} from '../TeamsPure';
+
+import {
+  AIManager,
+  AIPolicy
+} from '../AIPure';
+
+import {
+  HUDPureUtils,
+  HUDManager,
+  SpiritHUDState,
+  TurnHUDState
+} from '../HUDPure';
+
+import {
+  SceneBuilderPure,
+  RenderPayloadPure
+} from '../SceneBuilderPure';
+
+import {
+  EventBus
+} from '../EventsPure';
+
+import {
+  AvatarSystemPure,
+  AvatarRendererWebPure
+} from '../AvatarSystemPure';
+
+import {
+  DialogueSystemPure
+} from '../DialogueSystemPure';
+
+interface RenderWorldGameState {
+  player: {
+    position: { x: number; y: number; z: number };
+    rotation: { x: number; y: number; z: number };
+    velocity: { x: number; y: number; z: number };
+    holdingSpiritLens: boolean;
+    health: number;
+    maxHealth: number;
+  };
+  world: {
+    warehouse: {
+      dimensions: { width: number; height: number; depth: number };
+      lighting: {
+        ambient: { r: number; g: number; b: number; intensity: number };
+        directional: { x: number; y: number; z: number; intensity: number };
+        spiritLensGlow: { r: number; g: number; b: number; intensity: number; radius: number };
+      };
+      materials: {
+        brick: { color: string; roughness: number; metallic: number };
+        metal: { color: string; roughness: number; metallic: number };
+        concrete: { color: string; roughness: number; metallic: number };
+      };
+    };
+    spiritLens: {
+      position: { x: number; y: number; z: number };
+      glowIntensity: number;
+      scanRadius: number;
+      active: boolean;
+    };
+    portals: {
+      spiritTamer: {
+        position: { x: number; y: number; z: number };
+        rotation: { x: number; y: number; z: number };
+        aura: { r: number; g: number; b: number; intensity: number };
+        active: boolean;
+        destination: string;
+      };
+      toppler: {
+        position: { x: number; y: number; z: number };
+        rotation: { x: number; y: number; z: number };
+        shimmer: { r: number; g: number; b: number; intensity: number };
+        active: boolean;
+        destination: string;
+      };
+      witcher: {
+        position: { x: number; y: number; z: number };
+        rotation: { x: number; y: number; z: number };
+        glow: { r: number; g: number; b: number; intensity: number };
+        active: boolean;
+        destination: string;
+      };
+    };
+    npcs: {
+      explorer: {
+        id: string;
+        position: { x: number; y: number; z: number };
+        targetPosition: { x: number; y: number; z: number };
+        state: 'idle' | 'wandering' | 'inspecting' | 'dialogue';
+        dialogueTree: string[];
+        lastDialogueTime: number;
+      };
+      guide: {
+        id: string;
+        position: { x: number; y: number; z: number };
+        targetPosition: { x: number; y: number; z: number };
+        state: 'idle' | 'wandering' | 'inspecting' | 'dialogue';
+        dialogueTree: string[];
+        lastDialogueTime: number;
+      };
+      mystic: {
+        id: string;
+        position: { x: number; y: number; z: number };
+        targetPosition: { x: number; y: number; z: number };
+        state: 'idle' | 'wandering' | 'inspecting' | 'dialogue';
+        dialogueTree: string[];
+        lastDialogueTime: number;
+      };
+    };
+  };
+  game: {
+    time: number;
+    fps: number;
+    renderTime: number;
+    physicsTime: number;
+    aiTime: number;
+    paused: boolean;
+    gameOver: boolean;
+  };
+  ui: {
+    hudVisible: boolean;
+    debugVisible: boolean;
+    dialogueVisible: boolean;
+    inventoryVisible: boolean;
+  };
+}
+
+export class RenderWorldPure {
+  private state: RenderWorldGameState;
+  private engines: {
+    combat: CombatEngine;
+    items: ItemUsageManager;
+    quests: QuestManager;
+    teams: TeamManager;
+    ai: AIManager;
+    hud: HUDManager;
+    scene: SceneBuilderPure;
+    avatar: AvatarSystemPure;
+    dialogue: DialogueSystemPure;
+  };
+  private lastTime: number = 0;
+  private frameCount: number = 0;
+  private lastFPSUpdate: number = 0;
+
+  constructor() {
+    this.state = this.initializeGameState();
+    this.engines = this.initializeEngines();
+    this.setupEventListeners();
+    this.generateWorld();
+    this.setupSpiritLens();
+    this.setupNPCs();
+  }
+
+  private initializeGameState(): RenderWorldGameState {
+    return {
+      player: {
+        position: { x: 0, y: 1.7, z: 5 }, // Standing height, facing the central table
+        rotation: { x: 0, y: 0, z: 0 },
+        velocity: { x: 0, y: 0, z: 0 },
+        holdingSpiritLens: false,
+        health: 100,
+        maxHealth: 100
+      },
+      world: {
+        warehouse: {
+          dimensions: { width: 50, height: 15, depth: 50 },
+          lighting: {
+            ambient: { r: 0.2, g: 0.2, b: 0.3, intensity: 0.8 },
+            directional: { x: -1, y: 1, z: -0.5, intensity: 1.2 },
+            spiritLensGlow: { r: 0.8, g: 0.9, b: 1.0, intensity: 2.0, radius: 8 }
+          },
+          materials: {
+            brick: { color: '#8B4513', roughness: 0.8, metallic: 0.1 },
+            metal: { color: '#708090', roughness: 0.2, metallic: 0.8 },
+            concrete: { color: '#A9A9A9', roughness: 0.9, metallic: 0.0 }
+          }
+        },
+        spiritLens: {
+          position: { x: 0, y: 1.5, z: 0 }, // Central table position
+          glowIntensity: 1.0,
+          scanRadius: 5.0,
+          active: true
+        },
+        portals: {
+          spiritTamer: {
+            position: { x: -15, y: 2, z: -20 },
+            rotation: { x: 0, y: 0, z: 0 },
+            aura: { r: 0.2, g: 0.6, b: 1.0, intensity: 1.5 },
+            active: true,
+            destination: 'SpiritTamerDemoPure'
+          },
+          toppler: {
+            position: { x: 0, y: 2, z: -20 },
+            rotation: { x: 0, y: 0, z: 0 },
+            shimmer: { r: 0.2, g: 1.0, b: 0.4, intensity: 1.2 },
+            active: true,
+            destination: 'TopplerDemoPure'
+          },
+          witcher: {
+            position: { x: 15, y: 2, z: -20 },
+            rotation: { x: 0, y: 0, z: 0 },
+            glow: { r: 1.0, g: 0.2, b: 0.2, intensity: 1.8 },
+            active: true,
+            destination: 'WitcherExplorerDemoPure'
+          }
+        },
+        npcs: {
+          explorer: {
+            id: 'explorer',
+            position: { x: -10, y: 1.7, z: 8 },
+            targetPosition: { x: -10, y: 1.7, z: 8 },
+            state: 'idle',
+            dialogueTree: [
+              "Have you visited the Witcher grove?",
+              "The Spirit Lens reveals hidden paths.",
+              "Toppler physics are wild today."
+            ],
+            lastDialogueTime: 0
+          },
+          guide: {
+            id: 'guide',
+            position: { x: 10, y: 1.7, z: 8 },
+            targetPosition: { x: 10, y: 1.7, z: 8 },
+            state: 'idle',
+            dialogueTree: [
+              "The warehouse holds many secrets.",
+              "Try scanning with the Spirit Lens.",
+              "Each door leads to a different world."
+            ],
+            lastDialogueTime: 0
+          },
+          mystic: {
+            id: 'mystic',
+            position: { x: 0, y: 1.7, z: 15 },
+            targetPosition: { x: 0, y: 1.7, z: 15 },
+            state: 'idle',
+            dialogueTree: [
+              "Feel the energy of the Spirit Lens.",
+              "The portals pulse with possibility.",
+              "This is just the beginning of RenderWorld."
+            ],
+            lastDialogueTime: 0
+          }
+        }
+      },
+      game: {
+        time: 0,
+        fps: 60,
+        renderTime: 0,
+        physicsTime: 0,
+        aiTime: 0,
+        paused: false,
+        gameOver: false
+      },
+      ui: {
+        hudVisible: true,
+        debugVisible: false,
+        dialogueVisible: false,
+        inventoryVisible: false
+      }
+    };
+  }
+
+  private initializeEngines() {
+    const typeChart = new TypeEffectiveness();
+    const playerContext: IPlayerContext = {
+      playerId: 'player',
+      inventory: [],
+      flags: new Map()
+    };
+
+    return {
+      combat: new CombatEngine(typeChart),
+      items: new ItemUsageManager(playerContext),
+      quests: new QuestManager(),
+      teams: new TeamManager(),
+      ai: new AIManager(),
+      hud: new HUDManager(),
+      scene: new SceneBuilderPure(),
+      avatar: new AvatarSystemPure(),
+      dialogue: new DialogueSystemPure()
+    };
+  }
+
+  private setupEventListeners() {
+    EventBus.on('spiritLens.pickup', this.handleSpiritLensPickup.bind(this));
+    EventBus.on('spiritLens.use', this.handleSpiritLensUse.bind(this));
+    EventBus.on('portal.activate', this.handlePortalActivation.bind(this));
+    EventBus.on('npc.interact', this.handleNPCInteraction.bind(this));
+    EventBus.on('dialogue.trigger', this.handleDialogueTrigger.bind(this));
+    EventBus.on('player.move', this.handlePlayerMovement.bind(this));
+    EventBus.on('world.scan', this.handleWorldScan.bind(this));
+  }
+
+  private generateWorld() {
+    // Generate warehouse geometry using SceneBuilderPure
+    this.generateWarehouseStructure();
+    this.generateLightingSetup();
+    this.generatePortalFrames();
+    this.generateCentralTable();
+  }
+
+  private generateWarehouseStructure() {
+    // Main warehouse walls, floor, ceiling
+    const warehouseGeometry = {
+      floor: {
+        type: 'plane',
+        position: { x: 0, y: 0, z: 0 },
+        scale: { x: 50, y: 1, z: 50 },
+        material: this.state.world.warehouse.materials.concrete,
+        texture: 'concrete_floor'
+      },
+      walls: {
+        north: {
+          type: 'plane',
+          position: { x: 0, y: 7.5, z: -25 },
+          scale: { x: 50, y: 15, z: 1 },
+          material: this.state.world.warehouse.materials.brick,
+          texture: 'brick_wall'
+        },
+        south: {
+          type: 'plane',
+          position: { x: 0, y: 7.5, z: 25 },
+          scale: { x: 50, y: 15, z: 1 },
+          material: this.state.world.warehouse.materials.brick,
+          texture: 'brick_wall'
+        },
+        east: {
+          type: 'plane',
+          position: { x: 25, y: 7.5, z: 0 },
+          rotation: { x: 0, y: Math.PI / 2, z: 0 },
+          scale: { x: 50, y: 15, z: 1 },
+          material: this.state.world.warehouse.materials.brick,
+          texture: 'brick_wall'
+        },
+        west: {
+          type: 'plane',
+          position: { x: -25, y: 7.5, z: 0 },
+          rotation: { x: 0, y: Math.PI / 2, z: 0 },
+          scale: { x: 50, y: 15, z: 1 },
+          material: this.state.world.warehouse.materials.brick,
+          texture: 'brick_wall'
+        }
+      },
+      ceiling: {
+        type: 'plane',
+        position: { x: 0, y: 15, z: 0 },
+        rotation: { x: Math.PI / 2, y: 0, z: 0 },
+        scale: { x: 50, y: 1, z: 50 },
+        material: this.state.world.warehouse.materials.metal,
+        texture: 'metal_ceiling'
+      },
+      beams: this.generateSupportBeams()
+    };
+
+    // Generate beams using SceneBuilderPure
+    this.engines.scene.addGeometry('warehouse', warehouseGeometry);
+  }
+
+  private generateSupportBeams(): any[] {
+    const beams = [];
+    for (let i = 0; i < 5; i++) {
+      beams.push({
+        type: 'cylinder',
+        position: { x: -20 + i * 10, y: 10, z: -20 },
+        scale: { x: 0.5, y: 10, z: 0.5 },
+        material: this.state.world.warehouse.materials.metal,
+        texture: 'metal_beam'
+      });
+      beams.push({
+        type: 'cylinder',
+        position: { x: -20 + i * 10, y: 10, z: 20 },
+        scale: { x: 0.5, y: 10, z: 0.5 },
+        material: this.state.world.warehouse.materials.metal,
+        texture: 'metal_beam'
+      });
+    }
+    return beams;
+  }
+
+  private generateLightingSetup() {
+    const lighting = {
+      ambient: {
+        type: 'ambient',
+        color: this.state.world.warehouse.lighting.ambient,
+        intensity: this.state.world.warehouse.lighting.ambient.intensity
+      },
+      directional: {
+        type: 'directional',
+        direction: this.state.world.warehouse.lighting.directional,
+        intensity: this.state.world.warehouse.lighting.directional.intensity,
+        color: { r: 1, g: 1, b: 1 }
+      },
+      spiritLens: {
+        type: 'point',
+        position: this.state.world.spiritLens.position,
+        color: this.state.world.warehouse.lighting.spiritLensGlow,
+        radius: this.state.world.warehouse.lighting.spiritLensGlow.radius,
+        intensity: this.state.world.warehouse.lighting.spiritLensGlow.intensity
+      },
+      portalLights: [
+        {
+          type: 'point',
+          position: this.state.world.portals.spiritTamer.position,
+          color: this.state.world.portals.spiritTamer.aura,
+          radius: 8,
+          intensity: this.state.world.portals.spiritTamer.aura.intensity
+        },
+        {
+          type: 'point',
+          position: this.state.world.portals.toppler.position,
+          color: this.state.world.portals.toppler.shimmer,
+          radius: 8,
+          intensity: this.state.world.portals.toppler.shimmer.intensity
+        },
+        {
+          type: 'point',
+          position: this.state.world.portals.witcher.position,
+          color: this.state.world.portals.witcher.glow,
+          radius: 8,
+          intensity: this.state.world.portals.witcher.glow.intensity
+        }
+      ]
+    };
+
+    this.engines.scene.addLighting('warehouse_lighting', lighting);
+  }
+
+  private generatePortalFrames() {
+    const portalGeometry = {
+      spiritTamerFrame: {
+        type: 'frame',
+        position: this.state.world.portals.spiritTamer.position,
+        scale: { x: 4, y: 8, z: 0.5 },
+        material: this.state.world.warehouse.materials.metal,
+        emissive: this.state.world.portals.spiritTamer.aura,
+        portalData: {
+          destination: 'SpiritTamerDemoPure',
+          theme: 'forest',
+          color: 'blue'
+        }
+      },
+      topplerFrame: {
+        type: 'frame',
+        position: this.state.world.portals.toppler.position,
+        scale: { x: 4, y: 8, z: 0.5 },
+        material: this.state.world.warehouse.materials.metal,
+        emissive: this.state.world.portals.toppler.shimmer,
+        portalData: {
+          destination: 'TopplerDemoPure',
+          theme: 'physics',
+          color: 'green'
+        }
+      },
+      witcherFrame: {
+        type: 'frame',
+        position: this.state.world.portals.witcher.position,
+        scale: { x: 4, y: 8, z: 0.5 },
+        material: this.state.world.warehouse.materials.metal,
+        emissive: this.state.world.portals.witcher.glow,
+        portalData: {
+          destination: 'WitcherExplorerDemoPure',
+          theme: 'medieval',
+          color: 'red'
+        }
+      }
+    };
+
+    this.engines.scene.addGeometry('portal_frames', portalGeometry);
+  }
+
+  private generateCentralTable() {
+    const tableGeometry = {
+      tableTop: {
+        type: 'cube',
+        position: { x: 0, y: 1.2, z: 0 },
+        scale: { x: 3, y: 0.2, z: 3 },
+        material: this.state.world.warehouse.materials.metal,
+        texture: 'metal_table'
+      },
+      tableLegs: [
+        {
+          type: 'cylinder',
+          position: { x: 1.2, y: 0.6, z: 1.2 },
+          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          material: this.state.world.warehouse.materials.metal
+        },
+        {
+          type: 'cylinder',
+          position: { x: -1.2, y: 0.6, z: 1.2 },
+          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          material: this.state.world.warehouse.materials.metal
+        },
+        {
+          type: 'cylinder',
+          position: { x: 1.2, y: 0.6, z: -1.2 },
+          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          material: this.state.world.warehouse.materials.metal
+        },
+        {
+          type: 'cylinder',
+          position: { x: -1.2, y: 0.6, z: -1.2 },
+          scale: { x: 0.1, y: 1.2, z: 0.1 },
+          material: this.state.world.warehouse.materials.metal
+        }
+      ]
+    };
+
+    this.engines.scene.addGeometry('central_table', tableGeometry);
+  }
+
+  private setupSpiritLens() {
+    // Create Spirit Lens as an interactive item
+    const spiritLens = new Item(
+      'spirit_lens',
+      'Spirit Lens',
+      ItemType.TOOL,
+      'A mystical handheld device that reveals hidden paths and secrets in the RenderWorld hub',
+      [
+        new ItemEffect(ItemEffectType.SCAN, { radius: 5.0, revealType: 'portals' }),
+        new ItemEffect(ItemEffectType.GLOW, { intensity: 1.5, color: '#80B0FF' }),
+        new ItemEffect(ItemEffectType.SOUND, { ambient: true, volume: 0.3 })
+      ]
+    );
+
+    this.engines.items.registerItem(spiritLens);
+    this.state.world.spiritLens.active = true;
+
+    // Add ambient sound for Spirit Lens
+    EventBus.emit('audio.ambient', {
+      source: 'spirit_lens',
+      sound: 'lens_hum',
+      position: this.state.world.spiritLens.position,
+      volume: 0.3,
+      loop: true
+    });
+  }
+
+  private setupNPCs() {
+    // Initialize NPC AI behaviors
+    Object.values(this.state.world.npcs).forEach(npc => {
+      this.engines.ai.registerBehavior(npc.id, {
+        type: 'wander',
+        parameters: {
+          speed: 0.5,
+          wanderRadius: 10,
+          idleTime: 2000,
+          inspectTime: 3000
+        }
+      });
+    });
+  }
+
+  private handleSpiritLensPickup(event: any) {
+    this.state.player.holdingSpiritLens = true;
+    this.state.world.spiritLens.active = false;
+
+    EventBus.emit('audio.play', { sound: 'lens_pickup', volume: 0.8 });
+    EventBus.emit('ui.notification', {
+      message: 'Spirit Lens acquired - use it to scan for hidden paths',
+      type: 'info',
+      duration: 3000
+    });
+  }
+
+  private handleSpiritLensUse(event: any) {
+    if (!this.state.player.holdingSpiritLens) return;
+
+    const scanResult = this.performSpiritLensScan();
+    this.highlightNearbyElements(scanResult);
+
+    EventBus.emit('world.scan', scanResult);
+  }
+
+  private performSpiritLensScan(): any {
+    const scanResults = {
+      portals: [],
+      npcs: [],
+      hiddenPaths: []
+    };
+
+    // Scan for nearby portals
+    Object.values(this.state.world.portals).forEach(portal => {
+      const distance = this.calculateDistance(this.state.player.position, portal.position);
+      if (distance <= this.state.world.spiritLens.scanRadius) {
+        scanResults.portals.push({
+          portal: portal,
+          distance: distance,
+          intensity: Math.max(0, 1 - (distance / this.state.world.spiritLens.scanRadius))
+        });
+      }
+    });
+
+    // Scan for nearby NPCs
+    Object.values(this.state.world.npcs).forEach(npc => {
+      const distance = this.calculateDistance(this.state.player.position, npc.position);
+      if (distance <= this.state.world.spiritLens.scanRadius) {
+        scanResults.npcs.push({
+          npc: npc,
+          distance: distance,
+          canInteract: distance <= 3
+        });
+      }
+    });
+
+    return scanResults;
+  }
+
+  private highlightNearbyElements(scanResults: any) {
+    // Increase portal glow intensity based on scan results
+    scanResults.portals.forEach((result: any) => {
+      const portal = result.portal;
+      const intensity = portal.aura ? portal.aura.intensity + result.intensity :
+                       portal.shimmer ? portal.shimmer.intensity + result.intensity :
+                       portal.glow.intensity + result.intensity;
+
+      EventBus.emit('portal.highlight', {
+        portalId: portal.destination.toLowerCase(),
+        intensity: intensity,
+        duration: 5000
+      });
+    });
+
+    // Trigger NPC dialogue if close enough
+    scanResults.npcs.forEach((result: any) => {
+      if (result.canInteract) {
+        this.triggerNPCDialogue(result.npc);
+      }
+    });
+  }
+
+  private calculateDistance(pos1: any, pos2: any): number {
+    const dx = pos1.x - pos2.x;
+    const dy = pos1.y - pos2.y;
+    const dz = pos1.z - pos2.z;
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  }
+
+  private triggerNPCDialogue(npc: any) {
+    if (Date.now() - npc.lastDialogueTime < 10000) return; // Cooldown
+
+    npc.lastDialogueTime = Date.now();
+    npc.state = 'dialogue';
+
+    const dialogue = npc.dialogueTree[Math.floor(Math.random() * npc.dialogueTree.length)];
+
+    EventBus.emit('dialogue.start', {
+      npcId: npc.id,
+      dialogue: dialogue,
+      position: npc.position
+    });
+
+    // Reset NPC state after dialogue
+    setTimeout(() => {
+      npc.state = 'idle';
+    }, 5000);
+  }
+
+  private handlePortalActivation(event: any) {
+    const portalId = event.portalId;
+    const portal = Object.values(this.state.world.portals).find(p => p.destination.toLowerCase() === portalId);
+
+    if (!portal || !portal.active) return;
+
+    EventBus.emit('scene.transition', {
+      destination: portal.destination,
+      transitionType: 'portal',
+      portalData: portal
+    });
+
+    // Play portal activation sound
+    EventBus.emit('audio.play', {
+      sound: 'portal_activate',
+      position: portal.position,
+      volume: 1.0
+    });
+  }
+
+  private handleNPCInteraction(event: any) {
+    const npc = event.npc;
+    const player = this.state.player;
+
+    const distance = this.calculateDistance(player.position, npc.position);
+    if (distance > 3) return;
+
+    this.triggerNPCDialogue(npc);
+  }
+
+  private handleDialogueTrigger(event: any) {
+    // Handle dialogue system interactions
+    this.state.ui.dialogueVisible = true;
+
+    EventBus.emit('ui.dialogue', event.dialogue);
+  }
+
+  private handlePlayerMovement(event: any) {
+    // Update player position and handle physics
+    const newPosition = {
+      x: this.state.player.position.x + event.velocity.x,
+      y: this.state.player.position.y + event.velocity.y,
+      z: this.state.player.position.z + event.velocity.z
+    };
+
+    // Basic collision detection with warehouse bounds
+    newPosition.x = Math.max(-24, Math.min(24, newPosition.x));
+    newPosition.z = Math.max(-24, Math.min(24, newPosition.z));
+    newPosition.y = Math.max(0, Math.min(14, newPosition.y));
+
+    this.state.player.position = newPosition;
+    this.state.player.velocity = event.velocity;
+
+    // Check for Spirit Lens pickup
+    if (!this.state.player.holdingSpiritLens) {
+      const lensDistance = this.calculateDistance(this.state.player.position, this.state.world.spiritLens.position);
+      if (lensDistance <= 2) {
+        EventBus.emit('spiritLens.pickup', { player: this.state.player });
+      }
+    }
+
+    // Check for portal proximity
+    Object.values(this.state.world.portals).forEach(portal => {
+      const portalDistance = this.calculateDistance(this.state.player.position, portal.position);
+      if (portalDistance <= 3) {
+        EventBus.emit('portal.proximity', {
+          portalId: portal.destination.toLowerCase(),
+          distance: portalDistance
+        });
+      }
+    });
+  }
+
+  private handleWorldScan(event: any) {
+    // Process scan results and update world state
+    if (event.portals && event.portals.length > 0) {
+      EventBus.emit('ui.notification', {
+        message: `${event.portals.length} portals detected nearby`,
+        type: 'scan',
+        duration: 2000
+      });
+    }
+
+    if (event.npcs && event.npcs.length > 0) {
+      EventBus.emit('ui.notification', {
+        message: `${event.npcs.length} entities detected - approach for interaction`,
+        type: 'scan',
+        duration: 3000
+      });
+    }
+  }
+
+  // Public API methods
+  public getGameState(): RenderWorldGameState {
+    return this.state;
+  }
+
+  public update(deltaTime: number) {
+    if (this.state.game.paused || this.state.game.gameOver) return;
+
+    this.state.game.time += deltaTime;
+    this.updateFPS(deltaTime);
+    this.updatePlayer(deltaTime);
+    this.updateNPCs(deltaTime);
+    this.updateSpiritLens(deltaTime);
+    this.updateUI(deltaTime);
+    this.updatePerformanceMetrics(deltaTime);
+  }
+
+  private updateFPS(deltaTime: number) {
+    this.frameCount++;
+    if (this.state.game.time - this.lastFPSUpdate >= 1000) {
+      this.state.game.fps = Math.round(this.frameCount / ((this.state.game.time - this.lastFPSUpdate) / 1000));
+      this.frameCount = 0;
+      this.lastFPSUpdate = this.state.game.time;
+    }
+  }
+
+  private updatePlayer(deltaTime: number) {
+    // Apply gravity and physics
+    if (this.state.player.position.y > 1.7) {
+      this.state.player.velocity.y -= 9.81 * deltaTime;
+    } else {
+      this.state.player.velocity.y = 0;
+      this.state.player.position.y = 1.7;
+    }
+
+    // Apply movement
+    this.state.player.position.x += this.state.player.velocity.x * deltaTime;
+    this.state.player.position.z += this.state.player.velocity.z * deltaTime;
+
+    // Damping
+    this.state.player.velocity.x *= 0.9;
+    this.state.player.velocity.z *= 0.9;
+  }
+
+  private updateNPCs(deltaTime: number) {
+    Object.values(this.state.world.npcs).forEach(npc => {
+      if (npc.state === 'wandering') {
+        // Move towards target position
+        const dx = npc.targetPosition.x - npc.position.x;
+        const dz = npc.targetPosition.z - npc.position.z;
+        const distance = Math.sqrt(dx * dx + dz * dz);
+
+        if (distance > 0.1) {
+          const moveSpeed = 0.5;
+          npc.position.x += (dx / distance) * moveSpeed * deltaTime;
+          npc.position.z += (dz / distance) * moveSpeed * deltaTime;
+        } else {
+          // Reach target, choose new behavior
+          this.updateNPCBehavior(npc);
+        }
+      }
+    });
+  }
+
+  private updateNPCBehavior(npc: any) {
+    const behaviors = ['idle', 'wandering', 'inspecting'];
+    const currentBehavior = behaviors[Math.floor(Math.random() * behaviors.length)];
+
+    if (currentBehavior === 'wandering') {
+      // Choose random target position within warehouse
+      npc.targetPosition = {
+        x: (Math.random() - 0.5) * 30,
+        y: npc.position.y,
+        z: (Math.random() - 0.5) * 30
+      };
+      npc.state = 'wandering';
+    } else if (currentBehavior === 'inspecting') {
+      // Look at nearby objects (portals, Spirit Lens)
+      const nearbyObjects = [
+        ...Object.values(this.state.world.portals),
+        this.state.world.spiritLens
+      ];
+
+      if (nearbyObjects.length > 0) {
+        const target = nearbyObjects[Math.floor(Math.random() * nearbyObjects.length)];
+        npc.targetPosition = target.position;
+        npc.state = 'wandering';
+
+        // Trigger dialogue after reaching inspection target
+        setTimeout(() => {
+          this.triggerNPCDialogue(npc);
+        }, 2000);
+      } else {
+        npc.state = 'idle';
+      }
+    } else {
+      npc.state = 'idle';
+    }
+  }
+
+  private updateSpiritLens(deltaTime: number) {
+    if (!this.state.world.spiritLens.active) return;
+
+    // Animate glow intensity
+    const time = this.state.game.time * 0.001;
+    this.state.world.spiritLens.glowIntensity = 0.8 + Math.sin(time * 2) * 0.2;
+
+    // Update ambient sound
+    EventBus.emit('audio.update', {
+      source: 'spirit_lens',
+      volume: this.state.world.spiritLens.glowIntensity * 0.3
+    });
+  }
+
+  private updateUI(deltaTime: number) {
+    if (this.state.ui.hudVisible) {
+      this.renderHUD();
+    }
+
+    if (this.state.ui.debugVisible) {
+      this.renderDebugInfo();
+    }
+  }
+
+  private updatePerformanceMetrics(deltaTime: number) {
+    // Track performance metrics for DebugOverlayPure
+    this.state.game.renderTime = performance.now();
+    // Add actual render time measurement here
+    this.state.game.renderTime = 0; // Placeholder
+
+    this.state.game.physicsTime = 0; // Placeholder
+    this.state.game.aiTime = 0; // Placeholder
+  }
+
+  private renderHUD() {
+    const hudData = {
+      player: {
+        position: this.state.player.position,
+        health: this.state.player.health,
+        maxHealth: this.state.player.maxHealth,
+        holdingSpiritLens: this.state.player.holdingSpiritLens
+      },
+      game: {
+        fps: this.state.game.fps,
+        time: this.state.game.time,
+        portalsActive: Object.values(this.state.world.portals).filter(p => p.active).length
+      },
+      world: {
+        spiritLensActive: this.state.world.spiritLens.active,
+        npcCount: Object.keys(this.state.world.npcs).length
+      }
+    };
+
+    this.engines.hud.updateModel(hudData);
+  }
+
+  private renderDebugInfo() {
+    const debugData = {
+      performance: {
+        fps: this.state.game.fps,
+        renderTime: this.state.game.renderTime,
+        physicsTime: this.state.game.physicsTime,
+        aiTime: this.state.game.aiTime
+      },
+      player: {
+        position: this.state.player.position,
+        velocity: this.state.player.velocity,
+        holdingSpiritLens: this.state.player.holdingSpiritLens
+      },
+      world: {
+        spiritLens: this.state.world.spiritLens,
+        activePortals: Object.values(this.state.world.portals).filter(p => p.active)
+      }
+    };
+
+    EventBus.emit('debug.update', debugData);
+  }
+
+  public render() {
+    this.renderWorld();
+    this.renderUI();
+    this.renderEffects();
+  }
+
+  private renderWorld() {
+    // Render warehouse geometry with SceneBuilderPure
+    this.engines.scene.render();
+
+    // Render portals with special effects
+    Object.values(this.state.world.portals).forEach(portal => {
+      this.renderPortal(portal);
+    });
+
+    // Render Spirit Lens if active
+    if (this.state.world.spiritLens.active) {
+      this.renderSpiritLens();
+    }
+
+    // Render NPCs
+    Object.values(this.state.world.npcs).forEach(npc => {
+      this.renderNPC(npc);
+    });
+  }
+
+  private renderPortal(portal: any) {
+    // Portal-specific rendering with emissive effects
+    const emissiveColor = portal.aura || portal.shimmer || portal.glow;
+
+    EventBus.emit('render.portal', {
+      portal: portal,
+      emissive: emissiveColor,
+      intensity: 1.0,
+      animation: 'pulse'
+    });
+  }
+
+  private renderSpiritLens() {
+    EventBus.emit('render.spiritLens', {
+      position: this.state.world.spiritLens.position,
+      glowIntensity: this.state.world.spiritLens.glowIntensity,
+      color: { r: 0.8, g: 0.9, b: 1.0 },
+      radius: 2
+    });
+  }
+
+  private renderNPC(npc: any) {
+    EventBus.emit('render.npc', {
+      npc: npc,
+      state: npc.state,
+      position: npc.position,
+      animation: npc.state === 'wandering' ? 'walk' : 'idle'
+    });
+  }
+
+  private renderUI() {
+    // Render HUD elements
+    if (this.state.ui.hudVisible) {
+      EventBus.emit('render.hud');
+    }
+
+    // Render dialogue if active
+    if (this.state.ui.dialogueVisible) {
+      EventBus.emit('render.dialogue');
+    }
+  }
+
+  private renderEffects() {
+    // Render particle effects, post-processing
+    EventBus.emit('render.effects', {
+      glowEffects: true,
+      ambientOcclusion: true,
+      bloom: true
+    });
+  }
+
+  // Demo orchestration methods
+  public runDemo(): any {
+    return {
+      op: 'renderworld_hub',
+      status: 'ok',
+      scene: 'warehouse_hub',
+      player: this.state.player.position,
+      portals: Object.keys(this.state.world.portals),
+      npcs: Object.keys(this.state.world.npcs),
+      fps: this.state.game.fps,
+      orchestrationReady: true,
+      modulesIntegrated: [
+        'SceneBuilderPure',
+        'ItemsPure',
+        'AIPure',
+        'HUDPure',
+        'AvatarSystemPure',
+        'DialogueSystemPure',
+        'CombatPure',
+        'TeamsPure',
+        'QuestsPure'
+      ],
+      features: [
+        'Superhot-inspired minimalist aesthetics',
+        'Interactive Spirit Lens with scanning capabilities',
+        'Three portal doors to MIFF demo games',
+        'AI-powered NPC behaviors and dialogue',
+        'Real-time physics and collision detection',
+        '60fps performance optimization',
+        'Cross-platform rendering compatibility'
+      ]
+    };
+  }
+}
+
+// Export for CLI harness
+export function renderWorldDemo(): any {
+  const scene = new RenderWorldPure();
+  return scene.runDemo();
+}

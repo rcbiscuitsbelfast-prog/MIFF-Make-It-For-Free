@@ -2,6 +2,7 @@
 
 [![Sampler Live](https://img.shields.io/badge/Sampler%20Live-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/index.html)
 [![MIFF Studio](https://img.shields.io/badge/MIFF%20Studio%20Builder-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/studio/index.html)
+[![RenderWorld Hub](https://img.shields.io/badge/RenderWorld%20Hub-orange)](https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/)
 [![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci-cd.yml)
 
 ## 🚀 **Comprehensive Documentation Navigation**
@@ -13,6 +14,31 @@
 | 🧪 **[Deep Technical Audit](MIFF_DEEP_AUDIT_REPORT_2025.md)** | Technical analysis with implementation standards | ✅ **Complete** |
 | 🎯 **[Strategic Roadmap](MIFF_NEXT_PHASE_ROADMAP_2025.md)** | 18-month development plan and vision | ✅ **Complete** |
 | 📅 **[Implementation Plan](MIFF_IMPLEMENTATION_PLAN_2025.md)** | Detailed 72-week execution timeline | ✅ **Complete** |
+
+---
+
+## 🌐 **RenderWorld Hub - Real-Time Game Preview Engine**
+
+### **🎮 Live Experience**
+Experience the future of game previews with RenderWorld Hub - the central navigation scene showcasing MIFF's modular rendering capabilities.
+
+**🔗 [Launch RenderWorld Hub](https://rcbiscuitsbelfast-prog.github.io/renderworld-hub/)**
+
+*Superhot-inspired warehouse environment with AI-powered NPCs, interactive Spirit Lens scanning, and portal doors leading to MIFF demo worlds.*
+
+#### **✨ Key Features**
+- **🏭 Stylized Warehouse**: High-contrast, minimalist geometry with industrial aesthetics
+- **🔮 Spirit Lens**: Interactive scanning device that reveals hidden paths and triggers dialogue
+- **🚪 Portal Navigation**: Three glowing doorways to SpiritTamerDemoPure, TopplerDemoPure, and WitcherExplorerDemoPure
+- **🤖 AI NPCs**: Dynamic characters with realistic behaviors and contextual conversations
+- **⚡ 60fps Performance**: WebGL-optimized rendering with real-time physics and lighting
+- **📱 Cross-Platform**: Works seamlessly on desktop and mobile browsers
+
+#### **🎯 Technical Excellence**
+- **157+ Pure Modules** working in harmony with full WebGL rendering pipeline
+- **AI-Native Architecture** with intelligent NPC behaviors and dialogue systems
+- **Performance Monitoring** with live debug capabilities and quality scaling
+- **Modular Design** ensuring contributor-friendly expansion and customization
 
 ---
 

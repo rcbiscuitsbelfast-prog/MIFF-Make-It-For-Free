@@ -1,10 +1,11 @@
 /**
- * CLI Harness for SpiritTamerDemoPure
- * 
- * This harness provides CLI interface for SpiritTamerDemoPure module testing.
- * Uses shared utilities to eliminate code duplication.
- * 
- * @module SpiritTamerDemoPure/cliHarness
+ * CLI Harness for RenderWorldPure
+ *
+ * This harness provides CLI interface for RenderWorldPure scene testing.
+ * Uses shared utilities to eliminate code duplication and provides
+ * testing interface for the real-time AI-native game preview engine.
+ *
+ * @module RenderWorldPure/cliHarness
  * @version 1.0.0
  * @license MIT
  */
@@ -15,9 +16,9 @@ import {
   defaultStub,
   parseCLIArgs,
   formatOutput
-} from '../../miff/pure/shared/cliHarnessUtils';
+} from '../shared/cliHarnessUtils';
 
-import { spiritTamerDemo } from './index';
+import { renderWorldDemo } from './index';
 
 const { mode } = parseCLIArgs(process.argv);
 
@@ -30,9 +31,9 @@ switch (mode) {
   case 'validate':
     output = validatePayload();
     break;
-  case 'spirit':
+  case 'renderworld':
   default:
-    output = spiritTamerDemo(); // Default to spirit for this module
+    output = renderWorldDemo(); // Default to RenderWorld demo
 }
 
 // Output valid JSON to stdout for test runner to consume
