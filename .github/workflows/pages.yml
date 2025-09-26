@@ -26,18 +26,37 @@ jobs:
         run: |
           # Extract YAML front matter blocks and validate
           # Validate .astro and .md files that use front matter
-          find docs/src -type f \( -name "*.astro" -o -name "*.md" \) -print0 | xargs -0 -I {} bash -c '
-            if head -1 "{}" | grep -q "^---"; then
+          find docs/src -type f \( -name "*.astro" -o -name "*.md" \) -print0 | while IFS= read -r -d '' file; do
+            if head -1 "$file" | grep -q "^---"; then
               # Extract the first YAML block delimited by --- ... ---
-              sed -n "/^---$/,/^---$/p" "{}" | sed '1d;$d' > /tmp/frontmatter.yml || true
+              sed -n '/^---$/,/^---$/p' "$file" | sed '1d;$d' > /tmp/frontmatter.yml || true
               if [ -s /tmp/frontmatter.yml ]; then
-                yamllint -d "{extends: default, rules: {line-length: disable}}" /tmp/frontmatter.yml
+                yamllint -d '{extends: default, rules: {line-length: disable}}' /tmp/frontmatter.yml
               fi
-            fi'
+            fi
+          done
 
-      - name: Build (noop for static docs)
+      - name: Build Astro site
         run: |
-          echo "Build step placeholder"
+          cd docs
+          npm ci --legacy-peer-deps
+          npm run build
+          echo "Astro build completed successfully"
+
+      - name: Prepare docs directory
+        run: |
+          # Copy the built Astro site to docs root for GitHub Pages
+          mkdir -p docs-built
+          cp -r docs/dist/* docs-built/
+
+          # Copy RenderWorld Hub to docs root
+          cp -r renderworld-hub/docs/* docs-built/
+
+          # Replace docs with built content
+          rm -rf docs
+          mv docs-built docs
+
+          echo "Documentation site prepared successfully"
 
       - name: Deploy
         if: github.ref == 'refs/heads/master'

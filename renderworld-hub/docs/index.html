@@ -42,6 +42,65 @@
             transition: opacity 1s ease-out;
         }
 
+        /* MIFF Splash Screen Integration */
+        #miff-splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 1000ms ease-in-out;
+            pointer-events: auto;
+            background: #000000;
+            font-family: 'JetBrains Mono', monospace;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        #miff-splash-screen.show {
+            opacity: 1;
+        }
+
+        .miff-splash-logo {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .miff-splash-text {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .miff-splash-title {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #00ff88;
+            margin: 0;
+            text-shadow: 0 0 20px #00ff8840;
+        }
+
+        .miff-splash-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00ff88;
+            margin: 0 0 10px 0;
+            letter-spacing: 0.1em;
+        }
+
+        .miff-splash-tagline {
+            font-size: 1rem;
+            color: #00ff88aa;
+            margin: 0;
+            opacity: 0.8;
+        }
+
         #loading-screen.hidden {
             opacity: 0;
             pointer-events: none;
@@ -518,5 +577,77 @@
             </div>
         </div>
     </noscript>
-</body>
+        <!-- MIFF Splash Screen -->
+        <div id="miff-splash-screen">
+            <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <div class="miff-splash-logo">
+                    <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
+                              fill="url(#brainGradient)" opacity="0.9"/>
+                        <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
+                              fill="url(#brainGradient)" opacity="0.8"/>
+                        <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
+                              fill="url(#brainGradient)" opacity="0.9"/>
+                        <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
+                              fill="url(#brainGradient)" opacity="0.7"/>
+                        <circle cx="40" cy="40" r="8" fill="url(#brainGradient)" opacity="0.5"/>
+                    </svg>
+                </div>
+                <div class="miff-splash-text">
+                    <h1 class="miff-splash-title">MIFF</h1>
+                </div>
+                <h2 class="miff-splash-subtitle">MAKE IT FOR FREE</h2>
+                <p class="miff-splash-tagline">Modular Interactive Framework for the Future</p>
+            </div>
+        </div>
+    </body>
+    <script>
+        // MIFF Splash Screen Logic
+        (function() {
+            const splashScreen = document.getElementById('miff-splash-screen');
+            const loadingScreen = document.getElementById('loading-screen');
+            if (!splashScreen) return;
+
+            let startTime = Date.now();
+
+            // Fade in
+            setTimeout(() => {
+                splashScreen.classList.add('show');
+            }, 100);
+
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                setTimeout(() => {
+                    if (splashScreen.parentNode) {
+                        splashScreen.parentNode.removeChild(splashScreen);
+                    }
+                    if (loadingScreen) {
+                        loadingScreen.style.display = 'flex';
+                    }
+                }, 1000);
+            }, 3000);
+
+            // Click to dismiss
+            splashScreen.addEventListener('click', () => {
+                splashScreen.style.opacity = '0';
+                setTimeout(() => {
+                    if (splashScreen.parentNode) {
+                        splashScreen.parentNode.removeChild(splashScreen);
+                    }
+                    if (loadingScreen) {
+                        loadingScreen.style.display = 'flex';
+                    }
+                }, 1000);
+            });
+
+            console.log('🎮 MIFF Splash Screen initialized for RenderWorld Hub');
+        })();
+    </script>
 </html>
