@@ -349,6 +349,267 @@ export class EquipmentManager {
   }
 
   /**
+   * Modify equipment stats
+   */
+  modifyEquipment(slot: string, modifications: {
+    name?: string;
+    modifiers?: StatModifier[];
+    durability?: number;
+    level?: number;
+    rarity?: ItemRarity;
+    enchantments?: Enchantment[];
+  }): EquipmentOutput {
+    const item = this.equipped.get(slot);
+    if (!item) {
+      return {
+        op: 'modify-equipment',
+        status: 'error',
+        issues: [`No item equipped in slot ${slot}`]
+      };
+    }
+
+    // Apply modifications
+    if (modifications.name !== undefined) {
+      item.name = modifications.name;
+    }
+
+    if (modifications.modifiers !== undefined) {
+      item.modifiers = modifications.modifiers;
+    }
+
+    if (modifications.durability !== undefined) {
+      const oldDurability = item.durability || 0;
+      item.durability = Math.max(0, Math.min(modifications.durability, item.maxDurability || 100));
+      this.hooks.onDurabilityChange?.(item, oldDurability, item.durability);
+    }
+
+    if (modifications.level !== undefined) {
+      item.level = Math.max(1, modifications.level);
+    }
+
+    if (modifications.rarity !== undefined) {
+      item.rarity = modifications.rarity;
+    }
+
+    if (modifications.enchantments !== undefined) {
+      item.enchantments = modifications.enchantments;
+    }
+
+    this.updateStats();
+    return {
+      op: 'modify-equipment',
+      status: 'ok',
+      result: item
+    };
+  }
+
+  /**
+   * Add equipment set
+   */
+  addEquipmentSet(set: EquipmentSet): EquipmentOutput {
+    if (this.equipmentSets.has(set.id)) {
+      return {
+        op: 'add-equipment-set',
+        status: 'error',
+        issues: [`Equipment set ${set.id} already exists`]
+      };
+    }
+
+    this.equipmentSets.set(set.id, set);
+    return {
+      op: 'add-equipment-set',
+      status: 'ok',
+      result: set
+    };
+  }
+
+  /**
+   * Remove equipment set
+   */
+  removeEquipmentSet(setId: string): EquipmentOutput {
+    if (!this.equipmentSets.has(setId)) {
+      return {
+        op: 'remove-equipment-set',
+        status: 'error',
+        issues: [`Equipment set ${setId} does not exist`]
+      };
+    }
+
+    this.equipmentSets.delete(setId);
+    return {
+      op: 'remove-equipment-set',
+      status: 'ok',
+      result: `Equipment set ${setId} removed`
+    };
+  }
+
+  /**
+   * Get active equipment sets and bonuses
+   */
+  getActiveSets(): EquipmentOutput {
+    const activeSets: { set: EquipmentSet; activePieces: number; bonuses: SetBonus[] }[] = [];
+
+    for (const set of this.equipmentSets.values()) {
+      const activePieces = Array.from(this.equipped.values()).filter(item =>
+        item.set === set.id
+      ).length;
+
+      const bonuses = set.bonuses.filter(bonus =>
+        activePieces >= bonus.piecesRequired
+      );
+
+      activeSets.push({
+        set,
+        activePieces,
+        bonuses
+      });
+    }
+
+    return {
+      op: 'get-active-sets',
+      status: 'ok',
+      result: activeSets
+    };
+  }
+
+  /**
+   * Get all stat modifiers including set bonuses
+   */
+  getAllModifiers(): EquipmentOutput {
+    const mods = this.getModifiers().result as StatModifier[];
+    const setBonuses = this.getActiveSets().result as { bonuses: SetBonus[] }[];
+
+    for (const setData of setBonuses) {
+      for (const bonus of setData.bonuses) {
+        mods.push(...bonus.bonuses);
+      }
+    }
+
+    return {
+      op: 'get-all-modifiers',
+      status: 'ok',
+      result: mods
+    };
+  }
+
+  /**
+   * Compare equipment with another item
+   */
+  compareEquipment(slot: string, itemId: string, catalogLookup: (id: string) => Omit<EquippedItem, 'source'> | undefined): EquipmentOutput {
+    const currentItem = this.equipped.get(slot);
+    const newItem = catalogLookup(itemId);
+
+    if (!newItem) {
+      return {
+        op: 'compare-equipment',
+        status: 'error',
+        issues: [`Item not found: ${itemId}`]
+      };
+    }
+
+    const comparison: {
+      current?: EquippedItem;
+      new: Omit<EquippedItem, 'source'>;
+      differences: Record<string, { current: any; new: any; change: string }>;
+      recommendation: 'upgrade' | 'downgrade' | 'neutral';
+    } = {
+      current: currentItem,
+      new: newItem,
+      differences: {},
+      recommendation: 'neutral'
+    };
+
+    // Compare each property
+    const properties = ['name', 'level', 'rarity', 'durability', 'maxDurability'];
+    for (const prop of properties) {
+      if (currentItem?.[prop as keyof EquippedItem] !== newItem[prop as keyof typeof newItem]) {
+        comparison.differences[prop] = {
+          current: currentItem?.[prop as keyof EquippedItem],
+          new: newItem[prop as keyof typeof newItem],
+          change: currentItem?.[prop as keyof EquippedItem] ?
+            (newItem[prop as keyof typeof newItem] > currentItem?.[prop as keyof EquippedItem] ? 'upgrade' : 'downgrade') :
+            'new'
+        };
+      }
+    }
+
+    // Compare modifiers
+    const currentModifiers = currentItem?.modifiers || [];
+    const newModifiers = newItem.modifiers;
+
+    for (const newMod of newModifiers) {
+      const currentMod = currentModifiers.find(m => m.stat === newMod.stat);
+      if (!currentMod || currentMod.value !== newMod.value) {
+        comparison.differences[newMod.stat] = {
+          current: currentMod?.value || 0,
+          new: newMod.value,
+          change: !currentMod ? 'new' : (newMod.value > currentMod.value ? 'upgrade' : 'downgrade')
+        };
+      }
+    }
+
+    // Determine recommendation
+    const upgrades = Object.values(comparison.differences).filter(d => d.change === 'upgrade').length;
+    const downgrades = Object.values(comparison.differences).filter(d => d.change === 'downgrade').length;
+
+    if (upgrades > downgrades) {
+      comparison.recommendation = 'upgrade';
+    } else if (downgrades > upgrades) {
+      comparison.recommendation = 'downgrade';
+    }
+
+    return {
+      op: 'compare-equipment',
+      status: 'ok',
+      result: comparison
+    };
+  }
+
+  /**
+   * Get equipment preview (what if scenario)
+   */
+  previewEquipment(itemId: string, catalogLookup: (id: string) => Omit<EquippedItem, 'source'> | undefined): EquipmentOutput {
+    const newItem = catalogLookup(itemId);
+
+    if (!newItem) {
+      return {
+        op: 'preview-equipment',
+        status: 'error',
+        issues: [`Item not found: ${itemId}`]
+      };
+    }
+
+    const preview: {
+      originalStats: EquipmentStats;
+      previewStats: EquipmentStats;
+      changes: Record<string, number>;
+    } = {
+      originalStats: { ...this.stats },
+      previewStats: { ...this.stats },
+      changes: {}
+    };
+
+    // Calculate preview stats (simplified)
+    const currentItems = Array.from(this.equipped.values());
+    const totalItems = currentItems.length + 1;
+    preview.previewStats.totalItems = totalItems;
+    preview.previewStats.averageLevel = currentItems.reduce((acc, item) => acc + item.level, newItem.level) / totalItems;
+    // For preview, we need to replace the item in the same slot, not add to total
+    preview.previewStats.totalModifiers = currentItems.reduce((acc, item) => acc + item.modifiers.length, 0) + newItem.modifiers.length;
+
+    // Track changes
+    preview.changes.totalItems = totalItems - preview.originalStats.totalItems;
+    preview.changes.averageLevel = preview.previewStats.averageLevel - preview.originalStats.averageLevel;
+    preview.changes.totalModifiers = preview.previewStats.totalModifiers - preview.originalStats.totalModifiers;
+
+    return {
+      op: 'preview-equipment',
+      status: 'ok',
+      result: preview
+    };
+  }
+
+  /**
    * Repair item durability
    */
   repairItem(slot: string, amount?: number): EquipmentOutput {
