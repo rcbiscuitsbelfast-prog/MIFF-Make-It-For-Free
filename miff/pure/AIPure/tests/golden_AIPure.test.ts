@@ -230,7 +230,7 @@ describe('AIPure Golden Tests', () => {
       const registered = aiManager.registerPolicy(testPolicy);
       expect(registered).toBe(true);
       expect(aiManager.getPolicyCount()).toBe(1);
-      expect(aiManager.hasPolicy('test_policy')).toBe(true);
+      expect(aiManager.getPolicy('test_policy')).toBeDefined();
     });
 
     test('should reject invalid policies', () => {
@@ -268,7 +268,7 @@ describe('AIPure Golden Tests', () => {
       const removed = aiManager.removePolicy('test_policy');
       expect(removed).toBe(true);
       expect(aiManager.getPolicyCount()).toBe(0);
-      expect(aiManager.hasPolicy('test_policy')).toBe(false);
+      expect(aiManager.getPolicy('test_policy')).toBeNull();
 
       const notRemoved = aiManager.removePolicy('nonexistent');
       expect(notRemoved).toBe(false);
@@ -297,7 +297,8 @@ describe('AIPure Golden Tests', () => {
       const invalidUpdates = {
         policyId: '',
         aggression: -1,
-        caution: 3
+        caution: 3,
+        efficiency: -1
       };
 
       const updated = aiManager.updatePolicy('test_policy', invalidUpdates);

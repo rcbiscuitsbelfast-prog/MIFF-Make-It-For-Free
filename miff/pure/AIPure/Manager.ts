@@ -571,16 +571,15 @@ export class AIManager {
     const existing = this.policies.get(id);
     if (!existing) return false;
 
-    const updated = {
-      ...existing,
-      ...updates,
-      aggression: updates.aggression ?? existing.aggression,
-      caution: updates.caution ?? existing.caution,
-      efficiency: updates.efficiency ?? existing.efficiency,
-      overrideRules: updates.overrideRules ?? existing.overrideRules
-    } as AIPolicy;
+    const updated = new AIPolicy(
+      updates.policyId ?? existing.policyId,
+      updates.aggression ?? existing.aggression,
+      updates.caution ?? existing.caution,
+      updates.efficiency ?? existing.efficiency
+    );
+    updated.overrideRules = updates.overrideRules ?? existing.overrideRules;
 
-    if ((updated as any).validate().length > 0) return false;
+    if (updated.validate().length > 0) return false;
     this.policies.set(updated.policyId, updated);
     return true;
   }
