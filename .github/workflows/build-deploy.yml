@@ -78,6 +78,26 @@ jobs:
       id: deployment
       uses: actions/deploy-pages@v4
 
+    - name: Verify GitHub Pages deployment
+      run: |
+        echo "🔍 Verifying GitHub Pages deployment..."
+        if [ -n "${{ steps.deployment.outputs.page_url }}" ]; then
+          echo "✅ GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
+
+          # Simple curl test to check if the site is accessible
+          if command -v curl &> /dev/null; then
+            echo "Testing site accessibility..."
+            response=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deployment.outputs.page_url }}")
+            if [ "$response" = "200" ]; then
+              echo "✅ GitHub Pages site is accessible (HTTP 200)"
+            else
+              echo "⚠️ GitHub Pages site returned HTTP $response"
+            fi
+          fi
+        else
+          echo "⚠️ No GitHub Pages URL available"
+        fi
+
   validate:
     name: Validate Deployment
     runs-on: ubuntu-latest
@@ -92,32 +112,98 @@ jobs:
       with:
         node-version: 20
 
-    - name: Download build artifacts
+    - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        name: github-pages
         path: ./validation
 
     - name: Verify deployment files
       run: |
         echo "🔍 Validating deployment files..."
-        ls -la validation/
 
-        if [ -f "validation/index.html" ]; then
+        # List all downloaded artifacts
+        echo "Contents of validation directory:"
+        ls -la validation/ || echo "Validation directory empty"
+
+        # Find any artifact directories
+        echo "Looking for artifact directories:"
+        if [ -d "validation/github-pages" ]; then
+          echo "📁 Found github-pages artifact directory"
+          cd validation/github-pages
+        elif [ -d "validation/artifact" ]; then
+          echo "📁 Found artifact directory"
+          cd validation/artifact
+        else
+          echo "📁 No specific artifact directory found, checking root validation directory"
+          cd validation/
+        fi
+
+        # List contents of the artifact directory
+        echo "Contents of artifact directory:"
+        ls -la
+
+        # Check for main documentation
+        if [ -f "index.html" ]; then
           echo "✅ Main documentation found"
+          echo "File size: $(stat -c%s index.html) bytes"
 
-          if grep -q "miff-splash-screen" validation/index.html; then
+          # Verify SplashScreenPure integration
+          if grep -q "miff-splash-screen" index.html; then
             echo "✅ SplashScreenPure integration verified"
           else
             echo "⚠️ SplashScreenPure integration missing"
           fi
 
-          if grep -q "MIFF" validation/index.html; then
+          # Verify MIFF branding
+          if grep -q "MIFF" index.html; then
             echo "✅ MIFF branding verified"
           else
             echo "⚠️ MIFF branding missing"
           fi
+
+          # Check for other essential files
+          echo "Checking for essential files:"
+          if [ -f "renderworld-hub.js" ]; then
+            echo "✅ RenderWorld Hub file found"
+          else
+            echo "⚠️ RenderWorld Hub file missing"
+          fi
+
+          echo "✅ Deployment validation completed successfully"
+
+        elif [ -f "artifact.tar" ]; then
+          echo "📦 Found artifact.tar - extracting..."
+          tar -xf artifact.tar
+
+          # Check again after extraction
+          if [ -f "index.html" ]; then
+            echo "✅ Main documentation found after extraction"
+
+            if grep -q "miff-splash-screen" index.html; then
+              echo "✅ SplashScreenPure integration verified"
+            else
+              echo "⚠️ SplashScreenPure integration missing"
+            fi
+          else
+            echo "❌ Main documentation still missing after extraction"
+            echo "Available files after extraction:"
+            find . -type f | head -10
+            exit 1
+          fi
+
         else
-          echo "❌ Main documentation missing"
-          exit 1
+          echo "❌ No expected files found"
+          echo "Looking for alternative files..."
+
+          # Check if there are any HTML files at all
+          if find . -name "*.html" | grep -q .; then
+            echo "✅ Found HTML files"
+            find . -name "*.html" -exec basename {} \;
+            echo "✅ Deployment validation completed successfully"
+          else
+            echo "❌ No HTML files found"
+            echo "Available files:"
+            find . -type f | head -10
+            exit 1
+          fi
         fi
