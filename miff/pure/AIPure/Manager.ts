@@ -283,8 +283,11 @@ export class BattleAI {
     }
 
     // Resource cost consideration
-    if (move.cost !== undefined && move.cost > 0) {
-      if (context.playerSpirit && context.playerSpirit.resourcePoints) {
+    if (move.cost !== undefined) {
+      if (move.cost === 0) {
+        confidence += 0.15; // Bonus for free moves
+        reasoning += 'Free move (no resource cost). ';
+      } else if (context.playerSpirit && context.playerSpirit.resourcePoints) {
         const resourceRatio = context.playerSpirit.resourcePoints / move.cost;
         if (resourceRatio < 1.0) {
           confidence -= (1.0 - resourceRatio) * 0.5; // Cannot afford move, major penalty
@@ -302,15 +305,21 @@ export class BattleAI {
       const typeBonus = (effectiveness - 1.0) * 0.4;
       const typePenalty = (1.0 - effectiveness) * 0.3;
 
-      // Cautious policies reduce the impact of type effectiveness
+      // Cautious policies significantly reduce the impact of type effectiveness and prioritize accuracy
       if (this.policy.caution > 1.0) {
         const cautionFactor = Math.min(1.0, this.policy.caution - 1.0);
         if (effectiveness > 1.0) {
-          confidence += typeBonus * (1.0 - cautionFactor * 0.3); // Reduced type advantage bonus for cautious
+          confidence += typeBonus * (1.0 - cautionFactor * 0.6); // Reduced type advantage bonus for cautious (60% reduction)
           reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness, reduced by caution). `;
         } else if (effectiveness < 1.0) {
-          confidence -= typePenalty * (1.0 + cautionFactor * 0.2); // Increased type disadvantage penalty for cautious
+          confidence -= typePenalty * (1.0 + cautionFactor * 0.4); // Increased type disadvantage penalty for cautious
           reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness, increased by caution). `;
+        }
+
+        // Cautious policies get major accuracy bonus
+        if (move.accuracy && move.accuracy >= 0.95) {
+          confidence += 0.3 * cautionFactor; // Up to 30% bonus for high accuracy moves
+          reasoning += 'High accuracy move favored by cautious policy. ';
         }
       } else {
         // Normal type effectiveness evaluation for non-cautious policies
@@ -338,7 +347,7 @@ export class BattleAI {
     // HP-based decisions
     if (context.playerSpirit) {
       const hpRatio = context.playerSpirit.currentHP / context.playerSpirit.maxHP;
-      if (hpRatio < 0.3) {
+      if (hpRatio <= 0.3) {
         if (move.category === 'healing' || move.category === 'status') {
           confidence += 0.5; // Major bonus for healing when HP is low
           reasoning += 'Health is low, strongly favoring healing. ';
