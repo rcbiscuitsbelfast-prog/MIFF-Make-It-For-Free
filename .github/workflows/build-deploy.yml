@@ -1,0 +1,123 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Documentation Site
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Install dependencies
+      run: |
+        cd docs
+        npm ci --legacy-peer-deps
+
+    - name: Build with Astro
+      run: |
+        cd docs
+        npm run build
+
+    - name: Copy RenderWorld Hub
+      run: |
+        if [ -f "docs/renderworld-hub.js" ] && [ -f "docs/index.html" ]; then
+          cp docs/renderworld-hub.js docs/dist/
+          cp docs/index.html docs/dist/
+          echo "✅ RenderWorld Hub files copied to dist"
+        else
+          echo "⚠️ RenderWorld Hub files not found"
+        fi
+
+    - name: Verify SplashScreenPure integration
+      run: |
+        if grep -q "miff-splash-screen" docs/dist/index.html; then
+          echo "✅ SplashScreenPure integration detected"
+        else
+          echo "⚠️ SplashScreenPure integration not found"
+        fi
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./docs/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+  validate:
+    name: Validate Deployment
+    runs-on: ubuntu-latest
+    needs: [build, deploy]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: github-pages
+        path: ./validation
+
+    - name: Verify deployment files
+      run: |
+        echo "🔍 Validating deployment files..."
+        ls -la validation/
+
+        if [ -f "validation/index.html" ]; then
+          echo "✅ Main documentation found"
+
+          if grep -q "miff-splash-screen" validation/index.html; then
+            echo "✅ SplashScreenPure integration verified"
+          else
+            echo "⚠️ SplashScreenPure integration missing"
+          fi
+
+          if grep -q "MIFF" validation/index.html; then
+            echo "✅ MIFF branding verified"
+          else
+            echo "⚠️ MIFF branding missing"
+          fi
+        else
+          echo "❌ Main documentation missing"
+          exit 1
+        fi

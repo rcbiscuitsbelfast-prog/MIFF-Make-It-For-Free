@@ -1,0 +1,266 @@
+name: Repository Maintenance and Cleanup
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Daily at 2 AM UTC
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/maintenance/**'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  cleanup:
+    name: Automated Cleanup
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Run cleanup scripts
+      run: |
+        echo "🧹 Running automated cleanup tasks..."
+
+        # Create cleanup report
+        echo "## Cleanup Report - $(date)" > cleanup-report.md
+        echo "" >> cleanup-report.md
+
+        # Clean up old exports (if script exists)
+        if [ -f "scripts/maintenance/clean-physics-exports.sh" ]; then
+          echo "### Physics Export Cleanup" >> cleanup-report.md
+          bash scripts/maintenance/clean-physics-exports.sh >> cleanup-report.md 2>&1 || echo "Export cleanup failed" >> cleanup-report.md
+        fi
+
+        # Clean up temporary files
+        echo "### Temporary Files Cleanup" >> cleanup-report.md
+        temp_files=$(find . -name "*.tmp" -o -name "*.temp" -o -name ".DS_Store" 2>/dev/null | wc -l)
+        echo "- Found $temp_files temporary files" >> cleanup-report.md
+
+        if [ "$temp_files" -gt 0 ]; then
+          find . -name "*.tmp" -o -name "*.temp" -o -name ".DS_Store" -delete 2>/dev/null || true
+          echo "- Removed $temp_files temporary files" >> cleanup-report.md
+        else
+          echo "- No temporary files to remove" >> cleanup-report.md
+        fi
+
+        # Check for large files
+        echo "### Large Files Analysis" >> cleanup-report.md
+        large_files=$(find . -type f -size +50M 2>/dev/null | wc -l)
+        echo "- Found $large_files files larger than 50MB" >> cleanup-report.md
+
+        if [ "$large_files" -gt 0 ]; then
+          echo "- ⚠️ Consider moving large files to external storage" >> cleanup-report.md
+        fi
+
+    - name: Upload cleanup report
+      uses: actions/upload-artifact@v4
+      with:
+        name: cleanup-report
+        path: cleanup-report.md
+
+  dependency-cleanup:
+    name: Dependency Maintenance
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Audit dependencies
+      run: |
+        echo "🔍 Running dependency audit..."
+
+        echo "## Dependency Audit Report - $(date)" > dependency-report.md
+
+        # Run npm audit
+        echo "### NPM Audit Results" >> dependency-report.md
+        npm audit --audit-level=moderate --json >> dependency-report.md 2>&1 || echo "Audit completed with issues" >> dependency-report.md
+
+        # Check for outdated packages
+        echo "### Outdated Packages" >> dependency-report.md
+        npm outdated --json >> dependency-report.md 2>/dev/null || echo "No outdated packages found" >> dependency-report.md
+
+        # Check for security vulnerabilities
+        echo "### Security Vulnerabilities" >> dependency-report.md
+        npm audit --audit-level=high --json | jq '.vulnerabilities | length' 2>/dev/null || echo "No high-severity vulnerabilities found" >> dependency-report.md
+
+    - name: Cleanup node_modules if needed
+      run: |
+        echo "🧽 Checking if node_modules cleanup is needed..."
+
+        # Check for potential issues
+        if [ -d "node_modules" ]; then
+          # Remove any potential security issues
+          find node_modules -name "*.exe" -delete 2>/dev/null || true
+          find node_modules -name "*.bat" -delete 2>/dev/null || true
+          find node_modules -name "*.cmd" -delete 2>/dev/null || true
+
+          echo "✅ node_modules cleaned"
+        fi
+
+    - name: Upload dependency report
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-report
+        path: dependency-report.md
+
+  repository-organization:
+    name: Repository Organization
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Analyze repository structure
+      run: |
+        echo "📊 Analyzing repository organization..."
+
+        echo "## Repository Organization Report - $(date)" > organization-report.md
+        echo "" >> organization-report.md
+
+        # Directory structure analysis
+        echo "### Directory Structure" >> organization-report.md
+        echo "- **Total directories:** $(find . -type d | wc -l)" >> organization-report.md
+        echo "- **Maximum depth:** $(find . -type d | awk -F'/' '{print NF-1}' | sort -n | tail -1)" >> organization-report.md
+        echo "- **Empty directories:** $(find . -type d -empty | wc -l)" >> organization-report.md
+
+        # File organization
+        echo "### File Organization" >> organization-report.md
+        echo "- **Total files:** $(find . -type f | wc -l)" >> organization-report.md
+        echo "- **Root files:** $(find . -maxdepth 1 -type f | wc -l)" >> organization-report.md
+        echo "- **Configuration files:** $(find . -name "*.config.*" -o -name "*.conf" -o -name ".env*" | wc -l)" >> organization-report.md
+
+        # Check for organization issues
+        echo "### Organization Issues" >> organization-report.md
+
+        root_files=$(find . -maxdepth 1 -type f | wc -l)
+        if [ "$root_files" -gt 20 ]; then
+          echo "- ⚠️ High number of root files ($root_files) - consider organization" >> organization-report.md
+        else
+          echo "- ✅ Root directory well organized" >> organization-report.md
+        fi
+
+        # Check for common organization problems
+        orphaned_files=$(find . -name "*.js" -exec basename {} \; | sed 's/\.js$//' | xargs -I {} find . -name "{}.ts" | wc -l)
+        if [ "$orphaned_files" -gt 0 ]; then
+          echo "- ⚠️ Found $orphaned_files potentially orphaned JS files" >> organization-report.md
+        fi
+
+        # Check for missing documentation
+        echo "### Documentation Status" >> organization-report.md
+        if [ -f "README.md" ]; then
+          echo "- ✅ README.md found" >> organization-report.md
+        else
+          echo "- ❌ README.md missing" >> organization-report.md
+        fi
+
+        if [ -f "CONTRIBUTING.md" ]; then
+          echo "- ✅ CONTRIBUTING.md found" >> organization-report.md
+        else
+          echo "- ⚠️ CONTRIBUTING.md missing" >> organization-report.md
+        fi
+
+    - name: Check for organization improvements
+      run: |
+        echo "### Recommended Improvements" >> organization-report.md
+
+        # Check for physics export organization
+        physics_exports=$(find . -maxdepth 1 -name "physics_export_*.json" | wc -l)
+        if [ "$physics_exports" -gt 10 ]; then
+          echo "- 📦 Organize physics exports into exports/physics/ directory" >> organization-report.md
+        fi
+
+        # Check for audit report organization
+        audit_reports=$(find . -maxdepth 1 -name "*AUDIT*.md" | wc -l)
+        if [ "$audit_reports" -gt 3 ]; then
+          echo "- 📋 Organize audit reports into docs/audit/ directory" >> organization-report.md
+        fi
+
+        # Check for configuration organization
+        config_files=$(find . -maxdepth 1 -name "*.config.*" -o -name "jest.config.*" -o -name "babel.config.*" | wc -l)
+        if [ "$config_files" -gt 5 ]; then
+          echo "- ⚙️ Organize configuration files into config/ directory" >> organization-report.md
+        fi
+
+    - name: Upload organization report
+      uses: actions/upload-artifact@v4
+      with:
+        name: organization-report
+        path: organization-report.md
+
+  cache-management:
+    name: Cache and Artifact Management
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Clean up old caches
+      run: |
+        echo "🗄️ Managing repository caches..."
+
+        echo "## Cache Management Report - $(date)" > cache-report.md
+
+        # Check for old cache directories
+        cache_dirs=$(find . -name ".cache" -o -name ".npm" -o -name ".yarn" 2>/dev/null | wc -l)
+        echo "- **Cache directories found:** $cache_dirs" >> cache-report.md
+
+        # Check for large cache files
+        if [ -d ".npm" ]; then
+          npm_cache_size=$(du -sh .npm 2>/dev/null | cut -f1 || echo "0")
+          echo "- **NPM cache size:** $npm_cache_size" >> cache-report.md
+        fi
+
+        # Clean up potential cache issues
+        echo "### Cache Cleanup" >> cache-report.md
+        echo "- Cleaning up lock files..." >> cache-report.md
+        find . -name "*.lock" -mtime +7 -delete 2>/dev/null || true
+
+        echo "- Cleaning up temporary build artifacts..." >> cache-report.md
+        find . -name "dist" -type d -mtime +7 -exec rm -rf {} \; 2>/dev/null || true
+
+    - name: Artifact cleanup recommendations
+      run: |
+        echo "### Artifact Management" >> cache-report.md
+
+        # Check for old artifacts
+        old_artifacts=$(find . -name "*.tar.gz" -o -name "*.zip" -mtime +30 2>/dev/null | wc -l)
+        echo "- **Old artifacts (>30 days):** $old_artifacts" >> cache-report.md
+
+        if [ "$old_artifacts" -gt 0 ]; then
+          echo "- 💡 Consider archiving or removing old artifacts" >> cache-report.md
+        fi
+
+        # Check GitHub Actions artifacts
+        echo "- **GitHub Actions artifacts:** Managed by GitHub (7-day retention)" >> cache-report.md
+
+    - name: Upload cache report
+      uses: actions/upload-artifact@v4
+      with:
+        name: cache-report
+        path: cache-report.md

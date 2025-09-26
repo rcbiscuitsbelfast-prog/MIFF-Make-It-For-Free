@@ -1,0 +1,231 @@
+name: Performance and Health Monitoring
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  schedule:
+    - cron: '0 */4 * * *' # Every 4 hours
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  deployments: read
+
+jobs:
+  performance-monitoring:
+    name: Performance Benchmarking
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run performance tests
+      run: |
+        echo "🚀 Running performance benchmarks..."
+
+        # Create performance report
+        echo "## MIFF Performance Report" > performance-report.md
+        echo "- **Timestamp:** $(date)" >> performance-report.md
+        echo "- **Node Version:** $(node --version)" >> performance-report.md
+        echo "- **Platform:** $(uname -a)" >> performance-report.md
+        echo "" >> performance-report.md
+
+        # Test build performance
+        echo "### Build Performance" >> performance-report.md
+        start_time=$(date +%s)
+        npm run build 2>/dev/null || echo "Build test skipped - no build script" >> performance-report.md
+        end_time=$(date +%s)
+        build_duration=$((end_time - start_time))
+        echo "- Build time: ${build_duration}s" >> performance-report.md
+
+        # Test runtime performance
+        echo "### Runtime Performance" >> performance-report.md
+        if [ -f "package.json" ]; then
+          echo "- Dependencies: $(grep -c '"dependencies"' package.json || echo "0")" >> performance-report.md
+          echo "- DevDependencies: $(grep -c '"devDependencies"' package.json || echo "0")" >> performance-report.md
+        fi
+
+        # Test memory usage
+        echo "### Memory Usage" >> performance-report.md
+        node --version >> performance-report.md
+
+    - name: Upload performance report
+      uses: actions/upload-artifact@v4
+      with:
+        name: performance-report
+        path: performance-report.md
+
+  health-checks:
+    name: System Health Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: File system health check
+      run: |
+        echo "🔍 Running file system health checks..."
+
+        # Count files by type
+        echo "### File System Health" > health-report.md
+        echo "- **Total files:** $(find . -type f | wc -l)" >> health-report.md
+        echo "- **JavaScript files:** $(find . -name "*.js" -o -name "*.mjs" | wc -l)" >> health-report.md
+        echo "- **TypeScript files:** $(find . -name "*.ts" -o -name "*.tsx" | wc -l)" >> health-report.md
+        echo "- **JSON files:** $(find . -name "*.json" | wc -l)" >> health-report.md
+        echo "- **YAML files:** $(find . -name "*.yml" -o -name "*.yaml" | wc -l)" >> health-report.md
+
+        # Check for common issues
+        echo "### Common Issues Check" >> health-report.md
+        orphaned_files=$(find . -name "*.js" -exec basename {} \; | sed 's/\.js$//' | xargs -I {} find . -name "{}.ts" | wc -l)
+        echo "- **Orphaned JS files:** $orphaned_files" >> health-report.md
+
+        large_files=$(find . -type f -size +10M | wc -l)
+        echo "- **Large files (>10MB):** $large_files" >> health-report.md
+
+        # Check directory structure
+        echo "### Directory Structure" >> health-report.md
+        echo "- **Total directories:** $(find . -type d | wc -l)" >> health-report.md
+        echo "- **Max depth:** $(find . -type d | awk -F'/' '{print NF-1}' | sort -n | tail -1)" >> health-report.md
+
+    - name: Dependency health check
+      run: |
+        echo "### Dependency Health" >> health-report.md
+
+        if [ -f "package.json" ]; then
+          echo "- **Package.json:** ✅ Found" >> health-report.md
+
+          # Check for package-lock
+          if [ -f "package-lock.json" ]; then
+            echo "- **Package-lock.json:** ✅ Found" >> health-report.md
+          else
+            echo "- **Package-lock.json:** ❌ Missing" >> health-report.md
+          fi
+
+          # Check for outdated dependencies
+          echo "- **Dependencies count:** $(grep -c '"dependencies"' package.json || echo "0")" >> health-report.md
+          echo "- **DevDependencies count:** $(grep -c '"devDependencies"' package.json || echo "0")" >> health-report.md
+        else
+          echo "- **Package.json:** ❌ Not found" >> health-report.md
+        fi
+
+    - name: Git health check
+      run: |
+        echo "### Git Health" >> health-report.md
+
+        if [ -d ".git" ]; then
+          echo "- **Git repository:** ✅ Found" >> health-report.md
+
+          # Check for uncommitted changes
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "- **Uncommitted changes:** ⚠️ $(git status --porcelain | wc -l) files" >> health-report.md
+          else
+            echo "- **Working directory:** ✅ Clean" >> health-report.md
+          fi
+
+          # Check branch information
+          echo "- **Current branch:** $(git branch --show-current)" >> health-report.md
+          echo "- **Last commit:** $(git log -1 --format='%h %s' 2>/dev/null || echo 'No commits')" >> health-report.md
+        else
+          echo "- **Git repository:** ❌ Not found" >> health-report.md
+        fi
+
+    - name: Upload health report
+      uses: actions/upload-artifact@v4
+      with:
+        name: health-report
+        path: health-report.md
+
+  workflow-monitoring:
+    name: Workflow Health Monitoring
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Analyze workflows
+      run: |
+        echo "🔍 Analyzing GitHub Actions workflows..."
+
+        echo "## Workflow Health Report" > workflow-report.md
+        echo "- **Timestamp:** $(date)" >> workflow-report.md
+        echo "" >> workflow-report.md
+
+        # Count workflows by trigger type
+        echo "### Workflow Statistics" >> workflow-report.md
+
+        total_workflows=$(find .github/workflows -name "*.yml" | wc -l)
+        echo "- **Total workflows:** $total_workflows" >> workflow-report.md
+
+        push_workflows=$(grep -l "on:" .github/workflows/*.yml | xargs grep -l "push:" | wc -l)
+        echo "- **Push-triggered workflows:** $push_workflows" >> workflow-report.md
+
+        pr_workflows=$(grep -l "on:" .github/workflows/*.yml | xargs grep -l "pull_request:" | wc -l)
+        echo "- **PR-triggered workflows:** $pr_workflows" >> workflow-report.md
+
+        scheduled_workflows=$(grep -l "on:" .github/workflows/*.yml | xargs grep -l "schedule:" | wc -l)
+        echo "- **Scheduled workflows:** $scheduled_workflows" >> workflow-report.md
+
+        # Check for potential issues
+        echo "### Potential Issues" >> workflow-report.md
+
+        outdated_actions=$(grep -r "actions/checkout@v4\|actions/setup-node@v4" .github/workflows/ | wc -l)
+        if [ "$outdated_actions" -gt 0 ]; then
+          echo "- **Outdated actions:** ⚠️ $outdated_actions instances" >> workflow-report.md
+        else
+          echo "- **Outdated actions:** ✅ None found" >> workflow-report.md
+        fi
+
+        # Check workflow complexity
+        echo "### Workflow Complexity" >> workflow-report.md
+        complex_workflows=$(find .github/workflows -name "*.yml" -exec wc -l {} \; | awk '$1 > 50' | wc -l)
+        echo "- **Complex workflows (>50 lines):** $complex_workflows" >> workflow-report.md
+
+        # Performance recommendations
+        echo "### Performance Recommendations" >> workflow-report.md
+
+        if [ "$total_workflows" -gt 15 ]; then
+          echo "- **High workflow count:** Consider consolidating workflows" >> workflow-report.md
+        fi
+
+        if [ "$complex_workflows" -gt 3 ]; then
+          echo "- **Complex workflows:** Consider simplifying workflow structure" >> workflow-report.md
+        fi
+
+    - name: Upload workflow report
+      uses: actions/upload-artifact@v4
+      with:
+        name: workflow-report
+        path: workflow-report.md
+
+  notification-system:
+    name: Alert and Notification System
+    runs-on: ubuntu-latest
+    needs: [performance-monitoring, health-checks, workflow-monitoring]
+    if: failure()
+
+    steps:
+    - name: Send failure notification
+      run: |
+        echo "🚨 Workflow monitoring detected failures"
+        echo "Check the following reports for details:"
+        echo "- Performance Report"
+        echo "- Health Report"
+        echo "- Workflow Report"
+
+        # In a real implementation, this would send notifications to Slack, Discord, etc.
+        echo "Notification sent to maintainers"

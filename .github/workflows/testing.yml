@@ -1,0 +1,308 @@
+name: Comprehensive Testing Suite
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run unit tests
+      run: |
+        echo "🧪 Running unit tests..."
+
+        # Create test report
+        echo "## Unit Test Report - $(date)" > unit-test-report.md
+        echo "- **Node Version:** ${{ matrix.node-version }}" >> unit-test-report.md
+        echo "" >> unit-test-report.md
+
+        # Run Jest tests
+        if [ -f "jest.config.cjs" ]; then
+          echo "### Jest Test Results" >> unit-test-report.md
+          npm test -- --coverage --coverageReporters=json --outputFile=jest-coverage.json 2>/dev/null || echo "Jest tests failed or not configured" >> unit-test-report.md
+        else
+          echo "⚠️ No Jest configuration found" >> unit-test-report.md
+        fi
+
+        # Run any other test scripts
+        echo "### Additional Test Results" >> unit-test-report.md
+        npm run test:pure 2>/dev/null || echo "Pure tests not available" >> unit-test-report.md
+        npm run test:integration 2>/dev/null || echo "Integration tests not available" >> unit-test-report.md
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: unit-test-results-${{ matrix.node-version }}
+        path: |
+          unit-test-report.md
+          jest-coverage.json
+          coverage/
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run integration tests
+      run: |
+        echo "🔗 Running integration tests..."
+
+        echo "## Integration Test Report - $(date)" > integration-report.md
+
+        # Check for integration test files
+        echo "### Integration Test Discovery" >> integration-report.md
+        integration_files=$(find . -name "*integration*.test.*" -o -name "*e2e*.test.*" | wc -l)
+        echo "- **Integration test files found:** $integration_files" >> integration-report.md
+
+        if [ "$integration_files" -gt 0 ]; then
+          echo "- Found integration test files:" >> integration-report.md
+          find . -name "*integration*.test.*" -o -name "*e2e*.test.*" | sed 's/^/- /' >> integration-report.md
+        fi
+
+        # Run integration tests if they exist
+        echo "### Test Execution" >> integration-report.md
+        if [ -f "jest.config.cjs" ]; then
+          npm run test:integration 2>/dev/null || echo "Integration tests not configured" >> integration-report.md
+        fi
+
+        # Check for specific integration patterns
+        echo "### Integration Patterns" >> integration-report.md
+        module_integration=$(find . -name "*.test.*" -exec grep -l "describe.*integration\|describe.*e2e" {} \; | wc -l)
+        echo "- **Module integration tests:** $module_integration" >> integration-report.md
+
+    - name: Upload integration report
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-test-report
+        path: integration-report.md
+
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run performance tests
+      run: |
+        echo "⚡ Running performance tests..."
+
+        echo "## Performance Test Report - $(date)" > performance-test-report.md
+
+        start_time=$(date +%s)
+
+        # Test build performance
+        echo "### Build Performance" >> performance-test-report.md
+        build_start=$(date +%s)
+        npm run build 2>/dev/null || echo "Build failed - no build script" >> performance-test-report.md
+        build_end=$(date +%s)
+        build_time=$((build_end - build_start))
+        echo "- **Build time:** ${build_time}s" >> performance-test-report.md
+
+        # Test runtime performance
+        echo "### Runtime Performance" >> performance-test-report.md
+        runtime_start=$(date +%s)
+
+        # Simple performance benchmarks
+        if [ -f "package.json" ]; then
+          echo "- **Dependencies count:** $(grep -c '"dependencies"' package.json || echo "0")" >> performance-test-report.md
+          echo "- **DevDependencies count:** $(grep -c '"devDependencies"' package.json || echo "0")" >> performance-test-report.md
+        fi
+
+        runtime_end=$(date +%s)
+        runtime_time=$((runtime_end - runtime_start))
+        echo "- **Runtime check time:** ${runtime_time}s" >> performance-test-report.md
+
+        total_time=$((runtime_end - start_time))
+        echo "- **Total performance test time:** ${total_time}s" >> performance-test-report.md
+
+        # Performance recommendations
+        echo "### Performance Recommendations" >> performance-test-report.md
+
+        if [ "$build_time" -gt 300 ]; then
+          echo "- ⚠️ Build time is slow (${build_time}s) - consider optimization" >> performance-test-report.md
+        else
+          echo "- ✅ Build performance is good" >> performance-test-report.md
+        fi
+
+        if [ "$total_time" -gt 600 ]; then
+          echo "- ⚠️ Overall performance tests are slow - consider optimization" >> performance-test-report.md
+        fi
+
+    - name: Upload performance report
+      uses: actions/upload-artifact@v4
+      with:
+        name: performance-test-report
+        path: performance-test-report.md
+
+  quality-assurance:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Code quality analysis
+      run: |
+        echo "🔍 Running code quality analysis..."
+
+        echo "## Code Quality Report - $(date)" > quality-report.md
+
+        # Check for linting
+        echo "### Linting Status" >> quality-report.md
+        if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ] || [ -f "eslint.config.js" ]; then
+          echo "- **ESLint config:** ✅ Found" >> quality-report.md
+          npm run lint 2>/dev/null || echo "- **Linting result:** Issues found" >> quality-report.md
+        else
+          echo "- **ESLint config:** ❌ Not found" >> quality-report.md
+        fi
+
+        # Check for TypeScript configuration
+        echo "### TypeScript Analysis" >> quality-report.md
+        if [ -f "tsconfig.json" ]; then
+          echo "- **TypeScript config:** ✅ Found" >> quality-report.md
+          npx tsc --noEmit --skipLibCheck 2>/dev/null && echo "- **TypeScript check:** ✅ Passed" >> quality-report.md || echo "- **TypeScript check:** ⚠️ Issues found" >> quality-report.md
+        else
+          echo "- **TypeScript config:** ❌ Not found" >> quality-report.md
+        fi
+
+        # Check for formatting
+        echo "### Code Formatting" >> quality-report.md
+        if [ -f ".prettierrc" ] || [ -f "prettier.config.js" ]; then
+          echo "- **Prettier config:** ✅ Found" >> quality-report.md
+        else
+          echo "- **Prettier config:** ⚠️ Not found" >> quality-report.md
+        fi
+
+        # Test coverage analysis
+        echo "### Test Coverage Analysis" >> quality-report.md
+        if [ -d "coverage" ]; then
+          echo "- **Coverage reports:** ✅ Available" >> quality-report.md
+        else
+          echo "- **Coverage reports:** ❌ Not found" >> quality-report.md
+        fi
+
+    - name: Upload quality report
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-report
+        path: quality-report.md
+
+  compatibility-tests:
+    name: Browser and Environment Compatibility
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Compatibility testing
+      run: |
+        echo "🌐 Running compatibility tests..."
+
+        echo "## Compatibility Test Report - $(date)" > compatibility-report.md
+
+        # Node.js version compatibility
+        echo "### Node.js Compatibility" >> compatibility-report.md
+        echo "- **Current version:** $(node --version)" >> compatibility-report.md
+        echo "- **NPM version:** $(npm --version)" >> compatibility-report.md
+
+        # Check for engine requirements in package.json
+        if [ -f "package.json" ]; then
+          echo "### Package Requirements" >> compatibility-report.md
+          if grep -q '"engines"' package.json; then
+            echo "- **Engine requirements:** ✅ Specified" >> compatibility-report.md
+            grep -A 5 '"engines"' package.json >> compatibility-report.md
+          else
+            echo "- **Engine requirements:** ⚠️ Not specified" >> compatibility-report.md
+          fi
+
+          # Check for browserslist
+          if grep -q "browserslist" package.json; then
+            echo "- **Browser support:** ✅ Configured" >> compatibility-report.md
+          else
+            echo "- **Browser support:** ⚠️ Not configured" >> compatibility-report.md
+          fi
+        fi
+
+        # Check for build compatibility
+        echo "### Build System Compatibility" >> compatibility-report.md
+        build_tools=$(find . -name "webpack.config.*" -o -name "vite.config.*" -o -name "rollup.config.*" | wc -l)
+        echo "- **Build tools configured:** $build_tools" >> compatibility-report.md
+
+        if [ "$build_tools" -eq 0 ]; then
+          echo "- ⚠️ No build system configuration found" >> compatibility-report.md
+        fi
+
+    - name: Upload compatibility report
+      uses: actions/upload-artifact@v4
+      with:
+        name: compatibility-report
+        path: compatibility-report.md

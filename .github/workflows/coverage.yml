@@ -1,6 +1,10 @@
 name: Test Coverage
 
 on:
+
+permissions:
+  contents: read
+  actions: read
   push:
     branches: [ master ]
   pull_request:
