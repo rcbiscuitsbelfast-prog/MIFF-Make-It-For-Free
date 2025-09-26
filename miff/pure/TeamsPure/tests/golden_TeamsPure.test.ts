@@ -418,7 +418,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should validate team size correctly', () => {
       const rules = TeamRules.create(3);
-      const team = Team.create('test', 'test', 3, rules);
+      const team = new Team('test', 'test', '', 3, rules);
 
       // Add 3 spirits (should be valid)
       for (let i = 0; i < 3; i++) {
@@ -429,18 +429,19 @@ describe('TeamsPure Golden Tests', () => {
       let validation = rules.validateTeam(team);
       expect(validation.isValid).toBe(true);
 
-      // Add 4th spirit (should fail)
+      // Add 4th spirit (should go to reserves)
       const extraSpirit = new MockSpiritInstance('Extra', 'normal', 1);
-      team.addSpirit(extraSpirit);
+      const result = team.addSpirit(extraSpirit);
+      expect(result).toBe(TeamOperationResult.TEAM_FULL);
 
+      // The team should still be valid (4th spirit went to reserves)
       validation = rules.validateTeam(team);
-      expect(validation.isValid).toBe(false);
-      expect(validation.status).toBe(ValidationStatus.TOO_MANY_MEMBERS);
+      expect(validation.isValid).toBe(true);
     });
 
     test('should validate duplicate species', () => {
       const rules = TeamRules.create(6, false, false, false); // allowDuplicates = false
-      const team = Team.create('test', 'test', 6, rules);
+      const team = new Team('test', 'test', '', 6, rules);
 
       const spirit1 = new MockSpiritInstance('Pikachu', 'electric', 1);
       spirit1.speciesId = 'pikachu';
@@ -457,7 +458,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should validate type diversity', () => {
       const rules = TeamRules.create(6, true, false, false, false, undefined, undefined, ['fire', 'water', 'grass']);
-      const team = Team.create('test', 'test', 6, rules);
+      const team = new Team('test', 'test', '', 6, rules);
 
       // Add spirits of different types
       const spirits = [
@@ -474,7 +475,7 @@ describe('TeamsPure Golden Tests', () => {
 
     test('should validate forbidden types', () => {
       const rules = TeamRules.create(6, false, false, false, false, undefined, undefined, [], ['ghost', 'dark']);
-      const team = Team.create('test', 'test', 6, rules);
+      const team = new Team('test', 'test', '', 6, rules);
 
       const normalSpirit = new MockSpiritInstance('Normal', 'normal', 1);
       const ghostSpirit = new MockSpiritInstance('Ghost', 'ghost', 1);
@@ -525,7 +526,7 @@ describe('TeamsPure Golden Tests', () => {
 
   describe('Team Basic Functionality', () => {
     test('should create team with correct properties', () => {
-      const team = Team.create('Test Team', 'A test team', 6, TeamRules.balanced());
+      const team = new Team('Test Team', 'A test team', '', 6, TeamRules.balanced());
 
       expect(team.teamId).toMatch(/^team_/);
       expect(team.name).toBe('Test Team');
@@ -549,7 +550,7 @@ describe('TeamsPure Golden Tests', () => {
         restrictions: [],
         isDefault: false,
         validate: () => [],
-        createTeam: () => Team.create('test', 'test'),
+        createTeam: () => new Team('test', 'test', '', 6),
         toJSON: () => ({})
       };
 
@@ -768,7 +769,7 @@ describe('TeamsPure Golden Tests', () => {
       team.addSpirit(spirit);
 
       const exportData = team.exportTeam();
-      const newTeam = Team.create('Imported', 'Imported team');
+      const newTeam = new Team('Imported', 'Imported team', '', 6);
       newTeam.importTeam(exportData);
 
       expect(newTeam.name).toBe(team.name);
