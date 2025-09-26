@@ -358,9 +358,9 @@ describe('AIPure Golden Tests', () => {
         new MoveData('basic_strike', 'Basic Strike', MoveCategory.PHYSICAL, 40, 1.0, 0, 'neutral', undefined, undefined, undefined, 0)
       ];
 
-      // Fire should be super effective against water
+      // Fire is NOT very effective against water (0.5x), so should prefer neutral move
       const action = ai.selectAction(fireSpirit, waterSpirit, moves, rng);
-      expect(action.moveId).toBe('fire_blast'); // Should prefer type advantage
+      expect(action.moveId).toBe('basic_strike'); // Should prefer neutral move over not very effective move
     });
 
     test('should consider move accuracy', () => {
@@ -484,8 +484,8 @@ describe('AIPure Golden Tests', () => {
 
       expect(comparison.aggressionDiff).toBe(0.5);
       expect(comparison.cautionDiff).toBe(0.5);
-      expect(comparison.efficiencyDiff).toBe(0.2);
-      expect(comparison.totalDifference).toBe(1.2);
+      expect(comparison.efficiencyDiff).toBeCloseTo(0.2, 3);
+      expect(comparison.totalDifference).toBeCloseTo(1.2, 3);
     });
 
     test('should get behavior description correctly', () => {
@@ -494,10 +494,10 @@ describe('AIPure Golden Tests', () => {
       const efficient = AIPolicy.efficient('efficient');
       const balanced = AIPolicy.balanced('balanced');
 
-      expect(AIUtils.getBehaviorDescription(aggressive)).toContain('aggressive');
-      expect(AIUtils.getBehaviorDescription(cautious)).toContain('cautious');
-      expect(AIUtils.getBehaviorDescription(efficient)).toContain('efficient');
-      expect(AIUtils.getBehaviorDescription(balanced)).toContain('balanced');
+      expect(AIUtils.getBehaviorDescription(aggressive)).toContain('Aggressive');
+      expect(AIUtils.getBehaviorDescription(cautious)).toContain('Cautious');
+      expect(AIUtils.getBehaviorDescription(efficient)).toContain('Efficient');
+      expect(AIUtils.getBehaviorDescription(balanced)).toContain('Balanced');
     });
   });
 

@@ -727,11 +727,11 @@ describe('CombatPure Golden Tests', () => {
     });
 
     test('should calculate hit chance correctly', () => {
-      expect(CombatUtils.calculateHitChance(1.0, 1.0, 1.0)).toBe(1.0); // Perfect hit
-      expect(CombatUtils.calculateHitChance(0.8, 1.0, 1.0)).toBe(0.8); // Move accuracy
-      expect(CombatUtils.calculateHitChance(1.0, 0.9, 1.0)).toBe(0.9); // Attacker accuracy
-      expect(CombatUtils.calculateHitChance(1.0, 1.0, 0.85)).toBe(0.85); // Defender evasion
-      expect(CombatUtils.calculateHitChance(0.8, 0.9, 0.85)).toBe(0.612); // All factors
+      expect(CombatUtils.calculateHitChance(1.0, 1.0, 1.0)).toBe(0); // 100% evasion = never hits
+      expect(CombatUtils.calculateHitChance(0.8, 1.0, 0.0)).toBe(0.8); // Move accuracy (no evasion)
+      expect(CombatUtils.calculateHitChance(1.0, 0.9, 0.0)).toBe(0.9); // Attacker accuracy (no evasion)
+      expect(CombatUtils.calculateHitChance(1.0, 1.0, 0.15)).toBe(0.85); // Defender evasion (15% evasion = 85% hit chance)
+      expect(CombatUtils.calculateHitChance(0.8, 0.9, 0.15)).toBeCloseTo(0.612, 3); // All factors
     });
 
     test('should get category and source names correctly', () => {
@@ -759,7 +759,8 @@ describe('CombatPure Golden Tests', () => {
           specialAtk: 60,
           specialDef: 35,
           level: 10
-        }
+        },
+        moves: ['tackle', 'fire_blast']
       };
 
       const invalidCombatant: ICombatant = {

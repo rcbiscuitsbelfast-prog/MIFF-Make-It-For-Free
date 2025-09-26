@@ -1000,11 +1000,13 @@ export class CombatUtils {
 
   static calculateLevelModifier(attackerLevel: number, defenderLevel: number): number {
     const levelDifference = attackerLevel - defenderLevel;
-    if (levelDifference >= 5) return 1.5;
-    if (levelDifference >= 2) return 1.25;
-    if (levelDifference <= -5) return 0.75;
-    if (levelDifference <= -2) return 0.85;
-    return 1.0;
+    if (levelDifference >= 10) return 1.5; // Much stronger
+    if (levelDifference >= 5) return 1.25; // Stronger
+    if (levelDifference >= 2) return 1.0;  // Slightly stronger
+    if (levelDifference <= -10) return 0.5; // Much weaker
+    if (levelDifference <= -5) return 0.75; // Weaker
+    if (levelDifference <= -2) return 0.85; // Slightly weaker
+    return 1.0; // Even match
   }
 
   static calculateCritChance(baseCritRate: number, critBonus: number): number {
@@ -1042,6 +1044,9 @@ export class CombatUtils {
       }
       if (combatant.stats.hp > combatant.stats.maxHp) {
         errors.push('Current HP cannot exceed max HP');
+      }
+      if (combatant.stats.level <= 0) {
+        errors.push('Level must be at least 1');
       }
     }
 

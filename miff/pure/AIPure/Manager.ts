@@ -12,6 +12,10 @@
  * @author MIFF Framework
  */
 
+import { TypeEffectiveness } from '../CombatPure/engine';
+
+const typeEffectiveness = new TypeEffectiveness();
+
 // Enums
 export enum AIDecisionStyle {
   AGGRESSIVE = 'aggressive',
@@ -197,7 +201,19 @@ export class BattleAI {
     this.rng = rng || Math;
   }
 
-  selectAction(context: IAIDecisionContext | null): IAIAction {
+  selectAction(playerSpirit: any, opponentSpirit: any, availableMoves: any[], rng?: any): IAIAction {
+    // Create context from parameters
+    const context: IAIDecisionContext = {
+      playerSpirit,
+      opponentSpirit,
+      availableMoves,
+      resources: { rng: rng || this.rng }
+    };
+
+    return this.selectActionWithContext(context);
+  }
+
+  private selectActionWithContext(context: IAIDecisionContext | null): IAIAction {
     // Handle null context
     if (!context || !context.availableMoves || context.availableMoves.length === 0) {
       return {
@@ -230,13 +246,11 @@ export class BattleAI {
       };
     }
 
-    // Add defensive actions if health is low
-    if (context.playerSpirit && context.playerSpirit.currentHP < context.playerSpirit.maxHP * 0.3) {
-      actions.push({
-        type: AIActionType.DEFEND,
-        confidence: 0.9,
-        reasoning: 'Health is low, prioritizing defense'
-      });
+    // HP-based decision modifiers
+    const isLowHP = context.playerSpirit && context.playerSpirit.currentHP < context.playerSpirit.maxHP * 0.3;
+    if (isLowHP) {
+      // When HP is low, give healing moves a significant bonus
+      // But still evaluate all moves to find the best option
     }
 
     // Select best action based on policy
@@ -254,7 +268,7 @@ export class BattleAI {
   }
 
   private evaluateMove(move: any, context: IAIDecisionContext): IAIAction | null {
-    if (!context.opponentSpirit) return null;
+    if (!context.playerSpirit || !context.opponentSpirit) return null;
 
     let confidence = 0.5;
     let reasoning = '';
@@ -268,15 +282,60 @@ export class BattleAI {
       confidence += (move.accuracy - 0.5) * 0.4; // Accuracy bonus/penalty
     }
 
+    // Resource cost consideration
+    if (move.cost !== undefined && move.cost > 0) {
+      if (context.playerSpirit && context.playerSpirit.resourcePoints) {
+        const resourceRatio = context.playerSpirit.resourcePoints / move.cost;
+        if (resourceRatio < 1.0) {
+          confidence -= (1.0 - resourceRatio) * 0.5; // Cannot afford move, major penalty
+          reasoning += 'Cannot afford move (insufficient resources). ';
+        } else if (resourceRatio < 2.0) {
+          confidence -= (2.0 - resourceRatio) * 0.2; // Can afford but expensive
+          reasoning += 'Expensive move for current resources. ';
+        }
+      }
+    }
+
     // Apply policy modifiers
-    if (this.policy.aggression > 1.0 && move.category === 'damage') {
+    if (this.policy.aggression > 1.0 && (move.category === 'damage' || move.category === 'physical')) {
       confidence += (this.policy.aggression - 1.0) * 0.2;
       reasoning += 'Aggressive policy favors damage moves. ';
     }
 
-    if (this.policy.caution > 1.0 && move.category === 'healing') {
+    if (this.policy.caution > 1.0 && (move.category === 'healing' || move.category === 'status')) {
       confidence += (this.policy.caution - 1.0) * 0.2;
       reasoning += 'Cautious policy favors healing. ';
+    }
+
+    // HP-based decisions
+    if (context.playerSpirit) {
+      const hpRatio = context.playerSpirit.currentHP / context.playerSpirit.maxHP;
+      if (hpRatio < 0.3) {
+        if (move.category === 'healing' || move.category === 'status') {
+          confidence += 0.5; // Major bonus for healing when HP is low
+          reasoning += 'Health is low, strongly favoring healing. ';
+        } else if (move.category === 'damage' || move.category === 'physical') {
+          confidence -= 0.3; // Penalty for damage when HP is low
+          reasoning += 'Health is low, avoiding damage moves. ';
+        }
+      } else if (hpRatio < 0.5) {
+        if (move.category === 'healing' || move.category === 'status') {
+          confidence += 0.2; // Minor bonus for healing when HP is moderate
+          reasoning += 'Health is moderate, favoring healing. ';
+        }
+      }
+    }
+
+    // Type effectiveness bonus
+    if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) {
+      const effectiveness = typeEffectiveness.getMultiplier(move.typeTag, context.opponentSpirit.typeTag);
+      if (effectiveness > 1.0) {
+        confidence += (effectiveness - 1.0) * 0.4; // Super effective moves get bonus
+        reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness). `;
+      } else if (effectiveness < 1.0) {
+        confidence -= (1.0 - effectiveness) * 0.3; // Not very effective moves get penalty
+        reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness). `;
+      }
     }
 
     // Risk assessment
@@ -290,6 +349,7 @@ export class BattleAI {
 
     return {
       type: this.mapMoveToAction(move.category),
+      moveId: move.moveId,
       confidence,
       reasoning: reasoning || `Standard move evaluation (confidence: ${Math.round(confidence * 100)}%)`
     };
@@ -362,22 +422,18 @@ export class AIUtils {
   }
 
   static createBossPolicy(bossLevel: number, playerLevel: number): AIPolicy {
-    if (bossLevel > playerLevel + 3) {
-      return AIPolicy.cautious('boss_strong');
+    if (bossLevel >= playerLevel) {
+      return AIPolicy.cautious('boss_equal_or_strong');
     }
 
-    if (bossLevel + 3 < playerLevel) {
-      return AIPolicy.aggressive('boss_weak');
-    }
-
-    return AIPolicy.balanced('boss_equal');
+    return AIPolicy.aggressive('boss_weak');
   }
 
   static createScenarioPolicy(scenario: string): AIPolicy {
     switch (scenario) {
-      case 'early_game': return AIPolicy.efficient('early_game');
-      case 'mid_game': return AIPolicy.balanced('mid_game');
-      case 'late_game': return AIPolicy.aggressive('late_game');
+      case 'early_game': return AIPolicy.aggressive('early_game');
+      case 'mid_game': return AIPolicy.cautious('mid_game');
+      case 'late_game': return AIPolicy.efficient('late_game');
       case 'boss': return AIPolicy.cautious('boss');
       case 'pvp': return AIPolicy.aggressive('pvp');
       case 'training': return AIPolicy.balanced('training');
@@ -387,29 +443,32 @@ export class AIUtils {
 
   static comparePolicies(a: AIPolicy, b: AIPolicy): {
     styleMatch: boolean;
+    aggressionDiff: number;
+    cautionDiff: number;
+    efficiencyDiff: number;
     attributeDifference: number;
     ruleMatch: boolean;
     totalDifference: number;
   } {
     const styleMatch = a.policyId === b.policyId;
-    const attributeDifference =
-      Math.abs(a.aggression - b.aggression) +
-      Math.abs(a.caution - b.caution) +
-      Math.abs(a.efficiency - b.efficiency);
+    const aggressionDiff = Math.abs(a.aggression - b.aggression);
+    const cautionDiff = Math.abs(a.caution - b.caution);
+    const efficiencyDiff = Math.abs(a.efficiency - b.efficiency);
+    const attributeDifference = aggressionDiff + cautionDiff + efficiencyDiff;
 
     const ruleMatch = a.overrideRules.join(',') === b.overrideRules.join(',');
 
     const totalDifference = attributeDifference + (ruleMatch ? 0 : 1);
 
-    return { styleMatch, attributeDifference, ruleMatch, totalDifference };
+    return { styleMatch, aggressionDiff, cautionDiff, efficiencyDiff, attributeDifference, ruleMatch, totalDifference };
   }
 
   static getBehaviorDescription(policy: AIPolicy): string {
-    if (policy.aggression > 1.5) {
+    if (policy.aggression >= 1.5) {
       return 'Aggressive behavior emphasizing damage output';
-    } else if (policy.caution > 1.5) {
+    } else if (policy.caution >= 1.5) {
       return 'Cautious behavior emphasizing survival and safety';
-    } else if (policy.efficiency > 1.5) {
+    } else if (policy.efficiency >= 1.5) {
       return 'Efficient behavior optimizing resource usage';
     } else {
       return 'Balanced behavior adapting to various situations';

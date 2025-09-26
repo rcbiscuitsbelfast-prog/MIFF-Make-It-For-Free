@@ -993,7 +993,7 @@ export class Team implements ITeam {
     maxSize: number = 6,
     rules?: ITeamRules
   ) {
-    this.teamId = teamId;
+    this.teamId = (!teamId || teamId.trim() === '') ? `team_${Date.now()}_${Math.random().toString(36).substr(2, 9)}` : teamId;
     this.name = name;
     this.description = description;
     this.maxSize = maxSize;

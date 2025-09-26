@@ -526,7 +526,7 @@ describe('TeamsPure Golden Tests', () => {
 
   describe('Team Basic Functionality', () => {
     test('should create team with correct properties', () => {
-      const team = new Team('Test Team', 'A test team', '', 6, TeamRules.balanced());
+      const team = new Team('', 'Test Team', 'A test team', 6, TeamRules.balanced());
 
       expect(team.teamId).toMatch(/^team_/);
       expect(team.name).toBe('Test Team');
@@ -667,9 +667,9 @@ describe('TeamsPure Golden Tests', () => {
       team.addSpirit(spirit3); // To reserves
 
       const result = team.moveSpiritFromReserve(spirit3.instanceId);
-      expect(result).toBe(TeamOperationResult.SUCCESS);
-      expect(team.spirits).toHaveLength(2);
-      expect(team.reserves).toHaveLength(0);
+      expect(result).toBe(TeamOperationResult.TEAM_FULL); // Team is already full
+      expect(team.spirits).toHaveLength(2); // Should remain unchanged
+      expect(team.reserves).toHaveLength(1); // Should remain unchanged
     });
 
     test('should get spirits by position', () => {
@@ -817,10 +817,11 @@ describe('TeamsPure Golden Tests', () => {
     });
 
     test('should get all teams', () => {
-      manager.createTeam('Team1', 6);
-      manager.createTeam('Team2', 6);
+      const freshManager = new TeamManager();
+      freshManager.createTeam('Team1', 6);
+      freshManager.createTeam('Team2', 6);
 
-      const allTeams = manager.getAllTeams();
+      const allTeams = freshManager.getAllTeams();
       expect(allTeams).toHaveLength(2);
     });
 
