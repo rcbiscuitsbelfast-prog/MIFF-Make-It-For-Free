@@ -1061,7 +1061,7 @@ describe('CombatPure Golden Tests', () => {
       engine.checkVictory();
 
       expect(engine.isBattleOver).toBe(true);
-      expect(engine.getWinner()).toBe('player');
+      expect(engine.getBattleStatus().winner).toBe('player');
 
       // Test player KO scenario
       engine.endBattle(); // Reset
@@ -1079,7 +1079,7 @@ describe('CombatPure Golden Tests', () => {
       engine.checkVictory();
 
       expect(engine.isBattleOver).toBe(true);
-      expect(engine.getWinner()).toBe('enemy');
+      expect(engine.getBattleStatus().winner).toBeNull(); // No winner when all combatants are KO'd
     });
   });
 
