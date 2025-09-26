@@ -198,16 +198,16 @@ All links in this README have been verified and are working correctly:
 - ✅ [Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/) - Guides & API
 
 ### **📋 Documentation Links**
-- ✅ [Module Index](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/MIFF_MODULE_INDEX_2025.md) - Complete module audit
-- ✅ [Ultimate Audit](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/MIFF_ULTIMATE_AUDIT_2025.md) - Comprehensive framework audit
-- ✅ [Deep Technical Audit](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/MIFF_DEEP_AUDIT_REPORT_2025.md) - Technical analysis
-- ✅ [Strategic Roadmap](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/MIFF_NEXT_PHASE_ROADMAP_2025.md) - 18-month development plan
-- ✅ [Implementation Plan](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/MIFF_IMPLEMENTATION_PLAN_2025.md) - 72-week execution timeline
+- ✅ [Module Index](docs/MIFF_MODULE_INDEX_2025.md) - Complete module audit
+- ✅ [Ultimate Audit](docs/MIFF_ULTIMATE_AUDIT_2025.md) - Comprehensive framework audit
+- ✅ [Deep Technical Audit](docs/MIFF_DEEP_AUDIT_REPORT_2025.md) - Technical analysis
+- ✅ [Strategic Roadmap](docs/MIFF_NEXT_PHASE_ROADMAP_2025.md) - 18-month development plan
+- ✅ [Implementation Plan](docs/MIFF_IMPLEMENTATION_PLAN_2025.md) - 72-week execution timeline
 
 ### **📚 Core Documentation**
-- ✅ [Docs home](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/README.md)
-- ✅ [Testing guide](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/docs/TESTING.md)
-- ✅ [CLI quick start](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/blob/master/cli/README.md)
+- ✅ [Docs home](docs/README.md)
+- ✅ [Testing guide](docs/TESTING.md)
+- ✅ [CLI quick start](cli/README.md)
 - ✅ All module-specific READMEs in `miff/pure/**/README.md`
 
 *Last verified: September 24, 2025 - All links confirmed functional and accessible.*
