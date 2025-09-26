@@ -44,12 +44,17 @@ html {
 }
 
 body {
-  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--bg-primary);
   transition: all 0.3s ease;
   overflow-x: hidden;
+}
+
+/* Force font on all elements */
+*, *::before, *::after {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
 }
 
 .container {

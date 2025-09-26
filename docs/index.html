@@ -11,13 +11,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Ensure fonts load properly */
+        /* Force font loading with multiple approaches */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+        
         * {
             font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
         }
         
-        /* Force font loading */
-        body, h1, h2, h3, p, div, span, a, button {
+        body, h1, h2, h3, h4, h5, h6, p, div, span, a, button, input, textarea, select {
+            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
+        }
+        
+        /* Override any existing font styles */
+        .hero-title, .hero-subtitle, .hero-description, .logo-text, .nav a, .btn, .footer-link {
             font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
         }
     </style>
@@ -208,6 +214,20 @@
         // Force font loading
         document.addEventListener('DOMContentLoaded', function() {
             // Force apply fonts to all elements
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(function(element) {
+                element.style.fontFamily = "'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace";
+            });
+            
+            // Also try to load the font manually
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+        });
+        
+        // Force font loading on window load
+        window.addEventListener('load', function() {
             const allElements = document.querySelectorAll('*');
             allElements.forEach(function(element) {
                 element.style.fontFamily = "'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace";
