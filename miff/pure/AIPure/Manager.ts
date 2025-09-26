@@ -262,6 +262,13 @@ export class BattleAI {
       };
     }
 
+    // Prioritize actions that were selected by HP-based override rules
+    const hpActions = actions.filter(action => action.reasoning.includes('Critical HP override rule'));
+    if (hpActions.length > 0) {
+      return hpActions[0]; // Return the first HP-prioritized action
+    }
+
+    // Otherwise, select the action with highest confidence
     return actions.reduce((best, current) =>
       current.confidence > best.confidence ? current : best
     );
@@ -364,17 +371,46 @@ export class BattleAI {
     }
 
     // Apply override rules FIRST (before risk assessment)
+    // Prioritize HP-based rules over other types
     let overrideApplied = false;
+    let isHPRule = false;
     if (this.policy.overrideRules && this.policy.overrideRules.length > 0) {
+      // First, check for HP-based rules (critical priority)
       for (const rule of this.policy.overrideRules) {
         const [ruleType, ruleValue] = rule.split(':');
-        if (this.evaluateOverrideRule(ruleType, ruleValue, move, context)) {
-          confidence += 0.8; // Major bonus for override rules
-          reasoning += `Override rule applied: ${ruleType} -> ${ruleValue}. `;
-          overrideApplied = true;
-          break; // Only apply the first matching override rule
+        if (ruleType === 'force_move_if_hp_below') {
+          if (this.evaluateOverrideRule(ruleType, ruleValue, move, context)) {
+            confidence += 0.9; // Higher priority for HP-based rules
+            reasoning += `Critical HP override rule applied: ${ruleType} -> ${ruleValue}. `;
+            overrideApplied = true;
+            isHPRule = true;
+            break; // HP rules take priority - stop here
+          }
         }
       }
+
+      // If no HP rule applied, check other override rules
+      if (!overrideApplied) {
+        for (const rule of this.policy.overrideRules) {
+          const [ruleType, ruleValue] = rule.split(':');
+          if (this.evaluateOverrideRule(ruleType, ruleValue, move, context)) {
+            confidence += 0.8; // Standard bonus for other override rules
+            reasoning += `Override rule applied: ${ruleType} -> ${ruleValue}. `;
+            overrideApplied = true;
+            break; // Only apply the first matching override rule
+          }
+        }
+      }
+    }
+
+    // If this move was selected by an HP rule, it takes absolute priority
+    if (isHPRule) {
+      return {
+        type: this.mapMoveToAction(move.category),
+        moveId: move.moveId,
+        confidence: confidence,
+        reasoning: reasoning
+      };
     }
 
     // Risk assessment
@@ -478,16 +514,18 @@ export class AIUtils {
 
   static createAdaptivePolicy(spirit: any): AIPolicy {
     const hpRatio = (spirit.currentHP || 1) / Math.max(1, spirit.maxHP || 1);
+    const attack = spirit.attack || 0;
+    const defense = spirit.defense || 0;
 
     if (hpRatio < 0.35) {
       return AIPolicy.defensive('adaptive_low_hp');
     }
 
-    if ((spirit.attack || 0) > (spirit.defense || 0) + 20) {
+    if (attack > defense + 20) {
       return AIPolicy.aggressive('adaptive_high_attack');
     }
 
-    if ((spirit.defense || 0) > (spirit.attack || 0) + 20) {
+    if (defense > attack + 20) {
       return AIPolicy.cautious('adaptive_high_defense');
     }
 
