@@ -17,7 +17,8 @@ import {
   defaultStub,
   parseCLIArgs,
   formatOutput
-} from '../miff/pure/shared/cliHarnessUtils';
+} from '../../miff/pure/shared/cliHarnessUtils';
+import { spiritTamerDemo } from './index';
 
 const { mode } = parseCLIArgs(process.argv);
 
