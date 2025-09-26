@@ -183,67 +183,6 @@ style.textContent = `
         }
     }
 
-    .splash-screen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--bg-primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: opacity 1s ease-out;
-    }
-
-    .splash-content {
-        text-align: center;
-        color: var(--text-primary);
-    }
-
-    .splash-logo {
-        margin-bottom: 2rem;
-        animation: fadeInUp 1s ease-out;
-    }
-
-    .splash-title {
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: 700;
-        color: var(--accent-primary);
-        margin-bottom: 0.5rem;
-        animation: fadeInUp 1s ease-out 0.3s both;
-    }
-
-    .splash-tagline {
-        font-size: clamp(1rem, 2vw, 1.5rem);
-        color: var(--text-secondary);
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        animation: fadeInUp 1s ease-out 0.6s both;
-    }
-
-    .splash-subtitle {
-        font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-        color: var(--text-muted);
-        margin-bottom: 2rem;
-        animation: fadeInUp 1s ease-out 0.9s both;
-    }
-
-    .splash-spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid var(--border-color);
-        border-top: 3px solid var(--accent-primary);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
 
     .experience-card {
         position: relative;
