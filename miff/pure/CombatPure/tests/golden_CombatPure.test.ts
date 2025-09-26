@@ -1171,22 +1171,32 @@ describe('CombatPure Golden Tests', () => {
       const damageCalculator = new DamageCalculator(typeChart);
       const rng = new MockRNGProvider();
 
-      // Create many spirit instances
+      // Create many spirit instances with correct constructor parameters
       const spirits: SpiritInstance[] = [];
       for (let i = 0; i < 50; i++) {
+        const stats: Stats = {
+          hp: 100 + i,
+          maxHp: 100 + i,
+          atk: 50 + i,
+          def: 40 + i,
+          spd: 30 + i,
+          specialAtk: 45 + i,
+          specialDef: 35 + i
+        };
+
         spirits.push(new SpiritInstance(
-          i,
-          `spirit_${i}`,
-          `Spirit ${i}`,
-          'neutral',
-          10 + Math.floor(i / 5),
-          20 + i,
-          15 + i,
-          25 + i,
-          20 + i,
-          100,
-          100,
-          10
+          `spirit_${i}`,                    // id
+          `Spirit ${i}`,                    // name
+          'neutral',                        // team
+          stats,                            // stats
+          [`move_${i}`],                   // moves
+          'neutral',                        // typeTag
+          20 + i,                           // resourcePoints
+          `spirit_id_${i}`,                 // spiritId
+          10 + Math.floor(i / 5),           // level
+          100 + i,                          // experience
+          [`effect_${i}`],                  // statusEffects
+          [`ability_${i}`]                  // abilities
         ));
       }
 
