@@ -10,6 +10,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Ensure fonts load properly */
+        * {
+            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
+        }
+        
+        /* Force font loading */
+        body, h1, h2, h3, p, div, span, a, button {
+            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
+        }
+    </style>
 </head>
 <body>
     <div id="splash-screen" class="splash-screen" onclick="skipSplash()">
@@ -193,6 +204,15 @@
             console.log('Auto-skipping splash screen');
             skipSplash();
         }, 3000);
+        
+        // Force font loading
+        document.addEventListener('DOMContentLoaded', function() {
+            // Force apply fonts to all elements
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(function(element) {
+                element.style.fontFamily = "'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace";
+            });
+        });
     </script>
 </body>
 </html>
