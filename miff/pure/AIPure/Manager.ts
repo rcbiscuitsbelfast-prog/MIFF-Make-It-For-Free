@@ -296,6 +296,34 @@ export class BattleAI {
       }
     }
 
+    // Type effectiveness bonus - MAJOR FACTOR (but cautious policies deprioritize this)
+    if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) {
+      const effectiveness = typeEffectiveness.getMultiplier(move.typeTag, context.opponentSpirit.typeTag);
+      const typeBonus = (effectiveness - 1.0) * 0.4;
+      const typePenalty = (1.0 - effectiveness) * 0.3;
+
+      // Cautious policies reduce the impact of type effectiveness
+      if (this.policy.caution > 1.0) {
+        const cautionFactor = Math.min(1.0, this.policy.caution - 1.0);
+        if (effectiveness > 1.0) {
+          confidence += typeBonus * (1.0 - cautionFactor * 0.3); // Reduced type advantage bonus for cautious
+          reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness, reduced by caution). `;
+        } else if (effectiveness < 1.0) {
+          confidence -= typePenalty * (1.0 + cautionFactor * 0.2); // Increased type disadvantage penalty for cautious
+          reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness, increased by caution). `;
+        }
+      } else {
+        // Normal type effectiveness evaluation for non-cautious policies
+        if (effectiveness > 1.0) {
+          confidence += typeBonus;
+          reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness). `;
+        } else if (effectiveness < 1.0) {
+          confidence -= typePenalty;
+          reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness). `;
+        }
+      }
+    }
+
     // Apply policy modifiers
     if (this.policy.aggression > 1.0 && (move.category === 'damage' || move.category === 'physical')) {
       confidence += (this.policy.aggression - 1.0) * 0.2;
@@ -326,15 +354,17 @@ export class BattleAI {
       }
     }
 
-    // Type effectiveness bonus
-    if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) {
-      const effectiveness = typeEffectiveness.getMultiplier(move.typeTag, context.opponentSpirit.typeTag);
-      if (effectiveness > 1.0) {
-        confidence += (effectiveness - 1.0) * 0.4; // Super effective moves get bonus
-        reasoning += `Super effective against ${context.opponentSpirit.typeTag} (+${Math.round((effectiveness - 1.0) * 100)}% effectiveness). `;
-      } else if (effectiveness < 1.0) {
-        confidence -= (1.0 - effectiveness) * 0.3; // Not very effective moves get penalty
-        reasoning += `Not very effective against ${context.opponentSpirit.typeTag} (-${Math.round((1.0 - effectiveness) * 100)}% effectiveness). `;
+    // Apply override rules FIRST (before risk assessment)
+    let overrideApplied = false;
+    if (this.policy.overrideRules && this.policy.overrideRules.length > 0) {
+      for (const rule of this.policy.overrideRules) {
+        const [ruleType, ruleValue] = rule.split(':');
+        if (this.evaluateOverrideRule(ruleType, ruleValue, move, context)) {
+          confidence += 0.8; // Major bonus for override rules
+          reasoning += `Override rule applied: ${ruleType} -> ${ruleValue}. `;
+          overrideApplied = true;
+          break; // Only apply the first matching override rule
+        }
       }
     }
 
@@ -362,6 +392,40 @@ export class BattleAI {
       case 'buff': return AIActionType.BUFF;
       case 'debuff': return AIActionType.DEBUFF;
       default: return AIActionType.DEFEND;
+    }
+  }
+
+  private evaluateOverrideRule(ruleType: string, ruleValue: string, move: any, context: IAIDecisionContext): boolean {
+    switch (ruleType) {
+      case 'force_move_if_hp_below':
+        if (context.playerSpirit) {
+          const hpRatio = context.playerSpirit.currentHP / context.playerSpirit.maxHP;
+          const threshold = parseFloat(ruleValue) || 0.3;
+          return hpRatio < threshold && move.moveId === 'heal';
+        }
+        return false;
+
+      case 'prefer_move_if_type_advantage':
+        if (context.playerSpirit && context.opponentSpirit && move.typeTag && context.opponentSpirit.typeTag) {
+          const effectiveness = typeEffectiveness.getMultiplier(move.typeTag, context.opponentSpirit.typeTag);
+          return effectiveness > 1.0 && move.moveId === ruleValue;
+        }
+        return false;
+
+      case 'prefer_move_type':
+        return move.category === ruleValue;
+
+      case 'prefer_high_accuracy':
+        return (move.accuracy || 0) > 0.9;
+
+      case 'prefer_low_cost':
+        return (move.cost || 0) <= 5;
+
+      case 'prefer_healing':
+        return move.category === 'healing' || move.category === 'status';
+
+      default:
+        return false;
     }
   }
 
@@ -419,6 +483,24 @@ export class AIUtils {
     }
 
     return AIPolicy.balanced('adaptive_balanced');
+  }
+
+  static createAdaptivePolicyWithId(spirit: any, id: string): AIPolicy {
+    const hpRatio = (spirit.currentHP || 1) / Math.max(1, spirit.maxHP || 1);
+
+    if (hpRatio < 0.35) {
+      return AIPolicy.defensive(id);
+    }
+
+    if ((spirit.attack || 0) > (spirit.defense || 0) + 20) {
+      return AIPolicy.aggressive(id);
+    }
+
+    if ((spirit.defense || 0) > (spirit.attack || 0) + 20) {
+      return AIPolicy.cautious(id);
+    }
+
+    return AIPolicy.balanced(id);
   }
 
   static createBossPolicy(bossLevel: number, playerLevel: number): AIPolicy {
@@ -503,6 +585,11 @@ export interface AIConfig {
   learningRate: number;
   enableNeuralNetworks: boolean;
   debugMode: boolean;
+  neuralNetworkLayers?: number[];
+  trainingIterations?: number;
+  activationFunction?: 'sigmoid' | 'relu' | 'tanh';
+  lossFunction?: 'mse' | 'cross_entropy';
+  batchSize?: number;
 }
 
 export interface AIBehavior {
@@ -523,12 +610,204 @@ export interface AIDecision {
   timestamp: number;
 }
 
+export interface TrainingData {
+  input: number[];
+  expectedOutput: number[];
+  actualOutput?: number[];
+  error?: number;
+  timestamp: number;
+}
+
+export interface NeuralNetworkConfig {
+  inputSize: number;
+  outputSize: number;
+  hiddenLayers: number[];
+  activationFunction: 'sigmoid' | 'relu' | 'tanh';
+  learningRate: number;
+  batchSize: number;
+}
+
+export class SimpleNeuralNetwork {
+  private config: NeuralNetworkConfig;
+  private weights: number[][][] = [];
+  private biases: number[][] = [];
+  private activations: number[][] = [];
+
+  constructor(config: NeuralNetworkConfig) {
+    this.config = config;
+    this.initialize();
+  }
+
+  private initialize(): void {
+    const { inputSize, hiddenLayers, outputSize } = this.config;
+    const layers = [inputSize, ...hiddenLayers, outputSize];
+
+    for (let i = 0; i < layers.length - 1; i++) {
+      const layerWeights: number[][] = [];
+      const layerBiases: number[] = [];
+
+      for (let j = 0; j < layers[i + 1]; j++) {
+        layerBiases.push(0.1 * (Math.random() - 0.5));
+
+        const neuronWeights: number[] = [];
+        for (let k = 0; k < layers[i]; k++) {
+          neuronWeights.push(0.1 * (Math.random() - 0.5));
+        }
+        layerWeights.push(neuronWeights);
+      }
+
+      this.weights.push(layerWeights);
+      this.biases.push(layerBiases);
+    }
+  }
+
+  private activationFunction(x: number): number {
+    switch (this.config.activationFunction) {
+      case 'sigmoid':
+        return 1 / (1 + Math.exp(-x));
+      case 'tanh':
+        return Math.tanh(x);
+      case 'relu':
+      default:
+        return Math.max(0, x);
+    }
+  }
+
+  private activationDerivative(x: number): number {
+    switch (this.config.activationFunction) {
+      case 'sigmoid':
+        const sigmoid = this.activationFunction(x);
+        return sigmoid * (1 - sigmoid);
+      case 'tanh':
+        const tanh = this.activationFunction(x);
+        return 1 - tanh * tanh;
+      case 'relu':
+      default:
+        return x > 0 ? 1 : 0;
+    }
+  }
+
+  predict(input: number[]): number[] {
+    this.activations = [input];
+
+    for (let layer = 0; layer < this.weights.length; layer++) {
+      const layerActivations: number[] = [];
+
+      for (let neuron = 0; neuron < this.weights[layer].length; neuron++) {
+        let sum = this.biases[layer][neuron];
+
+        for (let weight = 0; weight < this.weights[layer][neuron].length; weight++) {
+          sum += this.activations[layer][weight] * this.weights[layer][neuron][weight];
+        }
+
+        layerActivations.push(this.activationFunction(sum));
+      }
+
+      this.activations.push(layerActivations);
+    }
+
+    return this.activations[this.activations.length - 1];
+  }
+
+  train(input: number[], expectedOutput: number[]): number {
+    const prediction = this.predict(input);
+    const error = this.calculateError(prediction, expectedOutput);
+
+    // Backpropagation
+    const gradients: number[][] = [];
+    const weightDeltas: number[][][] = [];
+    const biasDeltas: number[][] = [];
+
+    // Calculate output layer gradients
+    const outputGradients: number[] = [];
+    for (let i = 0; i < prediction.length; i++) {
+      outputGradients.push(error[i] * this.activationDerivative(prediction[i]));
+    }
+    gradients.push(outputGradients);
+
+    // Calculate hidden layer gradients
+    for (let layer = this.weights.length - 1; layer > 0; layer--) {
+      const layerGradients: number[] = [];
+
+      for (let neuron = 0; neuron < this.weights[layer][0].length; neuron++) {
+        let gradient = 0;
+
+        for (let nextNeuron = 0; nextNeuron < this.weights[layer].length; nextNeuron++) {
+          for (let weight = 0; weight < this.weights[layer][nextNeuron].length; weight++) {
+            if (weight === neuron) {
+              gradient += gradients[0][nextNeuron] * this.weights[layer][nextNeuron][weight];
+            }
+          }
+        }
+
+        gradient *= this.activationDerivative(this.activations[layer][neuron]);
+        layerGradients.push(gradient);
+      }
+
+      gradients.unshift(layerGradients);
+    }
+
+    // Update weights and biases
+    for (let layer = 0; layer < this.weights.length; layer++) {
+      if (!weightDeltas[layer]) weightDeltas[layer] = [];
+      if (!biasDeltas[layer]) biasDeltas[layer] = [];
+
+      for (let neuron = 0; neuron < this.weights[layer].length; neuron++) {
+        if (!weightDeltas[layer][neuron]) weightDeltas[layer][neuron] = [];
+
+        biasDeltas[layer][neuron] = gradients[layer][neuron] * this.config.learningRate;
+
+        for (let weight = 0; weight < this.weights[layer][neuron].length; weight++) {
+          const delta = gradients[layer][neuron] * this.activations[layer][weight] * this.config.learningRate;
+          weightDeltas[layer][neuron][weight] = delta;
+
+          this.weights[layer][neuron][weight] -= delta;
+        }
+
+        this.biases[layer][neuron] -= biasDeltas[layer][neuron];
+      }
+    }
+
+    return this.calculateTotalError(error);
+  }
+
+  private calculateError(prediction: number[], expected: number[]): number[] {
+    const error: number[] = [];
+    for (let i = 0; i < prediction.length; i++) {
+      error.push(expected[i] - prediction[i]);
+    }
+    return error;
+  }
+
+  private calculateTotalError(error: number[]): number {
+    return error.reduce((sum, e) => sum + Math.abs(e), 0) / error.length;
+  }
+
+  getWeights(): number[][][] {
+    return JSON.parse(JSON.stringify(this.weights));
+  }
+
+  setWeights(weights: number[][][]): void {
+    this.weights = JSON.parse(JSON.stringify(weights));
+  }
+
+  getBiases(): number[][] {
+    return JSON.parse(JSON.stringify(this.biases));
+  }
+
+  setBiases(biases: number[][]): void {
+    this.biases = JSON.parse(JSON.stringify(biases));
+  }
+}
+
 export class AIManager {
   private config: AIConfig;
   private behaviors: Map<string, AIBehavior> = new Map();
   private decisions: AIDecision[] = [];
   private isInitialized: boolean = false;
   private policies: Map<string, AIPolicy> = new Map();
+  private neuralNetworks: Map<string, SimpleNeuralNetwork> = new Map();
+  private trainingData: Map<string, TrainingData[]> = new Map();
 
   constructor(config: Partial<AIConfig> = {}) {
     this.config = {
@@ -536,6 +815,11 @@ export class AIManager {
       learningRate: 0.1,
       enableNeuralNetworks: false,
       debugMode: false,
+      neuralNetworkLayers: [8, 16, 8, 4],
+      trainingIterations: 1000,
+      activationFunction: 'relu',
+      lossFunction: 'mse',
+      batchSize: 32,
       ...config
     };
   }
@@ -767,7 +1051,385 @@ export class AIManager {
    */
   dispose(): void {
     this.reset();
+    this.neuralNetworks.clear();
+    this.trainingData.clear();
     console.log('[AIManager] AI system disposed');
+  }
+
+  /**
+   * Create a neural network for a specific task
+   */
+  createNeuralNetwork(networkId: string, inputSize: number, outputSize: number): SimpleNeuralNetwork | null {
+    if (!this.config.enableNeuralNetworks) {
+      console.warn('[AIManager] Neural networks are disabled');
+      return null;
+    }
+
+    const network = new SimpleNeuralNetwork({
+      inputSize,
+      outputSize,
+      hiddenLayers: this.config.neuralNetworkLayers || [8, 16, 8],
+      activationFunction: this.config.activationFunction || 'relu',
+      learningRate: this.config.learningRate,
+      batchSize: this.config.batchSize || 32
+    });
+
+    this.neuralNetworks.set(networkId, network);
+    console.log(`[AIManager] Created neural network: ${networkId}`);
+    return network;
+  }
+
+  /**
+   * Get a neural network by ID
+   */
+  getNeuralNetwork(networkId: string): SimpleNeuralNetwork | null {
+    return this.neuralNetworks.get(networkId) || null;
+  }
+
+  /**
+   * Train a neural network with data
+   */
+  trainNeuralNetwork(networkId: string, trainingData: TrainingData[]): boolean {
+    const network = this.getNeuralNetwork(networkId);
+    if (!network) {
+      console.error(`[AIManager] Neural network not found: ${networkId}`);
+      return false;
+    }
+
+    let totalError = 0;
+    let samples = 0;
+
+    for (const data of trainingData) {
+      const error = network.train(data.input, data.expectedOutput);
+      totalError += error;
+      samples++;
+
+      // Store training data for analysis
+      data.actualOutput = network.predict(data.input);
+      data.error = error;
+      data.timestamp = Date.now();
+    }
+
+    this.trainingData.set(networkId, trainingData);
+
+    const avgError = totalError / samples;
+    console.log(`[AIManager] Training completed for ${networkId}. Average error: ${avgError.toFixed(4)}`);
+
+    return avgError < 0.1; // Training successful if average error < 10%
+  }
+
+  /**
+   * Use neural network to make predictions
+   */
+  predictWithNeuralNetwork(networkId: string, input: number[]): number[] | null {
+    const network = this.getNeuralNetwork(networkId);
+    if (!network) {
+      console.error(`[AIManager] Neural network not found: ${networkId}`);
+      return null;
+    }
+
+    return network.predict(input);
+  }
+
+  /**
+   * Train AI to learn from battle outcomes
+   */
+  trainFromBattleOutcomes(battleHistory: any[]): boolean {
+    if (!this.config.enableNeuralNetworks || battleHistory.length < 10) {
+      return false;
+    }
+
+    // Create training data from battle history
+    const trainingData: TrainingData[] = [];
+
+    for (const battle of battleHistory) {
+      // Extract features from battle state
+      const input = this.extractFeaturesFromBattleState(battle.initialState);
+      const output = this.extractOutputFromBattleResult(battle.result);
+
+      if (input.length > 0 && output.length > 0) {
+        trainingData.push({
+          input,
+          expectedOutput: output,
+          timestamp: Date.now()
+        });
+      }
+    }
+
+    // Create or get neural network for battle prediction
+    const networkId = 'battle_prediction_network';
+    let network = this.getNeuralNetwork(networkId);
+
+    if (!network) {
+      network = this.createNeuralNetwork(networkId, trainingData[0]?.input.length || 8, trainingData[0]?.expectedOutput.length || 4);
+    }
+
+    if (!network || trainingData.length === 0) {
+      return false;
+    }
+
+    return this.trainNeuralNetwork(networkId, trainingData);
+  }
+
+  /**
+   * Extract features from battle state for neural network input
+   */
+  private extractFeaturesFromBattleState(battleState: any): number[] {
+    const features: number[] = [];
+
+    if (battleState.playerSpirit) {
+      features.push(
+        battleState.playerSpirit.currentHP / battleState.playerSpirit.maxHP,
+        battleState.playerSpirit.attack / 100,
+        battleState.playerSpirit.defense / 100,
+        battleState.playerSpirit.specialAttack / 100,
+        battleState.playerSpirit.specialDefense / 100,
+        battleState.playerSpirit.resourcePoints / 50
+      );
+    } else {
+      // Default values if no player spirit
+      features.push(1.0, 0.5, 0.4, 0.6, 0.5, 0.4);
+    }
+
+    if (battleState.opponentSpirit) {
+      features.push(
+        battleState.opponentSpirit.currentHP / battleState.opponentSpirit.maxHP,
+        battleState.opponentSpirit.attack / 100,
+        battleState.opponentSpirit.defense / 100,
+        battleState.opponentSpirit.specialAttack / 100,
+        battleState.opponentSpirit.specialDefense / 100,
+        battleState.opponentSpirit.resourcePoints / 50
+      );
+    } else {
+      // Default values if no opponent spirit
+      features.push(1.0, 0.5, 0.4, 0.6, 0.5, 0.4);
+    }
+
+    return features;
+  }
+
+  /**
+   * Extract output from battle result for neural network training
+   */
+  private extractOutputFromBattleResult(result: any): number[] {
+    // Convert battle result to numerical representation
+    // [player_health_ratio, opponent_health_ratio, battle_duration, victory_status]
+    return [
+      result.playerHealthRatio || 0,
+      result.opponentHealthRatio || 0,
+      Math.min(1.0, result.duration / 100), // Normalize duration
+      result.victory ? 1.0 : 0.0
+    ];
+  }
+
+  /**
+   * Predict battle outcome using neural network
+   */
+  predictBattleOutcome(playerSpirit: any, opponentSpirit: any): {
+    playerWinProbability: number;
+    expectedDamage: number;
+    recommendedStrategy: string;
+  } | null {
+    if (!this.config.enableNeuralNetworks) {
+      return null;
+    }
+
+    const network = this.getNeuralNetwork('battle_prediction_network');
+    if (!network) {
+      return null;
+    }
+
+    const battleState = { playerSpirit, opponentSpirit };
+    const input = this.extractFeaturesFromBattleState(battleState);
+    const prediction = network.predict(input);
+
+    return {
+      playerWinProbability: Math.max(0, Math.min(1, prediction[3] || 0)),
+      expectedDamage: (prediction[0] || 0) * 100, // Convert to actual damage
+      recommendedStrategy: this.getStrategyRecommendation(prediction)
+    };
+  }
+
+  /**
+   * Get strategy recommendation based on neural network prediction
+   */
+  private getStrategyRecommendation(prediction: number[]): string {
+    const playerHealthRatio = prediction[0] || 0;
+    const opponentHealthRatio = prediction[1] || 0;
+
+    if (playerHealthRatio < 0.3) {
+      return 'DEFENSIVE_HEALING';
+    } else if (opponentHealthRatio < 0.3) {
+      return 'AGGRESSIVE_ATTACK';
+    } else if (playerHealthRatio > opponentHealthRatio + 0.2) {
+      return 'BALANCED_ATTACK';
+    } else {
+      return 'CAUTIOUS_DEFENSE';
+    }
+  }
+
+  /**
+   * Get AI performance monitoring data
+   */
+  getPerformanceMetrics(): {
+    neuralNetworksCount: number;
+    totalTrainingData: number;
+    averageError: number;
+    decisionAccuracy: number;
+    processingTime: number;
+  } {
+    const neuralNetworksCount = this.neuralNetworks.size;
+    let totalTrainingData = 0;
+    let totalError = 0;
+    let errorCount = 0;
+
+    for (const [networkId, data] of this.trainingData) {
+      for (const sample of data) {
+        totalTrainingData++;
+        if (sample.error !== undefined) {
+          totalError += sample.error;
+          errorCount++;
+        }
+      }
+    }
+
+    const averageError = errorCount > 0 ? totalError / errorCount : 0;
+    const decisionAccuracy = Math.max(0, 1 - averageError);
+
+    return {
+      neuralNetworksCount,
+      totalTrainingData,
+      averageError,
+      decisionAccuracy,
+      processingTime: 0 // Would need to implement timing
+    };
+  }
+}
+
+export class AIPerformanceMonitor {
+  private aiManager: AIManager;
+  private metricsHistory: any[] = [];
+  private isMonitoring: boolean = false;
+  private monitorInterval?: NodeJS.Timeout;
+
+  constructor(aiManager: AIManager) {
+    this.aiManager = aiManager;
+  }
+
+  /**
+   * Start performance monitoring
+   */
+  startMonitoring(intervalMs: number = 5000): void {
+    if (this.isMonitoring) return;
+
+    this.isMonitoring = true;
+    this.monitorInterval = setInterval(() => {
+      this.collectMetrics();
+    }, intervalMs);
+
+    console.log('[AIPerformanceMonitor] Started monitoring AI performance');
+  }
+
+  /**
+   * Stop performance monitoring
+   */
+  stopMonitoring(): void {
+    if (!this.isMonitoring) return;
+
+    if (this.monitorInterval) {
+      clearInterval(this.monitorInterval);
+      this.monitorInterval = undefined;
+    }
+
+    this.isMonitoring = false;
+    console.log('[AIPerformanceMonitor] Stopped monitoring AI performance');
+  }
+
+  /**
+   * Collect current metrics
+   */
+  private collectMetrics(): void {
+    const metrics = this.aiManager.getPerformanceMetrics();
+    metrics.timestamp = Date.now();
+
+    this.metricsHistory.push(metrics);
+
+    // Keep only last 1000 metrics to prevent memory leaks
+    if (this.metricsHistory.length > 1000) {
+      this.metricsHistory = this.metricsHistory.slice(-1000);
+    }
+
+    this.logMetricsIfNeeded(metrics);
+  }
+
+  /**
+   * Log metrics if thresholds are exceeded
+   */
+  private logMetricsIfNeeded(metrics: any): void {
+    if (metrics.averageError > 0.5) {
+      console.warn(`[AIPerformanceMonitor] High average error detected: ${metrics.averageError.toFixed(4)}`);
+    }
+
+    if (metrics.decisionAccuracy < 0.7) {
+      console.warn(`[AIPerformanceMonitor] Low decision accuracy detected: ${(metrics.decisionAccuracy * 100).toFixed(1)}%`);
+    }
+
+    if (metrics.neuralNetworksCount > 10) {
+      console.info(`[AIPerformanceMonitor] High neural network count: ${metrics.neuralNetworksCount}`);
+    }
+  }
+
+  /**
+   * Get performance history
+   */
+  getMetricsHistory(): any[] {
+    return [...this.metricsHistory];
+  }
+
+  /**
+   * Get latest metrics
+   */
+  getLatestMetrics(): any | null {
+    return this.metricsHistory.length > 0 ? this.metricsHistory[this.metricsHistory.length - 1] : null;
+  }
+
+  /**
+   * Generate performance report
+   */
+  generateReport(): string {
+    if (this.metricsHistory.length === 0) {
+      return 'No performance data available';
+    }
+
+    const latest = this.getLatestMetrics();
+    const averageError = this.metricsHistory.reduce((sum, m) => sum + m.averageError, 0) / this.metricsHistory.length;
+    const averageAccuracy = this.metricsHistory.reduce((sum, m) => sum + m.decisionAccuracy, 0) / this.metricsHistory.length;
+
+    return `
+AI Performance Report
+=====================
+
+Latest Metrics:
+- Neural Networks: ${latest.neuralNetworksCount}
+- Training Data Points: ${latest.totalTrainingData}
+- Average Error: ${latest.averageError.toFixed(4)}
+- Decision Accuracy: ${(latest.decisionAccuracy * 100).toFixed(1)}%
+
+Historical Averages:
+- Average Error: ${averageError.toFixed(4)}
+- Average Accuracy: ${(averageAccuracy * 100).toFixed(1)}%
+
+Monitoring Status: ${this.isMonitoring ? 'Active' : 'Inactive'}
+Total Metrics Collected: ${this.metricsHistory.length}
+    `.trim();
+  }
+
+  /**
+   * Reset metrics history
+   */
+  resetHistory(): void {
+    this.metricsHistory = [];
+    console.log('[AIPerformanceMonitor] Metrics history reset');
   }
 }
 

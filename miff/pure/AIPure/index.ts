@@ -8,6 +8,8 @@ export {
   AIActionType,
   AIPolicyType,
 } from './Manager';
+
+// Re-export CombatPure types and classes
 export type {
   ActionSource,
   CombatResult,
@@ -20,6 +22,16 @@ export type {
   Action,
   CombatState
 } from '../CombatPure/engine';
+export {
+  TypeEffectiveness,
+  MoveData,
+  SpiritInstance,
+  DamageCalculator,
+  BattleEngine,
+  CombatUtils,
+} from '../CombatPure/engine';
+
+// Re-export ItemsPure types
 export type {
   ItemType,
   ItemRarity,
@@ -29,11 +41,3 @@ export type {
   ISpiritInstance,
   IItemEffectContext
 } from '../ItemsPure';
-export {
-  TypeEffectiveness,
-  MoveData,
-  SpiritInstance,
-  DamageCalculator,
-  BattleEngine,
-  CombatUtils,
-} from '../CombatPure/engine';
