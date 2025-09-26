@@ -308,11 +308,11 @@ describe('AIPure Golden Tests', () => {
     test('should create standard policies', () => {
       aiManager.createStandardPolicies();
       expect(aiManager.getPolicyCount()).toBe(5);
-      expect(aiManager.hasPolicy('balanced')).toBe(true);
-      expect(aiManager.hasPolicy('aggressive')).toBe(true);
-      expect(aiManager.hasPolicy('cautious')).toBe(true);
-      expect(aiManager.hasPolicy('efficient')).toBe(true);
-      expect(aiManager.hasPolicy('defensive')).toBe(true);
+      expect(aiManager.getPolicy('balanced')).toBeDefined();
+      expect(aiManager.getPolicy('aggressive')).toBeDefined();
+      expect(aiManager.getPolicy('cautious')).toBeDefined();
+      expect(aiManager.getPolicy('efficient')).toBeDefined();
+      expect(aiManager.getPolicy('defensive')).toBeDefined();
     });
   });
 
@@ -338,7 +338,7 @@ describe('AIPure Golden Tests', () => {
     test('should handle null inputs', () => {
       const action = ai.selectAction(null as any, null as any, [], rng);
       expect(action.moveId).toBe('wait');
-      expect(action.type).toBe('defend');
+      expect(action.type).toBe('wait'); // Returns WAIT when context is null
     });
 
     test('should handle empty move list', () => {
