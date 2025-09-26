@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="splash-screen" class="splash-screen">
+    <div id="splash-screen" class="splash-screen" onclick="skipSplash()">
         <div class="splash-content">
             <div class="splash-logo">
                 <svg width="80" height="80" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -44,6 +44,7 @@
             <p class="splash-tagline">MAKE IT FOR FREE</p>
             <p class="splash-subtitle">Modular Interactive Framework for the Future</p>
             <div class="splash-spinner"></div>
+            <p class="splash-hint">Click anywhere to continue</p>
         </div>
     </div>
 
@@ -171,5 +172,27 @@
     </div>
 
     <script src="assets/script.js"></script>
+    <script>
+        // Bulletproof splash screen function
+        function skipSplash() {
+            console.log('Splash screen clicked - skipping');
+            const splashScreen = document.getElementById('splash-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            if (splashScreen) {
+                splashScreen.style.display = 'none';
+            }
+            if (mainContent) {
+                mainContent.style.display = 'block';
+                mainContent.style.opacity = '1';
+            }
+        }
+        
+        // Auto-skip after 3 seconds
+        setTimeout(function() {
+            console.log('Auto-skipping splash screen');
+            skipSplash();
+        }, 3000);
+    </script>
 </body>
 </html>

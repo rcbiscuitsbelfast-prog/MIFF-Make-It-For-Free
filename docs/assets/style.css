@@ -906,6 +906,18 @@ body {
   margin: 0 auto;
 }
 
+.splash-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  animation: fadeInUp 1s ease-out 1.2s both;
+  cursor: pointer;
+}
+
+.splash-screen {
+  cursor: pointer;
+}
+
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
