@@ -80,11 +80,11 @@ jobs:
           echo "⚠️ /site directory not found"
         fi
 
-        # Copy RenderWorld Hub bundle into docs/dist/renderworld-hub
+        # Copy RenderWorld Hub bundle into docs/dist/renderworld
         if [ -d "renderworld-hub/docs" ]; then
-          mkdir -p docs/dist/renderworld-hub
-          rsync -a --delete renderworld-hub/docs/ docs/dist/renderworld-hub/
-          echo "✅ RenderWorld Hub assets copied to docs/dist/renderworld-hub"
+          mkdir -p docs/dist/renderworld
+          rsync -a --delete renderworld-hub/docs/ docs/dist/renderworld/
+          echo "✅ RenderWorld Hub assets copied to docs/dist/renderworld"
         else
           echo "⚠️ RenderWorld Hub docs assets not found"
         fi
