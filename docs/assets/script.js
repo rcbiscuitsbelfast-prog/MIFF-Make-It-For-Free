@@ -1,6 +1,5 @@
 // MIFF Landing Page JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    const splashScreen = document.getElementById('splash-screen');
     const mainContent = document.getElementById('main-content');
     const themeToggle = document.getElementById('theme-toggle');
 
@@ -23,24 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Show splash screen for 2-3 seconds, then fade to main content
-    setTimeout(() => {
-        if (splashScreen && mainContent) {
-            splashScreen.style.opacity = '0';
-            splashScreen.style.transition = 'opacity 1s ease-out';
-
-            setTimeout(() => {
-                splashScreen.style.display = 'none';
-                mainContent.style.display = 'block';
-                mainContent.style.opacity = '0';
-                mainContent.style.transition = 'opacity 1s ease-in';
-
-                setTimeout(() => {
-                    mainContent.style.opacity = '1';
-                }, 100);
-            }, 1000);
-        }
-    }, 2000);
+    // No splash screen - show main content immediately
+    if (mainContent) {
+        mainContent.style.display = 'block';
+        mainContent.style.opacity = '1';
+    }
 
     // Add click effects to experience cards
     document.querySelectorAll('.experience-card').forEach(card => {

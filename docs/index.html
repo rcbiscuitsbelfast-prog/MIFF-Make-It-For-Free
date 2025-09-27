@@ -12,42 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="splash-screen" class="splash-screen">
-        <div class="splash-content">
-            <div class="splash-logo">
-                <svg width="80" height="80" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="splashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
-                        </linearGradient>
-                        <filter id="splashGlow">
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                            <feMerge>
-                                <feMergeNode in="coloredBlur"/>
-                                <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                        </filter>
-                    </defs>
-                    <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
-                          fill="url(#splashGradient)" filter="url(#splashGlow)" opacity="0.9"/>
-                    <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
-                          fill="url(#splashGradient)" filter="url(#splashGlow)" opacity="0.8"/>
-                    <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
-                          fill="url(#splashGradient)" filter="url(#splashGlow)" opacity="0.9"/>
-                    <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
-                          fill="url(#splashGradient)" filter="url(#splashGlow)" opacity="0.7"/>
-                    <circle cx="40" cy="40" r="8" fill="url(#splashGradient)" opacity="0.5"/>
-                </svg>
-            </div>
-            <h1 class="splash-title">MIFF</h1>
-            <p class="splash-tagline">MAKE IT FOR FREE</p>
-            <p class="splash-subtitle">Modular Interactive Framework for the Future</p>
-            <div class="splash-spinner"></div>
-        </div>
-    </div>
-
-    <div id="main-content" style="display: none;">
+    <div id="main-content">
         <!-- Header -->
         <header class="header">
             <div class="container">
