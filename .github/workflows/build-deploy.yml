@@ -42,14 +42,30 @@ jobs:
         cd docs
         npm run build
 
-    - name: Copy RenderWorld Hub
+    - name: Copy custom website files
       run: |
-        if [ -f "docs/renderworld-hub.js" ] && [ -f "docs/index.html" ]; then
-          cp docs/renderworld-hub.js docs/dist/
+        # Copy custom index.html to override Astro-generated one
+        if [ -f "docs/index.html" ]; then
           cp docs/index.html docs/dist/
-          echo "✅ RenderWorld Hub files copied to dist"
+          echo "✅ Custom index.html copied to dist"
         else
-          echo "⚠️ RenderWorld Hub files not found"
+          echo "⚠️ Custom index.html not found"
+        fi
+        
+        # Copy custom assets
+        if [ -d "docs/assets" ]; then
+          cp -r docs/assets docs/dist/
+          echo "✅ Custom assets copied to dist"
+        else
+          echo "⚠️ Custom assets directory not found"
+        fi
+        
+        # Copy RenderWorld Hub if it exists
+        if [ -f "docs/renderworld-hub.js" ]; then
+          cp docs/renderworld-hub.js docs/dist/
+          echo "✅ RenderWorld Hub file copied to dist"
+        else
+          echo "⚠️ RenderWorld Hub file not found"
         fi
 
     - name: Verify SplashScreenPure integration
