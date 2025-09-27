@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Show splash screen for 2-3 seconds, then fade to main content
+    // Show splash screen for 1 second, then fade to main content
     console.log('Splash screen element:', splashScreen);
     console.log('Main content element:', mainContent);
     
@@ -32,20 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (splashScreen && mainContent) {
             console.log('Elements found, starting transition');
             splashScreen.style.opacity = '0';
-            splashScreen.style.transition = 'opacity 1s ease-out';
+            splashScreen.style.transition = 'opacity 0.5s ease-out';
 
             setTimeout(() => {
                 console.log('Hiding splash screen, showing main content');
                 splashScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 mainContent.style.opacity = '0';
-                mainContent.style.transition = 'opacity 1s ease-in';
+                mainContent.style.transition = 'opacity 0.5s ease-in';
 
                 setTimeout(() => {
                     console.log('Main content should be visible now');
                     mainContent.style.opacity = '1';
-                }, 100);
-            }, 1000);
+                }, 50);
+            }, 500);
         } else {
             console.log('Splash screen or main content not found!');
             // Emergency fallback
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 mainContent.style.opacity = '1';
             }
         }
-    }, 2000);
+    }, 1000);
 
     // Add click handler to skip splash screen if it gets stuck
     if (splashScreen) {

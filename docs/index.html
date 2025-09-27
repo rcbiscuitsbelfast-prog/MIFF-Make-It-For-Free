@@ -205,11 +205,24 @@
             }
         }
         
-        // Auto-skip after 3 seconds
+        // Navigation function with error handling
+        function navigateTo(path) {
+            try {
+                console.log(`Navigating to: ${path}`);
+                // Direct navigation without path normalization
+                window.location.href = path;
+            } catch (error) {
+                console.error('Navigation failed:', error);
+                // Fallback: try direct navigation
+                window.location.href = path;
+            }
+        }
+        
+        // Auto-skip after 1 second
         setTimeout(function() {
             console.log('Auto-skipping splash screen');
             skipSplash();
-        }, 3000);
+        }, 1000);
         
         // Force font loading
         document.addEventListener('DOMContentLoaded', function() {
