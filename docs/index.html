@@ -16,7 +16,7 @@
         <header class="header">
             <div class="container">
                 <div class="logo">
-                    <a href="#" aria-label="MIFF Home" class="menu-logo">
+                    <a href="#" aria-label="Open menu" class="menu-logo" id="menuToggle">
                         <img src="image_1758956766781.svg" alt="MIFF Logo" width="60" height="60" onerror="this.onerror=null;this.src='image_1758956766781.jpeg'" />
                     </a>
                     <span class="logo-text">MIFF</span>
@@ -27,6 +27,14 @@
                     <a href="#experiences">Experiences</a>
                     <a href="#docs">Documentation</a>
                 </nav>
+                <!-- Menu Panel -->
+                <div id="menu-panel" class="menu-panel" aria-hidden="true">
+                    <a href="site/sampler/">🎮 Sampler</a>
+                    <a href="site/studio/">🛠️ Studio</a>
+                    <a href="site/remix/">🌐 RenderWorld Hub</a>
+                    <a href="docs/">📚 Documentation</a>
+                    <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">💖 Support on Ko‑fi</a>
+                </div>
             </div>
         </header>
 
@@ -42,21 +50,21 @@
 
                 <!-- Experience Cards -->
                 <div class="experiences-grid">
-                    <div class="experience-card" onclick="navigateTo('sampler/')">
+                    <div class="experience-card" onclick="navigateTo('site/sampler/')">
                         <div class="card-icon">🎮</div>
                         <h3>MIFF Sampler</h3>
                         <p>Explore interactive game demos showcasing MIFF's modular capabilities</p>
                         <div class="card-arrow">→</div>
                     </div>
 
-                    <div class="experience-card" onclick="navigateTo('studio/')">
+                    <div class="experience-card" onclick="navigateTo('site/studio/')">
                         <div class="card-icon">🛠️</div>
                         <h3>MIFF Studio</h3>
                         <p>Advanced scene builder and development environment</p>
                         <div class="card-arrow">→</div>
                     </div>
 
-                    <div class="experience-card" onclick="navigateTo('renderworld/')">
+                    <div class="experience-card" onclick="navigateTo('site/remix/')">
                         <div class="card-icon">🌐</div>
                         <h3>RenderWorld Hub</h3>
                         <p>Real-time AI-native game preview engine and demo hub</p>
@@ -105,6 +113,7 @@
                         <h4>Quick Links</h4>
                         <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub Repository</a>
                         <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/issues" target="_blank">Issues & Support</a>
+                        <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">Ko‑fi</a>
                     </div>
                     <div class="footer-section">
                         <h4>License</h4>
