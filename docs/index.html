@@ -26,6 +26,22 @@
         .hero-title, .hero-subtitle, .hero-description, .logo-text, .nav a, .btn, .footer-link {
             font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
         }
+        
+        /* Ensure buttons are clickable */
+        .experience-card {
+            cursor: pointer !important;
+            pointer-events: auto !important;
+        }
+        
+        .experience-card:hover {
+            cursor: pointer !important;
+        }
+        
+        /* Force button interactions */
+        button, .btn, .theme-toggle {
+            cursor: pointer !important;
+            pointer-events: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -237,8 +253,20 @@
         </footer>
     </div>
 
-    <script src="assets/script.js"></script>
     <script>
+        // Navigation function with error handling - MUST BE FIRST
+        function navigateTo(path) {
+            try {
+                console.log(`Navigating to: ${path}`);
+                // Direct navigation without path normalization
+                window.location.href = path;
+            } catch (error) {
+                console.error('Navigation failed:', error);
+                // Fallback: try direct navigation
+                window.location.href = path;
+            }
+        }
+        
         // Bulletproof splash screen function
         function skipSplash() {
             console.log('Splash screen clicked - skipping');
@@ -259,19 +287,9 @@
             console.log('Auto-skipping splash screen');
             skipSplash();
         }, 1000);
-        
-        // Navigation function with error handling
-        function navigateTo(path) {
-            try {
-                console.log(`Navigating to: ${path}`);
-                // Direct navigation without path normalization
-                window.location.href = path;
-            } catch (error) {
-                console.error('Navigation failed:', error);
-                // Fallback: try direct navigation
-                window.location.href = path;
-            }
-        }
+    </script>
+    <script src="assets/script.js"></script>
+    <script>
         
         // Menu functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -333,6 +351,34 @@
             const allElements = document.querySelectorAll('*');
             allElements.forEach(function(element) {
                 element.style.fontFamily = "'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace";
+            });
+        });
+        
+        // Test navigation function immediately
+        console.log('navigateTo function available:', typeof navigateTo);
+        
+        // Force enable all interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Force enable all buttons and clickable elements
+            const clickableElements = document.querySelectorAll('.experience-card, button, .btn, .theme-toggle');
+            clickableElements.forEach(function(element) {
+                element.style.pointerEvents = 'auto';
+                element.style.cursor = 'pointer';
+                element.style.userSelect = 'none';
+            });
+            
+            // Add click handlers to experience cards as backup
+            const experienceCards = document.querySelectorAll('.experience-card');
+            experienceCards.forEach(function(card) {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const onclick = card.getAttribute('onclick');
+                    if (onclick) {
+                        console.log('Card clicked, executing:', onclick);
+                        eval(onclick);
+                    }
+                });
             });
         });
     </script>
