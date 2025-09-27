@@ -56,19 +56,28 @@
             </p>
 
             <!-- Main RenderWorld Demo Container -->
-            <div class="renderworld-container">
-                <div class="renderworld-placeholder" id="renderworld-placeholder">
-                    <div class="renderworld-spinner"></div>
-                    <h3>Loading RenderWorld Hub...</h3>
-                    <p>Initializing 60fps AI-native preview engine</p>
+            <div id="game-container">
+                <canvas id="render-canvas"></canvas>
+                <div id="ui-overlay">
+                    <div id="instructions">
+                        <h3>🎮 RenderWorld Hub Controls</h3>
+                        <ul>
+                            <li><span class="key">WASD</span> - Move around</li>
+                            <li><span class="key">Mouse</span> - Look around</li>
+                            <li><span class="key">E</span> - Use Spirit Lens (scan)</li>
+                            <li><span class="key">Space</span> - Jump</li>
+                            <li><span class="key">ESC</span> - Pause/Resume</li>
+                            <li><span class="key">Click NPCs</span> - Start dialogue</li>
+                        </ul>
+                    </div>
+                    <div id="crosshair"></div>
+                    <div id="notification"></div>
                 </div>
-                <iframe
-                    id="renderworld-iframe"
-                    class="renderworld-iframe"
-                    src="about:blank"
-                    onload="onRenderWorldLoad()"
-                    style="display: none;">
-                </iframe>
+                <div id="error-display" style="display:none;">
+                    <div class="error-title">⚠️ RenderWorld Error</div>
+                    <div class="error-message" id="error-message">Failed to initialize WebGL context.</div>
+                    <button class="retry-button" id="retry-button">Retry</button>
+                </div>
             </div>
 
             <div class="feature-highlight">
@@ -230,59 +239,57 @@
                 });
             }
 
-            // Initialize RenderWorld demo
+            // Initialize RenderWorld
             setTimeout(() => {
-                loadDemo('warehouse');
-            }, 2000);
+                loadDemo();
+            }, 1000);
         });
 
-        // RenderWorld demo loading functionality
-        function loadDemo(demoType) {
-            const placeholder = document.getElementById('renderworld-placeholder');
-            const iframe = document.getElementById('renderworld-iframe');
+        // RenderWorld initialization
+        async function loadDemo() {
+            try {
+                const canvas = document.getElementById('render-canvas');
+                if (!canvas) throw new Error('Canvas element not found');
 
-            // Show loading state
-            placeholder.innerHTML = `
-                <div class="renderworld-spinner"></div>
-                <h3>Loading ${demoType}...</h3>
-                <p>Initializing ${demoType} demo experience</p>
-            `;
-
-            // Simulate loading different demo types
-            setTimeout(() => {
-                let demoUrl = '';
-                let demoTitle = '';
-
-                switch(demoType) {
-                    case 'warehouse':
-                        demoTitle = 'Industrial Warehouse Hub';
-                        // Enhanced demo with interactive elements
-                        demoUrl = 'data:text/html,<html><head><style>body{margin:0;padding:20px;font-family:JetBrains Mono,monospace;background:linear-gradient(135deg,#000,#111);color:#00ff88;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}h1{font-size:3rem;margin-bottom:1rem;text-shadow:0 0 20px #00ff88;}p{font-size:1.2rem;margin:1rem 0;opacity:0.8;}.demo-controls{display:flex;gap:1rem;margin-top:2rem;}.btn{background:#00ff88;color:#000;border:none;padding:1rem 2rem;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600;transition:all 0.3s;}.btn:hover{background:#00cc66;transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,255,136,0.3);}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2rem;}.stat{background:rgba(0,255,136,0.1);padding:1rem;border-radius:8px;border:1px solid rgba(0,255,136,0.3);}</style></head><body><h1>🏭 Industrial Warehouse</h1><p>Superhot-inspired aesthetics with AI NPCs and interactive elements</p><div class="demo-controls"><button class="btn" onclick="alert(\'NPC Interaction Demo\')">Talk to NPCs</button><button class="btn" onclick="alert(\'Scanner Demo\')">Use Scanner</button><button class="btn" onclick="alert(\'Portal Demo\')">Enter Portal</button></div><div class="stats"><div class="stat"><h3>60 FPS</h3><p>Real-time rendering</p></div><div class="stat"><h3>AI NPCs</h3><p>Dynamic behaviors</p></div><div class="stat"><h3>WebGL</h3><p>3D graphics</p></div></div><script>console.log(\'Warehouse demo loaded\');</script></body></html>';
-                        break;
-                    case 'scanner':
-                        demoTitle = 'Spirit Lens Scanner';
-                        demoUrl = 'data:text/html,<html><head><style>body{margin:0;padding:20px;font-family:JetBrains Mono,monospace;background:linear-gradient(135deg,#001122,#003366);color:#00ff88;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}h1{font-size:3rem;margin-bottom:1rem;text-shadow:0 0 20px #00ff88;}.scanner{width:200px;height:200px;border:3px solid #00ff88;border-radius:50%;margin:2rem auto;position:relative;animation:scan 2s linear infinite;}.scanner::before{content:\'\';position:absolute;top:50%;left:50%;width:4px;height:4px;background:#00ff88;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 20px #00ff88;}.controls{display:flex;gap:1rem;margin-top:2rem;}.btn{background:#00ff88;color:#000;border:none;padding:1rem 2rem;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600;}.btn:hover{background:#00cc66;}@keyframes scan{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}</style></head><body><h1>🔮 Spirit Lens Scanner</h1><p>Interactive scanning device that reveals hidden paths</p><div class="scanner"></div><div class="controls"><button class="btn" onclick="alert(\'Scanning for hidden objects...\')">Scan Area</button><button class="btn" onclick="alert(\'Revealing hidden paths...\')">Reveal Paths</button></div><script>console.log(\'Scanner demo loaded\');</script></body></html>';
-                        break;
-                    case 'portals':
-                        demoTitle = 'Portal Navigation';
-                        demoUrl = 'data:text/html,<html><head><style>body{margin:0;padding:20px;font-family:JetBrains Mono,monospace;background:linear-gradient(135deg,#002200,#004400);color:#00ff88;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}h1{font-size:3rem;margin-bottom:1rem;text-shadow:0 0 20px #00ff88;}.portals{display:flex;gap:2rem;margin:2rem 0;}.portal{width:120px;height:160px;border:3px solid #00ff88;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;background:rgba(0,255,136,0.1);}.portal:hover{transform:scale(1.1);box-shadow:0 0 30px rgba(0,255,136,0.5);}.portal-icon{font-size:2rem;margin-bottom:0.5rem;}.portal-label{font-size:0.9rem;}</style></head><body><h1>🚪 Portal Hub</h1><p>Three glowing doorways to different demo worlds</p><div class="portals"><div class="portal" onclick="alert(\'Entering Game World...\')"><div class="portal-icon">🎮</div><div class="portal-label">Game World</div></div><div class="portal" onclick="alert(\'Entering Studio...\')"><div class="portal-icon">🛠️</div><div class="portal-label">Studio</div></div><div class="portal" onclick="alert(\'Entering Docs...\')"><div class="portal-icon">📚</div><div class="portal-label">Documentation</div></div></div><script>console.log(\'Portal demo loaded\');</script></body></html>';
-                        break;
-                    case 'npcs':
-                        demoTitle = 'AI NPCs';
-                        demoUrl = 'data:text/html,<html><head><style>body{margin:0;padding:20px;font-family:JetBrains Mono,monospace;background:linear-gradient(135deg,#220011,#440022);color:#00ff88;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}h1{font-size:3rem;margin-bottom:1rem;text-shadow:0 0 20px #00ff88;}.npcs{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin:2rem 0;}.npc{background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);border-radius:12px;padding:1.5rem;cursor:pointer;transition:all 0.3s;}.npc:hover{transform:translateY(-4px);box-shadow:0 4px 20px rgba(0,255,136,0.3);}.npc-icon{font-size:2rem;margin-bottom:0.5rem;}.npc-name{font-weight:600;margin-bottom:0.5rem;}.npc-desc{font-size:0.9rem;opacity:0.8;}</style></head><body><h1>🤖 AI NPCs</h1><p>Dynamic characters with realistic behaviors</p><div class="npcs"><div class="npc" onclick="alert(\'Hello! I am an AI NPC with dynamic behavior.\')"><div class="npc-icon">🧑‍💼</div><div class="npc-name">Manager</div><div class="npc-desc">Warehouse supervisor</div></div><div class="npc" onclick="alert(\'Greetings! I can help you navigate the facility.\')"><div class="npc-icon">👷</div><div class="npc-name">Worker</div><div class="npc-desc">Facility assistant</div></div><div class="npc" onclick="alert(\'Welcome! I am here to guide you.\')"><div class="npc-icon">🔬</div><div class="npc-name">Scientist</div><div class="npc-desc">Research specialist</div></div><div class="npc" onclick="alert(\'Hi there! Ready for an adventure?\')"><div class="npc-icon">🎮</div><div class="npc-name">Guide</div><div class="npc-desc">Demo assistant</div></div></div><script>console.log(\'NPC demo loaded\');</script></body></html>';
-                        break;
-                    default:
-                        demoTitle = 'RenderWorld Hub';
-                        demoUrl = 'data:text/html,<html><head><style>body{margin:0;padding:20px;font-family:JetBrains Mono,monospace;background:linear-gradient(135deg,#000,#111);color:#00ff88;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}h1{font-size:3rem;margin-bottom:1rem;text-shadow:0 0 20px #00ff88;}.features{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin:2rem 0;}.feature{background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.3);border-radius:12px;padding:1.5rem;}.feature-icon{font-size:2rem;margin-bottom:0.5rem;}.feature-title{font-weight:600;margin-bottom:0.5rem;}.feature-desc{font-size:0.9rem;opacity:0.8;}</style></head><body><h1>🌐 RenderWorld Hub</h1><p>Real-time AI-native game preview engine</p><div class="features"><div class="feature"><div class="feature-icon">⚡</div><div class="feature-title">60 FPS Rendering</div><div class="feature-desc">Smooth real-time graphics</div></div><div class="feature"><div class="feature-icon">🤖</div><div class="feature-title">AI Integration</div><div class="feature-desc">Smart NPC behaviors</div></div><div class="feature"><div class="feature-icon">🎮</div><div class="feature-title">Interactive Demos</div><div class="feature-desc">Playable experiences</div></div><div class="feature"><div class="feature-icon">🌐</div><div class="feature-title">Web Deployment</div><div class="feature-desc">Browser-based preview</div></div></div><script>console.log(\'RenderWorld Hub loaded\');</script></body></html>';
+                if (!window.RenderWorldWebBridge) {
+                    await new Promise((resolve, reject) => {
+                        const s = document.createElement('script');
+                        s.src = '../renderworld-hub.js';
+                        s.onload = resolve;
+                        s.onerror = () => reject(new Error('Failed to load renderworld-hub.js'));
+                        document.head.appendChild(s);
+                    });
                 }
 
-                // Load demo in iframe
-                iframe.src = demoUrl;
-                iframe.style.display = 'block';
-                placeholder.style.display = 'none';
+                if (!window.RenderWorldWebBridge) {
+                    throw new Error('RenderWorldWebBridge not found');
+                }
 
-                console.log(`Loaded ${demoTitle} demo`);
-            }, 1500);
+                const renderer = new window.RenderWorldWebBridge(canvas, {
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    enableDebug: false,
+                    quality: 'high'
+                });
+
+                renderer.start();
+
+                const retry = document.getElementById('retry-button');
+                if (retry) {
+                    retry.onclick = () => {
+                        try { renderer.stop?.(); } catch {}
+                        location.reload();
+                    };
+                }
+
+                window.renderworld = renderer;
+            } catch (err) {
+                console.error(err);
+                const errorBox = document.getElementById('error-display');
+                const msg = document.getElementById('error-message');
+                if (msg) msg.textContent = err.message || String(err);
+                if (errorBox) errorBox.style.display = 'block';
+            }
         }
 
         function onRenderWorldLoad() {

@@ -50,6 +50,8 @@ body {
   background: var(--bg-primary);
   transition: all 0.3s ease;
   overflow-x: hidden;
+  /* Leave room for persistent Ko-fi footer */
+  padding-bottom: 64px;
 }
 
 .container {
@@ -330,6 +332,56 @@ body {
   border-top: 1px solid var(--border-color);
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+/* Persistent Ko‑fi footer */
+.kofi-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  z-index: 2000;
+}
+
+.kofi-footer a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.kofi-footer a:hover {
+  color: var(--accent-primary);
+}
+
+/* Full link list at bottom of page */
+.site-links {
+  margin: 3rem auto 0;
+  max-width: 1200px;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.site-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.site-links a:hover {
+  color: var(--accent-primary);
 }
 
 /* Animations */

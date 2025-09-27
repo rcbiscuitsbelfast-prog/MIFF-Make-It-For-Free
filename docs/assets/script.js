@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(themeToggle);
 
     // Check for saved theme preference
-    const savedTheme = localStorage.getItem('miff-theme') || 'light';
+    const savedTheme = localStorage.getItem('miff-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     // Theme toggle handler
