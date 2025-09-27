@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add click effects to experience cards
     document.querySelectorAll('.experience-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function(e) {
             // Add ripple effect
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
@@ -94,6 +94,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 ripple.remove();
             }, 600);
+            
+            // Don't prevent default - let the onclick handler work
+            console.log('Card clicked, onclick should handle navigation');
         });
     });
 
@@ -151,10 +154,9 @@ function updateThemeIcon(theme) {
 // Navigation function with error handling
 function navigateTo(path) {
     try {
-        // Ensure path starts with ./
-        const normalizedPath = path.startsWith('./') ? path : `./${path}`;
-        console.log(`Navigating to: ${normalizedPath}`);
-        window.location.href = normalizedPath;
+        console.log(`Navigating to: ${path}`);
+        // Direct navigation without path normalization
+        window.location.href = path;
     } catch (error) {
         console.error('Navigation failed:', error);
         // Fallback: try direct navigation
