@@ -27,7 +27,7 @@ export function createAttributionFooter() {
   left.innerHTML = 'Assets: <a href="https://kaylousberg.itch.io/kaykit-fantasy-bundle" target="_blank" style="color: #58a6ff;">KayKit</a> (CC0) • Framework: <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank" style="color: #58a6ff;">MIFF</a>';
   
   const right = document.createElement('div');
-  right.innerHTML = '<a href="../../docs/MAP_BUILDER_ONBOARDING.md" target="_blank" style="color: #58a6ff;">Contributor Guide</a> • <a href="../../contrib/remix-packs/README.md" target="_blank" style="color: #58a6ff;">Remix Packs</a>';
+  right.innerHTML = '<a href="../../docs/MAP_BUILDER_ONBOARDING.md" target="_blank" style="color: #58a6ff;">Contributor Guide</a> • <a href="../../contrib/remix-packs/README.md" target="_blank" style="color: #58a6ff;">Remix Packs</a> • <a href="https://ko-fi.com/miffmakeitforfree" target="_blank" style="color:#ff5e5b; font-weight:600;">Ko‑fi</a>';
   
   footer.appendChild(left);
   footer.appendChild(right);
