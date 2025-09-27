@@ -1,0 +1,24 @@
+{
+  "op": "render",
+  "module": "npcs",
+  "data": {
+    "zoneId": "zone_village",
+    "includeQuests": true,
+    "npcs": [
+      {
+        "id": "npc_merchant",
+        "type": "merchant",
+        "transform": { "position": { "x": 10, "y": 15, "z": 0 } },
+        "stats": [
+          { "key": "health", "base": 100 },
+          { "key": "charisma", "base": 18 }
+        ],
+        "questIds": ["quest_tutorial"]
+      }
+    ]
+  },
+  "config": {
+    "targetVersion": "2022.3",
+    "useECS": false
+  }
+}
