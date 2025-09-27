@@ -16,30 +16,9 @@
         <header class="header">
             <div class="container">
                 <div class="logo">
-                    <svg width="60" height="60" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="miffGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
-                                <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
-                            </linearGradient>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                <feMerge>
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
-                              fill="url(#miffGradient)" filter="url(#glow)" opacity="0.9"/>
-                        <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
-                              fill="url(#miffGradient)" filter="url(#glow)" opacity="0.8"/>
-                        <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
-                              fill="url(#miffGradient)" filter="url(#glow)" opacity="0.9"/>
-                        <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
-                              fill="url(#miffGradient)" filter="url(#glow)" opacity="0.7"/>
-                        <circle cx="40" cy="40" r="8" fill="url(#miffGradient)" opacity="0.5"/>
-                    </svg>
+                    <a href="#" aria-label="MIFF Home" class="menu-logo">
+                        <img src="image_1758956766781.svg" alt="MIFF Logo" width="60" height="60" onerror="this.onerror=null;this.src='image_1758956766781.jpeg'" />
+                    </a>
                     <span class="logo-text">MIFF</span>
                 </div>
                 <nav class="nav">
@@ -84,7 +63,7 @@
                         <div class="card-arrow">→</div>
                     </div>
 
-                    <div class="experience-card" onclick="navigateTo('docs-site/')">
+                    <div class="experience-card" onclick="navigateTo('docs/')">
                         <div class="card-icon">📚</div>
                         <h3>Documentation</h3>
                         <p>Comprehensive guides, API references, and technical documentation</p>

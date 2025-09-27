@@ -5,7 +5,8 @@ const base = import.meta.env.BASE_URL || '/';
 
 <SimpleLayout title="404 — Page Not Found" description="The page you were looking for doesn't exist.">
 	<section class="text-center py-12">
-		<div class="mb-8">
+		<div class="mb-8 flex flex-col items-center">
+			<img src={`${base}image_1758956766781.svg`} alt="MIFF" width="64" height="64" class="rounded-lg mb-4" onerror={`this.onerror=null;this.src='${base}image_1758956766781.jpeg'`} />
 			<h1 class="text-3xl font-bold text-purple-700 mb-4">
 				404 — Page Not Found
 			</h1>
@@ -40,5 +41,7 @@ const base = import.meta.env.BASE_URL || '/';
 				👥 Contributors
 			</a>
 		</div>
+
+		<p class="text-sm text-gray-500 mt-8">If you arrived here from the home page, the section may be moving. Please use the main navigation or return <a class="underline" href={`${base}`}>home</a>.</p>
 	</section>
 </SimpleLayout>

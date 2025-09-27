@@ -60,6 +60,26 @@ jobs:
           echo "⚠️ Custom assets directory not found"
         fi
         
+        # Copy uploaded logo images (if present)
+        if ls docs/image_*.svg >/dev/null 2>&1; then
+          cp docs/image_*.svg docs/dist/ || true
+          echo "✅ SVG logo(s) copied to dist"
+        fi
+        if ls docs/image_*.jpeg >/dev/null 2>&1; then
+          cp docs/image_*.jpeg docs/dist/ || true
+          echo "✅ JPEG logo(s) copied to dist"
+        fi
+
+        # Copy static site content under /site into docs/dist/site
+        if [ -d "site" ]; then
+          echo "📦 Copying /site static content into docs/dist/site"
+          mkdir -p docs/dist/site
+          rsync -a --delete site/ docs/dist/site/
+          echo "✅ Site content copied"
+        else
+          echo "⚠️ /site directory not found"
+        fi
+
         # Copy RenderWorld Hub if it exists
         if [ -f "docs/renderworld-hub.js" ]; then
           cp docs/renderworld-hub.js docs/dist/
