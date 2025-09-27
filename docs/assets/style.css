@@ -121,7 +121,7 @@ body {
 .menu-panel {
   position: fixed;
   top: 80px;
-  right: 20px;
+  left: 20px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 12px;

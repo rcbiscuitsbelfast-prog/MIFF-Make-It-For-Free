@@ -6,6 +6,7 @@ export interface Props {
   canonical?: string;
 }
 
+import '../styles/global.css';
 const { title, description = "Modular, CLI-first, engine-agnostic game development framework", image, canonical } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const basePath = import.meta.env.BASE_URL || '/';
