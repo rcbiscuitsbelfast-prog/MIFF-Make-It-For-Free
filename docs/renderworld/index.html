@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <header class="header">
@@ -210,6 +211,28 @@
     </footer>
 
     <script src="../assets/script.js"></script>
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.161.0/build/three.module.js';
+        import { GLTFLoader } from 'https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
+        import { MobileIntegration } from './touch-controls.js';
+        import { AssetLoader } from './asset-loader.js';
+        import { PortalMap } from './portal-map.js';
+
+        // Add portal link row to container
+        const links = document.createElement('div');
+        links.className = 'rw-portal-links';
+        for (const key of Object.keys(PortalMap)) {
+            const a = document.createElement('a');
+            a.href = PortalMap[key].href;
+            a.className = 'rw-link';
+            a.textContent = PortalMap[key].label;
+            links.appendChild(a);
+        }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const container = document.getElementById('game-container');
+            if (container) container.appendChild(links);
+        });
+    </script>
     <script>
         // Theme toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -271,6 +294,21 @@
                     enableDebug: false,
                     quality: 'high'
                 });
+
+                // Mount mobile controls and wire to bridge updates
+                try {
+                  const mobile = new (await import('./touch-controls.js')).MobileIntegration(
+                    canvas,
+                    (vec) => {
+                      // Map joystick vec to player movement events
+                      window.dispatchEvent(new CustomEvent('rw-joystick', { detail: vec }));
+                    },
+                    (action) => {
+                      window.dispatchEvent(new CustomEvent('rw-action', { detail: action }));
+                    }
+                  );
+                  mobile.mount();
+                } catch {}
 
                 renderer.start();
 

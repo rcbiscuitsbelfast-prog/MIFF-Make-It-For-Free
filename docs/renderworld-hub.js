@@ -404,9 +404,9 @@ class RenderWorldWebBridge {
     this.gl = null;
     this.shaderProgram = null;
 
-    this.initializeWebGL(canvas);
     this.setupEventListeners();
     this.initializeRenderer();
+    // Defer Three.js bootstrap until start()
   }
 
   initializeWebGL(canvas) {
@@ -512,21 +512,66 @@ class RenderWorldWebBridge {
     }
   }
 
-  start() {
+  async start() {
     if (this.state.isRunning) return;
+    // Bootstrap Three.js scene
+    const [{ default: THREE }, { GLTFLoader }] = await Promise.all([
+      import('https://unpkg.com/three@0.161.0/build/three.module.js'),
+      import('https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js')
+    ]);
+    const { AssetLoader } = await import('./docs/renderworld/asset-loader.js').catch(async()=>({ AssetLoader: (await import('./renderworld/asset-loader.js')).AssetLoader }));
+
+    this.three = { THREE, GLTFLoader };
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x0a0a0f);
+    this.camera3d = new THREE.PerspectiveCamera(60, this.config.width / this.config.height, 0.1, 1000);
+    this.camera3d.position.set(0, 2.8, 7.5);
+    this.renderer3d = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
+    this.renderer3d.setSize(this.config.width, this.config.height);
+    this.renderer3d.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+
+    // Lights
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+    this.scene.add(hemi);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.85);
+    dir.position.set(5, 10, 7);
+    this.scene.add(dir);
+
+    // Assets
+    const loader = new AssetLoader(THREE, GLTFLoader);
+    await loader.loadWarehouseAssets(this.scene);
+
+    // Simple player proxy
+    const player = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0x00ff88 }));
+    player.position.set(0, 0.5, 0);
+    this.scene.add(player);
+    this.player = player;
+
+    // Input from mobile integration
+    let stick = { x: 0, y: 0 };
+    window.addEventListener('rw-joystick', (e)=>{ stick = e.detail || { x:0, y:0 }; });
 
     this.state.isRunning = true;
     this.state.lastTime = performance.now();
 
     const animate = (currentTime) => {
       if (!this.state.isRunning) return;
-
-      const deltaTime = (currentTime - this.state.lastTime) / 1000;
+      const dt = (currentTime - this.state.lastTime) / 1000;
       this.state.lastTime = currentTime;
 
-      this.update(deltaTime);
-      this.render();
+      // Move player from joystick
+      const speed = 3.0;
+      this.player.position.x += (stick.x || 0) * speed * dt;
+      this.player.position.z += (stick.y || 0) * speed * dt;
 
+      // Follow camera
+      const offY = 2.8; const offZ = 7.5;
+      const target = new THREE.Vector3(this.player.position.x, offY, this.player.position.z + offZ);
+      this.camera3d.position.lerp(target, 0.1);
+      this.camera3d.lookAt(this.player.position.x, 1.5, this.player.position.z);
+
+      this.update(dt);
+      this.renderer3d.render(this.scene, this.camera3d);
       this.state.animationId = requestAnimationFrame(animate);
     };
 
@@ -585,12 +630,7 @@ class RenderWorldWebBridge {
     }
   }
 
-  render() {
-    if (!this.gl || !this.state.renderer) return;
-
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-    // Rendering logic would be implemented here with actual WebGL calls
-  }
+  render() { /* handled by Three.js */ }
 
   cleanup() {
     if (this.state.animationId) {
