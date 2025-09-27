@@ -23,56 +23,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Show splash screen for 1 second, then fade to main content
-    console.log('Splash screen element:', splashScreen);
-    console.log('Main content element:', mainContent);
-    
+    // Show splash screen for 2-3 seconds, then fade to main content
     setTimeout(() => {
-        console.log('Starting splash screen transition');
         if (splashScreen && mainContent) {
-            console.log('Elements found, starting transition');
             splashScreen.style.opacity = '0';
-            splashScreen.style.transition = 'opacity 0.5s ease-out';
+            splashScreen.style.transition = 'opacity 1s ease-out';
 
             setTimeout(() => {
-                console.log('Hiding splash screen, showing main content');
                 splashScreen.style.display = 'none';
                 mainContent.style.display = 'block';
                 mainContent.style.opacity = '0';
-                mainContent.style.transition = 'opacity 0.5s ease-in';
+                mainContent.style.transition = 'opacity 1s ease-in';
 
                 setTimeout(() => {
-                    console.log('Main content should be visible now');
                     mainContent.style.opacity = '1';
-                }, 50);
-            }, 500);
-        } else {
-            console.log('Splash screen or main content not found!');
-            // Emergency fallback
-            if (mainContent) {
-                mainContent.style.display = 'block';
-                mainContent.style.opacity = '1';
-            }
+                }, 100);
+            }, 1000);
         }
-    }, 1000);
-
-    // Add click handler to skip splash screen if it gets stuck
-    if (splashScreen) {
-        splashScreen.addEventListener('click', function() {
-            console.log('Splash screen clicked - skipping to main content');
-            splashScreen.style.display = 'none';
-            if (mainContent) {
-                mainContent.style.display = 'block';
-                mainContent.style.opacity = '1';
-            }
-        });
-        splashScreen.style.cursor = 'pointer';
-        splashScreen.title = 'Click to skip splash screen';
-    }
+    }, 2000);
 
     // Add click effects to experience cards
     document.querySelectorAll('.experience-card').forEach(card => {
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function() {
             // Add ripple effect
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
@@ -94,9 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 ripple.remove();
             }, 600);
-            
-            // Don't prevent default - let the onclick handler work
-            console.log('Card clicked, onclick should handle navigation');
         });
     });
 
@@ -185,6 +154,67 @@ style.textContent = `
         }
     }
 
+    .splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 1s ease-out;
+    }
+
+    .splash-content {
+        text-align: center;
+        color: var(--text-primary);
+    }
+
+    .splash-logo {
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .splash-title {
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: 700;
+        color: var(--accent-primary);
+        margin-bottom: 0.5rem;
+        animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .splash-tagline {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        color: var(--text-secondary);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .splash-subtitle {
+        font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        animation: fadeInUp 1s ease-out 0.9s both;
+    }
+
+    .splash-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--border-color);
+        border-top: 3px solid var(--accent-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
     .experience-card {
         position: relative;

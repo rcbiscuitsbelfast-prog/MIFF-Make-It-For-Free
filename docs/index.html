@@ -10,42 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Force font loading with multiple approaches */
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
-        
-        * {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
-        }
-        
-        body, h1, h2, h3, h4, h5, h6, p, div, span, a, button, input, textarea, select {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
-        }
-        
-        /* Override any existing font styles */
-        .hero-title, .hero-subtitle, .hero-description, .logo-text, .nav a, .btn, .footer-link {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace !important;
-        }
-        
-        /* Ensure buttons are clickable */
-        .experience-card {
-            cursor: pointer !important;
-            pointer-events: auto !important;
-        }
-        
-        .experience-card:hover {
-            cursor: pointer !important;
-        }
-        
-        /* Force button interactions */
-        button, .btn, .theme-toggle {
-            cursor: pointer !important;
-            pointer-events: auto !important;
-        }
-    </style>
 </head>
 <body>
-    <div id="splash-screen" class="splash-screen" onclick="skipSplash()">
+    <div id="splash-screen" class="splash-screen">
         <div class="splash-content">
             <div class="splash-logo">
                 <svg width="80" height="80" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +44,6 @@
             <p class="splash-tagline">MAKE IT FOR FREE</p>
             <p class="splash-subtitle">Modular Interactive Framework for the Future</p>
             <div class="splash-spinner"></div>
-            <p class="splash-hint">Click anywhere to continue</p>
         </div>
     </div>
 
@@ -85,34 +51,25 @@
         <!-- Header -->
         <header class="header">
             <div class="container">
-                <div class="header-left">
-                    <button id="menu-toggle" class="menu-toggle" title="Open menu" aria-label="Open navigation menu">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" class="menu-icon">
-                            <g fill="#0b3d2e" stroke="#ffffff" stroke-width="2">
-                                <path d="M50,60 a40,40 0 0,1 80,0 q10,10 20,0 a40,40 0 0,1 80,0 q10,10 20,0 q0,40 -20,60 q-10,10 -20,0 a40,40 0 0,1 -80,0 q-10,-10 -20,0 a40,40 0 0,1 -80,0 q-10,-10 -20,0 q0,-40 20,-60 z"/>
-                            </g>
-                        </svg>
-                    </button>
-                    <div class="logo">
+                <div class="logo">
                     <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                            <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
                                 <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
                             </linearGradient>
                         </defs>
                         <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
-                              fill="url(#headerLogoGradient)" opacity="0.9"/>
+                              fill="url(#logoGradient)" opacity="0.9"/>
                         <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
-                              fill="url(#headerLogoGradient)" opacity="0.8"/>
+                              fill="url(#logoGradient)" opacity="0.8"/>
                         <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
-                              fill="url(#headerLogoGradient)" opacity="0.9"/>
+                              fill="url(#logoGradient)" opacity="0.9"/>
                         <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
-                              fill="url(#headerLogoGradient)" opacity="0.7"/>
-                        <circle cx="40" cy="40" r="8" fill="url(#headerLogoGradient)" opacity="0.5"/>
+                              fill="url(#logoGradient)" opacity="0.7"/>
+                        <circle cx="40" cy="40" r="8" fill="url(#logoGradient)" opacity="0.5"/>
                     </svg>
                     <span class="logo-text">MIFF</span>
-                </div>
                 </div>
                 <nav class="nav">
                     <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
@@ -121,46 +78,6 @@
                         </svg>
                     </button>
                 </nav>
-            </div>
-            
-            <!-- Mobile Menu Dropdown -->
-            <div id="mobile-menu" class="mobile-menu">
-                <div class="mobile-menu-content">
-                    <div class="mobile-menu-header">
-                        <h3>MIFF Navigation</h3>
-                        <button id="menu-close" class="menu-close">&times;</button>
-                    </div>
-                    <div class="mobile-menu-links">
-                        <a href="/" class="mobile-menu-link">
-                            <span class="menu-icon">🏠</span>
-                            <span>Home</span>
-                        </a>
-                        <a href="sampler/" class="mobile-menu-link">
-                            <span class="menu-icon">🎮</span>
-                            <span>MIFF Sampler</span>
-                        </a>
-                        <a href="studio/" class="mobile-menu-link">
-                            <span class="menu-icon">🛠️</span>
-                            <span>MIFF Studio</span>
-                        </a>
-                        <a href="renderworld/" class="mobile-menu-link">
-                            <span class="menu-icon">🌐</span>
-                            <span>RenderWorld Hub</span>
-                        </a>
-                        <a href="docs-site/" class="mobile-menu-link">
-                            <span class="menu-icon">📘</span>
-                            <span>Documentation</span>
-                        </a>
-                        <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank" class="mobile-menu-link">
-                            <span class="menu-icon">🧬</span>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://ko-fi.com/miffmakeitforfree" target="_blank" class="mobile-menu-link">
-                            <span class="menu-icon">☕</span>
-                            <span>Ko-fi</span>
-                        </a>
-                    </div>
-                </div>
             </div>
         </header>
 
@@ -253,134 +170,6 @@
         </footer>
     </div>
 
-    <script>
-        // Navigation function with error handling - MUST BE FIRST
-        function navigateTo(path) {
-            try {
-                console.log(`Navigating to: ${path}`);
-                // Direct navigation without path normalization
-                window.location.href = path;
-            } catch (error) {
-                console.error('Navigation failed:', error);
-                // Fallback: try direct navigation
-                window.location.href = path;
-            }
-        }
-        
-        // Bulletproof splash screen function
-        function skipSplash() {
-            console.log('Splash screen clicked - skipping');
-            const splashScreen = document.getElementById('splash-screen');
-            const mainContent = document.getElementById('main-content');
-            
-            if (splashScreen) {
-                splashScreen.style.display = 'none';
-            }
-            if (mainContent) {
-                mainContent.style.display = 'block';
-                mainContent.style.opacity = '1';
-            }
-        }
-        
-        // Auto-skip after 1 second
-        setTimeout(function() {
-            console.log('Auto-skipping splash screen');
-            skipSplash();
-        }, 1000);
-    </script>
     <script src="assets/script.js"></script>
-    <script>
-        
-        // Menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.getElementById('menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuClose = document.getElementById('menu-close');
-
-            // Menu toggle handlers
-            if (menuToggle && mobileMenu) {
-                menuToggle.addEventListener('click', function() {
-                    mobileMenu.classList.add('active');
-                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-                });
-            }
-
-            if (menuClose && mobileMenu) {
-                menuClose.addEventListener('click', function() {
-                    mobileMenu.classList.remove('active');
-                    document.body.style.overflow = ''; // Restore scrolling
-                });
-            }
-
-            // Close menu when clicking outside
-            if (mobileMenu) {
-                mobileMenu.addEventListener('click', function(e) {
-                    if (e.target === mobileMenu) {
-                        mobileMenu.classList.remove('active');
-                        document.body.style.overflow = ''; // Restore scrolling
-                    }
-                });
-            }
-
-            // Close menu on escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
-                    mobileMenu.classList.remove('active');
-                    document.body.style.overflow = ''; // Restore scrolling
-                }
-            });
-        });
-
-        // Force font loading
-        document.addEventListener('DOMContentLoaded', function() {
-            // Force apply fonts to all elements
-            const allElements = document.querySelectorAll('*');
-            allElements.forEach(function(element) {
-                element.style.fontFamily = "'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace";
-            });
-            
-            // Also try to load the font manually
-            const link = document.createElement('link');
-            link.href = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap';
-            link.rel = 'stylesheet';
-            document.head.appendChild(link);
-        });
-        
-        // Force font loading on window load
-        window.addEventListener('load', function() {
-            const allElements = document.querySelectorAll('*');
-            allElements.forEach(function(element) {
-                element.style.fontFamily = "'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace";
-            });
-        });
-        
-        // Test navigation function immediately
-        console.log('navigateTo function available:', typeof navigateTo);
-        
-        // Force enable all interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Force enable all buttons and clickable elements
-            const clickableElements = document.querySelectorAll('.experience-card, button, .btn, .theme-toggle');
-            clickableElements.forEach(function(element) {
-                element.style.pointerEvents = 'auto';
-                element.style.cursor = 'pointer';
-                element.style.userSelect = 'none';
-            });
-            
-            // Add click handlers to experience cards as backup
-            const experienceCards = document.querySelectorAll('.experience-card');
-            experienceCards.forEach(function(card) {
-                card.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const onclick = card.getAttribute('onclick');
-                    if (onclick) {
-                        console.log('Card clicked, executing:', onclick);
-                        eval(onclick);
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
