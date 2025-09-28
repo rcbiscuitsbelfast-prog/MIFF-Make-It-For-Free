@@ -278,7 +278,7 @@ export class ItemEffect {
       return UsageResult.fail(UsageStatus.INVALID_TARGET, 'No target specified');
     }
 
-    if (target.isFainted() && this.effectType !== ItemEffectType.REVIVE) {
+    if (target.isFainted && this.effectType !== ItemEffectType.REVIVE) {
       return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Cannot heal fainted spirit');
     }
 
@@ -292,7 +292,7 @@ export class ItemEffect {
         return UsageResult.ok(`Healed ${healAmount} HP`, { healAmount });
 
       case ItemEffectType.REVIVE:
-        if (!target.isFainted()) {
+        if (!target.isFainted) {
           return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target is not fainted');
         }
         // Use the amount as percentage of max HP to restore (default to 50% if not specified)
@@ -300,7 +300,7 @@ export class ItemEffect {
         const reviveAmount = Math.floor(target.maxHP * (revivePercent / 100));
         target.currentHP = Math.max(1, reviveAmount);
         // Mark spirit as not fainted after revive
-        if (target.isFainted && typeof target.isFainted === 'function') {
+        if (target.isFainted) {
           // Note: This is a simplified approach for testing
           // In a real implementation, the spirit's fainted status would be managed by the battle system
         }
@@ -583,12 +583,12 @@ export class ItemUsageManager {
       if (item.targetRule) {
         switch (item.targetRule) {
           case 'notfainted':
-            if (targetSpirit.isFainted()) {
+            if (targetSpirit.isFainted) {
               return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target must not be fainted');
             }
             break;
           case 'faintedonly':
-            if (!targetSpirit.isFainted()) {
+            if (!targetSpirit.isFainted) {
               return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target must be fainted');
             }
             break;
@@ -600,7 +600,7 @@ export class ItemUsageManager {
         }
       } else {
         // Default behavior for items without specific target rules
-        if (targetSpirit.isFainted() && item.type === ItemType.CONSUMABLE) {
+        if (targetSpirit.isFainted && item.type === ItemType.CONSUMABLE) {
           const effect = this.getItemEffect(item);
           if (effect && effect.type !== ItemEffectType.REVIVE) {
             return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Cannot use this item on fainted spirit');

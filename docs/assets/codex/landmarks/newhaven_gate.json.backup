@@ -1,0 +1,7 @@
+{
+  "id": "newhaven_gate",
+  "name": "Newhaven Gate",
+  "description": "Entry gate to the Newhaven zone.",
+  "tags": ["landmark", "newhaven"],
+  "unlock": { "type": "discover", "objectId": "newhaven_gate" }
+}

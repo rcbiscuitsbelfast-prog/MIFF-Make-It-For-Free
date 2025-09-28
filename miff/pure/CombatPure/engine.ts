@@ -310,6 +310,8 @@ export class SpiritInstance implements ICombatant {
   maxResourcePoints?: number;
   currentHP: number;
   maxHP: number;
+  instanceId: string;
+  speciesId: string;
 
   constructor(
     id: string = '0',
@@ -337,6 +339,8 @@ export class SpiritInstance implements ICombatant {
     this.experience = Math.max(0, experience);
     this.statusEffects = statusEffects;
     this.abilities = abilities;
+    this.instanceId = id; // Use the same ID as instanceId
+    this.speciesId = spiritId || name.toLowerCase(); // Use spiritId or name as speciesId
 
     // Set HP values with constraint enforcement
     this.maxHP = Math.max(1, stats.maxHp);

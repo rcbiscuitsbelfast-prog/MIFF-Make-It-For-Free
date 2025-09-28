@@ -1,2 +1,1 @@
-This asset slot is intentionally minimal. Replace with CC0 HUD skin as needed.
-HUD_SKIN
+This asset slot is intentionally minimal. Replace with CC0 HUD skin as needed. HUD_SKIN

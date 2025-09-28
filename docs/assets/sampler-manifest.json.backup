@@ -1,0 +1,279 @@
+{
+  "version": 1,
+  "name": "MIFF Sampler Asset Manifest",
+  "description": "Comprehensive asset catalog for all 5 sampler world types",
+  "categories": {
+    "characters": [
+      {
+        "id": "knight_hero",
+        "name": "Knight Hero",
+        "url": "KayKitAssets/knight_texture.png",
+        "tags": ["character", "2d-side", "medieval", "player"],
+        "frameWidth": 32,
+        "frameHeight": 32,
+        "frames": 4,
+        "description": "Medieval knight for side-scrolling platformer"
+      },
+      {
+        "id": "barbarian_hero",
+        "name": "Barbarian Hero", 
+        "url": "KayKitAssets/barbarian_texture.png",
+        "tags": ["character", "2d-topdown", "grove", "player"],
+        "frameWidth": 32,
+        "frameHeight": 32,
+        "frames": 4,
+        "description": "Barbarian warrior for top-down exploration"
+      },
+      {
+        "id": "spirit_runner",
+        "name": "Spirit Runner",
+        "url": "Slime_Green.png",
+        "tags": ["character", "runner", "spirit", "player"],
+        "frameWidth": 32,
+        "frameHeight": 32,
+        "frames": 4,
+        "description": "Green spirit for endless runner gameplay"
+      },
+      {
+        "id": "mage_hero",
+        "name": "Mage Hero",
+        "url": "KayKitAssets/mage_texture.png",
+        "tags": ["character", "3d-isometric", "magic", "player"],
+        "frameWidth": 32,
+        "frameHeight": 32,
+        "frames": 4,
+        "description": "Wizard for 3D isometric perspective"
+      },
+      {
+        "id": "rogue_enemy",
+        "name": "Rogue Enemy",
+        "url": "KayKitAssets/rogue_texture.png",
+        "tags": ["character", "enemy", "3d-isometric"],
+        "frameWidth": 32,
+        "frameHeight": 32,
+        "frames": 4,
+        "description": "Rogue enemy for combat encounters"
+      },
+      {
+        "id": "skeleton_guard",
+        "name": "Skeleton Guard",
+        "url": "Skeleton.png",
+        "tags": ["character", "enemy", "2d-side", "undead"],
+        "frameWidth": 32,
+        "frameHeight": 32,
+        "frames": 4,
+        "description": "Undead skeleton for platformer obstacles"
+      }
+    ],
+    "tiles": [
+      {
+        "id": "wood_platform",
+        "name": "Wood Platform",
+        "url": "Bridge_Wood.png",
+        "tags": ["tile", "platform", "2d-side", "wood"],
+        "description": "Wooden platform for side-scrolling levels"
+      },
+      {
+        "id": "cliff_tile",
+        "name": "Cliff Tile",
+        "url": "Cliff_Tile.png",
+        "tags": ["tile", "terrain", "2d-side", "stone"],
+        "description": "Stone cliff tile for platformer backgrounds"
+      },
+      {
+        "id": "oak_tree",
+        "name": "Oak Tree",
+        "url": "Isometric Blocks/isometric_0075.png",
+        "tags": ["tile", "tree", "2d-topdown", "3d-isometric", "nature"],
+        "description": "Oak tree for forest environments"
+      },
+      {
+        "id": "stone_block",
+        "name": "Stone Block",
+        "url": "Isometric Blocks/isometric_0091.png",
+        "tags": ["tile", "stone", "obstacle", "runner", "3d-isometric"],
+        "description": "Stone block for obstacles and terrain"
+      },
+      {
+        "id": "iso_block_1",
+        "name": "Isometric Block 1",
+        "url": "Isometric Blocks/isometric_0076.png",
+        "tags": ["tile", "isometric", "3d-isometric", "path"],
+        "description": "Isometric path tile for 3D environments"
+      },
+      {
+        "id": "iso_block_2",
+        "name": "Isometric Block 2",
+        "url": "Isometric Blocks/isometric_0082.png",
+        "tags": ["tile", "isometric", "3d-isometric", "building"],
+        "description": "Isometric building tile for 3D environments"
+      },
+      {
+        "id": "house_building",
+        "name": "House Building",
+        "url": "House.png",
+        "tags": ["tile", "building", "3d-isometric", "castle"],
+        "description": "House/castle building for 3D environments"
+      }
+    ],
+    "items": [
+      {
+        "id": "treasure_chest",
+        "name": "Treasure Chest",
+        "url": "Chest.png",
+        "tags": ["item", "collectible", "all-worlds", "interactive"],
+        "description": "Treasure chest for collecting items and power-ups"
+      }
+    ],
+    "weapons": [
+      {
+        "id": "sword_1h",
+        "name": "One-Handed Sword",
+        "url": "New Assets/sword_1handed.gltf",
+        "tags": ["weapon", "melee", "medieval", "2d-side"],
+        "description": "One-handed sword for knight combat"
+      },
+      {
+        "id": "axe_2h",
+        "name": "Two-Handed Axe",
+        "url": "New Assets/axe_2handed.gltf",
+        "tags": ["weapon", "melee", "barbarian", "2d-topdown"],
+        "description": "Two-handed axe for barbarian warrior"
+      },
+      {
+        "id": "staff",
+        "name": "Magic Staff",
+        "url": "New Assets/staff.gltf",
+        "tags": ["weapon", "magic", "mage", "3d-isometric"],
+        "description": "Magic staff for wizard character"
+      },
+      {
+        "id": "dagger",
+        "name": "Dagger",
+        "url": "New Assets/dagger.gltf",
+        "tags": ["weapon", "melee", "rogue", "3d-isometric"],
+        "description": "Dagger for rogue character"
+      }
+    ],
+    "shields": [
+      {
+        "id": "shield_round",
+        "name": "Round Shield",
+        "url": "New Assets/shield_round.gltf",
+        "tags": ["shield", "defense", "knight", "2d-side"],
+        "description": "Round shield for knight protection"
+      },
+      {
+        "id": "shield_square",
+        "name": "Square Shield",
+        "url": "New Assets/shield_square.gltf",
+        "tags": ["shield", "defense", "barbarian", "2d-topdown"],
+        "description": "Square shield for barbarian warrior"
+      }
+    ],
+    "consumables": [
+      {
+        "id": "mug_empty",
+        "name": "Empty Mug",
+        "url": "New Assets/mug_empty.gltf",
+        "tags": ["item", "consumable", "tavern", "all-worlds"],
+        "description": "Empty mug for tavern interactions"
+      },
+      {
+        "id": "mug_full",
+        "name": "Full Mug",
+        "url": "New Assets/mug_full.gltf",
+        "tags": ["item", "consumable", "tavern", "all-worlds"],
+        "description": "Full mug for tavern interactions"
+      }
+    ],
+    "magic": [
+      {
+        "id": "spellbook_closed",
+        "name": "Closed Spellbook",
+        "url": "New Assets/spellbook_closed.gltf",
+        "tags": ["item", "magic", "mage", "3d-isometric"],
+        "description": "Closed spellbook for mage character"
+      },
+      {
+        "id": "spellbook_open",
+        "name": "Open Spellbook",
+        "url": "New Assets/spellbook_open.gltf",
+        "tags": ["item", "magic", "mage", "3d-isometric"],
+        "description": "Open spellbook for mage character"
+      },
+      {
+        "id": "wand",
+        "name": "Magic Wand",
+        "url": "New Assets/wand.gltf",
+        "tags": ["weapon", "magic", "mage", "3d-isometric"],
+        "description": "Magic wand for spellcasting"
+      }
+    ],
+    "equipment": [
+      {
+        "id": "quiver",
+        "name": "Quiver",
+        "url": "New Assets/quiver.gltf",
+        "tags": ["item", "equipment", "ranged", "all-worlds"],
+        "description": "Quiver for arrow storage"
+      },
+      {
+        "id": "smokebomb",
+        "name": "Smokebomb",
+        "url": "New Assets/smokebomb.gltf",
+        "tags": ["item", "utility", "rogue", "3d-isometric"],
+        "description": "Smokebomb for stealth and escape"
+      }
+    ]
+  },
+  "worlds": {
+    "2d-side": {
+      "name": "2D Side-Scrolling Platformer",
+      "description": "Medieval platformer with gravity, jumping, and enemy encounters",
+      "primaryAssets": ["knight_hero", "wood_platform", "cliff_tile", "skeleton_guard", "treasure_chest"],
+      "secondaryAssets": ["sword_1h", "shield_round", "mug_empty", "mug_full"],
+      "movementType": "gravity",
+      "controls": ["Arrow Keys", "Space to Jump"]
+    },
+    "2d-topdown": {
+      "name": "2D Top-Down Explorer",
+      "description": "Overhead exploration with grid-based movement",
+      "primaryAssets": ["barbarian_hero", "oak_tree", "stone_block", "treasure_chest", "spirit_runner"],
+      "secondaryAssets": ["axe_2h", "shield_square", "quiver"],
+      "movementType": "grid",
+      "controls": ["Arrow Keys", "WASD"]
+    },
+    "runner": {
+      "name": "Auto-Scroll Runner",
+      "description": "Endless runner with auto-scroll movement and obstacles",
+      "primaryAssets": ["spirit_runner", "stone_block", "treasure_chest", "wood_platform"],
+      "secondaryAssets": ["mug_empty", "mug_full"],
+      "movementType": "auto-scroll",
+      "controls": ["Space to Jump", "Arrow Keys for Movement"]
+    },
+    "3d-isometric": {
+      "name": "3D Isometric Adventure",
+      "description": "Isometric 3D view with depth and rotation",
+      "primaryAssets": ["mage_hero", "house_building", "oak_tree", "iso_block_1", "iso_block_2", "rogue_enemy"],
+      "secondaryAssets": ["staff", "wand", "spellbook_closed", "spellbook_open", "dagger", "smokebomb"],
+      "movementType": "3d-rotation",
+      "controls": ["WASD", "Q/E to Rotate Camera", "Mouse Look"]
+    },
+    "static-overlay": {
+      "name": "Static Overlay System",
+      "description": "Interactive HUD and overlay system with no movement",
+      "primaryAssets": [],
+      "secondaryAssets": [],
+      "movementType": "none",
+      "controls": ["Mouse/Touch Interaction"]
+    }
+  },
+  "usage": {
+    "description": "This manifest provides comprehensive asset information for all 5 MIFF Sampler world types",
+    "integration": "Use with MIFF Studio Builder for asset placement and scene creation",
+    "remixSafety": "All assets are remix-safe (CC0, GPL, or public domain)",
+    "frameData": "Character sprites include frame width/height and frame count for animation",
+    "tags": "Use tags to filter assets by world type, category, or functionality"
+  }
+}

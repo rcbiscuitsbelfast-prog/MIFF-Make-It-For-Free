@@ -1,2 +1,0 @@
-This asset slot is intentionally minimal. Replace with CC0 move sprite as needed.
-MOVE_01
