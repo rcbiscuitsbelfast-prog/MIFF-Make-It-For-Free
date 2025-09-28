@@ -27,3 +27,8 @@ See `findings/Findings.csv`.
 - Address Critical/High within SLA; enforce CI gates
 - Vendor Three.js locally if required for offline builds
 - Expand unit/integration coverage in low-coverage modules
+
+## Validation Summary (Latest)
+- Unified pages validated via `scripts/audit/validate-site.js` (titles, links, shared styles)
+- Splash limited to homepage; RenderWorld loads directly
+- Docs landing styled with shared theme; readable and consistent
