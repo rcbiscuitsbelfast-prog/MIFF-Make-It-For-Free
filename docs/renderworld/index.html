@@ -15,10 +15,40 @@
 	<script>
 	(function(){
 		var canvas = document.getElementById('c');
-		var ctx = canvas.getContext('2d');
 		function fit(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 		window.addEventListener('resize', fit); fit();
-		var t=0; (function loop(){ t+=0.016; ctx.fillStyle='#000'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#00ff88'; var x=canvas.width/2+Math.cos(t)*120; var y=canvas.height/2+Math.sin(t*1.2)*80; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); requestAnimationFrame(loop); })();
+
+		// Phase B: Pure WebGL clear-color + triangle
+		var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+		if(!gl){ document.body.innerHTML = '<div style="color:#fff;font:16px monospace;padding:20px;">WebGL not supported</div>'; return; }
+		gl.viewport(0,0,gl.drawingBufferWidth, gl.drawingBufferHeight);
+		gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+		// Minimal shader program
+		var vsSrc = 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }';
+		var fsSrc = 'precision mediump float; uniform float uT; void main(){ gl_FragColor = vec4(0.0, 1.0, 0.53 + 0.47*sin(uT), 1.0); }';
+		function compile(type, src){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
+		var vs = compile(gl.VERTEX_SHADER, vsSrc);
+		var fs = compile(gl.FRAGMENT_SHADER, fsSrc);
+		var prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog); gl.useProgram(prog);
+
+		// Triangle buffer
+		var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+		var verts = new Float32Array([ 0,  0.8,  -0.8, -0.8,  0.8, -0.8 ]);
+		gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+		var loc = gl.getAttribLocation(prog, 'a');
+		gl.enableVertexAttribArray(loc);
+		gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+		var uT = gl.getUniformLocation(prog, 'uT');
+
+		function render(t){
+			gl.viewport(0,0,gl.drawingBufferWidth, gl.drawingBufferHeight);
+			gl.clear(gl.COLOR_BUFFER_BIT);
+			gl.uniform1f(uT, t*0.001);
+			gl.drawArrays(gl.TRIANGLES, 0, 3);
+			requestAnimationFrame(render);
+		}
+		requestAnimationFrame(render);
 	})();
 	</script>
 </body>
