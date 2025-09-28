@@ -5,8 +5,8 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://miff-framework.github.io',
-  base: '/miff',
+  site: 'https://rcbiscuitsbelfast-prog.github.io',
+  base: '/MIFF-Make-It-For-Free',
   title: 'MIFF Framework Documentation',
   description: 'Modular, CLI-first, engine-agnostic game development framework',
   markdown: {
