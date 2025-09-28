@@ -17,6 +17,8 @@ jobs:
           node-version: '22'
       - name: Install root deps
         run: npm ci
+      - name: Install audit deps
+        run: cd scripts/audit && npm ci || npm install
       - name: Run audits
         run: npm run audit
       - name: Run tests with coverage

@@ -374,6 +374,9 @@
                 box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
                 backdrop-filter: blur(10px);
             `;
+            persistentMenu.setAttribute('role','button');
+            persistentMenu.setAttribute('tabindex','0');
+            persistentMenu.setAttribute('aria-label','Return to MIFF Sampler');
             persistentMenu.innerHTML = `
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                     <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
@@ -396,6 +399,12 @@
             persistentMenu.addEventListener('click', () => {
                 try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {}
                 window.location.href = '../sampler/';
+            });
+            persistentMenu.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    persistentMenu.click();
+                }
             });
 
             // Add to body
