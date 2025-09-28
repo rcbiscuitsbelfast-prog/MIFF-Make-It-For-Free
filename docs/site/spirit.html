@@ -104,7 +104,7 @@
       window.addEventListener('DOMContentLoaded', ()=>{
         fit();
         try { document.body.setAttribute('data-zone','spirit_tamer'); } catch {}
-        try { window.miffShowSplash && window.miffShowSplash({ duration: 900, title: 'SPIRIT', subtitle: 'Made by MIFF', themeClass: 'theme-sci-fi' }); } catch {}
+        // Splash screen removed - load directly into game
         setTimeout(()=>{
           try {
             if (!document.querySelector('.start-menu')) window.miffShowStartMenu && window.miffShowStartMenu({

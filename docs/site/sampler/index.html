@@ -40,9 +40,9 @@
     
     .worlds-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -50,8 +50,8 @@
     .world-card {
       background: rgba(14, 26, 42, 0.8);
       border: 1px solid rgba(31, 45, 60, 0.5);
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: 8px;
+      padding: 1rem;
       transition: all 0.3s ease;
       cursor: pointer;
       position: relative;
@@ -82,15 +82,15 @@
     }
     
     .world-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
       text-align: center;
     }
     
     .world-title {
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       font-weight: bold;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
       color: #f0f6fc;
     }
     
@@ -103,10 +103,10 @@
     }
     
     .world-description {
-      font-size: 0.95rem;
-      line-height: 1.5;
+      font-size: 0.85rem;
+      line-height: 1.4;
       opacity: 0.8;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
     
     .world-controls {
@@ -267,7 +267,122 @@
   <script>
     function openWorld(worldType) {
       const worldUrl = `${worldType}.html`;
-      window.open(worldUrl, '_blank');
+      launchFullScreenGame(worldUrl, getWorldTitle(worldType));
+    }
+    
+    function getWorldTitle(worldType) {
+      const titles = {
+        '2d-side': 'Toppler Medieval',
+        '2d-topdown': 'Grove Explorer', 
+        'runner': 'Spirit Runner',
+        '3d-topdown': 'Isometric Grove',
+        'static-overlay': 'Control Center'
+      };
+      return titles[worldType] || worldType;
+    }
+    
+    function launchFullScreenGame(gameUrl, gameName) {
+      console.log('Launching game:', gameName, 'at URL:', gameUrl);
+      
+      // Remove any existing game overlay
+      const existingOverlay = document.getElementById('game-overlay');
+      if (existingOverlay) {
+        console.log('Removing existing overlay');
+        existingOverlay.remove();
+      }
+      
+      // Create full-screen overlay
+      const overlay = document.createElement('div');
+      overlay.id = 'game-overlay';
+      overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+      `;
+
+      // Create persistent menu icon
+      const menuIcon = document.createElement('div');
+      menuIcon.id = 'game-menu-icon';
+      menuIcon.style.cssText = `
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        background: rgba(88, 166, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10001;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(88, 166, 255, 0.3);
+      `;
+      menuIcon.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+        </svg>
+      `;
+      menuIcon.title = 'Return to MIFF Sampler';
+
+      // Create game iframe
+      const gameFrame = document.createElement('iframe');
+      gameFrame.src = gameUrl;
+      gameFrame.style.cssText = `
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: #000;
+      `;
+      
+      console.log('Created iframe with src:', gameUrl);
+      
+      // Add error handling
+      gameFrame.onerror = function() {
+        console.error('Failed to load game:', gameUrl);
+        alert('Failed to load ' + gameName + '. Please check the console for details.');
+      };
+      
+      gameFrame.onload = function() {
+        console.log('Game loaded successfully:', gameName);
+      };
+      
+      // Add timeout to detect if iframe fails to load
+      setTimeout(() => {
+        if (!gameFrame.contentDocument && !gameFrame.contentWindow) {
+          console.error('Iframe failed to load within timeout:', gameUrl);
+          alert('Game failed to load: ' + gameName + '. The game file might not exist or be accessible.');
+        }
+      }, 5000);
+
+      // Add menu icon click handler
+      menuIcon.addEventListener('click', () => {
+        document.body.removeChild(overlay);
+      });
+
+      // Add escape key handler
+      const escapeHandler = (e) => {
+        if (e.key === 'Escape') {
+          document.body.removeChild(overlay);
+          document.removeEventListener('keydown', escapeHandler);
+        }
+      };
+      document.addEventListener('keydown', escapeHandler);
+
+      // Assemble overlay
+      overlay.appendChild(menuIcon);
+      overlay.appendChild(gameFrame);
+      document.body.appendChild(overlay);
+
+      // Focus the iframe
+      gameFrame.focus();
     }
     
     function injectToPreview(worldType) {

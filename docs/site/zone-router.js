@@ -203,6 +203,15 @@
         handleRoute() {
             const hash = location.hash.replace('#', '');
             const zone = hash ? ZONES[hash] : null;
+            const currentPath = window.location.pathname;
+
+            // Only show splash on exact homepage paths
+            const isExactHomepage = (currentPath === '/' || 
+                                   currentPath === '/docs/site/' || 
+                                   currentPath === '/docs/site/index.html' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/docs/site/' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/docs/site/index.html');
 
             if (zone) {
                 console.log('[Router] Route matched:', hash);
@@ -210,8 +219,13 @@
                 try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {}
                 console.log(`[Router] ${hash} → patch + switch + event triggered`);
                 this.loadZone(zone);
-            } else {
+            } else if (isExactHomepage) {
+                console.log('[Router] Showing splash for homepage:', currentPath);
                 this.showSplash();
+            } else {
+                console.log('[Router] Not showing splash for path:', currentPath);
+                // Load default content or redirect
+                this.loadDefaultContent();
             }
 
             this.updateDebugInfo();
@@ -330,6 +344,22 @@
         showSplash() {
             this.currentZone = null;
             this.container.innerHTML = SPLASH_HTML;
+            this.updateDebugInfo();
+        }
+
+        loadDefaultContent() {
+            this.currentZone = null;
+            // Load the default page content without splash
+            this.container.innerHTML = `
+                <div class="default-content">
+                    <h1>MIFF Framework</h1>
+                    <p>Welcome to the MIFF development framework.</p>
+                    <div class="content-actions">
+                        <a href="#toppler" class="btn btn-primary">🧱 Try Toppler</a>
+                        <a href="#dashboard" class="btn btn-secondary">📊 Dashboard</a>
+                    </div>
+                </div>
+            `;
             this.updateDebugInfo();
         }
 
