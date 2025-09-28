@@ -6,7 +6,7 @@
     "site"
   ],
   "scriptsRoot": "scripts",
-  "generatedAt": "2025-09-28T19:08:55.931Z",
+  "generatedAt": "2025-09-28T21:02:22.365Z",
   "modules": [
     "/workspace/miff/pure/AIProfileIntegrationLayer/Manager.ts",
     "/workspace/miff/pure/AIProfileIntegrationLayer/cliHarness.ts",
