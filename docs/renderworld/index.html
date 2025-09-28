@@ -319,6 +319,9 @@
 
                 renderer.start();
 
+                // Hide instruction overlay once scene is running
+                try { const overlay = document.getElementById('ui-overlay'); if (overlay) overlay.style.display = 'none'; } catch {}
+
                 const retry = document.getElementById('retry-button');
                 if (retry) {
                     retry.onclick = () => {
