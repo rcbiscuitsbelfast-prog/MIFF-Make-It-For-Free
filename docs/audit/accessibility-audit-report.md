@@ -2,19 +2,17 @@
 
 ## Executive Summary
 
-- **Total HTML Pages Audited**: 73
-- **Total Accessibility Issues Found**: 103
-- **Total Recommendations Made**: 103
+- **Total HTML Pages Audited**: 79
+- **Total Accessibility Issues Found**: 115
+- **Total Recommendations Made**: 115
 
 ## Detailed Findings
 
 ### File: `404.html`
 - **Path**: `/workspace/docs/404.html`
 - **Issues**:
-  - No heading elements (h1-h6) found.
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
-  - Ensure proper heading structure for content hierarchy.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ### File: `index.html`
@@ -27,8 +25,26 @@
 ### File: `index.html`
 - **Path**: `/workspace/docs/blog/index.html`
 - **Issues**:
+  - Image elements without `alt` attributes.
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
+  - Ensure all interactive elements are keyboard accessible and have a logical tab order.
+
+### File: `index.html`
+- **Path**: `/workspace/docs/blog/miff-october-update/index.html`
+- **Issues**:
+  - Potential keyboard navigation issues (missing `tabindex`).
+- **Recommendations**:
+  - Ensure all interactive elements are keyboard accessible and have a logical tab order.
+
+### File: `index.html`
+- **Path**: `/workspace/docs/blog/miff-september-update/index.html`
+- **Issues**:
+  - Image elements without `alt` attributes.
+  - Potential keyboard navigation issues (missing `tabindex`).
+- **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ### File: `index.html`
@@ -214,11 +230,33 @@
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ### File: `index.html`
+- **Path**: `/workspace/docs/docs-site/getting-started/install/index.html`
+- **Issues**:
+  - Image elements without `alt` attributes.
+  - Potential keyboard navigation issues (missing `tabindex`).
+- **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
+  - Ensure all interactive elements are keyboard accessible and have a logical tab order.
+
+### File: `index.html`
 - **Path**: `/workspace/docs/docs-site/index.html`
 - **Issues**:
+  - Image elements without `alt` attributes.
   - Form input elements without associated `<label>` tags.
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
+  - Associate all form inputs with `<label>` tags using `for` and `id` attributes.
+  - Ensure all interactive elements are keyboard accessible and have a logical tab order.
+
+### File: `index.html`
+- **Path**: `/workspace/docs/docs-site/modules/index.html`
+- **Issues**:
+  - Image elements without `alt` attributes.
+  - Form input elements without associated `<label>` tags.
+  - Potential keyboard navigation issues (missing `tabindex`).
+- **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
   - Associate all form inputs with `<label>` tags using `for` and `id` attributes.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
@@ -377,6 +415,15 @@
 ### File: `index.html`
 - **Path**: `/workspace/docs/sampler/index.html`
 - **Issues**:
+  - Image elements without `alt` attributes.
+  - Potential keyboard navigation issues (missing `tabindex`).
+- **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
+  - Ensure all interactive elements are keyboard accessible and have a logical tab order.
+
+### File: `index.html`
+- **Path**: `/workspace/docs/site/blog/index.html`
+- **Issues**:
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
@@ -391,10 +438,8 @@
 ### File: `index.html`
 - **Path**: `/workspace/docs/site/docs/index.html`
 - **Issues**:
-  - No heading elements (h1-h6) found.
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
-  - Ensure proper heading structure for content hierarchy.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ### File: `index.html`
@@ -443,6 +488,15 @@
 - **Issues**:
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
+  - Ensure all interactive elements are keyboard accessible and have a logical tab order.
+
+### File: `index.html`
+- **Path**: `/workspace/docs/site/renderworld/index.html`
+- **Issues**:
+  - No heading elements (h1-h6) found.
+  - Potential keyboard navigation issues (missing `tabindex`).
+- **Recommendations**:
+  - Ensure proper heading structure for content hierarchy.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ### File: `2d-side.html`
@@ -497,10 +551,8 @@
 ### File: `index.html`
 - **Path**: `/workspace/docs/site/studio/index.html`
 - **Issues**:
-  - No heading elements (h1-h6) found.
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
-  - Ensure proper heading structure for content hierarchy.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ### File: `scene.html`
@@ -575,8 +627,10 @@
 ### File: `index.html`
 - **Path**: `/workspace/docs/studio/index.html`
 - **Issues**:
+  - Image elements without `alt` attributes.
   - Potential keyboard navigation issues (missing `tabindex`).
 - **Recommendations**:
+  - Add meaningful `alt` text to all `<img>` tags for screen readers.
   - Ensure all interactive elements are keyboard accessible and have a logical tab order.
 
 ## WCAG Compliance Recommendations
@@ -605,4 +659,4 @@
 2. **Short-term Goals**: Achieve WCAG AA compliance
 3. **Long-term Strategy**: Maintain accessibility standards and add advanced features
 
-*Generated: 2025-09-28T12:17:04.954Z*
+*Generated: 2025-09-28T19:08:52.779Z*
