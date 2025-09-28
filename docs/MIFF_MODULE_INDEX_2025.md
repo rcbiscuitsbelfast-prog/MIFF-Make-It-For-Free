@@ -1,5 +1,8 @@
 # 🔬 **MIFF FRAMEWORK - COMPREHENSIVE MODULE INDEX 2025**
 
+> Note: This index will be kept in sync with `docs/audit/Model_Index.json` by audit scripts.
+> Recent: Unified pages in `docs/`; RenderWorld Hub upgraded to Three.js with mobile controls.
+
 ## **Audit Date:** September 26, 2025
 ## **Total Modules:** 157+ Pure Modules
 ## **Repository:** https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free

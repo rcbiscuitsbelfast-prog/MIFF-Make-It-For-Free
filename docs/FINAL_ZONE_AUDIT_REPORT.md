@@ -1,5 +1,7 @@
 # MIFF Final Zone Audit Report
 
+> Note: Unified pages under `docs/` are now the canonical site; legacy shells redirect. RenderWorld Hub upgraded to Three.js with mobile controls and MIFF-native assets.
+
 **Date**: Current  
 **Scope**: Grove 3D, Toppler Medieval, Spirit Tamer  
 **Status**: ✅ ALL ZONES READY FOR CONTRIBUTOR SHOWCASE
