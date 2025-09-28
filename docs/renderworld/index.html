@@ -319,8 +319,18 @@
 
                 renderer.start();
 
-                // Hide instruction overlay once scene is running
-                try { const overlay = document.getElementById('ui-overlay'); if (overlay) overlay.style.display = 'none'; } catch {}
+                // Hide overlays once scene is running
+                try {
+                  const overlay = document.getElementById('ui-overlay');
+                  if (overlay) overlay.style.display = 'none';
+                } catch {}
+                try {
+                  const loading = document.getElementById('loadingScreen');
+                  if (loading) {
+                    loading.classList.add('hidden');
+                    setTimeout(()=>{ try { loading.remove(); } catch {} }, 600);
+                  }
+                } catch {}
 
                 const retry = document.getElementById('retry-button');
                 if (retry) {
