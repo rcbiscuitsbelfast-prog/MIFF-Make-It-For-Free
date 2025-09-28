@@ -20,6 +20,7 @@ class RenderWorldHub {
         this.joystickActive = false;
         this.joystickPosition = { x: 0, y: 0 };
         this.movementVector = new THREE.Vector3();
+        this.mobileControlsSystem = null;
         
         // Performance
         this.frameCount = 0;
@@ -29,6 +30,16 @@ class RenderWorldHub {
         // Audio
         this.audioContext = null;
         this.sounds = {};
+        
+        // Performance optimization
+        this.performanceSettings = {
+            targetFPS: 60,
+            dynamicQuality: true,
+            cullingDistance: 50,
+            shadowMapSize: this.isMobile ? 1024 : 2048,
+            antialias: !this.isMobile,
+            maxParticles: this.isMobile ? 50 : 100
+        };
         
         this.init();
     }
@@ -41,6 +52,7 @@ class RenderWorldHub {
             this.setupAudio();
             this.setupMobileControls();
             this.setupEventListeners();
+            this.loadPlayerState(); // Restore saved player state
             this.hideLoadingScreen();
             this.animate();
         } catch (error) {
@@ -64,17 +76,26 @@ class RenderWorldHub {
         );
         this.camera.position.set(0, 5, 10);
         
-        // Create renderer
+        // Create renderer with performance optimizations
         this.canvas = document.getElementById('gameCanvas');
         this.renderer = new THREE.WebGLRenderer({ 
             canvas: this.canvas, 
-            antialias: true,
-            alpha: true
+            antialias: this.performanceSettings.antialias,
+            alpha: true,
+            powerPreference: 'high-performance'
         });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.isMobile ? 2 : 3));
+        
+        // Shadow settings based on performance
         this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.shadowMap.type = this.isMobile ? THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
+        this.renderer.shadowMap.autoUpdate = true;
+        
         this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        
+        // Performance optimizations
+        this.setupPerformanceOptimizations();
         
         // Create controls
         this.controls = new THREE.OrbitControls(this.camera, this.canvas);
@@ -956,6 +977,390 @@ class RenderWorldHub {
         console.log('🧙‍♂️ Mystic NPC created - hooded figure with floating and color-shifting');
     }
     
+    setupPerformanceOptimizations() {
+        // Enable frustum culling
+        this.scene.autoUpdate = true;
+        
+        // Set up LOD (Level of Detail) system
+        this.setupLODSystem();
+        
+        // Set up dynamic quality scaling
+        if (this.performanceSettings.dynamicQuality) {
+            this.setupDynamicQuality();
+        }
+        
+        // Optimize shadows
+        this.optimizeShadows();
+        
+        console.log('⚡ Performance optimizations applied');
+    }
+    
+    setupLODSystem() {
+        // Create LOD groups for distance-based quality
+        this.lodObjects = [];
+        
+        // NPCs will use LOD
+        this.npcs.forEach(npc => {
+            if (npc.group) {
+                this.createLODForObject(npc.group, 'npc');
+            }
+        });
+        
+        // Portals will use LOD
+        this.portals.forEach(portal => {
+            if (portal.mesh) {
+                this.createLODForObject(portal.mesh, 'portal');
+            }
+        });
+    }
+    
+    createLODForObject(object, type) {
+        const lod = new THREE.LOD();
+        
+        // High detail (close)
+        lod.addLevel(object, 0);
+        
+        // Medium detail (medium distance)
+        if (type === 'npc') {
+            const mediumDetail = this.createSimplifiedNPC(object);
+            lod.addLevel(mediumDetail, 20);
+        }
+        
+        // Low detail (far distance)
+        const lowDetail = this.createBillboard(object);
+        lod.addLevel(lowDetail, 40);
+        
+        this.lodObjects.push(lod);
+        this.scene.add(lod);
+    }
+    
+    createSimplifiedNPC(originalNPC) {
+        // Create a simplified version with fewer polygons
+        const simplified = new THREE.Group();
+        
+        // Just a basic capsule for medium distance
+        const geometry = new THREE.CapsuleGeometry(0.4, 1.5, 3, 6);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff88 });
+        const mesh = new THREE.Mesh(geometry, material);
+        
+        simplified.add(mesh);
+        simplified.position.copy(originalNPC.position);
+        
+        return simplified;
+    }
+    
+    createBillboard(object) {
+        // Create a billboard sprite for far distances
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        
+        // Draw a simple representation
+        ctx.fillStyle = '#00ff88';
+        ctx.fillRect(20, 10, 24, 44);
+        ctx.fillStyle = '#ffcc99';
+        ctx.beginPath();
+        ctx.arc(32, 20, 12, 0, Math.PI * 2);
+        ctx.fill();
+        
+        const texture = new THREE.CanvasTexture(canvas);
+        const material = new THREE.SpriteMaterial({ map: texture });
+        const sprite = new THREE.Sprite(material);
+        
+        sprite.position.copy(object.position);
+        sprite.scale.set(2, 2, 1);
+        
+        return sprite;
+    }
+    
+    setupDynamicQuality() {
+        // Monitor performance and adjust quality dynamically
+        this.qualityCheckInterval = setInterval(() => {
+            this.checkPerformanceAndAdjust();
+        }, 2000); // Check every 2 seconds
+    }
+    
+    checkPerformanceAndAdjust() {
+        const currentFPS = this.fps;
+        const targetFPS = this.performanceSettings.targetFPS;
+        
+        if (currentFPS < targetFPS * 0.8) { // If FPS drops below 80% of target
+            this.lowerQuality();
+        } else if (currentFPS > targetFPS * 0.95) { // If FPS is stable above 95% of target
+            this.raiseQuality();
+        }
+    }
+    
+    lowerQuality() {
+        console.log('📉 Lowering quality for better performance');
+        
+        // Reduce shadow map size
+        if (this.renderer.shadowMap.getSize().width > 512) {
+            const newSize = Math.max(512, this.renderer.shadowMap.getSize().width / 2);
+            this.updateShadowMapSize(newSize);
+        }
+        
+        // Reduce particle count
+        this.performanceSettings.maxParticles = Math.max(20, this.performanceSettings.maxParticles * 0.7);
+        
+        // Disable some visual effects
+        this.scene.fog.far = Math.max(30, this.scene.fog.far * 0.8);
+    }
+    
+    raiseQuality() {
+        console.log('📈 Raising quality - performance is good');
+        
+        // Increase shadow map size (up to original)
+        const originalSize = this.isMobile ? 1024 : 2048;
+        if (this.renderer.shadowMap.getSize().width < originalSize) {
+            const newSize = Math.min(originalSize, this.renderer.shadowMap.getSize().width * 1.5);
+            this.updateShadowMapSize(newSize);
+        }
+        
+        // Increase particle count
+        this.performanceSettings.maxParticles = Math.min(
+            this.isMobile ? 50 : 100, 
+            this.performanceSettings.maxParticles * 1.2
+        );
+        
+        // Restore visual effects
+        this.scene.fog.far = Math.min(100, this.scene.fog.far * 1.1);
+    }
+    
+    updateShadowMapSize(size) {
+        // Update shadow map size for all lights
+        this.scene.traverse((child) => {
+            if (child.isLight && child.shadow) {
+                child.shadow.mapSize.width = size;
+                child.shadow.mapSize.height = size;
+                child.shadow.map?.dispose();
+                child.shadow.map = null;
+            }
+        });
+    }
+    
+    optimizeShadows() {
+        // Optimize shadow settings
+        this.scene.traverse((child) => {
+            if (child.isLight && child.shadow) {
+                // Adjust shadow camera settings for performance
+                child.shadow.camera.near = 0.5;
+                child.shadow.camera.far = this.isMobile ? 30 : 50;
+                child.shadow.bias = -0.0001;
+                child.shadow.normalBias = 0.02;
+                
+                // Use smaller shadow map on mobile
+                child.shadow.mapSize.width = this.performanceSettings.shadowMapSize;
+                child.shadow.mapSize.height = this.performanceSettings.shadowMapSize;
+            }
+        });
+    }
+    
+    updateNPCBehaviors(time) {
+        this.npcs.forEach(npc => {
+            switch (npc.id) {
+                case 'explorer':
+                    this.updateExplorerBehavior(npc, time);
+                    break;
+                case 'guide':
+                    this.updateGuideBehavior(npc, time);
+                    break;
+                case 'mystic':
+                    this.updateMysticBehavior(npc, time);
+                    break;
+            }
+        });
+    }
+    
+    updateExplorerBehavior(npc, time) {
+        // Explorer: scans portals, emits holograms, walks between locations
+        npc.animation += 0.02;
+        
+        // Scanning animation - head rotation toward portals
+        const scanCycle = Math.sin(time * 0.5) * Math.PI * 0.3;
+        if (npc.group.children[0]) { // Head/body
+            npc.group.children[0].rotation.y = scanCycle;
+        }
+        
+        // Hologram emission effect
+        const hologramEmitter = npc.group.children.find(child => child.material && child.material.color.getHex() === 0x00ffff);
+        if (hologramEmitter) {
+            hologramEmitter.material.emissive.setHex(0x004444);
+            hologramEmitter.material.emissiveIntensity = 0.5 + Math.sin(time * 3) * 0.3;
+        }
+        
+        // Walking between locations (every 10 seconds)
+        if (time - npc.lastMoveTime > 10) {
+            const targetPositions = [
+                new THREE.Vector3(-15, 1.7, 8),
+                new THREE.Vector3(-10, 1.7, -10),
+                new THREE.Vector3(-20, 1.7, 0)
+            ];
+            
+            const targetIndex = Math.floor(time / 10) % targetPositions.length;
+            const target = targetPositions[targetIndex];
+            
+            // Smooth movement toward target
+            npc.group.position.lerp(target, 0.01);
+            npc.position.copy(npc.group.position);
+            
+            if (npc.group.position.distanceTo(target) < 0.5) {
+                npc.lastMoveTime = time;
+            }
+        }
+        
+        // Subtle floating animation
+        npc.group.position.y = npc.position.y + Math.sin(time * 2) * 0.03;
+    }
+    
+    updateGuideBehavior(npc, time) {
+        // Guide: gestures toward Spirit Lens, waves at player, demonstrates actions
+        npc.animation += 0.015;
+        
+        // Gesturing toward Spirit Lens
+        if (this.spiritLens) {
+            const direction = new THREE.Vector3();
+            direction.subVectors(this.spiritLens.position, npc.group.position);
+            direction.normalize();
+            
+            // Point toward Spirit Lens
+            const targetRotation = Math.atan2(direction.x, direction.z);
+            npc.group.rotation.y = THREE.MathUtils.lerp(npc.group.rotation.y, targetRotation, 0.02);
+            
+            // Arm gesturing animation
+            const gestureIntensity = 0.3 + Math.sin(time * 1.5) * 0.2;
+            npc.gestureTime = time;
+        }
+        
+        // Wave at player when nearby
+        if (this.player) {
+            const playerDistance = npc.group.position.distanceTo(this.player.position);
+            if (playerDistance < 8) {
+                // Waving animation
+                const waveAnimation = Math.sin(time * 4) * 0.5;
+                // Apply to arm if available
+                const arm = npc.group.children.find(child => child.position.x > 0.3); // Right arm
+                if (arm) {
+                    arm.rotation.z = waveAnimation;
+                }
+            }
+        }
+        
+        // Gentle floating
+        npc.group.position.y = npc.position.y + Math.sin(time * 1.5) * 0.02;
+        
+        // Demonstration actions (periodic)
+        const demoTime = Math.floor(time / 8) % 3;
+        switch (demoTime) {
+            case 0: // Point to Spirit Lens
+                break;
+            case 1: // Point to portals
+                const portalDirection = Math.sin(time * 0.5) * Math.PI;
+                npc.group.rotation.y = portalDirection;
+                break;
+            case 2: // Neutral stance
+                npc.group.rotation.y = THREE.MathUtils.lerp(npc.group.rotation.y, 0, 0.05);
+                break;
+        }
+    }
+    
+    updateMysticBehavior(npc, time) {
+        // Mystic: meditates, teleports short distances, color-shifts near portals
+        npc.animation += 0.01;
+        
+        // Meditation floating - more pronounced
+        const meditationFloat = Math.sin(time * 0.8) * 0.15;
+        npc.group.position.y = npc.position.y + meditationFloat;
+        
+        // Slow rotation while meditating
+        npc.group.rotation.y += 0.005;
+        
+        // Color shifting based on proximity to portals
+        let nearestPortalDistance = Infinity;
+        let nearestPortalColor = 0xaa44ff; // Default purple
+        
+        this.portals.forEach(portal => {
+            const distance = npc.group.position.distanceTo(portal.position);
+            if (distance < nearestPortalDistance) {
+                nearestPortalDistance = distance;
+                // Change color based on portal type
+                switch (portal.id) {
+                    case 'spiritTamer':
+                        nearestPortalColor = 0x4488ff; // Blue
+                        break;
+                    case 'toppler':
+                        nearestPortalColor = 0x44ff88; // Green
+                        break;
+                    case 'witcher':
+                        nearestPortalColor = 0xff4488; // Red
+                        break;
+                }
+            }
+        });
+        
+        // Apply color shifting
+        if (nearestPortalDistance < 15) {
+            const colorShiftIntensity = (15 - nearestPortalDistance) / 15;
+            npc.colorShift = THREE.MathUtils.lerp(npc.colorShift, colorShiftIntensity, 0.02);
+            
+            // Update material color
+            const body = npc.group.children.find(child => child.material && child.material.color);
+            if (body) {
+                const currentColor = new THREE.Color(0xaa44ff);
+                const targetColor = new THREE.Color(nearestPortalColor);
+                body.material.color.lerpColors(currentColor, targetColor, npc.colorShift);
+                body.material.emissiveIntensity = npc.colorShift * 0.3;
+            }
+        }
+        
+        // Teleportation (every 15 seconds)
+        if (time - npc.teleportTime > 15) {
+            const teleportPositions = [
+                new THREE.Vector3(0, 2.2, 15),
+                new THREE.Vector3(-5, 2.2, 12),
+                new THREE.Vector3(5, 2.2, 18),
+                new THREE.Vector3(0, 2.2, 20)
+            ];
+            
+            const targetIndex = Math.floor(time / 15) % teleportPositions.length;
+            const target = teleportPositions[targetIndex];
+            
+            // Instant teleportation with particle effect
+            if (npc.group.position.distanceTo(target) > 1) {
+                // Fade out effect
+                npc.group.children.forEach(child => {
+                    if (child.material) {
+                        child.material.opacity = 0.3;
+                        child.material.transparent = true;
+                    }
+                });
+                
+                // Teleport after brief delay
+                setTimeout(() => {
+                    npc.group.position.copy(target);
+                    npc.position.copy(target);
+                    
+                    // Fade back in
+                    npc.group.children.forEach(child => {
+                        if (child.material) {
+                            child.material.opacity = 1;
+                        }
+                    });
+                }, 200);
+                
+                npc.teleportTime = time;
+            }
+        }
+        
+        // Energy particles animation
+        const particles = npc.group.children.find(child => child.type === 'Points');
+        if (particles) {
+            particles.rotation.y = time * 0.5;
+            particles.position.y = Math.sin(time * 2) * 0.1;
+        }
+    }
+    
     createMysticParticles(mysticGroup) {
         // Particle effects beneath floating mystic
         const particleCount = 20;
@@ -1010,24 +1415,222 @@ class RenderWorldHub {
     }
     
     createPlayerAvatar() {
-        // Player avatar geometry
-        const avatarGeometry = new THREE.CapsuleGeometry(0.5, 2, 4, 8);
-        const avatarMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x00ff88,
-            emissive: 0x004400
-        });
-        
-        this.playerAvatar = new THREE.Mesh(avatarGeometry, avatarMaterial);
+        // Create modular 3D player avatar using geometric character system
+        this.playerAvatar = this.createGeometricCharacter();
         this.playerAvatar.position.set(0, 1, 5);
         this.playerAvatar.castShadow = true;
         this.scene.add(this.playerAvatar);
         
-        // Player object for physics
+        // Player object for physics and state
         this.player = {
             position: new THREE.Vector3(0, 1, 5),
             velocity: new THREE.Vector3(0, 0, 0),
-            onGround: true
+            onGround: true,
+            isMoving: false,
+            movementDirection: new THREE.Vector3(),
+            animationState: 'idle',
+            animationTime: 0
         };
+        
+        // Camera modes
+        this.cameraOffset = new THREE.Vector3(0, 3, 8); // Third person offset
+        this.firstPersonOffset = new THREE.Vector3(0, 1.7, 0); // First person offset
+        
+        console.log('👤 Modular player avatar created');
+    }
+    
+    createGeometricCharacter() {
+        // Create a 3D geometric character using Three.js primitives
+        const character = new THREE.Group();
+        
+        // Head
+        const headGeometry = new THREE.SphereGeometry(0.3, 8, 6);
+        const headMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xffcc99,
+            roughness: 0.8
+        });
+        const head = new THREE.Mesh(headGeometry, headMaterial);
+        head.position.y = 1.7;
+        head.castShadow = true;
+        character.add(head);
+        
+        // Eyes
+        const eyeGeometry = new THREE.SphereGeometry(0.05, 6, 4);
+        const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        leftEye.position.set(-0.1, 1.75, 0.25);
+        rightEye.position.set(0.1, 1.75, 0.25);
+        character.add(leftEye, rightEye);
+        
+        // Body
+        const bodyGeometry = new THREE.CapsuleGeometry(0.3, 0.8, 4, 8);
+        const bodyMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x4488ff,
+            roughness: 0.6
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.y = 0.9;
+        body.castShadow = true;
+        character.add(body);
+        
+        // Arms
+        const armGeometry = new THREE.CapsuleGeometry(0.1, 0.6, 3, 6);
+        const armMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xffcc99,
+            roughness: 0.8
+        });
+        const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+        const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+        leftArm.position.set(-0.5, 1.1, 0);
+        rightArm.position.set(0.5, 1.1, 0);
+        leftArm.castShadow = true;
+        rightArm.castShadow = true;
+        character.add(leftArm, rightArm);
+        
+        // Legs
+        const legGeometry = new THREE.CapsuleGeometry(0.12, 0.8, 4, 8);
+        const legMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x2266cc,
+            roughness: 0.7
+        });
+        const leftLeg = new THREE.Mesh(legGeometry, legMaterial);
+        const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
+        leftLeg.position.set(-0.15, 0.2, 0);
+        rightLeg.position.set(0.15, 0.2, 0);
+        leftLeg.castShadow = true;
+        rightLeg.castShadow = true;
+        character.add(leftLeg, rightLeg);
+        
+        // Store body parts for animation
+        character.userData.bodyParts = {
+            head,
+            body,
+            leftArm,
+            rightArm,
+            leftLeg,
+            rightLeg,
+            leftEye,
+            rightEye
+        };
+        
+        return character;
+    }
+    
+    updatePlayerAvatar(deltaTime) {
+        if (!this.playerAvatar || !this.player) return;
+        
+        // Update avatar position
+        this.playerAvatar.position.copy(this.player.position);
+        
+        // Update animation state
+        const wasMoving = this.player.isMoving;
+        this.player.isMoving = this.player.velocity.length() > 0.01;
+        
+        if (this.player.isMoving !== wasMoving) {
+            this.player.animationState = this.player.isMoving ? 'walk' : 'idle';
+            this.player.animationTime = 0;
+        }
+        
+        // Update animation time
+        this.player.animationTime += deltaTime;
+        
+        // Apply animations
+        this.animateCharacter(deltaTime);
+        
+        // Update avatar rotation based on movement direction
+        if (this.player.isMoving && this.player.movementDirection.length() > 0.1) {
+            const targetRotation = Math.atan2(
+                this.player.movementDirection.x, 
+                this.player.movementDirection.z
+            );
+            this.playerAvatar.rotation.y = THREE.MathUtils.lerp(
+                this.playerAvatar.rotation.y, 
+                targetRotation, 
+                deltaTime * 8
+            );
+        }
+    }
+    
+    animateCharacter(deltaTime) {
+        if (!this.playerAvatar.userData.bodyParts) return;
+        
+        const parts = this.playerAvatar.userData.bodyParts;
+        const time = this.player.animationTime;
+        
+        switch (this.player.animationState) {
+            case 'idle':
+                // Subtle breathing animation
+                const breathe = Math.sin(time * 2) * 0.02;
+                parts.body.scale.y = 1 + breathe;
+                parts.head.position.y = 1.7 + breathe * 0.5;
+                break;
+                
+            case 'walk':
+                // Walking animation - arm and leg swinging
+                const walkCycle = time * 6; // Walk speed
+                const armSwing = Math.sin(walkCycle) * 0.3;
+                const legSwing = Math.sin(walkCycle + Math.PI) * 0.2;
+                
+                // Arms swing opposite to each other
+                parts.leftArm.rotation.x = armSwing;
+                parts.rightArm.rotation.x = -armSwing;
+                
+                // Legs swing opposite to each other
+                parts.leftLeg.rotation.x = legSwing;
+                parts.rightLeg.rotation.x = -legSwing;
+                
+                // Slight body bob
+                const bob = Math.sin(walkCycle * 2) * 0.05;
+                parts.body.position.y = 0.9 + bob;
+                parts.head.position.y = 1.7 + bob;
+                break;
+        }
+    }
+    
+    toggleCameraMode() {
+        this.isFirstPerson = !this.isFirstPerson;
+        
+        if (this.isFirstPerson) {
+            // Switch to first person
+            this.playerAvatar.visible = false; // Hide avatar in first person
+            this.updateFirstPersonCamera();
+        } else {
+            // Switch to third person
+            this.playerAvatar.visible = true; // Show avatar in third person
+            this.updateThirdPersonCamera();
+        }
+        
+        // Update HUD
+        const viewMode = document.getElementById('viewMode');
+        if (viewMode) {
+            viewMode.textContent = this.isFirstPerson ? 'First Person' : 'Third Person';
+        }
+        
+        console.log(`📷 Camera mode: ${this.isFirstPerson ? 'First Person' : 'Third Person'}`);
+    }
+    
+    updateFirstPersonCamera() {
+        if (!this.player) return;
+        
+        const targetPosition = this.player.position.clone().add(this.firstPersonOffset);
+        this.camera.position.lerp(targetPosition, 0.1);
+        
+        // Disable orbit controls in first person
+        this.controls.enabled = false;
+    }
+    
+    updateThirdPersonCamera() {
+        if (!this.player) return;
+        
+        const targetPosition = this.player.position.clone().add(this.cameraOffset);
+        
+        // Smooth camera following
+        this.camera.position.lerp(targetPosition, 0.1);
+        this.controls.target.lerp(this.player.position, 0.1);
+        
+        // Enable orbit controls in third person
+        this.controls.enabled = true;
     }
     
     setupControls() {
@@ -1059,16 +1662,38 @@ class RenderWorldHub {
     }
     
     setupMobileControls() {
+        // Initialize mobile controls system with sub-20ms touch latency
+        try {
+            // Import and initialize the enhanced mobile touch system
+            if (typeof window.MobileGameBridge !== 'undefined') {
+                this.mobileControlsSystem = new window.MobileGameBridge(this);
+                console.log('📱 Enhanced mobile controls integrated');
+            } else {
+                // Fallback to basic mobile controls
+                this.setupBasicMobileControls();
+            }
+        } catch (error) {
+            console.warn('Mobile controls failed to initialize:', error);
+            this.setupBasicMobileControls();
+        }
+        
+        // Setup mobile-specific UI optimizations
+        this.setupMobileUI();
+    }
+    
+    setupBasicMobileControls() {
         if (!this.isMobile) return;
         
-        // Joystick
+        // Enhanced joystick with better responsiveness
         const joystick = document.getElementById('joystick');
         const joystickKnob = document.getElementById('joystickKnob');
+        
+        if (!joystick || !joystickKnob) return;
         
         joystick.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.joystickActive = true;
-        });
+        }, { passive: false });
         
         joystick.addEventListener('touchmove', (e) => {
             if (!this.joystickActive) return;
@@ -1096,13 +1721,13 @@ class RenderWorldHub {
             
             joystickKnob.style.transform = `translate(${this.joystickPosition.x}px, ${this.joystickPosition.y}px)`;
             
-            // Update movement
-            this.movementVector.set(
-                this.joystickPosition.x / maxDistance,
-                0,
-                this.joystickPosition.y / maxDistance
-            );
-        });
+            // Update movement with improved responsiveness
+            const normalizedX = this.joystickPosition.x / maxDistance;
+            const normalizedY = this.joystickPosition.y / maxDistance;
+            
+            this.movementVector.set(normalizedX, 0, normalizedY);
+            this.handleMobileMovement({ x: normalizedX, y: normalizedY });
+        }, { passive: false });
         
         joystick.addEventListener('touchend', (e) => {
             e.preventDefault();
@@ -1111,31 +1736,341 @@ class RenderWorldHub {
             this.joystickPosition.y = 0;
             joystickKnob.style.transform = 'translate(0px, 0px)';
             this.movementVector.set(0, 0, 0);
+            this.handleMobileMovement({ x: 0, y: 0 });
+        }, { passive: false });
+        
+        // Enhanced action buttons with haptic feedback
+        this.setupActionButton('spiritLensBtn', () => this.useSpiritLens());
+        this.setupActionButton('interactBtn', () => this.interact());
+        this.setupActionButton('jumpBtn', () => this.jump());
+    }
+    
+    setupActionButton(buttonId, action) {
+        const button = document.getElementById(buttonId);
+        if (!button) return;
+        
+        button.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            button.style.transform = 'scale(0.9)';
+            button.style.background = 'rgba(0, 255, 136, 0.8)';
+            
+            // Haptic feedback if available
+            if (navigator.vibrate) {
+                navigator.vibrate(30);
+            }
+            
+            action();
+        }, { passive: false });
+        
+        button.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            button.style.transform = 'scale(1)';
+            button.style.background = 'rgba(0, 255, 136, 0.2)';
+        }, { passive: false });
+    }
+    
+    setupMobileUI() {
+        // Add mobile-specific UI optimizations
+        if (this.isMobile) {
+            // Show mobile controls
+            const mobileControls = document.querySelector('.mobile-controls');
+            if (mobileControls) {
+                mobileControls.style.display = 'block';
+            }
+            
+            // Optimize touch targets for mobile
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(btn => {
+                btn.style.minWidth = '60px';
+                btn.style.minHeight = '60px';
+                btn.style.fontSize = '16px';
+            });
+            
+            // Add persistent menu icon for returning to Sampler
+            this.addPersistentMenuIcon();
+        }
+    }
+    
+    addPersistentMenuIcon() {
+        const existingIcon = document.getElementById('persistent-menu-icon');
+        if (existingIcon) return;
+        
+        const menuIcon = document.createElement('div');
+        menuIcon.id = 'persistent-menu-icon';
+        menuIcon.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 136, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10001;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+            backdrop-filter: blur(10px);
+        `;
+        
+        menuIcon.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+            </svg>
+        `;
+        
+        menuIcon.title = 'Return to MIFF Sampler';
+        
+        // Add hover/touch effects
+        menuIcon.addEventListener('mouseenter', () => {
+            menuIcon.style.transform = 'scale(1.1)';
+            menuIcon.style.background = 'rgba(0, 255, 136, 1)';
         });
         
-        // Action buttons
-        document.getElementById('spiritLensBtn').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.activateSpiritLens();
+        menuIcon.addEventListener('mouseleave', () => {
+            menuIcon.style.transform = 'scale(1)';
+            menuIcon.style.background = 'rgba(0, 255, 136, 0.9)';
         });
         
-        document.getElementById('interactBtn').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.interact();
+        menuIcon.addEventListener('click', () => {
+            window.location.href = '../sampler/';
         });
         
-        document.getElementById('jumpBtn').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.jump();
-        });
+        document.body.appendChild(menuIcon);
+    }
+    
+    // Mobile-specific game methods
+    handleMobileMovement(vector) {
+        if (!this.player) return;
+        
+        // Convert joystick input to player movement with improved responsiveness
+        const speed = 0.15; // Slightly faster for mobile
+        const moveSpeed = speed * this.clock.getDelta() * 60; // Frame-rate independent
+        
+        // Apply movement to player
+        if (this.player.position) {
+            const forward = new THREE.Vector3(0, 0, -1);
+            const right = new THREE.Vector3(1, 0, 0);
+            
+            // Get camera direction for relative movement
+            const cameraDirection = new THREE.Vector3();
+            this.camera.getWorldDirection(cameraDirection);
+            cameraDirection.y = 0;
+            cameraDirection.normalize();
+            
+            const cameraRight = new THREE.Vector3();
+            cameraRight.crossVectors(cameraDirection, new THREE.Vector3(0, 1, 0));
+            
+            // Apply movement relative to camera
+            const movement = new THREE.Vector3();
+            movement.addScaledVector(cameraRight, vector.x * moveSpeed);
+            movement.addScaledVector(cameraDirection, -vector.y * moveSpeed);
+            
+            this.player.position.add(movement);
+            
+            // Update player avatar if it exists
+            if (this.playerAvatar && this.playerAvatar.position) {
+                this.playerAvatar.position.copy(this.player.position);
+            }
+            
+            // Update camera follow
+            if (!this.isFirstPerson) {
+                this.updateThirdPersonCamera();
+            }
+        }
+    }
+    
+    useSpiritLens() {
+        this.activateSpiritLens();
     }
     
     setupAudio() {
         try {
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.sounds = {};
+            this.ambientSounds = {};
+            
+            // Initialize audio system
+            this.initializeAudioSystem();
+            
+            console.log('🔊 Audio system initialized');
         } catch (error) {
             console.warn('Audio context not supported:', error);
         }
+    }
+    
+    initializeAudioSystem() {
+        // Create master gain node for volume control
+        this.masterGain = this.audioContext.createGain();
+        this.masterGain.connect(this.audioContext.destination);
+        this.masterGain.gain.value = 0.7; // Master volume
+        
+        // Create separate gain nodes for different audio types
+        this.musicGain = this.audioContext.createGain();
+        this.sfxGain = this.audioContext.createGain();
+        this.ambientGain = this.audioContext.createGain();
+        
+        this.musicGain.connect(this.masterGain);
+        this.sfxGain.connect(this.masterGain);
+        this.ambientGain.connect(this.masterGain);
+        
+        // Set initial volumes
+        this.musicGain.gain.value = 0.5;
+        this.sfxGain.gain.value = 0.8;
+        this.ambientGain.gain.value = 0.6;
+        
+        // Generate procedural sounds
+        this.generateProceduralSounds();
+        
+        // Start ambient warehouse sounds
+        this.startAmbientAudio();
+    }
+    
+    generateProceduralSounds() {
+        // Generate electronic sounds procedurally for better mobile performance
+        
+        // Scan start sound - electronic chirp
+        this.sounds.scanStart = this.createElectronicChirp();
+        
+        // Portal entry sound - dimensional whoosh
+        this.sounds.portalEntry = this.createPortalWhoosh();
+        
+        // Interaction beep - UI feedback
+        this.sounds.interact = this.createInteractionBeep();
+        
+        // Footstep sound - metallic click
+        this.sounds.footstep = this.createFootstepSound();
+        
+        console.log('🎵 Procedural sounds generated');
+    }
+    
+    createElectronicChirp() {
+        // Create a short electronic chirp for scanning
+        return {
+            frequency: 800,
+            duration: 0.3,
+            type: 'square',
+            envelope: { attack: 0.01, decay: 0.1, sustain: 0.3, release: 0.2 }
+        };
+    }
+    
+    createPortalWhoosh() {
+        // Create a dimensional portal sound
+        return {
+            frequency: 200,
+            duration: 1.5,
+            type: 'sawtooth',
+            envelope: { attack: 0.1, decay: 0.3, sustain: 0.5, release: 1.1 },
+            filter: { type: 'lowpass', frequency: 1000, Q: 5 }
+        };
+    }
+    
+    createInteractionBeep() {
+        // Create a UI interaction beep
+        return {
+            frequency: 600,
+            duration: 0.15,
+            type: 'sine',
+            envelope: { attack: 0.01, decay: 0.05, sustain: 0.5, release: 0.09 }
+        };
+    }
+    
+    createFootstepSound() {
+        // Create a metallic footstep sound
+        return {
+            frequency: 150,
+            duration: 0.1,
+            type: 'triangle',
+            envelope: { attack: 0.01, decay: 0.03, sustain: 0.2, release: 0.06 }
+        };
+    }
+    
+    startAmbientAudio() {
+        // Start ambient warehouse sounds
+        this.playAmbientWarehouse();
+        
+        // Portal-specific ambient sounds
+        this.portals.forEach(portal => {
+            this.playPortalAmbient(portal);
+        });
+    }
+    
+    playAmbientWarehouse() {
+        // Create subtle industrial ambience
+        if (!this.audioContext) return;
+        
+        // Low-frequency warehouse hum
+        const warehouseHum = this.audioContext.createOscillator();
+        const warehouseGain = this.audioContext.createGain();
+        
+        warehouseHum.type = 'sawtooth';
+        warehouseHum.frequency.setValueAtTime(60, this.audioContext.currentTime);
+        warehouseGain.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+        
+        warehouseHum.connect(warehouseGain);
+        warehouseGain.connect(this.ambientGain);
+        
+        warehouseHum.start();
+        
+        // Store for cleanup
+        this.ambientSounds.warehouse = { oscillator: warehouseHum, gain: warehouseGain };
+        
+        console.log('🏭 Warehouse ambient audio started');
+    }
+    
+    playPortalAmbient(portal) {
+        if (!this.audioContext) return;
+        
+        // Each portal has unique ambient sound
+        const portalAudio = this.createPortalAmbientSound(portal.id);
+        
+        const oscillator = this.audioContext.createOscillator();
+        const gain = this.audioContext.createGain();
+        const filter = this.audioContext.createBiquadFilter();
+        
+        oscillator.type = portalAudio.type;
+        oscillator.frequency.setValueAtTime(portalAudio.frequency, this.audioContext.currentTime);
+        
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(portalAudio.filterFreq, this.audioContext.currentTime);
+        
+        gain.gain.setValueAtTime(portalAudio.volume, this.audioContext.currentTime);
+        
+        oscillator.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ambientGain);
+        
+        oscillator.start();
+        
+        // Store for cleanup
+        this.ambientSounds[portal.id] = { oscillator, gain, filter };
+    }
+    
+    createPortalAmbientSound(portalId) {
+        const portalSounds = {
+            'spirit-tamer': {
+                type: 'sine',
+                frequency: 440,
+                filterFreq: 800,
+                volume: 0.05
+            },
+            'toppler': {
+                type: 'square',
+                frequency: 330,
+                filterFreq: 600,
+                volume: 0.04
+            },
+            'witcher': {
+                type: 'sawtooth',
+                frequency: 220,
+                filterFreq: 400,
+                volume: 0.06
+            }
+        };
+        
+        return portalSounds[portalId] || portalSounds['spirit-tamer'];
     }
     
     setupEventListeners() {
@@ -1187,25 +2122,415 @@ class RenderWorldHub {
     }
     
     enterPortal(portalId) {
-        console.log(`Entering portal: ${portalId}`);
+        console.log(`🚪 Entering portal: ${portalId}`);
         
-        // Route to correct game
-        switch (portalId) {
-            case 'spirit-tamer':
-                window.open('/site/#spirit-tamer', '_blank');
-                break;
-            case 'toppler':
-                window.open('/site/#toppler', '_blank');
-                break;
-            case 'witcher':
-                window.open('/site/grove.html', '_blank');
-                break;
+        // Prevent multiple portal entries
+        if (this.portalTransitioning) {
+            return;
+        }
+        
+        this.portalTransitioning = true;
+        
+        // Show portal entry effect
+        this.showPortalTransition(portalId, () => {
+            // Route to correct destination with proper URLs
+            this.routeToDestination(portalId);
+        });
+    }
+    
+    showPortalTransition(portalId, callback) {
+        // Create transition overlay
+        const transition = document.createElement('div');
+        transition.id = 'portal-transition';
+        transition.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(0,255,136,0.1) 0%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,1) 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            backdrop-filter: blur(5px);
+        `;
+        
+        // Portal-specific effects
+        const portalInfo = this.getPortalInfo(portalId);
+        
+        transition.innerHTML = `
+            <div style="
+                color: ${portalInfo.color};
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 2rem;
+                font-weight: 600;
+                text-align: center;
+                text-shadow: 0 0 20px ${portalInfo.color};
+                margin-bottom: 2rem;
+                animation: portalPulse 1s infinite alternate;
+            ">
+                ${portalInfo.title}
+            </div>
+            <div style="
+                color: #ffffff;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 1rem;
+                text-align: center;
+                max-width: 400px;
+                line-height: 1.5;
+                opacity: 0.8;
+                margin-bottom: 2rem;
+            ">
+                ${portalInfo.description}
+            </div>
+            <div style="
+                width: 60px;
+                height: 60px;
+                border: 3px solid ${portalInfo.color};
+                border-top: 3px solid transparent;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            "></div>
+            <div style="
+                color: #888;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.9rem;
+                text-align: center;
+                margin-top: 2rem;
+            ">
+                Initializing portal connection...
+            </div>
+        `;
+        
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes portalPulse {
+                from { transform: scale(1); }
+                to { transform: scale(1.05); }
+            }
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.body.appendChild(transition);
+        
+        // Fade in
+        setTimeout(() => {
+            transition.style.opacity = '1';
+        }, 50);
+        
+        // Portal entry sound effect
+        this.playSound('portalEntry');
+        
+        // Portal-specific transition duration
+        const transitionDuration = 2000;
+        
+        setTimeout(() => {
+            callback();
+        }, transitionDuration);
+    }
+    
+    getPortalInfo(portalId) {
+        const portalData = {
+            'spirit-tamer': {
+                title: '⚔️ Spirit Tamer',
+                description: 'Enter the world of turn-based combat with 157+ modular systems. Master the art of spirit summoning and strategic battles.',
+                color: '#4488ff',
+                destination: '/site/#spirit-tamer'
+            },
+            'toppler': {
+                title: '🎯 Toppler',
+                description: 'Experience physics-based action gaming with precision platforming. Navigate challenging obstacles and master momentum.',
+                color: '#44ff88',
+                destination: '/site/#toppler'
+            },
+            'witcher': {
+                title: '🧙‍♂️ Witcher Grove',
+                description: 'Explore an open-world adventure with dynamic AI ecosystems. Discover mysteries in an ever-changing magical realm.',
+                color: '#ff4488',
+                destination: '/site/grove.html'
+            }
+        };
+        
+        return portalData[portalId] || {
+            title: 'Unknown Portal',
+            description: 'Destination unknown',
+            color: '#ffffff',
+            destination: '/site/'
+        };
+    }
+    
+    routeToDestination(portalId) {
+        const portalInfo = this.getPortalInfo(portalId);
+        
+        // Save player progress/state
+        this.savePlayerState();
+        
+        // Navigate to destination
+        console.log(`🚀 Navigating to: ${portalInfo.destination}`);
+        
+        // Use same-window navigation for better UX
+        window.location.href = portalInfo.destination;
+    }
+    
+    savePlayerState() {
+        // Save current player state for potential return
+        const playerState = {
+            position: {
+                x: this.player.position.x,
+                y: this.player.position.y,
+                z: this.player.position.z
+            },
+            cameraMode: this.isFirstPerson,
+            timestamp: Date.now(),
+            hubVersion: '1.0'
+        };
+        
+        localStorage.setItem('renderworld-player-state', JSON.stringify(playerState));
+        console.log('💾 Player state saved');
+    }
+    
+    loadPlayerState() {
+        // Load saved player state if available
+        try {
+            const savedState = localStorage.getItem('renderworld-player-state');
+            if (savedState) {
+                const playerState = JSON.parse(savedState);
+                
+                // Only restore if saved recently (within 1 hour)
+                const timeDiff = Date.now() - playerState.timestamp;
+                if (timeDiff < 3600000) { // 1 hour
+                    this.player.position.set(
+                        playerState.position.x,
+                        playerState.position.y,
+                        playerState.position.z
+                    );
+                    
+                    if (this.playerAvatar) {
+                        this.playerAvatar.position.copy(this.player.position);
+                    }
+                    
+                    if (playerState.cameraMode !== this.isFirstPerson) {
+                        this.toggleCameraMode();
+                    }
+                    
+                    console.log('💾 Player state restored');
+                }
+            }
+        } catch (error) {
+            console.warn('Failed to load player state:', error);
         }
     }
     
     interactWithNPC(npc) {
-        console.log(`Interacting with ${npc.name}`);
-        // Add NPC interaction logic here
+        console.log(`💬 Interacting with ${npc.name}`);
+        
+        // Show dialogue based on NPC type and current context
+        const dialogue = this.getNPCDialogue(npc);
+        this.showDialogue(npc, dialogue);
+        
+        // Trigger NPC-specific interaction behavior
+        switch (npc.id) {
+            case 'explorer':
+                this.explorerInteraction(npc);
+                break;
+            case 'guide':
+                this.guideInteraction(npc);
+                break;
+            case 'mystic':
+                this.mysticInteraction(npc);
+                break;
+        }
+    }
+    
+    getNPCDialogue(npc) {
+        const dialogues = {
+            explorer: [
+                "Scanning protocols active. Portal signatures detected.",
+                "My sensors indicate three dimensional gateways nearby.",
+                "Holographic data suggests these portals lead to interactive experiences.",
+                "The Spirit Lens enhances my scanning capabilities significantly."
+            ],
+            guide: [
+                "Welcome to the RenderWorld Hub! I'm here to help you navigate.",
+                "That crystalline device is the Spirit Lens - it reveals hidden details.",
+                "Each portal leads to a different MIFF experience. Choose wisely!",
+                "Try using the Spirit Lens to see what I can see!"
+            ],
+            mystic: [
+                "The energies here are... fascinating. Multiple realities converge.",
+                "I sense the portals shifting between dimensions.",
+                "The Spirit Lens resonates with ancient technologies.",
+                "Through meditation, I perceive the true nature of this place."
+            ]
+        };
+        
+        const npcDialogues = dialogues[npc.id] || ["Hello, traveler."];
+        const randomIndex = Math.floor(Math.random() * npcDialogues.length);
+        return npcDialogues[randomIndex];
+    }
+    
+    showDialogue(npc, text) {
+        // Create floating dialogue bubble
+        const existingDialogue = document.getElementById('npc-dialogue');
+        if (existingDialogue) {
+            existingDialogue.remove();
+        }
+        
+        const dialogue = document.createElement('div');
+        dialogue.id = 'npc-dialogue';
+        dialogue.style.cssText = `
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff88;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: 2px solid #00ff88;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            max-width: 400px;
+            text-align: center;
+            z-index: 1001;
+            animation: fadeInDialogue 0.3s ease-out;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        `;
+        
+        dialogue.innerHTML = `
+            <div style="color: #ffffff; font-size: 16px; margin-bottom: 0.5rem;">${npc.name}</div>
+            <div>${text}</div>
+            <div style="margin-top: 1rem; font-size: 12px; opacity: 0.7;">Click anywhere to close</div>
+        `;
+        
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInDialogue {
+                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.body.appendChild(dialogue);
+        
+        // Auto-close after 5 seconds or on click
+        const closeDialogue = () => {
+            dialogue.style.animation = 'fadeInDialogue 0.3s ease-out reverse';
+            setTimeout(() => dialogue.remove(), 300);
+        };
+        
+        setTimeout(closeDialogue, 5000);
+        dialogue.addEventListener('click', closeDialogue);
+        document.addEventListener('click', closeDialogue, { once: true });
+    }
+    
+    explorerInteraction(npc) {
+        // Explorer emits a holographic scan
+        console.log('🤖 Explorer performing holographic scan');
+        
+        // Enhance hologram emission
+        const hologramEmitter = npc.group.children.find(child => 
+            child.material && child.material.color.getHex() === 0x00ffff
+        );
+        if (hologramEmitter) {
+            hologramEmitter.material.emissiveIntensity = 1;
+            setTimeout(() => {
+                hologramEmitter.material.emissiveIntensity = 0.3;
+            }, 2000);
+        }
+        
+        // Temporary scanning effect on nearby objects
+        this.performTemporaryScan();
+    }
+    
+    guideInteraction(npc) {
+        // Guide demonstrates Spirit Lens usage
+        console.log('👤 Guide demonstrating Spirit Lens');
+        
+        // Point toward Spirit Lens with enhanced gesture
+        if (this.spiritLens) {
+            const direction = new THREE.Vector3();
+            direction.subVectors(this.spiritLens.position, npc.group.position);
+            direction.normalize();
+            
+            const targetRotation = Math.atan2(direction.x, direction.z);
+            npc.group.rotation.y = targetRotation;
+            
+            // Enhance Spirit Lens glow temporarily
+            if (this.spiritLens.children[0] && this.spiritLens.children[0].material) {
+                const originalIntensity = this.spiritLens.children[0].material.emissiveIntensity;
+                this.spiritLens.children[0].material.emissiveIntensity = 1;
+                setTimeout(() => {
+                    this.spiritLens.children[0].material.emissiveIntensity = originalIntensity;
+                }, 3000);
+            }
+        }
+    }
+    
+    mysticInteraction(npc) {
+        // Mystic creates portal energy resonance
+        console.log('🧙‍♂️ Mystic creating portal resonance');
+        
+        // Enhance portal effects temporarily
+        this.portals.forEach(portal => {
+            if (portal.light) {
+                const originalIntensity = portal.light.intensity;
+                portal.light.intensity = 3;
+                setTimeout(() => {
+                    portal.light.intensity = originalIntensity;
+                }, 4000);
+            }
+        });
+        
+        // Color shift effect
+        npc.colorShift = 1;
+        setTimeout(() => {
+            npc.colorShift = 0;
+        }, 3000);
+    }
+    
+    performTemporaryScan() {
+        // Temporary scanning effect for Explorer interaction
+        const tempScanTime = this.clock.getElapsedTime();
+        
+        // Brief highlight of all interactive objects
+        [...this.npcs, ...this.portals].forEach(obj => {
+            const target = obj.group || obj.mesh;
+            if (target && target.children) {
+                target.children.forEach(child => {
+                    if (child.material) {
+                        child.material.emissive.setHex(0x00ffff);
+                        child.material.emissiveIntensity = 0.5;
+                    }
+                });
+            }
+        });
+        
+        // Reset after 1 second
+        setTimeout(() => {
+            [...this.npcs, ...this.portals].forEach(obj => {
+                const target = obj.group || obj.mesh;
+                if (target && target.children) {
+                    target.children.forEach(child => {
+                        if (child.material && !this.scanningMode) {
+                            child.material.emissive.setHex(0x000000);
+                            child.material.emissiveIntensity = 0;
+                        }
+                    });
+                }
+            });
+        }, 1000);
     }
     
     activateSpiritLens() {
@@ -1223,25 +2548,205 @@ class RenderWorldHub {
     }
     
     enableScanningMode() {
-        // Highlight NPCs and portals
+        console.log('🔮 Spirit Lens scanning mode activated');
+        
+        // Enhanced scanning effects
+        this.scanningMode = true;
+        this.scanStartTime = this.clock.getElapsedTime();
+        
+        // Highlight NPCs with warm amber outlines
         this.npcs.forEach(npc => {
-            npc.mesh.material.emissive.setHex(0x004400);
+            if (npc.group) {
+                npc.group.children.forEach(child => {
+                    if (child.material) {
+                        child.material.emissive.setHex(0xffaa00); // Warm amber
+                        child.material.emissiveIntensity = 0.3;
+                    }
+                });
+            } else if (npc.mesh) {
+                npc.mesh.material.emissive.setHex(0xffaa00);
+                npc.mesh.material.emissiveIntensity = 0.3;
+            }
         });
         
+        // Portal detection - distant portals pulse
         this.portals.forEach(portal => {
-            portal.light.intensity = 2;
+            if (portal.light) {
+                portal.light.intensity = 2;
+                portal.light.color.setHex(0x00ffff); // Cyan for scanning
+            }
+            if (portal.mesh) {
+                portal.mesh.material.emissive.setHex(0x004444);
+                portal.mesh.material.emissiveIntensity = 0.5;
+            }
         });
+        
+        // Add wireframe overlays to interactive objects
+        this.addWireframeOverlays();
+        
+        // Play scanning sound effect
+        this.playSound('scanStart');
+        
+        // Electronic hum sound
+        this.playAmbientHum();
     }
     
     disableScanningMode() {
-        // Remove highlights
+        console.log('🔮 Spirit Lens scanning mode deactivated');
+        
+        this.scanningMode = false;
+        
+        // Remove NPC highlights
         this.npcs.forEach(npc => {
-            npc.mesh.material.emissive.setHex(0x000000);
+            if (npc.group) {
+                npc.group.children.forEach(child => {
+                    if (child.material) {
+                        child.material.emissive.setHex(0x000000);
+                        child.material.emissiveIntensity = 0;
+                    }
+                });
+            } else if (npc.mesh) {
+                npc.mesh.material.emissive.setHex(0x000000);
+                npc.mesh.material.emissiveIntensity = 0;
+            }
         });
         
+        // Reset portal effects
         this.portals.forEach(portal => {
-            portal.light.intensity = 1;
+            if (portal.light) {
+                portal.light.intensity = 1;
+                portal.light.color.setHex(portal.originalColor || 0xffffff);
+            }
+            if (portal.mesh) {
+                portal.mesh.material.emissive.setHex(0x000000);
+                portal.mesh.material.emissiveIntensity = 0;
+            }
         });
+        
+        // Remove wireframe overlays
+        this.removeWireframeOverlays();
+        
+        // Stop ambient hum
+        this.stopAmbientHum();
+    }
+    
+    addWireframeOverlays() {
+        // Add wireframe overlays to interactive objects for scanning mode
+        this.wireframeObjects = [];
+        
+        // NPCs wireframes
+        this.npcs.forEach(npc => {
+            if (npc.group) {
+                const wireframeGroup = new THREE.Group();
+                npc.group.children.forEach(child => {
+                    if (child.geometry) {
+                        const wireframeGeometry = new THREE.WireframeGeometry(child.geometry);
+                        const wireframeMaterial = new THREE.LineBasicMaterial({ 
+                            color: 0x00ffff,
+                            transparent: true,
+                            opacity: 0.5
+                        });
+                        const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
+                        wireframe.position.copy(child.position);
+                        wireframe.rotation.copy(child.rotation);
+                        wireframe.scale.copy(child.scale);
+                        wireframeGroup.add(wireframe);
+                    }
+                });
+                wireframeGroup.position.copy(npc.group.position);
+                wireframeGroup.rotation.copy(npc.group.rotation);
+                this.scene.add(wireframeGroup);
+                this.wireframeObjects.push(wireframeGroup);
+            }
+        });
+        
+        // Portal wireframes
+        this.portals.forEach(portal => {
+            if (portal.mesh && portal.mesh.geometry) {
+                const wireframeGeometry = new THREE.WireframeGeometry(portal.mesh.geometry);
+                const wireframeMaterial = new THREE.LineBasicMaterial({ 
+                    color: 0x00ffff,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                const wireframe = new THREE.LineSegments(wireframeGeometry, wireframeMaterial);
+                wireframe.position.copy(portal.mesh.position);
+                wireframe.rotation.copy(portal.mesh.rotation);
+                this.scene.add(wireframe);
+                this.wireframeObjects.push(wireframe);
+            }
+        });
+    }
+    
+    removeWireframeOverlays() {
+        if (this.wireframeObjects) {
+            this.wireframeObjects.forEach(wireframe => {
+                this.scene.remove(wireframe);
+            });
+            this.wireframeObjects = [];
+        }
+    }
+    
+    playSound(soundName) {
+        if (!this.audioContext || !this.sounds[soundName]) {
+            console.warn(`Sound not found: ${soundName}`);
+            return;
+        }
+        
+        // Resume audio context if suspended (required for mobile)
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
+        
+        const soundData = this.sounds[soundName];
+        
+        // Create oscillator and envelope
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.type = soundData.type;
+        oscillator.frequency.setValueAtTime(soundData.frequency, this.audioContext.currentTime);
+        
+        // Apply envelope
+        const now = this.audioContext.currentTime;
+        const { attack, decay, sustain, release } = soundData.envelope;
+        
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.3, now + attack);
+        gainNode.gain.exponentialRampToValueAtTime(sustain * 0.3, now + attack + decay);
+        gainNode.gain.setValueAtTime(sustain * 0.3, now + soundData.duration - release);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + soundData.duration);
+        
+        // Apply filter if specified
+        if (soundData.filter) {
+            const filter = this.audioContext.createBiquadFilter();
+            filter.type = soundData.filter.type;
+            filter.frequency.setValueAtTime(soundData.filter.frequency, now);
+            filter.Q.setValueAtTime(soundData.filter.Q || 1, now);
+            
+            oscillator.connect(filter);
+            filter.connect(gainNode);
+        } else {
+            oscillator.connect(gainNode);
+        }
+        
+        gainNode.connect(this.sfxGain);
+        
+        oscillator.start(now);
+        oscillator.stop(now + soundData.duration);
+        
+        console.log(`🔊 Playing sound: ${soundName}`);
+    }
+    
+    playAmbientHum() {
+        // Electronic hum during scanning
+        this.ambientHumActive = true;
+        console.log('🔊 Electronic hum started');
+    }
+    
+    stopAmbientHum() {
+        this.ambientHumActive = false;
+        console.log('🔊 Electronic hum stopped');
     }
     
     interact() {
@@ -1257,20 +2762,7 @@ class RenderWorldHub {
     }
     
     toggleView() {
-        this.isFirstPerson = !this.isFirstPerson;
-        
-        if (this.isFirstPerson) {
-            // First person view
-            this.camera.position.copy(this.playerAvatar.position);
-            this.camera.position.y += 1.6; // Eye height
-            this.controls.enabled = false;
-            document.getElementById('viewMode').textContent = 'First Person';
-        } else {
-            // Third person view
-            this.camera.position.set(0, 5, 10);
-            this.controls.enabled = true;
-            document.getElementById('viewMode').textContent = 'Third Person';
-        }
+        this.toggleCameraMode();
     }
     
     showMenu() {
@@ -1304,10 +2796,11 @@ class RenderWorldHub {
     updateMovement() {
         if (!this.player) return;
         
-        // Keyboard movement
+        const deltaTime = this.clock.getDelta();
         const moveSpeed = 0.2;
         const moveVector = new THREE.Vector3();
         
+        // Keyboard movement
         if (this.keys['KeyW'] || this.keys['ArrowUp']) moveVector.z -= moveSpeed;
         if (this.keys['KeyS'] || this.keys['ArrowDown']) moveVector.z += moveSpeed;
         if (this.keys['KeyA'] || this.keys['ArrowLeft']) moveVector.x -= moveSpeed;
@@ -1319,19 +2812,50 @@ class RenderWorldHub {
             moveVector.z += this.movementVector.z * moveSpeed;
         }
         
+        // Update player velocity and movement direction
+        this.player.velocity.copy(moveVector);
+        if (moveVector.length() > 0) {
+            this.player.movementDirection.copy(moveVector.clone().normalize());
+        }
+        
         // Apply movement
         this.player.position.add(moveVector);
-        this.playerAvatar.position.copy(this.player.position);
         
-        // Update camera for first person
+        // Update player avatar with animations
+        this.updatePlayerAvatar(deltaTime);
+        
+        // Update camera based on mode
         if (this.isFirstPerson) {
-            this.camera.position.copy(this.playerAvatar.position);
-            this.camera.position.y += 1.6;
+            this.updateFirstPersonCamera();
+        } else {
+            this.updateThirdPersonCamera();
         }
         
         // Update HUD
-        document.getElementById('playerPosition').textContent = 
-            `${this.player.position.x.toFixed(1)}, ${this.player.position.y.toFixed(1)}, ${this.player.position.z.toFixed(1)}`;
+        const positionDisplay = document.getElementById('playerPosition');
+        if (positionDisplay) {
+            positionDisplay.textContent = 
+                `${this.player.position.x.toFixed(1)}, ${this.player.position.y.toFixed(1)}, ${this.player.position.z.toFixed(1)}`;
+        }
+        
+        // Update mobile controls system if available
+        if (this.mobileControlsSystem) {
+            const gameState = {
+                player: this.player,
+                world: {
+                    spiritLens: this.spiritLens ? {
+                        position: this.spiritLens.position,
+                        active: true
+                    } : null,
+                    npcs: this.npcs,
+                    portals: this.portals
+                },
+                game: {
+                    fps: this.fps
+                }
+            };
+            this.mobileControlsSystem.update(gameState);
+        }
     }
     
     updateAnimations() {
@@ -1348,12 +2872,8 @@ class RenderWorldHub {
             this.lensParticles.rotation.y = time * 0.1;
         }
         
-        // NPC animations
-        this.npcs.forEach((npc, index) => {
-            npc.animation += 0.02;
-            npc.mesh.position.y = npc.position.y + Math.sin(npc.animation + index) * 0.05;
-            npc.mesh.rotation.y = Math.sin(npc.animation * 0.5 + index) * 0.1;
-        });
+        // Enhanced NPC behaviors and animations
+        this.updateNPCBehaviors(time);
         
         // Portal animations
         this.portals.forEach((portal, index) => {
