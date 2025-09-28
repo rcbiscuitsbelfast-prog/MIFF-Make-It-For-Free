@@ -11,8 +11,8 @@
 | Document | Description | Status |
 |----------|-------------|---------|
 | 📋 **[Module Index](docs/MIFF_MODULE_INDEX_2025.md)** | Complete audit of all 157+ modules with implementation details | ✅ **Complete** |
-| 🔬 **[Ultimate Audit](docs/MIFF_ULTIMATE_AUDIT_2025.md)** | Most comprehensive framework audit ever conducted | ✅ **Complete** |
-| 🧪 **[Deep Technical Audit](docs/MIFF_DEEP_AUDIT_REPORT_2025.md)** | Technical analysis with implementation standards | ✅ **Complete** |
+| 🔬 **[Master Audit Report](docs/audit/Master_Audit_Report.md)** | Cross-domain, single source of truth audit | ✅ **Live** |
+| 🧪 **[Architecture Audit](docs/audit/arch/Architecture_Audit.md)** | Modularity, layering, dependency graph | ✅ **Live** |
 | 🎯 **[Strategic Roadmap](docs/MIFF_NEXT_PHASE_ROADMAP_2025.md)** | 18-month development plan and vision | ✅ **Complete** |
 | 📅 **[Implementation Plan](docs/MIFF_IMPLEMENTATION_PLAN_2025.md)** | Detailed 72-week execution timeline | ✅ **Complete** |
 
@@ -116,6 +116,7 @@ node cli/test-cli.cjs --demo toppler
 
 ### 📚 **Core Documentation**
 - Docs home: `docs/README.md`
+- Audit index: `docs/audit/Master_Audit_Report.md`
 - Testing guide: `docs/TESTING.md`
 - Module docs (per‑module): see `miff/pure/**/README.md`
 - CLI quick start: `cli/README.md`
