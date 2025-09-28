@@ -1,0 +1,82 @@
+name: Security Scan
+
+on:
+  schedule:
+    # Run weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  dependency-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate SBOM
+        run: |
+          npm install -g @cyclonedx/cyclonedx-npm
+          cyclonedx-npm --output-format json --output-file sbom.json
+          
+      - name: Run npm audit
+        run: npm audit --audit-level moderate --json > audit-report.json || true
+        
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-${{ github.sha }}
+          path: sbom.json
+          retention-days: 30
+          
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report-${{ github.sha }}
+          path: audit-report.json
+          retention-days: 30
+          
+      - name: Check for high/critical vulnerabilities
+        run: |
+          if [ -f audit-report.json ]; then
+            HIGH_VULNS=$(jq '.metadata.vulnerabilities.high // 0' audit-report.json)
+            CRITICAL_VULNS=$(jq '.metadata.vulnerabilities.critical // 0' audit-report.json)
+            
+            if [ "$HIGH_VULNS" -gt 0 ] || [ "$CRITICAL_VULNS" -gt 0 ]; then
+              echo "❌ Found $CRITICAL_VULNS critical and $HIGH_VULNS high severity vulnerabilities"
+              echo "Please review the audit report and address these issues"
+              exit 1
+            else
+              echo "✅ No high or critical vulnerabilities found"
+            fi
+          fi
+
+  secrets-scan:
+    name: Secrets Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Run GitLeaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}

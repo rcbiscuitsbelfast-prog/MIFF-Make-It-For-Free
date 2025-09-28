@@ -1,0 +1,67 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./docs",
+      "url": [
+        "http://localhost/index.html",
+        "http://localhost/renderworld/index.html",
+        "http://localhost/docs-site/index.html",
+        "http://localhost/sampler/index.html",
+        "http://localhost/studio/index.html"
+      ],
+      "numberOfRuns": 3
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", {"minScore": 0.8}],
+        "categories:accessibility": ["error", {"minScore": 0.9}],
+        "categories:best-practices": ["warn", {"minScore": 0.8}],
+        "categories:seo": ["warn", {"minScore": 0.8}]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "budgets": [
+      {
+        "path": "/*",
+        "timings": [
+          {
+            "metric": "first-contentful-paint",
+            "budget": 2000
+          },
+          {
+            "metric": "largest-contentful-paint", 
+            "budget": 3000
+          },
+          {
+            "metric": "cumulative-layout-shift",
+            "budget": 0.1
+          },
+          {
+            "metric": "total-blocking-time",
+            "budget": 500
+          }
+        ],
+        "resourceSizes": [
+          {
+            "resourceType": "script",
+            "budget": 300
+          },
+          {
+            "resourceType": "stylesheet",
+            "budget": 100
+          },
+          {
+            "resourceType": "image",
+            "budget": 500
+          },
+          {
+            "resourceType": "total",
+            "budget": 1000
+          }
+        ]
+      }
+    ]
+  }
+}

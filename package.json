@@ -37,8 +37,9 @@
     "test:automation:golden": "npm run test:golden",
     "test:automation:cli": "npm run test:cli",
     "test:pipeline": "npm run test:automation",
-    "test:coverage": "jest --config jest.pure.config.cjs --coverage --testPathPattern '(BattleAIPure|DialoguePure|HUDPure)'",
-    "test:coverage:report": "nyc report --reporter=html --reporter=json-summary",
+    "test:coverage": "jest --config jest.pure.config.cjs --coverage",
+    "test:coverage:report": "jest --config jest.pure.config.cjs --coverage --coverageReporters=html --coverageReporters=json-summary --coverageReporters=text",
+    "test:coverage:check": "jest --config jest.pure.config.cjs --coverage --passWithNoTests",
     "test:coverage:merge": "nyc merge coverage .nyc_output/coverage.json",
     "test:integration:teams": "jest --config jest.pure.config.cjs miff/pure/TeamsPure/tests/integration_TeamsPure.test.ts",
     "test:integration:evolution": "jest --config jest.pure.config.cjs miff/pure/EvolutionPure/tests/golden_EvolutionPure.test.ts",
@@ -59,6 +60,12 @@
     "preview": "vite preview",
     "deploy": "npm run build && vercel --prod",
     "audit:deps": "npm outdated && npm audit",
+    "security:sbom": "npx @cyclonedx/cyclonedx-npm --output-format json --output-file sbom.json",
+    "security:scan": "npm audit --audit-level moderate",
+    "perf:lighthouse": "npx @lhci/cli@0.12.x autorun",
+    "perf:lighthouse-local": "npx @lhci/cli@0.12.x collect --staticDistDir=./docs --url=http://localhost:8080",
+    "security:csp": "node scripts/audit/add-csp-headers.js",
+    "audit:assets": "node scripts/audit/verify-assets.js",
     "validate:modules": "node scripts/validate-modules.js"
   },
   "repository": {
@@ -109,6 +116,7 @@
   "dependencies": {
     "autoprefixer": "^10.4.21",
     "commander": "^14.0.0",
+    "glob": "^11.0.3",
     "image-size": "^2.0.2",
     "next": "^15.5.0",
     "next-seo": "^6.8.0",

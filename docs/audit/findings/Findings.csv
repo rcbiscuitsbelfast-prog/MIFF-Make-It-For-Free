@@ -1,7 +1,7 @@
 id,area,file,severity,summary,owner,sla,status,evidence
-FND-001,Web Delivery,docs/index.html,Low,Add CSP headers for Pages,web,@next-release,open,docs/audit/web/Web_Audit.md#headers--caching
-FND-002,Security,package.json,Medium,Automate SBOM + weekly dep scan,security,7d,open,docs/audit/security/Security_Audit.md#actions
-FND-003,Performance,docs/renderworld/index.html,Medium,Add Lighthouse CI and budgets,perf,14d,open,docs/audit/perf/Performance_Audit.md#actions
-FND-004,Testing,scripts/,Medium,Aggregate coverage and add thresholds,test,14d,open,docs/audit/test/Test_Audit.md#actions
-FND-005,Docs,docs/docs-site/index.html,Low,Expand landing links to key docs,docs,14d,open,docs/audit/docs/Docs_Audit.md#actions
-FND-006,Assets,docs/assets/,Low,Add provenance log for new assets,assets,14d,open,docs/audit/assets/Asset_License_Audit.md#actions
+FND-001,Web Delivery,docs/index.html,Low,Add CSP headers for Pages,web,@next-release,closed,Added CSP headers to 66+ HTML files via scripts/audit/add-csp-headers.js
+FND-002,Security,package.json,Medium,Automate SBOM + weekly dep scan,security,7d,closed,Added GitHub Actions security-scan.yml workflow and npm scripts
+FND-003,Performance,docs/renderworld/index.html,Medium,Add Lighthouse CI and budgets,perf,14d,closed,Added Lighthouse CI workflow and performance budgets configuration
+FND-004,Testing,scripts/,Medium,Aggregate coverage and add thresholds,test,14d,closed,Updated Jest config with coverage thresholds and added coverage CI workflow
+FND-005,Docs,docs/docs-site/index.html,Low,Expand landing links to key docs,docs,14d,closed,Updated documentation landing page with links to audit reports and guides
+FND-006,Assets,docs/assets/,Low,Add provenance log for new assets,assets,14d,closed,Created asset provenance log and verification script

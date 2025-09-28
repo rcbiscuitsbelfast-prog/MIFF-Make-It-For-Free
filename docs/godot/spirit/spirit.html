@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
   <title>Spirit (Godot Export Placeholder)</title>
   <style> html, body { margin:0; padding:0; height:100%; background:#000; } .placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#e6edf3;font-family:system-ui} </style>
   <script>window.addEventListener('DOMContentLoaded',()=>{ try{ parent.postMessage({ type:'godot-ready', zone:'spirit' }, '*'); }catch{}; window.addEventListener('message',(e)=>{ if(e&&e.data&&e.data.type==='scene-data'){ const data=e.data.data||{}; bootGame(data.entities||[]); } }); setTimeout(async ()=>{ if(!window.__spiritBooted){ try{ const pre=await fetch('../../site/studio/presets/spirit.json').then(r=>r.json()); bootGame(pre.entities||[]); }catch{} } },1000); });
