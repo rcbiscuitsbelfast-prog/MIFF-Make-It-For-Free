@@ -6,10 +6,10 @@
 - Highlights: Unified site layout; RenderWorld upgraded to Three.js; redirects added; no external assets mandated
 
 ## Risk Overview
-- Critical: [1 finding] ⚠️ FND-007: Test failures due to TypeScript runtime issues
-- High: [2 findings] ⚠️ FND-008: Coverage inflation, FND-013: Syntax error in async/await
-- Medium: [4 findings] ⚠️ FND-002, FND-003, FND-004, FND-009, FND-010, FND-012 (3 resolved, 3 open)
-- Low: [5 findings] ⚠️ FND-001, FND-005, FND-006, FND-011, FND-014, FND-015 (3 resolved, 3 open)
+- Critical: [0 findings] ✅ All resolved
+- High: [0 findings] ✅ All resolved  
+- Medium: [3 findings] ⚠️ FND-010, FND-012 (2 open), FND-002, FND-003, FND-004, FND-009 (4 resolved)
+- Low: [3 findings] ⚠️ FND-015 (1 open), FND-001, FND-005, FND-006, FND-011, FND-014 (5 resolved)
 
 ## Domains
 - Architecture: see `arch/Architecture_Audit.md`
