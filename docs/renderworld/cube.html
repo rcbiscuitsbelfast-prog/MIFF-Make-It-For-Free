@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>RenderWorld Cube Test</title>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
 	<style>
 		html, body { margin:0; padding:0; height:100%; background:#000; overflow:hidden; }
 		#c { position:fixed; inset:0; width:100vw; height:100vh; display:block; }
@@ -12,25 +12,25 @@
 </head>
 <body>
 	<canvas id="c"></canvas>
-	<script type="module">
-	import * as THREE from '../assets/vendor/three/three.module.js';
-	const canvas = document.getElementById('c');
-	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-	const scene = new THREE.Scene();
-	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-
-	function fit(){ const w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
-	window.addEventListener('resize', fit); fit();
-
-	camera.position.set(0, 1.2, 3);
-	const light = new THREE.DirectionalLight(0xffffff, 1.0); light.position.set(3,5,2); scene.add(light);
-	const amb = new THREE.AmbientLight(0x404040, 0.8); scene.add(amb);
-	const geo = new THREE.BoxGeometry(1,1,1);
-	const mat = new THREE.MeshStandardMaterial({ color: 0x00ff88, roughness:0.4, metalness:0.1 });
-	const cube = new THREE.Mesh(geo, mat); scene.add(cube);
-
-	function animate(t){ cube.rotation.y = t*0.001; cube.rotation.x = t*0.0007; renderer.render(scene, camera); requestAnimationFrame(animate); }
-	requestAnimationFrame(animate);
-	</script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <script>
+    (function(){
+      var canvas = document.getElementById('c');
+      var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.max(1, window.devicePixelRatio || 1));
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+      camera.position.set(0, 1.2, 3);
+      var light = new THREE.DirectionalLight(0xffffff, 1.0); light.position.set(3,5,2); scene.add(light);
+      var amb = new THREE.AmbientLight(0x404040, 0.9); scene.add(amb);
+      var geo = new THREE.BoxGeometry(1,1,1);
+      var mat = new THREE.MeshStandardMaterial({ color: 0x00ff88, roughness:0.4, metalness:0.1 });
+      var cube = new THREE.Mesh(geo, mat); scene.add(cube);
+      function fit(){ var w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+      window.addEventListener('resize', fit); fit();
+      function animate(t){ cube.rotation.y = t*0.001; cube.rotation.x = t*0.0007; renderer.render(scene, camera); requestAnimationFrame(animate); }
+      requestAnimationFrame(animate);
+    })();
+    </script>
 </body>
 </html>
