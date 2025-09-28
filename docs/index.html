@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
     <title>Welcome to MIFF - Modular Interactive Framework for the Future</title>
-    <meta name="description" content="Explore MIFF: A comprehensive game development ecosystem with modular architecture, AI integration, and cross-platform deployment capabilities.">
+    <meta name="description" content="MIFF is a modular, AI-native game development framework. Follow our journey as we build the future of open-source game tools with 157+ modules and comprehensive testing.">
+    <meta name="keywords" content="MIFF, modular game engine, open-source game dev, AI development tools, RenderWorld, contributor onboarding, game framework">
+    <meta name="author" content="MIFF Team">
     <link rel="stylesheet" href="assets/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +30,7 @@
                     <a href="studio/">MIFF Studio</a>
                     <a href="renderworld/">RenderWorld Hub</a>
                     <a href="docs-site/">Documentation</a>
+                    <a href="blog/">Blog</a>
                 </nav>
                 <!-- Menu Panel -->
                 <div id="menu-panel" class="menu-panel" aria-hidden="true">
@@ -36,6 +39,7 @@
                     <a href="studio/">🛠️ MIFF Studio</a>
                     <a href="renderworld/">🌍 RenderWorld Hub</a>
                     <a href="docs-site/">📘 Documentation</a>
+                    <a href="blog/">📝 Blog</a>
                     <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
                 </div>
             </div>
@@ -128,13 +132,14 @@
                     <p>&copy; 2025 MIFF Framework. Built with modular architecture and AI integration.</p>
                 </div>
             </div>
-            <div class="site-links">
-                <a href="sampler/">🌐 MIFF Sampler</a>
-                <a href="studio/">🛠️ MIFF Studio</a>
-                <a href="renderworld/">🌍 RenderWorld Hub</a>
-                <a href="docs-site/">📘 Documentation</a>
-                <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
-            </div>
+    <div class="site-links">
+        <a href="sampler/">🌐 MIFF Sampler</a>
+        <a href="studio/">🛠️ MIFF Studio</a>
+        <a href="renderworld/">🌍 RenderWorld Hub</a>
+        <a href="docs-site/">📘 Documentation</a>
+        <a href="blog/">📝 Blog</a>
+        <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
+    </div>
         </footer>
         <div class="kofi-footer">
             <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">☕ Support MIFF on Ko‑fi</a>
@@ -142,5 +147,112 @@
     </div>
 
     <script src="assets/script.js"></script>
+    <script>
+        // Simple splash screen for homepage only
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only show splash on homepage
+            if (window.location.pathname === '/' || window.location.pathname.endsWith('/docs/') || window.location.pathname.endsWith('/docs/index.html')) {
+                showSplash();
+            }
+        });
+
+        function showSplash() {
+            const splash = document.createElement('div');
+            splash.className = 'miff-splash-screen';
+            splash.innerHTML = `
+                <div class="splash-content">
+                    <div class="splash-logo">
+                        <svg width="80" height="80" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="splashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
+                                    <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
+                                  fill="url(#splashGradient)" opacity="0.9"/>
+                            <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
+                                  fill="url(#splashGradient)" opacity="0.8"/>
+                            <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
+                                  fill="url(#splashGradient)" opacity="0.9"/>
+                            <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
+                                  fill="url(#splashGradient)" opacity="0.7"/>
+                            <circle cx="40" cy="40" r="8" fill="url(#splashGradient)" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <h1 class="splash-title">MIFF</h1>
+                    <p class="splash-subtitle">Modular Interactive Framework for the Future</p>
+                </div>
+            `;
+
+            // Add splash styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .miff-splash-screen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 9999;
+                    opacity: 1;
+                    transition: opacity 0.5s ease;
+                }
+                .splash-content {
+                    text-align: center;
+                    color: #00ff88;
+                    animation: splashFadeIn 1s ease;
+                }
+                .splash-logo {
+                    margin-bottom: 1rem;
+                    animation: splashPulse 2s ease-in-out infinite;
+                }
+                .splash-title {
+                    font-size: 3rem;
+                    font-weight: 700;
+                    margin: 0.5rem 0;
+                    font-family: 'JetBrains Mono', monospace;
+                }
+                .splash-subtitle {
+                    font-size: 1.2rem;
+                    opacity: 0.8;
+                    margin: 0;
+                    font-family: 'JetBrains Mono', monospace;
+                }
+                @keyframes splashFadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes splashPulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(splash);
+
+            // Auto dismiss after 2 seconds
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.remove();
+                    style.remove();
+                }, 500);
+            }, 2000);
+
+            // Click to dismiss
+            splash.addEventListener('click', () => {
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.remove();
+                    style.remove();
+                }, 500);
+            });
+        }
+    </script>
 </body>
 </html>

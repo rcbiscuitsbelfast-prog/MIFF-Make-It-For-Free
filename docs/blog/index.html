@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+    <title>MIFF Blog - Building the Future of Game Development</title>
+    <meta name="description" content="Follow MIFF's journey as we build the future of modular, AI-native game development. Updates on progress, contributor onboarding, and technical insights.">
+    <meta name="keywords" content="MIFF blog, modular game engine, open-source game dev, AI development tools, RenderWorld, contributor onboarding, game development updates">
+    <meta name="author" content="MIFF Team">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
+                          fill="url(#logoGradient)" opacity="0.9"/>
+                    <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
+                          fill="url(#logoGradient)" opacity="0.8"/>
+                    <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
+                          fill="url(#logoGradient)" opacity="0.9"/>
+                    <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
+                          fill="url(#logoGradient)" opacity="0.7"/>
+                    <circle cx="40" cy="40" r="8" fill="url(#logoGradient)" opacity="0.5"/>
+                </svg>
+                <span class="logo-text">MIFF Blog</span>
+            </div>
+            <nav class="nav">
+                <a href="../">Home</a>
+                <a href="../sampler/">MIFF Sampler</a>
+                <a href="../studio/">MIFF Studio</a>
+                <a href="../renderworld/">RenderWorld Hub</a>
+                <a href="../docs-site/">Documentation</a>
+                <a href="../blog/">Blog</a>
+                <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero">
+        <div class="container">
+            <h1>📝 MIFF Development Blog</h1>
+            <p class="hero-subtitle">Building the Future of Game Development</p>
+            <p class="hero-description">
+                Follow MIFF's journey as we build the future of modular, AI-native game development.
+                Get updates on our progress, contributor onboarding plans, and technical insights.
+            </p>
+
+            <div class="blog-posts">
+                <article class="blog-post featured">
+                    <div class="post-header">
+                        <h2>🚀 MIFF September Update</h2>
+                        <div class="post-meta">
+                            <time datetime="2025-01-01">January 1, 2025</time>
+                            <span class="post-author">MIFF Team</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Exciting progress this month as we continue building MIFF into the ultimate modular game development framework!</p>
+                        
+                        <h3>🎨 Layout and Branding Progress</h3>
+                        <ul>
+                            <li>✅ Unified site design with dark theme and MIFF branding</li>
+                            <li>✅ New logo and visual identity system</li>
+                            <li>✅ Responsive layout across all pages</li>
+                            <li>✅ JetBrains Mono font integration for that developer-friendly feel</li>
+                        </ul>
+
+                        <h3>👥 Contributor Onboarding Plans</h3>
+                        <ul>
+                            <li>🔄 Comprehensive contributor guide in development</li>
+                            <li>🔄 CLI tools for easy project setup</li>
+                            <li>🔄 Asset pipeline documentation</li>
+                            <li>🔄 Testing framework expansion</li>
+                        </ul>
+
+                        <h3>🌍 RenderWorld Status</h3>
+                        <ul>
+                            <li>🔄 Three.js integration for 3D rendering</li>
+                            <li>🔄 Mobile touch controls implementation</li>
+                            <li>🔄 Performance optimization ongoing</li>
+                            <li>🔄 Asset loading system refinement</li>
+                        </ul>
+
+                        <h3>🏆 Visual Wins</h3>
+                        <ul>
+                            <li>✅ New MIFF logo with modular design elements</li>
+                            <li>✅ Brain puzzle visual metaphor for AI-native development</li>
+                            <li>✅ Consistent color scheme across all pages</li>
+                            <li>✅ Card-based layouts for better content organization</li>
+                        </ul>
+
+                        <h3>🔍 What's Next</h3>
+                        <p>We're focusing on stabilizing the core framework, expanding our contributor base, and preparing for the first major release. Stay tuned for more updates!</p>
+                    </div>
+                </article>
+
+                <div class="blog-sidebar">
+                    <div class="sidebar-section">
+                        <h3>📈 Project Stats</h3>
+                        <div class="stats-list">
+                            <div class="stat-item">
+                                <span class="stat-number">157+</span>
+                                <span class="stat-label">Modules</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">4,370+</span>
+                                <span class="stat-label">Tests</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">99.2%</span>
+                                <span class="stat-label">Coverage</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>🔗 Quick Links</h3>
+                        <ul class="quick-links">
+                            <li><a href="../docs-site/">📚 Documentation</a></li>
+                            <li><a href="../sampler/">🎮 Try the Sampler</a></li>
+                            <li><a href="../studio/">🛠️ MIFF Studio</a></li>
+                            <li><a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub Repo</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>🎯 Get Involved</h3>
+                        <p>Want to contribute to MIFF? We're always looking for developers, designers, and game enthusiasts!</p>
+                        <a href="../docs-site/" class="cta-button">Join the Community</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MIFF Blog</h4>
+                    <p>Follow our journey building the future of modular game development</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Latest Updates</h4>
+                    <p>Framework Progress</p>
+                    <p>Contributor Onboarding</p>
+                    <p>Technical Insights</p>
+                    <p>Community Highlights</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <p>GitHub Discussions</p>
+                    <p>Documentation</p>
+                    <p>Issue Tracker</p>
+                    <p>Community Forum</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MIFF Framework. Building the future of open-source game development.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="site-links">
+        <a href="../sampler/">🌐 MIFF Sampler</a>
+        <a href="../studio/">🛠️ MIFF Studio</a>
+        <a href="../renderworld/">🌍 RenderWorld Hub</a>
+        <a href="../docs-site/">📘 Documentation</a>
+        <a href="../blog/">📝 Blog</a>
+        <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
+    </div>
+    <div class="kofi-footer">
+        <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">☕ Support MIFF on Ko‑fi</a>
+    </div>
+
+    <script src="../assets/script.js"></script>
+    <script>
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const savedTheme = localStorage.getItem('miff-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            // Update theme toggle icon
+            const updateThemeIcon = (theme) => {
+                const svgPath = themeToggle.querySelector('svg path');
+                if (theme === 'dark') {
+                    svgPath.setAttribute('d', 'M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z');
+                } else {
+                    svgPath.setAttribute('d', 'M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z');
+                }
+            };
+            updateThemeIcon(savedTheme);
+
+            // Theme toggle handler
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('miff-theme', newTheme);
+                    updateThemeIcon(newTheme);
+                });
+            }
+        });
+    </script>
+
+    <style>
+        .blog-posts {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .blog-post {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .blog-post.featured {
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .post-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .post-header h2 {
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .post-content h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.5rem 0;
+            font-size: 1.125rem;
+        }
+
+        .post-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .post-content li {
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .post-content li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+        }
+
+        .blog-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-section {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-section h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .stats-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .stats-list .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats-list .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-list .stat-number {
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+
+        .quick-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quick-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .quick-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-primary);
+            color: var(--background-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .blog-posts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>
