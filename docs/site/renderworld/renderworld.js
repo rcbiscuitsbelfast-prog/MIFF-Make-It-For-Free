@@ -113,35 +113,387 @@ class RenderWorldHub {
     }
     
     setupLighting() {
-        // Ambient light
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+        // Enhanced atmospheric lighting system
+        
+        // Ambient light - reduced for more dramatic shadows
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.15);
         this.scene.add(ambientLight);
         
-        // Main directional light (fluorescent)
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(0, 20, 0);
+        // Main directional light (harsh fluorescent from ceiling)
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        directionalLight.position.set(0, 30, 0);
         directionalLight.castShadow = true;
-        directionalLight.shadow.mapSize.width = 2048;
-        directionalLight.shadow.mapSize.height = 2048;
+        directionalLight.shadow.mapSize.width = this.performanceSettings.shadowMapSize;
+        directionalLight.shadow.mapSize.height = this.performanceSettings.shadowMapSize;
         directionalLight.shadow.camera.near = 0.5;
-        directionalLight.shadow.camera.far = 50;
-        directionalLight.shadow.camera.left = -25;
-        directionalLight.shadow.camera.right = 25;
-        directionalLight.shadow.camera.top = 25;
-        directionalLight.shadow.camera.bottom = -25;
+        directionalLight.shadow.camera.far = 60;
+        directionalLight.shadow.camera.left = -40;
+        directionalLight.shadow.camera.right = 40;
+        directionalLight.shadow.camera.top = 40;
+        directionalLight.shadow.camera.bottom = -40;
+        directionalLight.shadow.bias = -0.0005;
+        directionalLight.shadow.normalBias = 0.02;
         this.scene.add(directionalLight);
         
-        // Cyan accent lights
-        const cyanLight1 = new THREE.PointLight(0x00ffff, 0.8, 15);
-        cyanLight1.position.set(-15, 8, 0);
-        this.scene.add(cyanLight1);
+        // Create volumetric light beams from ceiling fixtures
+        this.createVolumetricLights();
         
-        const cyanLight2 = new THREE.PointLight(0x00ffff, 0.8, 15);
-        cyanLight2.position.set(15, 8, 0);
-        this.scene.add(cyanLight2);
+        // Dynamic accent lights with portal light bleeding
+        this.createDynamicLights();
         
-        // Portal lights
-        this.portalLights = [];
+        // Spirit Lens illumination system
+        this.setupSpiritLensLighting();
+        
+        // Initialize particle systems
+        this.createParticleSystems();
+        
+        console.log('💡 Enhanced atmospheric lighting system created');
+    }
+    
+    createVolumetricLights() {
+        // Create volumetric light beam effects
+        this.volumetricLights = [];
+        
+        const lightPositions = [
+            { x: 0, y: 25, z: 0 },
+            { x: -20, y: 25, z: -20 },
+            { x: 20, y: 25, z: -20 },
+            { x: -20, y: 25, z: 20 },
+            { x: 20, y: 25, z: 20 }
+        ];
+        
+        lightPositions.forEach((pos, index) => {
+            // Spot light for each ceiling fixture
+            const spotLight = new THREE.SpotLight(0xffffff, 0.8, 30, Math.PI / 6, 0.3, 2);
+            spotLight.position.set(pos.x, pos.y, pos.z);
+            spotLight.target.position.set(pos.x, 0, pos.z);
+            spotLight.castShadow = true;
+            spotLight.shadow.mapSize.width = 1024;
+            spotLight.shadow.mapSize.height = 1024;
+            spotLight.shadow.camera.near = 1;
+            spotLight.shadow.camera.far = 30;
+            this.scene.add(spotLight);
+            this.scene.add(spotLight.target);
+            
+            // Volumetric light beam geometry
+            const beamGeometry = new THREE.ConeGeometry(0.1, 25, 8, 1, true);
+            const beamMaterial = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.05,
+                side: THREE.DoubleSide,
+                depthWrite: false
+            });
+            
+            const lightBeam = new THREE.Mesh(beamGeometry, beamMaterial);
+            lightBeam.position.set(pos.x, pos.y - 12.5, pos.z);
+            lightBeam.rotation.x = Math.PI;
+            this.scene.add(lightBeam);
+            
+            this.volumetricLights.push({
+                spotlight: spotLight,
+                beam: lightBeam,
+                originalIntensity: 0.8
+            });
+        });
+    }
+    
+    createDynamicLights() {
+        // Portal light bleeding onto nearby surfaces
+        this.dynamicLights = [];
+        
+        // Cyan accent lights that respond to player proximity
+        const accentPositions = [
+            { x: -15, y: 8, z: 0, color: 0x00ffff },
+            { x: 15, y: 8, z: 0, color: 0x00ffff },
+            { x: 0, y: 8, z: -15, color: 0x4488ff },
+            { x: 0, y: 8, z: 15, color: 0xff4488 }
+        ];
+        
+        accentPositions.forEach(pos => {
+            const light = new THREE.PointLight(pos.color, 0.6, 20, 2);
+            light.position.set(pos.x, pos.y, pos.z);
+            this.scene.add(light);
+            
+            this.dynamicLights.push({
+                light: light,
+                originalIntensity: 0.6,
+                originalColor: pos.color,
+                position: pos
+            });
+        });
+    }
+    
+    setupSpiritLensLighting() {
+        // Dynamic lighting that follows Spirit Lens usage
+        this.spiritLensLight = new THREE.PointLight(0x00ffff, 0, 8, 2);
+        this.spiritLensLight.position.set(0, 3, 0);
+        this.scene.add(this.spiritLensLight);
+        
+        // Moving light patterns when Spirit Lens is active
+        this.scanLights = [];
+        for (let i = 0; i < 3; i++) {
+            const scanLight = new THREE.PointLight(0x00ffff, 0, 5, 3);
+            this.scene.add(scanLight);
+            this.scanLights.push(scanLight);
+        }
+    }
+    
+    updateDynamicLighting(time) {
+        // Update volumetric light intensity based on atmosphere
+        this.volumetricLights.forEach((light, index) => {
+            const flicker = 1 + Math.sin(time * 2 + index) * 0.05;
+            light.spotlight.intensity = light.originalIntensity * flicker;
+            light.beam.material.opacity = 0.05 * flicker;
+        });
+        
+        // Update dynamic accent lights based on player proximity
+        if (this.player) {
+            this.dynamicLights.forEach(lightData => {
+                const distance = this.player.position.distanceTo(
+                    new THREE.Vector3(lightData.position.x, lightData.position.y, lightData.position.z)
+                );
+                const proximityFactor = Math.max(0.3, 1 - distance / 15);
+                lightData.light.intensity = lightData.originalIntensity * proximityFactor;
+            });
+        }
+        
+        // Update Spirit Lens lighting effects
+        this.updateSpiritLensLighting(time);
+    }
+    
+    updateSpiritLensLighting(time) {
+        if (this.scanningMode) {
+            // Pulsing light from Spirit Lens during scanning
+            const pulse = 1 + Math.sin(time * 4) * 0.5;
+            this.spiritLensLight.intensity = 1.5 * pulse;
+            
+            // Moving scan lights
+            this.scanLights.forEach((light, index) => {
+                const angle = time * 2 + (index * Math.PI * 2 / 3);
+                const radius = 8 + Math.sin(time * 3) * 2;
+                light.position.set(
+                    Math.cos(angle) * radius,
+                    2 + Math.sin(time * 4 + index) * 0.5,
+                    Math.sin(angle) * radius
+                );
+                light.intensity = 0.8;
+            });
+            
+            // Create moving light patterns on surfaces
+            this.createScanLightPatterns(time);
+        } else {
+            // Gentle Spirit Lens glow when not scanning
+            this.spiritLensLight.intensity = 0.3;
+            this.scanLights.forEach(light => {
+                light.intensity = 0;
+            });
+        }
+    }
+    
+    createScanLightPatterns(time) {
+        // Create dynamic light patterns during scanning
+        // This creates the effect of Spirit Lens illumination creating moving patterns
+        
+        // Modulate existing lights to create scanning pattern
+        this.dynamicLights.forEach((lightData, index) => {
+            const scanWave = Math.sin(time * 3 + index) * 0.3;
+            const newIntensity = lightData.originalIntensity + scanWave;
+            lightData.light.intensity = Math.max(0.1, newIntensity);
+            
+            // Temporary color shift during scanning
+            if (this.scanningMode) {
+                lightData.light.color.setHex(0x00ffff);
+            } else {
+                lightData.light.color.setHex(lightData.originalColor);
+            }
+        });
+    }
+    
+    createParticleSystems() {
+        // Create atmospheric particle systems for immersion
+        this.particleSystems = [];
+        
+        // Dust motes floating in light beams
+        this.createDustMotes();
+        
+        // Energy particles around interactive objects
+        this.createEnergyParticles();
+        
+        // Portal-specific particle effects
+        this.createPortalParticles();
+        
+        // Scan pulse effect system
+        this.createScanPulseSystem();
+        
+        console.log('✨ Particle systems initialized');
+    }
+    
+    createDustMotes() {
+        // Create floating dust motes in volumetric light beams
+        const dustCount = Math.min(this.performanceSettings.maxParticles, 60);
+        const dustGeometry = new THREE.BufferGeometry();
+        const dustPositions = new Float32Array(dustCount * 3);
+        const dustVelocities = new Float32Array(dustCount * 3);
+        
+        // Initialize dust particles
+        for (let i = 0; i < dustCount; i++) {
+            const i3 = i * 3;
+            
+            // Random positions within warehouse
+            dustPositions[i3] = (Math.random() - 0.5) * 60;
+            dustPositions[i3 + 1] = Math.random() * 25 + 2;
+            dustPositions[i3 + 2] = (Math.random() - 0.5) * 60;
+            
+            // Slow floating velocities
+            dustVelocities[i3] = (Math.random() - 0.5) * 0.02;
+            dustVelocities[i3 + 1] = Math.random() * 0.01 + 0.005;
+            dustVelocities[i3 + 2] = (Math.random() - 0.5) * 0.02;
+        }
+        
+        dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+        
+        const dustMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 0.03,
+            transparent: true,
+            opacity: 0.3,
+            sizeAttenuation: true,
+            alphaTest: 0.1
+        });
+        
+        this.dustMotes = new THREE.Points(dustGeometry, dustMaterial);
+        this.dustMotes.userData = { velocities: dustVelocities };
+        this.scene.add(this.dustMotes);
+    }
+    
+    createEnergyParticles() {
+        // Energy particles around Spirit Lens
+        this.createSpiritLensParticles();
+    }
+    
+    createSpiritLensParticles() {
+        const particleCount = 15;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount; i++) {
+            const i3 = i * 3;
+            const angle = (i / particleCount) * Math.PI * 2;
+            const radius = 1.5 + Math.random() * 0.5;
+            
+            positions[i3] = Math.cos(angle) * radius;
+            positions[i3 + 1] = (Math.random() - 0.5) * 1;
+            positions[i3 + 2] = Math.sin(angle) * radius;
+        }
+        
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        
+        const material = new THREE.PointsMaterial({
+            color: 0x00ffff,
+            size: 0.02,
+            transparent: true,
+            opacity: 0.6,
+            sizeAttenuation: true,
+            blending: THREE.AdditiveBlending
+        });
+        
+        this.spiritLensParticles = new THREE.Points(geometry, material);
+        this.spiritLensParticles.position.set(0, 3, 0);
+        this.scene.add(this.spiritLensParticles);
+    }
+    
+    createPortalParticles() {
+        // Portal particle effects will be added when portals are created
+        this.portalParticleEffects = [];
+    }
+    
+    createScanPulseSystem() {
+        // Scan pulse effect system
+        this.scanPulseActive = false;
+    }
+    
+    createScanPulseEffect() {
+        if (this.scanPulseActive) return;
+        
+        this.scanPulseActive = true;
+        
+        // Create expanding ring effect
+        const ringGeometry = new THREE.RingGeometry(0.1, 0.3, 32);
+        const ringMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide
+        });
+        
+        const scanRing = new THREE.Mesh(ringGeometry, ringMaterial);
+        scanRing.position.set(0, 0.1, 0);
+        scanRing.rotation.x = -Math.PI / 2;
+        this.scene.add(scanRing);
+        
+        // Animate the pulse
+        let startTime = performance.now();
+        const duration = 1500;
+        
+        const animate = () => {
+            const elapsed = performance.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            if (progress < 1) {
+                const scale = 1 + progress * 15;
+                scanRing.scale.set(scale, scale, 1);
+                scanRing.material.opacity = 0.8 * (1 - progress);
+                requestAnimationFrame(animate);
+            } else {
+                this.scene.remove(scanRing);
+                this.scanPulseActive = false;
+            }
+        };
+        
+        animate();
+    }
+    
+    updateParticleSystems(time) {
+        // Update dust motes
+        if (this.dustMotes) {
+            const positions = this.dustMotes.geometry.attributes.position.array;
+            const velocities = this.dustMotes.userData.velocities;
+            
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i] += velocities[i];
+                positions[i + 1] += velocities[i + 1];
+                positions[i + 2] += velocities[i + 2];
+                
+                // Reset particles that float too high or far
+                if (positions[i + 1] > 30) {
+                    positions[i + 1] = 2;
+                }
+                if (Math.abs(positions[i]) > 35 || Math.abs(positions[i + 2]) > 35) {
+                    positions[i] = (Math.random() - 0.5) * 60;
+                    positions[i + 2] = (Math.random() - 0.5) * 60;
+                }
+            }
+            
+            this.dustMotes.geometry.attributes.position.needsUpdate = true;
+        }
+        
+        // Update Spirit Lens particles
+        if (this.spiritLensParticles) {
+            this.spiritLensParticles.rotation.y = time * 0.5;
+            
+            const positions = this.spiritLensParticles.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                const angle = time * 2 + (i / 3) * 0.5;
+                const radius = 1.5 + Math.sin(time * 3 + i) * 0.3;
+                
+                positions[i] = Math.cos(angle) * radius;
+                positions[i + 1] = Math.sin(time * 4 + i) * 0.5;
+                positions[i + 2] = Math.sin(angle) * radius;
+            }
+            
+            this.spiritLensParticles.geometry.attributes.position.needsUpdate = true;
+        }
     }
     
     createWarehouse() {
@@ -1940,8 +2292,11 @@ class RenderWorldHub {
         // Interaction beep - UI feedback
         this.sounds.interact = this.createInteractionBeep();
         
-        // Footstep sound - metallic click
+        // Footstep sound - metallic click with reverb
         this.sounds.footstep = this.createFootstepSound();
+        
+        // Setup reverb system for footsteps
+        this.setupReverbSystem();
         
         console.log('🎵 Procedural sounds generated');
     }
@@ -1998,26 +2353,64 @@ class RenderWorldHub {
     }
     
     playAmbientWarehouse() {
-        // Create subtle industrial ambience
+        // Create enhanced industrial ambience
         if (!this.audioContext) return;
         
-        // Low-frequency warehouse hum
+        // Low-frequency warehouse hum (HVAC system)
         const warehouseHum = this.audioContext.createOscillator();
         const warehouseGain = this.audioContext.createGain();
+        const warehouseFilter = this.audioContext.createBiquadFilter();
         
         warehouseHum.type = 'sawtooth';
         warehouseHum.frequency.setValueAtTime(60, this.audioContext.currentTime);
-        warehouseGain.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+        warehouseFilter.type = 'lowpass';
+        warehouseFilter.frequency.setValueAtTime(200, this.audioContext.currentTime);
+        warehouseGain.gain.setValueAtTime(0.08, this.audioContext.currentTime);
         
-        warehouseHum.connect(warehouseGain);
+        warehouseHum.connect(warehouseFilter);
+        warehouseFilter.connect(warehouseGain);
         warehouseGain.connect(this.ambientGain);
         
         warehouseHum.start();
         
-        // Store for cleanup
-        this.ambientSounds.warehouse = { oscillator: warehouseHum, gain: warehouseGain };
+        // Electrical hum from fluorescent lights
+        const electricalHum = this.audioContext.createOscillator();
+        const electricalGain = this.audioContext.createGain();
         
-        console.log('🏭 Warehouse ambient audio started');
+        electricalHum.type = 'sine';
+        electricalHum.frequency.setValueAtTime(120, this.audioContext.currentTime);
+        electricalGain.gain.setValueAtTime(0.03, this.audioContext.currentTime);
+        
+        electricalHum.connect(electricalGain);
+        electricalGain.connect(this.ambientGain);
+        
+        electricalHum.start();
+        
+        // Air circulation sounds
+        const airCirculation = this.audioContext.createOscillator();
+        const airGain = this.audioContext.createGain();
+        const airFilter = this.audioContext.createBiquadFilter();
+        
+        airCirculation.type = 'triangle';
+        airCirculation.frequency.setValueAtTime(40, this.audioContext.currentTime);
+        airFilter.type = 'highpass';
+        airFilter.frequency.setValueAtTime(80, this.audioContext.currentTime);
+        airGain.gain.setValueAtTime(0.05, this.audioContext.currentTime);
+        
+        airCirculation.connect(airFilter);
+        airFilter.connect(airGain);
+        airGain.connect(this.ambientGain);
+        
+        airCirculation.start();
+        
+        // Store for cleanup
+        this.ambientSounds.warehouse = { 
+            hum: { oscillator: warehouseHum, gain: warehouseGain },
+            electrical: { oscillator: electricalHum, gain: electricalGain },
+            air: { oscillator: airCirculation, gain: airGain }
+        };
+        
+        console.log('🏭 Enhanced warehouse ambient audio started');
     }
     
     playPortalAmbient(portal) {
@@ -2071,6 +2464,99 @@ class RenderWorldHub {
         };
         
         return portalSounds[portalId] || portalSounds['spirit-tamer'];
+    }
+    
+    setupReverbSystem() {
+        if (!this.audioContext) return;
+        
+        // Create convolution reverb for warehouse acoustics
+        this.reverbNode = this.audioContext.createConvolver();
+        this.reverbGain = this.audioContext.createGain();
+        
+        // Create impulse response for warehouse reverb
+        this.createWarehouseImpulseResponse();
+        
+        this.reverbGain.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        this.reverbNode.connect(this.reverbGain);
+        this.reverbGain.connect(this.ambientGain);
+        
+        console.log('🔊 Reverb system initialized');
+    }
+    
+    createWarehouseImpulseResponse() {
+        // Create impulse response for large warehouse acoustics
+        const length = this.audioContext.sampleRate * 2; // 2 seconds
+        const impulse = this.audioContext.createBuffer(2, length, this.audioContext.sampleRate);
+        
+        for (let channel = 0; channel < 2; channel++) {
+            const channelData = impulse.getChannelData(channel);
+            for (let i = 0; i < length; i++) {
+                const decay = Math.pow(1 - i / length, 2);
+                channelData[i] = (Math.random() * 2 - 1) * decay * 0.3;
+            }
+        }
+        
+        this.reverbNode.buffer = impulse;
+    }
+    
+    playFootstepSound() {
+        if (!this.audioContext || !this.sounds.footstep) return;
+        
+        // Resume audio context if suspended
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
+        }
+        
+        const soundData = this.sounds.footstep;
+        const now = this.audioContext.currentTime;
+        
+        // Create oscillator for footstep
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        const filter = this.audioContext.createBiquadFilter();
+        
+        // Randomize footstep sound slightly
+        const pitchVariation = 0.8 + Math.random() * 0.4;
+        oscillator.frequency.setValueAtTime(soundData.frequency * pitchVariation, now);
+        oscillator.type = soundData.type;
+        
+        // High-pass filter for metallic sound
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(200, now);
+        
+        // Apply envelope
+        const { attack, decay, sustain, release } = soundData.envelope;
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.2, now + attack);
+        gainNode.gain.exponentialRampToValueAtTime(sustain * 0.2, now + attack + decay);
+        gainNode.gain.setValueAtTime(sustain * 0.2, now + soundData.duration - release);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + soundData.duration);
+        
+        // Connect with reverb
+        oscillator.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(this.sfxGain);
+        gainNode.connect(this.reverbNode); // Add reverb
+        
+        oscillator.start(now);
+        oscillator.stop(now + soundData.duration);
+    }
+    
+    handleFootsteps(movementSpeed) {
+        // Track footstep timing
+        if (!this.footstepTimer) {
+            this.footstepTimer = 0;
+        }
+        
+        // Footstep interval based on movement speed
+        const footstepInterval = Math.max(0.3, 0.6 - movementSpeed * 2); // Faster steps when moving faster
+        
+        this.footstepTimer += 0.016; // Assume 60fps
+        
+        if (this.footstepTimer >= footstepInterval) {
+            this.playFootstepSound();
+            this.footstepTimer = 0;
+        }
     }
     
     setupEventListeners() {
@@ -2589,6 +3075,9 @@ class RenderWorldHub {
         
         // Electronic hum sound
         this.playAmbientHum();
+        
+        // Trigger scan pulse effect
+        this.createScanPulseEffect();
     }
     
     disableScanningMode() {
@@ -2816,6 +3305,9 @@ class RenderWorldHub {
         this.player.velocity.copy(moveVector);
         if (moveVector.length() > 0) {
             this.player.movementDirection.copy(moveVector.clone().normalize());
+            
+            // Play footstep sounds
+            this.handleFootsteps(moveVector.length());
         }
         
         // Apply movement
@@ -2831,11 +3323,25 @@ class RenderWorldHub {
             this.updateThirdPersonCamera();
         }
         
-        // Update HUD
+        // Update HUD - show X,Z coordinates as specified
         const positionDisplay = document.getElementById('playerPosition');
         if (positionDisplay) {
             positionDisplay.textContent = 
-                `${this.player.position.x.toFixed(1)}, ${this.player.position.y.toFixed(1)}, ${this.player.position.z.toFixed(1)}`;
+                `${this.player.position.x.toFixed(1)}, ${this.player.position.z.toFixed(1)}`;
+        }
+        
+        // Update FPS counter with performance indication
+        const fpsDisplay = document.getElementById('fpsCounter');
+        const fpsSection = document.querySelector('.fps-counter');
+        if (fpsDisplay && fpsSection) {
+            fpsDisplay.textContent = Math.round(this.fps);
+            
+            // Color-code FPS for performance indication
+            if (this.fps < 30) {
+                fpsSection.classList.add('low-fps');
+            } else {
+                fpsSection.classList.remove('low-fps');
+            }
         }
         
         // Update mobile controls system if available
@@ -2860,6 +3366,12 @@ class RenderWorldHub {
     
     updateAnimations() {
         const time = this.clock.getElapsedTime();
+        
+        // Update dynamic lighting system
+        this.updateDynamicLighting(time);
+        
+        // Update particle systems
+        this.updateParticleSystems(time);
         
         // Spirit Lens animation
         if (this.spiritLens) {
