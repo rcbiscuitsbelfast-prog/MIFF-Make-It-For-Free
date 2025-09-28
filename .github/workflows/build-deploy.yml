@@ -69,6 +69,23 @@ jobs:
           cp docs/image_*.jpeg docs/dist/ || true
           echo "✅ JPEG logo(s) copied to dist"
         fi
+        
+        # Copy all static pages (sampler, studio, docs-site, blog, etc.)
+        echo "📄 Copying static pages to dist..."
+        for page in sampler studio docs-site blog; do
+          if [ -d "docs/$page" ]; then
+            cp -r "docs/$page" "docs/dist/"
+            echo "✅ $page page copied to dist"
+          else
+            echo "⚠️ $page directory not found"
+          fi
+        done
+        
+        # Copy 404.html
+        if [ -f "docs/404.html" ]; then
+          cp docs/404.html docs/dist/
+          echo "✅ 404.html copied to dist"
+        fi
 
         # Copy static site content under /site into docs/dist/site
         if [ -d "site" ]; then
