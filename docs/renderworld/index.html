@@ -21,6 +21,18 @@
     </style>
 </head>
 <body>
+    <script>
+    (function(){
+      try {
+        document.body.innerHTML = '<div id="game-container" style="position:fixed;inset:0;overflow:hidden;"><canvas id="render-canvas" style="width:100vw;height:100vh;display:block;background:#000;"></canvas></div>';
+        var canvas = document.getElementById('render-canvas');
+        var ctx = canvas.getContext('2d');
+        function fit(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', fit); fit();
+        var t = 0; (function loop(){ t+=0.016; ctx.fillStyle='#000'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#00ff88'; var x=canvas.width/2+Math.cos(t)*120; var y=canvas.height/2+Math.sin(t*1.2)*80; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); requestAnimationFrame(loop); })();
+      } catch (e) { console.error('Canvas test failed', e); }
+    })();
+    </script>
     <header class="header">
         <div class="container">
             <div class="logo">
