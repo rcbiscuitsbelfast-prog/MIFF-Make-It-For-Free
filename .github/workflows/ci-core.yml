@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [22.x]
 
     steps:
     - name: Checkout code
@@ -44,13 +44,7 @@ jobs:
     - name: Run coverage
       run: npm run test:coverage || echo "Coverage skipped - no coverage script"
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      if: matrix.node-version == '20.x'
-      with:
-        file: ./coverage/lcov.info
-        flags: unittests
-        name: codecov-umbrella
+    # Upload to Codecov skipped or handled in dedicated coverage workflow
 
   build:
     name: Build Validation

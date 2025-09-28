@@ -1,0 +1,26 @@
+name: Link Checker
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install lychee
+        run: |
+          curl -sSfL https://github.com/lycheeverse/lychee/releases/latest/download/lychee-linux-x86_64.tar.gz -o lychee.tar.gz
+          tar -xzf lychee.tar.gz
+          sudo mv lychee /usr/local/bin/
+      - name: Run link check
+        run: |
+          lychee --no-progress --verbose --accept 200,429 --base "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/" docs/**/*.html || true
+      - name: Upload link check report
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check-report-${{ github.sha }}
+          path: .
