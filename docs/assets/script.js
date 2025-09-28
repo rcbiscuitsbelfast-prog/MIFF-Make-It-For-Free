@@ -2,6 +2,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('MIFF script loaded');
     
+    // Performance optimization: Use requestAnimationFrame for smooth animations
+    const raf = window.requestAnimationFrame || function(cb) { setTimeout(cb, 16); };
+    
     // Theme toggle functionality
     const themeToggle = document.createElement('button');
     themeToggle.className = 'theme-toggle';

@@ -38,6 +38,16 @@
     box-sizing: border-box;
 }
 
+/* Performance optimizations */
+.experiences-grid {
+    will-change: transform;
+}
+
+.experience-card {
+    will-change: transform;
+    contain: layout style paint;
+}
+
 html {
     font-size: 16px;
     scroll-behavior: smooth;
