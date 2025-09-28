@@ -488,7 +488,7 @@ export class SceneBuilderManager {
 
   private initializeOptimizationSystems(): void {
     // Initialize optimization systems based on configuration
-    if (this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
+    if (this.configuration && this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
       console.log(`[SceneBuilderManager] Initializing optimization system: ${this.configuration.optimizationMode}`);
     }
   }

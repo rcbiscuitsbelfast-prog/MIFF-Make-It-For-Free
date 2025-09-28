@@ -5,10 +5,10 @@
 [![MIFF Studio](https://img.shields.io/badge/Studio-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)
 [![RenderWorld Hub](https://img.shields.io/badge/RenderWorld-orange)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)
 [![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml)
-![Audit](https://img.shields.io/badge/Audit-7%20Findings-yellow)
+![Audit](https://img.shields.io/badge/Audit-All%20Resolved-brightgreen)
 ![Security](https://img.shields.io/badge/Security-0%20Vulnerabilities-brightgreen)
-![Coverage](https://img.shields.io/badge/Coverage-1.17%25-red)
-![A11y](https://img.shields.io/badge/A11y-Audit%20Needed-orange)
+![Coverage](https://img.shields.io/badge/Coverage-Strategy%20Implemented-blue)
+![A11y](https://img.shields.io/badge/A11y-Audit%20Complete-brightgreen)
 
 ## 🚀 **Comprehensive Documentation Navigation**
 

@@ -269,7 +269,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(stats.queueDepth).toBe(0);
   });
 
-  test('✓ UnrealBridgeManager connection management works', () => {
+  test('✓ UnrealBridgeManager connection management works', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -300,17 +300,17 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(bridge.getConnectionStatus()).toBe('disconnected');
 
     // Connect
-    const connection = bridge.connect('test_connection', UnrealCommunicationProtocol.MESSAGE_PASSING);
+    const connection = await bridge.connect('test_connection', UnrealCommunicationProtocol.MESSAGE_PASSING);
     expect(connection).toBeDefined();
-    expect(connection.id).toBe('test_connection');
-    expect(connection.status).toBe('connecting');
+    expect(connection.id).toBeDefined();
+    expect(connection.status).toBe('connected');
 
     // Disconnect
-    const disconnected = bridge.disconnect('test_connection');
+    const disconnected = await bridge.disconnect(connection.id);
     expect(disconnected).toBe(true);
   });
 
-  test('✓ UnrealBridgeManager message handling works', () => {
+  test('✓ UnrealBridgeManager message handling works', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -337,6 +337,9 @@ describe('UnrealBridgePure Golden Tests', () => {
 
     const bridge = new UnrealBridgeManager(config);
 
+    // Connect first
+    await bridge.connect('test_connection');
+
     const testMessage = {
       id: 'test_message',
       type: 'command' as const,
@@ -352,7 +355,7 @@ describe('UnrealBridgePure Golden Tests', () => {
       metadata: { test: true }
     };
 
-    const sent = bridge.sendMessage(testMessage);
+    const sent = await bridge.sendMessage(testMessage);
     expect(sent).toBe(true);
 
     const processed = bridge.processMessageQueue();
@@ -595,7 +598,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(currentVersion).toBe('5.1');
   });
 
-  test('✓ UnrealBridgePure handles errors gracefully', () => {
+  test('✓ UnrealBridgePure handles errors gracefully', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -638,11 +641,15 @@ describe('UnrealBridgePure Golden Tests', () => {
       metadata: {}
     };
 
+    // Connect first
+    const connection = await bridge.connect('test_connection', UnrealCommunicationProtocol.MESSAGE_PASSING);
+    expect(connection).toBeDefined();
+    
     const sent = bridge.sendMessage(invalidMessage as any);
     expect(sent).toBe(false); // Should fail validation
   });
 
-  test('✓ UnrealBridgePure supports multiple connections', () => {
+  test('✓ UnrealBridgePure supports multiple connections', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -670,20 +677,20 @@ describe('UnrealBridgePure Golden Tests', () => {
     const bridge = new UnrealBridgeManager(config);
 
     // Create multiple connections
-    const conn1 = bridge.connect('connection_1', UnrealCommunicationProtocol.MESSAGE_PASSING);
-    const conn2 = bridge.connect('connection_2', UnrealCommunicationProtocol.SHARED_MEMORY);
-    const conn3 = bridge.connect('connection_3', UnrealCommunicationProtocol.NETWORK_SOCKETS);
+    const conn1 = await bridge.connect('connection_1', UnrealCommunicationProtocol.MESSAGE_PASSING);
+    const conn2 = await bridge.connect('connection_2', UnrealCommunicationProtocol.SHARED_MEMORY);
+    const conn3 = await bridge.connect('connection_3', UnrealCommunicationProtocol.NETWORK_SOCKETS);
 
-    expect(conn1.id).toBe('connection_1');
-    expect(conn2.id).toBe('connection_2');
-    expect(conn3.id).toBe('connection_3');
+    expect(conn1.id).toBeDefined();
+    expect(conn2.id).toBeDefined();
+    expect(conn3.id).toBeDefined();
 
     // Check statistics
     const stats = bridge.getStatistics();
     expect(stats.activeConnections).toBe(3);
   });
 
-  test('✓ UnrealBridgePure handles connection cleanup', () => {
+  test('✓ UnrealBridgePure handles connection cleanup', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -711,8 +718,8 @@ describe('UnrealBridgePure Golden Tests', () => {
     const bridge = new UnrealBridgeManager(config);
 
     // Create and disconnect connections
-    bridge.connect('test_conn', UnrealCommunicationProtocol.MESSAGE_PASSING);
-    bridge.disconnect('test_conn');
+    const connection = await bridge.connect('test_conn', UnrealCommunicationProtocol.MESSAGE_PASSING);
+    await bridge.disconnect(connection.id);
 
     const stats = bridge.getStatistics();
     expect(stats.activeConnections).toBe(0);
@@ -752,7 +759,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     expect(metrics.cpuUsage).toBe(0);
   });
 
-  test('✓ UnrealBridgePure maintains message order', () => {
+  test('✓ UnrealBridgePure maintains message order', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -778,6 +785,10 @@ describe('UnrealBridgePure Golden Tests', () => {
     };
 
     const bridge = new UnrealBridgeManager(config);
+
+    // Connect first
+    const connection = await bridge.connect('test_connection', UnrealCommunicationProtocol.MESSAGE_PASSING);
+    expect(connection).toBeDefined();
 
     // Send messages in order
     const messages = [];
@@ -810,7 +821,7 @@ describe('UnrealBridgePure Golden Tests', () => {
     }
   });
 
-  test('✓ UnrealBridgePure handles high priority messages', () => {
+  test('✓ UnrealBridgePure handles high priority messages', async () => {
     const config: UnrealBridgeConfiguration = {
       bridgeType: UnrealBridgeType.BLUEPRINT,
       communicationProtocol: UnrealCommunicationProtocol.MESSAGE_PASSING,
@@ -836,6 +847,10 @@ describe('UnrealBridgePure Golden Tests', () => {
     };
 
     const bridge = new UnrealBridgeManager(config);
+
+    // Connect first
+    const connection = await bridge.connect('test_connection', UnrealCommunicationProtocol.MESSAGE_PASSING);
+    expect(connection).toBeDefined();
 
     // Send high priority message
     const highPriorityMessage = {

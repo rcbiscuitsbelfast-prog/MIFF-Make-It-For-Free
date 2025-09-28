@@ -390,17 +390,18 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure] Initializing event queues...');
 
     // Create priority-based queues
-    for (const priority of this.configuration.priorityQueues) {
+    const priorityQueues = this.configuration?.priorityQueues || [EventPriority.NORMAL];
+    for (const priority of priorityQueues) {
       const queue: EventQueue = {
         id: `queue_${priority}`,
         name: `${priority.charAt(0).toUpperCase() + priority.slice(1)} Priority Queue`,
         priority: priority as EventPriority,
         events: [],
-        maxSize: this.configuration.maxBufferSize,
+        maxSize: this.configuration?.maxBufferSize || 1000,
         currentSize: 0,
         overflowPolicy: 'drop',
-        batchSize: this.configuration.maxBatchSize,
-        batchTimeout: this.configuration.batchTimeout,
+        batchSize: this.configuration?.maxBatchSize || 10,
+        batchTimeout: this.configuration?.batchTimeout || 1000,
         lastBatchTime: Date.now(),
         enabled: true,
         metadata: {}
@@ -416,11 +417,11 @@ export class UnrealEventSyncPure {
         name: 'Default Event Queue',
         priority: EventPriority.NORMAL,
         events: [],
-        maxSize: this.configuration.maxBufferSize,
+        maxSize: this.configuration?.maxBufferSize || 1000,
         currentSize: 0,
         overflowPolicy: 'drop',
-        batchSize: this.configuration.maxBatchSize,
-        batchTimeout: this.configuration.batchTimeout,
+        batchSize: this.configuration?.maxBatchSize || 10,
+        batchTimeout: this.configuration?.batchTimeout || 1000,
         lastBatchTime: Date.now(),
         enabled: true,
         metadata: {}
@@ -503,13 +504,14 @@ export class UnrealEventSyncPure {
   private async initializeEventFilters(): Promise<void> {
     console.log('[UnrealEventSyncPure] Initializing event filters...');
 
-    if (!this.configuration.enableEventFiltering) {
+    if (!this.configuration?.enableEventFiltering) {
       console.log('[UnrealEventSyncPure] Event filtering disabled');
       return;
     }
 
     // Create default event filters
-    for (const filterConfig of this.configuration.eventFilters) {
+    const eventFilters = this.configuration?.eventFilters || [];
+    for (const filterConfig of eventFilters) {
       const filter: EventFilter = {
         ...filterConfig,
         enabled: true,
@@ -526,7 +528,8 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure] Initializing event transformers...');
 
     // Create default event transformers
-    for (const transformerConfig of this.configuration.eventTransformers) {
+    const eventTransformers = this.configuration?.eventTransformers || [];
+    for (const transformerConfig of eventTransformers) {
       const transformer: EventTransformer = {
         ...transformerConfig,
         enabled: true,
@@ -543,7 +546,8 @@ export class UnrealEventSyncPure {
     console.log('[UnrealEventSyncPure] Initializing event validators...');
 
     // Create default event validators
-    for (const validatorConfig of this.configuration.eventValidators) {
+    const eventValidators = this.configuration?.eventValidators || [];
+    for (const validatorConfig of eventValidators) {
       const validator: EventValidator = {
         ...validatorConfig,
         enabled: true,
@@ -574,10 +578,10 @@ export class UnrealEventSyncPure {
       this.updateStatistics();
     }, 1000); // 1 FPS
 
-    if (this.configuration.enableEventBatching) {
+    if (this.configuration?.enableEventBatching || false) {
       setInterval(() => {
         this.processBatchedEvents();
-      }, this.configuration.batchTimeout);
+      }, this.configuration?.batchTimeout || 1000);
     }
 
     console.log('[UnrealEventSyncPure] Event processing started');
@@ -920,7 +924,7 @@ export class UnrealEventSyncPure {
       // Add to buffer
       this.eventBuffer.push(event);
 
-      if (this.eventBuffer.length >= this.configuration.maxBufferSize) {
+      if (this.eventBuffer.length >= this.configuration?.maxBufferSize || 1000) {
         await this.processEventBuffer();
       }
 
@@ -1006,10 +1010,10 @@ export class UnrealEventSyncPure {
   }
 
   private async processPriorityGroup(priority: string, events: UnrealEvent[]): Promise<void> {
-    if (this.configuration.enableEventBatching) {
+    if (this.configuration?.enableEventBatching || false) {
       // Process in batches
-      for (let i = 0; i < events.length; i += this.configuration.maxBatchSize) {
-        const batch = events.slice(i, i + this.configuration.maxBatchSize);
+      for (let i = 0; i < events.length; i += this.configuration?.maxBatchSize || 10) {
+        const batch = events.slice(i, i + this.configuration?.maxBatchSize || 10);
         await this.processEventBatch(priority, batch);
         this.statistics.batchCount++;
         this.statistics.averageBatchSize = (this.statistics.averageBatchSize * (this.statistics.batchCount - 1) + batch.length) / this.statistics.batchCount;
@@ -1114,7 +1118,7 @@ export class UnrealEventSyncPure {
 
   private updateStatistics(): void {
     this.statistics.queueDepth = this.calculateQueueDepth();
-    this.statistics.bufferUsage = this.eventBuffer.length / this.configuration.maxBufferSize;
+    this.statistics.bufferUsage = this.eventBuffer.length / this.configuration?.maxBufferSize || 1000;
     this.statistics.eventTypeDistribution = this.calculateEventTypeDistribution();
     this.statistics.priorityDistribution = this.calculatePriorityDistribution();
     this.statistics.sourceDistribution = this.calculateSourceDistribution();
@@ -1272,8 +1276,8 @@ export class UnrealEventSyncPure {
   getEventBufferInfo(): any {
     return {
       bufferSize: this.eventBuffer.length,
-      maxBufferSize: this.configuration.maxBufferSize,
-      usage: (this.eventBuffer.length / this.configuration.maxBufferSize) * 100,
+      maxBufferSize: this.configuration?.maxBufferSize || 1000,
+      usage: (this.eventBuffer.length / this.configuration?.maxBufferSize || 1000) * 100,
       oldestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[0].timestamp : null,
       newestEvent: this.eventBuffer.length > 0 ? this.eventBuffer[this.eventBuffer.length - 1].timestamp : null
     };

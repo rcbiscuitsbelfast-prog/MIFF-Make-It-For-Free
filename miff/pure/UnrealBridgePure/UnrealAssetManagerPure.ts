@@ -406,7 +406,7 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeAssetBundles(): Promise<void> {
-    if (!this.configuration.enableAssetBundles) {
+    if (!this.configuration || !this.configuration.enableAssetBundles) {
       console.log('[UnrealAssetManagerPure] Asset bundles disabled');
       return;
     }
@@ -500,7 +500,7 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeCachingSystem(): Promise<void> {
-    if (this.configuration.cachingStrategy === AssetCachingStrategy.NONE) {
+    if (!this.configuration || this.configuration.cachingStrategy === AssetCachingStrategy.NONE) {
       console.log('[UnrealAssetManagerPure] Caching disabled');
       return;
     }
@@ -557,15 +557,15 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeStreamingSystem(): Promise<void> {
-    if (this.configuration.streamingMode === AssetStreamingMode.NONE) {
+    if (this.configuration?.streamingMode || 'none' === AssetStreamingMode.NONE) {
       console.log('[UnrealAssetManagerPure] Streaming disabled');
       return;
     }
 
-    console.log(`[UnrealAssetManagerPure] Initializing streaming system: ${this.configuration.streamingMode}`);
+    console.log(`[UnrealAssetManagerPure] Initializing streaming system: ${this.configuration?.streamingMode || 'none'}`);
 
     // Initialize streaming components
-    switch (this.configuration.streamingMode) {
+    switch (this.configuration?.streamingMode || 'none') {
       case AssetStreamingMode.ON_DEMAND:
         await this.initializeOnDemandStreaming();
         break;
@@ -579,7 +579,7 @@ export class UnrealAssetManagerPure {
         await this.initializePriorityStreaming();
         break;
       default:
-        console.warn(`[UnrealAssetManagerPure] Unknown streaming mode: ${this.configuration.streamingMode}`);
+        console.warn(`[UnrealAssetManagerPure] Unknown streaming mode: ${this.configuration?.streamingMode || 'none'}`);
     }
 
     console.log('[UnrealAssetManagerPure] Streaming system initialized');
@@ -606,12 +606,12 @@ export class UnrealAssetManagerPure {
   }
 
   private async initializeOptimizationSystem(): Promise<void> {
-    if (this.configuration.optimizationLevel === AssetOptimizationLevel.NONE) {
+    if (this.configuration?.optimizationLevel || 'none' === AssetOptimizationLevel.NONE) {
       console.log('[UnrealAssetManagerPure] Optimization disabled');
       return;
     }
 
-    console.log(`[UnrealAssetManagerPure] Initializing optimization system: ${this.configuration.optimizationLevel}`);
+    console.log(`[UnrealAssetManagerPure] Initializing optimization system: ${this.configuration?.optimizationLevel || 'none'}`);
 
     // Initialize optimization components
     await this.initializeMeshOptimization();
@@ -1040,7 +1040,7 @@ export class UnrealAssetManagerPure {
       let compressionRatio = 1.0;
       let qualityLoss = 0;
 
-      const level = optimizationLevel || this.configuration.optimizationLevel;
+      const level = optimizationLevel || this.configuration?.optimizationLevel || 'none';
 
       switch (level) {
         case AssetOptimizationLevel.NONE:

@@ -30,6 +30,30 @@ module.exports = {
       lines: 70,
       statements: 70
     },
+    './miff/pure/CombatPure/': {
+      branches: 60,
+      functions: 65,
+      lines: 70,
+      statements: 70
+    },
+    './miff/pure/ItemsPure/': {
+      branches: 60,
+      functions: 65,
+      lines: 70,
+      statements: 70
+    },
+    './miff/pure/UnrealBridgePure/': {
+      branches: 50,
+      functions: 55,
+      lines: 60,
+      statements: 60
+    },
+    './miff/pure/SceneBuilderPure/': {
+      branches: 50,
+      functions: 55,
+      lines: 60,
+      statements: 60
+    },
     './miff/pure/BattleAIPure/': {
       branches: 50,
       functions: 55,
