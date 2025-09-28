@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>RenderWorld Canvas Test</title>
+	<title>RenderWorld Three.js Cube Test</title>
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
 	<style>
 		html, body { margin:0; padding:0; height:100%; background:#000; overflow:hidden; }
@@ -12,44 +12,22 @@
 </head>
 <body>
 	<canvas id="c"></canvas>
-	<script>
-	(function(){
-		var canvas = document.getElementById('c');
-		function fit(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-		window.addEventListener('resize', fit); fit();
-
-		// Phase B: Pure WebGL clear-color + triangle
-		var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-		if(!gl){ document.body.innerHTML = '<div style="color:#fff;font:16px monospace;padding:20px;">WebGL not supported</div>'; return; }
-		gl.viewport(0,0,gl.drawingBufferWidth, gl.drawingBufferHeight);
-		gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-		// Minimal shader program
-		var vsSrc = 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }';
-		var fsSrc = 'precision mediump float; uniform float uT; void main(){ gl_FragColor = vec4(0.0, 1.0, 0.53 + 0.47*sin(uT), 1.0); }';
-		function compile(type, src){ var s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
-		var vs = compile(gl.VERTEX_SHADER, vsSrc);
-		var fs = compile(gl.FRAGMENT_SHADER, fsSrc);
-		var prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog); gl.useProgram(prog);
-
-		// Triangle buffer
-		var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-		var verts = new Float32Array([ 0,  0.8,  -0.8, -0.8,  0.8, -0.8 ]);
-		gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
-		var loc = gl.getAttribLocation(prog, 'a');
-		gl.enableVertexAttribArray(loc);
-		gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-		var uT = gl.getUniformLocation(prog, 'uT');
-
-		function render(t){
-			gl.viewport(0,0,gl.drawingBufferWidth, gl.drawingBufferHeight);
-			gl.clear(gl.COLOR_BUFFER_BIT);
-			gl.uniform1f(uT, t*0.001);
-			gl.drawArrays(gl.TRIANGLES, 0, 3);
-			requestAnimationFrame(render);
-		}
-		requestAnimationFrame(render);
-	})();
+	<script type="module">
+	import * as THREE from '../assets/vendor/three/three.module.js';
+	const canvas = document.getElementById('c');
+	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+	function fit(){ const w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+	const scene = new THREE.Scene();
+	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+	camera.position.set(0, 1.5, 3);
+	const light = new THREE.DirectionalLight(0xffffff, 1.0); light.position.set(3,5,2); scene.add(light);
+	const amb = new THREE.AmbientLight(0x404040, 0.8); scene.add(amb);
+	const geo = new THREE.BoxGeometry(1,1,1);
+	const mat = new THREE.MeshStandardMaterial({ color: 0x00ff88, roughness:0.4, metalness:0.1 });
+	const cube = new THREE.Mesh(geo, mat); scene.add(cube);
+	window.addEventListener('resize', fit); fit();
+	function animate(t){ cube.rotation.y = t*0.001; cube.rotation.x = t*0.0007; renderer.render(scene, camera); requestAnimationFrame(animate); }
+	requestAnimationFrame(animate);
 	</script>
 </body>
 </html>
