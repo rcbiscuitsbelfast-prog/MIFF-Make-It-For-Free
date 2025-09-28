@@ -11,12 +11,29 @@
 
 import { TeamManager, TeamRules, TeamUtils, TeamOperationResult, ValidationStatus } from '../index';
 import { CombatEngine, SpiritInstance, MoveData, TypeEffectiveness, Stats } from '../../CombatPure/engine';
-import { Item, ItemEffect, UsageResult, ItemUsageManager, IPlayerContext } from '../../ItemsPure/index';
+import { Item, ItemEffect, UsageResult, ItemUsageManager, IPlayerContext, ItemType, ItemEffectType } from '../../ItemsPure/index';
 
 // Mock the missing modules for integration testing
+class SpiritSyncEntry {
+  constructor(public spiritId: string, public syncLevel: number) {}
+}
+
 class SyncManager {
+  private syncEntries: Map<string, SpiritSyncEntry> = new Map();
+  
   getSyncMap(): Record<string, any> { return {}; }
   calculateSyncBonus(): number { return 1.0; }
+  
+  addSpiritSyncEntry(entry: SpiritSyncEntry): void {
+    this.syncEntries.set(entry.spiritId, entry);
+  }
+  
+  increaseSync(spiritId: string, amount: number): void {
+    const entry = this.syncEntries.get(spiritId);
+    if (entry) {
+      entry.syncLevel += amount;
+    }
+  }
 }
 
 class SpiritManager {
@@ -71,7 +88,36 @@ describe('TeamsPure Integration Tests', () => {
   beforeEach(() => {
     teamManager = TeamManager.create();
     combatEngine = new CombatEngine();
-    itemManager = new ItemUsageManager({ playerId: 'test', inventory: {}, flags: {} } as IPlayerContext);
+    
+    // Create proper inventory with items
+    const inventory = {
+      'health_potion': 10,
+      'revive_crystal': 5,
+      'flame_sword': 1,
+      'potion_0': 3,
+      'potion_1': 3,
+      'potion_2': 3,
+      'potion_3': 3,
+      'potion_4': 3
+    };
+    
+    itemManager = new ItemUsageManager({ playerId: 'test', inventory, flags: {} } as IPlayerContext);
+    
+    // Register items
+    const healthPotion = new Item('health_potion', 'Health Potion', ItemType.CONSUMABLE, ItemEffectType.HEAL, 'Restores HP', 10, 'self');
+    const reviveCrystal = new Item('revive_crystal', 'Revive Crystal', ItemType.CONSUMABLE, ItemEffectType.REVIVE, 'Revives fainted spirit', 50, 'fainted');
+    const flameSword = new Item('flame_sword', 'Flame Sword', ItemType.WEAPON, ItemEffectType.BUFF_ATTACK, 'Increases attack power', 100, 'self');
+    
+    itemManager.registerItem(healthPotion);
+    itemManager.registerItem(reviveCrystal);
+    itemManager.registerItem(flameSword);
+    
+    // Register potions
+    for (let i = 0; i < 5; i++) {
+      const potion = new Item(`potion_${i}`, `Potion ${i}`, ItemType.CONSUMABLE, ItemEffectType.HEAL, `Healing potion ${i}`, 10, 'self');
+      itemManager.registerItem(potion);
+    }
+    
     syncManager = new SyncManager();
     spiritManager = new SpiritManager();
     typeEffectiveness = new TypeEffectiveness();

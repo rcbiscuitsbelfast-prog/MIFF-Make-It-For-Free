@@ -12,7 +12,7 @@ interface SceneBuilderOperation {
   format?: SceneExportFormat;
 }
 
-function main() {
+async function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
     console.error('Usage: tsx cliHarness.ts <op> [template] [output]');
@@ -205,7 +205,7 @@ function getSceneInfo(builder: SceneBuilderManager): any {
 try {
   const invoked = fs.realpathSync(process.argv[1]);
   const here = fs.realpathSync(path.resolve(__filename));
-  if (invoked === here) main();
+  if (invoked === here) await main();
 } catch {
-  if (import.meta.url === `file://${process.argv[1]}`) main();
+  if (import.meta.url === `file://${process.argv[1]}`) await main();
 }
