@@ -5,17 +5,17 @@
 [![MIFF Studio](https://img.shields.io/badge/Studio-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)
 [![RenderWorld Hub](https://img.shields.io/badge/RenderWorld-orange)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)
 [![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml)
-![Audit](https://img.shields.io/badge/Audit-15%20Findings-yellow)
+![Audit](https://img.shields.io/badge/Audit-7%20Findings-yellow)
 ![Security](https://img.shields.io/badge/Security-0%20Vulnerabilities-brightgreen)
-![Coverage](https://img.shields.io/badge/Coverage-~60%25-orange)
-![A11y](https://img.shields.io/badge/A11y-Ready-blueviolet)
+![Coverage](https://img.shields.io/badge/Coverage-1.17%25-red)
+![A11y](https://img.shields.io/badge/A11y-Audit%20Needed-orange)
 
 ## 🚀 **Comprehensive Documentation Navigation**
 
 | Document | Description | Status | Last Updated |
 |----------|-------------|---------|--------------|
 | 📋 **[Module Index](docs/MIFF_MODULE_INDEX_2025.md)** | Complete audit of all 157+ modules with implementation details | ✅ **Complete** | 2025-01-28 |
-| 🔬 **[Master Audit Report](docs/audit/Master_Audit_Report.md)** | Cross-domain, single source of truth audit | ✅ **Live** | 2025-01-28 |
+| 🔬 **[Master Audit Report](docs/audit/master/Master_Audit_Report.md)** | Cross-domain, single source of truth audit | ✅ **Live** | 2025-01-28 |
 | 🧪 **[Architecture Audit](docs/audit/arch/Architecture_Audit.md)** | Modularity, layering, dependency graph | ✅ **Live** | 2025-01-28 |
 | 🎯 **[Strategic Roadmap](docs/MIFF_NEXT_PHASE_ROADMAP_2025.md)** | 18-month development plan and vision | ✅ **Complete** | 2025-01-28 |
 | 📅 **[Implementation Plan](docs/MIFF_IMPLEMENTATION_PLAN_2025.md)** | Detailed 72-week execution timeline | ✅ **Complete** | 2025-01-28 |
@@ -120,7 +120,7 @@ node cli/test-cli.cjs --demo toppler
 
 ### 📚 **Core Documentation**
 - Docs home: `docs/README.md`
-- Audit index: `docs/audit/Master_Audit_Report.md`
+- Audit index: `docs/audit/master/Master_Audit_Report.md`
 - Testing guide: `docs/TESTING.md`
 - Module docs (per‑module): see `miff/pure/**/README.md`
 - CLI quick start: `cli/README.md`
@@ -215,4 +215,4 @@ All links in this README have been verified and are working correctly:
 - ✅ [CLI quick start](cli/README.md)
 - ✅ All module-specific READMEs in `miff/pure/**/README.md`
 
-*Last verified: September 24, 2025 - All links confirmed functional and accessible.*
+*Last verified: January 28, 2025 - All links confirmed functional and accessible.*

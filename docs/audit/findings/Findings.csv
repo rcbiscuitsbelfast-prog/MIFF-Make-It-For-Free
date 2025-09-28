@@ -4,13 +4,18 @@ FND-002,Security,package.json,Medium,Automate SBOM + weekly dep scan,security,7d
 FND-003,Performance,docs/renderworld/index.html,Medium,Add Lighthouse CI and budgets,perf,14d,closed,Added Lighthouse CI workflow and performance budgets configuration
 FND-004,Testing,scripts/,Medium,Aggregate coverage and add thresholds,test,14d,closed,Updated Jest config with coverage thresholds and added coverage CI workflow
 FND-005,Docs,docs/docs-site/index.html,Low,Expand landing links to key docs,docs,14d,closed,Updated documentation landing page with links to audit reports and guides
-FND-006,Assets,docs/assets/,Low,Add provenance log for new assets,assets,14d,closed,Created asset provenance log and verification script
-FND-007,Testing,miff/pure/TeamsPure/tests/,Critical,Test failures due to TypeScript runtime issues,test,7d,closed,Fixed async/await syntax error in SceneBuilderPure/cliHarness.ts and improved test setup
-FND-008,Testing,jest.pure.config.cjs,High,Coverage inflation: claimed 99.2% vs actual ~60%,test,14d,closed,Updated Jest coverage thresholds to realistic levels (50-70% instead of 80-85%)
-FND-009,Assets,docs/assets/audio/sfx/,Medium,External URLs detected in audio metadata,assets,30d,closed,Created clean-audio-metadata.js script to remove external URLs from 115 audio files
-FND-010,Assets,docs/assets/KayKitAssets/,Medium,External URLs in license files,assets,30d,open,License files contain external URLs to creativecommons.org, patreon.com, twitter.com
-FND-011,Performance,docs/renderworld/,Low,External CDN dependencies,perf,60d,closed,Vendorized Three.js - replaced CDN with local files in docs/assets/vendor/three/
-FND-012,Architecture,miff/pure/,Medium,Module integration mismatches,arch,21d,open,Interfaces don't align between modules causing test failures
-FND-013,Testing,SceneBuilderPure/cliHarness.ts,High,Syntax error in async/await usage,test,7d,closed,Fixed by making main() function async and updating function calls
-FND-014,Web Delivery,docs/,Low,6 HTML files contain 404 references,web,14d,closed,Fixed incorrect path prefixes (/miffgetting-started/ → /getting-started/) in all HTML files
-FND-015,Assets,assets/,Low,Asset size optimization needed,assets,30d,open,Total asset size: 242M (docs: 247M, site: 732K) - consider optimization
+FND-006,Assets,docs/assets/,Low,Add provenance log for all assets,assets,30d,closed,Implemented asset provenance logging via scripts/audit/verify-assets.js
+FND-007,Testing,miff/pure/TeamsPure/tests/,Critical,Test failures due to TypeScript runtime issues,test,7d,resolved,Fixed async/await syntax in SceneBuilderPure/cliHarness.ts and improved TeamsPure test setup
+FND-008,Testing,jest.pure.config.cjs,High,Coverage inflation: claimed 99.2% vs actual ~60%,test,14d,resolved,Updated Jest coverage thresholds to realistic levels (50-70%)
+FND-009,Assets,docs/assets/audio/sfx/,Medium,External URLs detected in audio metadata,assets,30d,resolved,Created script to clean external URLs from audio file metadata
+FND-010,Assets,docs/assets/KayKitAssets/,Medium,External URLs in license files,assets,30d,resolved,Cleaned external URLs from license files while preserving essential licensing information
+FND-011,Performance,docs/renderworld/,Low,External CDN dependencies,perf,60d,resolved,Vendorized Three.js by replacing CDN with local files
+FND-012,Architecture,miff/pure/,Medium,Module integration mismatches,arch,30d,resolved,Added instanceId and speciesId properties to SpiritInstance, fixed team management issues
+FND-013,Testing,miff/pure/SceneBuilderPure/cliHarness.ts,High,Syntax error in async/await,test,7d,resolved,Made main() function async and updated calls
+FND-014,Web Delivery,docs/contributors/roadmap/index.html,Low,404 references in HTML files,web,60d,resolved,Fixed incorrect path prefixes in HTML files (e.g., /miffgetting-started/ to /getting-started/)
+FND-015,Assets,docs/assets/images/,Low,Unoptimized image assets,assets,60d,resolved,Created asset optimization script and cleaned unused files
+FND-016,Testing,miff/pure/UnrealBridgePure/,High,UnrealBridgePure test failures due to missing dependencies,test,14d,open,UnrealBridgePure tests failing with connection errors and missing property references
+FND-017,Performance,Global,Medium,Low test coverage across modules,perf,30d,open,Global coverage at 1.17% - significantly below thresholds
+FND-018,Architecture,miff/pure/,Medium,Team management integration issues,arch,21d,open,Some team integration tests still failing due to diversity score requirements
+FND-019,Web Delivery,docs/,Low,HTML files with potential accessibility issues,web,45d,open,73 HTML files need accessibility audit
+FND-020,Assets,docs/assets/,Medium,Asset size optimization needed,assets,60d,open,288MB total assets - optimization opportunities identified
