@@ -91,6 +91,22 @@
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
         }
+        
+        .module-code {
+            margin: 1rem 0;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            border-left: 4px solid var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .module-code code {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -126,84 +142,120 @@
                 <div class="module-card">
                     <div class="module-category">Core Framework</div>
                     <div class="module-name">MIFFCore</div>
-                    <div class="module-description">Core framework initialization and configuration management</div>
+                    <div class="module-description">Core framework initialization and configuration management. Handles module loading, dependency injection, and system initialization.</div>
+                    <div class="module-code">
+                        <code>import { MIFFCore } from '@miff/core'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Rendering</div>
                     <div class="module-name">RendererPure</div>
-                    <div class="module-description">High-performance rendering engine with 60fps support</div>
+                    <div class="module-description">High-performance rendering engine with 60fps support. WebGL-based with automatic fallbacks and optimization.</div>
+                    <div class="module-code">
+                        <code>import { RendererPure } from '@miff/renderer'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">AI Integration</div>
                     <div class="module-name">AIProfileIntegrationLayer</div>
-                    <div class="module-description">AI profile integration and management system</div>
+                    <div class="module-description">AI profile integration and management system. Supports multiple AI providers and custom models.</div>
+                    <div class="module-code">
+                        <code>import { AIProfileIntegrationLayer } from '@miff/ai'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Audio</div>
                     <div class="module-name">AudioBridgePure</div>
-                    <div class="module-description">Cross-platform audio management and playback</div>
+                    <div class="module-description">Cross-platform audio management and playback. Supports Web Audio API with fallbacks.</div>
+                    <div class="module-code">
+                        <code>import { AudioBridgePure } from '@miff/audio'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Camera</div>
                     <div class="module-name">CameraBridgePure</div>
-                    <div class="module-description">Advanced camera control and integration</div>
+                    <div class="module-description">Advanced camera control and integration. Supports 2D/3D cameras with smooth transitions.</div>
+                    <div class="module-code">
+                        <code>import { CameraBridgePure } from '@miff/camera'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Export</div>
                     <div class="module-name">ConvertToWebPure</div>
-                    <div class="module-description">Web platform export with optimization</div>
+                    <div class="module-description">Web platform export with optimization. Generates optimized HTML5 games with asset bundling.</div>
+                    <div class="module-code">
+                        <code>import { ConvertToWebPure } from '@miff/export'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Export</div>
                     <div class="module-name">ConvertToUnityPure</div>
-                    <div class="module-description">Unity Engine integration and export</div>
+                    <div class="module-description">Unity Engine integration and export. Generates Unity projects with MIFF components.</div>
+                    <div class="module-code">
+                        <code>import { ConvertToUnityPure } from '@miff/export'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Export</div>
                     <div class="module-name">ConvertToGodotPure</div>
-                    <div class="module-description">Godot Engine integration and export</div>
+                    <div class="module-description">Godot Engine integration and export. Generates Godot projects with MIFF scripts.</div>
+                    <div class="module-code">
+                        <code>import { ConvertToGodotPure } from '@miff/export'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Networking</div>
                     <div class="module-name">WebSocketBridgePure</div>
-                    <div class="module-description">Real-time communication via WebSockets</div>
+                    <div class="module-description">Real-time communication via WebSockets. Handles multiplayer and real-time data sync.</div>
+                    <div class="module-code">
+                        <code>import { WebSocketBridgePure } from '@miff/networking'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Combat</div>
                     <div class="module-name">CombatScenarioPure</div>
-                    <div class="module-description">Combat scenario definition and simulation</div>
+                    <div class="module-description">Combat scenario definition and simulation. Supports turn-based and real-time combat.</div>
+                    <div class="module-code">
+                        <code>import { CombatScenarioPure } from '@miff/combat'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Management</div>
                     <div class="module-name">ChainManagerPure</div>
-                    <div class="module-description">Complex event chain management system</div>
+                    <div class="module-description">Complex event chain management system. Handles sequential and parallel event processing.</div>
+                    <div class="module-code">
+                        <code>import { ChainManagerPure } from '@miff/management'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
 
                 <div class="module-card">
                     <div class="module-category">Export</div>
                     <div class="module-name">ExportAndroidPure</div>
-                    <div class="module-description">Android platform export and deployment</div>
+                    <div class="module-description">Android platform export and deployment. Generates Android APK with MIFF runtime.</div>
+                    <div class="module-code">
+                        <code>import { ExportAndroidPure } from '@miff/export'</code>
+                    </div>
                     <span class="module-status status-complete">Complete</span>
                 </div>
             </div>
