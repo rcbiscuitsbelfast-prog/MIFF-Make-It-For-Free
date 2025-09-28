@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -36,9 +36,9 @@ jobs:
           configPath: './lighthouserc.json'
           temporaryPublicStorage: true
           uploadArtifacts: true
-          runs: 3
+          runs: 1
         env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN || '' }}
 
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4

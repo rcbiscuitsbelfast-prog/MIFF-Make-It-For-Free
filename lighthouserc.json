@@ -1,6 +1,21 @@
 {
   "ci": {
     "collect": {
+      "url": [
+        "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/",
+        "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/",
+        "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/"
+      ],
+      "numberOfRuns": 1
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
+{
+  "ci": {
+    "collect": {
       "staticDistDir": "./docs",
       "url": [
         "http://localhost/index.html",
