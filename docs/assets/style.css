@@ -188,17 +188,17 @@ body {
 /* Experience Cards - Desktop Optimized */
 .experiences-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
     animation: fadeInUp 1s ease-out 0.6s both;
 }
 
 .experience-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.25rem;
+    border-radius: 6px;
+    padding: 1rem;
     text-align: left;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -229,23 +229,23 @@ body {
 }
 
 .card-icon {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
     display: block;
 }
 
 .experience-card h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .experience-card p {
     color: var(--text-secondary);
-    line-height: 1.5;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
 }
 
 .card-arrow {
@@ -467,8 +467,8 @@ body {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
