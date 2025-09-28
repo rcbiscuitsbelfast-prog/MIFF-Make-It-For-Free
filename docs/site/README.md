@@ -18,7 +18,7 @@ A comprehensive, remix-safe iframe-based zone loader for the MIFF Sampler site.
 - **Remix-safe architecture** with no external dependencies
 
 ### 📱 User Experience
-- **Splash screen** when no zone is selected
+- **Homepage-only splash** (router splash removed elsewhere)
 - **Loading indicators** with zone descriptions
 - **Error fallbacks** with helpful messaging
 - **Responsive design** for all screen sizes
@@ -42,7 +42,7 @@ const ZONES = {
 
 ### Routing System
 - **Hash-based**: `#toppler`, `#dashboard`, `#remix_lab`
-- **Automatic fallback**: Shows splash screen if no hash
+- **Automatic fallback**: Loads default content for non-homepage paths (no global splash)
 - **Deep linking**: Direct access to any zone
 - **State persistence**: Remembers current zone
 

@@ -1,0 +1,12 @@
+{
+  "name": "miff-audit-scripts",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "glob": "10.3.10",
+    "axe-core": "4.10.0",
+    "pa11y": "6.4.0",
+    "lighthouse": "11.7.1"
+  }
+}

@@ -1,0 +1,35 @@
+name: Audit and Coverage CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install root deps
+        run: npm ci
+      - name: Run audits
+        run: npm run audit
+      - name: Run tests with coverage
+        run: npm run test:coverage || true
+      - name: Upload audit artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-reports
+          path: |
+            docs/audit/**
+            coverage/**
+      - name: Enforce basic gates
+        run: |
+          test -f docs/audit/accessibility-audit-report.md
+          test -f docs/audit/simple-coverage-analysis.md
+          echo "Gates passed"

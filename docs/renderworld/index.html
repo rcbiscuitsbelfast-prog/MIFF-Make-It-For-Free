@@ -41,7 +41,7 @@
             </div>
             <nav class="nav">
                 <a href="../">← Back to MIFF</a>
-                <a href="../sampler/">← MIFF Sampler</a>
+                <a href="../sampler/" id="backToMiff">← MIFF Sampler</a>
                 <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a>
                 <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
                     <svg fill="currentColor" viewBox="0 0 20 20">
@@ -394,6 +394,7 @@
 
             // Add click handler
             persistentMenu.addEventListener('click', () => {
+                try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {}
                 window.location.href = '../sampler/';
             });
 

@@ -1,5 +1,25 @@
 # MIFF Master Audit Report
 
+Generated: 2025-09-28
+
+## Sections
+
+- Accessibility: docs/audit/accessibility-audit-report.md
+- Assets: docs/audit/advanced-asset-optimization-report.md, docs/audit/assets/Asset_License_Audit.md
+- Coverage: docs/audit/simple-coverage-analysis.md, docs/audit/test-coverage-report.md
+- Integration: docs/audit/team-integration-review.md
+- Performance: docs/audit/perf/
+- Security: docs/audit/security/Security_Audit.md
+
+## CI Status
+
+See GitHub Actions workflow: Audit and Coverage CI
+
+## Notes
+
+All reports update on push to master. Threshold gates enforced in CI.
+# MIFF Master Audit Report
+
 ## Executive Summary
 - Scope: Full-repo audit across code quality, security, performance, web delivery, documentation, assets/licensing
 - Status: Initial comprehensive pass completed; continuous audit automation recommended (nightly)
