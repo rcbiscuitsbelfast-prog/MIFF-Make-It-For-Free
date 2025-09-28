@@ -159,19 +159,25 @@
     <script>
         // Simple splash screen for homepage only
         document.addEventListener('DOMContentLoaded', function() {
-            // Only show splash on exact homepage paths - be very specific
+            // Only show splash on exact homepage paths - be extremely specific
             const currentPath = window.location.pathname;
+            const currentHost = window.location.hostname;
             console.log('Current path:', currentPath);
+            console.log('Current host:', currentHost);
             
-            // Only show splash on the exact root homepage
-            if (currentPath === '/' || 
-                currentPath === '/docs/' || 
-                currentPath === '/docs/index.html' ||
-                (currentPath.endsWith('/docs/') && currentPath.split('/').length === 3 && !currentPath.includes('renderworld') && !currentPath.includes('sampler') && !currentPath.includes('studio'))) {
-                console.log('Showing splash screen for path:', currentPath);
+            // Only show splash on the exact root homepage - be extremely specific
+            const isExactHomepage = (currentPath === '/' || 
+                                   currentPath === '/docs/' || 
+                                   currentPath === '/docs/index.html' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/docs/' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/docs/index.html');
+            
+            if (isExactHomepage) {
+                console.log('Showing splash screen for exact homepage path:', currentPath);
                 showSplash();
             } else {
-                console.log('Not showing splash screen for path:', currentPath);
+                console.log('Not showing splash screen for path:', currentPath, 'isExactHomepage:', isExactHomepage);
             }
         });
 

@@ -228,6 +228,13 @@
         function launchFullScreenGame(gameUrl, gameName) {
             console.log('Launching game:', gameName, 'at URL:', gameUrl);
             
+            // Check if overlay already exists
+            const existingOverlay = document.getElementById('game-overlay');
+            if (existingOverlay) {
+                console.log('Removing existing overlay');
+                existingOverlay.remove();
+            }
+            
             // Create full-screen overlay
             const overlay = document.createElement('div');
             overlay.id = 'game-overlay';
@@ -279,6 +286,8 @@
                 background: #000;
             `;
             
+            console.log('Created iframe with src:', gameUrl);
+            
             // Add error handling
             gameFrame.onerror = function() {
                 console.error('Failed to load game:', gameUrl);
@@ -288,6 +297,14 @@
             gameFrame.onload = function() {
                 console.log('Game loaded successfully:', gameName);
             };
+            
+            // Add timeout to detect if iframe fails to load
+            setTimeout(() => {
+                if (!gameFrame.contentDocument && !gameFrame.contentWindow) {
+                    console.error('Iframe failed to load within timeout:', gameUrl);
+                    alert('Game failed to load: ' + gameName + '. The game file might not exist or be accessible.');
+                }
+            }, 5000);
 
             // Add menu icon click handler
             menuIcon.addEventListener('click', () => {

@@ -405,6 +405,8 @@ body {
 @media (max-width: 768px) {
     .container {
         padding: 0 1rem;
+        max-width: 100%;
+        overflow-x: hidden;
     }
     
     .header .container {
@@ -433,6 +435,27 @@ body {
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
+    }
+    
+    /* Fix mobile width issues */
+    body {
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+    
+    .feature-highlight {
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .demo-worlds {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .features-list {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
     }
 }
 
