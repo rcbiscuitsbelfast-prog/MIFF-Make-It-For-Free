@@ -6,7 +6,7 @@
     "site"
   ],
   "scriptsRoot": "scripts",
-  "generatedAt": "2025-09-28T07:40:41.530Z",
+  "generatedAt": "2025-09-28T11:13:27.648Z",
   "modules": [
     "/workspace/miff/pure/AIProfileIntegrationLayer/Manager.ts",
     "/workspace/miff/pure/AIProfileIntegrationLayer/cliHarness.ts",
@@ -662,6 +662,7 @@
   "pages": [
     "/workspace/docs/404.html",
     "/workspace/docs/architecture/modularity/index.html",
+    "/workspace/docs/blog/index.html",
     "/workspace/docs/contributors/onboarding/index.html",
     "/workspace/docs/contributors/roadmap/index.html",
     "/workspace/docs/demos/bundle-minimal-test.html",
@@ -1061,6 +1062,7 @@
     "/workspace/docs/assets/Pig.png",
     "/workspace/docs/assets/Player.png",
     "/workspace/docs/assets/Player_Actions.png",
+    "/workspace/docs/assets/README.md",
     "/workspace/docs/assets/Sheep.png",
     "/workspace/docs/assets/Skeleton.png",
     "/workspace/docs/assets/Slime_Green.png",

@@ -5,3 +5,12 @@ FND-003,Performance,docs/renderworld/index.html,Medium,Add Lighthouse CI and bud
 FND-004,Testing,scripts/,Medium,Aggregate coverage and add thresholds,test,14d,closed,Updated Jest config with coverage thresholds and added coverage CI workflow
 FND-005,Docs,docs/docs-site/index.html,Low,Expand landing links to key docs,docs,14d,closed,Updated documentation landing page with links to audit reports and guides
 FND-006,Assets,docs/assets/,Low,Add provenance log for new assets,assets,14d,closed,Created asset provenance log and verification script
+FND-007,Testing,miff/pure/TeamsPure/tests/,Critical,Test failures due to TypeScript runtime issues,test,7d,open,798 tests failing due to module integration mismatches and CLI execution failures
+FND-008,Testing,jest.pure.config.cjs,High,Coverage inflation: claimed 99.2% vs actual ~60%,test,14d,open,Test suite takes 487+ seconds to run with significant failures
+FND-009,Assets,docs/assets/audio/sfx/,Medium,External URLs detected in audio metadata,assets,30d,open,115 audio files contain external URLs in metadata (dillonbecker.com, Adobe, etc.)
+FND-010,Assets,docs/assets/KayKitAssets/,Medium,External URLs in license files,assets,30d,open,License files contain external URLs to creativecommons.org, patreon.com, twitter.com
+FND-011,Performance,docs/renderworld/,Low,External CDN dependencies,perf,60d,open,Three.js loaded from unpkg.com CDN instead of vendored
+FND-012,Architecture,miff/pure/,Medium,Module integration mismatches,arch,21d,open,Interfaces don't align between modules causing test failures
+FND-013,Testing,SceneBuilderPure/cliHarness.ts,High,Syntax error in async/await usage,test,7d,open,Unexpected reserved word 'await' in non-async function
+FND-014,Web Delivery,docs/,Low,6 HTML files contain 404 references,web,14d,open,Found 404 references in contributor and getting-started pages
+FND-015,Assets,assets/,Low,Asset size optimization needed,assets,30d,open,Total asset size: 242M (docs: 247M, site: 732K) - consider optimization
