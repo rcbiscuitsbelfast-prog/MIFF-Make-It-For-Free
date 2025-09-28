@@ -26,23 +26,9 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
-                          fill="url(#logoGradient)" opacity="0.9"/>
-                    <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
-                          fill="url(#logoGradient)" opacity="0.8"/>
-                    <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
-                          fill="url(#logoGradient)" opacity="0.9"/>
-                    <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
-                          fill="url(#logoGradient)" opacity="0.7"/>
-                    <circle cx="40" cy="40" r="8" fill="url(#logoGradient)" opacity="0.5"/>
-                </svg>
+                <a href="../" aria-label="Open menu" class="menu-logo" id="menuToggle">
+                    <img src="../image_1758956766781.svg" alt="MIFF Logo" width="60" height="60" onerror="this.onerror=null;this.src='../image_1758956766781.jpeg'" />
+                </a>
                 <span class="logo-text">MIFF Blog</span>
             </div>
             <nav class="nav">
@@ -52,13 +38,17 @@
                 <a href="../renderworld/">RenderWorld Hub</a>
                 <a href="../docs-site/">Documentation</a>
                 <a href="../blog/">Blog</a>
-                <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a>
-                <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
-                    <svg fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
             </nav>
+            <!-- Menu Panel -->
+            <div id="menu-panel" class="menu-panel" aria-hidden="true">
+                <a href="../">🏠 Home</a>
+                <a href="../sampler/">🎮 MIFF Sampler</a>
+                <a href="../studio/">🛠️ MIFF Studio</a>
+                <a href="../renderworld/">🌍 RenderWorld Hub</a>
+                <a href="../docs-site/">📘 Documentation</a>
+                <a href="../blog/">📝 Blog</a>
+                <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
+            </div>
         </div>
     </header>
 
@@ -72,51 +62,38 @@
             </p>
 
             <div class="blog-posts">
-                <article class="blog-post featured">
+                <article class="blog-post-card featured">
                     <div class="post-header">
                         <h2>🚀 MIFF September Update</h2>
                         <div class="post-meta">
-                            <time datetime="2025-01-01">January 1, 2025</time>
+                            <time datetime="2025-01-28">January 28, 2025</time>
                             <span class="post-author">MIFF Team</span>
                         </div>
                     </div>
-                    <div class="post-content">
-                        <p>Exciting progress this month as we continue building MIFF into the ultimate modular game development framework!</p>
+                    <div class="post-excerpt">
+                        <p>Exciting progress this month as we continue building MIFF into the ultimate modular game development framework! Updates on layout, branding, contributor onboarding, and RenderWorld debugging.</p>
                         
-                        <h3>🎨 Layout and Branding Progress</h3>
-                        <ul>
-                            <li>✅ Unified site design with dark theme and MIFF branding</li>
-                            <li>✅ New logo and visual identity system</li>
-                            <li>✅ Responsive layout across all pages</li>
-                            <li>✅ JetBrains Mono font integration for that developer-friendly feel</li>
-                        </ul>
-
-                        <h3>👥 Contributor Onboarding Plans</h3>
-                        <ul>
-                            <li>🔄 Comprehensive contributor guide in development</li>
-                            <li>🔄 CLI tools for easy project setup</li>
-                            <li>🔄 Asset pipeline documentation</li>
-                            <li>🔄 Testing framework expansion</li>
-                        </ul>
-
-                        <h3>🌍 RenderWorld Status</h3>
-                        <ul>
-                            <li>🔄 Three.js integration for 3D rendering</li>
-                            <li>🔄 Mobile touch controls implementation</li>
-                            <li>🔄 Performance optimization ongoing</li>
-                            <li>🔄 Asset loading system refinement</li>
-                        </ul>
-
-                        <h3>🏆 Visual Wins</h3>
-                        <ul>
-                            <li>✅ New MIFF logo with modular design elements</li>
-                            <li>✅ Brain puzzle visual metaphor for AI-native development</li>
-                            <li>✅ Consistent color scheme across all pages</li>
-                            <li>✅ Card-based layouts for better content organization</li>
-                        </ul>
-
-                        <h3>🔍 What's Next</h3>
-                        <p>We're focusing on stabilizing the core framework, expanding our contributor base, and preparing for the first major release. Stay tuned for more updates!</p>
+                        <div class="post-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎨</span>
+                                <span>Layout and Branding Progress</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">👥</span>
+                                <span>Contributor Onboarding Plans</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🐛</span>
+                                <span>RenderWorld Debugging Status</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-icon">🎯</span>
+                                <span>Visual Wins & What's Next</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        <a href="miff-september-update/" class="read-more-btn">Read Full Post →</a>
                     </div>
                 </article>
 
