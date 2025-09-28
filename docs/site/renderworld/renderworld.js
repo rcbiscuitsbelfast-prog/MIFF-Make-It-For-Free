@@ -124,89 +124,187 @@ class RenderWorldHub {
     }
     
     createWarehouse() {
-        // Floor
-        const floorGeometry = new THREE.PlaneGeometry(100, 100);
-        const floorMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x333333,
+        // BRUTALIST WAREHOUSE - 40-foot ceilings, stark white concrete
+        const warehouseSize = 80; // Larger warehouse
+        const ceilingHeight = 40; // 40-foot equivalent
+        
+        // Polished concrete floor with slight reflectivity
+        const floorGeometry = new THREE.PlaneGeometry(warehouseSize, warehouseSize);
+        const floorMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x1a1a1a,
             roughness: 0.1,
-            metalness: 0.8
+            metalness: 0.9,
+            envMapIntensity: 0.3
         });
         const floor = new THREE.Mesh(floorGeometry, floorMaterial);
         floor.rotation.x = -Math.PI / 2;
         floor.receiveShadow = true;
         this.scene.add(floor);
         
-        // Walls
-        this.createWalls();
+        // Stark white concrete walls with subtle weathering
+        this.createBrutalistWalls(warehouseSize, ceilingHeight);
         
-        // Pillars
-        this.createPillars();
+        // Geometric support pillars creating dramatic shadows
+        this.createBrutalistPillars(warehouseSize, ceilingHeight);
         
-        // Ceiling
-        this.createCeiling();
+        // Industrial ceiling with harsh fluorescent lighting
+        this.createIndustrialCeiling(warehouseSize, ceilingHeight);
+        
+        // Central pedestal for Spirit Lens - sleek metal design
+        this.createSpiritLensPedestal();
+        
+        // Add industrial details - exposed beams and conduits
+        this.createIndustrialDetails(warehouseSize, ceilingHeight);
+        
+        console.log('🏭 Brutalist warehouse created with 40-foot ceilings');
     }
     
-    createWalls() {
-        const wallMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0xffffff,
-            roughness: 0.2
+    createBrutalistWalls(size, height) {
+        // Stark white concrete walls with subtle weathering
+        const wallMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xf8f8f8,
+            roughness: 0.8,
+            metalness: 0.1
         });
         
-        // Back wall
-        const backWallGeometry = new THREE.PlaneGeometry(100, 40);
-        const backWall = new THREE.Mesh(backWallGeometry, wallMaterial);
-        backWall.position.set(0, 20, -50);
-        backWall.receiveShadow = true;
-        this.scene.add(backWall);
-        
-        // Side walls
-        const sideWallGeometry = new THREE.PlaneGeometry(100, 40);
-        const leftWall = new THREE.Mesh(sideWallGeometry, wallMaterial);
-        leftWall.position.set(-50, 20, 0);
-        leftWall.rotation.y = Math.PI / 2;
-        leftWall.receiveShadow = true;
-        this.scene.add(leftWall);
-        
-        const rightWall = new THREE.Mesh(sideWallGeometry, wallMaterial);
-        rightWall.position.set(50, 20, 0);
-        rightWall.rotation.y = -Math.PI / 2;
-        rightWall.receiveShadow = true;
-        this.scene.add(rightWall);
-    }
-    
-    createPillars() {
-        const pillarGeometry = new THREE.CylinderGeometry(1, 1, 40, 8);
-        const pillarMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0xcccccc,
-            roughness: 0.1
-        });
-        
-        const pillarPositions = [
-            [-20, 20, -20], [20, 20, -20],
-            [-20, 20, 20], [20, 20, 20],
-            [-20, 20, 0], [20, 20, 0]
+        const wallThickness = 2;
+        const wallPositions = [
+            { pos: [0, height/2, -size/2], size: [size, height, wallThickness] },
+            { pos: [0, height/2, size/2], size: [size, height, wallThickness] },
+            { pos: [-size/2, height/2, 0], size: [wallThickness, height, size] },
+            { pos: [size/2, height/2, 0], size: [wallThickness, height, size] }
         ];
-        
+
+        wallPositions.forEach((wall, index) => {
+            const wallMesh = new THREE.Mesh(
+                new THREE.BoxGeometry(...wall.size),
+                wallMaterial
+            );
+            wallMesh.position.set(...wall.pos);
+            wallMesh.castShadow = true;
+            wallMesh.receiveShadow = true;
+            this.scene.add(wallMesh);
+        });
+    }
+    
+    createBrutalistPillars(size, height) {
+        // Geometric support pillars creating dramatic shadows
+        const pillarPositions = [
+            [-20, height/2, -20], [20, height/2, -20],
+            [-20, height/2, 20], [20, height/2, 20],
+            [-20, height/2, 0], [20, height/2, 0],
+            [0, height/2, -20], [0, height/2, 20],
+            [-10, height/2, -10], [10, height/2, -10],
+            [-10, height/2, 10], [10, height/2, 10]
+        ];
+
         pillarPositions.forEach(pos => {
+            const pillarGeometry = new THREE.CylinderGeometry(0.8, 1.2, height, 8);
+            const pillarMaterial = new THREE.MeshStandardMaterial({
+                color: 0xe8e8e8,
+                roughness: 0.6,
+                metalness: 0.2
+            });
             const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
-            pillar.position.set(pos[0], pos[1], pos[2]);
+            pillar.position.set(...pos);
             pillar.castShadow = true;
             pillar.receiveShadow = true;
             this.scene.add(pillar);
         });
     }
     
-    createCeiling() {
-        const ceilingGeometry = new THREE.PlaneGeometry(100, 100);
-        const ceilingMaterial = new THREE.MeshLambertMaterial({ 
+    createIndustrialCeiling(size, height) {
+        // Industrial ceiling with harsh fluorescent lighting
+        const ceilingGeometry = new THREE.PlaneGeometry(size, size);
+        const ceilingMaterial = new THREE.MeshStandardMaterial({ 
             color: 0xf0f0f0,
-            roughness: 0.1
+            roughness: 0.1,
+            metalness: 0.3
         });
         const ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-        ceiling.position.y = 40;
+        ceiling.position.y = height;
         ceiling.rotation.x = Math.PI / 2;
         ceiling.receiveShadow = true;
         this.scene.add(ceiling);
+        
+        // Add harsh fluorescent lights
+        this.createFluorescentLights(size, height);
+    }
+    
+    createFluorescentLights(size, height) {
+        // Harsh fluorescent lighting casting sharp, angular shadows
+        const lightSpacing = 15;
+        const lightPositions = [];
+        
+        for (let x = -size/2 + lightSpacing; x < size/2; x += lightSpacing) {
+            for (let z = -size/2 + lightSpacing; z < size/2; z += lightSpacing) {
+                lightPositions.push([x, height - 2, z]);
+            }
+        }
+        
+        lightPositions.forEach(pos => {
+            const light = new THREE.PointLight(0xffffff, 0.8, 20);
+            light.position.set(...pos);
+            light.castShadow = true;
+            light.shadow.mapSize.width = 1024;
+            light.shadow.mapSize.height = 1024;
+            this.scene.add(light);
+        });
+    }
+    
+    createSpiritLensPedestal() {
+        // Central pedestal for Spirit Lens - sleek metal design
+        const pedestalGeometry = new THREE.CylinderGeometry(1.5, 2, 1.5, 12);
+        const pedestalMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0x404040,
+            roughness: 0.1,
+            metalness: 0.9,
+            emissive: 0x001122
+        });
+        const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
+        pedestal.position.set(0, 0.75, 0);
+        pedestal.castShadow = true;
+        pedestal.receiveShadow = true;
+        this.scene.add(pedestal);
+        this.objects.set('pedestal', pedestal);
+    }
+    
+    createIndustrialDetails(size, height) {
+        // Exposed steel beams
+        const beamGeometry = new THREE.BoxGeometry(0.3, 0.3, size * 0.8);
+        const beamMaterial = new THREE.MeshStandardMaterial({
+            color: 0x2a2a2a,
+            metalness: 0.8,
+            roughness: 0.2
+        });
+
+        // Cross beams
+        for (let i = -2; i <= 2; i++) {
+            const beam = new THREE.Mesh(beamGeometry, beamMaterial);
+            beam.position.set(i * 16, height - 2, 0);
+            beam.rotation.y = Math.PI / 2;
+            beam.castShadow = true;
+            this.scene.add(beam);
+        }
+
+        // Conduits and pipes
+        const conduitGeometry = new THREE.CylinderGeometry(0.1, 0.1, size * 0.6, 8);
+        const conduitMaterial = new THREE.MeshStandardMaterial({
+            color: 0x444444,
+            metalness: 0.6,
+            roughness: 0.3
+        });
+
+        for (let i = 0; i < 6; i++) {
+            const conduit = new THREE.Mesh(conduitGeometry, conduitMaterial);
+            conduit.position.set(
+                (Math.random() - 0.5) * size * 0.8,
+                height - 3,
+                (Math.random() - 0.5) * size * 0.8
+            );
+            conduit.rotation.z = Math.random() * Math.PI / 4;
+            this.scene.add(conduit);
+        }
     }
     
     async loadAssets() {
@@ -224,54 +322,125 @@ class RenderWorldHub {
     }
     
     createSpiritLens() {
-        // Central crystalline object
-        const lensGeometry = new THREE.OctahedronGeometry(2);
-        const lensMaterial = new THREE.MeshPhongMaterial({
-            color: 0x00ffff,
+        // Create Spirit Lens group for complex crystalline structure
+        this.spiritLens = new THREE.Group();
+        this.spiritLens.position.set(0, 3, 0);
+        
+        // Main crystalline structure with faceted surfaces
+        const lensGeometry = new THREE.OctahedronGeometry(1.5, 3);
+        const lensMaterial = new THREE.MeshStandardMaterial({
+            color: 0x00d4ff,
             transparent: true,
-            opacity: 0.8,
-            emissive: 0x004444
+            opacity: 0.9,
+            emissive: 0x002244,
+            roughness: 0.1,
+            metalness: 0.9,
+            envMapIntensity: 1.0
         });
         
-        this.spiritLens = new THREE.Mesh(lensGeometry, lensMaterial);
-        this.spiritLens.position.set(0, 3, 0);
-        this.spiritLens.castShadow = true;
+        const mainCrystal = new THREE.Mesh(lensGeometry, lensMaterial);
+        mainCrystal.castShadow = true;
+        this.spiritLens.add(mainCrystal);
+        
+        // Inner core with different material
+        const coreGeometry = new THREE.IcosahedronGeometry(0.8, 2);
+        const coreMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.7,
+            emissive: 0x004488,
+            roughness: 0.05,
+            metalness: 0.95
+        });
+        
+        const core = new THREE.Mesh(coreGeometry, coreMaterial);
+        this.spiritLens.add(core);
+        
+        // Floating 2 feet above pedestal
+        this.spiritLens.position.y = 3.5;
+        
+        // Add pulsing cyan glow with point light
+        const glowLight = new THREE.PointLight(0x00d4ff, 2, 15);
+        glowLight.position.set(0, 0, 0);
+        this.spiritLens.add(glowLight);
+        this.spiritLens.glowLight = glowLight;
+        
+        // Light rays emanating outward
+        this.createLightRays();
+        
+        // Particle effects - tiny motes of light orbiting
+        this.createLensParticles();
+        
+        // Add to scene
         this.scene.add(this.spiritLens);
         
-        // Pedestal
-        const pedestalGeometry = new THREE.CylinderGeometry(3, 3, 1, 8);
-        const pedestalMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x666666,
-            metalness: 0.8,
-            roughness: 0.2
-        });
-        const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
-        pedestal.position.set(0, 0.5, 0);
-        pedestal.castShadow = true;
-        this.scene.add(pedestal);
+        // Store for animation
+        this.spiritLens.rotationSpeed = 0.02;
+        this.spiritLens.pulseSpeed = 0.03;
+        this.spiritLens.baseIntensity = 2;
         
-        // Particle system
-        this.createLensParticles();
+        console.log('🔮 Spirit Lens created with crystalline structure');
+    }
+    
+    createLightRays() {
+        // Light rays emanating outward creating geometric patterns
+        const rayCount = 8;
+        const rayLength = 8;
+        
+        for (let i = 0; i < rayCount; i++) {
+            const angle = (i / rayCount) * Math.PI * 2;
+            const rayGeometry = new THREE.CylinderGeometry(0.05, 0.02, rayLength, 8);
+            const rayMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00d4ff,
+                transparent: true,
+                opacity: 0.6,
+                emissive: 0x002244
+            });
+            
+            const ray = new THREE.Mesh(rayGeometry, rayMaterial);
+            ray.position.set(
+                Math.cos(angle) * rayLength / 2,
+                0,
+                Math.sin(angle) * rayLength / 2
+            );
+            ray.rotation.z = Math.PI / 2;
+            ray.rotation.y = angle;
+            
+            this.spiritLens.add(ray);
+        }
     }
     
     createLensParticles() {
-        const particleCount = 100;
+        // Tiny motes of light orbiting around the Spirit Lens
+        const particleCount = 50;
         const particles = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
         
         for (let i = 0; i < particleCount; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 10;
-            positions[i * 3 + 1] = Math.random() * 5;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+            const radius = 2 + Math.random() * 3;
+            const angle = Math.random() * Math.PI * 2;
+            const height = (Math.random() - 0.5) * 2;
+            
+            positions[i * 3] = Math.cos(angle) * radius;
+            positions[i * 3 + 1] = height;
+            positions[i * 3 + 2] = Math.sin(angle) * radius;
+            
+            // Cyan color variations
+            colors[i * 3] = 0.0;     // R
+            colors[i * 3 + 1] = 0.8 + Math.random() * 0.2; // G
+            colors[i * 3 + 2] = 1.0; // B
         }
         
         particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         
         const particleMaterial = new THREE.PointsMaterial({
-            color: 0x00ffff,
-            size: 0.1,
+            size: 0.05,
             transparent: true,
-            opacity: 0.6
+            opacity: 0.8,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending
         });
         
         this.lensParticles = new THREE.Points(particles, particleMaterial);
@@ -279,14 +448,263 @@ class RenderWorldHub {
     }
     
     createPortals() {
-        // Spirit Tamer Portal
-        this.createPortal('spirit-tamer', -15, 0, 0, 0x0088ff, 'Spirit Tamer');
+        // Create three distinct 12-foot tall portals with unique visual effects
+        this.createSpiritTamerPortal();
+        this.createTopplerPortal();
+        this.createWitcherPortal();
+    }
+    
+    createSpiritTamerPortal() {
+        // Electric blue energy field with digital lightning
+        const portalGroup = new THREE.Group();
+        portalGroup.position.set(-20, 6, -25);
         
-        // Toppler Portal
-        this.createPortal('toppler', 0, 0, -15, 0x00ff88, 'Toppler');
+        // Hexagonal frame with LED strips
+        const hexFrameGeometry = new THREE.RingGeometry(5, 6, 6);
+        const hexFrameMaterial = new THREE.MeshStandardMaterial({
+            color: 0x0088ff,
+            emissive: 0x002244,
+            metalness: 0.9,
+            roughness: 0.1
+        });
+        const hexFrame = new THREE.Mesh(hexFrameGeometry, hexFrameMaterial);
+        hexFrame.rotation.x = -Math.PI / 2;
+        portalGroup.add(hexFrame);
         
-        // Witcher Grove Portal
-        this.createPortal('witcher', 15, 0, 0, 0xff4444, 'Witcher Grove');
+        // LED strips around the frame
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2;
+            const ledGeometry = new THREE.BoxGeometry(0.1, 0.1, 1);
+            const ledMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                emissive: 0x004488
+            });
+            const led = new THREE.Mesh(ledGeometry, ledMaterial);
+            led.position.set(
+                Math.cos(angle) * 5.5,
+                0,
+                Math.sin(angle) * 5.5
+            );
+            led.rotation.y = angle;
+            portalGroup.add(led);
+        }
+        
+        // Electric blue energy field
+        const energyGeometry = new THREE.RingGeometry(0, 5, 16);
+        const energyMaterial = new THREE.MeshBasicMaterial({
+            color: 0x0088ff,
+            transparent: true,
+            opacity: 0.7,
+            side: THREE.DoubleSide
+        });
+        const energy = new THREE.Mesh(energyGeometry, energyMaterial);
+        energy.rotation.x = -Math.PI / 2;
+        portalGroup.add(energy);
+        
+        // Particle stream effect - blue energy motes flowing upward
+        this.createParticleStream(portalGroup, 0x0088ff, 0x00ffff);
+        
+        // Portal light
+        const portalLight = new THREE.PointLight(0x0088ff, 3, 25);
+        portalLight.position.set(0, 0, 0);
+        portalGroup.add(portalLight);
+        
+        this.scene.add(portalGroup);
+        this.portals.push({
+            id: 'spirit-tamer',
+            group: portalGroup,
+            light: portalLight,
+            position: new THREE.Vector3(-20, 6, -25),
+            name: 'Spirit Tamer',
+            color: 0x0088ff
+        });
+        
+        console.log('⚡ Spirit Tamer Portal created with electric blue lightning');
+    }
+    
+    createTopplerPortal() {
+        // Emerald green shimmer with industrial pipes and steam
+        const portalGroup = new THREE.Group();
+        portalGroup.position.set(0, 6, -25);
+        
+        // Industrial pipe framework
+        const pipePositions = [
+            [-6, 0, 0], [6, 0, 0], [0, 0, -6], [0, 0, 6]
+        ];
+        
+        pipePositions.forEach(pos => {
+            const pipeGeometry = new THREE.CylinderGeometry(0.3, 0.3, 12, 8);
+            const pipeMaterial = new THREE.MeshStandardMaterial({
+                color: 0x666666,
+                metalness: 0.8,
+                roughness: 0.2
+            });
+            const pipe = new THREE.Mesh(pipeGeometry, pipeMaterial);
+            pipe.position.set(...pos);
+            pipe.rotation.z = Math.PI / 2;
+            portalGroup.add(pipe);
+        });
+        
+        // Steam vents
+        const steamGeometry = new THREE.SphereGeometry(1, 8, 8);
+        const steamMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4
+        });
+        const steam = new THREE.Mesh(steamGeometry, steamMaterial);
+        steam.position.y = 2;
+        portalGroup.add(steam);
+        
+        // Emerald shimmer effect
+        const shimmerGeometry = new THREE.RingGeometry(0, 5, 16);
+        const shimmerMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ff88,
+            transparent: true,
+            opacity: 0.6,
+            side: THREE.DoubleSide
+        });
+        const shimmer = new THREE.Mesh(shimmerGeometry, shimmerMaterial);
+        shimmer.rotation.x = -Math.PI / 2;
+        portalGroup.add(shimmer);
+        
+        // Portal light
+        const portalLight = new THREE.PointLight(0x00ff88, 3, 25);
+        portalLight.position.set(0, 0, 0);
+        portalGroup.add(portalLight);
+        
+        this.scene.add(portalGroup);
+        this.portals.push({
+            id: 'toppler',
+            group: portalGroup,
+            light: portalLight,
+            position: new THREE.Vector3(0, 6, -25),
+            name: 'Toppler',
+            color: 0x00ff88
+        });
+        
+        console.log('🏭 Toppler Portal created with emerald shimmer and industrial pipes');
+    }
+    
+    createWitcherPortal() {
+        // Deep crimson glow with stone arch and mystical runes
+        const portalGroup = new THREE.Group();
+        portalGroup.position.set(20, 6, -25);
+        
+        // Stone archway
+        const archGeometry = new THREE.TorusGeometry(5, 1, 8, 16);
+        const archMaterial = new THREE.MeshStandardMaterial({
+            color: 0x8B4513,
+            roughness: 0.8,
+            metalness: 0.1
+        });
+        const arch = new THREE.Mesh(archGeometry, archMaterial);
+        arch.rotation.x = -Math.PI / 2;
+        portalGroup.add(arch);
+        
+        // Mystical runes that glow and fade
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const runeGeometry = new THREE.BoxGeometry(0.2, 0.6, 0.1);
+            const runeMaterial = new THREE.MeshBasicMaterial({
+                color: 0xffaa44,
+                emissive: 0x442200
+            });
+            const rune = new THREE.Mesh(runeGeometry, runeMaterial);
+            rune.position.set(
+                Math.cos(angle) * 5.2,
+                0,
+                Math.sin(angle) * 5.2
+            );
+            rune.rotation.y = angle;
+            portalGroup.add(rune);
+        }
+        
+        // Floating embers
+        for (let i = 0; i < 30; i++) {
+            const emberGeometry = new THREE.SphereGeometry(0.1, 4, 4);
+            const emberMaterial = new THREE.MeshBasicMaterial({
+                color: 0xff6600,
+                emissive: 0x220000
+            });
+            const ember = new THREE.Mesh(emberGeometry, emberMaterial);
+            ember.position.set(
+                (Math.random() - 0.5) * 10,
+                Math.random() * 4,
+                (Math.random() - 0.5) * 10
+            );
+            portalGroup.add(ember);
+        }
+        
+        // Deep crimson energy field
+        const energyGeometry = new THREE.RingGeometry(0, 5, 16);
+        const energyMaterial = new THREE.MeshBasicMaterial({
+            color: 0xff4444,
+            transparent: true,
+            opacity: 0.8,
+            side: THREE.DoubleSide
+        });
+        const energy = new THREE.Mesh(energyGeometry, energyMaterial);
+        energy.rotation.x = -Math.PI / 2;
+        portalGroup.add(energy);
+        
+        // Portal light
+        const portalLight = new THREE.PointLight(0xff4444, 3, 25);
+        portalLight.position.set(0, 0, 0);
+        portalGroup.add(portalLight);
+        
+        this.scene.add(portalGroup);
+        this.portals.push({
+            id: 'witcher',
+            group: portalGroup,
+            light: portalLight,
+            position: new THREE.Vector3(20, 6, -25),
+            name: 'Witcher Grove',
+            color: 0xff4444
+        });
+        
+        console.log('🧙‍♂️ Witcher Portal created with crimson glow and mystical runes');
+    }
+    
+    createParticleStream(portalGroup, baseColor, particleColor) {
+        // Create particle stream effect flowing upward
+        const particleCount = 100;
+        const particles = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount; i++) {
+            const radius = Math.random() * 5;
+            const angle = Math.random() * Math.PI * 2;
+            const height = Math.random() * 8;
+            
+            positions[i * 3] = Math.cos(angle) * radius;
+            positions[i * 3 + 1] = height;
+            positions[i * 3 + 2] = Math.sin(angle) * radius;
+            
+            // Color based on portal type
+            const r = (particleColor >> 16) / 255;
+            const g = ((particleColor >> 8) & 0xff) / 255;
+            const b = (particleColor & 0xff) / 255;
+            
+            colors[i * 3] = r;
+            colors[i * 3 + 1] = g;
+            colors[i * 3 + 2] = b;
+        }
+        
+        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.1,
+            transparent: true,
+            opacity: 0.8,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+        portalGroup.add(particleSystem);
     }
     
     createPortal(id, x, y, z, color, name) {
@@ -334,14 +752,241 @@ class RenderWorldHub {
     }
     
     createNPCs() {
-        // Explorer NPC
-        this.createNPC('explorer', -10, 0, 5, 0x00ffff, 'Explorer');
+        // Create three distinct AI NPCs with unique behaviors
+        this.createExplorerNPC();
+        this.createGuideNPC();
+        this.createMysticNPC();
+    }
+    
+    createExplorerNPC() {
+        // Sleek android design with white chassis and blue LED details
+        const explorerGroup = new THREE.Group();
+        explorerGroup.position.set(-15, 1.7, 8);
         
-        // Guide NPC
-        this.createNPC('guide', 0, 0, 5, 0x00ff88, 'Guide');
+        // Sleek android body
+        const bodyGeometry = new THREE.CapsuleGeometry(0.4, 1.2, 8, 16);
+        const bodyMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            metalness: 0.9,
+            roughness: 0.1,
+            emissive: 0x002244
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        explorerGroup.add(body);
         
-        // Mystic NPC
-        this.createNPC('mystic', 10, 0, 5, 0xff00ff, 'Mystic');
+        // Blue LED details
+        const ledGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+        const ledMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ffff,
+            emissive: 0x004488
+        });
+        
+        // LED strips on body
+        for (let i = 0; i < 4; i++) {
+            const led = new THREE.Mesh(ledGeometry, ledMaterial);
+            led.position.set(
+                (Math.random() - 0.5) * 0.6,
+                (Math.random() - 0.5) * 1.2,
+                0.3
+            );
+            explorerGroup.add(led);
+        }
+        
+        // Scanning visor
+        const visorGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.1, 8);
+        const visorMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.7,
+            emissive: 0x004488
+        });
+        const visor = new THREE.Mesh(visorGeometry, visorMaterial);
+        visor.position.y = 0.8;
+        explorerGroup.add(visor);
+        
+        // Hologram emitter
+        const emitterGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+        const emitterMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ff88,
+            transparent: true,
+            opacity: 0.8
+        });
+        const emitter = new THREE.Mesh(emitterGeometry, emitterMaterial);
+        emitter.position.y = 1.5;
+        explorerGroup.add(emitter);
+        
+        this.scene.add(explorerGroup);
+        this.npcs.push({
+            id: 'explorer',
+            group: explorerGroup,
+            position: new THREE.Vector3(-15, 1.7, 8),
+            name: 'Explorer',
+            type: 'android',
+            behavior: 'scanning',
+            animation: 0,
+            lastMoveTime: 0
+        });
+        
+        console.log('🤖 Explorer NPC created - sleek android with scanning behavior');
+    }
+    
+    createGuideNPC() {
+        // More human-like appearance but clearly artificial - uncanny valley effect
+        const guideGroup = new THREE.Group();
+        guideGroup.position.set(15, 1.7, 8);
+        
+        // Human-like body with golden accents
+        const bodyGeometry = new THREE.CapsuleGeometry(0.4, 1.2, 8, 16);
+        const bodyMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffaa44,
+            roughness: 0.6,
+            metalness: 0.3
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        guideGroup.add(body);
+        
+        // Friendly face
+        const headGeometry = new THREE.SphereGeometry(0.25, 8, 8);
+        const headMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffcc99,
+            roughness: 0.8
+        });
+        const head = new THREE.Mesh(headGeometry, headMaterial);
+        head.position.y = 0.8;
+        guideGroup.add(head);
+        
+        // Gesturing arm
+        const armGeometry = new THREE.CapsuleGeometry(0.1, 0.6, 4, 8);
+        const armMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffcc99
+        });
+        const arm = new THREE.Mesh(armGeometry, armMaterial);
+        arm.position.set(0.3, 0.2, 0);
+        arm.rotation.z = Math.PI / 4;
+        guideGroup.add(arm);
+        
+        // Golden accent lighting
+        const accentLight = new THREE.PointLight(0xffaa44, 0.5, 3);
+        accentLight.position.set(0, 1, 0);
+        guideGroup.add(accentLight);
+        
+        this.scene.add(guideGroup);
+        this.npcs.push({
+            id: 'guide',
+            group: guideGroup,
+            position: new THREE.Vector3(15, 1.7, 8),
+            name: 'Guide',
+            type: 'human-like',
+            behavior: 'gesturing',
+            animation: 0,
+            gestureTime: 0
+        });
+        
+        console.log('👤 Guide NPC created - human-like with gesturing behavior');
+    }
+    
+    createMysticNPC() {
+        // Hooded figure with energy coursing through transparent body sections
+        const mysticGroup = new THREE.Group();
+        mysticGroup.position.set(0, 2, 15); // Floating slightly above ground
+        
+        // Hooded figure
+        const bodyGeometry = new THREE.CapsuleGeometry(0.4, 1.2, 8, 16);
+        const bodyMaterial = new THREE.MeshStandardMaterial({
+            color: 0xaa44ff,
+            roughness: 0.7,
+            metalness: 0.3,
+            emissive: 0x220044,
+            transparent: true,
+            opacity: 0.8
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        mysticGroup.add(body);
+        
+        // Floating effect
+        mysticGroup.position.y = 2.2;
+        
+        // Mystical aura
+        const auraGeometry = new THREE.SphereGeometry(1.5, 16, 16);
+        const auraMaterial = new THREE.MeshBasicMaterial({
+            color: 0xaa44ff,
+            transparent: true,
+            opacity: 0.1,
+            side: THREE.DoubleSide
+        });
+        const aura = new THREE.Mesh(auraGeometry, auraMaterial);
+        mysticGroup.add(aura);
+        
+        // Energy coursing through body
+        const energyGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8);
+        const energyMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 0.6,
+            emissive: 0x004488
+        });
+        
+        for (let i = 0; i < 3; i++) {
+            const energy = new THREE.Mesh(energyGeometry, energyMaterial);
+            energy.position.set(
+                (Math.random() - 0.5) * 0.4,
+                (Math.random() - 0.5) * 1.2,
+                0
+            );
+            energy.rotation.z = Math.random() * Math.PI;
+            mysticGroup.add(energy);
+        }
+        
+        // Particle effects beneath feet
+        this.createMysticParticles(mysticGroup);
+        
+        this.scene.add(mysticGroup);
+        this.npcs.push({
+            id: 'mystic',
+            group: mysticGroup,
+            position: new THREE.Vector3(0, 2.2, 15),
+            name: 'Mystic',
+            type: 'hooded',
+            behavior: 'meditating',
+            animation: 0,
+            teleportTime: 0,
+            colorShift: 0
+        });
+        
+        console.log('🧙‍♂️ Mystic NPC created - hooded figure with floating and color-shifting');
+    }
+    
+    createMysticParticles(mysticGroup) {
+        // Particle effects beneath floating mystic
+        const particleCount = 20;
+        const particles = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+        
+        for (let i = 0; i < particleCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 2;
+            positions[i * 3 + 1] = -1;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
+            
+            // Purple to cyan color shift
+            colors[i * 3] = 0.7;     // R
+            colors[i * 3 + 1] = 0.3; // G
+            colors[i * 3 + 2] = 1.0; // B
+        }
+        
+        particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.1,
+            transparent: true,
+            opacity: 0.6,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particleSystem = new THREE.Points(particles, particleMaterial);
+        mysticGroup.add(particleSystem);
     }
     
     createNPC(id, x, y, z, color, name) {
