@@ -68,37 +68,7 @@
         }
     };
 
-    // Default splash screen content
-    const SPLASH_HTML = `
-        <div class="splash-screen">
-            <div class="splash-content">
-                <h1>🎮 MIFF Sampler</h1>
-                <p class="tagline">Made with MIFF in mind</p>
-                <p class="description">
-                    A modular, remixable framework for building engine-agnostic gameplay 
-                    with Pure systems. Choose a zone above to get started.
-                </p>
-                <div class="splash-actions">
-                    <a href="#toppler" class="btn btn-primary">🧱 Try Toppler</a>
-                    <a href="#dashboard" class="btn btn-secondary">📊 Dashboard</a>
-                </div>
-                <div class="splash-features">
-                    <div class="feature">
-                        <span class="icon">🔧</span>
-                        <span>Remix-safe</span>
-                    </div>
-                    <div class="feature">
-                        <span class="icon">📱</span>
-                        <span>Mobile-first</span>
-                    </div>
-                    <div class="feature">
-                        <span class="icon">🎯</span>
-                        <span>Pure modules</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
+    // Splash removed from router. Homepage handles its own branding.
 
     // Error fallback content
     const ERROR_HTML = `
@@ -205,7 +175,7 @@
             const zone = hash ? ZONES[hash] : null;
             const currentPath = window.location.pathname;
 
-            // Only show splash on exact homepage paths
+            // Only handle homepage routing here; no router splash
             const isExactHomepage = (currentPath === '/' || 
                                    currentPath === '/docs/site/' || 
                                    currentPath === '/docs/site/index.html' ||
@@ -220,8 +190,8 @@
                 console.log(`[Router] ${hash} → patch + switch + event triggered`);
                 this.loadZone(zone);
             } else if (isExactHomepage) {
-                console.log('[Router] Showing splash for homepage:', currentPath);
-                this.showSplash();
+                console.log('[Router] Homepage detected; loading default content without splash:', currentPath);
+                this.loadDefaultContent();
             } else {
                 console.log('[Router] Not showing splash for path:', currentPath);
                 // Load default content or redirect
@@ -341,11 +311,7 @@
             this.updateDebugInfo();
         }
 
-        showSplash() {
-            this.currentZone = null;
-            this.container.innerHTML = SPLASH_HTML;
-            this.updateDebugInfo();
-        }
+        // showSplash removed
 
         loadDefaultContent() {
             this.currentZone = null;

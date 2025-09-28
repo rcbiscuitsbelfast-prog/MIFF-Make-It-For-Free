@@ -447,8 +447,12 @@
 
         <!-- HUD -->
         <div class="hud">
+            <a href="../sampler/" id="backToMiff" class="mobile-hud-bar" style="height:40px; display:flex; align-items:center; gap:8px; text-decoration:none;">
+                <span style="font-size:18px;">←</span>
+                <span style="font-weight:600;">Back to MIFF Website</span>
+            </a>
             <!-- Mobile HUD Top Bar -->
-            <div class="mobile-hud-bar">
+            <div class="mobile-hud-bar" id="mobileHudTop">
                 <div class="hud-section position-indicator">
                     <div class="hud-icon">📍</div>
                     <div class="hud-content">
@@ -537,5 +541,15 @@
     
     <!-- Main RenderWorld Script -->
     <script src="renderworld.js"></script>
+    <script>
+      (function(){
+        const back = document.getElementById('backToMiff');
+        if (back) back.addEventListener('click', function(e){
+          e.preventDefault();
+          try { window.miffOverlay && window.miffOverlay.cleanup && window.miffOverlay.cleanup(); } catch {}
+          window.location.href = '../sampler/';
+        });
+      })();
+    </script>
 </body>
 </html>
