@@ -97,13 +97,13 @@ jobs:
           echo "⚠️ /site directory not found"
         fi
 
-        # Copy RenderWorld Hub bundle into docs/dist/renderworld
-        if [ -d "renderworld-hub/docs" ]; then
+        # Copy canonical RenderWorld from docs/renderworld into docs/dist/renderworld
+        if [ -d "docs/renderworld" ]; then
           mkdir -p docs/dist/renderworld
-          rsync -a --delete renderworld-hub/docs/ docs/dist/renderworld/
-          echo "✅ RenderWorld Hub assets copied to docs/dist/renderworld"
+          rsync -a --delete docs/renderworld/ docs/dist/renderworld/
+          echo "✅ RenderWorld copied from docs/renderworld to docs/dist/renderworld"
         else
-          echo "⚠️ RenderWorld Hub docs assets not found"
+          echo "⚠️ docs/renderworld directory not found"
         fi
 
     - name: Verify SplashScreenPure integration
