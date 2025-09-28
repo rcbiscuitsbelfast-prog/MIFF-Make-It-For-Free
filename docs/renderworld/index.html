@@ -18,27 +18,30 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
-                          fill="url(#logoGradient)" opacity="0.9"/>
-                    <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
-                          fill="url(#logoGradient)" opacity="0.8"/>
-                    <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
-                          fill="url(#logoGradient)" opacity="0.9"/>
-                    <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
-                          fill="url(#logoGradient)" opacity="0.7"/>
-                    <circle cx="40" cy="40" r="8" fill="url(#logoGradient)" opacity="0.5"/>
-                </svg>
+                <a href="../sampler/" aria-label="Return to MIFF Sampler" class="menu-logo" id="menuToggle">
+                    <svg width="40" height="40" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#00ff88;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M15 25 Q10 20 15 15 L35 15 Q40 20 35 25 Q30 30 25 25 Q20 30 15 25 Z"
+                              fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M45 25 Q50 20 55 15 L75 15 Q80 20 75 25 Q70 30 65 25 Q60 30 55 25 Q50 30 45 25 Z"
+                              fill="url(#logoGradient)" opacity="0.8"/>
+                        <path d="M45 55 Q50 50 55 45 L75 45 Q80 50 75 55 Q70 60 65 55 Q60 60 55 55 Q50 60 45 55 Z"
+                              fill="url(#logoGradient)" opacity="0.9"/>
+                        <path d="M15 55 Q10 50 15 45 L35 45 Q40 50 35 55 Q30 60 25 55 Q20 60 15 55 Z"
+                              fill="url(#logoGradient)" opacity="0.7"/>
+                        <circle cx="40" cy="40" r="8" fill="url(#logoGradient)" opacity="0.5"/>
+                    </svg>
+                </a>
                 <span class="logo-text">RenderWorld Hub</span>
             </div>
             <nav class="nav">
                 <a href="../">← Back to MIFF</a>
+                <a href="../sampler/">← MIFF Sampler</a>
                 <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a>
                 <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle dark/light theme">
                     <svg fill="currentColor" viewBox="0 0 20 20">
@@ -268,6 +271,7 @@
             // Initialize RenderWorld
             setTimeout(() => {
                 loadDemo();
+                addPersistentMenuIcon();
             }, 1000);
         });
 
@@ -346,6 +350,55 @@
 
         function showComingSoon(feature) {
             alert(`${feature} is coming soon! This demo is currently under development and will be available in a future update.`);
+        }
+
+        // Add persistent menu icon for game views
+        function addPersistentMenuIcon() {
+            // Create persistent menu icon
+            const persistentMenu = document.createElement('div');
+            persistentMenu.id = 'persistent-menu-icon';
+            persistentMenu.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                background: rgba(0, 255, 136, 0.9);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 10001;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+                backdrop-filter: blur(10px);
+            `;
+            persistentMenu.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+                </svg>
+            `;
+            persistentMenu.title = 'Return to MIFF Sampler';
+
+            // Add hover effects
+            persistentMenu.addEventListener('mouseenter', () => {
+                persistentMenu.style.transform = 'scale(1.1)';
+                persistentMenu.style.background = 'rgba(0, 255, 136, 1)';
+            });
+
+            persistentMenu.addEventListener('mouseleave', () => {
+                persistentMenu.style.transform = 'scale(1)';
+                persistentMenu.style.background = 'rgba(0, 255, 136, 0.9)';
+            });
+
+            // Add click handler
+            persistentMenu.addEventListener('click', () => {
+                window.location.href = '../sampler/';
+            });
+
+            // Add to body
+            document.body.appendChild(persistentMenu);
         }
 
         // Add click effects to interactive elements

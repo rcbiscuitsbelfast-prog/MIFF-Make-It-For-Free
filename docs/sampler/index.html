@@ -62,28 +62,28 @@
             </p>
 
             <div class="experiences-grid">
-                <div class="experience-card" onclick="navigateTo('../renderworld/')">
+                <div class="experience-card" onclick="launchGame('renderworld')">
                     <div class="card-icon">🏭</div>
                     <h3>RenderWorld Hub</h3>
                     <p>Real-time AI-native game preview engine with 60fps rendering</p>
                     <div class="card-arrow">→</div>
                 </div>
 
-                <div class="experience-card" onclick="showComingSoon('Toppler Demo')">
+                <div class="experience-card" onclick="launchGame('toppler')">
                     <div class="card-icon">🎯</div>
                     <h3>Toppler Demo</h3>
                     <p>Physics-based action game with modular component systems</p>
                     <div class="card-arrow">→</div>
                 </div>
 
-                <div class="experience-card" onclick="showComingSoon('Spirit Tamer')">
+                <div class="experience-card" onclick="launchGame('spirit')">
                     <div class="card-icon">⚔️</div>
                     <h3>Spirit Tamer</h3>
                     <p>Turn-based combat system with 157+ modular components</p>
                     <div class="card-arrow">→</div>
                 </div>
 
-                <div class="experience-card" onclick="showComingSoon('Witcher Explorer')">
+                <div class="experience-card" onclick="launchGame('witcher')">
                     <div class="card-icon">🧙‍♂️</div>
                     <h3>Witcher Explorer</h3>
                     <p>Adventure game with dynamic world generation and AI NPCs</p>
@@ -192,6 +192,106 @@
                 console.error('Navigation failed:', error);
                 window.location.href = path;
             }
+        }
+
+        // Game launch functionality
+        function launchGame(gameType) {
+            switch(gameType) {
+                case 'renderworld':
+                    // Launch RenderWorld in full-screen canvas
+                    launchFullScreenGame('../renderworld/', 'RenderWorld Hub');
+                    break;
+                case 'toppler':
+                    // Launch Toppler demo
+                    launchFullScreenGame('../site/toppler.html', 'Toppler Demo');
+                    break;
+                case 'spirit':
+                    // Launch Spirit Tamer demo
+                    launchFullScreenGame('../site/spirit.html', 'Spirit Tamer');
+                    break;
+                case 'witcher':
+                    // Launch Witcher Explorer demo
+                    launchFullScreenGame('../site/zones/witcher_grove/index.html', 'Witcher Explorer');
+                    break;
+                default:
+                    showComingSoon('Game Demo');
+            }
+        }
+
+        // Launch full-screen game
+        function launchFullScreenGame(gameUrl, gameName) {
+            // Create full-screen overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'game-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #000;
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+            `;
+
+            // Create persistent menu icon
+            const menuIcon = document.createElement('div');
+            menuIcon.id = 'game-menu-icon';
+            menuIcon.style.cssText = `
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+                background: rgba(0, 255, 136, 0.9);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                z-index: 10001;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+            `;
+            menuIcon.innerHTML = `
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+                </svg>
+            `;
+            menuIcon.title = 'Return to MIFF Sampler';
+
+            // Create game iframe
+            const gameFrame = document.createElement('iframe');
+            gameFrame.src = gameUrl;
+            gameFrame.style.cssText = `
+                width: 100%;
+                height: 100%;
+                border: none;
+                background: #000;
+            `;
+
+            // Add menu icon click handler
+            menuIcon.addEventListener('click', () => {
+                document.body.removeChild(overlay);
+            });
+
+            // Add escape key handler
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(overlay);
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+
+            // Assemble overlay
+            overlay.appendChild(menuIcon);
+            overlay.appendChild(gameFrame);
+            document.body.appendChild(overlay);
+
+            // Focus the iframe
+            gameFrame.focus();
         }
 
         // Coming soon functionality
