@@ -516,10 +516,10 @@ class RenderWorldWebBridge {
     if (this.state.isRunning) return;
     // Bootstrap Three.js scene
     const [{ default: THREE }, { GLTFLoader }] = await Promise.all([
-      import('https://unpkg.com/three@0.161.0/build/three.module.js'),
-      import('https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js')
+      import('https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js'),
+      import('https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/loaders/GLTFLoader.js')
     ]);
-    const { AssetLoader } = await import('./docs/renderworld/asset-loader.js').catch(async()=>({ AssetLoader: (await import('./renderworld/asset-loader.js')).AssetLoader }));
+    const { AssetLoader } = await import('./asset-loader.js');
 
     this.three = { THREE, GLTFLoader };
     this.scene = new THREE.Scene();
@@ -527,8 +527,8 @@ class RenderWorldWebBridge {
     this.camera3d = new THREE.PerspectiveCamera(60, this.config.width / this.config.height, 0.1, 1000);
     this.camera3d.position.set(0, 2.8, 7.5);
     this.renderer3d = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
-    this.renderer3d.setSize(this.config.width, this.config.height);
-    this.renderer3d.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    this.renderer3d.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    this.renderer3d.setSize(this.config.width, this.config.height, true);
 
     // Lights
     const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
@@ -538,8 +538,12 @@ class RenderWorldWebBridge {
     this.scene.add(dir);
 
     // Assets
-    const loader = new AssetLoader(THREE, GLTFLoader);
-    await loader.loadWarehouseAssets(this.scene);
+    try {
+      const loader = new AssetLoader(THREE, GLTFLoader);
+      await loader.loadWarehouseAssets(this.scene);
+    } catch (e) {
+      console.warn('Asset load failed, continuing with empty scene', e);
+    }
 
     // Simple player proxy
     const player = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0x00ff88 }));
