@@ -22,6 +22,14 @@
 		<span id="hud-pos">pos 0.0, 0.0</span>
 		<span id="hud-fps">60 fps</span>
 	</div>
+	<!-- Phase 5: Virtual joystick and action buttons -->
+	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:132px;height:132px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;z-index:900;">
+		<div id="vj-knob" style="width:58px;height:58px;border-radius:50%;background:rgba(0,212,255,0.85);box-shadow:0 0 16px rgba(0,212,255,0.6);"></div>
+	</div>
+	<div style="position:fixed;right:16px;bottom:16px;display:flex;gap:12px;z-index:900;">
+		<button id="btn-interact" style="min-width:64px;min-height:64px;border-radius:12px;background:rgba(0,0,0,0.45);color:#e6edf3;border:1px solid rgba(255,255,255,0.18);font:14px monospace;">Interact</button>
+		<button id="btn-jump" style="min-width:64px;min-height:64px;border-radius:12px;background:rgba(0,0,0,0.45);color:#e6edf3;border:1px solid rgba(255,255,255,0.18);font:14px monospace;">Jump</button>
+	</div>
 	<script type="module">
 	// Use CDN module to avoid MIME issues with local backup extension
 	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
@@ -91,6 +99,10 @@ const fill = new THREE.DirectionalLight(0x88c0a8, 0.35); fill.position.set(-4,3,
 	cube.position.set(0,0.75,0);
 	scene.add(cube);
 
+	// Phase 5: movement state
+	const move = { x: 0, z: 0 };
+	const moveSpeed = 1.5; // m/s
+
 const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(32,32, 1,1),
     new THREE.MeshStandardMaterial({ color: 0x0a1f17, roughness: 0.95, metalness: 0.0 })
@@ -112,6 +124,16 @@ const ground = new THREE.Mesh(
 		const tt = t * 0.001;
 		cube.rotation.y = tt * 0.8;
 		cube.position.y = 0.75 + Math.sin(tt * 2.0) * 0.25;
+		// apply movement in camera-aligned XZ (yaw only)
+		if (move.x !== 0 || move.z !== 0) {
+			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
+			const dirYaw = yaw; // align with camera yaw
+			const sx = Math.cos(dirYaw) * move.z + Math.sin(dirYaw) * move.x;
+			const sz = Math.cos(dirYaw) * move.x - Math.sin(dirYaw) * move.z;
+			cube.position.x += sx * moveSpeed * dt;
+			cube.position.z += sz * moveSpeed * dt;
+		}
+		animate._lastFrame = t;
 		updateCamera();
 		renderer.render(scene, camera);
 		// HUD updates
@@ -131,6 +153,46 @@ const ground = new THREE.Mesh(
 	}
 	requestAnimationFrame(animate);
 	try { document.getElementById('status').textContent = 'running'; } catch {}
+
+	// Phase 5: joystick logic
+	(function(){
+		const base = document.getElementById('vj');
+		const knob = document.getElementById('vj-knob');
+		if (!base || !knob) return;
+		const radius = 56;
+		let active = false;
+		function setKnob(dx, dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
+		function start(x, y){ active = true; move.x = 0; move.z = 0; }
+		function moveTo(x, y){
+			if (!active) return;
+			const r = base.getBoundingClientRect();
+			const cx = r.left + r.width/2;
+			const cy = r.top + r.height/2;
+			let dx = x - cx, dy = y - cy;
+			const d = Math.hypot(dx, dy);
+			if (d > radius) { const a = Math.atan2(dy, dx); dx = Math.cos(a)*radius; dy = Math.sin(a)*radius; }
+			setKnob(dx*0.6, dy*0.6);
+			// map to [-1,1]
+			move.x = dx / radius;
+			move.z = -dy / radius;
+		}
+		function end(){ active = false; move.x = 0; move.z = 0; setKnob(0,0); }
+		base.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; start(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
+		base.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; moveTo(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
+		base.addEventListener('touchend', (e)=>{ end(); e.preventDefault(); }, { passive:false });
+		base.addEventListener('mousedown', (e)=>{ start(e.clientX, e.clientY); });
+		window.addEventListener('mousemove', (e)=>{ moveTo(e.clientX, e.clientY); });
+		window.addEventListener('mouseup', end);
+	})();
+
+	// Phase 5: action buttons
+	document.getElementById('btn-jump')?.addEventListener('click', ()=>{
+		cube.position.y += 0.4;
+		setTimeout(()=>{ cube.position.y = Math.max(0.75, cube.position.y - 0.4); }, 180);
+	});
+	document.getElementById('btn-interact')?.addEventListener('click', ()=>{
+		try { document.getElementById('status').textContent = 'interact'; setTimeout(()=>{ document.getElementById('status').textContent='running'; }, 600); } catch {}
+	});
 	</script>
 </body>
 </html>
