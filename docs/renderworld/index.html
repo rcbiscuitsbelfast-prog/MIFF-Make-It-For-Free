@@ -169,17 +169,22 @@ const ground = new THREE.Mesh(
 		}
 		// apply movement aligned with camera forward/right on XZ
         if (move.x !== 0 || move.z !== 0) {
-			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
-            // Use yaw-based forward/right; in 1st or 3rd person we keep the same yaw
-            const nx = Math.sin(yaw);
-            const nz = Math.cos(yaw);
-            const rx = Math.cos(yaw);
-            const rz = -Math.sin(yaw);
-			const worldX = rx * move.x + nx * move.z;
-			const worldZ = rz * move.x + nz * move.z;
-			cube.position.x += worldX * moveSpeed * dt;
-			cube.position.z += worldZ * moveSpeed * dt;
-		}
+            const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
+            // Yaw-based basis; adjust signs per view to match expected directions
+            let fwdX = Math.sin(yaw), fwdZ = Math.cos(yaw);
+            let rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
+            if (isFirstPerson) {
+                // In FP, previous mapping had L/R inverted; flip right
+                rightX = -rightX; rightZ = -rightZ;
+            } else {
+                // In TP, previous mapping had F/B inverted; flip forward
+                fwdX = -fwdX; fwdZ = -fwdZ;
+            }
+            const worldX = rightX * move.x + fwdX * move.z;
+            const worldZ = rightZ * move.x + fwdZ * move.z;
+            cube.position.x += worldX * moveSpeed * dt;
+            cube.position.z += worldZ * moveSpeed * dt;
+        }
 		animate._lastFrame = t;
 		updateCamera();
 		renderer.render(scene, camera);
