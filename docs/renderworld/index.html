@@ -88,8 +88,8 @@ function updateCamera(){
         const offX = -Math.sin(yaw) * Math.cos(pitch) * radius;
         const offY = Math.sin(pitch) * radius + 1.2;
         const offZ = -Math.cos(yaw) * Math.cos(pitch) * radius;
-        camera.position.set(cube.position.x + offX, cube.position.y + offY, cube.position.z + offZ);
-        camera.lookAt(cube.position.x, cube.position.y + 0.3, cube.position.z);
+        camera.position.set(player.position.x + offX, player.position.y + offY, player.position.z + offZ);
+        camera.lookAt(player.position.x, player.position.y + 0.3, player.position.z);
     }
 }
 
@@ -163,18 +163,112 @@ const hemi = new THREE.HemisphereLight(0xe0ffe0, 0x103018, 0.8); scene.add(hemi)
 const key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(3,5,2); key.castShadow = false; scene.add(key);
 const fill = new THREE.DirectionalLight(0x88c0a8, 0.35); fill.position.set(-4,3,-2); scene.add(fill);
 
-	const cube = new THREE.Mesh(
-		new THREE.BoxGeometry(1,1,1),
-		new THREE.MeshStandardMaterial({ color: 0x00ff66, roughness: 0.4, metalness: 0.1, emissive: 0x003311, emissiveIntensity: 0.6 })
-	);
-	cube.position.set(0,0.75,0);
-	scene.add(cube);
+	// Phase 7: Low-poly humanoid player character
+	function createPlayerCharacter() {
+		const playerGroup = new THREE.Group();
+		
+		// Emerald green material with subtle emissive glow
+		const playerMaterial = new THREE.MeshStandardMaterial({ 
+			color: 0x00ff88, 
+			roughness: 0.8, 
+			metalness: 0.0,
+			emissive: 0x002200,
+			emissiveIntensity: 0.1
+		});
+		
+		// Head - rounded cube
+		const head = new THREE.Mesh(
+			new THREE.BoxGeometry(0.3, 0.3, 0.3),
+			playerMaterial
+		);
+		head.position.set(0, 1.5, 0);
+		playerGroup.add(head);
+		
+		// Torso - tapered rectangular prism
+		const torso = new THREE.Mesh(
+			new THREE.BoxGeometry(0.4, 0.6, 0.2),
+			playerMaterial
+		);
+		torso.position.set(0, 1.0, 0);
+		playerGroup.add(torso);
+		
+		// Arms - cylinders angled outward
+		const leftArm = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.05, 0.05, 0.5, 6),
+			playerMaterial
+		);
+		leftArm.position.set(-0.25, 1.1, 0);
+		leftArm.rotation.z = 0.2;
+		playerGroup.add(leftArm);
+		
+		const rightArm = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.05, 0.05, 0.5, 6),
+			playerMaterial
+		);
+		rightArm.position.set(0.25, 1.1, 0);
+		rightArm.rotation.z = -0.2;
+		playerGroup.add(rightArm);
+		
+		// Legs - straight cylinders
+		const leftLeg = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.06, 0.06, 0.6, 6),
+			playerMaterial
+		);
+		leftLeg.position.set(-0.1, 0.2, 0);
+		playerGroup.add(leftLeg);
+		
+		const rightLeg = new THREE.Mesh(
+			new THREE.CylinderGeometry(0.06, 0.06, 0.6, 6),
+			playerMaterial
+		);
+		rightLeg.position.set(0.1, 0.2, 0);
+		playerGroup.add(rightLeg);
+		
+		// Hands - minimal blocks
+		const leftHand = new THREE.Mesh(
+			new THREE.BoxGeometry(0.08, 0.08, 0.08),
+			playerMaterial
+		);
+		leftHand.position.set(-0.4, 0.8, 0);
+		playerGroup.add(leftHand);
+		
+		const rightHand = new THREE.Mesh(
+			new THREE.BoxGeometry(0.08, 0.08, 0.08),
+			playerMaterial
+		);
+		rightHand.position.set(0.4, 0.8, 0);
+		playerGroup.add(rightHand);
+		
+		// Feet - minimal wedges
+		const leftFoot = new THREE.Mesh(
+			new THREE.BoxGeometry(0.12, 0.06, 0.2),
+			playerMaterial
+		);
+		leftFoot.position.set(-0.1, -0.1, 0.05);
+		playerGroup.add(leftFoot);
+		
+		const rightFoot = new THREE.Mesh(
+			new THREE.BoxGeometry(0.12, 0.06, 0.2),
+			playerMaterial
+		);
+		rightFoot.position.set(0.1, -0.1, 0.05);
+		playerGroup.add(rightFoot);
+		
+		// Set up player group properties
+		playerGroup.position.set(0, 0, 0);
+		playerGroup.userData = { type: 'player' };
+		
+		return playerGroup;
+	}
+	
+	const player = createPlayerCharacter();
+	scene.add(player);
 
 	// Phase 5: movement state
 	const move = { x: 0, z: 0 };
 	const moveSpeed = 1.8; // m/s
 	// Simple jump physics
-	let velY = 0; const gravity = -9.8; const groundY = 0.75;
+	let velY = 0; const gravity = -9.8; const groundY = 0.3;
 
 const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(32,32, 1,1),
@@ -226,7 +320,7 @@ const ground = new THREE.Mesh(
     // At start, face the doors (compute yaw toward middle door)
     {
         const target = p2.position;
-        const dx = target.x - cube.position.x; const dz = target.z - cube.position.z;
+        const dx = target.x - player.position.x; const dz = target.z - player.position.z;
         const faceYaw = Math.atan2(dx, dz);
         yaw = targetYaw = faceYaw;
         pitch = targetPitch = -0.1;
@@ -287,18 +381,18 @@ const ground = new THREE.Mesh(
 
 	function animate(t){
 		const tt = t * 0.001;
-		cube.rotation.y = tt * 0.8;
+		player.rotation.y = tt * 0.8;
         // Bob only when grounded and not moving upward
-        if (Math.abs(velY) < 0.0001 && Math.abs(cube.position.y - groundY) < 0.02) {
-            cube.position.y = groundY + Math.sin(tt * 2.0) * 0.06;
+        if (Math.abs(velY) < 0.0001 && Math.abs(player.position.y - groundY) < 0.02) {
+            player.position.y = groundY + Math.sin(tt * 2.0) * 0.06;
         }
 		// Apply jump/gravity
-		if (cube.position.y > groundY || velY > 0) {
+		if (player.position.y > groundY || velY > 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
 			velY += gravity * dt;
-			cube.position.y += velY * dt;
-			if (cube.position.y <= groundY) { 
-				cube.position.y = groundY; 
+			player.position.y += velY * dt;
+			if (player.position.y <= groundY) { 
+				player.position.y = groundY; 
 				velY = 0; 
 				// Play landing sound
 				if (Math.abs(velY) > 2) {
@@ -322,8 +416,8 @@ const ground = new THREE.Mesh(
             const worldX = rightX * move.x + fwdX * move.z;
             const worldZ = rightZ * move.x + fwdZ * move.z;
             // Attempt move; prevent walking through simple radial colliders
-            const nextX = cube.position.x + worldX * moveSpeed * dt;
-            const nextZ = cube.position.z + worldZ * moveSpeed * dt;
+            const nextX = player.position.x + worldX * moveSpeed * dt;
+            const nextZ = player.position.z + worldZ * moveSpeed * dt;
             function blocked(x,z){
                 for (const { node, radius } of [...portalColliders, ...npcColliders]){
                     const dx = x - node.position.x; const dz = z - node.position.z;
@@ -331,15 +425,15 @@ const ground = new THREE.Mesh(
                 }
                 return false;
             }
-            if (!blocked(nextX, cube.position.z)) cube.position.x = nextX;
-            if (!blocked(cube.position.x, nextZ)) cube.position.z = nextZ;
+            if (!blocked(nextX, player.position.z)) player.position.x = nextX;
+            if (!blocked(player.position.x, nextZ)) player.position.z = nextZ;
         }
 		animate._lastFrame = t;
 		updateCamera();
 		renderer.render(scene, camera);
 		// HUD updates
 		try {
-			const pos = cube.position;
+			const pos = player.position;
 			document.getElementById('hud-pos').textContent = 'pos ' + pos.x.toFixed(1) + ', ' + pos.z.toFixed(1);
 		} catch {}
 		// Proximity hint for portals and NPCs
@@ -351,15 +445,15 @@ const ground = new THREE.Mesh(
 			let nearest = null, nearestD = 9999;
 			// Check portals first
 			for (const p of [p1,p2,p3]){
-				const dx = p.position.x - cube.position.x;
-				const dz = p.position.z - cube.position.z;
+				const dx = p.position.x - player.position.x;
+				const dz = p.position.z - player.position.z;
 				const d = Math.hypot(dx, dz);
 				if (d < nearestD) { nearestD = d; nearest = p; }
 			}
 			// Check NPCs
 			for (const npc of [npc1,npc2,npc3]){
-				const dx = npc.position.x - cube.position.x;
-				const dz = npc.position.z - cube.position.z;
+				const dx = npc.position.x - player.position.x;
+				const dz = npc.position.z - player.position.z;
 				const d = Math.hypot(dx, dz);
 				if (d < nearestD) { nearestD = d; nearest = npc; }
 			}
@@ -499,7 +593,7 @@ const ground = new THREE.Mesh(
 const btnJump = document.getElementById('btn-jump');
 const btnInteract = document.getElementById('btn-interact');
 function doJump(){ 
-	if (velY <= 0.01 && cube.position.y <= groundY + 0.02) { 
+	if (velY <= 0.01 && player.position.y <= groundY + 0.02) { 
 		velY = 4.8; 
 		playJumpSound();
 	} 
