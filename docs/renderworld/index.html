@@ -3,96 +3,61 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>RenderWorld Three.js Cube Test</title>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+	<title>RenderWorld Hub</title>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
 	<style>
 		html, body { margin:0; padding:0; height:100%; height:100dvh; background:#000; overflow:hidden; }
-		#c { position:fixed; inset:0; width:100vw; height:100dvh; display:block; }
+		#gameCanvas { position:fixed; inset:0; width:100vw; height:100dvh; display:block; }
+		#status { position:fixed; left:8px; bottom:8px; color:#7fffd4; font:12px monospace; background:rgba(0,0,0,0.5); padding:6px 8px; border-radius:4px; }
+		#joystick { position:fixed; left:16px; bottom:16px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; }
+		#joystickKnob { width:56px; height:56px; border-radius:50%; background:rgba(0, 212, 255, 0.8); box-shadow:0 0 15px rgba(0,212,255,0.5); }
+		#portalLinks { position:fixed; left:50%; transform:translateX(-50%); bottom:140px; display:flex; gap:12px; }
+		#portalLinks a { text-decoration:none; color:#00ff88; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); padding:10px 14px; border-radius:8px; font-weight:600; }
 	</style>
 </head>
 <body>
-	<canvas id="c"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-    <script>
-    (function(){
-      var canvas = document.getElementById('c');
-      var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
-      var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-      camera.position.set(0, 1.2, 5);
-      camera.lookAt(0,0,0);
-      function fit(){ var w=window.innerWidth, h=(window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight); renderer.setSize(w,h,true); camera.aspect=w/h; camera.updateProjectionMatrix(); }
-      window.addEventListener('resize', fit); fit();
-      var light = new THREE.DirectionalLight(0xffffff, 1.0); light.position.set(3,5,2); scene.add(light);
-      var amb = new THREE.AmbientLight(0x404040, 0.9); scene.add(amb);
-      // Cube
-      var geo = new THREE.BoxGeometry(1,1,1);
-      var mat = new THREE.MeshStandardMaterial({ color: 0x00c0ff, roughness:0.5, metalness:0.1 });
-      var cube = new THREE.Mesh(geo, mat);
-      cube.scale.set(0.6,0.6,0.6);
-      cube.position.set(0,0.3,0);
-      scene.add(cube);
-      // Ground plane
-      var gPlane = new THREE.PlaneGeometry(20, 20);
-      var mPlane = new THREE.MeshStandardMaterial({ color: 0x0a0a0f, roughness: 1.0, metalness: 0.0 });
-      var ground = new THREE.Mesh(gPlane, mPlane); ground.rotation.x = -Math.PI/2; ground.position.y = -0.5; scene.add(ground);
-      // Portal markers (bright, always-visible)
-      function portal(color){
-        var g = new THREE.Group();
-        var col = new THREE.Color(color);
-        // pillar
-        var pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.15,1.2,24), new THREE.MeshBasicMaterial({ color: col }));
-        g.add(pillar);
-        // vertical glow plane
-        var plane = new THREE.Mesh(new THREE.PlaneGeometry(0.6,1.2), new THREE.MeshBasicMaterial({ color: col, transparent:true, opacity:0.25 }));
-        plane.position.z = 0.01; g.add(plane);
-        // base ring
-        var ring = new THREE.Mesh(new THREE.RingGeometry(0.25,0.45,32), new THREE.MeshBasicMaterial({ color: col, transparent:true, opacity:0.5 }));
-        ring.rotation.x = -Math.PI/2; ring.position.y = -0.6; g.add(ring);
-        // light
-        var pl = new THREE.PointLight(col, 0.8, 8); pl.position.set(0,0.5,0); g.add(pl);
-        return g;
-      }
-      var p1 = portal(0x4488ff); p1.position.set(-2, 0, -3); scene.add(p1);
-      var p2 = portal(0x44ff88); p2.position.set( 0, 0, -3); scene.add(p2);
-      var p3 = portal(0xff4488); p3.position.set( 2, 0, -3); scene.add(p3);
-      function animate(t){ cube.rotation.y = t*0.001; cube.rotation.x = t*0.0007; renderer.render(scene, camera); requestAnimationFrame(animate); }
-      requestAnimationFrame(animate);
-    })();
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>RenderWorld Three.js Cube Test</title>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
-	<style>
-		html, body { margin:0; padding:0; height:100%; background:#000; overflow:hidden; }
-		#c { position:fixed; inset:0; width:100vw; height:100vh; display:block; }
-	</style>
-</head>
-<body>
-	<canvas id="c"></canvas>
-	<script type="module">
-	import * as THREE from '../assets/vendor/three/three.module.js';
-	const canvas = document.getElementById('c');
-	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-	function fit(){ const w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
-	const scene = new THREE.Scene();
-	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-	camera.position.set(0, 1.5, 3);
-	const light = new THREE.DirectionalLight(0xffffff, 1.0); light.position.set(3,5,2); scene.add(light);
-	const amb = new THREE.AmbientLight(0x404040, 0.8); scene.add(amb);
-	const geo = new THREE.BoxGeometry(1,1,1);
-	const mat = new THREE.MeshStandardMaterial({ color: 0x00ff88, roughness:0.4, metalness:0.1 });
-	const cube = new THREE.Mesh(geo, mat); scene.add(cube);
-	window.addEventListener('resize', fit); fit();
-	function animate(t){ cube.rotation.y = t*0.001; cube.rotation.x = t*0.0007; renderer.render(scene, camera); requestAnimationFrame(animate); }
-	requestAnimationFrame(animate);
+	<canvas id="gameCanvas"></canvas>
+	<div id="status">init</div>
+	<div id="joystick"><div id="joystickKnob"></div></div>
+	<div id="portalLinks">
+		<a href="/site/#spirit-tamer">Spirit Tamer</a>
+		<a href="/site/#toppler">Toppler</a>
+		<a href="/site/grove.html">Witcher Grove</a>
+	</div>
+	<script>
+	(function(){
+		var canvas = document.getElementById('gameCanvas');
+		var statusEl = document.getElementById('status');
+		function fit(){ canvas.width = window.innerWidth; canvas.height = (window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight); }
+		window.addEventListener('resize', fit); fit();
+		function log(msg){ try{ statusEl.textContent = String(msg); }catch{} }
+
+		// Minimal joystick -> emit custom event consumed by hub bridge
+		var joy = document.getElementById('joystick');
+		var knob = document.getElementById('joystickKnob');
+		var center = { x: 60, y: 60 }; var active=false; var pos={ x:0, y:0 };
+		function setKnob(dx,dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
+		joy.addEventListener('touchstart', function(e){ e.preventDefault(); active=true; }, { passive:false });
+		joy.addEventListener('touchmove', function(e){ e.preventDefault(); if(!active) return; var t=e.touches[0]; var r=joy.getBoundingClientRect(); var x=t.clientX-r.left; var y=t.clientY-r.top; var dx=x-center.x; var dy=y-center.y; var d=Math.hypot(dx,dy); var m=50; if(d>m){ var a=Math.atan2(dy,dx); dx=Math.cos(a)*m; dy=Math.sin(a)*m; } setKnob(dx,dy); pos.x=dx/m; pos.y=dy/m; window.dispatchEvent(new CustomEvent('rw-joystick',{ detail:{ x:pos.x, y:pos.y }})); }, { passive:false });
+		joy.addEventListener('touchend', function(e){ e.preventDefault(); active=false; setKnob(0,0); pos.x=0; pos.y=0; window.dispatchEvent(new CustomEvent('rw-joystick',{ detail:{ x:0, y:0 }})); }, { passive:false });
+
+		function startBridge(){
+			try {
+				if (!window.RenderWorldWebBridge) throw new Error('RenderWorldWebBridge missing');
+				var rw = new window.RenderWorldWebBridge(canvas, { width: canvas.width, height: canvas.height, enableDebug: false, quality: 'high' });
+				rw.start();
+				window.renderworld = rw;
+				log('hub started');
+			} catch (e) { console.error(e); log('failed to start'); }
+		}
+
+		// Load bundle from repo root docs level
+		try {
+			fetch('../renderworld-hub.js', { method:'HEAD', cache:'no-store' })
+				.then(function(){ var s=document.createElement('script'); s.src='../renderworld-hub.js?v='+Date.now(); s.onload=function(){ log('bundle loaded'); startBridge(); }; s.onerror=function(){ log('bundle error'); }; document.head.appendChild(s); })
+				.catch(function(){ log('bundle not found'); });
+		} catch(e){ log('bundle probe error'); }
+	})();
 	</script>
 </body>
 </html>

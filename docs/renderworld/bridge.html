@@ -44,14 +44,14 @@
 
 		// Probe bundle availability first
 		try {
-			fetch('./renderworld-hub.js', { method:'HEAD', cache:'no-store' })
+			fetch('../renderworld-hub.js', { method:'HEAD', cache:'no-store' })
 				.then(function(res){ log('bundle HEAD '+res.status); inject(); })
 				.catch(function(err){ console.error(err); log('bundle HEAD failed'); showFallback(); });
 		} catch(e){ log('bundle HEAD exception'); }
 
 		function inject(){
 			var s = document.createElement('script');
-			s.src = './renderworld-hub.js?v='+Date.now();
+			s.src = '../renderworld-hub.js?v='+Date.now();
 			s.onload = function(){ log('bundle loaded'); startBridge(); };
 			s.onerror = function(){ console.error('Failed to load renderworld-hub.js'); log('bundle onerror'); showFallback(); };
 			document.head.appendChild(s);
