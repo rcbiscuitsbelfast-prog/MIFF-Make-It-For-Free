@@ -523,19 +523,30 @@ class RenderWorldWebBridge {
 
     this.three = { THREE, GLTFLoader };
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0a0a0f);
+    this.scene.background = new THREE.Color(0x111133);
     this.camera3d = new THREE.PerspectiveCamera(60, this.config.width / this.config.height, 0.1, 1000);
     this.camera3d.position.set(0, 2.8, 7.5);
     this.renderer3d = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
     this.renderer3d.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
     this.renderer3d.setSize(this.config.width, this.config.height, true);
+    this.renderer3d.setClearColor(0x111133, 1);
 
     // Lights
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1.0);
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x222233, 1.2);
     this.scene.add(hemi);
-    const dir = new THREE.DirectionalLight(0xffffff, 0.85);
+    const dir = new THREE.DirectionalLight(0xffffff, 1.0);
     dir.position.set(5, 10, 7);
     this.scene.add(dir);
+
+    // Always-visible debug cube and ground
+    const debugMat = new THREE.MeshStandardMaterial({ color: 0x00ffcc, emissive: 0x004444, emissiveIntensity: 0.4, metalness: 0.1, roughness: 0.5 });
+    const debugCube = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), debugMat);
+    debugCube.position.set(0, 0.5, 0);
+    this.scene.add(debugCube);
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(40,40), new THREE.MeshStandardMaterial({ color: 0x0b0b12, roughness: 1.0 }));
+    ground.rotation.x = -Math.PI/2;
+    ground.position.y = 0;
+    this.scene.add(ground);
 
     // Assets
     try {
@@ -546,7 +557,7 @@ class RenderWorldWebBridge {
     }
 
     // Simple player proxy
-    const player = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0x00ff88 }));
+    const player = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xffffff }));
     player.position.set(0, 0.5, 0);
     this.scene.add(player);
     this.player = player;
@@ -580,6 +591,25 @@ class RenderWorldWebBridge {
     };
 
     this.state.animationId = requestAnimationFrame(animate);
+
+    // On-screen heartbeat if status element exists
+    try {
+      const statusEl = document.getElementById('status');
+      if (statusEl) {
+        let last = performance.now();
+        let frames = 0;
+        const tick = () => {
+          frames++;
+          const now = performance.now();
+          if (now - last > 1000) {
+            statusEl.textContent = 'running ' + Math.round(frames * 1000 / (now - last)) + ' fps';
+            frames = 0; last = now;
+          }
+          if (this.state.isRunning) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    } catch {}
   }
 
   pause() {
