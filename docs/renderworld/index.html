@@ -208,6 +208,11 @@ const ground = new THREE.Mesh(
     const p1 = createPortal(0x44aaff); p1.position.set(-3, 0, -6); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
     const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -6); p2.userData = { label: 'Toppler' }; scene.add(p2);
     const p3 = createPortal(0xff6688); p3.position.set( 3, 0, -6); p3.userData = { label: 'Witcher Grove' }; scene.add(p3);
+    const portalColliders = [
+        { node: p1, radius: 0.9 },
+        { node: p2, radius: 0.9 },
+        { node: p3, radius: 0.9 },
+    ];
     // At start, face the doors (compute yaw toward middle door)
     {
         const target = p2.position;
@@ -238,6 +243,11 @@ const ground = new THREE.Mesh(
     const npc1 = createNPC(0x66bbff, 'Explorer'); npc1.position.set(-2.2,0,-2.5); scene.add(npc1);
     const npc2 = createNPC(0xffcc66, 'Guide'); npc2.position.set(0,0,-3.4); scene.add(npc2);
     const npc3 = createNPC(0xcc66ff, 'Mystic'); npc3.position.set(2.2,0,-2.2); scene.add(npc3);
+    const npcColliders = [
+        { node: npc1, radius: 0.7 },
+        { node: npc2, radius: 0.7 },
+        { node: npc3, radius: 0.7 },
+    ];
 
 	function fit(){
 		const w = window.innerWidth;
@@ -277,8 +287,18 @@ const ground = new THREE.Mesh(
             }
             const worldX = rightX * move.x + fwdX * move.z;
             const worldZ = rightZ * move.x + fwdZ * move.z;
-            cube.position.x += worldX * moveSpeed * dt;
-            cube.position.z += worldZ * moveSpeed * dt;
+            // Attempt move; prevent walking through simple radial colliders
+            const nextX = cube.position.x + worldX * moveSpeed * dt;
+            const nextZ = cube.position.z + worldZ * moveSpeed * dt;
+            function blocked(x,z){
+                for (const { node, radius } of [...portalColliders, ...npcColliders]){
+                    const dx = x - node.position.x; const dz = z - node.position.z;
+                    if (Math.hypot(dx,dz) < radius) return true;
+                }
+                return false;
+            }
+            if (!blocked(nextX, cube.position.z)) cube.position.x = nextX;
+            if (!blocked(cube.position.x, nextZ)) cube.position.z = nextZ;
         }
 		animate._lastFrame = t;
 		updateCamera();
@@ -308,6 +328,8 @@ const ground = new THREE.Mesh(
             } else { hint.style.display = 'none'; animate._nearPortal = null; }
             // Highlight proximity (apply to roots)
             for (const obj of [p1,p2,p3,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
+            // Ensure outlines always draw on top
+            renderer.autoClear = true;
 			// Update labels: project each portal to screen
 			const labels = [ [p1,l1], [p2,l2], [p3,l3] ];
 			for (const [p, lbl] of labels){
