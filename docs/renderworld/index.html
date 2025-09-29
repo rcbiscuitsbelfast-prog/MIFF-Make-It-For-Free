@@ -25,6 +25,7 @@
     <!-- Top-right controls -->
     <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
     <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
+    <div id="hint" style="position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:1050;padding:8px 12px;font:14px monospace;color:#e6edf3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:10px;display:none;">hint</div>
 	<!-- Phase 5: Virtual joystick and action buttons -->
 	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.24);display:flex;align-items:center;justify-content:center;z-index:1100;">
 		<div id="vj-knob" style="width:70px;height:70px;border-radius:50%;background:rgba(0,212,255,0.90);box-shadow:0 0 20px rgba(0,212,255,0.65);"></div>
@@ -139,9 +140,9 @@ const ground = new THREE.Mesh(
         const light = new THREE.PointLight(color, 0.9, 6); light.position.set(0,1.2,0); g.add(light);
         return g;
     }
-    const p1 = createPortal(0x44aaff); p1.position.set(-3, 0, -6); scene.add(p1);
-    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -6); scene.add(p2);
-    const p3 = createPortal(0xff6688); p3.position.set( 3, 0, -6); scene.add(p3);
+    const p1 = createPortal(0x44aaff); p1.position.set(-3, 0, -6); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
+    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -6); p2.userData = { label: 'Toppler' }; scene.add(p2);
+    const p3 = createPortal(0xff6688); p3.position.set( 3, 0, -6); p3.userData = { label: 'Witcher Grove' }; scene.add(p3);
 
 	function fit(){
 		const w = window.innerWidth;
@@ -167,17 +168,13 @@ const ground = new THREE.Mesh(
 			if (cube.position.y <= groundY) { cube.position.y = groundY; velY = 0; }
 		}
 		// apply movement aligned with camera forward/right on XZ
-		if (move.x !== 0 || move.z !== 0) {
+        if (move.x !== 0 || move.z !== 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
-			// compute camera forward on XZ (toward target)
-			const fwdX = (cube.position.x - camera.position.x);
-			const fwdZ = (cube.position.z - camera.position.z);
-			const fwdLen = Math.hypot(fwdX, fwdZ) || 1;
-			const nx = fwdX / fwdLen;
-			const nz = fwdZ / fwdLen;
-			// right is perpendicular (flip to match expected left/right)
-			const rx = -nz;
-			const rz = nx;
+            // Use yaw-based forward/right; in 1st or 3rd person we keep the same yaw
+            const nx = Math.sin(yaw);
+            const nz = Math.cos(yaw);
+            const rx = Math.cos(yaw);
+            const rz = -Math.sin(yaw);
 			const worldX = rx * move.x + nx * move.z;
 			const worldZ = rz * move.x + nz * move.z;
 			cube.position.x += worldX * moveSpeed * dt;
@@ -190,6 +187,22 @@ const ground = new THREE.Mesh(
 		try {
 			const pos = cube.position;
 			document.getElementById('hud-pos').textContent = 'pos ' + pos.x.toFixed(1) + ', ' + pos.z.toFixed(1);
+		} catch {}
+		// Proximity hint for portals
+		try {
+			const hint = document.getElementById('hint');
+			let nearest = null, nearestD = 9999;
+			for (const p of [p1,p2,p3]){
+				const dx = p.position.x - cube.position.x;
+				const dz = p.position.z - cube.position.z;
+				const d = Math.hypot(dx, dz);
+				if (d < nearestD) { nearestD = d; nearest = p; }
+			}
+			if (nearest && nearestD < 2.5) {
+				hint.textContent = 'Interact: ' + (nearest.userData?.label || 'Portal');
+				hint.style.display = 'block';
+				animate._nearPortal = nearest;
+			} else { hint.style.display = 'none'; animate._nearPortal = null; }
 		} catch {}
 		try {
 			if (!animate._last) animate._last = t, animate._frames = 0;
@@ -240,7 +253,15 @@ const ground = new THREE.Mesh(
 const btnJump = document.getElementById('btn-jump');
 const btnInteract = document.getElementById('btn-interact');
 function doJump(){ if (velY === 0 && Math.abs(cube.position.y - groundY) < 0.001) { velY = 4.5; } }
-function doInteract(){ try { const s=document.getElementById('status'); s.textContent='interact'; setTimeout(()=>{ s.textContent='running'; }, 700); } catch {} }
+function doInteract(){
+    try {
+        const s=document.getElementById('status');
+        let msg = 'interact';
+        if (animate._nearPortal) msg = 'Open: ' + (animate._nearPortal.userData?.label || 'Portal');
+        s.textContent = msg;
+        setTimeout(()=>{ s.textContent='running'; }, 900);
+    } catch {}
+}
 if (btnJump){ btnJump.addEventListener('click', doJump); btnJump.addEventListener('touchstart', (e)=>{ e.preventDefault(); doJump(); }, { passive:false }); }
 if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract.addEventListener('touchstart', (e)=>{ e.preventDefault(); doInteract(); }, { passive:false }); }
 
