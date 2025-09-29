@@ -23,12 +23,12 @@
 		<span id="hud-fps">60 fps</span>
 	</div>
 	<!-- Phase 5: Virtual joystick and action buttons -->
-	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:132px;height:132px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;z-index:900;">
-		<div id="vj-knob" style="width:58px;height:58px;border-radius:50%;background:rgba(0,212,255,0.85);box-shadow:0 0 16px rgba(0,212,255,0.6);"></div>
+	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.24);display:flex;align-items:center;justify-content:center;z-index:1100;">
+		<div id="vj-knob" style="width:70px;height:70px;border-radius:50%;background:rgba(0,212,255,0.90);box-shadow:0 0 20px rgba(0,212,255,0.65);"></div>
 	</div>
-	<div style="position:fixed;right:16px;bottom:16px;display:flex;gap:12px;z-index:900;">
-		<button id="btn-interact" style="min-width:64px;min-height:64px;border-radius:12px;background:rgba(0,0,0,0.45);color:#e6edf3;border:1px solid rgba(255,255,255,0.18);font:14px monospace;">Interact</button>
-		<button id="btn-jump" style="min-width:64px;min-height:64px;border-radius:12px;background:rgba(0,0,0,0.45);color:#e6edf3;border:1px solid rgba(255,255,255,0.18);font:14px monospace;">Jump</button>
+	<div style="position:fixed;right:16px;bottom:16px;display:flex;gap:14px;z-index:1100;">
+		<button id="btn-interact" style="min-width:80px;min-height:80px;border-radius:14px;background:rgba(0,0,0,0.50);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:16px monospace;">Interact</button>
+		<button id="btn-jump" style="min-width:80px;min-height:80px;border-radius:14px;background:rgba(0,0,0,0.50);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:16px monospace;">Jump</button>
 	</div>
 	<script type="module">
 	// Use CDN module to avoid MIME issues with local backup extension
@@ -61,11 +61,11 @@ renderer.toneMappingExposure = 1.0;
 		yaw += (targetYaw - yaw) * damping;
 		pitch += (targetPitch - pitch) * damping;
 		const radius = 4;
-		const cx = Math.sin(yaw) * Math.cos(pitch) * radius;
-		const cy = Math.sin(pitch) * radius + 1.2;
-		const cz = Math.cos(yaw) * Math.cos(pitch) * radius;
-		camera.position.set(cx, cy, cz);
-		camera.lookAt(0, 0.8, 0);
+		const offX = Math.sin(yaw) * Math.cos(pitch) * radius;
+		const offY = Math.sin(pitch) * radius + 1.2;
+		const offZ = Math.cos(yaw) * Math.cos(pitch) * radius;
+		camera.position.set(cube.position.x + offX, cube.position.y + offY, cube.position.z + offZ);
+		camera.lookAt(cube.position.x, cube.position.y + 0.3, cube.position.z);
 	}
 
 	function onPointerDown(x, y){ isPointerDown = true; lastX = x; lastY = y; }
@@ -124,14 +124,22 @@ const ground = new THREE.Mesh(
 		const tt = t * 0.001;
 		cube.rotation.y = tt * 0.8;
 		cube.position.y = 0.75 + Math.sin(tt * 2.0) * 0.25;
-		// apply movement in camera-aligned XZ (yaw only)
+		// apply movement aligned with camera forward/right on XZ
 		if (move.x !== 0 || move.z !== 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
-			const dirYaw = yaw; // align with camera yaw
-			const sx = Math.cos(dirYaw) * move.z + Math.sin(dirYaw) * move.x;
-			const sz = Math.cos(dirYaw) * move.x - Math.sin(dirYaw) * move.z;
-			cube.position.x += sx * moveSpeed * dt;
-			cube.position.z += sz * moveSpeed * dt;
+			// compute camera forward on XZ (toward target)
+			const fwdX = (cube.position.x - camera.position.x);
+			const fwdZ = (cube.position.z - camera.position.z);
+			const fwdLen = Math.hypot(fwdX, fwdZ) || 1;
+			const nx = fwdX / fwdLen;
+			const nz = fwdZ / fwdLen;
+			// right is perpendicular
+			const rx = nz;
+			const rz = -nx;
+			const worldX = rx * move.x + nx * move.z;
+			const worldZ = rz * move.x + nz * move.z;
+			cube.position.x += worldX * moveSpeed * dt;
+			cube.position.z += worldZ * moveSpeed * dt;
 		}
 		animate._lastFrame = t;
 		updateCamera();
@@ -159,7 +167,7 @@ const ground = new THREE.Mesh(
 		const base = document.getElementById('vj');
 		const knob = document.getElementById('vj-knob');
 		if (!base || !knob) return;
-		const radius = 56;
+		const radius = 72;
 		let active = false;
 		function setKnob(dx, dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
 		function start(x, y){ active = true; move.x = 0; move.z = 0; }
@@ -186,13 +194,13 @@ const ground = new THREE.Mesh(
 	})();
 
 	// Phase 5: action buttons
-	document.getElementById('btn-jump')?.addEventListener('click', ()=>{
-		cube.position.y += 0.4;
-		setTimeout(()=>{ cube.position.y = Math.max(0.75, cube.position.y - 0.4); }, 180);
-	});
-	document.getElementById('btn-interact')?.addEventListener('click', ()=>{
-		try { document.getElementById('status').textContent = 'interact'; setTimeout(()=>{ document.getElementById('status').textContent='running'; }, 600); } catch {}
-	});
+// Larger touch targets: handle both click and touchstart
+const btnJump = document.getElementById('btn-jump');
+const btnInteract = document.getElementById('btn-interact');
+function doJump(){ cube.position.y += 0.45; setTimeout(()=>{ cube.position.y = Math.max(0.75, cube.position.y - 0.45); }, 220); }
+function doInteract(){ try { const s=document.getElementById('status'); s.textContent='interact'; setTimeout(()=>{ s.textContent='running'; }, 700); } catch {} }
+if (btnJump){ btnJump.addEventListener('click', doJump); btnJump.addEventListener('touchstart', (e)=>{ e.preventDefault(); doJump(); }, { passive:false }); }
+if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract.addEventListener('touchstart', (e)=>{ e.preventDefault(); doInteract(); }, { passive:false }); }
 	</script>
 </body>
 </html>
