@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>RenderWorld Bridge Minimal</title>
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+	<style>
+		html, body { margin:0; padding:0; height:100%; height:100dvh; background:#000; overflow:hidden; }
+		#c { position:fixed; inset:0; width:100vw; height:100dvh; display:block; }
+		#fallback { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; color:#00ff88; font:16px/1.4 monospace; padding:24px; text-align:center; }
+	</style>
+</head>
+<body>
+	<canvas id="c"></canvas>
+	<div id="fallback" style="display:none;">Bridge failed to load. Rendering fallback…</div>
+	<script>
+	(function(){
+		var canvas = document.getElementById('c');
+		var fallback = document.getElementById('fallback');
+		function fit(){ canvas.width = window.innerWidth; canvas.height = (window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight); }
+		window.addEventListener('resize', fit); fit();
+
+		function startBridge(){
+			try {
+				if (!window.RenderWorldWebBridge) throw new Error('RenderWorldWebBridge missing');
+				var rw = new window.RenderWorldWebBridge(canvas, { width: canvas.width, height: canvas.height, enableDebug: false, quality: 'high' });
+				rw.start();
+				window.renderworld = rw;
+			} catch (e) { console.error(e); showFallback(); }
+		}
+
+		function showFallback(){
+			try { fallback.style.display = 'flex'; } catch {}
+			var ctx = canvas.getContext('2d');
+			if (!ctx) return;
+			var t=0; (function loop(){ t+=0.016; ctx.fillStyle='#000'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#00ff88'; var x=canvas.width/2+Math.cos(t)*120; var y=canvas.height/2+Math.sin(t*1.2)*80; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); requestAnimationFrame(loop); })();
+		}
+
+		var s = document.createElement('script');
+		s.src = '../renderworld-hub.js';
+		s.onload = startBridge;
+		s.onerror = function(){ console.error('Failed to load renderworld-hub.js'); showFallback(); };
+		document.head.appendChild(s);
+	})();
+	</script>
+</body>
+</html>
