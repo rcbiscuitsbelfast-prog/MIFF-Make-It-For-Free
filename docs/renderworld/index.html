@@ -166,10 +166,10 @@ const ground = new THREE.Mesh(
 	function animate(t){
 		const tt = t * 0.001;
 		cube.rotation.y = tt * 0.8;
-		// Bob only when grounded
-		if (Math.abs(velY) < 0.0001 && Math.abs(cube.position.y - groundY) < 0.0001) {
-			cube.position.y = groundY + Math.sin(tt * 2.0) * 0.12;
-		}
+        // Bob only when grounded and not moving upward
+        if (Math.abs(velY) < 0.0001 && Math.abs(cube.position.y - groundY) < 0.02) {
+            cube.position.y = groundY + Math.sin(tt * 2.0) * 0.06;
+        }
 		// Apply jump/gravity
 		if (cube.position.y > groundY || velY > 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
@@ -281,7 +281,7 @@ const ground = new THREE.Mesh(
 // Larger touch targets: handle both click and touchstart
 const btnJump = document.getElementById('btn-jump');
 const btnInteract = document.getElementById('btn-interact');
-function doJump(){ if (Math.abs(cube.position.y - groundY) < 0.005) { velY = 4.5; } }
+function doJump(){ if (velY <= 0.01 && cube.position.y <= groundY + 0.02) { velY = 4.8; } }
 function doInteract(){
     try {
         if (animate._nearPortal) {
@@ -321,13 +321,20 @@ if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract
     updateFsLabel();
 })();
 
-// View toggle (1st/3rd person) - preserve yaw/pitch
+// View toggle (1st/3rd person) - preserve yaw/pitch via camera direction
 (function(){
     const btn = document.getElementById('btn-view');
     if (!btn) return;
     function update(){ btn.textContent = 'View: ' + (isFirstPerson ? '1st' : '3rd'); }
     function toggle(){
-        // Keep current targetYaw/targetPitch, flip mode only
+        // Derive yaw/pitch from current camera direction to avoid flips
+        const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
+        // Convert to yaw/pitch (XZ yaw, Y pitch)
+        const newYaw = Math.atan2(dir.x, dir.z);
+        const newPitch = Math.asin(THREE.MathUtils.clamp(dir.y, -1, 1));
+        yaw = targetYaw = newYaw;
+        pitch = targetPitch = THREE.MathUtils.clamp(newPitch, minPitch, maxPitch);
+        // Flip mode
         isFirstPerson = !isFirstPerson;
         update();
     }
