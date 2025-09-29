@@ -51,12 +51,23 @@
 			} catch (e) { console.error(e); log('failed to start'); }
 		}
 
-		// Load bundle from repo root docs level
-		try {
-			fetch('../renderworld-hub.js', { method:'HEAD', cache:'no-store' })
-				.then(function(){ var s=document.createElement('script'); s.src='../renderworld-hub.js?v='+Date.now(); s.onload=function(){ log('bundle loaded'); startBridge(); }; s.onerror=function(){ log('bundle error'); }; document.head.appendChild(s); })
-				.catch(function(){ log('bundle not found'); });
-		} catch(e){ log('bundle probe error'); }
+
+		// Robust bundle loader: try multiple candidate paths (GitHub Pages quirks)
+		(function(){
+			var candidates = [
+				'../renderworld-hub.js',
+				'./renderworld-hub.js',
+				'/MIFF-Make-It-For-Free/renderworld-hub.js'
+			];
+			function tryNext(){
+				if (!candidates.length) { log('bundle error'); return; }
+				var url = candidates.shift();
+				fetch(url, { method:'HEAD', cache:'no-store' })
+					.then(function(res){ log('probe '+url+' '+res.status); var s=document.createElement('script'); s.src=url+'?v='+Date.now(); s.onload=function(){ log('bundle loaded'); startBridge(); }; s.onerror=function(){ log('bundle error '+url); tryNext(); }; document.head.appendChild(s); })
+					.catch(function(){ log('probe fail '+url); tryNext(); });
+			}
+			tryNext();
+		})();
 	})();
 	</script>
 </body>
