@@ -183,11 +183,12 @@ const ground = new THREE.Mesh(
         ring.rotation.x = -Math.PI/2; ring.position.y = 0.02; g.add(ring);
         const light = new THREE.PointLight(color, 0.9, 6); light.position.set(0,1.2,0); g.add(light);
         // White outline elements (initially hidden)
-        const matOutline = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.95, depthTest:false });
+        const matOutline = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.95, depthTest:false, depthWrite:false });
         const frameOutline = new THREE.Mesh(new THREE.TorusGeometry(0.66, 0.03, 8, 32), matOutline);
         frameOutline.rotation.x = Math.PI/2; frameOutline.position.y = 1.0; frameOutline.visible = false; g.add(frameOutline);
         const ringOutline = new THREE.Mesh(new THREE.RingGeometry(0.60, 0.70, 32), matOutline);
         ringOutline.rotation.x = -Math.PI/2; ringOutline.position.y = 0.025; ringOutline.visible = false; g.add(ringOutline);
+        frameOutline.renderOrder = 999; ringOutline.renderOrder = 999;
         g.userData.highlight = (on)=>{
             const inten = on ? 1.0 : 0.55;
             matGlow.opacity = inten; matRing.opacity = inten; matPlane.opacity = on ? 0.45 : 0.28;
@@ -199,6 +200,15 @@ const ground = new THREE.Mesh(
     const p1 = createPortal(0x44aaff); p1.position.set(-3, 0, -6); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
     const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -6); p2.userData = { label: 'Toppler' }; scene.add(p2);
     const p3 = createPortal(0xff6688); p3.position.set( 3, 0, -6); p3.userData = { label: 'Witcher Grove' }; scene.add(p3);
+    // At start, face the doors (compute yaw toward middle door)
+    {
+        const target = p2.position;
+        const dx = target.x - cube.position.x; const dz = target.z - cube.position.z;
+        const faceYaw = Math.atan2(dx, dz);
+        yaw = targetYaw = faceYaw;
+        pitch = targetPitch = -0.1;
+        updateCamera();
+    }
 
     // Minimal NPC placeholders
     function createNPC(color, label){
@@ -209,9 +219,10 @@ const ground = new THREE.Mesh(
         const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 16), new THREE.MeshStandardMaterial({ color: 0xffffff }));
         head.position.y = 1.2; g.add(head);
         // White outline meshes (slightly larger)
-        const matO = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.95, depthTest:false });
+        const matO = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.95, depthTest:false, depthWrite:false });
         const bodyO = new THREE.Mesh(new THREE.CylinderGeometry(0.27,0.27,1.12,16), matO); bodyO.position.y = 0.55; bodyO.visible=false; g.add(bodyO);
         const headO = new THREE.Mesh(new THREE.SphereGeometry(0.245, 16, 12), matO); headO.position.y = 1.2; headO.visible=false; g.add(headO);
+        bodyO.renderOrder = 999; headO.renderOrder = 999;
         g.userData = { label };
         g.userData.highlight = (on)=>{ mat.emissive.setHex(on ? 0x224444 : 0x000000); mat.emissiveIntensity = on ? 0.6 : 0.0; bodyO.visible = on; headO.visible = on; };
         return g;
