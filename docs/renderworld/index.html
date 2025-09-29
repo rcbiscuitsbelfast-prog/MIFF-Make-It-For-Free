@@ -57,8 +57,9 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 
 	const scene = new THREE.Scene();
-	scene.background = new THREE.Color(0x002a1a);
-	renderer.setClearColor(0x002a1a, 1);
+	// Warehouse atmosphere - stark white with high contrast
+	scene.background = new THREE.Color(0xf0f0f0);
+	renderer.setClearColor(0xf0f0f0, 1);
 
 	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
 	camera.position.set(0, 1.5, 4);
@@ -158,10 +159,38 @@ document.getElementById('hint')?.addEventListener('click', ()=>{
     } catch {}
 });
 
-// Lighting setup (hemi + key + gentle fill)
-const hemi = new THREE.HemisphereLight(0xe0ffe0, 0x103018, 0.8); scene.add(hemi);
-const key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(3,5,2); key.castShadow = false; scene.add(key);
-const fill = new THREE.DirectionalLight(0x88c0a8, 0.35); fill.position.set(-4,3,-2); scene.add(fill);
+// Phase 7: Harsh fluorescent warehouse lighting
+function createWarehouseLighting() {
+    // Harsh fluorescent overhead lighting
+    const fluorescent1 = new THREE.DirectionalLight(0xffffff, 1.2);
+    fluorescent1.position.set(0, 10, 0);
+    fluorescent1.target.position.set(0, 0, 0);
+    scene.add(fluorescent1);
+    scene.add(fluorescent1.target);
+    
+    // Secondary fluorescent for even coverage
+    const fluorescent2 = new THREE.DirectionalLight(0xf8f8ff, 0.8);
+    fluorescent2.position.set(5, 8, 5);
+    fluorescent2.target.position.set(0, 0, 0);
+    scene.add(fluorescent2);
+    scene.add(fluorescent2.target);
+    
+    // Harsh side lighting for dramatic shadows
+    const sideLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    sideLight.position.set(-8, 6, 0);
+    sideLight.target.position.set(0, 0, 0);
+    scene.add(sideLight);
+    scene.add(sideLight.target);
+    
+    // Minimal ambient to prevent pure black shadows
+    const ambient = new THREE.AmbientLight(0x404040, 0.3);
+    scene.add(ambient);
+    
+    return { fluorescent1, fluorescent2, sideLight, ambient };
+}
+
+// Create warehouse lighting
+const warehouseLights = createWarehouseLighting();
 
 	// Phase 7: Low-poly humanoid player character
 	function createPlayerCharacter() {
@@ -270,13 +299,150 @@ const fill = new THREE.DirectionalLight(0x88c0a8, 0.35); fill.position.set(-4,3,
 	// Simple jump physics
 	let velY = 0; const gravity = -9.8; const groundY = 0.3;
 
-const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(32,32, 1,1),
-    new THREE.MeshStandardMaterial({ color: 0x0a1f17, roughness: 0.95, metalness: 0.0 })
-);
-	ground.rotation.x = -Math.PI/2;
-	ground.position.y = 0;
-	scene.add(ground);
+// Phase 7: Warehouse Environment - Massive brutalist warehouse
+function createWarehouseEnvironment() {
+    const warehouseGroup = new THREE.Group();
+    
+    // Warehouse dimensions: 40ft ceilings, 100ft x 80ft floor
+    const WAREHOUSE_WIDTH = 30;  // 100ft in meters
+    const WAREHOUSE_LENGTH = 24; // 80ft in meters  
+    const WAREHOUSE_HEIGHT = 12; // 40ft in meters
+    
+    // White concrete material with subtle weathering
+    const concreteMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf8f8f8,
+        roughness: 0.9,
+        metalness: 0.0,
+        emissive: 0x000000,
+        emissiveIntensity: 0.0
+    });
+    
+    // Polished concrete floor with slight reflectivity
+    const floorMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf0f0f0,
+        roughness: 0.1,
+        metalness: 0.0,
+        emissive: 0x000000,
+        emissiveIntensity: 0.0
+    });
+    
+    // Floor - polished concrete
+    const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(WAREHOUSE_WIDTH, WAREHOUSE_LENGTH),
+        floorMaterial
+    );
+    floor.rotation.x = -Math.PI/2;
+    floor.position.y = 0;
+    warehouseGroup.add(floor);
+    
+    // Walls - stark white concrete
+    const wallThickness = 0.5;
+    
+    // North wall
+    const northWall = new THREE.Mesh(
+        new THREE.BoxGeometry(WAREHOUSE_WIDTH + wallThickness*2, WAREHOUSE_HEIGHT, wallThickness),
+        concreteMaterial
+    );
+    northWall.position.set(0, WAREHOUSE_HEIGHT/2, -WAREHOUSE_LENGTH/2 - wallThickness/2);
+    warehouseGroup.add(northWall);
+    
+    // South wall  
+    const southWall = new THREE.Mesh(
+        new THREE.BoxGeometry(WAREHOUSE_WIDTH + wallThickness*2, WAREHOUSE_HEIGHT, wallThickness),
+        concreteMaterial
+    );
+    southWall.position.set(0, WAREHOUSE_HEIGHT/2, WAREHOUSE_LENGTH/2 + wallThickness/2);
+    warehouseGroup.add(southWall);
+    
+    // East wall
+    const eastWall = new THREE.Mesh(
+        new THREE.BoxGeometry(wallThickness, WAREHOUSE_HEIGHT, WAREHOUSE_LENGTH),
+        concreteMaterial
+    );
+    eastWall.position.set(WAREHOUSE_WIDTH/2 + wallThickness/2, WAREHOUSE_HEIGHT/2, 0);
+    warehouseGroup.add(eastWall);
+    
+    // West wall
+    const westWall = new THREE.Mesh(
+        new THREE.BoxGeometry(wallThickness, WAREHOUSE_HEIGHT, WAREHOUSE_LENGTH),
+        concreteMaterial
+    );
+    westWall.position.set(-WAREHOUSE_WIDTH/2 - wallThickness/2, WAREHOUSE_HEIGHT/2, 0);
+    warehouseGroup.add(westWall);
+    
+    // Geometric support pillars - dramatic shadows
+    const pillarMaterial = new THREE.MeshStandardMaterial({
+        color: 0xf5f5f5,
+        roughness: 0.8,
+        metalness: 0.0
+    });
+    
+    // Create grid of pillars
+    const pillarPositions = [
+        [-8, 0, -6], [0, 0, -6], [8, 0, -6],
+        [-8, 0, 0], [0, 0, 0], [8, 0, 0], 
+        [-8, 0, 6], [0, 0, 6], [8, 0, 6]
+    ];
+    
+    pillarPositions.forEach(([x, y, z]) => {
+        const pillar = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.3, 0.4, WAREHOUSE_HEIGHT, 8),
+            pillarMaterial
+        );
+        pillar.position.set(x, WAREHOUSE_HEIGHT/2, z);
+        warehouseGroup.add(pillar);
+    });
+    
+    // Ceiling - white concrete
+    const ceiling = new THREE.Mesh(
+        new THREE.PlaneGeometry(WAREHOUSE_WIDTH, WAREHOUSE_LENGTH),
+        concreteMaterial
+    );
+    ceiling.rotation.x = Math.PI/2;
+    ceiling.position.y = WAREHOUSE_HEIGHT;
+    warehouseGroup.add(ceiling);
+    
+    // Industrial details - exposed beams and pipes
+    const beamMaterial = new THREE.MeshStandardMaterial({
+        color: 0xe0e0e0,
+        roughness: 0.7,
+        metalness: 0.3
+    });
+    
+    // Exposed ceiling beams
+    for (let i = -2; i <= 2; i++) {
+        const beam = new THREE.Mesh(
+            new THREE.BoxGeometry(0.2, 0.3, WAREHOUSE_LENGTH),
+            beamMaterial
+        );
+        beam.position.set(i * 6, WAREHOUSE_HEIGHT - 0.5, 0);
+        warehouseGroup.add(beam);
+    }
+    
+    // Industrial pipes along walls
+    const pipeMaterial = new THREE.MeshStandardMaterial({
+        color: 0x888888,
+        roughness: 0.4,
+        metalness: 0.6
+    });
+    
+    // North wall pipes
+    for (let i = 0; i < 3; i++) {
+        const pipe = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.1, 0.1, WAREHOUSE_WIDTH * 0.8, 8),
+            pipeMaterial
+        );
+        pipe.rotation.z = Math.PI/2;
+        pipe.position.set(0, 2 + i * 2, -WAREHOUSE_LENGTH/2 - 0.3);
+        warehouseGroup.add(pipe);
+    }
+    
+    return warehouseGroup;
+}
+
+// Create warehouse environment
+const warehouse = createWarehouseEnvironment();
+scene.add(warehouse);
 
     // Phase 7: visual-only portal markers
     function createPortal(color){
@@ -309,9 +475,10 @@ const ground = new THREE.Mesh(
         };
         return g;
     }
-    const p1 = createPortal(0x44aaff); p1.position.set(-3, 0, -6); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
-    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -6); p2.userData = { label: 'Toppler' }; scene.add(p2);
-    const p3 = createPortal(0xff6688); p3.position.set( 3, 0, -6); p3.userData = { label: 'Witcher Grove' }; scene.add(p3);
+    // Position portals within warehouse space
+    const p1 = createPortal(0x44aaff); p1.position.set(-8, 0, -8); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
+    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -8); p2.userData = { label: 'Toppler' }; scene.add(p2);
+    const p3 = createPortal(0xff6688); p3.position.set( 8, 0, -8); p3.userData = { label: 'Witcher Grove' }; scene.add(p3);
     const portalColliders = [
         { node: p1, radius: 0.9 },
         { node: p2, radius: 0.9 },
@@ -344,9 +511,10 @@ const ground = new THREE.Mesh(
         g.userData.highlight = (on)=>{ mat.emissive.setHex(on ? 0x224444 : 0x000000); mat.emissiveIntensity = on ? 0.6 : 0.0; bodyO.visible = on; headO.visible = on; };
         return g;
     }
-    const npc1 = createNPC(0x66bbff, 'Explorer'); npc1.position.set(-2.2,0,-2.5); scene.add(npc1);
-    const npc2 = createNPC(0xffcc66, 'Guide'); npc2.position.set(0,0,-3.4); scene.add(npc2);
-    const npc3 = createNPC(0xcc66ff, 'Mystic'); npc3.position.set(2.2,0,-2.2); scene.add(npc3);
+    // Position NPCs within warehouse space
+    const npc1 = createNPC(0x66bbff, 'Explorer'); npc1.position.set(-6,0,-4); scene.add(npc1);
+    const npc2 = createNPC(0xffcc66, 'Guide'); npc2.position.set(0,0,-4); scene.add(npc2);
+    const npc3 = createNPC(0xcc66ff, 'Mystic'); npc3.position.set(6,0,-4); scene.add(npc3);
     const npcColliders = [
         { node: npc1, radius: 0.7 },
         { node: npc2, radius: 0.7 },
