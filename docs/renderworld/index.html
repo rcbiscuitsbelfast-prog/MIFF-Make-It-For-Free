@@ -62,7 +62,7 @@ renderer.toneMappingExposure = 1.0;
 	renderer.setClearColor(0xf0f0f0, 1);
 
 	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-	camera.position.set(0, 1.5, 4);
+	camera.position.set(0, 2, 6); // Start higher to see warehouse better
 
 	// Phase 2: Simple drag camera controls with damping
 	let isPointerDown = false;
@@ -310,7 +310,7 @@ function createWarehouseEnvironment() {
     
     // White concrete material with subtle weathering
     const concreteMaterial = new THREE.MeshStandardMaterial({
-        color: 0xf8f8f8,
+        color: 0xffffff,
         roughness: 0.9,
         metalness: 0.0,
         emissive: 0x000000,
@@ -436,6 +436,22 @@ function createWarehouseEnvironment() {
         pipe.position.set(0, 2 + i * 2, -WAREHOUSE_LENGTH/2 - 0.3);
         warehouseGroup.add(pipe);
     }
+    
+    // Add edge lines to make structure more visible
+    const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xcccccc });
+    
+    // Floor edges
+    const floorGeometry = new THREE.BufferGeometry();
+    const floorPoints = [
+        new THREE.Vector3(-WAREHOUSE_WIDTH/2, 0, -WAREHOUSE_LENGTH/2),
+        new THREE.Vector3(WAREHOUSE_WIDTH/2, 0, -WAREHOUSE_LENGTH/2),
+        new THREE.Vector3(WAREHOUSE_WIDTH/2, 0, WAREHOUSE_LENGTH/2),
+        new THREE.Vector3(-WAREHOUSE_WIDTH/2, 0, WAREHOUSE_LENGTH/2),
+        new THREE.Vector3(-WAREHOUSE_WIDTH/2, 0, -WAREHOUSE_LENGTH/2)
+    ];
+    floorGeometry.setFromPoints(floorPoints);
+    const floorEdges = new THREE.Line(floorGeometry, edgeMaterial);
+    warehouseGroup.add(floorEdges);
     
     return warehouseGroup;
 }
@@ -603,6 +619,8 @@ scene.add(warehouse);
 		try {
 			const pos = player.position;
 			document.getElementById('hud-pos').textContent = 'pos ' + pos.x.toFixed(1) + ', ' + pos.z.toFixed(1);
+			// Debug: show scene children count
+			document.getElementById('hud-fps').textContent = 'Scene objects: ' + scene.children.length;
 		} catch {}
 		// Proximity hint for portals and NPCs
 		try {
