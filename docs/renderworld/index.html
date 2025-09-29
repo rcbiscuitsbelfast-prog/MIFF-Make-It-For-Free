@@ -306,7 +306,7 @@ const ground = new THREE.Mesh(
                 hint.style.display = 'block';
                 animate._nearPortal = (nearest === p1 || nearest === p2 || nearest === p3) ? nearest : null;
             } else { hint.style.display = 'none'; animate._nearPortal = null; }
-            // Highlight proximity
+            // Highlight proximity (apply to roots)
             for (const obj of [p1,p2,p3,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
 			// Update labels: project each portal to screen
 			const labels = [ [p1,l1], [p2,l2], [p3,l3] ];
