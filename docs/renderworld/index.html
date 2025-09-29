@@ -17,59 +17,54 @@
 </head>
 <body>
 	<canvas id="gameCanvas"></canvas>
-	<div id="status">init</div>
-	<div id="joystick"><div id="joystickKnob"></div></div>
-	<div id="portalLinks">
-		<a href="/site/#spirit-tamer">Spirit Tamer</a>
-		<a href="/site/#toppler">Toppler</a>
-		<a href="/site/grove.html">Witcher Grove</a>
-	</div>
-	<script>
-	(function(){
-		var canvas = document.getElementById('gameCanvas');
-		var statusEl = document.getElementById('status');
-		function fit(){ canvas.width = window.innerWidth; canvas.height = (window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight); }
-		window.addEventListener('resize', fit); fit();
-		function log(msg){ try{ statusEl.textContent = String(msg); }catch{} }
+	<script type="module">
+	import * as THREE from '../assets/vendor/three/three.module.js.backup';
 
-		// Minimal joystick -> emit custom event consumed by hub bridge
-		var joy = document.getElementById('joystick');
-		var knob = document.getElementById('joystickKnob');
-		var center = { x: 60, y: 60 }; var active=false; var pos={ x:0, y:0 };
-		function setKnob(dx,dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
-		joy.addEventListener('touchstart', function(e){ e.preventDefault(); active=true; }, { passive:false });
-		joy.addEventListener('touchmove', function(e){ e.preventDefault(); if(!active) return; var t=e.touches[0]; var r=joy.getBoundingClientRect(); var x=t.clientX-r.left; var y=t.clientY-r.top; var dx=x-center.x; var dy=y-center.y; var d=Math.hypot(dx,dy); var m=50; if(d>m){ var a=Math.atan2(dy,dx); dx=Math.cos(a)*m; dy=Math.sin(a)*m; } setKnob(dx,dy); pos.x=dx/m; pos.y=dy/m; window.dispatchEvent(new CustomEvent('rw-joystick',{ detail:{ x:pos.x, y:pos.y }})); }, { passive:false });
-		joy.addEventListener('touchend', function(e){ e.preventDefault(); active=false; setKnob(0,0); pos.x=0; pos.y=0; window.dispatchEvent(new CustomEvent('rw-joystick',{ detail:{ x:0, y:0 }})); }, { passive:false });
+	const canvas = document.getElementById('gameCanvas');
+	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+	renderer.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
 
-		function startBridge(){
-			try {
-				if (!window.RenderWorldWebBridge) throw new Error('RenderWorldWebBridge missing');
-				var rw = new window.RenderWorldWebBridge(canvas, { width: canvas.width, height: canvas.height, enableDebug: false, quality: 'high' });
-				rw.start();
-				window.renderworld = rw;
-				log('hub started');
-			} catch (e) { console.error(e); log('failed to start'); }
-		}
+	const scene = new THREE.Scene();
+	scene.background = new THREE.Color(0x001a10);
 
+	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+	camera.position.set(0, 1.5, 4);
 
-		// Robust bundle loader: try multiple candidate paths (GitHub Pages quirks)
-		(function(){
-			var candidates = [
-				'../renderworld-hub.js',
-				'./renderworld-hub.js',
-				'/MIFF-Make-It-For-Free/renderworld-hub.js'
-			];
-			function tryNext(){
-				if (!candidates.length) { log('bundle error'); return; }
-				var url = candidates.shift();
-				var s = document.createElement('script'); s.src=url+'?v='+Date.now();
-				s.onload=function(){ log('bundle loaded'); startBridge(); };
-				s.onerror=function(){ log('bundle error '+url); tryNext(); };
-				document.head.appendChild(s);
-			}
-			tryNext();
-		})();
-	})();
+	const amb = new THREE.AmbientLight(0x204020, 1.0); scene.add(amb);
+	const dir = new THREE.DirectionalLight(0xffffff, 1.1); dir.position.set(2,4,3); scene.add(dir);
+
+	const cube = new THREE.Mesh(
+		new THREE.BoxGeometry(1,1,1),
+		new THREE.MeshStandardMaterial({ color: 0x00ff66, roughness: 0.4, metalness: 0.1, emissive: 0x003311, emissiveIntensity: 0.6 })
+	);
+	cube.position.set(0,0.75,0);
+	scene.add(cube);
+
+	const ground = new THREE.Mesh(
+		new THREE.PlaneGeometry(20,20),
+		new THREE.MeshStandardMaterial({ color: 0x021b12, roughness: 1.0 })
+	);
+	ground.rotation.x = -Math.PI/2;
+	ground.position.y = 0;
+	scene.add(ground);
+
+	function fit(){
+		const w = window.innerWidth;
+		const h = (window.visualViewport ? Math.round(window.visualViewport.height) : window.innerHeight);
+		renderer.setSize(w, h, true);
+		camera.aspect = w / h;
+		camera.updateProjectionMatrix();
+	}
+	window.addEventListener('resize', fit); fit();
+
+	function animate(t){
+		const tt = t * 0.001;
+		cube.rotation.y = tt * 0.8;
+		cube.position.y = 0.75 + Math.sin(tt * 2.0) * 0.25;
+		renderer.render(scene, camera);
+		requestAnimationFrame(animate);
+	}
+	requestAnimationFrame(animate);
 	</script>
 </body>
 </html>
