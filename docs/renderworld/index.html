@@ -148,11 +148,12 @@ function handleTap(x,y){
         }
     }
 }
-canvas.addEventListener('click', (e)=>{ handleTap(e.clientX, e.clientY); });
-canvas.addEventListener('touchend', (e)=>{ if (e.changedTouches && e.changedTouches[0]) handleTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY); }, { passive:true });
+canvas.addEventListener('click', (e)=>{ resumeAudio(); handleTap(e.clientX, e.clientY); });
+canvas.addEventListener('touchend', (e)=>{ resumeAudio(); if (e.changedTouches && e.changedTouches[0]) handleTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY); }, { passive:true });
 // Also allow tapping NPC via hint state
 document.getElementById('hint')?.addEventListener('click', ()=>{
     try {
+        resumeAudio();
         if (animate._nearPortal) { doInteract(); }
     } catch {}
 });
@@ -296,7 +297,14 @@ const ground = new THREE.Mesh(
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
 			velY += gravity * dt;
 			cube.position.y += velY * dt;
-			if (cube.position.y <= groundY) { cube.position.y = groundY; velY = 0; }
+			if (cube.position.y <= groundY) { 
+				cube.position.y = groundY; 
+				velY = 0; 
+				// Play landing sound
+				if (Math.abs(velY) > 2) {
+					playJumpSound(); // Reuse jump sound for landing
+				}
+			}
 		}
 		// apply movement aligned with camera forward/right on XZ
         if (move.x !== 0 || move.z !== 0) {
@@ -424,11 +432,78 @@ const ground = new THREE.Mesh(
 		window.addEventListener('mouseup', end);
 	})();
 
+	// Phase 6: Audio System
+	const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+	
+	// Simple audio feedback functions
+	function playJumpSound() {
+		const oscillator = audioContext.createOscillator();
+		const gainNode = audioContext.createGain();
+		oscillator.connect(gainNode);
+		gainNode.connect(audioContext.destination);
+		oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+		oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+		gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+		gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+		oscillator.start(audioContext.currentTime);
+		oscillator.stop(audioContext.currentTime + 0.2);
+	}
+	
+	function playInteractSound() {
+		const oscillator = audioContext.createOscillator();
+		const gainNode = audioContext.createGain();
+		oscillator.connect(gainNode);
+		gainNode.connect(audioContext.destination);
+		oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+		oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.15);
+		gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+		gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+		oscillator.start(audioContext.currentTime);
+		oscillator.stop(audioContext.currentTime + 0.15);
+	}
+	
+	function playAmbientSound() {
+		// Gentle ambient tone
+		const oscillator = audioContext.createOscillator();
+		const gainNode = audioContext.createGain();
+		const filter = audioContext.createBiquadFilter();
+		oscillator.connect(filter);
+		filter.connect(gainNode);
+		gainNode.connect(audioContext.destination);
+		oscillator.frequency.setValueAtTime(60, audioContext.currentTime);
+		filter.type = 'lowpass';
+		filter.frequency.setValueAtTime(200, audioContext.currentTime);
+		gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+		oscillator.start(audioContext.currentTime);
+		return { oscillator, gainNode };
+	}
+	
+	// Start ambient sound
+	let ambientSound = null;
+	function startAmbient() {
+		if (!ambientSound) {
+			ambientSound = playAmbientSound();
+		}
+	}
+	
+	// Resume audio context on first user interaction
+	function resumeAudio() {
+		if (audioContext.state === 'suspended') {
+			audioContext.resume();
+		}
+		startAmbient();
+	}
+	
 	// Phase 5: action buttons
 // Larger touch targets: handle both click and touchstart
 const btnJump = document.getElementById('btn-jump');
 const btnInteract = document.getElementById('btn-interact');
-function doJump(){ if (velY <= 0.01 && cube.position.y <= groundY + 0.02) { velY = 4.8; } }
+function doJump(){ 
+	if (velY <= 0.01 && cube.position.y <= groundY + 0.02) { 
+		velY = 4.8; 
+		playJumpSound();
+	} 
+}
 function doInteract(){
     try {
         if (animate._nearPortal) {
@@ -440,11 +515,12 @@ function doInteract(){
             confirmEl._target = label;
         } else {
             const s=document.getElementById('status'); s.textContent='interact'; setTimeout(()=>{ s.textContent='running'; }, 700);
+            playInteractSound();
         }
     } catch {}
 }
-if (btnJump){ btnJump.addEventListener('click', doJump); btnJump.addEventListener('touchstart', (e)=>{ e.preventDefault(); doJump(); }, { passive:false }); }
-if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract.addEventListener('touchstart', (e)=>{ e.preventDefault(); doInteract(); }, { passive:false }); }
+if (btnJump){ btnJump.addEventListener('click', ()=>{ resumeAudio(); doJump(); }); btnJump.addEventListener('touchstart', (e)=>{ e.preventDefault(); resumeAudio(); doJump(); }, { passive:false }); }
+if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doInteract(); }); btnInteract.addEventListener('touchstart', (e)=>{ e.preventDefault(); resumeAudio(); doInteract(); }, { passive:false }); }
 
 // Fullscreen handler
 (function(){
