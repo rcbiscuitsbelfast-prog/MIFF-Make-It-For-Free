@@ -515,7 +515,7 @@ class RenderWorldWebBridge {
   async start() {
     if (this.state.isRunning) return;
     // Bootstrap Three.js scene using local vendor modules (no CDN)
-    const { default: THREE } = await import('./assets/vendor/three/three.module.js');
+    const { default: THREE } = await import('./assets/vendor/three/three.module.js.backup');
     // Optional loaders can be added later if needed
 
     this.three = { THREE };
