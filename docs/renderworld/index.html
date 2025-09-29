@@ -34,11 +34,23 @@
       var gPlane = new THREE.PlaneGeometry(20, 20);
       var mPlane = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 1.0, metalness: 0.0 });
       var ground = new THREE.Mesh(gPlane, mPlane); ground.rotation.x = -Math.PI/2; ground.position.y = -1; scene.add(ground);
-      // Portal markers
-      function portal(color){ return new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.6,24), new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.6, metalness:0.2, roughness:0.6 })); }
-      var p1 = portal(0x4488ff); p1.position.set(-2, -0.2, -2); scene.add(p1);
-      var p2 = portal(0x44ff88); p2.position.set( 0, -0.2, -2); scene.add(p2);
-      var p3 = portal(0xff4488); p3.position.set( 2, -0.2, -2); scene.add(p3);
+      // Portal markers (bright, always-visible)
+      function portal(color){
+        var mat = new THREE.MeshBasicMaterial({ color: color });
+        var m = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.6,24), mat);
+        // glow ring
+        var ringMat = new THREE.MeshBasicMaterial({ color: color, transparent:true, opacity:0.35 });
+        var ring = new THREE.Mesh(new THREE.RingGeometry(0.35,0.6,32), ringMat);
+        ring.rotation.x = -Math.PI/2; ring.position.y = -0.8; m.add(ring);
+        // point light to accent cube/ground
+        var pl = new THREE.PointLight(color, 0.7, 6);
+        pl.position.set(0,0.6,0);
+        m.add(pl);
+        return m;
+      }
+      var p1 = portal(0x4488ff); p1.position.set(-2, 0, -2); scene.add(p1);
+      var p2 = portal(0x44ff88); p2.position.set( 0, 0, -2); scene.add(p2);
+      var p3 = portal(0xff4488); p3.position.set( 2, 0, -2); scene.add(p3);
       function animate(t){ cube.rotation.y = t*0.001; cube.rotation.x = t*0.0007; renderer.render(scene, camera); requestAnimationFrame(animate); }
       requestAnimationFrame(animate);
     })();
