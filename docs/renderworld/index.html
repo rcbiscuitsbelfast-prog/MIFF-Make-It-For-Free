@@ -22,8 +22,9 @@
 		<span id="hud-pos">pos 0.0, 0.0</span>
 		<span id="hud-fps">60 fps</span>
 	</div>
-    <!-- Fullscreen button (user gesture) -->
-    <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:80px;min-height:40px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
+    <!-- Top-right controls -->
+    <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
+    <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
 	<!-- Phase 5: Virtual joystick and action buttons -->
 	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.24);display:flex;align-items:center;justify-content:center;z-index:1100;">
 		<div id="vj-knob" style="width:70px;height:70px;border-radius:50%;background:rgba(0,212,255,0.90);box-shadow:0 0 20px rgba(0,212,255,0.65);"></div>
@@ -57,18 +58,28 @@ renderer.toneMappingExposure = 1.0;
 	let yaw = 0, pitch = 0;
 	let targetYaw = 0, targetPitch = 0;
 	const minPitch = -Math.PI/3, maxPitch = Math.PI/3;
-	const damping = 0.12;
+const damping = 0.12;
+let isFirstPerson = false;
 
-	function updateCamera(){
-		yaw += (targetYaw - yaw) * damping;
-		pitch += (targetPitch - pitch) * damping;
-		const radius = 4;
-		const offX = Math.sin(yaw) * Math.cos(pitch) * radius;
-		const offY = Math.sin(pitch) * radius + 1.2;
-		const offZ = Math.cos(yaw) * Math.cos(pitch) * radius;
-		camera.position.set(cube.position.x + offX, cube.position.y + offY, cube.position.z + offZ);
-		camera.lookAt(cube.position.x, cube.position.y + 0.3, cube.position.z);
-	}
+function updateCamera(){
+    yaw += (targetYaw - yaw) * damping;
+    pitch += (targetPitch - pitch) * damping;
+    const radius = 4;
+    if (isFirstPerson) {
+        const eyeY = 0.6;
+        const dirX = Math.sin(yaw) * Math.cos(pitch);
+        const dirY = Math.sin(pitch);
+        const dirZ = Math.cos(yaw) * Math.cos(pitch);
+        camera.position.set(cube.position.x, cube.position.y + eyeY, cube.position.z);
+        camera.lookAt(cube.position.x + dirX, cube.position.y + eyeY + dirY, cube.position.z + dirZ);
+    } else {
+        const offX = Math.sin(yaw) * Math.cos(pitch) * radius;
+        const offY = Math.sin(pitch) * radius + 1.2;
+        const offZ = Math.cos(yaw) * Math.cos(pitch) * radius;
+        camera.position.set(cube.position.x + offX, cube.position.y + offY, cube.position.z + offZ);
+        camera.lookAt(cube.position.x, cube.position.y + 0.3, cube.position.z);
+    }
+}
 
 	function onPointerDown(x, y){ isPointerDown = true; lastX = x; lastY = y; }
 	function onPointerMove(x, y){
@@ -225,15 +236,27 @@ if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract
             const el = document.documentElement;
             if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });
             else if (document.body.requestFullscreen) await document.body.requestFullscreen();
-            // Try to lock orientation on supported devices (best effort)
             try { await screen.orientation.lock('landscape'); } catch {}
         } catch (e) {
-            // Fallback: scroll to hide URL bar on mobile
             try { setTimeout(()=>window.scrollTo(0,1), 50); } catch {}
         }
     }
-    btn.addEventListener('click', goFullscreen);
-    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); goFullscreen(); }, { passive:false });
+    function exitFullscreen(){ try { if (document.fullscreenElement) document.exitFullscreen(); } catch {} }
+    function updateFsLabel(){ btn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen'; }
+    btn.addEventListener('click', ()=>{ document.fullscreenElement ? exitFullscreen() : goFullscreen(); });
+    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); document.fullscreenElement ? exitFullscreen() : goFullscreen(); }, { passive:false });
+    document.addEventListener('fullscreenchange', updateFsLabel);
+    updateFsLabel();
+})();
+
+// View toggle (1st/3rd person)
+(function(){
+    const btn = document.getElementById('btn-view');
+    if (!btn) return;
+    function update(){ btn.textContent = 'View: ' + (isFirstPerson ? '1st' : '3rd'); }
+    btn.addEventListener('click', ()=>{ isFirstPerson = !isFirstPerson; update(); });
+    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); isFirstPerson = !isFirstPerson; update(); }, { passive:false });
+    update();
 })();
 	</script>
 </body>
