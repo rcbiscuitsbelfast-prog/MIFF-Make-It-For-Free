@@ -519,7 +519,7 @@ class RenderWorldWebBridge {
       import('https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js'),
       import('https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/loaders/GLTFLoader.js')
     ]);
-    const { AssetLoader } = await import('./asset-loader.js');
+    const { AssetLoader } = await import('./renderworld/asset-loader.js');
 
     this.three = { THREE, GLTFLoader };
     this.scene = new THREE.Scene();
