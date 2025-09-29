@@ -33,6 +33,44 @@
 	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
 	camera.position.set(0, 1.5, 4);
 
+	// Phase 2: Simple drag camera controls with damping
+	let isPointerDown = false;
+	let lastX = 0, lastY = 0;
+	let yaw = 0, pitch = 0;
+	let targetYaw = 0, targetPitch = 0;
+	const minPitch = -Math.PI/3, maxPitch = Math.PI/3;
+	const damping = 0.12;
+
+	function updateCamera(){
+		yaw += (targetYaw - yaw) * damping;
+		pitch += (targetPitch - pitch) * damping;
+		const radius = 4;
+		const cx = Math.sin(yaw) * Math.cos(pitch) * radius;
+		const cy = Math.sin(pitch) * radius + 1.2;
+		const cz = Math.cos(yaw) * Math.cos(pitch) * radius;
+		camera.position.set(cx, cy, cz);
+		camera.lookAt(0, 0.8, 0);
+	}
+
+	function onPointerDown(x, y){ isPointerDown = true; lastX = x; lastY = y; }
+	function onPointerMove(x, y){
+		if (!isPointerDown) return;
+		const dx = x - lastX; const dy = y - lastY; lastX = x; lastY = y;
+		// Sensitivity tuned for mobile portrait
+		targetYaw -= dx * 0.005;
+		targetPitch -= dy * 0.004;
+		if (targetPitch < minPitch) targetPitch = minPitch;
+		if (targetPitch > maxPitch) targetPitch = maxPitch;
+	}
+	function onPointerUp(){ isPointerDown = false; }
+
+	canvas.addEventListener('mousedown', (e)=>{ onPointerDown(e.clientX, e.clientY); });
+	window.addEventListener('mousemove', (e)=>{ onPointerMove(e.clientX, e.clientY); });
+	window.addEventListener('mouseup', onPointerUp);
+	canvas.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; onPointerDown(t.clientX, t.clientY); }, { passive:false });
+	canvas.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; onPointerMove(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
+	canvas.addEventListener('touchend', onPointerUp, { passive:false });
+
 	const amb = new THREE.AmbientLight(0x204020, 1.0); scene.add(amb);
 	const dir = new THREE.DirectionalLight(0xffffff, 1.1); dir.position.set(2,4,3); scene.add(dir);
 
@@ -64,6 +102,7 @@
 		const tt = t * 0.001;
 		cube.rotation.y = tt * 0.8;
 		cube.position.y = 0.75 + Math.sin(tt * 2.0) * 0.25;
+		updateCamera();
 		renderer.render(scene, camera);
 		requestAnimationFrame(animate);
 	}
