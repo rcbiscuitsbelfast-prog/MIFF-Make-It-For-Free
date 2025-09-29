@@ -22,6 +22,8 @@
 		<span id="hud-pos">pos 0.0, 0.0</span>
 		<span id="hud-fps">60 fps</span>
 	</div>
+    <!-- Fullscreen button (user gesture) -->
+    <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:80px;min-height:40px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
 	<!-- Phase 5: Virtual joystick and action buttons -->
 	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.24);display:flex;align-items:center;justify-content:center;z-index:1100;">
 		<div id="vj-knob" style="width:70px;height:70px;border-radius:50%;background:rgba(0,212,255,0.90);box-shadow:0 0 20px rgba(0,212,255,0.65);"></div>
@@ -101,7 +103,9 @@ const fill = new THREE.DirectionalLight(0x88c0a8, 0.35); fill.position.set(-4,3,
 
 	// Phase 5: movement state
 	const move = { x: 0, z: 0 };
-	const moveSpeed = 1.5; // m/s
+	const moveSpeed = 1.8; // m/s
+	// Simple jump physics
+	let velY = 0; const gravity = -9.8; const groundY = 0.75;
 
 const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(32,32, 1,1),
@@ -123,7 +127,17 @@ const ground = new THREE.Mesh(
 	function animate(t){
 		const tt = t * 0.001;
 		cube.rotation.y = tt * 0.8;
-		cube.position.y = 0.75 + Math.sin(tt * 2.0) * 0.25;
+		// Bob only when grounded
+		if (Math.abs(velY) < 0.0001 && Math.abs(cube.position.y - groundY) < 0.0001) {
+			cube.position.y = groundY + Math.sin(tt * 2.0) * 0.12;
+		}
+		// Apply jump/gravity
+		if (cube.position.y > groundY || velY > 0) {
+			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
+			velY += gravity * dt;
+			cube.position.y += velY * dt;
+			if (cube.position.y <= groundY) { cube.position.y = groundY; velY = 0; }
+		}
 		// apply movement aligned with camera forward/right on XZ
 		if (move.x !== 0 || move.z !== 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
@@ -133,9 +147,9 @@ const ground = new THREE.Mesh(
 			const fwdLen = Math.hypot(fwdX, fwdZ) || 1;
 			const nx = fwdX / fwdLen;
 			const nz = fwdZ / fwdLen;
-			// right is perpendicular
-			const rx = nz;
-			const rz = -nx;
+			// right is perpendicular (flip to match expected left/right)
+			const rx = -nz;
+			const rz = nx;
 			const worldX = rx * move.x + nx * move.z;
 			const worldZ = rz * move.x + nz * move.z;
 			cube.position.x += worldX * moveSpeed * dt;
@@ -197,10 +211,30 @@ const ground = new THREE.Mesh(
 // Larger touch targets: handle both click and touchstart
 const btnJump = document.getElementById('btn-jump');
 const btnInteract = document.getElementById('btn-interact');
-function doJump(){ cube.position.y += 0.45; setTimeout(()=>{ cube.position.y = Math.max(0.75, cube.position.y - 0.45); }, 220); }
+function doJump(){ if (velY === 0 && Math.abs(cube.position.y - groundY) < 0.001) { velY = 4.5; } }
 function doInteract(){ try { const s=document.getElementById('status'); s.textContent='interact'; setTimeout(()=>{ s.textContent='running'; }, 700); } catch {} }
 if (btnJump){ btnJump.addEventListener('click', doJump); btnJump.addEventListener('touchstart', (e)=>{ e.preventDefault(); doJump(); }, { passive:false }); }
 if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract.addEventListener('touchstart', (e)=>{ e.preventDefault(); doInteract(); }, { passive:false }); }
+
+// Fullscreen handler
+(function(){
+    const btn = document.getElementById('btn-fullscreen');
+    if (!btn) return;
+    async function goFullscreen(){
+        try {
+            const el = document.documentElement;
+            if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });
+            else if (document.body.requestFullscreen) await document.body.requestFullscreen();
+            // Try to lock orientation on supported devices (best effort)
+            try { await screen.orientation.lock('landscape'); } catch {}
+        } catch (e) {
+            // Fallback: scroll to hide URL bar on mobile
+            try { setTimeout(()=>window.scrollTo(0,1), 50); } catch {}
+        }
+    }
+    btn.addEventListener('click', goFullscreen);
+    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); goFullscreen(); }, { passive:false });
+})();
 	</script>
 </body>
 </html>
