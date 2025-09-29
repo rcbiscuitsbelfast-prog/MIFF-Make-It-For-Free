@@ -17,15 +17,18 @@
 </head>
 <body>
 	<canvas id="gameCanvas"></canvas>
+	<div id="status" style="position:fixed;left:8px;bottom:8px;color:#7fffd4;font:12px monospace;background:rgba(0,0,0,0.5);padding:6px 8px;border-radius:4px;">loading…</div>
 	<script type="module">
-	import * as THREE from '../assets/vendor/three/three.module.js.backup';
+	// Use CDN module to avoid MIME issues with local backup extension
+	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
 
 	const canvas = document.getElementById('gameCanvas');
 	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
 	renderer.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
 
 	const scene = new THREE.Scene();
-	scene.background = new THREE.Color(0x001a10);
+	scene.background = new THREE.Color(0x002a1a);
+	renderer.setClearColor(0x002a1a, 1);
 
 	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
 	camera.position.set(0, 1.5, 4);
@@ -65,6 +68,7 @@
 		requestAnimationFrame(animate);
 	}
 	requestAnimationFrame(animate);
+	try { document.getElementById('status').textContent = 'running'; } catch {}
 	</script>
 </body>
 </html>
