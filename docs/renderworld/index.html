@@ -26,6 +26,16 @@
     <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
     <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
     <div id="hint" style="position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:1050;padding:8px 12px;font:14px monospace;color:#e6edf3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:10px;display:none;">hint</div>
+    <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
+        <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
+        <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
+        <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
+    </div>
+    <div id="confirm" style="position:fixed;left:50%;transform:translateX(-50%);bottom:84px;z-index:1100;display:none;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:10px 14px;color:#e6edf3;font:14px monospace;gap:10px;align-items:center;">
+        <span id="confirm-text">Open?</span>
+        <button id="confirm-open" style="min-height:36px;border-radius:10px;background:#00aa66;color:white;border:1px solid rgba(255,255,255,0.2);font:14px monospace;">Open</button>
+        <button id="confirm-cancel" style="min-height:36px;border-radius:10px;background:rgba(0,0,0,0.5);color:#e6edf3;border:1px solid rgba(255,255,255,0.2);font:14px monospace;">Cancel</button>
+    </div>
 	<!-- Phase 5: Virtual joystick and action buttons -->
 	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.24);display:flex;align-items:center;justify-content:center;z-index:1100;">
 		<div id="vj-knob" style="width:70px;height:70px;border-radius:50%;background:rgba(0,212,255,0.90);box-shadow:0 0 20px rgba(0,212,255,0.65);"></div>
@@ -196,6 +206,9 @@ const ground = new THREE.Mesh(
 		// Proximity hint for portals
 		try {
 			const hint = document.getElementById('hint');
+			const l1 = document.getElementById('lbl-p1');
+			const l2 = document.getElementById('lbl-p2');
+			const l3 = document.getElementById('lbl-p3');
 			let nearest = null, nearestD = 9999;
 			for (const p of [p1,p2,p3]){
 				const dx = p.position.x - cube.position.x;
@@ -208,6 +221,17 @@ const ground = new THREE.Mesh(
 				hint.style.display = 'block';
 				animate._nearPortal = nearest;
 			} else { hint.style.display = 'none'; animate._nearPortal = null; }
+			// Update labels: project each portal to screen
+			const labels = [ [p1,l1], [p2,l2], [p3,l3] ];
+			for (const [p, lbl] of labels){
+				if (!lbl) continue;
+				const v = p.position.clone(); v.y += 1.2; v.project(camera);
+				const w = renderer.domElement.clientWidth, h = renderer.domElement.clientHeight;
+				const sx = (v.x * 0.5 + 0.5) * w; const sy = (-v.y * 0.5 + 0.5) * h;
+				lbl.style.left = Math.round(sx - lbl.offsetWidth/2) + 'px';
+				lbl.style.top = Math.round(sy - 18) + 'px';
+				lbl.style.display = (v.z > -1 && v.z < 1) ? 'block' : 'none';
+			}
 		} catch {}
 		try {
 			if (!animate._last) animate._last = t, animate._frames = 0;
@@ -257,14 +281,19 @@ const ground = new THREE.Mesh(
 // Larger touch targets: handle both click and touchstart
 const btnJump = document.getElementById('btn-jump');
 const btnInteract = document.getElementById('btn-interact');
-function doJump(){ if (velY === 0 && Math.abs(cube.position.y - groundY) < 0.001) { velY = 4.5; } }
+function doJump(){ if (Math.abs(cube.position.y - groundY) < 0.005) { velY = 4.5; } }
 function doInteract(){
     try {
-        const s=document.getElementById('status');
-        let msg = 'interact';
-        if (animate._nearPortal) msg = 'Open: ' + (animate._nearPortal.userData?.label || 'Portal');
-        s.textContent = msg;
-        setTimeout(()=>{ s.textContent='running'; }, 900);
+        if (animate._nearPortal) {
+            const label = animate._nearPortal.userData?.label || 'Portal';
+            const confirmEl = document.getElementById('confirm');
+            const txt = document.getElementById('confirm-text');
+            txt.textContent = 'Open ' + label + ' in new tab?';
+            confirmEl.style.display = 'inline-flex';
+            confirmEl._target = label;
+        } else {
+            const s=document.getElementById('status'); s.textContent='interact'; setTimeout(()=>{ s.textContent='running'; }, 700);
+        }
     } catch {}
 }
 if (btnJump){ btnJump.addEventListener('click', doJump); btnJump.addEventListener('touchstart', (e)=>{ e.preventDefault(); doJump(); }, { passive:false }); }
@@ -292,14 +321,42 @@ if (btnInteract){ btnInteract.addEventListener('click', doInteract); btnInteract
     updateFsLabel();
 })();
 
-// View toggle (1st/3rd person)
+// View toggle (1st/3rd person) - preserve yaw/pitch
 (function(){
     const btn = document.getElementById('btn-view');
     if (!btn) return;
     function update(){ btn.textContent = 'View: ' + (isFirstPerson ? '1st' : '3rd'); }
-    btn.addEventListener('click', ()=>{ isFirstPerson = !isFirstPerson; update(); });
-    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); isFirstPerson = !isFirstPerson; update(); }, { passive:false });
+    function toggle(){
+        // Keep current targetYaw/targetPitch, flip mode only
+        isFirstPerson = !isFirstPerson;
+        update();
+    }
+    btn.addEventListener('click', toggle);
+    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); toggle(); }, { passive:false });
     update();
+})();
+
+// Confirm open handler (routes)
+(function(){
+    const box = document.getElementById('confirm');
+    const btnOpen = document.getElementById('confirm-open');
+    const btnCancel = document.getElementById('confirm-cancel');
+    if (!box || !btnOpen || !btnCancel) return;
+    function routeFor(label){
+        if (/Spirit Tamer/i.test(label)) return '/site/#spirit-tamer';
+        if (/Toppler/i.test(label)) return '/site/#toppler';
+        if (/Witcher Grove/i.test(label)) return '/site/grove.html';
+        return '/';
+    }
+    btnOpen.addEventListener('click', ()=>{
+        const label = box._target || '';
+        const href = routeFor(label);
+        try { window.open(href, '_blank', 'noopener'); } catch {}
+        box.style.display = 'none';
+    });
+    btnCancel.addEventListener('click', ()=>{ box.style.display = 'none'; });
+    btnOpen.addEventListener('touchstart', (e)=>{ e.preventDefault(); btnOpen.click(); }, { passive:false });
+    btnCancel.addEventListener('touchstart', (e)=>{ e.preventDefault(); btnCancel.click(); }, { passive:false });
 })();
 	</script>
 </body>
