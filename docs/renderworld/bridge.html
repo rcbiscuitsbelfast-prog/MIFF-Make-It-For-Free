@@ -8,18 +8,22 @@
 	<style>
 		html, body { margin:0; padding:0; height:100%; height:100dvh; background:#000; overflow:hidden; }
 		#c { position:fixed; inset:0; width:100vw; height:100dvh; display:block; }
-		#fallback { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; color:#00ff88; font:16px/1.4 monospace; padding:24px; text-align:center; }
+		#fallback { position:fixed; inset:0; display:none; align-items:center; justify-content:center; color:#00ff88; font:16px/1.4 monospace; padding:24px; text-align:center; background:rgba(0,0,0,0.2); }
+		#status { position:fixed; left:8px; bottom:8px; color:#7fffd4; font:12px monospace; background:rgba(0,0,0,0.5); padding:6px 8px; border-radius:4px; }
 	</style>
 </head>
 <body>
 	<canvas id="c"></canvas>
-	<div id="fallback" style="display:none;">Bridge failed to load. Rendering fallback…</div>
+	<div id="fallback">Bridge failed to load. Rendering fallback…</div>
+	<div id="status">init</div>
 	<script>
 	(function(){
 		var canvas = document.getElementById('c');
 		var fallback = document.getElementById('fallback');
+		var statusEl = document.getElementById('status');
 		function fit(){ canvas.width = window.innerWidth; canvas.height = (window.visualViewport?Math.round(window.visualViewport.height):window.innerHeight); }
 		window.addEventListener('resize', fit); fit();
+		function log(msg){ try{ statusEl.textContent = String(msg); }catch{} }
 
 		function startBridge(){
 			try {
@@ -27,6 +31,7 @@
 				var rw = new window.RenderWorldWebBridge(canvas, { width: canvas.width, height: canvas.height, enableDebug: false, quality: 'high' });
 				rw.start();
 				window.renderworld = rw;
+				log('bridge started');
 			} catch (e) { console.error(e); showFallback(); }
 		}
 
@@ -39,9 +44,15 @@
 
 		var s = document.createElement('script');
 		s.src = './renderworld-hub.js';
-		s.onload = startBridge;
+		s.onload = function(){ log('bundle loaded'); startBridge(); };
 		s.onerror = function(){ console.error('Failed to load renderworld-hub.js'); showFallback(); };
 		document.head.appendChild(s);
+
+		// Safety timeout: if bridge didn't start within 2500ms, fallback
+		setTimeout(function(){ if (!window.renderworld) { log('fallback timeout'); showFallback(); } }, 2500);
+
+		// Surface runtime errors
+		window.addEventListener('error', function(ev){ console.error('Runtime error', ev.message); showFallback(); });
 	})();
 	</script>
 </body>
