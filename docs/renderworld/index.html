@@ -18,6 +18,10 @@
 <body>
 	<canvas id="gameCanvas"></canvas>
 	<div id="status" style="position:fixed;left:8px;bottom:8px;color:#7fffd4;font:12px monospace;background:rgba(0,0,0,0.5);padding:6px 8px;border-radius:4px;">loading…</div>
+	<div id="hud" style="position:fixed;left:0;right:0;top:0;height:44px;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;font:12px monospace;color:#e6edf3;background:linear-gradient(180deg,rgba(0,0,0,0.65),transparent);pointer-events:none;">
+		<span id="hud-pos">pos 0.0, 0.0</span>
+		<span id="hud-fps">60 fps</span>
+	</div>
 	<script type="module">
 	// Use CDN module to avoid MIME issues with local backup extension
 	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
@@ -110,6 +114,19 @@ const ground = new THREE.Mesh(
 		cube.position.y = 0.75 + Math.sin(tt * 2.0) * 0.25;
 		updateCamera();
 		renderer.render(scene, camera);
+		// HUD updates
+		try {
+			const pos = cube.position;
+			document.getElementById('hud-pos').textContent = 'pos ' + pos.x.toFixed(1) + ', ' + pos.z.toFixed(1);
+		} catch {}
+		try {
+			if (!animate._last) animate._last = t, animate._frames = 0;
+			animate._frames++;
+			if (t - animate._last > 1000) {
+				document.getElementById('hud-fps').textContent = Math.round(animate._frames * 1000 / (t - animate._last)) + ' fps';
+				animate._last = t; animate._frames = 0;
+			}
+		} catch {}
 		requestAnimationFrame(animate);
 	}
 	requestAnimationFrame(animate);
