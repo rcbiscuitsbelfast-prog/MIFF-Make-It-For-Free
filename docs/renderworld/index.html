@@ -23,8 +23,12 @@
 	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
 
 	const canvas = document.getElementById('gameCanvas');
-	const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-	renderer.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
+// Color/tone mapping for consistent mobile brightness
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
 
 	const scene = new THREE.Scene();
 	scene.background = new THREE.Color(0x002a1a);
@@ -71,8 +75,10 @@
 	canvas.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; onPointerMove(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
 	canvas.addEventListener('touchend', onPointerUp, { passive:false });
 
-	const amb = new THREE.AmbientLight(0x204020, 1.0); scene.add(amb);
-	const dir = new THREE.DirectionalLight(0xffffff, 1.1); dir.position.set(2,4,3); scene.add(dir);
+// Lighting setup (hemi + key + gentle fill)
+const hemi = new THREE.HemisphereLight(0xe0ffe0, 0x103018, 0.8); scene.add(hemi);
+const key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(3,5,2); key.castShadow = false; scene.add(key);
+const fill = new THREE.DirectionalLight(0x88c0a8, 0.35); fill.position.set(-4,3,-2); scene.add(fill);
 
 	const cube = new THREE.Mesh(
 		new THREE.BoxGeometry(1,1,1),
@@ -81,10 +87,10 @@
 	cube.position.set(0,0.75,0);
 	scene.add(cube);
 
-	const ground = new THREE.Mesh(
-		new THREE.PlaneGeometry(20,20),
-		new THREE.MeshStandardMaterial({ color: 0x021b12, roughness: 1.0 })
-	);
+const ground = new THREE.Mesh(
+    new THREE.PlaneGeometry(32,32, 1,1),
+    new THREE.MeshStandardMaterial({ color: 0x0a1f17, roughness: 0.95, metalness: 0.0 })
+);
 	ground.rotation.x = -Math.PI/2;
 	ground.position.y = 0;
 	scene.add(ground);
