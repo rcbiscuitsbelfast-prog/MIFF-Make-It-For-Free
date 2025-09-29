@@ -106,6 +106,14 @@ jobs:
           echo "⚠️ docs/renderworld directory not found"
         fi
 
+        # Ensure RenderWorld Hub bundle is available next to bridge
+        if [ -f "docs/renderworld-hub.js" ]; then
+          cp docs/renderworld-hub.js docs/dist/renderworld/
+          echo "✅ Copied renderworld-hub.js into docs/dist/renderworld/"
+        else
+          echo "⚠️ docs/renderworld-hub.js not found"
+        fi
+
     - name: Verify SplashScreenPure integration
       run: |
         if grep -q "miff-splash-screen" docs/dist/index.html; then
