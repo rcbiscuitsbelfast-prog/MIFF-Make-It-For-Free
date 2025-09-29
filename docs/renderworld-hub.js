@@ -514,14 +514,11 @@ class RenderWorldWebBridge {
 
   async start() {
     if (this.state.isRunning) return;
-    // Bootstrap Three.js scene
-    const [{ default: THREE }, { GLTFLoader }] = await Promise.all([
-      import('https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js'),
-      import('https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/loaders/GLTFLoader.js')
-    ]);
-    const { AssetLoader } = await import('./renderworld/asset-loader.js');
+    // Bootstrap Three.js scene using local vendor modules (no CDN)
+    const { default: THREE } = await import('./assets/vendor/three/three.module.js');
+    // Optional loaders can be added later if needed
 
-    this.three = { THREE, GLTFLoader };
+    this.three = { THREE };
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x111133);
     this.camera3d = new THREE.PerspectiveCamera(60, this.config.width / this.config.height, 0.1, 1000);
@@ -548,13 +545,7 @@ class RenderWorldWebBridge {
     ground.position.y = 0;
     this.scene.add(ground);
 
-    // Assets
-    try {
-      const loader = new AssetLoader(THREE, GLTFLoader);
-      await loader.loadWarehouseAssets(this.scene);
-    } catch (e) {
-      console.warn('Asset load failed, continuing with empty scene', e);
-    }
+    // Skip asset loading for now (no external dependencies)
 
     // Simple player proxy
     const player = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshStandardMaterial({ color: 0xffffff }));

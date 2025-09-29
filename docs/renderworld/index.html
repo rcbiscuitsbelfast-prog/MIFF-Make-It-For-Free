@@ -62,9 +62,10 @@
 			function tryNext(){
 				if (!candidates.length) { log('bundle error'); return; }
 				var url = candidates.shift();
-				fetch(url, { method:'HEAD', cache:'no-store' })
-					.then(function(res){ log('probe '+url+' '+res.status); var s=document.createElement('script'); s.src=url+'?v='+Date.now(); s.onload=function(){ log('bundle loaded'); startBridge(); }; s.onerror=function(){ log('bundle error '+url); tryNext(); }; document.head.appendChild(s); })
-					.catch(function(){ log('probe fail '+url); tryNext(); });
+				var s = document.createElement('script'); s.src=url+'?v='+Date.now();
+				s.onload=function(){ log('bundle loaded'); startBridge(); };
+				s.onerror=function(){ log('bundle error '+url); tryNext(); };
+				document.head.appendChild(s);
 			}
 			tryNext();
 		})();
