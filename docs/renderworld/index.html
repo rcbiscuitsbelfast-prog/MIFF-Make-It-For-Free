@@ -112,6 +112,31 @@ function updateCamera(){
 	canvas.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; onPointerMove(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
 	canvas.addEventListener('touchend', onPointerUp, { passive:false });
 
+// Tap-to-interact via raycast
+const raycaster = new THREE.Raycaster();
+const tapVec = new THREE.Vector2();
+function canvasPointToNDC(x,y){
+    const rect = canvas.getBoundingClientRect();
+    tapVec.x = ((x - rect.left) / rect.width) * 2 - 1;
+    tapVec.y = -((y - rect.top) / rect.height) * 2 + 1;
+}
+function handleTap(x,y){
+    canvasPointToNDC(x,y);
+    raycaster.setFromCamera(tapVec, camera);
+    const targets = [p1,p2,p3,npc1,npc2,npc3];
+    const intersects = raycaster.intersectObjects(targets, true);
+    if (intersects.length){
+        const obj = intersects[0].object;
+        let root = obj; while (root.parent && targets.indexOf(root) === -1) root = root.parent;
+        if (targets.indexOf(root) !== -1){
+            if (root === p1 || root === p2 || root === p3) { animate._nearPortal = root; doInteract(); }
+            else { try { const s=document.getElementById('status'); s.textContent='Interact: ' + (root.userData?.label || 'NPC'); setTimeout(()=>{ s.textContent='running'; }, 900); } catch {} }
+        }
+    }
+}
+canvas.addEventListener('click', (e)=>{ handleTap(e.clientX, e.clientY); });
+canvas.addEventListener('touchend', (e)=>{ if (e.changedTouches && e.changedTouches[0]) handleTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY); }, { passive:true });
+
 // Lighting setup (hemi + key + gentle fill)
 const hemi = new THREE.HemisphereLight(0xe0ffe0, 0x103018, 0.8); scene.add(hemi);
 const key = new THREE.DirectionalLight(0xffffff, 1.0); key.position.set(3,5,2); key.castShadow = false; scene.add(key);
@@ -141,14 +166,21 @@ const ground = new THREE.Mesh(
     // Phase 7: visual-only portal markers
     function createPortal(color){
         const g = new THREE.Group();
-        const matGlow = new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.5 });
+        const matGlow = new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.55 });
         const frame = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.06, 16, 48), matGlow);
         frame.rotation.x = Math.PI/2; frame.position.y = 1.0; g.add(frame);
-        const plane = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.6), new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.25 }));
+        const matPlane = new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.28 });
+        const plane = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.6), matPlane);
         plane.position.y = 0.9; g.add(plane);
-        const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.55, 32), new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.5 }));
+        const matRing = new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.55 });
+        const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.55, 32), matRing);
         ring.rotation.x = -Math.PI/2; ring.position.y = 0.02; g.add(ring);
         const light = new THREE.PointLight(color, 0.9, 6); light.position.set(0,1.2,0); g.add(light);
+        g.userData.highlight = (on)=>{
+            const inten = on ? 1.0 : 0.55;
+            matGlow.opacity = inten; matRing.opacity = inten; matPlane.opacity = on ? 0.45 : 0.28;
+            light.intensity = on ? 1.4 : 0.9;
+        };
         return g;
     }
     const p1 = createPortal(0x44aaff); p1.position.set(-3, 0, -6); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
@@ -158,11 +190,13 @@ const ground = new THREE.Mesh(
     // Minimal NPC placeholders
     function createNPC(color, label){
         const g = new THREE.Group();
-        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.1,16), new THREE.MeshStandardMaterial({ color, roughness:0.6, metalness:0.1 }));
+        const mat = new THREE.MeshStandardMaterial({ color, roughness:0.6, metalness:0.1, emissive: 0x000000, emissiveIntensity: 0 });
+        const body = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1.1,16), mat);
         body.position.y = 0.55; g.add(body);
         const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 16), new THREE.MeshStandardMaterial({ color: 0xffffff }));
         head.position.y = 1.2; g.add(head);
         g.userData = { label };
+        g.userData.highlight = (on)=>{ mat.emissive.setHex(on ? 0x224444 : 0x000000); mat.emissiveIntensity = on ? 0.6 : 0.0; };
         return g;
     }
     const npc1 = createNPC(0x66bbff, 'Explorer'); npc1.position.set(-2.2,0,-2.5); scene.add(npc1);
@@ -199,11 +233,10 @@ const ground = new THREE.Mesh(
             let fwdX = Math.sin(yaw), fwdZ = Math.cos(yaw);
             let rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
             if (isFirstPerson) {
-                // In FP, previous mapping had L/R inverted; flip right
+                // FP OK with flipped right previously; keep FP L/R correction only
                 rightX = -rightX; rightZ = -rightZ;
             } else {
-                // In TP, previous mapping had F/B inverted; flip forward
-                fwdX = -fwdX; fwdZ = -fwdZ;
+                // TP: do not flip; keep natural mapping
             }
             const worldX = rightX * move.x + fwdX * move.z;
             const worldZ = rightZ * move.x + fwdZ * move.z;
@@ -231,11 +264,13 @@ const ground = new THREE.Mesh(
 				const d = Math.hypot(dx, dz);
 				if (d < nearestD) { nearestD = d; nearest = p; }
 			}
-			if (nearest && nearestD < 2.5) {
-				hint.textContent = 'Interact: ' + (nearest.userData?.label || 'Portal');
-				hint.style.display = 'block';
-				animate._nearPortal = nearest;
-			} else { hint.style.display = 'none'; animate._nearPortal = null; }
+            if (nearest && nearestD < 2.5) {
+                hint.textContent = 'Interact: ' + (nearest.userData?.label || 'Object');
+                hint.style.display = 'block';
+                animate._nearPortal = (nearest === p1 || nearest === p2 || nearest === p3) ? nearest : null;
+            } else { hint.style.display = 'none'; animate._nearPortal = null; }
+            // Highlight proximity
+            for (const obj of [p1,p2,p3,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
 			// Update labels: project each portal to screen
 			const labels = [ [p1,l1], [p2,l2], [p3,l3] ];
 			for (const [p, lbl] of labels){
