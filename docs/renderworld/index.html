@@ -136,6 +136,12 @@ function handleTap(x,y){
 }
 canvas.addEventListener('click', (e)=>{ handleTap(e.clientX, e.clientY); });
 canvas.addEventListener('touchend', (e)=>{ if (e.changedTouches && e.changedTouches[0]) handleTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY); }, { passive:true });
+// Also allow tapping NPC via hint state
+document.getElementById('hint')?.addEventListener('click', ()=>{
+    try {
+        if (animate._nearPortal) { doInteract(); }
+    } catch {}
+});
 
 // Lighting setup (hemi + key + gentle fill)
 const hemi = new THREE.HemisphereLight(0xe0ffe0, 0x103018, 0.8); scene.add(hemi);
@@ -176,10 +182,17 @@ const ground = new THREE.Mesh(
         const ring = new THREE.Mesh(new THREE.RingGeometry(0.35, 0.55, 32), matRing);
         ring.rotation.x = -Math.PI/2; ring.position.y = 0.02; g.add(ring);
         const light = new THREE.PointLight(color, 0.9, 6); light.position.set(0,1.2,0); g.add(light);
+        // White outline elements (initially hidden)
+        const matOutline = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.95, depthTest:false });
+        const frameOutline = new THREE.Mesh(new THREE.TorusGeometry(0.66, 0.03, 8, 32), matOutline);
+        frameOutline.rotation.x = Math.PI/2; frameOutline.position.y = 1.0; frameOutline.visible = false; g.add(frameOutline);
+        const ringOutline = new THREE.Mesh(new THREE.RingGeometry(0.60, 0.70, 32), matOutline);
+        ringOutline.rotation.x = -Math.PI/2; ringOutline.position.y = 0.025; ringOutline.visible = false; g.add(ringOutline);
         g.userData.highlight = (on)=>{
             const inten = on ? 1.0 : 0.55;
             matGlow.opacity = inten; matRing.opacity = inten; matPlane.opacity = on ? 0.45 : 0.28;
             light.intensity = on ? 1.4 : 0.9;
+            frameOutline.visible = on; ringOutline.visible = on;
         };
         return g;
     }
@@ -195,8 +208,12 @@ const ground = new THREE.Mesh(
         body.position.y = 0.55; g.add(body);
         const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 16), new THREE.MeshStandardMaterial({ color: 0xffffff }));
         head.position.y = 1.2; g.add(head);
+        // White outline meshes (slightly larger)
+        const matO = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent:true, opacity:0.95, depthTest:false });
+        const bodyO = new THREE.Mesh(new THREE.CylinderGeometry(0.27,0.27,1.12,16), matO); bodyO.position.y = 0.55; bodyO.visible=false; g.add(bodyO);
+        const headO = new THREE.Mesh(new THREE.SphereGeometry(0.245, 16, 12), matO); headO.position.y = 1.2; headO.visible=false; g.add(headO);
         g.userData = { label };
-        g.userData.highlight = (on)=>{ mat.emissive.setHex(on ? 0x224444 : 0x000000); mat.emissiveIntensity = on ? 0.6 : 0.0; };
+        g.userData.highlight = (on)=>{ mat.emissive.setHex(on ? 0x224444 : 0x000000); mat.emissiveIntensity = on ? 0.6 : 0.0; bodyO.visible = on; headO.visible = on; };
         return g;
     }
     const npc1 = createNPC(0x66bbff, 'Explorer'); npc1.position.set(-2.2,0,-2.5); scene.add(npc1);
@@ -236,7 +253,8 @@ const ground = new THREE.Mesh(
                 // FP OK with flipped right previously; keep FP L/R correction only
                 rightX = -rightX; rightZ = -rightZ;
             } else {
-                // TP: do not flip; keep natural mapping
+                // TP: flip right to correct strafing direction
+                rightX = -rightX; rightZ = -rightZ;
             }
             const worldX = rightX * move.x + fwdX * move.z;
             const worldZ = rightZ * move.x + fwdZ * move.z;
