@@ -375,7 +375,7 @@ function createWarehouseEnvironment() {
     
     pillarPositions.forEach(([x, y, z]) => {
         const pillar = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.3, 0.4, WAREHOUSE_HEIGHT, 8),
+            new THREE.CylinderGeometry(0.2, 0.25, WAREHOUSE_HEIGHT, 8),
             pillarMaterial
         );
         pillar.position.set(x, WAREHOUSE_HEIGHT/2, z);
@@ -567,9 +567,9 @@ scene.add(spiritLens);
         return g;
     }
     // Position portals within warehouse space
-    const p1 = createPortal(0x44aaff); p1.position.set(-8, 0, -8); p1.userData = { label: 'Spirit Tamer', kind: 'electric' }; scene.add(p1);
-    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -8); p2.userData = { label: 'Toppler', kind: 'steam' }; scene.add(p2);
-    const p3 = createPortal(0xff6688); p3.position.set( 8, 0, -8); p3.userData = { label: 'Witcher Grove', kind: 'ember' }; scene.add(p3);
+    const p1 = createPortal(0x44aaff); p1.position.set(-8, 0, -11.4); p1.userData = { label: 'Spirit Tamer', kind: 'electric' }; scene.add(p1);
+    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -11.4); p2.userData = { label: 'Toppler', kind: 'steam' }; scene.add(p2);
+    const p3 = createPortal(0xff6688); p3.position.set( 8, 0, -11.4); p3.userData = { label: 'Witcher Grove', kind: 'ember' }; scene.add(p3);
     const portalColliders = [
         { node: p1, radius: 0.9 },
         { node: p2, radius: 0.9 },
@@ -699,7 +699,7 @@ scene.add(spiritLens);
                 ];
                 for (const [px,pz] of pillarBlocks){
                     const dx = x - px; const dz = z - pz;
-                    if (Math.hypot(dx,dz) < 0.5) return true;
+                    if (Math.hypot(dx,dz) < 0.35) return true;
                 }
                 for (const { node, radius } of [...portalColliders, ...npcColliders]){
                     const dx = x - node.position.x; const dz = z - node.position.z;
