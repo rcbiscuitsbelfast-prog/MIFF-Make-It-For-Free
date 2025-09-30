@@ -72,23 +72,26 @@ renderer.toneMappingExposure = 1.0;
 	const minPitch = -Math.PI/3, maxPitch = Math.PI/3;
 const damping = 0.12;
 let isFirstPerson = false;
+let cameraRadius = 4.0;
+const minCameraRadius = 2.0, maxCameraRadius = 12.0;
 
 function updateCamera(){
     yaw += (targetYaw - yaw) * damping;
     pitch += (targetPitch - pitch) * damping;
-    const radius = 4;
     if (isFirstPerson) {
-        const eyeY = 0.6;
+        // First-person: camera at head height
+        const headY = 1.5;
         const dirX = Math.sin(yaw) * Math.cos(pitch);
         const dirY = Math.sin(pitch);
         const dirZ = Math.cos(yaw) * Math.cos(pitch);
-        camera.position.set(cube.position.x, cube.position.y + eyeY, cube.position.z);
-        camera.lookAt(cube.position.x + dirX, cube.position.y + eyeY + dirY, cube.position.z + dirZ);
+        camera.position.set(player.position.x, player.position.y + headY, player.position.z);
+        camera.lookAt(player.position.x + dirX, player.position.y + headY + dirY, player.position.z + dirZ);
     } else {
         // Keep camera BEHIND player based on yaw/pitch; look over-the-shoulder
-        const offX = -Math.sin(yaw) * Math.cos(pitch) * radius;
-        const offY = 1.4 + Math.sin(pitch) * radius; // slightly above head
-        const offZ = -Math.cos(yaw) * Math.cos(pitch) * radius;
+        const r = cameraRadius;
+        const offX = -Math.sin(yaw) * Math.cos(pitch) * r;
+        const offY = 1.4 + Math.sin(pitch) * r; // slightly above head
+        const offZ = -Math.cos(yaw) * Math.cos(pitch) * r;
         camera.position.set(player.position.x + offX, player.position.y + offY, player.position.z + offZ);
         camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z);
     }
@@ -110,7 +113,23 @@ function updateCamera(){
 	window.addEventListener('mousemove', (e)=>{ onPointerMove(e.clientX, e.clientY); });
 	window.addEventListener('mouseup', onPointerUp);
 	canvas.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; onPointerDown(t.clientX, t.clientY); }, { passive:false });
-	canvas.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; onPointerMove(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
+// Touch move with pinch-to-zoom support
+canvas.addEventListener('touchmove', (e)=>{
+    if (e.touches.length === 2) {
+        // Pinch zoom modifies cameraRadius (third person only)
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.hypot(dx, dy);
+        if (!canvas._pinchLast) canvas._pinchLast = dist;
+        const delta = dist - canvas._pinchLast;
+        canvas._pinchLast = dist;
+        cameraRadius = Math.min(maxCameraRadius, Math.max(minCameraRadius, cameraRadius - delta * 0.01));
+        e.preventDefault();
+    } else {
+        canvas._pinchLast = undefined;
+        const t=e.touches[0]; onPointerMove(t.clientX, t.clientY); e.preventDefault();
+    }
+}, { passive:false });
 	canvas.addEventListener('touchend', onPointerUp, { passive:false });
 
 // Tap-to-interact via raycast
@@ -426,6 +445,50 @@ function createWarehouseEnvironment() {
 const warehouse = createWarehouseEnvironment();
 scene.add(warehouse);
 
+// Phase 8: Spirit Lens centerpiece
+function createSpiritLens(){
+    const g = new THREE.Group();
+    const cyan = 0x00e6ff;
+    const coreMat = new THREE.MeshStandardMaterial({ color: cyan, emissive: 0x003344, emissiveIntensity: 1.2, roughness: 0.2, metalness: 0.0 });
+    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.35, 0), coreMat);
+    core.position.y = 1.1; g.add(core);
+    // Pedestal
+    const ped = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,0.4,12), new THREE.MeshStandardMaterial({ color: 0x888888, roughness:0.8 }));
+    ped.position.y = 0.2; g.add(ped);
+    // Light rays (billboards)
+    const rayMat = new THREE.MeshBasicMaterial({ color: cyan, transparent:true, opacity:0.18, blending: THREE.AdditiveBlending });
+    const ray1 = new THREE.Mesh(new THREE.PlaneGeometry(1.6,1.6), rayMat); ray1.position.y = 1.1; g.add(ray1);
+    const ray2 = new THREE.Mesh(new THREE.PlaneGeometry(1.6,1.6), rayMat); ray2.rotation.y = Math.PI/2; ray2.position.y = 1.1; g.add(ray2);
+    // Orbiting particles
+    const partGeom = new THREE.SphereGeometry(0.02, 6, 6);
+    const partMat = new THREE.MeshBasicMaterial({ color: cyan });
+    const particles = [];
+    for (let i=0;i<24;i++){
+        const p = new THREE.Mesh(partGeom, partMat);
+        p.position.set(Math.sin(i)*0.6, 1.1 + (i%3)*0.05, Math.cos(i)*0.6);
+        g.add(p); particles.push(p);
+    }
+    // Pulse animation hook
+    g.userData.animate = (tt)=>{
+        const s = 1.0 + Math.sin(tt*4.0)*0.06;
+        core.scale.setScalar(s);
+        ray1.material.opacity = 0.12 + (Math.sin(tt*4.0)*0.06+0.06);
+        ray2.material.opacity = ray1.material.opacity;
+        for (let i=0;i<particles.length;i++){
+            const p = particles[i];
+            const a = tt*0.8 + i*0.25;
+            p.position.x = Math.cos(a)*0.6;
+            p.position.z = Math.sin(a)*0.6;
+        }
+    };
+    // Light and glow effect
+    const light = new THREE.PointLight(cyan, 1.4, 8); light.position.y = 1.1; g.add(light);
+    return g;
+}
+const spiritLens = createSpiritLens();
+spiritLens.position.set(0,0,-2.5);
+scene.add(spiritLens);
+
     // Phase 7: visual-only portal markers
     function createPortal(color){
         const g = new THREE.Group();
@@ -531,12 +594,14 @@ scene.add(warehouse);
 
 	function animate(t){
 		const tt = t * 0.001;
-        // Align player orientation with camera yaw (third-person over-the-back)
+		// Align player orientation with camera yaw (third-person over-the-back)
         try { player.rotation.y = yaw; } catch {}
         // Ensure feet rest exactly on the floor when near ground
         if (Math.abs(player.position.y - groundY) < 0.001 && Math.abs(velY) < 0.001) {
             player.position.y = groundY;
         }
+		// Spirit Lens pulse/particles
+		try { spiritLens.userData.animate(tt); } catch {}
 		// Apply jump/gravity
 		if (player.position.y > groundY || velY > 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
