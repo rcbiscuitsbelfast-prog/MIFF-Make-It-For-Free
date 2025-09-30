@@ -78,7 +78,9 @@ const minCameraRadius = 2.0, maxCameraRadius = 12.0;
 function updateCamera(){
     yaw += (targetYaw - yaw) * damping;
     pitch += (targetPitch - pitch) * damping;
+    // Hide player in first-person to avoid obstructing view
     if (isFirstPerson) {
+        try { player.visible = false; } catch {}
         // First-person: camera at head height
         const headY = 1.5;
         const dirX = Math.sin(yaw) * Math.cos(pitch);
@@ -87,6 +89,7 @@ function updateCamera(){
         camera.position.set(player.position.x, player.position.y + headY, player.position.z);
         camera.lookAt(player.position.x + dirX, player.position.y + headY + dirY, player.position.z + dirZ);
     } else {
+        try { player.visible = true; } catch {}
         // Keep camera BEHIND player based on yaw/pitch; look over-the-shoulder
         const r = cameraRadius;
         const offX = -Math.sin(yaw) * Math.cos(pitch) * r;
@@ -621,7 +624,8 @@ scene.add(spiritLens);
             const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
             // Yaw-based basis; adjust signs per view to match expected directions
             let fwdX = Math.sin(yaw), fwdZ = Math.cos(yaw);
-            let rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
+            // Fix left/right reversal: invert right vector
+            let rightX = -Math.cos(yaw), rightZ = Math.sin(yaw);
     if (isFirstPerson) {
         // First person keeps same basis
     } else {
