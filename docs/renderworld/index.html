@@ -205,85 +205,50 @@ const warehouseLights = createWarehouseLighting();
 			emissiveIntensity: 0.1
 		});
 		
-		// Head - rounded cube
-		const head = new THREE.Mesh(
-			new THREE.BoxGeometry(0.3, 0.3, 0.3),
-			playerMaterial
-		);
-		head.position.set(0, 1.5, 0);
+		// Build from feet up; origin at feet on ground
+		// Feet - minimal wedges resting on y=0
+		const leftFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), playerMaterial);
+		leftFoot.position.set(-0.1, 0.03, 0.05);
+		playerGroup.add(leftFoot);
+		const rightFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), playerMaterial);
+		rightFoot.position.set(0.1, 0.03, 0.05);
+		playerGroup.add(rightFoot);
+
+		// Legs - rectangular prisms for clean geometry
+		const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), playerMaterial);
+		leftLeg.position.set(-0.1, 0.33, 0);
+		playerGroup.add(leftLeg);
+		const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), playerMaterial);
+		rightLeg.position.set(0.1, 0.33, 0);
+		playerGroup.add(rightLeg);
+
+		// Torso - tapered box
+		const torso = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.65, 0.22), playerMaterial);
+		torso.position.set(0, 0.85, 0);
+		playerGroup.add(torso);
+
+		// Arms - clean extruded boxes in idle pose
+		const leftArm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.5, 0.12), playerMaterial);
+		leftArm.position.set(-0.31, 0.95, 0);
+		playerGroup.add(leftArm);
+		const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.5, 0.12), playerMaterial);
+		rightArm.position.set(0.31, 0.95, 0);
+		playerGroup.add(rightArm);
+
+		// Hands - minimal blocks
+		const leftHand = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.10, 0.10), playerMaterial);
+		leftHand.position.set(-0.31, 0.65, 0);
+		playerGroup.add(leftHand);
+		const rightHand = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.10, 0.10), playerMaterial);
+		rightHand.position.set(0.31, 0.65, 0);
+		playerGroup.add(rightHand);
+
+		// Head - rounded cube/capsule proxy
+		const head = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.32, 0.3), playerMaterial);
+		head.position.set(0, 1.3, 0);
 		playerGroup.add(head);
 		
-		// Torso - tapered rectangular prism
-		const torso = new THREE.Mesh(
-			new THREE.BoxGeometry(0.4, 0.6, 0.2),
-			playerMaterial
-		);
-		torso.position.set(0, 1.0, 0);
-		playerGroup.add(torso);
-		
-		// Arms - cylinders angled outward
-		const leftArm = new THREE.Mesh(
-			new THREE.CylinderGeometry(0.05, 0.05, 0.5, 6),
-			playerMaterial
-		);
-		leftArm.position.set(-0.25, 1.1, 0);
-		leftArm.rotation.z = 0.2;
-		playerGroup.add(leftArm);
-		
-		const rightArm = new THREE.Mesh(
-			new THREE.CylinderGeometry(0.05, 0.05, 0.5, 6),
-			playerMaterial
-		);
-		rightArm.position.set(0.25, 1.1, 0);
-		rightArm.rotation.z = -0.2;
-		playerGroup.add(rightArm);
-		
-		// Legs - straight cylinders
-		const leftLeg = new THREE.Mesh(
-			new THREE.CylinderGeometry(0.06, 0.06, 0.6, 6),
-			playerMaterial
-		);
-		leftLeg.position.set(-0.1, 0.2, 0);
-		playerGroup.add(leftLeg);
-		
-		const rightLeg = new THREE.Mesh(
-			new THREE.CylinderGeometry(0.06, 0.06, 0.6, 6),
-			playerMaterial
-		);
-		rightLeg.position.set(0.1, 0.2, 0);
-		playerGroup.add(rightLeg);
-		
-		// Hands - minimal blocks
-		const leftHand = new THREE.Mesh(
-			new THREE.BoxGeometry(0.08, 0.08, 0.08),
-			playerMaterial
-		);
-		leftHand.position.set(-0.4, 0.8, 0);
-		playerGroup.add(leftHand);
-		
-		const rightHand = new THREE.Mesh(
-			new THREE.BoxGeometry(0.08, 0.08, 0.08),
-			playerMaterial
-		);
-		rightHand.position.set(0.4, 0.8, 0);
-		playerGroup.add(rightHand);
-		
-		// Feet - minimal wedges
-		const leftFoot = new THREE.Mesh(
-			new THREE.BoxGeometry(0.12, 0.06, 0.2),
-			playerMaterial
-		);
-		leftFoot.position.set(-0.1, -0.1, 0.05);
-		playerGroup.add(leftFoot);
-		
-		const rightFoot = new THREE.Mesh(
-			new THREE.BoxGeometry(0.12, 0.06, 0.2),
-			playerMaterial
-		);
-		rightFoot.position.set(0.1, -0.1, 0.05);
-		playerGroup.add(rightFoot);
-		
-		// Set up player group properties
+		// Set up player group properties; feet at y=0
 		playerGroup.position.set(0, 0, 0);
 		playerGroup.userData = { type: 'player' };
 		
@@ -291,13 +256,14 @@ const warehouseLights = createWarehouseLighting();
 	}
 	
 	const player = createPlayerCharacter();
+	player.position.set(0, 0, 2); // Spawn clear of pillars
 	scene.add(player);
 
 	// Phase 5: movement state
 	const move = { x: 0, z: 0 };
 	const moveSpeed = 1.8; // m/s
 	// Simple jump physics
-	let velY = 0; const gravity = -9.8; const groundY = 0.3;
+	let velY = 0; const gravity = -9.8; const groundY = 0.0;
 
 // Phase 7: Warehouse Environment - Massive brutalist warehouse
 function createWarehouseEnvironment() {
@@ -565,11 +531,7 @@ scene.add(warehouse);
 
 	function animate(t){
 		const tt = t * 0.001;
-		player.rotation.y = tt * 0.8;
-        // Bob only when grounded and not moving upward
-        if (Math.abs(velY) < 0.0001 && Math.abs(player.position.y - groundY) < 0.02) {
-            player.position.y = groundY + Math.sin(tt * 2.0) * 0.06;
-        }
+		// Disable idle auto-rotation and bobbing
 		// Apply jump/gravity
 		if (player.position.y > groundY || velY > 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
@@ -603,6 +565,16 @@ scene.add(warehouse);
             const nextX = player.position.x + worldX * moveSpeed * dt;
             const nextZ = player.position.z + worldZ * moveSpeed * dt;
             function blocked(x,z){
+                // Add pillar colliders as solid cylinders
+                const pillarBlocks = [
+                    [-8, -6], [0, -6], [8, -6],
+                    [-8, 0], [0, 0], [8, 0],
+                    [-8, 6], [0, 6], [8, 6]
+                ];
+                for (const [px,pz] of pillarBlocks){
+                    const dx = x - px; const dz = z - pz;
+                    if (Math.hypot(dx,dz) < 0.5) return true;
+                }
                 for (const { node, radius } of [...portalColliders, ...npcColliders]){
                     const dx = x - node.position.x; const dz = z - node.position.z;
                     if (Math.hypot(dx,dz) < radius) return true;
