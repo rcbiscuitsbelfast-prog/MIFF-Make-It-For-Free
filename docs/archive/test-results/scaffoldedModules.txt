@@ -1,0 +1,3 @@
+CombatPure
+StatusEffectsPure
+AIPure
