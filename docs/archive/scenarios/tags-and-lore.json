@@ -1,6 +1,3 @@
-// tags-and-lore.json
-// Tags and mythic fragments for MIFF scenarios to aid remixing
-// MIT License, Copyright (c) 2025 MIFF Community
 {
   "tags": {
     "trial-of-forgotten-spirit": ["mystical", "combat", "lore", "exploration"],
