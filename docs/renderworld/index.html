@@ -516,18 +516,60 @@ scene.add(spiritLens);
         const ringOutline = new THREE.Mesh(new THREE.RingGeometry(0.60, 0.70, 32), matOutline);
         ringOutline.rotation.x = -Math.PI/2; ringOutline.position.y = 0.025; ringOutline.visible = false; g.add(ringOutline);
         frameOutline.renderOrder = 999; ringOutline.renderOrder = 999;
+        // Decorative arch
+        const archMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, roughness: 0.8, metalness: 0.1 });
+        const archLeft = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.4, 0.15), archMat); archLeft.position.set(-0.6,1.2,0); g.add(archLeft);
+        const archRight = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.4, 0.15), archMat); archRight.position.set(0.6,1.2,0); g.add(archRight);
+        const archTop = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.15, 0.15), archMat); archTop.position.set(0,2.35,0); g.add(archTop);
+        // Particles container
+        const parts = new THREE.Group(); g.add(parts);
+        // Animate
         g.userData.highlight = (on)=>{
             const inten = on ? 1.0 : 0.6;
             matGlow.opacity = inten; matRing.opacity = inten; matPlane.opacity = on ? 0.45 : 0.28;
             light.intensity = on ? 1.8 : 0.9;
             frameOutline.visible = on; ringOutline.visible = on;
         };
+        g.userData.animate = (tt)=>{
+            // Base pulse
+            const pulse = 0.9 + Math.sin(tt * 2.5) * 0.1;
+            plane.scale.set(pulse, pulse, 1);
+            // Kind-specific VFX
+            if (g.userData.kind === 'electric') {
+                // flicker
+                matPlane.opacity = 0.25 + (Math.random()*0.15);
+                // electric motes
+                if (parts.children.length < 20) {
+                    const s = new THREE.Mesh(new THREE.SphereGeometry(0.02,6,6), new THREE.MeshBasicMaterial({ color }));
+                    s.position.set((Math.random()-0.5)*1.2, 0.6 + Math.random()*1.0, (Math.random()-0.5)*0.1);
+                    parts.add(s);
+                }
+                parts.children.forEach((c)=>{ c.position.y += 0.01; if (c.position.y > 1.6) c.position.y = 0.6; });
+            } else if (g.userData.kind === 'steam') {
+                // green shimmer
+                plane.scale.y = 1.0 + Math.sin(tt*3.0)*0.05;
+                if (parts.children.length < 14) {
+                    const p = new THREE.Mesh(new THREE.PlaneGeometry(0.08,0.18), new THREE.MeshBasicMaterial({ color, transparent:true, opacity:0.25 }));
+                    p.position.set((Math.random()-0.5)*0.8, 0.4, (Math.random()-0.5)*0.05);
+                    parts.add(p);
+                }
+                parts.children.forEach((c)=>{ c.position.y += 0.008; c.material.opacity = 0.15 + Math.random()*0.2; if (c.position.y>1.6){ c.position.y = 0.4; }});
+            } else if (g.userData.kind === 'ember') {
+                // embers drift
+                if (parts.children.length < 16) {
+                    const e = new THREE.Mesh(new THREE.SphereGeometry(0.015,5,5), new THREE.MeshBasicMaterial({ color }));
+                    e.position.set((Math.random()-0.5)*0.6, 0.5 + Math.random()*1.2, (Math.random()-0.5)*0.2);
+                    parts.add(e);
+                }
+                parts.children.forEach((c,i)=>{ c.position.y += 0.004 + (i%3)*0.001; c.position.x += Math.sin(tt*1.5 + i)*0.0008; if (c.position.y>1.8){ c.position.y = 0.5; }});
+            }
+        };
         return g;
     }
     // Position portals within warehouse space
-    const p1 = createPortal(0x44aaff); p1.position.set(-8, 0, -8); p1.userData = { label: 'Spirit Tamer' }; scene.add(p1);
-    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -8); p2.userData = { label: 'Toppler' }; scene.add(p2);
-    const p3 = createPortal(0xff6688); p3.position.set( 8, 0, -8); p3.userData = { label: 'Witcher Grove' }; scene.add(p3);
+    const p1 = createPortal(0x44aaff); p1.position.set(-8, 0, -8); p1.userData = { label: 'Spirit Tamer', kind: 'electric' }; scene.add(p1);
+    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -8); p2.userData = { label: 'Toppler', kind: 'steam' }; scene.add(p2);
+    const p3 = createPortal(0xff6688); p3.position.set( 8, 0, -8); p3.userData = { label: 'Witcher Grove', kind: 'ember' }; scene.add(p3);
     const portalColliders = [
         { node: p1, radius: 0.9 },
         { node: p2, radius: 0.9 },
@@ -558,6 +600,14 @@ scene.add(spiritLens);
         bodyO.renderOrder = 999; headO.renderOrder = 999;
         g.userData = { label };
         g.userData.highlight = (on)=>{ mat.emissive.setHex(on ? 0x224444 : 0x000000); mat.emissiveIntensity = on ? 0.6 : 0.0; bodyO.visible = on; headO.visible = on; };
+        // Simple AI behavior per label
+        if (/Explorer/i.test(label)) {
+            g.userData.ai = { t: 0, mode: 'scan', origin: new THREE.Vector3() };
+        } else if (/Guide/i.test(label)) {
+            g.userData.ai = { t: 0, mode: 'gesture' };
+        } else if (/Mystic/i.test(label)) {
+            g.userData.ai = { t: 0, mode: 'float' };
+        }
         return g;
     }
     // Position NPCs within warehouse space
@@ -606,6 +656,8 @@ scene.add(spiritLens);
         }
 		// Spirit Lens pulse/particles
 		try { spiritLens.userData.animate(tt); } catch {}
+		// Animate portals VFX
+		try { p1.userData.animate(tt); p2.userData.animate(tt); p3.userData.animate(tt); } catch {}
 		// Apply jump/gravity
 		if (player.position.y > groundY || velY > 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
@@ -702,6 +754,25 @@ scene.add(spiritLens);
             // Update NPC click collider positions
             for (let i = 0; i < npcClickColliders.length; i++) {
                 npcClickColliders[i].position.copy([npc1,npc2,npc3][i].position);
+            }
+            // NPC AI updates
+            const aiNpcs = [npc1,npc2,npc3];
+            for (const n of aiNpcs){
+                const ai = n.userData.ai; if (!ai) continue; ai.t = (ai.t||0) + 0.016;
+                if (ai.mode === 'scan') {
+                    // Explorer: slowly walks between portals
+                    const path = [p1.position, p2.position, p3.position];
+                    const idx = Math.floor((tt*0.1)%3);
+                    const target = path[idx];
+                    const dirx = target.x - n.position.x; const dirz = target.z - n.position.z; const d = Math.hypot(dirx, dirz);
+                    if (d > 0.2){ n.position.x += (dirx/d)*0.02; n.position.z += (dirz/d)*0.02; }
+                } else if (ai.mode === 'gesture') {
+                    // Guide: nod/tilt head periodically
+                    head.rotation.x = Math.sin(tt*2.0) * 0.15;
+                } else if (ai.mode === 'float') {
+                    // Mystic: hover up/down, slight lateral drift
+                    n.position.y = Math.sin(tt*1.5)*0.05;
+                }
             }
 			// Update labels: project each portal to screen
 			const labels = [ [p1,l1], [p2,l2], [p3,l3] ];
