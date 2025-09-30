@@ -85,12 +85,12 @@ function updateCamera(){
         camera.position.set(cube.position.x, cube.position.y + eyeY, cube.position.z);
         camera.lookAt(cube.position.x + dirX, cube.position.y + eyeY + dirY, cube.position.z + dirZ);
     } else {
-        // Keep camera BEHIND player based on yaw/pitch
+        // Keep camera BEHIND player based on yaw/pitch; look over-the-shoulder
         const offX = -Math.sin(yaw) * Math.cos(pitch) * radius;
-        const offY = Math.sin(pitch) * radius + 1.2;
+        const offY = 1.4 + Math.sin(pitch) * radius; // slightly above head
         const offZ = -Math.cos(yaw) * Math.cos(pitch) * radius;
         camera.position.set(player.position.x + offX, player.position.y + offY, player.position.z + offZ);
-        camera.lookAt(player.position.x, player.position.y + 0.3, player.position.z);
+        camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z);
     }
 }
 
@@ -531,7 +531,12 @@ scene.add(warehouse);
 
 	function animate(t){
 		const tt = t * 0.001;
-		// Disable idle auto-rotation and bobbing
+        // Align player orientation with camera yaw (third-person over-the-back)
+        try { player.rotation.y = yaw; } catch {}
+        // Ensure feet rest exactly on the floor when near ground
+        if (Math.abs(player.position.y - groundY) < 0.001 && Math.abs(velY) < 0.001) {
+            player.position.y = groundY;
+        }
 		// Apply jump/gravity
 		if (player.position.y > groundY || velY > 0) {
 			const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
@@ -552,13 +557,11 @@ scene.add(warehouse);
             // Yaw-based basis; adjust signs per view to match expected directions
             let fwdX = Math.sin(yaw), fwdZ = Math.cos(yaw);
             let rightX = Math.cos(yaw), rightZ = -Math.sin(yaw);
-            if (isFirstPerson) {
-                // FP OK with flipped right previously; keep FP L/R correction only
-                rightX = -rightX; rightZ = -rightZ;
-            } else {
-                // TP: flip right to correct strafing direction
-                rightX = -rightX; rightZ = -rightZ;
-            }
+    if (isFirstPerson) {
+        // First person keeps same basis
+    } else {
+        // In third person, player should move relative to camera but face forward
+    }
             const worldX = rightX * move.x + fwdX * move.z;
             const worldZ = rightZ * move.x + fwdZ * move.z;
             // Attempt move; prevent walking through simple radial colliders
