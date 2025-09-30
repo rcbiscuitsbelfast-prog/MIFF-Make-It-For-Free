@@ -624,8 +624,9 @@ scene.add(spiritLens);
             const dt = (animate._lastFrame ? (t - animate._lastFrame) : 16.6) / 1000;
             // Yaw-based basis; adjust signs per view to match expected directions
             let fwdX = Math.sin(yaw), fwdZ = Math.cos(yaw);
-            // Fix left/right reversal: invert right vector
-            let rightX = -Math.cos(yaw), rightZ = Math.sin(yaw);
+            // Right vector: use standard for 1st person; inverted for 3rd person (to preserve prior fix)
+            let rightX = isFirstPerson ? Math.cos(yaw) : -Math.cos(yaw);
+            let rightZ = isFirstPerson ? -Math.sin(yaw) : Math.sin(yaw);
     if (isFirstPerson) {
         // First person keeps same basis
     } else {
