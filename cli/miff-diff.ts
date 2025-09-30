@@ -41,4 +41,4 @@ function main(){
 	const diff:Diff = { op:'diff', status:'ok', events: diffEvents(le,re), finalState: diffObjects(lf,rf) };
 	console.log(JSON.stringify({ outputs:[diff] }, null, 2));
 }
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

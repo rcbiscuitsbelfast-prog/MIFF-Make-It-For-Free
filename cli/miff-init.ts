@@ -41,4 +41,4 @@ test('golden init scenario', () => {
 	fs.writeFileSync(path.join(dir,'tests','goldenScenario.test.ts'), test);
 	console.log(`Initialized ${name} with ${template} template.`);
 }
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

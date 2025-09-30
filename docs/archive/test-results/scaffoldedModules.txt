@@ -1,3 +1,4 @@
-CombatPure
-StatusEffectsPure
-AIPure
+LocationPure
+EventBusPure
+miff/miff/pure/RhythmSystemPure/fixtures/beatmap.json
+miff/pure/WorldManifestPure/fixtures/sample_world.json

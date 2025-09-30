@@ -1,0 +1,111 @@
+# Witcher Grove Demo Test Report
+Generated: 2025-09-30T22:36:02.668Z
+
+## Test Summary
+- Status: FAIL
+- Modules: QuestsPure, NPCsPure, LocationPure, EventBusPure
+- Real Modules: QuestsPure, NPCsPure
+- Scaffolded Modules: LocationPure, EventBusPure
+
+## Commands Executed
+- npx tsx /workspace/miff/pure/QuestsPure/cliHarness.ts
+- npx tsx /workspace/miff/pure/NPCsPure/cliHarness.ts
+- npx tsx /workspace/miff/pure/LocationPure/cliHarness.ts
+- npx tsx /workspace/miff/pure/EventBusPure/cliHarness.ts
+- node cli/test-cli.cjs --demo toppler
+- npx tsx cli/quest.ts --help
+- npx tsx cli/dialogue.ts --help
+
+## Output
+```
+QuestsPure: {
+  "op": "help",
+  "status": "ok",
+  "result": {
+    "availableCommands": [
+      "create --quest-i...
+
+NPCsPure: {
+  "op": "help",
+  "status": "ok",
+  "result": {
+    "availableCommands": [
+      "create --npc-id=...
+
+[2025-09-30T22:35:56.516Z] [INFO] 🚀 Starting MIFF CLI Test Suite
+[2025-09-30T22:35:56.523Z] [INFO] ================================
+
+[2025-09-30T22:35:56.523Z] [INFO] 🧪 Running test: Basic CLI Structure
+[2025-09-30T22:35:56.524Z] [INFO] 🔍 Testing CLI basic structure...
+[2025-09-30T22:35:56.524Z] [SUCCESS] ✅ PASSED: Basic CLI Structure
+[2025-09-30T22:35:56.524Z] [INFO] 🧪 Running test: Help Command
+[2025-09-30T22:35:56.524Z] [INFO] 🔍 Testing CLI help command...
+[2025-09-30T22:35:56.631Z] [SUCCESS] ✅ PASSED: Help Command
+[2025-09-30T22:35:56.631Z] [INFO] 🧪 Running test: Project Commands
+[2025-09-30T22:35:56.632Z] [INFO] 🔍 Testing project commands...
+[2025-09-30T22:35:56.748Z] [INFO]    📋 project command responded
+[2025-09-30T22:35:56.864Z] [INFO]    📋 module command responded
+[2025-09-30T22:35:56.981Z] [INFO]    📋 export command responded
+[2025-09-30T22:35:57.096Z] [INFO]    📋 demo command responded
+[2025-09-30T22:35:57.210Z] [INFO]    📋 debug command responded
+[2025-09-30T22:35:57.323Z] [INFO]    📋 profile command responded
+[2025-09-30T22:35:57.436Z] [INFO]    📋 optimize command responded
+[2025-09-30T22:35:57.436Z] [SUCCESS] ✅ PASSED: Project Commands
+[2025-09-30T22:35:57.436Z] [INFO] 🧪 Running test: Module Information
+[2025-09-30T22:35:57.436Z] [INFO] 🔍 Testing module information...
+[2025-09-30T22:35:57.556Z] [SUCCESS] ✅ PASSED: Module Information
+[2025-09-30T22:35:57.557Z] [INFO] 🧪 Running test: Export Commands
+[2025-09-30T22:35:57.557Z] [INFO] 🔍 Testing export command structure...
+[2025-09-30T22:35:57.668Z] [INFO]    🚀 unity export command structure OK
+[2025-09-30T22:35:57.758Z] [INFO]    🚀 godot export command structure OK
+[2025-09-30T22:35:57.891Z] [INFO]    🚀 web export command structure OK
+[2025-09-30T22:35:57.982Z] [INFO]    🚀 android export command structure OK
+[2025-09-30T22:35:57.982Z] [SUCCESS] ✅ PASSED: Export Commands
+[2025-09-30T22:35:57.982Z] [INFO] 🧪 Running test: Error Handling
+[2025-09-30T22:35:57.983Z] [INFO] 🔍 Testing error handling...
+[2025-09-30T22:35:58.163Z] [INFO]    ✅ Error handling works correctly
+[2025-09-30T22:35:58.163Z] [SUCCESS] ✅ PASSED: Error Handling
+[2025-09-30T22:35:58.163Z] [INFO] 🧪 Running test: Demo Integration
+[2025-09-30T22:35:58.164Z] [INFO] 🔍 Testing CLI demo integration...
+[2025-09-30T22:35:58.164Z] [INFO]    📁 Found 7 demo projects
+[2025-09-30T22:35:58.164Z] [SUCCESS] ✅ PASSED: Demo Integration
+[2025-09-30T22:35:58.164Z] [INFO] 
+================================
+[2025-09-30T22:35:58.164Z] [INFO] 🧪 CLI Test Suite Complete
+[2025-09-30T22:35:58.164Z] [INFO] 📊 Results: 7/7 passed
+[2025-09-30T22:35:58.164Z] [SUCCESS] ✅ All tests passed!
+[2025-09-30T22:35:58.165Z] [INFO] 📋 Test report generated: cli-test-report.json
+
+Usage: npx ts-node cli/quest.ts <quest-file>
+       npx tsx cli/quest.ts <quest-file>
+
+Command failed: npx tsx cli/dialogue.ts --help
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'commander' imported from /workspace/cli/commands/dialogue.ts
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:854:18)
+    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at nextResolve (node:internal/modules/esm/hooks:748:28)
+    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759271762288:2:3744)
+    at resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759271762288:2:4243)
+    at resolveTsPaths (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759271762288:2:4984)
+    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759271762288:2:5355)
+    at async nextResolve (node:internal/modules/esm/hooks:748:22) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v22.16.0
+
+```
+
+## Errors
+- LocationPure: No CLI harness
+- EventBusPure: CLI failed
+- Command failed: npx tsx cli/dialogue.ts --help
+
+## Warnings
+None

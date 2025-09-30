@@ -1,1 +1,9 @@
+CombatPure
+ItemsPure
+TeamsPure
+StatusEffectsPure
+AIPure
+RenderWorldPure
+WebSocketBridgePure
 ExportPipelinePure
+WebBridgePure

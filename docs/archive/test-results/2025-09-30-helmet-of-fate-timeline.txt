@@ -1,0 +1,64 @@
+# helmet_of_fate.timeline Test Report
+Generated: 2025-09-30T22:36:04.322Z
+
+## Test Summary
+- Status: PASS
+- Modules: 
+- Real Modules: 
+- Scaffolded Modules: 
+
+## Commands Executed
+- node cli/test-cli.cjs --demo toppler
+
+## Output
+```
+[2025-09-30T22:36:02.742Z] [INFO] 🚀 Starting MIFF CLI Test Suite
+[2025-09-30T22:36:02.745Z] [INFO] ================================
+
+[2025-09-30T22:36:02.745Z] [INFO] 🧪 Running test: Basic CLI Structure
+[2025-09-30T22:36:02.745Z] [INFO] 🔍 Testing CLI basic structure...
+[2025-09-30T22:36:02.745Z] [SUCCESS] ✅ PASSED: Basic CLI Structure
+[2025-09-30T22:36:02.745Z] [INFO] 🧪 Running test: Help Command
+[2025-09-30T22:36:02.746Z] [INFO] 🔍 Testing CLI help command...
+[2025-09-30T22:36:02.896Z] [SUCCESS] ✅ PASSED: Help Command
+[2025-09-30T22:36:02.896Z] [INFO] 🧪 Running test: Project Commands
+[2025-09-30T22:36:02.897Z] [INFO] 🔍 Testing project commands...
+[2025-09-30T22:36:03.010Z] [INFO]    📋 project command responded
+[2025-09-30T22:36:03.118Z] [INFO]    📋 module command responded
+[2025-09-30T22:36:03.206Z] [INFO]    📋 export command responded
+[2025-09-30T22:36:03.294Z] [INFO]    📋 demo command responded
+[2025-09-30T22:36:03.408Z] [INFO]    📋 debug command responded
+[2025-09-30T22:36:03.531Z] [INFO]    📋 profile command responded
+[2025-09-30T22:36:03.632Z] [INFO]    📋 optimize command responded
+[2025-09-30T22:36:03.632Z] [SUCCESS] ✅ PASSED: Project Commands
+[2025-09-30T22:36:03.632Z] [INFO] 🧪 Running test: Module Information
+[2025-09-30T22:36:03.632Z] [INFO] 🔍 Testing module information...
+[2025-09-30T22:36:03.737Z] [SUCCESS] ✅ PASSED: Module Information
+[2025-09-30T22:36:03.737Z] [INFO] 🧪 Running test: Export Commands
+[2025-09-30T22:36:03.737Z] [INFO] 🔍 Testing export command structure...
+[2025-09-30T22:36:03.857Z] [INFO]    🚀 unity export command structure OK
+[2025-09-30T22:36:03.968Z] [INFO]    🚀 godot export command structure OK
+[2025-09-30T22:36:04.041Z] [INFO]    🚀 web export command structure OK
+[2025-09-30T22:36:04.155Z] [INFO]    🚀 android export command structure OK
+[2025-09-30T22:36:04.156Z] [SUCCESS] ✅ PASSED: Export Commands
+[2025-09-30T22:36:04.156Z] [INFO] 🧪 Running test: Error Handling
+[2025-09-30T22:36:04.156Z] [INFO] 🔍 Testing error handling...
+[2025-09-30T22:36:04.261Z] [INFO]    ✅ Error handling works correctly
+[2025-09-30T22:36:04.262Z] [SUCCESS] ✅ PASSED: Error Handling
+[2025-09-30T22:36:04.262Z] [INFO] 🧪 Running test: Demo Integration
+[2025-09-30T22:36:04.262Z] [INFO] 🔍 Testing CLI demo integration...
+[2025-09-30T22:36:04.262Z] [INFO]    📁 Found 7 demo projects
+[2025-09-30T22:36:04.262Z] [SUCCESS] ✅ PASSED: Demo Integration
+[2025-09-30T22:36:04.262Z] [INFO] 
+================================
+[2025-09-30T22:36:04.262Z] [INFO] 🧪 CLI Test Suite Complete
+[2025-09-30T22:36:04.262Z] [INFO] 📊 Results: 7/7 passed
+[2025-09-30T22:36:04.262Z] [SUCCESS] ✅ All tests passed!
+[2025-09-30T22:36:04.263Z] [INFO] 📋 Test report generated: cli-test-report.json
+```
+
+## Errors
+None
+
+## Warnings
+None

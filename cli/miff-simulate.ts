@@ -37,4 +37,4 @@ function main(){
 	if(args.verbose) console.error(`[miff-simulate] ${out.status} ${out.op}`);
 	console.log(JSON.stringify({ outputs:[out] }, null, 2));
 }
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();

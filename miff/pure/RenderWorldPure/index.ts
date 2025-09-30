@@ -66,7 +66,9 @@ import {
 } from '../AvatarSystemPure';
 
 import {
-  DialogueSystemPure
+  nextNode,
+  type Node,
+  type Dialogue
 } from '../DialogueSystemPure';
 
 interface RenderWorldGameState {
@@ -176,7 +178,10 @@ export class RenderWorldPure {
     hud: HUDManager;
     scene: SceneBuilderPure;
     avatar: AvatarSystemPure;
-    dialogue: DialogueSystemPure;
+    dialogue: {
+      nextNode: typeof nextNode;
+      currentDialogue?: Dialogue;
+    };
   };
   private lastTime: number = 0;
   private frameCount: number = 0;
@@ -318,7 +323,10 @@ export class RenderWorldPure {
       hud: new HUDManager(),
       scene: new SceneBuilderPure(),
       avatar: new AvatarSystemPure(),
-      dialogue: new DialogueSystemPure()
+      dialogue: {
+        nextNode: nextNode,
+        currentDialogue: undefined
+      }
     };
   }
 
@@ -1060,7 +1068,7 @@ export class RenderWorldPure {
         'AIPure',
         'HUDPure',
         'AvatarSystemPure',
-        'DialogueSystemPure',
+        'DialogueSystemPure (nextNode, Dialogue)',
         'CombatPure',
         'TeamsPure',
         'QuestsPure'

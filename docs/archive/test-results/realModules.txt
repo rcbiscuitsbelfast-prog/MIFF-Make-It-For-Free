@@ -1,5 +1,2 @@
-ItemsPure
-TeamsPure
-RenderWorldPure
-WebSocketBridgePure
-WebBridgePure
+QuestsPure
+NPCsPure

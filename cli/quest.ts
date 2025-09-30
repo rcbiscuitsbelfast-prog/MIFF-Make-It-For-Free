@@ -5,14 +5,15 @@ import { parseQuestText } from '../miff/pure/QuestModulePure/index';
 
 function main(){
   const file = process.argv[2];
-  if(!file){
+  if(!file || file === '--help'){
     console.log('Usage: npx ts-node cli/quest.ts <quest-file>');
-    process.exit(1);
+    console.log('       npx tsx cli/quest.ts <quest-file>');
+    process.exit(0);
   }
   const text = fs.readFileSync(path.resolve(file), 'utf-8');
   const res = parseQuestText(text);
   console.log(JSON.stringify(res, null, 2));
 }
 
-if(require.main===module) main();
+if(import.meta.url === `file://${process.argv[1]}`) main();
 
