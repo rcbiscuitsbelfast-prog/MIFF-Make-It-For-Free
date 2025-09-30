@@ -1,0 +1,205 @@
+# MIFF CLI Audit Report
+Generated: 2025-01-28T22:40:00Z
+
+## Executive Summary
+
+This report documents the comprehensive audit of all CLI commands in the /cli/ folder, identifying placeholders, missing implementations, and providing fixes where possible.
+
+## CLI Commands Audited: 15
+
+### ✅ WORKING CLI COMMANDS (8)
+
+**1. test-cli.cjs**
+- Status: ✅ WORKING
+- Functionality: Demo system, help system, error handling
+- Test Result: `node cli/test-cli.cjs --demo toppler` - SUCCESS
+- Notes: Fully functional CommonJS CLI
+
+**2. miff-cli-compiled.js**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Main CLI entry point with fallback handling
+- Test Result: `node cli/miff-cli-compiled.js help` - SUCCESS
+- Fixes Applied: Fixed ES module syntax, try-catch structure
+- Notes: Now properly handles ES modules and provides fallback
+
+**3. quest.ts**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Quest parsing and validation
+- Test Result: `npx tsx cli/quest.ts --help` - SUCCESS
+- Fixes Applied: Fixed ES module detection, added --help handling
+- Notes: Properly handles missing files and help requests
+
+**4. miff-init.ts**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Project initialization
+- Test Result: `npx tsx cli/miff-init.ts` - SUCCESS
+- Fixes Applied: Fixed ES module detection
+- Notes: Creates project templates and test files
+
+**5. miff-diff.ts**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Scenario diff comparison
+- Test Result: `npx tsx cli/miff-diff.ts` - SUCCESS
+- Fixes Applied: Fixed ES module detection
+- Notes: Compares scenario outputs and states
+
+**6. miff-simulate.ts**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Scenario simulation
+- Test Result: `npx tsx cli/miff-simulate.ts` - SUCCESS
+- Fixes Applied: Fixed ES module detection
+- Notes: Simulates scenario execution with seed support
+
+**7. profile.ts**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Performance profiling
+- Test Result: `npx tsx cli/profile.ts` - SUCCESS
+- Fixes Applied: Fixed ES module detection
+- Notes: Profiles simulation and rendering performance
+
+**8. manifest.ts**
+- Status: ✅ WORKING (Fixed)
+- Functionality: Project manifest validation
+- Test Result: `npx tsx cli/manifest.ts` - SUCCESS
+- Fixes Applied: Fixed ES module detection
+- Notes: Validates project structure and dependencies
+
+### ⚠️ PARTIALLY WORKING CLI COMMANDS (3)
+
+**9. dialogue.ts (commands/dialogue.ts)**
+- Status: ⚠️ PARTIAL (Missing Dependencies)
+- Functionality: Dialogue system commands (validate, test, run)
+- Test Result: `npx tsx cli/dialogue.ts` - FAILED (Missing commander package)
+- Issues: Requires 'commander' package not installed
+- Recommendation: Install commander package or create fallback implementation
+- Scaffolding Applied: Created symlink from commands/dialogue.ts
+
+**10. miff-export.ts**
+- Status: ⚠️ PARTIAL (Not Tested)
+- Functionality: Export system commands
+- Test Result: Not tested due to dependencies
+- Issues: May have similar dependency issues
+- Recommendation: Test and fix dependencies
+
+**11. miff-server.ts**
+- Status: ⚠️ PARTIAL (Not Tested)
+- Functionality: Server management commands
+- Test Result: Not tested due to dependencies
+- Issues: May have similar dependency issues
+- Recommendation: Test and fix dependencies
+
+### ❌ BROKEN CLI COMMANDS (4)
+
+**12. run-golden-tests.js**
+- Status: ❌ BROKEN (CommonJS in ES Module Environment)
+- Functionality: Golden test execution
+- Test Result: `node cli/run-golden-tests.js` - FAILED
+- Issues: Uses require.main===module in ES module environment
+- Fixes Needed: Convert to ES module syntax or rename to .cjs
+
+**13. validate-remix-mode.js**
+- Status: ❌ BROKEN (CommonJS in ES Module Environment)
+- Functionality: Remix mode validation
+- Test Result: `node cli/validate-remix-mode.js` - FAILED
+- Issues: Uses require.main===module in ES module environment
+- Fixes Needed: Convert to ES module syntax or rename to .cjs
+
+**14. miff-avatar.ts**
+- Status: ❌ BROKEN (Not Tested)
+- Functionality: Avatar system commands
+- Test Result: Not tested
+- Issues: Unknown - needs testing
+- Recommendation: Test and fix issues
+
+**15. miff-pixel.ts**
+- Status: ❌ BROKEN (Not Tested)
+- Functionality: Pixel art commands
+- Test Result: Not tested
+- Issues: Unknown - needs testing
+- Recommendation: Test and fix issues
+
+## CLI Command Categories
+
+### Core Commands (Working)
+- test-cli.cjs - Demo and testing system
+- miff-cli-compiled.js - Main CLI entry point
+- quest.ts - Quest management
+- miff-init.ts - Project initialization
+- miff-diff.ts - Scenario comparison
+- miff-simulate.ts - Scenario simulation
+- profile.ts - Performance profiling
+- manifest.ts - Project validation
+
+### Specialized Commands (Partial/Broken)
+- dialogue.ts - Dialogue system (missing dependencies)
+- miff-export.ts - Export system (untested)
+- miff-server.ts - Server management (untested)
+- miff-avatar.ts - Avatar system (untested)
+- miff-pixel.ts - Pixel art (untested)
+
+### Utility Commands (Broken)
+- run-golden-tests.js - Test execution (ES module issues)
+- validate-remix-mode.js - Validation (ES module issues)
+
+## Fixes Applied
+
+### 1. ES Module Compatibility
+- Fixed `require.main===module` to `import.meta.url === \`file://${process.argv[1]}\`` in 6 files
+- Updated import statements to use ES module syntax
+- Fixed try-catch block structure in miff-cli-compiled.js
+
+### 2. CLI Structure Improvements
+- Fixed quest.ts to handle --help argument properly
+- Created symlink for dialogue.ts CLI command
+- Enhanced error handling and fallback behavior
+
+### 3. Dependencies
+- Identified missing 'commander' package for dialogue.ts
+- Noted potential dependency issues in other specialized commands
+
+## Recommendations
+
+### Immediate Fixes (0-1 days)
+1. Install missing dependencies: `npm install commander`
+2. Convert .js files to .cjs or fix ES module syntax
+3. Test untested CLI commands
+
+### Short-term Improvements (1-3 days)
+1. Add proper error handling to all CLI commands
+2. Implement fallback behavior for missing dependencies
+3. Add comprehensive help text for all commands
+
+### Long-term Enhancements (1-2 weeks)
+1. Create unified CLI testing framework
+2. Add CLI command validation and auto-fixing
+3. Implement CLI command discovery and documentation
+
+## Test Commands Used
+
+```bash
+# Working commands
+node cli/test-cli.cjs --demo toppler
+node cli/miff-cli-compiled.js help
+npx tsx cli/quest.ts --help
+npx tsx cli/miff-init.ts
+npx tsx cli/miff-diff.ts
+npx tsx cli/miff-simulate.ts
+npx tsx cli/profile.ts
+npx tsx cli/manifest.ts
+
+# Failed commands
+npx tsx cli/dialogue.ts
+node cli/run-golden-tests.js
+node cli/validate-remix-mode.js
+```
+
+## Summary
+
+- **Total CLI Commands:** 15
+- **Working:** 8 (53%)
+- **Partially Working:** 3 (20%)
+- **Broken:** 4 (27%)
+- **Fixes Applied:** 6 critical fixes
+- **Dependencies Missing:** 1 (commander package)
+
+The CLI audit reveals a mixed state with core functionality working well but specialized commands needing attention. The ES module compatibility issues have been largely resolved, and the main CLI infrastructure is solid.

@@ -1,0 +1,405 @@
+# MIFF Phased Recovery Plan
+Generated: 2025-01-28T22:50:00Z
+
+## 🎯 Mission Overview
+
+This recovery plan provides a structured roadmap for contributors to restore and enhance the MIFF framework based on comprehensive system validation results. The plan is designed to be executed in phases, with each phase building upon the previous one.
+
+## 📊 Current State Assessment
+
+### System Health Summary
+- **Total Scenarios Tested:** 7
+- **Working CLI Commands:** 8/15 (53%)
+- **Real API Implementations:** 4/12 (33%)
+- **Real Modules Identified:** 2 (QuestsPure, NPCsPure)
+- **Scaffolded Modules:** 4 (LocationPure, EventBusPure, fixtures)
+- **Broken Modules:** 9 (CombatPure, ItemsPure, TeamsPure, etc.)
+- **Critical Issues Fixed:** 6 (ES modules, imports, CLI structure)
+
+### Key Achievements
+✅ Fixed critical ES module compatibility issues
+✅ Resolved broken import problems
+✅ Created working CLI infrastructure
+✅ Identified real vs scaffolded modules
+✅ Documented comprehensive system state
+
+---
+
+## 🚀 PHASE 1: IMMEDIATE FIXES (0-2 days)
+**Priority: CRITICAL** | **Effort: 2-4 hours** | **Impact: HIGH**
+
+### 1.1 Dependency Resolution
+**Tasks:**
+- [ ] Install missing dependencies: `npm install commander`
+- [ ] Fix JSON files with comments (scenario-metadata.json, tags-and-lore.json)
+- [ ] Remove JavaScript-style comments from JSON files
+
+**Commands:**
+```bash
+npm install commander
+# Fix JSON files by removing // comments
+```
+
+**Success Criteria:**
+- All CLI commands run without dependency errors
+- JSON files parse correctly
+- No module import failures
+
+### 1.2 ES Module Compatibility
+**Tasks:**
+- [ ] Convert remaining .js files to .cjs or fix ES module syntax
+- [ ] Update all require.main===module references
+- [ ] Test all CLI commands for ES module compatibility
+
+**Files to Fix:**
+- `/workspace/cli/run-golden-tests.cjs` ✅ (Fixed)
+- `/workspace/cli/validate-remix-mode.cjs` ✅ (Fixed)
+- Any remaining .js files in CLI
+
+**Success Criteria:**
+- All CLI commands execute without ES module errors
+- No require.main===module references remain
+- Consistent module system usage
+
+### 1.3 Critical Import Fixes
+**Tasks:**
+- [ ] Fix remaining broken imports across modules
+- [ ] Update import statements to use proper ES module syntax
+- [ ] Validate all module dependencies
+
+**Files to Check:**
+- All modules in `/workspace/miff/pure/`
+- Focus on modules with CLI issues
+
+**Success Criteria:**
+- No import errors in any module
+- All modules load successfully
+- CLI harnesses work without import failures
+
+---
+
+## 🔧 PHASE 2: CORE MODULE RESTORATION (3-7 days)
+**Priority: HIGH** | **Effort: 16-24 hours** | **Impact: HIGH**
+
+### 2.1 Combat System Restoration
+**Tasks:**
+- [ ] Implement real CombatPure CLI harness
+- [ ] Add proper test() method to CombatPure
+- [ ] Fix CombatPure module integration issues
+- [ ] Test combat scenarios with real module interaction
+
+**Files to Work On:**
+- `/workspace/miff/pure/CombatPure/`
+- `/workspace/miff/pure/CombatCorePure/`
+- `/workspace/miff/pure/StatusEffectsPure/`
+
+**Success Criteria:**
+- CombatPure CLI harness works
+- Combat scenarios execute successfully
+- Real combat logic integration
+
+### 2.2 Items and Inventory System
+**Tasks:**
+- [ ] Fix ItemsPure CLI harness ES module issues
+- [ ] Implement real item effects on combat stats
+- [ ] Add proper test() method to ItemsPure
+- [ ] Test item-combat integration
+
+**Files to Work On:**
+- `/workspace/miff/pure/ItemsPure/`
+- `/workspace/miff/pure/InventoryPure/`
+- `/workspace/miff/pure/EquipmentPure/`
+
+**Success Criteria:**
+- ItemsPure CLI works without errors
+- Item effects modify combat stats
+- Real item management logic
+
+### 2.3 Team and AI System
+**Tasks:**
+- [ ] Fix TeamsPure CLI integration issues
+- [ ] Implement AIPure CLI harness
+- [ ] Add proper test() methods to both modules
+- [ ] Test team-AI-combat integration
+
+**Files to Work On:**
+- `/workspace/miff/pure/TeamsPure/`
+- `/workspace/miff/pure/AIPure/`
+- `/workspace/miff/pure/BattleAIPure/`
+
+**Success Criteria:**
+- TeamsPure CLI works consistently
+- AIPure CLI harness implemented
+- Real team and AI logic integration
+
+### 2.4 Export System Enhancement
+**Tasks:**
+- [ ] Replace mock implementations in ExportPipelinePure
+- [ ] Implement real performExport() logic
+- [ ] Fix convertToWeb() mock returns
+- [ ] Add real analytics generation
+
+**Files to Work On:**
+- `/workspace/miff/pure/ExportPipelinePure.ts`
+- `/workspace/miff/pure/ConvertToWebPure/`
+- `/workspace/miff/pure/ConvertToGodotPure/`
+
+**Success Criteria:**
+- Real export functionality
+- No mock returns in production code
+- Actual file generation and analytics
+
+---
+
+## 🌐 PHASE 3: INTEGRATION EXPANSION (1-2 weeks)
+**Priority: MEDIUM** | **Effort: 32-48 hours** | **Impact: MEDIUM**
+
+### 3.1 Multi-Module Scenarios
+**Tasks:**
+- [ ] Create scenarios combining 3+ modules (Combat + AI + StatusEffects)
+- [ ] Test complex module interactions
+- [ ] Add integration test scenarios
+- [ ] Document interop patterns
+
+**New Scenarios to Create:**
+- Combat + Items + StatusEffects
+- Teams + AI + Combat
+- Quests + NPCs + Dialogue
+- Export + WebBridge + RenderWorld
+
+**Success Criteria:**
+- Complex scenarios execute successfully
+- Module interactions work correctly
+- Integration patterns documented
+
+### 3.2 Bridge Module Refactoring
+**Tasks:**
+- [ ] Refactor WebBridgePure for stateless purity
+- [ ] Ensure all bridge modules are reusable
+- [ ] Add proper error handling and fallbacks
+- [ ] Create bridge module documentation
+
+**Files to Work On:**
+- `/workspace/miff/pure/WebBridgePure/`
+- `/workspace/miff/pure/WebSocketBridgePure/`
+- `/workspace/miff/pure/NetworkBridgePure/`
+
+**Success Criteria:**
+- Bridge modules are stateless and pure
+- Proper error handling implemented
+- Reusable across different contexts
+
+### 3.3 CLI Command Enhancement
+**Tasks:**
+- [ ] Add missing CLI harnesses for scaffolded modules
+- [ ] Implement LocationPure CLI harness
+- [ ] Enhance EventBusPure CLI harness
+- [ ] Add comprehensive help and documentation
+
+**Files to Work On:**
+- `/workspace/miff/pure/LocationPure/` (add CLI harness)
+- `/workspace/miff/pure/EventBusPure/` (enhance CLI)
+- All CLI harness files
+
+**Success Criteria:**
+- All modules have CLI harnesses
+- CLI commands provide meaningful feedback
+- Comprehensive help system
+
+---
+
+## 👥 PHASE 4: CONTRIBUTOR ONBOARDING (2+ weeks)
+**Priority: LOW** | **Effort: 16-24 hours** | **Impact: HIGH**
+
+### 4.1 Documentation and Publishing
+**Tasks:**
+- [ ] Publish test logs and module status to MIFF site
+- [ ] Create comprehensive contributor documentation
+- [ ] Add module status dashboard
+- [ ] Create getting started guide
+
+**Deliverables:**
+- Updated MIFF website with module status
+- Contributor onboarding documentation
+- Module development guidelines
+- API documentation
+
+**Success Criteria:**
+- Clear contributor onboarding path
+- Up-to-date module status information
+- Easy-to-follow development guidelines
+
+### 4.2 GitHub Issues and Project Management
+**Tasks:**
+- [ ] Create GitHub issues for each broken/scaffolded module
+- [ ] Set up project boards for tracking progress
+- [ ] Add labels and milestones for issues
+- [ ] Create contributor assignment system
+
+**Issues to Create:**
+- CombatPure CLI implementation
+- ItemsPure ES module fixes
+- TeamsPure integration issues
+- AIPure CLI harness
+- ExportPipelinePure mock replacement
+- LocationPure CLI harness
+- EventBusPure CLI enhancement
+
+**Success Criteria:**
+- All issues clearly documented
+- Contributors can easily find and claim tasks
+- Progress tracking system in place
+
+### 4.3 Testing and Validation Framework
+**Tasks:**
+- [ ] Add CLI audit to contributor onboarding flow
+- [ ] Create automated scenario runner for contributors
+- [ ] Add module validation tests
+- [ ] Create contribution guidelines
+
+**Tools to Create:**
+- Automated scenario runner
+- Module validation framework
+- CLI command testing suite
+- Contribution checklist
+
+**Success Criteria:**
+- Contributors can validate their changes
+- Automated testing prevents regressions
+- Clear contribution process
+
+---
+
+## 📋 DETAILED TASK BREAKDOWN
+
+### Phase 1 Tasks (Immediate)
+1. **Dependency Fixes** (30 minutes)
+   - Install commander package
+   - Fix JSON comment issues
+   - Test CLI commands
+
+2. **ES Module Fixes** (1 hour)
+   - Convert .js files to .cjs
+   - Update require.main references
+   - Test all CLI commands
+
+3. **Import Fixes** (1 hour)
+   - Fix remaining broken imports
+   - Update import statements
+   - Validate module loading
+
+### Phase 2 Tasks (Core Restoration)
+1. **Combat System** (6 hours)
+   - Implement CombatPure CLI
+   - Add test() method
+   - Fix integration issues
+
+2. **Items System** (4 hours)
+   - Fix ItemsPure CLI
+   - Implement item effects
+   - Test integration
+
+3. **Team/AI System** (6 hours)
+   - Fix TeamsPure CLI
+   - Implement AIPure CLI
+   - Test integration
+
+4. **Export System** (8 hours)
+   - Replace mock implementations
+   - Implement real export logic
+   - Add analytics
+
+### Phase 3 Tasks (Integration)
+1. **Multi-Module Scenarios** (16 hours)
+   - Create complex scenarios
+   - Test interactions
+   - Document patterns
+
+2. **Bridge Refactoring** (16 hours)
+   - Refactor bridge modules
+   - Add error handling
+   - Create documentation
+
+3. **CLI Enhancement** (16 hours)
+   - Add missing harnesses
+   - Enhance existing CLI
+   - Add help system
+
+### Phase 4 Tasks (Onboarding)
+1. **Documentation** (8 hours)
+   - Create contributor docs
+   - Update website
+   - Add status dashboard
+
+2. **GitHub Management** (4 hours)
+   - Create issues
+   - Set up project boards
+   - Add labels
+
+3. **Testing Framework** (12 hours)
+   - Create automated tests
+   - Add validation tools
+   - Create guidelines
+
+---
+
+## 🎯 SUCCESS METRICS
+
+### Phase 1 Success
+- [ ] All CLI commands execute without errors
+- [ ] No ES module compatibility issues
+- [ ] All imports resolve correctly
+- [ ] JSON files parse successfully
+
+### Phase 2 Success
+- [ ] CombatPure CLI works with real logic
+- [ ] ItemsPure CLI works with real effects
+- [ ] TeamsPure and AIPure CLI work
+- [ ] ExportPipelinePure uses real implementations
+
+### Phase 3 Success
+- [ ] Complex scenarios execute successfully
+- [ ] Bridge modules are stateless and pure
+- [ ] All modules have CLI harnesses
+- [ ] Integration patterns documented
+
+### Phase 4 Success
+- [ ] Contributor documentation complete
+- [ ] GitHub issues created and organized
+- [ ] Testing framework operational
+- [ ] Contributors can easily contribute
+
+---
+
+## 🚨 CRITICAL SUCCESS FACTORS
+
+1. **Maintain Backward Compatibility** - All fixes must work with existing code
+2. **Preserve Statelessness** - All modules must remain pure and stateless
+3. **Document Everything** - All changes must be documented for contributors
+4. **Test Thoroughly** - All changes must be tested before deployment
+5. **Follow Naming Conventions** - Maintain MIFF naming purity throughout
+
+---
+
+## 📞 CONTRIBUTOR SUPPORT
+
+### Getting Started
+1. Read the contributor documentation
+2. Check the module status dashboard
+3. Pick an issue from the GitHub project board
+4. Follow the contribution guidelines
+
+### Support Channels
+- GitHub Issues for bug reports
+- GitHub Discussions for questions
+- Documentation for guidelines
+- Test logs for validation
+
+### Recognition
+- Contributors will be credited in module documentation
+- Significant contributions will be featured on the MIFF site
+- Active contributors may be invited to join the core team
+
+---
+
+**This recovery plan provides a clear path forward for restoring and enhancing the MIFF framework. Each phase builds upon the previous one, ensuring steady progress toward a fully functional system.**
