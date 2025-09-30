@@ -177,7 +177,8 @@ canvas.addEventListener('touchend', (e)=>{ resumeAudio(); if (e.changedTouches &
 document.getElementById('hint')?.addEventListener('click', ()=>{
     try {
         resumeAudio();
-        if (animate._nearPortal) { doInteract(); }
+        if (animate._nearPortal) { doInteract(); return; }
+        if (animate._nearNPC) { doInteract(); return; }
     } catch {}
 });
 
@@ -368,7 +369,7 @@ function createWarehouseEnvironment() {
     // Create grid of pillars
     const pillarPositions = [
         [-8, 0, -6], [0, 0, -6], [8, 0, -6],
-        [-8, 0, 0], [0, 0, 0], [8, 0, 0], 
+        [-8, 0, 0], /* removed center [0,0,0] */ [8, 0, 0], 
         [-8, 0, 6], [0, 0, 6], [8, 0, 6]
     ];
     
@@ -641,7 +642,7 @@ scene.add(spiritLens);
                 // Add pillar colliders as solid cylinders
                 const pillarBlocks = [
                     [-8, -6], [0, -6], [8, -6],
-                    [-8, 0], [0, 0], [8, 0],
+                    [-8, 0], /* removed center */ [8, 0],
                     [-8, 6], [0, 6], [8, 6]
                 ];
                 for (const [px,pz] of pillarBlocks){
@@ -692,7 +693,8 @@ scene.add(spiritLens);
                 hint.textContent = 'Interact: ' + (nearest.userData?.label || 'Object');
                 hint.style.display = 'block';
                 animate._nearPortal = (nearest === p1 || nearest === p2 || nearest === p3) ? nearest : null;
-            } else { hint.style.display = 'none'; animate._nearPortal = null; }
+                animate._nearNPC = (nearest === npc1 || nearest === npc2 || nearest === npc3) ? nearest : null;
+            } else { hint.style.display = 'none'; animate._nearPortal = null; animate._nearNPC = null; }
             // Highlight proximity (apply to roots)
             for (const obj of [p1,p2,p3,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
             // Ensure outlines always draw on top
@@ -838,9 +840,12 @@ function doInteract(){
             txt.textContent = 'Open ' + label + ' in new tab?';
             confirmEl.style.display = 'inline-flex';
             confirmEl._target = label;
-        } else {
-            const s=document.getElementById('status'); s.textContent='interact'; setTimeout(()=>{ s.textContent='running'; }, 700);
+        } else if (animate._nearNPC) {
+            const label = animate._nearNPC.userData?.label || 'NPC';
+            const s=document.getElementById('status'); s.textContent='Interact: ' + label; setTimeout(()=>{ s.textContent='running'; }, 900);
             playInteractSound();
+        } else {
+            const s=document.getElementById('status'); s.textContent='Nothing nearby'; setTimeout(()=>{ s.textContent='running'; }, 600);
         }
     } catch {}
 }
