@@ -17,8 +17,8 @@
 <body>
 	<div id="hud"><span id="hud-pos">Pixel World</span><span id="hud-fps"></span></div>
     <button id="btn-fullscreen">Fullscreen</button>
-    <div id="pad"><div class="knob"></div></div>
-    <button id="btn-run" style="position:fixed;right:14px;bottom:100px;min-width:84px;min-height:48px;border-radius:10px;background:#21262d;color:#e6edf3;border:1px solid #30363d;z-index:10">Run</button>
+    <div id="pad" style="display:none"><div class="knob"></div></div>
+    <button id="btn-run" style="display:none;position:fixed;right:14px;bottom:100px;min-width:84px;min-height:48px;border-radius:10px;background:#21262d;color:#e6edf3;border:1px solid #30363d;z-index:10">Run</button>
 	<canvas id="gameCanvas"></canvas>
 	<div id="hint">Use D‑pad or WASD/Arrows to move</div>
 	<script>
@@ -81,7 +81,8 @@
 
 			function showWorld(characterId){
 				let last=0, frames=0;
-				const grid = 16;
+                const grid = 16;
+                let camera = { x: player.x, y: player.y, zoom: 2 };
 				function drawGrid(){
 					ctx.clearRect(0,0,cvs.width,cvs.height);
 					ctx.strokeStyle = '#1f2d3c';
@@ -168,20 +169,27 @@
                         window.addEventListener('mouseup', end);
                     } catch {}
                 })();
+                let lastTime = performance.now();
                 function update(){
+                    const now = performance.now();
+                    const dt = Math.min(0.033, (now - lastTime)/1000); // clamp 33ms
+                    lastTime = now;
 					let dx=0, dy=0;
 					if(keys['ArrowUp']||keys['w']||keys['W']) dy=-1;
 					if(keys['ArrowDown']||keys['s']||keys['S']) dy=1;
 					if(keys['ArrowLeft']||keys['a']||keys['A']) dx=-1;
 					if(keys['ArrowRight']||keys['d']||keys['D']) dx=1;
-                    // Base speed back to 1; run increases fractionally (x1.4)
+                    // Base speed slower; run increases fractionally (x1.25)
                     const now = Date.now();
                     if (isRunning && now >= canRunAt) {
                         // auto-disable after 2s and start 3s cooldown
                         isRunning = false; canRunAt = now + 3000;
                     }
-                    const speed = isRunning ? 1.4 : 1.0;
+                    const speed = (isRunning ? 1.25 : 0.6) * (dt / (1/60));
                     if(dx||dy){ player.x = Math.max(0, Math.min(mapW-1, player.x+dx*speed)); player.y = Math.max(0, Math.min(mapH-1, player.y+dy*speed)); }
+                    // Camera follow with smoothing
+                    camera.x += (player.x - camera.x) * 0.15;
+                    camera.y += (player.y - camera.y) * 0.15;
 					document.getElementById('hud-pos').textContent = 'Character: ' + characterId + ' — ('+player.x+','+player.y+')';
 				}
 				function render(){
@@ -191,8 +199,12 @@
                     const sx = Math.floor(cvs.width/(mapW*grid));
                     const sy = Math.floor(cvs.height/(mapH*grid));
                     const scale = Math.max(1, Math.min(sx, sy));
-					const worldW = mapW*grid*scale, worldH = mapH*grid*scale;
-					const ox = Math.floor((cvs.width - worldW)/2), oy = Math.floor((cvs.height - worldH)/2);
+                    const worldW = mapW*grid*scale, worldH = mapH*grid*scale;
+                    // Offset based on camera center
+                    const centerX = camera.x*grid*scale + grid*scale/2;
+                    const centerY = camera.y*grid*scale + grid*scale/2;
+                    const ox = Math.floor(cvs.width/2 - centerX);
+                    const oy = Math.floor(cvs.height/2 - centerY);
 					for(let y=0;y<mapH;y++){
 						for(let x=0;x<mapW;x++){
 							const t = map[y*mapW+x];
@@ -230,7 +242,9 @@
 				}
 				function loop(){ update(); render(); requestAnimationFrame(loop); }
 				loop();
-				// Load NPC registry and attach interaction
+                // Reveal controls now that game is running
+                try { document.getElementById('pad').style.display='flex'; document.getElementById('btn-run').style.display='inline-block'; document.getElementById('hint').style.display='none'; } catch {}
+                // Load NPC registry and attach interaction
 				(async function(){
 					try{
 						const r = await fetch('./npc_registry.json?v=2025-10-01-2');
