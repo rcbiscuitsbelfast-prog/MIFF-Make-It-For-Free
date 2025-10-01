@@ -18,7 +18,6 @@
 	<div id="hud"><span id="hud-pos">Pixel World</span><span id="hud-fps"></span></div>
 	<button id="btn-fullscreen">Fullscreen</button>
 	<canvas id="gameCanvas"></canvas>
-	<div id="pad"><div class="knob" id="pad-knob"></div></div>
 	<div id="hint">Use D‑pad or WASD/Arrows to move</div>
 	<script>
 	(function(){
@@ -145,9 +144,9 @@
 				window.addEventListener('keyup', (e)=>{ keys[e.key]=false; });
 
 				// Virtual joystick (D‑pad)
-				(function(){
-					const pad = document.getElementById('pad');
-					const knob = document.getElementById('pad-knob');
+                (function(){
+                    const pad = document.getElementById('pad');
+                    const knob = pad?.querySelector('.knob');
 					let active=false; let cx=0, cy=0;
 					function center(){ const r=pad.getBoundingClientRect(); cx=r.left+r.width/2; cy=r.top+r.height/2; }
 					function setKnob(dx,dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
