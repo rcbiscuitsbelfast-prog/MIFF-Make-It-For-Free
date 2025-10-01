@@ -30,55 +30,12 @@
   "interactions": {
     "dialogue": true,
     "quests": true,
-    "exportActivation": true,
-    "ambient": true
+    "exportActivation": true
   },
   "exports": [
     "unity",
     "web",
     "unreal",
     "android"
-  ],
-  "effects": {
-    "rendering": [
-      "lighting",
-      "shadows",
-      "transitions"
-    ],
-    "audio": [
-      "bgm",
-      "voice_cues"
-    ],
-    "animation": [
-      "idle",
-      "gesture"
-    ]
-  },
-  "runbook": [
-    {
-      "step": "emit",
-      "module": "EventBusPure",
-      "event": "weather_change"
-    },
-    {
-      "step": "dialogue",
-      "module": "DialogueSystemPure",
-      "target": "zone_npcs"
-    },
-    {
-      "step": "quest",
-      "module": "QuestSystemPure",
-      "target": "zone_npcs"
-    },
-    {
-      "step": "render",
-      "module": "AdvancedRenderingPure",
-      "effect": "transition"
-    },
-    {
-      "step": "audio",
-      "module": "AudioPure",
-      "effect": "bgm"
-    }
   ]
 }

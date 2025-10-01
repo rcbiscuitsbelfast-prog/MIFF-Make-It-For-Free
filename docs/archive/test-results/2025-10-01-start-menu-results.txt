@@ -1,0 +1,6 @@
+Modules=HUDPure,InputSystemPure,AudioPure,AdvancedRenderingPure
+Screen=startMenu
+Options=Start Game|Select Character|View Credits|Exit
+Hover=Start Game
+Click=Start Game
+Status=PASS

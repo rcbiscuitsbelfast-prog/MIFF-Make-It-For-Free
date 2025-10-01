@@ -115,22 +115,6 @@
           "type": "sfx",
           "bus": "ambient",
           "intensity": 0.2
-        },
-        {
-          "id": "arcade_district_weather_change",
-          "type": "event",
-          "bus": "weather",
-          "payload": {
-            "state": "random"
-          }
-        },
-        {
-          "id": "arcade_district_crowd_react",
-          "type": "event",
-          "bus": "crowd",
-          "payload": {
-            "cheer": true
-          }
         }
       ],
       "tiles": [
@@ -369,22 +353,6 @@
           "type": "sfx",
           "bus": "ambient",
           "intensity": 0.2
-        },
-        {
-          "id": "fantasy_grove_weather_change",
-          "type": "event",
-          "bus": "weather",
-          "payload": {
-            "state": "random"
-          }
-        },
-        {
-          "id": "fantasy_grove_crowd_react",
-          "type": "event",
-          "bus": "crowd",
-          "payload": {
-            "cheer": true
-          }
         }
       ],
       "tiles": [
@@ -623,22 +591,6 @@
           "type": "sfx",
           "bus": "ambient",
           "intensity": 0.2
-        },
-        {
-          "id": "industrial_outpost_weather_change",
-          "type": "event",
-          "bus": "weather",
-          "payload": {
-            "state": "random"
-          }
-        },
-        {
-          "id": "industrial_outpost_crowd_react",
-          "type": "event",
-          "bus": "crowd",
-          "payload": {
-            "cheer": true
-          }
         }
       ],
       "tiles": [
@@ -877,22 +829,6 @@
           "type": "sfx",
           "bus": "ambient",
           "intensity": 0.2
-        },
-        {
-          "id": "historical_plaza_weather_change",
-          "type": "event",
-          "bus": "weather",
-          "payload": {
-            "state": "random"
-          }
-        },
-        {
-          "id": "historical_plaza_crowd_react",
-          "type": "event",
-          "bus": "crowd",
-          "payload": {
-            "cheer": true
-          }
         }
       ],
       "tiles": [
@@ -1131,22 +1067,6 @@
           "type": "sfx",
           "bus": "ambient",
           "intensity": 0.2
-        },
-        {
-          "id": "export_terminal_weather_change",
-          "type": "event",
-          "bus": "weather",
-          "payload": {
-            "state": "random"
-          }
-        },
-        {
-          "id": "export_terminal_crowd_react",
-          "type": "event",
-          "bus": "crowd",
-          "payload": {
-            "cheer": true
-          }
         }
       ],
       "tiles": [

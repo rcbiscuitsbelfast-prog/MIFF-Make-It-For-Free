@@ -9,46 +9,20 @@
       "zone": "fantasy_grove",
       "dialogue": {
         "id": "char_001_dlg",
-        "text": "Hello from fantasy_grove. I am Ranger 1.",
+        "text": "Welcome to fantasy_grove. I am Ranger 1.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_001_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_001_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_001_quest_zone",
+              "target": "char_001_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_001_dlg_more",
-            "text": "This zone specializes in ranger.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_001_dlg_quest",
-            "text": "Quest accepted in fantasy_grove.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -70,46 +44,20 @@
       "zone": "industrial_outpost",
       "dialogue": {
         "id": "char_002_dlg",
-        "text": "Hello from industrial_outpost. I am Ranger 2.",
+        "text": "Welcome to industrial_outpost. I am Ranger 2.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_002_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_002_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_002_quest_zone",
+              "target": "char_002_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_002_dlg_more",
-            "text": "This zone specializes in ranger.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_002_dlg_quest",
-            "text": "Quest accepted in industrial_outpost.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -131,46 +79,20 @@
       "zone": "historical_plaza",
       "dialogue": {
         "id": "char_003_dlg",
-        "text": "Hello from historical_plaza. I am Priest 3.",
+        "text": "Welcome to historical_plaza. I am Priest 3.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_003_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_003_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_003_quest_zone",
+              "target": "char_003_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_003_dlg_more",
-            "text": "This zone specializes in priest.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_003_dlg_quest",
-            "text": "Quest accepted in historical_plaza.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -179,13 +101,6 @@
           "id": "char_003_quest_intro",
           "kind": "intro",
           "targetZone": "historical_plaza"
-        },
-        {
-          "id": "char_003_quest_trivia",
-          "type": "trivia",
-          "reward": {
-            "xp": 15
-          }
         }
       ],
       "party": {
@@ -199,46 +114,20 @@
       "zone": "export_terminal",
       "dialogue": {
         "id": "char_004_dlg",
-        "text": "Hello from export_terminal. I am Bard 4.",
+        "text": "Welcome to export_terminal. I am Bard 4.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_004_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_004_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_004_quest_zone",
+              "target": "char_004_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_004_dlg_more",
-            "text": "This zone specializes in bard.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_004_dlg_quest",
-            "text": "Quest accepted in export_terminal.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -260,46 +149,20 @@
       "zone": "arcade_district",
       "dialogue": {
         "id": "char_005_dlg",
-        "text": "Hello from arcade_district. I am Priestess 5.",
+        "text": "Welcome to arcade_district. I am Priestess 5.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_005_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_005_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_005_quest_zone",
+              "target": "char_005_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_005_dlg_more",
-            "text": "This zone specializes in priestess.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_005_dlg_quest",
-            "text": "Quest accepted in arcade_district.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -321,46 +184,20 @@
       "zone": "fantasy_grove",
       "dialogue": {
         "id": "char_006_dlg",
-        "text": "Hello from fantasy_grove. I am Cheerleader 6.",
+        "text": "Welcome to fantasy_grove. I am Cheerleader 6.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_006_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_006_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_006_quest_zone",
+              "target": "char_006_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_006_dlg_more",
-            "text": "This zone specializes in cheerleader.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_006_dlg_quest",
-            "text": "Quest accepted in fantasy_grove.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -382,46 +219,20 @@
       "zone": "industrial_outpost",
       "dialogue": {
         "id": "char_007_dlg",
-        "text": "Hello from industrial_outpost. I am Thief 7.",
+        "text": "Welcome to industrial_outpost. I am Thief 7.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_007_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_007_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_007_quest_zone",
+              "target": "char_007_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_007_dlg_more",
-            "text": "This zone specializes in thief.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_007_dlg_quest",
-            "text": "Quest accepted in industrial_outpost.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -443,46 +254,20 @@
       "zone": "historical_plaza",
       "dialogue": {
         "id": "char_008_dlg",
-        "text": "Hello from historical_plaza. I am Miner 8.",
+        "text": "Welcome to historical_plaza. I am Miner 8.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_008_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_008_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_008_quest_zone",
+              "target": "char_008_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_008_dlg_more",
-            "text": "This zone specializes in miner.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_008_dlg_quest",
-            "text": "Quest accepted in historical_plaza.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -491,13 +276,6 @@
           "id": "char_008_quest_intro",
           "kind": "intro",
           "targetZone": "historical_plaza"
-        },
-        {
-          "id": "char_008_quest_trivia",
-          "type": "trivia",
-          "reward": {
-            "xp": 15
-          }
         }
       ],
       "party": {
@@ -511,46 +289,20 @@
       "zone": "export_terminal",
       "dialogue": {
         "id": "char_009_dlg",
-        "text": "Hello from export_terminal. I am Archer 9.",
+        "text": "Welcome to export_terminal. I am Archer 9.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_009_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_009_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_009_quest_zone",
+              "target": "char_009_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_009_dlg_more",
-            "text": "This zone specializes in archer.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_009_dlg_quest",
-            "text": "Quest accepted in export_terminal.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -572,46 +324,20 @@
       "zone": "arcade_district",
       "dialogue": {
         "id": "char_010_dlg",
-        "text": "Hello from arcade_district. I am Archer 10.",
+        "text": "Welcome to arcade_district. I am Archer 10.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_010_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_010_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_010_quest_zone",
+              "target": "char_010_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_010_dlg_more",
-            "text": "This zone specializes in archer.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_010_dlg_quest",
-            "text": "Quest accepted in arcade_district.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -633,46 +359,20 @@
       "zone": "fantasy_grove",
       "dialogue": {
         "id": "char_011_dlg",
-        "text": "Hello from fantasy_grove. I am Nun 11.",
+        "text": "Welcome to fantasy_grove. I am Nun 11.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_011_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_011_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_011_quest_zone",
+              "target": "char_011_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_011_dlg_more",
-            "text": "This zone specializes in nun.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_011_dlg_quest",
-            "text": "Quest accepted in fantasy_grove.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -694,46 +394,20 @@
       "zone": "industrial_outpost",
       "dialogue": {
         "id": "char_012_dlg",
-        "text": "Hello from industrial_outpost. I am Carpenter 12.",
+        "text": "Welcome to industrial_outpost. I am Carpenter 12.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_012_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_012_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_012_quest_zone",
+              "target": "char_012_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_012_dlg_more",
-            "text": "This zone specializes in carpenter.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_012_dlg_quest",
-            "text": "Quest accepted in industrial_outpost.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -755,46 +429,20 @@
       "zone": "historical_plaza",
       "dialogue": {
         "id": "char_013_dlg",
-        "text": "Hello from historical_plaza. I am Knight 13.",
+        "text": "Welcome to historical_plaza. I am Knight 13.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_013_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_013_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_013_quest_zone",
+              "target": "char_013_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_013_dlg_more",
-            "text": "This zone specializes in knight.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_013_dlg_quest",
-            "text": "Quest accepted in historical_plaza.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -803,13 +451,6 @@
           "id": "char_013_quest_intro",
           "kind": "intro",
           "targetZone": "historical_plaza"
-        },
-        {
-          "id": "char_013_quest_trivia",
-          "type": "trivia",
-          "reward": {
-            "xp": 15
-          }
         }
       ],
       "party": {
@@ -823,46 +464,20 @@
       "zone": "export_terminal",
       "dialogue": {
         "id": "char_014_dlg",
-        "text": "Hello from export_terminal. I am Pirate 14.",
+        "text": "Welcome to export_terminal. I am Pirate 14.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_014_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_014_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_014_quest_zone",
+              "target": "char_014_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_014_dlg_more",
-            "text": "This zone specializes in pirate.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_014_dlg_quest",
-            "text": "Quest accepted in export_terminal.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -884,46 +499,20 @@
       "zone": "arcade_district",
       "dialogue": {
         "id": "char_015_dlg",
-        "text": "Hello from arcade_district. I am Druid 15.",
+        "text": "Welcome to arcade_district. I am Druid 15.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_015_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_015_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_015_quest_zone",
+              "target": "char_015_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_015_dlg_more",
-            "text": "This zone specializes in druid.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_015_dlg_quest",
-            "text": "Quest accepted in arcade_district.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -945,46 +534,20 @@
       "zone": "fantasy_grove",
       "dialogue": {
         "id": "char_016_dlg",
-        "text": "Hello from fantasy_grove. I am Archer 16.",
+        "text": "Welcome to fantasy_grove. I am Archer 16.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_016_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_016_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_016_quest_zone",
+              "target": "char_016_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_016_dlg_more",
-            "text": "This zone specializes in archer.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_016_dlg_quest",
-            "text": "Quest accepted in fantasy_grove.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1006,46 +569,20 @@
       "zone": "industrial_outpost",
       "dialogue": {
         "id": "char_017_dlg",
-        "text": "Hello from industrial_outpost. I am Necromancer 17.",
+        "text": "Welcome to industrial_outpost. I am Necromancer 17.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_017_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_017_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_017_quest_zone",
+              "target": "char_017_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_017_dlg_more",
-            "text": "This zone specializes in necromancer.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_017_dlg_quest",
-            "text": "Quest accepted in industrial_outpost.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1067,46 +604,20 @@
       "zone": "historical_plaza",
       "dialogue": {
         "id": "char_018_dlg",
-        "text": "Hello from historical_plaza. I am Priest 18.",
+        "text": "Welcome to historical_plaza. I am Priest 18.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_018_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_018_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_018_quest_zone",
+              "target": "char_018_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_018_dlg_more",
-            "text": "This zone specializes in priest.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_018_dlg_quest",
-            "text": "Quest accepted in historical_plaza.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1115,13 +626,6 @@
           "id": "char_018_quest_intro",
           "kind": "intro",
           "targetZone": "historical_plaza"
-        },
-        {
-          "id": "char_018_quest_trivia",
-          "type": "trivia",
-          "reward": {
-            "xp": 15
-          }
         }
       ],
       "party": {
@@ -1135,46 +639,20 @@
       "zone": "export_terminal",
       "dialogue": {
         "id": "char_019_dlg",
-        "text": "Hello from export_terminal. I am Firefighter 19.",
+        "text": "Welcome to export_terminal. I am Firefighter 19.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_019_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_019_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_019_quest_zone",
+              "target": "char_019_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_019_dlg_more",
-            "text": "This zone specializes in firefighter.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_019_dlg_quest",
-            "text": "Quest accepted in export_terminal.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1196,46 +674,20 @@
       "zone": "arcade_district",
       "dialogue": {
         "id": "char_020_dlg",
-        "text": "Hello from arcade_district. I am Surgeon 20.",
+        "text": "Welcome to arcade_district. I am Surgeon 20.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_020_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_020_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_020_quest_zone",
+              "target": "char_020_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_020_dlg_more",
-            "text": "This zone specializes in surgeon.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_020_dlg_quest",
-            "text": "Quest accepted in arcade_district.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1257,46 +709,20 @@
       "zone": "fantasy_grove",
       "dialogue": {
         "id": "char_021_dlg",
-        "text": "Hello from fantasy_grove. I am Priest 21.",
+        "text": "Welcome to fantasy_grove. I am Priest 21.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_021_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_021_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_021_quest_zone",
+              "target": "char_021_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_021_dlg_more",
-            "text": "This zone specializes in priest.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_021_dlg_quest",
-            "text": "Quest accepted in fantasy_grove.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1318,46 +744,20 @@
       "zone": "industrial_outpost",
       "dialogue": {
         "id": "char_022_dlg",
-        "text": "Hello from industrial_outpost. I am Tailor 22.",
+        "text": "Welcome to industrial_outpost. I am Tailor 22.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_022_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_022_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_022_quest_zone",
+              "target": "char_022_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_022_dlg_more",
-            "text": "This zone specializes in tailor.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_022_dlg_quest",
-            "text": "Quest accepted in industrial_outpost.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1379,46 +779,20 @@
       "zone": "historical_plaza",
       "dialogue": {
         "id": "char_023_dlg",
-        "text": "Hello from historical_plaza. I am Painter 23.",
+        "text": "Welcome to historical_plaza. I am Painter 23.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_023_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_023_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_023_quest_zone",
+              "target": "char_023_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_023_dlg_more",
-            "text": "This zone specializes in painter.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_023_dlg_quest",
-            "text": "Quest accepted in historical_plaza.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1427,13 +801,6 @@
           "id": "char_023_quest_intro",
           "kind": "intro",
           "targetZone": "historical_plaza"
-        },
-        {
-          "id": "char_023_quest_trivia",
-          "type": "trivia",
-          "reward": {
-            "xp": 15
-          }
         }
       ],
       "party": {
@@ -1447,46 +814,20 @@
       "zone": "export_terminal",
       "dialogue": {
         "id": "char_024_dlg",
-        "text": "Hello from export_terminal. I am Pilot 24.",
+        "text": "Welcome to export_terminal. I am Pilot 24.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_024_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_024_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_024_quest_zone",
+              "target": "char_024_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_024_dlg_more",
-            "text": "This zone specializes in pilot.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_024_dlg_quest",
-            "text": "Quest accepted in export_terminal.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
@@ -1508,46 +849,20 @@
       "zone": "arcade_district",
       "dialogue": {
         "id": "char_025_dlg",
-        "text": "Hello from arcade_district. I am Engineer 25.",
+        "text": "Welcome to arcade_district. I am Engineer 25.",
         "options": [
           {
-            "text": "Tell me more.",
-            "nextNodeId": "char_025_dlg_more"
-          },
-          {
-            "text": "Any tasks?",
-            "nextNodeId": "char_025_dlg_quest",
+            "text": "Quest?",
+            "nextNodeId": "quest",
             "action": {
               "type": "give_quest",
-              "target": "char_025_quest_zone",
+              "target": "char_025_quest_intro",
               "value": true
             }
           },
           {
-            "text": "Goodbye.",
+            "text": "Bye",
             "nextNodeId": "end"
-          }
-        ],
-        "nodes": [
-          {
-            "id": "char_025_dlg_more",
-            "text": "This zone specializes in engineer.",
-            "options": [
-              {
-                "text": "Thanks",
-                "nextNodeId": "end"
-              }
-            ]
-          },
-          {
-            "id": "char_025_dlg_quest",
-            "text": "Quest accepted in arcade_district.",
-            "options": [
-              {
-                "text": "On it!",
-                "nextNodeId": "end"
-              }
-            ]
           }
         ]
       },
