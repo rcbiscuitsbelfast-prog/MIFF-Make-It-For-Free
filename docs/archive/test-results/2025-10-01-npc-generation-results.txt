@@ -1,0 +1,1 @@
+NPC Generation — 2025-10-01\n\n- Registry: docs/render/viewport/npc_registry.json (3 NPCs)\n- Viewport: spawns NPCs, idle bob anim, Action opens placeholder dialogue\n- Movement: mobile D-pad and keyboard supported\n- CLI: node cli/miff-npc-list.ts outputs list of NPCs\n
