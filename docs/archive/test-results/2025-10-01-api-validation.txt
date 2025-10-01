@@ -1,0 +1,10 @@
+# API Validation 2025-10-01
+
+## ExportPipelinePure.performExport()
+- Status: real
+
+## ExportPipelinePure.convertToWeb()
+- Status: real
+
+## WebBridgePure.compileWebAssembly()
+- Status: real

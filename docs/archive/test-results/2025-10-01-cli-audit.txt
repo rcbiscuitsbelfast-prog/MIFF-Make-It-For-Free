@@ -1,0 +1,128 @@
+# CLI Audit 2025-10-01
+Root: cli
+
+## dialogue.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## integration.ts
+- Shebang: no
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: ts via tsx
+
+## manifest.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## miff-avatar.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## miff-cli-compiled.js
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## miff-cli.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## miff-diff.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## miff-export.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## miff-init.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## miff-pixel.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## miff-server.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## miff-session.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## miff-simulate.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## miff-world.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: yes
+- Executable: likely
+
+## profile.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## quest.ts
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## run-golden-tests-simple.cjs
+- Shebang: yes
+- ES Module syntax: no
+- Uses commander: no
+- Executable: likely
+
+## run-golden-tests.cjs
+- Shebang: yes
+- ES Module syntax: no
+- Uses commander: no
+- Executable: likely
+
+## test-cli.cjs
+- Shebang: yes
+- ES Module syntax: yes
+- Uses commander: no
+- Executable: likely
+
+## validate-remix-mode-simple.cjs
+- Shebang: yes
+- ES Module syntax: no
+- Uses commander: no
+- Executable: likely
+
+## validate-remix-mode.cjs
+- Shebang: yes
+- ES Module syntax: no
+- Uses commander: no
+- Executable: likely
