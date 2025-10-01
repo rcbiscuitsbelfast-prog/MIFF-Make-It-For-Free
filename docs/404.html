@@ -11,7 +11,8 @@
         :root{ --bg1:#061510; --bg2:#0f1f17; --fg:#e6edf3; --muted:#a9b8c6; --card:#0e1622; --accent:#00ff88; }
         html,body{margin:0;height:100%;font-family:'JetBrains Mono', monospace;background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);color:var(--fg)}
         .container{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
-        .card{max-width:760px;width:100%;background:rgba(14,22,34,0.9);border:1px solid #1f2d3c;border-radius:12px;padding:24px;box-shadow:0 8px 25px rgba(88,166,255,0.1)}
+        .card{position:relative;max-width:760px;width:100%;background:rgba(14,22,34,0.9);border:1px solid #1f2d3c;border-radius:12px;padding:24px;box-shadow:0 8px 25px rgba(88,166,255,0.1)}
+        .float-logo{position:absolute;top:-28px;right:-28px;width:72px;height:72px;border-radius:50%;background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.3);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
         .logo{display:flex;align-items:center;gap:10px;margin-bottom:12px}
         .logo svg{width:40px;height:40px}
         h1{margin:0 0 8px 0;color:var(--accent);font-size:28px}
@@ -30,6 +31,11 @@
                     <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
                 </svg>
                 <h1 style="margin:0;color:var(--accent)">404 — Page Not Found</h1>
+            </div>
+            <div class="float-logo">
+                <svg viewBox="0 0 24 24" fill="var(--accent)" width="36" height="36">
+                    <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+                </svg>
             </div>
 			<p>The page you requested does not exist. Try one of these entry points:</p>
 			<div class="links">
