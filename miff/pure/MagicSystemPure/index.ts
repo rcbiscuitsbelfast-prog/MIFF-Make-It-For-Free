@@ -712,8 +712,7 @@ export class MagicSystemPure {
   }
 }
 
-// Export main class and interfaces
-export { MagicSystemPure };
+// Export type aliases only (class already exported above)
 export type {
   SpellDefinition,
   SpellInstance,

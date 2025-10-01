@@ -58,6 +58,58 @@ function parseComplexCLIArgs(argv: string[]) {
 }
 
 /**
+ * Parse --key=value style CLI arguments
+ * Handles --mode=action --param1=value1 --param2=value2 style args
+ * @param argv Process arguments array
+ * @returns Parsed mode and parameters object
+ */
+function parseKeyValueArgs(argv: string[]) {
+  const args = argv.slice(2);
+  const params: Record<string, any> = {};
+  let mode = '';
+
+  for (const arg of args) {
+    if (arg.startsWith('--')) {
+      const equalsIndex = arg.indexOf('=');
+      if (equalsIndex > 0) {
+        const key = arg.slice(2, equalsIndex);
+        let value: any = arg.slice(equalsIndex + 1);
+        
+        // Remove surrounding quotes if present
+        if ((value.startsWith('"') && value.endsWith('"')) || 
+            (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1);
+        }
+        
+        // Try to parse as JSON for objects/arrays
+        if (value.startsWith('{') || value.startsWith('[')) {
+          try {
+            value = JSON.parse(value);
+          } catch {
+            // Keep as string if JSON parse fails
+          }
+        }
+        // Parse booleans
+        else if (value === 'true') value = true;
+        else if (value === 'false') value = false;
+        // Parse numbers
+        else if (!isNaN(Number(value)) && value !== '') {
+          value = Number(value);
+        }
+        
+        if (key === 'mode') {
+          mode = value;
+        } else {
+          params[key] = value;
+        }
+      }
+    }
+  }
+
+  return { mode, params, args };
+}
+
+/**
  * Output formatter for consistent JSON output
  * @param data Data to output
  * @returns Formatted JSON string
@@ -127,6 +179,7 @@ function runCLI(cliPath: string, args: string[] = []): string {
 export {
   parseCLIArgs,
   parseComplexCLIArgs,
+  parseKeyValueArgs,
   formatOutput,
   handleError,
   handleSuccess,

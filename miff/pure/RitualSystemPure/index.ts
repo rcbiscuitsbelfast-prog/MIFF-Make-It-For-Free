@@ -1102,8 +1102,7 @@ export class RitualSystemPure {
   }
 }
 
-// Export main class and interfaces
-export { RitualSystemPure };
+// Export type aliases only (class already exported above)
 export type {
   RitualDefinition,
   RitualInstance,
