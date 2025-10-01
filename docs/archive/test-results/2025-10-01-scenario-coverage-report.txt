@@ -2,20 +2,20 @@
 SCENARIO COVERAGE REPORT - DO EVERYTHING
 ================================================================================
 
-Generated: 2025-10-01T10:26:09.664Z
+Generated: 2025-10-01T11:10:01.521Z
 
 --------------------------------------------------------------------------------
 COVERAGE STATISTICS
 --------------------------------------------------------------------------------
 Total Modules Triggered: 141
-CLI Harnesses Executed: 10
+CLI Harnesses Executed: 23
 Integration Success Rate: 100.00%
 Export Formats Generated: 4
   - html5
   - unity
   - godot
   - apk
-Secondary Quests Spawned: 0
+Secondary Quests Spawned: 4
 
 --------------------------------------------------------------------------------
 MODULE BREAKDOWN BY CATEGORY
