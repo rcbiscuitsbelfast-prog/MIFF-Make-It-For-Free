@@ -8,7 +8,15 @@ function main(){
 	const scenDir = path.resolve('scenario/generated');
 	const outDir = path.resolve('docs/archive/test-results');
 	if(!fs.existsSync(outDir)) fs.mkdirSync(outDir,{recursive:true});
-	const files = fs.readdirSync(scenDir).filter(f => f.startsWith(date) && f.endsWith('-scenario.txt'));
+	let files = fs.readdirSync(scenDir).filter(f => f.startsWith(date) && f.endsWith('-scenario.txt'));
+
+	// Optional batching: --offset N --limit M
+	const argv = process.argv.slice(2);
+	const offsetIdx = argv.indexOf('--offset');
+	const limitIdx = argv.indexOf('--limit');
+	const offset = offsetIdx >= 0 ? parseInt(argv[offsetIdx+1]||'0',10) : 0;
+	const limit = limitIdx >= 0 ? parseInt(argv[limitIdx+1]||String(files.length),10) : files.length;
+	files = files.slice(offset, offset + limit);
 	let executed = 0;
 	for(const f of files){
 		const p = path.join(scenDir, f);
