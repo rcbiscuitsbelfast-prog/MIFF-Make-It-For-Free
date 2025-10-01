@@ -1,0 +1,31 @@
+Scenario: stormbound-expanse
+Fixture: docs/archive/scenarios/fixtures-generated/stormbound-expanse.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/stormbound-expanse.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Stormbound Expanse"
+        }
+      ],
+      "finalState": {
+        "name": "Stormbound Expanse",
+        "id": "stormbound-expanse",
+        "description": "Archived scenario placeholder for Stormbound Expanse.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Stormbound expanse"
+        }
+      }
+    }
+  ]
+}

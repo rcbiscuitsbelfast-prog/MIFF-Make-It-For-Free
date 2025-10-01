@@ -1,0 +1,479 @@
+=== npm run test:combat ===
+PASS miff/pure/CombatPure/tests/golden_CombatPure.test.ts
+  CombatPure Golden Tests
+    TypeEffectiveness Basic Functionality
+      ✓ should create type effectiveness with default chart (8 ms)
+      ✓ should create type effectiveness with custom chart (1 ms)
+      ✓ should handle case-insensitive lookups (1 ms)
+      ✓ should handle unknown types (1 ms)
+      ✓ should set and get multipliers correctly (1 ms)
+      ✓ should export and import chart correctly (1 ms)
+      ✓ should get attack and defense types correctly (6 ms)
+    MoveData Basic Functionality
+      ✓ should create move with default values (1 ms)
+      ✓ should create move with custom values (24 ms)
+      ✓ should enforce constraints on values
+      ✓ should identify move categories correctly (2 ms)
+      ✓ should generate move summary correctly (2 ms)
+      ✓ should clone correctly (2 ms)
+      ✓ should validate correctly (1 ms)
+    SpiritInstance Basic Functionality
+      ✓ should create spirit with default values (3 ms)
+      ✓ should create spirit with custom values (2 ms)
+      ✓ should enforce constraints on values (2 ms)
+      ✓ should calculate effective stats correctly (2 ms)
+      ✓ should determine health status correctly (3 ms)
+      ✓ should calculate health percentage correctly (1 ms)
+      ✓ should handle damage correctly (2 ms)
+      ✓ should handle healing correctly (2 ms)
+      ✓ should handle resource consumption correctly (2 ms)
+      ✓ should generate combat summary correctly
+      ✓ should clone correctly (3 ms)
+      ✓ should validate correctly (1 ms)
+    DamageCalculator Basic Functionality
+      ✓ should calculate damage for physical attacks (2 ms)
+      ✓ should calculate damage for special attacks (2 ms)
+      ✓ should handle critical hits (2 ms)
+      ✓ should handle type effectiveness (5 ms)
+      ✓ should handle status moves (1 ms)
+      ✓ should check move execution feasibility
+      ✓ should get move effectiveness correctly
+      ✓ should calculate expected damage correctly (1 ms)
+      ✓ should trigger damage computed callback
+    BattleEngine Basic Functionality
+      ✓ should create battle engine with empty state (6 ms)
+      ✓ should add combatants correctly (1 ms)
+      ✓ should reject duplicate combatants (1 ms)
+      ✓ should get combatants correctly (4 ms)
+      ✓ should remove combatants correctly
+      ✓ should rebuild turn order by speed
+      ✓ should enqueue and process actions (1 ms)
+      ✓ should handle battle victory conditions (1 ms)
+      ✓ should start and end battles correctly (1 ms)
+      ✓ should get battle status correctly (15 ms)
+    CombatUtils
+      ✓ should create standard move data (1 ms)
+      ✓ should create standard spirit instance (1 ms)
+      ✓ should calculate level modifier correctly (4 ms)
+      ✓ should calculate critical hit chance correctly (1 ms)
+      ✓ should calculate hit chance correctly (1 ms)
+      ✓ should get category and source names correctly (1 ms)
+      ✓ should validate combatant data correctly (5 ms)
+      ✓ should validate move data correctly (1 ms)
+    Integration Scenarios
+      ✓ should handle complete combat workflow (1 ms)
+      ✓ should handle multi-combatant battles (1 ms)
+      ✓ should handle damage calculation integration (1 ms)
+      ✓ should handle battle victory scenarios (1 ms)
+    Performance Characteristics
+      ✓ should handle many combatants efficiently (9 ms)
+      ✓ should handle rapid action processing efficiently (26 ms)
+      ✓ should handle complex calculations efficiently (6 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       60 passed, 60 total
+Snapshots:   0 total
+Time:        2.611 s
+Ran all test suites matching /CombatPure/i.
+
+=== npm run test:items ===
+FAIL miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts
+  ItemsPure Golden Tests
+    UsageResult Basic Functionality
+      ✓ should create success result (4 ms)
+      ✓ should create failure result (1 ms)
+      ✓ should handle empty messages (1 ms)
+    ItemEffect Basic Functionality
+      ✓ should create effect with default values (1 ms)
+      ✓ should create effect with custom values (1 ms)
+      ✓ should preserve values without clamping (1 ms)
+      ✓ should validate correctly (1 ms)
+      ✓ should generate effect summary correctly (1 ms)
+      ✓ should clone correctly (3 ms)
+    Item Basic Functionality
+      ✓ should create item with default values
+      ✓ should create item with custom values
+      ✓ should identify item types correctly
+      ✓ should generate description correctly (1 ms)
+      ✓ should clone correctly (1 ms)
+      ✓ should validate correctly (15 ms)
+    ItemEffect Application Tests
+      ✕ should apply heal effect correctly (4 ms)
+      ✕ should handle overheal correctly (6 ms)
+      ✓ should reject heal on fainted spirit
+      ✓ should apply revive effect correctly (1 ms)
+      ✕ should reject revive on active spirit (1 ms)
+      ✕ should apply sync boost effect correctly (1 ms)
+      ✕ should handle sync boost on spirit without sync (1 ms)
+      ✕ should apply evolution effect correctly
+      ✕ should reject evolution on low sync spirit
+      ✕ should apply flag unlock effect correctly
+      ✕ should handle missing flag parameter (1 ms)
+      ✓ should handle null target
+    Item Usage with Target Rules
+      ✓ should allow any target rule
+      ✓ should enforce notfainted rule (1 ms)
+      ✓ should enforce faintedonly rule
+      ✕ should apply effect with target validation (1 ms)
+      ✓ should handle invalid target rules gracefully (1 ms)
+    ItemUsageManager Basic Functionality
+      ✓ should create manager with context (1 ms)
+      ✓ should register items correctly
+      ✓ should reject invalid items (1 ms)
+      ✓ should get and retrieve items correctly
+      ✓ should get all items correctly (1 ms)
+      ✓ should remove items correctly (1 ms)
+      ✓ should update items correctly
+      ✓ should reject invalid updates
+    ItemUsageManager Usage Tests
+      ✕ should handle successful item usage (1 ms)
+      ✓ should handle item not in inventory
+      ✓ should handle unknown items
+      ✕ should not consume key items
+      ✕ should handle usage validation
+    ItemUtils Basic Functionality
+      ✓ should create standard item set (1 ms)
+      ✓ should create heal item (1 ms)
+      ✓ should create revive item
+      ✓ should create sync boost item
+      ✓ should create evolution item (2 ms)
+      ✓ should create flag unlock item
+      ✓ should create buff item
+    ItemUtils Validation and Filtering
+      ✓ should validate item registry correctly (1 ms)
+      ✓ should filter items by type (1 ms)
+      ✓ should filter items by effect type
+      ✓ should filter items by target rule (1 ms)
+      ✓ should filter items by effect presence
+      ✓ should sort items correctly (26 ms)
+      ✓ should get item statistics correctly (2 ms)
+    Integration Scenarios
+      ✕ should handle complete item usage workflow (1 ms)
+      ✕ should handle multi-item scenarios (1 ms)
+      ✓ should handle item searching and filtering (1 ms)
+      ✕ should handle evolution and flag systems (1 ms)
+    Performance Characteristics
+      ✓ should handle many items efficiently (5 ms)
+      ✓ should handle rapid item operations efficiently (2 ms)
+      ✓ should handle complex filtering efficiently (26 ms)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should apply heal effect correctly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      287 |       const result = healEffect.apply(context, activeSpirit);
+      288 |
+    > 289 |       expect(result.isSuccess).toBe(true);
+          |                                ^
+      290 |       expect(result.message).toContain('Healed 25 HP'); // 75 + 25 = 100 (max HP)
+      291 |       expect(activeSpirit.currentHP).toBe(100); // Max HP
+      292 |     });
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:289:32)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should handle overheal correctly
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "already at full health"
+    Received string:    "Cannot heal fainted spirit"
+
+      300 |
+      301 |       expect(result.isSuccess).toBe(false);
+    > 302 |       expect(result.message).toContain('already at full health');
+          |                              ^
+      303 |       expect(activeSpirit.currentHP).toBe(100); // Should remain unchanged
+      304 |     });
+      305 |
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:302:30)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should reject revive on active spirit
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      326 |       const result = reviveEffect.apply(context, activeSpirit);
+      327 |
+    > 328 |       expect(result.isSuccess).toBe(false);
+          |                                ^
+      329 |       expect(result.message).toContain('Target is not fainted');
+      330 |     });
+      331 |
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:328:32)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should apply sync boost effect correctly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      334 |       const result = syncEffect.apply(context, activeSpirit);
+      335 |
+    > 336 |       expect(result.isSuccess).toBe(true);
+          |                                ^
+      337 |       expect(result.message).toContain('Sync increased');
+      338 |       expect(activeSpirit.syncLevel).toBe(15);
+      339 |     });
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:336:32)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should handle sync boost on spirit without sync
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "no sync level"
+    Received string:    "Cannot heal fainted spirit"
+
+      345 |
+      346 |       expect(result.isSuccess).toBe(false);
+    > 347 |       expect(result.message).toContain('no sync level');
+          |                              ^
+      348 |     });
+      349 |
+      350 |     test('should apply evolution effect correctly', () => {
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:347:30)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should apply evolution effect correctly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      352 |       const result = evolveEffect.apply(context, highSyncSpirit);
+      353 |
+    > 354 |       expect(result.isSuccess).toBe(true);
+          |                                ^
+      355 |       expect(result.message).toContain('Evolved to evolved_form');
+      356 |       expect(highSyncSpirit.name).toContain('evolved_form');
+      357 |     });
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:354:32)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should reject evolution on low sync spirit
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "cannot evolve"
+    Received string:    "Cannot heal fainted spirit"
+
+      362 |
+      363 |       expect(result.isSuccess).toBe(false);
+    > 364 |       expect(result.message).toContain('cannot evolve');
+          |                              ^
+      365 |     });
+      366 |
+      367 |     test('should apply flag unlock effect correctly', () => {
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:364:30)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should apply flag unlock effect correctly
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      369 |       const result = flagEffect.apply(context, activeSpirit);
+      370 |
+    > 371 |       expect(result.isSuccess).toBe(true);
+          |                                ^
+      372 |       expect(result.message).toContain("Flag 'quest_complete' unlocked");
+      373 |       expect(context.flags['quest_complete']).toBe(true);
+      374 |     });
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:371:32)
+
+  ● ItemsPure Golden Tests › ItemEffect Application Tests › should handle missing flag parameter
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "No flag to unlock specified"
+    Received string:    "Cannot heal fainted spirit"
+
+      379 |
+      380 |       expect(result.isSuccess).toBe(false);
+    > 381 |       expect(result.message).toContain('No flag to unlock specified');
+          |                              ^
+      382 |     });
+      383 |
+      384 |     test('should handle null target', () => {
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:381:30)
+
+  ● ItemsPure Golden Tests › Item Usage with Target Rules › should apply effect with target validation
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      434 |
+      435 |       const activeResult = healItem.applyEffect(context, activeSpirit);
+    > 436 |       expect(activeResult.isSuccess).toBe(true);
+          |                                      ^
+      437 |
+      438 |       const faintedResult = healItem.applyEffect(context, faintedSpirit);
+      439 |       expect(faintedResult.isSuccess).toBe(false);
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:436:38)
+
+  ● ItemsPure Golden Tests › ItemUsageManager Usage Tests › should handle successful item usage
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      572 |       const result = manager.useItem('health_potion', activeSpirit);
+      573 |
+    > 574 |       expect(result.isSuccess).toBe(true);
+          |                                ^
+      575 |       expect(result.message).toContain('Healed 25 HP'); // Only heals what's needed to reach max HP
+      576 |       expect(activeSpirit.currentHP).toBe(100); // Max HP
+      577 |       expect(context.inventory['health_potion']).toBe(2); // Consumed
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:574:32)
+
+  ● ItemsPure Golden Tests › ItemUsageManager Usage Tests › should not consume key items
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      603 |       const result = manager.useItem('mystery_key', activeSpirit);
+      604 |
+    > 605 |       expect(result.isSuccess).toBe(true);
+          |                                ^
+      606 |       expect(context.inventory['mystery_key']).toBeUndefined(); // Key items not tracked in inventory
+      607 |     });
+      608 |
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:605:32)
+
+  ● ItemsPure Golden Tests › ItemUsageManager Usage Tests › should handle usage validation
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      619 |       // Should fail on active spirit
+      620 |       const activeResult = manager.useItem('revive', activeSpirit);
+    > 621 |       expect(activeResult.isSuccess).toBe(false);
+          |                                      ^
+      622 |       expect(activeResult.message).toContain('must be fainted');
+      623 |     });
+      624 |   });
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:621:38)
+
+  ● ItemsPure Golden Tests › Integration Scenarios › should handle complete item usage workflow
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      794 |       // Use health potion
+      795 |       const healResult = manager.useItem('health_potion', damagedSpirit);
+    > 796 |       expect(healResult.isSuccess).toBe(true);
+          |                                    ^
+      797 |       expect(damagedSpirit.currentHP).toBe(75);
+      798 |       expect(context.inventory['health_potion']).toBe(2);
+      799 |
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:796:36)
+
+  ● ItemsPure Golden Tests › Integration Scenarios › should handle multi-item scenarios
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      835 |       const syncResult = manager.useItem('sync_crystal', spirits[2]);
+      836 |
+    > 837 |       expect(healResult.isSuccess).toBe(true);
+          |                                    ^
+      838 |       expect(reviveResult.isSuccess).toBe(true);
+      839 |       expect(syncResult.isSuccess).toBe(true);
+      840 |
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:837:36)
+
+  ● ItemsPure Golden Tests › Integration Scenarios › should handle evolution and flag systems
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      888 |       // Use evolution item
+      889 |       const evolutionResult = manager.useItem('fire_stone', highSyncSpirit);
+    > 890 |       expect(evolutionResult.isSuccess).toBe(true);
+          |                                         ^
+      891 |       expect(highSyncSpirit.name).toContain('fire_spirit');
+      892 |       expect(context.flags['evolution_available']).toBe(false); // Unchanged
+      893 |
+
+      at Object.<anonymous> (miff/pure/ItemsPure/tests/golden_ItemsPure.test.ts:890:41)
+
+Test Suites: 1 failed, 1 total
+Tests:       16 failed, 50 passed, 66 total
+Snapshots:   0 total
+Time:        2.475 s
+Ran all test suites matching /ItemsPure/i.
+FAILED test:items
+
+=== npm run test:status ===
+PASS miff/pure/StatusEffectsPure/tests/golden_StatusEffectsPure.test.ts
+  StatusEffectsPure Golden Tests
+    Entity Management
+      ✓ should create and manage status entities (25 ms)
+      ✓ should handle entity creation with effects (5 ms)
+      ✓ should handle duplicate entity creation (2 ms)
+    Effect Management
+      ✓ should apply status effects to entities (5 ms)
+      ✓ should handle effect stacking (1 ms)
+      ✓ should handle effect replacement (6 ms)
+      ✓ should remove status effects (1 ms)
+    Effect Simulation
+      ✓ should simulate status effects for entities (9 ms)
+      ✓ should simulate all entities (1 ms)
+    Entity Filtering and Queries
+      ✓ should filter entities by effect category (8 ms)
+      ✓ should filter entities by HP range (2 ms)
+      ✓ should filter entities by effect presence (1 ms)
+    Immunity and Resistance
+      ✓ should handle entity immunities (7 ms)
+      ✓ should handle entity resistances (1 ms)
+    Status Statistics
+      ✓ should provide status statistics (35 ms)
+    Export Functionality
+      ✓ should export status data in different formats (6 ms)
+    Error Handling
+      ✓ should handle invalid entity operations (1 ms)
+      ✓ should handle invalid effect operations
+    Integration Scenarios
+      ✓ should handle complete status effect workflow (4 ms)
+
+PASS miff/pure/StatusEffectsPure/tests/goldenStatusEffectsPure.test.ts
+  ✓ golden status effects flow (2504 ms)
+
+Test Suites: 2 passed, 2 total
+Tests:       20 passed, 20 total
+Snapshots:   0 total
+Time:        5.031 s
+Ran all test suites matching /StatusEffectsPure/i.
+

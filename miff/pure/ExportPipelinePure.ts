@@ -16,6 +16,7 @@
 import { RenderPayload } from './BridgeSchemaPure/schema';
 import { ConvertToGodotManager, GodotExportConfig, GodotVersion, GodotPlatform, OptimizationLevel } from './ConvertToGodotPure/Manager';
 import { ConvertToUnityManager, UnityConvertedPayload } from './ConvertToUnityPure/Manager';
+import { ConvertToWebManager } from './ConvertToWebPure/Manager';
 
 export enum ExportEngine {
   GODOT = 'godot',
@@ -387,14 +388,11 @@ export class ExportPipelinePure {
   }
 
   private async convertToWeb(renderPayload: RenderPayload, config: ExportConfig): Promise<any> {
-    // Web export logic would go here
-    // For now, return mock success
+    const webConverter = new ConvertToWebManager();
+    const converted = webConverter.convert(renderPayload);
     return {
-      status: 'ok',
-      engine: 'web',
-      items: renderPayload.renderData || [],
-      issues: [],
-      warnings: ['Web export uses simplified rendering pipeline']
+      ...converted,
+      warnings: converted.issues.length ? ['Web conversion reported validation issues'] : []
     };
   }
 
@@ -494,11 +492,11 @@ export class ExportPipelinePure {
       
       // Create engine-specific files based on config
       if (config.engine === 'web') {
-        this.createWebExportFiles(exportPath, renderPayload, config);
+        await this.createWebExportFiles(exportPath, renderPayload, config);
       } else if (config.engine === 'godot') {
-        this.createGodotExportFiles(exportPath, renderPayload, config);
+        await this.createGodotExportFiles(exportPath, renderPayload, config);
       } else if (config.engine === 'unity') {
-        this.createUnityExportFiles(exportPath, renderPayload, config);
+        await this.createUnityExportFiles(exportPath, renderPayload, config);
       }
 
       return {
@@ -875,9 +873,9 @@ export class ExportPipelinePure {
     return exportResult;
   }
 
-  private createWebExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): void {
-    const fs = require('fs');
-    const path = require('path');
+  private async createWebExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> {
+    const fs = await import('fs');
+    const path = await import('path');
     
     // Create HTML file
     const htmlContent = `<!DOCTYPE html>
@@ -939,9 +937,9 @@ window.addEventListener('load', initGame);
     fs.writeFileSync(path.join(exportPath, 'game.js'), jsContent);
   }
   
-  private createGodotExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): void {
-    const fs = require('fs');
-    const path = require('path');
+  private async createGodotExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> {
+    const fs = await import('fs');
+    const path = await import('path');
     
     // Create project.godot file
     const projectContent = `; Engine configuration file.
@@ -1000,9 +998,9 @@ func init_game():
     fs.writeFileSync(path.join(exportPath, 'Main.gd'), scriptContent);
   }
   
-  private createUnityExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): void {
-    const fs = require('fs');
-    const path = require('path');
+  private async createUnityExportFiles(exportPath: string, renderPayload: RenderPayload, config: ExportConfig): Promise<void> {
+    const fs = await import('fs');
+    const path = await import('path');
     
     // Create Unity project structure
     const projectDir = path.join(exportPath, 'Assets', 'Scripts');

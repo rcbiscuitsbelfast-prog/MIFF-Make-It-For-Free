@@ -1,0 +1,11 @@
+{
+  "name": "Helmet Of Fate.Timeline",
+  "id": "helmet-of-fate-timeline",
+  "description": "Archived scenario placeholder for Helmet Of Fate.Timeline.",
+  "objectives": [],
+  "triggers": [],
+  "rewards": [],
+  "metadata": {
+    "source": "docs/archive/scenarios/helmet_of_fate.timeline.json"
+  }
+}

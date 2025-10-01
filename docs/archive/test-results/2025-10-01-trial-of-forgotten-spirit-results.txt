@@ -1,0 +1,31 @@
+Scenario: trial-of-forgotten-spirit
+Fixture: docs/archive/scenarios/fixtures-generated/trial-of-forgotten-spirit.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/trial-of-forgotten-spirit.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Trial Of Forgotten Spirit"
+        }
+      ],
+      "finalState": {
+        "name": "Trial Of Forgotten Spirit",
+        "id": "trial-of-forgotten-spirit",
+        "description": "Archived scenario placeholder for Trial Of Forgotten Spirit.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Trial of forgotten spirit"
+        }
+      }
+    }
+  ]
+}

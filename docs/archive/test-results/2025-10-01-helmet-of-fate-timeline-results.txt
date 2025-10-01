@@ -1,0 +1,31 @@
+Scenario: helmet-of-fate-timeline
+Fixture: docs/archive/scenarios/fixtures-generated/helmet-of-fate-timeline.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/helmet-of-fate-timeline.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Helmet Of Fate.Timeline"
+        }
+      ],
+      "finalState": {
+        "name": "Helmet Of Fate.Timeline",
+        "id": "helmet-of-fate-timeline",
+        "description": "Archived scenario placeholder for Helmet Of Fate.Timeline.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/helmet_of_fate.timeline.json"
+        }
+      }
+    }
+  ]
+}

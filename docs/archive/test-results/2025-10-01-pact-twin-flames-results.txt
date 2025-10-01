@@ -1,0 +1,31 @@
+Scenario: pact-twin-flames
+Fixture: docs/archive/scenarios/fixtures-generated/pact-twin-flames.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/pact-twin-flames.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Pact Twin Flames"
+        }
+      ],
+      "finalState": {
+        "name": "Pact Twin Flames",
+        "id": "pact-twin-flames",
+        "description": "Archived scenario placeholder for Pact Twin Flames.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Pact twin flames"
+        }
+      }
+    }
+  ]
+}

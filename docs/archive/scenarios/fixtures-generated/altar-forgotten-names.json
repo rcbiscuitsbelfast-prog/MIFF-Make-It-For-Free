@@ -1,0 +1,11 @@
+{
+  "name": "Alter Forgotten Ames",
+  "id": "altar-forgotten-names",
+  "description": "Archived scenario placeholder for Alter Forgotten Ames.",
+  "objectives": [],
+  "triggers": [],
+  "rewards": [],
+  "metadata": {
+    "source": "docs/archive/scenarios/Alter_forgotten_ames.ts"
+  }
+}

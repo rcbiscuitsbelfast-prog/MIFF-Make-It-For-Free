@@ -1,0 +1,31 @@
+Scenario: vault-of-the-three-sigils
+Fixture: docs/archive/scenarios/fixtures-generated/vault-of-the-three-sigils.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/vault-of-the-three-sigils.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Vault Of The Three Sigils"
+        }
+      ],
+      "finalState": {
+        "name": "Vault Of The Three Sigils",
+        "id": "vault-of-the-three-sigils",
+        "description": "Archived scenario placeholder for Vault Of The Three Sigils.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Vault of the three sigils"
+        }
+      }
+    }
+  ]
+}

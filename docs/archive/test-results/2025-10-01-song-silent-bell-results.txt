@@ -1,0 +1,31 @@
+Scenario: song-silent-bell
+Fixture: docs/archive/scenarios/fixtures-generated/song-silent-bell.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/song-silent-bell.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Song Silent Bell"
+        }
+      ],
+      "finalState": {
+        "name": "Song Silent Bell",
+        "id": "song-silent-bell",
+        "description": "Archived scenario placeholder for Song Silent Bell.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Song silent bell"
+        }
+      }
+    }
+  ]
+}

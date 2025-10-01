@@ -1,0 +1,31 @@
+Scenario: loop-beneath-larkspire
+Fixture: docs/archive/scenarios/fixtures-generated/loop-beneath-larkspire.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/loop-beneath-larkspire.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Loop Beneath Larkspire"
+        }
+      ],
+      "finalState": {
+        "name": "Loop Beneath Larkspire",
+        "id": "loop-beneath-larkspire",
+        "description": "Archived scenario placeholder for Loop Beneath Larkspire.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Loop beneath larkspire"
+        }
+      }
+    }
+  ]
+}

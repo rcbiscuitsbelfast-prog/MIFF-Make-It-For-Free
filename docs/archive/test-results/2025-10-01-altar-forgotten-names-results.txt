@@ -1,0 +1,31 @@
+Scenario: altar-forgotten-names
+Fixture: docs/archive/scenarios/fixtures-generated/altar-forgotten-names.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/altar-forgotten-names.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Alter Forgotten Ames"
+        }
+      ],
+      "finalState": {
+        "name": "Alter Forgotten Ames",
+        "id": "altar-forgotten-names",
+        "description": "Archived scenario placeholder for Alter Forgotten Ames.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Alter_forgotten_ames.ts"
+        }
+      }
+    }
+  ]
+}

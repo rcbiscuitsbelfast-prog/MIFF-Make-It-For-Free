@@ -1,0 +1,31 @@
+Scenario: forge-of-the-hollow-flame
+Fixture: docs/archive/scenarios/fixtures-generated/forge-of-the-hollow-flame.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/forge-of-the-hollow-flame.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Forge Of The Hollow Flame"
+        }
+      ],
+      "finalState": {
+        "name": "Forge Of The Hollow Flame",
+        "id": "forge-of-the-hollow-flame",
+        "description": "Archived scenario placeholder for Forge Of The Hollow Flame.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Forge of the hollow flame"
+        }
+      }
+    }
+  ]
+}

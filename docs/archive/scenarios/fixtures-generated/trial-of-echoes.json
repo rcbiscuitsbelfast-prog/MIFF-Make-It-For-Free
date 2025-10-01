@@ -1,0 +1,11 @@
+{
+  "name": "Trial Of Echoes",
+  "id": "trial-of-echoes",
+  "description": "Archived scenario placeholder for Trial Of Echoes.",
+  "objectives": [],
+  "triggers": [],
+  "rewards": [],
+  "metadata": {
+    "source": "docs/archive/scenarios/Trial of echoes"
+  }
+}

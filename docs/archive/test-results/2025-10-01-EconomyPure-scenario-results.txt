@@ -1,0 +1,73 @@
+Scenario: EconomyPure-integration
+Modules: EconomyPure, QuestsPure, NPCsPure
+Commands:
+- npx --yes tsx miff/pure/EconomyPure/cliHarness.ts
+Errors/Stderr:
+Usage: tsx cliHarness.ts <op|json-file> [args]
+Status: error
+- npx --yes tsx miff/pure/QuestsPure/cliHarness.ts
+Output:
+{
+  "op": "help",
+  "status": "ok",
+  "result": {
+    "availableCommands": [
+      "create --quest-id=<id> --title=<title> --description=<desc> --category=<cat> --level=<level> --giver=<npc>",
+      "get --quest-id=<id>",
+      "update --quest-id=<id> [--title=<title>] [--status=<status>] [--level=<level>]",
+      "delete --quest-id=<id>",
+      "list [--status=<status>] [--category=<cat>] [--giver=<npc>] [--level=<level>] [--has-prerequisites]",
+      "start --quest-id=<id>",
+      "complete --quest-id=<id>",
+      "progress --quest-id=<id> --step-id=<step> [--completed]",
+      "stats",
+      "export --format=<json|manifest|summary|active>",
+      "reset",
+      "demo",
+      "sample"
+    ],
+    "examples": [
+      "node cliHarness.ts create --quest-id=main_quest --title=\"Save the Kingdom\" --category=main --level=5",
+      "node cliHarness.ts start --quest-id=tutorial_quest",
+      "node cliHarness.ts progress --quest-id=tutorial_quest --step-id=talk_to_elder --completed",
+      "node cliHarness.ts export --format=manifest"
+    ]
+  }
+}
+Status: ok
+- npx --yes tsx miff/pure/NPCsPure/cliHarness.ts
+Output:
+{
+  "op": "help",
+  "status": "ok",
+  "result": {
+    "availableCommands": [
+      "create --npc-id=<id> --name=<name> --behavior=<type> --faction=<faction>",
+      "get --npc-id=<id>",
+      "update --npc-id=<id> --name=<name> --reputation=<rep>",
+      "delete --npc-id=<id>",
+      "list [--zone-id=<zone>] [--behavior=<type>] [--faction=<faction>] [--has-quest]",
+      "simulate --npc-id=<id> --duration=<seconds>",
+      "update-location --npc-id=<id> --x=<x> --y=<y> [--z=<z>]",
+      "add-quest --npc-id=<id> --quest-id=<quest>",
+      "remove-quest --npc-id=<id> --quest-id=<quest>",
+      "update-behavior --npc-id=<id> [--aggression=<val>] [--curiosity=<val>] [--loyalty=<val>]",
+      "update-reputation --npc-id=<id> --reputation=<rep>",
+      "get-by-behavior --behavior=<type>",
+      "get-by-reputation --min-rep=<min> --max-rep=<max>",
+      "stats",
+      "export --format=<json|manifest|summary|quests>",
+      "reset",
+      "dump",
+      "demo",
+      "sample"
+    ],
+    "examples": [
+      "node cliHarness.ts create --npc-id=guard_001 --name=\"Town Guard\" --behavior=aggressive --faction=guards",
+      "node cliHarness.ts simulate --npc-id=npc_001 --duration=120",
+      "node cliHarness.ts export --format=manifest",
+      "node cliHarness.ts get-by-behavior --behavior=quest_giver"
+    ]
+  }
+}
+Status: ok

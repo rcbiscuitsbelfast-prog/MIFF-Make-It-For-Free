@@ -1,0 +1,28 @@
+{
+  "name": "BattleAIPure-integration",
+  "modules": [
+    "BattleAIPure",
+    "CombatPure",
+    "StatusEffectsPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/BattleAIPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/CombatPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/StatusEffectsPure/cliHarness.ts"
+    ]
+  ]
+}

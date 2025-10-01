@@ -1,0 +1,28 @@
+{
+  "name": "InputSystemPure-integration",
+  "modules": [
+    "InputSystemPure",
+    "AvatarSystemPure",
+    "HUDPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/InputSystemPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/AvatarSystemPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/HUDPure/cliHarness.ts"
+    ]
+  ]
+}

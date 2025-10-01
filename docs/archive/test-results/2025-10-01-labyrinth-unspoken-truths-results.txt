@@ -1,0 +1,31 @@
+Scenario: labyrinth-unspoken-truths
+Fixture: docs/archive/scenarios/fixtures-generated/labyrinth-unspoken-truths.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/labyrinth-unspoken-truths.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Labyrinth Unspoken Truths"
+        }
+      ],
+      "finalState": {
+        "name": "Labyrinth Unspoken Truths",
+        "id": "labyrinth-unspoken-truths",
+        "description": "Archived scenario placeholder for Labyrinth Unspoken Truths.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/labyrinth-unspoken-truths"
+        }
+      }
+    }
+  ]
+}

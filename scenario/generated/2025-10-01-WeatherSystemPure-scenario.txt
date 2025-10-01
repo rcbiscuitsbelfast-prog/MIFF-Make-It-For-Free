@@ -1,0 +1,28 @@
+{
+  "name": "WeatherSystemPure-integration",
+  "modules": [
+    "WeatherSystemPure",
+    "ObstacleCoursePure",
+    "SurvivalSystemPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/WeatherSystemPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/ObstacleCoursePure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/SurvivalSystemPure/cliHarness.ts"
+    ]
+  ]
+}

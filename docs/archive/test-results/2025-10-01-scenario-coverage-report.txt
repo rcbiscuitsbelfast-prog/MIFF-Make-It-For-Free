@@ -1,0 +1,9 @@
+# Scenario Coverage 2025-10-01
+Total modules tested: 4
+Scenarios generated: 3
+CLI harnesses triggered: 10
+Integration success rate: 60% (6/10)
+Modules skipped: 3
+- LocationPure
+- beatmap.json
+- sample_world.json

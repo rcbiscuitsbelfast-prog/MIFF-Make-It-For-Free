@@ -1,0 +1,93 @@
+{
+  "success": true,
+  "engine": "web",
+  "platform": "web_browser",
+  "outputPath": "./export",
+  "fileSize": 0,
+  "exportTime": 26,
+  "steps": [
+    {
+      "id": "step_0",
+      "name": "Validation",
+      "description": "Validating input data and compatibility",
+      "status": "completed",
+      "progress": 100,
+      "issues": [],
+      "warnings": [
+        "Web platform has memory and performance limitations"
+      ],
+      "startTime": 1759305955900,
+      "endTime": 1759305955904,
+      "duration": 4
+    },
+    {
+      "id": "step_1",
+      "name": "Preprocessing",
+      "description": "Preprocessing assets and data",
+      "status": "completed",
+      "progress": 100,
+      "issues": [],
+      "warnings": [],
+      "startTime": 1759305955904,
+      "endTime": 1759305955904,
+      "duration": 0
+    },
+    {
+      "id": "step_2",
+      "name": "Conversion",
+      "description": "Converting to web",
+      "status": "completed",
+      "progress": 100,
+      "issues": [
+        "RenderPayload must have an op",
+        "RenderPayload must have a status",
+        "RenderData 0: RenderData must have an id"
+      ],
+      "warnings": [
+        "Web conversion reported validation issues"
+      ],
+      "startTime": 1759305955904,
+      "endTime": 1759305955905,
+      "duration": 1
+    },
+    {
+      "id": "step_3",
+      "name": "Optimization",
+      "description": "Optimizing for web_browser",
+      "status": "completed",
+      "progress": 100,
+      "issues": [],
+      "warnings": [],
+      "startTime": 1759305955905,
+      "endTime": 1759305955905,
+      "duration": 0
+    },
+    {
+      "id": "step_4",
+      "name": "Export",
+      "description": "Creating final export package",
+      "status": "completed",
+      "progress": 100,
+      "issues": [],
+      "warnings": [],
+      "startTime": 1759305955905,
+      "endTime": 1759305955924,
+      "duration": 19
+    },
+    {
+      "id": "step_5",
+      "name": "Analytics",
+      "description": "Generating export analytics",
+      "status": "completed",
+      "progress": 100,
+      "issues": [],
+      "warnings": [],
+      "startTime": 1759305955924,
+      "endTime": 1759305955925,
+      "duration": 1
+    }
+  ],
+  "warnings": [],
+  "errors": [],
+  "metadata": {}
+}
