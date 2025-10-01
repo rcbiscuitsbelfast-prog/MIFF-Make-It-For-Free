@@ -1,0 +1,28 @@
+{
+  "name": "CraftingPure-integration",
+  "modules": [
+    "CraftingPure",
+    "QuestsPure",
+    "NPCsPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/CraftingPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/QuestsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/NPCsPure/cliHarness.ts"
+    ]
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "ThemeParkPure-integration",
+  "modules": [
+    "ThemeParkPure",
+    "QuestsPure",
+    "NPCsPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/ThemeParkPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/QuestsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/NPCsPure/cliHarness.ts"
+    ]
+  ]
+}

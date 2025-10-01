@@ -1,0 +1,28 @@
+{
+  "name": "CameraSystemPure-integration",
+  "modules": [
+    "CameraSystemPure",
+    "QuestsPure",
+    "NPCsPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/CameraSystemPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/QuestsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/NPCsPure/cliHarness.ts"
+    ]
+  ]
+}

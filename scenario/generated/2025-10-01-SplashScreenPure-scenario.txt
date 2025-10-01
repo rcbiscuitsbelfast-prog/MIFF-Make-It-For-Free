@@ -1,0 +1,28 @@
+{
+  "name": "SplashScreenPure-integration",
+  "modules": [
+    "SplashScreenPure",
+    "QuestsPure",
+    "NPCsPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/SplashScreenPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/QuestsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/NPCsPure/cliHarness.ts"
+    ]
+  ]
+}

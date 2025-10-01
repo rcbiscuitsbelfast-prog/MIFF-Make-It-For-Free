@@ -1,0 +1,28 @@
+{
+  "name": "EquipmentPure-integration",
+  "modules": [
+    "EquipmentPure",
+    "QuestsPure",
+    "NPCsPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/EquipmentPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/QuestsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/NPCsPure/cliHarness.ts"
+    ]
+  ]
+}

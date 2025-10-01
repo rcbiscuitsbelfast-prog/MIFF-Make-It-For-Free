@@ -1,0 +1,28 @@
+{
+  "name": "PartyPure-integration",
+  "modules": [
+    "PartyPure",
+    "SocialDeductionPure",
+    "HUDPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/PartyPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/SocialDeductionPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/HUDPure/cliHarness.ts"
+    ]
+  ]
+}

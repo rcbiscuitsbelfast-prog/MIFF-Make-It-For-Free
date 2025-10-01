@@ -11,6 +11,13 @@ function moduleHasHarness(modName) {
   return fs.existsSync(harness) ? harness : null;
 }
 
+function discoverHarnessModules() {
+  const pureDir = path.resolve('miff/pure');
+  const entries = fs.readdirSync(pureDir, { withFileTypes: true });
+  const names = entries.filter(e => e.isDirectory()).map(e => e.name);
+  return names.filter(n => !!moduleHasHarness(n));
+}
+
 function chooseCombo(mod, candidates) {
   const combos = [];
   const addIf = (m) => { if (m && moduleHasHarness(m)) combos.push(m); };
@@ -49,7 +56,8 @@ function main() {
   const scaff = readLines(path.join(base, 'scaffoldedModules.txt')).map(l => l.split(/[\/]/).pop()).map(s => s && s.endsWith('.json') ? null : s).filter(Boolean);
   const broken = new Set(readLines(path.join(base, 'brokenModules.txt')));
 
-  const allCandidates = Array.from(new Set([ ...real, ...scaff ])).filter(Boolean);
+  const discovered = discoverHarnessModules();
+  const allCandidates = Array.from(new Set([ ...real, ...scaff, ...discovered ])).filter(Boolean);
   const eligible = allCandidates.filter(m => !broken.has(m));
 
   const outDir = path.resolve('scenario/generated');
