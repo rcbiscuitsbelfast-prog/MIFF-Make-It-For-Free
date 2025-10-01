@@ -4,6 +4,33 @@ import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Check for help command
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log(`
+TeamsPure CLI Harness - Team Management System
+
+Usage: npx tsx miff/pure/TeamsPure/cliHarness.ts [command] [options]
+
+Commands:
+  add <spiritId>           - Add spirit to team
+  remove <index>           - Remove spirit from team at index
+  swap <indexA> <indexB>   - Swap spirits at two positions
+  list                     - List active team
+  get-team                 - Get team data
+  get-reserves             - Get reserves data
+  set-max-size <size>      - Set maximum team size
+  simulate                 - Simulate team operations
+  dump                     - Dump all data
+  help                     - Show this help
+
+Examples:
+  npx tsx miff/pure/TeamsPure/cliHarness.ts add "spirit1"
+  npx tsx miff/pure/TeamsPure/cliHarness.ts list
+  npx tsx miff/pure/TeamsPure/cliHarness.ts set-max-size 4
+`);
+  process.exit(0);
+}
+
 interface TeamOperation {
   op: 'add' | 'remove' | 'swap' | 'list' | 'get-team' | 'get-reserves' | 'set-max-size' | 'simulate' | 'dump';
   spiritId?: string;

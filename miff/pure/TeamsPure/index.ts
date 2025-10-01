@@ -1370,12 +1370,41 @@ export class Team implements ITeam {
     let effectivenessBonus = 0;
     for (let i = 0; i < this.spirits.length; i++) {
       for (let j = i + 1; j < this.spirits.length; j++) {
-        // This would use the type effectiveness system
-        effectivenessBonus += 10; // Placeholder
+        const spirit1 = this.spirits[i];
+        const spirit2 = this.spirits[j];
+        
+        // Calculate type effectiveness bonus based on spirit types
+        if (spirit1.type && spirit2.type) {
+          const typeCompatibility = this.calculateTypeCompatibility(spirit1.type, spirit2.type);
+          effectivenessBonus += typeCompatibility;
+        }
       }
     }
 
     return Math.min(100, (diversityRatio * 100) + effectivenessBonus);
+  }
+
+  /**
+   * Calculate type compatibility between two spirit types
+   */
+  private calculateTypeCompatibility(type1: string, type2: string): number {
+    // Basic type compatibility matrix
+    const compatibilityMatrix: { [key: string]: { [key: string]: number } } = {
+      'fire': { 'water': 0.5, 'grass': 2.0, 'fire': 1.0, 'electric': 1.0, 'ice': 2.0 },
+      'water': { 'fire': 2.0, 'grass': 0.5, 'water': 1.0, 'electric': 1.0, 'ice': 1.0 },
+      'grass': { 'fire': 0.5, 'water': 2.0, 'grass': 1.0, 'electric': 1.0, 'ice': 1.0 },
+      'electric': { 'fire': 1.0, 'water': 2.0, 'grass': 1.0, 'electric': 1.0, 'ice': 1.0 },
+      'ice': { 'fire': 0.5, 'water': 1.0, 'grass': 2.0, 'electric': 1.0, 'ice': 1.0 }
+    };
+
+    const type1Lower = type1.toLowerCase();
+    const type2Lower = type2.toLowerCase();
+    
+    if (compatibilityMatrix[type1Lower] && compatibilityMatrix[type1Lower][type2Lower]) {
+      return compatibilityMatrix[type1Lower][type2Lower] * 5; // Scale to 0-10 range
+    }
+    
+    return 1.0 * 5; // Default neutral compatibility
   }
 
   /**

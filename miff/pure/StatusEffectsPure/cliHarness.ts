@@ -3,6 +3,32 @@ import fs from 'fs';
 import path from 'path';
 import { StatusEffectsManager, StatusEffect } from './StatusEffectsManager';
 
+// Check for help command
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log(`
+StatusEffectsPure CLI Harness - Status Effects Management System
+
+Usage: npx tsx miff/pure/StatusEffectsPure/cliHarness.ts [statusFile] [commandsFile]
+
+Arguments:
+  statusFile    - Path to status JSON file (default: StatusEffectsPure/sample_status.json)
+  commandsFile  - Path to commands JSON file (optional)
+
+Commands in commands file:
+  list                    - List all entities and their effects
+  simulate <id>           - Simulate status effects for entity
+  dump <id>               - Dump entity status data
+  create <id> <maxHp>     - Create new entity
+  apply <id> <effect>     - Apply effect to entity
+  remove <id> <effectId>  - Remove effect from entity
+
+Examples:
+  npx tsx miff/pure/StatusEffectsPure/cliHarness.ts
+  npx tsx miff/pure/StatusEffectsPure/cliHarness.ts status.json commands.json
+`);
+  process.exit(0);
+}
+
 type Cmd =
   | { op: 'list' }
   | { op: 'simulate'; id: string }

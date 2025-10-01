@@ -7,6 +7,30 @@
  * the BattleAIPure battle AI management system.
  */
 
+// Check for help command
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log(`
+BattleAIPure CLI Harness - Battle AI Management System
+
+Usage: npx tsx miff/pure/BattleAIPure/cliHarness.ts [command] [options]
+
+Commands:
+  test                     - Run basic battle AI tests
+  create-profile <name>    - Create new AI decision profile
+  create-controller <name> - Create new battle AI controller
+  list-profiles            - List all AI decision profiles
+  list-controllers          - List all battle AI controllers
+  simulate-battle          - Simulate AI battle decision making
+  help                     - Show this help
+
+Examples:
+  npx tsx miff/pure/BattleAIPure/cliHarness.ts test
+  npx tsx miff/pure/BattleAIPure/cliHarness.ts create-profile "defensive"
+  npx tsx miff/pure/BattleAIPure/cliHarness.ts simulate-battle
+`);
+  process.exit(0);
+}
+
 import * as readline from 'readline';
 import {
   AIControllerManager,

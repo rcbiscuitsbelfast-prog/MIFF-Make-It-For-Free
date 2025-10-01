@@ -27,10 +27,10 @@ import {
 } from '../ItemsPure';
 
 import {
-  QuestManager,
+  QuestsManager,
   Quest,
-  QuestStatus,
-  QuestObjective
+  QuestStep,
+  QuestReward
 } from '../QuestsPure';
 
 import {
@@ -52,7 +52,7 @@ import {
 } from '../HUDPure';
 
 import {
-  SceneBuilderPure,
+  SceneBuilderManager,
   RenderPayloadPure
 } from '../SceneBuilderPure';
 
@@ -172,11 +172,11 @@ export class RenderWorldPure {
   private engines: {
     combat: CombatEngine;
     items: ItemUsageManager;
-    quests: QuestManager;
+    quests: QuestsManager;
     teams: TeamManager;
     ai: AIManager;
     hud: HUDManager;
-    scene: SceneBuilderPure;
+    scene: SceneBuilderManager;
     avatar: AvatarSystemPure;
     dialogue: {
       nextNode: typeof nextNode;
@@ -317,11 +317,11 @@ export class RenderWorldPure {
     return {
       combat: new CombatEngine(typeChart),
       items: new ItemUsageManager(playerContext),
-      quests: new QuestManager(),
+      quests: new QuestsManager(),
       teams: new TeamManager(),
       ai: new AIManager(),
       hud: new HUDManager(),
-      scene: new SceneBuilderPure(),
+      scene: new SceneBuilderManager(),
       avatar: new AvatarSystemPure(),
       dialogue: {
         nextNode: nextNode,

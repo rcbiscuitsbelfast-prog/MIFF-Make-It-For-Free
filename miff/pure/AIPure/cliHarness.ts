@@ -7,6 +7,30 @@
  * the AIPure AI management system.
  */
 
+// Check for help command
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log(`
+AIPure CLI Harness - AI Management System
+
+Usage: npx tsx miff/pure/AIPure/cliHarness.ts [command] [options]
+
+Commands:
+  test                     - Run basic AI tests
+  create-policy <name>     - Create new AI policy
+  create-battle-ai <name>  - Create new battle AI
+  list-policies            - List all AI policies
+  list-battle-ais          - List all battle AIs
+  simulate-battle          - Simulate AI battle
+  help                     - Show this help
+
+Examples:
+  npx tsx miff/pure/AIPure/cliHarness.ts test
+  npx tsx miff/pure/AIPure/cliHarness.ts create-policy "aggressive"
+  npx tsx miff/pure/AIPure/cliHarness.ts simulate-battle
+`);
+  process.exit(0);
+}
+
 import * as readline from 'readline';
 import {
   AIManager,
