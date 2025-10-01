@@ -54,15 +54,23 @@
 				const menu = document.createElement('div');
 				menu.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:linear-gradient(135deg,#0a1322,#1a2332)';
 				menu.innerHTML = '<div style="text-align:center">\
-				<h3 style="margin:0;color:#00ff88">Select Mode</h3>\
+				<h3 style="margin:0;color:#00ff88">Pixel World — Menu</h3>\
 				<p style="margin:6px 0;color:#a9b8c6;font-size:12px">Character: <strong>'+characterId+'</strong></p>\
 				</div>\
-				<div style="display:flex;gap:10px">\
-				<button id="btnPlay" style="padding:8px 14px;background:#00a86b;color:white;border:1px solid #1e4434;border-radius:8px">Play (soon)</button>\
+				<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">\
+				<button id="btnPlay" style="padding:8px 14px;background:#00a86b;color:white;border:1px solid #1e4434;border-radius:8px">Play</button>\
+				<button id="btnAudio" style="padding:8px 14px;background:#21262d;color:#e6edf3;border:1px solid #30363d;border-radius:8px">Audio: On</button>\
+				<button id="btnLinks" style="padding:8px 14px;background:#21262d;color:#e6edf3;border:1px solid #30363d;border-radius:8px">Links</button>\
+				<button id="btnOptions" style="padding:8px 14px;background:#21262d;color:#e6edf3;border:1px solid #30363d;border-radius:8px">Options</button>\
 				<button id="btnBack" style="padding:8px 14px;background:#21262d;color:#e6edf3;border:1px solid #30363d;border-radius:8px">Back</button>\
 				</div>';
 				document.body.appendChild(menu);
+				let audioOn = true;
 				document.getElementById('btnBack').addEventListener('click', ()=>{ menu.remove(); showCharacterSelect(); });
+				document.getElementById('btnAudio').addEventListener('click', (e)=>{ audioOn = !audioOn; e.target.textContent = 'Audio: ' + (audioOn?'On':'Off'); });
+				document.getElementById('btnLinks').addEventListener('click', ()=>{ window.open('https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/', '_blank'); });
+				document.getElementById('btnOptions').addEventListener('click', ()=>{ alert('Options coming soon'); });
+				document.getElementById('btnPlay').addEventListener('click', ()=>{ menu.remove(); startGame(characterId, audioOn); });
 			}
 
 			function showWorld(characterId){
@@ -115,6 +123,46 @@
 				}
 				requestAnimationFrame(tick);
 				document.getElementById('hud-pos').textContent = 'Character: ' + characterId;
+			}
+
+			function startGame(characterId, audioOn){
+				const cvs = document.getElementById('gameCanvas');
+				const ctx = cvs.getContext('2d');
+				const grid = 16; const scale = 2;
+				let player = { x: 10, y: 8, color:'#800080' };
+				const palette = { bg:'#0b1220', grid:'#1f2d3c', grass:'#2e8b57', water:'#1e90ff', sand:'#c2b280' };
+				const mapW = 32, mapH = 24;
+				const map = new Array(mapW*mapH).fill('grass');
+				for(let y=10;y<14;y++) for(let x=20;x<26;x++) map[y*mapW+x] = (x===20||x===25||y===10||y===13)?'sand':'water';
+				let keys = {};
+				window.addEventListener('keydown', (e)=>{ keys[e.key]=true; });
+				window.addEventListener('keyup', (e)=>{ keys[e.key]=false; });
+				function update(){
+					let dx=0, dy=0;
+					if(keys['ArrowUp']||keys['w']||keys['W']) dy=-1;
+					if(keys['ArrowDown']||keys['s']||keys['S']) dy=1;
+					if(keys['ArrowLeft']||keys['a']||keys['A']) dx=-1;
+					if(keys['ArrowRight']||keys['d']||keys['D']) dx=1;
+					if(dx||dy){ player.x = Math.max(0, Math.min(mapW-1, player.x+dx)); player.y = Math.max(0, Math.min(mapH-1, player.y+dy)); }
+					document.getElementById('hud-pos').textContent = 'Character: ' + characterId + ' — ('+player.x+','+player.y+')';
+				}
+				function render(){
+					ctx.imageSmoothingEnabled = false;
+					ctx.fillStyle = palette.bg; ctx.fillRect(0,0,cvs.width,cvs.height);
+					for(let y=0;y<mapH;y++){
+						for(let x=0;x<mapW;x++){
+							const t = map[y*mapW+x];
+							ctx.fillStyle = t==='grass'?palette.grass : t==='water'?palette.water : palette.sand;
+							ctx.fillRect(x*grid*scale, y*grid*scale, grid*scale, grid*scale);
+						}
+					}
+					ctx.fillStyle = player.color;
+					const px = player.x*grid*scale + 2*scale;
+					const py = player.y*grid*scale + 2*scale;
+					ctx.fillRect(px, py, (grid-4)*scale, (grid-4)*scale);
+				}
+				function loop(){ update(); render(); requestAnimationFrame(loop); }
+				loop();
 			}
 		}
 
