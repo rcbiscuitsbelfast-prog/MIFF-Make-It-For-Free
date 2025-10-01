@@ -4,6 +4,7 @@
   "description": "🌿 MIFF: Make It For Free - A remix-safe, AI-native game ecosystem",
   "main": "index.js",
   "scripts": {
+    "ci:scenarios": "node scripts/ci-validate-scenarios.cjs",
     "test": "jest --config jest.pure.config.cjs",
     "test:unit": "jest --config jest.pure.config.cjs",
     "test:ci": "npm run test:automation -- --ci",
