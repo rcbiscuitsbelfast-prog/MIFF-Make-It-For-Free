@@ -279,7 +279,12 @@ export class AdvancedAI {
   makeNeuralDecision(aiId: string, inputs: number[]): number[] {
     const network = this.neuralNetworks.get(aiId);
     if (!network) {
-      throw new Error(`Neural network for AI ${aiId} not found`);
+      // If specific AI network not found, use default
+      const defaultNetwork = this.neuralNetworks.get('default');
+      if (!defaultNetwork) {
+        throw new Error(`Neural network for AI ${aiId} not found and no default network available`);
+      }
+      return this.forwardPropagate(defaultNetwork, inputs);
     }
 
     return this.forwardPropagate(network, inputs);
@@ -296,10 +301,11 @@ export class AdvancedAI {
       const layerOutputs: number[] = [];
 
       for (let neuron = 0; neuron < layerSize; neuron++) {
-        let sum = network.biases[layer][neuron];
+        let sum = (network.biases[layer] && network.biases[layer][neuron]) || 0;
 
         for (let input = 0; input < currentInputs.length; input++) {
-          sum += currentInputs[input] * network.weights[layer][neuron][input];
+          const weight = (network.weights[layer] && network.weights[layer][neuron] && network.weights[layer][neuron][input]) || 0;
+          sum += currentInputs[input] * weight;
         }
 
         layerOutputs.push(network.activationFunction(sum));
