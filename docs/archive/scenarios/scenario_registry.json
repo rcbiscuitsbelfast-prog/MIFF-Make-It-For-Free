@@ -1,36 +1,155 @@
 {
-	"scenarios": [
-		{
-			"id": "witcher_grove",
-			"name": "Witcher Grove",
-			"fixture": "miff/scenarios/witcher_grove.fixture.json",
-			"zone": "site/zones/witcher_grove/",
-			"sitePath": "/zones/witcher_grove"
-		},
-		{
-			"id": "combat_arena",
-			"name": "Combat Arena",
-			"fixture": "fixtures/combat_encounters.json",
-			"sitePath": "/sampler/index.html"
-		},
-		{
-			"id": "town_quest",
-			"name": "Town Quest",
-			"fixture": "fixtures/quest_pack_echoes.json",
-			"sitePath": "/sampler/index.html"
-		},
-		{
-			"id": "rhythm_minigame",
-			"name": "Rhythm Minigame",
-			"fixture": "miff/pure/RhythmSystemPure/fixtures/beatmap.json",
-			"sitePath": "/sampler/index.html"
-		},
-		{
-			"id": "proc_world_stroll",
-			"name": "Proc World Stroll",
-			"fixture": "miff/pure/WorldManifestPure/fixtures/sample_world.json",
-			"sitePath": "/sampler/pixel-world.html"
-		}
-	]
+  "scenarios": [
+    {
+      "id": "witcher_grove",
+      "name": "Witcher Grove",
+      "fixture": "miff/scenarios/witcher_grove.fixture.json",
+      "zone": "site/zones/witcher_grove/",
+      "sitePath": "/zones/witcher_grove"
+    },
+    {
+      "id": "combat_arena",
+      "name": "Combat Arena",
+      "fixture": "fixtures/combat_encounters.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "town_quest",
+      "name": "Town Quest",
+      "fixture": "fixtures/quest_pack_echoes.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "rhythm_minigame",
+      "name": "Rhythm Minigame",
+      "fixture": "miff/pure/RhythmSystemPure/fixtures/beatmap.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "proc_world_stroll",
+      "name": "Proc World Stroll",
+      "fixture": "miff/pure/WorldManifestPure/fixtures/sample_world.json",
+      "sitePath": "/sampler/pixel-world.html"
+    },
+    {
+      "id": "altar-forgotten-names",
+      "name": "Alter Forgotten Ames",
+      "fixture": "docs/archive/scenarios/fixtures-generated/altar-forgotten-names.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "ashes-of-the-timeless-oact",
+      "name": "Ashes Of The Timeless Oact",
+      "fixture": "docs/archive/scenarios/fixtures-generated/ashes-of-the-timeless-oact.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "council-of-the-fractured-banner",
+      "name": "Council Of The Fractured Banner",
+      "fixture": "docs/archive/scenarios/fixtures-generated/council-of-the-fractured-banner.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "dream-of-hollow-vale",
+      "name": "Dream Of Hollow Vale",
+      "fixture": "docs/archive/scenarios/fixtures-generated/dream-of-hollow-vale.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "ember-pact",
+      "name": "Ember Pact",
+      "fixture": "docs/archive/scenarios/fixtures-generated/ember-pact.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "forge-of-the-hollow-flame",
+      "name": "Forge Of The Hollow Flame",
+      "fixture": "docs/archive/scenarios/fixtures-generated/forge-of-the-hollow-flame.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "harvest-red-moon",
+      "name": "Harvest Red Moon",
+      "fixture": "docs/archive/scenarios/fixtures-generated/harvest-red-moon.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "loop-beneath-larkspire",
+      "name": "Loop Beneath Larkspire",
+      "fixture": "docs/archive/scenarios/fixtures-generated/loop-beneath-larkspire.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "mirror-many-paths",
+      "name": "Mirror Many Paths",
+      "fixture": "docs/archive/scenarios/fixtures-generated/mirror-many-paths.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "pact-twin-flames",
+      "name": "Pact Twin Flames",
+      "fixture": "docs/archive/scenarios/fixtures-generated/pact-twin-flames.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "siege-of-ember-watch",
+      "name": "Siege Of Ember Watch",
+      "fixture": "docs/archive/scenarios/fixtures-generated/siege-of-ember-watch.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "song-silent-bell",
+      "name": "Song Silent Bell",
+      "fixture": "docs/archive/scenarios/fixtures-generated/song-silent-bell.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "stormbound-expanse",
+      "name": "Stormbound Expanse",
+      "fixture": "docs/archive/scenarios/fixtures-generated/stormbound-expanse.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "trial-of-echoes",
+      "name": "Trial Of Echoes",
+      "fixture": "docs/archive/scenarios/fixtures-generated/trial-of-echoes.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "trial-of-forgotten-spirit",
+      "name": "Trial Of Forgotten Spirit",
+      "fixture": "docs/archive/scenarios/fixtures-generated/trial-of-forgotten-spirit.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "vault-of-the-three-sigils",
+      "name": "Vault Of The Three Sigils",
+      "fixture": "docs/archive/scenarios/fixtures-generated/vault-of-the-three-sigils.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "whispers-hollow-tree",
+      "name": "Whispers Hollow Tree",
+      "fixture": "docs/archive/scenarios/fixtures-generated/whispers-hollow-tree.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "fixtures-generated",
+      "name": "Fixtures Generated",
+      "fixture": "docs/archive/scenarios/fixtures-generated/fixtures-generated.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "helmet-of-fate-timeline",
+      "name": "Helmet Of Fate.Timeline",
+      "fixture": "docs/archive/scenarios/fixtures-generated/helmet-of-fate-timeline.json",
+      "sitePath": "/sampler/index.html"
+    },
+    {
+      "id": "labyrinth-unspoken-truths",
+      "name": "Labyrinth Unspoken Truths",
+      "fixture": "docs/archive/scenarios/fixtures-generated/labyrinth-unspoken-truths.json",
+      "sitePath": "/sampler/index.html"
+    }
+  ]
 }
-

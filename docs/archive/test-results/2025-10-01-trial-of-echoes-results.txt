@@ -1,0 +1,31 @@
+Scenario: trial-of-echoes
+Fixture: docs/archive/scenarios/fixtures-generated/trial-of-echoes.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/trial-of-echoes.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Trial Of Echoes"
+        }
+      ],
+      "finalState": {
+        "name": "Trial Of Echoes",
+        "id": "trial-of-echoes",
+        "description": "Archived scenario placeholder for Trial Of Echoes.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Trial of echoes"
+        }
+      }
+    }
+  ]
+}

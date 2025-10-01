@@ -1,0 +1,31 @@
+Scenario: ashes-of-the-timeless-oact
+Fixture: docs/archive/scenarios/fixtures-generated/ashes-of-the-timeless-oact.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/ashes-of-the-timeless-oact.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Ashes Of The Timeless Oact"
+        }
+      ],
+      "finalState": {
+        "name": "Ashes Of The Timeless Oact",
+        "id": "ashes-of-the-timeless-oact",
+        "description": "Archived scenario placeholder for Ashes Of The Timeless Oact.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Ashes of the timeless oact"
+        }
+      }
+    }
+  ]
+}

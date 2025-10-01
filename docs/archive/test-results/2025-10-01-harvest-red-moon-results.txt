@@ -1,0 +1,31 @@
+Scenario: harvest-red-moon
+Fixture: docs/archive/scenarios/fixtures-generated/harvest-red-moon.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/harvest-red-moon.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Harvest Red Moon"
+        }
+      ],
+      "finalState": {
+        "name": "Harvest Red Moon",
+        "id": "harvest-red-moon",
+        "description": "Archived scenario placeholder for Harvest Red Moon.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Harvest red moon"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+Scenario: ember-pact
+Fixture: docs/archive/scenarios/fixtures-generated/ember-pact.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/ember-pact.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Ember Pact"
+        }
+      ],
+      "finalState": {
+        "name": "Ember Pact",
+        "id": "ember-pact",
+        "description": "Archived scenario placeholder for Ember Pact.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Ember pact"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+Scenario: whispers-hollow-tree
+Fixture: docs/archive/scenarios/fixtures-generated/whispers-hollow-tree.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/whispers-hollow-tree.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Whispers Hollow Tree"
+        }
+      ],
+      "finalState": {
+        "name": "Whispers Hollow Tree",
+        "id": "whispers-hollow-tree",
+        "description": "Archived scenario placeholder for Whispers Hollow Tree.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Whispers hollow tree"
+        }
+      }
+    }
+  ]
+}

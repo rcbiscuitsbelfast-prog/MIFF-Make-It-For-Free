@@ -1,0 +1,31 @@
+Scenario: mirror-many-paths
+Fixture: docs/archive/scenarios/fixtures-generated/mirror-many-paths.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/mirror-many-paths.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Mirror Many Paths"
+        }
+      ],
+      "finalState": {
+        "name": "Mirror Many Paths",
+        "id": "mirror-many-paths",
+        "description": "Archived scenario placeholder for Mirror Many Paths.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Mirror many paths"
+        }
+      }
+    }
+  ]
+}

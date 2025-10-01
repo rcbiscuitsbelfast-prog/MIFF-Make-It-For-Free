@@ -1,0 +1,31 @@
+Scenario: siege-of-ember-watch
+Fixture: docs/archive/scenarios/fixtures-generated/siege-of-ember-watch.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/siege-of-ember-watch.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Siege Of Ember Watch"
+        }
+      ],
+      "finalState": {
+        "name": "Siege Of Ember Watch",
+        "id": "siege-of-ember-watch",
+        "description": "Archived scenario placeholder for Siege Of Ember Watch.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Siege of ember watch"
+        }
+      }
+    }
+  ]
+}

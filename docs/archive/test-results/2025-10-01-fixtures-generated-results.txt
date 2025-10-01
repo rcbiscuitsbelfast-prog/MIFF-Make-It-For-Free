@@ -1,0 +1,31 @@
+Scenario: fixtures-generated
+Fixture: docs/archive/scenarios/fixtures-generated/fixtures-generated.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/fixtures-generated.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Fixtures Generated"
+        }
+      ],
+      "finalState": {
+        "name": "Fixtures Generated",
+        "id": "fixtures-generated",
+        "description": "Archived scenario placeholder for Fixtures Generated.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/fixtures-generated"
+        }
+      }
+    }
+  ]
+}

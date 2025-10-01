@@ -1,0 +1,11 @@
+{
+  "name": "Harvest Red Moon",
+  "id": "harvest-red-moon",
+  "description": "Archived scenario placeholder for Harvest Red Moon.",
+  "objectives": [],
+  "triggers": [],
+  "rewards": [],
+  "metadata": {
+    "source": "docs/archive/scenarios/Harvest red moon"
+  }
+}

@@ -1,0 +1,31 @@
+Scenario: council-of-the-fractured-banner
+Fixture: docs/archive/scenarios/fixtures-generated/council-of-the-fractured-banner.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/council-of-the-fractured-banner.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Council Of The Fractured Banner"
+        }
+      ],
+      "finalState": {
+        "name": "Council Of The Fractured Banner",
+        "id": "council-of-the-fractured-banner",
+        "description": "Archived scenario placeholder for Council Of The Fractured Banner.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Council of the fractured banner"
+        }
+      }
+    }
+  ]
+}
