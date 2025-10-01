@@ -1,6 +1,6 @@
 RenderWorld Portal Update — 2025-10-01
 
 - Updated docs/modules/RenderWorld/index.ts to open deployed Pixel City in new tab
-  URL: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html
+  URL: https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/render/viewport/
 - Label for middle portal in RenderWorld: Pixel World (Explore Pixel City)
 - Validation: Start menu → character select → demo world flow hosted in docs/ viewport
