@@ -8,27 +8,35 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root{ --bg1:#0a1322; --bg2:#1a2332; --fg:#e6edf3; --muted:#a9b8c6; --card:#0e1622; --accent:#58a6ff; }
+        :root{ --bg1:#061510; --bg2:#0f1f17; --fg:#e6edf3; --muted:#a9b8c6; --card:#0e1622; --accent:#00ff88; }
         html,body{margin:0;height:100%;font-family:'JetBrains Mono', monospace;background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);color:var(--fg)}
         .container{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
         .card{max-width:760px;width:100%;background:rgba(14,22,34,0.9);border:1px solid #1f2d3c;border-radius:12px;padding:24px;box-shadow:0 8px 25px rgba(88,166,255,0.1)}
+        .logo{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+        .logo svg{width:40px;height:40px}
         h1{margin:0 0 8px 0;color:var(--accent);font-size:28px}
         p{margin:8px 0;color:var(--muted)}
         .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-        .a{background:#21262d;border:1px solid #30363d;color:var(--fg);text-decoration:none;padding:8px 12px;border-radius:8px}
-        .a:hover{background:#30363d}
+        .a{background:#0f1f17;border:1px solid #1e4434;color:var(--fg);text-decoration:none;padding:8px 12px;border-radius:8px}
+        .a:hover{background:#163226}
     </style>
 </head>
 <body>
 	<div class="container">
 		<div class="card">
-			<h1>404 — Page Not Found</h1>
+            <div class="logo">
+                <img src="/MIFF-Make-It-For-Free/image_1758956766781.svg" alt="MIFF" width="40" height="40" onerror="this.onerror=null;this.remove();document.getElementById('fallback-logo').style.display='inline-block'" />
+                <svg id="fallback-logo" viewBox="0 0 24 24" fill="var(--accent)" style="display:none">
+                    <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+                </svg>
+                <h1 style="margin:0;color:var(--accent)">404 — Page Not Found</h1>
+            </div>
 			<p>The page you requested does not exist. Try one of these entry points:</p>
 			<div class="links">
 				<a class="a" href="/MIFF-Make-It-For-Free/">Home</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/sampler/">MIFF Sampler</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/renderworld/">RenderWorld Hub</a>
-				<a class="a" href="/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html">Pixel World (Game)</a>
+                <a class="a" href="/MIFF-Make-It-For-Free/render/viewport/">Pixel World (Game)</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/docs-site/">Documentation</a>
 			</div>
 		</div>
