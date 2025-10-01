@@ -1,0 +1,4 @@
+Modules=PixelAnimPure,AvatarSystemPure,SceneBuilderPure,AdvancedRenderingPure,AudioPure
+CLI=miff-world-pixel-city
+Outputs=/workspace/pixel_world_manifest.json,/workspace/npc_registry.json,/workspace/scenario/generated/scene_pixel_city.fixture.json
+Status=PASS

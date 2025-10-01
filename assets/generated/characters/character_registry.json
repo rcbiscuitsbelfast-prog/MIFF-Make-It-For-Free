@@ -1,752 +1,605 @@
 {
   "schema": "miff.characters.registry.v1",
-  "count": 100,
-  "size": 32,
   "items": [
     {
       "id": "char_001",
-      "name": "Mime 1",
-      "role": "Mime",
-      "style": "formal",
-      "sprite": "sprites/char_001.json"
+      "name": "Ranger 1",
+      "role": "Ranger",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_002",
-      "name": "Monk 2",
-      "role": "Monk",
-      "style": "formal",
-      "sprite": "sprites/char_002.json"
+      "name": "Ranger 2",
+      "role": "Ranger",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_003",
-      "name": "Mechanic 3",
-      "role": "Mechanic",
-      "style": "formal",
-      "sprite": "sprites/char_003.json"
+      "name": "Priest 3",
+      "role": "Priest",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_004",
-      "name": "Astronaut 4",
-      "role": "Astronaut",
-      "style": "casual",
-      "sprite": "sprites/char_004.json"
+      "name": "Bard 4",
+      "role": "Bard",
+      "zone": "export_terminal"
     },
     {
       "id": "char_005",
-      "name": "Fairy 5",
-      "role": "Fairy",
-      "style": "formal",
-      "sprite": "sprites/char_005.json"
+      "name": "Priestess 5",
+      "role": "Priestess",
+      "zone": "arcade_district"
     },
     {
       "id": "char_006",
-      "name": "Chef 6",
-      "role": "Chef",
-      "style": "casual",
-      "sprite": "sprites/char_006.json"
+      "name": "Cheerleader 6",
+      "role": "Cheerleader",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_007",
-      "name": "Gladiator 7",
-      "role": "Gladiator",
-      "style": "sci-fi",
-      "sprite": "sprites/char_007.json"
+      "name": "Thief 7",
+      "role": "Thief",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_008",
-      "name": "Priest 8",
-      "role": "Priest",
-      "style": "occupational",
-      "sprite": "sprites/char_008.json"
+      "name": "Miner 8",
+      "role": "Miner",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_009",
-      "name": "Painter 9",
-      "role": "Painter",
-      "style": "historical",
-      "sprite": "sprites/char_009.json"
+      "name": "Archer 9",
+      "role": "Archer",
+      "zone": "export_terminal"
     },
     {
       "id": "char_010",
-      "name": "Gardener 10",
-      "role": "Gardener",
-      "style": "sci-fi",
-      "sprite": "sprites/char_010.json"
+      "name": "Archer 10",
+      "role": "Archer",
+      "zone": "arcade_district"
     },
     {
       "id": "char_011",
-      "name": "Alchemist 11",
-      "role": "Alchemist",
-      "style": "occupational",
-      "sprite": "sprites/char_011.json"
+      "name": "Nun 11",
+      "role": "Nun",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_012",
-      "name": "Alchemist 12",
-      "role": "Alchemist",
-      "style": "sci-fi",
-      "sprite": "sprites/char_012.json"
+      "name": "Carpenter 12",
+      "role": "Carpenter",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_013",
-      "name": "Nun 13",
-      "role": "Nun",
-      "style": "formal",
-      "sprite": "sprites/char_013.json"
+      "name": "Knight 13",
+      "role": "Knight",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_014",
-      "name": "Librarian 14",
-      "role": "Librarian",
-      "style": "sci-fi",
-      "sprite": "sprites/char_014.json"
+      "name": "Pirate 14",
+      "role": "Pirate",
+      "zone": "export_terminal"
     },
     {
       "id": "char_015",
-      "name": "Magician 15",
-      "role": "Magician",
-      "style": "fantasy",
-      "sprite": "sprites/char_015.json"
+      "name": "Druid 15",
+      "role": "Druid",
+      "zone": "arcade_district"
     },
     {
       "id": "char_016",
-      "name": "Necromancer 16",
-      "role": "Necromancer",
-      "style": "occupational",
-      "sprite": "sprites/char_016.json"
+      "name": "Archer 16",
+      "role": "Archer",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_017",
-      "name": "Painter 17",
-      "role": "Painter",
-      "style": "occupational",
-      "sprite": "sprites/char_017.json"
+      "name": "Necromancer 17",
+      "role": "Necromancer",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_018",
-      "name": "Firefighter 18",
-      "role": "Firefighter",
-      "style": "occupational",
-      "sprite": "sprites/char_018.json"
+      "name": "Priest 18",
+      "role": "Priest",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_019",
-      "name": "Priest 19",
-      "role": "Priest",
-      "style": "fantasy",
-      "sprite": "sprites/char_019.json"
+      "name": "Firefighter 19",
+      "role": "Firefighter",
+      "zone": "export_terminal"
     },
     {
       "id": "char_020",
-      "name": "Firefighter 20",
-      "role": "Firefighter",
-      "style": "casual",
-      "companion": {
-        "kind": "cat",
-        "palette": [
-          "#8f527e",
-          "#9ce5db",
-          "#6e14ff",
-          "#4b00e4"
-        ]
-      },
-      "sprite": "sprites/char_020.json"
+      "name": "Surgeon 20",
+      "role": "Surgeon",
+      "zone": "arcade_district"
     },
     {
       "id": "char_021",
-      "name": "Robot 21",
-      "role": "Robot",
-      "style": "formal",
-      "sprite": "sprites/char_021.json"
+      "name": "Priest 21",
+      "role": "Priest",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_022",
-      "name": "Bard 22",
-      "role": "Bard",
-      "style": "fantasy",
-      "sprite": "sprites/char_022.json"
+      "name": "Tailor 22",
+      "role": "Tailor",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_023",
-      "name": "Fairy 23",
-      "role": "Fairy",
-      "style": "sci-fi",
-      "sprite": "sprites/char_023.json"
+      "name": "Painter 23",
+      "role": "Painter",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_024",
-      "name": "Cowboy 24",
-      "role": "Cowboy",
-      "style": "historical",
-      "sprite": "sprites/char_024.json"
+      "name": "Pilot 24",
+      "role": "Pilot",
+      "zone": "export_terminal"
     },
     {
       "id": "char_025",
-      "name": "Samurai 25",
-      "role": "Samurai",
-      "style": "sci-fi",
-      "sprite": "sprites/char_025.json"
+      "name": "Engineer 25",
+      "role": "Engineer",
+      "zone": "arcade_district"
     },
     {
       "id": "char_026",
-      "name": "Monk 26",
-      "role": "Monk",
-      "style": "occupational",
-      "sprite": "sprites/char_026.json"
+      "name": "Mechanic 26",
+      "role": "Mechanic",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_027",
-      "name": "Ninja 27",
-      "role": "Ninja",
-      "style": "historical",
-      "sprite": "sprites/char_027.json"
+      "name": "Gardener 27",
+      "role": "Gardener",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_028",
-      "name": "Soldier 28",
-      "role": "Soldier",
-      "style": "fantasy",
-      "sprite": "sprites/char_028.json"
+      "name": "Engineer 28",
+      "role": "Engineer",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_029",
-      "name": "Mime 29",
-      "role": "Mime",
-      "style": "fantasy",
-      "sprite": "sprites/char_029.json"
+      "name": "Druid 29",
+      "role": "Druid",
+      "zone": "export_terminal"
     },
     {
       "id": "char_030",
-      "name": "Surgeon 30",
-      "role": "Surgeon",
-      "style": "occupational",
-      "sprite": "sprites/char_030.json"
+      "name": "Mechanic 30",
+      "role": "Mechanic",
+      "zone": "arcade_district"
     },
     {
       "id": "char_031",
-      "name": "Bard 31",
-      "role": "Bard",
-      "style": "casual",
-      "sprite": "sprites/char_031.json"
+      "name": "Alchemist 31",
+      "role": "Alchemist",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_032",
-      "name": "Detective 32",
-      "role": "Detective",
-      "style": "formal",
-      "sprite": "sprites/char_032.json"
+      "name": "Gladiator 32",
+      "role": "Gladiator",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_033",
-      "name": "Baker 33",
-      "role": "Baker",
-      "style": "occupational",
-      "sprite": "sprites/char_033.json"
+      "name": "Scientist 33",
+      "role": "Scientist",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_034",
-      "name": "Ninja 34",
-      "role": "Ninja",
-      "style": "sci-fi",
-      "sprite": "sprites/char_034.json"
+      "name": "Tailor 34",
+      "role": "Tailor",
+      "zone": "export_terminal"
     },
     {
       "id": "char_035",
-      "name": "Thief 35",
-      "role": "Thief",
-      "style": "sci-fi",
-      "sprite": "sprites/char_035.json"
+      "name": "Priest 35",
+      "role": "Priest",
+      "zone": "arcade_district"
     },
     {
       "id": "char_036",
-      "name": "Blacksmith 36",
-      "role": "Blacksmith",
-      "style": "formal",
-      "sprite": "sprites/char_036.json"
+      "name": "Pilot 36",
+      "role": "Pilot",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_037",
-      "name": "Mime 37",
-      "role": "Mime",
-      "style": "occupational",
-      "sprite": "sprites/char_037.json"
+      "name": "Gladiator 37",
+      "role": "Gladiator",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_038",
-      "name": "Surgeon 38",
-      "role": "Surgeon",
-      "style": "sci-fi",
-      "sprite": "sprites/char_038.json"
+      "name": "Miner 38",
+      "role": "Miner",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_039",
-      "name": "Necromancer 39",
-      "role": "Necromancer",
-      "style": "fantasy",
-      "sprite": "sprites/char_039.json"
+      "name": "Ranger 39",
+      "role": "Ranger",
+      "zone": "export_terminal"
     },
     {
       "id": "char_040",
-      "name": "Knight 40",
-      "role": "Knight",
-      "style": "historical",
-      "companion": {
-        "kind": "alienPet",
-        "palette": [
-          "#f08ad3",
-          "#d42ec5",
-          "#6e9080",
-          "#77d692"
-        ]
-      },
-      "sprite": "sprites/char_040.json"
+      "name": "Chef 40",
+      "role": "Chef",
+      "zone": "arcade_district"
     },
     {
       "id": "char_041",
-      "name": "Gladiator 41",
-      "role": "Gladiator",
-      "style": "casual",
-      "sprite": "sprites/char_041.json"
+      "name": "Ninja 41",
+      "role": "Ninja",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_042",
-      "name": "Plumber 42",
-      "role": "Plumber",
-      "style": "sci-fi",
-      "sprite": "sprites/char_042.json"
+      "name": "Fairy 42",
+      "role": "Fairy",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_043",
-      "name": "Archer 43",
-      "role": "Archer",
-      "style": "occupational",
-      "sprite": "sprites/char_043.json"
+      "name": "Blacksmith 43",
+      "role": "Blacksmith",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_044",
-      "name": "Nun 44",
-      "role": "Nun",
-      "style": "formal",
-      "sprite": "sprites/char_044.json"
+      "name": "Cheerleader 44",
+      "role": "Cheerleader",
+      "zone": "export_terminal"
     },
     {
       "id": "char_045",
-      "name": "Priestess 45",
-      "role": "Priestess",
-      "style": "formal",
-      "sprite": "sprites/char_045.json"
+      "name": "Priest 45",
+      "role": "Priest",
+      "zone": "arcade_district"
     },
     {
       "id": "char_046",
-      "name": "Blacksmith 46",
-      "role": "Blacksmith",
-      "style": "casual",
-      "sprite": "sprites/char_046.json"
+      "name": "Necromancer 46",
+      "role": "Necromancer",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_047",
-      "name": "Pilot 47",
-      "role": "Pilot",
-      "style": "sci-fi",
-      "sprite": "sprites/char_047.json"
+      "name": "Necromancer 47",
+      "role": "Necromancer",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_048",
-      "name": "Engineer 48",
-      "role": "Engineer",
-      "style": "sci-fi",
-      "sprite": "sprites/char_048.json"
+      "name": "Librarian 48",
+      "role": "Librarian",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_049",
-      "name": "Detective 49",
-      "role": "Detective",
-      "style": "sci-fi",
-      "sprite": "sprites/char_049.json"
+      "name": "Priest 49",
+      "role": "Priest",
+      "zone": "export_terminal"
     },
     {
       "id": "char_050",
-      "name": "Priest 50",
-      "role": "Priest",
-      "style": "fantasy",
-      "sprite": "sprites/char_050.json"
+      "name": "Blacksmith 50",
+      "role": "Blacksmith",
+      "zone": "arcade_district"
     },
     {
       "id": "char_051",
-      "name": "Sailor 51",
-      "role": "Sailor",
-      "style": "fantasy",
-      "sprite": "sprites/char_051.json"
+      "name": "Alchemist 51",
+      "role": "Alchemist",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_052",
-      "name": "Cowboy 52",
-      "role": "Cowboy",
-      "style": "historical",
-      "sprite": "sprites/char_052.json"
+      "name": "Pirate 52",
+      "role": "Pirate",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_053",
-      "name": "Astronaut 53",
-      "role": "Astronaut",
-      "style": "formal",
-      "sprite": "sprites/char_053.json"
+      "name": "Wizard 53",
+      "role": "Wizard",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_054",
-      "name": "Nun 54",
-      "role": "Nun",
-      "style": "sci-fi",
-      "sprite": "sprites/char_054.json"
+      "name": "Bard 54",
+      "role": "Bard",
+      "zone": "export_terminal"
     },
     {
       "id": "char_055",
-      "name": "Scientist 55",
-      "role": "Scientist",
-      "style": "occupational",
-      "sprite": "sprites/char_055.json"
+      "name": "Alchemist 55",
+      "role": "Alchemist",
+      "zone": "arcade_district"
     },
     {
       "id": "char_056",
-      "name": "Druid 56",
-      "role": "Druid",
-      "style": "historical",
-      "sprite": "sprites/char_056.json"
+      "name": "Ninja 56",
+      "role": "Ninja",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_057",
       "name": "Painter 57",
       "role": "Painter",
-      "style": "sci-fi",
-      "sprite": "sprites/char_057.json"
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_058",
-      "name": "Sailor 58",
-      "role": "Sailor",
-      "style": "formal",
-      "sprite": "sprites/char_058.json"
+      "name": "Assassin 58",
+      "role": "Assassin",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_059",
-      "name": "Miner 59",
-      "role": "Miner",
-      "style": "fantasy",
-      "sprite": "sprites/char_059.json"
+      "name": "Mechanic 59",
+      "role": "Mechanic",
+      "zone": "export_terminal"
     },
     {
       "id": "char_060",
-      "name": "Ninja 60",
-      "role": "Ninja",
-      "style": "sci-fi",
-      "companion": {
-        "kind": "cat",
-        "palette": [
-          "#75809f",
-          "#81c368",
-          "#b3ac6b",
-          "#0a86af"
-        ]
-      },
-      "sprite": "sprites/char_060.json"
+      "name": "Carpenter 60",
+      "role": "Carpenter",
+      "zone": "arcade_district"
     },
     {
       "id": "char_061",
-      "name": "Painter 61",
-      "role": "Painter",
-      "style": "sci-fi",
-      "sprite": "sprites/char_061.json"
+      "name": "Soldier 61",
+      "role": "Soldier",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_062",
-      "name": "Ranger 62",
-      "role": "Ranger",
-      "style": "formal",
-      "sprite": "sprites/char_062.json"
+      "name": "Soldier 62",
+      "role": "Soldier",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_063",
-      "name": "Archer 63",
-      "role": "Archer",
-      "style": "occupational",
-      "sprite": "sprites/char_063.json"
+      "name": "Baker 63",
+      "role": "Baker",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_064",
-      "name": "Cowboy 64",
-      "role": "Cowboy",
-      "style": "occupational",
-      "sprite": "sprites/char_064.json"
+      "name": "Footballer 64",
+      "role": "Footballer",
+      "zone": "export_terminal"
     },
     {
       "id": "char_065",
-      "name": "Bard 65",
-      "role": "Bard",
-      "style": "sci-fi",
-      "sprite": "sprites/char_065.json"
+      "name": "Cheerleader 65",
+      "role": "Cheerleader",
+      "zone": "arcade_district"
     },
     {
       "id": "char_066",
-      "name": "Soldier 66",
-      "role": "Soldier",
-      "style": "sci-fi",
-      "sprite": "sprites/char_066.json"
+      "name": "Ninja 66",
+      "role": "Ninja",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_067",
-      "name": "Baker 67",
-      "role": "Baker",
-      "style": "sci-fi",
-      "sprite": "sprites/char_067.json"
+      "name": "Monk 67",
+      "role": "Monk",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_068",
-      "name": "Pirate 68",
-      "role": "Pirate",
-      "style": "historical",
-      "sprite": "sprites/char_068.json"
+      "name": "Wizard 68",
+      "role": "Wizard",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_069",
-      "name": "Archer 69",
-      "role": "Archer",
-      "style": "sci-fi",
-      "sprite": "sprites/char_069.json"
+      "name": "Pilot 69",
+      "role": "Pilot",
+      "zone": "export_terminal"
     },
     {
       "id": "char_070",
-      "name": "Detective 70",
-      "role": "Detective",
-      "style": "fantasy",
-      "sprite": "sprites/char_070.json"
+      "name": "Ranger 70",
+      "role": "Ranger",
+      "zone": "arcade_district"
     },
     {
       "id": "char_071",
-      "name": "Painter 71",
-      "role": "Painter",
-      "style": "historical",
-      "sprite": "sprites/char_071.json"
+      "name": "Gardener 71",
+      "role": "Gardener",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_072",
-      "name": "Assassin 72",
-      "role": "Assassin",
-      "style": "occupational",
-      "sprite": "sprites/char_072.json"
+      "name": "Mime 72",
+      "role": "Mime",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_073",
-      "name": "Mime 73",
-      "role": "Mime",
-      "style": "fantasy",
-      "sprite": "sprites/char_073.json"
+      "name": "Priest 73",
+      "role": "Priest",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_074",
-      "name": "Ninja 74",
-      "role": "Ninja",
-      "style": "occupational",
-      "sprite": "sprites/char_074.json"
+      "name": "Alchemist 74",
+      "role": "Alchemist",
+      "zone": "export_terminal"
     },
     {
       "id": "char_075",
-      "name": "Businessperson 75",
-      "role": "Businessperson",
-      "style": "casual",
-      "sprite": "sprites/char_075.json"
+      "name": "Pirate 75",
+      "role": "Pirate",
+      "zone": "arcade_district"
     },
     {
       "id": "char_076",
-      "name": "Surgeon 76",
-      "role": "Surgeon",
-      "style": "formal",
-      "sprite": "sprites/char_076.json"
+      "name": "Hunter 76",
+      "role": "Hunter",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_077",
-      "name": "Firefighter 77",
-      "role": "Firefighter",
-      "style": "formal",
-      "sprite": "sprites/char_077.json"
+      "name": "Tailor 77",
+      "role": "Tailor",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_078",
-      "name": "Samurai 78",
-      "role": "Samurai",
-      "style": "formal",
-      "sprite": "sprites/char_078.json"
+      "name": "Pirate 78",
+      "role": "Pirate",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_079",
-      "name": "Ranger 79",
-      "role": "Ranger",
-      "style": "casual",
-      "sprite": "sprites/char_079.json"
+      "name": "Alchemist 79",
+      "role": "Alchemist",
+      "zone": "export_terminal"
     },
     {
       "id": "char_080",
-      "name": "Mechanic 80",
-      "role": "Mechanic",
-      "style": "casual",
-      "companion": {
-        "kind": "bird",
-        "palette": [
-          "#c5ad02",
-          "#2431d7",
-          "#7d6094",
-          "#fea243"
-        ]
-      },
-      "sprite": "sprites/char_080.json"
+      "name": "Blacksmith 80",
+      "role": "Blacksmith",
+      "zone": "arcade_district"
     },
     {
       "id": "char_081",
-      "name": "Alchemist 81",
-      "role": "Alchemist",
-      "style": "fantasy",
-      "sprite": "sprites/char_081.json"
+      "name": "Priestess 81",
+      "role": "Priestess",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_082",
-      "name": "Librarian 82",
-      "role": "Librarian",
-      "style": "formal",
-      "sprite": "sprites/char_082.json"
+      "name": "Priest 82",
+      "role": "Priest",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_083",
-      "name": "Chef 83",
-      "role": "Chef",
-      "style": "fantasy",
-      "sprite": "sprites/char_083.json"
+      "name": "Alchemist 83",
+      "role": "Alchemist",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_084",
-      "name": "Priestess 84",
-      "role": "Priestess",
-      "style": "fantasy",
-      "sprite": "sprites/char_084.json"
+      "name": "Alien 84",
+      "role": "Alien",
+      "zone": "export_terminal"
     },
     {
       "id": "char_085",
-      "name": "Soldier 85",
-      "role": "Soldier",
-      "style": "formal",
-      "sprite": "sprites/char_085.json"
+      "name": "Pirate 85",
+      "role": "Pirate",
+      "zone": "arcade_district"
     },
     {
       "id": "char_086",
-      "name": "Archer 86",
-      "role": "Archer",
-      "style": "fantasy",
-      "sprite": "sprites/char_086.json"
+      "name": "Bard 86",
+      "role": "Bard",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_087",
-      "name": "Priest 87",
-      "role": "Priest",
-      "style": "occupational",
-      "sprite": "sprites/char_087.json"
+      "name": "Baker 87",
+      "role": "Baker",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_088",
-      "name": "Hunter 88",
-      "role": "Hunter",
-      "style": "casual",
-      "sprite": "sprites/char_088.json"
+      "name": "Alien 88",
+      "role": "Alien",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_089",
-      "name": "Nun 89",
-      "role": "Nun",
-      "style": "historical",
-      "sprite": "sprites/char_089.json"
+      "name": "Painter 89",
+      "role": "Painter",
+      "zone": "export_terminal"
     },
     {
       "id": "char_090",
-      "name": "Fairy 90",
-      "role": "Fairy",
-      "style": "fantasy",
-      "sprite": "sprites/char_090.json"
+      "name": "Footballer 90",
+      "role": "Footballer",
+      "zone": "arcade_district"
     },
     {
       "id": "char_091",
-      "name": "Druid 91",
-      "role": "Druid",
-      "style": "formal",
-      "sprite": "sprites/char_091.json"
+      "name": "Samurai 91",
+      "role": "Samurai",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_092",
-      "name": "Sailor 92",
-      "role": "Sailor",
-      "style": "fantasy",
-      "sprite": "sprites/char_092.json"
+      "name": "Nun 92",
+      "role": "Nun",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_093",
-      "name": "Carpenter 93",
-      "role": "Carpenter",
-      "style": "occupational",
-      "sprite": "sprites/char_093.json"
+      "name": "Ninja 93",
+      "role": "Ninja",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_094",
-      "name": "Astronaut 94",
-      "role": "Astronaut",
-      "style": "historical",
-      "sprite": "sprites/char_094.json"
+      "name": "Bard 94",
+      "role": "Bard",
+      "zone": "export_terminal"
     },
     {
       "id": "char_095",
-      "name": "Carpenter 95",
-      "role": "Carpenter",
-      "style": "casual",
-      "sprite": "sprites/char_095.json"
+      "name": "Ninja 95",
+      "role": "Ninja",
+      "zone": "arcade_district"
     },
     {
       "id": "char_096",
-      "name": "Pilot 96",
-      "role": "Pilot",
-      "style": "fantasy",
-      "sprite": "sprites/char_096.json"
+      "name": "Alien 96",
+      "role": "Alien",
+      "zone": "fantasy_grove"
     },
     {
       "id": "char_097",
-      "name": "Mechanic 97",
-      "role": "Mechanic",
-      "style": "casual",
-      "sprite": "sprites/char_097.json"
+      "name": "Nun 97",
+      "role": "Nun",
+      "zone": "industrial_outpost"
     },
     {
       "id": "char_098",
-      "name": "Plumber 98",
-      "role": "Plumber",
-      "style": "fantasy",
-      "sprite": "sprites/char_098.json"
+      "name": "Priestess 98",
+      "role": "Priestess",
+      "zone": "historical_plaza"
     },
     {
       "id": "char_099",
-      "name": "Mechanic 99",
-      "role": "Mechanic",
-      "style": "occupational",
-      "sprite": "sprites/char_099.json"
+      "name": "Sailor 99",
+      "role": "Sailor",
+      "zone": "export_terminal"
     },
     {
       "id": "char_100",
-      "name": "Bard 100",
-      "role": "Bard",
-      "style": "occupational",
-      "companion": {
-        "kind": "cat",
-        "palette": [
-          "#1850cf",
-          "#6bcf5a",
-          "#ad3304",
-          "#cc1a5c"
-        ]
-      },
-      "sprite": "sprites/char_100.json"
+      "name": "Necromancer 100",
+      "role": "Necromancer",
+      "zone": "arcade_district"
     }
   ]
 }
