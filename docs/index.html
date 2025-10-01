@@ -20,18 +20,7 @@
 	</style>
 </head>
 <body>
-    <div class="wrap">
-        <div class="card">
-            <h1>MIFF — Make It For Free</h1>
-            <p>Welcome. Choose an experience:</p>
-            <div class="links">
-                <a class="a" href="/MIFF-Make-It-For-Free/docs-site/">Main Site</a>
-                <a class="a" href="/MIFF-Make-It-For-Free/sampler/">MIFF Sampler</a>
-                <a class="a" href="/MIFF-Make-It-For-Free/renderworld/">RenderWorld Hub</a>
-                <a class="a" href="/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html?v=2025-10-01-5">Pixel World (Game)</a>
-            </div>
-        </div>
-    </div>
+    
 </body>
 </html>
 <!DOCTYPE html>
@@ -59,31 +48,23 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="#main" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
     <div id="miff-landing">
         <!-- Header -->
         <header class="header">
             <div class="container">
-                <div class="logo">
-                    <a href="#" aria-label="Open menu" class="menu-logo" id="menuToggle">
-                        <img src="image_1758956766781.svg" alt="MIFF Logo" width="60" height="60" onerror="this.onerror=null;this.src='image_1758956766781.jpeg'" />
-                    </a>
-                    <span class="logo-text">MIFF</span>
-                </div>
+                
                 <nav class="nav">
                     <a href="./">Home</a>
-                    <a href="sampler/">MIFF Sampler</a>
+                    
                     <a href="studio/">MIFF Studio</a>
-                    <a href="renderworld/">RenderWorld Hub</a>
+                    
                     <a href="docs-site/">Documentation</a>
                     <a href="blog/">Blog</a>
                 </nav>
                 <!-- Menu Panel -->
                 <div id="menu-panel" class="menu-panel" aria-hidden="true">
                     <a href="./">🏠 Home</a>
-                    <a href="sampler/">🎮 MIFF Sampler</a>
                     <a href="studio/">🛠️ MIFF Studio</a>
-                    <a href="renderworld/">🌍 RenderWorld Hub</a>
                     <a href="docs-site/">📘 Documentation</a>
                     <a href="blog/">📝 Blog</a>
                     <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
@@ -201,7 +182,56 @@
 
     <script src="assets/script.js"></script>
     <script>
-        // Removed splash overlay to prevent top overlay/404-like box showing on homepage
+        // Restore splash overlay for homepage
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const isExactHomepage = (currentPath === '/' || 
+                                   currentPath === '/docs/' || 
+                                   currentPath === '/docs/index.html' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/docs/' ||
+                                   currentPath === '/MIFF-Make-It-For-Free/docs/index.html');
+            if (isExactHomepage) {
+                showSplash();
+            }
+        });
+
+        function showSplash() {
+            const splash = document.createElement('div');
+            splash.className = 'miff-splash-screen';
+            splash.innerHTML = `
+                <div class="splash-content">
+                    <div class="splash-logo">
+                        <img src="image_1758956766781.svg" alt="MIFF Logo" width="80" height="80" onerror="this.onerror=null;this.src='image_1758956766781.jpeg'" style="border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);" />
+                    </div>
+                    <h1 class="splash-title">MIFF</h1>
+                    <p class="splash-subtitle">Modular Interactive Framework for the Future</p>
+                </div>
+            `;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .miff-splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 1; transition: opacity 0.5s ease; }
+                .splash-content { text-align: center; color: #00ff88; animation: splashFadeIn 1s ease; }
+                .splash-logo { margin-bottom: 1rem; animation: splashPulse 2s ease-in-out infinite; }
+                .splash-title { font-size: 3rem; font-weight: 700; margin: 0.5rem 0; font-family: 'JetBrains Mono', monospace; }
+                .splash-subtitle { font-size: 1.2rem; opacity: 0.8; margin: 0; font-family: 'JetBrains Mono', monospace; }
+                @keyframes splashFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes splashPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(splash);
+
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.remove(); style.remove(); }, 500);
+            }, 2000);
+
+            splash.addEventListener('click', () => {
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.remove(); style.remove(); }, 500);
+            });
+        }
     </script>
 </body>
 </html>
