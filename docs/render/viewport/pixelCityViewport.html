@@ -90,13 +90,16 @@
 				}
 				drawGrid();
 
-				async function loadDemo(){
-					try{
-						const r = await fetch('../../presets/worlds/demo-forest.json');
-						const data = await r.json();
-						renderWorld(data);
-					}catch(err){ console.error('[PixelCityViewport] Failed to load demo', err); }
-				}
+                async function loadDemo(){
+                    try{
+                        // Use an existing preset that ships with docs
+                        const r = await fetch('../../site/studio/presets/grove.json');
+                        const data = await r.json();
+                        // Normalize to expected shape { zones:[{tiles:[]}] }
+                        const normalized = data?.zones ? data : { zones:[ data ] };
+                        renderWorld(normalized);
+                    }catch(err){ console.error('[PixelCityViewport] Failed to load demo', err); }
+                }
 				loadDemo();
 
 				function renderWorld(world){
