@@ -440,7 +440,7 @@ async function runCLI(): Promise<void> {
 }
 
 // Main execution
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   runCLI().catch(error => {
     console.error('❌ CLI Error:', error);
     process.exit(1);

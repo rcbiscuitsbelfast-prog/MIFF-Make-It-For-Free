@@ -7,7 +7,7 @@
 
 // Re-export all types and classes from Manager
 export * from './Manager';
-export { WeatherSystemManager as default } from './Manager';
+export { WeatherManagerPure as default, WeatherManagerPure as WeatherSystemManager } from './Manager';
 
 // Export core weather types for direct access
 export type { WeatherType, WeatherIntensity, WeatherEffect, WeatherState, WeatherPattern } from './Manager';

@@ -34,36 +34,53 @@ console.log(`EXECUTING: ${scenario.name}`);
 console.log(`${'='.repeat(80)}\n`);
 
 /**
- * Execute a CLI harness command
+ * Execute a CLI harness command with intelligent format detection
  */
 function executeCLIHarness(module, action, params) {
   const harnessPath = path.join(__dirname, `../miff/pure/${module}/cliHarness.ts`);
+  const wrapperPath = path.join(__dirname, `../miff/pure/${module}/cliHarnessWrapper.ts`);
   
   try {
-    // Check if harness exists
-    if (!fs.existsSync(harnessPath)) {
+    // Check if harness or wrapper exists
+    const actualPath = fs.existsSync(wrapperPath) ? wrapperPath : harnessPath;
+    
+    if (!fs.existsSync(actualPath)) {
       results.warnings.push(`CLI harness not found for ${module}`);
       return { success: false, error: 'Harness not found', output: '' };
     }
 
-    // Build command based on action and params
-    let command = `npx tsx ${harnessPath} --mode=${action}`;
+    // Build command - try wrapper format first
+    let command = `npx tsx ${actualPath} --mode=${action}`;
     
-    // Add parameters
+    // Add parameters with proper escaping
     if (params) {
       Object.keys(params).forEach(key => {
-        const value = typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key];
-        command += ` --${key}="${value}"`;
+        let value = params[key];
+        
+        // Handle different value types
+        if (typeof value === 'object') {
+          // For objects/arrays, use single quotes to avoid shell issues
+          value = JSON.stringify(value).replace(/'/g, "'\\''");
+          command += ` --${key}='${value}'`;
+        } else if (typeof value === 'string' && value.includes(' ')) {
+          // Escape strings with spaces
+          command += ` --${key}="${value}"`;
+        } else {
+          command += ` --${key}=${value}`;
+        }
       });
     }
 
     console.log(`  [${module}] Executing: ${action}`);
     
-    // Execute with timeout
+    // Execute with increased timeout for long operations
+    const timeout = module === 'SportsSystemPure' ? 120000 : 60000; // 2 min for sports, 1 min for others
+    
     const output = execSync(command, {
-      timeout: 30000,
+      timeout,
       encoding: 'utf-8',
-      stdio: 'pipe'
+      stdio: 'pipe',
+      shell: '/bin/bash' // Use bash for better quoting support
     });
 
     results.cliHarnessesExecuted.push({
@@ -75,6 +92,17 @@ function executeCLIHarness(module, action, params) {
 
     return { success: true, output };
   } catch (error) {
+    // Check if it's a timeout
+    if (error.code === 'ETIMEDOUT') {
+      results.errors.push({
+        module,
+        action,
+        error: `Timeout after ${error.timeout || 'unknown'}ms - operation took too long`,
+        timestamp: new Date().toISOString()
+      });
+      return { success: false, error: 'Timeout', output: error.stdout || '' };
+    }
+    
     results.errors.push({
       module,
       action,
