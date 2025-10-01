@@ -6,7 +6,7 @@
 - **Passed**: 26 ✅
 - **Failed**: 0 ❌
 - **Warnings**: 0 ⚠️
-- **Total Duration**: 157ms
+- **Total Duration**: 106ms
 - **Success Rate**: 100.0%
 
 ## Test Results
@@ -15,14 +15,14 @@
 ### Advanced AI - Behavior Tree Creation
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 51ms
+- **Duration**: 9ms
 
 
 
 ### Advanced AI - Neural Network Decision Making
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 3ms
+- **Duration**: 5ms
 
 
 
@@ -43,21 +43,21 @@
 ### Advanced Status Effects - Effect Chain Creation
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 11ms
+- **Duration**: 7ms
 
 
 
 ### Advanced Status Effects - Effect Interactions
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 4ms
+- **Duration**: 5ms
 
 
 
 ### Advanced Status Effects - Effect Auras
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 4ms
+- **Duration**: 3ms
 
 
 
@@ -71,42 +71,42 @@
 ### Advanced Combat - Combo System
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 10ms
+- **Duration**: 6ms
 
 
 
 ### Advanced Combat - Environmental Effects
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 4ms
+- **Duration**: 3ms
 
 
 
 ### Advanced Combat - Tactical Positions
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 2ms
+- **Duration**: 1ms
 
 
 
 ### Advanced Combat - Battle Phases
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 4ms
+- **Duration**: 1ms
 
 
 
 ### Advanced Quests - Procedural Quest Generation
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 10ms
+- **Duration**: 6ms
 
 
 
 ### Advanced Quests - Quest Templates
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 1ms
+- **Duration**: 4ms
 
 
 
@@ -120,63 +120,63 @@
 ### Advanced Rendering - Shader Creation
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 5ms
+- **Duration**: 11ms
 
 
 
 ### Advanced Rendering - Light Creation
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 4ms
+- **Duration**: 2ms
 
 
 
 ### Advanced Rendering - Particle System
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 1ms
+- **Duration**: 5ms
 
 
 
 ### Advanced Rendering - Camera System
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 3ms
+- **Duration**: 1ms
 
 
 
 ### Advanced Input - Gesture Creation
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 8ms
+- **Duration**: 6ms
 
 
 
 ### Advanced Input - Haptic Feedback
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 7ms
+- **Duration**: 1ms
 
 
 
 ### Advanced Input - Input Mapping
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 1ms
+- **Duration**: 5ms
 
 
 
 ### Advanced Input - Input Profile
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 0ms
+- **Duration**: 4ms
 
 
 
 ### Advanced Integration - AI + Combat
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 3ms
+- **Duration**: 2ms
 
 
 
@@ -190,7 +190,7 @@
 ### Advanced Integration - Rendering + Input
 - **Status**: PASS
 - **Message**: Test passed successfully
-- **Duration**: 6ms
+- **Duration**: 4ms
 
 
 

@@ -1,5 +1,5 @@
 Phase 2 Module Analysis Report
-Generated: 2025-10-01T05:53:40.345Z
+Generated: 2025-10-01T06:43:59.656Z
 ========================================
 
 SUMMARY
@@ -7,19 +7,12 @@ SUMMARY
 Total Modules: 163
 Real Modules: 73
 Scaffolded Modules: 62
-Broken Modules: 113
-Modules Needing CLI: 8
+Broken Modules: 107
+Modules Needing CLI: 0
 
 MODULES NEEDING CLI HARNESSES
 -----------------------------
-- AvatarAssetRegistryPure (/workspace/miff/pure/AvatarAssetRegistryPure)
-- AvatarRendererGodotPure (/workspace/miff/pure/AvatarRendererGodotPure)
-- AvatarRendererWebPure (/workspace/miff/pure/AvatarRendererWebPure)
-- AvatarSystemPure (/workspace/miff/pure/AvatarSystemPure)
-- ObstacleCoursePure (/workspace/miff/pure/ObstacleCoursePure)
-- SurvivalSystemPure (/workspace/miff/pure/SurvivalSystemPure)
-- ThemeParkPure (/workspace/miff/pure/ThemeParkPure)
-- WebSocketBridgePure (/workspace/miff/pure/WebSocketBridgePure)
+
 
 MODULES WITH ISSUES
 -------------------
@@ -29,10 +22,7 @@ MODULES WITH ISSUES
 - AssetValidatorPure: No dependencies (may be isolated)
 - AudioBridgePure: Contains mock implementations
 - AudioPure: Contains mock implementations
-- AvatarAssetRegistryPure: Missing CLI harness
-- AvatarRendererGodotPure: Missing CLI harness
-- AvatarRendererWebPure: Missing CLI harness
-- AvatarSystemPure: Missing CLI harness, No dependencies (may be isolated)
+- AvatarSystemPure: No dependencies (may be isolated)
 - BattleAIPure: No dependencies (may be isolated)
 - BattleLoopPure: No dependencies (may be isolated)
 - BridgeSchemaPure: No dependencies (may be isolated)
@@ -74,7 +64,6 @@ MODULES WITH ISSUES
 - MovementPure: No dependencies (may be isolated)
 - NPCsPure: No dependencies (may be isolated)
 - NavigationSystemPure: No dependencies (may be isolated)
-- ObstacleCoursePure: Missing CLI harness
 - OverlinkPure: No dependencies (may be isolated)
 - PartyPure: No dependencies (may be isolated)
 - PathfindingPure: No dependencies (may be isolated)
@@ -119,10 +108,8 @@ MODULES WITH ISSUES
 - SportsSystemPure: Contains mock implementations
 - StatsSystemPure: No dependencies (may be isolated)
 - StatusEffectsPure: No dependencies (may be isolated)
-- SurvivalSystemPure: Missing CLI harness
 - TeamsPure: Contains mock implementations, Contains TODO comments
 - TeleportationSystemPure: Contains mock implementations
-- ThemeParkPure: Missing CLI harness
 - TimelineSystemPure: Contains mock implementations
 - UnityBridgePure: Contains mock implementations
 - UnrealBridgePure: Contains mock implementations
@@ -131,7 +118,7 @@ MODULES WITH ISSUES
 - VisualReplaySystemPure: Contains mock implementations, Contains TODO comments
 - WeatherSystemPure: No dependencies (may be isolated)
 - WebBridgePure: Contains mock implementations
-- WebSocketBridgePure: Missing CLI harness, No dependencies (may be isolated)
+- WebSocketBridgePure: No dependencies (may be isolated)
 - WebSocketServerPure: Contains mock implementations
 - WorldManifestPure: No dependencies (may be isolated)
 - XPLevelingPure: No dependencies (may be isolated)
@@ -231,46 +218,46 @@ AudioPure:
 AvatarAssetRegistryPure:
   Path: /workspace/miff/pure/AvatarAssetRegistryPure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 1
   Exports: 3
-  Issues: Missing CLI harness
-  Needs CLI: true
+  Issues: None
+  Needs CLI: false
 
 AvatarRendererGodotPure:
   Path: /workspace/miff/pure/AvatarRendererGodotPure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 1
   Exports: 1
-  Issues: Missing CLI harness
-  Needs CLI: true
+  Issues: None
+  Needs CLI: false
 
 AvatarRendererWebPure:
   Path: /workspace/miff/pure/AvatarRendererWebPure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 1
   Exports: 1
-  Issues: Missing CLI harness
-  Needs CLI: true
+  Issues: None
+  Needs CLI: false
 
 AvatarSystemPure:
   Path: /workspace/miff/pure/AvatarSystemPure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 0
   Exports: 11
-  Issues: Missing CLI harness, No dependencies (may be isolated)
-  Needs CLI: true
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
 
 BattleAIPure:
   Path: /workspace/miff/pure/BattleAIPure
@@ -498,7 +485,7 @@ CutScenePure:
   Has CLI: false
   Has Index: true
   Has Manager: false
-  Dependencies: 5
+  Dependencies: 6
   Exports: 7
   Issues: Contains mock implementations
   Needs CLI: false
@@ -957,13 +944,13 @@ NodeGraphPure:
 ObstacleCoursePure:
   Path: /workspace/miff/pure/ObstacleCoursePure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 1
   Exports: 6
-  Issues: Missing CLI harness
-  Needs CLI: true
+  Issues: None
+  Needs CLI: false
 
 OverlinkPure:
   Path: /workspace/miff/pure/OverlinkPure
@@ -1573,13 +1560,13 @@ StorySystemPure:
 SurvivalSystemPure:
   Path: /workspace/miff/pure/SurvivalSystemPure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 1
   Exports: 7
-  Issues: Missing CLI harness
-  Needs CLI: true
+  Issues: None
+  Needs CLI: false
 
 SyncManagerPure:
   Path: /workspace/miff/pure/SyncManagerPure
@@ -1650,13 +1637,13 @@ TextureSynthPure:
 ThemeParkPure:
   Path: /workspace/miff/pure/ThemeParkPure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 1
   Exports: 7
-  Issues: Missing CLI harness
-  Needs CLI: true
+  Issues: None
+  Needs CLI: false
 
 TimeSystemPure:
   Path: /workspace/miff/pure/TimeSystemPure
@@ -1804,13 +1791,13 @@ WebBridgePure:
 WebSocketBridgePure:
   Path: /workspace/miff/pure/WebSocketBridgePure
   Status: Real
-  Has CLI: false
+  Has CLI: true
   Has Index: true
   Has Manager: false
   Dependencies: 0
   Exports: 2
-  Issues: Missing CLI harness, No dependencies (may be isolated)
-  Needs CLI: true
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
 
 WebSocketServerPure:
   Path: /workspace/miff/pure/WebSocketServerPure
