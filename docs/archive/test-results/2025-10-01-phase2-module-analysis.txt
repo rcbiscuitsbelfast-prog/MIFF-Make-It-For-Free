@@ -1,0 +1,1934 @@
+Phase 2 Module Analysis Report
+Generated: 2025-10-01T05:53:40.345Z
+========================================
+
+SUMMARY
+-------
+Total Modules: 163
+Real Modules: 73
+Scaffolded Modules: 62
+Broken Modules: 113
+Modules Needing CLI: 8
+
+MODULES NEEDING CLI HARNESSES
+-----------------------------
+- AvatarAssetRegistryPure (/workspace/miff/pure/AvatarAssetRegistryPure)
+- AvatarRendererGodotPure (/workspace/miff/pure/AvatarRendererGodotPure)
+- AvatarRendererWebPure (/workspace/miff/pure/AvatarRendererWebPure)
+- AvatarSystemPure (/workspace/miff/pure/AvatarSystemPure)
+- ObstacleCoursePure (/workspace/miff/pure/ObstacleCoursePure)
+- SurvivalSystemPure (/workspace/miff/pure/SurvivalSystemPure)
+- ThemeParkPure (/workspace/miff/pure/ThemeParkPure)
+- WebSocketBridgePure (/workspace/miff/pure/WebSocketBridgePure)
+
+MODULES WITH ISSUES
+-------------------
+- AIProfilesPure: No dependencies (may be isolated)
+- AIPure: No dependencies (may be isolated)
+- AssetManifestPure: No dependencies (may be isolated)
+- AssetValidatorPure: No dependencies (may be isolated)
+- AudioBridgePure: Contains mock implementations
+- AudioPure: Contains mock implementations
+- AvatarAssetRegistryPure: Missing CLI harness
+- AvatarRendererGodotPure: Missing CLI harness
+- AvatarRendererWebPure: Missing CLI harness
+- AvatarSystemPure: Missing CLI harness, No dependencies (may be isolated)
+- BattleAIPure: No dependencies (may be isolated)
+- BattleLoopPure: No dependencies (may be isolated)
+- BridgeSchemaPure: No dependencies (may be isolated)
+- CIEnforcerPure: No dependencies (may be isolated)
+- CameraBridgePure: No dependencies (may be isolated)
+- CameraSystemPure: Contains mock implementations
+- ChainValidatorPure: No dependencies (may be isolated)
+- ChallengesPure: Contains TODO comments
+- ClueSystemPure: Contains mock implementations
+- CollisionSystemPure: No dependencies (may be isolated)
+- CombatCorePure: Contains mock implementations
+- CombatPure: No dependencies (may be isolated)
+- ConvertToGodotPure: Contains mock implementations
+- ConvertToUnityPure: Contains mock implementations
+- ConvertToWebPure: Contains mock implementations
+- CraftingPure: No dependencies (may be isolated)
+- CutScenePure: Contains mock implementations
+- CutsceneSystemPure: Contains TODO comments
+- DialoguePure: No dependencies (may be isolated)
+- DialogueSystemPure: No dependencies (may be isolated)
+- EconomyPure: Contains mock implementations, Contains TODO comments
+- EffectsPure: No dependencies (may be isolated)
+- EquipmentPure: No dependencies (may be isolated)
+- EventBusPure: No dependencies (may be isolated)
+- EventsPure: No dependencies (may be isolated)
+- ExportAndroidPure: Contains mock implementations
+- ExportWebPure: Contains mock implementations
+- FusionPure: No dependencies (may be isolated)
+- GodotBridgePure: Contains mock implementations
+- HapticsPure: Contains mock implementations
+- HealthSystemPure: No dependencies (may be isolated)
+- InputPure: No dependencies (may be isolated)
+- InputSystemPure: No dependencies (may be isolated)
+- InventoryPure: No dependencies (may be isolated)
+- ItemsPure: Contains mock implementations, Contains TODO comments
+- LootTablesPure: No dependencies (may be isolated)
+- LorePure: No dependencies (may be isolated)
+- MountSystemPure: No dependencies (may be isolated)
+- MovementPure: No dependencies (may be isolated)
+- NPCsPure: No dependencies (may be isolated)
+- NavigationSystemPure: No dependencies (may be isolated)
+- ObstacleCoursePure: Missing CLI harness
+- OverlinkPure: No dependencies (may be isolated)
+- PartyPure: No dependencies (may be isolated)
+- PathfindingPure: No dependencies (may be isolated)
+- PerfMetricsPure: Contains mock implementations
+- PerfPure: No dependencies (may be isolated)
+- PermissionsPure: Contains mock implementations
+- PetCollectionPure: Contains mock implementations
+- PhysicsSystemPure: No dependencies (may be isolated)
+- PixelAnimPure: No dependencies (may be isolated)
+- PixelDrawPure: No dependencies (may be isolated)
+- PixelGenPure: No dependencies (may be isolated)
+- PlayerStatePure: Contains mock implementations
+- ProgressionPure: No dependencies (may be isolated)
+- ProjectileSystemPure: No dependencies (may be isolated)
+- QuestModulePure: No dependencies (may be isolated)
+- QuestSystemPure: No dependencies (may be isolated)
+- QuestTimelinePure: Contains mock implementations, Contains TODO comments
+- QuestsPure: No dependencies (may be isolated)
+- RNGPure: No dependencies (may be isolated)
+- RacingSystemPure: Contains mock implementations
+- RemixAuditPure: No dependencies (may be isolated)
+- RenderPayloadPure: No dependencies (may be isolated)
+- RenderReplayPure: No dependencies (may be isolated)
+- RenderWorldPure: Contains mock implementations
+- RestaurantSimulationPure: Contains mock implementations
+- RewardsPure: Contains mock implementations
+- RhythmChallengePure: Contains mock implementations, Contains TODO comments
+- RhythmSystemPure: No dependencies (may be isolated)
+- RitualSystemPure: Contains mock implementations
+- SaveLoadPure: No dependencies (may be isolated)
+- SavePure: Contains mock implementations
+- SceneBuilderPure: Contains mock implementations
+- ScoreSystemPure: No dependencies (may be isolated)
+- SessionManifestPure: No dependencies (may be isolated)
+- SettingsPure: No dependencies (may be isolated)
+- SimpleGamePure: Contains mock implementations
+- SkillTreePure: No dependencies (may be isolated)
+- SlicePure: Contains mock implementations
+- SocialDeductionPure: Contains mock implementations
+- SpiritsPure: Contains mock implementations
+- SplashScreenPure: Contains mock implementations
+- SportsSystemPure: Contains mock implementations
+- StatsSystemPure: No dependencies (may be isolated)
+- StatusEffectsPure: No dependencies (may be isolated)
+- SurvivalSystemPure: Missing CLI harness
+- TeamsPure: Contains mock implementations, Contains TODO comments
+- TeleportationSystemPure: Contains mock implementations
+- ThemeParkPure: Missing CLI harness
+- TimelineSystemPure: Contains mock implementations
+- UnityBridgePure: Contains mock implementations
+- UnrealBridgePure: Contains mock implementations
+- ValidationPure: No dependencies (may be isolated)
+- VisualItemEventPure: Contains mock implementations, Contains TODO comments
+- VisualReplaySystemPure: Contains mock implementations, Contains TODO comments
+- WeatherSystemPure: No dependencies (may be isolated)
+- WebBridgePure: Contains mock implementations
+- WebSocketBridgePure: Missing CLI harness, No dependencies (may be isolated)
+- WebSocketServerPure: Contains mock implementations
+- WorldManifestPure: No dependencies (may be isolated)
+- XPLevelingPure: No dependencies (may be isolated)
+- ZoneServerPure: No dependencies (may be isolated)
+
+DETAILED ANALYSIS
+-----------------
+
+AIProfileIntegrationLayer:
+  Path: /workspace/miff/pure/AIProfileIntegrationLayer
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+AIProfilesPure:
+  Path: /workspace/miff/pure/AIProfilesPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+AIPure:
+  Path: /workspace/miff/pure/AIPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+AssetManifestPure:
+  Path: /workspace/miff/pure/AssetManifestPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 6
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+AssetValidatorPure:
+  Path: /workspace/miff/pure/AssetValidatorPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 9
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+AudioBridgePure:
+  Path: /workspace/miff/pure/AudioBridgePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 7
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+AudioMixerPure:
+  Path: /workspace/miff/pure/AudioMixerPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+AudioPure:
+  Path: /workspace/miff/pure/AudioPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 15
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+AvatarAssetRegistryPure:
+  Path: /workspace/miff/pure/AvatarAssetRegistryPure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 3
+  Issues: Missing CLI harness
+  Needs CLI: true
+
+AvatarRendererGodotPure:
+  Path: /workspace/miff/pure/AvatarRendererGodotPure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 1
+  Issues: Missing CLI harness
+  Needs CLI: true
+
+AvatarRendererWebPure:
+  Path: /workspace/miff/pure/AvatarRendererWebPure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 1
+  Issues: Missing CLI harness
+  Needs CLI: true
+
+AvatarSystemPure:
+  Path: /workspace/miff/pure/AvatarSystemPure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 11
+  Issues: Missing CLI harness, No dependencies (may be isolated)
+  Needs CLI: true
+
+BattleAIPure:
+  Path: /workspace/miff/pure/BattleAIPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+BattleLoopPure:
+  Path: /workspace/miff/pure/BattleLoopPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 8
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+BridgeInspectorPure:
+  Path: /workspace/miff/pure/BridgeInspectorPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+BridgeSchemaPure:
+  Path: /workspace/miff/pure/BridgeSchemaPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 3
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+CIEnforcerPure:
+  Path: /workspace/miff/pure/CIEnforcerPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 6
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+CameraBridgePure:
+  Path: /workspace/miff/pure/CameraBridgePure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 10
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+CameraSystemPure:
+  Path: /workspace/miff/pure/CameraSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 3
+  Exports: 26
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+ChainManagerPure:
+  Path: /workspace/miff/pure/ChainManagerPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ChainValidatorPure:
+  Path: /workspace/miff/pure/ChainValidatorPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+ChallengesPure:
+  Path: /workspace/miff/pure/ChallengesPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 16
+  Issues: Contains TODO comments
+  Needs CLI: false
+
+ClueSystemPure:
+  Path: /workspace/miff/pure/ClueSystemPure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 16
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+CollisionSystemPure:
+  Path: /workspace/miff/pure/CollisionSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+CombatCorePure:
+  Path: /workspace/miff/pure/CombatCorePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 30
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+CombatPure:
+  Path: /workspace/miff/pure/CombatPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+CombatScenarioPure:
+  Path: /workspace/miff/pure/CombatScenarioPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ConvertToGodotPure:
+  Path: /workspace/miff/pure/ConvertToGodotPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 14
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+ConvertToUnityPure:
+  Path: /workspace/miff/pure/ConvertToUnityPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 21
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+ConvertToWebPure:
+  Path: /workspace/miff/pure/ConvertToWebPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 1
+  Exports: 21
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+CraftingPure:
+  Path: /workspace/miff/pure/CraftingPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+CreaturesPure:
+  Path: /workspace/miff/pure/CreaturesPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+CutScenePure:
+  Path: /workspace/miff/pure/CutScenePure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 5
+  Exports: 7
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+CutsceneSystemPure:
+  Path: /workspace/miff/pure/CutsceneSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 3
+  Issues: Contains TODO comments
+  Needs CLI: false
+
+DebugOverlayPure:
+  Path: /workspace/miff/pure/DebugOverlayPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+DialogPure:
+  Path: /workspace/miff/pure/DialogPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+DialoguePure:
+  Path: /workspace/miff/pure/DialoguePure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+DialogueSystemPure:
+  Path: /workspace/miff/pure/DialogueSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 3
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+DrivingSystemPure:
+  Path: /workspace/miff/pure/DrivingSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+EconomyPure:
+  Path: /workspace/miff/pure/EconomyPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 29
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+EffectsPure:
+  Path: /workspace/miff/pure/EffectsPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 23
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+EncounterPure:
+  Path: /workspace/miff/pure/EncounterPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+EntityLinkerPure:
+  Path: /workspace/miff/pure/EntityLinkerPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+EquipmentPure:
+  Path: /workspace/miff/pure/EquipmentPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+EventBusPure:
+  Path: /workspace/miff/pure/EventBusPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+EventsPure:
+  Path: /workspace/miff/pure/EventsPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 8
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+EvolutionPure:
+  Path: /workspace/miff/pure/EvolutionPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ExportAndroidPure:
+  Path: /workspace/miff/pure/ExportAndroidPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 13
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+ExportWebPure:
+  Path: /workspace/miff/pure/ExportWebPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 7
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+FusionPure:
+  Path: /workspace/miff/pure/FusionPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 8
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+GodotBridgePure:
+  Path: /workspace/miff/pure/GodotBridgePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 28
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+HUDPure:
+  Path: /workspace/miff/pure/HUDPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+HapticsPure:
+  Path: /workspace/miff/pure/HapticsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 22
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+HealthSystemPure:
+  Path: /workspace/miff/pure/HealthSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+IdleSystemPure:
+  Path: /workspace/miff/pure/IdleSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 1
+  Exports: 16
+  Issues: None
+  Needs CLI: false
+
+InputPure:
+  Path: /workspace/miff/pure/InputPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 9
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+InputSystemPure:
+  Path: /workspace/miff/pure/InputSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+IntegrationTests:
+  Path: /workspace/miff/pure/IntegrationTests
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+InventoryPure:
+  Path: /workspace/miff/pure/InventoryPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+ItemsPure:
+  Path: /workspace/miff/pure/ItemsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 11
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+LicenseAuditPure:
+  Path: /workspace/miff/pure/LicenseAuditPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+LogPure:
+  Path: /workspace/miff/pure/LogPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+LootTablesPure:
+  Path: /workspace/miff/pure/LootTablesPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+LorePure:
+  Path: /workspace/miff/pure/LorePure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 4
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+MagicSystemPure:
+  Path: /workspace/miff/pure/MagicSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 4
+  Exports: 8
+  Issues: None
+  Needs CLI: false
+
+MeshFactoryPure:
+  Path: /workspace/miff/pure/MeshFactoryPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+MiffAttributionPure:
+  Path: /workspace/miff/pure/MiffAttributionPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ModdingPure:
+  Path: /workspace/miff/pure/ModdingPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+MountSystemPure:
+  Path: /workspace/miff/pure/MountSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 3
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+MovementPure:
+  Path: /workspace/miff/pure/MovementPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+NPCsPure:
+  Path: /workspace/miff/pure/NPCsPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+NavigationSystemPure:
+  Path: /workspace/miff/pure/NavigationSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 9
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+NetworkBridgePure:
+  Path: /workspace/miff/pure/NetworkBridgePure
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+NodeGraphPure:
+  Path: /workspace/miff/pure/NodeGraphPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ObstacleCoursePure:
+  Path: /workspace/miff/pure/ObstacleCoursePure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 6
+  Issues: Missing CLI harness
+  Needs CLI: true
+
+OverlinkPure:
+  Path: /workspace/miff/pure/OverlinkPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PartyPure:
+  Path: /workspace/miff/pure/PartyPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 8
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PathfindingPure:
+  Path: /workspace/miff/pure/PathfindingPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PerfMetricsPure:
+  Path: /workspace/miff/pure/PerfMetricsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 8
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+PerfPure:
+  Path: /workspace/miff/pure/PerfPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 8
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PermissionsPure:
+  Path: /workspace/miff/pure/PermissionsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 11
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+PetCollectionPure:
+  Path: /workspace/miff/pure/PetCollectionPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 1
+  Exports: 9
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+PhysicsSystemPure:
+  Path: /workspace/miff/pure/PhysicsSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PixelAnimPure:
+  Path: /workspace/miff/pure/PixelAnimPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 4
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PixelDrawPure:
+  Path: /workspace/miff/pure/PixelDrawPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 5
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PixelGenPure:
+  Path: /workspace/miff/pure/PixelGenPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 4
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+PlatformBridgePure:
+  Path: /workspace/miff/pure/PlatformBridgePure
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+PlayerStatePure:
+  Path: /workspace/miff/pure/PlayerStatePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 6
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+ProceduralWorldPure:
+  Path: /workspace/miff/pure/ProceduralWorldPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ProfilerPure:
+  Path: /workspace/miff/pure/ProfilerPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ProgressionPure:
+  Path: /workspace/miff/pure/ProgressionPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 6
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+ProjectileSystemPure:
+  Path: /workspace/miff/pure/ProjectileSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 14
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+QuestModulePure:
+  Path: /workspace/miff/pure/QuestModulePure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 7
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+QuestScenarioPure:
+  Path: /workspace/miff/pure/QuestScenarioPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+QuestSystemPure:
+  Path: /workspace/miff/pure/QuestSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 10
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+QuestTimelinePure:
+  Path: /workspace/miff/pure/QuestTimelinePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 2
+  Exports: 4
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+QuestsPure:
+  Path: /workspace/miff/pure/QuestsPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+RNGPure:
+  Path: /workspace/miff/pure/RNGPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 5
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+RacingSystemPure:
+  Path: /workspace/miff/pure/RacingSystemPure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 17
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+RaidSystemPure:
+  Path: /workspace/miff/pure/RaidSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+RemixAuditPure:
+  Path: /workspace/miff/pure/RemixAuditPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 6
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+RemixModePure:
+  Path: /workspace/miff/pure/RemixModePure
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+RemixTaggingPure:
+  Path: /workspace/miff/pure/RemixTaggingPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+RenderPayloadPure:
+  Path: /workspace/miff/pure/RenderPayloadPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+RenderReplayPure:
+  Path: /workspace/miff/pure/RenderReplayPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 4
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+RenderWorldPure:
+  Path: /workspace/miff/pure/RenderWorldPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 2
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+RestaurantSimulationPure:
+  Path: /workspace/miff/pure/RestaurantSimulationPure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 21
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+RewardsPure:
+  Path: /workspace/miff/pure/RewardsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 12
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+RhythmChallengePure:
+  Path: /workspace/miff/pure/RhythmChallengePure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 17
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+RhythmSystemPure:
+  Path: /workspace/miff/pure/RhythmSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 2
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+RitualSystemPure:
+  Path: /workspace/miff/pure/RitualSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 2
+  Exports: 15
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SaveLoadPure:
+  Path: /workspace/miff/pure/SaveLoadPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+SavePure:
+  Path: /workspace/miff/pure/SavePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 21
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SceneBuilderPure:
+  Path: /workspace/miff/pure/SceneBuilderPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 22
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+Schemas:
+  Path: /workspace/miff/pure/Schemas
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 2
+  Exports: 5
+  Issues: None
+  Needs CLI: false
+
+ScoreSystemPure:
+  Path: /workspace/miff/pure/ScoreSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+SessionManifestPure:
+  Path: /workspace/miff/pure/SessionManifestPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 3
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+SettingsPure:
+  Path: /workspace/miff/pure/SettingsPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 4
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+SharedSchemaPure:
+  Path: /workspace/miff/pure/SharedSchemaPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+SimpleGamePure:
+  Path: /workspace/miff/pure/SimpleGamePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 12
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SkillTreePure:
+  Path: /workspace/miff/pure/SkillTreePure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+SlicePure:
+  Path: /workspace/miff/pure/SlicePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 31
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SocialDeductionPure:
+  Path: /workspace/miff/pure/SocialDeductionPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 1
+  Exports: 10
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SpiritTamerDemoPure:
+  Path: /workspace/miff/pure/SpiritTamerDemoPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+SpiritsPure:
+  Path: /workspace/miff/pure/SpiritsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 17
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SplashScreenPure:
+  Path: /workspace/miff/pure/SplashScreenPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 2
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+SportsSystemPure:
+  Path: /workspace/miff/pure/SportsSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 1
+  Exports: 18
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+StatsSystemPure:
+  Path: /workspace/miff/pure/StatsSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 1
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+StatusEffectsPure:
+  Path: /workspace/miff/pure/StatusEffectsPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+StorySystemPure:
+  Path: /workspace/miff/pure/StorySystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+SurvivalSystemPure:
+  Path: /workspace/miff/pure/SurvivalSystemPure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 7
+  Issues: Missing CLI harness
+  Needs CLI: true
+
+SyncManagerPure:
+  Path: /workspace/miff/pure/SyncManagerPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 2
+  Issues: None
+  Needs CLI: false
+
+SyncPure:
+  Path: /workspace/miff/pure/SyncPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+TeamsPure:
+  Path: /workspace/miff/pure/TeamsPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 27
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+TeleportationSystemPure:
+  Path: /workspace/miff/pure/TeleportationSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 2
+  Exports: 10
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+TestHarnessPure:
+  Path: /workspace/miff/pure/TestHarnessPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+TextureSynthPure:
+  Path: /workspace/miff/pure/TextureSynthPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+ThemeParkPure:
+  Path: /workspace/miff/pure/ThemeParkPure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 7
+  Issues: Missing CLI harness
+  Needs CLI: true
+
+TimeSystemPure:
+  Path: /workspace/miff/pure/TimeSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 1
+  Exports: 6
+  Issues: None
+  Needs CLI: false
+
+TimelineSystemPure:
+  Path: /workspace/miff/pure/TimelineSystemPure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 1
+  Exports: 15
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+TopplerDemoPure:
+  Path: /workspace/miff/pure/TopplerDemoPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+TouchGesturePure:
+  Path: /workspace/miff/pure/TouchGesturePure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+TutorialScenarioPure:
+  Path: /workspace/miff/pure/TutorialScenarioPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+TycoonSystemPure:
+  Path: /workspace/miff/pure/TycoonSystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+UnityBridgePure:
+  Path: /workspace/miff/pure/UnityBridgePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 24
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+UnrealBridgePure:
+  Path: /workspace/miff/pure/UnrealBridgePure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 36
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+ValidationPure:
+  Path: /workspace/miff/pure/ValidationPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+VisualItemEventPure:
+  Path: /workspace/miff/pure/VisualItemEventPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 4
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+VisualReplaySystemPure:
+  Path: /workspace/miff/pure/VisualReplaySystemPure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 29
+  Issues: Contains mock implementations, Contains TODO comments
+  Needs CLI: false
+
+WeatherSystemPure:
+  Path: /workspace/miff/pure/WeatherSystemPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+WebBridgePure:
+  Path: /workspace/miff/pure/WebBridgePure
+  Status: Scaffolded
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 9
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+WebSocketBridgePure:
+  Path: /workspace/miff/pure/WebSocketBridgePure
+  Status: Real
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 2
+  Issues: Missing CLI harness, No dependencies (may be isolated)
+  Needs CLI: true
+
+WebSocketServerPure:
+  Path: /workspace/miff/pure/WebSocketServerPure
+  Status: Scaffolded
+  Has CLI: false
+  Has Index: true
+  Has Manager: false
+  Dependencies: 2
+  Exports: 3
+  Issues: Contains mock implementations
+  Needs CLI: false
+
+WitcherExplorerDemoPure:
+  Path: /workspace/miff/pure/WitcherExplorerDemoPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+WorldEnhancementsPure:
+  Path: /workspace/miff/pure/WorldEnhancementsPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+WorldLayoutPure:
+  Path: /workspace/miff/pure/WorldLayoutPure
+  Status: Unknown
+  Has CLI: true
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+WorldManifestPure:
+  Path: /workspace/miff/pure/WorldManifestPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 4
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+XPLevelingPure:
+  Path: /workspace/miff/pure/XPLevelingPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: true
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+ZoneServerPure:
+  Path: /workspace/miff/pure/ZoneServerPure
+  Status: Real
+  Has CLI: true
+  Has Index: true
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: No dependencies (may be isolated)
+  Needs CLI: false
+
+__snapshots__:
+  Path: /workspace/miff/pure/__snapshots__
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+cli:
+  Path: /workspace/miff/pure/cli
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+demos:
+  Path: /workspace/miff/pure/demos
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
+
+shared:
+  Path: /workspace/miff/pure/shared
+  Status: Unknown
+  Has CLI: false
+  Has Index: false
+  Has Manager: false
+  Dependencies: 0
+  Exports: 0
+  Issues: None
+  Needs CLI: false
