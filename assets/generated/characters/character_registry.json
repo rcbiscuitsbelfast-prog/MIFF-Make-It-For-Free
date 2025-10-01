@@ -1,0 +1,752 @@
+{
+  "schema": "miff.characters.registry.v1",
+  "count": 100,
+  "size": 32,
+  "items": [
+    {
+      "id": "char_001",
+      "name": "Mime 1",
+      "role": "Mime",
+      "style": "formal",
+      "sprite": "sprites/char_001.json"
+    },
+    {
+      "id": "char_002",
+      "name": "Monk 2",
+      "role": "Monk",
+      "style": "formal",
+      "sprite": "sprites/char_002.json"
+    },
+    {
+      "id": "char_003",
+      "name": "Mechanic 3",
+      "role": "Mechanic",
+      "style": "formal",
+      "sprite": "sprites/char_003.json"
+    },
+    {
+      "id": "char_004",
+      "name": "Astronaut 4",
+      "role": "Astronaut",
+      "style": "casual",
+      "sprite": "sprites/char_004.json"
+    },
+    {
+      "id": "char_005",
+      "name": "Fairy 5",
+      "role": "Fairy",
+      "style": "formal",
+      "sprite": "sprites/char_005.json"
+    },
+    {
+      "id": "char_006",
+      "name": "Chef 6",
+      "role": "Chef",
+      "style": "casual",
+      "sprite": "sprites/char_006.json"
+    },
+    {
+      "id": "char_007",
+      "name": "Gladiator 7",
+      "role": "Gladiator",
+      "style": "sci-fi",
+      "sprite": "sprites/char_007.json"
+    },
+    {
+      "id": "char_008",
+      "name": "Priest 8",
+      "role": "Priest",
+      "style": "occupational",
+      "sprite": "sprites/char_008.json"
+    },
+    {
+      "id": "char_009",
+      "name": "Painter 9",
+      "role": "Painter",
+      "style": "historical",
+      "sprite": "sprites/char_009.json"
+    },
+    {
+      "id": "char_010",
+      "name": "Gardener 10",
+      "role": "Gardener",
+      "style": "sci-fi",
+      "sprite": "sprites/char_010.json"
+    },
+    {
+      "id": "char_011",
+      "name": "Alchemist 11",
+      "role": "Alchemist",
+      "style": "occupational",
+      "sprite": "sprites/char_011.json"
+    },
+    {
+      "id": "char_012",
+      "name": "Alchemist 12",
+      "role": "Alchemist",
+      "style": "sci-fi",
+      "sprite": "sprites/char_012.json"
+    },
+    {
+      "id": "char_013",
+      "name": "Nun 13",
+      "role": "Nun",
+      "style": "formal",
+      "sprite": "sprites/char_013.json"
+    },
+    {
+      "id": "char_014",
+      "name": "Librarian 14",
+      "role": "Librarian",
+      "style": "sci-fi",
+      "sprite": "sprites/char_014.json"
+    },
+    {
+      "id": "char_015",
+      "name": "Magician 15",
+      "role": "Magician",
+      "style": "fantasy",
+      "sprite": "sprites/char_015.json"
+    },
+    {
+      "id": "char_016",
+      "name": "Necromancer 16",
+      "role": "Necromancer",
+      "style": "occupational",
+      "sprite": "sprites/char_016.json"
+    },
+    {
+      "id": "char_017",
+      "name": "Painter 17",
+      "role": "Painter",
+      "style": "occupational",
+      "sprite": "sprites/char_017.json"
+    },
+    {
+      "id": "char_018",
+      "name": "Firefighter 18",
+      "role": "Firefighter",
+      "style": "occupational",
+      "sprite": "sprites/char_018.json"
+    },
+    {
+      "id": "char_019",
+      "name": "Priest 19",
+      "role": "Priest",
+      "style": "fantasy",
+      "sprite": "sprites/char_019.json"
+    },
+    {
+      "id": "char_020",
+      "name": "Firefighter 20",
+      "role": "Firefighter",
+      "style": "casual",
+      "companion": {
+        "kind": "cat",
+        "palette": [
+          "#8f527e",
+          "#9ce5db",
+          "#6e14ff",
+          "#4b00e4"
+        ]
+      },
+      "sprite": "sprites/char_020.json"
+    },
+    {
+      "id": "char_021",
+      "name": "Robot 21",
+      "role": "Robot",
+      "style": "formal",
+      "sprite": "sprites/char_021.json"
+    },
+    {
+      "id": "char_022",
+      "name": "Bard 22",
+      "role": "Bard",
+      "style": "fantasy",
+      "sprite": "sprites/char_022.json"
+    },
+    {
+      "id": "char_023",
+      "name": "Fairy 23",
+      "role": "Fairy",
+      "style": "sci-fi",
+      "sprite": "sprites/char_023.json"
+    },
+    {
+      "id": "char_024",
+      "name": "Cowboy 24",
+      "role": "Cowboy",
+      "style": "historical",
+      "sprite": "sprites/char_024.json"
+    },
+    {
+      "id": "char_025",
+      "name": "Samurai 25",
+      "role": "Samurai",
+      "style": "sci-fi",
+      "sprite": "sprites/char_025.json"
+    },
+    {
+      "id": "char_026",
+      "name": "Monk 26",
+      "role": "Monk",
+      "style": "occupational",
+      "sprite": "sprites/char_026.json"
+    },
+    {
+      "id": "char_027",
+      "name": "Ninja 27",
+      "role": "Ninja",
+      "style": "historical",
+      "sprite": "sprites/char_027.json"
+    },
+    {
+      "id": "char_028",
+      "name": "Soldier 28",
+      "role": "Soldier",
+      "style": "fantasy",
+      "sprite": "sprites/char_028.json"
+    },
+    {
+      "id": "char_029",
+      "name": "Mime 29",
+      "role": "Mime",
+      "style": "fantasy",
+      "sprite": "sprites/char_029.json"
+    },
+    {
+      "id": "char_030",
+      "name": "Surgeon 30",
+      "role": "Surgeon",
+      "style": "occupational",
+      "sprite": "sprites/char_030.json"
+    },
+    {
+      "id": "char_031",
+      "name": "Bard 31",
+      "role": "Bard",
+      "style": "casual",
+      "sprite": "sprites/char_031.json"
+    },
+    {
+      "id": "char_032",
+      "name": "Detective 32",
+      "role": "Detective",
+      "style": "formal",
+      "sprite": "sprites/char_032.json"
+    },
+    {
+      "id": "char_033",
+      "name": "Baker 33",
+      "role": "Baker",
+      "style": "occupational",
+      "sprite": "sprites/char_033.json"
+    },
+    {
+      "id": "char_034",
+      "name": "Ninja 34",
+      "role": "Ninja",
+      "style": "sci-fi",
+      "sprite": "sprites/char_034.json"
+    },
+    {
+      "id": "char_035",
+      "name": "Thief 35",
+      "role": "Thief",
+      "style": "sci-fi",
+      "sprite": "sprites/char_035.json"
+    },
+    {
+      "id": "char_036",
+      "name": "Blacksmith 36",
+      "role": "Blacksmith",
+      "style": "formal",
+      "sprite": "sprites/char_036.json"
+    },
+    {
+      "id": "char_037",
+      "name": "Mime 37",
+      "role": "Mime",
+      "style": "occupational",
+      "sprite": "sprites/char_037.json"
+    },
+    {
+      "id": "char_038",
+      "name": "Surgeon 38",
+      "role": "Surgeon",
+      "style": "sci-fi",
+      "sprite": "sprites/char_038.json"
+    },
+    {
+      "id": "char_039",
+      "name": "Necromancer 39",
+      "role": "Necromancer",
+      "style": "fantasy",
+      "sprite": "sprites/char_039.json"
+    },
+    {
+      "id": "char_040",
+      "name": "Knight 40",
+      "role": "Knight",
+      "style": "historical",
+      "companion": {
+        "kind": "alienPet",
+        "palette": [
+          "#f08ad3",
+          "#d42ec5",
+          "#6e9080",
+          "#77d692"
+        ]
+      },
+      "sprite": "sprites/char_040.json"
+    },
+    {
+      "id": "char_041",
+      "name": "Gladiator 41",
+      "role": "Gladiator",
+      "style": "casual",
+      "sprite": "sprites/char_041.json"
+    },
+    {
+      "id": "char_042",
+      "name": "Plumber 42",
+      "role": "Plumber",
+      "style": "sci-fi",
+      "sprite": "sprites/char_042.json"
+    },
+    {
+      "id": "char_043",
+      "name": "Archer 43",
+      "role": "Archer",
+      "style": "occupational",
+      "sprite": "sprites/char_043.json"
+    },
+    {
+      "id": "char_044",
+      "name": "Nun 44",
+      "role": "Nun",
+      "style": "formal",
+      "sprite": "sprites/char_044.json"
+    },
+    {
+      "id": "char_045",
+      "name": "Priestess 45",
+      "role": "Priestess",
+      "style": "formal",
+      "sprite": "sprites/char_045.json"
+    },
+    {
+      "id": "char_046",
+      "name": "Blacksmith 46",
+      "role": "Blacksmith",
+      "style": "casual",
+      "sprite": "sprites/char_046.json"
+    },
+    {
+      "id": "char_047",
+      "name": "Pilot 47",
+      "role": "Pilot",
+      "style": "sci-fi",
+      "sprite": "sprites/char_047.json"
+    },
+    {
+      "id": "char_048",
+      "name": "Engineer 48",
+      "role": "Engineer",
+      "style": "sci-fi",
+      "sprite": "sprites/char_048.json"
+    },
+    {
+      "id": "char_049",
+      "name": "Detective 49",
+      "role": "Detective",
+      "style": "sci-fi",
+      "sprite": "sprites/char_049.json"
+    },
+    {
+      "id": "char_050",
+      "name": "Priest 50",
+      "role": "Priest",
+      "style": "fantasy",
+      "sprite": "sprites/char_050.json"
+    },
+    {
+      "id": "char_051",
+      "name": "Sailor 51",
+      "role": "Sailor",
+      "style": "fantasy",
+      "sprite": "sprites/char_051.json"
+    },
+    {
+      "id": "char_052",
+      "name": "Cowboy 52",
+      "role": "Cowboy",
+      "style": "historical",
+      "sprite": "sprites/char_052.json"
+    },
+    {
+      "id": "char_053",
+      "name": "Astronaut 53",
+      "role": "Astronaut",
+      "style": "formal",
+      "sprite": "sprites/char_053.json"
+    },
+    {
+      "id": "char_054",
+      "name": "Nun 54",
+      "role": "Nun",
+      "style": "sci-fi",
+      "sprite": "sprites/char_054.json"
+    },
+    {
+      "id": "char_055",
+      "name": "Scientist 55",
+      "role": "Scientist",
+      "style": "occupational",
+      "sprite": "sprites/char_055.json"
+    },
+    {
+      "id": "char_056",
+      "name": "Druid 56",
+      "role": "Druid",
+      "style": "historical",
+      "sprite": "sprites/char_056.json"
+    },
+    {
+      "id": "char_057",
+      "name": "Painter 57",
+      "role": "Painter",
+      "style": "sci-fi",
+      "sprite": "sprites/char_057.json"
+    },
+    {
+      "id": "char_058",
+      "name": "Sailor 58",
+      "role": "Sailor",
+      "style": "formal",
+      "sprite": "sprites/char_058.json"
+    },
+    {
+      "id": "char_059",
+      "name": "Miner 59",
+      "role": "Miner",
+      "style": "fantasy",
+      "sprite": "sprites/char_059.json"
+    },
+    {
+      "id": "char_060",
+      "name": "Ninja 60",
+      "role": "Ninja",
+      "style": "sci-fi",
+      "companion": {
+        "kind": "cat",
+        "palette": [
+          "#75809f",
+          "#81c368",
+          "#b3ac6b",
+          "#0a86af"
+        ]
+      },
+      "sprite": "sprites/char_060.json"
+    },
+    {
+      "id": "char_061",
+      "name": "Painter 61",
+      "role": "Painter",
+      "style": "sci-fi",
+      "sprite": "sprites/char_061.json"
+    },
+    {
+      "id": "char_062",
+      "name": "Ranger 62",
+      "role": "Ranger",
+      "style": "formal",
+      "sprite": "sprites/char_062.json"
+    },
+    {
+      "id": "char_063",
+      "name": "Archer 63",
+      "role": "Archer",
+      "style": "occupational",
+      "sprite": "sprites/char_063.json"
+    },
+    {
+      "id": "char_064",
+      "name": "Cowboy 64",
+      "role": "Cowboy",
+      "style": "occupational",
+      "sprite": "sprites/char_064.json"
+    },
+    {
+      "id": "char_065",
+      "name": "Bard 65",
+      "role": "Bard",
+      "style": "sci-fi",
+      "sprite": "sprites/char_065.json"
+    },
+    {
+      "id": "char_066",
+      "name": "Soldier 66",
+      "role": "Soldier",
+      "style": "sci-fi",
+      "sprite": "sprites/char_066.json"
+    },
+    {
+      "id": "char_067",
+      "name": "Baker 67",
+      "role": "Baker",
+      "style": "sci-fi",
+      "sprite": "sprites/char_067.json"
+    },
+    {
+      "id": "char_068",
+      "name": "Pirate 68",
+      "role": "Pirate",
+      "style": "historical",
+      "sprite": "sprites/char_068.json"
+    },
+    {
+      "id": "char_069",
+      "name": "Archer 69",
+      "role": "Archer",
+      "style": "sci-fi",
+      "sprite": "sprites/char_069.json"
+    },
+    {
+      "id": "char_070",
+      "name": "Detective 70",
+      "role": "Detective",
+      "style": "fantasy",
+      "sprite": "sprites/char_070.json"
+    },
+    {
+      "id": "char_071",
+      "name": "Painter 71",
+      "role": "Painter",
+      "style": "historical",
+      "sprite": "sprites/char_071.json"
+    },
+    {
+      "id": "char_072",
+      "name": "Assassin 72",
+      "role": "Assassin",
+      "style": "occupational",
+      "sprite": "sprites/char_072.json"
+    },
+    {
+      "id": "char_073",
+      "name": "Mime 73",
+      "role": "Mime",
+      "style": "fantasy",
+      "sprite": "sprites/char_073.json"
+    },
+    {
+      "id": "char_074",
+      "name": "Ninja 74",
+      "role": "Ninja",
+      "style": "occupational",
+      "sprite": "sprites/char_074.json"
+    },
+    {
+      "id": "char_075",
+      "name": "Businessperson 75",
+      "role": "Businessperson",
+      "style": "casual",
+      "sprite": "sprites/char_075.json"
+    },
+    {
+      "id": "char_076",
+      "name": "Surgeon 76",
+      "role": "Surgeon",
+      "style": "formal",
+      "sprite": "sprites/char_076.json"
+    },
+    {
+      "id": "char_077",
+      "name": "Firefighter 77",
+      "role": "Firefighter",
+      "style": "formal",
+      "sprite": "sprites/char_077.json"
+    },
+    {
+      "id": "char_078",
+      "name": "Samurai 78",
+      "role": "Samurai",
+      "style": "formal",
+      "sprite": "sprites/char_078.json"
+    },
+    {
+      "id": "char_079",
+      "name": "Ranger 79",
+      "role": "Ranger",
+      "style": "casual",
+      "sprite": "sprites/char_079.json"
+    },
+    {
+      "id": "char_080",
+      "name": "Mechanic 80",
+      "role": "Mechanic",
+      "style": "casual",
+      "companion": {
+        "kind": "bird",
+        "palette": [
+          "#c5ad02",
+          "#2431d7",
+          "#7d6094",
+          "#fea243"
+        ]
+      },
+      "sprite": "sprites/char_080.json"
+    },
+    {
+      "id": "char_081",
+      "name": "Alchemist 81",
+      "role": "Alchemist",
+      "style": "fantasy",
+      "sprite": "sprites/char_081.json"
+    },
+    {
+      "id": "char_082",
+      "name": "Librarian 82",
+      "role": "Librarian",
+      "style": "formal",
+      "sprite": "sprites/char_082.json"
+    },
+    {
+      "id": "char_083",
+      "name": "Chef 83",
+      "role": "Chef",
+      "style": "fantasy",
+      "sprite": "sprites/char_083.json"
+    },
+    {
+      "id": "char_084",
+      "name": "Priestess 84",
+      "role": "Priestess",
+      "style": "fantasy",
+      "sprite": "sprites/char_084.json"
+    },
+    {
+      "id": "char_085",
+      "name": "Soldier 85",
+      "role": "Soldier",
+      "style": "formal",
+      "sprite": "sprites/char_085.json"
+    },
+    {
+      "id": "char_086",
+      "name": "Archer 86",
+      "role": "Archer",
+      "style": "fantasy",
+      "sprite": "sprites/char_086.json"
+    },
+    {
+      "id": "char_087",
+      "name": "Priest 87",
+      "role": "Priest",
+      "style": "occupational",
+      "sprite": "sprites/char_087.json"
+    },
+    {
+      "id": "char_088",
+      "name": "Hunter 88",
+      "role": "Hunter",
+      "style": "casual",
+      "sprite": "sprites/char_088.json"
+    },
+    {
+      "id": "char_089",
+      "name": "Nun 89",
+      "role": "Nun",
+      "style": "historical",
+      "sprite": "sprites/char_089.json"
+    },
+    {
+      "id": "char_090",
+      "name": "Fairy 90",
+      "role": "Fairy",
+      "style": "fantasy",
+      "sprite": "sprites/char_090.json"
+    },
+    {
+      "id": "char_091",
+      "name": "Druid 91",
+      "role": "Druid",
+      "style": "formal",
+      "sprite": "sprites/char_091.json"
+    },
+    {
+      "id": "char_092",
+      "name": "Sailor 92",
+      "role": "Sailor",
+      "style": "fantasy",
+      "sprite": "sprites/char_092.json"
+    },
+    {
+      "id": "char_093",
+      "name": "Carpenter 93",
+      "role": "Carpenter",
+      "style": "occupational",
+      "sprite": "sprites/char_093.json"
+    },
+    {
+      "id": "char_094",
+      "name": "Astronaut 94",
+      "role": "Astronaut",
+      "style": "historical",
+      "sprite": "sprites/char_094.json"
+    },
+    {
+      "id": "char_095",
+      "name": "Carpenter 95",
+      "role": "Carpenter",
+      "style": "casual",
+      "sprite": "sprites/char_095.json"
+    },
+    {
+      "id": "char_096",
+      "name": "Pilot 96",
+      "role": "Pilot",
+      "style": "fantasy",
+      "sprite": "sprites/char_096.json"
+    },
+    {
+      "id": "char_097",
+      "name": "Mechanic 97",
+      "role": "Mechanic",
+      "style": "casual",
+      "sprite": "sprites/char_097.json"
+    },
+    {
+      "id": "char_098",
+      "name": "Plumber 98",
+      "role": "Plumber",
+      "style": "fantasy",
+      "sprite": "sprites/char_098.json"
+    },
+    {
+      "id": "char_099",
+      "name": "Mechanic 99",
+      "role": "Mechanic",
+      "style": "occupational",
+      "sprite": "sprites/char_099.json"
+    },
+    {
+      "id": "char_100",
+      "name": "Bard 100",
+      "role": "Bard",
+      "style": "occupational",
+      "companion": {
+        "kind": "cat",
+        "palette": [
+          "#1850cf",
+          "#6bcf5a",
+          "#ad3304",
+          "#cc1a5c"
+        ]
+      },
+      "sprite": "sprites/char_100.json"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "miff.world.v1",
+  "version": "1.0.0",
+  "zones": [
+    {
+      "id": "zone_city",
+      "name": "City",
+      "width": 64,
+      "height": 64,
+      "tiles": [
+        {
+          "x": 5,
+          "y": 5,
+          "assetId": "npc:char_091",
+          "layer": 2
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "assetId": "npc:char_093",
+          "layer": 2
+        },
+        {
+          "x": 9,
+          "y": 9,
+          "assetId": "npc:char_095",
+          "layer": 2
+        },
+        {
+          "x": 11,
+          "y": 11,
+          "assetId": "npc:char_097",
+          "layer": 2
+        },
+        {
+          "x": 13,
+          "y": 13,
+          "assetId": "npc:char_099",
+          "layer": 2
+        }
+      ],
+      "metadata": {
+        "style": "pixel-topdown",
+        "generated": false
+      }
+    },
+    {
+      "id": "zone_outskirts",
+      "name": "Outskirts",
+      "width": 64,
+      "height": 64,
+      "tiles": [
+        {
+          "x": 6,
+          "y": 6,
+          "assetId": "npc:char_092",
+          "layer": 2
+        },
+        {
+          "x": 8,
+          "y": 8,
+          "assetId": "npc:char_094",
+          "layer": 2
+        },
+        {
+          "x": 10,
+          "y": 10,
+          "assetId": "npc:char_096",
+          "layer": 2
+        },
+        {
+          "x": 12,
+          "y": 12,
+          "assetId": "npc:char_098",
+          "layer": 2
+        },
+        {
+          "x": 14,
+          "y": 14,
+          "assetId": "npc:char_100",
+          "layer": 2
+        }
+      ],
+      "metadata": {
+        "style": "pixel-topdown",
+        "generated": true
+      }
+    }
+  ],
+  "metadata": {
+    "title": "City",
+    "created": "2025-10-01T10:57:20.891Z"
+  }
+}
