@@ -1,0 +1,25 @@
+Scenario: rhythm_minigame
+Fixture: miff/pure/RhythmSystemPure/fixtures/beatmap.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/miff/pure/RhythmSystemPure/fixtures/beatmap.json"
+Modules Triggered: RhythmSystemPure, AudioPure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": {
+        "command": "beats",
+        "bpm": 120,
+        "count": 4
+      }
+    }
+  ]
+}
