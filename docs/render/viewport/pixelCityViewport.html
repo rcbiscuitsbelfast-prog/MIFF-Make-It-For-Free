@@ -135,6 +135,7 @@
 				const ctx = cvs.getContext('2d');
 				const grid = 16;
 				let player = { x: 10, y: 8, color:'#800080' };
+				let npcs = [];
 				const palette = { bg:'#0b1220', grid:'#1f2d3c', grass:'#2e8b57', water:'#1e90ff', sand:'#c2b280' };
 				const mapW = 32, mapH = 24;
 				const map = new Array(mapW*mapH).fill('grass');
@@ -189,9 +190,50 @@
 					const px = ox + player.x*grid*scale + 2*scale;
 					const py = oy + player.y*grid*scale + 2*scale;
 					ctx.fillRect(px, py, (grid-4)*scale, (grid-4)*scale);
+					// draw NPCs with simple idle bob and palette colors
+					for(const n of npcs){
+						const bob = Math.sin(Date.now()/400 + n.spawn.x*0.3 + n.spawn.y*0.2) * scale;
+						const nx = ox + n.spawn.x*grid*scale + 2*scale;
+						const ny = oy + n.spawn.y*grid*scale + 2*scale - bob;
+						ctx.fillStyle = n.sprite.palette[0];
+						ctx.fillRect(nx, ny, (grid-4)*scale, (grid-4)*scale);
+					}
 				}
 				function loop(){ update(); render(); requestAnimationFrame(loop); }
 				loop();
+				// Load NPC registry and attach interaction
+				(async function(){
+					try{
+						const r = await fetch('./npc_registry.json?v=2025-10-01-2');
+						const j = await r.json();
+						npcs = (j.npcs||[]);
+					}catch(e){ console.warn('NPC registry missing', e); }
+				})();
+				// Action button to open dialogue if near NPC
+				window.addEventListener('keydown', (e)=>{
+					if(e.key===' '||e.key==='Enter') tryOpenDialog();
+				});
+				const actionBtn = document.createElement('button');
+				actionBtn.textContent='Action';
+				actionBtn.style.cssText='position:fixed;right:14px;bottom:14px;min-width:84px;min-height:48px;border-radius:10px;background:#00a86b;color:#fff;border:1px solid #1e4434;z-index:10';
+				actionBtn.addEventListener('click', ()=>tryOpenDialog());
+				document.body.appendChild(actionBtn);
+				function tryOpenDialog(){
+					for(const n of npcs){
+						const d = Math.hypot(n.spawn.x - player.x, n.spawn.y - player.y);
+						if(d<=1.2){
+							showDialog(n);
+							break;
+						}
+					}
+				}
+				function showDialog(n){
+					const box = document.createElement('div');
+					box.style.cssText='position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);min-width:260px;background:#0e1622;border:1px solid #1f2d3c;border-radius:10px;padding:12px;z-index:20;color:#e6edf3;font:12px monospace;';
+					box.innerHTML = '<div style="margin-bottom:8px;color:#00ff88">'+(n.name||'NPC')+'</div><div style="margin-bottom:10px;color:#a9b8c6">'+(n.dialogueTree?.[0]?.text||'...')+'</div><div style="display:flex;gap:8px;justify-content:flex-end"><button id="dlgClose" style="padding:6px 10px;border-radius:8px;background:#21262d;color:#e6edf3;border:1px solid #30363d">Close</button></div>';
+					document.body.appendChild(box);
+					document.getElementById('dlgClose').addEventListener('click', ()=>{ box.remove(); });
+				}
 			}
 		}
 
