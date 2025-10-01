@@ -982,15 +982,13 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     const btnCancel = document.getElementById('confirm-cancel');
     if (!box || !btnOpen || !btnCancel) return;
     function routeFor(label){
-        if (/Spirit Tamer/i.test(label)) return '/site/#spirit-tamer';
-        if (/Toppler/i.test(label)) return '/site/#toppler';
-        if (/Witcher Grove/i.test(label)) return '/site/grove.html';
-        return '/';
+        if (/Pixel World/i.test(label)) return '../render/viewport/pixelCityViewport.html';
+        return '';
     }
     btnOpen.addEventListener('click', ()=>{
         const label = box._target || '';
         const href = routeFor(label);
-        try { window.open(href, '_blank', 'noopener'); } catch {}
+        if (href) { try { window.open(href, '_blank', 'noopener'); } catch {} }
         box.style.display = 'none';
     });
     btnCancel.addEventListener('click', ()=>{ box.style.display = 'none'; });
