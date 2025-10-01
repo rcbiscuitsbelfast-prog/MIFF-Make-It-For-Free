@@ -8,7 +8,7 @@ Output:
     {
       "op": "demo",
       "status": "ok",
-      "timestamp": "2025-10-01T08:31:29.608Z",
+      "timestamp": "2025-10-01T08:39:03.486Z",
       "result": {
         "message": "Collision demo completed",
         "steps": 13,
