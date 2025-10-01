@@ -22,7 +22,7 @@
 		{
 			"id": "rhythm_minigame",
 			"name": "Rhythm Minigame",
-			"fixture": "miff/miff/pure/RhythmSystemPure/fixtures/beatmap.json",
+			"fixture": "miff/pure/RhythmSystemPure/fixtures/beatmap.json",
 			"sitePath": "/sampler/index.html"
 		},
 		{

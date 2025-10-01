@@ -1,0 +1,265 @@
+Scenario: witcher_grove
+Fixture: miff/scenarios/witcher_grove.fixture.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/miff/scenarios/witcher_grove.fixture.json"
+Modules Triggered: DialogPure, QuestSystemPure, LocationPure, InventoryPure, EventBusPure, LorePure, AudioPure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": {
+        "initialState": {
+          "from": "synth_nexus",
+          "dialoguesAvailable": [
+            "witcher_intro"
+          ],
+          "questState": {
+            "quests": {},
+            "activeQuests": [],
+            "completedQuests": [],
+            "failedQuests": [],
+            "playerStats": {
+              "level": 1,
+              "xp": 0,
+              "inventory": {},
+              "location": {
+                "x": 0,
+                "y": 0
+              },
+              "reputation": {}
+            }
+          }
+        },
+        "assets": {
+          "background": "witcher_grove_bg.png",
+          "sprites": {
+            "player": "Player.png",
+            "playerActions": "Player_Actions.png",
+            "oakTree": "Oak_Tree.png",
+            "oakTreeSmall": "Oak_Tree_Small.png",
+            "fence": "Fences.png",
+            "bridge": "Bridge_Wood.png",
+            "house": "House.png",
+            "chest": "Chest.png"
+          },
+          "buttons": {
+            "quest": "__TEXT__QUEST__",
+            "back": "__TEXT__BACK__"
+          }
+        },
+        "dialog": {
+          "id": "witcher_intro",
+          "npc": "witcher",
+          "nodes": [
+            {
+              "id": "n1",
+              "text": "You look lost.",
+              "choices": [
+                {
+                  "id": "c1",
+                  "text": "Tell me more",
+                  "nextNodeId": "n2"
+                }
+              ]
+            },
+            {
+              "id": "n2",
+              "text": "Find a griffin feather.",
+              "choices": [
+                {
+                  "id": "c2",
+                  "text": "I accept.",
+                  "triggers": {
+                    "questId": "find_griffin_feather"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "tapSequence": [
+          {
+            "step": 0,
+            "label": "Spawn player",
+            "target": "spawn_player"
+          },
+          {
+            "step": 1,
+            "label": "Tap Witcher to start dialogue",
+            "target": "npc_witcher"
+          },
+          {
+            "step": 2,
+            "label": "Choose 'Tell me more' (branch to quest offer)",
+            "target": "choice_tell_me_more"
+          },
+          {
+            "step": 3,
+            "label": "Accept quest",
+            "target": "btn_accept_quest"
+          },
+          {
+            "step": 4,
+            "label": "Back to Synth Nexus",
+            "target": "btn_back"
+          }
+        ],
+        "objects": [
+          {
+            "type": "tilemap",
+            "tiles": [
+              {
+                "src": "Grass_Middle.png",
+                "x": 0,
+                "y": 0,
+                "w": 20,
+                "h": 15
+              },
+              {
+                "src": "Path_Tile.png",
+                "x": 2,
+                "y": 7,
+                "w": 16,
+                "h": 1
+              },
+              {
+                "src": "Water_Tile.png",
+                "x": 10,
+                "y": 3,
+                "w": 5,
+                "h": 3
+              },
+              {
+                "src": "Cliff_Tile.png",
+                "x": 0,
+                "y": 0,
+                "w": 1,
+                "h": 15
+              }
+            ]
+          },
+          {
+            "type": "decor",
+            "id": "tree_cluster",
+            "sprites": [
+              {
+                "src": "Oak_Tree.png",
+                "x": 4,
+                "y": 5
+              },
+              {
+                "src": "Oak_Tree_Small.png",
+                "x": 6,
+                "y": 6
+              }
+            ]
+          },
+          {
+            "type": "decor",
+            "id": "fences",
+            "sprites": [
+              {
+                "src": "Fences.png",
+                "x": 0,
+                "y": 0,
+                "w": 20,
+                "h": 1
+              },
+              {
+                "src": "Fences.png",
+                "x": 0,
+                "y": 14,
+                "w": 20,
+                "h": 1
+              }
+            ]
+          },
+          {
+            "type": "decor",
+            "id": "bridge",
+            "sprite": {
+              "src": "Bridge_Wood.png",
+              "x": 11,
+              "y": 5
+            }
+          },
+          {
+            "type": "decor",
+            "id": "house",
+            "sprite": {
+              "src": "House.png",
+              "x": 16,
+              "y": 2
+            }
+          },
+          {
+            "type": "loot",
+            "id": "chest1",
+            "sprite": {
+              "src": "Chest.png",
+              "x": 8,
+              "y": 7
+            },
+            "reward": "gold:50"
+          },
+          {
+            "type": "player",
+            "id": "hero",
+            "spawn": {
+              "x": 1,
+              "y": 13
+            },
+            "sprites": {
+              "idle": "Player.png",
+              "actions": "Player_Actions.png"
+            }
+          },
+          {
+            "type": "ui",
+            "id": "btn_quest",
+            "label": "[Quest]",
+            "position": "top-left"
+          },
+          {
+            "type": "ui",
+            "id": "btn_back",
+            "label": "[Back]",
+            "position": "top-right"
+          }
+        ],
+        "expected": {
+          "dialog": {
+            "dialogId": "witcher_intro",
+            "logContains": [
+              "DIALOG witcher_intro",
+              "TXT n1 You look lost.",
+              "CHOICE c1 Tell me more",
+              "TXT n2 Find a griffin feather."
+            ]
+          },
+          "quest": {
+            "questId": "find_griffin_feather",
+            "status": "active"
+          },
+          "routing": {
+            "from": "witcher_grove",
+            "to": "synth_nexus"
+          },
+          "ui": {
+            "accepted": true,
+            "acceptButtonId": "btn_accept_quest",
+            "backButtonId": "btn_back"
+          }
+        }
+      }
+    }
+  ]
+}
