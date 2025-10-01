@@ -1,0 +1,547 @@
+================================================================================
+DO EVERYTHING SCENARIO - EXECUTION RESULTS
+================================================================================
+
+Scenario: Do Everything - Comprehensive MIFF Integration Test
+ID: do-everything-v1
+Start Time: 2025-10-01T10:24:11.676Z
+End Time: 2025-10-01T10:26:09.662Z
+
+--------------------------------------------------------------------------------
+SUMMARY
+--------------------------------------------------------------------------------
+Total Phases: 6
+Phases Completed: 0
+Phases Failed: 6
+Modules Triggered: 141
+CLI Harnesses Executed: 10
+Secondary Quests Spawned: 0
+Export Formats Generated: html5, unity, godot, apk
+Errors: 24
+Warnings: 4
+
+--------------------------------------------------------------------------------
+PHASE EXECUTION DETAILS
+--------------------------------------------------------------------------------
+
+Phase: The Call to Action (phase1)
+  Status: FAILED
+  Trigger Module: QuestsPure
+  Modules Used: 11
+  Actions Executed: 4
+  Actions Successful: 2
+  Start: 2025-10-01T10:24:11.696Z
+  End: 2025-10-01T10:24:23.112Z
+
+Phase: The Football Trial (phase2)
+  Status: FAILED
+  Trigger Module: SportsSystemPure
+  Modules Used: 12
+  Actions Executed: 5
+  Actions Successful: 1
+  Start: 2025-10-01T10:24:23.112Z
+  End: 2025-10-01T10:25:27.973Z
+
+Phase: Craft and Conquer (phase3)
+  Status: FAILED
+  Trigger Module: CraftingPure
+  Modules Used: 15
+  Actions Executed: 7
+  Actions Successful: 0
+  Start: 2025-10-01T10:25:27.973Z
+  End: 2025-10-01T10:25:39.461Z
+
+Phase: Social Deception (phase4)
+  Status: FAILED
+  Trigger Module: SocialDeductionPure
+  Modules Used: 11
+  Actions Executed: 6
+  Actions Successful: 2
+  Start: 2025-10-01T10:25:39.461Z
+  End: 2025-10-01T10:25:46.029Z
+
+Phase: Puzzle & Platforming (phase5)
+  Status: FAILED
+  Trigger Module: SceneBuilderPure
+  Modules Used: 18
+  Actions Executed: 7
+  Actions Successful: 2
+  Start: 2025-10-01T10:25:46.029Z
+  End: 2025-10-01T10:25:57.054Z
+
+Phase: Export the World (phase6)
+  Status: FAILED
+  Trigger Module: ExportWebPure
+  Modules Used: 22
+  Actions Executed: 9
+  Actions Successful: 3
+  Start: 2025-10-01T10:25:57.055Z
+  End: 2025-10-01T10:26:09.662Z
+
+--------------------------------------------------------------------------------
+MODULES TRIGGERED
+--------------------------------------------------------------------------------
+  ✓ AIProfileIntegrationLayer
+  ✓ AIProfilesPure
+  ✓ AIPure
+  ✓ AssetManifestPure
+  ✓ AssetValidatorPure
+  ✓ AudioBridgePure
+  ✓ AudioMixerPure
+  ✓ AudioPure
+  ✓ BattleAIPure
+  ✓ BattleLoopPure
+  ✓ BridgeInspectorPure
+  ✓ BridgeSchemaPure
+  ✓ CIEnforcerPure
+  ✓ CameraBridgePure
+  ✓ CameraSystemPure
+  ✓ ChainManagerPure
+  ✓ ChainValidatorPure
+  ✓ ChallengesPure
+  ✓ ClueSystemPure
+  ✓ CollisionSystemPure
+  ✓ CombatCorePure
+  ✓ CombatPure
+  ✓ CombatScenarioPure
+  ✓ ConvertToGodotPure
+  ✓ ConvertToUnityPure
+  ✓ ConvertToWebPure
+  ✓ CraftingPure
+  ✓ CreaturesPure
+  ✓ CutsceneSystemPure
+  ✓ DebugOverlayPure
+  ✓ DialoguePure
+  ✓ DialogueSystemPure
+  ✓ DrivingSystemPure
+  ✓ EconomyPure
+  ✓ EffectsPure
+  ✓ EncounterPure
+  ✓ EntityLinkerPure
+  ✓ EquipmentPure
+  ✓ EventBusPure
+  ✓ EventsPure
+  ✓ EvolutionPure
+  ✓ ExportAndroidPure
+  ✓ ExportWebPure
+  ✓ FusionPure
+  ✓ GodotBridgePure
+  ✓ HUDPure
+  ✓ HapticsPure
+  ✓ HealthSystemPure
+  ✓ IdleSystemPure
+  ✓ InputPure
+  ✓ InputSystemPure
+  ✓ InventoryPure
+  ✓ ItemsPure
+  ✓ LicenseAuditPure
+  ✓ LogPure
+  ✓ LootTablesPure
+  ✓ LorePure
+  ✓ MagicSystemPure
+  ✓ MeshFactoryPure
+  ✓ MiffAttributionPure
+  ✓ ModdingPure
+  ✓ MountSystemPure
+  ✓ MovementPure
+  ✓ NPCsPure
+  ✓ NavigationSystemPure
+  ✓ NodeGraphPure
+  ✓ OverlinkPure
+  ✓ PartyPure
+  ✓ PathfindingPure
+  ✓ PerfMetricsPure
+  ✓ PerfPure
+  ✓ PetCollectionPure
+  ✓ PhysicsSystemPure
+  ✓ PixelAnimPure
+  ✓ PixelDrawPure
+  ✓ PixelGenPure
+  ✓ PlayerStatePure
+  ✓ ProceduralWorldPure
+  ✓ ProfilerPure
+  ✓ ProgressionPure
+  ✓ ProjectileSystemPure
+  ✓ QuestModulePure
+  ✓ QuestSystemPure
+  ✓ QuestTimelinePure
+  ✓ QuestsPure
+  ✓ RNGPure
+  ✓ RemixAuditPure
+  ✓ RemixTaggingPure
+  ✓ RenderPayloadPure
+  ✓ RenderReplayPure
+  ✓ RenderWorldPure
+  ✓ RestaurantSimulationPure
+  ✓ RewardsPure
+  ✓ RhythmChallengePure
+  ✓ RhythmSystemPure
+  ✓ RitualSystemPure
+  ✓ SaveLoadPure
+  ✓ SavePure
+  ✓ SceneBuilderPure
+  ✓ Schemas
+  ✓ ScoreSystemPure
+  ✓ SessionManifestPure
+  ✓ SettingsPure
+  ✓ SharedSchemaPure
+  ✓ SimpleGamePure
+  ✓ SkillTreePure
+  ✓ SlicePure
+  ✓ SocialDeductionPure
+  ✓ SpiritTamerDemoPure
+  ✓ SpiritsPure
+  ✓ SplashScreenPure
+  ✓ SportsSystemPure
+  ✓ StatsSystemPure
+  ✓ StatusEffectsPure
+  ✓ StorySystemPure
+  ✓ SurvivalSystemPure
+  ✓ SyncManagerPure
+  ✓ SyncPure
+  ✓ TeamsPure
+  ✓ TeleportationSystemPure
+  ✓ TestHarnessPure
+  ✓ TextureSynthPure
+  ✓ TimeSystemPure
+  ✓ TopplerDemoPure
+  ✓ TouchGesturePure
+  ✓ TutorialScenarioPure
+  ✓ TycoonSystemPure
+  ✓ UnityBridgePure
+  ✓ ValidationPure
+  ✓ VisualItemEventPure
+  ✓ VisualReplaySystemPure
+  ✓ WeatherSystemPure
+  ✓ WebBridgePure
+  ✓ WebSocketBridgePure
+  ✓ WebSocketServerPure
+  ✓ WitcherExplorerDemoPure
+  ✓ WorldEnhancementsPure
+  ✓ WorldLayoutPure
+  ✓ WorldManifestPure
+  ✓ XPLevelingPure
+  ✓ ZoneServerPure
+
+--------------------------------------------------------------------------------
+CLI HARNESSES EXECUTED
+--------------------------------------------------------------------------------
+  [2025-10-01T10:24:17.018Z] QuestsPure.createQuest - SUCCESS
+  [2025-10-01T10:24:18.963Z] NPCsPure.spawnNPC - SUCCESS
+  [2025-10-01T10:24:57.942Z] InputSystemPure.configureInput - SUCCESS
+  [2025-10-01T10:25:42.727Z] SocialDeductionPure.initDeductionGame - SUCCESS
+  [2025-10-01T10:25:46.028Z] SocialDeductionPure.accuseSuspect - SUCCESS
+  [2025-10-01T10:25:49.617Z] ProceduralWorldPure.generateWorld - SUCCESS
+  [2025-10-01T10:25:57.054Z] CollisionSystemPure.detectCollision - SUCCESS
+  [2025-10-01T10:26:01.866Z] RenderPayloadPure.createRenderPayload - SUCCESS
+  [2025-10-01T10:26:03.286Z] ExportWebPure.exportWeb - SUCCESS
+  [2025-10-01T10:26:07.813Z] ExportAndroidPure.exportAndroid - SUCCESS
+
+--------------------------------------------------------------------------------
+ERRORS
+--------------------------------------------------------------------------------
+  [2025-10-01T10:24:20.853Z] WeatherSystemPure: Command failed: npx tsx /workspace/miff/pure/WeatherSystemPure/cliHarness.ts --mode=setWeather --zone="starting_area" --weather="foggy" --visibility="0.3" --intensity="0.7"
+/workspace/miff/pure/WeatherSystemPure/index.ts:10
+export { WeatherSystemManager as default } from './Manager';
+                                 ^
+
+SyntaxError: The requested module './Manager' does not provide an export named 'WeatherSystemManager'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:182:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:266:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.16.0
+
+  [2025-10-01T10:24:23.112Z] DialogueSystemPure: Command failed: npx tsx /workspace/miff/pure/DialogueSystemPure/cliHarness.ts --mode=triggerDialogue --npcId="elder_sage" --dialogueTree="prophecy_intro" --choices="["accept","decline","ask_more"]"
+Unknown operation: --mode=triggerDialogue
+
+  [2025-10-01T10:24:25.286Z] TeamsPure: Command failed: npx tsx /workspace/miff/pure/TeamsPure/cliHarness.ts --mode=createTeam --teamId="heroes_team" --name="Heroes United" --members="["player","npc_striker","npc_defender"]" --formation="4-4-2"
+{
+  "op": "error",
+  "status": "error",
+  "error": "Unknown command: --mode=createTeam",
+  "timestamp": 1759314265235
+}
+
+  [2025-10-01T10:24:55.318Z] SportsSystemPure: spawnSync /bin/sh ETIMEDOUT
+  [2025-10-01T10:25:27.972Z] SportsSystemPure: spawnSync /bin/sh ETIMEDOUT
+  [2025-10-01T10:25:29.825Z] CraftingPure: Command failed: npx tsx /workspace/miff/pure/CraftingPure/cliHarness.ts --mode=craftItem --recipe="legendary_sword" --materials="["iron_ore","dragon_scale","ancient_gem"]" --craftingTime="10" --quality="legendary"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=craftItem'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/CraftingPure/cliHarness.ts:18:29)
+    at <anonymous> (/workspace/miff/pure/CraftingPure/cliHarness.ts:81:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=craftItem'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:31.250Z] ItemsPure: Command failed: npx tsx /workspace/miff/pure/ItemsPure/cliHarness.ts --mode=addToInventory --itemId="legendary_sword_001" --type="weapon" --rarity="legendary" --stats="{"attack":50,"durability":100,"weight":5}"
+/workspace/miff/pure/ItemsPure/cliHarness.ts:551
+if (require.main === module) {
+^
+
+
+ReferenceError: require is not defined in ES module scope, you can use import instead
+    at <anonymous> (/workspace/miff/pure/ItemsPure/cliHarness.ts:551:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:32.768Z] EquipmentPure: Command failed: npx tsx /workspace/miff/pure/EquipmentPure/cliHarness.ts --mode=equipItem --playerId="player" --itemId="legendary_sword_001" --slot="main_hand"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=equipItem'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/EquipmentPure/cliHarness.ts:18:29)
+    at <anonymous> (/workspace/miff/pure/EquipmentPure/cliHarness.ts:68:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=equipItem'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:34.412Z] CombatPure: Command failed: npx tsx /workspace/miff/pure/CombatPure/cliHarness.ts --mode=initCombat --combatId="boss_battle_001" --playerTeam="["player"]" --enemyTeam="["shadow_dragon"]" --environment="volcanic_crater"
+Unknown operation: --mode=initCombat
+
+  [2025-10-01T10:25:36.115Z] StatusEffectsPure: Command failed: npx tsx /workspace/miff/pure/StatusEffectsPure/cliHarness.ts --mode=applyStatusEffect --targetId="player" --effect="berserker_rage" --duration="30" --stats="{"attackBoost":2,"defenseReduction":0.5}"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=applyStatusEffect'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/StatusEffectsPure/cliHarness.ts:18:29)
+    at <anonymous> (/workspace/miff/pure/StatusEffectsPure/cliHarness.ts:79:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=applyStatusEffect'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:37.712Z] CombatCorePure: Command failed: npx tsx /workspace/miff/pure/CombatCorePure/cliHarness.ts --mode=executeCombat --mode="turn_based" --maxTurns="20"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=turn_based'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/CombatCorePure/cliHarness.ts:20:46)
+    at <anonymous> (/workspace/miff/pure/CombatCorePure/cliHarness.ts:30:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=turn_based'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:39.461Z] RewardsPure: Command failed: npx tsx /workspace/miff/pure/RewardsPure/cliHarness.ts --mode=grantRewards --xp="1000" --gold="500" --items="["dragon_heart","rare_gem"]"
+/workspace/miff/pure/RewardsPure/cliHarness.ts:443
+if (require.main === module) {
+^
+
+
+ReferenceError: require is not defined in ES module scope, you can use import instead
+    at /workspace/miff/pure/RewardsPure/cliHarness.ts (/workspace/miff/pure/RewardsPure/cliHarness.ts:443:1)
+    at __require (file:///workspace/miff/pure/RewardsPure/cliHarness.ts:2:254)
+    at <anonymous> (/workspace/miff/pure/RewardsPure/cliHarness.ts:448:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:40.955Z] PartyPure: Command failed: npx tsx /workspace/miff/pure/PartyPure/cliHarness.ts --mode=createParty --partyId="investigation_team" --members="[{"id":"player","role":"detective"},{"id":"npc_scholar","role":"analyst"},{"id":"npc_warrior","role":"guard"},{"id":"npc_thief","role":"imposter"}]"
+/workspace/miff/pure/PartyPure/cliHarness.ts:420
+if (require.main === module) {
+^
+
+
+ReferenceError: require is not defined in ES module scope, you can use import instead
+    at /workspace/miff/pure/PartyPure/cliHarness.ts (/workspace/miff/pure/PartyPure/cliHarness.ts:420:1)
+    at __require (file:///workspace/miff/pure/PartyPure/cliHarness.ts:2:254)
+    at <anonymous> (/workspace/miff/pure/PartyPure/cliHarness.ts:425:1)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:44.391Z] AudioPure: Command failed: npx tsx /workspace/miff/pure/AudioPure/cliHarness.ts --mode=playAudioCue --soundId="mysterious_footsteps" --location="west_wing" --volume="0.7" --is3D="true"
+{
+  "op": "error",
+  "status": "error",
+  "error": "Unknown command: --mode=playAudioCue",
+  "timestamp": 1759314344342
+}
+
+  [2025-10-01T10:25:44.401Z] DialogueSystemPure: Command failed: npx tsx /workspace/miff/pure/DialogueSystemPure/cliHarness.ts --mode=presentDialogueChoice --npcId="npc_scholar" --question="Where were you at midnight?" --responses="["In the library","Walking the grounds","I don't remember"]" --trustLevel="0.6"
+/bin/sh: 1: Syntax error: Unterminated quoted string
+
+  [2025-10-01T10:25:47.668Z] SceneBuilderPure: Command failed: npx tsx /workspace/miff/pure/SceneBuilderPure/cliHarness.ts --mode=buildScene --sceneId="mystic_temple" --type="puzzle" --dimensions="{"width":100,"height":100}" --procedural="true"
+Error: Error: Unknown operation: --mode=buildScene
+    at main (/workspace/miff/pure/SceneBuilderPure/cliHarness.ts:90:15)
+    at <anonymous> (/workspace/miff/pure/SceneBuilderPure/cliHarness.ts:210:62)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+  [2025-10-01T10:25:51.398Z] MagicSystemPure: Command failed: npx tsx /workspace/miff/pure/MagicSystemPure/cliHarness.ts --mode=castSpell --spellId="telekinesis" --caster="player" --target="ancient_block" --manaCost="20"
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+/workspace/miff/pure/MagicSystemPure/index.ts:716:9: ERROR: Multiple exports with the same name "MagicSystemPure"
+    at failureErrorWithLog (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:1467:15)
+    at /home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:736:50
+    at responseCallbacks.<computed> (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:53.297Z] PixelAnimPure: Command failed: npx tsx /workspace/miff/pure/PixelAnimPure/cliHarness.ts --mode=animateObject --objectId="ancient_block" --animation="float" --duration="5" --easing="ease-in-out"
+Error: Unknown operation: --mode=animateObject
+
+  [2025-10-01T10:25:55.549Z] RitualSystemPure: Command failed: npx tsx /workspace/miff/pure/RitualSystemPure/cliHarness.ts --mode=performRitual --ritualId="seal_opening" --components="["fire_rune","water_rune","earth_rune"]" --duration="10"
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+/workspace/miff/pure/RitualSystemPure/index.ts:1106:9: ERROR: Multiple exports with the same name "RitualSystemPure"
+    at failureErrorWithLog (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:1467:15)
+    at /home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:736:50
+    at responseCallbacks.<computed> (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (/home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+
+Node.js v22.16.0
+
+  [2025-10-01T10:25:58.482Z] AssetManifestPure: Command failed: npx tsx /workspace/miff/pure/AssetManifestPure/cliHarness.ts --mode=prepareAssets --includeTextures="true" --includeAudio="true" --includeModels="true" --compression="high"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=prepareAssets'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/AssetManifestPure/cliHarness.ts:17:29)
+    at <anonymous> (/workspace/miff/pure/AssetManifestPure/cliHarness.ts:45:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=prepareAssets'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:26:00.265Z] AssetValidatorPure: Command failed: npx tsx /workspace/miff/pure/AssetValidatorPure/cliHarness.ts --mode=validateAssets --checkIntegrity="true" --validateFormats="true" --reportMissing="true"
+Error: Error: ENOENT: no such file or directory, open '--mode=validateAssets'
+    at Module.readFileSync (node:fs:442:20)
+    at <anonymous> (/workspace/miff/pure/AssetValidatorPure/cliHarness.ts:13:31)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '--mode=validateAssets'
+}
+
+  [2025-10-01T10:26:04.662Z] ConvertToUnityPure: Command failed: npx tsx /workspace/miff/pure/ConvertToUnityPure/cliHarness.ts --mode=convertToUnity --outputPath="/export/unity" --unityVersion="2022.3" --includeScripts="true" --packageFormat="unitypackage"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=convertToUnity'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/ConvertToUnityPure/cliHarness.ts:22:33)
+    at <anonymous> (/workspace/miff/pure/ConvertToUnityPure/cliHarness.ts:28:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=convertToUnity'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:26:06.196Z] ConvertToGodotPure: Command failed: npx tsx /workspace/miff/pure/ConvertToGodotPure/cliHarness.ts --mode=convertToGodot --outputPath="/export/godot" --godotVersion="4.2" --format="tscn"
+node:fs:442
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: ENOENT: no such file or directory, open '/workspace/--mode=convertToGodot'
+    at Object.readFileSync (node:fs:442:20)
+    at main (/workspace/miff/pure/ConvertToGodotPure/cliHarness.ts:13:33)
+    at <anonymous> (/workspace/miff/pure/ConvertToGodotPure/cliHarness.ts:19:53)
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/workspace/--mode=convertToGodot'
+}
+
+Node.js v22.16.0
+
+  [2025-10-01T10:26:09.661Z] SessionManifestPure: Command failed: npx tsx /workspace/miff/pure/SessionManifestPure/cliHarness.ts --mode=createSession --sessionId="do_everything_session" --platform="multi" --exportFormats="["web","unity","godot","android"]"
+Error: Unknown operation: --mode=createSession
+
+
+--------------------------------------------------------------------------------
+WARNINGS
+--------------------------------------------------------------------------------
+  ⚠ CLI harness not found for SurvivalSystemPure
+  ⚠ CLI harness not found for ClueSystemPure
+  ⚠ CLI harness not found for RhythmChallengePure
+  ⚠ CLI harness not found for WebSocketBridgePure
+
+================================================================================
+END OF REPORT
+================================================================================

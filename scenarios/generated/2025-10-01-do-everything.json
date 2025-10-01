@@ -1,0 +1,754 @@
+{
+  "scenarioId": "do-everything-v1",
+  "name": "Do Everything - Comprehensive MIFF Integration Test",
+  "version": "1.0.0",
+  "schema": "v14",
+  "description": "Multi-phase open-world scenario that activates every available MIFF module with branching logic, dynamic quest spawning, and cross-platform exports",
+  "phases": [
+    {
+      "id": "phase1",
+      "name": "The Call to Action",
+      "trigger": "QuestsPure",
+      "modules": [
+        "QuestsPure",
+        "QuestSystemPure",
+        "QuestModulePure",
+        "QuestTimelinePure",
+        "DialogueSystemPure",
+        "DialoguePure",
+        "NPCsPure",
+        "WeatherSystemPure",
+        "WorldManifestPure",
+        "LorePure",
+        "EventBusPure"
+      ],
+      "logic": "Player receives procedurally generated quest, speaks to NPCs, and navigates weather-affected terrain",
+      "actions": [
+        {
+          "step": 1,
+          "action": "createQuest",
+          "module": "QuestsPure",
+          "params": {
+            "questId": "main_001",
+            "title": "The Ancient Prophecy",
+            "description": "A mysterious prophecy foretells a great adventure",
+            "category": "main",
+            "level": 1
+          }
+        },
+        {
+          "step": 2,
+          "action": "spawnNPC",
+          "module": "NPCsPure",
+          "params": {
+            "npcId": "elder_sage",
+            "name": "Elder Sage",
+            "location": "village_square",
+            "dialogue": "The prophecy speaks of a hero..."
+          }
+        },
+        {
+          "step": 3,
+          "action": "setWeather",
+          "module": "WeatherSystemPure",
+          "params": {
+            "zone": "starting_area",
+            "weather": "foggy",
+            "visibility": 0.3,
+            "intensity": 0.7
+          }
+        },
+        {
+          "step": 4,
+          "action": "triggerDialogue",
+          "module": "DialogueSystemPure",
+          "params": {
+            "npcId": "elder_sage",
+            "dialogueTree": "prophecy_intro",
+            "choices": ["accept", "decline", "ask_more"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase2",
+      "name": "The Football Trial",
+      "trigger": "SportsSystemPure",
+      "modules": [
+        "SportsSystemPure",
+        "TeamsPure",
+        "AIPure",
+        "BattleAIPure",
+        "SurvivalSystemPure",
+        "InputSystemPure",
+        "InputPure",
+        "TouchGesturePure",
+        "PlayerStatePure",
+        "StatsSystemPure",
+        "ScoreSystemPure",
+        "HUDPure"
+      ],
+      "logic": "Player joins a team and plays football against AI opponents with terrain modifiers and gesture input",
+      "actions": [
+        {
+          "step": 1,
+          "action": "createTeam",
+          "module": "TeamsPure",
+          "params": {
+            "teamId": "heroes_team",
+            "name": "Heroes United",
+            "members": ["player", "npc_striker", "npc_defender"],
+            "formation": "4-4-2"
+          }
+        },
+        {
+          "step": 2,
+          "action": "initMatch",
+          "module": "SportsSystemPure",
+          "params": {
+            "sport": "football",
+            "team1": "heroes_team",
+            "team2": "rivals_team",
+            "duration": 300,
+            "difficulty": "medium"
+          }
+        },
+        {
+          "step": 3,
+          "action": "configureInput",
+          "module": "InputSystemPure",
+          "params": {
+            "mode": "gesture",
+            "gestures": ["swipe", "tap", "hold"],
+            "touchSensitivity": 0.8
+          }
+        },
+        {
+          "step": 4,
+          "action": "applyTerrainModifier",
+          "module": "SurvivalSystemPure",
+          "params": {
+            "terrain": "muddy_field",
+            "speedModifier": 0.7,
+            "staminaDrain": 1.5
+          }
+        },
+        {
+          "step": 5,
+          "action": "runMatch",
+          "module": "SportsSystemPure",
+          "params": {
+            "simulate": true,
+            "aiDifficulty": "hard"
+          }
+        }
+      ],
+      "conditionalQuests": [
+        {
+          "condition": "matchResult === 'loss'",
+          "spawnQuest": "redemption_match",
+          "modules": ["SportsSystemPure", "TeamsPure", "EventBusPure"]
+        }
+      ]
+    },
+    {
+      "id": "phase3",
+      "name": "Craft and Conquer",
+      "trigger": "CraftingPure",
+      "modules": [
+        "CraftingPure",
+        "ItemsPure",
+        "EquipmentPure",
+        "InventoryPure",
+        "CombatPure",
+        "CombatCorePure",
+        "CombatScenarioPure",
+        "StatusEffectsPure",
+        "HealthSystemPure",
+        "EffectsPure",
+        "LootTablesPure",
+        "RewardsPure",
+        "XPLevelingPure",
+        "ProgressionPure",
+        "SkillTreePure"
+      ],
+      "logic": "Player crafts custom item, equips it, and enters combat with dynamic status effects and progression",
+      "actions": [
+        {
+          "step": 1,
+          "action": "craftItem",
+          "module": "CraftingPure",
+          "params": {
+            "recipe": "legendary_sword",
+            "materials": ["iron_ore", "dragon_scale", "ancient_gem"],
+            "craftingTime": 10,
+            "quality": "legendary"
+          }
+        },
+        {
+          "step": 2,
+          "action": "addToInventory",
+          "module": "ItemsPure",
+          "params": {
+            "itemId": "legendary_sword_001",
+            "type": "weapon",
+            "rarity": "legendary",
+            "stats": {
+              "attack": 50,
+              "durability": 100,
+              "weight": 5
+            }
+          }
+        },
+        {
+          "step": 3,
+          "action": "equipItem",
+          "module": "EquipmentPure",
+          "params": {
+            "playerId": "player",
+            "itemId": "legendary_sword_001",
+            "slot": "main_hand"
+          }
+        },
+        {
+          "step": 4,
+          "action": "initCombat",
+          "module": "CombatPure",
+          "params": {
+            "combatId": "boss_battle_001",
+            "playerTeam": ["player"],
+            "enemyTeam": ["shadow_dragon"],
+            "environment": "volcanic_crater"
+          }
+        },
+        {
+          "step": 5,
+          "action": "applyStatusEffect",
+          "module": "StatusEffectsPure",
+          "params": {
+            "targetId": "player",
+            "effect": "berserker_rage",
+            "duration": 30,
+            "stats": {
+              "attackBoost": 2.0,
+              "defenseReduction": 0.5
+            }
+          }
+        },
+        {
+          "step": 6,
+          "action": "executeCombat",
+          "module": "CombatCorePure",
+          "params": {
+            "mode": "turn_based",
+            "maxTurns": 20
+          }
+        },
+        {
+          "step": 7,
+          "action": "grantRewards",
+          "module": "RewardsPure",
+          "params": {
+            "xp": 1000,
+            "gold": 500,
+            "items": ["dragon_heart", "rare_gem"]
+          }
+        }
+      ],
+      "conditionalQuests": [
+        {
+          "condition": "usedRareItem === true",
+          "spawnQuest": "item_origins",
+          "modules": ["LorePure", "QuestsPure", "NPCsPure"]
+        }
+      ]
+    },
+    {
+      "id": "phase4",
+      "name": "Social Deception",
+      "trigger": "SocialDeductionPure",
+      "modules": [
+        "SocialDeductionPure",
+        "PartyPure",
+        "DialogueSystemPure",
+        "DialoguePure",
+        "HUDPure",
+        "AudioPure",
+        "AudioBridgePure",
+        "AudioMixerPure",
+        "EventsPure",
+        "StorySystemPure",
+        "ClueSystemPure"
+      ],
+      "logic": "Player solves a mystery using dialogue choices, party interactions, and audio cues",
+      "actions": [
+        {
+          "step": 1,
+          "action": "createParty",
+          "module": "PartyPure",
+          "params": {
+            "partyId": "investigation_team",
+            "members": [
+              {"id": "player", "role": "detective"},
+              {"id": "npc_scholar", "role": "analyst"},
+              {"id": "npc_warrior", "role": "guard"},
+              {"id": "npc_thief", "role": "imposter"}
+            ]
+          }
+        },
+        {
+          "step": 2,
+          "action": "initDeductionGame",
+          "module": "SocialDeductionPure",
+          "params": {
+            "scenario": "manor_murder",
+            "suspects": 4,
+            "clues": 8,
+            "timeLimit": 600
+          }
+        },
+        {
+          "step": 3,
+          "action": "playAudioCue",
+          "module": "AudioPure",
+          "params": {
+            "soundId": "mysterious_footsteps",
+            "location": "west_wing",
+            "volume": 0.7,
+            "is3D": true
+          }
+        },
+        {
+          "step": 4,
+          "action": "presentDialogueChoice",
+          "module": "DialogueSystemPure",
+          "params": {
+            "npcId": "npc_scholar",
+            "question": "Where were you at midnight?",
+            "responses": ["In the library", "Walking the grounds", "I don't remember"],
+            "trustLevel": 0.6
+          }
+        },
+        {
+          "step": 5,
+          "action": "collectClue",
+          "module": "ClueSystemPure",
+          "params": {
+            "clueId": "torn_letter",
+            "location": "study",
+            "significance": "high"
+          }
+        },
+        {
+          "step": 6,
+          "action": "accuseSuspect",
+          "module": "SocialDeductionPure",
+          "params": {
+            "suspectId": "npc_thief",
+            "evidence": ["torn_letter", "footsteps_audio", "contradictory_statements"]
+          }
+        }
+      ],
+      "conditionalQuests": [
+        {
+          "condition": "solveTime < 300",
+          "spawnQuest": "deeper_conspiracy",
+          "modules": ["StorySystemPure", "QuestsPure", "ClueSystemPure"]
+        }
+      ]
+    },
+    {
+      "id": "phase5",
+      "name": "Puzzle & Platforming",
+      "trigger": "SceneBuilderPure",
+      "modules": [
+        "SceneBuilderPure",
+        "MagicSystemPure",
+        "RitualSystemPure",
+        "PixelAnimPure",
+        "PixelDrawPure",
+        "PixelGenPure",
+        "WorldManifestPure",
+        "WorldLayoutPure",
+        "WorldEnhancementsPure",
+        "ProceduralWorldPure",
+        "NavigationSystemPure",
+        "PathfindingPure",
+        "CollisionSystemPure",
+        "PhysicsSystemPure",
+        "ProjectileSystemPure",
+        "ChallengesPure",
+        "RhythmSystemPure",
+        "RhythmChallengePure"
+      ],
+      "logic": "Player solves a puzzle using magic and animation effects in a procedurally built scene",
+      "actions": [
+        {
+          "step": 1,
+          "action": "buildScene",
+          "module": "SceneBuilderPure",
+          "params": {
+            "sceneId": "mystic_temple",
+            "type": "puzzle",
+            "dimensions": {"width": 100, "height": 100},
+            "procedural": true
+          }
+        },
+        {
+          "step": 2,
+          "action": "generateWorld",
+          "module": "ProceduralWorldPure",
+          "params": {
+            "seed": 42,
+            "biomes": ["forest", "cave", "temple"],
+            "density": 0.7
+          }
+        },
+        {
+          "step": 3,
+          "action": "castSpell",
+          "module": "MagicSystemPure",
+          "params": {
+            "spellId": "telekinesis",
+            "caster": "player",
+            "target": "ancient_block",
+            "manaCost": 20
+          }
+        },
+        {
+          "step": 4,
+          "action": "animateObject",
+          "module": "PixelAnimPure",
+          "params": {
+            "objectId": "ancient_block",
+            "animation": "float",
+            "duration": 5,
+            "easing": "ease-in-out"
+          }
+        },
+        {
+          "step": 5,
+          "action": "performRitual",
+          "module": "RitualSystemPure",
+          "params": {
+            "ritualId": "seal_opening",
+            "components": ["fire_rune", "water_rune", "earth_rune"],
+            "duration": 10
+          }
+        },
+        {
+          "step": 6,
+          "action": "rhythmChallenge",
+          "module": "RhythmChallengePure",
+          "params": {
+            "song": "temple_hymn",
+            "bpm": 120,
+            "notes": 50,
+            "difficulty": "hard"
+          }
+        },
+        {
+          "step": 7,
+          "action": "detectCollision",
+          "module": "CollisionSystemPure",
+          "params": {
+            "entity1": "player",
+            "entity2": "temple_door",
+            "onCollide": "unlock_door"
+          }
+        }
+      ]
+    },
+    {
+      "id": "phase6",
+      "name": "Export the World",
+      "trigger": "ExportWebPure",
+      "modules": [
+        "ExportWebPure",
+        "ExportAndroidPure",
+        "RenderWorldPure",
+        "RenderPayloadPure",
+        "RenderReplayPure",
+        "WebSocketBridgePure",
+        "WebSocketServerPure",
+        "WebBridgePure",
+        "UnityBridgePure",
+        "GodotBridgePure",
+        "ConvertToWebPure",
+        "ConvertToUnityPure",
+        "ConvertToGodotPure",
+        "CameraBridgePure",
+        "CameraSystemPure",
+        "BridgeSchemaPure",
+        "BridgeInspectorPure",
+        "SessionManifestPure",
+        "WorldManifestPure",
+        "AssetManifestPure",
+        "AssetValidatorPure",
+        "ValidationPure"
+      ],
+      "logic": "Final quest triggers export to multiple platforms: Unity, Web, Godot, and Android",
+      "actions": [
+        {
+          "step": 1,
+          "action": "prepareAssets",
+          "module": "AssetManifestPure",
+          "params": {
+            "includeTextures": true,
+            "includeAudio": true,
+            "includeModels": true,
+            "compression": "high"
+          }
+        },
+        {
+          "step": 2,
+          "action": "validateAssets",
+          "module": "AssetValidatorPure",
+          "params": {
+            "checkIntegrity": true,
+            "validateFormats": true,
+            "reportMissing": true
+          }
+        },
+        {
+          "step": 3,
+          "action": "createRenderPayload",
+          "module": "RenderPayloadPure",
+          "params": {
+            "worldState": "complete",
+            "optimizationLevel": "high",
+            "targetPlatforms": ["web", "unity", "godot", "android"]
+          }
+        },
+        {
+          "step": 4,
+          "action": "exportWeb",
+          "module": "ExportWebPure",
+          "params": {
+            "outputPath": "/export/web",
+            "format": "html5",
+            "includeManifest": true,
+            "pwa": true
+          }
+        },
+        {
+          "step": 5,
+          "action": "convertToUnity",
+          "module": "ConvertToUnityPure",
+          "params": {
+            "outputPath": "/export/unity",
+            "unityVersion": "2022.3",
+            "includeScripts": true,
+            "packageFormat": "unitypackage"
+          }
+        },
+        {
+          "step": 6,
+          "action": "convertToGodot",
+          "module": "ConvertToGodotPure",
+          "params": {
+            "outputPath": "/export/godot",
+            "godotVersion": "4.2",
+            "format": "tscn"
+          }
+        },
+        {
+          "step": 7,
+          "action": "exportAndroid",
+          "module": "ExportAndroidPure",
+          "params": {
+            "outputPath": "/export/android",
+            "packageName": "com.miff.doeverything",
+            "format": "apk",
+            "minSdkVersion": 21
+          }
+        },
+        {
+          "step": 8,
+          "action": "initWebSocket",
+          "module": "WebSocketBridgePure",
+          "params": {
+            "port": 8080,
+            "protocol": "ws",
+            "enableSync": true
+          }
+        },
+        {
+          "step": 9,
+          "action": "createSession",
+          "module": "SessionManifestPure",
+          "params": {
+            "sessionId": "do_everything_session",
+            "platform": "multi",
+            "exportFormats": ["web", "unity", "godot", "android"]
+          }
+        }
+      ],
+      "conditionalQuests": [
+        {
+          "condition": "exportFormat.includes('godot')",
+          "spawnQuest": "optimize_for_mobile",
+          "modules": ["ExportAndroidPure", "PerfPure", "PerfMetricsPure"]
+        }
+      ]
+    }
+  ],
+  "supportModules": [
+    "SavePure",
+    "SaveLoadPure",
+    "SettingsPure",
+    "LogPure",
+    "DebugOverlayPure",
+    "ProfilerPure",
+    "PerfPure",
+    "PerfMetricsPure",
+    "SyncPure",
+    "SyncManagerPure",
+    "Schemas",
+    "SharedSchemaPure",
+    "ValidationPure",
+    "TestHarnessPure",
+    "EventBusPure",
+    "RNGPure"
+  ],
+  "additionalModules": [
+    "AIProfilesPure",
+    "AIProfileIntegrationLayer",
+    "BattleLoopPure",
+    "ChainManagerPure",
+    "ChainValidatorPure",
+    "CIEnforcerPure",
+    "CreaturesPure",
+    "CutsceneSystemPure",
+    "DrivingSystemPure",
+    "EconomyPure",
+    "EncounterPure",
+    "EntityLinkerPure",
+    "EvolutionPure",
+    "FusionPure",
+    "HapticsPure",
+    "IdleSystemPure",
+    "LicenseAuditPure",
+    "MeshFactoryPure",
+    "MiffAttributionPure",
+    "ModdingPure",
+    "MountSystemPure",
+    "MovementPure",
+    "NodeGraphPure",
+    "OverlinkPure",
+    "PetCollectionPure",
+    "RemixAuditPure",
+    "RemixTaggingPure",
+    "RestaurantSimulationPure",
+    "SimpleGamePure",
+    "SlicePure",
+    "SpiritsPure",
+    "SpiritTamerDemoPure",
+    "SplashScreenPure",
+    "StatsSystemPure",
+    "TeleportationSystemPure",
+    "TextureSynthPure",
+    "TimeSystemPure",
+    "TopplerDemoPure",
+    "TutorialScenarioPure",
+    "TycoonSystemPure",
+    "VisualItemEventPure",
+    "VisualReplaySystemPure",
+    "WitcherExplorerDemoPure",
+    "ZoneServerPure"
+  ],
+  "dynamicSecondaryQuests": {
+    "redemption_match": {
+      "trigger": "matchResult === 'loss'",
+      "modules": ["SportsSystemPure", "TeamsPure", "EventBusPure", "ScoreSystemPure"],
+      "description": "Player gets a second chance to prove themselves in football"
+    },
+    "item_origins": {
+      "trigger": "usedRareItem === true",
+      "modules": ["LorePure", "QuestsPure", "NPCsPure", "StorySystemPure"],
+      "description": "Discover the ancient history of the legendary item"
+    },
+    "deeper_conspiracy": {
+      "trigger": "solveTime < 300",
+      "modules": ["StorySystemPure", "QuestsPure", "ClueSystemPure", "SocialDeductionPure"],
+      "description": "Uncover a larger conspiracy behind the manor murder"
+    },
+    "optimize_for_mobile": {
+      "trigger": "exportFormat.includes('godot') || exportFormat.includes('android')",
+      "modules": ["ExportAndroidPure", "PerfPure", "PerfMetricsPure", "HapticsPure"],
+      "description": "Optimize the exported game for mobile devices"
+    },
+    "lost_traveler": {
+      "trigger": "weather.visibility < 0.5",
+      "modules": ["WeatherSystemPure", "NPCsPure", "QuestsPure", "NavigationSystemPure"],
+      "description": "Help a lost traveler navigate through the fog"
+    }
+  },
+  "eventBusIntegration": {
+    "enabled": true,
+    "events": [
+      "onQuestComplete",
+      "onCombatStart",
+      "onCombatEnd",
+      "onItemCrafted",
+      "onItemEquipped",
+      "onMatchComplete",
+      "onClueDiscovered",
+      "onPuzzleSolved",
+      "onExportComplete",
+      "onWeatherChange"
+    ],
+    "handlers": {
+      "onQuestComplete": ["checkSecondaryQuests", "updateProgression", "grantRewards"],
+      "onCombatEnd": ["calculateXP", "checkLoot", "updateStats"],
+      "onItemCrafted": ["checkForRareItem", "updateInventory"],
+      "onMatchComplete": ["checkMatchResult", "spawnRedemptionQuest"],
+      "onExportComplete": ["validateExport", "generateReport"]
+    }
+  },
+  "cliExecution": {
+    "harnesses": [
+      "QuestsPure/cliHarness.ts",
+      "NPCsPure/cliHarness.ts",
+      "WeatherSystemPure/cliHarness.ts",
+      "DialogueSystemPure/cliHarness.ts",
+      "SportsSystemPure/cliHarness.ts",
+      "TeamsPure/cliHarness.ts",
+      "InputSystemPure/cliHarness.ts",
+      "CraftingPure/cliHarness.ts",
+      "ItemsPure/cliHarness.ts",
+      "EquipmentPure/cliHarness.ts",
+      "CombatPure/cliHarness.ts",
+      "StatusEffectsPure/cliHarness.ts",
+      "SocialDeductionPure/cliHarness.ts",
+      "PartyPure/cliHarness.ts",
+      "AudioPure/cliHarness.ts",
+      "SceneBuilderPure/cliHarness.ts",
+      "MagicSystemPure/cliHarness.ts",
+      "PixelAnimPure/cliHarness.ts",
+      "ProceduralWorldPure/cliHarness.ts",
+      "ExportWebPure/cliHarness.ts",
+      "ConvertToUnityPure/cliHarness.ts",
+      "ConvertToGodotPure/cliHarness.ts",
+      "ExportAndroidPure/cliHarness.ts"
+    ],
+    "executionOrder": [
+      "phase1",
+      "phase2",
+      "phase3",
+      "phase4",
+      "phase5",
+      "phase6"
+    ]
+  },
+  "expectedOutcomes": {
+    "modulesTriggered": 130,
+    "cliHarnessesExecuted": 147,
+    "secondaryQuestsSpawned": "1-5",
+    "exportFormats": ["html5", "unity", "godot", "apk"],
+    "totalPhases": 6,
+    "estimatedExecutionTime": "300-600 seconds"
+  },
+  "remixSafe": true,
+  "contributorNotes": "This comprehensive scenario tests the full integration of the MIFF ecosystem, including all core, system, bridge, and support modules. Dynamic quest spawning is handled through EventBusPure and conditional logic. All modules maintain stateless purity and use existing CLI harnesses for execution."
+}
