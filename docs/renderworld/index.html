@@ -94,7 +94,7 @@ function updateCamera(){
         // Keep camera BEHIND player based on yaw/pitch; look over-the-shoulder
         const r = cameraRadius;
         const offX = -Math.sin(yaw) * Math.cos(pitch) * r;
-        const offY = 1.4 + Math.sin(pitch) * r; // slightly above head
+        const offY = 1.8 + Math.sin(pitch) * r; // raise camera to see top of head
         const offZ = -Math.cos(yaw) * Math.cos(pitch) * r;
         camera.position.set(player.position.x + offX, player.position.y + offY, player.position.z + offZ);
         camera.lookAt(player.position.x, player.position.y + 1.2, player.position.z);
