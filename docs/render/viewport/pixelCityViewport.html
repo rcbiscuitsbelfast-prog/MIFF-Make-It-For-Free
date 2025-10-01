@@ -5,27 +5,28 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>MIFF — Pixel City Viewport</title>
 	<style>
-		body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
-		header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+		html,body{margin:0;height:100%;background:#0f1116;color:#e6edf3;font-family:system-ui}
+		#gameCanvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;background:#0b1220}
+		#hud{position:fixed;left:0;right:0;top:0;height:40px;display:flex;align-items:center;justify-content:space-between;padding:6px 10px;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);backdrop-filter:saturate(120%) blur(2px);-webkit-backdrop-filter:saturate(120%) blur(2px);pointer-events:none;z-index:10}
+		#btn-fullscreen{position:fixed;right:12px;top:52px;z-index:10;min-width:110px;min-height:36px;border-radius:10px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:12px monospace}
 	</style>
 </head>
 <body>
-	<header>
-		<strong>Pixel City Viewport</strong>
-		<nav><a href="../../sampler/" style="color:#58a6ff;text-decoration:none">Sampler Home</a></nav>
-	</header>
+	<div id="hud"><span id="hud-pos">pos 0.0, 0.0</span><span id="hud-fps">0 fps</span></div>
+	<button id="btn-fullscreen">Fullscreen</button>
+	<canvas id="gameCanvas"></canvas>
 	<script>
 	(function(){
 		function launch(){
-			const containerId = 'pixel-city-root';
-			let root = document.getElementById(containerId);
-			if (!root){ root = document.createElement('div'); root.id = containerId; root.style.cssText='position:fixed;inset:0;background:#0f1116;color:#e6edf3'; document.body.appendChild(root); }
-			root.innerHTML = '';
+			const cvs = document.getElementById('gameCanvas');
+			const ctx = cvs.getContext('2d');
+			function fit(){ cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
+			window.addEventListener('resize', fit); fit();
 
 			const startMenu = document.createElement('div');
 			startMenu.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;flex-direction:column;background:rgba(0,0,0,0.5)';
 			startMenu.innerHTML = '<h2 style="margin:0;color:#58a6ff">Pixel City</h2><button id="startBtn" style="background:#238636;color:#fff;padding:8px 14px;border-radius:6px;border:0">Start</button>';
-			root.appendChild(startMenu);
+			document.body.appendChild(startMenu);
 			startMenu.querySelector('#startBtn').addEventListener('click', ()=>{ startMenu.remove(); showCharacterSelect(); });
 
 			function showCharacterSelect(){
@@ -36,7 +37,7 @@
 				<button data-c="mage" style="padding:8px 12px">Mage</button>\
 				<button data-c="rogue" style="padding:8px 12px">Rogue</button>\
 				</div>';
-				root.appendChild(panel);
+				document.body.appendChild(panel);
 				panel.addEventListener('click', (e)=>{
 					const t = e.target; const cid = t && t.getAttribute && t.getAttribute('data-c');
 					if (!cid) return; panel.remove(); showWorld(cid);
@@ -44,19 +45,7 @@
 			}
 
 			function showWorld(characterId){
-				const main = document.createElement('div');
-				main.style.cssText='position:absolute;inset:0;display:grid;grid-template-columns:280px 1fr;gap:10px;padding:10px;';
-				main.innerHTML = '<aside style="border:1px solid #1f2d3c;border-radius:8px;background:#0b1220;padding:10px">\
-				<div style="color:#a9b8c6;font-size:12px">Character: <strong>'+characterId+'</strong></div>\
-				<div style="margin-top:10px;"><button id="btnLoadDemo">Load Demo World</button></div>\
-				</aside>\
-				<section style="border:1px solid #1f2d3c;border-radius:8px;background:#0b1220;padding:10px">\
-				<canvas id="pvCanvas" width="640" height="360" style="background:#0b1220;border:1px solid #1f2d3c;border-radius:8px"></canvas>\
-				</section>';
-				root.appendChild(main);
-
-				const cvs = main.querySelector('#pvCanvas');
-				const ctx = cvs.getContext('2d');
+				let last=0, frames=0;
 				const grid = 16;
 				function drawGrid(){
 					ctx.clearRect(0,0,cvs.width,cvs.height);
@@ -73,7 +62,7 @@
 						renderWorld(data);
 					}catch(err){ console.error('[PixelCityViewport] Failed to load demo', err); }
 				}
-				main.querySelector('#btnLoadDemo').addEventListener('click', loadDemo);
+				loadDemo();
 
 				function renderWorld(world){
 					drawGrid();
@@ -97,10 +86,30 @@
 						ctx.fillRect(px, py, grid, grid);
 					} catch (e) { console.warn('Player render failed', e); }
 				}
+
+				function tick(t){
+					if(!last) last=t; frames++;
+					if(t-last>1000){ document.getElementById('hud-fps').textContent = frames + ' fps'; last=t; frames=0; }
+					requestAnimationFrame(tick);
+				}
+				requestAnimationFrame(tick);
+				document.getElementById('hud-pos').textContent = 'Character: ' + characterId;
 			}
 		}
 
 		window.addEventListener('DOMContentLoaded', launch);
+
+		// Fullscreen control
+		(function(){
+			const btn = document.getElementById('btn-fullscreen');
+			if (!btn) return;
+			async function go(){ try { const el=document.documentElement; if (el.requestFullscreen) await el.requestFullscreen({ navigationUI:'hide' }); } catch {} }
+			function exit(){ try { if (document.fullscreenElement) document.exitFullscreen(); } catch {} }
+			function update(){ btn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen'; }
+			btn.addEventListener('click', ()=>{ document.fullscreenElement ? exit() : go(); });
+			document.addEventListener('fullscreenchange', update);
+			update();
+		})();
 	})();
 	</script>
 </body>

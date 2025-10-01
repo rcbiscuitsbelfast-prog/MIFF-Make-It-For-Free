@@ -1,0 +1,51 @@
+{
+  "schema": "miff.world.v1",
+  "version": "1.0.0",
+  "zones": [
+    {
+      "id": "forest_zone",
+      "name": "Demo Forest",
+      "width": 32,
+      "height": 24,
+      "tiles": [
+        {"x": 2, "y": 3, "assetId": "forest_tree_1", "layer": 1},
+        {"x": 5, "y": 2, "assetId": "forest_tree_2", "layer": 1},
+        {"x": 8, "y": 4, "assetId": "forest_bush_1", "layer": 1},
+        {"x": 12, "y": 1, "assetId": "forest_tree_3", "layer": 1},
+        {"x": 15, "y": 5, "assetId": "forest_rock_1", "layer": 1},
+        {"x": 18, "y": 3, "assetId": "forest_bush_2", "layer": 1},
+        {"x": 22, "y": 2, "assetId": "forest_tree_4", "layer": 1},
+        {"x": 25, "y": 4, "assetId": "forest_grass_1", "layer": 0},
+        {"x": 28, "y": 1, "assetId": "forest_tree_5", "layer": 1},
+        {"x": 3, "y": 8, "assetId": "forest_grass_2", "layer": 0},
+        {"x": 7, "y": 10, "assetId": "forest_bush_3", "layer": 1},
+        {"x": 11, "y": 9, "assetId": "forest_tree_6", "layer": 1},
+        {"x": 14, "y": 12, "assetId": "forest_rock_2", "layer": 1},
+        {"x": 17, "y": 8, "assetId": "forest_grass_3", "layer": 0},
+        {"x": 20, "y": 11, "assetId": "forest_bush_4", "layer": 1},
+        {"x": 24, "y": 9, "assetId": "forest_tree_7", "layer": 1},
+        {"x": 27, "y": 12, "assetId": "forest_grass_4", "layer": 0},
+        {"x": 1, "y": 15, "assetId": "forest_tree_8", "layer": 1},
+        {"x": 4, "y": 18, "assetId": "forest_bush_5", "layer": 1},
+        {"x": 8, "y": 16, "assetId": "forest_rock_3", "layer": 1},
+        {"x": 12, "y": 19, "assetId": "forest_grass_5", "layer": 0},
+        {"x": 16, "y": 17, "assetId": "forest_tree_9", "layer": 1},
+        {"x": 19, "y": 20, "assetId": "forest_bush_6", "layer": 1},
+        {"x": 23, "y": 18, "assetId": "forest_rock_4", "layer": 1},
+        {"x": 26, "y": 21, "assetId": "forest_grass_6", "layer": 0},
+        {"x": 29, "y": 19, "assetId": "forest_tree_10", "layer": 1}
+      ],
+      "metadata": {
+        "style": "pixel-topdown",
+        "preset": "forest",
+        "generated": true
+      }
+    }
+  ],
+  "metadata": {
+    "title": "Demo Forest",
+    "description": "A showcase forest world with procedurally placed trees, bushes, rocks, and grass",
+    "created": "2024-01-15T10:00:00.000Z",
+    "author": "MIFF Framework"
+  }
+}
