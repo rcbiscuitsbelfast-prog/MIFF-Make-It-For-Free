@@ -12,7 +12,7 @@
 	</style>
 </head>
 <body>
-	<div id="hud"><span id="hud-pos">pos 0.0, 0.0</span><span id="hud-fps">0 fps</span></div>
+	<div id="hud"><span id="hud-pos">Pixel World</span><span id="hud-fps"></span></div>
 	<button id="btn-fullscreen">Fullscreen</button>
 	<canvas id="gameCanvas"></canvas>
 	<script>
@@ -24,24 +24,45 @@
 			window.addEventListener('resize', fit); fit();
 
 			const startMenu = document.createElement('div');
-			startMenu.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;flex-direction:column;background:rgba(0,0,0,0.5)';
-			startMenu.innerHTML = '<h2 style="margin:0;color:#58a6ff">Pixel City</h2><button id="startBtn" style="background:#238636;color:#fff;padding:8px 14px;border-radius:6px;border:0">Start</button>';
+			startMenu.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:18px;flex-direction:column;background:linear-gradient(135deg,#0a1322,#1a2332)';
+			startMenu.innerHTML = '<div style="text-align:center">\
+				<h2 style="margin:0;color:#00ff88;letter-spacing:1px">Pixel World</h2>\
+				<p style="margin:6px 0;color:#a9b8c6;font-size:12px">Press Start to Continue</p>\
+			</div>\
+			<div style="display:flex;gap:10px">\
+				<button id="startBtn" style="background:#00a86b;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #1e4434;box-shadow:0 2px 6px rgba(0,255,136,0.2)">Start</button>\
+			</div>';
 			document.body.appendChild(startMenu);
 			startMenu.querySelector('#startBtn').addEventListener('click', ()=>{ startMenu.remove(); showCharacterSelect(); });
 
 			function showCharacterSelect(){
 				const panel = document.createElement('div');
-				panel.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:12px;background:#0e1622';
+				panel.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;background:linear-gradient(135deg,#0a1322,#1a2332)';
 				panel.innerHTML = '<div style="display:flex;gap:12px">\
-				<button data-c="knight" style="padding:8px 12px">Knight</button>\
-				<button data-c="mage" style="padding:8px 12px">Mage</button>\
-				<button data-c="rogue" style="padding:8px 12px">Rogue</button>\
+				<button data-c="Knight" style="padding:10px 14px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3">Knight</button>\
+				<button data-c="Mage" style="padding:10px 14px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3">Mage</button>\
+				<button data-c="Rogue" style="padding:10px 14px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3">Rogue</button>\
 				</div>';
 				document.body.appendChild(panel);
 				panel.addEventListener('click', (e)=>{
 					const t = e.target; const cid = t && t.getAttribute && t.getAttribute('data-c');
-					if (!cid) return; panel.remove(); showWorld(cid);
+					if (!cid) return; panel.remove(); showMainMenu(cid);
 				});
+			}
+
+			function showMainMenu(characterId){
+				const menu = document.createElement('div');
+				menu.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:linear-gradient(135deg,#0a1322,#1a2332)';
+				menu.innerHTML = '<div style="text-align:center">\
+				<h3 style="margin:0;color:#00ff88">Select Mode</h3>\
+				<p style="margin:6px 0;color:#a9b8c6;font-size:12px">Character: <strong>'+characterId+'</strong></p>\
+				</div>\
+				<div style="display:flex;gap:10px">\
+				<button id="btnPlay" style="padding:8px 14px;background:#00a86b;color:white;border:1px solid #1e4434;border-radius:8px">Play (soon)</button>\
+				<button id="btnBack" style="padding:8px 14px;background:#21262d;color:#e6edf3;border:1px solid #30363d;border-radius:8px">Back</button>\
+				</div>';
+				document.body.appendChild(menu);
+				document.getElementById('btnBack').addEventListener('click', ()=>{ menu.remove(); showCharacterSelect(); });
 			}
 
 			function showWorld(characterId){
