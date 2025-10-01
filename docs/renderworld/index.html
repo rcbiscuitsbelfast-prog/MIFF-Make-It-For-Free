@@ -26,6 +26,7 @@
     <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
     <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
     <div id="hint" style="position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:1050;padding:8px 12px;font:14px monospace;color:#e6edf3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:10px;display:none;">hint</div>
+    <button id="btn-run" style="position:fixed;right:16px;bottom:110px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Run</button>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
@@ -284,8 +285,9 @@ const warehouseLights = createWarehouseLighting();
 	scene.add(player);
 
 	// Phase 5: movement state
-	const move = { x: 0, z: 0 };
-	const moveSpeed = 1.8; // m/s
+    const move = { x: 0, z: 0 };
+    let moveSpeed = 2.2; // base speed m/s (slightly faster)
+    let isRunning = false; const runMultiplier = 2.0; // double speed
 	// Simple jump physics
 	let velY = 0; const gravity = -9.8; const groundY = 0.0;
 
@@ -694,8 +696,9 @@ scene.add(spiritLens);
             const worldX = rightX * move.x + fwdX * move.z;
             const worldZ = rightZ * move.x + fwdZ * move.z;
             // Attempt move; prevent walking through simple radial colliders
-            const nextX = player.position.x + worldX * moveSpeed * dt;
-            const nextZ = player.position.z + worldZ * moveSpeed * dt;
+            const speed = isRunning ? moveSpeed * runMultiplier : moveSpeed;
+            const nextX = player.position.x + worldX * speed * dt;
+            const nextZ = player.position.z + worldZ * speed * dt;
             function blocked(x,z){
                 // Add pillar colliders as solid cylinders
                 const pillarBlocks = [
@@ -835,6 +838,18 @@ scene.add(spiritLens);
 		window.addEventListener('mousemove', (e)=>{ moveTo(e.clientX, e.clientY); });
 		window.addEventListener('mouseup', end);
 	})();
+
+    // Run button (hold to run)
+    (function(){
+        const btn = document.getElementById('btn-run');
+        if (!btn) return;
+        function set(running){ isRunning = running; btn.textContent = running ? 'Running' : 'Run'; }
+        btn.addEventListener('mousedown', ()=>set(true));
+        btn.addEventListener('mouseup', ()=>set(false));
+        btn.addEventListener('mouseleave', ()=>set(false));
+        btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); set(true); }, { passive:false });
+        btn.addEventListener('touchend', (e)=>{ e.preventDefault(); set(false); }, { passive:false });
+    })();
 
 	// Phase 6: Audio System
 	const audioContext = new (window.AudioContext || window.webkitAudioContext)();
