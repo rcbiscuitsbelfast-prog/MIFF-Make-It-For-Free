@@ -209,22 +209,6 @@
   </div>
   
   <script>
-    function openWorld(worldType) {
-      const worldUrl = `${worldType}.html`;
-      launchFullScreenGame(worldUrl, getWorldTitle(worldType));
-    }
-    
-    function getWorldTitle(worldType) {
-      const titles = {
-        '2d-side': 'Toppler Medieval',
-        '2d-topdown': 'Grove Explorer', 
-        'runner': 'Spirit Runner',
-        '3d-topdown': 'Isometric Grove',
-        'static-overlay': 'Control Center'
-      };
-      return titles[worldType] || worldType;
-    }
-    
     function launchFullScreenGame(gameUrl, gameName) {
       console.log('Launching game:', gameName, 'at URL:', gameUrl);
       
