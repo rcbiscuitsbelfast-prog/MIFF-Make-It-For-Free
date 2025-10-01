@@ -32,7 +32,7 @@
 				<a class="a" href="/MIFF-Make-It-For-Free/">Home</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/sampler/">MIFF Sampler</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/renderworld/">RenderWorld Hub</a>
-				<a class="a" href="/MIFF-Make-It-For-Free/render/viewport/">Pixel World (Game)</a>
+				<a class="a" href="/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html?v=2025-10-01-5">Pixel World (Game)</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/docs-site/">Documentation</a>
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 			var didRedirect = sessionStorage.getItem('miff_px_redirected') === '1';
 			if (!alreadyViewport && !didRedirect && (/\/render\/viewport/i.test(p) || /pixelCityViewport/i.test(p) || /pixel\-world/i.test(p))) {
 				sessionStorage.setItem('miff_px_redirected','1');
-				location.replace('/MIFF-Make-It-For-Free/render/viewport/');
+				location.replace('/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html?v=2025-10-01-5');
 			}
 		} catch {}
 	})();
