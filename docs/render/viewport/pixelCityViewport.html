@@ -141,7 +141,7 @@
 				const mapW = 32, mapH = 24;
 				const map = new Array(mapW*mapH).fill('grass');
 				for(let y=10;y<14;y++) for(let x=20;x<26;x++) map[y*mapW+x] = (x===20||x===25||y===10||y===13)?'sand':'water';
-                let keys = {}; let isRunning = false;
+                let keys = {}; let isRunning = false; let canRunAt = 0;
 				window.addEventListener('keydown', (e)=>{ keys[e.key]=true; });
 				window.addEventListener('keyup', (e)=>{ keys[e.key]=false; });
 
@@ -171,7 +171,13 @@
 					if(keys['ArrowDown']||keys['s']||keys['S']) dy=1;
 					if(keys['ArrowLeft']||keys['a']||keys['A']) dx=-1;
 					if(keys['ArrowRight']||keys['d']||keys['D']) dx=1;
-                    const speed = isRunning ? 2 : 1;
+                    // Base speed back to 1; run increases fractionally (x1.4)
+                    const now = Date.now();
+                    if (isRunning && now >= canRunAt) {
+                        // auto-disable after 2s and start 3s cooldown
+                        isRunning = false; canRunAt = now + 3000;
+                    }
+                    const speed = isRunning ? 1.4 : 1.0;
                     if(dx||dy){ player.x = Math.max(0, Math.min(mapW-1, player.x+dx*speed)); player.y = Math.max(0, Math.min(mapH-1, player.y+dy*speed)); }
 					document.getElementById('hud-pos').textContent = 'Character: ' + characterId + ' — ('+player.x+','+player.y+')';
 				}
@@ -243,12 +249,33 @@
                     try {
                         const btn = document.getElementById('btn-run');
                         if (!btn) return;
-                        const set = (r)=>{ isRunning = r; btn.textContent = r ? 'Running' : 'Run'; };
-                        btn.addEventListener('mousedown', ()=>set(true));
-                        btn.addEventListener('mouseup', ()=>set(false));
-                        btn.addEventListener('mouseleave', ()=>set(false));
-                        btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); set(true); }, { passive:false });
-                        btn.addEventListener('touchend', (e)=>{ e.preventDefault(); set(false); }, { passive:false });
+                        function update(){
+                            const now = Date.now();
+                            if (now < canRunAt) {
+                                btn.textContent = 'Cooldown ' + Math.ceil((canRunAt-now)/1000) + 's';
+                                btn.disabled = true; btn.style.opacity = '0.6';
+                            } else {
+                                btn.disabled = false; btn.style.opacity = '1';
+                                btn.textContent = isRunning ? 'Running' : 'Run';
+                            }
+                        }
+                        let autoOff = null, tick = null;
+                        function startRun(){
+                            if (Date.now() < canRunAt) { update(); return; }
+                            isRunning = true; update();
+                            if (autoOff) clearTimeout(autoOff);
+                            autoOff = setTimeout(()=>{ isRunning = false; canRunAt = Date.now()+3000; update(); }, 2000);
+                            if (!tick) tick = setInterval(update, 250);
+                        }
+                        function toggle(){
+                            if (Date.now() < canRunAt) { update(); return; }
+                            if (isRunning) { isRunning = false; canRunAt = Date.now()+3000; }
+                            else { startRun(); }
+                            update();
+                        }
+                        btn.addEventListener('click', toggle);
+                        btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); toggle(); }, { passive:false });
+                        update();
                     } catch {}
                 })();
 				function tryOpenDialog(){

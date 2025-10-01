@@ -286,8 +286,10 @@ const warehouseLights = createWarehouseLighting();
 
 	// Phase 5: movement state
     const move = { x: 0, z: 0 };
-    let moveSpeed = 2.2; // base speed m/s (slightly faster)
+    let moveSpeed = 2.2; // base speed m/s (kept as-is)
     let isRunning = false; const runMultiplier = 2.0; // double speed
+    let runCooldownUntil = 0; // timestamp ms
+    let runAutoOffTimer = null; let runCooldownTimer = null;
 	// Simple jump physics
 	let velY = 0; const gravity = -9.8; const groundY = 0.0;
 
@@ -843,12 +845,41 @@ scene.add(spiritLens);
     (function(){
         const btn = document.getElementById('btn-run');
         if (!btn) return;
-        function set(running){ isRunning = running; btn.textContent = running ? 'Running' : 'Run'; }
-        btn.addEventListener('mousedown', ()=>set(true));
-        btn.addEventListener('mouseup', ()=>set(false));
-        btn.addEventListener('mouseleave', ()=>set(false));
-        btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); set(true); }, { passive:false });
-        btn.addEventListener('touchend', (e)=>{ e.preventDefault(); set(false); }, { passive:false });
+        function updateLabel(){
+            const now = Date.now();
+            if (now < runCooldownUntil) {
+                const secs = Math.ceil((runCooldownUntil - now)/1000);
+                btn.textContent = 'Cooldown '+secs+'s';
+                btn.disabled = true; btn.style.opacity = '0.6';
+            } else {
+                btn.disabled = false; btn.style.opacity = '1';
+                btn.textContent = isRunning ? 'Running' : 'Run';
+            }
+        }
+        function stopRun(){ isRunning = false; updateLabel(); }
+        function startCooldown(){
+            runCooldownUntil = Date.now() + 3000; // 3s cooldown after auto-off
+            if (runCooldownTimer) clearInterval(runCooldownTimer);
+            runCooldownTimer = setInterval(()=>{
+                updateLabel();
+                if (Date.now() >= runCooldownUntil) { clearInterval(runCooldownTimer); runCooldownTimer = null; updateLabel(); }
+            }, 250);
+        }
+        function toggleRun(){
+            const now = Date.now();
+            if (now < runCooldownUntil) { updateLabel(); return; }
+            isRunning = !isRunning; updateLabel();
+            if (isRunning) {
+                if (runAutoOffTimer) clearTimeout(runAutoOffTimer);
+                runAutoOffTimer = setTimeout(()=>{ stopRun(); startCooldown(); }, 2000); // auto off after 2s
+            } else {
+                if (runAutoOffTimer) { clearTimeout(runAutoOffTimer); runAutoOffTimer = null; }
+                startCooldown();
+            }
+        }
+        btn.addEventListener('click', toggleRun);
+        btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); toggleRun(); }, { passive:false });
+        updateLabel();
     })();
 
 	// Phase 6: Audio System
