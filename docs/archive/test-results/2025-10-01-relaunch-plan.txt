@@ -1,0 +1,25 @@
+Relaunch Plan (Phased)
+
+Phase 1: Pixel World Recovery
+- Validate rendering/input: Use site/sampler/pixel-world.html for canvas rendering; test demo world load.
+- Confirm flow: Start from docs/site/sampler/index.html → pixel-world.html (standalone). No TS viewport chain present; maintain current HTML-based flow.
+- Mirror modules: Create docs/modules/RenderWorld/index.ts re-exporting docs/renderworld/index.ts for consistent imports.
+- Verify launch: Ensure links from docs/sampler/index.html to pixel-world.html function.
+
+Phase 2: CLI Scenario Recovery
+- Validate harness: miff-simulate.ts present; default scenario exists at miff/pure/TutorialScenarioPure/scenario.json.
+- Enable run: Add dev dependency ts-node or compile TS to JS so CLI runs.
+- Coverage logs: Once runnable, generate “Do Everything” and coverage results into docs/archive/test-results/.
+
+Phase 3: Export Validation
+- exportPixelCity.ts missing; defer until file appears. Validate available export scripts if added later.
+- Asset integrity: Verify presets/worlds/demo-forest.json loads via pixel-world sampler.
+
+Phase 4: Final Integration
+- Sampler UI: Add “Run CLI Scenario” and “Explore Pixel World” buttons to docs/sampler/index.html.
+- Linking: Ensure RenderWorld cards still launch; keep stateless, modular boundaries.
+- Logging: Route future run logs to docs/archive/test-results/ with date stamps.
+
+Constraints
+- Do not regenerate assets or overwrite modules; only validate, mirror, and relink.
+- Maintain stateless purity and modular architecture.
