@@ -1,0 +1,34 @@
+Final Validation — 2025-10-01
+
+Pixel World
+- /workspace/pixel_world_manifest.json: MISSING
+- /workspace/npc_registry.json: MISSING
+- /workspace/scenario/generated/scene_pixel_city.fixture.json: MISSING
+- /workspace/render/renderPixelCity.ts: MISSING
+- /workspace/render/startMenu.ts: MISSING
+- /workspace/render/characterSelect.ts: MISSING
+- /workspace/render/viewport/pixelCityViewport.ts: MISSING
+- /workspace/session/sessionState.json: MISSING
+- Deployed flow: docs/site/sampler/index.html → pixel-world.html (standalone HTML canvas). No TS viewport chain present. Pixel City viewport cannot be verified because the TypeScript viewport file does not exist.
+
+CLI Scenario System
+- /workspace/cli/miff-simulate.ts: PRESENT
+- /workspace/cli/miff-world-pixel-city.ts: MISSING
+- /workspace/cli/exportPixelCity.ts: MISSING
+- Execution: Node cannot run .ts directly; ts-node is not installed. Default scenario JSON exists at miff/pure/TutorialScenarioPure/scenario.json. CLI expected to run after adding ts-node or compiling.
+
+Website Deployment
+- /workspace/web/sampler/index.html: MISSING
+- /workspace/web/modules/RenderWorld/index.ts: MISSING
+- /docs/sampler/index.html: PRESENT and UPDATED with Pixel World + CLI cards
+- /docs/modules/RenderWorld/index.ts: PRESENT and MIRRORED (re-export to docs/renderworld/index.ts)
+
+Confirmations
+- Pixel City viewport flow: NOT APPLICABLE (no pixelCityViewport.ts implementation; sampler uses standalone HTML)
+- CLI scenarios via miff-simulate.ts: BLOCKED until ts-node or build step added
+- Export pipeline (Unity/Web/Unreal/Android): BLOCKED — export script exportPixelCity.ts missing
+
+Next Actions Suggested (non-destructive)
+- Add dev dependency ts-node and npm script to run cli/miff-simulate.ts
+- Provide or restore missing Pixel World TS modules and export scripts if intended to ship
+- Keep sampler and RenderWorld mirrored under docs for live site

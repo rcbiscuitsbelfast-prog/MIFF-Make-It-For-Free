@@ -73,7 +73,8 @@
     "audit:accessibility": "node scripts/audit/accessibility-audit.cjs",
     "audit:model": "node scripts/audit/generate-model-index.js",
     "audit:coverage": "node scripts/audit/simple-coverage-analysis.cjs",
-    "audit": "npm run audit:install && npm run audit:validate && npm run audit:accessibility && npm run audit:assets && npm run audit:model && npm run audit:coverage"
+    "audit": "npm run audit:install && npm run audit:validate && npm run audit:accessibility && npm run audit:assets && npm run audit:model && npm run audit:coverage",
+    "simulate": "ts-node cli/miff-simulate.ts"
   },
   "repository": {
     "type": "git",

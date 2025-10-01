@@ -1,0 +1,31 @@
+Pixel World Audit
+- /workspace/pixel_world_manifest.json: MISSING
+- /workspace/npc_registry.json: MISSING
+- /workspace/scenario/generated/scene_pixel_city.fixture.json: MISSING
+- /workspace/render/renderPixelCity.ts: MISSING
+- /workspace/render/startMenu.ts: MISSING
+- /workspace/render/characterSelect.ts: MISSING
+- /workspace/render/viewport/pixelCityViewport.ts: MISSING
+- /workspace/session/sessionState.json: MISSING
+- /workspace/docs/archive/test-results/2025-10-01-pixel-world-render-results.txt: MISSING
+- /workspace/docs/archive/test-results/2025-10-01-character-select-results.txt: MISSING
+
+CLI Scenario System Audit
+- /workspace/cli/miff-simulate.ts: PRESENT
+- /workspace/cli/miff-world-pixel-city.ts: MISSING
+- /workspace/cli/exportPixelCity.ts: MISSING
+- /workspace/docs/archive/test-results/2025-10-01-do-everything-results.txt: MISSING
+- /workspace/docs/archive/test-results/2025-10-01-scenario-coverage-report.txt: MISSING
+
+Website Deployment Audit
+- /docs/sampler/index.html: PRESENT (docs/sampler/index.html)
+- /docs/modules/RenderWorld/index.ts: MISSING (mirror will be created)
+- /workspace/web/sampler/index.html: MISSING
+- /workspace/web/modules/RenderWorld/index.ts: MISSING
+
+Sampler vs Docs Comparison
+- Workspace sampler: site/sampler/index.html; docs sampler: docs/site/sampler/index.html and docs/sampler/index.html. They differ in structure and features.
+- RenderWorld module: docs/renderworld/index.ts exists; no separate workspace module found under /workspace/web/modules/RenderWorld/.
+
+Routing Check
+- Enter
