@@ -1,0 +1,28 @@
+{
+  "name": "NPCsPure-integration",
+  "modules": [
+    "NPCsPure",
+    "QuestsPure",
+    "EventBusPure"
+  ],
+  "commands": [
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/NPCsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/QuestsPure/cliHarness.ts"
+    ],
+    [
+      "npx",
+      "--yes",
+      "tsx",
+      "miff/pure/EventBusPure/cliHarness.ts"
+    ]
+  ]
+}
