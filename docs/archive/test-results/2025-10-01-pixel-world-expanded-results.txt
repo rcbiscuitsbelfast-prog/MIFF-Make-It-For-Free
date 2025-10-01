@@ -1,0 +1,5 @@
+Modules=DialogueSystemPure,QuestSystemPure,EventBusPure,AdvancedRenderingPure,AudioPure,PixelAnimPure
+CLI=miff-world-pixel-city-expand
+Artifacts=/workspace/pixel_world_manifest.json,/workspace/npc_registry.json,/workspace/scenario/generated/scene_pixel_city.fixture.json
+NPCsAugmented=25
+Status=PASS
