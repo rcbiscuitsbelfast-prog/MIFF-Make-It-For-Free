@@ -150,7 +150,7 @@ function handleTap(x,y){
     canvasPointToNDC(x,y);
     raycaster.setFromCamera(tapVec, camera);
     // Include NPC click colliders in raycast targets
-    const targets = [p1,p2,p3,npc1,npc2,npc3,...npcClickColliders];
+    const targets = [p2,npc1,npc2,npc3,...npcClickColliders];
     const intersects = raycaster.intersectObjects(targets, true);
     if (intersects.length){
         const obj = intersects[0].object;
@@ -164,7 +164,7 @@ function handleTap(x,y){
         }
         let root = obj; while (root.parent && targets.indexOf(root) === -1) root = root.parent;
         if (targets.indexOf(root) !== -1){
-            if (root === p1 || root === p2 || root === p3) { animate._nearPortal = root; doInteract(); }
+            if (root === p2) { animate._nearPortal = root; doInteract(); }
             else {
                 // Set hint and toast for NPC
                 try {
@@ -570,13 +570,11 @@ scene.add(spiritLens);
         return g;
     }
     // Position portals within warehouse space
-    const p1 = createPortal(0x44aaff); p1.position.set(-8, 0, -11.4); p1.userData = { label: 'Spirit Tamer', kind: 'electric' }; scene.add(p1);
-    const p2 = createPortal(0x44ff88); p2.position.set( 0, 0, -11.4); p2.userData = { label: 'Toppler', kind: 'steam' }; scene.add(p2);
-    const p3 = createPortal(0xff6688); p3.position.set( 8, 0, -11.4); p3.userData = { label: 'Witcher Grove', kind: 'ember' }; scene.add(p3);
+    const p1 = createPortal(0x6e40c9); p1.position.set(-8, 0, -11.4); p1.userData = { label: 'Coming Soon', kind: 'electric' }; scene.add(p1);
+    const p2 = createPortal(0x6e40c9); p2.position.set( 0, 0, -11.4); p2.userData = { label: 'Pixel World', kind: 'pixel' }; scene.add(p2);
+    const p3 = createPortal(0x6e40c9); p3.position.set( 8, 0, -11.4); p3.userData = { label: 'Coming Soon', kind: 'ember' }; scene.add(p3);
     const portalColliders = [
-        { node: p1, radius: 0.9 },
-        { node: p2, radius: 0.9 },
-        { node: p3, radius: 0.9 },
+        { node: p2, radius: 0.9 }
     ];
     // At start, face the doors (compute yaw toward middle door)
     {
@@ -754,11 +752,11 @@ scene.add(spiritLens);
             if (nearest && nearestD < 2.5) {
                 hint.textContent = 'Interact: ' + (nearest.userData?.label || 'Object');
                 hint.style.display = 'block';
-                animate._nearPortal = (nearest === p1 || nearest === p2 || nearest === p3) ? nearest : null;
+                animate._nearPortal = (nearest === p2) ? nearest : null;
                 animate._nearNPC = (nearest === npc1 || nearest === npc2 || nearest === npc3) ? nearest : null;
             } else { hint.style.display = 'none'; animate._nearPortal = null; animate._nearNPC = null; }
             // Highlight proximity (apply to roots)
-            for (const obj of [p1,p2,p3,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
+            for (const obj of [p2,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
             // Ensure outlines always draw on top
             renderer.autoClear = true;
             // Update NPC click collider positions
@@ -784,8 +782,8 @@ scene.add(spiritLens);
                     n.position.y = Math.sin(tt*1.5)*0.05;
                 }
             }
-			// Update labels: project each portal to screen
-			const labels = [ [p1,l1], [p2,l2], [p3,l3] ];
+            // Update labels: only show Pixel World portal label
+            const labels = [ [p2,l2] ];
 			for (const [p, lbl] of labels){
 				if (!lbl) continue;
 				const v = p.position.clone(); v.y += 1.2; v.project(camera);
@@ -918,7 +916,7 @@ function doInteract(){
             const label = animate._nearPortal.userData?.label || 'Portal';
             const confirmEl = document.getElementById('confirm');
             const txt = document.getElementById('confirm-text');
-            txt.textContent = 'Open ' + label + ' in new tab?';
+            txt.textContent = label === 'Pixel World' ? 'Open Pixel World in new tab?' : (label + ' — Coming Soon');
             confirmEl.style.display = 'inline-flex';
             confirmEl._target = label;
         } else if (animate._nearNPC) {
@@ -940,7 +938,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     async function goFullscreen(){
         try {
             const el = document.documentElement;
-            if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });
+    if (el.requestFullscreen) await el.requestFullscreen({ navigationUI: 'hide' });
             else if (document.body.requestFullscreen) await document.body.requestFullscreen();
             try { await screen.orientation.lock('landscape'); } catch {}
         } catch (e) {
