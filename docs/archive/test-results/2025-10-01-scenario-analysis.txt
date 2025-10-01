@@ -1,0 +1,31 @@
+# Scenario Analysis 2025-10-01
+
+## witcher_grove
+- name: Witcher Grove
+- fixture: miff/scenarios/witcher_grove.fixture.json
+- metadata: not found
+- cli: miff-simulate.ts <fixture>
+
+## combat_arena
+- name: Combat Arena
+- fixture: fixtures/combat_encounters.json
+- metadata: not found
+- cli: miff-simulate.ts fixtures/combat_encounters.json
+
+## town_quest
+- name: Town Quest
+- fixture: fixtures/quest_pack_echoes.json
+- metadata: not found
+- cli: miff-simulate.ts fixtures/quest_pack_echoes.json
+
+## rhythm_minigame
+- name: Rhythm Minigame
+- fixture: miff/miff/pure/RhythmSystemPure/fixtures/beatmap.json
+- metadata: not found
+- cli: miff-simulate.ts miff/pure/RhythmSystemPure/fixtures/beatmap.json
+
+## proc_world_stroll
+- name: Proc World Stroll
+- fixture: miff/pure/WorldManifestPure/fixtures/sample_world.json
+- metadata: not found
+- cli: miff-simulate.ts miff/pure/WorldManifestPure/fixtures/sample_world.json
