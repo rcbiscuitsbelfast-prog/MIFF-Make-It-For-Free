@@ -42,10 +42,11 @@
 	(function(){
 		try {
 			var p = location.pathname || '';
-			var q = location.search || '';
-			var toViewport = '/MIFF-Make-It-For-Free/render/viewport/?v=2025-10-01-3';
-			if (/\/render\/viewport/i.test(p) || /pixelCityViewport/i.test(p) || /pixel\-world/i.test(p)) {
-				location.replace(toViewport);
+			var alreadyViewport = /\/MIFF\-Make\-It\-For\-Free\/render\/viewport\/?$/i.test(p);
+			var didRedirect = sessionStorage.getItem('miff_px_redirected') === '1';
+			if (!alreadyViewport && !didRedirect && (/\/render\/viewport/i.test(p) || /pixelCityViewport/i.test(p) || /pixel\-world/i.test(p))) {
+				sessionStorage.setItem('miff_px_redirected','1');
+				location.replace('/MIFF-Make-It-For-Free/render/viewport/');
 			}
 		} catch {}
 	})();
