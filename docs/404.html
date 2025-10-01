@@ -37,5 +37,18 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	// Smart fallback: if user hit a Pixel World path that 404'd, auto-redirect to the live viewport
+	(function(){
+		try {
+			var p = location.pathname || '';
+			var q = location.search || '';
+			var toViewport = '/MIFF-Make-It-For-Free/render/viewport/?v=2025-10-01-3';
+			if (/\/render\/viewport/i.test(p) || /pixelCityViewport/i.test(p) || /pixel\-world/i.test(p)) {
+				location.replace(toViewport);
+			}
+		} catch {}
+	})();
+	</script>
 </body>
 </html>
