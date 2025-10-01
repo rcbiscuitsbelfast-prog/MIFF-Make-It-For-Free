@@ -1,0 +1,2310 @@
+Phase 2 Dependency Analysis Report
+Generated: 2025-10-01T06:03:00.616Z
+========================================
+
+SUMMARY
+-------
+Total Modules: 163
+Modules with Dependencies: 157
+Modules with Circular Dependencies: 3
+Modules with Missing Dependencies: 155
+
+CIRCULAR DEPENDENCIES
+--------------------
+AudioPure:
+  - AudioPure -> AudioPure
+  - AudioPure -> AudioPure
+  - AudioPure -> AudioPure
+  - AudioPure -> AudioPure
+InventoryPure:
+  - InventoryPure -> InventoryPure
+  - InventoryPure -> InventoryPure
+NetworkBridgePure:
+  - NetworkBridgePure -> NetworkBridgePure
+  - NetworkBridgePure -> NetworkBridgePure
+
+MISSING DEPENDENCIES
+-------------------
+AIProfileIntegrationLayer:
+  - fs
+  - path
+  - Manager
+  - shared/exportUtils
+AIProfilesPure:
+  - fs
+  - path
+  - AIProfileManager
+AIPure:
+  - CombatPure/engine
+  - readline
+AssetManifestPure:
+  - fs
+  - path
+  - index
+AssetValidatorPure:
+  - fs
+  - index
+AudioBridgePure:
+  - fs
+  - path
+  - index
+AudioMixerPure:
+  - fs
+AudioPure:
+  - shared/exportUtils
+  - fs
+  - path
+AvatarAssetRegistryPure:
+  - AvatarSystemPure/schema
+  - readline
+  - index
+AvatarRendererGodotPure:
+  - AvatarSystemPure/schema
+  - readline
+  - fs
+  - path
+  - index
+AvatarRendererWebPure:
+  - AvatarSystemPure/schema
+  - readline
+  - index
+AvatarSystemPure:
+  - readline
+  - fs
+  - path
+  - index
+  - schema
+BattleAIPure:
+  - types
+  - AIDecisionProfile
+  - AIController
+  - readline
+BattleLoopPure:
+  - readline
+BridgeInspectorPure:
+  - BridgeSchemaPure/schema
+  - fs
+  - path
+BridgeSchemaPure:
+  - index
+  - Manager
+  - shared/exportUtils
+  - fs
+  - path
+CIEnforcerPure:
+  - index
+  - fs
+CameraBridgePure:
+  - fs
+  - path
+  - index
+CameraSystemPure:
+  - EventsPure/index
+  - InputPure/index
+  - RNGPure/index
+  - index
+  - ../EventsPure/index
+  - ../InputPure/index
+  - ../RNGPure/index
+  - fs
+  - path
+  - readline
+ChainManagerPure:
+  - fs
+  - path
+  - Manager
+  - shared/exportUtils
+ChainValidatorPure:
+  - fs
+  - path
+  - Manager
+  - shared/exportUtils
+ChallengesPure:
+  - readline
+  - fs
+ClueSystemPure:
+  - EventBusPure/EventBusPure
+CollisionSystemPure:
+  - fs
+  - path
+  - Manager
+CombatCorePure:
+  - fs
+  - path
+  - CombatManager
+CombatScenarioPure:
+  - fs
+  - path
+ConvertToGodotPure:
+  - fs
+  - path
+  - BridgeSchemaPure/schema
+  - Manager
+ConvertToUnityPure:
+  - BridgeSchemaPure/schema
+  - fs
+  - path
+  - Manager
+ConvertToWebPure:
+  - game
+  - RenderPayloadPure/GameStateToFrames
+  - BridgeSchemaPure/schema
+  - fs
+  - path
+  - Manager
+CraftingPure:
+  - SharedSchemaPure/Manager
+  - fs
+  - path
+  - Manager
+CreaturesPure:
+  - fs
+CutScenePure:
+  - index
+CutsceneSystemPure:
+  - index
+  - fs
+DebugOverlayPure:
+  - BridgeSchemaPure/schema
+  - fs
+  - path
+  - Manager
+DialogPure:
+  - fs
+  - path
+  - DialogSim
+DialoguePure:
+  - shared/exportUtils
+  - fs
+  - path
+DialogueSystemPure:
+  - index
+  - fs
+  - path
+DrivingSystemPure:
+  - readline
+EconomyPure:
+  - shared/exportUtils
+  - fs
+  - path
+EffectsPure:
+  - readline
+EncounterPure:
+  - readline
+  - RNGPure/index
+  - index
+EntityLinkerPure:
+  - fs
+  - path
+EquipmentPure:
+  - fs
+  - path
+  - EquipmentManager
+EventBusPure:
+  - shared/exportUtils
+  - fs
+  - path
+EventsPure:
+  - index
+  - readline
+EvolutionPure:
+  - EventBusPure/EventBusPure
+  - readline
+  - index
+ExportAndroidPure:
+  - fs
+  - path
+  - child_process
+ExportWebPure:
+  - fs
+  - path
+FusionPure:
+  - EventBusPure/EventBusPure
+  - index
+GodotBridgePure:
+  - NPCsPure/Manager
+  - QuestsPure/Manager
+  - CombatCorePure/Manager
+  - StatsSystemPure/Manager
+  - CraftingPure/Manager
+  - LootTablesPure/Manager
+  - EconomyPure/Manager
+  - index
+  - fs
+  - path
+  - url
+HUDPure:
+  - EventBusPure/index
+  - readline
+HapticsPure:
+  - fs
+  - Manager
+HealthSystemPure:
+  - Manager
+  - shared/cliHarnessUtils
+IdleSystemPure:
+  - EventBusPure/index
+  - index
+  - Manager
+  - fs
+  - readline
+InputPure:
+  - readline
+  - index
+InputSystemPure:
+  - Manager
+  - shared/cliHarnessUtils
+InventoryPure:
+  - fs
+  - path
+ItemsPure:
+  - readline
+LicenseAuditPure:
+  - fs
+  - path
+  - Manager
+LogPure:
+  - EventBusPure/index
+  - EventBusPure/EventBusPure
+  - readline
+  - fs
+  - path
+LootTablesPure:
+  - fs
+  - path
+  - Manager
+LorePure:
+  - fs
+MagicSystemPure:
+  - EventsPure/index
+  - HealthSystemPure/index
+  - CombatPure/index
+  - RNGPure/index
+  - readline
+MeshFactoryPure:
+  - fs
+  - path
+  - Manager
+  - shared/cliHarnessUtils
+MiffAttributionPure:
+  - fs
+  - path
+  - Manager
+  - override
+ModdingPure:
+  - fs
+  - path
+MountSystemPure:
+  - fs
+MovementPure:
+  - Manager
+  - shared/cliHarnessUtils
+NPCsPure:
+  - SharedSchemaPure/Manager
+  - Manager
+  - fs
+  - path
+  - shared/cliHarnessUtils
+NavigationSystemPure:
+  - fs
+  - path
+  - index
+NodeGraphPure:
+  - fs
+  - path
+  - Manager
+  - TextureSynthPure/Manager
+  - MeshFactoryPure/Manager
+  - shared/cliHarnessUtils
+ObstacleCoursePure:
+  - EventBusPure/index
+  - readline
+  - index
+OverlinkPure:
+  - AudioManager
+  - OverlinkThemes
+  - OverlinkZone
+  - RemixLineageTracker
+  - ../../badges
+  - fs
+  - shared/cliHarnessUtils
+  - ScenarioPackOverlinkPure
+PartyPure:
+  - readline
+  - index
+PathfindingPure:
+  - fs
+  - path
+  - PathfindingManager
+PerfMetricsPure:
+  - fs
+  - path
+PerfPure:
+  - readline
+  - index
+PermissionsPure:
+  - fs
+  - Manager
+PetCollectionPure:
+  - EventBusPure/EventBusPure
+  - Manager
+  - index
+PhysicsSystemPure:
+  - fs
+  - path
+  - Manager
+PixelAnimPure:
+  - index
+  - Manager
+  - shared/exportUtils
+  - fs
+  - path
+PixelDrawPure:
+  - index
+  - shared/exportUtils
+  - fs
+  - path
+PixelGenPure:
+  - canvas
+  - index
+  - shared/exportUtils
+  - fs
+  - path
+PlayerStatePure:
+  - index
+  - shared/exportUtils
+  - fs
+  - path
+ProceduralWorldPure:
+  - fs
+  - path
+  - Manager
+  - shared/cliHarnessUtils
+ProfilerPure:
+  - fs
+  - path
+ProgressionPure:
+  - EventBusPure/EventBusPure
+  - index
+ProjectileSystemPure:
+  - fs
+  - path
+  - index
+QuestModulePure:
+  - fs
+  - path
+  - index
+QuestScenarioPure:
+  - fs
+  - path
+QuestSystemPure:
+  - index
+  - fs
+QuestTimelinePure:
+  - VisualItemEventPure/index
+  - QuestSystemPure/index
+  - fs
+  - path
+  - index
+QuestsPure:
+  - Manager
+  - fs
+  - path
+  - shared/cliHarnessUtils
+RNGPure:
+  - fs
+  - path
+  - index
+RacingSystemPure:
+  - EventBusPure/EventBusPure
+RaidSystemPure:
+  - fs
+  - path
+  - Manager
+  - shared/exportUtils
+RemixAuditPure:
+  - index
+  - fs
+RemixTaggingPure:
+  - fs
+  - path
+  - Manager
+  - shared/exportUtils
+RenderPayloadPure:
+  - BridgeSchemaPure/schema
+  - Manager
+  - shared/cliHarnessUtils
+RenderReplayPure:
+  - BridgeSchemaPure/schema
+  - fs
+  - path
+  - index
+  - Manager
+RenderWorldPure:
+  - index
+RestaurantSimulationPure:
+  - EventBusPure/index
+RewardsPure:
+  - readline
+  - RNGPure/index
+  - index
+RhythmChallengePure:
+  - EventBusPure/EventBusPure
+RhythmSystemPure:
+  - index
+  - fs
+RitualSystemPure:
+  - EventsPure/index
+  - RNGPure/index
+  - readline
+SaveLoadPure:
+  - fs
+  - path
+  - SaveLoadManager
+SavePure:
+  - fs
+  - readline
+SceneBuilderPure:
+  - index
+  - fs
+  - path
+Schemas:
+  - fs
+  - path
+  - index
+  - readline-sync
+  - readline
+ScoreSystemPure:
+  - Manager
+  - shared/cliHarnessUtils
+SessionManifestPure:
+  - index
+  - Manager
+  - shared/exportUtils
+  - fs
+  - path
+SettingsPure:
+  - fs
+  - path
+  - Manager
+SharedSchemaPure:
+  - Manager
+SimpleGamePure:
+  - readline
+SkillTreePure:
+  - fs
+  - path
+SlicePure:
+  - readline
+SocialDeductionPure:
+  - EventBusPure/EventBusPure
+  - EventBusPure/index
+  - Manager
+  - index
+SpiritTamerDemoPure:
+  - TimeSystemPure/Manager
+  - CollisionSystemPure/Manager
+  - Manager
+  - shared/exportUtils
+  - fs
+  - path
+SpiritsPure:
+  - readline
+SplashScreenPure:
+  - index
+SportsSystemPure:
+  - EventBusPure/EventBusPure
+  - Manager
+  - index
+StatsSystemPure:
+  - shared/exportUtils
+  - fs
+  - path
+  - StatsManager
+StatusEffectsPure:
+  - fs
+  - path
+  - StatusEffectsManager
+StorySystemPure:
+  - fs
+  - path
+  - Manager
+  - shared/exportUtils
+SurvivalSystemPure:
+  - EventBusPure/index
+  - readline
+  - index
+SyncManagerPure:
+  - index
+  - shared/exportUtils
+  - fs
+  - path
+SyncPure:
+  - EventBusPure/index
+  - EventBusPure/EventBusPure
+  - readline
+TeamsPure:
+  - shared/exportUtils
+  - fs
+  - path
+  - readline
+TeleportationSystemPure:
+  - EventsPure/index
+  - RNGPure/index
+  - readline
+TestHarnessPure:
+  - shared/exportUtils
+  - fs
+  - path
+TextureSynthPure:
+  - Manager
+  - shared/cliHarnessUtils
+ThemeParkPure:
+  - EventBusPure/index
+  - readline
+  - index
+TimeSystemPure:
+  - EventBusPure/index
+  - index
+  - readline
+TimelineSystemPure:
+  - EventBusPure/EventBusPure
+TopplerDemoPure:
+  - PhysicsSystemPure/Manager
+  - CollisionSystemPure/Manager
+  - TimeSystemPure/Manager
+TouchGesturePure:
+  - fs
+  - Manager
+TutorialScenarioPure:
+  - fs
+  - path
+TycoonSystemPure:
+  - EventBusPure/index
+  - index
+  - Manager
+  - fs
+  - readline
+UnityBridgePure:
+  - NPCsPure/Manager
+  - QuestsPure/Manager
+  - CombatCorePure/Manager
+  - StatsSystemPure/Manager
+  - CraftingPure/Manager
+  - LootTablesPure/Manager
+  - EconomyPure/Manager
+  - index
+  - fs
+  - path
+  - url
+UnrealBridgePure:
+  - index
+  - UnrealPayloadAdapterPure
+  - UnrealSceneBuilderPure
+  - UnrealAssetManagerPure
+  - UnrealEventSyncPure
+  - CombatPure/engine
+  - AIPure/Manager
+ValidationPure:
+  - Manager
+  - shared/cliHarnessUtils
+  - fs
+VisualItemEventPure:
+  - fs
+  - path
+  - index
+VisualReplaySystemPure:
+  - fs
+WeatherSystemPure:
+  - EventBusPure/index
+  - index
+  - Manager
+  - fs
+  - path
+  - readline
+WebBridgePure:
+  - NPCsPure/Manager
+  - QuestsPure/Manager
+  - CombatCorePure/Manager
+  - StatsSystemPure/Manager
+  - CraftingPure/Manager
+  - LootTablesPure/Manager
+  - EconomyPure/Manager
+  - Bridge
+  - fs
+  - path
+WebSocketBridgePure:
+  - readline
+  - index
+WebSocketServerPure:
+  - ws
+  - events
+WitcherExplorerDemoPure:
+  - fs
+  - path
+WorldEnhancementsPure:
+  - fs
+WorldLayoutPure:
+  - fs
+WorldManifestPure:
+  - index
+  - Manager
+  - shared/exportUtils
+  - fs
+  - path
+XPLevelingPure:
+  - Manager
+  - shared/cliHarnessUtils
+cli:
+  - commander
+  - readline
+  - CombatPure/engine
+  - AIPure/Manager
+  - fs
+  - path
+  - UnrealBridgePure/index
+  - UnrealBridgePure/UnrealPayloadAdapterPure
+  - UnrealBridgePure/UnrealSceneBuilderPure
+  - UnrealBridgePure/UnrealAssetManagerPure
+  - UnrealBridgePure/UnrealEventSyncPure
+  - UnrealBridgePure/UnrealEditorHarnessPure
+  - url
+shared:
+  - cliHarnessUtils
+  - path
+  - child_process
+  - enhancedCliHarnessUtils
+  - ../../cli/integration
+
+DETAILED DEPENDENCY ANALYSIS
+-------------------------------
+
+AIProfileIntegrationLayer:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/exportUtils
+  Missing: fs, path, Manager, shared/exportUtils
+  Circular: None
+
+AIProfilesPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, AIProfileManager
+  Missing: fs, path, AIProfileManager
+  Circular: None
+
+AIPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: CombatPure/engine, readline
+  Missing: CombatPure/engine, readline
+  Circular: None
+
+AssetManifestPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+AssetValidatorPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, index
+  Missing: fs, index
+  Circular: None
+
+AudioBridgePure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+AudioMixerPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+AudioPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 4
+  Missing Dependencies: 3
+  
+  Dependencies: AudioPure, shared/exportUtils, fs, path
+  Missing: shared/exportUtils, fs, path
+  Circular: AudioPure -> AudioPure, AudioPure -> AudioPure, AudioPure -> AudioPure, AudioPure -> AudioPure
+
+AvatarAssetRegistryPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: AvatarSystemPure/schema, readline, index
+  Missing: AvatarSystemPure/schema, readline, index
+  Circular: None
+
+AvatarRendererGodotPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: AvatarSystemPure/schema, readline, fs, path, index
+  Missing: AvatarSystemPure/schema, readline, fs, path, index
+  Circular: None
+
+AvatarRendererWebPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: AvatarSystemPure/schema, readline, index
+  Missing: AvatarSystemPure/schema, readline, index
+  Circular: None
+
+AvatarSystemPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: readline, fs, path, index, schema
+  Missing: readline, fs, path, index, schema
+  Circular: None
+
+BattleAIPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: types, AIDecisionProfile, AIController, EventBusPure, readline
+  Missing: types, AIDecisionProfile, AIController, readline
+  Circular: None
+
+BattleLoopPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+BridgeInspectorPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: BridgeSchemaPure/schema, fs, path
+  Missing: BridgeSchemaPure/schema, fs, path
+  Circular: None
+
+BridgeSchemaPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: index, Manager, shared/exportUtils, fs, path
+  Missing: index, Manager, shared/exportUtils, fs, path
+  Circular: None
+
+CIEnforcerPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: index, fs
+  Missing: index, fs
+  Circular: None
+
+CameraBridgePure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+CameraSystemPure:
+  Dependencies: 10
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 10
+  
+  Dependencies: EventsPure/index, InputPure/index, RNGPure/index, index, ../EventsPure/index, ../InputPure/index, ../RNGPure/index, fs, path, readline
+  Missing: EventsPure/index, InputPure/index, RNGPure/index, index, ../EventsPure/index, ../InputPure/index, ../RNGPure/index, fs, path, readline
+  Circular: None
+
+ChainManagerPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/exportUtils
+  Missing: fs, path, Manager, shared/exportUtils
+  Circular: None
+
+ChainValidatorPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/exportUtils
+  Missing: fs, path, Manager, shared/exportUtils
+  Circular: None
+
+ChallengesPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: readline, fs
+  Missing: readline, fs
+  Circular: None
+
+ClueSystemPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: EventBusPure/EventBusPure
+  Missing: EventBusPure/EventBusPure
+  Circular: None
+
+CollisionSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, Manager
+  Missing: fs, path, Manager
+  Circular: None
+
+CombatCorePure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, CombatManager
+  Missing: fs, path, CombatManager
+  Circular: None
+
+CombatPure:
+  Dependencies: 0
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: None
+  Missing: None
+  Circular: None
+
+CombatScenarioPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+ConvertToGodotPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, BridgeSchemaPure/schema, Manager
+  Missing: fs, path, BridgeSchemaPure/schema, Manager
+  Circular: None
+
+ConvertToUnityPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: BridgeSchemaPure/schema, fs, path, Manager
+  Missing: BridgeSchemaPure/schema, fs, path, Manager
+  Circular: None
+
+ConvertToWebPure:
+  Dependencies: 6
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 6
+  
+  Dependencies: game, RenderPayloadPure/GameStateToFrames, BridgeSchemaPure/schema, fs, path, Manager
+  Missing: game, RenderPayloadPure/GameStateToFrames, BridgeSchemaPure/schema, fs, path, Manager
+  Circular: None
+
+CraftingPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: SharedSchemaPure/Manager, fs, path, Manager
+  Missing: SharedSchemaPure/Manager, fs, path, Manager
+  Circular: None
+
+CreaturesPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+CutScenePure:
+  Dependencies: 7
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: DialogueSystemPure, CameraSystemPure, AudioPure, AvatarSystemPure, PixelAnimPure, index, EventsPure
+  Missing: index
+  Circular: None
+
+CutsceneSystemPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: index, fs
+  Missing: index, fs
+  Circular: None
+
+DebugOverlayPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: BridgeSchemaPure/schema, fs, path, Manager
+  Missing: BridgeSchemaPure/schema, fs, path, Manager
+  Circular: None
+
+DialogPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, DialogSim
+  Missing: fs, path, DialogSim
+  Circular: None
+
+DialoguePure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: shared/exportUtils, fs, path
+  Missing: shared/exportUtils, fs, path
+  Circular: None
+
+DialogueSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: index, fs, path
+  Missing: index, fs, path
+  Circular: None
+
+DrivingSystemPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+EconomyPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: shared/exportUtils, fs, path
+  Missing: shared/exportUtils, fs, path
+  Circular: None
+
+EffectsPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+EncounterPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: readline, RNGPure/index, index
+  Missing: readline, RNGPure/index, index
+  Circular: None
+
+EntityLinkerPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+EquipmentPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, EquipmentManager
+  Missing: fs, path, EquipmentManager
+  Circular: None
+
+EventBusPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: shared/exportUtils, fs, path
+  Missing: shared/exportUtils, fs, path
+  Circular: None
+
+EventsPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: index, readline
+  Missing: index, readline
+  Circular: None
+
+EvolutionPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/EventBusPure, readline, index
+  Missing: EventBusPure/EventBusPure, readline, index
+  Circular: None
+
+ExportAndroidPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, child_process
+  Missing: fs, path, child_process
+  Circular: None
+
+ExportWebPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+FusionPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: EventBusPure/EventBusPure, index
+  Missing: EventBusPure/EventBusPure, index
+  Circular: None
+
+GodotBridgePure:
+  Dependencies: 11
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 11
+  
+  Dependencies: NPCsPure/Manager, QuestsPure/Manager, CombatCorePure/Manager, StatsSystemPure/Manager, CraftingPure/Manager, LootTablesPure/Manager, EconomyPure/Manager, index, fs, path, url
+  Missing: NPCsPure/Manager, QuestsPure/Manager, CombatCorePure/Manager, StatsSystemPure/Manager, CraftingPure/Manager, LootTablesPure/Manager, EconomyPure/Manager, index, fs, path, url
+  Circular: None
+
+HUDPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: EventBusPure/index, readline
+  Missing: EventBusPure/index, readline
+  Circular: None
+
+HapticsPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, Manager
+  Missing: fs, Manager
+  Circular: None
+
+HealthSystemPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: Manager, shared/cliHarnessUtils
+  Missing: Manager, shared/cliHarnessUtils
+  Circular: None
+
+IdleSystemPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: EventBusPure/index, index, Manager, fs, readline
+  Missing: EventBusPure/index, index, Manager, fs, readline
+  Circular: None
+
+InputPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: readline, index
+  Missing: readline, index
+  Circular: None
+
+InputSystemPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: Manager, shared/cliHarnessUtils
+  Missing: Manager, shared/cliHarnessUtils
+  Circular: None
+
+IntegrationTests:
+  Dependencies: 0
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: None
+  Missing: None
+  Circular: None
+
+InventoryPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 2
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path, InventoryPure
+  Missing: fs, path
+  Circular: InventoryPure -> InventoryPure, InventoryPure -> InventoryPure
+
+ItemsPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+LicenseAuditPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, Manager
+  Missing: fs, path, Manager
+  Circular: None
+
+LogPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: EventBusPure/index, EventBusPure/EventBusPure, readline, fs, path
+  Missing: EventBusPure/index, EventBusPure/EventBusPure, readline, fs, path
+  Circular: None
+
+LootTablesPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, Manager
+  Missing: fs, path, Manager
+  Circular: None
+
+LorePure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+MagicSystemPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: EventsPure/index, HealthSystemPure/index, CombatPure/index, RNGPure/index, readline
+  Missing: EventsPure/index, HealthSystemPure/index, CombatPure/index, RNGPure/index, readline
+  Circular: None
+
+MeshFactoryPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/cliHarnessUtils
+  Missing: fs, path, Manager, shared/cliHarnessUtils
+  Circular: None
+
+MiffAttributionPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, override
+  Missing: fs, path, Manager, override
+  Circular: None
+
+ModdingPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+MountSystemPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+MovementPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: Manager, shared/cliHarnessUtils
+  Missing: Manager, shared/cliHarnessUtils
+  Circular: None
+
+NPCsPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: SharedSchemaPure/Manager, Manager, fs, path, shared/cliHarnessUtils
+  Missing: SharedSchemaPure/Manager, Manager, fs, path, shared/cliHarnessUtils
+  Circular: None
+
+NavigationSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+NetworkBridgePure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 2
+  Missing Dependencies: 0
+  
+  Dependencies: NetworkBridgePure
+  Missing: None
+  Circular: NetworkBridgePure -> NetworkBridgePure, NetworkBridgePure -> NetworkBridgePure
+
+NodeGraphPure:
+  Dependencies: 6
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 6
+  
+  Dependencies: fs, path, Manager, TextureSynthPure/Manager, MeshFactoryPure/Manager, shared/cliHarnessUtils
+  Missing: fs, path, Manager, TextureSynthPure/Manager, MeshFactoryPure/Manager, shared/cliHarnessUtils
+  Circular: None
+
+ObstacleCoursePure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/index, readline, index
+  Missing: EventBusPure/index, readline, index
+  Circular: None
+
+OverlinkPure:
+  Dependencies: 8
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 8
+  
+  Dependencies: AudioManager, OverlinkThemes, OverlinkZone, RemixLineageTracker, ../../badges, fs, shared/cliHarnessUtils, ScenarioPackOverlinkPure
+  Missing: AudioManager, OverlinkThemes, OverlinkZone, RemixLineageTracker, ../../badges, fs, shared/cliHarnessUtils, ScenarioPackOverlinkPure
+  Circular: None
+
+PartyPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: readline, index
+  Missing: readline, index
+  Circular: None
+
+PathfindingPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, PathfindingManager
+  Missing: fs, path, PathfindingManager
+  Circular: None
+
+PerfMetricsPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+PerfPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: readline, index
+  Missing: readline, index
+  Circular: None
+
+PermissionsPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, Manager
+  Missing: fs, Manager
+  Circular: None
+
+PetCollectionPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/EventBusPure, Manager, index
+  Missing: EventBusPure/EventBusPure, Manager, index
+  Circular: None
+
+PhysicsSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, Manager
+  Missing: fs, path, Manager
+  Circular: None
+
+PixelAnimPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: index, Manager, shared/exportUtils, fs, path
+  Missing: index, Manager, shared/exportUtils, fs, path
+  Circular: None
+
+PixelDrawPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: index, shared/exportUtils, fs, path
+  Missing: index, shared/exportUtils, fs, path
+  Circular: None
+
+PixelGenPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: canvas, index, shared/exportUtils, fs, path
+  Missing: canvas, index, shared/exportUtils, fs, path
+  Circular: None
+
+PlatformBridgePure:
+  Dependencies: 0
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: None
+  Missing: None
+  Circular: None
+
+PlayerStatePure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: index, shared/exportUtils, fs, path
+  Missing: index, shared/exportUtils, fs, path
+  Circular: None
+
+ProceduralWorldPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/cliHarnessUtils
+  Missing: fs, path, Manager, shared/cliHarnessUtils
+  Circular: None
+
+ProfilerPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+ProgressionPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: EventBusPure/EventBusPure, index
+  Missing: EventBusPure/EventBusPure, index
+  Circular: None
+
+ProjectileSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+QuestModulePure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+QuestScenarioPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+QuestSystemPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: index, fs
+  Missing: index, fs
+  Circular: None
+
+QuestTimelinePure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: VisualItemEventPure/index, QuestSystemPure/index, fs, path, index
+  Missing: VisualItemEventPure/index, QuestSystemPure/index, fs, path, index
+  Circular: None
+
+QuestsPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: Manager, fs, path, shared/cliHarnessUtils
+  Missing: Manager, fs, path, shared/cliHarnessUtils
+  Circular: None
+
+RNGPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+RacingSystemPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: EventBusPure/EventBusPure
+  Missing: EventBusPure/EventBusPure
+  Circular: None
+
+RaidSystemPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/exportUtils
+  Missing: fs, path, Manager, shared/exportUtils
+  Circular: None
+
+RemixAuditPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: index, fs
+  Missing: index, fs
+  Circular: None
+
+RemixModePure:
+  Dependencies: 0
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: None
+  Missing: None
+  Circular: None
+
+RemixTaggingPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/exportUtils
+  Missing: fs, path, Manager, shared/exportUtils
+  Circular: None
+
+RenderPayloadPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: BridgeSchemaPure/schema, Manager, shared/cliHarnessUtils
+  Missing: BridgeSchemaPure/schema, Manager, shared/cliHarnessUtils
+  Circular: None
+
+RenderReplayPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: BridgeSchemaPure/schema, fs, path, index, Manager
+  Missing: BridgeSchemaPure/schema, fs, path, index, Manager
+  Circular: None
+
+RenderWorldPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: index, EventsPure
+  Missing: index
+  Circular: None
+
+RestaurantSimulationPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: EventBusPure/index
+  Missing: EventBusPure/index
+  Circular: None
+
+RewardsPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: readline, RNGPure/index, index
+  Missing: readline, RNGPure/index, index
+  Circular: None
+
+RhythmChallengePure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: EventBusPure/EventBusPure
+  Missing: EventBusPure/EventBusPure
+  Circular: None
+
+RhythmSystemPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: index, fs
+  Missing: index, fs
+  Circular: None
+
+RitualSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventsPure/index, RNGPure/index, readline
+  Missing: EventsPure/index, RNGPure/index, readline
+  Circular: None
+
+SaveLoadPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, SaveLoadManager
+  Missing: fs, path, SaveLoadManager
+  Circular: None
+
+SavePure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, readline
+  Missing: fs, readline
+  Circular: None
+
+SceneBuilderPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: index, fs, path
+  Missing: index, fs, path
+  Circular: None
+
+Schemas:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: fs, path, index, readline-sync, readline
+  Missing: fs, path, index, readline-sync, readline
+  Circular: None
+
+ScoreSystemPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: Manager, shared/cliHarnessUtils
+  Missing: Manager, shared/cliHarnessUtils
+  Circular: None
+
+SessionManifestPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: index, Manager, shared/exportUtils, fs, path
+  Missing: index, Manager, shared/exportUtils, fs, path
+  Circular: None
+
+SettingsPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, Manager
+  Missing: fs, path, Manager
+  Circular: None
+
+SharedSchemaPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: Manager
+  Missing: Manager
+  Circular: None
+
+SimpleGamePure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+SkillTreePure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+SlicePure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+SocialDeductionPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: EventBusPure/EventBusPure, EventBusPure/index, Manager, index
+  Missing: EventBusPure/EventBusPure, EventBusPure/index, Manager, index
+  Circular: None
+
+SpiritTamerDemoPure:
+  Dependencies: 6
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 6
+  
+  Dependencies: TimeSystemPure/Manager, CollisionSystemPure/Manager, Manager, shared/exportUtils, fs, path
+  Missing: TimeSystemPure/Manager, CollisionSystemPure/Manager, Manager, shared/exportUtils, fs, path
+  Circular: None
+
+SpiritsPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: readline
+  Missing: readline
+  Circular: None
+
+SplashScreenPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: EventsPure, index
+  Missing: index
+  Circular: None
+
+SportsSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/EventBusPure, Manager, index
+  Missing: EventBusPure/EventBusPure, Manager, index
+  Circular: None
+
+StatsSystemPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: shared/exportUtils, fs, path, StatsManager
+  Missing: shared/exportUtils, fs, path, StatsManager
+  Circular: None
+
+StatusEffectsPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, StatusEffectsManager
+  Missing: fs, path, StatusEffectsManager
+  Circular: None
+
+StorySystemPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: fs, path, Manager, shared/exportUtils
+  Missing: fs, path, Manager, shared/exportUtils
+  Circular: None
+
+SurvivalSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/index, readline, index
+  Missing: EventBusPure/index, readline, index
+  Circular: None
+
+SyncManagerPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: PlayerStatePure, index, shared/exportUtils, fs, path
+  Missing: index, shared/exportUtils, fs, path
+  Circular: None
+
+SyncPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/index, EventBusPure/EventBusPure, readline
+  Missing: EventBusPure/index, EventBusPure/EventBusPure, readline
+  Circular: None
+
+TeamsPure:
+  Dependencies: 4
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 4
+  
+  Dependencies: shared/exportUtils, fs, path, readline
+  Missing: shared/exportUtils, fs, path, readline
+  Circular: None
+
+TeleportationSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventsPure/index, RNGPure/index, readline
+  Missing: EventsPure/index, RNGPure/index, readline
+  Circular: None
+
+TestHarnessPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: shared/exportUtils, fs, path
+  Missing: shared/exportUtils, fs, path
+  Circular: None
+
+TextureSynthPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: Manager, shared/cliHarnessUtils
+  Missing: Manager, shared/cliHarnessUtils
+  Circular: None
+
+ThemeParkPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/index, readline, index
+  Missing: EventBusPure/index, readline, index
+  Circular: None
+
+TimeSystemPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: EventBusPure/index, index, readline
+  Missing: EventBusPure/index, index, readline
+  Circular: None
+
+TimelineSystemPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: EventBusPure/EventBusPure
+  Missing: EventBusPure/EventBusPure
+  Circular: None
+
+TopplerDemoPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: PhysicsSystemPure/Manager, CollisionSystemPure/Manager, TimeSystemPure/Manager
+  Missing: PhysicsSystemPure/Manager, CollisionSystemPure/Manager, TimeSystemPure/Manager
+  Circular: None
+
+TouchGesturePure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, Manager
+  Missing: fs, Manager
+  Circular: None
+
+TutorialScenarioPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+TycoonSystemPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: EventBusPure/index, index, Manager, fs, readline
+  Missing: EventBusPure/index, index, Manager, fs, readline
+  Circular: None
+
+UnityBridgePure:
+  Dependencies: 11
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 11
+  
+  Dependencies: NPCsPure/Manager, QuestsPure/Manager, CombatCorePure/Manager, StatsSystemPure/Manager, CraftingPure/Manager, LootTablesPure/Manager, EconomyPure/Manager, index, fs, path, url
+  Missing: NPCsPure/Manager, QuestsPure/Manager, CombatCorePure/Manager, StatsSystemPure/Manager, CraftingPure/Manager, LootTablesPure/Manager, EconomyPure/Manager, index, fs, path, url
+  Circular: None
+
+UnrealBridgePure:
+  Dependencies: 10
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 7
+  
+  Dependencies: index, RenderPayloadPure, UnrealPayloadAdapterPure, UnrealSceneBuilderPure, UnrealAssetManagerPure, UnrealEventSyncPure, SceneBuilderPure, CombatPure/engine, ItemsPure, AIPure/Manager
+  Missing: index, UnrealPayloadAdapterPure, UnrealSceneBuilderPure, UnrealAssetManagerPure, UnrealEventSyncPure, CombatPure/engine, AIPure/Manager
+  Circular: None
+
+ValidationPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: Manager, shared/cliHarnessUtils, fs
+  Missing: Manager, shared/cliHarnessUtils, fs
+  Circular: None
+
+VisualItemEventPure:
+  Dependencies: 3
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 3
+  
+  Dependencies: fs, path, index
+  Missing: fs, path, index
+  Circular: None
+
+VisualReplaySystemPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+WeatherSystemPure:
+  Dependencies: 6
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 6
+  
+  Dependencies: EventBusPure/index, index, Manager, fs, path, readline
+  Missing: EventBusPure/index, index, Manager, fs, path, readline
+  Circular: None
+
+WebBridgePure:
+  Dependencies: 10
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 10
+  
+  Dependencies: NPCsPure/Manager, QuestsPure/Manager, CombatCorePure/Manager, StatsSystemPure/Manager, CraftingPure/Manager, LootTablesPure/Manager, EconomyPure/Manager, Bridge, fs, path
+  Missing: NPCsPure/Manager, QuestsPure/Manager, CombatCorePure/Manager, StatsSystemPure/Manager, CraftingPure/Manager, LootTablesPure/Manager, EconomyPure/Manager, Bridge, fs, path
+  Circular: None
+
+WebSocketBridgePure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: readline, index
+  Missing: readline, index
+  Circular: None
+
+WebSocketServerPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: ws, events
+  Missing: ws, events
+  Circular: None
+
+WitcherExplorerDemoPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: fs, path
+  Missing: fs, path
+  Circular: None
+
+WorldEnhancementsPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+WorldLayoutPure:
+  Dependencies: 1
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 1
+  
+  Dependencies: fs
+  Missing: fs
+  Circular: None
+
+WorldManifestPure:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: index, Manager, shared/exportUtils, fs, path
+  Missing: index, Manager, shared/exportUtils, fs, path
+  Circular: None
+
+XPLevelingPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 2
+  
+  Dependencies: Manager, shared/cliHarnessUtils
+  Missing: Manager, shared/cliHarnessUtils
+  Circular: None
+
+ZoneServerPure:
+  Dependencies: 2
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: PlayerStatePure, PerfMetricsPure
+  Missing: None
+  Circular: None
+
+__snapshots__:
+  Dependencies: 0
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: None
+  Missing: None
+  Circular: None
+
+cli:
+  Dependencies: 19
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 13
+  
+  Dependencies: commander, readline, UnityBridgePure, GodotBridgePure, WebBridgePure, RenderPayloadPure, CombatPure/engine, ItemsPure, AIPure/Manager, fs, path, UnrealBridgePure/index, UnrealBridgePure/UnrealPayloadAdapterPure, UnrealBridgePure/UnrealSceneBuilderPure, UnrealBridgePure/UnrealAssetManagerPure, UnrealBridgePure/UnrealEventSyncPure, UnrealBridgePure/UnrealEditorHarnessPure, SceneBuilderPure, url
+  Missing: commander, readline, CombatPure/engine, AIPure/Manager, fs, path, UnrealBridgePure/index, UnrealBridgePure/UnrealPayloadAdapterPure, UnrealBridgePure/UnrealSceneBuilderPure, UnrealBridgePure/UnrealAssetManagerPure, UnrealBridgePure/UnrealEventSyncPure, UnrealBridgePure/UnrealEditorHarnessPure, url
+  Circular: None
+
+demos:
+  Dependencies: 0
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 0
+  
+  Dependencies: None
+  Missing: None
+  Circular: None
+
+shared:
+  Dependencies: 5
+  Dependents: 0
+  Circular Dependencies: 0
+  Missing Dependencies: 5
+  
+  Dependencies: cliHarnessUtils, path, child_process, enhancedCliHarnessUtils, ../../cli/integration
+  Missing: cliHarnessUtils, path, child_process, enhancedCliHarnessUtils, ../../cli/integration
+  Circular: None

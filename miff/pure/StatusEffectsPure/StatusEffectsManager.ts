@@ -300,6 +300,27 @@ export class StatusEffectsManager {
   }
 
   /**
+   * Process effects for a specific entity
+   */
+  processEffects(entityId: string): StatusOutput {
+    const entity = this.entities.get(entityId);
+    if (!entity) {
+      return {
+        op: 'process_effects',
+        status: 'error',
+        issues: [`Entity ${entityId} not found`]
+      };
+    }
+
+    const result = this.processEntityEffects(entity);
+    return {
+      op: 'process_effects',
+      status: 'ok',
+      result
+    };
+  }
+
+  /**
    * Process effects for an entity
    */
   private processEntityEffects(entity: StatusEntity): TickResult {
