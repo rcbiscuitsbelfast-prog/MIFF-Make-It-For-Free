@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF — Pixel City Viewport</title>
+	<style>
+		body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+		header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+	</style>
+</head>
+<body>
+	<header>
+		<strong>Pixel City Viewport</strong>
+		<nav><a href="../../sampler/" style="color:#58a6ff;text-decoration:none">Sampler Home</a></nav>
+	</header>
+	<script>
+	(function(){
+		function launch(){
+			const containerId = 'pixel-city-root';
+			let root = document.getElementById(containerId);
+			if (!root){ root = document.createElement('div'); root.id = containerId; root.style.cssText='position:fixed;inset:0;background:#0f1116;color:#e6edf3'; document.body.appendChild(root); }
+			root.innerHTML = '';
+
+			const startMenu = document.createElement('div');
+			startMenu.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;flex-direction:column;background:rgba(0,0,0,0.5)';
+			startMenu.innerHTML = '<h2 style="margin:0;color:#58a6ff">Pixel City</h2><button id="startBtn" style="background:#238636;color:#fff;padding:8px 14px;border-radius:6px;border:0">Start</button>';
+			root.appendChild(startMenu);
+			startMenu.querySelector('#startBtn').addEventListener('click', ()=>{ startMenu.remove(); showCharacterSelect(); });
+
+			function showCharacterSelect(){
+				const panel = document.createElement('div');
+				panel.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:12px;background:#0e1622';
+				panel.innerHTML = '<div style="display:flex;gap:12px">\
+				<button data-c="knight" style="padding:8px 12px">Knight</button>\
+				<button data-c="mage" style="padding:8px 12px">Mage</button>\
+				<button data-c="rogue" style="padding:8px 12px">Rogue</button>\
+				</div>';
+				root.appendChild(panel);
+				panel.addEventListener('click', (e)=>{
+					const t = e.target; const cid = t && t.getAttribute && t.getAttribute('data-c');
+					if (!cid) return; panel.remove(); showWorld(cid);
+				});
+			}
+
+			function showWorld(characterId){
+				const main = document.createElement('div');
+				main.style.cssText='position:absolute;inset:0;display:grid;grid-template-columns:280px 1fr;gap:10px;padding:10px;';
+				main.innerHTML = '<aside style="border:1px solid #1f2d3c;border-radius:8px;background:#0b1220;padding:10px">\
+				<div style="color:#a9b8c6;font-size:12px">Character: <strong>'+characterId+'</strong></div>\
+				<div style="margin-top:10px;"><button id="btnLoadDemo">Load Demo World</button></div>\
+				</aside>\
+				<section style="border:1px solid #1f2d3c;border-radius:8px;background:#0b1220;padding:10px">\
+				<canvas id="pvCanvas" width="640" height="360" style="background:#0b1220;border:1px solid #1f2d3c;border-radius:8px"></canvas>\
+				</section>';
+				root.appendChild(main);
+
+				const cvs = main.querySelector('#pvCanvas');
+				const ctx = cvs.getContext('2d');
+				const grid = 16;
+				function drawGrid(){
+					ctx.clearRect(0,0,cvs.width,cvs.height);
+					ctx.strokeStyle = '#1f2d3c';
+					for (let x=0;x<=cvs.width;x+=grid){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,cvs.height); ctx.stroke(); }
+					for (let y=0;y<=cvs.height;y+=grid){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(cvs.width,y); ctx.stroke(); }
+				}
+				drawGrid();
+
+				async function loadDemo(){
+					try{
+						const r = await fetch('../../presets/worlds/demo-forest.json');
+						const data = await r.json();
+						renderWorld(data);
+					}catch(err){ console.error('[PixelCityViewport] Failed to load demo', err); }
+				}
+				main.querySelector('#btnLoadDemo').addEventListener('click', loadDemo);
+
+				function renderWorld(world){
+					drawGrid();
+					const zone = world && world.zones && world.zones[0];
+					if (!zone) return;
+					var colors = { tree:'#228B22', bush:'#32CD32', rock:'#696969', grass:'#90EE90' };
+					(zone.tiles||[]).forEach(function(tile){
+						const x = tile.x*grid, y=tile.y*grid;
+						const parts = String(tile.assetId||'').split('_');
+						const assetType = parts[1]||'unknown';
+						ctx.fillStyle = colors[assetType] || '#888';
+						ctx.fillRect(x,y,grid,grid);
+					});
+				}
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', launch);
+	})();
+	</script>
+</body>
+</html>
