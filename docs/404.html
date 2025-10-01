@@ -7,214 +7,35 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root{ --bg1:#061510; --bg2:#0f1f17; --fg:#e6edf3; --muted:#a9b8c6; --card:#0e1622; --accent:#00ff88; }
-        html,body{margin:0;height:100%;font-family:'JetBrains Mono', monospace;background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);color:var(--fg)}
-        .container{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
-        .card{position:relative;max-width:760px;width:100%;background:rgba(14,22,34,0.9);border:1px solid #1f2d3c;border-radius:12px;padding:24px;box-shadow:0 8px 25px rgba(88,166,255,0.1)}
-        .float-logo{position:absolute;top:-28px;right:-28px;width:72px;height:72px;border-radius:50%;background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.3);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
-        .logo{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-        .logo svg{width:40px;height:40px}
-        h1{margin:0 0 8px 0;color:var(--accent);font-size:28px}
-        p{margin:8px 0;color:var(--muted)}
-        .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-        .a{background:#0f1f17;border:1px solid #1e4434;color:var(--fg);text-decoration:none;padding:8px 12px;border-radius:8px}
-        .a:hover{background:#163226}
-    </style>
+	<style>
+		:root{ --bg1:#061510; --bg2:#0f1f17; --fg:#e6edf3; --muted:#a9b8c6; --card:#0e1622; --accent:#00ff88; }
+		html,body{margin:0;height:100%;font-family:'JetBrains Mono', monospace;background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);color:var(--fg)}
+		.container{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
+		.card{max-width:760px;width:100%;background:rgba(14,22,34,0.9);border:1px solid #1f2d3c;border-radius:12px;padding:24px;box-shadow:0 8px 25px rgba(88,166,255,0.1)}
+		.top-logo{position:fixed;top:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;background:rgba(0,255,136,0.12);border:1px solid rgba(0,255,136,0.28)}
+		h1{margin:0 0 8px 0;color:var(--accent);font-size:28px}
+		p{margin:8px 0;color:var(--muted)}
+		.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+		.a{background:#0f1f17;border:1px solid #1e4434;color:var(--fg);text-decoration:none;padding:8px 12px;border-radius:8px}
+		.a:hover{background:#163226}
+	</style>
 </head>
 <body>
+	<div class="top-logo">
+		<img src="/MIFF-Make-It-For-Free/image_1758956766781.svg" alt="MIFF" width="40" height="40" onerror="this.onerror=null;this.replaceWith((()=>{const s=document.createElement('span');s.innerHTML='&#9776;';s.style.color='var(--accent)';s.style.fontSize='22px';return s;})())" />
+	</div>
 	<div class="container">
 		<div class="card">
-            <div class="logo">
-                <img src="/MIFF-Make-It-For-Free/image_1758956766781.svg" alt="MIFF" width="40" height="40" onerror="this.onerror=null;this.remove();document.getElementById('fallback-logo').style.display='inline-block'" />
-                <svg id="fallback-logo" viewBox="0 0 24 24" fill="var(--accent)" style="display:none">
-                    <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
-                </svg>
-                <h1 style="margin:0;color:var(--accent)">404 — Page Not Found</h1>
-            </div>
-            <div class="float-logo">
-                <svg viewBox="0 0 24 24" fill="var(--accent)" width="36" height="36">
-                    <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
-                </svg>
-            </div>
+			<h1>404 — Page Not Found</h1>
 			<p>The page you requested does not exist. Try one of these entry points:</p>
 			<div class="links">
 				<a class="a" href="/MIFF-Make-It-For-Free/">Home</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/sampler/">MIFF Sampler</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/renderworld/">RenderWorld Hub</a>
-                <a class="a" href="/MIFF-Make-It-For-Free/render/viewport/">Pixel World (Game)</a>
+				<a class="a" href="/MIFF-Make-It-For-Free/render/viewport/">Pixel World (Game)</a>
 				<a class="a" href="/MIFF-Make-It-For-Free/docs-site/">Documentation</a>
 			</div>
 		</div>
 	</div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found - MIFF Framework</title>
-    <link rel="stylesheet" href="assets/style.css">
-    <style>
-        .error-container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-        }
-        
-        .error-code {
-            font-size: 8rem;
-            font-weight: 900;
-            color: var(--accent-primary);
-            margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        .error-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-        
-        .error-description {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-        
-        .error-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .error-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: var(--accent-primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid var(--accent-primary);
-        }
-        
-        .error-btn:hover {
-            background: var(--accent-secondary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .error-btn.secondary {
-            background: transparent;
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-        
-        .error-btn.secondary:hover {
-            background: var(--accent-primary);
-            color: white;
-        }
-        
-        .error-suggestions {
-            margin-top: 3rem;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            max-width: 600px;
-        }
-        
-        .error-suggestions h3 {
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-        }
-        
-        .error-suggestions ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .error-suggestions li {
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-        }
-        
-        .error-suggestions li:before {
-            content: "→";
-            color: var(--accent-primary);
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        @media (max-width: 768px) {
-            .error-code {
-                font-size: 6rem;
-            }
-            
-            .error-title {
-                font-size: 2rem;
-            }
-            
-            .error-description {
-                font-size: 1rem;
-            }
-            
-            .error-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .error-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="error-container">
-        <div class="error-code">404</div>
-        <h1 class="error-title">Page Not Found</h1>
-        <p class="error-description">
-            The page you're looking for doesn't exist or has been moved. 
-            Don't worry, even the best frameworks have missing pages sometimes!
-        </p>
-        
-        <div class="error-actions">
-            <a href="/" class="error-btn">🏠 Go Home</a>
-            <a href="/sampler/" class="error-btn secondary">🎮 Try Games</a>
-            <a href="/docs-site/" class="error-btn secondary">📚 Documentation</a>
-        </div>
-        
-        <div class="error-suggestions">
-            <h3>💡 What you can do:</h3>
-            <ul>
-                <li>Check the URL for typos</li>
-                <li>Go back to the <a href="/">homepage</a></li>
-                <li>Explore our <a href="/sampler/">game demos</a></li>
-                <li>Read the <a href="/docs-site/">documentation</a></li>
-                <li>Check out our <a href="/blog/">latest updates</a></li>
-            </ul>
-        </div>
-    </div>
-    
-    <script src="assets/script.js"></script>
 </body>
 </html>
