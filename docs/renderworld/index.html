@@ -987,7 +987,12 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     btnOpen.addEventListener('click', ()=>{
         const label = box._target || '';
         const href = routeFor(label);
-        if (href) { try { window.open(href, '_blank', 'noopener'); } catch {} }
+        if (href) {
+            try {
+                // Prefer same-tab to avoid popup blocking on mobile
+                window.location.href = href;
+            } catch {}
+        }
         box.style.display = 'none';
     });
     btnCancel.addEventListener('click', ()=>{ box.style.display = 'none'; });
