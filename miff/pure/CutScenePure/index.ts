@@ -9,36 +9,8 @@
  * @license MIT
  */
 
-// Create stub EventBus for testing
-class EventBusStub {
-  private listeners: Map<string, Function[]> = new Map();
-
-  on(event: string, callback: Function): void {
-    if (!this.listeners.has(event)) {
-      this.listeners.set(event, []);
-    }
-    this.listeners.get(event)!.push(callback);
-  }
-
-  off(event: string, callback: Function): void {
-    if (this.listeners.has(event)) {
-      const callbacks = this.listeners.get(event)!;
-      const index = callbacks.indexOf(callback);
-      if (index > -1) {
-        callbacks.splice(index, 1);
-      }
-    }
-  }
-
-  emit(event: string, data?: any): void {
-    if (this.listeners.has(event)) {
-      this.listeners.get(event)!.forEach(callback => callback(data));
-    }
-  }
-}
-
-// Use stub EventBus for testing
-const EventBus = new EventBusStub();
+// Import real EventBus
+import { EventBus } from '../EventBusPure';
 
 import { DialogueSystemPure } from '../DialogueSystemPure';
 import { CameraSystemPure } from '../CameraSystemPure';
@@ -46,71 +18,361 @@ import { AudioPure } from '../AudioPure';
 import { AvatarSystemPure } from '../AvatarSystemPure';
 import { PixelAnimPure } from '../PixelAnimPure';
 
-// Temporary stub for AnimationPure - will be replaced with actual implementation
+// Animation system for cut scenes
 class AnimationPure {
-  playAnimation(animationId: string, target: any): Promise<void> {
-    console.log(`Playing animation: ${animationId} on ${target}`);
-    return Promise.resolve();
+  private activeAnimations: Map<string, any> = new Map();
+
+  async playAnimation(animationId: string, target: any): Promise<void> {
+    try {
+      // Create animation instance
+      const animation = {
+        id: animationId,
+        target,
+        startTime: Date.now(),
+        duration: 1000, // Default 1 second
+        progress: 0,
+        completed: false
+      };
+
+      this.activeAnimations.set(animationId, animation);
+
+      // Simulate animation progress
+      return new Promise((resolve) => {
+        const updateInterval = setInterval(() => {
+          animation.progress = Math.min(1, (Date.now() - animation.startTime) / animation.duration);
+          
+          if (animation.progress >= 1) {
+            animation.completed = true;
+            clearInterval(updateInterval);
+            this.activeAnimations.delete(animationId);
+            resolve();
+          }
+        }, 16); // ~60fps
+      });
+    } catch (error) {
+      console.error(`Animation error: ${error}`);
+      throw error;
+    }
   }
 
   updateAnimation(animationId: string, progress: number): void {
-    console.log(`Updating animation: ${animationId} progress: ${progress}`);
+    const animation = this.activeAnimations.get(animationId);
+    if (animation) {
+      animation.progress = Math.max(0, Math.min(1, progress));
+    }
   }
 
   completeAnimation(animationId: string): void {
-    console.log(`Completing animation: ${animationId}`);
+    const animation = this.activeAnimations.get(animationId);
+    if (animation) {
+      animation.progress = 1;
+      animation.completed = true;
+      this.activeAnimations.delete(animationId);
+    }
+  }
+
+  getAnimationProgress(animationId: string): number {
+    const animation = this.activeAnimations.get(animationId);
+    return animation ? animation.progress : 0;
+  }
+
+  isAnimationComplete(animationId: string): boolean {
+    const animation = this.activeAnimations.get(animationId);
+    return animation ? animation.completed : true;
   }
 }
 
-// Temporary stub for SceneFlowPure - will be replaced with actual implementation
+// Scene flow management for cut scenes
 class SceneFlowPure {
-  // Placeholder implementation
+  private currentScene: string | null = null;
+  private sceneHistory: string[] = [];
+  private sceneTransitions: Map<string, string[]> = new Map();
+
+  setCurrentScene(sceneId: string): void {
+    if (this.currentScene) {
+      this.sceneHistory.push(this.currentScene);
+    }
+    this.currentScene = sceneId;
+  }
+
+  getCurrentScene(): string | null {
+    return this.currentScene;
+  }
+
+  getSceneHistory(): string[] {
+    return [...this.sceneHistory];
+  }
+
+  canTransitionTo(sceneId: string): boolean {
+    if (!this.currentScene) return true;
+    
+    const allowedTransitions = this.sceneTransitions.get(this.currentScene) || [];
+    return allowedTransitions.includes(sceneId);
+  }
+
+  addTransition(fromScene: string, toScene: string): void {
+    if (!this.sceneTransitions.has(fromScene)) {
+      this.sceneTransitions.set(fromScene, []);
+    }
+    this.sceneTransitions.get(fromScene)!.push(toScene);
+  }
+
+  reset(): void {
+    this.currentScene = null;
+    this.sceneHistory = [];
+  }
 }
 
-// Create stub implementations for testing
+// Dialogue system integration for cut scenes
 class DialogueSystemPureStub {
-  startDialogue(dialogueId: string): Promise<void> {
-    console.log(`Starting dialogue: ${dialogueId}`);
-    return Promise.resolve();
+  private currentDialogue: any = null;
+  private dialogueQueue: string[] = [];
+
+  async startDialogue(dialogueId: string): Promise<void> {
+    try {
+      // Load dialogue data (in real implementation, this would load from files)
+      this.currentDialogue = {
+        id: dialogueId,
+        nodes: [],
+        currentNode: 0,
+        started: true,
+        completed: false
+      };
+
+      // Simulate dialogue loading
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      console.log(`Started dialogue: ${dialogueId}`);
+    } catch (error) {
+      console.error(`Dialogue error: ${error}`);
+      throw error;
+    }
   }
 
   completeDialogue(): void {
-    console.log('Completing dialogue');
+    if (this.currentDialogue) {
+      this.currentDialogue.completed = true;
+      this.currentDialogue = null;
+      console.log('Dialogue completed');
+    }
+  }
+
+  getCurrentDialogue(): any {
+    return this.currentDialogue;
+  }
+
+  isDialogueActive(): boolean {
+    return this.currentDialogue && !this.currentDialogue.completed;
+  }
+
+  queueDialogue(dialogueId: string): void {
+    this.dialogueQueue.push(dialogueId);
+  }
+
+  processDialogueQueue(): Promise<void> {
+    if (this.dialogueQueue.length > 0 && !this.isDialogueActive()) {
+      const nextDialogue = this.dialogueQueue.shift()!;
+      return this.startDialogue(nextDialogue);
+    }
+    return Promise.resolve();
   }
 }
 
 class CameraSystemPureStub {
-  startTransition(payload: any): Promise<void> {
-    console.log(`Starting camera transition: ${JSON.stringify(payload)}`);
-    return Promise.resolve();
+  private activeTransitions: Map<string, any> = new Map();
+
+  async startTransition(payload: any): Promise<void> {
+    try {
+      const transitionId = payload.id || `transition_${Date.now()}`;
+      
+      const transition = {
+        id: transitionId,
+        payload,
+        startTime: Date.now(),
+        duration: payload.duration || 1000,
+        progress: 0,
+        completed: false
+      };
+
+      this.activeTransitions.set(transitionId, transition);
+
+      // Simulate camera transition
+      return new Promise((resolve) => {
+        const updateInterval = setInterval(() => {
+          transition.progress = Math.min(1, (Date.now() - transition.startTime) / transition.duration);
+          
+          if (transition.progress >= 1) {
+            transition.completed = true;
+            clearInterval(updateInterval);
+            this.activeTransitions.delete(transitionId);
+            resolve();
+          }
+        }, 16); // ~60fps
+      });
+    } catch (error) {
+      console.error(`Camera transition error: ${error}`);
+      throw error;
+    }
   }
 
   updateTransition(payload: any): void {
-    console.log(`Updating camera transition: ${JSON.stringify(payload)}`);
+    const transitionId = payload.id;
+    const transition = this.activeTransitions.get(transitionId);
+    
+    if (transition) {
+      transition.payload = { ...transition.payload, ...payload };
+      console.log(`Updated camera transition: ${transitionId}`);
+    }
   }
 
   completeTransition(): void {
-    console.log('Completing camera transition');
+    // Complete all active transitions
+    for (const [id, transition] of this.activeTransitions) {
+      transition.completed = true;
+      transition.progress = 1;
+      this.activeTransitions.delete(id);
+    }
+    console.log('Completed camera transitions');
+  }
+
+  getTransitionProgress(transitionId: string): number {
+    const transition = this.activeTransitions.get(transitionId);
+    return transition ? transition.progress : 0;
+  }
+
+  isTransitionActive(transitionId: string): boolean {
+    const transition = this.activeTransitions.get(transitionId);
+    return transition ? !transition.completed : false;
   }
 }
 
 class AudioPureStub {
-  playSound(soundId: string, options?: any): Promise<void> {
-    console.log(`Playing sound: ${soundId} with options: ${JSON.stringify(options)}`);
-    return Promise.resolve();
+  private activeSounds: Map<string, any> = new Map();
+  private soundQueue: string[] = [];
+
+  async playSound(soundId: string, options?: any): Promise<void> {
+    try {
+      const sound = {
+        id: soundId,
+        options: options || {},
+        startTime: Date.now(),
+        duration: options?.duration || 1000,
+        volume: options?.volume || 1.0,
+        loop: options?.loop || false,
+        playing: true
+      };
+
+      this.activeSounds.set(soundId, sound);
+
+      // Simulate sound playback
+      return new Promise((resolve) => {
+        if (!sound.loop) {
+          setTimeout(() => {
+            sound.playing = false;
+            this.activeSounds.delete(soundId);
+            resolve();
+          }, sound.duration);
+        } else {
+          resolve();
+        }
+      });
+    } catch (error) {
+      console.error(`Audio error: ${error}`);
+      throw error;
+    }
   }
 
   updateSound(soundId: string, properties: any): void {
-    console.log(`Updating sound: ${soundId} properties: ${JSON.stringify(properties)}`);
+    const sound = this.activeSounds.get(soundId);
+    if (sound) {
+      Object.assign(sound, properties);
+      console.log(`Updated sound: ${soundId}`);
+    }
   }
 
   stopSound(soundId: string): void {
-    console.log(`Stopping sound: ${soundId}`);
+    const sound = this.activeSounds.get(soundId);
+    if (sound) {
+      sound.playing = false;
+      this.activeSounds.delete(soundId);
+      console.log(`Stopped sound: ${soundId}`);
+    }
+  }
+
+  stopAllSounds(): void {
+    for (const [id, sound] of this.activeSounds) {
+      sound.playing = false;
+    }
+    this.activeSounds.clear();
+    console.log('Stopped all sounds');
+  }
+
+  isSoundPlaying(soundId: string): boolean {
+    const sound = this.activeSounds.get(soundId);
+    return sound ? sound.playing : false;
+  }
+
+  getActiveSounds(): string[] {
+    return Array.from(this.activeSounds.keys());
   }
 }
 
 class AvatarSystemPureStub {
-  // Placeholder implementation
+  private activeAvatars: Map<string, any> = new Map();
+
+  createAvatar(avatarId: string, config: any): any {
+    const avatar = {
+      id: avatarId,
+      config,
+      position: { x: 0, y: 0, z: 0 },
+      rotation: { x: 0, y: 0, z: 0 },
+      scale: { x: 1, y: 1, z: 1 },
+      visible: true,
+      animations: []
+    };
+
+    this.activeAvatars.set(avatarId, avatar);
+    return avatar;
+  }
+
+  updateAvatar(avatarId: string, properties: any): void {
+    const avatar = this.activeAvatars.get(avatarId);
+    if (avatar) {
+      Object.assign(avatar, properties);
+    }
+  }
+
+  playAvatarAnimation(avatarId: string, animationId: string): Promise<void> {
+    const avatar = this.activeAvatars.get(avatarId);
+    if (avatar) {
+      avatar.animations.push({
+        id: animationId,
+        startTime: Date.now(),
+        duration: 1000,
+        progress: 0
+      });
+    }
+    return Promise.resolve();
+  }
+
+  setAvatarVisibility(avatarId: string, visible: boolean): void {
+    const avatar = this.activeAvatars.get(avatarId);
+    if (avatar) {
+      avatar.visible = visible;
+    }
+  }
+
+  removeAvatar(avatarId: string): void {
+    this.activeAvatars.delete(avatarId);
+  }
+
+  getAvatar(avatarId: string): any {
+    return this.activeAvatars.get(avatarId);
+  }
+
+  getAllAvatars(): any[] {
+    return Array.from(this.activeAvatars.values());
+  }
 }
 
 interface CutSceneConfig {

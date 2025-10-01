@@ -1,0 +1,833 @@
+Phase 2 Mock Implementation Analysis Report
+Generated: 2025-10-01T06:11:27.020Z
+========================================
+
+SUMMARY
+-------
+Total Mock Implementations: 201
+High Severity: 64
+Medium Severity: 36
+Low Severity: 101
+
+HIGH PRIORITY MOCK IMPLEMENTATIONS
+----------------------------------
+ThemeParkPure/cliHarness.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 57
+  Description: 57 instances of simulation code, timeout-based mocks, random-based mocks
+AvatarRendererWebPure/cliHarness.ts:
+  Types: mock, simulate
+  Count: 41
+  Description: 41 instances of mock implementations, simulation code
+ZoneServerPure/cliHarness.ts:
+  Types: mock, simulate, random_mock
+  Count: 33
+  Description: 33 instances of mock implementations, simulation code, random-based mocks
+TeamsPure/strategicCliHarness.ts:
+  Types: mock, simulate
+  Count: 30
+  Description: 30 instances of mock implementations, simulation code
+BattleAIPure/cliHarness.ts:
+  Types: mock, simulate
+  Count: 28
+  Description: 28 instances of mock implementations, simulation code
+RewardsPure/index.ts:
+  Types: stub
+  Count: 25
+  Description: 25 instances of stub methods
+AIPure/cliHarness.ts:
+  Types: mock, simulate, random_mock
+  Count: 23
+  Description: 23 instances of mock implementations, simulation code, random-based mocks
+UnrealBridgePure/UnrealEditorHarnessPure.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 20
+  Description: 20 instances of simulation code, timeout-based mocks, random-based mocks
+CutScenePure/index.ts:
+  Types: stub, timeout_mock, placeholder
+  Count: 19
+  Description: 19 instances of stub methods, timeout-based mocks, placeholder implementations
+FusionPure/cliHarness.ts:
+  Types: mock, simulate, timeout_mock, random_mock
+  Count: 19
+  Description: 19 instances of mock implementations, simulation code, timeout-based mocks, random-based mocks
+PlayerStatePure/cliHarness.ts:
+  Types: simulate
+  Count: 17
+  Description: 17 instances of simulation code
+SportsSystemPure/cliHarness.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 17
+  Description: 17 instances of simulation code, timeout-based mocks, random-based mocks
+CutScenePure/cli.ts:
+  Types: simulate, timeout_mock
+  Count: 16
+  Description: 16 instances of simulation code, timeout-based mocks
+DrivingSystemPure/cliHarness.ts:
+  Types: mock, timeout_mock, random_mock
+  Count: 16
+  Description: 16 instances of mock implementations, timeout-based mocks, random-based mocks
+ModdingPure/ModdingPure.ts:
+  Types: mock, random_mock, console_mock, return_mock
+  Count: 16
+  Description: 16 instances of mock implementations, random-based mocks, console logging mocks, mock return values
+ZoneServerPure/ZoneServer.ts:
+  Types: mock, simulate, random_mock
+  Count: 16
+  Description: 16 instances of mock implementations, simulation code, random-based mocks
+CameraSystemPure/cliHarness.ts:
+  Types: mock, simulate, random_mock
+  Count: 15
+  Description: 15 instances of mock implementations, simulation code, random-based mocks
+ObstacleCoursePure/cliHarness.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 15
+  Description: 15 instances of simulation code, timeout-based mocks, random-based mocks
+AvatarSystemPure/cliHarness.ts:
+  Types: simulate, timeout_mock
+  Count: 14
+  Description: 14 instances of simulation code, timeout-based mocks
+EvolutionPure/cliHarness.ts:
+  Types: mock
+  Count: 14
+  Description: 14 instances of mock implementations
+MagicSystemPure/cliHarness.ts:
+  Types: mock, random_mock
+  Count: 14
+  Description: 14 instances of mock implementations, random-based mocks
+HUDPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 13
+  Description: 13 instances of simulation code, random-based mocks
+RaidSystemPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 13
+  Description: 13 instances of simulation code, random-based mocks
+RewardsPure/cliHarness.ts:
+  Types: stub, simulate, random_mock
+  Count: 13
+  Description: 13 instances of stub methods, simulation code, random-based mocks
+PlatformBridgePure/PlatformBridgePure.ts:
+  Types: mock, stub
+  Count: 12
+  Description: 12 instances of mock implementations, stub methods
+ProgressionPure/cliHarness.ts:
+  Types: mock, simulate, timeout_mock, random_mock
+  Count: 12
+  Description: 12 instances of mock implementations, simulation code, timeout-based mocks, random-based mocks
+SplashScreenPure/integration.ts:
+  Types: simulate, timeout_mock
+  Count: 12
+  Description: 12 instances of simulation code, timeout-based mocks
+PixelAnimPure/cliHarness.ts:
+  Types: simulate
+  Count: 11
+  Description: 11 instances of simulation code
+RitualSystemPure/cliHarness.ts:
+  Types: mock, timeout_mock, random_mock
+  Count: 11
+  Description: 11 instances of mock implementations, timeout-based mocks, random-based mocks
+SessionManifestPure/cliHarness.ts:
+  Types: simulate
+  Count: 11
+  Description: 11 instances of simulation code
+SlicePure/cliHarness.ts:
+  Types: simulate, timeout_mock
+  Count: 11
+  Description: 11 instances of simulation code, timeout-based mocks
+WebSocketBridgePure/cliHarness.ts:
+  Types: simulate, timeout_mock
+  Count: 11
+  Description: 11 instances of simulation code, timeout-based mocks
+SavePure/cliHarness.ts:
+  Types: mock
+  Count: 10
+  Description: 10 instances of mock implementations
+UnrealBridgePure/UnrealAssetManagerPure.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 10
+  Description: 10 instances of simulation code, timeout-based mocks, random-based mocks
+shared/testStubs.ts:
+  Types: mock, stub
+  Count: 10
+  Description: 10 instances of mock implementations, stub methods
+TeleportationSystemPure/cliHarness.ts:
+  Types: mock, random_mock
+  Count: 9
+  Description: 9 instances of mock implementations, random-based mocks
+shared/enhancedCliHarnessUtils.ts:
+  Types: mock, simulate, console_mock
+  Count: 9
+  Description: 9 instances of mock implementations, simulation code, console logging mocks
+BattleLoopPure/cliHarness.ts:
+  Types: mock, timeout_mock, random_mock
+  Count: 8
+  Description: 8 instances of mock implementations, timeout-based mocks, random-based mocks
+EvolutionPure/Manager.ts:
+  Types: mock, random_mock
+  Count: 8
+  Description: 8 instances of mock implementations, random-based mocks
+ItemsPure/cliHarness.ts:
+  Types: mock
+  Count: 8
+  Description: 8 instances of mock implementations
+SceneBuilderPure/index.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 8
+  Description: 8 instances of simulation code, timeout-based mocks, random-based mocks
+EventBusPure/EventBusPure.ts:
+  Types: mock, simulate, timeout_mock, random_mock
+  Count: 7
+  Description: 7 instances of mock implementations, simulation code, timeout-based mocks, random-based mocks
+SplashScreenPure/cli.ts:
+  Types: simulate, timeout_mock
+  Count: 7
+  Description: 7 instances of simulation code, timeout-based mocks
+EffectsPure/cliHarness.ts:
+  Types: mock, simulate
+  Count: 6
+  Description: 6 instances of mock implementations, simulation code
+SyncPure/Manager.ts:
+  Types: simulate, timeout_mock, random_mock
+  Count: 6
+  Description: 6 instances of simulation code, timeout-based mocks, random-based mocks
+HapticsPure/index.ts:
+  Types: random_mock, placeholder, not_implemented
+  Count: 5
+  Description: 5 instances of random-based mocks, placeholder implementations, not implemented methods
+PetCollectionPure/cliHarness.ts:
+  Types: simulate, timeout_mock
+  Count: 5
+  Description: 5 instances of simulation code, timeout-based mocks
+ChallengesPure/cliHarness.ts:
+  Types: mock
+  Count: 4
+  Description: 4 instances of mock implementations
+DebugOverlayPure/Manager.ts:
+  Types: mock, random_mock
+  Count: 4
+  Description: 4 instances of mock implementations, random-based mocks
+NetworkBridgePure/NetworkBridgePure.ts:
+  Types: mock, random_mock
+  Count: 4
+  Description: 4 instances of mock implementations, random-based mocks
+WebBridgePure/index.ts:
+  Types: simulate, timeout_mock
+  Count: 4
+  Description: 4 instances of simulation code, timeout-based mocks
+HapticsPure/Manager.ts:
+  Types: simulate, timeout_mock, not_implemented
+  Count: 3
+  Description: 3 instances of simulation code, timeout-based mocks, not implemented methods
+TestHarnessPure/TestHarnessPure.ts:
+  Types: simulate, timeout_mock
+  Count: 3
+  Description: 3 instances of simulation code, timeout-based mocks
+AudioPure/index.ts:
+  Types: random_mock, not_implemented
+  Count: 2
+  Description: 2 instances of random-based mocks, not implemented methods
+BridgeSchemaPure/Manager.ts:
+  Types: mock, random_mock
+  Count: 2
+  Description: 2 instances of mock implementations, random-based mocks
+DialoguePure/Manager.ts:
+  Types: stub, random_mock
+  Count: 2
+  Description: 2 instances of stub methods, random-based mocks
+TestHarnessPure/cliHarness.ts:
+  Types: timeout_mock
+  Count: 2
+  Description: 2 instances of timeout-based mocks
+cli/godot-editor-cli.ts:
+  Types: simulate, timeout_mock
+  Count: 2
+  Description: 2 instances of simulation code, timeout-based mocks
+cli/unity-editor-cli.ts:
+  Types: simulate, timeout_mock
+  Count: 2
+  Description: 2 instances of simulation code, timeout-based mocks
+AudioBridgePure/index.ts:
+  Types: mock
+  Count: 1
+  Description: 1 instances of mock implementations
+QuestTimelinePure/index.ts:
+  Types: stub
+  Count: 1
+  Description: 1 instances of stub methods
+RenderWorldPure/cliHarness.ts:
+  Types: stub
+  Count: 1
+  Description: 1 instances of stub methods
+SplashScreenPure/cliHarness.ts:
+  Types: stub
+  Count: 1
+  Description: 1 instances of stub methods
+SplashScreenPure/index.ts:
+  Types: timeout_mock
+  Count: 1
+  Description: 1 instances of timeout-based mocks
+
+MEDIUM PRIORITY MOCK IMPLEMENTATIONS
+------------------------------------
+AvatarAssetRegistryPure/cliHarness.ts:
+  Types: simulate
+  Count: 10
+  Description: 10 instances of simulation code
+AvatarRendererGodotPure/cliHarness.ts:
+  Types: simulate
+  Count: 10
+  Description: 10 instances of simulation code
+DialogueSystemPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 10
+  Description: 10 instances of simulation code, random-based mocks
+GodotBridgePure/Bridge.ts:
+  Types: simulate, placeholder
+  Count: 9
+  Description: 9 instances of simulation code, placeholder implementations
+PerfPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 9
+  Description: 9 instances of simulation code, random-based mocks
+SurvivalSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 9
+  Description: 9 instances of simulation code
+TeamsPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 9
+  Description: 9 instances of simulation code, random-based mocks
+AIPure/Manager.ts:
+  Types: random_mock
+  Count: 8
+  Description: 8 instances of random-based mocks
+HealthSystemPure/Manager.ts:
+  Types: simulate, random_mock
+  Count: 8
+  Description: 8 instances of simulation code, random-based mocks
+HealthSystemPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 8
+  Description: 8 instances of simulation code, random-based mocks
+PerfMetricsPure/index.ts:
+  Types: simulate
+  Count: 8
+  Description: 8 instances of simulation code
+RenderWorldPure/index.ts:
+  Types: random_mock, placeholder
+  Count: 8
+  Description: 8 instances of random-based mocks, placeholder implementations
+UnityBridgePure/Bridge.ts:
+  Types: simulate
+  Count: 8
+  Description: 8 instances of simulation code
+WebBridgePure/Bridge.ts:
+  Types: simulate
+  Count: 8
+  Description: 8 instances of simulation code
+AIProfileIntegrationLayer/cliHarness.ts:
+  Types: simulate
+  Count: 7
+  Description: 7 instances of simulation code
+ClueSystemPure/index.ts:
+  Types: random_mock
+  Count: 7
+  Description: 7 instances of random-based mocks
+LogPure/cliHarness.ts:
+  Types: simulate
+  Count: 7
+  Description: 7 instances of simulation code
+NPCsPure/Manager.ts:
+  Types: simulate
+  Count: 7
+  Description: 7 instances of simulation code
+SessionManifestPure/Manager.ts:
+  Types: simulate, random_mock
+  Count: 7
+  Description: 7 instances of simulation code, random-based mocks
+SocialDeductionPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 7
+  Description: 7 instances of simulation code, random-based mocks
+StatusEffectsPure/StatusEffectsManager.ts:
+  Types: simulate
+  Count: 7
+  Description: 7 instances of simulation code
+StorySystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 7
+  Description: 7 instances of simulation code
+UnrealBridgePure/UnrealSceneBuilderPure.ts:
+  Types: simulate, random_mock
+  Count: 7
+  Description: 7 instances of simulation code, random-based mocks
+cli/bridge-cli.ts:
+  Types: simulate
+  Count: 7
+  Description: 7 instances of simulation code
+AvatarSystemPure/index.ts:
+  Types: placeholder
+  Count: 6
+  Description: 6 instances of placeholder implementations
+ConvertToWebPure/index.ts:
+  Types: random_mock
+  Count: 6
+  Description: 6 instances of random-based mocks
+DialogPure/cliHarness.ts:
+  Types: simulate
+  Count: 6
+  Description: 6 instances of simulation code
+FusionPure/Manager.ts:
+  Types: random_mock, placeholder
+  Count: 6
+  Description: 6 instances of random-based mocks, placeholder implementations
+IdleSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 6
+  Description: 6 instances of simulation code
+MovementPure/Manager.ts:
+  Types: simulate, random_mock
+  Count: 6
+  Description: 6 instances of simulation code, random-based mocks
+MovementPure/cliHarness.ts:
+  Types: simulate
+  Count: 6
+  Description: 6 instances of simulation code
+PetCollectionPure/index.ts:
+  Types: random_mock
+  Count: 6
+  Description: 6 instances of random-based mocks
+RacingSystemPure/index.ts:
+  Types: random_mock
+  Count: 6
+  Description: 6 instances of random-based mocks
+SimpleGamePure/index.ts:
+  Types: random_mock
+  Count: 6
+  Description: 6 instances of random-based mocks
+SyncPure/cliHarness.ts:
+  Types: simulate, random_mock
+  Count: 6
+  Description: 6 instances of simulation code, random-based mocks
+WeatherSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 6
+  Description: 6 instances of simulation code
+
+LOW PRIORITY MOCK IMPLEMENTATIONS
+----------------------------------
+CameraSystemPure/index.ts:
+  Types: random_mock, placeholder
+  Count: 5
+  Description: 5 instances of random-based mocks, placeholder implementations
+CombatCorePure/index.ts:
+  Types: random_mock
+  Count: 5
+  Description: 5 instances of random-based mocks
+EncounterPure/Manager.ts:
+  Types: random_mock
+  Count: 5
+  Description: 5 instances of random-based mocks
+EncounterPure/cliHarness.ts:
+  Types: simulate
+  Count: 5
+  Description: 5 instances of simulation code
+LootTablesPure/cliHarness.ts:
+  Types: simulate
+  Count: 5
+  Description: 5 instances of simulation code
+ProfilerPure/cliHarness.ts:
+  Types: simulate
+  Count: 5
+  Description: 5 instances of simulation code
+RestaurantSimulationPure/index.ts:
+  Types: random_mock
+  Count: 5
+  Description: 5 instances of random-based mocks
+SpiritTamerDemoPure/Manager.ts:
+  Types: simulate, random_mock
+  Count: 5
+  Description: 5 instances of simulation code, random-based mocks
+SportsSystemPure/index.ts:
+  Types: random_mock
+  Count: 5
+  Description: 5 instances of random-based mocks
+StatusEffectsPure/cliHarness.ts:
+  Types: simulate
+  Count: 5
+  Description: 5 instances of simulation code
+SyncManagerPure/cliHarness.ts:
+  Types: simulate
+  Count: 5
+  Description: 5 instances of simulation code
+TycoonSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 5
+  Description: 5 instances of simulation code
+AIProfilesPure/AIProfileManager.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+GodotBridgePure/cliHarness.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+LogPure/Manager.ts:
+  Types: random_mock, placeholder
+  Count: 4
+  Description: 4 instances of random-based mocks, placeholder implementations
+MagicSystemPure/Manager.ts:
+  Types: simulate, random_mock, placeholder
+  Count: 4
+  Description: 4 instances of simulation code, random-based mocks, placeholder implementations
+MountSystemPure/MountSystem.ts:
+  Types: random_mock
+  Count: 4
+  Description: 4 instances of random-based mocks
+NPCsPure/cliHarness.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+SpiritTamerDemoPure/cliHarness.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+UnityBridgePure/cliHarness.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+UnrealBridgePure/index.ts:
+  Types: simulate, random_mock
+  Count: 4
+  Description: 4 instances of simulation code, random-based mocks
+WebBridgePure/cliHarness.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+cli/unreal-cli.ts:
+  Types: simulate
+  Count: 4
+  Description: 4 instances of simulation code
+AIProfilesPure/cliHarness.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+AssetValidatorPure/index.ts:
+  Types: placeholder
+  Count: 3
+  Description: 3 instances of placeholder implementations
+CombatCorePure/cliHarness.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+CraftingPure/Manager.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+CraftingPure/cliHarness.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+EconomyPure/index.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+InputSystemPure/cliHarness.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+OverlinkPure/AudioManager.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+PathfindingPure/PathfindingManager.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+PathfindingPure/cliHarness.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+RhythmChallengePure/index.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+SlicePure/index.ts:
+  Types: simulate, random_mock
+  Count: 3
+  Description: 3 instances of simulation code, random-based mocks
+StatsSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+TeamsPure/index.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+TeleportationSystemPure/index.ts:
+  Types: random_mock, placeholder
+  Count: 3
+  Description: 3 instances of random-based mocks, placeholder implementations
+TimelineSystemPure/index.ts:
+  Types: random_mock
+  Count: 3
+  Description: 3 instances of random-based mocks
+TopplerDemoPure/cliHarness.ts:
+  Types: simulate
+  Count: 3
+  Description: 3 instances of simulation code
+AudioMixerPure/AudioMixerPure.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+CameraSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+ConvertToGodotPure/Manager.ts:
+  Types: simulate, random_mock
+  Count: 2
+  Description: 2 instances of simulation code, random-based mocks
+ConvertToGodotPure/index.ts:
+  Types: simulate, placeholder
+  Count: 2
+  Description: 2 instances of simulation code, placeholder implementations
+CreaturesPure/cliHarness.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+DialogPure/DialogSim.ts:
+  Types: simulate
+  Count: 2
+  Description: 2 instances of simulation code
+ExportAndroidPure/cli.ts:
+  Types: simulate, placeholder
+  Count: 2
+  Description: 2 instances of simulation code, placeholder implementations
+LootTablesPure/Manager.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+PerfMetricsPure/cliHarness.ts:
+  Types: simulate
+  Count: 2
+  Description: 2 instances of simulation code
+PermissionsPure/index.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+PhysicsSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 2
+  Description: 2 instances of simulation code
+PixelAnimPure/Manager.ts:
+  Types: simulate
+  Count: 2
+  Description: 2 instances of simulation code
+ProfilerPure/ProfilerPure.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+ProjectileSystemPure/cliHarness.ts:
+  Types: simulate
+  Count: 2
+  Description: 2 instances of simulation code
+RaidSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+RitualSystemPure/index.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+UnrealBridgePure/UnrealEventSyncPure.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+UnrealBridgePure/UnrealPayloadAdapterPure.ts:
+  Types: random_mock
+  Count: 2
+  Description: 2 instances of random-based mocks
+VisualItemEventPure/index.ts:
+  Types: simulate
+  Count: 2
+  Description: 2 instances of simulation code
+AudioPure/AudioPure.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+BattleAIPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+CIEnforcerPure/index.ts:
+  Types: placeholder
+  Count: 1
+  Description: 1 instances of placeholder implementations
+CombatCorePure/CombatManager.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+CombatPure/engine.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+ConvertToUnityPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+DrivingSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+EconomyPure/EnhancedManager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+EventsPure/cliHarness.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+ExportAndroidPure/cliHarness.ts:
+  Types: placeholder
+  Count: 1
+  Description: 1 instances of placeholder implementations
+ExportAndroidPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+ExportWebPure/cli.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+ExportWebPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+GodotBridgePure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+HUDPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+IdleSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+InputSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+InventoryPure/InventoryPure.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+ItemsPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+MagicSystemPure/index.ts:
+  Types: placeholder
+  Count: 1
+  Description: 1 instances of placeholder implementations
+PartyPure/cliHarness.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+PermissionsPure/Manager.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+PlayerStatePure/index.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+QuestsPure/cliHarness.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+RemixAuditPure/index.ts:
+  Types: placeholder
+  Count: 1
+  Description: 1 instances of placeholder implementations
+RemixTaggingPure/Manager.ts:
+  Types: placeholder
+  Count: 1
+  Description: 1 instances of placeholder implementations
+RenderPayloadPure/Manager.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+RenderPayloadPure/cliHarness.ts:
+  Types: placeholder
+  Count: 1
+  Description: 1 instances of placeholder implementations
+RitualSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+SavePure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+SocialDeductionPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+SpiritTamerDemoPure/ScenarioPackSpiritTamerDemoPure.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+SpiritsPure/cliHarness.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+SpiritsPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+StatsSystemPure/StatsManager.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+TopplerDemoPure/ScenarioPackTopplerDemoPure.ts:
+  Types: simulate
+  Count: 1
+  Description: 1 instances of simulation code
+TycoonSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+UnityBridgePure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+VisualReplaySystemPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+WeatherSystemPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+WebSocketServerPure/index.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+WorldManifestPure/Manager.ts:
+  Types: random_mock
+  Count: 1
+  Description: 1 instances of random-based mocks
+
+RECOMMENDATIONS
+---------------
+- Replace 64 high priority mock implementations immediately
+- Address 36 medium priority mock implementations
+- Review 101 low priority mock implementations
+- Focus on core modules first (CombatPure, ItemsPure, TeamsPure, StatusEffectsPure)
+- Replace mocks with real implementations or proper fallbacks
+- Add proper error handling for unimplemented features
+- Document mock implementations that are intentionally temporary
