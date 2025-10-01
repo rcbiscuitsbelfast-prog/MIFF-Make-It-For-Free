@@ -16,6 +16,7 @@
 import { RenderPayload } from './BridgeSchemaPure/schema';
 import { ConvertToGodotManager, GodotExportConfig, GodotVersion, GodotPlatform, OptimizationLevel } from './ConvertToGodotPure/Manager';
 import { ConvertToUnityManager, UnityConvertedPayload } from './ConvertToUnityPure/Manager';
+import { ConvertToWebManager } from './ConvertToWebPure/Manager';
 
 export enum ExportEngine {
   GODOT = 'godot',
@@ -387,14 +388,11 @@ export class ExportPipelinePure {
   }
 
   private async convertToWeb(renderPayload: RenderPayload, config: ExportConfig): Promise<any> {
-    // Web export logic would go here
-    // For now, return mock success
+    const webConverter = new ConvertToWebManager();
+    const converted = webConverter.convert(renderPayload);
     return {
-      status: 'ok',
-      engine: 'web',
-      items: renderPayload.renderData || [],
-      issues: [],
-      warnings: ['Web export uses simplified rendering pipeline']
+      ...converted,
+      warnings: converted.issues.length ? ['Web conversion reported validation issues'] : []
     };
   }
 
