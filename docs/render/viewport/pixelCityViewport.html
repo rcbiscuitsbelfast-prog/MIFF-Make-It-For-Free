@@ -145,21 +145,24 @@
 
 				// Virtual joystick (D‑pad)
                 (function(){
-                    const pad = document.getElementById('pad');
-                    const knob = pad?.querySelector('.knob');
-					let active=false; let cx=0, cy=0;
-					function center(){ const r=pad.getBoundingClientRect(); cx=r.left+r.width/2; cy=r.top+r.height/2; }
-					function setKnob(dx,dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
-					function start(x,y){ active=true; move(x,y); }
-					function move(x,y){ if(!active) return; center(); let dx=x-cx, dy=y-cy; const lim=50; const d=Math.hypot(dx,dy); if(d>lim){ const a=Math.atan2(dy,dx); dx=Math.cos(a)*lim; dy=Math.sin(a)*lim; } setKnob(dx*0.6,dy*0.6); keys['ArrowLeft']=dx<-15; keys['ArrowRight']=dx>15; keys['ArrowUp']=dy<-15; keys['ArrowDown']=dy>15; }
-					function end(){ active=false; setKnob(0,0); keys['ArrowLeft']=keys['ArrowRight']=keys['ArrowUp']=keys['ArrowDown']=false; }
-					pad.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; start(t.clientX,t.clientY); e.preventDefault(); }, {passive:false});
-					pad.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; move(t.clientX,t.clientY); e.preventDefault(); }, {passive:false});
-					pad.addEventListener('touchend', (e)=>{ end(); e.preventDefault(); }, {passive:false});
-					pad.addEventListener('mousedown', (e)=>{ start(e.clientX,e.clientY); });
-					window.addEventListener('mousemove', (e)=>{ move(e.clientX,e.clientY); });
-					window.addEventListener('mouseup', end);
-				})();
+                    try {
+                        const pad = document.getElementById('pad');
+                        const knob = pad?.querySelector('.knob');
+                        if (!pad || !knob) return;
+                        let active=false; let cx=0, cy=0;
+                        function center(){ const r=pad.getBoundingClientRect(); cx=r.left+r.width/2; cy=r.top+r.height/2; }
+                        function setKnob(dx,dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
+                        function start(x,y){ active=true; move(x,y); }
+                        function move(x,y){ if(!active) return; center(); let dx=x-cx, dy=y-cy; const lim=50; const d=Math.hypot(dx,dy); if(d>lim){ const a=Math.atan2(dy,dx); dx=Math.cos(a)*lim; dy=Math.sin(a)*lim; } setKnob(dx*0.6,dy*0.6); keys['ArrowLeft']=dx<-15; keys['ArrowRight']=dx>15; keys['ArrowUp']=dy<-15; keys['ArrowDown']=dy>15; }
+                        function end(){ active=false; setKnob(0,0); keys['ArrowLeft']=keys['ArrowRight']=keys['ArrowUp']=keys['ArrowDown']=false; }
+                        pad.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; start(t.clientX,t.clientY); e.preventDefault(); }, {passive:false});
+                        pad.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; move(t.clientX,t.clientY); e.preventDefault(); }, {passive:false});
+                        pad.addEventListener('touchend', (e)=>{ end(); e.preventDefault(); }, {passive:false});
+                        pad.addEventListener('mousedown', (e)=>{ start(e.clientX,e.clientY); });
+                        window.addEventListener('mousemove', (e)=>{ move(e.clientX,e.clientY); });
+                        window.addEventListener('mouseup', end);
+                    } catch {}
+                })();
 				function update(){
 					let dx=0, dy=0;
 					if(keys['ArrowUp']||keys['w']||keys['W']) dy=-1;
@@ -173,9 +176,9 @@
 					ctx.imageSmoothingEnabled = false;
 					ctx.fillStyle = palette.bg; ctx.fillRect(0,0,cvs.width,cvs.height);
 					// dynamic pixel scale that fits portrait/landscape
-					const sx = Math.floor(cvs.width/(mapW*grid));
-					const sy = Math.floor(cvs.height/(mapH*grid));
-					const scale = Math.max(1, Math.min(sx, sy));
+                    const sx = Math.floor(cvs.width/(mapW*grid));
+                    const sy = Math.floor(cvs.height/(mapH*grid));
+                    const scale = Math.max(1, Math.min(sx, sy));
 					const worldW = mapW*grid*scale, worldH = mapH*grid*scale;
 					const ox = Math.floor((cvs.width - worldW)/2), oy = Math.floor((cvs.height - worldH)/2);
 					for(let y=0;y<mapH;y++){
@@ -185,17 +188,32 @@
 							ctx.fillRect(ox + x*grid*scale, oy + y*grid*scale, grid*scale, grid*scale);
 						}
 					}
-					ctx.fillStyle = player.color;
-					const px = ox + player.x*grid*scale + 2*scale;
-					const py = oy + player.y*grid*scale + 2*scale;
-					ctx.fillRect(px, py, (grid-4)*scale, (grid-4)*scale);
+                    // draw player as pixel humanoid
+                    const px = ox + player.x*grid*scale;
+                    const py = oy + player.y*grid*scale;
+                    ctx.fillStyle = player.color; // torso
+                    ctx.fillRect(px+2*scale, py+4*scale, (grid-8)*scale, 6*scale);
+                    ctx.fillStyle = '#ffd966'; // head
+                    ctx.fillRect(px+4*scale, py+1*scale, (grid-12)*scale, 3*scale);
+                    ctx.fillStyle = player.color; // legs
+                    ctx.fillRect(px+2*scale, py+10*scale, 4*scale, 4*scale);
+                    ctx.fillRect(px+(grid-6)*scale, py+10*scale, 4*scale, 4*scale);
+                    ctx.fillRect(px, py+5*scale, 2*scale, 4*scale); // arms
+                    ctx.fillRect(px+(grid-2)*scale, py+5*scale, 2*scale, 4*scale);
 					// draw NPCs with simple idle bob and palette colors
 					for(const n of npcs){
 						const bob = Math.sin(Date.now()/400 + n.spawn.x*0.3 + n.spawn.y*0.2) * scale;
 						const nx = ox + n.spawn.x*grid*scale + 2*scale;
 						const ny = oy + n.spawn.y*grid*scale + 2*scale - bob;
-						ctx.fillStyle = n.sprite.palette[0];
-						ctx.fillRect(nx, ny, (grid-4)*scale, (grid-4)*scale);
+                        const base = n.sprite.palette[0]||'#6e40c9';
+                        const accent = n.sprite.palette[2]||'#ffd966';
+                        // torso
+                        ctx.fillStyle = base; ctx.fillRect(nx, ny+3*scale, (grid-4)*scale, 6*scale);
+                        // head
+                        ctx.fillStyle = accent; ctx.fillRect(nx+2*scale, ny, (grid-8)*scale, 3*scale);
+                        // legs
+                        ctx.fillStyle = base; ctx.fillRect(nx, ny+9*scale, 3*scale, 4*scale);
+                        ctx.fillRect(nx+(grid-4)*scale, ny+9*scale, 3*scale, 4*scale);
 					}
 				}
 				function loop(){ update(); render(); requestAnimationFrame(loop); }
