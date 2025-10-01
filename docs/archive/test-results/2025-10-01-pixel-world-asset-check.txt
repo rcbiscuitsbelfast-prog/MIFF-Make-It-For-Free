@@ -1,0 +1,15 @@
+Asset Check — 2025-10-01
+
+Directories:
+- /workspace/assets/generated/characters: MISSING
+- /workspace/assets/generated/tiles: MISSING
+- /workspace/assets/generated/ui: MISSING
+
+Presets:
+- /workspace/presets/worlds/demo-forest.json: PRESENT
+- /workspace/presets/worlds/pixel-city.json: MISSING
+
+Action:
+- Built minimal playable world using demo-forest preset in docs-hosted viewport.
+- Stateless rendering/input in docs/render/viewport/pixelCityViewport.html
+- Suggestion: add CC0 tiles to /workspace/assets/generated/tiles and character sprites to /workspace/assets/generated/characters for richer scenes.
