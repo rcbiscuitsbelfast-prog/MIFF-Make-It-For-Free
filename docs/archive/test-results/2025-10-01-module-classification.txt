@@ -1,0 +1,17 @@
+# Module Classification 2025-10-01
+
+QuestsPure (✅ Complete)
+NPCsPure (✅ Complete)
+LocationPure (🟡 Scaffolded)
+EventBusPure (🟡 Scaffolded)
+beatmap.json (🟡 Scaffolded)
+sample_world.json (🟡 Scaffolded)
+CombatPure (🔴 Broken)
+ItemsPure (🔴 Broken)
+TeamsPure (🔴 Broken)
+StatusEffectsPure (🔴 Broken)
+AIPure (🔴 Broken)
+RenderWorldPure (🔴 Broken)
+WebSocketBridgePure (🔴 Broken)
+ExportPipelinePure (🔴 Broken)
+WebBridgePure (🔴 Broken)
