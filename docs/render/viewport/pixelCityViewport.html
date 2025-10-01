@@ -87,6 +87,15 @@
 						ctx.fillStyle = colors[assetType] || '#888';
 						ctx.fillRect(x,y,grid,grid);
 					});
+
+					// Draw player character as purple square
+					try {
+						var playerColor = '#800080'; // purple
+						var px = Math.floor(cvs.width/(2*grid))*grid;
+						var py = Math.floor(cvs.height/(2*grid))*grid;
+						ctx.fillStyle = playerColor;
+						ctx.fillRect(px, py, grid, grid);
+					} catch (e) { console.warn('Player render failed', e); }
 				}
 			}
 		}
