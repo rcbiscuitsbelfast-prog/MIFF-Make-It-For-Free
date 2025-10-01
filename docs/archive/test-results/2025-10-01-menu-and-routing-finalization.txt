@@ -1,0 +1,21 @@
+Finalization Report — Menus and Routing (2025-10-01)
+
+- StartMenuPure and GameMenuPure scaffolded with deterministic reducers
+- Presets added at /presets/ui/startMenuConfig.json and /presets/ui/gameMenuConfig.json
+- RenderWorld wired with start overlay (StartMenuPure bridge placeholder) at boot
+- Pixel World canonical route added at /docs/pixelworld/index.html (redirects to viewport)
+- .nojekyll enabled to prevent GitHub Pages path mangling
+- Links normalized to canonical paths with versioned query strings where appropriate
+- Golden tests added for both pure modules; basic CLI harnesses included
+
+Validation checklist:
+- Web (GitHub Pages):
+  - /renderworld/ launches with Start screen, routes into hub
+  - /pixelworld/ redirects to viewport and launches
+- Exports (APK/AAB):
+  - StartMenuPure integrated at boot (bridge responsibility)
+  - GameMenuPure toggled via pause hotkey (bridge responsibility)
+  - No 404s due to missing assets/links
+
+Notes:
+- Next: replace placeholder bridges with config-driven UI renderers for StartMenuPure and GameMenuPure.

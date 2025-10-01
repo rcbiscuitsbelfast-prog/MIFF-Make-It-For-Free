@@ -27,6 +27,15 @@
     <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
     <div id="hint" style="position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:1050;padding:8px 12px;font:14px monospace;color:#e6edf3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:10px;display:none;">hint</div>
     <button id="btn-run" style="position:fixed;right:16px;bottom:110px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Run</button>
+    <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
+        <div style="text-align:center">
+            <h2 style="margin:0;color:#00ff88;letter-spacing:1px">RenderWorld</h2>
+            <p style="margin:6px 0;color:#a9b8c6;font-size:12px">Press Start to Continue</p>
+        </div>
+        <div style="display:flex;gap:10px">
+            <button id="rw-start" style="background:#00a86b;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #1e4434;box-shadow:0 2px 6px rgba(0,255,136,0.2)">Start</button>
+        </div>
+    </div>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
@@ -1018,6 +1027,17 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     btn.addEventListener('click', toggle);
     btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); toggle(); }, { passive:false });
     update();
+})();
+
+// Minimal StartMenuPure bridge (placeholder)
+(function(){
+    try {
+        const startEl = document.getElementById('start-menu');
+        const btn = document.getElementById('rw-start');
+        if (startEl && btn) {
+            btn.addEventListener('click', ()=>{ startEl.remove(); });
+        }
+    } catch {}
 })();
 
 // Confirm open handler (routes)
