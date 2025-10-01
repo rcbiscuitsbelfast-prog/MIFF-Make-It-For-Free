@@ -1,0 +1,1455 @@
+# MIFF Scenario Runs - Collated Report 2025-10-01
+
+## 2025-10-01-altar-forgotten-names-results.txt
+
+Scenario: altar-forgotten-names
+Fixture: docs/archive/scenarios/fixtures-generated/altar-forgotten-names.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/altar-forgotten-names.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Alter Forgotten Ames"
+        }
+      ],
+      "finalState": {
+        "name": "Alter Forgotten Ames",
+        "id": "altar-forgotten-names",
+        "description": "Archived scenario placeholder for Alter Forgotten Ames.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Alter_forgotten_ames.ts"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-ashes-of-the-timeless-oact-results.txt
+
+Scenario: ashes-of-the-timeless-oact
+Fixture: docs/archive/scenarios/fixtures-generated/ashes-of-the-timeless-oact.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/ashes-of-the-timeless-oact.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Ashes Of The Timeless Oact"
+        }
+      ],
+      "finalState": {
+        "name": "Ashes Of The Timeless Oact",
+        "id": "ashes-of-the-timeless-oact",
+        "description": "Archived scenario placeholder for Ashes Of The Timeless Oact.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Ashes of the timeless oact"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-combat_arena-results.txt
+
+Scenario: combat_arena
+Fixture: fixtures/combat_encounters.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/fixtures/combat_encounters.json"
+Modules Triggered: CombatPure, StatusEffectsPure, ItemsPure, TeamsPure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": [
+        {
+          "battleId": "emberfang_battle",
+          "player": {
+            "hp": 100,
+            "moves": [
+              {
+                "moveId": "slash",
+                "name": "Slash",
+                "damage": 20,
+                "type": "physical"
+              },
+              {
+                "moveId": "water_blast",
+                "name": "Water Blast",
+                "damage": 30,
+                "type": "water"
+              }
+            ]
+          },
+          "enemy": {
+            "name": "Emberfang",
+            "hp": 80,
+            "moves": [
+              {
+                "moveId": "fire_claw",
+                "name": "Fire Claw",
+                "damage": 25,
+                "type": "fire"
+              },
+              {
+                "moveId": "blaze",
+                "name": "Blaze",
+                "damage": 15,
+                "type": "fire"
+              }
+            ],
+            "weakness": "water"
+          },
+          "victoryRewards": {
+            "xp": 200,
+            "items": [
+              "emberfang_scale"
+            ],
+            "lore": "emberfang_defeated"
+          }
+        },
+        {
+          "battleId": "mosshide_battle",
+          "player": {
+            "hp": 100,
+            "moves": [
+              {
+                "moveId": "slash",
+                "name": "Slash",
+                "damage": 20,
+                "type": "physical"
+              },
+              {
+                "moveId": "quick_strike",
+                "name": "Quick Strike",
+                "damage": 15,
+                "type": "physical",
+                "speed": "fast"
+              }
+            ]
+          },
+          "enemy": {
+            "name": "Mosshide",
+            "hp": 120,
+            "moves": [
+              {
+                "moveId": "rock_smash",
+                "name": "Rock Smash",
+                "damage": 30,
+                "type": "earth"
+              },
+              {
+                "moveId": "vine_bind",
+                "name": "Vine Bind",
+                "damage": 10,
+                "type": "earth",
+                "effect": "slow"
+              }
+            ],
+            "weakness": "speed"
+          },
+          "victoryRewards": {
+            "xp": 250,
+            "items": [
+              "mosshide_root"
+            ],
+            "lore": "mosshide_defeated"
+          }
+        },
+        {
+          "battleId": "cloudtail_battle",
+          "player": {
+            "hp": 100,
+            "moves": [
+              {
+                "moveId": "slash",
+                "name": "Slash",
+                "damage": 20,
+                "type": "physical"
+              },
+              {
+                "moveId": "aimed_shot",
+                "name": "Aimed Shot",
+                "damage": 25,
+                "type": "ranged",
+                "accuracy": "high"
+              }
+            ]
+          },
+          "enemy": {
+            "name": "Cloudtail",
+            "hp": 60,
+            "moves": [
+              {
+                "moveId": "wind_gust",
+                "name": "Wind Gust",
+                "damage": 20,
+                "type": "wind"
+              },
+              {
+                "moveId": "dodge",
+                "name": "Dodge",
+                "damage": 0,
+                "type": "wind",
+                "effect": "evade"
+              }
+            ],
+            "weakness": "accuracy"
+          },
+          "victoryRewards": {
+            "xp": 300,
+            "items": [
+              "cloudtail_feather"
+            ],
+            "lore": "cloudtail_defeated"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+Next Steps:
+- No action required
+
+## 2025-10-01-council-of-the-fractured-banner-results.txt
+
+Scenario: council-of-the-fractured-banner
+Fixture: docs/archive/scenarios/fixtures-generated/council-of-the-fractured-banner.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/council-of-the-fractured-banner.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Council Of The Fractured Banner"
+        }
+      ],
+      "finalState": {
+        "name": "Council Of The Fractured Banner",
+        "id": "council-of-the-fractured-banner",
+        "description": "Archived scenario placeholder for Council Of The Fractured Banner.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Council of the fractured banner"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-dream-of-hollow-vale-results.txt
+
+Scenario: dream-of-hollow-vale
+Fixture: docs/archive/scenarios/fixtures-generated/dream-of-hollow-vale.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/dream-of-hollow-vale.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Dream Of Hollow Vale"
+        }
+      ],
+      "finalState": {
+        "name": "Dream Of Hollow Vale",
+        "id": "dream-of-hollow-vale",
+        "description": "Archived scenario placeholder for Dream Of Hollow Vale.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Dream of hollow vale"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-ember-pact-results.txt
+
+Scenario: ember-pact
+Fixture: docs/archive/scenarios/fixtures-generated/ember-pact.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/ember-pact.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Ember Pact"
+        }
+      ],
+      "finalState": {
+        "name": "Ember Pact",
+        "id": "ember-pact",
+        "description": "Archived scenario placeholder for Ember Pact.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Ember pact"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-fixtures-generated-results.txt
+
+Scenario: fixtures-generated
+Fixture: docs/archive/scenarios/fixtures-generated/fixtures-generated.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/fixtures-generated.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Fixtures Generated"
+        }
+      ],
+      "finalState": {
+        "name": "Fixtures Generated",
+        "id": "fixtures-generated",
+        "description": "Archived scenario placeholder for Fixtures Generated.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/fixtures-generated"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-forge-of-the-hollow-flame-results.txt
+
+Scenario: forge-of-the-hollow-flame
+Fixture: docs/archive/scenarios/fixtures-generated/forge-of-the-hollow-flame.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/forge-of-the-hollow-flame.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Forge Of The Hollow Flame"
+        }
+      ],
+      "finalState": {
+        "name": "Forge Of The Hollow Flame",
+        "id": "forge-of-the-hollow-flame",
+        "description": "Archived scenario placeholder for Forge Of The Hollow Flame.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Forge of the hollow flame"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-harvest-red-moon-results.txt
+
+Scenario: harvest-red-moon
+Fixture: docs/archive/scenarios/fixtures-generated/harvest-red-moon.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/harvest-red-moon.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Harvest Red Moon"
+        }
+      ],
+      "finalState": {
+        "name": "Harvest Red Moon",
+        "id": "harvest-red-moon",
+        "description": "Archived scenario placeholder for Harvest Red Moon.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Harvest red moon"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-helmet-of-fate-timeline-results.txt
+
+Scenario: helmet-of-fate-timeline
+Fixture: docs/archive/scenarios/fixtures-generated/helmet-of-fate-timeline.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/helmet-of-fate-timeline.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Helmet Of Fate.Timeline"
+        }
+      ],
+      "finalState": {
+        "name": "Helmet Of Fate.Timeline",
+        "id": "helmet-of-fate-timeline",
+        "description": "Archived scenario placeholder for Helmet Of Fate.Timeline.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/helmet_of_fate.timeline.json"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-labyrinth-unspoken-truths-results.txt
+
+Scenario: labyrinth-unspoken-truths
+Fixture: docs/archive/scenarios/fixtures-generated/labyrinth-unspoken-truths.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/labyrinth-unspoken-truths.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Labyrinth Unspoken Truths"
+        }
+      ],
+      "finalState": {
+        "name": "Labyrinth Unspoken Truths",
+        "id": "labyrinth-unspoken-truths",
+        "description": "Archived scenario placeholder for Labyrinth Unspoken Truths.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/labyrinth-unspoken-truths"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-loop-beneath-larkspire-results.txt
+
+Scenario: loop-beneath-larkspire
+Fixture: docs/archive/scenarios/fixtures-generated/loop-beneath-larkspire.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/loop-beneath-larkspire.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Loop Beneath Larkspire"
+        }
+      ],
+      "finalState": {
+        "name": "Loop Beneath Larkspire",
+        "id": "loop-beneath-larkspire",
+        "description": "Archived scenario placeholder for Loop Beneath Larkspire.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Loop beneath larkspire"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-mirror-many-paths-results.txt
+
+Scenario: mirror-many-paths
+Fixture: docs/archive/scenarios/fixtures-generated/mirror-many-paths.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/mirror-many-paths.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Mirror Many Paths"
+        }
+      ],
+      "finalState": {
+        "name": "Mirror Many Paths",
+        "id": "mirror-many-paths",
+        "description": "Archived scenario placeholder for Mirror Many Paths.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Mirror many paths"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-pact-twin-flames-results.txt
+
+Scenario: pact-twin-flames
+Fixture: docs/archive/scenarios/fixtures-generated/pact-twin-flames.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/pact-twin-flames.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Pact Twin Flames"
+        }
+      ],
+      "finalState": {
+        "name": "Pact Twin Flames",
+        "id": "pact-twin-flames",
+        "description": "Archived scenario placeholder for Pact Twin Flames.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Pact twin flames"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-proc_world_stroll-results.txt
+
+Scenario: proc_world_stroll
+Fixture: miff/pure/WorldManifestPure/fixtures/sample_world.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/miff/pure/WorldManifestPure/fixtures/sample_world.json"
+Modules Triggered: WorldManifestPure, LocationPure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": {
+        "schema": "miff.world.v1",
+        "version": "1.0.0",
+        "zones": [
+          {
+            "id": "test-zone",
+            "name": "Test Zone",
+            "width": 10,
+            "height": 8,
+            "tiles": [
+              {
+                "x": 2,
+                "y": 3,
+                "assetId": "tree-oak",
+                "layer": 1
+              },
+              {
+                "x": 5,
+                "y": 5,
+                "assetId": "rock-moss",
+                "layer": 0
+              },
+              {
+                "x": 7,
+                "y": 2,
+                "assetId": "bush-small",
+                "layer": 1
+              }
+            ],
+            "metadata": {
+              "style": "pixel-topdown",
+              "preset": "forest",
+              "generated": false
+            }
+          }
+        ],
+        "metadata": {
+          "title": "Test World",
+          "description": "A test world for validation",
+          "created": "2025-09-18T10:00:00.000Z",
+          "author": "MIFF Framework"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+Next Steps:
+- No action required
+
+## 2025-10-01-rhythm_minigame-results.txt
+
+Scenario: rhythm_minigame
+Fixture: miff/pure/RhythmSystemPure/fixtures/beatmap.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/miff/pure/RhythmSystemPure/fixtures/beatmap.json"
+Modules Triggered: RhythmSystemPure, AudioPure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": {
+        "command": "beats",
+        "bpm": 120,
+        "count": 4
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+Next Steps:
+- No action required
+
+## 2025-10-01-siege-of-ember-watch-results.txt
+
+Scenario: siege-of-ember-watch
+Fixture: docs/archive/scenarios/fixtures-generated/siege-of-ember-watch.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/siege-of-ember-watch.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Siege Of Ember Watch"
+        }
+      ],
+      "finalState": {
+        "name": "Siege Of Ember Watch",
+        "id": "siege-of-ember-watch",
+        "description": "Archived scenario placeholder for Siege Of Ember Watch.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Siege of ember watch"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-song-silent-bell-results.txt
+
+Scenario: song-silent-bell
+Fixture: docs/archive/scenarios/fixtures-generated/song-silent-bell.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/song-silent-bell.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Song Silent Bell"
+        }
+      ],
+      "finalState": {
+        "name": "Song Silent Bell",
+        "id": "song-silent-bell",
+        "description": "Archived scenario placeholder for Song Silent Bell.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Song silent bell"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-stormbound-expanse-results.txt
+
+Scenario: stormbound-expanse
+Fixture: docs/archive/scenarios/fixtures-generated/stormbound-expanse.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/stormbound-expanse.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Stormbound Expanse"
+        }
+      ],
+      "finalState": {
+        "name": "Stormbound Expanse",
+        "id": "stormbound-expanse",
+        "description": "Archived scenario placeholder for Stormbound Expanse.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Stormbound expanse"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-town_quest-results.txt
+
+Scenario: town_quest
+Fixture: fixtures/quest_pack_echoes.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/fixtures/quest_pack_echoes.json"
+Modules Triggered: QuestSystemPure, DialogPure, InventoryPure, EventBusPure, LorePure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": [
+        {
+          "questId": "echoes_emberfang",
+          "title": "Echoes of Emberfang",
+          "description": "Uncover the Emberfang’s legacy by answering the Echo of Elara’s riddle and choosing to inherit its fiery blessing.",
+          "objectives": [
+            {
+              "objectiveId": "answer_emberfang_riddle",
+              "description": "Solve the Emberfang riddle with the Echo of Elara.",
+              "condition": "dialogue_completed:npc_dialogue_trees_echo.json:emberfang_answer"
+            },
+            {
+              "objectiveId": "inherit_emberfang",
+              "description": "Inherit the Emberfang’s blessing from Glimmerling’s Echo.",
+              "condition": "legacy_chosen:emberfang_blessing"
+            }
+          ],
+          "rewards": {
+            "xp": 500,
+            "items": [
+              "ember_ash"
+            ],
+            "effect": "emberfang_blessing",
+            "lore": "emberfang_inherited"
+          }
+        },
+        {
+          "questId": "echoes_mosshide",
+          "title": "Echoes of Mosshide",
+          "description": "Uncover the Mosshide’s legacy by offering a relic to the Echo of Elara and inheriting its earthen blessing.",
+          "objectives": [
+            {
+              "objectiveId": "offer_mosshide_relic",
+              "description": "Offer a Mosshide Root to the Echo of Elara.",
+              "condition": "dialogue_completed:npc_dialogue_trees_echo.json:mosshide_answer"
+            },
+            {
+              "objectiveId": "inherit_mosshide",
+              "description": "Inherit the Mosshide’s blessing from Glimmerling’s Echo.",
+              "condition": "legacy_chosen:mosshide_blessing"
+            }
+          ],
+          "rewards": {
+            "xp": 600,
+            "items": [
+              "root_talisman"
+            ],
+            "effect": "mosshide_blessing",
+            "lore": "mosshide_inherited"
+          }
+        },
+        {
+          "questId": "echoes_cloudtail",
+          "title": "Echoes of Cloudtail",
+          "description": "Uncover the Cloudtail’s legacy by solving the Echo of Elara’s riddle and inheriting its windy blessing.",
+          "objectives": [
+            {
+              "objectiveId": "answer_cloudtail_riddle",
+              "description": "Solve the Cloudtail riddle with the Echo of Elara.",
+              "condition": "dialogue_completed:npc_dialogue_trees_echo.json:cloudtail_answer"
+            },
+            {
+              "objectiveId": "inherit_cloudtail",
+              "description": "Inherit the Cloudtail’s blessing from Glimmerling’s Echo.",
+              "condition": "legacy_chosen:cloudtail_blessing"
+            }
+          ],
+          "rewards": {
+            "xp": 550,
+            "items": [
+              "wind_chime"
+            ],
+            "effect": "cloudtail_blessing",
+            "lore": "cloudtail_inherited"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+Next Steps:
+- No action required
+
+## 2025-10-01-trial-of-echoes-results.txt
+
+Scenario: trial-of-echoes
+Fixture: docs/archive/scenarios/fixtures-generated/trial-of-echoes.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/trial-of-echoes.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Trial Of Echoes"
+        }
+      ],
+      "finalState": {
+        "name": "Trial Of Echoes",
+        "id": "trial-of-echoes",
+        "description": "Archived scenario placeholder for Trial Of Echoes.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Trial of echoes"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-trial-of-forgotten-spirit-results.txt
+
+Scenario: trial-of-forgotten-spirit
+Fixture: docs/archive/scenarios/fixtures-generated/trial-of-forgotten-spirit.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/trial-of-forgotten-spirit.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Trial Of Forgotten Spirit"
+        }
+      ],
+      "finalState": {
+        "name": "Trial Of Forgotten Spirit",
+        "id": "trial-of-forgotten-spirit",
+        "description": "Archived scenario placeholder for Trial Of Forgotten Spirit.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Trial of forgotten spirit"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-vault-of-the-three-sigils-results.txt
+
+Scenario: vault-of-the-three-sigils
+Fixture: docs/archive/scenarios/fixtures-generated/vault-of-the-three-sigils.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/vault-of-the-three-sigils.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Vault Of The Three Sigils"
+        }
+      ],
+      "finalState": {
+        "name": "Vault Of The Three Sigils",
+        "id": "vault-of-the-three-sigils",
+        "description": "Archived scenario placeholder for Vault Of The Three Sigils.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Vault of the three sigils"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-whispers-hollow-tree-results.txt
+
+Scenario: whispers-hollow-tree
+Fixture: docs/archive/scenarios/fixtures-generated/whispers-hollow-tree.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/docs/archive/scenarios/fixtures-generated/whispers-hollow-tree.json"
+Modules Triggered: unknown
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Whispers Hollow Tree"
+        }
+      ],
+      "finalState": {
+        "name": "Whispers Hollow Tree",
+        "id": "whispers-hollow-tree",
+        "description": "Archived scenario placeholder for Whispers Hollow Tree.",
+        "objectives": [],
+        "triggers": [],
+        "rewards": [],
+        "metadata": {
+          "source": "docs/archive/scenarios/Whispers hollow tree"
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+- Modules triggered could not be inferred
+Next Steps:
+- Add explicit module mapping for this scenario
+
+## 2025-10-01-witcher_grove-results.txt
+
+Scenario: witcher_grove
+Fixture: miff/scenarios/witcher_grove.fixture.json
+CLI: npx --yes tsx cli/miff-simulate.ts "/workspace/miff/scenarios/witcher_grove.fixture.json"
+Modules Triggered: DialogPure, QuestSystemPure, LocationPure, InventoryPure, EventBusPure, LorePure, AudioPure
+Status: ok
+Output:
+{
+  "outputs": [
+    {
+      "op": "runScenario",
+      "status": "ok",
+      "events": [
+        {
+          "type": "scenarioStarted",
+          "name": "Scenario"
+        }
+      ],
+      "finalState": {
+        "initialState": {
+          "from": "synth_nexus",
+          "dialoguesAvailable": [
+            "witcher_intro"
+          ],
+          "questState": {
+            "quests": {},
+            "activeQuests": [],
+            "completedQuests": [],
+            "failedQuests": [],
+            "playerStats": {
+              "level": 1,
+              "xp": 0,
+              "inventory": {},
+              "location": {
+                "x": 0,
+                "y": 0
+              },
+              "reputation": {}
+            }
+          }
+        },
+        "assets": {
+          "background": "witcher_grove_bg.png",
+          "sprites": {
+            "player": "Player.png",
+            "playerActions": "Player_Actions.png",
+            "oakTree": "Oak_Tree.png",
+            "oakTreeSmall": "Oak_Tree_Small.png",
+            "fence": "Fences.png",
+            "bridge": "Bridge_Wood.png",
+            "house": "House.png",
+            "chest": "Chest.png"
+          },
+          "buttons": {
+            "quest": "__TEXT__QUEST__",
+            "back": "__TEXT__BACK__"
+          }
+        },
+        "dialog": {
+          "id": "witcher_intro",
+          "npc": "witcher",
+          "nodes": [
+            {
+              "id": "n1",
+              "text": "You look lost.",
+              "choices": [
+                {
+                  "id": "c1",
+                  "text": "Tell me more",
+                  "nextNodeId": "n2"
+                }
+              ]
+            },
+            {
+              "id": "n2",
+              "text": "Find a griffin feather.",
+              "choices": [
+                {
+                  "id": "c2",
+                  "text": "I accept.",
+                  "triggers": {
+                    "questId": "find_griffin_feather"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "tapSequence": [
+          {
+            "step": 0,
+            "label": "Spawn player",
+            "target": "spawn_player"
+          },
+          {
+            "step": 1,
+            "label": "Tap Witcher to start dialogue",
+            "target": "npc_witcher"
+          },
+          {
+            "step": 2,
+            "label": "Choose 'Tell me more' (branch to quest offer)",
+            "target": "choice_tell_me_more"
+          },
+          {
+            "step": 3,
+            "label": "Accept quest",
+            "target": "btn_accept_quest"
+          },
+          {
+            "step": 4,
+            "label": "Back to Synth Nexus",
+            "target": "btn_back"
+          }
+        ],
+        "objects": [
+          {
+            "type": "tilemap",
+            "tiles": [
+              {
+                "src": "Grass_Middle.png",
+                "x": 0,
+                "y": 0,
+                "w": 20,
+                "h": 15
+              },
+              {
+                "src": "Path_Tile.png",
+                "x": 2,
+                "y": 7,
+                "w": 16,
+                "h": 1
+              },
+              {
+                "src": "Water_Tile.png",
+                "x": 10,
+                "y": 3,
+                "w": 5,
+                "h": 3
+              },
+              {
+                "src": "Cliff_Tile.png",
+                "x": 0,
+                "y": 0,
+                "w": 1,
+                "h": 15
+              }
+            ]
+          },
+          {
+            "type": "decor",
+            "id": "tree_cluster",
+            "sprites": [
+              {
+                "src": "Oak_Tree.png",
+                "x": 4,
+                "y": 5
+              },
+              {
+                "src": "Oak_Tree_Small.png",
+                "x": 6,
+                "y": 6
+              }
+            ]
+          },
+          {
+            "type": "decor",
+            "id": "fences",
+            "sprites": [
+              {
+                "src": "Fences.png",
+                "x": 0,
+                "y": 0,
+                "w": 20,
+                "h": 1
+              },
+              {
+                "src": "Fences.png",
+                "x": 0,
+                "y": 14,
+                "w": 20,
+                "h": 1
+              }
+            ]
+          },
+          {
+            "type": "decor",
+            "id": "bridge",
+            "sprite": {
+              "src": "Bridge_Wood.png",
+              "x": 11,
+              "y": 5
+            }
+          },
+          {
+            "type": "decor",
+            "id": "house",
+            "sprite": {
+              "src": "House.png",
+              "x": 16,
+              "y": 2
+            }
+          },
+          {
+            "type": "loot",
+            "id": "chest1",
+            "sprite": {
+              "src": "Chest.png",
+              "x": 8,
+              "y": 7
+            },
+            "reward": "gold:50"
+          },
+          {
+            "type": "player",
+            "id": "hero",
+            "spawn": {
+              "x": 1,
+              "y": 13
+            },
+            "sprites": {
+              "idle": "Player.png",
+              "actions": "Player_Actions.png"
+            }
+          },
+          {
+            "type": "ui",
+            "id": "btn_quest",
+            "label": "[Quest]",
+            "position": "top-left"
+          },
+          {
+            "type": "ui",
+            "id": "btn_back",
+            "label": "[Back]",
+            "position": "top-right"
+          }
+        ],
+        "expected": {
+          "dialog": {
+            "dialogId": "witcher_intro",
+            "logContains": [
+              "DIALOG witcher_intro",
+              "TXT n1 You look lost.",
+              "CHOICE c1 Tell me more",
+              "TXT n2 Find a griffin feather."
+            ]
+          },
+          "quest": {
+            "questId": "find_griffin_feather",
+            "status": "active"
+          },
+          "routing": {
+            "from": "witcher_grove",
+            "to": "synth_nexus"
+          },
+          "ui": {
+            "accepted": true,
+            "acceptButtonId": "btn_accept_quest",
+            "backButtonId": "btn_back"
+          }
+        }
+      }
+    }
+  ]
+}
+
+Analysis:
+- Run status OK
+Next Steps:
+- No action required
