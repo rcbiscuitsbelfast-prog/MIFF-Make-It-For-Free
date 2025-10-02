@@ -13,7 +13,12 @@ try {
       break;
     case 'save':
       mkdirSync('/workspace/session', { recursive: true });
-      writeFileSync(sessionPath, JSON.stringify(params?.snapshot || {}, null, 2));
+      if (params && (params as any).snapshot) {
+        writeFileSync(sessionPath, JSON.stringify((params as any).snapshot, null, 2));
+      } else {
+        // If no snapshot provided, keep current session state (noop persist)
+        try { JSON.parse(readFileSync(sessionPath, 'utf-8')); } catch { writeFileSync(sessionPath, JSON.stringify({}, null, 2)); }
+      }
       handleSuccess({ saved: true }, 'save');
       break;
     default:
