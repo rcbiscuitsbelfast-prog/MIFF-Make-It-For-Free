@@ -633,6 +633,48 @@ class SportsCli {
   }
 
   public async run(): Promise<void> {
+    // CI fast-path / non-interactive mode: support --mode=simulate/demo and --timeout
+    const argv = process.argv.slice(2);
+    const modeArg = argv.find(a => a.startsWith('--mode='));
+    if (modeArg) {
+      const kv = (key: string) => {
+        const raw = argv.find(a => a.startsWith(`--${key}=`));
+        return raw ? raw.split('=')[1] : undefined;
+      };
+      const parsedMode = modeArg.split('=')[1];
+      const ci = (kv('ci') || process.env.CI || 'false').toString() === 'true';
+      const timeoutSec = parseInt(kv('timeout') || '0');
+
+      // Reduce sleeps when in CI to avoid timeouts
+      const originalSleep = this.sleep.bind(this);
+      this.sleep = async (ms: number) => {
+        if (ci) return; // no-op sleep in CI
+        // Respect timeout budget if provided
+        if (timeoutSec > 0) {
+          const maxMs = Math.max(0, Math.min(ms, timeoutSec * 1000));
+          return originalSleep(maxMs);
+        }
+        return originalSleep(ms);
+      };
+
+      if (parsedMode === 'simulate') {
+        const games = parseInt(kv('games') || '3');
+        console.log(`[CI] simulate ${games} game(s)${ci ? ' (fast-path)' : ''}`);
+        await this.handleSimulate([String(games)]);
+        process.exit(0);
+      }
+      if (parsedMode === 'demo') {
+        const sport = kv('sport') || 'soccer';
+        const duration = parseInt(kv('duration') || '10');
+        console.log(`[CI] demo ${sport} for ${duration}s${ci ? ' (fast-path)' : ''}`);
+        await this.handleDemo([sport, String(duration)]);
+        process.exit(0);
+      }
+      // Fallback: print help and exit non-zero for unknown mode
+      console.error(`Unknown --mode=${parsedMode}. Supported: simulate, demo`);
+      process.exit(2);
+    }
+
     const readline = await import('readline');
     const rl = readline.createInterface({
       input: process.stdin,

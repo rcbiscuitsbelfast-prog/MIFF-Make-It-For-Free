@@ -13,7 +13,9 @@ const core = new CombatCore();
 try {
   switch (mode) {
     case 'executeCombat': {
-      const { mode: combatMode, maxTurns } = params;
+      // Accept both --mode=turn_based and remapped --combatMode to avoid duplicate --mode
+      const combatMode = (params as any).combatMode || (params as any).mode || 'turn_based';
+      const { maxTurns } = params as any;
       
       // Initialize with sample combatants
       const player: Combatant = {
@@ -54,7 +56,7 @@ try {
       const result = core.getCombatResult();
       
       handleSuccess({
-        mode: combatMode || 'turn_based',
+        mode: combatMode,
         turns: currentTurn,
         maxTurns: turns,
         result,
