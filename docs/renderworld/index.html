@@ -368,43 +368,73 @@ function createOpenFieldEnvironment(){
         // Rough collider radius
         colliders.push({ x, z, r: 1.6 });
     }
-    const houseSpots = [ [-90,-90], [-90,90], [90,-90], [90,90], [0,95], [95,0], [-95,0], [0,-95] ];
+    const houseSpots = [ [-90,-90], [-85,70], [92,-80], [88,88], [0,95], [95,0], [-95,0], [0,-95], [-70,85], [85,-70] ];
     houseSpots.forEach(([x,z])=> addHouse(x,z));
+    // Wee town street near spawn (west side around x≈-15,z≈0)
+    const street = [ [-18,-6], [-16,-3], [-14,0], [-12,3], [-10,6], [-8,9], [-6,12], [-4,15], [-2,18], [0,21] ];
+    street.forEach(([x,z])=> addHouse(x,z));
 
-    // Hedge maze covering one quarter (NE quadrant)
+    // Hedge maze covering one quarter (NE quadrant) - proper carved maze
     function addHedge(x,z,len,dir){
         // dir: 'x' or 'z'
-        const thick = 0.4; const height = 1.2;
+        const thick = 0.3; const height = 2.4; // thinner paths, taller hedges
         const mat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness:0.9 });
         const geom = (dir==='x') ? new THREE.BoxGeometry(len, height, thick) : new THREE.BoxGeometry(thick, height, len);
         const hedge = new THREE.Mesh(geom, mat);
         hedge.position.set(x, height/2, z);
         g.add(hedge);
-        // Approximate collider along the length
-        const steps = Math.max(1, Math.floor(len/1.0));
+        // Colliders along the segment
+        const steps = Math.max(1, Math.floor(len/0.8));
         for (let i=0;i<=steps;i++){
             const t = (i/steps - 0.5) * len;
             const cx = x + (dir==='x' ? t : 0);
             const cz = z + (dir==='z' ? t : 0);
-            colliders.push({ x: cx, z: cz, r: 0.45 });
+            colliders.push({ x: cx, z: cz, r: 0.4 });
         }
     }
-    // Build simple maze grid in x:[10,100], z:[-100,-10]
     (function buildMaze(){
-        const x0=10, x1=100, z0=-100, z1=-10; const cell=10;
-        // Outer border
+        // Define maze bounds
+        const x0=10, x1=100, z0=-100, z1=-10; // NE quadrant
+        const cell=8; // smaller cell => thinner paths
+        const cols = Math.floor((x1 - x0) / cell);
+        const rows = Math.floor((z1 - z0) / cell);
+        // Maze grid with walls: for each cell, walls N,E,S,W
+        const grid = Array.from({length: rows}, ()=> Array.from({length: cols}, ()=> ({v:false,w:[true,true,true,true]})));
+        function neighbors(r,c){
+            const ns = [];
+            if (r>0) ns.push([r-1,c,0,2]);
+            if (c<cols-1) ns.push([r,c+1,1,3]);
+            if (r<rows-1) ns.push([r+1,c,2,0]);
+            if (c>0) ns.push([r,c-1,3,1]);
+            return ns.sort(()=>Math.random()-0.5);
+        }
+        // Entrance near player spawn: west edge, row near z≈0 => closest to z1
+        const startR = rows-2; const startC = 0; // west edge
+        // Carve with DFS
+        const stack=[[startR,startC]]; grid[startR][startC].v=true; grid[startR][startC].w[3]=false; // open west wall for entrance
+        while (stack.length){
+            const [r,c] = stack[stack.length-1];
+            const opts = neighbors(r,c).filter(([nr,nc])=>!grid[nr][nc].v);
+            if (!opts.length){ stack.pop(); continue; }
+            const [nr,nc,w,ow] = opts[0];
+            grid[r][c].w[w]=false; grid[nr][nc].w[ow]=false; grid[nr][nc].v=true; stack.push([nr,nc]);
+        }
+        // Draw outer borders
         addHedge((x0+x1)/2, z0, x1-x0, 'x');
         addHedge((x0+x1)/2, z1, x1-x0, 'x');
         addHedge(x0, (z0+z1)/2, z1-z0, 'z');
         addHedge(x1, (z0+z1)/2, z1-z0, 'z');
-        // Internal passages (simple pattern)
-        for (let x=x0+cell; x<=x1-cell; x+=cell){
-            const mid = (z0+z1)/2;
-            addHedge(x, (x/cell)%2===0? mid : mid+cell, (z1-z0)-cell*2, 'z');
-        }
-        for (let z=z0+cell; z<=z1-cell; z+=cell){
-            const midx = (x0+x1)/2;
-            addHedge((z/cell)%2===1? midx : midx+cell, z, (x1-x0)-cell*2, 'x');
+        // Render internal walls per cell
+        for (let r=0;r<rows;r++){
+            for (let c=0;c<cols;c++){
+                const cx = x0 + c*cell + cell/2;
+                const cz = z0 + r*cell + cell/2;
+                const w = grid[r][c].w;
+                if (w[0]) addHedge(cx, cz - cell/2, cell, 'x'); // north
+                if (w[1]) addHedge(cx + cell/2, cz, cell, 'z'); // east
+                if (w[2]) addHedge(cx, cz + cell/2, cell, 'x'); // south
+                if (w[3]) addHedge(cx - cell/2, cz, cell, 'z'); // west
+            }
         }
     })();
     g.userData.fieldColliders = colliders;
