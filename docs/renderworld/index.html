@@ -262,42 +262,46 @@ const warehouseLights = createWarehouseLighting();
 		});
 		
 		// Build from feet up; origin at feet on ground
-		// Feet - minimal wedges resting on y=0
-		const leftFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), playerMaterial);
-		leftFoot.position.set(-0.1, 0.03, 0.05);
-		playerGroup.add(leftFoot);
-		const rightFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), playerMaterial);
-		rightFoot.position.set(0.1, 0.03, 0.05);
-		playerGroup.add(rightFoot);
-
-		// Legs - rectangular prisms for clean geometry
+		// Leg groups anchored at hips; feet attached to legs so they swing together
+		const leftLegGroup = new THREE.Group(); leftLegGroup.position.set(-0.1, 0.6, 0);
 		const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), playerMaterial);
-		leftLeg.position.set(-0.1, 0.33, 0);
-		playerGroup.add(leftLeg);
+		leftLeg.position.set(0, -0.3, 0); // center of leg under hip
+		leftLegGroup.add(leftLeg);
+		const leftFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), playerMaterial);
+		leftFoot.position.set(0, -0.63, 0.05);
+		leftLegGroup.add(leftFoot);
+		playerGroup.add(leftLegGroup);
+		const rightLegGroup = new THREE.Group(); rightLegGroup.position.set(0.1, 0.6, 0);
 		const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), playerMaterial);
-		rightLeg.position.set(0.1, 0.33, 0);
-		playerGroup.add(rightLeg);
+		rightLeg.position.set(0, -0.3, 0);
+		rightLegGroup.add(rightLeg);
+		const rightFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), playerMaterial);
+		rightFoot.position.set(0, -0.63, 0.05);
+		rightLegGroup.add(rightFoot);
+		playerGroup.add(rightLegGroup);
 
 		// Torso - tapered box
 		const torso = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.65, 0.22), playerMaterial);
 		torso.position.set(0, 0.85, 0);
 		playerGroup.add(torso);
 
-		// Arms - clean extruded boxes in idle pose
+		// Arm groups anchored at shoulders; hands attached to arms so they swing together
+		const leftArmGroup = new THREE.Group(); leftArmGroup.position.set(-0.31, 1.1, 0);
 		const leftArm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.5, 0.12), playerMaterial);
-		leftArm.position.set(-0.31, 0.95, 0);
-		playerGroup.add(leftArm);
-		const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.5, 0.12), playerMaterial);
-		rightArm.position.set(0.31, 0.95, 0);
-		playerGroup.add(rightArm);
-
-		// Hands - minimal blocks
+		leftArm.position.set(0, -0.25, 0);
+		leftArmGroup.add(leftArm);
 		const leftHand = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.10, 0.10), playerMaterial);
-		leftHand.position.set(-0.31, 0.65, 0);
-		playerGroup.add(leftHand);
+		leftHand.position.set(0, -0.55, 0);
+		leftArmGroup.add(leftHand);
+		playerGroup.add(leftArmGroup);
+		const rightArmGroup = new THREE.Group(); rightArmGroup.position.set(0.31, 1.1, 0);
+		const rightArm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.5, 0.12), playerMaterial);
+		rightArm.position.set(0, -0.25, 0);
+		rightArmGroup.add(rightArm);
 		const rightHand = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.10, 0.10), playerMaterial);
-		rightHand.position.set(0.31, 0.65, 0);
-		playerGroup.add(rightHand);
+		rightHand.position.set(0, -0.55, 0);
+		rightArmGroup.add(rightHand);
+		playerGroup.add(rightArmGroup);
 
 		// Head - rounded cube/capsule proxy
 		const head = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.32, 0.3), playerMaterial);
@@ -306,7 +310,7 @@ const warehouseLights = createWarehouseLighting();
 		
 		// Set up player group properties; feet at y=0
 		playerGroup.position.set(0, 0, 0);
-		playerGroup.userData = { type: 'player', limbs: { leftLeg, rightLeg, leftArm, rightArm } };
+		playerGroup.userData = { type: 'player', limbs: { leftLeg: leftLegGroup, rightLeg: rightLegGroup, leftArm: leftArmGroup, rightArm: rightArmGroup } };
 		
 		return playerGroup;
 	}
@@ -757,7 +761,7 @@ scene.add(spiritLens);
                 // Warehouse walls with door gaps (centered on Z=0)
                 const W = 30; // width (x)
                 const L = 24; // length (z)
-                const doorHalf = 1.2; // door gap half-size along Z
+                const doorHalf = 1.5; // door gap half-size along Z (wider gap)
                 const wallTol = 0.25; // tolerance thickness
                 // West/East walls
                 const west = -W/2; const east = W/2;
