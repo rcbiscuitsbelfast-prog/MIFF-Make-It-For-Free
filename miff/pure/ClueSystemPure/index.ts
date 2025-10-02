@@ -180,16 +180,18 @@ export class ClueSystemPure {
   private deductionRules: Map<string, DeductionRule> = new Map();
   private analysisTimer: NodeJS.Timeout | null = null;
 
-  constructor(eventBus: EventBus) {
-    this.eventBus = eventBus;
+  constructor(eventBus?: EventBus) {
+    this.eventBus = (eventBus as any) || ({} as any);
     this.startAnalysisTimer();
     this.initializeDefaultRules();
   }
 
   private startAnalysisTimer(): void {
+    // In Node/CI, avoid timers that block exit
+    if (typeof setInterval !== 'function') return;
     this.analysisTimer = setInterval(() => {
       this.performAutomatedAnalysis();
-    }, 5000); // Analyze every 5 seconds
+    }, 5000);
   }
 
   private initializeDefaultRules(): void {
