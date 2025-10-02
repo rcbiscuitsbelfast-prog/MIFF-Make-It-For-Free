@@ -1,0 +1,53 @@
+{
+  "id": "quest_building_tutorial",
+  "title": "Building Tutorial",
+  "start": "step_talk_npc",
+  "steps": {
+    "step_talk_npc": {
+      "id": "step_talk_npc",
+      "description": "Talk to Architect NPC to receive blueprint",
+      "triggers": [ { "type": "talk", "target": "architect_npc" } ],
+      "next": "step_collect_materials"
+    },
+    "step_collect_materials": {
+      "id": "step_collect_materials",
+      "description": "Collect wood x10, stone x6, metal x2",
+      "triggers": [
+        { "type": "collect", "target": "wood", "amount": 10 },
+        { "type": "collect", "target": "stone", "amount": 6 },
+        { "type": "collect", "target": "metal", "amount": 2 }
+      ],
+      "next": "step_build_prefab"
+    },
+    "step_build_prefab": {
+      "id": "step_build_prefab",
+      "description": "Place a starter shack prefab",
+      "triggers": [ { "type": "talk", "target": "prefab_place:pf_house_small" } ],
+      "next": "step_mine_and_craft"
+    },
+    "step_mine_and_craft": {
+      "id": "step_mine_and_craft",
+      "description": "Mine stone and craft a window",
+      "triggers": [
+        { "type": "collect", "target": "stone", "amount": 2 },
+        { "type": "talk", "target": "craft:window_simple" }
+      ],
+      "next": "step_snap_furniture"
+    },
+    "step_snap_furniture": {
+      "id": "step_snap_furniture",
+      "description": "Snap-place a chair using 25 currency",
+      "triggers": [ { "type": "talk", "target": "snap:chair@grid" } ],
+      "next": "step_complete"
+    },
+    "step_complete": {
+      "id": "step_complete",
+      "description": "Report back to Architect",
+      "triggers": [ { "type": "talk", "target": "architect_npc" } ]
+    }
+  },
+  "rewards": [
+    { "type": "currency", "id": "coins", "amount": 50 },
+    { "type": "item", "id": "blueprint_pf_house_small", "amount": 1 }
+  ]
+}
