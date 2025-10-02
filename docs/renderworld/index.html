@@ -289,9 +289,10 @@ const warehouseLights = createWarehouseLighting();
 		return playerGroup;
 	}
 	
-	const player = createPlayerCharacter();
-	player.position.set(0, 0, 2); // Spawn clear of pillars
-	scene.add(player);
+    const player = createPlayerCharacter();
+    player.position.set(0, 0, 2); // Spawn clear of pillars
+    scene.add(player);
+    try { window.__RW = { scene, player, THREE }; } catch {}
 
 	// Phase 5: movement state
     const move = { x: 0, z: 0 };

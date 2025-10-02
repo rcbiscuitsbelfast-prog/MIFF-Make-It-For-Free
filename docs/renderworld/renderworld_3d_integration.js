@@ -429,11 +429,16 @@ console.log('🎮 3D RenderWorld integration complete!');
 	async function loadJSON(url){ const r = await fetch(url, { cache:'no-store' }); return await r.json(); }
 	async function injectPreview(){
 		try {
-			const preview = await loadJSON('/MIFF-Make-It-For-Free/render/assets/preview.json');
-			const collision = await loadJSON('/MIFF-Make-It-For-Free/render/assets/collision.json');
+			const base = '/MIFF-Make-It-For-Free/render/assets/';
+			const preview = await loadJSON(base+'preview.json');
+			const collision = await loadJSON(base+'collision.json');
 			console.log('[RenderWorld] assets loaded', { preview: !!preview?.preview, spawn: collision?.spawn });
-			// In a future step, map preview matrix to texture/plane; for now, we log spawn
 			window.__RW_COLLISION__ = collision;
+			if (window.__RW && window.__RW.player && collision && collision.spawn) {
+				const { player } = window.__RW;
+				player.position.x = (collision.spawn.x - 48) * 0.1; // coarse world-to-scene map
+				player.position.z = (collision.spawn.y - 32) * 0.1;
+			}
 		} catch (e) { console.warn('[RenderWorld] preview load failed', e); }
 	}
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', injectPreview);
