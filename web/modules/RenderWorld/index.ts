@@ -40,9 +40,15 @@ export function attachHandlers(doc: Document, root: HTMLElement): void {
 	const btn = root.querySelector('#enter-pixel') as HTMLButtonElement | null;
 	if (btn) {
 		btn.addEventListener('click', () => {
-			launchPixelWorld();
+      launchPixelWorld();
 		});
 	}
+  // Autosave on visibilitychange
+  doc.addEventListener('visibilitychange', () => {
+    if (doc.hidden) {
+      try { safeRun('/workspace/miff/pure/SavePure/integration/GameSnapshotCLI.ts --mode=save'); } catch {}
+    }
+  });
 }
 
 // Log update

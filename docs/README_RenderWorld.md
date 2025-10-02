@@ -19,3 +19,22 @@ This folder contains the MIFF-native RenderWorld Hub: a modular, mobile-friendly
 
 ## Roadmap Sync
 Implements the technical roadmap for a 3D hub: mobile-first controls, isometric tile floor, NPCs, and portal links to Sampler worlds.
+
+## Persistent Game Loop
+RenderWorld now supports a persistent loop driven by pure state:
+- Player movement and interaction via `PlayerStatePure`
+- Joint-based animation via `JointAnimPure`
+- Autosave using `SavePure` on `visibilitychange`
+
+CLI utilities:
+```
+# Advance loop with movement
+bash -lc "echo '{\"move\":{\"x\":1,\"y\":0},\"dt\":100}' > /workspace/session/input.json"
+npx tsx /workspace/render/gameLoop.ts
+
+# Interact and save
+bash -lc "echo '{\"interact\":\"chest_01\",\"dt\":16}' > /workspace/session/input.json"
+npx tsx /workspace/render/gameLoop.ts
+npx tsx /workspace/miff/pure/SavePure/integration/GameSnapshotCLI.ts --mode=save
+npx tsx /workspace/miff/pure/SavePure/integration/GameSnapshotCLI.ts --mode=load
+```
