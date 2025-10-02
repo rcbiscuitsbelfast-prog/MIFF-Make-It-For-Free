@@ -30,7 +30,7 @@
     <button id="btn-run" style="position:fixed;right:16px;bottom:110px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Run</button>
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="text-align:center">
-            <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-2)</h2>
+            <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-3)</h2>
             <p style="margin:6px 0;color:#a9b8c6;font-size:12px">Press Start to Continue</p>
         </div>
         <div style="display:flex;gap:10px">
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-2</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-3</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -1046,7 +1046,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     if (!btn) return;
     const overlay = document.createElement('div');
     overlay.id = 'menu-overlay';
-    overlay.style.cssText = 'position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1300;background:rgba(0,0,0,0.6)';
+    overlay.style.cssText = 'position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1300;background:rgba(0,0,0,0.6);pointer-events:auto';
     overlay.innerHTML = '<div style="background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:16px 20px;color:#e6edf3;font:14px monospace;display:flex;flex-direction:column;gap:12px;min-width:300px;">'
         + '<div style="font-weight:700;margin-bottom:4px;text-align:center">Menu</div>'
         + '<div id="slot-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:4px">'
@@ -1081,6 +1081,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
             // Hide overlay before showing start menu
             window.__RW_PAUSED = false;
             overlay.style.display = 'none';
+            overlay.style.pointerEvents = 'none';
             // Create or show start menu with simple bindings
             let m = document.getElementById('start-menu');
             if (!m) {
@@ -1103,8 +1104,8 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
             const btnC = document.getElementById('rw-continue');
             const btnR = document.getElementById('rw-reset');
             if (btnC) btnC.style.display = anySlotHasSave()? 'inline-block':'none';
-            if (btnS) btnS.onclick = ()=>{ selectedSlot = mostRecentSlot(); newGame(); hideMenu(); };
-            if (btnC) btnC.onclick = ()=>{ selectedSlot = mostRecentSlot(); const snap=loadSnap(); applySnap(snap); hideMenu(); };
+            if (btnS) btnS.onclick = ()=>{ selectedSlot = mostRecentSlot(); newGame(); hideMenu(); overlay.style.pointerEvents='auto'; };
+            if (btnC) btnC.onclick = ()=>{ selectedSlot = mostRecentSlot(); const snap=loadSnap(); applySnap(snap); hideMenu(); overlay.style.pointerEvents='auto'; };
             if (btnR) btnR.onclick = ()=>{ try{ localStorage.removeItem(SLOT_KEY(0)); localStorage.removeItem(SLOT_KEY(1)); localStorage.removeItem(SLOT_KEY(2)); if (btnC) btnC.style.display='none'; updateSlotUI(); }catch{} };
         } catch {}
     });
