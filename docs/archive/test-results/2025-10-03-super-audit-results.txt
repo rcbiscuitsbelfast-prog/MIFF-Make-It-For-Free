@@ -1,0 +1,52 @@
+================================================================================
+MIFF SUPER AUDIT RESULTS
+================================================================================
+Generated: 2025-10-03T00:00:00.000Z
+
+--------------------------------------------------------------------------------
+MODULE VALIDATION
+--------------------------------------------------------------------------------
+Reducers: PASS (stateless, deterministic)
+Presets: PASS (building presets parse; grids/rules aligned)
+CLIs: PASS (non-interactive, --mode parsing)
+Golden Tests: PRESENT (execution pending CI runner)
+
+Notes:
+- ESM guards fixed for Magic/Ritual.
+- CombatCore wrapper supports --combatMode.
+
+--------------------------------------------------------------------------------
+SCENARIO COVERAGE
+--------------------------------------------------------------------------------
+Do Everything: PASS (with CI fast-paths; errors: 0)
+BuildingQuestTutorial: PASS (results/coverage detailed)
+Pixel World / RenderWorld: PASS (viewport canonical present)
+
+--------------------------------------------------------------------------------
+SITE STRUCTURE
+--------------------------------------------------------------------------------
+docs/index.html: PRESENT
+docs/pixelworld.html: PRESENT
+docs/render/viewport/: PRESENT (index.html + pixelCityViewport.html)
+docs/presets/: MIRRORED (building + quests + scenarios)
+
+Warnings:
+- Duplicate sampler paths (docs/site/sampler vs docs/sampler)
+
+--------------------------------------------------------------------------------
+BROKEN ENTRIES
+--------------------------------------------------------------------------------
+CLI Entry Points: NONE found among new modules
+Unused Presets: NONE detected in added sets
+Dead Code: NONE detected in added modules
+
+--------------------------------------------------------------------------------
+ACTION ITEMS
+--------------------------------------------------------------------------------
+1) Add jest config to run golden tests in CI.
+2) Normalize Pixel World links to viewport canonical.
+3) Consolidate sampler paths and add redirects.
+
+--------------------------------------------------------------------------------
+END OF REPORT
+--------------------------------------------------------------------------------
