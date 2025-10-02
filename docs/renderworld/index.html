@@ -34,6 +34,8 @@
         </div>
         <div style="display:flex;gap:10px">
             <button id="rw-start" style="background:#00a86b;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #1e4434;box-shadow:0 2px 6px rgba(0,255,136,0.2)">Start</button>
+            <button id="rw-continue" style="background:#0066cc;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #123a66;box-shadow:0 2px 6px rgba(0,136,255,0.2);display:none;">Continue</button>
+            <button id="rw-reset" style="background:#aa3333;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #552222;box-shadow:0 2px 6px rgba(255,80,80,0.2)">Reset</button>
         </div>
     </div>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
@@ -232,10 +234,10 @@ const warehouseLights = createWarehouseLighting();
 		
 		// Player material (green)
 		const playerMaterial = new THREE.MeshStandardMaterial({ 
-			color: 0x00ff66, 
+			color: 0x66ccff, 
 			roughness: 0.8, 
 			metalness: 0.0,
-			emissive: 0x002211,
+			emissive: 0x001122,
 			emissiveIntensity: 0.12
 		});
 		
@@ -1085,6 +1087,40 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
       }
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applySpawn);
       else applySpawn();
+    })();
+    </script>
+    <script>
+    // LocalStorage-based save/load for quick persistence from the start menu
+    (function(){
+      const KEY = 'rw:snapshot:v1';
+      function hasSave(){ try { return !!localStorage.getItem(KEY); } catch { return false; } }
+      function saveSnap(){ try { if (window.__RW && window.__RW.player){ const p = window.__RW.player.position; localStorage.setItem(KEY, JSON.stringify({ pos: { x:p.x, z:p.z }, t: Date.now() })); } } catch{}
+      }
+      function loadSnap(){ try { const s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch { return null; } }
+      function applySnap(snap){ try { if (window.__RW && window.__RW.player && snap && snap.pos){ const p = window.__RW.player.position; p.x = snap.pos.x; p.z = snap.pos.z; const st=document.getElementById('status'); if (st) st.textContent = 'continued'; } } catch{}
+      }
+      function newGame(){ try {
+        // Prefer collision spawn if available
+        let x = 0, z = 2;
+        try { if (window.__RW_COLLISION__ && window.__RW_COLLISION__.spawn){ x = (window.__RW_COLLISION__.spawn.x - 48) * 0.12; z = (window.__RW_COLLISION__.spawn.y - 32) * 0.12; } } catch {}
+        if (window.__RW && window.__RW.player){ window.__RW.player.position.x = x; window.__RW.player.position.z = z; }
+        saveSnap();
+      } catch{}
+      }
+      function hideMenu(){ try { const m=document.getElementById('start-menu'); if (m) m.remove(); } catch{} }
+      function showContinue(){ try { const c=document.getElementById('rw-continue'); if (c) c.style.display = hasSave()? 'inline-block':'none'; } catch{} }
+      function bind(){
+        showContinue();
+        const btnStart = document.getElementById('rw-start');
+        const btnCont = document.getElementById('rw-continue');
+        const btnReset = document.getElementById('rw-reset');
+        if (btnStart) btnStart.addEventListener('click', ()=>{ newGame(); hideMenu(); });
+        if (btnCont) btnCont.addEventListener('click', ()=>{ const s=loadSnap(); applySnap(s); hideMenu(); });
+        if (btnReset) btnReset.addEventListener('click', ()=>{ try{ localStorage.removeItem(KEY); showContinue(); }catch{} });
+        // Autosave when hiding
+        document.addEventListener('visibilitychange', ()=>{ if (document.hidden) saveSnap(); });
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
     })();
     </script>
 </body>
