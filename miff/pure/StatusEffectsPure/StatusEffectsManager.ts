@@ -93,6 +93,22 @@ export class StatusEffectsManager {
     this.initializeDefaultStackingRules();
   }
 
+  // Shim methods expected by CLI wrapper
+  getActiveEffects(entityId: string): StatusEffect[] {
+    const entity = this.entities.get(entityId);
+    return entity ? [...entity.effects] : [];
+  }
+
+  calculateModifiedStats(entityId: string, base: { attack: number; defense: number; speed: number }) {
+    const effects = this.getActiveEffects(entityId);
+    return effects.reduce((acc, e) => {
+      // Simple modifier: buffs increase attack, debuffs reduce speed
+      if (e.type === 'buff') acc.attack += Math.floor(e.magnitude);
+      if (e.type === 'debuff') acc.speed = Math.max(0, acc.speed - Math.floor(e.magnitude));
+      return acc;
+    }, { ...base });
+  }
+
   private initializeDefaultStackingRules() {
     const defaultRules: EffectStackingRule[] = [
       { category: 'poison', rule: 'stack', maxStacks: 5 },

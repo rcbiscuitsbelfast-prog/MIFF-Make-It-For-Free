@@ -578,9 +578,9 @@ class RitualSystemCLI {
 }
 
 // Main execution
-if (require.main === module) {
+// ESM-safe main guard
+const isDirectRun = import.meta && (import.meta as any).url === `file://${process.argv[1]}`;
+if (isDirectRun) {
   const cli = new RitualSystemCLI();
   cli.start();
 }
-
-module.exports = RitualSystemCLI;

@@ -140,6 +140,35 @@ export class SurvivalSystemPure {
     });
   }
 
+  // Shim methods used by CLI harness
+  public updateStamina(delta: number): void {
+    this.stats.stamina = Math.max(0, Math.min(100, this.stats.stamina + delta));
+  }
+
+  public eat(amount: number): void {
+    this.stats.hunger = Math.min(100, this.stats.hunger + amount);
+  }
+
+  public drink(amount: number): void {
+    this.stats.thirst = Math.min(100, this.stats.thirst + amount);
+  }
+
+  public update(deltaTime: number): void {
+    this.updateSurvival(deltaTime);
+  }
+
+  public buildShelter(type: ShelterType): void {
+    this.shelter = {
+      type,
+      integrity: 100,
+      maxIntegrity: 100,
+      warmth: 5,
+      capacity: 10,
+      buildProgress: 100
+    };
+    this.stats.shelterIntegrity = this.shelter.integrity;
+  }
+
   public gatherResource(type: ResourceType, amount: number): boolean {
     const resource = this.resources.get(type);
     if (!resource) return false;

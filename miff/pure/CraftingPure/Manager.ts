@@ -170,6 +170,32 @@ export class CraftingManager {
     defaultRecipes.forEach(recipe => this.recipes.set(recipe.id, recipe));
   }
 
+  // Shims expected by cliHarnessWrapper
+  registerRecipe(recipe: any): void {
+    // Map minimal wrapper recipe to rich Recipe shape
+    const normalized: Recipe = {
+      id: recipe.id || recipe.name || `recipe_${Date.now()}`,
+      name: recipe.name || recipe.id || 'Custom Recipe',
+      description: recipe.description || '',
+      category: 'material',
+      inputs: recipe.inputs || recipe.materials || {},
+      outputs: recipe.outputs || { [recipe.id || 'crafted_item']: 1 },
+      craftingTime: recipe.craftTime || recipe.craftingTime || 10,
+      difficulty: 'easy',
+      quality: 'normal'
+    };
+    this.recipes.set(normalized.id, normalized);
+  }
+
+  simulate(recipeId: string, inventory: Inventory) {
+    const started = this.startCrafting(recipeId, 'cli', inventory);
+    if (started.status !== 'ok' || !started.result) {
+      return { success: false, issues: (started as any).issues };
+    }
+    const completed = this.completeCrafting((started.result as any).id, inventory);
+    return completed.result;
+  }
+
   /**
    * Create a new recipe
    */

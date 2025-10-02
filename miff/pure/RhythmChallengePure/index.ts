@@ -164,8 +164,8 @@ export class RhythmChallengePure {
   private audioContext: AudioContext | null = null;
   private metronome: Metronome;
 
-  constructor(eventBus: EventBus) {
-    this.eventBus = eventBus;
+  constructor(eventBus?: EventBus) {
+    this.eventBus = eventBus || ({} as any);
     this.metronome = new Metronome();
     this.initializeTimingWindows();
     this.initializeAudio();
@@ -214,6 +214,11 @@ export class RhythmChallengePure {
 
   private initializeAudio(): void {
     try {
+      // Guard for Node environments without window/audio
+      if (typeof window === 'undefined') {
+        this.audioContext = null;
+        return;
+      }
       this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       this.calibrationData = {
         audioLatency: 0,
@@ -226,6 +231,39 @@ export class RhythmChallengePure {
     } catch (error) {
       console.warn('Audio context not supported:', error);
     }
+  }
+
+  // Shim methods referenced by CLI wrapper
+  public loadSequence(sequence: any): void {
+    // Map to a BeatMap and store it
+    const mapId = sequence?.id || `seq_${Date.now()}`;
+    const beatMap: BeatMap = {
+      id: mapId,
+      name: sequence?.name || mapId,
+      artist: 'CLI',
+      bpm: sequence?.bpm || 120,
+      duration: (sequence?.noteCount || 50) * (60000 / (sequence?.bpm || 120)),
+      difficulty: (sequence?.difficulty as any) || 'easy',
+      notes: (sequence?.pattern || []).map((n: any, idx: number) => ({
+        id: n?.id || `n_${idx}`,
+        type: 'tap',
+        position: { x: 0, y: 0 },
+        time: Math.floor((n?.timing || idx) * (60000 / (sequence?.bpm || 120))),
+        scoreValue: 100,
+        healthValue: 1
+      })),
+      effects: [],
+      metadata: {}
+    };
+    this.beatMaps.set(beatMap.id, beatMap);
+  }
+
+  public play(config: { perfectHits: number; goodHits: number; missedHits: number }): { score: number; accuracy: number; grade: string } {
+    const total = config.perfectHits + config.goodHits + config.missedHits;
+    const score = config.perfectHits * 1000 + config.goodHits * 500;
+    const accuracy = total > 0 ? ((config.perfectHits + 0.7 * config.goodHits) / total) * 100 : 100;
+    const grade = accuracy >= 95 ? 'S' : accuracy >= 90 ? 'A' : accuracy >= 80 ? 'B' : 'C';
+    return { score, accuracy, grade } as any;
   }
 
   private loadDefaultBeatMaps(): void {
