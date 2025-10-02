@@ -245,7 +245,7 @@ function createWarehouseLighting() {
     return { fluorescent1, fluorescent2, sideLight, ambient };
 }
 
-// Create warehouse lighting
+    // Create lighting (reuse for field)
 const warehouseLights = createWarehouseLighting();
 
 	// Phase 7: Low-poly humanoid player character
@@ -329,222 +329,41 @@ const warehouseLights = createWarehouseLighting();
 	// Simple jump physics
 	let velY = 0; const gravity = -9.8; const groundY = 0.0;
 
-// Phase 7: Warehouse Environment - Massive brutalist warehouse
-function createWarehouseEnvironment() {
-    const warehouseGroup = new THREE.Group();
-    
-    // Warehouse dimensions: 40ft ceilings, 100ft x 80ft floor
-    const WAREHOUSE_WIDTH = 30;  // 100ft in meters
-    const WAREHOUSE_LENGTH = 24; // 80ft in meters  
-    const WAREHOUSE_HEIGHT = 12; // 40ft in meters
-    
-    // White concrete material with subtle weathering
-    const concreteMaterial = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        roughness: 0.9,
-        metalness: 0.0,
-        emissive: 0x000000,
-        emissiveIntensity: 0.0
-    });
-    
-    // Polished concrete floor with slight reflectivity
-    const floorMaterial = new THREE.MeshStandardMaterial({
-        color: 0xf0f0f0,
-        roughness: 0.1,
-        metalness: 0.0,
-        emissive: 0x000000,
-        emissiveIntensity: 0.0
-    });
-    
-    // Floor - polished concrete
-    const floor = new THREE.Mesh(
-        new THREE.PlaneGeometry(WAREHOUSE_WIDTH, WAREHOUSE_LENGTH),
-        floorMaterial
-    );
-    floor.rotation.x = -Math.PI/2;
-    floor.position.y = 0;
-    warehouseGroup.add(floor);
-    
-    // Walls - stark white concrete
-    const wallThickness = 0.5;
-    
-    // North wall (removed to open back)
-    // South wall (front)
-    const southWall = new THREE.Mesh(
-        new THREE.BoxGeometry(WAREHOUSE_WIDTH + wallThickness*2, WAREHOUSE_HEIGHT, wallThickness),
-        concreteMaterial
-    );
-    southWall.position.set(0, WAREHOUSE_HEIGHT/2, WAREHOUSE_LENGTH/2 + wallThickness/2);
-    warehouseGroup.add(southWall);
-
-    // Visible door frames at west/east walls (centered at z≈0)
-    (function addDoorFrames(){
-        const doorHalf = 1.5; // match blocker gap
-        const postW = 0.12, postD = 0.1;
-        const postH = 2.2; // door height
-        const lintelH = 0.12;
-        const frameMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.8, metalness: 0.1 });
-        // West frame (x negative)
-        const westX = -WAREHOUSE_WIDTH/2 - wallThickness/2 - 0.02; // slight offset to avoid z-fighting
-        const westGroup = new THREE.Group(); westGroup.position.set(westX, 0, 0);
-        const postL = new THREE.Mesh(new THREE.BoxGeometry(postD, postH, postW), frameMat); postL.position.set(0, postH/2, -doorHalf); westGroup.add(postL);
-        const postR = new THREE.Mesh(new THREE.BoxGeometry(postD, postH, postW), frameMat); postR.position.set(0, postH/2, doorHalf); westGroup.add(postR);
-        const lintel = new THREE.Mesh(new THREE.BoxGeometry(postD, lintelH, doorHalf*2 + postW*2), frameMat); lintel.position.set(0, postH + lintelH/2, 0); westGroup.add(lintel);
-        warehouseGroup.add(westGroup);
-        // East frame (x positive)
-        const eastX = WAREHOUSE_WIDTH/2 + wallThickness/2 + 0.02;
-        const eastGroup = new THREE.Group(); eastGroup.position.set(eastX, 0, 0);
-        const epostL = postL.clone(); epostL.position.set(0, postH/2, -doorHalf); eastGroup.add(epostL);
-        const epostR = postR.clone(); epostR.position.set(0, postH/2, doorHalf); eastGroup.add(epostR);
-        const elintel = lintel.clone(); elintel.position.set(0, postH + lintelH/2, 0); eastGroup.add(elintel);
-        warehouseGroup.add(eastGroup);
-    })();
-    
-    // East wall
-    const eastWall = new THREE.Mesh(
-        new THREE.BoxGeometry(wallThickness, WAREHOUSE_HEIGHT, WAREHOUSE_LENGTH),
-        concreteMaterial
-    );
-    eastWall.position.set(WAREHOUSE_WIDTH/2 + wallThickness/2, WAREHOUSE_HEIGHT/2, 0);
-    warehouseGroup.add(eastWall);
-    
-    // West wall
-    const westWall = new THREE.Mesh(
-        new THREE.BoxGeometry(wallThickness, WAREHOUSE_HEIGHT, WAREHOUSE_LENGTH),
-        concreteMaterial
-    );
-    westWall.position.set(-WAREHOUSE_WIDTH/2 - wallThickness/2, WAREHOUSE_HEIGHT/2, 0);
-    warehouseGroup.add(westWall);
-    
-    // Geometric support pillars - dramatic shadows
-    const pillarMaterial = new THREE.MeshStandardMaterial({
-        color: 0xf5f5f5,
-        roughness: 0.8,
-        metalness: 0.0
-    });
-    
-    // Create grid of pillars
-    const pillarPositions = [
-        [-8, 0, -6], [0, 0, -6], [8, 0, -6],
-        [-8, 0, 0], /* removed center [0,0,0] */ [8, 0, 0], 
-        [-8, 0, 6], [0, 0, 6], [8, 0, 6]
-    ];
-    
-    pillarPositions.forEach(([x, y, z]) => {
-        const pillar = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.2, 0.25, WAREHOUSE_HEIGHT, 8),
-            pillarMaterial
-        );
-        pillar.position.set(x, WAREHOUSE_HEIGHT/2, z);
-        warehouseGroup.add(pillar);
-    });
-    
-    // Gabled triangle roof: two sloped planes meeting at ridge
-    const roofMat = new THREE.MeshStandardMaterial({ color: 0xe6e6e6, roughness: 0.8, metalness: 0.1 });
-    const halfW = WAREHOUSE_WIDTH / 2;
-    const roofLen = WAREHOUSE_LENGTH;
-    const roofHeight = 3; // rise above wall
-    const roofLeft = new THREE.Mesh(new THREE.PlaneGeometry(roofLen, Math.hypot(halfW, roofHeight)), roofMat);
-    roofLeft.rotation.z = Math.atan2(roofHeight, halfW);
-    roofLeft.rotation.x = Math.PI/2;
-    roofLeft.position.set(-halfW/2, WAREHOUSE_HEIGHT + roofHeight/2, 0);
-    warehouseGroup.add(roofLeft);
-    const roofRight = new THREE.Mesh(new THREE.PlaneGeometry(roofLen, Math.hypot(halfW, roofHeight)), roofMat);
-    roofRight.rotation.z = -Math.atan2(roofHeight, halfW);
-    roofRight.rotation.x = Math.PI/2;
-    roofRight.position.set(halfW/2, WAREHOUSE_HEIGHT + roofHeight/2, 0);
-    warehouseGroup.add(roofRight);
-    // Front gable alignment: ensure front wall meets roof without clipping
-    southWall.position.z = WAREHOUSE_LENGTH/2 + wallThickness/2;
-
-    // Church-like arched windows on front (south) wall
-    (function addFrontWindows(){
-        const winCount = 3;
-        const spacing = WAREHOUSE_WIDTH / (winCount + 1);
-        const baseZ = WAREHOUSE_LENGTH/2 + wallThickness/2 + 0.021; // slightly in front to avoid z-fighting
-        const winW = 1.2, winH = 1.8;
-        const archR = winW/2;
-        const frameMat = new THREE.MeshStandardMaterial({ color: 0xdddddd, roughness: 0.8, metalness: 0.2 });
-        const glassMat = new THREE.MeshStandardMaterial({ color: 0x9fd4ff, emissive: 0x223344, emissiveIntensity: 0.35, transparent: true, opacity: 0.8, metalness: 0.1, roughness: 0.3 });
-        for (let i=1;i<=winCount;i++){
-            const gx = -WAREHOUSE_WIDTH/2 + spacing*i;
-            const group = new THREE.Group(); group.position.set(gx, 0, baseZ);
-            // Rectangular lower window
-            const rect = new THREE.Mesh(new THREE.PlaneGeometry(winW, winH - archR), glassMat);
-            rect.position.set(0, 0.8, 0); group.add(rect);
-            // Arched top as semi-circle glass
-            const arch = new THREE.Mesh(new THREE.RingGeometry(archR-0.02, archR, 24, 1, Math.PI, Math.PI), glassMat);
-            arch.rotation.y = Math.PI; // face camera
-            arch.position.set(0, 0.8 + (winH - archR)/2 + archR/2, 0);
-            group.add(arch);
-            // Frame: thin boxes around
-            const frameL = new THREE.Mesh(new THREE.BoxGeometry(0.06, winH, 0.06), frameMat); frameL.position.set(-winW/2, 0.8, 0.01); group.add(frameL);
-            const frameR = frameL.clone(); frameR.position.x = winW/2; group.add(frameR);
-            const frameB = new THREE.Mesh(new THREE.BoxGeometry(winW, 0.06, 0.06), frameMat); frameB.position.set(0, 0.8 - (winH-archR)/2, 0.01); group.add(frameB);
-            const frameT = new THREE.Mesh(new THREE.TorusGeometry(archR, 0.03, 8, 24, Math.PI), frameMat);
-            frameT.rotation.x = Math.PI/2; frameT.rotation.z = Math.PI; frameT.position.set(0, 0.8 + (winH - archR)/2, 0.01);
-            group.add(frameT);
-            warehouseGroup.add(group);
-        }
-    })();
-    
-    // Industrial details - exposed beams and pipes
-    const beamMaterial = new THREE.MeshStandardMaterial({
-        color: 0xe0e0e0,
-        roughness: 0.7,
-        metalness: 0.3
-    });
-    
-    // Exposed ceiling beams
-    for (let i = -2; i <= 2; i++) {
-        const beam = new THREE.Mesh(
-            new THREE.BoxGeometry(0.2, 0.3, WAREHOUSE_LENGTH),
-            beamMaterial
-        );
-        beam.position.set(i * 6, WAREHOUSE_HEIGHT - 0.5, 0);
-        warehouseGroup.add(beam);
+// Open Field Environment - green landscape with props
+function createOpenFieldEnvironment(){
+    const g = new THREE.Group();
+    // Ground
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0x3a9d3a, roughness: 1.0, metalness: 0.0 });
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), groundMat);
+    ground.rotation.x = -Math.PI/2; ground.position.y = 0; ground.receiveShadow = true; g.add(ground);
+    // Props: trees, bushes, rocks with simple colliders
+    const colliders = [];
+    function addTree(x,z){
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.2,1.6,8), new THREE.MeshStandardMaterial({ color: 0x8b5a2b, roughness:0.9 }));
+        trunk.position.set(x, 0.8, z); g.add(trunk);
+        const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(0.9, 0), new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness:0.8 }));
+        crown.position.set(x, 1.8, z); g.add(crown);
+        colliders.push({ x, z, r: 0.8 });
     }
-    
-    // Industrial pipes along walls
-    const pipeMaterial = new THREE.MeshStandardMaterial({
-        color: 0x888888,
-        roughness: 0.4,
-        metalness: 0.6
-    });
-    
-    // North wall pipes
-    for (let i = 0; i < 3; i++) {
-        const pipe = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.1, 0.1, WAREHOUSE_WIDTH * 0.8, 8),
-            pipeMaterial
-        );
-        pipe.rotation.z = Math.PI/2;
-        pipe.position.set(0, 2 + i * 2, -WAREHOUSE_LENGTH/2 - 0.3);
-        warehouseGroup.add(pipe);
+    function addBush(x,z){
+        const bush = new THREE.Mesh(new THREE.IcosahedronGeometry(0.5, 0), new THREE.MeshStandardMaterial({ color: 0x3fa34d, roughness:0.9 }));
+        bush.position.set(x, 0.5, z); g.add(bush);
+        colliders.push({ x, z, r: 0.6 });
     }
-    
-    // Add edge lines to make structure more visible
-    const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xcccccc });
-    
-    // Floor edges
-    const floorGeometry = new THREE.BufferGeometry();
-    const floorPoints = [
-        new THREE.Vector3(-WAREHOUSE_WIDTH/2, 0, -WAREHOUSE_LENGTH/2),
-        new THREE.Vector3(WAREHOUSE_WIDTH/2, 0, -WAREHOUSE_LENGTH/2),
-        new THREE.Vector3(WAREHOUSE_WIDTH/2, 0, WAREHOUSE_LENGTH/2),
-        new THREE.Vector3(-WAREHOUSE_WIDTH/2, 0, WAREHOUSE_LENGTH/2),
-        new THREE.Vector3(-WAREHOUSE_WIDTH/2, 0, -WAREHOUSE_LENGTH/2)
-    ];
-    floorGeometry.setFromPoints(floorPoints);
-    const floorEdges = new THREE.Line(floorGeometry, edgeMaterial);
-    warehouseGroup.add(floorEdges);
-    
-    return warehouseGroup;
+    function addRock(x,z){
+        const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.4, 0), new THREE.MeshStandardMaterial({ color: 0x888888, roughness:0.8, metalness:0.2 }));
+        rock.position.set(x, 0.4, z); g.add(rock);
+        colliders.push({ x, z, r: 0.5 });
+    }
+    // Scatter props
+    const rng = [ [-6,-4], [-2,3], [4,-5], [8,2], [-10,6], [2,-8] ];
+    rng.forEach(([x,z],i)=>{ (i%3===0)? addTree(x,z) : (i%3===1? addBush(x,z): addRock(x,z)); });
+    g.userData.fieldColliders = colliders;
+    return g;
 }
 
-// Create warehouse environment
-const warehouse = createWarehouseEnvironment();
-scene.add(warehouse);
+const field = createOpenFieldEnvironment();
+scene.add(field);
 
 // Phase 8: Spirit Lens centerpiece
 function createSpiritLens(){
@@ -663,7 +482,7 @@ scene.add(spiritLens);
         };
         return g;
     }
-    // Position portals within warehouse space
+    // Position portals in the field
     const p1 = createPortal(0x6e40c9); p1.position.set(-8, 0, -11.4); p1.userData = { label: 'Coming Soon', kind: 'electric' }; scene.add(p1);
     const p2 = createPortal(0x6e40c9); p2.position.set( 0, 0, -11.4); p2.userData = { label: 'Pixel World', kind: 'pixel' }; scene.add(p2);
     const p3 = createPortal(0x6e40c9); p3.position.set( 8, 0, -11.4); p3.userData = { label: 'Coming Soon', kind: 'ember' }; scene.add(p3);
@@ -825,26 +644,11 @@ scene.add(spiritLens);
                     const dx = x - node.position.x; const dz = z - node.position.z;
                     if (Math.hypot(dx,dz) < radius) return true;
                 }
-                // Warehouse walls with door gaps (centered on Z=0)
-                const W = 30; // width (x)
-                const L = 24; // length (z)
-                const doorHalf = 1.5; // door gap half-size along Z (wider gap)
-                const wallTol = 0.25; // tolerance thickness
-                // West/East walls with visible door gaps at z in [-doorHalf,doorHalf]
-                const west = -W/2; const east = W/2;
-                if (x < west - wallTol) {
-                    // outside west is allowed; don't block
-                } else if (x > east + wallTol) {
-                    // outside east allowed
-                } else {
-                    // If trying to cross past west wall towards outside, block unless within door gap
-                    if (x < west && Math.abs(z) > doorHalf) return true;
-                    // If trying to cross past east wall towards outside, block unless within door gap
-                    if (x > east && Math.abs(z) > doorHalf) return true;
-                }
-                // North/South walls (solid)
-                const north = -L/2; const south = L/2;
-                if (z < north - wallTol || z > south + wallTol) return true;
+                // Field props colliders
+                try {
+                    const fieldCols = field?.userData?.fieldColliders || [];
+                    for (const c of fieldCols){ const dx = x - c.x; const dz = z - c.z; if (Math.hypot(dx,dz) < c.r) return true; }
+                } catch {}
                 return false;
             }
             if (!blocked(nextX, player.position.z)) player.position.x = nextX;
