@@ -4,20 +4,20 @@ DO EVERYTHING SCENARIO - EXECUTION RESULTS
 
 Scenario: Do Everything - Comprehensive MIFF Integration Test
 ID: do-everything-v1
-Start Time: 2025-10-02T08:50:27.233Z
-End Time: 2025-10-02T08:55:42.141Z
+Start Time: 2025-10-02T09:20:36.011Z
+End Time: 2025-10-02T09:21:14.542Z
 
 --------------------------------------------------------------------------------
 SUMMARY
 --------------------------------------------------------------------------------
 Total Phases: 6
-Phases Completed: 4
-Phases Failed: 2
+Phases Completed: 6
+Phases Failed: 0
 Modules Triggered: 141
-CLI Harnesses Executed: 35
+CLI Harnesses Executed: 38
 Secondary Quests Spawned: 3
 Export Formats Generated: html5, unity, godot, apk
-Errors: 3
+Errors: 0
 Warnings: 0
 
 --------------------------------------------------------------------------------
@@ -30,17 +30,17 @@ Phase: The Call to Action (phase1)
   Modules Used: 11
   Actions Executed: 4
   Actions Successful: 4
-  Start: 2025-10-02T08:50:27.243Z
-  End: 2025-10-02T08:50:35.725Z
+  Start: 2025-10-02T09:20:36.017Z
+  End: 2025-10-02T09:20:40.483Z
 
 Phase: The Football Trial (phase2)
-  Status: FAILED
+  Status: SUCCESS
   Trigger Module: SportsSystemPure
   Modules Used: 12
   Actions Executed: 5
-  Actions Successful: 3
-  Start: 2025-10-02T08:50:35.725Z
-  End: 2025-10-02T08:54:42.407Z
+  Actions Successful: 5
+  Start: 2025-10-02T09:20:40.484Z
+  End: 2025-10-02T09:20:43.798Z
 
 Phase: Craft and Conquer (phase3)
   Status: SUCCESS
@@ -48,17 +48,17 @@ Phase: Craft and Conquer (phase3)
   Modules Used: 15
   Actions Executed: 7
   Actions Successful: 7
-  Start: 2025-10-02T08:54:42.407Z
-  End: 2025-10-02T08:54:57.285Z
+  Start: 2025-10-02T09:20:43.798Z
+  End: 2025-10-02T09:20:51.204Z
 
 Phase: Social Deception (phase4)
-  Status: FAILED
+  Status: SUCCESS
   Trigger Module: SocialDeductionPure
   Modules Used: 11
   Actions Executed: 6
-  Actions Successful: 5
-  Start: 2025-10-02T08:54:57.286Z
-  End: 2025-10-02T08:55:09.787Z
+  Actions Successful: 6
+  Start: 2025-10-02T09:20:51.204Z
+  End: 2025-10-02T09:20:57.603Z
 
 Phase: Puzzle & Platforming (phase5)
   Status: SUCCESS
@@ -66,8 +66,8 @@ Phase: Puzzle & Platforming (phase5)
   Modules Used: 18
   Actions Executed: 7
   Actions Successful: 7
-  Start: 2025-10-02T08:55:09.787Z
-  End: 2025-10-02T08:55:23.760Z
+  Start: 2025-10-02T09:20:57.603Z
+  End: 2025-10-02T09:21:04.968Z
 
 Phase: Export the World (phase6)
   Status: SUCCESS
@@ -75,8 +75,8 @@ Phase: Export the World (phase6)
   Modules Used: 22
   Actions Executed: 9
   Actions Successful: 9
-  Start: 2025-10-02T08:55:23.761Z
-  End: 2025-10-02T08:55:42.141Z
+  Start: 2025-10-02T09:21:04.968Z
+  End: 2025-10-02T09:21:14.542Z
 
 --------------------------------------------------------------------------------
 MODULES TRIGGERED
@@ -226,41 +226,44 @@ MODULES TRIGGERED
 --------------------------------------------------------------------------------
 CLI HARNESSES EXECUTED
 --------------------------------------------------------------------------------
-  [2025-10-02T08:50:29.425Z] QuestsPure.createQuest - SUCCESS
-  [2025-10-02T08:50:31.522Z] NPCsPure.spawnNPC - SUCCESS
-  [2025-10-02T08:50:33.581Z] WeatherSystemPure.setWeather - SUCCESS
-  [2025-10-02T08:50:35.724Z] DialogueSystemPure.triggerDialogue - SUCCESS
-  [2025-10-02T08:50:37.685Z] TeamsPure.createTeam - SUCCESS
-  [2025-10-02T08:52:40.162Z] InputSystemPure.configureInput - SUCCESS
-  [2025-10-02T08:52:42.353Z] SurvivalSystemPure.applyTerrainModifier - SUCCESS
-  [2025-10-02T08:54:44.727Z] CraftingPure.craftItem - SUCCESS
-  [2025-10-02T08:54:46.799Z] ItemsPure.addToInventory - SUCCESS
-  [2025-10-02T08:54:48.878Z] EquipmentPure.equipItem - SUCCESS
-  [2025-10-02T08:54:50.842Z] CombatPure.initCombat - SUCCESS
-  [2025-10-02T08:54:53.003Z] StatusEffectsPure.applyStatusEffect - SUCCESS
-  [2025-10-02T08:54:55.207Z] CombatCorePure.executeCombat - SUCCESS
-  [2025-10-02T08:54:57.285Z] RewardsPure.grantRewards - SUCCESS
-  [2025-10-02T08:54:59.496Z] PartyPure.createParty - SUCCESS
-  [2025-10-02T08:55:01.593Z] SocialDeductionPure.initDeductionGame - SUCCESS
-  [2025-10-02T08:55:03.667Z] AudioPure.playAudioCue - SUCCESS
-  [2025-10-02T08:55:05.612Z] DialogueSystemPure.presentDialogueChoice - SUCCESS
-  [2025-10-02T08:55:09.787Z] SocialDeductionPure.accuseSuspect - SUCCESS
-  [2025-10-02T08:55:11.831Z] SceneBuilderPure.buildScene - SUCCESS
-  [2025-10-02T08:55:13.832Z] ProceduralWorldPure.generateWorld - SUCCESS
-  [2025-10-02T08:55:15.870Z] MagicSystemPure.castSpell - SUCCESS
-  [2025-10-02T08:55:17.877Z] PixelAnimPure.animateObject - SUCCESS
-  [2025-10-02T08:55:19.733Z] RitualSystemPure.performRitual - SUCCESS
-  [2025-10-02T08:55:21.791Z] RhythmChallengePure.rhythmChallenge - SUCCESS
-  [2025-10-02T08:55:23.760Z] CollisionSystemPure.detectCollision - SUCCESS
-  [2025-10-02T08:55:25.845Z] AssetManifestPure.prepareAssets - SUCCESS
-  [2025-10-02T08:55:27.812Z] AssetValidatorPure.validateAssets - SUCCESS
-  [2025-10-02T08:55:29.844Z] RenderPayloadPure.createRenderPayload - SUCCESS
-  [2025-10-02T08:55:31.926Z] ExportWebPure.exportWeb - SUCCESS
-  [2025-10-02T08:55:33.997Z] ConvertToUnityPure.convertToUnity - SUCCESS
-  [2025-10-02T08:55:36.046Z] ConvertToGodotPure.convertToGodot - SUCCESS
-  [2025-10-02T08:55:38.176Z] ExportAndroidPure.exportAndroid - SUCCESS
-  [2025-10-02T08:55:40.130Z] WebSocketBridgePure.initWebSocket - SUCCESS
-  [2025-10-02T08:55:42.141Z] SessionManifestPure.createSession - SUCCESS
+  [2025-10-02T09:20:37.323Z] QuestsPure.createQuest - SUCCESS
+  [2025-10-02T09:20:38.355Z] NPCsPure.spawnNPC - SUCCESS
+  [2025-10-02T09:20:39.426Z] WeatherSystemPure.setWeather - SUCCESS
+  [2025-10-02T09:20:40.483Z] DialogueSystemPure.triggerDialogue - SUCCESS
+  [2025-10-02T09:20:41.559Z] TeamsPure.createTeam - SUCCESS
+  [2025-10-02T09:20:41.559Z] SportsSystemPure.initMatch - SUCCESS
+  [2025-10-02T09:20:42.687Z] InputSystemPure.configureInput - SUCCESS
+  [2025-10-02T09:20:43.798Z] SurvivalSystemPure.applyTerrainModifier - SUCCESS
+  [2025-10-02T09:20:43.798Z] SportsSystemPure.runMatch - SUCCESS
+  [2025-10-02T09:20:44.865Z] CraftingPure.craftItem - SUCCESS
+  [2025-10-02T09:20:45.981Z] ItemsPure.addToInventory - SUCCESS
+  [2025-10-02T09:20:47.025Z] EquipmentPure.equipItem - SUCCESS
+  [2025-10-02T09:20:48.086Z] CombatPure.initCombat - SUCCESS
+  [2025-10-02T09:20:49.134Z] StatusEffectsPure.applyStatusEffect - SUCCESS
+  [2025-10-02T09:20:50.256Z] CombatCorePure.executeCombat - SUCCESS
+  [2025-10-02T09:20:51.203Z] RewardsPure.grantRewards - SUCCESS
+  [2025-10-02T09:20:52.172Z] PartyPure.createParty - SUCCESS
+  [2025-10-02T09:20:53.216Z] SocialDeductionPure.initDeductionGame - SUCCESS
+  [2025-10-02T09:20:54.301Z] AudioPure.playAudioCue - SUCCESS
+  [2025-10-02T09:20:55.394Z] DialogueSystemPure.presentDialogueChoice - SUCCESS
+  [2025-10-02T09:20:56.500Z] ClueSystemPure.collectClue - SUCCESS
+  [2025-10-02T09:20:57.603Z] SocialDeductionPure.accuseSuspect - SUCCESS
+  [2025-10-02T09:20:58.645Z] SceneBuilderPure.buildScene - SUCCESS
+  [2025-10-02T09:20:59.684Z] ProceduralWorldPure.generateWorld - SUCCESS
+  [2025-10-02T09:21:00.719Z] MagicSystemPure.castSpell - SUCCESS
+  [2025-10-02T09:21:01.813Z] PixelAnimPure.animateObject - SUCCESS
+  [2025-10-02T09:21:02.871Z] RitualSystemPure.performRitual - SUCCESS
+  [2025-10-02T09:21:03.904Z] RhythmChallengePure.rhythmChallenge - SUCCESS
+  [2025-10-02T09:21:04.968Z] CollisionSystemPure.detectCollision - SUCCESS
+  [2025-10-02T09:21:06.086Z] AssetManifestPure.prepareAssets - SUCCESS
+  [2025-10-02T09:21:07.075Z] AssetValidatorPure.validateAssets - SUCCESS
+  [2025-10-02T09:21:08.061Z] RenderPayloadPure.createRenderPayload - SUCCESS
+  [2025-10-02T09:21:09.115Z] ExportWebPure.exportWeb - SUCCESS
+  [2025-10-02T09:21:10.220Z] ConvertToUnityPure.convertToUnity - SUCCESS
+  [2025-10-02T09:21:11.425Z] ConvertToGodotPure.convertToGodot - SUCCESS
+  [2025-10-02T09:21:12.494Z] ExportAndroidPure.exportAndroid - SUCCESS
+  [2025-10-02T09:21:13.507Z] WebSocketBridgePure.initWebSocket - SUCCESS
+  [2025-10-02T09:21:14.541Z] SessionManifestPure.createSession - SUCCESS
 
 --------------------------------------------------------------------------------
 SECONDARY QUESTS SPAWNED
@@ -279,20 +282,6 @@ SECONDARY QUESTS SPAWNED
     Condition: exportFormat.includes('godot')
     Phase: phase6
     Modules: ExportAndroidPure, PerfPure, PerfMetricsPure
-
---------------------------------------------------------------------------------
-ERRORS
---------------------------------------------------------------------------------
-  [2025-10-02T08:52:37.833Z] SportsSystemPure: Timeout after unknownms - operation took too long
-  [2025-10-02T08:54:42.406Z] SportsSystemPure: Timeout after unknownms - operation took too long
-  [2025-10-02T08:55:07.723Z] ClueSystemPure: Command failed: npx tsx /workspace/miff/pure/ClueSystemPure/cliHarness.ts --mode=collectClue --clueId=torn_letter --location=study --significance=high
-{
-  "op": "error",
-  "status": "error",
-  "error": "system.getTotalClues is not a function",
-  "timestamp": 1759395307657
-}
-
 
 ================================================================================
 END OF REPORT

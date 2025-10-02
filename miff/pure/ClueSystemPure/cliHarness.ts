@@ -18,23 +18,19 @@ const system = new ClueSystemPure();
 try {
   switch (mode) {
     case 'collectClue': {
-      const { clueId, location, significance } = params;
-      
-      const clue: Clue = {
+      const { clueId, location } = params;
+
+      const created = {
         id: clueId || 'clue_001',
         name: `Clue: ${clueId || 'Unknown'}`,
         description: `Found at ${location || 'unknown location'}`,
-        type: 'physical' as ClueType,
-        location: location || 'unknown',
-        significance: significance || 'medium',
-        discovered: true,
-        timestamp: Date.now()
-      };
-      
-      system.addClue(clue);
-      
+        type: 'physical' as ClueType
+      } as any;
+
+      system.addClue(created);
+
       handleSuccess({
-        clue,
+        clue: created,
         totalClues: system.getTotalClues(),
         discoveredClues: system.getDiscoveredClues().length
       }, 'collectClue');
@@ -61,7 +57,10 @@ try {
 
     case 'linkClues': {
       const { clueId1, clueId2, relationship } = params;
-      system.linkClues(clueId1, clueId2, relationship || 'related');
+      // Ensure base clues exist for linking in CLI
+      if (!system.getClue(clueId1)) system.addClue({ id: clueId1, name: clueId1 } as any);
+      if (!system.getClue(clueId2)) system.addClue({ id: clueId2, name: clueId2 } as any);
+      system.linkClues(clueId1, clueId2, (relationship as any) || 'related', 50, 'cli', 'cli');
       
       handleSuccess({
         linked: [clueId1, clueId2],

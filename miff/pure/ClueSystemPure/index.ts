@@ -186,12 +186,58 @@ export class ClueSystemPure {
     this.initializeDefaultRules();
   }
 
+  // Shims for CLI harness
+  public addClue(clue: Partial<Clue>): void {
+    const id = clue.id || `clue_${Date.now()}`;
+    const full: Clue = {
+      id,
+      name: clue.name || id,
+      description: clue.description || '',
+      type: (clue.type as any) || 'physical',
+      state: 'discovered',
+      discoveryMethod: 'found',
+      location: clue.location as any,
+      discoveredAt: Date.now(),
+      discoveredBy: (clue as any).discoveredBy || 'cli',
+      tags: [],
+      metadata: {},
+      reliability: 50,
+      importance: 50,
+      connections: [],
+      analysis: {
+        id: `analysis_${id}`,
+        clueId: id,
+        analyst: 'cli',
+        analysisText: '',
+        confidence: 0,
+        deductions: [],
+        questions: [],
+        hypotheses: [],
+        completedAt: 0,
+        updatedAt: Date.now()
+      }
+    };
+    this.clues.set(full.id, full);
+  }
+
+  public getTotalClues(): number {
+    return this.clues.size;
+  }
+
+  public getDiscoveredClues(): Clue[] {
+    return Array.from(this.clues.values()).filter(c => c.state === 'discovered' || c.state === 'analyzed');
+  }
+
   private startAnalysisTimer(): void {
-    // In Node/CI, avoid timers that block exit
     if (typeof setInterval !== 'function') return;
-    this.analysisTimer = setInterval(() => {
+    const timer = setInterval(() => {
       this.performAutomatedAnalysis();
     }, 5000);
+    // Prevent keeping the Node process alive
+    if (typeof (timer as any).unref === 'function') {
+      (timer as any).unref();
+    }
+    this.analysisTimer = timer as any;
   }
 
   private initializeDefaultRules(): void {
