@@ -62,6 +62,10 @@
 		<button id="btn-jump" style="min-width:80px;min-height:80px;border-radius:14px;background:rgba(0,0,0,0.50);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:16px monospace;">Jump</button>
 	</div>
     <script type="module">
+    // Boot diagnostics
+    try { const st=document.getElementById('status'); if (st) st.textContent='booting…'; } catch {}
+    window.addEventListener('error', (e)=>{ try { const st=document.getElementById('status'); if (st) st.textContent = 'error: ' + (e?.message||'unknown'); } catch {} });
+    window.addEventListener('unhandledrejection', (e)=>{ try { const st=document.getElementById('status'); if (st) st.textContent = 'rejection: ' + (e?.reason?.message||String(e?.reason||'unknown')); } catch {} });
 	// Use CDN module to avoid MIME issues with local backup extension
 	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
 
@@ -299,6 +303,7 @@ const warehouseLights = createWarehouseLighting();
     player.position.set(0, 0, 2); // Spawn clear of pillars
     scene.add(player);
     try { window.__RW = { scene, player, THREE }; } catch {}
+    try { const st=document.getElementById('status'); if (st) st.textContent='scene ready'; } catch {}
 
 	// Phase 5: movement state
     const move = { x: 0, z: 0 };
@@ -672,7 +677,7 @@ scene.add(spiritLens);
 	}
 	window.addEventListener('resize', fit); fit();
 
-	function animate(t){
+    function animate(t){
 		const tt = t * 0.001;
 		// Pause gate: render-only when paused
 		if (window.__RW_PAUSED) {
@@ -829,8 +834,8 @@ scene.add(spiritLens);
 		} catch {}
 		requestAnimationFrame(animate);
 	}
-	requestAnimationFrame(animate);
-	try { document.getElementById('status').textContent = 'running'; } catch {}
+    requestAnimationFrame(animate);
+    try { document.getElementById('status').textContent = 'running'; } catch {}
 
 	// Phase 5: joystick logic
 	(function(){
