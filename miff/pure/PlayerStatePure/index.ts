@@ -1,3 +1,57 @@
+/**
+ * PlayerStatePure - stateless movement/interaction/animation state reducer
+ */
+
+export type Facing = 'up'|'down'|'left'|'right';
+export interface Vec2 { x: number; y: number }
+
+export interface PlayerConfig { speed: number; }
+
+export interface PlayerState {
+  pos: Vec2;
+  vel: Vec2;
+  facing: Facing;
+  anim: 'idle'|'walk'|'interact';
+  interactable?: string;
+}
+
+export type PlayerAction =
+  | { type: 'tick'; dt: number }
+  | { type: 'move'; dir: Vec2 }
+  | { type: 'stop' }
+  | { type: 'interact'; target?: string };
+
+export function createPlayerState(): PlayerState { return { pos: { x: 0, y: 0 }, vel: { x: 0, y: 0 }, facing: 'down', anim: 'idle' }; }
+
+export function reducePlayer(state: PlayerState, action: PlayerAction, cfg: PlayerConfig): PlayerState {
+  switch (action.type) {
+    case 'move': {
+      const vx = clamp(action.dir.x, -1, 1) * cfg.speed;
+      const vy = clamp(action.dir.y, -1, 1) * cfg.speed;
+      const facing: Facing = Math.abs(vx) > Math.abs(vy) ? (vx >= 0 ? 'right':'left') : (vy >= 0 ? 'down':'up');
+      return { ...state, vel: { x: vx, y: vy }, anim: 'walk', facing };
+    }
+    case 'stop': {
+      return { ...state, vel: { x: 0, y: 0 }, anim: 'idle' };
+    }
+    case 'tick': {
+      const nx = state.pos.x + state.vel.x * action.dt;
+      const ny = state.pos.y + state.vel.y * action.dt;
+      const anim = (Math.abs(state.vel.x) + Math.abs(state.vel.y)) > 0 ? 'walk' : (state.anim === 'interact' ? 'interact' : 'idle');
+      return { ...state, pos: { x: nx, y: ny }, anim };
+    }
+    case 'interact': {
+      return { ...state, anim: 'interact', interactable: action.target };
+    }
+    default:
+      return state;
+  }
+}
+
+function clamp(n: number, a: number, b: number): number { return Math.max(a, Math.min(b, n)); }
+
+export default { createPlayerState, reducePlayer };
+
 export interface Vector2 { x: number; y: number }
 
 export interface InputState {
