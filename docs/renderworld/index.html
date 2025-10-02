@@ -1067,6 +1067,25 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     btnCancel.addEventListener('touchstart', (e)=>{ e.preventDefault(); btnCancel.click(); }, { passive:false });
 })();
     </script>
-    <script src="renderworld_3d_integration.js"></script>
+    <script>
+    (function(){
+      async function loadJSON(url){ const r = await fetch(url, { cache:'no-store' }); return await r.json(); }
+      async function applySpawn(){
+        try {
+          const base = '/MIFF-Make-It-For-Free/render/assets/';
+          const collision = await loadJSON(base+'collision.json');
+          if (window.__RW && window.__RW.player && collision && collision.spawn){
+            const p = window.__RW.player;
+            // Map grid coords to scene (simple scale/offset)
+            p.position.x = (collision.spawn.x - 48) * 0.12;
+            p.position.z = (collision.spawn.y - 32) * 0.12;
+            try{ document.getElementById('status').textContent = 'spawn outside warehouse'; }catch{}
+          }
+        } catch(e){ console.warn('[RW] spawn apply failed', e); }
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applySpawn);
+      else applySpawn();
+    })();
+    </script>
 </body>
 </html>
