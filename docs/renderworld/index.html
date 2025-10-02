@@ -31,7 +31,7 @@
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">
             <div style="text-align:center;margin-bottom:6px">
-                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-4)</h2>
+                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-5)</h2>
             </div>
             <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>
             <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-3</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-5</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -1244,7 +1244,10 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     function newGame(){ try { let x=0,z=2; try { if (window.__RW_COLLISION__?.spawn){ x=(window.__RW_COLLISION__.spawn.x-48)*0.12; z=(window.__RW_COLLISION__.spawn.y-32)*0.12; } } catch{} if (window.__RW?.player){ window.__RW.player.position.x=x; window.__RW.player.position.z=z; } } catch {} }
     function hideStart(){ try { const m=document.getElementById('start-menu'); if (m) m.remove(); } catch {} }
     function bind(){
-        const sm = document.getElementById('start-menu'); if (!sm) return;
+        console.log('bind() called');
+        const sm = document.getElementById('start-menu'); 
+        console.log('start-menu found:', !!sm);
+        if (!sm) return;
         const bStart = document.getElementById('sm-start');
         const bLoad = document.getElementById('sm-load');
         const bOpt = document.getElementById('sm-options');
@@ -1252,15 +1255,17 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
         const bBack = document.getElementById('sm-back');
         const sub = document.getElementById('sm-load-sub');
         const bSubBack = document.getElementById('sm-load-back');
-        if (bStart) bStart.onclick = ()=>{ newGame(); hideStart(); };
-        if (bLoad) bLoad.onclick = ()=>{ sub.style.display='flex'; updateSmSlots(); };
-        if (bSubBack) bSubBack.onclick = ()=>{ sub.style.display='none'; };
-        if (bOpt) bOpt.onclick = ()=>{ alert('Options coming soon'); };
-        if (bCred) bCred.onclick = ()=>{ alert('Credits coming soon'); };
-        if (bBack) bBack.onclick = ()=>{ try { window.location.href = '/MIFF-Make-It-For-Free/'; } catch {} };
+        console.log('buttons found:', {bStart: !!bStart, bLoad: !!bLoad, bOpt: !!bOpt, bCred: !!bCred, bBack: !!bBack});
+        if (bStart) { bStart.onclick = ()=>{ console.log('Start clicked'); newGame(); hideStart(); }; }
+        if (bLoad) { bLoad.onclick = ()=>{ console.log('Load clicked'); sub.style.display='flex'; updateSmSlots(); }; }
+        if (bSubBack) { bSubBack.onclick = ()=>{ sub.style.display='none'; }; }
+        if (bOpt) { bOpt.onclick = ()=>{ alert('Options coming soon'); }; }
+        if (bCred) { bCred.onclick = ()=>{ alert('Credits coming soon'); }; }
+        if (bBack) { bBack.onclick = ()=>{ try { window.location.href = '/MIFF-Make-It-For-Free/'; } catch {} }; }
         document.querySelectorAll('.sm-slot').forEach((el)=>{
             el.addEventListener('click', ()=>{ const i=parseInt(el.getAttribute('data-slot')); const s=loadSnap(i); if (s){ applySnap(s); hideStart(); } });
         });
+        console.log('bind() completed');
     }
     window.__RW_bindStartMenu = bind;
     if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', bind); else bind();
