@@ -14,7 +14,10 @@ function main() {
   if (menu.selected === 'Start Game' || menu.selected === 'Select Character') {
     const sel = runTS('/workspace/render/characterSelect.ts');
     const world = runTS('/workspace/cli/miff-world-pixel-city.ts');
-    console.log(JSON.stringify({ ok: true, flow: 'menu->select->world', menu, sel, world }, null, 2));
+    // Load spawn/collision if present
+    let collision: any = {};
+    try { collision = runTS('/workspace/render/renderPixelCity.ts'); } catch {}
+    console.log(JSON.stringify({ ok: true, flow: 'menu->select->world', menu, sel, world, spawn: collision?.assets ? undefined : undefined }, null, 2));
   } else {
     console.log(JSON.stringify({ ok: true, flow: 'menu->exit', menu }, null, 2));
   }

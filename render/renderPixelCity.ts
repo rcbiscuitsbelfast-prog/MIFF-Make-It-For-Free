@@ -24,14 +24,54 @@ function main() {
   const animExport = [PixelAnimPure.exportAnimation(idle), PixelAnimPure.exportAnimation(walk)];
 
   // Simulate a render preview matrix and apply effects
-  const w = 48, h = 48;
-  const matrix: (string|null)[][] = Array.from({ length: h }, () => Array.from({ length: w }, () => null));
-  for (let y=16; y<32; y++) for (let x=20; x<28; x++) matrix[y][x] = '#9ec1cf';
+  // Build a simple world: green field, warehouse with solid walls, small doors, blocky title
+  const w = 96, h = 64;
+  const matrix: (string|null)[][] = Array.from({ length: h }, () => Array.from({ length: w }, () => '#3ca34a')); // green field
+  const solid: number[][] = Array.from({ length: h }, () => Array.from({ length: w }, () => 0));
+
+  // Warehouse rectangle
+  const wx0 = 30, wy0 = 20, wx1 = 66, wy1 = 44;
+  for (let y = wy0; y <= wy1; y++) {
+    for (let x = wx0; x <= wx1; x++) {
+      const border = (y === wy0 || y === wy1 || x === wx0 || x === wx1);
+      if (border) {
+        matrix[y][x] = '#8e8e8e';
+        solid[y][x] = 1;
+      } else {
+        matrix[y][x] = '#bfbfbf';
+      }
+    }
+  }
+
+  // Small doors outside (breaks in bottom wall)
+  const doorPositions = [wx0 + 4, wx1 - 4];
+  doorPositions.forEach(dx => { matrix[wy1][dx] = '#cfa'; solid[wy1][dx] = 0; });
+
+  // Blocky title on top wall: RENDERWORLD
+  const title = 'RENDERWORLD';
+  let tx = wx0 + 2;
+  const ty = wy0; // top wall row
+  for (const ch of title) {
+    // Simple block letter: occupy 3x5 area above wall interior
+    for (let oy = -5; oy < 0; oy++) {
+      for (let ox = 0; ox < 3; ox++) {
+        const gx = tx + ox; const gy = ty + oy;
+        if (gy > 0 && gx > 0 && gx < w) {
+          // draw filled column for basic lettering (coarse style)
+          if (ox === 0 || ox === 2 || oy === -5 || (ch === 'O' && (ox === 0 || ox === 2))) matrix[gy][gx] = '#202020';
+        }
+      }
+    }
+    tx += 4;
+  }
   const shaded = AdvancedRenderingPure.applyShading(matrix, { ambient: 0.6, strength: 0.3 });
   const lit = AdvancedRenderingPure.applyLighting(shaded, { direction: { x: -0.4, y: -0.6 }, tint: '#ffd080', tintStrength: 0.25 });
   const outlined = AdvancedRenderingPure.applyOutline(lit, { color: '#262626', thickness: 1 });
 
   writeFileSync(`${OUT_DIR}/preview.json`, JSON.stringify({ zones, animations: animExport, preview: outlined }, null, 2));
+  // Export collision + spawn
+  const spawn = { x: Math.floor((wx0 + wx1) / 2), y: wy1 + 2 };
+  writeFileSync(`${OUT_DIR}/collision.json`, JSON.stringify({ solid, spawn }, null, 2));
 
   writeFileSync(LOG, [
     'Modules=RenderWorldPure,PixelAnimPure,AdvancedRenderingPure',
