@@ -263,7 +263,7 @@ const warehouseLights = createWarehouseLighting();
 		
 		// Build from feet up; origin at feet on ground
 		// Leg groups anchored at hips; feet attached to legs so they swing together
-		const leftLegGroup = new THREE.Group(); leftLegGroup.position.set(-0.1, 0.6, 0);
+		const leftLegGroup = new THREE.Group(); leftLegGroup.position.set(-0.1, 0.66, 0);
 		const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), playerMaterial);
 		leftLeg.position.set(0, -0.3, 0); // center of leg under hip
 		leftLegGroup.add(leftLeg);
@@ -271,7 +271,7 @@ const warehouseLights = createWarehouseLighting();
 		leftFoot.position.set(0, -0.63, 0.05);
 		leftLegGroup.add(leftFoot);
 		playerGroup.add(leftLegGroup);
-		const rightLegGroup = new THREE.Group(); rightLegGroup.position.set(0.1, 0.6, 0);
+		const rightLegGroup = new THREE.Group(); rightLegGroup.position.set(0.1, 0.66, 0);
 		const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), playerMaterial);
 		rightLeg.position.set(0, -0.3, 0);
 		rightLegGroup.add(rightLeg);
@@ -358,6 +358,55 @@ function createOpenFieldEnvironment(){
     // Scatter props
     const rng = [ [-6,-4], [-2,3], [4,-5], [8,2], [-10,6], [2,-8] ];
     rng.forEach(([x,z],i)=>{ (i%3===0)? addTree(x,z) : (i%3===1? addBush(x,z): addRock(x,z)); });
+    
+    // Wee houses dotted toward edges
+    function addHouse(x,z){
+        const base = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.4, 2.0), new THREE.MeshStandardMaterial({ color: 0xcaa472, roughness:0.9 }));
+        base.position.set(x, 0.7, z); g.add(base);
+        const roof = new THREE.Mesh(new THREE.ConeGeometry(1.7, 0.9, 4), new THREE.MeshStandardMaterial({ color: 0x7b4f2a, roughness:0.8 }));
+        roof.rotation.y = Math.PI/4; roof.position.set(x, 1.6, z); g.add(roof);
+        // Rough collider radius
+        colliders.push({ x, z, r: 1.6 });
+    }
+    const houseSpots = [ [-90,-90], [-90,90], [90,-90], [90,90], [0,95], [95,0], [-95,0], [0,-95] ];
+    houseSpots.forEach(([x,z])=> addHouse(x,z));
+
+    // Hedge maze covering one quarter (NE quadrant)
+    function addHedge(x,z,len,dir){
+        // dir: 'x' or 'z'
+        const thick = 0.4; const height = 1.2;
+        const mat = new THREE.MeshStandardMaterial({ color: 0x2e7d32, roughness:0.9 });
+        const geom = (dir==='x') ? new THREE.BoxGeometry(len, height, thick) : new THREE.BoxGeometry(thick, height, len);
+        const hedge = new THREE.Mesh(geom, mat);
+        hedge.position.set(x, height/2, z);
+        g.add(hedge);
+        // Approximate collider along the length
+        const steps = Math.max(1, Math.floor(len/1.0));
+        for (let i=0;i<=steps;i++){
+            const t = (i/steps - 0.5) * len;
+            const cx = x + (dir==='x' ? t : 0);
+            const cz = z + (dir==='z' ? t : 0);
+            colliders.push({ x: cx, z: cz, r: 0.45 });
+        }
+    }
+    // Build simple maze grid in x:[10,100], z:[-100,-10]
+    (function buildMaze(){
+        const x0=10, x1=100, z0=-100, z1=-10; const cell=10;
+        // Outer border
+        addHedge((x0+x1)/2, z0, x1-x0, 'x');
+        addHedge((x0+x1)/2, z1, x1-x0, 'x');
+        addHedge(x0, (z0+z1)/2, z1-z0, 'z');
+        addHedge(x1, (z0+z1)/2, z1-z0, 'z');
+        // Internal passages (simple pattern)
+        for (let x=x0+cell; x<=x1-cell; x+=cell){
+            const mid = (z0+z1)/2;
+            addHedge(x, (x/cell)%2===0? mid : mid+cell, (z1-z0)-cell*2, 'z');
+        }
+        for (let z=z0+cell; z<=z1-cell; z+=cell){
+            const midx = (x0+x1)/2;
+            addHedge((z/cell)%2===1? midx : midx+cell, z, (x1-x0)-cell*2, 'x');
+        }
+    })();
     g.userData.fieldColliders = colliders;
     return g;
 }
@@ -506,11 +555,11 @@ scene.add(spiritLens);
         // Torso
         const torso = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.65, 0.22), mat); torso.position.set(0, 0.85, 0); g.add(torso);
         // Legs grouped
-        const lLegG = new THREE.Group(); lLegG.position.set(-0.1, 0.6, 0);
+        const lLegG = new THREE.Group(); lLegG.position.set(-0.1, 0.66, 0);
         const lLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), mat); lLeg.position.set(0,-0.3,0); lLegG.add(lLeg);
         const lFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), mat); lFoot.position.set(0, -0.63, 0.05); lLegG.add(lFoot);
         g.add(lLegG);
-        const rLegG = new THREE.Group(); rLegG.position.set(0.1, 0.6, 0);
+        const rLegG = new THREE.Group(); rLegG.position.set(0.1, 0.66, 0);
         const rLeg = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.6, 0.12), mat); rLeg.position.set(0,-0.3,0); rLegG.add(rLeg);
         const rFoot = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.06, 0.22), mat); rFoot.position.set(0, -0.63, 0.05); rLegG.add(rFoot);
         g.add(rLegG);
@@ -630,16 +679,6 @@ scene.add(spiritLens);
             const nextX = player.position.x + worldX * speed * dt;
             const nextZ = player.position.z + worldZ * speed * dt;
             function blocked(x,z){
-                // Add pillar colliders as solid cylinders
-                const pillarBlocks = [
-                    [-8, -6], [0, -6], [8, -6],
-                    [-8, 0], /* removed center */ [8, 0],
-                    [-8, 6], [0, 6], [8, 6]
-                ];
-                for (const [px,pz] of pillarBlocks){
-                    const dx = x - px; const dz = z - pz;
-                    if (Math.hypot(dx,dz) < 0.35) return true;
-                }
                 for (const { node, radius } of [...portalColliders, ...npcColliders]){
                     const dx = x - node.position.x; const dz = z - node.position.z;
                     if (Math.hypot(dx,dz) < radius) return true;
