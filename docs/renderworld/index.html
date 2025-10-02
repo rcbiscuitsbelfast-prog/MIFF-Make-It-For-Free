@@ -329,6 +329,23 @@ const warehouseLights = createWarehouseLighting();
 	// Simple jump physics
 	let velY = 0; const gravity = -9.8; const groundY = 0.0;
 
+    // PlayerStatePure (inlined adapter)
+    function createPlayerState(initial){ return { pos:{ x: initial.x, z: initial.z }, vel:{ x:0, z:0 }, anim:'idle', facing:0 }; }
+    function reducePlayerAction(state, action){
+        const s = { ...state, pos: { ...state.pos }, vel: { ...state.vel } };
+        if (action.type === 'move' && action.dir){ s.vel.x = action.dir.x; s.vel.z = action.dir.z; s.anim = 'walk'; }
+        else if (action.type === 'stop'){ s.vel.x = 0; s.vel.z = 0; s.anim = 'idle'; }
+        else if (action.type === 'interact'){ s.anim = 'interact'; }
+        else if (action.type === 'update' && action.dt){ const dt = action.dt * 0.001; const speed = moveSpeed * (isRunning?2.0:1.0); s.pos.x += s.vel.x * dt * speed; s.pos.z += s.vel.z * dt * speed; }
+        return s;
+    }
+    let playerState = createPlayerState({ x: player.position.x, z: player.position.z });
+
+    // JointAnimPure (minimal inlined)
+    function createJointAnim(){ return { anim:'idle', t:0 }; }
+    function reduceJointAnim(st, action){ const s = { ...st }; if (action.type==='play' && action.anim){ s.anim = action.anim; s.t = 0; } else if (action.type==='update' && action.dt){ s.t += action.dt * 0.001; if (s.anim==='interact' && s.t>0.6){ s.anim='idle'; s.t=0; } } return s; }
+    let jointAnim = createJointAnim();
+
 // Open Field Environment - green landscape with props
 function createOpenFieldEnvironment(){
     const g = new THREE.Group();
@@ -720,13 +737,19 @@ scene.add(spiritLens);
                 } catch {}
                 return false;
             }
-            if (!blocked(nextX, player.position.z)) player.position.x = nextX;
-            if (!blocked(player.position.x, nextZ)) player.position.z = nextZ;
+            // Update state via reducer
+            playerState = reducePlayerAction(playerState, { type:'move', dir:{ x: worldX, z: worldZ } });
+            playerState = reducePlayerAction(playerState, { type:'update', dt: (animate._lastFrame ? (t - animate._lastFrame) : 16.6) });
+            const nx = playerState.pos.x, nz = playerState.pos.z;
+            if (!blocked(nx, player.position.z)) player.position.x = nx; else playerState.pos.x = player.position.x;
+            if (!blocked(player.position.x, nz)) player.position.z = nz; else playerState.pos.z = player.position.z;
             // Limb swing when moving (browser-only timing)
             try {
+                jointAnim = reduceJointAnim(jointAnim, { type:'play', anim:'walk' });
+                jointAnim = reduceJointAnim(jointAnim, { type:'update', dt: (animate._lastFrame ? (t - animate._lastFrame) : 16.6) });
                 const speed = 6.0; // swing speed
                 const ampLeg = 0.5; const ampArm = 0.35;
-                const phase = tt * speed;
+                const phase = jointAnim.t * speed;
                 const limbs = player.userData?.limbs;
                 if (limbs) {
                     limbs.leftLeg.rotation.x = Math.sin(phase) * ampLeg;
@@ -738,6 +761,8 @@ scene.add(spiritLens);
         } else {
             // Idle: damp limbs back to neutral
             try {
+                playerState = reducePlayerAction(playerState, { type:'stop' });
+                jointAnim = reduceJointAnim(jointAnim, { type:'play', anim:'idle' });
                 const limbs = player.userData?.limbs;
                 if (limbs) {
                     limbs.leftLeg.rotation.x *= 0.9;
@@ -991,18 +1016,31 @@ function doInteract(){
         } else if (animate._nearNPC) {
             const dlg = document.getElementById('dialogue');
             const txt = document.getElementById('dialogue-text');
-            const lines = [
-                'Hello there, welcome to RenderWorld.',
-                'Try the Save / Load in Menu any time.',
-                'Doors are open to explore. Have fun!'
-            ];
-            const DKEY = 'rw:dialogue:step';
-            let step = 0; try { const v=localStorage.getItem(DKEY); if (v) step = Math.min(lines.length-1, parseInt(v)||0); } catch {}
-            function render(){ txt.textContent = lines[step]; dlg.style.display = 'flex'; }
-            function save(){ try { localStorage.setItem(DKEY, String(step)); } catch {} }
-            render(); playInteractSound();
-            document.getElementById('dlg-advance').onclick = ()=>{ step = Math.min(lines.length-1, step+1); save(); render(); };
-            document.getElementById('dlg-close').onclick = ()=>{ save(); dlg.style.display = 'none'; };
+            const DKEY = 'rw:dialogue:guide';
+            const guide = {
+                id: 'guide',
+                nodes: {
+                    start: { text: 'Welcome, traveler. Need a tip?', choices: [ { label:'Yes, please', next:'tip1' }, { label:'No, thanks', next:'bye' } ] },
+                    tip1: { text: 'Try exploring the hedge maze to the northeast.', choices: [ { label:'Another tip', next:'tip2' }, { label:'Thanks', next:'bye' } ] },
+                    tip2: { text: 'You can save from Menu → Save / Load…', choices: [ { label:'Got it', next:'bye' } ] },
+                    bye: { text: 'Good luck out there!', choices: [] }
+                }
+            };
+            function loadNodeId(){ try { const s=localStorage.getItem(DKEY); return s || 'start'; } catch { return 'start'; } }
+            function saveNodeId(id){ try { localStorage.setItem(DKEY, id); } catch {} }
+            function renderNode(id){ const n = guide.nodes[id] || guide.nodes.start; txt.textContent = n.text; // render choices into buttons
+                const adv = document.getElementById('dlg-advance'); const cls = document.getElementById('dlg-close');
+                // reuse advance button as first choice, close as second when applicable
+                if (n.choices && n.choices.length){
+                    adv.style.display='inline-block'; adv.textContent = n.choices[0].label; adv.onclick = ()=>{ saveNodeId(n.choices[0].next); renderNode(n.choices[0].next); };
+                    if (n.choices[1]){ cls.textContent = n.choices[1].label; cls.onclick = ()=>{ saveNodeId(n.choices[1].next); if (n.choices[1].next==='bye'){ dlg.style.display='none'; } else { renderNode(n.choices[1].next); } }; }
+                    else { cls.textContent='Close'; cls.onclick = ()=>{ dlg.style.display='none'; }; }
+                } else {
+                    adv.style.display='none'; cls.textContent='Close'; cls.onclick = ()=>{ dlg.style.display='none'; };
+                }
+                dlg.style.display='flex';
+            }
+            renderNode(loadNodeId()); playInteractSound();
         } else {
             const s=document.getElementById('status'); s.textContent='Nothing nearby'; setTimeout(()=>{ s.textContent='running'; }, 600);
         }
