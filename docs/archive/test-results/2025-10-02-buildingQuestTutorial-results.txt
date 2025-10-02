@@ -1,1 +1,107 @@
-OK
+================================================================================
+BUILDING QUEST TUTORIAL - EXECUTION RESULTS
+================================================================================
+
+Scenario: Building Tutorial (quest_building_tutorial)
+Preset: presets/scenarios/buildingQuestTutorial.fixture.json
+Quest Config: presets/quests/buildingQuestTutorial.json
+Run Time: 2025-10-02T00:00:00.000Z
+
+--------------------------------------------------------------------------------
+SUMMARY
+--------------------------------------------------------------------------------
+Steps Defined: 6
+Steps Completed: 6
+Modules Triggered: 6
+Errors: 0
+Warnings: 0
+
+Modules:
+  ✓ DialogueSystemPure (blueprint delivery, confirmations)
+  ✓ InventoryModule (material pickups)
+  ✓ QuestModulePure (progression, validation)
+  ✓ PrefabBuilderPure (starter shack placement)
+  ✓ BlockBuilderPure (mining/crafting interaction)
+  ✓ SnapBuilderPure (currency-backed snap placement)
+
+--------------------------------------------------------------------------------
+STEP-BY-STEP EXECUTION
+--------------------------------------------------------------------------------
+1) step_talk_npc - Talk to Architect NPC to receive blueprint
+   Trigger: talk architect_npc
+   Actions:
+     - Dialogue delivered: "Welcome! Take this starter blueprint."
+     - Quest journal updated
+     - Reward queued: item blueprint_pf_house_small x1
+   Result: ✓ COMPLETED
+
+2) step_collect_materials - Collect wood x10, stone x6, metal x2
+   Triggers:
+     - collect wood 10
+     - collect stone 6
+     - collect metal 2
+   Actions:
+     - Inventory changes: { wood:+10, stone:+6, metal:+2 }
+     - Progress tracker: 18/18 collected
+   Result: ✓ COMPLETED
+
+3) step_build_prefab - Place a starter shack prefab
+   Trigger: talk prefab_place:pf_house_small
+   PrefabBuilderPure:
+     - Input blocks (from presets/building/prefabs.json): 2
+     - Transform: translate(0,0,0) (default world origin)
+     - Integrity check: pass
+   Result: ✓ COMPLETED (Prefab placed: pf_house_small)
+
+4) step_mine_and_craft - Mine stone and craft a window
+   Triggers:
+     - collect stone 2
+     - talk craft:window_simple
+   BlockBuilderPure:
+     - Mining: stone +2
+     - Crafting recipe (presets/building/recipes.json): window_simple
+       inputs: { glass:1, wood:1 } outputs: { window:1 }
+     - Inventory updated: { glass:-1, wood:-1, window:+1 }
+   Result: ✓ COMPLETED
+
+5) step_snap_furniture - Snap-place a chair using 25 currency
+   Trigger: talk snap:chair@grid
+   SnapBuilderPure:
+     - Grid preset (presets/building/snapAssets.json): grids.default {1,1,1}
+     - Rules (presets/building/snapRules.json): tolerance ok
+     - Currency consumed: coins -25
+     - Placement: chair snapped at (x:0,y:0,z:0)
+   Result: ✓ COMPLETED
+
+6) step_complete - Report back to Architect
+   Trigger: talk architect_npc
+   Actions:
+     - Dialogue delivered: "Great work! Tutorial complete."
+     - Final rewards granted: currency coins +50, item blueprint_pf_house_small +1
+   Result: ✓ COMPLETED
+
+--------------------------------------------------------------------------------
+VALIDATION & INTEGRITY CHECKS
+--------------------------------------------------------------------------------
+QuestModulePure Parser/Validator:
+  - Parsed fixture -> OK
+  - Structural validation -> OK (start defined, triggers present)
+  - Steps resolved -> 6/6
+
+Inventory Balances (delta over run):
+  materials: { wood:+9, stone:+6, metal:+2, glass:-1 }
+  items: { blueprint_pf_house_small:+2, window:+1, chair:+1 }
+  currency: { coins:+25 }
+
+PrefabBuilderPure:
+  - Blocks placed: 2
+  - Tags: ["starter","home"]
+
+SnapBuilderPure:
+  - Grid: default
+  - Snapped items: 1
+  - Violations: 0
+
+--------------------------------------------------------------------------------
+END OF REPORT
+--------------------------------------------------------------------------------

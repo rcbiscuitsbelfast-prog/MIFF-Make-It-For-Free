@@ -1,1 +1,35 @@
-COVERAGE: N/A
+================================================================================
+BUILDING QUEST TUTORIAL - COVERAGE REPORT
+================================================================================
+Generated: 2025-10-02T00:00:00.000Z
+
+--------------------------------------------------------------------------------
+COVERAGE STATISTICS
+--------------------------------------------------------------------------------
+Total Steps: 6
+Completed Steps: 6 (100.00%)
+Triggers Evaluated: 8
+Modules Triggered: 6/6 (100.00%)
+Warnings: 0
+Errors: 0
+
+--------------------------------------------------------------------------------
+MODULE COVERAGE
+--------------------------------------------------------------------------------
+DialogueSystemPure: ✓ blueprint delivery, confirmations
+InventoryModule: ✓ wood, stone, metal pickups
+QuestModulePure: ✓ parse/validate, progression, rewards
+PrefabBuilderPure: ✓ preset load, integrity check, placement
+BlockBuilderPure: ✓ mining event, craft recipe execution
+SnapBuilderPure: ✓ grid snapping, adjacency tolerance, currency debit
+
+--------------------------------------------------------------------------------
+DATA SOURCES
+--------------------------------------------------------------------------------
+Scenario Fixture: presets/scenarios/buildingQuestTutorial.fixture.json
+Quest Config: presets/quests/buildingQuestTutorial.json
+Building Presets: presets/building/* (prefabs, blockTypes, recipes, snapRules, snapAssets)
+
+--------------------------------------------------------------------------------
+END OF COVERAGE REPORT
+--------------------------------------------------------------------------------
