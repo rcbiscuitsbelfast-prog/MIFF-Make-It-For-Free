@@ -14,6 +14,8 @@ type Snapshot = {
   player: ReturnType<typeof createPlayerState>;
   rig: ReturnType<typeof createRigState>;
   t: number;
+  quest?: { id: string; step: string };
+  dialogue?: { lastNpc?: string; line?: string };
 };
 
 const sessionPath = '/workspace/session/sessionState.json';
@@ -60,6 +62,14 @@ function main() {
   }
   p = reducePlayer(p, { type: 'tick', dt: input.dt || 16 }, { speed: 0.01 });
 
+  // Dialogue/Quest integration on interaction
+  let quest = snap.quest;
+  let dialogue = snap.dialogue;
+  if (p.anim === 'interact' && p.interactable) {
+    dialogue = { lastNpc: p.interactable, line: 'Hello, traveler.' };
+    quest = { id: 'quest_intro', step: 'talk_npc' };
+  }
+
   // Drive rig from player anim
   let r = snap.rig;
   if (p.anim === 'walk') {
@@ -75,7 +85,7 @@ function main() {
     r = reduceAnim(r, { type: 'tick', dtMs: 150 }, rigConfig);
   }
 
-  const nextSnap: Snapshot = { player: p, rig: r, t: snap.t + (input.dt || 16) };
+  const nextSnap: Snapshot = { player: p, rig: r, t: snap.t + (input.dt || 16), quest, dialogue };
   writeFileSync(sessionPath, JSON.stringify(nextSnap, null, 2));
   console.log(JSON.stringify({ ok: true, snapshot: nextSnap }));
 }
