@@ -1,0 +1,4 @@
+[
+  { "id": "door_simple", "inputs": { "wood": 2 }, "outputs": { "door": 1 } },
+  { "id": "window_simple", "inputs": { "glass": 1, "wood": 1 }, "outputs": { "window": 1 } }
+]
