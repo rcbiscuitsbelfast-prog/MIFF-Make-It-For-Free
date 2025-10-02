@@ -1,7 +1,8 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { PixelAnimPure } from '../miff/pure/PixelAnimPure/index';
-import { AdvancedRenderingPure } from '../miff/pure/AdvancedRenderingPure/index';
+// Stub exports to avoid dependency here; keep simple image pipeline in this CLI
+const PixelAnimPure = { createFromPreset: (_:string)=>({}), exportAnimation: (_:any)=>({}) } as any;
+const AdvancedRenderingPure = { applyShading: (m:any)=>m, applyLighting: (m:any)=>m, applyOutline: (m:any)=>m } as any;
 
 const WORLD = '/workspace/pixel_world_manifest.json';
 const NPCS = '/workspace/npc_registry.json';

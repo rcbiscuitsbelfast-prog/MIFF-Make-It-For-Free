@@ -423,3 +423,19 @@ if (typeof window !== 'undefined') {
 export { Enhanced3DWebBridge as RenderWorldWebBridge, RenderWorld3D };
 
 console.log('🎮 3D RenderWorld integration complete!');
+
+/* renderworld_3d_integration.js - append dynamic overlay of world preview */
+(function(){
+	async function loadJSON(url){ const r = await fetch(url, { cache:'no-store' }); return await r.json(); }
+	async function injectPreview(){
+		try {
+			const preview = await loadJSON('/MIFF-Make-It-For-Free/render/assets/preview.json');
+			const collision = await loadJSON('/MIFF-Make-It-For-Free/render/assets/collision.json');
+			console.log('[RenderWorld] assets loaded', { preview: !!preview?.preview, spawn: collision?.spawn });
+			// In a future step, map preview matrix to texture/plane; for now, we log spawn
+			window.__RW_COLLISION__ = collision;
+		} catch (e) { console.warn('[RenderWorld] preview load failed', e); }
+	}
+	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', injectPreview);
+	else injectPreview();
+})();
