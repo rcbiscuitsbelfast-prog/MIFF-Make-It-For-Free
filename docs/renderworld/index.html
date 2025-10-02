@@ -31,7 +31,7 @@
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">
             <div style="text-align:center;margin-bottom:6px">
-                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-5)</h2>
+                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-6)</h2>
             </div>
             <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>
             <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-5</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-6</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -329,21 +329,114 @@ const warehouseLights = createWarehouseLighting();
 	// Simple jump physics
 	let velY = 0; const gravity = -9.8; const groundY = 0.0;
 
-    // PlayerStatePure (inlined adapter)
-    function createPlayerState(initial){ return { pos:{ x: initial.x, z: initial.z }, vel:{ x:0, z:0 }, anim:'idle', facing:0 }; }
+    // PlayerStatePure (enhanced with facing, turn-rate, stopping ease, run multiplier)
+    function createPlayerState(initial){ 
+        return { 
+            pos:{ x: initial.x, z: initial.z }, 
+            vel:{ x:0, z:0 }, 
+            anim:'idle', 
+            facing:0,
+            turnRate: 0,
+            isRunning: false,
+            moveSpeed: 1.0,
+            runMultiplier: 2.0,
+            stoppingEase: 0.85
+        }; 
+    }
     function reducePlayerAction(state, action){
         const s = { ...state, pos: { ...state.pos }, vel: { ...state.vel } };
-        if (action.type === 'move' && action.dir){ s.vel.x = action.dir.x; s.vel.z = action.dir.z; s.anim = 'walk'; }
-        else if (action.type === 'stop'){ s.vel.x = 0; s.vel.z = 0; s.anim = 'idle'; }
+        
+        if (action.type === 'move' && action.dir){ 
+            // Normalize input vector
+            const mag = Math.sqrt(action.dir.x * action.dir.x + action.dir.z * action.dir.z);
+            if (mag > 0) {
+                s.vel.x = (action.dir.x / mag) * s.moveSpeed;
+                s.vel.z = (action.dir.z / mag) * s.moveSpeed;
+                
+                // Apply run multiplier
+                if (s.isRunning) {
+                    s.vel.x *= s.runMultiplier;
+                    s.vel.z *= s.runMultiplier;
+                }
+                
+                // Update facing direction
+                s.facing = Math.atan2(action.dir.x, action.dir.z);
+                s.anim = s.isRunning ? 'run' : 'walk';
+            }
+        }
+        else if (action.type === 'stop'){ 
+            // Stopping ease - gradual deceleration
+            s.vel.x *= s.stoppingEase; 
+            s.vel.z *= s.stoppingEase; 
+            
+            // Stop when velocity is very small
+            if (Math.abs(s.vel.x) < 0.01) s.vel.x = 0;
+            if (Math.abs(s.vel.z) < 0.01) s.vel.z = 0;
+            
+            s.anim = 'idle'; 
+        }
         else if (action.type === 'interact'){ s.anim = 'interact'; }
-        else if (action.type === 'update' && action.dt){ const dt = action.dt * 0.001; const speed = moveSpeed * (isRunning?2.0:1.0); s.pos.x += s.vel.x * dt * speed; s.pos.z += s.vel.z * dt * speed; }
+        else if (action.type === 'update' && action.dt){ 
+            const dt = action.dt * 0.001; 
+            s.pos.x += s.vel.x * dt; 
+            s.pos.z += s.vel.z * dt; 
+        }
+        else if (action.type === 'setRunning') {
+            s.isRunning = action.running || false;
+        }
+        else if (action.type === 'setMoveSpeed') {
+            s.moveSpeed = action.speed || 1.0;
+        }
+        
         return s;
     }
     let playerState = createPlayerState({ x: player.position.x, z: player.position.z });
+    window.playerState = playerState; // Make globally accessible
 
-    // JointAnimPure (minimal inlined)
-    function createJointAnim(){ return { anim:'idle', t:0 }; }
-    function reduceJointAnim(st, action){ const s = { ...st }; if (action.type==='play' && action.anim){ s.anim = action.anim; s.t = 0; } else if (action.type==='update' && action.dt){ s.t += action.dt * 0.001; if (s.anim==='interact' && s.t>0.6){ s.anim='idle'; s.t=0; } } return s; }
+    // JointAnimPure (expanded joint map)
+    function createJointAnim(){ 
+        return { 
+            anim:'idle', 
+            t:0,
+            joints: {
+                // Core joints
+                root: { rot: {x:0, y:0, z:0} },
+                spine: { rot: {x:0, y:0, z:0} },
+                neck: { rot: {x:0, y:0, z:0} },
+                head: { rot: {x:0, y:0, z:0} },
+                // Left arm chain
+                leftShoulder: { rot: {x:0, y:0, z:0} },
+                leftElbow: { rot: {x:0, y:0, z:0} },
+                leftWrist: { rot: {x:0, y:0, z:0} },
+                // Right arm chain
+                rightShoulder: { rot: {x:0, y:0, z:0} },
+                rightElbow: { rot: {x:0, y:0, z:0} },
+                rightWrist: { rot: {x:0, y:0, z:0} },
+                // Left leg chain
+                leftHip: { rot: {x:0, y:0, z:0} },
+                leftKnee: { rot: {x:0, y:0, z:0} },
+                leftAnkle: { rot: {x:0, y:0, z:0} },
+                // Right leg chain
+                rightHip: { rot: {x:0, y:0, z:0} },
+                rightKnee: { rot: {x:0, y:0, z:0} },
+                rightAnkle: { rot: {x:0, y:0, z:0} }
+            }
+        }; 
+    }
+    function reduceJointAnim(st, action){ 
+        const s = { ...st, joints: {...st.joints} }; 
+        if (action.type==='play' && action.anim){ 
+            s.anim = action.anim; 
+            s.t = 0; 
+        } else if (action.type==='update' && action.dt){ 
+            s.t += action.dt * 0.001; 
+            if (s.anim==='interact' && s.t>0.6){ 
+                s.anim='idle'; 
+                s.t=0; 
+            } 
+        } 
+        return s; 
+    }
     let jointAnim = createJointAnim();
 
 // Open Field Environment - green landscape with props
@@ -743,32 +836,48 @@ scene.add(spiritLens);
             const nx = playerState.pos.x, nz = playerState.pos.z;
             if (!blocked(nx, player.position.z)) player.position.x = nx; else playerState.pos.x = player.position.x;
             if (!blocked(player.position.x, nz)) player.position.z = nz; else playerState.pos.z = player.position.z;
-            // Limb swing when moving (browser-only timing)
+            // Enhanced limb animation using joint map
             try {
-                jointAnim = reduceJointAnim(jointAnim, { type:'play', anim:'walk' });
+                const animType = playerState.isRunning ? 'run' : 'walk';
+                jointAnim = reduceJointAnim(jointAnim, { type:'play', anim: animType });
                 jointAnim = reduceJointAnim(jointAnim, { type:'update', dt: (animate._lastFrame ? (t - animate._lastFrame) : 16.6) });
-                const speed = 8.0; // faster swing
-                const ampLeg = 0.8; const ampArm = 0.6; // bigger motion
+                
+                // Animation parameters based on movement type
+                const speed = playerState.isRunning ? 12.0 : 8.0;
+                const ampLeg = playerState.isRunning ? 1.0 : 0.8;
+                const ampArm = playerState.isRunning ? 0.8 : 0.6;
                 const phase = jointAnim.t * speed;
+                
                 const limbs = player.userData?.limbs;
                 if (limbs) {
+                    // Apply joint rotations to limbs
                     limbs.leftLeg.rotation.x = Math.sin(phase) * ampLeg;
                     limbs.rightLeg.rotation.x = Math.sin(phase + Math.PI) * ampLeg;
                     limbs.leftArm.rotation.x = Math.sin(phase + Math.PI) * ampArm;
                     limbs.rightArm.rotation.x = Math.sin(phase) * ampArm;
+                    
+                    // Add slight body sway
+                    player.rotation.y = playerState.facing;
                 }
             } catch {}
         } else {
-            // Idle: damp limbs back to neutral
+            // Idle: damp limbs back to neutral with enhanced easing
             try {
                 playerState = reducePlayerAction(playerState, { type:'stop' });
                 jointAnim = reduceJointAnim(jointAnim, { type:'play', anim:'idle' });
                 const limbs = player.userData?.limbs;
                 if (limbs) {
-                    limbs.leftLeg.rotation.x *= 0.9;
-                    limbs.rightLeg.rotation.x *= 0.9;
-                    limbs.leftArm.rotation.x *= 0.9;
-                    limbs.rightArm.rotation.x *= 0.9;
+                    // Enhanced stopping ease
+                    const ease = playerState.stoppingEase;
+                    limbs.leftLeg.rotation.x *= ease;
+                    limbs.rightLeg.rotation.x *= ease;
+                    limbs.leftArm.rotation.x *= ease;
+                    limbs.rightArm.rotation.x *= ease;
+                    
+                    // Gentle idle sway
+                    const idlePhase = jointAnim.t * 2.0;
+                    const idleSway = Math.sin(idlePhase) * 0.05;
+                    player.rotation.y = playerState.facing + idleSway;
                 }
             } catch {}
         }
@@ -918,7 +1027,14 @@ scene.add(spiritLens);
         function toggleRun(){
             const now = Date.now();
             if (now < runCooldownUntil) { updateLabel(); return; }
-            isRunning = !isRunning; updateLabel();
+            // Use enhanced player state
+            if (window.playerState) {
+                window.playerState = reducePlayerAction(window.playerState, { type: 'setRunning', running: !window.playerState.isRunning });
+                isRunning = window.playerState.isRunning; // Keep old variable for compatibility
+            } else {
+                isRunning = !isRunning;
+            }
+            updateLabel();
             if (isRunning) {
                 if (runAutoOffTimer) clearTimeout(runAutoOffTimer);
                 runAutoOffTimer = setTimeout(()=>{ stopRun(); startCooldown(); }, 2000); // auto off after 2s
@@ -1268,7 +1384,16 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
         console.log('bind() completed');
     }
     window.__RW_bindStartMenu = bind;
-    if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', bind); else bind();
+    // Ensure DOM is ready before binding
+    if (document.readyState==='loading') {
+        document.addEventListener('DOMContentLoaded', ()=>{ 
+            console.log('DOM loaded, calling bind()');
+            setTimeout(bind, 100); // Small delay to ensure all elements are rendered
+        });
+    } else {
+        console.log('DOM already ready, calling bind()');
+        setTimeout(bind, 100);
+    }
 })();
 
 // Confirm open handler (routes)
