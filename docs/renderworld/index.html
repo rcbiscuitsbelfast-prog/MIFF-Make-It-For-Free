@@ -23,11 +23,11 @@
 		<span id="hud-fps">60 fps</span>
 	</div>
     <!-- Top-right controls -->
-    <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
-    <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
-    <button id="btn-pause" style="position:fixed;right:16px;top:168px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Pause</button>
-    <button id="btn-menu" style="position:fixed;right:16px;top:220px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Menu</button>
-    <button id="btn-options" style="position:fixed;right:16px;top:272px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Options</button>
+    <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1400;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
+    <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1400;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
+    <button id="btn-pause" style="position:fixed;right:16px;top:168px;z-index:1400;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Pause</button>
+    <button id="btn-menu" style="position:fixed;right:16px;top:220px;z-index:1400;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Menu</button>
+    <button id="btn-options" style="position:fixed;right:16px;top:272px;z-index:1400;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Options</button>
     <div id="hint" style="position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:1050;padding:8px 12px;font:14px monospace;color:#e6edf3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:10px;display:none;">hint</div>
     <button id="btn-run" style="position:fixed;right:16px;bottom:110px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Run</button>
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
@@ -800,8 +800,8 @@ scene.add(spiritLens);
                     const dirx = target.x - n.position.x; const dirz = target.z - n.position.z; const d = Math.hypot(dirx, dirz);
                     if (d > 0.2){ n.position.x += (dirx/d)*0.02; n.position.z += (dirz/d)*0.02; }
                 } else if (ai.mode === 'gesture') {
-                    // Guide: nod/tilt head periodically
-                    head.rotation.x = Math.sin(tt*2.0) * 0.15;
+                    // Guide: nod/tilt periodically (rotate whole NPC safely)
+                    n.rotation.x = Math.sin(tt*2.0) * 0.15;
                 } else if (ai.mode === 'float') {
                     // Mystic: hover up/down, slight lateral drift
                     n.position.y = Math.sin(tt*1.5)*0.05;
