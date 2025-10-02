@@ -1049,16 +1049,25 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     overlay.style.cssText = 'position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1300;background:rgba(0,0,0,0.6);pointer-events:auto';
     overlay.innerHTML = '<div style="background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:16px 20px;color:#e6edf3;font:14px monospace;display:flex;flex-direction:column;gap:12px;min-width:300px;">'
         + '<div style="font-weight:700;margin-bottom:4px;text-align:center">Menu</div>'
-        + '<div id="slot-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:4px">'
-        + '  <button class="slot-btn" data-slot="0" style="text-align:left;min-height:36px;border-radius:10px;background:#1f1f1f;color:#e6edf3;border:1px solid rgba(255,255,255,0.2);padding:8px 10px">Slot 1 — empty</button>'
-        + '  <button class="slot-btn" data-slot="1" style="text-align:left;min-height:36px;border-radius:10px;background:#1f1f1f;color:#e6edf3;border:1px solid rgba(255,255,255,0.2);padding:8px 10px">Slot 2 — empty</button>'
-        + '  <button class="slot-btn" data-slot="2" style="text-align:left;min-height:36px;border-radius:10px;background:#1f1f1f;color:#e6edf3;border:1px solid rgba(255,255,255,0.2);padding:8px 10px">Slot 3 — empty</button>'
+        + '<div id="menu-maincol" style="display:flex;flex-direction:column;gap:10px">'
+        + '  <button id="menu-resume" style="min-height:40px;border-radius:10px;background:#444;color:white;border:1px solid rgba(255,255,255,0.2);">Resume</button>'
+        + '  <button id="menu-slots" style="min-height:40px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Save / Load…</button>'
+        + '  <button id="menu-options" style="min-height:40px;border-radius:10px;background:#2b2b2b;color:white;border:1px solid rgba(255,255,255,0.2);">Options</button>'
+        + '  <button id="menu-main" style="min-height:40px;border-radius:10px;background:#7a1e1e;color:white;border:1px solid rgba(255,255,255,0.25);">Return to Main Menu</button>'
         + '</div>'
-        + '<button id="menu-resume" style="min-height:40px;border-radius:10px;background:#444;color:white;border:1px solid rgba(255,255,255,0.2);">Resume</button>'
-        + '<button id="menu-save" style="min-height:40px;border-radius:10px;background:#00aa66;color:white;border:1px solid rgba(255,255,255,0.2);">Save to Selected Slot</button>'
-        + '<button id="menu-load" style="min-height:40px;border-radius:10px;background:#0066cc;color:white;border:1px solid rgba(255,255,255,0.2);">Load Selected Slot</button>'
-        + '<button id="menu-options" style="min-height:40px;border-radius:10px;background:#2b2b2b;color:white;border:1px solid rgba(255,255,255,0.2);">Options</button>'
-        + '<button id="menu-main" style="min-height:40px;border-radius:10px;background:#7a1e1e;color:white;border:1px solid rgba(255,255,255,0.25);">Return to Main Menu</button>'
+        + '<div id="submenu-slots" style="display:none;flex-direction:column;gap:10px">'
+        + '  <div style="opacity:0.9">Select a slot:</div>'
+        + '  <div id="slot-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:4px">'
+        + '    <button class="slot-btn" data-slot="0" style="text-align:left;min-height:36px;border-radius:10px;background:#1f1f1f;color:#e6edf3;border:1px solid rgba(255,255,255,0.2);padding:8px 10px">Slot 1 — empty</button>'
+        + '    <button class="slot-btn" data-slot="1" style="text-align:left;min-height:36px;border-radius:10px;background:#1f1f1f;color:#e6edf3;border:1px solid rgba(255,255,255,0.2);padding:8px 10px">Slot 2 — empty</button>'
+        + '    <button class="slot-btn" data-slot="2" style="text-align:left;min-height:36px;border-radius:10px;background:#1f1f1f;color:#e6edf3;border:1px solid rgba(255,255,255,0.2);padding:8px 10px">Slot 3 — empty</button>'
+        + '  </div>'
+        + '  <div style="display:flex;gap:8px;justify-content:space-between">'
+        + '    <button id="submenu-save" style="flex:1;min-height:38px;border-radius:10px;background:#00aa66;color:white;border:1px solid rgba(255,255,255,0.2);">Save</button>'
+        + '    <button id="submenu-load" style="flex:1;min-height:38px;border-radius:10px;background:#0066cc;color:white;border:1px solid rgba(255,255,255,0.2);">Load</button>'
+        + '    <button id="submenu-back" style="flex:1;min-height:38px;border-radius:10px;background:#444;color:white;border:1px solid rgba(255,255,255,0.2);">Back</button>'
+        + '  </div>'
+        + '</div>'
         + '</div>';
     document.body.appendChild(overlay);
     const KEY = 'rw:snapshot:v1';
@@ -1073,8 +1082,12 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     function showMenu(){ window.__RW_PAUSED = true; overlay.style.display = 'flex'; }
     btn.addEventListener('click', toggle);
     overlay.querySelector('#menu-resume')?.addEventListener('click', toggle);
-    overlay.querySelector('#menu-save')?.addEventListener('click', ()=>{ saveSnap(); });
-    overlay.querySelector('#menu-load')?.addEventListener('click', ()=>{ const s=loadSnap(); applySnap(s); });
+    const maincol = overlay.querySelector('#menu-maincol');
+    const subSlots = overlay.querySelector('#submenu-slots');
+    overlay.querySelector('#menu-slots')?.addEventListener('click', ()=>{ if (maincol && subSlots){ maincol.style.display='none'; subSlots.style.display='flex'; updateSlotUI(); } });
+    overlay.querySelector('#submenu-back')?.addEventListener('click', ()=>{ if (maincol && subSlots){ subSlots.style.display='none'; maincol.style.display='flex'; } });
+    overlay.querySelector('#submenu-save')?.addEventListener('click', ()=>{ saveSnap(); overlay.style.display='none'; window.__RW_PAUSED=false; try{ showToast('Game saved'); } catch {} });
+    overlay.querySelector('#submenu-load')?.addEventListener('click', ()=>{ const s=loadSnap(); applySnap(s); overlay.style.display='none'; window.__RW_PAUSED=false; });
     overlay.querySelector('#menu-options')?.addEventListener('click', ()=>{ alert('Options coming soon'); });
     overlay.querySelector('#menu-main')?.addEventListener('click', ()=>{
         try {
@@ -1114,6 +1127,9 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
         el.addEventListener('click', ()=>{ selectedSlot = parseInt(el.getAttribute('data-slot')); updateSlotUI(); });
     });
     updateSlotUI();
+    // Toast utility
+    function ensureToast(){ let t = document.getElementById('rw-toast'); if (!t){ t = document.createElement('div'); t.id='rw-toast'; t.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:1500;background:rgba(0,0,0,0.75);color:#e6edf3;font:13px monospace;padding:8px 12px;border:1px solid rgba(255,255,255,0.18);border-radius:10px;display:none;'; document.body.appendChild(t); } return t; }
+    function showToast(msg){ const t=ensureToast(); t.textContent=msg; t.style.display='block'; clearTimeout(showToast._tid); showToast._tid=setTimeout(()=>{ t.style.display='none'; }, 1600); }
 })();
 
 // Minimal StartMenuPure bridge (placeholder)
