@@ -1,0 +1,7 @@
+{
+  "quest": "quest_building_tutorial",
+  "blueprints": ["pf_house_small"],
+  "materials": { "wood": 10, "stone": 6, "metal": 2 },
+  "currency": { "coins": 25 },
+  "snap": { "grid": "default", "items": ["chair"] }
+}
