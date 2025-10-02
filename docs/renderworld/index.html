@@ -55,7 +55,7 @@
 		<button id="btn-interact" style="min-width:80px;min-height:80px;border-radius:14px;background:rgba(0,0,0,0.50);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:16px monospace;">Interact</button>
 		<button id="btn-jump" style="min-width:80px;min-height:80px;border-radius:14px;background:rgba(0,0,0,0.50);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:16px monospace;">Jump</button>
 	</div>
-	<script type="module">
+    <script type="module">
 	// Use CDN module to avoid MIME issues with local backup extension
 	import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
 
@@ -1066,6 +1066,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     btnOpen.addEventListener('touchstart', (e)=>{ e.preventDefault(); btnOpen.click(); }, { passive:false });
     btnCancel.addEventListener('touchstart', (e)=>{ e.preventDefault(); btnCancel.click(); }, { passive:false });
 })();
-	</script>
+    </script>
+    <script src="renderworld_3d_integration.js"></script>
 </body>
 </html>
