@@ -4,8 +4,8 @@ DO EVERYTHING SCENARIO - EXECUTION RESULTS
 
 Scenario: Do Everything - Comprehensive MIFF Integration Test
 ID: do-everything-v1
-Start Time: 2025-10-01T11:05:16.831Z
-End Time: 2025-10-01T11:10:01.519Z
+Start Time: 2025-10-02T08:28:24.050Z
+End Time: 2025-10-02T08:33:26.926Z
 
 --------------------------------------------------------------------------------
 SUMMARY
@@ -15,7 +15,7 @@ Phases Completed: 2
 Phases Failed: 4
 Modules Triggered: 141
 CLI Harnesses Executed: 23
-Secondary Quests Spawned: 4
+Secondary Quests Spawned: 2
 Export Formats Generated: html5, unity, godot, apk
 Errors: 15
 Warnings: 0
@@ -30,8 +30,8 @@ Phase: The Call to Action (phase1)
   Modules Used: 11
   Actions Executed: 4
   Actions Successful: 4
-  Start: 2025-10-01T11:05:16.835Z
-  End: 2025-10-01T11:05:21.398Z
+  Start: 2025-10-02T08:28:24.060Z
+  End: 2025-10-02T08:28:35.265Z
 
 Phase: The Football Trial (phase2)
   Status: FAILED
@@ -39,8 +39,8 @@ Phase: The Football Trial (phase2)
   Modules Used: 12
   Actions Executed: 5
   Actions Successful: 1
-  Start: 2025-10-01T11:05:21.399Z
-  End: 2025-10-01T11:09:25.447Z
+  Start: 2025-10-02T08:28:35.265Z
+  End: 2025-10-02T08:32:42.246Z
 
 Phase: Craft and Conquer (phase3)
   Status: FAILED
@@ -48,8 +48,8 @@ Phase: Craft and Conquer (phase3)
   Modules Used: 15
   Actions Executed: 7
   Actions Successful: 3
-  Start: 2025-10-01T11:09:25.447Z
-  End: 2025-10-01T11:09:34.373Z
+  Start: 2025-10-02T08:32:42.246Z
+  End: 2025-10-02T08:32:56.803Z
 
 Phase: Social Deception (phase4)
   Status: FAILED
@@ -57,8 +57,8 @@ Phase: Social Deception (phase4)
   Modules Used: 11
   Actions Executed: 6
   Actions Successful: 4
-  Start: 2025-10-01T11:09:34.373Z
-  End: 2025-10-01T11:09:41.852Z
+  Start: 2025-10-02T08:32:56.803Z
+  End: 2025-10-02T08:33:07.525Z
 
 Phase: Puzzle & Platforming (phase5)
   Status: FAILED
@@ -66,8 +66,8 @@ Phase: Puzzle & Platforming (phase5)
   Modules Used: 18
   Actions Executed: 7
   Actions Successful: 2
-  Start: 2025-10-01T11:09:41.852Z
-  End: 2025-10-01T11:09:50.516Z
+  Start: 2025-10-02T08:33:07.526Z
+  End: 2025-10-02T08:33:16.462Z
 
 Phase: Export the World (phase6)
   Status: SUCCESS
@@ -75,8 +75,8 @@ Phase: Export the World (phase6)
   Modules Used: 22
   Actions Executed: 9
   Actions Successful: 9
-  Start: 2025-10-01T11:09:50.517Z
-  End: 2025-10-01T11:10:01.519Z
+  Start: 2025-10-02T08:33:16.462Z
+  End: 2025-10-02T08:33:26.925Z
 
 --------------------------------------------------------------------------------
 MODULES TRIGGERED
@@ -226,29 +226,29 @@ MODULES TRIGGERED
 --------------------------------------------------------------------------------
 CLI HARNESSES EXECUTED
 --------------------------------------------------------------------------------
-  [2025-10-01T11:05:18.001Z] QuestsPure.createQuest - SUCCESS
-  [2025-10-01T11:05:19.106Z] NPCsPure.spawnNPC - SUCCESS
-  [2025-10-01T11:05:20.277Z] WeatherSystemPure.setWeather - SUCCESS
-  [2025-10-01T11:05:21.398Z] DialogueSystemPure.triggerDialogue - SUCCESS
-  [2025-10-01T11:07:24.062Z] InputSystemPure.configureInput - SUCCESS
-  [2025-10-01T11:09:28.235Z] ItemsPure.addToInventory - SUCCESS
-  [2025-10-01T11:09:30.638Z] CombatPure.initCombat - SUCCESS
-  [2025-10-01T11:09:34.372Z] RewardsPure.grantRewards - SUCCESS
-  [2025-10-01T11:09:35.594Z] PartyPure.createParty - SUCCESS
-  [2025-10-01T11:09:36.845Z] SocialDeductionPure.initDeductionGame - SUCCESS
-  [2025-10-01T11:09:39.331Z] DialogueSystemPure.presentDialogueChoice - SUCCESS
-  [2025-10-01T11:09:41.852Z] SocialDeductionPure.accuseSuspect - SUCCESS
-  [2025-10-01T11:09:44.322Z] ProceduralWorldPure.generateWorld - SUCCESS
-  [2025-10-01T11:09:50.516Z] CollisionSystemPure.detectCollision - SUCCESS
-  [2025-10-01T11:09:51.713Z] AssetManifestPure.prepareAssets - SUCCESS
-  [2025-10-01T11:09:52.911Z] AssetValidatorPure.validateAssets - SUCCESS
-  [2025-10-01T11:09:54.202Z] RenderPayloadPure.createRenderPayload - SUCCESS
-  [2025-10-01T11:09:55.502Z] ExportWebPure.exportWeb - SUCCESS
-  [2025-10-01T11:09:56.694Z] ConvertToUnityPure.convertToUnity - SUCCESS
-  [2025-10-01T11:09:57.900Z] ConvertToGodotPure.convertToGodot - SUCCESS
-  [2025-10-01T11:09:59.018Z] ExportAndroidPure.exportAndroid - SUCCESS
-  [2025-10-01T11:10:00.254Z] WebSocketBridgePure.initWebSocket - SUCCESS
-  [2025-10-01T11:10:01.518Z] SessionManifestPure.createSession - SUCCESS
+  [2025-10-02T08:28:28.954Z] QuestsPure.createQuest - SUCCESS
+  [2025-10-02T08:28:31.067Z] NPCsPure.spawnNPC - SUCCESS
+  [2025-10-02T08:28:33.177Z] WeatherSystemPure.setWeather - SUCCESS
+  [2025-10-02T08:28:35.265Z] DialogueSystemPure.triggerDialogue - SUCCESS
+  [2025-10-02T08:30:39.906Z] InputSystemPure.configureInput - SUCCESS
+  [2025-10-02T08:32:46.606Z] ItemsPure.addToInventory - SUCCESS
+  [2025-10-02T08:32:50.864Z] CombatPure.initCombat - SUCCESS
+  [2025-10-02T08:32:56.802Z] RewardsPure.grantRewards - SUCCESS
+  [2025-10-02T08:32:58.634Z] PartyPure.createParty - SUCCESS
+  [2025-10-02T08:33:00.652Z] SocialDeductionPure.initDeductionGame - SUCCESS
+  [2025-10-02T08:33:04.801Z] DialogueSystemPure.presentDialogueChoice - SUCCESS
+  [2025-10-02T08:33:07.524Z] SocialDeductionPure.accuseSuspect - SUCCESS
+  [2025-10-02T08:33:10.260Z] ProceduralWorldPure.generateWorld - SUCCESS
+  [2025-10-02T08:33:16.461Z] CollisionSystemPure.detectCollision - SUCCESS
+  [2025-10-02T08:33:17.702Z] AssetManifestPure.prepareAssets - SUCCESS
+  [2025-10-02T08:33:19.097Z] AssetValidatorPure.validateAssets - SUCCESS
+  [2025-10-02T08:33:20.384Z] RenderPayloadPure.createRenderPayload - SUCCESS
+  [2025-10-02T08:33:21.469Z] ExportWebPure.exportWeb - SUCCESS
+  [2025-10-02T08:33:22.547Z] ConvertToUnityPure.convertToUnity - SUCCESS
+  [2025-10-02T08:33:23.601Z] ConvertToGodotPure.convertToGodot - SUCCESS
+  [2025-10-02T08:33:24.736Z] ExportAndroidPure.exportAndroid - SUCCESS
+  [2025-10-02T08:33:25.807Z] WebSocketBridgePure.initWebSocket - SUCCESS
+  [2025-10-02T08:33:26.925Z] SessionManifestPure.createSession - SUCCESS
 
 --------------------------------------------------------------------------------
 SECONDARY QUESTS SPAWNED
@@ -258,16 +258,6 @@ SECONDARY QUESTS SPAWNED
     Phase: phase2
     Modules: SportsSystemPure, TeamsPure, EventBusPure
 
-  Quest: item_origins
-    Condition: usedRareItem === true
-    Phase: phase3
-    Modules: LorePure, QuestsPure, NPCsPure
-
-  Quest: deeper_conspiracy
-    Condition: solveTime < 300
-    Phase: phase4
-    Modules: StorySystemPure, QuestsPure, ClueSystemPure
-
   Quest: optimize_for_mobile
     Condition: exportFormat.includes('godot')
     Phase: phase6
@@ -276,19 +266,19 @@ SECONDARY QUESTS SPAWNED
 --------------------------------------------------------------------------------
 ERRORS
 --------------------------------------------------------------------------------
-  [2025-10-01T11:05:22.584Z] TeamsPure: Command failed: npx tsx /workspace/miff/pure/TeamsPure/cliHarnessWrapper.ts --mode=createTeam --teamId=heroes_team --name="Heroes United" --members='["player","npc_striker","npc_defender"]' --formation=4-4-2
+  [2025-10-02T08:28:37.651Z] TeamsPure: Command failed: npx tsx /workspace/miff/pure/TeamsPure/cliHarnessWrapper.ts --mode=createTeam --teamId=heroes_team --name="Heroes United" --members='["player","npc_striker","npc_defender"]' --formation=4-4-2
 
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/TeamsPure/Manager' imported from /workspace/miff/pure/TeamsPure/cliHarnessWrapper.ts
-    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
-    at moduleResolve (node:internal/modules/esm/resolve:860:10)
-    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
     at nextResolve (node:internal/modules/esm/hooks:748:28)
-    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316722409:2:3744)
-    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316722409:2:4237)
-    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316722409:2:5355)
+    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393717252:2:3744)
+    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393717252:2:4237)
+    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393717252:2:5355)
     at async nextResolve (node:internal/modules/esm/hooks:748:22)
     at async Hooks.resolve (node:internal/modules/esm/hooks:240:24)
     at async handleMessage (node:internal/modules/esm/worker:199:18) {
@@ -296,39 +286,39 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/TeamsPure
   url: 'file:///workspace/miff/pure/TeamsPure/Manager'
 }
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:07:22.675Z] SportsSystemPure: Timeout after unknownms - operation took too long
-  [2025-10-01T11:07:25.328Z] SurvivalSystemPure: Command failed: npx tsx /workspace/miff/pure/SurvivalSystemPure/cliHarness.ts --mode=applyTerrainModifier --terrain=muddy_field --speedModifier=0.7 --staminaDrain=1.5
+  [2025-10-02T08:30:37.754Z] SportsSystemPure: Timeout after unknownms - operation took too long
+  [2025-10-02T08:30:42.130Z] SurvivalSystemPure: Command failed: npx tsx /workspace/miff/pure/SurvivalSystemPure/cliHarness.ts --mode=applyTerrainModifier --terrain=muddy_field --speedModifier=0.7 --staminaDrain=1.5
 {
   "op": "error",
   "status": "error",
   "error": "system.updateStamina is not a function",
-  "timestamp": 1759316845294
+  "timestamp": 1759393842062
 }
 
-  [2025-10-01T11:09:25.445Z] SportsSystemPure: Timeout after unknownms - operation took too long
-  [2025-10-01T11:09:26.913Z] CraftingPure: Command failed: npx tsx /workspace/miff/pure/CraftingPure/cliHarnessWrapper.ts --mode=craftItem --recipe=legendary_sword --materials='["iron_ore","dragon_scale","ancient_gem"]' --craftingTime=10 --quality=legendary
+  [2025-10-02T08:32:42.245Z] SportsSystemPure: Timeout after unknownms - operation took too long
+  [2025-10-02T08:32:44.546Z] CraftingPure: Command failed: npx tsx /workspace/miff/pure/CraftingPure/cliHarnessWrapper.ts --mode=craftItem --recipe=legendary_sword --materials='["iron_ore","dragon_scale","ancient_gem"]' --craftingTime=10 --quality=legendary
 {
   "op": "error",
   "status": "error",
   "error": "manager.registerRecipe is not a function",
-  "timestamp": 1759316966872
+  "timestamp": 1759393964475
 }
 
-  [2025-10-01T11:09:29.458Z] EquipmentPure: Command failed: npx tsx /workspace/miff/pure/EquipmentPure/cliHarnessWrapper.ts --mode=equipItem --playerId=player --itemId=legendary_sword_001 --slot=main_hand
+  [2025-10-02T08:32:48.661Z] EquipmentPure: Command failed: npx tsx /workspace/miff/pure/EquipmentPure/cliHarnessWrapper.ts --mode=equipItem --playerId=player --itemId=legendary_sword_001 --slot=main_hand
 
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/EquipmentPure/Manager' imported from /workspace/miff/pure/EquipmentPure/cliHarnessWrapper.ts
-    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
-    at moduleResolve (node:internal/modules/esm/resolve:860:10)
-    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
     at nextResolve (node:internal/modules/esm/hooks:748:28)
-    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316969276:2:3744)
-    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316969276:2:4237)
-    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316969276:2:5355)
+    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393968294:2:3744)
+    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393968294:2:4237)
+    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393968294:2:5355)
     at async nextResolve (node:internal/modules/esm/hooks:748:22)
     at async Hooks.resolve (node:internal/modules/esm/hooks:240:24)
     at async handleMessage (node:internal/modules/esm/worker:199:18) {
@@ -336,42 +326,42 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/Equipment
   url: 'file:///workspace/miff/pure/EquipmentPure/Manager'
 }
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:31.876Z] StatusEffectsPure: Command failed: npx tsx /workspace/miff/pure/StatusEffectsPure/cliHarnessWrapper.ts --mode=applyStatusEffect --targetId=player --effect=berserker_rage --duration=30 --stats='{"attackBoost":2,"defenseReduction":0.5}'
+  [2025-10-02T08:32:52.928Z] StatusEffectsPure: Command failed: npx tsx /workspace/miff/pure/StatusEffectsPure/cliHarnessWrapper.ts --mode=applyStatusEffect --targetId=player --effect=berserker_rage --duration=30 --stats='{"attackBoost":2,"defenseReduction":0.5}'
 {
   "op": "error",
   "status": "error",
   "error": "manager.getActiveEffects is not a function",
-  "timestamp": 1759316971839
+  "timestamp": 1759393972859
 }
 
-  [2025-10-01T11:09:33.121Z] CombatCorePure: Command failed: npx tsx /workspace/miff/pure/CombatCorePure/cliHarnessWrapper.ts --mode=executeCombat --mode=turn_based --maxTurns=20
+  [2025-10-02T08:32:54.818Z] CombatCorePure: Command failed: npx tsx /workspace/miff/pure/CombatCorePure/cliHarnessWrapper.ts --mode=executeCombat --combatMode=turn_based --maxTurns=20
 /workspace/miff/pure/CombatCorePure/cliHarnessWrapper.ts:8
 import { CombatCore, CombatState, Combatant } from './index';
          ^
 
 SyntaxError: The requested module './index' does not provide an export named 'CombatCore'
-    at ModuleJob._instantiate (node:internal/modules/esm/module_job:182:21)
-    at async ModuleJob.run (node:internal/modules/esm/module_job:266:5)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:228:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:337:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:38.071Z] AudioPure: Command failed: npx tsx /workspace/miff/pure/AudioPure/cliHarnessWrapper.ts --mode=playAudioCue --soundId=mysterious_footsteps --location=west_wing --volume=0.7 --is3D=true
+  [2025-10-02T08:33:02.659Z] AudioPure: Command failed: npx tsx /workspace/miff/pure/AudioPure/cliHarnessWrapper.ts --mode=playAudioCue --soundId=mysterious_footsteps --location=west_wing --volume=0.7 --is3D=true
 
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/AudioPure/Manager' imported from /workspace/miff/pure/AudioPure/cliHarnessWrapper.ts
-    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
-    at moduleResolve (node:internal/modules/esm/resolve:860:10)
-    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
     at nextResolve (node:internal/modules/esm/hooks:748:28)
-    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316977896:2:3744)
-    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316977896:2:4237)
-    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316977896:2:5355)
+    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393982312:2:3744)
+    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393982312:2:4237)
+    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393982312:2:5355)
     at async nextResolve (node:internal/modules/esm/hooks:748:22)
     at async Hooks.resolve (node:internal/modules/esm/hooks:240:24)
     at async handleMessage (node:internal/modules/esm/worker:199:18) {
@@ -379,29 +369,29 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/AudioPure
   url: 'file:///workspace/miff/pure/AudioPure/Manager'
 }
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:40.618Z] ClueSystemPure: Command failed: npx tsx /workspace/miff/pure/ClueSystemPure/cliHarness.ts --mode=collectClue --clueId=torn_letter --location=study --significance=high
+  [2025-10-02T08:33:06.216Z] ClueSystemPure: Command failed: npx tsx /workspace/miff/pure/ClueSystemPure/cliHarness.ts --mode=collectClue --clueId=torn_letter --location=study --significance=high
 {
   "op": "error",
   "status": "error",
   "error": "system.getTotalClues is not a function",
-  "timestamp": 1759316980577
+  "timestamp": 1759393986158
 }
 
-  [2025-10-01T11:09:43.073Z] SceneBuilderPure: Command failed: npx tsx /workspace/miff/pure/SceneBuilderPure/cliHarnessWrapper.ts --mode=buildScene --sceneId=mystic_temple --type=puzzle --dimensions='{"width":100,"height":100}' --procedural=true
+  [2025-10-02T08:33:08.920Z] SceneBuilderPure: Command failed: npx tsx /workspace/miff/pure/SceneBuilderPure/cliHarnessWrapper.ts --mode=buildScene --sceneId=mystic_temple --type=puzzle --dimensions='{"width":100,"height":100}' --procedural=true
 
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/SceneBuilderPure/Builder' imported from /workspace/miff/pure/SceneBuilderPure/cliHarnessWrapper.ts
-    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
-    at moduleResolve (node:internal/modules/esm/resolve:860:10)
-    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
     at nextResolve (node:internal/modules/esm/hooks:748:28)
-    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316982887:2:3744)
-    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316982887:2:4237)
-    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316982887:2:5355)
+    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393988664:2:3744)
+    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393988664:2:4237)
+    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393988664:2:5355)
     at async nextResolve (node:internal/modules/esm/hooks:748:22)
     at async Hooks.resolve (node:internal/modules/esm/hooks:240:24)
     at async handleMessage (node:internal/modules/esm/worker:199:18) {
@@ -409,9 +399,9 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/SceneBuil
   url: 'file:///workspace/miff/pure/SceneBuilderPure/Builder'
 }
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:45.556Z] MagicSystemPure: Command failed: npx tsx /workspace/miff/pure/MagicSystemPure/cliHarness.ts --mode=castSpell --spellId=telekinesis --caster=player --target=ancient_block --manaCost=20
+  [2025-10-02T08:33:11.511Z] MagicSystemPure: Command failed: npx tsx /workspace/miff/pure/MagicSystemPure/cliHarness.ts --mode=castSpell --spellId=telekinesis --caster=player --target=ancient_block --manaCost=20
 /workspace/miff/pure/MagicSystemPure/cliHarness.ts:448
 if (require.main === module) {
 ^
@@ -421,25 +411,25 @@ ReferenceError: require is not defined in ES module scope, you can use import in
     at /workspace/miff/pure/MagicSystemPure/cliHarness.ts (/workspace/miff/pure/MagicSystemPure/cliHarness.ts:448:1)
     at __require (file:///workspace/miff/pure/MagicSystemPure/cliHarness.ts:2:254)
     at <anonymous> (/workspace/miff/pure/MagicSystemPure/cliHarness.ts:453:18)
-    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:46.564Z] PixelAnimPure: Command failed: npx tsx /workspace/miff/pure/PixelAnimPure/cliHarnessWrapper.ts --mode=animateObject --objectId=ancient_block --animation=float --duration=5 --easing=ease-in-out
+  [2025-10-02T08:33:12.658Z] PixelAnimPure: Command failed: npx tsx /workspace/miff/pure/PixelAnimPure/cliHarnessWrapper.ts --mode=animateObject --objectId=ancient_block --animation=float --duration=5 --easing=ease-in-out
 
 node:internal/modules/run_main:123
     triggerUncaughtException(
     ^
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/PixelAnimPure/Animator' imported from /workspace/miff/pure/PixelAnimPure/cliHarnessWrapper.ts
-    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
-    at moduleResolve (node:internal/modules/esm/resolve:860:10)
-    at defaultResolve (node:internal/modules/esm/resolve:984:11)
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
     at nextResolve (node:internal/modules/esm/hooks:748:28)
-    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316986374:2:3744)
-    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316986374:2:4237)
-    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759316986374:2:5355)
+    at resolveBase (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393992451:2:3744)
+    at async resolveDirectory (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393992451:2:4237)
+    at async resolve (file:///home/ubuntu/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/esm/index.mjs?1759393992451:2:5355)
     at async nextResolve (node:internal/modules/esm/hooks:748:22)
     at async Hooks.resolve (node:internal/modules/esm/hooks:240:24)
     at async handleMessage (node:internal/modules/esm/worker:199:18) {
@@ -447,9 +437,9 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/miff/pure/PixelAnim
   url: 'file:///workspace/miff/pure/PixelAnimPure/Animator'
 }
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:47.835Z] RitualSystemPure: Command failed: npx tsx /workspace/miff/pure/RitualSystemPure/cliHarness.ts --mode=performRitual --ritualId=seal_opening --components='["fire_rune","water_rune","earth_rune"]' --duration=10
+  [2025-10-02T08:33:13.855Z] RitualSystemPure: Command failed: npx tsx /workspace/miff/pure/RitualSystemPure/cliHarness.ts --mode=performRitual --ritualId=seal_opening --components='["fire_rune","water_rune","earth_rune"]' --duration=10
 /workspace/miff/pure/RitualSystemPure/cliHarness.ts:581
 if (require.main === module) {
 ^
@@ -459,25 +449,25 @@ ReferenceError: require is not defined in ES module scope, you can use import in
     at /workspace/miff/pure/RitualSystemPure/cliHarness.ts (/workspace/miff/pure/RitualSystemPure/cliHarness.ts:581:1)
     at __require (file:///workspace/miff/pure/RitualSystemPure/cliHarness.ts:2:254)
     at <anonymous> (/workspace/miff/pure/RitualSystemPure/cliHarness.ts:586:18)
-    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
 
-Node.js v22.16.0
+Node.js v22.20.0
 
-  [2025-10-01T11:09:49.244Z] RhythmChallengePure: Command failed: npx tsx /workspace/miff/pure/RhythmChallengePure/cliHarness.ts --mode=rhythmChallenge --song=temple_hymn --bpm=120 --notes=50 --difficulty=hard
+  [2025-10-02T08:33:15.043Z] RhythmChallengePure: Command failed: npx tsx /workspace/miff/pure/RhythmChallengePure/cliHarness.ts --mode=rhythmChallenge --song=temple_hymn --bpm=120 --notes=50 --difficulty=hard
 Audio context not supported: ReferenceError: window is not defined
     at RhythmChallengePure.initializeAudio (/workspace/miff/pure/RhythmChallengePure/index.ts:217:32)
     at new RhythmChallengePure (/workspace/miff/pure/RhythmChallengePure/index.ts:171:10)
-    at <anonymous> (/workspace/miff/pure/RhythmChallengePure/cliHarness.ts:12:16)
-    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at <anonymous> (/workspace/miff/pure/RhythmChallengePure/cliHarness.ts:15:16)
+    at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
 {
   "op": "error",
   "status": "error",
   "error": "system.loadSequence is not a function",
-  "timestamp": 1759316989208
+  "timestamp": 1759393994996
 }
 
 

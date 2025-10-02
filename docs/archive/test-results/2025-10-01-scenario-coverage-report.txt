@@ -2,7 +2,7 @@
 SCENARIO COVERAGE REPORT - DO EVERYTHING
 ================================================================================
 
-Generated: 2025-10-01T11:10:01.521Z
+Generated: 2025-10-02T08:33:26.928Z
 
 --------------------------------------------------------------------------------
 COVERAGE STATISTICS
@@ -15,7 +15,7 @@ Export Formats Generated: 4
   - unity
   - godot
   - apk
-Secondary Quests Spawned: 4
+Secondary Quests Spawned: 2
 
 --------------------------------------------------------------------------------
 MODULE BREAKDOWN BY CATEGORY

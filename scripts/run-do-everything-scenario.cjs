@@ -55,8 +55,25 @@ function executeCLIHarness(module, action, params) {
     // Add parameters with proper escaping
     if (params) {
       Object.keys(params).forEach(key => {
+        // Avoid passing a second --mode flag which breaks some harnesses
+        if (key === 'mode') {
+          // Special-case: CombatCorePure expects params.mode but not as CLI flag
+          // We will remap to --combatMode to avoid duplicate --mode
+          if (module === 'CombatCorePure') {
+            const value = params[key];
+            if (typeof value === 'object') {
+              const v = JSON.stringify(value).replace(/'/g, "'\\''");
+              command += ` --combatMode='${v}'`;
+            } else if (typeof value === 'string' && value.includes(' ')) {
+              command += ` --combatMode="${value}"`;
+            } else {
+              command += ` --combatMode=${value}`;
+            }
+          }
+          return; // skip original key
+        }
+
         let value = params[key];
-        
         // Handle different value types
         if (typeof value === 'object') {
           // For objects/arrays, use single quotes to avoid shell issues
@@ -74,7 +91,12 @@ function executeCLIHarness(module, action, params) {
     console.log(`  [${module}] Executing: ${action}`);
     
     // Execute with increased timeout for long operations
-    const timeout = module === 'SportsSystemPure' ? 120000 : 60000; // 2 min for sports, 1 min for others
+    let timeout = 60000; // default 1 minute
+    if (module === 'SportsSystemPure') {
+      timeout = 120000; // 2 minutes
+      // Pass CI fast flags to Sports to avoid blocking
+      command += ` --ci=true --timeout=30`;
+    }
     
     const output = execSync(command, {
       timeout,
