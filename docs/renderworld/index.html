@@ -254,7 +254,7 @@ const warehouseLights = createWarehouseLighting();
 		
 		// Player material (green)
 		const playerMaterial = new THREE.MeshStandardMaterial({ 
-			color: 0xff9933, 
+			color: 0xffa24d, 
 			roughness: 0.8, 
 			metalness: 0.0,
 			emissive: 0x221100,
@@ -306,7 +306,7 @@ const warehouseLights = createWarehouseLighting();
 		
 		// Set up player group properties; feet at y=0
 		playerGroup.position.set(0, 0, 0);
-		playerGroup.userData = { type: 'player' };
+		playerGroup.userData = { type: 'player', limbs: { leftLeg, rightLeg, leftArm, rightArm } };
 		
 		return playerGroup;
 	}
@@ -778,6 +778,30 @@ scene.add(spiritLens);
             }
             if (!blocked(nextX, player.position.z)) player.position.x = nextX;
             if (!blocked(player.position.x, nextZ)) player.position.z = nextZ;
+            // Limb swing when moving (browser-only timing)
+            try {
+                const speed = 6.0; // swing speed
+                const ampLeg = 0.5; const ampArm = 0.35;
+                const phase = tt * speed;
+                const limbs = player.userData?.limbs;
+                if (limbs) {
+                    limbs.leftLeg.rotation.x = Math.sin(phase) * ampLeg;
+                    limbs.rightLeg.rotation.x = Math.sin(phase + Math.PI) * ampLeg;
+                    limbs.leftArm.rotation.x = Math.sin(phase + Math.PI) * ampArm;
+                    limbs.rightArm.rotation.x = Math.sin(phase) * ampArm;
+                }
+            } catch {}
+        } else {
+            // Idle: damp limbs back to neutral
+            try {
+                const limbs = player.userData?.limbs;
+                if (limbs) {
+                    limbs.leftLeg.rotation.x *= 0.9;
+                    limbs.rightLeg.rotation.x *= 0.9;
+                    limbs.leftArm.rotation.x *= 0.9;
+                    limbs.rightArm.rotation.x *= 0.9;
+                }
+            } catch {}
         }
 		animate._lastFrame = t;
 		updateCamera();
@@ -816,8 +840,7 @@ scene.add(spiritLens);
                 animate._nearPortal = (nearest === p2) ? nearest : null;
                 animate._nearNPC = (nearest === npc1 || nearest === npc2 || nearest === npc3) ? nearest : null;
             } else { hint.style.display = 'none'; animate._nearPortal = null; animate._nearNPC = null; }
-            // Highlight proximity (apply to roots)
-            for (const obj of [p2,npc1,npc2,npc3]){ obj.userData?.highlight?.(obj === nearest && nearestD < 2.5); }
+            // Disable old proximity outline/glow
             // Ensure outlines always draw on top
             renderer.autoClear = true;
             // Update NPC click collider positions
