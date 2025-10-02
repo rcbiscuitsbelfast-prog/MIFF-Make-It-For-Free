@@ -1,0 +1,4 @@
+[
+  { "a": "door", "b": "wood", "axis": "x", "tolerance": 0.1 },
+  { "a": "window", "b": "wood", "axis": "y", "tolerance": 0.1 }
+]

@@ -1,0 +1,5 @@
+[
+  { "type": "wood", "hardness": 1, "color": "#a52a2a" },
+  { "type": "stone", "hardness": 3, "color": "#777777" },
+  { "type": "glass", "hardness": 0.5, "color": "#cfeeff" }
+]

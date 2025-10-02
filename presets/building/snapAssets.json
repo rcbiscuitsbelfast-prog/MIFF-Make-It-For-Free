@@ -1,0 +1,4 @@
+{
+  "grids": { "default": { "x": 1, "y": 1, "z": 1 }, "coarse": { "x": 2, "y": 2, "z": 2 } },
+  "icons": { "snap": "icons/snap.svg", "grid": "icons/grid.svg" }
+}

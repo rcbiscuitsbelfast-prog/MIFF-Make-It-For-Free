@@ -1,0 +1,6 @@
+[
+  { "id": "pf_house_small", "name": "Small House", "blocks": [
+    { "type": "wood", "x": 0, "y": 0, "z": 0 },
+    { "type": "door", "x": 1, "y": 0, "z": 0 }
+  ], "tags": ["starter","home"] }
+]
