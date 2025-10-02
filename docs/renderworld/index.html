@@ -61,6 +61,14 @@
         <button id="confirm-open" style="min-height:36px;border-radius:10px;background:#00aa66;color:white;border:1px solid rgba(255,255,255,0.2);font:14px monospace;">Open</button>
         <button id="confirm-cancel" style="min-height:36px;border-radius:10px;background:rgba(0,0,0,0.5);color:#e6edf3;border:1px solid rgba(255,255,255,0.2);font:14px monospace;">Cancel</button>
     </div>
+    <!-- Dialogue overlay -->
+    <div id="dialogue" style="position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:1200;display:none;background:rgba(0,0,0,0.75);border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:12px 14px;color:#e6edf3;font:14px monospace;gap:10px;min-width:260px;">
+        <div id="dialogue-text">…</div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button id="dlg-advance" style="min-height:36px;border-radius:10px;background:#0066cc;color:white;border:1px solid rgba(255,255,255,0.2);">Next</button>
+            <button id="dlg-close" style="min-height:36px;border-radius:10px;background:#444;color:white;border:1px solid rgba(255,255,255,0.2);">Close</button>
+        </div>
+    </div>
 	<!-- Phase 5: Virtual joystick and action buttons -->
 	<div id="vj" style="position:fixed;left:16px;bottom:16px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.24);display:flex;align-items:center;justify-content:center;z-index:1100;">
 		<div id="vj-knob" style="width:70px;height:70px;border-radius:50%;background:rgba(0,212,255,0.90);box-shadow:0 0 20px rgba(0,212,255,0.65);"></div>
@@ -746,6 +754,26 @@ scene.add(spiritLens);
                     const dx = x - node.position.x; const dz = z - node.position.z;
                     if (Math.hypot(dx,dz) < radius) return true;
                 }
+                // Warehouse walls with door gaps (centered on Z=0)
+                const W = 30; // width (x)
+                const L = 24; // length (z)
+                const doorHalf = 1.2; // door gap half-size along Z
+                const wallTol = 0.25; // tolerance thickness
+                // West/East walls
+                const west = -W/2; const east = W/2;
+                if (x < west - wallTol) {
+                    // outside west is allowed; don't block
+                } else if (x > east + wallTol) {
+                    // outside east allowed
+                } else {
+                    // If trying to cross past west wall towards outside, block unless within door gap
+                    if (x < west && Math.abs(z) > doorHalf) return true;
+                    // If trying to cross past east wall towards outside, block unless within door gap
+                    if (x > east && Math.abs(z) > doorHalf) return true;
+                }
+                // North/South walls (solid)
+                const north = -L/2; const south = L/2;
+                if (z < north - wallTol || z > south + wallTol) return true;
                 return false;
             }
             if (!blocked(nextX, player.position.z)) player.position.x = nextX;
@@ -994,9 +1022,20 @@ function doInteract(){
             confirmEl.style.display = 'inline-flex';
             confirmEl._target = label;
         } else if (animate._nearNPC) {
-            const label = animate._nearNPC.userData?.label || 'NPC';
-            const s=document.getElementById('status'); s.textContent='Interact: ' + label; setTimeout(()=>{ s.textContent='running'; }, 900);
-            playInteractSound();
+            const dlg = document.getElementById('dialogue');
+            const txt = document.getElementById('dialogue-text');
+            const lines = [
+                'Hello there, welcome to RenderWorld.',
+                'Try the Save / Load in Menu any time.',
+                'Doors are open to explore. Have fun!'
+            ];
+            const DKEY = 'rw:dialogue:step';
+            let step = 0; try { const v=localStorage.getItem(DKEY); if (v) step = Math.min(lines.length-1, parseInt(v)||0); } catch {}
+            function render(){ txt.textContent = lines[step]; dlg.style.display = 'flex'; }
+            function save(){ try { localStorage.setItem(DKEY, String(step)); } catch {} }
+            render(); playInteractSound();
+            document.getElementById('dlg-advance').onclick = ()=>{ step = Math.min(lines.length-1, step+1); save(); render(); };
+            document.getElementById('dlg-close').onclick = ()=>{ save(); dlg.style.display = 'none'; };
         } else {
             const s=document.getElementById('status'); s.textContent='Nothing nearby'; setTimeout(()=>{ s.textContent='running'; }, 600);
         }
@@ -1248,9 +1287,9 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
       function applySnap(snap){ try { if (window.__RW && window.__RW.player && snap && snap.pos){ const p = window.__RW.player.position; p.x = snap.pos.x; p.z = snap.pos.z; const st=document.getElementById('status'); if (st) st.textContent = 'continued'; } } catch{}
       }
       function newGame(){ try {
-        // Prefer collision spawn if available
+        // Prefer collision spawn; else outside-west fallback
         let x = 0, z = 2;
-        try { if (window.__RW_COLLISION__ && window.__RW_COLLISION__.spawn){ x = (window.__RW_COLLISION__.spawn.x - 48) * 0.12; z = (window.__RW_COLLISION__.spawn.y - 32) * 0.12; } } catch {}
+        try { if (window.__RW_COLLISION__ && window.__RW_COLLISION__.spawn){ x = (window.__RW_COLLISION__.spawn.x - 48) * 0.12; z = (window.__RW_COLLISION__.spawn.y - 32) * 0.12; } else { x = -30/2 - 2.5; z = 0; } } catch { x = -30/2 - 2.5; z = 0; }
         if (window.__RW && window.__RW.player){ window.__RW.player.position.x = x; window.__RW.player.position.z = z; }
         saveSnap();
       } catch{}
