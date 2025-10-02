@@ -2,13 +2,13 @@
 SCENARIO COVERAGE REPORT - DO EVERYTHING
 ================================================================================
 
-Generated: 2025-10-02T08:55:42.143Z
+Generated: 2025-10-02T09:21:14.544Z
 
 --------------------------------------------------------------------------------
 COVERAGE STATISTICS
 --------------------------------------------------------------------------------
 Total Modules Triggered: 141
-CLI Harnesses Executed: 35
+CLI Harnesses Executed: 38
 Integration Success Rate: 100.00%
 Export Formats Generated: 4
   - html5
