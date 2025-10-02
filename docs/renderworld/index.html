@@ -26,6 +26,8 @@
     <button id="btn-fullscreen" style="position:fixed;right:16px;top:64px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Fullscreen</button>
     <button id="btn-view" style="position:fixed;right:16px;top:116px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">View: 3rd</button>
     <button id="btn-pause" style="position:fixed;right:16px;top:168px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Pause</button>
+    <button id="btn-menu" style="position:fixed;right:16px;top:220px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Menu</button>
+    <button id="btn-options" style="position:fixed;right:16px;top:272px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Options</button>
     <div id="hint" style="position:fixed;left:50%;transform:translateX(-50%);bottom:140px;z-index:1050;padding:8px 12px;font:14px monospace;color:#e6edf3;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:10px;display:none;">hint</div>
     <button id="btn-run" style="position:fixed;right:16px;bottom:110px;z-index:1100;min-width:110px;min-height:44px;border-radius:12px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">Run</button>
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
@@ -1040,7 +1042,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     update();
 })();
 
-// Pause overlay with Save/Load/Resume
+// Pause overlay with Save Slots, Load, Resume
 (function(){
     const btn = document.getElementById('btn-pause');
     if (!btn) return;
@@ -1049,22 +1051,45 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
     overlay.style.cssText = 'position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1300;background:rgba(0,0,0,0.6)';
     overlay.innerHTML = '<div style="background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:16px 20px;color:#e6edf3;font:14px monospace;display:flex;flex-direction:column;gap:10px;">'
         + '<div style="font-weight:700;margin-bottom:6px">Paused</div>'
-        + '<div style="display:flex;gap:8px;justify-content:center">'
+        + '<div style="display:flex;gap:8px;justify-content:center;align-items:center">'
+        + '<div style="display:flex;flex-direction:column;gap:6px">'
+        + '<button class="slot-btn" data-slot="0" style="min-width:140px;min-height:36px;border-radius:10px;background:#222;color:white;border:1px solid rgba(255,255,255,0.2);text-align:left;padding:6px 10px">Slot 1</button>'
+        + '<button class="slot-btn" data-slot="1" style="min-width:140px;min-height:36px;border-radius:10px;background:#222;color:white;border:1px solid rgba(255,255,255,0.2);text-align:left;padding:6px 10px">Slot 2</button>'
+        + '<button class="slot-btn" data-slot="2" style="min-width:140px;min-height:36px;border-radius:10px;background:#222;color:white;border:1px solid rgba(255,255,255,0.2);text-align:left;padding:6px 10px">Slot 3</button>'
+        + '</div>'
+        + '<div style="display:flex;flex-direction:column;gap:6px">'
         + '<button id="pause-save" style="min-width:90px;min-height:36px;border-radius:10px;background:#00aa66;color:white;border:1px solid rgba(255,255,255,0.2);">Save</button>'
         + '<button id="pause-load" style="min-width:90px;min-height:36px;border-radius:10px;background:#0066cc;color:white;border:1px solid rgba(255,255,255,0.2);">Load</button>'
         + '<button id="pause-resume" style="min-width:90px;min-height:36px;border-radius:10px;background:#444;color:white;border:1px solid rgba(255,255,255,0.2);">Resume</button>'
         + '</div>'
+        + '</div>'
         + '</div>';
     document.body.appendChild(overlay);
     const KEY = 'rw:snapshot:v1';
-    function saveSnap(){ try { if (window.__RW && window.__RW.player){ const p = window.__RW.player.position; localStorage.setItem(KEY, JSON.stringify({ pos: { x:p.x, z:p.z }, t: Date.now() })); } } catch{} }
-    function loadSnap(){ try { const s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch { return null; } }
+    const SLOTK = (i)=> KEY + ':' + i;
+    let selectedSlot = 0;
+    function slotInfo(i){ try { const s = localStorage.getItem(SLOTK(i)); return s ? JSON.parse(s) : null; } catch { return null; } }
+    function updateSlotButtons(){ try { const els = overlay.querySelectorAll('.slot-btn'); els.forEach((el)=>{ const i = parseInt(el.getAttribute('data-slot')); const snap = slotInfo(i); el.textContent = 'Slot '+(i+1)+(snap? (' — ' + new Date(snap.t).toLocaleString()):' — empty'); el.style.outline = (i===selectedSlot)? '2px solid #00aa66':'none'; }); } catch{} }
+    function saveSnap(){ try { if (window.__RW && window.__RW.player){ const p = window.__RW.player.position; const data = { pos: { x:p.x, z:p.z }, t: Date.now() }; localStorage.setItem(SLOTK(selectedSlot), JSON.stringify(data)); updateSlotButtons(); } } catch{} }
+    function loadSnap(){ try { const s = localStorage.getItem(SLOTK(selectedSlot)); return s ? JSON.parse(s) : null; } catch { return null; } }
     function applySnap(s){ try { if (window.__RW && window.__RW.player && s && s.pos){ const p = window.__RW.player.position; p.x = s.pos.x; p.z = s.pos.z; } } catch{} }
     function toggle(){ window.__RW_PAUSED = !window.__RW_PAUSED; overlay.style.display = window.__RW_PAUSED ? 'flex':'none'; }
     btn.addEventListener('click', toggle);
     overlay.querySelector('#pause-resume')?.addEventListener('click', toggle);
     overlay.querySelector('#pause-save')?.addEventListener('click', ()=>{ saveSnap(); });
     overlay.querySelector('#pause-load')?.addEventListener('click', ()=>{ const s=loadSnap(); applySnap(s); });
+    overlay.querySelectorAll('.slot-btn').forEach((el)=>{ el.addEventListener('click', ()=>{ selectedSlot = parseInt(el.getAttribute('data-slot')); updateSlotButtons(); }); });
+    updateSlotButtons();
+})();
+
+// Back to menu and Options
+(function(){
+    const btnMenu = document.getElementById('btn-menu');
+    const btnOpt = document.getElementById('btn-options');
+    function toMenu(){ try { let m=document.getElementById('start-menu'); if (!m){ m=document.createElement('div'); m.id='start-menu'; m.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;'; m.innerHTML='<div style="text-align:center"><h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-2)</h2><p style="margin:6px 0;color:#a9b8c6;font-size:12px">Press Start to Continue</p></div><div style="display:flex;gap:10px"><button id="rw-start" style="background:#00a86b;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #1e4434;box-shadow:0 2px 6px rgba(0,255,136,0.2)">Start</button><button id="rw-continue" style="background:#0066cc;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #123a66;box-shadow:0 2px 6px rgba(0,136,255,0.2)">Continue</button><button id="rw-reset" style="background:#aa3333;color:#fff;padding:8px 16px;border-radius:8px;border:1px solid #552222;box-shadow:0 2px 6px rgba(255,80,80,0.2)">Reset</button></div>'; document.body.appendChild(m);} } catch {}
+    function bindMenu(){ try { const s=document.getElementById('rw-start'); const c=document.getElementById('rw-continue'); const r=document.getElementById('rw-reset'); if (s) s.addEventListener('click', ()=>{ document.getElementById('start-menu')?.remove(); }); if (c) c.addEventListener('click', ()=>{ document.getElementById('start-menu')?.remove(); }); if (r) r.addEventListener('click', ()=>{ try { localStorage.clear(); } catch {} }); } catch {} }
+    if (btnMenu) btnMenu.addEventListener('click', ()=>{ toMenu(); bindMenu(); });
+    if (btnOpt) btnOpt.addEventListener('click', ()=>{ alert('Options coming soon'); });
 })();
 
 // Minimal StartMenuPure bridge (placeholder)
