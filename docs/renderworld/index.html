@@ -747,8 +747,8 @@ scene.add(spiritLens);
             try {
                 jointAnim = reduceJointAnim(jointAnim, { type:'play', anim:'walk' });
                 jointAnim = reduceJointAnim(jointAnim, { type:'update', dt: (animate._lastFrame ? (t - animate._lastFrame) : 16.6) });
-                const speed = 6.0; // swing speed
-                const ampLeg = 0.5; const ampArm = 0.35;
+                const speed = 8.0; // faster swing
+                const ampLeg = 0.8; const ampArm = 0.6; // bigger motion
                 const phase = jointAnim.t * speed;
                 const limbs = player.userData?.limbs;
                 if (limbs) {
@@ -1016,8 +1016,39 @@ function doInteract(){
         } else if (animate._nearNPC) {
             const dlg = document.getElementById('dialogue');
             const txt = document.getElementById('dialogue-text');
-            const DKEY = 'rw:dialogue:guide';
-            const guide = {
+            // Per-NPC dialogue trees (simple ids)
+            const trees = {
+                Guide: {
+                    id: 'guide',
+                    nodes: {
+                        start: { text: 'Welcome, traveler. Need a tip?', choices: [ { label:'Yes, please', next:'tip1' }, { label:'No, thanks', next:'bye' } ] },
+                        tip1: { text: 'Explore the hedge maze to the northeast.', choices: [ { label:'Another tip', next:'tip2' }, { label:'Thanks', next:'bye' } ] },
+                        tip2: { text: 'You can save from Menu → Save / Load…', choices: [ { label:'Got it', next:'bye' } ] },
+                        bye: { text: 'Good luck out there!', choices: [] }
+                    }
+                },
+                Explorer: {
+                    id: 'explorer',
+                    nodes: {
+                        start: { text: 'I walk the paths. Have you tried the maze?', choices: [ { label:'Where is it?', next:'hint' }, { label:'Bye', next:'bye' } ] },
+                        hint: { text: 'Northeast quadrant. Entrance near the west side.', choices: [ { label:'Thanks', next:'bye' } ] },
+                        bye: { text: 'See you on the trail.', choices: [] }
+                    }
+                },
+                Mystic: {
+                    id: 'mystic',
+                    nodes: {
+                        start: { text: 'The lens hums. Do you hear it?', choices: [ { label:'Yes', next:'agree' }, { label:'No', next:'deny' } ] },
+                        agree: { text: 'Then you are attuned.', choices: [ { label:'Farewell', next:'bye' } ] },
+                        deny: { text: 'Listen closer next time.', choices: [ { label:'Okay', next:'bye' } ] },
+                        bye: { text: 'Until next time.', choices: [] }
+                    }
+                }
+            };
+            const label = animate._nearNPC.userData?.label || 'Guide';
+            const tree = trees[label] || trees.Guide;
+            const DKEY = 'rw:dialogue:'+tree.id;
+            const guide = tree;
                 id: 'guide',
                 nodes: {
                     start: { text: 'Welcome, traveler. Need a tip?', choices: [ { label:'Yes, please', next:'tip1' }, { label:'No, thanks', next:'bye' } ] },
