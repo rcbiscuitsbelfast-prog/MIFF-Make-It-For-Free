@@ -1,0 +1,41 @@
+{
+  "schema": "miff.scenario.fixture.v1",
+  "id": "scene_pixel_city",
+  "description": "Procedural Pixel City world scenario",
+  "zones": [
+    "arcade_district",
+    "fantasy_grove",
+    "industrial_outpost",
+    "historical_plaza",
+    "export_terminal"
+  ],
+  "transitions": [
+    {
+      "from": "arcade_district",
+      "to": "fantasy_grove"
+    },
+    {
+      "from": "fantasy_grove",
+      "to": "industrial_outpost"
+    },
+    {
+      "from": "industrial_outpost",
+      "to": "historical_plaza"
+    },
+    {
+      "from": "historical_plaza",
+      "to": "export_terminal"
+    }
+  ],
+  "interactions": {
+    "dialogue": true,
+    "quests": true,
+    "exportActivation": true
+  },
+  "exports": [
+    "unity",
+    "web",
+    "unreal",
+    "android"
+  ]
+}

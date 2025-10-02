@@ -1,0 +1,503 @@
+# Character Generation Results
+Date: 2025-10-01T10:56:51.171Z
+COUNT=100 SIZE=32 SEED=1337
+ID=char_001
+Traits={"id":"char_001","name":"Mime 1","role":"Mime","style":"formal","hair":"spiky","hairColor":"a4ccb8","skinTone":"6e473e","accessories":["scarf","mask"],"clothing":["tunic","tunic"],"palette":["#8b2ae8","#a91964","#30d14e","#748350"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_001.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_002
+Traits={"id":"char_002","name":"Monk 2","role":"Monk","style":"formal","hair":"curly","hairColor":"90b20f","skinTone":"ed8a8f","accessories":["goggles","glasses"],"clothing":["robe","robe"],"palette":["#73b7ef","#4a596f","#696d87","#bb4bca"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_002.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_003
+Traits={"id":"char_003","name":"Mechanic 3","role":"Mechanic","style":"formal","hair":"long","hairColor":"ac8de8","skinTone":"2eb102","accessories":["watch","necklace"],"clothing":["hoodie","shirt"],"palette":["#9072e8","#6f9d88","#630e87","#45e816"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_003.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_004
+Traits={"id":"char_004","name":"Astronaut 4","role":"Astronaut","style":"casual","hair":"ponytail","hairColor":"534c32","skinTone":"91dbe2","accessories":["necklace","mask"],"clothing":["kimono","kimono"],"palette":["#dbfbe0","#f5123b","#af7f49","#0b3099"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_004.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_005
+Traits={"id":"char_005","name":"Fairy 5","role":"Fairy","style":"formal","hair":"long","hairColor":"2159de","skinTone":"427235","accessories":["scarf","necklace"],"clothing":["jacket","jacket"],"palette":["#bbc8e1","#89dbe2","#86336e","#993e6a"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_005.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_006
+Traits={"id":"char_006","name":"Chef 6","role":"Chef","style":"casual","hair":"long","hairColor":"43def4","skinTone":"d56de0","accessories":["necklace","necklace"],"clothing":["tunic","suit"],"palette":["#9957cf","#bf9277","#dabb47","#23dfcf"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_006.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_007
+Traits={"id":"char_007","name":"Gladiator 7","role":"Gladiator","style":"sci-fi","hair":"buzz","hairColor":"654c21","skinTone":"c70c51","accessories":["belt","bracelet"],"clothing":["suit","tunic"],"palette":["#7c39da","#588deb","#03daf7","#6056ff"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_007.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_008
+Traits={"id":"char_008","name":"Priest 8","role":"Priest","style":"occupational","hair":"buzz","hairColor":"9d4699","skinTone":"2f8738","accessories":["earring","cape"],"clothing":["hoodie","overalls"],"palette":["#0f4b9d","#07f0fe","#7c57c0","#a95609"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_008.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_009
+Traits={"id":"char_009","name":"Painter 9","role":"Painter","style":"historical","hair":"buzz","hairColor":"b38677","skinTone":"76d093","accessories":["cape","goggles"],"clothing":["jacket","dress"],"palette":["#0e852b","#1f759b","#6ada06","#b0477e"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_009.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_010
+Traits={"id":"char_010","name":"Gardener 10","role":"Gardener","style":"sci-fi","hair":"long","hairColor":"b143dd","skinTone":"77728a","accessories":["watch","necklace"],"clothing":["spacesuit","kimono"],"palette":["#e1c2b3","#1cccd7","#3744e5","#71801b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_010.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_011
+Traits={"id":"char_011","name":"Alchemist 11","role":"Alchemist","style":"occupational","hair":"buzz","hairColor":"d97740","skinTone":"5cf81c","accessories":["scarf","bracelet"],"clothing":["hoodie","spacesuit"],"palette":["#161a30","#82ac25","#1c9a5b","#4aae25"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_011.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_012
+Traits={"id":"char_012","name":"Alchemist 12","role":"Alchemist","style":"sci-fi","hair":"mohawk","hairColor":"16d3e0","skinTone":"963033","accessories":["scarf","glasses"],"clothing":["hoodie","shirt"],"palette":["#c5420e","#4afda9","#d8f508","#1add75"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_012.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_013
+Traits={"id":"char_013","name":"Nun 13","role":"Nun","style":"formal","hair":"bun","hairColor":"59dd01","skinTone":"d4d4e5","accessories":["necklace","belt"],"clothing":["jersey","robe"],"palette":["#20ca36","#c40f7b","#cb6e69","#b1b29b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_013.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_014
+Traits={"id":"char_014","name":"Librarian 14","role":"Librarian","style":"sci-fi","hair":"bun","hairColor":"1166cf","skinTone":"de19f8","accessories":["bracelet","earring"],"clothing":["armor","shirt"],"palette":["#7b751a","#0fd4a3","#a49c60","#7398d1"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_014.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_015
+Traits={"id":"char_015","name":"Magician 15","role":"Magician","style":"fantasy","hair":"braids","hairColor":"05e6c9","skinTone":"e11d27","accessories":["earring","cape"],"clothing":["spacesuit","dress"],"palette":["#0f12da","#472255","#31a744","#53650f"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_015.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_016
+Traits={"id":"char_016","name":"Necromancer 16","role":"Necromancer","style":"occupational","hair":"mohawk","hairColor":"3b332b","skinTone":"56d6a1","accessories":["belt","cape"],"clothing":["jersey","robe"],"palette":["#69909d","#b5f258","#47caa5","#8604d4"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_016.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_017
+Traits={"id":"char_017","name":"Painter 17","role":"Painter","style":"occupational","hair":"buzz","hairColor":"5c7fd5","skinTone":"ca6dfb","accessories":["bracelet","goggles"],"clothing":["hoodie","hoodie"],"palette":["#3c6968","#5579a2","#d9766d","#7d2bc9"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_017.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_018
+Traits={"id":"char_018","name":"Firefighter 18","role":"Firefighter","style":"occupational","hair":"bun","hairColor":"b3f183","skinTone":"0c278c","accessories":["mask","goggles"],"clothing":["jersey","spacesuit"],"palette":["#5d711e","#f18bdd","#38052e","#be8b1f"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_018.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_019
+Traits={"id":"char_019","name":"Priest 19","role":"Priest","style":"fantasy","hair":"mohawk","hairColor":"d275b5","skinTone":"0cce8a","accessories":["earring","belt"],"clothing":["overalls","suit"],"palette":["#edbef2","#699067","#f9ad11","#29d00e"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_019.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_020
+Traits={"id":"char_020","name":"Firefighter 20","role":"Firefighter","style":"casual","hair":"mohawk","hairColor":"8b9d44","skinTone":"6d7607","accessories":["bracelet","cape"],"clothing":["hoodie","dress"],"palette":["#46941d","#5c49d2","#17ce42","#1b61e0"],"companion":{"kind":"cat","palette":["#8f527e","#9ce5db","#6e14ff","#4b00e4"]}}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_020.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_021
+Traits={"id":"char_021","name":"Robot 21","role":"Robot","style":"formal","hair":"bun","hairColor":"27d9e2","skinTone":"d0f4a7","accessories":["goggles","mask"],"clothing":["shirt","kimono"],"palette":["#9c6128","#e5ea16","#4fdbf2","#ff11a4"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_021.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_022
+Traits={"id":"char_022","name":"Bard 22","role":"Bard","style":"fantasy","hair":"long","hairColor":"80d4aa","skinTone":"dac4d1","accessories":["cape","necklace"],"clothing":["suit","kimono"],"palette":["#d3d0a1","#387fcc","#9dfe6c","#593cd0"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_022.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_023
+Traits={"id":"char_023","name":"Fairy 23","role":"Fairy","style":"sci-fi","hair":"spiky","hairColor":"3fb1ab","skinTone":"ffff28","accessories":["watch","earring"],"clothing":["suit","hoodie"],"palette":["#66a500","#236909","#0ef7e2","#79014f"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_023.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_024
+Traits={"id":"char_024","name":"Cowboy 24","role":"Cowboy","style":"historical","hair":"short","hairColor":"6f78e4","skinTone":"0c2dee","accessories":["cape","cape"],"clothing":["spacesuit","jersey"],"palette":["#e64359","#c4907b","#df030d","#7de53e"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_024.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_025
+Traits={"id":"char_025","name":"Samurai 25","role":"Samurai","style":"sci-fi","hair":"long","hairColor":"2abbe0","skinTone":"d65485","accessories":["cape","cape"],"clothing":["jersey","armor"],"palette":["#576bec","#043084","#509a7e","#05a045"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_025.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_026
+Traits={"id":"char_026","name":"Monk 26","role":"Monk","style":"occupational","hair":"buzz","hairColor":"20937c","skinTone":"f5f9be","accessories":["watch","goggles"],"clothing":["spacesuit","armor"],"palette":["#ef241b","#a27173","#0f26ea","#2e5678"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_026.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_027
+Traits={"id":"char_027","name":"Ninja 27","role":"Ninja","style":"historical","hair":"curly","hairColor":"9118ea","skinTone":"3cda0f","accessories":["watch","cape"],"clothing":["kimono","kimono"],"palette":["#5b8840","#2b7b21","#8b9d6c","#daccd8"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_027.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_028
+Traits={"id":"char_028","name":"Soldier 28","role":"Soldier","style":"fantasy","hair":"braids","hairColor":"0757a5","skinTone":"5aa5c2","accessories":["glasses","necklace"],"clothing":["overalls","overalls"],"palette":["#512bbe","#6b31fd","#771930","#3cd35b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_028.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_029
+Traits={"id":"char_029","name":"Mime 29","role":"Mime","style":"fantasy","hair":"buzz","hairColor":"b38150","skinTone":"3d99de","accessories":["mask","scarf"],"clothing":["suit","kimono"],"palette":["#dcff3a","#025492","#8d731a","#aa5d9d"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_029.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_030
+Traits={"id":"char_030","name":"Surgeon 30","role":"Surgeon","style":"occupational","hair":"bald","hairColor":"5c8c7b","skinTone":"17560d","accessories":["mask","scarf"],"clothing":["suit","hoodie"],"palette":["#a74eec","#d92404","#56336f","#54aaec"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_030.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_031
+Traits={"id":"char_031","name":"Bard 31","role":"Bard","style":"casual","hair":"bun","hairColor":"d9f5db","skinTone":"d72666","accessories":["earring","goggles"],"clothing":["overalls","shirt"],"palette":["#99fb62","#635612","#bd95f9","#cc89c8"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_031.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_032
+Traits={"id":"char_032","name":"Detective 32","role":"Detective","style":"formal","hair":"curly","hairColor":"c96447","skinTone":"6c5212","accessories":["bracelet","goggles"],"clothing":["overalls","shirt"],"palette":["#fba55a","#96ed0f","#034b45","#749b3e"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_032.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_033
+Traits={"id":"char_033","name":"Baker 33","role":"Baker","style":"occupational","hair":"bald","hairColor":"d46559","skinTone":"bd9ed1","accessories":["earring","bracelet"],"clothing":["suit","jacket"],"palette":["#33ebea","#b44b3f","#05a2ff","#3c2933"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_033.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_034
+Traits={"id":"char_034","name":"Ninja 34","role":"Ninja","style":"sci-fi","hair":"buzz","hairColor":"2e78b5","skinTone":"d6d0ac","accessories":["glasses","necklace"],"clothing":["shirt","hoodie"],"palette":["#193abf","#91b74e","#2d8df6","#368f63"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_034.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_035
+Traits={"id":"char_035","name":"Thief 35","role":"Thief","style":"sci-fi","hair":"long","hairColor":"d76012","skinTone":"0cd08e","accessories":["goggles","scarf"],"clothing":["spacesuit","overalls"],"palette":["#ec665c","#ada39d","#53ba78","#f2ca56"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_035.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_036
+Traits={"id":"char_036","name":"Blacksmith 36","role":"Blacksmith","style":"formal","hair":"bun","hairColor":"231406","skinTone":"f855a5","accessories":["cape","cape"],"clothing":["jacket","dress"],"palette":["#638b95","#093216","#0c5651","#8fb725"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_036.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_037
+Traits={"id":"char_037","name":"Mime 37","role":"Mime","style":"occupational","hair":"buzz","hairColor":"52dd6b","skinTone":"d4c767","accessories":["watch","mask"],"clothing":["overalls","hoodie"],"palette":["#82d36d","#21d7bc","#df3d59","#179e59"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_037.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_038
+Traits={"id":"char_038","name":"Surgeon 38","role":"Surgeon","style":"sci-fi","hair":"ponytail","hairColor":"98b67e","skinTone":"439f3d","accessories":["earring","goggles"],"clothing":["overalls","jacket"],"palette":["#966b92","#ae0a4d","#adef83","#18bd98"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_038.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_039
+Traits={"id":"char_039","name":"Necromancer 39","role":"Necromancer","style":"fantasy","hair":"mohawk","hairColor":"b568c0","skinTone":"482edb","accessories":["earring","watch"],"clothing":["jersey","overalls"],"palette":["#b37522","#140120","#26f825","#6af7ea"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_039.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_040
+Traits={"id":"char_040","name":"Knight 40","role":"Knight","style":"historical","hair":"buzz","hairColor":"6a1f47","skinTone":"6c1406","accessories":["goggles","scarf"],"clothing":["hoodie","jersey"],"palette":["#0e687f","#a87ece","#5224c5","#8c0fcb"],"companion":{"kind":"alienPet","palette":["#f08ad3","#d42ec5","#6e9080","#77d692"]}}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_040.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_041
+Traits={"id":"char_041","name":"Gladiator 41","role":"Gladiator","style":"casual","hair":"spiky","hairColor":"3921d5","skinTone":"2db152","accessories":["cape","mask"],"clothing":["robe","overalls"],"palette":["#7b3ba2","#d32b5e","#18590a","#ed68bf"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_041.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_042
+Traits={"id":"char_042","name":"Plumber 42","role":"Plumber","style":"sci-fi","hair":"braids","hairColor":"eead6f","skinTone":"d5c5cf","accessories":["bracelet","necklace"],"clothing":["shirt","jersey"],"palette":["#4caf9d","#c9871c","#1740e5","#f84d4c"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_042.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_043
+Traits={"id":"char_043","name":"Archer 43","role":"Archer","style":"occupational","hair":"short","hairColor":"e6d25d","skinTone":"4e80e7","accessories":["necklace","cape"],"clothing":["jersey","overalls"],"palette":["#2e4ab7","#1ef44e","#72a4a9","#b64b62"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_043.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_044
+Traits={"id":"char_044","name":"Nun 44","role":"Nun","style":"formal","hair":"ponytail","hairColor":"0095ee","skinTone":"aa54af","accessories":["scarf","glasses"],"clothing":["tunic","jacket"],"palette":["#58988b","#6eb2a2","#44a53d","#dde9d6"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_044.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_045
+Traits={"id":"char_045","name":"Priestess 45","role":"Priestess","style":"formal","hair":"ponytail","hairColor":"10c4c3","skinTone":"f6401c","accessories":["mask","belt"],"clothing":["armor","tunic"],"palette":["#6e767f","#7dfc72","#a90e66","#19a196"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_045.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_046
+Traits={"id":"char_046","name":"Blacksmith 46","role":"Blacksmith","style":"casual","hair":"ponytail","hairColor":"80bd91","skinTone":"d34e52","accessories":["bracelet","bracelet"],"clothing":["jacket","tunic"],"palette":["#c67f45","#1521a1","#f8f552","#1d4b25"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_046.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_047
+Traits={"id":"char_047","name":"Pilot 47","role":"Pilot","style":"sci-fi","hair":"bald","hairColor":"f57a6b","skinTone":"afeb12","accessories":["earring","goggles"],"clothing":["shirt","robe"],"palette":["#13e317","#32735e","#51ca15","#5b610a"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_047.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_048
+Traits={"id":"char_048","name":"Engineer 48","role":"Engineer","style":"sci-fi","hair":"long","hairColor":"ae8296","skinTone":"4e40de","accessories":["goggles","mask"],"clothing":["dress","robe"],"palette":["#b63153","#34a9ce","#00b34f","#0f2c0d"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_048.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_049
+Traits={"id":"char_049","name":"Detective 49","role":"Detective","style":"sci-fi","hair":"short","hairColor":"063c93","skinTone":"bd5f62","accessories":["belt","necklace"],"clothing":["kimono","suit"],"palette":["#5b30fe","#edb50c","#1ef37d","#0b9203"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_049.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_050
+Traits={"id":"char_050","name":"Priest 50","role":"Priest","style":"fantasy","hair":"curly","hairColor":"ef7d94","skinTone":"627c99","accessories":["belt","goggles"],"clothing":["hoodie","dress"],"palette":["#27eca2","#cc006a","#c990ee","#ddfc10"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_050.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_051
+Traits={"id":"char_051","name":"Sailor 51","role":"Sailor","style":"fantasy","hair":"bun","hairColor":"b8de00","skinTone":"e9345a","accessories":["belt","bracelet"],"clothing":["kimono","tunic"],"palette":["#b50f27","#4db755","#de0ce2","#aadd09"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_051.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_052
+Traits={"id":"char_052","name":"Cowboy 52","role":"Cowboy","style":"historical","hair":"bald","hairColor":"cfac96","skinTone":"548b6e","accessories":["cape","mask"],"clothing":["hoodie","kimono"],"palette":["#876d97","#da43f7","#7f5a10","#b11403"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_052.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_053
+Traits={"id":"char_053","name":"Astronaut 53","role":"Astronaut","style":"formal","hair":"bun","hairColor":"290a44","skinTone":"7ce95a","accessories":["glasses","watch"],"clothing":["hoodie","tunic"],"palette":["#c3ad80","#2b6ee1","#48037a","#3db024"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_053.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_054
+Traits={"id":"char_054","name":"Nun 54","role":"Nun","style":"sci-fi","hair":"short","hairColor":"dd787f","skinTone":"6dc36b","accessories":["glasses","scarf"],"clothing":["jersey","shirt"],"palette":["#87f38d","#96fa3d","#8aa5d4","#2ec04a"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_054.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_055
+Traits={"id":"char_055","name":"Scientist 55","role":"Scientist","style":"occupational","hair":"ponytail","hairColor":"96dc73","skinTone":"39bad6","accessories":["earring","bracelet"],"clothing":["kimono","armor"],"palette":["#ca3a43","#34e543","#c3323c","#b54c7a"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_055.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_056
+Traits={"id":"char_056","name":"Druid 56","role":"Druid","style":"historical","hair":"bun","hairColor":"d1a453","skinTone":"7bb658","accessories":["bracelet","belt"],"clothing":["armor","robe"],"palette":["#7de569","#e4944e","#d33b6a","#9e42e4"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_056.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_057
+Traits={"id":"char_057","name":"Painter 57","role":"Painter","style":"sci-fi","hair":"bald","hairColor":"24765a","skinTone":"de81a2","accessories":["earring","bracelet"],"clothing":["hoodie","overalls"],"palette":["#ff05f8","#de90a6","#2a41ba","#668d55"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_057.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_058
+Traits={"id":"char_058","name":"Sailor 58","role":"Sailor","style":"formal","hair":"curly","hairColor":"8dcb03","skinTone":"47a6a3","accessories":["scarf","necklace"],"clothing":["spacesuit","tunic"],"palette":["#b5c4f6","#e93012","#9e0e5b","#ffba73"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_058.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_059
+Traits={"id":"char_059","name":"Miner 59","role":"Miner","style":"fantasy","hair":"buzz","hairColor":"55c7dc","skinTone":"71ce74","accessories":["cape","necklace"],"clothing":["hoodie","shirt"],"palette":["#d2b2d8","#15b6dc","#fc7d7f","#0ef04f"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_059.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_060
+Traits={"id":"char_060","name":"Ninja 60","role":"Ninja","style":"sci-fi","hair":"long","hairColor":"29dbf0","skinTone":"108b26","accessories":["necklace","belt"],"clothing":["overalls","spacesuit"],"palette":["#2d11bc","#cb8e41","#2e04f9","#80437f"],"companion":{"kind":"cat","palette":["#75809f","#81c368","#b3ac6b","#0a86af"]}}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_060.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_061
+Traits={"id":"char_061","name":"Painter 61","role":"Painter","style":"sci-fi","hair":"long","hairColor":"ec2a55","skinTone":"4dcfad","accessories":["bracelet","scarf"],"clothing":["kimono","tunic"],"palette":["#839ce8","#44e849","#7441c1","#f7e73c"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_061.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_062
+Traits={"id":"char_062","name":"Ranger 62","role":"Ranger","style":"formal","hair":"buzz","hairColor":"638058","skinTone":"5014fc","accessories":["bracelet","mask"],"clothing":["dress","kimono"],"palette":["#66e449","#d1c2f6","#7bd15f","#f25df1"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_062.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_063
+Traits={"id":"char_063","name":"Archer 63","role":"Archer","style":"occupational","hair":"long","hairColor":"f29cc0","skinTone":"7beee5","accessories":["earring","scarf"],"clothing":["dress","overalls"],"palette":["#5c410b","#d85114","#b80b14","#a6231b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_063.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_064
+Traits={"id":"char_064","name":"Cowboy 64","role":"Cowboy","style":"occupational","hair":"bun","hairColor":"36be52","skinTone":"1120a5","accessories":["glasses","mask"],"clothing":["jacket","tunic"],"palette":["#8e7f01","#7c8378","#877775","#b2a710"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_064.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_065
+Traits={"id":"char_065","name":"Bard 65","role":"Bard","style":"sci-fi","hair":"braids","hairColor":"5ae737","skinTone":"95c093","accessories":["mask","goggles"],"clothing":["kimono","armor"],"palette":["#59d9bf","#f105ea","#7cc7ad","#24c96b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_065.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_066
+Traits={"id":"char_066","name":"Soldier 66","role":"Soldier","style":"sci-fi","hair":"spiky","hairColor":"4e03f3","skinTone":"e3a43e","accessories":["goggles","belt"],"clothing":["armor","robe"],"palette":["#4f3156","#f54edb","#d7af25","#3eeedc"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_066.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_067
+Traits={"id":"char_067","name":"Baker 67","role":"Baker","style":"sci-fi","hair":"mohawk","hairColor":"e7f7da","skinTone":"668a8e","accessories":["watch","mask"],"clothing":["jersey","armor"],"palette":["#472902","#d4365b","#0568b5","#f90a9b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_067.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_068
+Traits={"id":"char_068","name":"Pirate 68","role":"Pirate","style":"historical","hair":"braids","hairColor":"679fda","skinTone":"de8af1","accessories":["glasses","cape"],"clothing":["suit","robe"],"palette":["#1b786a","#bb6a59","#237e41","#400fa3"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_068.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_069
+Traits={"id":"char_069","name":"Archer 69","role":"Archer","style":"sci-fi","hair":"long","hairColor":"572b9b","skinTone":"0fe634","accessories":["belt","earring"],"clothing":["overalls","jersey"],"palette":["#5ef348","#7cc118","#c8b0e6","#cbb436"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_069.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_070
+Traits={"id":"char_070","name":"Detective 70","role":"Detective","style":"fantasy","hair":"spiky","hairColor":"2d06c6","skinTone":"33d21f","accessories":["glasses","scarf"],"clothing":["dress","overalls"],"palette":["#080b16","#0ff64a","#89f053","#3deb73"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_070.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_071
+Traits={"id":"char_071","name":"Painter 71","role":"Painter","style":"historical","hair":"long","hairColor":"465e30","skinTone":"cc37d5","accessories":["watch","mask"],"clothing":["jersey","dress"],"palette":["#891a30","#465096","#b02792","#0f3559"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_071.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_072
+Traits={"id":"char_072","name":"Assassin 72","role":"Assassin","style":"occupational","hair":"ponytail","hairColor":"b30d45","skinTone":"eafffe","accessories":["watch","necklace"],"clothing":["jersey","jacket"],"palette":["#d1ee86","#5c665d","#f2a157","#e2c59c"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_072.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_073
+Traits={"id":"char_073","name":"Mime 73","role":"Mime","style":"fantasy","hair":"buzz","hairColor":"14d02e","skinTone":"51781d","accessories":["glasses","earring"],"clothing":["spacesuit","dress"],"palette":["#03884e","#aa22cb","#ba3421","#94865c"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_073.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_074
+Traits={"id":"char_074","name":"Ninja 74","role":"Ninja","style":"occupational","hair":"buzz","hairColor":"05e239","skinTone":"300aa7","accessories":["glasses","necklace"],"clothing":["armor","jacket"],"palette":["#7564aa","#b71f6b","#fe4bd1","#0341a0"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_074.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_075
+Traits={"id":"char_075","name":"Businessperson 75","role":"Businessperson","style":"casual","hair":"long","hairColor":"07b7e6","skinTone":"1108aa","accessories":["glasses","bracelet"],"clothing":["spacesuit","suit"],"palette":["#56dbc3","#1cb3aa","#5aa485","#4de3d9"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_075.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_076
+Traits={"id":"char_076","name":"Surgeon 76","role":"Surgeon","style":"formal","hair":"braids","hairColor":"7534c7","skinTone":"cf0849","accessories":["goggles","earring"],"clothing":["spacesuit","jersey"],"palette":["#105515","#76268a","#487ffd","#e5f840"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_076.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_077
+Traits={"id":"char_077","name":"Firefighter 77","role":"Firefighter","style":"formal","hair":"braids","hairColor":"49d405","skinTone":"fd5397","accessories":["cape","belt"],"clothing":["kimono","kimono"],"palette":["#4ced59","#425b6a","#804c84","#639e3f"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_077.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_078
+Traits={"id":"char_078","name":"Samurai 78","role":"Samurai","style":"formal","hair":"short","hairColor":"2fae26","skinTone":"e7f359","accessories":["scarf","watch"],"clothing":["jacket","armor"],"palette":["#f5b689","#37ac50","#f9ff2e","#e3351f"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_078.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_079
+Traits={"id":"char_079","name":"Ranger 79","role":"Ranger","style":"casual","hair":"braids","hairColor":"59ed6a","skinTone":"6655f7","accessories":["belt","mask"],"clothing":["jersey","robe"],"palette":["#264c23","#33fa62","#c18832","#67e433"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_079.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_080
+Traits={"id":"char_080","name":"Mechanic 80","role":"Mechanic","style":"casual","hair":"long","hairColor":"bde86e","skinTone":"e3eb37","accessories":["scarf","glasses"],"clothing":["tunic","jacket"],"palette":["#11c883","#1cff05","#a1c453","#418821"],"companion":{"kind":"bird","palette":["#c5ad02","#2431d7","#7d6094","#fea243"]}}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_080.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_081
+Traits={"id":"char_081","name":"Alchemist 81","role":"Alchemist","style":"fantasy","hair":"bald","hairColor":"edbce2","skinTone":"7f875d","accessories":["goggles","necklace"],"clothing":["tunic","suit"],"palette":["#0dbbc2","#61bb21","#49f092","#2f0d4d"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_081.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_082
+Traits={"id":"char_082","name":"Librarian 82","role":"Librarian","style":"formal","hair":"bald","hairColor":"ee2659","skinTone":"44b793","accessories":["mask","necklace"],"clothing":["armor","robe"],"palette":["#a53984","#a9c9da","#9423d1","#23681b"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_082.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_083
+Traits={"id":"char_083","name":"Chef 83","role":"Chef","style":"fantasy","hair":"short","hairColor":"1668ef","skinTone":"b76abd","accessories":["watch","watch"],"clothing":["robe","robe"],"palette":["#a98f4b","#7e2120","#ff1d96","#69880c"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_083.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_084
+Traits={"id":"char_084","name":"Priestess 84","role":"Priestess","style":"fantasy","hair":"braids","hairColor":"0e7a82","skinTone":"c41093","accessories":["glasses","bracelet"],"clothing":["kimono","spacesuit"],"palette":["#361000","#849618","#3701f5","#1a50bd"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_084.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_085
+Traits={"id":"char_085","name":"Soldier 85","role":"Soldier","style":"formal","hair":"bun","hairColor":"951dce","skinTone":"095b14","accessories":["belt","cape"],"clothing":["dress","suit"],"palette":["#21b072","#8d33e1","#9f7856","#520f73"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_085.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_086
+Traits={"id":"char_086","name":"Archer 86","role":"Archer","style":"fantasy","hair":"ponytail","hairColor":"680468","skinTone":"78d68f","accessories":["goggles","necklace"],"clothing":["jersey","spacesuit"],"palette":["#a21c1f","#a2d033","#d1b11d","#bd0427"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_086.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_087
+Traits={"id":"char_087","name":"Priest 87","role":"Priest","style":"occupational","hair":"bald","hairColor":"8fab6a","skinTone":"ffa114","accessories":["mask","belt"],"clothing":["overalls","kimono"],"palette":["#caca1f","#36f301","#5e0507","#c0cce8"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_087.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_088
+Traits={"id":"char_088","name":"Hunter 88","role":"Hunter","style":"casual","hair":"ponytail","hairColor":"15a29a","skinTone":"b1e217","accessories":["goggles","goggles"],"clothing":["tunic","robe"],"palette":["#07401e","#1211b5","#395865","#ac89e6"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_088.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_089
+Traits={"id":"char_089","name":"Nun 89","role":"Nun","style":"historical","hair":"bun","hairColor":"ee1396","skinTone":"1bd1c5","accessories":["necklace","scarf"],"clothing":["jersey","robe"],"palette":["#af6376","#48ebce","#513d08","#a27d24"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_089.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_090
+Traits={"id":"char_090","name":"Fairy 90","role":"Fairy","style":"fantasy","hair":"long","hairColor":"fa8d8a","skinTone":"155137","accessories":["goggles","cape"],"clothing":["kimono","overalls"],"palette":["#83be04","#553a23","#cf9e02","#fcc194"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_090.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_091
+Traits={"id":"char_091","name":"Druid 91","role":"Druid","style":"formal","hair":"braids","hairColor":"b25680","skinTone":"d69b2c","accessories":["bracelet","mask"],"clothing":["suit","dress"],"palette":["#f94dfc","#b0271d","#a702bd","#35baef"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_091.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_092
+Traits={"id":"char_092","name":"Sailor 92","role":"Sailor","style":"fantasy","hair":"braids","hairColor":"b551e1","skinTone":"b64534","accessories":["glasses","necklace"],"clothing":["robe","tunic"],"palette":["#d9c6a1","#f60ae2","#4c1caf","#63fdd7"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_092.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_093
+Traits={"id":"char_093","name":"Carpenter 93","role":"Carpenter","style":"occupational","hair":"curly","hairColor":"a2fb87","skinTone":"4739d8","accessories":["necklace","mask"],"clothing":["kimono","kimono"],"palette":["#43987a","#76c1cc","#3f6957","#ddd287"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_093.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_094
+Traits={"id":"char_094","name":"Astronaut 94","role":"Astronaut","style":"historical","hair":"ponytail","hairColor":"edcebe","skinTone":"5b630a","accessories":["cape","mask"],"clothing":["jersey","hoodie"],"palette":["#57c9de","#77cbc6","#9172d9","#7c68ef"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_094.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_095
+Traits={"id":"char_095","name":"Carpenter 95","role":"Carpenter","style":"casual","hair":"spiky","hairColor":"1c40d2","skinTone":"40b93a","accessories":["mask","bracelet"],"clothing":["shirt","armor"],"palette":["#573768","#41e6aa","#3bd85d","#ea3336"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_095.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_096
+Traits={"id":"char_096","name":"Pilot 96","role":"Pilot","style":"fantasy","hair":"mohawk","hairColor":"9aa6c8","skinTone":"ee07d6","accessories":["earring","necklace"],"clothing":["tunic","shirt"],"palette":["#2006fd","#e94405","#c91c4b","#b4b4db"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_096.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_097
+Traits={"id":"char_097","name":"Mechanic 97","role":"Mechanic","style":"casual","hair":"bun","hairColor":"0299e0","skinTone":"145ece","accessories":["cape","watch"],"clothing":["overalls","hoodie"],"palette":["#0f340a","#2a2e3a","#0ae52c","#0149df"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_097.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_098
+Traits={"id":"char_098","name":"Plumber 98","role":"Plumber","style":"fantasy","hair":"braids","hairColor":"0125c0","skinTone":"57d72c","accessories":["earring","cape"],"clothing":["armor","spacesuit"],"palette":["#0de1c8","#14f35a","#b29cbb","#85b54d"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_098.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_099
+Traits={"id":"char_099","name":"Mechanic 99","role":"Mechanic","style":"occupational","hair":"mohawk","hairColor":"84c06d","skinTone":"76de35","accessories":["scarf","goggles"],"clothing":["dress","armor"],"palette":["#41f467","#9c533f","#52b6a0","#8c9666"]}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_099.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337
+ID=char_100
+Traits={"id":"char_100","name":"Bard 100","role":"Bard","style":"occupational","hair":"ponytail","hairColor":"5f3030","skinTone":"f6a1d9","accessories":["necklace","scarf"],"clothing":["hoodie","overalls"],"palette":["#5e2744","#71f642","#cf988b","#f78e36"],"companion":{"kind":"cat","palette":["#1850cf","#6bcf5a","#ad3304","#cc1a5c"]}}
+Modules=PixelAnimPure,AvatarSystemPure,AdvancedRenderingPure,CharacterGeneratorPure
+Render=success Sprite=sprites/char_100.json
+CLI=miff-characters COUNT=100 SIZE=32 SEED=1337

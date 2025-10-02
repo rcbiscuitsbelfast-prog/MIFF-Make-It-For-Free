@@ -1,0 +1,4 @@
+Modules=RenderWorldPure,PixelAnimPure,AdvancedRenderingPure
+CLI=renderPixelCity.ts
+Assets=/workspace/render/assets/preview.json
+Status=PASS

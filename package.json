@@ -141,7 +141,11 @@
     "miff-server": "cli/miff-server.ts",
     "miff-pixel": "cli/miff-pixel.ts",
     "miff-world": "cli/miff-world.ts",
-    "miff-export": "cli/miff-export.ts"
+    "miff-export": "cli/miff-export.ts",
+    "miff-characters": "cli/miff-characters.ts",
+    "miff-characters-integrate": "cli/miff-characters-integrate.ts",
+    "miff-world-pixel-city": "cli/miff-world-pixel-city.ts",
+    "miff-world-pixel-city-expand": "cli/miff-world-pixel-city-expand.ts"
   },
   "miffAvatar": {
     "presets": [

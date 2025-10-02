@@ -1,0 +1,6 @@
+Modules=PixelAnimPure,AvatarSystemPure,DialogueSystemPure,InputSystemPure
+Screen=characterSelect
+Displayed=char_001|char_002|char_003|char_004|char_005|char_006|char_007|char_008|char_009|char_010|char_011|char_012
+Hover=char_003
+Selected=char_003
+Status=PASS

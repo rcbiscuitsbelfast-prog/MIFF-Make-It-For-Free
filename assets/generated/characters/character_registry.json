@@ -1,0 +1,605 @@
+{
+  "schema": "miff.characters.registry.v1",
+  "items": [
+    {
+      "id": "char_001",
+      "name": "Ranger 1",
+      "role": "Ranger",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_002",
+      "name": "Ranger 2",
+      "role": "Ranger",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_003",
+      "name": "Priest 3",
+      "role": "Priest",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_004",
+      "name": "Bard 4",
+      "role": "Bard",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_005",
+      "name": "Priestess 5",
+      "role": "Priestess",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_006",
+      "name": "Cheerleader 6",
+      "role": "Cheerleader",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_007",
+      "name": "Thief 7",
+      "role": "Thief",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_008",
+      "name": "Miner 8",
+      "role": "Miner",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_009",
+      "name": "Archer 9",
+      "role": "Archer",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_010",
+      "name": "Archer 10",
+      "role": "Archer",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_011",
+      "name": "Nun 11",
+      "role": "Nun",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_012",
+      "name": "Carpenter 12",
+      "role": "Carpenter",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_013",
+      "name": "Knight 13",
+      "role": "Knight",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_014",
+      "name": "Pirate 14",
+      "role": "Pirate",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_015",
+      "name": "Druid 15",
+      "role": "Druid",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_016",
+      "name": "Archer 16",
+      "role": "Archer",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_017",
+      "name": "Necromancer 17",
+      "role": "Necromancer",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_018",
+      "name": "Priest 18",
+      "role": "Priest",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_019",
+      "name": "Firefighter 19",
+      "role": "Firefighter",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_020",
+      "name": "Surgeon 20",
+      "role": "Surgeon",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_021",
+      "name": "Priest 21",
+      "role": "Priest",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_022",
+      "name": "Tailor 22",
+      "role": "Tailor",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_023",
+      "name": "Painter 23",
+      "role": "Painter",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_024",
+      "name": "Pilot 24",
+      "role": "Pilot",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_025",
+      "name": "Engineer 25",
+      "role": "Engineer",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_026",
+      "name": "Mechanic 26",
+      "role": "Mechanic",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_027",
+      "name": "Gardener 27",
+      "role": "Gardener",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_028",
+      "name": "Engineer 28",
+      "role": "Engineer",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_029",
+      "name": "Druid 29",
+      "role": "Druid",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_030",
+      "name": "Mechanic 30",
+      "role": "Mechanic",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_031",
+      "name": "Alchemist 31",
+      "role": "Alchemist",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_032",
+      "name": "Gladiator 32",
+      "role": "Gladiator",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_033",
+      "name": "Scientist 33",
+      "role": "Scientist",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_034",
+      "name": "Tailor 34",
+      "role": "Tailor",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_035",
+      "name": "Priest 35",
+      "role": "Priest",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_036",
+      "name": "Pilot 36",
+      "role": "Pilot",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_037",
+      "name": "Gladiator 37",
+      "role": "Gladiator",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_038",
+      "name": "Miner 38",
+      "role": "Miner",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_039",
+      "name": "Ranger 39",
+      "role": "Ranger",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_040",
+      "name": "Chef 40",
+      "role": "Chef",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_041",
+      "name": "Ninja 41",
+      "role": "Ninja",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_042",
+      "name": "Fairy 42",
+      "role": "Fairy",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_043",
+      "name": "Blacksmith 43",
+      "role": "Blacksmith",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_044",
+      "name": "Cheerleader 44",
+      "role": "Cheerleader",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_045",
+      "name": "Priest 45",
+      "role": "Priest",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_046",
+      "name": "Necromancer 46",
+      "role": "Necromancer",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_047",
+      "name": "Necromancer 47",
+      "role": "Necromancer",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_048",
+      "name": "Librarian 48",
+      "role": "Librarian",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_049",
+      "name": "Priest 49",
+      "role": "Priest",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_050",
+      "name": "Blacksmith 50",
+      "role": "Blacksmith",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_051",
+      "name": "Alchemist 51",
+      "role": "Alchemist",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_052",
+      "name": "Pirate 52",
+      "role": "Pirate",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_053",
+      "name": "Wizard 53",
+      "role": "Wizard",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_054",
+      "name": "Bard 54",
+      "role": "Bard",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_055",
+      "name": "Alchemist 55",
+      "role": "Alchemist",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_056",
+      "name": "Ninja 56",
+      "role": "Ninja",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_057",
+      "name": "Painter 57",
+      "role": "Painter",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_058",
+      "name": "Assassin 58",
+      "role": "Assassin",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_059",
+      "name": "Mechanic 59",
+      "role": "Mechanic",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_060",
+      "name": "Carpenter 60",
+      "role": "Carpenter",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_061",
+      "name": "Soldier 61",
+      "role": "Soldier",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_062",
+      "name": "Soldier 62",
+      "role": "Soldier",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_063",
+      "name": "Baker 63",
+      "role": "Baker",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_064",
+      "name": "Footballer 64",
+      "role": "Footballer",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_065",
+      "name": "Cheerleader 65",
+      "role": "Cheerleader",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_066",
+      "name": "Ninja 66",
+      "role": "Ninja",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_067",
+      "name": "Monk 67",
+      "role": "Monk",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_068",
+      "name": "Wizard 68",
+      "role": "Wizard",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_069",
+      "name": "Pilot 69",
+      "role": "Pilot",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_070",
+      "name": "Ranger 70",
+      "role": "Ranger",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_071",
+      "name": "Gardener 71",
+      "role": "Gardener",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_072",
+      "name": "Mime 72",
+      "role": "Mime",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_073",
+      "name": "Priest 73",
+      "role": "Priest",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_074",
+      "name": "Alchemist 74",
+      "role": "Alchemist",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_075",
+      "name": "Pirate 75",
+      "role": "Pirate",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_076",
+      "name": "Hunter 76",
+      "role": "Hunter",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_077",
+      "name": "Tailor 77",
+      "role": "Tailor",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_078",
+      "name": "Pirate 78",
+      "role": "Pirate",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_079",
+      "name": "Alchemist 79",
+      "role": "Alchemist",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_080",
+      "name": "Blacksmith 80",
+      "role": "Blacksmith",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_081",
+      "name": "Priestess 81",
+      "role": "Priestess",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_082",
+      "name": "Priest 82",
+      "role": "Priest",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_083",
+      "name": "Alchemist 83",
+      "role": "Alchemist",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_084",
+      "name": "Alien 84",
+      "role": "Alien",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_085",
+      "name": "Pirate 85",
+      "role": "Pirate",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_086",
+      "name": "Bard 86",
+      "role": "Bard",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_087",
+      "name": "Baker 87",
+      "role": "Baker",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_088",
+      "name": "Alien 88",
+      "role": "Alien",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_089",
+      "name": "Painter 89",
+      "role": "Painter",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_090",
+      "name": "Footballer 90",
+      "role": "Footballer",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_091",
+      "name": "Samurai 91",
+      "role": "Samurai",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_092",
+      "name": "Nun 92",
+      "role": "Nun",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_093",
+      "name": "Ninja 93",
+      "role": "Ninja",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_094",
+      "name": "Bard 94",
+      "role": "Bard",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_095",
+      "name": "Ninja 95",
+      "role": "Ninja",
+      "zone": "arcade_district"
+    },
+    {
+      "id": "char_096",
+      "name": "Alien 96",
+      "role": "Alien",
+      "zone": "fantasy_grove"
+    },
+    {
+      "id": "char_097",
+      "name": "Nun 97",
+      "role": "Nun",
+      "zone": "industrial_outpost"
+    },
+    {
+      "id": "char_098",
+      "name": "Priestess 98",
+      "role": "Priestess",
+      "zone": "historical_plaza"
+    },
+    {
+      "id": "char_099",
+      "name": "Sailor 99",
+      "role": "Sailor",
+      "zone": "export_terminal"
+    },
+    {
+      "id": "char_100",
+      "name": "Necromancer 100",
+      "role": "Necromancer",
+      "zone": "arcade_district"
+    }
+  ]
+}

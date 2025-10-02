@@ -1,0 +1,3906 @@
+{
+  "schema": "miff.npc.registry.v1",
+  "total": 100,
+  "npcs": [
+    {
+      "id": "char_001",
+      "name": "Mime 1",
+      "role": "Mime",
+      "dialogue": {
+        "id": "char_001_dlg_root",
+        "text": "Hello, I'm Mime 1.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_001_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_001_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_001_quest_intro",
+          "name": "Meet Mime 1",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_002",
+      "name": "Monk 2",
+      "role": "Monk",
+      "dialogue": {
+        "id": "char_002_dlg_root",
+        "text": "Hello, I'm Monk 2.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_002_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_002_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_002_quest_intro",
+          "name": "Meet Monk 2",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_003",
+      "name": "Mechanic 3",
+      "role": "Mechanic",
+      "dialogue": {
+        "id": "char_003_dlg_root",
+        "text": "Hello, I'm Mechanic 3.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_003_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_003_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_003_quest_intro",
+          "name": "Meet Mechanic 3",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_004",
+      "name": "Astronaut 4",
+      "role": "Astronaut",
+      "dialogue": {
+        "id": "char_004_dlg_root",
+        "text": "Hello, I'm Astronaut 4.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_004_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_004_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_004_quest_intro",
+          "name": "Meet Astronaut 4",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_005",
+      "name": "Fairy 5",
+      "role": "Fairy",
+      "dialogue": {
+        "id": "char_005_dlg_root",
+        "text": "Hello, I'm Fairy 5.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_005_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_005_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_005_quest_intro",
+          "name": "Meet Fairy 5",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_006",
+      "name": "Chef 6",
+      "role": "Chef",
+      "dialogue": {
+        "id": "char_006_dlg_root",
+        "text": "Hello, I'm Chef 6.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_006_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_006_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_006_quest_intro",
+          "name": "Meet Chef 6",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_007",
+      "name": "Gladiator 7",
+      "role": "Gladiator",
+      "dialogue": {
+        "id": "char_007_dlg_root",
+        "text": "Hello, I'm Gladiator 7.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_007_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_007_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_007_quest_intro",
+          "name": "Meet Gladiator 7",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_008",
+      "name": "Priest 8",
+      "role": "Priest",
+      "dialogue": {
+        "id": "char_008_dlg_root",
+        "text": "Hello, I'm Priest 8.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_008_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_008_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_008_quest_intro",
+          "name": "Meet Priest 8",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_009",
+      "name": "Painter 9",
+      "role": "Painter",
+      "dialogue": {
+        "id": "char_009_dlg_root",
+        "text": "Hello, I'm Painter 9.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_009_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_009_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_009_quest_intro",
+          "name": "Meet Painter 9",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_010",
+      "name": "Gardener 10",
+      "role": "Gardener",
+      "dialogue": {
+        "id": "char_010_dlg_root",
+        "text": "Hello, I'm Gardener 10.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_010_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_010_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_010_quest_intro",
+          "name": "Meet Gardener 10",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_011",
+      "name": "Alchemist 11",
+      "role": "Alchemist",
+      "dialogue": {
+        "id": "char_011_dlg_root",
+        "text": "Hello, I'm Alchemist 11.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_011_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_011_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_011_quest_intro",
+          "name": "Meet Alchemist 11",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_012",
+      "name": "Alchemist 12",
+      "role": "Alchemist",
+      "dialogue": {
+        "id": "char_012_dlg_root",
+        "text": "Hello, I'm Alchemist 12.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_012_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_012_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_012_quest_intro",
+          "name": "Meet Alchemist 12",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_013",
+      "name": "Nun 13",
+      "role": "Nun",
+      "dialogue": {
+        "id": "char_013_dlg_root",
+        "text": "Hello, I'm Nun 13.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_013_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_013_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_013_quest_intro",
+          "name": "Meet Nun 13",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_014",
+      "name": "Librarian 14",
+      "role": "Librarian",
+      "dialogue": {
+        "id": "char_014_dlg_root",
+        "text": "Hello, I'm Librarian 14.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_014_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_014_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_014_quest_intro",
+          "name": "Meet Librarian 14",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_015",
+      "name": "Magician 15",
+      "role": "Magician",
+      "dialogue": {
+        "id": "char_015_dlg_root",
+        "text": "Hello, I'm Magician 15.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_015_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_015_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_015_quest_intro",
+          "name": "Meet Magician 15",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_016",
+      "name": "Necromancer 16",
+      "role": "Necromancer",
+      "dialogue": {
+        "id": "char_016_dlg_root",
+        "text": "Hello, I'm Necromancer 16.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_016_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_016_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_016_quest_intro",
+          "name": "Meet Necromancer 16",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_017",
+      "name": "Painter 17",
+      "role": "Painter",
+      "dialogue": {
+        "id": "char_017_dlg_root",
+        "text": "Hello, I'm Painter 17.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_017_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_017_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_017_quest_intro",
+          "name": "Meet Painter 17",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_018",
+      "name": "Firefighter 18",
+      "role": "Firefighter",
+      "dialogue": {
+        "id": "char_018_dlg_root",
+        "text": "Hello, I'm Firefighter 18.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_018_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_018_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_018_quest_intro",
+          "name": "Meet Firefighter 18",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_019",
+      "name": "Priest 19",
+      "role": "Priest",
+      "dialogue": {
+        "id": "char_019_dlg_root",
+        "text": "Hello, I'm Priest 19.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_019_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_019_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_019_quest_intro",
+          "name": "Meet Priest 19",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_020",
+      "name": "Firefighter 20",
+      "role": "Firefighter",
+      "dialogue": {
+        "id": "char_020_dlg_root",
+        "text": "Hello, I'm Firefighter 20.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_020_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_020_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_020_quest_intro",
+          "name": "Meet Firefighter 20",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_021",
+      "name": "Robot 21",
+      "role": "Robot",
+      "dialogue": {
+        "id": "char_021_dlg_root",
+        "text": "Hello, I'm Robot 21.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_021_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_021_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_021_quest_intro",
+          "name": "Meet Robot 21",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_022",
+      "name": "Bard 22",
+      "role": "Bard",
+      "dialogue": {
+        "id": "char_022_dlg_root",
+        "text": "Hello, I'm Bard 22.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_022_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_022_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_022_quest_intro",
+          "name": "Meet Bard 22",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_023",
+      "name": "Fairy 23",
+      "role": "Fairy",
+      "dialogue": {
+        "id": "char_023_dlg_root",
+        "text": "Hello, I'm Fairy 23.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_023_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_023_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_023_quest_intro",
+          "name": "Meet Fairy 23",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_024",
+      "name": "Cowboy 24",
+      "role": "Cowboy",
+      "dialogue": {
+        "id": "char_024_dlg_root",
+        "text": "Hello, I'm Cowboy 24.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_024_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_024_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_024_quest_intro",
+          "name": "Meet Cowboy 24",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_025",
+      "name": "Samurai 25",
+      "role": "Samurai",
+      "dialogue": {
+        "id": "char_025_dlg_root",
+        "text": "Hello, I'm Samurai 25.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_025_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_025_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_025_quest_intro",
+          "name": "Meet Samurai 25",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_026",
+      "name": "Monk 26",
+      "role": "Monk",
+      "dialogue": {
+        "id": "char_026_dlg_root",
+        "text": "Hello, I'm Monk 26.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_026_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_026_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_026_quest_intro",
+          "name": "Meet Monk 26",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_027",
+      "name": "Ninja 27",
+      "role": "Ninja",
+      "dialogue": {
+        "id": "char_027_dlg_root",
+        "text": "Hello, I'm Ninja 27.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_027_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_027_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_027_quest_intro",
+          "name": "Meet Ninja 27",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_028",
+      "name": "Soldier 28",
+      "role": "Soldier",
+      "dialogue": {
+        "id": "char_028_dlg_root",
+        "text": "Hello, I'm Soldier 28.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_028_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_028_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_028_quest_intro",
+          "name": "Meet Soldier 28",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_029",
+      "name": "Mime 29",
+      "role": "Mime",
+      "dialogue": {
+        "id": "char_029_dlg_root",
+        "text": "Hello, I'm Mime 29.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_029_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_029_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_029_quest_intro",
+          "name": "Meet Mime 29",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_030",
+      "name": "Surgeon 30",
+      "role": "Surgeon",
+      "dialogue": {
+        "id": "char_030_dlg_root",
+        "text": "Hello, I'm Surgeon 30.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_030_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_030_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_030_quest_intro",
+          "name": "Meet Surgeon 30",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_031",
+      "name": "Bard 31",
+      "role": "Bard",
+      "dialogue": {
+        "id": "char_031_dlg_root",
+        "text": "Hello, I'm Bard 31.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_031_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_031_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_031_quest_intro",
+          "name": "Meet Bard 31",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_032",
+      "name": "Detective 32",
+      "role": "Detective",
+      "dialogue": {
+        "id": "char_032_dlg_root",
+        "text": "Hello, I'm Detective 32.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_032_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_032_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_032_quest_intro",
+          "name": "Meet Detective 32",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_033",
+      "name": "Baker 33",
+      "role": "Baker",
+      "dialogue": {
+        "id": "char_033_dlg_root",
+        "text": "Hello, I'm Baker 33.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_033_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_033_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_033_quest_intro",
+          "name": "Meet Baker 33",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_034",
+      "name": "Ninja 34",
+      "role": "Ninja",
+      "dialogue": {
+        "id": "char_034_dlg_root",
+        "text": "Hello, I'm Ninja 34.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_034_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_034_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_034_quest_intro",
+          "name": "Meet Ninja 34",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_035",
+      "name": "Thief 35",
+      "role": "Thief",
+      "dialogue": {
+        "id": "char_035_dlg_root",
+        "text": "Hello, I'm Thief 35.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_035_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_035_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_035_quest_intro",
+          "name": "Meet Thief 35",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_036",
+      "name": "Blacksmith 36",
+      "role": "Blacksmith",
+      "dialogue": {
+        "id": "char_036_dlg_root",
+        "text": "Hello, I'm Blacksmith 36.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_036_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_036_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_036_quest_intro",
+          "name": "Meet Blacksmith 36",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_037",
+      "name": "Mime 37",
+      "role": "Mime",
+      "dialogue": {
+        "id": "char_037_dlg_root",
+        "text": "Hello, I'm Mime 37.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_037_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_037_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_037_quest_intro",
+          "name": "Meet Mime 37",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_038",
+      "name": "Surgeon 38",
+      "role": "Surgeon",
+      "dialogue": {
+        "id": "char_038_dlg_root",
+        "text": "Hello, I'm Surgeon 38.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_038_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_038_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_038_quest_intro",
+          "name": "Meet Surgeon 38",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_039",
+      "name": "Necromancer 39",
+      "role": "Necromancer",
+      "dialogue": {
+        "id": "char_039_dlg_root",
+        "text": "Hello, I'm Necromancer 39.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_039_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_039_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_039_quest_intro",
+          "name": "Meet Necromancer 39",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_040",
+      "name": "Knight 40",
+      "role": "Knight",
+      "dialogue": {
+        "id": "char_040_dlg_root",
+        "text": "Hello, I'm Knight 40.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_040_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_040_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_040_quest_intro",
+          "name": "Meet Knight 40",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_041",
+      "name": "Gladiator 41",
+      "role": "Gladiator",
+      "dialogue": {
+        "id": "char_041_dlg_root",
+        "text": "Hello, I'm Gladiator 41.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_041_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_041_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_041_quest_intro",
+          "name": "Meet Gladiator 41",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_042",
+      "name": "Plumber 42",
+      "role": "Plumber",
+      "dialogue": {
+        "id": "char_042_dlg_root",
+        "text": "Hello, I'm Plumber 42.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_042_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_042_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_042_quest_intro",
+          "name": "Meet Plumber 42",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_043",
+      "name": "Archer 43",
+      "role": "Archer",
+      "dialogue": {
+        "id": "char_043_dlg_root",
+        "text": "Hello, I'm Archer 43.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_043_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_043_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_043_quest_intro",
+          "name": "Meet Archer 43",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_044",
+      "name": "Nun 44",
+      "role": "Nun",
+      "dialogue": {
+        "id": "char_044_dlg_root",
+        "text": "Hello, I'm Nun 44.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_044_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_044_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_044_quest_intro",
+          "name": "Meet Nun 44",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_045",
+      "name": "Priestess 45",
+      "role": "Priestess",
+      "dialogue": {
+        "id": "char_045_dlg_root",
+        "text": "Hello, I'm Priestess 45.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_045_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_045_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_045_quest_intro",
+          "name": "Meet Priestess 45",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_046",
+      "name": "Blacksmith 46",
+      "role": "Blacksmith",
+      "dialogue": {
+        "id": "char_046_dlg_root",
+        "text": "Hello, I'm Blacksmith 46.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_046_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_046_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_046_quest_intro",
+          "name": "Meet Blacksmith 46",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_047",
+      "name": "Pilot 47",
+      "role": "Pilot",
+      "dialogue": {
+        "id": "char_047_dlg_root",
+        "text": "Hello, I'm Pilot 47.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_047_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_047_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_047_quest_intro",
+          "name": "Meet Pilot 47",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_048",
+      "name": "Engineer 48",
+      "role": "Engineer",
+      "dialogue": {
+        "id": "char_048_dlg_root",
+        "text": "Hello, I'm Engineer 48.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_048_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_048_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_048_quest_intro",
+          "name": "Meet Engineer 48",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_049",
+      "name": "Detective 49",
+      "role": "Detective",
+      "dialogue": {
+        "id": "char_049_dlg_root",
+        "text": "Hello, I'm Detective 49.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_049_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_049_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_049_quest_intro",
+          "name": "Meet Detective 49",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_050",
+      "name": "Priest 50",
+      "role": "Priest",
+      "dialogue": {
+        "id": "char_050_dlg_root",
+        "text": "Hello, I'm Priest 50.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_050_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_050_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_050_quest_intro",
+          "name": "Meet Priest 50",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_051",
+      "name": "Sailor 51",
+      "role": "Sailor",
+      "dialogue": {
+        "id": "char_051_dlg_root",
+        "text": "Hello, I'm Sailor 51.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_051_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_051_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_051_quest_intro",
+          "name": "Meet Sailor 51",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_052",
+      "name": "Cowboy 52",
+      "role": "Cowboy",
+      "dialogue": {
+        "id": "char_052_dlg_root",
+        "text": "Hello, I'm Cowboy 52.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_052_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_052_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_052_quest_intro",
+          "name": "Meet Cowboy 52",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_053",
+      "name": "Astronaut 53",
+      "role": "Astronaut",
+      "dialogue": {
+        "id": "char_053_dlg_root",
+        "text": "Hello, I'm Astronaut 53.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_053_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_053_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_053_quest_intro",
+          "name": "Meet Astronaut 53",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_054",
+      "name": "Nun 54",
+      "role": "Nun",
+      "dialogue": {
+        "id": "char_054_dlg_root",
+        "text": "Hello, I'm Nun 54.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_054_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_054_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_054_quest_intro",
+          "name": "Meet Nun 54",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_055",
+      "name": "Scientist 55",
+      "role": "Scientist",
+      "dialogue": {
+        "id": "char_055_dlg_root",
+        "text": "Hello, I'm Scientist 55.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_055_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_055_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_055_quest_intro",
+          "name": "Meet Scientist 55",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_056",
+      "name": "Druid 56",
+      "role": "Druid",
+      "dialogue": {
+        "id": "char_056_dlg_root",
+        "text": "Hello, I'm Druid 56.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_056_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_056_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_056_quest_intro",
+          "name": "Meet Druid 56",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_057",
+      "name": "Painter 57",
+      "role": "Painter",
+      "dialogue": {
+        "id": "char_057_dlg_root",
+        "text": "Hello, I'm Painter 57.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_057_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_057_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_057_quest_intro",
+          "name": "Meet Painter 57",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_058",
+      "name": "Sailor 58",
+      "role": "Sailor",
+      "dialogue": {
+        "id": "char_058_dlg_root",
+        "text": "Hello, I'm Sailor 58.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_058_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_058_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_058_quest_intro",
+          "name": "Meet Sailor 58",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_059",
+      "name": "Miner 59",
+      "role": "Miner",
+      "dialogue": {
+        "id": "char_059_dlg_root",
+        "text": "Hello, I'm Miner 59.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_059_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_059_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_059_quest_intro",
+          "name": "Meet Miner 59",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_060",
+      "name": "Ninja 60",
+      "role": "Ninja",
+      "dialogue": {
+        "id": "char_060_dlg_root",
+        "text": "Hello, I'm Ninja 60.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_060_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_060_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_060_quest_intro",
+          "name": "Meet Ninja 60",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_061",
+      "name": "Painter 61",
+      "role": "Painter",
+      "dialogue": {
+        "id": "char_061_dlg_root",
+        "text": "Hello, I'm Painter 61.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_061_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_061_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_061_quest_intro",
+          "name": "Meet Painter 61",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_062",
+      "name": "Ranger 62",
+      "role": "Ranger",
+      "dialogue": {
+        "id": "char_062_dlg_root",
+        "text": "Hello, I'm Ranger 62.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_062_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_062_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_062_quest_intro",
+          "name": "Meet Ranger 62",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_063",
+      "name": "Archer 63",
+      "role": "Archer",
+      "dialogue": {
+        "id": "char_063_dlg_root",
+        "text": "Hello, I'm Archer 63.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_063_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_063_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_063_quest_intro",
+          "name": "Meet Archer 63",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_064",
+      "name": "Cowboy 64",
+      "role": "Cowboy",
+      "dialogue": {
+        "id": "char_064_dlg_root",
+        "text": "Hello, I'm Cowboy 64.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_064_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_064_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_064_quest_intro",
+          "name": "Meet Cowboy 64",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_065",
+      "name": "Bard 65",
+      "role": "Bard",
+      "dialogue": {
+        "id": "char_065_dlg_root",
+        "text": "Hello, I'm Bard 65.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_065_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_065_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_065_quest_intro",
+          "name": "Meet Bard 65",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_066",
+      "name": "Soldier 66",
+      "role": "Soldier",
+      "dialogue": {
+        "id": "char_066_dlg_root",
+        "text": "Hello, I'm Soldier 66.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_066_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_066_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_066_quest_intro",
+          "name": "Meet Soldier 66",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_067",
+      "name": "Baker 67",
+      "role": "Baker",
+      "dialogue": {
+        "id": "char_067_dlg_root",
+        "text": "Hello, I'm Baker 67.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_067_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_067_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_067_quest_intro",
+          "name": "Meet Baker 67",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_068",
+      "name": "Pirate 68",
+      "role": "Pirate",
+      "dialogue": {
+        "id": "char_068_dlg_root",
+        "text": "Hello, I'm Pirate 68.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_068_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_068_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_068_quest_intro",
+          "name": "Meet Pirate 68",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_069",
+      "name": "Archer 69",
+      "role": "Archer",
+      "dialogue": {
+        "id": "char_069_dlg_root",
+        "text": "Hello, I'm Archer 69.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_069_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_069_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_069_quest_intro",
+          "name": "Meet Archer 69",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_070",
+      "name": "Detective 70",
+      "role": "Detective",
+      "dialogue": {
+        "id": "char_070_dlg_root",
+        "text": "Hello, I'm Detective 70.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_070_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_070_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_070_quest_intro",
+          "name": "Meet Detective 70",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_071",
+      "name": "Painter 71",
+      "role": "Painter",
+      "dialogue": {
+        "id": "char_071_dlg_root",
+        "text": "Hello, I'm Painter 71.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_071_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_071_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_071_quest_intro",
+          "name": "Meet Painter 71",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_072",
+      "name": "Assassin 72",
+      "role": "Assassin",
+      "dialogue": {
+        "id": "char_072_dlg_root",
+        "text": "Hello, I'm Assassin 72.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_072_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_072_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_072_quest_intro",
+          "name": "Meet Assassin 72",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_073",
+      "name": "Mime 73",
+      "role": "Mime",
+      "dialogue": {
+        "id": "char_073_dlg_root",
+        "text": "Hello, I'm Mime 73.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_073_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_073_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_073_quest_intro",
+          "name": "Meet Mime 73",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_074",
+      "name": "Ninja 74",
+      "role": "Ninja",
+      "dialogue": {
+        "id": "char_074_dlg_root",
+        "text": "Hello, I'm Ninja 74.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_074_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_074_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_074_quest_intro",
+          "name": "Meet Ninja 74",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_075",
+      "name": "Businessperson 75",
+      "role": "Businessperson",
+      "dialogue": {
+        "id": "char_075_dlg_root",
+        "text": "Hello, I'm Businessperson 75.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_075_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_075_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_075_quest_intro",
+          "name": "Meet Businessperson 75",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_076",
+      "name": "Surgeon 76",
+      "role": "Surgeon",
+      "dialogue": {
+        "id": "char_076_dlg_root",
+        "text": "Hello, I'm Surgeon 76.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_076_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_076_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_076_quest_intro",
+          "name": "Meet Surgeon 76",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_077",
+      "name": "Firefighter 77",
+      "role": "Firefighter",
+      "dialogue": {
+        "id": "char_077_dlg_root",
+        "text": "Hello, I'm Firefighter 77.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_077_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_077_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_077_quest_intro",
+          "name": "Meet Firefighter 77",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_078",
+      "name": "Samurai 78",
+      "role": "Samurai",
+      "dialogue": {
+        "id": "char_078_dlg_root",
+        "text": "Hello, I'm Samurai 78.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_078_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_078_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_078_quest_intro",
+          "name": "Meet Samurai 78",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_079",
+      "name": "Ranger 79",
+      "role": "Ranger",
+      "dialogue": {
+        "id": "char_079_dlg_root",
+        "text": "Hello, I'm Ranger 79.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_079_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_079_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_079_quest_intro",
+          "name": "Meet Ranger 79",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_080",
+      "name": "Mechanic 80",
+      "role": "Mechanic",
+      "dialogue": {
+        "id": "char_080_dlg_root",
+        "text": "Hello, I'm Mechanic 80.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_080_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_080_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_080_quest_intro",
+          "name": "Meet Mechanic 80",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_081",
+      "name": "Alchemist 81",
+      "role": "Alchemist",
+      "dialogue": {
+        "id": "char_081_dlg_root",
+        "text": "Hello, I'm Alchemist 81.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_081_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_081_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_081_quest_intro",
+          "name": "Meet Alchemist 81",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_082",
+      "name": "Librarian 82",
+      "role": "Librarian",
+      "dialogue": {
+        "id": "char_082_dlg_root",
+        "text": "Hello, I'm Librarian 82.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_082_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_082_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_082_quest_intro",
+          "name": "Meet Librarian 82",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_083",
+      "name": "Chef 83",
+      "role": "Chef",
+      "dialogue": {
+        "id": "char_083_dlg_root",
+        "text": "Hello, I'm Chef 83.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_083_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_083_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_083_quest_intro",
+          "name": "Meet Chef 83",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_084",
+      "name": "Priestess 84",
+      "role": "Priestess",
+      "dialogue": {
+        "id": "char_084_dlg_root",
+        "text": "Hello, I'm Priestess 84.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_084_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_084_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_084_quest_intro",
+          "name": "Meet Priestess 84",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_085",
+      "name": "Soldier 85",
+      "role": "Soldier",
+      "dialogue": {
+        "id": "char_085_dlg_root",
+        "text": "Hello, I'm Soldier 85.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_085_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_085_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_085_quest_intro",
+          "name": "Meet Soldier 85",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_086",
+      "name": "Archer 86",
+      "role": "Archer",
+      "dialogue": {
+        "id": "char_086_dlg_root",
+        "text": "Hello, I'm Archer 86.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_086_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_086_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_086_quest_intro",
+          "name": "Meet Archer 86",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_087",
+      "name": "Priest 87",
+      "role": "Priest",
+      "dialogue": {
+        "id": "char_087_dlg_root",
+        "text": "Hello, I'm Priest 87.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_087_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_087_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_087_quest_intro",
+          "name": "Meet Priest 87",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_088",
+      "name": "Hunter 88",
+      "role": "Hunter",
+      "dialogue": {
+        "id": "char_088_dlg_root",
+        "text": "Hello, I'm Hunter 88.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_088_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_088_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_088_quest_intro",
+          "name": "Meet Hunter 88",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_089",
+      "name": "Nun 89",
+      "role": "Nun",
+      "dialogue": {
+        "id": "char_089_dlg_root",
+        "text": "Hello, I'm Nun 89.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_089_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_089_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_089_quest_intro",
+          "name": "Meet Nun 89",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_090",
+      "name": "Fairy 90",
+      "role": "Fairy",
+      "dialogue": {
+        "id": "char_090_dlg_root",
+        "text": "Hello, I'm Fairy 90.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_090_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_090_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_090_quest_intro",
+          "name": "Meet Fairy 90",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    },
+    {
+      "id": "char_091",
+      "name": "Druid 91",
+      "role": "Druid",
+      "dialogue": {
+        "id": "char_091_dlg_root",
+        "text": "Hello, I'm Druid 91.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_091_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_091_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_091_quest_intro",
+          "name": "Meet Druid 91",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": true
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "id": "char_092",
+      "name": "Sailor 92",
+      "role": "Sailor",
+      "dialogue": {
+        "id": "char_092_dlg_root",
+        "text": "Hello, I'm Sailor 92.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_092_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_092_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_092_quest_intro",
+          "name": "Meet Sailor 92",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "id": "char_093",
+      "name": "Carpenter 93",
+      "role": "Carpenter",
+      "dialogue": {
+        "id": "char_093_dlg_root",
+        "text": "Hello, I'm Carpenter 93.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_093_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_093_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_093_quest_intro",
+          "name": "Meet Carpenter 93",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "id": "char_094",
+      "name": "Astronaut 94",
+      "role": "Astronaut",
+      "dialogue": {
+        "id": "char_094_dlg_root",
+        "text": "Hello, I'm Astronaut 94.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_094_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_094_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_094_quest_intro",
+          "name": "Meet Astronaut 94",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "char_095",
+      "name": "Carpenter 95",
+      "role": "Carpenter",
+      "dialogue": {
+        "id": "char_095_dlg_root",
+        "text": "Hello, I'm Carpenter 95.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_095_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_095_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_095_quest_intro",
+          "name": "Meet Carpenter 95",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 9,
+        "y": 9
+      }
+    },
+    {
+      "id": "char_096",
+      "name": "Pilot 96",
+      "role": "Pilot",
+      "dialogue": {
+        "id": "char_096_dlg_root",
+        "text": "Hello, I'm Pilot 96.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_096_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_096_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_096_quest_intro",
+          "name": "Meet Pilot 96",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 10,
+        "y": 10
+      }
+    },
+    {
+      "id": "char_097",
+      "name": "Mechanic 97",
+      "role": "Mechanic",
+      "dialogue": {
+        "id": "char_097_dlg_root",
+        "text": "Hello, I'm Mechanic 97.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_097_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_097_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_097_quest_intro",
+          "name": "Meet Mechanic 97",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 11,
+        "y": 11
+      }
+    },
+    {
+      "id": "char_098",
+      "name": "Plumber 98",
+      "role": "Plumber",
+      "dialogue": {
+        "id": "char_098_dlg_root",
+        "text": "Hello, I'm Plumber 98.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_098_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_098_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_098_quest_intro",
+          "name": "Meet Plumber 98",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 12,
+        "y": 12
+      }
+    },
+    {
+      "id": "char_099",
+      "name": "Mechanic 99",
+      "role": "Mechanic",
+      "dialogue": {
+        "id": "char_099_dlg_root",
+        "text": "Hello, I'm Mechanic 99.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_099_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_099_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_099_quest_intro",
+          "name": "Meet Mechanic 99",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_city",
+        "x": 13,
+        "y": 13
+      }
+    },
+    {
+      "id": "char_100",
+      "name": "Bard 100",
+      "role": "Bard",
+      "dialogue": {
+        "id": "char_100_dlg_root",
+        "text": "Hello, I'm Bard 100.",
+        "options": [
+          {
+            "text": "Any quests?",
+            "nextNodeId": "char_100_dlg_quest",
+            "action": {
+              "type": "give_quest",
+              "target": "char_100_quest_intro",
+              "value": true
+            }
+          },
+          {
+            "text": "Goodbye.",
+            "nextNodeId": "end"
+          }
+        ]
+      },
+      "quests": [
+        {
+          "id": "char_100_quest_intro",
+          "name": "Meet Bard 100",
+          "type": "intro"
+        }
+      ],
+      "party": {
+        "recruitable": false
+      },
+      "spawn": {
+        "zoneId": "zone_outskirts",
+        "x": 14,
+        "y": 14
+      }
+    }
+  ]
+}

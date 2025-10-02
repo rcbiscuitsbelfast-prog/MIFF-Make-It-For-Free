@@ -1,0 +1,4 @@
+Updated /workspace/web/modules/RenderWorld/index.ts
+Removed legacy portals; added Coming Soon labels and Enter Pixel World
+Enter hooks launchPixelWorld() -> pixelCityViewport.ts (session + manifest)
+Status=PASS
