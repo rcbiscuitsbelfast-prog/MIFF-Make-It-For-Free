@@ -1,7 +1,7 @@
 # MIFF: Make It For Free
 
 [![MIFF Unified Site](https://img.shields.io/badge/MIFF%20Unified%20Site-green)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/)
-[![MIFF Sampler](https://img.shields.io/badge/Sampler-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/)
+[![MIFF Sampler](https://img.shields.io/badge/Sampler-purple)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/)
 [![MIFF Studio](https://img.shields.io/badge/Studio-blue)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)
 [![RenderWorld Hub](https://img.shields.io/badge/RenderWorld-orange)](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)
 [![CI Status](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml/badge.svg)](https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/actions/workflows/ci.yml)
@@ -34,7 +34,7 @@ Experience the full power of MIFF through our unified GitHub Pages site featurin
 *Professional landing page with navigation to all MIFF experiences, built with the framework's modular architecture and hosted as a single GitHub Pages deployment.*
 
 ### **🎯 Individual Experiences**
-- **🎮 [MIFF Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/)** - Interactive game demos
+- **🎮 [MIFF Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/)** - Interactive game demos
 - **🛠️ [MIFF Studio](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/)** - Advanced scene builder
 - **🌐 [RenderWorld Hub](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/)** - AI-native preview engine
 - **📚 [Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/)** - Comprehensive guides & API
@@ -197,7 +197,7 @@ All links in this README have been verified and are working correctly:
 
 ### **🎮 Live MIFF Experiences**
 - ✅ [MIFF Unified Site](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/) - Professional landing page
-- ✅ [MIFF Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/sampler/) - Interactive demos
+- ✅ [MIFF Sampler](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/site/sampler/) - Interactive demos
 - ✅ [MIFF Studio](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/studio/) - Scene builder
 - ✅ [RenderWorld Hub](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/renderworld/) - AI preview engine
 - ✅ [Documentation](https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/docs-site/) - Guides & API
