@@ -51,11 +51,7 @@
         </div>
     </div>
 
-    <!-- Camera controls -->
-    <button id="btn-cam-zoom-in" style="position:fixed;right:16px;top:220px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">+</button>
-    <button id="btn-cam-zoom-out" style="position:fixed;right:66px;top:220px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">-</button>
-    <button id="btn-cam-pitch-up" style="position:fixed;right:16px;top:262px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">^</button>
-    <button id="btn-cam-pitch-down" style="position:fixed;right:66px;top:262px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">v</button>
+    <!-- Camera controls removed: touch gestures will control zoom/pitch/yaw -->
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
         <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-17</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
@@ -187,6 +183,8 @@
                 if (jumpBtn) {
                     jumpBtn.onclick = function() {
                         if (debug) debug.textContent = 'Jump clicked!';
+                        // Simple jump impulse
+                        window.__RW_JUMP__ = Date.now();
                     };
                 }
                 
@@ -248,22 +246,39 @@
                     const dt = (t - last) || 16.6; last = t;
                     // Move player from joystick
                     const m = window.__RW_MOVE__ || { x:0, z:0 };
-                    const speed = 2.0 * (dt/1000);
-                    player.position.x += m.x * speed;
-                    player.position.z += m.z * speed;
+                    const speed = 3.0 * (dt/1000);
+                    // Map input to camera-relative forward (so forward moves away from camera)
+                    const sinY = Math.sin(camState.yaw), cosY = Math.cos(camState.yaw);
+                    const worldX = m.x * cosY + m.z * sinY;
+                    const worldZ = m.z * cosY - m.x * sinY;
+                    player.position.x += worldX * speed;
+                    player.position.z += worldZ * speed;
                     // Auto-center camera yaw when moving slightly
                     if (Math.hypot(m.x, m.z) > 0.02) {
-                        camState.yaw = Math.atan2(m.x, m.z);
+                        // face movement direction (camera-relative forward)
+                        const faceYaw = Math.atan2(worldX, worldZ);
+                        camState.yaw = faceYaw;
                     } else {
                         camState.yaw = reduceCamera(camState, { type:'autocenter', targetYaw: 0 }).yaw;
                     }
+                    // Run toggle based on existing Run button label (compat) or long-press in future
+                    const runBtn = document.getElementById('btn-run');
+                    const running = runBtn && /Running/i.test(runBtn.textContent || '') ? 1.8 : 1.0;
                     // Swing limbs when moving
                     const mv = Math.hypot(m.x, m.z);
-                    const phase = t * 0.008;
-                    leftLeg.rotation.x = Math.sin(phase) * 0.6 * mv;
-                    rightLeg.rotation.x = Math.sin(phase + Math.PI) * 0.6 * mv;
-                    leftArm.rotation.x = Math.sin(phase + Math.PI) * 0.45 * mv;
-                    rightArm.rotation.x = Math.sin(phase) * 0.45 * mv;
+                    const phase = t * 0.008 * (1 + mv*0.5) * running;
+                    leftLeg.rotation.x = Math.sin(phase) * 0.75 * mv * running;
+                    rightLeg.rotation.x = Math.sin(phase + Math.PI) * 0.75 * mv * running;
+                    leftArm.rotation.x = Math.sin(phase + Math.PI) * 0.55 * mv * running;
+                    rightArm.rotation.x = Math.sin(phase) * 0.55 * mv * running;
+                    // Jump impulse decay
+                    if (!player.userData.vy) player.userData.vy = 0;
+                    if (window.__RW_JUMP__) {
+                        if ((t - (player.userData.jumpAt||0)) > 400) { player.userData.vy = 3.6; player.userData.jumpAt = t; window.__RW_JUMP__ = 0; }
+                    }
+                    player.userData.vy += (-9.8) * (dt/1000);
+                    player.position.y += player.userData.vy * (dt/1000);
+                    if (player.position.y < 0) { player.position.y = 0; player.userData.vy = 0; }
                     // Camera follow: compute offset from yaw/pitch/distance
                     const cy = Math.max(0.8, Math.min(3.0, 1.2 + camState.pitch * 2.0));
                     const offX = Math.sin(camState.yaw) * camState.distance;
@@ -1666,17 +1681,38 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
             el.removeEventListener('click', el._slotHandler);
             el._slotHandler = ()=>{ const i=parseInt(el.getAttribute('data-slot')); const s=loadSnap(i); if (s){ applySnap(s); hideStart(); } };
             el.addEventListener('click', el._slotHandler);
-            // Camera control buttons
-            setTimeout(function(){
-                const zin = document.getElementById('btn-cam-zoom-in');
-                const zout = document.getElementById('btn-cam-zoom-out');
-                const pup = document.getElementById('btn-cam-pitch-up');
-                const pdown = document.getElementById('btn-cam-pitch-down');
-                if (zin) zin.onclick = function(){ try { camState.distance = reduceCamera(camState, { type:'zoom', delta: -0.5 }).distance; } catch{} };
-                if (zout) zout.onclick = function(){ try { camState.distance = reduceCamera(camState, { type:'zoom', delta: +0.5 }).distance; } catch{} };
-                if (pup) pup.onclick = function(){ try { camState.pitch = reduceCamera(camState, { type:'pitch', delta: +0.08 }).pitch; } catch{} };
-                if (pdown) pdown.onclick = function(){ try { camState.pitch = reduceCamera(camState, { type:'pitch', delta: -0.08 }).pitch; } catch{} };
-            }, 1200);
+            // Touch gestures for camera control: pinch (zoom), two-finger vertical (pitch), one-finger drag (orbit yaw)
+            (function(){
+                const canvas = document.getElementById('gameCanvas');
+                if (!canvas) return;
+                let lastDist = null; let twoFingerStartY = null; let dragging = false; let lastX = 0;
+                canvas.addEventListener('touchstart', (e)=>{
+                    if (e.touches.length===1){ dragging = true; lastX = e.touches[0].clientX; }
+                    if (e.touches.length===2){
+                        const dx = e.touches[0].clientX - e.touches[1].clientX;
+                        const dy = e.touches[0].clientY - e.touches[1].clientY;
+                        lastDist = Math.hypot(dx,dy);
+                        twoFingerStartY = (e.touches[0].clientY + e.touches[1].clientY) * 0.5;
+                    }
+                }, { passive:true });
+                canvas.addEventListener('touchmove', (e)=>{
+                    if (e.touches.length===1 && dragging){
+                        const x = e.touches[0].clientX; const dx = x - lastX; lastX = x;
+                        camState.yaw = reduceCamera(camState, { type:'yaw', delta: -dx * 0.004 }).yaw;
+                    }
+                    if (e.touches.length===2 && lastDist!=null){
+                        const dx = e.touches[0].clientX - e.touches[1].clientX;
+                        const dy = e.touches[0].clientY - e.touches[1].clientY;
+                        const dist = Math.hypot(dx,dy);
+                        const midY = (e.touches[0].clientY + e.touches[1].clientY) * 0.5;
+                        const dDist = dist - lastDist; lastDist = dist;
+                        const dY = midY - twoFingerStartY; twoFingerStartY = midY;
+                        camState.distance = reduceCamera(camState, { type:'zoom', delta: -dDist * 0.005 }).distance;
+                        camState.pitch = reduceCamera(camState, { type:'pitch', delta: dY * 0.002 }).pitch;
+                    }
+                }, { passive:true });
+                canvas.addEventListener('touchend', ()=>{ dragging=false; lastDist=null; twoFingerStartY=null; }, { passive:true });
+            })();
         });
         showDebug('bind() completed!');
     }
