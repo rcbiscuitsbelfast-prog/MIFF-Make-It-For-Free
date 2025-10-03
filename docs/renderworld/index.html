@@ -32,7 +32,7 @@
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">
             <div style="text-align:center;margin-bottom:6px">
-                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-15)</h2>
+                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-16)</h2>
             </div>
             <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>
             <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-15</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-16</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -203,15 +203,50 @@
                 const renderer2 = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
                 renderer2.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
                 const scene2 = new THREE.Scene();
-                scene2.background = new THREE.Color(0x00ff00);
+                scene2.background = new THREE.Color(0x88cc88);
                 const camera2 = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
-                camera2.position.set(0, 2, 6);
-                const testCube2 = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
-                testCube2.position.set(0,0,-5);
-                scene2.add(testCube2);
+                camera2.position.set(0, 2.5, 6);
+                // Ground
+                const ground = new THREE.Mesh(new THREE.PlaneGeometry(200,200), new THREE.MeshBasicMaterial({ color: 0x66aa66 }));
+                ground.rotation.x = -Math.PI/2; scene2.add(ground);
+                // Minimal player rig (torso + limb groups)
+                const player = new THREE.Group();
+                const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.35, 0.8, 4, 8), new THREE.MeshBasicMaterial({ color: 0xff8800 }));
+                torso.position.y = 1.1; player.add(torso);
+                const leftLeg = new THREE.Group(); leftLeg.position.set(-0.18, 0.55, 0); player.add(leftLeg);
+                leftLeg.add(new THREE.Mesh(new THREE.BoxGeometry(0.14,0.6,0.14), new THREE.MeshBasicMaterial({ color: 0x333333 })));
+                const rightLeg = new THREE.Group(); rightLeg.position.set(0.18, 0.55, 0); player.add(rightLeg);
+                rightLeg.add(new THREE.Mesh(new THREE.BoxGeometry(0.14,0.6,0.14), new THREE.MeshBasicMaterial({ color: 0x333333 })));
+                const leftArm = new THREE.Group(); leftArm.position.set(-0.38, 1.2, 0); player.add(leftArm);
+                leftArm.add(new THREE.Mesh(new THREE.BoxGeometry(0.12,0.55,0.12), new THREE.MeshBasicMaterial({ color: 0x222222 })));
+                const rightArm = new THREE.Group(); rightArm.position.set(0.38, 1.2, 0); player.add(rightArm);
+                rightArm.add(new THREE.Mesh(new THREE.BoxGeometry(0.12,0.55,0.12), new THREE.MeshBasicMaterial({ color: 0x222222 })));
+                player.position.set(0, 0, 0);
+                scene2.add(player);
                 function size(){ const w = canvas.clientWidth || window.innerWidth; const h = canvas.clientHeight || window.innerHeight; renderer2.setSize(w,h,false); camera2.aspect = w/h; camera2.updateProjectionMatrix(); }
                 size(); window.addEventListener('resize', size);
-                function loop(t){ testCube2.rotation.y += 0.02; testCube2.rotation.x += 0.01; renderer2.render(scene2, camera2); requestAnimationFrame(loop); }
+                let last = 0;
+                function loop(t){
+                    const dt = (t - last) || 16.6; last = t;
+                    // Move player from joystick
+                    const m = window.__RW_MOVE__ || { x:0, z:0 };
+                    const speed = 2.0 * (dt/1000);
+                    player.position.x += m.x * speed;
+                    player.position.z += m.z * speed;
+                    // Swing limbs when moving
+                    const mv = Math.hypot(m.x, m.z);
+                    const phase = t * 0.008;
+                    leftLeg.rotation.x = Math.sin(phase) * 0.6 * mv;
+                    rightLeg.rotation.x = Math.sin(phase + Math.PI) * 0.6 * mv;
+                    leftArm.rotation.x = Math.sin(phase + Math.PI) * 0.45 * mv;
+                    rightArm.rotation.x = Math.sin(phase) * 0.45 * mv;
+                    // Camera follow (third-person light follow)
+                    camera2.position.x = player.position.x + 3.5;
+                    camera2.position.z = player.position.z + 3.5;
+                    camera2.lookAt(player.position.x, 1.1, player.position.z);
+                    renderer2.render(scene2, camera2);
+                    requestAnimationFrame(loop);
+                }
                 requestAnimationFrame(loop);
                 window.__RW_3D_READY__ = true; try { const st = document.getElementById('status'); if (st) st.textContent = 'running'; } catch{}
                 const dbg = document.getElementById('debug'); if (dbg) dbg.textContent = '3D ready (non-module)';
