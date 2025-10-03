@@ -50,6 +50,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Camera controls -->
+    <button id="btn-cam-zoom-in" style="position:fixed;right:16px;top:220px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">+</button>
+    <button id="btn-cam-zoom-out" style="position:fixed;right:66px;top:220px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">-</button>
+    <button id="btn-cam-pitch-up" style="position:fixed;right:16px;top:262px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">^</button>
+    <button id="btn-cam-pitch-down" style="position:fixed;right:66px;top:262px;z-index:1100;min-width:44px;min-height:36px;border-radius:8px;background:rgba(0,0,0,0.55);color:#e6edf3;border:1px solid rgba(255,255,255,0.22);font:14px monospace;">v</button>
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
         <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-17</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
@@ -206,6 +212,16 @@
                 scene2.background = new THREE.Color(0x88cc88);
                 const camera2 = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
                 camera2.position.set(0, 2.5, 6);
+                // CameraStatePure adapter
+                const camState = { yaw: 0, pitch: 0.35, distance: 4.5, autoCenterStrength: 0.04 };
+                function reduceCamera(state, action){
+                    const s = { ...state };
+                    if (action.type==='zoom') { s.distance = Math.max(2.5, Math.min(9.0, s.distance + action.delta)); }
+                    else if (action.type==='pitch') { s.pitch = Math.max(0.05, Math.min(1.2, s.pitch + action.delta)); }
+                    else if (action.type==='yaw') { s.yaw += action.delta; }
+                    else if (action.type==='autocenter' && action.targetYaw!==undefined) { s.yaw += (action.targetYaw - s.yaw) * s.autoCenterStrength; }
+                    return s;
+                }
                 // Ground with grid markers
                 const ground = new THREE.Mesh(new THREE.PlaneGeometry(200,200), new THREE.MeshBasicMaterial({ color: 0x66aa66 }));
                 ground.rotation.x = -Math.PI/2; scene2.add(ground);
@@ -235,6 +251,12 @@
                     const speed = 2.0 * (dt/1000);
                     player.position.x += m.x * speed;
                     player.position.z += m.z * speed;
+                    // Auto-center camera yaw when moving slightly
+                    if (Math.hypot(m.x, m.z) > 0.02) {
+                        camState.yaw = Math.atan2(m.x, m.z);
+                    } else {
+                        camState.yaw = reduceCamera(camState, { type:'autocenter', targetYaw: 0 }).yaw;
+                    }
                     // Swing limbs when moving
                     const mv = Math.hypot(m.x, m.z);
                     const phase = t * 0.008;
@@ -242,11 +264,15 @@
                     rightLeg.rotation.x = Math.sin(phase + Math.PI) * 0.6 * mv;
                     leftArm.rotation.x = Math.sin(phase + Math.PI) * 0.45 * mv;
                     rightArm.rotation.x = Math.sin(phase) * 0.45 * mv;
-                    // Camera follow (third-person follow with lerp)
-                    const tx = player.position.x + 3.5;
-                    const tz = player.position.z + 3.5;
-                    camera2.position.x += (tx - camera2.position.x) * 0.12;
-                    camera2.position.z += (tz - camera2.position.z) * 0.12;
+                    // Camera follow: compute offset from yaw/pitch/distance
+                    const cy = Math.max(0.8, Math.min(3.0, 1.2 + camState.pitch * 2.0));
+                    const offX = Math.sin(camState.yaw) * camState.distance;
+                    const offZ = Math.cos(camState.yaw) * camState.distance;
+                    const tx = player.position.x + offX;
+                    const tz = player.position.z + offZ;
+                    camera2.position.x += (tx - camera2.position.x) * 0.18;
+                    camera2.position.y += (cy - camera2.position.y) * 0.18;
+                    camera2.position.z += (tz - camera2.position.z) * 0.18;
                     camera2.lookAt(player.position.x, 1.1, player.position.z);
                     renderer2.render(scene2, camera2);
                     requestAnimationFrame(loop);
@@ -1640,6 +1666,17 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
             el.removeEventListener('click', el._slotHandler);
             el._slotHandler = ()=>{ const i=parseInt(el.getAttribute('data-slot')); const s=loadSnap(i); if (s){ applySnap(s); hideStart(); } };
             el.addEventListener('click', el._slotHandler);
+            // Camera control buttons
+            setTimeout(function(){
+                const zin = document.getElementById('btn-cam-zoom-in');
+                const zout = document.getElementById('btn-cam-zoom-out');
+                const pup = document.getElementById('btn-cam-pitch-up');
+                const pdown = document.getElementById('btn-cam-pitch-down');
+                if (zin) zin.onclick = function(){ try { camState.distance = reduceCamera(camState, { type:'zoom', delta: -0.5 }).distance; } catch{} };
+                if (zout) zout.onclick = function(){ try { camState.distance = reduceCamera(camState, { type:'zoom', delta: +0.5 }).distance; } catch{} };
+                if (pup) pup.onclick = function(){ try { camState.pitch = reduceCamera(camState, { type:'pitch', delta: +0.08 }).pitch; } catch{} };
+                if (pdown) pdown.onclick = function(){ try { camState.pitch = reduceCamera(camState, { type:'pitch', delta: -0.08 }).pitch; } catch{} };
+            }, 1200);
         });
         showDebug('bind() completed!');
     }
