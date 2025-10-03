@@ -38,8 +38,8 @@
     
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
       padding: 2rem 1rem;
       max-width: 1200px;
       margin: 0 auto;
@@ -48,17 +48,17 @@
     .game-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      transition: all 0.3s ease;
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: left;
       cursor: pointer;
+      transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
     }
     
     .game-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
       border-color: var(--accent-primary);
     }
@@ -69,48 +69,49 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
+      height: 2px;
       background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
     }
     
     .game-card:hover::before {
-      opacity: 1;
+      transform: scaleX(1);
     }
     
     .game-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
       display: block;
     }
     
     .game-title {
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 1rem;
+      margin-bottom: 0.4rem;
       color: var(--text-primary);
     }
     
     .game-description {
       color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+      font-size: 0.85rem;
     }
     
-    .game-btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: var(--accent-primary);
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background 0.3s ease;
+    .game-arrow {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1rem;
+      color: var(--accent-primary);
+      opacity: 0;
+      transition: all 0.3s ease;
     }
     
-    .game-btn:hover {
-      background: var(--accent-secondary);
+    .game-card:hover .game-arrow {
+      opacity: 1;
+      transform: translateX(3px);
     }
     
     .back-link {
@@ -147,6 +148,15 @@
           <a href="../docs-site/">Documentation</a>
           <a href="../blog/">Blog</a>
         </nav>
+        <!-- Menu Panel -->
+        <div id="menu-panel" class="menu-panel" aria-hidden="true">
+          <a href="../../">🏠 Home</a>
+          <a href="./">🎮 MIFF Sampler</a>
+          <a href="../studio/">🛠️ MIFF Studio</a>
+          <a href="../../renderworld/">🌍 RenderWorld Hub</a>
+          <a href="../docs-site/">📚 Documentation</a>
+          <a href="../blog/">📝 Blog</a>
+        </div>
       </div>
     </header>
 
@@ -163,32 +173,32 @@
         </div>
 
         <div class="games-grid">
-          <div class="game-card" onclick="window.open('../../renderworld/', '_blank')">
+          <div class="game-card" onclick="navigateTo('../../renderworld/')">
             <div class="game-icon">🌐</div>
             <h3 class="game-title">RenderWorld Hub</h3>
-            <p class="game-description">Real-time AI-native game preview engine and demo hub. Experience 3D worlds with advanced camera controls and interactive portals.</p>
-            <a href="../../renderworld/" class="game-btn" target="_blank">Open RenderWorld</a>
+            <p class="game-description">Real-time AI-native game preview engine and demo hub</p>
+            <div class="game-arrow">→</div>
           </div>
 
-          <div class="game-card" onclick="window.open('../../render/viewport/pixelCityViewport.html', '_blank')">
+          <div class="game-card" onclick="navigateTo('../../render/viewport/pixelCityViewport.html')">
             <div class="game-icon">🧱</div>
             <h3 class="game-title">Pixel World</h3>
-            <p class="game-description">2D pixel art world with character movement, interactions, and retro gaming mechanics. Built with MIFF's modular systems.</p>
-            <a href="../../render/viewport/pixelCityViewport.html" class="game-btn" target="_blank">Enter Pixel World</a>
+            <p class="game-description">2D pixel art world with character movement and interactions</p>
+            <div class="game-arrow">→</div>
           </div>
 
-          <div class="game-card" onclick="window.open('../studio/', '_blank')">
+          <div class="game-card" onclick="navigateTo('../studio/')">
             <div class="game-icon">🛠️</div>
             <h3 class="game-title">MIFF Studio</h3>
-            <p class="game-description">Advanced scene builder and development environment. Create and customize your own game experiences.</p>
-            <a href="../studio/" class="game-btn" target="_blank">Open Studio</a>
+            <p class="game-description">Advanced scene builder and development environment</p>
+            <div class="game-arrow">→</div>
           </div>
 
-          <div class="game-card" onclick="window.open('../docs-site/', '_blank')">
+          <div class="game-card" onclick="navigateTo('../docs-site/')">
             <div class="game-icon">📚</div>
             <h3 class="game-title">Documentation</h3>
-            <p class="game-description">Comprehensive guides, API references, and technical documentation for MIFF's 157+ pure modules.</p>
-            <a href="../docs-site/" class="game-btn" target="_blank">View Docs</a>
+            <p class="game-description">Comprehensive guides and API references</p>
+            <div class="game-arrow">→</div>
           </div>
         </div>
       </div>
