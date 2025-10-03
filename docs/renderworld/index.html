@@ -32,7 +32,7 @@
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">
             <div style="text-align:center;margin-bottom:6px">
-                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-17)</h2>
+                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-18)</h2>
             </div>
             <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>
             <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>
@@ -53,7 +53,7 @@
 
     <!-- Camera controls removed: touch gestures will control zoom/pitch/yaw -->
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-17</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-18</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -212,6 +212,7 @@
                 camera2.position.set(0, 2.5, 6);
                 // CameraStatePure adapter
                 const camState = { yaw: 0, pitch: 0.35, distance: 4.5, autoCenterStrength: 0.04 };
+                window.__RW_CAM__ = camState;
                 function reduceCamera(state, action){
                     const s = { ...state };
                     if (action.type==='zoom') { s.distance = Math.max(2.5, Math.min(9.0, s.distance + action.delta)); }
@@ -246,7 +247,14 @@
                     const dt = (t - last) || 16.6; last = t;
                     // Move player from joystick
                     const m = window.__RW_MOVE__ || { x:0, z:0 };
-                    const speed = 3.0 * (dt/1000);
+                    const now = performance.now();
+                    // Run state machine: 4s run, 3s cooldown
+                    if (!window.__RW_RUN__) window.__RW_RUN__ = { isRunning:false, until:0, cooldownUntil:0 };
+                    const run = window.__RW_RUN__;
+                    // Maintain states
+                    if (run.isRunning && now > run.until) { run.isRunning = false; run.cooldownUntil = now + 3000; }
+                    const runningFactor = run.isRunning ? 1.8 : 1.0;
+                    const speed = 3.0 * runningFactor * (dt/1000);
                     // Map input to camera-relative forward (so forward moves away from camera)
                     const sinY = Math.sin(camState.yaw), cosY = Math.cos(camState.yaw);
                     const worldX = m.x * cosY + m.z * sinY;
@@ -254,11 +262,7 @@
                     player.position.x += worldX * speed;
                     player.position.z += worldZ * speed;
                     // Auto-center camera yaw when moving slightly
-                    if (Math.hypot(m.x, m.z) > 0.02) {
-                        // face movement direction (camera-relative forward)
-                        const faceYaw = Math.atan2(worldX, worldZ);
-                        camState.yaw = faceYaw;
-                    } else {
+                    if (Math.hypot(m.x, m.z) <= 0.02) {
                         camState.yaw = reduceCamera(camState, { type:'autocenter', targetYaw: 0 }).yaw;
                     }
                     // Run toggle based on existing Run button label (compat) or long-press in future
@@ -1694,11 +1698,13 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
                         lastDist = Math.hypot(dx,dy);
                         twoFingerStartY = (e.touches[0].clientY + e.touches[1].clientY) * 0.5;
                     }
-                }, { passive:true });
+                }, { passive:false });
                 canvas.addEventListener('touchmove', (e)=>{
                     if (e.touches.length===1 && dragging){
                         const x = e.touches[0].clientX; const dx = x - lastX; lastX = x;
-                        camState.yaw = reduceCamera(camState, { type:'yaw', delta: -dx * 0.004 }).yaw;
+                        const cs = window.__RW_CAM__ || camState;
+                        cs.yaw = reduceCamera(cs, { type:'yaw', delta: -dx * 0.004 }).yaw;
+                        e.preventDefault();
                     }
                     if (e.touches.length===2 && lastDist!=null){
                         const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -1707,11 +1713,13 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
                         const midY = (e.touches[0].clientY + e.touches[1].clientY) * 0.5;
                         const dDist = dist - lastDist; lastDist = dist;
                         const dY = midY - twoFingerStartY; twoFingerStartY = midY;
-                        camState.distance = reduceCamera(camState, { type:'zoom', delta: -dDist * 0.005 }).distance;
-                        camState.pitch = reduceCamera(camState, { type:'pitch', delta: dY * 0.002 }).pitch;
+                        const cs = window.__RW_CAM__ || camState;
+                        cs.distance = reduceCamera(cs, { type:'zoom', delta: -dDist * 0.005 }).distance;
+                        cs.pitch = reduceCamera(cs, { type:'pitch', delta: dY * 0.002 }).pitch;
+                        e.preventDefault();
                     }
-                }, { passive:true });
-                canvas.addEventListener('touchend', ()=>{ dragging=false; lastDist=null; twoFingerStartY=null; }, { passive:true });
+                }, { passive:false });
+                canvas.addEventListener('touchend', ()=>{ dragging=false; lastDist=null; twoFingerStartY=null; }, { passive:false });
             })();
         });
         showDebug('bind() completed!');
