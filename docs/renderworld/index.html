@@ -144,6 +144,14 @@
                         }
                     };
                 }
+                // Bind Load and Back in start menu
+                const smLoad = document.getElementById('sm-load');
+                const smBack = document.getElementById('sm-back');
+                const smSub = document.getElementById('sm-load-sub');
+                const smSubBack = document.getElementById('sm-load-back');
+                if (smLoad && smSub){ smLoad.onclick = function(){ smSub.style.display='flex'; }; }
+                if (smSubBack && smSub){ smSubBack.onclick = function(){ smSub.style.display='none'; }; }
+                if (smBack){ smBack.onclick = function(){ try { window.location.href = '/MIFF-Make-It-For-Free/'; } catch{} } }
                 
                 const jumpBtn = document.getElementById('btn-jump');
                 if (jumpBtn) {
@@ -175,9 +183,16 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 
-// Make sure canvas is visible
+// Make sure canvas is visible and sized correctly
 canvas.style.display = 'block';
 canvas.style.background = '#000000';
+function sizeRenderer(){
+    const w = canvas.clientWidth || window.innerWidth;
+    const h = canvas.clientHeight || window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+}
 
 	const scene = new THREE.Scene();
     // Basic visible background (keep green until we restore full world)
@@ -185,14 +200,18 @@ canvas.style.background = '#000000';
     renderer.setClearColor(0x00ff00, 1);
 	
 	// Add a simple test cube to verify 3D rendering
-    const testGeometry = new THREE.BoxGeometry(1, 1, 1);
+const testGeometry = new THREE.BoxGeometry(1, 1, 1);
     const testMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const testCube = new THREE.Mesh(testGeometry, testMaterial);
     testCube.position.set(0, 0, -5);
     scene.add(testCube);
 
-	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
 	camera.position.set(0, 2, 6); // Start higher to see warehouse better
+
+// Initial size & resize handler
+sizeRenderer();
+window.addEventListener('resize', sizeRenderer);
 
     // Phase 2: Simple drag camera controls with damping
 	let isPointerDown = false;
@@ -867,7 +886,7 @@ scene.add(spiritLens);
 	function animate(t){
 		const tt = t * 0.001;
 		// Pause gate: render-only when paused
-		if (window.__RW_PAUSED) {
+        if (window.__RW_PAUSED) {
 			renderer.render(scene, camera);
 			requestAnimationFrame(animate);
 			return;
@@ -979,7 +998,9 @@ scene.add(spiritLens);
             } catch {}
         }
 		animate._lastFrame = t;
-		updateCamera();
+        // Spin test cube to show 3D
+        try { testCube.rotation.y += 0.02; testCube.rotation.x += 0.01; } catch{}
+        updateCamera();
 		renderer.render(scene, camera);
 		// HUD updates
 		try {
