@@ -1,0 +1,41 @@
+{
+	"version": 2,
+	"name": "miff-sampler",
+	"builds": [
+		{ "src": "site/**", "use": "@vercel/static" }
+	],
+	"routes": [
+		{ "src": "/", "dest": "site/index.html" },
+		{ "src": "/onboarding.html", "dest": "site/onboarding.html" },
+		{ "src": "/onboarding-index.html", "dest": "site/onboarding-index.html" },
+		{ "src": "/grove.html", "dest": "site/grove.html" },
+		{ "src": "/spirit.html", "dest": "site/spirit.html" },
+		{ "src": "/toppler.html", "dest": "site/toppler.html" },
+		{ "src": "/map-builder.html", "dest": "site/map-builder.html" },
+		{ "src": "/map-builder", "dest": "site/map-builder.html" },
+		{ "src": "/sampler", "dest": "site/sampler/index.html" },
+		{ "src": "/sampler/", "dest": "site/sampler/index.html" },
+		{ "src": "/sampler/avatar.html", "dest": "site/sampler/avatar.html" },
+		{ "src": "/sampler/multiplayer.html", "dest": "site/sampler/multiplayer.html" },
+		{ "src": "/sampler/pixel-world.html", "dest": "site/sampler/pixel-world.html" },
+		{ "src": "/sampler/replay.html", "dest": "site/sampler/replay.html" },
+		{ "src": "/studio", "dest": "site/studio/index.html" },
+		{ "src": "/studio/", "dest": "site/studio/index.html" },
+		{ "src": "/studio/avatar.html", "dest": "site/studio/avatar.html" },
+		{ "src": "/studio/multiplayer.html", "dest": "site/studio/multiplayer.html" },
+		{ "src": "/studio/pixel.html", "dest": "site/studio/pixel.html" },
+		{ "src": "/studio/procedural.html", "dest": "site/studio/procedural.html" },
+		{ "src": "/dashboard", "dest": "site/dashboard/index.html" },
+		{ "src": "/gallery", "dest": "site/gallery/index.html" },
+		{ "src": "/remix", "dest": "site/remix/index.html" },
+		{ "src": "/tools/diff.html", "dest": "site/tools/diff.html" },
+		{ "src": "/ui_modules/demo.html", "dest": "site/ui_modules/demo.html" },
+		{ "src": "/src/index.html", "dest": "site/src/index.html" },
+		{ "src": "/zones/witcher_grove", "dest": "site/zones/witcher_grove/index.html" },
+		{ "src": "/zones/spirit_tamer", "dest": "site/zones/spirit_tamer/index.html" },
+		{ "src": "/zones/toppler", "dest": "site/zones/toppler/index.html" },
+		{ "src": "/zones/remix_lab", "dest": "site/zones/remix_lab/index.html" },
+		{ "src": "/zones/map_builder", "dest": "site/zones/map_builder/index.js" },
+		{ "src": "/(.*)", "dest": "site/$1" }
+	]
+}

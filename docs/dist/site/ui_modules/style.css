@@ -1,0 +1,26 @@
+/* Remix-safe default styles for modular UI components */
+.miff-ui {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #e6edf3;
+}
+.miff-ui .panel {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 12px;
+}
+.miff-ui .title { color: #58a6ff; margin: 0 0 8px 0; }
+.miff-ui .btn {
+  display: inline-block; padding: 8px 14px; background: #1f6feb; border-radius: 8px; color: #fff; text-decoration: none; border: none; cursor: pointer;
+}
+.miff-ui .btn.secondary { background: #21262d; border: 1px solid #30363d; }
+.miff-ui .list { list-style: none; padding: 0; margin: 0; }
+.miff-ui .list li { padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.miff-ui .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.miff-ui .grid .cell { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.miff-ui .hud { position: absolute; left: 10px; bottom: 60px; font-size: 14px; opacity: 0.95; }
+.miff-ui .overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.miff-ui .overlay .panel { max-width: 520px; width: calc(100% - 40px); }
+.miff-ui .miff-meter { position: relative; margin-top: 6px; width: 240px; height: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; overflow: hidden; }
+.miff-ui .miff-meter-bar { height: 100%; width: 0%; background: linear-gradient(90deg, #58a6ff, #4ecdc4); }
+

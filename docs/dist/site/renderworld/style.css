@@ -1,0 +1,172 @@
+/* RenderWorld Hub - Additional Styles */
+
+/* Custom cursor for 3D environment */
+body {
+    cursor: none;
+}
+
+#gameCanvas {
+    cursor: crosshair;
+}
+
+/* Loading screen animations */
+.loading-screen {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a1f 100%);
+}
+
+.loading-logo {
+    filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5));
+}
+
+/* HUD enhancements */
+.hud-info {
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.spirit-lens-status {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1;
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+    }
+    50% { 
+        opacity: 0.8;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+    }
+}
+
+/* Mobile controls styling */
+.mobile-controls {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+}
+
+.joystick {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.joystick-knob {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.action-btn {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+}
+
+.action-btn:active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+}
+
+/* Menu button styling */
+.menu-btn {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+}
+
+/* View toggle styling */
+.view-toggle {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.view-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hud-info {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+    
+    .spirit-lens-status {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+    
+    .view-toggle {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+    
+    .menu-btn {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hud-info {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    .joystick-container {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .action-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 10px;
+    }
+}
+
+/* Performance optimizations */
+#gameCanvas {
+    will-change: transform;
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .loading-logo,
+    .spirit-lens-status {
+        animation: none;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .hud-info,
+    .spirit-lens-status,
+    .action-btn,
+    .menu-btn,
+    .view-toggle {
+        border-width: 2px;
+        border-color: #ffffff;
+    }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+    .hud-info {
+        background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .action-btn {
+        background: rgba(0, 255, 136, 0.3);
+    }
+}

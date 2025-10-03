@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+    <title>🧭 Map Builder - MIFF Framework</title>
+    <link rel="stylesheet" href="overlays/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a1322;
+            color: #e6edf3;
+            font-family: 'Times New Roman', serif;
+            overflow: hidden;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background: #0a1322;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        
+        .zone-header {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .zone-header h1 {
+            margin: 0;
+            font-size: 18px;
+            color: #58a6ff;
+        }
+        
+        .zone-header p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            color: #e6edf3;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        
+        .back-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .builder-toolbar {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .trigger-panel {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            width: 280px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+        
+        .trigger-panel.active {
+            display: block;
+        }
+        
+        .trigger-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #58a6ff;
+        }
+        
+        .trigger-panel .trigger-section {
+            margin-bottom: 15px;
+        }
+        
+        .trigger-panel .trigger-section label {
+            display: block;
+            font-size: 12px;
+            color: #9da7b1;
+            margin-bottom: 5px;
+        }
+        
+        .trigger-panel .trigger-section select,
+        .trigger-panel .trigger-section input {
+            width: 100%;
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .trigger-panel .trigger-section button {
+            background: #1f6feb;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        
+        .trigger-panel .trigger-section button:hover {
+            background: #388bfd;
+        }
+        
+        .trigger-panel .trigger-section button.secondary {
+            background: #21262d;
+            border: 1px solid #30363d;
+        }
+        
+        .trigger-panel .trigger-section button.secondary:hover {
+            background: #30363d;
+        }
+        
+        .collaboration-panel {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            width: 200px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+        
+        .collaboration-panel.active {
+            display: block;
+        }
+        
+        .collaboration-panel h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            color: #58a6ff;
+        }
+        
+        .contributor-list {
+            margin-bottom: 15px;
+        }
+        
+        .contributor-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+        
+        .contributor-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+        
+        .contributor-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #4ecdc4;
+            background: rgba(78, 205, 196, 0.3);
+            pointer-events: none;
+            z-index: 999;
+            display: none;
+        }
+        
+        .contributor-cursor.active {
+            display: block;
+        }
+        
+        .contributor-cursor::after {
+            content: attr(data-name);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+        
+        .toolbar-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toolbar-section label {
+            font-size: 12px;
+            color: #9da7b1;
+            white-space: nowrap;
+        }
+        
+        .toolbar-section select,
+        .toolbar-section button {
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .toolbar-section button:hover {
+            background: #30363d;
+            border-color: #58a6ff;
+        }
+        
+        .toolbar-section button.primary {
+            background: #1f6feb;
+            border-color: #1f6feb;
+            color: white;
+        }
+        
+        .toolbar-section button.primary:hover {
+            background: #388bfd;
+        }
+        
+        .tile-preview {
+            width: 32px;
+            height: 16px;
+            background: #30363d;
+            border: 1px solid #58a6ff;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #58a6ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div class="zone-header">
+            <h1>🧭 Map Builder</h1>
+            <p>Build a game, inside the game</p>
+        </div>
+        <a href="index.html" class="back-button">← Back to MIFF</a>
+        <canvas id="gameCanvas"></canvas>
+        
+        <div class="collaboration-panel" id="collaborationPanel">
+            <h3>👥 Contributors</h3>
+            <div class="contributor-list" id="contributorList">
+                <div class="contributor-item">
+                    <div class="contributor-avatar">U</div>
+                    <span>You</span>
+                </div>
+            </div>
+            <div class="toolbar-section">
+                <button id="shareRemix" class="primary">🔗 Share Remix</button>
+            </div>
+            <div class="toolbar-section">
+                <button id="submitToGallery" class="secondary">📤 Submit to Gallery</button>
+            </div>
+        </div>
+        
+        <div class="trigger-panel" id="triggerPanel">
+            <h3>🎯 Trigger Assignment</h3>
+            
+            <div class="trigger-section">
+                <label>Trigger Type:</label>
+                <select id="triggerType">
+                    <option value="showModal">Show Modal</option>
+                    <option value="addToInventory">Add to Inventory</option>
+                    <option value="startDialogue">Start Dialogue</option>
+                    <option value="teleport">Teleport</option>
+                    <option value="pickup">Pickup Item</option>
+                </select>
+            </div>
+            
+            <div class="trigger-section">
+                <label>Trigger Event:</label>
+                <select id="triggerEvent">
+                    <option value="onStep">On Step</option>
+                    <option value="onInteract">On Interact</option>
+                    <option value="onClick">On Click</option>
+                    <option value="onProximity">On Proximity</option>
+                </select>
+            </div>
+            
+            <div class="trigger-section">
+                <label>Modal Type (if Show Modal):</label>
+                <select id="modalType">
+                    <option value="lore">Lore Modal</option>
+                    <option value="pickup">Pickup Modal</option>
+                    <option value="gameover">Game Over Modal</option>
+                    <option value="intro">Intro Modal</option>
+                </select>
+            </div>
+            
+            <div class="trigger-section">
+                <label>Trigger Data:</label>
+                <input type="text" id="triggerData" placeholder="e.g., 'Welcome to the grove!'" />
+            </div>
+            
+            <div class="trigger-section">
+                <button id="assignTrigger">Assign Trigger</button>
+                <button id="clearTrigger" class="secondary">Clear Trigger</button>
+            </div>
+            
+            <div class="trigger-section">
+                <button id="togglePlaytest" class="primary">🎮 Playtest Mode</button>
+            </div>
+        </div>
+        
+        <div class="builder-toolbar">
+            <div class="toolbar-section">
+                <label>Game Type:</label>
+                <select id="gameType">
+                    <option value="narrative">Narrative</option>
+                    <option value="puzzle">Puzzle</option>
+                    <option value="combat">Combat</option>
+                    <option value="sandbox">Sandbox</option>
+                </select>
+            </div>
+            
+            <div class="toolbar-section">
+                <label>Biome:</label>
+                <select id="biome">
+                    <option value="grove">Grove</option>
+                    <option value="castle">Castle</option>
+                    <option value="dungeon">Dungeon</option>
+                    <option value="forest">Forest</option>
+                </select>
+            </div>
+            
+            <div class="toolbar-section">
+                <label>Tile:</label>
+                <select id="tileSelect">
+                    <option value="grass_01">Grass 01</option>
+                    <option value="grass_02">Grass 02</option>
+                    <option value="path_stone">Path Stone</option>
+                    <option value="mystic_stone">Mystic Stone</option>
+                </select>
+                <div class="tile-preview" id="tilePreview">🌱</div>
+            </div>
+            
+            <div class="toolbar-section">
+                <label>Sprite:</label>
+                <select id="spriteSelect">
+                    <option value="mainCharacter">Player</option>
+                    <option value="npcElder">NPC Elder</option>
+                </select>
+            </div>
+            
+            <div class="toolbar-section">
+                <button id="toggleTriggers" class="secondary">🎯 Triggers</button>
+                <button id="toggleLiveMode" class="secondary">🔗 Live Mode</button>
+                <button id="saveZone" class="primary">💾 Save Zone</button>
+                <button id="clearMap" class="primary">Clear Map</button>
+                <button id="exportMap" class="primary">Export Remix</button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="overlays/dispatcher.js"></script>
+    <script type="module" src="overlays/footer.js"></script>
+    <script type="module" src="zones/map_builder/assets.js"></script>
+    <script type="module" src="zones/map_builder/index.js"></script>
+</body>
+</html>

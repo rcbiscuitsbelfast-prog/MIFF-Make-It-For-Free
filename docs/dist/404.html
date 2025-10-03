@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Page Not Found — MIFF</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root{ --bg1:#061510; --bg2:#0f1f17; --fg:#e6edf3; --muted:#a9b8c6; --card:#0e1622; --accent:#00ff88; }
+		html,body{margin:0;height:100%;font-family:'JetBrains Mono', monospace;background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);color:var(--fg)}
+        .container{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+        .card{max-width:760px;width:100%;background:rgba(14,22,34,0.9);border:1px solid #1f2d3c;border-radius:12px;padding:24px;box-shadow:0 8px 25px rgba(88,166,255,0.1)}
+        .top-logo{position:fixed;top:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;width:120px;height:120px;border-radius:50%;background:rgba(0,255,136,0.12);border:1px solid rgba(0,255,136,0.28)}
+        h1{margin:0 0 8px 0;color:var(--accent);font-size:30px}
+        p{margin:8px 0;color:var(--muted)}
+        .links{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;justify-content:center}
+		.a{background:#0f1f17;border:1px solid #1e4434;color:var(--fg);text-decoration:none;padding:8px 12px;border-radius:8px}
+		.a:hover{background:#163226}
+	</style>
+</head>
+<body>
+    <div class="top-logo">
+        <img src="/MIFF-Make-It-For-Free/image_1758956766781.svg" alt="MIFF" width="72" height="72" onerror="this.onerror=null;this.replaceWith((()=>{const s=document.createElement('span');s.innerHTML='&#9776;';s.style.color='var(--accent)';s.style.fontSize='32px';return s;})())" />
+	</div>
+	<div class="container">
+		<div class="card">
+			<h1>404 — Page Not Found</h1>
+			<p>The page you requested does not exist. Try one of these entry points:</p>
+			<div class="links">
+				<a class="a" href="/MIFF-Make-It-For-Free/">Home</a>
+				<a class="a" href="/MIFF-Make-It-For-Free/sampler/">MIFF Sampler</a>
+				<a class="a" href="/MIFF-Make-It-For-Free/renderworld/">RenderWorld Hub</a>
+				<a class="a" href="/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html?v=2025-10-01-5">Pixel World (Game)</a>
+				<a class="a" href="/MIFF-Make-It-For-Free/docs-site/">Documentation</a>
+			</div>
+		</div>
+	</div>
+	<script>
+	// Smart fallback: if user hit a Pixel World path that 404'd, auto-redirect to the live viewport
+	(function(){
+		try {
+			var p = location.pathname || '';
+			var alreadyViewport = /\/MIFF\-Make\-It\-For\-Free\/render\/viewport\/?$/i.test(p);
+			var didRedirect = sessionStorage.getItem('miff_px_redirected') === '1';
+			if (!alreadyViewport && !didRedirect && (/\/render\/viewport/i.test(p) || /pixelCityViewport/i.test(p) || /pixel\-world/i.test(p))) {
+				sessionStorage.setItem('miff_px_redirected','1');
+				location.replace('/MIFF-Make-It-For-Free/render/viewport/pixelCityViewport.html?v=2025-10-01-5');
+			}
+		} catch {}
+	})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "zone": "toppler",
+  "entities": [
+    { "id": "player_spawn", "name": "Player Spawn", "type": "sprite", "src": "../../assets/Player.png", "x": 40, "y": 420, "w": 32, "h": 32 },
+    { "id": "enemy_1", "name": "Skeleton", "type": "sprite", "src": "../../assets/Skeleton.png", "x": 200, "y": 420, "w": 28, "h": 28 },
+    { "id": "platform_1", "name": "Platform", "type": "tile", "src": "../../assets/Bridge_Wood.png", "x": 80, "y": 380, "w": 60, "h": 10 },
+    { "id": "platform_2", "name": "Platform", "type": "tile", "src": "../../assets/Bridge_Wood.png", "x": 200, "y": 360, "w": 60, "h": 10 }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "zone": "2d-side",
+  "name": "Medieval Platformer",
+  "description": "Side-scrolling platformer with gravity, jumping, and enemy encounters",
+  "entities": [
+    {
+      "id": "player_knight",
+      "name": "Knight Hero",
+      "type": "sprite",
+      "src": "../../assets/KayKitAssets/knight_texture.png",
+      "x": 50,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "frame": 0,
+      "frameRate": 0.1
+    },
+    {
+      "id": "platform_wood_1",
+      "name": "Wood Platform",
+      "type": "tile",
+      "src": "../../assets/Bridge_Wood.png",
+      "x": 100,
+      "y": 350,
+      "w": 80,
+      "h": 16
+    },
+    {
+      "id": "platform_wood_2",
+      "name": "Wood Platform",
+      "type": "tile",
+      "src": "../../assets/Bridge_Wood.png",
+      "x": 250,
+      "y": 300,
+      "w": 80,
+      "h": 16
+    },
+    {
+      "id": "platform_wood_3",
+      "name": "Wood Platform",
+      "type": "tile",
+      "src": "../../assets/Bridge_Wood.png",
+      "x": 400,
+      "y": 250,
+      "w": 80,
+      "h": 16
+    },
+    {
+      "id": "enemy_skeleton_1",
+      "name": "Skeleton Guard",
+      "type": "sprite",
+      "src": "../../assets/Skeleton.png",
+      "x": 200,
+      "y": 320,
+      "w": 32,
+      "h": 32,
+      "frame": 0,
+      "frameRate": 0.2
+    },
+    {
+      "id": "enemy_skeleton_2",
+      "name": "Skeleton Guard",
+      "type": "sprite",
+      "src": "../../assets/Skeleton.png",
+      "x": 350,
+      "y": 270,
+      "w": 32,
+      "h": 32,
+      "frame": 0,
+      "frameRate": 0.2
+    },
+    {
+      "id": "chest_treasure",
+      "name": "Treasure Chest",
+      "type": "sprite",
+      "src": "../../assets/Chest.png",
+      "x": 420,
+      "y": 220,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "cliff_tile_1",
+      "name": "Cliff Tile",
+      "type": "tile",
+      "src": "../../assets/Cliff_Tile.png",
+      "x": 0,
+      "y": 350,
+      "w": 64,
+      "h": 32
+    },
+    {
+      "id": "cliff_tile_2",
+      "name": "Cliff Tile",
+      "type": "tile",
+      "src": "../../assets/Cliff_Tile.png",
+      "x": 500,
+      "y": 350,
+      "w": 64,
+      "h": 32
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "zone": "2d-topdown",
+  "name": "Grove Explorer",
+  "description": "Top-down exploration with grid-based movement and isometric tiles",
+  "entities": [
+    {
+      "id": "player_barbarian",
+      "name": "Barbarian Hero",
+      "type": "sprite",
+      "src": "../../assets/KayKitAssets/barbarian_texture.png",
+      "x": 200,
+      "y": 200,
+      "w": 48,
+      "h": 48,
+      "frame": 0,
+      "frameRate": 0.1
+    },
+    {
+      "id": "tree_oak_1",
+      "name": "Oak Tree",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0075.png",
+      "x": 150,
+      "y": 150,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "tree_oak_2",
+      "name": "Oak Tree",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0075.png",
+      "x": 250,
+      "y": 150,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "tree_oak_3",
+      "name": "Oak Tree",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0075.png",
+      "x": 100,
+      "y": 250,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "stone_1",
+      "name": "Stone Block",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0091.png",
+      "x": 200,
+      "y": 100,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "stone_2",
+      "name": "Stone Block",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0091.png",
+      "x": 300,
+      "y": 200,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "iso_block_1",
+      "name": "Isometric Block",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0076.png",
+      "x": 120,
+      "y": 180,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "iso_block_2",
+      "name": "Isometric Block",
+      "type": "tile",
+      "src": "../../assets/Isometric Blocks/isometric_0082.png",
+      "x": 280,
+      "y": 120,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "chest_explorer",
+      "name": "Explorer's Chest",
+      "type": "sprite",
+      "src": "../../assets/Chest.png",
+      "x": 180,
+      "y": 300,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "id": "slime_npc",
+      "name": "Friendly Slime",
+      "type": "sprite",
+      "src": "../../assets/Slime_Green.png",
+      "x": 320,
+      "y": 280,
+      "w": 32,
+      "h": 32,
+      "frame": 0,
+      "frameRate": 0.3
+    }
+  ]
+}
