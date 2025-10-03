@@ -143,6 +143,31 @@
                         }
                     };
                 }
+                // Minimal joystick (non-module) — updates global move
+                (function(){
+                    const base = document.getElementById('vj');
+                    const knob = document.getElementById('vj-knob');
+                    if (!base || !knob) return;
+                    const radius = 72; let active = false;
+                    function setKnob(dx, dy){ knob.style.transform = 'translate('+dx+'px,'+dy+'px)'; }
+                    function start(x, y){ active = true; window.__RW_MOVE__ = { x:0, z:0 }; }
+                    function moveTo(x, y){
+                        if (!active) return;
+                        const r = base.getBoundingClientRect();
+                        const cx = r.left + r.width/2; const cy = r.top + r.height/2;
+                        let dx = x - cx, dy = y - cy; const d = Math.hypot(dx,dy);
+                        if (d > radius){ const a = Math.atan2(dy,dx); dx = Math.cos(a)*radius; dy = Math.sin(a)*radius; }
+                        setKnob(dx*0.6, dy*0.6);
+                        window.__RW_MOVE__ = { x: dx / radius, z: -dy / radius };
+                    }
+                    function end(){ active = false; setKnob(0,0); window.__RW_MOVE__ = { x:0, z:0 }; }
+                    base.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; start(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
+                    base.addEventListener('touchmove', (e)=>{ const t=e.touches[0]; moveTo(t.clientX, t.clientY); e.preventDefault(); }, { passive:false });
+                    base.addEventListener('touchend', (e)=>{ end(); e.preventDefault(); }, { passive:false });
+                    base.addEventListener('mousedown', (e)=>{ start(e.clientX, e.clientY); });
+                    window.addEventListener('mousemove', (e)=>{ moveTo(e.clientX, e.clientY); });
+                    window.addEventListener('mouseup', end);
+                })();
                 // Bind Load and Back in start menu
                 const smLoad = document.getElementById('sm-load');
                 const smBack = document.getElementById('sm-back');
