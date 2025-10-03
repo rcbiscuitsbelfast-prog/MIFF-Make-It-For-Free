@@ -2,447 +2,237 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
-  <title>MIFF Sampler Worlds</title>
-  <link rel="stylesheet" href="../overlays/style.css?v=20250911">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <title>MIFF Sampler - Interactive Game Demos</title>
+  
   <link rel="stylesheet" href="../../assets/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #0a1322 0%, #1a2332 100%);
-      color: #e6edf3;
-      font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-      min-height: 100vh;
-    }
-    
-    .sampler-header {
+    .sampler-hero {
       text-align: center;
-      padding: 2rem 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4rem 1rem;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a1f 100%);
+      color: #ffffff;
     }
     
-    .sampler-header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      background: linear-gradient(45deg, #58a6ff, #f0f6fc);
+    .sampler-hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #00ff88, #00cc66);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     
-    .sampler-header p {
-      margin: 1rem 0 0 0;
-      font-size: 1.1rem;
-      opacity: 0.8;
+    .sampler-hero p {
+      font-size: 1.2rem;
+      color: #b8b8b8;
+      max-width: 600px;
+      margin: 0 auto 2rem;
     }
     
-    .worlds-grid {
+    .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      padding: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem 1rem;
       max-width: 1200px;
       margin: 0 auto;
     }
     
-    .world-card {
-      background: rgba(14, 26, 42, 0.8);
-      border: 1px solid rgba(31, 45, 60, 0.5);
-      border-radius: 8px;
-      padding: 1rem;
+    .game-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
       transition: all 0.3s ease;
       cursor: pointer;
       position: relative;
       overflow: hidden;
     }
     
-    .world-card:hover {
+    .game-card:hover {
       transform: translateY(-4px);
-      border-color: #58a6ff;
-      box-shadow: 0 8px 25px rgba(88, 166, 255, 0.2);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-primary);
     }
     
-    .world-card::before {
+    .game-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #58a6ff, #f0f6fc, #58a6ff);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+    .game-card:hover::before {
+      opacity: 1;
     }
     
-    .world-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-    
-    .world-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-      color: #f0f6fc;
-    }
-    
-    .world-type {
-      font-size: 0.9rem;
-      color: #58a6ff;
+    .game-icon {
+      font-size: 3rem;
       margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      display: block;
     }
     
-    .world-description {
-      font-size: 0.85rem;
-      line-height: 1.4;
-      opacity: 0.8;
-      margin-bottom: 0.8rem;
-    }
-    
-    .world-controls {
-      font-size: 0.85rem;
-      color: #7d8590;
+    .game-title {
+      font-size: 1.5rem;
+      font-weight: 600;
       margin-bottom: 1rem;
+      color: var(--text-primary);
     }
     
-    .world-actions {
-      display: flex;
-      gap: 0.5rem;
+    .game-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
     }
     
-    .world-btn {
-      flex: 1;
-      padding: 0.6rem 1rem;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      background: #21262d;
-      color: #e6edf3;
+    .game-btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-primary);
+      color: white;
       text-decoration: none;
-      text-align: center;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s ease;
     }
     
-    .world-btn:hover {
-      background: #58a6ff;
-      border-color: #58a6ff;
-      color: #fff;
-    }
-    
-    .world-btn.primary {
-      background: #238636;
-      border-color: #238636;
-    }
-    
-    .world-btn.primary:hover {
-      background: #2ea043;
-      border-color: #2ea043;
+    .game-btn:hover {
+      background: var(--accent-secondary);
     }
     
     .back-link {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 0, 0, 0.7);
-      color: #e6edf3;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent-primary);
       text-decoration: none;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.2s ease;
+      margin-bottom: 2rem;
+      transition: color 0.3s ease;
     }
     
     .back-link:hover {
-      background: rgba(0, 0, 0, 0.9);
-      border-color: #58a6ff;
-    }
-    
-    @media (max-width: 768px) {
-      .worlds-grid {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-      }
-      
-      .sampler-header h1 {
-        font-size: 2rem;
-      }
+      color: var(--accent-secondary);
     }
   </style>
 </head>
 <body>
-  <a href="../index.html" class="back-link">← Back to MIFF Sampler</a>
-  
-  <div class="sampler-header">
-    <h1>MIFF Sampler Worlds</h1>
-    <p>Experience different gameplay styles, all orchestrated by MIFF and rendered by Godot</p>
-  </div>
-  
-  <div class="worlds-grid">
-    <div class="world-card" onclick="window.open('/MIFF-Make-It-For-Free/renderworld/','_blank')">
-      <div class="world-icon">🏭</div>
-      <div class="world-title">RenderWorld Hub</div>
-      <div class="world-type">3D Warehouse</div>
-      <div class="world-description">Explore the hub and use the middle portal to enter Pixel World</div>
-      <div class="world-actions">
-        <a href="../../renderworld/" target="_blank" class="world-btn primary">Open</a>
+  <div id="miff-landing">
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <a href="../../" aria-label="Open menu" class="menu-logo" id="menuToggle">
+            <img src="../../image_1758956766781.svg" alt="MIFF Logo" width="60" height="60" onerror="this.onerror=null;this.src='../../image_1758956766781.jpeg'" />
+          </a>
+          <span class="logo-text">MIFF</span>
+        </div>
+        <nav class="nav">
+          <a href="../../">Home</a>
+          <a href="./">MIFF Sampler</a>
+          <a href="../studio/">MIFF Studio</a>
+          <a href="../../renderworld/">RenderWorld Hub</a>
+          <a href="../docs-site/">Documentation</a>
+          <a href="../blog/">Blog</a>
+        </nav>
       </div>
-    </div>
-    <div class="world-card" onclick="window.open('../../render/viewport/pixelCityViewport.html','_blank')">
-      <div class="world-icon">🧱</div>
-      <div class="world-title">Pixel World</div>
-      <div class="world-type">Canvas Viewport</div>
-      <div class="world-description">Start menu → character select → world</div>
-      <div class="world-actions">
-        <a href="../../render/viewport/pixelCityViewport.html" target="_blank" class="world-btn primary">Enter Pixel World</a>
-      </div>
-    </div>
-  </div>
-  <div style="position:fixed;right:8px;bottom:8px;font:12px monospace;color:#a9b8c6;background:rgba(0,0,0,0.45);padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.2)">
-    Touch: Drag right side for camera, pinch to zoom. Left joystick for movement.
-  </div>
-  
-  <script>
-    function launchFullScreenGame(gameUrl, gameName) {
-      console.log('Launching game:', gameName, 'at URL:', gameUrl);
-      
-      // Remove any existing game overlay
-      const existingOverlay = document.getElementById('game-overlay');
-      if (existingOverlay) {
-        console.log('Removing existing overlay');
-        existingOverlay.remove();
-      }
-      
-      // Create full-screen overlay
-      const overlay = document.createElement('div');
-      overlay.id = 'game-overlay';
-      overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: #000;
-        z-index: 10000;
-        display: flex;
-        flex-direction: column;
-      `;
+    </header>
 
-      // Create persistent menu icon
-      const menuIcon = document.createElement('div');
-      menuIcon.id = 'game-menu-icon';
-      menuIcon.style.cssText = `
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        width: 50px;
-        height: 50px;
-        background: rgba(88, 166, 255, 0.9);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10001;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(88, 166, 255, 0.3);
-      `;
-      menuIcon.innerHTML = `
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-          <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
-        </svg>
-      `;
-      menuIcon.title = 'Return to MIFF Sampler';
-
-      // Create game iframe
-      const gameFrame = document.createElement('iframe');
-      gameFrame.src = gameUrl;
-      gameFrame.style.cssText = `
-        width: 100%;
-        height: 100%;
-        border: none;
-        background: #000;
-      `;
-      
-      console.log('Created iframe with src:', gameUrl);
-      
-      // Add error handling
-      gameFrame.onerror = function() {
-        console.error('Failed to load game:', gameUrl);
-        alert('Failed to load ' + gameName + '. Please check the console for details.');
-      };
-      
-      gameFrame.onload = function() {
-        console.log('Game loaded successfully:', gameName);
-      };
-      
-      // Add timeout to detect if iframe fails to load
-      setTimeout(() => {
-        if (!gameFrame.contentDocument && !gameFrame.contentWindow) {
-          console.error('Iframe failed to load within timeout:', gameUrl);
-          alert('Game failed to load: ' + gameName + '. The game file might not exist or be accessible.');
-        }
-      }, 5000);
-
-      // Add menu icon click handler
-      menuIcon.addEventListener('click', () => {
-        document.body.removeChild(overlay);
-      });
-
-      // Add escape key handler
-      const escapeHandler = (e) => {
-        if (e.key === 'Escape') {
-          document.body.removeChild(overlay);
-          document.removeEventListener('keydown', escapeHandler);
-        }
-      };
-      document.addEventListener('keydown', escapeHandler);
-
-      // Assemble overlay
-      overlay.appendChild(menuIcon);
-      overlay.appendChild(gameFrame);
-      document.body.appendChild(overlay);
-
-      // Focus the iframe
-      gameFrame.focus();
-    }
-    
-    function injectToPreview(worldType) {
-      // Create a preview iframe
-      const preview = document.createElement('div');
-      preview.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.9);
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      `;
-      
-      const iframe = document.createElement('iframe');
-      iframe.src = `${worldType}.html`;
-      iframe.style.cssText = `
-        width: 90vw;
-        height: 90vh;
-        border: 2px solid #58a6ff;
-        border-radius: 8px;
-      `;
-      
-      const closeBtn = document.createElement('button');
-      closeBtn.textContent = 'Close Preview';
-      closeBtn.style.cssText = `
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 0.5rem 1rem;
-        background: #f85149;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-      `;
-      closeBtn.onclick = () => preview.remove();
-      
-      preview.appendChild(iframe);
-      preview.appendChild(closeBtn);
-      document.body.appendChild(preview);
-      
-      // Inject scene data after iframe loads
-      iframe.onload = () => {
-        setTimeout(() => {
-          const sceneData = generateSceneData(worldType);
-          iframe.contentWindow.postMessage({
-            type: 'scene-data',
-            zone: worldType,
-            data: sceneData
-          }, '*');
-        }, 1000);
-      };
-    }
-    
-    async function generateSceneData(worldType) {
-      const baseScene = {
-        version: 1,
-        zone: worldType,
-        entities: []
-      };
-      
-      try {
-        // Load enhanced presets
-        let presetPath = '';
-        switch(worldType) {
-          case '2d-side':
-            presetPath = '../studio/presets/sampler-2d-side.json';
-            break;
-          case '2d-topdown':
-            presetPath = '../studio/presets/sampler-2d-topdown.json';
-            break;
-          case 'runner':
-            presetPath = '../studio/presets/sampler-runner.json';
-            break;
-          case '3d-topdown':
-            presetPath = '../studio/presets/sampler-3d-isometric.json';
-            break;
-          case 'static-overlay':
-            presetPath = '../studio/presets/sampler-static-overlay.json';
-            break;
-        }
+    <!-- Main Content -->
+    <main class="main">
+      <div class="container">
+        <a href="../../" class="back-link">
+          ← Back to MIFF
+        </a>
         
-        if (presetPath) {
-          const response = await fetch(presetPath);
-          const preset = await response.json();
-          baseScene.entities = preset.entities || [];
-        }
-      } catch (error) {
-        console.warn('Failed to load preset, using fallback:', error);
-        // Fallback to basic entities
-        switch(worldType) {
-          case '2d-side':
-            baseScene.entities = [
-              { id: 'player', name: 'Knight', type: 'sprite', src: '../../../assets/KayKitAssets/knight_texture.png', x: 50, y: 300, w: 48, h: 48 },
-              { id: 'platform1', name: 'Platform', type: 'tile', src: '../../../assets/Bridge_Wood.png', x: 100, y: 350, w: 80, h: 16 }
-            ];
-            break;
-          case '2d-topdown':
-            baseScene.entities = [
-              { id: 'player', name: 'Barbarian', type: 'sprite', src: '../../../assets/KayKitAssets/barbarian_texture.png', x: 200, y: 200, w: 48, h: 48 },
-              { id: 'tree1', name: 'Tree', type: 'tile', src: '../../../assets/Isometric Blocks/isometric_0075.png', x: 150, y: 150, w: 32, h: 32 }
-            ];
-            break;
-          case 'runner':
-            baseScene.entities = [
-              { id: 'player', name: 'Spirit', type: 'sprite', src: '../../../assets/Slime_Green.png', x: 100, y: 200, w: 48, h: 48 },
-              { id: 'obstacle1', name: 'Rock', type: 'tile', src: '../../../assets/Isometric Blocks/isometric_0091.png', x: 300, y: 250, w: 32, h: 32 }
-            ];
-            break;
-          case '3d-topdown':
-            baseScene.entities = [
-              { id: 'player', name: 'Mage', type: 'sprite', src: '../../../assets/KayKitAssets/mage_texture.png', x: 200, y: 200, w: 48, h: 48 },
-              { id: 'castle', name: 'Castle', type: 'tile', src: '../../../assets/House.png', x: 100, y: 100, w: 64, h: 64 }
-            ];
-            break;
-        }
-      }
-      
-      return baseScene;
-    }
-  </script>
+        <div class="sampler-hero">
+          <h1>MIFF Sampler</h1>
+          <p>Explore interactive game demos showcasing MIFF's modular capabilities. Each demo demonstrates different aspects of our framework.</p>
+        </div>
+
+        <div class="games-grid">
+          <div class="game-card" onclick="window.open('../../renderworld/', '_blank')">
+            <div class="game-icon">🌐</div>
+            <h3 class="game-title">RenderWorld Hub</h3>
+            <p class="game-description">Real-time AI-native game preview engine and demo hub. Experience 3D worlds with advanced camera controls and interactive portals.</p>
+            <a href="../../renderworld/" class="game-btn" target="_blank">Open RenderWorld</a>
+          </div>
+
+          <div class="game-card" onclick="window.open('../../render/viewport/pixelCityViewport.html', '_blank')">
+            <div class="game-icon">🧱</div>
+            <h3 class="game-title">Pixel World</h3>
+            <p class="game-description">2D pixel art world with character movement, interactions, and retro gaming mechanics. Built with MIFF's modular systems.</p>
+            <a href="../../render/viewport/pixelCityViewport.html" class="game-btn" target="_blank">Enter Pixel World</a>
+          </div>
+
+          <div class="game-card" onclick="window.open('../studio/', '_blank')">
+            <div class="game-icon">🛠️</div>
+            <h3 class="game-title">MIFF Studio</h3>
+            <p class="game-description">Advanced scene builder and development environment. Create and customize your own game experiences.</p>
+            <a href="../studio/" class="game-btn" target="_blank">Open Studio</a>
+          </div>
+
+          <div class="game-card" onclick="window.open('../docs-site/', '_blank')">
+            <div class="game-icon">📚</div>
+            <h3 class="game-title">Documentation</h3>
+            <p class="game-description">Comprehensive guides, API references, and technical documentation for MIFF's 157+ pure modules.</p>
+            <a href="../docs-site/" class="game-btn" target="_blank">View Docs</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>MIFF Framework</h4>
+            <p>Make It For Free - The future of modular game development</p>
+          </div>
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub Repository</a>
+            <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free/issues" target="_blank">Issues & Support</a>
+            <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">Ko‑fi</a>
+          </div>
+          <div class="footer-section">
+            <h4>License</h4>
+            <p>AGPL-3.0 License</p>
+            <p>Remix-safe • Open Source</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 MIFF Framework. Built with modular architecture and AI integration.</p>
+        </div>
+        <div class="site-links">
+          <a href="./">🌐 MIFF Sampler</a>
+          <a href="../studio/">🛠️ MIFF Studio</a>
+          <a href="../../renderworld/">🌍 RenderWorld Hub</a>
+          <a href="../docs-site/">📘 Documentation</a>
+          <a href="../blog/">📝 Blog</a>
+          <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">🧬 GitHub</a>
+        </div>
+      </div>
+    </footer>
+    
+    <div class="kofi-footer">
+      <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">☕ Support MIFF on Ko‑fi</a>
+    </div>
+  </div>
+
+  <script src="../../assets/script.js"></script>
 </body>
 </html>

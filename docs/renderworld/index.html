@@ -32,7 +32,7 @@
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">
             <div style="text-align:center;margin-bottom:6px">
-                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-23)</h2>
+                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-24)</h2>
             </div>
             <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>
             <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>
@@ -53,7 +53,7 @@
 
     <!-- Camera controls removed: touch gestures will control zoom/pitch/yaw -->
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-23</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-24</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -432,20 +432,28 @@ function updateCamera(){
 	function onPointerMove(x, y){
 		if (!isPointerDown) return;
 		const dx = x - lastX; const dy = y - lastY; lastX = x; lastY = y;
-		// Sensitivity tuned for mobile portrait
-		targetYaw -= dx * 0.005;
-		targetPitch -= dy * 0.004;
+		// Increased sensitivity for better mobile response
+		targetYaw -= dx * 0.01;
+		targetPitch -= dy * 0.008;
 		if (targetPitch < minPitch) targetPitch = minPitch;
 		if (targetPitch > maxPitch) targetPitch = maxPitch;
+		console.log('Camera move:', targetYaw, targetPitch);
 	}
 	function onPointerUp(){ isPointerDown = false; }
 
 	canvas.addEventListener('mousedown', (e)=>{ onPointerDown(e.clientX, e.clientY); });
 	window.addEventListener('mousemove', (e)=>{ onPointerMove(e.clientX, e.clientY); });
 	window.addEventListener('mouseup', onPointerUp);
-	canvas.addEventListener('touchstart', (e)=>{ const t=e.touches[0]; onPointerDown(t.clientX, t.clientY); }, { passive:false });
+	canvas.addEventListener('touchstart', (e)=>{ 
+		e.preventDefault();
+		const t=e.touches[0]; 
+		onPointerDown(t.clientX, t.clientY); 
+		console.log('Touch start:', t.clientX, t.clientY);
+	}, { passive:false });
+	
 // Touch move with pinch-to-zoom support
 canvas.addEventListener('touchmove', (e)=>{
+    e.preventDefault();
     if (e.touches.length === 2) {
         // Pinch zoom modifies cameraRadius (third person only)
         const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -455,13 +463,20 @@ canvas.addEventListener('touchmove', (e)=>{
         const delta = dist - canvas._pinchLast;
         canvas._pinchLast = dist;
         cameraRadius = Math.min(maxCameraRadius, Math.max(minCameraRadius, cameraRadius - delta * 0.01));
-        e.preventDefault();
-    } else {
+        console.log('Pinch zoom:', cameraRadius);
+    } else if (e.touches.length === 1) {
         canvas._pinchLast = undefined;
-        const t=e.touches[0]; onPointerMove(t.clientX, t.clientY); e.preventDefault();
+        const t=e.touches[0]; 
+        onPointerMove(t.clientX, t.clientY); 
+        console.log('Touch move:', t.clientX, t.clientY);
     }
 }, { passive:false });
-	canvas.addEventListener('touchend', onPointerUp, { passive:false });
+	
+canvas.addEventListener('touchend', (e)=>{ 
+	e.preventDefault();
+	onPointerUp(); 
+	console.log('Touch end');
+}, { passive:false });
 
 // Tap-to-interact via raycast
 const raycaster = new THREE.Raycaster();
@@ -1630,7 +1645,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
                 m.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;';
                 m.innerHTML = '<div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">'
                   + '  <div style="text-align:center;margin-bottom:6px">'
-                  + '    <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-23)</h2>'
+                  + '    <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-24)</h2>'
                   + '  </div>'
                   + '  <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>'
                   + '  <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>'
