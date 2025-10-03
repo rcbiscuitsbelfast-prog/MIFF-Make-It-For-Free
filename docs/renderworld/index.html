@@ -91,9 +91,7 @@
             // Test start button
             setTimeout(function() {
                 const startBtn = document.getElementById('sm-start');
-                if (debug) {
-                    debug.textContent = 'Start btn: ' + (startBtn ? 'found' : 'missing');
-                }
+                if (debug) { debug.textContent = 'Start btn: ' + (startBtn ? 'found' : 'missing'); }
                 
                 if (startBtn) {
                     startBtn.onclick = function() {
@@ -119,7 +117,7 @@
                                         ctx.fillRect(0, 0, canvas.width, canvas.height);
                                         ctx.fillStyle = '#ff0000';
                                         ctx.fillRect(50, 50, 100, 100);
-                                        if (debug) debug.textContent = 'Fallback 2D test';
+                                        if (debug) debug.textContent = 'Fallback 2D test (3D not ready)';
                                     }
                                 }
                             }
@@ -171,7 +169,41 @@
         });
     </script>
     
-    <!-- Re-enable Three.js module and gate fallback -->
+    <!-- Non-module Three.js loader for mobile (fallback-first) -->
+    <script>
+    (function(){
+        function init3D(){
+            try {
+                const canvas = document.getElementById('gameCanvas');
+                const renderer2 = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+                renderer2.setPixelRatio(Math.min(2, Math.max(1, window.devicePixelRatio || 1)));
+                const scene2 = new THREE.Scene();
+                scene2.background = new THREE.Color(0x00ff00);
+                const camera2 = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+                camera2.position.set(0, 2, 6);
+                const testCube2 = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+                testCube2.position.set(0,0,-5);
+                scene2.add(testCube2);
+                function size(){ const w = canvas.clientWidth || window.innerWidth; const h = canvas.clientHeight || window.innerHeight; renderer2.setSize(w,h,false); camera2.aspect = w/h; camera2.updateProjectionMatrix(); }
+                size(); window.addEventListener('resize', size);
+                function loop(t){ testCube2.rotation.y += 0.02; testCube2.rotation.x += 0.01; renderer2.render(scene2, camera2); requestAnimationFrame(loop); }
+                requestAnimationFrame(loop);
+                window.__RW_3D_READY__ = true; try { const st = document.getElementById('status'); if (st) st.textContent = 'running'; } catch{}
+                const dbg = document.getElementById('debug'); if (dbg) dbg.textContent = '3D ready (non-module)';
+            } catch (e) {
+                const dbg = document.getElementById('debug'); if (dbg) dbg.textContent = '3D init error: ' + e.message;
+            }
+        }
+        if (!window.THREE){
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js';
+            s.onload = init3D; s.onerror = function(){ const dbg = document.getElementById('debug'); if (dbg) dbg.textContent = 'Failed to load three.min.js'; };
+            document.head.appendChild(s);
+        } else { init3D(); }
+    })();
+    </script>
+
+    <!-- Re-enable Three.js module and gate fallback (kept, but mobile will use non-module above) -->
     <script type="module">
     // Use CDN module
     import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
@@ -1087,8 +1119,7 @@ scene.add(spiritLens);
 	}
 	requestAnimationFrame(animate);
 try { document.getElementById('status').textContent = 'running'; } catch {}
-// Mark 3D as ready after first render loop kicks in
-window.__RW_3D_READY__ = true;
+// 3D ready flag now set from whichever renderer starts (module or non-module)
 
 	// Phase 5: joystick logic
 	(function(){
