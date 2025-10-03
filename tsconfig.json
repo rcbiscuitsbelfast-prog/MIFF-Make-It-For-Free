@@ -1,36 +1,26 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
+    "module": "ES2020",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "allowJs": true,
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "types": ["react", "react-dom", "jest", "node"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["miff-nextjs/src/*"]
-    }
+    "outDir": "./dist",
+    "rootDir": "./miff/pure",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "types/**/*.d.ts"
+    "miff/pure/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "coverage",
-    "miff-nextjs/tailwind.config.ts",
-    "scenarios/**/*.ts"
+    "**/*.test.ts",
+    "**/cliHarness.ts",
+    "**/cli/**"
   ]
 }
