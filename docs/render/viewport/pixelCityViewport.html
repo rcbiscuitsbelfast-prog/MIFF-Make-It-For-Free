@@ -141,6 +141,25 @@
 						if (e.key==='q'||e.key==='Q') camera.targetAngle = clamp(camera.targetAngle - 2, -30, 30);
 						if (e.key==='e'||e.key==='E') camera.targetAngle = clamp(camera.targetAngle + 2, -30, 30);
 					});
+					// Touch: pinch to zoom, two-finger rotate
+					let touchState = null;
+					function dist(a,b){ const dx=a.clientX-b.clientX, dy=a.clientY-b.clientY; return Math.hypot(dx,dy); }
+					function angle(a,b){ return Math.atan2(b.clientY-a.clientY, b.clientX-a.clientX) * 180/Math.PI; }
+					window.addEventListener('touchstart', (e)=>{
+						if (e.touches.length===2){
+							const [t0,t1]=e.touches; touchState = { d:dist(t0,t1), a:angle(t0,t1), z0:camera.targetZoom, ang0:camera.targetAngle };
+						}
+					}, { passive:true });
+					window.addEventListener('touchmove', (e)=>{
+						if (touchState && e.touches.length===2){
+							const [t0,t1]=e.touches; const nd=dist(t0,t1); const na=angle(t0,t1);
+							const dz = (nd - touchState.d) / 200; // scale factor
+							camera.targetZoom = clamp(touchState.z0 + dz, 1, 4);
+							const da = na - touchState.a; camera.targetAngle = clamp(touchState.ang0 + da, -30, 30);
+							e.preventDefault();
+						}
+					}, { passive:false });
+					window.addEventListener('touchend', ()=>{ touchState = null; }, { passive:true });
 				})();
 
 				function tick(t){
