@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 	<title>RenderWorld Hub</title>
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
-	<style>
+    <style>
 		html, body { margin:0; padding:0; height:100%; height:100dvh; background:#000; overflow:hidden; }
-		#gameCanvas { position:fixed; inset:0; width:100vw; height:100dvh; display:block; }
+		#gameCanvas { position:fixed; inset:0; width:100vw; height:100dvh; display:block; touch-action:none; }
 		#status { position:fixed; left:8px; bottom:8px; color:#7fffd4; font:12px monospace; background:rgba(0,0,0,0.5); padding:6px 8px; border-radius:4px; }
 		#joystick { position:fixed; left:16px; bottom:16px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; }
 		#joystickKnob { width:56px; height:56px; border-radius:50%; background:rgba(0, 212, 255, 0.8); box-shadow:0 0 15px rgba(0,212,255,0.5); }
@@ -267,8 +267,15 @@
                     // Camera-relative: forward stick (z>0) moves towards camera forward (negative offset)
                     // We want forward to move player AWAY from camera (toward -off vector), so invert mapping
                     const sinY = Math.sin(camState.yaw), cosY = Math.cos(camState.yaw);
-                    const worldX = m.x * cosY - m.z * sinY;
-                    const worldZ = m.z * cosY + m.x * sinY;
+                    // Define camera-forward as vector from camera to player; move along that when m.z > 0
+                    const camForwardX = player.position.x - camera2.position.x;
+                    const camForwardZ = player.position.z - camera2.position.z;
+                    const fLen = Math.hypot(camForwardX, camForwardZ) || 1;
+                    const fX = camForwardX / fLen, fZ = camForwardZ / fLen;
+                    // Right vector
+                    const rX = fZ, rZ = -fX;
+                    const worldX = rX * m.x + fX * m.z;
+                    const worldZ = rZ * m.x + fZ * m.z;
                     player.position.x += worldX * speed;
                     player.position.z += worldZ * speed;
                     // Auto-center camera yaw when moving slightly
@@ -1298,21 +1305,16 @@ try { document.getElementById('status').textContent = 'running'; } catch {}
         function toggleRun(){
             const now = Date.now();
             if (now < runCooldownUntil) { updateLabel(); return; }
-            // Use enhanced player state
-            if (window.playerState) {
-                window.playerState = reducePlayerAction(window.playerState, { type: 'setRunning', running: !window.playerState.isRunning });
-                isRunning = window.playerState.isRunning; // Keep old variable for compatibility
-            } else {
-                isRunning = !isRunning;
+            if (!window.__RW_RUN__) window.__RW_RUN__ = { isRunning:false, until:0, cooldownUntil:0 };
+            const rm = window.__RW_RUN__;
+            const nowPerf = performance.now();
+            if (!rm.isRunning && nowPerf >= rm.cooldownUntil) {
+                rm.isRunning = true; rm.until = nowPerf + 4000; // 4s run
+                isRunning = true;
+                if (runAutoOffTimer) clearTimeout(runAutoOffTimer);
+                runAutoOffTimer = setTimeout(()=>{ stopRun(); startCooldown(); rm.isRunning=false; rm.cooldownUntil = performance.now() + 3000; }, 4000);
             }
             updateLabel();
-            if (isRunning) {
-                if (runAutoOffTimer) clearTimeout(runAutoOffTimer);
-                runAutoOffTimer = setTimeout(()=>{ stopRun(); startCooldown(); }, 2000); // auto off after 2s
-            } else {
-                if (runAutoOffTimer) { clearTimeout(runAutoOffTimer); runAutoOffTimer = null; }
-                startCooldown();
-            }
         }
         btn.addEventListener('click', toggleRun);
         btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); toggleRun(); }, { passive:false });
