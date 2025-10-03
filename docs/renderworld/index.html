@@ -162,11 +162,10 @@
         });
     </script>
     
-    <!-- Temporarily disable Three.js module to test basic functionality -->
-    <!--
+    <!-- Re-enable Three.js module and gate fallback -->
     <script type="module">
-	// Use CDN module to avoid MIME issues with local backup extension
-	// import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
+    // Use CDN module
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
 
 	const canvas = document.getElementById('gameCanvas');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
@@ -181,21 +180,21 @@ canvas.style.display = 'block';
 canvas.style.background = '#000000';
 
 	const scene = new THREE.Scene();
-	// Simple test background
-	scene.background = new THREE.Color(0x00ff00); // Green background to test visibility
-	renderer.setClearColor(0x00ff00, 1);
+    // Basic visible background (keep green until we restore full world)
+    scene.background = new THREE.Color(0x00ff00);
+    renderer.setClearColor(0x00ff00, 1);
 	
 	// Add a simple test cube to verify 3D rendering
-	const testGeometry = new THREE.BoxGeometry(1, 1, 1);
-	const testMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-	const testCube = new THREE.Mesh(testGeometry, testMaterial);
-	testCube.position.set(0, 0, -5);
-	scene.add(testCube);
+    const testGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const testMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const testCube = new THREE.Mesh(testGeometry, testMaterial);
+    testCube.position.set(0, 0, -5);
+    scene.add(testCube);
 
 	const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
 	camera.position.set(0, 2, 6); // Start higher to see warehouse better
 
-	// Phase 2: Simple drag camera controls with damping
+    // Phase 2: Simple drag camera controls with damping
 	let isPointerDown = false;
 	let lastX = 0, lastY = 0;
 	let yaw = 0, pitch = 0;
