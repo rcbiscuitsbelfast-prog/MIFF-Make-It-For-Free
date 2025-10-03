@@ -32,7 +32,7 @@
     <div id="start-menu" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a1322,#1a2332);z-index:1200;">
         <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;align-items:stretch">
             <div style="text-align:center;margin-bottom:6px">
-                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-19)</h2>
+                <h2 style="margin:0;color:#ff4d4d;letter-spacing:1px">RenderWorld (v-2025-10-03-21)</h2>
             </div>
             <button id="sm-start" style="min-height:44px;border-radius:10px;background:#00a86b;color:white;border:1px solid #1e4434;">Start</button>
             <button id="sm-load" style="min-height:44px;border-radius:10px;background:#1f1f1f;color:white;border:1px solid rgba(255,255,255,0.2);">Load Game…</button>
@@ -53,7 +53,7 @@
 
     <!-- Camera controls removed: touch gestures will control zoom/pitch/yaw -->
     <div id="portal-labels" style="position:fixed;left:0;top:0;right:0;bottom:0;pointer-events:none;z-index:1020;">
-        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-19</span>
+        <span id="rw-version" style="position:absolute;left:8px;top:8px;font:12px monospace;color:#ff4d4d;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);">v-2025-10-03-21</span>
         <span id="lbl-p1" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Spirit Tamer</span>
         <span id="lbl-p2" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Toppler</span>
         <span id="lbl-p3" style="position:absolute;font:12px monospace;color:#e6edf3;background:rgba(0,0,0,0.45);padding:3px 6px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);display:none;">Witcher Grove</span>
@@ -273,7 +273,8 @@
                     const fLen = Math.hypot(camForwardX, camForwardZ) || 1;
                     const fX = camForwardX / fLen, fZ = camForwardZ / fLen;
                     // Right vector
-                    const rX = fZ, rZ = -fX;
+                    // Correct strafe (right) vector: perpendicular to forward
+                    const rX = -fZ, rZ = fX;
                     const worldX = rX * m.x + fX * m.z;
                     const worldZ = rZ * m.x + fZ * m.z;
                     player.position.x += worldX * speed;
@@ -293,10 +294,8 @@
                     leftArm.rotation.x = Math.sin(phase + Math.PI) * 0.55 * mv * running;
                     rightArm.rotation.x = Math.sin(phase) * 0.55 * mv * running;
                     // Jump impulse decay
-                    if (!player.userData.vy) player.userData.vy = 0;
-                    if (window.__RW_JUMP__) {
-                        if ((t - (player.userData.jumpAt||0)) > 400) { player.userData.vy = 3.6; player.userData.jumpAt = t; window.__RW_JUMP__ = 0; }
-                    }
+                    if (player.userData.vy===undefined) player.userData.vy = 0;
+                    if (window.__RW_JUMP__) { player.userData.vy = 3.8; window.__RW_JUMP__ = 0; }
                     player.userData.vy += (-9.8) * (dt/1000);
                     player.position.y += player.userData.vy * (dt/1000);
                     if (player.position.y < 0) { player.position.y = 0; player.userData.vy = 0; }
@@ -1703,7 +1702,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
                 if (!canvas) return;
                 let lastDist = null; let twoFingerStartY = null; let dragging = false; let lastX = 0;
                 canvas.addEventListener('touchstart', (e)=>{
-                    if (e.touches.length===1){ dragging = true; lastX = e.touches[0].clientX; }
+                    if (e.touches.length===1){ dragging = true; lastX = e.touches[0].clientX; e.preventDefault(); }
                     if (e.touches.length===2){
                         const dx = e.touches[0].clientX - e.touches[1].clientX;
                         const dy = e.touches[0].clientY - e.touches[1].clientY;
