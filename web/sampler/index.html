@@ -1,40 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>MIFF Sampler — Pixel City</title>
-	<style>
-		body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
-		header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
-		.wrap{padding:12px;max-width:1200px;margin:0 auto}
-		.zone-card{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622;padding:16px;margin-bottom:12px}
-		.zone-card h3{margin:0 0 8px 0;color:#58a6ff}
-		.zone-card p{margin:0 0 12px 0;color:#a9b8c6;font-size:14px}
-		.card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-		.btn-primary{background:#238636;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:500}
-		.btn-primary:hover{background:#2ea043}
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <title>MIFF Sampler Worlds</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0a1322 0%, #1a2332 100%);
+      color: #e6edf3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .sampler-header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sampler-header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #58a6ff, #f0f6fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .sampler-header p {
+      margin: 1rem 0 0 0;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+    
+    .worlds-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .world-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .world-card:hover {
+      transform: translateY(-4px);
+      border-color: #58a6ff;
+      box-shadow: 0 8px 25px rgba(88, 166, 255, 0.2);
+    }
+    
+    .world-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .world-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #e6edf3;
+    }
+    
+    .world-type {
+      font-size: 0.875rem;
+      color: #58a6ff;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .world-description {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      opacity: 0.8;
+      margin-bottom: 0.8rem;
+    }
+    
+    .world-controls {
+      font-size: 0.85rem;
+      color: #7d8590;
+      margin-bottom: 1rem;
+    }
+    
+    .world-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .world-btn {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      background: #21262d;
+      color: #e6edf3;
+      text-decoration: none;
+      text-align: center;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    
+    .world-btn:hover {
+      background: #58a6ff;
+      border-color: #58a6ff;
+      color: #fff;
+    }
+    
+    .world-btn.primary {
+      background: #238636;
+      border-color: #238636;
+    }
+    
+    .world-btn.primary:hover {
+      background: #2ea043;
+      border-color: #2ea043;
+    }
+    
+    .help-tip {
+      position: fixed;
+      right: 8px;
+      bottom: 8px;
+      font: 12px monospace;
+      color: #a9b8c6;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
 </head>
 <body>
-	<header>
-		<strong>MIFF Sampler</strong>
-	</header>
-	<div class="wrap">
-		<div class="zone-card">
-			<h3>🌀 RenderWorld</h3>
-			<p>Real-time MIFF-native renderer and hub.</p>
-			<div class="card-actions">
-				<a href="../renderworld/index.html" class="btn-primary" aria-label="Open RenderWorld">Open RenderWorld</a>
-			</div>
-		</div>
-		<div class="zone-card">
-			<h3>🏙️ Explore Pixel City</h3>
-			<p>A procedurally generated world of retro characters, quests, and ambient effects</p>
-			<div class="card-actions">
-				<a href="../renderworld/index.html#pixel-city" class="btn-primary" aria-label="Enter Pixel World">Enter Pixel World</a>
-			</div>
-		</div>
-	</div>
+  <div class="sampler-header">
+    <h1>MIFF Sampler</h1>
+    <p>Interactive game demos and experiences</p>
+  </div>
+  
+  <div class="worlds-grid">
+    <div class="world-card" onclick="window.open('../renderworld/index.html','_blank')">
+      <div class="world-icon">🌐</div>
+      <div class="world-title">RenderWorld Hub</div>
+      <div class="world-type">3D Engine</div>
+      <div class="world-description">Real-time 3D rendering with AI integration, portals, and interactive worlds</div>
+      <div class="world-controls">Touch: Pinch zoom, two-finger rotate</div>
+      <div class="world-actions">
+        <a href="../renderworld/index.html" target="_blank" class="world-btn primary">Enter RenderWorld</a>
+      </div>
+    </div>
+    
+    <div class="world-card" onclick="window.open('../renderworld/index.html#pixel-city','_blank')">
+      <div class="world-icon">🧱</div>
+      <div class="world-title">Pixel World</div>
+      <div class="world-type">Canvas Viewport</div>
+      <div class="world-description">Retro pixel art world with character selection, NPCs, and quests</div>
+      <div class="world-controls">WASD/Arrows: Move, Space: Interact</div>
+      <div class="world-actions">
+        <a href="../renderworld/index.html#pixel-city" target="_blank" class="world-btn primary">Enter Pixel World</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="help-tip">
+    Tips: Pinch to zoom, two‑finger rotate in viewport. Use on‑screen controls where available.
+  </div>
+  
+  <script>
+    function launchFullScreenGame(gameUrl, gameName) {
+      console.log('Launching game:', gameName, 'at URL:', gameUrl);
+      
+      // Remove any existing game overlay
+      const existingOverlay = document.getElementById('game-overlay');
+      if (existingOverlay) {
+        existingOverlay.remove();
+      }
+      
+      // Create fullscreen overlay
+      const overlay = document.createElement('div');
+      overlay.id = 'game-overlay';
+      overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      `;
+      
+      // Create iframe for the game
+      const iframe = document.createElement('iframe');
+      iframe.src = gameUrl;
+      iframe.style.cssText = `
+        width: 100%;
+        height: 100%;
+        border: none;
+      `;
+      
+      // Create close button
+      const closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '✕';
+      closeBtn.style.cssText = `
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        border: 1px solid #333;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        cursor: pointer;
+        z-index: 10000;
+      `;
+      
+      closeBtn.onclick = () => overlay.remove();
+      
+      overlay.appendChild(iframe);
+      overlay.appendChild(closeBtn);
+      document.body.appendChild(overlay);
+    }
+  </script>
 </body>
 </html>
