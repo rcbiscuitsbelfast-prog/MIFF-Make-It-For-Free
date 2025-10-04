@@ -68,8 +68,8 @@ export class AssetPipeline {
   private processingTimer?: NodeJS.Timeout;
 
   constructor(config: AssetConfig) {
-    this.config = {
-      optimizationLevel: 'high',
+    const defaultConfig = {
+      optimizationLevel: 'high' as const,
       compressionEnabled: true,
       cachingEnabled: true,
       parallelProcessing: true,
@@ -77,8 +77,8 @@ export class AssetPipeline {
       enablePreprocessing: true,
       enablePostprocessing: true,
       qualitySettings: {},
-      ...config
     };
+    this.config = { ...defaultConfig, ...config };
 
     this.stats = this.initializeStats();
     this.initializeWorkers();
@@ -118,7 +118,8 @@ export class AssetPipeline {
       return this.stats;
 
     } catch (error) {
-      this.log(`❌ Asset pipeline failed: ${error.message}`, 'error');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.log(`❌ Asset pipeline failed: ${errorMessage}`, 'error');
       throw error;
     }
   }
@@ -156,7 +157,8 @@ export class AssetPipeline {
       }
 
     } catch (error) {
-      this.log(`Asset processing error: ${assetId} - ${error.message}`, 'error');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.log(`Asset processing error: ${assetId} - ${errorMessage}`, 'error');
       return null;
     }
   }
@@ -279,7 +281,8 @@ export class AssetPipeline {
         await this.loadAsset(assetId);
         this.log(`Preloaded asset: ${assetId}`);
       } catch (error) {
-        this.log(`Preload failed for ${assetId}: ${error.message}`, 'debug');
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        this.log(`Preload failed for ${assetId}: ${errorMessage}`, 'debug');
       }
     }
   }
@@ -458,8 +461,9 @@ export class AssetPipeline {
 
     } catch (error) {
       task.status = 'failed';
-      task.error = error.message;
-      this.log(`❌ Task failed: ${task.assetId} (${task.type}) - ${error.message}`, 'error');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      task.error = errorMessage;
+      this.log(`❌ Task failed: ${task.assetId} (${task.type}) - ${errorMessage}`, 'error');
     }
 
     this.activeTasks.delete(task.assetId);

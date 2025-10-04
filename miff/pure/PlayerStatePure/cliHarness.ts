@@ -25,8 +25,6 @@ try {
   handleError(e);
 }
 
-#!/usr/bin/env tsx
-
 import { PlayerStatePure, PlayerStateSnapshot, InputState } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';

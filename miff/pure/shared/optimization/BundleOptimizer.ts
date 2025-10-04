@@ -51,16 +51,16 @@ export class BundleOptimizer {
   private unusedExports: Map<string, Set<string>> = new Map();
 
   constructor(config: BundleConfig) {
-    this.config = {
-      optimizationLevel: 'aggressive',
+    const defaultConfig = {
+      optimizationLevel: 'aggressive' as const,
       minify: true,
       sourcemap: false,
       treeShaking: true,
       codeSplitting: true,
       deadCodeElimination: true,
       compression: true,
-      ...config
     };
+    this.config = { ...defaultConfig, ...config };
   }
 
   /**
@@ -116,13 +116,14 @@ export class BundleOptimizer {
       return result;
 
     } catch (error) {
-      this.log(`❌ Bundle optimization failed: ${error.message}`, 'error');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.log(`❌ Bundle optimization failed: ${errorMessage}`, 'error');
       return {
         success: false,
         bundlePath: '',
         stats: this.createEmptyStats(),
         warnings: [],
-        errors: [error.message]
+        errors: [error instanceof Error ? error.message : String(error)]
       };
     }
   }
@@ -289,7 +290,8 @@ export class BundleOptimizer {
 
       this.log('Bundle compressed with gzip and brotli');
     } catch (error) {
-      this.log(`Compression failed: ${error.message}`, 'error');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.log(`Compression failed: ${errorMessage}`, 'error');
     }
   }
 
