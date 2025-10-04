@@ -7,7 +7,7 @@
  * Provides live testing of MIFF modules within the Unity Editor environment.
  */
 
-import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../UnityBridgePure';
+import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType, UnityCommunicationProtocol } from '../UnityBridgePure';
 import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
 import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
@@ -28,7 +28,7 @@ export class UnityEditorCLI {
 
     const config: UnityBridgeConfiguration = {
       bridgeType: UnityBridgeType.GAME_OBJECT,
-      communicationProtocol: 'message_passing',
+      communicationProtocol: UnityCommunicationProtocol.MESSAGE_PASSING,
       unityVersion: '2021.3',
       targetPlatform: 'editor',
       enableDebugLogging: true,

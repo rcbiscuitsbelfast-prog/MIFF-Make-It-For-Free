@@ -7,7 +7,7 @@
  * Provides live testing of MIFF modules within the Godot environment.
  */
 
-import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../GodotBridgePure';
+import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType, GodotCommunicationProtocol } from '../GodotBridgePure';
 import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
 import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
@@ -26,7 +26,7 @@ export class GodotEditorCLI {
 
     const config: GodotBridgeConfiguration = {
       bridgeType: GodotBridgeType.SCENE,
-      communicationProtocol: 'gdnative',
+      communicationProtocol: GodotCommunicationProtocol.GDNATIVE,
       godotVersion: '4.0',
       targetPlatform: 'editor',
       enableDebugLogging: true,

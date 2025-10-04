@@ -113,8 +113,8 @@ class AvatarRendererWebCLI {
       console.log('3. Testing test avatar creation...');
       const testAvatar = this.createTestAvatarData();
       console.log(`   ✅ Test avatar created with ${testAvatar.components.length} components`);
-      console.log(`   ✅ Test avatar has ${testAvatar.animations.length} animations`);
-      console.log(`   ✅ Test avatar has ${testAvatar.materials.length} materials`);
+      console.log(`   ✅ Test avatar has ${testAvatar.renderData?.animations?.length || 0} animations`);
+      console.log(`   ✅ Test avatar has ${testAvatar.renderData?.materials?.length || 0} materials`);
 
       // Test 4: Canvas context simulation
       console.log('4. Testing canvas context simulation...');
@@ -158,12 +158,12 @@ class AvatarRendererWebCLI {
       const mockContext = this.createMockCanvasContext();
       
       console.log('   📊 Avatar data:');
-      console.log(`      Style: ${testAvatar.style}`);
+      console.log(`      Style: ${testAvatar.assets.style}`);
       console.log(`      Components: ${testAvatar.components.length}`);
-      console.log(`      Animations: ${testAvatar.animations.length}`);
-      console.log(`      Materials: ${testAvatar.materials.length}`);
-      console.log(`      Textures: ${testAvatar.textures.length}`);
-      console.log(`      Meshes: ${testAvatar.meshes.length}`);
+      console.log(`      Animations: ${testAvatar.renderData?.animations?.length || 0}`);
+      console.log(`      Materials: ${testAvatar.renderData?.materials?.length || 0}`);
+      console.log(`      Textures: ${testAvatar.renderData?.textures?.length || 0}`);
+      console.log(`      Meshes: ${testAvatar.renderData?.meshes?.length || 0}`);
       console.log(`      Asset Entries: ${testAvatar.assets.entries.length}`);
 
       console.log('   🎯 Rendering process:');

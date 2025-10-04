@@ -485,10 +485,13 @@ class AvatarRendererGodotCLI {
     };
   }
 
-  private createSampleManifestData(id: string = 'sample-manifest'): AvatarManifest {
+  private createSampleManifestData(id: string = 'sample-manifest'): any {
     return {
       id,
       name: `${id} Manifest`,
+      base: 'barbarian',
+      clothing: ['basic_shirt', 'basic_pants'],
+      face: 'neutral',
       style: '3d',
       components: [
         {

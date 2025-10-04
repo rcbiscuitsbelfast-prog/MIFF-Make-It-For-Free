@@ -143,7 +143,15 @@ program
 
     if (options.simulate) {
       const bridge = new WebBridge();
-      const result = bridge.simulate(options.simulate, { testData: true }, { useWebGL: true });
+      const config = {
+        renderer: 'canvas' as const,
+        targetVersion: '3.60',
+        assetPath: '/assets',
+        scriptPath: '/js',
+        stylePath: '/css',
+        useWebGL: true
+      };
+      const result = bridge.simulate(options.simulate, { testData: true }, config);
       console.log('🖥️  Simulation result:', JSON.stringify(result, null, 2));
     }
 
@@ -292,7 +300,15 @@ program
         console.log('🎯 Web Bridge Demo');
         const module = await ask('Enter module to simulate: ');
         const webBridge = new WebBridge();
-        const result = webBridge.simulate(module, { demo: true }, { useWebGL: true });
+        const webConfig = {
+          renderer: 'canvas' as const,
+          targetVersion: '3.60',
+          assetPath: '/assets',
+          scriptPath: '/js',
+          stylePath: '/css',
+          useWebGL: true
+        };
+        const result = webBridge.simulate(module, { demo: true }, webConfig);
         console.log('🌐 Web simulation result:', result);
       }
 
