@@ -543,7 +543,7 @@ class AIPureCLI {
         availableMoves: availableMoves,
         rng: this.rng
       };
-      const action1 = ai.selectAction(context1);
+      const action1 = ai.selectAction(context1.playerSpirit, context1.opponentSpirit, context1.availableMoves, context1.rng);
       const move1 = action1.moveId ? this.moves.get(action1.moveId) : null;
 
       if (move1 && spirit1.resourcePoints >= move1.cost) {
@@ -573,7 +573,7 @@ class AIPureCLI {
         availableMoves: availableMoves,
         rng: this.rng
       };
-      const action2 = ai.selectAction(context2);
+      const action2 = ai.selectAction(context2.playerSpirit, context2.opponentSpirit, context2.availableMoves, context2.rng);
       const move2 = action2.moveId ? this.moves.get(action2.moveId) : null;
 
       if (move2 && spirit2.resourcePoints >= move2.cost) {
@@ -669,7 +669,7 @@ class AIPureCLI {
       availableMoves: availableMoves,
       rng: this.rng
     };
-    const action = ai.selectAction(context);
+    const action = ai.selectAction(context.playerSpirit, context.opponentSpirit, context.availableMoves, context.rng);
     const selectedMove = action.moveId ? this.moves.get(action.moveId) : null;
 
     if (selectedMove) {

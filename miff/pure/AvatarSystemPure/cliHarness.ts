@@ -198,7 +198,7 @@ class AvatarSystemCLI {
         console.log('✅ Manifest is valid');
       } else {
         console.log('❌ Manifest validation failed:');
-        result.errors.forEach(error => console.log(`   - ${error}`));
+        result.errors.forEach((error: string) => console.log(`   - ${error}`));
       }
     } catch (error) {
       console.error('❌ Validation failed:', error);

@@ -115,7 +115,7 @@ class PerformanceProfiler {
     const startTime = Date.now();
     
     // Load time simulation
-    const loadTime = this.measureLoadTime(modulePath);
+    const loadTime = await this.measureLoadTime(modulePath);
     
     // Memory usage estimation
     const memoryUsage = this.estimateMemoryUsage(modulePath);

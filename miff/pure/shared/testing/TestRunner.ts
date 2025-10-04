@@ -384,8 +384,8 @@ export class TestRunner {
         duration: 0,
         startTime: new Date(),
         endTime: new Date(),
-        error: error.message,
-        stackTrace: error.stack,
+        error: error instanceof Error ? error.message : String(error),
+        stackTrace: error instanceof Error ? error.stack : undefined,
         assertions: [],
         retries: 0,
         maxRetries: this.config.retries,
@@ -420,8 +420,8 @@ export class TestRunner {
       return stdout;
     } catch (error) {
       // Jest returns non-zero exit code for test failures, but we still want the output
-      if (error.stdout) {
-        return error.stdout;
+      if (error && typeof error === 'object' && 'stdout' in error) {
+        return (error as any).stdout;
       }
       throw error;
     }

@@ -23,8 +23,8 @@ function discoverScenarios(baseDir: string): OrchestrationEntry[] {
 	if (!fs.existsSync(scenarioDir)) return [];
 	return fs
 		.readdirSync(scenarioDir)
-		.filter((f) => f.endsWith('.fixture.json'))
-		.map((f) => ({ name: f.replace(/\.fixture\.json$/, ''), path: path.join('sampler/scenarios', f), type: 'scenario' as const }));
+  .filter((f: string) => f.endsWith('.fixture.json'))
+  .map((f: string) => ({ name: f.replace(/\.fixture\.json$/, ''), path: path.join('sampler/scenarios', f), type: 'scenario' as const }));
 }
 
 function discoverTopplerGame(baseDir: string): OrchestrationEntry[] {

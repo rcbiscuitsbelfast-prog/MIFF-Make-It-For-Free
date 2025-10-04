@@ -19,7 +19,7 @@ function main() {
   const w = 64, h = 36;
   let mat: (string|null)[][] = Array.from({ length: h }, (_, y) => Array.from({ length: w }, (_, x) => (x+y)%2===0?'#20242a':'#1a1e24'));
   mat = AdvancedRenderingPure.applyShading(mat, { ambient: 0.7, strength: 0.2 });
-  mat = AdvancedRenderingPure.applyLighting(mat, { direction: { x: -0.2, y: -0.8 }, tint: '#72b7ff', tintStrength: 0.15 });
+  mat = AdvancedRenderingPure.applyLighting(mat, { direction: { x: -0.2, y: -0.8 }, int: '#72b7ff', intStrength: 0.15 });
 
   // Input events (simulated for CLI): hover first option, click to select
   const inputs = [

@@ -416,12 +416,12 @@ export class BattleAIManager {
    */
   private generateActions(strategy: AIStrategy, context: AIContext, aiState: AIState): AIAction[] {
     return strategy.actions
-      .filter(action => this.canExecuteAction(action, context, aiState))
-      .map(action => ({
+      .filter((action: any) => this.canExecuteAction(action, context, aiState))
+      .map((action: any) => ({
         ...action,
         confidence: this.calculateActionConfidence(action, context, aiState)
       }))
-      .sort((a, b) => b.priority - a.priority);
+      .sort((a: any, b: any) => b.priority - a.priority);
   }
 
   /**

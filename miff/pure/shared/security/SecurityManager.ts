@@ -736,7 +736,7 @@ export class SecurityManager {
     if (!this.config.enableEncryption) return data;
     
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipher(this.config.encryptionAlgorithm, this.encryptionKey);
+    const cipher = crypto.createCipheriv(this.config.encryptionAlgorithm, this.encryptionKey, iv);
     
     let encrypted = cipher.update(data, 'utf8', 'hex');
     encrypted += cipher.final('hex');
@@ -754,7 +754,7 @@ export class SecurityManager {
     const iv = Buffer.from(parts[0], 'hex');
     const encrypted = parts[1];
     
-    const decipher = crypto.createDecipher(this.config.encryptionAlgorithm, this.encryptionKey);
+    const decipher = crypto.createDecipheriv(this.config.encryptionAlgorithm, this.encryptionKey, iv);
     
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
@@ -903,6 +903,16 @@ export class SecurityManager {
     this.complianceReports = [];
     this.rateLimitMap.clear();
     this.failedLoginAttempts.clear();
+  }
+
+  /**
+   * Initialize compliance monitoring
+   */
+  private initializeComplianceMonitoring(): void {
+    // Set up compliance monitoring schedules
+    for (const standard of this.config.complianceStandards) {
+      this.logAudit('compliance', 'initialize', `Initialized monitoring for ${standard}`);
+    }
   }
 }
 

@@ -155,7 +155,7 @@ class SimpleProfiler {
     try {
       const fs = await import('fs');
       const files = fs.readdirSync(modulePath);
-      return files.some(file => file.includes('.test.') || file.includes('tests'));
+      return files.some((file: string) => file.includes('.test.') || file.includes('tests'));
     } catch (error) {
       return false;
     }
@@ -168,7 +168,7 @@ class SimpleProfiler {
     try {
       const fs = await import('fs');
       const files = fs.readdirSync(modulePath, { recursive: true });
-      return files.filter(file => 
+      return files.filter((file: string) => 
         typeof file === 'string' && 
         (file.endsWith('.ts') || file.endsWith('.js'))
       ).length;

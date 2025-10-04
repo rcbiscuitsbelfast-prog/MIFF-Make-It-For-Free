@@ -159,16 +159,16 @@ export class IntegrationManager {
    * Set up event listeners
    */
   private setupEventListeners(): void {
-    this.eventBus.subscribe('integration:register', (data) => {
-      this.registerIntegration(data);
+    this.eventBus.subscribe('integration:register', (data: any) => {
+      this.registerIntegration(data as IntegrationConfig);
     });
     
     this.eventBus.subscribe('integration:unregister', (data) => {
       this.unregisterIntegration(data.id);
     });
     
-    this.eventBus.subscribe('integration:event', (data) => {
-      this.processEvent(data);
+    this.eventBus.subscribe('integration:event', (data: any) => {
+      this.processEvent(data as IntegrationEvent);
     });
   }
 

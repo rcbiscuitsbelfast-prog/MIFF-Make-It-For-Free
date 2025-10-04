@@ -340,7 +340,7 @@ class BattleLoopPureCLI {
     console.log(`Turn Number: ${state.turnNumber}`);
     console.log(`Phase History: ${phaseManager.getPhaseHistory().join(' → ')}`);
 
-    const phaseCounts = phaseManager.getPhaseHistory().reduce((counts, phase) => {
+    const phaseCounts = phaseManager.getPhaseHistory().reduce((counts: Record<string, number>, phase: string) => {
       counts[phase] = (counts[phase] || 0) + 1;
       return counts;
     }, {} as Record<string, number>);
@@ -377,7 +377,7 @@ class BattleLoopPureCLI {
 
     if (state.actionsThisTurn.length > 0) {
       console.log('Recent Actions:');
-      state.actionsThisTurn.slice(-3).forEach((action, index) => {
+      state.actionsThisTurn.slice(-3).forEach((action: any, index: number) => {
         console.log(`  ${index + 1}. ${action.getSummary()}`);
       });
     }

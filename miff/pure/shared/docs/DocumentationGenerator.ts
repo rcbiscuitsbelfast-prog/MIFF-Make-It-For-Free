@@ -284,7 +284,7 @@ export class DocumentationGenerator {
       interfaces: this.extractInterfaces(sourceCode),
       enums: this.extractEnums(sourceCode),
       functions: this.extractFunctions(sourceCode),
-      examples: this.extractExamples(sourceCode),
+      examples: this.extractExamples(sourceCode, moduleName),
       tests: this.extractTests(modulePath),
       dependencies: this.extractDependencies(sourceCode),
       changelog: this.extractChangelog(modulePath)
@@ -1094,7 +1094,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return [];
   }
 
-  private extractExamples(sourceCode: string, name: string): string[] {
+  private extractExamples(sourceCode: string, name: string): ExampleDocumentation[] {
     return [];
   }
 
