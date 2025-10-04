@@ -198,7 +198,7 @@
                 const smSubBack = document.getElementById('sm-load-back');
                 if (smLoad && smSub){ smLoad.onclick = function(){ smSub.style.display='flex'; }; }
                 if (smSubBack && smSub){ smSubBack.onclick = function(){ smSub.style.display='none'; }; }
-                if (smBack){ smBack.onclick = function(){ try { window.location.href = '/MIFF-Make-It-For-Free/'; } catch{} } }
+                if (smBack){ smBack.onclick = function(){ try { window.location.href = '../'; } catch{} } }
                 
                 const jumpBtn = document.getElementById('btn-jump');
                 if (jumpBtn) {
@@ -350,7 +350,7 @@
     </script>
 
     <!-- Camera Controls Module -->
-    <script src="../pure-modules/CameraControls.js"></script>
+    <script src="../dist/pure-modules/CameraControls.js"></script>
     
     <!-- Re-enable Three.js module and gate fallback (kept, but mobile will use non-module above) -->
     <script type="module">
@@ -452,6 +452,13 @@ canvas.addEventListener('touchmove', (e)=>{
 canvas.addEventListener('touchend', (e)=>{ 
 	e.preventDefault();
 	onPointerUp(); 
+}, { passive:false });
+
+// Mouse wheel zoom support (desktop)
+canvas.addEventListener('wheel', (e)=>{
+    try { e.preventDefault(); } catch {}
+    const delta = e.deltaY || 0;
+    try { cameraController.onPinchZoom(delta); } catch {}
 }, { passive:false });
 
 // Tap-to-interact via raycast
@@ -1527,19 +1534,20 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
 (function(){
     const btn = document.getElementById('btn-view');
     if (!btn) return;
-    function update(){ btn.textContent = 'View: ' + (isFirstPerson ? '1st' : '3rd'); }
+    function update(){
+        try { btn.textContent = 'View: ' + (cameraController.isFirstPerson ? '1st' : '3rd'); } catch {}
+    }
     function toggle(){
-        // Derive yaw/pitch from current camera direction to avoid flips
-        const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
-        // Convert to yaw/pitch (XZ yaw, Y pitch)
-        const newYaw = Math.atan2(dir.x, dir.z);
-        const newPitch = Math.asin(THREE.MathUtils.clamp(dir.y, -1, 1));
-        yaw = targetYaw = newYaw;
-        // Keep pitch orientation consistent when switching: do not invert
-        pitch = targetPitch = THREE.MathUtils.clamp(newPitch, minPitch, maxPitch);
-        // Flip mode
-        isFirstPerson = !isFirstPerson;
-        update();
+        try {
+            // Derive yaw/pitch from current camera direction to avoid flips
+            const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
+            const newYaw = Math.atan2(dir.x, dir.z);
+            const newPitch = Math.asin(THREE.MathUtils.clamp(dir.y, -1, 1));
+            cameraController.targetYaw = newYaw;
+            cameraController.targetPitch = Math.max(cameraController.minPitch, Math.min(cameraController.maxPitch, newPitch));
+            cameraController.isFirstPerson = !cameraController.isFirstPerson;
+            update();
+        } catch {}
     }
     btn.addEventListener('click', toggle);
     btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); toggle(); }, { passive:false });
@@ -1720,7 +1728,7 @@ if (btnInteract){ btnInteract.addEventListener('click', ()=>{ resumeAudio(); doI
         }
         if (bBack) { 
             bBack.onclick = null; 
-            bBack.onclick = ()=>{ showDebug('Back clicked!'); try { window.location.href = '/MIFF-Make-It-For-Free/'; } catch {} }; 
+            bBack.onclick = ()=>{ showDebug('Back clicked!'); try { window.location.href = '../'; } catch {} }; 
             bBack.style.cursor = 'pointer';
         }
         
