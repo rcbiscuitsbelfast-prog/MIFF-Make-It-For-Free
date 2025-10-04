@@ -68,84 +68,41 @@
                     AI-powered development tools, cross-platform deployment, and enterprise-grade architecture.
                 </p>
 
-                <!-- MIFF Studios - New Featured Tools -->
-                <div class="studios-section">
-                    <h2 class="section-title">🎭 MIFF Studios</h2>
-                    <p class="section-subtitle">Professional-grade creative tools powered by MIFF's modular architecture</p>
-                    
-                    <div class="studios-grid">
-                        <div class="studio-card featured" onclick="navigateTo('skeleton-animator/')">
-                            <div class="card-header">
-                                <div class="card-icon">🎭</div>
-                                <div class="card-badge">NEW</div>
-                            </div>
-                            <h3>Skeleton Animator</h3>
-                            <p>Complete multi-phase character creation system with rig building, limb attachment, skin generation, facial sculpting, and animation sequencing</p>
-                            <div class="card-features">
-                                <span class="feature-tag">Rig Builder</span>
-                                <span class="feature-tag">Skin Generator</span>
-                                <span class="feature-tag">Animation</span>
-                                <span class="feature-tag">Export</span>
-                            </div>
-                            <div class="card-arrow">→</div>
-                        </div>
-
-                        <div class="studio-card" onclick="navigateTo('studio/')">
-                            <div class="card-header">
-                                <div class="card-icon">🛠️</div>
-                            </div>
-                            <h3>MIFF Studio</h3>
-                            <p>Advanced scene builder and development environment with visual scripting and real-time preview</p>
-                            <div class="card-features">
-                                <span class="feature-tag">Visual Editor</span>
-                                <span class="feature-tag">Scripting</span>
-                                <span class="feature-tag">Preview</span>
-                            </div>
-                            <div class="card-arrow">→</div>
-                        </div>
-
-                        <div class="studio-card" onclick="navigateTo('renderworld/')">
-                            <div class="card-header">
-                                <div class="card-icon">🌐</div>
-                            </div>
-                            <h3>RenderWorld Hub</h3>
-                            <p>Real-time AI-native game preview engine with advanced rendering and physics simulation</p>
-                            <div class="card-features">
-                                <span class="feature-tag">Real-time</span>
-                                <span class="feature-tag">Physics</span>
-                                <span class="feature-tag">AI-powered</span>
-                            </div>
-                            <div class="card-arrow">→</div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Experience Cards -->
-                <div class="experiences-section">
-                    <h2 class="section-title">🎮 MIFF Experiences</h2>
-                    <p class="section-subtitle">Interactive demos and tools showcasing MIFF's capabilities</p>
-                    
-                    <div class="experiences-grid">
-                        <div class="experience-card" onclick="navigateTo('sampler/')">
-                            <div class="card-icon">🎮</div>
-                            <h3>MIFF Sampler</h3>
-                            <p>Explore interactive game demos showcasing MIFF's modular capabilities</p>
-                            <div class="card-arrow">→</div>
-                        </div>
+                <div class="experiences-grid">
+                    <div class="experience-card" onclick="navigateTo('sampler/')">
+                        <div class="card-icon">🎮</div>
+                        <h3>MIFF Sampler</h3>
+                        <p>Explore interactive game demos showcasing MIFF's modular capabilities</p>
+                        <div class="card-arrow">→</div>
+                    </div>
 
-                        <div class="experience-card" onclick="navigateTo('docs-site/')">
-                            <div class="card-icon">📚</div>
-                            <h3>Documentation</h3>
-                            <p>Comprehensive guides, API references, and technical documentation</p>
-                            <div class="card-arrow">→</div>
-                        </div>
+                    <div class="experience-card" onclick="navigateTo('studio/')">
+                        <div class="card-icon">🛠️</div>
+                        <h3>MIFF Studio</h3>
+                        <p>Advanced scene builder and development environment</p>
+                        <div class="card-arrow">→</div>
+                    </div>
 
-                        <div class="experience-card" onclick="navigateTo('blog/')">
-                            <div class="card-icon">📝</div>
-                            <h3>Blog</h3>
-                            <p>Latest updates, tutorials, and community highlights from the MIFF team</p>
-                            <div class="card-arrow">→</div>
-                        </div>
+                    <div class="experience-card" onclick="navigateTo('renderworld/')">
+                        <div class="card-icon">🌐</div>
+                        <h3>RenderWorld Hub</h3>
+                        <p>Real-time AI-native game preview engine and demo hub</p>
+                        <div class="card-arrow">→</div>
+                    </div>
+
+                    <div class="experience-card" onclick="navigateTo('docs-site/')">
+                        <div class="card-icon">📚</div>
+                        <h3>Documentation</h3>
+                        <p>Comprehensive guides, API references, and technical documentation</p>
+                        <div class="card-arrow">→</div>
+                    </div>
+
+                    <div class="experience-card" onclick="navigateTo('blog/')">
+                        <div class="card-icon">📝</div>
+                        <h3>Blog</h3>
+                        <p>Latest updates, tutorials, and community highlights from the MIFF team</p>
+                        <div class="card-arrow">→</div>
                     </div>
                 </div>
 
@@ -223,72 +180,7 @@
             if (isExactHomepage) {
                 showSplash();
             }
-            
-            // Initialize fullscreen functionality
-            initFullscreen();
         });
-
-        // Fullscreen functionality
-        function initFullscreen() {
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            if (!fullscreenBtn) return;
-
-            fullscreenBtn.addEventListener('click', toggleFullscreen);
-            
-            // Update button state when fullscreen changes
-            document.addEventListener('fullscreenchange', updateFullscreenButton);
-            document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
-            document.addEventListener('mozfullscreenchange', updateFullscreenButton);
-            document.addEventListener('MSFullscreenChange', updateFullscreenButton);
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement && 
-                !document.webkitFullscreenElement && 
-                !document.mozFullScreenElement && 
-                !document.msFullscreenElement) {
-                // Enter fullscreen
-                const element = document.documentElement;
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if (element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-            } else {
-                // Exit fullscreen
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
-        }
-
-        function updateFullscreenButton() {
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            const fullscreenIcon = fullscreenBtn.querySelector('.fullscreen-icon');
-            
-            if (document.fullscreenElement || 
-                document.webkitFullscreenElement || 
-                document.mozFullScreenElement || 
-                document.msFullscreenElement) {
-                fullscreenIcon.textContent = '⛶';
-                fullscreenBtn.setAttribute('aria-label', 'Exit fullscreen');
-                fullscreenBtn.title = 'Exit fullscreen';
-            } else {
-                fullscreenIcon.textContent = '⛶';
-                fullscreenBtn.setAttribute('aria-label', 'Enter fullscreen');
-                fullscreenBtn.title = 'Enter fullscreen';
-            }
-        }
 
         function showSplash() {
             const splash = document.createElement('div');
