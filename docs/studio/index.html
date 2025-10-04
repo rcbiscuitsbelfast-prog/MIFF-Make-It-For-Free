@@ -21,6 +21,58 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .experience-card.featured {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 255, 136, 0.05) 100%);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.1);
+        }
+        
+        .experience-card.featured:hover {
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-badge {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-tag {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+        
+        .experience-card.featured:hover .feature-tag {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-color: var(--accent-primary);
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -65,6 +117,22 @@
             </p>
 
             <div class="experiences-grid">
+                <div class="experience-card featured" onclick="window.location.href='../skeleton-animator/'">
+                    <div class="card-header">
+                        <div class="card-icon">🎭</div>
+                        <div class="card-badge">NEW</div>
+                    </div>
+                    <h3>Skeleton Animator</h3>
+                    <p>Complete multi-phase character creation system with interactive drag-and-drop interface, real-time canvas rendering, and export functionality</p>
+                    <div class="card-features">
+                        <span class="feature-tag">Rig Builder</span>
+                        <span class="feature-tag">Drag & Drop</span>
+                        <span class="feature-tag">Real-time Canvas</span>
+                        <span class="feature-tag">Export</span>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </div>
+
                 <div class="experience-card" onclick="window.open('../site/studio/scene.html', '_blank')">
                     <div class="card-icon">🎨</div>
                     <h3>Visual Scene Builder</h3>
