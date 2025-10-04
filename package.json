@@ -55,6 +55,9 @@
     "report:performance": "node scripts/generate-performance-report.js",
     "lint": "node -e \"console.log('lint OK')\"",
     "type-check": "tsc -p tsconfig.json --noEmit || true",
+    "typecheck:web": "tsc -p tsconfig.web.json --noEmit",
+    "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
+    "typecheck:all": "npm run typecheck:web && npm run typecheck:node",
     "docs:build": "node scripts/docs-build.js",
     "build": "tsc",
     "dev": "vite",
@@ -117,7 +120,7 @@
     "ts-jest": "^29.4.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.5",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vite": "^7.1.7",
     "vitest": "^3.2.4"
   },

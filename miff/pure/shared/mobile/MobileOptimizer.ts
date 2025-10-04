@@ -463,8 +463,8 @@ export class MobileOptimizer {
   }
 
   private monitorMemoryUsage(): void {
-    if (typeof performance !== 'undefined' && performance.memory) {
-      const memoryUsage = performance.memory.usedJSHeapSize;
+    if (typeof performance !== 'undefined' && (performance as any).memory) {
+      const memoryUsage = (performance as any).memory.usedJSHeapSize;
       this.metrics.memoryUsage = memoryUsage;
 
       if (memoryUsage > this.config.memoryLimit * 0.8) {
@@ -476,7 +476,7 @@ export class MobileOptimizer {
 
   private monitorBatteryLevel(): void {
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
-      navigator.getBattery().then(battery => {
+      (navigator as any).getBattery().then((battery: any) => {
         this.metrics.batteryLevel = battery.level * 100;
         this.metrics.powerConsumption = battery.dischargingTime || 0;
       });
@@ -485,7 +485,7 @@ export class MobileOptimizer {
 
   private startBatteryMonitoring(): void {
     if (typeof navigator !== 'undefined' && 'getBattery' in navigator) {
-      navigator.getBattery().then(battery => {
+      (navigator as any).getBattery().then((battery: any) => {
         battery.addEventListener('levelchange', () => {
           this.metrics.batteryLevel = battery.level * 100;
           this.adaptToBatteryLevel(battery.level);
@@ -654,8 +654,8 @@ export class MobileOptimizer {
   }
 
   private getMemoryUsage(): number {
-    if (typeof performance !== 'undefined' && performance.memory) {
-      return performance.memory.usedJSHeapSize;
+    if (typeof performance !== 'undefined' && (performance as any).memory) {
+      return (performance as any).memory.usedJSHeapSize;
     }
     return 0;
   }

@@ -1,0 +1,44 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ES2020"],
+    "skipLibCheck": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@miff/*": ["miff/pure/*"],
+      "@/*": ["miff-nextjs/src/*"]
+    },
+    "types": ["node", "jest"]
+  },
+  "include": [
+    "miff/pure/demos/**/*.ts",
+    "miff/pure/testing/**/*.ts",
+    "miff/pure/docs/**/*.ts",
+    "miff/pure/cli/**/*.ts",
+    "miff/pure/BridgePure/**/*.ts",
+    "miff/pure/UnityBridgePure/**/*.ts",
+    "miff/pure/UnrealBridgePure/**/*.ts",
+    "miff/pure/GodotBridgePure/**/*.ts",
+    "miff/pure/ExportAndroidPure/**/*.ts",
+    "miff/pure/shared/security/SecurityManager.ts",
+    "miff/pure/shared/testUtils.ts",
+    "miff/pure/shared/testing/**/*.ts",
+    "miff/pure/ConvertToUnityPure/**/*.ts",
+    "miff/pure/ConvertToWebPure/**/*.ts",
+    "miff/pure/ConvertToGodotPure/**/*.ts",
+    "scenarios/**/*.ts",
+    "scripts/**/*.ts",
+    "cli/**/*.ts",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "miff-nextjs/**/*"
+  ]
+}

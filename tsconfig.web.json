@@ -1,0 +1,45 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "rootDir": "./miff/pure",
+    "baseUrl": ".",
+    "paths": {
+      "@miff/*": ["miff/pure/*"],
+      "@/*": ["miff-nextjs/src/*"]
+    },
+    "types": ["react", "react-dom", "jest"]
+  },
+  "include": [
+    "miff/pure/**/*.ts",
+    "miff/pure/**/*.tsx",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "miff/pure/demos/**/*",
+    "miff/pure/testing/**/*",
+    "miff/pure/docs/**/*",
+    "miff/pure/cli/**/*",
+    "miff/pure/BridgePure/**/*",
+    "miff/pure/UnityBridgePure/**/*",
+    "miff/pure/UnrealBridgePure/**/*",
+    "miff/pure/GodotBridgePure/**/*",
+    "miff/pure/ExportAndroidPure/**/*",
+    "miff/pure/shared/security/SecurityManager.ts",
+    "miff/pure/shared/testUtils.ts",
+    "miff/pure/shared/testing/**/*",
+    "miff/pure/**/tests/**/*",
+    "miff/pure/ConvertToUnityPure/**/*",
+    "miff/pure/ConvertToWebPure/**/*",
+    "miff/pure/ConvertToGodotPure/**/*",
+    "scenarios/**/*.ts",
+    "miff-nextjs/**/*"
+  ]
+}
