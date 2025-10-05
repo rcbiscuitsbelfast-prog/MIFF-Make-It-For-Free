@@ -324,7 +324,7 @@ export class ConvertToGodotManager {
     }
 
     return {
-      type: lightType,
+      type: 'Node3D',
       name: light.id || 'light',
       properties: {
         light_energy: light.intensity || 1,
@@ -341,7 +341,7 @@ export class ConvertToGodotManager {
 
   private convertCameraToNode(camera: any): GodotSceneNode | null {
     return {
-      type: 'Camera3D',
+      type: 'Node3D',
       name: camera.id || 'camera',
       properties: {
         fov: camera.fov || 75,
@@ -357,10 +357,8 @@ export class ConvertToGodotManager {
   }
 
   private convertPhysicsToNode(physics: any): GodotSceneNode | null {
-    const bodyType = physics.static ? 'StaticBody3D' : 'RigidBody3D';
-
     return {
-      type: bodyType,
+      type: 'Node3D',
       name: physics.id || 'physics_body',
       properties: {
         mass: physics.mass || 1,
@@ -426,7 +424,7 @@ export class ConvertToGodotManager {
   private generateCollisionShape(collider: any): string {
     const resourceId = `shape_${this.resourceCounter++}`;
     const resource: GodotResource = {
-      type: 'Shape',
+      type: 'Mesh',
       id: resourceId,
       path: `res://${resourceId}.tres`,
       dependencies: [],
