@@ -221,7 +221,7 @@ export class ConvertToGodotManager {
       type: 'Node3D',
       name: data.id || `scene_${this.sceneCounter++}`,
       properties: {
-        transform: this.convertTransform(data.transform),
+        transform: this.convertTransform(data.position, data.rotation, data.scale),
         visible: true
       },
       children: [],
@@ -229,67 +229,34 @@ export class ConvertToGodotManager {
       resources: []
     };
 
-    // Convert meshes
-    if (data.meshes) {
-      for (const mesh of data.meshes) {
-        const meshNode = this.convertMeshToNode(mesh);
-        if (meshNode) {
-          sceneNode.children.push(meshNode);
+    // Convert children
+    if (data.children) {
+      for (const child of data.children) {
+        const childNode = this.convertRenderDataToScene(child);
+        if (childNode) {
+          sceneNode.children.push(childNode);
         }
       }
     }
 
-    // Convert materials
-    if (data.materials) {
-      for (const material of data.materials) {
-        const materialResource = this.convertMaterialToResource(material);
-        if (materialResource) {
-          this.project.resources.push(materialResource);
-        }
-      }
-    }
-
-    // Convert lights
-    if (data.lights) {
-      for (const light of data.lights) {
-        const lightNode = this.convertLightToNode(light);
-        if (lightNode) {
-          sceneNode.children.push(lightNode);
-        }
-      }
-    }
-
-    // Convert cameras
-    if (data.cameras) {
-      for (const camera of data.cameras) {
-        const cameraNode = this.convertCameraToNode(camera);
-        if (cameraNode) {
-          sceneNode.children.push(cameraNode);
-        }
-      }
-    }
-
-    // Add physics if present
-    if (data.physics) {
-      const physicsNode = this.convertPhysicsToNode(data.physics);
-      if (physicsNode) {
-        sceneNode.children.push(physicsNode);
-      }
+    // Add any additional properties from props
+    if (data.props) {
+      Object.assign(sceneNode.properties, data.props);
     }
 
     return sceneNode;
   }
 
-  private convertTransform(transform: any): any {
+  private convertTransform(position?: any, rotation?: any, scale?: any): any {
     // Convert MIFF transform to Godot Transform3D
     return {
-      origin: transform.position || { x: 0, y: 0, z: 0 },
-      basis: this.convertRotation(transform.rotation) || [
+      origin: position || { x: 0, y: 0, z: 0 },
+      basis: this.convertRotation(rotation) || [
         [1, 0, 0],
         [0, 1, 0],
         [0, 0, 1]
       ],
-      scale: transform.scale || { x: 1, y: 1, z: 1 }
+      scale: scale || { x: 1, y: 1, z: 1 }
     };
   }
 
