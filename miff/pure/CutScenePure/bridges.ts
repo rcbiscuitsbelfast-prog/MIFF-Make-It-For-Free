@@ -1068,4 +1068,3 @@ void ACutScenePlayer::OnDialogueEvent(const FString& DialogueId, const FString& 
 }
 
 // Export bridge classes
-export { CutSceneWebBridge, CutSceneUnityBridge, CutSceneGodotBridge, CutSceneUnrealBridge };

@@ -571,7 +571,7 @@ export class CraftingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: sessions
+          result: sessions[0] // Return first session or undefined
         };
       
       default:
@@ -594,7 +594,7 @@ export class CraftingManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: { message: 'All crafting data reset to default state' }
+      result: undefined
     };
   }
 
@@ -658,7 +658,7 @@ export class CraftingManager {
       'expert': -20,
       'master': -30
     };
-    return modifiers[difficulty] || 0;
+    return modifiers[difficulty as keyof typeof modifiers] || 0;
   }
 
   private calculateSuccess(session: CraftingSession, recipe: Recipe, quality: number): boolean {

@@ -20,10 +20,14 @@ try {
       const newRecipe: Recipe = {
         id: recipe || 'custom_recipe',
         name: recipe || 'Custom Recipe',
+        description: 'Custom crafted recipe',
+        category: 'material',
         inputs: typeof materials === 'string' ? JSON.parse(materials) : (materials || {}),
         outputs: { [recipe || 'crafted_item']: 1 },
         craftingTime: craftingTime || 10,
-        requiredSkillLevel: 1
+        difficulty: 'easy',
+        quality: 'normal',
+        skillLevel: 1
       };
       
       // Register recipe
@@ -55,7 +59,7 @@ try {
 
     case 'list': {
       const recipes = manager.listRecipes();
-      handleSuccess({ recipes, count: recipes.length }, 'list');
+      handleSuccess({ recipes: recipes.result, count: Array.isArray(recipes.result) ? recipes.result.length : 0 }, 'list');
       break;
     }
 

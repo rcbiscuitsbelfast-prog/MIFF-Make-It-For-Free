@@ -413,7 +413,7 @@ interface CutSceneCondition {
   negate: boolean;
 }
 
-interface CutSceneDefinition {
+export interface CutSceneDefinition {
   config: CutSceneConfig;
   tracks: CutSceneTrack[];
   actions: CutSceneAction[];

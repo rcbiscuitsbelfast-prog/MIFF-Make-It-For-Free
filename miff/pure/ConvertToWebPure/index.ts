@@ -412,7 +412,7 @@ export class WebConverter {
 
     this.project = this.createDefaultProject();
     this.renderer = this.options.renderer || WebRenderer.PIXI_JS;
-    this.platform = this.options.platform || WebPlatform.DESKTOP;
+    this.platform = this.options.platform || WebPlatform.WEBGL;
     this.buildType = this.options.buildType || WebBuildType.PRODUCTION;
     this.statistics = this.initializeStatistics();
   }
