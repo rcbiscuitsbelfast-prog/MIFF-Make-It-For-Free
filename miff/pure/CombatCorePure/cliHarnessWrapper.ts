@@ -35,9 +35,10 @@ try {
           intelligence: 8,
           wisdom: 6,
           charisma: 12,
+          luck: 5,
+          speed: 15,
           accuracy: 0.8,
-          dodge: 0.2,
-          speed: 15
+          dodge: 0.2
         },
         resistances: {
           physical: 0,
@@ -81,9 +82,10 @@ try {
           intelligence: 10,
           wisdom: 8,
           charisma: 6,
+          luck: 3,
+          speed: 12,
           accuracy: 0.7,
-          dodge: 0.1,
-          speed: 12
+          dodge: 0.1
         },
         resistances: {
           physical: 0.1,
