@@ -309,9 +309,7 @@ export class SpiritInstance implements ICombatant {
   defenseMultiplier?: number;
   specialAttackMultiplier?: number;
   specialDefenseMultiplier?: number;
-  resourcePoints?: number;
   maxResourcePoints?: number;
-  currentHP: number;
   maxHP: number;
   instanceId: string;
   speciesId: string;
@@ -553,6 +551,15 @@ export class CombatEngine {
     }
     const aliveTeams = Array.from(teams.entries()).filter(([_,v])=>v.alive>0);
     if(aliveTeams.length<=1){ this.state.over=true; this.state.winnerTeam = aliveTeams[0]?.[0]||undefined; }
+  }
+  
+  stepBattle(): any {
+    this.stepTurn();
+    return { result: 'step completed' };
+  }
+
+  dumpState(): any {
+    return { state: this.state };
   }
 }
 
@@ -1147,18 +1154,5 @@ export class CombatUtils {
       specialDefense: combatant.stats.specialDef || combatant.stats.def || 0,
       speed: combatant.stats.spd || 0
     };
-  }
-}
-
-// Simple CombatEngine class for CLI usage
-export class CombatEngine {
-  private state: any = {};
-
-  stepBattle(): any {
-    return { result: 'step completed' };
-  }
-
-  dumpState(): any {
-    return { state: this.state };
   }
 }
