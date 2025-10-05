@@ -2,7 +2,7 @@
 // Schema Version: v1.0
 
 import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure';
-import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealAssetBridge, UnrealSceneBridge } from './index';
+import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealAssetBridge, UnrealSceneBridge, UnrealDataType, UnrealCollisionChannel, UnrealReplicationMode, UnrealTickGroup } from './index';
 
 export enum PayloadConversionMode {
   STATIC_MESH = 'static_mesh',
@@ -776,10 +776,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: assetId,
             name: `StaticMesh_${index}`,
-            type: 'static_mesh',
+            type: UnrealDataType.STATIC_MESH,
             packagePath: '/Game/MIFF/StaticMeshes',
             assetPath: `/Game/MIFF/StaticMeshes/StaticMesh_${index}`,
             className: 'StaticMesh',
+            interfaces: [],
             dependencies: [],
             references: [],
             thumbnailInfo: null,
@@ -930,10 +931,10 @@ export class UnrealPayloadAdapterPure {
             tags: ['miff', 'static_mesh', 'converted'],
             netRole: 'authority',
             netMode: 'standalone',
-            replicationMode: 'none',
+            replicationMode: UnrealReplicationMode.NONE,
             tickEnabled: false,
             tickInterval: 0,
-            tickGroup: 'TG_PostPhysics',
+            tickGroup: UnrealTickGroup.TG_PostPhysics,
             lifespan: 0,
             autoDestroyWhenFinished: false,
             canBeDamaged: false,
@@ -948,8 +949,8 @@ export class UnrealPayloadAdapterPure {
               bStartWithTickEnabled: false,
               bAllowTickOnDedicatedServer: false,
               bHighPriorityTick: false,
-              tickGroup: 'TG_PostPhysics',
-              endTickGroup: 'TG_PostPhysics',
+              tickGroup: UnrealTickGroup.TG_PostPhysics,
+              endTickGroup: UnrealTickGroup.TG_PostPhysics,
               bRunOnAnyThread: false,
               bAllowRenaming: false,
               bAutoRename: false,
@@ -1003,10 +1004,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: assetId,
             name: `SkeletalMesh_${index}`,
-            type: 'skeletal_mesh',
+            type: UnrealDataType.SKELETAL_MESH,
             packagePath: '/Game/MIFF/SkeletalMeshes',
             assetPath: `/Game/MIFF/SkeletalMeshes/SkeletalMesh_${index}`,
             className: 'SkeletalMesh',
+            interfaces: [],
             dependencies: [],
             references: [],
             thumbnailInfo: null,
@@ -1204,10 +1206,10 @@ export class UnrealPayloadAdapterPure {
             tags: ['miff', 'skeletal_mesh', 'converted'],
             netRole: 'authority',
             netMode: 'standalone',
-            replicationMode: 'none',
+            replicationMode: UnrealReplicationMode.NONE,
             tickEnabled: false,
             tickInterval: 0,
-            tickGroup: 'TG_PostPhysics',
+            tickGroup: UnrealTickGroup.TG_PostPhysics,
             lifespan: 0,
             autoDestroyWhenFinished: false,
             canBeDamaged: false,
@@ -1222,8 +1224,8 @@ export class UnrealPayloadAdapterPure {
               bStartWithTickEnabled: false,
               bAllowTickOnDedicatedServer: false,
               bHighPriorityTick: false,
-              tickGroup: 'TG_PostPhysics',
-              endTickGroup: 'TG_PostPhysics',
+              tickGroup: UnrealTickGroup.TG_PostPhysics,
+              endTickGroup: UnrealTickGroup.TG_PostPhysics,
               bRunOnAnyThread: false,
               bAllowRenaming: false,
               bAutoRename: false,
@@ -1276,7 +1278,7 @@ export class UnrealPayloadAdapterPure {
       const blueprintAsset: UnrealAssetBridge = {
         id: `blueprint_${Date.now()}`,
         name: 'MIFFBlueprint',
-        type: 'blueprint',
+            type: UnrealDataType.BLUEPRINT_ASSET,
         packagePath: '/Game/MIFF/Blueprints',
         assetPath: '/Game/MIFF/Blueprints/MIFFBlueprint',
         className: 'Blueprint',
@@ -1352,6 +1354,7 @@ export class UnrealPayloadAdapterPure {
         hudClass: '',
         playerControllerClass: '',
         gameInstanceClass: '',
+        localPlayerOverride: '',
         transitionType: 'loading',
         transitionDescription: '',
         transitionGameMode: '',
@@ -1411,7 +1414,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `material_${index}_${Date.now()}`,
             name: `Material_${index}`,
-            type: 'material',
+            type: UnrealDataType.MATERIAL,
             packagePath: '/Game/MIFF/Materials',
             assetPath: `/Game/MIFF/Materials/Material_${index}`,
             className: 'Material',
@@ -1475,7 +1478,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `texture_${index}_${Date.now()}`,
             name: `Texture_${index}`,
-            type: 'texture',
+            type: UnrealDataType.TEXTURE,
             packagePath: '/Game/MIFF/Textures',
             assetPath: `/Game/MIFF/Textures/Texture_${index}`,
             className: 'Texture2D',
@@ -1541,7 +1544,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `animation_${index}_${Date.now()}`,
             name: `Animation_${index}`,
-            type: 'animation_sequence',
+            type: UnrealDataType.ANIM_SEQUENCE,
             packagePath: '/Game/MIFF/Animations',
             assetPath: `/Game/MIFF/Animations/Animation_${index}`,
             className: 'AnimSequence',
@@ -1606,7 +1609,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `particle_${index}_${Date.now()}`,
             name: `Particle_${index}`,
-            type: 'particle_system',
+            type: UnrealDataType.PARTICLE_SYSTEM,
             packagePath: '/Game/MIFF/Particles',
             assetPath: `/Game/MIFF/Particles/Particle_${index}`,
             className: 'ParticleSystem',
@@ -1672,7 +1675,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `sound_${index}_${Date.now()}`,
             name: `Sound_${index}`,
-            type: 'sound_wave',
+            type: UnrealDataType.SOUND_WAVE,
             packagePath: '/Game/MIFF/Sounds',
             assetPath: `/Game/MIFF/Sounds/Sound_${index}`,
             className: 'SoundWave',

@@ -73,6 +73,16 @@ export class RenderPayloadManager {
     this.initializeDefaultAnimations();
   }
 
+  // Compatibility helpers for legacy adapters expecting getPayload/getPayloadCount
+  getPayload(id: string): any {
+    const res = this.getFrame(id);
+    return res.ok ? res.frame : null;
+  }
+
+  getPayloadCount(): number {
+    return this.frames.size;
+  }
+
   private initializeDefaultAssets() {
     const defaultAssets: AssetReference[] = [
       {

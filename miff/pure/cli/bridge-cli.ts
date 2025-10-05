@@ -15,8 +15,8 @@
 
 import { Command } from 'commander';
 import * as readline from 'readline';
-import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '../UnityBridgePure';
-import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '../GodotBridgePure';
+import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType, UnityCommunicationProtocol } from '../UnityBridgePure';
+import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType, GodotCommunicationProtocol } from '../GodotBridgePure';
 import { WebBridge, WebBridgeConfig } from '../WebBridgePure';
 import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure';
 import { CombatUtils } from '../CombatPure/engine';
@@ -45,7 +45,7 @@ program
     if (options.init) {
       const config: UnityBridgeConfiguration = {
         bridgeType: UnityBridgeType.GAME_OBJECT,
-        communicationProtocol: 'message_passing',
+        communicationProtocol: UnityCommunicationProtocol.MESSAGE_PASSING,
         unityVersion: '2021.3',
         targetPlatform: 'windows',
         enableDebugLogging: true,
@@ -130,7 +130,7 @@ program
     console.log('========================');
 
     if (options.init) {
-      const config: WebBridgeConfig = {
+      const config: Partial<WebBridgeConfig> = {
         targetVersion: 'ES2020',
         useWebGL: true,
         canvasId: 'gameCanvas',
@@ -143,7 +143,24 @@ program
 
     if (options.simulate) {
       const bridge = new WebBridge();
-      const result = bridge.simulate(options.simulate, { testData: true }, { useWebGL: true });
+      const result = bridge.simulate(options.simulate, { testData: true }, {
+        targetVersion: 'ES2020',
+        useWebGL: true,
+        canvasId: 'gameCanvas',
+        assetPath: '/assets',
+        enableWebAssembly: true,
+        wasmMemoryLimit: 512 * 1024 * 1024,
+        wasmOptimizationLevel: 'aggressive',
+        enableWebWorkers: true,
+        workerCount: 2,
+        enableSharedArrayBuffer: false,
+        enableSIMD: true,
+        enableThreads: false,
+        compressionLevel: 'gzip',
+        enableServiceWorker: false,
+        cacheStrategy: 'indexeddb',
+        enablePWA: false
+      });
       console.log('🖥️  Simulation result:', JSON.stringify(result, null, 2));
     }
 
@@ -292,7 +309,24 @@ program
         console.log('🎯 Web Bridge Demo');
         const module = await ask('Enter module to simulate: ');
         const webBridge = new WebBridge();
-        const result = webBridge.simulate(module, { demo: true }, { useWebGL: true });
+        const result = webBridge.simulate(module, { demo: true }, {
+          targetVersion: 'ES2020',
+          useWebGL: true,
+          canvasId: 'gameCanvas',
+          assetPath: '/assets',
+          enableWebAssembly: true,
+          wasmMemoryLimit: 256 * 1024 * 1024,
+          wasmOptimizationLevel: 'aggressive',
+          enableWebWorkers: true,
+          workerCount: 2,
+          enableSharedArrayBuffer: false,
+          enableSIMD: true,
+          enableThreads: false,
+          compressionLevel: 'gzip',
+          enableServiceWorker: false,
+          cacheStrategy: 'indexeddb',
+          enablePWA: false
+        });
         console.log('🌐 Web simulation result:', result);
       }
 

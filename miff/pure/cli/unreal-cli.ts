@@ -634,7 +634,7 @@ function convertToHTML(data: any): string {
         <h2>🧪 Test Results</h2>
         <table>
             <tr><th>Test Name</th><th>Success</th><th>Duration</th><th>Errors</th><th>Warnings</th></tr>
-            ${harness.testResults.map(result => `
+            ${harness.testResults.map((result: { testName: string; success: boolean; duration: number; errors: any[]; warnings: any[] }) => `
                 <tr>
                     <td>${result.testName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
@@ -652,7 +652,7 @@ function convertToHTML(data: any): string {
         <h2>🎮 Demo Results</h2>
         <table>
             <tr><th>Demo Name</th><th>Success</th><th>Duration</th><th>Scenes</th><th>Assets</th><th>Events</th></tr>
-            ${harness.demoResults.map(result => `
+            ${harness.demoResults.map((result: { demoName: string; success: boolean; duration: number; scenesCreated: number; assetsGenerated: number; eventsProcessed: number }) => `
                 <tr>
                     <td>${result.demoName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
