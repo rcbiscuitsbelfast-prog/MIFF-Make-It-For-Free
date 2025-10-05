@@ -1,16 +1,10 @@
+import { MoveCategory } from './Manager';
+
 export enum AIDecisionStyle {
   AGGRESSIVE = 'aggressive',
   DEFENSIVE = 'defensive',
   BALANCED = 'balanced',
   TRICKSTER = 'trickster'
-}
-
-export enum MoveCategory {
-  DAMAGE = 'damage',
-  HEALING = 'healing',
-  SUPPORT = 'support',
-  STATUS = 'status',
-  UTILITY = 'utility'
 }
 
 export enum ThreatLevel {
@@ -55,12 +49,19 @@ export interface IAIDecisionProfile {
   movePriorityWeights: Record<string, number>;
   validate(): string[];
   getSummary(): string;
+  getStyleDescription(): string;
+  isAggressive: boolean;
+  isDefensive: boolean;
+  isBalanced: boolean;
+  isTrickster: boolean;
 }
 
 export interface IBattleAIController {
   getDecisionProfile(): IAIDecisionProfile;
   setDecisionProfile(profile: IAIDecisionProfile): void;
   selectMove(spirit: ISpiritInstance | null, opponent: ISpiritInstance | null): string | null;
+  getPreferredMoveTypes(): string[];
+  getThreatLevelDescription(threatLevel: number): ThreatLevel;
   evaluateThreatLevel(opponent: ISpiritInstance | null): number;
   getProfileSummary(): string;
   isAggressive: boolean;

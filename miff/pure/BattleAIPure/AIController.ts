@@ -1,4 +1,5 @@
-import { IAIDecisionProfile, IBattleAIController, ISpiritInstance, AIDecisionStyle, MoveCategory, ThreatLevel } from './types';
+import { IAIDecisionProfile, IBattleAIController, ISpiritInstance, AIDecisionStyle, ThreatLevel } from './types';
+import { MoveCategory } from './Manager';
 import { AIDecisionProfile } from './AIDecisionProfile';
 
 export class BattleAIController implements IBattleAIController {
@@ -59,11 +60,11 @@ export class BattleAIController implements IBattleAIController {
     return ['fire'];
   }
 
-  getThreatLevelDescription(value: number): string {
-    if (value < 0.3) return 'LOW' as any;
-    if (value < 0.6) return 'MEDIUM' as any;
-    if (value < 0.8) return 'HIGH' as any;
-    return 'CRITICAL' as any;
+  getThreatLevelDescription(value: number): ThreatLevel {
+    if (value < 0.3) return ThreatLevel.LOW;
+    if (value < 0.6) return ThreatLevel.MEDIUM;
+    if (value < 0.8) return ThreatLevel.HIGH;
+    return ThreatLevel.CRITICAL;
   }
 }
 

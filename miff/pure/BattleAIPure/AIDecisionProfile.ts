@@ -1,4 +1,5 @@
-import { AIDecisionStyle, MoveCategory, IAIDecisionProfile } from './types';
+import { AIDecisionStyle, IAIDecisionProfile } from './types';
+import { MoveCategory } from './Manager';
 
 const DEFAULT_WEIGHTS: Record<string, number> = {
   [MoveCategory.DAMAGE]: 1.0,
@@ -152,5 +153,6 @@ export class AIDecisionProfile implements IAIDecisionProfile {
     if (defenderType.toLowerCase() === attackType.toLowerCase()) return 0;
     return advantageous.has(pair) ? 0.2 : 0;
   }
+
 }
 

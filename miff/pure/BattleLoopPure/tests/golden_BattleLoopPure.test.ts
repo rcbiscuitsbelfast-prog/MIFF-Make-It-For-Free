@@ -6,24 +6,15 @@
  */
 
 import {
-  BattleLoopController,
+  BattleLoopManager,
   BattlePhaseManager,
-  ActionQueue,
-  BattleEndManager,
   BattleAction,
-  BattleResult,
-  BattlePhase,
-  ActionSource,
-  BattleLoopUtils,
-  IBattleState,
-  ActionSelector,
-  IRNGProvider,
-  ILogger,
-  IEventBus
+  BattleState,
+  BattleLoopConfig
 } from '../index';
 
 // Mock RNG Provider for testing
-class MockRNGProvider implements IRNGProvider {
+class MockRNGProvider {
   private seed: number = 0;
   private callHistory: number[] = [];
 
