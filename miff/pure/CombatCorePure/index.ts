@@ -75,7 +75,7 @@ export interface CombatEntity {
   isAlive: boolean;
   isStunned: boolean;
   isBlocking: boolean;
-  lastAbilityUse: number;
+  lastAbilityUse: Map<string, number>;
   shield: number;
 
   aiProfile?: AICombatProfile;
@@ -157,6 +157,7 @@ export interface AbilityEffect {
   duration?: number;
   chance?: number;
   conditions?: string[];
+  position?: { x: number; y: number; z: number };
 }
 
 export interface AbilityRequirement {
@@ -911,7 +912,9 @@ export class CombatEngine {
         wisdom: 5,
         charisma: 5,
         luck: 5,
-        speed: 10
+        speed: 10,
+        accuracy: 0.5,
+        dodge: 0.1
       },
       resistances: {
         physical: 0,

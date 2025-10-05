@@ -61,7 +61,7 @@ try {
         isAlive: true,
         isStunned: false,
         isBlocking: false,
-        lastAbilityUse: 0,
+        lastAbilityUse: new Map(),
         shield: 0
       };
       
@@ -108,7 +108,7 @@ try {
         isAlive: true,
         isStunned: false,
         isBlocking: false,
-        lastAbilityUse: 0,
+        lastAbilityUse: new Map(),
         shield: 0
       };
       
