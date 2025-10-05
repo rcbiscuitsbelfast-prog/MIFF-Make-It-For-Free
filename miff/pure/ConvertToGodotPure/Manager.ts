@@ -229,11 +229,7 @@ export class ConvertToGodotManager {
       resources: []
     };
 
-<<<<<<< HEAD
-    // Convert children
-=======
     // Convert children recursively
->>>>>>> origin/cursor/check-latest-branch-update-812c
     if (data.children) {
       for (const child of data.children) {
         const childNode = this.convertRenderDataToScene(child);
@@ -243,25 +239,22 @@ export class ConvertToGodotManager {
       }
     }
 
-<<<<<<< HEAD
     // Add any additional properties from props
     if (data.props) {
       Object.assign(sceneNode.properties, data.props);
-=======
+    }
+
     // Add asset if present
     if (data.asset) {
       const assetNode = this.convertAssetToNode(data.asset, data.type);
       if (assetNode) {
         sceneNode.children.push(assetNode);
       }
->>>>>>> origin/cursor/check-latest-branch-update-812c
     }
 
     return sceneNode;
   }
 
-<<<<<<< HEAD
-=======
   private convertAssetToNode(asset: string, type: string): GodotSceneNode | null {
     // Convert asset to appropriate Godot node based on type
     switch (type) {
@@ -304,7 +297,6 @@ export class ConvertToGodotManager {
     }
   }
 
->>>>>>> origin/cursor/check-latest-branch-update-812c
   private convertTransform(position?: any, rotation?: any, scale?: any): any {
     // Convert MIFF transform to Godot Transform3D
     return {
@@ -486,15 +478,6 @@ export class ConvertToGodotManager {
   private generateResources(payload: RenderPayload): GodotResource[] {
     const resources: GodotResource[] = [];
 
-<<<<<<< HEAD
-    // Generate texture resources from renderData
-    for (const data of payload.renderData) {
-      if (data.asset && data.type === 'sprite') {
-        const resource: GodotResource = {
-          type: 'Texture',
-          id: `texture_${this.resourceCounter++}`,
-          path: `res://textures/${data.asset}`,
-=======
     // Generate resources from renderData assets
     for (const renderData of payload.renderData) {
       if (renderData.asset) {
@@ -502,7 +485,6 @@ export class ConvertToGodotManager {
           type: 'Texture',
           id: `asset_${this.resourceCounter++}`,
           path: renderData.asset,
->>>>>>> origin/cursor/check-latest-branch-update-812c
           dependencies: [],
           data: {
             width: 256,
