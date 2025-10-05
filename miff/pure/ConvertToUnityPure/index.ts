@@ -1113,7 +1113,6 @@ export class UnityConverter {
       enablePerformanceProfiling: false,
       enableCpuProfiling: false,
       enableGpuProfiling: false,
-      enableMemoryProfiling: false,
       enablePhysicsProfiling: false,
       enableAudioProfiling: false,
       enableVideoProfiling: false,
@@ -1190,8 +1189,7 @@ export class UnityConverter {
       buildWithDeepProfileAnalysisCloudBuild: false,
       buildWithDeepProfileAnalysisLocalBuild: false,
       buildWithDeepProfileAnalysisRemoteBuild: false,
-      buildWithDeepProfileAnalysisCustomBuild: false,
-      buildWithDeepProfileAnalysis: false
+      buildWithDeepProfileAnalysisCustomBuild: false
     };
   }
 
@@ -1390,10 +1388,6 @@ export class UnityConverter {
         buildTargetLocalBuild: true,
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
-        buildTarget: this.exportConfiguration.target,
-        buildConfiguration: this.exportConfiguration.configuration,
-        buildNumber: '1.0.0',
-        buildDate: new Date().toISOString(),
         buildDuration: 0,
         buildSize: 0,
         buildFiles: [],
@@ -1420,7 +1414,6 @@ export class UnityConverter {
           stripUnusedRenderingComponents: false,
           stripUnusedNetworkComponents: false,
           stripUnusedPhysicsComponents: false,
-          stripUnusedAnimationComponents: false,
           stripUnusedAssetBundleComponents: false,
           stripUnusedInputComponents: false,
           stripUnusedScriptComponents: false,
@@ -1455,7 +1448,6 @@ export class UnityConverter {
           stripUnusedCloudBuildComponents: false,
           stripUnusedLocalBuildComponents: false,
           stripUnusedRemoteBuildComponents: false,
-          stripUnusedCustomBuildComponents: false,
           stripUnusedBuildTargetComponents: false,
           stripUnusedBuildConfigurationComponents: false,
           stripUnusedBuildPlatformComponents: false,
@@ -1486,8 +1478,6 @@ export class UnityConverter {
           stripUnusedBuildTargetLocalBuildComponents: false,
           stripUnusedBuildTargetRemoteBuildComponents: false,
           stripUnusedBuildTargetCustomBuildComponents: false,
-          stripUnusedBuildTargetComponents: false,
-          stripUnusedBuildConfigurationComponents: false,
           stripUnusedBuildNumberComponents: false,
           stripUnusedBuildDateComponents: false,
           stripUnusedBuildDurationComponents: false,
@@ -1568,9 +1558,7 @@ export class UnityConverter {
           stripUnusedBuildParticleSystemTextureSheetAnimationErrorComponents: false,
           stripUnusedBuildParticleSystemLightsErrorComponents: false,
           stripUnusedBuildParticleSystemTrailErrorComponents: false,
-          stripUnusedBuildParticleSystemCustomDataErrorComponents: false,
-          stripUnusedBuildParticleSystemRendererErrorComponents: false,
-          stripUnusedBuildParticleSystemShapeErrorComponents: false
+          stripUnusedBuildParticleSystemCustomDataErrorComponents: false
         },
         buildSteps: [],
         buildReport: '',
@@ -1644,9 +1632,7 @@ export class UnityConverter {
         buildParticleSystemTextureSheetAnimationError: false,
         buildParticleSystemLightsError: false,
         buildParticleSystemTrailError: false,
-        buildParticleSystemCustomDataError: false,
-        buildParticleSystemRendererError: false,
-        buildParticleSystemShapeError: false
+        buildParticleSystemCustomDataError: false
       },
       steps: [],
       files: [],
