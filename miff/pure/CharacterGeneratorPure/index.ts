@@ -164,7 +164,7 @@ function composeLayers(width: number, height: number, traits: CharacterTraits): 
 	for (let y=0;y<height;y++) for (let x=0;x<width;x++) composite[y][x] = base[y][x] || clothing[y][x] || hair[y][x] || accessories[y][x];
 	composite = AdvancedRenderingPure.applyOutline(composite, { color: '#272727', thickness: 1 });
 	composite = AdvancedRenderingPure.applyShading(composite, { ambient: 0.6, strength: 0.3 });
-	composite = AdvancedRenderingPure.applyLighting(composite, { direction: { x: -0.4, y: -0.6 }, tint: '#ffd080', tintStrength: 0.25 });
+	composite = AdvancedRenderingPure.applyLighting(composite, { direction: { x: -0.4, y: -0.6 }, int: '#ffd080', intStrength: 0.25 });
 	return { base, clothing, hair, accessories, composite };
 }
 

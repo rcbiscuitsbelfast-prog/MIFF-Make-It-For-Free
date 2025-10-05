@@ -261,6 +261,9 @@ export interface CinematicSequence {
   triggerCondition: string;
   autoPlay: boolean;
   loop: boolean;
+  isActive: boolean;
+  currentTime: number;
+  cameraId: string;
 }
 
 export interface CameraShot {
@@ -1268,27 +1271,50 @@ export class CameraSystemPure {
     return new Map(this.activeCameras);
   }
 
+  /**
+   * Get camera configuration
+   */
+  getConfig(): CameraConfig {
+    return { ...this.config };
+  }
+
+  /**
+   * Setup event listeners
+   */
+  private setupEventListeners(): void {
+    // Event listener setup would go here
+  }
+
+  /**
+   * Generate unique camera ID
+   */
+  private generateCameraId(): string {
+    return `camera_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Update cinematic sequences
+   */
+  private updateCinematicSequences(deltaTime: number): void {
+    this.cinematicSequences.forEach((sequence, sequenceId) => {
+      if (sequence.isActive) {
+        sequence.currentTime += deltaTime * 1000;
+        if (sequence.currentTime >= sequence.duration) {
+          sequence.isActive = false;
+        }
+      }
+    });
+  }
+
+  /**
+   * Update performance metrics
+   */
+  private updatePerformanceMetrics(updateTime: number): void {
+    this.stats.averageFrameTime = (this.stats.averageFrameTime + updateTime) / 2;
+    this.stats.peakFrameTime = Math.max(this.stats.peakFrameTime, updateTime);
+    this.stats.totalPlayTime += updateTime;
+  }
+
 }
 
 // Export main class and interfaces
-export type {
-  CameraSettings,
-  CameraTransition,
-  CameraKeyframe,
-  CameraTransitionEvent,
-  CameraConstraints,
-  CameraEffect,
-  CameraVisualStyle,
-  CameraMetadata,
-  CameraPath,
-  CameraWaypoint,
-  CameraPathEvent,
-  CameraState,
-  CameraPerformanceMetrics,
-  CinematicSequence,
-  CameraShot,
-  Subtitle,
-  CinematicEffect,
-  CameraConfig,
-  CameraStats
-};

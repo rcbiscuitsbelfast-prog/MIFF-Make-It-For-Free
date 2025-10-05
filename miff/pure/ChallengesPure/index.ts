@@ -61,7 +61,8 @@ export enum ChallengeDifficulty {
   MEDIUM = 'medium',
   HARD = 'hard',
   EXPERT = 'expert',
-  LEGENDARY = 'legendary'
+  LEGENDARY = 'legendary',
+  VARIES = 'varies'
 }
 
 /**
@@ -124,6 +125,7 @@ export interface IChallengeFilter {
   searchText?: string;
   limit?: number;
   offset?: number;
+  minPriority?: number;
 }
 
 /**
@@ -166,6 +168,7 @@ export interface IBattleChallenge {
   isAvailable(playerContext: IPlayerContext): boolean;
   validate(): string[];
   getEstimatedDuration(): number;
+  hasAnyTag(tags: string[]): boolean;
   getCompletionPercentage(): number;
   clone(): IBattleChallenge;
 }
@@ -1307,7 +1310,8 @@ export const ChallengeUtils = {
       getPlayerLevel: () => 1,
       getCompletedChallenges: () => [],
       getUnlockedLocations: () => [],
-      getCapturedSpirits: () => []
+      getCapturedSpirits: () => [],
+      hasVisitedLocation: (locationId: string) => false
     };
   },
 
