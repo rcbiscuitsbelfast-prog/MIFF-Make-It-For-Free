@@ -142,12 +142,85 @@ function main() {
 
     // Initialize systems
     const bridgeManager = new UnrealBridgeManager(config);
-    const payloadAdapter = new UnrealPayloadAdapterPure(bridgeManager);
-    const sceneBuilder = new UnrealSceneBuilderPure(bridgeManager);
-    const assetManager = new UnrealAssetManagerPure(bridgeManager);
-    const eventSync = new UnrealEventSyncPure(bridgeManager);
     const renderPayloadManager = new RenderPayloadManager();
-    const sceneBuilderManager = new SceneBuilderManager();
+    const payloadAdapter = new UnrealPayloadAdapterPure(renderPayloadManager, bridgeManager);
+    const sceneBuilderManager = new SceneBuilderManager({
+      name: 'UnrealCLI',
+      description: 'Default scene for Unreal CLI',
+      dimensions: { width: 1000, height: 1000, depth: 1000 },
+      layers: [/* minimal layer set to satisfy types */ 'background' as any, 'terrain' as any, 'characters' as any],
+      optimizationMode: 'culling' as any,
+      exportFormats: ['json' as any],
+      enablePhysics: true,
+      enableLighting: true,
+      enableAudio: false,
+      enableAnimations: false,
+      enableParticles: false,
+      enablePostProcessing: false,
+      maxRenderDistance: 1000,
+      lodLevels: 1,
+      textureQuality: 'high',
+      shadowQuality: 'medium',
+      antialiasing: 'fxaa',
+      ambientOcclusion: false,
+      bloom: false,
+      motionBlur: false,
+      depthOfField: false,
+      colorGrading: false,
+      customSettings: {}
+    });
+    const sceneBuilder = new UnrealSceneBuilderPure(sceneBuilderManager, bridgeManager, payloadAdapter, renderPayloadManager);
+    const assetManager = new UnrealAssetManagerPure(bridgeManager, renderPayloadManager, {
+      loadingStrategy: 'lazy' as any,
+      cachingStrategy: 'memory' as any,
+      optimizationLevel: 'none' as any,
+      compressionType: 'none' as any,
+      streamingMode: 'none' as any,
+      enableAssetBundles: false,
+      enableVirtualTextures: false,
+      enableVirtualShadowMaps: false,
+      enableNanite: false,
+      enableLumen: false,
+      maxConcurrentLoads: 2,
+      maxMemoryUsage: 256 * 1024 * 1024,
+      maxCacheSize: 128,
+      preloadDistance: 0,
+      streamingDistance: 0,
+      budget_CPU: 0,
+      budget_GPU: 0,
+      budget_Memory: 0,
+      budget_Disk: 0,
+      priority_Characters: 1,
+      priority_Environment: 1,
+      priority_Props: 1,
+      priority_Effects: 1,
+      priority_UI: 1,
+      priority_Audio: 1,
+      priority_Animation: 1,
+      priority_Physics: 1,
+      enableAsyncLoading: true,
+      enableThreadedLoading: false,
+      enablePriorityLoading: false,
+      enablePreemptiveLoading: false,
+      enableBackgroundLoading: false,
+      enableIncrementalLoading: false,
+      enableMipmapStreaming: false,
+      enableTextureStreaming: false,
+      enableMeshStreaming: false,
+      enableAnimationStreaming: false,
+      enableAudioStreaming: false,
+      enableLevelStreaming: false,
+      enableWorldPartition: false,
+      enableDataLayers: false,
+      enableHLOD: false,
+      enableNaniteFallback: false,
+      enableLumenFallback: false,
+      enableRayTracingFallback: false,
+      enableVirtualTextureFallback: false,
+      enableVirtualShadowMapFallback: false,
+      customSettings: {}
+    });
+    const eventSync = new UnrealEventSyncPure(bridgeManager, { enableQueue: true, maxQueueSize: 1000, retryAttempts: 0, retryDelay: 0 } as any);
 
     // Create harness
     const harness = new UnrealEditorHarnessPure(

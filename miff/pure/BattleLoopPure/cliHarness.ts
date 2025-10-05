@@ -9,17 +9,12 @@
 
 import * as readline from 'readline';
 import {
-  BattleLoopController,
   BattlePhaseManager,
-  ActionQueue,
-  BattleEndManager,
   BattleAction,
-  BattleResult,
   BattlePhase,
-  ActionSource,
-  BattleLoopUtils,
-  IBattleState,
-  ActionSelector
+  BattleLoopManager,
+  BattleLoopConfig,
+  BattleState
 } from './index';
 
 // Mock RNG Provider for CLI
@@ -53,13 +48,13 @@ class MockRNGProvider {
 // CLI Application
 class BattleLoopPureCLI {
   private rl: readline.Interface;
-  private controller: BattleLoopController;
+  private controller: BattleLoopManager;
   private availableActors: number[] = [1, 2]; // Player and AI
   private availableMoves: Record<number, string[]> = {
     1: ['attack', 'defend', 'heal', 'special'],
     2: ['attack', 'defend', 'heal', 'special']
   };
-  private battleHistory: IBattleState[] = [];
+  private battleHistory: BattleState[] = [];
   private currentTurn: number = 0;
 
   constructor() {
@@ -69,7 +64,7 @@ class BattleLoopPureCLI {
     });
 
     const rng = new MockRNGProvider();
-    this.controller = new BattleLoopController(rng);
+    this.controller = new BattleLoopManager();
 
     this.initializeDemo();
   }
@@ -81,19 +76,13 @@ class BattleLoopPureCLI {
     console.log('Initializing BattleLoopPure CLI...');
 
     // Create a simple action selector for demo
-    const actionSelector: ActionSelector = (actorId: number, availableMoves: string[]) => {
+    const actionSelector = (actorId: number, availableMoves: string[]) => {
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
       const moveId = availableMoves[moveIndex];
 
-      return BattleAction.create(
-        actorId,
-        actorId === 1 ? 2 : 1, // Target opposite actor
-        moveId,
-        0,
-        50,
-        actorId === 1 ? ActionSource.PLAYER : ActionSource.AI,
-        `Selected by ${actorId === 1 ? 'player' : 'AI'}`
-      );
+      return actorId === 1 
+        ? BattleAction.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
+        : BattleAction.ai(actorId, actorId === 1 ? 2 : 1, moveId, 50);
     };
 
     // Run a few demo turns
@@ -103,22 +92,24 @@ class BattleLoopPureCLI {
   /**
    * Run demo turns
    */
-  private runDemoTurns(actionSelector: ActionSelector): void {
+  private runDemoTurns(actionSelector: (actorId: number, availableMoves: string[]) => BattleAction): void {
     console.log('Running demo battle turns...');
 
     for (let i = 0; i < 3; i++) {
       const seed = 1000 + i;
-      const state = this.controller.executeTurn(
-        seed,
-        actionSelector,
-        this.availableActors,
-        this.availableMoves
-      );
+      // Start the battle if not already active
+      if (!this.controller.getState().isActive) {
+        this.controller.start();
+      }
 
+      // Advance to next turn
+      this.controller.nextTurn();
+      
+      const state = this.controller.getState();
       this.battleHistory.push(state);
-      this.currentTurn = state.turnNumber;
+      this.currentTurn = state.currentTurn;
 
-      console.log(`Demo Turn ${state.turnNumber} completed. Phase: ${state.currentPhase}`);
+      console.log(`Demo Turn ${state.currentTurn} completed. Active: ${state.isActive}`);
     }
 
     console.log('Demo completed. Use "battle" command to run custom battles.');
@@ -275,45 +266,40 @@ class BattleLoopPureCLI {
 
     console.log(`⚔️ Starting battle simulation for ${turnCount} turns...`);
 
-    const actionSelector: ActionSelector = (actorId: number, availableMoves: string[]) => {
+    const actionSelector = (actorId: number, availableMoves: string[]) => {
       // Simple AI: choose random move
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
       const moveId = availableMoves[moveIndex];
 
       const targetId = actorId === 1 ? 2 : 1; // Target opposite actor
 
-      return BattleAction.create(
-        actorId,
-        targetId,
-        moveId,
-        0,
-        50,
-        actorId === 1 ? ActionSource.PLAYER : ActionSource.AI,
-        `Selected by ${actorId === 1 ? 'player' : 'AI'}`
-      );
+      return actorId === 1 
+        ? BattleAction.player(actorId, targetId, moveId, 50)
+        : BattleAction.ai(actorId, targetId, moveId, 50);
     };
 
     for (let turn = 1; turn <= turnCount; turn++) {
       const seed = Date.now() + turn;
       console.log(`📍 Turn ${turn} (Seed: ${seed})`);
 
-      const state = this.controller.executeTurn(
-        seed,
-        actionSelector,
-        this.availableActors,
-        this.availableMoves
-      );
+      // Start the battle if not already active
+      if (!this.controller.getState().isActive) {
+        this.controller.start();
+      }
 
+      // Advance to next turn
+      this.controller.nextTurn();
+      
+      const state = this.controller.getState();
       this.battleHistory.push(state);
-      this.currentTurn = state.turnNumber;
+      this.currentTurn = state.currentTurn;
 
-      console.log(`   Phase: ${state.currentPhase}`);
-      console.log(`   Actions this turn: ${state.actionsThisTurn.length}`);
-      console.log(`   Pending actions: ${state.pendingActions.length}`);
-      console.log(`   Processed actions: ${state.processedActions.length}`);
+      console.log(`   Turn: ${state.currentTurn}`);
+      console.log(`   Active: ${state.isActive}`);
+      console.log(`   Paused: ${state.isPaused}`);
 
-      if (state.battleResult !== BattleResult.ONGOING) {
-        console.log(`🏁 Battle ended: ${state.battleResult}`);
+      if (state.winner) {
+        console.log(`🏁 Battle ended: Winner ${state.winner} (${state.reason})`);
         break;
       }
 
@@ -328,66 +314,40 @@ class BattleLoopPureCLI {
    * Show current phase
    */
   private showCurrentPhase(): void {
-    const state = this.controller.getBattleState();
-    const phaseManager = this.controller.getPhaseManager();
-
+    const state = this.controller.getState();
     console.log('='.repeat(60));
-    console.log('📍 Current Battle Phase');
+    console.log('📍 Current Battle State');
     console.log('='.repeat(60));
 
-    console.log(`Current Phase: ${state.currentPhase}`);
-    console.log(`Description: ${BattlePhaseManager.getPhaseDescription(state.currentPhase)}`);
-    console.log(`Turn Number: ${state.turnNumber}`);
-    console.log(`Phase History: ${phaseManager.getPhaseHistory().join(' → ')}`);
-
-    const phaseCounts = phaseManager.getPhaseHistory().reduce((counts, phase) => {
-      counts[phase] = (counts[phase] || 0) + 1;
-      return counts;
-    }, {} as Record<string, number>);
-
-    console.log('Phase Counts:');
-    Object.entries(phaseCounts).forEach(([phase, count]) => {
-      console.log(`  ${phase}: ${count}`);
-    });
+    console.log(`Current Turn: ${state.currentTurn}`);
+    console.log(`Active: ${state.isActive}`);
+    console.log(`Paused: ${state.isPaused}`);
+    if (state.winner) {
+      console.log(`Winner: ${state.winner} (${state.reason})`);
+    }
   }
 
   /**
    * Show current battle state
    */
   private showBattleState(): void {
-    const state = this.controller.getBattleState();
+    const state = this.controller.getState();
 
     console.log('='.repeat(60));
     console.log('📊 Current Battle State');
     console.log('='.repeat(60));
 
-    console.log(`Turn Number: ${state.turnNumber}`);
-    console.log(`Current Phase: ${state.currentPhase}`);
-    console.log(`Battle Result: ${state.battleResult}`);
-    console.log(`Start Time: ${new Date(state.startTime).toLocaleString()}`);
-
-    if (state.endTime) {
-      console.log(`End Time: ${new Date(state.endTime).toLocaleString()}`);
-      console.log(`Duration: ${state.endTime - state.startTime}ms`);
+    console.log(`Current Turn: ${state.currentTurn}`);
+    console.log(`Active: ${state.isActive}`);
+    console.log(`Paused: ${state.isPaused}`);
+    if (state.winner) {
+      console.log(`Winner: ${state.winner} (${state.reason})`);
     }
 
-    console.log(`Actions This Turn: ${state.actionsThisTurn.length}`);
-    console.log(`Pending Actions: ${state.pendingActions.length}`);
-    console.log(`Processed Actions: ${state.processedActions.length}`);
-
-    if (state.actionsThisTurn.length > 0) {
-      console.log('Recent Actions:');
-      state.actionsThisTurn.slice(-3).forEach((action, index) => {
-        console.log(`  ${index + 1}. ${action.getSummary()}`);
-      });
-    }
-
-    if (state.metadata) {
-      console.log('Metadata:');
-      Object.entries(state.metadata).forEach(([key, value]) => {
-        console.log(`  ${key}: ${value}`);
-      });
-    }
+    console.log('Battle History:');
+    this.battleHistory.slice(-3).forEach((historyState, index) => {
+      console.log(`  ${index + 1}. Turn ${historyState.currentTurn} - Active: ${historyState.isActive}`);
+    });
   }
 
   /**
@@ -404,17 +364,11 @@ class BattleLoopPureCLI {
     }
 
     this.battleHistory.forEach((state, index) => {
-      console.log(`Turn ${state.turnNumber}:`);
-      console.log(`  Phase: ${state.currentPhase}`);
-      console.log(`  Actions: ${state.actionsThisTurn.length}`);
-      console.log(`  Pending: ${state.pendingActions.length}`);
-      console.log(`  Processed: ${state.processedActions.length}`);
-      console.log(`  Result: ${state.battleResult}`);
-
-      if (state.actionsThisTurn.length > 0) {
-        state.actionsThisTurn.forEach((action, actionIndex) => {
-          console.log(`    Action ${actionIndex + 1}: ${action.getSummary()}`);
-        });
+      console.log(`Turn ${state.currentTurn}:`);
+      console.log(`  Active: ${state.isActive}`);
+      console.log(`  Paused: ${state.isPaused}`);
+      if (state.winner) {
+        console.log(`  Winner: ${state.winner} (${state.reason})`);
       }
       console.log('');
     });
@@ -427,27 +381,19 @@ class BattleLoopPureCLI {
    * Show battle statistics
    */
   private showStatistics(): void {
-    const stats = this.controller.getBattleStatistics();
+    const state = this.controller.getState();
+    const config = this.controller.getConfig();
 
     console.log('='.repeat(60));
     console.log('📈 Battle Statistics');
     console.log('='.repeat(60));
 
-    console.log(`Total Actions: ${stats.totalActions}`);
-    console.log(`Average Actions/Turn: ${stats.averageActionsPerTurn.toFixed(1)}`);
-    console.log(`Battle Duration: ${stats.battleDuration}ms`);
-    console.log(`Phases Executed: ${stats.phasesExecuted}`);
-
-    console.log('Actions by Source:');
-    Object.entries(stats.actionsBySource).forEach(([source, count]) => {
-      console.log(`  ${source}: ${count}`);
-    });
-
-    console.log('Action Distribution:');
-    const percentage = (count: number) => (count / stats.totalActions * 100).toFixed(1);
-    Object.entries(stats.actionsBySource).forEach(([source, count]) => {
-      console.log(`  ${source}: ${count} (${percentage(count)}%)`);
-    });
+    console.log(`Current Turn: ${state.currentTurn}`);
+    console.log(`Max Turns: ${config.maxTurns}`);
+    console.log(`Timeout: ${config.timeoutMs}ms`);
+    console.log(`Auto Resolve: ${config.enableAutoResolve}`);
+    console.log(`Replay Enabled: ${config.enableReplay}`);
+    console.log(`Battle History: ${this.battleHistory.length} turns`);
   }
 
   /**
@@ -552,7 +498,7 @@ class BattleLoopPureCLI {
    * Clear battle state
    */
   private clearBattle(): void {
-    this.controller.reset();
+    this.controller.stop();
     this.battleHistory = [];
     this.currentTurn = 0;
 
@@ -566,19 +512,13 @@ class BattleLoopPureCLI {
   private runDemo(): void {
     this.clearBattle();
 
-    const actionSelector: ActionSelector = (actorId: number, availableMoves: string[]) => {
+    const actionSelector = (actorId: number, availableMoves: string[]) => {
       const moveIndex = Math.floor(Math.random() * availableMoves.length);
       const moveId = availableMoves[moveIndex];
 
-      return BattleAction.create(
-        actorId,
-        actorId === 1 ? 2 : 1,
-        moveId,
-        0,
-        50,
-        actorId === 1 ? ActionSource.PLAYER : ActionSource.AI,
-        `Demo action by ${actorId === 1 ? 'player' : 'AI'}`
-      );
+      return actorId === 1 
+        ? BattleAction.player(actorId, actorId === 1 ? 2 : 1, moveId, 50)
+        : BattleAction.ai(actorId, actorId === 1 ? 2 : 1, moveId, 50);
     };
 
     this.runDemoTurns(actionSelector);

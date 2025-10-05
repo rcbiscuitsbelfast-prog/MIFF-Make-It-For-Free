@@ -1,32 +1,3 @@
-#!/usr/bin/env tsx
-import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
-import { createPlayerState, reducePlayer } from './index';
-
-const { mode, params } = parseKeyValueArgs(process.argv);
-const cfg = { speed: 0.01 };
-
-try {
-  let s = createPlayerState();
-  switch (mode) {
-    case 'walk-right':
-      s = reducePlayer(s, { type: 'move', dir: { x: 1, y: 0 } }, cfg);
-      s = reducePlayer(s, { type: 'tick', dt: 100 }, cfg);
-      s = reducePlayer(s, { type: 'stop' }, cfg);
-      handleSuccess({ state: s }, 'walk-right');
-      break;
-    case 'interact':
-      s = reducePlayer(s, { type: 'interact', target: 'chest_01' }, cfg);
-      handleSuccess({ state: s }, 'interact');
-      break;
-    default:
-      handleSuccess({ help: '--mode=walk-right|interact' }, 'help');
-  }
-} catch (e) {
-  handleError(e);
-}
-
-#!/usr/bin/env tsx
-
 import { PlayerStatePure, PlayerStateSnapshot, InputState } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
