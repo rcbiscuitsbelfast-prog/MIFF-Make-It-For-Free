@@ -84,6 +84,7 @@ export type Combatant = {
   resourcePoints?: number;
   status?: { defending?: boolean; ko?: boolean; fled?: boolean; [key: string]: any };
   position?: { x: number; y: number; z?: number };
+  metadata?: Record<string, any>;
 };
 
 export type Action = {

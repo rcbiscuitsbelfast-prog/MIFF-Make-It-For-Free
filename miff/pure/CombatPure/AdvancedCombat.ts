@@ -299,12 +299,12 @@ export class AdvancedCombat {
    * Check if combatant is in range of environmental effect
    */
   private isCombatantInRange(combatant: Combatant, effect: EnvironmentalEffect): boolean {
-    if (!effect.radius || !effect.position) return true;
+    if (!effect.radius || !effect.position || !combatant.position) return true;
 
     const distance = Math.sqrt(
       Math.pow(combatant.position.x - effect.position.x, 2) +
       Math.pow(combatant.position.y - effect.position.y, 2) +
-      Math.pow(combatant.position.z - effect.position.z, 2)
+      Math.pow((combatant.position.z || 0) - (effect.position.z || 0), 2)
     );
 
     return distance <= effect.radius;
@@ -361,13 +361,13 @@ export class AdvancedCombat {
   private applyTacticalDisadvantage(combatant: Combatant, disadvantage: TacticalDisadvantage): void {
     switch (disadvantage.type) {
       case 'damage_penalty':
-        combatant.stats.attack -= disadvantage.magnitude;
+        combatant.stats.atk -= disadvantage.magnitude;
         break;
       case 'accuracy_penalty':
-        combatant.stats.speed -= disadvantage.magnitude;
+        combatant.stats.spd -= disadvantage.magnitude;
         break;
       case 'defense_penalty':
-        combatant.stats.defense -= disadvantage.magnitude;
+        combatant.stats.def -= disadvantage.magnitude;
         break;
     }
   }
@@ -396,9 +396,9 @@ export class AdvancedCombat {
   private applyPhaseEffect(combatant: Combatant, effect: BattlePhaseEffect): void {
     switch (effect.type) {
       case 'stat_modifier':
-        combatant.stats.attack += effect.magnitude;
-        combatant.stats.defense += effect.magnitude;
-        combatant.stats.speed += effect.magnitude;
+        combatant.stats.atk += effect.magnitude;
+        combatant.stats.def += effect.magnitude;
+        combatant.stats.spd += effect.magnitude;
         break;
       case 'move_restriction':
         // This would restrict certain moves
@@ -433,7 +433,7 @@ export class AdvancedCombat {
           type: 'move_sequence',
           value: ['ember', 'flame_thrower', 'fire_blast'],
           check: (context) => {
-            const moveSequence = context.previousMoves.map(m => m.id);
+            const moveSequence = context.previousMoves.map(m => m.moveId);
             return moveSequence.length >= 3 && 
                    moveSequence[0] === 'ember' && 
                    moveSequence[1] === 'flame_thrower' && 
@@ -446,7 +446,7 @@ export class AdvancedCombat {
           type: 'damage_multiplier',
           magnitude: 2.0,
           apply: (context) => {
-            context.combatant.stats.attack *= 2.0;
+            context.combatant.stats.atk *= 2.0;
           }
         }
       ],
@@ -464,7 +464,7 @@ export class AdvancedCombat {
           type: 'move_sequence',
           value: ['bubble', 'water_gun', 'hydro_pump'],
           check: (context) => {
-            const moveSequence = context.previousMoves.map(m => m.id);
+            const moveSequence = context.previousMoves.map(m => m.moveId);
             return moveSequence.length >= 3 && 
                    moveSequence[0] === 'bubble' && 
                    moveSequence[1] === 'water_gun' && 
