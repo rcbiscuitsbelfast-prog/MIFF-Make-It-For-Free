@@ -1296,7 +1296,8 @@ export class ChallengeManager implements IChallengeManager {
       [ChallengeDifficulty.MEDIUM]: 2,
       [ChallengeDifficulty.HARD]: 3,
       [ChallengeDifficulty.EXPERT]: 4,
-      [ChallengeDifficulty.LEGENDARY]: 5
+      [ChallengeDifficulty.LEGENDARY]: 5,
+      [ChallengeDifficulty.VARIES]: 3
     };
     return levels[difficulty] || 2;
   }
@@ -1441,7 +1442,8 @@ export const ChallengeUtils = {
       [ChallengeDifficulty.MEDIUM]: 2,
       [ChallengeDifficulty.HARD]: 3,
       [ChallengeDifficulty.EXPERT]: 4,
-      [ChallengeDifficulty.LEGENDARY]: 5
+      [ChallengeDifficulty.LEGENDARY]: 5,
+      [ChallengeDifficulty.VARIES]: 3
     };
     return levels[difficulty] || 2;
   },

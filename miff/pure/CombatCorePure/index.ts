@@ -75,6 +75,8 @@ export interface CombatEntity {
   isAlive: boolean;
   isStunned: boolean;
   isBlocking: boolean;
+  lastAbilityUse: number;
+  shield: number;
 
   aiProfile?: AICombatProfile;
 }
@@ -343,6 +345,7 @@ export interface CombatSession {
   activeEntityId?: string;
   winner?: string;
   statistics: CombatStatistics;
+  rules: CombatRules;
 }
 
 export interface CombatStatistics {
@@ -472,8 +475,8 @@ export class CombatEngine {
       if (item) {
         cloned[slot as keyof EquipmentSlots] = {
           ...item,
-          stats: item.stats.map(stat => ({ ...stat })),
-          enchantments: item.enchantments.map(enchant => ({ ...enchant }))
+          stats: item.stats.map((stat: StatModifier) => ({ ...stat })),
+          enchantments: item.enchantments.map((enchant: Enchantment) => ({ ...enchant }))
         };
       }
     }
@@ -854,8 +857,8 @@ export class CombatEngine {
 
   private async processTeleport(session: CombatSession, sourceEntity: CombatEntity, targetEntity: CombatEntity, effect: AbilityEffect): Promise<CombatResult> {
     // Teleport entity to new position
-    if (action.position) {
-      targetEntity.position = { ...action.position };
+    if (effect.position) {
+      targetEntity.position = { ...effect.position };
     }
 
     return CombatResult.HIT;

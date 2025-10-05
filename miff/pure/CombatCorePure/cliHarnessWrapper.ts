@@ -5,7 +5,7 @@
  */
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
-import { CombatCore, CombatState, Combatant } from './index';
+import { CombatCore, CombatState, CombatEntity } from './index';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const core = new CombatCore();
