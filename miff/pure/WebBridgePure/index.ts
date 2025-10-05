@@ -100,7 +100,7 @@ export class WebBridge {
   private config: WebBridgeConfig;
   private wasmInstances: Map<string, WebAssembly.Instance> = new Map();
   private wasmModules: Map<string, WebAssemblyModule> = new Map();
-  private serviceWorker?: ServiceWorker;
+  private serviceWorker?: ServiceWorker | null;
   private webWorkers: Worker[] = [];
   private canvas?: HTMLCanvasElement;
   private gl?: WebGLRenderingContext | WebGL2RenderingContext;
@@ -243,7 +243,7 @@ export class WebBridge {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
         .then(registration => {
-          this.serviceWorker = registration.active;
+          this.serviceWorker = registration.active ?? null;
           console.log('[WebBridge] Service Worker registered');
         })
         .catch(error => {
@@ -505,8 +505,8 @@ export class WebBridge {
     this.wasmModules.clear();
 
     // Unregister service worker
-    if (this.serviceWorker) {
-      this.serviceWorker.unregister();
+    if (this.serviceWorker && 'unregister' in (this.serviceWorker as any)) {
+      (this.serviceWorker as any).unregister();
     }
 
     console.log('[WebBridge] Web bridge disposed successfully');
@@ -630,13 +630,4 @@ export class WebBridge {
 }
 
 // Export all types and interfaces
-export {
-  WebBridgeConfig,
-  WebAssemblyConfig,
-  WebAssemblyModule,
-  WebAssemblyFunction,
-  WebAssemblyFunctionParameter,
-  WebAssemblyLocalVariable,
-  WebAssemblyInstruction,
-  WebAssemblyType
-};
+export type { WebBridgeConfig, WebAssemblyConfig, WebAssemblyModule, WebAssemblyFunction, WebAssemblyFunctionParameter, WebAssemblyLocalVariable, WebAssemblyInstruction, WebAssemblyType };
