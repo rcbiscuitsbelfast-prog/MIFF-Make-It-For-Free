@@ -3,7 +3,7 @@
 // Unreal CLI Harness - Command-line interface for Unreal Editor testing
 // Schema Version: v1.0
 
-import { UnrealBridgeManager, UnrealBridgeConfiguration, UnrealBridgeType, UnrealCommunicationProtocol } from '../UnrealBridgePure/index';
+import { UnrealBridgeManager, UnrealBridgeConfiguration, UnrealBridgeType, UnrealCommunicationProtocol, UnrealTickGroup, UnrealReplicationMode } from '../UnrealBridgePure/index';
 import { UnrealPayloadAdapterPure } from '../UnrealBridgePure/UnrealPayloadAdapterPure';
 import { UnrealSceneBuilderPure } from '../UnrealBridgePure/UnrealSceneBuilderPure';
 import { UnrealAssetManagerPure } from '../UnrealBridgePure/UnrealAssetManagerPure';
@@ -490,7 +490,7 @@ function convertToCSV(data: any): string {
   if (!data.harness) return 'No data available';
 
   const harness = data.harness;
-  const lines: string[] = [];
+    const lines: string[] = [];
 
   lines.push('=== Unreal Editor Harness CSV Export ===');
   lines.push(`Generated: ${data.harness.generatedAt}`);
@@ -510,7 +510,7 @@ function convertToCSV(data: any): string {
   if (harness.testResults && harness.testResults.length > 0) {
     lines.push('=== Test Results ===');
     lines.push('Test Name,Success,Duration (ms),Errors,Warnings');
-    for (const result of harness.testResults) {
+    for (const result of harness.testResults as Array<{ testName: string; success: boolean; duration: number; errors: any[]; warnings: any[] }>) {
       lines.push(`"${result.testName}","${result.success}","${result.duration}","${result.errors.length}","${result.warnings.length}"`);
     }
     lines.push('');
@@ -520,7 +520,7 @@ function convertToCSV(data: any): string {
   if (harness.demoResults && harness.demoResults.length > 0) {
     lines.push('=== Demo Results ===');
     lines.push('Demo Name,Success,Duration (ms),Scenes Created,Assets Generated,Events Processed');
-    for (const result of harness.demoResults) {
+    for (const result of harness.demoResults as Array<{ demoName: string; success: boolean; duration: number; scenesCreated: number; assetsGenerated: number; eventsProcessed: number }>) {
       lines.push(`"${result.demoName}","${result.success}","${result.duration}","${result.scenesCreated}","${result.assetsGenerated}","${result.eventsProcessed}"`);
     }
   }

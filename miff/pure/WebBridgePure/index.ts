@@ -100,7 +100,7 @@ export class WebBridge {
   private config: WebBridgeConfig;
   private wasmInstances: Map<string, WebAssembly.Instance> = new Map();
   private wasmModules: Map<string, WebAssemblyModule> = new Map();
-  private serviceWorker?: ServiceWorker | null;
+  private serviceWorker: ServiceWorker | null = null;
   private webWorkers: Worker[] = [];
   private canvas?: HTMLCanvasElement;
   private gl?: WebGLRenderingContext | WebGL2RenderingContext;
@@ -629,5 +629,4 @@ export class WebBridge {
   }
 }
 
-// Export all types and interfaces
-export type { WebBridgeConfig, WebAssemblyConfig, WebAssemblyModule, WebAssemblyFunction, WebAssemblyFunctionParameter, WebAssemblyLocalVariable, WebAssemblyInstruction, WebAssemblyType };
+// (Types are exported at declaration above; no duplicate re-exports to satisfy isolatedModules)
