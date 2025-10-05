@@ -537,13 +537,7 @@ class AIPureCLI {
       console.log(`📍 Turn ${turn}`);
 
       // Spirit 1 attacks
-      const context1 = {
-        playerSpirit: spirit1,
-        opponentSpirit: spirit2,
-        availableMoves: availableMoves,
-        rng: this.rng
-      };
-      const action1 = ai.selectAction(context1);
+      const action1 = ai.selectAction(spirit1, spirit2, availableMoves, this.rng);
       const move1 = action1.moveId ? this.moves.get(action1.moveId) : null;
 
       if (move1 && spirit1.resourcePoints >= move1.cost) {
@@ -567,13 +561,7 @@ class AIPureCLI {
       }
 
       // Spirit 2 attacks (if still alive)
-      const context2 = {
-        playerSpirit: spirit2,
-        opponentSpirit: spirit1,
-        availableMoves: availableMoves,
-        rng: this.rng
-      };
-      const action2 = ai.selectAction(context2);
+      const action2 = ai.selectAction(spirit2, spirit1, availableMoves, this.rng);
       const move2 = action2.moveId ? this.moves.get(action2.moveId) : null;
 
       if (move2 && spirit2.resourcePoints >= move2.cost) {
@@ -663,13 +651,7 @@ class AIPureCLI {
     });
     console.log('');
 
-    const context = {
-      playerSpirit: spirit,
-      opponentSpirit: opponent,
-      availableMoves: availableMoves,
-      rng: this.rng
-    };
-    const action = ai.selectAction(context);
+    const action = ai.selectAction(spirit, opponent, availableMoves, this.rng);
     const selectedMove = action.moveId ? this.moves.get(action.moveId) : null;
 
     if (selectedMove) {

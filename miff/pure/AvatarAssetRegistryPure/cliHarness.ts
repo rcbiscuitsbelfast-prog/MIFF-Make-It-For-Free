@@ -42,7 +42,7 @@ class AvatarAssetRegistryCLI {
   private rl: readline.Interface;
 
   constructor() {
-    this.registry = this.createSampleRegistry();
+    this.registry = this.createSampleRegistryInternal();
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -235,7 +235,7 @@ class AvatarAssetRegistryCLI {
 
   private async createSampleRegistry(): Promise<void> {
     try {
-      this.registry = this.createSampleRegistry();
+      this.registry = this.createSampleRegistryInternal();
       console.log('✅ Sample registry created');
       console.log(`   Assets: ${this.registry.items.length}`);
       console.log(`   Version: ${this.registry.version}`);
@@ -383,7 +383,7 @@ Remix Safety: CC0, restricted, custom
 `);
   }
 
-  private createSampleRegistry(): AvatarAssetRegistry {
+  private createSampleRegistryInternal(): AvatarAssetRegistry {
     return {
       version: '1.0.0',
       items: [

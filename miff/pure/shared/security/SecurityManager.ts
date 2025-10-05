@@ -216,6 +216,26 @@ export class SecurityManager {
   }
 
   /**
+   * Initialize compliance monitoring
+   */
+  private initializeComplianceMonitoring(): void {
+    this.log('Initializing compliance monitoring');
+    
+    // Set up compliance checks
+    this.complianceChecks = {
+      gdpr: this.checkGDPRCompliance(),
+      ccpa: this.checkCCPACompliance(),
+      sox: this.checkSOXCompliance(),
+      hipaa: this.checkHIPAACompliance()
+    };
+    
+    // Start periodic compliance audits
+    setInterval(() => {
+      this.performComplianceAudit();
+    }, this.config.complianceAuditInterval || 3600000); // 1 hour default
+  }
+
+  /**
    * Set up event listeners
    */
   private setupEventListeners(): void {
@@ -736,7 +756,8 @@ export class SecurityManager {
     if (!this.config.enableEncryption) return data;
     
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipher(this.config.encryptionAlgorithm, this.encryptionKey);
+    const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
+    const cipher = crypto.createCipheriv(this.config.encryptionAlgorithm, key, iv);
     
     let encrypted = cipher.update(data, 'utf8', 'hex');
     encrypted += cipher.final('hex');
@@ -754,7 +775,8 @@ export class SecurityManager {
     const iv = Buffer.from(parts[0], 'hex');
     const encrypted = parts[1];
     
-    const decipher = crypto.createDecipher(this.config.encryptionAlgorithm, this.encryptionKey);
+    const key = crypto.scryptSync(this.encryptionKey, 'salt', 32);
+    const decipher = crypto.createDecipheriv(this.config.encryptionAlgorithm, key, iv);
     
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');

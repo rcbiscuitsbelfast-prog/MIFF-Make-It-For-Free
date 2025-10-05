@@ -36,7 +36,7 @@ import * as readline from 'readline';
 import * as fs from 'fs';
 import * as path from 'path';
 import { AvatarRendererGodotPure } from './index';
-import { ResolvedAvatar, AvatarManifest } from '../AvatarSystemPure/schema';
+import { ResolvedAvatar, AvatarManifest, AvatarStyle } from '../AvatarSystemPure/schema';
 
 class AvatarRendererGodotCLI {
   private rl: readline.Interface;
@@ -231,7 +231,7 @@ class AvatarRendererGodotCLI {
       console.log(`✅ Sample avatar created: ${outputPath}`);
       console.log(`   Components: ${sampleAvatar.components.length}`);
       console.log(`   Asset entries: ${sampleAvatar.assets.entries.length}`);
-      console.log(`   Style: ${sampleAvatar.style}`);
+      console.log(`   Style: ${sampleAvatar.assets.style}`);
 
     } catch (error) {
       console.error('❌ Sample avatar creation failed:', error);
@@ -245,9 +245,9 @@ class AvatarRendererGodotCLI {
       
       fs.writeFileSync(outputPath, JSON.stringify(sampleManifest, null, 2));
       console.log(`✅ Sample manifest created: ${outputPath}`);
-      console.log(`   ID: ${sampleManifest.id}`);
+      console.log(`   Base: ${sampleManifest.base}`);
       console.log(`   Style: ${sampleManifest.style}`);
-      console.log(`   Components: ${sampleManifest.components.length}`);
+      console.log(`   Clothing: ${sampleManifest.clothing.length} items`);
 
     } catch (error) {
       console.error('❌ Sample manifest creation failed:', error);
@@ -307,7 +307,7 @@ class AvatarRendererGodotCLI {
         const avatar = avatars[i];
         const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(avatar);
         
-        console.log(`   🎨 Converting avatar ${i + 1} (${avatar.style})...`);
+        console.log(`   🎨 Converting avatar ${i + 1} (${avatar.assets.style})...`);
         console.log(`      Scene type: ${godotScene.type}`);
         console.log(`      Nodes: ${godotScene.nodes.length}`);
         console.log(`      Meta style: ${godotScene.meta.style}`);
@@ -328,7 +328,7 @@ class AvatarRendererGodotCLI {
         const manifest = manifests[i];
         const godotNodes = AvatarRendererGodotPure.manifestToGodotNodes(manifest);
         
-        console.log(`   🎨 Converting manifest ${i + 1} (${manifest.id})...`);
+        console.log(`   🎨 Converting manifest ${i + 1} (${manifest.base})...`);
         console.log(`      Generated nodes: ${godotNodes.length}`);
         godotNodes.forEach((node, index) => {
           console.log(`         ${index + 1}. ${node.name} (${node.type})`);
@@ -351,7 +351,7 @@ class AvatarRendererGodotCLI {
       // Simulate error handling
       console.log('6. Simulating error handling...');
       try {
-        const invalidAvatar = { ...this.createSampleAvatarData(), assets: { entries: [] } };
+        const invalidAvatar = { ...this.createSampleAvatarData(), assets: { style: '3d' as AvatarStyle, entries: [] } };
         const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(invalidAvatar);
         console.log('   ✅ Handled empty assets gracefully');
         console.log(`      Generated scene with ${godotScene.nodes.length} nodes`);
@@ -368,76 +368,26 @@ class AvatarRendererGodotCLI {
 
   private createSampleAvatarData(id: string = 'sample-avatar', style: string = '3d'): ResolvedAvatar {
     return {
-      id,
-      style: style as any,
       components: [
         {
           kind: 'head',
           id: 'head-001',
-          name: 'Basic Head',
-          anchors: ['anchor_head']
+          variant: 'basic',
+          color: '#FFDBAC'
         },
         {
           kind: 'torso',
           id: 'torso-001',
-          name: 'Basic Torso',
-          anchors: ['anchor_torso']
+          variant: 'basic',
+          color: '#8B4513'
         },
         {
           kind: 'shirt',
           id: 'shirt-001',
-          name: 'Basic Shirt',
-          anchors: ['anchor_shirt']
+          variant: 'basic',
+          color: '#4169E1'
         }
       ],
-      animations: [
-        {
-          id: 'idle',
-          name: 'Idle Animation',
-          state: 'idle',
-          duration: 2000,
-          loop: true
-        }
-      ],
-      materials: [
-        {
-          id: 'skin-material',
-          name: 'Skin Material',
-          type: 'pbr',
-          properties: {
-            baseColor: '#FFDBAC',
-            metallic: 0.0,
-            roughness: 0.8
-          }
-        }
-      ],
-      textures: [
-        {
-          id: 'skin-texture',
-          name: 'Skin Texture',
-          type: 'diffuse',
-          size: { width: 512, height: 512 },
-          format: 'png'
-        }
-      ],
-      meshes: [
-        {
-          id: 'head-mesh',
-          name: 'Head Mesh',
-          type: 'triangular',
-          vertices: 1000,
-          faces: 500,
-          uvs: true,
-          normals: true
-        }
-      ],
-      customizations: [],
-      optimizations: {
-        lodLevels: 3,
-        textureCompression: true,
-        meshSimplification: true,
-        animationCompression: true
-      },
       assets: {
         entries: [
           {
@@ -453,33 +403,34 @@ class AvatarRendererGodotCLI {
             url: 'https://example.com/assets/shirt.png'
           }
         ],
-        style: style as any,
-        base: 'https://example.com/assets/base.png'
+        style: style as any
       },
       manifest: {
-        id: `${id}-manifest`,
-        name: `${id} Manifest`,
+        base: 'barbarian',
+        clothing: ['tunic_blue', 'leather_boots'],
+        face: 'neutral',
         style: style as any,
-        components: [],
-        animations: [],
-        materials: [],
-        textures: [],
-        meshes: [],
-        customizations: [],
-        optimizations: {
-          lodLevels: 3,
-          textureCompression: true,
-          meshSimplification: true,
-          animationCompression: true
-        },
-        anchor: {
-          head: { x: 0, y: -50 },
-          torso: { x: 0, y: 0 }
-        },
         layers: {
-          body: 'https://example.com/assets/body.png',
-          face: 'https://example.com/assets/face.png',
-          clothing: ['https://example.com/assets/shirt.png']
+          body: 'body_basic',
+          clothing: ['tunic_blue', 'leather_boots'],
+          face: 'face_neutral',
+          hair: 'hair_short_brown'
+        },
+        animation: {
+          idle: 'idle_01',
+          walk: 'walk_01',
+          run: 'run_01'
+        },
+        performance: {
+          polyCount: 1500,
+          textureSize: '1024x1024',
+          mobileOptimized: true,
+          lodLevels: 3
+        },
+        metadata: {
+          createdBy: 'AvatarRendererGodotPure',
+          version: '1.0.0',
+          description: `Sample manifest for ${id}`
         }
       }
     };
@@ -487,44 +438,31 @@ class AvatarRendererGodotCLI {
 
   private createSampleManifestData(id: string = 'sample-manifest'): AvatarManifest {
     return {
-      id,
-      name: `${id} Manifest`,
+      base: 'barbarian',
+      clothing: ['tunic_blue', 'leather_boots'],
+      face: 'neutral',
       style: '3d',
-      components: [
-        {
-          kind: 'head',
-          id: 'head-001',
-          name: 'Basic Head',
-          anchors: ['anchor_head']
-        }
-      ],
-      animations: [
-        {
-          id: 'idle',
-          name: 'Idle Animation',
-          state: 'idle',
-          duration: 2000,
-          loop: true
-        }
-      ],
-      materials: [],
-      textures: [],
-      meshes: [],
-      customizations: [],
-      optimizations: {
-        lodLevels: 3,
-        textureCompression: true,
-        meshSimplification: true,
-        animationCompression: true
-      },
-      anchor: {
-        head: { x: 0, y: -50 },
-        torso: { x: 0, y: 0 }
-      },
       layers: {
-        body: 'https://example.com/assets/body.png',
-        face: 'https://example.com/assets/face.png',
-        clothing: ['https://example.com/assets/shirt.png']
+        body: 'body_basic',
+        clothing: ['tunic_blue', 'leather_boots'],
+        face: 'face_neutral',
+        hair: 'hair_short_brown'
+      },
+      animation: {
+        idle: 'idle_01',
+        walk: 'walk_01',
+        run: 'run_01'
+      },
+      performance: {
+        polyCount: 1500,
+        textureSize: '1024x1024',
+        mobileOptimized: true,
+        lodLevels: 3
+      },
+      metadata: {
+        createdBy: 'AvatarRendererGodotPure',
+        version: '1.0.0',
+        description: `Sample manifest for ${id}`
       }
     };
   }

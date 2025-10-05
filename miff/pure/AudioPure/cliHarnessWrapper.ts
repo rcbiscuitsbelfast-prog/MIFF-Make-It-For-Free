@@ -5,7 +5,7 @@
  */
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
-import { AudioManager, AudioClip, AudioConfig } from './Manager';
+import { AudioManager, AudioClip } from './Manager';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const manager = new AudioManager();

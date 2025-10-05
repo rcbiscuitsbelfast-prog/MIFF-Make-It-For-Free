@@ -14,11 +14,11 @@ import {
   ActionSource,
   TypeEffectiveness,
   MoveData,
-  MoveCategory,
   SpiritInstance,
   DamageCalculator,
   IRNGProvider
 } from '../index';
+import { MoveCategory } from '../../miff/pure/CombatPure/engine';
 
 // Mock RNG provider for testing
 class MockRNGProvider implements IRNGProvider {

@@ -1,9 +1,20 @@
 import { AvatarSystemPure } from '../../AvatarSystemPure';
 
 function makeRegistry(){
-  return { version:'1.0.0', items:[{ id:'base', remixSafety:'CC0', compatibility:['web'], anchors:{
-    '3d:anchor_cloak':'/x.png', '3d:anchor_shirt':'/y.png', '3d:anchor_torso':'/z.png', '3d:anchor_head':'/h.png'
-  }}]};
+  return { 
+    version:'1.0.0', 
+    items:[{ 
+      id:'base', 
+      remixSafety:'CC0' as const, 
+      compatibility:['web' as const], 
+      anchors: {
+        'anchor_cloak': '/x.png',
+        'anchor_shirt': '/y.png',
+        'anchor_torso': '/z.png',
+        'anchor_head': '/h.png'
+      }
+    }]
+  };
 }
 
 test('layer ordering prefers cloak -> shirt -> torso -> head', ()=>{

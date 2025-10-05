@@ -14,7 +14,7 @@
  */
 
 import { EventBus, createEventBus } from '../EventBusPure';
-import { AIDecisionStyle, MoveCategory, ThreatLevel, IAIDecisionProfile, IBattleAIController, IAIControllerManager, ISpiritInstance } from './types';
+import { AIDecisionStyle, ThreatLevel, IAIDecisionProfile, IBattleAIController, IAIControllerManager, ISpiritInstance } from './types';
 
 // ============================================================================
 // BATTLE AI MANAGER INTERFACES
@@ -34,6 +34,14 @@ export enum AIStrategy {
   BALANCED = 'balanced',
   ADAPTIVE = 'adaptive',
   RANDOM = 'random'
+}
+
+export enum MoveCategory {
+  DAMAGE = 'damage',
+  HEALING = 'healing',
+  BUFF = 'buff',
+  DEBUFF = 'debuff',
+  STATUS = 'status'
 }
 
 export enum AIActionType {

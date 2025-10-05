@@ -492,7 +492,7 @@ export class CacheManager {
     // If memory usage is high, be more aggressive with cleanup
     if (metrics.memoryUsage > 80) {
       this.log('High memory usage detected, performing aggressive cleanup');
-      this.cleanup(true);
+      this.performCleanup();
     }
     
     // If cache efficiency is low, consider reducing max size
@@ -509,7 +509,7 @@ export class CacheManager {
     this.log(`Preloading ${items.length} items`);
     
     for (const item of items) {
-      this.set(item.key, item.data, item.ttl);
+      this.set(item.key, item.data, { ttl: item.ttl });
     }
   }
 
