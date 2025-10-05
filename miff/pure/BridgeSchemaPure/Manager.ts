@@ -414,8 +414,8 @@ export class BridgeSchemaManager {
    */
   exportRegistry(format: 'full' | 'schemas-only' | 'conversions-only' = 'full'): { ok: boolean; data?: any; errors?: string[] } {
     try {
-      const schemas = Array.from(this.registry.schemas.entries()).map(([id, schema]) => ({ id, ...schema }));
-      const conversions = Array.from(this.registry.conversions.entries()).map(([id, rule]) => ({ id, ...rule }));
+      const schemas = Array.from(this.registry.schemas.entries()).map(([id, schema]) => ({ ...schema, id }));
+      const conversions = Array.from(this.registry.conversions.entries()).map(([id, rule]) => ({ ...rule, id }));
 
       switch (format) {
         case 'schemas-only':

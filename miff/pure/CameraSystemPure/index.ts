@@ -8,8 +8,8 @@
  */
 
 import { EventBus } from '../EventsPure/index';
-import { InputSystemPure } from '../InputPure/index';
-import { RNGPure } from '../RNGPure/index';
+import { InputMapper } from '../InputPure/index';
+import { RNGProvider } from '../RNGPure/index';
 
 // Core interfaces and types
 export interface CameraDefinition {
@@ -69,6 +69,7 @@ export interface CameraSettings {
   enableSmoothing: boolean;
   enableAutoFocus: boolean;
   focusDistance: number;
+  predictionTime: number;
 }
 
 export interface CameraTransition {
@@ -355,15 +356,15 @@ export class CameraSystemPure {
   private config: CameraConfig;
   private stats: CameraStats;
   private eventBus: EventBus;
-  private inputSystem: InputSystemPure;
-  private rng: RNGPure;
+  private inputSystem: InputMapper;
+  private rng: RNGProvider;
   private mainCamera: string | null = null;
   private lastUpdateTime: number = 0;
 
   constructor(
     eventBus: EventBus,
-    inputSystem: InputSystemPure,
-    rng: RNGPure
+    inputSystem: InputMapper,
+    rng: RNGProvider
   ) {
     this.eventBus = eventBus;
     this.inputSystem = inputSystem;
@@ -809,7 +810,7 @@ export class CameraSystemPure {
       this.mainCamera = instance.id;
     }
 
-    this.eventBus.emit('camera:created', {
+    this.eventBus.publish('camera:created', {
       cameraId: instance.id,
       cameraType: definition.id,
       targetEntity
@@ -1269,7 +1270,7 @@ export class CameraSystemPure {
     camera.state.mode = newMode;
     this.stats.modeSwitches++;
 
-    this.eventBus.emit('camera:mode-switched', {
+    this.eventBus.publish('camera:mode-switched', {
       cameraId,
       fromMode: camera.definition.mode.type,
       toMode: newMode
@@ -1408,7 +1409,7 @@ export class CameraSystemPure {
     }
 
     this.stats.modeSwitches++;
-    this.eventBus.emit('camera:mode-switched', {
+    this.eventBus.publish('camera:mode-switched', {
       cameraId,
       fromMode: oldMode,
       toMode: mode,
@@ -1442,7 +1443,7 @@ export class CameraSystemPure {
     camera.effects.set(shakeEffect.id, shakeEffect);
     this.stats.effectsApplied++;
 
-    this.eventBus.emit('camera:effect-applied', {
+    this.eventBus.publish('camera:effect-applied', {
       cameraId,
       effectType: 'shake',
       duration,
@@ -1513,7 +1514,7 @@ export class CameraSystemPure {
     this.cinematicSequences.set(sequence.id, sequence);
     this.stats.cinematicSequences++;
 
-    this.eventBus.emit('camera:path-started', {
+    this.eventBus.publish('camera:path-started', {
       cameraId,
       pathName: path.name,
       duration: path.duration
@@ -1531,7 +1532,7 @@ export class CameraSystemPure {
 
     sequences.forEach(seq => {
       seq.isActive = false;
-      this.eventBus.emit('camera:path-completed', {
+      this.eventBus.publish('camera:path-completed', {
         cameraId,
         pathName: seq.name
       });
@@ -1579,49 +1580,7 @@ export class CameraSystemPure {
     return true;
   }
 
-  /**
-   * Update camera system
-   */
-  updateCameraSystem(deltaTime: number): void {
-    const startTime = performance.now();
 
-    // Update all active cameras
-    this.activeCameras.forEach(camera => {
-      this.updateCamera(camera, deltaTime);
-    });
-
-    // Update cinematic sequences
-    this.updateCinematicSequences(deltaTime);
-
-    // Update statistics
-    this.stats.totalPlayTime += deltaTime * 1000;
-    this.stats.averageFPS = 1000 / (deltaTime * 1000);
-
-    const endTime = performance.now();
-    const updateTime = endTime - startTime;
-    this.stats.averageFrameTime = updateTime;
-    this.stats.peakFrameTime = Math.max(this.stats.peakFrameTime, updateTime);
-  }
-
-  /**
-   * Update individual camera
-   */
-  private updateCamera(camera: CameraInstance, deltaTime: number): void {
-    camera.updateCount++;
-    camera.lastUpdateTime = Date.now();
-
-    // Update camera effects
-    camera.effects.forEach((effect, effectId) => {
-      effect.duration -= deltaTime * 1000;
-      if (effect.duration <= 0) {
-        camera.effects.delete(effectId);
-      }
-    });
-
-    // Update performance metrics
-    camera.performanceMetrics.updateTime = deltaTime * 1000;
-    camera.performanceMetrics.averageFPS = 1000 / (deltaTime * 1000);
-  }
 
   /**
    * Update cinematic sequences
@@ -1633,7 +1592,7 @@ export class CameraSystemPure {
 
         if (sequence.currentTime >= sequence.duration) {
           sequence.isActive = false;
-          this.eventBus.emit('camera:path-completed', {
+          this.eventBus.publish('camera:path-completed', {
             cameraId: sequence.cameraId,
             pathName: sequence.name
           });

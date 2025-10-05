@@ -489,8 +489,12 @@ export class AudioMixerPure {
       return null;
     }
 
-    this.analyser.getFloatFrequencyData(this.fftData as Float32Array);
-    this.analyser.getFloatTimeDomainData(this.timeData as Float32Array);
+    if (this.fftData) {
+      this.analyser.getFloatFrequencyData(this.fftData as Float32Array);
+    }
+    if (this.timeData) {
+      this.analyser.getFloatTimeDomainData(this.timeData as Float32Array);
+    }
 
     // Calculate basic metrics
     let volume = 0;
