@@ -477,7 +477,9 @@ export class AdvancedCombat {
           type: 'stat_boost',
           magnitude: 1.5,
           apply: (context) => {
-            context.combatant.stats.specialAttack *= 1.5;
+            if (context.combatant.stats.specialAtk !== undefined) {
+              context.combatant.stats.specialAtk *= 1.5;
+            }
           }
         }
       ],
