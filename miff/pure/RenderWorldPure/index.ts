@@ -71,6 +71,51 @@ import {
   type Dialogue
 } from '../DialogueSystemPure';
 
+// New gameplay system imports
+import {
+  overlayFXManager,
+  OverlayFXManager,
+  OverlayEffectType,
+  OverlayEffectConfig
+} from '../OverlayFXPure';
+
+import {
+  perceptionFilterManager,
+  PerceptionFilterManager,
+  PerceptionMode,
+  NPCInfo,
+  InteractableInfo
+} from '../PerceptionFilterLayer';
+
+import {
+  scanFeedbackManager,
+  ScanFeedbackManager,
+  ScanTargetType,
+  ScanTarget
+} from '../ScanFeedbackLayer';
+
+import {
+  lensModeSwitcher,
+  LensModeSwitcher,
+  LensMode
+} from '../LensModeSwitcher';
+
+import {
+  buttonStyleManager,
+  ButtonStyleManager,
+  ButtonVariant,
+  ButtonSize,
+  ButtonState
+} from '../ButtonStylePure';
+
+import {
+  interactableRegistry,
+  InteractableRegistry,
+  InteractableType,
+  InteractionBehavior,
+  InteractionState
+} from '../InteractableRegistryPure';
+
 interface RenderWorldGameState {
   player: {
     position: { x: number; y: number; z: number };
@@ -79,6 +124,10 @@ interface RenderWorldGameState {
     holdingSpiritLens: boolean;
     health: number;
     maxHealth: number;
+    inventory: string[];
+    level: number;
+    quests: string[];
+    skills: Record<string, number>;
   };
   world: {
     warehouse: {
@@ -121,6 +170,20 @@ interface RenderWorldGameState {
         glow: { r: number; g: number; b: number; intensity: number };
         active: boolean;
         destination: string;
+      };
+    };
+    // Gameplay systems
+    gameplay: {
+      lensMode: LensMode;
+      perceptionMode: PerceptionMode;
+      overlayEffects: OverlayEffectConfig[];
+      scanTargets: ScanTarget[];
+      interactables: InteractableType[];
+      npcs: NPCInfo[];
+      ui: {
+        buttonStyles: Record<string, any>;
+        hudElements: string[];
+        menuState: 'closed' | 'inventory' | 'quests' | 'settings';
       };
     };
     npcs: {
@@ -178,6 +241,13 @@ export class RenderWorldPure {
     hud: HUDManager;
     scene: SceneBuilderManager;
     avatar: AvatarSystemPure;
+    // New gameplay systems
+    overlayFX: OverlayFXManager;
+    perception: PerceptionFilterManager;
+    scanFeedback: ScanFeedbackManager;
+    lensMode: LensModeSwitcher;
+    buttonStyle: ButtonStyleManager;
+    interactables: InteractableRegistry;
     dialogue: {
       nextNode: typeof nextNode;
       currentDialogue?: Dialogue;
@@ -194,6 +264,7 @@ export class RenderWorldPure {
     this.generateWorld();
     this.setupSpiritLens();
     this.setupNPCs();
+    this.initializeGameplaySystems();
   }
 
   private initializeGameState(): RenderWorldGameState {
@@ -204,7 +275,11 @@ export class RenderWorldPure {
         velocity: { x: 0, y: 0, z: 0 },
         holdingSpiritLens: false,
         health: 100,
-        maxHealth: 100
+        maxHealth: 100,
+        inventory: [],
+        level: 1,
+        quests: [],
+        skills: {}
       },
       world: {
         warehouse: {
@@ -286,6 +361,20 @@ export class RenderWorldPure {
             ],
             lastDialogueTime: 0
           }
+        },
+        // Gameplay systems
+        gameplay: {
+          lensMode: LensMode.NORMAL,
+          perceptionMode: PerceptionMode.NORMAL,
+          overlayEffects: [],
+          scanTargets: [],
+          interactables: [],
+          npcs: [],
+          ui: {
+            buttonStyles: {},
+            hudElements: [],
+            menuState: 'closed'
+          }
         }
       },
       game: {
@@ -323,6 +412,13 @@ export class RenderWorldPure {
       hud: new HUDManager(),
       scene: new SceneBuilderManager(),
       avatar: new AvatarSystemPure(),
+      // New gameplay systems
+      overlayFX: overlayFXManager,
+      perception: perceptionFilterManager,
+      scanFeedback: scanFeedbackManager,
+      lensMode: lensModeSwitcher,
+      buttonStyle: buttonStyleManager,
+      interactables: interactableRegistry,
       dialogue: {
         nextNode: nextNode,
         currentDialogue: undefined
@@ -1083,6 +1179,301 @@ export class RenderWorldPure {
         'Cross-platform rendering compatibility'
       ]
     };
+  }
+
+  // ============================================================================
+  // GAMEPLAY SYSTEM METHODS
+  // ============================================================================
+
+  /**
+   * Initialize gameplay systems
+   */
+  private initializeGameplaySystems(): void {
+    // Initialize overlay effects
+    this.engines.overlayFX.createLayer('renderworld_effects', 'RenderWorld Effects', 5);
+    
+    // Initialize perception system
+    this.engines.perception.updatePlayerContext({
+      position: this.state.player.position,
+      inventory: this.state.player.inventory,
+      level: this.state.player.level,
+      quests: this.state.player.quests,
+      skills: this.state.player.skills
+    });
+
+    // Initialize scan targets
+    this.setupScanTargets();
+    
+    // Initialize interactables
+    this.setupInteractables();
+    
+    // Initialize NPCs for perception system
+    this.setupPerceptionNPCs();
+  }
+
+  /**
+   * Setup scan targets in the world
+   */
+  private setupScanTargets(): void {
+    // Add spirit lens as scan target
+    this.engines.scanFeedback.addTarget({
+      id: 'spirit_lens',
+      type: ScanTargetType.ITEM,
+      position: this.state.world.spiritLens.position,
+      radius: 2.0,
+      isScanned: false,
+      scanProgress: 0,
+      cooldownDuration: 5000,
+      highlightColor: '#00ff00',
+      wireframeColor: '#00ffff',
+      pulseIntensity: 0.5,
+      isInteractable: true,
+      metadata: {
+        name: 'Spirit Lens',
+        description: 'A mystical lens that reveals hidden energies',
+        rarity: 'legendary'
+      }
+    });
+
+    // Add portals as scan targets
+    Object.values(this.state.world.portals).forEach(portal => {
+      this.engines.scanFeedback.addTarget({
+        id: `portal_${portal.destination}`,
+        type: ScanTargetType.PORTAL,
+        position: portal.position,
+        radius: 3.0,
+        isScanned: false,
+        scanProgress: 0,
+        cooldownDuration: 10000,
+        highlightColor: '#ff8000',
+        wireframeColor: '#ffff00',
+        pulseIntensity: 0.3,
+        isInteractable: true,
+        metadata: {
+          name: `Portal to ${portal.destination}`,
+          description: `A portal leading to ${portal.destination}`,
+          destination: portal.destination
+        }
+      });
+    });
+  }
+
+  /**
+   * Setup interactable objects
+   */
+  private setupInteractables(): void {
+    // Add spirit lens as interactable
+    this.engines.interactables.register({
+      id: 'spirit_lens',
+      type: InteractableType.ITEM,
+      name: 'Spirit Lens',
+      description: 'A mystical lens that reveals hidden energies',
+      position: this.state.world.spiritLens.position,
+      radius: 2.0,
+      behaviors: [InteractionBehavior.PICKUP, InteractionBehavior.SCAN, InteractionBehavior.EXAMINE],
+      state: InteractionState.AVAILABLE,
+      requirements: [],
+      cooldownDuration: 0,
+      metadata: {
+        rarity: 'legendary',
+        value: 1000
+      },
+      visualIndicators: {
+        highlightColor: '#00ff00',
+        wireframeColor: '#00ffff',
+        pulseIntensity: 0.5,
+        glowIntensity: 0.8
+      },
+      audioCues: {
+        onApproach: 'spirit_lens_hum',
+        onInteract: 'spirit_lens_pickup',
+        onSuccess: 'spirit_lens_activate'
+      }
+    });
+
+    // Add portals as interactables
+    Object.entries(this.state.world.portals).forEach(([key, portal]) => {
+      this.engines.interactables.register({
+        id: `portal_${key}`,
+        type: InteractableType.PORTAL,
+        name: `Portal to ${portal.destination}`,
+        description: `A portal leading to ${portal.destination}`,
+        position: portal.position,
+        radius: 3.0,
+        behaviors: [InteractionBehavior.USE, InteractionBehavior.SCAN, InteractionBehavior.EXAMINE],
+        state: portal.active ? InteractionState.AVAILABLE : InteractionState.LOCKED,
+        requirements: [],
+        cooldownDuration: 2000,
+        metadata: {
+          destination: portal.destination,
+          active: portal.active
+        },
+        visualIndicators: {
+          highlightColor: '#ff8000',
+          wireframeColor: '#ffff00',
+          pulseIntensity: 0.3,
+          glowIntensity: 0.6
+        },
+        audioCues: {
+          onApproach: 'portal_hum',
+          onInteract: 'portal_activate',
+          onSuccess: 'portal_teleport'
+        }
+      });
+    });
+  }
+
+  /**
+   * Setup NPCs for perception system
+   */
+  private setupPerceptionNPCs(): void {
+    Object.entries(this.state.world.npcs).forEach(([key, npc]) => {
+      this.engines.perception.addNPC({
+        id: npc.id,
+        type: this.getNPCType(key),
+        position: npc.position,
+        radius: 2.0,
+        isInteractable: true,
+        questId: this.getNPCQuestId(key)
+      });
+    });
+  }
+
+  /**
+   * Get NPC type based on key
+   */
+  private getNPCType(key: string): 'friendly' | 'neutral' | 'hostile' | 'quest' | 'merchant' | 'guard' {
+    const typeMap: Record<string, any> = {
+      'explorer': 'friendly',
+      'guide': 'quest',
+      'mystic': 'quest'
+    };
+    return typeMap[key] || 'neutral';
+  }
+
+  /**
+   * Get NPC quest ID based on key
+   */
+  private getNPCQuestId(key: string): string | undefined {
+    const questMap: Record<string, string> = {
+      'guide': 'tutorial_quest',
+      'mystic': 'spirit_lens_quest'
+    };
+    return questMap[key];
+  }
+
+  /**
+   * Switch lens mode
+   */
+  switchLensMode(mode: LensMode): boolean {
+    const success = this.engines.lensMode.switchToMode(mode);
+    if (success) {
+      this.state.world.gameplay.lensMode = mode;
+      this.state.world.gameplay.perceptionMode = this.engines.perception.getMode();
+      this.updateGameplayUI();
+    }
+    return success;
+  }
+
+  /**
+   * Handle interaction with an object
+   */
+  interactWithObject(objectId: string, behavior: InteractionBehavior): InteractionResult {
+    const result = this.engines.interactables.interact(objectId, behavior);
+    
+    if (result.success) {
+      // Update game state based on interaction
+      this.handleInteractionResult(objectId, behavior, result);
+    }
+    
+    return result;
+  }
+
+  /**
+   * Handle interaction result
+   */
+  private handleInteractionResult(objectId: string, behavior: InteractionBehavior, result: any): void {
+    switch (behavior) {
+      case InteractionBehavior.PICKUP:
+        if (objectId === 'spirit_lens') {
+          this.state.player.holdingSpiritLens = true;
+          this.state.world.spiritLens.active = false;
+        }
+        break;
+      case InteractionBehavior.USE:
+        if (objectId.startsWith('portal_')) {
+          this.handlePortalActivation({ portalId: objectId });
+        }
+        break;
+      case InteractionBehavior.SCAN:
+        // Update scan progress
+        this.engines.scanFeedback.updateScanProgress(1.0);
+        break;
+    }
+  }
+
+  /**
+   * Update gameplay UI
+   */
+  private updateGameplayUI(): void {
+    // Update overlay effects
+    this.state.world.gameplay.overlayEffects = this.engines.overlayFX.getActiveEffects();
+    
+    // Update scan targets
+    this.state.world.gameplay.scanTargets = this.engines.scanFeedback.getAllTargets();
+    
+    // Update interactables
+    this.state.world.gameplay.interactables = this.engines.interactables.getAll().map(i => i.type);
+    
+    // Update NPCs
+    this.state.world.gameplay.npcs = this.engines.perception.getNPCs();
+  }
+
+  /**
+   * Update gameplay systems
+   */
+  updateGameplaySystems(deltaTime: number): void {
+    // Update player context
+    this.engines.perception.updatePlayerContext({
+      position: this.state.player.position,
+      inventory: this.state.player.inventory,
+      level: this.state.player.level,
+      quests: this.state.player.quests,
+      skills: this.state.player.skills
+    });
+
+    // Update scan feedback
+    this.engines.scanFeedback.updatePulse(deltaTime);
+    
+    // Update lens mode transition
+    this.engines.lensMode.updateTransition(deltaTime);
+    
+    // Update gameplay UI
+    this.updateGameplayUI();
+  }
+
+  /**
+   * Handle keyboard input for gameplay systems
+   */
+  handleGameplayInput(key: string): boolean {
+    // Handle lens mode switching
+    if (this.engines.lensMode.handleKeyPress(key)) {
+      return true;
+    }
+
+    // Handle scan mode
+    if (key === 's' && this.state.player.holdingSpiritLens) {
+      this.switchLensMode(LensMode.SCAN);
+      return true;
+    }
+
+    // Handle normal mode
+    if (key === 'n') {
+      this.switchLensMode(LensMode.NORMAL);
+      return true;
+    }
+
+    return false;
   }
 }
 
