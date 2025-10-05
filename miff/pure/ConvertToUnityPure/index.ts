@@ -395,7 +395,6 @@ export interface UnityPlayerSettings {
   webGLWasmMultithreadingMode: string;
   webGLWasmMemoryGrowthInitialSize: number;
   webGLWasmMemoryGrowthMaxSize: number;
-  webGLWasmMemoryGrowthStepSize: number;
 }
 
 export interface UnityEditorSettings {
