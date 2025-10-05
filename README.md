@@ -17,6 +17,7 @@
 | 📋 **[Module Index](docs/MIFF_MODULE_INDEX_2025.md)** | Complete audit of all 157+ modules with implementation details | ✅ **Complete** | 2025-01-28 |
 | 🔬 **[Master Audit Report](docs/audit/master/Master_Audit_Report.md)** | Cross-domain, single source of truth audit | ✅ **Live** | 2025-01-28 |
 | 🧪 **[Architecture Audit](docs/audit/arch/Architecture_Audit.md)** | Modularity, layering, dependency graph | ✅ **Live** | 2025-01-28 |
+| 🎮 **[Gameplay Systems](docs/GameplaySystems.md)** | Complete guide to overlays, interactions, and mobile performance | ✅ **Complete** | 2025-01-28 |
 | 🎯 **[Strategic Roadmap](docs/MIFF_NEXT_PHASE_ROADMAP_2025.md)** | 18-month development plan and vision | ✅ **Complete** | 2025-01-28 |
 | 📅 **[Implementation Plan](docs/MIFF_IMPLEMENTATION_PLAN_2025.md)** | Detailed 72-week execution timeline | ✅ **Complete** | 2025-01-28 |
 
@@ -48,6 +49,21 @@ Experience the full power of MIFF through our unified GitHub Pages site featurin
 - **⚡ Performance Optimized** with minimal dependencies and fast loading times
 - **🔄 Seamless Navigation** between all MIFF experiences in one deployment
 - **🎨 Consistent Branding** with shared assets and professional styling
+
+#### **🎮 New Gameplay Systems**
+- **🧿 Overlay Effects** - Stateless visual effects (blur, vignette, scan lines, chromatic aberration)
+- **🔍 Perception Filters** - Contextual overlays (scan mode, danger zones, NPC auras)
+- **📡 Scan Feedback** - Wireframe overlays, pulse animations, progress tracking
+- **🔄 Lens Mode Switching** - Seamless view mode transitions (normal, scan, combat, stealth)
+- **🎨 Button Styling** - Stateless UI system with theme support and responsive design
+- **🎒 Interactable Registry** - Central management of interactive objects and behaviors
+- **📱 Mobile Performance** - Adaptive quality adjustment and real-time optimization
+
+#### **🚀 Mobile-First Performance**
+- **⚡ Adaptive Quality** - Automatic adjustment based on device capabilities
+- **📊 Real-Time Monitoring** - Frame rate, memory usage, and performance statistics
+- **🔋 Battery Optimization** - Power saving modes and thermal throttling support
+- **🌐 Cross-Platform** - Unity, Godot, Unreal, Android, and Web export ready
 
 ---
 
