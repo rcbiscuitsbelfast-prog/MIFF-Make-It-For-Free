@@ -549,21 +549,14 @@ export class CraftingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { recipes, total: recipes.length }
+          result: recipes
         };
       
       case 'manifest':
         return {
           op: 'export',
           status: 'ok',
-          result: {
-            schema: 'miff.crafting.export.v1',
-            recipes,
-            sessions: sessions.slice(-100), // Last 100 sessions
-            history: this.craftingHistory.slice(-100), // Last 100 results
-            exportedAt: new Date().toISOString(),
-            total: recipes.length
-          }
+          result: recipes
         };
       
       case 'summary':
@@ -571,28 +564,14 @@ export class CraftingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: {
-            summary: stats.result,
-            recipes: recipes.map(recipe => ({
-              id: recipe.id,
-              name: recipe.name,
-              category: recipe.category,
-              difficulty: recipe.difficulty,
-              skillRequired: recipe.skillRequired,
-              skillLevel: recipe.skillLevel
-            }))
-          }
+          result: stats.result
         };
       
       case 'sessions':
         return {
           op: 'export',
           status: 'ok',
-          result: {
-            sessions,
-            history: this.craftingHistory,
-            total: sessions.length
-          }
+          result: sessions
         };
       
       default:
@@ -708,6 +687,6 @@ export class CraftingManager {
       'expert': 2.5,
       'master': 3.0
     };
-    return multipliers[difficulty] || 1.0;
+    return multipliers[difficulty as keyof typeof multipliers] || 1.0;
   }
 }

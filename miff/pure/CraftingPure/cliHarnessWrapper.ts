@@ -22,7 +22,7 @@ try {
         name: recipe || 'Custom Recipe',
         inputs: typeof materials === 'string' ? JSON.parse(materials) : (materials || {}),
         outputs: { [recipe || 'crafted_item']: 1 },
-        craftTime: craftingTime || 10,
+        craftingTime: craftingTime || 10,
         requiredSkillLevel: 1
       };
       

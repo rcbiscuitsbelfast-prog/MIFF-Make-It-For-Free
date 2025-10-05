@@ -411,9 +411,9 @@ export class WebConverter {
     };
 
     this.project = this.createDefaultProject();
-    this.renderer = this.options.renderer;
-    this.platform = this.options.platform;
-    this.buildType = this.options.buildType;
+    this.renderer = this.options.renderer || WebRenderer.PIXI_JS;
+    this.platform = this.options.platform || WebPlatform.DESKTOP;
+    this.buildType = this.options.buildType || WebBuildType.PRODUCTION;
     this.statistics = this.initializeStatistics();
   }
 
@@ -508,7 +508,7 @@ export class WebConverter {
         audioCompression: true
       },
       compatibility: {
-        fallbackRenderer: WebRenderer.CANVAS_2D,
+        fallbackRenderer: WebRenderer.PIXI_JS,
         progressiveEnhancement: true,
         gracefulDegradation: true,
         featureDetection: true,
