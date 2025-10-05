@@ -309,14 +309,12 @@ export interface WebProjectSettings {
   detailsContent: string;
   summaryContent: string;
   commandContent: string;
-  menuContent: string;
   dialogContent: string;
   scriptContent: string;
   noscriptContent: string;
   templateContent: string;
   slotContent: string;
   shadowContent: string;
-  contentContent: string;
   elementContent: string;
   decoratorContent: string;
   styleContent: string;
@@ -359,7 +357,6 @@ export interface WebProjectSettings {
   pptxContent: string;
   xlsContent: string;
   xlsxContent: string;
-  htmlContent: string;
   cssContent: string;
   jsContent: string;
   tsContent: string;

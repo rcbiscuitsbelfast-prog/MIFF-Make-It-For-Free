@@ -627,9 +627,6 @@ export interface UnityBuildReport {
   buildTargetLocalBuild: boolean;
   buildTargetRemoteBuild: boolean;
   buildTargetCustomBuild: boolean;
-  buildTarget: string;
-  buildConfiguration: string;
-  buildNumber: string;
   buildDate: string;
   buildDuration: number;
   buildSize: number;
@@ -710,8 +707,6 @@ export interface UnityBuildReport {
   buildParticleSystemLightsError: boolean;
   buildParticleSystemTrailError: boolean;
   buildParticleSystemCustomDataError: boolean;
-  buildParticleSystemRendererError: boolean;
-  buildParticleSystemShapeError: boolean;
 }
 
 export interface UnityBuildSummary {
@@ -761,16 +756,6 @@ export interface UnityBuildSummary {
   buildTargetLocalBuild: boolean;
   buildTargetRemoteBuild: boolean;
   buildTargetCustomBuild: boolean;
-  buildTarget: string;
-  buildConfiguration: string;
-  buildNumber: string;
-  buildDate: string;
-  buildDuration: number;
-  buildSize: number;
-  buildFiles: UnityBuildFile[];
-  buildDependencies: UnityBuildDependency[];
-  buildStrippingInfo: UnityBuildStrippingInfo;
-  buildSteps: UnityBuildStep[];
   buildReport: string;
   buildLog: string;
   buildErrors: string[];
@@ -843,8 +828,6 @@ export interface UnityBuildSummary {
   buildParticleSystemLightsError: boolean;
   buildParticleSystemTrailError: boolean;
   buildParticleSystemCustomDataError: boolean;
-  buildParticleSystemRendererError: boolean;
-  buildParticleSystemShapeError: boolean;
 }
 
 export interface UnityBuildFile {
@@ -888,7 +871,6 @@ export interface UnityBuildStrippingInfo {
   stripUnusedRenderingComponents: boolean;
   stripUnusedNetworkComponents: boolean;
   stripUnusedPhysicsComponents: boolean;
-  stripUnusedAnimationComponents: boolean;
   stripUnusedAssetBundleComponents: boolean;
   stripUnusedInputComponents: boolean;
   stripUnusedScriptComponents: boolean;
@@ -923,7 +905,6 @@ export interface UnityBuildStrippingInfo {
   stripUnusedCloudBuildComponents: boolean;
   stripUnusedLocalBuildComponents: boolean;
   stripUnusedRemoteBuildComponents: boolean;
-  stripUnusedCustomBuildComponents: boolean;
   stripUnusedBuildTargetComponents: boolean;
   stripUnusedBuildConfigurationComponents: boolean;
   stripUnusedBuildPlatformComponents: boolean;
@@ -954,8 +935,6 @@ export interface UnityBuildStrippingInfo {
   stripUnusedBuildTargetLocalBuildComponents: boolean;
   stripUnusedBuildTargetRemoteBuildComponents: boolean;
   stripUnusedBuildTargetCustomBuildComponents: boolean;
-  stripUnusedBuildTargetComponents: boolean;
-  stripUnusedBuildConfigurationComponents: boolean;
   stripUnusedBuildNumberComponents: boolean;
   stripUnusedBuildDateComponents: boolean;
   stripUnusedBuildDurationComponents: boolean;
@@ -1037,8 +1016,6 @@ export interface UnityBuildStrippingInfo {
   stripUnusedBuildParticleSystemLightsErrorComponents: boolean;
   stripUnusedBuildParticleSystemTrailErrorComponents: boolean;
   stripUnusedBuildParticleSystemCustomDataErrorComponents: boolean;
-  stripUnusedBuildParticleSystemRendererErrorComponents: boolean;
-  stripUnusedBuildParticleSystemShapeErrorComponents: boolean;
 }
 
 export interface UnityBuildStep {
