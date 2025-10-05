@@ -352,15 +352,8 @@ export interface UnityPlayerSettings {
   metroLargeTileShowNameOnSquare44x44: boolean;
   metroWideTileShowNameOnSquare310x150: boolean;
   metroWideTileShowNameOnWide310x150: boolean;
-  metroLargeTileShowNameOnWide310x150: boolean;
-  metroWideTileShowNameOnSquare310x150: boolean;
   metroWideTileShowNameOnSquare71x71: boolean;
   metroWideTileShowNameOnSquare44x44: boolean;
-  metroSquareTileShowNameOnSquare150x150: boolean;
-  metroSquareTileShowNameOnSquare310x310: boolean;
-  metroSquareTileShowNameOnWide310x150: boolean;
-  metroSquareTileShowNameOnSquare71x71: boolean;
-  metroSquareTileShowNameOnSquare44x44: boolean;
   metroSquareTileShowNameOnSquare150x150: boolean;
   metroSquareTileShowNameOnSquare310x310: boolean;
   metroSquareTileShowNameOnWide310x150: boolean;
