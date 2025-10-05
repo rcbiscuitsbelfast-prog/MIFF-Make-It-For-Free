@@ -5,7 +5,9 @@
 import { OverlinkThemes, ThemeId, ThemeConfig } from './OverlinkThemes';
 import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTracker';
 import { AudioManager } from './AudioManager';
-import { BadgeSystem, CreditsRenderer } from '../../../badges';
+// BadgeSystem and CreditsRenderer - placeholder for future implementation
+const BadgeSystem = { render: () => '' };
+const CreditsRenderer = { render: () => '' };
 
 export type ZoneId = string;
 export type ModuleId = string;

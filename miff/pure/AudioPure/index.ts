@@ -289,7 +289,8 @@ export class AudioEngine {
       // Configure playback
       audioSource.loop = source.loop;
       audioSource.playbackRate.value = options?.pitch || source.pitch;
-      audioSource.volume = options?.volume || source.volume;
+      // Note: AudioBufferSourceNode doesn't have volume property
+      // Volume control should be handled via GainNode
 
       // Connect to master bus
       const masterGain = this.gainNodes.get('master');
@@ -372,7 +373,9 @@ export class AudioEngine {
   setSourceVolume(sourceId: string, volume: number): void {
     const source = this.activeSources.get(sourceId);
     if (source) {
-      source.volume = Math.max(0, Math.min(1, volume));
+      // Note: AudioBufferSourceNode doesn't have volume property
+      // Volume control should be handled via GainNode
+      console.warn('Volume control not implemented for AudioBufferSourceNode');
     }
   }
 

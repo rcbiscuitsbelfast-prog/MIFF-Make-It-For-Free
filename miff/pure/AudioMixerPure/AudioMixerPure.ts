@@ -489,8 +489,8 @@ export class AudioMixerPure {
       return null;
     }
 
-    this.analyser.getFloatFrequencyData(this.fftData);
-    this.analyser.getFloatTimeDomainData(this.timeData);
+    this.analyser.getFloatFrequencyData(this.fftData as Float32Array);
+    this.analyser.getFloatTimeDomainData(this.timeData as Float32Array);
 
     // Calculate basic metrics
     let volume = 0;
@@ -781,7 +781,7 @@ export class AudioMixerPure {
     if (!this.audioContext) return null;
 
     const filter = this.audioContext.createBiquadFilter();
-    filter.type = (parameters.type as BiquadFilterType) || 'lowpass';
+    filter.type = (parameters.type as unknown as BiquadFilterType) || 'lowpass';
     filter.frequency.value = parameters.frequency || 1000;
     filter.Q.value = parameters.q || 1;
     filter.gain.value = parameters.gain || 0;

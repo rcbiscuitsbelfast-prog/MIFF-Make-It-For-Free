@@ -19,6 +19,7 @@
   "exclude": [
     "node_modules",
     "dist",
+    "badges/**",
     "**/*.test.ts",
     "**/cliHarness.ts",
     "**/cli/**"

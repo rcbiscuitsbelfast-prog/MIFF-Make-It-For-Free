@@ -87,7 +87,7 @@ export const AdvancedRenderingPure = {
 	applyLighting(matrix: PixelMatrix, options: LightingOptions): PixelMatrix {
 		const h = matrix.length;
 		const w = matrix[0]?.length || 0;
-		const tintRGB = hexToRgb(options.tint);
+		const tintRGB = hexToRgb(options.int);
 		const result: PixelMatrix = matrix.map(row => row.slice());
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
@@ -97,7 +97,7 @@ export const AdvancedRenderingPure = {
 				const nx = (x / Math.max(1, w - 1)) * 2 - 1;
 				const ny = (y / Math.max(1, h - 1)) * 2 - 1;
 				const nl = clamp01((nx * options.direction.x + ny * options.direction.y + 1) / 2);
-				const t = options.tintStrength * nl;
+				const t = options.intStrength * nl;
 				result[y][x] = rgbToHex(
 					Math.floor(lerp(r, tintRGB.r, t)),
 					Math.floor(lerp(g, tintRGB.g, t)),

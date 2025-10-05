@@ -1324,6 +1324,7 @@ export class AIManager {
     averageError: number;
     decisionAccuracy: number;
     processingTime: number;
+    timestamp: number;
   } {
     const neuralNetworksCount = this.neuralNetworks.size;
     let totalTrainingData = 0;
@@ -1348,7 +1349,8 @@ export class AIManager {
       totalTrainingData,
       averageError,
       decisionAccuracy,
-      processingTime: 0 // Would need to implement timing
+      processingTime: 0, // Would need to implement timing
+      timestamp: Date.now()
     };
   }
 }

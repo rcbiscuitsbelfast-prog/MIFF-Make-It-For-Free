@@ -1,3 +1,11 @@
+export interface AudioConfig {
+  masterVolume: number;
+  enable3D: boolean;
+  maxDistance: number;
+  rolloffFactor: number;
+  dopplerFactor: number;
+}
+
 export interface AudioClip {
   id: string;
   name: string;

@@ -28,7 +28,7 @@ export enum AIDifficulty {
   MASTER = 'master'
 }
 
-export enum AIStrategy {
+export enum AIStrategyType {
   AGGRESSIVE = 'aggressive',
   DEFENSIVE = 'defensive',
   BALANCED = 'balanced',
@@ -102,7 +102,7 @@ export interface AIContext {
 export interface AIStrategy {
   id: string;
   name: string;
-  type: AIStrategy;
+  type: AIStrategyType;
   difficulty: AIDifficulty;
   priority: number;
   conditions: AICondition[];
@@ -150,7 +150,7 @@ export interface AIPerformance {
 
 export interface AIConfig {
   defaultDifficulty: AIDifficulty;
-  defaultStrategy: AIStrategy;
+  defaultStrategy: AIStrategyType;
   enableLearning: boolean;
   enableAdaptiveDifficulty: boolean;
   maxDecisionTime: number;
@@ -232,7 +232,7 @@ export class BattleAIManager {
     this.addStrategy({
       id: 'aggressive_default',
       name: 'Aggressive Default',
-      type: AIStrategy.AGGRESSIVE,
+      type: AIStrategyType.AGGRESSIVE,
       difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [
@@ -267,7 +267,7 @@ export class BattleAIManager {
     this.addStrategy({
       id: 'defensive_default',
       name: 'Defensive Default',
-      type: AIStrategy.DEFENSIVE,
+      type: AIStrategyType.DEFENSIVE,
       difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [
@@ -301,7 +301,7 @@ export class BattleAIManager {
     this.addStrategy({
       id: 'balanced_default',
       name: 'Balanced Default',
-      type: AIStrategy.BALANCED,
+      type: AIStrategyType.BALANCED,
       difficulty: AIDifficulty.NORMAL,
       priority: 1,
       conditions: [],
@@ -621,7 +621,7 @@ export class BattleAIManager {
   /**
    * Set current strategy
    */
-  setStrategy(strategyType: AIStrategy): boolean {
+  setStrategy(strategyType: AIStrategyType): boolean {
     const strategy = Array.from(this.strategies.values())
       .find(s => s.type === strategyType);
     
@@ -751,7 +751,7 @@ export const defaultBattleAIManager = new BattleAIManager({
   eventBus: createEventBus(),
   config: {
     defaultDifficulty: AIDifficulty.NORMAL,
-    defaultStrategy: AIStrategy.BALANCED,
+    defaultStrategy: AIStrategyType.BALANCED,
     enableLearning: true,
     enableAdaptiveDifficulty: true,
     maxDecisionTime: 1000,
