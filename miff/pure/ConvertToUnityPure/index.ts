@@ -393,7 +393,6 @@ export interface UnityPlayerSettings {
   virtualTexturingSupportEnabled: boolean;
   webGLUseWasmMultithreading: boolean;
   webGLWasmMultithreadingMode: string;
-  webGLWasmMemoryGrowthMode: string;
   webGLWasmMemoryGrowthInitialSize: number;
   webGLWasmMemoryGrowthMaxSize: number;
   webGLWasmMemoryGrowthStepSize: number;

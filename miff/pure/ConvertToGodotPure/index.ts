@@ -436,7 +436,8 @@ export class GodotConverter {
           'high': 'high',
           'ultra': 'ultra'
         };
-        this.currentProject.settings.rendering.quality = qualityMap[miffSettings.graphics.textureQuality as keyof typeof qualityMap] || 'high';
+        const quality = qualityMap[miffSettings.graphics.textureQuality as keyof typeof qualityMap] || 'high';
+        this.currentProject.settings.rendering.quality = quality as 'low' | 'medium' | 'high' | 'ultra';
       }
 
       if (miffSettings.graphics.antiAliasing !== undefined) {
