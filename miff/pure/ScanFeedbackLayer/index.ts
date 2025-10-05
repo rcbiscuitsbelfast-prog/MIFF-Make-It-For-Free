@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { OverlayFXManager, OverlayEffectType, OverlayEffectConfig } from '../OverlayFXPure';
+import { OverlayFXManager, OverlayEffectType, OverlayEffectConfig, overlayFXManager } from '../OverlayFXPure';
 
 export enum ScanTargetType {
   ITEM = 'item',

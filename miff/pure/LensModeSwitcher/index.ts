@@ -9,9 +9,9 @@
  * @license MIT
  */
 
-import { PerceptionFilterManager, PerceptionMode } from '../PerceptionFilterLayer';
-import { ScanFeedbackManager } from '../ScanFeedbackLayer';
-import { OverlayFXManager } from '../OverlayFXPure';
+import { PerceptionFilterManager, PerceptionMode, perceptionFilterManager } from '../PerceptionFilterLayer';
+import { ScanFeedbackManager, scanFeedbackManager } from '../ScanFeedbackLayer';
+import { OverlayFXManager, overlayFXManager } from '../OverlayFXPure';
 
 export enum LensMode {
   NORMAL = 'normal',
