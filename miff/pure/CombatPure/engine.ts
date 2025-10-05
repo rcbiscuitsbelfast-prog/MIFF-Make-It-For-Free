@@ -83,6 +83,7 @@ export type Combatant = {
   typeTag?: string;
   resourcePoints?: number;
   status?: { defending?: boolean; ko?: boolean; fled?: boolean; [key: string]: any };
+  position?: { x: number; y: number; z?: number };
 };
 
 export type Action = {

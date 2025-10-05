@@ -197,10 +197,10 @@ export class AdvancedCombat {
     if (!position) return false;
 
     // Check if combatant can afford the movement cost
-    if (combatant.stats.stamina < position.movementCost) return false;
+    if (combatant.stats.hp < position.movementCost) return false;
 
     // Deduct movement cost
-    combatant.stats.stamina -= position.movementCost;
+    combatant.stats.hp -= position.movementCost;
 
     // Update combatant position
     combatant.position = position.position;
@@ -316,20 +316,24 @@ export class AdvancedCombat {
   private applyEnvironmentalModifier(combatant: Combatant, modifier: EnvironmentalModifier): void {
     switch (modifier.type) {
       case 'damage':
-        combatant.stats.attack += modifier.magnitude;
+        combatant.stats.atk += modifier.magnitude;
         break;
       case 'accuracy':
-        combatant.stats.speed += modifier.magnitude;
+        combatant.stats.spd += modifier.magnitude;
         break;
       case 'speed':
-        combatant.stats.speed += modifier.magnitude;
+        combatant.stats.spd += modifier.magnitude;
         break;
       case 'defense':
-        combatant.stats.defense += modifier.magnitude;
+        combatant.stats.def += modifier.magnitude;
         break;
       case 'special':
-        combatant.stats.specialAttack += modifier.magnitude;
-        combatant.stats.specialDefense += modifier.magnitude;
+        if (combatant.stats.specialAtk !== undefined) {
+          combatant.stats.specialAtk += modifier.magnitude;
+        }
+        if (combatant.stats.specialDef !== undefined) {
+          combatant.stats.specialDef += modifier.magnitude;
+        }
         break;
     }
   }
@@ -340,13 +344,13 @@ export class AdvancedCombat {
   private applyTacticalAdvantage(combatant: Combatant, advantage: TacticalAdvantage): void {
     switch (advantage.type) {
       case 'damage_bonus':
-        combatant.stats.attack += advantage.magnitude;
+        combatant.stats.atk += advantage.magnitude;
         break;
       case 'accuracy_bonus':
-        combatant.stats.speed += advantage.magnitude;
+        combatant.stats.spd += advantage.magnitude;
         break;
       case 'defense_bonus':
-        combatant.stats.defense += advantage.magnitude;
+        combatant.stats.def += advantage.magnitude;
         break;
     }
   }

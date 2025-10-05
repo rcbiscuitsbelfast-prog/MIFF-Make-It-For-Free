@@ -936,7 +936,9 @@ export class CombatEngine {
       team: sourceEntity.team,
       isAlive: true,
       isStunned: false,
-      isBlocking: false
+      isBlocking: false,
+      lastAbilityUse: new Map(),
+      shield: 0
     };
 
     session.entities.set(summonId, summonEntity);
