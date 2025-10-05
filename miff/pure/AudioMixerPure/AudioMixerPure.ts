@@ -489,12 +489,17 @@ export class AudioMixerPure {
       return null;
     }
 
+<<<<<<< HEAD
     if (this.fftData) {
       this.analyser.getFloatFrequencyData(new Float32Array(this.fftData));
     }
     if (this.timeData) {
       this.analyser.getFloatTimeDomainData(new Float32Array(this.timeData));
     }
+=======
+    this.analyser.getFloatFrequencyData(this.fftData as Float32Array<ArrayBuffer>);
+    this.analyser.getFloatTimeDomainData(this.timeData as Float32Array<ArrayBuffer>);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
 
     // Calculate basic metrics
     let volume = 0;
@@ -785,7 +790,13 @@ export class AudioMixerPure {
     if (!this.audioContext) return null;
 
     const filter = this.audioContext.createBiquadFilter();
+<<<<<<< HEAD
     filter.type = (parameters.type as unknown as BiquadFilterType) || 'lowpass';
+=======
+    const validTypes: BiquadFilterType[] = ['lowpass', 'highpass', 'bandpass', 'lowshelf', 'highshelf', 'peaking', 'notch', 'allpass'];
+    const typeValue = parameters.type as unknown as BiquadFilterType;
+    filter.type = validTypes.includes(typeValue) ? typeValue : 'lowpass';
+>>>>>>> origin/cursor/check-latest-branch-update-812c
     filter.frequency.value = parameters.frequency || 1000;
     filter.Q.value = parameters.q || 1;
     filter.gain.value = parameters.gain || 0;

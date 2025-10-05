@@ -229,7 +229,11 @@ export class ConvertToGodotManager {
       resources: []
     };
 
+<<<<<<< HEAD
     // Convert children
+=======
+    // Convert children recursively
+>>>>>>> origin/cursor/check-latest-branch-update-812c
     if (data.children) {
       for (const child of data.children) {
         const childNode = this.convertRenderDataToScene(child);
@@ -239,14 +243,68 @@ export class ConvertToGodotManager {
       }
     }
 
+<<<<<<< HEAD
     // Add any additional properties from props
     if (data.props) {
       Object.assign(sceneNode.properties, data.props);
+=======
+    // Add asset if present
+    if (data.asset) {
+      const assetNode = this.convertAssetToNode(data.asset, data.type);
+      if (assetNode) {
+        sceneNode.children.push(assetNode);
+      }
+>>>>>>> origin/cursor/check-latest-branch-update-812c
     }
 
     return sceneNode;
   }
 
+<<<<<<< HEAD
+=======
+  private convertAssetToNode(asset: string, type: string): GodotSceneNode | null {
+    // Convert asset to appropriate Godot node based on type
+    switch (type) {
+      case 'sprite':
+        return {
+          type: 'Node3D',
+          name: `sprite_${this.sceneCounter++}`,
+          properties: { texture: asset },
+          children: [],
+          scripts: [],
+          resources: []
+        };
+      case 'text':
+        return {
+          type: 'Node3D',
+          name: `text_${this.sceneCounter++}`,
+          properties: { text: asset },
+          children: [],
+          scripts: [],
+          resources: []
+        };
+      case 'sound':
+        return {
+          type: 'Node3D',
+          name: `sound_${this.sceneCounter++}`,
+          properties: { stream: asset },
+          children: [],
+          scripts: [],
+          resources: []
+        };
+      default:
+        return {
+          type: 'Node3D',
+          name: `asset_${this.sceneCounter++}`,
+          properties: { asset: asset },
+          children: [],
+          scripts: [],
+          resources: []
+        };
+    }
+  }
+
+>>>>>>> origin/cursor/check-latest-branch-update-812c
   private convertTransform(position?: any, rotation?: any, scale?: any): any {
     // Convert MIFF transform to Godot Transform3D
     return {
@@ -308,21 +366,6 @@ export class ConvertToGodotManager {
   }
 
   private convertLightToNode(light: any): GodotSceneNode | null {
-    let lightType = 'OmniLight3D';
-
-    switch (light.type) {
-      case 'directional':
-        lightType = 'DirectionalLight3D';
-        break;
-      case 'spot':
-        lightType = 'SpotLight3D';
-        break;
-      case 'point':
-      default:
-        lightType = 'OmniLight3D';
-        break;
-    }
-
     return {
       type: 'Node3D',
       name: light.id || 'light',
@@ -443,6 +486,7 @@ export class ConvertToGodotManager {
   private generateResources(payload: RenderPayload): GodotResource[] {
     const resources: GodotResource[] = [];
 
+<<<<<<< HEAD
     // Generate texture resources from renderData
     for (const data of payload.renderData) {
       if (data.asset && data.type === 'sprite') {
@@ -450,6 +494,15 @@ export class ConvertToGodotManager {
           type: 'Texture',
           id: `texture_${this.resourceCounter++}`,
           path: `res://textures/${data.asset}`,
+=======
+    // Generate resources from renderData assets
+    for (const renderData of payload.renderData) {
+      if (renderData.asset) {
+        const resource: GodotResource = {
+          type: 'Texture',
+          id: `asset_${this.resourceCounter++}`,
+          path: renderData.asset,
+>>>>>>> origin/cursor/check-latest-branch-update-812c
           dependencies: [],
           data: {
             width: 256,

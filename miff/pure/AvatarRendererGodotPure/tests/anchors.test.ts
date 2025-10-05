@@ -2,9 +2,17 @@ import { AvatarSystemPure } from '../../AvatarSystemPure';
 import { AvatarRendererGodotPure } from '../index';
 
 function makeRegistry(){
-  return { version:'1.0.0', items:[{ id:'base', remixSafety:'CC0', compatibility:['godot'], anchors:{
-    '2d-side:anchor_head':'/h.png'
-  }}]};
+  return { 
+    version:'1.0.0', 
+    items:[{ 
+      id:'base', 
+      remixSafety:'CC0' as const, 
+      compatibility:['godot' as const], 
+      anchors: {
+        'anchor_head': '/h.png'
+      }
+    }]
+  };
 }
 
 test('Godot scene JSON contains Sprite2D nodes per entry', ()=>{

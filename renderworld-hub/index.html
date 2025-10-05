@@ -316,9 +316,13 @@
                     <li><span class="key">WASD</span> - Move around</li>
                     <li><span class="key">Mouse</span> - Look around</li>
                     <li><span class="key">E</span> - Use Spirit Lens (scan)</li>
+                    <li><span class="key">I</span> - Open/Close Inventory</li>
+                    <li><span class="key">M</span> - Open/Close Menu</li>
+                    <li><span class="key">Tab</span> - Cycle Lens Modes</li>
                     <li><span class="key">Space</span> - Jump</li>
                     <li><span class="key">ESC</span> - Pause/Resume</li>
                     <li><span class="key">Click NPCs</span> - Start dialogue</li>
+                    <li><span class="key">Click Items</span> - Pick up items</li>
                 </ul>
                 <br>
                 <strong>🌟 Features:</strong>
@@ -326,6 +330,9 @@
                     <li>✨ <strong>Spirit Lens</strong> - Pick up from central table</li>
                     <li>🚪 <strong>Portal Doors</strong> - Three demo world entrances</li>
                     <li>🤖 <strong>AI NPCs</strong> - Interactive characters with dialogue</li>
+                    <li>📦 <strong>Inventory System</strong> - Collect and manage items</li>
+                    <li>🎯 <strong>Scan Mode</strong> - Analyze objects and environments</li>
+                    <li>🎨 <strong>Visual Overlays</strong> - Contextual UI and effects</li>
                     <li>📊 <strong>Performance</strong> - 60fps with debug overlay</li>
                 </ul>
             </div>
@@ -425,6 +432,17 @@
                     });
                 }
 
+                // Load overlay system
+                if (!window.RenderWorldOverlaySystem) {
+                    await new Promise((resolve, reject) => {
+                        const s = document.createElement('script');
+                        s.src = './overlay-system.js';
+                        s.onload = resolve;
+                        s.onerror = () => reject(new Error('Failed to load overlay-system.js'));
+                        document.head.appendChild(s);
+                    });
+                }
+
                 if (!window.RenderWorldWebBridge) {
                     throw new Error('RenderWorldWebBridge not found');
                 }
@@ -445,6 +463,9 @@
                     quality: 'high'
                 });
 
+                // Initialize overlay system
+                const overlaySystem = new window.RenderWorldOverlaySystem(renderer);
+
                 // Start the renderer
                 renderer.start();
 
@@ -459,8 +480,9 @@
                     showNotification(event.detail.message, event.detail.type, event.detail.duration);
                 });
 
-                // Make renderer globally accessible for debugging
+                // Make renderer and overlay system globally accessible for debugging
                 window.renderworld = renderer;
+                window.overlaySystem = overlaySystem;
 
                 console.log('🎮 RenderWorld Hub initialized successfully!');
                 showNotification('Welcome to RenderWorld! Use WASD to move and E to scan.', 'info', 4000);

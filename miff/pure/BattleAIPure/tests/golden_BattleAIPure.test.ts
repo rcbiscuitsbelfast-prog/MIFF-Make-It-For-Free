@@ -13,6 +13,7 @@ import {
   AIDecisionStyle,
   ThreatLevel,
   MoveCategory,
+  ISpiritInstance,
   IAIDecisionProfile,
   IBattleAIController,
   IAIControllerManager

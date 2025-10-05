@@ -19,9 +19,17 @@
   "exclude": [
     "node_modules",
     "dist",
+<<<<<<< HEAD
     "badges/**",
     "**/*.test.ts",
     "**/cliHarness.ts",
     "**/cli/**"
+=======
+    "coverage",
+    "miff-nextjs/tailwind.config.ts",
+    "scenarios/**/*.ts",
+    "docs/assets/vendor/**/*.js",
+    "**/*.min.js"
+>>>>>>> origin/cursor/check-latest-branch-update-812c
   ]
 }

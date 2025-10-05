@@ -291,7 +291,7 @@ export class EventBus {
     }
 
     // Call network callbacks
-    for (const callback of this.networkCallbacks.values()) {
+    for (const callback of Array.from(this.networkCallbacks.values())) {
       try {
         callback(message);
       } catch (error) {
@@ -485,7 +485,7 @@ export class EventFilter {
    * Check if event passes all filters
    */
   passesFilters(event: Event): boolean {
-    for (const filter of this.filters.values()) {
+    for (const filter of Array.from(this.filters.values())) {
       if (!filter(event)) {
         return false;
       }
@@ -682,7 +682,7 @@ export class EventScheduler {
     const now = this.getCurrentTime();
     const eventsToExecute: ScheduledEvent[] = [];
 
-    for (const event of this.scheduledEvents.values()) {
+    for (const event of Array.from(this.scheduledEvents.values())) {
       if (event.executeAt <= now) {
         eventsToExecute.push(event);
       }

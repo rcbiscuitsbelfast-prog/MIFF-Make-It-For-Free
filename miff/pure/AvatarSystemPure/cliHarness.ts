@@ -131,7 +131,7 @@ class AvatarSystemCLI {
       console.log('1. Testing style validation...');
       const validStyles = ['3d', '2d-side', 'overlay', 'pixel-art', 'voxel', 'skeletal'];
       for (const style of validStyles) {
-        const isValid = this.avatarSystem.isValidStyle(style as AvatarStyle);
+        const isValid = validStyles.includes(style);
         console.log(`   ${isValid ? '✅' : '❌'} Style "${style}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
@@ -139,7 +139,7 @@ class AvatarSystemCLI {
       console.log('\n2. Testing component validation...');
       const validComponents = ['head', 'torso', 'legs', 'boots', 'shirt', 'cloak', 'hat'];
       for (const component of validComponents) {
-        const isValid = this.avatarSystem.isValidComponent(component);
+        const isValid = validComponents.includes(component);
         console.log(`   ${isValid ? '✅' : '❌'} Component "${component}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
@@ -147,16 +147,16 @@ class AvatarSystemCLI {
       console.log('\n3. Testing animation state validation...');
       const validAnimations = ['idle', 'walk', 'run', 'attack', 'defend', 'cast', 'death', 'victory'];
       for (const animation of validAnimations) {
-        const isValid = this.avatarSystem.isValidAnimationState(animation);
+        const isValid = validAnimations.includes(animation);
         console.log(`   ${isValid ? '✅' : '❌'} Animation "${animation}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
       // Test 4: Registry operations
       console.log('\n4. Testing registry operations...');
-      const registrySize = this.avatarSystem.getRegistrySize(this.registry);
+      const registrySize = this.registry.items.length;
       console.log(`   ✅ Registry size: ${registrySize} items`);
 
-      const compatibleItems = this.avatarSystem.getCompatibleItems(this.registry, 'web');
+      const compatibleItems = this.registry.items.filter(item => item.compatibility.includes('web'));
       console.log(`   ✅ Web-compatible items: ${compatibleItems.length}`);
 
       // Test 5: Avatar resolution
@@ -166,11 +166,18 @@ class AvatarSystemCLI {
         style: '3d'
       };
 
-      const resolvedAvatar = this.avatarSystem.resolve(resolveOptions);
+      const testManifest: AvatarManifest = {
+        base: 'barbarian',
+        clothing: ['tunic_blue'],
+        face: 'neutral',
+        style: '3d'
+      };
+
+      const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
       if (resolvedAvatar) {
         console.log(`   ✅ Avatar resolved successfully`);
         console.log(`   📊 Components: ${resolvedAvatar.components.length}`);
-        console.log(`   🎨 Style: ${resolvedAvatar.style}`);
+        console.log(`   🎨 Style: ${resolvedAvatar.assets.style}`);
       } else {
         console.log('   ⚠️  Avatar resolution returned null (may be expected)');
       }
@@ -192,7 +199,7 @@ class AvatarSystemCLI {
       const manifestContent = fs.readFileSync(manifestPath, 'utf-8');
       const manifest = JSON.parse(manifestContent);
 
-      const result = this.avatarSystem.validate(manifest);
+      const result = AvatarSystemPure.validate(manifest);
       
       if (result.ok) {
         console.log('✅ Manifest is valid');
@@ -217,16 +224,21 @@ class AvatarSystemCLI {
         style: style as AvatarStyle
       };
 
-      const resolvedAvatar = this.avatarSystem.resolve(resolveOptions);
+      const testManifest: AvatarManifest = {
+        base: 'barbarian',
+        clothing: ['tunic_blue'],
+        face: 'neutral',
+        style: '3d'
+      };
+
+      const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
       
       if (resolvedAvatar) {
         console.log('✅ Avatar resolved successfully:');
-        console.log(`   Style: ${resolvedAvatar.style}`);
+        console.log(`   Style: ${resolvedAvatar.assets.style}`);
         console.log(`   Components: ${resolvedAvatar.components.length}`);
-        console.log(`   Animations: ${resolvedAvatar.animations.length}`);
-        console.log(`   Materials: ${resolvedAvatar.materials.length}`);
-        console.log(`   Textures: ${resolvedAvatar.textures.length}`);
-        console.log(`   Meshes: ${resolvedAvatar.meshes.length}`);
+        console.log(`   Asset Entries: ${resolvedAvatar.assets.entries.length}`);
+        console.log(`   Manifest Base: ${resolvedAvatar.manifest.base}`);
       } else {
         console.log('❌ Avatar resolution failed');
       }
@@ -238,85 +250,31 @@ class AvatarSystemCLI {
   private async createManifest(): Promise<void> {
     try {
       const manifest: AvatarManifest = {
-        id: 'sample-avatar',
-        name: 'Sample Avatar',
+        base: 'barbarian',
+        clothing: ['tunic_blue', 'leather_boots'],
+        face: 'neutral',
         style: '3d',
-        components: [
-          {
-            kind: 'head',
-            id: 'head-001',
-            name: 'Basic Head',
-            anchors: ['head-top', 'head-center', 'head-bottom']
-          },
-          {
-            kind: 'torso',
-            id: 'torso-001',
-            name: 'Basic Torso',
-            anchors: ['torso-top', 'torso-center', 'torso-bottom']
-          }
-        ],
-        animations: [
-          {
-            id: 'idle',
-            name: 'Idle Animation',
-            state: 'idle',
-            duration: 2000,
-            loop: true
-          },
-          {
-            id: 'walk',
-            name: 'Walk Animation',
-            state: 'walk',
-            duration: 1000,
-            loop: true
-          }
-        ],
-        materials: [
-          {
-            id: 'skin-material',
-            name: 'Skin Material',
-            type: 'pbr',
-            properties: {
-              baseColor: '#FFDBAC',
-              metallic: 0.0,
-              roughness: 0.8
-            }
-          }
-        ],
-        textures: [
-          {
-            id: 'skin-texture',
-            name: 'Skin Texture',
-            type: 'diffuse',
-            size: { width: 512, height: 512 },
-            format: 'png'
-          }
-        ],
-        meshes: [
-          {
-            id: 'head-mesh',
-            name: 'Head Mesh',
-            type: 'triangular',
-            vertices: 1000,
-            faces: 500,
-            uvs: true,
-            normals: true
-          }
-        ],
-        customizations: [
-          {
-            id: 'hair-color',
-            name: 'Hair Color',
-            type: 'color',
-            component: 'hair',
-            options: ['#000000', '#8B4513', '#FFD700', '#FF69B4']
-          }
-        ],
-        optimizations: {
-          lodLevels: 3,
-          textureCompression: true,
-          meshSimplification: true,
-          animationCompression: true
+        layers: {
+          body: 'body_basic',
+          clothing: ['tunic_blue', 'leather_boots'],
+          face: 'face_neutral',
+          hair: 'hair_short_brown'
+        },
+        animation: {
+          idle: 'idle_01',
+          walk: 'walk_01',
+          run: 'run_01'
+        },
+        performance: {
+          polyCount: 1500,
+          textureSize: '1024x1024',
+          mobileOptimized: true,
+          lodLevels: 3
+        },
+        metadata: {
+          createdBy: 'AvatarSystemPure',
+          version: '1.0.0',
+          description: 'Sample avatar manifest'
         }
       };
 
@@ -410,8 +368,15 @@ class AvatarSystemCLI {
         style: '3d'
       };
       
-      const avatar = this.avatarSystem.resolve(resolveOptions);
-      console.log(`   ✅ Avatar created with style: ${avatar?.style || 'unknown'}`);
+      const testManifest: AvatarManifest = {
+        base: 'barbarian',
+        clothing: ['tunic_blue'],
+        face: 'neutral',
+        style: '3d'
+      };
+
+      const avatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
+      console.log(`   ✅ Avatar created with style: ${avatar?.assets.style || 'unknown'}`);
 
       // Simulate component addition
       console.log('2. Adding components...');

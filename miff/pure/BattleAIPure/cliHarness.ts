@@ -41,7 +41,8 @@ import {
   ThreatLevel,
   MoveCategory,
   ISpiritInstance,
-  IMoveData
+  IMoveData,
+  IAIDecisionProfile
 } from './index';
 
 // Mock Spirit Instance for CLI
@@ -858,7 +859,7 @@ class BattleAIPureCLI {
   /**
    * Get icon for profile
    */
-  private getProfileIcon(profile: AIDecisionProfile): string {
+  private getProfileIcon(profile: IAIDecisionProfile): string {
     switch (profile.style) {
       case AIDecisionStyle.AGGRESSIVE: return '🔥';
       case AIDecisionStyle.DEFENSIVE: return '🛡️';

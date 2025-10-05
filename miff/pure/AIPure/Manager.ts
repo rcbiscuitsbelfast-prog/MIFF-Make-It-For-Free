@@ -1398,8 +1398,11 @@ export class AIPerformanceMonitor {
    * Collect current metrics
    */
   private collectMetrics(): void {
-    const metrics = this.aiManager.getPerformanceMetrics();
-    metrics.timestamp = Date.now();
+    const baseMetrics = this.aiManager.getPerformanceMetrics();
+    const metrics = {
+      ...baseMetrics,
+      timestamp: Date.now()
+    };
 
     this.metricsHistory.push(metrics);
 

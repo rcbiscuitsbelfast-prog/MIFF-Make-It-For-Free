@@ -14,7 +14,7 @@
  */
 
 import { EventBus, createEventBus } from '../EventBusPure';
-import { AIDecisionStyle, MoveCategory, ThreatLevel, IAIDecisionProfile, IBattleAIController, IAIControllerManager, ISpiritInstance } from './types';
+import { AIDecisionStyle, ThreatLevel, IAIDecisionProfile, IBattleAIController, IAIControllerManager, ISpiritInstance } from './types';
 
 // ============================================================================
 // BATTLE AI MANAGER INTERFACES
@@ -34,6 +34,16 @@ export enum AIStrategyType {
   BALANCED = 'balanced',
   ADAPTIVE = 'adaptive',
   RANDOM = 'random'
+}
+
+export enum MoveCategory {
+  DAMAGE = 'damage',
+  HEALING = 'healing',
+  BUFF = 'buff',
+  DEBUFF = 'debuff',
+  STATUS = 'status',
+  SUPPORT = 'support',
+  UTILITY = 'utility'
 }
 
 export enum AIActionType {
@@ -99,7 +109,7 @@ export interface AIContext {
   timeLimit?: number;
 }
 
-export interface AIStrategy {
+export interface AIStrategyConfig {
   id: string;
   name: string;
   type: AIStrategyType;
@@ -168,7 +178,7 @@ export interface AIIntegration {
   priority: number;
   callbacks: {
     onDecisionMade?: (decision: AIDecision) => void;
-    onStrategyChanged?: (oldStrategy: AIStrategy, newStrategy: AIStrategy) => void;
+    onStrategyChanged?: (oldStrategy: AIStrategyConfig, newStrategy: AIStrategyConfig) => void;
     onPerformanceUpdated?: (performance: AIPerformance) => void;
     onActionExecuted?: (action: AIAction, result: any) => void;
   };
@@ -190,10 +200,10 @@ export class BattleAIManager {
   private eventBus: EventBus;
   private config: AIConfig;
   private integrations: AIIntegration[];
-  private strategies: Map<string, AIStrategy> = new Map();
+  private strategies: Map<string, AIStrategyConfig> = new Map();
   private performance: AIPerformance;
   private decisionHistory: AIDecision[] = [];
-  private currentStrategy?: AIStrategy;
+  private currentStrategy?: AIStrategyConfig;
 
   constructor(config: BattleAIManagerConfig) {
     this.eventBus = config.eventBus;
@@ -388,7 +398,7 @@ export class BattleAIManager {
   /**
    * Get available strategies
    */
-  private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategy[] {
+  private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategyConfig[] {
     return Array.from(this.strategies.values())
       .filter(strategy => strategy.isActive)
       .filter(strategy => this.evaluateConditions(strategy.conditions, context, aiState))
@@ -398,7 +408,7 @@ export class BattleAIManager {
   /**
    * Select strategy
    */
-  private selectStrategy(strategies: AIStrategy[], context: AIContext, aiState: AIState): AIStrategy {
+  private selectStrategy(strategies: AIStrategyConfig[], context: AIContext, aiState: AIState): AIStrategyConfig {
     if (strategies.length === 0) {
       return this.getDefaultStrategy();
     }
@@ -414,7 +424,7 @@ export class BattleAIManager {
   /**
    * Generate actions from strategy
    */
-  private generateActions(strategy: AIStrategy, context: AIContext, aiState: AIState): AIAction[] {
+  private generateActions(strategy: AIStrategyConfig, context: AIContext, aiState: AIState): AIAction[] {
     return strategy.actions
       .filter(action => this.canExecuteAction(action, context, aiState))
       .map(action => ({
@@ -545,7 +555,7 @@ export class BattleAIManager {
   /**
    * Generate reasoning
    */
-  private generateReasoning(strategy: AIStrategy, action: AIAction, context: AIContext, aiState: AIState): string {
+  private generateReasoning(strategy: AIStrategyConfig, action: AIAction, context: AIContext, aiState: AIState): string {
     return `Using ${strategy.name} strategy: ${action.description} (confidence: ${(action.confidence * 100).toFixed(1)}%)`;
   }
 
@@ -579,7 +589,7 @@ export class BattleAIManager {
   /**
    * Get default strategy
    */
-  private getDefaultStrategy(): AIStrategy {
+  private getDefaultStrategy(): AIStrategyConfig {
     return Array.from(this.strategies.values())
       .find(s => s.type === this.config.defaultStrategy) || 
       Array.from(this.strategies.values())[0];
@@ -602,7 +612,7 @@ export class BattleAIManager {
   /**
    * Add strategy
    */
-  addStrategy(strategy: AIStrategy): void {
+  addStrategy(strategy: AIStrategyConfig): void {
     this.strategies.set(strategy.id, strategy);
     this.eventBus.publish('ai:strategyAdded', strategy);
   }
@@ -643,14 +653,14 @@ export class BattleAIManager {
   /**
    * Get current strategy
    */
-  getCurrentStrategy(): AIStrategy | null {
+  getCurrentStrategy(): AIStrategyConfig | null {
     return this.currentStrategy || null;
   }
 
   /**
    * Get all strategies
    */
-  getAllStrategies(): AIStrategy[] {
+  getAllStrategies(): AIStrategyConfig[] {
     return Array.from(this.strategies.values());
   }
 
@@ -711,7 +721,7 @@ export class BattleAIManager {
    */
   importState(state: any): void {
     if (state.strategies) {
-      this.strategies = new Map(state.strategies.map((s: AIStrategy) => [s.id, s]));
+      this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [s.id, s]));
     }
     if (state.performance) {
       this.performance = state.performance;

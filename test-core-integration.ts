@@ -13,6 +13,10 @@ import { StatusEffectsManager, StatusEffect } from './miff/pure/StatusEffectsPur
 
 // Mock player context
 class MockPlayerContext implements IPlayerContext {
+  playerId: string = 'test-player';
+  inventory: Record<string, number> = {};
+  flags: Record<string, boolean> = {};
+
   getSpiritById(id: string): any {
     return {
       id,
@@ -39,30 +43,25 @@ async function testCoreIntegration() {
     // 1. Test CombatPure + ItemsPure integration
     console.log('1. Testing CombatPure + ItemsPure integration...');
     
-    const combatEngine = new CombatEngine(new Map());
+    const combatEngine = new CombatEngine();
     const playerContext = new MockPlayerContext();
     const itemManager = new ItemUsageManager(playerContext);
     
     // Create a test spirit for combat
-    const spirit: SpiritInstance = {
-      id: 'test-spirit-1',
-      name: 'Test Spirit',
-      level: 50,
-      type: 'fire',
-      currentHP: 100,
-      maxHP: 100,
-      stats: {
-        attack: 80,
-        defense: 70,
-        speed: 90,
-        specialAttack: 85,
-        specialDefense: 75
+    const spirit = new SpiritInstance(
+      'test-spirit-1',
+      'Test Spirit',
+      'player',
+      {
+        hp: 100,
+        maxHp: 100,
+        atk: 80,
+        def: 70,
+        spd: 90
       },
-      isFainted: () => false,
-      canEvolve: () => false,
-      evolve: () => false,
-      getStat: (stat: string) => spirit.stats[stat as keyof typeof spirit.stats] || 0
-    };
+      ['tackle', 'flame-thrower'],
+      'fire'
+    );
     
     // Create a test spirit for team management
     const teamSpirit: ISpiritInstance = {

@@ -143,7 +143,11 @@ export class CameraManager {
 
       return camera;
     } catch (error) {
+<<<<<<< HEAD
       console.error(`❌ Error creating camera ${cameraId}:`, error instanceof Error ? error.message : String(error));
+=======
+      console.error(`❌ Error creating camera ${cameraId}: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)}`);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
       return null;
     }
   }
@@ -181,7 +185,11 @@ export class CameraManager {
 
       return success;
     } catch (error) {
+<<<<<<< HEAD
       console.error(`❌ Error switching camera mode:`, error instanceof Error ? error.message : String(error));
+=======
+      console.error(`❌ Error switching camera mode: ${error instanceof Error ? error.message : String(error)}`);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
       return false;
     }
   }
@@ -283,7 +291,11 @@ export class CameraManager {
       console.log(`🎬 Created cinematic sequence: ${sequence.name}`);
       return sequence;
     } catch (error) {
+<<<<<<< HEAD
       console.error(`❌ Error creating cinematic sequence:`, error instanceof Error ? error.message : String(error));
+=======
+      console.error(`❌ Error creating cinematic sequence: ${error instanceof Error ? error.message : String(error)}`);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
       return null;
     }
   }
@@ -297,7 +309,11 @@ export class CameraManager {
       console.log(`🎬 Playing cinematic sequence: ${sequenceId}`);
       return true;
     } catch (error) {
+<<<<<<< HEAD
       console.error(`❌ Error playing cinematic sequence:`, error instanceof Error ? error.message : String(error));
+=======
+      console.error(`❌ Error playing cinematic sequence: ${error instanceof Error ? error.message : String(error)}`);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
       return false;
     }
   }
@@ -341,7 +357,11 @@ export class CameraManager {
       this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
       return path;
     } catch (error) {
+<<<<<<< HEAD
       console.error(`❌ Error creating camera path:`, error instanceof Error ? error.message : String(error));
+=======
+      console.error(`❌ Error creating camera path: ${error instanceof Error ? error.message : String(error)}`);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
       return null;
     }
   }
@@ -376,7 +396,11 @@ export class CameraManager {
       this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
       return true;
     } catch (error) {
+<<<<<<< HEAD
       console.error(`❌ Error applying camera effect:`, error instanceof Error ? error.message : String(error));
+=======
+      console.error(`❌ Error applying camera effect: ${error instanceof Error ? error.message : String(error)}`);
+>>>>>>> origin/cursor/check-latest-branch-update-812c
       return false;
     }
   }

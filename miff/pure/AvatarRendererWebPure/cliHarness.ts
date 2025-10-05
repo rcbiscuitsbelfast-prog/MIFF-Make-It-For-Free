@@ -32,7 +32,7 @@ Examples:
 
 import * as readline from 'readline';
 import { AvatarRendererWebPure } from './index';
-import { ResolvedAvatar } from '../AvatarSystemPure/schema';
+import { ResolvedAvatar, AvatarStyle } from '../AvatarSystemPure/schema';
 
 class AvatarRendererWebCLI {
   private rl: readline.Interface;
@@ -113,8 +113,8 @@ class AvatarRendererWebCLI {
       console.log('3. Testing test avatar creation...');
       const testAvatar = this.createTestAvatarData();
       console.log(`   ✅ Test avatar created with ${testAvatar.components.length} components`);
-      console.log(`   ✅ Test avatar has ${testAvatar.animations.length} animations`);
-      console.log(`   ✅ Test avatar has ${testAvatar.materials.length} materials`);
+      console.log(`   ✅ Test avatar has ${testAvatar.assets.entries.length} asset entries`);
+      console.log(`   ✅ Test avatar style: ${testAvatar.assets.style}`);
 
       // Test 4: Canvas context simulation
       console.log('4. Testing canvas context simulation...');
@@ -158,13 +158,11 @@ class AvatarRendererWebCLI {
       const mockContext = this.createMockCanvasContext();
       
       console.log('   📊 Avatar data:');
-      console.log(`      Style: ${testAvatar.style}`);
+      console.log(`      Style: ${testAvatar.assets.style}`);
       console.log(`      Components: ${testAvatar.components.length}`);
-      console.log(`      Animations: ${testAvatar.animations.length}`);
-      console.log(`      Materials: ${testAvatar.materials.length}`);
-      console.log(`      Textures: ${testAvatar.textures.length}`);
-      console.log(`      Meshes: ${testAvatar.meshes.length}`);
       console.log(`      Asset Entries: ${testAvatar.assets.entries.length}`);
+      console.log(`      Manifest Base: ${testAvatar.manifest.base}`);
+      console.log(`      Manifest Style: ${testAvatar.manifest.style}`);
 
       console.log('   🎯 Rendering process:');
       this.simulateRenderingProcess(testAvatar, mockContext);
@@ -181,14 +179,11 @@ class AvatarRendererWebCLI {
       const testAvatar = this.createTestAvatarData();
       
       console.log('✅ Test avatar created:');
-      console.log(`   ID: ${testAvatar.id}`);
-      console.log(`   Style: ${testAvatar.style}`);
+      console.log(`   Style: ${testAvatar.assets.style}`);
       console.log(`   Components: ${testAvatar.components.length}`);
-      console.log(`   Animations: ${testAvatar.animations.length}`);
-      console.log(`   Materials: ${testAvatar.materials.length}`);
-      console.log(`   Textures: ${testAvatar.textures.length}`);
-      console.log(`   Meshes: ${testAvatar.meshes.length}`);
       console.log(`   Asset Entries: ${testAvatar.assets.entries.length}`);
+      console.log(`   Manifest Base: ${testAvatar.manifest.base}`);
+      console.log(`   Manifest Style: ${testAvatar.manifest.style}`);
 
       // Save to file for reference
       const fs = await import('fs');
@@ -258,15 +253,14 @@ class AvatarRendererWebCLI {
         const avatar = avatars[i];
         const mockContext = this.createMockCanvasContext();
         
-        console.log(`   🎨 Rendering avatar ${i + 1} (${avatar.style})...`);
+        console.log(`   🎨 Rendering avatar ${i + 1} (${avatar.assets.style})...`);
         this.simulateRenderingProcess(avatar, mockContext);
         
         // Simulate different rendering scenarios
         console.log(`      📊 Components: ${avatar.components.length}`);
-        console.log(`      🎭 Animations: ${avatar.animations.length}`);
-        console.log(`      🎨 Materials: ${avatar.materials.length}`);
-        console.log(`      🖼️  Textures: ${avatar.textures.length}`);
         console.log(`      📦 Asset Entries: ${avatar.assets.entries.length}`);
+        console.log(`      🎯 Manifest Base: ${avatar.manifest.base}`);
+        console.log(`      🎨 Manifest Style: ${avatar.manifest.style}`);
       }
 
       // Simulate performance testing
@@ -286,7 +280,7 @@ class AvatarRendererWebCLI {
       // Simulate error handling
       console.log('4. Simulating error handling...');
       try {
-        const invalidAvatar = { ...this.createTestAvatarData(), assets: { entries: [] } };
+        const invalidAvatar = { ...this.createTestAvatarData(), assets: { style: '3d' as AvatarStyle, entries: [] } };
         const mockContext = this.createMockCanvasContext();
         this.simulateRenderingProcess(invalidAvatar, mockContext);
         console.log('   ✅ Handled empty assets gracefully');
@@ -303,110 +297,46 @@ class AvatarRendererWebCLI {
 
   private createTestAvatarData(id: string = 'test-avatar', style: string = '3d'): ResolvedAvatar {
     return {
-      id,
-      style: style as any,
       components: [
         {
           kind: 'head',
           id: 'head-001',
-          name: 'Basic Head',
-          anchors: ['anchor_head']
+          variant: 'basic',
+          color: '#FFDBAC'
         },
         {
           kind: 'torso',
           id: 'torso-001',
-          name: 'Basic Torso',
-          anchors: ['anchor_torso']
+          variant: 'basic',
+          color: '#8B4513'
         },
         {
           kind: 'shirt',
           id: 'shirt-001',
-          name: 'Basic Shirt',
-          anchors: ['anchor_shirt']
+          variant: 'basic',
+          color: '#4169E1'
         },
         {
           kind: 'cloak',
           id: 'cloak-001',
-          name: 'Basic Cloak',
-          anchors: ['anchor_cloak']
+          variant: 'basic',
+          color: '#800080'
         },
         {
           kind: 'hat',
           id: 'hat-001',
-          name: 'Basic Hat',
-          anchors: ['anchor_hat']
+          variant: 'basic',
+          color: '#654321'
         },
         {
           kind: 'accessory',
           id: 'accessory-001',
-          name: 'Basic Accessory',
-          anchors: ['anchor_accessory']
+          variant: 'basic',
+          color: '#FFD700'
         }
       ],
-      animations: [
-        {
-          id: 'idle',
-          name: 'Idle Animation',
-          state: 'idle',
-          duration: 2000,
-          loop: true
-        },
-        {
-          id: 'walk',
-          name: 'Walk Animation',
-          state: 'walk',
-          duration: 1000,
-          loop: true
-        }
-      ],
-      materials: [
-        {
-          id: 'skin-material',
-          name: 'Skin Material',
-          type: 'pbr',
-          properties: {
-            baseColor: '#FFDBAC',
-            metallic: 0.0,
-            roughness: 0.8
-          }
-        }
-      ],
-      textures: [
-        {
-          id: 'skin-texture',
-          name: 'Skin Texture',
-          type: 'diffuse',
-          size: { width: 512, height: 512 },
-          format: 'png'
-        }
-      ],
-      meshes: [
-        {
-          id: 'head-mesh',
-          name: 'Head Mesh',
-          type: 'triangular',
-          vertices: 1000,
-          faces: 500,
-          uvs: true,
-          normals: true
-        }
-      ],
-      customizations: [
-        {
-          id: 'hair-color',
-          name: 'Hair Color',
-          type: 'color',
-          component: 'hair',
-          options: ['#000000', '#8B4513', '#FFD700', '#FF69B4']
-        }
-      ],
-      optimizations: {
-        lodLevels: 3,
-        textureCompression: true,
-        meshSimplification: true,
-        animationCompression: true
-      },
       assets: {
+        style: style as any,
         entries: [
           {
             anchor: 'anchor_cloak',
@@ -433,6 +363,34 @@ class AvatarRendererWebCLI {
             url: 'https://example.com/assets/accessory.png'
           }
         ]
+      },
+      manifest: {
+        base: 'barbarian',
+        clothing: ['tunic_blue', 'leather_boots'],
+        face: 'neutral',
+        style: style as any,
+        layers: {
+          body: 'body_basic',
+          clothing: ['tunic_blue', 'leather_boots'],
+          face: 'face_neutral',
+          hair: 'hair_short_brown'
+        },
+        animation: {
+          idle: 'idle_01',
+          walk: 'walk_01',
+          run: 'run_01'
+        },
+        performance: {
+          polyCount: 1500,
+          textureSize: '1024x1024',
+          mobileOptimized: true,
+          lodLevels: 3
+        },
+        metadata: {
+          createdBy: 'AvatarRendererWebPure',
+          version: '1.0.0',
+          description: `Test avatar for ${id}`
+        }
       }
     };
   }

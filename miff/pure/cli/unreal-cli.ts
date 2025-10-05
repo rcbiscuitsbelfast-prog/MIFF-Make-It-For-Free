@@ -142,12 +142,12 @@ function main() {
 
     // Initialize systems
     const bridgeManager = new UnrealBridgeManager(config);
-    const payloadAdapter = new UnrealPayloadAdapterPure(bridgeManager);
-    const sceneBuilder = new UnrealSceneBuilderPure(bridgeManager);
-    const assetManager = new UnrealAssetManagerPure(bridgeManager);
-    const eventSync = new UnrealEventSyncPure(bridgeManager);
     const renderPayloadManager = new RenderPayloadManager();
     const sceneBuilderManager = new SceneBuilderManager();
+    const payloadAdapter = new UnrealPayloadAdapterPure(bridgeManager);
+    const sceneBuilder = new UnrealSceneBuilderPure(sceneBuilderManager, bridgeManager, payloadAdapter, renderPayloadManager);
+    const assetManager = new UnrealAssetManagerPure(renderPayloadManager);
+    const eventSync = new UnrealEventSyncPure({ enabled: true, syncInterval: 1000 });
 
     // Create harness
     const harness = new UnrealEditorHarnessPure(
@@ -539,7 +539,7 @@ function convertToHTML(data: any): string {
         <h2>🧪 Test Results</h2>
         <table>
             <tr><th>Test Name</th><th>Success</th><th>Duration</th><th>Errors</th><th>Warnings</th></tr>
-            ${harness.testResults.map(result => `
+            ${harness.testResults.map((result: any) => `
                 <tr>
                     <td>${result.testName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
@@ -557,7 +557,7 @@ function convertToHTML(data: any): string {
         <h2>🎮 Demo Results</h2>
         <table>
             <tr><th>Demo Name</th><th>Success</th><th>Duration</th><th>Scenes</th><th>Assets</th><th>Events</th></tr>
-            ${harness.demoResults.map(result => `
+            ${harness.demoResults.map((result: any) => `
                 <tr>
                     <td>${result.demoName}</td>
                     <td class="${result.success ? 'success' : 'error'}">${result.success ? '✅' : '❌'}</td>
