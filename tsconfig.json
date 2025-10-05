@@ -31,6 +31,8 @@
     "dist",
     "coverage",
     "miff-nextjs/tailwind.config.ts",
-    "scenarios/**/*.ts"
+    "scenarios/**/*.ts",
+    "docs/assets/vendor/**/*.js",
+    "**/*.min.js"
   ]
 }
