@@ -1029,7 +1029,7 @@ export class ChallengeResult implements IChallengeResult {
  * Challenge manager implementation
  */
 export class ChallengeManager implements IChallengeManager {
-  private readonly availableChallenges = new Map<string, BattleChallenge>();
+  private readonly availableChallenges = new Map<string, IBattleChallenge>();
   private readonly completedChallenges = new Set<string>();
   private readonly inProgressChallenges = new Set<string>();
 
