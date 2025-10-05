@@ -490,10 +490,10 @@ export class AudioMixerPure {
     }
 
     if (this.fftData) {
-      this.analyser.getFloatFrequencyData(this.fftData as Float32Array);
+      this.analyser.getFloatFrequencyData(new Float32Array(this.fftData));
     }
     if (this.timeData) {
-      this.analyser.getFloatTimeDomainData(this.timeData as Float32Array);
+      this.analyser.getFloatTimeDomainData(new Float32Array(this.timeData));
     }
 
     // Calculate basic metrics

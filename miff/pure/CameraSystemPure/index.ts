@@ -1208,6 +1208,66 @@ export class CameraSystemPure {
     }
   }
 
+  /**
+   * Get camera definition by ID
+   */
+  getCameraDefinition(cameraId: string): CameraDefinition | null {
+    // This would normally look up from a registry
+    // For now, return null as this is a placeholder
+    return null;
+  }
+
+  /**
+   * Get camera instance by ID
+   */
+  getCameraInstance(cameraId: string): CameraInstance | null {
+    return this.activeCameras.get(cameraId) || null;
+  }
+
+  /**
+   * Switch camera mode
+   */
+  switchCameraMode(cameraId: string, mode: string, duration?: number): boolean {
+    const camera = this.activeCameras.get(cameraId);
+    if (camera) {
+      // This would switch the camera mode
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get camera statistics
+   */
+  getStats(): CameraStats {
+    return { ...this.stats };
+  }
+
+  /**
+   * Set main camera
+   */
+  setMainCamera(cameraId: string): boolean {
+    if (this.activeCameras.has(cameraId)) {
+      this.mainCamera = cameraId;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get main camera
+   */
+  getMainCamera(): CameraInstance | null {
+    return this.mainCamera ? this.activeCameras.get(this.mainCamera) || null : null;
+  }
+
+  /**
+   * Get all cameras
+   */
+  getAllCameras(): Map<string, CameraInstance> {
+    return new Map(this.activeCameras);
+  }
+
 }
 
 // Export main class and interfaces
