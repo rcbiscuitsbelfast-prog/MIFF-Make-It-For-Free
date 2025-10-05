@@ -397,7 +397,6 @@ export interface UnityPlayerSettings {
   webGLWasmMemoryGrowthInitialSize: number;
   webGLWasmMemoryGrowthMaxSize: number;
   webGLWasmMemoryGrowthStepSize: number;
-  webGLWasmMemoryGrowthMode: string;
 }
 
 export interface UnityEditorSettings {
@@ -429,7 +428,6 @@ export interface UnityEditorSettings {
   cloudLogRotateOnOpen: boolean;
   cloudLogRotateSize: number;
   cloudLogRotateFiles: number;
-  cloudLogRotateOnOpen: boolean;
   cloudLogCompress: boolean;
   cloudLogCompressLevel: number;
   cloudLogCompressFormat: string;
@@ -509,7 +507,6 @@ export interface UnityBuildOptions {
   enablePerformanceProfiling: boolean;
   enableCpuProfiling: boolean;
   enableGpuProfiling: boolean;
-  enableMemoryProfiling: boolean;
   enablePhysicsProfiling: boolean;
   enableAudioProfiling: boolean;
   enableVideoProfiling: boolean;
@@ -587,7 +584,6 @@ export interface UnityBuildOptions {
   buildWithDeepProfileAnalysisLocalBuild: boolean;
   buildWithDeepProfileAnalysisRemoteBuild: boolean;
   buildWithDeepProfileAnalysisCustomBuild: boolean;
-  buildWithDeepProfileAnalysis: boolean;
 }
 
 export interface UnityBuildReport {
