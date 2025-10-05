@@ -18,26 +18,96 @@ try {
       const { maxTurns } = params as any;
       
       // Initialize with sample combatants
-      const player: Combatant = {
+      const player: CombatEntity = {
         id: 'player',
         name: 'Hero',
-        hp: 100,
-        maxHp: 100,
-        attack: 20,
-        defense: 10,
-        speed: 15,
-        team: 'player'
+        level: 1,
+        health: 100,
+        maxHealth: 100,
+        mana: 50,
+        maxMana: 50,
+        stamina: 100,
+        maxStamina: 100,
+        stats: {
+          strength: 20,
+          dexterity: 15,
+          constitution: 10,
+          intelligence: 8,
+          wisdom: 6,
+          charisma: 12,
+          accuracy: 0.8,
+          dodge: 0.2,
+          speed: 15
+        },
+        resistances: {
+          physical: 0,
+          magical: 0,
+          fire: 0,
+          ice: 0,
+          lightning: 0,
+          poison: 0,
+          holy: 0,
+          dark: 0,
+          bleed: 0,
+          true: 0
+        },
+        statusEffects: [],
+        abilities: [],
+        equipment: {},
+        position: { x: 0, y: 0, z: 0 },
+        facing: 0,
+        team: 'player',
+        isAlive: true,
+        isStunned: false,
+        isBlocking: false,
+        lastAbilityUse: 0,
+        shield: 0
       };
       
-      const enemy: Combatant = {
+      const enemy: CombatEntity = {
         id: 'shadow_dragon',
         name: 'Shadow Dragon',
-        hp: 200,
-        maxHp: 200,
-        attack: 30,
-        defense: 15,
-        speed: 12,
-        team: 'enemy'
+        level: 5,
+        health: 200,
+        maxHealth: 200,
+        mana: 100,
+        maxMana: 100,
+        stamina: 80,
+        maxStamina: 80,
+        stats: {
+          strength: 30,
+          dexterity: 12,
+          constitution: 15,
+          intelligence: 10,
+          wisdom: 8,
+          charisma: 6,
+          accuracy: 0.7,
+          dodge: 0.1,
+          speed: 12
+        },
+        resistances: {
+          physical: 0.1,
+          magical: 0.2,
+          fire: 0.5,
+          ice: 0,
+          lightning: 0,
+          poison: 0.3,
+          holy: 0,
+          dark: 0.2,
+          bleed: 0,
+          true: 0
+        },
+        statusEffects: [],
+        abilities: [],
+        equipment: {},
+        position: { x: 10, y: 0, z: 0 },
+        facing: 180,
+        team: 'enemy',
+        isAlive: true,
+        isStunned: false,
+        isBlocking: false,
+        lastAbilityUse: 0,
+        shield: 0
       };
       
       core.initCombat([player], [enemy]);

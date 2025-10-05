@@ -90,6 +90,8 @@ export interface CombatStats {
   charisma: number;      // Social skills, companion loyalty
   luck: number;          // Critical chance, rare drops
   speed: number;         // Initiative, turn order
+  accuracy: number;      // Hit chance (0-1)
+  dodge: number;         // Dodge chance (0-1)
 }
 
 export interface DamageResistances {
@@ -315,6 +317,30 @@ export interface CombatRules {
   itemUsageEnabled: boolean;
   abilityCombosEnabled: boolean;
   customRules: Record<string, any>;
+  turnOrder: string;
+  actionPoints: number;
+  movementPoints: number;
+  allowSelfTarget: boolean;
+  criticalHitMultiplier: number;
+  dodgeThreshold: number;
+  blockThreshold: number;
+  statusEffectDuration: number;
+  maxStatusEffects: number;
+  allowStatusStacking: boolean;
+  environmentalDamage: boolean;
+  terrainEffects: boolean;
+  lineOfSight: boolean;
+  rangeLimits: boolean;
+  cooldownReduction: number;
+  manaRegenPerTurn: number;
+  staminaRegenPerTurn: number;
+  healthRegenPerTurn: number;
+  allowRevival: boolean;
+  maxRevivals: number;
+  victoryConditions: VictoryCondition[];
+  defeatConditions: DefeatCondition[];
+  timeLimit: number;
+  maxTurns: number;
 }
 
 export interface VictoryCondition {
@@ -437,6 +463,33 @@ export class CombatEngine {
         statusEffectsApplied: new Map(),
         turnsElapsed: 0,
         averageTurnTime: 0
+      },
+      rules: {
+        turnOrder: 'initiative',
+        actionPoints: 3,
+        movementPoints: 2,
+        allowFriendlyFire: false,
+        allowSelfTarget: false,
+        criticalHitMultiplier: 2,
+        dodgeThreshold: 0.1,
+        blockThreshold: 0.2,
+        statusEffectDuration: 3,
+        maxStatusEffects: 5,
+        allowStatusStacking: false,
+        environmentalDamage: true,
+        terrainEffects: true,
+        lineOfSight: true,
+        rangeLimits: true,
+        cooldownReduction: 0,
+        manaRegenPerTurn: 5,
+        staminaRegenPerTurn: 10,
+        healthRegenPerTurn: 0,
+        allowRevival: false,
+        maxRevivals: 0,
+        victoryConditions: [],
+        defeatConditions: [],
+        timeLimit: 0,
+        maxTurns: 100
       }
     };
 
