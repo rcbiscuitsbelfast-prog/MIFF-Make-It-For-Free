@@ -443,19 +443,19 @@ export class ConvertToGodotManager {
   private generateResources(payload: RenderPayload): GodotResource[] {
     const resources: GodotResource[] = [];
 
-    // Generate texture resources
-    if (payload.textures) {
-      for (const texture of payload.textures) {
+    // Generate texture resources from renderData
+    for (const data of payload.renderData) {
+      if (data.asset && data.type === 'sprite') {
         const resource: GodotResource = {
           type: 'Texture',
           id: `texture_${this.resourceCounter++}`,
-          path: `res://textures/${texture.id}.png`,
+          path: `res://textures/${data.asset}`,
           dependencies: [],
           data: {
-            width: texture.size?.width || 256,
-            height: texture.size?.height || 256,
-            format: texture.format || 'RGBA8',
-            flags: texture.compressed ? 'compressed' : 'normal'
+            width: 256,
+            height: 256,
+            format: 'RGBA8',
+            flags: 'normal'
           }
         };
         resources.push(resource);
