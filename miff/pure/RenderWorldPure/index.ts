@@ -116,6 +116,13 @@ import {
   InteractionState
 } from '../InteractableRegistryPure';
 
+import {
+  mobilePerformanceOptimizer,
+  MobilePerformanceOptimizer,
+  PerformanceLevel,
+  DeviceType
+} from '../MobilePerformanceOptimizer';
+
 interface RenderWorldGameState {
   player: {
     position: { x: number; y: number; z: number };
@@ -248,6 +255,7 @@ export class RenderWorldPure {
     lensMode: LensModeSwitcher;
     buttonStyle: ButtonStyleManager;
     interactables: InteractableRegistry;
+    mobilePerformance: MobilePerformanceOptimizer;
     dialogue: {
       nextNode: typeof nextNode;
       currentDialogue?: Dialogue;
@@ -419,6 +427,7 @@ export class RenderWorldPure {
       lensMode: lensModeSwitcher,
       buttonStyle: buttonStyleManager,
       interactables: interactableRegistry,
+      mobilePerformance: mobilePerformanceOptimizer,
       dialogue: {
         nextNode: nextNode,
         currentDialogue: undefined
@@ -1433,6 +1442,9 @@ export class RenderWorldPure {
    * Update gameplay systems
    */
   updateGameplaySystems(deltaTime: number): void {
+    // Update mobile performance monitoring
+    this.engines.mobilePerformance.updatePerformance(deltaTime);
+    
     // Update player context
     this.engines.perception.updatePlayerContext({
       position: this.state.player.position,
@@ -1450,6 +1462,9 @@ export class RenderWorldPure {
     
     // Update gameplay UI
     this.updateGameplayUI();
+    
+    // Apply performance optimizations
+    this.applyPerformanceOptimizations();
   }
 
   /**
@@ -1474,6 +1489,108 @@ export class RenderWorldPure {
     }
 
     return false;
+  }
+
+  /**
+   * Apply performance optimizations based on mobile performance data
+   */
+  private applyPerformanceOptimizations(): void {
+    const config = this.engines.mobilePerformance.getConfig();
+    const stats = this.engines.mobilePerformance.getPerformanceStats();
+    
+    // Adjust overlay effects based on performance
+    if (config.postProcessingQuality === 'low') {
+      // Reduce overlay effect intensity
+      this.engines.overlayFX.getAllLayers().forEach(layer => {
+        this.engines.overlayFX.setLayerOpacity(layer.id, layer.opacity * 0.5);
+      });
+    }
+    
+    // Adjust scan feedback based on performance
+    if (config.postProcessingQuality === 'low') {
+      // Reduce pulse intensity
+      this.engines.scanFeedback.getAllTargets().forEach(target => {
+        target.pulseIntensity = Math.min(target.pulseIntensity, 0.3);
+      });
+    }
+    
+    // Log performance warnings if needed
+    if (!this.engines.mobilePerformance.isPerformanceAcceptable()) {
+      const recommendations = this.engines.mobilePerformance.getOptimizationRecommendations();
+      if (recommendations.length > 0) {
+        console.warn('Performance optimization recommendations:', recommendations);
+      }
+    }
+  }
+
+  /**
+   * Get mobile performance statistics
+   */
+  getMobilePerformanceStats(): {
+    level: PerformanceLevel;
+    deviceType: DeviceType;
+    fps: number;
+    memoryUsage: number;
+    isOptimizing: boolean;
+    recommendations: string[];
+  } {
+    const stats = this.engines.mobilePerformance.getPerformanceStats();
+    const capabilities = this.engines.mobilePerformance.getDeviceCapabilities();
+    
+    return {
+      level: this.engines.mobilePerformance.getPerformanceLevel(),
+      deviceType: capabilities.type,
+      fps: stats.avgFPS,
+      memoryUsage: stats.memoryUsage,
+      isOptimizing: stats.isOptimizing,
+      recommendations: this.engines.mobilePerformance.getOptimizationRecommendations()
+    };
+  }
+
+  /**
+   * Set mobile performance level
+   */
+  setMobilePerformanceLevel(level: PerformanceLevel): void {
+    this.engines.mobilePerformance.setPerformanceLevel(level);
+  }
+
+  // ============================================================================
+  // PUBLIC GETTERS FOR TESTING
+  // ============================================================================
+
+  /**
+   * Get current game state (for testing)
+   */
+  getGameState(): RenderWorldGameState {
+    return this.state;
+  }
+
+  /**
+   * Get engines (for testing)
+   */
+  getEngines(): typeof this.engines {
+    return this.engines;
+  }
+
+  /**
+   * Get current lens mode
+   */
+  getCurrentLensMode(): LensMode {
+    return this.state.world.gameplay.lensMode;
+  }
+
+  /**
+   * Get current perception mode
+   */
+  getCurrentPerceptionMode(): PerceptionMode {
+    return this.state.world.gameplay.perceptionMode;
+  }
+
+  /**
+   * Get gameplay state
+   */
+  getGameplayState(): typeof this.state.world.gameplay {
+    return this.state.world.gameplay;
   }
 }
 
