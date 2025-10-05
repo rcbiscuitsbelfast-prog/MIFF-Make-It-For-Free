@@ -30,6 +30,12 @@
     "node_modules",
     "dist",
     "coverage",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.golden.test.ts",
+    "**/tests/**",
+    "tests/**",
+    "demos/**",
     "docs/**",
     "miff-nextjs/tailwind.config.ts",
     "scenarios/**/*.ts"
