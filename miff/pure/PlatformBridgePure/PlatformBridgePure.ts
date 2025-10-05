@@ -425,7 +425,7 @@ export class PlatformBridge {
    * Detect current platform
    */
   private detectPlatform(): Platform {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
       // Web platform
       if (navigator.userAgent.includes('Mobile')) {
         return Platform.MOBILE;
@@ -787,7 +787,7 @@ export class PlatformBridge {
       return false;
     }
     
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return 'ontouchstart' in window || (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
   }
 
   /**
@@ -920,7 +920,7 @@ export function createAutoPlatformBridge(): PlatformBridge {
  * Detect current platform
  */
 function detectPlatform(): Platform {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
     if (navigator.userAgent.includes('Mobile')) {
       return Platform.MOBILE;
     }
