@@ -462,12 +462,12 @@ export class CameraManager {
     const mainCamera = this.cameraSystem.getMainCamera();
 
     // Calculate average performance rating
-    const ratings = activeCameras.map(c => c.definition.metadata.performanceRating);
+    const ratings = Array.from(activeCameras.values()).map(c => c.definition.metadata.performanceRating);
     const avgRating = this.calculateAveragePerformanceRating(ratings);
 
     return {
       ...stats,
-      activeCameraCount: activeCameras.length,
+      activeCameraCount: activeCameras.size,
       mainCameraMode: mainCamera?.definition.mode.type || 'none',
       averagePerformanceRating: avgRating
     };
