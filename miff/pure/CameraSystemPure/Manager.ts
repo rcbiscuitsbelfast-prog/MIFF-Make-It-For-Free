@@ -272,6 +272,9 @@ export class CameraManager {
         effects: sequenceData.effects || [],
         priority: sequenceData.priority || 1,
         triggerCondition: sequenceData.triggerCondition || 'manual',
+        isActive: false,
+        currentTime: 0,
+        cameraId: sequenceData.cameraId || 'default',
         autoPlay: sequenceData.autoPlay || false,
         loop: sequenceData.loop || false
       };

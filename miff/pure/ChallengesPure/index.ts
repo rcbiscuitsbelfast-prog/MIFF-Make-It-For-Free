@@ -442,7 +442,8 @@ export class BattleChallenge implements IBattleChallenge {
       [ChallengeDifficulty.MEDIUM]: 10,
       [ChallengeDifficulty.HARD]: 15,
       [ChallengeDifficulty.EXPERT]: 20,
-      [ChallengeDifficulty.LEGENDARY]: 25
+      [ChallengeDifficulty.LEGENDARY]: 25,
+      [ChallengeDifficulty.VARIES]: 10
     }[this.difficulty] || 10;
 
     // Adjust for opponent count
@@ -1230,7 +1231,8 @@ export class ChallengeManager implements IChallengeManager {
       [ChallengeDifficulty.MEDIUM]: 0,
       [ChallengeDifficulty.HARD]: 0,
       [ChallengeDifficulty.EXPERT]: 0,
-      [ChallengeDifficulty.LEGENDARY]: 0
+      [ChallengeDifficulty.LEGENDARY]: 0,
+      [ChallengeDifficulty.VARIES]: 0
     };
 
     let totalRewardsEarned: Record<string, number> = {};
@@ -1263,7 +1265,12 @@ export class ChallengeManager implements IChallengeManager {
       averageCompletionTime: 0, // Would need completion timestamps
       challengesByCategory,
       challengesByDifficulty,
-      challengesByOutcome: {}, // Would need completion results
+      challengesByOutcome: {
+        victory: 0,
+        defeat: 0,
+        timeout: 0,
+        forfeit: 0
+      }, // Would need completion results
       totalRewardsEarned
     };
   }

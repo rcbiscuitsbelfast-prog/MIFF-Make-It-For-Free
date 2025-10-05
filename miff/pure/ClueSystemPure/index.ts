@@ -510,7 +510,7 @@ export class ClueSystemPure {
     return investigation;
   }
 
-  public addClue(investigationId: string, clueData: {
+  public addClueToInvestigation(investigationId: string, clueData: {
     name: string;
     description: string;
     type: ClueType;
@@ -525,8 +525,9 @@ export class ClueSystemPure {
     const investigation = this.investigations.get(investigationId);
     if (!investigation) return null;
 
+    const clueId = `clue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const clue: Clue = {
-      id: `clue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: clueId,
       name: clueData.name,
       description: clueData.description,
       type: clueData.type,
@@ -540,7 +541,7 @@ export class ClueSystemPure {
       reliability: clueData.reliability || 50,
       importance: clueData.importance || 50,
       connections: [],
-      analysis: this.createAnalysis(clue.id, clueData.discoveredBy)
+      analysis: this.createAnalysis(clueId, clueData.discoveredBy)
     };
 
     investigation.clues.set(clue.id, clue);
