@@ -10,7 +10,9 @@
  */
 
 // Import real EventBus
-import { EventBus } from '../EventBusPure';
+import { createEventBus } from '../EventBusPure';
+
+const EventBus = createEventBus();
 
 import { DialogueSystemPure } from '../DialogueSystemPure';
 import { CameraSystemPure } from '../CameraSystemPure';
@@ -711,14 +713,14 @@ export class CutScenePure {
 
   private setupEventListeners(): void {
     // Listen for cut scene events
-    EventBus.on('cutscene.start', this.handleStart.bind(this));
-    EventBus.on('cutscene.stop', this.handleStop.bind(this));
-    EventBus.on('cutscene.pause', this.handlePause.bind(this));
-    EventBus.on('cutscene.resume', this.handleResume.bind(this));
-    EventBus.on('cutscene.skip', this.handleSkip.bind(this));
-    EventBus.on('cutscene.branch', this.handleBranch.bind(this));
-    EventBus.on('cutscene.variable.set', this.handleVariableSet.bind(this));
-    EventBus.on('cutscene.engine.ready', this.handleEngineReady.bind(this));
+    EventBus.subscribe('cutscene.start', this.handleStart.bind(this));
+    EventBus.subscribe('cutscene.stop', this.handleStop.bind(this));
+    EventBus.subscribe('cutscene.pause', this.handlePause.bind(this));
+    EventBus.subscribe('cutscene.resume', this.handleResume.bind(this));
+    EventBus.subscribe('cutscene.skip', this.handleSkip.bind(this));
+    EventBus.subscribe('cutscene.branch', this.handleBranch.bind(this));
+    EventBus.subscribe('cutscene.variable.set', this.handleVariableSet.bind(this));
+    EventBus.subscribe('cutscene.engine.ready', this.handleEngineReady.bind(this));
   }
 
   private validateDefinition(): void {
@@ -765,7 +767,7 @@ export class CutScenePure {
     console.log(`🎬 Starting cut scene: ${this.config.name}`);
 
     // Notify engine-specific systems
-    EventBus.emit('cutscene.playing', {
+    EventBus.publish('cutscene.playing', {
       cutSceneId: this.config.id,
       engineContext: this.state.engineContext
     });
@@ -787,7 +789,7 @@ export class CutScenePure {
 
     this.state.isPaused = true;
     this.state.isPlaying = false; // Fix: Set isPlaying to false when paused
-    EventBus.emit('cutscene.paused', {
+    EventBus.publish('cutscene.paused', {
       cutSceneId: this.config.id,
       currentTime: this.state.currentTime
     });
@@ -798,7 +800,7 @@ export class CutScenePure {
 
     this.state.isPaused = false;
     this.state.isPlaying = true; // Fix: Set isPlaying to true when resumed
-    EventBus.emit('cutscene.resumed', {
+    EventBus.publish('cutscene.resumed', {
       cutSceneId: this.config.id,
       currentTime: this.state.currentTime
     });
@@ -810,7 +812,7 @@ export class CutScenePure {
     this.state.isPlaying = false;
     this.state.isPaused = false;
 
-    EventBus.emit('cutscene.stopped', {
+    EventBus.publish('cutscene.stopped', {
       cutSceneId: this.config.id,
       currentTime: this.state.currentTime,
       wasCompleted: this.state.currentTime >= this.config.duration
@@ -826,7 +828,7 @@ export class CutScenePure {
   public skip(): void {
     console.log(`⏭️ Skipping cut scene: ${this.config.name}`);
     this.stop();
-    EventBus.emit('cutscene.skipped', { cutSceneId: this.config.id });
+    EventBus.publish('cutscene.skipped', { cutSceneId: this.config.id });
   }
 
   private async startPlayback(): Promise<void> {
@@ -904,7 +906,7 @@ export class CutScenePure {
     }
 
     // Emit action completion event
-    EventBus.emit('cutscene.action.completed', {
+    EventBus.publish('cutscene.action.completed', {
       cutSceneId: this.config.id,
       actionId: action.id,
       timestamp: this.state.currentTime
@@ -929,7 +931,7 @@ export class CutScenePure {
         await this.engines.animation.playAnimation(action.payload.animationId, action.payload.target);
         break;
       case 'event':
-        EventBus.emit(action.payload.eventName, action.payload.eventData);
+        EventBus.publish(action.payload.eventName, action.payload.eventData);
         break;
       case 'custom':
         await this.executeCustomAction(action);
@@ -975,7 +977,7 @@ export class CutScenePure {
   }
 
   private async executeTriggerAction(action: CutSceneAction): Promise<void> {
-    EventBus.emit('cutscene.trigger', {
+    EventBus.publish('cutscene.trigger', {
       cutSceneId: this.config.id,
       triggerId: action.id,
       payload: action.payload
@@ -984,7 +986,7 @@ export class CutScenePure {
 
   private async executeCustomAction(action: CutSceneAction): Promise<void> {
     // Allow for custom action implementations
-    EventBus.emit('cutscene.custom.action', {
+    EventBus.publish('cutscene.custom.action', {
       cutSceneId: this.config.id,
       actionId: action.id,
       payload: action.payload
@@ -1023,7 +1025,7 @@ export class CutScenePure {
 
         // Optionally trigger new scene
         if (branch.targetSceneId) {
-          EventBus.emit('cutscene.branch.taken', {
+          EventBus.publish('cutscene.branch.taken', {
             cutSceneId: this.config.id,
             branchId: branch.id,
             targetSceneId: branch.targetSceneId
@@ -1175,7 +1177,7 @@ export class CutScenePure {
 
   public setVariable(key: string, value: any): void {
     this.state.variables[key] = value;
-    EventBus.emit('cutscene.variable.changed', {
+    EventBus.publish('cutscene.variable.changed', {
       cutSceneId: this.config.id,
       variable: key,
       value: value

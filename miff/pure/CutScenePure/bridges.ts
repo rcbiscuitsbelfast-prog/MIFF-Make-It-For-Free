@@ -13,7 +13,9 @@
  */
 
 import { CutScenePure, CutSceneDefinition } from './index';
-import { EventBus } from '../EventsPure';
+import { createEventBus } from '../EventBusPure';
+
+const EventBus = createEventBus();
 
 // Web Bridge Implementation
 export class CutSceneWebBridge {
@@ -26,9 +28,9 @@ export class CutSceneWebBridge {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('cutscene.web.ready', this.handleWebReady.bind(this));
-    EventBus.on('cutscene.web.inject', this.injectCutSceneLogic.bind(this));
-    EventBus.on('cutscene.web.play', this.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.web.ready', this.handleWebReady.bind(this));
+    EventBus.subscribe('cutscene.web.inject', this.injectCutSceneLogic.bind(this));
+    EventBus.subscribe('cutscene.web.play', this.playCutScene.bind(this));
   }
 
   private handleWebReady(event: any): void {
@@ -341,9 +343,9 @@ export class CutSceneUnityBridge {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('cutscene.unity.ready', this.handleUnityReady.bind(this));
-    EventBus.on('cutscene.unity.inject', this.injectIntoUnityScene.bind(this));
-    EventBus.on('cutscene.unity.play', this.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.unity.ready', this.handleUnityReady.bind(this));
+    EventBus.subscribe('cutscene.unity.inject', this.injectIntoUnityScene.bind(this));
+    EventBus.subscribe('cutscene.unity.play', this.playCutScene.bind(this));
   }
 
   private handleUnityReady(event: any): void {
@@ -513,9 +515,9 @@ export class CutSceneGodotBridge {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('cutscene.godot.ready', this.handleGodotReady.bind(this));
-    EventBus.on('cutscene.godot.inject', this.injectIntoGodotScene.bind(this));
-    EventBus.on('cutscene.godot.play', this.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.godot.ready', this.handleGodotReady.bind(this));
+    EventBus.subscribe('cutscene.godot.inject', this.injectIntoGodotScene.bind(this));
+    EventBus.subscribe('cutscene.godot.play', this.playCutScene.bind(this));
   }
 
   private handleGodotReady(event: any): void {
@@ -726,9 +728,9 @@ export class CutSceneUnrealBridge {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('cutscene.unreal.ready', this.handleUnrealReady.bind(this));
-    EventBus.on('cutscene.unreal.inject', this.injectIntoUnrealLevel.bind(this));
-    EventBus.on('cutscene.unreal.play', this.playCutScene.bind(this));
+    EventBus.subscribe('cutscene.unreal.ready', this.handleUnrealReady.bind(this));
+    EventBus.subscribe('cutscene.unreal.inject', this.injectIntoUnrealLevel.bind(this));
+    EventBus.subscribe('cutscene.unreal.play', this.playCutScene.bind(this));
   }
 
   private handleUnrealReady(event: any): void {
