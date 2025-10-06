@@ -54,9 +54,7 @@ import {
   RenderPayloadPure
 } from '../../SceneBuilderPure';
 
-import {
-  EventBus
-} from '../../EventsPure';
+import { EventBus } from '../../EventBusPure/EventBusPure.js';
 
 interface PhysicsObject {
   id: string;
@@ -227,11 +225,11 @@ export class TopplerDemo {
   }
 
   private setupEventListeners() {
-    EventBus.on('player.landed', this.handlePlayerLanded.bind(this));
-    EventBus.on('player.hit', this.handlePlayerHit.bind(this));
-    EventBus.on('collectible.collected', this.handleCollectible.bind(this));
-    EventBus.on('level.completed', this.handleLevelComplete.bind(this));
-    EventBus.on('game.gameOver', this.handleGameOver.bind(this));
+    EventBus.subscribe('player.landed', (e) => this.handlePlayerLanded(e));
+    EventBus.subscribe('player.hit', (e) => this.handlePlayerHit(e));
+    EventBus.subscribe('collectible.collected', (e) => this.handleCollectible(e));
+    EventBus.subscribe('level.completed', (e) => this.handleLevelComplete(e));
+    EventBus.subscribe('game.gameOver', () => this.handleGameOver());
   }
 
   private generateWorld() {
@@ -647,7 +645,7 @@ export class TopplerDemo {
   private handlePlayerLanded(event: any) {
     // Player landed on a platform
     this.state.player.velocity.y = 0;
-    EventBus.emit('audio.play', { sound: 'land_sound' });
+    EventBus.publish('audio.play', { sound: 'land_sound' });
   }
 
   private handlePlayerHit(event: any) {
@@ -664,8 +662,8 @@ export class TopplerDemo {
       }
     }
 
-    EventBus.emit('audio.play', { sound: 'hurt_sound' });
-    EventBus.emit('camera.shake', { intensity: 5, duration: 0.5 });
+    EventBus.publish('audio.play', { sound: 'hurt_sound' });
+    EventBus.publish('camera.shake', { intensity: 5, duration: 0.5 });
   }
 
   private handleCollectible(event: any) {
