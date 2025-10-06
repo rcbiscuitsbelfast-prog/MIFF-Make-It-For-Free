@@ -58,6 +58,14 @@ export interface DrivingStats {
   totalDistance: number;
   totalTime: number;
   averageSpeed: number;
+  totalVehicles: number;
+  vehiclesOwned: number;
+  totalSessions: number;
+  activeSessions: number;
+  racesCompleted: number;
+  fuelConsumed: number;
+  repairsPerformed: number;
+  upgradesInstalled: number;
 }
 
 export interface Vector3 {
@@ -76,6 +84,7 @@ export class DrivingSystemPure {
     totalDistance: 0,
     totalTime: 0,
     vehiclesOwned: 0,
+    totalSessions: 0,
     racesCompleted: 0,
     averageSpeed: 0,
     fuelConsumed: 0,
@@ -165,13 +174,37 @@ export interface Upgrade {
 export interface DrivingSession {
   id: string;
   startTime: number;
+  vehicleId: string;
+  driverId: string;
+  startPosition: Vector3;
+  currentLap: number;
+  totalLaps: number;
+  lapTimes: number[];
 }
 
 export class DrivingManager {
   private drivingSystem: DrivingSystemPure;
+  private _stats: DrivingStats;
 
   constructor(drivingSystem: DrivingSystemPure) {
     this.drivingSystem = drivingSystem;
+    this._stats = {
+      totalDistance: 0,
+      totalTime: 0,
+      averageSpeed: 0,
+      totalVehicles: 0,
+      vehiclesOwned: 0,
+      totalSessions: 0,
+      activeSessions: 0,
+      racesCompleted: 0,
+      fuelConsumed: 0,
+      repairsPerformed: 0,
+      upgradesInstalled: 0
+    };
+  }
+
+  get stats(): DrivingStats {
+    return this._stats;
   }
 
   /**
@@ -282,7 +315,7 @@ export class DrivingManager {
       }
 
       return vehicle;
-    } catch (error: unknown) {
+    } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       console.error(`❌ Error creating vehicle ${vehicleId}: ${errorMessage}`);
       return null;
@@ -348,7 +381,8 @@ export class DrivingManager {
       console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
       return session;
     } catch (error) {
-      console.error(`❌ Error starting session: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Error starting session: ${errorMessage}`);
       return null;
     }
   }
@@ -382,7 +416,7 @@ export class DrivingManager {
 
     // Handle boost
     if (controls.boost && !vehicle.isBoosting) {
-      const boostAbility = vehicle.definition.abilities.find(a => a.type === 'active' && a.effects.some(e => e.type === 'boost'));
+      const boostAbility = vehicle.definition.abilities.find((a: any) => a.type === 'active' && a.effects.some((e: any) => e.type === 'boost'));
       if (boostAbility) {
         this.drivingSystem.activateAbility(vehicleId, boostAbility.id);
       }
@@ -669,5 +703,28 @@ export class DrivingManager {
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
     console.log('Driving system data imported');
+  }
+
+  /**
+   * Get track information by ID
+   */
+  getTrack(trackId: string): any {
+    // Track retrieval logic would go here
+    console.log(`Getting track: ${trackId}`);
+    return {
+      id: trackId,
+      name: 'Default Track',
+      length: 1000,
+      surface: 'asphalt'
+    };
+  }
+
+  /**
+   * Activate ability for a vehicle
+   */
+  activateAbility(vehicleId: string, abilityId: string): boolean {
+    // Ability activation logic would go here
+    console.log(`Activating ability ${abilityId} for vehicle ${vehicleId}`);
+    return true;
   }
 }
