@@ -29,6 +29,12 @@ interface VehicleDefinition {
   weatherEffects?: Map<string, number>;
   brakingForce?: number;
   length?: number;
+  boostPower?: number;
+  boostDuration?: number;
+  boostCooldown?: number;
+  model?: string;
+  texture?: string;
+  soundProfile?: string;
   stats?: any;
   abilities?: any[];
 }
