@@ -19,16 +19,16 @@ const command = args[0];
 const flags = parseFlags(args.slice(1));
 
 function parseFlags(args) {
-  const flags = {};
+  const parsedFlags = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
       const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
-      flags[key] = value;
+      parsedFlags[key] = value;
     }
   }
-  return flags;
+  return parsedFlags;
 }
 
 function showHelp() {
@@ -90,15 +90,15 @@ For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworl
 }
 
 async function handlePreview() {
-  const inputFile = flags['input'] || flags['i'];
-  const fullscreen = flags['fullscreen'];
-  const noControls = flags['no-controls'];
-  const loop = flags['loop'];
-  const noDialogue = flags['no-dialogue'];
-  const skipAnimations = flags['skip-animations'];
-  const debug = flags['debug'];
+  const inputFile = (flags as any)['input'] || (flags as any)['i'];
+  const fullscreen = (flags as any)['fullscreen'];
+  const noControls = (flags as any)['no-controls'];
+  const loop = (flags as any)['loop'];
+  const noDialogue = (flags as any)['no-dialogue'];
+  const skipAnimations = (flags as any)['skip-animations'];
+  const debug = (flags as any)['debug'];
 
-  if (flags.verbose) {
+  if ((flags as any).verbose) {
     console.log(`🎬 Previewing cut scene...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🖥️  Fullscreen: ${fullscreen ? 'yes' : 'no'}`);
@@ -157,16 +157,16 @@ async function handlePreview() {
 }
 
 async function handleExport() {
-  const inputFile = flags['input'] || flags['i'];
-  const outputDir = flags['output'] || flags['o'] || './export';
-  const engine = flags['engine'] || flags['e'] || 'web';
-  const format = flags['format'] || 'json';
-  const optimize = flags['optimize'];
-  const includeAssets = flags['include-assets'];
-  const noDialogue = flags['no-dialogue'];
-  const skipAnimations = flags['skip-animations'];
+  const inputFile = (flags as any)['input'] || (flags as any)['i'];
+  const outputDir = (flags as any)['output'] || (flags as any)['o'] || './export';
+  const engine = (flags as any)['engine'] || (flags as any)['e'] || 'web';
+  const format = (flags as any)['format'] || 'json';
+  const optimize = (flags as any)['optimize'];
+  const includeAssets = (flags as any)['include-assets'];
+  const noDialogue = (flags as any)['no-dialogue'];
+  const skipAnimations = (flags as any)['skip-animations'];
 
-  if (flags.verbose) {
+  if ((flags as any).verbose) {
     console.log(`📦 Exporting cut scene for ${engine} engine...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`📂 Output: ${outputDir}`);
@@ -270,11 +270,11 @@ function generateOutputFiles(engine, format, outputDir) {
 }
 
 async function handleValidate() {
-  const inputFile = flags['input'] || flags['i'];
-  const strict = flags['strict'];
-  const fix = flags['fix'];
+  const inputFile = (flags as any)['input'] || (flags as any)['i'];
+  const strict = (flags as any)['strict'];
+  const fix = (flags as any)['fix'];
 
-  if (flags.verbose) {
+  if ((flags as any).verbose) {
     console.log(`🔍 Validating cut scene definition...`);
     console.log(`📁 Input: ${inputFile}`);
     console.log(`🔒 Strict mode: ${strict ? 'yes' : 'no'}`);
@@ -342,10 +342,10 @@ async function handleValidate() {
 }
 
 async function handleSimulate() {
-  const inputFile = flags['input'] || flags['i'];
-  const debug = flags['debug'];
+  const inputFile = (flags as any)['input'] || (flags as any)['i'];
+  const debug = (flags as any)['debug'];
 
-  if (flags.verbose) {
+  if ((flags as any).verbose) {
     console.log(`🎭 Simulating cut scene timing...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
@@ -407,9 +407,9 @@ async function handleSimulate() {
 }
 
 async function handleDemo() {
-  const outputDir = flags['output'] || flags['o'] || './demo-scenes';
+  const outputDir = (flags as any)['output'] || (flags as any)['o'] || './demo-scenes';
 
-  if (flags.verbose) {
+  if ((flags as any).verbose) {
     console.log(`🎬 Creating demo cut scene definitions...`);
     console.log(`📂 Output: ${outputDir}`);
   }
@@ -485,7 +485,7 @@ async function main() {
         process.exit(1);
     }
 
-    if (flags.verbose) {
+    if ((flags as any).verbose) {
       console.log('\n📊 Command Result:');
       console.log(JSON.stringify(result, null, 2));
     }

@@ -365,12 +365,12 @@ public class CutScenePlayer : MonoBehaviour
     public PlayableDirector director;
     public TimelineAsset cutSceneTimeline;
 
-    private CutSceneDefinition definition;
+    private CurrentCutSceneDefinition definition;
 
     void Start()
     {
         // Load cut scene definition
-        LoadCutSceneDefinition();
+        LoadCurrentCutSceneDefinition();
 
         // Set up Timeline
         SetupTimeline();
@@ -382,11 +382,11 @@ public class CutScenePlayer : MonoBehaviour
         }
     }
 
-    void LoadCutSceneDefinition()
+    void LoadCurrentCutSceneDefinition()
     {
         // Load from JSON or ScriptableObject
         // This would be populated with the actual cut scene data
-        definition = new CutSceneDefinition
+        definition = new CurrentCutSceneDefinition
         {
             config = new CutSceneConfig
             {
@@ -781,13 +781,13 @@ public:
 
 private:
     ULevelSequencePlayer* SequencePlayer;
-    FCutSceneDefinition CutSceneDefinition;
+    FCurrentCutSceneDefinition CurrentCurrentCutSceneDefinition;
     bool bIsPlaying = false;
     float CurrentTime = 0.0f;
     float StartTime = 0.0f;
     FTimerHandle UpdateTimer;
 
-    void LoadCutSceneDefinition();
+    void LoadCurrentCutSceneDefinition();
     void SetupSequence();
     void UpdateCutScene();
     void ProcessActions();
@@ -816,7 +816,7 @@ void ACutScenePlayer::BeginPlay()
 {
     Super::BeginPlay();
 
-    LoadCutSceneDefinition();
+    LoadCurrentCutSceneDefinition();
     SetupSequence();
 
     if (bAutoStart)
@@ -827,10 +827,12 @@ void ACutScenePlayer::BeginPlay()
     }
 }
 
-void ACutScenePlayer::LoadCutSceneDefinition()
+// C++ Code Template - Not executable TypeScript
+/*
+void ACutScenePlayer::LoadCurrentCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CurrentCutSceneDefinition.config.id}.json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
@@ -840,12 +842,13 @@ void ACutScenePlayer::LoadCutSceneDefinition()
 
         if (FJsonSerializer::Deserialize(JsonReader, JsonObject) && JsonObject.IsValid())
         {
-            // Parse JSON into CutSceneDefinition
-            // Implementation would populate CutSceneDefinition from JSON
+            // Parse JSON into CurrentCutSceneDefinition
+            // Implementation would populate CurrentCutSceneDefinition from JSON
         }
     }
 }
 
+*/
 void ACutScenePlayer::SetupSequence()
 {
     if (!CutSceneSequence) return;
@@ -867,7 +870,7 @@ void ACutScenePlayer::SetupSequence()
 void ACutScenePlayer::SetupSequenceTracks()
 {
     // Create tracks based on cut scene definition
-    for (const auto& Track : CutSceneDefinition.tracks)
+    for (const auto& Track : CurrentCutSceneDefinition.tracks)
     {
         switch (Track.Type)
         {
@@ -928,7 +931,7 @@ void ACutScenePlayer::PlayCutScene()
     StartTime = GetWorld()->GetTimeSeconds();
     CurrentTime = 0.0f;
 
-    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CurrentCutSceneDefinition.config.name);
 
     SequencePlayer->Play();
 
@@ -955,7 +958,7 @@ void ACutScenePlayer::UpdateCutScene()
 
 void ACutScenePlayer::ProcessActions()
 {
-    for (const auto& Action : CutSceneDefinition.actions)
+    for (const auto& Action : CurrentCutSceneDefinition.actions)
     {
         if (Action.Timestamp <= CurrentTime * 1000 &&
             !CompletedActions.Contains(Action.Id))
@@ -990,7 +993,7 @@ void ACutScenePlayer::ExecuteAction(const FCutSceneAction& Action)
 void ACutScenePlayer::ExecuteStartAction(const FCutSceneAction& Action)
 {
     // Start track-specific actions
-    const auto& Track = CutSceneDefinition.tracks.FindByPredicate(
+    const auto& Track = CurrentCutSceneDefinition.tracks.FindByPredicate(
         [&](const FCutSceneTrack& T) { return T.Id == Action.TrackId; }
     );
 
@@ -1027,13 +1030,13 @@ void ACutScenePlayer::StopCutScene()
         SequencePlayer->Stop();
     }
 
-    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CurrentCutSceneDefinition.config.name);
 }
 
 void ACutScenePlayer::SkipCutScene()
 {
     StopCutScene();
-    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CurrentCutSceneDefinition.config.name);
 }
 
 void ACutScenePlayer::OnSequenceFinished()
@@ -1051,6 +1054,8 @@ void ACutScenePlayer::OnDialogueEvent(const FString& DialogueId, const FString& 
     // Handle dialogue events
     UE_LOG(LogTemp, Log, TEXT("Dialogue: %s says %s"), *Speaker, *DialogueId);
 }
+*/
+// End of C++ Code Template
     `.trim();
   }
 

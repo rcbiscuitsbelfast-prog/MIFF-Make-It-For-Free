@@ -14,9 +14,11 @@ import { createEventBus } from '../EventBusPure';
 
 const EventBus = createEventBus();
 
-import { DialogueSystemPure } from '../DialogueSystemPure';
+// Note: DialogueSystemPure and AudioPure don't export main classes with those names
+// These imports need to be updated based on the actual exports
+// import { DialogueSystemPure } from '../DialogueSystemPure';
 import { CameraSystemPure } from '../CameraSystemPure';
-import { AudioPure } from '../AudioPure';
+// import { AudioPure } from '../AudioPure';
 import { AvatarSystemPure } from '../AvatarSystemPure';
 import { PixelAnimPure } from '../PixelAnimPure';
 
