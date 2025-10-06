@@ -14,9 +14,9 @@ import { createEventBus } from '../EventBusPure';
 
 const EventBus = createEventBus();
 
-import { DialogueSystemPure } from '../DialogueSystemPure';
+// import { DialogueSystemPure } from '../DialogueSystemPure'; // TODO: Create DialogueSystemPure class or import specific functions
 import { CameraSystemPure } from '../CameraSystemPure';
-import { AudioPure } from '../AudioPure';
+// import { AudioPure } from '../AudioPure'; // TODO: Create AudioPure class or import specific audio functions
 import { AvatarSystemPure } from '../AvatarSystemPure';
 import { PixelAnimPure } from '../PixelAnimPure';
 
@@ -453,20 +453,23 @@ interface CutSceneState {
   engineContext: 'unity' | 'unreal' | 'godot' | 'web';
 }
 
-interface CutSceneEngine {
-  dialogue: DialogueSystemPure;
-  camera: CameraSystemPure;
-  audio: AudioPure;
-  avatar: AvatarSystemPure;
-  animation: AnimationPure;
-  sceneFlow: SceneFlowPure;
-}
-
 export class CutSceneEngine {
   private cutScene: CutScenePure;
+  public dialogue: DialogueSystemPureStub;
+  public camera: CameraSystemPure | CameraSystemPureStub;
+  public audio: AudioPureStub;
+  public avatar: AvatarSystemPure;
+  public animation: AnimationPure;
+  public sceneFlow: SceneFlowPure;
 
   constructor(definition: CutSceneDefinition) {
     this.cutScene = new CutScenePure(definition);
+    this.dialogue = new DialogueSystemPureStub();
+    this.camera = new CameraSystemPureStub();
+    this.audio = new AudioPureStub();
+    this.avatar = new AvatarSystemPure();
+    this.animation = new AnimationPure();
+    this.sceneFlow = new SceneFlowPure();
   }
 
   getDuration(): number {

@@ -897,6 +897,8 @@ export interface UnityBuildSummary {
     stripUnusedBuildDurationComponents: boolean;
     stripUnusedBuildSizeComponents: boolean;
     stripUnusedBuildFilesComponents: boolean;
+    stripUnusedBuildDependenciesComponents: boolean;
+    stripUnusedBuildStrippingInfoComponents: boolean;
     stripUnusedBuildTargetPlatformComponents: boolean;
     stripUnusedBuildTargetPlatformGroupComponents: boolean;
     stripUnusedBuildTargetPlatformVersionComponents: boolean;
@@ -1789,5 +1791,34 @@ export class UnityConverter {
     console.log('[UnityConverter] Build completed successfully');
 
     return report;
-}
+  }
+
+  private getPlatformGroup(): string {
+    switch (this.exportConfiguration.target) {
+      case UnityExportTarget.WINDOWS:
+      case UnityExportTarget.MACOS:
+      case UnityExportTarget.LINUX:
+        return 'Standalone';
+      case UnityExportTarget.ANDROID:
+        return 'Android';
+      case UnityExportTarget.IOS:
+        return 'iOS';
+      case UnityExportTarget.WEBGL:
+        return 'WebGL';
+      case UnityExportTarget.XBOX:
+        return 'Xbox';
+      case UnityExportTarget.PLAYSTATION:
+        return 'PlayStation';
+      case UnityExportTarget.NINTENDO_SWITCH:
+        return 'NintendoSwitch';
+      case UnityExportTarget.HOLOLENS:
+        return 'HoloLens';
+      default:
+        return 'Standalone';
+    }
+  }
+
+  private getTargetGroup(): string {
+    return this.getPlatformGroup();
+  }
 }

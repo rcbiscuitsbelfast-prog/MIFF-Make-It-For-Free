@@ -228,7 +228,7 @@ async function handleExport() {
   };
 }
 
-function generateOutputFiles(engine, format, outputDir) {
+function generateOutputFiles(engine: string, format: string, outputDir: string) {
   const files = [];
 
   switch (engine) {
@@ -303,8 +303,8 @@ async function handleValidate() {
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
-  const issues = [];
-  const warnings = [];
+  const issues: string[] = [];
+  const warnings: string[] = [];
 
   // Simulate validation results
   if (strict) {
@@ -491,15 +491,17 @@ async function main() {
       console.log(JSON.stringify(result, null, 2));
     }
 
-  } catch (error) {
-    console.error(`❌ Command failed: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Command failed: ${errorMessage}`);
     process.exit(1);
   }
 }
 
 // Run CLI
-main().catch(error => {
-  console.error(`💥 Unexpected error: ${error.message}`);
+main().catch((error: unknown) => {
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  console.error(`💥 Unexpected error: ${errorMessage}`);
   process.exit(1);
 });
 
