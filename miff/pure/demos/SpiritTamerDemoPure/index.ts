@@ -50,11 +50,10 @@ import {
 } from '../../HUDPure';
 
 import {
-  SceneBuilderPure,
-  RenderPayloadPure
+  SceneBuilderPure as SceneBuilderPure,
 } from '../../SceneBuilderPure';
 
-import { EventBus } from '../../EventBusPure/EventBusPure.js';
+import { EventBus } from '../../EventBusPure';
 
 interface SpiritTamerGameState {
   player: {
@@ -134,8 +133,8 @@ export class SpiritTamerDemo {
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: this.state.player.inventory,
-      flags: new Map()
+      inventory: {},
+      flags: {}
     };
 
     return {

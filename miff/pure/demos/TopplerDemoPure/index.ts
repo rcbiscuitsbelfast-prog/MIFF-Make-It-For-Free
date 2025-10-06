@@ -51,11 +51,10 @@ import {
 } from '../../HUDPure';
 
 import {
-  SceneBuilderPure,
-  RenderPayloadPure
+  SceneBuilderPure as SceneBuilderPure,
 } from '../../SceneBuilderPure';
 
-import { EventBus } from '../../EventBusPure/EventBusPure.js';
+import { EventBus } from '../../EventBusPure';
 
 interface PhysicsObject {
   id: string;
@@ -183,8 +182,8 @@ export class TopplerDemo {
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: [],
-      flags: new Map()
+      inventory: {},
+      flags: {}
     };
 
     return {

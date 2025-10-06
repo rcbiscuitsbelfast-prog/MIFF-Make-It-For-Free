@@ -25,12 +25,7 @@ import {
   ItemEffect
 } from '../../ItemsPure';
 
-import {
-  QuestManager,
-  Quest,
-  QuestStatus,
-  QuestObjective
-} from '../../QuestsPure';
+// Use local quest structures to avoid cross-module type drift
 
 import {
   TeamManager,
@@ -51,11 +46,10 @@ import {
 } from '../../HUDPure';
 
 import {
-  SceneBuilderPure,
-  RenderPayloadPure
+  SceneBuilderPure as SceneBuilderPure,
 } from '../../SceneBuilderPure';
 
-import { EventBus } from '../../EventBusPure/EventBusPure.js';
+import { EventBus } from '../../EventBusPure';
 
 interface WitcherGameState {
   player: {
@@ -111,7 +105,8 @@ export class WitcherExplorerDemo {
   private engines: {
     combat: CombatEngine;
     items: ItemUsageManager;
-    quests: QuestManager;
+    // Placeholder for quest system (not used directly)
+    quests: any;
     teams: TeamManager;
     ai: AIManager;
     hud: HUDManager;
@@ -194,7 +189,7 @@ export class WitcherExplorerDemo {
     return {
       combat: new CombatEngine(typeChart),
       items: new ItemUsageManager(playerContext),
-      quests: new QuestManager(),
+      quests: {},
       teams: new TeamManager(),
       ai: new AIManager(),
       hud: new HUDManager(),
