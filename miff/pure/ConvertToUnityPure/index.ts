@@ -1525,6 +1525,8 @@ export class UnityConverter {
         type: 'build',
         buildTarget: this.exportConfiguration.target,
         buildTargetGroup: this.getTargetGroup(),
+        buildType: this.exportConfiguration.configuration,
+        buildPlatform: this.exportConfiguration.target,
         buildConfiguration: this.exportConfiguration.configuration,
         buildNumber: '1.0.0',
         buildVersion: '1.0.0',

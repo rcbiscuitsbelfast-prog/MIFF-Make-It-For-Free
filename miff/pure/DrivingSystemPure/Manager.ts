@@ -107,6 +107,9 @@ export interface VehicleDefinition {
   unlockRequirements?: string[];
   skillRequirements?: string[];
   manufacturer?: string;
+  modelYear?: number;
+  rarity?: string;
+  value?: number;
 }
 
 export class VehicleInstance {
@@ -203,7 +206,7 @@ export class DrivingManager {
       upgradeSlots: vehicleData.upgradeSlots || 4,
       compatibleUpgrades: vehicleData.compatibleUpgrades || [],
       unlockRequirements: vehicleData.unlockRequirements || [],
-      skillRequirements: vehicleData.skillRequirements || new Map(),
+      skillRequirements: Array.isArray(vehicleData.skillRequirements) ? vehicleData.skillRequirements : [],
       manufacturer: vehicleData.manufacturer || 'Unknown',
       modelYear: vehicleData.modelYear || new Date().getFullYear(),
       rarity: vehicleData.rarity || 'common',
