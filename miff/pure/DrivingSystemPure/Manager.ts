@@ -129,6 +129,7 @@ interface TrackDefinition {
   obstacles: Obstacle[];
   allowedVehicles?: string[];
   lapCount?: number;
+  length?: number;
 }
 
 interface Checkpoint {
@@ -453,7 +454,14 @@ export class DrivingManager {
 
     return {
       ...(stats || {}),
-      performanceRating
+      performanceRating,
+      totalTime: 0,
+      totalCrashes: 0,
+      totalRepairs: 0,
+      totalFuelConsumed: 0,
+      averageLapTime: 0,
+      bestRaceTime: 0,
+      completionRate: 0
     };
   }
 
