@@ -1,38 +1,31 @@
 # 🔍 **TypeScript Error Log - MIFF Framework**
 
-**Date**: October 5, 2025  
-**Total Errors**: 1,297 (reduced from 1,701)  
-**Progress**: 23.7% reduction  
+**Date**: October 6, 2025  
+**Total Errors (tsconfig.json scope)**: see `typecheck.log` (post-fix run)  
+**Progress**: Duplicates removed in BundleOptimizer/AssetPipeline; CutScene CLI typed  
 **Status**: IN PROGRESS
 
 ---
 
 ## 📊 **Error Categories**
 
-### **1. Duplicate Property Errors (34 errors)**
+### **1. Duplicate Property Errors (resolved in targeted files)**
+**Location**: `miff/pure/shared/optimization/BundleOptimizer.ts`, `miff/pure/shared/assets/AssetPipeline.ts`
+**Fix**: Removed duplicate keys by applying defaults per-field, eliminating TS2783 warnings
+**Status**: ✅ Fixed
+
+### **2. Interface Mismatch Errors (partially fixed)**
 **Location**: `miff/pure/ConvertToUnityPure/index.ts`
-**Issue**: Object literals with multiple properties of the same name
-**Examples**:
-- `stripUnusedAnimationComponents: false` (duplicated)
-- `stripUnusedAssetBundleComponents: false` (duplicated)
-- `buildParticleSystemRendererError: false` (duplicated)
+**Fix**: `UnityBuildSummary` updated to include `buildDuration`, `buildFiles`, `buildDependencies`, `buildStrippingInfo`, and `buildSteps`
+**Remaining**: Other related type issues in build report objects persist
+**Status**: 🔄 In progress
 
-**Impact**: HIGH - Prevents compilation
-**Priority**: CRITICAL
+### **3. Property Access Errors**
+**Location**: `miff/pure/CutScenePure/bridges.ts`, `.../demos/WitcherExplorerDemoPure/index.ts`
+**Issue**: EventBus `.on/.emit` not available on type
+**Status**: 🔄 Pending (outside current targets)
 
-### **2. Interface Mismatch Errors (1 error)**
-**Location**: `miff/pure/ConvertToUnityPure/index.ts:1391`
-**Issue**: `buildDuration` does not exist in type `UnityBuildSummary`
-**Impact**: MEDIUM - Type safety violation
-**Priority**: HIGH
-
-### **3. Property Access Errors (6 errors)**
-**Location**: `miff/pure/CutScenePure/bridges.ts`
-**Issue**: Property 'on' does not exist on type 'typeof EventBus'
-**Impact**: HIGH - Runtime errors
-**Priority**: HIGH
-
-### **4. Implicit Any Errors (Estimated 1,256 errors)**
+### **4. Implicit Any Errors (bulk)**
 **Location**: Various modules
 **Issue**: Implicit `any` types throughout codebase
 **Impact**: MEDIUM - Type safety degradation
@@ -158,8 +151,8 @@ npm run type-check 2>&1 | grep "error TS" | head -20
 
 ## 📝 **Next Steps**
 
-1. **Immediate**: Fix remaining duplicate properties in ConvertToUnityPure
-2. **Short-term**: Address interface mismatches and property access errors
+1. **Immediate**: Continue resolving ConvertToUnityPure type mismatches
+2. **Short-term**: Address EventBus typing and property access errors
 3. **Medium-term**: Implement strict TypeScript configuration
 4. **Long-term**: Achieve zero TypeScript errors across all modules
 

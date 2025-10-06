@@ -51,16 +51,15 @@ export class BundleOptimizer {
   private unusedExports: Map<string, Set<string>> = new Map();
 
   constructor(config: BundleConfig) {
-    this.config = {
-      optimizationLevel: 'aggressive',
-      minify: true,
-      sourcemap: false,
-      treeShaking: true,
-      codeSplitting: true,
-      deadCodeElimination: true,
-      compression: true,
-      ...config
-    };
+    // Start with provided config and apply defaults field-by-field to avoid duplicate key warnings
+    this.config = { ...config } as BundleConfig;
+    this.config.optimizationLevel = this.config.optimizationLevel ?? 'aggressive';
+    this.config.minify = this.config.minify ?? true;
+    this.config.sourcemap = this.config.sourcemap ?? false;
+    this.config.treeShaking = this.config.treeShaking ?? true;
+    this.config.codeSplitting = this.config.codeSplitting ?? true;
+    this.config.deadCodeElimination = this.config.deadCodeElimination ?? true;
+    this.config.compression = this.config.compression ?? true;
   }
 
   /**
@@ -115,14 +114,15 @@ export class BundleOptimizer {
       this.log(`✅ Bundle optimization complete: ${(stats.compressionRatio * 100).toFixed(1)}% size reduction`);
       return result;
 
-    } catch (error) {
-      this.log(`❌ Bundle optimization failed: ${error.message}`, 'error');
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.log(`❌ Bundle optimization failed: ${message}`, 'error');
       return {
         success: false,
         bundlePath: '',
         stats: this.createEmptyStats(),
         warnings: [],
-        errors: [error.message]
+        errors: [message]
       };
     }
   }
@@ -288,8 +288,9 @@ export class BundleOptimizer {
       require('fs').writeFileSync(bundlePath + '.br', this.brotliCompress(compressed));
 
       this.log('Bundle compressed with gzip and brotli');
-    } catch (error) {
-      this.log(`Compression failed: ${error.message}`, 'error');
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.log(`Compression failed: ${message}`, 'error');
     }
   }
 

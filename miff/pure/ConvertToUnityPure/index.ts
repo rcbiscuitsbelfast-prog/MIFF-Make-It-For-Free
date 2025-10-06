@@ -716,6 +716,8 @@ export interface UnityBuildSummary {
   outputPath: string;
   buildStartedAt: number;
   buildEndedAt: number;
+  // Optional total duration in ms if available
+  buildDuration?: number;
   totalTime: number;
   totalSize: number;
   buildResult: string;
@@ -756,6 +758,11 @@ export interface UnityBuildSummary {
   buildTargetLocalBuild: boolean;
   buildTargetRemoteBuild: boolean;
   buildTargetCustomBuild: boolean;
+  // Extended fields used by our pipeline
+  buildFiles: UnityBuildFile[];
+  buildDependencies: UnityBuildDependency[];
+  buildStrippingInfo: UnityBuildStrippingInfo;
+  buildSteps: UnityBuildStep[];
   buildReport: string;
   buildLog: string;
   buildErrors: string[];
