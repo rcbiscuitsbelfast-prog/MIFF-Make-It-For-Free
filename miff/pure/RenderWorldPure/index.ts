@@ -434,13 +434,13 @@ export class RenderWorldPure {
   }
 
   private setupEventListeners() {
-    EventBus.subscribe('spiritLens.pickup', (e) => this.handleSpiritLensPickup(e));
-    EventBus.subscribe('spiritLens.use', (e) => this.handleSpiritLensUse(e));
-    EventBus.subscribe('portal.activate', (e) => this.handlePortalActivation(e));
-    EventBus.subscribe('npc.interact', (e) => this.handleNPCInteraction(e));
-    EventBus.subscribe('dialogue.trigger', (e) => this.handleDialogueTrigger(e));
-    EventBus.subscribe('player.move', (e) => this.handlePlayerMovement(e));
-    EventBus.subscribe('world.scan', (e) => this.handleWorldScan(e));
+    EventBus.subscribe('spiritLens.pickup', (e: any) => this.handleSpiritLensPickup(e));
+    EventBus.subscribe('spiritLens.use', (e: any) => this.handleSpiritLensUse(e));
+    EventBus.subscribe('portal.activate', (e: any) => this.handlePortalActivation(e));
+    EventBus.subscribe('npc.interact', (e: any) => this.handleNPCInteraction(e));
+    EventBus.subscribe('dialogue.trigger', (e: any) => this.handleDialogueTrigger(e));
+    EventBus.subscribe('player.move', (e: any) => this.handlePlayerMovement(e));
+    EventBus.subscribe('world.scan', (e: any) => this.handleWorldScan(e));
   }
 
   private generateWorld() {

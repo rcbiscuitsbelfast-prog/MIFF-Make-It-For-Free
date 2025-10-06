@@ -72,7 +72,7 @@ export class SplashScreenPure {
   private setupEventListeners(): void {
     EventBus.subscribe('splashscreen.show', () => this.show());
     EventBus.subscribe('splashscreen.hide', () => this.hide());
-    EventBus.subscribe('splashscreen.updateConfig', (e) => this.updateConfig(e.data));
+    EventBus.subscribe('splashscreen.updateConfig', (e: any) => this.updateConfig(e));
   }
 
   private updateConfig(newConfig: Partial<SplashScreenConfig>): void {

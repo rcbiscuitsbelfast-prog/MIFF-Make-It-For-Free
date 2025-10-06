@@ -21,7 +21,8 @@ import {
   ItemType,
   ItemEffectType,
   ItemUsageManager,
-  IPlayerContext
+  IPlayerContext,
+  ItemEffect
 } from '../../ItemsPure';
 
 import {
