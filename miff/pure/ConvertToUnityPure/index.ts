@@ -1552,170 +1552,94 @@ export class UnityConverter {
   }
 
   private getPlatformGroup(): string {
-          strippingLevel: 'disabled',
-          stripAssemblies: false,
-          stripByteCode: false,
-          stripDebugSymbols: false,
-          stripDebugInformation: false,
-          stripEngineCode: false,
-          managedStrippingLevel: 'disabled',
-          stripUnusedMeshComponents: false,
-          stripUnusedMaterialComponents: false,
-          stripUnusedTextureComponents: false,
-          stripUnusedShaderComponents: false,
-          stripUnusedAnimationComponents: false,
-          stripUnusedAudioComponents: false,
-          stripUnusedVideoComponents: false,
-          stripUnusedFontComponents: false,
-          stripUnusedParticleSystemComponents: false,
-          stripUnusedUIComponents: false,
-          stripUnusedRenderingComponents: false,
-          stripUnusedNetworkComponents: false,
-          stripUnusedPhysicsComponents: false,
-          stripUnusedAssetBundleComponents: false,
-          stripUnusedInputComponents: false,
-          stripUnusedScriptComponents: false,
-          stripUnusedTerrainComponents: false,
-          stripUnusedLightmapComponents: false,
-          stripUnusedOcclusionComponents: false,
-          stripUnusedNavmeshComponents: false,
-          stripUnusedReflectionComponents: false,
-          stripUnusedGIComponents: false,
-          stripUnusedComputeComponents: false,
-          stripUnusedCustomComponents: false,
-          stripUnusedEngineComponents: false,
-          stripUnusedEditorComponents: false,
-          stripUnusedTestComponents: false,
-          stripUnusedPackageComponents: false,
-          stripUnusedPluginComponents: false,
-          stripUnusedPlatformComponents: false,
-          stripUnusedBuildComponents: false,
-          stripUnusedDevelopmentComponents: false,
-          stripUnusedReleaseComponents: false,
-          stripUnusedDebugComponents: false,
-          stripUnusedLoggingComponents: false,
-          stripUnusedProfilingComponents: false,
-          stripUnusedAnalyticsComponents: false,
-          stripUnusedCrashReportingComponents: false,
-          stripUnusedPerformanceReportingComponents: false,
-          stripUnusedTelemetryComponents: false,
-          stripUnusedCloudComponents: false,
-          stripUnusedLocalComponents: false,
-          stripUnusedRemoteComponents: false,
-          stripUnusedCustomBuildComponents: false,
-          stripUnusedCloudBuildComponents: false,
-          stripUnusedLocalBuildComponents: false,
-          stripUnusedRemoteBuildComponents: false,
-          stripUnusedBuildTargetComponents: false,
-          stripUnusedBuildConfigurationComponents: false,
-          stripUnusedBuildPlatformComponents: false,
-          stripUnusedBuildTypeComponents: false,
-          stripUnusedBuildVersionComponents: false,
-          stripUnusedBuildMachineComponents: false,
-          stripUnusedBuildPathComponents: false,
-          stripUnusedBuildGUIDComponents: false,
-          stripUnusedBuildTargetPlatformComponents: false,
-          stripUnusedBuildTargetPlatformGroupComponents: false,
-          stripUnusedBuildTargetPlatformVersionComponents: false,
-          stripUnusedBuildTargetArchitectureComponents: false,
-          stripUnusedBuildTargetGraphicsAPIsComponents: false,
-          stripUnusedBuildTargetVRComponents: false,
-          stripUnusedBuildTargetARComponents: false,
-          stripUnusedBuildTargetMRComponents: false,
-          stripUnusedBuildTargetXRComponents: false,
-          stripUnusedBuildTargetIL2CPPComponents: false,
-          stripUnusedBuildTargetMonoComponents: false,
-          stripUnusedBuildTargetWebGLComponents: false,
-          stripUnusedBuildTargetAndroidComponents: false,
-          stripUnusedBuildTargetIOSComponents: false,
-          stripUnusedBuildTargetTizenComponents: false,
-          stripUnusedBuildTargetXboxComponents: false,
-          stripUnusedBuildTargetPlayStationComponents: false,
-          stripUnusedBuildTargetNintendoSwitchComponents: false,
-          stripUnusedBuildTargetCloudBuildComponents: false,
-          stripUnusedBuildTargetLocalBuildComponents: false,
-          stripUnusedBuildTargetRemoteBuildComponents: false,
-          stripUnusedBuildTargetCustomBuildComponents: false,
-          stripUnusedBuildNumberComponents: false,
-          stripUnusedBuildDateComponents: false,
-          stripUnusedBuildDurationComponents: false,
-          stripUnusedBuildSizeComponents: false,
-          stripUnusedBuildFilesComponents: false,
-          stripUnusedBuildDependenciesComponents: false,
-          stripUnusedBuildStrippingInfoComponents: false,
-          stripUnusedBuildStepsComponents: false,
-          stripUnusedBuildSummaryComponents: false,
-          stripUnusedBuildReportComponents: false,
-          stripUnusedBuildLogComponents: false,
-          stripUnusedBuildErrorsComponents: false,
-          stripUnusedBuildWarningsComponents: false,
-          stripUnusedBuildSuccessComponents: false,
-          stripUnusedBuildFailedComponents: false,
-          stripUnusedBuildCancelledComponents: false,
-          stripUnusedBuildAbortedComponents: false,
-          stripUnusedBuildInterruptedComponents: false,
-          stripUnusedBuildTimedOutComponents: false,
-          stripUnusedBuildOutOfMemoryComponents: false,
-          stripUnusedBuildOutOfDiskSpaceComponents: false,
-          stripUnusedBuildInternalErrorComponents: false,
-          stripUnusedBuildUserErrorComponents: false,
-          stripUnusedBuildConfigurationErrorComponents: false,
-          stripUnusedBuildDependencyErrorComponents: false,
-          stripUnusedBuildCompilationErrorComponents: false,
-          stripUnusedBuildLinkErrorComponents: false,
-          stripUnusedBuildPackageErrorComponents: false,
-          stripUnusedBuildAssetErrorComponents: false,
-          stripUnusedBuildCodeGenerationErrorComponents: false,
-          stripUnusedBuildMetadataErrorComponents: false,
-          stripUnusedBuildResourceErrorComponents: false,
-          stripUnusedBuildShaderErrorComponents: false,
-          stripUnusedBuildTextureErrorComponents: false,
-          stripUnusedBuildMeshErrorComponents: false,
-          stripUnusedBuildAnimationErrorComponents: false,
-          stripUnusedBuildAudioErrorComponents: false,
-          stripUnusedBuildVideoErrorComponents: false,
-          stripUnusedBuildFontErrorComponents: false,
-          stripUnusedBuildMaterialErrorComponents: false,
-          stripUnusedBuildModelErrorComponents: false,
-          stripUnusedBuildSceneErrorComponents: false,
-          stripUnusedBuildPrefabErrorComponents: false,
-          stripUnusedBuildScriptableObjectErrorComponents: false,
-          stripUnusedBuildTerrainErrorComponents: false,
-          stripUnusedBuildLightmapErrorComponents: false,
-          stripUnusedBuildOcclusionErrorComponents: false,
-          stripUnusedBuildNavmeshErrorComponents: false,
-          stripUnusedBuildPhysicsErrorComponents: false,
-          stripUnusedBuildUIErrorComponents: false,
-          stripUnusedBuildParticleSystemErrorComponents: false,
-          stripUnusedBuildParticleSystemModuleErrorComponents: false,
-          stripUnusedBuildParticleSystemRendererErrorComponents: false,
-          stripUnusedBuildParticleSystemShapeErrorComponents: false,
-          stripUnusedBuildParticleSystemEmissionErrorComponents: false,
-          stripUnusedBuildParticleSystemSizeErrorComponents: false,
-          stripUnusedBuildParticleSystemSizeOverLifetimeErrorComponents: false,
-          stripUnusedBuildParticleSystemSizeBySpeedErrorComponents: false,
-          stripUnusedBuildParticleSystemVelocityErrorComponents: false,
-          stripUnusedBuildParticleSystemVelocityOverLifetimeErrorComponents: false,
-          stripUnusedBuildParticleSystemVelocityBySpeedErrorComponents: false,
-          stripUnusedBuildParticleSystemLimitVelocityErrorComponents: false,
-          stripUnusedBuildParticleSystemInheritVelocityErrorComponents: false,
-          stripUnusedBuildParticleSystemForceErrorComponents: false,
-          stripUnusedBuildParticleSystemForceOverLifetimeErrorComponents: false,
-          stripUnusedBuildParticleSystemForceBySpeedErrorComponents: false,
-          stripUnusedBuildParticleSystemColorErrorComponents: false,
-          stripUnusedBuildParticleSystemColorOverLifetimeErrorComponents: false,
-          stripUnusedBuildParticleSystemColorBySpeedErrorComponents: false,
-          stripUnusedBuildParticleSystemRotationErrorComponents: false,
-          stripUnusedBuildParticleSystemRotationOverLifetimeErrorComponents: false,
-          stripUnusedBuildParticleSystemRotationBySpeedErrorComponents: false,
-          stripUnusedBuildParticleSystemExternalForcesErrorComponents: false,
-          stripUnusedBuildParticleSystemNoiseErrorComponents: false,
-          stripUnusedBuildParticleSystemCollisionErrorComponents: false,
-          stripUnusedBuildParticleSystemTriggerErrorComponents: false,
-          stripUnusedBuildParticleSystemSubEmitterErrorComponents: false,
-          stripUnusedBuildParticleSystemTextureSheetAnimationErrorComponents: false,
-          stripUnusedBuildParticleSystemLightsErrorComponents: false,
-          stripUnusedBuildParticleSystemTrailErrorComponents: false,
+    switch (this.exportConfiguration.target) {
+      case UnityExportTarget.WINDOWS:
+      case UnityExportTarget.MACOS:
+      case UnityExportTarget.LINUX:
+        return 'Standalone';
+      case UnityExportTarget.ANDROID:
+        return 'Android';
+      case UnityExportTarget.IOS:
+        return 'iOS';
+      case UnityExportTarget.WEBGL:
+        return 'WebGL';
+      case UnityExportTarget.XBOX:
+        return 'Xbox';
+      case UnityExportTarget.PLAYSTATION:
+        return 'PlayStation';
+      case UnityExportTarget.NINTENDO_SWITCH:
+        return 'NintendoSwitch';
+      case UnityExportTarget.HOLOLENS:
+        return 'HoloLens';
+      default:
+        return 'Standalone';
+    }
+  }
+
+  private getTargetGroup(): string {
+    return this.getPlatformGroup();
+  }
+
+  getConversionReports(): UnityConversionReport[] {
+    return [...this.conversionReports];
+  }
+
+  getProjectSettings(): UnityProjectSettings {
+    return { ...this.projectSettings };
+  }
+
+  updateProjectSettings(settings: Partial<UnityProjectSettings>): void {
+    Object.assign(this.projectSettings, settings);
+  }
+
+  getExportConfiguration(): UnityExportConfiguration {
+    return { ...this.exportConfiguration };
+  }
+
+  updateExportConfiguration(configuration: Partial<UnityExportConfiguration>): void {
+    Object.assign(this.exportConfiguration, configuration);
+  }
+
+  exportProjectData(format: 'json' | 'xml' | 'binary' = 'json'): string {
+    const data = {
+      projectSettings: this.projectSettings,
+      exportConfiguration: this.exportConfiguration,
+      buildOptions: this.buildOptions,
+      conversionReports: this.conversionReports,
+      buildReports: this.buildReports
+    };
+
+    if (format === 'xml') {
+      return this.convertToXML(data);
+    } else if (format === 'binary') {
+      return this.convertToBinary(data);
+    } else {
+      return JSON.stringify(data, null, 2);
+    }
+  }
+
+  private convertToXML(data: any): string {
+    // Simple XML conversion - in production this would be more robust
+    return '<unity_converter_data><!-- XML export not fully implemented --></unity_converter_data>';
+  }
+
+  private convertToBinary(data: any): string {
+    // Simple binary conversion - in production this would use proper serialization
+    return JSON.stringify(data);
+  }
+
+  reset(): void {
+    this.conversionReports = [];
+    this.buildReports = [];
+    console.log('[UnityConverter] Reset to initial state');
+  }
+
+  dispose(): void {
+    this.reset();
+    this.isInitialized = false;
+    console.log('[UnityConverter] Disposed successfully');
+  }
+}
           stripUnusedBuildParticleSystemCustomDataErrorComponents: false
         },
         buildSteps: [],
