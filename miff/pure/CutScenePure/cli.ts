@@ -3,7 +3,7 @@
 /**
  * MIFF CLI - CutScene Commands
  *
- * Provides command-line interface for CutScenePure operations including:
+ * Provides cliCommand-line interface for CutScenePure operations including:
  * - miff-cli cutscene preview (browser-based preview)
  * - miff-cli cutscene export (engine-specific export)
  * - miff-cli cutscene validate (definition validation)
@@ -14,17 +14,17 @@
  * @license MIT
  */
 
-const args = process.argv.slice(2);
-const command = args[0];
-const flags: Record<string, any> = parseFlags(args.slice(1));
+const cliArgs = process.argv.slice(2);
+const cliCommand = cliArgs[0];
+const cliFlags: Record<string, any> = parseFlags(cliArgs.slice(1));
 
-function parseFlags(args: string[]): Record<string, any> {
+function parseFlags(flagArgs: string[]): Record<string, any> {
   const parsedFlags: Record<string, any> = {};
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
+  for (let i = 0; i < flagArgs.length; i++) {
+    const arg = flagArgs[i];
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
-      const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
+      const value = flagArgs[i + 1] && !flagArgs[i + 1].startsWith('--') ? flagArgs[i + 1] : true;
       parsedFlags[key] = value;
     }
   }
@@ -36,7 +36,7 @@ function showHelp(): void {
 🎬 MIFF CLI - CutScene Commands
 
 Usage:
-  miff-cli cutscene <command> [flags]
+  miff-cli cutscene <cliCommand> [cliFlags]
 
 Commands:
   preview              Preview cut scene in browser with WebBridgePure
@@ -55,17 +55,17 @@ Flags:
   --verbose            Show detailed progress information
   --dry-run            Show what would be done without executing
 
-Preview-specific flags:
+Preview-specific cliFlags:
   --fullscreen         Run preview in fullscreen mode
   --no-controls        Hide preview controls
   --loop               Loop cut scene playback
 
-Export-specific flags:
+Export-specific cliFlags:
   --format             Export format: json, timeline, sequencer, scene (default: json)
   --optimize           Optimize for target engine
   --include-assets     Include referenced assets in export
 
-Validation flags:
+Validation cliFlags:
   --strict             Strict validation (fail on warnings)
   --fix                Attempt to fix validation issues
 
@@ -90,15 +90,15 @@ For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworl
 }
 
 async function handlePreview() {
-  const inputFile = (flags as any)['input'] || (flags as any)['i'];
-  const fullscreen = (flags as any)['fullscreen'];
-  const noControls = (flags as any)['no-controls'];
-  const loop = (flags as any)['loop'];
-  const noDialogue = (flags as any)['no-dialogue'];
-  const skipAnimations = (flags as any)['skip-animations'];
-  const debug = (flags as any)['debug'];
+  const inputFile = (cliFlags as any)['input'] || (cliFlags as any)['i'];
+  const fullscreen = (cliFlags as any)['fullscreen'];
+  const noControls = (cliFlags as any)['no-controls'];
+  const loop = (cliFlags as any)['loop'];
+  const noDialogue = (cliFlags as any)['no-dialogue'];
+  const skipAnimations = (cliFlags as any)['skip-animations'];
+  const debug = (cliFlags as any)['debug'];
 
-  if ((flags as any).verbose) {
+  if ((cliFlags as any).verbose) {
     console.log(`🎬 Previewing cut scene...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🖥️  Fullscreen: ${fullscreen ? 'yes' : 'no'}`);
@@ -144,7 +144,7 @@ async function handlePreview() {
   }
 
   return {
-    command: 'preview',
+    cliCommand: 'preview',
     input: inputFile || 'sample',
     url: 'http://localhost:8080',
     fullscreen,
@@ -157,16 +157,16 @@ async function handlePreview() {
 }
 
 async function handleExport() {
-  const inputFile = (flags as any)['input'] || (flags as any)['i'];
-  const outputDir = (flags as any)['output'] || (flags as any)['o'] || './export';
-  const engine = (flags as any)['engine'] || (flags as any)['e'] || 'web';
-  const format = (flags as any)['format'] || 'json';
-  const optimize = (flags as any)['optimize'];
-  const includeAssets = (flags as any)['include-assets'];
-  const noDialogue = (flags as any)['no-dialogue'];
-  const skipAnimations = (flags as any)['skip-animations'];
+  const inputFile = (cliFlags as any)['input'] || (cliFlags as any)['i'];
+  const outputDir = (cliFlags as any)['output'] || (cliFlags as any)['o'] || './export';
+  const engine = (cliFlags as any)['engine'] || (cliFlags as any)['e'] || 'web';
+  const format = (cliFlags as any)['format'] || 'json';
+  const optimize = (cliFlags as any)['optimize'];
+  const includeAssets = (cliFlags as any)['include-assets'];
+  const noDialogue = (cliFlags as any)['no-dialogue'];
+  const skipAnimations = (cliFlags as any)['skip-animations'];
 
-  if ((flags as any).verbose) {
+  if ((cliFlags as any).verbose) {
     console.log(`📦 Exporting cut scene for ${engine} engine...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`📂 Output: ${outputDir}`);
@@ -213,7 +213,7 @@ async function handleExport() {
   outputFiles.forEach(file => console.log(`   - ${file}`));
 
   return {
-    command: 'export',
+    cliCommand: 'export',
     engine,
     format,
     input: inputFile || 'sample',
@@ -270,11 +270,11 @@ function generateOutputFiles(engine: string, format: string, outputDir: string):
 }
 
 async function handleValidate() {
-  const inputFile = (flags as any)['input'] || (flags as any)['i'];
-  const strict = (flags as any)['strict'];
-  const fix = (flags as any)['fix'];
+  const inputFile = (cliFlags as any)['input'] || (cliFlags as any)['i'];
+  const strict = (cliFlags as any)['strict'];
+  const fix = (cliFlags as any)['fix'];
 
-  if ((flags as any).verbose) {
+  if ((cliFlags as any).verbose) {
     console.log(`🔍 Validating cut scene definition...`);
     console.log(`📁 Input: ${inputFile}`);
     console.log(`🔒 Strict mode: ${strict ? 'yes' : 'no'}`);
@@ -330,7 +330,7 @@ async function handleValidate() {
   }
 
   return {
-    command: 'validate',
+    cliCommand: 'validate',
     input: inputFile,
     strict,
     fix,
@@ -342,10 +342,10 @@ async function handleValidate() {
 }
 
 async function handleSimulate() {
-  const inputFile = (flags as any)['input'] || (flags as any)['i'];
-  const debug = (flags as any)['debug'];
+  const inputFile = (cliFlags as any)['input'] || (cliFlags as any)['i'];
+  const debug = (cliFlags as any)['debug'];
 
-  if ((flags as any).verbose) {
+  if ((cliFlags as any).verbose) {
     console.log(`🎭 Simulating cut scene timing...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
@@ -396,7 +396,7 @@ async function handleSimulate() {
   }
 
   return {
-    command: 'simulate',
+    cliCommand: 'simulate',
     input: inputFile || 'sample',
     duration: 5000,
     actions: 12,
@@ -407,9 +407,9 @@ async function handleSimulate() {
 }
 
 async function handleDemo() {
-  const outputDir = (flags as any)['output'] || (flags as any)['o'] || './demo-scenes';
+  const outputDir = (cliFlags as any)['output'] || (cliFlags as any)['o'] || './demo-scenes';
 
-  if ((flags as any).verbose) {
+  if ((cliFlags as any).verbose) {
     console.log(`🎬 Creating demo cut scene definitions...`);
     console.log(`📂 Output: ${outputDir}`);
   }
@@ -447,7 +447,7 @@ async function handleDemo() {
   console.log('   🎬 ending_credits.json - Game conclusion');
 
   return {
-    command: 'demo',
+    cliCommand: 'demo',
     output: outputDir,
     scenes: demoScenes,
     status: 'success'
@@ -455,7 +455,7 @@ async function handleDemo() {
 }
 
 async function main() {
-  if (!command || command === 'help' || command === '--help' || command === '-h') {
+  if (!cliCommand || cliCommand === 'help' || cliCommand === '--help' || cliCommand === '-h') {
     showHelp();
     return;
   }
@@ -463,7 +463,7 @@ async function main() {
   try {
     let result;
 
-    switch (command) {
+    switch (cliCommand) {
       case 'preview':
         result = await handlePreview();
         break;
@@ -480,12 +480,12 @@ async function main() {
         result = await handleDemo();
         break;
       default:
-        console.error(`❌ Unknown command: ${command}`);
+        console.error(`❌ Unknown cliCommand: ${cliCommand}`);
         showHelp();
         process.exit(1);
     }
 
-    if ((flags as any).verbose) {
+    if ((cliFlags as any).verbose) {
       console.log('\n📊 Command Result:');
       console.log(JSON.stringify(result, null, 2));
     }
