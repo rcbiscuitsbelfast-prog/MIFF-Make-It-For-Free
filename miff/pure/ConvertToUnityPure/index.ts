@@ -893,6 +893,9 @@ export interface UnityBuildSummary {
     stripUnusedBuildPathComponents: boolean;
     stripUnusedBuildGUIDComponents: boolean;
     stripUnusedBuildNumberComponents: boolean;
+    stripUnusedBuildDateComponents: boolean;
+    stripUnusedBuildDurationComponents: boolean;
+    stripUnusedBuildSizeComponents: boolean;
     stripUnusedBuildTargetPlatformComponents: boolean;
     stripUnusedBuildTargetPlatformGroupComponents: boolean;
     stripUnusedBuildTargetPlatformVersionComponents: boolean;
@@ -2157,7 +2160,10 @@ export class UnityConverter {
         stripUnusedBuildParticleSystemTriggerErrorComponents: false,
         stripUnusedBuildParticleSystemSubEmitterErrorComponents: false,
         stripUnusedBuildParticleSystemTextureSheetAnimationErrorComponents: false,
-      }
+      },
+      steps: [],
+      files: [],
+      dependencies: []
     };
 
     // Implementation for building Unity project

@@ -14,9 +14,10 @@
  * @license MIT
  */
 
-const args = process.argv.slice(2);
-const command = args[0];
-const flags = parseFlags(args.slice(1));
+(async function() {
+  const args = process.argv.slice(2);
+  const command = args[0];
+  const flags = parseFlags(args.slice(1));
 
 function parseFlags(flagArgs: string[]): Record<string, any> {
   const parsedFlags: Record<string, any> = {};
@@ -501,3 +502,5 @@ main().catch(error => {
   console.error(`💥 Unexpected error: ${error.message}`);
   process.exit(1);
 });
+
+})();
