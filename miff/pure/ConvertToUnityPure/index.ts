@@ -1552,20 +1552,8 @@ export class UnityConverter {
         buildTargetLocalBuild: true,
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
-        buildTarget: this.exportConfiguration.target,
-        buildTargetGroup: this.getTargetGroup(),
-        buildType: this.exportConfiguration.configuration,
-        buildPlatform: this.exportConfiguration.target,
         buildConfiguration: this.exportConfiguration.configuration,
         buildNumber: '1.0.0',
-        buildVersion: '1.0.0',
-        unityVersion: this.projectSettings.unityVersion,
-        buildMachine: 'MIFF-Converter',
-        buildPath: this.exportConfiguration.outputPath,
-        buildGUID: `build_${Date.now()}`,
-        buildTargetPlatform: this.exportConfiguration.target,
-        buildTargetPlatformGroup: this.getPlatformGroup(),
-        buildTargetPlatformVersion: '1.0',
         buildTargetArchitecture: 'x64',
         buildTargetGraphicsAPIs: ['DirectX11', 'OpenGL'],
         buildTargetVR: false,
@@ -2010,7 +1998,11 @@ export class UnityConverter {
       unityVersion: this.projectSettings.unityVersion,
       buildMachine: 'MIFF-Converter',
       buildPath: this.exportConfiguration.outputPath,
-      buildGUID: `build_${Date.now()}`
+      buildGUID: `build_${Date.now()}`,
+      buildTargetGroup: this.getTargetGroup(),
+      buildTargetPlatform: this.exportConfiguration.target,
+      buildTargetPlatformGroup: this.getPlatformGroup(),
+      buildTargetPlatformVersion: '1.0'
     };
 
     // Implementation for building Unity project
