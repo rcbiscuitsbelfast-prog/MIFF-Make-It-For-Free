@@ -7,6 +7,10 @@
 // Stub type definitions for missing imports
 interface DrivingSystemPure {
   getVehicleInstance(vehicleId: string): VehicleInstance | null;
+  createVehicle(vehicleId: string, playerId: string): VehicleInstance | null;
+  getStats(playerId?: string): DrivingStats | null;
+  getTrack(trackId: string): TrackDefinition | null;
+  getVehicleDefinition(vehicleId: string): VehicleDefinition | null;
 }
 
 interface VehicleDefinition {
@@ -35,6 +39,18 @@ interface VehicleDefinition {
   model?: string;
   texture?: string;
   soundProfile?: string;
+  particleEffects?: string[];
+  fuelCapacity?: number;
+  fuelConsumption?: number;
+  repairCost?: number;
+  upgradeSlots?: number;
+  compatibleUpgrades?: string[];
+  unlockRequirements?: string[];
+  skillRequirements?: Map<string, number>;
+  manufacturer?: string;
+  modelYear?: number;
+  rarity?: string;
+  value?: number;
   stats?: any;
   abilities?: any[];
 }
@@ -44,6 +60,13 @@ interface VehicleInstance {
   vehicleId: string;
   currentStats?: any;
   position?: Vector3;
+  definition?: VehicleDefinition;
+  currentPosition?: Vector3;
+  throttle?: number;
+  steering?: number;
+  brakeInput?: number;
+  isBraking?: boolean;
+  isBoosting?: boolean;
 }
 
 interface VehicleAbility {
@@ -71,8 +94,21 @@ interface DrivingSession {
   id: string;
   trackId: string;
   playerId: string;
+  vehicleId?: string;
   startTime: number;
   status: 'active' | 'completed' | 'abandoned';
+  driverId?: string;
+  currentLap?: number;
+  totalLaps?: number;
+  lapTimes?: number[];
+  bestLapTime?: number;
+  checkpointsPassed?: number;
+  totalCheckpoints?: number;
+  topSpeed?: number;
+  averageSpeed?: number;
+  distanceTraveled?: number;
+  fuelConsumed?: number;
+  penalties?: DrivingPenalty[];
 }
 
 interface DrivingPenalty {
@@ -87,6 +123,8 @@ interface TrackDefinition {
   name: string;
   checkpoints: Checkpoint[];
   obstacles: Obstacle[];
+  allowedVehicles?: string[];
+  lapCount?: number;
 }
 
 interface Checkpoint {
@@ -135,6 +173,8 @@ interface DrivingStats {
   wins: number;
   losses: number;
   totalDistance: number;
+  vehiclesOwned?: number;
+  totalSessions?: number;
 }
 
 interface Vector3 {
@@ -212,16 +252,15 @@ export class DrivingManager {
       particleEffects: vehicleData.particleEffects || [],
       fuelCapacity: vehicleData.fuelCapacity,
       fuelConsumption: vehicleData.fuelConsumption || 0.1,
-      durability: vehicleData.durability || 1000,
-      repairCost: vehicleData.repairCost || 100,
-      upgradeSlots: vehicleData.upgradeSlots || 4,
-      compatibleUpgrades: vehicleData.compatibleUpgrades || [],
-      unlockRequirements: vehicleData.unlockRequirements || [],
-      skillRequirements: vehicleData.skillRequirements || new Map(),
-      manufacturer: vehicleData.manufacturer || 'Unknown',
-      modelYear: vehicleData.modelYear || new Date().getFullYear(),
-      rarity: vehicleData.rarity || 'common',
-      value: vehicleData.value || 0
+      repairCost: vehicleData.repairCost,
+      upgradeSlots: vehicleData.upgradeSlots,
+      compatibleUpgrades: vehicleData.compatibleUpgrades,
+      unlockRequirements: vehicleData.unlockRequirements,
+      skillRequirements: vehicleData.skillRequirements,
+      manufacturer: vehicleData.manufacturer,
+      modelYear: vehicleData.modelYear,
+      rarity: vehicleData.rarity,
+      value: vehicleData.value
     };
 
     return vehicle;
@@ -257,13 +296,16 @@ export class DrivingManager {
       const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
 
       if (vehicle) {
-        console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
-        this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
+        console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition?.name || 'Unknown'}`);
+        const currentStats = this.drivingSystem.getStats(playerId);
+        if (currentStats) {
+          this.updateStats({ vehiclesOwned: (currentStats.vehiclesOwned || 0) + 1 });
+        }
       }
 
       return vehicle;
     } catch (error) {
-      console.error(`❌ Error creating vehicle ${vehicleId}: ${error.message}`);
+      console.error(`❌ Error creating vehicle ${vehicleId}: ${error instanceof Error ? error.message : String(error)}`);
       return null;
     }
   }
@@ -294,19 +336,21 @@ export class DrivingManager {
       }
 
       // Check if vehicle is compatible with track
-      if (!track.allowedVehicles.includes(vehicle.definition.type)) {
-        throw new Error(`Vehicle ${vehicle.definition.name} not allowed on track ${track.name}`);
+      const vehicleDef = vehicle.definition || this.drivingSystem.getVehicleDefinition(vehicle.vehicleId);
+      if (!vehicleDef || !(track.allowedVehicles || []).includes(vehicleDef.type)) {
+        throw new Error(`Vehicle ${vehicleDef?.name || vehicle.vehicleId} not allowed on track ${track?.name || trackId}`);
       }
 
       // Create driving session
       const session: DrivingSession = {
         id: this.generateSessionId(),
+        trackId,
+        playerId,
         vehicleId,
-        driverId: playerId,
         startTime: Date.now(),
-        startPosition: { ...vehicle.currentPosition },
+        status: 'active',
         currentLap: 1,
-        totalLaps: track.lapCount,
+        totalLaps: track.lapCount || 3,
         lapTimes: [],
         bestLapTime: 0,
         checkpointsPassed: 0,
@@ -315,19 +359,16 @@ export class DrivingManager {
         averageSpeed: 0,
         distanceTraveled: 0,
         fuelConsumed: 0,
-        penalties: [],
-        collisionCount: 0,
-        offTrackTime: 0,
-        status: 'active'
+        penalties: []
       };
 
       // Store session (would normally go through main system)
-      this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
+      this.updateStats({ totalSessions: (this.drivingSystem.getStats()?.totalSessions || 0) + 1 });
 
-      console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
+      console.log(`🏁 Started driving session: ${track?.name || trackId} with ${vehicle.definition?.name || vehicle.vehicleId}`);
       return session;
     } catch (error) {
-      console.error(`❌ Error starting session: ${error.message}`);
+      console.error(`❌ Error starting session: ${error instanceof Error ? error.message : String(error)}`);
       return null;
     }
   }
