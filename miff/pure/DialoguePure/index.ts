@@ -10,3 +10,6 @@ export {
   type DialogueResult,
   createDialogueEngine
 } from './Manager';
+
+// Default export for compatibility
+export { DialogueEngine as default } from './Manager';
