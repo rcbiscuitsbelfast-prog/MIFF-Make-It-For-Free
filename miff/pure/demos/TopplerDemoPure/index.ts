@@ -749,7 +749,7 @@ export class TopplerDemo {
 
   private handleGameComplete() {
     this.state.game.gameOver = true;
-    EventBus.emit('game.completed', {
+    EventBus.publish('game.completed', {
       finalScore: this.state.game.score,
       completionTime: this.state.game.time,
       perfectLevels: this.calculatePerfectLevels()
@@ -838,7 +838,7 @@ export class TopplerDemo {
       // Player landed on platform
       this.state.player.position.y = obj2.position.y - obj2.radius - obj1.radius;
       this.state.player.velocity.y = 0;
-      EventBus.emit('player.landed', { platform: obj2 });
+      EventBus.publish('player.landed', { platform: obj2 });
     }
   }
 

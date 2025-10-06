@@ -154,7 +154,7 @@ export class AssetPipeline {
         return null;
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
       this.log(`Asset processing error: ${assetId} - ${error instanceof Error ? error.message : String(error)}`, 'error');
       return null;
     }
