@@ -12,7 +12,7 @@
  */
 
 import { SplashScreenPure } from './index';
-import { EventBus } from '../EventsPure';
+import { EventBus } from '../EventBusPure/EventBusPure.js';
 
 interface IntegrationConfig {
   enableSplashScreen: boolean;
@@ -58,9 +58,9 @@ export class SplashScreenIntegration {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('splashscreen.inject.web', this.injectIntoWebExport.bind(this));
-    EventBus.on('splashscreen.inject.unity', this.injectIntoUnityScene.bind(this));
-    EventBus.on('splashscreen.inject.cli', this.handleCLICommand.bind(this));
+    EventBus.subscribe('splashscreen.inject.web', (e) => this.injectIntoWebExport(e.data));
+    EventBus.subscribe('splashscreen.inject.unity', (e) => this.injectIntoUnityScene(e.data));
+    EventBus.subscribe('splashscreen.inject.cli', (e) => this.handleCLICommand(e.data));
   }
 
   private setupCLICommands(): void {
@@ -159,7 +159,7 @@ export class SplashScreenIntegration {
       const splashConfig = { ...this.config.splashScreenConfig, ...config };
       const modifiedHtml = SplashScreenPure.injectSplashScreen(htmlContent, splashConfig);
 
-      EventBus.emit('splashscreen.web.injected', {
+      EventBus.publish('splashscreen.web.injected', {
         originalLength: htmlContent.length,
         modifiedLength: modifiedHtml.length,
         splashConfig: splashConfig
@@ -184,7 +184,7 @@ export class SplashScreenIntegration {
       const splashConfig = { ...this.config.splashScreenConfig, ...config };
       const modifiedScene = this.injectIntoUnitySceneContent(sceneContent, splashConfig);
 
-      EventBus.emit('splashscreen.unity.injected', {
+      EventBus.publish('splashscreen.unity.injected', {
         originalLength: sceneContent.length,
         modifiedLength: modifiedScene.length,
         splashConfig: splashConfig

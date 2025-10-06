@@ -54,9 +54,7 @@ import {
   RenderPayloadPure
 } from '../../SceneBuilderPure';
 
-import {
-  EventBus
-} from '../../EventsPure';
+import { EventBus } from '../../EventBusPure/EventBusPure.js';
 
 interface SpiritTamerGameState {
   player: {
@@ -152,11 +150,11 @@ export class SpiritTamerDemo {
   }
 
   private setupEventListeners() {
-    EventBus.on('spirit.encountered', this.handleSpiritEncounter.bind(this));
-    EventBus.on('combat.started', this.handleCombatStart.bind(this));
-    EventBus.on('combat.ended', this.handleCombatEnd.bind(this));
-    EventBus.on('quest.completed', this.handleQuestComplete.bind(this));
-    EventBus.on('item.collected', this.handleItemCollect.bind(this));
+    EventBus.subscribe('spirit.encountered', (e) => this.handleSpiritEncounter(e));
+    EventBus.subscribe('combat.started', (e) => this.handleCombatStart(e));
+    EventBus.subscribe('combat.ended', (e) => this.handleCombatEnd(e));
+    EventBus.subscribe('quest.completed', (e) => this.handleQuestComplete(e));
+    EventBus.subscribe('item.collected', (e) => this.handleItemCollect(e));
   }
 
   private generateWorld() {
@@ -476,7 +474,7 @@ export class SpiritTamerDemo {
       // Successful taming
       player.spirits.push(spirit);
       this.state.world.spirits.delete(spirit.id);
-      EventBus.emit('spirit.tamed', { spirit, player });
+      EventBus.publish('spirit.tamed', { spirit, player });
     } else {
       // Failed taming - start combat
       this.startCombat(player.spirits[0], spirit);
@@ -503,7 +501,7 @@ export class SpiritTamerDemo {
   private handleCombatEnd(event: any) {
     this.state.combat = undefined;
     if (event.victory) {
-      EventBus.emit('experience.gained', { amount: event.experience });
+      EventBus.publish('experience.gained', { amount: event.experience });
     }
   }
 
@@ -523,7 +521,7 @@ export class SpiritTamerDemo {
     // Check for level up
     if (player.experience >= player.level * 100) {
       player.level++;
-      EventBus.emit('player.levelUp', { newLevel: player.level });
+      EventBus.publish('player.levelUp', { newLevel: player.level });
     }
   }
 
@@ -537,7 +535,7 @@ export class SpiritTamerDemo {
     this.engines.combat.addCombatant(enemySpirit);
     this.engines.combat.startBattle();
 
-    EventBus.emit('combat.started', {
+    EventBus.publish('combat.started', {
       playerSpirit,
       enemySpirit,
       engine: this.engines.combat

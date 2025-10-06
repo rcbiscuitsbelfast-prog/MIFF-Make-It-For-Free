@@ -10,7 +10,7 @@
  */
 
 import { RenderWorldPure } from './index';
-import { EventBus } from '../EventsPure';
+import { EventBus } from '../EventBusPure/EventBusPure.js';
 
 interface WebRendererConfig {
   canvas: HTMLCanvasElement;
@@ -266,9 +266,9 @@ export class RenderWorldWebBridge {
 
   private setupInputIntegration(): void {
     // Integrate with InputSystemPure for unified input handling
-    EventBus.on('input.keyboard', this.handleInputEvent.bind(this));
-    EventBus.on('input.mouse', this.handleInputEvent.bind(this));
-    EventBus.on('input.touch', this.handleInputEvent.bind(this));
+    EventBus.subscribe('input.keyboard', (e) => this.handleInputEvent(e.data));
+    EventBus.subscribe('input.mouse', (e) => this.handleInputEvent(e.data));
+    EventBus.subscribe('input.touch', (e) => this.handleInputEvent(e.data));
   }
 
   private setupDebugOverlay(): void {
@@ -300,7 +300,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    EventBus.emit('input.keyboard', {
+    EventBus.publish('input.keyboard', {
       type: 'keydown',
       key: event.key,
       code: event.code,
@@ -311,7 +311,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleKeyUp(event: KeyboardEvent): void {
-    EventBus.emit('input.keyboard', {
+    EventBus.publish('input.keyboard', {
       type: 'keyup',
       key: event.key,
       code: event.code,
@@ -322,7 +322,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleMouseDown(event: MouseEvent): void {
-    EventBus.emit('input.mouse', {
+    EventBus.publish('input.mouse', {
       type: 'mousedown',
       button: event.button,
       x: event.clientX,
@@ -333,7 +333,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleMouseMove(event: MouseEvent): void {
-    EventBus.emit('input.mouse', {
+    EventBus.publish('input.mouse', {
       type: 'mousemove',
       button: event.buttons,
       x: event.clientX,
@@ -344,7 +344,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleMouseUp(event: MouseEvent): void {
-    EventBus.emit('input.mouse', {
+    EventBus.publish('input.mouse', {
       type: 'mouseup',
       button: event.button,
       x: event.clientX,
@@ -357,7 +357,7 @@ export class RenderWorldWebBridge {
   private handleTouchStart(event: TouchEvent): void {
     event.preventDefault();
     const touch = event.touches[0];
-    EventBus.emit('input.touch', {
+    EventBus.publish('input.touch', {
       type: 'touchstart',
       x: touch.clientX,
       y: touch.clientY,
@@ -369,7 +369,7 @@ export class RenderWorldWebBridge {
   private handleTouchMove(event: TouchEvent): void {
     event.preventDefault();
     const touch = event.touches[0];
-    EventBus.emit('input.touch', {
+    EventBus.publish('input.touch', {
       type: 'touchmove',
       x: touch.clientX,
       y: touch.clientY,
@@ -380,7 +380,7 @@ export class RenderWorldWebBridge {
 
   private handleTouchEnd(event: TouchEvent): void {
     event.preventDefault();
-    EventBus.emit('input.touch', {
+    EventBus.publish('input.touch', {
       type: 'touchend',
       x: 0,
       y: 0,
@@ -454,7 +454,7 @@ export class RenderWorldWebBridge {
         break;
       case 'e':
         if (event.type === 'keydown') {
-          EventBus.emit('spiritLens.use', {});
+          EventBus.publish('spiritLens.use', {});
         }
         break;
       case 'escape':
@@ -465,7 +465,7 @@ export class RenderWorldWebBridge {
     }
 
     if (playerVelocity.x !== 0 || playerVelocity.y !== 0 || playerVelocity.z !== 0) {
-      EventBus.emit('player.move', { velocity: playerVelocity });
+      EventBus.publish('player.move', { velocity: playerVelocity });
     }
   }
 
@@ -486,7 +486,7 @@ export class RenderWorldWebBridge {
   private handleMouseClick(event: any): void {
     // Handle mouse interactions
     if (event.button === 0) { // Left click
-      EventBus.emit('player.interact', { position: event });
+      EventBus.publish('player.interact', { position: event });
     }
   }
 
@@ -665,7 +665,7 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     // This would contain the full rendering implementation
     // For now, we'll emit events that the RenderWorld renderer can handle
 
-    EventBus.emit('webgl.render', {
+    EventBus.publish('webgl.render', {
       gl: this.gl,
       shaderProgram: this.shaderProgram,
       camera: this.camera,
