@@ -11,6 +11,7 @@ interface DrivingSystemPure {
   getStats(playerId?: string): DrivingStats | null;
   getTrack(trackId: string): TrackDefinition | null;
   getVehicleDefinition(vehicleId: string): VehicleDefinition | null;
+  activateAbility(vehicleId: string, abilityId: string): boolean;
 }
 
 interface VehicleDefinition {
@@ -74,6 +75,8 @@ interface VehicleAbility {
   name: string;
   description: string;
   cooldown: number;
+  type?: string;
+  effects?: any[];
 }
 
 interface VehicleEffect {
@@ -402,7 +405,7 @@ export class DrivingManager {
 
     // Handle boost
     if (controls.boost && !vehicle.isBoosting) {
-      const boostAbility = vehicle.definition.abilities.find(a => a.type === 'active' && a.effects.some(e => e.type === 'boost'));
+      const boostAbility = vehicle.definition?.abilities?.find(a => a.type === 'active' && a.effects?.some(e => e.type === 'boost'));
       if (boostAbility) {
         this.drivingSystem.activateAbility(vehicleId, boostAbility.id);
       }
