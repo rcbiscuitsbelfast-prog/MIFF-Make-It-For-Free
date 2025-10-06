@@ -862,18 +862,19 @@ export interface UnityBuildDependency {
 export interface UnityBuildStrippingInfo {
   enabled: boolean;
   strippingLevel: string;
-  stripAssemblies: boolean;
-  stripByteCode: boolean;
-  stripDebugSymbols: boolean;
-  stripDebugInformation: boolean;
-  stripEngineCode: boolean;
   managedStrippingLevel: string;
-  stripUnusedMeshComponents: boolean;
-  stripUnusedMaterialComponents: boolean;
-  stripUnusedTextureComponents: boolean;
-  stripUnusedShaderComponents: boolean;
-  stripUnusedAnimationComponents: boolean;
-  stripUnusedAudioComponents: boolean;
+  // The following fields are intentionally kept optional to reduce typing surface
+  stripAssemblies?: boolean;
+  stripByteCode?: boolean;
+  stripDebugSymbols?: boolean;
+  stripDebugInformation?: boolean;
+  stripEngineCode?: boolean;
+  stripUnusedMeshComponents?: boolean;
+  stripUnusedMaterialComponents?: boolean;
+  stripUnusedTextureComponents?: boolean;
+  stripUnusedShaderComponents?: boolean;
+  stripUnusedAnimationComponents?: boolean;
+  stripUnusedAudioComponents?: boolean;
   stripUnusedVideoComponents: boolean;
   stripUnusedFontComponents: boolean;
   stripUnusedParticleSystemComponents: boolean;
@@ -2025,7 +2026,7 @@ export class UnityConverter {
         stripUnusedBuildParticleSystemTrailErrorComponents: false,
         stripUnusedBuildParticleSystemCustomDataErrorComponents: false,
       },
-      // Duplicate summary fields for convenience
+      // Duplicate summary fields for convenience (do NOT duplicate keys already set above)
       buildTime: Date.now(),
       buildStartTime: Date.now(),
       buildEndTime: Date.now() + 1000,
@@ -2064,12 +2065,8 @@ export class UnityConverter {
       buildTargetLocalBuild: true,
       buildTargetRemoteBuild: false,
       buildTargetCustomBuild: false,
-      buildDate: new Date().toISOString(),
-      buildDuration: 1000,
-      buildSize: 0,
-      buildFiles: [],
-      buildDependencies: [],
-      buildStrippingInfo: {
+      // buildDate/buildDuration/buildSize already set earlier; do not repeat
+      buildSteps: [],
         enabled: false,
         strippingLevel: 'disabled',
         stripAssemblies: false,
