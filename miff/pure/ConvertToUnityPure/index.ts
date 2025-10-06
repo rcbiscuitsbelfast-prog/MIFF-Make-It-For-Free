@@ -590,6 +590,7 @@ export interface UnityBuildReport {
   files: UnityBuildFile[];
   dependencies: UnityBuildDependency[];
   strippingInfo: UnityBuildStrippingInfo;
+  // Derived summary fields duplicated for convenience
   buildTime: number;
   buildStartTime: number;
   buildEndTime: number;
@@ -599,6 +600,7 @@ export interface UnityBuildReport {
   buildPlatform: string;
   buildTarget: string;
   buildType: string;
+  buildConfiguration: string;
   buildVersion: string;
   unityVersion: string;
   buildMachine: string;

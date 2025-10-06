@@ -13,9 +13,10 @@
  */
 
 import { CutScenePure, CutSceneDefinition } from './index';
-import { createEventBus } from '../EventBusPure';
+import { createEventBus, EventBus as CoreEventBus } from '../EventBusPure/EventBusPure.js';
 
-const EventBus = createEventBus();
+// Strongly typed event bus instance from EventBusPure
+const EventBus: CoreEventBus = createEventBus();
 
 // Web Bridge Implementation
 export class CutSceneWebBridge {
@@ -303,7 +304,7 @@ export class CutSceneWebBridge {
   }
 
   // Initialize cut scene player
-  const cutSceneDefinition = ${JSON.stringify(definition, null, 2)};
+  const cutSceneDefinition = ${'${JSON.stringify(definition).replace(/</g, "\\u003c") }'};
   const cutScenePlayer = new CutSceneWebPlayer(cutSceneDefinition);
 
   // Auto-start if configured
