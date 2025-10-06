@@ -455,13 +455,13 @@ interface CutSceneState {
   engineContext: 'unity' | 'unreal' | 'godot' | 'web';
 }
 
-interface CutSceneEngine {
-  dialogue: DialogueSystemPure;
+interface CutSceneEngineInterface {
+  dialogue: any; // TODO: Fix DialogueSystemPure import
   camera: CameraSystemPure;
-  audio: AudioPure;
+  audio: any; // TODO: Fix AudioPure import
   avatar: AvatarSystemPure;
   animation: AnimationPure;
-  sceneFlow: SceneFlowPure;
+  sceneFlow: any; // TODO: Fix SceneFlowPure import
 }
 
 export class CutSceneEngine {
@@ -705,7 +705,7 @@ export class CutScenePure {
   private initializeEngines(engines: Partial<CutSceneEngine>): CutSceneEngine {
     return {
       dialogue: engines.dialogue || new DialogueSystemPureStub(),
-      camera: engines.camera || new CameraSystemPureStub(),
+      camera: (engines.camera || new CameraSystemPureStub()) as CameraSystemPure,
       audio: engines.audio || new AudioPureStub(),
       avatar: engines.avatar || new AvatarSystemPureStub(),
       animation: engines.animation || new AnimationPure(),
@@ -1338,7 +1338,16 @@ export class CutScenePure {
     // This is a simplified implementation
     const tokens = tokenString.split(/\s+/);
     const definition: Partial<CutSceneDefinition> = {
-      config: { id: 'token_cutscene', name: 'Token Cut Scene', duration: 3000, skippable: true, autoStart: false, engineTargets: ['web'] },
+      config: {
+        id: 'token_cutscene',
+        name: 'Token Cut Scene',
+        description: 'Cut scene parsed from token string',
+        duration: 3000,
+        skippable: true,
+        autoStart: false,
+        engineTargets: ['web'],
+        metadata: {}
+      },
       tracks: [],
       actions: [],
       variables: {},

@@ -18,7 +18,7 @@ const args = process.argv.slice(2);
 const command = args[0];
 const flags = parseFlags(args.slice(1));
 
-function parseFlags(args) {
+function parseFlags(args: string[]): Record<string, any> {
   const parsedFlags = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -31,7 +31,7 @@ function parseFlags(args) {
   return parsedFlags;
 }
 
-function showHelp() {
+function showHelp(): void {
   console.log(`
 🎬 MIFF CLI - CutScene Commands
 

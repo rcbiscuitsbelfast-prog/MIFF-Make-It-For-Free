@@ -832,7 +832,7 @@ void ACutScenePlayer::BeginPlay()
 void ACutScenePlayer::LoadCurrentCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CurrentCutSceneDefinition.config.id}.json"); // C++ template code - variable handled by Unreal
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${" + "CurrentCutSceneDefinition.config.id}.json"); // C++ template - variable handled by Unreal
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
