@@ -472,8 +472,52 @@ export class CutSceneEngine {
     this.sceneFlow = new SceneFlowPure();
   }
 
-  getDuration(): number {
-    return this.cutScene.getConfig().duration;
+  getTracks(): string[] {
+    return this.cutScene.getConfig().tracks.map(track => track.id);
+  }
+
+  getTrack(trackId: string): any {
+    return this.cutScene.getConfig().tracks.find(track => track.id === trackId);
+  }
+
+  play(): Promise<void> {
+    return this.cutScene.play();
+  }
+
+  pause(): void {
+    this.cutScene.pause();
+  }
+
+  stop(): void {
+    this.cutScene.stop();
+  }
+
+  skip(): void {
+    this.cutScene.skip();
+  }
+
+  setVariable(key: string, value: any): void {
+    this.cutScene.setVariable(key, value);
+  }
+
+  getVariable(key: string): any {
+    return this.cutScene.getVariable(key);
+  }
+
+  triggerBranch(branchId: string): void {
+    this.cutScene.triggerBranch(branchId);
+  }
+
+  isPlaying(): boolean {
+    return this.cutScene.isPlaying();
+  }
+
+  getCurrentTime(): number {
+    return this.cutScene.getCurrentTime();
+  }
+
+  setEngineContext(context: 'unity' | 'unreal' | 'godot' | 'web'): void {
+    // Implementation would set up engine-specific integrations
   }
 
   getTracks(): CutSceneTrack[] {

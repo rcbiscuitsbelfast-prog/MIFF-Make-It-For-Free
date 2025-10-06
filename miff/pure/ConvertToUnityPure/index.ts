@@ -899,6 +899,7 @@ export interface UnityBuildSummary {
     stripUnusedBuildFilesComponents: boolean;
     stripUnusedBuildDependenciesComponents: boolean;
     stripUnusedBuildStrippingInfoComponents: boolean;
+    stripUnusedBuildStepsComponents: boolean;
     stripUnusedBuildTargetPlatformComponents: boolean;
     stripUnusedBuildTargetPlatformGroupComponents: boolean;
     stripUnusedBuildTargetPlatformVersionComponents: boolean;
