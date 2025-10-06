@@ -454,7 +454,7 @@ interface CutSceneState {
   engineContext: 'unity' | 'unreal' | 'godot' | 'web';
 }
 
-type CutSceneEngine = {
+type CutSceneEngineDeps = {
   dialogue: DialogueSystemPure;
   camera: CameraSystemPure;
   audio: AudioPure;
@@ -674,7 +674,7 @@ export class CutScenePure {
 
   constructor(
     definition: CutSceneDefinition,
-    engines: Partial<CutSceneEngine> = {},
+    engines: Partial<CutSceneEngineDeps> = {},
     config: Partial<CutSceneConfig> = {}
   ) {
     this.definition = definition;
@@ -701,7 +701,7 @@ export class CutScenePure {
     };
   }
 
-  private initializeEngines(engines: Partial<CutSceneEngine>): CutSceneEngine {
+  private initializeEngines(engines: Partial<CutSceneEngineDeps>): CutSceneEngineDeps {
     return {
       dialogue: engines.dialogue || new DialogueSystemPureStub(),
       camera: engines.camera || new CameraSystemPureStub(),
@@ -1337,7 +1337,16 @@ export class CutScenePure {
     // This is a simplified implementation
     const tokens = tokenString.split(/\s+/);
     const definition: Partial<CutSceneDefinition> = {
-      config: { id: 'token_cutscene', name: 'Token Cut Scene', duration: 3000, skippable: true, autoStart: false, engineTargets: ['web'] },
+      config: {
+        id: 'token_cutscene',
+        name: 'Token Cut Scene',
+        description: 'Generated from token string',
+        duration: 3000,
+        skippable: true,
+        autoStart: false,
+        engineTargets: ['web'],
+        metadata: {}
+      },
       tracks: [],
       actions: [],
       variables: {},
