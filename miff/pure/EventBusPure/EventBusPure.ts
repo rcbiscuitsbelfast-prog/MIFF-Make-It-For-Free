@@ -404,6 +404,34 @@ export class EventBus {
     
     return this.subscriptions.size;
   }
+
+  // Static convenience APIs that proxy to a global singleton instance
+  static subscribe(
+    eventType: string,
+    handler: (event: Event) => void | Promise<void>,
+    options: {
+      id?: string;
+      priority?: EventPriority;
+      filter?: (event: Event) => boolean;
+      once?: boolean;
+    } = {}
+  ): string {
+    return GlobalEventBus.subscribe(eventType, handler, options);
+  }
+
+  static publish(
+    eventType: string,
+    data: any,
+    options: {
+      id?: string;
+      source?: string;
+      priority?: EventPriority;
+      metadata?: Record<string, any>;
+      replicate?: boolean;
+    } = {}
+  ): Promise<string> {
+    return GlobalEventBus.publish(eventType, data, options);
+  }
 }
 
 /**
@@ -738,6 +766,9 @@ export interface ScheduledEvent {
 export function createEventBus(config: Partial<EventBusConfig> = {}): EventBus {
   return new EventBus(config);
 }
+
+// Global singleton for legacy/static-style access
+export const GlobalEventBus: EventBus = new EventBus();
 
 /**
  * Factory function to create an event router
