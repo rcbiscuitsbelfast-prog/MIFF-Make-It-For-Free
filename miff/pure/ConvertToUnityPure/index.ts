@@ -1639,7 +1639,6 @@ export class UnityConverter {
     this.isInitialized = false;
     console.log('[UnityConverter] Disposed successfully');
   }
-}
 
   private getPlatformGroup(): string {
     switch (this.exportConfiguration.target) {
