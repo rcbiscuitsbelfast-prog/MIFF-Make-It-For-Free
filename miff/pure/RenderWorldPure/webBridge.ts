@@ -266,9 +266,9 @@ export class RenderWorldWebBridge {
 
   private setupInputIntegration(): void {
     // Integrate with InputSystemPure for unified input handling
-    EventBus.subscribe('input.keyboard', (e) => this.handleInputEvent(e.data));
-    EventBus.subscribe('input.mouse', (e) => this.handleInputEvent(e.data));
-    EventBus.subscribe('input.touch', (e) => this.handleInputEvent(e.data));
+    EventBus.subscribe('input.keyboard', (e) => this.handleInputEvent(e));
+    EventBus.subscribe('input.mouse', (e) => this.handleInputEvent(e));
+    EventBus.subscribe('input.touch', (e) => this.handleInputEvent(e));
   }
 
   private setupDebugOverlay(): void {

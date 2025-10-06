@@ -85,7 +85,7 @@ export function runCLI(cliPath: string, args: string[] = []): string {
     }
     
     return output.trim();
-  } catch (error) {
+  } catch (error: unknown) {
     // Return error information as JSON
     return JSON.stringify({
       op: 'error',
