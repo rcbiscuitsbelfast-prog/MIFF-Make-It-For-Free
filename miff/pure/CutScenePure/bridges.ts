@@ -830,7 +830,7 @@ void ACutScenePlayer::BeginPlay()
 void ACutScenePlayer::LoadCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/" + CutSceneDefinition.config.id + ".json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))

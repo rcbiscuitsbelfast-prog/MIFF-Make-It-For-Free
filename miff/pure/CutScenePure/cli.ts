@@ -18,17 +18,17 @@ const args = process.argv.slice(2);
 const command = args[0];
 const flags = parseFlags(args.slice(1));
 
-function parseFlags(args) {
-  const flags = {};
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
+function parseFlags(flagArgs: string[]): Record<string, any> {
+  const parsedFlags: Record<string, any> = {};
+  for (let i = 0; i < flagArgs.length; i++) {
+    const arg = flagArgs[i];
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
-      const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
-      flags[key] = value;
+      const value = flagArgs[i + 1] && !flagArgs[i + 1].startsWith('--') ? flagArgs[i + 1] : true;
+      parsedFlags[key] = value;
     }
   }
-  return flags;
+  return parsedFlags;
 }
 
 function showHelp() {
