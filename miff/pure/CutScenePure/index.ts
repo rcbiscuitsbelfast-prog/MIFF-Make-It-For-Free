@@ -227,15 +227,6 @@ class CameraSystemPureStub {
     }
   }
 
-  completeTransition(): void {
-    // Complete all active transitions
-    for (const [id, transition] of this.activeTransitions) {
-      transition.completed = true;
-      transition.progress = 1;
-      this.activeTransitions.delete(id);
-    }
-    console.log('Completed camera transitions');
-  }
 
   getTransitionProgress(transitionId: string): number {
     const transition = this.activeTransitions.get(transitionId);
@@ -246,6 +237,12 @@ class CameraSystemPureStub {
     const transition = this.activeTransitions.get(transitionId);
     return transition ? !transition.completed : false;
   }
+
+  switchCameraMode(cameraId: string, mode: string, duration?: number): boolean {
+    console.log(`CameraSystemPureStub: Switching camera ${cameraId} to mode ${mode} with duration ${duration}`);
+    return true;
+  }
+
 }
 
 class AudioPureStub {
@@ -473,11 +470,11 @@ export class CutSceneEngine {
   }
 
   getTracks(): string[] {
-    return this.cutScene.getConfig().tracks.map(track => track.id);
+    return this.cutScene.getDefinition().tracks.map(track => track.id);
   }
 
   getTrack(trackId: string): any {
-    return this.cutScene.getConfig().tracks.find(track => track.id === trackId);
+    return this.cutScene.getDefinition().tracks.find(track => track.id === trackId);
   }
 
   play(): Promise<void> {
@@ -504,9 +501,6 @@ export class CutSceneEngine {
     return this.cutScene.getVariable(key);
   }
 
-  triggerBranch(branchId: string): void {
-    this.cutScene.triggerBranch(branchId);
-  }
 
   isPlaying(): boolean {
     return this.cutScene.isPlaying();
@@ -518,52 +512,6 @@ export class CutSceneEngine {
 
   setEngineContext(context: 'unity' | 'unreal' | 'godot' | 'web'): void {
     // Implementation would set up engine-specific integrations
-  }
-
-  getTracks(): CutSceneTrack[] {
-    return this.cutScene.getDefinition().tracks;
-  }
-
-  getTrack(trackId: string): CutSceneTrack | undefined {
-    return this.cutScene.getDefinition().tracks.find(t => t.id === trackId);
-  }
-
-  getActions(): CutSceneAction[] {
-    return this.cutScene.getDefinition().actions;
-  }
-
-  getAction(actionId: string): CutSceneAction | undefined {
-    return this.cutScene.getDefinition().actions.find(a => a.id === actionId);
-  }
-
-  play(): void {
-    this.cutScene.play();
-  }
-
-  pause(): void {
-    this.cutScene.pause();
-  }
-
-  stop(): void {
-    this.cutScene.stop();
-  }
-
-  isPlaying(): boolean {
-    return this.cutScene.isPlaying();
-  }
-
-  getCurrentTime(): number {
-    return this.cutScene.getCurrentTime();
-  }
-
-  setCurrentTime(time: number): void {
-    // Simplified implementation
-    console.log(`Setting cut scene time to ${time}`);
-  }
-
-  setTrackProperty(trackId: string, property: string, value: any): void {
-    // Simplified implementation
-    console.log(`Setting track ${trackId} property ${property} to ${value}`);
   }
 }
 
@@ -748,14 +696,14 @@ export class CutScenePure {
   }
 
   private initializeEngines(engines: Partial<CutSceneEngine>): CutSceneEngine {
-    return {
-      dialogue: engines.dialogue || new DialogueSystemPureStub(),
-      camera: engines.camera || new CameraSystemPureStub(),
-      audio: engines.audio || new AudioPureStub(),
-      avatar: engines.avatar || new AvatarSystemPureStub(),
-      animation: engines.animation || new AnimationPure(),
-      sceneFlow: engines.sceneFlow || new SceneFlowPure()
-    };
+    const engine = new CutSceneEngine(this.definition);
+    if (engines.dialogue) engine.dialogue = engines.dialogue;
+    if (engines.camera) engine.camera = engines.camera;
+    if (engines.audio) engine.audio = engines.audio;
+    if (engines.avatar) engine.avatar = engines.avatar;
+    if (engines.animation) engine.animation = engines.animation;
+    if (engines.sceneFlow) engine.sceneFlow = engines.sceneFlow;
+    return engine;
   }
 
   private setupEventListeners(): void {
@@ -966,7 +914,10 @@ export class CutScenePure {
 
     switch (track.type) {
       case 'camera':
-        await this.engines.camera.startTransition(action.payload);
+        // Use switchCameraMode for transitions or create a new camera instance
+        if (action.payload.cameraId && action.payload.mode) {
+          this.engines.camera.switchCameraMode(action.payload.cameraId, action.payload.mode, action.payload.duration);
+        }
         break;
       case 'dialogue':
         await this.engines.dialogue.startDialogue(action.payload.dialogueId);
@@ -992,7 +943,11 @@ export class CutScenePure {
 
     switch (track.type) {
       case 'camera':
-        this.engines.camera.updateTransition(action.payload);
+        // Camera updates could modify camera settings or switch modes
+        if (action.payload.cameraId && action.payload.settings) {
+          // Update camera settings - this would need to be implemented in CameraSystemPure
+          console.log(`Updating camera ${action.payload.cameraId} settings`);
+        }
         break;
       case 'animation':
         this.engines.animation.updateAnimation(action.payload.animationId, action.payload.progress);
@@ -1245,6 +1200,21 @@ export class CutScenePure {
 
   public getProgress(): number {
     return this.state.currentTime / this.config.duration;
+  }
+
+  public triggerBranch(branchId: string): void {
+    // Find and trigger the specified branch
+    const branch = this.definition.branches?.find(b => b.id === branchId);
+    if (branch) {
+      console.log(`🔀 Triggering branch: ${branchId}`);
+      EventBus.publish('cutscene.branch', {
+        cutSceneId: this.config.id,
+        branchId: branchId,
+        targetScene: branch.targetSceneId
+      });
+    } else {
+      console.warn(`⚠️ Branch not found: ${branchId}`);
+    }
   }
 
   public static createSampleDefinition(): CutSceneDefinition {

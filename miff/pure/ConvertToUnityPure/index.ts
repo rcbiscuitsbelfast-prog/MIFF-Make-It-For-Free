@@ -900,6 +900,10 @@ export interface UnityBuildSummary {
     stripUnusedBuildDependenciesComponents: boolean;
     stripUnusedBuildStrippingInfoComponents: boolean;
     stripUnusedBuildStepsComponents: boolean;
+    stripUnusedBuildSummaryComponents: boolean;
+    stripUnusedBuildReportComponents: boolean;
+    stripUnusedBuildLogComponents: boolean;
+    stripUnusedBuildErrorsComponents: boolean;
     stripUnusedBuildTargetPlatformComponents: boolean;
     stripUnusedBuildTargetPlatformGroupComponents: boolean;
     stripUnusedBuildTargetPlatformVersionComponents: boolean;
