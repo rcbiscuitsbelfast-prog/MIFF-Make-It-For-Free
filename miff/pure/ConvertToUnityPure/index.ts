@@ -911,6 +911,7 @@ export interface UnityBuildSummary {
     stripUnusedBuildAbortedComponents: boolean;
     stripUnusedBuildInterruptedComponents: boolean;
     stripUnusedBuildTimedOutComponents: boolean;
+    stripUnusedBuildOutOfMemoryComponents: boolean;
     stripUnusedBuildTargetPlatformComponents: boolean;
     stripUnusedBuildTargetPlatformGroupComponents: boolean;
     stripUnusedBuildTargetPlatformVersionComponents: boolean;
@@ -1730,7 +1731,6 @@ export class UnityConverter {
           stripUnusedBuildAbortedComponents: false,
           stripUnusedBuildInterruptedComponents: false,
           stripUnusedBuildTimedOutComponents: false,
-          stripUnusedBuildOutOfMemoryComponents: false,
           stripUnusedBuildOutOfMemoryComponents: false,
           stripUnusedBuildOutOfDiskSpaceComponents: false,
           stripUnusedBuildInternalErrorComponents: false,

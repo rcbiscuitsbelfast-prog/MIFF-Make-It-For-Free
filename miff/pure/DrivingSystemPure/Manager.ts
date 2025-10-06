@@ -79,6 +79,10 @@ export interface VehicleDefinition {
   maxSpeed?: number;
   category?: string;
   description?: string;
+  dragCoefficient?: number;
+  frictionCoefficient?: number;
+  acceleration?: number;
+  brakingForce?: number;
 }
 
 export class VehicleInstance {
@@ -132,12 +136,12 @@ export class DrivingManager {
       return null;
     }
 
-    if ((vehicleData.mass ?? 0) <= 0) {
+    if ((vehicleData.mass || 0) <= 0) {
       console.error('❌ Vehicle mass must be positive');
       return null;
     }
 
-    if ((vehicleData.maxSpeed ?? 0) <= 0) {
+    if ((vehicleData.maxSpeed || 0) <= 0) {
       console.error('❌ Vehicle max speed must be positive');
       return null;
     }
@@ -147,8 +151,6 @@ export class DrivingManager {
       id: vehicleData.id,
       name: vehicleData.name,
       type: vehicleData.type,
-      category: vehicleData.category || 'land',
-      description: vehicleData.description || 'A vehicle',
       mass: vehicleData.mass,
       dragCoefficient: vehicleData.dragCoefficient || 0.3,
       frictionCoefficient: vehicleData.frictionCoefficient || 0.7,
