@@ -83,6 +83,30 @@ export interface VehicleDefinition {
   frictionCoefficient?: number;
   acceleration?: number;
   brakingForce?: number;
+  handling?: number;
+  length?: number;
+  width?: number;
+  height?: number;
+  wheelbase?: number;
+  terrainTypes?: string[];
+  weatherEffects?: string[];
+  abilities?: VehicleAbility[];
+  boostPower?: number;
+  boostDuration?: number;
+  boostCooldown?: number;
+  model?: string;
+  texture?: string;
+  soundProfile?: string;
+  particleEffects?: string[];
+  fuelCapacity?: number;
+  fuelConsumption?: number;
+  durability?: number;
+  repairCost?: number;
+  upgradeSlots?: number;
+  compatibleUpgrades?: string[];
+  unlockRequirements?: string[];
+  skillRequirements?: string[];
+  manufacturer?: string;
 }
 
 export class VehicleInstance {
@@ -162,9 +186,9 @@ export class DrivingManager {
       width: vehicleData.width || 2.0,
       height: vehicleData.height || 1.5,
       wheelbase: vehicleData.wheelbase,
-      terrainTypes: vehicleData.terrainTypes || ['road'],
-      weatherEffects: vehicleData.weatherEffects || new Map(),
-      abilities: vehicleData.abilities || [],
+      terrainTypes: Array.isArray(vehicleData.terrainTypes) ? vehicleData.terrainTypes : ['road'],
+      weatherEffects: Array.isArray(vehicleData.weatherEffects) ? vehicleData.weatherEffects : [],
+      abilities: Array.isArray(vehicleData.abilities) ? vehicleData.abilities : [],
       boostPower: vehicleData.boostPower,
       boostDuration: vehicleData.boostDuration,
       boostCooldown: vehicleData.boostCooldown,
