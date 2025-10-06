@@ -831,7 +831,7 @@ void ACutScenePlayer::BeginPlay()
 void ACutScenePlayer::LoadCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/%s.json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
@@ -929,7 +929,7 @@ void ACutScenePlayer::PlayCutScene()
     StartTime = GetWorld()->GetTimeSeconds();
     CurrentTime = 0.0f;
 
-    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Starting cut scene"));
 
     SequencePlayer->Play();
 
@@ -1028,13 +1028,13 @@ void ACutScenePlayer::StopCutScene()
         SequencePlayer->Stop();
     }
 
-    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped"));
 }
 
 void ACutScenePlayer::SkipCutScene()
 {
     StopCutScene();
-    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped"));
 }
 
 void ACutScenePlayer::OnSequenceFinished()
