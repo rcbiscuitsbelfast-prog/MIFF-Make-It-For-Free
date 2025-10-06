@@ -677,13 +677,13 @@ export class TopplerDemo {
     // Apply collectible effect
     if (collectible.type === 'coin') {
       player.score += collectible.value;
-      EventBus.emit('score.update', { amount: collectible.value });
+      EventBus.publish('score.update', { amount: collectible.value });
     } else if (collectible.type === 'power_up') {
       player.powerUps.push(collectible.effect);
-      EventBus.emit('powerup.acquired', { effect: collectible.effect });
+      EventBus.publish('powerup.acquired', { effect: collectible.effect });
     }
 
-    EventBus.emit('audio.play', { sound: 'collect_sound' });
+    EventBus.publish('audio.play', { sound: 'collect_sound' });
   }
 
   private handleLevelComplete(event: any) {
@@ -697,7 +697,7 @@ export class TopplerDemo {
 
   private handleGameOver() {
     this.state.game.gameOver = true;
-    EventBus.emit('game.gameOver', {
+    EventBus.publish('game.gameOver', {
       finalScore: this.state.game.score,
       completedLevels: this.state.game.completedLevels.length
     });
