@@ -11,6 +11,7 @@ interface DrivingSystemPure {
   getStats(playerId?: string): DrivingStats | null;
   getTrack(trackId: string): TrackDefinition | null;
   getVehicleDefinition(vehicleId: string): VehicleDefinition | null;
+  getAllTracks(): TrackDefinition[];
   activateAbility(vehicleId: string, abilityId: string): boolean;
 }
 
@@ -405,7 +406,7 @@ export class DrivingManager {
 
     // Handle boost
     if (controls.boost && !vehicle.isBoosting) {
-      const boostAbility = vehicle.definition?.abilities?.find(a => a.type === 'active' && a.effects?.some(e => e.type === 'boost'));
+      const boostAbility = vehicle.definition?.abilities?.find(a => a.type === 'active' && a.effects?.some((e: any) => e.type === 'boost'));
       if (boostAbility) {
         this.drivingSystem.activateAbility(vehicleId, boostAbility.id);
       }
@@ -442,16 +443,16 @@ export class DrivingManager {
 
     // Calculate performance rating
     let performanceRating = 'Beginner';
-    if (stats.totalSessions > 50) {
+    if (stats && stats.totalSessions > 50) {
       performanceRating = 'Expert';
-    } else if (stats.totalSessions > 20) {
+    } else if (stats && stats.totalSessions > 20) {
       performanceRating = 'Advanced';
-    } else if (stats.totalSessions > 5) {
+    } else if (stats && stats.totalSessions > 5) {
       performanceRating = 'Intermediate';
     }
 
     return {
-      ...stats,
+      ...(stats || {}),
       performanceRating
     };
   }
