@@ -1388,8 +1388,7 @@ export class UnityConverter {
         buildTargetLocalBuild: true,
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
-        buildFiles: [],
-        buildDependencies: [],
+        buildFailed: false,
         buildStrippingInfo: {
           enabled: false,
           strippingLevel: 'disabled',
