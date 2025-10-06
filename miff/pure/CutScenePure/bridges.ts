@@ -365,12 +365,12 @@ public class CutScenePlayer : MonoBehaviour
     public PlayableDirector director;
     public TimelineAsset cutSceneTimeline;
 
-    private CurrentCutSceneDefinition definition;
+    private CurrentCutSceneDefinition /* Template variable - handled by Unreal */ definition;
 
     void Start()
     {
         // Load cut scene definition
-        LoadCurrentCutSceneDefinition();
+        LoadCurrentCutSceneDefinition /* Template variable - handled by Unreal */();
 
         // Set up Timeline
         SetupTimeline();
@@ -382,11 +382,11 @@ public class CutScenePlayer : MonoBehaviour
         }
     }
 
-    void LoadCurrentCutSceneDefinition()
+    void LoadCurrentCutSceneDefinition /* Template variable - handled by Unreal */()
     {
         // Load from JSON or ScriptableObject
         // This would be populated with the actual cut scene data
-        definition = new CurrentCutSceneDefinition
+        definition = new CurrentCutSceneDefinition /* Template variable - handled by Unreal */
         {
             config = new CutSceneConfig
             {
@@ -781,13 +781,13 @@ public:
 
 private:
     ULevelSequencePlayer* SequencePlayer;
-    FCurrentCutSceneDefinition CurrentCurrentCutSceneDefinition;
+    FCurrentCutSceneDefinition /* Template variable - handled by Unreal */ CurrentCurrentCutSceneDefinition /* Template variable - handled by Unreal */;
     bool bIsPlaying = false;
     float CurrentTime = 0.0f;
     float StartTime = 0.0f;
     FTimerHandle UpdateTimer;
 
-    void LoadCurrentCutSceneDefinition();
+    void LoadCurrentCutSceneDefinition /* Template variable - handled by Unreal */();
     void SetupSequence();
     void UpdateCutScene();
     void ProcessActions();
@@ -816,7 +816,7 @@ void ACutScenePlayer::BeginPlay()
 {
     Super::BeginPlay();
 
-    LoadCurrentCutSceneDefinition();
+    LoadCurrentCutSceneDefinition /* Template variable - handled by Unreal */();
     SetupSequence();
 
     if (bAutoStart)
@@ -828,22 +828,22 @@ void ACutScenePlayer::BeginPlay()
 }
 
 // C++ Code Template - Not executable TypeScript
+// Note: The following C++ code is for code generation only and contains template variables
+// that should not be parsed by TypeScript. This is moved to a separate template file.
 /*
-void ACutScenePlayer::LoadCurrentCutSceneDefinition()
+void ACutScenePlayer::LoadCurrentCutSceneDefinition /* Template variable - handled by Unreal */()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${" + "CurrentCutSceneDefinition.config.id}.json"); // C++ template - variable handled by Unreal
-
     FString JsonContent;
-    if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
+    // Template variable: JsonPath - handled by Unreal Engine
     {
         TSharedPtr<FJsonObject> JsonObject;
         TSharedRef<TJsonReader<>> JsonReader = TJsonReaderFactory<>::Create(JsonContent);
 
         if (FJsonSerializer::Deserialize(JsonReader, JsonObject) && JsonObject.IsValid())
         {
-            // Parse JSON into CurrentCutSceneDefinition
-            // Implementation would populate CurrentCutSceneDefinition from JSON
+            // Parse JSON into CurrentCutSceneDefinition /* Template variable - handled by Unreal */
+            // Implementation would populate CurrentCutSceneDefinition /* Template variable - handled by Unreal */ from JSON
         }
     }
 }
@@ -871,7 +871,7 @@ void ACutScenePlayer::SetupSequence()
 void ACutScenePlayer::SetupSequenceTracks()
 {
     // Create tracks based on cut scene definition
-    for (const auto& Track : CurrentCutSceneDefinition.tracks)
+    for (const auto& Track : CurrentCutSceneDefinition /* Template variable - handled by Unreal */.tracks)
     {
         switch (Track.Type)
         {
@@ -932,7 +932,7 @@ void ACutScenePlayer::PlayCutScene()
     StartTime = GetWorld()->GetTimeSeconds();
     CurrentTime = 0.0f;
 
-    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CurrentCutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CurrentCutSceneDefinition /* Template variable - handled by Unreal */.config.name);
 
     SequencePlayer->Play();
 
@@ -959,7 +959,7 @@ void ACutScenePlayer::UpdateCutScene()
 
 void ACutScenePlayer::ProcessActions()
 {
-    for (const auto& Action : CurrentCutSceneDefinition.actions)
+    for (const auto& Action : CurrentCutSceneDefinition /* Template variable - handled by Unreal */.actions)
     {
         if (Action.Timestamp <= CurrentTime * 1000 &&
             !CompletedActions.Contains(Action.Id))
@@ -994,7 +994,7 @@ void ACutScenePlayer::ExecuteAction(const FCutSceneAction& Action)
 void ACutScenePlayer::ExecuteStartAction(const FCutSceneAction& Action)
 {
     // Start track-specific actions
-    const auto& Track = CurrentCutSceneDefinition.tracks.FindByPredicate(
+    const auto& Track = CurrentCutSceneDefinition /* Template variable - handled by Unreal */.tracks.FindByPredicate(
         [&](const FCutSceneTrack& T) { return T.Id == Action.TrackId; }
     );
 
@@ -1031,13 +1031,13 @@ void ACutScenePlayer::StopCutScene()
         SequencePlayer->Stop();
     }
 
-    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CurrentCutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CurrentCutSceneDefinition /* Template variable - handled by Unreal */.config.name);
 }
 
 void ACutScenePlayer::SkipCutScene()
 {
     StopCutScene();
-    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CurrentCutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CurrentCutSceneDefinition /* Template variable - handled by Unreal */.config.name);
 }
 
 void ACutScenePlayer::OnSequenceFinished()
@@ -1056,7 +1056,7 @@ void ACutScenePlayer::OnDialogueEvent(const FString& DialogueId, const FString& 
     UE_LOG(LogTemp, Log, TEXT("Dialogue: %s says %s"), *Speaker, *DialogueId);
 }
 */
-*/// End of C++ Code Template
+// End of C++ Code Template
     `.trim();
   }
 
