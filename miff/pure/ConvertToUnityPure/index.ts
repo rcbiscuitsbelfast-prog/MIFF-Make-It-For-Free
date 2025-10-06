@@ -1640,11 +1640,6 @@ export class UnityConverter {
     console.log('[UnityConverter] Disposed successfully');
   }
 }
-          stripUnusedBuildParticleSystemCustomDataErrorComponents: false
-        },
-        buildSteps: [],
-        buildReport: '',
-        buildLog: '',
         buildErrors: [],
         buildWarnings: [],
         buildSuccess: true,
