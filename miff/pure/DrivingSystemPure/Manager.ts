@@ -68,7 +68,38 @@ export interface Vector3 {
 
 // Define the main classes that are imported
 export class DrivingSystemPure {
-  // Basic implementation
+  private vehicles: Map<string, any> = new Map();
+  private sessions: Map<string, any> = new Map();
+  private stats: DrivingStats = {
+    totalVehicles: 0,
+    activeSessions: 0,
+    totalDistance: 0,
+    totalTime: 0,
+    vehiclesOwned: 0,
+    racesCompleted: 0,
+    averageSpeed: 0,
+    fuelConsumed: 0,
+    repairsPerformed: 0,
+    upgradesInstalled: 0
+  };
+
+  createVehicle(vehicleId: string, playerId: string): any {
+    // Implementation would create a vehicle instance
+    return { id: vehicleId, playerId };
+  }
+
+  getStats(): DrivingStats {
+    return { ...this.stats };
+  }
+
+  isVehicleUnlocked(vehicleId: string, playerId: string): boolean {
+    // Implementation would check unlock status
+    return true;
+  }
+
+  getVehicleInstance(vehicleId: string): any {
+    return this.vehicles.get(vehicleId);
+  }
 }
 
 export interface VehicleDefinition {
@@ -247,12 +278,13 @@ export class DrivingManager {
 
       if (vehicle) {
         console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
-        this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
+        this.updateStats({ vehiclesOwned: this.stats.vehiclesOwned + 1 });
       }
 
       return vehicle;
-    } catch (error) {
-      console.error(`❌ Error creating vehicle ${vehicleId}: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Error creating vehicle ${vehicleId}: ${errorMessage}`);
       return null;
     }
   }
