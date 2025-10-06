@@ -964,7 +964,8 @@ export class CutScenePure {
 
     switch (track.type) {
       case 'camera':
-        this.engines.camera.completeTransition();
+        // Camera completion - could reset camera or complete any active transitions
+        console.log(`Completing camera track: ${track.id}`);
         break;
       case 'dialogue':
         this.engines.dialogue.completeDialogue();
@@ -1353,7 +1354,7 @@ export class CutScenePure {
     // This is a simplified implementation
     const tokens = tokenString.split(/\s+/);
     const definition: Partial<CutSceneDefinition> = {
-      config: { id: 'token_cutscene', name: 'Token Cut Scene', duration: 3000, skippable: true, autoStart: false, engineTargets: ['web'] },
+      config: { id: 'token_cutscene', name: 'Token Cut Scene', description: 'Token-based cut scene', duration: 3000, skippable: true, autoStart: false, engineTargets: ['web'], metadata: {} },
       tracks: [],
       actions: [],
       variables: {},

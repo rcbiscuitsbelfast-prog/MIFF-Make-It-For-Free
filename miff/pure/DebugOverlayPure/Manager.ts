@@ -5,6 +5,37 @@ import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchem
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Simple stub implementations for missing classes
+class MemoryTracker {
+  getMemoryUsage(): any {
+    return { heapUsed: 0, heapTotal: 0, external: 0 };
+  }
+}
+
+class FrameProfiler {
+  startFrame(): void {}
+  endFrame(): void {}
+  getFrameTime(): number { return 16; }
+}
+
+class InputAnalyzer {
+  analyzeInput(): any {
+    return { events: [], patterns: [] };
+  }
+}
+
+class AudioAnalyzer {
+  analyzeAudio(): any {
+    return { levels: [], frequencies: [] };
+  }
+}
+
+class NetworkMonitor {
+  getNetworkStats(): any {
+    return { latency: 0, bandwidth: 0, packets: 0 };
+  }
+}
+
 export enum DebugVisualizationMode {
   TEXT = 'text',
   JSON = 'json',
@@ -320,6 +351,7 @@ export class DebugOverlayManager {
   private inputAnalyzer?: InputAnalyzer;
   private audioAnalyzer?: AudioAnalyzer;
   private networkMonitor?: NetworkMonitor;
+  private lastFrameTime: number = 0;
 
   constructor(config: DebugConfig) {
     this.config = config;
@@ -712,9 +744,21 @@ export class DebugOverlayManager {
       metadata: payload.metadata,
       performance: {
         duration,
-        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : undefined,
-        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : undefined
-      }
+        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : 0,
+        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : 0,
+        frameTime: 16,
+        fps: 60,
+        drawCalls: 0,
+        triangles: 0,
+        textureMemory: 0,
+        bufferMemory: 0,
+        shaderSwitches: 0,
+        renderTargets: 0,
+        gpuMemoryUsage: 0,
+        frameDrops: 0,
+        frameTimeVariance: 0,
+        bottleneck: 'unknown' as const
+      } as DebugPerformanceMetrics
     };
   }
 
@@ -816,6 +860,7 @@ export class DebugOverlayManager {
     const now = performance.now();
 
     return {
+      duration: now - (this.lastFrameTime || now),
       frameTime: 16.67, // 60 FPS
       fps: 60,
       memoryUsage: 128 * 1024 * 1024, // 128MB

@@ -8,5 +8,6 @@ export {
   type DialogueAction,
   type DialogueContext,
   type DialogueResult,
-  createDialogueEngine
+  createDialogueEngine,
+  DialogueEngine as default
 } from './Manager';
