@@ -16,10 +16,10 @@
 
 const args = process.argv.slice(2);
 const command = args[0];
-const flags = parseFlags(args.slice(1));
+const flags: Record<string, any> = parseFlags(args.slice(1));
 
 function parseFlags(args: string[]): Record<string, any> {
-  const parsedFlags = {};
+  const parsedFlags: Record<string, any> = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg.startsWith('--')) {
@@ -227,7 +227,7 @@ async function handleExport() {
   };
 }
 
-function generateOutputFiles(engine, format, outputDir) {
+function generateOutputFiles(engine: string, format: string, outputDir: string): string[] {
   const files = [];
 
   switch (engine) {
@@ -302,8 +302,8 @@ async function handleValidate() {
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
-  const issues = [];
-  const warnings = [];
+  const issues: string[] = [];
+  const warnings: string[] = [];
 
   // Simulate validation results
   if (strict) {
@@ -491,7 +491,7 @@ async function main() {
     }
 
   } catch (error) {
-    console.error(`❌ Command failed: ${error.message}`);
+    console.error(`❌ Command failed: ${error instanceof Error ? error.message : String(error)}`);
     process.exit(1);
   }
 }

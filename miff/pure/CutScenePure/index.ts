@@ -456,12 +456,12 @@ interface CutSceneState {
 }
 
 interface CutSceneEngineInterface {
-  dialogue: any; // TODO: Fix DialogueSystemPure import
-  camera: CameraSystemPure;
-  audio: any; // TODO: Fix AudioPure import
-  avatar: AvatarSystemPure;
-  animation: AnimationPure;
-  sceneFlow: any; // TODO: Fix SceneFlowPure import
+  dialogue?: any; // TODO: Fix DialogueSystemPure import
+  camera?: CameraSystemPure;
+  audio?: any; // TODO: Fix AudioPure import
+  avatar?: AvatarSystemPure;
+  animation?: AnimationPure;
+  sceneFlow?: any; // TODO: Fix SceneFlowPure import
 }
 
 export class CutSceneEngine {
@@ -668,14 +668,14 @@ export class CutScenePure {
   private config: CutSceneConfig;
   private state: CutSceneState;
   private definition: CutSceneDefinition;
-  private engines: CutSceneEngine;
+  private engines: CutSceneEngineInterface;
   private actionQueue: CutSceneAction[];
   private eventListeners: Map<string, Function> = new Map();
   private onCompleteCallback: ((result: any) => void) | null = null;
 
   constructor(
     definition: CutSceneDefinition,
-    engines: Partial<CutSceneEngine> = {},
+    engines: Partial<CutSceneEngineInterface> = {},
     config: Partial<CutSceneConfig> = {}
   ) {
     this.definition = definition;
@@ -702,7 +702,7 @@ export class CutScenePure {
     };
   }
 
-  private initializeEngines(engines: Partial<CutSceneEngine>): CutSceneEngine {
+  private initializeEngines(engines: Partial<CutSceneEngineInterface>): CutSceneEngineInterface {
     return {
       dialogue: engines.dialogue || new DialogueSystemPureStub(),
       camera: (engines.camera || new CameraSystemPureStub()) as CameraSystemPure,
@@ -921,16 +921,25 @@ export class CutScenePure {
 
     switch (track.type) {
       case 'camera':
-        await this.engines.camera.startTransition(action.payload);
+        // Camera transition handling - method may not exist in all implementations
+        if (this.engines.camera && (this.engines.camera as any).startTransition) {
+          await (this.engines.camera as any).startTransition(action.payload);
+        }
         break;
       case 'dialogue':
-        await this.engines.dialogue.startDialogue(action.payload.dialogueId);
+        if (this.engines.dialogue) {
+          await this.engines.dialogue.startDialogue(action.payload.dialogueId);
+        }
         break;
       case 'audio':
-        await this.engines.audio.playSound(action.payload.soundId, action.payload.options);
+        if (this.engines.audio) {
+          await this.engines.audio.playSound(action.payload.soundId, action.payload.options);
+        }
         break;
       case 'animation':
-        await this.engines.animation.playAnimation(action.payload.animationId, action.payload.target);
+        if (this.engines.animation) {
+          await this.engines.animation.playAnimation(action.payload.animationId, action.payload.target);
+        }
         break;
       case 'event':
         EventBus.publish(action.payload.eventName, action.payload.eventData);
@@ -947,13 +956,20 @@ export class CutScenePure {
 
     switch (track.type) {
       case 'camera':
-        this.engines.camera.updateTransition(action.payload);
+        // Camera transition update - method may not exist in all implementations
+        if (this.engines.camera && (this.engines.camera as any).updateTransition) {
+          (this.engines.camera as any).updateTransition(action.payload);
+        }
         break;
       case 'animation':
-        this.engines.animation.updateAnimation(action.payload.animationId, action.payload.progress);
+        if (this.engines.animation) {
+          this.engines.animation.updateAnimation(action.payload.animationId, action.payload.progress);
+        }
         break;
       case 'audio':
-        this.engines.audio.updateSound(action.payload.soundId, action.payload.properties);
+        if (this.engines.audio) {
+          this.engines.audio.updateSound(action.payload.soundId, action.payload.properties);
+        }
         break;
     }
   }
@@ -964,16 +980,25 @@ export class CutScenePure {
 
     switch (track.type) {
       case 'camera':
-        this.engines.camera.completeTransition();
+        // Camera transition completion - method may not exist in all implementations
+        if (this.engines.camera && (this.engines.camera as any).completeTransition) {
+          (this.engines.camera as any).completeTransition();
+        }
         break;
       case 'dialogue':
-        this.engines.dialogue.completeDialogue();
+        if (this.engines.dialogue) {
+          this.engines.dialogue.completeDialogue();
+        }
         break;
       case 'animation':
-        this.engines.animation.completeAnimation(action.payload.animationId);
+        if (this.engines.animation) {
+          this.engines.animation.completeAnimation(action.payload.animationId);
+        }
         break;
       case 'audio':
-        this.engines.audio.stopSound(action.payload.soundId);
+        if (this.engines.audio) {
+          this.engines.audio.stopSound(action.payload.soundId);
+        }
         break;
     }
   }
