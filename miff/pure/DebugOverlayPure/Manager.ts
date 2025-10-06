@@ -5,6 +5,57 @@ import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchem
 import * as fs from 'fs';
 import * as path from 'path';
 
+// Stub implementations for missing analyzer classes
+class MemoryTracker {
+  getMemoryUsage(): { used: number; total: number; percentage: number } {
+    return { used: 0, total: 0, percentage: 0 };
+  }
+
+  getMemoryBreakdown(): Record<string, number> {
+    return {};
+  }
+}
+
+class FrameProfiler {
+  getFrameStats(): { fps: number; frameTime: number; frameDrops: number } {
+    return { fps: 60, frameTime: 16.67, frameDrops: 0 };
+  }
+
+  getFrameHistory(): Array<{ timestamp: number; frameTime: number; fps: number }> {
+    return [];
+  }
+}
+
+class InputAnalyzer {
+  getInputStats(): { eventsPerSecond: number; averageLatency: number; totalEvents: number } {
+    return { eventsPerSecond: 0, averageLatency: 0, totalEvents: 0 };
+  }
+
+  getInputHeatmap(): Array<{ x: number; y: number; intensity: number }> {
+    return [];
+  }
+}
+
+class AudioAnalyzer {
+  getAudioStats(): { activeSources: number; totalSources: number; cpuUsage: number } {
+    return { activeSources: 0, totalSources: 0, cpuUsage: 0 };
+  }
+
+  getFrequencyData(): Float32Array {
+    return new Float32Array(0);
+  }
+}
+
+class NetworkMonitor {
+  getNetworkStats(): { ping: number; packetsPerSecond: number; bytesPerSecond: number } {
+    return { ping: 0, packetsPerSecond: 0, bytesPerSecond: 0 };
+  }
+
+  getConnectionHistory(): Array<{ timestamp: number; ping: number; status: string }> {
+    return [];
+  }
+}
+
 export enum DebugVisualizationMode {
   TEXT = 'text',
   JSON = 'json',
@@ -711,9 +762,21 @@ export class DebugOverlayManager {
       signalsCount,
       metadata: payload.metadata,
       performance: {
-        duration,
-        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : undefined,
-        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : undefined
+        frameTime: 16.67,
+        fps: 60,
+        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : 0,
+        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : 0,
+        drawCalls: 0,
+        triangles: 0,
+        textureMemory: 0,
+        bufferMemory: 0,
+        shaderSwitches: 0,
+        renderTargets: 0,
+        gpuMemoryUsage: 0,
+        frameDrops: 0,
+        frameTimeVariance: 0,
+        bottleneck: 'cpu' as const,
+        duration
       }
     };
   }
@@ -829,7 +892,8 @@ export class DebugOverlayManager {
       gpuMemoryUsage: 96 * 1024 * 1024, // 96MB
       frameDrops: 0,
       frameTimeVariance: 0.5,
-      bottleneck: 'cpu'
+      bottleneck: 'cpu',
+      duration: now - this.startTime
     };
   }
 

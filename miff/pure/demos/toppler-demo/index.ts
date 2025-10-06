@@ -17,7 +17,7 @@ import { RNGPure } from '../../miff/pure/RNGPure/index';
 import { InputPure } from '../../miff/pure/InputPure/index';
 import { PerfPure } from '../../miff/pure/PerfPure/index';
 import { AudioPure } from '../../miff/pure/AudioPure/index';
-import { DebugOverlayPure } from '../../miff/pure/DebugOverlayPure/index';
+import DebugOverlayPure from '../../miff/pure/DebugOverlayPure/index';
 import { SavePure } from '../../miff/pure/SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
