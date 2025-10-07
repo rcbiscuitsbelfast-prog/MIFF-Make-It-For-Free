@@ -541,7 +541,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Get source payload
-      const sourcePayload = this.renderPayloadManager.getPayload(payloadId);
+      const frameResult = this.renderPayloadManager.getFrame(payloadId);
+      const sourcePayload = frameResult.ok ? frameResult.frame : undefined;
       if (!sourcePayload) {
         throw new Error(`Render payload not found: ${payloadId}`);
       }
@@ -1754,7 +1755,7 @@ export class UnrealPayloadAdapterPure {
   getConversionStats(): any {
     return {
       configurations: this.conversionConfigurations.size,
-      renderPayloadManager: this.renderPayloadManager.getPayloadCount(),
+      renderPayloadManager: (this.renderPayloadManager as any).frames?.size ?? 0,
       bridgeManager: {
         actors: this.bridgeManager['actors']?.size || 0,
         components: this.bridgeManager['components']?.size || 0,

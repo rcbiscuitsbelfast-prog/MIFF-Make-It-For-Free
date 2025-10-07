@@ -250,7 +250,6 @@ export interface UnrealLightingSystemBridge {
   bGenerateLightmapAtlas: boolean;
   bGenerateVolumetricLightmap: boolean;
   bUseLightmapAtlas: boolean;
-  bUseVolumetricLightmap: boolean;
   bUseVirtualTextures: boolean;
   bUseRuntimeVirtualTextures: boolean;
   bUseNanite: boolean;
@@ -1037,7 +1036,6 @@ export class UnrealSceneBuilderPure {
       bGenerateLightmapAtlas: true,
       bGenerateVolumetricLightmap: config.enableLumen,
       bUseLightmapAtlas: true,
-      bUseVolumetricLightmap: config.enableLumen,
       bUseVirtualTextures: config.enableVirtualTextures,
       bUseRuntimeVirtualTextures: config.enableVirtualTextures,
       bUseNanite: config.enableNanite,
