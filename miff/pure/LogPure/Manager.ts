@@ -942,12 +942,12 @@ export class BattleLogEntry implements IBattleLogEntry {
   ): BattleLogEntry {
     return new BattleLogEntry(
       action.actorId,
-      action.moveId || 'unknown',
+      action.moveId || action.actionType || 'unknown',
       action.targetId,
       result.success ? 'success' : 'failure',
       LogCategory.BATTLE,
       LogLevel.INFO,
-      action.debugNotes || `${action.moveId} by ${action.actorId}`,
+      `${action.moveId || action.actionType || 'action'} by ${action.actorId}`,
       BattlePhase.RESOLVE_ACTION,
       result.damage,
       undefined,
