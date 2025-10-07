@@ -1105,9 +1105,7 @@ export class AndroidExporter {
         buildParticleSystemTextureSheetAnimationError: false,
         buildParticleSystemLightsError: false,
         buildParticleSystemTrailError: false,
-        buildParticleSystemCustomDataError: false,
-        buildParticleSystemRendererError: false,
-        buildParticleSystemShapeError: false
+        buildParticleSystemCustomDataError: false
       },
       steps: [],
       files: [],
@@ -1118,6 +1116,8 @@ export class AndroidExporter {
       totalSize: 0,
       totalTime: 1000,
       buildResult: 'success',
+      buildTarget: 'Android',
+      buildType: this.buildConfiguration.buildType,
       buildPlatform: 'Android',
       buildVersion: this.projectSettings.packageVersion,
       unityVersion: '2021.3',
@@ -1147,10 +1147,6 @@ export class AndroidExporter {
       buildTargetLocalBuild: true,
       buildTargetRemoteBuild: false,
       buildTargetCustomBuild: false,
-      buildNumber: '1.0.0',
-      steps: [],
-      files: [],
-      dependencies: [],
       buildSummary: {
         platform: 'Android',
         platformGroup: 'Android',
@@ -1199,7 +1195,6 @@ export class AndroidExporter {
         buildTargetLocalBuild: true,
         buildTargetRemoteBuild: false,
         buildTargetCustomBuild: false,
-        buildNumber: '1.0.0',
         // build files details reported above; omit here to match interface
         buildReport: '',
         buildLog: '',
@@ -1272,9 +1267,7 @@ export class AndroidExporter {
         buildParticleSystemTextureSheetAnimationError: false,
         buildParticleSystemLightsError: false,
         buildParticleSystemTrailError: false,
-        buildParticleSystemCustomDataError: false,
-        buildParticleSystemRendererError: false,
-        buildParticleSystemShapeError: false
+        buildParticleSystemCustomDataError: false
       },
       buildReport: '',
       buildLog: '',
@@ -1347,9 +1340,7 @@ export class AndroidExporter {
       buildParticleSystemTextureSheetAnimationError: false,
       buildParticleSystemLightsError: false,
       buildParticleSystemTrailError: false,
-      buildParticleSystemCustomDataError: false,
-      buildParticleSystemRendererError: false,
-      buildParticleSystemShapeError: false
+      buildParticleSystemCustomDataError: false
     };
 
     // Implementation for building Android project

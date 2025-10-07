@@ -180,7 +180,7 @@ export class HealthSystemManager {
       return {
         op: 'damage',
         status: 'ok',
-        result: { ...entity, event }
+        result: entity
       };
     }
 

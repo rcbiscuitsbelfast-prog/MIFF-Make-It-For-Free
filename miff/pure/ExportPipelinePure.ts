@@ -1108,6 +1108,8 @@ export function exportToGodot(
 ): Promise<ExportResult> {
   const pipeline = new ExportPipelinePure();
 
+  // Ensure platform is strictly ExportPlatform; ignore any GodotPlatform passed in config
+  const { platform: _ignorePlatform, ...rest } = config as any;
   const exportConfig: ExportConfig = {
     engine: ExportEngine.GODOT,
     platform: ExportPlatform.WEB_BROWSER,
@@ -1118,7 +1120,7 @@ export function exportToGodot(
     compressAssets: true,
     generateAnalytics: true,
     customSettings: {},
-    ...config
+    ...rest
   };
 
   return pipeline.exportGame(renderPayload, exportConfig);

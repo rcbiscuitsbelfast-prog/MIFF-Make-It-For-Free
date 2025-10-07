@@ -412,7 +412,7 @@ export class HapticsManager {
     return false;
   }
 
-  triggerEnvironmentalResponse(condition: string, value: number): HapticResult[] {
+  async triggerEnvironmentalResponse(condition: string, value: number): Promise<HapticResult[]> {
     const results: HapticResult[] = [];
     const now = this.now();
 
@@ -425,7 +425,7 @@ export class HapticsManager {
             priority: 5
           };
 
-          const result = this.playImmediate(request);
+          const result = await this.playImmediate(request);
           if (result) {
             results.push(result);
             response.lastTriggered = now;

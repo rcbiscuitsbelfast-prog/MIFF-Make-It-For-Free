@@ -845,7 +845,6 @@ export class GodotBridgeManager {
       textureMemoryUsage: 0,
       meshMemoryUsage: 0,
       animationMemoryUsage: 0,
-      audioMemoryUsage: 0,
       videoMemoryUsage: 0,
       profilerMemoryUsage: 0,
       reservedMemoryUsage: 0,

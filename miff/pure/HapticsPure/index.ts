@@ -266,7 +266,7 @@ export class HapticEngine {
   private patterns: Map<string, HapticPattern> = new Map();
   private environments: Map<string, HapticEnvironment> = new Map();
   private activeEffects: Map<string, HapticEffect> = new Map();
-  private eventQueue: HapticEvent[] = new Map();
+  private eventQueue: HapticEvent[] = [];
   private configuration: HapticConfiguration;
   private performanceMetrics: HapticPerformanceMetrics;
   private deviceConnections: Map<string, WebSocket | EventTarget> = new Map();
