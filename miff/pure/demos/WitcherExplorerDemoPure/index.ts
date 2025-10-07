@@ -195,23 +195,10 @@ export class WitcherExplorerDemo {
       quests: {},
       teams: new TeamManager(),
       ai: new AIManager(),
-      hud: new HUDManager({
-        eventBus: new EventBus(),
-        config: {
-          defaultTheme: HUDTheme.DARK,
-          defaultLayout: HUDLayout.DESKTOP,
-          enableAnimations: false,
-          enableAccessibility: true,
-          enableResponsive: true,
-          enableTouchGestures: false,
-          enableKeyboardNavigation: true,
-          animationDuration: 300,
-          transitionDuration: 200,
-          maxElements: 1000,
-          enablePerformanceMode: true
-        },
-        integrations: []
-      }),
+      hud: new (require('../../HUDPure/Core') as any).HUDManager(
+        new (require('../../HUDPure/Core') as any).BattleHUDModel(),
+        new (require('../../HUDPure/Core') as any).CLIHUDRenderer()
+      ) as any,
       scene: new SceneBuilderManager({
         name: 'WitcherExplorer',
         description: 'Scene for Witcher Explorer demo',
