@@ -40,8 +40,9 @@ import {
 } from '../../AIPure';
 
 import {
-  HUDPureUtils,
-  HUDManager
+  HUDManager,
+  HUDTheme,
+  HUDLayout
 } from '../../HUDPure';
 
 import {
@@ -194,7 +195,23 @@ export class WitcherExplorerDemo {
       quests: {},
       teams: new TeamManager(),
       ai: new AIManager(),
-      hud: new HUDManager(),
+      hud: new HUDManager({
+        eventBus: new EventBus(),
+        config: {
+          defaultTheme: HUDTheme.DARK,
+          defaultLayout: HUDLayout.DESKTOP,
+          enableAnimations: false,
+          enableAccessibility: true,
+          enableResponsive: true,
+          enableTouchGestures: false,
+          enableKeyboardNavigation: true,
+          animationDuration: 300,
+          transitionDuration: 200,
+          maxElements: 1000,
+          enablePerformanceMode: true
+        },
+        integrations: []
+      }),
       scene: new SceneBuilderManager({
         name: 'WitcherExplorer',
         description: 'Scene for Witcher Explorer demo',
