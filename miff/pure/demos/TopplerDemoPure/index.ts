@@ -186,7 +186,7 @@ export class TopplerDemo {
     };
 
     return {
-      combat: new CombatEngine(typeChart),
+      combat: new CombatEngine(),
       items: new ItemUsageManager(playerContext),
       quests: new QuestsManager(),
       teams: new TeamManager(),

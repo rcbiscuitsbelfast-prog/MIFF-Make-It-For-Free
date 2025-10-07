@@ -139,7 +139,7 @@ export class SpiritTamerDemo {
     };
 
     return {
-      combat: new CombatEngine(typeChart),
+      combat: new CombatEngine(),
       items: new ItemUsageManager(playerContext),
       quests: new QuestsManager(),
       teams: new TeamManager(),
@@ -180,11 +180,11 @@ export class SpiritTamerDemo {
   }
 
   private setupEventListeners() {
-    EventBus.subscribe('spirit.encountered', (e) => this.handleSpiritEncounter(e));
-    EventBus.subscribe('combat.started', (e) => this.handleCombatStart(e));
-    EventBus.subscribe('combat.ended', (e) => this.handleCombatEnd(e));
-    EventBus.subscribe('quest.completed', (e) => this.handleQuestComplete(e));
-    EventBus.subscribe('item.collected', (e) => this.handleItemCollect(e));
+    EventBus.subscribe('spirit.encountered', (_e) => this.handleSpiritEncounter(_e));
+    EventBus.subscribe('combat.started', (_e) => this.handleCombatStart(_e));
+    EventBus.subscribe('combat.ended', (_e) => this.handleCombatEnd(_e));
+    EventBus.subscribe('quest.completed', (_e) => this.handleQuestComplete(_e));
+    EventBus.subscribe('item.collected', (_e) => this.handleItemCollect(_e));
   }
 
   private generateWorld() {

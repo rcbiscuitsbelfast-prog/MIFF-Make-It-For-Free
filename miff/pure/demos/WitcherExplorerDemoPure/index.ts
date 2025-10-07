@@ -189,7 +189,7 @@ export class WitcherExplorerDemo {
     };
 
     return {
-      combat: new CombatEngine(typeChart),
+      combat: new CombatEngine(),
       items: new ItemUsageManager(playerContext),
       quests: {},
       teams: new TeamManager(),
