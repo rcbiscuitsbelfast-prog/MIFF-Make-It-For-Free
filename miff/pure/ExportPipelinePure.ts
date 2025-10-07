@@ -629,7 +629,7 @@ export class ExportPipelinePure {
         ? (renderPayload as any).renderData.filter((d: any) => d?.type === 'mesh').length
         : 0
     );
-    const dataCount = renderPayload.renderData?.length || 0;
+    const dataCount = (renderPayload as any).renderData?.length || 0;
     
     // Base performance
     let fps = 60;

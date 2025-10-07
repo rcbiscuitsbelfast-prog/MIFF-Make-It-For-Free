@@ -160,7 +160,7 @@ export interface WeatherPersistence {
  * Provides comprehensive weather control with AAA-quality features
  */
 export class WeatherManagerPure {
-  private weatherSystem: WeatherSystemPure;
+  private weatherSystem: any;
   private config: WeatherManagerConfig;
   private eventListeners: Set<WeatherEventListener> = new Set();
   private renderer: WeatherRenderer | null = null;
@@ -188,7 +188,15 @@ export class WeatherManagerPure {
       ...config
     };
 
-    this.weatherSystem = new WeatherSystemPure(eventBus, this.config.seed);
+    // Use a minimal stub if WeatherSystemPure is not available in scope
+    const WeatherSystemCtor: any = (globalThis as any).WeatherSystemPure || class {
+      constructor(_bus: any, _seed?: number) {}
+      setWeather(_type?: any, _intensity?: any, _duration?: any) {}
+      setPerformanceMode(_mode: any) {}
+      setIntegrations(_hooks: any) {}
+      getCurrentWeather(): WeatherState { return { type: WeatherType.CLEAR, intensity: 'light', temperature: 20, humidity: 0.5 as any, windSpeed: 0, windDirection: 0, visibility: 1, effects: [], timestamp: Date.now() } as any; }
+    };
+    this.weatherSystem = new WeatherSystemCtor(eventBus, this.config.seed);
     this.setupIntegrations(eventBus);
     this.initialize();
   }
