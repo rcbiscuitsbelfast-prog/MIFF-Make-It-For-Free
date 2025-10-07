@@ -132,9 +132,9 @@ export interface ILogFilter {
 }
 
 export interface IBattleAction {
-  actorId: string;
+  actorId: number;
   actionType: string;
-  targetId: string;
+  targetId: number;
   moveId?: string;
   itemId?: string;
   parameters: Record<string, any>;
@@ -1420,8 +1420,8 @@ export class LogUtils {
   }
 
   static createBattleSummary(entries: BattleLogEntry[]): string {
-    const damageEntries = entries.filter(e => e.actionType === 'damage' && e.damage && e.damage > 0);
-    const totalDamage = damageEntries.reduce((sum, entry) => sum + (entry.damage || 0), 0);
+    const damageEntries = entries.filter(e => e.actionType === 'damage' && e.damageDealt && e.damageDealt > 0);
+    const totalDamage = damageEntries.reduce((sum, entry) => sum + (entry.damageDealt || 0), 0);
     const uniqueActors = new Set(entries.map(e => e.actorId));
     const phases = [...new Set(entries.map(e => e.phase))];
 
