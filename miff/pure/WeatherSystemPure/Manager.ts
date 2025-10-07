@@ -35,13 +35,7 @@ export enum WeatherType {
 /**
  * Weather intensity levels
  */
-export enum WeatherIntensity {
-  NONE = 0,
-  LIGHT = 1,
-  MODERATE = 2,
-  HEAVY = 3,
-  EXTREME = 4
-}
+export type WeatherIntensity = 'none' | 'light' | 'moderate' | 'heavy' | 'extreme';
 
 /**
  * Weather effect interface
@@ -60,14 +54,15 @@ export interface WeatherEffect {
  * Weather state interface
  */
 export interface WeatherState {
-  current: WeatherType;
+  type: WeatherType;
   intensity: WeatherIntensity;
   temperature: number;
   humidity: number;
   windSpeed: number;
   windDirection: number;
   visibility: number;
-  effects: WeatherEffect[];
+  effects: Array<WeatherEffect & Partial<{ visibility: number; lightningFrequency: number }>>;
+  duration?: number;
   timestamp: number;
 }
 
@@ -298,11 +293,12 @@ export class WeatherManagerPure {
   private handleWeatherChange(oldWeather: WeatherState, newWeather: WeatherState): void {
     // Update renderer if available
     if (this.renderer) {
-      this.renderer.updateVisibility(newWeather.effects.visibility);
+      const visibility = (Array.isArray(newWeather.effects) ? undefined : undefined) ?? (newWeather as any).visibility ?? 1;
+      this.renderer.updateVisibility(visibility);
       this.renderer.updateParticles(newWeather.type, newWeather.intensity);
       this.renderer.updateLighting(
         this.calculateLightLevel(newWeather),
-        newWeather.effects.lightningFrequency > 0.5
+        ((newWeather as any).lightningFrequency ?? 0) > 0.5
       );
       this.renderer.updateAudio(newWeather.type, newWeather.intensity);
     }
@@ -316,7 +312,7 @@ export class WeatherManagerPure {
     this.lastWeatherState = newWeather;
 
     // Clear forecast cache when weather changes significantly
-    if (oldWeather.type !== newWeather.type) {
+    if ((oldWeather as any).type !== (newWeather as any).type) {
       this.forecastCache.clear();
     }
 

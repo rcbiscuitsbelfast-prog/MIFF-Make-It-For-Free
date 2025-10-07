@@ -479,8 +479,8 @@ export class ExportPipelinePure {
         version: config.version || '1.0.0',
         timestamp: new Date().toISOString(),
         fileCount: (renderPayload.renderData?.length || 0) + 
-                  (renderPayload.textures?.length || 0) + 
-                  (renderPayload.meshes?.length || 0),
+                  (((renderPayload as any).textures?.length) ?? 0) + 
+                  (((renderPayload as any).meshes?.length) ?? 0),
         totalSize
       };
       
@@ -523,8 +523,8 @@ export class ExportPipelinePure {
     exportResult: ExportResult
   ): Promise<ExportAnalytics> {
     // Calculate real asset counts
-    const totalAssets = (renderPayload.textures?.length || 0) +
-                       (renderPayload.meshes?.length || 0) +
+    const totalAssets = (((renderPayload as any).textures?.length) ?? 0) +
+                       (((renderPayload as any).meshes?.length) ?? 0) +
                        (renderPayload.materials?.length || 0) +
                        (renderPayload.renderData?.length || 0);
 
@@ -619,8 +619,16 @@ export class ExportPipelinePure {
     loadTime: number;
   } {
     // Calculate based on content complexity
-    const textureCount = renderPayload.textures?.length || 0;
-    const meshCount = renderPayload.meshes?.length || 0;
+    const textureCount = ((renderPayload as any).textures?.length) ?? (
+      Array.isArray((renderPayload as any).renderData)
+        ? (renderPayload as any).renderData.filter((d: any) => d?.type === 'texture').length
+        : 0
+    );
+    const meshCount = ((renderPayload as any).meshes?.length) ?? (
+      Array.isArray((renderPayload as any).renderData)
+        ? (renderPayload as any).renderData.filter((d: any) => d?.type === 'mesh').length
+        : 0
+    );
     const dataCount = renderPayload.renderData?.length || 0;
     
     // Base performance
