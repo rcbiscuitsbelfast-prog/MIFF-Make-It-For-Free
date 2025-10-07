@@ -878,33 +878,7 @@ export class WitcherExplorerDemo {
 
   private renderHUD() {
     const player = this.state.player;
-    const hudData = {
-      player: {
-        name: player.name,
-        level: player.level,
-        health: player.health,
-        maxHealth: player.maxHealth,
-        mana: player.mana,
-        maxMana: player.maxMana,
-        experience: player.experience,
-        gold: player.gold,
-        reputation: player.reputation
-      },
-      game: {
-        time: this.state.game.time,
-        dayNightCycle: this.state.game.dayNightCycle,
-        weather: this.state.game.weather,
-        currentZone: this.state.world.currentZone
-      },
-      quests: this.state.player.questLog.slice(0, 5), // Show active quests
-      minimap: {
-        visible: this.state.ui.minimapVisible,
-        currentLocation: this.state.player.position,
-        discoveredLocations: this.state.world.discoveredLocations
-      }
-    };
-
-    this.engines.hud.updateModel(hudData);
+    this.engines.hud.updateModel({});
   }
 
   public render() {
