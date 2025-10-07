@@ -374,7 +374,7 @@ export class IdleManagerPure {
           if (!generator.unlocked) return;
 
           // Calculate optimal level based on efficiency and cost
-          const efficiency = this.getGeneratorEfficiency(generatorId);
+          const efficiency = this.generatorManager.getGeneratorEfficiency(generatorId);
           const cost = generator.currentCost;
           const availableCurrency = currencyResource.currentAmount;
 
@@ -418,26 +418,28 @@ export class IdleManagerPure {
    * Create upgrade manager
    */
   private createUpgradeManager(): UpgradeManager {
+    const calcUpgradeValue = (upgradeId: string, level: number) => {
+      const upgrade: any = this.idleSystem.getResource(upgradeId);
+      if (!upgrade) return 0;
+      const currentLevel = (upgrade as any).currentLevel ?? 0;
+      return currentLevel > 0 ? level / currentLevel : level;
+    };
+
     return {
       getOptimalUpgradeOrder: () => {
         const upgradeList: Array<any> = Array.from(this.idleSystem.getResources().values());
 
         return upgradeList
-          .filter(u => u.unlocked && u.currentLevel < u.maxLevel)
-          .sort((a, b) => {
-            const valueA = this.calculateUpgradeValue(a.id, a.currentLevel + 1);
-            const valueB = this.calculateUpgradeValue(b.id, b.currentLevel + 1);
+          .filter((u: any) => (u as any).unlocked && (u as any).currentLevel < (u as any).maxLevel)
+          .sort((a: any, b: any) => {
+            const valueA = calcUpgradeValue((a as any).id, (a as any).currentLevel + 1);
+            const valueB = calcUpgradeValue((b as any).id, (b as any).currentLevel + 1);
             return valueB - valueA;
           })
-          .map(u => u.id);
+          .map((u: any) => (u as any).id);
       },
 
-      calculateUpgradeValue: (upgradeId: string, level: number) => {
-        const upgrade: any = this.idleSystem.getResource(upgradeId);
-        if (!upgrade) return 0;
-        const currentLevel = (upgrade as any).currentLevel ?? 0;
-        return currentLevel > 0 ? level / currentLevel : level;
-      },
+      calculateUpgradeValue: calcUpgradeValue,
 
       getUpgradeRecommendations: (budget: number) => {
         // Simplified recommendations
@@ -495,36 +497,34 @@ export class IdleManagerPure {
    * Create prestige manager
    */
   private createPrestigeManager(): PrestigeManager {
+    const canPrestigeFn = (tier: string) => {
+      const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
+      const config: any = prestigeConfigs.get(tier);
+      if (!config || !config.unlocked || config.completed) return false;
+      const currencyResource: any = this.idleSystem.getResource('currency');
+      return currencyResource ? currencyResource.currentAmount >= (config as any).requirement : false;
+    };
+
+    const calculatePrestigeValueFn = (tier: string) => {
+      const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
+      const config: any = prestigeConfigs.get(tier);
+      return config ? (config as any).multiplier : 1;
+    };
+
     return {
-      canPrestige: (tier: string) => {
-        const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-        const config = prestigeConfigs.get(tier);
-        if (!config || !config.unlocked || config.completed) return false;
-
-        const currencyResource = this.idleSystem.getResource('currency');
-        return currencyResource ? currencyResource.currentAmount >= config.requirement : false;
-      },
-
-      calculatePrestigeValue: (tier: string) => {
-        const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-        const config = prestigeConfigs.get(tier);
-        return config ? config.multiplier : 1;
-      },
-
+      canPrestige: canPrestigeFn,
+      calculatePrestigeValue: calculatePrestigeValueFn,
       getOptimalPrestigeTiming: () => {
         const prestigeConfigs = this.idleSystem.getPrestigeConfigs();
-
         for (const [tier, config] of prestigeConfigs) {
-          if (this.canPrestige(tier) && !config.completed) {
+          if (canPrestigeFn(tier) && !(config as any).completed) {
             return tier;
           }
         }
-
         return null;
       },
-
       predictPrestigeBenefits: (tier: string) => {
-        const value = this.calculatePrestigeValue(tier);
+        const value = calculatePrestigeValueFn(tier);
         const totalProduction = this.idleSystem.getTotalProduction();
         return totalProduction * (value - 1);
       }
