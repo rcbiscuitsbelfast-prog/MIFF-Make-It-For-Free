@@ -612,7 +612,7 @@ export class IdleSystemPure {
     if (this.config.saveInterval > 0) {
       this.autoSaveInterval = setInterval(() => {
         this.saveGame();
-      }, this.config.saveInterval * 1000);
+      }, this.config.saveInterval * 1000) as unknown as number;
     }
   }
 
