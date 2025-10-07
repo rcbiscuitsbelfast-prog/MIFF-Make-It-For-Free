@@ -454,15 +454,15 @@ export class ExportPipelinePure {
       }
       
       // Calculate size from textures
-      if (renderPayload.textures) {
-        totalSize += renderPayload.textures.reduce((sum, texture) => {
+      if ((renderPayload as any).textures) {
+        totalSize += (renderPayload as any).textures.reduce((sum: number, texture: any) => {
           return sum + (texture.size ? texture.size.width * texture.size.height * 4 : 0); // 4 bytes per pixel
         }, 0);
       }
       
       // Calculate size from meshes
-      if (renderPayload.meshes) {
-        totalSize += renderPayload.meshes.reduce((sum, mesh) => {
+      if ((renderPayload as any).meshes) {
+        totalSize += (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
           return sum + (mesh.vertices ? mesh.vertices * 12 : 0); // 12 bytes per vertex (3 floats * 4 bytes)
         }, 0);
       }
@@ -559,15 +559,15 @@ export class ExportPipelinePure {
     let rawSize = 0;
     
     // Calculate raw texture size
-    if (renderPayload.textures) {
-      rawSize += renderPayload.textures.reduce((sum, texture) => {
+    if ((renderPayload as any).textures) {
+      rawSize += (renderPayload as any).textures.reduce((sum: number, texture: any) => {
         return sum + (texture.size ? texture.size.width * texture.size.height * 4 : 0);
       }, 0);
     }
     
     // Calculate raw mesh size
-    if (renderPayload.meshes) {
-      rawSize += renderPayload.meshes.reduce((sum, mesh) => {
+    if ((renderPayload as any).meshes) {
+      rawSize += (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
         return sum + (mesh.vertices ? mesh.vertices * 12 : 0); // 12 bytes per vertex
       }, 0);
     }
@@ -584,8 +584,8 @@ export class ExportPipelinePure {
     let savings = 0;
     
     // Texture optimization savings
-    if (renderPayload.textures) {
-      const textureSavings = renderPayload.textures.reduce((sum, texture) => {
+    if ((renderPayload as any).textures) {
+      const textureSavings = (renderPayload as any).textures.reduce((sum: number, texture: any) => {
         if (texture.size && (texture.size.width > 1024 || texture.size.height > 1024)) {
           return sum + (texture.size.width * texture.size.height * 0.3); // 30% savings for large textures
         }
@@ -595,8 +595,8 @@ export class ExportPipelinePure {
     }
     
     // Mesh optimization savings
-    if (renderPayload.meshes) {
-      const meshSavings = renderPayload.meshes.reduce((sum, mesh) => {
+    if ((renderPayload as any).meshes) {
+      const meshSavings = (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
         if (mesh.vertices && mesh.vertices > 1000) {
           return sum + (mesh.vertices * 0.2); // 20% savings for complex meshes
         }
