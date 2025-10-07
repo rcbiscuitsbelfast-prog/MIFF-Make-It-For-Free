@@ -779,20 +779,22 @@ export class IdleManagerPure {
  */
 function optimizeResourceDistribution(resources: Map<string, Resource>, generators: Map<string, Generator>): void {
   // Balance resource generation based on consumption
-  generators.forEach((generator, generatorId) => {
-    if (generator.consumesResource) {
-      const consumedResource = resources.get(generator.consumesResource);
-      const producedResource = resources.get(generator.producesResource);
+  generators.forEach((gen: any) => {
+    const consumesId = (gen as any).consumesResource as string | undefined;
+    const producesId = (gen as any).producesResource as string | undefined;
+    if (!consumesId || !producesId) return;
 
-      if (consumedResource && producedResource) {
-        // Adjust production based on consumption rates
-        const consumptionRate = generator.owned * 0.1; // Simplified
-        const productionRate = generator.baseProduction * generator.owned;
+    const consumedResource = resources.get(consumesId);
+    const producedResource = resources.get(producesId);
 
-        // Balance if consumption exceeds production
-        if (consumptionRate > productionRate) {
-          // Could trigger optimization events
-        }
+    if (consumedResource && producedResource) {
+      const owned = (gen as any).owned ?? 0;
+      const baseProduction = (gen as any).baseProduction ?? 0;
+      // Adjust production based on consumption rates (simplified)
+      const consumptionRate = owned * 0.1;
+      const productionRate = baseProduction * owned;
+      if (consumptionRate > productionRate) {
+        // Hook for future optimization actions
       }
     }
   });
@@ -803,10 +805,11 @@ function optimizeResourceDistribution(resources: Map<string, Resource>, generato
  */
 function optimizeGeneratorProduction(resources: Map<string, Resource>): void {
   // Optimize based on resource availability
-  resources.forEach((resource, resourceId) => {
-    if (resource.maxAmount && resource.currentAmount >= resource.maxAmount * 0.9) {
-      // Resource is nearly full, reduce production of that resource
-      // This would trigger optimization events in a full implementation
+  resources.forEach((res: any) => {
+    const maxAmount = (res as any).maxAmount ?? 0;
+    const current = (res as any).currentAmount ?? (res as Resource).amount ?? 0;
+    if (maxAmount && current >= maxAmount * 0.9) {
+      // Resource is nearly full; in a full impl we would scale down producers
     }
   });
 }
@@ -816,13 +819,14 @@ function optimizeGeneratorProduction(resources: Map<string, Resource>): void {
  */
 function calculateResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
   let production = 0;
-
-  generators.forEach((generator, generatorId) => {
-    if (generator.producesResource === resourceId && generator.owned > 0) {
-      production += generator.baseProduction * generator.owned;
+  generators.forEach((gen: any) => {
+    const produces = (gen as any).producesResource;
+    const owned = (gen as any).owned ?? 0;
+    const baseProduction = (gen as any).baseProduction ?? 0;
+    if (produces === resourceId && owned > 0) {
+      production += baseProduction * owned;
     }
   });
-
   return production;
 }
 
@@ -831,13 +835,14 @@ function calculateResourceProduction(resourceId: string, generators: Map<string,
  */
 function calculateMaxResourceProduction(resourceId: string, generators: Map<string, Generator>): number {
   let maxProduction = 0;
-
-  generators.forEach((generator, generatorId) => {
-    if (generator.producesResource === resourceId) {
-      maxProduction += generator.baseProduction * (generator.maxOwned || 1000);
+  generators.forEach((gen: any) => {
+    const produces = (gen as any).producesResource;
+    const baseProduction = (gen as any).baseProduction ?? 0;
+    const maxOwned = (gen as any).maxOwned ?? 1000;
+    if (produces === resourceId) {
+      maxProduction += baseProduction * maxOwned;
     }
   });
-
   return maxProduction;
 }
 
