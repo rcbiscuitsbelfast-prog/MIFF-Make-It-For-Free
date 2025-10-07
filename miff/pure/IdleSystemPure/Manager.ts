@@ -468,25 +468,25 @@ export class IdleManagerPure {
       getNextAchievements: () => {
         const achievements = this.idleSystem.getAchievements();
         return Array.from(achievements.values())
-          .filter(a => !a.unlocked && a.progress < a.maxProgress)
-          .sort((a, b) => a.progress / a.maxProgress - b.progress / b.maxProgress)
+          .filter((a: any) => !(a as any).unlocked && (a as any).progress < (a as any).maxProgress)
+          .sort((a: any, b: any) => (a as any).progress / (a as any).maxProgress - (b as any).progress / (b as any).maxProgress)
           .slice(0, 3)
-          .map(a => a.id);
+          .map((a: any) => (a as any).id);
       },
 
       predictAchievementTime: (achievementId: string) => {
-        const achievement = this.idleSystem.getAchievements().get(achievementId);
-        if (!achievement || achievement.unlocked) return 0;
+        const achievement: any = this.idleSystem.getAchievements().get(achievementId);
+        if (!achievement || (achievement as any).unlocked) return 0;
 
-        const progressRate = this.calculateProgressRate(achievement);
-        const remaining = achievement.maxProgress - achievement.progress;
+        const progressRate = (this as any).calculateProgressRate(achievement);
+        const remaining = (achievement as any).maxProgress - (achievement as any).progress;
 
         return progressRate > 0 ? remaining / progressRate : Infinity;
       },
 
       getAchievementRewards: (achievementId: string) => {
-        const achievement = this.idleSystem.getAchievements().get(achievementId);
-        return achievement ? [achievement.reward] : [];
+        const achievement: any = this.idleSystem.getAchievements().get(achievementId);
+        return achievement ? [((achievement as any).reward)] : [];
       }
     };
   }
