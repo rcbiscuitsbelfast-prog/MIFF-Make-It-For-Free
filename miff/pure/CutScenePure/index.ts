@@ -667,7 +667,7 @@ export class CutScenePure {
   private config: CutSceneConfig;
   private state: CutSceneState;
   private definition: CutSceneDefinition;
-  private engines: CutSceneEngine;
+  private engines: CutSceneEngineDeps;
   private actionQueue: CutSceneAction[];
   private eventListeners: Map<string, Function> = new Map();
   private onCompleteCallback: ((result: any) => void) | null = null;

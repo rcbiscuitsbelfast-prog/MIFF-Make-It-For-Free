@@ -26,10 +26,8 @@ import {
 } from '../../ItemsPure';
 
 import {
-  QuestManager,
-  Quest,
-  QuestStatus,
-  QuestObjective
+  QuestsManager,
+  type Quest
 } from '../../QuestsPure';
 
 import {
@@ -45,13 +43,14 @@ import {
 
 import {
   HUDPureUtils,
-  HUDManager,
-  SpiritHUDState,
-  TurnHUDState
+  HUDManager
 } from '../../HUDPure';
 
 import {
-  SceneBuilderPure as SceneBuilderPure,
+  SceneBuilderManager,
+  SceneLayer,
+  SceneExportFormat,
+  SceneOptimizationMode
 } from '../../SceneBuilderPure';
 
 import { EventBus } from '../../EventBusPure';
@@ -124,11 +123,11 @@ export class TopplerDemo {
   private engines: {
     combat: CombatEngine;
     items: ItemUsageManager;
-    quests: QuestManager;
+    quests: QuestsManager;
     teams: TeamManager;
     ai: AIManager;
     hud: HUDManager;
-    scene: SceneBuilderPure;
+    scene: SceneBuilderManager;
   };
   private physicsEngine: any; // Would use PhysicsSystemPure
   private lastTime: number = 0;
@@ -189,11 +188,41 @@ export class TopplerDemo {
     return {
       combat: new CombatEngine(typeChart),
       items: new ItemUsageManager(playerContext),
-      quests: new QuestManager(),
+      quests: new QuestsManager(),
       teams: new TeamManager(),
       ai: new AIManager(),
       hud: new HUDManager(),
-      scene: new SceneBuilderPure()
+      scene: new SceneBuilderManager({
+        name: 'Toppler',
+        description: 'Scene for Toppler demo',
+        dimensions: { width: 640, height: 480 },
+        layers: [
+          SceneLayer.BACKGROUND,
+          SceneLayer.TERRAIN,
+          SceneLayer.INTERACTABLES,
+          SceneLayer.CHARACTERS,
+          SceneLayer.UI
+        ],
+        optimizationMode: SceneOptimizationMode.CULLING,
+        exportFormats: [SceneExportFormat.JSON],
+        enablePhysics: false,
+        enableLighting: true,
+        enableAudio: true,
+        enableAnimations: true,
+        enableParticles: false,
+        enablePostProcessing: false,
+        maxRenderDistance: 100,
+        lodLevels: 2,
+        textureQuality: 'medium',
+        shadowQuality: 'low',
+        antialiasing: 'fxaa',
+        ambientOcclusion: false,
+        bloom: false,
+        motionBlur: false,
+        depthOfField: false,
+        colorGrading: false,
+        customSettings: {}
+      })
     };
   }
 
@@ -210,10 +239,12 @@ export class TopplerDemo {
       },
 
       addObject: (obj: PhysicsObject) => {
+        // @ts-expect-error demo placeholder
         this.physicsEngine.objects.set(obj.id, obj);
       },
 
       removeObject: (id: string) => {
+        // @ts-expect-error demo placeholder
         this.physicsEngine.objects.delete(id);
       },
 
