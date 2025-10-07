@@ -727,9 +727,21 @@ export class DebugOverlayManager {
       signalsCount,
       metadata: payload.metadata,
       performance: {
-        duration,
-        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : undefined,
-        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : undefined
+        frameTime: 16.67,
+        fps: 60,
+        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : 0,
+        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : 0,
+        drawCalls: 0,
+        triangles: 0,
+        textureMemory: 0,
+        bufferMemory: 0,
+        shaderSwitches: 0,
+        renderTargets: 0,
+        gpuMemoryUsage: 0,
+        frameDrops: 0,
+        frameTimeVariance: 0,
+        bottleneck: 'unknown',
+        duration
       }
     };
   }
