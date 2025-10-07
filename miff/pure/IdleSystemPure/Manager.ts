@@ -290,13 +290,13 @@ export class IdleManagerPure {
         const generatorList = Array.from(generators.values());
 
         return generatorList
-          .filter((g: any) => g.unlocked)
+          .filter((g: any) => (g as any).unlocked)
           .sort((a: any, b: any) => {
-            const efficiencyA = this.generatorManager.getGeneratorEfficiency(a.id);
-            const efficiencyB = this.generatorManager.getGeneratorEfficiency(b.id);
+            const efficiencyA = this.generatorManager.getGeneratorEfficiency((a as any).id);
+            const efficiencyB = this.generatorManager.getGeneratorEfficiency((b as any).id);
             return efficiencyB - efficiencyA;
           })
-          .map(g => g.id);
+          .map((g: any) => (g as any).id);
       }
     };
   }
@@ -317,24 +317,24 @@ export class IdleManagerPure {
 
         // Sort generators by efficiency
         const sortedGenerators = Array.from(generators.values())
-          .filter(g => g.unlocked && g.producesResource === targetResource)
-          .sort((a, b) => {
-            const roiA = this.generatorManager.predictGeneratorROI(a.id, 60);
-            const roiB = this.generatorManager.predictGeneratorROI(b.id, 60);
+          .filter((g: any) => (g as any).unlocked && (g as any).producesResource === targetResource)
+          .sort((a: any, b: any) => {
+            const roiA = this.generatorManager.predictGeneratorROI((a as any).id, 60);
+            const roiB = this.generatorManager.predictGeneratorROI((b as any).id, 60);
             return roiB - roiA;
           });
 
         let remainingBudget = budget;
 
-        for (const generator of sortedGenerators) {
-          if (remainingBudget < generator.currentCost) continue;
+        for (const generator of sortedGenerators as any[]) {
+          if (remainingBudget < (generator as any).currentCost) continue;
 
-          const maxAffordable = Math.floor(remainingBudget / generator.currentCost);
+          const maxAffordable = Math.floor(remainingBudget / (generator as any).currentCost);
 
           if (maxAffordable > 0) {
-            this.idleSystem.purchaseGenerator(generator.id, maxAffordable);
-            purchased.push(generator.id);
-            remainingBudget -= generator.currentCost * maxAffordable;
+            this.idleSystem.purchaseGenerator((generator as any).id, maxAffordable);
+            purchased.push((generator as any).id);
+            remainingBudget -= (generator as any).currentCost * maxAffordable;
           }
         }
 
