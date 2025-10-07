@@ -43,7 +43,7 @@ export interface SpeciesEvolutionDataShape {
 // Backward-compatible alias
 export type SpeciesEvolutionData = SpeciesEvolutionDataShape;
 
-export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
+export class SpeciesEvolutionDataImpl implements SpeciesEvolutionDataShape {
   id: string;
   speciesId: string;
   evolutionTargetId: string;
@@ -92,8 +92,8 @@ export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
     return errors;
   }
 
-  clone(): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  clone(): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       this.speciesId,
       this.evolutionTargetId,
       [...this.conditions],
@@ -125,12 +125,12 @@ export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
     };
   }
 
-  static fromJSON(data: Record<string, any>): SpeciesEvolutionData {
+  static fromJSON(data: Record<string, any>): SpeciesEvolutionDataImpl {
     const conditions = data.conditions?.map((c: any) => 
       new EvolutionCondition(c.type, c.intValue, c.stringValue, c.description)
     ) || [];
     
-    return new SpeciesEvolutionData(
+    return new SpeciesEvolutionDataImpl(
       data.speciesId,
       data.evolutionTargetId,
       conditions,
@@ -144,12 +144,12 @@ export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
   }
 
   // Static factory methods
-  static create(speciesId: string, evolutionTargetId: string, conditions: EvolutionCondition[]): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(speciesId, evolutionTargetId, conditions);
+  static create(speciesId: string, evolutionTargetId: string, conditions: EvolutionCondition[]): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(speciesId, evolutionTargetId, conditions);
   }
 
-  static levelEvolution(speciesId: string, evolutionTargetId: string, level: number): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  static levelEvolution(speciesId: string, evolutionTargetId: string, level: number): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       speciesId,
       evolutionTargetId,
       [EvolutionCondition.levelAtLeast(level)],
@@ -157,8 +157,8 @@ export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
     );
   }
 
-  static itemEvolution(speciesId: string, evolutionTargetId: string, itemId: string): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  static itemEvolution(speciesId: string, evolutionTargetId: string, itemId: string): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       speciesId,
       evolutionTargetId,
       [EvolutionCondition.requiresItem(itemId)],
@@ -166,8 +166,8 @@ export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
     );
   }
 
-  static syncEvolution(speciesId: string, evolutionTargetId: string, syncLevel: number): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  static syncEvolution(speciesId: string, evolutionTargetId: string, syncLevel: number): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       speciesId,
       evolutionTargetId,
       [EvolutionCondition.syncAtLeast(syncLevel)],
@@ -340,8 +340,8 @@ export class EvolutionManager {
     };
   }
 
-  getEvolutionChain(speciesId: string): SpeciesEvolutionData[] {
-    const chain: SpeciesEvolutionData[] = [];
+  getEvolutionChain(speciesId: string): SpeciesEvolutionDataShape[] {
+    const chain: SpeciesEvolutionDataShape[] = [];
     let currentSpecies = speciesId;
     
     while (currentSpecies) {
@@ -357,14 +357,14 @@ export class EvolutionManager {
     return chain;
   }
 
-  getAvailableEvolutions(spirit: any): SpeciesEvolutionData[] {
+  getAvailableEvolutions(spirit: any): SpeciesEvolutionDataShape[] {
     return Array.from(this.speciesData.values())
       .filter(evolution => evolution.speciesId === spirit.speciesId)
       .filter(evolution => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
   }
 
   private initializeDefaultSpecies(): void {
-    const defaultSpecies: SpeciesEvolutionData[] = [
+    const defaultSpecies: SpeciesEvolutionDataShape[] = [
       {
         id: 'fire_spirit_evolution',
         speciesId: 'fire_spirit',
@@ -392,7 +392,7 @@ export class EvolutionManager {
     });
   }
 
-  public registerSpeciesEvolution(data: SpeciesEvolutionData): void {
+  public registerSpeciesEvolution(data: SpeciesEvolutionDataShape): void {
     if (data && data.speciesId) {
       this.speciesData.set(data.speciesId, { ...data });
     }
@@ -453,7 +453,7 @@ export class EvolutionManager {
     if (!data) return [];
 
     const chain = [speciesId];
-    let currentSpecies = data.evolutionTargetId;
+    let currentSpecies: string | null = data.evolutionTargetId || null;
 
     while (currentSpecies) {
       chain.push(currentSpecies);
@@ -512,7 +512,7 @@ export class EvolutionManager {
     };
   }
 
-  public getAvailableEvolutions(): SpeciesEvolutionData[] {
+  public getAvailableEvolutions(): SpeciesEvolutionDataShape[] {
     return Array.from(this.speciesData.values());
   }
 

@@ -1586,7 +1586,7 @@ export class GodotBridgeManager {
     if (!this.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0];
-    return connection?.status || 'disconnected';
+    return (connection?.status as any) || 'disconnected';
   }
 
   getPerformanceMetrics(): GodotPerformanceMetrics {

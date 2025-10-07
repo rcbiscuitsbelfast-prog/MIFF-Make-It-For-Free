@@ -630,13 +630,4 @@ export class WebBridge {
 }
 
 // Export all types and interfaces
-export {
-  WebBridgeConfig,
-  WebAssemblyConfig,
-  WebAssemblyModule,
-  WebAssemblyFunction,
-  WebAssemblyFunctionParameter,
-  WebAssemblyLocalVariable,
-  WebAssemblyInstruction,
-  WebAssemblyType
-};
+// Types in this module are already exported via interfaces above; avoid re-export conflicts
