@@ -553,7 +553,7 @@ export class LogManager {
   private logToConsole(entry: LogEntry): void {
     const timestamp = entry.timestamp.toISOString();
     const levelName = LogLevel[entry.level];
-    const categoryName = LogCategory[entry.category];
+    const categoryName = entry.category;
     
     const logMessage = `[${timestamp}] ${levelName} [${categoryName}] ${entry.source}: ${entry.message}`;
     
@@ -1298,7 +1298,7 @@ export class BattleLogger {
   }
 
   logPhaseChange(phase: BattlePhase, debugNotes: string, turnNumber?: number): void {
-    const entry = BattleLogEntry.createPhaseEntry(phase, debugNotes, 0, turnNumber);
+    const entry = BattleLogEntry.createPhaseEntry(phase, turnNumber, 0);
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
@@ -1307,7 +1307,11 @@ export class BattleLogger {
   }
 
   logBattleAction(actionType: string, targetId: number, result: string, debugNotes: string, damageDealt?: number, turnNumber?: number): void {
-    const entry = BattleLogEntry.createActionEntry(0, actionType, targetId, result, debugNotes, damageDealt, turnNumber);
+    const entry = BattleLogEntry.createActionEntry(
+      { actorId: 0, moveId: actionType, targetId, debugNotes } as any,
+      { success: result === 'success', damage: damageDealt } as any,
+      turnNumber
+    );
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
@@ -1316,7 +1320,10 @@ export class BattleLogger {
   }
 
   logBattleEffect(effectType: string, targetId: string, debugNotes: string, duration: number = 1, intensity: number = 1, turnNumber?: number): void {
-    const entry = BattleLogEntry.createEffectEntry(effectType, targetId, debugNotes, duration, intensity, turnNumber);
+    const entry = BattleLogEntry.createEffectEntry(
+      { effectType, targetId } as any,
+      turnNumber
+    );
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
