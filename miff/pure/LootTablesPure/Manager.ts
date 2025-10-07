@@ -67,7 +67,7 @@ export interface LootFilter {
 export interface LootOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: LootTable | LootTable[] | LootResult | LootStats;
+  result?: any;
   issues?: string[];
 }
 
