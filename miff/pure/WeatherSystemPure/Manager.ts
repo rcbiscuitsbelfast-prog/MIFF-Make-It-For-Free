@@ -608,12 +608,7 @@ export class WeatherManagerPure {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  WeatherManagerConfig,
-  WeatherEventListener,
-  WeatherRenderer,
-  WeatherPersistence
-};
+// Note: Avoid re-export conflicts; types are already exported above
 
 // ============================================================================
 // DEFAULT EXPORT

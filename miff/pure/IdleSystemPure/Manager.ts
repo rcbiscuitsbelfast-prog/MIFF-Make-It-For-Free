@@ -290,7 +290,7 @@ export class IdleManagerPure {
         const generatorList = Array.from(generators.values());
 
         return generatorList
-          .filter(g => g.unlocked)
+          .filter((g: any) => g.unlocked)
           .sort((a: any, b: any) => {
             const efficiencyA = this.generatorManager.getGeneratorEfficiency(a.id);
             const efficiencyB = this.generatorManager.getGeneratorEfficiency(b.id);
@@ -388,25 +388,25 @@ export class IdleManagerPure {
       },
 
       getGeneratorEfficiency: (generatorId: string) => {
-        const generator = this.idleSystem.getGenerator(generatorId);
+        const generator: any = this.idleSystem.getGenerator(generatorId);
         if (!generator) return 0;
 
-        const production = generator.baseProduction * generator.owned;
-        const cost = generator.currentCost;
+        const production = (generator as any).baseProduction * (generator as any).owned;
+        const cost = (generator as any).currentCost;
         const efficiency = production / cost;
 
         return isNaN(efficiency) ? 0 : efficiency;
       },
 
       predictGeneratorROI: (generatorId: string, timeframe: number) => {
-        const generator = this.idleSystem.getGenerator(generatorId);
+        const generator: any = this.idleSystem.getGenerator(generatorId);
         if (!generator) return 0;
 
         const currentProduction = this.idleSystem.getTotalProduction();
-        const newProduction = currentProduction + (generator.baseProduction * generator.owned);
+        const newProduction = currentProduction + ((generator as any).baseProduction * (generator as any).owned);
         const productionIncrease = newProduction - currentProduction;
 
-        const cost = generator.currentCost;
+        const cost = (generator as any).currentCost;
         const roi = (productionIncrease * timeframe) / cost;
 
         return isNaN(roi) ? 0 : roi;
