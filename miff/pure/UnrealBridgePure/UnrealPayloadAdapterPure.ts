@@ -1,7 +1,8 @@
 // UnrealPayloadAdapterPure - Converts RenderPayloadPure to Unreal-compatible format
 // Schema Version: v1.0
 
-import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure';
+import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure/Manager';
+import { UnrealDataType, type UnrealCollisionChannel, type UnrealReplicationMode, UnrealTickGroup } from './index';
 import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealAssetBridge, UnrealSceneBridge } from './index';
 
 export enum PayloadConversionMode {
