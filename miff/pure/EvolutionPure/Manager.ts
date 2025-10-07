@@ -492,9 +492,7 @@ export class EvolutionManager {
     };
   }
 
-  public getAvailableEvolutions(): SpeciesEvolutionDataShape[] {
-    return Array.from(this.speciesData.values());
-  }
+  // removed duplicate getAvailableEvolutions() implementation
 
   public getEvolutionStats(): EvolutionStats {
     // This would track actual evolution history
