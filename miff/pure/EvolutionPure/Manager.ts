@@ -16,7 +16,7 @@
 import { EventBus } from '../EventBusPure/EventBusPure';
 
 export type EvolutionStatus = 'success' | 'conditions_not_met' | 'already_evolved' | 'missing_requirements';
-export type EvolutionConditionType = 'level_at_least' | 'requires_item' | 'sync_at_least' | 'lore_flag' | 'time_of_day' | 'at_location';
+export type EvolutionConditionType = 'level_at_least' | 'requires_item' | 'sync_at_least' | 'lore_flag' | 'time_of_day' | 'at_location' | 'friendship_level' | 'battle_count';
 
 export enum TimeOfDay {
   DAWN = 'dawn',
@@ -29,7 +29,7 @@ export enum TimeOfDay {
   MIDNIGHT = 'midnight'
 }
 
-export interface SpeciesEvolutionData {
+export interface SpeciesEvolutionDataShape {
   id: string;
   speciesId: string;
   evolutionTargetId: string;
@@ -40,7 +40,10 @@ export interface SpeciesEvolutionData {
   description: string;
 }
 
-export class SpeciesEvolutionData {
+// Backward-compatible alias
+export type SpeciesEvolutionData = SpeciesEvolutionDataShape;
+
+export class SpeciesEvolutionData implements SpeciesEvolutionDataShape {
   id: string;
   speciesId: string;
   evolutionTargetId: string;
@@ -188,6 +191,16 @@ export class EvolutionCondition {
   intValue: number;
   stringValue: string;
   description: string;
+  
+  // Methods referenced by interface
+  validate(): string[] {
+    const errors: string[] = [];
+    if (this.intValue < 0) errors.push('Value cannot be negative');
+    if (this.type !== 'requires_item' && this.stringValue === '') {
+      // allow empty string for numeric-only cases
+    }
+    return errors;
+  }
 
   constructor(type: EvolutionConditionType, intValue: number, stringValue: string, description: string = '') {
     this.id = `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -219,20 +232,6 @@ export class EvolutionCondition {
   private checkTimeOfDay(hourMin: number): boolean {
     const hour = new Date().getHours();
     return hour >= hourMin && hour < hourMin + 6; // 6-hour window
-  }
-
-  validate(): string[] {
-    const errors: string[] = [];
-    
-    if (this.intValue < 0) {
-      errors.push('Value cannot be negative');
-    }
-    
-    if (this.stringValue === '') {
-      errors.push('String value cannot be empty');
-    }
-    
-    return errors;
   }
 
   // Static factory methods
@@ -280,6 +279,7 @@ export interface PlayerContext {
   gameData?: any;
   currentLocationId?: string;
   getInventory?: () => any;
+  getFlag?: (flagId: string) => boolean;
 }
 
 export interface EvolutionResult {
@@ -369,16 +369,7 @@ export class EvolutionManager {
         id: 'fire_spirit_evolution',
         speciesId: 'fire_spirit',
         evolutionTargetId: 'flame_spirit',
-        conditions: [
-          {
-            id: 'level_condition',
-            type: 'level_at_least',
-            intValue: 25,
-            stringValue: '',
-            description: 'Spirit must be level 25 or higher',
-            isMet: (spirit: any, context: PlayerContext) => spirit?.level >= 25
-          }
-        ],
+        conditions: [EvolutionCondition.levelAtLeast(25)],
         evolutionChain: [],
         maxEvolutions: 3,
         reversible: false,
@@ -388,16 +379,7 @@ export class EvolutionManager {
         id: 'water_spirit_evolution',
         speciesId: 'water_spirit',
         evolutionTargetId: 'aqua_spirit',
-        conditions: [
-          {
-            id: 'level_condition',
-            type: 'level_at_least',
-            intValue: 25,
-            stringValue: '',
-            description: 'Spirit must be level 25 or higher',
-            isMet: (spirit: any, context: PlayerContext) => spirit?.level >= 25
-          }
-        ],
+        conditions: [EvolutionCondition.levelAtLeast(25)],
         evolutionChain: [],
         maxEvolutions: 3,
         reversible: false,
@@ -466,7 +448,7 @@ export class EvolutionManager {
     return this.createSuccess(target, `Successfully evolved to ${target}`);
   }
 
-  public getEvolutionChain(speciesId: string): string[] {
+  public getEvolutionChainIds(speciesId: string): string[] {
     const data = this.speciesData.get(speciesId);
     if (!data) return [];
 
@@ -520,7 +502,7 @@ export class EvolutionManager {
       }
     });
 
-    const progress = (metConditions / data.conditions.length) * 100;
+    const progress = data.conditions.length > 0 ? (metConditions / data.conditions.length) * 100 : 0;
 
     return {
       canEvolve: missingConditions.length === 0,

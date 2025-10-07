@@ -686,9 +686,7 @@ export interface UnrealPawnBridge {
   bIsPlayerControlled: boolean;
   bIsPossessed: boolean;
   bIsControlled: boolean;
-  bUseControllerRotationPitch: boolean;
-  bUseControllerRotationRoll: boolean;
-  bUseControllerRotationYaw: boolean;
+  // duplicate declarations removed
   bCanBeBaseForCharacter: boolean;
   bIsCharacter: boolean;
   baseEyeHeight: number;

@@ -339,7 +339,7 @@ export interface WebProjectSettings {
   piContent: string;
   xmlContent: string;
   xhtmlContent: string;
-  svgContent: string;
+  // svgContent duplicated earlier; remove here to avoid duplicate identifier
   mathmlContent: string;
   rssContent: string;
   atomContent: string;

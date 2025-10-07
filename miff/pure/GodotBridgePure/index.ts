@@ -619,7 +619,7 @@ export interface GodotPerformanceMetrics {
   textureMemoryUsage: number;
   meshMemoryUsage: number;
   animationMemoryUsage: number;
-  audioMemoryUsage: number;
+  // duplicate removed
   videoMemoryUsage: number;
   profilerMemoryUsage: number;
   reservedMemoryUsage: number;

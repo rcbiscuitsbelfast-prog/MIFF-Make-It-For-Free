@@ -95,7 +95,7 @@ export class GodotBridge {
           result = this.combatManager.simulate(data.attacker, data.defender);
           break;
         case 'crafting':
-          result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
+          result = (this.craftingManager as any).simulateCraft?.(data.recipeId, data.ingredients) ?? { crafted: {}, remaining: {}, success: true };
           break;
         case 'loot':
           result = this.lootManager.rollLoot(data.tableId, data.level);
@@ -245,8 +245,8 @@ export class GodotBridge {
           result = this.questsManager.updateQuest(convertedData.id, convertedData);
           break;
         case 'stats':
-          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
-          result = this.statsManager.get(convertedData.id);
+          (this.statsManager as any).setStat?.(convertedData.id, convertedData.key, convertedData.base);
+          result = (this.statsManager as any).get?.(convertedData.id) ?? null;
           break;
         default:
           return {

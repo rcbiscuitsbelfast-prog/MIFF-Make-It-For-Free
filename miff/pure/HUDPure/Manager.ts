@@ -40,7 +40,7 @@ export enum HUDTheme {
   MINIMAL = 'minimal'
 }
 
-export enum HUDLayout {
+export enum HUDLayoutEnum {
   DESKTOP = 'desktop',
   TABLET = 'tablet',
   MOBILE = 'mobile',
@@ -96,7 +96,7 @@ export interface HUDAccessibility {
 export interface HUDLayout {
   id: string;
   name: string;
-  type: HUDLayout;
+  type: HUDLayoutEnum;
   elements: string[];
   breakpoints: Record<string, number>;
   responsive: boolean;
@@ -150,7 +150,7 @@ export interface HUDIntegration {
  */
 export interface HUDManagerConfig {
   eventBus: EventBus;
-  config: HUDConfig;
+  config: HUDConfig & { defaultLayout: any };
   integrations: HUDIntegration[];
 }
 
@@ -192,7 +192,14 @@ export class HUDManager {
    */
   private initialize(): void {
     // Set up default layout
-    this.setActiveLayout(this.config.defaultLayout);
+    const defaultLayoutId = typeof (this.config.defaultLayout as any) === 'string'
+      ? (this.config.defaultLayout as any)
+      : HUDLayoutEnum.DESKTOP;
+    if (!this.layouts.has(defaultLayoutId)) {
+      const created = this.createLayout({ id: defaultLayoutId, name: String(defaultLayoutId), type: HUDLayoutEnum.DESKTOP, elements: [], breakpoints: {} } as any);
+      this.layouts.set(defaultLayoutId, created);
+    }
+    this.setActiveLayout(defaultLayoutId);
 
     // Start animation loop
     if (this.config.enableAnimations) {
@@ -424,7 +431,7 @@ export class HUDManager {
     const layout: HUDLayout = {
       id: this.generateId(),
       name: layoutData.name || 'Unnamed Layout',
-      type: layoutData.type || HUDLayout.DESKTOP,
+      type: layoutData.type || HUDLayoutEnum.DESKTOP,
       elements: layoutData.elements || [],
       breakpoints: layoutData.breakpoints || {},
       responsive: layoutData.responsive ?? true,
@@ -763,7 +770,7 @@ export const defaultHUDManager = new HUDManager({
   eventBus: {} as EventBus,
   config: {
     defaultTheme: HUDTheme.DARK,
-    defaultLayout: HUDLayout.DESKTOP,
+    defaultLayout: HUDLayoutEnum.DESKTOP as any,
     enableAnimations: true,
     enableAccessibility: true,
     enableResponsive: true,

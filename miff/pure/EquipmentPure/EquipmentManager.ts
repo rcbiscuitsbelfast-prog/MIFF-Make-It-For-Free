@@ -74,7 +74,7 @@ export interface EquipmentFilter {
 export interface EquipmentOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: EquippedItem | EquipmentStats | StatModifier[] | string;
+  result?: any;
   issues?: string[];
 }
 
@@ -477,7 +477,7 @@ export class EquipmentManager {
    */
   getAllModifiers(): EquipmentOutput {
     const mods = this.getModifiers().result as StatModifier[];
-    const setBonuses = this.getActiveSets().result as { bonuses: SetBonus[] }[];
+    const setBonuses = (this.getActiveSets().result as any[]).filter(Boolean) as { bonuses: SetBonus[] }[];
 
     for (const setData of setBonuses) {
       for (const bonus of setData.bonuses) {
@@ -526,16 +526,16 @@ export class EquipmentManager {
         comparison.differences[prop] = {
           current: currentItem?.[prop as keyof EquippedItem],
           new: newItem[prop as keyof typeof newItem],
-          change: currentItem?.[prop as keyof EquippedItem] ?
-            (newItem[prop as keyof typeof newItem] > currentItem?.[prop as keyof EquippedItem] ? 'upgrade' : 'downgrade') :
+          change: currentItem && newItem && (currentItem as any)[prop] != null && (newItem as any)[prop] != null && typeof (newItem as any)[prop] === 'number' && typeof (currentItem as any)[prop] === 'number' ?
+            (((newItem as any)[prop] as number) > ((currentItem as any)[prop] as number) ? 'upgrade' : 'downgrade') :
             'new'
         };
       }
     }
 
     // Compare modifiers
-    const currentModifiers = currentItem?.modifiers || [];
-    const newModifiers = newItem.modifiers;
+    const currentModifiers = (currentItem?.modifiers || []) as StatModifier[];
+    const newModifiers = (newItem.modifiers || []) as StatModifier[];
 
     for (const newMod of newModifiers) {
       const currentMod = currentModifiers.find(m => m.stat === newMod.stat);
@@ -594,7 +594,6 @@ export class EquipmentManager {
     const totalItems = currentItems.length + 1;
     preview.previewStats.totalItems = totalItems;
     preview.previewStats.averageLevel = currentItems.reduce((acc, item) => acc + item.level, newItem.level) / totalItems;
-    // For preview, we need to replace the item in the same slot, not add to total
     preview.previewStats.totalModifiers = currentItems.reduce((acc, item) => acc + item.modifiers.length, 0) + newItem.modifiers.length;
 
     // Track changes

@@ -1,7 +1,7 @@
 import { NPCsManager, NPC } from '../NPCsPure/Manager';
 import { QuestsManager } from '../QuestsPure/Manager';
 import { CombatManager } from '../CombatCorePure/Manager';
-import { StatsManager } from '../StatsSystemPure/Manager';
+import { EnhancedStatsManager as StatsManager } from '../StatsSystemPure/EnhancedStatsManager';
 import { CraftingManager } from '../CraftingPure/Manager';
 import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';

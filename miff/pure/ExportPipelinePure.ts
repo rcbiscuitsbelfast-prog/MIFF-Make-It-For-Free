@@ -525,8 +525,8 @@ export class ExportPipelinePure {
     // Calculate real asset counts
     const totalAssets = (((renderPayload as any).textures?.length) ?? 0) +
                        (((renderPayload as any).meshes?.length) ?? 0) +
-                       (renderPayload.materials?.length || 0) +
-                       (renderPayload.renderData?.length || 0);
+                       (((renderPayload as any).materials?.length) || 0) +
+                       ((renderPayload as any).renderData?.length || 0);
 
     const totalSize = exportResult.fileSize;
     
