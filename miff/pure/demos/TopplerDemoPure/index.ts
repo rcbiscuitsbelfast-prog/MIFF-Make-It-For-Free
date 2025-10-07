@@ -239,13 +239,11 @@ export class TopplerDemo {
       },
 
       addObject: (obj: PhysicsObject) => {
-        // @ts-expect-error demo placeholder
-        this.physicsEngine.objects.set(obj.id, obj);
+        (this.physicsEngine.objects as Map<string, PhysicsObject>).set(obj.id, obj);
       },
 
       removeObject: (id: string) => {
-        // @ts-expect-error demo placeholder
-        this.physicsEngine.objects.delete(id);
+        (this.physicsEngine.objects as Map<string, PhysicsObject>).delete(id);
       },
 
       checkCollisions: () => {

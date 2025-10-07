@@ -22,7 +22,8 @@ import {
   ItemEffectType,
   ItemUsageManager,
   IPlayerContext,
-  ItemEffect
+  ItemEffect,
+  ItemUtils
 } from '../../ItemsPure';
 
 import {
@@ -48,6 +49,9 @@ import {
 
 import {
   SceneBuilderManager,
+  SceneLayer,
+  SceneExportFormat,
+  SceneOptimizationMode,
 } from '../../SceneBuilderPure';
 
 import { EventBus } from '../../EventBusPure';
@@ -404,18 +408,9 @@ export class SpiritTamerDemo {
 
   private generateItems() {
     const items = [
-      new Item('spirit_crystal', 'Spirit Crystal', ItemType.KEY,
-        'A crystal that captures spirit essence',
-        [new ItemEffect(ItemEffectType.QUEST, { questId: 'taming_trial' })]
-      ),
-      new Item('tamer_gloves', 'Tamer Gloves', ItemType.EQUIPMENT,
-        'Gloves that improve spirit taming success',
-        [new ItemEffect(ItemEffectType.BUFF, { stat: 'taming', value: 20 })]
-      ),
-      new Item('health_potion', 'Health Potion', ItemType.CONSUMABLE,
-        'Restores 50 HP to a spirit',
-        [new ItemEffect(ItemEffectType.HEAL, { value: 50 })]
-      )
+      ItemUtils.createKeyItem('spirit_crystal', 'Spirit Crystal'),
+      ItemUtils.createBuffItem('tamer_gloves', 'Tamer Gloves', 'attack', 30),
+      ItemUtils.createHealItem('health_potion', 'Health Potion', 50)
     ];
 
     items.forEach(item => {

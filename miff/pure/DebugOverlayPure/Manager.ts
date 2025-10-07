@@ -316,11 +316,11 @@ export class DebugOverlayManager {
   private visualizations: DebugVisualization[] = [];
   private autoRefreshTimer?: NodeJS.Timeout;
   // Optional subsystems are stubbed for type safety in this scope
-  private memoryTracker?: MemoryTracker;
-  private frameProfiler?: FrameProfiler;
-  private inputAnalyzer?: InputAnalyzer;
-  private audioAnalyzer?: AudioAnalyzer;
-  private networkMonitor?: NetworkMonitor;
+  private memoryTracker?: InstanceType<typeof DebugOverlayManager._stubs.MemoryTracker>;
+  private frameProfiler?: InstanceType<typeof DebugOverlayManager._stubs.FrameProfiler>;
+  private inputAnalyzer?: InstanceType<typeof DebugOverlayManager._stubs.InputAnalyzer>;
+  private audioAnalyzer?: InstanceType<typeof DebugOverlayManager._stubs.AudioAnalyzer>;
+  private networkMonitor?: InstanceType<typeof DebugOverlayManager._stubs.NetworkMonitor>;
 
   // Stubs to satisfy type references without importing heavy deps
   // These act as minimal interfaces/classes used by this manager
