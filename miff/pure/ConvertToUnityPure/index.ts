@@ -1644,6 +1644,7 @@ export class UnityConverter {
         buildParticleSystemCustomDataError: false
       },
       steps: [],
+      buildSteps: [],
       files: [],
       dependencies: [],
       strippingInfo: {
