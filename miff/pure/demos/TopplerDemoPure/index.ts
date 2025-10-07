@@ -127,7 +127,7 @@ export class TopplerDemo {
     quests: QuestsManager;
     teams: TeamManager;
     ai: AIManager;
-    hud: HUDManager;
+    hud: any;
     scene: SceneBuilderManager;
   };
   private physicsEngine: any; // Would use PhysicsSystemPure

@@ -68,7 +68,7 @@ interface WitcherGameState {
     skills: Record<string, number>;
     equipment: Record<string, Item>;
     inventory: Item[];
-    questLog: Quest[];
+  questLog: any[];
     position: { x: number; y: number };
     stats: {
       strength: number;
@@ -112,7 +112,7 @@ export class WitcherExplorerDemo {
     quests: any;
     teams: TeamManager;
     ai: AIManager;
-    hud: HUDManager;
+    hud: any;
     scene: SceneBuilderManager;
   };
 
@@ -684,7 +684,7 @@ export class WitcherExplorerDemo {
     // Check for available quests
     npc.quests.forEach((questId: string) => {
       const quest = this.engines.quests.getQuest(questId);
-      if (quest && quest.status === QuestStatus.AVAILABLE) {
+      if (quest && quest.status === 'available') {
         EventBus.publish('quest.offered', { quest, npc });
       }
     });
@@ -757,7 +757,7 @@ export class WitcherExplorerDemo {
     }
 
     // Award experience if quest completed
-    if (quest.status === QuestStatus.COMPLETED) {
+    if (quest.status === 'completed') {
       player.experience += quest.rewards.experience;
       player.gold += quest.rewards.gold;
       player.reputation += quest.rewards.reputation;

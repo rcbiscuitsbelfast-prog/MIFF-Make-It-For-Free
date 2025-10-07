@@ -93,7 +93,7 @@ export class SpiritTamerDemo {
     quests: QuestsManager;
     teams: TeamManager;
     ai: AIManager;
-    hud: HUDManager;
+    hud: any;
     scene: SceneBuilderManager;
   };
 
