@@ -647,13 +647,13 @@ export class EvolutionManager {
 
 // EvolutionUtils class
 export class EvolutionUtils {
-  static createLevelEvolutionChain(speciesId: string, levels: number[]): SpeciesEvolutionData[] {
-    const chain: SpeciesEvolutionData[] = [];
+  static createLevelEvolutionChain(speciesId: string, levels: number[]): SpeciesEvolutionDataShape[] {
+    const chain: SpeciesEvolutionDataShape[] = [];
     let currentSpecies = speciesId;
     
     for (let i = 0; i < levels.length; i++) {
       const nextSpecies = `${speciesId}_evo_${i + 1}`;
-      const evolution = SpeciesEvolutionData.levelEvolution(currentSpecies, nextSpecies, levels[i]);
+      const evolution = SpeciesEvolutionDataImpl.levelEvolution(currentSpecies, nextSpecies, levels[i]);
       chain.push(evolution);
       currentSpecies = nextSpecies;
     }
@@ -661,22 +661,22 @@ export class EvolutionUtils {
     return chain;
   }
 
-  static createItemEvolutions(evolutions: Record<string, string>): SpeciesEvolutionData[] {
-    const result: SpeciesEvolutionData[] = [];
+  static createItemEvolutions(evolutions: Record<string, string>): SpeciesEvolutionDataShape[] {
+    const result: SpeciesEvolutionDataShape[] = [];
     
     for (const [speciesId, itemId] of Object.entries(evolutions)) {
-      const evolution = SpeciesEvolutionData.itemEvolution(speciesId, `${speciesId}_evo`, itemId);
+      const evolution = SpeciesEvolutionDataImpl.itemEvolution(speciesId, `${speciesId}_evo`, itemId);
       result.push(evolution);
     }
     
     return result;
   }
 
-  static createSyncEvolutions(evolutions: Record<string, number>): SpeciesEvolutionData[] {
-    const result: SpeciesEvolutionData[] = [];
+  static createSyncEvolutions(evolutions: Record<string, number>): SpeciesEvolutionDataShape[] {
+    const result: SpeciesEvolutionDataShape[] = [];
     
     for (const [speciesId, syncLevel] of Object.entries(evolutions)) {
-      const evolution = SpeciesEvolutionData.syncEvolution(speciesId, `${speciesId}_evo`, syncLevel);
+      const evolution = SpeciesEvolutionDataImpl.syncEvolution(speciesId, `${speciesId}_evo`, syncLevel);
       result.push(evolution);
     }
     
