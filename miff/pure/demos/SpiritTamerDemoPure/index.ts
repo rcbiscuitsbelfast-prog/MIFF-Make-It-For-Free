@@ -565,8 +565,7 @@ export class SpiritTamerDemo {
   private startCombat(playerSpirit: SpiritInstance, enemySpirit: SpiritInstance) {
     this.engines.combat.addCombatant(playerSpirit);
     this.engines.combat.addCombatant(enemySpirit);
-    this.engines.combat.startBattle();
-
+    // Initialize battle state without explicit start method
     EventBus.publish('combat.started', {
       playerSpirit,
       enemySpirit,
