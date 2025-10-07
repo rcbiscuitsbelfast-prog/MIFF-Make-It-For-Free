@@ -340,9 +340,6 @@ export class EvolutionManager {
     };
   }
 
-  // Overloads for getting available evolutions
-  getAvailableEvolutions(): SpeciesEvolutionDataShape[];
-  getAvailableEvolutions(spirit: any): SpeciesEvolutionDataShape[];
   getAvailableEvolutions(spirit?: any): SpeciesEvolutionDataShape[] {
     const all = Array.from(this.speciesData.values());
     if (!spirit) return all;
