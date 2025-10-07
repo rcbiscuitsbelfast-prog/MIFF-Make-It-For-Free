@@ -327,8 +327,8 @@ export class ExportPipelinePure {
     const warnings: string[] = [];
 
     // Preprocess assets
-    if (renderPayload.textures) {
-      for (const texture of renderPayload.textures) {
+    if ((renderPayload as any).textures) {
+      for (const texture of (renderPayload as any).textures) {
         if (texture.size && (texture.size.width > 4096 || texture.size.height > 4096)) {
           warnings.push(`Large texture detected: ${texture.id} (${texture.size.width}x${texture.size.height})`);
         }
@@ -336,8 +336,8 @@ export class ExportPipelinePure {
     }
 
     // Check for potential optimization opportunities
-    if (renderPayload.meshes) {
-      const totalVertices = renderPayload.meshes.reduce((sum, mesh) => sum + (mesh.vertices || 0), 0);
+    if ((renderPayload as any).meshes) {
+      const totalVertices = (renderPayload as any).meshes.reduce((sum: number, mesh: any) => sum + (mesh.vertices || 0), 0);
       if (totalVertices > 100000) {
         warnings.push(`High vertex count detected: ${totalVertices} vertices total`);
       }
