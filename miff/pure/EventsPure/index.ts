@@ -12,19 +12,21 @@
 /**
  * Event listener interface for type-safe event handling
  */
-export interface IEventListener extends Disposable {
+export interface IEventListener {
   readonly topic: string;
   readonly handler: (payload?: any) => void | Promise<void>;
   readonly disposed: boolean;
+  dispose(): void;
 }
 
 /**
  * Async event listener interface for async event handling
  */
-export interface IAsyncEventListener extends Disposable {
+export interface IAsyncEventListener {
   readonly topic: string;
   readonly handler: (payload?: any) => Promise<void>;
   readonly disposed: boolean;
+  dispose(): void;
 }
 
 /**
