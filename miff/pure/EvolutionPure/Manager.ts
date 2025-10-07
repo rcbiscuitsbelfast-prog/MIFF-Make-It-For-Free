@@ -340,10 +340,13 @@ export class EvolutionManager {
     };
   }
 
-  // removed duplicate alt implementation elsewhere
-
-  getAvailableEvolutions(spirit: any): SpeciesEvolutionDataShape[] {
-    return Array.from(this.speciesData.values())
+  // Overloads for getting available evolutions
+  getAvailableEvolutions(): SpeciesEvolutionDataShape[];
+  getAvailableEvolutions(spirit: any): SpeciesEvolutionDataShape[];
+  getAvailableEvolutions(spirit?: any): SpeciesEvolutionDataShape[] {
+    const all = Array.from(this.speciesData.values());
+    if (!spirit) return all;
+    return all
       .filter(evolution => evolution.speciesId === spirit.speciesId)
       .filter(evolution => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
   }
@@ -433,22 +436,17 @@ export class EvolutionManager {
     return this.createSuccess(target, `Successfully evolved to ${target}`);
   }
 
-  public getEvolutionChainIds(speciesId: string): string[] {
+  public getEvolutionChain(speciesId: string): string[] {
     const data = this.speciesData.get(speciesId);
-    if (!data) return [];
-
-    const chain = [speciesId];
+    if (!data) return [speciesId];
+    const chain: string[] = [speciesId];
     let currentSpecies: string | null = data.evolutionTargetId || null;
-
     while (currentSpecies) {
       chain.push(currentSpecies);
       const nextData = this.speciesData.get(currentSpecies);
       currentSpecies = nextData?.evolutionTargetId || null;
-
-      // Prevent infinite loops
-      if (chain.length > 10) break;
+      if (chain.length > 50) break; // safety
     }
-
     return chain;
   }
 
@@ -566,14 +564,7 @@ export class EvolutionManager {
     stringValue: string,
     description: string
   ): EvolutionCondition {
-    return {
-      id: `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      type: type,
-      intValue: intValue,
-      stringValue: stringValue,
-      description: description,
-      isMet: (spirit: any, context: PlayerContext) => this.evaluateCondition(type, intValue, stringValue, spirit, context)
-    };
+    return new EvolutionCondition(type, intValue, stringValue, description);
   }
 
   private evaluateCondition(

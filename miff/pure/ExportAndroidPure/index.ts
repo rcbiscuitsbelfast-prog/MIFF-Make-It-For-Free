@@ -636,6 +636,7 @@ export interface AndroidBuildSummary {
   totalWarnings: number;
   totalMessages: number;
   type: string;
+  buildDate: string;
   buildTarget: string;
   buildTargetGroup: string;
   buildType: string;
