@@ -362,7 +362,9 @@ export class WeatherManagerPure {
    */
   private calculateLightLevel(weather: WeatherState): number {
     const baseLight = this.getBaseLightLevel();
-    const weatherMultiplier = 1 - (1 - weather.effects.visibility) * 0.7;
+    const effects = Array.isArray(weather.effects) ? weather.effects : [];
+    const visibility = (effects[0] as any)?.visibility ?? (weather as any).visibility ?? 1;
+    const weatherMultiplier = 1 - (1 - visibility) * 0.7;
     const intensityMultiplier = this.getIntensityLightMultiplier(weather.intensity);
 
     return Math.max(0.1, Math.min(1.0, baseLight * weatherMultiplier * intensityMultiplier));

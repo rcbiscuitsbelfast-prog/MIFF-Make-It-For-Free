@@ -482,20 +482,20 @@ export class HealthSystemManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities.length }
+          result: JSON.stringify({ entities, total: entities.length })
         };
       
       case 'manifest':
         return {
           op: 'export',
           status: 'ok',
-          result: {
+          result: JSON.stringify({
             schema: 'miff.health.export.v1',
             entities,
-            events: this.events.slice(-100), // Last 100 events
+            events: this.events.slice(-100),
             exportedAt: new Date().toISOString(),
             total: entities.length
-          }
+          })
         };
       
       case 'summary':
@@ -503,7 +503,7 @@ export class HealthSystemManager {
         return {
           op: 'export',
           status: 'ok',
-          result: {
+          result: JSON.stringify({
             summary: stats.result,
             entities: entities.map(entity => ({
               id: entity.id,
@@ -513,17 +513,17 @@ export class HealthSystemManager {
               regeneration: entity.regeneration.length,
               isAlive: entity.currentHp > 0
             }))
-          }
+          })
         };
       
       case 'events':
         return {
           op: 'export',
           status: 'ok',
-          result: {
+          result: JSON.stringify({
             events: this.events,
             total: this.events.length
-          }
+          })
         };
       
       default:

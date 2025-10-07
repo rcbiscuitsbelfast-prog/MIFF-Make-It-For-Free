@@ -1411,7 +1411,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `material_${index}_${Date.now()}`,
             name: `Material_${index}`,
-            type: 'material',
+            type: UnrealDataType.MATERIAL as any,
             packagePath: '/Game/MIFF/Materials',
             assetPath: `/Game/MIFF/Materials/Material_${index}`,
             className: 'Material',
@@ -1475,7 +1475,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `texture_${index}_${Date.now()}`,
             name: `Texture_${index}`,
-            type: 'texture',
+            type: UnrealDataType.TEXTURE as any,
             packagePath: '/Game/MIFF/Textures',
             assetPath: `/Game/MIFF/Textures/Texture_${index}`,
             className: 'Texture2D',
@@ -1541,7 +1541,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `animation_${index}_${Date.now()}`,
             name: `Animation_${index}`,
-            type: 'animation_sequence',
+            type: UnrealDataType.ANIM_SEQUENCE as any,
             packagePath: '/Game/MIFF/Animations',
             assetPath: `/Game/MIFF/Animations/Animation_${index}`,
             className: 'AnimSequence',
@@ -1606,7 +1606,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `particle_${index}_${Date.now()}`,
             name: `Particle_${index}`,
-            type: 'particle_system',
+            type: UnrealDataType.PARTICLE_SYSTEM as any,
             packagePath: '/Game/MIFF/Particles',
             assetPath: `/Game/MIFF/Particles/Particle_${index}`,
             className: 'ParticleSystem',
@@ -1672,7 +1672,7 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `sound_${index}_${Date.now()}`,
             name: `Sound_${index}`,
-            type: 'sound_wave',
+            type: UnrealDataType.SOUND_WAVE as any,
             packagePath: '/Game/MIFF/Sounds',
             assetPath: `/Game/MIFF/Sounds/Sound_${index}`,
             className: 'SoundWave',
