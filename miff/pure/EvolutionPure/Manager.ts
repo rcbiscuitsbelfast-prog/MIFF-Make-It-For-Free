@@ -340,22 +340,7 @@ export class EvolutionManager {
     };
   }
 
-  getEvolutionChain(speciesId: string): SpeciesEvolutionDataShape[] {
-    const chain: SpeciesEvolutionDataShape[] = [];
-    let currentSpecies = speciesId;
-    
-    while (currentSpecies) {
-      const evolution = Array.from(this.speciesData.values())
-        .find(e => e.speciesId === currentSpecies);
-      
-      if (!evolution) break;
-      
-      chain.push(evolution);
-      currentSpecies = evolution.evolutionTargetId;
-    }
-    
-    return chain;
-  }
+  // removed duplicate alt implementation elsewhere
 
   getAvailableEvolutions(spirit: any): SpeciesEvolutionDataShape[] {
     return Array.from(this.speciesData.values())
@@ -693,11 +678,7 @@ export class EvolutionUtils {
       level: 1,
       currentLocationId: locationId,
       getInventory: () => ({}),
-      getFlag: (flagId: string) => false,
-      setFlag: (flagId: string, value: boolean) => {},
-      getCurrentLocation: () => locationId,
-      getTimeOfDay: () => timeOfDay,
-      setTimeOfDay: (time: TimeOfDay) => {}
+      getFlag: (flagId: string) => false
     };
   }
 
