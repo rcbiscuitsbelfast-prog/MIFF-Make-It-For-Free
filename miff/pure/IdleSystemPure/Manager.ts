@@ -853,14 +853,7 @@ function calculateProgressRate(achievement: Achievement): number {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  IdleManagerConfig,
-  ResourceManager,
-  GeneratorManager,
-  UpgradeManager,
-  AchievementManager,
-  PrestigeManager
-};
+// Avoid duplicate re-exports; interfaces are declared above
 
 // ============================================================================
 // DEFAULT EXPORT

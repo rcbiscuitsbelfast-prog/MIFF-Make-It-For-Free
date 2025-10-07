@@ -1307,23 +1307,7 @@ export class IdleSystemPure {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  ResourceType,
-  GeneratorType,
-  UpgradeCategory,
-  PrestigeTier,
-  AchievementType,
-  Resource,
-  Generator,
-  Upgrade,
-  UpgradeEffect,
-  Achievement,
-  AchievementRequirement,
-  AchievementReward,
-  PrestigeConfig,
-  IdleSystemConfig,
-  IdleIntegration
-};
+// Avoid duplicate re-exports that conflict with declarations above
 
 // ============================================================================
 // DEFAULT EXPORT
