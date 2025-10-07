@@ -427,7 +427,7 @@ export class IdleSystemPure {
         id: 'auto_efficiency',
         name: 'Auto Efficiency',
         description: 'Improves auto-clicker production',
-        category: 'efficiency',
+        category: 'automation',
         cost: 500,
         costResource: 'currency',
         maxLevel: 5,

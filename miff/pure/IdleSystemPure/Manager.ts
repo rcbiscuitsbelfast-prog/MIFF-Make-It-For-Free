@@ -730,7 +730,7 @@ export class IdleManagerPure {
     unlockedAchievements: number;
     analyticsEnabled: boolean;
   } {
-    const idleStats = this.idleSystem.getStats();
+    const idleStats: any = this.idleSystem.getStats();
 
     return {
       ...idleStats,
