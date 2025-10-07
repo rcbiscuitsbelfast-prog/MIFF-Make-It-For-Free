@@ -715,18 +715,18 @@ export class ExportPipelinePure {
     let complexity = 0;
     
     // Texture complexity
-    if (renderPayload.textures) {
-      const avgTextureSize = renderPayload.textures.reduce((sum, texture) => {
+    if ((renderPayload as any).textures) {
+      const avgTextureSize = (renderPayload as any).textures.reduce((sum: number, texture: any) => {
         return sum + (texture.size ? texture.size.width * texture.size.height : 0);
-      }, 0) / (renderPayload.textures.length || 1);
+      }, 0) / (((renderPayload as any).textures.length) || 1);
       complexity += Math.min(0.4, avgTextureSize / 1000000); // Normalize to 0-0.4
     }
     
     // Mesh complexity
-    if (renderPayload.meshes) {
-      const avgVertexCount = renderPayload.meshes.reduce((sum, mesh) => {
+    if ((renderPayload as any).meshes) {
+      const avgVertexCount = (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
         return sum + (mesh.vertices || 0);
-      }, 0) / (renderPayload.meshes.length || 1);
+      }, 0) / (((renderPayload as any).meshes.length) || 1);
       complexity += Math.min(0.4, avgVertexCount / 10000); // Normalize to 0-0.4
     }
     
@@ -749,17 +749,17 @@ export class ExportPipelinePure {
 
     switch (engine) {
       case ExportEngine.GODOT:
-        if (payload.renderData?.some(rd => rd.meshes?.some(m => m.vertices > 50000))) {
+    if (payload.renderData?.some(rd => (rd as any).meshes?.some((m: any) => m.vertices > 50000))) {
           warnings.push('High polygon count detected - may impact performance');
         }
         break;
       case ExportEngine.UNITY:
-        if (payload.textures?.some(t => t.size?.width > 8192 || t.size?.height > 8192)) {
+    if (((payload as any).textures)?.some((t: any) => t.size?.width > 8192 || t.size?.height > 8192)) {
           warnings.push('Very large textures detected - consider reducing size');
         }
         break;
       case ExportEngine.WEB:
-        if (payload.renderData?.some(rd => rd.meshes?.some(m => m.vertices > 10000))) {
+    if (payload.renderData?.some(rd => (rd as any).meshes?.some((m: any) => m.vertices > 10000))) {
           issues.push('Mesh too complex for web platform');
         }
         break;
