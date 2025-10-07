@@ -1,7 +1,7 @@
 // UnrealSceneBuilderPure - Scene composition from MIFF data for Unreal Engine
 // Schema Version: v1.0
 
-import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer } from '../SceneBuilderPure';
+import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer, SceneOptimizationMode, SceneExportFormat } from '../SceneBuilderPure';
 import { UnrealBridgeManager, UnrealActorBridge, UnrealSceneBridge, UnrealLevelBridge, UnrealWorldBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';

@@ -265,7 +265,7 @@ export class IdleManagerPure {
         const resources = this.idleSystem.getResources();
         const generators = this.idleSystem.getGenerators();
 
-        resources.forEach((resource, resourceId) => {
+        resources.forEach((resource: any, resourceId: string) => {
           const currentProduction = calculateResourceProduction(resourceId, generators);
           const predictedAmount = resource.currentAmount + (currentProduction * timeframe);
           needs.set(resourceId, Math.max(0, predictedAmount - resource.currentAmount));
@@ -291,7 +291,7 @@ export class IdleManagerPure {
 
         return generatorList
           .filter(g => g.unlocked)
-          .sort((a, b) => {
+          .sort((a: any, b: any) => {
             const efficiencyA = this.generatorManager.getGeneratorEfficiency(a.id);
             const efficiencyB = this.generatorManager.getGeneratorEfficiency(b.id);
             return efficiencyB - efficiencyA;
@@ -370,7 +370,7 @@ export class IdleManagerPure {
 
         if (!currencyResource) return optimalLevels;
 
-        generators.forEach((generator, generatorId) => {
+        generators.forEach((generator: any, generatorId: string) => {
           if (!generator.unlocked) return;
 
           // Calculate optimal level based on efficiency and cost
