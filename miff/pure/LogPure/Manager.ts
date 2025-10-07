@@ -1294,7 +1294,7 @@ export class BattleLogger {
   }
 
   getDamageEntries(): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.actionType === 'damage' && entry.damageDealt && entry.damageDealt > 0);
+    return this.entries.filter(entry => entry.actionType === 'damage' && (entry as any).damageDealt && (entry as any).damageDealt > 0);
   }
 
   logPhaseChange(phase: BattlePhase, debugNotes: string, turnNumber?: number): void {
@@ -1332,9 +1332,14 @@ export class BattleLogger {
   }
 
   logSystemMessage(debugNotes: string, level: LogLevel = LogLevel.INFO, turnNumber?: number): void {
-    const entry = BattleLogEntry.createSystemEntry(debugNotes, level, turnNumber);
+    const entry = BattleLogEntry.createSystemEntry(debugNotes, LogCategory.SYSTEM, level, turnNumber);
     this.entries.push(entry);
-    this.logManager.log(level, `Battle ${this.battleId}: ${entry.debugNotes}`, {
+    const levelMethod = level === LogLevel.DEBUG ? 'debug'
+      : level === LogLevel.WARN ? 'warn'
+      : level === LogLevel.ERROR ? 'error'
+      : level === LogLevel.CRITICAL ? 'critical'
+      : 'info';
+    (this.logManager as any)[levelMethod](`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
       entry: entry
     });
