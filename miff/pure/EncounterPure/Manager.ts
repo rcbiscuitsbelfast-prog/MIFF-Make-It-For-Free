@@ -340,27 +340,15 @@ export class EncounterController {
 
     const area = this.manager.getArea(playerState.currentZone);
     if (!area) {
-      return {
-        success: false,
-        error: `Area not found: ${playerState.currentZone}`
-      };
+      return EncounterResult.failure(`Area not found: ${playerState.currentZone}`);
     }
 
     const encounter = this.manager.triggerEncounter(playerState.currentZone, playerState.level);
     if (!encounter) {
-      return {
-        success: false,
-        message: 'No encounter triggered'
-      };
+      return EncounterResult.failure('No encounter triggered');
     }
 
-    return {
-      success: true,
-      encounterId: encounter.id,
-      spiritId: encounter.id,
-      level: encounter.level,
-      message: encounter.description
-    };
+    return new EncounterResult(true, encounter.id, encounter.id, encounter.level, encounter.description);
   }
 
   /**
