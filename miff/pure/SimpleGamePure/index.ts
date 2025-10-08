@@ -472,7 +472,7 @@ export class SimplePlatformerGame extends SimpleGame {
   }
 
   getCoins(): number { return this.coins; }
-  getPlatforms(): readonly typeof this.platforms { return this.platforms; }
+  getPlatforms(): ReadonlyArray<typeof this.platforms[number]> { return this.platforms as ReadonlyArray<typeof this.platforms[number]>; }
 }
 
 /**

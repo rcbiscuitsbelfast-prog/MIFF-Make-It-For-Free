@@ -150,10 +150,10 @@ export class SettingsManager {
     const merged = { ...defaults };
 
     // Deep merge nested objects
-    for (const [key, value] of Object.entries(loaded)) {
+    for (const [key, value] of Object.entries(loaded as Record<string, any>)) {
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        if (merged[key as keyof SettingsConfig] && typeof merged[key as keyof SettingsConfig] === 'object') {
-          merged[key as keyof SettingsConfig] = { ...(merged[key as keyof SettingsConfig] as any), ...value };
+        if (merged[key as keyof SettingsConfig] && typeof (merged[key as keyof SettingsConfig] as any) === 'object') {
+          (merged as any)[key] = { ...(merged[key as keyof SettingsConfig] as any), ...value };
         } else {
           (merged as any)[key] = value;
         }
@@ -172,12 +172,12 @@ export class SettingsManager {
     this.validationRules.set('showSubtitles', (v) => typeof v === 'boolean');
     this.validationRules.set('graphics.resolution', (v) => typeof v === 'string' && /^\d+x\d+$/.test(v));
     this.validationRules.set('graphics.fullscreen', (v) => typeof v === 'boolean');
-    this.validationRules.set('graphics.textureQuality', (v) => ['low', 'medium', 'high', 'ultra'].includes(v));
+    this.validationRules.set('graphics.textureQuality', (v) => ['low', 'medium', 'high', 'ultra'].includes(v as any));
     this.validationRules.set('controls.mouseSensitivity', (v) => typeof v === 'number' && v >= 0.1 && v <= 5.0);
-    this.validationRules.set('gameplay.difficulty', (v) => ['easy', 'normal', 'hard', 'expert'].includes(v));
-    this.validationRules.set('accessibility.fontSize', (v) => ['small', 'medium', 'large'].includes(v));
-    this.validationRules.set('advanced.loggingLevel', (v) => ['error', 'warn', 'info', 'debug'].includes(v));
-    this.validationRules.set('advanced.performanceMode', (v) => ['quality', 'balanced', 'performance'].includes(v));
+    this.validationRules.set('gameplay.difficulty', (v) => ['easy', 'normal', 'hard', 'expert'].includes(v as any));
+    this.validationRules.set('accessibility.fontSize', (v) => ['small', 'medium', 'large'].includes(v as any));
+    this.validationRules.set('advanced.loggingLevel', (v) => ['error', 'warn', 'info', 'debug'].includes(v as any));
+    this.validationRules.set('advanced.performanceMode', (v) => ['quality', 'balanced', 'performance'].includes(v as any));
   }
 
   private fileExists(path: string): boolean {

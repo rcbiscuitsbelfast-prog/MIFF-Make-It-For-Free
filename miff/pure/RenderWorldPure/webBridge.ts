@@ -680,15 +680,16 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
       cancelAnimationFrame(this.state.animationId);
     }
 
-    if (this.gl) {
+    const gl = this.gl;
+    if (gl) {
       // Clean up WebGL resources
-      this.buffers.forEach(buffer => this.gl.deleteBuffer(buffer));
-      this.textures.forEach(texture => this.gl.deleteTexture(texture));
+      this.buffers.forEach(buffer => gl.deleteBuffer(buffer));
+      this.textures.forEach(texture => gl.deleteTexture(texture));
       this.buffers.clear();
       this.textures.clear();
 
       if (this.shaderProgram) {
-        this.gl.deleteProgram(this.shaderProgram);
+        gl.deleteProgram(this.shaderProgram);
       }
     }
 

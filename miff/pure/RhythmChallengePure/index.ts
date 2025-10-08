@@ -160,7 +160,14 @@ export class RhythmChallengePure {
   private games: Map<string, GameState> = new Map();
   private inputDevices: Map<string, InputDevice> = new Map();
   private timingWindows: TimingWindow[] = [];
-  private calibrationData: CalibrationData;
+  private calibrationData: CalibrationData = {
+    audioLatency: 0,
+    videoLatency: 0,
+    inputLatency: 0,
+    userOffset: 0,
+    lastCalibrated: 0,
+    calibrationScore: 0
+  };
   private audioContext: AudioContext | null = null;
   private metronome: Metronome;
 

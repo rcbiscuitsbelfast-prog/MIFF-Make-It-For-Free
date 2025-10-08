@@ -413,7 +413,7 @@ export class WeatherManagerPure {
     const currentWeather = this.weatherSystem.getCurrentWeather();
 
     // Initialize renderer with current weather
-    const initVis = (Array.isArray(currentWeather.effects) ? (currentWeather.effects.find(e => (e as any).visibility != null) as any)?.visibility : undefined) ?? (currentWeather as any)?.visibility ?? 1;
+    const initVis = (Array.isArray(currentWeather.effects) ? (currentWeather.effects.find((e: any) => (e as any).visibility != null) as any)?.visibility : undefined) ?? (currentWeather as any)?.visibility ?? 1;
     renderer.updateVisibility(initVis);
     renderer.updateParticles(currentWeather.type, currentWeather.intensity);
     renderer.updateLighting(this.calculateLightLevel(currentWeather), false);

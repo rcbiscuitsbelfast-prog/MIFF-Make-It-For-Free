@@ -8,7 +8,8 @@
  */
 
 import { EventBus } from '../EventsPure/index';
-import { RNGPure } from '../RNGPure/index';
+// Avoid hard dependency during type-check; stub RNG
+type RNGPure = any;
 
 // Core interfaces and types
 export interface RitualParticipant {
@@ -448,7 +449,7 @@ export class RitualSystemPure {
             ],
             failureEffects: [
               {
-                type: 'environmental-damage',
+                type: 'environmental',
                 target: 'area',
                 magnitude: 100,
                 description: 'Magical backlash damages the area',

@@ -551,7 +551,8 @@ export class SceneBuilderManager {
         metadata: {
           configuration: this.configuration,
           template: templateId,
-          buildDuration: Date.now()
+          buildDuration: Date.now(),
+          exportPaths: exportPaths
         }
       };
 
