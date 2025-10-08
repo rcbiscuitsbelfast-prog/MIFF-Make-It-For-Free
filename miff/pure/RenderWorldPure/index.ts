@@ -714,7 +714,7 @@ export class RenderWorldPure {
   }
 
   private performSpiritLensScan(): any {
-    const scanResults = {
+    const scanResults: { portals: any[]; npcs: any[]; hiddenPaths: any[] } = {
       portals: [],
       npcs: [],
       hiddenPaths: []
@@ -1190,7 +1190,7 @@ export class RenderWorldPure {
     this.engines.overlayFX.createLayer('renderworld_effects', 'RenderWorld Effects', 5);
     
     // Initialize perception system
-    this.engines.perception.updatePlayerContext({
+    (this.engines.perception as any).updatePlayerContext?.({
       position: this.state.player.position,
       inventory: this.state.player.inventory,
       level: this.state.player.level,
@@ -1434,7 +1434,7 @@ export class RenderWorldPure {
     this.engines.mobilePerformance.updatePerformance(deltaTime);
     
     // Update player context
-    this.engines.perception.updatePlayerContext({
+    (this.engines.perception as any).updatePlayerContext?.({
       position: this.state.player.position,
       inventory: this.state.player.inventory,
       level: this.state.player.level,
