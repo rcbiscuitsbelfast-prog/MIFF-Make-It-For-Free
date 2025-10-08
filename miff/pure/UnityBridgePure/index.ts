@@ -410,7 +410,6 @@ export interface UnityPerformanceMetrics {
   textureMemoryUsage: number;
   meshMemoryUsage: number;
   animationMemoryUsage: number;
-  audioMemoryUsage: number;
   videoMemoryUsage: number;
   profilerMemoryUsage: number;
   reservedMemoryUsage: number;
@@ -644,7 +643,6 @@ export class UnityBridgeManager {
       textureMemoryUsage: 0,
       meshMemoryUsage: 0,
       animationMemoryUsage: 0,
-      audioMemoryUsage: 0,
       videoMemoryUsage: 0,
       profilerMemoryUsage: 0,
       reservedMemoryUsage: 0,

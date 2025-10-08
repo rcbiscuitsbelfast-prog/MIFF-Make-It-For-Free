@@ -87,19 +87,19 @@ export class UnityBridge {
       
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.simulateNPC(data.npcId, data.duration);
+          result = this.npcsManager.simulateNPC(data.npcId as string, data.duration as number);
           break;
         case 'combat':
-          result = this.combatManager.simulate(data.attacker, data.defender);
+          result = this.combatManager.simulate(data.attacker as string, data.defender as string);
           break;
         case 'crafting':
-          result = this.craftingManager.simulateCraft(data.recipeId, data.ingredients);
+          result = this.craftingManager.simulateCraft(data.recipeId as string, data.ingredients as any);
           break;
         case 'loot':
-          result = this.lootManager.rollLoot(data.tableId, data.level);
+          result = this.lootManager.rollLoot(data.tableId as string, data.level as number);
           break;
         case 'economy':
-          result = this.economyManager.calculatePrice(data.itemId, data.quantity);
+          result = this.economyManager.calculatePrice('default_vendor', data.itemId as string, data.quantity as number);
           break;
         default:
           return {
@@ -188,14 +188,14 @@ export class UnityBridge {
       let result: Record<string, unknown>;
       switch (module) {
         case 'npcs':
-          result = this.npcsManager.updateNPC(convertedData.id, convertedData);
+          result = this.npcsManager.updateNPC(convertedData.id as string, convertedData);
           break;
         case 'quests':
-          result = this.questsManager.updateQuest(convertedData.id, convertedData);
+          result = this.questsManager.updateQuest(convertedData.id as string, convertedData);
           break;
         case 'stats':
-          this.statsManager.setStat(convertedData.id, convertedData.key, convertedData.base);
-          result = this.statsManager.get(convertedData.id);
+          this.statsManager.setStat(convertedData.id as string, convertedData.key as string, convertedData.base as number);
+          result = this.statsManager.get(convertedData.id as string);
           break;
         default:
           return {
@@ -222,16 +222,21 @@ export class UnityBridge {
   private createUnityEntity(npc: NPC, config: UnityBridgeConfig): UnityEntity {
     return {
       id: npc.id,
-      gameObject: `GameObject_${npc.id}`,
+      gameObject: {
+        name: `GameObject_${npc.id}`,
+        active: true,
+        layer: 0,
+        tag: 'NPC'
+      },
       transform: {
         position: { x: npc.location.x, y: npc.location.y, z: npc.location.z || 0 },
         rotation: { x: 0, y: 0, z: 0 },
         scale: { x: 1, y: 1, z: 1 }
       },
       components: {
-        NPCController: { npcId: npc.id, behavior: npc.behavior },
-        Transform: { position: npc.location },
-        Stats: { stats: npc.stats }
+        NPCController: { type: 'NPCController', data: { npcId: npc.id, behavior: npc.behavior }, enabled: true },
+        Transform: { type: 'Transform', data: { position: npc.location }, enabled: true },
+        Stats: { type: 'Stats', data: { stats: npc.stats }, enabled: true }
       }
     };
   }
@@ -252,12 +257,17 @@ export class UnityBridge {
   private createCombatEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
     return [
       {
-        id: data.attackerId,
-        gameObject: `Combatant_${data.attackerId}`,
+        id: data.attackerId as string,
+        gameObject: {
+          name: `Combatant_${data.attackerId}`,
+          active: true,
+          layer: 0,
+          tag: 'Combatant'
+        },
         transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
         components: {
-          CombatController: { combatantId: data.attackerId, isAttacker: true },
-          Stats: { stats: data.attackerStats }
+          CombatController: { type: 'CombatController', data: { combatantId: data.attackerId, isAttacker: true }, enabled: true },
+          Stats: { type: 'Stats', data: { stats: data.attackerStats }, enabled: true }
         }
       }
     ];
