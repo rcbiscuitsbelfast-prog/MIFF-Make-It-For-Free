@@ -12,7 +12,8 @@ import {
   FaceConfig, 
   AnimationConfig, 
   ExportConfig,
-  SkeletonState 
+  SkeletonState,
+  Keyframe
 } from './types';
 
 export class ExportIntegration {

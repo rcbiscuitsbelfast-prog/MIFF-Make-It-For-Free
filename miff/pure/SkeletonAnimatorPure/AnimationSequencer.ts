@@ -64,13 +64,14 @@ export class AnimationSequencer {
     walkCycle.forEach((cycleKeyframes, cycleIndex) => {
       const time = (cycleIndex / (walkCycle.length - 1)) * duration;
       cycleKeyframes.forEach(keyframe => {
-        keyframes.push({
+        const kf: Omit<Keyframe, 'time'> = {
           nodeId: keyframe.nodeId,
           transform: keyframe.transform,
           interpolation: keyframe.interpolation,
-          handles: (keyframe as any).handles,
-          time: time
-        });
+          handles: (keyframe as any).handles
+        };
+        // store without time; time computed in createAnimation
+        keyframes.push(kf);
       });
     });
 
