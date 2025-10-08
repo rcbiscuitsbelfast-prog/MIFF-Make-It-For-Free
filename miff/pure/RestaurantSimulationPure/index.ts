@@ -1283,28 +1283,7 @@ export class RestaurantSimulationPure {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  RestaurantType,
-  CustomerType,
-  RestaurantRole,
-  OrderStatus,
-  MenuCategory,
-  IngredientQuality,
-  SatisfactionLevel,
-  RestaurantFacility,
-  MenuItem,
-  IngredientRequirement,
-  CookingMethod,
-  CustomerOrder,
-  OrderItem,
-  RestaurantStaff,
-  Ingredient,
-  KitchenEquipment,
-  RestaurantCustomer,
-  RestaurantStats,
-  RestaurantSystemConfig,
-  RestaurantIntegration
-};
+// Avoid re-export conflicts; types are already exported above
 
 // ============================================================================
 // DEFAULT EXPORT
