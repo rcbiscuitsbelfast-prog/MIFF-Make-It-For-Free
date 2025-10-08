@@ -766,7 +766,7 @@ export class TeleportationSystemPure {
    * Get side effect description
    */
   private getSideEffectDescription(type: TeleportationSideEffect['type']): string {
-    const descriptions = {
+    const descriptions: Record<Exclude<TeleportationSideEffect['type'], 'summon'>, string> = {
       buff: 'You feel energized by the teleportation',
       debuff: 'The teleportation leaves you disoriented',
       damage: 'You suffer minor damage from the teleportation',
@@ -774,7 +774,10 @@ export class TeleportationSystemPure {
       environmental: 'The destination environment affects you'
     };
 
-    return descriptions[type] || 'A mysterious effect occurs';
+    if (type === 'summon') {
+      return 'A mysterious entity appears due to teleportation';
+    }
+    return descriptions[type as Exclude<TeleportationSideEffect['type'], 'summon'>] || 'A mysterious effect occurs';
   }
 
   /**
