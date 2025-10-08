@@ -65,7 +65,10 @@ export class AnimationSequencer {
       const time = (cycleIndex / (walkCycle.length - 1)) * duration;
       cycleKeyframes.forEach(keyframe => {
         keyframes.push({
-          ...keyframe,
+          nodeId: keyframe.nodeId,
+          transform: keyframe.transform,
+          interpolation: keyframe.interpolation,
+          handles: (keyframe as any).handles,
           time: time
         });
       });

@@ -453,7 +453,7 @@ export class ExportIntegration {
 
     // Group keyframes by node
     const nodeKeyframes = new Map<string, Keyframe[]>();
-    anim.keyframes.forEach(kf => {
+    anim.keyframes.forEach((kf: Keyframe) => {
       if (!nodeKeyframes.has(kf.nodeId)) {
         nodeKeyframes.set(kf.nodeId, []);
       }
@@ -461,11 +461,24 @@ export class ExportIntegration {
     });
 
     let samplerIndex = 0;
-    nodeKeyframes.forEach((keyframes, nodeId) => {
-      const times = keyframes.map(kf => kf.time / 1000); // Convert to seconds
-      const positions = keyframes.map(kf => [kf.transform.position.x, kf.transform.position.y, kf.transform.position.z]);
-      const rotations = keyframes.map(kf => [kf.transform.rotation.x, kf.transform.rotation.y, kf.transform.rotation.z, kf.transform.rotation.w]);
-      const scales = keyframes.map(kf => [kf.transform.scale.x, kf.transform.scale.y, kf.transform.scale.z]);
+    nodeKeyframes.forEach((keyframes: Keyframe[], nodeId: string) => {
+      const times = keyframes.map((kf: Keyframe) => (kf.time || 0) / 1000);
+      const positions = keyframes.map((kf: Keyframe) => [
+        Number((kf.transform as any)?.position?.x) || 0,
+        Number((kf.transform as any)?.position?.y) || 0,
+        Number((kf.transform as any)?.position?.z) || 0
+      ]);
+      const rotations = keyframes.map((kf: Keyframe) => [
+        Number((kf.transform as any)?.rotation?.x) || 0,
+        Number((kf.transform as any)?.rotation?.y) || 0,
+        Number((kf.transform as any)?.rotation?.z) || 0,
+        Number((kf.transform as any)?.rotation?.w) || 1
+      ]);
+      const scales = keyframes.map((kf: Keyframe) => [
+        Number((kf.transform as any)?.scale?.x) || 1,
+        Number((kf.transform as any)?.scale?.y) || 1,
+        Number((kf.transform as any)?.scale?.z) || 1
+      ]);
 
       // Position channel
       channels.push({

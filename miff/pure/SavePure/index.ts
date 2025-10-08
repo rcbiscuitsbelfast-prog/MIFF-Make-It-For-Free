@@ -836,7 +836,7 @@ export class SaveMigrator implements ISaveMigrator {
     }
 
     const migrationPath = this.getMigrationPath(currentVersion, target);
-    let currentSnapshot = (snapshot as SaveSnapshot).clone();
+    let currentSnapshot: ISaveSnapshot = (snapshot as SaveSnapshot).clone();
     const warnings: string[] = [];
 
     for (let i = 0; i < migrationPath.length - 1; i++) {
