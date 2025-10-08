@@ -195,19 +195,19 @@ export class RenderWorldWebBridge {
 
     // Get attribute and uniform locations
     this.gl.useProgram(shaderProgram);
-    shaderProgram.aVertexPosition = this.gl.getAttribLocation(shaderProgram, 'aVertexPosition');
-    shaderProgram.aVertexNormal = this.gl.getAttribLocation(shaderProgram, 'aVertexNormal');
-    shaderProgram.aTextureCoord = this.gl.getAttribLocation(shaderProgram, 'aTextureCoord');
+    (shaderProgram as any).aVertexPosition = this.gl.getAttribLocation(shaderProgram as any, 'aVertexPosition');
+    (shaderProgram as any).aVertexNormal = this.gl.getAttribLocation(shaderProgram as any, 'aVertexNormal');
+    (shaderProgram as any).aTextureCoord = this.gl.getAttribLocation(shaderProgram as any, 'aTextureCoord');
 
-    shaderProgram.uModelViewMatrix = this.gl.getUniformLocation(shaderProgram, 'uModelViewMatrix');
-    shaderProgram.uProjectionMatrix = this.gl.getUniformLocation(shaderProgram, 'uProjectionMatrix');
-    shaderProgram.uNormalMatrix = this.gl.getUniformLocation(shaderProgram, 'uNormalMatrix');
-    shaderProgram.uSampler = this.gl.getUniformLocation(shaderProgram, 'uSampler');
-    shaderProgram.uAmbientColor = this.gl.getUniformLocation(shaderProgram, 'uAmbientColor');
-    shaderProgram.uDirectionalColor = this.gl.getUniformLocation(shaderProgram, 'uDirectionalColor');
-    shaderProgram.uDirectionalDirection = this.gl.getUniformLocation(shaderProgram, 'uDirectionalDirection');
-    shaderProgram.uEmissiveColor = this.gl.getUniformLocation(shaderProgram, 'uEmissiveColor');
-    shaderProgram.uEmissiveIntensity = this.gl.getUniformLocation(shaderProgram, 'uEmissiveIntensity');
+    (shaderProgram as any).uModelViewMatrix = this.gl.getUniformLocation(shaderProgram as any, 'uModelViewMatrix');
+    (shaderProgram as any).uProjectionMatrix = this.gl.getUniformLocation(shaderProgram as any, 'uProjectionMatrix');
+    (shaderProgram as any).uNormalMatrix = this.gl.getUniformLocation(shaderProgram as any, 'uNormalMatrix');
+    (shaderProgram as any).uSampler = this.gl.getUniformLocation(shaderProgram as any, 'uSampler');
+    (shaderProgram as any).uAmbientColor = this.gl.getUniformLocation(shaderProgram as any, 'uAmbientColor');
+    (shaderProgram as any).uDirectionalColor = this.gl.getUniformLocation(shaderProgram as any, 'uDirectionalColor');
+    (shaderProgram as any).uDirectionalDirection = this.gl.getUniformLocation(shaderProgram as any, 'uDirectionalDirection');
+    (shaderProgram as any).uEmissiveColor = this.gl.getUniformLocation(shaderProgram as any, 'uEmissiveColor');
+    (shaderProgram as any).uEmissiveIntensity = this.gl.getUniformLocation(shaderProgram as any, 'uEmissiveIntensity');
   }
 
   private createShader(type: number, source: string): WebGLShader | null {

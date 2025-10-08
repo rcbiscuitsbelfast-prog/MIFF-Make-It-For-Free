@@ -18,6 +18,7 @@ import {
 
 import {
   Item,
+  ItemEffect,
   ItemType,
   ItemEffectType,
   ItemUsageManager,
@@ -409,7 +410,7 @@ export class RenderWorldPure {
     };
 
     return {
-      combat: new CombatEngine(typeChart),
+      combat: new CombatEngine(),
       items: new ItemUsageManager(playerContext),
       quests: new QuestsManager(),
       teams: new TeamManager(),
@@ -678,8 +679,8 @@ export class RenderWorldPure {
 
   private setupNPCs() {
     // Initialize NPC AI behaviors
-    Object.values(this.state.world.npcs).forEach(npc => {
-    this.engines.ai.registerBehavior?.(npc.id, {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
+      (this.engines.ai as any).registerBehavior?.(npc.id, {
         type: 'wander',
         parameters: {
           speed: 0.5,
