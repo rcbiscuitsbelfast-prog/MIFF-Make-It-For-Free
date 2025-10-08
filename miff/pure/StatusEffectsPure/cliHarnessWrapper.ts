@@ -5,7 +5,7 @@
  */
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
-import { StatusEffectsManager, StatusEffect, StatusEffectType } from './StatusEffectsManager';
+import { StatusEffectsManager, StatusEffect } from './StatusEffectsManager';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const manager = new StatusEffectsManager();
@@ -15,17 +15,22 @@ try {
     case 'applyStatusEffect': {
       const { targetId, effect, duration, stats } = params;
       
-      const statusEffect: StatusEffect = {
-        id: `${effect}_${Date.now()}`,
-        type: (effect || 'buff') as StatusEffectType,
+      const statusEffect: any = {
+        id: `${effect || 'effect'}_${Date.now()}`,
         name: effect || 'Unknown Effect',
-        duration: duration || 30,
-        stackCount: 1,
-        stats: typeof stats === 'string' ? JSON.parse(stats) : (stats || { attackBoost: 1.5 }),
-        appliedAt: Date.now()
-      };
-      
-      manager.applyEffect(targetId || 'player', statusEffect);
+        type: (effect ? 'buff' : 'neutral'),
+        category: 'custom',
+        magnitude: 1,
+        duration: Number(duration || 30),
+        stackable: true,
+        maxStacks: 10,
+        currentStacks: 1,
+        source: 'cli',
+        appliedAt: Date.now(),
+        expiresAt: Date.now() + 1000 * Number(duration || 30)
+      } as StatusEffect;
+
+      manager.applyEffect(String(targetId || 'player'), statusEffect);
       
       handleSuccess({
         targetId,
@@ -48,7 +53,7 @@ try {
 
     case 'update': {
       const { deltaTime } = params;
-      manager.update(deltaTime || 1);
+      manager.simulateAll();
       handleSuccess({
         deltaTime,
         updated: true

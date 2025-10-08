@@ -78,7 +78,8 @@ export class SplashScreenPure {
   private updateConfig(newConfig: Partial<SplashScreenConfig>): void {
     this.config = { ...this.config, ...newConfig };
     if (this.container) {
-      this.updateVisualElements();
+      // Re-render to apply new config
+      this.renderSplashScreen();
     }
   }
 
