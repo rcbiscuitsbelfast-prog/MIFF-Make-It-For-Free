@@ -166,8 +166,8 @@ export class SocialDeductionManager {
     };
 
     // Prefer real implementation if available; fall back to stub
-    const Impl: any = (typeof SocialDeductionPure !== 'undefined' && SocialDeductionPure) || SocialDeductionPureStub;
-    this.game = new Impl(eventBus);
+    // Use local stub; external impl can be injected in app wiring
+    this.game = new SocialDeductionPureStub(eventBus);
     this.stats = this.initializeStats();
 
     this.setupEventListeners();
@@ -390,9 +390,9 @@ export class SocialDeductionManager {
 
   private checkWinConditions(): void {
     const players = this.game.getPlayers();
-    const alivePlayers = Array.from(players.values()).filter((p: any) => p?.isAlive);
-    const traitors = alivePlayers.filter((p: any) => p.role === ('traitor' as any));
-    const innocents = alivePlayers.filter((p: any) => p.role === ('innocent' as any) || p.role === ('detective' as any));
+    const alivePlayers = Array.from(players.values()).filter((p: any) => (p as any)?.isAlive === true);
+    const traitors = alivePlayers.filter((p: any) => (p as any).role === ('traitor' as any));
+    const innocents = alivePlayers.filter((p: any) => (p as any).role === ('innocent' as any) || (p as any).role === ('detective' as any));
 
     if (traitors.length === 0) {
       this.game.endGame('innocent');
@@ -410,9 +410,10 @@ export class SocialDeductionManager {
 
     // Update role distribution
     const players = this.game.getPlayers();
-    Array.from(players.values()).forEach(player => {
-      const count = this.stats.roleDistribution.get(player.role) || 0;
-      this.stats.roleDistribution.set(player.role, count + 1);
+    Array.from(players.values()).forEach((player: any) => {
+      const role = (player as any).role as GameRole;
+      const count = this.stats.roleDistribution.get(role) || 0;
+      this.stats.roleDistribution.set(role, count + 1);
     });
   }
 
