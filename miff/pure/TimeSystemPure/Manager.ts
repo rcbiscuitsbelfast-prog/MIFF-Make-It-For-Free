@@ -526,7 +526,7 @@ export class TimeManager {
         cooldowns: cooldowns.map(c => ({ id: c.id, remaining: this.round(c.remaining), duration: c.duration })),
         scheduled: scheduled.map(s => ({ id: s.id, at: s.at })),
         scales: scales.map(s => ({ id: s.id, factor: s.factor, startTime: s.startTime }))
-      }
+      } as any
     };
   }
 
@@ -597,7 +597,7 @@ export class TimeManager {
               scheduled: this.stats.scheduledEvents,
               scales: this.stats.timeScales
             }
-          }
+          } as any
         };
       
       case 'events':
@@ -670,7 +670,7 @@ export class TimeManager {
         scales: Array.from(this.timeScales.values()),
         paused: this.paused,
         timeScale: this.timeScale
-      }
+      } as any
     };
   }
 

@@ -149,6 +149,7 @@ export interface EconomyOutput {
   status: 'ok' | 'error';
   result?: any;
   issues?: Array<{ code: string; message: string }>;
+  [key: string]: unknown;
 }
 
 export class EnhancedEconomyManager {

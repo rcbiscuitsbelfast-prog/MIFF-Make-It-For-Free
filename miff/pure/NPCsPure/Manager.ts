@@ -101,6 +101,7 @@ export interface NPCOutput {
   status: 'ok' | 'error';
   result?: any;
   issues?: string[];
+  [key: string]: unknown;
 }
 
 export class NPCsManager {

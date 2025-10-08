@@ -42,6 +42,14 @@ export class TycoonSystemPure {
   getMarketData(): any {
     return { trends: [], opportunities: [] };
   }
+  
+  setIntegrations(integrations: any): void {}
+  
+  getStats(): any { 
+    return { isInitialized: true, totalFacilities: 0, totalRevenue: 0 }; 
+  }
+  
+  setPaused(paused: boolean): void {}
 }
 
 // ============================================================================
@@ -372,18 +380,7 @@ export class TycoonManagerPure {
   }) {
     this.eventBus = eventBus;
     this.config = config;
-    this.tycoonSystem = new TycoonSystemPure(eventBus, {
-      initialCapital: 100000,
-      enableMarketFluctuations: true,
-      enableCompetition: true,
-      enableStaffAI: true,
-      enableSeasonalEffects: true,
-      enableLoans: true,
-      enableInvestments: true,
-      updateInterval: 3600,
-      performanceMode: config.performanceMode,
-      debugMode: config.debugMode
-    });
+    this.tycoonSystem = new TycoonSystemPure();
 
     this.initializeManagers();
     this.setupEventListeners();
