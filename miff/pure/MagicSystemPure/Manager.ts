@@ -348,11 +348,21 @@ export class MagicManager {
     const allSpells = this.magicSystem.getAllSpellDefinitions();
     const allElements = this.magicSystem.getAllElements();
     const allSchools = this.magicSystem.getAllSpellSchools();
-    const manaPools = Array.from(this.magicSystem.getAllSpellDefinitions());
+    // Approximate mana pools by iterating unique caster IDs from spells
+    const casterIds = new Set<string>();
+    const pools: Array<{ maximum: number }> = [];
+    for (const spell of allSpells) {
+      // If there is a pool for this spell's caster, include it
+      const pool = this.magicSystem.getManaPool((spell as any).casterId as string);
+      if (pool && !casterIds.has((spell as any).casterId)) {
+        casterIds.add((spell as any).casterId);
+        pools.push({ maximum: (pool as any).maximum || 0 });
+      }
+    }
 
-    const totalManaPools = manaPools.length;
+    const totalManaPools = pools.length;
     const averageManaPool = totalManaPools > 0 ?
-      manaPools.reduce((sum, pool) => sum + pool.maximum, 0) / totalManaPools : 0;
+      pools.reduce((sum, p) => sum + (p.maximum || 0), 0) / totalManaPools : 0;
 
     return {
       totalSpells: allSpells.length,

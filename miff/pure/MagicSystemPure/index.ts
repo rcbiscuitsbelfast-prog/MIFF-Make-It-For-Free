@@ -714,12 +714,4 @@ export class MagicSystemPure {
 }
 
 // Export type aliases only (class already exported above)
-export type {
-  SpellDefinition,
-  SpellInstance,
-  ManaPool,
-  SpellEffect,
-  SpellElement,
-  SpellSchool,
-  MagicCombatResult
-};
+// Removed duplicate type re-exports to avoid conflicts
