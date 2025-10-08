@@ -619,8 +619,8 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     const projectionMatrix = this.createProjectionMatrix();
     const modelViewMatrix = this.createModelViewMatrix();
 
-    this.gl.uniformMatrix4fv(this.shaderProgram.uProjectionMatrix, false, projectionMatrix);
-    this.gl.uniformMatrix4fv(this.shaderProgram.uModelViewMatrix, false, modelViewMatrix);
+    this.gl.uniformMatrix4fv((this.shaderProgram as any).uProjectionMatrix, false, projectionMatrix);
+    this.gl.uniformMatrix4fv((this.shaderProgram as any).uModelViewMatrix, false, modelViewMatrix);
   }
 
   private createProjectionMatrix(): Float32Array {

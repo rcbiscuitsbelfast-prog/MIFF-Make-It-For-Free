@@ -609,32 +609,37 @@ export class RestaurantSimulationPure {
    */
   private setupEventListeners(): void {
     if (this.integrations.onOrderPlaced) {
-      this.eventBus.on('restaurant:order_placed', (data: { order: CustomerOrder }) => {
-        this.integrations.onOrderPlaced!(data.order);
+      this.eventBus.subscribe('restaurant:order_placed', (event: any) => {
+        const data = event?.data as { order: CustomerOrder };
+        if (data?.order) this.integrations.onOrderPlaced!(data.order);
       });
     }
 
     if (this.integrations.onOrderCompleted) {
-      this.eventBus.on('restaurant:order_completed', (data: { order: CustomerOrder }) => {
-        this.integrations.onOrderCompleted!(data.order);
+      this.eventBus.subscribe('restaurant:order_completed', (event: any) => {
+        const data = event?.data as { order: CustomerOrder };
+        if (data?.order) this.integrations.onOrderCompleted!(data.order);
       });
     }
 
     if (this.integrations.onCustomerSatisfied) {
-      this.eventBus.on('restaurant:customer_satisfied', (data: { customerId: string, satisfaction: number }) => {
-        this.integrations.onCustomerSatisfied!(data.customerId, data.satisfaction);
+      this.eventBus.subscribe('restaurant:customer_satisfied', (event: any) => {
+        const data = event?.data as { customerId: string; satisfaction: number };
+        if (data?.customerId) this.integrations.onCustomerSatisfied!(data.customerId, Number(data.satisfaction));
       });
     }
 
     if (this.integrations.onCustomerDissatisfied) {
-      this.eventBus.on('restaurant:customer_dissatisfied', (data: { customerId: string, reason: string }) => {
-        this.integrations.onCustomerDissatisfied!(data.customerId, data.reason);
+      this.eventBus.subscribe('restaurant:customer_dissatisfied', (event: any) => {
+        const data = event?.data as { customerId: string; reason: string };
+        if (data?.customerId) this.integrations.onCustomerDissatisfied!(data.customerId, String(data.reason));
       });
     }
 
     if (this.integrations.onIngredientDepleted) {
-      this.eventBus.on('restaurant:ingredient_depleted', (data: { ingredientId: string }) => {
-        this.integrations.onIngredientDepleted!(data.ingredientId);
+      this.eventBus.subscribe('restaurant:ingredient_depleted', (event: any) => {
+        const data = event?.data as { ingredientId: string };
+        if (data?.ingredientId) this.integrations.onIngredientDepleted!(data.ingredientId);
       });
     }
   }
