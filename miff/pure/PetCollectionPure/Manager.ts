@@ -349,10 +349,11 @@ export class PetCollectionManager {
         data: { pets },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to get pets: ${error.message}`,
+        message: `Failed to get pets: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -368,10 +369,11 @@ export class PetCollectionManager {
         data: { eggs },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to get eggs: ${error.message}`,
+        message: `Failed to get eggs: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -387,10 +389,11 @@ export class PetCollectionManager {
         data: { stats },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to get collection stats: ${error.message}`,
+        message: `Failed to get collection stats: ${message}`,
         timestamp: Date.now()
       };
     }
