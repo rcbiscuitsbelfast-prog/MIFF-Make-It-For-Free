@@ -212,7 +212,7 @@ export class TeleportationManager {
 
     // Get recent failure reasons
     const recentFailures = Array.from(stats.failureReasons.entries())
-      .sort((a, b) => b[1] - a[1])
+      .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       .slice(0, 5)
       .map(([reason]) => reason);
 
