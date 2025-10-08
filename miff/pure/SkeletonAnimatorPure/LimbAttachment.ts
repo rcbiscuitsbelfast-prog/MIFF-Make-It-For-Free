@@ -138,7 +138,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Forearm',
@@ -149,7 +150,8 @@ export class LimbAttachment {
           position: { x: 0, y: -0.4, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Hand',
@@ -160,7 +162,8 @@ export class LimbAttachment {
           position: { x: 0, y: -0.3, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       }
     ], {
       symmetry: 'left_arm',
@@ -193,7 +196,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Shin',
@@ -204,7 +208,8 @@ export class LimbAttachment {
           position: { x: 0, y: -0.45, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Foot',
@@ -215,7 +220,8 @@ export class LimbAttachment {
           position: { x: 0, y: -0.4, z: 0.1 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       }
     ], {
       constraints: [
@@ -295,7 +301,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Wing Segment 1',
@@ -306,7 +313,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Wing Segment 2',
@@ -317,7 +325,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       }
     ], {
       constraints: [
@@ -342,7 +351,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Wing Segment 1',
@@ -353,7 +363,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Wing Segment 2',
@@ -364,7 +375,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0.4 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       }
     ], {
       symmetry: 'left_wing',
@@ -398,7 +410,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: i === 0 ? 0 : 0.15 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       });
     }
 
