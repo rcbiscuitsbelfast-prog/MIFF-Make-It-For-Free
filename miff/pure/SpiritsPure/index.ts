@@ -1347,9 +1347,9 @@ export class Spirit implements ISpirit {
  */
 export class SpiritCollection implements ISpiritCollection {
   public spirits: ISpirit[];
-  public capturedSpirits: ISpirit[];
-  public uncapturedSpirits: ISpirit[];
-  public favoriteSpirits: ISpirit[];
+  public capturedSpirits: ISpirit[] = [];
+  public uncapturedSpirits: ISpirit[] = [];
+  public favoriteSpirits: ISpirit[] = [];
 
   constructor(spirits: ISpirit[] = []) {
     this.spirits = [...spirits];
@@ -1367,9 +1367,9 @@ export class SpiritCollection implements ISpiritCollection {
    * Update collections
    */
   private updateCollections(): void {
-    this.capturedSpirits = this.spirits.filter(spirit => spirit.isCaptured);
+    this.capturedSpirits = this.spirits.filter(spirit => !!spirit.isCaptured);
     this.uncapturedSpirits = this.spirits.filter(spirit => !spirit.isCaptured);
-    this.favoriteSpirits = this.spirits.filter(spirit => spirit.isFavorite);
+    this.favoriteSpirits = this.spirits.filter(spirit => !!spirit.isFavorite);
   }
 
   /**
