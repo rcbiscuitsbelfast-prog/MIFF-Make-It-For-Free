@@ -576,17 +576,22 @@ export class TeamSlot implements ITeamSlot {
     );
 
     if (data.spirit) {
-      // Create a proper spirit instance from the serialized data
+      // Create a minimally compliant spirit instance
+      const s = data.spirit as any;
       slot.spirit = {
-        name: data.spirit.name || 'Unknown',
-        typeTag: data.spirit.typeTag || 'normal',
-        level: data.spirit.level || 1,
-        stats: data.spirit.stats || { hp: 100, maxHp: 100, atk: 50, def: 50, spd: 50 },
-        currentHP: data.spirit.currentHP || data.spirit.stats?.hp || 100,
-        moves: data.spirit.moves || [],
-        instanceId: data.spirit.instanceId || `spirit_${Date.now()}`,
-        toJSON: () => data.spirit,
-        clone: () => ({ ...slot.spirit } as ISpiritInstance)
+        instanceId: String(s.instanceId || `spirit_${Date.now()}`),
+        name: String(s.name || 'Unknown'),
+        type: String(s.type || s.typeTag || 'normal'),
+        speciesId: String(s.speciesId || 'unknown'),
+        level: Number(s.level || 1),
+        stats: (s.stats || { hp: 100, attack: 50, defense: 50, speed: 50, specialAttack: 45, specialDefense: 45 }) as any,
+        statusEffects: Array.isArray(s.statusEffects) ? s.statusEffects : [],
+        abilities: Array.isArray(s.abilities) ? s.abilities : [],
+        experience: Number(s.experience || 0),
+        currentHP: Number(s.currentHP || s.stats?.hp || 100),
+        moves: Array.isArray(s.moves) ? s.moves : [],
+        toJSON: () => ({ ...s }),
+        clone: () => ({ ...(slot.spirit as any) }) as ISpiritInstance
       } as ISpiritInstance;
     }
 
@@ -1303,11 +1308,11 @@ export class Team implements ITeam {
     this.maxSize = data.maxSize || this.maxSize;
 
     if (data.spirits && Array.isArray(data.spirits)) {
-      this.spirits = data.spirits.map((spiritData: any) => ({ ...spiritData }) as ISpiritInstance);
+      this.spirits = data.spirits.map((spiritData: any) => ({ ...(spiritData as any) }) as unknown as ISpiritInstance);
     }
 
     if (data.reserves && Array.isArray(data.reserves)) {
-      this.reserves = data.reserves.map((spiritData: any) => ({ ...spiritData }) as ISpiritInstance);
+      this.reserves = data.reserves.map((spiritData: any) => ({ ...(spiritData as any) }) as unknown as ISpiritInstance);
     }
 
     if (data.rules) {
@@ -1816,8 +1821,8 @@ export const TeamUtils = {
       canAct: () => true,
       getEffectiveStats: () => ({ hp: 50, attack: 50, defense: 50, speed: 50 }),
       getTypeEffectiveness: () => 1.0,
-      clone: () => ({ ...this }),
-      toJSON: () => ({})
+  clone: () => ({ ...(this as any) }) as ISpiritInstance,
+  toJSON: () => ({})
     } as ISpiritInstance;
   },
 
