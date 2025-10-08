@@ -204,7 +204,7 @@ export class TeleportationManager {
 
     // Find most used portal
     const portals = (this.teleportationSystem as any).getAllPortals?.() ?? [];
-    const mostUsedPortal = portals.reduce((mostUsed, portal) => {
+    const mostUsedPortal = (portals as Portal[]).reduce((mostUsed: Portal | null, portal: Portal) => {
       // This would normally come from usage statistics
       // For now, just return the first portal
       return mostUsed || portal;
@@ -233,7 +233,7 @@ export class TeleportationManager {
     const anchorsInZone = this.teleportationSystem.getAnchorsInZone(zoneId);
     const anchorIds = anchorsInZone.map(anchor => anchor.id);
 
-    return ((this.teleportationSystem as any).getAllPortals?.() ?? []).filter((portal: any) =>
+    return ((this.teleportationSystem as any).getAllPortals?.() ?? []).filter((portal: Portal) =>
       anchorIds.includes(portal.sourceAnchor.id) || anchorIds.includes(portal.destinationAnchor.id)
     );
   }
