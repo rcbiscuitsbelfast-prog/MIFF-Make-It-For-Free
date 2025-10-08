@@ -524,11 +524,13 @@ export class SpiritFilter implements ISpiritFilter {
 
     // Filter by level range
     if (this.minLevel !== undefined) {
-      filtered = filtered.filter(spirit => spirit.level >= this.minLevel);
+      const minLevel = this.minLevel ?? 0;
+      filtered = filtered.filter(spirit => spirit.level >= minLevel);
     }
 
     if (this.maxLevel !== undefined) {
-      filtered = filtered.filter(spirit => spirit.level <= this.maxLevel);
+      const maxLevel = this.maxLevel ?? Number.MAX_SAFE_INTEGER;
+      filtered = filtered.filter(spirit => spirit.level <= maxLevel);
     }
 
     // Filter by rarity
@@ -1720,7 +1722,8 @@ export const SpiritUtils = {
    * Get type name
    */
   getTypeName(type: SpiritType): string {
-    return SpiritType[type].toUpperCase();
+    // For string enums/unions, direct reverse-lookup is not available reliably
+    return String(type).toUpperCase();
   },
 
   /**

@@ -105,16 +105,25 @@ export class SportsManager {
   }
 
   private setupEventListeners(): void {
-    this.eventBus.on('sports:game_created', (data) => {
-      this.handleGameCreated(data.game);
+    this.eventBus.subscribe('sports:game_created', (event: any) => {
+      const data = event?.data as { game: Game } | undefined;
+      if (data?.game) {
+        this.handleGameCreated(data.game);
+      }
     });
 
-    this.eventBus.on('sports:goal_scored', (data) => {
-      this.handleGoalScored(data);
+    this.eventBus.subscribe('sports:goal_scored', (event: any) => {
+      const data = event?.data as any;
+      if (data) {
+        this.handleGoalScored(data);
+      }
     });
 
-    this.eventBus.on('sports:game_ended', (data) => {
-      this.handleGameEnded(data.gameId, data.result);
+    this.eventBus.subscribe('sports:game_ended', (event: any) => {
+      const data = event?.data as { gameId: string; result: MatchResult } | undefined;
+      if (data?.gameId && data?.result) {
+        this.handleGameEnded(data.gameId, data.result);
+      }
     });
   }
 
@@ -175,10 +184,11 @@ export class SportsManager {
         data: { team },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to create team: ${error.message}`,
+        message: `Failed to create team: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -214,10 +224,11 @@ export class SportsManager {
         data: { player },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to create player: ${error.message}`,
+        message: `Failed to create player: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -270,10 +281,11 @@ export class SportsManager {
         data: { game },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to create game: ${error.message}`,
+        message: `Failed to create game: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -319,10 +331,11 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to start game: ${error.message}`,
+        message: `Failed to start game: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -368,10 +381,11 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to pause game: ${error.message}`,
+        message: `Failed to pause game: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -395,10 +409,11 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to take shot: ${error.message}`,
+        message: `Failed to take shot: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -422,10 +437,11 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to complete pass: ${error.message}`,
+        message: `Failed to complete pass: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -449,10 +465,11 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to perform tackle: ${error.message}`,
+        message: `Failed to perform tackle: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -503,10 +520,11 @@ export class SportsManager {
         data: { queuePosition: this.matchmakingQueue.length },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to join matchmaking: ${error.message}`,
+        message: `Failed to join matchmaking: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -531,10 +549,11 @@ export class SportsManager {
           timestamp: Date.now()
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to leave matchmaking: ${error.message}`,
+        message: `Failed to leave matchmaking: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -545,7 +564,7 @@ export class SportsManager {
     const playersBySport = new Map<SportType, Player[]>();
 
     this.matchmakingQueue.forEach(player => {
-      const sport = player.stats.sportType || 'soccer';
+      const sport = (player.stats as any).sportType || 'soccer';
       if (!playersBySport.has(sport)) {
         playersBySport.set(sport, []);
       }
@@ -582,7 +601,7 @@ export class SportsManager {
             sport: sport,
             timestamp: Date.now()
           });
-        } catch (error) {
+        } catch (error: unknown) {
           // Clean up teams if game creation fails
           this.sportsSystem['teams'].delete(team1.id);
           this.sportsSystem['teams'].delete(team2.id);
@@ -633,7 +652,7 @@ export class SportsManager {
       // Implementation depends on specific requirements
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
       return false;
     }
   }
