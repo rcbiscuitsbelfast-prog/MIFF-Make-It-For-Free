@@ -1519,7 +1519,17 @@ export class SpiritCollection implements ISpiritCollection {
    * Filter spirits
    */
   filterSpirits(filter: ISpiritFilter): ISpirit[] {
-    return filter.apply(this.spirits);
+    // If filter provides an apply function, use it; otherwise fallback to manual checks
+    const anyFilter = filter as any;
+    if (typeof anyFilter.apply === 'function') {
+      return anyFilter.apply(this.spirits);
+    }
+    // Minimal fallback: by name and type if present
+    return this.spirits.filter(s => {
+      const nameOk = filter.nameContains ? (s.spiritName.toLowerCase().includes(filter.nameContains.toLowerCase())) : true;
+      const typeOk = filter.type ? (s.primaryType === filter.type || s.secondaryType === filter.type) : true;
+      return nameOk && typeOk;
+    });
   }
 
   /**
@@ -1551,17 +1561,14 @@ export class SpiritCollection implements ISpiritCollection {
    * Get completion by type
    */
   getCompletionByType(): Record<SpiritType, { total: number; captured: number; percentage: number }> {
-    const types = Object.values(SpiritType);
-    const completion: Record<string, { total: number; captured: number; percentage: number }> = {};
-
-    types.forEach(type => {
+    const types = Object.values(SpiritType) as SpiritType[];
+    const completion = {} as Record<SpiritType, { total: number; captured: number; percentage: number }>;
+    types.forEach((type: SpiritType) => {
       const total = this.getSpiritsByType(type).length;
       const captured = this.getSpiritsByType(type).filter(s => s.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
-
       completion[type] = { total, captured, percentage };
     });
-
     return completion;
   }
 
@@ -1570,16 +1577,13 @@ export class SpiritCollection implements ISpiritCollection {
    */
   getCompletionByRarity(): Record<SpiritRarity, { total: number; captured: number; percentage: number }> {
     const rarities = Object.values(SpiritRarity).filter(r => typeof r === 'number') as SpiritRarity[];
-    const completion: Record<string, { total: number; captured: number; percentage: number }> = {};
-
-    rarities.forEach(rarity => {
+    const completion = {} as Record<SpiritRarity, { total: number; captured: number; percentage: number }>;
+    rarities.forEach((rarity: SpiritRarity) => {
       const total = this.getSpiritsByRarity(rarity).length;
       const captured = this.getSpiritsByRarity(rarity).filter(s => s.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
-
-      completion[SpiritRarity[rarity]] = { total, captured, percentage };
+      completion[rarity] = { total, captured, percentage };
     });
-
     return completion;
   }
 
