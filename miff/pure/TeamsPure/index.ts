@@ -588,8 +588,21 @@ export class TeamSlot implements ITeamSlot {
         statusEffects: Array.isArray(s.statusEffects) ? s.statusEffects : [],
         abilities: Array.isArray(s.abilities) ? s.abilities : [],
         experience: Number(s.experience || 0),
+        loyalty: Number(s.loyalty || 0),
         currentHP: Number(s.currentHP || s.stats?.hp || 100),
         moves: Array.isArray(s.moves) ? s.moves : [],
+        validate: () => [],
+        isAlive: () => true,
+        canAct: () => true,
+        getEffectiveStats: () => ({
+          hp: (s.stats?.hp ?? 100),
+          attack: (s.stats?.attack ?? 50),
+          defense: (s.stats?.defense ?? 50),
+          speed: (s.stats?.speed ?? 50),
+          specialAttack: (s.stats?.specialAttack ?? 45),
+          specialDefense: (s.stats?.specialDefense ?? 45)
+        }),
+        getTypeEffectiveness: (_attackingType: string) => 1.0,
         toJSON: () => ({ ...s }),
         clone: () => ({ ...(slot.spirit as any) }) as ISpiritInstance
       } as ISpiritInstance;

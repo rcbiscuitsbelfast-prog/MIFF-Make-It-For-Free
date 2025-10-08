@@ -124,7 +124,16 @@ export class TeamsPureStrategicCLI {
       instanceId: `spirit_${name}_${Date.now()}`,
       name,
       type,
+      speciesId: `${type.toLowerCase()}_${name}`,
       level,
+      stats: { hp: stats.hp, attack: stats.attack, defense: stats.defense, speed: stats.speed, specialAttack: Math.floor(stats.attack * 0.9), specialDefense: Math.floor(stats.defense * 0.9) },
+      statusEffects: [],
+      abilities: [],
+      experience: 0,
+      loyalty: 0,
+      validate: () => [],
+      isAlive: () => true,
+      canAct: () => true,
       getEffectiveStats: () => ({
         attack: stats.attack,
         defense: stats.defense,
@@ -133,12 +142,10 @@ export class TeamsPureStrategicCLI {
         specialAttack: Math.floor(stats.attack * 0.9),
         specialDefense: Math.floor(stats.defense * 0.9)
       }),
-      evolve: (newSpeciesId: string) => {
-        console.log(`Evolving ${name} to ${newSpeciesId}`);
-      },
-      getSyncPercentage: () => 50,
-      hasItem: (itemId: string) => false
-    };
+      getTypeEffectiveness: () => 1.0,
+      toJSON: () => ({}),
+      clone: function() { return { ...(this as any) } as ISpiritInstance; }
+    } as ISpiritInstance;
   }
 
   /**
