@@ -1,8 +1,8 @@
 # 🔍 **TypeScript Error Log - MIFF Framework**
 
 **Date**: October 6, 2025  
-**Total Errors (tsconfig.json scope)**: see `typecheck.log` (post-fix run)  
-**Progress**: Duplicates removed in BundleOptimizer/AssetPipeline; CutScene CLI typed  
+**Total Errors (tsconfig.json scope)**: 154 (from latest `typecheck.log`)  
+**Progress**: Duplicates removed in BundleOptimizer/AssetPipeline; CutScene CLI typed; Teleportation, Teams, Sports, StatusEffects, Sync, Splash updates  
 **Status**: IN PROGRESS
 
 ---
@@ -127,6 +127,7 @@
 |------|-------------|-----------|-----------|
 | 2025-10-05 | 1,701 | 0% | Initial audit |
 | 2025-10-05 | 1,297 | 23.7% | Duplicate identifiers, merge conflicts |
+| 2025-10-06 | 154 | 90.95% | Teleportation event payloads, Teams ISpiritInstance, EventBus migrations |
 
 ---
 

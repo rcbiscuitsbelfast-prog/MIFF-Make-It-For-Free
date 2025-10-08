@@ -19,7 +19,7 @@
 - [x] **FutureRiskReport.md** - Module scalability crisis, TypeScript error explosion, test suite collapse
 
 ### **Key Findings**
-- **TypeScript Errors**: 1,297 remaining (23.7% reduction from 1,701)
+- **TypeScript Errors**: 154 remaining (down from 1,701; see `typecheck.log`)
 - **Test Failures**: 100 out of 197 test suites failing (50.8% failure rate)
 - **Security Issues**: 150+ CLI tools with unvalidated input, 150+ files with unsafe code execution
 - **Performance Issues**: 274 files with console logging, 84 files with timer memory leaks
@@ -76,7 +76,7 @@
 - [ ] **Website Files**: 182 → 50
 
 ### **Current Status (tsconfig.json scope)**
-- **TypeScript Errors**: see latest run in `typecheck.log`
+- **TypeScript Errors**: 154 (from latest run)
 - **Console Logs**: 274 modules (0% complete)
 - **Test Coverage**: 60% (0% complete)
 - **Build Success Rate**: 70% (0% complete)
