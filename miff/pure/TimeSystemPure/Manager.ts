@@ -638,7 +638,8 @@ export class TimeManager {
       scheduledEvents: 0,
       timeScales: 0,
       averageTimerDuration: 0,
-      averageCooldownDuration: 0
+      averageCooldownDuration: 0,
+      totalUpdates: 0
     };
     
     return {
