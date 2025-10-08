@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MIFF Scene Builder - Visual Scene Editor</title>
+    <link rel="stylesheet" href="../overlays/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a1322;
+            color: #e6edf3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        
+        #sceneBuilder {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .toolbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .toolbar button {
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .toolbar button:hover {
+            background: #58a6ff;
+            border-color: #58a6ff;
+        }
+        
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            background: #0a1322;
+        }
+        
+        #sceneCanvas {
+            width: 100%;
+            height: 100%;
+            background: #0a1322;
+            cursor: crosshair;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            color: #e6edf3;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        
+        .back-button:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div id="sceneBuilder">
+        <div class="toolbar">
+            <button onclick="addEntity('player')">Add Player</button>
+            <button onclick="addEntity('enemy')">Add Enemy</button>
+            <button onclick="addEntity('platform')">Add Platform</button>
+            <button onclick="saveScene()">Save Scene</button>
+            <button onclick="loadScene()">Load Scene</button>
+            <button onclick="clearScene()">Clear Scene</button>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="sceneCanvas"></canvas>
+        </div>
+        
+        <a href="../index.html" class="back-button">← Back to MIFF</a>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('sceneCanvas');
+        const ctx = canvas.getContext('2d');
+        let entities = [];
+        let selectedEntity = null;
+        let isDragging = false;
+        let dragOffset = { x: 0, y: 0 };
+        
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        
+        function addEntity(type) {
+            const entity = {
+                id: Date.now(),
+                type: type,
+                x: Math.random() * (canvas.width - 50),
+                y: Math.random() * (canvas.height - 50),
+                width: 50,
+                height: 50,
+                color: getEntityColor(type)
+            };
+            entities.push(entity);
+            drawScene();
+        }
+        
+        function getEntityColor(type) {
+            const colors = {
+                'player': '#00ff88',
+                'enemy': '#ff4444',
+                'platform': '#888888'
+            };
+            return colors[type] || '#ffffff';
+        }
+        
+        function drawScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            entities.forEach(entity => {
+                ctx.fillStyle = entity.color;
+                ctx.fillRect(entity.x, entity.y, entity.width, entity.height);
+                
+                if (entity === selectedEntity) {
+                    ctx.strokeStyle = '#58a6ff';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(entity.x, entity.y, entity.width, entity.height);
+                }
+            });
+        }
+        
+        function saveScene() {
+            const sceneData = {
+                entities: entities,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('miff-scene', JSON.stringify(sceneData));
+            alert('Scene saved successfully!');
+        }
+        
+        function loadScene() {
+            const savedScene = localStorage.getItem('miff-scene');
+            if (savedScene) {
+                const sceneData = JSON.parse(savedScene);
+                entities = sceneData.entities || [];
+                drawScene();
+                alert('Scene loaded successfully!');
+            } else {
+                alert('No saved scene found.');
+            }
+        }
+        
+        function clearScene() {
+            entities = [];
+            selectedEntity = null;
+            drawScene();
+        }
+        
+        // Mouse events
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            selectedEntity = entities.find(entity => 
+                x >= entity.x && x <= entity.x + entity.width &&
+                y >= entity.y && y <= entity.y + entity.height
+            );
+            
+            if (selectedEntity) {
+                isDragging = true;
+                dragOffset.x = x - selectedEntity.x;
+                dragOffset.y = y - selectedEntity.y;
+            }
+            
+            drawScene();
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging && selectedEntity) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                selectedEntity.x = x - dragOffset.x;
+                selectedEntity.y = y - dragOffset.y;
+                
+                drawScene();
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        // Initialize
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawScene();
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/* RenderWorld Hub additional styles (mobile controls, overlays) */
+.rw-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  pointer-events: none;
+}
+
+.rw-joystick {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+  pointer-events: all;
+}
+
+.rw-joystick-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(88, 166, 255, 0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.rw-actions {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  pointer-events: all;
+}
+
+.rw-btn {
+  min-width: 64px;
+  min-height: 64px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #e6edf3;
+  border: 1px solid rgba(255,255,255,0.12);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.rw-portal-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 140px;
+  display: flex;
+  gap: 12px;
+  pointer-events: all;
+}
+
+.rw-link {
+  text-decoration: none;
+  color: #00ff88;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+}

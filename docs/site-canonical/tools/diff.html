@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MIFF Golden Diff Visualizer</title>
+    <style>
+      body { font-family: Inter, Arial, sans-serif; margin: 16px; }
+      textarea { width: 100%; height: 200px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .diff { white-space: pre; background: #fafafa; border: 1px solid #eee; padding: 12px; }
+      .add { background: #e6ffed; }
+      .rem { background: #ffeef0; }
+      .same { color: #888; }
+    </style>
+  </head>
+  <body>
+    <h1>Golden Diff Visualizer</h1>
+    <p>Paste expected (golden) JSON on the left and actual JSON on the right, then compute diff.</p>
+    <div class="row">
+      <div>
+        <h3>Golden</h3>
+        <textarea id="golden"></textarea>
+      </div>
+      <div>
+        <h3>Actual</h3>
+        <textarea id="actual"></textarea>
+      </div>
+    </div>
+    <div style="margin: 12px 0">
+      <button id="btn">Compute Diff</button>
+    </div>
+    <div id="out" class="diff"></div>
+    <script>
+      function stableStringify(obj){
+        const seen = new WeakSet();
+        const sort = (o) => {
+          if (o && typeof o === 'object'){
+            if (seen.has(o)) return null; seen.add(o);
+            if (Array.isArray(o)) return o.map(sort);
+            return Object.keys(o).sort().reduce((acc,k)=>{ acc[k]=sort(o[k]); return acc; },{});
+          }
+          return o;
+        };
+        return JSON.stringify(sort(obj), null, 2);
+      }
+      function diffLines(a, b){
+        const al = a.split('\n'), bl = b.split('\n');
+        const max = Math.max(al.length, bl.length);
+        const out = [];
+        for (let i=0;i<max;i++){
+          const L = al[i] ?? '', R = bl[i] ?? '';
+          if (L === R) out.push('<div class="same">  '+L.replace(/</g,'&lt;')+'</div>');
+          else {
+            if (L) out.push('<div class="rem">- '+L.replace(/</g,'&lt;')+'</div>');
+            if (R) out.push('<div class="add">+ '+R.replace(/</g,'&lt;')+'</div>');
+          }
+        }
+        return out.join('');
+      }
+      document.getElementById('btn').onclick = ()=>{
+        try{
+          const g = JSON.parse(document.getElementById('golden').value || 'null');
+          const a = JSON.parse(document.getElementById('actual').value || 'null');
+          const gs = stableStringify(g), as = stableStringify(a);
+          document.getElementById('out').innerHTML = diffLines(gs, as);
+        }catch(err){
+          document.getElementById('out').textContent = 'Error: '+err;
+        }
+      };
+    </script>
+  </body>
+  </html>
+

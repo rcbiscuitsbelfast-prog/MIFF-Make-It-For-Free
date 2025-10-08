@@ -1,0 +1,15 @@
+{
+  "scenarioId": "spirit-tamer-demo-v1",
+  "name": "Spirit Tamer Demo",
+  "version": "1.0.0",
+  "beats": [0.5, 1.0, 1.5, 2.0],
+  "triggers": {
+    "onBeat": { "intervalMs": 500 }
+  },
+  "npcs": {
+    "spirit": { "name": "Ancient Spirit", "x": 320, "y": 240 }
+  },
+  "quests": {
+    "taming_trial": { "steps": ["talk_to_spirit", "keep_beat", "calm_spirit"] }
+  }
+}

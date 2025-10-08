@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Studio — Procedural 3D Builder</title>
+  <style>
+    body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+    header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+    .wrap{padding:12px;display:grid;grid-template-columns:320px 1fr;gap:12px}
+    .panel{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622}
+    .panel h3{margin:0;padding:10px;border-bottom:1px solid #1f2d3c}
+    .panel .content{padding:10px}
+    .kv{display:grid;grid-template-columns:120px 1fr;gap:6px;align-items:center}
+    input[type="text"],input[type="number"],select{width:100%;background:#0b1320;border:1px solid #2b3b4f;color:#e6edf3;border-radius:6px;padding:6px}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    #viewport{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px;min-height:420px;display:flex;align-items:center;justify-content:center}
+    pre{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px;padding:8px;max-height:260px;overflow:auto}
+  </style>
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.161.0/build/three.module.js';
+
+    const $ = (id)=>document.getElementById(id);
+    let renderer, scene, camera, mesh;
+
+    function seededRandom(seed){ let s = seed>>>0 || 123; return ()=>{ s = (s*1664525 + 1013904223)>>>0; return (s&0xffff)/0xffff; }; }
+    function perlin2D(nx, ny, rnd){
+      // Simple value noise with bilinear interpolation (fast placeholder)
+      const x0 = Math.floor(nx), y0 = Math.floor(ny);
+      const xf = nx - x0, yf = ny - y0;
+      function v(ix,iy){ const r = rnd(); return r*2-1; }
+      const v00=v(x0,y0), v10=v(x0+1,y0), v01=v(x0,y0+1), v11=v(x0+1,y0+1);
+      const i1 = v00*(1-xf)+v10*xf; const i2 = v01*(1-xf)+v11*xf; return i1*(1-yf)+i2*yf;
+    }
+
+    function init(){
+      const container = $('viewport');
+      renderer = new THREE.WebGLRenderer({ antialias:true });
+      renderer.setSize(container.clientWidth||800, container.clientHeight||420);
+      container.innerHTML=''; container.appendChild(renderer.domElement);
+      scene = new THREE.Scene(); scene.background = new THREE.Color(0x0b1020);
+      camera = new THREE.PerspectiveCamera(60, (container.clientWidth||800)/(container.clientHeight||420), 0.1, 1000);
+      camera.position.set(0, 20, 28);
+      scene.add(new THREE.HemisphereLight(0xffffff,0x222233,1.0));
+      const dir = new THREE.DirectionalLight(0xffffff,0.8); dir.position.set(10,20,10); scene.add(dir);
+      animate();
+    }
+
+    function build(){
+      const w = parseInt($('width').value||'64',10);
+      const h = parseInt($('height').value||'64',10);
+      const scale = parseFloat($('scale').value||'0.15');
+      const amp = parseFloat($('amplitude').value||'4');
+      const seed = parseInt(($('seed').value||'123').replace(/\D/g,'')||'123',10);
+      const rnd = seededRandom(seed);
+      const geo = new THREE.PlaneGeometry(w, h, w-1, h-1);
+      geo.rotateX(-Math.PI/2);
+      const pos = geo.attributes.position;
+      for (let iy=0; iy<h; iy++){
+        for (let ix=0; ix<w; ix++){
+          const idx = iy*w+ix;
+          const nx = ix*scale, ny = iy*scale;
+          const z = perlin2D(nx, ny, rnd) * amp;
+          pos.setY(idx, z);
+        }
+      }
+      pos.needsUpdate = true; geo.computeVertexNormals();
+      if (mesh) scene.remove(mesh);
+      mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0x225a3a, wireframe: $('wire').checked }));
+      scene.add(mesh);
+    }
+
+    function animate(){ requestAnimationFrame(animate); if (mesh){ mesh.rotation.y += 0.0015; } renderer.render(scene, camera); }
+
+    function exportManifest(){
+      const payload = {
+        id: $('sceneId').value||'proc_world',
+        name: $('sceneName').value||'Procedural World',
+        seed: $('seed').value||'123',
+        size: { width: parseInt($('width').value||'64',10), height: parseInt($('height').value||'64',10) },
+        noise: { scale: parseFloat($('scale').value||'0.15'), amplitude: parseFloat($('amplitude').value||'4') },
+        render: { engine: 'web-three', wireframe: $('wire').checked }
+      };
+      const blob = new Blob([JSON.stringify(payload,null,2)], { type:'application/json' });
+      const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=(payload.id||'proc_world')+'.manifest.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url),500);
+    }
+
+    function injectPreview(){
+      const f = window.parent && window.parent.document.getElementById('worldFrame');
+      const w = f && f.contentWindow; if (!w) return;
+      w.postMessage({ type:'MIFF_START', scenario:'proc_world', seed: String(Date.now()), feature:'procedural_world' }, '*');
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      init(); build();
+      $('build').onclick = build;
+      $('export').onclick = exportManifest;
+      $('inject').onclick = injectPreview;
+      window.addEventListener('resize', init);
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <strong>MIFF Studio — Procedural 3D Builder</strong>
+    <nav class="toolbar">
+      <a href="./index.html" style="color:#58a6ff;text-decoration:none">Studio Home</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <aside class="panel">
+      <h3>Controls</h3>
+      <div class="content">
+        <div class="kv"><label>Scene ID</label><input id="sceneId" type="text" value="proc_world" /></div>
+        <div class="kv"><label>Name</label><input id="sceneName" type="text" value="Procedural World" /></div>
+        <div class="kv"><label>Seed</label><input id="seed" type="text" value="123" /></div>
+        <div class="kv"><label>Size</label>
+          <div style="display:flex;gap:6px"><input id="width" type="number" value="64" min="8" max="256" /><input id="height" type="number" value="64" min="8" max="256" /></div>
+        </div>
+        <div class="kv"><label>Noise Scale</label><input id="scale" type="number" step="0.01" value="0.15" /></div>
+        <div class="kv"><label>Amplitude</label><input id="amplitude" type="number" step="0.1" value="4" /></div>
+        <div class="kv"><label>Wireframe</label><input id="wire" type="checkbox" /></div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="build">Generate</button>
+          <button id="export">Download Manifest</button>
+          <button id="inject">Inject to Preview</button>
+        </div>
+      </div>
+    </aside>
+    <main class="panel">
+      <h3>Viewport</h3>
+      <div id="viewport" class="content">Initializing…</div>
+    </main>
+  </div>
+</body>
+</html>
+

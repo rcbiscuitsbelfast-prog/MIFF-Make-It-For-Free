@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Studio — Multiplayer Preview</title>
+  <style>
+    body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+    header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+    .wrap{padding:12px;display:grid;grid-template-columns:300px 1fr;gap:12px}
+    .panel{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622}
+    .panel h3{margin:0;padding:10px;border-bottom:1px solid #1f2d3c}
+    .panel .content{padding:10px}
+    .kv{display:grid;grid-template-columns:120px 1fr;gap:6px;align-items:center}
+    input[type="text"],select{width:100%;background:#0b1320;border:1px solid #2b3b4f;color:#e6edf3;border-radius:6px;padding:6px}
+    canvas{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px}
+    .warn{position:fixed;right:12px;bottom:12px;background:#2b1520;border:1px solid #5a1a2a;color:#ff9ba3;padding:10px 12px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.4);display:none;z-index:20}
+    .onboarding{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:30;display:flex;align-items:center;justify-content:center}
+    .onboarding .card{background:#0e1622;border:1px solid #1f2d3c;border-radius:12px;padding:24px;max-width:500px;text-align:center}
+    .onboarding h2{margin:0 0 16px;color:#e6edf3}
+    .onboarding p{margin:0 0 20px;color:#a9b8c6;line-height:1.5}
+    .onboarding .toolbar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .onboarding button{background:#238636;border:1px solid #2ea043;color:#e6edf3;padding:8px 16px;border-radius:6px;cursor:pointer}
+    .onboarding button:hover{background:#2ea043}
+    .onboarding .close{position:absolute;top:12px;right:12px;background:none;border:none;color:#a9b8c6;cursor:pointer;font-size:18px}
+  </style>
+  <script type="module">
+    import { PlayerStatePure } from '../../miff/pure/PlayerStatePure/index.ts';
+    import { ZoneServerPure } from '../../miff/pure/ZoneServerPure/index.ts';
+    import { SessionManifestPure } from '../../miff/pure/SessionManifestPure/index.ts';
+    import { WebSocketBridgePure } from '../../miff/pure/WebSocketBridgePure/index.ts';
+
+    const $ = (id)=>document.getElementById(id);
+    let server = new ZoneServerPure({ zone:'toppler' });
+    let bridge = new WebSocketBridgePure();
+    let isConnected = false;
+
+    function updateStatus(status, clientCount = 0) {
+      $('status').textContent = status;
+      $('client-count').textContent = clientCount.toString();
+    }
+
+    function loadPreset(path){
+      fetch(path).then(r=>r.json()).then(m=>{
+        const v = SessionManifestPure.validate(m); if(!v.ok){ alert('Invalid preset'); return; }
+        server = new ZoneServerPure({ zone: m.zone });
+        
+        const useRealWebSocket = $('websocket-mode').value === 'realtime';
+        const serverUrl = $('server-url').value;
+        
+        bridge = new WebSocketBridgePure({ 
+          useRealWebSocket,
+          serverUrl: useRealWebSocket ? serverUrl : undefined,
+          onStatusChange: (status)=>{ $('status').textContent = status; }
+        });
+        server.setBridge(bridge);
+        m.players.forEach(p=>{ server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); });
+        
+        // Listen for network updates
+        bridge.onMessage((ch, payload)=>{
+          if (payload.type === 'state-delta') {
+            console.log('📡 Network update:', payload.players.length, 'players');
+          }
+        });
+      }).catch(()=>{});
+    }
+
+    async function connect() {
+      if (isConnected) return;
+      
+      try {
+        const useRealWebSocket = $('websocket-mode').value === 'realtime';
+        const serverUrl = $('server-url').value;
+        
+        bridge = new WebSocketBridgePure({ 
+          useRealWebSocket,
+          serverUrl: useRealWebSocket ? serverUrl : undefined,
+          onStatusChange: (status)=>{ $('status').textContent = status; }
+        });
+        
+        await bridge.connect();
+        isConnected = true;
+        updateStatus(useRealWebSocket ? 'Connected (WebSocket)' : 'Connected (Simulation)');
+        
+        // Listen for network updates
+        bridge.onMessage((ch, payload)=>{
+          if (payload.type === 'state-delta') {
+            console.log('📡 Network update:', payload.players.length, 'players');
+          }
+        });
+        
+        server.setBridge(bridge);
+      } catch (error) {
+        console.error('Connection failed:', error);
+        updateStatus('Connection Failed');
+      }
+    }
+
+    function disconnect() {
+      if (!isConnected) return;
+      
+      bridge.close();
+      isConnected = false;
+      updateStatus('Disconnected');
+    }
+
+    function copyUrl() {
+      const url = $('server-url').value;
+      navigator.clipboard.writeText(url).then(()=>{
+        $('status').textContent = 'URL copied';
+        setTimeout(()=>updateStatus(isConnected ? 'Connected' : 'Disconnected'), 800);
+      }).catch(()=>{});
+    }
+
+    function ping() {
+      if (!isConnected) return;
+      const t0 = performance.now();
+      let responded = false;
+      const onMsg = (ch, payload)=>{
+        if (payload && payload.type === 'pong') {
+          const t1 = performance.now();
+          $('rtt').textContent = (t1 - t0).toFixed(2);
+          responded = true;
+          bridge.offMessage();
+        }
+      };
+      bridge.onMessage(onMsg);
+      bridge.send({ type: 'ping', t: Date.now() });
+      setTimeout(()=>{
+        if (!responded) {
+          $('rtt').textContent = 'timeout';
+          bridge.offMessage();
+        }
+      }, 2000);
+    }
+
+    let tracing = false;
+    const trace: any[] = [];
+    let overThresholdStreak = 0;
+    const thresholdMs = 10;
+    const thresholdFrames = 60;
+    let keys: Set<string> = new Set();
+    
+    // Replay system
+    let replayData: any[] = [];
+    let replayIndex = 0;
+    let isRecording = false;
+    let isPlaying = false;
+    let replayInterval: number | null = null;
+
+    function download(filename, text) {
+      const a = document.createElement('a');
+      a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      a.setAttribute('download', filename);
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function startRecording() {
+      isRecording = true;
+      replayData = [];
+      $('btn-replay-record').textContent = 'Stop Recording';
+      $('btn-replay-record').style.background = '#f85149';
+    }
+
+    function stopRecording() {
+      isRecording = false;
+      $('btn-replay-record').textContent = 'Record';
+      $('btn-replay-record').style.background = '#238636';
+    }
+
+    function playReplay() {
+      if (replayData.length === 0) return;
+      isPlaying = true;
+      replayIndex = 0;
+      $('btn-replay-play').disabled = true;
+      $('btn-replay-pause').disabled = false;
+      $('btn-replay-step').disabled = false;
+      $('btn-replay-rewind').disabled = false;
+      
+      replayInterval = setInterval(() => {
+        if (replayIndex < replayData.length) {
+          const frame = replayData[replayIndex];
+          // Apply replay frame to netState
+          for (const player of frame.players || []) {
+            netState.set(player.playerId, player);
+          }
+          replayIndex++;
+        } else {
+          pauseReplay();
+        }
+      }, 100);
+    }
+
+    function pauseReplay() {
+      isPlaying = false;
+      if (replayInterval) {
+        clearInterval(replayInterval);
+        replayInterval = null;
+      }
+      $('btn-replay-play').disabled = false;
+      $('btn-replay-pause').disabled = true;
+    }
+
+    function stepReplay() {
+      if (replayIndex < replayData.length) {
+        const frame = replayData[replayIndex];
+        for (const player of frame.players || []) {
+          netState.set(player.playerId, player);
+        }
+        replayIndex++;
+      }
+    }
+
+    function rewindReplay() {
+      replayIndex = 0;
+      netState.clear();
+    }
+
+    function loadReplay() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(String(reader.result));
+            replayData = data.frames || [];
+            replayIndex = 0;
+            console.log('📼 Replay loaded:', replayData.length, 'frames');
+          } catch (error) {
+            console.error('Failed to load replay:', error);
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
+
+    function exportReplay() {
+      const manifest = {
+        schema: 'miff.replay.v1',
+        timestamp: Date.now(),
+        session: {
+          zone: server?.config?.zone || 'unknown',
+          players: Array.from(netState.values())
+        },
+        frames: replayData
+      };
+      download('miff_replay.json', JSON.stringify(manifest, null, 2));
+    }
+
+    function loop(){
+      const cvs = $('c'); const ctx = cvs.getContext('2d'); cvs.width=640; cvs.height=320;
+      const netState = new Map();
+      // maintain netState from bridge
+      bridge.onMessage((ch, payload)=>{
+        if (payload.type === 'state-delta') {
+          for (const p of payload.players){ netState.set(p.playerId, p); }
+        }
+      });
+      function frame(){ 
+        // Handle keyboard input for p1 (only if not playing replay)
+        if (!isPlaying) {
+          if (keys.has('w') || keys.has('arrowup')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.y -= 2; netState.set('p1', p1); }
+          }
+          if (keys.has('s') || keys.has('arrowdown')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.y += 2; netState.set('p1', p1); }
+          }
+          if (keys.has('a') || keys.has('arrowleft')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.x -= 2; netState.set('p1', p1); }
+          }
+          if (keys.has('d') || keys.has('arrowright')) {
+            const p1 = netState.get('p1');
+            if (p1) { p1.position.x += 2; netState.set('p1', p1); }
+          }
+        }
+        
+        server.tick(); ctx.clearRect(0,0,cvs.width,cvs.height);
+        for (const [id,p] of netState){ ctx.fillStyle = id==='p1' ? '#58a6ff' : '#2ea043'; ctx.fillRect(80+p.position.x*0.1, 150+p.position.y*0.1, 16, 16); }
+        
+        // Record replay data if recording
+        if (isRecording) {
+          replayData.push({
+            timestamp: Date.now(),
+            players: Array.from(netState.entries()).map(([id, p]) => ({ playerId: id, ...p }))
+          });
+        }
+        // Update perf HUD
+        const perf = server.getPerfSnapshot ? server.getPerfSnapshot() : null;
+        if (perf) {
+          $('perf-avg-dt').textContent = perf.avgDtMs.toFixed(2);
+          $('perf-avg-tick').textContent = perf.avgTickMs.toFixed(2);
+          $('perf-max-tick').textContent = perf.maxTickMs.toFixed(2);
+          $('perf-min-tick').textContent = perf.minTickMs.toFixed(2);
+          $('perf-ticks').textContent = String(perf.ticks);
+          $('perf-players').textContent = String(perf.playersSimulatedLast);
+          if (tracing) {
+            trace.push({ t: Date.now(), perf });
+          }
+          // Perf warning logic
+          if (perf.avgTickMs > thresholdMs) {
+            overThresholdStreak++;
+          } else {
+            overThresholdStreak = 0;
+          }
+          const warnEl = $('perf-warn');
+          if (overThresholdStreak > thresholdFrames) {
+            warnEl.style.display = 'block';
+          } else if (warnEl.style.display !== 'none' && overThresholdStreak === 0) {
+            warnEl.style.display = 'none';
+          }
+        }
+        requestAnimationFrame(frame);
+      }
+      frame();
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      $('preset').addEventListener('change', ()=>{ const v=$('preset').value; if(v) loadPreset(v); });
+      $('btn-connect').addEventListener('click', connect);
+      $('btn-disconnect').addEventListener('click', disconnect);
+      $('btn-trace-toggle').addEventListener('click', ()=>{
+        tracing = !tracing;
+        $('btn-trace-toggle').textContent = tracing ? 'Stop Trace' : 'Start Trace';
+      });
+      $('btn-copy-url').addEventListener('click', copyUrl);
+      $('btn-ping').addEventListener('click', ping);
+      $('btn-replay-record').addEventListener('click', ()=>{
+        if (isRecording) {
+          stopRecording();
+        } else {
+          startRecording();
+        }
+      });
+      $('btn-replay-play').addEventListener('click', playReplay);
+      $('btn-replay-pause').addEventListener('click', pauseReplay);
+      $('btn-replay-step').addEventListener('click', stepReplay);
+      $('btn-replay-rewind').addEventListener('click', rewindReplay);
+      $('btn-replay-load').addEventListener('click', loadReplay);
+      $('btn-replay-export').addEventListener('click', exportReplay);
+      $('btn-load-pack').addEventListener('click', ()=>{
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+        input.onchange = (e)=>{
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = ()=>{
+            try {
+              const pack = JSON.parse(String(reader.result));
+              if (pack.session) {
+                // Load session from pack
+                const session = pack.session;
+                server = new ZoneServerPure({ zone: session.zone });
+                const useRealWebSocket = $('websocket-mode').value === 'realtime';
+                const serverUrl = $('server-url').value;
+                bridge = new WebSocketBridgePure({ 
+                  useRealWebSocket,
+                  serverUrl: useRealWebSocket ? serverUrl : undefined,
+                  onStatusChange: (status)=>{ $('status').textContent = status; }
+                });
+                server.setBridge(bridge);
+                session.players.forEach((p: any)=>{ 
+                  server.addPlayer(PlayerStatePure.create(p.playerId, p.avatar, p.style)); 
+                });
+                bridge.onMessage((ch, payload)=>{
+                  if (payload.type === 'state-delta') {
+                    console.log('📡 Network update:', payload.players.length, 'players');
+                  }
+                });
+                console.log('📦 Pack loaded:', pack.name);
+              }
+            } catch (error) {
+              console.error('Failed to load pack:', error);
+            }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      });
+      $('btn-remix-pack').addEventListener('click', ()=>{
+        const preset = prompt('Enter preset (duel, co-op):', 'duel');
+        if (preset) {
+          const packName = `${preset}-remix-${Date.now()}.json`;
+          download(packName, JSON.stringify({
+            schema: 'miff.multiplayer.pack.v1',
+            name: `${preset} (Remix)`,
+            version: '1.0.0-remix',
+            remixInstructions: { steps: ['0. This is a remix of the original pack'] }
+          }, null, 2));
+        }
+      });
+      $('btn-perf-summary').addEventListener('click', ()=>{
+        const perf = server.getPerfSnapshot ? server.getPerfSnapshot() : null;
+        if (perf) {
+          const summary = {
+            schema: 'miff.perf.summary.v1',
+            timestamp: Date.now(),
+            metrics: {
+              avgTickMs: perf.avgTickMs,
+              maxTickMs: perf.maxTickMs,
+              minTickMs: perf.minTickMs,
+              totalTicks: perf.ticks,
+              playersSimulated: perf.playersSimulatedLast
+            },
+            analysis: {
+              performance: perf.avgTickMs > 10 ? 'poor' : perf.avgTickMs > 5 ? 'fair' : 'good',
+              stability: (perf.maxTickMs - perf.minTickMs) > 20 ? 'unstable' : 'stable',
+              recommendations: []
+            }
+          };
+          if (perf.avgTickMs > 10) summary.analysis.recommendations.push('Consider reducing player count or optimizing simulation');
+          if ((perf.maxTickMs - perf.minTickMs) > 20) summary.analysis.recommendations.push('High variance detected - check for frame drops');
+          download('miff_perf_summary.json', JSON.stringify(summary, null, 2));
+        }
+      });
+      $('btn-trace-download').addEventListener('click', ()=>{
+        const payload = JSON.stringify({ schema: 'miff.perf.trace.v1', frames: trace }, null, 2);
+        download('miff_perf_trace.json', payload);
+      });
+      $('trace-file').addEventListener('change', (e)=>{
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ()=>{
+          try {
+            const data = JSON.parse(String(reader.result));
+            const frames = Array.isArray(data.frames) ? data.frames : [];
+            const cvs = $('trace-canvas') as HTMLCanvasElement; const ctx = cvs.getContext('2d');
+            if (!ctx) return;
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            // Find max for scaling
+            let maxVal = 0;
+            for (const f of frames){
+              if (f.perf) {
+                maxVal = Math.max(maxVal, f.perf.maxTickMs || 0, f.perf.avgTickMs || 0, f.perf.minTickMs || 0);
+              }
+            }
+            const pad = 6; const w = cvs.width - pad*2; const h = cvs.height - pad*2;
+            function y(v){ return pad + h - (h * (v / (maxVal || 1))); }
+            function x(i){ return pad + (w * (i / Math.max(1, frames.length-1))); }
+            // Grid
+            ctx.strokeStyle = '#182231'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, pad+h); ctx.lineTo(pad+w, pad+h); ctx.stroke();
+            // Draw series helper
+            function drawSeries(key, color){
+              ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.beginPath();
+              let started = false; let i = 0;
+              for (const f of frames){
+                const v = f?.perf?.[key];
+                if (typeof v !== 'number') { i++; continue; }
+                const px = x(i); const py = y(v);
+                if (!started) { ctx.moveTo(px, py); started = true; } else { ctx.lineTo(px, py); }
+                i++;
+              }
+              ctx.stroke();
+            }
+            drawSeries('minTickMs', '#2ea043');
+            drawSeries('avgTickMs', '#58a6ff');
+            drawSeries('maxTickMs', '#f85149');
+          } catch {}
+        };
+        reader.readAsText(file);
+      });
+      // Keyboard input
+      document.addEventListener('keydown', (e)=>{
+        keys.add(e.key.toLowerCase());
+        if (['w','a','s','d','arrowup','arrowleft','arrowdown','arrowright'].includes(e.key.toLowerCase())) {
+          e.preventDefault();
+        }
+      });
+      document.addEventListener('keyup', (e)=>{
+        keys.delete(e.key.toLowerCase());
+      });
+      
+      // Show onboarding on first visit
+      if (!localStorage.getItem('miff-multiplayer-onboarded')) {
+        $('onboarding').style.display = 'flex';
+        localStorage.setItem('miff-multiplayer-onboarded', 'true');
+      }
+      loadPreset('../../presets/sessions/duel.json');
+      loop();
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <strong>MIFF Studio — Multiplayer Preview</strong>
+    <nav><a href="./index.html" style="color:#58a6ff;text-decoration:none">Studio Home</a></nav>
+  </header>
+  <div class="wrap">
+    <aside class="panel">
+      <h3>Session</h3>
+      <div class="content">
+        <div class="kv"><label>Preset</label>
+          <select id="preset">
+            <option value="../../presets/sessions/duel.json">Duel</option>
+            <option value="../../presets/sessions/co-op.json">Co-op</option>
+          </select>
+        </div>
+        <div class="kv"><label>WebSocket</label>
+          <select id="websocket-mode">
+            <option value="simulation">Simulation (Local)</option>
+            <option value="realtime">Real-time (WebSocket)</option>
+          </select>
+        </div>
+        <div class="kv"><label>Server URL</label>
+          <input id="server-url" type="text" value="ws://localhost:8080" placeholder="ws://localhost:8080" />
+        </div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="btn-connect">Connect</button>
+          <button id="btn-disconnect">Disconnect</button>
+          <button id="btn-copy-url">Copy URL</button>
+          <button id="btn-ping">Ping</button>
+        </div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="btn-load-pack">Load Pack</button>
+          <button id="btn-remix-pack">Remix Pack</button>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:#a9b8c6">
+          <div>Status: <span id="status">Disconnected</span></div>
+          <div>Clients: <span id="client-count">0</span></div>
+          <div>RTT: <span id="rtt">-</span> ms</div>
+        </div>
+      </div>
+    </aside>
+    <main class="panel">
+      <h3>Preview</h3>
+      <div class="content">
+        <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+          <canvas id="c" width="640" height="320"></canvas>
+          <div style="min-width:220px;border:1px solid #1f2d3c;border-radius:8px;padding:8px;background:#0b1220">
+            <div style="margin-bottom:6px;color:#a9b8c6">Performance</div>
+            <div style="font-size:12px;line-height:1.6">
+              <div>avg dt: <span id="perf-avg-dt">0</span> ms</div>
+              <div>avg tick: <span id="perf-avg-tick">0</span> ms</div>
+              <div>max tick: <span id="perf-max-tick">0</span> ms</div>
+              <div>min tick: <span id="perf-min-tick">0</span> ms</div>
+              <div>ticks: <span id="perf-ticks">0</span></div>
+              <div>players: <span id="perf-players">0</span></div>
+            </div>
+        <div class="toolbar" style="margin-top:8px">
+          <button id="btn-trace-toggle">Start Trace</button>
+          <button id="btn-trace-download">Download</button>
+        </div>
+        <div style="margin-top:10px">
+          <div style="margin-bottom:6px;color:#a9b8c6">Replay</div>
+          <div class="toolbar">
+            <button id="btn-replay-record">Record</button>
+            <button id="btn-replay-play" disabled>Play</button>
+            <button id="btn-replay-pause" disabled>Pause</button>
+            <button id="btn-replay-step" disabled>Step</button>
+            <button id="btn-replay-rewind" disabled>Rewind</button>
+          </div>
+          <div class="toolbar" style="margin-top:6px">
+            <button id="btn-replay-load">Load Replay</button>
+            <button id="btn-replay-export">Export Replay</button>
+          </div>
+        </div>
+            <div style="margin-top:10px">
+              <div style="margin-bottom:6px;color:#a9b8c6">Trace Viewer</div>
+              <input id="trace-file" type="file" accept="application/json" />
+              <canvas id="trace-canvas" width="280" height="120" style="margin-top:6px;background:#0a101a;border:1px solid #1f2d3c;border-radius:6px"></canvas>
+              <div style="font-size:12px;color:#a9b8c6;margin-top:4px">Shows avg/min/max tick (ms) over time</div>
+              <div class="toolbar" style="margin-top:6px">
+                <button id="btn-perf-summary">Export Summary</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div id="perf-warn" class="warn">Performance warning: avg tick > 10 ms sustained</div>
+  <div id="onboarding" class="onboarding" style="display:none">
+    <div class="card" style="position:relative">
+      <button class="close" onclick="$('onboarding').style.display='none'">×</button>
+      <h2>Welcome to MIFF Multiplayer</h2>
+      <p>Remix avatars, simulate sessions, and preview sync. Load presets, connect to WebSocket servers, and export your multiplayer experiences.</p>
+      <div class="toolbar">
+        <button onclick="loadPreset('../../presets/sessions/duel.json'); $('onboarding').style.display='none'">Load Duel</button>
+        <button onclick="loadPreset('../../presets/sessions/co-op.json'); $('onboarding').style.display='none'">Load Co-op</button>
+        <button onclick="$('onboarding').style.display='none'">Start Exploring</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

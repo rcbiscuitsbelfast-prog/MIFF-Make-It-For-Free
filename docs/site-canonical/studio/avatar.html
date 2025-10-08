@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MIFF Studio — Avatar Editor</title>
+  <style>
+    body{margin:0;background:#0f1116;color:#e6edf3;font-family:system-ui}
+    header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #222;background:#0f1116;position:sticky;top:0;z-index:10}
+    .wrap{padding:12px;display:grid;grid-template-columns:320px 1fr;gap:12px}
+    .panel{border:1px solid #1f2d3c;border-radius:10px;background:#0e1622}
+    .panel h3{margin:0;padding:10px;border-bottom:1px solid #1f2d3c}
+    .panel .content{padding:10px}
+    .kv{display:grid;grid-template-columns:120px 1fr;gap:6px;align-items:center}
+    input[type="text"],select{width:100%;background:#0b1320;border:1px solid #2b3b4f;color:#e6edf3;border-radius:6px;padding:6px}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    canvas{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px}
+    pre{background:#0b1220;border:1px solid #1f2d3c;border-radius:8px;padding:8px;max-height:260px;overflow:auto}
+  </style>
+  <script type="module">
+    import { AvatarSystemPure } from '../../miff/pure/AvatarSystemPure/index.ts';
+    import { AvatarRendererWebPure } from '../../miff/pure/AvatarRendererWebPure/index.ts';
+    import { AvatarRendererGodotPure } from '../../miff/pure/AvatarRendererGodotPure/index.ts';
+
+    const $ = (id)=>document.getElementById(id);
+    const registry = {
+      version: '1.0.0',
+      items: [
+        { id:'base_barbarian', remixSafety:'CC0', compatibility:['web','godot'], anchors:{
+          '3d:anchor_head':'/site/assets/avatars/placeholders/3d/anchor_head.png',
+          '3d:anchor_torso':'/site/assets/avatars/placeholders/3d/anchor_torso.png',
+          '3d:anchor_shirt':'/site/assets/avatars/placeholders/3d/anchor_shirt.png',
+          '2d-side:anchor_head':'/site/assets/avatars/placeholders/2d-side/anchor_head.png'
+        } }
+      ]
+    };
+
+    function getManifest(style){
+      const base = $('base').value || 'barbarian';
+      const clothing = ($('clothing').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+      return { base, clothing, face:'neutral', style };
+    }
+
+    function render(){
+      const m3d = getManifest('3d');
+      const m2d = getManifest('2d-side');
+      const r3d = AvatarSystemPure.resolve(m3d, { registry, style:'3d' });
+      const r2d = AvatarSystemPure.resolve(m2d, { registry, style:'2d-side' });
+      const c3d = $('c3d'); const x3d=c3d.getContext('2d'); c3d.width=256; c3d.height=256; x3d.clearRect(0,0,256,256);
+      const c2d = $('c2d'); const x2d=c2d.getContext('2d'); c2d.width=256; c2d.height=256; x2d.clearRect(0,0,256,256);
+      AvatarRendererWebPure.renderToCanvas(x3d, r3d);
+      AvatarRendererWebPure.renderToCanvas(x2d, r2d);
+      $('out').textContent = JSON.stringify({ m3d:r3d, m2d:r2d }, null, 2);
+    }
+
+    function exportGodot(){
+      const manifest = { base: $('base').value||'barbarian', style:'2d-side', layers:{ body:'body.png', clothing:($('clothing').value||'').split(',').filter(Boolean), face:'face.png' }, anchor:{ head:{x:16,y:4}, torso:{x:16,y:16} } };
+      const nodes = AvatarRendererGodotPure.manifestToGodotNodes(manifest);
+      $('out').textContent = JSON.stringify({ godotNodes: nodes }, null, 2);
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=>{
+      ['base','clothing'].forEach(id=>$(id).addEventListener('input', render));
+      $('btn-godot').addEventListener('click', exportGodot);
+      render();
+    });
+  </script>
+  </head>
+<body>
+  <header>
+    <strong>MIFF Studio — Avatar Editor</strong>
+    <nav class="toolbar">
+      <a href="./index.html" style="color:#58a6ff;text-decoration:none">Studio Home</a>
+      <a href="../sampler/avatar.html" style="color:#58a6ff;text-decoration:none">Sampler Avatar</a>
+    </nav>
+  </header>
+  <div class="wrap">
+    <aside class="panel">
+      <h3>Controls</h3>
+      <div class="content">
+        <div class="kv"><label>Base</label><input id="base" type="text" value="barbarian" /></div>
+        <div class="kv"><label>Clothing</label><input id="clothing" type="text" value="tunic" placeholder="comma,separated" /></div>
+        <div class="toolbar" style="margin-top:8px">
+          <button onclick="location.reload()">Reset</button>
+          <button id="btn-godot">Export Godot Nodes</button>
+        </div>
+        <details style="margin-top:8px"><summary>Output</summary><pre id="out"></pre></details>
+      </div>
+    </aside>
+    <main class="panel">
+      <h3>Preview (3D vs 2D-side)</h3>
+      <div class="content" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="margin-bottom:6px;color:#a9b8c6">3D Third-Person</div>
+          <canvas id="c3d" width="256" height="256"></canvas>
+        </div>
+        <div>
+          <div style="margin-bottom:6px;color:#a9b8c6">2D Side-Scrolling</div>
+          <canvas id="c2d" width="256" height="256"></canvas>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+

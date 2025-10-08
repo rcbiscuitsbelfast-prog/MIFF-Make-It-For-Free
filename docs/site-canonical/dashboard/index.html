@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MIFF Contributor Dashboard</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1116;
+            color: #e6edf3;
+            line-height: 1.6;
+        }
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #58a6ff, #f78166);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(88, 166, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(88, 166, 255, 0.1);
+        }
+        .card h3 {
+            margin: 0 0 16px 0;
+            font-size: 1.4em;
+            color: #58a6ff;
+        }
+        .card p {
+            margin: 0 0 20px 0;
+            opacity: 0.9;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1f6feb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #388bfd;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #21262d;
+            border: 1px solid #30363d;
+        }
+        .btn-secondary:hover {
+            background: #30363d;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status.ready { background: #238636; color: white; }
+        .status.dev { background: #f78166; color: white; }
+        .status.broken { background: #da3633; color: white; }
+        .zone-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .zone-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .zone-item:last-child {
+            border-bottom: none;
+        }
+        .zone-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 1.1em;
+        }
+        .zone-info p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        .quick-actions {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        .quick-actions h3 {
+            margin: 0 0 16px 0;
+            color: #58a6ff;
+        }
+        .quick-actions .btn-group {
+            justify-content: center;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            .btn-group .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <h1>🔧 MIFF Contributor Dashboard</h1>
+            <p>Zone management, development tools, and remix resources</p>
+        </header>
+
+        <section class="quick-actions">
+            <h3>🚀 Quick Actions</h3>
+            <div class="btn-group">
+                <a href="#toppler" class="btn">🧱 Test Toppler</a>
+                <a href="#spirit_tamer" class="btn">🐉 Test Spirit Tamer</a>
+                <a href="#witcher_grove" class="btn">🧙 Test Witcher Grove</a>
+                <a href="#remix_lab" class="btn">🧪 Open Remix Lab</a>
+            </div>
+        </section>
+
+        <div class="grid">
+            <div class="card">
+                <h3>🎮 Zone Status</h3>
+                <p>Current status of all gameplay zones and tools</p>
+                <ul class="zone-list">
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Toppler Puzzle</h4>
+                            <p>Physics puzzle with modular ramps</p>
+                        </div>
+                        <span class="status ready">Ready</span>
+                    </li>
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Spirit Tamer</h4>
+                            <p>Dialogue + interaction sampler</p>
+                        </div>
+                        <span class="status ready">Ready</span>
+                    </li>
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Witcher Grove</h4>
+                            <p>Narrative clearing with NPC</p>
+                        </div>
+                        <span class="status ready">Ready</span>
+                    </li>
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Remix Lab</h4>
+                            <p>Debug zone and CLI triggers</p>
+                        </div>
+                        <span class="status dev">Dev</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>📚 Development Resources</h3>
+                <p>Essential guides and documentation for contributors</p>
+                <div class="btn-group">
+                    <a href="../onboarding.html" class="btn">📖 Onboarding Guide</a>
+                    <a href="../../README.md" class="btn btn-secondary" target="_blank">📋 README</a>
+                    <a href="../../CONTRIBUTING.md" class="btn btn-secondary" target="_blank">🤝 Contributing</a>
+                    <a href="../../PUBLISHING.md" class="btn btn-secondary" target="_blank">🚀 Publishing</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Remix Tools</h3>
+                <p>Tools and utilities for remixing and extending MIFF</p>
+                <div class="btn-group">
+                    <a href="#remix_lab" class="btn">🧪 Remix Lab</a>
+                    <a href="../../modules/" class="btn btn-secondary" target="_blank">📦 Pure Modules</a>
+                    <a href="../../fixtures/" class="btn btn-secondary" target="_blank">🧪 Fixtures</a>
+                    <a href="../../tests/" class="btn btn-secondary" target="_blank">✅ Tests</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Project Health</h3>
+                <p>Current status and metrics for the MIFF framework</p>
+                <div class="zone-list">
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Pure Modules</h4>
+                            <p>Core gameplay systems</p>
+                        </div>
+                        <span class="status ready">Ready</span>
+                    </li>
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Zone System</h4>
+                            <p>Game zone management</p>
+                        </div>
+                        <span class="status ready">Ready</span>
+                    </li>
+                    <li class="zone-item">
+                        <div class="zone-info">
+                            <h4>Remix System</h4>
+                            <p>Contributor tools</p>
+                        </div>
+                        <span class="status dev">Dev</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>🚀 Getting Started</h3>
+                <p>Quick start guide for new contributors</p>
+                <ol style="margin: 0; padding-left: 20px;">
+                    <li>Read the <a href="../onboarding.html" style="color: #58a6ff;">onboarding guide</a></li>
+                    <li>Test existing zones to understand the system</li>
+                    <li>Fork the repository and create a new branch</li>
+                    <li>Add your zone or contribution</li>
+                    <li>Submit a pull request</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3>💡 Tips & Best Practices</h3>
+                <p>Guidelines for building remix-safe zones</p>
+                <ul style="margin: 0; padding-left: 20px;">
+                    <li>Use Pure modules for core gameplay</li>
+                    <li>Keep zones self-contained and modular</li>
+                    <li>Include comprehensive fixtures and tests</li>
+                    <li>Document your zone's purpose and features</li>
+                    <li>Test in both normal and remix modes</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Built with ❤️ by the MIFF community • <a href="https://github.com/miff-framework/miff" style="color: #58a6ff;">GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Dashboard-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle navigation back to main site
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('a[href^="#"]')) {
+                    e.preventDefault();
+                    const hash = e.target.getAttribute('href');
+                    if (hash === '#') return;
+                    
+                    // Navigate using the router if available
+                    if (window.parent && window.parent.MIFFRouter) {
+                        window.parent.MIFFRouter.navigateTo(hash.substring(1));
+                    } else {
+                        // Fallback to direct navigation
+                        window.parent.location.hash = hash;
+                    }
+                }
+            });
+
+            // Send ready signal to parent
+            if (window.parent) {
+                window.parent.postMessage({
+                    type: 'MIFF_ZONE_READY',
+                    zone: 'dashboard'
+                }, '*');
+            }
+        });
+    </script>
+</body>
+</html>

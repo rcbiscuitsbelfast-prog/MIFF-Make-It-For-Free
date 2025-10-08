@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MIFF Contributor Zones</title>
+	<style>
+		:root{ --bg:#0f1116; --fg:#e6edf3; --muted:#9da7b1; --card:#161b22; --accent:#58a6ff; --border:#222; --pass:#2ea043; --fail:#f85149 }
+		*{ box-sizing:border-box }
+		html,body{ margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif }
+		.header{ padding:16px; border-bottom:1px solid var(--border) }
+		.header h1{ margin:0 0 4px 0; font-size:1.4rem }
+		.header p{ margin:0; color:var(--muted) }
+		.wrap{ padding:16px; max-width:960px; margin:0 auto }
+		.actions{ display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 16px 0 }
+		.btn{ background:#0b0f16; color:var(--fg); border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:14px; cursor:pointer }
+		.btn:hover{ border-color:var(--accent) }
+		.grid{ display:grid; grid-template-columns:1fr; gap:12px }
+		.card{ background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px }
+		.card h2{ margin:0 0 6px 0; font-size:1.1rem }
+		.small{ color:var(--muted); margin:4px 0 10px 0 }
+		.row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap }
+		.status{ font-weight:600 }
+		.pass{ color:var(--pass) }
+		.fail{ color:var(--fail) }
+		a{ color:var(--accent); text-decoration:none }
+		a:hover{ text-decoration:underline }
+		.footer{ padding:16px; text-align:center; color:var(--muted); border-top:1px solid var(--border); margin-top:16px }
+		@media (min-width: 760px){ .grid{ grid-template-columns:1fr 1fr } }
+	</style>
+</head>
+<body>
+	<header class="header">
+		<h1>MIFF Contributor Zones</h1>
+		<p>Final checkpoint before pushing to main. Run goldens, verify remix readiness, and open guides.</p>
+	</header>
+	<main class="wrap">
+		<div class="actions">
+			<button id="runAll" class="btn">Run All Tests</button>
+			<a class="btn" href="./index.html">← Back to Sampler</a>
+		</div>
+		<div id="zones" class="grid" aria-live="polite"></div>
+	</main>
+	<footer class="footer">
+		<p><a href="https://github.com/miff-framework/miff">GitHub</a> · <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer">Ko‑fi</a> · <a href="https://github.com/sponsors" target="_blank" rel="noopener noreferrer">GitHub Sponsors</a></p>
+	</footer>
+	<script type="module">
+		import { runReplay } from '../replay/replay.js';
+
+		const ZONES = [
+			{ id:'toppler', name:'Toppler', desc:'Grid puzzle with pushable blocks and goals.' },
+			{ id:'spirit_tamer', name:'Spirit Tamer', desc:'Turn-based encounters and spirit capture.' },
+			{ id:'witcher_grove', name:'Witcher Grove', desc:'Pathfinding, crafting, and patrols in a quiet clearing.' }
+		];
+
+		const modulesToProbe = async (zoneId) => {
+			const urls = [
+				`../zones/${zoneId}/index.js`, // reducer wrapper exists
+				`../zones/${zoneId}/assets.json`,
+				`../zones/${zoneId}/ui.js`
+			];
+			const res = await Promise.all(urls.map(u=> fetch(u, { method:'HEAD' }).then(r=> r.ok).catch(()=>false)));
+			return { reducer: res[0], assets: res[1], ui: res[2] };
+		};
+
+		function statusPill(ok){
+			const span = document.createElement('span');
+			span.className = `status ${ok? 'pass':'fail'}`;
+			span.textContent = ok? '✅ PASS' : '❌ FAIL';
+			return span;
+		}
+
+		async function render(){
+			const root = document.getElementById('zones');
+			root.innerHTML = '';
+			for(const z of ZONES){
+				const card = document.createElement('div'); card.className = 'card';
+				const h2 = document.createElement('h2'); h2.textContent = z.name; card.appendChild(h2);
+				const p = document.createElement('p'); p.className='small'; p.textContent = z.desc; card.appendChild(p);
+				const row1 = document.createElement('div'); row1.className='row';
+				row1.append('Guide:', ' ');
+				const a = document.createElement('a'); a.href = `./onboarding.html?zone=${z.id}`; a.textContent = 'Open contributor guide'; row1.appendChild(a);
+				card.appendChild(row1);
+				const row2 = document.createElement('div'); row2.className='row';
+				row2.append('Fixture: ');
+				const pill = statusPill(false); row2.appendChild(pill);
+				card.appendChild(row2);
+				const row3 = document.createElement('div'); row3.className='row';
+				row3.append('Remix readiness: ');
+				const rr = document.createElement('span'); rr.className='status'; rr.textContent = 'Checking...'; row3.appendChild(rr);
+				card.appendChild(row3);
+				root.appendChild(card);
+
+				// Run replay per zone
+				try{
+					const res = await runReplay(z.id);
+					pill.className = `status ${res.pass? 'pass':'fail'}`; pill.textContent = res.pass? '✅ PASS':'❌ FAIL';
+				} catch(e){ pill.className='status fail'; pill.textContent='❌ FAIL'; }
+
+				// Probe remix readiness
+				const mods = await modulesToProbe(z.id);
+				const ready = mods.reducer && mods.assets && mods.ui;
+				rr.textContent = ready? 'Ready to fork' : 'Needs setup';
+			}
+		}
+
+		document.getElementById('runAll').addEventListener('click', render);
+		render();
+	</script>
+</body>
+</html>
