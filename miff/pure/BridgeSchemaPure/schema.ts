@@ -62,6 +62,8 @@ export interface RenderPayload {
     engine: string;
     timestamp: string;
     module: string;
+    frameId?: string;
+    frameName?: string;
   };
 }
 

@@ -436,6 +436,13 @@ export class RacingSystemPure {
       velocity: { x: 0, y: 0, z: 0 },
       angularVelocity: { x: 0, y: 0, z: 0 },
       ...specs,
+      // Ensure required numeric specs default if missing
+      maxSpeed: (specs.maxSpeed as number) ?? 200,
+      acceleration: (specs.acceleration as number) ?? 5,
+      handling: (specs.handling as number) ?? 5,
+      braking: (specs.braking as number) ?? 5,
+      weight: (specs.weight as number) ?? 1200,
+      drag: (specs.drag as number) ?? 0.3,
       engineRPM: 1000,
       gear: 1,
       fuel: 100,

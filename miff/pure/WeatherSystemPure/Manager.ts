@@ -301,18 +301,22 @@ export class WeatherManagerPure {
   private handleWeatherChange(oldWeather: WeatherState, newWeather: WeatherState): void {
     // Update renderer if available
     if (this.renderer) {
-      const visibility = (Array.isArray(newWeather.effects) ? undefined : undefined) ?? (newWeather as any).visibility ?? 1;
+      const effArray = Array.isArray(newWeather.effects) ? newWeather.effects : [];
+      const visFromEffect = (effArray.find(e => (e as any).visibility != null) as any)?.visibility;
+      const visibility = visFromEffect ?? (newWeather as any)?.visibility ?? 1;
       this.renderer.updateVisibility(visibility);
       this.renderer.updateParticles(newWeather.type, newWeather.intensity);
+      const lfFromEffect = (effArray.find(e => (e as any).lightningFrequency != null) as any)?.lightningFrequency;
+      const lightningFreq = lfFromEffect ?? (newWeather as any)?.lightningFrequency ?? 0;
       this.renderer.updateLighting(
         this.calculateLightLevel(newWeather),
-        ((newWeather as any).lightningFrequency ?? 0) > 0.5
+        lightningFreq > 0.5
       );
       this.renderer.updateAudio(newWeather.type, newWeather.intensity);
     }
 
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherChange(oldWeather, newWeather);
     });
 
@@ -337,12 +341,14 @@ export class WeatherManagerPure {
       this.renderer.updateLighting(0.1, true); // Flash effect
       setTimeout(() => {
         const currentWeather = this.weatherSystem.getCurrentWeather();
-        this.renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
+        if (this.renderer) {
+          this.renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
+        }
       }, 200);
     }
 
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onLightningStrike(position, 0.8); // High intensity lightning
     });
   }
@@ -352,7 +358,7 @@ export class WeatherManagerPure {
    */
   private handleWeatherEffect(effect: WeatherEffect, intensity: number): void {
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherEffect(effect, intensity);
     });
   }
@@ -363,7 +369,8 @@ export class WeatherManagerPure {
   private calculateLightLevel(weather: WeatherState): number {
     const baseLight = this.getBaseLightLevel();
     const effects = Array.isArray(weather.effects) ? weather.effects : [];
-    const visibility = (effects[0] as any)?.visibility ?? (weather as any).visibility ?? 1;
+    const effVis = (effects.find(e => (e as any).visibility != null) as any)?.visibility;
+    const visibility = effVis ?? (weather as any)?.visibility ?? 1;
     const weatherMultiplier = 1 - (1 - visibility) * 0.7;
     const intensityMultiplier = this.getIntensityLightMultiplier(weather.intensity);
 
@@ -406,7 +413,8 @@ export class WeatherManagerPure {
     const currentWeather = this.weatherSystem.getCurrentWeather();
 
     // Initialize renderer with current weather
-    renderer.updateVisibility(currentWeather.effects.visibility);
+    const initVis = (Array.isArray(currentWeather.effects) ? (currentWeather.effects.find(e => (e as any).visibility != null) as any)?.visibility : undefined) ?? (currentWeather as any)?.visibility ?? 1;
+    renderer.updateVisibility(initVis);
     renderer.updateParticles(currentWeather.type, currentWeather.intensity);
     renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
     renderer.updateAudio(currentWeather.type, currentWeather.intensity);

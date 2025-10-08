@@ -29,6 +29,11 @@ export interface PerfResult {
 /**
  * Performance timer for measuring code execution time
  */
+// Local minimal Disposable to satisfy environments lacking lib.dom.d.ts
+export interface Disposable {
+  [Symbol.dispose](): void;
+}
+
 export class PerfTimer implements Disposable {
   private readonly _label: string;
   private readonly _startTime: number;
@@ -146,6 +151,10 @@ export class PerfTimer implements Disposable {
   /**
    * Dispose of the timer and output the result
    */
+  [Symbol.dispose](): void {
+    this.dispose();
+  }
+
   dispose(): void {
     if (this._disposed) return;
 

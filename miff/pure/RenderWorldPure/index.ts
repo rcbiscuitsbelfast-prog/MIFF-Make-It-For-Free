@@ -52,9 +52,9 @@ import {
 } from '../HUDPure';
 
 import {
-  SceneBuilderManager,
-  RenderPayloadPure
+  SceneBuilderManager
 } from '../SceneBuilderPure';
+import RenderPayloadPure from '../RenderPayloadPure';
 
 import { EventBus } from '../EventBusPure/EventBusPure.js';
 
@@ -121,7 +121,7 @@ import {
   DeviceType
 } from '../MobilePerformanceOptimizer';
 
-interface RenderWorldGameState {
+export interface RenderWorldGameState {
   player: {
     position: { x: number; y: number; z: number };
     rotation: { x: number; y: number; z: number };

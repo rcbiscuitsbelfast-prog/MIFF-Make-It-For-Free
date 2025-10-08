@@ -5,7 +5,9 @@
  * shader support, and dynamic lighting.
  */
 
-import { RenderWorldPure, RenderWorldGameState, RenderPayloadPure } from './index';
+import { RenderWorldPure } from './index';
+import type { RenderWorldGameState } from './index';
+import RenderPayloadPure from '../RenderPayloadPure';
 
 export interface AdvancedRenderConfig {
   enableShaders: boolean;

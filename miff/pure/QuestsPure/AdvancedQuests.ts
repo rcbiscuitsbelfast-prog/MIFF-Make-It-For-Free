@@ -5,7 +5,8 @@
  * complex branching, and procedural quest creation.
  */
 
-import { Quest, QuestStep, QuestReward, QuestStatus } from './index';
+import { Quest, QuestStep, QuestReward, QuestStats } from './index';
+type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
 
 export interface DynamicQuest {
   id: string;
@@ -101,9 +102,10 @@ export interface QuestMetadata {
 
 export interface QuestContext {
   player: any;
-  quest: DynamicQuest;
+  quest?: DynamicQuest;
   step?: DynamicQuestStep;
   timestamp: number;
+  reason?: string;
   metadata?: any;
 }
 
@@ -512,7 +514,7 @@ export class AdvancedQuests {
    * Check step conditions
    */
   private checkStepConditions(step: DynamicQuestStep, player: any): boolean {
-    return step.conditions.every(condition => condition.check({ player, step, timestamp: Date.now() }));
+    return step.conditions.every(condition => condition.check({ player, quest: this.findOwningQuest(step), step, timestamp: Date.now() } as QuestStepContext));
   }
 
   /**
@@ -520,7 +522,7 @@ export class AdvancedQuests {
    */
   private applyStepRewards(step: DynamicQuestStep, player: any): void {
     for (const reward of step.rewards) {
-      reward.apply({ player, step, timestamp: Date.now() });
+      reward.apply({ player, quest: this.findOwningQuest(step), step, timestamp: Date.now() } as QuestStepContext);
     }
   }
 
@@ -529,8 +531,16 @@ export class AdvancedQuests {
    */
   private applyQuestRewards(quest: DynamicQuest, player: any): void {
     for (const reward of quest.rewards) {
-      reward.apply({ player, quest, timestamp: Date.now() });
+      reward.apply({ player, quest, timestamp: Date.now() } as QuestContext);
     }
+  }
+
+  private findOwningQuest(step: DynamicQuestStep): DynamicQuest {
+    for (const quest of this.dynamicQuests.values()) {
+      if (quest.steps.includes(step)) return quest;
+    }
+    // Fallback: create a synthetic quest context if not found
+    return { id: 'unknown', name: 'Unknown', description: '', type: 'side', difficulty: 'easy', prerequisites: [], steps: [step], rewards: [], conditions: [], triggers: [], metadata: {} as any, status: 'active', createdAt: Date.now(), updatedAt: Date.now() } as DynamicQuest;
   }
 
   /**
