@@ -463,7 +463,7 @@ export class ExportIntegration {
 
     let samplerIndex = 0;
     nodeKeyframes.forEach((keyframes: Keyframe[], nodeId: string) => {
-      const times = keyframes.map((kf: Keyframe) => (kf.time || 0) / 1000);
+      const times = keyframes.map((kf: Keyframe) => Number(kf.time || 0) / 1000);
       const positions = keyframes.map((kf: Keyframe) => [
         Number((kf.transform as any)?.position?.x) || 0,
         Number((kf.transform as any)?.position?.y) || 0,

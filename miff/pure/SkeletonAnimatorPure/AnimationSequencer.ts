@@ -35,9 +35,12 @@ export class AnimationSequencer {
       duration,
       loop,
       keyframes: keyframes.map((kf, index) => ({
-        ...kf,
+        nodeId: kf.nodeId,
+        transform: kf.transform,
+        interpolation: kf.interpolation,
+        handles: (kf as any).handles,
         time: (index / Math.max(1, keyframes.length - 1)) * duration
-      })),
+      } as Keyframe)),
       rigId: this.rigConfig.id,
       metadata: {}
     };

@@ -41,6 +41,7 @@ export class FacialDetailBuilder {
   ): FacialDetailBuilder {
     const feature: FaceFeature = {
       id: this.generateId(),
+      name: `${type}_${this.nextId}`,
       type,
       position: { ...position },
       scale: { ...scale },

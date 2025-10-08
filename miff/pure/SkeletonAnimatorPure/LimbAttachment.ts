@@ -88,7 +88,8 @@ export class LimbAttachment {
           position: { x: 0, y: 0, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Forearm',
@@ -99,7 +100,8 @@ export class LimbAttachment {
           position: { x: 0, y: -0.4, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       },
       {
         name: 'Hand',
@@ -110,7 +112,8 @@ export class LimbAttachment {
           position: { x: 0, y: -0.3, z: 0 },
           rotation: { x: 0, y: 0, z: 0, w: 1 },
           scale: { x: 1, y: 1, z: 1 }
-        }
+        },
+        metadata: {}
       }
     ], {
       constraints: [
