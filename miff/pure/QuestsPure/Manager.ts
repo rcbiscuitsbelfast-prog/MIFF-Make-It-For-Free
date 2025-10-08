@@ -74,6 +74,7 @@ export interface QuestOutput {
   status: 'ok' | 'error';
   result?: any;
   issues?: string[];
+  [key: string]: unknown;
 }
 
 export class QuestsManager {
