@@ -6,13 +6,13 @@
 
 import {
   MagicSystemPure,
-  SpellDefinition,
-  SpellInstance,
-  ManaPool,
-  SpellEffect,
-  SpellElement,
-  SpellSchool,
-  MagicCombatResult
+  type SpellDefinition,
+  type SpellInstance,
+  type ManaPool,
+  type SpellEffect,
+  type SpellElement,
+  type SpellSchool,
+  type MagicCombatResult
 } from './index';
 
 export class MagicManager {
@@ -80,8 +80,9 @@ export class MagicManager {
       }
 
       return result;
-    } catch (error) {
-      console.error(`❌ Spell cast error: ${spellId} - ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Spell cast error: ${spellId} - ${message}`);
       return {
         spellInstance: {} as SpellInstance,
         targets: [],
@@ -92,7 +93,7 @@ export class MagicManager {
         buffsApplied: [],
         debuffsApplied: [],
         success: false,
-        failureReason: error.message
+        failureReason: message
       };
     }
   }
@@ -146,8 +147,9 @@ export class MagicManager {
         console.warn(`⚠️ Failed to learn spell: ${spellId} for ${casterId}`);
         return false;
       }
-    } catch (error) {
-      console.error(`❌ Error learning spell ${spellId}: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Error learning spell ${spellId}: ${message}`);
       return false;
     }
   }
