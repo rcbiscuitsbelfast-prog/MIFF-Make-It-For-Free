@@ -327,8 +327,8 @@ export class ExportPipelinePure {
     const warnings: string[] = [];
 
     // Preprocess assets
-    if (renderPayload.textures) {
-      for (const texture of renderPayload.textures) {
+    if ((renderPayload as any).textures) {
+      for (const texture of (renderPayload as any).textures) {
         if (texture.size && (texture.size.width > 4096 || texture.size.height > 4096)) {
           warnings.push(`Large texture detected: ${texture.id} (${texture.size.width}x${texture.size.height})`);
         }
@@ -336,8 +336,8 @@ export class ExportPipelinePure {
     }
 
     // Check for potential optimization opportunities
-    if (renderPayload.meshes) {
-      const totalVertices = renderPayload.meshes.reduce((sum, mesh) => sum + (mesh.vertices || 0), 0);
+    if ((renderPayload as any).meshes) {
+      const totalVertices = (renderPayload as any).meshes.reduce((sum: number, mesh: any) => sum + (mesh.vertices || 0), 0);
       if (totalVertices > 100000) {
         warnings.push(`High vertex count detected: ${totalVertices} vertices total`);
       }
@@ -454,15 +454,15 @@ export class ExportPipelinePure {
       }
       
       // Calculate size from textures
-      if (renderPayload.textures) {
-        totalSize += renderPayload.textures.reduce((sum, texture) => {
+      if ((renderPayload as any).textures) {
+        totalSize += (renderPayload as any).textures.reduce((sum: number, texture: any) => {
           return sum + (texture.size ? texture.size.width * texture.size.height * 4 : 0); // 4 bytes per pixel
         }, 0);
       }
       
       // Calculate size from meshes
-      if (renderPayload.meshes) {
-        totalSize += renderPayload.meshes.reduce((sum, mesh) => {
+      if ((renderPayload as any).meshes) {
+        totalSize += (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
           return sum + (mesh.vertices ? mesh.vertices * 12 : 0); // 12 bytes per vertex (3 floats * 4 bytes)
         }, 0);
       }
@@ -479,8 +479,8 @@ export class ExportPipelinePure {
         version: config.version || '1.0.0',
         timestamp: new Date().toISOString(),
         fileCount: (renderPayload.renderData?.length || 0) + 
-                  (renderPayload.textures?.length || 0) + 
-                  (renderPayload.meshes?.length || 0),
+                  (((renderPayload as any).textures?.length) ?? 0) + 
+                  (((renderPayload as any).meshes?.length) ?? 0),
         totalSize
       };
       
@@ -523,10 +523,10 @@ export class ExportPipelinePure {
     exportResult: ExportResult
   ): Promise<ExportAnalytics> {
     // Calculate real asset counts
-    const totalAssets = (renderPayload.textures?.length || 0) +
-                       (renderPayload.meshes?.length || 0) +
-                       (renderPayload.materials?.length || 0) +
-                       (renderPayload.renderData?.length || 0);
+    const totalAssets = (((renderPayload as any).textures?.length) ?? 0) +
+                       (((renderPayload as any).meshes?.length) ?? 0) +
+                       (((renderPayload as any).materials?.length) || 0) +
+                       ((renderPayload as any).renderData?.length || 0);
 
     const totalSize = exportResult.fileSize;
     
@@ -559,15 +559,15 @@ export class ExportPipelinePure {
     let rawSize = 0;
     
     // Calculate raw texture size
-    if (renderPayload.textures) {
-      rawSize += renderPayload.textures.reduce((sum, texture) => {
+    if ((renderPayload as any).textures) {
+      rawSize += (renderPayload as any).textures.reduce((sum: number, texture: any) => {
         return sum + (texture.size ? texture.size.width * texture.size.height * 4 : 0);
       }, 0);
     }
     
     // Calculate raw mesh size
-    if (renderPayload.meshes) {
-      rawSize += renderPayload.meshes.reduce((sum, mesh) => {
+    if ((renderPayload as any).meshes) {
+      rawSize += (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
         return sum + (mesh.vertices ? mesh.vertices * 12 : 0); // 12 bytes per vertex
       }, 0);
     }
@@ -584,8 +584,8 @@ export class ExportPipelinePure {
     let savings = 0;
     
     // Texture optimization savings
-    if (renderPayload.textures) {
-      const textureSavings = renderPayload.textures.reduce((sum, texture) => {
+    if ((renderPayload as any).textures) {
+      const textureSavings = (renderPayload as any).textures.reduce((sum: number, texture: any) => {
         if (texture.size && (texture.size.width > 1024 || texture.size.height > 1024)) {
           return sum + (texture.size.width * texture.size.height * 0.3); // 30% savings for large textures
         }
@@ -595,8 +595,8 @@ export class ExportPipelinePure {
     }
     
     // Mesh optimization savings
-    if (renderPayload.meshes) {
-      const meshSavings = renderPayload.meshes.reduce((sum, mesh) => {
+    if ((renderPayload as any).meshes) {
+      const meshSavings = (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
         if (mesh.vertices && mesh.vertices > 1000) {
           return sum + (mesh.vertices * 0.2); // 20% savings for complex meshes
         }
@@ -619,9 +619,17 @@ export class ExportPipelinePure {
     loadTime: number;
   } {
     // Calculate based on content complexity
-    const textureCount = renderPayload.textures?.length || 0;
-    const meshCount = renderPayload.meshes?.length || 0;
-    const dataCount = renderPayload.renderData?.length || 0;
+    const textureCount = ((renderPayload as any).textures?.length) ?? (
+      Array.isArray((renderPayload as any).renderData)
+        ? (renderPayload as any).renderData.filter((d: any) => d?.type === 'texture').length
+        : 0
+    );
+    const meshCount = ((renderPayload as any).meshes?.length) ?? (
+      Array.isArray((renderPayload as any).renderData)
+        ? (renderPayload as any).renderData.filter((d: any) => d?.type === 'mesh').length
+        : 0
+    );
+    const dataCount = (renderPayload as any).renderData?.length || 0;
     
     // Base performance
     let fps = 60;
@@ -707,18 +715,18 @@ export class ExportPipelinePure {
     let complexity = 0;
     
     // Texture complexity
-    if (renderPayload.textures) {
-      const avgTextureSize = renderPayload.textures.reduce((sum, texture) => {
+    if ((renderPayload as any).textures) {
+      const avgTextureSize = (renderPayload as any).textures.reduce((sum: number, texture: any) => {
         return sum + (texture.size ? texture.size.width * texture.size.height : 0);
-      }, 0) / (renderPayload.textures.length || 1);
+      }, 0) / (((renderPayload as any).textures.length) || 1);
       complexity += Math.min(0.4, avgTextureSize / 1000000); // Normalize to 0-0.4
     }
     
     // Mesh complexity
-    if (renderPayload.meshes) {
-      const avgVertexCount = renderPayload.meshes.reduce((sum, mesh) => {
+    if ((renderPayload as any).meshes) {
+      const avgVertexCount = (renderPayload as any).meshes.reduce((sum: number, mesh: any) => {
         return sum + (mesh.vertices || 0);
-      }, 0) / (renderPayload.meshes.length || 1);
+      }, 0) / (((renderPayload as any).meshes.length) || 1);
       complexity += Math.min(0.4, avgVertexCount / 10000); // Normalize to 0-0.4
     }
     
@@ -741,17 +749,17 @@ export class ExportPipelinePure {
 
     switch (engine) {
       case ExportEngine.GODOT:
-        if (payload.renderData?.some(rd => rd.meshes?.some(m => m.vertices > 50000))) {
+    if (payload.renderData?.some(rd => (rd as any).meshes?.some((m: any) => m.vertices > 50000))) {
           warnings.push('High polygon count detected - may impact performance');
         }
         break;
       case ExportEngine.UNITY:
-        if (payload.textures?.some(t => t.size?.width > 8192 || t.size?.height > 8192)) {
+    if (((payload as any).textures)?.some((t: any) => t.size?.width > 8192 || t.size?.height > 8192)) {
           warnings.push('Very large textures detected - consider reducing size');
         }
         break;
       case ExportEngine.WEB:
-        if (payload.renderData?.some(rd => rd.meshes?.some(m => m.vertices > 10000))) {
+    if (payload.renderData?.some(rd => (rd as any).meshes?.some((m: any) => m.vertices > 10000))) {
           issues.push('Mesh too complex for web platform');
         }
         break;
@@ -1100,6 +1108,8 @@ export function exportToGodot(
 ): Promise<ExportResult> {
   const pipeline = new ExportPipelinePure();
 
+  // Ensure platform is strictly ExportPlatform; ignore any GodotPlatform passed in config
+  const { platform: _ignorePlatform, ...rest } = config as any;
   const exportConfig: ExportConfig = {
     engine: ExportEngine.GODOT,
     platform: ExportPlatform.WEB_BROWSER,
@@ -1110,7 +1120,7 @@ export function exportToGodot(
     compressAssets: true,
     generateAnalytics: true,
     customSettings: {},
-    ...config
+    ...rest
   };
 
   return pipeline.exportGame(renderPayload, exportConfig);

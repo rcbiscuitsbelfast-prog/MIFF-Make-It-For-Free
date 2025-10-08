@@ -1,7 +1,8 @@
 // UnrealPayloadAdapterPure - Converts RenderPayloadPure to Unreal-compatible format
 // Schema Version: v1.0
 
-import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure';
+import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure/Manager';
+import { UnrealDataType, type UnrealCollisionChannel, type UnrealReplicationMode, UnrealTickGroup } from './index';
 import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealAssetBridge, UnrealSceneBridge } from './index';
 
 export enum PayloadConversionMode {
@@ -540,7 +541,8 @@ export class UnrealPayloadAdapterPure {
 
     try {
       // Get source payload
-      const sourcePayload = this.renderPayloadManager.getPayload(payloadId);
+      const frameResult = this.renderPayloadManager.getFrame(payloadId);
+      const sourcePayload = frameResult.ok ? frameResult.frame : undefined;
       if (!sourcePayload) {
         throw new Error(`Render payload not found: ${payloadId}`);
       }
@@ -1411,10 +1413,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `material_${index}_${Date.now()}`,
             name: `Material_${index}`,
-            type: 'material',
+            type: UnrealDataType.MATERIAL as any,
             packagePath: '/Game/MIFF/Materials',
             assetPath: `/Game/MIFF/Materials/Material_${index}`,
             className: 'Material',
+            interfaces: [],
             dependencies: material.textures?.map((tex: any) => tex.path) || [],
             references: [],
             thumbnailInfo: null,
@@ -1475,10 +1478,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `texture_${index}_${Date.now()}`,
             name: `Texture_${index}`,
-            type: 'texture',
+            type: UnrealDataType.TEXTURE as any,
             packagePath: '/Game/MIFF/Textures',
             assetPath: `/Game/MIFF/Textures/Texture_${index}`,
             className: 'Texture2D',
+            interfaces: [],
             dependencies: [],
             references: [],
             thumbnailInfo: null,
@@ -1541,10 +1545,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `animation_${index}_${Date.now()}`,
             name: `Animation_${index}`,
-            type: 'animation_sequence',
+            type: UnrealDataType.ANIM_SEQUENCE as any,
             packagePath: '/Game/MIFF/Animations',
             assetPath: `/Game/MIFF/Animations/Animation_${index}`,
             className: 'AnimSequence',
+            interfaces: [],
             dependencies: [],
             references: [],
             thumbnailInfo: null,
@@ -1606,10 +1611,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `particle_${index}_${Date.now()}`,
             name: `Particle_${index}`,
-            type: 'particle_system',
+            type: UnrealDataType.PARTICLE_SYSTEM as any,
             packagePath: '/Game/MIFF/Particles',
             assetPath: `/Game/MIFF/Particles/Particle_${index}`,
             className: 'ParticleSystem',
+            interfaces: [],
             dependencies: particle.textures?.map((tex: any) => tex.path) || [],
             references: [],
             thumbnailInfo: null,
@@ -1672,10 +1678,11 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: `sound_${index}_${Date.now()}`,
             name: `Sound_${index}`,
-            type: 'sound_wave',
+            type: UnrealDataType.SOUND_WAVE as any,
             packagePath: '/Game/MIFF/Sounds',
             assetPath: `/Game/MIFF/Sounds/Sound_${index}`,
             className: 'SoundWave',
+            interfaces: [],
             dependencies: [],
             references: [],
             thumbnailInfo: null,
@@ -1748,7 +1755,7 @@ export class UnrealPayloadAdapterPure {
   getConversionStats(): any {
     return {
       configurations: this.conversionConfigurations.size,
-      renderPayloadManager: this.renderPayloadManager.getPayloadCount(),
+      renderPayloadManager: (this.renderPayloadManager as any).frames?.size ?? 0,
       bridgeManager: {
         actors: this.bridgeManager['actors']?.size || 0,
         components: this.bridgeManager['components']?.size || 0,

@@ -14,18 +14,21 @@
  * @license MIT
  */
 
-const args = process.argv.slice(2);
-const command = args[0];
-const flags = parseFlags(args.slice(1));
+type FlagValue = string | boolean;
+type Flags = Record<string, FlagValue>;
 
-function parseFlags(args) {
-  const flags = {};
+const args: string[] = process.argv.slice(2);
+const command: string | undefined = args[0];
+const flags: Flags = parseFlags(args.slice(1));
+
+function parseFlags(args: string[]): Flags {
+  const flags: Flags = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg.startsWith('--')) {
       const key = arg.slice(2);
       const value = args[i + 1] && !args[i + 1].startsWith('--') ? args[i + 1] : true;
-      flags[key] = value;
+      flags[key] = value as FlagValue;
     }
   }
   return flags;
@@ -90,15 +93,15 @@ For more information, visit: https://rcbiscuitsbelfast-prog.github.io/renderworl
 }
 
 async function handlePreview() {
-  const inputFile = flags['input'] || flags['i'];
-  const fullscreen = flags['fullscreen'];
-  const noControls = flags['no-controls'];
-  const loop = flags['loop'];
-  const noDialogue = flags['no-dialogue'];
-  const skipAnimations = flags['skip-animations'];
-  const debug = flags['debug'];
+  const inputFile = (flags['input'] || flags['i']) as string | undefined;
+  const fullscreen = Boolean(flags['fullscreen']);
+  const noControls = Boolean(flags['no-controls']);
+  const loop = Boolean(flags['loop']);
+  const noDialogue = Boolean(flags['no-dialogue']);
+  const skipAnimations = Boolean(flags['skip-animations']);
+  const debug = Boolean(flags['debug']);
 
-  if (flags.verbose) {
+  if (Boolean(flags['verbose'])) {
     console.log(`🎬 Previewing cut scene...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🖥️  Fullscreen: ${fullscreen ? 'yes' : 'no'}`);
@@ -156,17 +159,20 @@ async function handlePreview() {
   };
 }
 
-async function handleExport() {
-  const inputFile = flags['input'] || flags['i'];
-  const outputDir = flags['output'] || flags['o'] || './export';
-  const engine = flags['engine'] || flags['e'] || 'web';
-  const format = flags['format'] || 'json';
-  const optimize = flags['optimize'];
-  const includeAssets = flags['include-assets'];
-  const noDialogue = flags['no-dialogue'];
-  const skipAnimations = flags['skip-animations'];
+type Engine = 'web' | 'unity' | 'unreal' | 'godot';
+type ExportFormat = 'json' | 'timeline' | 'sequencer' | 'scene' | 'html';
 
-  if (flags.verbose) {
+async function handleExport() {
+  const inputFile = (flags['input'] || flags['i']) as string | undefined;
+  const outputDir = (flags['output'] || flags['o'] || './export') as string;
+  const engine = ((flags['engine'] || flags['e'] || 'web') as string) as Engine;
+  const format = ((flags['format'] || 'json') as string) as ExportFormat;
+  const optimize = Boolean(flags['optimize']);
+  const includeAssets = Boolean(flags['include-assets']);
+  const noDialogue = Boolean(flags['no-dialogue']);
+  const skipAnimations = Boolean(flags['skip-animations']);
+
+  if (Boolean(flags['verbose'])) {
     console.log(`📦 Exporting cut scene for ${engine} engine...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`📂 Output: ${outputDir}`);
@@ -227,8 +233,8 @@ async function handleExport() {
   };
 }
 
-function generateOutputFiles(engine, format, outputDir) {
-  const files = [];
+function generateOutputFiles(engine: Engine, format: ExportFormat, outputDir: string): string[] {
+  const files: string[] = [];
 
   switch (engine) {
     case 'web':
@@ -270,11 +276,11 @@ function generateOutputFiles(engine, format, outputDir) {
 }
 
 async function handleValidate() {
-  const inputFile = flags['input'] || flags['i'];
-  const strict = flags['strict'];
-  const fix = flags['fix'];
+  const inputFile = (flags['input'] || flags['i']) as string | undefined;
+  const strict = Boolean(flags['strict']);
+  const fix = Boolean(flags['fix']);
 
-  if (flags.verbose) {
+  if (Boolean(flags['verbose'])) {
     console.log(`🔍 Validating cut scene definition...`);
     console.log(`📁 Input: ${inputFile}`);
     console.log(`🔒 Strict mode: ${strict ? 'yes' : 'no'}`);
@@ -302,8 +308,8 @@ async function handleValidate() {
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
-  const issues = [];
-  const warnings = [];
+  const issues: string[] = [];
+  const warnings: string[] = [];
 
   // Simulate validation results
   if (strict) {
@@ -342,10 +348,10 @@ async function handleValidate() {
 }
 
 async function handleSimulate() {
-  const inputFile = flags['input'] || flags['i'];
-  const debug = flags['debug'];
+  const inputFile = (flags['input'] || flags['i']) as string | undefined;
+  const debug = Boolean(flags['debug']);
 
-  if (flags.verbose) {
+  if (Boolean(flags['verbose'])) {
     console.log(`🎭 Simulating cut scene timing...`);
     console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
     console.log(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
@@ -407,9 +413,9 @@ async function handleSimulate() {
 }
 
 async function handleDemo() {
-  const outputDir = flags['output'] || flags['o'] || './demo-scenes';
+  const outputDir = (flags['output'] || flags['o'] || './demo-scenes') as string;
 
-  if (flags.verbose) {
+  if (Boolean(flags['verbose'])) {
     console.log(`🎬 Creating demo cut scene definitions...`);
     console.log(`📂 Output: ${outputDir}`);
   }
@@ -485,19 +491,24 @@ async function main() {
         process.exit(1);
     }
 
-    if (flags.verbose) {
+    if (Boolean(flags['verbose'])) {
       console.log('\n📊 Command Result:');
       console.log(JSON.stringify(result, null, 2));
     }
 
-  } catch (error) {
-    console.error(`❌ Command failed: ${error.message}`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Command failed: ${message}`);
     process.exit(1);
   }
 }
 
 // Run CLI
-main().catch(error => {
-  console.error(`💥 Unexpected error: ${error.message}`);
+main().catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`💥 Unexpected error: ${message}`);
   process.exit(1);
 });
+
+// Ensure this file is treated as a module to avoid global collisions
+export {};

@@ -133,7 +133,7 @@ export class PermissionsManager {
   private userPermissions: Map<string, UserPermissions> = new Map();
   private auditLog: SecurityAuditLog[] = [];
   private defaultRoles: RoleDefinition[] = [];
-  private securityConfig: SecurityConfiguration;
+  private securityConfig!: SecurityConfiguration;
 
   constructor() {
     this.initializeDefaultRoles();

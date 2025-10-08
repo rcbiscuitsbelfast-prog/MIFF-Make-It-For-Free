@@ -7,8 +7,8 @@
  * Schema Version: v1.0.0
  */
 
-import { EventBus } from '../EventsPure/index';
-import { RNGPure } from '../RNGPure/index';
+import { EventBus } from '../EventBusPure/index.js';
+type RNGPure = any;
 
 // Core interfaces and types
 export interface SpatialAnchor {
@@ -268,7 +268,7 @@ export class TeleportationSystemPure {
     this.anchors.set(anchor.id, anchor);
     this.stats.anchorsCreated++;
 
-    this.eventBus.emit('teleportation:anchor-created', {
+    this.eventBus.publish('teleportation:anchor-created', {
       anchorId: anchor.id,
       zoneId: anchor.zoneId,
       position: anchor.position
@@ -332,7 +332,7 @@ export class TeleportationSystemPure {
     this.portals.set(portal.id, portal);
     this.stats.portalsCreated++;
 
-    this.eventBus.emit('teleportation:portal-created', {
+    this.eventBus.publish('teleportation:portal-created', {
       portalId: portal.id,
       sourceAnchorId: sourceAnchor.id,
       destinationAnchorId: destinationAnchor.id
@@ -483,10 +483,10 @@ export class TeleportationSystemPure {
     this.stats.totalEnergySpent += energyCost;
 
     // Emit teleportation event
-    this.eventBus.emit('teleportation:teleport-success', {
+    this.eventBus.publish('teleportation:teleport-success', {
       entityId,
       fromPosition,
-      toPosition,
+      toPosition: targetPosition,
       energySpent: energyCost,
       portalUsed: destinationPortal !== undefined
     });
@@ -766,7 +766,7 @@ export class TeleportationSystemPure {
    * Get side effect description
    */
   private getSideEffectDescription(type: TeleportationSideEffect['type']): string {
-    const descriptions = {
+    const descriptions: Record<Exclude<TeleportationSideEffect['type'], 'summon'>, string> = {
       buff: 'You feel energized by the teleportation',
       debuff: 'The teleportation leaves you disoriented',
       damage: 'You suffer minor damage from the teleportation',
@@ -774,7 +774,10 @@ export class TeleportationSystemPure {
       environmental: 'The destination environment affects you'
     };
 
-    return descriptions[type] || 'A mysterious effect occurs';
+    if (type === 'summon') {
+      return 'A mysterious entity appears due to teleportation';
+    }
+    return descriptions[type as Exclude<TeleportationSideEffect['type'], 'summon'>] || 'A mysterious effect occurs';
   }
 
   /**
@@ -797,11 +800,13 @@ export class TeleportationSystemPure {
 
   private setupEventListeners(): void {
     // Listen for zone changes or entity movements that might affect teleportation
-    this.eventBus.on('zone:entity-entered', (data: any) => {
+    this.eventBus.subscribe('zone:entity-entered', (e: any) => {
+      const data = e?.data as any;
       // Could trigger teleportation events or update anchor visibility
     });
 
-    this.eventBus.on('zone:entity-exited', (data: any) => {
+    this.eventBus.subscribe('zone:entity-exited', (e: any) => {
+      const data = e?.data as any;
       // Could clean up temporary anchors or update portal states
     });
   }
@@ -814,14 +819,4 @@ export class TeleportationSystemPure {
 
 // Export main class and interfaces
 export { TeleportationSystemPure };
-export type {
-  SpatialAnchor,
-  Portal,
-  TeleportationRequest,
-  TeleportationResult,
-  TeleportationSideEffect,
-  TeleportationConfig,
-  ZoneInfo,
-  TeleportationStats,
-  Vector3
-};
+export type { SpatialAnchor, Portal, TeleportationRequest, TeleportationResult, TeleportationSideEffect, TeleportationConfig, ZoneInfo, TeleportationStats, Vector3 };

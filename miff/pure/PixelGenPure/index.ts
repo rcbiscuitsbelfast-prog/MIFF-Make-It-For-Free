@@ -9,6 +9,8 @@ export interface PixelAsset {
 		seed?: number;
 		preset?: string;
 		generated?: boolean;
+		width?: number;
+		height?: number;
 	};
 }
 

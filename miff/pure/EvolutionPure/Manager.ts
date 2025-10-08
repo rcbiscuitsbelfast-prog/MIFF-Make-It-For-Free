@@ -16,7 +16,7 @@
 import { EventBus } from '../EventBusPure/EventBusPure';
 
 export type EvolutionStatus = 'success' | 'conditions_not_met' | 'already_evolved' | 'missing_requirements';
-export type EvolutionConditionType = 'level_at_least' | 'requires_item' | 'sync_at_least' | 'lore_flag' | 'time_of_day' | 'at_location';
+export type EvolutionConditionType = 'level_at_least' | 'requires_item' | 'sync_at_least' | 'lore_flag' | 'time_of_day' | 'at_location' | 'friendship_level' | 'battle_count';
 
 export enum TimeOfDay {
   DAWN = 'dawn',
@@ -29,7 +29,7 @@ export enum TimeOfDay {
   MIDNIGHT = 'midnight'
 }
 
-export interface SpeciesEvolutionData {
+export interface SpeciesEvolutionDataShape {
   id: string;
   speciesId: string;
   evolutionTargetId: string;
@@ -40,7 +40,10 @@ export interface SpeciesEvolutionData {
   description: string;
 }
 
-export class SpeciesEvolutionData {
+// Backward-compatible alias
+export type SpeciesEvolutionData = SpeciesEvolutionDataShape;
+
+export class SpeciesEvolutionDataImpl implements SpeciesEvolutionDataShape {
   id: string;
   speciesId: string;
   evolutionTargetId: string;
@@ -89,8 +92,8 @@ export class SpeciesEvolutionData {
     return errors;
   }
 
-  clone(): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  clone(): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       this.speciesId,
       this.evolutionTargetId,
       [...this.conditions],
@@ -122,12 +125,12 @@ export class SpeciesEvolutionData {
     };
   }
 
-  static fromJSON(data: Record<string, any>): SpeciesEvolutionData {
+  static fromJSON(data: Record<string, any>): SpeciesEvolutionDataImpl {
     const conditions = data.conditions?.map((c: any) => 
       new EvolutionCondition(c.type, c.intValue, c.stringValue, c.description)
     ) || [];
     
-    return new SpeciesEvolutionData(
+    return new SpeciesEvolutionDataImpl(
       data.speciesId,
       data.evolutionTargetId,
       conditions,
@@ -141,12 +144,12 @@ export class SpeciesEvolutionData {
   }
 
   // Static factory methods
-  static create(speciesId: string, evolutionTargetId: string, conditions: EvolutionCondition[]): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(speciesId, evolutionTargetId, conditions);
+  static create(speciesId: string, evolutionTargetId: string, conditions: EvolutionCondition[]): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(speciesId, evolutionTargetId, conditions);
   }
 
-  static levelEvolution(speciesId: string, evolutionTargetId: string, level: number): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  static levelEvolution(speciesId: string, evolutionTargetId: string, level: number): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       speciesId,
       evolutionTargetId,
       [EvolutionCondition.levelAtLeast(level)],
@@ -154,8 +157,8 @@ export class SpeciesEvolutionData {
     );
   }
 
-  static itemEvolution(speciesId: string, evolutionTargetId: string, itemId: string): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  static itemEvolution(speciesId: string, evolutionTargetId: string, itemId: string): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       speciesId,
       evolutionTargetId,
       [EvolutionCondition.requiresItem(itemId)],
@@ -163,8 +166,8 @@ export class SpeciesEvolutionData {
     );
   }
 
-  static syncEvolution(speciesId: string, evolutionTargetId: string, syncLevel: number): SpeciesEvolutionData {
-    return new SpeciesEvolutionData(
+  static syncEvolution(speciesId: string, evolutionTargetId: string, syncLevel: number): SpeciesEvolutionDataImpl {
+    return new SpeciesEvolutionDataImpl(
       speciesId,
       evolutionTargetId,
       [EvolutionCondition.syncAtLeast(syncLevel)],
@@ -188,6 +191,16 @@ export class EvolutionCondition {
   intValue: number;
   stringValue: string;
   description: string;
+  
+  // Methods referenced by interface
+  validate(): string[] {
+    const errors: string[] = [];
+    if (this.intValue < 0) errors.push('Value cannot be negative');
+    if (this.type !== 'requires_item' && this.stringValue === '') {
+      // allow empty string for numeric-only cases
+    }
+    return errors;
+  }
 
   constructor(type: EvolutionConditionType, intValue: number, stringValue: string, description: string = '') {
     this.id = `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -219,20 +232,6 @@ export class EvolutionCondition {
   private checkTimeOfDay(hourMin: number): boolean {
     const hour = new Date().getHours();
     return hour >= hourMin && hour < hourMin + 6; // 6-hour window
-  }
-
-  validate(): string[] {
-    const errors: string[] = [];
-    
-    if (this.intValue < 0) {
-      errors.push('Value cannot be negative');
-    }
-    
-    if (this.stringValue === '') {
-      errors.push('String value cannot be empty');
-    }
-    
-    return errors;
   }
 
   // Static factory methods
@@ -280,6 +279,7 @@ export interface PlayerContext {
   gameData?: any;
   currentLocationId?: string;
   getInventory?: () => any;
+  getFlag?: (flagId: string) => boolean;
 }
 
 export interface EvolutionResult {
@@ -340,45 +340,21 @@ export class EvolutionManager {
     };
   }
 
-  getEvolutionChain(speciesId: string): SpeciesEvolutionData[] {
-    const chain: SpeciesEvolutionData[] = [];
-    let currentSpecies = speciesId;
-    
-    while (currentSpecies) {
-      const evolution = Array.from(this.speciesData.values())
-        .find(e => e.speciesId === currentSpecies);
-      
-      if (!evolution) break;
-      
-      chain.push(evolution);
-      currentSpecies = evolution.evolutionTargetId;
-    }
-    
-    return chain;
-  }
-
-  getAvailableEvolutions(spirit: any): SpeciesEvolutionData[] {
-    return Array.from(this.speciesData.values())
+  getAvailableEvolutions(spirit?: any): SpeciesEvolutionDataShape[] {
+    const all = Array.from(this.speciesData.values());
+    if (!spirit) return all;
+    return all
       .filter(evolution => evolution.speciesId === spirit.speciesId)
       .filter(evolution => evolution.conditions.every(condition => condition.isMet(spirit, this.context)));
   }
 
   private initializeDefaultSpecies(): void {
-    const defaultSpecies: SpeciesEvolutionData[] = [
+    const defaultSpecies: SpeciesEvolutionDataShape[] = [
       {
         id: 'fire_spirit_evolution',
         speciesId: 'fire_spirit',
         evolutionTargetId: 'flame_spirit',
-        conditions: [
-          {
-            id: 'level_condition',
-            type: 'level_at_least',
-            intValue: 25,
-            stringValue: '',
-            description: 'Spirit must be level 25 or higher',
-            isMet: (spirit: any, context: PlayerContext) => spirit?.level >= 25
-          }
-        ],
+        conditions: [EvolutionCondition.levelAtLeast(25)],
         evolutionChain: [],
         maxEvolutions: 3,
         reversible: false,
@@ -388,16 +364,7 @@ export class EvolutionManager {
         id: 'water_spirit_evolution',
         speciesId: 'water_spirit',
         evolutionTargetId: 'aqua_spirit',
-        conditions: [
-          {
-            id: 'level_condition',
-            type: 'level_at_least',
-            intValue: 25,
-            stringValue: '',
-            description: 'Spirit must be level 25 or higher',
-            isMet: (spirit: any, context: PlayerContext) => spirit?.level >= 25
-          }
-        ],
+        conditions: [EvolutionCondition.levelAtLeast(25)],
         evolutionChain: [],
         maxEvolutions: 3,
         reversible: false,
@@ -410,7 +377,7 @@ export class EvolutionManager {
     });
   }
 
-  public registerSpeciesEvolution(data: SpeciesEvolutionData): void {
+  public registerSpeciesEvolution(data: SpeciesEvolutionDataShape): void {
     if (data && data.speciesId) {
       this.speciesData.set(data.speciesId, { ...data });
     }
@@ -468,20 +435,15 @@ export class EvolutionManager {
 
   public getEvolutionChain(speciesId: string): string[] {
     const data = this.speciesData.get(speciesId);
-    if (!data) return [];
-
-    const chain = [speciesId];
-    let currentSpecies = data.evolutionTargetId;
-
+    if (!data) return [speciesId];
+    const chain: string[] = [speciesId];
+    let currentSpecies: string | null = data.evolutionTargetId || null;
     while (currentSpecies) {
       chain.push(currentSpecies);
       const nextData = this.speciesData.get(currentSpecies);
       currentSpecies = nextData?.evolutionTargetId || null;
-
-      // Prevent infinite loops
-      if (chain.length > 10) break;
+      if (chain.length > 50) break; // safety
     }
-
     return chain;
   }
 
@@ -520,7 +482,7 @@ export class EvolutionManager {
       }
     });
 
-    const progress = (metConditions / data.conditions.length) * 100;
+    const progress = data.conditions.length > 0 ? (metConditions / data.conditions.length) * 100 : 0;
 
     return {
       canEvolve: missingConditions.length === 0,
@@ -530,9 +492,7 @@ export class EvolutionManager {
     };
   }
 
-  public getAvailableEvolutions(): SpeciesEvolutionData[] {
-    return Array.from(this.speciesData.values());
-  }
+  // removed duplicate getAvailableEvolutions() implementation
 
   public getEvolutionStats(): EvolutionStats {
     // This would track actual evolution history
@@ -599,14 +559,7 @@ export class EvolutionManager {
     stringValue: string,
     description: string
   ): EvolutionCondition {
-    return {
-      id: `condition_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      type: type,
-      intValue: intValue,
-      stringValue: stringValue,
-      description: description,
-      isMet: (spirit: any, context: PlayerContext) => this.evaluateCondition(type, intValue, stringValue, spirit, context)
-    };
+    return new EvolutionCondition(type, intValue, stringValue, description);
   }
 
   private evaluateCondition(
@@ -665,13 +618,13 @@ export class EvolutionManager {
 
 // EvolutionUtils class
 export class EvolutionUtils {
-  static createLevelEvolutionChain(speciesId: string, levels: number[]): SpeciesEvolutionData[] {
-    const chain: SpeciesEvolutionData[] = [];
+  static createLevelEvolutionChain(speciesId: string, levels: number[]): SpeciesEvolutionDataShape[] {
+    const chain: SpeciesEvolutionDataShape[] = [];
     let currentSpecies = speciesId;
     
     for (let i = 0; i < levels.length; i++) {
       const nextSpecies = `${speciesId}_evo_${i + 1}`;
-      const evolution = SpeciesEvolutionData.levelEvolution(currentSpecies, nextSpecies, levels[i]);
+      const evolution = SpeciesEvolutionDataImpl.levelEvolution(currentSpecies, nextSpecies, levels[i]);
       chain.push(evolution);
       currentSpecies = nextSpecies;
     }
@@ -679,22 +632,22 @@ export class EvolutionUtils {
     return chain;
   }
 
-  static createItemEvolutions(evolutions: Record<string, string>): SpeciesEvolutionData[] {
-    const result: SpeciesEvolutionData[] = [];
+  static createItemEvolutions(evolutions: Record<string, string>): SpeciesEvolutionDataShape[] {
+    const result: SpeciesEvolutionDataShape[] = [];
     
     for (const [speciesId, itemId] of Object.entries(evolutions)) {
-      const evolution = SpeciesEvolutionData.itemEvolution(speciesId, `${speciesId}_evo`, itemId);
+      const evolution = SpeciesEvolutionDataImpl.itemEvolution(speciesId, `${speciesId}_evo`, itemId);
       result.push(evolution);
     }
     
     return result;
   }
 
-  static createSyncEvolutions(evolutions: Record<string, number>): SpeciesEvolutionData[] {
-    const result: SpeciesEvolutionData[] = [];
+  static createSyncEvolutions(evolutions: Record<string, number>): SpeciesEvolutionDataShape[] {
+    const result: SpeciesEvolutionDataShape[] = [];
     
     for (const [speciesId, syncLevel] of Object.entries(evolutions)) {
-      const evolution = SpeciesEvolutionData.syncEvolution(speciesId, `${speciesId}_evo`, syncLevel);
+      const evolution = SpeciesEvolutionDataImpl.syncEvolution(speciesId, `${speciesId}_evo`, syncLevel);
       result.push(evolution);
     }
     
@@ -711,11 +664,7 @@ export class EvolutionUtils {
       level: 1,
       currentLocationId: locationId,
       getInventory: () => ({}),
-      getFlag: (flagId: string) => false,
-      setFlag: (flagId: string, value: boolean) => {},
-      getCurrentLocation: () => locationId,
-      getTimeOfDay: () => timeOfDay,
-      setTimeOfDay: (time: TimeOfDay) => {}
+      getFlag: (flagId: string) => false
     };
   }
 

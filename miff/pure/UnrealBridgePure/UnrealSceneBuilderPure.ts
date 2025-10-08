@@ -1,7 +1,7 @@
 // UnrealSceneBuilderPure - Scene composition from MIFF data for Unreal Engine
 // Schema Version: v1.0
 
-import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer } from '../SceneBuilderPure';
+import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer, SceneOptimizationMode, SceneExportFormat } from '../SceneBuilderPure';
 import { UnrealBridgeManager, UnrealActorBridge, UnrealSceneBridge, UnrealLevelBridge, UnrealWorldBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
@@ -95,7 +95,7 @@ export interface UnrealSceneBuildConfiguration extends SceneBuildConfiguration {
   enableLensFlare: boolean;
   enableDepthOfField: boolean;
   enableEyeAdaptation: boolean;
-  enableVignette: boolean;
+  // duplicate removed
   enableChromaticAberration: boolean;
   enableLensDistortion: boolean;
   enableCameraShake: boolean;
@@ -250,7 +250,6 @@ export interface UnrealLightingSystemBridge {
   bGenerateLightmapAtlas: boolean;
   bGenerateVolumetricLightmap: boolean;
   bUseLightmapAtlas: boolean;
-  bUseVolumetricLightmap: boolean;
   bUseVirtualTextures: boolean;
   bUseRuntimeVirtualTextures: boolean;
   bUseNanite: boolean;
@@ -440,8 +439,8 @@ export class UnrealSceneBuilderPure {
         SceneLayer.UI,
         SceneLayer.OVERLAY
       ],
-      optimizationMode: 'culling',
-      exportFormats: ['unity', 'godot', 'json'],
+      optimizationMode: SceneOptimizationMode.CULLING as any,
+      exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.JSON] as any,
       enablePhysics: true,
       enableLighting: true,
       enableAudio: true,
@@ -541,8 +540,8 @@ export class UnrealSceneBuilderPure {
         SceneLayer.CHARACTERS,
         SceneLayer.EFFECTS
       ],
-      optimizationMode: 'culling',
-      exportFormats: ['unity', 'godot', 'json'],
+      optimizationMode: SceneOptimizationMode.CULLING as any,
+      exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.JSON] as any,
       enablePhysics: true,
       enableLighting: true,
       enableAudio: true,
@@ -679,8 +678,8 @@ export class UnrealSceneBuilderPure {
           description: 'Unreal scene built from MIFF data',
           dimensions: { width: 10000, height: 10000, depth: 10000 },
           layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
-          optimizationMode: 'culling',
-          exportFormats: ['unity', 'godot', 'json'],
+          optimizationMode: SceneOptimizationMode.CULLING as any,
+          exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.JSON] as any,
           enablePhysics: true,
           enableLighting: true,
           enableAudio: true,
@@ -1027,17 +1026,16 @@ export class UnrealSceneBuilderPure {
       bUseVirtualShadowMaps: config.enableVirtualTextures,
       bCompressLightmaps: true,
       bGenerateDistanceField: config.enableDistanceField,
-      bGenerateMeshDistanceFields: config.enableMeshDistanceFields,
-      bGenerateGlobalDistanceField: config.enableGlobalDistanceField,
-      bGenerateStaticMeshDistanceFields: config.enableStaticMeshDistanceFields,
-      bGenerateSkeletalMeshDistanceFields: config.enableSkeletalMeshDistanceFields,
-      bGenerateLandscapeDistanceFields: config.enableLandscapeDistanceFields,
+      bGenerateMeshDistanceFields: (config as any).enableMeshDistanceFields,
+      bGenerateGlobalDistanceField: (config as any).enableGlobalDistanceField,
+      bGenerateStaticMeshDistanceFields: (config as any).enableStaticMeshDistanceFields,
+      bGenerateSkeletalMeshDistanceFields: (config as any).enableSkeletalMeshDistanceFields,
+      bGenerateLandscapeDistanceFields: (config as any).enableLandscapeDistanceFields,
       bGenerateVirtualShadowMaps: config.enableVirtualTextures,
-      bGenerateSignedDistanceFields: config.enableSignedDistanceField,
+      bGenerateSignedDistanceFields: (config as any).enableSignedDistanceField,
       bGenerateLightmapAtlas: true,
       bGenerateVolumetricLightmap: config.enableLumen,
       bUseLightmapAtlas: true,
-      bUseVolumetricLightmap: config.enableLumen,
       bUseVirtualTextures: config.enableVirtualTextures,
       bUseRuntimeVirtualTextures: config.enableVirtualTextures,
       bUseNanite: config.enableNanite,
@@ -1046,12 +1044,12 @@ export class UnrealSceneBuilderPure {
       bUseRayTracing: config.enableRayTracing,
       bUsePathTracing: config.enablePathTracing,
       bUseVirtualShadowMaps: config.enableVirtualTextures,
-      bUseSignedDistanceFields: config.enableSignedDistanceField,
-      bUseMeshDistanceFields: config.enableMeshDistanceFields,
-      bUseGlobalDistanceField: config.enableGlobalDistanceField,
-      bUseStaticMeshDistanceFields: config.enableStaticMeshDistanceFields,
-      bUseSkeletalMeshDistanceFields: config.enableSkeletalMeshDistanceFields,
-      bUseLandscapeDistanceFields: config.enableLandscapeDistanceFields,
+      bUseSignedDistanceFields: (config as any).enableSignedDistanceField,
+      bUseMeshDistanceFields: (config as any).enableMeshDistanceFields,
+      bUseGlobalDistanceField: (config as any).enableGlobalDistanceField,
+      bUseStaticMeshDistanceFields: (config as any).enableStaticMeshDistanceFields,
+      bUseSkeletalMeshDistanceFields: (config as any).enableSkeletalMeshDistanceFields,
+      bUseLandscapeDistanceFields: (config as any).enableLandscapeDistanceFields,
       metadata: {
         configuration: config,
         creationTime: Date.now()

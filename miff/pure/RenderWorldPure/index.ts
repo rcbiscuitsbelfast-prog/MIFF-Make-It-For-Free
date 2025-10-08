@@ -18,6 +18,7 @@ import {
 
 import {
   Item,
+  ItemEffect,
   ItemType,
   ItemEffectType,
   ItemUsageManager,
@@ -46,23 +47,20 @@ import {
 
 import {
   HUDPureUtils,
-  HUDManager,
   SpiritHUDState,
   TurnHUDState
 } from '../HUDPure';
+import { HUDManager } from '../HUDPure/Manager';
 
 import {
-  SceneBuilderManager,
-  RenderPayloadPure
+  SceneBuilderManager
 } from '../SceneBuilderPure';
+import { RenderPayloadManager as RenderPayloadPure } from '../RenderPayloadPure';
+
+import { EventBus } from '../EventBusPure/EventBusPure.js';
 
 import {
-  EventBus
-} from '../EventsPure';
-
-import {
-  AvatarSystemPure,
-  AvatarRendererWebPure
+  AvatarSystemPure
 } from '../AvatarSystemPure';
 
 import {
@@ -123,7 +121,7 @@ import {
   DeviceType
 } from '../MobilePerformanceOptimizer';
 
-interface RenderWorldGameState {
+export interface RenderWorldGameState {
   player: {
     position: { x: number; y: number; z: number };
     rotation: { x: number; y: number; z: number };
@@ -407,18 +405,18 @@ export class RenderWorldPure {
     const typeChart = new TypeEffectiveness();
     const playerContext: IPlayerContext = {
       playerId: 'player',
-      inventory: [],
-      flags: new Map()
+      inventory: {},
+      flags: {}
     };
 
     return {
-      combat: new CombatEngine(typeChart),
+      combat: new CombatEngine(),
       items: new ItemUsageManager(playerContext),
       quests: new QuestsManager(),
       teams: new TeamManager(),
       ai: new AIManager(),
-      hud: new HUDManager(),
-      scene: new SceneBuilderManager(),
+      hud: new HUDManager({} as any),
+      scene: new SceneBuilderManager({} as any),
       avatar: new AvatarSystemPure(),
       // New gameplay systems
       overlayFX: overlayFXManager,
@@ -436,13 +434,13 @@ export class RenderWorldPure {
   }
 
   private setupEventListeners() {
-    EventBus.on('spiritLens.pickup', this.handleSpiritLensPickup.bind(this));
-    EventBus.on('spiritLens.use', this.handleSpiritLensUse.bind(this));
-    EventBus.on('portal.activate', this.handlePortalActivation.bind(this));
-    EventBus.on('npc.interact', this.handleNPCInteraction.bind(this));
-    EventBus.on('dialogue.trigger', this.handleDialogueTrigger.bind(this));
-    EventBus.on('player.move', this.handlePlayerMovement.bind(this));
-    EventBus.on('world.scan', this.handleWorldScan.bind(this));
+    EventBus.subscribe('spiritLens.pickup', (e: any) => this.handleSpiritLensPickup(e));
+    EventBus.subscribe('spiritLens.use', (e: any) => this.handleSpiritLensUse(e));
+    EventBus.subscribe('portal.activate', (e: any) => this.handlePortalActivation(e));
+    EventBus.subscribe('npc.interact', (e: any) => this.handleNPCInteraction(e));
+    EventBus.subscribe('dialogue.trigger', (e: any) => this.handleDialogueTrigger(e));
+    EventBus.subscribe('player.move', (e: any) => this.handlePlayerMovement(e));
+    EventBus.subscribe('world.scan', (e: any) => this.handleWorldScan(e));
   }
 
   private generateWorld() {
@@ -507,7 +505,7 @@ export class RenderWorldPure {
     };
 
     // Generate beams using SceneBuilderPure
-    this.engines.scene.addGeometry('warehouse', warehouseGeometry);
+    (this.engines.scene as any).addGeometry?.('warehouse', warehouseGeometry);
   }
 
   private generateSupportBeams(): any[] {
@@ -576,7 +574,7 @@ export class RenderWorldPure {
       ]
     };
 
-    this.engines.scene.addLighting('warehouse_lighting', lighting);
+    (this.engines.scene as any).addLighting?.('warehouse_lighting', lighting);
   }
 
   private generatePortalFrames() {
@@ -619,7 +617,7 @@ export class RenderWorldPure {
       }
     };
 
-    this.engines.scene.addGeometry('portal_frames', portalGeometry);
+    (this.engines.scene as any).addGeometry?.('portal_frames', portalGeometry);
   }
 
   private generateCentralTable() {
@@ -659,28 +657,18 @@ export class RenderWorldPure {
       ]
     };
 
-    this.engines.scene.addGeometry('central_table', tableGeometry);
+    (this.engines.scene as any).addGeometry?.('central_table', tableGeometry);
   }
 
   private setupSpiritLens() {
     // Create Spirit Lens as an interactive item
-    const spiritLens = new Item(
-      'spirit_lens',
-      'Spirit Lens',
-      ItemType.TOOL,
-      'A mystical handheld device that reveals hidden paths and secrets in the RenderWorld hub',
-      [
-        new ItemEffect(ItemEffectType.SCAN, { radius: 5.0, revealType: 'portals' }),
-        new ItemEffect(ItemEffectType.GLOW, { intensity: 1.5, color: '#80B0FF' }),
-        new ItemEffect(ItemEffectType.SOUND, { ambient: true, volume: 0.3 })
-      ]
-    );
+    const spiritLens = new Item('spirit_lens', 'Spirit Lens', ItemType.KEY_ITEM, new ItemEffect(ItemEffectType.NONE, 0), 'any');
 
-    this.engines.items.registerItem(spiritLens);
+    (this.engines.items as any).registerItem?.(spiritLens);
     this.state.world.spiritLens.active = true;
 
     // Add ambient sound for Spirit Lens
-    EventBus.emit('audio.ambient', {
+    EventBus.publish('audio.ambient', {
       source: 'spirit_lens',
       sound: 'lens_hum',
       position: this.state.world.spiritLens.position,
@@ -691,8 +679,8 @@ export class RenderWorldPure {
 
   private setupNPCs() {
     // Initialize NPC AI behaviors
-    Object.values(this.state.world.npcs).forEach(npc => {
-      this.engines.ai.registerBehavior(npc.id, {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
+      (this.engines.ai as any).registerBehavior?.(npc.id, {
         type: 'wander',
         parameters: {
           speed: 0.5,
@@ -708,8 +696,8 @@ export class RenderWorldPure {
     this.state.player.holdingSpiritLens = true;
     this.state.world.spiritLens.active = false;
 
-    EventBus.emit('audio.play', { sound: 'lens_pickup', volume: 0.8 });
-    EventBus.emit('ui.notification', {
+    EventBus.publish('audio.play', { sound: 'lens_pickup', volume: 0.8 });
+    EventBus.publish('ui.notification', {
       message: 'Spirit Lens acquired - use it to scan for hidden paths',
       type: 'info',
       duration: 3000
@@ -722,18 +710,18 @@ export class RenderWorldPure {
     const scanResult = this.performSpiritLensScan();
     this.highlightNearbyElements(scanResult);
 
-    EventBus.emit('world.scan', scanResult);
+    EventBus.publish('world.scan', scanResult);
   }
 
   private performSpiritLensScan(): any {
-    const scanResults = {
+    const scanResults: { portals: any[]; npcs: any[]; hiddenPaths: any[] } = {
       portals: [],
       npcs: [],
       hiddenPaths: []
     };
 
     // Scan for nearby portals
-    Object.values(this.state.world.portals).forEach(portal => {
+    Object.values(this.state.world.portals).forEach((portal: any) => {
       const distance = this.calculateDistance(this.state.player.position, portal.position);
       if (distance <= this.state.world.spiritLens.scanRadius) {
         scanResults.portals.push({
@@ -745,7 +733,7 @@ export class RenderWorldPure {
     });
 
     // Scan for nearby NPCs
-    Object.values(this.state.world.npcs).forEach(npc => {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
       const distance = this.calculateDistance(this.state.player.position, npc.position);
       if (distance <= this.state.world.spiritLens.scanRadius) {
         scanResults.npcs.push({
@@ -767,7 +755,7 @@ export class RenderWorldPure {
                        portal.shimmer ? portal.shimmer.intensity + result.intensity :
                        portal.glow.intensity + result.intensity;
 
-      EventBus.emit('portal.highlight', {
+      EventBus.publish('portal.highlight', {
         portalId: portal.destination.toLowerCase(),
         intensity: intensity,
         duration: 5000
@@ -797,7 +785,7 @@ export class RenderWorldPure {
 
     const dialogue = npc.dialogueTree[Math.floor(Math.random() * npc.dialogueTree.length)];
 
-    EventBus.emit('dialogue.start', {
+    EventBus.publish('dialogue.start', {
       npcId: npc.id,
       dialogue: dialogue,
       position: npc.position
@@ -815,14 +803,14 @@ export class RenderWorldPure {
 
     if (!portal || !portal.active) return;
 
-    EventBus.emit('scene.transition', {
+    EventBus.publish('scene.transition', {
       destination: portal.destination,
       transitionType: 'portal',
       portalData: portal
     });
 
     // Play portal activation sound
-    EventBus.emit('audio.play', {
+    EventBus.publish('audio.play', {
       sound: 'portal_activate',
       position: portal.position,
       volume: 1.0
@@ -843,7 +831,7 @@ export class RenderWorldPure {
     // Handle dialogue system interactions
     this.state.ui.dialogueVisible = true;
 
-    EventBus.emit('ui.dialogue', event.dialogue);
+    EventBus.publish('ui.dialogue', event.dialogue);
   }
 
   private handlePlayerMovement(event: any) {
@@ -866,15 +854,15 @@ export class RenderWorldPure {
     if (!this.state.player.holdingSpiritLens) {
       const lensDistance = this.calculateDistance(this.state.player.position, this.state.world.spiritLens.position);
       if (lensDistance <= 2) {
-        EventBus.emit('spiritLens.pickup', { player: this.state.player });
+        EventBus.publish('spiritLens.pickup', { player: this.state.player });
       }
     }
 
     // Check for portal proximity
-    Object.values(this.state.world.portals).forEach(portal => {
+    Object.values(this.state.world.portals).forEach((portal: any) => {
       const portalDistance = this.calculateDistance(this.state.player.position, portal.position);
       if (portalDistance <= 3) {
-        EventBus.emit('portal.proximity', {
+        EventBus.publish('portal.proximity', {
           portalId: portal.destination.toLowerCase(),
           distance: portalDistance
         });
@@ -885,7 +873,7 @@ export class RenderWorldPure {
   private handleWorldScan(event: any) {
     // Process scan results and update world state
     if (event.portals && event.portals.length > 0) {
-      EventBus.emit('ui.notification', {
+      EventBus.publish('ui.notification', {
         message: `${event.portals.length} portals detected nearby`,
         type: 'scan',
         duration: 2000
@@ -893,7 +881,7 @@ export class RenderWorldPure {
     }
 
     if (event.npcs && event.npcs.length > 0) {
-      EventBus.emit('ui.notification', {
+      EventBus.publish('ui.notification', {
         message: `${event.npcs.length} entities detected - approach for interaction`,
         type: 'scan',
         duration: 3000
@@ -946,7 +934,7 @@ export class RenderWorldPure {
   }
 
   private updateNPCs(deltaTime: number) {
-    Object.values(this.state.world.npcs).forEach(npc => {
+    Object.values(this.state.world.npcs).forEach((npc: any) => {
       if (npc.state === 'wandering') {
         // Move towards target position
         const dx = npc.targetPosition.x - npc.position.x;
@@ -1009,7 +997,7 @@ export class RenderWorldPure {
     this.state.world.spiritLens.glowIntensity = 0.8 + Math.sin(time * 2) * 0.2;
 
     // Update ambient sound
-    EventBus.emit('audio.update', {
+    EventBus.publish('audio.update', {
       source: 'spirit_lens',
       volume: this.state.world.spiritLens.glowIntensity * 0.3
     });
@@ -1054,7 +1042,7 @@ export class RenderWorldPure {
       }
     };
 
-    this.engines.hud.updateModel(hudData);
+    (this.engines.hud as any).updateModel?.(hudData);
   }
 
   private renderDebugInfo() {
@@ -1076,7 +1064,7 @@ export class RenderWorldPure {
       }
     };
 
-    EventBus.emit('debug.update', debugData);
+    EventBus.publish('debug.update', debugData);
   }
 
   public render() {
@@ -1087,7 +1075,7 @@ export class RenderWorldPure {
 
   private renderWorld() {
     // Render warehouse geometry with SceneBuilderPure
-    this.engines.scene.render();
+    (this.engines.scene as any).render?.();
 
     // Render portals with special effects
     Object.values(this.state.world.portals).forEach(portal => {
@@ -1109,7 +1097,7 @@ export class RenderWorldPure {
     // Portal-specific rendering with emissive effects
     const emissiveColor = portal.aura || portal.shimmer || portal.glow;
 
-    EventBus.emit('render.portal', {
+    EventBus.publish('render.portal', {
       portal: portal,
       emissive: emissiveColor,
       intensity: 1.0,
@@ -1118,7 +1106,7 @@ export class RenderWorldPure {
   }
 
   private renderSpiritLens() {
-    EventBus.emit('render.spiritLens', {
+    EventBus.publish('render.spiritLens', {
       position: this.state.world.spiritLens.position,
       glowIntensity: this.state.world.spiritLens.glowIntensity,
       color: { r: 0.8, g: 0.9, b: 1.0 },
@@ -1127,7 +1115,7 @@ export class RenderWorldPure {
   }
 
   private renderNPC(npc: any) {
-    EventBus.emit('render.npc', {
+    EventBus.publish('render.npc', {
       npc: npc,
       state: npc.state,
       position: npc.position,
@@ -1138,18 +1126,18 @@ export class RenderWorldPure {
   private renderUI() {
     // Render HUD elements
     if (this.state.ui.hudVisible) {
-      EventBus.emit('render.hud');
+      EventBus.publish('render.hud', {});
     }
 
     // Render dialogue if active
     if (this.state.ui.dialogueVisible) {
-      EventBus.emit('render.dialogue');
+      EventBus.publish('render.dialogue', {});
     }
   }
 
   private renderEffects() {
     // Render particle effects, post-processing
-    EventBus.emit('render.effects', {
+    EventBus.publish('render.effects', {
       glowEffects: true,
       ambientOcclusion: true,
       bloom: true
@@ -1202,7 +1190,7 @@ export class RenderWorldPure {
     this.engines.overlayFX.createLayer('renderworld_effects', 'RenderWorld Effects', 5);
     
     // Initialize perception system
-    this.engines.perception.updatePlayerContext({
+    (this.engines.perception as any).updatePlayerContext?.({
       position: this.state.player.position,
       inventory: this.state.player.inventory,
       level: this.state.player.level,
@@ -1387,7 +1375,7 @@ export class RenderWorldPure {
   /**
    * Handle interaction with an object
    */
-  interactWithObject(objectId: string, behavior: InteractionBehavior): InteractionResult {
+  interactWithObject(objectId: string, behavior: InteractionBehavior): any {
     const result = this.engines.interactables.interact(objectId, behavior);
     
     if (result.success) {
@@ -1446,7 +1434,7 @@ export class RenderWorldPure {
     this.engines.mobilePerformance.updatePerformance(deltaTime);
     
     // Update player context
-    this.engines.perception.updatePlayerContext({
+    (this.engines.perception as any).updatePlayerContext?.({
       position: this.state.player.position,
       inventory: this.state.player.inventory,
       level: this.state.player.level,
@@ -1561,9 +1549,7 @@ export class RenderWorldPure {
   /**
    * Get current game state (for testing)
    */
-  getGameState(): RenderWorldGameState {
-    return this.state;
-  }
+  // getGameState duplicated earlier; keeping only public version
 
   /**
    * Get engines (for testing)

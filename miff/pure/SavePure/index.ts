@@ -44,7 +44,7 @@ export interface SaveMigrationResult {
 export interface SaveOperationResult {
   success: boolean;
   message: string;
-  snapshot?: SaveSnapshot;
+  snapshot?: any;
   validationResult?: SaveValidationResult;
   migrationResult?: SaveMigrationResult;
   error?: Error;
@@ -804,20 +804,20 @@ export class SaveMigrator implements ISaveMigrator {
   migrate(snapshot: ISaveSnapshot, targetVersion?: SaveVersion): SaveMigrationResult {
     if (!snapshot) {
       return {
-        snapshot: snapshot,
+        snapshot: SaveSnapshot.create(),
         warnings: ['Cannot migrate null snapshot'],
         migrated: false,
-        oldVersion: snapshot?.version || 'unknown',
+        oldVersion: 'unknown',
         newVersion: targetVersion || 'unknown'
       };
     }
 
-    const currentVersion = snapshot.version;
+    const currentVersion = (snapshot as any)?.version as SaveVersion;
     const target = targetVersion || this.getLatestVersion();
 
     if (currentVersion === target) {
       return {
-        snapshot,
+        snapshot: snapshot as SaveSnapshot,
         warnings: [],
         migrated: false,
         oldVersion: currentVersion,
@@ -827,7 +827,7 @@ export class SaveMigrator implements ISaveMigrator {
 
     if (!this.canMigrate(currentVersion, target)) {
       return {
-        snapshot,
+        snapshot: snapshot as SaveSnapshot,
         warnings: [`Cannot migrate from ${currentVersion} to ${target}`],
         migrated: false,
         oldVersion: currentVersion,
@@ -836,7 +836,7 @@ export class SaveMigrator implements ISaveMigrator {
     }
 
     const migrationPath = this.getMigrationPath(currentVersion, target);
-    let currentSnapshot = snapshot.clone();
+    let currentSnapshot: ISaveSnapshot = (snapshot as SaveSnapshot).clone();
     const warnings: string[] = [];
 
     for (let i = 0; i < migrationPath.length - 1; i++) {
@@ -857,7 +857,7 @@ export class SaveMigrator implements ISaveMigrator {
     }
 
     return {
-      snapshot: currentSnapshot,
+      snapshot: currentSnapshot as SaveSnapshot,
       warnings,
       migrated: warnings.length > 0,
       oldVersion: currentVersion,
@@ -982,11 +982,11 @@ export class SaveManager implements ISaveManager {
       }
 
       // Update timestamp and checksum
-      snapshot.updateTimestamp();
-      snapshot.computeChecksum();
+      (snapshot as SaveSnapshot).updateTimestamp();
+      (snapshot as SaveSnapshot).computeChecksum();
 
       // Convert to JSON
-      const jsonData = JSON.stringify(snapshot.toJSON(), null, 2);
+      const jsonData = JSON.stringify((snapshot as SaveSnapshot).toJSON(), null, 2);
 
       // Write to file (in browser environment, this would use different APIs)
       if (typeof window !== 'undefined') {
@@ -1044,9 +1044,9 @@ export class SaveManager implements ISaveManager {
 
       // Migrate if necessary
       let migrationResult: SaveMigrationResult | undefined;
-      if (snapshot.version !== this.defaultVersion && this.migrator.canMigrate(snapshot.version, this.defaultVersion)) {
+      if ((snapshot as any).version !== this.defaultVersion && this.migrator.canMigrate((snapshot as any).version, this.defaultVersion)) {
         migrationResult = this.migrator.migrate(snapshot, this.defaultVersion);
-        snapshot = migrationResult.snapshot;
+        snapshot = migrationResult.snapshot as SaveSnapshot;
       }
 
       return {
@@ -1083,7 +1083,7 @@ export class SaveManager implements ISaveManager {
    * Export snapshot to binary format
    */
   async exportSnapshot(snapshot: ISaveSnapshot, format: 'json' | 'binary' = 'json'): Promise<Uint8Array> {
-    const jsonData = JSON.stringify(snapshot.toJSON());
+      const jsonData = JSON.stringify((snapshot as SaveSnapshot).toJSON());
 
     if (format === 'json') {
       return new TextEncoder().encode(jsonData);
@@ -1108,16 +1108,16 @@ export class SaveManager implements ISaveManager {
       }
 
       const parsedData = JSON.parse(jsonData);
-      const snapshot = SaveSnapshot.fromJSON(parsedData);
+      let snapshot = SaveSnapshot.fromJSON(parsedData);
 
       // Validate
       const validationResult = this.validator.validate(snapshot);
 
       // Migrate if needed
       let migrationResult: SaveMigrationResult | undefined;
-      if (snapshot.version !== this.defaultVersion && this.migrator.canMigrate(snapshot.version, this.defaultVersion)) {
+      if ((snapshot as any).version !== this.defaultVersion && this.migrator.canMigrate((snapshot as any).version, this.defaultVersion)) {
         migrationResult = this.migrator.migrate(snapshot, this.defaultVersion);
-        snapshot = migrationResult.snapshot;
+        snapshot = migrationResult.snapshot as SaveSnapshot;
       }
 
       return {
@@ -1174,8 +1174,8 @@ export class SaveManager implements ISaveManager {
         throw new Error('Directory listing not supported in browser environment');
       } else {
         const fs = require('fs').promises;
-        const files = await fs.readdir(directory);
-        return files.filter(file => file.endsWith('.json') || file.endsWith('.sav'));
+        const files: any[] = await fs.readdir(directory);
+        return (files as string[]).filter((file: string) => file.endsWith('.json') || file.endsWith('.sav'));
       }
     } catch (error) {
       return [];

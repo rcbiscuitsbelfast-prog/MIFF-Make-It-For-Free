@@ -124,7 +124,7 @@ function formatOutput(data: any) {
  * @param exitCode Exit code to use
  * @returns Formatted error output
  */
-function handleError(error: any, exitCode = 1) {
+function handleError(error: unknown, exitCode = 1) {
   const errorOutput = {
     op: 'error',
     status: 'error',
@@ -166,7 +166,7 @@ function runCLI(cliPath: string, args: string[] = []): string {
   try {
     const output = execFileSync('npx', ['tsx', resolvedPath, ...args], { encoding: 'utf-8', timeout: 15000 });
     return output.trim();
-  } catch (error) {
+  } catch (error: unknown) {
     return JSON.stringify({
       op: 'error',
       status: 'error',

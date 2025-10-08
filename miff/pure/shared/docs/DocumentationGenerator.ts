@@ -71,7 +71,7 @@ export interface ModuleDocumentation {
   interfaces: InterfaceDocumentation[];
   enums: EnumDocumentation[];
   functions: FunctionDocumentation[];
-  examples: ExampleDocumentation[];
+  examples: string[];
   tests: TestDocumentation[];
   dependencies: string[];
   changelog: ChangelogEntry[];
@@ -284,7 +284,8 @@ export class DocumentationGenerator {
       interfaces: this.extractInterfaces(sourceCode),
       enums: this.extractEnums(sourceCode),
       functions: this.extractFunctions(sourceCode),
-      examples: this.extractExamples(sourceCode),
+      // Top-level examples are not tied to a specific symbol name
+      examples: (this.extractExamples as (src: string, name: string) => string[])(sourceCode, 'module'),
       tests: this.extractTests(modulePath),
       dependencies: this.extractDependencies(sourceCode),
       changelog: this.extractChangelog(modulePath)
@@ -800,8 +801,7 @@ ${this.config.license}
       if (module.examples.length > 0) {
         markdown += `## ${moduleName}\n\n`;
         module.examples.forEach(example => {
-          markdown += `### ${example.title}\n\n${example.description}\n\n`;
-          markdown += `\`\`\`${example.language}\n${example.code}\n\`\`\`\n\n`;
+          markdown += `\n\n\`\`\`ts\n${example}\n\`\`\`\n\n`;
         });
       }
     }

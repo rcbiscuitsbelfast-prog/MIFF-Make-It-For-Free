@@ -524,11 +524,13 @@ export class SpiritFilter implements ISpiritFilter {
 
     // Filter by level range
     if (this.minLevel !== undefined) {
-      filtered = filtered.filter(spirit => spirit.level >= this.minLevel);
+      const minLevel = this.minLevel ?? 0;
+      filtered = filtered.filter(spirit => spirit.level >= minLevel);
     }
 
     if (this.maxLevel !== undefined) {
-      filtered = filtered.filter(spirit => spirit.level <= this.maxLevel);
+      const maxLevel = this.maxLevel ?? Number.MAX_SAFE_INTEGER;
+      filtered = filtered.filter(spirit => spirit.level <= maxLevel);
     }
 
     // Filter by rarity
@@ -1347,9 +1349,9 @@ export class Spirit implements ISpirit {
  */
 export class SpiritCollection implements ISpiritCollection {
   public spirits: ISpirit[];
-  public capturedSpirits: ISpirit[];
-  public uncapturedSpirits: ISpirit[];
-  public favoriteSpirits: ISpirit[];
+  public capturedSpirits: ISpirit[] = [];
+  public uncapturedSpirits: ISpirit[] = [];
+  public favoriteSpirits: ISpirit[] = [];
 
   constructor(spirits: ISpirit[] = []) {
     this.spirits = [...spirits];
@@ -1367,9 +1369,9 @@ export class SpiritCollection implements ISpiritCollection {
    * Update collections
    */
   private updateCollections(): void {
-    this.capturedSpirits = this.spirits.filter(spirit => spirit.isCaptured);
+    this.capturedSpirits = this.spirits.filter(spirit => !!spirit.isCaptured);
     this.uncapturedSpirits = this.spirits.filter(spirit => !spirit.isCaptured);
-    this.favoriteSpirits = this.spirits.filter(spirit => spirit.isFavorite);
+    this.favoriteSpirits = this.spirits.filter(spirit => !!spirit.isFavorite);
   }
 
   /**
@@ -1519,7 +1521,17 @@ export class SpiritCollection implements ISpiritCollection {
    * Filter spirits
    */
   filterSpirits(filter: ISpiritFilter): ISpirit[] {
-    return filter.apply(this.spirits);
+    // If filter provides an apply function, use it; otherwise fallback to manual checks
+    const anyFilter = filter as any;
+    if (typeof anyFilter.apply === 'function') {
+      return anyFilter.apply(this.spirits);
+    }
+    // Minimal fallback: by name and type if present
+    return this.spirits.filter(s => {
+      const nameOk = filter.nameContains ? (s.spiritName.toLowerCase().includes(filter.nameContains.toLowerCase())) : true;
+      const typeOk = filter.type ? (s.primaryType === filter.type || s.secondaryType === filter.type) : true;
+      return nameOk && typeOk;
+    });
   }
 
   /**
@@ -1551,17 +1563,14 @@ export class SpiritCollection implements ISpiritCollection {
    * Get completion by type
    */
   getCompletionByType(): Record<SpiritType, { total: number; captured: number; percentage: number }> {
-    const types = Object.values(SpiritType);
-    const completion: Record<string, { total: number; captured: number; percentage: number }> = {};
-
-    types.forEach(type => {
+    const types = Object.values(SpiritType) as SpiritType[];
+    const completion = {} as Record<SpiritType, { total: number; captured: number; percentage: number }>;
+    types.forEach((type: SpiritType) => {
       const total = this.getSpiritsByType(type).length;
       const captured = this.getSpiritsByType(type).filter(s => s.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
-
       completion[type] = { total, captured, percentage };
     });
-
     return completion;
   }
 
@@ -1570,16 +1579,13 @@ export class SpiritCollection implements ISpiritCollection {
    */
   getCompletionByRarity(): Record<SpiritRarity, { total: number; captured: number; percentage: number }> {
     const rarities = Object.values(SpiritRarity).filter(r => typeof r === 'number') as SpiritRarity[];
-    const completion: Record<string, { total: number; captured: number; percentage: number }> = {};
-
-    rarities.forEach(rarity => {
+    const completion = {} as Record<SpiritRarity, { total: number; captured: number; percentage: number }>;
+    rarities.forEach((rarity: SpiritRarity) => {
       const total = this.getSpiritsByRarity(rarity).length;
       const captured = this.getSpiritsByRarity(rarity).filter(s => s.isCaptured).length;
       const percentage = total > 0 ? (captured / total) * 100 : 0;
-
-      completion[SpiritRarity[rarity]] = { total, captured, percentage };
+      completion[rarity] = { total, captured, percentage };
     });
-
     return completion;
   }
 
@@ -1716,7 +1722,8 @@ export const SpiritUtils = {
    * Get type name
    */
   getTypeName(type: SpiritType): string {
-    return SpiritType[type].toUpperCase();
+    // For string enums/unions, direct reverse-lookup is not available reliably
+    return String(type).toUpperCase();
   },
 
   /**

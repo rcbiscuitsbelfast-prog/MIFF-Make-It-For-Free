@@ -14,7 +14,7 @@
  */
 
 import { SplashScreenPure } from '../index';
-import { EventBus } from '../../EventsPure';
+import { EventBus } from '../../EventBusPure/EventBusPure.js';
 
 describe('SplashScreenPure', () => {
   let splashScreen: SplashScreenPure;
@@ -26,8 +26,7 @@ describe('SplashScreenPure', () => {
     mockContainer.id = 'test-container';
     document.body.appendChild(mockContainer);
 
-    // Mock EventBus for testing
-    EventBus.listeners.clear();
+    // No direct internal state: tests rely on publish/subscribe APIs
 
     // Initialize splash screen with default config
     splashScreen = new SplashScreenPure();
@@ -38,7 +37,7 @@ describe('SplashScreenPure', () => {
     if (mockContainer.parentNode) {
       mockContainer.parentNode.removeChild(mockContainer);
     }
-    EventBus.listeners.clear();
+    // No direct listener map in EventBusPure exposed here
   });
 
   describe('Initialization', () => {
@@ -151,7 +150,7 @@ describe('SplashScreenPure', () => {
       const showSpy = jest.fn();
       splashScreen.show = showSpy;
 
-      EventBus.emit('splashscreen.show');
+      EventBus.publish('splashscreen.show', {});
 
       // Should trigger show method
       expect(showSpy).toHaveBeenCalled();
@@ -163,7 +162,7 @@ describe('SplashScreenPure', () => {
       const hideSpy = jest.fn();
       splashScreen.hide = hideSpy;
 
-      EventBus.emit('splashscreen.hide');
+      EventBus.publish('splashscreen.hide', {});
 
       // Should trigger hide method
       expect(hideSpy).toHaveBeenCalled();
@@ -174,7 +173,7 @@ describe('SplashScreenPure', () => {
       splashScreen.updateConfig = updateSpy;
 
       const newConfig = { duration: 1500 };
-      EventBus.emit('splashscreen.updateConfig', newConfig);
+      EventBus.publish('splashscreen.updateConfig', newConfig);
 
       expect(updateSpy).toHaveBeenCalledWith(newConfig);
     });

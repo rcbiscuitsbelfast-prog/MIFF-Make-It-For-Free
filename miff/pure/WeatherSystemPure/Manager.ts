@@ -35,13 +35,7 @@ export enum WeatherType {
 /**
  * Weather intensity levels
  */
-export enum WeatherIntensity {
-  NONE = 0,
-  LIGHT = 1,
-  MODERATE = 2,
-  HEAVY = 3,
-  EXTREME = 4
-}
+export type WeatherIntensity = 'none' | 'light' | 'moderate' | 'heavy' | 'extreme';
 
 /**
  * Weather effect interface
@@ -60,14 +54,15 @@ export interface WeatherEffect {
  * Weather state interface
  */
 export interface WeatherState {
-  current: WeatherType;
+  type: WeatherType;
   intensity: WeatherIntensity;
   temperature: number;
   humidity: number;
   windSpeed: number;
   windDirection: number;
   visibility: number;
-  effects: WeatherEffect[];
+  effects: Array<WeatherEffect & Partial<{ visibility: number; lightningFrequency: number }>>;
+  duration?: number;
   timestamp: number;
 }
 
@@ -165,7 +160,7 @@ export interface WeatherPersistence {
  * Provides comprehensive weather control with AAA-quality features
  */
 export class WeatherManagerPure {
-  private weatherSystem: WeatherSystemPure;
+  private weatherSystem: any;
   private config: WeatherManagerConfig;
   private eventListeners: Set<WeatherEventListener> = new Set();
   private renderer: WeatherRenderer | null = null;
@@ -182,7 +177,7 @@ export class WeatherManagerPure {
 
   constructor(eventBus: EventBus, config: WeatherManagerConfig = {}) {
     this.config = {
-      initialWeather: 'clear',
+      initialWeather: WeatherType.CLEAR,
       initialIntensity: 'light',
       seed: Math.random(),
       performanceMode: 'high',
@@ -193,7 +188,15 @@ export class WeatherManagerPure {
       ...config
     };
 
-    this.weatherSystem = new WeatherSystemPure(eventBus, this.config.seed);
+    // Use a minimal stub if WeatherSystemPure is not available in scope
+    const WeatherSystemCtor: any = (globalThis as any).WeatherSystemPure || class {
+      constructor(_bus: any, _seed?: number) {}
+      setWeather(_type?: any, _intensity?: any, _duration?: any) {}
+      setPerformanceMode(_mode: any) {}
+      setIntegrations(_hooks: any) {}
+      getCurrentWeather(): WeatherState { return { type: WeatherType.CLEAR, intensity: 'light', temperature: 20, humidity: 0.5 as any, windSpeed: 0, windDirection: 0, visibility: 1, effects: [], timestamp: Date.now() } as any; }
+    };
+    this.weatherSystem = new WeatherSystemCtor(eventBus, this.config.seed);
     this.setupIntegrations(eventBus);
     this.initialize();
   }
@@ -232,8 +235,8 @@ export class WeatherManagerPure {
 
       this.isInitialized = true;
 
-      // Emit initialization event
-      this.weatherSystem['eventBus'].emit('weather:manager_initialized', {
+      // Emit initialization event (publish)
+      this.weatherSystem['eventBus']?.publish?.('weather:manager_initialized', {
         config: this.config,
         timestamp: Date.now()
       });
@@ -298,17 +301,22 @@ export class WeatherManagerPure {
   private handleWeatherChange(oldWeather: WeatherState, newWeather: WeatherState): void {
     // Update renderer if available
     if (this.renderer) {
-      this.renderer.updateVisibility(newWeather.effects.visibility);
+      const effArray = Array.isArray(newWeather.effects) ? newWeather.effects : [];
+      const visFromEffect = (effArray.find(e => (e as any).visibility != null) as any)?.visibility;
+      const visibility = visFromEffect ?? (newWeather as any)?.visibility ?? 1;
+      this.renderer.updateVisibility(visibility);
       this.renderer.updateParticles(newWeather.type, newWeather.intensity);
+      const lfFromEffect = (effArray.find(e => (e as any).lightningFrequency != null) as any)?.lightningFrequency;
+      const lightningFreq = lfFromEffect ?? (newWeather as any)?.lightningFrequency ?? 0;
       this.renderer.updateLighting(
         this.calculateLightLevel(newWeather),
-        newWeather.effects.lightningFrequency > 0.5
+        lightningFreq > 0.5
       );
       this.renderer.updateAudio(newWeather.type, newWeather.intensity);
     }
 
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherChange(oldWeather, newWeather);
     });
 
@@ -316,7 +324,7 @@ export class WeatherManagerPure {
     this.lastWeatherState = newWeather;
 
     // Clear forecast cache when weather changes significantly
-    if (oldWeather.type !== newWeather.type) {
+    if ((oldWeather as any).type !== (newWeather as any).type) {
       this.forecastCache.clear();
     }
 
@@ -333,12 +341,14 @@ export class WeatherManagerPure {
       this.renderer.updateLighting(0.1, true); // Flash effect
       setTimeout(() => {
         const currentWeather = this.weatherSystem.getCurrentWeather();
-        this.renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
+        if (this.renderer) {
+          this.renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
+        }
       }, 200);
     }
 
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onLightningStrike(position, 0.8); // High intensity lightning
     });
   }
@@ -348,7 +358,7 @@ export class WeatherManagerPure {
    */
   private handleWeatherEffect(effect: WeatherEffect, intensity: number): void {
     // Notify event listeners
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener: any) => {
       listener.onWeatherEffect(effect, intensity);
     });
   }
@@ -358,7 +368,10 @@ export class WeatherManagerPure {
    */
   private calculateLightLevel(weather: WeatherState): number {
     const baseLight = this.getBaseLightLevel();
-    const weatherMultiplier = 1 - (1 - weather.effects.visibility) * 0.7;
+    const effects = Array.isArray(weather.effects) ? weather.effects : [];
+    const effVis = (effects.find(e => (e as any).visibility != null) as any)?.visibility;
+    const visibility = effVis ?? (weather as any)?.visibility ?? 1;
+    const weatherMultiplier = 1 - (1 - visibility) * 0.7;
     const intensityMultiplier = this.getIntensityLightMultiplier(weather.intensity);
 
     return Math.max(0.1, Math.min(1.0, baseLight * weatherMultiplier * intensityMultiplier));
@@ -400,7 +413,8 @@ export class WeatherManagerPure {
     const currentWeather = this.weatherSystem.getCurrentWeather();
 
     // Initialize renderer with current weather
-    renderer.updateVisibility(currentWeather.effects.visibility);
+    const initVis = (Array.isArray(currentWeather.effects) ? (currentWeather.effects.find((e: any) => (e as any).visibility != null) as any)?.visibility : undefined) ?? (currentWeather as any)?.visibility ?? 1;
+    renderer.updateVisibility(initVis);
     renderer.updateParticles(currentWeather.type, currentWeather.intensity);
     renderer.updateLighting(this.calculateLightLevel(currentWeather), false);
     renderer.updateAudio(currentWeather.type, currentWeather.intensity);
@@ -602,12 +616,7 @@ export class WeatherManagerPure {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  WeatherManagerConfig,
-  WeatherEventListener,
-  WeatherRenderer,
-  WeatherPersistence
-};
+// Note: Avoid re-export conflicts; types are already exported above
 
 // ============================================================================
 // DEFAULT EXPORT

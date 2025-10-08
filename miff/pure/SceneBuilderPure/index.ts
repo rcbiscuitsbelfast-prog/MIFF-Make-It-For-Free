@@ -551,7 +551,8 @@ export class SceneBuilderManager {
         metadata: {
           configuration: this.configuration,
           template: templateId,
-          buildDuration: Date.now()
+          buildDuration: Date.now(),
+          exportPaths: exportPaths
         }
       };
 
@@ -569,7 +570,16 @@ export class SceneBuilderManager {
         assetCount: this.assets.size,
         nodeCount: this.nodes.size,
         optimizationStats: this.calculateOptimizationStats(),
-        exportPaths: {},
+        exportPaths: {
+          [SceneExportFormat.UNITY]: '',
+          [SceneExportFormat.GODOT]: '',
+          [SceneExportFormat.WEBGL]: '',
+          [SceneExportFormat.GLTF]: '',
+          [SceneExportFormat.FBX]: '',
+          [SceneExportFormat.OBJ]: '',
+          [SceneExportFormat.JSON]: '',
+          [SceneExportFormat.BINARY]: ''
+        },
         warnings: [],
         errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {

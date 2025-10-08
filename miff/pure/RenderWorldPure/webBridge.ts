@@ -10,7 +10,7 @@
  */
 
 import { RenderWorldPure } from './index';
-import { EventBus } from '../EventsPure';
+import { EventBus } from '../EventBusPure/EventBusPure.js';
 
 interface WebRendererConfig {
   canvas: HTMLCanvasElement;
@@ -195,19 +195,19 @@ export class RenderWorldWebBridge {
 
     // Get attribute and uniform locations
     this.gl.useProgram(shaderProgram);
-    shaderProgram.aVertexPosition = this.gl.getAttribLocation(shaderProgram, 'aVertexPosition');
-    shaderProgram.aVertexNormal = this.gl.getAttribLocation(shaderProgram, 'aVertexNormal');
-    shaderProgram.aTextureCoord = this.gl.getAttribLocation(shaderProgram, 'aTextureCoord');
+    (shaderProgram as any).aVertexPosition = this.gl.getAttribLocation(shaderProgram as any, 'aVertexPosition');
+    (shaderProgram as any).aVertexNormal = this.gl.getAttribLocation(shaderProgram as any, 'aVertexNormal');
+    (shaderProgram as any).aTextureCoord = this.gl.getAttribLocation(shaderProgram as any, 'aTextureCoord');
 
-    shaderProgram.uModelViewMatrix = this.gl.getUniformLocation(shaderProgram, 'uModelViewMatrix');
-    shaderProgram.uProjectionMatrix = this.gl.getUniformLocation(shaderProgram, 'uProjectionMatrix');
-    shaderProgram.uNormalMatrix = this.gl.getUniformLocation(shaderProgram, 'uNormalMatrix');
-    shaderProgram.uSampler = this.gl.getUniformLocation(shaderProgram, 'uSampler');
-    shaderProgram.uAmbientColor = this.gl.getUniformLocation(shaderProgram, 'uAmbientColor');
-    shaderProgram.uDirectionalColor = this.gl.getUniformLocation(shaderProgram, 'uDirectionalColor');
-    shaderProgram.uDirectionalDirection = this.gl.getUniformLocation(shaderProgram, 'uDirectionalDirection');
-    shaderProgram.uEmissiveColor = this.gl.getUniformLocation(shaderProgram, 'uEmissiveColor');
-    shaderProgram.uEmissiveIntensity = this.gl.getUniformLocation(shaderProgram, 'uEmissiveIntensity');
+    (shaderProgram as any).uModelViewMatrix = this.gl.getUniformLocation(shaderProgram as any, 'uModelViewMatrix');
+    (shaderProgram as any).uProjectionMatrix = this.gl.getUniformLocation(shaderProgram as any, 'uProjectionMatrix');
+    (shaderProgram as any).uNormalMatrix = this.gl.getUniformLocation(shaderProgram as any, 'uNormalMatrix');
+    (shaderProgram as any).uSampler = this.gl.getUniformLocation(shaderProgram as any, 'uSampler');
+    (shaderProgram as any).uAmbientColor = this.gl.getUniformLocation(shaderProgram as any, 'uAmbientColor');
+    (shaderProgram as any).uDirectionalColor = this.gl.getUniformLocation(shaderProgram as any, 'uDirectionalColor');
+    (shaderProgram as any).uDirectionalDirection = this.gl.getUniformLocation(shaderProgram as any, 'uDirectionalDirection');
+    (shaderProgram as any).uEmissiveColor = this.gl.getUniformLocation(shaderProgram as any, 'uEmissiveColor');
+    (shaderProgram as any).uEmissiveIntensity = this.gl.getUniformLocation(shaderProgram as any, 'uEmissiveIntensity');
   }
 
   private createShader(type: number, source: string): WebGLShader | null {
@@ -266,9 +266,9 @@ export class RenderWorldWebBridge {
 
   private setupInputIntegration(): void {
     // Integrate with InputSystemPure for unified input handling
-    EventBus.on('input.keyboard', this.handleInputEvent.bind(this));
-    EventBus.on('input.mouse', this.handleInputEvent.bind(this));
-    EventBus.on('input.touch', this.handleInputEvent.bind(this));
+    EventBus.subscribe('input.keyboard', (e) => this.handleInputEvent(e));
+    EventBus.subscribe('input.mouse', (e) => this.handleInputEvent(e));
+    EventBus.subscribe('input.touch', (e) => this.handleInputEvent(e));
   }
 
   private setupDebugOverlay(): void {
@@ -300,7 +300,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    EventBus.emit('input.keyboard', {
+    EventBus.publish('input.keyboard', {
       type: 'keydown',
       key: event.key,
       code: event.code,
@@ -311,7 +311,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleKeyUp(event: KeyboardEvent): void {
-    EventBus.emit('input.keyboard', {
+    EventBus.publish('input.keyboard', {
       type: 'keyup',
       key: event.key,
       code: event.code,
@@ -322,7 +322,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleMouseDown(event: MouseEvent): void {
-    EventBus.emit('input.mouse', {
+    EventBus.publish('input.mouse', {
       type: 'mousedown',
       button: event.button,
       x: event.clientX,
@@ -333,7 +333,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleMouseMove(event: MouseEvent): void {
-    EventBus.emit('input.mouse', {
+    EventBus.publish('input.mouse', {
       type: 'mousemove',
       button: event.buttons,
       x: event.clientX,
@@ -344,7 +344,7 @@ export class RenderWorldWebBridge {
   }
 
   private handleMouseUp(event: MouseEvent): void {
-    EventBus.emit('input.mouse', {
+    EventBus.publish('input.mouse', {
       type: 'mouseup',
       button: event.button,
       x: event.clientX,
@@ -357,7 +357,7 @@ export class RenderWorldWebBridge {
   private handleTouchStart(event: TouchEvent): void {
     event.preventDefault();
     const touch = event.touches[0];
-    EventBus.emit('input.touch', {
+    EventBus.publish('input.touch', {
       type: 'touchstart',
       x: touch.clientX,
       y: touch.clientY,
@@ -369,7 +369,7 @@ export class RenderWorldWebBridge {
   private handleTouchMove(event: TouchEvent): void {
     event.preventDefault();
     const touch = event.touches[0];
-    EventBus.emit('input.touch', {
+    EventBus.publish('input.touch', {
       type: 'touchmove',
       x: touch.clientX,
       y: touch.clientY,
@@ -380,7 +380,7 @@ export class RenderWorldWebBridge {
 
   private handleTouchEnd(event: TouchEvent): void {
     event.preventDefault();
-    EventBus.emit('input.touch', {
+    EventBus.publish('input.touch', {
       type: 'touchend',
       x: 0,
       y: 0,
@@ -454,7 +454,7 @@ export class RenderWorldWebBridge {
         break;
       case 'e':
         if (event.type === 'keydown') {
-          EventBus.emit('spiritLens.use', {});
+          EventBus.publish('spiritLens.use', {});
         }
         break;
       case 'escape':
@@ -465,7 +465,7 @@ export class RenderWorldWebBridge {
     }
 
     if (playerVelocity.x !== 0 || playerVelocity.y !== 0 || playerVelocity.z !== 0) {
-      EventBus.emit('player.move', { velocity: playerVelocity });
+      EventBus.publish('player.move', { velocity: playerVelocity });
     }
   }
 
@@ -486,7 +486,7 @@ export class RenderWorldWebBridge {
   private handleMouseClick(event: any): void {
     // Handle mouse interactions
     if (event.button === 0) { // Left click
-      EventBus.emit('player.interact', { position: event });
+      EventBus.publish('player.interact', { position: event });
     }
   }
 
@@ -619,8 +619,10 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     const projectionMatrix = this.createProjectionMatrix();
     const modelViewMatrix = this.createModelViewMatrix();
 
-    this.gl.uniformMatrix4fv(this.shaderProgram.uProjectionMatrix, false, projectionMatrix);
-    this.gl.uniformMatrix4fv(this.shaderProgram.uModelViewMatrix, false, modelViewMatrix);
+    const uProj = (this.shaderProgram as any)?.uProjectionMatrix;
+    const uModel = (this.shaderProgram as any)?.uModelViewMatrix;
+    if (uProj) this.gl.uniformMatrix4fv(uProj, false, projectionMatrix);
+    if (uModel) this.gl.uniformMatrix4fv(uModel, false, modelViewMatrix);
   }
 
   private createProjectionMatrix(): Float32Array {
@@ -665,7 +667,7 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
     // This would contain the full rendering implementation
     // For now, we'll emit events that the RenderWorld renderer can handle
 
-    EventBus.emit('webgl.render', {
+    EventBus.publish('webgl.render', {
       gl: this.gl,
       shaderProgram: this.shaderProgram,
       camera: this.camera,
@@ -678,22 +680,23 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
       cancelAnimationFrame(this.state.animationId);
     }
 
-    if (this.gl) {
+    const gl = this.gl;
+    if (gl) {
       // Clean up WebGL resources
-      this.buffers.forEach(buffer => this.gl.deleteBuffer(buffer));
-      this.textures.forEach(texture => this.gl.deleteTexture(texture));
+      this.buffers.forEach(buffer => gl.deleteBuffer(buffer));
+      this.textures.forEach(texture => gl.deleteTexture(texture));
       this.buffers.clear();
       this.textures.clear();
 
       if (this.shaderProgram) {
-        this.gl.deleteProgram(this.shaderProgram);
+        gl.deleteProgram(this.shaderProgram);
       }
     }
 
     // Remove debug overlay
     const debugContainer = document.getElementById('renderworld-debug');
-    if (debugContainer) {
-      document.body.removeChild(debugContainer);
+    if (debugContainer && debugContainer.parentElement) {
+      debugContainer.parentElement.removeChild(debugContainer);
     }
   }
 
@@ -734,8 +737,8 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
       this.setupDebugOverlay();
     } else {
       const debugContainer = document.getElementById('renderworld-debug');
-      if (debugContainer) {
-        document.body.removeChild(debugContainer);
+      if (debugContainer && debugContainer.parentElement) {
+        debugContainer.parentElement.removeChild(debugContainer);
       }
     }
   }

@@ -116,7 +116,7 @@ export interface ScoreFilter {
 export interface ScoreOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: ScoreState | ScoreStats | Leaderboard | string;
+  result?: any;
   issues?: string[];
 }
 

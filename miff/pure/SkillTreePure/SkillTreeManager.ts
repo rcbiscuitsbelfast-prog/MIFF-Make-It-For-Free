@@ -282,11 +282,13 @@ export class SkillTreeManager {
       }
       
       if (filter.minLevel !== undefined) {
-        skills = skills.filter(s => (s.level || 1) >= filter.minLevel);
+        const min = filter.minLevel ?? 0;
+        skills = skills.filter(s => (s.level || 1) >= min);
       }
       
       if (filter.maxLevel !== undefined) {
-        skills = skills.filter(s => (s.level || 1) <= filter.maxLevel);
+        const max = filter.maxLevel ?? Number.MAX_SAFE_INTEGER;
+        skills = skills.filter(s => (s.level || 1) <= max);
       }
       
       if (filter.cost !== undefined) {
@@ -294,7 +296,8 @@ export class SkillTreeManager {
       }
       
       if (filter.maxCost !== undefined) {
-        skills = skills.filter(s => (s.cost || 0) <= filter.maxCost);
+        const maxCost = filter.maxCost ?? Number.MAX_SAFE_INTEGER;
+        skills = skills.filter(s => (s.cost || 0) <= maxCost);
       }
       
       if (filter.search) {

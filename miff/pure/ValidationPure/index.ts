@@ -9,29 +9,11 @@
  * @license MIT
  */
 
-export { 
+export {
   ValidationManager,
   type ValidationRule,
   type ValidationConfig,
-  type NamingConvention,
-  type DataIntegrityRule,
-  type PerformanceThreshold,
-  type SecurityRule,
-  type CustomValidator,
   type ValidationInput,
-  type EntityData,
-  type AssetData,
-  type ScriptData,
-  type ValidationResult,
-  type ValidationIssue,
-  type ValidationWarning,
-  type ValidationSuggestion,
   type ValidateOutput,
-  type ReportOutput,
-  type ValidationReport,
-  type ValidationSummary,
-  type CategorySummary,
-  type ValidationStats,
-  type ValidationFilter,
-  type ValidationOutput
+  type ReportOutput
 } from './Manager';

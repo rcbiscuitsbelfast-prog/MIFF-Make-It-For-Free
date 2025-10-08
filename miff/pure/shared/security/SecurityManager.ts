@@ -85,6 +85,8 @@ export interface SecurityConfig {
   threatDetectionThreshold: number;
   complianceStandards: string[];
   auditRetentionDays: number;
+  /** Interval in ms for automated compliance audits */
+  complianceAuditInterval?: number;
 }
 
 export interface SecurityEvent {
@@ -191,6 +193,7 @@ export class SecurityManager {
   private failedLoginAttempts: Map<string, { count: number; lastAttempt: Date }> = new Map();
   private encryptionKey: Buffer;
   private isRunning: boolean = false;
+  private complianceChecks: Record<string, boolean> = {};
 
   constructor(config: SecurityConfig, eventBus: EventBus) {
     this.config = config;
@@ -230,9 +233,9 @@ export class SecurityManager {
     };
     
     // Start periodic compliance audits
-    setInterval(() => {
+    setInterval((): void => {
       this.performComplianceAudit();
-    }, this.config.complianceAuditInterval || 3600000); // 1 hour default
+    }, this.config.complianceAuditInterval ?? 3600000); // 1 hour default
   }
 
   /**
@@ -257,6 +260,34 @@ export class SecurityManager {
     this.eventBus.subscribe('data:access', (data) => {
       this.handleDataAccess(data);
     });
+  }
+
+  /** Basic, centralized logger */
+  private log(message: string, level: 'info' | 'warn' | 'error' = 'info'): void {
+    const ts = new Date().toISOString();
+    // eslint-disable-next-line no-console
+    console.log(`[SECURITY:${level.toUpperCase()}] ${ts} - ${message}`);
+  }
+
+  private checkGDPRCompliance(): boolean {
+    return !!this.config.enableEncryption;
+  }
+
+  private checkCCPACompliance(): boolean {
+    return !!this.config.enableAuditLogging;
+  }
+
+  private checkSOXCompliance(): boolean {
+    return !!this.config.enableAuthorization;
+  }
+
+  private checkHIPAACompliance(): boolean {
+    return !!this.config.enableInputValidation && !!this.config.enableEncryption;
+  }
+
+  private performComplianceAudit(): void {
+    this.log('Performing compliance audit run');
+    // In a full implementation, we would evaluate standards and emit reports
   }
 
   /**

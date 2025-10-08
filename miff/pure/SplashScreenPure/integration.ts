@@ -12,7 +12,7 @@
  */
 
 import { SplashScreenPure } from './index';
-import { EventBus } from '../EventsPure';
+import { EventBus } from '../EventBusPure/EventBusPure.js';
 
 interface IntegrationConfig {
   enableSplashScreen: boolean;
@@ -58,9 +58,9 @@ export class SplashScreenIntegration {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('splashscreen.inject.web', this.injectIntoWebExport.bind(this));
-    EventBus.on('splashscreen.inject.unity', this.injectIntoUnityScene.bind(this));
-    EventBus.on('splashscreen.inject.cli', this.handleCLICommand.bind(this));
+    EventBus.subscribe('splashscreen.inject.web', (e) => this.injectIntoWebExport(e.data));
+    EventBus.subscribe('splashscreen.inject.unity', (e) => this.injectIntoUnityScene(e.data));
+    EventBus.subscribe('splashscreen.inject.cli', (e) => this.handleCLICommand(e.data));
   }
 
   private setupCLICommands(): void {
@@ -159,16 +159,17 @@ export class SplashScreenIntegration {
       const splashConfig = { ...this.config.splashScreenConfig, ...config };
       const modifiedHtml = SplashScreenPure.injectSplashScreen(htmlContent, splashConfig);
 
-      EventBus.emit('splashscreen.web.injected', {
+      EventBus.publish('splashscreen.web.injected', {
         originalLength: htmlContent.length,
         modifiedLength: modifiedHtml.length,
         splashConfig: splashConfig
       });
 
       console.log('✅ Splash screen injected into web export successfully');
-    } catch (error) {
-      console.error('❌ Failed to inject splash screen into web export:', error);
-      throw error;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error('❌ Failed to inject splash screen into web export:', message);
+      throw (error instanceof Error ? error : new Error(message));
     }
   }
 
@@ -184,16 +185,17 @@ export class SplashScreenIntegration {
       const splashConfig = { ...this.config.splashScreenConfig, ...config };
       const modifiedScene = this.injectIntoUnitySceneContent(sceneContent, splashConfig);
 
-      EventBus.emit('splashscreen.unity.injected', {
+      EventBus.publish('splashscreen.unity.injected', {
         originalLength: sceneContent.length,
         modifiedLength: modifiedScene.length,
         splashConfig: splashConfig
       });
 
       console.log('✅ Splash screen injected into Unity scene successfully');
-    } catch (error) {
-      console.error('❌ Failed to inject splash screen into Unity scene:', error);
-      throw error;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error('❌ Failed to inject splash screen into Unity scene:', message);
+      throw (error instanceof Error ? error : new Error(message));
     }
   }
 
@@ -321,9 +323,10 @@ public class MIFFSplashScreen : MonoBehaviour
 
     try {
       await cliCommand.handler(flags);
-    } catch (error) {
-      console.error(`❌ CLI command '${command}' failed:`, error);
-      throw error;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ CLI command '${command}' failed:`, message);
+      throw (error instanceof Error ? error : new Error(message));
     }
   }
 

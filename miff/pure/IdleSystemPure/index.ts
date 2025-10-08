@@ -427,7 +427,7 @@ export class IdleSystemPure {
         id: 'auto_efficiency',
         name: 'Auto Efficiency',
         description: 'Improves auto-clicker production',
-        category: 'efficiency',
+        category: 'automation',
         cost: 500,
         costResource: 'currency',
         maxLevel: 5,
@@ -564,25 +564,29 @@ export class IdleSystemPure {
   private setupEventListeners(): void {
     // Listen for integration events
     if (this.integrations.onResourceChange) {
-      this.eventBus.on('idle:resource_change', (data: { resourceId: string, oldAmount: number, newAmount: number }) => {
+      this.eventBus.subscribe('idle:resource_change', (evt: any) => {
+        const data = (evt && (evt.data as any)) || evt || {};
         this.integrations.onResourceChange!(data.resourceId, data.oldAmount, data.newAmount);
       });
     }
 
     if (this.integrations.onGeneratorPurchase) {
-      this.eventBus.on('idle:generator_purchase', (data: { generatorId: string, amount: number }) => {
+      this.eventBus.subscribe('idle:generator_purchase', (evt: any) => {
+        const data = (evt && (evt.data as any)) || evt || {};
         this.integrations.onGeneratorPurchase!(data.generatorId, data.amount);
       });
     }
 
     if (this.integrations.onUpgradePurchase) {
-      this.eventBus.on('idle:upgrade_purchase', (data: { upgradeId: string, level: number }) => {
+      this.eventBus.subscribe('idle:upgrade_purchase', (evt: any) => {
+        const data = (evt && (evt.data as any)) || evt || {};
         this.integrations.onUpgradePurchase!(data.upgradeId, data.level);
       });
     }
 
     if (this.integrations.onAchievementUnlock) {
-      this.eventBus.on('idle:achievement_unlock', (data: { achievementId: string }) => {
+      this.eventBus.subscribe('idle:achievement_unlock', (evt: any) => {
+        const data = (evt && (evt.data as any)) || evt || {};
         this.integrations.onAchievementUnlock!(data.achievementId);
       });
     }
@@ -608,7 +612,7 @@ export class IdleSystemPure {
     if (this.config.saveInterval > 0) {
       this.autoSaveInterval = setInterval(() => {
         this.saveGame();
-      }, this.config.saveInterval * 1000);
+      }, this.config.saveInterval * 1000) as unknown as number;
     }
   }
 
@@ -1303,23 +1307,7 @@ export class IdleSystemPure {
 // TYPE EXPORTS
 // ============================================================================
 
-export type {
-  ResourceType,
-  GeneratorType,
-  UpgradeCategory,
-  PrestigeTier,
-  AchievementType,
-  Resource,
-  Generator,
-  Upgrade,
-  UpgradeEffect,
-  Achievement,
-  AchievementRequirement,
-  AchievementReward,
-  PrestigeConfig,
-  IdleSystemConfig,
-  IdleIntegration
-};
+// Avoid duplicate re-exports that conflict with declarations above
 
 // ============================================================================
 // DEFAULT EXPORT

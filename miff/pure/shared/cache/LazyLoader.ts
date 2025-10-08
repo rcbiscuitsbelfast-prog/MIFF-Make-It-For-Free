@@ -88,9 +88,10 @@ export class LazyLoader {
 
       this.log(`✅ Module loaded: ${moduleName}`);
       return module;
-    } catch (error) {
-      this.log(`❌ Failed to load module ${moduleName}: ${error.message}`, 'error');
-      throw error;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.log(`❌ Failed to load module ${moduleName}: ${message}`, 'error');
+      throw error as Error;
     } finally {
       this.loadingPromises.delete(moduleName);
     }
@@ -111,8 +112,9 @@ export class LazyLoader {
         if (strategy.preload) {
           try {
             await this.preloadModule(moduleName);
-          } catch (error) {
-            this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
+          } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : String(error);
+            this.log(`Preload failed for ${moduleName}: ${message}`, 'debug');
           }
         }
       }
@@ -208,9 +210,10 @@ export class LazyLoader {
       moduleInfo.lazy = false;
 
       return { moduleName, loadTime, status: 'success' };
-    } catch (error) {
-      this.log(`Module load failed: ${error.message}`, 'error');
-      throw error;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.log(`Module load failed: ${message}`, 'error');
+      throw error as Error;
     }
   }
 
@@ -223,8 +226,9 @@ export class LazyLoader {
     try {
       this.log(`Preloading module: ${moduleName}`);
       await this.loadModule(moduleName, { priority: true });
-    } catch (error) {
-      this.log(`Preload failed for ${moduleName}: ${error.message}`, 'debug');
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      this.log(`Preload failed for ${moduleName}: ${message}`, 'debug');
     }
   }
 

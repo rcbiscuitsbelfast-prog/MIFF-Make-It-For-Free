@@ -258,7 +258,7 @@ export class SyncManager {
     const startTime = Date.now();
 
     try {
-      this.eventBus.publish('sync:start');
+      this.eventBus.publish('sync:start', { startedAt: startTime });
       
       // Notify integrations
       this.integrations.forEach(integration => {
@@ -276,7 +276,7 @@ export class SyncManager {
       this.stats.lastSyncTime = new Date();
       this.stats.averageSyncTime = (this.stats.averageSyncTime + syncTime) / 2;
 
-      this.eventBus.publish('sync:complete', this.stats);
+      this.eventBus.publish('sync:complete', this.stats, { metadata: { durationMs: syncTime } } as any);
 
       // Notify integrations
       this.integrations.forEach(integration => {
@@ -284,9 +284,10 @@ export class SyncManager {
       });
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
       this.stats.failedSyncs++;
-      this.eventBus.publish('sync:error', error);
+      const message = error instanceof Error ? error.message : String(error);
+      this.eventBus.publish('sync:error', { message });
       return false;
     } finally {
       this.syncInProgress = false;

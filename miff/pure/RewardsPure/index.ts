@@ -556,11 +556,7 @@ export const RewardUtils = {
     const merged = new RewardStub();
 
     rewards.forEach(reward => {
-      merged.currency += reward.currency;
-      merged.xpGain += reward.xpGain;
-      if (reward.itemId && !merged.itemId) {
-        merged.itemId = reward.itemId;
-      }
+      merged.add(reward);
     });
 
     return merged;
@@ -600,7 +596,7 @@ export const RewardUtils = {
    * Calculate the total value of multiple rewards
    */
   calculateTotalValue(rewards: IRewardStub[], xpValue: number = 1): number {
-    return rewards.reduce((total, reward) => total + reward.getTotalValue(xpValue), 0);
+    return rewards.reduce((total, reward) => total + new RewardStub(reward.currency, reward.xpGain, reward.itemId).getTotalValue(xpValue), 0);
   },
 
   /**

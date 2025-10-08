@@ -661,7 +661,7 @@ export class EncounterTable implements IEncounterTable {
   toJSON(): Record<string, any> {
     return {
       zoneId: this.zoneId,
-      entries: this.entries.map(entry => entry.toJSON()),
+      entries: this.entries.map(entry => (entry as EncounterTableEntry).toJSON()),
       totalWeight: this.totalWeight
     };
   }
@@ -1333,35 +1333,35 @@ export class OverworldBattleSliceTool {
       statusEffects: [],
       isPlayerControlled: true,
 
-      isAlive: () => this.currentHp > 0,
-      takeDamage: (damage: number) => {
-        this.currentHp = Math.max(0, this.currentHp - damage);
+      isAlive: function() { return (this as any).currentHp > 0; },
+      takeDamage: function(damage: number) {
+        (this as any).currentHp = Math.max(0, (this as any).currentHp - damage);
         return damage;
       },
-      heal: (amount: number) => {
-        this.currentHp = Math.min(this.maxHp, this.currentHp + amount);
+      heal: function(amount: number) {
+        (this as any).currentHp = Math.min((this as any).maxHp, (this as any).currentHp + amount);
         return amount;
       },
-      addStatusEffect: (effect: string) => {
-        if (!this.statusEffects.includes(effect)) {
-          this.statusEffects.push(effect);
+      addStatusEffect: function(effect: string) {
+        if (!(this as any).statusEffects.includes(effect)) {
+          (this as any).statusEffects.push(effect);
         }
       },
-      removeStatusEffect: (effect: string) => {
-        const index = this.statusEffects.indexOf(effect);
+      removeStatusEffect: function(effect: string) {
+        const index = (this as any).statusEffects.indexOf(effect);
         if (index >= 0) {
-          this.statusEffects.splice(index, 1);
+          (this as any).statusEffects.splice(index, 1);
           return true;
         }
         return false;
       },
-      hasStatusEffect: (effect: string) => this.statusEffects.includes(effect),
-      getEffectiveAttack: () => this.attack,
-      getEffectiveDefense: () => this.defense,
-      getEffectiveSpecialAttack: () => this.specialAttack,
-      getEffectiveSpecialDefense: () => this.specialDefense,
-      clone: () => ({ ...this }),
-      toJSON: () => ({ ...this })
+      hasStatusEffect: function(effect: string) { return (this as any).statusEffects.includes(effect); },
+      getEffectiveAttack: function() { return (this as any).attack; },
+      getEffectiveDefense: function() { return (this as any).defense; },
+      getEffectiveSpecialAttack: function() { return (this as any).specialAttack; },
+      getEffectiveSpecialDefense: function() { return (this as any).specialDefense; },
+      clone: function() { return { ...(this as any) }; },
+      toJSON: function() { return { ...(this as any) }; }
     } as ISpiritInstance;
   }
 
@@ -1395,35 +1395,35 @@ export class OverworldBattleSliceTool {
       statusEffects: [],
       isPlayerControlled: false,
 
-      isAlive: () => this.currentHp > 0,
-      takeDamage: (damage: number) => {
-        this.currentHp = Math.max(0, this.currentHp - damage);
+      isAlive: function() { return (this as any).currentHp > 0; },
+      takeDamage: function(damage: number) {
+        (this as any).currentHp = Math.max(0, (this as any).currentHp - damage);
         return damage;
       },
-      heal: (amount: number) => {
-        this.currentHp = Math.min(this.maxHp, this.currentHp + amount);
+      heal: function(amount: number) {
+        (this as any).currentHp = Math.min((this as any).maxHp, (this as any).currentHp + amount);
         return amount;
       },
-      addStatusEffect: (effect: string) => {
-        if (!this.statusEffects.includes(effect)) {
-          this.statusEffects.push(effect);
+      addStatusEffect: function(effect: string) {
+        if (!(this as any).statusEffects.includes(effect)) {
+          (this as any).statusEffects.push(effect);
         }
       },
-      removeStatusEffect: (effect: string) => {
-        const index = this.statusEffects.indexOf(effect);
+      removeStatusEffect: function(effect: string) {
+        const index = (this as any).statusEffects.indexOf(effect);
         if (index >= 0) {
-          this.statusEffects.splice(index, 1);
+          (this as any).statusEffects.splice(index, 1);
           return true;
         }
         return false;
       },
-      hasStatusEffect: (effect: string) => this.statusEffects.includes(effect),
-      getEffectiveAttack: () => this.attack,
-      getEffectiveDefense: () => this.defense,
-      getEffectiveSpecialAttack: () => this.specialAttack,
-      getEffectiveSpecialDefense: () => this.specialDefense,
-      clone: () => ({ ...this }),
-      toJSON: () => ({ ...this })
+      hasStatusEffect: function(effect: string) { return (this as any).statusEffects.includes(effect); },
+      getEffectiveAttack: function() { return (this as any).attack; },
+      getEffectiveDefense: function() { return (this as any).defense; },
+      getEffectiveSpecialAttack: function() { return (this as any).specialAttack; },
+      getEffectiveSpecialDefense: function() { return (this as any).specialDefense; },
+      clone: function() { return { ...(this as any) }; },
+      toJSON: function() { return { ...(this as any) }; }
     } as ISpiritInstance;
   }
 }

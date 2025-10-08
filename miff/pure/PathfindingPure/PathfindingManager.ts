@@ -75,7 +75,7 @@ export interface PathfindingFilter {
 export interface PathfindingOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: Grid | Node[] | PathfindingResult | PathfindingStats | string;
+  result?: any;
   issues?: string[];
 }
 

@@ -90,21 +90,21 @@ export class TeamsPureStrategicCLI {
    */
   private createDemoTeams(): void {
     // Create offensive team
-    const offensiveTeam = this.teamManager.createTeam('offensive_force', 'Offensive Force', 6);
+    const offensiveTeam = this.teamManager.createTeam('offensive_force');
     const offensiveSpirits = this.mockSpirits.filter(s => ['Fire', 'Electric', 'Psychic'].includes(s.type));
     offensiveSpirits.forEach(spirit => {
       this.teamManager.addSpiritToTeam('offensive_force', spirit);
     });
 
     // Create defensive team
-    const defensiveTeam = this.teamManager.createTeam('defensive_wall', 'Defensive Wall', 6);
+    const defensiveTeam = this.teamManager.createTeam('defensive_wall');
     const defensiveSpirits = this.mockSpirits.filter(s => ['Water', 'Ground', 'Grass'].includes(s.type));
     defensiveSpirits.forEach(spirit => {
       this.teamManager.addSpiritToTeam('defensive_wall', spirit);
     });
 
     // Create balanced team
-    const balancedTeam = this.teamManager.createTeam('balanced_squad', 'Balanced Squad', 6);
+    const balancedTeam = this.teamManager.createTeam('balanced_squad');
     const balancedSpirits = this.mockSpirits.filter(s => ['Light', 'Dark', 'Ice', 'Flying'].includes(s.type));
     balancedSpirits.forEach(spirit => {
       this.teamManager.addSpiritToTeam('balanced_squad', spirit);
@@ -124,7 +124,16 @@ export class TeamsPureStrategicCLI {
       instanceId: `spirit_${name}_${Date.now()}`,
       name,
       type,
+      speciesId: `${type.toLowerCase()}_${name}`,
       level,
+      stats: { hp: stats.hp, attack: stats.attack, defense: stats.defense, speed: stats.speed, specialAttack: Math.floor(stats.attack * 0.9), specialDefense: Math.floor(stats.defense * 0.9) },
+      statusEffects: [],
+      abilities: [],
+      experience: 0,
+      loyalty: 0,
+      validate: () => [],
+      isAlive: () => true,
+      canAct: () => true,
       getEffectiveStats: () => ({
         attack: stats.attack,
         defense: stats.defense,
@@ -133,12 +142,10 @@ export class TeamsPureStrategicCLI {
         specialAttack: Math.floor(stats.attack * 0.9),
         specialDefense: Math.floor(stats.defense * 0.9)
       }),
-      evolve: (newSpeciesId: string) => {
-        console.log(`Evolving ${name} to ${newSpeciesId}`);
-      },
-      getSyncPercentage: () => 50,
-      hasItem: (itemId: string) => false
-    };
+      getTypeEffectiveness: () => 1.0,
+      toJSON: () => ({}),
+      clone: function() { return { ...(this as any) } as ISpiritInstance; }
+    } as ISpiritInstance;
   }
 
   /**
@@ -602,7 +609,7 @@ export class TeamsPureStrategicCLI {
   /**
    * Run strategic demo
    */
-  private runDemo(): void {
+  public runDemo(): void {
     console.log('🚀 Running TeamsPure Strategic Demo...\n');
 
     this.listTeams();

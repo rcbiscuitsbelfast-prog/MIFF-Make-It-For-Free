@@ -149,6 +149,7 @@ export interface Bid {
 }
 
 export interface MarketStatistics {
+  totalTransactions: number;
   totalListings: number;
   activeListings: number;
   totalVolume: number;
@@ -486,6 +487,7 @@ export class EconomicEngine {
 
   private createEmptyMarketStatistics(): MarketStatistics {
     return {
+      totalTransactions: 0,
       totalListings: 0,
       activeListings: 0,
       totalVolume: 0,

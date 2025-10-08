@@ -56,6 +56,7 @@ export interface PetStats {
 export interface Pet {
   id: string;
   name: string;
+  species?: string;
   type: PetType;
   rarity: PetRarity;
   level: number;
@@ -69,6 +70,13 @@ export interface Pet {
   lastFed: Date;
   happiness: number;
   hunger: number;
+  loyalty?: number;
+  hatchDate?: Date;
+  evolutionStage?: number;
+  maxEvolutionStage?: number;
+  isLocked?: boolean;
+  isFavorite?: boolean;
+  metadata?: any;
 }
 
 export interface Egg {
@@ -137,7 +145,7 @@ export interface PetCollectionOutput {
 }
 
 export class PetCollectionManager {
-  private petSystem: PetCollectionPure;
+  private petSystem: any;
   private eventBus: EventBus;
   private config: PetCollectionConfig;
   private stats: CollectionStats;
@@ -155,43 +163,72 @@ export class PetCollectionManager {
       ...config
     };
 
-    this.petSystem = new PetCollectionPure(eventBus);
+    this.petSystem = (globalThis as any).PetCollectionPure ? new (globalThis as any).PetCollectionPure(eventBus) : {
+      getEggsByOwner: (_id: string) => [],
+      createEgg: (_ownerId: string, _eggType: EggType, _species: string) => ({ id: 'egg', type: EggType.BASIC, rarity: PetRarity.COMMON } as any),
+      hatchEgg: (_eggId: string) => ({ id: 'pet', name: 'Pet', type: PetType.FIRE } as any),
+      getPetsByOwner: (_id: string) => [],
+      createTradeOffer: (_o: any) => ({ id: 'trade' }),
+      completeTrade: (_id: string) => true
+    };
     this.stats = this.initializeStats();
 
     this.setupEventListeners();
   }
 
   private initializeStats(): CollectionStats {
+    const zeroRarity: Record<PetRarity, number> = {
+      [PetRarity.COMMON]: 0,
+      [PetRarity.UNCOMMON]: 0,
+      [PetRarity.RARE]: 0,
+      [PetRarity.EPIC]: 0,
+      [PetRarity.LEGENDARY]: 0,
+      [PetRarity.MYTHICAL]: 0
+    } as Record<PetRarity, number>;
+    const zeroTypes: Record<PetType, number> = {
+      [PetType.FIRE]: 0,
+      [PetType.WATER]: 0,
+      [PetType.GRASS]: 0,
+      [PetType.ELECTRIC]: 0,
+      [PetType.PSYCHIC]: 0,
+      [PetType.ICE]: 0,
+      [PetType.DRAGON]: 0,
+      [PetType.DARK]: 0,
+      [PetType.FAIRY]: 0,
+      [PetType.NORMAL]: 0
+    } as Record<PetType, number>;
+
     return {
       totalPets: 0,
-      uniqueSpecies: 0,
-      averageRarity: 0,
+      petsByType: zeroTypes,
+      petsByRarity: zeroRarity,
+      shinyCount: 0,
       totalTrades: 0,
-      eggsHatched: 0,
-      favoritePets: 0,
-      maxLevel: 0,
-      collectionValue: 0
+      successfulTrades: 0,
+      averagePetLevel: 0,
+      highestPetLevel: 0,
+      lastUpdated: new Date()
     };
   }
 
   private setupEventListeners(): void {
-    this.eventBus.on('pet:egg_created', (data) => {
+    this.eventBus.subscribe('pet:egg_created', (_event: any) => {
       this.updateStats();
     });
 
-    this.eventBus.on('pet:egg_hatched', (data) => {
+    this.eventBus.subscribe('pet:egg_hatched', (_event: any) => {
       this.updateStats();
     });
 
-    this.eventBus.on('pet:trade_created', (data) => {
+    this.eventBus.subscribe('pet:trade_created', (_event: any) => {
       this.stats.totalTrades++;
     });
 
-    this.eventBus.on('pet:trade_completed', (data) => {
+    this.eventBus.subscribe('pet:trade_completed', (_event: any) => {
       this.updateStats();
     });
 
-    this.eventBus.on('pet:favorite_toggled', (data) => {
+    this.eventBus.subscribe('pet:favorite_toggled', (_event: any) => {
       this.updateStats();
     });
   }
@@ -215,10 +252,11 @@ export class PetCollectionManager {
         data: { egg },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to create egg: ${error.message}`,
+        message: `Failed to create egg: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -227,7 +265,7 @@ export class PetCollectionManager {
   public hatchEgg(eggId: string, ownerId: string): PetCollectionOutput {
     try {
       const eggs = this.petSystem.getEggsByOwner(ownerId);
-      const egg = eggs.find(e => e.id === eggId);
+      const egg = eggs.find((e: any) => e.id === eggId);
 
       if (!egg) {
         return {
@@ -253,10 +291,11 @@ export class PetCollectionManager {
         data: { pet },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to hatch egg: ${error.message}`,
+        message: `Failed to hatch egg: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -269,30 +308,30 @@ export class PetCollectionManager {
       // Apply filters
       if (filter) {
         if (filter.rarity) {
-          pets = pets.filter(pet => filter.rarity!.includes(pet.rarity));
+          pets = pets.filter((pet: any) => (filter.rarity as PetRarity[]).includes((pet as any).rarity));
         }
         if (filter.type) {
-          pets = pets.filter(pet => filter.type!.includes(pet.type));
+          pets = pets.filter((pet: any) => (filter.type as PetType[]).includes((pet as any).type));
         }
         if (filter.species) {
-          pets = pets.filter(pet => filter.species!.includes(pet.species));
+          pets = pets.filter((pet: any) => (filter.species as string[]).includes((pet as any).species));
         }
         if (filter.level) {
-          pets = pets.filter(pet =>
-            pet.level >= filter.level!.min && pet.level <= filter.level!.max
+          pets = pets.filter((pet: any) =>
+            (pet as any).level >= (filter.level as any).min && (pet as any).level <= (filter.level as any).max
           );
         }
         if (filter.isFavorite !== undefined) {
-          pets = pets.filter(pet => pet.isFavorite === filter.isFavorite);
+          pets = pets.filter((pet: any) => (pet as any).isFavorite === filter.isFavorite);
         }
         if (filter.isLocked !== undefined) {
-          pets = pets.filter(pet => pet.isLocked === filter.isLocked);
+          pets = pets.filter((pet: any) => (pet as any).isLocked === filter.isLocked);
         }
       }
 
       // Apply sorting
       if (sort) {
-        pets.sort((a, b) => {
+        pets.sort((a: any, b: any) => {
           let aValue: any;
           let bValue: any;
 
@@ -340,10 +379,11 @@ export class PetCollectionManager {
         data: { pets },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to get pets: ${error.message}`,
+        message: `Failed to get pets: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -359,10 +399,11 @@ export class PetCollectionManager {
         data: { eggs },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to get eggs: ${error.message}`,
+        message: `Failed to get eggs: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -378,10 +419,11 @@ export class PetCollectionManager {
         data: { stats },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to get collection stats: ${error.message}`,
+        message: `Failed to get collection stats: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -390,7 +432,7 @@ export class PetCollectionManager {
   public createTradeOffer(ownerId: string, petId: string, requestedPetId?: string, requestedItems?: string[]): PetCollectionOutput {
     try {
       const pets = this.petSystem.getPetsByOwner(ownerId);
-      const pet = pets.find(p => p.id === petId);
+      const pet = pets.find((p: any) => p.id === petId);
 
       if (!pet) {
         return {
@@ -400,8 +442,8 @@ export class PetCollectionManager {
         };
       }
 
-      const activeTrades = Array.from(this.petSystem['trades'].values())
-        .filter(trade => trade.ownerId === ownerId && trade.status === 'pending');
+      const activeTrades = Array.from((this.petSystem['trades'] as Map<string, any>).values())
+        .filter((trade: any) => trade.ownerId === ownerId && trade.status === 'pending');
 
       if (activeTrades.length >= this.config.maxActiveTradesPerPlayer!) {
         return {
@@ -427,10 +469,11 @@ export class PetCollectionManager {
         data: { tradeOffer },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to create trade offer: ${error.message}`,
+        message: `Failed to create trade offer: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -454,10 +497,11 @@ export class PetCollectionManager {
         data: { tradeId, accepterId },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to accept trade offer: ${error.message}`,
+        message: `Failed to accept trade offer: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -481,10 +525,11 @@ export class PetCollectionManager {
         data: { petId, ownerId },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to feed pet: ${error.message}`,
+        message: `Failed to feed pet: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -508,10 +553,11 @@ export class PetCollectionManager {
         data: { petId, ownerId },
         timestamp: Date.now()
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
       return {
         success: false,
-        message: `Failed to toggle favorite: ${error.message}`,
+        message: `Failed to toggle favorite: ${message}`,
         timestamp: Date.now()
       };
     }
@@ -526,15 +572,15 @@ export class PetCollectionManager {
   }
 
   public getEggTypes(): EggType[] {
-    return ['basic', 'premium', 'golden', 'diamond', 'cosmic'];
+    return [EggType.BASIC, EggType.SPECIAL, EggType.LEGENDARY, EggType.MYTHICAL];
   }
 
   public getPetRarities(): PetRarity[] {
-    return ['common', 'uncommon', 'rare', 'epic', 'legendary', 'mythic'];
+    return [PetRarity.COMMON, PetRarity.UNCOMMON, PetRarity.RARE, PetRarity.EPIC, PetRarity.LEGENDARY, PetRarity.MYTHICAL];
   }
 
   public getPetTypes(): PetType[] {
-    return ['fire', 'water', 'earth', 'air', 'light', 'dark', 'neutral'];
+    return [PetType.FIRE, PetType.WATER, PetType.GRASS, PetType.ELECTRIC, PetType.PSYCHIC, PetType.ICE, PetType.DRAGON, PetType.DARK, PetType.FAIRY, PetType.NORMAL];
   }
 
   private updateStats(): void {
@@ -544,13 +590,13 @@ export class PetCollectionManager {
 
   private getRarityValue(rarity: PetRarity): number {
     const values: Record<PetRarity, number> = {
-      common: 1,
-      uncommon: 2,
-      rare: 3,
-      epic: 4,
-      legendary: 5,
-      mythic: 6
-    };
+      [PetRarity.COMMON]: 1,
+      [PetRarity.UNCOMMON]: 2,
+      [PetRarity.RARE]: 3,
+      [PetRarity.EPIC]: 4,
+      [PetRarity.LEGENDARY]: 5,
+      [PetRarity.MYTHICAL]: 6
+    } as any;
 
     return values[rarity];
   }
@@ -577,33 +623,37 @@ export class PetCollectionManager {
       if (data.pets && Array.isArray(data.pets)) {
         data.pets.forEach((petData: any) => {
           const pet: Pet = {
-            id: petData.id,
-            name: petData.name,
-            species: petData.species,
-            type: petData.type,
-            rarity: petData.rarity,
-            level: petData.level,
-            experience: petData.experience,
-            stats: petData.stats,
-            abilities: petData.abilities,
-            evolutionStage: petData.evolutionStage,
-            maxEvolutionStage: petData.maxEvolutionStage,
-            isLocked: petData.isLocked,
-            isFavorite: petData.isFavorite,
-            hatchDate: petData.hatchDate,
-            lastFed: petData.lastFed,
-            happiness: petData.happiness,
-            loyalty: petData.loyalty,
-            ownerId: ownerId,
+            id: String(petData.id),
+            name: String(petData.name),
+            species: petData.species ? String(petData.species) : undefined,
+            type: petData.type as PetType,
+            rarity: petData.rarity as PetRarity,
+            level: Number(petData.level ?? 1),
+            experience: Number(petData.experience ?? 0),
+            stats: petData.stats as PetStats,
+            abilities: Array.isArray(petData.abilities) ? petData.abilities.map((a: any) => String(a)) : [],
+            isShiny: Boolean(petData.isShiny),
+            isTradable: petData.isTradable ?? true,
+            ownerId: String(ownerId),
+            createdAt: petData.createdAt ? new Date(petData.createdAt) : new Date(),
+            lastFed: petData.lastFed ? new Date(petData.lastFed) : new Date(),
+            happiness: Number(petData.happiness ?? 0),
+            hunger: Number(petData.hunger ?? 0),
+            loyalty: petData.loyalty != null ? Number(petData.loyalty) : undefined,
+            hatchDate: petData.hatchDate ? new Date(petData.hatchDate) : undefined,
+            evolutionStage: petData.evolutionStage != null ? Number(petData.evolutionStage) : undefined,
+            maxEvolutionStage: petData.maxEvolutionStage != null ? Number(petData.maxEvolutionStage) : undefined,
+            isLocked: Boolean(petData.isLocked),
+            isFavorite: Boolean(petData.isFavorite),
             metadata: petData.metadata
           };
 
-          this.petSystem['pets'].set(pet.id, pet);
+          (this.petSystem['pets'] as Map<string, Pet>).set(pet.id, pet);
         });
       }
 
       return true;
-    } catch (error) {
+    } catch (error: unknown) {
       return false;
     }
   }

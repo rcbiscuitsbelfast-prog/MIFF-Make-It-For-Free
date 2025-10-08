@@ -198,8 +198,8 @@ export class AdvancedStatusEffects {
     });
 
     for (const entity of affectedEntities) {
-      // Check aura conditions
-      const context = { entity, timestamp: Date.now() };
+      // Check aura conditions with full EffectContext shape
+      const context = { entity, effect: aura.effects[0] as any, allEffects: aura.effects, timestamp: Date.now() } as EffectContext;
       const conditionsMet = aura.conditions.every(condition => condition.check(context));
 
       if (conditionsMet) {

@@ -472,7 +472,7 @@ export class SimplePlatformerGame extends SimpleGame {
   }
 
   getCoins(): number { return this.coins; }
-  getPlatforms(): readonly typeof this.platforms { return this.platforms; }
+  getPlatforms(): ReadonlyArray<typeof this.platforms[number]> { return this.platforms as ReadonlyArray<typeof this.platforms[number]>; }
 }
 
 /**
@@ -585,8 +585,8 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   getLives(): number { return this.playerLives; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
-  getBullets(): readonly typeof this.bullets { return this.bullets; }
+  getEnemies(): ReadonlyArray<typeof this.enemies[number]> { return this.enemies as ReadonlyArray<typeof this.enemies[number]>; }
+  getBullets(): ReadonlyArray<typeof this.bullets[number]> { return this.bullets as ReadonlyArray<typeof this.bullets[number]>; }
 }
 
 /**
@@ -750,7 +750,7 @@ export class SimpleRPGGame extends SimpleGame {
   }
 
   getPlayer(): Readonly<typeof this.player> { return this.player; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
+  getEnemies(): ReadonlyArray<typeof this.enemies[number]> { return this.enemies as ReadonlyArray<typeof this.enemies[number]>; }
   getCurrentEnemy(): any { return this.currentEnemy; }
   isInCombat(): boolean { return this.inCombat; }
 }

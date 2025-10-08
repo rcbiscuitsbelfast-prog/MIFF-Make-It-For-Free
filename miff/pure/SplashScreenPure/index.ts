@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-import { EventBus } from '../EventsPure';
+import { EventBus } from '../EventBusPure/EventBusPure.js';
 
 interface SplashScreenConfig {
   duration: number;
@@ -70,15 +70,16 @@ export class SplashScreenPure {
   }
 
   private setupEventListeners(): void {
-    EventBus.on('splashscreen.show', this.show.bind(this));
-    EventBus.on('splashscreen.hide', this.hide.bind(this));
-    EventBus.on('splashscreen.updateConfig', this.updateConfig.bind(this));
+    EventBus.subscribe('splashscreen.show', () => this.show());
+    EventBus.subscribe('splashscreen.hide', () => this.hide());
+    EventBus.subscribe('splashscreen.updateConfig', (e: any) => this.updateConfig(e));
   }
 
   private updateConfig(newConfig: Partial<SplashScreenConfig>): void {
     this.config = { ...this.config, ...newConfig };
     if (this.container) {
-      this.updateVisualElements();
+      // Re-render to apply new config
+      this.renderSplashScreen();
     }
   }
 
@@ -115,7 +116,7 @@ export class SplashScreenPure {
 
     this.cleanup();
     this.onCompleteCallback?.();
-    EventBus.emit('splashscreen.complete');
+    EventBus.publish('splashscreen.complete', {});
   }
 
   private createContainer(): void {

@@ -45,7 +45,7 @@ export class RitualManager {
       return null;
     }
 
-    if (ritualData.minParticipants > ritualData.maxParticipants) {
+    if ((ritualData.minParticipants ?? 0) > (ritualData.maxParticipants ?? Number.MAX_SAFE_INTEGER)) {
       console.error('❌ Minimum participants cannot exceed maximum');
       return null;
     }
@@ -139,8 +139,9 @@ export class RitualManager {
       }
 
       return ritual;
-    } catch (error) {
-      console.error(`❌ Failed to start ritual ${ritualId}: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Failed to start ritual ${ritualId}: ${message}`);
       return null;
     }
   }
@@ -200,8 +201,9 @@ export class RitualManager {
       }
 
       return result;
-    } catch (error) {
-      console.error(`❌ Error progressing ritual ${ritualId}: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`❌ Error progressing ritual ${ritualId}: ${message}`);
       return null;
     }
   }

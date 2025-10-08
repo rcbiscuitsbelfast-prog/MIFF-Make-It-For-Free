@@ -13,9 +13,10 @@
  */
 
 import { CutScenePure, CutSceneDefinition } from './index';
-import { createEventBus } from '../EventBusPure';
+import { createEventBus, EventBus as CoreEventBus } from '../EventBusPure/EventBusPure.js';
 
-const EventBus = createEventBus();
+// Strongly typed event bus instance from EventBusPure
+const EventBus: CoreEventBus = createEventBus();
 
 // Web Bridge Implementation
 export class CutSceneWebBridge {
@@ -303,7 +304,7 @@ export class CutSceneWebBridge {
   }
 
   // Initialize cut scene player
-  const cutSceneDefinition = ${JSON.stringify(definition, null, 2)};
+  const cutSceneDefinition = ${'${JSON.stringify(definition).replace(/</g, "\\u003c") }'};
   const cutScenePlayer = new CutSceneWebPlayer(cutSceneDefinition);
 
   // Auto-start if configured
@@ -830,7 +831,7 @@ void ACutScenePlayer::BeginPlay()
 void ACutScenePlayer::LoadCutSceneDefinition()
 {
     // Load cut scene definition from JSON file
-    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/${CutSceneDefinition.config.id}.json");
+    FString JsonPath = FPaths::ProjectContentDir() + TEXT("CutScenes/%s.json");
 
     FString JsonContent;
     if (FFileHelper::LoadFileToString(JsonContent, *JsonPath))
@@ -928,7 +929,7 @@ void ACutScenePlayer::PlayCutScene()
     StartTime = GetWorld()->GetTimeSeconds();
     CurrentTime = 0.0f;
 
-    UE_LOG(LogTemp, Log, TEXT("Starting cut scene: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Starting cut scene"));
 
     SequencePlayer->Play();
 
@@ -1027,13 +1028,13 @@ void ACutScenePlayer::StopCutScene()
         SequencePlayer->Stop();
     }
 
-    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene stopped"));
 }
 
 void ACutScenePlayer::SkipCutScene()
 {
     StopCutScene();
-    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped: %s"), *CutSceneDefinition.config.name);
+    UE_LOG(LogTemp, Log, TEXT("Cut scene skipped"));
 }
 
 void ACutScenePlayer::OnSequenceFinished()

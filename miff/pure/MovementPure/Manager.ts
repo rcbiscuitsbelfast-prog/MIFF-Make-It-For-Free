@@ -51,7 +51,7 @@ export interface MovementEntity {
 }
 
 export interface MovementState {
-  current: 'idle' | 'moving' | 'stopping' | 'turning' | 'blocked' | 'stunned';
+  current: 'idle' | 'moving' | 'stopping' | 'turning' | 'blocked' | 'stunned' | 'stuck';
   target?: Vector2;
   path?: Vector2[];
   pathIndex: number;
@@ -98,7 +98,7 @@ export interface MovementFilter {
 export interface MovementOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: MovementEntity | MovementEntity[] | MovementResult | MovementStats;
+  result?: any;
   issues?: string[];
 }
 
@@ -420,12 +420,13 @@ export class MovementManager {
    * Update seek movement
    */
   private updateSeekMovement(entity: MovementEntity, deltaTime: number): void {
-    if (!entity.pattern.target) {
+    const targetVec: Vector2 | undefined = (entity.pattern as any).target;
+    if (!targetVec) {
       this.updateIdleMovement(entity, deltaTime);
       return;
     }
 
-    const distance = this.calculateDistance(entity.position, entity.pattern.target);
+    const distance = this.calculateDistance(entity.position, targetVec);
     const arrivalThreshold = 0.1; // Stop when within 0.1 units of target
 
     if (distance > arrivalThreshold) {
@@ -433,10 +434,10 @@ export class MovementManager {
       const maxDistanceThisTick = entity.pattern.speed * deltaTime;
       if (distance <= maxDistanceThisTick) {
         // Move directly to target to avoid overshooting
-        entity.velocity.x = (entity.pattern.target.x - entity.position.x) / deltaTime;
-        entity.velocity.y = (entity.pattern.target.y - entity.position.y) / deltaTime;
+        entity.velocity.x = (targetVec.x - entity.position.x) / deltaTime;
+        entity.velocity.y = (targetVec.y - entity.position.y) / deltaTime;
       } else {
-        this.moveTowards(entity, entity.pattern.target, entity.pattern.speed);
+        this.moveTowards(entity, targetVec, entity.pattern.speed);
       }
     } else {
       // Stop when reached target
@@ -729,7 +730,7 @@ export class MovementManager {
     return {
       op: 'add_obstacle',
       status: 'ok',
-      result: { position, totalObstacles: this.obstacles.length }
+      result: position
     };
   }
 

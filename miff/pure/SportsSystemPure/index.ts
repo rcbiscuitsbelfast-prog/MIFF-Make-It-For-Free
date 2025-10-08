@@ -595,7 +595,7 @@ export class SportsSystemPure {
       }
     };
 
-    const config = fieldConfigs[sportType] || fieldConfigs.soccer;
+    const config = (fieldConfigs as any)[sportType] || fieldConfigs.soccer;
 
     return {
       id: `field_${sportType}_${Date.now()}`,

@@ -68,17 +68,16 @@ export class AssetPipeline {
   private processingTimer?: NodeJS.Timeout;
 
   constructor(config: AssetConfig) {
-    this.config = {
-      optimizationLevel: 'high',
-      compressionEnabled: true,
-      cachingEnabled: true,
-      parallelProcessing: true,
-      maxConcurrentTasks: 4,
-      enablePreprocessing: true,
-      enablePostprocessing: true,
-      qualitySettings: {},
-      ...config
-    };
+    // Apply defaults without duplicating keys in a single object literal
+    this.config = { ...config } as AssetConfig;
+    this.config.optimizationLevel = this.config.optimizationLevel ?? 'high';
+    this.config.compressionEnabled = this.config.compressionEnabled ?? true;
+    this.config.cachingEnabled = this.config.cachingEnabled ?? true;
+    this.config.parallelProcessing = this.config.parallelProcessing ?? true;
+    this.config.maxConcurrentTasks = this.config.maxConcurrentTasks ?? 4;
+    this.config.enablePreprocessing = this.config.enablePreprocessing ?? true;
+    this.config.enablePostprocessing = this.config.enablePostprocessing ?? true;
+    this.config.qualitySettings = this.config.qualitySettings ?? {};
 
     this.stats = this.initializeStats();
     this.initializeWorkers();
@@ -117,9 +116,9 @@ export class AssetPipeline {
 
       return this.stats;
 
-    } catch (error) {
+    } catch (error: unknown) {
       this.log(`❌ Asset pipeline failed: ${error instanceof Error ? error.message : String(error)}`, 'error');
-      throw error;
+      throw error as Error;
     }
   }
 
@@ -155,7 +154,7 @@ export class AssetPipeline {
         return null;
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
       this.log(`Asset processing error: ${assetId} - ${error instanceof Error ? error.message : String(error)}`, 'error');
       return null;
     }

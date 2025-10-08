@@ -5,7 +5,7 @@
  * haptic feedback, and advanced input mapping.
  */
 
-import { InputSystemPure } from './index';
+// Removed unused import of InputSystemPure
 
 export interface InputGesture {
   id: string;
@@ -677,7 +677,8 @@ class GestureRecognition {
     // Check duration if specified
     if (expectedInput.duration) {
       const duration = input.timestamp - state.startTime;
-      if (Math.abs(duration - expectedInput.duration) > gesture.threshold.tolerance) return false;
+      const tol = gesture.threshold?.tolerance ?? 10;
+      if (Math.abs(duration - expectedInput.duration) > tol) return false;
     }
     
     // Check position if specified
@@ -686,7 +687,7 @@ class GestureRecognition {
         Math.pow(input.position.x - expectedInput.position.x, 2) +
         Math.pow(input.position.y - expectedInput.position.y, 2)
       );
-      if (distance > (gesture.threshold.tolerance || 10)) return false;
+      if (distance > (gesture.threshold?.tolerance ?? 10)) return false;
     }
     
     // Check pressure if specified

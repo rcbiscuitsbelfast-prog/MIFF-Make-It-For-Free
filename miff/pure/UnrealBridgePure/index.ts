@@ -686,9 +686,7 @@ export interface UnrealPawnBridge {
   bIsPlayerControlled: boolean;
   bIsPossessed: boolean;
   bIsControlled: boolean;
-  bUseControllerRotationPitch: boolean;
-  bUseControllerRotationRoll: boolean;
-  bUseControllerRotationYaw: boolean;
+  // duplicate declarations removed
   bCanBeBaseForCharacter: boolean;
   bIsCharacter: boolean;
   baseEyeHeight: number;
@@ -2065,7 +2063,7 @@ export class UnrealBridgeManager {
     if (!this.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0];
-    return connection?.status || 'disconnected';
+    return (connection?.status as any) || 'disconnected';
   }
 
   getPerformanceMetrics(): UnrealPerformanceMetrics {

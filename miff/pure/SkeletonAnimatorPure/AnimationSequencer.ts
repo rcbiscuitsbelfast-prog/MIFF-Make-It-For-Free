@@ -35,9 +35,12 @@ export class AnimationSequencer {
       duration,
       loop,
       keyframes: keyframes.map((kf, index) => ({
-        ...kf,
+        nodeId: kf.nodeId,
+        transform: kf.transform,
+        interpolation: kf.interpolation,
+        handles: (kf as any).handles,
         time: (index / Math.max(1, keyframes.length - 1)) * duration
-      })),
+      } as Keyframe)),
       rigId: this.rigConfig.id,
       metadata: {}
     };
@@ -64,10 +67,14 @@ export class AnimationSequencer {
     walkCycle.forEach((cycleKeyframes, cycleIndex) => {
       const time = (cycleIndex / (walkCycle.length - 1)) * duration;
       cycleKeyframes.forEach(keyframe => {
-        keyframes.push({
-          ...keyframe,
-          time: time
-        });
+        const kf: Omit<Keyframe, 'time'> = {
+          nodeId: keyframe.nodeId,
+          transform: keyframe.transform,
+          interpolation: keyframe.interpolation,
+          handles: (keyframe as any).handles
+        };
+        // store without time; time computed in createAnimation
+        keyframes.push(kf);
       });
     });
 

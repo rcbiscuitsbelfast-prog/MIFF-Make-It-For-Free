@@ -278,7 +278,7 @@ export class ItemEffect {
       return UsageResult.fail(UsageStatus.INVALID_TARGET, 'No target specified');
     }
 
-    if (target.isFainted && this.effectType !== ItemEffectType.REVIVE) {
+    if (target.isFainted() && this.effectType !== ItemEffectType.REVIVE) {
       return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Cannot heal fainted spirit');
     }
 
@@ -292,7 +292,7 @@ export class ItemEffect {
         return UsageResult.ok(`Healed ${healAmount} HP`, { healAmount });
 
       case ItemEffectType.REVIVE:
-        if (!target.isFainted) {
+        if (!target.isFainted()) {
           return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target is not fainted');
         }
         // Use the amount as percentage of max HP to restore (default to 50% if not specified)
@@ -300,7 +300,7 @@ export class ItemEffect {
         const reviveAmount = Math.floor(target.maxHP * (revivePercent / 100));
         target.currentHP = Math.max(1, reviveAmount);
         // Mark spirit as not fainted after revive
-        if (target.isFainted) {
+        if (target.isFainted()) {
           // Note: This is a simplified approach for testing
           // In a real implementation, the spirit's fainted status would be managed by the battle system
         }
@@ -416,8 +416,8 @@ export class ItemsManager {
   /**
    * Get item definition by ID
    */
-  getItem(itemId: string): Item | undefined {
-    return this.items.get(itemId);
+  getItem(itemId: string): Item | null {
+    return this.items.get(itemId) || null;
   }
 
   /**
@@ -469,14 +469,14 @@ export class ItemsManager {
   /**
    * Get all items by type
    */
-  getItemsByType(type: string): Item[] {
+  getItemsByType(type: ItemType): Item[] {
     return Array.from(this.items.values()).filter(item => item.type === type);
   }
 
   /**
    * Get all items by rarity
    */
-  getItemsByRarity(rarity: string): Item[] {
+  getItemsByRarity(rarity: ItemRarity): Item[] {
     return Array.from(this.items.values()).filter(item => item.rarity === rarity);
   }
 
@@ -553,8 +553,6 @@ export class ItemUsageManager {
       updates.name ?? item.name,
       updates.type ?? item.type,
       updates.effect ?? item.effect,
-      updates.description ?? item.description,
-      updates.value ?? item.value,
       updates.targetRule ?? item.targetRule
     );
     const validationErrors = updated.validate();
@@ -583,12 +581,12 @@ export class ItemUsageManager {
       if (item.targetRule) {
         switch (item.targetRule) {
           case 'notfainted':
-            if (targetSpirit.isFainted) {
+            if (targetSpirit.isFainted()) {
               return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target must not be fainted');
             }
             break;
           case 'faintedonly':
-            if (!targetSpirit.isFainted) {
+            if (!targetSpirit.isFainted()) {
               return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Target must be fainted');
             }
             break;
@@ -600,9 +598,9 @@ export class ItemUsageManager {
         }
       } else {
         // Default behavior for items without specific target rules
-        if (targetSpirit.isFainted && item.type === ItemType.CONSUMABLE) {
+        if (targetSpirit.isFainted() && item.type === ItemType.CONSUMABLE) {
           const effect = this.getItemEffect(item);
-          if (effect && effect.type !== ItemEffectType.REVIVE) {
+          if (effect && effect.effectType !== ItemEffectType.REVIVE) {
             return UsageResult.fail(UsageStatus.INVALID_TARGET, 'Cannot use this item on fainted spirit');
           }
         }
@@ -663,15 +661,11 @@ export class ItemUsageManager {
     return this.registeredItems.has(itemId);
   }
 
-  getAllItems(): Item[] {
-    return Array.from(this.registeredItems.values());
-  }
+  // Removed duplicate getAllItems in favor of single implementation above
 
-  removeItem(itemId: string): boolean {
-    return this.registeredItems.delete(itemId);
-  }
+  // Removed duplicate removeItem in favor of single implementation above
 
-  getUsableItems(spirit?: ISpiritInstance): Item[] {
+  getUsableItems(spirit: ISpiritInstance | null = null): Item[] {
     return Array.from(this.registeredItems.values()).filter(item =>
       item.canUseOn(spirit)
     );
@@ -897,18 +891,7 @@ export class ItemUtils {
     return errors;
   }
 
-  static filterItems(items: Item[], criteria: any): Item[] {
-    return items.filter(item => {
-      if (criteria.type && item.type !== criteria.type) return false;
-      if (criteria.effectType && item.effect.effectType !== criteria.effectType) return false;
-      if (criteria.targetRule && item.targetRule !== criteria.targetRule) return false;
-      if (criteria.hasEffect !== undefined) {
-        if (criteria.hasEffect && item.effect.effectType === ItemEffectType.NONE) return false;
-        if (!criteria.hasEffect && item.effect.effectType !== ItemEffectType.NONE) return false;
-      }
-      return true;
-    });
-  }
+  // Removed duplicate filterItems in favor of the typed overload above
 
   static sortItems(items: Item[], sortBy: string): Item[] {
     const sorted = [...items];

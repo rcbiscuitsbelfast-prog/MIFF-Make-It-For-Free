@@ -382,7 +382,7 @@ export class EvolutionPureCLI {
         console.log(`✅ Registered unconditional evolution: ${speciesId} → ${targetId}`);
     }
 
-    const evolutionData = new SpeciesEvolutionData(
+    const evolutionData = new SpeciesEvolutionDataImpl(
       speciesId,
       targetId,
       condition ? [condition] : []

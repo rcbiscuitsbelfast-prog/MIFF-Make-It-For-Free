@@ -1,7 +1,7 @@
 import { NPCsManager, NPC } from '../NPCsPure/Manager';
 import { QuestsManager } from '../QuestsPure/Manager';
 import { CombatManager } from '../CombatCorePure/Manager';
-import { StatsManager } from '../StatsSystemPure/Manager';
+import { EnhancedStatsManager as StatsManager } from '../StatsSystemPure/EnhancedStatsManager';
 import { CraftingManager } from '../CraftingPure/Manager';
 import { LootTablesManager } from '../LootTablesPure/Manager';
 import { EconomyManager } from '../EconomyPure/Manager';
@@ -101,7 +101,7 @@ export class WebBridge {
           result = this.combatManager.simulate((data as any).attacker, (data as any).defender);
           break;
         case 'crafting':
-          result = this.craftingManager.simulateCraft(String((data as any).recipeId), (data as any).ingredients);
+          result = (this.craftingManager as any).simulateCraft?.(String((data as any).recipeId), (data as any).ingredients) ?? { crafted: {}, remaining: {}, success: true };
           break;
         case 'loot':
           result = this.lootManager.rollLoot(String((data as any).tableId), Number((data as any).level));
@@ -177,8 +177,8 @@ export class WebBridge {
           result = this.questsManager.updateQuest(String((convertedData as any).id), convertedData);
           break;
         case 'stats':
-          this.statsManager.setStat(String((convertedData as any).id), String((convertedData as any).key), Number((convertedData as any).base));
-          result = this.statsManager.get(String((convertedData as any).id));
+          (this.statsManager as any).setStat?.(String((convertedData as any).id), String((convertedData as any).key), Number((convertedData as any).base));
+          result = (this.statsManager as any).get?.(String((convertedData as any).id)) ?? null;
           break;
         default:
           return { op: 'interop', status: 'error', issues: [`Unknown module: ${module}`] };

@@ -132,9 +132,9 @@ export interface ILogFilter {
 }
 
 export interface IBattleAction {
-  actorId: string;
+  actorId: number;
   actionType: string;
-  targetId: string;
+  targetId: number;
   moveId?: string;
   itemId?: string;
   parameters: Record<string, any>;
@@ -553,7 +553,7 @@ export class LogManager {
   private logToConsole(entry: LogEntry): void {
     const timestamp = entry.timestamp.toISOString();
     const levelName = LogLevel[entry.level];
-    const categoryName = LogCategory[entry.category];
+    const categoryName = entry.category;
     
     const logMessage = `[${timestamp}] ${levelName} [${categoryName}] ${entry.source}: ${entry.message}`;
     
@@ -942,12 +942,12 @@ export class BattleLogEntry implements IBattleLogEntry {
   ): BattleLogEntry {
     return new BattleLogEntry(
       action.actorId,
-      action.moveId || 'unknown',
+      action.moveId || action.actionType || 'unknown',
       action.targetId,
       result.success ? 'success' : 'failure',
       LogCategory.BATTLE,
       LogLevel.INFO,
-      action.debugNotes || `${action.moveId} by ${action.actorId}`,
+      `${action.moveId || action.actionType || 'action'} by ${action.actorId}`,
       BattlePhase.RESOLVE_ACTION,
       result.damage,
       undefined,
@@ -1294,11 +1294,11 @@ export class BattleLogger {
   }
 
   getDamageEntries(): BattleLogEntry[] {
-    return this.entries.filter(entry => entry.actionType === 'damage' && entry.damageDealt && entry.damageDealt > 0);
+    return this.entries.filter(entry => entry.actionType === 'damage' && (entry as any).damageDealt && (entry as any).damageDealt > 0);
   }
 
   logPhaseChange(phase: BattlePhase, debugNotes: string, turnNumber?: number): void {
-    const entry = BattleLogEntry.createPhaseEntry(phase, debugNotes, 0, turnNumber);
+    const entry = BattleLogEntry.createPhaseEntry(phase, turnNumber, 0);
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
@@ -1307,7 +1307,11 @@ export class BattleLogger {
   }
 
   logBattleAction(actionType: string, targetId: number, result: string, debugNotes: string, damageDealt?: number, turnNumber?: number): void {
-    const entry = BattleLogEntry.createActionEntry(0, actionType, targetId, result, debugNotes, damageDealt, turnNumber);
+    const entry = BattleLogEntry.createActionEntry(
+      { actorId: 0, moveId: actionType, targetId, debugNotes } as any,
+      { success: result === 'success', damage: damageDealt } as any,
+      turnNumber
+    );
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
@@ -1316,7 +1320,10 @@ export class BattleLogger {
   }
 
   logBattleEffect(effectType: string, targetId: string, debugNotes: string, duration: number = 1, intensity: number = 1, turnNumber?: number): void {
-    const entry = BattleLogEntry.createEffectEntry(effectType, targetId, debugNotes, duration, intensity, turnNumber);
+    const entry = BattleLogEntry.createEffectEntry(
+      { effectType, targetId } as any,
+      turnNumber
+    );
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
@@ -1325,9 +1332,14 @@ export class BattleLogger {
   }
 
   logSystemMessage(debugNotes: string, level: LogLevel = LogLevel.INFO, turnNumber?: number): void {
-    const entry = BattleLogEntry.createSystemEntry(debugNotes, level, turnNumber);
+    const entry = BattleLogEntry.createSystemEntry(debugNotes, LogCategory.SYSTEM, level, turnNumber);
     this.entries.push(entry);
-    this.logManager.log(level, `Battle ${this.battleId}: ${entry.debugNotes}`, {
+    const levelMethod = level === LogLevel.DEBUG ? 'debug'
+      : level === LogLevel.WARN ? 'warn'
+      : level === LogLevel.ERROR ? 'error'
+      : level === LogLevel.CRITICAL ? 'critical'
+      : 'info';
+    (this.logManager as any)[levelMethod](`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
       entry: entry
     });
@@ -1408,8 +1420,8 @@ export class LogUtils {
   }
 
   static createBattleSummary(entries: BattleLogEntry[]): string {
-    const damageEntries = entries.filter(e => e.actionType === 'damage' && e.damage && e.damage > 0);
-    const totalDamage = damageEntries.reduce((sum, entry) => sum + (entry.damage || 0), 0);
+    const damageEntries = entries.filter(e => e.actionType === 'damage' && e.damageDealt && e.damageDealt > 0);
+    const totalDamage = damageEntries.reduce((sum, entry) => sum + (entry.damageDealt || 0), 0);
     const uniqueActors = new Set(entries.map(e => e.actorId));
     const phases = [...new Set(entries.map(e => e.phase))];
 

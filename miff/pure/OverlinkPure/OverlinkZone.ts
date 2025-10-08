@@ -5,9 +5,21 @@
 import { OverlinkThemes, ThemeId, ThemeConfig } from './OverlinkThemes';
 import { RemixLineageTracker, RemixOrigin, AssetLineage } from './RemixLineageTracker';
 import { AudioManager } from './AudioManager';
-// BadgeSystem and CreditsRenderer - placeholder for future implementation
-const BadgeSystem = { render: () => '' };
-const CreditsRenderer = { render: () => '' };
+// BadgeSystem and CreditsRenderer - minimal stub classes for typing/constructability
+class BadgeSystem {
+  assignBadge(_assignment: any): void {}
+  getContributorBadges(_contributorId: string): any[] { return []; }
+  displayBadges(_contributorId?: string, _options?: any): any[] { return []; }
+  getCLIPreview(_contributorId?: string): string { return ''; }
+}
+class CreditsRenderer {
+  constructor(_badgeSystem?: BadgeSystem) {}
+  renderCreditsWithBadges(_options: any): any { return {}; }
+  renderCompactCredits(_options: any): any { return {}; }
+  renderDetailedCredits(_options: any): any { return {}; }
+  renderBadgeFocusedCredits(_options: any): any { return {}; }
+  getCLIPreview(_options: any): string { return ''; }
+}
 
 export type ZoneId = string;
 export type ModuleId = string;
@@ -69,8 +81,8 @@ export class OverlinkZone {
   private themes: OverlinkThemes;
   private lineageTracker: RemixLineageTracker;
   private audioManager: AudioManager;
-  private badgeSystem: BadgeSystem;
-  private creditsRenderer: CreditsRenderer;
+  private badgeSystem: InstanceType<typeof BadgeSystem>;
+  private creditsRenderer: InstanceType<typeof CreditsRenderer>;
 
   constructor() {
     this.state = {

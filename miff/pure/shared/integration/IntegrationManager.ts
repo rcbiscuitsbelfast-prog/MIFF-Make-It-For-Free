@@ -14,6 +14,7 @@
  */
 
 import { EventBus } from '../../EventBusPure/index.js';
+import type { Event as BusEvent } from '../../EventBusPure/index.js';
 
 // ============================================================================
 // INTEGRATION MANAGER INTERFACES
@@ -159,16 +160,37 @@ export class IntegrationManager {
    * Set up event listeners
    */
   private setupEventListeners(): void {
-    this.eventBus.subscribe('integration:register', (data) => {
-      this.registerIntegration(data);
+    this.eventBus.subscribe('integration:register', (event: BusEvent) => {
+      const payload = event.data as IntegrationConfig;
+      if (payload && typeof payload.id === 'string') {
+        this.registerIntegration(payload);
+      }
     });
     
-    this.eventBus.subscribe('integration:unregister', (data) => {
-      this.unregisterIntegration(data.id);
+    this.eventBus.subscribe('integration:unregister', (event: BusEvent) => {
+      const id = (event.data && (event.data as any).id) as string | undefined;
+      if (typeof id === 'string') {
+        this.unregisterIntegration(id);
+      }
     });
     
-    this.eventBus.subscribe('integration:event', (data) => {
-      this.processEvent(data);
+    this.eventBus.subscribe('integration:event', (event: BusEvent) => {
+      const integrationEvent: IntegrationEvent = {
+        id: event.id,
+        integrationId:
+          (event.data && (event.data as any).integrationId) ||
+          (event.metadata && (event.metadata as any).integrationId) ||
+          'unknown',
+        type: event.type,
+        data: event.data,
+        timestamp: new Date(event.timestamp),
+        priority: event.priority,
+        source: event.source,
+        target: (event.metadata && (event.metadata as any).target) || undefined,
+        correlationId:
+          (event.metadata && (event.metadata as any).correlationId) || undefined
+      };
+      this.processEvent(integrationEvent);
     });
   }
 

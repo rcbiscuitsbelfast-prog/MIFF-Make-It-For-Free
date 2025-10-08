@@ -7,10 +7,10 @@
  * Schema Version: v1.0.0
  */
 
-import { EventBus } from '../EventsPure/index';
-import { HealthSystemPure } from '../HealthSystemPure/index';
-import { CombatPure } from '../CombatPure/index';
-import { RNGPure } from '../RNGPure/index';
+import { EventBus } from '../EventBusPure/index.js';
+type HealthSystemPure = any;
+type CombatPure = any;
+type RNGPure = any;
 
 // Core interfaces and types
 export interface SpellElement {
@@ -457,8 +457,8 @@ export class MagicSystemPure {
       debuffsApplied.push(...result.debuffs);
     }
 
-    // Emit spell cast event
-    this.eventBus.emit('magic:spell-cast', {
+    // Publish spell cast event
+    this.eventBus.publish('magic:spell-cast', {
       casterId,
       spellId,
       targets,
@@ -694,14 +694,15 @@ export class MagicSystemPure {
 
   private setupEventListeners(): void {
     // Listen for combat events to potentially trigger magical effects
-    this.eventBus.on('combat:turn-start', (data: any) => {
+    this.eventBus.subscribe('combat:turn-start', (_event: any) => {
       this.updateAllManaPools();
     });
 
-    this.eventBus.on('combat:entity-created', (data: any) => {
+    this.eventBus.subscribe('combat:entity-created', (event: any) => {
       // Create mana pool for new entities that should have magic
-      if (data.entityType === 'mage' || data.entityType === 'spellcaster') {
-        this.createManaPool(data.entityId, 100);
+      const data = event?.data as any;
+      if (data && (data.entityType === 'mage' || data.entityType === 'spellcaster')) {
+        this.createManaPool(String(data.entityId), 100);
       }
     });
   }
@@ -713,12 +714,4 @@ export class MagicSystemPure {
 }
 
 // Export type aliases only (class already exported above)
-export type {
-  SpellDefinition,
-  SpellInstance,
-  ManaPool,
-  SpellEffect,
-  SpellElement,
-  SpellSchool,
-  MagicCombatResult
-};
+// Removed duplicate type re-exports to avoid conflicts

@@ -72,7 +72,7 @@ export interface QuestFilter {
 export interface QuestOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: Quest | Quest[] | QuestProgress | QuestStats;
+  result?: any;
   issues?: string[];
 }
 
@@ -478,7 +478,7 @@ export class QuestsManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats as any
     };
   }
 
@@ -514,7 +514,7 @@ export class QuestsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: {
+          result: JSON.stringify({
             summary: stats.result,
             quests: quests.map(quest => ({
               id: quest.id,
@@ -524,7 +524,7 @@ export class QuestsManager {
               level: quest.level,
               progress: this.questProgress.get(quest.id)?.progress || 0
             }))
-          }
+          })
         };
       
       case 'active':
@@ -532,13 +532,13 @@ export class QuestsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: {
+          result: JSON.stringify({
             activeQuests: activeQuests.map(quest => ({
               quest,
               progress: this.questProgress.get(quest.id)
             })),
             total: activeQuests.length
-          }
+          })
         };
       
       default:

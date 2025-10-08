@@ -590,6 +590,7 @@ export interface UnityBuildReport {
   files: UnityBuildFile[];
   dependencies: UnityBuildDependency[];
   strippingInfo: UnityBuildStrippingInfo;
+  // Derived summary fields duplicated for convenience
   buildTime: number;
   buildStartTime: number;
   buildEndTime: number;
@@ -599,6 +600,8 @@ export interface UnityBuildReport {
   buildPlatform: string;
   buildTarget: string;
   buildType: string;
+  buildConfiguration: string;
+  buildNumber: string;
   buildVersion: string;
   unityVersion: string;
   buildMachine: string;
@@ -716,6 +719,8 @@ export interface UnityBuildSummary {
   outputPath: string;
   buildStartedAt: number;
   buildEndedAt: number;
+  // Optional total duration in ms if available
+  buildDuration?: number;
   totalTime: number;
   totalSize: number;
   buildResult: string;
@@ -756,6 +761,11 @@ export interface UnityBuildSummary {
   buildTargetLocalBuild: boolean;
   buildTargetRemoteBuild: boolean;
   buildTargetCustomBuild: boolean;
+  // Extended fields used by our pipeline
+  buildFiles: UnityBuildFile[];
+  buildDependencies: UnityBuildDependency[];
+  buildStrippingInfo: UnityBuildStrippingInfo;
+  buildSteps: UnityBuildStep[];
   buildReport: string;
   buildLog: string;
   buildErrors: string[];
@@ -852,170 +862,171 @@ export interface UnityBuildDependency {
 export interface UnityBuildStrippingInfo {
   enabled: boolean;
   strippingLevel: string;
-  stripAssemblies: boolean;
-  stripByteCode: boolean;
-  stripDebugSymbols: boolean;
-  stripDebugInformation: boolean;
-  stripEngineCode: boolean;
   managedStrippingLevel: string;
-  stripUnusedMeshComponents: boolean;
-  stripUnusedMaterialComponents: boolean;
-  stripUnusedTextureComponents: boolean;
-  stripUnusedShaderComponents: boolean;
-  stripUnusedAnimationComponents: boolean;
-  stripUnusedAudioComponents: boolean;
-  stripUnusedVideoComponents: boolean;
-  stripUnusedFontComponents: boolean;
-  stripUnusedParticleSystemComponents: boolean;
-  stripUnusedUIComponents: boolean;
-  stripUnusedRenderingComponents: boolean;
-  stripUnusedNetworkComponents: boolean;
-  stripUnusedPhysicsComponents: boolean;
-  stripUnusedAssetBundleComponents: boolean;
-  stripUnusedInputComponents: boolean;
-  stripUnusedScriptComponents: boolean;
-  stripUnusedTerrainComponents: boolean;
-  stripUnusedLightmapComponents: boolean;
-  stripUnusedOcclusionComponents: boolean;
-  stripUnusedNavmeshComponents: boolean;
-  stripUnusedReflectionComponents: boolean;
-  stripUnusedGIComponents: boolean;
-  stripUnusedComputeComponents: boolean;
-  stripUnusedCustomComponents: boolean;
-  stripUnusedEngineComponents: boolean;
-  stripUnusedEditorComponents: boolean;
-  stripUnusedTestComponents: boolean;
-  stripUnusedPackageComponents: boolean;
-  stripUnusedPluginComponents: boolean;
-  stripUnusedPlatformComponents: boolean;
-  stripUnusedBuildComponents: boolean;
-  stripUnusedDevelopmentComponents: boolean;
-  stripUnusedReleaseComponents: boolean;
-  stripUnusedDebugComponents: boolean;
-  stripUnusedLoggingComponents: boolean;
-  stripUnusedProfilingComponents: boolean;
-  stripUnusedAnalyticsComponents: boolean;
-  stripUnusedCrashReportingComponents: boolean;
-  stripUnusedPerformanceReportingComponents: boolean;
-  stripUnusedTelemetryComponents: boolean;
-  stripUnusedCloudComponents: boolean;
-  stripUnusedLocalComponents: boolean;
-  stripUnusedRemoteComponents: boolean;
-  stripUnusedCustomBuildComponents: boolean;
-  stripUnusedCloudBuildComponents: boolean;
-  stripUnusedLocalBuildComponents: boolean;
-  stripUnusedRemoteBuildComponents: boolean;
-  stripUnusedBuildTargetComponents: boolean;
-  stripUnusedBuildConfigurationComponents: boolean;
-  stripUnusedBuildPlatformComponents: boolean;
-  stripUnusedBuildTypeComponents: boolean;
-  stripUnusedBuildVersionComponents: boolean;
-  stripUnusedBuildMachineComponents: boolean;
-  stripUnusedBuildPathComponents: boolean;
-  stripUnusedBuildGUIDComponents: boolean;
-  stripUnusedBuildTargetPlatformComponents: boolean;
-  stripUnusedBuildTargetPlatformGroupComponents: boolean;
-  stripUnusedBuildTargetPlatformVersionComponents: boolean;
-  stripUnusedBuildTargetArchitectureComponents: boolean;
-  stripUnusedBuildTargetGraphicsAPIsComponents: boolean;
-  stripUnusedBuildTargetVRComponents: boolean;
-  stripUnusedBuildTargetARComponents: boolean;
-  stripUnusedBuildTargetMRComponents: boolean;
-  stripUnusedBuildTargetXRComponents: boolean;
-  stripUnusedBuildTargetIL2CPPComponents: boolean;
-  stripUnusedBuildTargetMonoComponents: boolean;
-  stripUnusedBuildTargetWebGLComponents: boolean;
-  stripUnusedBuildTargetAndroidComponents: boolean;
-  stripUnusedBuildTargetIOSComponents: boolean;
-  stripUnusedBuildTargetTizenComponents: boolean;
-  stripUnusedBuildTargetXboxComponents: boolean;
-  stripUnusedBuildTargetPlayStationComponents: boolean;
-  stripUnusedBuildTargetNintendoSwitchComponents: boolean;
-  stripUnusedBuildTargetCloudBuildComponents: boolean;
-  stripUnusedBuildTargetLocalBuildComponents: boolean;
-  stripUnusedBuildTargetRemoteBuildComponents: boolean;
-  stripUnusedBuildTargetCustomBuildComponents: boolean;
-  stripUnusedBuildNumberComponents: boolean;
-  stripUnusedBuildDateComponents: boolean;
-  stripUnusedBuildDurationComponents: boolean;
-  stripUnusedBuildSizeComponents: boolean;
-  stripUnusedBuildFilesComponents: boolean;
-  stripUnusedBuildDependenciesComponents: boolean;
-  stripUnusedBuildStrippingInfoComponents: boolean;
-  stripUnusedBuildStepsComponents: boolean;
-  stripUnusedBuildSummaryComponents: boolean;
-  stripUnusedBuildReportComponents: boolean;
-  stripUnusedBuildLogComponents: boolean;
-  stripUnusedBuildErrorsComponents: boolean;
-  stripUnusedBuildWarningsComponents: boolean;
-  stripUnusedBuildSuccessComponents: boolean;
-  stripUnusedBuildFailedComponents: boolean;
-  stripUnusedBuildCancelledComponents: boolean;
-  stripUnusedBuildAbortedComponents: boolean;
-  stripUnusedBuildInterruptedComponents: boolean;
-  stripUnusedBuildTimedOutComponents: boolean;
-  stripUnusedBuildOutOfMemoryComponents: boolean;
-  stripUnusedBuildOutOfDiskSpaceComponents: boolean;
-  stripUnusedBuildInternalErrorComponents: boolean;
-  stripUnusedBuildUserErrorComponents: boolean;
-  stripUnusedBuildConfigurationErrorComponents: boolean;
-  stripUnusedBuildDependencyErrorComponents: boolean;
-  stripUnusedBuildCompilationErrorComponents: boolean;
-  stripUnusedBuildLinkErrorComponents: boolean;
-  stripUnusedBuildPackageErrorComponents: boolean;
-  stripUnusedBuildAssetErrorComponents: boolean;
-  stripUnusedBuildCodeGenerationErrorComponents: boolean;
-  stripUnusedBuildMetadataErrorComponents: boolean;
-  stripUnusedBuildResourceErrorComponents: boolean;
-  stripUnusedBuildShaderErrorComponents: boolean;
-  stripUnusedBuildTextureErrorComponents: boolean;
-  stripUnusedBuildMeshErrorComponents: boolean;
-  stripUnusedBuildAnimationErrorComponents: boolean;
-  stripUnusedBuildAudioErrorComponents: boolean;
-  stripUnusedBuildVideoErrorComponents: boolean;
-  stripUnusedBuildFontErrorComponents: boolean;
-  stripUnusedBuildMaterialErrorComponents: boolean;
-  stripUnusedBuildModelErrorComponents: boolean;
-  stripUnusedBuildSceneErrorComponents: boolean;
-  stripUnusedBuildPrefabErrorComponents: boolean;
-  stripUnusedBuildScriptableObjectErrorComponents: boolean;
-  stripUnusedBuildTerrainErrorComponents: boolean;
-  stripUnusedBuildLightmapErrorComponents: boolean;
-  stripUnusedBuildOcclusionErrorComponents: boolean;
-  stripUnusedBuildNavmeshErrorComponents: boolean;
-  stripUnusedBuildPhysicsErrorComponents: boolean;
-  stripUnusedBuildUIErrorComponents: boolean;
-  stripUnusedBuildParticleSystemErrorComponents: boolean;
-  stripUnusedBuildParticleSystemModuleErrorComponents: boolean;
-  stripUnusedBuildParticleSystemRendererErrorComponents: boolean;
-  stripUnusedBuildParticleSystemShapeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemEmissionErrorComponents: boolean;
-  stripUnusedBuildParticleSystemSizeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemSizeOverLifetimeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemSizeBySpeedErrorComponents: boolean;
-  stripUnusedBuildParticleSystemVelocityErrorComponents: boolean;
-  stripUnusedBuildParticleSystemVelocityOverLifetimeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemVelocityBySpeedErrorComponents: boolean;
-  stripUnusedBuildParticleSystemLimitVelocityErrorComponents: boolean;
-  stripUnusedBuildParticleSystemInheritVelocityErrorComponents: boolean;
-  stripUnusedBuildParticleSystemForceErrorComponents: boolean;
-  stripUnusedBuildParticleSystemForceOverLifetimeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemForceBySpeedErrorComponents: boolean;
-  stripUnusedBuildParticleSystemColorErrorComponents: boolean;
-  stripUnusedBuildParticleSystemColorOverLifetimeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemColorBySpeedErrorComponents: boolean;
-  stripUnusedBuildParticleSystemRotationErrorComponents: boolean;
-  stripUnusedBuildParticleSystemRotationOverLifetimeErrorComponents: boolean;
-  stripUnusedBuildParticleSystemRotationBySpeedErrorComponents: boolean;
-  stripUnusedBuildParticleSystemExternalForcesErrorComponents: boolean;
-  stripUnusedBuildParticleSystemNoiseErrorComponents: boolean;
-  stripUnusedBuildParticleSystemCollisionErrorComponents: boolean;
-  stripUnusedBuildParticleSystemTriggerErrorComponents: boolean;
-  stripUnusedBuildParticleSystemSubEmitterErrorComponents: boolean;
-  stripUnusedBuildParticleSystemTextureSheetAnimationErrorComponents: boolean;
-  stripUnusedBuildParticleSystemLightsErrorComponents: boolean;
-  stripUnusedBuildParticleSystemTrailErrorComponents: boolean;
-  stripUnusedBuildParticleSystemCustomDataErrorComponents: boolean;
+  // The following fields are intentionally kept optional to reduce typing surface
+  stripAssemblies?: boolean;
+  stripByteCode?: boolean;
+  stripDebugSymbols?: boolean;
+  stripDebugInformation?: boolean;
+  stripEngineCode?: boolean;
+  stripUnusedMeshComponents?: boolean;
+  stripUnusedMaterialComponents?: boolean;
+  stripUnusedTextureComponents?: boolean;
+  stripUnusedShaderComponents?: boolean;
+  stripUnusedAnimationComponents?: boolean;
+  stripUnusedAudioComponents?: boolean;
+  stripUnusedVideoComponents?: boolean;
+  stripUnusedFontComponents?: boolean;
+  stripUnusedParticleSystemComponents?: boolean;
+  stripUnusedUIComponents?: boolean;
+  stripUnusedRenderingComponents?: boolean;
+  stripUnusedNetworkComponents?: boolean;
+  stripUnusedPhysicsComponents?: boolean;
+  stripUnusedAssetBundleComponents?: boolean;
+  stripUnusedInputComponents?: boolean;
+  stripUnusedScriptComponents?: boolean;
+  stripUnusedTerrainComponents?: boolean;
+  stripUnusedLightmapComponents?: boolean;
+  stripUnusedOcclusionComponents?: boolean;
+  stripUnusedNavmeshComponents?: boolean;
+  stripUnusedReflectionComponents?: boolean;
+  stripUnusedGIComponents?: boolean;
+  stripUnusedComputeComponents?: boolean;
+  stripUnusedCustomComponents?: boolean;
+  stripUnusedEngineComponents?: boolean;
+  stripUnusedEditorComponents?: boolean;
+  stripUnusedTestComponents?: boolean;
+  stripUnusedPackageComponents?: boolean;
+  stripUnusedPluginComponents?: boolean;
+  stripUnusedPlatformComponents?: boolean;
+  stripUnusedBuildComponents?: boolean;
+  stripUnusedDevelopmentComponents?: boolean;
+  stripUnusedReleaseComponents?: boolean;
+  stripUnusedDebugComponents?: boolean;
+  stripUnusedLoggingComponents?: boolean;
+  stripUnusedProfilingComponents?: boolean;
+  stripUnusedAnalyticsComponents?: boolean;
+  stripUnusedCrashReportingComponents?: boolean;
+  stripUnusedPerformanceReportingComponents?: boolean;
+  stripUnusedTelemetryComponents?: boolean;
+  stripUnusedCloudComponents?: boolean;
+  stripUnusedLocalComponents?: boolean;
+  stripUnusedRemoteComponents?: boolean;
+  stripUnusedCustomBuildComponents?: boolean;
+  stripUnusedCloudBuildComponents?: boolean;
+  stripUnusedLocalBuildComponents?: boolean;
+  stripUnusedRemoteBuildComponents?: boolean;
+  stripUnusedBuildTargetComponents?: boolean;
+  stripUnusedBuildConfigurationComponents?: boolean;
+  stripUnusedBuildPlatformComponents?: boolean;
+  stripUnusedBuildTypeComponents?: boolean;
+  stripUnusedBuildVersionComponents?: boolean;
+  stripUnusedBuildMachineComponents?: boolean;
+  stripUnusedBuildPathComponents?: boolean;
+  stripUnusedBuildGUIDComponents?: boolean;
+  stripUnusedBuildTargetPlatformComponents?: boolean;
+  stripUnusedBuildTargetPlatformGroupComponents?: boolean;
+  stripUnusedBuildTargetPlatformVersionComponents?: boolean;
+  stripUnusedBuildTargetArchitectureComponents?: boolean;
+  stripUnusedBuildTargetGraphicsAPIsComponents?: boolean;
+  stripUnusedBuildTargetVRComponents?: boolean;
+  stripUnusedBuildTargetARComponents?: boolean;
+  stripUnusedBuildTargetMRComponents?: boolean;
+  stripUnusedBuildTargetXRComponents?: boolean;
+  stripUnusedBuildTargetIL2CPPComponents?: boolean;
+  stripUnusedBuildTargetMonoComponents?: boolean;
+  stripUnusedBuildTargetWebGLComponents?: boolean;
+  stripUnusedBuildTargetAndroidComponents?: boolean;
+  stripUnusedBuildTargetIOSComponents?: boolean;
+  stripUnusedBuildTargetTizenComponents?: boolean;
+  stripUnusedBuildTargetXboxComponents?: boolean;
+  stripUnusedBuildTargetPlayStationComponents?: boolean;
+  stripUnusedBuildTargetNintendoSwitchComponents?: boolean;
+  stripUnusedBuildTargetCloudBuildComponents?: boolean;
+  stripUnusedBuildTargetLocalBuildComponents?: boolean;
+  stripUnusedBuildTargetRemoteBuildComponents?: boolean;
+  stripUnusedBuildTargetCustomBuildComponents?: boolean;
+  stripUnusedBuildNumberComponents?: boolean;
+  stripUnusedBuildDateComponents?: boolean;
+  stripUnusedBuildDurationComponents?: boolean;
+  stripUnusedBuildSizeComponents?: boolean;
+  stripUnusedBuildFilesComponents?: boolean;
+  stripUnusedBuildDependenciesComponents?: boolean;
+  stripUnusedBuildStrippingInfoComponents?: boolean;
+  stripUnusedBuildStepsComponents?: boolean;
+  stripUnusedBuildSummaryComponents?: boolean;
+  stripUnusedBuildReportComponents?: boolean;
+  stripUnusedBuildLogComponents?: boolean;
+  stripUnusedBuildErrorsComponents?: boolean;
+  stripUnusedBuildWarningsComponents?: boolean;
+  stripUnusedBuildSuccessComponents?: boolean;
+  stripUnusedBuildFailedComponents?: boolean;
+  stripUnusedBuildCancelledComponents?: boolean;
+  stripUnusedBuildAbortedComponents?: boolean;
+  stripUnusedBuildInterruptedComponents?: boolean;
+  stripUnusedBuildTimedOutComponents?: boolean;
+  stripUnusedBuildOutOfMemoryComponents?: boolean;
+  stripUnusedBuildOutOfDiskSpaceComponents?: boolean;
+  stripUnusedBuildInternalErrorComponents?: boolean;
+  stripUnusedBuildUserErrorComponents?: boolean;
+  stripUnusedBuildConfigurationErrorComponents?: boolean;
+  stripUnusedBuildDependencyErrorComponents?: boolean;
+  stripUnusedBuildCompilationErrorComponents?: boolean;
+  stripUnusedBuildLinkErrorComponents?: boolean;
+  stripUnusedBuildPackageErrorComponents?: boolean;
+  stripUnusedBuildAssetErrorComponents?: boolean;
+  stripUnusedBuildCodeGenerationErrorComponents?: boolean;
+  stripUnusedBuildMetadataErrorComponents?: boolean;
+  stripUnusedBuildResourceErrorComponents?: boolean;
+  stripUnusedBuildShaderErrorComponents?: boolean;
+  stripUnusedBuildTextureErrorComponents?: boolean;
+  stripUnusedBuildMeshErrorComponents?: boolean;
+  stripUnusedBuildAnimationErrorComponents?: boolean;
+  stripUnusedBuildAudioErrorComponents?: boolean;
+  stripUnusedBuildVideoErrorComponents?: boolean;
+  stripUnusedBuildFontErrorComponents?: boolean;
+  stripUnusedBuildMaterialErrorComponents?: boolean;
+  stripUnusedBuildModelErrorComponents?: boolean;
+  stripUnusedBuildSceneErrorComponents?: boolean;
+  stripUnusedBuildPrefabErrorComponents?: boolean;
+  stripUnusedBuildScriptableObjectErrorComponents?: boolean;
+  stripUnusedBuildTerrainErrorComponents?: boolean;
+  stripUnusedBuildLightmapErrorComponents?: boolean;
+  stripUnusedBuildOcclusionErrorComponents?: boolean;
+  stripUnusedBuildNavmeshErrorComponents?: boolean;
+  stripUnusedBuildPhysicsErrorComponents?: boolean;
+  stripUnusedBuildUIErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemModuleErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemRendererErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemShapeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemEmissionErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemSizeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemSizeOverLifetimeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemSizeBySpeedErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemVelocityErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemVelocityOverLifetimeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemVelocityBySpeedErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemLimitVelocityErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemInheritVelocityErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemForceErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemForceOverLifetimeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemForceBySpeedErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemColorErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemColorOverLifetimeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemColorBySpeedErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemRotationErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemRotationOverLifetimeErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemRotationBySpeedErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemExternalForcesErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemNoiseErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemCollisionErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemTriggerErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemSubEmitterErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemTextureSheetAnimationErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemLightsErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemTrailErrorComponents?: boolean;
+  stripUnusedBuildParticleSystemCustomDataErrorComponents?: boolean;
 }
 
 export interface UnityBuildStep {
@@ -1633,6 +1644,7 @@ export class UnityConverter {
         buildParticleSystemCustomDataError: false
       },
       steps: [],
+      buildSteps: [],
       files: [],
       dependencies: [],
       strippingInfo: {
@@ -2014,7 +2026,206 @@ export class UnityConverter {
         stripUnusedBuildParticleSystemLightsErrorComponents: false,
         stripUnusedBuildParticleSystemTrailErrorComponents: false,
         stripUnusedBuildParticleSystemCustomDataErrorComponents: false,
-      }
+      },
+      // Duplicate summary fields removed to avoid TS1117 duplicate keys
+      buildSummary: {
+        platform: this.exportConfiguration.target,
+        platformGroup: this.getPlatformGroup(),
+        options: JSON.stringify(this.buildOptions),
+        outputPath: this.exportConfiguration.outputPath,
+        buildStartedAt: Date.now(),
+        buildEndedAt: Date.now() + 1000,
+        buildDuration: 1000,
+        totalTime: 1000,
+        totalSize: 0,
+        // Required extended fields for UnityBuildSummary
+        buildFiles: [],
+        buildDependencies: [],
+        buildStrippingInfo: { enabled: false, strippingLevel: 'disabled', managedStrippingLevel: 'disabled' },
+        buildSteps: [],
+        buildResult: 'success',
+        totalErrors: 0,
+        totalWarnings: 0,
+        totalMessages: 0,
+        type: 'build',
+        buildTarget: this.exportConfiguration.target,
+        buildTargetGroup: this.getTargetGroup(),
+        buildType: this.exportConfiguration.configuration,
+        buildPlatform: this.exportConfiguration.target,
+        buildConfiguration: this.exportConfiguration.configuration,
+        buildNumber: '1.0.0',
+        buildVersion: '1.0.0',
+        unityVersion: this.projectSettings.unityVersion,
+        buildMachine: 'MIFF-Converter',
+        buildPath: this.exportConfiguration.outputPath,
+        buildGUID: `build_${Date.now()}`,
+        buildTargetPlatform: this.exportConfiguration.target,
+        buildTargetPlatformGroup: this.getPlatformGroup(),
+        buildTargetPlatformVersion: '1.0',
+        buildTargetArchitecture: 'x64',
+        buildTargetGraphicsAPIs: ['DirectX11', 'OpenGL'],
+        buildTargetVR: false,
+        buildTargetAR: false,
+        buildTargetMR: false,
+        buildTargetXR: false,
+        buildTargetIL2CPP: this.projectSettings.scriptingBackend === UnityScriptingBackend.IL2CPP,
+        buildTargetMono: this.projectSettings.scriptingBackend === UnityScriptingBackend.MONO,
+        buildTargetWebGL: this.exportConfiguration.target === UnityExportTarget.WEBGL,
+        buildTargetAndroid: this.exportConfiguration.target === UnityExportTarget.ANDROID,
+        buildTargetIOS: this.exportConfiguration.target === UnityExportTarget.IOS,
+        buildTargetTizen: false,
+        buildTargetXbox: this.exportConfiguration.target === UnityExportTarget.XBOX,
+        buildTargetPlayStation: this.exportConfiguration.target === UnityExportTarget.PLAYSTATION,
+        buildTargetNintendoSwitch: this.exportConfiguration.target === UnityExportTarget.NINTENDO_SWITCH,
+        buildTargetCloudBuild: false,
+        buildTargetLocalBuild: true,
+        buildTargetRemoteBuild: false,
+        buildTargetCustomBuild: false,
+        buildReport: '',
+        buildLog: '',
+        buildErrors: [],
+        buildWarnings: [],
+        buildSuccess: true,
+        buildFailed: false,
+        buildCancelled: false,
+        buildAborted: false,
+        buildInterrupted: false,
+        buildTimedOut: false,
+        buildOutOfMemory: false,
+        buildOutOfDiskSpace: false,
+        buildInternalError: false,
+        buildUserError: false,
+        buildConfigurationError: false,
+        buildDependencyError: false,
+        buildCompilationError: false,
+        buildLinkError: false,
+        buildPackageError: false,
+        buildAssetError: false,
+        buildCodeGenerationError: false,
+        buildMetadataError: false,
+        buildResourceError: false,
+        buildShaderError: false,
+        buildTextureError: false,
+        buildMeshError: false,
+        buildAnimationError: false,
+        buildAudioError: false,
+        buildVideoError: false,
+        buildFontError: false,
+        buildMaterialError: false,
+        buildModelError: false,
+        buildSceneError: false,
+        buildPrefabError: false,
+        buildScriptableObjectError: false,
+        buildTerrainError: false,
+        buildLightmapError: false,
+        buildOcclusionError: false,
+        buildNavmeshError: false,
+        buildPhysicsError: false,
+        buildUIError: false,
+        buildParticleSystemError: false,
+        buildParticleSystemModuleError: false,
+        buildParticleSystemRendererError: false,
+        buildParticleSystemShapeError: false,
+        buildParticleSystemEmissionError: false,
+        buildParticleSystemSizeError: false,
+        buildParticleSystemSizeOverLifetimeError: false,
+        buildParticleSystemSizeBySpeedError: false,
+        buildParticleSystemVelocityError: false,
+        buildParticleSystemVelocityOverLifetimeError: false,
+        buildParticleSystemVelocityBySpeedError: false,
+        buildParticleSystemLimitVelocityError: false,
+        buildParticleSystemInheritVelocityError: false,
+        buildParticleSystemForceError: false,
+        buildParticleSystemForceOverLifetimeError: false,
+        buildParticleSystemForceBySpeedError: false,
+        buildParticleSystemColorError: false,
+        buildParticleSystemColorOverLifetimeError: false,
+        buildParticleSystemColorBySpeedError: false,
+        buildParticleSystemRotationError: false,
+        buildParticleSystemRotationOverLifetimeError: false,
+        buildParticleSystemRotationBySpeedError: false,
+        buildParticleSystemExternalForcesError: false,
+        buildParticleSystemNoiseError: false,
+        buildParticleSystemCollisionError: false,
+        buildParticleSystemTriggerError: false,
+        buildParticleSystemSubEmitterError: false,
+        buildParticleSystemTextureSheetAnimationError: false,
+        buildParticleSystemLightsError: false,
+        buildParticleSystemTrailError: false,
+        buildParticleSystemCustomDataError: false,
+      },
+      buildReport: '',
+      buildLog: '',
+      buildErrors: [],
+      buildWarnings: [],
+      buildSuccess: true,
+      buildFailed: false,
+      buildCancelled: false,
+      buildAborted: false,
+      buildInterrupted: false,
+      buildTimedOut: false,
+      buildOutOfMemory: false,
+      buildOutOfDiskSpace: false,
+      buildInternalError: false,
+      buildUserError: false,
+      buildConfigurationError: false,
+      buildDependencyError: false,
+      buildCompilationError: false,
+      buildLinkError: false,
+      buildPackageError: false,
+      buildAssetError: false,
+      buildCodeGenerationError: false,
+      buildMetadataError: false,
+      buildResourceError: false,
+      buildShaderError: false,
+      buildTextureError: false,
+      buildMeshError: false,
+      buildAnimationError: false,
+      buildAudioError: false,
+      buildVideoError: false,
+      buildFontError: false,
+      buildMaterialError: false,
+      buildModelError: false,
+      buildSceneError: false,
+      buildPrefabError: false,
+      buildScriptableObjectError: false,
+      buildTerrainError: false,
+      buildLightmapError: false,
+      buildOcclusionError: false,
+      buildNavmeshError: false,
+      buildPhysicsError: false,
+      buildUIError: false,
+      buildParticleSystemError: false,
+      buildParticleSystemModuleError: false,
+      buildParticleSystemRendererError: false,
+      buildParticleSystemShapeError: false,
+      buildParticleSystemEmissionError: false,
+      buildParticleSystemSizeError: false,
+      buildParticleSystemSizeOverLifetimeError: false,
+      buildParticleSystemSizeBySpeedError: false,
+      buildParticleSystemVelocityError: false,
+      buildParticleSystemVelocityOverLifetimeError: false,
+      buildParticleSystemVelocityBySpeedError: false,
+      buildParticleSystemLimitVelocityError: false,
+      buildParticleSystemInheritVelocityError: false,
+      buildParticleSystemForceError: false,
+      buildParticleSystemForceOverLifetimeError: false,
+      buildParticleSystemForceBySpeedError: false,
+      buildParticleSystemColorError: false,
+      buildParticleSystemColorOverLifetimeError: false,
+      buildParticleSystemColorBySpeedError: false,
+      buildParticleSystemRotationError: false,
+      buildParticleSystemRotationOverLifetimeError: false,
+      buildParticleSystemRotationBySpeedError: false,
+      buildParticleSystemExternalForcesError: false,
+      buildParticleSystemNoiseError: false,
+      buildParticleSystemCollisionError: false,
+      buildParticleSystemTriggerError: false,
+      buildParticleSystemSubEmitterError: false,
+      buildParticleSystemTextureSheetAnimationError: false,
+      buildParticleSystemLightsError: false,
+      buildParticleSystemTrailError: false,
+      buildParticleSystemCustomDataError: false,
     };
 
     // Implementation for building Unity project

@@ -619,7 +619,7 @@ export interface GodotPerformanceMetrics {
   textureMemoryUsage: number;
   meshMemoryUsage: number;
   animationMemoryUsage: number;
-  audioMemoryUsage: number;
+  // duplicate removed
   videoMemoryUsage: number;
   profilerMemoryUsage: number;
   reservedMemoryUsage: number;
@@ -845,7 +845,6 @@ export class GodotBridgeManager {
       textureMemoryUsage: 0,
       meshMemoryUsage: 0,
       animationMemoryUsage: 0,
-      audioMemoryUsage: 0,
       videoMemoryUsage: 0,
       profilerMemoryUsage: 0,
       reservedMemoryUsage: 0,
@@ -1586,7 +1585,7 @@ export class GodotBridgeManager {
     if (!this.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0];
-    return connection?.status || 'disconnected';
+    return (connection?.status as any) || 'disconnected';
   }
 
   getPerformanceMetrics(): GodotPerformanceMetrics {

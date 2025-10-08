@@ -110,7 +110,7 @@ export interface InputFilter {
 export interface InputOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: InputEvent | InputAction | InputBinding | InputGesture | InputProfile | InputStats | string;
+  result?: any;
   issues?: string[];
 }
 

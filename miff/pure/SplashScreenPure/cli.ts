@@ -13,12 +13,12 @@
  * @license MIT
  */
 
-const args = process.argv.slice(2);
-const command = args[0];
+const args: string[] = process.argv.slice(2);
+const command: string | undefined = args[0];
 const flags = parseFlags(args.slice(1));
 
-function parseFlags(args) {
-  const flags = {};
+function parseFlags(args: string[]): Record<string, any> {
+  const flags: Record<string, any> = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg.startsWith('--')) {
@@ -224,14 +224,16 @@ async function main() {
       console.log(JSON.stringify(result, null, 2));
     }
 
-  } catch (error) {
-    console.error(`❌ Command failed: ${error.message}`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`❌ Command failed: ${message}`);
     process.exit(1);
   }
 }
 
 // Run CLI
-main().catch(error => {
-  console.error(`💥 Unexpected error: ${error.message}`);
+main().catch((error: unknown) => {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`💥 Unexpected error: ${message}`);
   process.exit(1);
 });
