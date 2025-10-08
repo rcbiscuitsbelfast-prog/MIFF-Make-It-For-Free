@@ -46,6 +46,8 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   const world: PhysicsWorld = {
     defaultGravity: { x: 0, y: 9.81 },
     defaultFriction: 0,
+    forces: [],
+    constraints: [],
     bodies: [
       {
         id: 'block',

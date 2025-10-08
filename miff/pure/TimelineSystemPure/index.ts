@@ -163,15 +163,15 @@ export class TimelineSystemPure {
   }
 
   private setupEventListeners(): void {
-    this.eventBus.on('timeline:created', (data) => {
+    this.eventBus.on('timeline:created', (data: any) => {
       this.handleTimelineCreated(data.timeline);
     });
 
-    this.eventBus.on('timeline:event_recorded', (data) => {
+    this.eventBus.on('timeline:event_recorded', (data: any) => {
       this.handleEventRecorded(data.event);
     });
 
-    this.eventBus.on('timeline:snapshot_created', (data) => {
+    this.eventBus.on('timeline:snapshot_created', (data: any) => {
       this.handleSnapshotCreated(data.snapshot);
     });
   }

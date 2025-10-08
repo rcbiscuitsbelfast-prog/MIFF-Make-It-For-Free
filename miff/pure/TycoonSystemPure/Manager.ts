@@ -18,7 +18,30 @@ import { EventBus } from '../EventBusPure/index.js';
 
 // Forward declaration for TycoonSystemPure
 export class TycoonSystemPure {
-  // Placeholder implementation
+  // Placeholder implementation with required methods
+  getFacility(id: string): any {
+    return { id, operational: true, currentValue: 1000, revenueMultiplier: 1.2 };
+  }
+  
+  getFacilities(): Map<string, any> {
+    return new Map();
+  }
+  
+  getCapital(): number {
+    return 100000;
+  }
+  
+  getBusinessStats(): any {
+    return { marketShare: 0.1 };
+  }
+  
+  getStaff(): Map<string, any> {
+    return new Map();
+  }
+  
+  getMarketData(): any {
+    return { trends: [], opportunities: [] };
+  }
 }
 
 // ============================================================================
@@ -697,7 +720,7 @@ export class TycoonManagerPure {
       analyzeMarketTrends: () => {
         return [
           {
-            type: 'retail',
+            type: BusinessType.RETAIL,
             trend: 'up',
             magnitude: 0.15,
             timeframe: 30,
@@ -705,7 +728,7 @@ export class TycoonManagerPure {
             description: 'Retail sector showing strong growth'
           },
           {
-            type: 'manufacturing',
+            type: BusinessType.MANUFACTURING,
             trend: 'stable',
             magnitude: 0.05,
             timeframe: 60,
@@ -737,7 +760,7 @@ export class TycoonManagerPure {
       getMarketOpportunities: () => {
         return [
           {
-            type: 'retail',
+            type: BusinessType.RETAIL,
             potentialRevenue: 100000,
             investmentRequired: 50000,
             timeframe: 90,
@@ -745,7 +768,7 @@ export class TycoonManagerPure {
             description: 'Expand into online retail market'
           },
           {
-            type: 'technology',
+            type: BusinessType.TECH,
             potentialRevenue: 200000,
             investmentRequired: 100000,
             timeframe: 180,

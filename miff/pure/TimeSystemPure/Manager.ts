@@ -322,7 +322,7 @@ export class TimeManager {
         id,
         ready: cooldown.remaining <= 0,
         remaining: cooldown.remaining
-      }
+      } as any
     };
   }
 
