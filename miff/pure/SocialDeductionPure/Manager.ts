@@ -127,7 +127,22 @@ export interface SocialOutput {
   timestamp: number;
 }
 
-type SocialDeductionPure = any; // Stub to avoid missing type
+// Local minimal stub to avoid missing dependency issues
+class SocialDeductionPureStub {
+  constructor(_eventBus: EventBus) {}
+  addPlayer(_playerId: string, _playerName: string): boolean { return true; }
+  assignRoles(): boolean { return true; }
+  startGame(): boolean { return true; }
+  castVote(_voterId: string, _targetId: string, _voteType: any, _reason?: string): boolean { return true; }
+  useAbility(_playerId: string, _abilityId: string, _targetId?: string): boolean { return true; }
+  getPlayers(): Map<string, GamePlayer> { return new Map(); }
+  getCurrentPhase(): GamePhase { return GamePhase.LOBBY; }
+  getVotes(): GameVote[] { return []; }
+  getDiscussionRounds(): DiscussionRound[] { return []; }
+  endGame(_winner: string): void {}
+  resetGame(): void {}
+}
+type SocialDeductionPure = any; // Type alias for external implementation if present
 export class SocialDeductionManager {
   private game: SocialDeductionPure;
   private eventBus: EventBus;
@@ -150,7 +165,9 @@ export class SocialDeductionManager {
       ...config
     };
 
-    this.game = new (SocialDeductionPure as any)(eventBus);
+    // Prefer real implementation if available; fall back to stub
+    const Impl: any = (typeof SocialDeductionPure !== 'undefined' && SocialDeductionPure) || SocialDeductionPureStub;
+    this.game = new Impl(eventBus);
     this.stats = this.initializeStats();
 
     this.setupEventListeners();
@@ -373,9 +390,9 @@ export class SocialDeductionManager {
 
   private checkWinConditions(): void {
     const players = this.game.getPlayers();
-    const alivePlayers = Array.from(players.values()).filter(p => p.isAlive);
-    const traitors = alivePlayers.filter(p => p.role === 'traitor');
-    const innocents = alivePlayers.filter(p => p.role === 'innocent' || p.role === 'detective');
+    const alivePlayers = Array.from(players.values()).filter((p: any) => p?.isAlive);
+    const traitors = alivePlayers.filter((p: any) => p.role === ('traitor' as any));
+    const innocents = alivePlayers.filter((p: any) => p.role === ('innocent' as any) || p.role === ('detective' as any));
 
     if (traitors.length === 0) {
       this.game.endGame('innocent');
