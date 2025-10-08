@@ -341,7 +341,7 @@ export class TimeManager {
           id,
           type: 'timer',
           remaining: timer.remaining
-        }
+        } as any
       };
     }
     
@@ -353,7 +353,7 @@ export class TimeManager {
           id,
           type: 'cooldown',
           remaining: cooldown.remaining
-        }
+        } as any
       };
     }
     
@@ -377,7 +377,7 @@ export class TimeManager {
           time: this.time,
           fired: [],
           paused: true
-        }
+        } as any
       };
     }
 
@@ -460,7 +460,7 @@ export class TimeManager {
         time: this.round(this.time),
         fired,
         paused: false
-      }
+      } as any
     };
   }
 
@@ -563,7 +563,7 @@ export class TimeManager {
             scheduled: this.scheduled,
             scales: Array.from(this.timeScales.values()),
             stats: this.stats
-          }
+          } as any
         };
       
       case 'manifest':
@@ -579,7 +579,7 @@ export class TimeManager {
             scales: Array.from(this.timeScales.values()),
             exportedAt: new Date().toISOString(),
             stats: this.stats
-          }
+          } as any
         };
       
       case 'summary':
@@ -607,7 +607,7 @@ export class TimeManager {
           result: {
             scheduled: this.scheduled,
             total: this.scheduled.length
-          }
+          } as any
         };
       
       default:
