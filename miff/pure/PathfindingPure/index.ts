@@ -17,5 +17,5 @@ export {
   type PathfindingResult,
   type PathfindingStats,
   type PathfindingFilter,
-  type PathfindingOutput
+  // PathfindingOutput is permissive; avoid re-export conflicts
 } from './PathfindingManager';
