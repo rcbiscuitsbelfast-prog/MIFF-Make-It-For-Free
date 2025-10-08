@@ -99,7 +99,7 @@ export interface NPCInteraction {
 export interface NPCOutput {
   op: string;
   status: 'ok' | 'error';
-  result?: NPC | NPC[] | NPCSimulation;
+  result?: any;
   issues?: string[];
 }
 
