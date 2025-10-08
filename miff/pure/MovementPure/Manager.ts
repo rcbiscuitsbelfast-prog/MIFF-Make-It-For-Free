@@ -51,7 +51,7 @@ export interface MovementEntity {
 }
 
 export interface MovementState {
-  current: 'idle' | 'moving' | 'stopping' | 'turning' | 'blocked' | 'stunned';
+  current: 'idle' | 'moving' | 'stopping' | 'turning' | 'blocked' | 'stunned' | 'stuck';
   target?: Vector2;
   path?: Vector2[];
   pathIndex: number;
