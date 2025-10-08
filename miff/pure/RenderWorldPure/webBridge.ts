@@ -736,8 +736,8 @@ NPCs: ${Object.keys(gameState?.world.npcs || {}).length}
       this.setupDebugOverlay();
     } else {
       const debugContainer = document.getElementById('renderworld-debug');
-      if (debugContainer) {
-        document.body.removeChild(debugContainer);
+      if (debugContainer && debugContainer.parentElement) {
+        debugContainer.parentElement.removeChild(debugContainer);
       }
     }
   }

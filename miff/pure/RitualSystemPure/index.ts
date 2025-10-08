@@ -1103,15 +1103,4 @@ export class RitualSystemPure {
 }
 
 // Export type aliases only (class already exported above)
-export type {
-  RitualDefinition,
-  RitualInstance,
-  RitualParticipant,
-  RitualStep,
-  RitualEffect,
-  SummonedEntity,
-  RitualResult,
-  RitualReward,
-  RitualRisk,
-  RitualConfig
-};
+// Avoid conflicting re-exports; types are already declared above
