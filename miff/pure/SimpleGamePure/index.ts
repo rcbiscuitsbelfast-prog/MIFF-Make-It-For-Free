@@ -585,8 +585,8 @@ export class SimpleArcadeGame extends SimpleGame {
   }
 
   getLives(): number { return this.playerLives; }
-  getEnemies(): readonly typeof this.enemies { return this.enemies; }
-  getBullets(): readonly typeof this.bullets { return this.bullets; }
+  getEnemies(): ReadonlyArray<typeof this.enemies[number]> { return this.enemies as ReadonlyArray<typeof this.enemies[number]>; }
+  getBullets(): ReadonlyArray<typeof this.bullets[number]> { return this.bullets as ReadonlyArray<typeof this.bullets[number]>; }
 }
 
 /**

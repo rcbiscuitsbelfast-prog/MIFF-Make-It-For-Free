@@ -44,7 +44,7 @@ export interface SaveMigrationResult {
 export interface SaveOperationResult {
   success: boolean;
   message: string;
-  snapshot?: SaveSnapshot;
+  snapshot?: any;
   validationResult?: SaveValidationResult;
   migrationResult?: SaveMigrationResult;
   error?: Error;
@@ -804,10 +804,10 @@ export class SaveMigrator implements ISaveMigrator {
   migrate(snapshot: ISaveSnapshot, targetVersion?: SaveVersion): SaveMigrationResult {
     if (!snapshot) {
       return {
-        snapshot: snapshot,
+        snapshot: SaveSnapshot.create(),
         warnings: ['Cannot migrate null snapshot'],
         migrated: false,
-        oldVersion: snapshot?.version || 'unknown',
+        oldVersion: 'unknown',
         newVersion: targetVersion || 'unknown'
       };
     }
@@ -817,7 +817,7 @@ export class SaveMigrator implements ISaveMigrator {
 
     if (currentVersion === target) {
       return {
-        snapshot,
+        snapshot: snapshot as SaveSnapshot,
         warnings: [],
         migrated: false,
         oldVersion: currentVersion,
@@ -827,7 +827,7 @@ export class SaveMigrator implements ISaveMigrator {
 
     if (!this.canMigrate(currentVersion, target)) {
       return {
-        snapshot,
+        snapshot: snapshot as SaveSnapshot,
         warnings: [`Cannot migrate from ${currentVersion} to ${target}`],
         migrated: false,
         oldVersion: currentVersion,
@@ -857,7 +857,7 @@ export class SaveMigrator implements ISaveMigrator {
     }
 
     return {
-      snapshot: currentSnapshot,
+      snapshot: currentSnapshot as SaveSnapshot,
       warnings,
       migrated: warnings.length > 0,
       oldVersion: currentVersion,
@@ -1174,8 +1174,8 @@ export class SaveManager implements ISaveManager {
         throw new Error('Directory listing not supported in browser environment');
       } else {
         const fs = require('fs').promises;
-        const files = await fs.readdir(directory);
-        return files.filter(file => file.endsWith('.json') || file.endsWith('.sav'));
+        const files: any[] = await fs.readdir(directory);
+        return (files as string[]).filter((file: string) => file.endsWith('.json') || file.endsWith('.sav'));
       }
     } catch (error) {
       return [];

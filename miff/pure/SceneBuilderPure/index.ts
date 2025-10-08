@@ -570,7 +570,16 @@ export class SceneBuilderManager {
         assetCount: this.assets.size,
         nodeCount: this.nodes.size,
         optimizationStats: this.calculateOptimizationStats(),
-        exportPaths: {},
+        exportPaths: {
+          [SceneExportFormat.UNITY]: '',
+          [SceneExportFormat.GODOT]: '',
+          [SceneExportFormat.WEBGL]: '',
+          [SceneExportFormat.GLTF]: '',
+          [SceneExportFormat.FBX]: '',
+          [SceneExportFormat.OBJ]: '',
+          [SceneExportFormat.JSON]: '',
+          [SceneExportFormat.BINARY]: ''
+        },
         warnings: [],
         errors: [error instanceof Error ? error.message : 'Unknown error'],
         metadata: {
