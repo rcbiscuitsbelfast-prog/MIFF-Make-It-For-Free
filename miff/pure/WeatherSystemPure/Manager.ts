@@ -177,7 +177,7 @@ export class WeatherManagerPure {
 
   constructor(eventBus: EventBus, config: WeatherManagerConfig = {}) {
     this.config = {
-      initialWeather: 'clear',
+      initialWeather: WeatherType.CLEAR,
       initialIntensity: 'light',
       seed: Math.random(),
       performanceMode: 'high',
@@ -235,8 +235,8 @@ export class WeatherManagerPure {
 
       this.isInitialized = true;
 
-      // Emit initialization event
-      this.weatherSystem['eventBus'].emit('weather:manager_initialized', {
+      // Emit initialization event (publish)
+      this.weatherSystem['eventBus']?.publish?.('weather:manager_initialized', {
         config: this.config,
         timestamp: Date.now()
       });
