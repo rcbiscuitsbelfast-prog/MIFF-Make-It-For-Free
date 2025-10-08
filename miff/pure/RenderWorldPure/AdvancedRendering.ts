@@ -7,7 +7,7 @@
 
 import { RenderWorldPure } from './index';
 import type { RenderWorldGameState } from './index';
-import RenderPayloadPure from '../RenderPayloadPure';
+import { RenderPayloadManager as RenderPayloadPure } from '../RenderPayloadPure';
 
 export interface AdvancedRenderConfig {
   enableShaders: boolean;

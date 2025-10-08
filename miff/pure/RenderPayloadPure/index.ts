@@ -20,4 +20,8 @@ export {
   type RenderStats
 } from './Manager';
 
+// Default export for convenience
+import { RenderPayloadManager as _RenderPayloadManager } from './Manager';
+export default _RenderPayloadManager;
+
 export { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
