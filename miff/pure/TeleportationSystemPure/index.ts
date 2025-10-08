@@ -486,7 +486,7 @@ export class TeleportationSystemPure {
     this.eventBus.publish('teleportation:teleport-success', {
       entityId,
       fromPosition,
-      toPosition,
+      toPosition: targetPosition,
       energySpent: energyCost,
       portalUsed: destinationPortal !== undefined
     });
