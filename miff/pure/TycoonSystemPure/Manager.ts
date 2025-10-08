@@ -16,6 +16,11 @@
 import { EventBus } from '../EventBusPure/index.js';
 // Types are defined in this file to avoid circular imports
 
+// Forward declaration for TycoonSystemPure
+export class TycoonSystemPure {
+  // Placeholder implementation
+}
+
 // ============================================================================
 // TYCOON MANAGER INTERFACES
 // ============================================================================
@@ -317,11 +322,16 @@ export class TycoonManagerPure {
   private tycoonSystem: TycoonSystemPure;
   private eventBus: EventBus;
   private config: TycoonManagerConfig;
-  private facilityManager: FacilityManager;
-  private staffManager: StaffManager;
-  private financialManager: FinancialManager;
-  private marketManager: MarketManager;
-  private integrations: TycoonIntegration = {};
+  private facilityManager!: FacilityManager;
+  private staffManager!: StaffManager;
+  private financialManager!: FinancialManager;
+  private marketManager!: MarketManager;
+  private integrations: TycoonIntegration = {
+    systemId: 'tycoon',
+    enabled: true,
+    priority: 1,
+    callbacks: {}
+  };
   private isInitialized: boolean = false;
   private analyticsData: any[] = [];
   private lastAnalyticsUpdate: number = 0;
@@ -429,16 +439,16 @@ export class TycoonManagerPure {
       getExpansionOpportunities: () => {
         const opportunities: FacilityExpansion[] = [
           {
-            type: 'retail',
-            location: this.facilityManager.getOptimalFacilityLocation('retail'),
+            type: BusinessType.RETAIL,
+            location: this.facilityManager.getOptimalFacilityLocation(BusinessType.RETAIL),
             expectedROI: 0.25,
             constructionCost: 50000,
             timeframe: 48, // 2 days
             risk: 'medium'
           },
           {
-            type: 'manufacturing',
-            location: this.facilityManager.getOptimalFacilityLocation('manufacturing'),
+            type: BusinessType.MANUFACTURING,
+            location: this.facilityManager.getOptimalFacilityLocation(BusinessType.MANUFACTURING),
             expectedROI: 0.35,
             constructionCost: 200000,
             timeframe: 120, // 5 days
@@ -533,7 +543,7 @@ export class TycoonManagerPure {
           if (neededStaff > 0) {
             priorities.push({
               facilityId: facilityId,
-              role: 'worker', // Default role
+              role: StaffRole.EMPLOYEE, // Default role
               count: neededStaff
             });
           }

@@ -1,1 +1,1 @@
-export * from "./Manager"; export { TycoonManager as default } from "./Manager";
+export * from "./Manager"; export { TycoonManagerPure as default } from "./Manager";

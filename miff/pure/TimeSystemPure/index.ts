@@ -159,16 +159,6 @@ export class TimeSystemPure {
     };
   }
 
-  private getCurrentAcceleration(): TimeAcceleration {
-    if (this.currentTimeScale === 0) return 'paused';
-    if (this.currentTimeScale === 1) return 'x1';
-    if (this.currentTimeScale === 2) return 'x2';
-    if (this.currentTimeScale === 5) return 'x5';
-    if (this.currentTimeScale === 10) return 'x10';
-    if (this.currentTimeScale === 50) return 'x50';
-    if (this.currentTimeScale === 100) return 'x100';
-    return 'max';
-  }
 
   private emitTimeEvents(oldTimeData: TimeData): void {
     const newTimeData = this.currentTimeData;

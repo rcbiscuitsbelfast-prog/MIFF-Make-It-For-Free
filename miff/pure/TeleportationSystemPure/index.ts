@@ -818,5 +818,3 @@ export class TeleportationSystemPure {
 }
 
 // Export main class and interfaces
-export { TeleportationSystemPure };
-export type { SpatialAnchor, Portal, TeleportationRequest, TeleportationResult, TeleportationSideEffect, TeleportationConfig, ZoneInfo, TeleportationStats, Vector3 };

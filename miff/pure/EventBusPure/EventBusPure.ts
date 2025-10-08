@@ -111,6 +111,18 @@ export class EventBus {
   }
 
   /**
+   * Backward-compatible alias: some modules call eventBus.on(type, handler)
+   */
+  on(eventType: string, handler: (event: Event) => void | Promise<void>, options: {
+    id?: string;
+    priority?: EventPriority;
+    filter?: (event: Event) => boolean;
+    once?: boolean;
+  } = {}): string {
+    return this.subscribe(eventType, handler, options);
+  }
+
+  /**
    * Subscribe to an event type
    */
   subscribe(

@@ -107,6 +107,10 @@ class MockEntityContext implements IEntityContext {
   setEntityAtk(entityId: string, atk: number): void {
     this.setEntityStat(entityId, TargetStat.ATK, atk);
   }
+
+  getEntityAtk(entityId: string): number {
+    return this.getEntityStat(entityId, TargetStat.ATK);
+  }
 }
 
 describe('EffectsPure Golden Tests', () => {
@@ -1277,13 +1281,15 @@ describe('EffectsPure Golden Tests', () => {
       const fireEffect = BattleEffect.damageOverTime(
         'fire_damage',
         'Fire Damage',
-        'Burns over time'
+        'Burns over time',
+        5 // damagePerTick
       );
 
       const poisonEffect = BattleEffect.damageOverTime(
         'poison',
         'Poison',
-        'Deals poison damage'
+        'Deals poison damage',
+        3 // damagePerTick
       );
 
       // Apply both effects

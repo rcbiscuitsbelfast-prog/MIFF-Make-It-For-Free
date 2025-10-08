@@ -52,6 +52,7 @@ export interface TimeStats {
   timeScales: number;
   averageTimerDuration: number;
   averageCooldownDuration: number;
+  totalUpdates: number;
 }
 
 export interface TimeFilter {
@@ -78,6 +79,7 @@ export interface TimeManagerConfig {
 
 export class TimeManager {
   private time = 0; // seconds
+  private startTime = Date.now(); // Track when the manager was created
   private timers = new Map<string, Timer>();
   private cooldowns = new Map<string, Cooldown>();
   private scheduled: ScheduledEvent[] = [];
@@ -106,10 +108,30 @@ export class TimeManager {
       scheduledEvents: 0,
       timeScales: 0,
       averageTimerDuration: 0,
-      averageCooldownDuration: 0
+      averageCooldownDuration: 0,
+      totalUpdates: 0
     };
 
     this.startUpdateLoop();
+  }
+
+  /**
+   * Start the update loop
+   */
+  private startUpdateLoop(): void {
+    if (this.updateInterval && this.updateInterval > 0) {
+      setInterval(() => {
+        this.update();
+      }, this.updateInterval);
+    }
+  }
+
+  /**
+   * Update the time system
+   */
+  private update(): void {
+    this.time = Date.now() - this.startTime;
+    this.stats.totalUpdates++;
   }
 
   /**
