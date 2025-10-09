@@ -208,11 +208,14 @@ class SpiritTamerGame {
   constructor() {
     this.player = {
       name: 'Player',
-      level: 1,
-      experience: 0,
-      team: [],
+      spirits: [],
+      activeTeam: [],
       inventory: new Map<string, number>(),
-      money: 1000
+      money: 1000,
+      badges: [],
+      location: 'Starting Town',
+      playTime: 0,
+      saveFile: 'player_save.json'
     };
     
     this.healthSystem = new HealthSystemManager();
@@ -220,7 +223,7 @@ class SpiritTamerGame {
     this.teamSystem = new TeamManager();
     this.itemSystem = new ItemsManager();
     this.aiSystem = new AIManager({} as any);
-    this.logSystem = new LogManager();
+    this.logSystem = new LogManager({} as any);
     this.saveSystem = new SaveManager();
 
     this.rl = readline.createInterface({

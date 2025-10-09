@@ -13,12 +13,12 @@
  * - Sound effects and music
  */
 
-import { RNGPure } from '../../RNGPure/index';
-import { InputPure } from '../../InputPure/index';
-import { PerfPure } from '../../PerfPure/index';
-import { AudioPure } from '../../AudioPure/index';
-import { DebugOverlayPure } from '../../DebugOverlayPure/index';
-import { SavePure } from '../../SavePure/index';
+import { RNGProvider } from '../../RNGPure/index';
+import { InputManager } from '../../InputPure/index';
+import { PerfManager } from '../../PerfPure/index';
+import { AudioManager } from '../../AudioPure/index';
+import { DebugOverlay } from '../../DebugOverlayPure/index';
+import { SaveManager } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -253,11 +253,11 @@ class TopplerGame {
       debug: false
     };
 
-    this.rng = new (RNGPure as any).RNGProvider();
-    this.inputSystem = new (InputPure as any).InputSystem();
-    this.perfSystem = new (PerfPure as any).PerfTimer();
-    this.audioSystem = new (AudioPure as any).AudioEngine();
-    this.debugSystem = new (DebugOverlayPure as any).DebugOverlayManager({
+    this.rng = new RNGProvider();
+    this.inputSystem = new InputManager();
+    this.perfSystem = new PerfManager();
+    this.audioSystem = new AudioManager();
+    this.debugSystem = new DebugOverlay({
       showOp: true,
       showStatus: true,
       showIssues: true,
@@ -266,7 +266,7 @@ class TopplerGame {
       compact: false,
       outputFormat: 'text'
     } as any);
-    this.saveSystem = new (SavePure as any).SaveManager();
+    this.saveSystem = new SaveManager();
 
     this.initializeGame();
   }
