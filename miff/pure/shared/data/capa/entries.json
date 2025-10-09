@@ -1,0 +1,212 @@
+{
+  "entries": [
+    {
+      "title": "Schema Drift Across Modules",
+      "description": "177+ schema references across modules with potential conflicts between BridgeSchemaPure, SharedSchemaPure, and module-specific schemas",
+      "category": "schema_drift",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [
+          "BridgeSchemaPure",
+          "SharedSchemaPure",
+          "AvatarSystemPure"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "Data integrity issues, validation inconsistencies, potential runtime failures",
+        "technicalDebt": 9,
+        "riskLevel": "critical"
+      },
+      "tags": [
+        "schema",
+        "validation",
+        "data-integrity"
+      ],
+      "relatedModules": [
+        "BridgeSchemaPure",
+        "SharedSchemaPure",
+        "AvatarSystemPure"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760009513965-a1wnf46wf",
+      "discoveredAt": "2025-10-09T11:31:53.966Z",
+      "status": "open"
+    },
+    {
+      "title": "Migration System Gaps",
+      "description": "357+ migration references found with no centralized migration system, scattered module-specific migration logic",
+      "category": "migration_gaps",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [
+          "All Modules"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "Data loss risk, version incompatibility, no systematic migration process",
+        "technicalDebt": 8,
+        "riskLevel": "critical"
+      },
+      "tags": [
+        "migration",
+        "data-loss",
+        "versioning"
+      ],
+      "relatedModules": [
+        "All Modules"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760009513967-pwd3aydpz",
+      "discoveredAt": "2025-10-09T11:31:53.967Z",
+      "status": "open"
+    },
+    {
+      "title": "Excessive Test Mock Usage",
+      "description": "1,350+ mock/stub instances across codebase masking real behavior and creating false test confidence",
+      "category": "stubbed_logic",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [
+          "EffectsPure",
+          "MagicSystemPure",
+          "FusionPure"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "False test confidence, integration gaps, production failures",
+        "technicalDebt": 7,
+        "riskLevel": "high"
+      },
+      "tags": [
+        "testing",
+        "mocks",
+        "quality"
+      ],
+      "relatedModules": [
+        "EffectsPure",
+        "MagicSystemPure",
+        "FusionPure"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760009513967-xn3tqmlwv",
+      "discoveredAt": "2025-10-09T11:31:53.967Z",
+      "status": "open"
+    },
+    {
+      "title": "Asset Pipeline Validation Gaps",
+      "description": "711+ asset references without existence validation, potential broken pipelines and missing assets",
+      "category": "asset_pipeline",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [
+          "UnityBridgePure",
+          "GodotBridgePure",
+          "UnrealBridgePure"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "Missing assets, broken pipelines, version mismatches",
+        "technicalDebt": 6,
+        "riskLevel": "high"
+      },
+      "tags": [
+        "assets",
+        "pipeline",
+        "validation"
+      ],
+      "relatedModules": [
+        "UnityBridgePure",
+        "GodotBridgePure",
+        "UnrealBridgePure"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760009513968-p1fqvagch",
+      "discoveredAt": "2025-10-09T11:31:53.968Z",
+      "status": "open"
+    },
+    {
+      "title": "Mixed Interface Safety",
+      "description": "Inconsistent interface patterns, mixed safety levels, documentation gaps across modules",
+      "category": "interface_safety",
+      "severity": "medium",
+      "impact": {
+        "modulesAffected": [
+          "All CLI Harnesses"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "Contributor confusion, silent failures, inconsistent error reporting",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [
+        "interfaces",
+        "safety",
+        "consistency"
+      ],
+      "relatedModules": [
+        "All CLI Harnesses"
+      ],
+      "ciBlocking": false,
+      "prRequired": false,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760009513974-t8muvd9l8",
+      "discoveredAt": "2025-10-09T11:31:53.974Z",
+      "status": "open"
+    },
+    {
+      "title": "Mixed Runtime Fidelity",
+      "description": "99+ lifecycle/transport references with mock implementations, simulation vs reality gaps",
+      "category": "runtime_fidelity",
+      "severity": "medium",
+      "impact": {
+        "modulesAffected": [
+          "NetworkBridgePure",
+          "UnityBridgePure",
+          "GodotBridgePure"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "Integration failures, performance issues, production scaling problems",
+        "technicalDebt": 4,
+        "riskLevel": "medium"
+      },
+      "tags": [
+        "runtime",
+        "fidelity",
+        "performance"
+      ],
+      "relatedModules": [
+        "NetworkBridgePure",
+        "UnityBridgePure",
+        "GodotBridgePure"
+      ],
+      "ciBlocking": false,
+      "prRequired": false,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760009513974-msiugc8we",
+      "discoveredAt": "2025-10-09T11:31:53.974Z",
+      "status": "open"
+    }
+  ]
+}

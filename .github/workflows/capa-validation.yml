@@ -1,0 +1,133 @@
+name: CAPA Validation
+
+on:
+  pull_request:
+    paths:
+      - 'miff/pure/**'
+      - 'docs/**'
+      - '.github/workflows/capa-validation.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'miff/pure/**'
+      - 'docs/**'
+      - '.github/workflows/capa-validation.yml'
+
+jobs:
+  capa-validation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm install
+        npm install -g tsx
+        
+    - name: Initialize CAPA Registry
+      run: |
+        echo "🛡️ Initializing CAPA Registry..."
+        tsx miff/pure/shared/capaCLI.ts list
+        
+    - name: Check for Critical CAPA Entries
+      id: capa-check
+      run: |
+        echo "🔍 Checking for critical CAPA entries..."
+        
+        # Get list of changed files
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+        else
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+        fi
+        
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
+        
+        # Check each changed module for critical CAPA entries
+        BLOCKED=false
+        REASONS=""
+        
+        for file in $CHANGED_FILES; do
+          if [[ $file == miff/pure/* ]]; then
+            # Extract module name from file path
+            MODULE=$(echo $file | sed 's|miff/pure/\([^/]*\).*|\1|')
+            
+            echo "Checking module: $MODULE"
+            
+            # Check for critical CAPA entries
+            RESULT=$(tsx miff/pure/shared/capaCLI.ts check "$MODULE" "$file" || echo "ERROR")
+            
+            if [[ $RESULT == *"PR should be BLOCKED"* ]]; then
+              BLOCKED=true
+              REASONS="$REASONS\n$RESULT"
+            fi
+          fi
+        done
+        
+        if [ "$BLOCKED" = true ]; then
+          echo "🚫 PR blocked due to critical CAPA entries"
+          echo "blocked=true" >> $GITHUB_OUTPUT
+          echo "reasons<<EOF" >> $GITHUB_OUTPUT
+          echo "$REASONS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "✅ No critical CAPA entries blocking this PR"
+          echo "blocked=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Generate CAPA Impact Statement
+      if: steps.capa-check.outputs.blocked == 'false'
+      run: |
+        echo "📝 Generating CAPA impact statement..."
+        
+        # Get list of changed files
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+        else
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+        fi
+        
+        # Generate impact statement for each affected module
+        for file in $CHANGED_FILES; do
+          if [[ $file == miff/pure/* ]]; then
+            MODULE=$(echo $file | sed 's|miff/pure/\([^/]*\).*|\1|')
+            
+            echo "## CAPA Impact Statement for $MODULE"
+            tsx miff/pure/shared/capaCLI.ts check "$MODULE" "$file"
+            echo ""
+          fi
+        done
+        
+    - name: Generate CAPA Report
+      run: |
+        echo "📊 Generating CAPA report..."
+        tsx miff/pure/shared/capaCLI.ts report > capa-report.md
+        
+        echo "## CAPA System Status" >> $GITHUB_STEP_SUMMARY
+        cat capa-report.md >> $GITHUB_STEP_SUMMARY
+        
+    - name: Fail if Critical CAPA Entries Found
+      if: steps.capa-check.outputs.blocked == 'true'
+      run: |
+        echo "❌ This PR is blocked due to critical CAPA entries:"
+        echo "${{ steps.capa-check.outputs.reasons }}"
+        echo ""
+        echo "Please resolve the critical CAPA entries before merging this PR."
+        echo "Use 'tsx miff/pure/shared/capaCLI.ts list --severity critical' to see all critical entries."
+        exit 1
+        
+    - name: Upload CAPA Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: capa-report
+        path: capa-report.md
+        retention-days: 30
