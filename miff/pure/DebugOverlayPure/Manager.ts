@@ -1,7 +1,7 @@
 // DebugOverlayPure - Real-time debug overlay for MIFF engine bridges
 // Schema Version: v1
 
-import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
+import { BridgeSchemaValidator, RenderData, RenderPayload  } from '../shared/ConsolidatedSchema';
 import * as fs from 'fs';
 import * as path from 'path';
 

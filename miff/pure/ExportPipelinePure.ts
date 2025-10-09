@@ -13,7 +13,7 @@
  * - Export analytics and reporting
  */
 
-import { RenderPayload } from './BridgeSchemaPure/schema';
+import { RenderPayload  } from 'shared/ConsolidatedSchema';
 import { ConvertToGodotManager, GodotExportConfig, GodotVersion, GodotPlatform, OptimizationLevel } from './ConvertToGodotPure/Manager';
 import { ConvertToUnityManager, UnityConvertedPayload } from './ConvertToUnityPure/Manager';
 import { ConvertToWebManager } from './ConvertToWebPure/Manager';

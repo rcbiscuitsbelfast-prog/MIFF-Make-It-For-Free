@@ -1,4 +1,4 @@
-import { EntityID, StatBlock } from '../SharedSchemaPure/Manager';
+import { EntityID, StatBlock  } from '../shared/ConsolidatedSchema';
 
 export interface NPC {
   id: EntityID;

@@ -5,7 +5,7 @@
  * frame building, asset management, animation sequences, and export adapters.
  */
 
-import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
+import { RenderPayload, RenderData, BridgeSchemaValidator  } from '../shared/ConsolidatedSchema';
 
 export interface FrameBuildOptions {
   timestamp?: string;

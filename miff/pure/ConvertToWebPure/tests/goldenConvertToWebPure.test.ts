@@ -1,6 +1,6 @@
 import path from 'path';
 import { ConvertToWebManager } from '../Manager';
-import { RenderPayload } from '../../BridgeSchemaPure/schema';
+import { RenderPayload  } from '../../shared/ConsolidatedSchema';
 
 test('manager converts sample payload to web items', () => {
   const sample:RenderPayload = require('../../BridgeSchemaPure/sample_render.json').examples.ui_rendering.unified;

@@ -1,0 +1,255 @@
+[
+  {
+    "file": "miff/pure/ExportPipelinePure.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload } from './BridgeSchemaPure/schema'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/shared/ConsolidatedSchema.ts",
+    "changes": [
+      "Updated BridgeSchemaValidator reference",
+      "Updated schema validation calls"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/shared/CAPARegistry.ts",
+    "changes": [
+      "Updated BridgeSchemaPure index import: import { CAPAEntry, CAPACategory, CAPASeverity, CAPAStatus, CAPARegistry, CAPAMetrics } from './CAPASystem.js';\nimport { EventBus } from '../EventBusPure/index.js';\nimport * as fs from 'fs';\nimport * as path from 'path';\n\nexport class CAPARegistryManager {\n  private registry: CAPARegistry;\n  private eventBus: EventBus;\n  private dataPath: string;\n  private isInitialized: boolean = false;\n\n  constructor(eventBus: EventBus, dataPath: string = 'data/capa') {\n    this.eventBus = eventBus;\n    this.dataPath = dataPath;\n    this.registry = {\n      entries: new Map(),\n      metrics: this.initializeMetrics(),\n      policies: this.initializePolicies()\n    };\n  }\n\n  /**\n   * Initialize the CAPA registry\n   */\n  async initialize(): Promise<void> {\n    if (this.isInitialized) return;\n\n    console.log('🛡️ Initializing CAPA Registry...');\n\n    // Ensure data directory exists\n    await this.ensureDataDirectory();\n\n    // Load existing CAPA entries\n    await this.loadCAPAEntries();\n\n    // Initialize from audit findings if no entries exist\n    if (this.registry.entries.size === 0) {\n      await this.initializeFromAuditFindings();\n    }\n\n    this.isInitialized = true;\n    console.log(`✅ CAPA Registry initialized with ${this.registry.entries.size} entries`);\n  }\n\n  /**\n   * Create a new CAPA entry\n   */\n  async createEntry(entry: Omit<CAPAEntry, 'id' | 'discoveredAt' | 'status'>): Promise<CAPAEntry> {\n    const id = this.generateId();\n    const capaEntry: CAPAEntry = {\n      ...entry,\n      id,\n      discoveredAt: new Date(),\n      status: CAPAStatus.OPEN\n    };\n\n    this.registry.entries.set(id, capaEntry);\n    await this.saveCAPAEntry(capaEntry);\n    this.updateMetrics();\n    \n    this.eventBus.emit('capa:created', capaEntry);\n    console.log(`📝 Created CAPA entry: ${id} - ${capaEntry.title}`);\n\n    return capaEntry;\n  }\n\n  /**\n   * Update CAPA entry status\n   */\n  async updateStatus(id: string, status: CAPAStatus, resolution?: string): Promise<boolean> {\n    const entry = this.registry.entries.get(id);\n    if (!entry) {\n      console.warn(`⚠️ CAPA entry not found: ${id}`);\n      return false;\n    }\n\n    const previousStatus = entry.status;\n    entry.status = status;\n    \n    if (status === CAPAStatus.RESOLVED || status === CAPAStatus.CLOSED) {\n      entry.resolvedAt = new Date();\n      entry.resolution = resolution;\n    }\n\n    this.registry.entries.set(id, entry);\n    await this.saveCAPAEntry(entry);\n    this.updateMetrics();\n    \n    this.eventBus.emit('capa:updated', { entry, previousStatus });\n    console.log(`📝 Updated CAPA entry: ${id} - ${previousStatus} → ${status}`);\n\n    return true;\n  }\n\n  /**\n   * Get CAPA entries by criteria\n   */\n  getEntries(filter?: {\n    category?: CAPACategory;\n    severity?: CAPASeverity;\n    status?: CAPAStatus;\n    module?: string;\n    assignedTo?: string;\n  }): CAPAEntry[] {\n    let entries = Array.from(this.registry.entries.values());\n\n    if (filter) {\n      entries = entries.filter(entry => {\n        if (filter.category && entry.category !== filter.category) return false;\n        if (filter.severity && entry.severity !== filter.severity) return false;\n        if (filter.status && entry.status !== filter.status) return false;\n        if (filter.module && !entry.relatedModules.includes(filter.module)) return false;\n        if (filter.assignedTo && entry.assignedTo !== filter.assignedTo) return false;\n        return true;\n      });\n    }\n\n    return entries.sort((a, b) => {\n      // Sort by severity (critical first), then by discovery date\n      const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 };\n      const severityDiff = severityOrder[a.severity] - severityOrder[b.severity];\n      if (severityDiff !== 0) return severityDiff;\n      return b.discoveredAt.getTime() - a.discoveredAt.getTime();\n    });\n  }\n\n  /**\n   * Get CAPA metrics\n   */\n  getMetrics(): CAPAMetrics {\n    return { ...this.registry.metrics };\n  }\n\n  /**\n   * Check if PR should be blocked based on CAPA entries\n   */\n  shouldBlockPR(module: string, changes: string[]): { blocked: boolean; reasons: string[] } {\n    const reasons: string[] = [];\n    const openEntries = this.getEntries({ status: CAPAStatus.OPEN, module });\n\n    for (const entry of openEntries) {\n      if (entry.ciBlocking && entry.severity === CAPASeverity.CRITICAL) {\n        reasons.push(`Critical CAPA ${entry.id}: ${entry.title}`);\n      }\n    }\n\n    return {\n      blocked: reasons.length > 0,\n      reasons\n    };\n  }\n\n  /**\n   * Generate CAPA impact statement for PR\n   */\n  generateImpactStatement(module: string, changes: string[]): string {\n    const relatedEntries = this.getEntries({ module });\n    const openEntries = relatedEntries.filter(e => e.status === CAPAStatus.OPEN);\n\n    if (openEntries.length === 0) {\n      return 'No open CAPA entries for this module.';\n    }\n\n    let statement = `## CAPA Impact Statement\\n\\n`;\n    statement += `**Module:** ${module}\\n`;\n    statement += `**Open CAPA Entries:** ${openEntries.length}\\n\\n`;\n\n    for (const entry of openEntries) {\n      statement += `### ${entry.id}: ${entry.title}\\n`;\n      statement += `- **Severity:** ${entry.severity}\\n`;\n      statement += `- **Status:** ${entry.status}\\n`;\n      statement += `- **Impact:** ${entry.impact.businessImpact}\\n\\n`;\n    }\n\n    return statement;\n  }\n\n  /**\n   * Generate CAPA report\n   */\n  generateReport(): string {\n    const metrics = this.getMetrics();\n    const entries = this.getEntries();\n    \n    let report = '# CAPA System Report\\n\\n';\n    report += `**Generated:** ${new Date().toISOString()}\\n`;\n    report += `**Total Entries:** ${metrics.totalEntries}\\n`;\n    report += `**Open Entries:** ${metrics.openEntries}\\n`;\n    report += `**Resolved Entries:** ${metrics.resolvedEntries}\\n`;\n    report += `**Average Resolution Time:** ${metrics.averageResolutionTime.toFixed(1)} days\\n\\n`;\n\n    // Severity breakdown\n    report += `## Severity Breakdown\\n`;\n    report += `- **Critical:** ${metrics.criticalOpen} open\\n`;\n    report += `- **High:** ${metrics.highOpen} open\\n`;\n    report += `- **Medium:** ${metrics.mediumOpen} open\\n`;\n    report += `- **Low:** ${metrics.lowOpen} open\\n\\n`;\n\n    // Open entries by category\n    const openEntries = entries.filter(e => e.status === CAPAStatus.OPEN);\n    const categoryCounts = new Map<CAPACategory, number>();\n    \n    for (const entry of openEntries) {\n      const count = categoryCounts.get(entry.category) || 0;\n      categoryCounts.set(entry.category, count + 1);\n    }\n\n    report += `## Open Entries by Category\\n`;\n    for (const [category, count] of categoryCounts) {\n      report += `- **${category}:** ${count} entries\\n`;\n    }\n    report += `\\n`;\n\n    // Recent entries\n    const recentEntries = entries\n      .filter(e => e.status === CAPAStatus.OPEN)\n      .slice(0, 10);\n\n    if (recentEntries.length > 0) {\n      report += `## Recent Open Entries\\n`;\n      for (const entry of recentEntries) {\n        report += `### ${entry.id}: ${entry.title}\\n`;\n        report += `- **Severity:** ${entry.severity}\\n`;\n        report += `- **Category:** ${entry.category}\\n`;\n        report += `- **Modules:** ${entry.relatedModules.join(', ')}\\n`;\n        report += `- **Discovered:** ${entry.discoveredAt.toISOString()}\\n\\n`;\n      }\n    }\n\n    return report;\n  }\n\n  private async ensureDataDirectory(): Promise<void> {\n    if (!fs.existsSync(this.dataPath)) {\n      fs.mkdirSync(this.dataPath, { recursive: true });\n    }\n  }\n\n  private async loadCAPAEntries(): Promise<void> {\n    const entriesPath = path.join(this.dataPath, 'entries.json');\n    \n    if (fs.existsSync(entriesPath)) {\n      try {\n        const data = JSON.parse(fs.readFileSync(entriesPath, 'utf-8'));\n        for (const entry of data.entries || []) {\n          // Convert date strings back to Date objects\n          entry.discoveredAt = new Date(entry.discoveredAt);\n          if (entry.resolvedAt) {\n            entry.resolvedAt = new Date(entry.resolvedAt);\n          }\n          this.registry.entries.set(entry.id, entry);\n        }\n        console.log(`📂 Loaded ${this.registry.entries.size} CAPA entries from storage`);\n      } catch (error) {\n        console.warn('⚠️ Failed to load CAPA entries:', error);\n      }\n    }\n  }\n\n  private async saveCAPAEntry(entry: CAPAEntry): Promise<void> {\n    const entriesPath = path.join(this.dataPath, 'entries.json');\n    const allEntries = Array.from(this.registry.entries.values());\n    \n    try {\n      fs.writeFileSync(entriesPath, JSON.stringify({ entries: allEntries }, null, 2));\n    } catch (error) {\n      console.error('❌ Failed to save CAPA entry:', error);\n    }\n  }\n\n  private async initializeFromAuditFindings(): Promise<void> {\n    console.log('📋 Initializing CAPA entries from audit findings...');\n\n    // Schema Drift (Critical)\n    await this.createEntry({\n      title: 'Schema Drift Across Modules',\n      description: '177+ schema references across modules with potential conflicts between BridgeSchemaPure, SharedSchemaPure, and module-specific schemas',\n      category: CAPACategory.SCHEMA_DRIFT,\n      severity: CAPASeverity.CRITICAL,\n      impact: {\n        modulesAffected: ['BridgeSchemaPure', 'SharedSchemaPure', 'AvatarSystemPure'],\n        usersAffected: ['All Contributors'],\n        businessImpact: 'Data integrity issues, validation inconsistencies, potential runtime failures',\n        technicalDebt: 9,\n        riskLevel: 'critical'\n      },\n      tags: ['schema', 'validation', 'data-integrity'],\n      relatedModules: ['BridgeSchemaPure'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/WebBridgePure/tests/contract.test.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/UnityBridgePure/UnityBridgeCapable.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/UnityBridgePure/tests/contract.test.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RenderReplayPure/cliHarness.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RenderReplayPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RenderReplayPure/tests/goldenReplay.test.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload } from '../../BridgeSchemaPure/schema'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RenderPayloadPure/index.ts",
+    "changes": [
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RenderPayloadPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RenderPayloadPure/tests/goldenRenderPayloadPure.test.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { BridgeSchemaValidator } from '../../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RemixTaggingPure/override.ts",
+    "changes": [
+      "Updated BridgeSchemaPure index import: import { RemixTaggingOverride, ModuleTag, RemixLevel } from './Manager';\n\nexport function getOverride(): RemixTaggingOverride {\n  return {\n    validateTag: (tag: ModuleTag): boolean => {\n      // Custom validation: remix-required tags must have detailed reasons\n      if (tag.remixLevel === 'remix-required') {\n        return tag.reason.length > 20;\n      }\n      return true;\n    },\n    \n    getCustomLevel: (moduleId: string): RemixLevel | null => {\n      // Special modules get custom levels\n      const specialModules: Record<string, RemixLevel> = {\n        'BridgeSchemaPure': 'remix-required',\n        'SharedSchemaPure': 'remix-required',\n        'MiffAttributionPure': 'remix-required'\n      };\n      \n      return specialModules[moduleId] || null;\n    },\n    \n    getDependencies: (moduleId: string): string[] => {\n      // Enhanced dependency mapping\n      const enhancedDeps: Record<string, string[]> = {\n        'CombatPure': ['CombatCorePure', 'StatsSystemPure', 'EquipmentPure'],\n        'QuestsPure': ['NPCsPure', 'DialogPure', 'WorldLayoutPure'],\n        'BridgeSchemaPure': ['SharedSchemaPure'],\n        'UnityBridgePure': ['BridgeSchemaPure', 'CombatPure'],\n        'GodotBridgePure': ['BridgeSchemaPure', 'CombatPure'],\n        'WebBridgePure': ['BridgeSchemaPure'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/RemixTaggingPure/Manager.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/NPCsPure/index.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/NPCsPure/Manager.ts",
+    "changes": [
+      "Updated SharedSchemaPure import: import { EntityID, StatBlock } from '../SharedSchemaPure/Manager'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/LicenseAuditPure/override.ts",
+    "changes": [
+      "Updated BridgeSchemaPure index import: import { LicenseAuditOverride, LicenseInfo, LicenseType, LicenseCompatibility } from './Manager';\n\nexport function getOverride(): LicenseAuditOverride {\n  return {\n    validateLicense: (license: LicenseInfo): boolean => {\n      // Custom validation: ensure all licenses have descriptions\n      if (!license.description || license.description.length < 10) {\n        return false;\n      }\n      \n      // Ensure remix-safe licenses have clear requirements\n      if (license.remixSafe && license.requirements.length === 0) {\n        return false;\n      }\n      \n      return true;\n    },\n    \n    getCustomLicense: (moduleId: string): LicenseInfo | null => {\n      // Special modules get custom licenses\n      const specialLicenses: Record<string, LicenseInfo> = {\n        'MiffAttributionPure': {\n          type: 'AGPLv3',\n          version: '3.0',\n          url: 'https://www.gnu.org/licenses/agpl-3.0.en.html',\n          spdxId: 'AGPL-3.0',\n          description: 'GNU Affero General Public License v3.0 with MIFF attribution requirements',\n          requirements: [\n            'Source code must be open',\n            'Network use triggers source distribution',\n            'Derivative works must be AGPLv3',\n            'MIFF attribution must be preserved'\n          ],\n          restrictions: [\n            'Cannot be closed-source',\n            'Network use requires source availability',\n            'Cannot remove MIFF attribution'\n          ],\n          remixSafe: true,\n          commercialUse: 'restricted',\n          attributionRequired: true,\n          sourceCodeRequired: true,\n          derivativeWorks: 'allowed'\n        },\n        \n        'BridgeSchemaPure'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/DebugOverlayPure/cliHarness.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload } from '../BridgeSchemaPure/schema'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/DebugOverlayPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/CraftingPure/Manager.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/ConvertToWebPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/ConvertToWebPure/tests/goldenConvertToWebPure.test.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload } from '../../BridgeSchemaPure/schema'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/ConvertToUnityPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/ConvertToUnityPure/tests/goldenConvertToUnityPure.test.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload } from '../../BridgeSchemaPure/schema'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/ConvertToGodotPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/ConvertToGodotPure/tests/goldenConvertToGodotPure.test.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { RenderPayload } from '../../BridgeSchemaPure/schema'"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeSchemaPure/schema.ts",
+    "changes": [
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeSchemaPure/index.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeSchemaPure/Manager.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeSchemaPure/tests/golden_BridgeSchemaPure.test.ts",
+    "changes": [
+      "Updated schema validation calls"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeSchemaPure/tests/golden_BridgeSchemaPure.errors.test.ts",
+    "changes": [],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeSchemaPure/tests/goldenSchema.test.ts",
+    "changes": [
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  },
+  {
+    "file": "miff/pure/BridgeInspectorPure/Manager.ts",
+    "changes": [
+      "Updated BridgeSchemaPure import: import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema'",
+      "Updated BridgeSchemaValidator reference"
+    ],
+    "errors": [],
+    "success": true
+  }
+]

@@ -1,5 +1,5 @@
 // ConvertToGodotPure - Advanced Godot Export Pipeline
-import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
+import { RenderPayload, RenderData, BridgeSchemaValidator  } from '../shared/ConsolidatedSchema';
 
 export enum GodotVersion {
   GODOT_3_5 = '3.5',

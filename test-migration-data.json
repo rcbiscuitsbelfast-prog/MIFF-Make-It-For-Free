@@ -1,0 +1,15 @@
+{
+  "version": "v12",
+  "types": ["EntityID", "StatBlock", "ZoneRef"],
+  "data": {
+    "entities": [
+      {
+        "id": "entity_1",
+        "stats": [
+          { "key": "health", "base": 100 },
+          { "key": "mana", "base": 50 }
+        ]
+      }
+    ]
+  }
+}

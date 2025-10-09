@@ -12,7 +12,7 @@
 import fs from 'fs';
 import path from 'path';
 import { DebugOverlayManager, DebugOverlayOutput } from './Manager';
-import { RenderPayload } from '../BridgeSchemaPure/schema';
+import { RenderPayload  } from '../shared/ConsolidatedSchema';
 import { 
   debugOverlayDemo, 
   handleError, 

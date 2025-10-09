@@ -1,5 +1,5 @@
 // ConvertToUnityPure - Convert unified render payloads to Unity-friendly data
-import { RenderPayload, RenderData, BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
+import { RenderPayload, RenderData, BridgeSchemaValidator  } from '../shared/ConsolidatedSchema';
 
 export interface UnityConvertedPayload {
   op: 'convert';

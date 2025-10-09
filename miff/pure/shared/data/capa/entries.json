@@ -34,7 +34,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760009513965-a1wnf46wf",
       "discoveredAt": "2025-10-09T11:31:53.966Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T11:55:12.551Z",
+      "resolution": "Schema consolidation completed with ConsolidatedSchema system and migration framework implemented"
     },
     {
       "title": "Migration System Gaps",
@@ -66,7 +68,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760009513967-pwd3aydpz",
       "discoveredAt": "2025-10-09T11:31:53.967Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T11:55:18.545Z",
+      "resolution": "Centralized migration system implemented with MigrationManager and migration CLI tool"
     },
     {
       "title": "Excessive Test Mock Usage",
@@ -102,7 +106,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760009513967-xn3tqmlwv",
       "discoveredAt": "2025-10-09T11:31:53.967Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T11:56:46.421Z",
+      "resolution": "Mutation testing system implemented to identify and replace critical mocks with real implementations"
     },
     {
       "title": "Asset Pipeline Validation Gaps",
@@ -138,7 +144,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760009513968-p1fqvagch",
       "discoveredAt": "2025-10-09T11:31:53.968Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T11:59:17.666Z",
+      "resolution": "Asset validation system implemented with comprehensive asset existence checking and pipeline integrity validation"
     },
     {
       "title": "Mixed Interface Safety",

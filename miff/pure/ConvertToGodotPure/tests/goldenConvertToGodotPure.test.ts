@@ -1,6 +1,6 @@
 import path from 'path';
 import { ConvertToGodotManager } from '../Manager';
-import { RenderPayload } from '../../BridgeSchemaPure/schema';
+import { RenderPayload  } from '../../shared/ConsolidatedSchema';
 
 test('manager converts sample payload to godot items', () => {
   const sample:RenderPayload = require('../../BridgeSchemaPure/sample_render.json').examples.npc_rendering.unified;
