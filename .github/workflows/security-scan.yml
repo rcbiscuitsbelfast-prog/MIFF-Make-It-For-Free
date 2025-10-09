@@ -10,6 +10,10 @@ on:
     branches: [ master ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   dependency-scan:
     name: Dependency Vulnerability Scan
