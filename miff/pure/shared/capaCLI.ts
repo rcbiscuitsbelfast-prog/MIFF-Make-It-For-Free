@@ -359,7 +359,10 @@ Examples:
 // Run the CLI if this file is executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new CAPACLI();
-  cli.run().catch(console.error);
+  cli.run().catch((error) => {
+    console.error('CAPA CLI Error:', error);
+    process.exit(1);
+  });
 }
 
 export default CAPACLI;

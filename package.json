@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "ci:scenarios": "node scripts/ci-validate-scenarios.cjs",
+    "audit": "node scripts/audit/accessibility-audit.cjs && node scripts/audit/simple-coverage-analysis.cjs",
     "test": "jest --config jest.pure.config.cjs",
     "test:unit": "jest --config jest.pure.config.cjs",
     "test:ci": "npm run test:automation -- --ci",
