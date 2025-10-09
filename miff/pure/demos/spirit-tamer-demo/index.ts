@@ -13,13 +13,13 @@
  * - Save/load functionality
  */
 
-import { HealthSystemPure } from '../../HealthSystemPure/index';
-import { CombatPure } from '../../CombatPure/index';
-import { TeamsPure } from '../../TeamsPure/index';
-import { ItemsPure } from '../../ItemsPure/index';
-import { AIPure } from '../../AIPure/index';
-import { LogPure } from '../../LogPure/index';
-import { SavePure } from '../../SavePure/index';
+import { HealthSystemManager } from '../../HealthSystemPure/index';
+import { CombatManager } from '../../CombatPure/index';
+import { TeamsManager } from '../../TeamsPure/index';
+import { ItemsManager } from '../../ItemsPure/index';
+import { AIManager } from '../../AIPure/index';
+import { LogManager } from '../../LogPure/index';
+import { SaveManager } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
