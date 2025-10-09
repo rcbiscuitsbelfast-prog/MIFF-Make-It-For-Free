@@ -1,7 +1,7 @@
 // UnrealEditorHarnessPure - CLI harness for Unreal Editor testing
 // Schema Version: v1.0
 
-import { UnrealBridgeManager, UnrealDataType } from './index';
+import { UnrealBridgeManager, UnrealDataType, UnrealReplicationMode } from './index';
 import { AssetLoadingStrategy, AssetStreamingMode } from './UnrealAssetManagerPure';
 import { UnrealSceneType, UnrealWorldPartitionType, UnrealNavigationSystem, UnrealLightingSystem, UnrealPhysicsSystem, UnrealAudioSystem } from './UnrealSceneBuilderPure';
 import { SceneLayer, SceneOptimizationMode, SceneExportFormat } from '../SceneBuilderPure';
@@ -456,8 +456,8 @@ export class UnrealEditorHarnessPure {
         properties: {},
         tags: ['test'],
         netRole: 'authority' as const,
-        netMode: 'standalone',
-        replicationMode: 'none',
+        netMode: 'standalone' as const,
+        replicationMode: UnrealReplicationMode.NONE,
         tickEnabled: false,
         tickInterval: 0,
         tickGroup: 'TG_PostPhysics',
