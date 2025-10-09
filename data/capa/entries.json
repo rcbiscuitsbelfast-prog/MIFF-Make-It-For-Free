@@ -219,6 +219,84 @@
       "status": "resolved",
       "resolvedAt": "2025-10-09T12:29:26.520Z",
       "resolution": "Runtime fidelity system completed with mock replacement, transport layer implementation, and lifecycle hook management"
+    },
+    {
+      "title": "Mock/Stub Implementation Proliferation",
+      "description": "1,777 mock/stub instances across 169 files creating false system confidence and production failure risk",
+      "category": "stubbed_logic",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "All Modules"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760049357751-edo8uzbzr",
+      "discoveredAt": "2025-10-09T22:35:57.751Z",
+      "status": "open"
+    },
+    {
+      "title": "Capability System Underutilization",
+      "description": "Only 2 out of 174 modules implement MIFFCapable interface, architectural vision unrealized",
+      "category": "interface_safety",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "All Modules"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760049358559-4oblhdzt9",
+      "discoveredAt": "2025-10-09T22:35:58.559Z",
+      "status": "open"
+    },
+    {
+      "title": "Bridge Module Transport Layer Mocking",
+      "description": "Bridge modules using mock transport instead of real IPC/socket integration",
+      "category": "runtime_fidelity",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "UnityBridgePure,GodotBridgePure,WebSocketBridgePure"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760049360370-yf7gauy6n",
+      "discoveredAt": "2025-10-09T22:36:00.370Z",
+      "status": "open"
     }
   ]
 }
