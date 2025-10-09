@@ -257,7 +257,6 @@ export interface UnrealLightingSystemBridge {
   bUseHardwareRayTracing: boolean;
   bUseRayTracing: boolean;
   bUsePathTracing: boolean;
-  bUseVirtualShadowMaps: boolean;
   bUseSignedDistanceFields: boolean;
   bUseMeshDistanceFields: boolean;
   bUseGlobalDistanceField: boolean;
@@ -446,7 +445,6 @@ export class UnrealSceneBuilderPure {
       enableAudio: true,
       enableAnimations: true,
       enableParticles: true,
-      enablePostProcessing: true,
       maxRenderDistance: 10000,
       lodLevels: 4,
       textureQuality: 'high',
@@ -547,7 +545,6 @@ export class UnrealSceneBuilderPure {
       enableAudio: true,
       enableAnimations: true,
       enableParticles: true,
-      enablePostProcessing: false,
       maxRenderDistance: 2500,
       lodLevels: 3,
       textureQuality: 'high',
@@ -685,7 +682,6 @@ export class UnrealSceneBuilderPure {
           enableAudio: true,
           enableAnimations: true,
           enableParticles: true,
-          enablePostProcessing: true,
           maxRenderDistance: 5000,
           lodLevels: 3,
           textureQuality: 'high',

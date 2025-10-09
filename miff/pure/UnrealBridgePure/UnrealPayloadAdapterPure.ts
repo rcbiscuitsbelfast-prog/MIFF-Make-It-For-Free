@@ -1071,6 +1071,7 @@ export class UnrealPayloadAdapterPure {
             id: `skeletal_mesh_component_${index}`,
             name: `SkeletalMeshComponent_${index}`,
             className: 'SkeletalMeshComponent',
+            creationMethod: 'native',
             properties: {
               skeletalMesh: asset.assetPath,
               materials: skeletalMesh.materials?.map((material: any, matIndex: number) => ({
@@ -1399,7 +1400,7 @@ export class UnrealPayloadAdapterPure {
         bIsPartitioned: false,
         bIsWorldPartitioned: false,
         bCanBePartitioned: false,
-        localPlayerOverride: null,
+        localPlayerOverride: '',
         metadata: {
           sourcePayloadId: sourcePayload.id,
           conversionMode: 'level',
