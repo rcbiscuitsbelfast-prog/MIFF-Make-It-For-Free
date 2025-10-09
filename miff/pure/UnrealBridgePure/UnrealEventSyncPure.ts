@@ -724,7 +724,7 @@ export class UnrealEventSyncPure {
       if (!filter.enabled) continue;
 
       // Check event types
-      if (filter.eventTypes.length > 0 && !filter.eventTypes.includes(event.eventType)) {
+      if (filter.eventTypes.length > 0 && !filter.eventTypes.includes(event.eventType as UnrealEventType)) {
         continue;
       }
 
@@ -828,7 +828,7 @@ export class UnrealEventSyncPure {
     for (const transformer of this.eventTransformers.values()) {
       if (!transformer.enabled) continue;
 
-      if (transformer.eventTypes.includes(event.eventType)) {
+      if (transformer.eventTypes.includes(event.eventType as UnrealEventType)) {
         transformedEvent = await this.applyTransformer(transformedEvent, transformer);
         this.statistics.transformedEvents++;
       }
@@ -856,7 +856,7 @@ export class UnrealEventSyncPure {
     for (const validator of this.eventValidators.values()) {
       if (!validator.enabled) continue;
 
-      if (validator.eventTypes.includes(event.eventType)) {
+      if (validator.eventTypes.includes(event.eventType as UnrealEventType)) {
         const validationErrors = await this.applyValidator(event, validator);
         errors.push(...validationErrors);
         if (errors.length > 0) {
