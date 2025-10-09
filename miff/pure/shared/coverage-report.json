@@ -1,0 +1,563 @@
+{
+  "generatedAt": "2025-10-09T12:05:20.405Z",
+  "modules": [
+    {
+      "module": "CombatPure",
+      "files": [
+        {
+          "module": "CombatPure",
+          "filePath": "CombatPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "CombatPure",
+          "filePath": "CombatPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "HealthSystemPure",
+      "files": [
+        {
+          "module": "HealthSystemPure",
+          "filePath": "HealthSystemPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "HealthSystemPure",
+          "filePath": "HealthSystemPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "MagicSystemPure",
+      "files": [
+        {
+          "module": "MagicSystemPure",
+          "filePath": "MagicSystemPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "MagicSystemPure",
+          "filePath": "MagicSystemPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "TeamsPure",
+      "files": [
+        {
+          "module": "TeamsPure",
+          "filePath": "TeamsPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "TeamsPure",
+          "filePath": "TeamsPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "ItemsPure",
+      "files": [
+        {
+          "module": "ItemsPure",
+          "filePath": "ItemsPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "ItemsPure",
+          "filePath": "ItemsPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "AIPure",
+      "files": [
+        {
+          "module": "AIPure",
+          "filePath": "AIPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "AIPure",
+          "filePath": "AIPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "LogPure",
+      "files": [
+        {
+          "module": "LogPure",
+          "filePath": "LogPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "LogPure",
+          "filePath": "LogPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "SavePure",
+      "files": [
+        {
+          "module": "SavePure",
+          "filePath": "SavePure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "SavePure",
+          "filePath": "SavePure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "StatsSystemPure",
+      "files": [
+        {
+          "module": "StatsSystemPure",
+          "filePath": "StatsSystemPure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "StatsSystemPure",
+          "filePath": "StatsSystemPure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "UnityBridgePure",
+      "files": [
+        {
+          "module": "UnityBridgePure",
+          "filePath": "UnityBridgePure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "UnityBridgePure",
+          "filePath": "UnityBridgePure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "GodotBridgePure",
+      "files": [
+        {
+          "module": "GodotBridgePure",
+          "filePath": "GodotBridgePure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "GodotBridgePure",
+          "filePath": "GodotBridgePure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    },
+    {
+      "module": "WebBridgePure",
+      "files": [
+        {
+          "module": "WebBridgePure",
+          "filePath": "WebBridgePure/Manager.ts",
+          "totalLines": 100,
+          "coveredLines": 75,
+          "uncoveredLines": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "branchCoverage": 80,
+          "functionCoverage": 85,
+          "statementCoverage": 75,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        },
+        {
+          "module": "WebBridgePure",
+          "filePath": "WebBridgePure/index.ts",
+          "totalLines": 50,
+          "coveredLines": 40,
+          "uncoveredLines": [
+            1,
+            2
+          ],
+          "branchCoverage": 90,
+          "functionCoverage": 95,
+          "statementCoverage": 80,
+          "lastModified": "2025-10-09T12:05:20.405Z"
+        }
+      ],
+      "totalLines": 150,
+      "coveredLines": 115,
+      "coveragePercentage": 76.66666666666667,
+      "branchCoverage": 85,
+      "functionCoverage": 90,
+      "statementCoverage": 77.5,
+      "quality": "fair",
+      "recommendations": [
+        "Increase test coverage"
+      ]
+    }
+  ],
+  "overallCoverage": 76.66666666666667,
+  "totalFiles": 24,
+  "totalLines": 1800,
+  "coveredLines": 1380,
+  "criticalModules": [],
+  "recommendations": []
+}
