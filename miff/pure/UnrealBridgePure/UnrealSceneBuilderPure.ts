@@ -333,6 +333,16 @@ export interface UnrealPhysicsSystemBridge {
   maxAngularVelocity: number;
   linearVelocityTolerance: number;
   angularVelocityTolerance: number;
+  type: 'engine_subsystem' | 'editor_subsystem' | 'game_subsystem' | 'local_player_subsystem' | 'world_subsystem';
+  subsystemName: string;
+  moduleName: string;
+  priority: number;
+  enabled: boolean;
+  updateRate: number;
+  executionOrder: number;
+  dependencies: string[];
+  providesInterfaces: string[];
+  requiresInterfaces: string[];
   metadata: Record<string, any>;
 }
 
@@ -400,6 +410,16 @@ export interface UnrealAudioSystemBridge {
   bEnableSoundPluginStats: boolean;
   bEnableSoundPlatformStats: boolean;
   bEnableSoundEngineStats: boolean;
+  type: 'engine_subsystem' | 'editor_subsystem' | 'game_subsystem' | 'local_player_subsystem' | 'world_subsystem';
+  subsystemName: string;
+  moduleName: string;
+  priority: number;
+  enabled: boolean;
+  updateRate: number;
+  executionOrder: number;
+  dependencies: string[];
+  providesInterfaces: string[];
+  requiresInterfaces: string[];
   metadata: Record<string, any>;
 }
 
@@ -1075,6 +1095,16 @@ export class UnrealSceneBuilderPure {
       bUseStaticMeshDistanceFields: (config as any).enableStaticMeshDistanceFields,
       bUseSkeletalMeshDistanceFields: (config as any).enableSkeletalMeshDistanceFields,
       bUseLandscapeDistanceFields: (config as any).enableLandscapeDistanceFields,
+      type: 'world_subsystem',
+      subsystemName: 'LightingSystem',
+      moduleName: 'Engine',
+      priority: 200,
+      enabled: true,
+      updateRate: 0.1,
+      executionOrder: 1,
+      dependencies: [],
+      providesInterfaces: ['LightingSystem'],
+      requiresInterfaces: [],
       metadata: {
         configuration: config,
         creationTime: Date.now()
@@ -1130,6 +1160,16 @@ export class UnrealSceneBuilderPure {
       maxAngularVelocity: 4000.0,
       linearVelocityTolerance: 10.0,
       angularVelocityTolerance: 10.0,
+      type: 'world_subsystem',
+      subsystemName: 'PhysicsSystem',
+      moduleName: 'Engine',
+      priority: 300,
+      enabled: true,
+      updateRate: 0.1,
+      executionOrder: 2,
+      dependencies: [],
+      providesInterfaces: ['PhysicsSystem'],
+      requiresInterfaces: [],
       metadata: {
         configuration: config,
         creationTime: Date.now()
@@ -1202,6 +1242,16 @@ export class UnrealSceneBuilderPure {
       bEnableSoundPluginStats: false,
       bEnableSoundPlatformStats: false,
       bEnableSoundEngineStats: false,
+      type: 'world_subsystem',
+      subsystemName: 'AudioSystem',
+      moduleName: 'Engine',
+      priority: 400,
+      enabled: true,
+      updateRate: 0.1,
+      executionOrder: 3,
+      dependencies: [],
+      providesInterfaces: ['AudioSystem'],
+      requiresInterfaces: [],
       metadata: {
         configuration: config,
         creationTime: Date.now()

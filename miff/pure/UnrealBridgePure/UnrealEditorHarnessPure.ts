@@ -455,7 +455,7 @@ export class UnrealEditorHarnessPure {
         components: [],
         properties: {},
         tags: ['test'],
-        netRole: 'authority',
+        netRole: 'authority' as const,
         netMode: 'standalone',
         replicationMode: 'none',
         tickEnabled: false,
