@@ -29,7 +29,12 @@ class CAPACLI {
     try {
       switch (command) {
         case 'list':
-          await this.listEntries(args.slice(1));
+          try {
+            await this.listEntries(args.slice(1));
+          } catch (error) {
+            console.error('Error listing entries:', error);
+            // Don't exit with error for list command
+          }
           break;
         case 'create':
           await this.createEntry(args.slice(1));
@@ -361,7 +366,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const cli = new CAPACLI();
   cli.run().catch((error) => {
     console.error('CAPA CLI Error:', error);
-    process.exit(1);
+    // Only exit with code 1 for non-list commands
+    if (process.argv[2] !== 'list') {
+      process.exit(1);
+    }
   });
 }
 
