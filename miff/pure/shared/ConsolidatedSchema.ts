@@ -554,26 +554,9 @@ export class BridgeSchemaValidator {
 // ============================================================================
 
 export { ConsolidatedSchemaManager as SchemaManager };
-export { BridgeSchemaValidator };
 export { ValidationResult as SchemaValidationResult };
 
 // Re-export all types for compatibility
-export type {
-  RenderData,
-  RenderPayload,
-  RenderSignal,
-  Position3D,
-  EngineHints,
-  RenderDataType,
-  EntityID,
-  StatBlock,
-  ZoneRef,
-  EquipmentRef,
-  QuestRef,
-  SchemaDefinition,
-  FieldDefinition,
-  SchemaStats,
-  SchemaMigration
-};
+// Note: These types are defined in other modules and should be imported directly
 
 export default ConsolidatedSchemaManager;
