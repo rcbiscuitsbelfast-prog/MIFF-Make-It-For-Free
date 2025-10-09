@@ -1,7 +1,8 @@
 // UnrealEditorHarnessPure - CLI harness for Unreal Editor testing
 // Schema Version: v1.0
 
-import { UnrealBridgeManager } from './index';
+import { UnrealBridgeManager, UnrealDataType } from './index';
+import { UnrealSceneType } from './UnrealSceneBuilderPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
 import { UnrealSceneBuilderPure } from './UnrealSceneBuilderPure';
 import { UnrealAssetManagerPure } from './UnrealAssetManagerPure';
@@ -151,7 +152,7 @@ export class UnrealEditorHarnessPure {
     const staticMeshAsset = {
       id: 'test_static_mesh',
       name: 'TestStaticMesh',
-      type: 'static_mesh',
+      type: UnrealDataType.STATIC_MESH,
       packagePath: '/Game/MIFF/TestAssets',
       assetPath: '/Game/MIFF/TestAssets/TestStaticMesh',
       className: 'StaticMesh',
@@ -190,7 +191,7 @@ export class UnrealEditorHarnessPure {
     const materialAsset = {
       id: 'test_material',
       name: 'TestMaterial',
-      type: 'material',
+      type: UnrealDataType.MATERIAL,
       packagePath: '/Game/MIFF/TestAssets',
       assetPath: '/Game/MIFF/TestAssets/TestMaterial',
       className: 'Material',
@@ -278,7 +279,7 @@ export class UnrealEditorHarnessPure {
       motionBlur: false,
       depthOfField: true,
       colorGrading: true,
-      sceneType: 'level',
+      sceneType: UnrealSceneType.LEVEL,
       worldPartitionType: 'none',
       navigationSystem: 'default',
       lightingSystem: 'dynamic',
@@ -307,7 +308,6 @@ export class UnrealEditorHarnessPure {
       enableGlobalIllumination: false,
       enableReflections: false,
       enableTranslucency: false,
-      enablePostProcessing: false,
       enableAntiAliasing: false,
       enableAmbientOcclusion: false,
       enableBloom: false,
