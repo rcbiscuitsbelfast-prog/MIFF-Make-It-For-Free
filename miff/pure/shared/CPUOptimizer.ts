@@ -164,7 +164,7 @@ export class CPUOptimizer {
   /**
    * Cache a value
    */
-  cache(key: string, value: any, ttl: number = 300000): void { // 5 minutes default
+  cacheValue(key: string, value: any, ttl: number = 300000): void { // 5 minutes default
     if (!this.config.enableCaching) return;
 
     // Remove oldest entries if cache is full

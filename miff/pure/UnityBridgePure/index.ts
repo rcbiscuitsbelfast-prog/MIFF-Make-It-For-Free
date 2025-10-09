@@ -530,7 +530,7 @@ export class UnityBridgeManager {
   private services: Map<string, UnityServiceBridge> = new Map();
   private messageQueue: UnityMessage[] = [];
   private eventQueue: UnityEvent[] = [];
-  private commandQueue: UnityCommandExecution[] = [];
+  private commandQueue: UnityCommand[] = [];
   private queryQueue: UnityQuery[] = [];
   private responseQueue: UnityResponse[] = [];
   private performanceMetrics: UnityPerformanceMetrics;
@@ -1052,7 +1052,7 @@ export class UnityBridgeManager {
         error: {
           code: 'COMMAND_EXECUTION_FAILED',
           message: `Command execution failed: ${error}`,
-          context: { commandId: command.id },
+          context: { commandType: command.type },
           timestamp: Date.now(),
           severity: 'high',
           category: 'execution',
@@ -1117,10 +1117,10 @@ export class UnityBridgeManager {
   // Helper methods for command execution
   private async createGameObject(data: any): Promise<any> {
     const gameObject: UnityGameObject = {
+      id: data.id || `go_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: data.name || 'New GameObject',
-      active: data.active !== false,
-      layer: data.layer || 0,
-      tag: data.tag || 'Untagged'
+      transform: data.transform || {},
+      components: data.components || []
     };
     
     // In a real implementation, this would communicate with Unity

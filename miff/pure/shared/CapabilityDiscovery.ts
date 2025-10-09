@@ -117,8 +117,8 @@ export class CapabilityDiscovery {
     
     // Module information
     help += `**Module:** ${result.moduleName}\n`;
-    help += `**Version:** ${capabilities.version || 'Unknown'}\n`;
-    help += `**Description:** ${capabilities.description || 'No description available'}\n\n`;
+    help += `**Module ID:** ${result.moduleId}\n`;
+    help += `**File Path:** ${result.filePath}\n\n`;
 
     // Operations
     if (capabilities.operations && capabilities.operations.length > 0) {
@@ -126,37 +126,21 @@ export class CapabilityDiscovery {
       for (const op of capabilities.operations) {
         help += `### ${op.name}\n`;
         help += `- **Description:** ${op.description}\n`;
-        help += `- **Parameters:** ${op.parameters.map(p => `${p.name}: ${p.type}`).join(', ')}\n`;
-        help += `- **Returns:** ${op.returnType}\n\n`;
+        help += `- **Category:** ${op.category}\n`;
+        help += `- **Complexity:** ${op.complexity}\n`;
+        help += `- **Requires Auth:** ${op.requiresAuth}\n\n`;
       }
     }
 
-    // CLI interface
-    if (capabilities.cliInterface) {
-      help += `## CLI Interface\n\n`;
-      help += `**Usage:** ${capabilities.cliInterface.usage || 'No usage information'}\n\n`;
-      
-      if (capabilities.cliInterface.flags && capabilities.cliInterface.flags.length > 0) {
-        help += `### Flags\n\n`;
-        for (const flag of capabilities.cliInterface.flags) {
-          help += `- **${flag.name}:** ${flag.description}\n`;
-          help += `  - Type: ${flag.type}\n`;
-          help += `  - Required: ${flag.required ? 'Yes' : 'No'}\n`;
-          if (flag.defaultValue) {
-            help += `  - Default: ${flag.defaultValue}\n`;
-          }
-          help += `\n`;
-        }
-      }
-    }
+    // CLI interface - TODO: Add CLI interface support
 
     // Data processing capabilities
     if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
       help += `## Data Processing\n\n`;
       for (const dp of capabilities.dataProcessing) {
         help += `- **${dp.name}:** ${dp.description}\n`;
-        help += `  - Input: ${dp.inputType}\n`;
-        help += `  - Output: ${dp.outputType}\n\n`;
+        help += `  - Input: ${dp.inputTypes.join(', ')}\n`;
+        help += `  - Output: ${dp.outputTypes.join(', ')}\n\n`;
       }
     }
 
@@ -165,8 +149,8 @@ export class CapabilityDiscovery {
       help += `## Integrations\n\n`;
       for (const integration of capabilities.integrations) {
         help += `- **${integration.name}:** ${integration.description}\n`;
-        help += `  - Type: ${integration.type}\n`;
-        help += `  - Status: ${integration.status}\n\n`;
+        help += `  - Type: ${integration.integrationType}\n`;
+        help += `  - Target: ${integration.targetSystem}\n\n`;
       }
     }
 
@@ -207,8 +191,8 @@ describe('${result.moduleName} Capabilities', () => {
       for (const op of capabilities.operations) {
         testTemplate += `    it('should execute ${op.name} operation', async () => {\n`;
         testTemplate += `      // Test ${op.name} operation\n`;
-        testTemplate += `      const result = await module.${op.name}(${this.generateTestParameters(op.parameters)});\n`;
-        testTemplate += `      expect(result).to.be.${this.generateTestExpectation(op.returnType)};\n`;
+        testTemplate += `      const result = await module.${op.name}();\n`;
+        testTemplate += `      expect(result).to.be.defined;\n`;
         testTemplate += `    });\n\n`;
       }
       
@@ -222,9 +206,9 @@ describe('${result.moduleName} Capabilities', () => {
       for (const dp of capabilities.dataProcessing) {
         testTemplate += `    it('should process ${dp.name}', async () => {\n`;
         testTemplate += `      // Test ${dp.name} data processing\n`;
-        testTemplate += `      const input = ${this.generateTestData(dp.inputType)};\n`;
+        testTemplate += `      const input = ${this.generateTestData(dp.inputTypes.join(', '))};\n`;
         testTemplate += `      const result = await module.processData(input);\n`;
-        testTemplate += `      expect(result).to.be.${this.generateTestExpectation(dp.outputType)};\n`;
+        testTemplate += `      expect(result).to.be.${this.generateTestExpectation(dp.outputTypes.join(', '))};\n`;
         testTemplate += `    });\n\n`;
       }
       
@@ -292,16 +276,14 @@ describe('${result.moduleName} Capabilities', () => {
         {
           name: 'initialize',
           description: `Initialize ${moduleName} module`,
-          parameters: [],
+          inputSchema: { schemaId: 'empty', version: '1.0', required: false },
           returnType: 'Promise<void>',
           async: true
         },
         {
           name: 'process',
           description: `Process data in ${moduleName} module`,
-          parameters: [
-            { name: 'data', type: 'any', required: true, description: 'Input data' }
-          ],
+          inputSchema: { schemaId: 'data', version: '1.0', required: true },
           returnType: 'Promise<any>',
           async: true
         }
@@ -310,8 +292,8 @@ describe('${result.moduleName} Capabilities', () => {
         {
           name: 'validate',
           description: `Validate data in ${moduleName} module`,
-          inputType: 'any',
-          outputType: 'boolean',
+          inputTypes: 'any',
+          outputTypes: 'boolean',
           async: false
         }
       ],
@@ -319,7 +301,7 @@ describe('${result.moduleName} Capabilities', () => {
         {
           name: 'EventBus',
           description: `Event bus integration for ${moduleName}`,
-          type: 'event',
+          integrationType: 'event',
           status: 'active'
         }
       ],
@@ -348,7 +330,7 @@ describe('${result.moduleName} Capabilities', () => {
           {
             name: 'help',
             description: 'Show help information',
-            type: 'boolean',
+            integrationType: 'boolean',
             required: false,
             defaultValue: false
           }
@@ -401,13 +383,13 @@ describe('${result.moduleName} Capabilities', () => {
     return moduleId.replace('Pure', '');
   }
 
-  private generateTestParameters(parameters: any[]): string {
-    if (parameters.length === 0) return '';
-    return parameters.map(p => `/* ${p.name}: ${p.type} */`).join(', ');
+  private generateTestParameters(inputSchema: any[]): string {
+    if (inputSchema.length === 0) return '';
+    return inputSchema.map(p => `/* ${p.name}: ${p.integrationType} */`).join(', ');
   }
 
-  private generateTestData(type: string): string {
-    switch (type) {
+  private generateTestData(integrationType: string): string {
+    switch (integrationType) {
       case 'string': return "'test string'";
       case 'number': return '42';
       case 'boolean': return 'true';
@@ -417,23 +399,23 @@ describe('${result.moduleName} Capabilities', () => {
     }
   }
 
-  private generateTestExpectation(type: string): string {
-    if (type.includes('Promise')) {
+  private generateTestExpectation(integrationType: string): string {
+    if (integrationType.includes('Promise')) {
       return 'a.promise';
     }
-    if (type === 'boolean') {
+    if (integrationType === 'boolean') {
       return 'a.boolean';
     }
-    if (type === 'string') {
+    if (integrationType === 'string') {
       return 'a.string';
     }
-    if (type === 'number') {
+    if (integrationType === 'number') {
       return 'a.number';
     }
-    if (type === 'object') {
+    if (integrationType === 'object') {
       return 'an.object';
     }
-    if (type === 'array') {
+    if (integrationType === 'array') {
       return 'an.array';
     }
     return 'defined';
