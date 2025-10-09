@@ -127,7 +127,7 @@ jobs:
         else
           echo "### Push Coverage Analysis" >> test-coverage-regression-report.md
           echo "  - **Event:** Push to ${{ github.ref_name }}" >> test-coverage-regression-report.md
-          echo "  - **Coverage:** {{ steps.coverage-analysis.outputs.overall_coverage }}%" >> test-coverage-regression-report.md
+          echo "  - **Coverage:** ${{ steps.coverage-analysis.outputs.overall_coverage }}%" >> test-coverage-regression-report.md
           echo "regression_detected=false" >> $GITHUB_OUTPUT
         fi
 
