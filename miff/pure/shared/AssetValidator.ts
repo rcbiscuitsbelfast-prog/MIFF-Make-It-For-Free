@@ -5,6 +5,9 @@
  * and asset mapping verification across the MIFF framework.
  */
 
+import * as fs from 'fs';
+import * as path from 'path';
+
 export interface AssetReference {
   id: string;
   path: string;

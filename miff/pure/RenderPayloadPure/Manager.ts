@@ -5,7 +5,8 @@
  * frame building, asset management, animation sequences, and export adapters.
  */
 
-import { RenderPayload, RenderData, BridgeSchemaValidator  } from '../shared/ConsolidatedSchema';
+import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
+import { RenderPayload, RenderData } from '../shared/ConsolidatedSchema';
 
 export interface FrameBuildOptions {
   timestamp?: string;
@@ -368,7 +369,7 @@ export class RenderPayloadManager {
       return { ok: false, errors: [`Frame ${frameId} not found`] };
     }
 
-    const issues = BridgeSchemaValidator.validateRenderPayload(frame);
+    const issues = BridgeSchemaValidator.validateRenderData(frame);
     return { ok: true, validation: { issues, valid: issues.length === 0 } };
   }
 

@@ -81,6 +81,45 @@ export interface BridgeConfig {
 
 // Utility functions for schema validation and conversion
 export class BridgeSchemaValidator {
+  static validateRenderPayload(payload: any): string[] {
+    const issues: string[] = [];
+
+    // Check if it's the BridgeSchemaPure RenderPayload format
+    if (payload.op !== undefined) {
+      // BridgeSchemaPure format
+      if (!payload.op) {
+        issues.push('RenderPayload must have an op');
+      }
+      if (!payload.status) {
+        issues.push('RenderPayload must have a status');
+      }
+    } else {
+      // ConsolidatedSchema format
+      if (!payload.version) {
+        issues.push('RenderPayload must have a version');
+      }
+      if (!payload.engine) {
+        issues.push('RenderPayload must have an engine');
+      }
+    }
+
+    if (!payload.renderData || !Array.isArray(payload.renderData)) {
+      issues.push('RenderPayload must have renderData array');
+    }
+
+    // Validate each render data item
+    if (payload.renderData) {
+      payload.renderData.forEach((data: any, index: number) => {
+        const dataIssues = this.validateRenderData(data);
+        dataIssues.forEach(issue => {
+          issues.push(`RenderData[${index}]: ${issue}`);
+        });
+      });
+    }
+
+    return issues;
+  }
+
   static validateRenderData(data: RenderData): string[] {
     const issues: string[] = [];
 
@@ -162,40 +201,6 @@ export class BridgeSchemaValidator {
     return issues;
   }
 
-  static validateRenderPayload(payload: RenderPayload): string[] {
-    const issues: string[] = [];
-
-    // Required fields
-    if (!payload.op) {
-      issues.push('RenderPayload must have an op');
-    }
-    if (!payload.status) {
-      issues.push('RenderPayload must have a status');
-    }
-    if (!Array.isArray(payload.renderData)) {
-      issues.push('RenderPayload renderData must be an array');
-    }
-
-    // Status validation
-    if (payload.status && !['ok', 'error'].includes(payload.status)) {
-      issues.push('Status must be "ok" or "error"');
-    }
-
-    // RenderData validation
-    if (payload.renderData) {
-      payload.renderData.forEach((data, index) => {
-        const dataIssues = this.validateRenderData(data);
-        dataIssues.forEach(issue => issues.push(`RenderData ${index}: ${issue}`));
-      });
-    }
-
-    // Issues validation
-    if (payload.issues && !Array.isArray(payload.issues)) {
-      issues.push('Issues must be an array');
-    }
-
-    return issues;
-  }
 
   static convertFromUnity(unityData: any): RenderData {
     return {

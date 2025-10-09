@@ -1,5 +1,6 @@
 // ConvertToWebPure - Convert unified render payloads to Web-friendly data
-import { RenderPayload, RenderData, BridgeSchemaValidator  } from '../shared/ConsolidatedSchema';
+import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
+import { RenderPayload, RenderData } from '../shared/ConsolidatedSchema';
 
 export interface WebConvertedPayload {
   op: 'convert';

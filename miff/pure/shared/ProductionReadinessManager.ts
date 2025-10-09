@@ -5,6 +5,10 @@
  * environment configuration, and monitoring system management.
  */
 
+import { AuthenticationSystem } from './AuthenticationSystem.js';
+import { SessionManager } from './SessionManager.js';
+import { MonitoringSystem } from './MonitoringSystem.js';
+
 export interface ProductionReadinessCheck {
   id: string;
   category: 'security' | 'performance' | 'reliability' | 'scalability' | 'monitoring' | 'deployment';
@@ -118,11 +122,59 @@ export class ProductionReadinessManager {
   private environments: Map<string, DeploymentEnvironment> = new Map();
   private pipelines: Map<string, DeploymentPipeline> = new Map();
   private report: ProductionReadinessReport | null = null;
+  
+  // New production systems
+  private authSystem: AuthenticationSystem;
+  private sessionManager: SessionManager;
+  private monitoringSystem: MonitoringSystem;
 
   constructor() {
     this.initializeDefaultChecks();
     this.initializeDefaultEnvironments();
     this.initializeDefaultPipelines();
+    
+    // Initialize production systems
+    this.authSystem = new AuthenticationSystem({
+      jwtSecret: process.env.JWT_SECRET || 'production-secret-key',
+      jwtExpiration: 3600, // 1 hour
+      refreshTokenExpiration: 604800, // 7 days
+      sessionTimeout: 1800, // 30 minutes
+      maxSessionsPerUser: 5,
+      passwordMinLength: 8,
+      requireEmailVerification: true,
+      enableTwoFactor: false,
+      rateLimitPerMinute: 10
+    });
+    
+    this.sessionManager = new SessionManager(this.authSystem, {
+      maxSessionsPerUser: 5,
+      sessionTimeout: 1800, // 30 minutes
+      cleanupInterval: 300, // 5 minutes
+      enableSessionPersistence: true,
+      enableSessionEncryption: true,
+      enableSessionMonitoring: true,
+      maxInactiveTime: 900, // 15 minutes
+      enableConcurrentSessionControl: true
+    });
+    
+    this.monitoringSystem = new MonitoringSystem({
+      enabled: true,
+      collectionInterval: 30, // 30 seconds
+      retentionPeriod: 7, // 7 days
+      alertThresholds: {
+        cpuUsage: 80,
+        memoryUsage: 85,
+        diskUsage: 90,
+        errorRate: 5,
+        responseTime: 1000
+      },
+      notifications: {
+        email: false,
+        webhook: false,
+        log: true,
+        console: true
+      }
+    });
   }
 
   /**
@@ -134,6 +186,11 @@ export class ProductionReadinessManager {
     try {
       // Run all production readiness checks
       await this.runAllChecks();
+      
+      // Check new production systems
+      await this.checkAuthenticationSystem();
+      await this.checkSessionManagement();
+      await this.checkMonitoringSystem();
       
       // Assess environments
       await this.assessEnvironments();
@@ -695,6 +752,130 @@ export class ProductionReadinessManager {
 
     for (const pipeline of defaultPipelines) {
       this.pipelines.set(pipeline.id, pipeline);
+    }
+  }
+
+  /**
+   * Check authentication system
+   */
+  private async checkAuthenticationSystem(): Promise<void> {
+    const check: ProductionReadinessCheck = {
+      id: 'auth_system',
+      category: 'security',
+      name: 'JWT Authentication System',
+      description: 'JWT-based authentication system with user management',
+      status: 'pass',
+      severity: 'critical',
+      details: 'Authentication system is properly configured and operational',
+      recommendations: [],
+      lastChecked: new Date()
+    };
+
+    try {
+      // Test authentication system
+      const authStats = this.authSystem.getStats();
+      
+      if (authStats.totalUsers === 0) {
+        check.status = 'fail';
+        check.details = 'No users configured in authentication system';
+        check.recommendations.push('Create default admin user');
+      } else if (authStats.activeUsers === 0) {
+        check.status = 'warning';
+        check.details = 'No active users in authentication system';
+        check.recommendations.push('Ensure at least one active user exists');
+      } else {
+        check.details = `Authentication system operational with ${authStats.activeUsers} active users`;
+      }
+
+      this.checks.set(check.id, check);
+    } catch (error) {
+      check.status = 'fail';
+      check.details = `Authentication system error: ${error instanceof Error ? error.message : error}`;
+      check.recommendations.push('Fix authentication system configuration');
+      this.checks.set(check.id, check);
+    }
+  }
+
+  /**
+   * Check session management
+   */
+  private async checkSessionManagement(): Promise<void> {
+    const check: ProductionReadinessCheck = {
+      id: 'session_management',
+      category: 'security',
+      name: 'Session Management System',
+      description: 'Session management with cleanup and monitoring',
+      status: 'pass',
+      severity: 'high',
+      details: 'Session management system is properly configured',
+      recommendations: [],
+      lastChecked: new Date()
+    };
+
+    try {
+      // Test session management
+      const sessionStats = this.sessionManager.getStats();
+      
+      if (sessionStats.totalSessions === 0) {
+        check.status = 'warning';
+        check.details = 'No sessions in session management system';
+        check.recommendations.push('Test session creation');
+      } else {
+        check.details = `Session management operational with ${sessionStats.activeSessions} active sessions`;
+      }
+
+      this.checks.set(check.id, check);
+    } catch (error) {
+      check.status = 'fail';
+      check.details = `Session management error: ${error instanceof Error ? error.message : error}`;
+      check.recommendations.push('Fix session management configuration');
+      this.checks.set(check.id, check);
+    }
+  }
+
+  /**
+   * Check monitoring system
+   */
+  private async checkMonitoringSystem(): Promise<void> {
+    const check: ProductionReadinessCheck = {
+      id: 'monitoring_system',
+      category: 'monitoring',
+      name: 'Monitoring and Alerting System',
+      description: 'Comprehensive monitoring with metrics collection and alerting',
+      status: 'pass',
+      severity: 'high',
+      details: 'Monitoring system is properly configured and operational',
+      recommendations: [],
+      lastChecked: new Date()
+    };
+
+    try {
+      // Test monitoring system
+      const dashboardData = this.monitoringSystem.getDashboardData();
+      
+      if (!dashboardData.system) {
+        check.status = 'warning';
+        check.details = 'No system metrics available';
+        check.recommendations.push('Ensure monitoring system is collecting metrics');
+      } else {
+        const cpuUsage = dashboardData.system.cpu.usage;
+        const memoryUsage = dashboardData.system.memory.usage;
+        
+        if (cpuUsage > 90 || memoryUsage > 90) {
+          check.status = 'warning';
+          check.details = `High resource usage: CPU ${cpuUsage.toFixed(1)}%, Memory ${memoryUsage.toFixed(1)}%`;
+          check.recommendations.push('Monitor resource usage and consider scaling');
+        } else {
+          check.details = `Monitoring system operational - CPU: ${cpuUsage.toFixed(1)}%, Memory: ${memoryUsage.toFixed(1)}%`;
+        }
+      }
+
+      this.checks.set(check.id, check);
+    } catch (error) {
+      check.status = 'fail';
+      check.details = `Monitoring system error: ${error instanceof Error ? error.message : error}`;
+      check.recommendations.push('Fix monitoring system configuration');
+      this.checks.set(check.id, check);
     }
   }
 }

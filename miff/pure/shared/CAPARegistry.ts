@@ -284,6 +284,7 @@ export class CAPARegistryManager {
       description: '177+ schema references across modules with potential conflicts between BridgeSchemaPure, SharedSchemaPure, and module-specific schemas',
       category: CAPACategory.SCHEMA_DRIFT,
       severity: CAPASeverity.CRITICAL,
+      discoveredBy: 'Comprehensive Audit',
       impact: {
         modulesAffected: ['BridgeSchemaPure', 'SharedSchemaPure', 'AvatarSystemPure'],
         usersAffected: ['All Contributors'],
@@ -305,6 +306,7 @@ export class CAPARegistryManager {
       description: '357+ migration references found with no centralized migration system, scattered module-specific migration logic',
       category: CAPACategory.MIGRATION_GAPS,
       severity: CAPASeverity.CRITICAL,
+      discoveredBy: 'Comprehensive Audit',
       impact: {
         modulesAffected: ['All Modules'],
         usersAffected: ['All Contributors'],
@@ -326,6 +328,7 @@ export class CAPARegistryManager {
       description: '1,350+ mock/stub instances across codebase masking real behavior and creating false test confidence',
       category: CAPACategory.STUBBED_LOGIC,
       severity: CAPASeverity.HIGH,
+      discoveredBy: 'Comprehensive Audit',
       impact: {
         modulesAffected: ['EffectsPure', 'MagicSystemPure', 'FusionPure'],
         usersAffected: ['All Contributors'],
@@ -347,6 +350,7 @@ export class CAPARegistryManager {
       description: '711+ asset references without existence validation, potential broken pipelines and missing assets',
       category: CAPACategory.ASSET_PIPELINE,
       severity: CAPASeverity.HIGH,
+      discoveredBy: 'Comprehensive Audit',
       impact: {
         modulesAffected: ['UnityBridgePure', 'GodotBridgePure', 'UnrealBridgePure'],
         usersAffected: ['All Contributors'],
@@ -368,6 +372,7 @@ export class CAPARegistryManager {
       description: 'Inconsistent interface patterns, mixed safety levels, documentation gaps across modules',
       category: CAPACategory.INTERFACE_SAFETY,
       severity: CAPASeverity.MEDIUM,
+      discoveredBy: 'Comprehensive Audit',
       impact: {
         modulesAffected: ['All CLI Harnesses'],
         usersAffected: ['All Contributors'],
@@ -389,6 +394,7 @@ export class CAPARegistryManager {
       description: '99+ lifecycle/transport references with mock implementations, simulation vs reality gaps',
       category: CAPACategory.RUNTIME_FIDELITY,
       severity: CAPASeverity.MEDIUM,
+      discoveredBy: 'Comprehensive Audit',
       impact: {
         modulesAffected: ['NetworkBridgePure', 'UnityBridgePure', 'GodotBridgePure'],
         usersAffected: ['All Contributors'],
