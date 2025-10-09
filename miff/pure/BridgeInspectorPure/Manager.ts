@@ -1,7 +1,7 @@
 // BridgeInspectorPure - Bridge inspection and validation tool for MIFF engine bridges
 // Schema Version: v1
 
-import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
+import { BridgeSchemaValidator, RenderSignal } from '../BridgeSchemaPure/schema';
 import { RenderData, RenderPayload } from '../shared/ConsolidatedSchema';
 import fs from 'fs';
 import path from 'path';
@@ -404,8 +404,8 @@ export class BridgeInspectorManager {
           totalSignals++;
 
           // Count by engine
-          if (signal.engine) {
-            engineSpecific[signal.engine] = (engineSpecific[signal.engine] || 0) + 1;
+          if ((signal as any).engine) {
+            engineSpecific[(signal as any).engine] = (engineSpecific[(signal as any).engine] || 0) + 1;
           } else {
             orphanedSignals.push(`Signal ${signal.name} has no engine specified`);
           }

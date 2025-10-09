@@ -394,7 +394,7 @@ export class DebugOverlayManager {
       // Collect comprehensive debug information
       const debugInfo = this.extractAdvancedDebugInfo(payload);
       const renderData = this.extractRenderData(payload);
-      const issues = payload.issues || [];
+      const issues = payload.metadata?.issues || [];
       const annotations = this.generateAnnotations(payload);
       const visualizations = this.generateVisualizations(payload);
       const alerts = [...this.alerts];
@@ -719,9 +719,9 @@ export class DebugOverlayManager {
       ?.reduce((total, data) => total + (data.signals?.length || 0), 0) || 0;
 
     return {
-      op: payload.op,
-      status: payload.status,
-      issues: payload.issues,
+      op: payload.metadata?.op || 'unknown',
+      status: payload.metadata?.status || 'unknown',
+      issues: payload.metadata?.issues || [],
       timestamp: new Date().toISOString(),
       renderDataCount: payload.renderData?.length || 0,
       engineHints: uniqueEngineHints,
@@ -755,10 +755,10 @@ export class DebugOverlayManager {
     const annotations: string[] = [];
 
     // Add operation annotation
-    annotations.push(`Operation: ${payload.op}`);
+    annotations.push(`Operation: ${payload.metadata?.op || 'unknown'}`);
 
     // Add status annotation
-    annotations.push(`Status: ${payload.status}`);
+    annotations.push(`Status: ${payload.metadata?.status || 'unknown'}`);
 
     // Add renderData count annotation
     if (payload.renderData) {

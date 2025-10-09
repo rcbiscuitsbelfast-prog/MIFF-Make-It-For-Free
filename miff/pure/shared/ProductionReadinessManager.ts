@@ -987,6 +987,48 @@ export class ProductionReadinessManager {
       this.checks.set(check.id, check);
     }
   }
+
+  /**
+   * Check security hardening
+   */
+  private async checkSecurityHardening(): Promise<void> {
+    const check: ProductionReadinessCheck = {
+      id: 'security_hardening',
+      category: 'security',
+      name: 'Security Hardening System',
+      description: 'Comprehensive security hardening with audit and monitoring',
+      status: 'pass',
+      severity: 'critical',
+      details: 'Security hardening system is properly configured and operational',
+      recommendations: [],
+      lastChecked: new Date()
+    };
+
+    try {
+      // Test security hardening system
+      const audit = await this.securityHardening.runSecurityAudit();
+      
+      if (audit.score >= 80) {
+        check.status = 'pass';
+        check.details = `Security hardening operational with score ${audit.score}/100`;
+      } else if (audit.score >= 60) {
+        check.status = 'warning';
+        check.details = `Security hardening needs improvement - score ${audit.score}/100`;
+        check.recommendations = audit.recommendations.slice(0, 3);
+      } else {
+        check.status = 'fail';
+        check.details = `Security hardening critical issues - score ${audit.score}/100`;
+        check.recommendations = audit.recommendations.slice(0, 5);
+      }
+
+      this.checks.set(check.id, check);
+    } catch (error) {
+      check.status = 'fail';
+      check.details = `Security hardening error: ${error instanceof Error ? error.message : error}`;
+      check.recommendations.push('Fix security hardening configuration');
+      this.checks.set(check.id, check);
+    }
+  }
 }
 
 export default ProductionReadinessManager;
