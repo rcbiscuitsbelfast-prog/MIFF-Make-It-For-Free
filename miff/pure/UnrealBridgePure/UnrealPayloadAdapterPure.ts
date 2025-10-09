@@ -2,7 +2,7 @@
 // Schema Version: v1.0
 
 import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure/Manager';
-import { UnrealDataType, type UnrealCollisionChannel, type UnrealReplicationMode, UnrealTickGroup } from './index';
+import { UnrealDataType, type UnrealCollisionChannel, UnrealReplicationMode, UnrealTickGroup } from './index';
 import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealAssetBridge, UnrealSceneBridge } from './index';
 
 export enum PayloadConversionMode {
@@ -784,6 +784,7 @@ export class UnrealPayloadAdapterPure {
             className: 'StaticMesh',
             dependencies: [],
             references: [],
+            interfaces: [],
             thumbnailInfo: null,
             assetBundleData: null,
             assetRegistryTags: null,
@@ -918,12 +919,12 @@ export class UnrealPayloadAdapterPure {
                   physics_body: 'block',
                   vehicle: 'block',
                   destructible: 'block',
-                  projectile: 'block',
-                  cloth: 'block',
-                  fluid: 'block',
-                  custom_1: 'block',
-                  custom_2: 'block',
-                  custom_3: 'block'
+                  engine_trace_channel1: 'block',
+                  engine_trace_channel2: 'block',
+                  engine_trace_channel3: 'block',
+                  engine_trace_channel4: 'block',
+                  engine_trace_channel5: 'block',
+                  engine_trace_channel6: 'block'
                 },
                 generateOverlapEvents: false,
                 physicsVolumeChanged: false,
@@ -1020,12 +1021,13 @@ export class UnrealPayloadAdapterPure {
           const asset: UnrealAssetBridge = {
             id: assetId,
             name: `SkeletalMesh_${index}`,
-            type: 'skeletal_mesh',
+            type: UnrealDataType.SKELETAL_MESH,
             packagePath: '/Game/MIFF/SkeletalMeshes',
             assetPath: `/Game/MIFF/SkeletalMeshes/SkeletalMesh_${index}`,
             className: 'SkeletalMesh',
             dependencies: [],
             references: [],
+            interfaces: [],
             thumbnailInfo: null,
             assetBundleData: null,
             assetRegistryTags: null,
