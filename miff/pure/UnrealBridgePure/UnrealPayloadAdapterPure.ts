@@ -847,6 +847,7 @@ export class UnrealPayloadAdapterPure {
                 id: `static_mesh_component_${index}`,
                 name: `StaticMeshComponent_${index}`,
                 className: 'StaticMeshComponent',
+                creationMethod: 'native',
                 properties: {
                   staticMesh: asset.assetPath,
                   materials: mesh.materials?.map((material: any, matIndex: number) => ({
@@ -1164,14 +1165,20 @@ export class UnrealPayloadAdapterPure {
             collisionEnabled: 'query_and_physics',
             collisionProfileName: 'Pawn',
             collisionResponses: {
-              'WorldStatic': 'block',
-              'WorldDynamic': 'block',
-              'Pawn': 'block',
-              'Visibility': 'ignore',
-              'Camera': 'ignore',
-              'PhysicsBody': 'block',
-              'Vehicle': 'block',
-              'Destructible': 'block'
+              world_static: 'block',
+              world_dynamic: 'block',
+              pawn: 'block',
+              visibility: 'ignore',
+              camera: 'ignore',
+              physics_body: 'block',
+              vehicle: 'block',
+              destructible: 'block',
+              engine_trace_channel1: 'block',
+              engine_trace_channel2: 'block',
+              engine_trace_channel3: 'block',
+              engine_trace_channel4: 'block',
+              engine_trace_channel5: 'block',
+              engine_trace_channel6: 'block'
             },
             generateOverlapEvents: true,
             physicsVolumeChanged: false,
@@ -1295,7 +1302,7 @@ export class UnrealPayloadAdapterPure {
       const blueprintAsset: UnrealAssetBridge = {
         id: `blueprint_${Date.now()}`,
         name: 'MIFFBlueprint',
-        type: 'blueprint',
+        type: UnrealDataType.OBJECT,
         packagePath: '/Game/MIFF/Blueprints',
         assetPath: '/Game/MIFF/Blueprints/MIFFBlueprint',
         className: 'Blueprint',
@@ -1392,6 +1399,7 @@ export class UnrealPayloadAdapterPure {
         bIsPartitioned: false,
         bIsWorldPartitioned: false,
         bCanBePartitioned: false,
+        localPlayerOverride: null,
         metadata: {
           sourcePayloadId: sourcePayload.id,
           conversionMode: 'level',
