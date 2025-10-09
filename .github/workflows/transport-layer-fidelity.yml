@@ -281,7 +281,7 @@ jobs:
         echo "- **Timestamp:** $(date)" >> transport-fidelity-summary.md
         echo "- **Branch:** ${{ github.ref_name }}" >> transport-fidelity-summary.md
         echo "- **Commit:** ${{ github.sha }}" >> transport-fidelity-summary.md
-        echo "" >> lifecycle-coverage-summary.md
+        echo "" >> transport-fidelity-summary.md
         
         echo "### Fidelity Statistics" >> transport-fidelity-summary.md
         echo "- **Overall coverage:** {{ steps.analyze-transport.outputs.overall_coverage }}%" >> transport-fidelity-summary.md

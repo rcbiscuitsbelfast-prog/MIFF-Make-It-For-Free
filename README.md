@@ -55,6 +55,57 @@
 
 ---
 
+## ⚙️ **Workflow Registry and CI/CD Overview**
+
+### **🔄 Comprehensive Automation**
+MIFF includes **18 active workflows** covering all aspects of development, quality assurance, and contributor safety:
+
+#### **Core CI/CD (6 workflows)**
+- **audit-ci.yml** - Comprehensive audits and coverage analysis
+- **ci-core.yml** - Core CI pipeline with testing and validation
+- **test-coverage.yml** - Test coverage validation and reporting
+- **build-deploy.yml** - Build and deployment automation
+- **coverage.yml** - Coverage report generation and upload
+- **testing.yml** - Test suite execution and validation
+
+#### **Quality Assurance (6 workflows)**
+- **capa-validation.yml** - CAPA enforcement and PR blocking (Critical)
+- **schema-drift-detection.yml** - Schema consistency validation (High)
+- **cli-harness-validation.yml** - CLI structure validation (High)
+- **lifecycle-hook-coverage.yml** - Lifecycle implementation analysis (Medium)
+- **transport-layer-fidelity.yml** - Transport layer quality checks (Medium)
+- **test-coverage-regression.yml** - Coverage regression detection (High)
+
+#### **Security & Monitoring (3 workflows)**
+- **security-scan.yml** - Weekly vulnerability scanning (Critical)
+- **security.yml** - Security validation on every PR (Critical)
+- **monitoring.yml** - Performance and health monitoring (Medium)
+
+#### **Documentation & Maintenance (3 workflows)**
+- **lighthouse-ci.yml** - Lighthouse performance testing
+- **link-check.yml** - Broken link detection
+- **maintenance.yml** - Repository maintenance tasks
+- **release.yml** - Automated release process
+
+### **🛡️ CAPA Integration**
+- **Critical workflows** can block PRs with architectural issues
+- **High priority workflows** enforce quality standards
+- **Automated CAPA entry generation** for detected issues
+- **PR impact statements** for affected modules
+
+### **📊 Quality Gates**
+- **Test Coverage:** 80%+ (enforced)
+- **Schema Coverage:** 90%+ (target)
+- **CLI Coverage:** 95%+ (target)
+- **Security:** 100% compliance (required)
+
+### **📖 Workflow Documentation**
+- **[Complete Workflow Registry](docs/workflows/workflow-registry.md)** - All workflows documented
+- **[CAPA Workflow Guide](docs/contributor-guides/capa-workflow.md)** - CAPA system usage
+- **[Contributor Onboarding](docs/contributors/onboarding.md)** - Getting started guide
+
+---
+
 ## 🌐 **MIFF Unified Experience Hub**
 
 ### **🎮 Complete MIFF Ecosystem**
