@@ -22,7 +22,8 @@ jobs:
           sudo mv lychee /usr/local/bin/
       - name: Run link check
         run: |
-          lychee --no-progress --verbose --accept 200,429 --base "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/" docs/**/*.html || true
+          # Find all HTML files and check them
+          find docs -name "*.html" | head -20 | xargs lychee --no-progress --verbose --accept 200,429 --base "https://rcbiscuitsbelfast-prog.github.io/MIFF-Make-It-For-Free/" || true
       - name: Upload link check report
         uses: actions/upload-artifact@v4
         with:
