@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-09T14:04:25.923Z",
+  "timestamp": "2025-10-09T14:26:59.343Z",
   "overallScore": 30,
   "readinessLevel": "not_ready",
   "checks": [
@@ -10,68 +10,68 @@
       "description": "Verify SSL/TLS is properly configured",
       "status": "warning",
       "severity": "critical",
-      "details": "Check passed with warnings",
+      "details": "SSL/TLS configuration available but not enforced in development",
       "recommendations": [
-        "Enable SSL/TLS",
+        "Enable SSL/TLS for production",
         "Configure proper certificates"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.335Z"
     },
     {
       "id": "security_auth",
       "category": "security",
       "name": "Authentication System",
       "description": "Verify authentication system is properly configured",
-      "status": "fail",
+      "status": "pass",
       "severity": "high",
-      "details": "Check failed - requires attention",
+      "details": "Authentication system operational with 4 active users",
       "recommendations": [
         "Implement JWT authentication",
         "Configure session management"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.335Z"
     },
     {
       "id": "performance_memory",
       "category": "performance",
       "name": "Memory Usage",
       "description": "Check memory usage and optimization",
-      "status": "fail",
+      "status": "pass",
       "severity": "medium",
-      "details": "Check failed - requires attention",
+      "details": "Memory usage normal: 7.35MB",
       "recommendations": [
         "Optimize memory usage",
         "Implement memory monitoring"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.342Z"
     },
     {
       "id": "performance_cpu",
       "category": "performance",
       "name": "CPU Performance",
       "description": "Check CPU performance and optimization",
-      "status": "pass",
+      "status": "fail",
       "severity": "medium",
-      "details": "Check passed successfully",
+      "details": "CPU usage high: unknown%",
       "recommendations": [
         "Optimize CPU usage",
         "Implement CPU monitoring"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.342Z"
     },
     {
       "id": "reliability_uptime",
       "category": "reliability",
       "name": "System Uptime",
       "description": "Verify system uptime and availability",
-      "status": "pass",
+      "status": "warning",
       "severity": "high",
-      "details": "Check passed successfully",
+      "details": "Check passed with warnings",
       "recommendations": [
         "Implement health checks",
         "Configure auto-restart"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.342Z"
     },
     {
       "id": "monitoring_logs",
@@ -85,21 +85,21 @@
         "Configure structured logging",
         "Set up log aggregation"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.342Z"
     },
     {
       "id": "deployment_pipeline",
       "category": "deployment",
       "name": "Deployment Pipeline",
       "description": "Verify deployment pipeline is properly configured",
-      "status": "fail",
+      "status": "warning",
       "severity": "high",
-      "details": "Check failed - requires attention",
+      "details": "Deployment pipeline configured but not tested",
       "recommendations": [
-        "Set up CI/CD pipeline",
-        "Configure automated testing"
+        "Test deployment pipeline",
+        "Configure production environment"
       ],
-      "lastChecked": "2025-10-09T14:04:25.922Z"
+      "lastChecked": "2025-10-09T14:26:59.342Z"
     },
     {
       "id": "auth_system",
@@ -110,7 +110,7 @@
       "severity": "critical",
       "details": "Authentication system operational with 4 active users",
       "recommendations": [],
-      "lastChecked": "2025-10-09T14:04:25.923Z"
+      "lastChecked": "2025-10-09T14:26:59.343Z"
     },
     {
       "id": "session_management",
@@ -123,7 +123,7 @@
       "recommendations": [
         "Test session creation"
       ],
-      "lastChecked": "2025-10-09T14:04:25.923Z"
+      "lastChecked": "2025-10-09T14:26:59.343Z"
     },
     {
       "id": "monitoring_system",
@@ -136,7 +136,7 @@
       "recommendations": [
         "Ensure monitoring system is collecting metrics"
       ],
-      "lastChecked": "2025-10-09T14:04:25.923Z"
+      "lastChecked": "2025-10-09T14:26:59.343Z"
     }
   ],
   "environments": [
@@ -227,21 +227,21 @@
         }
       ],
       "status": "active",
-      "lastRun": "2025-10-09T14:04:25.916Z",
-      "successRate": 86.21270623704353
+      "lastRun": "2025-10-09T14:26:59.332Z",
+      "successRate": 44.05198463404145
     }
   ],
   "recommendations": [
-    "Enable SSL/TLS",
+    "Enable SSL/TLS for production",
     "Configure proper certificates",
-    "Implement JWT authentication",
-    "Configure session management",
-    "Optimize memory usage",
-    "Implement memory monitoring",
+    "Optimize CPU usage",
+    "Implement CPU monitoring",
+    "Implement health checks",
+    "Configure auto-restart",
     "Configure structured logging",
     "Set up log aggregation",
-    "Set up CI/CD pipeline",
-    "Configure automated testing",
+    "Test deployment pipeline",
+    "Configure production environment",
     "Test session creation",
     "Ensure monitoring system is collecting metrics"
   ],

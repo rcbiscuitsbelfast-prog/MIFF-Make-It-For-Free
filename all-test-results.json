@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-09T13:22:20.585Z",
+  "timestamp": "2025-10-09T14:19:14.647Z",
   "overallStatus": "ready",
   "readinessScore": 100,
   "testSuites": [
@@ -9,7 +9,7 @@
       "type": "end_to_end",
       "description": "Comprehensive end-to-end testing of all MIFF modules",
       "status": "passed",
-      "duration": 1320,
+      "duration": 2135,
       "testCases": [
         {
           "id": "e2e_001",
@@ -23,7 +23,7 @@
               "expected": "Framework initialized successfully",
               "actual": "Framework initialized successfully",
               "status": "passed",
-              "duration": 516
+              "duration": 980
             },
             {
               "id": "step_002",
@@ -32,7 +32,7 @@
               "expected": "Game project created successfully",
               "actual": "Game project created successfully",
               "status": "passed",
-              "duration": 65
+              "duration": 790
             },
             {
               "id": "step_003",
@@ -41,7 +41,7 @@
               "expected": "Modules added successfully",
               "actual": "Modules added successfully",
               "status": "passed",
-              "duration": 165
+              "duration": 291
             },
             {
               "id": "step_004",
@@ -50,18 +50,18 @@
               "expected": "Game exported successfully",
               "actual": "Game exported successfully",
               "status": "passed",
-              "duration": 574
+              "duration": 74
             }
           ],
           "expectedResult": "Complete game creation flow works end-to-end",
           "actualResult": "Complete game creation flow works end-to-end",
           "status": "passed",
-          "duration": 1320
+          "duration": 2135
         }
       ],
       "results": [],
       "coverage": 0,
-      "lastRun": "2025-10-09T13:22:10.366Z"
+      "lastRun": "2025-10-09T14:19:07.182Z"
     }
   ],
   "integrationTests": [
@@ -80,7 +80,7 @@
       "expectedBehavior": "Combat damage affects health system correctly",
       "actualBehavior": "Combat damage affects health system correctly",
       "status": "passed",
-      "duration": 1925
+      "duration": 1171
     },
     {
       "id": "integration_002",
@@ -96,7 +96,7 @@
       "expectedBehavior": "All modules save and load state correctly",
       "actualBehavior": "All modules save and load state correctly",
       "status": "passed",
-      "duration": 1119
+      "duration": 1618
     }
   ],
   "performanceTests": [
@@ -118,18 +118,18 @@
         "totalRequests": 10000,
         "successfulRequests": 9500,
         "failedRequests": 500,
-        "averageResponseTime": 186.44768058145758,
-        "minResponseTime": 144.22867405210442,
-        "maxResponseTime": 656.185028377376,
-        "percentile95ResponseTime": 735.5776301132566,
-        "percentile99ResponseTime": 984.4375304515777,
-        "throughput": 988.3952459323016,
-        "errorRate": 0.7307718937065999,
-        "memoryUsage": 977.5500456702515,
-        "cpuUsage": 56.66656652458643
+        "averageResponseTime": 434.51484903037397,
+        "minResponseTime": 139.2393206271272,
+        "maxResponseTime": 1126.0019463805418,
+        "percentile95ResponseTime": 965.4007616915527,
+        "percentile99ResponseTime": 590.8722519677383,
+        "throughput": 765.8032844409192,
+        "errorRate": 1.8493533988093191,
+        "memoryUsage": 587.1107638388227,
+        "cpuUsage": 81.57116464863135
       },
       "status": "passed",
-      "duration": 3975
+      "duration": 2605
     }
   ],
   "securityTests": [
@@ -142,7 +142,7 @@
       "methodology": "Automated vulnerability scanning",
       "findings": [
         {
-          "id": "finding_1760016139217",
+          "id": "finding_1760019553330",
           "severity": "low",
           "title": "Minor security issue",
           "description": "A minor security issue was identified",
@@ -152,7 +152,7 @@
         }
       ],
       "status": "passed",
-      "duration": 1830
+      "duration": 751
     }
   ],
   "userAcceptanceTests": [
@@ -176,7 +176,7 @@
       "expectedOutcome": "Complete game created and exported successfully",
       "actualOutcome": "Complete game created and exported successfully",
       "status": "passed",
-      "duration": 1366,
+      "duration": 1314,
       "userFeedback": "Test passed successfully"
     }
   ],
