@@ -104,6 +104,9 @@ describe('PerfPure Golden Tests', () => {
       const timer = new HighResPerfTimer('High Res Test');
 
       expect(timer.isRunning).toBe(true);
+      
+      // Advance time slightly to ensure elapsedMs > 0
+      jest.advanceTimersByTime(1);
       expect(timer.elapsedMs).toBeGreaterThan(0);
 
       timer.dispose();
@@ -147,15 +150,12 @@ describe('PerfPure Golden Tests', () => {
       expect(result).toBeNull();
     });
 
-    test('should provide correct results', async () => {
+    test('should provide correct results', () => {
       const results = profiler.getResults();
       expect(results).toHaveLength(0);
 
       const timer = profiler.start('Test');
       timer.dispose();
-
-      // Wait for disposal to complete
-      await new Promise(resolve => setTimeout(resolve, 1));
 
       const updatedResults = profiler.getResults();
       expect(updatedResults).toHaveLength(1);
@@ -163,12 +163,13 @@ describe('PerfPure Golden Tests', () => {
     });
 
     test('should filter results by label', () => {
-      profiler.start('Label 1');
-      profiler.start('Label 2');
-      profiler.start('Label 1'); // Same label twice
+      const timer1 = profiler.start('Label 1');
+      const timer2 = profiler.start('Label 2');
+      const timer3 = profiler.start('Label 1'); // Same label twice
 
-      const timer = profiler.start('Label 1');
-      timer.dispose();
+      timer1.dispose();
+      timer2.dispose();
+      timer3.dispose();
 
       const label1Results = profiler.getResultsForLabel('Label 1');
       expect(label1Results).toHaveLength(2); // Two with Label 1

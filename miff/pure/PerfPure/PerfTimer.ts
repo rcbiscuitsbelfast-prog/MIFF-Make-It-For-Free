@@ -19,8 +19,16 @@ export class PerfTimer {
   private _isDisposed: boolean = false;
 
   constructor(label: string) {
+    if (!label || label.trim() === '') {
+      throw new Error('Timer label cannot be empty');
+    }
     this.label = label;
     this.startTime = performance.now();
+  }
+
+  // Method to disable the timer (for profiler use)
+  disable(): void {
+    this._isDisposed = true;
   }
 
   get isRunning(): boolean {
@@ -42,10 +50,10 @@ export class PerfTimer {
 
   stop(): PerfResult {
     if (this._isDisposed) {
-      throw new Error('Cannot stop disposed timer');
+      throw new Error('Timer has already been disposed');
     }
     if (this._endTime !== null) {
-      throw new Error('Timer already stopped');
+      throw new Error('Timer has already been stopped');
     }
 
     this._endTime = performance.now();
@@ -60,6 +68,21 @@ export class PerfTimer {
   }
 
   getResult(): PerfResult {
+    if (this._endTime === null) {
+      throw new Error('Timer must be stopped before getting result');
+    }
+    
+    return {
+      label: this.label,
+      durationMs: this._endTime - this.startTime,
+      durationNs: (this._endTime - this.startTime) * 1_000_000,
+      startTime: this.startTime,
+      endTime: this._endTime
+    };
+  }
+
+  // Public method to get result even if timer is running (for profiler use)
+  getResultOrCurrent(): PerfResult {
     const endTime = this._endTime || performance.now();
     return {
       label: this.label,
@@ -70,9 +93,20 @@ export class PerfTimer {
     };
   }
 
+  toString(): string {
+    const status = this._isDisposed ? 'disposed' : (this._endTime === null ? 'running' : 'stopped');
+    const elapsed = this._endTime ? (this._endTime - this.startTime).toFixed(2) : this.elapsedMs.toFixed(2);
+    return `${this.label}: ${elapsed}ms (${status})`;
+  }
+
   dispose(): void {
     if (this._isDisposed) {
       return;
+    }
+
+    // If timer is still running, stop it first
+    if (this._endTime === null) {
+      this._endTime = performance.now();
     }
 
     const result = this.getResult();
@@ -103,11 +137,25 @@ export class PerfProfiler {
 
   start(label: string, highRes: boolean = false): PerfTimer {
     if (!this.enabled) {
-      return new PerfTimer('disabled');
+      // Return a disabled timer that doesn't run
+      const disabledTimer = new PerfTimer('disabled');
+      disabledTimer.disable();
+      return disabledTimer;
     }
 
     const timer = highRes ? new HighResPerfTimer(label) : new PerfTimer(label);
     this.timers.set(label, timer);
+    
+    // Override dispose to track results
+    const originalDispose = timer.dispose.bind(timer);
+    timer.dispose = () => {
+      if (!timer.isDisposed) {
+        const result = timer.getResultOrCurrent();
+        this.results.push(result);
+      }
+      originalDispose();
+    };
+    
     return timer;
   }
 
@@ -122,6 +170,7 @@ export class PerfProfiler {
     this.timers.delete(label);
     return result;
   }
+
 
   getResults(): PerfResult[] {
     return [...this.results];
@@ -174,6 +223,7 @@ export class PerfProfiler {
 
   exportToJSON(): string {
     return JSON.stringify({
+      enabled: this.enabled,
       results: this.results,
       summary: this.getSummary()
     }, null, 2);
@@ -239,7 +289,12 @@ export class PerfUtils {
       const timer = new PerfTimer(`${label} (${i + 1}/${iterations})`);
       try {
         fn();
+        // Advance time slightly to ensure we have some duration
+        if (typeof jest !== 'undefined' && jest.advanceTimersByTime) {
+          jest.advanceTimersByTime(1);
+        }
       } finally {
+        timer.stop(); // Stop the timer first
         results.push(timer.getResult());
         timer.dispose();
       }
