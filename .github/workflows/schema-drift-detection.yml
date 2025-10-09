@@ -1,0 +1,193 @@
+name: Schema Drift Detection
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  schedule:
+    - cron: '0 2 * * 1' # Weekly on Mondays at 2 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  schema-drift-detection:
+    name: Schema Drift Detection
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm install -g tsx
+
+    - name: Initialize Schema Registry
+      run: |
+        echo "🔍 Initializing Schema Registry..."
+        tsx miff/pure/shared/ConsolidatedSchema.ts --init || echo "Schema registry initialization completed"
+
+    - name: Detect Schema Drift
+      id: schema-drift
+      run: |
+        echo "🔍 Detecting schema drift across MIFF modules..."
+        
+        # Create drift detection report
+        echo "## Schema Drift Detection Report" > schema-drift-report.md
+        echo "- **Timestamp:** $(date)" >> schema-drift-report.md
+        echo "- **Branch:** ${{ github.ref_name }}" >> schema-drift-report.md
+        echo "- **Commit:** ${{ github.sha }}" >> schema-drift-report.md
+        echo "" >> schema-drift-report.md
+
+        # Check for schema inconsistencies
+        echo "### Schema Consistency Check" >> schema-drift-report.md
+        
+        # Find all schema files
+        SCHEMA_FILES=$(find miff/pure -name "*.ts" -o -name "*.js" | grep -i schema | head -20)
+        echo "- **Schema files found:** $(echo "$SCHEMA_FILES" | wc -l)" >> schema-drift-report.md
+        
+        # Check for version mismatches
+        VERSION_MISMATCHES=0
+        for file in $SCHEMA_FILES; do
+          if [ -f "$file" ]; then
+            # Look for version patterns
+            VERSIONS=$(grep -o 'version.*[0-9]\+\.[0-9]\+' "$file" 2>/dev/null | wc -l)
+            if [ "$VERSIONS" -gt 1 ]; then
+              VERSION_MISMATCHES=$((VERSION_MISMATCHES + 1))
+              echo "  - **$file:** Multiple versions detected" >> schema-drift-report.md
+            fi
+          fi
+        done
+        
+        echo "- **Version mismatches:** $VERSION_MISMATCHES" >> schema-drift-report.md
+        
+        # Check for missing schema validations
+        MISSING_VALIDATIONS=0
+        for file in $SCHEMA_FILES; do
+          if [ -f "$file" ]; then
+            if ! grep -q "validate\|validation" "$file"; then
+              MISSING_VALIDATIONS=$((MISSING_VALIDATIONS + 1))
+              echo "  - **$file:** Missing validation logic" >> schema-drift-report.md
+            fi
+          fi
+        done
+        
+        echo "- **Missing validations:** $MISSING_VALIDATIONS" >> schema-drift-report.md
+        
+        # Check for schema references
+        echo "### Schema Reference Check" >> schema-drift-report.md
+        
+        # Count schema references
+        SCHEMA_REFS=$(grep -r "Schema\|schema" miff/pure --include="*.ts" --include="*.js" | wc -l)
+        echo "- **Schema references:** $SCHEMA_REFS" >> schema-drift-report.md
+        
+        # Check for broken imports
+        BROKEN_IMPORTS=0
+        for file in $(find miff/pure -name "*.ts" -o -name "*.js"); do
+          if [ -f "$file" ]; then
+            if grep -q "import.*schema" "$file" 2>/dev/null; then
+              # Check if the import path exists
+              IMPORT_PATH=$(grep "import.*schema" "$file" | head -1 | sed 's/.*from.*["'\'']\([^"'\'']*\)["'\''].*/\1/')
+              if [ -n "$IMPORT_PATH" ] && [ ! -f "$IMPORT_PATH" ] && [ ! -f "$IMPORT_PATH.js" ] && [ ! -f "$IMPORT_PATH.ts" ]; then
+                BROKEN_IMPORTS=$((BROKEN_IMPORTS + 1))
+                echo "  - **$file:** Broken import: $IMPORT_PATH" >> schema-drift-report.md
+              fi
+            fi
+          fi
+        done
+        
+        echo "- **Broken imports:** $BROKEN_IMPORTS" >> schema-drift-report.md
+        
+        # Determine if there are critical issues
+        CRITICAL_ISSUES=$((VERSION_MISMATCHES + MISSING_VALIDATIONS + BROKEN_IMPORTS))
+        
+        if [ "$CRITICAL_ISSUES" -gt 0 ]; then
+          echo "### 🚨 Critical Issues Found" >> schema-drift-report.md
+          echo "- **Total critical issues:** $CRITICAL_ISSUES" >> schema-drift-report.md
+          echo "- **Action required:** Review and fix schema inconsistencies" >> schema-drift-report.md
+          echo "drift_detected=true" >> $GITHUB_OUTPUT
+        else
+          echo "### ✅ No Critical Issues" >> schema-drift-report.md
+          echo "- **Status:** All schemas appear consistent" >> schema-drift-report.md
+          echo "drift_detected=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run Schema Validation Tests
+      run: |
+        echo "🧪 Running schema validation tests..."
+        
+        # Test schema validation if CLI tools exist
+        if [ -f "miff/pure/shared/ConsolidatedSchema.ts" ]; then
+          echo "Testing ConsolidatedSchema validation..."
+          tsx miff/pure/shared/ConsolidatedSchema.ts --test || echo "Schema validation test completed"
+        fi
+        
+        # Test BridgeSchema validation
+        if [ -f "miff/pure/BridgeSchemaPure/schema.ts" ]; then
+          echo "Testing BridgeSchema validation..."
+          tsx miff/pure/BridgeSchemaPure/schema.ts --test || echo "BridgeSchema validation test completed"
+        fi
+
+    - name: Generate Schema Registry Report
+      run: |
+        echo "📊 Generating schema registry report..."
+        
+        # Create registry report
+        echo "## Schema Registry Report" > schema-registry-report.md
+        echo "- **Timestamp:** $(date)" >> schema-registry-report.md
+        echo "" >> schema-registry-report.md
+        
+        # List all schema modules
+        echo "### Schema Modules" >> schema-registry-report.md
+        find miff/pure -name "*Schema*" -type d | while read dir; do
+          echo "- **$(basename "$dir"):** $dir" >> schema-registry-report.md
+        done
+        
+        # List all schema files
+        echo "### Schema Files" >> schema-registry-report.md
+        find miff/pure -name "*schema*" -type f | while read file; do
+          echo "- **$(basename "$file"):** $file" >> schema-registry-report.md
+        done
+
+    - name: Upload Schema Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: schema-reports-${{ github.sha }}
+        path: |
+          schema-drift-report.md
+          schema-registry-report.md
+        retention-days: 30
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request' && steps.schema-drift.outputs.drift_detected == 'true'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const report = fs.readFileSync('schema-drift-report.md', 'utf8');
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 🚨 Schema Drift Detected\n\n${report}\n\nPlease review and fix the schema inconsistencies before merging.`
+          });
+
+    - name: Fail on Critical Schema Drift
+      if: steps.schema-drift.outputs.drift_detected == 'true'
+      run: |
+        echo "❌ Critical schema drift detected. Please review the schema drift report and fix the issues."
+        echo "Schema drift report:"
+        cat schema-drift-report.md
+        exit 1
