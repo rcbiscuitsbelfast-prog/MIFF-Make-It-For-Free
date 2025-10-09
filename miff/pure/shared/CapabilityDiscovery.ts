@@ -294,15 +294,18 @@ describe('${result.moduleName} Capabilities', () => {
           description: `Validate data in ${moduleName} module`,
           inputTypes: ['any'],
           outputTypes: ['boolean'],
-          async: false
+          async: false,
+          processingType: 'validate',
+          batchSupported: false,
+          streamingSupported: false,
+          maxThroughput: 100
         }
       ],
       integrations: [
         {
           name: 'EventBus',
           description: `Event bus integration for ${moduleName}`,
-          integrationType: 'event',
-          status: 'active'
+          integrationType: 'event'
         }
       ],
       formats: [
@@ -312,11 +315,13 @@ describe('${result.moduleName} Capabilities', () => {
           supported: true
         }
       ],
-      realtime: {
-        supported: true,
-        websockets: true,
-        polling: false
-      },
+      realtime: [
+        {
+          name: 'WebSocket Support',
+          description: `WebSocket support for ${moduleName}`,
+          supported: true
+        }
+      ],
       schemas: [
         {
           name: 'config',
