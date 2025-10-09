@@ -492,7 +492,7 @@ class SpiritTamerGame {
             this.showInventory();
             break;
           case 'switch':
-            this.switchSpirit();
+            this.switchSpirits();
             break;
           case 'run':
             if (Math.random() < 0.5) {
@@ -522,7 +522,7 @@ class SpiritTamerGame {
     this.askQuestion('Choose a move (1-4): ')
       .then((choice: string) => {
         const moveIndex = parseInt(choice) - 1;
-        if (moveIndex >= 0 && moveIndex < this.battleState.playerMoves.length) {
+        if (this.battleState && moveIndex >= 0 && moveIndex < this.battleState.playerMoves.length) {
           const moveName = this.battleState.playerMoves[moveIndex];
           this.executeMove(moveName);
         } else {

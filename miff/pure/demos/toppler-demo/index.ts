@@ -13,12 +13,12 @@
  * - Sound effects and music
  */
 
-import { RNGPure } from '../../miff/pure/RNGPure/index';
-import { InputPure } from '../../miff/pure/InputPure/index';
-import { PerfPure } from '../../miff/pure/PerfPure/index';
-import { AudioPure } from '../../miff/pure/AudioPure/index';
-import { DebugOverlayPure } from '../../miff/pure/DebugOverlayPure/index';
-import { SavePure } from '../../miff/pure/SavePure/index';
+import { RNGPure } from '../../RNGPure/index';
+import { InputPure } from '../../InputPure/index';
+import { PerfPure } from '../../PerfPure/index';
+import { AudioPure } from '../../AudioPure/index';
+import { DebugOverlayPure } from '../../DebugOverlayPure/index';
+import { SavePure } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 
