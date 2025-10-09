@@ -196,6 +196,17 @@ export class CraftingManager {
     return completed.result;
   }
 
+  simulateCraft(recipeId: string, ingredients: any) {
+    // Convert ingredients to inventory format
+    const inventory: Inventory = {};
+    if (ingredients && typeof ingredients === 'object') {
+      Object.entries(ingredients).forEach(([key, value]) => {
+        inventory[key] = typeof value === 'number' ? value : 1;
+      });
+    }
+    return this.simulate(recipeId, inventory);
+  }
+
   /**
    * Create a new recipe
    */

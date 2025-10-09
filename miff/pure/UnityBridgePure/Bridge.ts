@@ -93,7 +93,7 @@ export class UnityBridge {
           result = this.combatManager.simulate(data.attacker as string, data.defender as string);
           break;
         case 'crafting':
-          result = this.craftingManager.simulateCraft(data.recipeId as string, data.ingredients as any);
+          result = this.craftingManager.simulateCraft(data.recipeId as string, data.ingredients as any) as Record<string, unknown>;
           break;
         case 'loot':
           result = this.lootManager.rollLoot(data.tableId as string, data.level as number);
@@ -195,7 +195,7 @@ export class UnityBridge {
           break;
         case 'stats':
           this.statsManager.setStat(convertedData.id as string, convertedData.key as string, convertedData.base as number);
-          result = this.statsManager.get(convertedData.id as string);
+          result = this.statsManager.get(convertedData.id as string) as Record<string, unknown>;
           break;
         default:
           return {

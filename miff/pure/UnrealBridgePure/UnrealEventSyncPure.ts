@@ -1009,6 +1009,10 @@ export class UnrealEventSyncPure {
     this.eventBuffer = [];
   }
 
+  processBatchedEvents(): void {
+    this.processEventBuffer();
+  }
+
   private async processPriorityGroup(priority: string, events: UnrealEvent[]): Promise<void> {
     if (this.configuration?.enableEventBatching || false) {
       // Process in batches

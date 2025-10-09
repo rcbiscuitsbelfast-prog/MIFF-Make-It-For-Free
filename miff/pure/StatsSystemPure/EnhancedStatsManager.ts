@@ -529,6 +529,10 @@ export class EnhancedStatsManager {
     };
   }
 
+  get(entityId: string): StatsOutput {
+    return this.getEntityStats(entityId);
+  }
+
   /**
    * Get stat progression
    */
