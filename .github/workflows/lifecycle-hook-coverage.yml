@@ -1,0 +1,314 @@
+name: Lifecycle Hook Coverage
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  schedule:
+    - cron: '0 4 * * 1' # Weekly on Mondays at 4 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  lifecycle-hook-coverage:
+    name: Lifecycle Hook Coverage Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm install -g tsx
+
+    - name: Discover Lifecycle Hooks
+      id: discover-hooks
+      run: |
+        echo "🔍 Discovering lifecycle hooks across MIFF modules..."
+        
+        # Create lifecycle discovery report
+        echo "## Lifecycle Hook Discovery Report" > lifecycle-discovery-report.md
+        echo "- **Timestamp:** $(date)" >> lifecycle-discovery-report.md
+        echo "" >> lifecycle-discovery-report.md
+        
+        # Find all manager files
+        MANAGER_FILES=$(find miff/pure -name "*Manager.ts" -o -name "*Manager.js" | grep -v node_modules)
+        echo "Manager files found:"
+        echo "$MANAGER_FILES"
+        
+        # Count manager files
+        MANAGER_COUNT=$(echo "$MANAGER_FILES" | wc -l)
+        echo "manager_count=$MANAGER_COUNT" >> $GITHUB_OUTPUT
+        
+        echo "### Manager Files" >> lifecycle-discovery-report.md
+        for file in $MANAGER_FILES; do
+          if [ -f "$file" ]; then
+            echo "- **$(basename "$file"):** $file" >> lifecycle-discovery-report.md
+          fi
+        done
+        
+        # Find all bridge files
+        BRIDGE_FILES=$(find miff/pure -name "*Bridge.ts" -o -name "*Bridge.js" | grep -v node_modules)
+        echo "Bridge files found:"
+        echo "$BRIDGE_FILES"
+        
+        # Count bridge files
+        BRIDGE_COUNT=$(echo "$BRIDGE_FILES" | wc -l)
+        echo "bridge_count=$BRIDGE_COUNT" >> $GITHUB_OUTPUT
+        
+        echo "### Bridge Files" >> lifecycle-discovery-report.md
+        for file in $BRIDGE_FILES; do
+          if [ -f "$file" ]; then
+            echo "- **$(basename "$file"):** $file" >> lifecycle-discovery-report.md
+          fi
+        done
+
+    - name: Analyze Lifecycle Hook Implementation
+      id: analyze-hooks
+      run: |
+        echo "🔍 Analyzing lifecycle hook implementation..."
+        
+        # Create hook analysis report
+        echo "## Lifecycle Hook Implementation Analysis" > lifecycle-analysis-report.md
+        echo "- **Timestamp:** $(date)" >> lifecycle-analysis-report.md
+        echo "" >> lifecycle-analysis-report.md
+        
+        # Define expected lifecycle hooks
+        EXPECTED_HOOKS=("initialize" "shutdown" "start" "stop" "pause" "resume" "update" "destroy")
+        
+        TOTAL_HOOKS=0
+        IMPLEMENTED_HOOKS=0
+        MISSING_HOOKS=0
+        
+        echo "### Hook Implementation Status" >> lifecycle-analysis-report.md
+        
+        # Check each manager file
+        for file in $(find miff/pure -name "*Manager.ts" -o -name "*Manager.js"); do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> lifecycle-analysis-report.md
+            
+            MODULE_HOOKS=0
+            MODULE_IMPLEMENTED=0
+            
+            for hook in "${EXPECTED_HOOKS[@]}"; do
+              TOTAL_HOOKS=$((TOTAL_HOOKS + 1))
+              MODULE_HOOKS=$((MODULE_HOOKS + 1))
+              
+              if grep -q "$hook" "$file"; then
+                IMPLEMENTED_HOOKS=$((IMPLEMENTED_HOOKS + 1))
+                MODULE_IMPLEMENTED=$((MODULE_IMPLEMENTED + 1))
+                echo "  - ✅ **$hook:** Implemented" >> lifecycle-analysis-report.md
+              else
+                MISSING_HOOKS=$((MISSING_HOOKS + 1))
+                echo "  - ❌ **$hook:** Missing" >> lifecycle-analysis-report.md
+              fi
+            done
+            
+            # Calculate module coverage
+            if [ "$MODULE_HOOKS" -gt 0 ]; then
+              COVERAGE=$((MODULE_IMPLEMENTED * 100 / MODULE_HOOKS))
+              echo "  - **Coverage:** $COVERAGE% ($MODULE_IMPLEMENTED/$MODULE_HOOKS)" >> lifecycle-analysis-report.md
+            fi
+            
+            echo "" >> lifecycle-analysis-report.md
+          fi
+        done
+        
+        # Check bridge files for lifecycle hooks
+        for file in $(find miff/pure -name "*Bridge.ts" -o -name "*Bridge.js"); do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> lifecycle-analysis-report.md
+            
+            MODULE_HOOKS=0
+            MODULE_IMPLEMENTED=0
+            
+            for hook in "${EXPECTED_HOOKS[@]}"; do
+              TOTAL_HOOKS=$((TOTAL_HOOKS + 1))
+              MODULE_HOOKS=$((MODULE_HOOKS + 1))
+              
+              if grep -q "$hook" "$file"; then
+                IMPLEMENTED_HOOKS=$((IMPLEMENTED_HOOKS + 1))
+                MODULE_IMPLEMENTED=$((MODULE_IMPLEMENTED + 1))
+                echo "  - ✅ **$hook:** Implemented" >> lifecycle-analysis-report.md
+              else
+                MISSING_HOOKS=$((MISSING_HOOKS + 1))
+                echo "  - ❌ **$hook:** Missing" >> lifecycle-analysis-report.md
+              fi
+            done
+            
+            # Calculate module coverage
+            if [ "$MODULE_HOOKS" -gt 0 ]; then
+              COVERAGE=$((MODULE_IMPLEMENTED * 100 / MODULE_HOOKS))
+              echo "  - **Coverage:** $COVERAGE% ($MODULE_IMPLEMENTED/$MODULE_HOOKS)" >> lifecycle-analysis-report.md
+            fi
+            
+            echo "" >> lifecycle-analysis-report.md
+          fi
+        done
+        
+        # Calculate overall coverage
+        if [ "$TOTAL_HOOKS" -gt 0 ]; then
+          OVERALL_COVERAGE=$((IMPLEMENTED_HOOKS * 100 / TOTAL_HOOKS))
+        else
+          OVERALL_COVERAGE=0
+        fi
+        
+        echo "overall_coverage=$OVERALL_COVERAGE" >> $GITHUB_OUTPUT
+        echo "missing_hooks=$MISSING_HOOKS" >> $GITHUB_OUTPUT
+        echo "implemented_hooks=$IMPLEMENTED_HOOKS" >> $GITHUB_OUTPUT
+
+    - name: Check Hook Quality
+      id: check-quality
+      run: |
+        echo "🔍 Checking lifecycle hook quality..."
+        
+        # Create quality report
+        echo "## Lifecycle Hook Quality Analysis" > lifecycle-quality-report.md
+        echo "- **Timestamp:** $(date)" >> lifecycle-quality-report.md
+        echo "" >> lifecycle-quality-report.md
+        
+        QUALITY_ISSUES=0
+        
+        # Check for proper error handling in hooks
+        echo "### Error Handling Analysis" >> lifecycle-quality-report.md
+        
+        for file in $(find miff/pure -name "*Manager.ts" -o -name "*Manager.js" -o -name "*Bridge.ts" -o -name "*Bridge.js"); do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> lifecycle-quality-report.md
+            
+            # Check for try-catch blocks in hook methods
+            if grep -q "try\|catch" "$file"; then
+              echo "  - ✅ **Error handling found**" >> lifecycle-quality-report.md
+            else
+              echo "  - ⚠️ **Limited error handling**" >> lifecycle-quality-report.md
+              QUALITY_ISSUES=$((QUALITY_ISSUES + 1))
+            fi
+            
+            # Check for proper return types
+            if grep -q "Promise\|async" "$file"; then
+              echo "  - ✅ **Async patterns found**" >> lifecycle-quality-report.md
+            else
+              echo "  - ⚠️ **No async patterns detected**" >> lifecycle-quality-report.md
+            fi
+            
+            # Check for proper logging
+            if grep -q "console\|log\|Log" "$file"; then
+              echo "  - ✅ **Logging found**" >> lifecycle-quality-report.md
+            else
+              echo "  - ⚠️ **Limited logging detected**" >> lifecycle-quality-report.md
+            fi
+            
+            echo "" >> lifecycle-quality-report.md
+          fi
+        done
+        
+        echo "quality_issues=$QUALITY_ISSUES" >> $GITHUB_OUTPUT
+
+    - name: Test Lifecycle Hook Execution
+      id: test-execution
+      run: |
+        echo "🧪 Testing lifecycle hook execution..."
+        
+        # Create execution test report
+        echo "## Lifecycle Hook Execution Test" > lifecycle-execution-report.md
+        echo "- **Timestamp:** $(date)" >> lifecycle-execution-report.md
+        echo "" >> lifecycle-execution-report.md
+        
+        EXECUTION_ERRORS=0
+        
+        # Test each manager's lifecycle hooks
+        for file in $(find miff/pure -name "*Manager.ts" -o -name "*Manager.js"); do
+          if [ -f "$file" ]; then
+            echo "### Testing: $(basename "$file")" >> lifecycle-execution-report.md
+            
+            # Extract module name
+            MODULE_NAME=$(echo "$file" | sed 's|miff/pure/\([^/]*\).*|\1|')
+            
+            # Try to test initialize hook
+            if tsx "$file" --test 2>/dev/null; then
+              echo "  - ✅ **Module test passed**" >> lifecycle-execution-report.md
+            else
+              echo "  - ❌ **Module test failed**" >> lifecycle-execution-report.md
+              EXECUTION_ERRORS=$((EXECUTION_ERRORS + 1))
+            fi
+            
+            echo "" >> lifecycle-execution-report.md
+          fi
+        done
+        
+        echo "execution_errors=$EXECUTION_ERRORS" >> $GITHUB_OUTPUT
+
+    - name: Generate Lifecycle Coverage Summary
+      run: |
+        echo "📊 Generating lifecycle coverage summary..."
+        
+        # Create summary report
+        echo "## Lifecycle Hook Coverage Summary" > lifecycle-coverage-summary.md
+        echo "- **Timestamp:** $(date)" >> lifecycle-coverage-summary.md
+        echo "- **Branch:** ${{ github.ref_name }}" >> lifecycle-coverage-summary.md
+        echo "- **Commit:** ${{ github.sha }}" >> lifecycle-coverage-summary.md
+        echo "" >> lifecycle-coverage-summary.md
+        
+        echo "### Coverage Statistics" >> lifecycle-coverage-summary.md
+        echo "- **Overall coverage:** {{ steps.analyze-hooks.outputs.overall_coverage }}%" >> lifecycle-coverage-summary.md
+        echo "- **Implemented hooks:** {{ steps.analyze-hooks.outputs.implemented_hooks }}" >> lifecycle-coverage-summary.md
+        echo "- **Missing hooks:** {{ steps.analyze-hooks.outputs.missing_hooks }}" >> lifecycle-coverage-summary.md
+        echo "- **Quality issues:** {{ steps.check-quality.outputs.quality_issues }}" >> lifecycle-coverage-summary.md
+        echo "- **Execution errors:** {{ steps.test-execution.outputs.execution_errors }}" >> lifecycle-coverage-summary.md
+        echo "" >> lifecycle-coverage-summary.md
+        
+        # Determine status
+        if [ "{{ steps.analyze-hooks.outputs.overall_coverage }}" -ge 80 ] && [ "{{ steps.check-quality.outputs.quality_issues }}" -eq 0 ]; then
+          echo "### ✅ Lifecycle Hook Coverage Good" >> lifecycle-coverage-summary.md
+          echo "- **Status:** Lifecycle hook coverage meets standards" >> lifecycle-coverage-summary.md
+        else
+          echo "### ⚠️ Lifecycle Hook Coverage Issues" >> lifecycle-coverage-summary.md
+          echo "- **Status:** Lifecycle hook coverage needs improvement" >> lifecycle-coverage-summary.md
+        fi
+
+    - name: Upload Lifecycle Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: lifecycle-coverage-reports-${{ github.sha }}
+        path: |
+          lifecycle-discovery-report.md
+          lifecycle-analysis-report.md
+          lifecycle-quality-report.md
+          lifecycle-execution-report.md
+          lifecycle-coverage-summary.md
+        retention-days: 30
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request' && steps.analyze-hooks.outputs.overall_coverage < 80
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const summary = fs.readFileSync('lifecycle-coverage-summary.md', 'utf8');
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 🔄 Lifecycle Hook Coverage Issues\n\n${summary}\n\nPlease improve lifecycle hook coverage before merging.`
+          });
+
+    - name: Fail on Low Coverage
+      if: steps.analyze-hooks.outputs.overall_coverage < 50
+      run: |
+        echo "❌ Lifecycle hook coverage is too low. Please implement missing lifecycle hooks."
+        echo "Lifecycle coverage summary:"
+        cat lifecycle-coverage-summary.md
+        exit 1

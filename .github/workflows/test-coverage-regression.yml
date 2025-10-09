@@ -1,0 +1,299 @@
+name: Test Coverage Regression Detection
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  schedule:
+    - cron: '0 6 * * 1' # Weekly on Mondays at 6 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  test-coverage-regression:
+    name: Test Coverage Regression Detection
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm install -g tsx
+
+    - name: Run Test Coverage Analysis
+      id: coverage-analysis
+      run: |
+        echo "🧪 Running test coverage analysis..."
+        
+        # Create coverage analysis report
+        echo "## Test Coverage Analysis Report" > test-coverage-analysis-report.md
+        echo "- **Timestamp:** $(date)" >> test-coverage-analysis-report.md
+        echo "- **Branch:** ${{ github.ref_name }}" >> test-coverage-analysis-report.md
+        echo "- **Commit:** ${{ github.sha }}" >> test-coverage-analysis-report.md
+        echo "" >> test-coverage-analysis-report.md
+        
+        # Run test coverage
+        echo "### Running Test Coverage" >> test-coverage-analysis-report.md
+        
+        # Try to run coverage analysis
+        if npm run test:coverage 2>/dev/null; then
+          echo "  - ✅ **Test coverage completed successfully**" >> test-coverage-analysis-report.md
+        else
+          echo "  - ⚠️ **Test coverage command not available or failed**" >> test-coverage-analysis-report.md
+        fi
+        
+        # Check for coverage files
+        if [ -f "coverage/coverage-summary.json" ]; then
+          echo "  - ✅ **Coverage summary found**" >> test-coverage-analysis-report.md
+          
+          # Extract coverage metrics
+          LINES=$(jq -r '.total.lines.pct' coverage/coverage-summary.json 2>/dev/null || echo "0")
+          FUNCTIONS=$(jq -r '.total.functions.pct' coverage/coverage-summary.json 2>/dev/null || echo "0")
+          BRANCHES=$(jq -r '.total.branches.pct' coverage/coverage-summary.json 2>/dev/null || echo "0")
+          STATEMENTS=$(jq -r '.total.statements.pct' coverage/coverage-summary.json 2>/dev/null || echo "0")
+          
+          echo "  - **Lines coverage:** ${LINES}%" >> test-coverage-analysis-report.md
+          echo "  - **Functions coverage:** ${FUNCTIONS}%" >> test-coverage-analysis-report.md
+          echo "  - **Branches coverage:** ${BRANCHES}%" >> test-coverage-analysis-report.md
+          echo "  - **Statements coverage:** ${STATEMENTS}%" >> test-coverage-analysis-report.md
+          
+          # Calculate overall coverage
+          OVERALL_COVERAGE=$(( (LINES + FUNCTIONS + BRANCHES + STATEMENTS) / 4 ))
+          echo "  - **Overall coverage:** ${OVERALL_COVERAGE}%" >> test-coverage-analysis-report.md
+          
+          echo "overall_coverage=$OVERALL_COVERAGE" >> $GITHUB_OUTPUT
+          echo "lines_coverage=$LINES" >> $GITHUB_OUTPUT
+          echo "functions_coverage=$FUNCTIONS" >> $GITHUB_OUTPUT
+          echo "branches_coverage=$BRANCHES" >> $GITHUB_OUTPUT
+          echo "statements_coverage=$STATEMENTS" >> $GITHUB_OUTPUT
+        else
+          echo "  - ❌ **Coverage summary not found**" >> test-coverage-analysis-report.md
+          echo "overall_coverage=0" >> $GITHUB_OUTPUT
+          echo "lines_coverage=0" >> $GITHUB_OUTPUT
+          echo "functions_coverage=0" >> $GITHUB_OUTPUT
+          echo "branches_coverage=0" >> $GITHUB_OUTPUT
+          echo "statements_coverage=0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Detect Test Coverage Regression
+      id: detect-regression
+      run: |
+        echo "🔍 Detecting test coverage regression..."
+        
+        # Create regression detection report
+        echo "## Test Coverage Regression Detection" > test-coverage-regression-report.md
+        echo "- **Timestamp:** $(date)" >> test-coverage-regression-report.md
+        echo "" >> test-coverage-regression-report.md
+        
+        # Check if this is a PR
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "### Pull Request Coverage Analysis" >> test-coverage-regression-report.md
+          
+          # Get base branch coverage (if available)
+          BASE_COVERAGE=0
+          if [ -f "coverage/coverage-summary.json" ]; then
+            CURRENT_COVERAGE="{{ steps.coverage-analysis.outputs.overall_coverage }}"
+            
+            # For now, we'll use a threshold-based approach
+            # In a real implementation, you'd compare with base branch coverage
+            THRESHOLD=80
+            
+            if [ "$CURRENT_COVERAGE" -lt "$THRESHOLD" ]; then
+              echo "  - ❌ **Coverage below threshold** ($CURRENT_COVERAGE% < $THRESHOLD%)" >> test-coverage-regression-report.md
+              echo "regression_detected=true" >> $GITHUB_OUTPUT
+            else
+              echo "  - ✅ **Coverage above threshold** ($CURRENT_COVERAGE% >= $THRESHOLD%)" >> test-coverage-regression-report.md
+              echo "regression_detected=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "  - ⚠️ **No coverage data available for comparison**" >> test-coverage-regression-report.md
+            echo "regression_detected=false" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "### Push Coverage Analysis" >> test-coverage-regression-report.md
+          echo "  - **Event:** Push to ${{ github.ref_name }}" >> test-coverage-regression-report.md
+          echo "  - **Coverage:** {{ steps.coverage-analysis.outputs.overall_coverage }}%" >> test-coverage-regression-report.md
+          echo "regression_detected=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Analyze Test Quality
+      id: analyze-quality
+      run: |
+        echo "🔍 Analyzing test quality..."
+        
+        # Create test quality report
+        echo "## Test Quality Analysis" > test-quality-analysis-report.md
+        echo "- **Timestamp:** $(date)" >> test-quality-analysis-report.md
+        echo "" >> test-quality-analysis-report.md
+        
+        # Find all test files
+        TEST_FILES=$(find miff/pure -name "*.test.ts" -o -name "*.test.js" -o -name "*.spec.ts" -o -name "*.spec.js" | grep -v node_modules)
+        echo "Test files found:"
+        echo "$TEST_FILES"
+        
+        # Count test files
+        TEST_COUNT=$(echo "$TEST_FILES" | wc -l)
+        echo "test_count=$TEST_COUNT" >> $GITHUB_OUTPUT
+        
+        echo "### Test File Analysis" >> test-quality-analysis-report.md
+        echo "- **Total test files:** $TEST_COUNT" >> test-quality-analysis-report.md
+        
+        # Analyze test quality
+        QUALITY_ISSUES=0
+        
+        for file in $TEST_FILES; do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> test-quality-analysis-report.md
+            
+            # Check for test structure
+            if grep -q "describe\|it\|test" "$file"; then
+              echo "  - ✅ **Test structure found**" >> test-quality-analysis-report.md
+            else
+              echo "  - ❌ **No test structure found**" >> test-quality-analysis-report.md
+              QUALITY_ISSUES=$((QUALITY_ISSUES + 1))
+            fi
+            
+            # Check for assertions
+            if grep -q "expect\|assert\|should" "$file"; then
+              echo "  - ✅ **Assertions found**" >> test-quality-analysis-report.md
+            else
+              echo "  - ❌ **No assertions found**" >> test-quality-analysis-report.md
+              QUALITY_ISSUES=$((QUALITY_ISSUES + 1))
+            fi
+            
+            # Check for setup/teardown
+            if grep -q "beforeEach\|afterEach\|beforeAll\|afterAll" "$file"; then
+              echo "  - ✅ **Setup/teardown found**" >> test-quality-analysis-report.md
+            else
+              echo "  - ⚠️ **Limited setup/teardown**" >> test-quality-analysis-report.md
+            fi
+            
+            # Check for mock usage
+            if grep -q "mock\|Mock\|jest\.mock" "$file"; then
+              echo "  - ✅ **Mock usage found**" >> test-quality-analysis-report.md
+            else
+              echo "  - ⚠️ **No mock usage detected**" >> test-quality-analysis-report.md
+            fi
+            
+            echo "" >> test-quality-analysis-report.md
+          fi
+        done
+        
+        echo "quality_issues=$QUALITY_ISSUES" >> $GITHUB_OUTPUT
+
+    - name: Check Test Execution
+      id: check-execution
+      run: |
+        echo "🧪 Checking test execution..."
+        
+        # Create test execution report
+        echo "## Test Execution Analysis" > test-execution-analysis-report.md
+        echo "- **Timestamp:** $(date)" >> test-execution-analysis-report.md
+        echo "" >> test-execution-analysis-report.md
+        
+        EXECUTION_ERRORS=0
+        
+        # Try to run tests
+        echo "### Running Tests" >> test-execution-analysis-report.md
+        
+        if npm test 2>/dev/null; then
+          echo "  - ✅ **Tests executed successfully**" >> test-execution-analysis-report.md
+        else
+          echo "  - ❌ **Test execution failed**" >> test-execution-analysis-report.md
+          EXECUTION_ERRORS=$((EXECUTION_ERRORS + 1))
+        fi
+        
+        # Check for test results
+        if [ -f "test-results.json" ] || [ -f "junit.xml" ]; then
+          echo "  - ✅ **Test results found**" >> test-execution-analysis-report.md
+        else
+          echo "  - ⚠️ **No test results file found**" >> test-execution-analysis-report.md
+        fi
+        
+        echo "execution_errors=$EXECUTION_ERRORS" >> $GITHUB_OUTPUT
+
+    - name: Generate Test Coverage Summary
+      run: |
+        echo "📊 Generating test coverage summary..."
+        
+        # Create summary report
+        echo "## Test Coverage Summary" > test-coverage-summary.md
+        echo "- **Timestamp:** $(date)" >> test-coverage-summary.md
+        echo "- **Branch:** ${{ github.ref_name }}" >> test-coverage-summary.md
+        echo "- **Commit:** ${{ github.sha }}" >> test-coverage-summary.md
+        echo "" >> test-coverage-summary.md
+        
+        echo "### Coverage Statistics" >> test-coverage-summary.md
+        echo "- **Overall coverage:** {{ steps.coverage-analysis.outputs.overall_coverage }}%" >> test-coverage-summary.md
+        echo "- **Lines coverage:** {{ steps.coverage-analysis.outputs.lines_coverage }}%" >> test-coverage-summary.md
+        echo "- **Functions coverage:** {{ steps.coverage-analysis.outputs.functions_coverage }}%" >> test-coverage-summary.md
+        echo "- **Branches coverage:** {{ steps.coverage-analysis.outputs.branches_coverage }}%" >> test-coverage-summary.md
+        echo "- **Statements coverage:** {{ steps.coverage-analysis.outputs.statements_coverage }}%" >> test-coverage-summary.md
+        echo "" >> test-coverage-summary.md
+        
+        echo "### Quality Metrics" >> test-coverage-summary.md
+        echo "- **Test files:** {{ steps.analyze-quality.outputs.test_count }}" >> test-coverage-summary.md
+        echo "- **Quality issues:** {{ steps.analyze-quality.outputs.quality_issues }}" >> test-coverage-summary.md
+        echo "- **Execution errors:** {{ steps.check-execution.outputs.execution_errors }}" >> test-coverage-summary.md
+        echo "- **Regression detected:** {{ steps.detect-regression.outputs.regression_detected }}" >> test-coverage-summary.md
+        echo "" >> test-coverage-summary.md
+        
+        # Determine status
+        if [ "{{ steps.coverage-analysis.outputs.overall_coverage }}" -ge 80 ] && [ "{{ steps.analyze-quality.outputs.quality_issues }}" -eq 0 ] && [ "{{ steps.detect-regression.outputs.regression_detected }}" = "false" ]; then
+          echo "### ✅ Test Coverage Good" >> test-coverage-summary.md
+          echo "- **Status:** Test coverage meets standards" >> test-coverage-summary.md
+        else
+          echo "### ⚠️ Test Coverage Issues" >> test-coverage-summary.md
+          echo "- **Status:** Test coverage needs improvement" >> test-coverage-summary.md
+        fi
+
+    - name: Upload Test Coverage Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-coverage-reports-${{ github.sha }}
+        path: |
+          test-coverage-analysis-report.md
+          test-coverage-regression-report.md
+          test-quality-analysis-report.md
+          test-execution-analysis-report.md
+          test-coverage-summary.md
+          coverage/
+        retention-days: 30
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request' && steps.detect-regression.outputs.regression_detected == 'true'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const summary = fs.readFileSync('test-coverage-summary.md', 'utf8');
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 🧪 Test Coverage Regression Detected\n\n${summary}\n\nPlease improve test coverage before merging.`
+          });
+
+    - name: Fail on Coverage Regression
+      if: steps.detect-regression.outputs.regression_detected == 'true'
+      run: |
+        echo "❌ Test coverage regression detected. Please improve test coverage."
+        echo "Test coverage summary:"
+        cat test-coverage-summary.md
+        exit 1

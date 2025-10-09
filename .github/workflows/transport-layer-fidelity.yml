@@ -1,0 +1,338 @@
+name: Transport Layer Fidelity
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  schedule:
+    - cron: '0 5 * * 1' # Weekly on Mondays at 5 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  transport-layer-fidelity:
+    name: Transport Layer Fidelity Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm install -g tsx
+
+    - name: Discover Transport Layers
+      id: discover-transport
+      run: |
+        echo "🔍 Discovering transport layers across MIFF modules..."
+        
+        # Create transport discovery report
+        echo "## Transport Layer Discovery Report" > transport-discovery-report.md
+        echo "- **Timestamp:** $(date)" >> transport-discovery-report.md
+        echo "" >> transport-discovery-report.md
+        
+        # Find all transport-related files
+        TRANSPORT_FILES=$(find miff/pure -name "*Transport*" -o -name "*transport*" -o -name "*Bridge*" -o -name "*bridge*" | grep -v node_modules)
+        echo "Transport files found:"
+        echo "$TRANSPORT_FILES"
+        
+        # Count transport files
+        TRANSPORT_COUNT=$(echo "$TRANSPORT_FILES" | wc -l)
+        echo "transport_count=$TRANSPORT_COUNT" >> $GITHUB_OUTPUT
+        
+        echo "### Transport Layer Files" >> transport-discovery-report.md
+        for file in $TRANSPORT_FILES; do
+          if [ -f "$file" ]; then
+            echo "- **$(basename "$file"):** $file" >> transport-discovery-report.md
+          fi
+        done
+        
+        # Find all bridge files
+        BRIDGE_FILES=$(find miff/pure -name "*Bridge*" -type d | grep -v node_modules)
+        echo "Bridge directories found:"
+        echo "$BRIDGE_FILES"
+        
+        # Count bridge directories
+        BRIDGE_COUNT=$(echo "$BRIDGE_FILES" | wc -l)
+        echo "bridge_count=$BRIDGE_COUNT" >> $GITHUB_OUTPUT
+        
+        echo "### Bridge Directories" >> transport-discovery-report.md
+        for dir in $BRIDGE_FILES; do
+          if [ -d "$dir" ]; then
+            echo "- **$(basename "$dir"):** $dir" >> transport-discovery-report.md
+          fi
+        done
+
+    - name: Analyze Transport Implementation
+      id: analyze-transport
+      run: |
+        echo "🔍 Analyzing transport layer implementation..."
+        
+        # Create transport analysis report
+        echo "## Transport Layer Implementation Analysis" > transport-analysis-report.md
+        echo "- **Timestamp:** $(date)" >> transport-analysis-report.md
+        echo "" >> transport-analysis-report.md
+        
+        # Define expected transport patterns
+        EXPECTED_PATTERNS=("connect" "disconnect" "send" "receive" "listen" "emit" "on" "off")
+        
+        TOTAL_PATTERNS=0
+        IMPLEMENTED_PATTERNS=0
+        MISSING_PATTERNS=0
+        
+        echo "### Transport Pattern Implementation" >> transport-analysis-report.md
+        
+        # Check each transport file
+        for file in $(find miff/pure -name "*Transport*" -o -name "*transport*" -o -name "*Bridge*" -o -name "*bridge*"); do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> transport-analysis-report.md
+            
+            MODULE_PATTERNS=0
+            MODULE_IMPLEMENTED=0
+            
+            for pattern in "${EXPECTED_PATTERNS[@]}"; do
+              TOTAL_PATTERNS=$((TOTAL_PATTERNS + 1))
+              MODULE_PATTERNS=$((MODULE_PATTERNS + 1))
+              
+              if grep -q "$pattern" "$file"; then
+                IMPLEMENTED_PATTERNS=$((IMPLEMENTED_PATTERNS + 1))
+                MODULE_IMPLEMENTED=$((MODULE_IMPLEMENTED + 1))
+                echo "  - ✅ **$pattern:** Implemented" >> transport-analysis-report.md
+              else
+                MISSING_PATTERNS=$((MISSING_PATTERNS + 1))
+                echo "  - ❌ **$pattern:** Missing" >> transport-analysis-report.md
+              fi
+            done
+            
+            # Calculate module coverage
+            if [ "$MODULE_PATTERNS" -gt 0 ]; then
+              COVERAGE=$((MODULE_IMPLEMENTED * 100 / MODULE_PATTERNS))
+              echo "  - **Coverage:** $COVERAGE% ($MODULE_IMPLEMENTED/$MODULE_PATTERNS)" >> transport-analysis-report.md
+            fi
+            
+            echo "" >> transport-analysis-report.md
+          fi
+        done
+        
+        # Calculate overall coverage
+        if [ "$TOTAL_PATTERNS" -gt 0 ]; then
+          OVERALL_COVERAGE=$((IMPLEMENTED_PATTERNS * 100 / TOTAL_PATTERNS))
+        else
+          OVERALL_COVERAGE=0
+        fi
+        
+        echo "overall_coverage=$OVERALL_COVERAGE" >> $GITHUB_OUTPUT
+        echo "missing_patterns=$MISSING_PATTERNS" >> $GITHUB_OUTPUT
+        echo "implemented_patterns=$IMPLEMENTED_PATTERNS" >> $GITHUB_OUTPUT
+
+    - name: Check Transport Quality
+      id: check-quality
+      run: |
+        echo "🔍 Checking transport layer quality..."
+        
+        # Create quality report
+        echo "## Transport Layer Quality Analysis" > transport-quality-report.md
+        echo "- **Timestamp:** $(date)" >> transport-quality-report.md
+        echo "" >> transport-quality-report.md
+        
+        QUALITY_ISSUES=0
+        
+        # Check for proper error handling
+        echo "### Error Handling Analysis" >> transport-quality-report.md
+        
+        for file in $(find miff/pure -name "*Transport*" -o -name "*transport*" -o -name "*Bridge*" -o -name "*bridge*"); do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> transport-quality-report.md
+            
+            # Check for try-catch blocks
+            if grep -q "try\|catch" "$file"; then
+              echo "  - ✅ **Error handling found**" >> transport-quality-report.md
+            else
+              echo "  - ⚠️ **Limited error handling**" >> transport-quality-report.md
+              QUALITY_ISSUES=$((QUALITY_ISSUES + 1))
+            fi
+            
+            # Check for proper async patterns
+            if grep -q "Promise\|async\|await" "$file"; then
+              echo "  - ✅ **Async patterns found**" >> transport-quality-report.md
+            else
+              echo "  - ⚠️ **No async patterns detected**" >> transport-quality-report.md
+            fi
+            
+            # Check for proper event handling
+            if grep -q "EventEmitter\|on\|emit" "$file"; then
+              echo "  - ✅ **Event handling found**" >> transport-quality-report.md
+            else
+              echo "  - ⚠️ **Limited event handling**" >> transport-quality-report.md
+            fi
+            
+            # Check for proper logging
+            if grep -q "console\|log\|Log" "$file"; then
+              echo "  - ✅ **Logging found**" >> transport-quality-report.md
+            else
+              echo "  - ⚠️ **Limited logging detected**" >> transport-quality-report.md
+            fi
+            
+            echo "" >> transport-quality-report.md
+          fi
+        done
+        
+        echo "quality_issues=$QUALITY_ISSUES" >> $GITHUB_OUTPUT
+
+    - name: Test Transport Functionality
+      id: test-transport
+      run: |
+        echo "🧪 Testing transport layer functionality..."
+        
+        # Create functionality test report
+        echo "## Transport Layer Functionality Test" > transport-functionality-report.md
+        echo "- **Timestamp:** $(date)" >> transport-functionality-report.md
+        echo "" >> transport-functionality-report.md
+        
+        FUNCTIONALITY_ERRORS=0
+        
+        # Test each transport module
+        for file in $(find miff/pure -name "*Transport*" -o -name "*transport*" -o -name "*Bridge*" -o -name "*bridge*"); do
+          if [ -f "$file" ]; then
+            echo "### Testing: $(basename "$file")" >> transport-functionality-report.md
+            
+            # Extract module name
+            MODULE_NAME=$(echo "$file" | sed 's|miff/pure/\([^/]*\).*|\1|')
+            
+            # Try to test the module
+            if tsx "$file" --test 2>/dev/null; then
+              echo "  - ✅ **Module test passed**" >> transport-functionality-report.md
+            else
+              echo "  - ❌ **Module test failed**" >> transport-functionality-report.md
+              FUNCTIONALITY_ERRORS=$((FUNCTIONALITY_ERRORS + 1))
+            fi
+            
+            # Try to test with help command
+            if tsx "$file" --help 2>/dev/null; then
+              echo "  - ✅ **Help command works**" >> transport-functionality-report.md
+            else
+              echo "  - ⚠️ **Help command not available**" >> transport-functionality-report.md
+            fi
+            
+            echo "" >> transport-functionality-report.md
+          fi
+        done
+        
+        echo "functionality_errors=$FUNCTIONALITY_ERRORS" >> $GITHUB_OUTPUT
+
+    - name: Check Mock vs Real Implementation
+      id: check-mocks
+      run: |
+        echo "🔍 Checking for mock vs real implementation..."
+        
+        # Create mock analysis report
+        echo "## Mock vs Real Implementation Analysis" > transport-mock-analysis-report.md
+        echo "- **Timestamp:** $(date)" >> transport-mock-analysis-report.md
+        echo "" >> transport-mock-analysis-report.md
+        
+        MOCK_ISSUES=0
+        
+        # Check for mock implementations
+        echo "### Mock Implementation Detection" >> transport-mock-analysis-report.md
+        
+        for file in $(find miff/pure -name "*Transport*" -o -name "*transport*" -o -name "*Bridge*" -o -name "*bridge*"); do
+          if [ -f "$file" ]; then
+            echo "#### $(basename "$file")" >> transport-mock-analysis-report.md
+            
+            # Check for mock patterns
+            if grep -q "mock\|Mock\|TODO\|FIXME\|placeholder" "$file"; then
+              echo "  - ⚠️ **Mock/placeholder code detected**" >> transport-mock-analysis-report.md
+              MOCK_ISSUES=$((MOCK_ISSUES + 1))
+            else
+              echo "  - ✅ **No mock patterns detected**" >> transport-mock-analysis-report.md
+            fi
+            
+            # Check for real implementation patterns
+            if grep -q "fetch\|axios\|http\|ws\|socket" "$file"; then
+              echo "  - ✅ **Real implementation patterns found**" >> transport-mock-analysis-report.md
+            else
+              echo "  - ⚠️ **Limited real implementation patterns**" >> transport-mock-analysis-report.md
+            fi
+            
+            echo "" >> transport-mock-analysis-report.md
+          fi
+        done
+        
+        echo "mock_issues=$MOCK_ISSUES" >> $GITHUB_OUTPUT
+
+    - name: Generate Transport Fidelity Summary
+      run: |
+        echo "📊 Generating transport fidelity summary..."
+        
+        # Create summary report
+        echo "## Transport Layer Fidelity Summary" > transport-fidelity-summary.md
+        echo "- **Timestamp:** $(date)" >> transport-fidelity-summary.md
+        echo "- **Branch:** ${{ github.ref_name }}" >> transport-fidelity-summary.md
+        echo "- **Commit:** ${{ github.sha }}" >> transport-fidelity-summary.md
+        echo "" >> lifecycle-coverage-summary.md
+        
+        echo "### Fidelity Statistics" >> transport-fidelity-summary.md
+        echo "- **Overall coverage:** {{ steps.analyze-transport.outputs.overall_coverage }}%" >> transport-fidelity-summary.md
+        echo "- **Implemented patterns:** {{ steps.analyze-transport.outputs.implemented_patterns }}" >> transport-fidelity-summary.md
+        echo "- **Missing patterns:** {{ steps.analyze-transport.outputs.missing_patterns }}" >> transport-fidelity-summary.md
+        echo "- **Quality issues:** {{ steps.check-quality.outputs.quality_issues }}" >> transport-fidelity-summary.md
+        echo "- **Functionality errors:** {{ steps.test-transport.outputs.functionality_errors }}" >> transport-fidelity-summary.md
+        echo "- **Mock issues:** {{ steps.check-mocks.outputs.mock_issues }}" >> transport-fidelity-summary.md
+        echo "" >> transport-fidelity-summary.md
+        
+        # Determine status
+        if [ "{{ steps.analyze-transport.outputs.overall_coverage }}" -ge 80 ] && [ "{{ steps.check-quality.outputs.quality_issues }}" -eq 0 ] && [ "{{ steps.check-mocks.outputs.mock_issues }}" -eq 0 ]; then
+          echo "### ✅ Transport Layer Fidelity Good" >> transport-fidelity-summary.md
+          echo "- **Status:** Transport layer fidelity meets standards" >> transport-fidelity-summary.md
+        else
+          echo "### ⚠️ Transport Layer Fidelity Issues" >> transport-fidelity-summary.md
+          echo "- **Status:** Transport layer fidelity needs improvement" >> transport-fidelity-summary.md
+        fi
+
+    - name: Upload Transport Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: transport-fidelity-reports-${{ github.sha }}
+        path: |
+          transport-discovery-report.md
+          transport-analysis-report.md
+          transport-quality-report.md
+          transport-functionality-report.md
+          transport-mock-analysis-report.md
+          transport-fidelity-summary.md
+        retention-days: 30
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request' && steps.analyze-transport.outputs.overall_coverage < 80
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const summary = fs.readFileSync('transport-fidelity-summary.md', 'utf8');
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 🚀 Transport Layer Fidelity Issues\n\n${summary}\n\nPlease improve transport layer fidelity before merging.`
+          });
+
+    - name: Fail on Low Fidelity
+      if: steps.analyze-transport.outputs.overall_coverage < 50
+      run: |
+        echo "❌ Transport layer fidelity is too low. Please implement missing transport patterns."
+        echo "Transport fidelity summary:"
+        cat transport-fidelity-summary.md
+        exit 1

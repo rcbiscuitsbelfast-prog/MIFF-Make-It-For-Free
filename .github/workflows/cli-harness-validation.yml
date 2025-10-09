@@ -1,0 +1,273 @@
+name: CLI Harness Validation
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+  schedule:
+    - cron: '0 3 * * 1' # Weekly on Mondays at 3 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  cli-harness-validation:
+    name: CLI Harness Validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm install -g tsx
+
+    - name: Discover CLI Harnesses
+      id: discover-cli
+      run: |
+        echo "🔍 Discovering CLI harnesses across MIFF modules..."
+        
+        # Find all CLI harness files
+        CLI_FILES=$(find miff/pure -name "*CLI.ts" -o -name "*cli.ts" -o -name "cliHarness.ts" | grep -v node_modules)
+        echo "CLI files found:"
+        echo "$CLI_FILES"
+        
+        # Count CLI files
+        CLI_COUNT=$(echo "$CLI_FILES" | wc -l)
+        echo "cli_count=$CLI_COUNT" >> $GITHUB_OUTPUT
+        
+        # Create CLI discovery report
+        echo "## CLI Harness Discovery Report" > cli-discovery-report.md
+        echo "- **Timestamp:** $(date)" >> cli-discovery-report.md
+        echo "- **Total CLI files:** $CLI_COUNT" >> cli-discovery-report.md
+        echo "" >> cli-discovery-report.md
+        
+        echo "### Discovered CLI Harnesses" >> cli-discovery-report.md
+        for file in $CLI_FILES; do
+          if [ -f "$file" ]; then
+            echo "- **$(basename "$file"):** $file" >> cli-discovery-report.md
+          fi
+        done
+
+    - name: Validate CLI Harness Structure
+      id: validate-structure
+      run: |
+        echo "🔍 Validating CLI harness structure..."
+        
+        # Create validation report
+        echo "## CLI Harness Structure Validation" > cli-structure-report.md
+        echo "- **Timestamp:** $(date)" >> cli-structure-report.md
+        echo "" >> cli-structure-report.md
+        
+        VALIDATION_ERRORS=0
+        
+        # Check each CLI file for required structure
+        for file in $(find miff/pure -name "*CLI.ts" -o -name "*cli.ts" -o -name "cliHarness.ts"); do
+          if [ -f "$file" ]; then
+            echo "### Validating: $(basename "$file")" >> cli-structure-report.md
+            
+            # Check for BaseCLIHarness inheritance
+            if ! grep -q "extends BaseCLIHarness" "$file"; then
+              echo "  - ❌ **Missing BaseCLIHarness inheritance**" >> cli-structure-report.md
+              VALIDATION_ERRORS=$((VALIDATION_ERRORS + 1))
+            else
+              echo "  - ✅ **BaseCLIHarness inheritance found**" >> cli-structure-report.md
+            fi
+            
+            # Check for executeOperation method
+            if ! grep -q "executeOperation" "$file"; then
+              echo "  - ❌ **Missing executeOperation method**" >> cli-structure-report.md
+              VALIDATION_ERRORS=$((VALIDATION_ERRORS + 1))
+            else
+              echo "  - ✅ **executeOperation method found**" >> cli-structure-report.md
+            fi
+            
+            # Check for supportedOperations
+            if ! grep -q "supportedOperations" "$file"; then
+              echo "  - ❌ **Missing supportedOperations property**" >> cli-structure-report.md
+              VALIDATION_ERRORS=$((VALIDATION_ERRORS + 1))
+            else
+              echo "  - ✅ **supportedOperations property found**" >> cli-structure-report.md
+            fi
+            
+            # Check for moduleName
+            if ! grep -q "moduleName" "$file"; then
+              echo "  - ❌ **Missing moduleName property**" >> cli-structure-report.md
+              VALIDATION_ERRORS=$((VALIDATION_ERRORS + 1))
+            else
+              echo "  - ✅ **moduleName property found**" >> cli-structure-report.md
+            fi
+            
+            echo "" >> cli-structure-report.md
+          fi
+        done
+        
+        echo "validation_errors=$VALIDATION_ERRORS" >> $GITHUB_OUTPUT
+
+    - name: Test CLI Harness Functionality
+      id: test-cli
+      run: |
+        echo "🧪 Testing CLI harness functionality..."
+        
+        # Create functionality test report
+        echo "## CLI Harness Functionality Test" > cli-functionality-report.md
+        echo "- **Timestamp:** $(date)" >> cli-functionality-report.md
+        echo "" >> cli-functionality-report.md
+        
+        FUNCTIONALITY_ERRORS=0
+        
+        # Test each CLI harness
+        for file in $(find miff/pure -name "*CLI.ts" -o -name "*cli.ts" -o -name "cliHarness.ts"); do
+          if [ -f "$file" ]; then
+            echo "### Testing: $(basename "$file")" >> cli-functionality-report.md
+            
+            # Extract module name from file path
+            MODULE_NAME=$(echo "$file" | sed 's|miff/pure/\([^/]*\).*|\1|')
+            
+            # Try to run the CLI with help command
+            if tsx "$file" --help 2>/dev/null; then
+              echo "  - ✅ **Help command works**" >> cli-functionality-report.md
+            else
+              echo "  - ❌ **Help command failed**" >> cli-functionality-report.md
+              FUNCTIONALITY_ERRORS=$((FUNCTIONALITY_ERRORS + 1))
+            fi
+            
+            # Try to run with list command if available
+            if tsx "$file" list 2>/dev/null; then
+              echo "  - ✅ **List command works**" >> cli-functionality-report.md
+            else
+              echo "  - ⚠️ **List command not available or failed**" >> cli-functionality-report.md
+            fi
+            
+            # Try to run with version command if available
+            if tsx "$file" --version 2>/dev/null; then
+              echo "  - ✅ **Version command works**" >> cli-functionality-report.md
+            else
+              echo "  - ⚠️ **Version command not available or failed**" >> cli-functionality-report.md
+            fi
+            
+            echo "" >> cli-functionality-report.md
+          fi
+        done
+        
+        echo "functionality_errors=$FUNCTIONALITY_ERRORS" >> $GITHUB_OUTPUT
+
+    - name: Check CLI Integration
+      id: check-integration
+      run: |
+        echo "🔗 Checking CLI integration with managers..."
+        
+        # Create integration report
+        echo "## CLI Integration Check" > cli-integration-report.md
+        echo "- **Timestamp:** $(date)" >> cli-integration-report.md
+        echo "" >> cli-integration-report.md
+        
+        INTEGRATION_ERRORS=0
+        
+        # Check for manager integration
+        for cli_file in $(find miff/pure -name "*CLI.ts" -o -name "*cli.ts" -o -name "cliHarness.ts"); do
+          if [ -f "$cli_file" ]; then
+            echo "### Checking: $(basename "$cli_file")" >> cli-integration-report.md
+            
+            # Look for manager instantiation
+            if grep -q "new.*Manager" "$cli_file"; then
+              echo "  - ✅ **Manager instantiation found**" >> cli-integration-report.md
+            else
+              echo "  - ❌ **No manager instantiation found**" >> cli-integration-report.md
+              INTEGRATION_ERRORS=$((INTEGRATION_ERRORS + 1))
+            fi
+            
+            # Check for proper error handling
+            if grep -q "try\|catch\|error" "$cli_file"; then
+              echo "  - ✅ **Error handling found**" >> cli-integration-report.md
+            else
+              echo "  - ⚠️ **Limited error handling detected**" >> cli-integration-report.md
+            fi
+            
+            # Check for proper output formatting
+            if grep -q "operation\|status\|data" "$cli_file"; then
+              echo "  - ✅ **Output formatting found**" >> cli-integration-report.md
+            else
+              echo "  - ⚠️ **Output formatting may be missing**" >> cli-integration-report.md
+            fi
+            
+            echo "" >> cli-integration-report.md
+          fi
+        done
+        
+        echo "integration_errors=$INTEGRATION_ERRORS" >> $GITHUB_OUTPUT
+
+    - name: Generate CLI Validation Summary
+      run: |
+        echo "📊 Generating CLI validation summary..."
+        
+        # Create summary report
+        echo "## CLI Harness Validation Summary" > cli-validation-summary.md
+        echo "- **Timestamp:** $(date)" >> cli-validation-summary.md
+        echo "- **Branch:** ${{ github.ref_name }}" >> cli-validation-summary.md
+        echo "- **Commit:** ${{ github.sha }}" >> cli-validation-summary.md
+        echo "" >> cli-validation-summary.md
+        
+        # Calculate total errors
+        TOTAL_ERRORS=$(({{ steps.validate-structure.outputs.validation_errors }} + {{ steps.test-cli.outputs.functionality_errors }} + {{ steps.check-integration.outputs.integration_errors }}))
+        
+        echo "### Validation Results" >> cli-validation-summary.md
+        echo "- **Structure errors:** {{ steps.validate-structure.outputs.validation_errors }}" >> cli-validation-summary.md
+        echo "- **Functionality errors:** {{ steps.test-cli.outputs.functionality_errors }}" >> cli-validation-summary.md
+        echo "- **Integration errors:** {{ steps.check-integration.outputs.integration_errors }}" >> cli-validation-summary.md
+        echo "- **Total errors:** $TOTAL_ERRORS" >> cli-validation-summary.md
+        echo "" >> cli-validation-summary.md
+        
+        if [ "$TOTAL_ERRORS" -eq 0 ]; then
+          echo "### ✅ All CLI Harnesses Valid" >> cli-validation-summary.md
+          echo "- **Status:** All CLI harnesses passed validation" >> cli-validation-summary.md
+        else
+          echo "### ❌ CLI Validation Issues Found" >> cli-validation-summary.md
+          echo "- **Status:** $TOTAL_ERRORS validation issues need attention" >> cli-validation-summary.md
+        fi
+
+    - name: Upload CLI Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: cli-validation-reports-${{ github.sha }}
+        path: |
+          cli-discovery-report.md
+          cli-structure-report.md
+          cli-functionality-report.md
+          cli-integration-report.md
+          cli-validation-summary.md
+        retention-days: 30
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request' && steps.validate-structure.outputs.validation_errors > 0
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const summary = fs.readFileSync('cli-validation-summary.md', 'utf8');
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## 🔧 CLI Harness Validation Issues\n\n${summary}\n\nPlease review and fix the CLI harness issues before merging.`
+          });
+
+    - name: Fail on Critical CLI Issues
+      if: steps.validate-structure.outputs.validation_errors > 0
+      run: |
+        echo "❌ Critical CLI harness validation issues detected. Please review and fix the issues."
+        echo "CLI validation summary:"
+        cat cli-validation-summary.md
+        exit 1
