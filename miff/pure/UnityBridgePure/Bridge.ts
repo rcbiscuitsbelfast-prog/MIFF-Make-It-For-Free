@@ -264,7 +264,7 @@ export class UnityBridge {
           layer: 0,
           tag: 'Combatant'
         },
-        transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
+        transform: { position: { x: 0, y: 0, z: 0 }, rotation: { x: 0, y: 0, z: 0, w: 1 }, scale: { x: 1, y: 1, z: 1 } },
         components: {
           CombatController: { type: 'CombatController', data: { combatantId: data.attackerId, isAttacker: true }, enabled: true },
           Stats: { type: 'Stats', data: { stats: data.attackerStats }, enabled: true }
@@ -285,11 +285,20 @@ export class UnityBridge {
 
   private createWorldEntities(data: Record<string, unknown>, config: UnityBridgeConfig): UnityEntity[] {
     return (data.zones as Array<Record<string, unknown>>)?.map((zone: Record<string, unknown>) => ({
-      id: zone.id,
-      gameObject: `Zone_${zone.id}`,
-      transform: { position: { x: zone.x, y: zone.y, z: 0 }, rotation: { x: 0, y: 0, z: 0 }, scale: { x: 1, y: 1, z: 1 } },
+      id: zone.id as string,
+      gameObject: {
+        name: `Zone_${zone.id}`,
+        active: true,
+        layer: 0,
+        tag: 'Zone'
+      },
+      transform: { 
+        position: { x: zone.x as number, y: zone.y as number, z: 0 }, 
+        rotation: { x: 0, y: 0, z: 0, w: 1 }, 
+        scale: { x: 1, y: 1, z: 1 } 
+      },
       components: {
-        ZoneController: { zoneId: zone.id, zoneData: zone }
+        ZoneController: { type: 'ZoneController', data: { zoneId: zone.id, zoneData: zone }, enabled: true }
       }
     })) || [];
   }
@@ -308,7 +317,7 @@ export class UnityBridge {
     // Convert Unity-specific data back to MIFF format
     return {
       id: unityData.id,
-      ...unityData.data
+      ...(typeof unityData.data === 'object' && unityData.data !== null ? unityData.data : {})
     };
   }
 

@@ -1357,7 +1357,7 @@ export class UnityBridgeManager {
     return this.isConnected;
   }
 
-  getConnectionStatus(): 'connected' | 'disconnected' | 'connecting' | 'error' {
+  getConnectionStatus(): 'connected' | 'disconnected' | 'connecting' | 'reconnecting' | 'error' {
     if (!this.isConnected) return 'disconnected';
 
     const connection = Array.from(this.connections.values())[0];

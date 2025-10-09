@@ -238,6 +238,7 @@ export interface AssetManagerStatistics {
   totalRequests: number;
   successfulRequests: number;
   failedRequests: number;
+  compressionRatio: number;
   retryCount: number;
   timeoutCount: number;
   streamingRequests: number;
@@ -318,6 +319,7 @@ export class UnrealAssetManagerPure {
       totalRequests: 0,
       successfulRequests: 0,
       failedRequests: 0,
+      compressionRatio: 0,
       retryCount: 0,
       timeoutCount: 0,
       streamingRequests: 0,

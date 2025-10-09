@@ -174,6 +174,7 @@ export class UnrealEditorHarnessPure {
       loadPriority: 0,
       loadOrder: 0,
       loadState: 'uninitialized',
+      interfaces: [],
       metadata: {
         testAsset: true,
         geometryType: 'cube',
@@ -212,6 +213,7 @@ export class UnrealEditorHarnessPure {
       loadPriority: 0,
       loadOrder: 0,
       loadState: 'uninitialized',
+      interfaces: [],
       metadata: {
         testAsset: true,
         materialDomain: 'surface',
