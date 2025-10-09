@@ -14,8 +14,8 @@
  */
 
 import { HealthSystemManager } from '../../HealthSystemPure/index';
-import { CombatManager } from '../../CombatPure/index';
-import { TeamsManager } from '../../TeamsPure/index';
+import { CombatEngine } from '../../CombatPure/index';
+import { TeamManager } from '../../TeamsPure/index';
 import { ItemsManager } from '../../ItemsPure/index';
 import { AIManager } from '../../AIPure/index';
 import { LogManager } from '../../LogPure/index';
@@ -206,13 +206,22 @@ class SpiritTamerGame {
   private battleState: BattleState | null = null;
 
   constructor() {
-    this.healthSystem = new (HealthSystemPure as any).HealthSystemManager();
-    this.combatSystem = new (CombatPure as any).CombatEngine();
-    this.teamSystem = new (TeamsPure as any).TeamManager();
-    this.itemSystem = new (ItemsPure as any).ItemUsageManager({} as any);
-    this.aiSystem = new (AIPure as any).AIManager();
-    this.logSystem = new (LogPure as any).BattleLogger();
-    this.saveSystem = new (SavePure as any).SaveManager();
+    this.player = {
+      name: 'Player',
+      level: 1,
+      experience: 0,
+      team: [],
+      inventory: new Map<string, number>(),
+      money: 1000
+    };
+    
+    this.healthSystem = new HealthSystemManager();
+    this.combatSystem = new CombatEngine();
+    this.teamSystem = new TeamManager();
+    this.itemSystem = new ItemsManager();
+    this.aiSystem = new AIManager({} as any);
+    this.logSystem = new LogManager();
+    this.saveSystem = new SaveManager();
 
     this.rl = readline.createInterface({
       input: process.stdin,
