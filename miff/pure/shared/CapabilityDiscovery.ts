@@ -299,10 +299,13 @@ describe('${result.moduleName} Capabilities', () => {
       ],
       integrations: [
         {
+          id: 'eventbus',
           name: 'EventBus',
           description: `Event bus integration for ${moduleName}`,
-          integrationType: 'event',
-          status: 'active'
+          targetSystem: 'EventBus',
+          integrationType: 'bridge',
+          protocols: ['message_passing'],
+          authenticationRequired: false
         }
       ],
       formats: [
