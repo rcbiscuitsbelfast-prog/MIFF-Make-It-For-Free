@@ -1,14 +1,14 @@
 name: Core CI Pipeline
 
 on:
-
-permissions:
-  contents: read
-  actions: read
   push:
     branches: [ master, develop ]
   pull_request:
     branches: [ master, develop ]
+
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   test:

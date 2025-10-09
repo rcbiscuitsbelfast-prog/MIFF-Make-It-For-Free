@@ -220,7 +220,10 @@ jobs:
         echo "" >> cli-validation-summary.md
         
         # Calculate total errors
-        TOTAL_ERRORS=$(({{ steps.validate-structure.outputs.validation_errors }} + {{ steps.test-cli.outputs.functionality_errors }} + {{ steps.check-integration.outputs.integration_errors }}))
+        VALIDATION_ERRORS="{{ steps.validate-structure.outputs.validation_errors }}"
+        FUNCTIONALITY_ERRORS="{{ steps.test-cli.outputs.functionality_errors }}"
+        INTEGRATION_ERRORS="{{ steps.check-integration.outputs.integration_errors }}"
+        TOTAL_ERRORS=$((VALIDATION_ERRORS + FUNCTIONALITY_ERRORS + INTEGRATION_ERRORS))
         
         echo "### Validation Results" >> cli-validation-summary.md
         echo "- **Structure errors:** {{ steps.validate-structure.outputs.validation_errors }}" >> cli-validation-summary.md
