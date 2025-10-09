@@ -20,9 +20,10 @@ import {
   IPlayerContext,
   ISpiritInstance
 } from './index';
+import { Spirit } from '../SpiritsPure/index';
 
-// Mock Spirit Instance for testing
-class MockSpiritInstance implements ISpiritInstance {
+// Real Spirit Instance for testing - using actual Spirit class
+class CLISpiritInstance extends Spirit implements ISpiritInstance {
   public id: string;
   public name: string;
   public currentHP: number;
@@ -106,11 +107,31 @@ class ItemsPureCLI {
    */
   private initializeSpirits(): void {
     const spirits = [
-      new MockSpiritInstance('spirit1', 'Fire Spirit', 100, 75, 30),
-      new MockSpiritInstance('spirit2', 'Water Spirit', 80, 60, 45),
-      new MockSpiritInstance('spirit3', 'Wind Spirit', 90, 0, 60), // Fainted
-      new MockSpiritInstance('spirit4', 'Earth Spirit', 120, 120, 25),
-      new MockSpiritInstance('spirit5', 'Light Spirit', 70, 35, 80) // High sync, can evolve
+      new CLISpiritInstance({
+        id: 'spirit1', name: 'Fire Spirit', species: 'Fire Spirit', type: ['fire'],
+        level: 15, stats: { hp: 100, attack: 50, defense: 40, specialAttack: 60, specialDefense: 45, speed: 35 },
+        moves: ['ember', 'flame_burst'], experience: 1500, syncLevel: 30
+      }),
+      new CLISpiritInstance({
+        id: 'spirit2', name: 'Water Spirit', species: 'Water Spirit', type: ['water'],
+        level: 12, stats: { hp: 80, attack: 45, defense: 50, specialAttack: 55, specialDefense: 50, speed: 40 },
+        moves: ['water_gun', 'bubble_beam'], experience: 1200, syncLevel: 45
+      }),
+      new CLISpiritInstance({
+        id: 'spirit3', name: 'Wind Spirit', species: 'Wind Spirit', type: ['flying'],
+        level: 18, stats: { hp: 90, attack: 55, defense: 35, specialAttack: 65, specialDefense: 40, speed: 50 },
+        moves: ['gust', 'air_slash'], experience: 1800, syncLevel: 60, currentHP: 0 // Fainted
+      }),
+      new CLISpiritInstance({
+        id: 'spirit4', name: 'Earth Spirit', species: 'Earth Spirit', type: ['ground'],
+        level: 20, stats: { hp: 120, attack: 60, defense: 55, specialAttack: 45, specialDefense: 50, speed: 25 },
+        moves: ['earthquake', 'rock_throw'], experience: 2000, syncLevel: 25
+      }),
+      new CLISpiritInstance({
+        id: 'spirit5', name: 'Light Spirit', species: 'Light Spirit', type: ['light'],
+        level: 14, stats: { hp: 70, attack: 40, defense: 35, specialAttack: 70, specialDefense: 55, speed: 45 },
+        moves: ['light_beam', 'heal'], experience: 1400, syncLevel: 80 // High sync, can evolve
+      })
     ];
 
     spirits.forEach(spirit => {
