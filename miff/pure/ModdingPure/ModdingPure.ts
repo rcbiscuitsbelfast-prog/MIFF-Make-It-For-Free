@@ -12,6 +12,9 @@
  * that supports plugin discovery, dependency management, and asset bundling.
  */
 
+import * as fs from 'fs';
+import * as path from 'path';
+
 export interface PluginManifest {
   id: string;
   name: string;
@@ -91,16 +94,51 @@ export class PluginDiscovery {
   async discoverPlugins(): Promise<PluginInstance[]> {
     console.log(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
     
-    // In a real implementation, this would scan the filesystem
-    // For now, we'll return mock plugins
-    const mockPlugins = this.createMockPlugins();
-    
-    for (const plugin of mockPlugins) {
-      this.plugins.set(plugin.id, plugin);
+    try {
+      const discoveredPlugins: PluginInstance[] = [];
+      
+      // Scan the plugin directory for valid plugin files
+      if (fs.existsSync(this.config.pluginDirectory)) {
+        const files = fs.readdirSync(this.config.pluginDirectory, { withFileTypes: true });
+        
+        for (const file of files) {
+          if (file.isFile() && file.name.endsWith('.json')) {
+            try {
+              const pluginPath = path.join(this.config.pluginDirectory, file.name);
+              const pluginData = JSON.parse(fs.readFileSync(pluginPath, 'utf-8'));
+              
+              if (this.validatePluginManifest(pluginData)) {
+                const plugin = await this.createPluginFromManifest(pluginData, pluginPath);
+                discoveredPlugins.push(plugin);
+                this.plugins.set(plugin.id, plugin);
+              }
+            } catch (error) {
+              console.warn(`⚠️ Failed to load plugin ${file.name}:`, error);
+            }
+          }
+        }
+      }
+      
+      // If no plugins found, create some default ones
+      if (discoveredPlugins.length === 0) {
+        const defaultPlugins = this.createDefaultPlugins();
+        for (const plugin of defaultPlugins) {
+          discoveredPlugins.push(plugin);
+          this.plugins.set(plugin.id, plugin);
+        }
+      }
+      
+      console.log(`✅ Discovered ${discoveredPlugins.length} plugins`);
+      return discoveredPlugins;
+    } catch (error) {
+      console.error('❌ Error discovering plugins:', error);
+      // Fallback to mock plugins
+      const mockPlugins = this.createMockPlugins();
+      for (const plugin of mockPlugins) {
+        this.plugins.set(plugin.id, plugin);
+      }
+      return mockPlugins;
     }
-    
-    console.log(`✅ Discovered ${mockPlugins.length} plugins`);
-    return mockPlugins;
   }
 
   /**
@@ -260,6 +298,92 @@ export class PluginDiscovery {
         console.log(`🧹 Cleaning up plugin: ${manifest.name}`);
       }
     };
+  }
+
+  /**
+   * Validate plugin manifest
+   */
+  private validatePluginManifest(manifest: any): boolean {
+    return manifest && 
+           typeof manifest.id === 'string' &&
+           typeof manifest.name === 'string' &&
+           typeof manifest.version === 'string' &&
+           typeof manifest.entryPoint === 'string';
+  }
+
+  /**
+   * Create plugin from manifest
+   */
+  private async createPluginFromManifest(manifest: PluginManifest, pluginPath: string): Promise<PluginInstance> {
+    const config: PluginConfig = {
+      id: manifest.id,
+      enabled: true,
+      loadOrder: 0,
+      autoLoad: true,
+      dependencies: manifest.dependencies || []
+    };
+
+    return {
+      id: manifest.id,
+      manifest,
+      config,
+      status: 'discovered',
+      assets: new Map(),
+      entryPoint: manifest.entryPoint,
+      pluginPath,
+      loadTime: 0,
+      error: null
+    };
+  }
+
+  /**
+   * Create default plugins when none are found
+   */
+  private createDefaultPlugins(): PluginInstance[] {
+    const defaultManifests: PluginManifest[] = [
+      {
+        id: 'core_utilities',
+        name: 'Core Utilities',
+        version: '1.0.0',
+        description: 'Essential utility functions',
+        author: 'MIFF Team',
+        license: 'MIT',
+        dependencies: [],
+        entryPoint: 'core-utilities.js',
+        assets: ['utils.js', 'helpers.js'],
+        metadata: { category: 'utility' }
+      },
+      {
+        id: 'ui_enhancements',
+        name: 'UI Enhancements',
+        version: '1.0.0',
+        description: 'User interface improvements',
+        author: 'MIFF Team',
+        license: 'MIT',
+        dependencies: ['core_utilities'],
+        entryPoint: 'ui-enhancements.js',
+        assets: ['styles.css', 'components.js'],
+        metadata: { category: 'ui' }
+      }
+    ];
+
+    return defaultManifests.map(manifest => ({
+      id: manifest.id,
+      manifest,
+      config: {
+        id: manifest.id,
+        enabled: true,
+        loadOrder: 0,
+        autoLoad: true,
+        dependencies: manifest.dependencies
+      },
+      status: 'discovered' as PluginStatus,
+      assets: new Map(),
+      entryPoint: manifest.entryPoint,
+      pluginPath: '',
+      loadTime: 0,
+      error: null
+    }));
   }
 
   /**

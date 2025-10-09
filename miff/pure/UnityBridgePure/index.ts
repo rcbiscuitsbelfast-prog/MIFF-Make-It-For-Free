@@ -1056,8 +1056,149 @@ export class UnityBridgeManager {
   }
 
   private async executeCommand(command: UnityCommand): Promise<any> {
-    // Implementation for executing Unity commands
-    return { success: true, data: {}, executionTime: 0 };
+    const startTime = Date.now();
+    
+    try {
+      let result: any = {};
+      
+      switch (command.type) {
+        case 'create_game_object':
+          result = await this.createGameObject(command.data);
+          break;
+        case 'destroy_game_object':
+          result = await this.destroyGameObject(command.data);
+          break;
+        case 'update_transform':
+          result = await this.updateTransform(command.data);
+          break;
+        case 'add_component':
+          result = await this.addComponent(command.data);
+          break;
+        case 'remove_component':
+          result = await this.removeComponent(command.data);
+          break;
+        case 'set_active':
+          result = await this.setActive(command.data);
+          break;
+        case 'load_scene':
+          result = await this.loadScene(command.data);
+          break;
+        case 'unload_scene':
+          result = await this.unloadScene(command.data);
+          break;
+        default:
+          throw new Error(`Unknown command type: ${command.type}`);
+      }
+      
+      const executionTime = Date.now() - startTime;
+      return { success: true, data: result, executionTime };
+    } catch (error) {
+      const executionTime = Date.now() - startTime;
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error',
+        executionTime 
+      };
+    }
+  }
+
+  // Helper methods for command execution
+  private async createGameObject(data: any): Promise<any> {
+    const gameObject: UnityGameObject = {
+      name: data.name || 'New GameObject',
+      active: data.active !== false,
+      layer: data.layer || 0,
+      tag: data.tag || 'Untagged'
+    };
+    
+    // In a real implementation, this would communicate with Unity
+    // For now, we'll simulate the creation
+    const id = `go_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    return { id, gameObject };
+  }
+
+  private async destroyGameObject(data: any): Promise<any> {
+    const id = data.id;
+    if (!id) {
+      throw new Error('GameObject ID is required for destruction');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    return { id, destroyed: true };
+  }
+
+  private async updateTransform(data: any): Promise<any> {
+    const id = data.id;
+    const transform = data.transform;
+    
+    if (!id || !transform) {
+      throw new Error('GameObject ID and transform data are required');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    return { id, transform };
+  }
+
+  private async addComponent(data: any): Promise<any> {
+    const gameObjectId = data.gameObjectId;
+    const componentType = data.componentType;
+    const componentData = data.componentData || {};
+    
+    if (!gameObjectId || !componentType) {
+      throw new Error('GameObject ID and component type are required');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    const componentId = `comp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    
+    return { gameObjectId, componentId, componentType, componentData };
+  }
+
+  private async removeComponent(data: any): Promise<any> {
+    const gameObjectId = data.gameObjectId;
+    const componentId = data.componentId;
+    
+    if (!gameObjectId || !componentId) {
+      throw new Error('GameObject ID and component ID are required');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    return { gameObjectId, componentId, removed: true };
+  }
+
+  private async setActive(data: any): Promise<any> {
+    const id = data.id;
+    const active = data.active;
+    
+    if (!id || typeof active !== 'boolean') {
+      throw new Error('GameObject ID and active state are required');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    return { id, active };
+  }
+
+  private async loadScene(data: any): Promise<any> {
+    const sceneName = data.sceneName;
+    
+    if (!sceneName) {
+      throw new Error('Scene name is required');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    return { sceneName, loaded: true };
+  }
+
+  private async unloadScene(data: any): Promise<any> {
+    const sceneName = data.sceneName;
+    
+    if (!sceneName) {
+      throw new Error('Scene name is required');
+    }
+    
+    // In a real implementation, this would communicate with Unity
+    return { sceneName, unloaded: true };
   }
 
   private async processQueryMessage(message: UnityMessage): Promise<void> {

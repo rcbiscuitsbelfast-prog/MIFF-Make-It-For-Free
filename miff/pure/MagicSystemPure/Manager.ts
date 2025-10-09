@@ -289,9 +289,33 @@ export class MagicManager {
     targets: string[];
     manaSpent: number;
   }> {
-    // This would normally come from an event log or database
-    // For now, return empty array as placeholder
-    return [];
+    // Get spell history from the entity's spell data
+    const entitySpells = this.entitySpells.get(casterId);
+    if (!entitySpells) {
+      return [];
+    }
+    
+    const history: Array<{
+      spellId: string;
+      timestamp: number;
+      targets: string[];
+      manaSpent: number;
+    }> = [];
+    
+    // Collect usage history from all spells for this entity
+    for (const [spellId, spellData] of entitySpells) {
+      if (spellData.usageHistory && spellData.usageHistory.length > 0) {
+        history.push(...spellData.usageHistory.map(usage => ({
+          spellId,
+          timestamp: usage.timestamp,
+          targets: usage.targets || [],
+          manaSpent: usage.manaSpent
+        })));
+      }
+    }
+    
+    // Sort by timestamp (most recent first)
+    return history.sort((a, b) => b.timestamp - a.timestamp);
   }
 
   /**

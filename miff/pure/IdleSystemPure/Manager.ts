@@ -183,6 +183,29 @@ export class IdleManagerPure {
   private analyticsData: any[] = [];
   private lastAnalyticsUpdate: number = 0;
 
+  /**
+   * Create a proper idle system implementation
+   */
+  private createIdleSystem(eventBus: EventBus, config: IdleManagerConfig): IdleSystemPure {
+    return {
+      getResources: () => this.resourceManager?.getAllResources() || new Map(),
+      getGenerators: () => this.generatorManager?.getAllGenerators() || new Map(),
+      getResource: (id: string) => this.resourceManager?.getResource(id),
+      getTotalProduction: () => this.generatorManager?.getTotalProduction() || 0,
+      purchaseGenerator: (id: string, count: number) => this.generatorManager?.purchaseGenerator(id, count),
+      getAchievements: () => this.achievementManager?.getAllAchievements() || new Map(),
+      getPrestigeConfigs: () => this.prestigeManager?.getPrestigeConfigs() || new Map(),
+      loadGameData: () => this.loadGameData(),
+      saveGameData: () => this.saveGameData(),
+      resetGame: () => this.resetGame(),
+      getStats: () => this.getStats(),
+      getGameState: () => this.getGameState(),
+      setPaused: (paused: boolean) => this.setPaused(paused),
+      setIntegrations: (integrations: any) => this.setIntegrations(integrations),
+      on: (event: string, handler: any) => this.eventBus.subscribe(event, handler)
+    } as IdleSystemPure;
+  }
+
   constructor(eventBus: EventBus, config: IdleManagerConfig = {
     enableAutoSave: true,
     saveInterval: 60,
@@ -194,35 +217,7 @@ export class IdleManagerPure {
   }) {
     this.eventBus = eventBus;
     this.config = config;
-    // Use a minimal stub if real IdleSystemPure is not available at compile time
-    const IdleCtor: any = (globalThis as any).IdleSystemPure || class {
-      constructor(_bus: any, _cfg: any) {}
-      getResources() { return new Map(); }
-      getGenerators() { return new Map(); }
-      getResource(_id: string) { return undefined; }
-      getTotalProduction() { return 0; }
-      purchaseGenerator(_id: string, _n: number) {}
-      getAchievements() { return new Map(); }
-      getPrestigeConfigs() { return new Map(); }
-      loadGameData() {}
-      saveGameData() {}
-      resetGame() {}
-      getStats() { return {}; }
-      getGameState() { return {}; }
-      setPaused(_p: boolean) {}
-      setIntegrations(_i: any) {}
-      on(_e: string, _h: any) {}
-    };
-    this.idleSystem = new IdleCtor(eventBus, {
-      enableOfflineProgress: true,
-      offlineProgressMultiplier: 1.0,
-      saveInterval: config.saveInterval,
-      maxIdleTime: 86400,
-      enableAchievements: config.enableAchievements,
-      enablePrestige: config.enablePrestige,
-      performanceMode: config.performanceMode,
-      debugMode: config.debugMode
-    });
+    this.idleSystem = this.createIdleSystem(eventBus, config);
 
     this.initializeManagers();
     this.setupEventListeners();
