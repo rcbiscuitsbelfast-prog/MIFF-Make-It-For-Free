@@ -17,7 +17,7 @@ import { RNGProvider } from '../../RNGPure/index';
 import { InputProfile } from '../../InputPure/index';
 import { PerfTimer } from '../../PerfPure/index';
 import { AudioEngine } from '../../AudioPure/index';
-import { DebugOverlay } from '../../DebugOverlayPure/index';
+import { DebugOverlayManager } from '../../DebugOverlayPure/index';
 import { SaveManager } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -255,9 +255,9 @@ class TopplerGame {
 
     this.rng = new RNGProvider(12345);
     this.inputSystem = new InputProfile();
-    this.perfSystem = new PerfTimer();
+    this.perfSystem = new PerfTimer('TopplerDemo');
     this.audioSystem = new AudioEngine();
-    this.debugSystem = new DebugOverlay({
+    this.debugSystem = new DebugOverlayManager({
       showOp: true,
       showStatus: true,
       showIssues: true,
