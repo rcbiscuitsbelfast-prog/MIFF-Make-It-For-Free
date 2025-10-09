@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MIFF Performance Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #f0f0f0; padding: 20px; border-radius: 5px; }
+        .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .score-card { background: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 5px; text-align: center; }
+        .score-value { font-size: 2em; font-weight: bold; color: #333; }
+        .score-label { color: #666; margin-top: 5px; }
+        .excellent { color: #28a745; }
+        .good { color: #ffc107; }
+        .poor { color: #dc3545; }
+        .targets { margin: 20px 0; }
+        .target-item { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .target-critical { border-left: 4px solid #dc3545; }
+        .target-high { border-left: 4px solid #fd7e14; }
+        .target-medium { border-left: 4px solid #ffc107; }
+        .target-low { border-left: 4px solid #28a745; }
+        .recommendations { margin: 20px 0; }
+        .recommendation-item { background: #e3f2fd; padding: 10px; margin: 5px 0; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ MIFF Performance Report</h1>
+        <p>Generated: 10/9/2025, 12:37:13 PM</p>
+    </div>
+
+    <div class="scores">
+        <div class="score-card">
+            <div class="score-value poor">NaN</div>
+            <div class="score-label">Overall Score</div>
+        </div>
+        <div class="score-card">
+            <div class="score-value poor">NaN</div>
+            <div class="score-label">Memory Score</div>
+        </div>
+        <div class="score-card">
+            <div class="score-value excellent">100</div>
+            <div class="score-label">CPU Score</div>
+        </div>
+        <div class="score-card">
+            <div class="score-value excellent">100</div>
+            <div class="score-label">Network Score</div>
+        </div>
+        <div class="score-card">
+            <div class="score-value poor">0</div>
+            <div class="score-label">Cache Score</div>
+        </div>
+    </div>
+
+    <div class="targets">
+        <h3>Optimization Targets (0)</h3>
+        
+    </div>
+
+    <div class="recommendations">
+        <h3>Recommendations (1)</h3>
+        
+            <div class="recommendation-item">Consider optimizing cache strategies to improve hit rate</div>
+        
+    </div>
+
+    <div class="metrics">
+        <h3>Performance Metrics</h3>
+        <pre>{
+  "memory": {
+    "heapUsed": 0,
+    "heapTotal": 0,
+    "external": 0,
+    "rss": 0,
+    "heapFree": 0
+  },
+  "cpu": {
+    "usage": 0,
+    "loadAverage": [
+      0,
+      0,
+      0
+    ],
+    "uptime": 0
+  },
+  "network": {
+    "bytesIn": 0,
+    "bytesOut": 0,
+    "connections": 0,
+    "latency": 0
+  },
+  "cache": {
+    "hitRate": 0,
+    "missRate": 0,
+    "size": 0,
+    "evictions": 0
+  }
+}</pre>
+    </div>
+</body>
+</html>

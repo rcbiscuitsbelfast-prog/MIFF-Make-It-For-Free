@@ -1,0 +1,30 @@
+{
+  "memory": {
+    "heapUsed": 57985523,
+    "heapTotal": 197321054,
+    "external": 12941447,
+    "rss": 136766425,
+    "heapFree": 73930128
+  },
+  "cpu": {
+    "usage": 60.59839766496027,
+    "loadAverage": [
+      0.5610244631966466,
+      1.4077225708108032,
+      1.666935956693905
+    ],
+    "uptime": 1759943895479
+  },
+  "network": {
+    "bytesIn": 739777984,
+    "bytesOut": 953883590,
+    "connections": 106,
+    "latency": 25
+  },
+  "cache": {
+    "hitRate": 98.73687191054495,
+    "missRate": 73.4221510247799,
+    "size": 269518,
+    "evictions": 736
+  }
+}

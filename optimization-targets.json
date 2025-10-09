@@ -1,0 +1,338 @@
+[
+  {
+    "id": "CombatPure_memory_1760013426851",
+    "module": "CombatPure",
+    "type": "memory",
+    "priority": "medium",
+    "currentValue": 37860868,
+    "targetValue": 15173834,
+    "improvement": 26,
+    "description": "Memory optimization for CombatPure",
+    "strategies": [
+      "object_pooling",
+      "lazy_loading",
+      "garbage_collection"
+    ]
+  },
+  {
+    "id": "HealthSystemPure_memory_1760013426851",
+    "module": "HealthSystemPure",
+    "type": "memory",
+    "priority": "high",
+    "currentValue": 53138896,
+    "targetValue": 33670694,
+    "improvement": 45,
+    "description": "Memory optimization for HealthSystemPure",
+    "strategies": [
+      "object_pooling",
+      "lazy_loading",
+      "garbage_collection"
+    ]
+  },
+  {
+    "id": "MagicSystemPure_memory_1760013426851",
+    "module": "MagicSystemPure",
+    "type": "memory",
+    "priority": "high",
+    "currentValue": 71705726,
+    "targetValue": 49698337,
+    "improvement": 57,
+    "description": "Memory optimization for MagicSystemPure",
+    "strategies": [
+      "object_pooling",
+      "lazy_loading",
+      "garbage_collection"
+    ]
+  },
+  {
+    "id": "TeamsPure_memory_1760013426851",
+    "module": "TeamsPure",
+    "type": "memory",
+    "priority": "medium",
+    "currentValue": 90667034,
+    "targetValue": 37010373,
+    "improvement": 50,
+    "description": "Memory optimization for TeamsPure",
+    "strategies": [
+      "object_pooling",
+      "lazy_loading",
+      "garbage_collection"
+    ]
+  },
+  {
+    "id": "ItemsPure_memory_1760013426851",
+    "module": "ItemsPure",
+    "type": "memory",
+    "priority": "high",
+    "currentValue": 90805280,
+    "targetValue": 30032567,
+    "improvement": 58,
+    "description": "Memory optimization for ItemsPure",
+    "strategies": [
+      "object_pooling",
+      "lazy_loading",
+      "garbage_collection"
+    ]
+  },
+  {
+    "id": "AIPure_memory_1760013426851",
+    "module": "AIPure",
+    "type": "memory",
+    "priority": "medium",
+    "currentValue": 43370158,
+    "targetValue": 51667406,
+    "improvement": 46,
+    "description": "Memory optimization for AIPure",
+    "strategies": [
+      "object_pooling",
+      "lazy_loading",
+      "garbage_collection"
+    ]
+  },
+  {
+    "id": "CombatPure_cpu_1760013426852",
+    "module": "CombatPure",
+    "type": "cpu",
+    "priority": "high",
+    "currentValue": 88.49788242395927,
+    "targetValue": 5.664613432380595,
+    "improvement": 21,
+    "description": "CPU optimization for CombatPure",
+    "strategies": [
+      "async_processing",
+      "worker_threads",
+      "algorithm_optimization"
+    ]
+  },
+  {
+    "id": "HealthSystemPure_cpu_1760013426858",
+    "module": "HealthSystemPure",
+    "type": "cpu",
+    "priority": "medium",
+    "currentValue": 27.467954814211893,
+    "targetValue": 30.67914709553974,
+    "improvement": 24,
+    "description": "CPU optimization for HealthSystemPure",
+    "strategies": [
+      "async_processing",
+      "worker_threads",
+      "algorithm_optimization"
+    ]
+  },
+  {
+    "id": "MagicSystemPure_cpu_1760013426858",
+    "module": "MagicSystemPure",
+    "type": "cpu",
+    "priority": "high",
+    "currentValue": 26.356837650190123,
+    "targetValue": 3.9615684847805976,
+    "improvement": 39,
+    "description": "CPU optimization for MagicSystemPure",
+    "strategies": [
+      "async_processing",
+      "worker_threads",
+      "algorithm_optimization"
+    ]
+  },
+  {
+    "id": "TeamsPure_cpu_1760013426858",
+    "module": "TeamsPure",
+    "type": "cpu",
+    "priority": "medium",
+    "currentValue": 84.30472829189752,
+    "targetValue": 3.2808884546051242,
+    "improvement": 39,
+    "description": "CPU optimization for TeamsPure",
+    "strategies": [
+      "async_processing",
+      "worker_threads",
+      "algorithm_optimization"
+    ]
+  },
+  {
+    "id": "ItemsPure_cpu_1760013426858",
+    "module": "ItemsPure",
+    "type": "cpu",
+    "priority": "medium",
+    "currentValue": 38.43087421096845,
+    "targetValue": 20.97350367121653,
+    "improvement": 27,
+    "description": "CPU optimization for ItemsPure",
+    "strategies": [
+      "async_processing",
+      "worker_threads",
+      "algorithm_optimization"
+    ]
+  },
+  {
+    "id": "AIPure_cpu_1760013426858",
+    "module": "AIPure",
+    "type": "cpu",
+    "priority": "high",
+    "currentValue": 16.791370057177236,
+    "targetValue": 14.77193794844659,
+    "improvement": 20,
+    "description": "CPU optimization for AIPure",
+    "strategies": [
+      "async_processing",
+      "worker_threads",
+      "algorithm_optimization"
+    ]
+  },
+  {
+    "id": "UnityBridgePure_network_1760013426858",
+    "module": "UnityBridgePure",
+    "type": "network",
+    "priority": "high",
+    "currentValue": 1033,
+    "targetValue": 342,
+    "improvement": 12,
+    "description": "Network optimization for UnityBridgePure",
+    "strategies": [
+      "compression",
+      "batching",
+      "connection_pooling"
+    ]
+  },
+  {
+    "id": "GodotBridgePure_network_1760013426858",
+    "module": "GodotBridgePure",
+    "type": "network",
+    "priority": "high",
+    "currentValue": 209,
+    "targetValue": 173,
+    "improvement": 47,
+    "description": "Network optimization for GodotBridgePure",
+    "strategies": [
+      "compression",
+      "batching",
+      "connection_pooling"
+    ]
+  },
+  {
+    "id": "WebBridgePure_network_1760013426858",
+    "module": "WebBridgePure",
+    "type": "network",
+    "priority": "high",
+    "currentValue": 840,
+    "targetValue": 124,
+    "improvement": 37,
+    "description": "Network optimization for WebBridgePure",
+    "strategies": [
+      "compression",
+      "batching",
+      "connection_pooling"
+    ]
+  },
+  {
+    "id": "UnrealBridgePure_network_1760013426858",
+    "module": "UnrealBridgePure",
+    "type": "network",
+    "priority": "medium",
+    "currentValue": 670,
+    "targetValue": 302,
+    "improvement": 15,
+    "description": "Network optimization for UnrealBridgePure",
+    "strategies": [
+      "compression",
+      "batching",
+      "connection_pooling"
+    ]
+  },
+  {
+    "id": "CombatPure_cache_1760013426858",
+    "module": "CombatPure",
+    "type": "cache",
+    "priority": "critical",
+    "currentValue": 72.03206410573337,
+    "targetValue": 25.27938160900746,
+    "improvement": 20,
+    "description": "Cache optimization for CombatPure",
+    "strategies": [
+      "lru",
+      "lfu",
+      "ttl",
+      "write_through"
+    ]
+  },
+  {
+    "id": "HealthSystemPure_cache_1760013426858",
+    "module": "HealthSystemPure",
+    "type": "cache",
+    "priority": "high",
+    "currentValue": 53.483059914982945,
+    "targetValue": 27.157774021926375,
+    "improvement": 10,
+    "description": "Cache optimization for HealthSystemPure",
+    "strategies": [
+      "lru",
+      "lfu",
+      "ttl",
+      "write_through"
+    ]
+  },
+  {
+    "id": "MagicSystemPure_cache_1760013426858",
+    "module": "MagicSystemPure",
+    "type": "cache",
+    "priority": "high",
+    "currentValue": 20.223975709812024,
+    "targetValue": 64.32628726208603,
+    "improvement": 9,
+    "description": "Cache optimization for MagicSystemPure",
+    "strategies": [
+      "lru",
+      "lfu",
+      "ttl",
+      "write_through"
+    ]
+  },
+  {
+    "id": "TeamsPure_cache_1760013426858",
+    "module": "TeamsPure",
+    "type": "cache",
+    "priority": "medium",
+    "currentValue": 46.897235819107365,
+    "targetValue": 86.87436794671369,
+    "improvement": 15,
+    "description": "Cache optimization for TeamsPure",
+    "strategies": [
+      "lru",
+      "lfu",
+      "ttl",
+      "write_through"
+    ]
+  },
+  {
+    "id": "ItemsPure_cache_1760013426858",
+    "module": "ItemsPure",
+    "type": "cache",
+    "priority": "medium",
+    "currentValue": 55.80196721525279,
+    "targetValue": 29.009082933330532,
+    "improvement": 8,
+    "description": "Cache optimization for ItemsPure",
+    "strategies": [
+      "lru",
+      "lfu",
+      "ttl",
+      "write_through"
+    ]
+  },
+  {
+    "id": "AIPure_cache_1760013426858",
+    "module": "AIPure",
+    "type": "cache",
+    "priority": "high",
+    "currentValue": 77.11064127999883,
+    "targetValue": 87.45209425116434,
+    "improvement": 6,
+    "description": "Cache optimization for AIPure",
+    "strategies": [
+      "lru",
+      "lfu",
+      "ttl",
+      "write_through"
+    ]
+  }
+]
