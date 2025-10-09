@@ -207,6 +207,110 @@
       "id": "CAPA-1760009513974-msiugc8we",
       "discoveredAt": "2025-10-09T11:31:53.974Z",
       "status": "open"
+    },
+    {
+      "title": "Missing Lifecycle Hook Implementations",
+      "description": "Bridge modules lack standard lifecycle hooks (onStart, onUpdate, onDestroy) causing potential runtime failures and resource leaks",
+      "category": "runtime_fidelity",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "UnityBridgePure,GodotBridgePure,WebBridgePure"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010023055-wf5m7quni",
+      "discoveredAt": "2025-10-09T11:40:23.055Z",
+      "status": "open"
+    },
+    {
+      "title": "Mock Transport Layer Implementations",
+      "description": "Bridge modules use mock transport implementations instead of real IPC, socket, or engine integration causing production failures",
+      "category": "runtime_fidelity",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "WebSocketBridgePure,NetworkBridgePure"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010029208-f4tlusk0j",
+      "discoveredAt": "2025-10-09T11:40:29.208Z",
+      "status": "open"
+    },
+    {
+      "title": "CLI Mock Data and Placeholder Text",
+      "description": "Production CLI harnesses contain mock data, placeholder text, and TODO comments misleading contributors and users",
+      "category": "interface_safety",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "MagicSystemPure,FusionPure,DrivingSystemPure,ZoneServerPure"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010033681-whpws8p0b",
+      "discoveredAt": "2025-10-09T11:40:33.681Z",
+      "status": "open"
+    },
+    {
+      "title": "Silent Error Suppression",
+      "description": "Multiple modules suppress errors with empty catch blocks and unconditional success returns causing silent failures and debugging difficulties",
+      "category": "interface_safety",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [],
+        "usersAffected": [
+          "Contributors"
+        ],
+        "businessImpact": "To be determined",
+        "technicalDebt": 5,
+        "riskLevel": "medium"
+      },
+      "tags": [],
+      "relatedModules": [
+        "PermissionsPure,WebSocketBridgePure,ValidationPure"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010038316-x8cyh8cho",
+      "discoveredAt": "2025-10-09T11:40:38.316Z",
+      "status": "open"
     }
   ]
 }
