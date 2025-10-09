@@ -298,6 +298,94 @@ Dual‑license model:
 
 All bundled assets are remix‑safe (CC0, GPL, or public domain).
 
+## 🕹️ **Build Your Game with MIFF**
+
+### **🎮 Game Design Intake System**
+
+MIFF now includes a comprehensive **Game Design Intake Document** system that allows contributors and users to design complete games that can be built by AI agents.
+
+#### **📋 How to Design Your Game**
+
+1. **Copy the Intake Template:**
+   ```bash
+   cp docs/GameDesignIntake.md docs/game-projects/[your-game-name]/GameDesignIntake.md
+   ```
+
+2. **Fill Out the Complete Form:**
+   - **15 comprehensive sections** covering all aspects of game design
+   - **Game type, mechanics, narrative, quests, assets, and more**
+   - **MIFF integration requirements** and architectural compliance
+   - **Agent instruction blocks** for AI-powered development
+
+3. **Submit Your Game Design:**
+   - Create a Pull Request with your completed intake document
+   - Follow the validation checklist to ensure completeness
+   - Tag an AI agent to build your game
+
+#### **🤖 How to Ask an AI Agent to Build Your Game**
+
+After completing your intake document, use this prompt with any AI agent:
+
+```
+// GOAL: Build a complete game using the MIFF framework based on the Game Design Intake Document
+
+// CONTEXT:
+// I have completed a Game Design Intake Document for [GAME_NAME] located at docs/game-projects/[GAME_NAME]/GameDesignIntake.md
+// Please review the intake document and build the complete game following MIFF architectural standards
+
+// REQUIREMENTS:
+// - Follow all MIFF patterns (managers, CLI harnesses, schemas, tests)
+// - Implement all quests, mechanics, and modules specified
+// - Use existing MIFF modules where possible
+// - Create new modules only when necessary
+// - Ensure all code follows contributor-safe patterns
+// - Include comprehensive test suites
+// - Generate all required documentation
+
+// DELIVERABLES:
+// - Complete game implementation
+// - All required modules and systems
+// - Test suites and validation
+// - Documentation and README
+// - Integration with MIFF framework
+
+Please proceed with building [GAME_NAME] based on the intake document.
+```
+
+#### **📚 Supporting Templates**
+
+MIFF provides comprehensive templates for building game components:
+
+- **🎯 [Quest Template](docs/templates/QuestTemplate.md)** - Complete quest system implementation
+- **🧩 [Module Template](docs/templates/ModuleTemplate.md)** - Standardized module development
+- **⚙️ [Mechanics Template](docs/templates/MechanicsTemplate.md)** - Game mechanics and runtime hooks
+
+#### **🛠️ Quick Start for Contributors**
+
+1. **Design Your Game:** Use the [Game Design Intake Document](docs/GameDesignIntake.md)
+2. **Follow Templates:** Use the provided templates for consistent implementation
+3. **Test Everything:** Include comprehensive test suites
+4. **Document APIs:** Follow MIFF documentation standards
+5. **Submit PR:** Create a pull request with your complete game
+
+#### **🎯 What You Can Build**
+
+- **Complete Games:** Full game implementations with all systems
+- **Game Modules:** Reusable gameplay systems and mechanics
+- **Quest Systems:** Interactive quest and dialogue systems
+- **Mechanics:** Custom gameplay mechanics and interactions
+- **Bridges:** Engine and platform integration modules
+
+#### **📖 Documentation Links**
+
+- **[Game Design Intake Document](docs/GameDesignIntake.md)** - Complete game design form
+- **[Quest Template](docs/templates/QuestTemplate.md)** - Quest system implementation guide
+- **[Module Template](docs/templates/ModuleTemplate.md)** - Module development guide
+- **[Mechanics Template](docs/templates/MechanicsTemplate.md)** - Mechanics implementation guide
+- **[AI README](README.AI.md)** - AI agent integration guide
+
+---
+
 ## Transparency & Tone
 
 We aim to be humble, transparent, and contributor‑friendly. MIFF is a living project: modules ship when they are deterministic, documented, and remix‑safe. See `COMPLETE_MODULE_AUDIT.md` and audit reports in the repo root for details.
