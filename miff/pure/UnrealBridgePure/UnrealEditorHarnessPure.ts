@@ -2,7 +2,9 @@
 // Schema Version: v1.0
 
 import { UnrealBridgeManager, UnrealDataType } from './index';
+import { AssetLoadingStrategy, AssetStreamingMode } from './UnrealAssetManagerPure';
 import { UnrealSceneType, UnrealWorldPartitionType, UnrealNavigationSystem, UnrealLightingSystem, UnrealPhysicsSystem, UnrealAudioSystem } from './UnrealSceneBuilderPure';
+import { SceneLayer, SceneOptimizationMode, SceneExportFormat } from '../SceneBuilderPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
 import { UnrealSceneBuilderPure } from './UnrealSceneBuilderPure';
 import { UnrealAssetManagerPure } from './UnrealAssetManagerPure';
@@ -260,9 +262,9 @@ export class UnrealEditorHarnessPure {
       name: 'TestScene',
       description: 'Test scene for Unreal Editor validation',
       dimensions: { width: 1000, height: 1000, depth: 1000 },
-      layers: ['background', 'terrain', 'characters'],
-      optimizationMode: 'culling',
-      exportFormats: ['unity', 'godot', 'json'],
+      layers: [SceneLayer.BACKGROUND, SceneLayer.TERRAIN, SceneLayer.CHARACTERS],
+      optimizationMode: SceneOptimizationMode.CULLING,
+      exportFormats: [SceneExportFormat.UNITY, SceneExportFormat.GODOT, SceneExportFormat.JSON],
       enablePhysics: true,
       enableLighting: true,
       enableAudio: true,
@@ -271,9 +273,9 @@ export class UnrealEditorHarnessPure {
       enablePostProcessing: true,
       maxRenderDistance: 5000,
       lodLevels: 3,
-      textureQuality: 'high',
-      shadowQuality: 'medium',
-      antialiasing: 'fxaa',
+      textureQuality: 'high' as const,
+      shadowQuality: 'medium' as const,
+      antialiasing: 'fxaa' as const,
       ambientOcclusion: true,
       bloom: true,
       motionBlur: false,
@@ -657,9 +659,9 @@ export class UnrealEditorHarnessPure {
         timeout: 5000,
         retries: 3,
         retryDelay: 1000,
-        loadStrategy: 'eager',
-        streamingMode: 'none',
-        qualityLevel: 'high',
+        loadStrategy: AssetLoadingStrategy.EAGER,
+        streamingMode: AssetStreamingMode.NONE,
+        qualityLevel: 'high' as const,
         platform: 'windows',
         metadata: { test: true }
       };
