@@ -292,8 +292,8 @@ describe('${result.moduleName} Capabilities', () => {
         {
           name: 'validate',
           description: `Validate data in ${moduleName} module`,
-          inputTypes: 'any',
-          outputTypes: 'boolean',
+          inputTypes: ['any'],
+          outputTypes: ['boolean'],
           async: false
         }
       ],
