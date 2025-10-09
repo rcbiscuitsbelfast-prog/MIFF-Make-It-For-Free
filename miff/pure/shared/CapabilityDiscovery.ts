@@ -274,27 +274,41 @@ describe('${result.moduleName} Capabilities', () => {
     return {
       operations: [
         {
+          id: 'initialize',
           name: 'initialize',
           description: `Initialize ${moduleName} module`,
+          category: 'create',
+          complexity: 'low',
+          requiresAuth: false,
           inputSchema: { schemaId: 'empty', version: '1.0', required: false },
-          returnType: 'Promise<void>',
-          async: true
+          outputSchema: { schemaId: 'void', version: '1.0', required: false },
+          estimatedDuration: 100,
+          resourceRequirements: { cpu: 1, memory: 1, disk: 0, network: 0, dependencies: [] }
         },
         {
+          id: 'process',
           name: 'process',
           description: `Process data in ${moduleName} module`,
+          category: 'update',
+          complexity: 'medium',
+          requiresAuth: false,
           inputSchema: { schemaId: 'data', version: '1.0', required: true },
-          returnType: 'Promise<any>',
-          async: true
+          outputSchema: { schemaId: 'result', version: '1.0', required: false },
+          estimatedDuration: 500,
+          resourceRequirements: { cpu: 2, memory: 2, disk: 0, network: 0, dependencies: [] }
         }
       ],
       dataProcessing: [
         {
+          id: 'validate',
           name: 'validate',
           description: `Validate data in ${moduleName} module`,
           inputTypes: ['any'],
           outputTypes: ['boolean'],
-          async: false
+          processingType: 'validate',
+          batchSupported: true,
+          streamingSupported: false,
+          maxThroughput: 1000
         }
       ],
       integrations: [
@@ -310,16 +324,27 @@ describe('${result.moduleName} Capabilities', () => {
       ],
       formats: [
         {
+          id: 'json',
           name: 'JSON',
           description: 'JSON format support',
-          supported: true
+          mimeType: 'application/json',
+          fileExtensions: ['.json'],
+          schemaVersion: '1.0',
+          compressionSupported: true,
+          encryptionSupported: false
         }
       ],
-      realtime: {
-        supported: true,
-        websockets: true,
-        polling: false
-      },
+      realtime: [
+        {
+          id: 'events',
+          name: 'Event Streaming',
+          description: 'Real-time event streaming',
+          eventTypes: ['update', 'create', 'delete'],
+          subscriptionModel: 'push',
+          maxConnections: 100,
+          latencyTarget: 100
+        }
+      ],
       schemas: [
         {
           name: 'config',

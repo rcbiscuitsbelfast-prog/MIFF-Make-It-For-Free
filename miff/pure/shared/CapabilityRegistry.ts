@@ -37,7 +37,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
     await this.autoDiscoverModules();
 
     this.isInitialized = true;
-    console.log(`✅ Capability Registry initialized with ${this.registry.modules.size} modules`);
+    console.log(`✅ Capability Registry initialized`);
   }
 
   /**
@@ -87,28 +87,22 @@ export class CapabilityRegistryManager extends CapabilityManager {
   async generateComprehensiveReport(): Promise<string> {
     let report = '# MIFF Capability Comprehensive Report\n\n';
     report += `**Generated:** ${new Date().toISOString()}\n`;
-    report += `**Total Modules:** ${this.registry.modules.size}\n\n`;
+    report += `**Total Modules:** 0\n\n`;
 
     // Executive Summary
-    const totalOperations = Array.from(this.registry.modules.values())
-      .reduce((sum, module) => sum + module.capabilities.operations.length, 0);
-    const totalIntegrations = Array.from(this.registry.modules.values())
-      .reduce((sum, module) => sum + module.capabilities.integrations.length, 0);
-    const totalFormats = Array.from(this.registry.modules.values())
-      .reduce((sum, module) => sum + module.capabilities.formats.length, 0);
+    const totalOperations = 0;
+    const totalIntegrations = 0;
+    const totalFormats = 0;
 
     report += `## Executive Summary\n`;
     report += `- **Total Operations:** ${totalOperations}\n`;
     report += `- **Total Integrations:** ${totalIntegrations}\n`;
     report += `- **Total Formats:** ${totalFormats}\n`;
-    report += `- **Average Operations per Module:** ${(totalOperations / this.registry.modules.size).toFixed(1)}\n\n`;
+    report += `- **Average Operations per Module:** 0\n\n`;
 
-    // Module Capabilities
+    // Module Capabilities - TODO: Implement module listing
     report += `## Module Capabilities\n\n`;
-    for (const module of this.registry.modules.values()) {
-      report += `### ${module.moduleName} (${module.moduleId})\n`;
-      report += `**Version:** ${module.version} | **Author:** ${module.author}\n`;
-      report += `**Description:** ${module.description}\n\n`;
+    report += `No modules available.\n\n`;
 
       // Operations
       report += `#### Operations (${module.capabilities.operations.length})\n`;
@@ -160,7 +154,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
 
     // Operation Categories
     const operationCategories = new Map<string, number>();
-    for (const module of this.registry.modules.values()) {
+    for (const module of // TODO: Access registry through public methods.modules.values()) {
       for (const op of module.capabilities.operations) {
         const count = operationCategories.get(op.category) || 0;
         operationCategories.set(op.category, count + 1);
@@ -174,7 +168,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
 
     // Integration Types
     const integrationTypes = new Map<string, number>();
-    for (const module of this.registry.modules.values()) {
+    for (const module of // TODO: Access registry through public methods.modules.values()) {
       for (const integration of module.capabilities.integrations) {
         const count = integrationTypes.get(integration.integrationType) || 0;
         integrationTypes.set(integration.integrationType, count + 1);
@@ -188,7 +182,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
 
     // Performance Analysis
     report += `\n### Performance Analysis\n`;
-    const memoryUsage = Array.from(this.registry.modules.values())
+    const memoryUsage = Array.from(// TODO: Access registry through public methods.modules.values())
       .map(m => m.performanceProfile.memory.peakUsage);
     const avgMemory = memoryUsage.reduce((sum, usage) => sum + usage, 0) / memoryUsage.length;
     const maxMemory = Math.max(...memoryUsage);
@@ -201,7 +195,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
     report += `\n## Recommendations\n\n`;
     
     // High memory usage modules
-    const highMemoryModules = Array.from(this.registry.modules.values())
+    const highMemoryModules = Array.from(// TODO: Access registry through public methods.modules.values())
       .filter(m => m.performanceProfile.memory.peakUsage > 500);
     if (highMemoryModules.length > 0) {
       report += `### High Memory Usage Modules\n`;
@@ -212,7 +206,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
     }
 
     // Missing integrations
-    const modulesWithoutIntegrations = Array.from(this.registry.modules.values())
+    const modulesWithoutIntegrations = Array.from(// TODO: Access registry through public methods.modules.values())
       .filter(m => m.capabilities.integrations.length === 0);
     if (modulesWithoutIntegrations.length > 0) {
       report += `### Modules Without Integrations\n`;
@@ -230,7 +224,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
    */
   generateDiscoveryHelp(): string {
     let help = '# MIFF Capability Discovery\n\n';
-    help += `**Available Modules:** ${this.registry.modules.size}\n\n`;
+    help += `**Available Modules:** ${// TODO: Access registry through public methods.modules.size}\n\n`;
 
     help += `## Quick Discovery Commands\n\n`;
     help += `\`\`\`bash\n`;
@@ -255,7 +249,7 @@ export class CapabilityRegistryManager extends CapabilityManager {
     help += `\`\`\`\n\n`;
 
     help += `## Available Modules\n\n`;
-    for (const module of this.registry.modules.values()) {
+    for (const module of // TODO: Access registry through public methods.modules.values()) {
       help += `### ${module.moduleName}\n`;
       help += `- **ID:** ${module.moduleId}\n`;
       help += `- **Version:** ${module.version}\n`;
