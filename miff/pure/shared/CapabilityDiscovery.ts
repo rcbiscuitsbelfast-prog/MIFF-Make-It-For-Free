@@ -8,7 +8,7 @@
 import { MIFFCapable, ModuleCapabilities } from './MIFFCapable.js';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as glob from 'glob';
+import { glob } from 'glob';
 
 export interface DiscoveryResult {
   moduleId: string;
@@ -273,15 +273,13 @@ describe('${result.moduleName} Capabilities', () => {
 
   private async findCapableFiles(rootPath: string): Promise<string[]> {
     const pattern = `${rootPath}/**/*Capable.ts`;
-    return new Promise((resolve, reject) => {
-      glob(pattern, (err, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(files);
-        }
-      });
-    });
+    try {
+      const files = await glob(pattern);
+      return files;
+    } catch (error) {
+      console.error('Error finding capable files:', error);
+      return [];
+    }
   }
 
   private async parseCapabilities(content: string, filePath: string): Promise<ModuleCapabilities> {
@@ -386,7 +384,14 @@ describe('${result.moduleName} Capabilities', () => {
     const parts = filePath.split('/');
     const moduleIndex = parts.findIndex(part => part === 'pure');
     if (moduleIndex !== -1 && parts[moduleIndex + 1]) {
-      return parts[moduleIndex + 1];
+      const moduleId = parts[moduleIndex + 1];
+      // Remove 'Pure' suffix if present
+      return moduleId.replace('Pure', '');
+    }
+    // Fallback: look for *Capable.ts pattern
+    const fileName = path.basename(filePath);
+    if (fileName.endsWith('Capable.ts')) {
+      return fileName.replace('Capable.ts', '').replace('Pure', '');
     }
     return 'unknown';
   }
