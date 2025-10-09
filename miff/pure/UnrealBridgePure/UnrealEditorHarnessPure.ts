@@ -2,7 +2,7 @@
 // Schema Version: v1.0
 
 import { UnrealBridgeManager, UnrealDataType } from './index';
-import { UnrealSceneType } from './UnrealSceneBuilderPure';
+import { UnrealSceneType, UnrealWorldPartitionType, UnrealNavigationSystem, UnrealLightingSystem, UnrealPhysicsSystem, UnrealAudioSystem } from './UnrealSceneBuilderPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
 import { UnrealSceneBuilderPure } from './UnrealSceneBuilderPure';
 import { UnrealAssetManagerPure } from './UnrealAssetManagerPure';
@@ -171,10 +171,10 @@ export class UnrealEditorHarnessPure {
       compressionBlockSize: 0,
       compressionBlockCount: 0,
       cookedHash: '',
-      loadedState: 'not_loaded',
+      loadedState: 'not_loaded' as const,
       loadPriority: 0,
       loadOrder: 0,
-      loadState: 'uninitialized',
+      loadState: 'uninitialized' as const,
       interfaces: [],
       metadata: {
         testAsset: true,
@@ -210,10 +210,10 @@ export class UnrealEditorHarnessPure {
       compressionBlockSize: 0,
       compressionBlockCount: 0,
       cookedHash: '',
-      loadedState: 'not_loaded',
+      loadedState: 'not_loaded' as const,
       loadPriority: 0,
       loadOrder: 0,
-      loadState: 'uninitialized',
+      loadState: 'uninitialized' as const,
       interfaces: [],
       metadata: {
         testAsset: true,
@@ -280,11 +280,11 @@ export class UnrealEditorHarnessPure {
       depthOfField: true,
       colorGrading: true,
       sceneType: UnrealSceneType.LEVEL,
-      worldPartitionType: 'none',
-      navigationSystem: 'default',
-      lightingSystem: 'dynamic',
-      physicsSystem: 'physics',
-      audioSystem: 'default',
+      worldPartitionType: UnrealWorldPartitionType.NONE,
+      navigationSystem: UnrealNavigationSystem.DEFAULT,
+      lightingSystem: UnrealLightingSystem.DYNAMIC,
+      physicsSystem: UnrealPhysicsSystem.PHYSICS,
+      audioSystem: UnrealAudioSystem.DEFAULT,
       enableWorldPartition: false,
       enableDataLayers: false,
       enableHLOD: false,
