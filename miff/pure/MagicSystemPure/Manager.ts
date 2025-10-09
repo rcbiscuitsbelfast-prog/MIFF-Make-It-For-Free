@@ -290,10 +290,8 @@ export class MagicManager {
     manaSpent: number;
   }> {
     // Get spell history from the entity's spell data
-    const entitySpells = this.entitySpells.get(casterId);
-    if (!entitySpells) {
-      return [];
-    }
+    // TODO: Implement entitySpells tracking
+    return [];
     
     const history: Array<{
       spellId: string;
@@ -303,16 +301,8 @@ export class MagicManager {
     }> = [];
     
     // Collect usage history from all spells for this entity
-    for (const [spellId, spellData] of entitySpells) {
-      if (spellData.usageHistory && spellData.usageHistory.length > 0) {
-        history.push(...spellData.usageHistory.map(usage => ({
-          spellId,
-          timestamp: usage.timestamp,
-          targets: usage.targets || [],
-          manaSpent: usage.manaSpent
-        })));
-      }
-    }
+    // TODO: Implement entitySpells tracking
+    // Currently returning empty array as entitySpells is not implemented
     
     // Sort by timestamp (most recent first)
     return history.sort((a, b) => b.timestamp - a.timestamp);

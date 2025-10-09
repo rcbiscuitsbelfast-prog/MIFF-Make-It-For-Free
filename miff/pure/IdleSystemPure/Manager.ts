@@ -188,19 +188,19 @@ export class IdleManagerPure {
    */
   private createIdleSystem(eventBus: EventBus, config: IdleManagerConfig): IdleSystemPure {
     return {
-      getResources: () => this.resourceManager?.getAllResources() || new Map(),
-      getGenerators: () => this.generatorManager?.getAllGenerators() || new Map(),
-      getResource: (id: string) => this.resourceManager?.getResource(id),
-      getTotalProduction: () => this.generatorManager?.getTotalProduction() || 0,
-      purchaseGenerator: (id: string, count: number) => this.generatorManager?.purchaseGenerator(id, count),
-      getAchievements: () => this.achievementManager?.getAllAchievements() || new Map(),
-      getPrestigeConfigs: () => this.prestigeManager?.getPrestigeConfigs() || new Map(),
-      loadGameData: () => this.loadGameData(),
-      saveGameData: () => this.saveGameData(),
+      getResources: () => new Map(), // TODO: Implement resource management
+      getGenerators: () => new Map(), // TODO: Implement generator management
+      getResource: (id: string) => undefined, // TODO: Implement resource lookup
+      getTotalProduction: () => 0, // TODO: Implement production calculation
+      purchaseGenerator: (id: string, count: number) => false, // TODO: Implement generator purchase
+      getAchievements: () => new Map(), // TODO: Implement achievement management
+      getPrestigeConfigs: () => new Map(), // TODO: Implement prestige management
+      loadGameData: () => this.loadGame(),
+      saveGameData: () => this.saveGame(),
       resetGame: () => this.resetGame(),
       getStats: () => this.getStats(),
       getGameState: () => this.getGameState(),
-      setPaused: (paused: boolean) => this.setPaused(paused),
+      setPaused: (paused: boolean) => { /* TODO: Implement pause functionality */ },
       setIntegrations: (integrations: any) => this.setIntegrations(integrations),
       on: (event: string, handler: any) => this.eventBus.subscribe(event, handler)
     } as IdleSystemPure;

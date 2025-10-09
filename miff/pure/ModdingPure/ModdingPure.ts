@@ -319,20 +319,18 @@ export class PluginDiscovery {
       id: manifest.id,
       enabled: true,
       loadOrder: 0,
-      autoLoad: true,
-      dependencies: manifest.dependencies || []
+      settings: {}
     };
 
     return {
       id: manifest.id,
       manifest,
       config,
-      status: 'discovered',
+      status: 'loading',
       assets: new Map(),
       entryPoint: manifest.entryPoint,
-      pluginPath,
-      loadTime: 0,
-      error: null
+      dependencies: [],
+      error: undefined
     };
   }
 
@@ -374,15 +372,13 @@ export class PluginDiscovery {
         id: manifest.id,
         enabled: true,
         loadOrder: 0,
-        autoLoad: true,
-        dependencies: manifest.dependencies
+        settings: {}
       },
-      status: 'discovered' as PluginStatus,
+      status: 'loading',
       assets: new Map(),
       entryPoint: manifest.entryPoint,
-      pluginPath: '',
-      loadTime: 0,
-      error: null
+      dependencies: [],
+      error: undefined
     }));
   }
 

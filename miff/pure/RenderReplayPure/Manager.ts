@@ -1,8 +1,7 @@
 // RenderReplayPure - Visual replay tool for MIFF engine bridges
 // Schema Version: v1
 
-import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
-import { RenderData, RenderPayload } from '../shared/ConsolidatedSchema';
+import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
 import * as fs from 'fs';
 import * as path from 'path';
 

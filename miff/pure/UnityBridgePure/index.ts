@@ -18,6 +18,18 @@ export enum UnityCommunicationProtocol {
   DATABASE = 'database'
 }
 
+export interface UnityCommand {
+  type: string;
+  data: any;
+}
+
+export interface UnityGameObject {
+  id: string;
+  name: string;
+  transform: any;
+  components: any[];
+}
+
 export enum UnityLifecycleEvent {
   AWAKE = 'awake',
   START = 'start',
@@ -216,7 +228,7 @@ export interface UnityMessage {
   metadata: Record<string, any>;
 }
 
-export interface UnityCommand {
+export interface UnityCommandExecution {
   id: string;
   name: string;
   parameters: Record<string, any>;
@@ -239,7 +251,7 @@ export interface RetryPolicy {
 export interface RollbackStrategy {
   enabled: boolean;
   type: 'compensating_action' | 'state_restoration' | 'manual';
-  compensatingActions: UnityCommand[];
+  compensatingActions: UnityCommandExecution[];
   metadata: Record<string, any>;
 }
 
@@ -518,7 +530,7 @@ export class UnityBridgeManager {
   private services: Map<string, UnityServiceBridge> = new Map();
   private messageQueue: UnityMessage[] = [];
   private eventQueue: UnityEvent[] = [];
-  private commandQueue: UnityCommand[] = [];
+  private commandQueue: UnityCommandExecution[] = [];
   private queryQueue: UnityQuery[] = [];
   private responseQueue: UnityResponse[] = [];
   private performanceMetrics: UnityPerformanceMetrics;
