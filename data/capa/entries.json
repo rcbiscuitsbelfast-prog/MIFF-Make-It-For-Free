@@ -208,7 +208,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760012122849-ro9ul0ik6",
       "discoveredAt": "2025-10-09T12:15:22.849Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T12:29:26.520Z",
+      "resolution": "Runtime fidelity system completed with mock replacement, transport layer implementation, and lifecycle hook management"
     }
   ]
 }
