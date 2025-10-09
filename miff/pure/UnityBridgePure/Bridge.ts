@@ -195,7 +195,7 @@ export class UnityBridge {
           break;
         case 'stats':
           this.statsManager.setStat(convertedData.id as string, convertedData.key as string, convertedData.base as number);
-          result = this.statsManager.get(convertedData.id as string) as Record<string, unknown>;
+          result = this.statsManager.get(convertedData.id as string) as unknown as Record<string, unknown>;
           break;
         default:
           return {

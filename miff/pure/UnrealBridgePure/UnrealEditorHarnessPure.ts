@@ -448,9 +448,9 @@ export class UnrealEditorHarnessPure {
           upVector: { x: 0, y: 0, z: 1 },
           hasAuthority: true,
           replicatedMovement: false,
-          netDormancy: 'awake',
+          netDormancy: 'awake' as const,
           physicsVolumeChanged: false,
-          teleportType: 'none'
+          teleportType: 'none' as const
         },
         components: [],
         properties: {},

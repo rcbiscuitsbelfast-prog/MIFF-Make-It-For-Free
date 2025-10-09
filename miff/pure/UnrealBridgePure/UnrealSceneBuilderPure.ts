@@ -214,6 +214,16 @@ export interface UnrealNavigationSystemBridge {
   bTickWhilePaused: boolean;
   bPauseDuringCinematic: boolean;
   bAllowAutoRebuilding: boolean;
+  type: 'engine_subsystem' | 'editor_subsystem' | 'game_subsystem' | 'local_player_subsystem' | 'world_subsystem';
+  subsystemName: string;
+  moduleName: string;
+  priority: number;
+  enabled: boolean;
+  updateRate: number;
+  executionOrder: number;
+  dependencies: string[];
+  providesInterfaces: string[];
+  requiresInterfaces: string[];
   metadata: Record<string, any>;
 }
 
@@ -263,6 +273,16 @@ export interface UnrealLightingSystemBridge {
   bUseStaticMeshDistanceFields: boolean;
   bUseSkeletalMeshDistanceFields: boolean;
   bUseLandscapeDistanceFields: boolean;
+  type: 'engine_subsystem' | 'editor_subsystem' | 'game_subsystem' | 'local_player_subsystem' | 'world_subsystem';
+  subsystemName: string;
+  moduleName: string;
+  priority: number;
+  enabled: boolean;
+  updateRate: number;
+  executionOrder: number;
+  dependencies: string[];
+  providesInterfaces: string[];
+  requiresInterfaces: string[];
   metadata: Record<string, any>;
 }
 
@@ -991,6 +1011,16 @@ export class UnrealSceneBuilderPure {
       bTickWhilePaused: false,
       bPauseDuringCinematic: false,
       bAllowAutoRebuilding: true,
+      type: 'world_subsystem',
+      subsystemName: 'NavigationSystem',
+      moduleName: 'NavigationSystem',
+      priority: 100,
+      enabled: true,
+      updateRate: 0.1,
+      executionOrder: 0,
+      dependencies: [],
+      providesInterfaces: ['NavigationSystem'],
+      requiresInterfaces: [],
       metadata: {
         configuration: config,
         creationTime: Date.now()
@@ -1010,7 +1040,7 @@ export class UnrealSceneBuilderPure {
       skyLightType: config.enableSkyAtmosphere ? 'real_time_capture' : 'static',
       ambientOcclusionType: config.enableDistanceFieldAO ? 'distance_field' : 'none',
       lightmapType: config.enableLumen ? 'lumen' : 'lightmass',
-      lightmapResolution: config.lightmapResolution,
+      lightmapResolution: (config as any).lightmapResolution || 64,
       numLightmapCoefficients: 4,
       bUseAmbientOcclusion: config.enableAmbientOcclusion,
       bUseDistanceFieldAmbientOcclusion: config.enableDistanceFieldAO,
@@ -1021,7 +1051,7 @@ export class UnrealSceneBuilderPure {
       bUseVolumetricLightmap: config.enableLumen,
       bUseVirtualShadowMaps: config.enableVirtualTextures,
       bCompressLightmaps: true,
-      bGenerateDistanceField: config.enableDistanceField,
+      bGenerateDistanceField: config.enableDistanceFieldAO,
       bGenerateMeshDistanceFields: (config as any).enableMeshDistanceFields,
       bGenerateGlobalDistanceField: (config as any).enableGlobalDistanceField,
       bGenerateStaticMeshDistanceFields: (config as any).enableStaticMeshDistanceFields,
@@ -1039,7 +1069,6 @@ export class UnrealSceneBuilderPure {
       bUseHardwareRayTracing: config.enableRayTracing,
       bUseRayTracing: config.enableRayTracing,
       bUsePathTracing: config.enablePathTracing,
-      bUseVirtualShadowMaps: config.enableVirtualTextures,
       bUseSignedDistanceFields: (config as any).enableSignedDistanceField,
       bUseMeshDistanceFields: (config as any).enableMeshDistanceFields,
       bUseGlobalDistanceField: (config as any).enableGlobalDistanceField,
