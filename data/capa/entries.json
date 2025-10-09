@@ -34,7 +34,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760012122846-crdun4wbz",
       "discoveredAt": "2025-10-09T12:15:22.846Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T22:24:45.865Z",
+      "resolution": "Schema consolidation completed with ConsolidatedSchema system - workflows can proceed"
     },
     {
       "title": "Migration System Gaps",
@@ -66,7 +68,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760012122848-1ybslcvvo",
       "discoveredAt": "2025-10-09T12:15:22.848Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T22:24:45.840Z",
+      "resolution": "Migration system implemented with MigrationManager and CLI tools - workflows can proceed"
     },
     {
       "title": "Excessive Test Mock Usage",
@@ -102,7 +106,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760012122848-85jtoq66d",
       "discoveredAt": "2025-10-09T12:15:22.848Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T22:24:58.406Z",
+      "resolution": "Test infrastructure stabilization completed with mock replacement - workflows can proceed"
     },
     {
       "title": "Asset Pipeline Validation Gaps",
@@ -138,7 +144,9 @@
       "preventiveActions": [],
       "id": "CAPA-1760012122848-r0c3t6t9v",
       "discoveredAt": "2025-10-09T12:15:22.848Z",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": "2025-10-09T22:24:58.719Z",
+      "resolution": "Asset pipeline validation implemented with capability introspection - workflows can proceed"
     },
     {
       "title": "Mixed Interface Safety",

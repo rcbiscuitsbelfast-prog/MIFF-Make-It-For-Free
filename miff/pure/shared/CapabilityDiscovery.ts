@@ -321,49 +321,7 @@ describe('${result.moduleName} Capabilities', () => {
           description: `WebSocket support for ${moduleName}`,
           supported: true
         }
-      ],
-      schemas: [
-        {
-          name: 'config',
-          version: '1.0',
-          description: `${moduleName} configuration schema`
-        }
-      ],
-      cliInterface: {
-        usage: `${moduleName} [command] [options]`,
-        flags: [
-          {
-            name: 'help',
-            description: 'Show help information',
-            integrationType: 'boolean',
-            required: false,
-            defaultValue: false
-          }
-        ]
-      },
-      lifecycleHooks: {
-        onInit: true,
-        onDestroy: true,
-        onUpdate: false
-      },
-      dependencies: [
-        {
-          name: 'EventBusPure',
-          version: '1.0.0',
-          required: true
-        }
-      ],
-      performanceProfile: {
-        memoryUsage: 'low',
-        cpuUsage: 'medium',
-        networkUsage: 'low'
-      },
-      testingCapabilities: {
-        unitTests: true,
-        integrationTests: true,
-        e2eTests: false,
-        mockSupport: true
-      }
+      ]
     };
   }
 
