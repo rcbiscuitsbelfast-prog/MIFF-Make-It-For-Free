@@ -13,10 +13,14 @@
     ]
   },
   {
-    "op": "setStat",
+    "op": "update",
     "id": "hero",
-    "key": "atk",
-    "base": 8
+    "stats": [
+      {
+        "key": "atk",
+        "base": 8
+      }
+    ]
   },
   {
     "op": "simulate",
