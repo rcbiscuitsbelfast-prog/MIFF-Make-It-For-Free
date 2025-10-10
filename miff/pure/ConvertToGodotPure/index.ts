@@ -286,7 +286,7 @@ export class GodotConverter {
         channels: 2,
         mix_rate: 44100,
         buffer_size: 2048
-      , },
+      },
       physics: {
         driver: 'default',
         fps: 60,

@@ -731,7 +731,7 @@ export class DebugOverlayManager {
         frameTime: 16.67,
         fps: 60,
         memory: typeof (process as any).gpuMemoryUsage === 'function' ? (process as any).gpuMemoryUsage().heapUsed : 0,
-        cpu: typeof (process as any).cpuUsage || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 === 'function' ? (process as any).cpuUsage || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0().user : 0,
+        cpu: typeof (process as any).cpuUsage || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 === 'function' ? (process as any).cpuUsage || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0().user : 0,
         drawCalls: 0,
         triangles: 0,
         textureMemory: 0,
@@ -1316,7 +1316,7 @@ export class DebugOverlayManager {
 
     if (recent.length === 0) return bottlenecks;
 
-    const avgCPU = recent.reduce((sum, p) => sum + p.cpuUsage || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0, 0) / recent.length;
+    const avgCPU = recent.reduce((sum, p) => sum + p.cpuUsage || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0 || 0, 0) / recent.length;
     const avgGPU = recent.reduce((sum, p) => sum + p.gpuMemoryUsage, 0) / recent.length;
     const avgMemory = recent.reduce((sum, p) => sum + p.gpuMemoryUsage, 0) / recent.length;
 

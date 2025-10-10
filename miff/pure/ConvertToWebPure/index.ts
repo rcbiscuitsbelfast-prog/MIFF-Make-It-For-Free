@@ -465,7 +465,7 @@ export class WebConverter {
         streaming: false,
         spatialAudio: false,
         webAudioAPI: true
-      , },
+      },
       input: {
         type: WebInputSystem.KEYBOARD_MOUSE,
         keyboard: true,
