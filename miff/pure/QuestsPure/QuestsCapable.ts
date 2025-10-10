@@ -425,18 +425,15 @@ export class QuestsCapable implements MIFFCapable {
   readonly performanceProfile: PerformanceProfile = {
     memory: {
       readThroughput: 20,
-      averageUsage: 10,
       peakUsage: 300,
       garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
     cpu: {
       readThroughput: 5,
-      averageUsage: 12,
       peakUsage: 60,
       unit: 'percent'
     },
     io: {
       readThroughput: 0,
-      averageUsage: 0,
       peakUsage: 0,
       unit: 'KB/s'
     },
