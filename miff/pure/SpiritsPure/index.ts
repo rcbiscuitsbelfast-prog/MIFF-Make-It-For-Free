@@ -909,7 +909,7 @@ export class Spirit implements ISpirit {
     this.hiddenAbilities = [];
     this.height = 1.0;
     this.weight = 10.0;
-    this.genderRatio = { male: 50, female: 50 };
+    this.genderRatio = { male: 50, female: 50, blockingOperations: [] };
     this.eggGroups = ['undiscovered'];
     this.hatchSteps = 5120;
     this.friendship = 70;

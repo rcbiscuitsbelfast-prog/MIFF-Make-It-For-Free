@@ -127,7 +127,7 @@ export class StatsSystemCapable implements MIFFCapable {
         name: 'EquipmentPure Integration',
         description: 'Integration with EquipmentPure',
         targetSystem: 'EquipmentPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -136,7 +136,7 @@ export class StatsSystemCapable implements MIFFCapable {
         name: 'EffectsPure Integration',
         description: 'Integration with EffectsPure',
         targetSystem: 'EffectsPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -145,7 +145,7 @@ export class StatsSystemCapable implements MIFFCapable {
         name: 'CombatCorePure Integration',
         description: 'Integration with CombatCorePure',
         targetSystem: 'CombatCorePure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -154,7 +154,7 @@ export class StatsSystemCapable implements MIFFCapable {
         name: 'SkillTreePure Integration',
         description: 'Integration with SkillTreePure',
         targetSystem: 'SkillTreePure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
