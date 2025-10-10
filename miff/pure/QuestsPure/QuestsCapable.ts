@@ -433,13 +433,13 @@ export class QuestsCapable implements MIFFCapable {
       perOperation: 12,
       peak: 60,
       unit: 'percent'
-    , averageUsage: 25, intensiveOperations: []},
+    },
     io: {
       current: 0,
       perOperation: 0,
       peak: 0,
       unit: 'KB/s'
-    , blockingOperations: []},
+    },
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 100,

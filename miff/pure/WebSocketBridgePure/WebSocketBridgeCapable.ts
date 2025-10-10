@@ -335,13 +335,13 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       perOperation: 1,
       peak: 25,
       unit: 'percent'
-    , averageUsage: 25, intensiveOperations: []},
+    },
     io: {
       current: 0.5,
       perOperation: 5,
       peak: 500,
       unit: 'KB/s'
-    , blockingOperations: []},
+    },
     scalability: {
       maxConcurrentUsers: 1000,
       maxDataSize: 5,

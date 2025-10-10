@@ -817,7 +817,7 @@ export class UnityBridgeCapable implements MIFFCapable {
     io: {
       readThroughput: 100, // MB/s
       writeThroughput: 50, // MB/s
-      concurrentOperations: 10, blockingOperations: []},
+      concurrentOperations: 10},
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 1000, // MB

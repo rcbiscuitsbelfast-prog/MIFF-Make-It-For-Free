@@ -353,7 +353,7 @@ function getDefaultValidationRules(): Record<string, AssetValidationRule> {
       requiredProperties: ['license', 'duration'],
       licenseWhitelist: ['cc0', 'cc-by', 'cc-by-sa', 'public-domain'],
       platformCompatibility: ['web', 'unity', 'godot']
-    , blockingOperations: []},
+    },
     font: {
       type: 'font',
       required: true,

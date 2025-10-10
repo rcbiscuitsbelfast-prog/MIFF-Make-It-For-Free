@@ -159,7 +159,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
       completed: true,
       duration: total,
       steps: timeline.length
-    , blockingOperations: []}
+    }
   } : {};
 
   return { 

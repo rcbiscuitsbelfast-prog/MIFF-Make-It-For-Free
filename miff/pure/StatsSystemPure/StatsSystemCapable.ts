@@ -387,13 +387,13 @@ export class StatsSystemCapable implements MIFFCapable {
       perOperation: 15,
       peak: 70,
       unit: 'percent'
-    , averageUsage: 25, intensiveOperations: []},
+    },
     io: {
       current: 0,
       perOperation: 0,
       peak: 0,
       unit: 'KB/s'
-    , blockingOperations: []},
+    },
     scalability: {
       maxConcurrentUsers: 200,
       maxDataSize: 50,

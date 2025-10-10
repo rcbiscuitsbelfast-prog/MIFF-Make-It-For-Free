@@ -447,7 +447,7 @@ func _exit_tree():
       },
       audio: {
         enabled: true
-      , blockingOperations: []}
+      }
     };
 
     const projectGodot = `[application]
