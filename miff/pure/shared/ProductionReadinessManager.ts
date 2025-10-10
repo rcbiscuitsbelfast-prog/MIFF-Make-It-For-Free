@@ -726,7 +726,7 @@ export class ProductionReadinessManager {
         category: 'reliability',
         name: 'System Uptime',
         description: 'Verify system uptime and availability',
-        status: 'pending',
+        status: 'not_applicable',
         severity: 'high',
         details: '',
         recommendations: ['Implement health checks', 'Configure auto-restart'],

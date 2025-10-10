@@ -298,7 +298,7 @@ export class SecurityHardening {
     const algorithm = 'aes-256-gcm';
     const key = Buffer.from(this.config.encryptionKey, 'hex');
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipher(algorithm, key);
+    const cipher = crypto.createCipheriv(algorithm, key, iv);
     
     let encrypted = cipher.update(data, 'utf8', 'hex');
     encrypted += cipher.final('hex');
