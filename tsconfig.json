@@ -11,7 +11,8 @@
     "rootDir": "./miff/pure",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "downlevelIteration": true
   },
   "include": [
     "miff/pure/**/*"
