@@ -712,7 +712,7 @@ function generateRecommendations(session: ReplaySession, frames: ReplayFrame[]):
   }
   
   // Memory recommendations
-  const avgMemory = frames.reduce((sum, frame) => sum + frame.metadata.performance.memoryUsage, 0) / frames.length;
+  const avgMemory = frames.reduce((sum, frame) => sum + frame.metadata.performance.memory, 0) / frames.length;
   if (avgMemory > 1000) {
     recommendations.push('High memory usage detected - consider asset pooling or memory management optimization');
   }
@@ -806,7 +806,7 @@ function findPerformanceDrops(frames: ReplayFrame[]): Array<{ frameNumber: numbe
     const currFrame = frames[i];
     
     // Check CPU usage drop
-    const cpuDrop = ((prevFrame.metadata.performance.cpuUsage - currFrame.metadata.performance.cpuUsage) / prevFrame.metadata.performance.cpuUsage) * 100;
+    const cpuDrop = ((prevFrame.metadata.performance.cpu - currFrame.metadata.performance.cpu) / prevFrame.metadata.performance.cpu) * 100;
     if (cpuDrop > 15) {
       drops.push({
         frameNumber: currFrame.frameNumber,
