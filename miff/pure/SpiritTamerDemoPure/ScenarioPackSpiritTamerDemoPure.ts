@@ -160,7 +160,7 @@ export function runScenario(config: ScenarioConfig = {}): SpiritTamerOutput {
 			completed: true,
 			totalBeats: beats.length,
 			successfulTaps: hits
-		}
+		, blockingOperations: []}
 	} : {};
 	
 	return { 
