@@ -91,7 +91,7 @@ export class NetworkBridgeCapable implements MIFFCapable {
         name: 'WebSocketBridgePure Integration',
         description: 'Integration with WebSocketBridgePure',
         targetSystem: 'WebSocketBridgePure',
-        integrationType: 'transport',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },

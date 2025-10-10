@@ -163,7 +163,7 @@ export class StatsSystemCapable implements MIFFCapable {
         name: 'RewardsPure Integration',
         description: 'Integration with RewardsPure',
         targetSystem: 'RewardsPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       }
@@ -176,7 +176,7 @@ export class StatsSystemCapable implements MIFFCapable {
       name: 'Character Schema',
       version: '1.0',
       description: 'Character data schema with statistics',
-      type: 'entity',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -190,7 +190,7 @@ export class StatsSystemCapable implements MIFFCapable {
       name: 'StatModifier Schema',
       version: '1.0',
       description: 'Stat modifier schema',
-      type: 'modifier',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -204,7 +204,7 @@ export class StatsSystemCapable implements MIFFCapable {
       name: 'DerivedStats Schema',
       version: '1.0',
       description: 'Derived statistics calculation schema',
-      type: 'calculated',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
