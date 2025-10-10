@@ -1267,7 +1267,7 @@ export class UnrealAssetManagerPure {
     metrics['average_load_time'] = this.statistics.averageLoadTime;
     metrics['peak_load_time'] = this.statistics.peakLoadTime;
     metrics['cache_efficiency'] = this.statistics.cacheHitRate;
-    metrics['memory_efficiency'] = this.statistics.memoryUsage / this.configuration.maxMemoryUsage;
+    metrics['memory_efficiency'] = this.statistics.memory / this.configuration.maxMemoryUsage;
     metrics['bundle_efficiency'] = this.statistics.bundleMemoryUsage / this.statistics.bundleDiskUsage;
 
     return metrics;
@@ -1279,7 +1279,7 @@ export class UnrealAssetManagerPure {
   }
 
   private updateMetrics(): void {
-    this.metrics.memoryUsage = this.calculateMemoryUsage();
+    this.metrics.memory = this.calculateMemoryUsage();
     this.metrics.diskUsage = this.calculateDiskUsage();
     this.metrics.concurrentLoads = this.statistics.loadingAssets;
     this.metrics.queueDepth = this.calculateQueueDepth();

@@ -714,7 +714,7 @@ export class UnrealEditorHarnessPure {
         warnings: loadResult.warnings,
         metrics: {
           loadTime: loadResult.loadTime,
-          memory: loadResult.memoryUsage,
+          memory: loadResult.memory,
           optimizationTime: optimizationResult.optimizationTime,
           compressionRatio: optimizationResult.compressionRatio
         },
@@ -904,7 +904,7 @@ export class UnrealEditorHarnessPure {
           cachedAssets: assetStats.cachedAssets,
           processedEvents: eventStats.processedEvents,
           failedEvents: eventStats.failedEvents,
-          memory: assetStats.memoryUsage,
+          memory: assetStats.memory,
           performanceTestDuration: duration
         },
         artifacts: [],
@@ -1191,7 +1191,7 @@ export class UnrealEditorHarnessPure {
         messages: bridgeStats.totalMessages,
         actors: bridgeStats.actorCount,
         components: bridgeStats.componentCount,
-        memory: bridgeStats.memoryUsage
+        memory: bridgeStats.memory
       },
       assets: {
         loaded: assetStats.loadedAssets,
