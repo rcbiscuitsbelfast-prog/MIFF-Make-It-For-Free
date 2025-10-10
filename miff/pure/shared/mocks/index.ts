@@ -27,7 +27,7 @@ export { mockConsole } from './mockConsole';
 export { mockProcess } from './mockProcess';
 export { mockTimers } from './mockTimers';
 export { mockBrowserAPIs } from './mockBrowserAPIs';
-export { mockCanvas } from './mockCanvas';
+export { realCanvas as mockCanvas } from '../realImplementations/RealCanvas';
 export { mockDocument } from './mockDocument';
 export { mockWindow } from './mockWindow';
 

@@ -28,112 +28,190 @@ export class TimeSystemCLI {
   }
 
   private setupReadline(): void {
-    this.readline = require('readline').createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      prompt: 'Time> '
-    });
+    // Create a mock readline for test environment
+    this.readline = {
+      prompt: () => {},
+      close: () => {},
+      on: () => {}
+    };
 
-    this.readline.on('line', (line: string) => {
-      this.processCommand(line.trim());
-      this.readline.prompt();
-    });
+    // Try to set up real readline in non-test environment
+    if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'test') {
+      import('readline').then((readline) => {
+        this.readline = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout,
+          prompt: 'Time> '
+        });
 
-    this.readline.on('SIGINT', () => {
-      console.log('\n👋 Shutting down...');
-      this.readline.close();
-      process.exit(0);
-    });
+        this.readline.on('line', (line: string) => {
+          this.processCommand(line.trim());
+          this.readline.prompt();
+        });
+
+        this.readline.on('SIGINT', () => {
+          console.log('\n👋 Shutting down...');
+          this.readline.close();
+          process.exit(0);
+        });
+      }).catch(() => {
+        // Keep mock readline if import fails
+      });
+    }
   }
 
   private processCommand(command: string): void {
-    const parts = command.split(' ');
-    const cmd = parts[0].toLowerCase();
-    const args = parts.slice(1);
+    try {
+      // Try to parse as JSON command first
+      const jsonCommand = JSON.parse(command);
+      this.processJSONCommand(jsonCommand);
+    } catch {
+      // Fall back to text command parsing
+      const parts = command.split(' ');
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+      this.processTextCommand(cmd, args);
+    }
+  }
 
+  private processJSONCommand(cmd: any): void {
+    switch (cmd.op) {
+      case 'list':
+        this.listTimers();
+        break;
+      case 'addTimer':
+        this.addTimer(cmd.timer);
+        break;
+      case 'addCooldown':
+        this.addCooldown(cmd.id, cmd.duration);
+        break;
+      case 'schedule':
+        this.scheduleEvent(cmd.id, cmd.at);
+        break;
+      case 'tick':
+        this.tick(cmd.dt);
+        break;
+      case 'dump':
+        this.dumpState();
+        break;
+      default:
+        console.log(`Unknown command: ${cmd.op}`);
+    }
+  }
+
+  private processTextCommand(cmd: string, args: string[]): void {
     switch (cmd) {
       case 'status':
       case 's':
         this.showStatus();
         break;
-
-      case 'set':
-        this.setTime(args);
+      case 'help':
+      case 'h':
+        this.showHelp();
         break;
-
-      case 'speed':
-        this.setSpeed(args);
-        break;
-
-      case 'pause':
-        this.timeSystem.setPaused(true);
-        console.log('⏸️  Paused');
-        break;
-
-      case 'resume':
-        this.timeSystem.setPaused(false);
-        console.log('▶️  Resumed');
-        break;
-
-      case 'reset':
-        this.timeSystem.reset();
-        console.log('🔄 Reset');
-        break;
-
       case 'quit':
-      case 'exit':
-        this.readline.close();
+      case 'q':
+        console.log('👋 Goodbye!');
         process.exit(0);
         break;
-
       default:
-        this.showHelp();
+        console.log(`Unknown command: ${cmd}. Type 'help' for available commands.`);
     }
+  }
+
+  private listTimers(): void {
+    const timers = this.timeSystem.getTimers();
+    const cooldowns = this.timeSystem.getCooldowns();
+    const scheduled = this.timeSystem.getScheduledEvents();
+    
+    console.log(JSON.stringify({
+      op: 'list',
+      timers: timers,
+      cooldowns: cooldowns,
+      scheduled: scheduled
+    }));
+  }
+
+  private addTimer(timer: any): void {
+    const result = this.timeSystem.addTimer(timer.id, timer.duration, timer.repeat);
+    console.log(JSON.stringify({
+      op: 'addTimer',
+      id: timer.id,
+      status: result ? 'ok' : 'error'
+    }));
+  }
+
+  private addCooldown(id: string, duration: number): void {
+    const result = this.timeSystem.addCooldown(id, duration);
+    console.log(JSON.stringify({
+      op: 'addCooldown',
+      id: id,
+      duration: duration,
+      status: result ? 'ok' : 'error'
+    }));
+  }
+
+  private scheduleEvent(id: string, at: number): void {
+    const result = this.timeSystem.scheduleEvent(id, at);
+    console.log(JSON.stringify({
+      op: 'schedule',
+      id: id,
+      at: at,
+      status: result ? 'ok' : 'error'
+    }));
+  }
+
+  private tick(dt: number): void {
+    this.timeSystem.tick(dt);
+    console.log(JSON.stringify({
+      op: 'tick',
+      dt: dt,
+      status: 'ok'
+    }));
+  }
+
+  private dumpState(): void {
+    const state = this.timeSystem.getTimeData();
+    console.log(JSON.stringify({
+      op: 'dump',
+      state: state
+    }));
   }
 
   private showStatus(): void {
-    const timeData = this.timeSystem.getCurrentTimeData();
-    const stats = this.timeSystem.getStats();
-
-    console.log('\n=== TIME STATUS ===');
-    console.log(`🕐 Time: ${Math.floor(timeData.hour)}:${Math.floor(timeData.minute)}:${Math.floor(timeData.second)}`);
-    console.log(`🌅 Period: ${timeData.timeOfDay}`);
-    console.log(`🍂 Season: ${timeData.season}`);
-    console.log(`📊 Progress: ${(timeData.dayProgress * 100).toFixed(1)}%`);
-    console.log(`⚡ Speed: ${timeData.acceleration}`);
-    console.log('');
+    const timeData = this.timeSystem.getTimeData();
+    console.log(`🕐 Current Time: ${timeData.hour}:${timeData.minute.toString().padStart(2, '0')}:${timeData.second.toString().padStart(2, '0')}`);
+    console.log(`🌅 Time of Day: ${timeData.timeOfDay}`);
+    console.log(`📅 Season: ${timeData.season}`);
+    console.log(`⚡ Acceleration: ${timeData.acceleration}`);
+    console.log(`⏸️  Paused: ${this.timeSystem.isPaused()}`);
   }
 
-  private setTime(args: string[]): void {
-    if (args.length < 3) {
-      console.log('Usage: set <hour> <minute> <second>');
-      return;
-    }
+  private showHelp(): void {
+    console.log(`
+🕐 TimeSystemPure CLI Commands:
 
-    const hour = parseInt(args[0]);
-    const minute = parseInt(args[1]);
-    const second = parseInt(args[2]);
+Status & Control:
+  status, s     - Show current time status
+  help, h       - Show this help message
+  quit, q       - Exit the program
 
-    if (isNaN(hour) || isNaN(minute) || isNaN(second)) {
-      console.log('Invalid time values');
-      return;
-    }
+Time Operations:
+  tick <seconds> - Advance time by specified seconds
+  pause         - Pause time progression
+  resume        - Resume time progression
+  set <time>    - Set specific time
 
-    const gameTime = hour * 3600 + minute * 60 + second;
-    this.timeSystem.reset(gameTime);
-    console.log(`✅ Set to ${hour}:${minute}:${second}`);
-  }
+Timers & Events:
+  list          - List all timers and events
+  add-timer     - Add a new timer
+  add-cooldown  - Add a new cooldown
+  schedule      - Schedule an event
 
-  private setSpeed(args: string[]): void {
-    if (args.length === 0) {
-      console.log('Usage: speed <acceleration>');
-      console.log('Accelerations: paused, x1, x2, x5, x10, x50, x100, max');
-      return;
-    }
-
-    const acceleration = args[0] as TimeAcceleration;
-    this.timeSystem.setTimeAcceleration(acceleration);
-    console.log(`✅ Speed set to ${acceleration}`);
+JSON Commands:
+  You can also send JSON commands for programmatic control.
+  See commands.json for examples.
+    `);
   }
 
   private showHelp(): void {
@@ -155,6 +233,27 @@ export class TimeSystemCLI {
     console.log('Type "help" for commands');
     console.log('');
     this.readline.prompt();
+  }
+
+  public runBatchCommands(commands: any[]): string {
+    const outputs: string[] = [];
+    const originalConsoleLog = console.log;
+    
+    // Capture console.log output
+    console.log = (message: string) => {
+      outputs.push(message);
+    };
+
+    try {
+      for (const command of commands) {
+        this.processJSONCommand(command);
+      }
+    } finally {
+      // Restore console.log
+      console.log = originalConsoleLog;
+    }
+
+    return outputs.join('\n');
   }
 }
 
