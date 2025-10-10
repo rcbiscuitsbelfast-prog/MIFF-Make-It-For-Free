@@ -41,7 +41,10 @@ export class QuestsCapable implements MIFFCapable {
           cpu: 20,
           disk: 0,
           network: 0,
-          dependencies: ['NPCsPure', 'RewardsPure']
+          dependencies: [{
+            command: 'NPCsPure',
+            description: 'RewardsPure'
+          }]
         }
       },
       {
@@ -95,7 +98,10 @@ export class QuestsCapable implements MIFFCapable {
           cpu: 20,
           disk: 0,
           network: 0,
-          dependencies: ['RewardsPure', 'InventoryPure', 'StatsSystemPure']
+          dependencies: [{
+            command: 'RewardsPure',
+            description: 'InventoryPure'
+          }, 'StatsSystemPure']
         }
       },
       {
@@ -159,79 +165,100 @@ export class QuestsCapable implements MIFFCapable {
         cacheable: true
       }
     ],
+    dataProcessing: [],
+    formats: [],
+    realtime: [],
     integrations: [
       {
-        moduleId: 'NPCsPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'NPCsPure-integration',
+        name: 'NPCsPure Integration',
+        description: 'Integration with NPCsPure',
+        targetSystem: 'NPCsPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'DialogueSystemPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'DialogueSystemPure-integration',
+        name: 'DialogueSystemPure Integration',
+        description: 'Integration with DialogueSystemPure',
+        targetSystem: 'DialogueSystemPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'RewardsPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'RewardsPure-integration',
+        name: 'RewardsPure Integration',
+        description: 'Integration with RewardsPure',
+        targetSystem: 'RewardsPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'StatsSystemPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'StatsSystemPure-integration',
+        name: 'StatsSystemPure Integration',
+        description: 'Integration with StatsSystemPure',
+        targetSystem: 'StatsSystemPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'InventoryPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'InventoryPure-integration',
+        name: 'InventoryPure Integration',
+        description: 'Integration with InventoryPure',
+        targetSystem: 'InventoryPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'QuestDefinition',
+      id: 'QuestDefinition',
+      name: 'QuestDefinition Schema',
       version: '1.0',
       description: 'Quest definition schema with objectives and rewards',
-      category: 'structure',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'structure',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'QuestInstance',
+      id: 'QuestInstance',
+      name: 'QuestInstance Schema',
       version: '1.0',
       description: 'Active quest instance schema',
-      category: 'state',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'state',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'QuestObjective',
+      id: 'QuestObjective',
+      name: 'QuestObjective Schema',
       version: '1.0',
       description: 'Quest objective schema with progress tracking',
-      category: 'structure',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'structure',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     }
   ];
 
@@ -270,8 +297,10 @@ export class QuestsCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'create-quest --name "The Lost Artifact" --description "Find the ancient artifact" --level 5',
-          'create-quest --name "Goblin Hunt" --description "Defeat 10 goblins" --objectives 3'
+          {
+            command: 'create-quest --name "The Lost Artifact" --description "Find the ancient artifact" --level 5',
+            description: 'create-quest --name "Goblin Hunt" --description "Defeat 10 goblins" --objectives 3'
+          }
         ]
       },
       {
@@ -301,68 +330,90 @@ export class QuestsCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'simulate-quest --quest-id quest-001 --player-id hero',
-          'simulate-quest --quest-id quest-002 --auto-complete'
+          {
+            command: 'simulate-quest --quest-id quest-001 --player-id hero',
+            description: 'simulate-quest --quest-id quest-002 --auto-complete'
+          }
         ]
       }
     ],
-    helpText: 'QuestsPure provides comprehensive quest management with branching storylines and objective tracking',
-    usageExamples: [
-      'miff quests create-quest --name "The Lost Artifact" --level 5',
-      'miff quests simulate-quest --quest-id quest-001'
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'Module provides comprehensive functionality',
+      gettingStarted: 'Start by using the available commands',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onQuestStart',
-      description: 'Initialize quest system and load quest definitions',
-      required: true,
-      async: true,
-      timeout: 5000
-    },
-    onUpdate: {
-      hookName: 'onQuestUpdate',
-      description: 'Process quest progress updates and check completion',
-      required: true,
-      async: true,
-      timeout: 100
-    },
-    onDestroy: {
-      hookName: 'onQuestDestroy',
-      description: 'Save quest progress and clean up resources',
-      required: true,
-      async: true,
-      timeout: 3000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onQuestCreated',
-        description: 'Handle new quest creation',
-        required: false,
+        id: 'dialogue-start',
+        name: 'Dialogue Start',
+        description: 'Initialize dialogue system',
+        event: 'dialogue.start',
+        priority: 1,
         async: true,
-        timeout: 500
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onQuestStarted',
-        description: 'Handle quest start by player',
-        required: false,
+        id: 'dialogue-update',
+        name: 'Dialogue Update',
+        description: 'Process dialogue updates',
+        event: 'dialogue.update',
+        priority: 1,
         async: true,
-        timeout: 300
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time elapsed since last update'
+          }
+        ],
+        returnType: 'void'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onObjectiveCompleted',
-        description: 'Handle objective completion',
-        required: false,
+        id: 'dialogue-destroy',
+        name: 'Dialogue Destroy',
+        description: 'Clean up dialogue resources',
+        event: 'dialogue.destroy',
+        priority: 1,
         async: true,
-        timeout: 200
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    errorHandling: [
       {
-        hookName: 'onQuestCompleted',
-        description: 'Handle quest completion and reward distribution',
-        required: false,
+        id: 'dialogue-error',
+        name: 'Dialogue Error Handler',
+        description: 'Handle dialogue system errors',
+        event: 'dialogue.error',
+        priority: 1,
         async: true,
-        timeout: 1000
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'The error that occurred'
+          }
+        ],
+        returnType: 'void'
       }
     ]
   };
@@ -372,25 +423,45 @@ export class QuestsCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for quest data'
+      description: 'Shared schema definitions for quest data',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'NPCsPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'NPC system for quest givers and interactions'
+      description: 'NPC system for quest givers and interactions',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'DialogueSystemPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Dialogue system for quest conversations'
+      description: 'Dialogue system for quest conversations',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'RewardsPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Reward system for quest completion'
+      description: 'Reward system for quest completion',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     }
   ];
 
@@ -414,7 +485,7 @@ export class QuestsCapable implements MIFFCapable {
       unit: 'KB/s'
     },
     scalability: {
-      maxConcurrentOperations: 100,
+      maxConcurrentUsers: 100,
       maxDataSize: 100,
       recommendedLimits: {
         'maxActiveQuests': 50,
@@ -425,30 +496,19 @@ export class QuestsCapable implements MIFFCapable {
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 94,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 88,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: true,
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      }
+    ],
+    testDataGeneration: [],
+    mocking: [],
+    performanceTesting: []
   };
 
   // Capability validation methods

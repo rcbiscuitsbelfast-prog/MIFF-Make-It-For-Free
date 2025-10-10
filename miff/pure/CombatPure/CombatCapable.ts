@@ -104,7 +104,10 @@ export class CombatCapable implements MIFFCapable {
           maxThroughput: 500
         }
       ],
-      integrations: [
+      dataProcessing: [],
+    formats: [],
+    realtime: [],
+    integrations: [
         {
           id: 'health-system',
           name: 'HealthSystem',
@@ -160,7 +163,13 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-events',
           name: 'CombatEvents',
           description: 'Real-time combat event streaming',
-          eventTypes: ['damage', 'heal', 'status_change', 'turn_change'],
+          eventTypes: [{
+            command: 'damage',
+            description: 'heal'
+          }, {
+            command: 'status_change',
+            description: 'turn_change'
+          }],
           subscriptionModel: 'push',
           maxConnections: 100,
           latencyTarget: 50
@@ -184,7 +193,10 @@ export class CombatCapable implements MIFFCapable {
             target: { type: 'string' },
             damage: { type: 'number' }
           },
-          required: ['type', 'target']
+          required: [{
+            command: 'type',
+            description: 'target'
+          }]
         },
         validationRules: [
           {
@@ -217,14 +229,20 @@ export class CombatCapable implements MIFFCapable {
             duration: { type: 'number' },
             participants: { type: 'array' }
           },
-          required: ['winner', 'duration']
+          required: [{
+            command: 'winner',
+            description: 'duration'
+          }]
         },
         validationRules: [],
         examples: [
           {
             name: 'Victory Result',
             description: 'Player victory result',
-            data: { winner: 'player', duration: 30000, participants: ['player', 'enemy1'] },
+            data: { winner: 'player', duration: 30000, participants: [{
+            command: 'player',
+            description: 'enemy1'
+          }] },
             valid: true
           }
         ]
@@ -247,7 +265,10 @@ export class CombatCapable implements MIFFCapable {
               type: 'string',
               required: false,
               default: 'turn-based',
-              choices: ['turn-based', 'real-time']
+              choices: [{
+            command: 'turn-based',
+            description: 'real-time'
+          }]
             },
             {
               name: 'participants',
@@ -304,17 +325,26 @@ export class CombatCapable implements MIFFCapable {
           {
             question: 'How do I add more participants?',
             answer: 'Use the --participants flag with the start command',
-            tags: ['participants', 'setup']
+            tags: [{
+            command: 'participants',
+            description: 'setup'
+          }]
           }
         ],
         troubleshooting: [
           {
             problem: 'Combat not starting',
-            symptoms: ['Error on start command', 'No participants found'],
+            symptoms: [{
+            command: 'Error on start command',
+            description: 'No participants found'
+          }],
             solutions: [
               {
                 description: 'Check participant count',
-                steps: ['Verify --participants is set', 'Ensure count is > 0'],
+                steps: [{
+            command: 'Verify --participants is set',
+            description: 'Ensure count is > 0'
+          }],
                 verification: 'Run combat start --participants 2'
               }
             ]
@@ -329,7 +359,10 @@ export class CombatCapable implements MIFFCapable {
         customCompletions: [
           {
             context: 'combat-mode',
-            values: ['turn-based', 'real-time'],
+            values: [{
+            command: 'turn-based',
+            description: 'real-time'
+          }],
             dynamic: false
           }
         ]
@@ -400,9 +433,14 @@ export class CombatCapable implements MIFFCapable {
     return [
       {
         moduleId: 'HealthSystemPure',
-        version: '1.0.0',
-        type: 'required',
-        description: 'Health system for damage application',
+      version: '1.0.0',
+      type: 'required',
+      description: 'Health system for damage application',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
+        knownIssues: []
+      },
         compatibility: {
           minVersion: '1.0.0',
           testedVersions: ['1.0.0'],
@@ -411,9 +449,14 @@ export class CombatCapable implements MIFFCapable {
       },
       {
         moduleId: 'StatsSystemPure',
-        version: '1.0.0',
-        type: 'required',
-        description: 'Stats system for combat calculations',
+      version: '1.0.0',
+      type: 'required',
+      description: 'Stats system for combat calculations',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
+        knownIssues: []
+      },
         compatibility: {
           minVersion: '1.0.0',
           testedVersions: ['1.0.0'],
@@ -422,9 +465,14 @@ export class CombatCapable implements MIFFCapable {
       },
       {
         moduleId: 'TeamsPure',
-        version: '1.0.0',
-        type: 'required',
-        description: 'Teams system for team-based combat',
+      version: '1.0.0',
+      type: 'required',
+      description: 'Teams system for team-based combat',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
+        knownIssues: []
+      },
         compatibility: {
           minVersion: '1.0.0',
           testedVersions: ['1.0.0'],
@@ -450,7 +498,10 @@ export class CombatCapable implements MIFFCapable {
         baseUsage: 10,
         peakUsage: 80,
         averageUsage: 30,
-        intensiveOperations: ['damage_calculation', 'ai_decision']
+        intensiveOperations: [{
+            command: 'damage_calculation',
+            description: 'ai_decision'
+          }]
       },
       io: {
         readThroughput: 100,
@@ -497,7 +548,10 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-data',
           name: 'Combat Test Data',
           description: 'Generate combat scenario test data',
-          dataTypes: ['CombatAction', 'CombatResult', 'Combatant'],
+          dataTypes: [{
+            command: 'CombatAction',
+            description: 'CombatResult'
+          }, 'Combatant'],
           generationMethod: 'template',
           customization: true
         }
@@ -507,7 +561,10 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-mocks',
           name: 'Combat Mocks',
           description: 'Mock combat system components',
-          mockTypes: ['HealthSystem', 'StatsSystem', 'TeamsSystem'],
+          mockTypes: [{
+            command: 'HealthSystem',
+            description: 'StatsSystem'
+          }, 'TeamsSystem'],
           isolationLevel: 'unit',
           verification: true
         }
@@ -517,8 +574,14 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-performance',
           name: 'Combat Performance Tests',
           description: 'Performance testing for combat operations',
-          metrics: ['response_time', 'throughput', 'memory_usage'],
-          loadPatterns: ['linear', 'spike', 'sustained'],
+          metrics: [{
+            command: 'response_time',
+            description: 'throughput'
+          }, 'memory_usage'],
+          loadPatterns: [{
+            command: 'linear',
+            description: 'spike'
+          }, 'sustained'],
           reporting: true
         }
       ]

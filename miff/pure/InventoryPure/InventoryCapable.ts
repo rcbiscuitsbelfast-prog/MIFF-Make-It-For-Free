@@ -159,79 +159,100 @@ export class InventoryCapable implements MIFFCapable {
         cacheable: true
       }
     ],
+    dataProcessing: [],
+    formats: [],
+    realtime: [],
     integrations: [
       {
-        moduleId: 'ItemsPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'ItemsPure-integration',
+        name: 'ItemsPure Integration',
+        description: 'Integration with ItemsPure',
+        targetSystem: 'ItemsPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'EquipmentPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'EquipmentPure-integration',
+        name: 'EquipmentPure Integration',
+        description: 'Integration with EquipmentPure',
+        targetSystem: 'EquipmentPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'CraftingPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'CraftingPure-integration',
+        name: 'CraftingPure Integration',
+        description: 'Integration with CraftingPure',
+        targetSystem: 'CraftingPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'EconomyPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'EconomyPure-integration',
+        name: 'EconomyPure Integration',
+        description: 'Integration with EconomyPure',
+        targetSystem: 'EconomyPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'QuestsPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'QuestsPure-integration',
+        name: 'QuestsPure Integration',
+        description: 'Integration with QuestsPure',
+        targetSystem: 'QuestsPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'Inventory',
+      id: 'Inventory',
+      name: 'Inventory Schema',
       version: '1.0',
       description: 'Inventory container schema',
-      category: 'container',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'container',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'ItemStack',
+      id: 'ItemStack',
+      name: 'ItemStack Schema',
       version: '1.0',
       description: 'Item stack schema with quantity tracking',
-      category: 'data',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'data',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'InventoryFilter',
+      id: 'InventoryFilter',
+      name: 'InventoryFilter Schema',
       version: '1.0',
       description: 'Inventory filter and search schema',
-      category: 'filter',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'filter',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     }
   ];
 
@@ -258,8 +279,10 @@ export class InventoryCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'create-inventory --capacity 50 --type player',
-          'create-inventory --capacity 20 --type chest'
+          {
+            command: 'create-inventory --capacity 50 --type player',
+            description: 'create-inventory --capacity 20 --type chest'
+          }
         ]
       },
       {
@@ -283,68 +306,90 @@ export class InventoryCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'simulate-inventory --operations 20 --item-types 8',
-          'simulate-inventory --operations 50'
+          {
+            command: 'simulate-inventory --operations 20 --item-types 8',
+            description: 'simulate-inventory --operations 50'
+          }
         ]
       }
     ],
-    helpText: 'InventoryPure provides advanced inventory management with stacking, sorting, and equipment integration',
-    usageExamples: [
-      'miff inventory create-inventory --capacity 50',
-      'miff inventory simulate-inventory --operations 20'
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'Module provides comprehensive functionality',
+      gettingStarted: 'Start by using the available commands',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onInventoryStart',
-      description: 'Initialize inventory system and load inventory data',
-      required: true,
-      async: true,
-      timeout: 3000
-    },
-    onUpdate: {
-      hookName: 'onInventoryUpdate',
-      description: 'Process inventory changes and update UI',
-      required: true,
-      async: true,
-      timeout: 50
-    },
-    onDestroy: {
-      hookName: 'onInventoryDestroy',
-      description: 'Save inventory data and clean up resources',
-      required: true,
-      async: true,
-      timeout: 2000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onItemAdded',
-        description: 'Handle item addition to inventory',
-        required: false,
+        id: 'dialogue-start',
+        name: 'Dialogue Start',
+        description: 'Initialize dialogue system',
+        event: 'dialogue.start',
+        priority: 1,
         async: true,
-        timeout: 200
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onItemRemoved',
-        description: 'Handle item removal from inventory',
-        required: false,
+        id: 'dialogue-update',
+        name: 'Dialogue Update',
+        description: 'Process dialogue updates',
+        event: 'dialogue.update',
+        priority: 1,
         async: true,
-        timeout: 200
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time elapsed since last update'
+          }
+        ],
+        returnType: 'void'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onInventoryFull',
-        description: 'Handle inventory full condition',
-        required: false,
-        async: false,
-        timeout: 100
-      },
-      {
-        hookName: 'onItemTransferred',
-        description: 'Handle item transfer between inventories',
-        required: false,
+        id: 'dialogue-destroy',
+        name: 'Dialogue Destroy',
+        description: 'Clean up dialogue resources',
+        event: 'dialogue.destroy',
+        priority: 1,
         async: true,
-        timeout: 300
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    errorHandling: [
+      {
+        id: 'dialogue-error',
+        name: 'Dialogue Error Handler',
+        description: 'Handle dialogue system errors',
+        event: 'dialogue.error',
+        priority: 1,
+        async: true,
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'The error that occurred'
+          }
+        ],
+        returnType: 'void'
       }
     ]
   };
@@ -354,13 +399,23 @@ export class InventoryCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for inventory data'
+      description: 'Shared schema definitions for inventory data',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'ItemsPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Item system for inventory contents'
+      description: 'Item system for inventory contents',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     }
   ];
 
@@ -384,7 +439,7 @@ export class InventoryCapable implements MIFFCapable {
       unit: 'KB/s'
     },
     scalability: {
-      maxConcurrentOperations: 500,
+      maxConcurrentUsers: 500,
       maxDataSize: 25,
       recommendedLimits: {
         'maxInventorySlots': 100,
@@ -395,30 +450,19 @@ export class InventoryCapable implements MIFFCapable {
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 93,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 87,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: true,
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      }
+    ],
+    testDataGeneration: [],
+    mocking: [],
+    performanceTesting: []
   };
 
   // Capability validation methods

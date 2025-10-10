@@ -131,54 +131,68 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         cacheable: true
       }
     ],
+    dataProcessing: [],
+    formats: [],
+    realtime: [],
     integrations: [
       {
-        moduleId: 'WebSocketServerPure',
-        type: 'transport',
-        required: false,
-        version: '>=1.0.0'
+        id: 'WebSocketServerPure-integration',
+        name: 'WebSocketServerPure Integration',
+        description: 'Integration with WebSocketServerPure',
+        targetSystem: 'WebSocketServerPure',
+        integrationType: 'transport',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'NetworkBridgePure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'NetworkBridgePure-integration',
+        name: 'NetworkBridgePure Integration',
+        description: 'Integration with NetworkBridgePure',
+        targetSystem: 'NetworkBridgePure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'EventBusPure',
-        type: 'fallback',
-        required: false,
-        version: '>=1.0.0'
+        id: 'EventBusPure-integration',
+        name: 'EventBusPure Integration',
+        description: 'Integration with EventBusPure',
+        targetSystem: 'EventBusPure',
+        integrationType: 'fallback',
+        protocols: ['internal'],
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'WebSocketOptions',
+      id: 'WebSocketOptions',
+      name: 'WebSocketOptions Schema',
       version: '1.0',
       description: 'WebSocket bridge configuration schema',
-      category: 'config',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'config',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'MessagePayload',
+      id: 'MessagePayload',
+      name: 'MessagePayload Schema',
       version: '1.0',
       description: 'WebSocket message payload schema',
-      category: 'data',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: false,
-        allowAdditional: true,
-        deprecatedFields: []
-      }
+      type: 'data',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     }
   ];
 
@@ -211,8 +225,10 @@ export class WebSocketBridgeCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'connect --url ws://localhost:3000 --use-real',
-          'connect --protocols miff,game --use-real'
+          {
+            command: 'connect --url ws://localhost:3000 --use-real',
+            description: 'connect --protocols miff,game --use-real'
+          }
         ]
       },
       {
@@ -240,63 +256,83 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         ]
       }
     ],
-    helpText: 'WebSocketBridgePure provides real-time WebSocket communication with automatic fallback to local simulation',
-    usageExamples: [
-      'miff websocket connect --use-real',
-      'miff websocket send --payload \'{"message":"hello"}\''
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'Module provides comprehensive functionality',
+      gettingStarted: 'Start by using the available commands',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onWebSocketStart',
-      description: 'Initialize WebSocket connection and channel management',
-      required: true,
-      async: true,
-      timeout: 5000
-    },
-    onUpdate: {
-      hookName: 'onWebSocketUpdate',
-      description: 'Process incoming messages and maintain connection health',
-      required: true,
-      async: true,
-      timeout: 100
-    },
-    onDestroy: {
-      hookName: 'onWebSocketDestroy',
-      description: 'Clean up WebSocket connections and unregister handlers',
-      required: true,
-      async: true,
-      timeout: 2000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onConnectionEstablished',
-        description: 'Handle successful WebSocket connection',
-        required: false,
+        id: 'dialogue-start',
+        name: 'Dialogue Start',
+        description: 'Initialize dialogue system',
+        event: 'dialogue.start',
+        priority: 1,
         async: true,
-        timeout: 1000
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onConnectionLost',
-        description: 'Handle WebSocket connection loss and initiate reconnection',
-        required: false,
+        id: 'dialogue-update',
+        name: 'Dialogue Update',
+        description: 'Process dialogue updates',
+        event: 'dialogue.update',
+        priority: 1,
         async: true,
-        timeout: 1000
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time elapsed since last update'
+          }
+        ],
+        returnType: 'void'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onMessageReceived',
-        description: 'Handle incoming WebSocket messages',
-        required: false,
+        id: 'dialogue-destroy',
+        name: 'Dialogue Destroy',
+        description: 'Clean up dialogue resources',
+        event: 'dialogue.destroy',
+        priority: 1,
         async: true,
-        timeout: 100
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    errorHandling: [
       {
-        hookName: 'onChannelJoined',
-        description: 'Handle successful channel join',
-        required: false,
-        async: false,
-        timeout: 100
+        id: 'dialogue-error',
+        name: 'Dialogue Error Handler',
+        description: 'Handle dialogue system errors',
+        event: 'dialogue.error',
+        priority: 1,
+        async: true,
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'The error that occurred'
+          }
+        ],
+        returnType: 'void'
       }
     ]
   };
@@ -306,7 +342,12 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for message validation'
+      description: 'Shared schema definitions for message validation',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     }
   ];
 
@@ -330,7 +371,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       unit: 'KB/s'
     },
     scalability: {
-      maxConcurrentOperations: 1000,
+      maxConcurrentUsers: 1000,
       maxDataSize: 5,
       recommendedLimits: {
         'maxConnections': 100,
@@ -341,30 +382,19 @@ export class WebSocketBridgeCapable implements MIFFCapable {
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 90,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 80,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: false, // WebSocket timing can vary
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      }
+    ],
+    testDataGeneration: [],
+    mocking: [],
+    performanceTesting: []
   };
 
   // Capability validation methods

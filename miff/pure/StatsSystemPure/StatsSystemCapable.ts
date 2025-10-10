@@ -77,7 +77,10 @@ export class StatsSystemCapable implements MIFFCapable {
           cpu: 25,
           disk: 0,
           network: 0,
-          dependencies: ['RewardsPure', 'SkillTreePure']
+          dependencies: [{
+            command: 'RewardsPure',
+            description: 'SkillTreePure'
+          }]
         }
       },
       {
@@ -95,7 +98,10 @@ export class StatsSystemCapable implements MIFFCapable {
           cpu: 30,
           disk: 0,
           network: 0,
-          dependencies: ['EquipmentPure', 'EffectsPure']
+          dependencies: [{
+            command: 'EquipmentPure',
+            description: 'EffectsPure'
+          }]
         }
       },
       {
@@ -159,79 +165,100 @@ export class StatsSystemCapable implements MIFFCapable {
         cacheable: true
       }
     ],
+    dataProcessing: [],
+    formats: [],
+    realtime: [],
     integrations: [
       {
-        moduleId: 'EquipmentPure',
-        type: 'dependency',
-        required: false,
-        version: '>=1.0.0'
+        id: 'EquipmentPure-integration',
+        name: 'EquipmentPure Integration',
+        description: 'Integration with EquipmentPure',
+        targetSystem: 'EquipmentPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'EffectsPure',
-        type: 'dependency',
-        required: false,
-        version: '>=1.0.0'
+        id: 'EffectsPure-integration',
+        name: 'EffectsPure Integration',
+        description: 'Integration with EffectsPure',
+        targetSystem: 'EffectsPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'CombatCorePure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'CombatCorePure-integration',
+        name: 'CombatCorePure Integration',
+        description: 'Integration with CombatCorePure',
+        targetSystem: 'CombatCorePure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'SkillTreePure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'SkillTreePure-integration',
+        name: 'SkillTreePure Integration',
+        description: 'Integration with SkillTreePure',
+        targetSystem: 'SkillTreePure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'RewardsPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'RewardsPure-integration',
+        name: 'RewardsPure Integration',
+        description: 'Integration with RewardsPure',
+        targetSystem: 'RewardsPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'Character',
+      id: 'Character',
+      name: 'Character Schema',
       version: '1.0',
       description: 'Character data schema with statistics',
-      category: 'entity',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'entity',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'StatModifier',
+      id: 'StatModifier',
+      name: 'StatModifier Schema',
       version: '1.0',
       description: 'Stat modifier schema',
-      category: 'modifier',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'modifier',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'DerivedStats',
+      id: 'DerivedStats',
+      name: 'DerivedStats Schema',
       version: '1.0',
       description: 'Derived statistics calculation schema',
-      category: 'calculated',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'calculated',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     }
   ];
 
@@ -264,8 +291,10 @@ export class StatsSystemCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'create-character --name "Hero" --class warrior --level 5',
-          'create-character --name "Mage" --class wizard'
+          {
+            command: 'create-character --name "Hero" --class warrior --level 5',
+            description: 'create-character --name "Mage" --class wizard'
+          }
         ]
       },
       {
@@ -288,68 +317,90 @@ export class StatsSystemCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'simulate-level-up --character-id hero-001 --levels 5',
-          'simulate-level-up --character-id mage-001'
+          {
+            command: 'simulate-level-up --character-id hero-001 --levels 5',
+            description: 'simulate-level-up --character-id mage-001'
+          }
         ]
       }
     ],
-    helpText: 'StatsSystemPure provides comprehensive character statistics with progression and combat integration',
-    usageExamples: [
-      'miff stats create-character --name "Hero" --class warrior',
-      'miff stats simulate-level-up --character-id hero-001 --levels 5'
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'Module provides comprehensive functionality',
+      gettingStarted: 'Start by using the available commands',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onStatsStart',
-      description: 'Initialize stats system and load character data',
-      required: true,
-      async: true,
-      timeout: 3000
-    },
-    onUpdate: {
-      hookName: 'onStatsUpdate',
-      description: 'Process stat modifications and recalculate derived stats',
-      required: true,
-      async: true,
-      timeout: 50
-    },
-    onDestroy: {
-      hookName: 'onStatsDestroy',
-      description: 'Save character data and clean up resources',
-      required: true,
-      async: true,
-      timeout: 2000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onCharacterCreated',
-        description: 'Handle new character creation',
-        required: false,
+        id: 'dialogue-start',
+        name: 'Dialogue Start',
+        description: 'Initialize dialogue system',
+        event: 'dialogue.start',
+        priority: 1,
         async: true,
-        timeout: 300
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onStatModified',
-        description: 'Handle stat modification events',
-        required: false,
-        async: false,
-        timeout: 100
-      },
-      {
-        hookName: 'onLevelUp',
-        description: 'Handle character level up events',
-        required: false,
+        id: 'dialogue-update',
+        name: 'Dialogue Update',
+        description: 'Process dialogue updates',
+        event: 'dialogue.update',
+        priority: 1,
         async: true,
-        timeout: 500
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time elapsed since last update'
+          }
+        ],
+        returnType: 'void'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onExperienceGained',
-        description: 'Handle experience point gains',
-        required: false,
-        async: false,
-        timeout: 100
+        id: 'dialogue-destroy',
+        name: 'Dialogue Destroy',
+        description: 'Clean up dialogue resources',
+        event: 'dialogue.destroy',
+        priority: 1,
+        async: true,
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    errorHandling: [
+      {
+        id: 'dialogue-error',
+        name: 'Dialogue Error Handler',
+        description: 'Handle dialogue system errors',
+        event: 'dialogue.error',
+        priority: 1,
+        async: true,
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'The error that occurred'
+          }
+        ],
+        returnType: 'void'
       }
     ]
   };
@@ -359,7 +410,12 @@ export class StatsSystemCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for character data'
+      description: 'Shared schema definitions for character data',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     }
   ];
 
@@ -383,7 +439,7 @@ export class StatsSystemCapable implements MIFFCapable {
       unit: 'KB/s'
     },
     scalability: {
-      maxConcurrentOperations: 200,
+      maxConcurrentUsers: 200,
       maxDataSize: 50,
       recommendedLimits: {
         'maxCharacters': 1000,
@@ -394,30 +450,19 @@ export class StatsSystemCapable implements MIFFCapable {
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 96,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 90,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: true,
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      }
+    ],
+    testDataGeneration: [],
+    mocking: [],
+    performanceTesting: []
   };
 
   // Capability validation methods

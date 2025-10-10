@@ -113,48 +113,59 @@ export class NetworkBridgeCapable implements MIFFCapable {
         cacheable: true
       }
     ],
+    dataProcessing: [],
+    formats: [],
+    realtime: [],
     integrations: [
       {
-        moduleId: 'WebSocketBridgePure',
-        type: 'transport',
-        required: false,
-        version: '>=1.0.0'
+        id: 'WebSocketBridgePure-integration',
+        name: 'WebSocketBridgePure Integration',
+        description: 'Integration with WebSocketBridgePure',
+        targetSystem: 'WebSocketBridgePure',
+        integrationType: 'transport',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'CombatPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'CombatPure-integration',
+        name: 'CombatPure Integration',
+        description: 'Integration with CombatPure',
+        targetSystem: 'CombatPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'NetworkConfig',
+      id: 'NetworkConfig',
+      name: 'NetworkConfig Schema',
       version: '1.0',
       description: 'Network bridge configuration schema',
-      category: 'config',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'config',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'GameState',
+      id: 'GameState',
+      name: 'GameState Schema',
       version: '1.0',
       description: 'Synchronized game state schema',
-      category: 'state',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'state',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     }
   ];
 
@@ -188,8 +199,10 @@ export class NetworkBridgeCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'create-bridge --max-players 8 --tick-rate 30',
-          'create-bridge --rollback-frames 12'
+          {
+            command: 'create-bridge --max-players 8 --tick-rate 30',
+            description: 'create-bridge --rollback-frames 12'
+          }
         ]
       },
       {
@@ -212,61 +225,90 @@ export class NetworkBridgeCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'test-connection --peer-id host-123',
-          'test-connection --peer-id client-456 --timeout 10000'
+          {
+            command: 'test-connection --peer-id host-123',
+            description: 'test-connection --peer-id client-456 --timeout 10000'
+          }
         ]
       }
     ],
-    helpText: 'NetworkBridgePure provides real-time networking with WebSocket transport and rollback netcode',
-    usageExamples: [
-      'miff network create-bridge --max-players 4',
-      'miff network test-connection --peer-id host-123'
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'Module provides comprehensive functionality',
+      gettingStarted: 'Start by using the available commands',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onNetworkStart',
-      description: 'Initialize network transport and peer management',
-      required: true,
-      async: true,
-      timeout: 5000
-    },
-    onUpdate: {
-      hookName: 'onNetworkUpdate',
-      description: 'Process network messages and synchronize state',
-      required: true,
-      async: true,
-      timeout: 16
-    },
-    onDestroy: {
-      hookName: 'onNetworkDestroy',
-      description: 'Clean up connections and release resources',
-      required: true,
-      async: true,
-      timeout: 2000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onPeerConnected',
-        description: 'Handle new peer connection',
-        required: false,
+        id: 'dialogue-start',
+        name: 'Dialogue Start',
+        description: 'Initialize dialogue system',
+        event: 'dialogue.start',
+        priority: 1,
         async: true,
-        timeout: 1000
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onPeerDisconnected',
-        description: 'Handle peer disconnection',
-        required: false,
+        id: 'dialogue-update',
+        name: 'Dialogue Update',
+        description: 'Process dialogue updates',
+        event: 'dialogue.update',
+        priority: 1,
         async: true,
-        timeout: 1000
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time elapsed since last update'
+          }
+        ],
+        returnType: 'void'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onStateSync',
-        description: 'Handle state synchronization event',
-        required: false,
+        id: 'dialogue-destroy',
+        name: 'Dialogue Destroy',
+        description: 'Clean up dialogue resources',
+        event: 'dialogue.destroy',
+        priority: 1,
         async: true,
-        timeout: 16
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    errorHandling: [
+      {
+        id: 'dialogue-error',
+        name: 'Dialogue Error Handler',
+        description: 'Handle dialogue system errors',
+        event: 'dialogue.error',
+        priority: 1,
+        async: true,
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'The error that occurred'
+          }
+        ],
+        returnType: 'void'
       }
     ]
   };
@@ -276,7 +318,12 @@ export class NetworkBridgeCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for network messages'
+      description: 'Shared schema definitions for network messages',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     }
   ];
 
@@ -300,7 +347,7 @@ export class NetworkBridgeCapable implements MIFFCapable {
       unit: 'KB/s'
     },
     scalability: {
-      maxConcurrentOperations: 100,
+      maxConcurrentUsers: 100,
       maxDataSize: 10,
       recommendedLimits: {
         'maxPlayers': 16,
@@ -311,30 +358,19 @@ export class NetworkBridgeCapable implements MIFFCapable {
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 95,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 85,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: true,
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      }
+    ],
+    testDataGeneration: [],
+    mocking: [],
+    performanceTesting: []
   };
 
   // Capability validation methods

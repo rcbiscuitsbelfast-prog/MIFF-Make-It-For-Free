@@ -41,7 +41,10 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 15,
           disk: 0,
           network: 0,
-          dependencies: ['NPCsPure', 'QuestsPure']
+          dependencies: [{
+            command: 'NPCsPure',
+            description: 'QuestsPure'
+          }]
         }
       },
       {
@@ -59,7 +62,10 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 20,
           disk: 0,
           network: 0,
-          dependencies: ['QuestsPure', 'InventoryPure']
+          dependencies: [{
+            command: 'QuestsPure',
+            description: 'InventoryPure'
+          }]
         }
       },
       {
@@ -77,7 +83,10 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 25,
           disk: 0,
           network: 0,
-          dependencies: ['QuestsPure', 'StatsSystemPure', 'InventoryPure']
+          dependencies: [{
+            command: 'QuestsPure',
+            description: 'StatsSystemPure'
+          }, 'InventoryPure']
         }
       },
       {
@@ -95,7 +104,10 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 30,
           disk: 0,
           network: 0,
-          dependencies: ['QuestsPure', 'InventoryPure', 'RewardsPure']
+          dependencies: [{
+            command: 'QuestsPure',
+            description: 'InventoryPure'
+          }, 'RewardsPure']
         }
       },
       {
@@ -159,79 +171,100 @@ export class DialogueSystemCapable implements MIFFCapable {
         cacheable: true
       }
     ],
+    dataProcessing: [],
+    formats: [],
+    realtime: [],
     integrations: [
       {
-        moduleId: 'NPCsPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'NPCsPure-integration',
+        name: 'NPCsPure Integration',
+        description: 'Integration with NPCsPure',
+        targetSystem: 'NPCsPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'QuestsPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'QuestsPure-integration',
+        name: 'QuestsPure Integration',
+        description: 'Integration with QuestsPure',
+        targetSystem: 'QuestsPure',
+        integrationType: 'dependency',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'InventoryPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'InventoryPure-integration',
+        name: 'InventoryPure Integration',
+        description: 'Integration with InventoryPure',
+        targetSystem: 'InventoryPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'StatsSystemPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'StatsSystemPure-integration',
+        name: 'StatsSystemPure Integration',
+        description: 'Integration with StatsSystemPure',
+        targetSystem: 'StatsSystemPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       },
       {
-        moduleId: 'RewardsPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'RewardsPure-integration',
+        name: 'RewardsPure Integration',
+        description: 'Integration with RewardsPure',
+        targetSystem: 'RewardsPure',
+        integrationType: 'consumer',
+        protocols: ['internal'],
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'DialogueTree',
+      id: 'DialogueTree',
+      name: 'DialogueTree Schema',
       version: '1.0',
       description: 'Dialogue tree structure schema',
-      category: 'structure',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'structure',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'DialogueChoice',
+      id: 'DialogueChoice',
+      name: 'DialogueChoice Schema',
       version: '1.0',
       description: 'Player dialogue choice schema',
-      category: 'action',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'action',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     },
     {
-      schemaId: 'DialogueConditions',
+      id: 'DialogueConditions',
+      name: 'DialogueConditions Schema',
       version: '1.0',
       description: 'Dialogue conditional logic schema',
-      category: 'logic',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'logic',
+      schema: {
+        type: 'object',
+        properties: {},
+        required: []
+      },
+      validationRules: [],
+      examples: []
     }
   ];
 
@@ -264,8 +297,10 @@ export class DialogueSystemCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'simulate-dialogue --npc-id merchant-01',
-          'simulate-dialogue --npc-id guard-02 --player-id hero --auto-choices'
+          {
+            command: 'simulate-dialogue --npc-id merchant-01',
+            description: 'simulate-dialogue --npc-id guard-02 --player-id hero --auto-choices'
+          }
         ]
       },
       {
@@ -288,68 +323,90 @@ export class DialogueSystemCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'validate-dialogue-tree --tree-file dialogues/merchant.json',
-          'validate-dialogue-tree --tree-file dialogues/quest-giver.json --strict'
+          {
+            command: 'validate-dialogue-tree --tree-file dialogues/merchant.json',
+            description: 'validate-dialogue-tree --tree-file dialogues/quest-giver.json --strict'
+          }
         ]
       }
     ],
-    helpText: 'DialogueSystemPure provides advanced dialogue management with branching conversations and conditional logic',
-    usageExamples: [
-      'miff dialogue simulate-dialogue --npc-id merchant-01',
-      'miff dialogue validate-dialogue-tree --tree-file dialogues/merchant.json'
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'Module provides comprehensive functionality',
+      gettingStarted: 'Start by using the available commands',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onDialogueStart',
-      description: 'Initialize dialogue system and load dialogue trees',
-      required: true,
-      async: true,
-      timeout: 3000
-    },
-    onUpdate: {
-      hookName: 'onDialogueUpdate',
-      description: 'Process active dialogues and update conversation states',
-      required: true,
-      async: true,
-      timeout: 50
-    },
-    onDestroy: {
-      hookName: 'onDialogueDestroy',
-      description: 'Clean up dialogue resources and save conversation history',
-      required: true,
-      async: true,
-      timeout: 2000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onConversationStart',
-        description: 'Handle start of new dialogue conversation',
-        required: false,
+        id: 'dialogue-start',
+        name: 'Dialogue Start',
+        description: 'Initialize dialogue system',
+        event: 'dialogue.start',
+        priority: 1,
         async: true,
-        timeout: 500
-      },
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onChoiceSelected',
-        description: 'Handle player dialogue choice selection',
-        required: false,
+        id: 'dialogue-update',
+        name: 'Dialogue Update',
+        description: 'Process dialogue updates',
+        event: 'dialogue.update',
+        priority: 1,
         async: true,
-        timeout: 200
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time elapsed since last update'
+          }
+        ],
+        returnType: 'void'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onConditionEvaluated',
-        description: 'Handle dialogue condition evaluation',
-        required: false,
-        async: false,
-        timeout: 100
-      },
-      {
-        hookName: 'onConversationEnd',
-        description: 'Handle end of dialogue conversation',
-        required: false,
+        id: 'dialogue-destroy',
+        name: 'Dialogue Destroy',
+        description: 'Clean up dialogue resources',
+        event: 'dialogue.destroy',
+        priority: 1,
         async: true,
-        timeout: 300
+        parameters: [],
+        returnType: 'void'
+      }
+    ],
+    errorHandling: [
+      {
+        id: 'dialogue-error',
+        name: 'Dialogue Error Handler',
+        description: 'Handle dialogue system errors',
+        event: 'dialogue.error',
+        priority: 1,
+        async: true,
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'The error that occurred'
+          }
+        ],
+        returnType: 'void'
       }
     ]
   };
@@ -359,19 +416,34 @@ export class DialogueSystemCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for dialogue data'
+      description: 'Shared schema definitions for dialogue data',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'NPCsPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'NPC management and interaction system'
+      description: 'NPC management and interaction system',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'QuestsPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Quest system integration for dialogue-driven quests'
+      description: 'Quest system integration for dialogue-driven quests',
+      compatibility: {
+        minVersion: '>=1.0.0',
+        testedVersions: ['>=1.0.0'],
+        knownIssues: []
+      }
     }
   ];
 
@@ -395,7 +467,7 @@ export class DialogueSystemCapable implements MIFFCapable {
       unit: 'KB/s'
     },
     scalability: {
-      maxConcurrentOperations: 100,
+      maxConcurrentUsers: 100,
       maxDataSize: 25,
       recommendedLimits: {
         'maxDialogueTrees': 500,
@@ -406,30 +478,19 @@ export class DialogueSystemCapable implements MIFFCapable {
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 92,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 85,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: true,
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      }
+    ],
+    testDataGeneration: [],
+    mocking: [],
+    performanceTesting: []
   };
 
   // Capability validation methods
