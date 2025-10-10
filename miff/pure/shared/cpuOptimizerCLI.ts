@@ -157,7 +157,7 @@ class CPUOptimizerCLI {
     const value = args[1];
     const ttl = args[2] ? parseInt(args[2]) : 300000; // 5 minutes default
 
-    this.optimizer.cache(key, value, ttl);
+    this.optimizer.cacheValue(key, value, ttl);
     console.log(`✅ Cached value for key: ${key}`);
   }
 
