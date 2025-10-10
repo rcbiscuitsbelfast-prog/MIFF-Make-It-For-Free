@@ -160,8 +160,8 @@ export class InventoryCapable implements MIFFCapable {
       }
     ],
     dataProcessing: [],
-    formats: [],
-    realtime: [],
+      formats: [],
+      realtime: [],
     integrations: [
       {
         id: 'ItemsPure-integration',
@@ -261,54 +261,58 @@ export class InventoryCapable implements MIFFCapable {
       {
         name: 'create-inventory',
         description: 'Create a new inventory container',
-        category: 'management',
-        flags: [
+        usage: 'create-inventory [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'capacity',
             description: 'Maximum number of slots',
             type: 'number',
             required: false,
-            defaultValue: 30
+            default: 30
           },
           {
             name: 'type',
             description: 'Inventory type (player, chest, shop)',
             type: 'string',
             required: false,
-            defaultValue: 'player'
+            default: 'player'
           }
         ],
         examples: [
           {
             command: 'create-inventory --capacity 50 --type player',
-            description: 'create-inventory --capacity 20 --type chest'
+            description: 'Example command'
           }
         ]
       },
       {
         name: 'simulate-inventory',
         description: 'Simulate inventory operations for testing',
-        category: 'simulation',
-        flags: [
+        usage: 'simulate-inventory [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'operations',
             description: 'Number of operations to simulate',
             type: 'number',
             required: false,
-            defaultValue: 10
+            default: 10
           },
           {
             name: 'item-types',
             description: 'Number of different item types to use',
             type: 'number',
             required: false,
-            defaultValue: 5
+            default: 5
           }
         ],
         examples: [
           {
             command: 'simulate-inventory --operations 20 --item-types 8',
-            description: 'simulate-inventory --operations 50'
+            description: 'Example command'
           }
         ]
       }
@@ -401,8 +405,8 @@ export class InventoryCapable implements MIFFCapable {
       type: 'required',
       description: 'Shared schema definitions for inventory data',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -412,8 +416,8 @@ export class InventoryCapable implements MIFFCapable {
       type: 'required',
       description: 'Item system for inventory contents',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     }

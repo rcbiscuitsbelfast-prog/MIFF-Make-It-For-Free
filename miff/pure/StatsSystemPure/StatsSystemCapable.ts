@@ -77,10 +77,7 @@ export class StatsSystemCapable implements MIFFCapable {
           cpu: 25,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'RewardsPure',
-            description: 'SkillTreePure'
-          }]
+          dependencies: ['RewardsPure']
         }
       },
       {
@@ -98,10 +95,7 @@ export class StatsSystemCapable implements MIFFCapable {
           cpu: 30,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'EquipmentPure',
-            description: 'EffectsPure'
-          }]
+          dependencies: ['EquipmentPure']
         }
       },
       {
@@ -166,8 +160,8 @@ export class StatsSystemCapable implements MIFFCapable {
       }
     ],
     dataProcessing: [],
-    formats: [],
-    realtime: [],
+      formats: [],
+      realtime: [],
     integrations: [
       {
         id: 'EquipmentPure-integration',
@@ -267,8 +261,10 @@ export class StatsSystemCapable implements MIFFCapable {
       {
         name: 'create-character',
         description: 'Create a character with base stats',
-        category: 'management',
-        flags: [
+        usage: 'create-character [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'name',
             description: 'Character name',
@@ -280,28 +276,30 @@ export class StatsSystemCapable implements MIFFCapable {
             description: 'Character class',
             type: 'string',
             required: false,
-            defaultValue: 'warrior'
+            default: 'warrior'
           },
           {
             name: 'level',
             description: 'Starting level',
             type: 'number',
             required: false,
-            defaultValue: 1
+            default: 1
           }
         ],
         examples: [
           {
             command: 'create-character --name "Hero" --class warrior --level 5',
-            description: 'create-character --name "Mage" --class wizard'
+            description: 'Example command'
           }
         ]
       },
       {
         name: 'simulate-level-up',
         description: 'Simulate character level progression',
-        category: 'simulation',
-        flags: [
+        usage: 'simulate-level-up [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'character-id',
             description: 'Character ID',
@@ -313,13 +311,13 @@ export class StatsSystemCapable implements MIFFCapable {
             description: 'Number of levels to gain',
             type: 'number',
             required: false,
-            defaultValue: 1
+            default: 1
           }
         ],
         examples: [
           {
             command: 'simulate-level-up --character-id hero-001 --levels 5',
-            description: 'simulate-level-up --character-id mage-001'
+            description: 'Example command'
           }
         ]
       }
@@ -412,8 +410,8 @@ export class StatsSystemCapable implements MIFFCapable {
       type: 'required',
       description: 'Shared schema definitions for character data',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     }

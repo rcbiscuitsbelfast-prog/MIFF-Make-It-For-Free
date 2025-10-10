@@ -114,8 +114,8 @@ export class NetworkBridgeCapable implements MIFFCapable {
       }
     ],
     dataProcessing: [],
-    formats: [],
-    realtime: [],
+      formats: [],
+      realtime: [],
     integrations: [
       {
         id: 'WebSocketBridgePure-integration',
@@ -174,42 +174,46 @@ export class NetworkBridgeCapable implements MIFFCapable {
       {
         name: 'create-bridge',
         description: 'Create a new network bridge',
-        category: 'setup',
-        flags: [
+        usage: 'create-bridge [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'max-players',
             description: 'Maximum number of players',
             type: 'number',
             required: false,
-            defaultValue: 4
+            default: 4
           },
           {
             name: 'tick-rate',
             description: 'Network tick rate in Hz',
             type: 'number',
             required: false,
-            defaultValue: 60
+            default: 60
           },
           {
             name: 'rollback-frames',
             description: 'Number of rollback frames to maintain',
             type: 'number',
             required: false,
-            defaultValue: 8
+            default: 8
           }
         ],
         examples: [
           {
             command: 'create-bridge --max-players 8 --tick-rate 30',
-            description: 'create-bridge --rollback-frames 12'
+            description: 'Example command'
           }
         ]
       },
       {
         name: 'test-connection',
         description: 'Test network connection to a peer',
-        category: 'diagnostic',
-        flags: [
+        usage: 'test-connection [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'peer-id',
             description: 'ID of the peer to test',
@@ -221,13 +225,13 @@ export class NetworkBridgeCapable implements MIFFCapable {
             description: 'Connection timeout in milliseconds',
             type: 'number',
             required: false,
-            defaultValue: 5000
+            default: 5000
           }
         ],
         examples: [
           {
             command: 'test-connection --peer-id host-123',
-            description: 'test-connection --peer-id client-456 --timeout 10000'
+            description: 'Example command'
           }
         ]
       }
@@ -320,8 +324,8 @@ export class NetworkBridgeCapable implements MIFFCapable {
       type: 'required',
       description: 'Shared schema definitions for network messages',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     }

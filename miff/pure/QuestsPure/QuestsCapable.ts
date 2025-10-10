@@ -41,10 +41,7 @@ export class QuestsCapable implements MIFFCapable {
           cpu: 20,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'NPCsPure',
-            description: 'RewardsPure'
-          }]
+          dependencies: ['NPCsPure']
         }
       },
       {
@@ -98,10 +95,7 @@ export class QuestsCapable implements MIFFCapable {
           cpu: 20,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'RewardsPure',
-            description: 'InventoryPure'
-          }, 'StatsSystemPure']
+          dependencies: ['RewardsPure', 'StatsSystemPure']
         }
       },
       {
@@ -166,8 +160,8 @@ export class QuestsCapable implements MIFFCapable {
       }
     ],
     dataProcessing: [],
-    formats: [],
-    realtime: [],
+      formats: [],
+      realtime: [],
     integrations: [
       {
         id: 'NPCsPure-integration',
@@ -267,8 +261,10 @@ export class QuestsCapable implements MIFFCapable {
       {
         name: 'create-quest',
         description: 'Create a new quest definition',
-        category: 'management',
-        flags: [
+        usage: 'create-quest [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'name',
             description: 'Quest name',
@@ -286,28 +282,30 @@ export class QuestsCapable implements MIFFCapable {
             description: 'Required player level',
             type: 'number',
             required: false,
-            defaultValue: 1
+            default: 1
           },
           {
             name: 'objectives',
             description: 'Number of objectives to create',
             type: 'number',
             required: false,
-            defaultValue: 1
+            default: 1
           }
         ],
         examples: [
           {
             command: 'create-quest --name "The Lost Artifact" --description "Find the ancient artifact" --level 5',
-            description: 'create-quest --name "Goblin Hunt" --description "Defeat 10 goblins" --objectives 3'
+            description: 'Example command'
           }
         ]
       },
       {
         name: 'simulate-quest',
         description: 'Simulate quest progression for testing',
-        category: 'simulation',
-        flags: [
+        usage: 'simulate-quest [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'quest-id',
             description: 'ID of the quest to simulate',
@@ -319,20 +317,20 @@ export class QuestsCapable implements MIFFCapable {
             description: 'ID of the player',
             type: 'string',
             required: false,
-            defaultValue: 'test-player'
+            default: 'test-player'
           },
           {
             name: 'auto-complete',
             description: 'Automatically complete all objectives',
             type: 'boolean',
             required: false,
-            defaultValue: false
+            default: false
           }
         ],
         examples: [
           {
             command: 'simulate-quest --quest-id quest-001 --player-id hero',
-            description: 'simulate-quest --quest-id quest-002 --auto-complete'
+            description: 'Example command'
           }
         ]
       }
@@ -425,8 +423,8 @@ export class QuestsCapable implements MIFFCapable {
       type: 'required',
       description: 'Shared schema definitions for quest data',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -436,8 +434,8 @@ export class QuestsCapable implements MIFFCapable {
       type: 'required',
       description: 'NPC system for quest givers and interactions',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -447,8 +445,8 @@ export class QuestsCapable implements MIFFCapable {
       type: 'required',
       description: 'Dialogue system for quest conversations',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -458,8 +456,8 @@ export class QuestsCapable implements MIFFCapable {
       type: 'required',
       description: 'Reward system for quest completion',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     }

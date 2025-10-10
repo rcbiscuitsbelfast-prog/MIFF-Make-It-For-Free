@@ -41,10 +41,7 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 15,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'NPCsPure',
-            description: 'QuestsPure'
-          }]
+          dependencies: ['NPCsPure']
         }
       },
       {
@@ -62,10 +59,7 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 20,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'QuestsPure',
-            description: 'InventoryPure'
-          }]
+          dependencies: ['QuestsPure']
         }
       },
       {
@@ -83,10 +77,7 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 25,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'QuestsPure',
-            description: 'StatsSystemPure'
-          }, 'InventoryPure']
+          dependencies: ['QuestsPure', 'InventoryPure']
         }
       },
       {
@@ -104,10 +95,7 @@ export class DialogueSystemCapable implements MIFFCapable {
           cpu: 30,
           disk: 0,
           network: 0,
-          dependencies: [{
-            command: 'QuestsPure',
-            description: 'InventoryPure'
-          }, 'RewardsPure']
+          dependencies: ['QuestsPure', 'RewardsPure']
         }
       },
       {
@@ -129,48 +117,6 @@ export class DialogueSystemCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
-      {
-        id: 'DialogueTree',
-        name: 'Dialogue Tree Structure',
-        description: 'Hierarchical dialogue tree with branching paths',
-        category: 'structure',
-        complexity: 'high',
-        mutable: false,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'DialogueState',
-        name: 'Current Dialogue State',
-        description: 'Current state of active dialogue conversation',
-        category: 'state',
-        complexity: 'medium',
-        mutable: true,
-        persistent: false,
-        cacheable: true
-      },
-      {
-        id: 'DialogueChoice',
-        name: 'Player Dialogue Choice',
-        description: 'Player selection from available dialogue options',
-        category: 'action',
-        complexity: 'low',
-        mutable: false,
-        persistent: false,
-        cacheable: false
-      },
-      {
-        id: 'DialogueConditions',
-        name: 'Dialogue Conditions',
-        description: 'Conditional logic for dialogue branching and availability',
-        category: 'logic',
-        complexity: 'high',
-        mutable: false,
-        persistent: true,
-        cacheable: true
-      }
-    ],
     dataProcessing: [],
     formats: [],
     realtime: [],
@@ -180,7 +126,7 @@ export class DialogueSystemCapable implements MIFFCapable {
         name: 'NPCsPure Integration',
         description: 'Integration with NPCsPure',
         targetSystem: 'NPCsPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -189,7 +135,7 @@ export class DialogueSystemCapable implements MIFFCapable {
         name: 'QuestsPure Integration',
         description: 'Integration with QuestsPure',
         targetSystem: 'QuestsPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -198,7 +144,7 @@ export class DialogueSystemCapable implements MIFFCapable {
         name: 'InventoryPure Integration',
         description: 'Integration with InventoryPure',
         targetSystem: 'InventoryPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -207,7 +153,7 @@ export class DialogueSystemCapable implements MIFFCapable {
         name: 'StatsSystemPure Integration',
         description: 'Integration with StatsSystemPure',
         targetSystem: 'StatsSystemPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -216,7 +162,7 @@ export class DialogueSystemCapable implements MIFFCapable {
         name: 'RewardsPure Integration',
         description: 'Integration with RewardsPure',
         targetSystem: 'RewardsPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       }
@@ -243,7 +189,7 @@ export class DialogueSystemCapable implements MIFFCapable {
       name: 'DialogueChoice Schema',
       version: '1.0',
       description: 'Player dialogue choice schema',
-      type: 'action',
+        type: 'input',
       schema: {
         type: 'object',
         properties: {},
@@ -257,7 +203,7 @@ export class DialogueSystemCapable implements MIFFCapable {
       name: 'DialogueConditions Schema',
       version: '1.0',
       description: 'Dialogue conditional logic schema',
-      type: 'logic',
+        type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -273,8 +219,10 @@ export class DialogueSystemCapable implements MIFFCapable {
       {
         name: 'simulate-dialogue',
         description: 'Simulate a dialogue conversation',
-        category: 'simulation',
-        flags: [
+        usage: 'simulate-dialogue [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'npc-id',
             description: 'ID of the NPC to dialogue with',
@@ -286,28 +234,30 @@ export class DialogueSystemCapable implements MIFFCapable {
             description: 'ID of the player character',
             type: 'string',
             required: false,
-            defaultValue: 'player1'
+            default: 'player1'
           },
           {
             name: 'auto-choices',
             description: 'Automatically select dialogue choices for simulation',
             type: 'boolean',
             required: false,
-            defaultValue: false
+            default: false
           }
         ],
         examples: [
           {
             command: 'simulate-dialogue --npc-id merchant-01',
-            description: 'simulate-dialogue --npc-id guard-02 --player-id hero --auto-choices'
+            description: 'Example command'
           }
         ]
       },
       {
         name: 'validate-dialogue-tree',
         description: 'Validate dialogue tree structure and conditions',
-        category: 'validation',
-        flags: [
+        usage: 'validate-dialogue-tree [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'tree-file',
             description: 'Path to dialogue tree JSON file',
@@ -319,13 +269,13 @@ export class DialogueSystemCapable implements MIFFCapable {
             description: 'Enable strict validation mode',
             type: 'boolean',
             required: false,
-            defaultValue: false
+            default: false
           }
         ],
         examples: [
           {
             command: 'validate-dialogue-tree --tree-file dialogues/merchant.json',
-            description: 'validate-dialogue-tree --tree-file dialogues/quest-giver.json --strict'
+            description: 'Example command'
           }
         ]
       }
@@ -418,8 +368,8 @@ export class DialogueSystemCapable implements MIFFCapable {
       type: 'required',
       description: 'Shared schema definitions for dialogue data',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -429,8 +379,8 @@ export class DialogueSystemCapable implements MIFFCapable {
       type: 'required',
       description: 'NPC management and interaction system',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -440,8 +390,8 @@ export class DialogueSystemCapable implements MIFFCapable {
       type: 'required',
       description: 'Quest system integration for dialogue-driven quests',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     }
@@ -469,11 +419,13 @@ export class DialogueSystemCapable implements MIFFCapable {
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 25,
-      recommendedLimits: {
-        'maxDialogueTrees': 500,
-        'maxConversations': 50,
-        'maxChoicesPerNode': 10
-      }
+      performanceDegradation: [
+        {
+          threshold: 50,
+          degradation: 10,
+          description: 'Performance degrades with more than 50 concurrent conversations'
+        }
+      ]
     }
   };
 

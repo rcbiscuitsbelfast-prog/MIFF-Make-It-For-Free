@@ -132,8 +132,8 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       }
     ],
     dataProcessing: [],
-    formats: [],
-    realtime: [],
+      formats: [],
+      realtime: [],
     integrations: [
       {
         id: 'WebSocketServerPure-integration',
@@ -201,21 +201,23 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       {
         name: 'connect',
         description: 'Connect to WebSocket server',
-        category: 'connection',
-        flags: [
+        usage: 'connect [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'url',
             description: 'WebSocket server URL',
             type: 'string',
             required: false,
-            defaultValue: 'ws://localhost:8080'
+            default: 'ws://localhost:8080'
           },
           {
             name: 'use-real',
             description: 'Use real WebSocket instead of simulation',
             type: 'boolean',
             required: false,
-            defaultValue: false
+            default: false
           },
           {
             name: 'protocols',
@@ -227,21 +229,23 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         examples: [
           {
             command: 'connect --url ws://localhost:3000 --use-real',
-            description: 'connect --protocols miff,game --use-real'
+            description: 'Example command'
           }
         ]
       },
       {
         name: 'send',
         description: 'Send message via WebSocket bridge',
-        category: 'messaging',
-        flags: [
+        usage: 'send [options]',
+        aliases: [],
+        arguments: [],
+        options: [
           {
             name: 'channel',
             description: 'Target channel for message',
             type: 'string',
             required: false,
-            defaultValue: 'miff'
+            default: 'miff'
           },
           {
             name: 'payload',
@@ -344,8 +348,8 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       type: 'required',
       description: 'Shared schema definitions for message validation',
       compatibility: {
-        minVersion: '>=1.0.0',
-        testedVersions: ['>=1.0.0'],
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     }
