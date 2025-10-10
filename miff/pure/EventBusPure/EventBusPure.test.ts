@@ -151,6 +151,10 @@ describe('EventBusPure', () => {
       eventBus.subscribe('test-event', asyncHandler);
       await eventBus.publish('test-event', { message: 'hello' });
       
+      // Advance timers to resolve the async handler
+      jest.advanceTimersByTime(20);
+      await Promise.resolve(); // Allow promises to resolve
+      
       expect(asyncHandler).toHaveBeenCalledTimes(1);
     });
 
