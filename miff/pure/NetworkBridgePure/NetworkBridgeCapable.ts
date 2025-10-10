@@ -100,7 +100,7 @@ export class NetworkBridgeCapable implements MIFFCapable {
         name: 'CombatPure Integration',
         description: 'Integration with CombatPure',
         targetSystem: 'CombatPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       }

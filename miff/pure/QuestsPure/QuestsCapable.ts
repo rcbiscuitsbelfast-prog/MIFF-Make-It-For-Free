@@ -127,7 +127,7 @@ export class QuestsCapable implements MIFFCapable {
         name: 'NPCsPure Integration',
         description: 'Integration with NPCsPure',
         targetSystem: 'NPCsPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
