@@ -360,7 +360,7 @@ export interface PerformanceProfile {
 
 export interface MemoryProfile {
   baseUsage: number; // MB
-  peakUsage: number; // MB
+  concurrentOperations: number; // MB
   growthRate: number; // MB per operation
   garbageCollection: GCProfile;
 }
@@ -373,8 +373,8 @@ export interface GCProfile {
 
 export interface CPUProfile {
   baseUsage: number; // percentage
-  peakUsage: number; // percentage
-  averageUsage: number; // percentage
+  concurrentOperations: number; // percentage
+  baseUsage: number; // percentage
   intensiveOperations: string[];
 }
 

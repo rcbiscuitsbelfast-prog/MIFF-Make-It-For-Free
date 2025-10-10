@@ -426,7 +426,7 @@ export class MobilePerformanceOptimizer {
     return {
       avgFrameTime,
       avgFPS,
-      memoryUsage,
+      memory: memoryUsage,
       isOptimizing: this.isOptimizing
     };
   }

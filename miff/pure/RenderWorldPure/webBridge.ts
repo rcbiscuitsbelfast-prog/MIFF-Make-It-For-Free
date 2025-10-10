@@ -294,7 +294,7 @@ export class RenderWorldWebBridge {
     if ('performance' in window && 'memory' in (performance as any)) {
       setInterval(() => {
         const memory = (performance as any).memory;
-        this.state.performanceMetrics.memoryUsage = memory.usedJSHeapSize / memory.jsHeapSizeLimit;
+        this.state.performanceMetrics.memory = memory.usedJSHeapSize / memory.jsHeapSizeLimit;
       }, 1000);
     }
   }
@@ -591,7 +591,7 @@ export class RenderWorldWebBridge {
 FPS: ${this.state.fps}
 Render Time: ${this.state.performanceMetrics.renderTime.toFixed(2)}ms
 Update Time: ${this.state.performanceMetrics.updateTime.toFixed(2)}ms
-Memory Usage: ${(this.state.performanceMetrics.memoryUsage * 100).toFixed(1)}%
+Memory Usage: ${(this.state.performanceMetrics.memory * 100).toFixed(1)}%
 Player: (${gameState?.player.position.x.toFixed(1)}, ${gameState?.player.position.y.toFixed(1)}, ${gameState?.player.position.z.toFixed(1)})
 Portals Active: ${Object.values(gameState?.world.portals || {}).filter(p => p.active).length}
 NPCs: ${Object.keys(gameState?.world.npcs || {}).length}

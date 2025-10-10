@@ -659,7 +659,7 @@ export class ExportPipelinePure {
     
     return {
       fps: Math.max(30, fps),
-      memoryUsage,
+      memory: memoryUsage,
       loadTime: Math.max(500, loadTime)
     };
   }
