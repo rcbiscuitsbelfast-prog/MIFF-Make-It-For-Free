@@ -326,8 +326,8 @@ export class RealModdingSystem {
     }
 
     // Validate dependencies
-    for (const dep of mod.dependencies) {
-      if (!this.mods.has(dep)) {
+    for (const dep of mod.metadata.dependencies as ModDependency[]) {
+      if (!this.mods.has(dep.id)) {
         if (dep.optional) {
           warnings.push(`Optional dependency ${dep.id} not found`);
         } else {

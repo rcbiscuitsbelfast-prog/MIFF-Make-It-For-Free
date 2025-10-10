@@ -434,9 +434,9 @@ export class PerformanceOptimizer {
   private getMetricValue(metrics: PerformanceMetrics, metric: PerformanceMetric): number {
     switch (metric) {
       case PerformanceMetric.CPU_USAGE:
-        return metrics.cpuUsage;
+        return metrics.cpu;
       case PerformanceMetric.MEMORY_USAGE:
-        return metrics.memoryUsage;
+        return metrics.memory;
       case PerformanceMetric.NETWORK_LATENCY:
         return metrics.networkLatency;
       case PerformanceMetric.RESPONSE_TIME:

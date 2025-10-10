@@ -210,8 +210,8 @@ export class RealPlatformBridge {
    */
   private detectGraphicsCapabilities(): GraphicsCapabilities {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    const gl2 = canvas.getContext('webgl2');
+    const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null;
+    const gl2 = canvas.getContext('webgl2') as WebGL2RenderingContext | null;
     
     return {
       webgl: !!gl,
@@ -568,10 +568,10 @@ export class RealPlatformBridge {
   private updatePerformanceMetrics(): void {
     const memory = this.getMemoryInfo();
     
-    this.performanceMetrics.memoryUsage = memory.used;
+    this.performanceMetrics.memory = memory.used;
     this.performanceMetrics.fps = this.calculateFPS();
     this.performanceMetrics.frameTime = this.calculateFrameTime();
-    this.performanceMetrics.cpuUsage = this.calculateCPUUsage();
+    this.performanceMetrics.cpu = this.calculateCPUUsage();
     this.performanceMetrics.networkLatency = this.calculateNetworkLatency();
     
     this.emit('performanceUpdate', this.performanceMetrics);

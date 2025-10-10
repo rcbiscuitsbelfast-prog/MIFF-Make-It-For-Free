@@ -188,7 +188,7 @@ export class RealCanvas {
     const context = this.contexts.get(canvasId);
     if (!context) return false;
 
-    context[property] = value;
+    (context as any)[property] = value;
     this.emit('contextPropertySet', { canvasId, property, value });
     return true;
   }
