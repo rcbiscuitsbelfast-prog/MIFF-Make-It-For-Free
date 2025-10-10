@@ -433,21 +433,17 @@ export class QuestsCapable implements MIFFCapable {
       perOperation: 12,
       peak: 60,
       unit: 'percent'
-    },
+    , averageUsage: 25, intensiveOperations: []},
     io: {
       current: 0,
       perOperation: 0,
       peak: 0,
       unit: 'KB/s'
-    },
+    , blockingOperations: []},
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 100,
-      performanceDegradation: {
-        'maxActiveQuests': 50,
-        'maxObjectivesPerQuest': 20,
-        'maxQuestChainDepth': 10
-      }
+      performanceDegradation: [{ threshold: 50, degradation: 10, description: 'Performance degrades with maxActiveQuests' }, { threshold: 20, degradation: 10, description: 'Performance degrades with maxObjectivesPerQuest' }, { threshold: 10, degradation: 10, description: 'Performance degrades with maxQuestChainDepth' }]
     }
   };
 

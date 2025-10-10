@@ -387,21 +387,17 @@ export class StatsSystemCapable implements MIFFCapable {
       perOperation: 15,
       peak: 70,
       unit: 'percent'
-    },
+    , averageUsage: 25, intensiveOperations: []},
     io: {
       current: 0,
       perOperation: 0,
       peak: 0,
       unit: 'KB/s'
-    },
+    , blockingOperations: []},
     scalability: {
       maxConcurrentUsers: 200,
       maxDataSize: 50,
-      performanceDegradation: {
-        'maxCharacters': 1000,
-        'maxModifiersPerCharacter': 50,
-        'maxStatValue': 10000
-      }
+      performanceDegradation: [{ threshold: 1000, degradation: 10, description: 'Performance degrades with maxCharacters' }, { threshold: 50, degradation: 10, description: 'Performance degrades with maxModifiersPerCharacter' }, { threshold: 10000, degradation: 10, description: 'Performance degrades with maxStatValue' }]
     }
   };
 

@@ -567,7 +567,7 @@ export class PerformanceOptimizer {
         usage: 0,
         loadAverage: [0, 0, 0],
         uptime: 0
-      },
+      , averageUsage: 25, intensiveOperations: []},
       network: {
         bytesIn: 0,
         bytesOut: 0,

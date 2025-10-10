@@ -311,21 +311,17 @@ export class NetworkBridgeCapable implements MIFFCapable {
       perOperation: 2,
       peak: 50,
       unit: 'percent'
-    },
+    , averageUsage: 25, intensiveOperations: []},
     io: {
       current: 1,
       perOperation: 10,
       peak: 1000,
       unit: 'KB/s'
-    },
+    , blockingOperations: []},
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 10,
-      performanceDegradation: {
-        'maxPlayers': 16,
-        'tickRate': 60,
-        'rollbackFrames': 16
-      }
+      performanceDegradation: [{ threshold: 16, degradation: 10, description: 'Performance degrades with maxPlayers' }, { threshold: 60, degradation: 10, description: 'Performance degrades with tickRate' }, { threshold: 16, degradation: 10, description: 'Performance degrades with rollbackFrames' }]
     }
   };
 

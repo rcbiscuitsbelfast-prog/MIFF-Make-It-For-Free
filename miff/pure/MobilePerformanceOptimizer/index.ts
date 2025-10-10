@@ -53,6 +53,7 @@ export interface DeviceCapabilities {
 }
 
 export class MobilePerformanceOptimizer {
+  private memoryHistory: number[] = [];
   private config: PerformanceConfig;
   private deviceCapabilities: DeviceCapabilities;
   private currentPerformanceLevel: PerformanceLevel;
