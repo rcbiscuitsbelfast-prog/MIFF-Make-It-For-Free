@@ -138,7 +138,7 @@ class CapabilityCLI {
       console.log(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
       capabilities.dataProcessing.forEach(dp => {
         console.log(`  ${dp.name}: ${dp.description}`);
-        console.log(`    Input: ${dp.inputType} → Output: ${dp.outputType}`);
+        console.log(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
       });
     }
 
