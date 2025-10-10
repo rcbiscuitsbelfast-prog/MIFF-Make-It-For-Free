@@ -290,7 +290,9 @@ export abstract class BaseManager extends EventEmitter {
     if (this.cache.size >= this.config.maxCacheSize!) {
       // Remove oldest entry
       const firstKey = this.cache.keys().next().value;
-      this.cache.delete(firstKey);
+      if (firstKey) {
+        this.cache.delete(firstKey);
+      }
     }
 
     this.cache.set(key, value);
@@ -405,7 +407,7 @@ export abstract class BaseManager extends EventEmitter {
     this.metrics.cacheHitRate = this.cache.size > 0 ? 0.8 : 0; // Placeholder calculation
     
     // Memory usage (simplified)
-    this.metrics.memoryUsage = process.memoryUsage().heapUsed / 1024 / 1024; // MB
+    this.metrics.memory = process.memoryUsage().heapUsed / 1024 / 1024; // MB
     
     // Uptime
     this.metrics.uptime = this.state.initialized ? now - this.state.lastActivity.getTime() : 0;

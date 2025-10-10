@@ -155,7 +155,6 @@ export class CPUOptimizer {
       usage,
       loadAverage,
       processCount: this.getProcessCount(),
-      memoryUsage,
       responseTime,
       throughput
     };

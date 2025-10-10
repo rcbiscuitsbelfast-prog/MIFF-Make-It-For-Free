@@ -278,8 +278,8 @@ export class ZoneServerPure {
     // Update metrics
     const tickEnd = performance.now();
     this.zoneMetrics.lastTickDuration = tickEnd - tickStart;
-    this.zoneMetrics.cpuUsage = this.calculateCpuUsage();
-    this.zoneMetrics.memoryUsage = this.calculateMemoryUsage();
+    this.zoneMetrics.cpu = this.calculateCpuUsage();
+    this.zoneMetrics.memory = this.calculateMemoryUsage();
     this.perf.record((dt * 1000), tickStart, tickEnd, simulated);
 
     // Broadcast state delta
