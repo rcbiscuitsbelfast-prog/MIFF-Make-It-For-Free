@@ -435,11 +435,11 @@ function calculateReplayStatistics(session: ReplaySession, frames: ReplayFrame[]
   
   // Performance metrics - filter out undefined values and provide defaults
   const cpuUsage = frames
-    .map(f => f.metadata?.performance?.cpuUsage)
+    .map(f => f.metadata?.performance?.cpu)
     .filter((cpu): cpu is number => cpu !== undefined && cpu > 0);
   
   const memoryUsage = frames
-    .map(f => f.metadata?.performance?.memoryUsage)
+    .map(f => f.metadata?.performance?.memory)
     .filter((mem): mem is number => mem !== undefined && mem > 0);
   
   const renderTimes = frames
@@ -601,26 +601,26 @@ function analyzePerformanceBottlenecks(frames: ReplayFrame[]): PerformanceBottle
     const { performance } = frame.metadata;
     
     // CPU bottleneck
-    if (performance.cpuUsage > 80) {
+    if (performance.cpu > 80) {
       bottlenecks.push({
         frameNumber: frame.frameNumber,
         timestamp: frame.timestamp,
         type: 'cpu',
-        severity: performance.cpuUsage > 95 ? 'critical' : performance.cpuUsage > 90 ? 'high' : 'medium',
-        description: `High CPU usage: ${performance.cpuUsage.toFixed(1)}%`,
-        metrics: { cpu: performance.cpuUsage }
+        severity: performance.cpu > 95 ? 'critical' : performance.cpu > 90 ? 'high' : 'medium',
+        description: `High CPU usage: ${performance.cpu.toFixed(1)}%`,
+        metrics: { cpu: performance.cpu }
       });
     }
     
     // Memory bottleneck
-    if (performance.memoryUsage > 1000) { // MB
+    if (performance.memory > 1000) { // MB
       bottlenecks.push({
         frameNumber: frame.frameNumber,
         timestamp: frame.timestamp,
         type: 'memory',
-        severity: performance.memoryUsage > 2000 ? 'critical' : performance.memoryUsage > 1500 ? 'high' : 'medium',
-        description: `High memory usage: ${performance.memoryUsage.toFixed(1)} MB`,
-        metrics: { memory: performance.memoryUsage }
+        severity: performance.memory > 2000 ? 'critical' : performance.memory > 1500 ? 'high' : 'medium',
+        description: `High memory usage: ${performance.memory.toFixed(1)} MB`,
+        metrics: { memory: performance.memory }
       });
     }
     

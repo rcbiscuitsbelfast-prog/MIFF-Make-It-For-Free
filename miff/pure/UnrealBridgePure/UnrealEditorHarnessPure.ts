@@ -1198,7 +1198,7 @@ export class UnrealEditorHarnessPure {
         cached: assetStats.cachedAssets,
         loading: assetStats.loadingAssets,
         failed: assetStats.failedAssets,
-        memory: assetStats.memoryUsage,
+        memory: assetStats.memory,
         cacheHitRate: assetStats.cacheHitRate,
         averageLoadTime: assetStats.averageLoadTime
       },
