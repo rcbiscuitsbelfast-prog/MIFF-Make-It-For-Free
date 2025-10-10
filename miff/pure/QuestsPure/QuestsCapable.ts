@@ -176,7 +176,7 @@ export class QuestsCapable implements MIFFCapable {
       name: 'QuestDefinition Schema',
       version: '1.0',
       description: 'Quest definition schema with objectives and rewards',
-      type: 'structure',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -204,7 +204,7 @@ export class QuestsCapable implements MIFFCapable {
       name: 'QuestObjective Schema',
       version: '1.0',
       description: 'Quest objective schema with progress tracking',
-      type: 'structure',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -424,19 +424,22 @@ export class QuestsCapable implements MIFFCapable {
 
   readonly performanceProfile: PerformanceProfile = {
     memory: {
-      readThroughput: 20,
+      baseUsage: 20,
       peakUsage: 300,
+      growthRate: 0.5,
       garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
     cpu: {
-      readThroughput: 5,
+      baseUsage: 5,
       peakUsage: 60,
-      unit: 'percent'
-    , averageUsage: 25, intensiveOperations: []},
+      averageUsage: 25, 
+      intensiveOperations: []
+    },
     io: {
       readThroughput: 0,
-      peakUsage: 0,
-      unit: 'KB/s'
-    , blockingOperations: []},
+      writeThroughput: 0,
+      concurrentOperations: 0,
+      blockingOperations: []
+    },
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 100,
