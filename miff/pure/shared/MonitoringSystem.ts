@@ -388,7 +388,7 @@ export class MonitoringSystem {
         usage: this.getCpuUsage(),
         loadAverage: os.loadavg(),
         cores: cpus.length
-      , averageUsage: 25, intensiveOperations: []},
+      },
       memory: {
         total: totalMem,
         used: usedMem,

@@ -394,11 +394,11 @@ export class InventoryCapable implements MIFFCapable {
     },
     cpu: {
       baseUsage: 2,
-      peakUsage: 40, averageUsage: 25, intensiveOperations: []},
+      peakUsage: 40},
     io: {
       readThroughput: 0,
       writeThroughput: 0,
-      concurrentOperations: 0, blockingOperations: []},
+      concurrentOperations: 0},
     scalability: {
       maxConcurrentUsers: 500,
       maxDataSize: 25,

@@ -122,7 +122,7 @@ export class SettingsManager {
         voiceVolume: 0.9,
         ambientVolume: 0.7,
         audioDevice: 'default'
-      , blockingOperations: []},
+      },
       gameplay: {
         difficulty: 'normal',
         autoSave: true,
