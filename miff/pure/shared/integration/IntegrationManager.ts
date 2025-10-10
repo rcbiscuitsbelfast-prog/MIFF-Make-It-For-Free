@@ -505,11 +505,11 @@ export class IntegrationManager {
     // Check memory usage
     if (process.memoryUsage) {
       const memUsage = process.memoryUsage();
-      health.memoryUsage = memUsage.heapUsed / 1024 / 1024; // MB
+      health.memory = memUsage.heapUsed / 1024 / 1024; // MB
       
-      if (health.memoryUsage > config.maxMemoryUsage) {
+      if (health.memory > config.maxMemoryUsage) {
         health.status = IntegrationStatus.ERROR;
-        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health.memoryUsage });
+        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health.memory });
       }
     }
 
