@@ -7,14 +7,14 @@
  */
 
 // Core system mocks (some replaced with real implementations)
-export { mockInventory } from './mockInventory';
-export { mockQuestSystem } from './mockQuestSystem';
-export { mockDialogueEngine } from './mockDialogueEngine';
-export { mockTransport } from './mockTransport';
-export { mockScheduler } from './mockScheduler';
+export { realInventory as mockInventory } from '../realImplementations/RealInventory';
+export { realQuestSystem as mockQuestSystem } from '../realImplementations/RealQuestSystem';
+export { realDialogueEngine as mockDialogueEngine } from '../realImplementations/RealDialogueEngine';
+export { realTransport as mockTransport } from '../realImplementations/RealTransport';
+export { realScheduler as mockScheduler } from '../realImplementations/RealScheduler';
 export { mockPlatformBridge } from './mockPlatformBridge';
 export { mockModdingSystem } from './mockModdingSystem';
-export { mockAISystem } from './mockAISystem';
+export { realAISystem as mockAISystem } from '../realImplementations/RealAISystem';
 export { mockExport } from './mockExport';
 
 // Real implementations replacing critical mocks
