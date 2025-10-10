@@ -1146,7 +1146,7 @@ export class UnrealAssetManagerPure {
         bundle.loadCount++;
         bundle.lastAccessTime = Date.now();
         bundle.referenceCount++;
-        this.statistics.bundleMemoryUsage += bundle.memoryUsage;
+        this.statistics.bundleMemoryUsage += bundle.memory;
         this.statistics.bundleDiskUsage += bundle.diskUsage;
 
         console.log(`[UnrealAssetManagerPure] Asset bundle loaded: ${bundle.name}`);
@@ -1169,7 +1169,7 @@ export class UnrealAssetManagerPure {
       setTimeout(() => {
         bundle.unloadCount++;
         bundle.referenceCount = Math.max(0, bundle.referenceCount - 1);
-        this.statistics.bundleMemoryUsage -= bundle.memoryUsage;
+        this.statistics.bundleMemoryUsage -= bundle.memory;
         this.statistics.bundleDiskUsage -= bundle.diskUsage;
 
         console.log(`[UnrealAssetManagerPure] Asset bundle unloaded: ${bundle.name}`);
@@ -1227,7 +1227,7 @@ export class UnrealAssetManagerPure {
   }
 
   private updateStatistics(): void {
-    this.statistics.memoryUsage = this.calculateMemoryUsage();
+    this.statistics.memory = this.calculateMemoryUsage();
     this.statistics.diskUsage = this.calculateDiskUsage();
     this.statistics.cacheHitRate = this.statistics.cachedAssets / Math.max(1, this.statistics.totalRequests);
     this.statistics.priorityQueues = this.getAllQueues();
