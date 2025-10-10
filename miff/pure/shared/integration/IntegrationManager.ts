@@ -573,8 +573,8 @@ export class IntegrationManager {
       if (health.memory > metrics.peakMemoryUsage) {
         metrics.peakMemoryUsage = health.memory;
       }
-      if (health.cpuUsage > metrics.peakCpuUsage) {
-        metrics.peakCpuUsage = health.cpuUsage;
+      if (health.cpu > metrics.peakCpuUsage) {
+        metrics.peakCpuUsage = health.cpu;
       }
     }
   }
