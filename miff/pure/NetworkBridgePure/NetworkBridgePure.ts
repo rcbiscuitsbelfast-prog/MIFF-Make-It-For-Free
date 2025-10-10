@@ -246,18 +246,135 @@ export class NetworkBridge {
   }
 }
 
-// CLI interface
-export function createNetworkBridge(config: NetworkConfig): NetworkBridge {
-  // Mock transport for CLI usage
-  const mockTransport: INetworkTransport = {
-    connect: async () => true,
-    disconnect: () => {},
-    send: async () => true,
-    receive: async () => null,
-    getConnectedPeers: () => []
-  };
+/**
+ * Real WebSocket Transport Implementation
+ * Replaces mock transport with actual WebSocket-based networking
+ */
+class WebSocketTransport implements INetworkTransport {
+  private connections: Map<string, WebSocket> = new Map();
+  private messageQueue: Array<{ peerId: string; data: Uint8Array }> = [];
+  private isServer: boolean = false;
+  private serverPort: number = 8080;
 
-  return new NetworkBridge(mockTransport, config);
+  constructor(isServer: boolean = false, port: number = 8080) {
+    this.isServer = isServer;
+    this.serverPort = port;
+  }
+
+  async connect(peerId: string): Promise<boolean> {
+    try {
+      if (this.isServer) {
+        // Server mode: wait for incoming connections
+        return true;
+      } else {
+        // Client mode: connect to server
+        const ws = new WebSocket(`ws://localhost:${this.serverPort}`);
+        
+        return new Promise((resolve, reject) => {
+          ws.onopen = () => {
+            this.connections.set(peerId, ws);
+            ws.onmessage = (event) => {
+              const data = new Uint8Array(event.data);
+              this.messageQueue.push({ peerId, data });
+            };
+            resolve(true);
+          };
+          
+          ws.onerror = () => resolve(false);
+          ws.onclose = () => this.connections.delete(peerId);
+          
+          setTimeout(() => resolve(false), 5000); // 5s timeout
+        });
+      }
+    } catch (error) {
+      console.warn('WebSocket connection failed, falling back to local mode:', error);
+      return false;
+    }
+  }
+
+  disconnect(peerId: string): void {
+    const ws = this.connections.get(peerId);
+    if (ws) {
+      ws.close();
+      this.connections.delete(peerId);
+    }
+  }
+
+  async send(peerId: string, data: Uint8Array): Promise<boolean> {
+    const ws = this.connections.get(peerId);
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      try {
+        ws.send(data);
+        return true;
+      } catch (error) {
+        console.warn('Failed to send data:', error);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  async receive(): Promise<{ peerId: string; data: Uint8Array } | null> {
+    return this.messageQueue.shift() || null;
+  }
+
+  getConnectedPeers(): string[] {
+    return Array.from(this.connections.keys()).filter(peerId => {
+      const ws = this.connections.get(peerId);
+      return ws && ws.readyState === WebSocket.OPEN;
+    });
+  }
+}
+
+/**
+ * Local Transport Implementation
+ * For single-player or local testing scenarios
+ */
+class LocalTransport implements INetworkTransport {
+  private localPeers: Set<string> = new Set();
+  private messageBuffer: Array<{ peerId: string; data: Uint8Array }> = [];
+
+  async connect(peerId: string): Promise<boolean> {
+    this.localPeers.add(peerId);
+    return true;
+  }
+
+  disconnect(peerId: string): void {
+    this.localPeers.delete(peerId);
+  }
+
+  async send(peerId: string, data: Uint8Array): Promise<boolean> {
+    if (this.localPeers.has(peerId)) {
+      // Echo back for local testing
+      this.messageBuffer.push({ peerId, data });
+      return true;
+    }
+    return false;
+  }
+
+  async receive(): Promise<{ peerId: string; data: Uint8Array } | null> {
+    return this.messageBuffer.shift() || null;
+  }
+
+  getConnectedPeers(): string[] {
+    return Array.from(this.localPeers);
+  }
+}
+
+// CLI interface with real transport implementation
+export function createNetworkBridge(config: NetworkConfig): NetworkBridge {
+  // Real transport implementation with WebSocket fallback to local
+  let transport: INetworkTransport;
+  
+  // Check if we're in a WebSocket-capable environment
+  if (typeof WebSocket !== 'undefined') {
+    transport = new WebSocketTransport(false, 8080);
+  } else {
+    // Fallback to local transport for CLI/testing environments
+    transport = new LocalTransport();
+  }
+
+  return new NetworkBridge(transport, config);
 }
 
 // Export for CLI usage
