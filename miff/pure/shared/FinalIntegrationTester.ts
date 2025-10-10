@@ -325,11 +325,13 @@ export class FinalIntegrationTester {
     const criticalIssues: string[] = [];
     
     // Check for failed tests
-    const failedTests = allTestSuites.filter(ts => ts.status === 'failed')
-                      .concat(allIntegrationTests.filter(it => it.status === 'failed') as any)
-                      .concat(allPerformanceTests.filter(pt => pt.status === 'failed'))
-                      .concat(allSecurityTests.filter(st => st.status === 'failed'))
-                      .concat(allUserAcceptanceTests.filter(uat => uat.status === 'failed'));
+    const failedTests = [
+      ...allTestSuites.filter(ts => ts.status === 'failed'),
+      ...allIntegrationTests.filter(it => it.status === 'failed'),
+      ...allPerformanceTests.filter(pt => pt.status === 'failed'),
+      ...allSecurityTests.filter(st => st.status === 'failed'),
+      ...allUserAcceptanceTests.filter(uat => uat.status === 'failed')
+    ];
     
     for (const test of failedTests) {
       criticalIssues.push(`${test.name}: ${test.status}`);

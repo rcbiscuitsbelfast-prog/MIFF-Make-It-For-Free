@@ -317,9 +317,9 @@ export class MobilePerformanceOptimizer {
     // Monitor memory usage
     if (typeof performance !== 'undefined' && 'memory' in performance) {
       const memory = (performance as any).memory;
-      this.memoryHistory || [].push(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
-      if (this.memoryHistory || [].length > 60) {
-        this.memoryHistory || [].shift();
+      this.memoryHistory.push(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
+      if (this.memoryHistory.length > 60) {
+        this.memoryHistory.shift();
       }
     }
 
@@ -419,8 +419,8 @@ export class MobilePerformanceOptimizer {
     
     const avgFPS = avgFrameTime > 0 ? 1000 / avgFrameTime : 0;
     
-    const memoryUsage = this.memoryHistory || [].length > 0 
-      ? this.memoryHistory || [][this.memoryHistory || [].length - 1] 
+    const memoryUsage = this.memoryHistory.length > 0 
+      ? this.memoryHistory[this.memoryHistory.length - 1] || 0
       : 0;
 
     return {
