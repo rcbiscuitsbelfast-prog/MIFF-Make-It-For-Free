@@ -449,14 +449,14 @@ export class CombatCapable implements MIFFCapable {
       cpu: {
         baseUsage: 10,
         peakUsage: 80,
-        averageUsage: 30,
-        intensiveOperations: ['damage_calculation']
+        averageUsage: 45,
+        intensiveOperations: ['combat_calculations']
       },
       io: {
         readThroughput: 100,
         writeThroughput: 50,
         concurrentOperations: 10,
-        blockingOperations: ['save_game_state']
+        blockingOperations: []
       },
       scalability: {
         maxConcurrentUsers: 100,

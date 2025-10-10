@@ -1529,7 +1529,7 @@ export class RenderWorldPure {
       level: this.engines.mobilePerformance.getPerformanceLevel(),
       deviceType: capabilities.type,
       fps: stats.avgFPS,
-      memory: stats.memoryUsage,
+      memory: stats.memory,
       isOptimizing: stats.isOptimizing,
       recommendations: this.engines.mobilePerformance.getOptimizationRecommendations()
     };

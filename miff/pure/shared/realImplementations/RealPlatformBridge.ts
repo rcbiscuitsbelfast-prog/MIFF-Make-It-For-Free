@@ -136,8 +136,8 @@ export interface PlatformEvent {
 export interface PerformanceMetrics {
   fps: number;
   frameTime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   networkLatency: number;
   loadTime: number;
   renderTime: number;
@@ -616,8 +616,8 @@ export class RealPlatformBridge {
     return {
       fps: 0,
       frameTime: 0,
-      memoryUsage: 0,
-      cpuUsage: 0,
+      memory: 0,
+      cpu: 0,
       networkLatency: 0,
       loadTime: performance.now(),
       renderTime: 0,

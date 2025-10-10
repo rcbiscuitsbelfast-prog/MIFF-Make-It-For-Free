@@ -412,7 +412,7 @@ export class DialogueSystemCapable implements MIFFCapable {
       baseUsage: 3,
       peakUsage: 50,
       averageUsage: 25,
-      intensiveOperations: ['dialogue_processing', 'text_rendering']
+      intensiveOperations: ['text_rendering']
     },
     io: {
       readThroughput: 0,

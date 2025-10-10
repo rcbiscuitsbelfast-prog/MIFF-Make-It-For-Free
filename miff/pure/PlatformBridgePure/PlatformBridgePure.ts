@@ -369,7 +369,7 @@ export class PlatformBridge {
 
     // Update memory usage (if available)
     if ('memory' in performance && (performance as any).memory) {
-      this.stats.memoryUsage = (performance as any).memory.usedJSHeapSize;
+      this.stats.memory = (performance as any).memory.usedJSHeapSize;
     }
 
     // Reset counters

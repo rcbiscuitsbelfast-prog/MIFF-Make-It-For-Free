@@ -518,8 +518,8 @@ export class CombatCoreCapable implements MIFFCapable {
     cpu: {
       baseUsage: 5,
       peakUsage: 75,
-      averageUsage: 15,
-      intensiveOperations: ['damageCalculation', 'statusEffectProcessing']
+      averageUsage: 40,
+      intensiveOperations: ['statusEffectProcessing']
     },
     io: {
       readThroughput: 0,

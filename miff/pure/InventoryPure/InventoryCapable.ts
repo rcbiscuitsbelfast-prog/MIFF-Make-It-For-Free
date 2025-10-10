@@ -396,7 +396,7 @@ export class InventoryCapable implements MIFFCapable {
       baseUsage: 2,
       peakUsage: 40,
       averageUsage: 20,
-      intensiveOperations: ['inventory_sorting', 'item_search']
+      intensiveOperations: ['item_search']
     },
     io: {
       readThroughput: 0,

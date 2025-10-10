@@ -56,8 +56,8 @@ export interface AIPerformanceMetrics {
   failedTasks: number;
   averageProcessingTime: number;
   accuracy: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   modelCount: number;
   activeLearningSessions: number;
 }
@@ -74,8 +74,8 @@ export class RealAISystem {
     failedTasks: 0,
     averageProcessingTime: 0,
     accuracy: 0,
-    memoryUsage: 0,
-    cpuUsage: 0,
+    memory: 0,
+    cpu: 0,
     modelCount: 0,
     activeLearningSessions: 0
   };
@@ -547,8 +547,8 @@ export class RealAISystem {
       failedTasks: 0,
       averageProcessingTime: 0,
       accuracy: 0,
-      memoryUsage: 0,
-      cpuUsage: 0,
+      memory: 0,
+      cpu: 0,
       modelCount: 0,
       activeLearningSessions: 0
     };
