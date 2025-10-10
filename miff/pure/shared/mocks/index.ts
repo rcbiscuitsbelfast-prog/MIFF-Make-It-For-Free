@@ -1,11 +1,12 @@
 /**
- * Mock Index
+ * Mock Index - Now with Real Implementations
  * 
- * Re-exports all mock implementations for MIFF tests.
+ * Re-exports mock implementations for MIFF tests, with critical mocks
+ * replaced by real implementations for better test fidelity.
  * This provides a single import point for all test stubs.
  */
 
-// Core system mocks
+// Core system mocks (some replaced with real implementations)
 export { mockInventory } from './mockInventory';
 export { mockQuestSystem } from './mockQuestSystem';
 export { mockDialogueEngine } from './mockDialogueEngine';
@@ -13,11 +14,13 @@ export { mockTransport } from './mockTransport';
 export { mockScheduler } from './mockScheduler';
 export { mockPlatformBridge } from './mockPlatformBridge';
 export { mockModdingSystem } from './mockModdingSystem';
-export { mockEventBus } from './mockEventBus';
 export { mockAISystem } from './mockAISystem';
-export { mockValidation } from './mockValidation';
 export { mockExport } from './mockExport';
-export { mockFileSystem } from './mockFileSystem';
+
+// Real implementations replacing critical mocks
+export { realEventBus as mockEventBus } from '../realImplementations/RealEventBus';
+export { realFileSystem as mockFileSystem } from '../realImplementations/RealFileSystem';
+export { realValidation as mockValidation } from '../realImplementations/RealValidation';
 
 // Browser/DOM mocks
 export { mockConsole } from './mockConsole';
