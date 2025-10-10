@@ -113,9 +113,9 @@ export class CapabilityRegistryManager extends CapabilityManager {
       // Operations
       report += `#### Operations (${module.capabilities.operations.length})\n`;
       for (const op of module.capabilities.operations) {
-        const complexityIcon = this.getComplexityIcon(op.complexity);
-        report += `- ${complexityIcon} **${op.name}** (${op.category}): ${op.description}\n`;
-        report += `  - Duration: ${op.estimatedDuration}ms | Memory: ${op.resourceRequirements.memory}MB\n`;
+        const complexityIcon = this.getComplexityIcon(op.complexity || 'low');
+        report += `- ${complexityIcon} **${op.name}** (${op.category || 'general'}): ${op.description}\n`;
+        report += `  - Duration: ${op.estimatedDuration || 0}ms | Memory: ${op.resourceRequirements?.memory || 0}MB\n`;
       }
 
       // Data Processing
@@ -132,8 +132,8 @@ export class CapabilityRegistryManager extends CapabilityManager {
       if (module.capabilities.integrations.length > 0) {
         report += `\n#### Integrations (${module.capabilities.integrations.length})\n`;
         for (const integration of module.capabilities.integrations) {
-          report += `- **${integration.name}** (${integration.targetSystem}): ${integration.description}\n`;
-          report += `  - Type: ${integration.integrationType} | Protocols: ${integration.protocols.join(', ')}\n`;
+          report += `- **${integration.name}** (${integration.targetSystem || 'unknown'}): ${integration.description}\n`;
+          report += `  - Type: ${integration.integrationType} | Protocols: ${integration.protocols?.join(', ') || 'none'}\n`;
         }
       }
 
@@ -141,8 +141,8 @@ export class CapabilityRegistryManager extends CapabilityManager {
       if (module.capabilities.formats.length > 0) {
         report += `\n#### Formats (${module.capabilities.formats.length})\n`;
         for (const format of module.capabilities.formats) {
-          report += `- **${format.name}** (${format.mimeType}): ${format.description}\n`;
-          report += `  - Extensions: ${format.fileExtensions.join(', ')} | Version: ${format.schemaVersion}\n`;
+          report += `- **${format.name}** (${format.mimeType || 'unknown'}): ${format.description}\n`;
+          report += `  - Extensions: ${format.fileExtensions?.join(', ') || 'none'} | Version: ${format.schemaVersion || '1.0'}\n`;
         }
       }
 
@@ -162,8 +162,9 @@ export class CapabilityRegistryManager extends CapabilityManager {
     const operationCategories = new Map<string, number>();
     for (const module of this.registry.modules.values()) {
       for (const op of module.capabilities.operations) {
-        const count = operationCategories.get(op.category) || 0;
-        operationCategories.set(op.category, count + 1);
+        const category = op.category || 'general';
+        const count = operationCategories.get(category) || 0;
+        operationCategories.set(category, count + 1);
       }
     }
 

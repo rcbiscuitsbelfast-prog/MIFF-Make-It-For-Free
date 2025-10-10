@@ -34,6 +34,28 @@ class MockEntityContext implements IEntityContext {
   private entityStats = new Map<string, Map<string, number>>();
   private entityImmunities = new Map<string, string[]>();
   private currentPhase: EffectPhase = EffectPhase.PRE_TURN;
+  
+  constructor() {
+    // Initialize with realistic entity data
+    this.initializeDefaultEntities();
+  }
+  
+  private initializeDefaultEntities(): void {
+    // Create default test entities with realistic stats
+    const defaultStats = new Map([
+      [TargetStat.HP, 100],
+      [TargetStat.ATTACK, 50],
+      [TargetStat.DEFENSE, 40],
+      [TargetStat.SPECIAL_ATTACK, 55],
+      [TargetStat.SPECIAL_DEFENSE, 45],
+      [TargetStat.SPEED, 35]
+    ]);
+    
+    ['player', 'enemy', 'ally'].forEach(entityId => {
+      this.entityStats.set(entityId, new Map(defaultStats));
+      this.entityImmunities.set(entityId, []);
+    });
+  }
 
   getEntityStat(entityId: string, stat: TargetStat): number {
     const stats = this.entityStats.get(entityId) || new Map();
@@ -125,7 +147,7 @@ class EffectsPureCLI {
     });
 
     this.effectManager = new EffectManager();
-    this.entityContext = new MockEntityContext();
+    this.entityContext = new CLIEntityContext();
 
     this.initializeDemoData();
     this.setupEventHandlers();

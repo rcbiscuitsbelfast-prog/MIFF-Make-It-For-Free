@@ -16,24 +16,34 @@ import {
   SpellSchool
 } from './index';
 
-// Mock dependencies for CLI demo
-class MockEventBus {
+// Real EventBus integration for CLI
+import { EventBus } from '../EventBusPure/index';
+
+class CLIEventBus extends EventBus {
   emit(event: string, data: any) {
+    super.publish(event, data);
     console.log(`📡 Event: ${event}`, data);
   }
 
   on(event: string, handler: Function) {
-    // Mock implementation
+    super.subscribe(event, handler);
   }
 }
 
-class MockHealthSystem {
+// Real HealthSystem integration for CLI
+import { HealthSystemManager } from '../HealthSystemPure/Manager';
+
+class CLIHealthSystem extends HealthSystemManager {
   damageEntity(entityId: string, damage: number) {
-    console.log(`💔 ${entityId} takes ${damage} damage`);
+    const result = super.applyDamage(entityId, damage);
+    console.log(`💔 ${entityId} takes ${damage} damage (HP: ${result.newHP}/${result.maxHP})`);
+    return result;
   }
 
   healEntity(entityId: string, healing: number) {
-    console.log(`💚 ${entityId} heals ${healing} health`);
+    const result = super.applyHealing(entityId, healing);
+    console.log(`💚 ${entityId} heals ${healing} health (HP: ${result.newHP}/${result.maxHP})`);
+    return result;
   }
 }
 
@@ -41,13 +51,20 @@ class MockCombatSystem {
   // Mock implementation
 }
 
-class MockRNG {
+// Real RNG integration for CLI
+import { RNGManager } from '../RNGPure/index';
+
+class CLIRNG extends RNGManager {
+  constructor() {
+    super('magic_system_cli');
+  }
+
   nextFloat(): number {
-    return Math.random();
+    return this.random();
   }
 
   nextInt(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return this.randomInt(min, max);
   }
 }
 
