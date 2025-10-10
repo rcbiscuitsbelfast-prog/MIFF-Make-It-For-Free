@@ -374,7 +374,7 @@ export interface GCProfile {
 export interface CPUProfile {
   baseUsage: number; // percentage
   concurrentOperations: number; // percentage
-  readThroughput: number; // percentage
+  baseUsage: number; // percentage
   intensiveOperations: string[];
 }
 
