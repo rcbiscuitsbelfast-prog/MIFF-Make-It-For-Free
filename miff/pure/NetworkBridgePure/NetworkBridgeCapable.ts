@@ -309,12 +309,12 @@ export class NetworkBridgeCapable implements MIFFCapable {
       readThroughput: 5,
       peakUsage: 50,
       unit: 'percent'
-    },
+    , averageUsage: 25, intensiveOperations: []},
     io: {
       readThroughput: 1,
       peakUsage: 1000,
       unit: 'KB/s'
-    },
+    , blockingOperations: []},
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 10,

@@ -431,12 +431,12 @@ export class QuestsCapable implements MIFFCapable {
       readThroughput: 5,
       peakUsage: 60,
       unit: 'percent'
-    },
+    , averageUsage: 25, intensiveOperations: []},
     io: {
       readThroughput: 0,
       peakUsage: 0,
       unit: 'KB/s'
-    },
+    , blockingOperations: []},
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 100,

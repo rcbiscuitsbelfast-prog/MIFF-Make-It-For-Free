@@ -208,7 +208,7 @@ export interface ISpirit {
   hiddenAbilities: string[];
   height: number; // in meters
   weight: number; // in kilograms
-  genderRatio: { male: number; female: number }; // percentages
+  genderRatio: { male: number; female: number , blockingOperations: []}; // percentages
   eggGroups: string[];
   hatchSteps: number;
   friendship: number;
@@ -842,7 +842,7 @@ export class Spirit implements ISpirit {
   public hiddenAbilities: string[];
   public height: number;
   public weight: number;
-  public genderRatio: { male: number; female: number };
+  public genderRatio: { male: number; female: number , blockingOperations: []};
   public eggGroups: string[];
   public hatchSteps: number;
   public friendship: number;
