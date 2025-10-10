@@ -147,7 +147,7 @@ class CapabilityCLI {
       console.log(`\n🔗 Integrations (${capabilities.integrations.length}):`);
       capabilities.integrations.forEach(integration => {
         console.log(`  ${integration.name}: ${integration.description}`);
-        console.log(`    Type: ${integration.type}, Status: ${integration.status}`);
+        console.log(`    Type: ${integration.integrationType}, Auth Required: ${integration.authenticationRequired ? 'Yes' : 'No'}`);
       });
     }
 
