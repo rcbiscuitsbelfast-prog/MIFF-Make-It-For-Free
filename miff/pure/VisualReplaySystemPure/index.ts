@@ -90,8 +90,8 @@ export interface FrameMetadata {
   frameRate: number;
   deltaTime: number;
   performance: {
-    cpuUsage: number;
-    memoryUsage: number;
+    cpu: number;
+    memory: number;
     renderTime: number;
   };
   debug: {
@@ -608,7 +608,7 @@ function analyzePerformanceBottlenecks(frames: ReplayFrame[]): PerformanceBottle
         type: 'cpu',
         severity: performance.cpuUsage > 95 ? 'critical' : performance.cpuUsage > 90 ? 'high' : 'medium',
         description: `High CPU usage: ${performance.cpuUsage.toFixed(1)}%`,
-        metrics: { cpuUsage: performance.cpuUsage }
+        metrics: { cpu: performance.cpuUsage }
       });
     }
     
@@ -620,7 +620,7 @@ function analyzePerformanceBottlenecks(frames: ReplayFrame[]): PerformanceBottle
         type: 'memory',
         severity: performance.memoryUsage > 2000 ? 'critical' : performance.memoryUsage > 1500 ? 'high' : 'medium',
         description: `High memory usage: ${performance.memoryUsage.toFixed(1)} MB`,
-        metrics: { memoryUsage: performance.memoryUsage }
+        metrics: { memory: performance.memoryUsage }
       });
     }
     

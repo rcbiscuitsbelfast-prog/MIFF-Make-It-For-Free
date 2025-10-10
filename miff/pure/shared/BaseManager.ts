@@ -33,7 +33,7 @@ export interface ManagerMetrics {
   operationsPerSecond: number;
   averageResponseTime: number;
   errorRate: number;
-  memoryUsage: number;
+  memory: number;
   cacheHitRate: number;
   uptime: number;
 }
@@ -84,7 +84,7 @@ export abstract class BaseManager extends EventEmitter {
       operationsPerSecond: 0,
       averageResponseTime: 0,
       errorRate: 0,
-      memoryUsage: 0,
+      memory: 0,
       cacheHitRate: 0,
       uptime: 0
     };

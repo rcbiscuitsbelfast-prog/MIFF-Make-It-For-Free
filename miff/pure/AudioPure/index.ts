@@ -141,8 +141,8 @@ export interface AudioPerformanceMetrics {
   totalSources: number;
   audioLatency: number;
   bufferUnderruns: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   droppedFrames: number;
   outputLatency: number;
 }
@@ -209,8 +209,8 @@ export class AudioEngine {
       totalSources: 0,
       audioLatency: 0,
       bufferUnderruns: 0,
-      memoryUsage: 0,
-      cpuUsage: 0,
+      memory: 0,
+      cpu: 0,
       droppedFrames: 0,
       outputLatency: 0
     };

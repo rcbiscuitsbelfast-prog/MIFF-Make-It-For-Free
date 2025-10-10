@@ -117,48 +117,6 @@ export class InventoryCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
-      {
-        id: 'Inventory',
-        name: 'Inventory Container',
-        description: 'Container for items with capacity and organization',
-        category: 'container',
-        complexity: 'high',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'InventorySlot',
-        name: 'Inventory Slot',
-        description: 'Individual slot in inventory with item and quantity',
-        category: 'structure',
-        complexity: 'medium',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'ItemStack',
-        name: 'Item Stack',
-        description: 'Stack of identical items with quantity tracking',
-        category: 'data',
-        complexity: 'low',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'InventoryFilter',
-        name: 'Inventory Filter',
-        description: 'Filter criteria for inventory searches and sorting',
-        category: 'filter',
-        complexity: 'medium',
-        mutable: false,
-        persistent: false,
-        cacheable: true
-      }
-    ],
     dataProcessing: [],
       formats: [],
       realtime: [],
@@ -168,7 +126,7 @@ export class InventoryCapable implements MIFFCapable {
         name: 'ItemsPure Integration',
         description: 'Integration with ItemsPure',
         targetSystem: 'ItemsPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -177,7 +135,7 @@ export class InventoryCapable implements MIFFCapable {
         name: 'EquipmentPure Integration',
         description: 'Integration with EquipmentPure',
         targetSystem: 'EquipmentPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -186,7 +144,7 @@ export class InventoryCapable implements MIFFCapable {
         name: 'CraftingPure Integration',
         description: 'Integration with CraftingPure',
         targetSystem: 'CraftingPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -195,7 +153,7 @@ export class InventoryCapable implements MIFFCapable {
         name: 'EconomyPure Integration',
         description: 'Integration with EconomyPure',
         targetSystem: 'EconomyPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -204,7 +162,7 @@ export class InventoryCapable implements MIFFCapable {
         name: 'QuestsPure Integration',
         description: 'Integration with QuestsPure',
         targetSystem: 'QuestsPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       }
@@ -217,7 +175,7 @@ export class InventoryCapable implements MIFFCapable {
       name: 'Inventory Schema',
       version: '1.0',
       description: 'Inventory container schema',
-      type: 'container',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -231,7 +189,7 @@ export class InventoryCapable implements MIFFCapable {
       name: 'ItemStack Schema',
       version: '1.0',
       description: 'Item stack schema with quantity tracking',
-      type: 'data',
+      type: 'input',
       schema: {
         type: 'object',
         properties: {},
@@ -245,7 +203,7 @@ export class InventoryCapable implements MIFFCapable {
       name: 'InventoryFilter Schema',
       version: '1.0',
       description: 'Inventory filter and search schema',
-      type: 'filter',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -424,32 +382,43 @@ export class InventoryCapable implements MIFFCapable {
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 12,
-      perOperation: 6,
-      peak: 150,
-      unit: 'MB'
+    memory: {
+      baseUsage: 12,
+      peakUsage: 150,
+      growthRate: 6,
+      garbageCollection: {
+        frequency: 10,
+        averageDuration: 5,
+        impact: 'low' as const
+      }
     },
-    cpuUsage: {
-      baseline: 2,
-      perOperation: 8,
-      peak: 40,
-      unit: 'percent'
+    cpu: {
+      baseUsage: 2,
+      peakUsage: 40,
+      averageUsage: 20,
+      intensiveOperations: ['inventory_sorting', 'item_search']
     },
-    networkUsage: {
-      baseline: 0,
-      perOperation: 0,
-      peak: 0,
-      unit: 'KB/s'
+    io: {
+      readThroughput: 0,
+      writeThroughput: 0,
+      concurrentOperations: 0,
+      blockingOperations: []
     },
     scalability: {
       maxConcurrentUsers: 500,
       maxDataSize: 25,
-      recommendedLimits: {
-        'maxInventorySlots': 100,
-        'maxStackSize': 999,
-        'maxInventoriesPerPlayer': 10
-      }
+      performanceDegradation: [
+        {
+          threshold: 100,
+          degradation: 10,
+          description: 'Performance degrades with large inventories'
+        },
+        {
+          threshold: 500,
+          degradation: 25,
+          description: 'Significant performance impact with very large inventories'
+        }
+      ]
     }
   };
 

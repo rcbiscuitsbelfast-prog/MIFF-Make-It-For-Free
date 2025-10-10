@@ -409,7 +409,7 @@ export class MobilePerformanceOptimizer {
   getPerformanceStats(): {
     avgFrameTime: number;
     avgFPS: number;
-    memoryUsage: number;
+    memory: number;
     isOptimizing: boolean;
   } {
     const avgFrameTime = this.frameTimeHistory.length > 0 

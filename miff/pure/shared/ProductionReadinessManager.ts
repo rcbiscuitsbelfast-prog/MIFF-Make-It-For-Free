@@ -164,8 +164,8 @@ export class ProductionReadinessManager {
       collectionInterval: 30, // 30 seconds
       retentionPeriod: 7, // 7 days
       alertThresholds: {
-        cpuUsage: 80,
-        memoryUsage: 85,
+        cpu: 80,
+        memory: 85,
         diskUsage: 90,
         errorRate: 5,
         responseTime: 1000

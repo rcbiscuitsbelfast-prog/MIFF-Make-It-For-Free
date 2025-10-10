@@ -18,7 +18,7 @@ export interface MobileConfig {
 
 export interface MobileMetrics {
   frameRate: number;
-  memoryUsage: number;
+  memory: number;
   batteryLevel: number;
   networkLatency: number;
   touchResponsiveness: number;
@@ -433,7 +433,7 @@ export class MobileOptimizer {
   private initializeMetrics(): MobileMetrics {
     return {
       frameRate: 60,
-      memoryUsage: 0,
+      memory: 0,
       batteryLevel: 100,
       networkLatency: 0,
       touchResponsiveness: 100,

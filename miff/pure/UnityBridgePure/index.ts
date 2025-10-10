@@ -324,7 +324,7 @@ export interface UnityPerformanceMetrics {
   drawCalls: number;
   triangles: number;
   vertices: number;
-  memoryUsage: number;
+  memory: number;
   memoryAllocated: number;
   memoryReserved: number;
   garbageCollectionCount: number;
@@ -479,8 +479,8 @@ export interface UnityBridgeStatistics {
   peakMessageRate: number;
   queueDepth: number;
   processingTime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   threadCount: number;
   activeThreads: number;
   blockedThreads: number;
@@ -557,7 +557,7 @@ export class UnityBridgeManager {
       drawCalls: 0,
       triangles: 0,
       vertices: 0,
-      memoryUsage: 0,
+      memory: 0,
       memoryAllocated: 0,
       memoryReserved: 0,
       garbageCollectionCount: 0,
@@ -704,8 +704,8 @@ export class UnityBridgeManager {
       peakMessageRate: 0,
       queueDepth: 0,
       processingTime: 0,
-      memoryUsage: 0,
-      cpuUsage: 0,
+      memory: 0,
+      cpu: 0,
       threadCount: 0,
       activeThreads: 0,
       blockedThreads: 0,

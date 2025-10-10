@@ -117,48 +117,7 @@ export class StatsSystemCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
-      {
-        id: 'Character',
-        name: 'Character Data',
-        description: 'Complete character data with all statistics',
-        category: 'entity',
-        complexity: 'high',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'StatModifier',
-        name: 'Stat Modifier',
-        description: 'Temporary or permanent stat modification',
-        category: 'modifier',
-        complexity: 'medium',
-        mutable: true,
-        persistent: false,
-        cacheable: true
-      },
-      {
-        id: 'AttributeSet',
-        name: 'Attribute Set',
-        description: 'Set of character attributes (strength, dexterity, etc.)',
-        category: 'data',
-        complexity: 'medium',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'DerivedStats',
-        name: 'Derived Statistics',
-        description: 'Calculated statistics derived from base attributes',
-        category: 'calculated',
-        complexity: 'high',
-        mutable: false,
-        persistent: false,
-        cacheable: true
-      }
-    ],
+    
     dataProcessing: [],
       formats: [],
       realtime: [],
@@ -418,20 +377,19 @@ export class StatsSystemCapable implements MIFFCapable {
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 15,
-      perOperation: 8,
-      peak: 200,
-      unit: 'MB'
-    },
-    cpuUsage: {
-      baseline: 3,
+    memory: {
+      baseUsage: 15,
+      growthRate: 8,
+      peakUsage: 200,
+      garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
+    cpu: {
+      current: 3,
       perOperation: 15,
       peak: 70,
       unit: 'percent'
     },
-    networkUsage: {
-      baseline: 0,
+    io: {
+      current: 0,
       perOperation: 0,
       peak: 0,
       unit: 'KB/s'
@@ -439,7 +397,7 @@ export class StatsSystemCapable implements MIFFCapable {
     scalability: {
       maxConcurrentUsers: 200,
       maxDataSize: 50,
-      recommendedLimits: {
+      performanceDegradation: {
         'maxCharacters': 1000,
         'maxModifiersPerCharacter': 50,
         'maxStatValue': 10000

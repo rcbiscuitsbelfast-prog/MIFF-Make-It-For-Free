@@ -870,7 +870,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'gameobject_data',
         name: 'GameObject Test Data',
         description: 'Generate test data for GameObject operations',
-        dataTypes: ['GameObjectInput'],
+        
         generationMethod: 'realistic',
         customization: true
       },
@@ -878,7 +878,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'transform_data',
         name: 'Transform Test Data',
         description: 'Generate transform data for testing',
-        dataTypes: ['Vector3', 'Matrix4x4'],
+        
         generationMethod: 'random',
         customization: true
       }

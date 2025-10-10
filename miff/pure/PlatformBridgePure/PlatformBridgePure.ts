@@ -85,7 +85,7 @@ export interface PlatformCapabilities {
 export interface PlatformStats {
   fps: number;
   frameTime: number;
-  memoryUsage: number;
+  memory: number;
   renderCalls: number;
   inputEvents: number;
   audioChannels: number;
@@ -615,7 +615,7 @@ export class PlatformBridge {
     return {
       fps: 0,
       frameTime: 0,
-      memoryUsage: 0,
+      memory: 0,
       renderCalls: 0,
       inputEvents: 0,
       audioChannels: 0,

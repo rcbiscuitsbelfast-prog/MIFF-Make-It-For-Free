@@ -81,38 +81,7 @@ export class NetworkBridgeCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
-      {
-        id: 'NetworkConfig',
-        name: 'Network Configuration',
-        description: 'Configuration for network bridge setup',
-        category: 'config',
-        complexity: 'medium',
-        mutable: false,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'GameState',
-        name: 'Game State',
-        description: 'Synchronized game state with frame and checksum',
-        category: 'state',
-        complexity: 'high',
-        mutable: true,
-        persistent: false,
-        cacheable: true
-      },
-      {
-        id: 'Peer',
-        name: 'Network Peer',
-        description: 'Connected network peer with latency tracking',
-        category: 'entity',
-        complexity: 'medium',
-        mutable: true,
-        persistent: false,
-        cacheable: true
-      }
-    ],
+    
     dataProcessing: [],
       formats: [],
       realtime: [],
@@ -332,20 +301,19 @@ export class NetworkBridgeCapable implements MIFFCapable {
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 10,
-      perOperation: 5,
-      peak: 100,
-      unit: 'MB'
-    },
-    cpuUsage: {
-      baseline: 5,
+    memory: {
+      baseUsage: 10,
+      growthRate: 5,
+      peakUsage: 100,
+      garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
+    cpu: {
+      current: 5,
       perOperation: 2,
       peak: 50,
       unit: 'percent'
     },
-    networkUsage: {
-      baseline: 1,
+    io: {
+      current: 1,
       perOperation: 10,
       peak: 1000,
       unit: 'KB/s'
@@ -353,7 +321,7 @@ export class NetworkBridgeCapable implements MIFFCapable {
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 10,
-      recommendedLimits: {
+      performanceDegradation: {
         'maxPlayers': 16,
         'tickRate': 60,
         'rollbackFrames': 16

@@ -241,7 +241,7 @@ export interface CameraPerformanceMetrics {
   renderTime: number;
   collisionChecks: number;
   occlusionTests: number;
-  memoryUsage: number;
+  memory: number;
   frameDrops: number;
   averageFPS: number;
   peakMemory: number;
@@ -801,7 +801,7 @@ export class CameraSystemPure {
         renderTime: 0,
         collisionChecks: 0,
         occlusionTests: 0,
-        memoryUsage: 0,
+        memory: 0,
         frameDrops: 0,
         averageFPS: 60,
         peakMemory: 0,

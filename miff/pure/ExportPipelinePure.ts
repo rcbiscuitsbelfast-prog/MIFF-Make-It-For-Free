@@ -85,7 +85,7 @@ export interface ExportAnalytics {
   platformCompatibility: Record<ExportPlatform, number>;
   performanceMetrics: {
     fps: number;
-    memoryUsage: number;
+    memory: number;
     loadTime: number;
   };
 }
@@ -615,7 +615,7 @@ export class ExportPipelinePure {
   
   private calculatePerformanceMetrics(renderPayload: RenderPayload, config: ExportConfig): {
     fps: number;
-    memoryUsage: number;
+    memory: number;
     loadTime: number;
   } {
     // Calculate based on content complexity

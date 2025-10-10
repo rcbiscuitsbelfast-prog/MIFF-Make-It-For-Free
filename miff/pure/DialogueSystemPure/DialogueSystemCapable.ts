@@ -175,7 +175,7 @@ export class DialogueSystemCapable implements MIFFCapable {
       name: 'DialogueTree Schema',
       version: '1.0',
       description: 'Dialogue tree structure schema',
-      type: 'structure',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -398,23 +398,27 @@ export class DialogueSystemCapable implements MIFFCapable {
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 12,
-      perOperation: 6,
-      peak: 150,
-      unit: 'MB'
+    memory: {
+      baseUsage: 12,
+      peakUsage: 150,
+      growthRate: 6,
+      garbageCollection: {
+        frequency: 10,
+        averageDuration: 5,
+        impact: 'low' as const
+      }
     },
-    cpuUsage: {
-      baseline: 3,
-      perOperation: 8,
-      peak: 50,
-      unit: 'percent'
+    cpu: {
+      baseUsage: 3,
+      peakUsage: 50,
+      averageUsage: 25,
+      intensiveOperations: ['dialogue_processing', 'text_rendering']
     },
-    networkUsage: {
-      baseline: 0,
-      perOperation: 0,
-      peak: 0,
-      unit: 'KB/s'
+    io: {
+      readThroughput: 0,
+      writeThroughput: 0,
+      concurrentOperations: 0,
+      blockingOperations: []
     },
     scalability: {
       maxConcurrentUsers: 100,

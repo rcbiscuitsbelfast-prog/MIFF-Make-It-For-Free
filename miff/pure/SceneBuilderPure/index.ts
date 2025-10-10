@@ -278,7 +278,7 @@ export interface SceneOptimizationStats {
   culledObjects: number;
   batchedObjects: number;
   instancedObjects: number;
-  memoryUsage: number;
+  memory: number;
   compressionRatio: number;
   lodLevels: number;
   occlusionAreas: number;
@@ -762,7 +762,7 @@ export class SceneBuilderManager {
       culledObjects: 0,
       batchedObjects: 0,
       instancedObjects: 0,
-      memoryUsage: 0,
+      memory: 0,
       compressionRatio: 1.0,
       lodLevels: this.configuration.lodLevels,
       occlusionAreas: 0

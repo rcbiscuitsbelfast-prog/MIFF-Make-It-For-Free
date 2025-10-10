@@ -124,7 +124,7 @@ export interface AssetBundle {
   compressedSize: number;
   uncompressedSize: number;
   loadTime: number;
-  memoryUsage: number;
+  memory: number;
   diskUsage: number;
   referenceCount: number;
   lastAccessTime: number;
@@ -156,7 +156,7 @@ export interface AssetLoadingResponse {
   success: boolean;
   asset: UnrealAssetBridge | null;
   loadTime: number;
-  memoryUsage: number;
+  memory: number;
   diskUsage: number;
   warnings: string[];
   errors: string[];
@@ -186,7 +186,7 @@ export interface AssetStreamingResponse {
   qualityLevel: 'low' | 'medium' | 'high' | 'ultra';
   loadedMipmaps: number;
   loadedChunks: number;
-  memoryUsage: number;
+  memory: number;
   diskUsage: number;
   loadTime: number;
   streamingTime: number;
@@ -229,7 +229,7 @@ export interface AssetManagerStatistics {
   loadingAssets: number;
   failedAssets: number;
   cachedAssets: number;
-  memoryUsage: number;
+  memory: number;
   diskUsage: number;
   cacheHitRate: number;
   averageLoadTime: number;
@@ -260,9 +260,9 @@ export interface AssetManagerStatistics {
 export interface AssetManagerMetrics {
   cpuTime: number;
   gpuTime: number;
-  memoryUsage: number;
+  memory: number;
   diskUsage: number;
-  networkUsage: number;
+  io: number;
   ioTime: number;
   processingTime: number;
   waitingTime: number;
@@ -310,7 +310,7 @@ export class UnrealAssetManagerPure {
       loadingAssets: 0,
       failedAssets: 0,
       cachedAssets: 0,
-      memoryUsage: 0,
+      memory: 0,
       diskUsage: 0,
       cacheHitRate: 0,
       averageLoadTime: 0,
@@ -343,9 +343,9 @@ export class UnrealAssetManagerPure {
     return {
       cpuTime: 0,
       gpuTime: 0,
-      memoryUsage: 0,
+      memory: 0,
       diskUsage: 0,
-      networkUsage: 0,
+      io: 0,
       ioTime: 0,
       processingTime: 0,
       waitingTime: 0,
@@ -428,7 +428,7 @@ export class UnrealAssetManagerPure {
       compressedSize: 0,
       uncompressedSize: 0,
       loadTime: 0,
-      memoryUsage: 0,
+      memory: 0,
       diskUsage: 0,
       referenceCount: 0,
       lastAccessTime: Date.now(),
@@ -453,7 +453,7 @@ export class UnrealAssetManagerPure {
       compressedSize: 0,
       uncompressedSize: 0,
       loadTime: 0,
-      memoryUsage: 0,
+      memory: 0,
       diskUsage: 0,
       referenceCount: 0,
       lastAccessTime: Date.now(),
@@ -482,7 +482,7 @@ export class UnrealAssetManagerPure {
       compressedSize: 0,
       uncompressedSize: 0,
       loadTime: 0,
-      memoryUsage: 0,
+      memory: 0,
       diskUsage: 0,
       referenceCount: 0,
       lastAccessTime: Date.now(),
@@ -671,7 +671,7 @@ export class UnrealAssetManagerPure {
           success: true,
           asset: cachedAsset.asset,
           loadTime: Date.now() - startTime,
-          memoryUsage: cachedAsset.size,
+          memory: cachedAsset.size,
           diskUsage: cachedAsset.size,
           warnings: [],
           errors: [],
@@ -739,7 +739,7 @@ export class UnrealAssetManagerPure {
         success: asset !== null,
         asset,
         loadTime,
-        memoryUsage: asset?.size || 0,
+        memory: asset?.size || 0,
         diskUsage: asset?.size || 0,
         warnings: [],
         errors: asset ? [] : [`Failed to load asset: ${request.assetId}`],
@@ -769,7 +769,7 @@ export class UnrealAssetManagerPure {
         success: false,
         asset: null,
         loadTime,
-        memoryUsage: 0,
+        memory: 0,
         diskUsage: 0,
         warnings: [],
         errors: [error instanceof Error ? error.message : 'Unknown error'],
@@ -973,7 +973,7 @@ export class UnrealAssetManagerPure {
         qualityLevel: actualQualityLevel as any,
         loadedMipmaps,
         loadedChunks,
-        memoryUsage: asset.size,
+        memory: asset.size,
         diskUsage: asset.size,
         loadTime: Date.now() - startTime,
         streamingTime,
@@ -1002,7 +1002,7 @@ export class UnrealAssetManagerPure {
         qualityLevel: request.qualityLevel,
         loadedMipmaps: 0,
         loadedChunks: 0,
-        memoryUsage: 0,
+        memory: 0,
         diskUsage: 0,
         loadTime: Date.now() - startTime,
         streamingTime,
@@ -1329,7 +1329,7 @@ export class UnrealAssetManagerPure {
   getAssetCacheInfo(): any {
     return {
       totalEntries: this.assetCache.size,
-      memoryUsage: this.calculateMemoryUsage(),
+      memory: this.calculateMemoryUsage(),
       entries: Array.from(this.assetCache.entries()).map(([id, entry]) => ({
         id,
         size: entry.size,

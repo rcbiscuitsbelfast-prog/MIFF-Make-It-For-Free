@@ -55,8 +55,8 @@ export interface TestResult {
 
 export interface TestMetrics {
   responseTime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   networkLatency: number;
   errorRate: number;
   throughput: number;
@@ -107,8 +107,8 @@ export interface PerformanceTestResults {
   percentile99ResponseTime: number;
   throughput: number;
   errorRate: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
 }
 
 export interface SecurityTest {
@@ -521,8 +521,8 @@ export class FinalIntegrationTester {
         percentile99ResponseTime: Math.random() * 1200 + 300,
         throughput: Math.random() * 1000 + 500,
         errorRate: Math.random() * 5,
-        memoryUsage: Math.random() * 1000 + 500,
-        cpuUsage: Math.random() * 80 + 20
+        memory: Math.random() * 1000 + 500,
+        cpu: Math.random() * 80 + 20
       };
       
       performanceTest.status = 'passed';
@@ -712,8 +712,8 @@ export class FinalIntegrationTester {
           percentile99ResponseTime: 0,
           throughput: 0,
           errorRate: 0,
-          memoryUsage: 0,
-          cpuUsage: 0
+          memory: 0,
+          cpu: 0
         },
         status: 'pending',
         duration: 0

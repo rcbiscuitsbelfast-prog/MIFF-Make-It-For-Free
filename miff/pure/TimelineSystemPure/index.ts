@@ -104,7 +104,7 @@ export interface TimelineStats {
   branchesCount: number;
   activeBranchId: string;
   currentPlaybackSpeed: number;
-  memoryUsage: number;
+  memory: number;
   entityStatesTracked: number;
   averageEventsPerSecond: number;
   timelineComplexity: number;
@@ -706,7 +706,7 @@ export class TimelineSystemPure {
       branchesCount: timeline.branches.length,
       activeBranchId: activeBranch.id,
       currentPlaybackSpeed: timeline.playbackSpeed,
-      memoryUsage: this.memoryManager.getUsage(),
+      memory: this.memoryManager.getUsage(),
       entityStatesTracked: this.snapshots.size,
       averageEventsPerSecond: events.length / (timeline.duration / 1000),
       timelineComplexity: this.calculateTimelineComplexity(timeline)

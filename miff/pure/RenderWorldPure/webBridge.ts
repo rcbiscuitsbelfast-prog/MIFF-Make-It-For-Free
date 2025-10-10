@@ -31,7 +31,7 @@ interface RenderWorldWebState {
   performanceMetrics: {
     renderTime: number;
     updateTime: number;
-    memoryUsage: number;
+    memory: number;
   };
 }
 
@@ -71,7 +71,7 @@ export class RenderWorldWebBridge {
       performanceMetrics: {
         renderTime: 0,
         updateTime: 0,
-        memoryUsage: 0
+        memory: 0
       }
     };
 

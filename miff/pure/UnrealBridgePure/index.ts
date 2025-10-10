@@ -873,7 +873,7 @@ export interface UnrealPerformanceMetrics {
   triangles: number;
   vertices: number;
   instances: number;
-  memoryUsage: number;
+  memory: number;
   memoryAllocated: number;
   memoryReserved: number;
   garbageCollectionTime: number;
@@ -895,7 +895,7 @@ export interface UnrealPerformanceMetrics {
   inputQueueLength: number;
   threadCount: number;
   activeThreads: number;
-  cpuUsage: number;
+  cpu: number;
   gpuUsage: number;
   systemMemory: number;
   videoMemory: number;
@@ -949,8 +949,8 @@ export interface UnrealBridgeStatistics {
   peakMessageRate: number;
   queueDepth: number;
   processingTime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   threadCount: number;
   activeThreads: number;
   blockedThreads: number;
@@ -1087,7 +1087,7 @@ export class UnrealBridgeManager {
       triangles: 0,
       vertices: 0,
       instances: 0,
-      memoryUsage: 0,
+      memory: 0,
       memoryAllocated: 0,
       memoryReserved: 0,
       garbageCollectionTime: 0,
@@ -1109,7 +1109,7 @@ export class UnrealBridgeManager {
       inputQueueLength: 0,
       threadCount: 0,
       activeThreads: 0,
-      cpuUsage: 0,
+      cpu: 0,
       gpuUsage: 0,
       systemMemory: 0,
       videoMemory: 0,
@@ -1165,8 +1165,8 @@ export class UnrealBridgeManager {
       peakMessageRate: 0,
       queueDepth: 0,
       processingTime: 0,
-      memoryUsage: 0,
-      cpuUsage: 0,
+      memory: 0,
+      cpu: 0,
       threadCount: 0,
       activeThreads: 0,
       blockedThreads: 0,

@@ -497,7 +497,7 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-data',
           name: 'Combat Test Data',
           description: 'Generate combat scenario test data',
-          dataTypes: ['CombatAction', 'Combatant'],
+          dataTypes: ['combat_scenario', 'damage_calculation', 'status_effect'],
           generationMethod: 'template',
           customization: true
         }

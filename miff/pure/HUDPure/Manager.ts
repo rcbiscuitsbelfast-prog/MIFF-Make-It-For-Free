@@ -127,7 +127,7 @@ export interface HUDStats {
   hiddenElements: number;
   activeAnimations: number;
   averageRenderTime: number;
-  memoryUsage: number;
+  memory: number;
   lastUpdateTime: Date;
   performanceScore: number;
 }
@@ -179,7 +179,7 @@ export class HUDManager {
       hiddenElements: 0,
       activeAnimations: 0,
       averageRenderTime: 0,
-      memoryUsage: 0,
+      memory: 0,
       lastUpdateTime: new Date(),
       performanceScore: 100
     };

@@ -59,8 +59,8 @@ export interface IntegrationHealth {
   status: IntegrationStatus;
   lastCheck: Date;
   uptime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   errorCount: number;
   successCount: number;
   averageResponseTime: number;
@@ -217,8 +217,8 @@ export class IntegrationManager {
         status: IntegrationStatus.INITIALIZING,
         lastCheck: new Date(),
         uptime: 0,
-        memoryUsage: 0,
-        cpuUsage: 0,
+        memory: 0,
+        cpu: 0,
         errorCount: 0,
         successCount: 0,
         averageResponseTime: 0,

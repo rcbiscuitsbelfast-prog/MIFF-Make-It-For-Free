@@ -81,7 +81,7 @@ function main() {
             data: input.data || {},
             performance: {
               fps: 60,
-              memoryUsage: 'low',
+              memory: 'low',
               godotConnected: false
             }
           }

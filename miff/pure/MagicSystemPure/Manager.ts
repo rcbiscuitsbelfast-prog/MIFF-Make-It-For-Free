@@ -16,6 +16,7 @@ import {
 } from './index';
 
 export class MagicManager {
+  private entitySpells: Map<string, Set<string>> = new Map();
   private magicSystem: MagicSystemPure;
 
   constructor(magicSystem: MagicSystemPure) {
@@ -294,8 +295,6 @@ export class MagicManager {
     if (!this.entitySpells.has(casterId)) {
       this.entitySpells.set(casterId, new Set());
     }
-    this.entitySpells.get(casterId)!.add(spellId);
-    return [];
     
     const history: Array<{
       spellId: string;
@@ -305,11 +304,6 @@ export class MagicManager {
     }> = [];
     
     // Collect usage history from all spells for this entity
-    // Track entity spells for proper management
-    if (!this.entitySpells.has(casterId)) {
-      this.entitySpells.set(casterId, new Set());
-    }
-    this.entitySpells.get(casterId)!.add(spellId);
     // Currently returning empty array as entitySpells is not implemented
     
     // Sort by timestamp (most recent first)

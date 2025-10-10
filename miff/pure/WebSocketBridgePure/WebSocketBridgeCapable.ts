@@ -99,38 +99,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
-      {
-        id: 'WebSocketOptions',
-        name: 'WebSocket Configuration',
-        description: 'Configuration options for WebSocket connection',
-        category: 'config',
-        complexity: 'medium',
-        mutable: false,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'MessagePayload',
-        name: 'Message Payload',
-        description: 'Data payload for WebSocket messages',
-        category: 'data',
-        complexity: 'low',
-        mutable: false,
-        persistent: false,
-        cacheable: false
-      },
-      {
-        id: 'ChannelInfo',
-        name: 'Channel Information',
-        description: 'Channel configuration and metadata',
-        category: 'config',
-        complexity: 'low',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      }
-    ],
+    
     dataProcessing: [],
       formats: [],
       realtime: [],
@@ -356,20 +325,19 @@ export class WebSocketBridgeCapable implements MIFFCapable {
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 5,
-      perOperation: 2,
-      peak: 50,
-      unit: 'MB'
-    },
-    cpuUsage: {
-      baseline: 2,
+    memory: {
+      baseUsage: 5,
+      growthRate: 2,
+      peakUsage: 50,
+      garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
+    cpu: {
+      current: 2,
       perOperation: 1,
       peak: 25,
       unit: 'percent'
     },
-    networkUsage: {
-      baseline: 0.5,
+    io: {
+      current: 0.5,
       perOperation: 5,
       peak: 500,
       unit: 'KB/s'
@@ -377,7 +345,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
     scalability: {
       maxConcurrentUsers: 1000,
       maxDataSize: 5,
-      recommendedLimits: {
+      performanceDegradation: {
         'maxConnections': 100,
         'messageRate': 1000,
         'channelCount': 50

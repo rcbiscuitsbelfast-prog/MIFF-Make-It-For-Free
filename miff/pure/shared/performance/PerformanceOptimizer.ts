@@ -60,8 +60,8 @@ export interface PerformanceConfig {
 
 export interface PerformanceMetrics {
   timestamp: Date;
-  cpuUsage: number;
-  memoryUsage: number;
+  cpu: number;
+  memory: number;
   networkLatency: number;
   responseTime: number;
   throughput: number;
@@ -236,8 +236,8 @@ export class PerformanceOptimizer {
   private collectMetrics(): void {
     const metrics: PerformanceMetrics = {
       timestamp: new Date(),
-      cpuUsage: this.getCPUUsage(),
-      memoryUsage: this.getMemoryUsage(),
+      cpu: this.getCPUUsage(),
+      memory: this.getMemoryUsage(),
       networkLatency: this.getNetworkLatency(),
       responseTime: this.getResponseTime(),
       throughput: this.getThroughput(),

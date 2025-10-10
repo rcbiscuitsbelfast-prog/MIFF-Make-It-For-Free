@@ -117,48 +117,7 @@ export class QuestsCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
-      {
-        id: 'QuestDefinition',
-        name: 'Quest Definition',
-        description: 'Complete quest definition with objectives and rewards',
-        category: 'structure',
-        complexity: 'high',
-        mutable: false,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'QuestInstance',
-        name: 'Quest Instance',
-        description: 'Active quest instance with player progress',
-        category: 'state',
-        complexity: 'high',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'QuestObjective',
-        name: 'Quest Objective',
-        description: 'Individual quest objective with progress tracking',
-        category: 'structure',
-        complexity: 'medium',
-        mutable: true,
-        persistent: true,
-        cacheable: true
-      },
-      {
-        id: 'QuestReward',
-        name: 'Quest Reward',
-        description: 'Reward given upon quest completion',
-        category: 'data',
-        complexity: 'medium',
-        mutable: false,
-        persistent: true,
-        cacheable: true
-      }
-    ],
+    
     dataProcessing: [],
       formats: [],
       realtime: [],
@@ -464,20 +423,19 @@ export class QuestsCapable implements MIFFCapable {
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 20,
-      perOperation: 10,
-      peak: 300,
-      unit: 'MB'
-    },
-    cpuUsage: {
-      baseline: 5,
+    memory: {
+      baseUsage: 20,
+      growthRate: 10,
+      peakUsage: 300,
+      garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
+    cpu: {
+      current: 5,
       perOperation: 12,
       peak: 60,
       unit: 'percent'
     },
-    networkUsage: {
-      baseline: 0,
+    io: {
+      current: 0,
       perOperation: 0,
       peak: 0,
       unit: 'KB/s'
@@ -485,7 +443,7 @@ export class QuestsCapable implements MIFFCapable {
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 100,
-      recommendedLimits: {
+      performanceDegradation: {
         'maxActiveQuests': 50,
         'maxObjectivesPerQuest': 20,
         'maxQuestChainDepth': 10

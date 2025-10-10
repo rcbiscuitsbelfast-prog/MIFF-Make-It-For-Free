@@ -182,6 +182,13 @@ export class IdleManagerPure {
   private isInitialized: boolean = false;
   private analyticsData: any[] = [];
   private lastAnalyticsUpdate: number = 0;
+  
+  // Core data structures
+  private generators: Map<string, Generator> = new Map();
+  private resources: Map<string, Resource> = new Map();
+  private achievements: Map<string, any> = new Map();
+  private prestigeConfigs: Map<string, any> = new Map();
+  private isPaused: boolean = false;
 
   /**
    * Calculate total production across all generators

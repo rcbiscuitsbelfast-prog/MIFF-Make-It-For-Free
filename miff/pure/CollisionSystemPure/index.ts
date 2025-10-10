@@ -50,7 +50,7 @@ export const MODULE_INFO = {
   performance: {
     broadPhase: 'O(1) with spatial partitioning',
     narrowPhase: 'O(n) where n = shapes per cell',
-    memoryUsage: 'Efficient Map-based storage with spatial grid',
+    memory: 'Efficient Map-based storage with spatial grid',
     collisionTypes: ['AABB-AABB', 'Circle-Circle', 'AABB-Circle']
   }
 };

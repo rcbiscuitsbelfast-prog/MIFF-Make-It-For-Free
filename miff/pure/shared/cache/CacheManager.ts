@@ -439,7 +439,7 @@ export class CacheManager {
     missRate: number;
     averageAccessTime: number;
     cacheEfficiency: number;
-    memoryUsage: number;
+    memory: number;
     entryDistribution: Record<string, number>;
   } {
     const totalAccesses = this.stats.hits + this.stats.misses;
@@ -471,7 +471,7 @@ export class CacheManager {
       missRate,
       averageAccessTime,
       cacheEfficiency,
-      memoryUsage: memoryUsage * 100,
+      memory: memoryUsage * 100,
       entryDistribution
     };
   }

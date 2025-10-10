@@ -33,7 +33,7 @@ export interface CPUMetrics {
   usage: number; // percentage
   loadAverage: number[];
   processCount: number;
-  memoryUsage: number; // MB
+  memory: number; // MB
   responseTime: number; // milliseconds
   throughput: number; // operations per second
 }
