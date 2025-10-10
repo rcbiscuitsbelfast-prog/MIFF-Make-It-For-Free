@@ -136,7 +136,7 @@ export class QuestsCapable implements MIFFCapable {
         name: 'DialogueSystemPure Integration',
         description: 'Integration with DialogueSystemPure',
         targetSystem: 'DialogueSystemPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -145,7 +145,7 @@ export class QuestsCapable implements MIFFCapable {
         name: 'RewardsPure Integration',
         description: 'Integration with RewardsPure',
         targetSystem: 'RewardsPure',
-        integrationType: 'dependency',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -154,7 +154,7 @@ export class QuestsCapable implements MIFFCapable {
         name: 'StatsSystemPure Integration',
         description: 'Integration with StatsSystemPure',
         targetSystem: 'StatsSystemPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -163,7 +163,7 @@ export class QuestsCapable implements MIFFCapable {
         name: 'InventoryPure Integration',
         description: 'Integration with InventoryPure',
         targetSystem: 'InventoryPure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       }
