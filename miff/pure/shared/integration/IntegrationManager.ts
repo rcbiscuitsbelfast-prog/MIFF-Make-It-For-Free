@@ -570,8 +570,8 @@ export class IntegrationManager {
       if (!metrics) continue;
 
       // Update peak usage
-      if (health.memoryUsage > metrics.peakMemoryUsage) {
-        metrics.peakMemoryUsage = health.memoryUsage;
+      if (health.memory > metrics.peakMemoryUsage) {
+        metrics.peakMemoryUsage = health.memory;
       }
       if (health.cpuUsage > metrics.peakCpuUsage) {
         metrics.peakCpuUsage = health.cpuUsage;
