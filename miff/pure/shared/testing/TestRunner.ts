@@ -768,8 +768,8 @@ export class TestRunner {
       averageTestDuration,
       slowestTest: slowestTest.name,
       fastestTest: fastestTest.name,
-      memoryUsage,
-      cpuUsage,
+      memory: memoryUsage,
+      cpu: cpuUsage,
       parallelEfficiency
     };
   }

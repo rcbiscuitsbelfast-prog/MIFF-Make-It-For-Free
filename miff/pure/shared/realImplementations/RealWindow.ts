@@ -24,7 +24,9 @@ export interface WindowInfo {
   movable: boolean;
   closable: boolean;
   minimizable: boolean;
+  alwaysOnTop: boolean;
   maximizable: boolean;
+  alpha: number;
 }
 
 export interface WindowConfig {
@@ -40,6 +42,7 @@ export interface WindowConfig {
   maximizable?: boolean;
   fullscreen?: boolean;
   alwaysOnTop?: boolean;
+  alpha?: number;
   transparent?: boolean;
   frame?: boolean;
   show?: boolean;
@@ -92,7 +95,9 @@ export class RealWindow {
       movable: config.movable !== false,
       closable: config.closable !== false,
       minimizable: config.minimizable !== false,
-      maximizable: config.maximizable !== false
+      maximizable: config.maximizable !== false,
+      alwaysOnTop: config.alwaysOnTop || false,
+      alpha: config.alpha || 1.0
     };
 
     this.windows.set(windowId, windowInfo);

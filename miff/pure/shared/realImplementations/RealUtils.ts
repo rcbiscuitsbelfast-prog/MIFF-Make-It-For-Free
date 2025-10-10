@@ -44,16 +44,16 @@ export interface ArrayUtils {
 export interface ObjectUtils {
   deepClone<T>(obj: T): T;
   deepMerge<T>(target: T, source: Partial<T>): T;
-  pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
-  omit<T, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>;
+  pick<T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K>;
+  omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K>;
   isEmpty(obj: any): boolean;
   isEqual(obj1: any, obj2: any): boolean;
-  keys<T>(obj: T): (keyof T)[];
-  values<T>(obj: T): T[keyof T][];
-  entries<T>(obj: T): [keyof T, T[keyof T]][];
+  keys<T extends object>(obj: T): (keyof T)[];
+  values<T extends object>(obj: T): T[keyof T][];
+  entries<T extends object>(obj: T): [keyof T, T[keyof T]][];
   fromEntries<T>(entries: [string, any][]): T;
-  mapKeys<T>(obj: T, fn: (key: keyof T) => string): Record<string, any>;
-  mapValues<T>(obj: T, fn: (value: T[keyof T]) => any): Record<keyof T, any>;
+  mapKeys<T extends object>(obj: T, fn: (key: keyof T) => string): Record<string, any>;
+  mapValues<T extends object>(obj: T, fn: (value: T[keyof T]) => any): Record<keyof T, any>;
 }
 
 export interface DateUtils {
@@ -239,11 +239,11 @@ export class RealUtils {
       }
       return result;
     },
-    pick: <T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
+    pick: <T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
       const result = {} as Pick<T, K>;
       for (const key of keys) {
         if (key in obj) {
-          result[key] = obj[key];
+          (result as any)[key] = obj[key];
         }
       }
       return result;
@@ -278,21 +278,21 @@ export class RealUtils {
       }
       return true;
     },
-    keys: <T>(obj: T) => Object.keys(obj) as (keyof T)[],
-    values: <T>(obj: T) => Object.values(obj) as T[keyof T][],
-    entries: <T>(obj: T) => Object.entries(obj) as [keyof T, T[keyof T]][],
+    keys: <T extends object>(obj: T) => Object.keys(obj) as (keyof T)[],
+    values: <T extends object>(obj: T) => Object.values(obj) as T[keyof T][],
+    entries: <T extends object>(obj: T) => Object.entries(obj) as [keyof T, T[keyof T]][],
     fromEntries: <T>(entries: [string, any][]) => Object.fromEntries(entries) as T,
-    mapKeys: <T>(obj: T, fn: (key: keyof T) => string) => {
+    mapKeys: <T extends object>(obj: T, fn: (key: keyof T) => string) => {
       const result: Record<string, any> = {};
-      for (const [key, value] of this.object.entries(obj)) {
+      for (const [key, value] of this.object.entries(obj as object)) {
         result[fn(key)] = value;
       }
       return result;
     },
-    mapValues: <T>(obj: T, fn: (value: T[keyof T]) => any) => {
-      const result: Record<keyof T, any> = {} as any;
-      for (const [key, value] of this.object.entries(obj)) {
-        result[key] = fn(value);
+    mapValues: <T extends object>(obj: T, fn: (value: T[keyof T]) => any) => {
+      const result: Record<keyof T, any> = {} as Record<keyof T, any>;
+      for (const [key, value] of this.object.entries(obj as object)) {
+        (result as any)[key] = fn(value);
       }
       return result;
     }
