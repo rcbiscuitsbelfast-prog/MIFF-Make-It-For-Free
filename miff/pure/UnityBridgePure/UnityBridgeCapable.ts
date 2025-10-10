@@ -216,9 +216,6 @@ export class UnityBridgeCapable implements MIFFCapable {
         maxThroughput: 2000
       }
     ],
-    dataProcessing: [],
-      formats: [],
-      realtime: [],
     integrations: [
       {
         id: 'unity_engine',
