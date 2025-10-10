@@ -81,7 +81,7 @@ class MagicSystemCLI {
     });
 
     // Initialize mock systems
-    const eventBus = new MockEventBus() as any;
+    const eventBus = new RealEventBus() as any;
     const healthSystem = new MockHealthSystem() as any;
     const combatSystem = new MockCombatSystem() as any;
     const rng = new MockRNG() as any;

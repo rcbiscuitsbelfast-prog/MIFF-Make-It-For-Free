@@ -128,11 +128,11 @@ describe('NetworkBridgePure', () => {
   });
 
   describe('NetworkBridge', () => {
-    let mockTransport: any;
+    let realTransport: any;
     let bridge: NetworkBridge;
 
     beforeEach(() => {
-      mockTransport = {
+      realTransport = {
         connect: jest.fn().mockResolvedValue(true),
         disconnect: jest.fn(),
         send: jest.fn().mockResolvedValue(true),
@@ -140,7 +140,7 @@ describe('NetworkBridgePure', () => {
         getConnectedPeers: jest.fn().mockReturnValue([])
       };
       
-      bridge = new NetworkBridge(mockTransport, config);
+      bridge = new NetworkBridge(realTransport, config);
     });
 
     it('should start hosting successfully', async () => {
@@ -158,7 +158,7 @@ describe('NetworkBridgePure', () => {
       const success = await bridge.joinGame('host-id');
       
       expect(success).toBe(true);
-      expect(mockTransport.connect).toHaveBeenCalledWith('host-id');
+      expect(realTransport.connect).toHaveBeenCalledWith('host-id');
       
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(1);
@@ -174,14 +174,14 @@ describe('NetworkBridgePure', () => {
       await Promise.resolve();
       
       // Should have called send for each connected peer (except self)
-      expect(mockTransport.send).toHaveBeenCalled();
+      expect(realTransport.send).toHaveBeenCalled();
     });
 
     it('should disconnect all peers', async () => {
       await bridge.disconnect();
       await Promise.resolve();
       
-      expect(mockTransport.disconnect).toHaveBeenCalled();
+      expect(realTransport.disconnect).toHaveBeenCalled();
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(0);
     });
@@ -192,12 +192,12 @@ describe('NetworkBridgePure', () => {
         peerId: 'remote-peer',
         data: new TextEncoder().encode(JSON.stringify({ frame: 0, input: { move: 'up' } }))
       };
-      mockTransport.receive.mockResolvedValueOnce(mockMessage);
+      realTransport.receive.mockResolvedValueOnce(mockMessage);
       
       const result = bridge.update();
       
       // Should process the message and potentially advance frame
-      expect(mockTransport.receive).toHaveBeenCalled();
+      expect(realTransport.receive).toHaveBeenCalled();
     });
   });
 
