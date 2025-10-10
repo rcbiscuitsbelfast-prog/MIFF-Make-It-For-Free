@@ -20,6 +20,14 @@ describe('EventBusPure', () => {
   let config: EventBusConfig;
 
   beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  beforeEach(() => {
     config = {
       maxEvents: 100,
       enableReplication: false,
