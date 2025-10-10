@@ -307,15 +307,15 @@ export class NetworkBridgeCapable implements MIFFCapable {
       peakUsage: 100,
       garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
     cpu: {
-      current: 5,
-      perOperation: 2,
-      peak: 50,
+      baseUsage: 5,
+      growthRate: 2,
+      peakUsage: 50,
       unit: 'percent'
     },
     io: {
-      current: 1,
-      perOperation: 10,
-      peak: 1000,
+      baseUsage: 1,
+      growthRate: 10,
+      peakUsage: 1000,
       unit: 'KB/s'
     },
     scalability: {

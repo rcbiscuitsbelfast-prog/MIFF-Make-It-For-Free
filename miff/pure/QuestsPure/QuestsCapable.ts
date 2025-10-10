@@ -429,15 +429,15 @@ export class QuestsCapable implements MIFFCapable {
       peakUsage: 300,
       garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
     cpu: {
-      current: 5,
-      perOperation: 12,
-      peak: 60,
+      baseUsage: 5,
+      growthRate: 12,
+      peakUsage: 60,
       unit: 'percent'
     },
     io: {
-      current: 0,
-      perOperation: 0,
-      peak: 0,
+      baseUsage: 0,
+      growthRate: 0,
+      peakUsage: 0,
       unit: 'KB/s'
     },
     scalability: {
