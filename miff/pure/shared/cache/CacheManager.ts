@@ -493,7 +493,7 @@ export class CacheManager {
     }
     
     // If memory usage is high, be more aggressive with cleanup
-    if (metrics.memoryUsage > 80) {
+    if (metrics.memory > 80) {
       this.log('High memory usage detected, performing aggressive cleanup');
       this.performCleanup();
     }
