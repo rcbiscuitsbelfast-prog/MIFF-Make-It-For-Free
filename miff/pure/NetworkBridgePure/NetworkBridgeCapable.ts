@@ -302,19 +302,19 @@ export class NetworkBridgeCapable implements MIFFCapable {
 
   readonly performanceProfile: PerformanceProfile = {
     memory: {
-      baseUsage: 10,
-      growthRate: 5,
+      readThroughput: 10,
+      averageUsage: 5,
       peakUsage: 100,
       garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
     cpu: {
-      baseUsage: 5,
-      growthRate: 2,
+      readThroughput: 5,
+      averageUsage: 2,
       peakUsage: 50,
       unit: 'percent'
     },
     io: {
-      baseUsage: 1,
-      growthRate: 10,
+      readThroughput: 1,
+      averageUsage: 10,
       peakUsage: 1000,
       unit: 'KB/s'
     },
