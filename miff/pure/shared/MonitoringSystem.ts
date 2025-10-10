@@ -388,7 +388,7 @@ export class MonitoringSystem {
         usage: this.getCpuUsage(),
         loadAverage: os.loadavg(),
         cores: cpus.length
-      , averageUsage: 25, intensiveOperations: []},
+      },
       memory: {
         total: totalMem,
         used: usedMem,
@@ -453,13 +453,13 @@ export class MonitoringSystem {
     const thresholds = this.config.alertThresholds;
 
     // CPU usage alert
-    if (systemMetrics.cpu.usage > thresholds.cpuUsage) {
+    if (systemMetrics.cpu.usage > thresholds.cpu) {
       this.createAlert({
         type: 'cpu',
         severity: 'warning',
         title: 'High CPU Usage',
-        message: `CPU usage is ${systemMetrics.cpu.usage.toFixed(1)}% (threshold: ${thresholds.cpuUsage}%)`,
-        metadata: { usage: systemMetrics.cpu.usage, threshold: thresholds.cpuUsage }
+        message: `CPU usage is ${systemMetrics.cpu.usage.toFixed(1)}% (threshold: ${thresholds.cpu}%)`,
+        metadata: { usage: systemMetrics.cpu.usage, threshold: thresholds.cpu }
       });
     }
 
