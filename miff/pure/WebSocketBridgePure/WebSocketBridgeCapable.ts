@@ -154,7 +154,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       name: 'MessagePayload Schema',
       version: '1.0',
       description: 'WebSocket message payload schema',
-      type: 'data',
+      type: 'config',
       schema: {
         type: 'object',
         properties: {},
@@ -224,8 +224,14 @@ export class WebSocketBridgeCapable implements MIFFCapable {
           }
         ],
         examples: [
-          'send --payload \'{"type":"test","data":"hello"}\'',
-          'send --channel game --payload \'{"action":"move","x":10,"y":20}\''
+          {
+            command: 'send --payload \'{"type":"test","data":"hello"}\'',
+            description: 'Send a test message'
+          },
+          {
+            command: 'send --channel game --payload \'{"action":"move","x":10,"y":20}\'',
+            description: 'Send a game action message'
+          }
         ]
       }
     ],
@@ -331,17 +337,17 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       peakUsage: 50,
       garbageCollection: { frequency: 10, averageDuration: 5, impact: 'low' as const }},
     cpu: {
-      current: 2,
-      perOperation: 1,
-      peak: 25,
-      unit: 'percent'
-    , averageUsage: 25, intensiveOperations: []},
+      baseUsage: 2,
+      peakUsage: 25,
+      averageUsage: 25, 
+      intensiveOperations: []
+    },
     io: {
-      current: 0.5,
-      perOperation: 5,
-      peak: 500,
-      unit: 'KB/s'
-    , blockingOperations: []},
+      readThroughput: 0.5,
+      writeThroughput: 5,
+      concurrentOperations: 500,
+      blockingOperations: []
+    },
     scalability: {
       maxConcurrentUsers: 1000,
       maxDataSize: 5,
