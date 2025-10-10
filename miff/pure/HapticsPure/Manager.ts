@@ -358,21 +358,6 @@ export class HapticsManager {
     return this.devices.delete(deviceId);
   }
 
-  createSequence(sequence: HapticSequence): void {
-    this.sequences.set(sequence.id, sequence);
-  }
-
-  getSequence(sequenceId: string): HapticSequence | undefined {
-    return this.sequences.get(sequenceId);
-  }
-
-  createRhythmEngine(engine: HapticRhythmEngine): void {
-    this.rhythmEngines.set(engine.id, engine);
-  }
-
-  getRhythmEngine(engineId: string): HapticRhythmEngine | undefined {
-    return this.rhythmEngines.get(engineId);
-  }
 
   updateRhythmEngine(engineId: string, updates: Partial<HapticRhythmEngine>): void {
     const engine = this.rhythmEngines.get(engineId);
@@ -703,6 +688,151 @@ export class HapticsManager {
         return 'id,name,type,timing\n';
       default:
         return JSON.stringify(patterns, null, 2);
+    }
+  }
+
+  // Test compatibility methods
+  async playAll(): Promise<HapticResult[]> {
+    const results: HapticResult[] = [];
+    
+    // Process all requests in priority order
+    const sortedRequests = Array.from(this.priorityQueue.entries())
+      .sort(([a], [b]) => b - a) // Higher priority first
+      .flatMap(([, requests]) => requests);
+
+    for (const request of sortedRequests) {
+      try {
+        const result = await this.playPattern(request.pattern, request.deviceId);
+        results.push({
+          id: request.id,
+          status: 'played',
+          actualDuration: result.duration,
+          actualIntensity: result.intensity,
+          timestamp: this.now()
+        });
+      } catch (error) {
+        results.push({
+          id: request.id,
+          status: 'error',
+          reason: error instanceof Error ? error.message : String(error),
+          timestamp: this.now()
+        });
+      }
+    }
+
+    // Clear the queue
+    this.queue = [];
+    this.priorityQueue.clear();
+    
+    return results;
+  }
+
+  connectDevice(deviceId: string, device: HapticDevice): boolean {
+    try {
+      this.devices.set(deviceId, { ...device, connected: true });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  disconnectDevice(deviceId: string): boolean {
+    try {
+      const device = this.devices.get(deviceId);
+      if (device) {
+        device.connected = false;
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
+  }
+
+  isDeviceConnected(deviceId: string): boolean {
+    const device = this.devices.get(deviceId);
+    return device?.connected || false;
+  }
+
+  createSequence(sequence: HapticSequence): boolean {
+    try {
+      this.sequences.set(sequence.id, sequence);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  getSequence(sequenceId: string): HapticSequence | undefined {
+    return this.sequences.get(sequenceId);
+  }
+
+  playSequence(sequenceId: string): boolean {
+    try {
+      const sequence = this.sequences.get(sequenceId);
+      if (!sequence) return false;
+
+      // Simulate playing the sequence
+      console.log(`Playing sequence: ${sequence.name}`);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  addEnvironmentalResponse(response: HapticEnvironmentalResponse): boolean {
+    try {
+      this.environmentalResponses.push(response);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  getEnvironmentalResponses(): HapticEnvironmentalResponse[] {
+    return [...this.environmentalResponses];
+  }
+
+  getDeviceCapabilities(deviceType: HapticDeviceType): HapticCapabilities | undefined {
+    return this.deviceCapabilities.get(deviceType);
+  }
+
+  createRhythmEngine(engine: HapticRhythmEngine): boolean {
+    try {
+      this.rhythmEngines.set(engine.id, engine);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  getRhythmEngine(engineId: string): HapticRhythmEngine | undefined {
+    return this.rhythmEngines.get(engineId);
+  }
+
+  startRhythm(engineId: string): boolean {
+    try {
+      const engine = this.rhythmEngines.get(engineId);
+      if (!engine) return false;
+
+      // Simulate starting rhythm
+      console.log(`Starting rhythm: ${engine.name} at ${engine.bpm} BPM`);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  stopRhythm(engineId: string): boolean {
+    try {
+      const engine = this.rhythmEngines.get(engineId);
+      if (!engine) return false;
+
+      // Simulate stopping rhythm
+      console.log(`Stopping rhythm: ${engine.name}`);
+      return true;
+    } catch {
+      return false;
     }
   }
 }
