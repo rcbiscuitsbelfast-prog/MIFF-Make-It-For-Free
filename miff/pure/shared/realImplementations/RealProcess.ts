@@ -17,8 +17,8 @@ export interface ProcessInfo {
   platform: string;
   arch: string;
   uptime: number;
-  memoryUsage: ProcessMemoryUsage;
-  cpuUsage: ProcessCPUUsage;
+  memory: ProcessMemoryUsage;
+  cpu: ProcessCPUUsage;
   environment: Record<string, string>;
 }
 
@@ -76,14 +76,14 @@ export class RealProcess {
       platform: process.platform,
       arch: process.arch,
       uptime: process.uptime(),
-      memoryUsage: {
+      memory: {
         rss: memoryUsage.rss,
         heapTotal: memoryUsage.heapTotal,
         heapUsed: memoryUsage.heapUsed,
         external: memoryUsage.external,
         arrayBuffers: memoryUsage.arrayBuffers
       },
-      cpuUsage: process.cpuUsage(),
+      cpu: process.cpuUsage(),
       environment: { ...process.env }
     };
   }
@@ -351,14 +351,14 @@ export class RealProcess {
   getStatus(): { 
     isMonitoring: boolean; 
     uptime: number; 
-    memoryUsage: number; 
+    memory: number; 
     pid: number 
   } {
     const memoryUsage = this.getMemoryUsage();
     return {
       isMonitoring: this.isMonitoring,
       uptime: this.getUptime(),
-      memoryUsage: memoryUsage.rss,
+      memory: memoryUsage.rss,
       pid: this.getPID()
     };
   }
