@@ -327,9 +327,9 @@ export class FinalIntegrationTester {
     // Check for failed tests
     const failedTests = allTestSuites.filter(ts => ts.status === 'failed')
                       .concat(allIntegrationTests.filter(it => it.status === 'failed') as any)
-                      .concat(allPerformanceTests.filter(pt => pt.status === 'failed'))
-                      .concat(allSecurityTests.filter(st => st.status === 'failed'))
-                      .concat(allUserAcceptanceTests.filter(uat => uat.status === 'failed'));
+                      .concat(allPerformanceTests.filter(pt => pt.status === 'failed') as any)
+                      .concat(allSecurityTests.filter(st => st.status === 'failed') as any)
+                      .concat(allUserAcceptanceTests.filter(uat => uat.status === 'failed') as any);
     
     for (const test of failedTests) {
       criticalIssues.push(`${test.name}: ${test.status}`);

@@ -523,21 +523,4 @@ export class WebSocketBridgeCapable implements MIFFCapable {
       lastValidated: new Date().toISOString()
     };
   }
-
-  // Capability validation methods
-  validateCapabilities(): boolean {
-    return true; // All capabilities are properly implemented
-  }
-
-  getCapabilityReport(): Record<string, unknown> {
-    return {
-      moduleId: this.moduleId,
-      implementationStatus: 'complete',
-      transportLayer: 'real-websocket',
-      fallbackSupport: 'local-simulation',
-      mockImplementations: 0,
-      criticalIssues: 0,
-      lastValidated: new Date().toISOString()
-    };
-  }
 }
