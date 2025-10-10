@@ -242,7 +242,7 @@ export class IdleManagerPure {
       getTotalProduction: () => this.calculateTotalProduction(),
       purchaseGenerator: (id: string, count: number) => this.purchaseGeneratorInternal(id, count),
       getAchievements: () => this.achievements,
-      getPrestigeConfigs: () => this.prestigeConfigs
+      getPrestigeConfigs: () => this.prestigeConfigs,
       loadGameData: () => this.loadGame(),
       saveGameData: () => this.saveGame(),
       resetGame: () => this.resetGame(),

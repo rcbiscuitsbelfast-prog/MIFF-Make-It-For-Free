@@ -74,7 +74,6 @@
     "audit:accessibility": "node scripts/audit/accessibility-audit.cjs",
     "audit:model": "node scripts/audit/generate-model-index.js",
     "audit:coverage": "node scripts/audit/simple-coverage-analysis.cjs",
-    "audit": "node scripts/audit/accessibility-audit.cjs && node scripts/audit/simple-coverage-analysis.cjs",
     "simulate": "ts-node cli/miff-simulate.ts"
   },
   "repository": {
