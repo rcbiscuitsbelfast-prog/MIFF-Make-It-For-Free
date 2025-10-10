@@ -109,7 +109,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         name: 'WebSocketServerPure Integration',
         description: 'Integration with WebSocketServerPure',
         targetSystem: 'WebSocketServerPure',
-        integrationType: 'transport',
+        integrationType: 'bridge',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -118,7 +118,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         name: 'NetworkBridgePure Integration',
         description: 'Integration with NetworkBridgePure',
         targetSystem: 'NetworkBridgePure',
-        integrationType: 'consumer',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       },
@@ -127,7 +127,7 @@ export class WebSocketBridgeCapable implements MIFFCapable {
         name: 'EventBusPure Integration',
         description: 'Integration with EventBusPure',
         targetSystem: 'EventBusPure',
-        integrationType: 'fallback',
+        integrationType: 'adapter',
         protocols: ['internal'],
         authenticationRequired: false
       }

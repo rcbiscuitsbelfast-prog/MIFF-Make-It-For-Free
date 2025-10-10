@@ -868,9 +868,9 @@ function generateCSVExport(replay: ReplayResult): string {
   replay.frames.forEach(frame => {
     const inputCount = replay.session.inputStream.filter(e => e.frameNumber === frame.frameNumber).length;
     const visualCount = frame.visualHooks.length;
-    const { cpuUsage, memoryUsage, renderTime } = frame.metadata.performance;
+    const { cpu, memory, renderTime } = frame.metadata.performance;
     
-    csv += `${frame.frameNumber},${frame.timestamp},${inputCount},${visualCount},${cpuUsage},${memoryUsage},${renderTime}\n`;
+    csv += `${frame.frameNumber},${frame.timestamp},${inputCount},${visualCount},${cpu},${memory},${renderTime}\n`;
   });
   
   return csv;
