@@ -27,7 +27,7 @@ class RealEventBus {
   }
 }
 
-class MockInputSystem {
+class RealInputSystem {
   // Mock implementation
 }
 
@@ -53,7 +53,7 @@ class DrivingSystemCLI {
 
     // Initialize mock systems
     const eventBus = new RealEventBus() as any;
-    const inputSystem = new MockInputSystem() as any;
+    const inputSystem = new RealInputSystem() as any;
     const rng = new MockRNG() as any;
 
     this.drivingSystem = new DrivingSystemPure(eventBus, inputSystem, rng);

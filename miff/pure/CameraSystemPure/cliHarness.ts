@@ -33,7 +33,7 @@ class RealEventBus {
   }
 }
 
-class MockInputSystem {
+class RealInputSystem {
   private actions: Map<string, Function> = new Map();
 
   registerAction(actionId: string, handler: Function) {
@@ -67,7 +67,7 @@ class MockRNG {
 class CameraCLIHarness {
   private cameraSystem: CameraSystemPure;
   private eventBus: RealEventBus;
-  private inputSystem: MockInputSystem;
+  private inputSystem: RealInputSystem;
   private rng: MockRNG;
   private running = true;
   private activeCamera: CameraInstance | null = null;
@@ -76,7 +76,7 @@ class CameraCLIHarness {
 
   constructor() {
     this.eventBus = new RealEventBus();
-    this.inputSystem = new MockInputSystem();
+    this.inputSystem = new RealInputSystem();
     this.rng = new MockRNG();
 
     this.cameraSystem = new CameraSystemPure(this.eventBus as any, this.inputSystem as any, this.rng as any);
