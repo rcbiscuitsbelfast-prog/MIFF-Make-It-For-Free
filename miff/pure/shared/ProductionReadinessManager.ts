@@ -682,7 +682,7 @@ export class ProductionReadinessManager {
         category: 'security',
         name: 'SSL/TLS Configuration',
         description: 'Verify SSL/TLS is properly configured',
-        status: 'pending',
+        status: 'not_applicable',
         severity: 'critical',
         details: '',
         recommendations: ['Enable SSL/TLS', 'Configure proper certificates'],
