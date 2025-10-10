@@ -151,18 +151,8 @@ class CapabilityCLI {
       });
     }
 
-    // CLI interface
-    if (capabilities.cliInterface) {
-      console.log(`\n💻 CLI Interface:`);
-      console.log(`  Usage: ${capabilities.cliInterface.usage}`);
-      if (capabilities.cliInterface.flags && capabilities.cliInterface.flags.length > 0) {
-        console.log(`  Flags (${capabilities.cliInterface.flags.length}):`);
-        capabilities.cliInterface.flags.forEach(flag => {
-          console.log(`    ${flag.name}: ${flag.description}`);
-          console.log(`      Type: ${flag.type}, Required: ${flag.required}`);
-        });
-      }
-    }
+    // CLI interface (not part of ModuleCapabilities)
+    // Note: CLI interface is typically a separate property on the module
 
     // Save to file if requested
     if (outputFile) {
