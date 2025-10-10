@@ -129,7 +129,7 @@ class CapabilityCLI {
       capabilities.operations.forEach(op => {
         console.log(`  ${op.name}: ${op.description}`);
         console.log(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
-        console.log(`    Returns: ${op.returnType}`);
+        console.log(`    Output Schema: ${op.outputSchema?.schemaId || 'N/A'} v${op.outputSchema?.version || 'N/A'}`);
       });
     }
 
