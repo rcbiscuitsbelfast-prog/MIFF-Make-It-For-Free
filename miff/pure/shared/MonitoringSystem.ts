@@ -464,13 +464,13 @@ export class MonitoringSystem {
     }
 
     // Memory usage alert
-    if (systemMetrics.memory.usage > thresholds.memoryUsage) {
+    if (systemMetrics.memory.usage > thresholds.memory) {
       this.createAlert({
         type: 'memory',
         severity: 'warning',
         title: 'High Memory Usage',
-        message: `Memory usage is ${systemMetrics.memory.usage.toFixed(1)}% (threshold: ${thresholds.memoryUsage}%)`,
-        metadata: { usage: systemMetrics.memory.usage, threshold: thresholds.memoryUsage }
+        message: `Memory usage is ${systemMetrics.memory.usage.toFixed(1)}% (threshold: ${thresholds.memory}%)`,
+        metadata: { usage: systemMetrics.memory.usage, threshold: thresholds.memory }
       });
     }
 
