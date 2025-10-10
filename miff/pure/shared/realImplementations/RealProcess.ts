@@ -84,7 +84,9 @@ export class RealProcess {
         arrayBuffers: memoryUsage.arrayBuffers
       },
       cpu: process.cpuUsage(),
-      environment: { ...process.env }
+      environment: Object.fromEntries(
+        Object.entries(process.env).filter(([_, value]) => value !== undefined)
+      ) as Record<string, string>
     };
   }
 
@@ -127,7 +129,9 @@ export class RealProcess {
    * Get all environment variables
    */
   getAllEnv(): Record<string, string> {
-    return { ...process.env };
+    return Object.fromEntries(
+      Object.entries(process.env).filter(([_, value]) => value !== undefined)
+    ) as Record<string, string>;
   }
 
   /**
