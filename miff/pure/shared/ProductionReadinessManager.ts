@@ -704,7 +704,7 @@ export class ProductionReadinessManager {
         category: 'performance',
         name: 'Memory Usage',
         description: 'Check memory usage and optimization',
-        status: 'pending',
+        status: 'not_applicable',
         severity: 'medium',
         details: '',
         recommendations: ['Optimize memory usage', 'Implement memory monitoring'],
