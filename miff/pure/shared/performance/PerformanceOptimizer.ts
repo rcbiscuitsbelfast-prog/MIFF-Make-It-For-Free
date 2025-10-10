@@ -149,7 +149,7 @@ export class PerformanceOptimizer {
     this.addOptimizationRule({
       id: 'memory_cleanup',
       name: 'Memory Cleanup',
-      condition: (metrics) => metrics.memoryUsage > this.config.maxMemoryUsage * 0.8,
+      condition: (metrics) => metrics.memory > this.config.maxMemoryUsage * 0.8,
       action: async () => {
         await this.performMemoryCleanup();
       },
@@ -162,7 +162,7 @@ export class PerformanceOptimizer {
     this.addOptimizationRule({
       id: 'cpu_optimization',
       name: 'CPU Optimization',
-      condition: (metrics) => metrics.cpuUsage > this.config.maxCPUUsage * 0.8,
+      condition: (metrics) => metrics.cpu > this.config.maxCPUUsage * 0.8,
       action: async () => {
         await this.performCPUOptimization();
       },
