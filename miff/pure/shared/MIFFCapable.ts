@@ -379,7 +379,7 @@ export interface CPUProfile {
 }
 
 export interface IOProfile {
-  baseUsage: number; // MB/s
+  readThroughput: number; // MB/s
   writeThroughput: number; // MB/s
   concurrentOperations: number;
   blockingOperations: string[];
