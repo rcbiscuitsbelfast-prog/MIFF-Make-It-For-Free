@@ -187,37 +187,16 @@ export class IdleManagerPure {
    * Calculate total production across all generators
    */
   private calculateTotalProduction(): number {
-    let total = 0;
-    for (const generator of this.generators.values()) {
-      if (generator.unlocked && generator.level > 0) {
-        total += generator.baseProduction * generator.level * generator.productionMultiplier;
-      }
-    }
-    return total;
+    // TODO: Implement proper generator access
+    return 0;
   }
 
   /**
    * Internal method to purchase generators
    */
   private purchaseGeneratorInternal(id: string, count: number): boolean {
-    const generator = this.generators.get(id);
-    if (!generator || !generator.unlocked) {
-      return false;
-    }
-
-    const totalCost = this.calculateGeneratorCost(generator, count);
-    const primaryResource = Array.from(this.resources.values())[0]; // Assume first resource is primary currency
-    
-    if (!primaryResource || primaryResource.amount < totalCost) {
-      return false;
-    }
-
-    // Purchase successful
-    primaryResource.amount -= totalCost;
-    generator.level += count;
-    
-    this.eventBus.emit('generator-purchased', { generatorId: id, count, newLevel: generator.level });
-    return true;
+    // TODO: Implement proper generator purchase logic
+    return false;
   }
 
   /**
@@ -236,19 +215,19 @@ export class IdleManagerPure {
    */
   private createIdleSystem(eventBus: EventBus, config: IdleManagerConfig): IdleSystemPure {
     return {
-      getResources: () => this.resources,
-      getGenerators: () => this.generators,
-      getResource: (id: string) => this.resources.get(id),
+      getResources: () => new Map(),
+      getGenerators: () => new Map(),
+      getResource: (id: string) => undefined,
       getTotalProduction: () => this.calculateTotalProduction(),
       purchaseGenerator: (id: string, count: number) => this.purchaseGeneratorInternal(id, count),
-      getAchievements: () => this.achievements,
-      getPrestigeConfigs: () => this.prestigeConfigs,
+      getAchievements: () => [],
+      getPrestigeConfigs: () => [],
       loadGameData: () => this.loadGame(),
       saveGameData: () => this.saveGame(),
       resetGame: () => this.resetGame(),
       getStats: () => this.getStats(),
       getGameState: () => this.getGameState(),
-      setPaused: (paused: boolean) => { this.isPaused = paused; },
+      setPaused: (paused: boolean) => { /* TODO: Implement pause functionality */ },
       setIntegrations: (integrations: any) => this.setIntegrations(integrations),
       on: (event: string, handler: any) => this.eventBus.subscribe(event, handler)
     } as IdleSystemPure;

@@ -117,121 +117,208 @@ export class CombatCoreCapable implements MIFFCapable {
         }
       }
     ],
-    dataTypes: [
+    dataProcessing: [
       {
-        id: 'CombatSetup',
-        name: 'Combat Setup Configuration',
-        description: 'Initial setup data for combat encounters',
-        category: 'config',
-        complexity: 'high',
-        mutable: false,
-        persistent: true,
-        cacheable: true
+        id: 'combat-setup',
+        name: 'Combat Setup Processing',
+        description: 'Process combat encounter setup data',
+        inputTypes: ['CombatSetup'],
+        outputTypes: ['CombatState'],
+        processingType: 'transform',
+        batchSupported: true,
+        streamingSupported: false,
+        maxThroughput: 100
       },
       {
-        id: 'CombatState',
-        name: 'Combat State',
-        description: 'Current state of active combat encounter',
-        category: 'state',
-        complexity: 'high',
-        mutable: true,
-        persistent: false,
-        cacheable: true
-      },
+        id: 'damage-calculation',
+        name: 'Damage Calculation',
+        description: 'Calculate damage for combat actions',
+        inputTypes: ['CombatAction', 'StatsData'],
+        outputTypes: ['DamageResult'],
+        processingType: 'transform',
+        batchSupported: false,
+        streamingSupported: false,
+        maxThroughput: 1000
+      }
+    ],
+    formats: [
       {
-        id: 'CombatAction',
-        name: 'Combat Action',
-        description: 'Player or AI combat action with targets and parameters',
-        category: 'action',
-        complexity: 'medium',
-        mutable: false,
-        persistent: false,
-        cacheable: false
-      },
+        id: 'combat-json',
+        name: 'Combat JSON Format',
+        description: 'JSON format for combat data exchange',
+        mimeType: 'application/json',
+        fileExtensions: ['.json'],
+        schemaVersion: '1.0',
+        compressionSupported: true,
+        encryptionSupported: false
+      }
+    ],
+    realtime: [
       {
-        id: 'DamageResult',
-        name: 'Damage Calculation Result',
-        description: 'Result of damage calculation with all modifiers applied',
-        category: 'result',
-        complexity: 'medium',
-        mutable: false,
-        persistent: false,
-        cacheable: false
+        id: 'combat-events',
+        name: 'Combat Events',
+        description: 'Real-time combat event streaming',
+        eventTypes: ['combat.start', 'combat.action', 'combat.end'],
+        subscriptionModel: 'push',
+        maxConnections: 100,
+        latencyTarget: 50
       }
     ],
     integrations: [
       {
-        moduleId: 'StatsSystemPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'StatsSystemPure',
+        name: 'Stats System Integration',
+        description: 'Integration with stats system for character statistics',
+        targetSystem: 'StatsSystemPure',
+        integrationType: 'adapter',
+        authenticationRequired: false
       },
       {
-        moduleId: 'EffectsPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'EffectsPure',
+        name: 'Effects System Integration',
+        description: 'Integration with effects system for combat effects',
+        targetSystem: 'EffectsPure',
+        integrationType: 'adapter',
+        authenticationRequired: false
       },
       {
-        moduleId: 'RNGPure',
-        type: 'dependency',
-        required: true,
-        version: '>=1.0.0'
+        id: 'RNGPure',
+        name: 'RNG System Integration',
+        description: 'Integration with random number generation system',
+        targetSystem: 'RNGPure',
+        integrationType: 'adapter',
+        authenticationRequired: false
       },
       {
-        moduleId: 'RewardsPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'RewardsPure',
+        name: 'Rewards System Integration',
+        description: 'Integration with rewards system for combat rewards',
+        targetSystem: 'RewardsPure',
+        integrationType: 'event',
+        authenticationRequired: false
       },
       {
-        moduleId: 'BattleAIPure',
-        type: 'consumer',
-        required: false,
-        version: '>=1.0.0'
+        id: 'BattleAIPure',
+        name: 'Battle AI Integration',
+        description: 'Integration with battle AI system',
+        targetSystem: 'BattleAIPure',
+        integrationType: 'event',
+        authenticationRequired: false
       }
     ]
   };
 
   readonly schemas: SchemaInfo[] = [
     {
-      schemaId: 'CombatSetup',
+      id: 'CombatSetup',
+      name: 'Combat Setup Schema',
       version: '1.0',
       description: 'Combat encounter setup schema',
-      category: 'config',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'config',
+      schema: {
+        type: 'object',
+        properties: {
+          participants: { type: 'array' },
+          environment: { type: 'object' },
+          rules: { type: 'object' }
+        },
+        required: ['participants']
+      },
+      validationRules: [
+        {
+          id: 'participants-validation',
+          name: 'Participants Validation',
+          description: 'Validates participants array is not empty',
+          rule: '{"minItems": 1}',
+          severity: 'error'
+        }
+      ],
+      examples: [
+        {
+          name: 'Basic Combat Setup',
+          description: 'Simple combat encounter setup',
+          data: {
+            participants: ['player-1', 'enemy-1'],
+            environment: { type: 'dungeon' },
+            rules: { turnBased: true }
+          },
+          valid: true
+        }
+      ]
     },
     {
-      schemaId: 'CombatAction',
+      id: 'CombatAction',
+      name: 'Combat Action Schema',
       version: '1.0',
       description: 'Combat action schema with validation',
-      category: 'action',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'input',
+      schema: {
+        type: 'object',
+        properties: {
+          actionType: { type: 'string' },
+          targetId: { type: 'string' },
+          parameters: { type: 'object' }
+        },
+        required: ['actionType', 'targetId']
+      },
+      validationRules: [
+        {
+          id: 'action-type-validation',
+          name: 'Action Type Validation',
+          description: 'Validates action type is supported',
+          rule: '{"enum": ["attack", "defend", "cast", "item", "flee"]}',
+          severity: 'error'
+        }
+      ],
+      examples: [
+        {
+          name: 'Basic Attack',
+          description: 'Simple attack action',
+          data: {
+            actionType: 'attack',
+            targetId: 'enemy-1',
+            parameters: { weapon: 'sword' }
+          },
+          valid: true
+        }
+      ]
     },
     {
-      schemaId: 'DamageResult',
+      id: 'DamageResult',
+      name: 'Damage Result Schema',
       version: '1.0',
       description: 'Damage calculation result schema',
-      category: 'result',
-      format: 'json',
-      required: true,
-      validation: {
-        strict: true,
-        allowAdditional: false,
-        deprecatedFields: []
-      }
+      type: 'output',
+      schema: {
+        type: 'object',
+        properties: {
+          damage: { type: 'number' },
+          critical: { type: 'boolean' },
+          effects: { type: 'array' }
+        },
+        required: ['damage']
+      },
+      validationRules: [
+        {
+          id: 'damage-validation',
+          name: 'Damage Validation',
+          description: 'Validates damage is non-negative',
+          rule: '{"minimum": 0}',
+          severity: 'error'
+        }
+      ],
+      examples: [
+        {
+          name: 'Basic Damage',
+          description: 'Simple damage result',
+          data: {
+            damage: 25,
+            critical: false,
+            effects: []
+          },
+          valid: true
+        }
+      ]
     }
   ];
 
@@ -240,129 +327,184 @@ export class CombatCoreCapable implements MIFFCapable {
       {
         name: 'simulate-combat',
         description: 'Simulate a combat encounter',
-        category: 'simulation',
-        flags: [
+        usage: 'simulate-combat [options]',
+        aliases: ['sim', 'combat-sim'],
+        arguments: [],
+        options: [
           {
             name: 'participants',
+            short: 'p',
             description: 'Number of combat participants',
             type: 'number',
             required: false,
-            defaultValue: 2
+            default: 2
           },
           {
             name: 'turns',
+            short: 't',
             description: 'Maximum number of combat turns',
             type: 'number',
             required: false,
-            defaultValue: 10
+            default: 10
           },
           {
             name: 'mode',
+            short: 'm',
             description: 'Combat mode (turn-based or real-time)',
             type: 'string',
             required: false,
-            defaultValue: 'turn-based'
+            default: 'turn-based',
+            choices: ['turn-based', 'real-time']
           }
         ],
         examples: [
-          'simulate-combat --participants 4 --turns 20',
-          'simulate-combat --mode real-time --participants 2'
+          {
+            command: 'simulate-combat --participants 4 --turns 20',
+            description: 'Simulate combat with 4 participants for 20 turns',
+            output: 'Combat simulation completed. Winner: Player 1'
+          },
+          {
+            command: 'simulate-combat --mode real-time --participants 2',
+            description: 'Simulate real-time combat with 2 participants',
+            output: 'Real-time combat simulation completed.'
+          }
         ]
       },
       {
         name: 'calculate-damage',
         description: 'Calculate damage for given parameters',
-        category: 'utility',
-        flags: [
+        usage: 'calculate-damage [options]',
+        aliases: ['calc', 'damage-calc'],
+        arguments: [],
+        options: [
           {
             name: 'base-damage',
+            short: 'b',
             description: 'Base damage value',
             type: 'number',
             required: true
           },
           {
             name: 'attack-stat',
+            short: 'a',
             description: 'Attacker attack stat',
             type: 'number',
             required: true
           },
           {
             name: 'defense-stat',
+            short: 'd',
             description: 'Defender defense stat',
             type: 'number',
             required: true
           },
           {
             name: 'critical',
+            short: 'c',
             description: 'Apply critical hit multiplier',
             type: 'boolean',
             required: false,
-            defaultValue: false
+            default: false
           }
         ],
         examples: [
-          'calculate-damage --base-damage 50 --attack-stat 100 --defense-stat 75',
-          'calculate-damage --base-damage 30 --attack-stat 80 --defense-stat 60 --critical'
+          {
+            command: 'calculate-damage --base-damage 50 --attack-stat 100 --defense-stat 75',
+            description: 'Calculate damage with standard parameters',
+            output: 'Calculated damage: 25'
+          },
+          {
+            command: 'calculate-damage --base-damage 30 --attack-stat 80 --defense-stat 60 --critical',
+            description: 'Calculate critical hit damage',
+            output: 'Calculated critical damage: 60'
+          }
         ]
       }
     ],
-    helpText: 'CombatCorePure provides comprehensive combat mechanics with damage calculation, status effects, and encounter management',
-    usageExamples: [
-      'miff combat simulate-combat --participants 4',
-      'miff combat calculate-damage --base-damage 50 --attack-stat 100 --defense-stat 75'
-    ]
+    globalOptions: [],
+    help: {
+      overview: 'CombatCorePure provides comprehensive combat mechanics with damage calculation, status effects, and encounter management',
+      gettingStarted: 'Use simulate-combat to test combat scenarios or calculate-damage for damage calculations',
+      tutorials: [],
+      faq: [],
+      troubleshooting: []
+    },
+    autocomplete: {
+      enabled: true,
+      commandCompletions: true,
+      optionCompletions: true,
+      argumentCompletions: true
+    }
   };
 
   readonly lifecycleHooks: LifecycleHooks = {
-    onStart: {
-      hookName: 'onCombatStart',
-      description: 'Initialize combat system and load combat data',
-      required: true,
-      async: true,
-      timeout: 3000
-    },
-    onUpdate: {
-      hookName: 'onCombatUpdate',
-      description: 'Process combat turns and update combat state',
-      required: true,
-      async: true,
-      timeout: 100
-    },
-    onDestroy: {
-      hookName: 'onCombatDestroy',
-      description: 'Clean up combat resources and save final state',
-      required: true,
-      async: true,
-      timeout: 2000
-    },
-    customHooks: [
+    initialization: [
       {
-        hookName: 'onCombatBegin',
-        description: 'Handle combat encounter start',
-        required: false,
+        id: 'combat-start',
+        name: 'Combat Start',
+        description: 'Initialize combat system and load combat data',
+        event: 'combat.start',
+        priority: 1,
         async: true,
-        timeout: 500
-      },
+        parameters: [
+          {
+            name: 'participants',
+            type: 'array',
+            required: true,
+            description: 'Combat participants'
+          }
+        ],
+        returnType: 'Promise<void>'
+      }
+    ],
+    runtime: [
       {
-        hookName: 'onTurnStart',
-        description: 'Handle start of combat turn',
-        required: false,
-        async: false,
-        timeout: 100
-      },
-      {
-        hookName: 'onActionExecuted',
-        description: 'Handle combat action execution',
-        required: false,
+        id: 'combat-update',
+        name: 'Combat Update',
+        description: 'Process combat turns and update combat state',
+        event: 'combat.update',
+        priority: 1,
         async: true,
-        timeout: 200
-      },
+        parameters: [
+          {
+            name: 'deltaTime',
+            type: 'number',
+            required: true,
+            description: 'Time since last update'
+          }
+        ],
+        returnType: 'Promise<void>'
+      }
+    ],
+    cleanup: [
       {
-        hookName: 'onCombatEnd',
-        description: 'Handle combat encounter completion',
-        required: false,
+        id: 'combat-destroy',
+        name: 'Combat Destroy',
+        description: 'Clean up combat resources and save final state',
+        event: 'combat.destroy',
+        priority: 1,
         async: true,
-        timeout: 1000
+        parameters: [],
+        returnType: 'Promise<void>'
+      }
+    ],
+    errorHandling: [
+      {
+        id: 'combat-error',
+        name: 'Combat Error',
+        description: 'Handle combat system errors',
+        event: 'combat.error',
+        priority: 1,
+        async: true,
+        parameters: [
+          {
+            name: 'error',
+            type: 'Error',
+            required: true,
+            description: 'Error object'
+          }
+        ],
+        returnType: 'Promise<void>'
       }
     ]
   };
@@ -372,83 +514,133 @@ export class CombatCoreCapable implements MIFFCapable {
       moduleId: 'SharedSchemaPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Shared schema definitions for combat data'
+      description: 'Shared schema definitions for combat data',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0', '1.1.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'StatsSystemPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Character statistics and attribute management'
+      description: 'Character statistics and attribute management',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0', '1.1.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'EffectsPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Status effects and buff/debuff management'
+      description: 'Status effects and buff/debuff management',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0', '1.1.0'],
+        knownIssues: []
+      }
     },
     {
       moduleId: 'RNGPure',
       version: '>=1.0.0',
       type: 'required',
-      description: 'Random number generation for combat calculations'
+      description: 'Random number generation for combat calculations',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0', '1.1.0'],
+        knownIssues: []
+      }
     }
   ];
 
   readonly performanceProfile: PerformanceProfile = {
-    memoryUsage: {
-      baseline: 15,
-      perOperation: 8,
-      peak: 200,
-      unit: 'MB'
+    memory: {
+      baseUsage: 15,
+      peakUsage: 200,
+      growthRate: 8,
+      garbageCollection: {
+        frequency: 10,
+        averageDuration: 5,
+        impact: 'low'
+      }
     },
-    cpuUsage: {
-      baseline: 5,
-      perOperation: 10,
-      peak: 75,
-      unit: 'percent'
+    cpu: {
+      baseUsage: 5,
+      peakUsage: 75,
+      averageUsage: 15,
+      intensiveOperations: ['damage-calculation', 'status-effect-processing']
     },
-    networkUsage: {
-      baseline: 0,
-      perOperation: 0,
-      peak: 0,
-      unit: 'KB/s'
+    io: {
+      readThroughput: 0,
+      writeThroughput: 0,
+      concurrentOperations: 0,
+      blockingOperations: []
     },
     scalability: {
-      maxConcurrentOperations: 50,
+      maxConcurrentUsers: 50,
       maxDataSize: 50,
-      recommendedLimits: {
-        'maxParticipants': 20,
-        'maxTurns': 100,
-        'maxStatusEffects': 50
-      }
+      performanceDegradation: [
+        {
+          threshold: 20,
+          degradation: 10,
+          description: 'Performance degrades with more than 20 participants'
+        }
+      ]
     }
   };
 
   readonly testingCapabilities: TestingCapabilities = {
-    unitTests: {
-      coverage: 95,
-      framework: 'jest',
-      mockingSupport: true,
-      asyncTestSupport: true
-    },
-    integrationTests: {
-      coverage: 90,
-      realDependencies: true,
-      mockDependencies: false,
-      endToEndSupport: true
-    },
-    performanceTests: {
-      benchmarkSupport: true,
-      loadTestSupport: true,
-      stressTestSupport: true,
-      profileSupport: true
-    },
-    goldenTests: {
-      inputOutputValidation: true,
-      deterministicBehavior: true,
-      regressionDetection: true,
-      snapshotTesting: true
-    }
+    testTypes: [
+      {
+        id: 'unit-tests',
+        name: 'Unit Tests',
+        description: 'Individual component testing',
+        framework: 'jest',
+        coverage: 95,
+        automated: true
+      },
+      {
+        id: 'integration-tests',
+        name: 'Integration Tests',
+        description: 'Multi-component interaction testing',
+        framework: 'jest',
+        coverage: 90,
+        automated: true
+      }
+    ],
+    testDataGeneration: [
+      {
+        id: 'combat-data',
+        name: 'Combat Test Data',
+        description: 'Generate combat scenarios for testing',
+        dataTypes: ['participants', 'actions', 'results'],
+        generationMethod: 'template',
+        customization: true
+      }
+    ],
+    mocking: [
+      {
+        id: 'combat-mocks',
+        name: 'Combat Mocks',
+        description: 'Mock combat dependencies for testing',
+        mockTypes: ['stats', 'effects', 'rng'],
+        isolationLevel: 'unit',
+        verification: true
+      }
+    ],
+    performanceTesting: [
+      {
+        id: 'combat-performance',
+        name: 'Combat Performance Tests',
+        description: 'Performance testing for combat operations',
+        metrics: ['latency', 'throughput', 'memory'],
+        loadPatterns: ['linear', 'burst', 'sustained'],
+        reporting: true
+      }
+    ]
   };
 
   // Capability validation methods
