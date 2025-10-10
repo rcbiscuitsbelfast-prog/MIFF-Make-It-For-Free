@@ -7,7 +7,7 @@
  * across the MIFF framework.
  */
 
-import { CapabilityDiscovery, DiscoveryResult } from './CapabilityDiscovery.js';
+import { CapabilityDiscovery, DiscoveryResult, DiscoveryStats } from './CapabilityDiscovery.js';
 import { CapabilityRegistryManager } from './CapabilityRegistry.js';
 import { EventBus } from '../EventBusPure/index.js';
 import * as fs from 'fs';
