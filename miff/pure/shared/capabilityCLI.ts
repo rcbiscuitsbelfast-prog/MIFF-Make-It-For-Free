@@ -128,7 +128,7 @@ class CapabilityCLI {
       console.log(`\n🔧 Operations (${capabilities.operations.length}):`);
       capabilities.operations.forEach(op => {
         console.log(`  ${op.name}: ${op.description}`);
-        console.log(`    Parameters: ${op.parameters.map(p => `${p.name}: ${p.type}`).join(', ')}`);
+        console.log(`    Input Schema: ${op.inputSchema.schemaId} v${op.inputSchema.version}`);
         console.log(`    Returns: ${op.returnType}`);
       });
     }

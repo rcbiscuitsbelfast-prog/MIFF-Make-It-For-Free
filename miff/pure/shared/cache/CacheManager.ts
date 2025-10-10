@@ -533,7 +533,7 @@ export class CacheManager {
       recommendations.push('Consider increasing TTL values or improving cache key strategy');
     }
     
-    if (metrics.memoryUsage > 90) {
+    if (metrics.memory > 90) {
       issues.push('High memory usage');
       recommendations.push('Reduce cache size or increase cleanup frequency');
     }
