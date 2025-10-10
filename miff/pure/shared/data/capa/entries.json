@@ -335,6 +335,155 @@
       "id": "CAPA-1760010038316-x8cyh8cho",
       "discoveredAt": "2025-10-09T11:40:38.316Z",
       "status": "open"
+    },
+    {
+      "title": "TypeScript Compilation Failures",
+      "description": "100+ TypeScript compilation errors preventing successful builds across multiple modules including schema interface mismatches and missing property implementations",
+      "category": "build_system",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [
+          "CombatCorePure",
+          "DialogueSystemPure",
+          "InventoryPure",
+          "IdleSystemPure",
+          "MagicSystemPure",
+          "NetworkBridgePure",
+          "QuestsPure",
+          "StatsSystemPure"
+        ],
+        "usersAffected": [
+          "All Contributors",
+          "All Users"
+        ],
+        "businessImpact": "Framework completely unusable - no builds possible, no deployment capability",
+        "technicalDebt": 10,
+        "riskLevel": "critical"
+      },
+      "tags": [
+        "typescript",
+        "compilation",
+        "build-system",
+        "critical"
+      ],
+      "relatedModules": [
+        "CombatCorePure",
+        "DialogueSystemPure",
+        "InventoryPure",
+        "IdleSystemPure",
+        "MagicSystemPure",
+        "NetworkBridgePure",
+        "QuestsPure",
+        "StatsSystemPure"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010040000-typescript-failures",
+      "discoveredAt": "2025-10-10T06:30:00.000Z",
+      "status": "open"
+    },
+    {
+      "title": "Test Suite Instability",
+      "description": "90 failed test suites (45% failure rate) and 116 failed tests with 170-second execution time indicating severe test instability and performance issues",
+      "category": "test_quality",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [
+          "All Test Suites"
+        ],
+        "usersAffected": [
+          "All Contributors"
+        ],
+        "businessImpact": "False test confidence, unreliable CI/CD, development workflow disruption",
+        "technicalDebt": 8,
+        "riskLevel": "high"
+      },
+      "tags": [
+        "testing",
+        "instability",
+        "performance",
+        "ci-cd"
+      ],
+      "relatedModules": [
+        "All Test Suites"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010040001-test-instability",
+      "discoveredAt": "2025-10-10T06:30:00.000Z",
+      "status": "open"
+    },
+    {
+      "title": "Documentation Crisis",
+      "description": "Severely lacking documentation standards with only 0.7% JSDoc coverage (10 files out of 1,387), 120 TODO/FIXME comments, and inconsistent README quality",
+      "category": "documentation",
+      "severity": "high",
+      "impact": {
+        "modulesAffected": [
+          "All Modules"
+        ],
+        "usersAffected": [
+          "All Contributors",
+          "All Users"
+        ],
+        "businessImpact": "Poor developer experience, maintenance difficulties, contributor confusion",
+        "technicalDebt": 7,
+        "riskLevel": "high"
+      },
+      "tags": [
+        "documentation",
+        "jsdoc",
+        "readme",
+        "developer-experience"
+      ],
+      "relatedModules": [
+        "All Modules"
+      ],
+      "ciBlocking": false,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010040002-documentation-crisis",
+      "discoveredAt": "2025-10-10T06:30:00.000Z",
+      "status": "open"
+    },
+    {
+      "title": "Build System Complete Failure",
+      "description": "No successful builds possible due to TypeScript compilation errors, preventing bundle analysis, tree-shaking verification, and deployment capability",
+      "category": "build_system",
+      "severity": "critical",
+      "impact": {
+        "modulesAffected": [
+          "All Modules"
+        ],
+        "usersAffected": [
+          "All Contributors",
+          "All Users"
+        ],
+        "businessImpact": "No deployment capability, no production readiness, framework unusable",
+        "technicalDebt": 10,
+        "riskLevel": "critical"
+      },
+      "tags": [
+        "build-system",
+        "deployment",
+        "production",
+        "critical"
+      ],
+      "relatedModules": [
+        "All Modules"
+      ],
+      "ciBlocking": true,
+      "prRequired": true,
+      "correctiveActions": [],
+      "preventiveActions": [],
+      "id": "CAPA-1760010040003-build-failure",
+      "discoveredAt": "2025-10-10T06:30:00.000Z",
+      "status": "open"
     }
   ]
 }
