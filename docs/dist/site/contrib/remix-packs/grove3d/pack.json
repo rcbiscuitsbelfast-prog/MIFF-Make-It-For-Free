@@ -1,6 +1,0 @@
-{
-  "zone": "grove3d",
-  "maps": ["../../maps/grove3d.json"],
-  "tiles": ["grass_01","grass_02","path_stone","mystic_stone"],
-  "docs": ["../../../docs/MAP_BUILDER_ONBOARDING.md"]
-}

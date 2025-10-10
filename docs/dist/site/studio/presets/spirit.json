@@ -1,8 +1,0 @@
-{
-  "version": 1,
-  "zone": "spirit",
-  "entities": [
-    { "id": "spirit_npc", "name": "Spirit", "type": "sprite", "src": "../../assets/Slime_Green.png", "x": 150, "y": 150, "w": 48, "h": 48 },
-    { "id": "portrait", "name": "Portrait", "type": "sprite", "src": "../../assets/KayKitAssets/knight_texture.png", "x": 460, "y": 280, "w": 120, "h": 120 }
-  ]
-}

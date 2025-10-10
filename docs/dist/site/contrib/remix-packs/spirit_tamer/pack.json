@@ -1,6 +1,0 @@
-{
-  "zone": "spirit_tamer",
-  "dialogue": ["../../dialogue/samples/herbalist_dialogue.json"],
-  "orchestration": ["../../zones/spirit_tamer/orchestration.json"],
-  "docs": ["../../../docs/MAP_BUILDER_ONBOARDING.md"]
-}

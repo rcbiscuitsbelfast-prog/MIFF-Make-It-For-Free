@@ -1,7 +1,0 @@
-{
-  "id": "mystic_stone",
-  "src": "../../../assets/Isometric Blocks/isometric_0091.png",
-  "tags": ["trigger", "lore", "quest"],
-  "biome": ["grove"],
-  "attribution": "KayKit / CC0"
-}
