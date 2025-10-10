@@ -90,8 +90,8 @@ export interface FrameMetadata {
   frameRate: number;
   deltaTime: number;
   performance: {
-    cpuUsage: number;
-    memoryUsage: number;
+    cpu: number;
+    memory: number;
     renderTime: number;
   };
   debug: {
@@ -435,11 +435,11 @@ function calculateReplayStatistics(session: ReplaySession, frames: ReplayFrame[]
   
   // Performance metrics - filter out undefined values and provide defaults
   const cpuUsage = frames
-    .map(f => f.metadata?.performance?.cpuUsage)
+    .map(f => f.metadata?.performance?.cpu)
     .filter((cpu): cpu is number => cpu !== undefined && cpu > 0);
   
   const memoryUsage = frames
-    .map(f => f.metadata?.performance?.memoryUsage)
+    .map(f => f.metadata?.performance?.memory)
     .filter((mem): mem is number => mem !== undefined && mem > 0);
   
   const renderTimes = frames
@@ -601,26 +601,26 @@ function analyzePerformanceBottlenecks(frames: ReplayFrame[]): PerformanceBottle
     const { performance } = frame.metadata;
     
     // CPU bottleneck
-    if (performance.cpuUsage > 80) {
+    if (performance.cpu > 80) {
       bottlenecks.push({
         frameNumber: frame.frameNumber,
         timestamp: frame.timestamp,
         type: 'cpu',
-        severity: performance.cpuUsage > 95 ? 'critical' : performance.cpuUsage > 90 ? 'high' : 'medium',
-        description: `High CPU usage: ${performance.cpuUsage.toFixed(1)}%`,
-        metrics: { cpuUsage: performance.cpuUsage }
+        severity: performance.cpu > 95 ? 'critical' : performance.cpu > 90 ? 'high' : 'medium',
+        description: `High CPU usage: ${performance.cpu.toFixed(1)}%`,
+        metrics: { cpu: performance.cpu }
       });
     }
     
     // Memory bottleneck
-    if (performance.memoryUsage > 1000) { // MB
+    if (performance.memory > 1000) { // MB
       bottlenecks.push({
         frameNumber: frame.frameNumber,
         timestamp: frame.timestamp,
         type: 'memory',
-        severity: performance.memoryUsage > 2000 ? 'critical' : performance.memoryUsage > 1500 ? 'high' : 'medium',
-        description: `High memory usage: ${performance.memoryUsage.toFixed(1)} MB`,
-        metrics: { memoryUsage: performance.memoryUsage }
+        severity: performance.memory > 2000 ? 'critical' : performance.memory > 1500 ? 'high' : 'medium',
+        description: `High memory usage: ${performance.memory.toFixed(1)} MB`,
+        metrics: { memory: performance.memory }
       });
     }
     
@@ -712,7 +712,7 @@ function generateRecommendations(session: ReplaySession, frames: ReplayFrame[]):
   }
   
   // Memory recommendations
-  const avgMemory = frames.reduce((sum, frame) => sum + frame.metadata.performance.memoryUsage, 0) / frames.length;
+  const avgMemory = frames.reduce((sum, frame) => sum + frame.metadata.performance.memory, 0) / frames.length;
   if (avgMemory > 1000) {
     recommendations.push('High memory usage detected - consider asset pooling or memory management optimization');
   }
@@ -806,7 +806,7 @@ function findPerformanceDrops(frames: ReplayFrame[]): Array<{ frameNumber: numbe
     const currFrame = frames[i];
     
     // Check CPU usage drop
-    const cpuDrop = ((prevFrame.metadata.performance.cpuUsage - currFrame.metadata.performance.cpuUsage) / prevFrame.metadata.performance.cpuUsage) * 100;
+    const cpuDrop = ((prevFrame.metadata.performance.cpu - currFrame.metadata.performance.cpu) / prevFrame.metadata.performance.cpu) * 100;
     if (cpuDrop > 15) {
       drops.push({
         frameNumber: currFrame.frameNumber,
@@ -868,9 +868,9 @@ function generateCSVExport(replay: ReplayResult): string {
   replay.frames.forEach(frame => {
     const inputCount = replay.session.inputStream.filter(e => e.frameNumber === frame.frameNumber).length;
     const visualCount = frame.visualHooks.length;
-    const { cpuUsage, memoryUsage, renderTime } = frame.metadata.performance;
+    const { cpu, memory, renderTime } = frame.metadata.performance;
     
-    csv += `${frame.frameNumber},${frame.timestamp},${inputCount},${visualCount},${cpuUsage},${memoryUsage},${renderTime}\n`;
+    csv += `${frame.frameNumber},${frame.timestamp},${inputCount},${visualCount},${cpu},${memory},${renderTime}\n`;
   });
   
   return csv;

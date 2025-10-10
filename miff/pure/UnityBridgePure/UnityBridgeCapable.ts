@@ -123,7 +123,7 @@ export class UnityBridgeCapable implements MIFFCapable {
           cpu: 50,
           disk: 10,
           network: 0,
-          dependencies: ['UnityEngine', 'UnitySceneManagement']
+          dependencies: ['UnityEngine']
         }
       },
       {
@@ -141,7 +141,7 @@ export class UnityBridgeCapable implements MIFFCapable {
           cpu: 25,
           disk: 5,
           network: 0,
-          dependencies: ['UnityEngine', 'UnitySceneManagement']
+          dependencies: ['UnityEngine']
         }
       },
       {
@@ -177,7 +177,7 @@ export class UnityBridgeCapable implements MIFFCapable {
           cpu: 200,
           disk: 50,
           network: 0,
-          dependencies: ['UnityEngine', 'UnityRendering']
+          dependencies: ['UnityEngine']
         }
       }
     ],
@@ -186,8 +186,8 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'transform_data',
         name: 'Transform Data Processing',
         description: 'Process and transform Unity data between different formats',
-        inputTypes: ['Vector3', 'Quaternion', 'Matrix4x4'],
-        outputTypes: ['JSON', 'XML', 'Binary'],
+        inputTypes: ['Vector3', 'Matrix4x4'],
+        outputTypes: ['JSON', 'Binary'],
         processingType: 'transform',
         batchSupported: true,
         streamingSupported: false,
@@ -197,8 +197,8 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'scene_validation',
         name: 'Scene Validation',
         description: 'Validate Unity scene data and structure',
-        inputTypes: ['SceneData', 'GameObjectData'],
-        outputTypes: ['ValidationResult', 'ErrorReport'],
+        inputTypes: ['SceneData'],
+        outputTypes: ['ValidationResult'],
         processingType: 'validate',
         batchSupported: true,
         streamingSupported: false,
@@ -208,8 +208,8 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'component_serialization',
         name: 'Component Serialization',
         description: 'Serialize and deserialize Unity components',
-        inputTypes: ['ComponentData', 'SerializedObject'],
-        outputTypes: ['JSON', 'Binary', 'XML'],
+        inputTypes: ['ComponentData'],
+        outputTypes: ['JSON', 'XML'],
         processingType: 'convert',
         batchSupported: true,
         streamingSupported: false,
@@ -223,7 +223,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         description: 'Direct integration with Unity Engine runtime',
         targetSystem: 'Unity Engine',
         integrationType: 'bridge',
-        protocols: ['Native', 'JNI', 'P/Invoke'],
+        protocols: ['Native', 'P/Invoke'],
         authenticationRequired: false,
         rateLimits: {
           requests: 1000,
@@ -237,7 +237,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         description: 'Integration with Unity Editor for development tools',
         targetSystem: 'Unity Editor',
         integrationType: 'bridge',
-        protocols: ['EditorAPI', 'ScriptableObject'],
+        protocols: ['EditorAPI'],
         authenticationRequired: false,
         rateLimits: {
           requests: 500,
@@ -251,7 +251,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         description: 'Integration with other MIFF framework modules',
         targetSystem: 'MIFF Framework',
         integrationType: 'adapter',
-        protocols: ['EventBus', 'MessagePassing'],
+        protocols: ['EventBus'],
         authenticationRequired: false,
         rateLimits: {
           requests: 10000,
@@ -307,7 +307,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'lifecycle_events',
         name: 'Lifecycle Events',
         description: 'Real-time Unity lifecycle event handling',
-        eventTypes: ['awake', 'start', 'update', 'destroy'],
+        eventTypes: ['awake', 'update'],
         subscriptionModel: 'push',
         maxConnections: 1000,
         latencyTarget: 16 // 60 FPS
@@ -316,7 +316,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'transform_updates',
         name: 'Transform Updates',
         description: 'Real-time GameObject transform updates',
-        eventTypes: ['position_changed', 'rotation_changed', 'scale_changed'],
+        eventTypes: ['position_changed', 'scale_changed'],
         subscriptionModel: 'push',
         maxConnections: 5000,
         latencyTarget: 33 // 30 FPS
@@ -325,7 +325,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'component_events',
         name: 'Component Events',
         description: 'Real-time component state changes',
-        eventTypes: ['component_added', 'component_removed', 'component_updated'],
+        eventTypes: ['component_added', 'component_updated'],
         subscriptionModel: 'push',
         maxConnections: 2000,
         latencyTarget: 50
@@ -416,7 +416,7 @@ export class UnityBridgeCapable implements MIFFCapable {
           executionTime: { type: 'number' },
           errors: { type: 'array', items: { type: 'string' } }
         },
-        required: ['success', 'gameObjectId']
+        required: ['success']
       },
       validationRules: [],
       examples: [
@@ -441,7 +441,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         name: 'create',
         description: 'Create Unity objects (GameObjects, Components, Scenes)',
         usage: 'create <type> [options]',
-        aliases: ['c', 'new'],
+        aliases: ['c'],
         options: [
           {
             name: 'name',
@@ -485,11 +485,11 @@ export class UnityBridgeCapable implements MIFFCapable {
         examples: [
           {
             command: 'create gameobject --name "Player" --layer 8',
-            description: 'Create a GameObject named Player on layer 8'
+            description: 'Example command 1'
           },
           {
             command: 'create component --name "Rigidbody" --gameobject "Player"',
-            description: 'Add Rigidbody component to Player GameObject'
+            description: 'Example command 2'
           }
         ]
       },
@@ -497,7 +497,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         name: 'destroy',
         description: 'Destroy Unity objects',
         usage: 'destroy <type> <id> [options]',
-        aliases: ['d', 'delete', 'remove'],
+        aliases: ['d', 'remove'],
         options: [
           {
             name: 'force',
@@ -528,7 +528,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         examples: [
           {
             command: 'destroy gameobject go_1234567890_abcdef',
-            description: 'Destroy GameObject with specified ID'
+            description: 'Example command'
           }
         ]
       },
@@ -536,7 +536,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         name: 'simulate',
         description: 'Simulate Unity operations for testing',
         usage: 'simulate <operation> [options]',
-        aliases: ['sim', 'test'],
+        aliases: ['sim'],
         options: [
           {
             name: 'duration',
@@ -568,7 +568,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         examples: [
           {
             command: 'simulate create --duration 5000 --iterations 100',
-            description: 'Simulate 100 GameObject creations over 5 seconds'
+            description: 'Example command'
           }
         ]
       }
@@ -589,7 +589,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         type: 'string',
         required: false,
         default: 'json',
-        choices: ['json', 'yaml', 'xml', 'text']
+        choices: ['json', 'xml']
       },
       {
         name: 'config',
@@ -630,27 +630,27 @@ export class UnityBridgeCapable implements MIFFCapable {
         {
           question: 'How do I create a GameObject with a specific layer?',
           answer: 'Use the --layer option with the create command: create gameobject --name "MyObject" --layer 8',
-          tags: ['gameobject', 'layer', 'creation']
+          tags: ['gameobject', 'creation']
         },
         {
           question: 'Can I simulate Unity operations without Unity running?',
           answer: 'Yes, use the simulate command to test operations without requiring Unity Engine',
-          tags: ['simulation', 'testing', 'development']
+          tags: ['simulation', 'development']
         }
       ],
       troubleshooting: [
         {
           problem: 'GameObject creation fails',
-          symptoms: ['Error: Invalid GameObject name', 'Error: Layer out of range'],
+          symptoms: ['Error: Invalid GameObject name'],
           solutions: [
             {
               description: 'Check GameObject name is valid and not empty',
-              steps: ['Ensure name is provided', 'Check for invalid characters', 'Verify name length'],
+              steps: ['Ensure name is provided', 'Verify name length'],
               verification: 'Run create command with --verbose flag'
             },
             {
               description: 'Verify layer is within valid range (0-31)',
-              steps: ['Check layer value', 'Use --layer option to specify', 'Ensure layer exists in Unity'],
+              steps: ['Check layer value', 'Ensure layer exists in Unity'],
               verification: 'Check Unity layer settings'
             }
           ]
@@ -665,17 +665,17 @@ export class UnityBridgeCapable implements MIFFCapable {
       customCompletions: [
         {
           context: 'create type',
-          values: ['gameobject', 'component', 'scene'],
+          values: ['gameobject', 'scene'],
           dynamic: false
         },
         {
           context: 'destroy type',
-          values: ['gameobject', 'component', 'scene'],
+          values: ['gameobject', 'scene'],
           dynamic: false
         },
         {
           context: 'simulate operation',
-          values: ['create', 'destroy', 'update', 'render'],
+          values: ['create', 'update'],
           dynamic: false
         }
       ]
@@ -777,8 +777,7 @@ export class UnityBridgeCapable implements MIFFCapable {
       description: 'Event bus for inter-module communication',
       compatibility: {
         minVersion: '1.0.0',
-        maxVersion: '2.0.0',
-        testedVersions: ['1.0.0', '1.1.0'],
+        testedVersions: ['1.0.0'],
         knownIssues: []
       }
     },
@@ -789,7 +788,6 @@ export class UnityBridgeCapable implements MIFFCapable {
       description: 'Schema validation for bridge operations',
       compatibility: {
         minVersion: '1.0.0',
-        maxVersion: '1.5.0',
         testedVersions: ['1.0.0'],
         knownIssues: []
       }
@@ -811,14 +809,12 @@ export class UnityBridgeCapable implements MIFFCapable {
       baseUsage: 5, // percentage
       peakUsage: 25, // percentage
       averageUsage: 10, // percentage
-      intensiveOperations: ['render_unity', 'load_scene', 'simulate_unity']
+      intensiveOperations: ['render_unity', 'simulate_unity']
     },
     io: {
       readThroughput: 100, // MB/s
       writeThroughput: 50, // MB/s
-      concurrentOperations: 10,
-      blockingOperations: ['load_scene', 'unload_scene']
-    },
+      concurrentOperations: 10, blockingOperations: []},
     scalability: {
       maxConcurrentUsers: 100,
       maxDataSize: 1000, // MB
@@ -869,7 +865,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'gameobject_data',
         name: 'GameObject Test Data',
         description: 'Generate test data for GameObject operations',
-        dataTypes: ['GameObjectInput', 'GameObjectOutput'],
+        dataTypes: ['GameObject', 'Transform', 'Component'],
         generationMethod: 'realistic',
         customization: true
       },
@@ -877,7 +873,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'transform_data',
         name: 'Transform Test Data',
         description: 'Generate transform data for testing',
-        dataTypes: ['Vector3', 'Quaternion', 'Matrix4x4'],
+        dataTypes: ['Transform', 'Vector3', 'Quaternion'],
         generationMethod: 'random',
         customization: true
       }
@@ -887,7 +883,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'unity_engine_mock',
         name: 'Unity Engine Mock',
         description: 'Mock Unity Engine API calls',
-        mockTypes: ['GameObject', 'Transform', 'Component'],
+        mockTypes: ['GameObject', 'Component'],
         isolationLevel: 'unit',
         verification: true
       },
@@ -895,7 +891,7 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'bridge_mock',
         name: 'Bridge Mock',
         description: 'Mock bridge communication',
-        mockTypes: ['MessagePassing', 'EventBus'],
+        mockTypes: ['MessagePassing'],
         isolationLevel: 'integration',
         verification: true
       }
@@ -905,16 +901,16 @@ export class UnityBridgeCapable implements MIFFCapable {
         id: 'memory_profiling',
         name: 'Memory Profiling',
         description: 'Profile memory usage and leaks',
-        metrics: ['heap_size', 'gc_frequency', 'memory_growth'],
-        loadPatterns: ['sustained', 'burst', 'gradual'],
+        metrics: ['heap_size', 'memory_growth'],
+        loadPatterns: ['sustained', 'gradual'],
         reporting: true
       },
       {
         id: 'cpu_profiling',
         name: 'CPU Profiling',
         description: 'Profile CPU usage and performance',
-        metrics: ['cpu_usage', 'execution_time', 'throughput'],
-        loadPatterns: ['sustained', 'burst', 'gradual'],
+        metrics: ['cpu_usage', 'throughput'],
+        loadPatterns: ['sustained', 'gradual'],
         reporting: true
       }
     ]

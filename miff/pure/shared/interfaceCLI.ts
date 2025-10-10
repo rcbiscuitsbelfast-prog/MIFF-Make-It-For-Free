@@ -271,7 +271,7 @@ class InterfaceCLI {
     
     if (result.missingMethods.length > 0) {
       markdown += `### Missing Methods\n`;
-      result.missingMethods.forEach(method => {
+      result.missingMethods.forEach((method: string) => {
         markdown += `- \`${method}\`\n`;
       });
       markdown += `\n`;
@@ -279,7 +279,7 @@ class InterfaceCLI {
     
     if (result.missingProperties.length > 0) {
       markdown += `### Missing Properties\n`;
-      result.missingProperties.forEach(prop => {
+      result.missingProperties.forEach((prop: string) => {
         markdown += `- \`${prop}\`\n`;
       });
       markdown += `\n`;
@@ -287,7 +287,7 @@ class InterfaceCLI {
     
     if (result.missingEvents.length > 0) {
       markdown += `### Missing Events\n`;
-      result.missingEvents.forEach(event => {
+      result.missingEvents.forEach((event: string) => {
         markdown += `- \`${event}\`\n`;
       });
       markdown += `\n`;

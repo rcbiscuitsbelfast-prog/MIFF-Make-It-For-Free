@@ -1,0 +1,176 @@
+/* MIFF Unified Theme System */
+/* This file contains the extracted color palette and styling system for consistent theming across all MIFF pages */
+
+:root {
+    /* MIFF Brand Colors */
+    --miff-primary: #00ff88;
+    --miff-secondary: #00cc66;
+    --miff-accent: #00ff88;
+    --miff-glow: 0 0 20px rgba(0, 255, 136, 0.3);
+    
+    /* Light Theme */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-card: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+    --border-color: #dee2e6;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] {
+    /* Dark Theme */
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #1a1a1f;
+    --bg-card: #1e1e2a;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b8b8;
+    --text-muted: #888888;
+    --border-color: #2a2a36;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --miff-glow: 0 0 20px rgba(0, 255, 136, 0.4);
+}
+
+/* Typography System */
+.miff-font {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+}
+
+.miff-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--miff-primary);
+    text-shadow: var(--miff-glow);
+}
+
+.miff-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+.miff-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* Component System */
+.miff-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.miff-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.miff-button {
+    background: var(--miff-primary);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--miff-font);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.miff-button:hover {
+    background: var(--miff-secondary);
+    box-shadow: var(--miff-glow);
+    transform: translateY(-1px);
+}
+
+.miff-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.miff-nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.miff-nav a:hover {
+    color: var(--miff-primary);
+}
+
+/* Layout System */
+.miff-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.miff-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.miff-section {
+    padding: 4rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .miff-title {
+        font-size: 2rem;
+    }
+    
+    .miff-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .miff-container {
+        padding: 0 1rem;
+    }
+    
+    .miff-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation System */
+@keyframes miff-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes miff-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.miff-animate-fade-in {
+    animation: miff-fade-in 0.6s ease-out;
+}
+
+.miff-animate-pulse {
+    animation: miff-pulse 2s ease-in-out infinite;
+}

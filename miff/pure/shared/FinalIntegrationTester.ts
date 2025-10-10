@@ -55,8 +55,8 @@ export interface TestResult {
 
 export interface TestMetrics {
   responseTime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   networkLatency: number;
   errorRate: number;
   throughput: number;
@@ -107,8 +107,8 @@ export interface PerformanceTestResults {
   percentile99ResponseTime: number;
   throughput: number;
   errorRate: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
 }
 
 export interface SecurityTest {
@@ -325,11 +325,13 @@ export class FinalIntegrationTester {
     const criticalIssues: string[] = [];
     
     // Check for failed tests
-    const failedTests = allTestSuites.filter(ts => ts.status === 'failed')
-                      .concat(allIntegrationTests.filter(it => it.status === 'failed'))
-                      .concat(allPerformanceTests.filter(pt => pt.status === 'failed'))
-                      .concat(allSecurityTests.filter(st => st.status === 'failed'))
-                      .concat(allUserAcceptanceTests.filter(uat => uat.status === 'failed'));
+    const failedTests = [
+      ...allTestSuites.filter(ts => ts.status === 'failed'),
+      ...allIntegrationTests.filter(it => it.status === 'failed'),
+      ...allPerformanceTests.filter(pt => pt.status === 'failed'),
+      ...allSecurityTests.filter(st => st.status === 'failed'),
+      ...allUserAcceptanceTests.filter(uat => uat.status === 'failed')
+    ];
     
     for (const test of failedTests) {
       criticalIssues.push(`${test.name}: ${test.status}`);
@@ -521,8 +523,8 @@ export class FinalIntegrationTester {
         percentile99ResponseTime: Math.random() * 1200 + 300,
         throughput: Math.random() * 1000 + 500,
         errorRate: Math.random() * 5,
-        memoryUsage: Math.random() * 1000 + 500,
-        cpuUsage: Math.random() * 80 + 20
+        memory: Math.random() * 1000 + 500,
+        cpu: Math.random() * 80 + 20
       };
       
       performanceTest.status = 'passed';
@@ -712,8 +714,8 @@ export class FinalIntegrationTester {
           percentile99ResponseTime: 0,
           throughput: 0,
           errorRate: 0,
-          memoryUsage: 0,
-          cpuUsage: 0
+          memory: 0,
+          cpu: 0
         },
         status: 'pending',
         duration: 0

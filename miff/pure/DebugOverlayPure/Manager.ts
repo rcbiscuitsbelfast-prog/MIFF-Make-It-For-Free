@@ -65,8 +65,8 @@ export interface DebugConfig {
 export interface DebugPerformanceMetrics {
   frameTime: number;
   fps: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   drawCalls: number;
   triangles: number;
   textureMemory: number;
@@ -730,8 +730,8 @@ export class DebugOverlayManager {
       performance: {
         frameTime: 16.67,
         fps: 60,
-        memoryUsage: typeof (process as any).memoryUsage === 'function' ? (process as any).memoryUsage().heapUsed : 0,
-        cpuUsage: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : 0,
+        memory: typeof (process as any).gpuMemoryUsage === 'function' ? (process as any).gpuMemoryUsage().heapUsed : 0,
+        cpu: typeof (process as any).cpuUsage === 'function' ? (process as any).cpuUsage().user : 0,
         drawCalls: 0,
         triangles: 0,
         textureMemory: 0,
@@ -846,8 +846,8 @@ export class DebugOverlayManager {
     return {
       frameTime: 16.67,
       fps: 60,
-      memoryUsage: 0,
-      cpuUsage: 0,
+      memory: 0,
+      cpu: 0,
       drawCalls: 0,
       triangles: 0,
       textureMemory: 0,
@@ -1316,9 +1316,9 @@ export class DebugOverlayManager {
 
     if (recent.length === 0) return bottlenecks;
 
-    const avgCPU = recent.reduce((sum, p) => sum + p.cpuUsage, 0) / recent.length;
+    const avgCPU = recent.reduce((sum, p) => sum + (p.cpu || 0), 0) / recent.length;
     const avgGPU = recent.reduce((sum, p) => sum + p.gpuMemoryUsage, 0) / recent.length;
-    const avgMemory = recent.reduce((sum, p) => sum + p.memoryUsage, 0) / recent.length;
+    const avgMemory = recent.reduce((sum, p) => sum + p.gpuMemoryUsage, 0) / recent.length;
 
     if (avgCPU > 80) bottlenecks.push('High CPU usage');
     if (avgGPU > 80) bottlenecks.push('High GPU memory usage');

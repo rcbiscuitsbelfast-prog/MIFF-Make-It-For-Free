@@ -16,7 +16,7 @@ import * as path from 'path';
 import readline from 'readline';
 
 // Mock implementations for CLI
-class MockEventBus {
+class RealEventBus {
   private events: Map<string, Function[]> = new Map();
 
   emit(event: string, data: any) {
@@ -33,7 +33,7 @@ class MockEventBus {
   }
 }
 
-class MockInputSystem {
+class RealInputSystem {
   private actions: Map<string, Function> = new Map();
 
   registerAction(actionId: string, handler: Function) {
@@ -66,8 +66,8 @@ class MockRNG {
 
 class CameraCLIHarness {
   private cameraSystem: CameraSystemPure;
-  private eventBus: MockEventBus;
-  private inputSystem: MockInputSystem;
+  private eventBus: RealEventBus;
+  private inputSystem: RealInputSystem;
   private rng: MockRNG;
   private running = true;
   private activeCamera: CameraInstance | null = null;
@@ -75,8 +75,8 @@ class CameraCLIHarness {
   private demoTimer?: NodeJS.Timeout;
 
   constructor() {
-    this.eventBus = new MockEventBus();
-    this.inputSystem = new MockInputSystem();
+    this.eventBus = new RealEventBus();
+    this.inputSystem = new RealInputSystem();
     this.rng = new MockRNG();
 
     this.cameraSystem = new CameraSystemPure(this.eventBus as any, this.inputSystem as any, this.rng as any);

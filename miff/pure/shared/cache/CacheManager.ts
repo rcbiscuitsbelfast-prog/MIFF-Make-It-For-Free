@@ -439,7 +439,7 @@ export class CacheManager {
     missRate: number;
     averageAccessTime: number;
     cacheEfficiency: number;
-    memoryUsage: number;
+    memory: number;
     entryDistribution: Record<string, number>;
   } {
     const totalAccesses = this.stats.hits + this.stats.misses;
@@ -471,7 +471,7 @@ export class CacheManager {
       missRate,
       averageAccessTime,
       cacheEfficiency,
-      memoryUsage: memoryUsage * 100,
+      memory: memoryUsage * 100,
       entryDistribution
     };
   }
@@ -493,7 +493,7 @@ export class CacheManager {
     }
     
     // If memory usage is high, be more aggressive with cleanup
-    if (metrics.memoryUsage > 80) {
+    if (metrics.memory > 80) {
       this.log('High memory usage detected, performing aggressive cleanup');
       this.performCleanup();
     }
@@ -533,7 +533,7 @@ export class CacheManager {
       recommendations.push('Consider increasing TTL values or improving cache key strategy');
     }
     
-    if (metrics.memoryUsage > 90) {
+    if (metrics.memory > 90) {
       issues.push('High memory usage');
       recommendations.push('Reduce cache size or increase cleanup frequency');
     }

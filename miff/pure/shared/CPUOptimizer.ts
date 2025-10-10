@@ -33,7 +33,7 @@ export interface CPUMetrics {
   usage: number; // percentage
   loadAverage: number[];
   processCount: number;
-  memoryUsage: number; // MB
+  memory: number; // MB
   responseTime: number; // milliseconds
   throughput: number; // operations per second
 }
@@ -155,7 +155,7 @@ export class CPUOptimizer {
       usage,
       loadAverage,
       processCount: this.getProcessCount(),
-      memoryUsage,
+      memory: memoryUsage,
       responseTime,
       throughput
     };
@@ -512,7 +512,7 @@ export class CPUOptimizer {
 
   private calculateImprovement(before: CPUMetrics, after: CPUMetrics): number {
     const cpuImprovement = ((before.usage - after.usage) / before.usage) * 100;
-    const memoryImprovement = ((before.memoryUsage - after.memoryUsage) / before.memoryUsage) * 100;
+    const memoryImprovement = ((before.memory - after.memory) / before.memory) * 100;
     const responseTimeImprovement = ((before.responseTime - after.responseTime) / before.responseTime) * 100;
     
     return (cpuImprovement + memoryImprovement + responseTimeImprovement) / 3;

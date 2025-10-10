@@ -184,7 +184,7 @@ export class CombatCapable implements MIFFCapable {
             target: { type: 'string' },
             damage: { type: 'number' }
           },
-          required: ['type', 'target']
+          required: ['type']
         },
         validationRules: [
           {
@@ -217,14 +217,14 @@ export class CombatCapable implements MIFFCapable {
             duration: { type: 'number' },
             participants: { type: 'array' }
           },
-          required: ['winner', 'duration']
+          required: ['winner']
         },
         validationRules: [],
         examples: [
           {
             name: 'Victory Result',
             description: 'Player victory result',
-            data: { winner: 'player', duration: 30000, participants: ['player', 'enemy1'] },
+            data: { winner: 'player', duration: 30000, participants: ['player'] },
             valid: true
           }
         ]
@@ -266,11 +266,11 @@ export class CombatCapable implements MIFFCapable {
             }
           ],
           examples: [
-            {
-              command: 'combat start --mode turn-based --participants 2',
-              description: 'Start a 2-player turn-based combat'
-            }
-          ]
+          {
+            command: 'combat start --mode turn-based --participants 2',
+            description: 'Example command'
+          }
+        ]
         }
       ],
       globalOptions: [
@@ -304,17 +304,17 @@ export class CombatCapable implements MIFFCapable {
           {
             question: 'How do I add more participants?',
             answer: 'Use the --participants flag with the start command',
-            tags: ['participants', 'setup']
+            tags: ['participants']
           }
         ],
         troubleshooting: [
           {
             problem: 'Combat not starting',
-            symptoms: ['Error on start command', 'No participants found'],
+            symptoms: ['Error on start command'],
             solutions: [
               {
                 description: 'Check participant count',
-                steps: ['Verify --participants is set', 'Ensure count is > 0'],
+                steps: ['Verify --participants is set'],
                 verification: 'Run combat start --participants 2'
               }
             ]
@@ -329,7 +329,7 @@ export class CombatCapable implements MIFFCapable {
         customCompletions: [
           {
             context: 'combat-mode',
-            values: ['turn-based', 'real-time'],
+            values: ['turn-based'],
             dynamic: false
           }
         ]
@@ -400,36 +400,36 @@ export class CombatCapable implements MIFFCapable {
     return [
       {
         moduleId: 'HealthSystemPure',
-        version: '1.0.0',
-        type: 'required',
-        description: 'Health system for damage application',
-        compatibility: {
-          minVersion: '1.0.0',
-          testedVersions: ['1.0.0'],
-          knownIssues: []
-        }
+      version: '1.0.0',
+      type: 'required',
+      description: 'Health system for damage application',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
+        knownIssues: []
+      }
       },
       {
         moduleId: 'StatsSystemPure',
-        version: '1.0.0',
-        type: 'required',
-        description: 'Stats system for combat calculations',
-        compatibility: {
-          minVersion: '1.0.0',
-          testedVersions: ['1.0.0'],
-          knownIssues: []
-        }
+      version: '1.0.0',
+      type: 'required',
+      description: 'Stats system for combat calculations',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
+        knownIssues: []
+      }
       },
       {
         moduleId: 'TeamsPure',
-        version: '1.0.0',
-        type: 'required',
-        description: 'Teams system for team-based combat',
-        compatibility: {
-          minVersion: '1.0.0',
-          testedVersions: ['1.0.0'],
-          knownIssues: []
-        }
+      version: '1.0.0',
+      type: 'required',
+      description: 'Teams system for team-based combat',
+      compatibility: {
+        minVersion: '1.0.0',
+        testedVersions: ['1.0.0'],
+        knownIssues: []
+      }
       }
     ];
   }
@@ -449,14 +449,14 @@ export class CombatCapable implements MIFFCapable {
       cpu: {
         baseUsage: 10,
         peakUsage: 80,
-        averageUsage: 30,
-        intensiveOperations: ['damage_calculation', 'ai_decision']
+        averageUsage: 45,
+        intensiveOperations: ['combat_calculations']
       },
       io: {
         readThroughput: 100,
         writeThroughput: 50,
         concurrentOperations: 10,
-        blockingOperations: ['save_game_state']
+        blockingOperations: []
       },
       scalability: {
         maxConcurrentUsers: 100,
@@ -497,7 +497,7 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-data',
           name: 'Combat Test Data',
           description: 'Generate combat scenario test data',
-          dataTypes: ['CombatAction', 'CombatResult', 'Combatant'],
+          dataTypes: ['combat_scenario', 'damage_calculation', 'status_effect'],
           generationMethod: 'template',
           customization: true
         }
@@ -507,7 +507,7 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-mocks',
           name: 'Combat Mocks',
           description: 'Mock combat system components',
-          mockTypes: ['HealthSystem', 'StatsSystem', 'TeamsSystem'],
+          mockTypes: ['HealthSystem', 'TeamsSystem'],
           isolationLevel: 'unit',
           verification: true
         }
@@ -517,8 +517,8 @@ export class CombatCapable implements MIFFCapable {
           id: 'combat-performance',
           name: 'Combat Performance Tests',
           description: 'Performance testing for combat operations',
-          metrics: ['response_time', 'throughput', 'memory_usage'],
-          loadPatterns: ['linear', 'spike', 'sustained'],
+          metrics: ['response_time', 'memory_usage'],
+          loadPatterns: ['linear', 'sustained'],
           reporting: true
         }
       ]

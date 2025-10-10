@@ -333,7 +333,7 @@ export class HapticEngine {
       gestureRecognitionAccuracy: 0,
       adaptiveFeedbackScore: 0,
       systemLatency: 0,
-      memoryUsage: 0
+      memory: 0
     };
   }
 
@@ -1123,7 +1123,7 @@ export interface HapticPerformanceMetrics {
   gestureRecognitionAccuracy: number;
   adaptiveFeedbackScore: number;
   systemLatency: number;
-  memoryUsage: number;
+  memory: number;
 }
 
 class HapticGestureRecognizer {

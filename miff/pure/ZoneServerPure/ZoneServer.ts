@@ -52,8 +52,8 @@ export interface ZoneServerConfig {
 export interface ZoneMetrics {
   playerCount: number;
   avgLatency: number;
-  cpuUsage: number;
-  memoryUsage: number;
+  cpu: number;
+  memory: number;
   networkTraffic: number;
   uptime: number;
   lastTickDuration: number;
@@ -111,8 +111,8 @@ export class ZoneServerPure {
     return {
       playerCount: 0,
       avgLatency: 0,
-      cpuUsage: 0,
-      memoryUsage: 0,
+      cpu: 0,
+      memory: 0,
       networkTraffic: 0,
       uptime: Date.now(),
       lastTickDuration: 0
@@ -278,8 +278,8 @@ export class ZoneServerPure {
     // Update metrics
     const tickEnd = performance.now();
     this.zoneMetrics.lastTickDuration = tickEnd - tickStart;
-    this.zoneMetrics.cpuUsage = this.calculateCpuUsage();
-    this.zoneMetrics.memoryUsage = this.calculateMemoryUsage();
+    this.zoneMetrics.cpu = this.calculateCpuUsage();
+    this.zoneMetrics.memory = this.calculateMemoryUsage();
     this.perf.record((dt * 1000), tickStart, tickEnd, simulated);
 
     // Broadcast state delta

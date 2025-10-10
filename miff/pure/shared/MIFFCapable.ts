@@ -80,24 +80,27 @@ export interface ModuleCapabilities {
 }
 
 export interface OperationCapability {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  category: 'create' | 'read' | 'update' | 'delete' | 'simulate' | 'render' | 'export' | 'validate';
-  complexity: 'low' | 'medium' | 'high' | 'critical';
-  requiresAuth: boolean;
+  category?: 'create' | 'read' | 'update' | 'delete' | 'simulate' | 'render' | 'export' | 'validate';
+  complexity?: 'low' | 'medium' | 'high' | 'critical';
+  requiresAuth?: boolean;
   inputSchema: SchemaReference;
-  outputSchema: SchemaReference;
-  estimatedDuration: number; // milliseconds
-  resourceRequirements: ResourceRequirements;
+  outputSchema?: SchemaReference;
+  estimatedDuration?: number; // milliseconds
+  resourceRequirements?: ResourceRequirements;
+  returnType?: string; // Added for TypeScript compatibility
+  async?: boolean; // Added for TypeScript compatibility
 }
 
 export interface DataProcessingCapability {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   inputTypes: string[];
   outputTypes: string[];
+  async?: boolean; // Added for TypeScript compatibility
   processingType: 'transform' | 'filter' | 'aggregate' | 'validate' | 'convert';
   batchSupported: boolean;
   streamingSupported: boolean;
@@ -105,35 +108,37 @@ export interface DataProcessingCapability {
 }
 
 export interface IntegrationCapability {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  targetSystem: string;
-  integrationType: 'bridge' | 'adapter' | 'converter' | 'proxy' | 'gateway';
-  protocols: string[];
-  authenticationRequired: boolean;
+  targetSystem?: string;
+  integrationType: 'bridge' | 'adapter' | 'converter' | 'proxy' | 'gateway' | 'event'; // Added 'event' type
+  protocols?: string[];
+  authenticationRequired?: boolean;
   rateLimits?: RateLimit;
 }
 
 export interface FormatCapability {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  mimeType: string;
-  fileExtensions: string[];
-  schemaVersion: string;
-  compressionSupported: boolean;
-  encryptionSupported: boolean;
+  mimeType?: string;
+  fileExtensions?: string[];
+  schemaVersion?: string;
+  compressionSupported?: boolean;
+  encryptionSupported?: boolean;
+  supported?: boolean; // Added for TypeScript compatibility
 }
 
 export interface RealtimeCapability {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  eventTypes: string[];
-  subscriptionModel: 'push' | 'pull' | 'hybrid';
-  maxConnections: number;
-  latencyTarget: number; // milliseconds
+  eventTypes?: string[];
+  subscriptionModel?: 'push' | 'pull' | 'hybrid';
+  maxConnections?: number;
+  latencyTarget?: number; // milliseconds
+  supported?: boolean; // Added for TypeScript compatibility
 }
 
 export interface SchemaInfo {
@@ -482,7 +487,7 @@ export interface CapabilityRegistry {
 }
 
 export class CapabilityManager {
-  private registry: CapabilityRegistry;
+  protected registry: CapabilityRegistry;
   private eventBus: any;
 
   constructor(eventBus: any) {

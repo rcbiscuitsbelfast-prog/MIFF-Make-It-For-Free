@@ -60,8 +60,8 @@ export interface PerformanceConfig {
 
 export interface PerformanceMetrics {
   timestamp: Date;
-  cpuUsage: number;
-  memoryUsage: number;
+  cpu: number;
+  memory: number;
   networkLatency: number;
   responseTime: number;
   throughput: number;
@@ -149,7 +149,7 @@ export class PerformanceOptimizer {
     this.addOptimizationRule({
       id: 'memory_cleanup',
       name: 'Memory Cleanup',
-      condition: (metrics) => metrics.memoryUsage > this.config.maxMemoryUsage * 0.8,
+      condition: (metrics) => metrics.memory > this.config.maxMemoryUsage * 0.8,
       action: async () => {
         await this.performMemoryCleanup();
       },
@@ -162,7 +162,7 @@ export class PerformanceOptimizer {
     this.addOptimizationRule({
       id: 'cpu_optimization',
       name: 'CPU Optimization',
-      condition: (metrics) => metrics.cpuUsage > this.config.maxCPUUsage * 0.8,
+      condition: (metrics) => metrics.cpu > this.config.maxCPUUsage * 0.8,
       action: async () => {
         await this.performCPUOptimization();
       },
@@ -236,8 +236,8 @@ export class PerformanceOptimizer {
   private collectMetrics(): void {
     const metrics: PerformanceMetrics = {
       timestamp: new Date(),
-      cpuUsage: this.getCPUUsage(),
-      memoryUsage: this.getMemoryUsage(),
+      cpu: this.getCPUUsage(),
+      memory: this.getMemoryUsage(),
       networkLatency: this.getNetworkLatency(),
       responseTime: this.getResponseTime(),
       throughput: this.getThroughput(),
@@ -434,9 +434,9 @@ export class PerformanceOptimizer {
   private getMetricValue(metrics: PerformanceMetrics, metric: PerformanceMetric): number {
     switch (metric) {
       case PerformanceMetric.CPU_USAGE:
-        return metrics.cpuUsage;
+        return metrics.cpu;
       case PerformanceMetric.MEMORY_USAGE:
-        return metrics.memoryUsage;
+        return metrics.memory;
       case PerformanceMetric.NETWORK_LATENCY:
         return metrics.networkLatency;
       case PerformanceMetric.RESPONSE_TIME:

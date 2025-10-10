@@ -145,7 +145,7 @@ describe('Gameplay Systems Integration', () => {
       expect(stats.level).toBeDefined();
       expect(stats.deviceType).toBeDefined();
       expect(stats.fps).toBeGreaterThanOrEqual(0);
-      expect(stats.memoryUsage).toBeGreaterThanOrEqual(0);
+      expect(stats.memory).toBeGreaterThanOrEqual(0);
     });
 
     test('should allow performance level adjustment', () => {
@@ -207,14 +207,14 @@ describe('Gameplay Systems Integration', () => {
 
   describe('Memory Management', () => {
     test('should not leak memory during updates', () => {
-      const initialMemory = renderWorld.getEngines().mobilePerformance.getPerformanceStats().memoryUsage;
+      const initialMemory = renderWorld.getEngines().mobilePerformance.getPerformanceStats().memory;
       
       // Run many updates
       for (let i = 0; i < 1000; i++) {
         renderWorld.updateGameplaySystems(16.67);
       }
       
-      const finalMemory = renderWorld.getEngines().mobilePerformance.getPerformanceStats().memoryUsage;
+      const finalMemory = renderWorld.getEngines().mobilePerformance.getPerformanceStats().memory;
       
       // Memory usage should not increase dramatically
       expect(finalMemory - initialMemory).toBeLessThan(100); // Less than 100MB increase

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+    <title>MIFF Documentation - Consolidated Index</title>
+    <meta name="description" content="Comprehensive MIFF documentation including API references, guides, tutorials, and technical specifications.">
+    <link rel="stylesheet" href="../assets/miff-theme.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="miff-docs">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <a href="../" aria-label="MIFF Home" class="menu-logo">
+                        <img src="../image_1758956766781.svg" alt="MIFF Logo" width="60" height="60" onerror="this.onerror=null;this.src='../image_1758956766781.jpeg'" />
+                    </a>
+                    <span class="logo-text">MIFF Docs</span>
+                </div>
+                <nav class="nav miff-nav">
+                    <a href="../">Home</a>
+                    <a href="../sampler/">Sampler</a>
+                    <a href="../studio/">Studio</a>
+                    <a href="../renderworld/">RenderWorld</a>
+                    <a href="./">Documentation</a>
+                    <a href="../blog/">Blog</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="docs-layout">
+                    <!-- Sidebar -->
+                    <aside class="docs-sidebar">
+                        <nav class="docs-nav">
+                            <h3>Getting Started</h3>
+                            <ul>
+                                <li><a href="#introduction">Introduction</a></li>
+                                <li><a href="#installation">Installation</a></li>
+                                <li><a href="#quick-start">Quick Start</a></li>
+                                <li><a href="#configuration">Configuration</a></li>
+                            </ul>
+                            
+                            <h3>Core Modules</h3>
+                            <ul>
+                                <li><a href="#renderworld">RenderWorld</a></li>
+                                <li><a href="#sampler">MIFF Sampler</a></li>
+                                <li><a href="#studio">MIFF Studio</a></li>
+                                <li><a href="#skeleton-animator">Skeleton Animator</a></li>
+                            </ul>
+                            
+                            <h3>API Reference</h3>
+                            <ul>
+                                <li><a href="#core-api">Core API</a></li>
+                                <li><a href="#rendering-api">Rendering API</a></li>
+                                <li><a href="#animation-api">Animation API</a></li>
+                                <li><a href="#audio-api">Audio API</a></li>
+                            </ul>
+                            
+                            <h3>Guides</h3>
+                            <ul>
+                                <li><a href="#tutorials">Tutorials</a></li>
+                                <li><a href="#best-practices">Best Practices</a></li>
+                                <li><a href="#performance">Performance</a></li>
+                                <li><a href="#deployment">Deployment</a></li>
+                            </ul>
+                            
+                            <h3>Community</h3>
+                            <ul>
+                                <li><a href="#contributing">Contributing</a></li>
+                                <li><a href="#changelog">Changelog</a></li>
+                                <li><a href="#roadmap">Roadmap</a></li>
+                                <li><a href="#support">Support</a></li>
+                            </ul>
+                        </nav>
+                    </aside>
+
+                    <!-- Content Area -->
+                    <div class="docs-content">
+                        <h1 class="miff-title">MIFF Documentation</h1>
+                        <p class="miff-subtitle">Comprehensive guides and references for the Modular Interactive Framework for the Future</p>
+                        
+                        <!-- Search Box -->
+                        <div class="docs-search">
+                            <input type="text" id="docsSearch" placeholder="Search documentation..." class="miff-search-input">
+                            <button class="miff-button" onclick="searchDocs()">Search</button>
+                        </div>
+                        
+                        <!-- Quick Links -->
+                        <div class="docs-quick-links miff-grid">
+                            <div class="miff-card">
+                                <h3>🚀 Quick Start</h3>
+                                <p>Get up and running with MIFF in minutes</p>
+                                <a href="#quick-start" class="miff-button">Start Here</a>
+                            </div>
+                            
+                            <div class="miff-card">
+                                <h3>🎮 MIFF Sampler</h3>
+                                <p>Interactive demos and examples</p>
+                                <a href="../sampler/" class="miff-button">Try It</a>
+                            </div>
+                            
+                            <div class="miff-card">
+                                <h3>🛠️ MIFF Studio</h3>
+                                <p>Advanced development environment</p>
+                                <a href="../studio/" class="miff-button">Open Studio</a>
+                            </div>
+                            
+                            <div class="miff-card">
+                                <h3>🌍 RenderWorld</h3>
+                                <p>Real-time 3D rendering engine</p>
+                                <a href="../renderworld/" class="miff-button">Explore</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Documentation Sections -->
+                        <section id="introduction" class="docs-section">
+                            <h2>Introduction</h2>
+                            <p>MIFF (Modular Interactive Framework for the Future) is a comprehensive game development ecosystem featuring 157+ modular systems, AI-powered development tools, cross-platform deployment, and enterprise-grade architecture.</p>
+                            
+                            <h3>Key Features</h3>
+                            <ul>
+                                <li><strong>Modular Architecture:</strong> 157+ pure modules for maximum flexibility</li>
+                                <li><strong>AI Integration:</strong> AI-powered development tools and assistance</li>
+                                <li><strong>Cross-Platform:</strong> Deploy to web, desktop, and mobile</li>
+                                <li><strong>Real-time Rendering:</strong> 60fps performance with advanced graphics</li>
+                                <li><strong>Enterprise Ready:</strong> 99.2% test coverage with 4,370+ golden tests</li>
+                            </ul>
+                        </section>
+                        
+                        <section id="installation" class="docs-section">
+                            <h2>Installation</h2>
+                            <p>Install MIFF using npm or clone the repository:</p>
+                            
+                            <div class="code-block">
+                                <pre><code># Install via npm
+npm install @miff/framework
+
+# Or clone the repository
+git clone https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free.git
+cd MIFF-Make-It-For-Free
+npm install</code></pre>
+                            </div>
+                        </section>
+                        
+                        <section id="quick-start" class="docs-section">
+                            <h2>Quick Start</h2>
+                            <p>Create your first MIFF application in minutes:</p>
+                            
+                            <div class="code-block">
+                                <pre><code>import { MIFF } from '@miff/framework';
+
+// Initialize MIFF
+const miff = new MIFF({
+    canvas: '#gameCanvas',
+    modules: ['renderworld', 'sampler', 'studio']
+});
+
+// Start the application
+miff.start();</code></pre>
+                            </div>
+                        </section>
+                        
+                        <!-- More sections would be added here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>MIFF Framework</h4>
+                        <p>Make It For Free - The future of modular game development</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Documentation</h4>
+                        <a href="#introduction">Getting Started</a>
+                        <a href="#api-reference">API Reference</a>
+                        <a href="#tutorials">Tutorials</a>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Community</h4>
+                        <a href="https://github.com/rcbiscuitsbelfast-prog/MIFF-Make-It-For-Free" target="_blank">GitHub</a>
+                        <a href="https://ko-fi.com/miffmakeitforfree" target="_blank">Support</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../assets/miff-navigation.js"></script>
+    <script>
+        // Documentation search functionality
+        function searchDocs() {
+            const query = document.getElementById('docsSearch').value.toLowerCase();
+            const sections = document.querySelectorAll('.docs-section');
+            
+            sections.forEach(section => {
+                const content = section.textContent.toLowerCase();
+                if (content.includes(query)) {
+                    section.style.display = 'block';
+                    section.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.docs-nav a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

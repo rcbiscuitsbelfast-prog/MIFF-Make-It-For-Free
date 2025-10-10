@@ -59,8 +59,8 @@ export interface IntegrationHealth {
   status: IntegrationStatus;
   lastCheck: Date;
   uptime: number;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   errorCount: number;
   successCount: number;
   averageResponseTime: number;
@@ -217,8 +217,8 @@ export class IntegrationManager {
         status: IntegrationStatus.INITIALIZING,
         lastCheck: new Date(),
         uptime: 0,
-        memoryUsage: 0,
-        cpuUsage: 0,
+        memory: 0,
+        cpu: 0,
         errorCount: 0,
         successCount: 0,
         averageResponseTime: 0,
@@ -505,11 +505,11 @@ export class IntegrationManager {
     // Check memory usage
     if (process.memoryUsage) {
       const memUsage = process.memoryUsage();
-      health.memoryUsage = memUsage.heapUsed / 1024 / 1024; // MB
+      health.memory = memUsage.heapUsed / 1024 / 1024; // MB
       
-      if (health.memoryUsage > config.maxMemoryUsage) {
+      if (health.memory > config.maxMemoryUsage) {
         health.status = IntegrationStatus.ERROR;
-        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health.memoryUsage });
+        this.eventBus.publish('integration:memoryWarning', { id: integrationId, usage: health.memory });
       }
     }
 
@@ -570,11 +570,11 @@ export class IntegrationManager {
       if (!metrics) continue;
 
       // Update peak usage
-      if (health.memoryUsage > metrics.peakMemoryUsage) {
-        metrics.peakMemoryUsage = health.memoryUsage;
+      if (health.memory > metrics.peakMemoryUsage) {
+        metrics.peakMemoryUsage = health.memory;
       }
-      if (health.cpuUsage > metrics.peakCpuUsage) {
-        metrics.peakCpuUsage = health.cpuUsage;
+      if (health.cpu > metrics.peakCpuUsage) {
+        metrics.peakCpuUsage = health.cpu;
       }
     }
   }

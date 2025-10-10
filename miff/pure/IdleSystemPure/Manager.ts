@@ -182,25 +182,80 @@ export class IdleManagerPure {
   private isInitialized: boolean = false;
   private analyticsData: any[] = [];
   private lastAnalyticsUpdate: number = 0;
+  
+  // Core data structures
+  private generators: Map<string, Generator> = new Map();
+  private resources: Map<string, Resource> = new Map();
+  private achievements: Map<string, any> = new Map();
+  private prestigeConfigs: Map<string, any> = new Map();
+  private isPaused: boolean = false;
+
+  /**
+   * Calculate total production across all generators
+   */
+  private calculateTotalProduction(): number {
+    let total = 0;
+    for (const generator of this.generators.values()) {
+      if (generator.unlocked && generator.level > 0) {
+        total += generator.baseProduction * generator.level * generator.productionMultiplier;
+      }
+    }
+    return total;
+  }
+
+  /**
+   * Internal method to purchase generators
+   */
+  private purchaseGeneratorInternal(id: string, count: number): boolean {
+    const generator = this.generators.get(id);
+    if (!generator || !generator.unlocked) {
+      return false;
+    }
+
+    const totalCost = this.calculateGeneratorCost(generator, count);
+    const primaryResource = Array.from(this.resources.values())[0]; // Assume first resource is primary currency
+    
+    if (!primaryResource || primaryResource.amount < totalCost) {
+      return false;
+    }
+
+    // Purchase successful
+    primaryResource.amount -= totalCost;
+    generator.level += count;
+    
+    this.eventBus.emit('generator-purchased', { generatorId: id, count, newLevel: generator.level });
+    return true;
+  }
+
+  /**
+   * Calculate cost for purchasing generators
+   */
+  private calculateGeneratorCost(generator: Generator, count: number): number {
+    let totalCost = 0;
+    for (let i = 0; i < count; i++) {
+      totalCost += generator.baseCost * Math.pow(generator.costMultiplier, generator.level + i);
+    }
+    return totalCost;
+  }
 
   /**
    * Create a proper idle system implementation
    */
   private createIdleSystem(eventBus: EventBus, config: IdleManagerConfig): IdleSystemPure {
     return {
-      getResources: () => new Map(), // TODO: Implement resource management
-      getGenerators: () => new Map(), // TODO: Implement generator management
-      getResource: (id: string) => undefined, // TODO: Implement resource lookup
-      getTotalProduction: () => 0, // TODO: Implement production calculation
-      purchaseGenerator: (id: string, count: number) => false, // TODO: Implement generator purchase
-      getAchievements: () => new Map(), // TODO: Implement achievement management
-      getPrestigeConfigs: () => new Map(), // TODO: Implement prestige management
+      getResources: () => this.resources,
+      getGenerators: () => this.generators,
+      getResource: (id: string) => this.resources.get(id),
+      getTotalProduction: () => this.calculateTotalProduction(),
+      purchaseGenerator: (id: string, count: number) => this.purchaseGeneratorInternal(id, count),
+      getAchievements: () => this.achievements,
+      getPrestigeConfigs: () => this.prestigeConfigs,
       loadGameData: () => this.loadGame(),
       saveGameData: () => this.saveGame(),
       resetGame: () => this.resetGame(),
       getStats: () => this.getStats(),
       getGameState: () => this.getGameState(),
-      setPaused: (paused: boolean) => { /* TODO: Implement pause functionality */ },
+      setPaused: (paused: boolean) => { this.isPaused = paused; },
       setIntegrations: (integrations: any) => this.setIntegrations(integrations),
       on: (event: string, handler: any) => this.eventBus.subscribe(event, handler)
     } as IdleSystemPure;

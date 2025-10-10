@@ -37,8 +37,8 @@ export interface SystemMetrics {
   process: {
     pid: number;
     uptime: number; // seconds
-    memoryUsage: NodeJS.MemoryUsage;
-    cpuUsage: NodeJS.CpuUsage;
+    memory: NodeJS.MemoryUsage;
+    cpu: NodeJS.CpuUsage;
   };
 }
 
@@ -94,8 +94,8 @@ export interface MonitoringConfig {
   collectionInterval: number; // seconds
   retentionPeriod: number; // days
   alertThresholds: {
-    cpuUsage: number; // percentage
-    memoryUsage: number; // percentage
+    cpu: number; // percentage
+    memory: number; // percentage
     diskUsage: number; // percentage
     errorRate: number; // percentage
     responseTime: number; // milliseconds
@@ -135,8 +135,8 @@ export class MonitoringSystem {
       collectionInterval: 30, // 30 seconds
       retentionPeriod: 7, // 7 days
       alertThresholds: {
-        cpuUsage: 80,
-        memoryUsage: 85,
+        cpu: 80,
+        memory: 85,
         diskUsage: 90,
         errorRate: 5,
         responseTime: 1000
@@ -410,8 +410,8 @@ export class MonitoringSystem {
       process: {
         pid: process.pid,
         uptime: process.uptime(),
-        memoryUsage: process.memoryUsage(),
-        cpuUsage: process.cpuUsage()
+        memory: process.memoryUsage(),
+        cpu: process.cpuUsage()
       }
     };
   }
@@ -453,24 +453,24 @@ export class MonitoringSystem {
     const thresholds = this.config.alertThresholds;
 
     // CPU usage alert
-    if (systemMetrics.cpu.usage > thresholds.cpuUsage) {
+    if (systemMetrics.cpu.usage > thresholds.cpu) {
       this.createAlert({
         type: 'cpu',
         severity: 'warning',
         title: 'High CPU Usage',
-        message: `CPU usage is ${systemMetrics.cpu.usage.toFixed(1)}% (threshold: ${thresholds.cpuUsage}%)`,
-        metadata: { usage: systemMetrics.cpu.usage, threshold: thresholds.cpuUsage }
+        message: `CPU usage is ${systemMetrics.cpu.usage.toFixed(1)}% (threshold: ${thresholds.cpu}%)`,
+        metadata: { usage: systemMetrics.cpu.usage, threshold: thresholds.cpu }
       });
     }
 
     // Memory usage alert
-    if (systemMetrics.memory.usage > thresholds.memoryUsage) {
+    if (systemMetrics.memory.usage > thresholds.memory) {
       this.createAlert({
         type: 'memory',
         severity: 'warning',
         title: 'High Memory Usage',
-        message: `Memory usage is ${systemMetrics.memory.usage.toFixed(1)}% (threshold: ${thresholds.memoryUsage}%)`,
-        metadata: { usage: systemMetrics.memory.usage, threshold: thresholds.memoryUsage }
+        message: `Memory usage is ${systemMetrics.memory.usage.toFixed(1)}% (threshold: ${thresholds.memory}%)`,
+        metadata: { usage: systemMetrics.memory.usage, threshold: thresholds.memory }
       });
     }
 

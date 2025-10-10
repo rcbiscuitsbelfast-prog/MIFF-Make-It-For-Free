@@ -100,7 +100,7 @@ class CPUOptimizerCLI {
     console.log(`CPU Usage: ${metrics.usage.toFixed(2)}%`);
     console.log(`Load Average: ${metrics.loadAverage.map(avg => avg.toFixed(2)).join(', ')}`);
     console.log(`Process Count: ${metrics.processCount}`);
-    console.log(`Memory Usage: ${metrics.memoryUsage.toFixed(2)} MB`);
+    console.log(`Memory Usage: ${metrics.memory.toFixed(2)} MB`);
     console.log(`Response Time: ${metrics.responseTime.toFixed(2)} ms`);
     console.log(`Throughput: ${metrics.throughput.toFixed(2)} ops/sec`);
   }
@@ -157,7 +157,7 @@ class CPUOptimizerCLI {
     const value = args[1];
     const ttl = args[2] ? parseInt(args[2]) : 300000; // 5 minutes default
 
-    this.optimizer.cache(key, value, ttl);
+    this.optimizer.cacheValue(key, value, ttl);
     console.log(`✅ Cached value for key: ${key}`);
   }
 

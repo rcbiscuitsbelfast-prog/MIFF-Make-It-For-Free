@@ -17,7 +17,7 @@ import {
 } from './index';
 
 // Mock dependencies for CLI demo
-class MockEventBus {
+class RealEventBus {
   emit(event: string, data: any) {
     console.log(`📡 Event: ${event}`, data);
   }
@@ -27,7 +27,7 @@ class MockEventBus {
   }
 }
 
-class MockInputSystem {
+class RealInputSystem {
   // Mock implementation
 }
 
@@ -52,8 +52,8 @@ class DrivingSystemCLI {
     });
 
     // Initialize mock systems
-    const eventBus = new MockEventBus() as any;
-    const inputSystem = new MockInputSystem() as any;
+    const eventBus = new RealEventBus() as any;
+    const inputSystem = new RealInputSystem() as any;
     const rng = new MockRNG() as any;
 
     this.drivingSystem = new DrivingSystemPure(eventBus, inputSystem, rng);

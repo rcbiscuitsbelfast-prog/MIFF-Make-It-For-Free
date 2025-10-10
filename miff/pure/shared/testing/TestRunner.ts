@@ -167,8 +167,8 @@ export interface TestPerformance {
   averageTestDuration: number;
   slowestTest: string;
   fastestTest: string;
-  memoryUsage: number;
-  cpuUsage: number;
+  memory: number;
+  cpu: number;
   parallelEfficiency: number;
 }
 
@@ -739,8 +739,8 @@ export class TestRunner {
         averageTestDuration: 0,
         slowestTest: '',
         fastestTest: '',
-        memoryUsage: 0,
-        cpuUsage: 0,
+        memory: 0,
+        cpu: 0,
         parallelEfficiency: 0
       };
     }
@@ -768,8 +768,8 @@ export class TestRunner {
       averageTestDuration,
       slowestTest: slowestTest.name,
       fastestTest: fastestTest.name,
-      memoryUsage,
-      cpuUsage,
+      memory: memoryUsage,
+      cpu: cpuUsage,
       parallelEfficiency
     };
   }

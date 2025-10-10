@@ -18,35 +18,45 @@ const config: WebSocketConfig = {
   pingInterval: params.pingInterval || 30000
 };
 
-const bridge = new WebSocketBridgePure(config);
+// Use real WebSocket implementation instead of mock
+const bridgeOptions = {
+  url: `${config.protocol}://${config.host}:${config.port}`,
+  useRealWebSocket: true,
+  serverUrl: `${config.protocol}://${config.host}:${config.port}`,
+  onStatusChange: (status: string) => console.log(`WebSocket status: ${status}`)
+};
+
+const bridge = new WebSocketBridgePure(bridgeOptions);
 
 try {
   switch (mode) {
     case 'initWebSocket': {
       const { port, protocol, enableSync } = params;
       
-      // Initialize server (mock implementation for CLI)
-      const serverInfo = {
-        port: port || 8080,
-        protocol: protocol || 'ws',
+      // Initialize server with real WebSocket implementation
+      const serverInfo = await bridge.initialize();
+      const realServerInfo = {
+        port: serverInfo.port || port || 8080,
+        protocol: serverInfo.protocol || protocol || 'ws',
         enableSync: enableSync !== false,
-        status: 'initialized',
-        url: `${protocol || 'ws'}://localhost:${port || 8080}`,
+        status: serverInfo.status || 'initialized',
+        url: serverInfo.url || `${protocol || 'ws'}://localhost:${port || 8080}`,
         maxConnections: config.maxConnections,
-        activeConnections: 0
+        activeConnections: serverInfo.activeConnections || 0
       };
       
       handleSuccess({
-        server: serverInfo,
+        server: realServerInfo,
         config,
-        message: 'WebSocket bridge initialized successfully'
+        message: 'WebSocket bridge initialized with real server'
       }, 'initWebSocket');
       break;
     }
 
     case 'start': {
-      // Start server (mock)
-      const serverStatus = {
+      // Start server with real WebSocket implementation
+      await bridge.connect();
+      const realServerStatus = {
         running: true,
         port: config.port,
         connections: [],

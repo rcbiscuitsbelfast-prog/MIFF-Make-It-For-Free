@@ -18,7 +18,7 @@ export interface MobileConfig {
 
 export interface MobileMetrics {
   frameRate: number;
-  memoryUsage: number;
+  memory: number;
   batteryLevel: number;
   networkLatency: number;
   touchResponsiveness: number;
@@ -433,7 +433,7 @@ export class MobileOptimizer {
   private initializeMetrics(): MobileMetrics {
     return {
       frameRate: 60,
-      memoryUsage: 0,
+      memory: 0,
       batteryLevel: 100,
       networkLatency: 0,
       touchResponsiveness: 100,
@@ -465,7 +465,7 @@ export class MobileOptimizer {
   private monitorMemoryUsage(): void {
     if (typeof performance !== 'undefined' && 'memory' in performance && performance.memory) {
       const memoryUsage = (performance.memory as any).usedJSHeapSize;
-      this.metrics.memoryUsage = memoryUsage;
+      this.metrics.memory = memoryUsage;
 
       if (memoryUsage > this.config.memoryLimit * 0.8) {
         this.log(`High memory usage: ${(memoryUsage / 1024 / 1024).toFixed(1)}MB`, 'warn');
@@ -638,7 +638,7 @@ export class MobileOptimizer {
   private updateMetrics(): void {
     // Update all mobile metrics
     this.metrics.frameRate = this.calculateFrameRate();
-    this.metrics.memoryUsage = this.getMemoryUsage();
+    this.metrics.memory = this.getMemoryUsage();
     this.metrics.networkLatency = this.measureNetworkLatency();
     this.metrics.optimizationScore = this.calculateOptimizationScore();
   }
@@ -668,7 +668,7 @@ export class MobileOptimizer {
 
   private calculateOptimizationScore(): number {
     // Calculate overall optimization effectiveness
-    const memoryScore = Math.max(0, 100 - (this.metrics.memoryUsage / this.config.memoryLimit) * 100);
+    const memoryScore = Math.max(0, 100 - (this.metrics.memory / this.config.memoryLimit) * 100);
     const batteryScore = this.metrics.batteryLevel;
     const frameRateScore = (this.metrics.frameRate / 60) * 100;
     const touchScore = this.metrics.touchResponsiveness;

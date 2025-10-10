@@ -53,6 +53,7 @@ export interface DeviceCapabilities {
 }
 
 export class MobilePerformanceOptimizer {
+  private memoryHistory: number[] = [];
   private config: PerformanceConfig;
   private deviceCapabilities: DeviceCapabilities;
   private currentPerformanceLevel: PerformanceLevel;
@@ -316,9 +317,9 @@ export class MobilePerformanceOptimizer {
     // Monitor memory usage
     if (typeof performance !== 'undefined' && 'memory' in performance) {
       const memory = (performance as any).memory;
-      this.memoryUsageHistory.push(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
-      if (this.memoryUsageHistory.length > 60) {
-        this.memoryUsageHistory.shift();
+      this.memoryHistory.push(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
+      if (this.memoryHistory.length > 60) {
+        this.memoryHistory.shift();
       }
     }
 
@@ -409,7 +410,7 @@ export class MobilePerformanceOptimizer {
   getPerformanceStats(): {
     avgFrameTime: number;
     avgFPS: number;
-    memoryUsage: number;
+    memory: number;
     isOptimizing: boolean;
   } {
     const avgFrameTime = this.frameTimeHistory.length > 0 
@@ -418,14 +419,14 @@ export class MobilePerformanceOptimizer {
     
     const avgFPS = avgFrameTime > 0 ? 1000 / avgFrameTime : 0;
     
-    const memoryUsage = this.memoryUsageHistory.length > 0 
-      ? this.memoryUsageHistory[this.memoryUsageHistory.length - 1] 
+    const memoryUsage = this.memoryHistory.length > 0 
+      ? this.memoryHistory[this.memoryHistory.length - 1] || 0
       : 0;
 
     return {
       avgFrameTime,
       avgFPS,
-      memoryUsage,
+      memory: memoryUsage,
       isOptimizing: this.isOptimizing
     };
   }
@@ -449,7 +450,7 @@ export class MobilePerformanceOptimizer {
       recommendations.push('Consider reducing particle count or shadow quality');
     }
     
-    if (stats.memoryUsage > this.config.maxMemoryUsage * 0.9) {
+    if (stats.memory > this.config.maxMemoryUsage * 0.9) {
       recommendations.push('Memory usage is high, consider reducing texture quality');
     }
     
@@ -469,7 +470,7 @@ export class MobilePerformanceOptimizer {
    */
   reset(): void {
     this.frameTimeHistory = [];
-    this.memoryUsageHistory = [];
+    this.memoryHistory = [];
     this.isOptimizing = false;
   }
 }

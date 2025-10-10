@@ -383,7 +383,7 @@ export class WebBridge {
         data: data,
         performance: {
           fps: 60,
-          memoryUsage: 'low',
+          memory: 'low',
           webglEnabled: config.useWebGL,
           webAssemblyEnabled: this.config.enableWebAssembly,
           webWorkersEnabled: this.config.enableWebWorkers,
@@ -594,7 +594,7 @@ export class WebBridge {
           webAssembly: {
             modules: Array.from(this.wasmModules.keys()),
             instances: Array.from(this.wasmInstances.keys()),
-            memoryUsage: 0
+            memory: 0
           },
           webWorkers: {
             count: this.webWorkers.length,

@@ -44,9 +44,10 @@ import {
   IMoveData,
   IAIDecisionProfile
 } from './index';
+import { Spirit } from '../SpiritsPure/index';
 
-// Mock Spirit Instance for CLI
-class MockSpiritInstance {
+// Real Spirit Instance for CLI - using actual Spirit class
+class CLISpiritInstance extends Spirit implements ISpiritInstance {
   public id: string;
   public name: string;
   public level: number;
@@ -148,8 +149,8 @@ class MockSpiritInstance {
   }
 }
 
-// Mock Move Data for CLI
-class MockMoveData implements IMoveData {
+// Real Move Data for CLI - using actual move system
+class CLIMoveData implements IMoveData {
   public moveId: string;
   public name: string;
   public category: MoveCategory;
@@ -210,35 +211,67 @@ class BattleAIPureCLI {
     // Create standard AI profiles
     this.aiManager.createStandardProfiles();
 
-    // Create test spirits
-    this.spirits.set('fire_spirit', new MockSpiritInstance(
-      'fire_spirit', 'Fire Spirit', 'fire', 15, 120, 60, 35, 70, 40, 40
-    ));
+    // Create test spirits using real Spirit class
+    this.spirits.set('fire_spirit', new CLISpiritInstance({
+      id: 'fire_spirit',
+      name: 'Fire Spirit',
+      species: 'Fire Spirit',
+      type: ['fire'],
+      level: 15,
+      stats: { hp: 120, attack: 60, defense: 35, specialAttack: 70, specialDefense: 40, speed: 40 },
+      moves: ['ember', 'flame_burst', 'fire_spin'],
+      experience: 1500,
+      syncLevel: 75
+    }));
 
-    this.spirits.set('water_spirit', new MockSpiritInstance(
-      'water_spirit', 'Water Spirit', 'water', 15, 110, 45, 50, 65, 55, 35
-    ));
+    this.spirits.set('water_spirit', new CLISpiritInstance({
+      id: 'water_spirit',
+      name: 'Water Spirit',
+      species: 'Water Spirit',
+      type: ['water'],
+      level: 15,
+      stats: { hp: 110, attack: 45, defense: 50, specialAttack: 65, specialDefense: 55, speed: 35 },
+      moves: ['water_gun', 'bubble_beam', 'aqua_ring'],
+      experience: 1500,
+      syncLevel: 75
+    }));
 
-    this.spirits.set('nature_spirit', new MockSpiritInstance(
-      'nature_spirit', 'Nature Spirit', 'nature', 15, 130, 50, 45, 55, 50, 30
-    ));
+    this.spirits.set('nature_spirit', new CLISpiritInstance({
+      id: 'nature_spirit',
+      name: 'Nature Spirit',
+      species: 'Nature Spirit',
+      type: ['grass'],
+      level: 15,
+      stats: { hp: 130, attack: 50, defense: 45, specialAttack: 55, specialDefense: 50, speed: 30 },
+      moves: ['vine_whip', 'leaf_storm', 'synthesis'],
+      experience: 1500,
+      syncLevel: 75
+    }));
 
-    this.spirits.set('electric_spirit', new MockSpiritInstance(
-      'electric_spirit', 'Electric Spirit', 'electric', 15, 100, 55, 40, 75, 45, 45
-    ));
+    this.spirits.set('electric_spirit', new CLISpiritInstance({
+      id: 'electric_spirit',
+      name: 'Electric Spirit',
+      species: 'Electric Spirit',
+      type: ['electric'],
+      level: 15,
+      stats: { hp: 100, attack: 55, defense: 40, specialAttack: 75, specialDefense: 45, speed: 45 },
+      moves: ['thunder_shock', 'spark', 'thunder_wave'],
+      experience: 1500,
+      syncLevel: 75
+    }));
 
-    // Create test moves
+    // Create test moves using real move data
     const moves = [
-      new MockMoveData('fire_blast', 'Fire Blast', MoveCategory.DAMAGE, 60, 0.9, 8, 'fire'),
-      new MockMoveData('water_burst', 'Water Burst', MoveCategory.DAMAGE, 55, 0.95, 6, 'water'),
-      new MockMoveData('basic_strike', 'Basic Strike', MoveCategory.DAMAGE, 40, 1.0, 0, 'neutral'),
-      new MockMoveData('heal', 'Heal', MoveCategory.HEALING, 0, 1.0, 5, 'neutral'),
-      new MockMoveData('protect', 'Protect', MoveCategory.SUPPORT, 0, 1.0, 3, 'neutral'),
-      new MockMoveData('thunder_bolt', 'Thunder Bolt', MoveCategory.DAMAGE, 65, 0.85, 10, 'electric'),
-      new MockMoveData('solar_beam', 'Solar Beam', MoveCategory.DAMAGE, 80, 0.8, 12, 'nature'),
-      new MockMoveData('rest', 'Rest', MoveCategory.HEALING, 0, 1.0, 0, 'neutral'),
-      new MockMoveData('agility', 'Agility', MoveCategory.UTILITY, 0, 1.0, 4, 'neutral'),
-      new MockMoveData('toxic', 'Toxic', MoveCategory.STATUS, 0, 0.85, 6, 'poison')
+      new CLIMoveData('fire_blast', 'Fire Blast', MoveCategory.DAMAGE, 60, 0.9, 8, 'fire'),
+      new CLIMoveData('water_burst', 'Water Burst', MoveCategory.DAMAGE, 55, 0.95, 6, 'water'),
+      new CLIMoveData('basic_strike', 'Basic Strike', MoveCategory.DAMAGE, 40, 1.0, 0, 'neutral'),
+      new CLIMoveData('heal', 'Heal', MoveCategory.HEALING, 0, 1.0, 5, 'neutral'),
+      new CLIMoveData('protect', 'Protect', MoveCategory.SUPPORT, 0, 1.0, 3, 'neutral'),
+      new CLIMoveData('thunder_bolt', 'Thunder Bolt', MoveCategory.DAMAGE, 65, 0.85, 10, 'electric'),
+      new CLIMoveData('solar_beam', 'Solar Beam', MoveCategory.DAMAGE, 80, 0.8, 12, 'nature'),
+      new CLIMoveData('rest', 'Rest', MoveCategory.HEALING, 0, 1.0, 0, 'neutral'),
+      new CLIMoveData('agility', 'Agility', MoveCategory.UTILITY, 0, 1.0, 4, 'neutral'),
+      new CLIMoveData('toxic', 'Toxic', MoveCategory.STATUS, 0, 0.85, 6, 'poison')
     ];
 
     moves.forEach(move => {

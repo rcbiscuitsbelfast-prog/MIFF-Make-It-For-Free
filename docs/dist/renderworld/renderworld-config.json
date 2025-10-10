@@ -1,9 +1,0 @@
-{
-  "camera": { "offsetY": 2.8, "offsetZ": 7.5 },
-  "lights": { "hemi": 1.0, "dir": 0.85 },
-  "npcs": [
-    { "id": "explorer", "x": -10, "z": 8 },
-    { "id": "guide", "x": 10, "z": 8 },
-    { "id": "mystic", "x": 0, "z": 15 }
-  ]
-}
