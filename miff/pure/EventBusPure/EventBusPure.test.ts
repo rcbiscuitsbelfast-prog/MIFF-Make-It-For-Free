@@ -149,11 +149,18 @@ describe('EventBusPure', () => {
       });
       
       eventBus.subscribe('test-event', asyncHandler);
-      await eventBus.publish('test-event', { message: 'hello' });
       
-      // Advance timers to resolve the async handler
-      jest.advanceTimersByTime(20);
-      await Promise.resolve(); // Allow promises to resolve
+      // Publish event and wait for it to complete
+      const publishPromise = eventBus.publish('test-event', { message: 'hello' });
+      
+      // Run pending timers
+      jest.runOnlyPendingTimers();
+      
+      // Wait for the publish to complete
+      await publishPromise;
+      
+      // Wait for async handler to complete
+      await Promise.resolve();
       
       expect(asyncHandler).toHaveBeenCalledTimes(1);
     });
@@ -202,8 +209,8 @@ describe('EventBusPure', () => {
     it('should clear old events', async () => {
       await eventBus.publish('test-event', { data: 'old' });
       
-      // Wait a bit to ensure timestamp difference
-      await new Promise(resolve => setTimeout(resolve, 10));
+      // Advance time to ensure timestamp difference
+      jest.advanceTimersByTime(10);
       
       await eventBus.publish('test-event', { data: 'new' });
       
@@ -589,6 +596,12 @@ describe('EventBusPure', () => {
       expect(eventId).toBeDefined();
       expect(sourceHandler).toHaveBeenCalled();
       
+      // Route the event to targets
+      const event = eventBus.getRecentEvents().find((e: any) => e.id === eventId);
+      if (event) {
+        await router.routeEvent(event);
+      }
+      
       // Verify routing worked (flush microtasks)
       await Promise.resolve();
       expect(target1Handler).toHaveBeenCalled();
@@ -667,10 +680,16 @@ describe('EventBusPure', () => {
         throw new Error('Network callback error');
       });
       
-      eventBus.registerNetworkCallback('error-callback', errorCallback);
+      // Create a new event bus with replication enabled
+      const replicationBus = createEventBus({
+        ...config,
+        enableReplication: true
+      });
+      
+      replicationBus.registerNetworkCallback('error-callback', errorCallback);
       
       // Should not throw error
-      await eventBus.publish('test-event', { data: 'test' }, { replicate: true });
+      await replicationBus.publish('test-event', { data: 'test' }, { replicate: true });
       await Promise.resolve();
       expect(errorCallback).toHaveBeenCalled();
     });

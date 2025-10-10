@@ -252,6 +252,7 @@ export class EventBus {
     return eventId;
   }
 
+
   /**
    * Process an event through its handlers
    */
