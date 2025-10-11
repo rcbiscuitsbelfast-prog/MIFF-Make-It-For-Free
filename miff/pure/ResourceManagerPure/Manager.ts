@@ -1,35 +1,35 @@
 /**
  * ResourceManagerPure Manager - Advanced Resource Management System
  *
- * Comprehensive resource management with:
- * - Asset loading and caching
+ * Comprehensive resource management system with:
+ * - Resource loading and caching
  * - Memory management and optimization
- * - Resource pooling and reuse
- * - Lazy loading and streaming
- * - Compression and decompression
- * - Resource validation and integrity
- * - Hot reloading and updates
- * - Performance monitoring
+ * - Asset streaming and compression
+ * - Resource versioning and updates
+ * - Cross-platform resource handling
+ * - Performance monitoring and analytics
+ * - Resource dependency management
+ * - Backup and recovery operations
  *
  * @version 1.0.0
  * @author MIFF Framework
  */
 
 export interface ResourceManagerConfig {
-  enableAssetLoading: boolean;
-  enableCaching: boolean;
+  enableResourceLoading: boolean;
+  enableResourceCaching: boolean;
   enableMemoryManagement: boolean;
-  enableResourcePooling: boolean;
-  enableLazyLoading: boolean;
-  enableStreaming: boolean;
-  enableCompression: boolean;
-  enableValidation: boolean;
-  enableHotReloading: boolean;
+  enableMemoryOptimization: boolean;
+  enableAssetStreaming: boolean;
+  enableAssetCompression: boolean;
+  enableResourceVersioning: boolean;
+  enableResourceUpdates: boolean;
+  enableCrossPlatformHandling: boolean;
   enablePerformanceMonitoring: boolean;
   enableResourceAnalytics: boolean;
+  enableDependencyManagement: boolean;
+  maxResources: number;
   maxCacheSize: number;
-  maxMemoryUsage: number;
-  maxPoolSize: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
@@ -40,24 +40,21 @@ export interface ResourceManager {
   name: string;
   type: ResourceManagerType;
   status: ResourceManagerStatus;
-  assets: ResourceAsset[];
+  resources: Resource[];
   cache: ResourceCache;
-  pools: ResourcePool[];
-  streams: ResourceStream[];
-  compression: CompressionConfig;
-  validation: ValidationConfig;
-  analytics: ResourceAnalytics;
-  metadata: ResourceMetadata;
+  dependencies: ResourceDependency[];
+  analytics: ResourceManagerAnalytics;
+  metadata: ResourceManagerMetadata;
   version: string;
   created: number;
   modified: number;
 }
 
 export enum ResourceManagerType {
-  GAME = 'game',
-  APPLICATION = 'application',
-  WEB = 'web',
-  MOBILE = 'mobile',
+  ASSET = 'asset',
+  TEXTURE = 'texture',
+  AUDIO = 'audio',
+  MODEL = 'model',
   CUSTOM = 'custom'
 }
 
@@ -66,287 +63,168 @@ export enum ResourceManagerStatus {
   INACTIVE = 'inactive',
   LOADING = 'loading',
   ERROR = 'error',
-  MAINTENANCE = 'maintenance'
+  CUSTOM = 'custom'
 }
 
-export interface ResourceAsset {
+export interface Resource {
   id: string;
   name: string;
-  type: AssetType;
-  status: AssetStatus;
+  type: ResourceType;
+  status: ResourceStatus;
   path: string;
-  url: string;
   size: number;
-  compressedSize: number;
-  format: AssetFormat;
-  quality: AssetQuality;
-  metadata: AssetMetadata;
-  dependencies: string[];
-  references: number;
-  lastAccessed: number;
-  created: number;
-  modified: number;
+  format: ResourceFormat;
+  compression: ResourceCompression;
+  metadata: Map<string, any>;
 }
 
-export enum AssetType {
+export enum ResourceType {
   TEXTURE = 'texture',
-  MODEL = 'model',
   AUDIO = 'audio',
-  VIDEO = 'video',
-  FONT = 'font',
-  SCRIPT = 'script',
-  DATA = 'data',
+  MODEL = 'model',
   SHADER = 'shader',
-  ANIMATION = 'animation',
+  SCRIPT = 'script',
   CUSTOM = 'custom'
 }
 
-export enum AssetStatus {
+export enum ResourceStatus {
+  UNLOADED = 'unloaded',
   LOADING = 'loading',
   LOADED = 'loaded',
-  UNLOADED = 'unloaded',
   ERROR = 'error',
-  CACHED = 'cached',
-  STREAMING = 'streaming'
+  CUSTOM = 'custom'
 }
 
-export enum AssetFormat {
+export enum ResourceFormat {
   PNG = 'png',
   JPG = 'jpg',
-  GIF = 'gif',
-  WEBP = 'webp',
+  TGA = 'tga',
+  DDS = 'dds',
+  WAV = 'wav',
+  MP3 = 'mp3',
+  OGG = 'ogg',
   OBJ = 'obj',
   FBX = 'fbx',
-  GLTF = 'gltf',
-  MP3 = 'mp3',
-  WAV = 'wav',
-  OGG = 'ogg',
-  MP4 = 'mp4',
-  WEBM = 'webm',
-  TTF = 'ttf',
-  OTF = 'otf',
-  WOFF = 'woff',
-  WOFF2 = 'woff2',
-  JSON = 'json',
-  XML = 'xml',
-  BINARY = 'binary',
+  GLSL = 'glsl',
+  HLSL = 'hlsl',
   CUSTOM = 'custom'
 }
 
-export enum AssetQuality {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  ULTRA = 'ultra',
-  CUSTOM = 'custom'
-}
-
-export interface AssetMetadata {
-  width: number;
-  height: number;
-  duration: number;
-  bitrate: number;
-  channels: number;
-  sampleRate: number;
-  mipmaps: boolean;
-  compression: CompressionInfo;
-  custom: Map<string, any>;
-}
-
-export interface CompressionInfo {
+export interface ResourceCompression {
   type: CompressionType;
   level: number;
-  ratio: number;
+  originalSize: number;
+  compressedSize: number;
   metadata: Map<string, any>;
 }
 
 export enum CompressionType {
   NONE = 'none',
-  GZIP = 'gzip',
-  DEFLATE = 'deflate',
+  ZIP = 'zip',
   LZ4 = 'lz4',
-  SNAPPY = 'snappy',
-  BROTLI = 'brotli',
+  ZSTD = 'zstd',
   CUSTOM = 'custom'
 }
 
 export interface ResourceCache {
-  enabled: boolean;
+  id: string;
+  name: string;
+  type: CacheType;
+  status: CacheStatus;
+  size: number;
   maxSize: number;
-  currentSize: number;
-  maxAge: number;
-  strategy: CacheStrategy;
   entries: CacheEntry[];
-  statistics: CacheStatistics;
+  policy: CachePolicy;
   metadata: Map<string, any>;
 }
 
-export enum CacheStrategy {
-  LRU = 'lru',
-  LFU = 'lfu',
-  FIFO = 'fifo',
-  TTL = 'ttl',
+export enum CacheType {
+  MEMORY = 'memory',
+  DISK = 'disk',
+  HYBRID = 'hybrid',
+  CUSTOM = 'custom'
+}
+
+export enum CacheStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  FULL = 'full',
+  ERROR = 'error',
   CUSTOM = 'custom'
 }
 
 export interface CacheEntry {
-  id: string;
-  assetId: string;
-  data: any;
+  resource: string;
   size: number;
-  accessCount: number;
   lastAccessed: number;
-  createdAt: number;
-  expiresAt: number;
+  accessCount: number;
   metadata: Map<string, any>;
 }
 
-export interface CacheStatistics {
-  hits: number;
-  misses: number;
-  evictions: number;
-  hitRate: number;
-  averageAccessTime: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface ResourcePool {
-  id: string;
-  name: string;
-  type: PoolType;
-  status: PoolStatus;
-  assets: string[];
+export interface CachePolicy {
+  type: PolicyType;
+  maxAge: number;
   maxSize: number;
-  currentSize: number;
-  strategy: PoolStrategy;
-  statistics: PoolStatistics;
+  evictionStrategy: EvictionStrategy;
   metadata: Map<string, any>;
 }
 
-export enum PoolType {
-  TEXTURE = 'texture',
-  MODEL = 'model',
-  AUDIO = 'audio',
-  OBJECT = 'object',
+export enum PolicyType {
+  LRU = 'lru',
+  LFU = 'lfu',
+  FIFO = 'fifo',
   CUSTOM = 'custom'
 }
 
-export enum PoolStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  FULL = 'full',
-  ERROR = 'error'
-}
-
-export enum PoolStrategy {
-  PRELOAD = 'preload',
-  LAZY = 'lazy',
-  MIXED = 'mixed',
+export enum EvictionStrategy {
+  REMOVE_OLDEST = 'remove_oldest',
+  REMOVE_LEAST_USED = 'remove_least_used',
+  REMOVE_LARGEST = 'remove_largest',
   CUSTOM = 'custom'
 }
 
-export interface PoolStatistics {
-  totalAssets: number;
-  activeAssets: number;
-  poolHits: number;
-  poolMisses: number;
-  averageLoadTime: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface ResourceStream {
+export interface ResourceDependency {
   id: string;
-  name: string;
-  type: StreamType;
-  status: StreamStatus;
-  source: string;
-  destination: string;
-  bufferSize: number;
-  currentPosition: number;
-  totalSize: number;
-  speed: number;
-  progress: number;
+  resource: string;
+  dependsOn: string[];
+  type: DependencyType;
+  status: DependencyStatus;
   metadata: Map<string, any>;
 }
 
-export enum StreamType {
-  DOWNLOAD = 'download',
-  UPLOAD = 'upload',
-  STREAM = 'stream',
+export enum DependencyType {
+  REQUIRED = 'required',
+  OPTIONAL = 'optional',
   CUSTOM = 'custom'
 }
 
-export enum StreamStatus {
-  PENDING = 'pending',
-  STREAMING = 'streaming',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  CANCELLED = 'cancelled'
-}
-
-export interface CompressionConfig {
-  enabled: boolean;
-  algorithm: CompressionType;
-  level: number;
-  threshold: number;
-  formats: CompressionFormat[];
-  metadata: Map<string, any>;
-}
-
-export interface CompressionFormat {
-  format: AssetFormat;
-  enabled: boolean;
-  level: number;
-  metadata: Map<string, any>;
-}
-
-export interface ValidationConfig {
-  enabled: boolean;
-  checksums: boolean;
-  signatures: boolean;
-  formats: ValidationFormat[];
-  metadata: Map<string, any>;
-}
-
-export interface ValidationFormat {
-  format: AssetFormat;
-  enabled: boolean;
-  rules: ValidationRule[];
-  metadata: Map<string, any>;
-}
-
-export interface ValidationRule {
-  type: ValidationRuleType;
-  value: any;
-  message: string;
-  metadata: Map<string, any>;
-}
-
-export enum ValidationRuleType {
-  SIZE_LIMIT = 'size_limit',
-  FORMAT_CHECK = 'format_check',
-  INTEGRITY_CHECK = 'integrity_check',
+export enum DependencyStatus {
+  SATISFIED = 'satisfied',
+  UNSATISFIED = 'unsatisfied',
+  ERROR = 'error',
   CUSTOM = 'custom'
 }
 
-export interface ResourceAnalytics {
-  totalAssets: number;
-  loadedAssets: number;
-  cachedAssets: number;
-  streamedAssets: number;
-  totalSize: number;
-  cacheSize: number;
-  memoryUsage: number;
+export interface ResourceManagerAnalytics {
+  totalResources: number;
+  totalCacheSize: number;
+  totalDependencies: number;
   averageLoadTime: number;
   cacheHitRate: number;
-  compressionRatio: number;
+  performance: PerformanceMetrics;
   lastUpdate: number;
   metadata: Map<string, any>;
 }
 
-export interface ResourceMetadata {
+export interface PerformanceMetrics {
+  cpuUsage: number;
+  memoryUsage: number;
+  gpuUsage: number;
+  networkUsage: number;
+  metadata: Map<string, any>;
+}
+
+export interface ResourceManagerMetadata {
   author: string;
   version: string;
   tags: string[];
@@ -355,41 +233,36 @@ export interface ResourceMetadata {
 }
 
 export interface ResourceManagerStats {
-  totalAssets: number;
-  loadedAssets: number;
-  cachedAssets: number;
-  streamedAssets: number;
-  totalSize: number;
-  cacheSize: number;
-  memoryUsage: number;
+  totalResources: number;
+  totalCacheSize: number;
+  totalDependencies: number;
   averageLoadTime: number;
   cacheHitRate: number;
-  compressionRatio: number;
   lastUpdate: number;
 }
 
-export class ResourceManager {
+export class ResourceManagerManager {
   private config: ResourceManagerConfig;
-  private resourceManagers: Map<string, ResourceManager> = new Map();
+  private managers: Map<string, ResourceManager> = new Map();
   private stats: ResourceManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
 
   constructor(config: Partial<ResourceManagerConfig> = {}) {
     this.config = {
-      enableAssetLoading: true,
-      enableCaching: true,
+      enableResourceLoading: true,
+      enableResourceCaching: true,
       enableMemoryManagement: true,
-      enableResourcePooling: true,
-      enableLazyLoading: true,
-      enableStreaming: true,
-      enableCompression: true,
-      enableValidation: true,
-      enableHotReloading: true,
+      enableMemoryOptimization: true,
+      enableAssetStreaming: true,
+      enableAssetCompression: true,
+      enableResourceVersioning: true,
+      enableResourceUpdates: true,
+      enableCrossPlatformHandling: true,
       enablePerformanceMonitoring: true,
       enableResourceAnalytics: true,
+      enableDependencyManagement: true,
+      maxResources: 100000,
       maxCacheSize: 1024 * 1024 * 1024, // 1GB
-      maxMemoryUsage: 512 * 1024 * 1024, // 512MB
-      maxPoolSize: 1000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
@@ -420,227 +293,97 @@ export class ResourceManager {
   /**
    * Create new resource manager
    */
-  createResourceManager(resourceManager: Partial<ResourceManager>): ResourceManager | null {
-    const newResourceManager: ResourceManager = {
-      id: `resource_manager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: resourceManager.name || 'New Resource Manager',
-      type: resourceManager.type || ResourceManagerType.GAME,
+  createResourceManager(manager: Partial<ResourceManager>): ResourceManager | null {
+    const newManager: ResourceManager = {
+      id: `resourcemanager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: manager.name || 'New Resource Manager',
+      type: manager.type || ResourceManagerType.ASSET,
       status: ResourceManagerStatus.ACTIVE,
-      assets: resourceManager.assets || [],
-      cache: resourceManager.cache || this.createDefaultCache(),
-      pools: resourceManager.pools || [],
-      streams: resourceManager.streams || [],
-      compression: resourceManager.compression || this.createDefaultCompression(),
-      validation: resourceManager.validation || this.createDefaultValidation(),
-      analytics: resourceManager.analytics || this.createDefaultAnalytics(),
-      metadata: resourceManager.metadata || this.createDefaultMetadata(),
+      resources: manager.resources || [],
+      cache: manager.cache || this.createDefaultResourceCache(),
+      dependencies: manager.dependencies || [],
+      analytics: manager.analytics || this.createDefaultAnalytics(),
+      metadata: manager.metadata || this.createDefaultMetadata(),
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.resourceManagers.set(newResourceManager.id, newResourceManager);
-    this.updateStats('create_resource_manager', newResourceManager);
+    this.managers.set(newManager.id, newManager);
+    this.updateStats('create_manager', newManager);
 
-    console.log(`Created resource manager: ${newResourceManager.name}`);
-    return newResourceManager;
+    console.log(`Created resource manager: ${newManager.name}`);
+    return newManager;
   }
 
   /**
-   * Load asset
+   * Create resource
    */
-  loadAsset(resourceManagerId: string, asset: Partial<ResourceAsset>): Promise<ResourceAsset | null> {
-    const resourceManager = this.resourceManagers.get(resourceManagerId);
-    if (!resourceManager) {
-      console.warn(`Resource manager ${resourceManagerId} not found`);
-      return Promise.resolve(null);
+  createResource(managerId: string, resource: Partial<Resource>): Resource | null {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      console.warn(`Resource manager ${managerId} not found`);
+      return null;
     }
 
-    return new Promise((resolve, reject) => {
-      try {
-        const newAsset: ResourceAsset = {
-          id: `asset_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          name: asset.name || 'New Asset',
-          type: asset.type || AssetType.TEXTURE,
-          status: AssetStatus.LOADING,
-          path: asset.path || '',
-          url: asset.url || '',
-          size: asset.size || 0,
-          compressedSize: asset.compressedSize || 0,
-          format: asset.format || AssetFormat.PNG,
-          quality: asset.quality || AssetQuality.MEDIUM,
-          metadata: asset.metadata || this.createDefaultAssetMetadata(),
-          dependencies: asset.dependencies || [],
-          references: 0,
-          lastAccessed: Date.now(),
-          created: Date.now(),
-          modified: Date.now()
-        };
-
-        // Add asset to manager
-        resourceManager.assets.push(newAsset);
-        resourceManager.modified = Date.now();
-
-        // Simulate loading
-        setTimeout(() => {
-          newAsset.status = AssetStatus.LOADED;
-          this.updateStats('load_asset', resourceManager);
-          console.log(`Loaded asset: ${newAsset.name}`);
-          resolve(newAsset);
-        }, 100);
-
-      } catch (error) {
-        console.error(`Failed to load asset in resource manager ${resourceManagerId}:`, error);
-        reject(error);
-      }
-    });
-  }
-
-  /**
-   * Unload asset
-   */
-  unloadAsset(resourceManagerId: string, assetId: string): boolean {
-    const resourceManager = this.resourceManagers.get(resourceManagerId);
-    if (!resourceManager) {
-      console.warn(`Resource manager ${resourceManagerId} not found`);
-      return false;
-    }
-
-    const assetIndex = resourceManager.assets.findIndex(a => a.id === assetId);
-    if (assetIndex === -1) {
-      console.warn(`Asset ${assetId} not found`);
-      return false;
+    if (manager.resources.length >= this.config.maxResources) {
+      console.warn('Maximum number of resources reached');
+      return null;
     }
 
     try {
-      const asset = resourceManager.assets[assetIndex];
-      asset.status = AssetStatus.UNLOADED;
-      asset.references = 0;
-      resourceManager.modified = Date.now();
-
-      this.updateStats('unload_asset', resourceManager);
-      console.log(`Unloaded asset: ${asset.name}`);
-      return true;
-    } catch (error) {
-      console.error(`Failed to unload asset ${assetId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Cache asset
-   */
-  cacheAsset(resourceManagerId: string, assetId: string, data: any): boolean {
-    const resourceManager = this.resourceManagers.get(resourceManagerId);
-    if (!resourceManager) {
-      console.warn(`Resource manager ${resourceManagerId} not found`);
-      return false;
-    }
-
-    const asset = resourceManager.assets.find(a => a.id === assetId);
-    if (!asset) {
-      console.warn(`Asset ${assetId} not found`);
-      return false;
-    }
-
-    try {
-      // Check cache size limit
-      if (resourceManager.cache.currentSize + asset.size > resourceManager.cache.maxSize) {
-        this.evictCacheEntries(resourceManager);
-      }
-
-      // Add to cache
-      const cacheEntry: CacheEntry = {
-        id: `cache_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        assetId: asset.id,
-        data: data,
-        size: asset.size,
-        accessCount: 0,
-        lastAccessed: Date.now(),
-        createdAt: Date.now(),
-        expiresAt: Date.now() + resourceManager.cache.maxAge,
-        metadata: new Map()
+      const newResource: Resource = {
+        id: `resource_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name: resource.name || 'New Resource',
+        type: resource.type || ResourceType.TEXTURE,
+        status: ResourceStatus.UNLOADED,
+        path: resource.path || '',
+        size: resource.size || 0,
+        format: resource.format || ResourceFormat.PNG,
+        compression: resource.compression || this.createDefaultResourceCompression(),
+        metadata: resource.metadata || new Map()
       };
 
-      resourceManager.cache.entries.push(cacheEntry);
-      resourceManager.cache.currentSize += asset.size;
-      asset.status = AssetStatus.CACHED;
+      manager.resources.push(newResource);
+      manager.modified = Date.now();
 
-      resourceManager.modified = Date.now();
-      this.updateStats('cache_asset', resourceManager);
-      console.log(`Cached asset: ${asset.name}`);
-      return true;
+      this.updateStats('create_resource', manager);
+      console.log(`Created resource: ${newResource.name}`);
+      return newResource;
     } catch (error) {
-      console.error(`Failed to cache asset ${assetId}:`, error);
-      return false;
+      console.error(`Failed to create resource in manager ${managerId}:`, error);
+      return null;
     }
   }
 
   /**
-   * Get asset from cache
+   * Create resource dependency
    */
-  getCachedAsset(resourceManagerId: string, assetId: string): any | null {
-    const resourceManager = this.resourceManagers.get(resourceManagerId);
-    if (!resourceManager) {
-      console.warn(`Resource manager ${resourceManagerId} not found`);
-      return null;
-    }
-
-    const cacheEntry = resourceManager.cache.entries.find(e => e.assetId === assetId);
-    if (!cacheEntry) {
-      resourceManager.cache.statistics.misses++;
-      return null;
-    }
-
-    // Update access statistics
-    cacheEntry.accessCount++;
-    cacheEntry.lastAccessed = Date.now();
-    resourceManager.cache.statistics.hits++;
-    resourceManager.cache.statistics.hitRate = 
-      resourceManager.cache.statistics.hits / 
-      (resourceManager.cache.statistics.hits + resourceManager.cache.statistics.misses);
-
-    console.log(`Retrieved cached asset: ${assetId}`);
-    return cacheEntry.data;
-  }
-
-  /**
-   * Create resource pool
-   */
-  createPool(resourceManagerId: string, pool: Partial<ResourcePool>): ResourcePool | null {
-    const resourceManager = this.resourceManagers.get(resourceManagerId);
-    if (!resourceManager) {
-      console.warn(`Resource manager ${resourceManagerId} not found`);
-      return null;
-    }
-
-    if (resourceManager.pools.length >= this.config.maxPoolSize) {
-      console.warn('Maximum number of resource pools reached');
+  createResourceDependency(managerId: string, dependency: Partial<ResourceDependency>): ResourceDependency | null {
+    const manager = this.managers.get(managerId);
+    if (!manager) {
+      console.warn(`Resource manager ${managerId} not found`);
       return null;
     }
 
     try {
-      const newPool: ResourcePool = {
-        id: `pool_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: pool.name || 'New Resource Pool',
-        type: pool.type || PoolType.OBJECT,
-        status: PoolStatus.ACTIVE,
-        assets: pool.assets || [],
-        maxSize: pool.maxSize || 100,
-        currentSize: 0,
-        strategy: pool.strategy || PoolStrategy.LAZY,
-        statistics: pool.statistics || this.createDefaultPoolStatistics(),
-        metadata: pool.metadata || new Map()
+      const newDependency: ResourceDependency = {
+        id: `dependency_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        resource: dependency.resource || '',
+        dependsOn: dependency.dependsOn || [],
+        type: dependency.type || DependencyType.REQUIRED,
+        status: DependencyStatus.UNSATISFIED,
+        metadata: dependency.metadata || new Map()
       };
 
-      resourceManager.pools.push(newPool);
-      resourceManager.modified = Date.now();
+      manager.dependencies.push(newDependency);
+      manager.modified = Date.now();
 
-      this.updateStats('create_pool', resourceManager);
-      console.log(`Created resource pool: ${newPool.name}`);
-      return newPool;
+      this.updateStats('create_dependency', manager);
+      console.log(`Created resource dependency: ${newDependency.id}`);
+      return newDependency;
     } catch (error) {
-      console.error(`Failed to create pool in resource manager ${resourceManagerId}:`, error);
+      console.error(`Failed to create resource dependency in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -648,22 +391,22 @@ export class ResourceManager {
   /**
    * Get resource manager
    */
-  getResourceManager(resourceManagerId: string): ResourceManager | null {
-    return this.resourceManagers.get(resourceManagerId) || null;
+  getResourceManager(managerId: string): ResourceManager | null {
+    return this.managers.get(managerId) || null;
   }
 
   /**
    * Get all resource managers
    */
   getResourceManagers(): ResourceManager[] {
-    return Array.from(this.resourceManagers.values());
+    return Array.from(this.managers.values());
   }
 
   /**
    * Get resource managers by type
    */
   getResourceManagersByType(type: ResourceManagerType): ResourceManager[] {
-    return Array.from(this.resourceManagers.values())
+    return Array.from(this.managers.values())
       .filter(manager => manager.type === type);
   }
 
@@ -687,14 +430,14 @@ export class ResourceManager {
   private async loadDefaultResourceManagers(): Promise<void> {
     // Load default resource managers
     const defaultManagers = [
-      this.createDefaultGameManager(),
-      this.createDefaultApplicationManager(),
-      this.createDefaultWebManager()
+      this.createDefaultAsset(),
+      this.createDefaultTexture(),
+      this.createDefaultAudio()
     ];
 
     for (const manager of defaultManagers) {
       if (manager) {
-        this.resourceManagers.set(manager.id, manager);
+        this.managers.set(manager.id, manager);
       }
     }
 
@@ -702,23 +445,22 @@ export class ResourceManager {
   }
 
   /**
-   * Create default cache
+   * Create default resource cache
    */
-  private createDefaultCache(): ResourceCache {
+  private createDefaultResourceCache(): ResourceCache {
     return {
-      enabled: true,
+      id: `cache_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: 'Default Cache',
+      type: CacheType.MEMORY,
+      status: CacheStatus.ACTIVE,
+      size: 0,
       maxSize: this.config.maxCacheSize,
-      currentSize: 0,
-      maxAge: 3600000, // 1 hour
-      strategy: CacheStrategy.LRU,
       entries: [],
-      statistics: {
-        hits: 0,
-        misses: 0,
-        evictions: 0,
-        hitRate: 0,
-        averageAccessTime: 0,
-        lastUpdate: Date.now(),
+      policy: {
+        type: PolicyType.LRU,
+        maxAge: 3600000, // 1 hour
+        maxSize: this.config.maxCacheSize,
+        evictionStrategy: EvictionStrategy.REMOVE_OLDEST,
         metadata: new Map()
       },
       metadata: new Map()
@@ -726,79 +468,14 @@ export class ResourceManager {
   }
 
   /**
-   * Create default compression
+   * Create default resource compression
    */
-  private createDefaultCompression(): CompressionConfig {
+  private createDefaultResourceCompression(): ResourceCompression {
     return {
-      enabled: true,
-      algorithm: CompressionType.GZIP,
-      level: 6,
-      threshold: 1024, // 1KB
-      formats: [
-        { format: AssetFormat.JSON, enabled: true, level: 6, metadata: new Map() },
-        { format: AssetFormat.XML, enabled: true, level: 6, metadata: new Map() },
-        { format: AssetFormat.BINARY, enabled: true, level: 6, metadata: new Map() }
-      ],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default validation
-   */
-  private createDefaultValidation(): ValidationConfig {
-    return {
-      enabled: true,
-      checksums: true,
-      signatures: true,
-      formats: [
-        {
-          format: AssetFormat.PNG,
-          enabled: true,
-          rules: [
-            { type: ValidationRuleType.SIZE_LIMIT, value: 10485760, message: 'PNG size limit exceeded', metadata: new Map() },
-            { type: ValidationRuleType.FORMAT_CHECK, value: true, message: 'Invalid PNG format', metadata: new Map() }
-          ],
-          metadata: new Map()
-        }
-      ],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default asset metadata
-   */
-  private createDefaultAssetMetadata(): AssetMetadata {
-    return {
-      width: 0,
-      height: 0,
-      duration: 0,
-      bitrate: 0,
-      channels: 0,
-      sampleRate: 0,
-      mipmaps: false,
-      compression: {
-        type: CompressionType.NONE,
-        level: 0,
-        ratio: 1.0,
-        metadata: new Map()
-      },
-      custom: new Map()
-    };
-  }
-
-  /**
-   * Create default pool statistics
-   */
-  private createDefaultPoolStatistics(): PoolStatistics {
-    return {
-      totalAssets: 0,
-      activeAssets: 0,
-      poolHits: 0,
-      poolMisses: 0,
-      averageLoadTime: 0,
-      lastUpdate: Date.now(),
+      type: CompressionType.NONE,
+      level: 0,
+      originalSize: 0,
+      compressedSize: 0,
       metadata: new Map()
     };
   }
@@ -806,18 +483,20 @@ export class ResourceManager {
   /**
    * Create default analytics
    */
-  private createDefaultAnalytics(): ResourceAnalytics {
+  private createDefaultAnalytics(): ResourceManagerAnalytics {
     return {
-      totalAssets: 0,
-      loadedAssets: 0,
-      cachedAssets: 0,
-      streamedAssets: 0,
-      totalSize: 0,
-      cacheSize: 0,
-      memoryUsage: 0,
+      totalResources: 0,
+      totalCacheSize: 0,
+      totalDependencies: 0,
       averageLoadTime: 0,
       cacheHitRate: 0,
-      compressionRatio: 1.0,
+      performance: {
+        cpuUsage: 0,
+        memoryUsage: 0,
+        gpuUsage: 0,
+        networkUsage: 0,
+        metadata: new Map()
+      },
       lastUpdate: Date.now(),
       metadata: new Map()
     };
@@ -826,7 +505,7 @@ export class ResourceManager {
   /**
    * Create default metadata
    */
-  private createDefaultMetadata(): ResourceMetadata {
+  private createDefaultMetadata(): ResourceManagerMetadata {
     return {
       author: 'System',
       version: '1.0.0',
@@ -837,82 +516,53 @@ export class ResourceManager {
   }
 
   /**
-   * Create default game manager
+   * Create default asset
    */
-  private createDefaultGameManager(): ResourceManager {
+  private createDefaultAsset(): ResourceManager {
     return this.createResourceManager({
-      name: 'Game Resource Manager',
-      type: ResourceManagerType.GAME,
-      description: 'Game resource management system'
+      name: 'Asset Resource Manager',
+      type: ResourceManagerType.ASSET,
+      description: 'Asset resource management system'
     });
   }
 
   /**
-   * Create default application manager
+   * Create default texture
    */
-  private createDefaultApplicationManager(): ResourceManager {
+  private createDefaultTexture(): ResourceManager {
     return this.createResourceManager({
-      name: 'Application Resource Manager',
-      type: ResourceManagerType.APPLICATION,
-      description: 'Application resource management system'
+      name: 'Texture Resource Manager',
+      type: ResourceManagerType.TEXTURE,
+      description: 'Texture resource management system'
     });
   }
 
   /**
-   * Create default web manager
+   * Create default audio
    */
-  private createDefaultWebManager(): ResourceManager {
+  private createDefaultAudio(): ResourceManager {
     return this.createResourceManager({
-      name: 'Web Resource Manager',
-      type: ResourceManagerType.WEB,
-      description: 'Web resource management system'
+      name: 'Audio Resource Manager',
+      type: ResourceManagerType.AUDIO,
+      description: 'Audio resource management system'
     });
-  }
-
-  /**
-   * Evict cache entries
-   */
-  private evictCacheEntries(resourceManager: ResourceManager): void {
-    // Sort entries by last accessed time (oldest first)
-    const sortedEntries = resourceManager.cache.entries.sort((a, b) => a.lastAccessed - b.lastAccessed);
-    
-    // Remove oldest entries until we have enough space
-    let freedSpace = 0;
-    const targetSpace = resourceManager.cache.maxSize * 0.1; // Free 10% of cache
-    
-    for (const entry of sortedEntries) {
-      if (freedSpace >= targetSpace) break;
-      
-      resourceManager.cache.entries = resourceManager.cache.entries.filter(e => e.id !== entry.id);
-      resourceManager.cache.currentSize -= entry.size;
-      freedSpace += entry.size;
-      resourceManager.cache.statistics.evictions++;
-    }
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, resourceManager: ResourceManager): void {
+  private updateStats(action: string, manager: ResourceManager): void {
     switch (action) {
-      case 'create_resource_manager':
-        this.stats.totalAssets += resourceManager.assets.length;
-        this.stats.totalSize += resourceManager.assets.reduce((sum, asset) => sum + asset.size, 0);
-        this.stats.cacheSize += resourceManager.cache.currentSize;
+      case 'create_manager':
+        this.stats.totalResources += manager.resources.length;
+        this.stats.totalCacheSize += manager.cache.size;
+        this.stats.totalDependencies += manager.dependencies.length;
         break;
-      case 'load_asset':
-        this.stats.totalAssets++;
-        this.stats.loadedAssets++;
+      case 'create_resource':
+        this.stats.totalResources++;
         break;
-      case 'unload_asset':
-        this.stats.loadedAssets--;
-        break;
-      case 'cache_asset':
-        this.stats.cachedAssets++;
-        this.stats.cacheSize += resourceManager.cache.currentSize;
-        break;
-      case 'create_pool':
-        // Pool created
+      case 'create_dependency':
+        this.stats.totalDependencies++;
         break;
     }
 
@@ -924,16 +574,11 @@ export class ResourceManager {
    */
   private initializeStats(): ResourceManagerStats {
     return {
-      totalAssets: 0,
-      loadedAssets: 0,
-      cachedAssets: 0,
-      streamedAssets: 0,
-      totalSize: 0,
-      cacheSize: 0,
-      memoryUsage: 0,
+      totalResources: 0,
+      totalCacheSize: 0,
+      totalDependencies: 0,
       averageLoadTime: 0,
       cacheHitRate: 0,
-      compressionRatio: 1.0,
       lastUpdate: Date.now()
     };
   }
@@ -942,12 +587,12 @@ export class ResourceManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.resourceManagers.clear();
+    this.managers.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
   }
 }
 
 // Export default instance
-export const defaultResourceManager = new ResourceManager();
-export { ResourceManager as default };
+export const defaultResourceManagerManager = new ResourceManagerManager();
+export { ResourceManagerManager as default };
