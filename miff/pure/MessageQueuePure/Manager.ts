@@ -1,37 +1,33 @@
 /**
  * MessageQueuePure Manager - Advanced Message Queue Management System
  *
- * Comprehensive message queue system with:
+ * Comprehensive message queue management system with:
  * - Message publishing and consumption
  * - Queue management and routing
  * - Message persistence and durability
- * - Dead letter queues and retry logic
- * - Message ordering and sequencing
- * - Load balancing and scaling
- * - Monitoring and analytics
- * - Security and access control
+ * - Dead letter queue handling
+ * - Cross-platform message queue support
+ * - Performance optimization
+ * - Real-time message monitoring
+ * - Message queue analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
  */
 
 export interface MessageQueueConfig {
-  enablePublishing: boolean;
-  enableConsumption: boolean;
+  enableMessagePublishing: boolean;
+  enableMessageConsumption: boolean;
   enableQueueManagement: boolean;
-  enableRouting: boolean;
-  enablePersistence: boolean;
-  enableDurability: boolean;
-  enableDeadLetterQueues: boolean;
-  enableRetryLogic: boolean;
-  enableMessageOrdering: boolean;
-  enableSequencing: boolean;
-  enableLoadBalancing: boolean;
-  enableScaling: boolean;
-  enableMonitoring: boolean;
-  enableAnalytics: boolean;
-  enableSecurity: boolean;
-  enableAccessControl: boolean;
+  enableMessageRouting: boolean;
+  enableMessagePersistence: boolean;
+  enableMessageDurability: boolean;
+  enableDeadLetterQueue: boolean;
+  enableCrossPlatformSupport: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableMessageQueueAnalytics: boolean;
+  enableMessageQueueReporting: boolean;
   maxQueues: number;
   maxMessages: number;
   enableCloudSync: boolean;
@@ -45,13 +41,10 @@ export interface MessageQueue {
   type: MessageQueueType;
   status: MessageQueueStatus;
   queues: Queue[];
-  topics: Topic[];
-  consumers: Consumer[];
-  producers: Producer[];
+  messages: Message[];
   deadLetterQueues: DeadLetterQueue[];
-  monitors: QueueMonitor[];
-  analytics: QueueAnalytics;
-  metadata: QueueMetadata;
+  analytics: MessageQueueAnalytics;
+  metadata: MessageQueueMetadata;
   version: string;
   created: number;
   modified: number;
@@ -60,15 +53,15 @@ export interface MessageQueue {
 export enum MessageQueueType {
   FIFO = 'fifo',
   PRIORITY = 'priority',
-  PUB_SUB = 'pub_sub',
-  WORK_QUEUE = 'work_queue',
+  DELAY = 'delay',
+  DEAD_LETTER = 'dead_letter',
   CUSTOM = 'custom'
 }
 
 export enum MessageQueueStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
-  MAINTENANCE = 'maintenance',
+  PROCESSING = 'processing',
   ERROR = 'error',
   CUSTOM = 'custom'
 }
@@ -80,9 +73,7 @@ export interface Queue {
   status: QueueStatus;
   configuration: QueueConfiguration;
   messages: Message[];
-  consumers: string[];
-  producers: string[];
-  statistics: QueueStatistics;
+  consumers: Consumer[];
   metadata: Map<string, any>;
 }
 
@@ -90,14 +81,14 @@ export enum QueueType {
   STANDARD = 'standard',
   FIFO = 'fifo',
   PRIORITY = 'priority',
-  DEAD_LETTER = 'dead_letter',
+  DELAY = 'delay',
   CUSTOM = 'custom'
 }
 
 export enum QueueStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
-  PAUSED = 'paused',
+  PROCESSING = 'processing',
   ERROR = 'error',
   CUSTOM = 'custom'
 }
@@ -106,20 +97,18 @@ export interface QueueConfiguration {
   visibilityTimeout: number;
   messageRetentionPeriod: number;
   maxReceiveCount: number;
-  delaySeconds: number;
-  maxMessageSize: number;
+  deadLetterQueue: string;
   metadata: Map<string, any>;
 }
 
 export interface Message {
   id: string;
-  content: any;
+  content: string;
   type: MessageType;
-  priority: MessagePriority;
   status: MessageStatus;
+  priority: MessagePriority;
   timestamp: number;
-  expiration: number;
-  attributes: MessageAttributes;
+  headers: Map<string, string>;
   metadata: Map<string, any>;
 }
 
@@ -127,14 +116,6 @@ export enum MessageType {
   TEXT = 'text',
   JSON = 'json',
   BINARY = 'binary',
-  CUSTOM = 'custom'
-}
-
-export enum MessagePriority {
-  LOW = 'low',
-  NORMAL = 'normal',
-  HIGH = 'high',
-  URGENT = 'urgent',
   CUSTOM = 'custom'
 }
 
@@ -147,53 +128,12 @@ export enum MessageStatus {
   CUSTOM = 'custom'
 }
 
-export interface MessageAttributes {
-  contentType: string;
-  encoding: string;
-  compression: string;
-  checksum: string;
-  metadata: Map<string, any>;
-}
-
-export interface QueueStatistics {
-  totalMessages: number;
-  pendingMessages: number;
-  processedMessages: number;
-  failedMessages: number;
-  averageProcessingTime: number;
-  throughput: number;
-  metadata: Map<string, any>;
-}
-
-export interface Topic {
-  id: string;
-  name: string;
-  type: TopicType;
-  status: TopicStatus;
-  subscriptions: string[];
-  publishers: string[];
-  configuration: TopicConfiguration;
-  metadata: Map<string, any>;
-}
-
-export enum TopicType {
-  STANDARD = 'standard',
-  FIFO = 'fifo',
+export enum MessagePriority {
+  LOW = 'low',
+  NORMAL = 'normal',
+  HIGH = 'high',
+  URGENT = 'urgent',
   CUSTOM = 'custom'
-}
-
-export enum TopicStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface TopicConfiguration {
-  messageRetentionPeriod: number;
-  maxMessageSize: number;
-  filteringEnabled: boolean;
-  metadata: Map<string, any>;
 }
 
 export interface Consumer {
@@ -201,147 +141,55 @@ export interface Consumer {
   name: string;
   type: ConsumerType;
   status: ConsumerStatus;
-  queues: string[];
-  topics: string[];
   configuration: ConsumerConfiguration;
-  statistics: ConsumerStatistics;
   metadata: Map<string, any>;
 }
 
 export enum ConsumerType {
   PULL = 'pull',
   PUSH = 'push',
-  BATCH = 'batch',
+  LONG_POLLING = 'long_polling',
   CUSTOM = 'custom'
 }
 
 export enum ConsumerStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
-  PAUSED = 'paused',
+  PROCESSING = 'processing',
   ERROR = 'error',
   CUSTOM = 'custom'
 }
 
 export interface ConsumerConfiguration {
   batchSize: number;
-  pollingInterval: number;
-  maxConcurrentMessages: number;
-  autoAck: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface ConsumerStatistics {
-  totalMessages: number;
-  processedMessages: number;
-  failedMessages: number;
-  averageProcessingTime: number;
-  lastProcessed: number;
-  metadata: Map<string, any>;
-}
-
-export interface Producer {
-  id: string;
-  name: string;
-  type: ProducerType;
-  status: ProducerStatus;
-  queues: string[];
-  topics: string[];
-  configuration: ProducerConfiguration;
-  statistics: ProducerStatistics;
-  metadata: Map<string, any>;
-}
-
-export enum ProducerType {
-  SINGLE = 'single',
-  BATCH = 'batch',
-  ASYNC = 'async',
-  CUSTOM = 'custom'
-}
-
-export enum ProducerStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface ProducerConfiguration {
-  batchSize: number;
-  flushInterval: number;
-  compression: boolean;
-  retryAttempts: number;
-  metadata: Map<string, any>;
-}
-
-export interface ProducerStatistics {
-  totalMessages: number;
-  sentMessages: number;
-  failedMessages: number;
-  averageLatency: number;
-  lastSent: number;
+  waitTime: number;
+  maxRetries: number;
   metadata: Map<string, any>;
 }
 
 export interface DeadLetterQueue {
   id: string;
   name: string;
+  status: DeadLetterQueueStatus;
   sourceQueue: string;
   maxReceiveCount: number;
   messages: Message[];
-  configuration: DeadLetterQueueConfiguration;
   metadata: Map<string, any>;
 }
 
-export interface DeadLetterQueueConfiguration {
-  retentionPeriod: number;
-  maxMessageSize: number;
-  metadata: Map<string, any>;
-}
-
-export interface QueueMonitor {
-  id: string;
-  name: string;
-  type: MonitorType;
-  enabled: boolean;
-  configuration: MonitorConfiguration;
-  alerts: MonitorAlert[];
-  metadata: Map<string, any>;
-}
-
-export enum MonitorType {
-  QUEUE_DEPTH = 'queue_depth',
-  MESSAGE_AGE = 'message_age',
-  CONSUMER_LAG = 'consumer_lag',
-  ERROR_RATE = 'error_rate',
+export enum DeadLetterQueueStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ERROR = 'error',
   CUSTOM = 'custom'
 }
 
-export interface MonitorConfiguration {
-  targets: string[];
-  interval: number;
-  thresholds: Map<string, number>;
-  metadata: Map<string, any>;
-}
-
-export interface MonitorAlert {
-  id: string;
-  name: string;
-  condition: string;
-  threshold: number;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface QueueAnalytics {
+export interface MessageQueueAnalytics {
   totalQueues: number;
-  totalTopics: number;
   totalMessages: number;
-  totalConsumers: number;
-  totalProducers: number;
+  totalDeadLetterQueues: number;
   averageMessageSize: number;
   averageProcessingTime: number;
-  throughput: number;
   performance: PerformanceMetrics;
   lastUpdate: number;
   metadata: Map<string, any>;
@@ -350,12 +198,12 @@ export interface QueueAnalytics {
 export interface PerformanceMetrics {
   cpuUsage: number;
   memoryUsage: number;
-  diskUsage: number;
+  gpuUsage: number;
   networkUsage: number;
   metadata: Map<string, any>;
 }
 
-export interface QueueMetadata {
+export interface MessageQueueMetadata {
   author: string;
   version: string;
   tags: string[];
@@ -365,18 +213,10 @@ export interface QueueMetadata {
 
 export interface MessageQueueStats {
   totalQueues: number;
-  activeQueues: number;
-  totalTopics: number;
   totalMessages: number;
-  pendingMessages: number;
-  processedMessages: number;
-  failedMessages: number;
-  totalConsumers: number;
-  activeConsumers: number;
-  totalProducers: number;
-  activeProducers: number;
+  totalDeadLetterQueues: number;
+  averageMessageSize: number;
   averageProcessingTime: number;
-  throughput: number;
   lastUpdate: number;
 }
 
@@ -388,24 +228,20 @@ export class MessageQueueManager {
 
   constructor(config: Partial<MessageQueueConfig> = {}) {
     this.config = {
-      enablePublishing: true,
-      enableConsumption: true,
+      enableMessagePublishing: true,
+      enableMessageConsumption: true,
       enableQueueManagement: true,
-      enableRouting: true,
-      enablePersistence: true,
-      enableDurability: true,
-      enableDeadLetterQueues: true,
-      enableRetryLogic: true,
-      enableMessageOrdering: true,
-      enableSequencing: true,
-      enableLoadBalancing: true,
-      enableScaling: true,
-      enableMonitoring: true,
-      enableAnalytics: true,
-      enableSecurity: true,
-      enableAccessControl: true,
-      maxQueues: 1000,
-      maxMessages: 10000000,
+      enableMessageRouting: true,
+      enableMessagePersistence: true,
+      enableMessageDurability: true,
+      enableDeadLetterQueue: true,
+      enableCrossPlatformSupport: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableMessageQueueAnalytics: true,
+      enableMessageQueueReporting: true,
+      maxQueues: 10000,
+      maxMessages: 1000000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
@@ -438,16 +274,13 @@ export class MessageQueueManager {
    */
   createMessageQueue(messageQueue: Partial<MessageQueue>): MessageQueue | null {
     const newMessageQueue: MessageQueue = {
-      id: `message_queue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `messagequeue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: messageQueue.name || 'New Message Queue',
       type: messageQueue.type || MessageQueueType.FIFO,
       status: MessageQueueStatus.ACTIVE,
       queues: messageQueue.queues || [],
-      topics: messageQueue.topics || [],
-      consumers: messageQueue.consumers || [],
-      producers: messageQueue.producers || [],
+      messages: messageQueue.messages || [],
       deadLetterQueues: messageQueue.deadLetterQueues || [],
-      monitors: messageQueue.monitors || [],
       analytics: messageQueue.analytics || this.createDefaultAnalytics(),
       metadata: messageQueue.metadata || this.createDefaultMetadata(),
       version: '1.0.0',
@@ -456,7 +289,7 @@ export class MessageQueueManager {
     };
 
     this.messageQueues.set(newMessageQueue.id, newMessageQueue);
-    this.updateStats('create_message_queue', newMessageQueue);
+    this.updateStats('create_messagequeue', newMessageQueue);
 
     console.log(`Created message queue: ${newMessageQueue.name}`);
     return newMessageQueue;
@@ -486,8 +319,6 @@ export class MessageQueueManager {
         configuration: queue.configuration || this.createDefaultQueueConfiguration(),
         messages: queue.messages || [],
         consumers: queue.consumers || [],
-        producers: queue.producers || [],
-        statistics: queue.statistics || this.createDefaultQueueStatistics(),
         metadata: queue.metadata || new Map()
       };
 
@@ -504,33 +335,18 @@ export class MessageQueueManager {
   }
 
   /**
-   * Publish message
+   * Create message
    */
-  async publishMessage(messageQueueId: string, queueId: string, message: Partial<Message>): Promise<PublishResult> {
+  createMessage(messageQueueId: string, message: Partial<Message>): Message | null {
     const messageQueue = this.messageQueues.get(messageQueueId);
     if (!messageQueue) {
-      return {
-        success: false,
-        message: 'Message queue not found',
-        metadata: new Map()
-      };
+      console.warn(`Message queue ${messageQueueId} not found`);
+      return null;
     }
 
-    const queue = messageQueue.queues.find(q => q.id === queueId);
-    if (!queue) {
-      return {
-        success: false,
-        message: 'Queue not found',
-        metadata: new Map()
-      };
-    }
-
-    if (queue.messages.length >= this.config.maxMessages) {
-      return {
-        success: false,
-        message: 'Maximum number of messages reached',
-        metadata: new Map()
-      };
+    if (messageQueue.messages.length >= this.config.maxMessages) {
+      console.warn('Maximum number of messages reached');
+      return null;
     }
 
     try {
@@ -538,202 +354,21 @@ export class MessageQueueManager {
         id: `message_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         content: message.content || '',
         type: message.type || MessageType.TEXT,
-        priority: message.priority || MessagePriority.NORMAL,
         status: MessageStatus.PENDING,
+        priority: message.priority || MessagePriority.NORMAL,
         timestamp: Date.now(),
-        expiration: message.expiration || Date.now() + (24 * 60 * 60 * 1000), // 24 hours
-        attributes: message.attributes || this.createDefaultMessageAttributes(),
+        headers: message.headers || new Map(),
         metadata: message.metadata || new Map()
       };
 
-      queue.messages.push(newMessage);
-      queue.statistics.totalMessages++;
-      queue.statistics.pendingMessages++;
-      
-      messageQueue.modified = Date.now();
-      this.updateStats('publish_message', messageQueue);
-      
-      return {
-        success: true,
-        message: 'Message published successfully',
-        messageId: newMessage.id,
-        metadata: new Map()
-      };
-    } catch (error) {
-      console.error(`Failed to publish message in queue ${queueId}:`, error);
-      return {
-        success: false,
-        message: `Failed to publish message: ${error}`,
-        metadata: new Map()
-      };
-    }
-  }
-
-  /**
-   * Consume message
-   */
-  async consumeMessage(messageQueueId: string, queueId: string, consumerId: string): Promise<ConsumeResult> {
-    const messageQueue = this.messageQueues.get(messageQueueId);
-    if (!messageQueue) {
-      return {
-        success: false,
-        message: 'Message queue not found',
-        data: null,
-        metadata: new Map()
-      };
-    }
-
-    const queue = messageQueue.queues.find(q => q.id === queueId);
-    if (!queue) {
-      return {
-        success: false,
-        message: 'Queue not found',
-        data: null,
-        metadata: new Map()
-      };
-    }
-
-    const consumer = messageQueue.consumers.find(c => c.id === consumerId);
-    if (!consumer) {
-      return {
-        success: false,
-        message: 'Consumer not found',
-        data: null,
-        metadata: new Map()
-      };
-    }
-
-    try {
-      // Find next message to process
-      const message = queue.messages.find(m => m.status === MessageStatus.PENDING);
-      if (!message) {
-        return {
-          success: false,
-          message: 'No messages available',
-          data: null,
-          metadata: new Map()
-        };
-      }
-
-      // Update message status
-      message.status = MessageStatus.PROCESSING;
-      queue.statistics.pendingMessages--;
-      
-      // Update consumer statistics
-      consumer.statistics.totalMessages++;
-      consumer.statistics.lastProcessed = Date.now();
-      
-      messageQueue.modified = Date.now();
-      this.updateStats('consume_message', messageQueue);
-      
-      return {
-        success: true,
-        message: 'Message consumed successfully',
-        data: message,
-        metadata: new Map()
-      };
-    } catch (error) {
-      console.error(`Failed to consume message from queue ${queueId}:`, error);
-      return {
-        success: false,
-        message: `Failed to consume message: ${error}`,
-        data: null,
-        metadata: new Map()
-      };
-    }
-  }
-
-  /**
-   * Acknowledge message
-   */
-  async acknowledgeMessage(messageQueueId: string, queueId: string, messageId: string): Promise<AcknowledgeResult> {
-    const messageQueue = this.messageQueues.get(messageQueueId);
-    if (!messageQueue) {
-      return {
-        success: false,
-        message: 'Message queue not found',
-        metadata: new Map()
-      };
-    }
-
-    const queue = messageQueue.queues.find(q => q.id === queueId);
-    if (!queue) {
-      return {
-        success: false,
-        message: 'Queue not found',
-        metadata: new Map()
-      };
-    }
-
-    const message = queue.messages.find(m => m.id === messageId);
-    if (!message) {
-      return {
-        success: false,
-        message: 'Message not found',
-        metadata: new Map()
-      };
-    }
-
-    try {
-      // Update message status
-      message.status = MessageStatus.COMPLETED;
-      queue.statistics.processedMessages++;
-      
-      // Remove message from queue
-      const messageIndex = queue.messages.indexOf(message);
-      if (messageIndex > -1) {
-        queue.messages.splice(messageIndex, 1);
-      }
-      
-      messageQueue.modified = Date.now();
-      this.updateStats('acknowledge_message', messageQueue);
-      
-      return {
-        success: true,
-        message: 'Message acknowledged successfully',
-        metadata: new Map()
-      };
-    } catch (error) {
-      console.error(`Failed to acknowledge message ${messageId}:`, error);
-      return {
-        success: false,
-        message: `Failed to acknowledge message: ${error}`,
-        metadata: new Map()
-      };
-    }
-  }
-
-  /**
-   * Create consumer
-   */
-  createConsumer(messageQueueId: string, consumer: Partial<Consumer>): Consumer | null {
-    const messageQueue = this.messageQueues.get(messageQueueId);
-    if (!messageQueue) {
-      console.warn(`Message queue ${messageQueueId} not found`);
-      return null;
-    }
-
-    try {
-      const newConsumer: Consumer = {
-        id: `consumer_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: consumer.name || 'New Consumer',
-        type: consumer.type || ConsumerType.PULL,
-        status: ConsumerStatus.ACTIVE,
-        queues: consumer.queues || [],
-        topics: consumer.topics || [],
-        configuration: consumer.configuration || this.createDefaultConsumerConfiguration(),
-        statistics: consumer.statistics || this.createDefaultConsumerStatistics(),
-        metadata: consumer.metadata || new Map()
-      };
-
-      messageQueue.consumers.push(newConsumer);
+      messageQueue.messages.push(newMessage);
       messageQueue.modified = Date.now();
 
-      this.updateStats('create_consumer', messageQueue);
-      console.log(`Created consumer: ${newConsumer.name}`);
-      return newConsumer;
+      this.updateStats('create_message', messageQueue);
+      console.log(`Created message: ${newMessage.id}`);
+      return newMessage;
     } catch (error) {
-      console.error(`Failed to create consumer in message queue ${messageQueueId}:`, error);
+      console.error(`Failed to create message in message queue ${messageQueueId}:`, error);
       return null;
     }
   }
@@ -757,7 +392,7 @@ export class MessageQueueManager {
    */
   getMessageQueuesByType(type: MessageQueueType): MessageQueue[] {
     return Array.from(this.messageQueues.values())
-      .filter(queue => queue.type === type);
+      .filter(messageQueue => messageQueue.type === type);
   }
 
   /**
@@ -779,19 +414,19 @@ export class MessageQueueManager {
    */
   private async loadDefaultMessageQueues(): Promise<void> {
     // Load default message queues
-    const defaultQueues = [
-      this.createDefaultFIFOQueue(),
-      this.createDefaultPriorityQueue(),
-      this.createDefaultPubSubQueue()
+    const defaultMessageQueues = [
+      this.createDefaultFIFO(),
+      this.createDefaultPriority(),
+      this.createDefaultDelay()
     ];
 
-    for (const queue of defaultQueues) {
-      if (queue) {
-        this.messageQueues.set(queue.id, queue);
+    for (const messageQueue of defaultMessageQueues) {
+      if (messageQueue) {
+        this.messageQueues.set(messageQueue.id, messageQueue);
       }
     }
 
-    console.log(`Loaded ${defaultQueues.length} default message queues`);
+    console.log(`Loaded ${defaultMessageQueues.length} default message queues`);
   }
 
   /**
@@ -799,66 +434,10 @@ export class MessageQueueManager {
    */
   private createDefaultQueueConfiguration(): QueueConfiguration {
     return {
-      visibilityTimeout: 30000, // 30 seconds
+      visibilityTimeout: 30,
       messageRetentionPeriod: 1209600, // 14 days
       maxReceiveCount: 3,
-      delaySeconds: 0,
-      maxMessageSize: 262144, // 256KB
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default queue statistics
-   */
-  private createDefaultQueueStatistics(): QueueStatistics {
-    return {
-      totalMessages: 0,
-      pendingMessages: 0,
-      processedMessages: 0,
-      failedMessages: 0,
-      averageProcessingTime: 0,
-      throughput: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default message attributes
-   */
-  private createDefaultMessageAttributes(): MessageAttributes {
-    return {
-      contentType: 'text/plain',
-      encoding: 'utf-8',
-      compression: 'none',
-      checksum: '',
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default consumer configuration
-   */
-  private createDefaultConsumerConfiguration(): ConsumerConfiguration {
-    return {
-      batchSize: 1,
-      pollingInterval: 1000, // 1 second
-      maxConcurrentMessages: 1,
-      autoAck: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default consumer statistics
-   */
-  private createDefaultConsumerStatistics(): ConsumerStatistics {
-    return {
-      totalMessages: 0,
-      processedMessages: 0,
-      failedMessages: 0,
-      averageProcessingTime: 0,
-      lastProcessed: 0,
+      deadLetterQueue: '',
       metadata: new Map()
     };
   }
@@ -866,20 +445,17 @@ export class MessageQueueManager {
   /**
    * Create default analytics
    */
-  private createDefaultAnalytics(): QueueAnalytics {
+  private createDefaultAnalytics(): MessageQueueAnalytics {
     return {
       totalQueues: 0,
-      totalTopics: 0,
       totalMessages: 0,
-      totalConsumers: 0,
-      totalProducers: 0,
+      totalDeadLetterQueues: 0,
       averageMessageSize: 0,
       averageProcessingTime: 0,
-      throughput: 0,
       performance: {
         cpuUsage: 0,
         memoryUsage: 0,
-        diskUsage: 0,
+        gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
       },
@@ -891,7 +467,7 @@ export class MessageQueueManager {
   /**
    * Create default metadata
    */
-  private createDefaultMetadata(): QueueMetadata {
+  private createDefaultMetadata(): MessageQueueMetadata {
     return {
       author: 'System',
       version: '1.0.0',
@@ -902,9 +478,9 @@ export class MessageQueueManager {
   }
 
   /**
-   * Create default FIFO queue
+   * Create default FIFO
    */
-  private createDefaultFIFOQueue(): MessageQueue {
+  private createDefaultFIFO(): MessageQueue {
     return this.createMessageQueue({
       name: 'FIFO Message Queue',
       type: MessageQueueType.FIFO,
@@ -913,9 +489,9 @@ export class MessageQueueManager {
   }
 
   /**
-   * Create default priority queue
+   * Create default priority
    */
-  private createDefaultPriorityQueue(): MessageQueue {
+  private createDefaultPriority(): MessageQueue {
     return this.createMessageQueue({
       name: 'Priority Message Queue',
       type: MessageQueueType.PRIORITY,
@@ -924,13 +500,13 @@ export class MessageQueueManager {
   }
 
   /**
-   * Create default pub/sub queue
+   * Create default delay
    */
-  private createDefaultPubSubQueue(): MessageQueue {
+  private createDefaultDelay(): MessageQueue {
     return this.createMessageQueue({
-      name: 'Pub/Sub Message Queue',
-      type: MessageQueueType.PUB_SUB,
-      description: 'Pub/Sub message queue'
+      name: 'Delay Message Queue',
+      type: MessageQueueType.DELAY,
+      description: 'Delay message queue'
     });
   }
 
@@ -939,29 +515,16 @@ export class MessageQueueManager {
    */
   private updateStats(action: string, messageQueue: MessageQueue): void {
     switch (action) {
-      case 'create_message_queue':
+      case 'create_messagequeue':
         this.stats.totalQueues += messageQueue.queues.length;
-        this.stats.totalTopics += messageQueue.topics.length;
-        this.stats.totalMessages += messageQueue.queues.reduce((sum, q) => sum + q.messages.length, 0);
-        this.stats.totalConsumers += messageQueue.consumers.length;
-        this.stats.totalProducers += messageQueue.producers.length;
+        this.stats.totalMessages += messageQueue.messages.length;
+        this.stats.totalDeadLetterQueues += messageQueue.deadLetterQueues.length;
         break;
       case 'create_queue':
         this.stats.totalQueues++;
-        this.stats.activeQueues++;
         break;
-      case 'publish_message':
+      case 'create_message':
         this.stats.totalMessages++;
-        break;
-      case 'consume_message':
-        // Message consumed
-        break;
-      case 'acknowledge_message':
-        this.stats.processedMessages++;
-        break;
-      case 'create_consumer':
-        this.stats.totalConsumers++;
-        this.stats.activeConsumers++;
         break;
     }
 
@@ -974,18 +537,10 @@ export class MessageQueueManager {
   private initializeStats(): MessageQueueStats {
     return {
       totalQueues: 0,
-      activeQueues: 0,
-      totalTopics: 0,
       totalMessages: 0,
-      pendingMessages: 0,
-      processedMessages: 0,
-      failedMessages: 0,
-      totalConsumers: 0,
-      activeConsumers: 0,
-      totalProducers: 0,
-      activeProducers: 0,
+      totalDeadLetterQueues: 0,
+      averageMessageSize: 0,
       averageProcessingTime: 0,
-      throughput: 0,
       lastUpdate: Date.now()
     };
   }
@@ -998,26 +553,6 @@ export class MessageQueueManager {
     this.stats = this.initializeStats();
     this.isInitialized = false;
   }
-}
-
-export interface PublishResult {
-  success: boolean;
-  message: string;
-  messageId?: string;
-  metadata: Map<string, any>;
-}
-
-export interface ConsumeResult {
-  success: boolean;
-  message: string;
-  data: Message | null;
-  metadata: Map<string, any>;
-}
-
-export interface AcknowledgeResult {
-  success: boolean;
-  message: string;
-  metadata: Map<string, any>;
 }
 
 // Export default instance

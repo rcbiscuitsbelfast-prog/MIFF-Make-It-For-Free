@@ -1,38 +1,34 @@
 /**
  * DataPipelinePure Manager - Advanced Data Pipeline Management System
  *
- * Comprehensive data pipeline system with:
- * - Data ingestion and processing
- * - ETL/ELT operations and transformations
- * - Data validation and quality checks
- * - Real-time and batch processing
- * - Data streaming and event processing
- * - Data lineage and governance
- * - Pipeline monitoring and alerting
- * - Data analytics and reporting
+ * Comprehensive data pipeline management system with:
+ * - Data pipeline creation and execution
+ * - Data transformation and processing
+ * - Data validation and quality control
+ * - Data pipeline scheduling and automation
+ * - Cross-platform data pipeline support
+ * - Performance optimization
+ * - Real-time data pipeline monitoring
+ * - Data pipeline analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
  */
 
 export interface DataPipelineConfig {
-  enableDataIngestion: boolean;
+  enablePipelineCreation: boolean;
+  enablePipelineExecution: boolean;
+  enableDataTransformation: boolean;
   enableDataProcessing: boolean;
-  enableETLOperations: boolean;
-  enableELTOperations: boolean;
-  enableDataTransformations: boolean;
   enableDataValidation: boolean;
-  enableQualityChecks: boolean;
-  enableRealTimeProcessing: boolean;
-  enableBatchProcessing: boolean;
-  enableDataStreaming: boolean;
-  enableEventProcessing: boolean;
-  enableDataLineage: boolean;
-  enableDataGovernance: boolean;
-  enablePipelineMonitoring: boolean;
-  enablePipelineAlerting: boolean;
-  enableDataAnalytics: boolean;
-  enableDataReporting: boolean;
+  enableDataQualityControl: boolean;
+  enablePipelineScheduling: boolean;
+  enablePipelineAutomation: boolean;
+  enableCrossPlatformSupport: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableDataPipelineAnalytics: boolean;
+  enableDataPipelineReporting: boolean;
   maxPipelines: number;
   maxStages: number;
   enableCloudSync: boolean;
@@ -43,27 +39,49 @@ export interface DataPipelineConfig {
 export interface DataPipeline {
   id: string;
   name: string;
-  type: PipelineType;
-  status: PipelineStatus;
+  type: DataPipelineType;
+  status: DataPipelineStatus;
+  pipelines: Pipeline[];
   stages: PipelineStage[];
-  sources: DataSource[];
-  sinks: DataSink[];
-  transformations: DataTransformation[];
-  validations: DataValidation[];
-  monitors: PipelineMonitor[];
-  analytics: PipelineAnalytics;
-  metadata: PipelineMetadata;
+  schedules: PipelineSchedule[];
+  analytics: DataPipelineAnalytics;
+  metadata: DataPipelineMetadata;
   version: string;
   created: number;
   modified: number;
 }
 
-export enum PipelineType {
+export enum DataPipelineType {
   ETL = 'etl',
   ELT = 'elt',
   STREAMING = 'streaming',
   BATCH = 'batch',
-  REAL_TIME = 'real_time',
+  CUSTOM = 'custom'
+}
+
+export enum DataPipelineStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  RUNNING = 'running',
+  ERROR = 'error',
+  CUSTOM = 'custom'
+}
+
+export interface Pipeline {
+  id: string;
+  name: string;
+  type: PipelineType;
+  status: PipelineStatus;
+  stages: PipelineStage[];
+  configuration: PipelineConfiguration;
+  metadata: Map<string, any>;
+}
+
+export enum PipelineType {
+  EXTRACTION = 'extraction',
+  TRANSFORMATION = 'transformation',
+  LOADING = 'loading',
+  VALIDATION = 'validation',
   CUSTOM = 'custom'
 }
 
@@ -71,9 +89,8 @@ export enum PipelineStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   RUNNING = 'running',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  MAINTENANCE = 'maintenance',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
   CUSTOM = 'custom'
 }
 
@@ -81,23 +98,20 @@ export interface PipelineStage {
   id: string;
   name: string;
   type: StageType;
-  order: number;
   status: StageStatus;
+  order: number;
   configuration: StageConfiguration;
   inputs: StageInput[];
   outputs: StageOutput[];
-  dependencies: string[];
   metadata: Map<string, any>;
 }
 
 export enum StageType {
-  INGESTION = 'ingestion',
-  TRANSFORMATION = 'transformation',
-  VALIDATION = 'validation',
-  AGGREGATION = 'aggregation',
-  FILTERING = 'filtering',
-  JOINING = 'joining',
-  SORTING = 'sorting',
+  SOURCE = 'source',
+  TRANSFORM = 'transform',
+  FILTER = 'filter',
+  AGGREGATE = 'aggregate',
+  SINK = 'sink',
   CUSTOM = 'custom'
 }
 
@@ -111,7 +125,7 @@ export enum StageStatus {
 }
 
 export interface StageConfiguration {
-  processor: string;
+  function: string;
   parameters: Map<string, any>;
   timeout: number;
   retries: number;
@@ -121,33 +135,32 @@ export interface StageConfiguration {
 
 export interface StageInput {
   name: string;
-  type: DataType;
+  type: InputType;
   source: string;
+  format: DataFormat;
   schema: DataSchema;
   metadata: Map<string, any>;
 }
 
-export interface StageOutput {
-  name: string;
-  type: DataType;
-  destination: string;
-  schema: DataSchema;
-  metadata: Map<string, any>;
+export enum InputType {
+  FILE = 'file',
+  DATABASE = 'database',
+  API = 'api',
+  STREAM = 'stream',
+  CUSTOM = 'custom'
 }
 
-export enum DataType {
+export enum DataFormat {
   JSON = 'json',
   CSV = 'csv',
+  XML = 'xml',
   PARQUET = 'parquet',
   AVRO = 'avro',
-  ORC = 'orc',
-  XML = 'xml',
   CUSTOM = 'custom'
 }
 
 export interface DataSchema {
   fields: SchemaField[];
-  constraints: SchemaConstraint[];
   metadata: Map<string, any>;
 }
 
@@ -155,7 +168,6 @@ export interface SchemaField {
   name: string;
   type: FieldType;
   nullable: boolean;
-  defaultValue?: any;
   metadata: Map<string, any>;
 }
 
@@ -165,206 +177,64 @@ export enum FieldType {
   FLOAT = 'float',
   BOOLEAN = 'boolean',
   DATE = 'date',
-  TIMESTAMP = 'timestamp',
-  ARRAY = 'array',
-  OBJECT = 'object',
   CUSTOM = 'custom'
 }
 
-export interface SchemaConstraint {
-  type: ConstraintType;
-  field: string;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ConstraintType {
-  NOT_NULL = 'not_null',
-  UNIQUE = 'unique',
-  PRIMARY_KEY = 'primary_key',
-  FOREIGN_KEY = 'foreign_key',
-  CHECK = 'check',
-  CUSTOM = 'custom'
-}
-
-export interface DataSource {
-  id: string;
+export interface StageOutput {
   name: string;
-  type: SourceType;
-  status: SourceStatus;
-  configuration: SourceConfiguration;
+  type: OutputType;
+  destination: string;
+  format: DataFormat;
   schema: DataSchema;
   metadata: Map<string, any>;
 }
 
-export enum SourceType {
-  DATABASE = 'database',
+export enum OutputType {
   FILE = 'file',
+  DATABASE = 'database',
   API = 'api',
-  MESSAGE_QUEUE = 'message_queue',
   STREAM = 'stream',
   CUSTOM = 'custom'
 }
 
-export enum SourceStatus {
+export interface PipelineConfiguration {
+  parallelism: number;
+  batchSize: number;
+  timeout: number;
+  retries: number;
+  metadata: Map<string, any>;
+}
+
+export interface PipelineSchedule {
+  id: string;
+  pipelineId: string;
+  type: ScheduleType;
+  status: ScheduleStatus;
+  cron: string;
+  nextRun: number;
+  metadata: Map<string, any>;
+}
+
+export enum ScheduleType {
+  ONCE = 'once',
+  REPEATING = 'repeating',
+  CRON = 'cron',
+  CUSTOM = 'custom'
+}
+
+export enum ScheduleStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   ERROR = 'error',
   CUSTOM = 'custom'
 }
 
-export interface SourceConfiguration {
-  connection: ConnectionConfig;
-  query?: string;
-  path?: string;
-  format?: string;
-  metadata: Map<string, any>;
-}
-
-export interface ConnectionConfig {
-  host: string;
-  port: number;
-  database?: string;
-  username?: string;
-  password?: string;
-  metadata: Map<string, any>;
-}
-
-export interface DataSink {
-  id: string;
-  name: string;
-  type: SinkType;
-  status: SinkStatus;
-  configuration: SinkConfiguration;
-  schema: DataSchema;
-  metadata: Map<string, any>;
-}
-
-export enum SinkType {
-  DATABASE = 'database',
-  FILE = 'file',
-  API = 'api',
-  MESSAGE_QUEUE = 'message_queue',
-  STREAM = 'stream',
-  CUSTOM = 'custom'
-}
-
-export enum SinkStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface SinkConfiguration {
-  connection: ConnectionConfig;
-  table?: string;
-  path?: string;
-  format?: string;
-  metadata: Map<string, any>;
-}
-
-export interface DataTransformation {
-  id: string;
-  name: string;
-  type: TransformationType;
-  enabled: boolean;
-  configuration: TransformationConfiguration;
-  metadata: Map<string, any>;
-}
-
-export enum TransformationType {
-  MAP = 'map',
-  FILTER = 'filter',
-  AGGREGATE = 'aggregate',
-  JOIN = 'join',
-  SORT = 'sort',
-  GROUP = 'group',
-  CUSTOM = 'custom'
-}
-
-export interface TransformationConfiguration {
-  expression: string;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export interface DataValidation {
-  id: string;
-  name: string;
-  type: ValidationType;
-  enabled: boolean;
-  rules: ValidationRule[];
-  metadata: Map<string, any>;
-}
-
-export enum ValidationType {
-  SCHEMA = 'schema',
-  DATA_QUALITY = 'data_quality',
-  BUSINESS_RULES = 'business_rules',
-  CUSTOM = 'custom'
-}
-
-export interface ValidationRule {
-  id: string;
-  name: string;
-  condition: string;
-  severity: ValidationSeverity;
-  metadata: Map<string, any>;
-}
-
-export enum ValidationSeverity {
-  ERROR = 'error',
-  WARNING = 'warning',
-  INFO = 'info',
-  CUSTOM = 'custom'
-}
-
-export interface PipelineMonitor {
-  id: string;
-  name: string;
-  type: MonitorType;
-  enabled: boolean;
-  configuration: MonitorConfiguration;
-  alerts: MonitorAlert[];
-  metadata: Map<string, any>;
-}
-
-export enum MonitorType {
-  PERFORMANCE = 'performance',
-  DATA_QUALITY = 'data_quality',
-  THROUGHPUT = 'throughput',
-  LATENCY = 'latency',
-  CUSTOM = 'custom'
-}
-
-export interface MonitorConfiguration {
-  targets: string[];
-  interval: number;
-  thresholds: Map<string, number>;
-  metadata: Map<string, any>;
-}
-
-export interface MonitorAlert {
-  id: string;
-  name: string;
-  condition: string;
-  threshold: number;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface PipelineAnalytics {
+export interface DataPipelineAnalytics {
   totalPipelines: number;
-  activePipelines: number;
   totalStages: number;
-  completedStages: number;
-  failedStages: number;
-  totalRecords: number;
-  processedRecords: number;
-  failedRecords: number;
-  averageProcessingTime: number;
-  throughput: number;
+  totalSchedules: number;
+  averageExecutionTime: number;
+  dataVolume: number;
   performance: PerformanceMetrics;
   lastUpdate: number;
   metadata: Map<string, any>;
@@ -373,12 +243,12 @@ export interface PipelineAnalytics {
 export interface PerformanceMetrics {
   cpuUsage: number;
   memoryUsage: number;
-  diskUsage: number;
+  gpuUsage: number;
   networkUsage: number;
   metadata: Map<string, any>;
 }
 
-export interface PipelineMetadata {
+export interface DataPipelineMetadata {
   author: string;
   version: string;
   tags: string[];
@@ -388,48 +258,36 @@ export interface PipelineMetadata {
 
 export interface DataPipelineStats {
   totalPipelines: number;
-  activePipelines: number;
   totalStages: number;
-  totalSources: number;
-  totalSinks: number;
-  totalTransformations: number;
-  totalValidations: number;
-  totalMonitors: number;
-  totalRecords: number;
-  processedRecords: number;
-  failedRecords: number;
-  averageProcessingTime: number;
-  throughput: number;
+  totalSchedules: number;
+  averageExecutionTime: number;
+  dataVolume: number;
   lastUpdate: number;
 }
 
 export class DataPipelineManager {
   private config: DataPipelineConfig;
-  private pipelines: Map<string, DataPipeline> = new Map();
+  private dataPipelines: Map<string, DataPipeline> = new Map();
   private stats: DataPipelineStats = this.initializeStats();
   private isInitialized: boolean = false;
 
   constructor(config: Partial<DataPipelineConfig> = {}) {
     this.config = {
-      enableDataIngestion: true,
+      enablePipelineCreation: true,
+      enablePipelineExecution: true,
+      enableDataTransformation: true,
       enableDataProcessing: true,
-      enableETLOperations: true,
-      enableELTOperations: true,
-      enableDataTransformations: true,
       enableDataValidation: true,
-      enableQualityChecks: true,
-      enableRealTimeProcessing: true,
-      enableBatchProcessing: true,
-      enableDataStreaming: true,
-      enableEventProcessing: true,
-      enableDataLineage: true,
-      enableDataGovernance: true,
-      enablePipelineMonitoring: true,
-      enablePipelineAlerting: true,
-      enableDataAnalytics: true,
-      enableDataReporting: true,
-      maxPipelines: 1000,
-      maxStages: 10000,
+      enableDataQualityControl: true,
+      enablePipelineScheduling: true,
+      enablePipelineAutomation: true,
+      enableCrossPlatformSupport: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      enableDataPipelineAnalytics: true,
+      enableDataPipelineReporting: true,
+      maxPipelines: 10000,
+      maxStages: 100000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
@@ -445,8 +303,8 @@ export class DataPipelineManager {
       // Initialize data pipeline manager
       await this.initializeDataPipelineManager();
       
-      // Load default pipelines
-      await this.loadDefaultPipelines();
+      // Load default data pipelines
+      await this.loadDefaultDataPipelines();
       
       this.isInitialized = true;
       console.log('Data pipeline manager initialized successfully');
@@ -460,43 +318,78 @@ export class DataPipelineManager {
   /**
    * Create new data pipeline
    */
-  createDataPipeline(pipeline: Partial<DataPipeline>): DataPipeline | null {
-    const newPipeline: DataPipeline = {
-      id: `pipeline_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: pipeline.name || 'New Data Pipeline',
-      type: pipeline.type || PipelineType.ETL,
-      status: PipelineStatus.ACTIVE,
-      stages: pipeline.stages || [],
-      sources: pipeline.sources || [],
-      sinks: pipeline.sinks || [],
-      transformations: pipeline.transformations || [],
-      validations: pipeline.validations || [],
-      monitors: pipeline.monitors || [],
-      analytics: pipeline.analytics || this.createDefaultAnalytics(),
-      metadata: pipeline.metadata || this.createDefaultMetadata(),
+  createDataPipeline(dataPipeline: Partial<DataPipeline>): DataPipeline | null {
+    const newDataPipeline: DataPipeline = {
+      id: `datapipeline_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: dataPipeline.name || 'New Data Pipeline',
+      type: dataPipeline.type || DataPipelineType.ETL,
+      status: DataPipelineStatus.ACTIVE,
+      pipelines: dataPipeline.pipelines || [],
+      stages: dataPipeline.stages || [],
+      schedules: dataPipeline.schedules || [],
+      analytics: dataPipeline.analytics || this.createDefaultAnalytics(),
+      metadata: dataPipeline.metadata || this.createDefaultMetadata(),
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.pipelines.set(newPipeline.id, newPipeline);
-    this.updateStats('create_pipeline', newPipeline);
+    this.dataPipelines.set(newDataPipeline.id, newDataPipeline);
+    this.updateStats('create_datapipeline', newDataPipeline);
 
-    console.log(`Created data pipeline: ${newPipeline.name}`);
-    return newPipeline;
+    console.log(`Created data pipeline: ${newDataPipeline.name}`);
+    return newDataPipeline;
+  }
+
+  /**
+   * Create pipeline
+   */
+  createPipeline(dataPipelineId: string, pipeline: Partial<Pipeline>): Pipeline | null {
+    const dataPipeline = this.dataPipelines.get(dataPipelineId);
+    if (!dataPipeline) {
+      console.warn(`Data pipeline ${dataPipelineId} not found`);
+      return null;
+    }
+
+    if (dataPipeline.pipelines.length >= this.config.maxPipelines) {
+      console.warn('Maximum number of pipelines reached');
+      return null;
+    }
+
+    try {
+      const newPipeline: Pipeline = {
+        id: `pipeline_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name: pipeline.name || 'New Pipeline',
+        type: pipeline.type || PipelineType.EXTRACTION,
+        status: PipelineStatus.ACTIVE,
+        stages: pipeline.stages || [],
+        configuration: pipeline.configuration || this.createDefaultPipelineConfiguration(),
+        metadata: pipeline.metadata || new Map()
+      };
+
+      dataPipeline.pipelines.push(newPipeline);
+      dataPipeline.modified = Date.now();
+
+      this.updateStats('create_pipeline', dataPipeline);
+      console.log(`Created pipeline: ${newPipeline.name}`);
+      return newPipeline;
+    } catch (error) {
+      console.error(`Failed to create pipeline in data pipeline ${dataPipelineId}:`, error);
+      return null;
+    }
   }
 
   /**
    * Create pipeline stage
    */
-  createPipelineStage(pipelineId: string, stage: Partial<PipelineStage>): PipelineStage | null {
-    const pipeline = this.pipelines.get(pipelineId);
-    if (!pipeline) {
-      console.warn(`Data pipeline ${pipelineId} not found`);
+  createPipelineStage(dataPipelineId: string, stage: Partial<PipelineStage>): PipelineStage | null {
+    const dataPipeline = this.dataPipelines.get(dataPipelineId);
+    if (!dataPipeline) {
+      console.warn(`Data pipeline ${dataPipelineId} not found`);
       return null;
     }
 
-    if (pipeline.stages.length >= this.config.maxStages) {
+    if (dataPipeline.stages.length >= this.config.maxStages) {
       console.warn('Maximum number of stages reached');
       return null;
     }
@@ -505,143 +398,23 @@ export class DataPipelineManager {
       const newStage: PipelineStage = {
         id: `stage_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         name: stage.name || 'New Stage',
-        type: stage.type || StageType.TRANSFORMATION,
-        order: stage.order || pipeline.stages.length,
+        type: stage.type || StageType.SOURCE,
         status: StageStatus.PENDING,
+        order: stage.order || 0,
         configuration: stage.configuration || this.createDefaultStageConfiguration(),
         inputs: stage.inputs || [],
         outputs: stage.outputs || [],
-        dependencies: stage.dependencies || [],
         metadata: stage.metadata || new Map()
       };
 
-      pipeline.stages.push(newStage);
-      pipeline.modified = Date.now();
+      dataPipeline.stages.push(newStage);
+      dataPipeline.modified = Date.now();
 
-      this.updateStats('create_stage', pipeline);
+      this.updateStats('create_stage', dataPipeline);
       console.log(`Created pipeline stage: ${newStage.name}`);
       return newStage;
     } catch (error) {
-      console.error(`Failed to create pipeline stage in pipeline ${pipelineId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Execute pipeline
-   */
-  async executePipeline(pipelineId: string): Promise<PipelineExecutionResult> {
-    const pipeline = this.pipelines.get(pipelineId);
-    if (!pipeline) {
-      return {
-        success: false,
-        message: 'Data pipeline not found',
-        metadata: new Map()
-      };
-    }
-
-    try {
-      const startTime = Date.now();
-      
-      // Update pipeline status
-      pipeline.status = PipelineStatus.RUNNING;
-      
-      // Execute pipeline stages in order
-      const stageResults = await this.executePipelineStages(pipeline);
-      
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-      
-      // Determine overall result
-      const allStagesSuccessful = stageResults.every(result => result.success);
-      pipeline.status = allStagesSuccessful ? PipelineStatus.ACTIVE : PipelineStatus.ERROR;
-      
-      // Update analytics
-      this.updatePipelineAnalytics(pipeline, allStagesSuccessful, duration, stageResults);
-      
-      pipeline.modified = Date.now();
-      this.updateStats('execute_pipeline', pipeline);
-      
-      return {
-        success: allStagesSuccessful,
-        message: allStagesSuccessful ? 'Pipeline executed successfully' : 'Pipeline execution failed',
-        duration,
-        stageResults,
-        metadata: new Map()
-      };
-    } catch (error) {
-      console.error(`Failed to execute pipeline ${pipelineId}:`, error);
-      pipeline.status = PipelineStatus.ERROR;
-      return {
-        success: false,
-        message: `Pipeline execution failed: ${error}`,
-        metadata: new Map()
-      };
-    }
-  }
-
-  /**
-   * Create data source
-   */
-  createDataSource(pipelineId: string, source: Partial<DataSource>): DataSource | null {
-    const pipeline = this.pipelines.get(pipelineId);
-    if (!pipeline) {
-      console.warn(`Data pipeline ${pipelineId} not found`);
-      return null;
-    }
-
-    try {
-      const newSource: DataSource = {
-        id: `source_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: source.name || 'New Data Source',
-        type: source.type || SourceType.DATABASE,
-        status: SourceStatus.ACTIVE,
-        configuration: source.configuration || this.createDefaultSourceConfiguration(),
-        schema: source.schema || this.createDefaultDataSchema(),
-        metadata: source.metadata || new Map()
-      };
-
-      pipeline.sources.push(newSource);
-      pipeline.modified = Date.now();
-
-      this.updateStats('create_source', pipeline);
-      console.log(`Created data source: ${newSource.name}`);
-      return newSource;
-    } catch (error) {
-      console.error(`Failed to create data source in pipeline ${pipelineId}:`, error);
-      return null;
-    }
-  }
-
-  /**
-   * Create data sink
-   */
-  createDataSink(pipelineId: string, sink: Partial<DataSink>): DataSink | null {
-    const pipeline = this.pipelines.get(pipelineId);
-    if (!pipeline) {
-      console.warn(`Data pipeline ${pipelineId} not found`);
-      return null;
-    }
-
-    try {
-      const newSink: DataSink = {
-        id: `sink_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: sink.name || 'New Data Sink',
-        type: sink.type || SinkType.DATABASE,
-        status: SinkStatus.ACTIVE,
-        configuration: sink.configuration || this.createDefaultSinkConfiguration(),
-        schema: sink.schema || this.createDefaultDataSchema(),
-        metadata: sink.metadata || new Map()
-      };
-
-      pipeline.sinks.push(newSink);
-      pipeline.modified = Date.now();
-
-      this.updateStats('create_sink', pipeline);
-      console.log(`Created data sink: ${newSink.name}`);
-      return newSink;
-    } catch (error) {
-      console.error(`Failed to create data sink in pipeline ${pipelineId}:`, error);
+      console.error(`Failed to create pipeline stage in data pipeline ${dataPipelineId}:`, error);
       return null;
     }
   }
@@ -649,23 +422,23 @@ export class DataPipelineManager {
   /**
    * Get data pipeline
    */
-  getDataPipeline(pipelineId: string): DataPipeline | null {
-    return this.pipelines.get(pipelineId) || null;
+  getDataPipeline(dataPipelineId: string): DataPipeline | null {
+    return this.dataPipelines.get(dataPipelineId) || null;
   }
 
   /**
    * Get all data pipelines
    */
   getDataPipelines(): DataPipeline[] {
-    return Array.from(this.pipelines.values());
+    return Array.from(this.dataPipelines.values());
   }
 
   /**
    * Get data pipelines by type
    */
-  getDataPipelinesByType(type: PipelineType): DataPipeline[] {
-    return Array.from(this.pipelines.values())
-      .filter(pipeline => pipeline.type === type);
+  getDataPipelinesByType(type: DataPipelineType): DataPipeline[] {
+    return Array.from(this.dataPipelines.values())
+      .filter(dataPipeline => dataPipeline.type === type);
   }
 
   /**
@@ -683,23 +456,36 @@ export class DataPipelineManager {
   }
 
   /**
-   * Load default pipelines
+   * Load default data pipelines
    */
-  private async loadDefaultPipelines(): Promise<void> {
-    // Load default pipelines
-    const defaultPipelines = [
-      this.createDefaultETLPipeline(),
-      this.createDefaultStreamingPipeline(),
-      this.createDefaultBatchPipeline()
+  private async loadDefaultDataPipelines(): Promise<void> {
+    // Load default data pipelines
+    const defaultDataPipelines = [
+      this.createDefaultETL(),
+      this.createDefaultELT(),
+      this.createDefaultStreaming()
     ];
 
-    for (const pipeline of defaultPipelines) {
-      if (pipeline) {
-        this.pipelines.set(pipeline.id, pipeline);
+    for (const dataPipeline of defaultDataPipelines) {
+      if (dataPipeline) {
+        this.dataPipelines.set(dataPipeline.id, dataPipeline);
       }
     }
 
-    console.log(`Loaded ${defaultPipelines.length} default pipelines`);
+    console.log(`Loaded ${defaultDataPipelines.length} default data pipelines`);
+  }
+
+  /**
+   * Create default pipeline configuration
+   */
+  private createDefaultPipelineConfiguration(): PipelineConfiguration {
+    return {
+      parallelism: 1,
+      batchSize: 1000,
+      timeout: 3600,
+      retries: 3,
+      metadata: new Map()
+    };
   }
 
   /**
@@ -707,9 +493,9 @@ export class DataPipelineManager {
    */
   private createDefaultStageConfiguration(): StageConfiguration {
     return {
-      processor: 'default',
+      function: '',
       parameters: new Map(),
-      timeout: 300000, // 5 minutes
+      timeout: 300,
       retries: 3,
       parallelism: 1,
       metadata: new Map()
@@ -717,82 +503,19 @@ export class DataPipelineManager {
   }
 
   /**
-   * Create default source configuration
-   */
-  private createDefaultSourceConfiguration(): SourceConfiguration {
-    return {
-      connection: {
-        host: 'localhost',
-        port: 5432,
-        database: 'default',
-        username: 'user',
-        password: 'password',
-        metadata: new Map()
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default sink configuration
-   */
-  private createDefaultSinkConfiguration(): SinkConfiguration {
-    return {
-      connection: {
-        host: 'localhost',
-        port: 5432,
-        database: 'default',
-        username: 'user',
-        password: 'password',
-        metadata: new Map()
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default data schema
-   */
-  private createDefaultDataSchema(): DataSchema {
-    return {
-      fields: [
-        {
-          name: 'id',
-          type: FieldType.INTEGER,
-          nullable: false,
-          metadata: new Map()
-        },
-        {
-          name: 'name',
-          type: FieldType.STRING,
-          nullable: true,
-          metadata: new Map()
-        }
-      ],
-      constraints: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
    * Create default analytics
    */
-  private createDefaultAnalytics(): PipelineAnalytics {
+  private createDefaultAnalytics(): DataPipelineAnalytics {
     return {
       totalPipelines: 0,
-      activePipelines: 0,
       totalStages: 0,
-      completedStages: 0,
-      failedStages: 0,
-      totalRecords: 0,
-      processedRecords: 0,
-      failedRecords: 0,
-      averageProcessingTime: 0,
-      throughput: 0,
+      totalSchedules: 0,
+      averageExecutionTime: 0,
+      dataVolume: 0,
       performance: {
         cpuUsage: 0,
         memoryUsage: 0,
-        diskUsage: 0,
+        gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
       },
@@ -804,7 +527,7 @@ export class DataPipelineManager {
   /**
    * Create default metadata
    */
-  private createDefaultMetadata(): PipelineMetadata {
+  private createDefaultMetadata(): DataPipelineMetadata {
     return {
       author: 'System',
       version: '1.0.0',
@@ -815,151 +538,53 @@ export class DataPipelineManager {
   }
 
   /**
-   * Create default ETL pipeline
+   * Create default ETL
    */
-  private createDefaultETLPipeline(): DataPipeline {
+  private createDefaultETL(): DataPipeline {
     return this.createDataPipeline({
       name: 'ETL Data Pipeline',
-      type: PipelineType.ETL,
+      type: DataPipelineType.ETL,
       description: 'ETL data pipeline'
     });
   }
 
   /**
-   * Create default streaming pipeline
+   * Create default ELT
    */
-  private createDefaultStreamingPipeline(): DataPipeline {
+  private createDefaultELT(): DataPipeline {
+    return this.createDataPipeline({
+      name: 'ELT Data Pipeline',
+      type: DataPipelineType.ELT,
+      description: 'ELT data pipeline'
+    });
+  }
+
+  /**
+   * Create default streaming
+   */
+  private createDefaultStreaming(): DataPipeline {
     return this.createDataPipeline({
       name: 'Streaming Data Pipeline',
-      type: PipelineType.STREAMING,
+      type: DataPipelineType.STREAMING,
       description: 'Streaming data pipeline'
     });
   }
 
   /**
-   * Create default batch pipeline
-   */
-  private createDefaultBatchPipeline(): DataPipeline {
-    return this.createDataPipeline({
-      name: 'Batch Data Pipeline',
-      type: PipelineType.BATCH,
-      description: 'Batch data pipeline'
-    });
-  }
-
-  /**
-   * Execute pipeline stages
-   */
-  private async executePipelineStages(pipeline: DataPipeline): Promise<StageExecutionResult[]> {
-    const results: StageExecutionResult[] = [];
-    
-    // Sort stages by order
-    const sortedStages = pipeline.stages.sort((a, b) => a.order - b.order);
-    
-    for (const stage of sortedStages) {
-      const startTime = Date.now();
-      
-      try {
-        // Update stage status
-        stage.status = StageStatus.RUNNING;
-        
-        // Execute stage
-        const result = await this.executeStage(stage);
-        
-        const endTime = Date.now();
-        const duration = endTime - startTime;
-        
-        stage.status = result.success ? StageStatus.COMPLETED : StageStatus.FAILED;
-        
-        results.push({
-          stageId: stage.id,
-          success: result.success,
-          message: result.message,
-          duration,
-          metadata: new Map()
-        });
-      } catch (error) {
-        const endTime = Date.now();
-        const duration = endTime - startTime;
-        
-        stage.status = StageStatus.FAILED;
-        
-        results.push({
-          stageId: stage.id,
-          success: false,
-          message: `Stage execution failed: ${error}`,
-          duration,
-          metadata: new Map()
-        });
-      }
-    }
-    
-    return results;
-  }
-
-  /**
-   * Execute individual stage
-   */
-  private async executeStage(stage: PipelineStage): Promise<{ success: boolean; message: string }> {
-    // Simulate stage execution
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Simulate occasional failure
-    const success = Math.random() > 0.1; // 90% success rate
-    
-    return {
-      success,
-      message: success ? 'Stage executed successfully' : 'Stage execution failed'
-    };
-  }
-
-  /**
-   * Update pipeline analytics
-   */
-  private updatePipelineAnalytics(pipeline: DataPipeline, success: boolean, duration: number, stageResults: StageExecutionResult[]): void {
-    pipeline.analytics.totalPipelines++;
-    pipeline.analytics.lastUpdate = Date.now();
-    
-    if (success) {
-      pipeline.analytics.activePipelines++;
-      pipeline.analytics.completedStages += stageResults.filter(r => r.success).length;
-    } else {
-      pipeline.analytics.failedStages += stageResults.filter(r => !r.success).length;
-    }
-    
-    // Update average processing time
-    const total = pipeline.analytics.totalPipelines;
-    const currentAvg = pipeline.analytics.averageProcessingTime;
-    const newAvg = (currentAvg * (total - 1) + duration) / total;
-    pipeline.analytics.averageProcessingTime = newAvg;
-  }
-
-  /**
    * Update statistics
    */
-  private updateStats(action: string, pipeline: DataPipeline): void {
+  private updateStats(action: string, dataPipeline: DataPipeline): void {
     switch (action) {
+      case 'create_datapipeline':
+        this.stats.totalPipelines += dataPipeline.pipelines.length;
+        this.stats.totalStages += dataPipeline.stages.length;
+        this.stats.totalSchedules += dataPipeline.schedules.length;
+        break;
       case 'create_pipeline':
         this.stats.totalPipelines++;
-        this.stats.activePipelines++;
-        this.stats.totalStages += pipeline.stages.length;
-        this.stats.totalSources += pipeline.sources.length;
-        this.stats.totalSinks += pipeline.sinks.length;
-        this.stats.totalTransformations += pipeline.transformations.length;
-        this.stats.totalValidations += pipeline.validations.length;
-        this.stats.totalMonitors += pipeline.monitors.length;
         break;
       case 'create_stage':
         this.stats.totalStages++;
-        break;
-      case 'execute_pipeline':
-        // Pipeline executed
-        break;
-      case 'create_source':
-        this.stats.totalSources++;
-        break;
-      case 'create_sink':
-        this.stats.totalSinks++;
         break;
     }
 
@@ -972,18 +597,10 @@ export class DataPipelineManager {
   private initializeStats(): DataPipelineStats {
     return {
       totalPipelines: 0,
-      activePipelines: 0,
       totalStages: 0,
-      totalSources: 0,
-      totalSinks: 0,
-      totalTransformations: 0,
-      totalValidations: 0,
-      totalMonitors: 0,
-      totalRecords: 0,
-      processedRecords: 0,
-      failedRecords: 0,
-      averageProcessingTime: 0,
-      throughput: 0,
+      totalSchedules: 0,
+      averageExecutionTime: 0,
+      dataVolume: 0,
       lastUpdate: Date.now()
     };
   }
@@ -992,26 +609,10 @@ export class DataPipelineManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.pipelines.clear();
+    this.dataPipelines.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
   }
-}
-
-export interface PipelineExecutionResult {
-  success: boolean;
-  message: string;
-  duration: number;
-  stageResults: StageExecutionResult[];
-  metadata: Map<string, any>;
-}
-
-export interface StageExecutionResult {
-  stageId: string;
-  success: boolean;
-  message: string;
-  duration: number;
-  metadata: Map<string, any>;
 }
 
 // Export default instance
