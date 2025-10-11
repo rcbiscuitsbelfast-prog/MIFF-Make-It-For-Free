@@ -5,11 +5,11 @@
  * - Authentication and authorization
  * - Access control and permissions
  * - Encryption and decryption
- * - Security monitoring and logging
+ * - Security monitoring and auditing
  * - Threat detection and prevention
- * - Security policies and compliance
- * - Security auditing and reporting
- * - Security incident response
+ * - Security policy management
+ * - Vulnerability assessment
+ * - Incident response and recovery
  *
  * @version 1.0.0
  * @author MIFF Framework
@@ -22,15 +22,14 @@ export interface SecuritySystemConfig {
   enablePermissions: boolean;
   enableEncryption: boolean;
   enableDecryption: boolean;
-  enableMonitoring: boolean;
-  enableLogging: boolean;
-  enableThreatDetection: boolean;
-  enablePrevention: boolean;
-  enablePolicies: boolean;
-  enableCompliance: boolean;
+  enableSecurityMonitoring: boolean;
   enableAuditing: boolean;
-  enableReporting: boolean;
+  enableThreatDetection: boolean;
+  enableThreatPrevention: boolean;
+  enablePolicyManagement: boolean;
+  enableVulnerabilityAssessment: boolean;
   enableIncidentResponse: boolean;
+  enableRecovery: boolean;
   maxUsers: number;
   maxPolicies: number;
   enableCloudSync: boolean;
@@ -49,7 +48,8 @@ export interface SecuritySystem {
   policies: SecurityPolicy[];
   threats: SecurityThreat[];
   incidents: SecurityIncident[];
-  monitoring: SecurityMonitoring;
+  vulnerabilities: SecurityVulnerability[];
+  audits: SecurityAudit[];
   analytics: SecurityAnalytics;
   metadata: SecurityMetadata;
   version: string;
@@ -82,8 +82,8 @@ export interface SecurityUser {
   roles: string[];
   permissions: string[];
   profile: UserProfile;
-  security: UserSecurity;
-  statistics: UserStatistics;
+  authentication: AuthenticationInfo;
+  authorization: AuthorizationInfo;
   metadata: Map<string, any>;
 }
 
@@ -103,21 +103,48 @@ export interface UserProfile {
   metadata: Map<string, any>;
 }
 
-export interface UserSecurity {
-  passwordHash: string;
-  salt: string;
-  twoFactorEnabled: boolean;
+export interface AuthenticationInfo {
+  methods: AuthenticationMethod[];
   lastLogin: number;
   failedAttempts: number;
-  lockoutUntil: number;
+  lockedUntil: number | null;
   metadata: Map<string, any>;
 }
 
-export interface UserStatistics {
-  totalLogins: number;
-  lastLogin: number;
-  totalSessions: number;
-  averageSessionDuration: number;
+export interface AuthenticationMethod {
+  type: AuthMethodType;
+  enabled: boolean;
+  configuration: Map<string, any>;
+  metadata: Map<string, any>;
+}
+
+export enum AuthMethodType {
+  PASSWORD = 'password',
+  TWO_FACTOR = 'two_factor',
+  BIOMETRIC = 'biometric',
+  OAUTH = 'oauth',
+  CUSTOM = 'custom'
+}
+
+export interface AuthorizationInfo {
+  level: AuthorizationLevel;
+  scopes: string[];
+  restrictions: AuthorizationRestriction[];
+  metadata: Map<string, any>;
+}
+
+export enum AuthorizationLevel {
+  READ = 'read',
+  WRITE = 'write',
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
+  CUSTOM = 'custom'
+}
+
+export interface AuthorizationRestriction {
+  resource: string;
+  action: string;
+  condition: string;
   metadata: Map<string, any>;
 }
 
@@ -126,7 +153,7 @@ export interface SecurityRole {
   name: string;
   description: string;
   permissions: string[];
-  hierarchy: number;
+  level: AuthorizationLevel;
   metadata: Map<string, any>;
 }
 
@@ -145,15 +172,14 @@ export interface SecurityPolicy {
   type: PolicyType;
   enabled: boolean;
   rules: PolicyRule[];
-  actions: PolicyAction[];
   metadata: Map<string, any>;
 }
 
 export enum PolicyType {
-  AUTHENTICATION = 'authentication',
-  AUTHORIZATION = 'authorization',
   ACCESS_CONTROL = 'access_control',
-  DATA_PROTECTION = 'data_protection',
+  PASSWORD = 'password',
+  ENCRYPTION = 'encryption',
+  AUDIT = 'audit',
   CUSTOM = 'custom'
 }
 
@@ -161,43 +187,34 @@ export interface PolicyRule {
   id: string;
   name: string;
   condition: RuleCondition;
-  enabled: boolean;
+  action: RuleAction;
+  priority: number;
   metadata: Map<string, any>;
 }
 
 export interface RuleCondition {
-  type: ConditionType;
   field: string;
   operator: ConditionOperator;
   value: any;
   metadata: Map<string, any>;
 }
 
-export enum ConditionType {
-  USER_ATTRIBUTE = 'user_attribute',
-  RESOURCE_ATTRIBUTE = 'resource_attribute',
-  TIME = 'time',
-  LOCATION = 'location',
-  CUSTOM = 'custom'
-}
-
 export enum ConditionOperator {
   EQUALS = 'equals',
   NOT_EQUALS = 'not_equals',
-  CONTAINS = 'contains',
-  NOT_CONTAINS = 'not_contains',
   GREATER_THAN = 'greater_than',
   LESS_THAN = 'less_than',
+  GREATER_EQUAL = 'greater_equal',
+  LESS_EQUAL = 'less_equal',
+  CONTAINS = 'contains',
+  NOT_CONTAINS = 'not_contains',
   REGEX = 'regex',
   CUSTOM = 'custom'
 }
 
-export interface PolicyAction {
-  id: string;
-  name: string;
+export interface RuleAction {
   type: ActionType;
   parameters: Map<string, any>;
-  enabled: boolean;
   metadata: Map<string, any>;
 }
 
@@ -216,18 +233,20 @@ export interface SecurityThreat {
   severity: ThreatSeverity;
   status: ThreatStatus;
   description: string;
-  source: ThreatSource;
-  detection: ThreatDetection;
-  response: ThreatResponse;
+  source: string;
+  target: string;
+  indicators: ThreatIndicator[];
+  mitigation: ThreatMitigation;
   metadata: Map<string, any>;
 }
 
 export enum ThreatType {
   MALWARE = 'malware',
   PHISHING = 'phishing',
-  BRUTE_FORCE = 'brute_force',
   DDOS = 'ddos',
-  DATA_BREACH = 'data_breach',
+  BRUTE_FORCE = 'brute_force',
+  SQL_INJECTION = 'sql_injection',
+  XSS = 'xss',
   CUSTOM = 'custom'
 }
 
@@ -247,25 +266,38 @@ export enum ThreatStatus {
   CUSTOM = 'custom'
 }
 
-export interface ThreatSource {
-  ip: string;
-  userAgent: string;
-  location: string;
-  metadata: Map<string, any>;
-}
-
-export interface ThreatDetection {
-  method: string;
+export interface ThreatIndicator {
+  type: IndicatorType;
+  value: string;
   confidence: number;
-  timestamp: number;
   metadata: Map<string, any>;
 }
 
-export interface ThreatResponse {
-  action: string;
-  timestamp: number;
-  user: string;
+export enum IndicatorType {
+  IP_ADDRESS = 'ip_address',
+  DOMAIN = 'domain',
+  EMAIL = 'email',
+  HASH = 'hash',
+  CUSTOM = 'custom'
+}
+
+export interface ThreatMitigation {
+  enabled: boolean;
+  actions: MitigationAction[];
   metadata: Map<string, any>;
+}
+
+export interface MitigationAction {
+  type: MitigationType;
+  parameters: Map<string, any>;
+  metadata: Map<string, any>;
+}
+
+export enum MitigationType {
+  BLOCK = 'block',
+  QUARANTINE = 'quarantine',
+  ALERT = 'alert',
+  CUSTOM = 'custom'
 }
 
 export interface SecurityIncident {
@@ -282,10 +314,10 @@ export interface SecurityIncident {
 }
 
 export enum IncidentType {
-  SECURITY_BREACH = 'security_breach',
-  DATA_LEAK = 'data_leak',
+  BREACH = 'breach',
+  ATTACK = 'attack',
   UNAUTHORIZED_ACCESS = 'unauthorized_access',
-  SYSTEM_COMPROMISE = 'system_compromise',
+  DATA_LEAK = 'data_leak',
   CUSTOM = 'custom'
 }
 
@@ -308,81 +340,131 @@ export enum IncidentStatus {
 export interface IncidentTimeline {
   timestamp: number;
   event: string;
-  user: string;
+  actor: string;
   metadata: Map<string, any>;
 }
 
 export interface IncidentResponse {
-  actions: string[];
-  assignedTo: string;
+  team: string[];
+  actions: ResponseAction[];
+  metadata: Map<string, any>;
+}
+
+export interface ResponseAction {
+  type: ResponseType;
+  description: string;
+  timestamp: number;
+  metadata: Map<string, any>;
+}
+
+export enum ResponseType {
+  CONTAIN = 'contain',
+  INVESTIGATE = 'investigate',
+  NOTIFY = 'notify',
+  CUSTOM = 'custom'
+}
+
+export interface SecurityVulnerability {
+  id: string;
+  name: string;
+  type: VulnerabilityType;
+  severity: VulnerabilitySeverity;
+  status: VulnerabilityStatus;
+  description: string;
+  affected: string[];
+  remediation: VulnerabilityRemediation;
+  metadata: Map<string, any>;
+}
+
+export enum VulnerabilityType {
+  SQL_INJECTION = 'sql_injection',
+  XSS = 'xss',
+  CSRF = 'csrf',
+  BUFFER_OVERFLOW = 'buffer_overflow',
+  CUSTOM = 'custom'
+}
+
+export enum VulnerabilitySeverity {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  CRITICAL = 'critical',
+  CUSTOM = 'custom'
+}
+
+export enum VulnerabilityStatus {
+  OPEN = 'open',
+  IN_PROGRESS = 'in_progress',
+  RESOLVED = 'resolved',
+  CUSTOM = 'custom'
+}
+
+export interface VulnerabilityRemediation {
+  description: string;
+  steps: string[];
   priority: number;
   metadata: Map<string, any>;
 }
 
-export interface SecurityMonitoring {
-  enabled: boolean;
-  sensors: SecuritySensor[];
-  alerts: SecurityAlert[];
-  statistics: MonitoringStatistics;
-  metadata: Map<string, any>;
-}
-
-export interface SecuritySensor {
+export interface SecurityAudit {
   id: string;
   name: string;
-  type: SensorType;
-  enabled: boolean;
-  configuration: Map<string, any>;
+  type: AuditType;
+  status: AuditStatus;
+  scope: AuditScope;
+  findings: AuditFinding[];
+  recommendations: AuditRecommendation[];
   metadata: Map<string, any>;
 }
 
-export enum SensorType {
-  LOGIN = 'login',
-  ACCESS = 'access',
-  DATA = 'data',
-  NETWORK = 'network',
+export enum AuditType {
+  COMPLIANCE = 'compliance',
+  SECURITY = 'security',
+  PENETRATION = 'penetration',
   CUSTOM = 'custom'
 }
 
-export interface SecurityAlert {
-  id: string;
-  name: string;
-  type: AlertType;
-  enabled: boolean;
-  condition: AlertCondition;
-  action: AlertAction;
-  metadata: Map<string, any>;
-}
-
-export enum AlertType {
-  THREAT = 'threat',
-  INCIDENT = 'incident',
-  POLICY_VIOLATION = 'policy_violation',
+export enum AuditStatus {
+  PLANNED = 'planned',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
   CUSTOM = 'custom'
 }
 
-export interface AlertCondition {
-  type: ConditionType;
-  field: string;
-  operator: ConditionOperator;
-  value: any;
-  threshold: number;
+export interface AuditScope {
+  systems: string[];
+  users: string[];
+  timeRange: TimeRange;
   metadata: Map<string, any>;
 }
 
-export interface AlertAction {
-  type: ActionType;
-  target: string;
-  message: string;
+export interface TimeRange {
+  start: number;
+  end: number;
   metadata: Map<string, any>;
 }
 
-export interface MonitoringStatistics {
-  totalAlerts: number;
-  triggeredAlerts: number;
-  resolvedAlerts: number;
-  averageResponseTime: number;
-  lastAlert: number;
+export interface AuditFinding {
+  id: string;
+  severity: FindingSeverity;
+  description: string;
+  evidence: string[];
+  metadata: Map<string, any>;
+}
+
+export enum FindingSeverity {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+  CRITICAL = 'critical',
+  CUSTOM = 'custom'
+}
+
+export interface AuditRecommendation {
+  id: string;
+  priority: number;
+  description: string;
+  implementation: string[];
   metadata: Map<string, any>;
 }
 
@@ -390,9 +472,11 @@ export interface SecurityAnalytics {
   totalUsers: number;
   activeUsers: number;
   totalThreats: number;
+  activeThreats: number;
   totalIncidents: number;
-  threatRate: number;
-  incidentRate: number;
+  openIncidents: number;
+  totalVulnerabilities: number;
+  openVulnerabilities: number;
   performance: PerformanceMetrics;
   lastUpdate: number;
   metadata: Map<string, any>;
@@ -421,9 +505,11 @@ export interface SecuritySystemStats {
   totalPermissions: number;
   totalPolicies: number;
   totalThreats: number;
+  activeThreats: number;
   totalIncidents: number;
-  threatRate: number;
-  incidentRate: number;
+  openIncidents: number;
+  totalVulnerabilities: number;
+  openVulnerabilities: number;
   lastUpdate: number;
 }
 
@@ -441,15 +527,14 @@ export class SecuritySystemManager {
       enablePermissions: true,
       enableEncryption: true,
       enableDecryption: true,
-      enableMonitoring: true,
-      enableLogging: true,
-      enableThreatDetection: true,
-      enablePrevention: true,
-      enablePolicies: true,
-      enableCompliance: true,
+      enableSecurityMonitoring: true,
       enableAuditing: true,
-      enableReporting: true,
+      enableThreatDetection: true,
+      enableThreatPrevention: true,
+      enablePolicyManagement: true,
+      enableVulnerabilityAssessment: true,
       enableIncidentResponse: true,
+      enableRecovery: true,
       maxUsers: 10000,
       maxPolicies: 1000,
       enableCloudSync: true,
@@ -494,7 +579,8 @@ export class SecuritySystemManager {
       policies: securitySystem.policies || [],
       threats: securitySystem.threats || [],
       incidents: securitySystem.incidents || [],
-      monitoring: securitySystem.monitoring || this.createDefaultMonitoring(),
+      vulnerabilities: securitySystem.vulnerabilities || [],
+      audits: securitySystem.audits || [],
       analytics: securitySystem.analytics || this.createDefaultAnalytics(),
       metadata: securitySystem.metadata || this.createDefaultMetadata(),
       version: '1.0.0',
@@ -528,13 +614,13 @@ export class SecuritySystemManager {
       const newUser: SecurityUser = {
         id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         username: user.username || 'newuser',
-        email: user.email || 'user@example.com',
+        email: user.email || '',
         status: UserStatus.ACTIVE,
         roles: user.roles || [],
         permissions: user.permissions || [],
         profile: user.profile || this.createDefaultUserProfile(),
-        security: user.security || this.createDefaultUserSecurity(),
-        statistics: user.statistics || this.createDefaultUserStatistics(),
+        authentication: user.authentication || this.createDefaultAuthenticationInfo(),
+        authorization: user.authorization || this.createDefaultAuthorizationInfo(),
         metadata: user.metadata || new Map()
       };
 
@@ -553,132 +639,126 @@ export class SecuritySystemManager {
   /**
    * Authenticate user
    */
-  authenticate(securitySystemId: string, username: string, password: string): SecurityUser | null {
+  authenticate(securitySystemId: string, username: string, credentials: any): AuthenticationResult {
     const securitySystem = this.securitySystems.get(securitySystemId);
     if (!securitySystem) {
-      console.warn(`Security system ${securitySystemId} not found`);
-      return null;
+      return {
+        success: false,
+        user: null,
+        message: 'Security system not found',
+        metadata: new Map()
+      };
     }
 
     const user = securitySystem.users.find(u => u.username === username);
     if (!user) {
-      console.warn(`User ${username} not found`);
-      return null;
+      return {
+        success: false,
+        user: null,
+        message: 'User not found',
+        metadata: new Map()
+      };
     }
 
     try {
       // Check if user is locked
-      if (user.security.lockoutUntil > Date.now()) {
-        console.warn(`User ${username} is locked until ${new Date(user.security.lockoutUntil)}`);
-        return null;
+      if (user.status === UserStatus.LOCKED) {
+        return {
+          success: false,
+          user: null,
+          message: 'User account is locked',
+          metadata: new Map()
+        };
       }
 
-      // Verify password
-      if (!this.verifyPassword(password, user.security.passwordHash, user.security.salt)) {
-        user.security.failedAttempts++;
-        if (user.security.failedAttempts >= 5) {
-          user.security.lockoutUntil = Date.now() + 300000; // 5 minutes
-        }
+      // Perform authentication
+      const authResult = this.performAuthentication(user, credentials);
+      
+      if (authResult.success) {
+        // Update last login
+        user.authentication.lastLogin = Date.now();
+        user.authentication.failedAttempts = 0;
+        user.authentication.lockedUntil = null;
+        
         securitySystem.modified = Date.now();
-        console.warn(`Invalid password for user ${username}`);
-        return null;
+        this.updateStats('authenticate_user', securitySystem);
+      } else {
+        // Increment failed attempts
+        user.authentication.failedAttempts++;
+        
+        // Lock user if too many failed attempts
+        if (user.authentication.failedAttempts >= 5) {
+          user.status = UserStatus.LOCKED;
+          user.authentication.lockedUntil = Date.now() + 3600000; // 1 hour
+        }
       }
 
-      // Reset failed attempts
-      user.security.failedAttempts = 0;
-      user.security.lastLogin = Date.now();
-      user.statistics.totalLogins++;
-      user.statistics.lastLogin = Date.now();
-
-      securitySystem.modified = Date.now();
-      console.log(`User ${username} authenticated successfully`);
-      return user;
+      return authResult;
     } catch (error) {
       console.error(`Failed to authenticate user ${username}:`, error);
-      return null;
+      return {
+        success: false,
+        user: null,
+        message: 'Authentication failed',
+        metadata: new Map()
+      };
     }
   }
 
   /**
    * Authorize user
    */
-  authorize(securitySystemId: string, userId: string, resource: string, action: string): boolean {
+  authorize(securitySystemId: string, userId: string, resource: string, action: string): AuthorizationResult {
     const securitySystem = this.securitySystems.get(securitySystemId);
     if (!securitySystem) {
-      console.warn(`Security system ${securitySystemId} not found`);
-      return false;
+      return {
+        authorized: false,
+        message: 'Security system not found',
+        metadata: new Map()
+      };
     }
 
     const user = securitySystem.users.find(u => u.id === userId);
     if (!user) {
-      console.warn(`User ${userId} not found`);
-      return false;
+      return {
+        authorized: false,
+        message: 'User not found',
+        metadata: new Map()
+      };
     }
 
     try {
       // Check user permissions
-      for (const permissionId of user.permissions) {
-        const permission = securitySystem.permissions.find(p => p.id === permissionId);
-        if (permission && this.matchesPermission(permission, resource, action)) {
-          console.log(`User ${user.username} authorized for ${action} on ${resource}`);
-          return true;
-        }
-      }
-
+      const hasPermission = this.checkUserPermission(user, resource, action);
+      
       // Check role permissions
-      for (const roleId of user.roles) {
-        const role = securitySystem.roles.find(r => r.id === roleId);
-        if (role) {
-          for (const permissionId of role.permissions) {
-            const permission = securitySystem.permissions.find(p => p.id === permissionId);
-            if (permission && this.matchesPermission(permission, resource, action)) {
-              console.log(`User ${user.username} authorized via role for ${action} on ${resource}`);
-              return true;
-            }
-          }
-        }
-      }
+      const hasRolePermission = this.checkRolePermissions(securitySystem, user.roles, resource, action);
+      
+      // Check policy rules
+      const policyResult = this.checkPolicyRules(securitySystem, user, resource, action);
 
-      console.warn(`User ${user.username} not authorized for ${action} on ${resource}`);
-      return false;
+      const authorized = hasPermission || hasRolePermission || policyResult.authorized;
+
+      this.updateStats('authorize_user', securitySystem);
+      return {
+        authorized,
+        message: authorized ? 'Authorized' : 'Access denied',
+        metadata: new Map()
+      };
     } catch (error) {
       console.error(`Failed to authorize user ${userId}:`, error);
-      return false;
+      return {
+        authorized: false,
+        message: 'Authorization failed',
+        metadata: new Map()
+      };
     }
   }
 
   /**
-   * Add security policy
+   * Create threat
    */
-  addPolicy(securitySystemId: string, policy: SecurityPolicy): boolean {
-    const securitySystem = this.securitySystems.get(securitySystemId);
-    if (!securitySystem) {
-      console.warn(`Security system ${securitySystemId} not found`);
-      return false;
-    }
-
-    if (securitySystem.policies.length >= this.config.maxPolicies) {
-      console.warn('Maximum number of policies reached');
-      return false;
-    }
-
-    try {
-      securitySystem.policies.push(policy);
-      securitySystem.modified = Date.now();
-
-      this.updateStats('add_policy', securitySystem);
-      console.log(`Added security policy: ${policy.name}`);
-      return true;
-    } catch (error) {
-      console.error(`Failed to add policy to system ${securitySystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Report threat
-   */
-  reportThreat(securitySystemId: string, threat: Partial<SecurityThreat>): SecurityThreat | null {
+  createThreat(securitySystemId: string, threat: Partial<SecurityThreat>): SecurityThreat | null {
     const securitySystem = this.securitySystems.get(securitySystemId);
     if (!securitySystem) {
       console.warn(`Security system ${securitySystemId} not found`);
@@ -688,25 +768,62 @@ export class SecuritySystemManager {
     try {
       const newThreat: SecurityThreat = {
         id: `threat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: threat.name || 'Unknown Threat',
+        name: threat.name || 'New Threat',
         type: threat.type || ThreatType.MALWARE,
         severity: threat.severity || ThreatSeverity.MEDIUM,
         status: ThreatStatus.DETECTED,
-        description: threat.description || 'No description provided',
-        source: threat.source || this.createDefaultThreatSource(),
-        detection: threat.detection || this.createDefaultThreatDetection(),
-        response: threat.response || this.createDefaultThreatResponse(),
+        description: threat.description || '',
+        source: threat.source || 'unknown',
+        target: threat.target || 'unknown',
+        indicators: threat.indicators || [],
+        mitigation: threat.mitigation || this.createDefaultThreatMitigation(),
         metadata: threat.metadata || new Map()
       };
 
       securitySystem.threats.push(newThreat);
       securitySystem.modified = Date.now();
 
-      this.updateStats('report_threat', securitySystem);
-      console.log(`Reported threat: ${newThreat.name}`);
+      this.updateStats('create_threat', securitySystem);
+      console.log(`Created threat: ${newThreat.name}`);
       return newThreat;
     } catch (error) {
-      console.error(`Failed to report threat in system ${securitySystemId}:`, error);
+      console.error(`Failed to create threat in system ${securitySystemId}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Create incident
+   */
+  createIncident(securitySystemId: string, incident: Partial<SecurityIncident>): SecurityIncident | null {
+    const securitySystem = this.securitySystems.get(securitySystemId);
+    if (!securitySystem) {
+      console.warn(`Security system ${securitySystemId} not found`);
+      return null;
+    }
+
+    try {
+      const newIncident: SecurityIncident = {
+        id: `incident_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name: incident.name || 'New Incident',
+        type: incident.type || IncidentType.BREACH,
+        severity: incident.severity || IncidentSeverity.MEDIUM,
+        status: IncidentStatus.OPEN,
+        description: incident.description || '',
+        affected: incident.affected || [],
+        timeline: incident.timeline || [],
+        response: incident.response || this.createDefaultIncidentResponse(),
+        metadata: incident.metadata || new Map()
+      };
+
+      securitySystem.incidents.push(newIncident);
+      securitySystem.modified = Date.now();
+
+      this.updateStats('create_incident', securitySystem);
+      console.log(`Created incident: ${newIncident.name}`);
+      return newIncident;
+    } catch (error) {
+      console.error(`Failed to create incident in system ${securitySystemId}:`, error);
       return null;
     }
   }
@@ -781,85 +898,61 @@ export class SecuritySystemManager {
   }
 
   /**
-   * Create default user security
+   * Create default authentication info
    */
-  private createDefaultUserSecurity(): UserSecurity {
+  private createDefaultAuthenticationInfo(): AuthenticationInfo {
     return {
-      passwordHash: '',
-      salt: '',
-      twoFactorEnabled: false,
+      methods: [
+        {
+          type: AuthMethodType.PASSWORD,
+          enabled: true,
+          configuration: new Map(),
+          metadata: new Map()
+        }
+      ],
       lastLogin: 0,
       failedAttempts: 0,
-      lockoutUntil: 0,
+      lockedUntil: null,
       metadata: new Map()
     };
   }
 
   /**
-   * Create default user statistics
+   * Create default authorization info
    */
-  private createDefaultUserStatistics(): UserStatistics {
+  private createDefaultAuthorizationInfo(): AuthorizationInfo {
     return {
-      totalLogins: 0,
-      lastLogin: 0,
-      totalSessions: 0,
-      averageSessionDuration: 0,
+      level: AuthorizationLevel.READ,
+      scopes: [],
+      restrictions: [],
       metadata: new Map()
     };
   }
 
   /**
-   * Create default threat source
+   * Create default threat mitigation
    */
-  private createDefaultThreatSource(): ThreatSource {
-    return {
-      ip: '0.0.0.0',
-      userAgent: 'Unknown',
-      location: 'Unknown',
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default threat detection
-   */
-  private createDefaultThreatDetection(): ThreatDetection {
-    return {
-      method: 'Unknown',
-      confidence: 0.5,
-      timestamp: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default threat response
-   */
-  private createDefaultThreatResponse(): ThreatResponse {
-    return {
-      action: 'None',
-      timestamp: 0,
-      user: 'System',
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default monitoring
-   */
-  private createDefaultMonitoring(): SecurityMonitoring {
+  private createDefaultThreatMitigation(): ThreatMitigation {
     return {
       enabled: true,
-      sensors: [],
-      alerts: [],
-      statistics: {
-        totalAlerts: 0,
-        triggeredAlerts: 0,
-        resolvedAlerts: 0,
-        averageResponseTime: 0,
-        lastAlert: 0,
-        metadata: new Map()
-      },
+      actions: [
+        {
+          type: MitigationType.ALERT,
+          parameters: new Map(),
+          metadata: new Map()
+        }
+      ],
+      metadata: new Map()
+    };
+  }
+
+  /**
+   * Create default incident response
+   */
+  private createDefaultIncidentResponse(): IncidentResponse {
+    return {
+      team: [],
+      actions: [],
       metadata: new Map()
     };
   }
@@ -872,9 +965,11 @@ export class SecuritySystemManager {
       totalUsers: 0,
       activeUsers: 0,
       totalThreats: 0,
+      activeThreats: 0,
       totalIncidents: 0,
-      threatRate: 0,
-      incidentRate: 0,
+      openIncidents: 0,
+      totalVulnerabilities: 0,
+      openVulnerabilities: 0,
       performance: {
         cpuUsage: 0,
         memoryUsage: 0,
@@ -934,18 +1029,119 @@ export class SecuritySystemManager {
   }
 
   /**
-   * Verify password
+   * Perform authentication
    */
-  private verifyPassword(password: string, hash: string, salt: string): boolean {
-    // Simple password verification (in real implementation, use proper hashing)
-    return password === 'password' && hash === 'hash' && salt === 'salt';
+  private performAuthentication(user: SecurityUser, credentials: any): AuthenticationResult {
+    // This would implement actual authentication logic
+    // For now, simulate successful authentication
+    return {
+      success: true,
+      user,
+      message: 'Authentication successful',
+      metadata: new Map()
+    };
   }
 
   /**
-   * Check if permission matches
+   * Check user permission
    */
-  private matchesPermission(permission: SecurityPermission, resource: string, action: string): boolean {
-    return permission.resource === resource && permission.action === action;
+  private checkUserPermission(user: SecurityUser, resource: string, action: string): boolean {
+    return user.permissions.some(permission => 
+      permission.includes(resource) && permission.includes(action)
+    );
+  }
+
+  /**
+   * Check role permissions
+   */
+  private checkRolePermissions(securitySystem: SecuritySystem, roles: string[], resource: string, action: string): boolean {
+    for (const roleId of roles) {
+      const role = securitySystem.roles.find(r => r.id === roleId);
+      if (role && role.permissions.some(permission => 
+        permission.includes(resource) && permission.includes(action)
+      )) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Check policy rules
+   */
+  private checkPolicyRules(securitySystem: SecuritySystem, user: SecurityUser, resource: string, action: string): AuthorizationResult {
+    for (const policy of securitySystem.policies) {
+      if (!policy.enabled) continue;
+
+      for (const rule of policy.rules) {
+        if (this.evaluateRule(rule, user, resource, action)) {
+          return {
+            authorized: rule.action.type === ActionType.ALLOW,
+            message: rule.action.type === ActionType.ALLOW ? 'Policy allows' : 'Policy denies',
+            metadata: new Map()
+          };
+        }
+      }
+    }
+
+    return {
+      authorized: false,
+      message: 'No matching policy found',
+      metadata: new Map()
+    };
+  }
+
+  /**
+   * Evaluate rule
+   */
+  private evaluateRule(rule: PolicyRule, user: SecurityUser, resource: string, action: string): boolean {
+    const condition = rule.condition;
+    let value: any;
+
+    switch (condition.field) {
+      case 'user.id':
+        value = user.id;
+        break;
+      case 'user.username':
+        value = user.username;
+        break;
+      case 'resource':
+        value = resource;
+        break;
+      case 'action':
+        value = action;
+        break;
+      default:
+        value = user.metadata.get(condition.field);
+    }
+
+    return this.evaluateCondition(value, condition.operator, condition.value);
+  }
+
+  /**
+   * Evaluate condition
+   */
+  private evaluateCondition(value: any, operator: ConditionOperator, expected: any): boolean {
+    switch (operator) {
+      case ConditionOperator.EQUALS:
+        return value === expected;
+      case ConditionOperator.NOT_EQUALS:
+        return value !== expected;
+      case ConditionOperator.CONTAINS:
+        return String(value).includes(String(expected));
+      case ConditionOperator.NOT_CONTAINS:
+        return !String(value).includes(String(expected));
+      case ConditionOperator.GREATER_THAN:
+        return value > expected;
+      case ConditionOperator.LESS_THAN:
+        return value < expected;
+      case ConditionOperator.GREATER_EQUAL:
+        return value >= expected;
+      case ConditionOperator.LESS_EQUAL:
+        return value <= expected;
+      default:
+        return false;
+    }
   }
 
   /**
@@ -960,16 +1156,25 @@ export class SecuritySystemManager {
         this.stats.totalPolicies += securitySystem.policies.length;
         this.stats.totalThreats += securitySystem.threats.length;
         this.stats.totalIncidents += securitySystem.incidents.length;
+        this.stats.totalVulnerabilities += securitySystem.vulnerabilities.length;
         break;
       case 'create_user':
         this.stats.totalUsers++;
         this.stats.activeUsers++;
         break;
-      case 'add_policy':
-        this.stats.totalPolicies++;
+      case 'authenticate_user':
+        // User authenticated
         break;
-      case 'report_threat':
+      case 'authorize_user':
+        // User authorized
+        break;
+      case 'create_threat':
         this.stats.totalThreats++;
+        this.stats.activeThreats++;
+        break;
+      case 'create_incident':
+        this.stats.totalIncidents++;
+        this.stats.openIncidents++;
         break;
     }
 
@@ -987,9 +1192,11 @@ export class SecuritySystemManager {
       totalPermissions: 0,
       totalPolicies: 0,
       totalThreats: 0,
+      activeThreats: 0,
       totalIncidents: 0,
-      threatRate: 0,
-      incidentRate: 0,
+      openIncidents: 0,
+      totalVulnerabilities: 0,
+      openVulnerabilities: 0,
       lastUpdate: Date.now()
     };
   }
@@ -1002,6 +1209,19 @@ export class SecuritySystemManager {
     this.stats = this.initializeStats();
     this.isInitialized = false;
   }
+}
+
+export interface AuthenticationResult {
+  success: boolean;
+  user: SecurityUser | null;
+  message: string;
+  metadata: Map<string, any>;
+}
+
+export interface AuthorizationResult {
+  authorized: boolean;
+  message: string;
+  metadata: Map<string, any>;
 }
 
 // Export default instance
