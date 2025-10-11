@@ -1,32 +1,34 @@
 /**
  * AnimationSystemPure Manager - Advanced Animation Management System
  *
- * Comprehensive animation system with:
- * - Skeletal animation and bone management
+ * Comprehensive animation management system with:
+ * - Animation creation and management
  * - Keyframe animation and interpolation
+ * - Skeletal animation and rigging
  * - Animation blending and transitions
- * - Animation state machines
- * - Procedural animation generation
  * - Animation compression and optimization
- * - Real-time animation editing
- * - Animation analytics and monitoring
+ * - Real-time animation processing
+ * - Cross-platform animation support
+ * - Performance monitoring and analytics
  *
  * @version 1.0.0
  * @author MIFF Framework
  */
 
 export interface AnimationSystemConfig {
-  enableSkeletalAnimation: boolean;
+  enableAnimationCreation: boolean;
+  enableAnimationManagement: boolean;
   enableKeyframeAnimation: boolean;
+  enableInterpolation: boolean;
+  enableSkeletalAnimation: boolean;
+  enableRigging: boolean;
   enableAnimationBlending: boolean;
-  enableStateMachines: boolean;
-  enableProceduralAnimation: boolean;
-  enableCompression: boolean;
-  enableRealTimeEditing: boolean;
-  enableAnimationAnalytics: boolean;
-  enablePerformanceMonitoring: boolean;
+  enableAnimationTransitions: boolean;
+  enableAnimationCompression: boolean;
+  enableAnimationOptimization: boolean;
+  enableRealTimeProcessing: boolean;
+  enableCrossPlatformSupport: boolean;
   maxAnimations: number;
-  maxBones: number;
   maxKeyframes: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
@@ -40,31 +42,29 @@ export interface AnimationSystem {
   status: AnimationSystemStatus;
   animations: Animation[];
   skeletons: Skeleton[];
-  stateMachines: AnimationStateMachine[];
-  blendTrees: BlendTree[];
-  procedural: ProceduralAnimation;
-  compression: AnimationCompression;
-  analytics: AnimationAnalytics;
-  metadata: AnimationMetadata;
+  rigs: Rig[];
+  analytics: AnimationSystemAnalytics;
+  metadata: AnimationSystemMetadata;
   version: string;
   created: number;
   modified: number;
 }
 
 export enum AnimationSystemType {
-  GAME = 'game',
-  CINEMATIC = 'cinematic',
-  UI = 'ui',
-  PARTICLE = 'particle',
+  KEYFRAME = 'keyframe',
+  SKELETAL = 'skeletal',
+  PROCEDURAL = 'procedural',
+  PHYSICS = 'physics',
   CUSTOM = 'custom'
 }
 
 export enum AnimationSystemStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
+  PLAYING = 'playing',
   PAUSED = 'paused',
   ERROR = 'error',
-  MAINTENANCE = 'maintenance'
+  CUSTOM = 'custom'
 }
 
 export interface Animation {
@@ -73,35 +73,31 @@ export interface Animation {
   type: AnimationType;
   status: AnimationStatus;
   duration: number;
-  frameRate: number;
   keyframes: Keyframe[];
   tracks: AnimationTrack[];
-  events: AnimationEvent[];
-  metadata: AnimationData;
-  version: string;
-  created: number;
-  modified: number;
+  properties: AnimationProperties;
+  metadata: Map<string, any>;
 }
 
 export enum AnimationType {
-  SKELETAL = 'skeletal',
-  KEYFRAME = 'keyframe',
-  PROCEDURAL = 'procedural',
-  PARTICLE = 'particle',
-  UI = 'ui',
+  POSITION = 'position',
+  ROTATION = 'rotation',
+  SCALE = 'scale',
+  COLOR = 'color',
+  ALPHA = 'alpha',
   CUSTOM = 'custom'
 }
 
 export enum AnimationStatus {
+  STOPPED = 'stopped',
   PLAYING = 'playing',
   PAUSED = 'paused',
-  STOPPED = 'stopped',
   LOOPING = 'looping',
-  ERROR = 'error'
+  ERROR = 'error',
+  CUSTOM = 'custom'
 }
 
 export interface Keyframe {
-  id: string;
   time: number;
   value: any;
   interpolation: InterpolationType;
@@ -112,7 +108,6 @@ export interface Keyframe {
 export enum InterpolationType {
   LINEAR = 'linear',
   BEZIER = 'bezier',
-  CUBIC = 'cubic',
   STEP = 'step',
   CUSTOM = 'custom'
 }
@@ -121,299 +116,180 @@ export enum EasingType {
   EASE_IN = 'ease_in',
   EASE_OUT = 'ease_out',
   EASE_IN_OUT = 'ease_in_out',
-  BOUNCE = 'bounce',
-  ELASTIC = 'elastic',
+  EASE_NONE = 'ease_none',
   CUSTOM = 'custom'
 }
 
 export interface AnimationTrack {
   id: string;
   name: string;
-  type: TrackType;
-  target: string;
   property: string;
-  keyframes: string[];
+  keyframes: Keyframe[];
   enabled: boolean;
   metadata: Map<string, any>;
 }
 
-export enum TrackType {
-  POSITION = 'position',
-  ROTATION = 'rotation',
-  SCALE = 'scale',
-  COLOR = 'color',
-  ALPHA = 'alpha',
-  CUSTOM = 'custom'
-}
-
-export interface AnimationEvent {
-  id: string;
-  name: string;
-  time: number;
-  type: EventType;
-  data: any;
+export interface AnimationProperties {
+  loop: boolean;
+  speed: number;
+  delay: number;
+  reverse: boolean;
   metadata: Map<string, any>;
-}
-
-export enum EventType {
-  SOUND = 'sound',
-  EFFECT = 'effect',
-  SCRIPT = 'script',
-  CUSTOM = 'custom'
-}
-
-export interface AnimationData {
-  width: number;
-  height: number;
-  channels: number;
-  compression: CompressionInfo;
-  custom: Map<string, any>;
-}
-
-export interface CompressionInfo {
-  type: CompressionType;
-  level: number;
-  ratio: number;
-  metadata: Map<string, any>;
-}
-
-export enum CompressionType {
-  NONE = 'none',
-  LOSSY = 'lossy',
-  LOSSLESS = 'lossless',
-  CUSTOM = 'custom'
 }
 
 export interface Skeleton {
   id: string;
   name: string;
+  type: SkeletonType;
+  status: SkeletonStatus;
   bones: Bone[];
   hierarchy: BoneHierarchy;
-  bindPose: BindPose;
   metadata: Map<string, any>;
+}
+
+export enum SkeletonType {
+  HUMAN = 'human',
+  ANIMAL = 'animal',
+  MECHANICAL = 'mechanical',
+  CUSTOM = 'custom'
+}
+
+export enum SkeletonStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ERROR = 'error',
+  CUSTOM = 'custom'
 }
 
 export interface Bone {
   id: string;
   name: string;
-  parent: string | null;
-  position: Vector3;
-  rotation: Quaternion;
-  scale: Vector3;
-  length: number;
+  type: BoneType;
+  position: BonePosition;
+  rotation: BoneRotation;
+  scale: BoneScale;
+  parent: string;
+  children: string[];
   metadata: Map<string, any>;
 }
 
-export interface Vector3 {
+export enum BoneType {
+  ROOT = 'root',
+  JOINT = 'joint',
+  END_EFFECTOR = 'end_effector',
+  CUSTOM = 'custom'
+}
+
+export interface BonePosition {
   x: number;
   y: number;
   z: number;
+  metadata: Map<string, any>;
 }
 
-export interface Quaternion {
+export interface BoneRotation {
   x: number;
   y: number;
   z: number;
   w: number;
+  metadata: Map<string, any>;
+}
+
+export interface BoneScale {
+  x: number;
+  y: number;
+  z: number;
+  metadata: Map<string, any>;
 }
 
 export interface BoneHierarchy {
   root: string;
-  children: Map<string, string[]>;
+  bones: Map<string, string[]>;
   metadata: Map<string, any>;
 }
 
-export interface BindPose {
-  bones: Map<string, BoneTransform>;
-  metadata: Map<string, any>;
-}
-
-export interface BoneTransform {
-  position: Vector3;
-  rotation: Quaternion;
-  scale: Vector3;
-}
-
-export interface AnimationStateMachine {
+export interface Rig {
   id: string;
   name: string;
-  states: AnimationState[];
-  transitions: AnimationTransition[];
-  currentState: string;
+  type: RigType;
+  status: RigStatus;
+  bones: string[];
+  constraints: RigConstraint[];
+  controls: RigControl[];
   metadata: Map<string, any>;
 }
 
-export interface AnimationState {
-  id: string;
-  name: string;
-  animation: string;
-  speed: number;
-  weight: number;
-  loop: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface AnimationTransition {
-  id: string;
-  name: string;
-  from: string;
-  to: string;
-  condition: TransitionCondition;
-  duration: number;
-  metadata: Map<string, any>;
-}
-
-export interface TransitionCondition {
-  type: ConditionType;
-  value: any;
-  operator: ConditionOperator;
-  metadata: Map<string, any>;
-}
-
-export enum ConditionType {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  GREATER_EQUAL = 'greater_equal',
-  LESS_EQUAL = 'less_equal',
-  CONTAINS = 'contains',
-  NOT_CONTAINS = 'not_contains',
+export enum RigType {
+  FK = 'fk',
+  IK = 'ik',
+  HYBRID = 'hybrid',
   CUSTOM = 'custom'
 }
 
-export enum ConditionOperator {
-  AND = 'and',
-  OR = 'or',
-  NOT = 'not',
+export enum RigStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ERROR = 'error',
   CUSTOM = 'custom'
 }
 
-export interface BlendTree {
-  id: string;
+export interface RigConstraint {
+  type: ConstraintType;
+  target: string;
+  source: string;
+  properties: ConstraintProperties;
+  metadata: Map<string, any>;
+}
+
+export enum ConstraintType {
+  COPY_LOCATION = 'copy_location',
+  COPY_ROTATION = 'copy_rotation',
+  COPY_SCALE = 'copy_scale',
+  LIMIT_LOCATION = 'limit_location',
+  LIMIT_ROTATION = 'limit_rotation',
+  CUSTOM = 'custom'
+}
+
+export interface ConstraintProperties {
+  influence: number;
+  offset: boolean;
+  space: ConstraintSpace;
+  metadata: Map<string, any>;
+}
+
+export enum ConstraintSpace {
+  WORLD = 'world',
+  LOCAL = 'local',
+  CUSTOM = 'custom'
+}
+
+export interface RigControl {
   name: string;
-  type: BlendTreeType;
-  nodes: BlendNode[];
-  parameters: BlendParameter[];
+  type: ControlType;
+  bone: string;
+  properties: ControlProperties;
   metadata: Map<string, any>;
 }
 
-export enum BlendTreeType {
-  ONE_D = 'one_d',
-  TWO_D = 'two_d',
-  DIRECT = 'direct',
+export enum ControlType {
+  BONE = 'bone',
+  NULL = 'null',
+  MESH = 'mesh',
   CUSTOM = 'custom'
 }
 
-export interface BlendNode {
-  id: string;
-  name: string;
-  animation: string;
-  position: Vector2;
-  weight: number;
+export interface ControlProperties {
+  visible: boolean;
+  selectable: boolean;
   metadata: Map<string, any>;
 }
 
-export interface Vector2 {
-  x: number;
-  y: number;
-}
-
-export interface BlendParameter {
-  id: string;
-  name: string;
-  type: ParameterType;
-  value: number;
-  min: number;
-  max: number;
-  metadata: Map<string, any>;
-}
-
-export enum ParameterType {
-  FLOAT = 'float',
-  INT = 'int',
-  BOOLEAN = 'boolean',
-  VECTOR2 = 'vector2',
-  CUSTOM = 'custom'
-}
-
-export interface ProceduralAnimation {
-  enabled: boolean;
-  generators: ProceduralGenerator[];
-  modifiers: ProceduralModifier[];
-  metadata: Map<string, any>;
-}
-
-export interface ProceduralGenerator {
-  id: string;
-  name: string;
-  type: GeneratorType;
-  parameters: GeneratorParameters;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum GeneratorType {
-  NOISE = 'noise',
-  SINE = 'sine',
-  COSINE = 'cosine',
-  RANDOM = 'random',
-  CUSTOM = 'custom'
-}
-
-export interface GeneratorParameters {
-  frequency: number;
-  amplitude: number;
-  phase: number;
-  offset: number;
-  metadata: Map<string, any>;
-}
-
-export interface ProceduralModifier {
-  id: string;
-  name: string;
-  type: ModifierType;
-  parameters: ModifierParameters;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum ModifierType {
-  FILTER = 'filter',
-  SMOOTH = 'smooth',
-  SCALE = 'scale',
-  OFFSET = 'offset',
-  CUSTOM = 'custom'
-}
-
-export interface ModifierParameters {
-  strength: number;
-  radius: number;
-  threshold: number;
-  metadata: Map<string, any>;
-}
-
-export interface AnimationCompression {
-  enabled: boolean;
-  algorithm: CompressionAlgorithm;
-  level: number;
-  threshold: number;
-  metadata: Map<string, any>;
-}
-
-export enum CompressionAlgorithm {
-  QUANTIZATION = 'quantization',
-  KEYFRAME_REDUCTION = 'keyframe_reduction',
-  CURVE_FITTING = 'curve_fitting',
-  CUSTOM = 'custom'
-}
-
-export interface AnimationAnalytics {
+export interface AnimationSystemAnalytics {
   totalAnimations: number;
-  playingAnimations: number;
-  totalKeyframes: number;
+  totalSkeletons: number;
+  totalRigs: number;
   averageFrameRate: number;
-  memoryUsage: number;
+  averageMemoryUsage: number;
   performance: PerformanceMetrics;
   lastUpdate: number;
   metadata: Map<string, any>;
@@ -421,13 +297,13 @@ export interface AnimationAnalytics {
 
 export interface PerformanceMetrics {
   cpuUsage: number;
-  gpuUsage: number;
   memoryUsage: number;
-  frameTime: number;
+  gpuUsage: number;
+  networkUsage: number;
   metadata: Map<string, any>;
 }
 
-export interface AnimationMetadata {
+export interface AnimationSystemMetadata {
   author: string;
   version: string;
   tags: string[];
@@ -437,36 +313,35 @@ export interface AnimationMetadata {
 
 export interface AnimationSystemStats {
   totalAnimations: number;
-  playingAnimations: number;
   totalSkeletons: number;
-  totalStateMachines: number;
-  totalBlendTrees: number;
-  totalKeyframes: number;
+  totalRigs: number;
   averageFrameRate: number;
-  memoryUsage: number;
+  averageMemoryUsage: number;
   lastUpdate: number;
 }
 
 export class AnimationSystemManager {
   private config: AnimationSystemConfig;
-  private animationSystems: Map<string, AnimationSystem> = new Map();
+  private systems: Map<string, AnimationSystem> = new Map();
   private stats: AnimationSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
 
   constructor(config: Partial<AnimationSystemConfig> = {}) {
     this.config = {
-      enableSkeletalAnimation: true,
+      enableAnimationCreation: true,
+      enableAnimationManagement: true,
       enableKeyframeAnimation: true,
+      enableInterpolation: true,
+      enableSkeletalAnimation: true,
+      enableRigging: true,
       enableAnimationBlending: true,
-      enableStateMachines: true,
-      enableProceduralAnimation: true,
-      enableCompression: true,
-      enableRealTimeEditing: true,
-      enableAnimationAnalytics: true,
-      enablePerformanceMonitoring: true,
-      maxAnimations: 1000,
-      maxBones: 1000,
-      maxKeyframes: 10000,
+      enableAnimationTransitions: true,
+      enableAnimationCompression: true,
+      enableAnimationOptimization: true,
+      enableRealTimeProcessing: true,
+      enableCrossPlatformSupport: true,
+      maxAnimations: 10000,
+      maxKeyframes: 1000000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
@@ -497,211 +372,121 @@ export class AnimationSystemManager {
   /**
    * Create new animation system
    */
-  createAnimationSystem(animationSystem: Partial<AnimationSystem>): AnimationSystem | null {
-    const newAnimationSystem: AnimationSystem = {
-      id: `animation_system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: animationSystem.name || 'New Animation System',
-      type: animationSystem.type || AnimationSystemType.GAME,
+  createAnimationSystem(system: Partial<AnimationSystem>): AnimationSystem | null {
+    const newSystem: AnimationSystem = {
+      id: `animationsystem_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: system.name || 'New Animation System',
+      type: system.type || AnimationSystemType.KEYFRAME,
       status: AnimationSystemStatus.ACTIVE,
-      animations: animationSystem.animations || [],
-      skeletons: animationSystem.skeletons || [],
-      stateMachines: animationSystem.stateMachines || [],
-      blendTrees: animationSystem.blendTrees || [],
-      procedural: animationSystem.procedural || this.createDefaultProcedural(),
-      compression: animationSystem.compression || this.createDefaultCompression(),
-      analytics: animationSystem.analytics || this.createDefaultAnalytics(),
-      metadata: animationSystem.metadata || this.createDefaultMetadata(),
+      animations: system.animations || [],
+      skeletons: system.skeletons || [],
+      rigs: system.rigs || [],
+      analytics: system.analytics || this.createDefaultAnalytics(),
+      metadata: system.metadata || this.createDefaultMetadata(),
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.animationSystems.set(newAnimationSystem.id, newAnimationSystem);
-    this.updateStats('create_animation_system', newAnimationSystem);
+    this.systems.set(newSystem.id, newSystem);
+    this.updateStats('create_system', newSystem);
 
-    console.log(`Created animation system: ${newAnimationSystem.name}`);
-    return newAnimationSystem;
+    console.log(`Created animation system: ${newSystem.name}`);
+    return newSystem;
   }
 
   /**
-   * Add animation
+   * Create animation
    */
-  addAnimation(animationSystemId: string, animation: Animation): boolean {
-    const animationSystem = this.animationSystems.get(animationSystemId);
-    if (!animationSystem) {
-      console.warn(`Animation system ${animationSystemId} not found`);
-      return false;
+  createAnimation(systemId: string, animation: Partial<Animation>): Animation | null {
+    const system = this.systems.get(systemId);
+    if (!system) {
+      console.warn(`Animation system ${systemId} not found`);
+      return null;
     }
 
-    if (animationSystem.animations.length >= this.config.maxAnimations) {
+    if (system.animations.length >= this.config.maxAnimations) {
       console.warn('Maximum number of animations reached');
-      return false;
+      return null;
     }
 
     try {
-      animationSystem.animations.push(animation);
-      animationSystem.modified = Date.now();
+      const newAnimation: Animation = {
+        id: `animation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name: animation.name || 'New Animation',
+        type: animation.type || AnimationType.POSITION,
+        status: AnimationStatus.STOPPED,
+        duration: animation.duration || 1.0,
+        keyframes: animation.keyframes || [],
+        tracks: animation.tracks || [],
+        properties: animation.properties || this.createDefaultAnimationProperties(),
+        metadata: animation.metadata || new Map()
+      };
 
-      this.updateStats('add_animation', animationSystem);
-      console.log(`Added animation: ${animation.name}`);
-      return true;
+      system.animations.push(newAnimation);
+      system.modified = Date.now();
+
+      this.updateStats('create_animation', system);
+      console.log(`Created animation: ${newAnimation.name}`);
+      return newAnimation;
     } catch (error) {
-      console.error(`Failed to add animation to system ${animationSystemId}:`, error);
-      return false;
+      console.error(`Failed to create animation in system ${systemId}:`, error);
+      return null;
     }
   }
 
   /**
-   * Add skeleton
+   * Create skeleton
    */
-  addSkeleton(animationSystemId: string, skeleton: Skeleton): boolean {
-    const animationSystem = this.animationSystems.get(animationSystemId);
-    if (!animationSystem) {
-      console.warn(`Animation system ${animationSystemId} not found`);
-      return false;
-    }
-
-    if (skeleton.bones.length >= this.config.maxBones) {
-      console.warn('Maximum number of bones reached');
-      return false;
+  createSkeleton(systemId: string, skeleton: Partial<Skeleton>): Skeleton | null {
+    const system = this.systems.get(systemId);
+    if (!system) {
+      console.warn(`Animation system ${systemId} not found`);
+      return null;
     }
 
     try {
-      animationSystem.skeletons.push(skeleton);
-      animationSystem.modified = Date.now();
+      const newSkeleton: Skeleton = {
+        id: `skeleton_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        name: skeleton.name || 'New Skeleton',
+        type: skeleton.type || SkeletonType.HUMAN,
+        status: SkeletonStatus.ACTIVE,
+        bones: skeleton.bones || [],
+        hierarchy: skeleton.hierarchy || this.createDefaultBoneHierarchy(),
+        metadata: skeleton.metadata || new Map()
+      };
 
-      this.updateStats('add_skeleton', animationSystem);
-      console.log(`Added skeleton: ${skeleton.name}`);
-      return true;
+      system.skeletons.push(newSkeleton);
+      system.modified = Date.now();
+
+      this.updateStats('create_skeleton', system);
+      console.log(`Created skeleton: ${newSkeleton.name}`);
+      return newSkeleton;
     } catch (error) {
-      console.error(`Failed to add skeleton to system ${animationSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add state machine
-   */
-  addStateMachine(animationSystemId: string, stateMachine: AnimationStateMachine): boolean {
-    const animationSystem = this.animationSystems.get(animationSystemId);
-    if (!animationSystem) {
-      console.warn(`Animation system ${animationSystemId} not found`);
-      return false;
-    }
-
-    try {
-      animationSystem.stateMachines.push(stateMachine);
-      animationSystem.modified = Date.now();
-
-      this.updateStats('add_state_machine', animationSystem);
-      console.log(`Added state machine: ${stateMachine.name}`);
-      return true;
-    } catch (error) {
-      console.error(`Failed to add state machine to system ${animationSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add blend tree
-   */
-  addBlendTree(animationSystemId: string, blendTree: BlendTree): boolean {
-    const animationSystem = this.animationSystems.get(animationSystemId);
-    if (!animationSystem) {
-      console.warn(`Animation system ${animationSystemId} not found`);
-      return false;
-    }
-
-    try {
-      animationSystem.blendTrees.push(blendTree);
-      animationSystem.modified = Date.now();
-
-      this.updateStats('add_blend_tree', animationSystem);
-      console.log(`Added blend tree: ${blendTree.name}`);
-      return true;
-    } catch (error) {
-      console.error(`Failed to add blend tree to system ${animationSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Play animation
-   */
-  playAnimation(animationSystemId: string, animationId: string, options: PlayOptions = {}): boolean {
-    const animationSystem = this.animationSystems.get(animationSystemId);
-    if (!animationSystem) {
-      console.warn(`Animation system ${animationSystemId} not found`);
-      return false;
-    }
-
-    const animation = animationSystem.animations.find(a => a.id === animationId);
-    if (!animation) {
-      console.warn(`Animation ${animationId} not found`);
-      return false;
-    }
-
-    try {
-      animation.status = AnimationStatus.PLAYING;
-      animationSystem.modified = Date.now();
-
-      this.updateStats('play_animation', animationSystem);
-      console.log(`Playing animation: ${animation.name}`);
-      return true;
-    } catch (error) {
-      console.error(`Failed to play animation ${animationId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Stop animation
-   */
-  stopAnimation(animationSystemId: string, animationId: string): boolean {
-    const animationSystem = this.animationSystems.get(animationSystemId);
-    if (!animationSystem) {
-      console.warn(`Animation system ${animationSystemId} not found`);
-      return false;
-    }
-
-    const animation = animationSystem.animations.find(a => a.id === animationId);
-    if (!animation) {
-      console.warn(`Animation ${animationId} not found`);
-      return false;
-    }
-
-    try {
-      animation.status = AnimationStatus.STOPPED;
-      animationSystem.modified = Date.now();
-
-      this.updateStats('stop_animation', animationSystem);
-      console.log(`Stopped animation: ${animation.name}`);
-      return true;
-    } catch (error) {
-      console.error(`Failed to stop animation ${animationId}:`, error);
-      return false;
+      console.error(`Failed to create skeleton in system ${systemId}:`, error);
+      return null;
     }
   }
 
   /**
    * Get animation system
    */
-  getAnimationSystem(animationSystemId: string): AnimationSystem | null {
-    return this.animationSystems.get(animationSystemId) || null;
+  getAnimationSystem(systemId: string): AnimationSystem | null {
+    return this.systems.get(systemId) || null;
   }
 
   /**
    * Get all animation systems
    */
   getAnimationSystems(): AnimationSystem[] {
-    return Array.from(this.animationSystems.values());
+    return Array.from(this.systems.values());
   }
 
   /**
    * Get animation systems by type
    */
   getAnimationSystemsByType(type: AnimationSystemType): AnimationSystem[] {
-    return Array.from(this.animationSystems.values())
+    return Array.from(this.systems.values())
       .filter(system => system.type === type);
   }
 
@@ -725,14 +510,14 @@ export class AnimationSystemManager {
   private async loadDefaultAnimationSystems(): Promise<void> {
     // Load default animation systems
     const defaultSystems = [
-      this.createDefaultGameSystem(),
-      this.createDefaultCinematicSystem(),
-      this.createDefaultUISystem()
+      this.createDefaultKeyframe(),
+      this.createDefaultSkeletal(),
+      this.createDefaultProcedural()
     ];
 
     for (const system of defaultSystems) {
       if (system) {
-        this.animationSystems.set(system.id, system);
+        this.systems.set(system.id, system);
       }
     }
 
@@ -740,55 +525,25 @@ export class AnimationSystemManager {
   }
 
   /**
-   * Create default procedural
+   * Create default animation properties
    */
-  private createDefaultProcedural(): ProceduralAnimation {
+  private createDefaultAnimationProperties(): AnimationProperties {
     return {
-      enabled: true,
-      generators: [
-        {
-          id: 'noise_generator',
-          name: 'Noise Generator',
-          type: GeneratorType.NOISE,
-          parameters: {
-            frequency: 1.0,
-            amplitude: 1.0,
-            phase: 0.0,
-            offset: 0.0,
-            metadata: new Map()
-          },
-          enabled: true,
-          metadata: new Map()
-        }
-      ],
-      modifiers: [
-        {
-          id: 'smooth_modifier',
-          name: 'Smooth Modifier',
-          type: ModifierType.SMOOTH,
-          parameters: {
-            strength: 0.5,
-            radius: 1.0,
-            threshold: 0.1,
-            metadata: new Map()
-          },
-          enabled: true,
-          metadata: new Map()
-        }
-      ],
+      loop: false,
+      speed: 1.0,
+      delay: 0,
+      reverse: false,
       metadata: new Map()
     };
   }
 
   /**
-   * Create default compression
+   * Create default bone hierarchy
    */
-  private createDefaultCompression(): AnimationCompression {
+  private createDefaultBoneHierarchy(): BoneHierarchy {
     return {
-      enabled: true,
-      algorithm: CompressionAlgorithm.QUANTIZATION,
-      level: 6,
-      threshold: 0.01,
+      root: '',
+      bones: new Map(),
       metadata: new Map()
     };
   }
@@ -796,18 +551,18 @@ export class AnimationSystemManager {
   /**
    * Create default analytics
    */
-  private createDefaultAnalytics(): AnimationAnalytics {
+  private createDefaultAnalytics(): AnimationSystemAnalytics {
     return {
       totalAnimations: 0,
-      playingAnimations: 0,
-      totalKeyframes: 0,
-      averageFrameRate: 60,
-      memoryUsage: 0,
+      totalSkeletons: 0,
+      totalRigs: 0,
+      averageFrameRate: 0,
+      averageMemoryUsage: 0,
       performance: {
         cpuUsage: 0,
-        gpuUsage: 0,
         memoryUsage: 0,
-        frameTime: 16.67,
+        gpuUsage: 0,
+        networkUsage: 0,
         metadata: new Map()
       },
       lastUpdate: Date.now(),
@@ -818,7 +573,7 @@ export class AnimationSystemManager {
   /**
    * Create default metadata
    */
-  private createDefaultMetadata(): AnimationMetadata {
+  private createDefaultMetadata(): AnimationSystemMetadata {
     return {
       author: 'System',
       version: '1.0.0',
@@ -829,68 +584,53 @@ export class AnimationSystemManager {
   }
 
   /**
-   * Create default game system
+   * Create default keyframe
    */
-  private createDefaultGameSystem(): AnimationSystem {
+  private createDefaultKeyframe(): AnimationSystem {
     return this.createAnimationSystem({
-      name: 'Game Animation System',
-      type: AnimationSystemType.GAME,
-      description: 'Game animation system for character and object animations'
+      name: 'Keyframe Animation System',
+      type: AnimationSystemType.KEYFRAME,
+      description: 'Keyframe animation system'
     });
   }
 
   /**
-   * Create default cinematic system
+   * Create default skeletal
    */
-  private createDefaultCinematicSystem(): AnimationSystem {
+  private createDefaultSkeletal(): AnimationSystem {
     return this.createAnimationSystem({
-      name: 'Cinematic Animation System',
-      type: AnimationSystemType.CINEMATIC,
-      description: 'Cinematic animation system for cutscenes and movies'
+      name: 'Skeletal Animation System',
+      type: AnimationSystemType.SKELETAL,
+      description: 'Skeletal animation system'
     });
   }
 
   /**
-   * Create default UI system
+   * Create default procedural
    */
-  private createDefaultUISystem(): AnimationSystem {
+  private createDefaultProcedural(): AnimationSystem {
     return this.createAnimationSystem({
-      name: 'UI Animation System',
-      type: AnimationSystemType.UI,
-      description: 'UI animation system for interface animations'
+      name: 'Procedural Animation System',
+      type: AnimationSystemType.PROCEDURAL,
+      description: 'Procedural animation system'
     });
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, animationSystem: AnimationSystem): void {
+  private updateStats(action: string, system: AnimationSystem): void {
     switch (action) {
-      case 'create_animation_system':
-        this.stats.totalAnimations += animationSystem.animations.length;
-        this.stats.totalSkeletons += animationSystem.skeletons.length;
-        this.stats.totalStateMachines += animationSystem.stateMachines.length;
-        this.stats.totalBlendTrees += animationSystem.blendTrees.length;
-        this.stats.totalKeyframes += animationSystem.animations.reduce((sum, anim) => sum + anim.keyframes.length, 0);
+      case 'create_system':
+        this.stats.totalAnimations += system.animations.length;
+        this.stats.totalSkeletons += system.skeletons.length;
+        this.stats.totalRigs += system.rigs.length;
         break;
-      case 'add_animation':
+      case 'create_animation':
         this.stats.totalAnimations++;
-        this.stats.totalKeyframes += animationSystem.animations[animationSystem.animations.length - 1].keyframes.length;
         break;
-      case 'add_skeleton':
+      case 'create_skeleton':
         this.stats.totalSkeletons++;
-        break;
-      case 'add_state_machine':
-        this.stats.totalStateMachines++;
-        break;
-      case 'add_blend_tree':
-        this.stats.totalBlendTrees++;
-        break;
-      case 'play_animation':
-        this.stats.playingAnimations++;
-        break;
-      case 'stop_animation':
-        this.stats.playingAnimations--;
         break;
     }
 
@@ -903,13 +643,10 @@ export class AnimationSystemManager {
   private initializeStats(): AnimationSystemStats {
     return {
       totalAnimations: 0,
-      playingAnimations: 0,
       totalSkeletons: 0,
-      totalStateMachines: 0,
-      totalBlendTrees: 0,
-      totalKeyframes: 0,
-      averageFrameRate: 60,
-      memoryUsage: 0,
+      totalRigs: 0,
+      averageFrameRate: 0,
+      averageMemoryUsage: 0,
       lastUpdate: Date.now()
     };
   }
@@ -918,18 +655,10 @@ export class AnimationSystemManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.animationSystems.clear();
+    this.systems.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
   }
-}
-
-export interface PlayOptions {
-  loop?: boolean;
-  speed?: number;
-  weight?: number;
-  fadeIn?: number;
-  fadeOut?: number;
 }
 
 // Export default instance
