@@ -206,7 +206,7 @@ export class ItemsManagerAdvanced extends ItemsManager {
     limit?: number;
   }): Item[] {
     const startTime = performance.now();
-    let results = Array.from(this.items.values());
+    let results = Array.from(this['items'].values());
 
     // Apply filters
     if (query.text) {
@@ -515,7 +515,7 @@ export class ItemsManagerAdvanced extends ItemsManager {
     };
     enhancement: {
       totalEnhancements: number;
-      totalEnhancements: number;
+      totalEnhancementAttempts: number;
       successRate: number;
     };
   } {

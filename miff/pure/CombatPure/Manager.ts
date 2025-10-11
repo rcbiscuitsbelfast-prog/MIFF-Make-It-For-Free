@@ -197,13 +197,13 @@ export class CombatManager {
       return { success: false, message: 'Battle not found' };
     }
 
-    if (session.state.result !== CombatResult.ONGOING) {
+    if (session.state.over) {
       return { success: false, message: 'Battle has ended' };
     }
 
     // Check timeout
     if (Date.now() - session.startTime > (this.config.battleTimeout)) {
-      session.state.result = CombatResult.DRAW;
+      session.state.over = true;
       session.endTime = Date.now();
       return { success: false, message: 'Battle timed out', result: CombatResult.DRAW };
     }
@@ -213,18 +213,19 @@ export class CombatManager {
       const engine = new CombatEngine();
       
       // Set up hooks if available
-      if (this.aiHook) engine.setAIHook(this.aiHook);
-      if (this.inventoryHook) engine.setInventoryHook(this.inventoryHook);
-      if (this.saveHook) engine.setSaveHook(this.saveHook);
-      if (this.rngProvider) engine.setRNGProvider(this.rngProvider);
+      if (this.inventoryHook) engine.inventory = this.inventoryHook;
+      if (this.aiHook) engine.ai = this.aiHook;
+      if (this.saveHook) engine.save = this.saveHook;
 
       // Execute action
       const actionStartTime = performance.now();
-      const result = await engine.processAction(session.state, action);
+      engine.state = session.state;
+      engine.enqueue(action);
+      engine.stepTurn();
       const actionTime = performance.now() - actionStartTime;
 
       // Update session
-      session.state = result.newState;
+      session.state = engine.state;
       session.actions.push(action);
       session.performance.totalActions++;
       session.performance.averageActionTime = 
@@ -232,9 +233,10 @@ export class CombatManager {
         / session.performance.totalActions;
 
       // Check if battle ended
-      if (result.newState.result !== CombatResult.ONGOING) {
+      const battleResult = this.determineBattleResult(session.state);
+      if (battleResult !== CombatResult.ONGOING) {
         session.endTime = Date.now();
-        session.result = result.newState.result;
+        session.result = battleResult;
         
         // Move to history
         this.battleHistory.push(session);
@@ -250,9 +252,9 @@ export class CombatManager {
       
       return {
         success: true,
-        result: result.newState.result,
+        result: battleResult,
         message: 'Action executed successfully',
-        newState: result.newState
+        newState: session.state
       };
 
     } catch (error) {
@@ -325,7 +327,7 @@ export class CombatManager {
 
     session.endTime = Date.now();
     session.result = result;
-    session.state.result = result;
+    session.state.over = true;
 
     // Move to history
     this.battleHistory.push(session);
@@ -431,18 +433,18 @@ export class CombatManager {
     mostUsedMoves: Array<{ moveId: string; count: number }>;
   } {
     const combatantBattles = this.battleHistory.filter(session =>
-      session.state.combatants.some(c => c.id === combatantId)
+      Object.values(session.state.combatants).some(c => c.id === combatantId)
     );
 
     const victories = combatantBattles.filter(session => {
-      const combatant = session.state.combatants.find(c => c.id === combatantId);
+      const combatant = Object.values(session.state.combatants).find(c => c.id === combatantId);
       const isWinner = session.result === CombatResult.VICTORY && 
         combatant && !combatant.status?.ko && !combatant.status?.fled;
       return isWinner;
     }).length;
 
     const defeats = combatantBattles.filter(session => {
-      const combatant = session.state.combatants.find(c => c.id === combatantId);
+      const combatant = Object.values(session.state.combatants).find(c => c.id === combatantId);
       const isLoser = session.result === CombatResult.DEFEAT && 
         combatant && (combatant.status?.ko || combatant.status?.fled);
       return isLoser;
@@ -560,6 +562,16 @@ export class CombatManager {
     // Update performance metrics
     this.analytics.performanceMetrics.averageFrameTime = this.performanceMetrics.averageResponseTime;
     this.analytics.performanceMetrics.cacheHitRate = this.performanceMetrics.cacheHitRate;
+  }
+
+  /**
+   * Determine battle result from state
+   */
+  private determineBattleResult(state: CombatState): CombatResult {
+    if (state.over) {
+      return state.winnerTeam ? CombatResult.VICTORY : CombatResult.DRAW;
+    }
+    return CombatResult.ONGOING;
   }
 
   /**
