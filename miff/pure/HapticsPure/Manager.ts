@@ -384,8 +384,13 @@ export class HapticsManager {
     return false;
   }
 
-  addEnvironmentalResponse(response: HapticEnvironmentalResponse): void {
-    this.environmentalResponses.push(response);
+  addEnvironmentalResponse(response: HapticEnvironmentalResponse): boolean {
+    try {
+      this.environmentalResponses.push(response);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   removeEnvironmentalResponse(condition: string): boolean {
@@ -395,6 +400,21 @@ export class HapticsManager {
       return true;
     }
     return false;
+  }
+
+  async playPattern(pattern: HapticPattern, deviceType?: HapticDeviceType): Promise<HapticResult> {
+    const request: HapticRequest = {
+      id: `pattern_${Date.now()}`,
+      pattern,
+      device: deviceType,
+      priority: 1
+    };
+    
+    const result = await this.playImmediate(request);
+    if (!result) {
+      throw new Error('Failed to play haptic pattern');
+    }
+    return result;
   }
 
   async triggerEnvironmentalResponse(condition: string, value: number): Promise<HapticResult[]> {
@@ -692,40 +712,6 @@ export class HapticsManager {
   }
 
   // Test compatibility methods
-  async playAll(): Promise<HapticResult[]> {
-    const results: HapticResult[] = [];
-    
-    // Process all requests in priority order
-    const sortedRequests = Array.from(this.priorityQueue.entries())
-      .sort(([a], [b]) => b - a) // Higher priority first
-      .flatMap(([, requests]) => requests);
-
-    for (const request of sortedRequests) {
-      try {
-        const result = await this.playPattern(request.pattern, request.deviceId);
-        results.push({
-          id: request.id,
-          status: 'played',
-          actualDuration: result.duration,
-          actualIntensity: result.intensity,
-          timestamp: this.now()
-        });
-      } catch (error) {
-        results.push({
-          id: request.id,
-          status: 'error',
-          reason: error instanceof Error ? error.message : String(error),
-          timestamp: this.now()
-        });
-      }
-    }
-
-    // Clear the queue
-    this.queue = [];
-    this.priorityQueue.clear();
-    
-    return results;
-  }
 
   connectDevice(deviceId: string, device: HapticDevice): boolean {
     try {
@@ -774,15 +760,6 @@ export class HapticsManager {
 
       // Simulate playing the sequence
       console.log(`Playing sequence: ${sequence.name}`);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  addEnvironmentalResponse(response: HapticEnvironmentalResponse): boolean {
-    try {
-      this.environmentalResponses.push(response);
       return true;
     } catch {
       return false;

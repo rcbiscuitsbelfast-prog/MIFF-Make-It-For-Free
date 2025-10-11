@@ -317,7 +317,7 @@ export class SecurityHardening {
     
     const iv = Buffer.from(ivHex, 'hex');
     const authTag = Buffer.from(authTagHex, 'hex');
-    const decipher = crypto.createDecipher(algorithm, key);
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
     
     decipher.setAuthTag(authTag);
     

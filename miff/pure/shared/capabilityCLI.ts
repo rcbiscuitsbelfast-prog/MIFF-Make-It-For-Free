@@ -7,7 +7,7 @@
  * across the MIFF framework.
  */
 
-import { CapabilityDiscovery, DiscoveryResult } from './CapabilityDiscovery.js';
+import { CapabilityDiscovery, DiscoveryResult, DiscoveryStats } from './CapabilityDiscovery.js';
 import { CapabilityRegistryManager } from './CapabilityRegistry.js';
 import { EventBus } from '../EventBusPure/index.js';
 import * as fs from 'fs';
@@ -139,7 +139,7 @@ class CapabilityCLI {
       console.log(`\n📊 Data Processing (${capabilities.dataProcessing.length}):`);
       capabilities.dataProcessing.forEach(dp => {
         console.log(`  ${dp.name}: ${dp.description}`);
-        console.log(`    Input: ${dp.inputType} → Output: ${dp.outputType}`);
+        console.log(`    Input: ${dp.inputTypes.join(', ')} → Output: ${dp.outputTypes.join(', ')}`);
       });
     }
 
@@ -148,22 +148,12 @@ class CapabilityCLI {
       console.log(`\n🔗 Integrations (${capabilities.integrations.length}):`);
       capabilities.integrations.forEach(integration => {
         console.log(`  ${integration.name}: ${integration.description}`);
-        console.log(`    Type: ${integration.type}, Status: ${integration.status}`);
+        console.log(`    Type: ${integration.integrationType}, Target: ${integration.targetSystem || 'N/A'}`);
       });
     }
 
-    // CLI interface
-    if (capabilities.cliInterface) {
-      console.log(`\n💻 CLI Interface:`);
-      console.log(`  Usage: ${capabilities.cliInterface.usage}`);
-      if (capabilities.cliInterface.flags && capabilities.cliInterface.flags.length > 0) {
-        console.log(`  Flags (${capabilities.cliInterface.flags.length}):`);
-        capabilities.cliInterface.flags.forEach(flag => {
-          console.log(`    ${flag.name}: ${flag.description}`);
-          console.log(`      Type: ${flag.type}, Required: ${flag.required}`);
-        });
-      }
-    }
+    // CLI interface (if available)
+    console.log(`\n💻 CLI Interface: Available via module CLI`);
 
     // Save to file if requested
     if (outputFile) {

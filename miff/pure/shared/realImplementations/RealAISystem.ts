@@ -11,6 +11,11 @@ export interface AIDecision {
   reasoning: string;
   alternatives: string[];
   metadata: Record<string, any>;
+  outcome?: {
+    success: boolean;
+    result?: any;
+    error?: string;
+  };
 }
 
 export interface AIContext {
