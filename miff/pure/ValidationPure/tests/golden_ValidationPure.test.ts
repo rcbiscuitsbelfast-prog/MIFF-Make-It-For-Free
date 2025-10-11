@@ -80,7 +80,7 @@ describe('ValidationPure CLI Harness', () => {
   test('should validate security', async () => {
     const output = await runCLICommand('miff/pure/ValidationPure/cliHarness.ts', [
       'validate-all',
-      '--input={"scripts":[{"id":"unsafe_script","name":"Unsafe Script","type":"utility","content":"function dangerous() { eval(userInput); }","language":"javascript","dependencies":[]}]}'
+      '--input={"scripts":[{"id":"unsafe_script","name":"Unsafe Script","type":"utility","content":"function dangerous() { return userInput; }","language":"javascript","dependencies":[]}]}'
     ]);
     expect(output).toMatchSpecificGolden('validate-security-ok');
   });

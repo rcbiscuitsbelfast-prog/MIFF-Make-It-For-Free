@@ -46,7 +46,21 @@ function main() {
         
         if (inputFile && fs.existsSync(inputFile)) {
           try {
-            input = JSON.parse(fs.readFileSync(path.resolve(inputFile), 'utf-8')) as LinkInput;
+            // Use safe path resolution and JSON parsing
+            const { SafePathUtils } = require('../shared/security/SafePathUtils');
+            const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+            
+            const pathResult = SafePathUtils.safeReadFile(inputFile, process.cwd());
+            if (!pathResult.success) {
+              throw new Error(`Error reading input file: ${pathResult.error}`);
+            }
+            
+            const jsonResult = SafeJSONParser.parse(pathResult.data!);
+            if (!jsonResult.success) {
+              throw new Error(`Error parsing JSON: ${jsonResult.error}`);
+            }
+            
+            input = jsonResult.data as LinkInput;
           } catch (error) {
             result.status = 'error';
             result.result = { error: 'Invalid input file format' };

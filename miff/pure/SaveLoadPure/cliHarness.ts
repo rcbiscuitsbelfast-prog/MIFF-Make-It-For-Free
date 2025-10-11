@@ -10,7 +10,10 @@ class FileStorageAdapter implements StorageAdapter {
     try {
       if (fs.existsSync(this.filePath)) {
         const data = fs.readFileSync(this.filePath, 'utf-8');
-        return JSON.parse(data);
+        // Use safe JSON parsing to prevent prototype pollution
+        const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+        const result = SafeJSONParser.parse(data);
+        return result.success ? result.data : null;
       }
       return null;
     } catch (error) {
@@ -47,7 +50,10 @@ async function main() {
     // Batch commands mode: first arg is a JSON file of commands
     if (command.endsWith('.json') && fs.existsSync(path.resolve(command))) {
       const cmdsPath = path.resolve(command);
-      const cmds = JSON.parse(fs.readFileSync(cmdsPath, 'utf-8')) as Array<{ op: string; slotId?: string; dataFile?: string }>;
+      // Use safe JSON parsing to prevent prototype pollution
+      const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+      const result = SafeJSONParser.parse(fs.readFileSync(cmdsPath, 'utf-8'));
+      const cmds = result.success ? result.data as Array<{ op: string; slotId?: string; dataFile?: string }> : [];
       let mgr = await SaveLoadManager.create(storage);
       for (const c of cmds) {
         const ensureSlot = (slotId?: string) => {

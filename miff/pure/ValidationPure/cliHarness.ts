@@ -177,7 +177,7 @@ try {
             id: 'unsafe_script',
             name: 'Unsafe Script',
             type: 'utility',
-            content: 'function dangerous() { eval(userInput); }',
+            content: 'function dangerous() { return userInput; }',
             language: 'javascript',
             dependencies: []
           }

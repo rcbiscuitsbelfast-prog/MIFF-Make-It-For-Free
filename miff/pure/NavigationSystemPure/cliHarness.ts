@@ -13,7 +13,23 @@ function main() {
   const inputPath = process.argv[2] || 'NavigationSystemPure/fixtures/grid.json';
   const commandsPath = process.argv[3] || '';
   
-  const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
+  // Use safe path resolution and JSON parsing
+  const { SafePathUtils } = require('../shared/security/SafePathUtils');
+  const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+  
+  const pathResult = SafePathUtils.safeReadFile(inputPath, process.cwd());
+  if (!pathResult.success) {
+    console.error('Error reading input file:', pathResult.error);
+    process.exit(1);
+  }
+  
+  const jsonResult = SafeJSONParser.parse(pathResult.data!);
+  if (!jsonResult.success) {
+    console.error('Error parsing JSON:', jsonResult.error);
+    process.exit(1);
+  }
+  
+  const input = jsonResult.data;
   const grid: Grid = {
     width: input.grid.width,
     height: input.grid.height,

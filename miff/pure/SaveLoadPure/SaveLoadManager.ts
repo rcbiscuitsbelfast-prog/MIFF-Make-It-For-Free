@@ -73,8 +73,8 @@ export class SaveLoadManager {
       settings: input.settings,
       quests: input.quests,
       inventory: input.inventory,
-      // carry everything for transparency
-      ...input,
+      // carry everything for transparency (safely)
+      ...this.sanitizeInput(input),
     };
     migrated.saves[slotId] = {
       id: slotId,
@@ -101,7 +101,10 @@ export class SaveLoadManager {
     if (!slot) throw new Error(`Slot not found: ${slotId}`);
     this.store.currentSlot = slotId;
     // Return a deep-ish copy to avoid external mutation of store
-    return JSON.parse(JSON.stringify(slot.data));
+    // Use safe JSON parsing to prevent prototype pollution
+    const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+    const result = SafeJSONParser.parse(JSON.stringify(slot.data));
+    return result.success ? result.data : slot.data;
   }
 
   save(slotId: string): void {
@@ -109,7 +112,10 @@ export class SaveLoadManager {
     const base = this.store.currentSlot && this.store.saves[this.store.currentSlot]
       ? this.store.saves[this.store.currentSlot].data
       : this.store;
-    const snapshot: GameDataV11 = JSON.parse(JSON.stringify(base));
+    // Use safe JSON parsing to prevent prototype pollution
+    const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+    const result = SafeJSONParser.parse(JSON.stringify(base));
+    const snapshot: GameDataV11 = result.success ? result.data : base;
     snapshot.schemaVersion = 11;
     snapshot.currentSlot = slotId;
     snapshot.saves = {}; // avoid nesting saves within saves
@@ -133,15 +139,29 @@ export class SaveLoadManager {
   setRollback(slotId: string): void {
     const slot = this.store.saves[slotId];
     if (!slot) throw new Error(`Slot not found: ${slotId}`);
-    slot.rollbackCheckpoint = JSON.parse(JSON.stringify(slot.data));
+    // Use safe JSON parsing to prevent prototype pollution
+    const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+    const result = SafeJSONParser.parse(JSON.stringify(slot.data));
+    slot.rollbackCheckpoint = result.success ? result.data : slot.data;
   }
 
   rollback(slotId: string): void {
     const slot = this.store.saves[slotId];
     if (!slot) throw new Error(`Slot not found: ${slotId}`);
     if (!slot.rollbackCheckpoint) throw new Error(`No rollback checkpoint set for: ${slotId}`);
-    slot.data = JSON.parse(JSON.stringify(slot.rollbackCheckpoint));
+    // Use safe JSON parsing to prevent prototype pollution
+    const { SafeJSONParser } = require('../shared/security/SafeJSONParser');
+    const result = SafeJSONParser.parse(JSON.stringify(slot.rollbackCheckpoint));
+    slot.data = result.success ? result.data : slot.rollbackCheckpoint;
     slot.timestamp = Date.now();
+  }
+
+  /**
+   * Sanitize input to prevent prototype pollution
+   */
+  private sanitizeInput(input: any): any {
+    const { SafeObjectUtils } = require('../shared/security/SafeObjectUtils');
+    return SafeObjectUtils.sanitizeObject(input);
   }
 }
 

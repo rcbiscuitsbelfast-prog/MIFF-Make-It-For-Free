@@ -900,22 +900,18 @@ export class EnhancedStatsManager {
 
   private evaluateFormula(formula: string, sourceValue: number): number {
     try {
-      // Simple formula evaluation - replace 'source' with actual value
-      const expression = formula.replace(/source/g, sourceValue.toString());
-      // In a real implementation, you'd use a safe math expression evaluator
-      // For now, we'll do basic parsing for common cases
+      // Import safe expression evaluator
+      const { SafeExpressionEvaluator } = require('../shared/security/SafeExpressionEvaluator');
       
-      if (expression.includes('*')) {
-        const parts = expression.split('*').map(p => p.trim());
-        if (parts.length === 2) {
-          const multiplier = parseFloat(parts[1].split('+')[0].trim());
-          const addition = parts[1].includes('+') ? parseFloat(parts[1].split('+')[1].trim()) : 0;
-          return sourceValue * multiplier + addition;
-        }
+      // Use safe expression evaluator instead of eval()
+      const result = SafeExpressionEvaluator.evaluate(formula, { source: sourceValue });
+      
+      if (result.success) {
+        return result.result;
+      } else {
+        console.warn(`Formula evaluation failed: ${formula}`, result.error);
+        return 0;
       }
-      
-      // Fallback to simple evaluation
-      return eval(expression);
     } catch (error) {
       console.warn(`Formula evaluation failed: ${formula}`, error);
       return 0;
