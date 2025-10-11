@@ -15,6 +15,10 @@
  * @author MIFF Framework
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface ButtonStyleConfig {
   enableStyleCreation: boolean;
   enableStyleManagement: boolean;
@@ -270,6 +274,8 @@ export class ButtonStyleManager {
   private styles: Map<string, ButtonStyle> = new Map();
   private stats: ButtonStyleStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ButtonStyleConfig> = {}) {
     this.config = {
@@ -293,12 +299,28 @@ export class ButtonStyleManager {
       enableVersioning: true,
       ...config
     };
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ButtonStyleManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ButtonStyleManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ButtonStyleManager');
   }
 
   /**
    * Initialize button style manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('ButtonStyleManager', 'initialize');
+    
     try {
       // Initialize button style manager
       await this.initializeButtonStyleManager();
@@ -307,10 +329,21 @@ export class ButtonStyleManager {
       await this.loadDefaultButtonStyles();
       
       this.isInitialized = true;
-      console.log('Button style manager initialized successfully');
+      this.logger.info('ButtonStyleManager', 'Button style manager initialized successfully', {
+        stylesCount: this.styles.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('ButtonStyleManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      console.error('Failed to initialize button style manager:', error);
+      this.logger.error('ButtonStyleManager', 'Failed to initialize button style manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
@@ -337,7 +370,14 @@ export class ButtonStyleManager {
     this.styles.set(newStyle.id, newStyle);
     this.updateStats('create_style', newStyle);
 
-    console.log(`Created button style: ${newStyle.name}`);
+    this.logger.info('ButtonStyleManager', 'Created button style', {
+      styleId: newStyle.id,
+      styleName: newStyle.name,
+      styleType: newStyle.type,
+      totalStyles: this.styles.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
     return newStyle;
   }
 
@@ -371,10 +411,18 @@ export class ButtonStyleManager {
       buttonStyle.modified = Date.now();
 
       this.updateStats('create_style', buttonStyle);
-      console.log(`Created style: ${newStyle.name}`);
+      this.logger.info('ButtonStyleManager', 'Created style', {
+        styleId: newStyle.id,
+        styleName: newStyle.name,
+        styleType: newStyle.type,
+        buttonStyleId: buttonStyle.id
+      });
       return newStyle;
     } catch (error) {
-      console.error(`Failed to create style in button style ${buttonStyleId}:`, error);
+      this.logger.error('ButtonStyleManager', 'Failed to create style in button style', {
+        buttonStyleId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -409,10 +457,18 @@ export class ButtonStyleManager {
       buttonStyle.modified = Date.now();
 
       this.updateStats('create_theme', buttonStyle);
-      console.log(`Created style theme: ${newTheme.name}`);
+      this.logger.info('ButtonStyleManager', 'Created style theme', {
+        themeId: newTheme.id,
+        themeName: newTheme.name,
+        themeType: newTheme.type,
+        buttonStyleId: buttonStyle.id
+      });
       return newTheme;
     } catch (error) {
-      console.error(`Failed to create style theme in button style ${buttonStyleId}:`, error);
+      this.logger.error('ButtonStyleManager', 'Failed to create style theme in button style', {
+        buttonStyleId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -450,7 +506,7 @@ export class ButtonStyleManager {
    * Initialize button style manager
    */
   private async initializeButtonStyleManager(): Promise<void> {
-    console.log('Initializing button style manager...');
+    this.logger.debug('ButtonStyleManager', 'Initializing button style manager...');
   }
 
   /**
@@ -470,7 +526,10 @@ export class ButtonStyleManager {
       }
     }
 
-    console.log(`Loaded ${defaultStyles.length} default button styles`);
+    this.logger.info('ButtonStyleManager', 'Loaded default button styles', {
+      count: defaultStyles.length,
+      styles: defaultStyles.map(s => s.name)
+    });
   }
 
   /**
@@ -625,9 +684,19 @@ export class ButtonStyleManager {
    * Cleanup resources
    */
   destroy(): void {
+    this.logger.info('ButtonStyleManager', 'Destroying button style manager', {
+      stylesCount: this.styles.size
+    });
+    
     this.styles.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

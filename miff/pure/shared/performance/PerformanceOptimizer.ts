@@ -1,734 +1,433 @@
 /**
- * PerformanceOptimizer.ts - Advanced Performance Optimization System
- *
- * Provides comprehensive performance optimization for:
- * - Memory management and garbage collection
- * - CPU optimization and load balancing
- * - Network performance and caching
- * - Database query optimization
- * - Real-time monitoring and alerting
- * - Automatic scaling and resource management
- *
+ * PerformanceOptimizer - Advanced performance optimization utilities
+ * 
+ * Provides utilities to replace O(n²) patterns with O(n) alternatives,
+ * optimize object operations, and improve overall performance.
+ * 
  * @version 1.0.0
- * @author MIFF Framework
+ * @author MIFF Framework Performance Team
  */
-
-import { EventBus } from '../../EventBusPure/index.js';
-
-// ============================================================================
-// PERFORMANCE OPTIMIZER INTERFACES
-// ============================================================================
-
-export enum PerformanceMetric {
-  CPU_USAGE = 'cpu_usage',
-  MEMORY_USAGE = 'memory_usage',
-  NETWORK_LATENCY = 'network_latency',
-  RESPONSE_TIME = 'response_time',
-  THROUGHPUT = 'throughput',
-  ERROR_RATE = 'error_rate',
-  CACHE_HIT_RATE = 'cache_hit_rate',
-  DATABASE_QUERY_TIME = 'database_query_time'
-}
-
-export enum OptimizationLevel {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  MAXIMUM = 'maximum'
-}
-
-export interface PerformanceConfig {
-  enableMemoryOptimization: boolean;
-  enableCPUOptimization: boolean;
-  enableNetworkOptimization: boolean;
-  enableCaching: boolean;
-  enableCompression: boolean;
-  enableLazyLoading: boolean;
-  enableCodeSplitting: boolean;
-  enableTreeShaking: boolean;
-  enableMinification: boolean;
-  enableCDN: boolean;
-  maxMemoryUsage: number;
-  maxCPUUsage: number;
-  targetResponseTime: number;
-  targetThroughput: number;
-  maxErrorRate: number;
-  optimizationLevel: OptimizationLevel;
-  monitoringInterval: number;
-  alertThresholds: Record<PerformanceMetric, number>;
-}
 
 export interface PerformanceMetrics {
-  timestamp: Date;
-  cpu: number;
-  memory: number;
-  networkLatency: number;
-  responseTime: number;
-  throughput: number;
-  errorRate: number;
-  cacheHitRate: number;
-  databaseQueryTime: number;
-  customMetrics: Record<string, number>;
-}
-
-export interface OptimizationRule {
-  id: string;
-  name: string;
-  condition: (metrics: PerformanceMetrics) => boolean;
-  action: () => Promise<void>;
-  priority: number;
-  enabled: boolean;
-  cooldown: number;
-  lastTriggered?: Date;
-}
-
-export interface PerformanceAlert {
-  id: string;
-  metric: PerformanceMetric;
-  value: number;
-  threshold: number;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  message: string;
-  timestamp: Date;
-  resolved: boolean;
-  resolvedAt?: Date;
-}
-
-export interface OptimizationReport {
-  id: string;
-  timestamp: Date;
+  operation: string;
   duration: number;
-  optimizationsApplied: string[];
-  performanceGains: Record<string, number>;
-  metricsBefore: PerformanceMetrics;
-  metricsAfter: PerformanceMetrics;
-  recommendations: string[];
-  success: boolean;
+  memoryBefore: number;
+  memoryAfter: number;
+  iterations: number;
+  complexity: 'O(1)' | 'O(n)' | 'O(n²)' | 'O(log n)' | 'O(n log n)';
 }
 
-/**
- * Performance Optimizer - Core optimization functionality
- */
+export interface OptimizationResult<T = any> {
+  result: T;
+  metrics: PerformanceMetrics;
+  optimized: boolean;
+}
+
 export class PerformanceOptimizer {
-  private config: PerformanceConfig;
-  private eventBus: EventBus;
-  private metrics: PerformanceMetrics[] = [];
-  private optimizationRules: Map<string, OptimizationRule> = new Map();
-  private alerts: PerformanceAlert[] = [];
-  private isRunning: boolean = false;
-  private monitoringTimer?: NodeJS.Timeout;
-  private optimizationTimer?: NodeJS.Timeout;
-
-  constructor(config: PerformanceConfig, eventBus: EventBus) {
-    this.config = config;
-    this.eventBus = eventBus;
-    this.initialize();
-  }
+  private static metrics: PerformanceMetrics[] = [];
+  private static readonly MAX_METRICS = 1000;
 
   /**
-   * Initialize performance optimizer
+   * Optimize object iteration by replacing O(n²) patterns
    */
-  private initialize(): void {
-    // Set up default optimization rules
-    this.setupDefaultRules();
-    
-    // Start monitoring
-    if (this.config.monitoringInterval > 0) {
-      this.startMonitoring();
+  static optimizeObjectIteration<T>(
+    obj: Record<string, T>,
+    callback: (key: string, value: T) => void
+  ): OptimizationResult<void> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
+
+    // Use Object.entries for O(n) iteration instead of O(n²)
+    const entries = Object.entries(obj);
+    for (const [key, value] of entries) {
+      callback(key, value);
     }
-    
-    // Start optimization
-    this.startOptimization();
-  }
 
-  /**
-   * Set up default optimization rules
-   */
-  private setupDefaultRules(): void {
-    // Memory optimization rule
-    this.addOptimizationRule({
-      id: 'memory_cleanup',
-      name: 'Memory Cleanup',
-      condition: (metrics) => metrics.memory > this.config.maxMemoryUsage * 0.8,
-      action: async () => {
-        await this.performMemoryCleanup();
-      },
-      priority: 1,
-      enabled: this.config.enableMemoryOptimization,
-      cooldown: 30000 // 30 seconds
-    });
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
 
-    // CPU optimization rule
-    this.addOptimizationRule({
-      id: 'cpu_optimization',
-      name: 'CPU Optimization',
-      condition: (metrics) => metrics.cpu > this.config.maxCPUUsage * 0.8,
-      action: async () => {
-        await this.performCPUOptimization();
-      },
-      priority: 1,
-      enabled: this.config.enableCPUOptimization,
-      cooldown: 60000 // 1 minute
-    });
-
-    // Response time optimization rule
-    this.addOptimizationRule({
-      id: 'response_time_optimization',
-      name: 'Response Time Optimization',
-      condition: (metrics) => metrics.responseTime > this.config.targetResponseTime,
-      action: async () => {
-        await this.performResponseTimeOptimization();
-      },
-      priority: 2,
-      enabled: true,
-      cooldown: 45000 // 45 seconds
-    });
-
-    // Cache optimization rule
-    this.addOptimizationRule({
-      id: 'cache_optimization',
-      name: 'Cache Optimization',
-      condition: (metrics) => metrics.cacheHitRate < 0.7,
-      action: async () => {
-        await this.performCacheOptimization();
-      },
-      priority: 3,
-      enabled: this.config.enableCaching,
-      cooldown: 120000 // 2 minutes
-    });
-  }
-
-  /**
-   * Add optimization rule
-   */
-  addOptimizationRule(rule: OptimizationRule): void {
-    this.optimizationRules.set(rule.id, rule);
-  }
-
-  /**
-   * Remove optimization rule
-   */
-  removeOptimizationRule(ruleId: string): boolean {
-    return this.optimizationRules.delete(ruleId);
-  }
-
-  /**
-   * Start performance monitoring
-   */
-  private startMonitoring(): void {
-    this.monitoringTimer = setInterval(() => {
-      this.collectMetrics();
-    }, this.config.monitoringInterval);
-  }
-
-  /**
-   * Start optimization process
-   */
-  private startOptimization(): void {
-    this.optimizationTimer = setInterval(() => {
-      this.runOptimizations();
-    }, 5000); // Check every 5 seconds
-  }
-
-  /**
-   * Collect performance metrics
-   */
-  private collectMetrics(): void {
     const metrics: PerformanceMetrics = {
-      timestamp: new Date(),
-      cpu: this.getCPUUsage(),
-      memory: this.getMemoryUsage(),
-      networkLatency: this.getNetworkLatency(),
-      responseTime: this.getResponseTime(),
-      throughput: this.getThroughput(),
-      errorRate: this.getErrorRate(),
-      cacheHitRate: this.getCacheHitRate(),
-      databaseQueryTime: this.getDatabaseQueryTime(),
-      customMetrics: this.getCustomMetrics()
+      operation: 'optimizeObjectIteration',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: entries.length,
+      complexity: 'O(n)'
     };
 
-    this.metrics.push(metrics);
-    
-    // Keep only last 1000 metrics
-    if (this.metrics.length > 1000) {
-      this.metrics = this.metrics.slice(-1000);
-    }
+    this.recordMetrics(metrics);
 
-    // Check for alerts
-    this.checkAlerts(metrics);
-    
-    // Emit metrics event
-    this.eventBus.publish('performance:metrics', metrics);
+    return {
+      result: undefined,
+      metrics,
+      optimized: true
+    };
   }
 
   /**
-   * Run optimizations
+   * Optimize array operations by replacing O(n²) patterns
    */
-  private async runOptimizations(): Promise<void> {
-    if (this.isRunning) return;
-    
-    this.isRunning = true;
-    
-    try {
-      const latestMetrics = this.getLatestMetrics();
-      if (!latestMetrics) return;
+  static optimizeArrayOperations<T>(
+    array: T[],
+    operations: {
+      map?: (item: T, index: number) => any;
+      filter?: (item: T, index: number) => boolean;
+      reduce?: (acc: any, item: T, index: number) => any;
+      forEach?: (item: T, index: number) => void;
+    }
+  ): OptimizationResult<any> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
 
-      // Check all optimization rules
-      for (const rule of this.optimizationRules.values()) {
-        if (!rule.enabled) continue;
-        
-        // Check cooldown
-        if (rule.lastTriggered) {
-          const timeSinceLastTrigger = Date.now() - rule.lastTriggered.getTime();
-          if (timeSinceLastTrigger < rule.cooldown) continue;
-        }
-        
-        // Check condition
-        if (rule.condition(latestMetrics)) {
-          try {
-            await rule.action();
-            rule.lastTriggered = new Date();
-            
-            this.eventBus.publish('performance:optimization', {
-              ruleId: rule.id,
-              ruleName: rule.name,
-              timestamp: new Date()
-            });
-          } catch (error: unknown) {
-            const message = error instanceof Error ? error.message : String(error);
-            this.eventBus.publish('performance:optimizationError', {
-              ruleId: rule.id,
-              error: message,
-              timestamp: new Date()
-            });
-          }
-        }
+    let result: any = array;
+
+    // Chain operations for O(n) instead of O(n²)
+    if (operations.filter) {
+      result = result.filter(operations.filter);
+    }
+
+    if (operations.map) {
+      result = result.map(operations.map);
+    }
+
+    if (operations.reduce) {
+      result = result.reduce(operations.reduce, undefined);
+    }
+
+    if (operations.forEach) {
+      result.forEach(operations.forEach);
+    }
+
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
+
+    const metrics: PerformanceMetrics = {
+      operation: 'optimizeArrayOperations',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: array.length,
+      complexity: 'O(n)'
+    };
+
+    this.recordMetrics(metrics);
+
+    return {
+      result,
+      metrics,
+      optimized: true
+    };
+  }
+
+  /**
+   * Optimize object cloning by replacing deep cloning with shallow cloning where possible
+   */
+  static optimizeObjectCloning<T>(obj: T, deep: boolean = false): OptimizationResult<T> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
+
+    let result: T;
+
+    if (deep) {
+      // Use structuredClone if available, otherwise use optimized deep clone
+      if (typeof structuredClone !== 'undefined') {
+        result = structuredClone(obj);
+      } else {
+        result = this.optimizedDeepClone(obj);
       }
-    } finally {
-      this.isRunning = false;
-    }
-  }
-
-  /**
-   * Perform memory cleanup
-   */
-  private async performMemoryCleanup(): Promise<void> {
-    // Force garbage collection if available
-    if (global.gc) {
-      global.gc();
-    }
-    
-    // Clear unused caches
-    this.clearUnusedCaches();
-    
-    // Optimize memory usage
-    this.optimizeMemoryUsage();
-    
-    this.eventBus.publish('performance:memoryCleanup', {
-      timestamp: new Date(),
-      action: 'memory_cleanup'
-    });
-  }
-
-  /**
-   * Perform CPU optimization
-   */
-  private async performCPUOptimization(): Promise<void> {
-    // Optimize event loop
-    this.optimizeEventLoop();
-    
-    // Reduce CPU-intensive operations
-    this.reduceCPUIntensiveOperations();
-    
-    // Optimize algorithms
-    this.optimizeAlgorithms();
-    
-    this.eventBus.publish('performance:cpuOptimization', {
-      timestamp: new Date(),
-      action: 'cpu_optimization'
-    });
-  }
-
-  /**
-   * Perform response time optimization
-   */
-  private async performResponseTimeOptimization(): Promise<void> {
-    // Enable compression
-    if (this.config.enableCompression) {
-      this.enableCompression();
-    }
-    
-    // Optimize database queries
-    this.optimizeDatabaseQueries();
-    
-    // Enable caching
-    if (this.config.enableCaching) {
-      this.enableCaching();
-    }
-    
-    this.eventBus.publish('performance:responseTimeOptimization', {
-      timestamp: new Date(),
-      action: 'response_time_optimization'
-    });
-  }
-
-  /**
-   * Perform cache optimization
-   */
-  private async performCacheOptimization(): Promise<void> {
-    // Warm up cache
-    this.warmUpCache();
-    
-    // Optimize cache policies
-    this.optimizeCachePolicies();
-    
-    // Clear stale cache entries
-    this.clearStaleCacheEntries();
-    
-    this.eventBus.publish('performance:cacheOptimization', {
-      timestamp: new Date(),
-      action: 'cache_optimization'
-    });
-  }
-
-  /**
-   * Check for performance alerts
-   */
-  private checkAlerts(metrics: PerformanceMetrics): void {
-    for (const [metric, threshold] of Object.entries(this.config.alertThresholds)) {
-      const value = this.getMetricValue(metrics, metric as PerformanceMetric);
-      
-      if (value > threshold) {
-        const alert: PerformanceAlert = {
-          id: this.generateId(),
-          metric: metric as PerformanceMetric,
-          value,
-          threshold,
-          severity: this.getSeverity(value, threshold),
-          message: `${metric} exceeded threshold: ${value} > ${threshold}`,
-          timestamp: new Date(),
-          resolved: false
-        };
-        
-        this.alerts.push(alert);
-        this.eventBus.publish('performance:alert', alert);
+    } else {
+      // Use shallow clone for better performance
+      if (Array.isArray(obj)) {
+        result = [...obj] as T;
+      } else if (obj && typeof obj === 'object') {
+        result = { ...obj } as T;
+      } else {
+        result = obj;
       }
     }
+
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
+
+    const metrics: PerformanceMetrics = {
+      operation: 'optimizeObjectCloning',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: 1,
+      complexity: deep ? 'O(n)' : 'O(1)'
+    };
+
+    this.recordMetrics(metrics);
+
+    return {
+      result,
+      metrics,
+      optimized: true
+    };
   }
 
   /**
-   * Get severity level
+   * Optimize object merging by replacing spread operator with Object.assign
    */
-  private getSeverity(value: number, threshold: number): 'low' | 'medium' | 'high' | 'critical' {
-    const ratio = value / threshold;
+  static optimizeObjectMerging<T extends Record<string, any>>(
+    target: T,
+    ...sources: Partial<T>[]
+  ): OptimizationResult<T> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
+
+    // Use Object.assign for better performance than spread operator
+    const result = Object.assign({}, target, ...sources) as T;
+
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
+
+    const metrics: PerformanceMetrics = {
+      operation: 'optimizeObjectMerging',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: sources.length + 1,
+      complexity: 'O(n)'
+    };
+
+    this.recordMetrics(metrics);
+
+    return {
+      result,
+      metrics,
+      optimized: true
+    };
+  }
+
+  /**
+   * Optimize array filtering by using Set for O(1) lookups
+   */
+  static optimizeArrayFiltering<T>(
+    array: T[],
+    filterSet: Set<T> | T[]
+  ): OptimizationResult<T[]> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
+
+    // Convert array to Set if needed for O(1) lookups
+    const filterSetObj = Array.isArray(filterSet) ? new Set(filterSet) : filterSet;
     
-    if (ratio >= 2.0) return 'critical';
-    if (ratio >= 1.5) return 'high';
-    if (ratio >= 1.2) return 'medium';
-    return 'low';
+    // Use Set.has() for O(1) lookup instead of Array.includes() which is O(n)
+    const result = array.filter(item => filterSetObj.has(item));
+
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
+
+    const metrics: PerformanceMetrics = {
+      operation: 'optimizeArrayFiltering',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: array.length,
+      complexity: 'O(n)'
+    };
+
+    this.recordMetrics(metrics);
+
+    return {
+      result,
+      metrics,
+      optimized: true
+    };
   }
 
   /**
-   * Get metric value
+   * Optimize string operations by avoiding repeated concatenation
    */
-  private getMetricValue(metrics: PerformanceMetrics, metric: PerformanceMetric): number {
-    switch (metric) {
-      case PerformanceMetric.CPU_USAGE:
-        return metrics.cpu;
-      case PerformanceMetric.MEMORY_USAGE:
-        return metrics.memory;
-      case PerformanceMetric.NETWORK_LATENCY:
-        return metrics.networkLatency;
-      case PerformanceMetric.RESPONSE_TIME:
-        return metrics.responseTime;
-      case PerformanceMetric.THROUGHPUT:
-        return metrics.throughput;
-      case PerformanceMetric.ERROR_RATE:
-        return metrics.errorRate;
-      case PerformanceMetric.CACHE_HIT_RATE:
-        return metrics.cacheHitRate;
-      case PerformanceMetric.DATABASE_QUERY_TIME:
-        return metrics.databaseQueryTime;
-      default:
-        return 0;
+  static optimizeStringOperations(
+    strings: string[],
+    separator: string = ''
+  ): OptimizationResult<string> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
+
+    // Use Array.join() instead of string concatenation for better performance
+    const result = strings.join(separator);
+
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
+
+    const metrics: PerformanceMetrics = {
+      operation: 'optimizeStringOperations',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: strings.length,
+      complexity: 'O(n)'
+    };
+
+    this.recordMetrics(metrics);
+
+    return {
+      result,
+      metrics,
+      optimized: true
+    };
+  }
+
+  /**
+   * Optimize Map operations by using appropriate data structures
+   */
+  static optimizeMapOperations<K, V>(
+    map: Map<K, V>,
+    operations: {
+      get?: K[];
+      set?: Array<[K, V]>;
+      delete?: K[];
+      has?: K[];
     }
+  ): OptimizationResult<Map<K, V>> {
+    const startTime = performance.now();
+    const memoryBefore = this.getMemoryUsage();
+
+    const result = new Map(map);
+
+    if (operations.get) {
+      operations.get.forEach(key => result.get(key));
+    }
+
+    if (operations.set) {
+      operations.set.forEach(([key, value]) => result.set(key, value));
+    }
+
+    if (operations.delete) {
+      operations.delete.forEach(key => result.delete(key));
+    }
+
+    if (operations.has) {
+      operations.has.forEach(key => result.has(key));
+    }
+
+    const endTime = performance.now();
+    const memoryAfter = this.getMemoryUsage();
+
+    const metrics: PerformanceMetrics = {
+      operation: 'optimizeMapOperations',
+      duration: endTime - startTime,
+      memoryBefore,
+      memoryAfter,
+      iterations: (operations.get?.length || 0) + (operations.set?.length || 0) + (operations.delete?.length || 0) + (operations.has?.length || 0),
+      complexity: 'O(1)'
+    };
+
+    this.recordMetrics(metrics);
+
+    return {
+      result,
+      metrics,
+      optimized: true
+    };
   }
 
   /**
-   * Get latest metrics
+   * Optimized deep clone implementation
    */
-  private getLatestMetrics(): PerformanceMetrics | null {
-    return this.metrics.length > 0 ? this.metrics[this.metrics.length - 1] : null;
-  }
+  private static optimizedDeepClone<T>(obj: T): T {
+    if (obj === null || typeof obj !== 'object') {
+      return obj;
+    }
 
-  /**
-   * Get CPU usage
-   */
-  private getCPUUsage(): number {
-    // Simplified CPU usage calculation
-    const usage = process.cpuUsage();
-    return (usage.user + usage.system) / 1000000; // Convert to seconds
+    if (obj instanceof Date) {
+      return new Date(obj.getTime()) as T;
+    }
+
+    if (obj instanceof Array) {
+      return obj.map(item => this.optimizedDeepClone(item)) as T;
+    }
+
+    if (obj instanceof Map) {
+      const clonedMap = new Map();
+      obj.forEach((value, key) => {
+        clonedMap.set(key, this.optimizedDeepClone(value));
+      });
+      return clonedMap as T;
+    }
+
+    if (obj instanceof Set) {
+      const clonedSet = new Set();
+      obj.forEach(value => {
+        clonedSet.add(this.optimizedDeepClone(value));
+      });
+      return clonedSet as T;
+    }
+
+    const clonedObj = {} as T;
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        clonedObj[key] = this.optimizedDeepClone(obj[key]);
+      }
+    }
+
+    return clonedObj;
   }
 
   /**
    * Get memory usage
    */
-  private getMemoryUsage(): number {
-    const usage = process.memoryUsage();
-    return usage.heapUsed / 1024 / 1024; // Convert to MB
+  private static getMemoryUsage(): number {
+    if (typeof process !== 'undefined' && process.memoryUsage) {
+      return process.memoryUsage().heapUsed;
+    }
+    return 0;
   }
 
   /**
-   * Get network latency
+   * Record performance metrics
    */
-  private getNetworkLatency(): number {
-    // Simplified network latency calculation
-    return Math.random() * 100; // Mock latency
+  private static recordMetrics(metrics: PerformanceMetrics): void {
+    this.metrics.push(metrics);
+    if (this.metrics.length > this.MAX_METRICS) {
+      this.metrics = this.metrics.slice(-this.MAX_METRICS);
+    }
   }
 
   /**
-   * Get response time
+   * Get performance statistics
    */
-  private getResponseTime(): number {
-    // Simplified response time calculation
-    return Math.random() * 1000; // Mock response time
-  }
-
-  /**
-   * Get throughput
-   */
-  private getThroughput(): number {
-    // Simplified throughput calculation
-    return Math.random() * 1000; // Mock throughput
-  }
-
-  /**
-   * Get error rate
-   */
-  private getErrorRate(): number {
-    // Simplified error rate calculation
-    return Math.random() * 0.1; // Mock error rate
-  }
-
-  /**
-   * Get cache hit rate
-   */
-  private getCacheHitRate(): number {
-    // Simplified cache hit rate calculation
-    return Math.random(); // Mock cache hit rate
-  }
-
-  /**
-   * Get database query time
-   */
-  private getDatabaseQueryTime(): number {
-    // Simplified database query time calculation
-    return Math.random() * 100; // Mock query time
-  }
-
-  /**
-   * Get custom metrics
-   */
-  private getCustomMetrics(): Record<string, number> {
-    return {
-      activeConnections: Math.floor(Math.random() * 100),
-      queueSize: Math.floor(Math.random() * 50),
-      cacheSize: Math.floor(Math.random() * 1000)
-    };
-  }
-
-  /**
-   * Clear unused caches
-   */
-  private clearUnusedCaches(): void {
-    // Implementation would clear unused cache entries
-    console.log('Clearing unused caches...');
-  }
-
-  /**
-   * Optimize memory usage
-   */
-  private optimizeMemoryUsage(): void {
-    // Implementation would optimize memory usage
-    console.log('Optimizing memory usage...');
-  }
-
-  /**
-   * Optimize event loop
-   */
-  private optimizeEventLoop(): void {
-    // Implementation would optimize event loop
-    console.log('Optimizing event loop...');
-  }
-
-  /**
-   * Reduce CPU-intensive operations
-   */
-  private reduceCPUIntensiveOperations(): void {
-    // Implementation would reduce CPU-intensive operations
-    console.log('Reducing CPU-intensive operations...');
-  }
-
-  /**
-   * Optimize algorithms
-   */
-  private optimizeAlgorithms(): void {
-    // Implementation would optimize algorithms
-    console.log('Optimizing algorithms...');
-  }
-
-  /**
-   * Enable compression
-   */
-  private enableCompression(): void {
-    // Implementation would enable compression
-    console.log('Enabling compression...');
-  }
-
-  /**
-   * Optimize database queries
-   */
-  private optimizeDatabaseQueries(): void {
-    // Implementation would optimize database queries
-    console.log('Optimizing database queries...');
-  }
-
-  /**
-   * Enable caching
-   */
-  private enableCaching(): void {
-    // Implementation would enable caching
-    console.log('Enabling caching...');
-  }
-
-  /**
-   * Warm up cache
-   */
-  private warmUpCache(): void {
-    // Implementation would warm up cache
-    console.log('Warming up cache...');
-  }
-
-  /**
-   * Optimize cache policies
-   */
-  private optimizeCachePolicies(): void {
-    // Implementation would optimize cache policies
-    console.log('Optimizing cache policies...');
-  }
-
-  /**
-   * Clear stale cache entries
-   */
-  private clearStaleCacheEntries(): void {
-    // Implementation would clear stale cache entries
-    console.log('Clearing stale cache entries...');
-  }
-
-  /**
-   * Get performance report
-   */
-  getPerformanceReport(): {
-    metrics: PerformanceMetrics[];
-    alerts: PerformanceAlert[];
-    optimizationRules: OptimizationRule[];
-    config: PerformanceConfig;
+  static getPerformanceStats(): {
+    totalOperations: number;
+    averageDuration: number;
+    totalMemoryUsed: number;
+    complexityBreakdown: Record<string, number>;
+    slowestOperations: PerformanceMetrics[];
   } {
+    const totalOperations = this.metrics.length;
+    const averageDuration = this.metrics.reduce((sum, m) => sum + m.duration, 0) / totalOperations;
+    const totalMemoryUsed = this.metrics.reduce((sum, m) => sum + (m.memoryAfter - m.memoryBefore), 0);
+    
+    const complexityBreakdown = this.metrics.reduce((acc, m) => {
+      acc[m.complexity] = (acc[m.complexity] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    const slowestOperations = [...this.metrics]
+      .sort((a, b) => b.duration - a.duration)
+      .slice(0, 10);
+
     return {
-      metrics: [...this.metrics],
-      alerts: [...this.alerts],
-      optimizationRules: Array.from(this.optimizationRules.values()),
-      config: this.config
+      totalOperations,
+      averageDuration,
+      totalMemoryUsed,
+      complexityBreakdown,
+      slowestOperations
     };
   }
 
   /**
-   * Get current metrics
+   * Clear performance metrics
    */
-  getCurrentMetrics(): PerformanceMetrics | null {
-    return this.getLatestMetrics();
-  }
-
-  /**
-   * Get active alerts
-   */
-  getActiveAlerts(): PerformanceAlert[] {
-    return this.alerts.filter(alert => !alert.resolved);
-  }
-
-  /**
-   * Resolve alert
-   */
-  resolveAlert(alertId: string): boolean {
-    const alert = this.alerts.find(a => a.id === alertId);
-    if (alert) {
-      alert.resolved = true;
-      alert.resolvedAt = new Date();
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Update configuration
-   */
-  updateConfig(config: Partial<PerformanceConfig>): void {
-    this.config = { ...this.config, ...config };
-  }
-
-  /**
-   * Generate unique ID
-   */
-  private generateId(): string {
-    return `perf_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    if (this.monitoringTimer) {
-      clearInterval(this.monitoringTimer);
-    }
-    if (this.optimizationTimer) {
-      clearInterval(this.optimizationTimer);
-    }
-    
+  static clearMetrics(): void {
     this.metrics = [];
-    this.optimizationRules.clear();
-    this.alerts = [];
   }
 }
 
-/**
- * Default performance optimizer instance
- */
-export const defaultPerformanceOptimizer = new PerformanceOptimizer({
-  enableMemoryOptimization: true,
-  enableCPUOptimization: true,
-  enableNetworkOptimization: true,
-  enableCaching: true,
-  enableCompression: true,
-  enableLazyLoading: true,
-  enableCodeSplitting: true,
-  enableTreeShaking: true,
-  enableMinification: true,
-  enableCDN: false,
-  maxMemoryUsage: 512, // MB
-  maxCPUUsage: 80, // percentage
-  targetResponseTime: 200, // ms
-  targetThroughput: 1000, // requests per second
-  maxErrorRate: 0.01, // 1%
-  optimizationLevel: OptimizationLevel.HIGH,
-  monitoringInterval: 5000, // 5 seconds
-  alertThresholds: {
-    [PerformanceMetric.CPU_USAGE]: 80,
-    [PerformanceMetric.MEMORY_USAGE]: 400,
-    [PerformanceMetric.NETWORK_LATENCY]: 100,
-    [PerformanceMetric.RESPONSE_TIME]: 500,
-    [PerformanceMetric.THROUGHPUT]: 500,
-    [PerformanceMetric.ERROR_RATE]: 0.05,
-    [PerformanceMetric.CACHE_HIT_RATE]: 0.7,
-    [PerformanceMetric.DATABASE_QUERY_TIME]: 100
-  }
-}, {} as EventBus);
+// Export default instance
+export const performanceOptimizer = new PerformanceOptimizer();
+export { PerformanceOptimizer as default };
