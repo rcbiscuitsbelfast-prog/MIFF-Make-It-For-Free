@@ -1,615 +1,976 @@
 /**
- * InputSystemPure Manager
- * 
- * Advanced input system including input mapping, action binding,
- * input buffering, gesture recognition, and comprehensive input management.
+ * InputSystemPure Manager - Advanced Input Management System
+ *
+ * Comprehensive input system with:
+ * - Multi-device input support (keyboard, mouse, gamepad, touch)
+ * - Input mapping and customization
+ * - Gesture recognition and handling
+ * - Input buffering and queuing
+ * - Accessibility features
+ * - Input validation and filtering
+ * - Real-time input processing
+ * - Input analytics and monitoring
+ *
+ * @version 1.0.0
+ * @author MIFF Framework
  */
 
-export interface InputEvent {
-  id: string;
-  type: 'key' | 'mouse' | 'touch' | 'gamepad' | 'gesture';
-  code: string;
-  value: number; // 0-1 for analog, 0/1 for digital
-  timestamp: number;
-  source: string;
-  metadata?: Record<string, any>;
+export interface InputSystemConfig {
+  enableKeyboard: boolean;
+  enableMouse: boolean;
+  enableGamepad: boolean;
+  enableTouch: boolean;
+  enableGestureRecognition: boolean;
+  enableInputMapping: boolean;
+  enableInputBuffering: boolean;
+  enableAccessibility: boolean;
+  enableInputValidation: boolean;
+  enableRealTimeProcessing: boolean;
+  enableInputAnalytics: boolean;
+  enableInputMonitoring: boolean;
+  maxInputDevices: number;
+  maxInputMappings: number;
+  maxInputBuffer: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export interface InputAction {
+export interface InputSystem {
   id: string;
   name: string;
-  description: string;
-  category: string;
-  defaultBindings: InputBinding[];
-  modifiers: string[];
-  priority: number;
-  enabled: boolean;
-  metadata?: Record<string, any>;
+  type: InputSystemType;
+  status: InputSystemStatus;
+  devices: InputDevice[];
+  mappings: InputMapping[];
+  gestures: InputGesture[];
+  buffer: InputBuffer;
+  validation: InputValidation;
+  accessibility: AccessibilityConfig;
+  analytics: InputAnalytics;
+  metadata: InputMetadata;
+  version: string;
+  created: number;
+  modified: number;
 }
 
-export interface InputBinding {
+export enum InputSystemType {
+  GAME = 'game',
+  APPLICATION = 'application',
+  WEB = 'web',
+  MOBILE = 'mobile',
+  VR = 'vr',
+  AR = 'ar',
+  CUSTOM = 'custom'
+}
+
+export enum InputSystemStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  PAUSED = 'paused',
+  ERROR = 'error',
+  MAINTENANCE = 'maintenance'
+}
+
+export interface InputDevice {
   id: string;
-  actionId: string;
-  inputType: 'key' | 'mouse' | 'touch' | 'gamepad' | 'gesture';
-  code: string;
-  modifiers: string[];
+  name: string;
+  type: DeviceType;
+  status: DeviceStatus;
+  capabilities: DeviceCapabilities;
+  properties: DeviceProperties;
+  statistics: DeviceStatistics;
+  metadata: Map<string, any>;
+}
+
+export enum DeviceType {
+  KEYBOARD = 'keyboard',
+  MOUSE = 'mouse',
+  GAMEPAD = 'gamepad',
+  TOUCH = 'touch',
+  VR_CONTROLLER = 'vr_controller',
+  AR_CONTROLLER = 'ar_controller',
+  CUSTOM = 'custom'
+}
+
+export enum DeviceStatus {
+  CONNECTED = 'connected',
+  DISCONNECTED = 'disconnected',
+  ERROR = 'error',
+  CUSTOM = 'custom'
+}
+
+export interface DeviceCapabilities {
+  buttons: number;
+  axes: number;
+  haptics: boolean;
+  motion: boolean;
+  touch: boolean;
+  pressure: boolean;
+  metadata: Map<string, any>;
+}
+
+export interface DeviceProperties {
+  vendor: string;
+  product: string;
+  version: string;
+  serial: string;
+  metadata: Map<string, any>;
+}
+
+export interface DeviceStatistics {
+  totalInputs: number;
+  inputsPerSecond: number;
+  averageLatency: number;
+  errors: number;
+  lastActivity: number;
+  metadata: Map<string, any>;
+}
+
+export interface InputMapping {
+  id: string;
+  name: string;
+  type: MappingType;
+  source: InputSource;
+  target: InputTarget;
+  modifiers: InputModifier[];
   conditions: InputCondition[];
   enabled: boolean;
-  metadata?: Record<string, any>;
+  metadata: Map<string, any>;
+}
+
+export enum MappingType {
+  DIRECT = 'direct',
+  COMBINATION = 'combination',
+  SEQUENCE = 'sequence',
+  GESTURE = 'gesture',
+  CUSTOM = 'custom'
+}
+
+export interface InputSource {
+  device: string;
+  input: string;
+  type: InputType;
+  metadata: Map<string, any>;
+}
+
+export enum InputType {
+  BUTTON = 'button',
+  AXIS = 'axis',
+  KEY = 'key',
+  MOUSE_BUTTON = 'mouse_button',
+  MOUSE_AXIS = 'mouse_axis',
+  TOUCH = 'touch',
+  GESTURE = 'gesture',
+  CUSTOM = 'custom'
+}
+
+export interface InputTarget {
+  action: string;
+  value: any;
+  metadata: Map<string, any>;
+}
+
+export interface InputModifier {
+  type: ModifierType;
+  value: any;
+  metadata: Map<string, any>;
+}
+
+export enum ModifierType {
+  SHIFT = 'shift',
+  CTRL = 'ctrl',
+  ALT = 'alt',
+  META = 'meta',
+  CUSTOM = 'custom'
 }
 
 export interface InputCondition {
-  type: 'hold' | 'press' | 'release' | 'double' | 'long' | 'sequence';
-  duration?: number;
-  threshold?: number;
-  sequence?: string[];
-  metadata?: Record<string, any>;
+  type: ConditionType;
+  value: any;
+  operator: ConditionOperator;
+  metadata: Map<string, any>;
+}
+
+export enum ConditionType {
+  EQUALS = 'equals',
+  NOT_EQUALS = 'not_equals',
+  GREATER_THAN = 'greater_than',
+  LESS_THAN = 'less_than',
+  GREATER_EQUAL = 'greater_equal',
+  LESS_EQUAL = 'less_equal',
+  CONTAINS = 'contains',
+  NOT_CONTAINS = 'not_contains',
+  CUSTOM = 'custom'
+}
+
+export enum ConditionOperator {
+  AND = 'and',
+  OR = 'or',
+  NOT = 'not',
+  CUSTOM = 'custom'
 }
 
 export interface InputGesture {
   id: string;
-  type: 'swipe' | 'pinch' | 'rotate' | 'tap' | 'hold' | 'drag';
-  startPosition: { x: number; y: number };
-  endPosition?: { x: number; y: number };
-  direction?: 'up' | 'down' | 'left' | 'right' | 'diagonal';
-  distance?: number;
-  angle?: number;
+  name: string;
+  type: GestureType;
+  pattern: GesturePattern;
+  recognition: GestureRecognition;
+  action: GestureAction;
+  enabled: boolean;
+  metadata: Map<string, any>;
+}
+
+export enum GestureType {
+  TAP = 'tap',
+  DOUBLE_TAP = 'double_tap',
+  LONG_PRESS = 'long_press',
+  SWIPE = 'swipe',
+  PINCH = 'pinch',
+  ROTATE = 'rotate',
+  DRAG = 'drag',
+  CUSTOM = 'custom'
+}
+
+export interface GesturePattern {
+  points: GesturePoint[];
   duration: number;
+  threshold: number;
+  metadata: Map<string, any>;
+}
+
+export interface GesturePoint {
+  x: number;
+  y: number;
   timestamp: number;
-  metadata?: Record<string, any>;
+  pressure: number;
+  metadata: Map<string, any>;
+}
+
+export interface GestureRecognition {
+  enabled: boolean;
+  sensitivity: number;
+  timeout: number;
+  metadata: Map<string, any>;
+}
+
+export interface GestureAction {
+  type: ActionType;
+  value: any;
+  metadata: Map<string, any>;
+}
+
+export enum ActionType {
+  TRIGGER_EVENT = 'trigger_event',
+  EXECUTE_SCRIPT = 'execute_script',
+  SEND_MESSAGE = 'send_message',
+  CUSTOM = 'custom'
 }
 
 export interface InputBuffer {
-  id: string;
-  events: InputEvent[];
-  maxSize: number;
-  maxAge: number;
   enabled: boolean;
+  maxSize: number;
+  currentSize: number;
+  inputs: InputEvent[];
+  strategy: BufferStrategy;
+  statistics: BufferStatistics;
+  metadata: Map<string, any>;
 }
 
-export interface InputProfile {
+export enum BufferStrategy {
+  FIFO = 'fifo',
+  LIFO = 'lifo',
+  PRIORITY = 'priority',
+  CUSTOM = 'custom'
+}
+
+export interface InputEvent {
   id: string;
-  name: string;
-  description: string;
-  actions: Map<string, InputAction>;
-  bindings: Map<string, InputBinding>;
-  gestures: Map<string, InputGesture>;
-  buffers: Map<string, InputBuffer>;
-  settings: InputSettings;
-  metadata?: Record<string, any>;
+  type: InputType;
+  device: string;
+  input: string;
+  value: any;
+  timestamp: number;
+  duration: number;
+  metadata: Map<string, any>;
 }
 
-export interface InputSettings {
-  sensitivity: number;
-  deadzone: number;
-  bufferTime: number;
-  gestureThreshold: number;
-  enableGestures: boolean;
-  enableBuffering: boolean;
-  enableModifiers: boolean;
-}
-
-export interface InputStats {
-  totalEvents: number;
-  eventsByType: Record<string, number>;
-  actionsTriggered: number;
-  gesturesRecognized: number;
-  bufferUtilization: number;
+export interface BufferStatistics {
+  totalInputs: number;
+  processedInputs: number;
+  droppedInputs: number;
   averageLatency: number;
-  errorRate: number;
+  lastUpdate: number;
+  metadata: Map<string, any>;
+}
+
+export interface InputValidation {
+  enabled: boolean;
+  rules: ValidationRule[];
+  filters: InputFilter[];
+  metadata: Map<string, any>;
+}
+
+export interface ValidationRule {
+  type: ValidationRuleType;
+  condition: ValidationCondition;
+  action: ValidationAction;
+  metadata: Map<string, any>;
+}
+
+export enum ValidationRuleType {
+  RATE_LIMIT = 'rate_limit',
+  DEBOUNCE = 'debounce',
+  THROTTLE = 'throttle',
+  CUSTOM = 'custom'
+}
+
+export interface ValidationCondition {
+  type: ConditionType;
+  value: any;
+  operator: ConditionOperator;
+  metadata: Map<string, any>;
+}
+
+export interface ValidationAction {
+  type: ActionType;
+  value: any;
+  metadata: Map<string, any>;
 }
 
 export interface InputFilter {
-  type?: string;
-  source?: string;
-  minValue?: number;
-  maxValue?: number;
-  timeRange?: { start: number; end: number };
+  type: FilterType;
+  enabled: boolean;
+  parameters: FilterParameters;
+  metadata: Map<string, any>;
 }
 
-export interface InputOutput {
-  op: string;
-  status: 'ok' | 'error';
-  result?: any;
-  issues?: string[];
+export enum FilterType {
+  NOISE_REDUCTION = 'noise_reduction',
+  SMOOTHING = 'smoothing',
+  NORMALIZATION = 'normalization',
+  CUSTOM = 'custom'
+}
+
+export interface FilterParameters {
+  [key: string]: any;
+}
+
+export interface AccessibilityConfig {
+  enabled: boolean;
+  features: AccessibilityFeature[];
+  settings: AccessibilitySettings;
+  metadata: Map<string, any>;
+}
+
+export interface AccessibilityFeature {
+  type: AccessibilityFeatureType;
+  enabled: boolean;
+  parameters: AccessibilityParameters;
+  metadata: Map<string, any>;
+}
+
+export enum AccessibilityFeatureType {
+  STICKY_KEYS = 'sticky_keys',
+  SLOW_KEYS = 'slow_keys',
+  BOUNCE_KEYS = 'bounce_keys',
+  MOUSE_KEYS = 'mouse_keys',
+  HIGH_CONTRAST = 'high_contrast',
+  LARGE_TEXT = 'large_text',
+  CUSTOM = 'custom'
+}
+
+export interface AccessibilityParameters {
+  [key: string]: any;
+}
+
+export interface AccessibilitySettings {
+  fontSize: number;
+  contrast: number;
+  brightness: number;
+  volume: number;
+  metadata: Map<string, any>;
+}
+
+export interface InputAnalytics {
+  totalInputs: number;
+  inputsPerSecond: number;
+  averageLatency: number;
+  deviceUsage: Map<string, number>;
+  gestureUsage: Map<string, number>;
+  errorRate: number;
+  lastUpdate: number;
+  metadata: Map<string, any>;
+}
+
+export interface InputMetadata {
+  author: string;
+  version: string;
+  tags: string[];
+  description: string;
+  customMetadata: Map<string, any>;
+}
+
+export interface InputSystemStats {
+  totalDevices: number;
+  activeDevices: number;
+  totalMappings: number;
+  totalGestures: number;
+  totalInputs: number;
+  inputsPerSecond: number;
+  averageLatency: number;
+  errorRate: number;
+  lastUpdate: number;
 }
 
 export class InputSystemManager {
-  private profiles: Map<string, InputProfile> = new Map();
-  private currentProfile: string | null = null;
-  private eventHistory: InputEvent[] = [];
-  private activeGestures: Map<string, InputGesture> = new Map();
-  private stats: InputStats;
-  private settings: InputSettings;
+  private config: InputSystemConfig;
+  private inputSystems: Map<string, InputSystem> = new Map();
+  private stats: InputSystemStats = this.initializeStats();
+  private isInitialized: boolean = false;
 
-  constructor() {
-    this.settings = {
-      sensitivity: 1.0,
-      deadzone: 0.1,
-      bufferTime: 100,
-      gestureThreshold: 50,
-      enableGestures: true,
-      enableBuffering: true,
-      enableModifiers: true
-    };
-
-    this.stats = {
-      totalEvents: 0,
-      eventsByType: {},
-      actionsTriggered: 0,
-      gesturesRecognized: 0,
-      bufferUtilization: 0,
-      averageLatency: 0,
-      errorRate: 0
-    };
-
-    this.loadDefaultProfile();
-  }
-
-  /**
-   * Create a new input profile
-   */
-  createProfile(id: string, name: string, description: string = ''): InputOutput {
-    if (this.profiles.has(id)) {
-      return {
-        op: 'create-profile',
-        status: 'error',
-        issues: [`Profile with ID ${id} already exists`]
-      };
-    }
-
-    const profile: InputProfile = {
-      id,
-      name,
-      description,
-      actions: new Map(),
-      bindings: new Map(),
-      gestures: new Map(),
-      buffers: new Map(),
-      settings: { ...this.settings }
-    };
-
-    this.profiles.set(id, profile);
-    return {
-      op: 'create-profile',
-      status: 'ok',
-      result: profile
+  constructor(config: Partial<InputSystemConfig> = {}) {
+    this.config = {
+      enableKeyboard: true,
+      enableMouse: true,
+      enableGamepad: true,
+      enableTouch: true,
+      enableGestureRecognition: true,
+      enableInputMapping: true,
+      enableInputBuffering: true,
+      enableAccessibility: true,
+      enableInputValidation: true,
+      enableRealTimeProcessing: true,
+      enableInputAnalytics: true,
+      enableInputMonitoring: true,
+      maxInputDevices: 10,
+      maxInputMappings: 1000,
+      maxInputBuffer: 10000,
+      enableCloudSync: true,
+      enableBackup: true,
+      enableVersioning: true,
+      ...config
     };
   }
 
   /**
-   * Set active profile
+   * Initialize input system manager
    */
-  setActiveProfile(id: string): InputOutput {
-    if (!this.profiles.has(id)) {
-      return {
-        op: 'set-profile',
-        status: 'error',
-        issues: [`Profile with ID ${id} not found`]
-      };
+  async initialize(): Promise<boolean> {
+    try {
+      // Initialize input system manager
+      await this.initializeInputSystemManager();
+      
+      // Load default input systems
+      await this.loadDefaultInputSystems();
+      
+      this.isInitialized = true;
+      console.log('Input system manager initialized successfully');
+      return true;
+    } catch (error) {
+      console.error('Failed to initialize input system manager:', error);
+      return false;
     }
-
-    this.currentProfile = id;
-    return {
-      op: 'set-profile',
-      status: 'ok',
-      result: `Active profile set to ${id}`
-    };
   }
 
   /**
-   * Get active profile
+   * Create new input system
    */
-  getActiveProfile(): InputOutput {
-    if (!this.currentProfile) {
-      return {
-        op: 'get-profile',
-        status: 'error',
-        issues: ['No active profile set']
-      };
-    }
-
-    const profile = this.profiles.get(this.currentProfile);
-    return {
-      op: 'get-profile',
-      status: 'ok',
-      result: profile
+  createInputSystem(inputSystem: Partial<InputSystem>): InputSystem | null {
+    const newInputSystem: InputSystem = {
+      id: `input_system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: inputSystem.name || 'New Input System',
+      type: inputSystem.type || InputSystemType.GAME,
+      status: InputSystemStatus.ACTIVE,
+      devices: inputSystem.devices || [],
+      mappings: inputSystem.mappings || [],
+      gestures: inputSystem.gestures || [],
+      buffer: inputSystem.buffer || this.createDefaultBuffer(),
+      validation: inputSystem.validation || this.createDefaultValidation(),
+      accessibility: inputSystem.accessibility || this.createDefaultAccessibility(),
+      analytics: inputSystem.analytics || this.createDefaultAnalytics(),
+      metadata: inputSystem.metadata || this.createDefaultMetadata(),
+      version: '1.0.0',
+      created: Date.now(),
+      modified: Date.now()
     };
+
+    this.inputSystems.set(newInputSystem.id, newInputSystem);
+    this.updateStats('create_input_system', newInputSystem);
+
+    console.log(`Created input system: ${newInputSystem.name}`);
+    return newInputSystem;
   }
 
   /**
-   * Add input action
+   * Add input device
    */
-  addAction(action: InputAction): InputOutput {
-    if (!this.currentProfile) {
-      return {
-        op: 'add-action',
-        status: 'error',
-        issues: ['No active profile set']
-      };
+  addDevice(inputSystemId: string, device: InputDevice): boolean {
+    const inputSystem = this.inputSystems.get(inputSystemId);
+    if (!inputSystem) {
+      console.warn(`Input system ${inputSystemId} not found`);
+      return false;
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
-    profile.actions.set(action.id, action);
-    
-    return {
-      op: 'add-action',
-      status: 'ok',
-      result: action
-    };
+    if (inputSystem.devices.length >= this.config.maxInputDevices) {
+      console.warn('Maximum number of input devices reached');
+      return false;
+    }
+
+    try {
+      inputSystem.devices.push(device);
+      inputSystem.modified = Date.now();
+
+      this.updateStats('add_device', inputSystem);
+      console.log(`Added input device: ${device.name}`);
+      return true;
+    } catch (error) {
+      console.error(`Failed to add device to input system ${inputSystemId}:`, error);
+      return false;
+    }
   }
 
   /**
-   * Add input binding
+   * Add input mapping
    */
-  addBinding(binding: InputBinding): InputOutput {
-    if (!this.currentProfile) {
-      return {
-        op: 'add-binding',
-        status: 'error',
-        issues: ['No active profile set']
-      };
+  addMapping(inputSystemId: string, mapping: InputMapping): boolean {
+    const inputSystem = this.inputSystems.get(inputSystemId);
+    if (!inputSystem) {
+      console.warn(`Input system ${inputSystemId} not found`);
+      return false;
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
-    profile.bindings.set(binding.id, binding);
-    
-    return {
-      op: 'add-binding',
-      status: 'ok',
-      result: binding
-    };
+    if (inputSystem.mappings.length >= this.config.maxInputMappings) {
+      console.warn('Maximum number of input mappings reached');
+      return false;
+    }
+
+    try {
+      inputSystem.mappings.push(mapping);
+      inputSystem.modified = Date.now();
+
+      this.updateStats('add_mapping', inputSystem);
+      console.log(`Added input mapping: ${mapping.name}`);
+      return true;
+    } catch (error) {
+      console.error(`Failed to add mapping to input system ${inputSystemId}:`, error);
+      return false;
+    }
+  }
+
+  /**
+   * Add input gesture
+   */
+  addGesture(inputSystemId: string, gesture: InputGesture): boolean {
+    const inputSystem = this.inputSystems.get(inputSystemId);
+    if (!inputSystem) {
+      console.warn(`Input system ${inputSystemId} not found`);
+      return false;
+    }
+
+    try {
+      inputSystem.gestures.push(gesture);
+      inputSystem.modified = Date.now();
+
+      this.updateStats('add_gesture', inputSystem);
+      console.log(`Added input gesture: ${gesture.name}`);
+      return true;
+    } catch (error) {
+      console.error(`Failed to add gesture to input system ${inputSystemId}:`, error);
+      return false;
+    }
   }
 
   /**
    * Process input event
    */
-  processInputEvent(event: InputEvent): InputOutput {
-    if (!this.currentProfile) {
-      return {
-        op: 'process-event',
-        status: 'error',
-        issues: ['No active profile set']
-      };
+  processInputEvent(inputSystemId: string, event: InputEvent): boolean {
+    const inputSystem = this.inputSystems.get(inputSystemId);
+    if (!inputSystem) {
+      console.warn(`Input system ${inputSystemId} not found`);
+      return false;
     }
 
-    const profile = this.profiles.get(this.currentProfile)!;
-    
-    // Update stats
-    this.stats.totalEvents++;
-    this.stats.eventsByType[event.type] = (this.stats.eventsByType[event.type] || 0) + 1;
+    try {
+      // Add to buffer if enabled
+      if (inputSystem.buffer.enabled) {
+        this.addToBuffer(inputSystem, event);
+      }
 
-    // Add to event history
-    this.eventHistory.push(event);
-    if (this.eventHistory.length > 1000) {
-      this.eventHistory.shift();
+      // Process input mapping
+      this.processInputMapping(inputSystem, event);
+
+      // Process gesture recognition
+      if (this.config.enableGestureRecognition) {
+        this.processGestureRecognition(inputSystem, event);
+      }
+
+      // Update analytics
+      this.updateInputAnalytics(inputSystem, event);
+
+      inputSystem.modified = Date.now();
+      this.updateStats('process_input_event', inputSystem);
+      
+      console.log(`Processed input event: ${event.type}`);
+      return true;
+    } catch (error) {
+      console.error(`Failed to process input event in system ${inputSystemId}:`, error);
+      return false;
     }
+  }
 
-    // Find matching bindings
-    const matchingBindings = this.findMatchingBindings(event, profile);
-    
-    // Process actions
-    const triggeredActions: string[] = [];
-    for (const binding of matchingBindings) {
-      const action = profile.actions.get(binding.actionId);
-      if (action && action.enabled) {
-        triggeredActions.push(action.id);
-        this.stats.actionsTriggered++;
+  /**
+   * Get input system
+   */
+  getInputSystem(inputSystemId: string): InputSystem | null {
+    return this.inputSystems.get(inputSystemId) || null;
+  }
+
+  /**
+   * Get all input systems
+   */
+  getInputSystems(): InputSystem[] {
+    return Array.from(this.inputSystems.values());
+  }
+
+  /**
+   * Get input systems by type
+   */
+  getInputSystemsByType(type: InputSystemType): InputSystem[] {
+    return Array.from(this.inputSystems.values())
+      .filter(system => system.type === type);
+  }
+
+  /**
+   * Get manager statistics
+   */
+  getManagerStats(): InputSystemStats {
+    return { ...this.stats };
+  }
+
+  /**
+   * Initialize input system manager
+   */
+  private async initializeInputSystemManager(): Promise<void> {
+    console.log('Initializing input system manager...');
+  }
+
+  /**
+   * Load default input systems
+   */
+  private async loadDefaultInputSystems(): Promise<void> {
+    // Load default input systems
+    const defaultSystems = [
+      this.createDefaultGameSystem(),
+      this.createDefaultApplicationSystem(),
+      this.createDefaultWebSystem()
+    ];
+
+    for (const system of defaultSystems) {
+      if (system) {
+        this.inputSystems.set(system.id, system);
       }
     }
 
-    // Process gestures
-    if (this.settings.enableGestures) {
-      this.processGestures(event);
-    }
+    console.log(`Loaded ${defaultSystems.length} default input systems`);
+  }
 
-    // Process buffering
-    if (this.settings.enableBuffering) {
-      this.processBuffering(event);
-    }
-
+  /**
+   * Create default buffer
+   */
+  private createDefaultBuffer(): InputBuffer {
     return {
-      op: 'process-event',
-      status: 'ok',
-      result: {
-        event,
-        triggeredActions,
-        gestures: Array.from(this.activeGestures.values())
-      }
+      enabled: true,
+      maxSize: this.config.maxInputBuffer,
+      currentSize: 0,
+      inputs: [],
+      strategy: BufferStrategy.FIFO,
+      statistics: {
+        totalInputs: 0,
+        processedInputs: 0,
+        droppedInputs: 0,
+        averageLatency: 0,
+        lastUpdate: Date.now(),
+        metadata: new Map()
+      },
+      metadata: new Map()
     };
   }
 
   /**
-   * Recognize gesture
+   * Create default validation
    */
-  recognizeGesture(gesture: InputGesture): InputOutput {
-    if (!this.currentProfile) {
-      return {
-        op: 'recognize-gesture',
-        status: 'error',
-        issues: ['No active profile set']
-      };
-    }
-
-    const profile = this.profiles.get(this.currentProfile)!;
-    
-    // Check if gesture meets threshold
-    if (gesture.distance && gesture.distance < this.settings.gestureThreshold) {
-      return {
-        op: 'recognize-gesture',
-        status: 'ok',
-        result: { gesture, recognized: false, reason: 'Below threshold' }
-      };
-    }
-
-    // Store gesture
-    this.activeGestures.set(gesture.id, gesture);
-    profile.gestures.set(gesture.id, gesture);
-    
-    this.stats.gesturesRecognized++;
-
+  private createDefaultValidation(): InputValidation {
     return {
-      op: 'recognize-gesture',
-      status: 'ok',
-      result: { gesture, recognized: true }
+      enabled: true,
+      rules: [
+        {
+          type: ValidationRuleType.RATE_LIMIT,
+          condition: {
+            type: ConditionType.GREATER_THAN,
+            value: 1000,
+            operator: ConditionOperator.AND,
+            metadata: new Map()
+          },
+          action: {
+            type: ActionType.TRIGGER_EVENT,
+            value: 'rate_limit_exceeded',
+            metadata: new Map()
+          },
+          metadata: new Map()
+        }
+      ],
+      filters: [
+        {
+          type: FilterType.NOISE_REDUCTION,
+          enabled: true,
+          parameters: { threshold: 0.1 },
+          metadata: new Map()
+        }
+      ],
+      metadata: new Map()
     };
   }
 
   /**
-   * Get input statistics
+   * Create default accessibility
    */
-  getInputStats(): InputOutput {
+  private createDefaultAccessibility(): AccessibilityConfig {
     return {
-      op: 'stats',
-      status: 'ok',
-      result: { ...this.stats }
+      enabled: true,
+      features: [
+        {
+          type: AccessibilityFeatureType.STICKY_KEYS,
+          enabled: false,
+          parameters: { timeout: 5000 },
+          metadata: new Map()
+        },
+        {
+          type: AccessibilityFeatureType.SLOW_KEYS,
+          enabled: false,
+          parameters: { delay: 1000 },
+          metadata: new Map()
+        }
+      ],
+      settings: {
+        fontSize: 16,
+        contrast: 1.0,
+        brightness: 1.0,
+        volume: 1.0,
+        metadata: new Map()
+      },
+      metadata: new Map()
     };
   }
 
   /**
-   * Get recent events
+   * Create default analytics
    */
-  getRecentEvents(limit: number = 100): InputOutput {
-    const events = this.eventHistory.slice(-limit);
+  private createDefaultAnalytics(): InputAnalytics {
     return {
-      op: 'recent-events',
-      status: 'ok',
-      result: events
-    };
-  }
-
-  /**
-   * Clear event history
-   */
-  clearHistory(): InputOutput {
-    this.eventHistory = [];
-    return {
-      op: 'clear-history',
-      status: 'ok',
-      result: 'Event history cleared'
-    };
-  }
-
-  /**
-   * Export input data
-   */
-  exportInput(format: 'json' | 'manifest' | 'summary' | 'events' = 'json'): InputOutput {
-    const activeProfile = this.currentProfile ? this.profiles.get(this.currentProfile) : null;
-
-    switch (format) {
-      case 'json':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-            profiles: Array.from(this.profiles.values()),
-            activeProfile,
-            events: this.eventHistory.slice(-100),
-            stats: this.stats
-          }
-        };
-      
-      case 'manifest':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-            schema: 'miff.input.export.v1',
-            profiles: Array.from(this.profiles.values()),
-            activeProfile,
-            exportedAt: new Date().toISOString(),
-            total: this.profiles.size
-          }
-        };
-      
-      case 'summary':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-            summary: this.stats,
-            activeProfile: activeProfile ? {
-              id: activeProfile.id,
-              name: activeProfile.name,
-              actions: activeProfile.actions.size,
-              bindings: activeProfile.bindings.size,
-              gestures: activeProfile.gestures.size
-            } : null
-          }
-        };
-      
-      case 'events':
-        return {
-          op: 'export',
-          status: 'ok',
-          result: {
-            events: this.eventHistory,
-            total: this.eventHistory.length
-          }
-        };
-      
-      default:
-        return {
-          op: 'export',
-          status: 'error',
-          issues: [`Unknown export format: ${format}`]
-        };
-    }
-  }
-
-  /**
-   * Reset input system
-   */
-  resetInput(): InputOutput {
-    this.profiles.clear();
-    this.currentProfile = null;
-    this.eventHistory = [];
-    this.activeGestures.clear();
-    this.stats = {
-      totalEvents: 0,
-      eventsByType: {},
-      actionsTriggered: 0,
-      gesturesRecognized: 0,
-      bufferUtilization: 0,
+      totalInputs: 0,
+      inputsPerSecond: 0,
       averageLatency: 0,
-      errorRate: 0
-    };
-    // Do not auto-load a default profile here to allow tests to verify
-    // behavior when no active profile is set.
-    
-    return {
-      op: 'reset',
-      status: 'ok',
-      result: 'Input system reset'
+      deviceUsage: new Map(),
+      gestureUsage: new Map(),
+      errorRate: 0,
+      lastUpdate: Date.now(),
+      metadata: new Map()
     };
   }
 
   /**
-   * Private helper methods
+   * Create default metadata
    */
-  private loadDefaultProfile(): void {
-    const defaultProfile = this.createProfile('default', 'Default Profile', 'Default input profile');
-    if (defaultProfile.status === 'ok') {
-      this.setActiveProfile('default');
-      
-      // Add default actions
-      const defaultActions: InputAction[] = [
-        {
-          id: 'move_forward',
-          name: 'Move Forward',
-          description: 'Move character forward',
-          category: 'movement',
-          defaultBindings: [],
-          modifiers: [],
-          priority: 1,
-          enabled: true
-        },
-        {
-          id: 'move_backward',
-          name: 'Move Backward',
-          description: 'Move character backward',
-          category: 'movement',
-          defaultBindings: [],
-          modifiers: [],
-          priority: 1,
-          enabled: true
-        },
-        {
-          id: 'jump',
-          name: 'Jump',
-          description: 'Jump action',
-          category: 'action',
-          defaultBindings: [],
-          modifiers: [],
-          priority: 2,
-          enabled: true
-        },
-        {
-          id: 'attack',
-          name: 'Attack',
-          description: 'Attack action',
-          category: 'combat',
-          defaultBindings: [],
-          modifiers: [],
-          priority: 3,
-          enabled: true
-        }
-      ];
-
-      defaultActions.forEach(action => this.addAction(action));
-    }
+  private createDefaultMetadata(): InputMetadata {
+    return {
+      author: 'System',
+      version: '1.0.0',
+      tags: [],
+      description: '',
+      customMetadata: new Map()
+    };
   }
 
-  private findMatchingBindings(event: InputEvent, profile: InputProfile): InputBinding[] {
-    const matching: InputBinding[] = [];
-    
-    for (const binding of profile.bindings.values()) {
-      if (binding.enabled && binding.inputType === event.type && binding.code === event.code) {
-        // Check modifiers
-        if (this.settings.enableModifiers && binding.modifiers.length > 0) {
-          // Simplified modifier check - would need more complex logic in real implementation
-          continue;
-        }
-        
-        // Check conditions
-        if (this.checkConditions(event, binding.conditions)) {
-          matching.push(binding);
-        }
+  /**
+   * Create default game system
+   */
+  private createDefaultGameSystem(): InputSystem {
+    return this.createInputSystem({
+      name: 'Game Input System',
+      type: InputSystemType.GAME,
+      description: 'Game input system for gameplay controls'
+    });
+  }
+
+  /**
+   * Create default application system
+   */
+  private createDefaultApplicationSystem(): InputSystem {
+    return this.createInputSystem({
+      name: 'Application Input System',
+      type: InputSystemType.APPLICATION,
+      description: 'Application input system for UI controls'
+    });
+  }
+
+  /**
+   * Create default web system
+   */
+  private createDefaultWebSystem(): InputSystem {
+    return this.createInputSystem({
+      name: 'Web Input System',
+      type: InputSystemType.WEB,
+      description: 'Web input system for browser controls'
+    });
+  }
+
+  /**
+   * Add to buffer
+   */
+  private addToBuffer(inputSystem: InputSystem, event: InputEvent): void {
+    if (inputSystem.buffer.currentSize >= inputSystem.buffer.maxSize) {
+      // Remove oldest event if buffer is full
+      inputSystem.buffer.inputs.shift();
+      inputSystem.buffer.currentSize--;
+      inputSystem.buffer.statistics.droppedInputs++;
+    }
+
+    inputSystem.buffer.inputs.push(event);
+    inputSystem.buffer.currentSize++;
+    inputSystem.buffer.statistics.totalInputs++;
+  }
+
+  /**
+   * Process input mapping
+   */
+  private processInputMapping(inputSystem: InputSystem, event: InputEvent): void {
+    for (const mapping of inputSystem.mappings) {
+      if (!mapping.enabled) continue;
+
+      // Check if mapping matches the event
+      if (this.mappingMatchesEvent(mapping, event)) {
+        // Execute mapping action
+        this.executeMappingAction(mapping, event);
       }
     }
-    
-    return matching;
   }
 
-  private checkConditions(event: InputEvent, conditions: InputCondition[]): boolean {
-    for (const condition of conditions) {
-      switch (condition.type) {
-        case 'press':
-          return event.value > 0;
-        case 'release':
-          return event.value === 0;
-        case 'hold':
-          return event.value > 0 && condition.duration ? true : false; // Simplified
-        case 'double':
-          // Would need to track previous events for double-tap detection
-          return false;
-        case 'long':
-          return event.value > 0 && condition.duration ? true : false; // Simplified
-        case 'sequence':
-          // Would need to track input sequences
-          return false;
-        default:
-          return true;
+  /**
+   * Check if mapping matches event
+   */
+  private mappingMatchesEvent(mapping: InputMapping, event: InputEvent): boolean {
+    return mapping.source.device === event.device &&
+           mapping.source.input === event.input &&
+           mapping.source.type === event.type;
+  }
+
+  /**
+   * Execute mapping action
+   */
+  private executeMappingAction(mapping: InputMapping, event: InputEvent): void {
+    // This would execute the mapping action
+    console.log(`Executing mapping action: ${mapping.target.action}`);
+  }
+
+  /**
+   * Process gesture recognition
+   */
+  private processGestureRecognition(inputSystem: InputSystem, event: InputEvent): void {
+    for (const gesture of inputSystem.gestures) {
+      if (!gesture.enabled) continue;
+
+      // Check if gesture pattern matches
+      if (this.gestureMatchesPattern(gesture, event)) {
+        // Execute gesture action
+        this.executeGestureAction(gesture, event);
       }
     }
-    return true;
   }
 
-  private processGestures(event: InputEvent): void {
-    // Simplified gesture processing
-    if (event.type === 'touch' && event.value > 0) {
-      const gesture: InputGesture = {
-        id: `gesture_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        type: 'tap',
-        startPosition: { x: 0, y: 0 }, // Would need actual position data
-        duration: 0,
-        timestamp: event.timestamp
-      };
-      
-      this.recognizeGesture(gesture);
-    }
+  /**
+   * Check if gesture matches pattern
+   */
+  private gestureMatchesPattern(gesture: InputGesture, event: InputEvent): boolean {
+    // This would implement gesture pattern matching
+    return false;
   }
 
-  private processBuffering(event: InputEvent): void {
-    // Simplified buffering - would need more complex logic for real implementation
-    if (this.eventHistory.length > 0) {
-      const lastEvent = this.eventHistory[this.eventHistory.length - 1];
-      const timeDiff = event.timestamp - lastEvent.timestamp;
-      
-      if (timeDiff < this.settings.bufferTime) {
-        // Event is within buffer time
-        this.stats.bufferUtilization++;
-      }
+  /**
+   * Execute gesture action
+   */
+  private executeGestureAction(gesture: InputGesture, event: InputEvent): void {
+    // This would execute the gesture action
+    console.log(`Executing gesture action: ${gesture.action.type}`);
+  }
+
+  /**
+   * Update input analytics
+   */
+  private updateInputAnalytics(inputSystem: InputSystem, event: InputEvent): void {
+    inputSystem.analytics.totalInputs++;
+    inputSystem.analytics.lastUpdate = Date.now();
+
+    // Update device usage
+    const deviceUsage = inputSystem.analytics.deviceUsage.get(event.device) || 0;
+    inputSystem.analytics.deviceUsage.set(event.device, deviceUsage + 1);
+  }
+
+  /**
+   * Update statistics
+   */
+  private updateStats(action: string, inputSystem: InputSystem): void {
+    switch (action) {
+      case 'create_input_system':
+        this.stats.totalDevices += inputSystem.devices.length;
+        this.stats.totalMappings += inputSystem.mappings.length;
+        this.stats.totalGestures += inputSystem.gestures.length;
+        break;
+      case 'add_device':
+        this.stats.totalDevices++;
+        break;
+      case 'add_mapping':
+        this.stats.totalMappings++;
+        break;
+      case 'add_gesture':
+        this.stats.totalGestures++;
+        break;
+      case 'process_input_event':
+        this.stats.totalInputs++;
+        break;
     }
+
+    this.stats.lastUpdate = Date.now();
+  }
+
+  /**
+   * Initialize statistics
+   */
+  private initializeStats(): InputSystemStats {
+    return {
+      totalDevices: 0,
+      activeDevices: 0,
+      totalMappings: 0,
+      totalGestures: 0,
+      totalInputs: 0,
+      inputsPerSecond: 0,
+      averageLatency: 0,
+      errorRate: 0,
+      lastUpdate: Date.now()
+    };
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.inputSystems.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
   }
 }
+
+// Export default instance
+export const defaultInputSystemManager = new InputSystemManager();
+export { InputSystemManager as default };
