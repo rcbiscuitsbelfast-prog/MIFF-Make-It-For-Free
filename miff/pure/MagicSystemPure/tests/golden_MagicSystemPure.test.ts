@@ -11,97 +11,41 @@ import { HealthSystemPure } from '../../HealthSystemPure/index';
 import { CombatPure } from '../../CombatPure/index';
 import { RNGPure } from '../../RNGPure/index';
 
-// Mock classes for testing
-class MockEventBus {
-  private events: Map<string, Function[]> = new Map();
-
-  emit(event: string, data: any) {
-    const handlers = this.events.get(event) || [];
-    handlers.forEach(handler => handler(data));
-  }
-
-  on(event: string, handler: Function) {
-    if (!this.events.has(event)) {
-      this.events.set(event, []);
-    }
-    this.events.get(event)!.push(handler);
-  }
-}
-
-class MockHealthSystem {
-  private entities: Map<string, { hp: number; maxHp: number }> = new Map();
-
-  createEntity(entityId: string, options: { maxHp: number; currentHp?: number }) {
-    this.entities.set(entityId, {
-      hp: options.currentHp || options.maxHp,
-      maxHp: options.maxHp
-    });
-  }
-
-  damageEntity(entityId: string, damage: number) {
-    const entity = this.entities.get(entityId);
-    if (entity) {
-      entity.hp = Math.max(0, entity.hp - damage);
-    }
-  }
-
-  healEntity(entityId: string, healing: number) {
-    const entity = this.entities.get(entityId);
-    if (entity) {
-      entity.hp = Math.min(entity.maxHp, entity.hp + healing);
-    }
-  }
-
-  getEntity(entityId: string) {
-    return this.entities.get(entityId);
-  }
-}
-
-class MockCombatSystem {
-  // Mock implementation
-}
-
-class MockRNG {
-  private values: number[] = [];
-  private index = 0;
-
-  setNextFloat(value: number) {
-    this.values.push(value);
-  }
-
-  nextFloat(): number {
-    if (this.values.length > 0) {
-      return this.values[this.index++] || 0.5;
-    }
-    return Math.random();
-  }
-}
+// Import realistic test implementations
+import { TestImplementationFactory } from '../../shared/testing/TestImplementationFactory';
 
 describe('MagicSystemPure Golden Tests', () => {
   let magicSystem: MagicSystemPure;
-  let eventBus: MockEventBus;
-  let healthSystem: MockHealthSystem;
-  let combatSystem: MockCombatSystem;
-  let rng: MockRNG;
+  let testFactory: TestImplementationFactory;
+  let eventBus: any;
+  let healthSystem: any;
+  let combatSystem: any;
+  let rng: any;
 
   const TEST_CASTER = 'test-mage';
   const TEST_TARGET = 'test-target';
 
   beforeEach(() => {
-    eventBus = new MockEventBus();
-    healthSystem = new MockHealthSystem();
-    combatSystem = new MockCombatSystem();
-    rng = new MockRNG();
+    testFactory = new TestImplementationFactory();
+    const testEnv = testFactory.createTestEnvironment();
+    
+    eventBus = testEnv.eventBus;
+    healthSystem = testEnv.healthSystem;
+    combatSystem = testEnv.combatSystem;
+    rng = testEnv.rngSystem;
 
-    magicSystem = new MagicSystemPure(eventBus as any, healthSystem as any, combatSystem as any, rng as any);
+    magicSystem = new MagicSystemPure(eventBus, healthSystem, combatSystem, rng);
 
     // Create test entities
     magicSystem.createManaPool(TEST_CASTER, 100);
     healthSystem.createEntity(TEST_TARGET, { maxHp: 100, currentHp: 80 });
 
-    // Reset RNG mock
-    rng = new MockRNG();
-    (magicSystem as any).rng = rng;
+    // Reset RNG system
+    rng.setSeed(12345);
+  });
+
+  afterEach(() => {
+    testFactory.cleanup();
   });
 
   describe('Core Magic System', () => {

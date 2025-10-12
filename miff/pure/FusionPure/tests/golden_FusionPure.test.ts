@@ -21,76 +21,53 @@ import {
 } from '../index';
 
 import { EventBus } from '../../EventBusPure/EventBusPure';
-
-// Mock Spirit Instance for testing
-class MockSpiritInstance {
-  instanceId: string;
-  speciesId: string;
-  level: number;
-  experience: number;
-  name: string;
-
-  constructor(speciesId: string, level: number = 25) {
-    this.instanceId = `spirit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    this.speciesId = speciesId;
-    this.level = level;
-    this.experience = level * 100;
-    this.name = `${speciesId.charAt(0).toUpperCase() + speciesId.slice(1)} Spirit`;
-  }
-
-  getSyncPercentage(): number {
-    return 50; // Mock sync level
-  }
-
-  hasItem(itemId: string): boolean {
-    return false; // Mock - no items
-  }
-}
-
-// Mock Player Context for testing
-class MockPlayerContext implements PlayerContext {
-  playerId: string;
-  energy: number;
-  level: number;
-  fusionHistory: string[];
-  lastFusionTime: number;
-
-  constructor() {
-    this.playerId = 'test_player';
-    this.energy = 100;
-    this.level = 25;
-    this.fusionHistory = [];
-    this.lastFusionTime = 0;
-  }
-
-  getInventory?(): any {
-    return {
-      getCount: (itemId: string) => 0,
-      hasItem: (itemId: string) => false
-    };
-  }
-}
+import { TestImplementationFactory } from '../../shared/testing/TestImplementationFactory';
 
 describe('FusionPure Module', () => {
   let eventBus: EventBus;
   let fusionManager: FusionManager;
   let fusionRules: FusionRules;
-  let mockContext: MockPlayerContext;
-  let mockSpiritA: MockSpiritInstance;
-  let mockSpiritB: MockSpiritInstance;
+  let testFactory: TestImplementationFactory;
+  let mockContext: any;
+  let mockSpiritA: any;
+  let mockSpiritB: any;
 
   beforeEach(() => {
-    eventBus = new EventBus();
-    mockContext = new MockPlayerContext();
+    testFactory = new TestImplementationFactory();
+    const testEnv = testFactory.createTestEnvironment();
+    
+    eventBus = testEnv.eventBus;
+    mockContext = testFactory.createTestPlayer({
+      playerId: 'test_player',
+      energy: 100,
+      level: 25,
+      fusionHistory: [],
+      lastFusionTime: 0
+    });
+    
     fusionManager = new FusionManager(eventBus, mockContext);
     fusionRules = new FusionRules();
 
-    // Create mock spirits for testing
-    mockSpiritA = new MockSpiritInstance('fire_spirit', 25);
-    mockSpiritB = new MockSpiritInstance('water_spirit', 25);
+    // Create test spirits for testing
+    mockSpiritA = testFactory.createTestSpirit({
+      speciesId: 'fire_spirit',
+      level: 25,
+      syncPercentage: 50,
+      element: 'fire',
+      rarity: 'common'
+    });
+    
+    mockSpiritB = testFactory.createTestSpirit({
+      speciesId: 'water_spirit',
+      level: 25,
+      syncPercentage: 50,
+      element: 'water',
+      rarity: 'common'
+    });
   });
 
   afterEach(() => {
+    testFactory.cleanup();
     eventBus.clearOldEvents();
   });
 
