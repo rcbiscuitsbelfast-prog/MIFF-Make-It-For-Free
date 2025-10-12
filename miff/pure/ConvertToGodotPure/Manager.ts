@@ -115,15 +115,8 @@ export class ConvertToGodotManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'ConvertToGodotManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

@@ -56,15 +56,16 @@ export interface HUDElement {
   enabled: boolean;
   position: {
 
-    x: number; y: number;
+    x: number;
+    y: number;
     
 
 
-  }
   };
   size: {
 
-    width: number; height: number;
+    width: number;
+    height: number;
     
 
 
