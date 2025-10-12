@@ -164,15 +164,14 @@ export class HapticsManager {
           supportsMultipleActuators: false,
           maxSimultaneousEffects: 1,
           supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
-          latency: 5;
-
+          latency: 5
         }
-    },
-        connected: false,
-        supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.SQUARE],
-        maxIntensity: 1.0,
-        maxFrequency: 1000,
-        maxDuration: 5000;
+      },
+      connected: false,
+      supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.SQUARE],
+      maxIntensity: 1.0,
+      maxFrequency: 1000,
+      maxDuration: 5000
     },
       {
         id: 'default_mobile',
