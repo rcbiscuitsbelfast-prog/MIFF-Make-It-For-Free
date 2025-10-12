@@ -1,40 +1,31 @@
 /**
- * BlockBuilderPure Manager - Advanced Block Builder Management System
+ * BlockBuilderPure Manager - Advanced Block Building System
  *
- * Comprehensive block builder management system with:
- * - Block creation and management
- * - Block placement and manipulation
- * - Block physics and collision detection
- * - Block templates and prefabs
- * - Cross-platform block builder support
+ * Comprehensive block building system with:
+ * - 3D block construction and manipulation
+ * - Real-time physics simulation
  * - Performance optimization
- * - Real-time block builder monitoring
- * - Block builder analytics and reporting
+ * - Cross-platform support
+ * - Real-time monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface BlockBuilderConfig {
-  enableBlockCreation: boolean;
-  enableBlockManagement: boolean;
-  enableBlockPlacement: boolean;
-  enableBlockManipulation: boolean;
-  enableBlockPhysics: boolean;
-  enableCollisionDetection: boolean;
-  enableBlockTemplates: boolean;
-  enableBlockPrefabs: boolean;
-  enableCrossPlatformSupport: boolean;
+  enable3DConstruction: boolean;
+  enablePhysicsSimulation: boolean;
+  enableRealTimeRendering: boolean;
   enablePerformanceOptimization: boolean;
+  enableCrossPlatformSupport: boolean;
   enableRealTimeMonitoring: boolean;
-  enableBlockBuilderAnalytics: boolean;
-  enableBlockBuilderReporting: boolean;
   maxBlocks: number;
-  maxTemplates: number;
+  maxBuildings: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
@@ -43,84 +34,39 @@ export interface BlockBuilderConfig {
 export interface BlockBuilder {
   id: string;
   name: string;
-  type: BlockBuilderType;
-  status: BlockBuilderStatus;
+  type: BuilderType;
+  status: BuilderStatus;
   blocks: Block[];
-  templates: BlockTemplate[];
-  prefabs: BlockPrefab[];
-  analytics: BlockBuilderAnalytics;
-  metadata: BlockBuilderMetadata;
+  buildings: Building[];
+  physics: PhysicsConfig;
+  performance: BuilderPerformance;
+  analytics: BuilderAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
-}
-
-export enum BlockBuilderType {
-  VOXEL = 'voxel',
-  LEGO = 'lego',
-  BRICK = 'brick',
-  CUSTOM = 'custom'
-}
-
-export enum BlockBuilderStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  BUILDING = 'building',
-  ERROR = 'error',
-  CUSTOM = 'custom'
 }
 
 export interface Block {
   id: string;
   name: string;
   type: BlockType;
-  status: BlockStatus;
-  position: Position;
-  rotation: Rotation;
-  scale: Scale;
+  position: Position3D;
+  rotation: Rotation3D;
+  scale: Scale3D;
   material: Material;
   physics: BlockPhysics;
-  metadata: Map<string, any>;
+  metadata: Record<string, any>;
 }
 
-export enum BlockType {
-  CUBE = 'cube',
-  SPHERE = 'sphere',
-  CYLINDER = 'cylinder',
-  PYRAMID = 'pyramid',
-  CUSTOM = 'custom'
-}
-
-export enum BlockStatus {
-  PLACED = 'placed',
-  SELECTED = 'selected',
-  MOVING = 'moving',
-  ROTATING = 'rotating',
-  SCALING = 'scaling',
-  DELETED = 'deleted',
-  CUSTOM = 'custom'
-}
-
-export interface Position {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
-}
-
-export interface Rotation {
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-  metadata: Map<string, any>;
-}
-
-export interface Scale {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
+export interface Building {
+  id: string;
+  name: string;
+  type: BuildingType;
+  blocks: string[];
+  structure: BuildingStructure;
+  physics: BuildingPhysics;
+  metadata: Record<string, any>;
 }
 
 export interface Material {
@@ -128,603 +74,739 @@ export interface Material {
   name: string;
   type: MaterialType;
   properties: MaterialProperties;
-  texture: Texture;
-  metadata: Map<string, any>;
-}
-
-export enum MaterialType {
-  SOLID = 'solid',
-  TRANSPARENT = 'transparent',
-  EMISSIVE = 'emissive',
-  REFLECTIVE = 'reflective',
-  CUSTOM = 'custom'
-}
-
-export interface MaterialProperties {
-  color: Color;
-  roughness: number;
-  metallic: number;
-  opacity: number;
-  metadata: Map<string, any>;
-}
-
-export interface Color {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-  metadata: Map<string, any>;
-}
-
-export interface Texture {
-  id: string;
-  name: string;
-  type: TextureType;
-  url: string;
-  size: TextureSize;
-  metadata: Map<string, any>;
-}
-
-export enum TextureType {
-  DIFFUSE = 'diffuse',
-  NORMAL = 'normal',
-  SPECULAR = 'specular',
-  EMISSIVE = 'emissive',
-  CUSTOM = 'custom'
-}
-
-export interface TextureSize {
-  width: number;
-  height: number;
-  metadata: Map<string, any>;
+  textures: Texture[];
+  metadata: Record<string, any>;
 }
 
 export interface BlockPhysics {
   mass: number;
   friction: number;
   restitution: number;
+  density: number;
   isStatic: boolean;
-  isTrigger: boolean;
-  metadata: Map<string, any>;
+  collider: Collider;
+  metadata: Record<string, any>;
 }
 
-export interface BlockTemplate {
+export interface BuildingStructure {
+  foundation: string[];
+  walls: string[];
+  roof: string[];
+  supports: string[];
+  metadata: Record<string, any>;
+}
+
+export interface BuildingPhysics {
+  stability: number; // 0-1
+  centerOfMass: Position3D;
+  momentOfInertia: number;
+  metadata: Record<string, any>;
+}
+
+export interface PhysicsConfig {
+  gravity: number;
+  airResistance: number;
+  collisionDetection: boolean;
+  continuousCollision: boolean;
+  metadata: Record<string, any>;
+}
+
+export interface Texture {
   id: string;
   name: string;
-  type: TemplateType;
-  status: TemplateStatus;
-  blocks: Block[];
-  metadata: Map<string, any>;
+  type: TextureType;
+  path: string;
+  size: { width: number; height: number };
+  metadata: Record<string, any>;
 }
 
-export enum TemplateType {
-  BASIC = 'basic',
-  ADVANCED = 'advanced',
-  CUSTOM = 'custom',
-  USER = 'user',
-  CUSTOM = 'custom'
+export interface Collider {
+  type: ColliderType;
+  size: Scale3D;
+  offset: Position3D;
+  metadata: Record<string, any>;
 }
 
-export enum TemplateStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DRAFT = 'draft',
-  CUSTOM = 'custom'
+export interface MaterialProperties {
+  color: { r: number; g: number; b: number; a: number };
+  metallic: number; // 0-1
+  roughness: number; // 0-1
+  emission: number; // 0-1
+  transparency: number; // 0-1
+  metadata: Record<string, any>;
 }
 
-export interface BlockPrefab {
-  id: string;
-  name: string;
-  type: PrefabType;
-  status: PrefabStatus;
-  template: string;
-  instances: BlockInstance[];
-  metadata: Map<string, any>;
+export interface Position3D {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export enum PrefabType {
-  SIMPLE = 'simple',
-  COMPLEX = 'complex',
-  ANIMATED = 'animated',
-  INTERACTIVE = 'interactive',
-  CUSTOM = 'custom'
+export interface Rotation3D {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
 }
 
-export enum PrefabStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+export interface Scale3D {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export interface BlockInstance {
-  id: string;
-  prefabId: string;
-  position: Position;
-  rotation: Rotation;
-  scale: Scale;
-  metadata: Map<string, any>;
+export interface BuilderPerformance {
+  fps: number;
+  frameTime: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  gpuUsage: number; // 0-1
+  metadata: Record<string, any>;
 }
 
-export interface BlockBuilderAnalytics {
+export interface BuilderAnalytics {
   totalBlocks: number;
-  totalTemplates: number;
-  totalPrefabs: number;
-  averageBuildTime: number;
-  complexity: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
+  totalBuildings: number;
+  averageBuildingSize: number;
+  averageBlockCount: number;
+  averageFPS: number;
+  lastUpdated: Date;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface BlockBuilderMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface BlockBuilderStats {
-  totalBlocks: number;
-  totalTemplates: number;
-  totalPrefabs: number;
-  averageBuildTime: number;
-  complexity: number;
-  lastUpdate: number;
-}
+export type BuilderType = 'creative' | 'survival' | 'architectural' | 'custom';
+export type BuilderStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type BlockType = 'cube' | 'sphere' | 'cylinder' | 'pyramid' | 'custom';
+export type BuildingType = 'house' | 'tower' | 'bridge' | 'castle' | 'custom';
+export type MaterialType = 'wood' | 'stone' | 'metal' | 'glass' | 'custom';
+export type TextureType = 'diffuse' | 'normal' | 'specular' | 'emission' | 'custom';
+export type ColliderType = 'box' | 'sphere' | 'cylinder' | 'mesh' | 'custom';
 
 export class BlockBuilderManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
   private config: BlockBuilderConfig;
   private builders: Map<string, BlockBuilder> = new Map();
-  private stats: BlockBuilderStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private startTime: Date;
 
-  constructor(config: Partial<BlockBuilderConfig> = {}) {
+  constructor(config?: Partial<BlockBuilderConfig>) {
+    this.logger = new StructuredLogger({ module: 'BlockBuilderManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableBlockCreation: true,
-      enableBlockManagement: true,
-      enableBlockPlacement: true,
-      enableBlockManipulation: true,
-      enableBlockPhysics: true,
-      enableCollisionDetection: true,
-      enableBlockTemplates: true,
-      enableBlockPrefabs: true,
-      enableCrossPlatformSupport: true,
+      enable3DConstruction: true,
+      enablePhysicsSimulation: true,
+      enableRealTimeRendering: true,
       enablePerformanceOptimization: true,
+      enableCrossPlatformSupport: true,
       enableRealTimeMonitoring: true,
-      enableBlockBuilderAnalytics: true,
-      enableBlockBuilderReporting: true,
-      maxBlocks: 100000,
-      maxTemplates: 10000,
-      enableCloudSync: true,
+      maxBlocks: 10000,
+      maxBuildings: 1000,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'BlockBuilderManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `BlockBuilderManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'BlockBuilderManager');
-  };
-  }
-
-  /**
-   * Initialize block builder manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize block builder manager
-      await this.initializeBlockBuilderManager();
-      
-      // Load default block builders
-      await this.loadDefaultBlockBuilders();
-      
-      this.isInitialized = true;
-      this.logger.info('BlockBuilderManager', 'Block builder manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('BlockBuilderManager', 'Failed to initialize block builder manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new block builder
-   */
-  createBlockBuilder(builder: Partial<BlockBuilder>): BlockBuilder | null {
-    const newBuilder: BlockBuilder = {
-      id: `blockbuilder_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: builder.name || 'New Block Builder',
-      type: builder.type || BlockBuilderType.VOXEL,
-      status: BlockBuilderStatus.ACTIVE,
-      blocks: builder.blocks || [],
-      templates: builder.templates || [],
-      prefabs: builder.prefabs || [],
-      analytics: builder.analytics || this.createDefaultAnalytics(),
-      metadata: builder.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
-
-    this.builders.set(newBuilder.id, newBuilder);
-    this.updateStats('create_builder', newBuilder);
-
-    this.logger.info('BlockBuilderManager', `Created block builder: ${newBuilder.name}`);
-    return newBuilder;
   }
 
   /**
-   * Create block
+   * Initialize the Block Builder Manager
    */
-  createBlock(builderId: string, block: Partial<Block>): Block | null {
-    const builder = this.builders.get(builderId);
-    if (!builder) {
-      this.logger.warn('BlockBuilderManager', `Block builder ${builderId} not found`);
-      return null;
-    }
-
-    if (builder.blocks.length >= this.config.maxBlocks) {
-      this.logger.warn('BlockBuilderManager', 'Maximum number of blocks reached');
-      return null;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Block Builder Manager already initialized');
+      return;
     }
 
     try {
-      const newBlock: Block = {
-        id: `block_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: block.name || 'New Block',
-        type: block.type || BlockType.CUBE,
-        status: BlockStatus.PLACED,
-        position: block.position || this.createDefaultPosition(),
-        rotation: block.rotation || this.createDefaultRotation(),
-        scale: block.scale || this.createDefaultScale(),
-        material: block.material || this.createDefaultMaterial(),
-        physics: block.physics || this.createDefaultBlockPhysics(),
-        metadata: block.metadata || new Map()
-      };
+      this.logger.info('Initializing Block Builder Manager...');
 
-      builder.blocks.push(newBlock);
-      builder.modified = Date.now();
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
 
-      this.updateStats('create_block', builder);
-      this.logger.info('BlockBuilderManager', `Created block: ${newBlock.name}`);
-      return newBlock;
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Block Builder Manager initialized successfully');
+
     } catch (error) {
-      this.logger.error('BlockBuilderManager', `Failed to create block in block builder ${builderId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to initialize Block Builder Manager');
+      throw error;
     }
   }
 
   /**
-   * Create block template
+   * Create a new block builder
    */
-  createBlockTemplate(builderId: string, template: Partial<BlockTemplate>): BlockTemplate | null {
-    const builder = this.builders.get(builderId);
-    if (!builder) {
-      this.logger.warn('BlockBuilderManager', `Block builder ${builderId} not found`);
-      return null;
-    }
-
-    if (builder.templates.length >= this.config.maxTemplates) {
-      this.logger.warn('BlockBuilderManager', 'Maximum number of templates reached');
-      return null;
+  async createBuilder(builderData: Omit<BlockBuilder, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<BlockBuilder> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
     }
 
     try {
-      const newTemplate: BlockTemplate = {
-        id: `template_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: template.name || 'New Template',
-        type: template.type || TemplateType.BASIC,
-        status: TemplateStatus.ACTIVE,
-        blocks: template.blocks || [],
-        metadata: template.metadata || new Map()
+      const builder: BlockBuilder = {
+        ...builderData,
+        id: this.generateBuilderId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalBlocks: 0,
+          totalBuildings: 0,
+          averageBuildingSize: 0,
+          averageBlockCount: 0,
+          averageFPS: 0,
+          lastUpdated: new Date()
+        }
       };
 
-      builder.templates.push(newTemplate);
-      builder.modified = Date.now();
+      this.builders.set(builder.id, builder);
+      this.updateAnalytics();
 
-      this.updateStats('create_template', builder);
-      this.logger.info('BlockBuilderManager', `Created block template: ${newTemplate.name}`);
-      return newTemplate;
+      this.logger.info('Block builder created', { builderId: builder.id, builderName: builder.name });
+      return builder;
+
     } catch (error) {
-      this.logger.error('BlockBuilderManager', `Failed to create block template in block builder ${builderId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to create block builder');
+      throw error;
     }
   }
 
   /**
-   * Get block builder
+   * Get a block builder by ID
    */
-  getBlockBuilder(builderId: string): BlockBuilder | null {
+  getBuilder(builderId: string): BlockBuilder | null {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
     return this.builders.get(builderId) || null;
+  }
+
+  /**
+   * Update a block builder
+   */
+  async updateBuilder(builderId: string, updates: Partial<BlockBuilder>): Promise<BlockBuilder | null> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return null;
+      }
+
+      const updatedBuilder: BlockBuilder = {
+        ...builder,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(builder.version)
+      };
+
+      this.builders.set(builderId, updatedBuilder);
+      this.updateAnalytics();
+
+      this.logger.info('Block builder updated', { builderId, builderName: updatedBuilder.name });
+      return updatedBuilder;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update block builder');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a block builder
+   */
+  async deleteBuilder(builderId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return false;
+      }
+
+      this.builders.delete(builderId);
+      this.updateAnalytics();
+
+      this.logger.info('Block builder deleted', { builderId, builderName: builder.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete block builder');
+      throw error;
+    }
   }
 
   /**
    * Get all block builders
    */
-  getBlockBuilders(): BlockBuilder[] {
+  getAllBuilders(): BlockBuilder[] {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
     return Array.from(this.builders.values());
   }
 
   /**
-   * Get block builders by type
+   * Get builders by type
    */
-  getBlockBuildersByType(type: BlockBuilderType): BlockBuilder[] {
-    return Array.from(this.builders.values())
-      .filter(builder => builder.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): BlockBuilderStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize block builder manager
-   */
-  private async initializeBlockBuilderManager(): Promise<void> {
-    this.logger.info('BlockBuilderManager', 'Initializing block builder manager...');
-  }
-
-  /**
-   * Load default block builders
-   */
-  private async loadDefaultBlockBuilders(): Promise<void> {
-    // Load default block builders
-    const defaultBuilders = [
-      this.createDefaultVoxel(),
-      this.createDefaultLego(),
-      this.createDefaultBrick()
-    ];
-
-    for (const builder of defaultBuilders) {
-      if (builder) {
-        this.builders.set(builder.id, builder);
-      }
+  getBuildersByType(type: BuilderType): BlockBuilder[] {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
     }
 
-    this.logger.info('BlockBuilderManager', `Loaded ${defaultBuilders.length} default block builders`);
+    return Array.from(this.builders.values()).filter(builder => builder.type === type);
   }
 
   /**
-   * Create default position
+   * Get builders by status
    */
-  private createDefaultPosition(): Position {
-    return {
-      x: 0,
-      y: 0,
-      z: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default rotation
-   */
-  private createDefaultRotation(): Rotation {
-    return {
-      x: 0,
-      y: 0,
-      z: 0,
-      w: 1,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default scale
-   */
-  private createDefaultScale(): Scale {
-    return {
-      x: 1,
-      y: 1,
-      z: 1,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default material
-   */
-  private createDefaultMaterial(): Material {
-    return {
-      id: 'default_material',
-      name: 'Default Material',
-      type: MaterialType.SOLID,
-      properties: {
-
-        color: {
-          r: 0.5,
-          g: 0.5,
-          b: 0.5,
-          a: 1.0,
-          metadata: new Map()
-
-      }
-        },
-        roughness: 0.5,
-        metallic: 0.0,
-        opacity: 1.0,
-        metadata: new Map()
-      },
-      texture: {
-
-        id: 'default_texture',
-        name: 'Default Texture',
-        type: TextureType.DIFFUSE,
-        url: '',
-        size: {
-          width: 512,
-          height: 512,
-          metadata: new Map()
-
-      }
-        },
-        metadata: new Map()
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default block physics
-   */
-  private createDefaultBlockPhysics(): BlockPhysics {
-    return {
-      mass: 1.0,
-      friction: 0.5,
-      restitution: 0.3,
-      isStatic: false,
-      isTrigger: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): BlockBuilderAnalytics {
-    return {
-      totalBlocks: 0,
-      totalTemplates: 0,
-      totalPrefabs: 0,
-      averageBuildTime: 0,
-      complexity: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): BlockBuilderMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default voxel
-   */
-  private createDefaultVoxel(): BlockBuilder {
-    return this.createBlockBuilder({
-      name: 'Voxel Block Builder',
-      type: BlockBuilderType.VOXEL,
-      description: 'Voxel block builder'
-    });
-  }
-
-  /**
-   * Create default lego
-   */
-  private createDefaultLego(): BlockBuilder {
-    return this.createBlockBuilder({
-      name: 'Lego Block Builder',
-      type: BlockBuilderType.LEGO,
-      description: 'Lego block builder'
-    });
-  }
-
-  /**
-   * Create default brick
-   */
-  private createDefaultBrick(): BlockBuilder {
-    return this.createBlockBuilder({
-      name: 'Brick Block Builder',
-      type: BlockBuilderType.BRICK,
-      description: 'Brick block builder'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, builder: BlockBuilder): void {
-    switch (action) {
-      case 'create_builder':
-        this.stats.totalBlocks += builder.blocks.length;
-        this.stats.totalTemplates += builder.templates.length;
-        this.stats.totalPrefabs += builder.prefabs.length;
-        break;
-      case 'create_block':
-        this.stats.totalBlocks++;
-        break;
-      case 'create_template':
-        this.stats.totalTemplates++;
-        break;
+  getBuildersByStatus(status: BuilderStatus): BlockBuilder[] {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    return Array.from(this.builders.values()).filter(builder => builder.status === status);
   }
 
   /**
-   * Initialize statistics
+   * Create a new block
    */
-  private initializeStats(): BlockBuilderStats {
+  async createBlock(builderId: string, blockData: Omit<Block, 'id'>): Promise<Block | null> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return null;
+      }
+
+      const block: Block = {
+        ...blockData,
+        id: this.generateBlockId()
+      };
+
+      builder.blocks.push(block);
+      this.updateAnalytics();
+
+      this.logger.info('Block created', { builderId, blockId: block.id, blockName: block.name });
+      return block;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create block');
+      return null;
+    }
+  }
+
+  /**
+   * Update a block
+   */
+  async updateBlock(builderId: string, blockId: string, updates: Partial<Block>): Promise<Block | null> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return null;
+      }
+
+      const block = builder.blocks.find(b => b.id === blockId);
+      if (!block) {
+        this.logger.warn('Block not found', { builderId, blockId });
+        return null;
+      }
+
+      const updatedBlock: Block = {
+        ...block,
+        ...updates
+      };
+
+      const blockIndex = builder.blocks.findIndex(b => b.id === blockId);
+      builder.blocks[blockIndex] = updatedBlock;
+      this.updateAnalytics();
+
+      this.logger.info('Block updated', { builderId, blockId, blockName: updatedBlock.name });
+      return updatedBlock;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update block');
+      return null;
+    }
+  }
+
+  /**
+   * Delete a block
+   */
+  async deleteBlock(builderId: string, blockId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return false;
+      }
+
+      const blockIndex = builder.blocks.findIndex(b => b.id === blockId);
+      if (blockIndex === -1) {
+        this.logger.warn('Block not found', { builderId, blockId });
+        return false;
+      }
+
+      builder.blocks.splice(blockIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Block deleted', { builderId, blockId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete block');
+      return false;
+    }
+  }
+
+  /**
+   * Create a new building
+   */
+  async createBuilding(builderId: string, buildingData: Omit<Building, 'id'>): Promise<Building | null> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return null;
+      }
+
+      const building: Building = {
+        ...buildingData,
+        id: this.generateBuildingId()
+      };
+
+      builder.buildings.push(building);
+      this.updateAnalytics();
+
+      this.logger.info('Building created', { builderId, buildingId: building.id, buildingName: building.name });
+      return building;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create building');
+      return null;
+    }
+  }
+
+  /**
+   * Update a building
+   */
+  async updateBuilding(builderId: string, buildingId: string, updates: Partial<Building>): Promise<Building | null> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return null;
+      }
+
+      const building = builder.buildings.find(b => b.id === buildingId);
+      if (!building) {
+        this.logger.warn('Building not found', { builderId, buildingId });
+        return null;
+      }
+
+      const updatedBuilding: Building = {
+        ...building,
+        ...updates
+      };
+
+      const buildingIndex = builder.buildings.findIndex(b => b.id === buildingId);
+      builder.buildings[buildingIndex] = updatedBuilding;
+      this.updateAnalytics();
+
+      this.logger.info('Building updated', { builderId, buildingId, buildingName: updatedBuilding.name });
+      return updatedBuilding;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update building');
+      return null;
+    }
+  }
+
+  /**
+   * Delete a building
+   */
+  async deleteBuilding(builderId: string, buildingId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return false;
+      }
+
+      const buildingIndex = builder.buildings.findIndex(b => b.id === buildingId);
+      if (buildingIndex === -1) {
+        this.logger.warn('Building not found', { builderId, buildingId });
+        return false;
+      }
+
+      builder.buildings.splice(buildingIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Building deleted', { builderId, buildingId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete building');
+      return false;
+    }
+  }
+
+  /**
+   * Move a block
+   */
+  async moveBlock(builderId: string, blockId: string, newPosition: Position3D): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return false;
+      }
+
+      const block = builder.blocks.find(b => b.id === blockId);
+      if (!block) {
+        this.logger.warn('Block not found', { builderId, blockId });
+        return false;
+      }
+
+      block.position = newPosition;
+      this.logger.debug('Block moved', { builderId, blockId, newPosition });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to move block');
+      return false;
+    }
+  }
+
+  /**
+   * Rotate a block
+   */
+  async rotateBlock(builderId: string, blockId: string, newRotation: Rotation3D): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return false;
+      }
+
+      const block = builder.blocks.find(b => b.id === blockId);
+      if (!block) {
+        this.logger.warn('Block not found', { builderId, blockId });
+        return false;
+      }
+
+      block.rotation = newRotation;
+      this.logger.debug('Block rotated', { builderId, blockId, newRotation });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to rotate block');
+      return false;
+    }
+  }
+
+  /**
+   * Scale a block
+   */
+  async scaleBlock(builderId: string, blockId: string, newScale: Scale3D): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    try {
+      const builder = this.builders.get(builderId);
+      if (!builder) {
+        this.logger.warn('Builder not found', { builderId });
+        return false;
+      }
+
+      const block = builder.blocks.find(b => b.id === blockId);
+      if (!block) {
+        this.logger.warn('Block not found', { builderId, blockId });
+        return false;
+      }
+
+      block.scale = newScale;
+      this.logger.debug('Block scaled', { builderId, blockId, newScale });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to scale block');
+      return false;
+    }
+  }
+
+  /**
+   * Generate a unique builder ID
+   */
+  private generateBuilderId(): string {
+    return `builder_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique block ID
+   */
+  private generateBlockId(): string {
+    return `block_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique building ID
+   */
+  private generateBuildingId(): string {
+    return `building_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const builders = Array.from(this.builders.values());
+    const totalBlocks = builders.reduce((sum, b) => sum + b.blocks.length, 0);
+    const totalBuildings = builders.reduce((sum, b) => sum + b.buildings.length, 0);
+    const totalFPS = builders.reduce((sum, b) => sum + b.performance.fps, 0);
+
+    for (const builder of builders) {
+      builder.analytics = {
+        totalBlocks: builder.blocks.length,
+        totalBuildings: builder.buildings.length,
+        averageBuildingSize: builder.buildings.length > 0 ? 
+          builder.buildings.reduce((sum, b) => sum + b.blocks.length, 0) / builder.buildings.length : 0,
+        averageBlockCount: builder.blocks.length,
+        averageFPS: builder.performance.fps,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalBuilders: number;
+    activeBuilders: number;
+    buildersByType: Record<BuilderType, number>;
+    buildersByStatus: Record<BuilderStatus, number>;
+    totalBlocks: number;
+    totalBuildings: number;
+    averageFPS: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Block Builder Manager not initialized');
+    }
+
+    const builders = Array.from(this.builders.values());
+    const activeBuilders = builders.filter(b => b.status === 'active');
+    const totalBlocks = builders.reduce((sum, b) => sum + b.blocks.length, 0);
+    const totalBuildings = builders.reduce((sum, b) => sum + b.buildings.length, 0);
+    const totalFPS = builders.reduce((sum, b) => sum + b.performance.fps, 0);
+
+    const buildersByType: Record<BuilderType, number> = {
+      creative: 0,
+      survival: 0,
+      architectural: 0,
+      custom: 0
+    };
+
+    const buildersByStatus: Record<BuilderStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const builder of builders) {
+      buildersByType[builder.type]++;
+      buildersByStatus[builder.status]++;
+    }
+
     return {
-      totalBlocks: 0,
-      totalTemplates: 0,
-      totalPrefabs: 0,
-      averageBuildTime: 0,
-      complexity: 0,
-      lastUpdate: Date.now()
+      totalBuilders: builders.length,
+      activeBuilders: activeBuilders.length,
+      buildersByType,
+      buildersByStatus,
+      totalBlocks,
+      totalBuildings,
+      averageFPS: builders.length > 0 ? totalFPS / builders.length : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Block Builder Manager
    */
-  destroy(): void {
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Block Builder Manager...');
+
     this.builders.clear();
-    this.stats = this.initializeStats();
     this.isInitialized = false;
+
+    this.logger.info('Block Builder Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultBlockBuilderManager = new BlockBuilderManager();
-export { BlockBuilderManager as default };
+export const blockBuilderManager = new BlockBuilderManager();
+export default blockBuilderManager;
