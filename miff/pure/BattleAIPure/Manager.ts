@@ -1,810 +1,842 @@
 /**
- * BattleAIPure Manager - Advanced Battle AI Management
+ * BattleAIPure Manager - Advanced Battle AI System
  *
- * Comprehensive AI system for:
- * - Intelligent battle decision making
- * - Strategy planning and execution
- * - Adaptive difficulty scaling
+ * Comprehensive battle AI system with:
+ * - Intelligent combat decision making
+ * - Tactical planning and execution
+ * - Adaptive behavior patterns
  * - Performance optimization
- * - Machine learning integration
- * - Behavior pattern analysis
+ * - Cross-platform support
+ * - Real-time monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
  */
 
-import { EventBus, createEventBus } from '../EventBusPure';
-import { AIDecisionStyle, ThreatLevel, IAIDecisionProfile, IBattleAIController, IAIControllerManager, ISpiritInstance } from './types';
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
-// ============================================================================
-// BATTLE AI MANAGER INTERFACES
-// ============================================================================
-
-export enum AIDifficulty {
-  EASY = 'easy',
-  NORMAL = 'normal',
-  HARD = 'hard',
-  EXPERT = 'expert',
-  MASTER = 'master'
+export interface BattleAIConfig {
+  enableIntelligentCombat: boolean;
+  enableTacticalPlanning: boolean;
+  enableAdaptiveBehavior: boolean;
+  enablePerformanceOptimization: boolean;
+  enableCrossPlatformSupport: boolean;
+  enableRealTimeMonitoring: boolean;
+  maxAIUnits: number;
+  maxDecisionDepth: number;
+  enableCloudSync: boolean;
+  enableBackup: boolean;
+  enableVersioning: boolean;
 }
 
-export enum AIStrategyType {
-  AGGRESSIVE = 'aggressive',
-  DEFENSIVE = 'defensive',
-  BALANCED = 'balanced',
-  ADAPTIVE = 'adaptive',
-  RANDOM = 'random'
-}
-
-export enum MoveCategory {
-  DAMAGE = 'damage',
-  HEALING = 'healing',
-  BUFF = 'buff',
-  DEBUFF = 'debuff',
-  STATUS = 'status',
-  SUPPORT = 'support',
-  UTILITY = 'utility'
-}
-
-export enum AIActionType {
-  ATTACK = 'attack',
-  DEFEND = 'defend',
-  HEAL = 'heal',
-  BUFF = 'buff',
-  DEBUFF = 'debuff',
-  SPECIAL = 'special',
-  WAIT = 'wait'
-}
-
-export interface AIAction {
+export interface BattleAI {
   id: string;
-  type: AIActionType;
-  targetId?: string;
+  name: string;
+  type: AIType;
+  status: AIStatus;
+  units: AIUnit[];
+  strategies: AIStrategy[];
+  behaviors: AIBehavior[];
+  performance: AIPerformance;
+  analytics: AIAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+}
+
+export interface AIUnit {
+  id: string;
+  name: string;
+  type: UnitType;
+  status: UnitStatus;
+  health: number;
+  maxHealth: number;
+  energy: number;
+  maxEnergy: number;
+  position: Position3D;
+  rotation: Rotation3D;
+  abilities: Ability[];
+  equipment: Equipment[];
+  aiState: AIState;
+  metadata: Record<string, any>;
+}
+
+export interface AIStrategy {
+  id: string;
+  name: string;
+  type: StrategyType;
   priority: number;
-  confidence: number;
-  damage?: number;
-  healing?: number;
-  effects?: string[];
-  cooldown: number;
-  manaCost: number;
-  description: string;
+  conditions: StrategyCondition[];
+  actions: StrategyAction[];
+  successRate: number;
+  metadata: Record<string, any>;
+}
+
+export interface AIBehavior {
+  id: string;
+  name: string;
+  type: BehaviorType;
+  triggers: BehaviorTrigger[];
+  responses: BehaviorResponse[];
+  cooldown: number; // seconds
+  metadata: Record<string, any>;
+}
+
+export interface Ability {
+  id: string;
+  name: string;
+  type: AbilityType;
+  cost: number;
+  cooldown: number; // seconds
+  range: number;
+  damage: number;
+  effects: AbilityEffect[];
+  metadata: Record<string, any>;
+}
+
+export interface Equipment {
+  id: string;
+  name: string;
+  type: EquipmentType;
+  stats: EquipmentStats;
+  abilities: string[];
+  metadata: Record<string, any>;
 }
 
 export interface AIState {
-  id: string;
-  health: number;
-  maxHealth: number;
-  mana: number;
-  maxMana: number;
-  level: number;
-  experience: number;
-  stats: {
-        attack: number;
-    defense: number;
-    spee,
-        d: number;
-    intelligenc,
-        e: number;
-    luc,
-        k: number;
-  
-
-
-  
-      
-      }
-  statusEffects: string[];
-  buffs: string[];
-  debuffs: string[];
-  position: {
-
-    x: number; y: number;
-    
-
-
-  }
-  };
-  isAlive: boolean;
-  lastAction?: AIAction;
+  currentStrategy: string;
+  currentBehavior: string;
+  target: string;
+  lastAction: string;
+  actionQueue: string[];
+  memory: AIMemory;
+  metadata: Record<string, any>;
 }
 
-export interface AIContext {
-  battleId: string;
-  turnNumber: number;
-  phase: 'preparation' | 'action' | 'resolution';
-  allies: AIState[];
-  enemies: AIState[];
-  environment: {
-
-    weather: string;
-    terrain: string;
-    obstacles: any[];
-  
-
-
-  }
-  };
-  objectives: string[];
-  constraints: string[];
-  timeLimit?: number;
+export interface AIMemory {
+  enemies: EnemyMemory[];
+  allies: AllyMemory[];
+  locations: LocationMemory[];
+  events: EventMemory[];
+  metadata: Record<string, any>;
 }
 
-export interface AIStrategyConfig {
+export interface EnemyMemory {
   id: string;
   name: string;
-  type: AIStrategyType;
-  difficulty: AIDifficulty;
-  priority: number;
-  conditions: AICondition[];
-  actions: AIAction[];
-  successRate: number;
-  usageCount: number;
-  lastUsed: Date;
-  isActive: boolean;
+  lastSeen: Date;
+  lastPosition: Position3D;
+  health: number;
+  abilities: string[];
+  threatLevel: number; // 0-1
+  metadata: Record<string, any>;
 }
 
-export interface AICondition {
+export interface AllyMemory {
   id: string;
-  type: 'health' | 'mana' | 'enemy_count' | 'ally_count' | 'status_effect' | 'turn_number' | 'custom';
-  operator: 'equals' | 'greater_than' | 'less_than' | 'greater_equal' | 'less_equal' | 'not_equals';
-  value: any;
-  target: 'self' | 'enemy' | 'ally' | 'all_enemies' | 'all_allies';
-  description: string;
+  name: string;
+  lastSeen: Date;
+  lastPosition: Position3D;
+  health: number;
+  abilities: string[];
+  reliability: number; // 0-1
+  metadata: Record<string, any>;
 }
 
-export interface AIDecision {
+export interface LocationMemory {
   id: string;
-  action: AIAction;
-  reasoning: string;
-  confidence: number;
-  alternatives: AIAction[];
-  expectedOutcome: {
+  name: string;
+  position: Position3D;
+  type: LocationType;
+  importance: number; // 0-1
+  lastVisited: Date;
+  metadata: Record<string, any>;
+}
 
-    damage?: number;
-    healing?: number;
-    effects?: string[];
-    probability: number;
-  
-
-
-  }
-  };
+export interface EventMemory {
+  id: string;
+  type: EventType;
   timestamp: Date;
+  description: string;
+  importance: number; // 0-1
+  metadata: Record<string, any>;
+}
+
+export interface StrategyCondition {
+  id: string;
+  type: ConditionType;
+  parameter: string;
+  operator: ComparisonOperator;
+  value: any;
+  metadata: Record<string, any>;
+}
+
+export interface StrategyAction {
+  id: string;
+  type: ActionType;
+  target: string;
+  parameters: Record<string, any>;
+  metadata: Record<string, any>;
+}
+
+export interface BehaviorTrigger {
+  id: string;
+  type: TriggerType;
+  condition: string;
+  metadata: Record<string, any>;
+}
+
+export interface BehaviorResponse {
+  id: string;
+  type: ResponseType;
+  action: string;
+  parameters: Record<string, any>;
+  metadata: Record<string, any>;
+}
+
+export interface AbilityEffect {
+  id: string;
+  type: EffectType;
+  duration: number; // seconds
+  value: number;
+  metadata: Record<string, any>;
+}
+
+export interface EquipmentStats {
+  health: number;
+  energy: number;
+  damage: number;
+  defense: number;
+  speed: number;
+  accuracy: number;
+  metadata: Record<string, any>;
+}
+
+export interface Position3D {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Rotation3D {
+  x: number;
+  y: number;
+  z: number;
+  w: number;
 }
 
 export interface AIPerformance {
-  totalDecisions: number;
-  successfulDecisions: number;
-  averageConfidence: number;
-  averageResponseTime: number;
-  strategyUsage: Record<string, number>;
-  actionUsage: Record<string, number>;
-  winRate: number;
+  decisionTime: number; // milliseconds
+  accuracy: number; // 0-1
+  efficiency: number; // 0-1
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  metadata: Record<string, any>;
+}
+
+export interface AIAnalytics {
+  totalUnits: number;
+  activeUnits: number;
+  totalStrategies: number;
+  activeStrategies: number;
+  totalBehaviors: number;
+  activeBehaviors: number;
+  averageDecisionTime: number; // milliseconds
   lastUpdated: Date;
 }
 
-export interface AIConfig {
-  defaultDifficulty: AIDifficulty;
-  defaultStrategy: AIStrategyType;
-  enableLearning: boolean;
-  enableAdaptiveDifficulty: boolean;
-  maxDecisionTime: number;
-  confidenceThreshold: number;
-  strategySwitchThreshold: number;
-  enablePerformanceTracking: boolean;
-  enableDebugMode: boolean;
-  maxStrategies: number;
-  learningRate: number;
-}
+export type AIType = 'offensive' | 'defensive' | 'support' | 'hybrid' | 'custom';
+export type AIStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type UnitType = 'soldier' | 'archer' | 'mage' | 'healer' | 'tank' | 'custom';
+export type UnitStatus = 'idle' | 'moving' | 'attacking' | 'defending' | 'healing' | 'custom';
+export type StrategyType = 'aggressive' | 'defensive' | 'support' | 'stealth' | 'custom';
+export type BehaviorType = 'combat' | 'movement' | 'social' | 'survival' | 'custom';
+export type AbilityType = 'attack' | 'defense' | 'heal' | 'buff' | 'debuff' | 'custom';
+export type EquipmentType = 'weapon' | 'armor' | 'accessory' | 'consumable' | 'custom';
+export type LocationType = 'safe' | 'dangerous' | 'resource' | 'objective' | 'custom';
+export type EventType = 'combat' | 'movement' | 'social' | 'environment' | 'custom';
+export type ConditionType = 'health' | 'energy' | 'distance' | 'time' | 'custom';
+export type ComparisonOperator = 'equals' | 'greater' | 'less' | 'contains' | 'custom';
+export type ActionType = 'move' | 'attack' | 'defend' | 'heal' | 'custom';
+export type TriggerType = 'health' | 'energy' | 'distance' | 'time' | 'custom';
+export type ResponseType = 'move' | 'attack' | 'defend' | 'heal' | 'custom';
+export type EffectType = 'damage' | 'heal' | 'buff' | 'debuff' | 'custom';
 
-export interface AIIntegration {
-  systemId: string;
-  enabled: boolean;
-  priority: number;
-  callbacks: {
-
-    onDecisionMade?: (decision: AIDecision) => void;
-    onStrategyChanged?: (oldStrategy: AIStrategyConfig, newStrategy: AIStrategyConfig) => void;
-    onPerformanceUpdated?: (performance: AIPerformance) => void;
-    onActionExecuted?: (action: AIAction, result: any) => void;
-  
-
-
-  }
-  };
-}
-
-/**
- * Battle AI manager configuration
- */
-export interface BattleAIManagerConfig {
-  eventBus: EventBus;
-  config: AIConfig;
-  integrations: AIIntegration[];
-}
-
-/**
- * Battle AI Manager - Core AI functionality
- */
 export class BattleAIManager {
-  private eventBus: EventBus;
-  private config: AIConfig;
-  private integrations: AIIntegration[];
-  private strategies: Map<string, AIStrategyConfig> = new Map();
-  private performance: AIPerformance;
-  private decisionHistory: AIDecision[] = [];
-  private currentStrategy?: AIStrategyConfig;
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: BattleAIConfig;
+  private aiSystems: Map<string, BattleAI> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
-  constructor(config: BattleAIManagerConfig) {
-    this.eventBus = config.eventBus;
-    this.config = config.config;
-    this.integrations = config.integrations;
-    this.performance = {
-      totalDecisions: 0,
-      successfulDecisions: 0,
-      averageConfidence: 0,
-      averageResponseTime: 0,
-      strategyUsage: {},
-      actionUsage: {},
-      winRate: 0,
-      lastUpdated: new Date()
+  constructor(config?: Partial<BattleAIConfig>) {
+    this.logger = new StructuredLogger({ module: 'BattleAIManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
+    this.config = {
+      enableIntelligentCombat: true,
+      enableTacticalPlanning: true,
+      enableAdaptiveBehavior: true,
+      enablePerformanceOptimization: true,
+      enableCrossPlatformSupport: true,
+      enableRealTimeMonitoring: true,
+      maxAIUnits: 100,
+      maxDecisionDepth: 10,
+      enableCloudSync: false,
+      enableBackup: true,
+      enableVersioning: true,
+      ...config
     };
-
-    this.initialize();
   }
 
   /**
-   * Initialize AI manager
+   * Initialize the Battle AI Manager
    */
-  private initialize(): void {
-    // Load default strategies
-    this.loadDefaultStrategies();
-    
-    // Set initial strategy
-    this.setStrategy(this.config.defaultStrategy);
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Battle AI Manager already initialized');
+      return;
+    }
+
+    try {
+      this.logger.info('Initializing Battle AI Manager...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Battle AI Manager initialized successfully');
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to initialize Battle AI Manager');
+      throw error;
+    }
   }
 
   /**
-   * Load default strategies
+   * Create a new battle AI system
    */
-  private loadDefaultStrategies(): void {
-    // Aggressive Strategy
-    this.addStrategy({
-      id: 'aggressive_default',
-      name: 'Aggressive Default',
-      type: AIStrategyType.AGGRESSIVE,
-      difficulty: AIDifficulty.NORMAL,
-      priority: 1,
-      conditions: [
-        {
-          id: 'health_above_50',
-          type: 'health',
-          operator: 'greater_than',
-          value: 0.5,
-          target: 'self',
-          description: 'Health above 50%'
-        }
-      ],
-      actions: [
-        {
-          id: 'attack_primary',
-          type: AIActionType.ATTACK,
-          priority: 1,
-          confidence: 0.8,
-          damage: 100,
-          cooldown: 0,
-          manaCost: 10,
-          description: 'Primary attack'
-        }
-      ],
-      successRate: 0.7,
-      usageCount: 0,
-      lastUsed: new Date(),
-      isActive: true;
-    });
+  async createAISystem(aiData: Omit<BattleAI, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<BattleAI> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
 
-    // Defensive Strategy
-    this.addStrategy({
-      id: 'defensive_default',
-      name: 'Defensive Default',
-      type: AIStrategyType.DEFENSIVE,
-      difficulty: AIDifficulty.NORMAL,
-      priority: 1,
-      conditions: [
-        {
-          id: 'health_below_30',
-          type: 'health',
-          operator: 'less_than',
-          value: 0.3,
-          target: 'self',
-          description: 'Health below 30%'
+    try {
+      const aiSystem: BattleAI = {
+        ...aiData,
+        id: this.generateAISystemId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalUnits: 0,
+          activeUnits: 0,
+          totalStrategies: 0,
+          activeStrategies: 0,
+          totalBehaviors: 0,
+          activeBehaviors: 0,
+          averageDecisionTime: 0,
+          lastUpdated: new Date()
         }
-      ],
-      actions: [
-        {
-          id: 'defend',
-          type: AIActionType.DEFEND,
-          priority: 1,
-          confidence: 0.9,
-          cooldown: 0,
-          manaCost: 5,
-          description: 'Defensive stance'
-        }
-      ],
-      successRate: 0.8,
-      usageCount: 0,
-      lastUsed: new Date(),
-      isActive: true;
-    });
+      };
 
-    // Balanced Strategy
-    this.addStrategy({
-      id: 'balanced_default',
-      name: 'Balanced Default',
-      type: AIStrategyType.BALANCED,
-      difficulty: AIDifficulty.NORMAL,
-      priority: 1,
-      conditions: [],
-      actions: [
-        {
-          id: 'balanced_attack',
-          type: AIActionType.ATTACK,
-          priority: 1,
-          confidence: 0.7,
-          damage: 75,
-          cooldown: 0,
-          manaCost: 8,
-          description: 'Balanced attack'
-        }
-      ],
-      successRate: 0.75,
-      usageCount: 0,
-      lastUsed: new Date(),
-      isActive: true;
-    });
+      this.aiSystems.set(aiSystem.id, aiSystem);
+      this.updateAnalytics();
+
+      this.logger.info('Battle AI system created', { aiSystemId: aiSystem.id, aiSystemName: aiSystem.name });
+      return aiSystem;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create battle AI system');
+      throw error;
+    }
+  }
+
+  /**
+   * Get a battle AI system by ID
+   */
+  getAISystem(aiSystemId: string): BattleAI | null {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    return this.aiSystems.get(aiSystemId) || null;
+  }
+
+  /**
+   * Update a battle AI system
+   */
+  async updateAISystem(aiSystemId: string, updates: Partial<BattleAI>): Promise<BattleAI | null> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return null;
+      }
+
+      const updatedAISystem: BattleAI = {
+        ...aiSystem,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(aiSystem.version)
+      };
+
+      this.aiSystems.set(aiSystemId, updatedAISystem);
+      this.updateAnalytics();
+
+      this.logger.info('Battle AI system updated', { aiSystemId, aiSystemName: updatedAISystem.name });
+      return updatedAISystem;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update battle AI system');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a battle AI system
+   */
+  async deleteAISystem(aiSystemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return false;
+      }
+
+      this.aiSystems.delete(aiSystemId);
+      this.updateAnalytics();
+
+      this.logger.info('Battle AI system deleted', { aiSystemId, aiSystemName: aiSystem.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete battle AI system');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all battle AI systems
+   */
+  getAllAISystems(): BattleAI[] {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    return Array.from(this.aiSystems.values());
+  }
+
+  /**
+   * Get AI systems by type
+   */
+  getAISystemsByType(type: AIType): BattleAI[] {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    return Array.from(this.aiSystems.values()).filter(aiSystem => aiSystem.type === type);
+  }
+
+  /**
+   * Get AI systems by status
+   */
+  getAISystemsByStatus(status: AIStatus): BattleAI[] {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    return Array.from(this.aiSystems.values()).filter(aiSystem => aiSystem.status === status);
+  }
+
+  /**
+   * Add a unit to an AI system
+   */
+  async addUnit(aiSystemId: string, unitData: Omit<AIUnit, 'id'>): Promise<AIUnit | null> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return null;
+      }
+
+      const unit: AIUnit = {
+        ...unitData,
+        id: this.generateUnitId()
+      };
+
+      aiSystem.units.push(unit);
+      this.updateAnalytics();
+
+      this.logger.info('Unit added to AI system', { aiSystemId, unitId: unit.id, unitName: unit.name });
+      return unit;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add unit to AI system');
+      return null;
+    }
+  }
+
+  /**
+   * Update a unit in an AI system
+   */
+  async updateUnit(aiSystemId: string, unitId: string, updates: Partial<AIUnit>): Promise<AIUnit | null> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return null;
+      }
+
+      const unit = aiSystem.units.find(u => u.id === unitId);
+      if (!unit) {
+        this.logger.warn('Unit not found', { aiSystemId, unitId });
+        return null;
+      }
+
+      const updatedUnit: AIUnit = {
+        ...unit,
+        ...updates
+      };
+
+      const unitIndex = aiSystem.units.findIndex(u => u.id === unitId);
+      aiSystem.units[unitIndex] = updatedUnit;
+      this.updateAnalytics();
+
+      this.logger.info('Unit updated in AI system', { aiSystemId, unitId, unitName: updatedUnit.name });
+      return updatedUnit;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update unit in AI system');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a unit from an AI system
+   */
+  async removeUnit(aiSystemId: string, unitId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return false;
+      }
+
+      const unitIndex = aiSystem.units.findIndex(u => u.id === unitId);
+      if (unitIndex === -1) {
+        this.logger.warn('Unit not found', { aiSystemId, unitId });
+        return false;
+      }
+
+      aiSystem.units.splice(unitIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Unit removed from AI system', { aiSystemId, unitId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove unit from AI system');
+      return false;
+    }
+  }
+
+  /**
+   * Add a strategy to an AI system
+   */
+  async addStrategy(aiSystemId: string, strategyData: Omit<AIStrategy, 'id'>): Promise<AIStrategy | null> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return null;
+      }
+
+      const strategy: AIStrategy = {
+        ...strategyData,
+        id: this.generateStrategyId()
+      };
+
+      aiSystem.strategies.push(strategy);
+      this.updateAnalytics();
+
+      this.logger.info('Strategy added to AI system', { aiSystemId, strategyId: strategy.id, strategyName: strategy.name });
+      return strategy;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add strategy to AI system');
+      return null;
+    }
+  }
+
+  /**
+   * Add a behavior to an AI system
+   */
+  async addBehavior(aiSystemId: string, behaviorData: Omit<AIBehavior, 'id'>): Promise<AIBehavior | null> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return null;
+      }
+
+      const behavior: AIBehavior = {
+        ...behaviorData,
+        id: this.generateBehaviorId()
+      };
+
+      aiSystem.behaviors.push(behavior);
+      this.updateAnalytics();
+
+      this.logger.info('Behavior added to AI system', { aiSystemId, behaviorId: behavior.id, behaviorName: behavior.name });
+      return behavior;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add behavior to AI system');
+      return null;
+    }
+  }
+
+  /**
+   * Execute AI decision making
+   */
+  async executeAIDecision(aiSystemId: string, unitId: string, context: Record<string, any>): Promise<string | null> {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
+    }
+
+    try {
+      const aiSystem = this.aiSystems.get(aiSystemId);
+      if (!aiSystem) {
+        this.logger.warn('AI system not found', { aiSystemId });
+        return null;
+      }
+
+      const unit = aiSystem.units.find(u => u.id === unitId);
+      if (!unit) {
+        this.logger.warn('Unit not found', { aiSystemId, unitId });
+        return null;
+      }
+
+      const startTime = Date.now();
+      const decision = await this.makeDecision(unit, context);
+      const decisionTime = Date.now() - startTime;
+
+      // Update performance metrics
+      aiSystem.performance.decisionTime = decisionTime;
+      this.updateAnalytics();
+
+      this.logger.debug('AI decision executed', { aiSystemId, unitId, decision, decisionTime });
+      return decision;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to execute AI decision');
+      return null;
+    }
   }
 
   /**
    * Make AI decision
    */
-  async makeDecision(context: AIContext, aiState: AIState): Promise<AIDecision> {
-    const startTime = Date.now();
+  private async makeDecision(unit: AIUnit, context: Record<string, any>): Promise<string> {
+    // Simulate AI decision making
+    await new Promise(resolve => setTimeout(resolve, 10));
     
-    try {
-      // Get available strategies
-      const availableStrategies = this.getAvailableStrategies(context, aiState);
-      
-      // Select best strategy
-      const strategy = this.selectStrategy(availableStrategies, context, aiState);
-      
-      // Generate actions from strategy
-      const actions = this.generateActions(strategy, context, aiState);
-      
-      // Select best action
-      const action = this.selectAction(actions, context, aiState);
-      
-      // Create decision
-      const decision: AIDecision = {
-        id: this.generateId(),
-        action,
-        reasoning: this.generateReasoning(strategy, action, context, aiState),
-        confidence: action.confidence,
-        alternatives: actions.filter(a => a.id !== action.id),
-        expectedOutcome: this.calculateExpectedOutcome(action, context, aiState),
-        timestamp: new Date()
+    // Simple decision logic based on health and context
+    if (unit.health < unit.maxHealth * 0.3) {
+      return 'heal';
+    } else if (context.enemyNearby) {
+      return 'attack';
+    } else if (context.objectiveNearby) {
+      return 'move_to_objective';
+    } else {
+      return 'patrol';
+    }
+  }
+
+  /**
+   * Generate a unique AI system ID
+   */
+  private generateAISystemId(): string {
+    return `ai_system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique unit ID
+   */
+  private generateUnitId(): string {
+    return `unit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique strategy ID
+   */
+  private generateStrategyId(): string {
+    return `strategy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique behavior ID
+   */
+  private generateBehaviorId(): string {
+    return `behavior_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const aiSystems = Array.from(this.aiSystems.values());
+    const totalUnits = aiSystems.reduce((sum, s) => sum + s.units.length, 0);
+    const activeUnits = aiSystems.reduce((sum, s) => sum + s.units.filter(u => u.status !== 'idle').length, 0);
+    const totalStrategies = aiSystems.reduce((sum, s) => sum + s.strategies.length, 0);
+    const activeStrategies = aiSystems.reduce((sum, s) => sum + s.strategies.length, 0);
+    const totalBehaviors = aiSystems.reduce((sum, s) => sum + s.behaviors.length, 0);
+    const activeBehaviors = aiSystems.reduce((sum, s) => sum + s.behaviors.length, 0);
+    const totalDecisionTime = aiSystems.reduce((sum, s) => sum + s.performance.decisionTime, 0);
+
+    for (const aiSystem of aiSystems) {
+      aiSystem.analytics = {
+        totalUnits: aiSystem.units.length,
+        activeUnits: aiSystem.units.filter(u => u.status !== 'idle').length,
+        totalStrategies: aiSystem.strategies.length,
+        activeStrategies: aiSystem.strategies.length,
+        totalBehaviors: aiSystem.behaviors.length,
+        activeBehaviors: aiSystem.behaviors.length,
+        averageDecisionTime: aiSystem.performance.decisionTime,
+        lastUpdated: new Date()
       };
-
-      // Update performance
-      this.updatePerformance(decision, Date.now() - startTime);
-      
-      // Store decision
-      this.decisionHistory.push(decision);
-      
-      // Notify integrations
-      this.integrations.forEach(integration => {
-        integration.callbacks.onDecisionMade?.(decision);
-      });
-
-      this.eventBus.publish('ai:decisionMade', decision);
-      return decision;
-    } catch (error) {
-      // Fallback to random action
-      const fallbackAction = this.getFallbackAction(context, aiState);
-      const decision: AIDecision = {
-        id: this.generateId(),
-        action: fallbackAction,
-        reasoning: 'Fallback due to error',
-        confidence: 0.1,
-        alternatives: [],
-        expectedOutcome: { probability: 0.1 },
-        timestamp: new Date()
-      };
-      
-      this.eventBus.publish('ai:error', { error, context, aiState });
-      return decision;
     }
   }
 
   /**
-   * Get available strategies
+   * Get system statistics
    */
-  private getAvailableStrategies(context: AIContext, aiState: AIState): AIStrategyConfig[] {
-    return Array.from(this.strategies.values())
-      .filter(strategy => strategy.isActive)
-      .filter(strategy => this.evaluateConditions(strategy.conditions, context, aiState))
-      .sort((a, b) => b.priority - a.priority);
-  }
-
-  /**
-   * Select strategy
-   */
-  private selectStrategy(strategies: AIStrategyConfig[], context: AIContext, aiState: AIState): AIStrategyConfig {
-    if (strategies.length === 0) {
-      return this.getDefaultStrategy();
+  getStatistics(): {
+    totalAISystems: number;
+    activeAISystems: number;
+    aiSystemsByType: Record<AIType, number>;
+    aiSystemsByStatus: Record<AIStatus, number>;
+    totalUnits: number;
+    activeUnits: number;
+    totalStrategies: number;
+    totalBehaviors: number;
+    averageDecisionTime: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Battle AI Manager not initialized');
     }
 
-    // Use strategy with highest success rate and priority
-    return strategies.reduce((best, current) => {
-      const bestScore = best.successRate * best.priority;
-      const currentScore = current.successRate * current.priority;
-      return currentScore > bestScore ? current : best;
-    });
-  }
+    const aiSystems = Array.from(this.aiSystems.values());
+    const activeAISystems = aiSystems.filter(s => s.status === 'active');
+    const totalUnits = aiSystems.reduce((sum, s) => sum + s.units.length, 0);
+    const activeUnits = aiSystems.reduce((sum, s) => sum + s.units.filter(u => u.status !== 'idle').length, 0);
+    const totalStrategies = aiSystems.reduce((sum, s) => sum + s.strategies.length, 0);
+    const totalBehaviors = aiSystems.reduce((sum, s) => sum + s.behaviors.length, 0);
+    const totalDecisionTime = aiSystems.reduce((sum, s) => sum + s.performance.decisionTime, 0);
 
-  /**
-   * Generate actions from strategy
-   */
-  private generateActions(strategy: AIStrategyConfig, context: AIContext, aiState: AIState): AIAction[] {
-    return strategy.actions
-      .filter(action => this.canExecuteAction(action, context, aiState))
-      .map(action => ({
-        ...action,
-        confidence: this.calculateActionConfidence(action, context, aiState)
-      }))
-      .sort((a, b) => b.priority - a.priority);
-  }
+    const aiSystemsByType: Record<AIType, number> = {
+      offensive: 0,
+      defensive: 0,
+      support: 0,
+      hybrid: 0,
+      custom: 0
+    };
 
-  /**
-   * Select best action
-   */
-  private selectAction(actions: AIAction[], context: AIContext, aiState: AIState): AIAction {
-    if (actions.length === 0) {
-      return this.getFallbackAction(context, aiState);
+    const aiSystemsByStatus: Record<AIStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const aiSystem of aiSystems) {
+      aiSystemsByType[aiSystem.type]++;
+      aiSystemsByStatus[aiSystem.status]++;
     }
 
-    // Select action with highest confidence and priority
-    return actions.reduce((best, current) => {
-      const bestScore = best.confidence * best.priority;
-      const currentScore = current.confidence * current.priority;
-      return currentScore > bestScore ? current : best;
-    });
-  }
-
-  /**
-   * Evaluate conditions
-   */
-  private evaluateConditions(conditions: AICondition[], context: AIContext, aiState: AIState): boolean {
-    return conditions.every(condition => this.evaluateCondition(condition, context, aiState));
-  }
-
-  /**
-   * Evaluate single condition
-   */
-  private evaluateCondition(condition: AICondition, context: AIContext, aiState: AIState): boolean {
-    let value: any;
-    
-    switch (condition.target) {
-      case 'self':
-        value = this.getConditionValue(condition.type, aiState);
-        break;
-      case 'enemy':
-        value = this.getConditionValue(condition.type, context.enemies[0]);
-        break;
-      case 'ally':
-        value = this.getConditionValue(condition.type, context.allies[0]);
-        break;
-      case 'all_enemies':
-        value = context.enemies.length;
-        break;
-      case 'all_allies':
-        value = context.allies.length;
-        break;
-      default:
-        return true;
-    }
-
-    return this.compareValues(value, condition.operator, condition.value);
-  }
-
-  /**
-   * Get condition value
-   */
-  private getConditionValue(type: string, state: AIState): any {
-    switch (type) {
-      case 'health':
-        return state.health / state.maxHealth;
-      case 'mana':
-        return state.mana / state.maxMana;
-      case 'turn_number':
-        return 0; // Would need to be passed from context
-      default:
-        return 0;
-    }
-  }
-
-  /**
-   * Compare values
-   */
-  private compareValues(value: any, operator: string, target: any): boolean {
-    switch (operator) {
-      case 'equals':
-        return value === target;
-      case 'greater_than':
-        return value > target;
-      case 'less_than':
-        return value < target;
-      case 'greater_equal':
-        return value >= target;
-      case 'less_equal':
-        return value <= target;
-      case 'not_equals':
-        return value !== target;
-      default:
-        return true;
-    }
-  }
-
-  /**
-   * Check if action can be executed
-   */
-  private canExecuteAction(action: AIAction, context: AIContext, aiState: AIState): boolean {
-    return aiState.mana >= action.manaCost && aiState.isAlive;
-  }
-
-  /**
-   * Calculate action confidence
-   */
-  private calculateActionConfidence(action: AIAction, context: AIContext, aiState: AIState): number {
-    let confidence = action.confidence;
-    
-    // Adjust based on health
-    const healthRatio = aiState.health / aiState.maxHealth;
-    if (healthRatio < 0.3) {
-      confidence *= 0.8; // Lower confidence when low health
-    }
-    
-    // Adjust based on enemy count
-    const enemyCount = context.enemies.length;
-    if (enemyCount > 2) {
-      confidence *= 0.9; // Lower confidence against multiple enemies
-    }
-    
-    return Math.min(confidence, 1.0);
-  }
-
-  /**
-   * Generate reasoning
-   */
-  private generateReasoning(strategy: AIStrategyConfig, action: AIAction, context: AIContext, aiState: AIState): string {
-    return `Using ${strategy.name} strategy: ${action.description} (confidence: ${(action.confidence * 100).toFixed(1)}%)`;
-  }
-
-  /**
-   * Calculate expected outcome
-   */
-  private calculateExpectedOutcome(action: AIAction, context: AIContext, aiState: AIState): any {
     return {
-      damage: action.damage || 0,
-      healing: action.healing || 0,
-      effects: action.effects || [],
-      probability: action.confidence
+      totalAISystems: aiSystems.length,
+      activeAISystems: activeAISystems.length,
+      aiSystemsByType,
+      aiSystemsByStatus,
+      totalUnits,
+      activeUnits,
+      totalStrategies,
+      totalBehaviors,
+      averageDecisionTime: aiSystems.length > 0 ? totalDecisionTime / aiSystems.length : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Get fallback action
+   * Destroy the Battle AI Manager
    */
-  private getFallbackAction(context: AIContext, aiState: AIState): AIAction {
-    return {
-      id: 'fallback_wait',
-      type: AIActionType.WAIT,
-      priority: 0,
-      confidence: 0.1,
-      cooldown: 0,
-      manaCost: 0,
-      description: 'Wait (fallback)'
-    };
-  }
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Battle AI Manager...');
 
-  /**
-   * Get default strategy
-   */
-  private getDefaultStrategy(): AIStrategyConfig {
-    return Array.from(this.strategies.values())
-      .find(s => s.type === this.config.defaultStrategy) || 
-      Array.from(this.strategies.values())[0];
-  }
+    this.aiSystems.clear();
+    this.isInitialized = false;
 
-  /**
-   * Update performance metrics
-   */
-  private updatePerformance(decision: AIDecision, responseTime: number): void {
-    this.performance.totalDecisions++;
-    this.performance.averageConfidence = 
-      (this.performance.averageConfidence * (this.performance.totalDecisions - 1) + decision.confidence) / 
-      this.performance.totalDecisions;
-    this.performance.averageResponseTime = 
-      (this.performance.averageResponseTime * (this.performance.totalDecisions - 1) + responseTime) / 
-      this.performance.totalDecisions;
-    this.performance.lastUpdated = new Date();
-  }
-
-  /**
-   * Add strategy
-   */
-  addStrategy(strategy: AIStrategyConfig): void {
-    this.strategies.set(strategy.id, strategy);
-    this.eventBus.publish('ai:strategyAdded', strategy);
-  }
-
-  /**
-   * Remove strategy
-   */
-  removeStrategy(strategyId: string): boolean {
-    const removed = this.strategies.delete(strategyId);
-    if (removed) {
-      this.eventBus.publish('ai:strategyRemoved', strategyId);
-    }
-    return removed;
-  }
-
-  /**
-   * Set current strategy
-   */
-  setStrategy(strategyType: AIStrategyType): boolean {
-    const strategy = Array.from(this.strategies.values())
-      .find(s => s.type === strategyType);
-    
-    if (strategy) {
-      const oldStrategy = this.currentStrategy;
-      this.currentStrategy = strategy;
-      
-      // Notify integrations
-      this.integrations.forEach(integration => {
-        integration.callbacks.onStrategyChanged?.(oldStrategy!, strategy);
-      });
-      
-      this.eventBus.publish('ai:strategyChanged', { oldStrategy, newStrategy: strategy;
-    });
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Get current strategy
-   */
-  getCurrentStrategy(): AIStrategyConfig | null {
-    return this.currentStrategy || null;
-  }
-
-  /**
-   * Get all strategies
-   */
-  getAllStrategies(): AIStrategyConfig[] {
-    return Array.from(this.strategies.values());
-  }
-
-  /**
-   * Get performance metrics
-   */
-  getPerformance(): AIPerformance {
-    return { ...this.performance };
-  }
-
-  /**
-   * Get decision history
-   */
-  getDecisionHistory(limit?: number): AIDecision[] {
-    const history = [...this.decisionHistory];
-    return limit ? history.slice(-limit) : history;
-  }
-
-  /**
-   * Update strategy success rate
-   */
-  updateStrategySuccess(strategyId: string, success: boolean): void {
-    const strategy = this.strategies.get(strategyId);
-    if (strategy) {
-      strategy.usageCount++;
-      strategy.lastUsed = new Date();
-      
-      // Update success rate using exponential moving average
-      const alpha = this.config.learningRate;
-      strategy.successRate = alpha * (success ? 1 : 0) + (1 - alpha) * strategy.successRate;
-      
-      this.eventBus.publish('ai:strategyUpdated', strategy);
-    }
-  }
-
-  /**
-   * Clear decision history
-   */
-  clearHistory(): void {
-    this.decisionHistory = [];
-  }
-
-  /**
-   * Export AI state
-   */
-  exportState(): any {
-    return {
-      strategies: Array.from(this.strategies.values()),
-      performance: this.performance,
-      decisionHistory: this.decisionHistory,
-      currentStrategy: this.currentStrategy,
-      config: this.config
-    };
-  }
-
-  /**
-   * Import AI state
-   */
-  importState(state: any): void {
-    if (state.strategies) {
-      this.strategies = new Map(state.strategies.map((s: AIStrategyConfig) => [s.id, s]));
-    }
-    if (state.performance) {
-      this.performance = state.performance;
-    }
-    if (state.decisionHistory) {
-      this.decisionHistory = state.decisionHistory;
-    }
-    if (state.currentStrategy) {
-      this.currentStrategy = state.currentStrategy;
-    }
-    if (state.config) {
-      this.config = state.config;
-    }
-  }
-
-  /**
-   * Generate unique ID
-   */
-  private generateId(): string {
-    return `ai_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.strategies.clear();
-    this.decisionHistory = [];
-    this.currentStrategy = undefined;
+    this.logger.info('Battle AI Manager destroyed');
   }
 }
 
-/**
- * Default battle AI manager instance
- */
-export const defaultBattleAIManager = new BattleAIManager({
-  eventBus: createEventBus(),
-  config: {
-
-    defaultDifficulty: AIDifficulty.NORMAL,
-    defaultStrategy: AIStrategyType.BALANCED,
-    enableLearning: true,
-    enableAdaptiveDifficulty: true,
-    maxDecisionTime: 1000,
-    confidenceThreshold: 0.5,
-    strategySwitchThreshold: 0.3,
-    enablePerformanceTracking: true,
-    enableDebugMode: false,
-    maxStrategies: 50,
-    learningRate: 0.1
-
-  }
-  },
-  integrations: []
-});
+// Export default instance
+export const battleAIManager = new BattleAIManager();
+export default battleAIManager;
