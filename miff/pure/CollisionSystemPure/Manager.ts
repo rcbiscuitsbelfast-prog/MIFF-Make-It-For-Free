@@ -67,10 +67,11 @@ export class CollisionManager {
   private spatialGrid: SpatialGrid;
   private collisionTests = 0;
 
-  constructor(cellSize: number = 4, worldBounds: AABB = { id: 'world', min: { x: -100, y: -100 }, max: {
-   x: 100, y: 100;
- }
-    } }) {
+  constructor(cellSize: number = 4, worldBounds: AABB = { 
+    id: 'world', 
+    min: { x: -100, y: -100 }, 
+    max: { x: 100, y: 100 } 
+  }) {
     this.spatialGrid = {
       cellSize,
       bounds: worldBounds,

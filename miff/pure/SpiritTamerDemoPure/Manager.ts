@@ -15,12 +15,9 @@ export interface Spirit {
         health: number;
     maxHealth: number;
     attack: number;
-    defens,
-        e: number;
-    spee,
-        d: number;
-    tamingDifficult,
-        y: number; // 1-10
+    defense: number;
+    speed: number;
+    tamingDifficulty: number; // 1-10
   
 
 
@@ -84,12 +81,9 @@ export interface PlayerState {
   };
   stats: {
         totalSpirits: number;
-    successfulTaming,
-        s: number;
-    battleWin,
-        s: number;
-    rhythmAccurac,
-        y: number;
+    successfulTamings: number;
+    battleWins: number;
+    rhythmAccuracy: number;
   
 
 
