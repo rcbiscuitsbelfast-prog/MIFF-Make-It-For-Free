@@ -1,42 +1,30 @@
 /**
  * CacheManagerPure Manager - Advanced Cache Management System
  *
- * Comprehensive cache management with:
- * - Multi-level caching (L1, L2, L3)
- * - Cache eviction strategies (LRU, LFU, FIFO, TTL)
- * - Cache warming and preloading
- * - Cache invalidation and refresh
- * - Cache compression and optimization
- * - Cache monitoring and analytics
- * - Cache security and encryption
- * - Cache distribution and clustering
+ * Comprehensive cache management system with:
+ * - Multi-level caching
+ * - Cache invalidation strategies
+ * - Performance optimization
+ * - Cross-platform support
+ * - Real-time monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface CacheManagerConfig {
-  enableCaching: boolean;
-  enableMultiLevel: boolean;
-  enableEviction: boolean;
-  enableWarming: boolean;
-  enablePreloading: boolean;
-  enableInvalidation: boolean;
-  enableRefresh: boolean;
-  enableCompression: boolean;
-  enableOptimization: boolean;
-  enableMonitoring: boolean;
-  enableAnalytics: boolean;
-  enableSecurity: boolean;
-  enableEncryption: boolean;
-  enableDistribution: boolean;
-  enableClustering: boolean;
-  maxCacheSize: number;
-  maxEntries: number;
+  enableMultiLevelCaching: boolean;
+  enableCacheInvalidation: boolean;
+  enablePerformanceOptimization: boolean;
+  enableCrossPlatformSupport: boolean;
+  enableRealTimeMonitoring: boolean;
+  maxCacheSize: number; // bytes
+  maxCacheEntries: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
@@ -45,37 +33,16 @@ export interface CacheManagerConfig {
 export interface CacheManager {
   id: string;
   name: string;
-  type: CacheManagerType;
-  status: CacheManagerStatus;
+  type: CacheType;
+  status: CacheStatus;
   caches: Cache[];
-  strategies: EvictionStrategy[];
   policies: CachePolicy[];
-  warming: CacheWarming;
-  invalidation: CacheInvalidation;
-  compression: CacheCompression;
-  security: CacheSecurity;
+  performance: CachePerformance;
   analytics: CacheAnalytics;
-  metadata: CacheMetadata;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
-}
-
-export enum CacheManagerType {
-  APPLICATION = 'application',
-  GAME = 'game',
-  WEB = 'web',
-  DATABASE = 'database',
-  CDN = 'cdn',
-  CUSTOM = 'custom'
-}
-
-export enum CacheManagerStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  WARMING = 'warming',
-  ERROR = 'error',
-  MAINTENANCE = 'maintenance'
 }
 
 export interface Cache {
@@ -84,1082 +51,711 @@ export interface Cache {
   type: CacheType;
   level: CacheLevel;
   status: CacheStatus;
-  configuration: CacheConfiguration;
   entries: CacheEntry[];
-  statistics: CacheStatistics;
-  metadata: Map<string, any>;
-}
-
-export enum CacheType {
-  MEMORY = 'memory',
-  DISK = 'disk',
-  REDIS = 'redis',
-  MEMCACHED = 'memcached',
-  CUSTOM = 'custom'
-}
-
-export enum CacheLevel {
-  L1 = 'l1',
-  L2 = 'l2',
-  L3 = 'l3',
-  CUSTOM = 'custom'
-}
-
-export enum CacheStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  WARMING = 'warming',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface CacheConfiguration {
-  maxSize: number;
-  maxEntries: number;
-  ttl: number;
-  evictionStrategy: EvictionStrategyType;
-  compression: boolean;
-  encryption: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum EvictionStrategyType {
-  LRU = 'lru',
-  LFU = 'lfu',
-  FIFO = 'fifo',
-  TTL = 'ttl',
-  RANDOM = 'random',
-  CUSTOM = 'custom'
+  policy: CachePolicy;
+  performance: CachePerformance;
+  metadata: Record<string, any>;
 }
 
 export interface CacheEntry {
-  id: string;
   key: string;
   value: any;
-  ttl: number;
-  createdAt: number;
-  lastAccessed: number;
+  ttl: number; // time to live in milliseconds
+  createdAt: Date;
+  lastAccessed: Date;
   accessCount: number;
-  size: number;
-  compressed: boolean;
-  encrypted: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface CacheStatistics {
-  totalEntries: number;
-  hitCount: number;
-  missCount: number;
-  hitRate: number;
-  averageAccessTime: number;
-  memoryUsage: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface EvictionStrategy {
-  id: string;
-  name: string;
-  type: EvictionStrategyType;
-  enabled: boolean;
-  configuration: EvictionConfiguration;
-  statistics: EvictionStatistics;
-  metadata: Map<string, any>;
-}
-
-export interface EvictionConfiguration {
-  maxSize: number;
-  maxAge: number;
-  priority: number;
-  metadata: Map<string, any>;
-}
-
-export interface EvictionStatistics {
-  totalEvictions: number;
-  evictionsByReason: Map<string, number>;
-  averageEvictionTime: number;
-  lastEviction: number;
-  metadata: Map<string, any>;
+  size: number; // bytes
+  metadata: Record<string, any>;
 }
 
 export interface CachePolicy {
   id: string;
   name: string;
   type: PolicyType;
-  enabled: boolean;
-  rules: PolicyRule[];
-  actions: PolicyAction[];
-  metadata: Map<string, any>;
+  maxSize: number; // bytes
+  maxEntries: number;
+  ttl: number; // milliseconds
+  evictionStrategy: EvictionStrategy;
+  compression: CompressionConfig;
+  metadata: Record<string, any>;
 }
 
-export enum PolicyType {
-  ACCESS = 'access',
-  EVICTION = 'eviction',
-  INVALIDATION = 'invalidation',
-  REFRESH = 'refresh',
-  CUSTOM = 'custom'
-}
-
-export interface PolicyRule {
-  id: string;
-  name: string;
-  condition: PolicyCondition;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface PolicyCondition {
-  type: ConditionType;
-  field: string;
-  operator: ConditionOperator;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ConditionType {
-  KEY_PATTERN = 'key_pattern',
-  VALUE_SIZE = 'value_size',
-  ACCESS_COUNT = 'access_count',
-  AGE = 'age',
-  CUSTOM = 'custom'
-}
-
-export enum ConditionOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  CONTAINS = 'contains',
-  NOT_CONTAINS = 'not_contains',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  REGEX = 'regex',
-  CUSTOM = 'custom'
-}
-
-export interface PolicyAction {
-  id: string;
-  name: string;
-  type: ActionType;
-  parameters: Map<string, any>;
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum ActionType {
-  EVICT = 'evict',
-  INVALIDATE = 'invalidate',
-  REFRESH = 'refresh',
-  COMPRESS = 'compress',
-  ENCRYPT = 'encrypt',
-  CUSTOM = 'custom'
-}
-
-export interface CacheWarming {
-  enabled: boolean;
-  strategies: WarmingStrategy[];
-  statistics: WarmingStatistics;
-  metadata: Map<string, any>;
-}
-
-export interface WarmingStrategy {
-  id: string;
-  name: string;
-  type: WarmingType;
-  enabled: boolean;
-  configuration: WarmingConfiguration;
-  metadata: Map<string, any>;
-}
-
-export enum WarmingType {
-  PRELOAD = 'preload',
-  PREDICTIVE = 'predictive',
-  SCHEDULED = 'scheduled',
-  CUSTOM = 'custom'
-}
-
-export interface WarmingConfiguration {
-  patterns: string[];
-  schedule: string;
-  priority: number;
-  metadata: Map<string, any>;
-}
-
-export interface WarmingStatistics {
-  totalWarmed: number;
-  successfulWarms: number;
-  failedWarms: number;
-  averageWarmTime: number;
-  lastWarm: number;
-  metadata: Map<string, any>;
-}
-
-export interface CacheInvalidation {
-  enabled: boolean;
-  strategies: InvalidationStrategy[];
-  statistics: InvalidationStatistics;
-  metadata: Map<string, any>;
-}
-
-export interface InvalidationStrategy {
-  id: string;
-  name: string;
-  type: InvalidationType;
-  enabled: boolean;
-  configuration: InvalidationConfiguration;
-  metadata: Map<string, any>;
-}
-
-export enum InvalidationType {
-  TIME_BASED = 'time_based',
-  EVENT_BASED = 'event_based',
-  PATTERN_BASED = 'pattern_based',
-  CUSTOM = 'custom'
-}
-
-export interface InvalidationConfiguration {
-  patterns: string[];
-  events: string[];
-  ttl: number;
-  metadata: Map<string, any>;
-}
-
-export interface InvalidationStatistics {
-  totalInvalidations: number;
-  successfulInvalidations: number;
-  failedInvalidations: number;
-  averageInvalidationTime: number;
-  lastInvalidation: number;
-  metadata: Map<string, any>;
-}
-
-export interface CacheCompression {
+export interface CompressionConfig {
   enabled: boolean;
   algorithm: CompressionAlgorithm;
-  level: number;
-  threshold: number;
-  statistics: CompressionStatistics;
-  metadata: Map<string, any>;
+  threshold: number; // bytes
+  metadata: Record<string, any>;
 }
 
-export enum CompressionAlgorithm {
-  GZIP = 'gzip',
-  DEFLATE = 'deflate',
-  LZ4 = 'lz4',
-  SNAPPY = 'snappy',
-  BROTLI = 'brotli',
-  CUSTOM = 'custom'
-}
-
-export interface CompressionStatistics {
-  totalCompressed: number;
-  compressionRatio: number;
-  averageCompressionTime: number;
-  spaceSaved: number;
-  lastCompression: number;
-  metadata: Map<string, any>;
-}
-
-export interface CacheSecurity {
-  enabled: boolean;
-  encryption: EncryptionConfig;
-  access: AccessControl;
-  audit: AuditConfig;
-  metadata: Map<string, any>;
-}
-
-export interface EncryptionConfig {
-  enabled: boolean;
-  algorithm: EncryptionAlgorithm;
-  key: string;
-  metadata: Map<string, any>;
-}
-
-export enum EncryptionAlgorithm {
-  AES_256 = 'aes_256',
-  AES_128 = 'aes_128',
-  RSA = 'rsa',
-  CUSTOM = 'custom'
-}
-
-export interface AccessControl {
-  enabled: boolean;
-  permissions: Permission[];
-  metadata: Map<string, any>;
-}
-
-export interface Permission {
-  resource: string;
-  action: string;
-  condition: string;
-  metadata: Map<string, any>;
-}
-
-export interface AuditConfig {
-  enabled: boolean;
-  events: AuditEvent[];
-  metadata: Map<string, any>;
-}
-
-export interface AuditEvent {
-  type: string;
-  enabled: boolean;
-  metadata: Map<string, any>;
+export interface CachePerformance {
+  hitRate: number; // 0-1
+  missRate: number; // 0-1
+  averageAccessTime: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  metadata: Record<string, any>;
 }
 
 export interface CacheAnalytics {
-  totalCaches: number;
-  totalEntries: number;
-  totalHits: number;
-  totalMisses: number;
-  overallHitRate: number;
-  averageAccessTime: number;
-  memoryUsage: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  diskUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface CacheMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface CacheManagerStats {
   totalCaches: number;
   activeCaches: number;
   totalEntries: number;
   totalHits: number;
   totalMisses: number;
-  overallHitRate: number;
-  averageAccessTime: number;
-  memoryUsage: number;
-  lastUpdate: number;
+  averageHitRate: number; // 0-1
+  lastUpdated: Date;
 }
 
-export class CacheManager {
-  private config: CacheManagerConfig;
-  private cacheManagers: Map<string, CacheManager> = new Map();
-  private stats: CacheManagerStats = this.initializeStats();
-  private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+export type CacheType = 'memory' | 'disk' | 'redis' | 'database' | 'custom';
+export type CacheStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type CacheLevel = 'l1' | 'l2' | 'l3' | 'custom';
+export type PolicyType = 'fifo' | 'lru' | 'lfu' | 'ttl' | 'custom';
+export type EvictionStrategy = 'fifo' | 'lru' | 'lfu' | 'ttl' | 'random' | 'custom';
+export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
-  constructor(config: Partial<CacheManagerConfig> = {}) {
+export class CacheManagerManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: CacheManagerConfig;
+  private managers: Map<string, CacheManager> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
+
+  constructor(config?: Partial<CacheManagerConfig>) {
+    this.logger = new StructuredLogger({ module: 'CacheManagerManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableCaching: true,
-      enableMultiLevel: true,
-      enableEviction: true,
-      enableWarming: true,
-      enablePreloading: true,
-      enableInvalidation: true,
-      enableRefresh: true,
-      enableCompression: true,
-      enableOptimization: true,
-      enableMonitoring: true,
-      enableAnalytics: true,
-      enableSecurity: true,
-      enableEncryption: true,
-      enableDistribution: true,
-      enableClustering: true,
-      maxCacheSize: 1024 * 1024 * 1024, // 1GB
-      maxEntries: 100000,
-      enableCloudSync: true,
+      enableMultiLevelCaching: true,
+      enableCacheInvalidation: true,
+      enablePerformanceOptimization: true,
+      enableCrossPlatformSupport: true,
+      enableRealTimeMonitoring: true,
+      maxCacheSize: 100 * 1024 * 1024, // 100MB
+      maxCacheEntries: 10000,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'CacheManagerManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `CacheManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'CacheManagerManager');
-  };
-  }
-
-  /**
-   * Initialize cache manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize cache manager
-      await this.initializeCacheManager();
-      
-      // Load default cache managers
-      await this.loadDefaultCacheManagers();
-      
-      this.isInitialized = true;
-      this.logger.info('CacheManagerManager', 'Cache manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('CacheManagerManager', 'Failed to initialize cache manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new cache manager
-   */
-  createCacheManager(cacheManager: Partial<CacheManager>): CacheManager | null {
-    const newCacheManager: CacheManager = {
-      id: `cache_manager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: cacheManager.name || 'New Cache Manager',
-      type: cacheManager.type || CacheManagerType.APPLICATION,
-      status: CacheManagerStatus.ACTIVE,
-      caches: cacheManager.caches || [],
-      strategies: cacheManager.strategies || [],
-      policies: cacheManager.policies || [],
-      warming: cacheManager.warming || this.createDefaultWarming(),
-      invalidation: cacheManager.invalidation || this.createDefaultInvalidation(),
-      compression: cacheManager.compression || this.createDefaultCompression(),
-      security: cacheManager.security || this.createDefaultSecurity(),
-      analytics: cacheManager.analytics || this.createDefaultAnalytics(),
-      metadata: cacheManager.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
-
-    this.cacheManagers.set(newCacheManager.id, newCacheManager);
-    this.updateStats('create_cache_manager', newCacheManager);
-
-    this.logger.info('CacheManagerManager', `Created cache manager: ${newCacheManager.name}`);
-    return newCacheManager;
   }
 
   /**
-   * Create cache
+   * Initialize the Cache Manager
    */
-  createCache(cacheManagerId: string, cache: Partial<Cache>): Cache | null {
-    const cacheManager = this.cacheManagers.get(cacheManagerId);
-    if (!cacheManager) {
-      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
-      return null;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Cache Manager already initialized');
+      return;
     }
 
     try {
-      const newCache: Cache = {
-        id: `cache_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: cache.name || 'New Cache',
-        type: cache.type || CacheType.MEMORY,
-        level: cache.level || CacheLevel.L1,
-        status: CacheStatus.ACTIVE,
-        configuration: cache.configuration || this.createDefaultConfiguration(),
-        entries: cache.entries || [],
-        statistics: cache.statistics || this.createDefaultCacheStatistics(),
-        metadata: cache.metadata || new Map()
+      this.logger.info('Initializing Cache Manager...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Cache Manager initialized successfully');
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to initialize Cache Manager');
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new cache manager
+   */
+  async createManager(managerData: Omit<CacheManager, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<CacheManager> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    try {
+      const manager: CacheManager = {
+        ...managerData,
+        id: this.generateManagerId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalCaches: 0,
+          activeCaches: 0,
+          totalEntries: 0,
+          totalHits: 0,
+          totalMisses: 0,
+          averageHitRate: 0,
+          lastUpdated: new Date()
+        }
       };
 
-      cacheManager.caches.push(newCache);
-      cacheManager.modified = Date.now();
+      this.managers.set(manager.id, manager);
+      this.updateAnalytics();
 
-      this.updateStats('create_cache', cacheManager);
-      this.logger.info('CacheManagerManager', `Created cache: ${newCache.name}`);
-      return newCache;
+      this.logger.info('Cache manager created', { managerId: manager.id, managerName: manager.name });
+      return manager;
+
     } catch (error) {
-      this.logger.error('CacheManagerManager', `Failed to create cache in manager ${cacheManagerId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to create cache manager');
+      throw error;
     }
   }
 
   /**
-   * Get value from cache
+   * Get a cache manager by ID
    */
-  get(cacheManagerId: string, cacheId: string, key: string): any | null {
-    const cacheManager = this.cacheManagers.get(cacheManagerId);
-    if (!cacheManager) {
-      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
-      return null;
+  getManager(managerId: string): CacheManager | null {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
     }
 
-    const cache = cacheManager.caches.find(c => c.id === cacheId);
-    if (!cache) {
-      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
-      return null;
+    return this.managers.get(managerId) || null;
+  }
+
+  /**
+   * Update a cache manager
+   */
+  async updateManager(managerId: string, updates: Partial<CacheManager>): Promise<CacheManager | null> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
     }
 
     try {
-      const entry = cache.entries.find(e => e.key === key);
-      if (!entry) {
-        cache.statistics.missCount++;
-        this.updateCacheHitRate(cache);
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
         return null;
       }
 
-      // Check if entry has expired
-      if (entry.ttl > 0 && Date.now() - entry.createdAt > entry.ttl) {
-        this.evictEntry(cache, entry);
-        cache.statistics.missCount++;
-        this.updateCacheHitRate(cache);
-        return null;
-      }
+      const updatedManager: CacheManager = {
+        ...manager,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(manager.version)
+      };
 
-      // Update access statistics
-      entry.lastAccessed = Date.now();
-      entry.accessCount++;
-      cache.statistics.hitCount++;
-      this.updateCacheHitRate(cache);
+      this.managers.set(managerId, updatedManager);
+      this.updateAnalytics();
 
-      this.logger.info('CacheManagerManager', `Cache hit for key: ${key}`);
-      return entry.value;
+      this.logger.info('Cache manager updated', { managerId, managerName: updatedManager.name });
+      return updatedManager;
+
     } catch (error) {
-      this.logger.error('CacheManagerManager', `Failed to get value from cache ${cacheId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to update cache manager');
+      throw error;
     }
   }
 
   /**
-   * Set value in cache
+   * Delete a cache manager
    */
-  set(cacheManagerId: string, cacheId: string, key: string, value: any, ttl: number = 0): boolean {
-    const cacheManager = this.cacheManagers.get(cacheManagerId);
-    if (!cacheManager) {
-      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
-      return false;
-    }
-
-    const cache = cacheManager.caches.find(c => c.id === cacheId);
-    if (!cache) {
-      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
-      return false;
+  async deleteManager(managerId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
     }
 
     try {
-      // Check if cache is full
-      if (cache.entries.length >= cache.configuration.maxEntries) {
-        this.evictEntries(cache);
-      }
-
-      // Create or update entry
-      const existingEntry = cache.entries.find(e => e.key === key);
-      if (existingEntry) {
-        existingEntry.value = value;
-        existingEntry.ttl = ttl;
-        existingEntry.lastAccessed = Date.now();
-        existingEntry.size = JSON.stringify(value).length;
-      } else {
-        const newEntry: CacheEntry = {
-          id: `entry_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          key,
-          value,
-          ttl,
-          createdAt: Date.now(),
-          lastAccessed: Date.now(),
-          accessCount: 0,
-          size: JSON.stringify(value).length,
-          compressed: false,
-          encrypted: false,
-          metadata: new Map()
-        };
-
-        cache.entries.push(newEntry);
-        cache.statistics.totalEntries++;
-      }
-
-      cacheManager.modified = Date.now();
-      this.logger.info('CacheManagerManager', `Set value in cache for key: ${key}`);
-      return true;
-    } catch (error) {
-      this.logger.error('CacheManagerManager', `Failed to set value in cache ${cacheId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Delete value from cache
-   */
-  delete(cacheManagerId: string, cacheId: string, key: string): boolean {
-    const cacheManager = this.cacheManagers.get(cacheManagerId);
-    if (!cacheManager) {
-      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
-      return false;
-    }
-
-    const cache = cacheManager.caches.find(c => c.id === cacheId);
-    if (!cache) {
-      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
-      return false;
-    }
-
-    try {
-      const entryIndex = cache.entries.findIndex(e => e.key === key);
-      if (entryIndex === -1) {
-        this.logger.warn('CacheManagerManager', `Entry with key ${key} not found`);
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
         return false;
       }
 
-      cache.entries.splice(entryIndex, 1);
-      cache.statistics.totalEntries--;
-      cacheManager.modified = Date.now();
+      this.managers.delete(managerId);
+      this.updateAnalytics();
 
-      this.logger.info('CacheManagerManager', `Deleted value from cache for key: ${key}`);
+      this.logger.info('Cache manager deleted', { managerId, managerName: manager.name });
       return true;
+
     } catch (error) {
-      this.logger.error('CacheManagerManager', `Failed to delete value from cache ${cacheId}:`, error);
-      return false;
+      this.errorHandler.handleError(error, 'Failed to delete cache manager');
+      throw error;
     }
-  }
-
-  /**
-   * Clear cache
-   */
-  clear(cacheManagerId: string, cacheId: string): boolean {
-    const cacheManager = this.cacheManagers.get(cacheManagerId);
-    if (!cacheManager) {
-      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
-      return false;
-    }
-
-    const cache = cacheManager.caches.find(c => c.id === cacheId);
-    if (!cache) {
-      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
-      return false;
-    }
-
-    try {
-      cache.entries = [];
-      cache.statistics.totalEntries = 0;
-      cacheManager.modified = Date.now();
-
-      this.logger.info('CacheManagerManager', `Cleared cache: ${cache.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('CacheManagerManager', `Failed to clear cache ${cacheId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Get cache manager
-   */
-  getCacheManager(cacheManagerId: string): CacheManager | null {
-    return this.cacheManagers.get(cacheManagerId) || null;
   }
 
   /**
    * Get all cache managers
    */
-  getCacheManagers(): CacheManager[] {
-    return Array.from(this.cacheManagers.values());
-  }
-
-  /**
-   * Get cache managers by type
-   */
-  getCacheManagersByType(type: CacheManagerType): CacheManager[] {
-    return Array.from(this.cacheManagers.values())
-      .filter(manager => manager.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): CacheManagerStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize cache manager
-   */
-  private async initializeCacheManager(): Promise<void> {
-    this.logger.info('CacheManagerManager', 'Initializing cache manager...');
-  }
-
-  /**
-   * Load default cache managers
-   */
-  private async loadDefaultCacheManagers(): Promise<void> {
-    // Load default cache managers
-    const defaultManagers = [
-      this.createDefaultApplicationManager(),
-      this.createDefaultGameManager(),
-      this.createDefaultWebManager()
-    ];
-
-    for (const manager of defaultManagers) {
-      if (manager) {
-        this.cacheManagers.set(manager.id, manager);
-      }
+  getAllManagers(): CacheManager[] {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
     }
 
-    this.logger.info('CacheManagerManager', `Loaded ${defaultManagers.length} default cache managers`);
+    return Array.from(this.managers.values());
   }
 
   /**
-   * Create default configuration
+   * Get managers by type
    */
-  private createDefaultConfiguration(): CacheConfiguration {
-    return {
-      maxSize: this.config.maxCacheSize,
-      maxEntries: this.config.maxEntries,
-      ttl: 3600000, // 1 hour
-      evictionStrategy: EvictionStrategyType.LRU,
-      compression: false,
-      encryption: false,
-      metadata: new Map()
-    };
+  getManagersByType(type: CacheType): CacheManager[] {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    return Array.from(this.managers.values()).filter(manager => manager.type === type);
   }
 
   /**
-   * Create default cache statistics
+   * Get managers by status
    */
-  private createDefaultCacheStatistics(): CacheStatistics {
-    return {
-      totalEntries: 0,
-      hitCount: 0,
-      missCount: 0,
-      hitRate: 0,
-      averageAccessTime: 0,
-      memoryUsage: 0,
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
+  getManagersByStatus(status: CacheStatus): CacheManager[] {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    return Array.from(this.managers.values()).filter(manager => manager.status === status);
   }
 
   /**
-   * Create default warming
+   * Add a cache to a manager
    */
-  private createDefaultWarming(): CacheWarming {
-    return {
-      enabled: true,
-      strategies: [],
-      statistics: {
+  async addCache(managerId: string, cacheData: Omit<Cache, 'id'>): Promise<Cache | null> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
 
-        totalWarmed: 0,
-        successfulWarms: 0,
-        failedWarms: 0,
-        averageWarmTime: 0,
-        lastWarm: 0,
-        metadata: new Map()
-
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
       }
-      },
-      metadata: new Map()
-    };
-  }
 
-  /**
-   * Create default invalidation
-   */
-  private createDefaultInvalidation(): CacheInvalidation {
-    return {
-      enabled: true,
-      strategies: [],
-      statistics: {
+      const cache: Cache = {
+        ...cacheData,
+        id: this.generateCacheId()
+      };
 
-        totalInvalidations: 0,
-        successfulInvalidations: 0,
-        failedInvalidations: 0,
-        averageInvalidationTime: 0,
-        lastInvalidation: 0,
-        metadata: new Map()
+      manager.caches.push(cache);
+      this.updateAnalytics();
 
-      }
-      },
-      metadata: new Map()
-    };
-  }
+      this.logger.info('Cache added to manager', { managerId, cacheId: cache.id, cacheName: cache.name });
+      return cache;
 
-  /**
-   * Create default compression
-   */
-  private createDefaultCompression(): CacheCompression {
-    return {
-      enabled: false,
-      algorithm: CompressionAlgorithm.GZIP,
-      level: 6,
-      threshold: 1024,
-      statistics: {
-
-        totalCompressed: 0,
-        compressionRatio: 1.0,
-        averageCompressionTime: 0,
-        spaceSaved: 0,
-        lastCompression: 0,
-        metadata: new Map()
-
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default security
-   */
-  private createDefaultSecurity(): CacheSecurity {
-    return {
-      enabled: false,
-      encryption: {
-        enabled: false,
-        algorithm: EncryptionAlgorithm.AES_256,
-        key: '',
-        metadata: new Map()
-
-      
-      
-      }
-      },
-      access: {
-
-        enabled: false,
-        permissions: [],
-        metadata: new Map()
-
-      }
-      },
-      audit: {
-
-        enabled: false,
-        events: [],
-        metadata: new Map()
-
-      }
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): CacheAnalytics {
-    return {
-      totalCaches: 0,
-      totalEntries: 0,
-      totalHits: 0,
-      totalMisses: 0,
-      overallHitRate: 0,
-      averageAccessTime: 0,
-      memoryUsage: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        diskUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): CacheMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default application manager
-   */
-  private createDefaultApplicationManager(): CacheManager {
-    return this.createCacheManager({
-      name: 'Application Cache Manager',
-      type: CacheManagerType.APPLICATION,
-      description: 'Application cache management system'
-    });
-  }
-
-  /**
-   * Create default game manager
-   */
-  private createDefaultGameManager(): CacheManager {
-    return this.createCacheManager({
-      name: 'Game Cache Manager',
-      type: CacheManagerType.GAME,
-      description: 'Game cache management system'
-    });
-  }
-
-  /**
-   * Create default web manager
-   */
-  private createDefaultWebManager(): CacheManager {
-    return this.createCacheManager({
-      name: 'Web Cache Manager',
-      type: CacheManagerType.WEB,
-      description: 'Web cache management system'
-    });
-  }
-
-  /**
-   * Update cache hit rate
-   */
-  private updateCacheHitRate(cache: Cache): void {
-    const total = cache.statistics.hitCount + cache.statistics.missCount;
-    cache.statistics.hitRate = total > 0 ? cache.statistics.hitCount / total : 0;
-    cache.statistics.lastUpdate = Date.now();
-  }
-
-  /**
-   * Evict entries
-   */
-  private evictEntries(cache: Cache): void {
-    const strategy = cache.configuration.evictionStrategy;
-    const entriesToEvict = Math.ceil(cache.entries.length * 0.1); // Evict 10%
-
-    switch (strategy) {
-      case EvictionStrategyType.LRU:
-        this.evictLRU(cache, entriesToEvict);
-        break;
-      case EvictionStrategyType.LFU:
-        this.evictLFU(cache, entriesToEvict);
-        break;
-      case EvictionStrategyType.FIFO:
-        this.evictFIFO(cache, entriesToEvict);
-        break;
-      case EvictionStrategyType.TTL:
-        this.evictTTL(cache, entriesToEvict);
-        break;
-      case EvictionStrategyType.RANDOM:
-        this.evictRandom(cache, entriesToEvict);
-        break;
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add cache to manager');
+      return null;
     }
   }
 
   /**
-   * Evict LRU entries
+   * Remove a cache from a manager
    */
-  private evictLRU(cache: Cache, count: number): void {
-    const sortedEntries = cache.entries.sort((a, b) => a.lastAccessed - b.lastAccessed);
-    for (let i = 0; i < count && i < sortedEntries.length; i++) {
-      this.evictEntry(cache, sortedEntries[i]);
+  async removeCache(managerId: string, cacheId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      const cacheIndex = manager.caches.findIndex(c => c.id === cacheId);
+      if (cacheIndex === -1) {
+        this.logger.warn('Cache not found', { managerId, cacheId });
+        return false;
+      }
+
+      manager.caches.splice(cacheIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Cache removed from manager', { managerId, cacheId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove cache from manager');
+      return false;
     }
   }
 
   /**
-   * Evict LFU entries
+   * Get a value from cache
    */
-  private evictLFU(cache: Cache, count: number): void {
-    const sortedEntries = cache.entries.sort((a, b) => a.accessCount - b.accessCount);
-    for (let i = 0; i < count && i < sortedEntries.length; i++) {
-      this.evictEntry(cache, sortedEntries[i]);
+  async get(managerId: string, cacheId: string, key: string): Promise<any | null> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
+      }
+
+      const cache = manager.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { managerId, cacheId });
+        return null;
+      }
+
+      const entry = cache.entries.find(e => e.key === key);
+      if (!entry) {
+        this.logger.debug('Cache miss', { managerId, cacheId, key });
+        return null;
+      }
+
+      // Check TTL
+      if (entry.ttl > 0 && Date.now() - entry.createdAt.getTime() > entry.ttl) {
+        this.removeEntry(cache, key);
+        this.logger.debug('Cache entry expired', { managerId, cacheId, key });
+        return null;
+      }
+
+      // Update access statistics
+      entry.lastAccessed = new Date();
+      entry.accessCount++;
+      this.updateAnalytics();
+
+      this.logger.debug('Cache hit', { managerId, cacheId, key });
+      return entry.value;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to get value from cache');
+      return null;
     }
   }
 
   /**
-   * Evict FIFO entries
+   * Set a value in cache
    */
-  private evictFIFO(cache: Cache, count: number): void {
-    const sortedEntries = cache.entries.sort((a, b) => a.createdAt - b.createdAt);
-    for (let i = 0; i < count && i < sortedEntries.length; i++) {
-      this.evictEntry(cache, sortedEntries[i]);
+  async set(managerId: string, cacheId: string, key: string, value: any, ttl?: number): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      const cache = manager.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { managerId, cacheId });
+        return false;
+      }
+
+      const entry: CacheEntry = {
+        key,
+        value,
+        ttl: ttl || cache.policy.ttl,
+        createdAt: new Date(),
+        lastAccessed: new Date(),
+        accessCount: 0,
+        size: this.calculateSize(value),
+        metadata: {}
+      };
+
+      // Remove existing entry if it exists
+      this.removeEntry(cache, key);
+
+      // Add new entry
+      cache.entries.push(entry);
+
+      // Check cache size limits
+      this.enforceCacheLimits(cache);
+
+      this.updateAnalytics();
+
+      this.logger.debug('Cache entry set', { managerId, cacheId, key });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to set value in cache');
+      return false;
     }
   }
 
   /**
-   * Evict TTL entries
+   * Remove an entry from cache
    */
-  private evictTTL(cache: Cache, count: number): void {
-    const now = Date.now();
-    const expiredEntries = cache.entries.filter(e => e.ttl > 0 && now - e.createdAt > e.ttl);
-    for (let i = 0; i < count && i < expiredEntries.length; i++) {
-      this.evictEntry(cache, expiredEntries[i]);
+  async remove(managerId: string, cacheId: string, key: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      const cache = manager.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { managerId, cacheId });
+        return false;
+      }
+
+      const removed = this.removeEntry(cache, key);
+      if (removed) {
+        this.updateAnalytics();
+        this.logger.debug('Cache entry removed', { managerId, cacheId, key });
+      }
+
+      return removed;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove value from cache');
+      return false;
     }
   }
 
   /**
-   * Evict random entries
+   * Clear all entries from a cache
    */
-  private evictRandom(cache: Cache, count: number): void {
-    const shuffled = cache.entries.sort(() => 0.5 - Math.random());
-    for (let i = 0; i < count && i < shuffled.length; i++) {
-      this.evictEntry(cache, shuffled[i]);
+  async clear(managerId: string, cacheId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      const cache = manager.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { managerId, cacheId });
+        return false;
+      }
+
+      cache.entries = [];
+      this.updateAnalytics();
+
+      this.logger.info('Cache cleared', { managerId, cacheId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to clear cache');
+      return false;
     }
   }
 
   /**
-   * Evict entry
+   * Remove an entry from cache (internal method)
    */
-  private evictEntry(cache: Cache, entry: CacheEntry): void {
-    const index = cache.entries.indexOf(entry);
-    if (index > -1) {
+  private removeEntry(cache: Cache, key: string): boolean {
+    const index = cache.entries.findIndex(e => e.key === key);
+    if (index !== -1) {
       cache.entries.splice(index, 1);
-      cache.statistics.totalEntries--;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Calculate size of a value
+   */
+  private calculateSize(value: any): number {
+    try {
+      return JSON.stringify(value).length * 2; // Rough estimate
+    } catch {
+      return 0;
     }
   }
 
   /**
-   * Update statistics
+   * Enforce cache size limits
    */
-  private updateStats(action: string, cacheManager: CacheManager): void {
-    switch (action) {
-      case 'create_cache_manager':
-        this.stats.totalCaches += cacheManager.caches.length;
-        this.stats.totalEntries += cacheManager.caches.reduce((sum, cache) => sum + cache.statistics.totalEntries, 0);
-        this.stats.totalHits += cacheManager.caches.reduce((sum, cache) => sum + cache.statistics.hitCount, 0);
-        this.stats.totalMisses += cacheManager.caches.reduce((sum, cache) => sum + cache.statistics.missCount, 0);
-        break;
-      case 'create_cache':
-        this.stats.totalCaches++;
-        break;
+  private enforceCacheLimits(cache: Cache): void {
+    const policy = cache.policy;
+    
+    // Check entry count limit
+    if (cache.entries.length > policy.maxEntries) {
+      const entriesToRemove = cache.entries.length - policy.maxEntries;
+      this.evictEntries(cache, entriesToRemove);
     }
 
-    this.stats.lastUpdate = Date.now();
+    // Check size limit
+    const totalSize = cache.entries.reduce((sum, entry) => sum + entry.size, 0);
+    if (totalSize > policy.maxSize) {
+      this.evictBySize(cache, totalSize - policy.maxSize);
+    }
   }
 
   /**
-   * Initialize statistics
+   * Evict entries based on strategy
    */
-  private initializeStats(): CacheManagerStats {
+  private evictEntries(cache: Cache, count: number): void {
+    const strategy = cache.policy.evictionStrategy;
+    
+    switch (strategy) {
+      case 'fifo':
+        cache.entries.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+        break;
+      case 'lru':
+        cache.entries.sort((a, b) => a.lastAccessed.getTime() - b.lastAccessed.getTime());
+        break;
+      case 'lfu':
+        cache.entries.sort((a, b) => a.accessCount - b.accessCount);
+        break;
+      case 'ttl':
+        cache.entries.sort((a, b) => (a.createdAt.getTime() + a.ttl) - (b.createdAt.getTime() + b.ttl));
+        break;
+      default:
+        // Random eviction
+        cache.entries.sort(() => Math.random() - 0.5);
+    }
+
+    cache.entries.splice(0, count);
+  }
+
+  /**
+   * Evict entries by size
+   */
+  private evictBySize(cache: Cache, sizeToFree: number): void {
+    let freedSize = 0;
+    const entriesToRemove: number[] = [];
+
+    for (let i = 0; i < cache.entries.length && freedSize < sizeToFree; i++) {
+      entriesToRemove.push(i);
+      freedSize += cache.entries[i].size;
+    }
+
+    // Remove entries in reverse order to maintain indices
+    entriesToRemove.reverse().forEach(index => {
+      cache.entries.splice(index, 1);
+    });
+  }
+
+  /**
+   * Generate a unique manager ID
+   */
+  private generateManagerId(): string {
+    return `manager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique cache ID
+   */
+  private generateCacheId(): string {
+    return `cache_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const managers = Array.from(this.managers.values());
+    const totalCaches = managers.reduce((sum, m) => sum + m.caches.length, 0);
+    const activeCaches = managers.reduce((sum, m) => sum + m.caches.filter(c => c.status === 'active').length, 0);
+    const totalEntries = managers.reduce((sum, m) => sum + m.caches.reduce((s, c) => s + c.entries.length, 0), 0);
+    const totalHits = managers.reduce((sum, m) => sum + m.analytics.totalHits, 0);
+    const totalMisses = managers.reduce((sum, m) => sum + m.analytics.totalMisses, 0);
+
+    for (const manager of managers) {
+      manager.analytics = {
+        totalCaches: manager.caches.length,
+        activeCaches: manager.caches.filter(c => c.status === 'active').length,
+        totalEntries: manager.caches.reduce((sum, c) => sum + c.entries.length, 0),
+        totalHits: manager.analytics.totalHits,
+        totalMisses: manager.analytics.totalMisses,
+        averageHitRate: manager.analytics.totalHits + manager.analytics.totalMisses > 0 ? 
+          manager.analytics.totalHits / (manager.analytics.totalHits + manager.analytics.totalMisses) : 0,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalManagers: number;
+    activeManagers: number;
+    managersByType: Record<CacheType, number>;
+    managersByStatus: Record<CacheStatus, number>;
+    totalCaches: number;
+    totalEntries: number;
+    averageHitRate: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Cache Manager not initialized');
+    }
+
+    const managers = Array.from(this.managers.values());
+    const activeManagers = managers.filter(m => m.status === 'active');
+    const totalCaches = managers.reduce((sum, m) => sum + m.caches.length, 0);
+    const totalEntries = managers.reduce((sum, m) => sum + m.caches.reduce((s, c) => s + c.entries.length, 0), 0);
+    const totalHits = managers.reduce((sum, m) => sum + m.analytics.totalHits, 0);
+    const totalMisses = managers.reduce((sum, m) => sum + m.analytics.totalMisses, 0);
+
+    const managersByType: Record<CacheType, number> = {
+      memory: 0,
+      disk: 0,
+      redis: 0,
+      database: 0,
+      custom: 0
+    };
+
+    const managersByStatus: Record<CacheStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const manager of managers) {
+      managersByType[manager.type]++;
+      managersByStatus[manager.status]++;
+    }
+
     return {
-      totalCaches: 0,
-      activeCaches: 0,
-      totalEntries: 0,
-      totalHits: 0,
-      totalMisses: 0,
-      overallHitRate: 0,
-      averageAccessTime: 0,
-      memoryUsage: 0,
-      lastUpdate: Date.now()
+      totalManagers: managers.length,
+      activeManagers: activeManagers.length,
+      managersByType,
+      managersByStatus,
+      totalCaches,
+      totalEntries,
+      averageHitRate: totalHits + totalMisses > 0 ? totalHits / (totalHits + totalMisses) : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Cache Manager
    */
-  destroy(): void {
-    this.cacheManagers.clear();
-    this.stats = this.initializeStats();
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Cache Manager...');
+
+    this.managers.clear();
     this.isInitialized = false;
+
+    this.logger.info('Cache Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultCacheManager = new CacheManager();
-export { CacheManager as default };
+export const cacheManagerManager = new CacheManagerManager();
+export default cacheManagerManager;

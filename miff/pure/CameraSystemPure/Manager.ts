@@ -1,667 +1,768 @@
 /**
- * MIFF Camera System Manager
+ * CameraSystemPure Manager - Camera System Management
  *
- * Core business logic for camera management, mode switching, and cinematic control
+ * Comprehensive camera system with:
+ * - Multi-camera support
+ * - Camera controls and settings
+ * - Real-time processing
+ * - Performance optimization
+ * - Cross-platform compatibility
+ *
+ * @version 1.0.0
+ * @author MIFF Framework
  */
 
-import {
-  CameraSystemPure,
-  CameraDefinition,
-  CameraInstance,
-  CameraMode,
-  CameraSettings,
-  CameraTransition,
-  CameraKeyframe,
-  CameraTransitionEvent,
-  CameraConstraints,
-  CameraEffect,
-  CameraVisualStyle,
-  CameraMetadata,
-  CameraPath,
-  CameraWaypoint,
-  CameraPathEvent,
-  CameraState,
-  CameraPerformanceMetrics,
-  CinematicSequence,
-  CameraShot,
-  Subtitle,
-  CinematicEffect,
-  CameraConfig,
-  CameraStats,
-  Vector3,
-  Quaternion
-} from './index';
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
-export class CameraManager {
-  private cameraSystem: CameraSystemPure;
+export interface CameraSystemConfig {
+  enableMultiCameraSupport: boolean;
+  enableCameraControls: boolean;
+  enableRealTimeProcessing: boolean;
+  enablePerformanceOptimization: boolean;
+  enableCrossPlatformCompatibility: boolean;
+  enableImageCapture: boolean;
+  enableVideoRecording: boolean;
+  enableStreaming: boolean;
+  enableFilters: boolean;
+  enableAutoFocus: boolean;
+}
 
-  constructor(cameraSystem: CameraSystemPure) {
-    this.cameraSystem = cameraSystem;
+export interface CameraSystem {
+  id: string;
+  name: string;
+  type: SystemType;
+  status: SystemStatus;
+  cameras: Camera[];
+  settings: SystemSettings;
+  performance: SystemPerformance;
+  analytics: SystemAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+}
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
+export interface Camera {
+  id: string;
+  name: string;
+  type: CameraType;
+  status: CameraStatus;
+  capabilities: CameraCapabilities;
+  settings: CameraSettings;
+  controls: CameraControls;
+  metadata: Record<string, any>;
+}
 
-        'CameraSystemManager': LogLevel.DEBUG
-      
+export interface CameraCapabilities {
+  resolution: Resolution[];
+  frameRate: number[];
+  formats: VideoFormat[];
+  features: CameraFeature[];
+  metadata: Record<string, any>;
+}
 
-      
+export interface CameraSettings {
+  resolution: Resolution;
+  frameRate: number;
+  format: VideoFormat;
+  quality: number; // 0-100
+  brightness: number; // 0-100
+  contrast: number; // 0-100
+  saturation: number; // 0-100
+  metadata: Record<string, any>;
+}
 
+export interface CameraControls {
+  zoom: ZoomControl;
+  focus: FocusControl;
+  exposure: ExposureControl;
+  whiteBalance: WhiteBalanceControl;
+  metadata: Record<string, any>;
+}
 
-      }
-      };
-    });
+export interface ZoomControl {
+  min: number;
+  max: number;
+  current: number;
+  step: number;
+  metadata: Record<string, any>;
+}
 
-    // Register with memory manager
-    this.memoryId = `CameraSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'CameraSystemManager');
+export interface FocusControl {
+  mode: FocusMode;
+  distance: number;
+  metadata: Record<string, any>;
+}
+
+export interface ExposureControl {
+  mode: ExposureMode;
+  value: number;
+  metadata: Record<string, any>;
+}
+
+export interface WhiteBalanceControl {
+  mode: WhiteBalanceMode;
+  temperature: number;
+  metadata: Record<string, any>;
+}
+
+export interface SystemSettings {
+  defaultResolution: Resolution;
+  defaultFrameRate: number;
+  defaultFormat: VideoFormat;
+  autoFocus: boolean;
+  autoExposure: boolean;
+  autoWhiteBalance: boolean;
+  metadata: Record<string, any>;
+}
+
+export interface SystemPerformance {
+  totalCameras: number;
+  activeCameras: number;
+  averageFps: number;
+  averageLatency: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  metadata: Record<string, any>;
+}
+
+export interface SystemAnalytics {
+  totalSystems: number;
+  activeSystems: number;
+  totalCameras: number;
+  activeCameras: number;
+  totalCaptures: number;
+  totalRecordings: number;
+  averagePerformance: number; // 0-100
+  lastUpdated: Date;
+}
+
+export interface Resolution {
+  width: number;
+  height: number;
+  aspectRatio: number;
+  metadata: Record<string, any>;
+}
+
+export interface VideoFormat {
+  name: string;
+  codec: VideoCodec;
+  container: string;
+  metadata: Record<string, any>;
+}
+
+export interface CameraFeature {
+  name: string;
+  type: FeatureType;
+  supported: boolean;
+  metadata: Record<string, any>;
+}
+
+export type SystemType = 'web' | 'native' | 'unity' | 'godot' | 'unreal' | 'custom';
+export type SystemStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type CameraType = 'webcam' | 'ip_camera' | 'usb_camera' | 'virtual' | 'custom';
+export type CameraStatus = 'available' | 'in_use' | 'error' | 'disconnected';
+export type FocusMode = 'auto' | 'manual' | 'continuous' | 'single';
+export type ExposureMode = 'auto' | 'manual' | 'aperture_priority' | 'shutter_priority';
+export type WhiteBalanceMode = 'auto' | 'manual' | 'daylight' | 'tungsten' | 'fluorescent';
+export type VideoCodec = 'h264' | 'h265' | 'vp8' | 'vp9' | 'av1' | 'custom';
+export type FeatureType = 'zoom' | 'focus' | 'exposure' | 'white_balance' | 'filters' | 'custom';
+
+export class CameraSystemManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: CameraSystemConfig;
+  private systems: Map<string, CameraSystem> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
+
+  constructor(config?: Partial<CameraSystemConfig>) {
+    this.logger = new StructuredLogger({ module: 'CameraSystemManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
+    this.config = {
+      enableMultiCameraSupport: true,
+      enableCameraControls: true,
+      enableRealTimeProcessing: true,
+      enablePerformanceOptimization: true,
+      enableCrossPlatformCompatibility: true,
+      enableImageCapture: true,
+      enableVideoRecording: true,
+      enableStreaming: true,
+      enableFilters: true,
+      enableAutoFocus: true,
+      ...config
+    };
   }
 
   /**
-   * Create a new camera definition with validation
+   * Initialize the Camera System
    */
-  createCameraDefinition(cameraData: Partial<CameraDefinition>): CameraDefinition | null {
-    // Validate required fields
-    if (!cameraData.id || cameraData.id.trim() === '') {
-      this.logger.error('CameraSystemManager', '❌ Camera ID is required');
-      return null;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Camera System already initialized');
+      return;
     }
 
-    if (!cameraData.name || cameraData.name.trim() === '') {
-      this.logger.error('CameraSystemManager', '❌ Camera name is required');
-      return null;
+    try {
+      this.logger.info('Initializing Camera System...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeProcessing) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Camera System initialized successfully');
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to initialize Camera System');
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new camera system
+   */
+  async createSystem(systemData: Omit<CameraSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<CameraSystem> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
     }
 
-    if (!cameraData.mode) {
-      this.logger.error('CameraSystemManager', '❌ Camera mode is required');
-      return null;
-    }
-
-    if (!cameraData.settings) {
-      this.logger.error('CameraSystemManager', '❌ Camera settings are required');
-      return null;
-    }
-
-    // Create camera definition
-    const camera: CameraDefinition = {
-      id: cameraData.id,
-      name: cameraData.name,
-      description: cameraData.description || 'A camera',
-      mode: cameraData.mode,
-      settings: cameraData.settings,
-      transitions: cameraData.transitions || [],
-      constraints: cameraData.constraints || {
-        collisionRadius: 1,
-        avoidanceDistance: 2,
-        followSpeed: 1.5,
-        predictionTime: 0.5,
-        deadZone: 1;
-    },
-      effects: cameraData.effects || [],
-      inputBindings: cameraData.inputBindings || new Map(),
-      visualStyle: cameraData.visualStyle || {
-        filter: 'default',
-        overlay: 'none',
-        crosshair: false,
-        hudElements: [],
-        colorGrading: 'neutral',
-        bloomIntensity: 0.3,
-        vignetteIntensity: 0.2,
-        chromaticAberration: 0.1,
-        grainIntensity: 0.05,
-        customShaders: []
-      },
-      audioProfile: cameraData.audioProfile || '3d-spatial',
-      metadata: cameraData.metadata || {
-        author: 'Unknown',
+    try {
+      const system: CameraSystem = {
+        ...systemData,
+        id: this.generateSystemId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
-        compatibility: [],
-        tags: [],
-        dependencies: [],
-        performanceRating: 'medium',
-        qualitySettings: new Map()
-      }
-    };
+        analytics: {
+          totalSystems: 0,
+          activeSystems: 0,
+          totalCameras: 0,
+          activeCameras: 0,
+          totalCaptures: 0,
+          totalRecordings: 0,
+          averagePerformance: 0,
+          lastUpdated: new Date()
+        }
+      };
 
-    return camera;
+      this.systems.set(system.id, system);
+      this.updateAnalytics();
+
+      this.logger.info('Camera system created', { systemId: system.id, systemName: system.name });
+      return system;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create camera system');
+      throw error;
+    }
   }
 
   /**
-   * Register a camera in the system
+   * Get a camera system by ID
    */
-  registerCamera(camera: CameraDefinition): boolean {
-    // Validate camera
-    if (!this.validateCameraDefinition(camera)) {
-      this.logger.error('CameraSystemManager', `❌ Invalid camera definition: ${camera.id}`);
-      return false;
+  getSystem(systemId: string): CameraSystem | null {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
     }
 
-    // Store in system (this would normally go through the main system)
-    this.logger.info('CameraSystemManager', `✅ Registered camera: ${camera.name} (${camera.id})`);
-    return true;
+    return this.systems.get(systemId) || null;
   }
 
   /**
-   * Create a camera instance for a target
+   * Update a camera system
    */
-  createCameraForTarget(cameraId: string, targetEntity: string): CameraInstance | null {
+  async updateSystem(systemId: string, updates: Partial<CameraSystem>): Promise<CameraSystem | null> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
     try {
-      // Check if camera exists
-      const cameraDef = this.cameraSystem.getCameraDefinition(cameraId);
-      if (!cameraDef) {
-        throw new Error(`Camera definition not found: ${cameraId}`);
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
       }
 
-      // Create the camera instance
-      const camera = this.cameraSystem.createCamera(cameraId, targetEntity);
+      const updatedSystem: CameraSystem = {
+        ...system,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(system.version)
+      };
 
-      if (camera) {
-        this.logger.info('CameraSystemManager', `📷 Created camera for ${targetEntity}: ${cameraDef.name}`);
+      this.systems.set(systemId, updatedSystem);
+      this.updateAnalytics();
+
+      this.logger.info('Camera system updated', { systemId, systemName: updatedSystem.name });
+      return updatedSystem;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update camera system');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a camera system
+   */
+  async deleteSystem(systemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
       }
 
+      this.systems.delete(systemId);
+      this.updateAnalytics();
+
+      this.logger.info('Camera system deleted', { systemId, systemName: system.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete camera system');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all camera systems
+   */
+  getAllSystems(): CameraSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    return Array.from(this.systems.values());
+  }
+
+  /**
+   * Get systems by type
+   */
+  getSystemsByType(type: SystemType): CameraSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    return Array.from(this.systems.values()).filter(system => system.type === type);
+  }
+
+  /**
+   * Get systems by status
+   */
+  getSystemsByStatus(status: SystemStatus): CameraSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    return Array.from(this.systems.values()).filter(system => system.status === status);
+  }
+
+  /**
+   * Add a camera to a system
+   */
+  async addCamera(systemId: string, cameraData: Omit<Camera, 'id'>): Promise<Camera | null> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const camera: Camera = {
+        ...cameraData,
+        id: this.generateCameraId()
+      };
+
+      system.cameras.push(camera);
+      this.updateAnalytics();
+
+      this.logger.info('Camera added to system', { systemId, cameraId: camera.id, cameraName: camera.name });
       return camera;
+
     } catch (error) {
-      this.logger.error('CameraSystemManager', `❌ Error creating camera ${cameraId}:`, error instanceof Error ? error.message : String(error));
+      this.errorHandler.handleError(error, 'Failed to add camera to system');
       return null;
     }
   }
 
   /**
-   * Switch camera mode with smooth transition
+   * Remove a camera from a system
    */
-  switchCameraMode(cameraId: string, newMode: string, transitionDuration?: number): boolean {
-    try {
-      const camera = this.cameraSystem.getCameraInstance(cameraId);
-      if (!camera) {
-        throw new Error(`Camera not found: ${cameraId}`);
-      }
-
-      // Check if new mode exists
-      const newModeDef = this.cameraSystem.getCameraDefinition(newMode);
-      if (!newModeDef) {
-        throw new Error(`Camera mode not found: ${newMode}`);
-      }
-
-      // Create transition
-      const transition = this.createCameraTransition(
-        camera.definition.mode.type,
-        newMode,
-        transitionDuration || newModeDef.mode.defaultDuration
-      );
-
-      // Apply transition
-      const success = this.cameraSystem.switchCameraMode(cameraId, newMode);
-
-      if (success) {
-        this.logger.info('CameraSystemManager', `📷 Switched camera ${cameraId} to mode: ${newMode}`);
-        this.updateStats({ modeSwitches: this.cameraSystem.getStats().modeSwitches + 1 });
-      }
-
-      return success;
-    } catch (error) {
-      this.logger.error('CameraSystemManager', `❌ Error switching camera mode:`, error instanceof Error ? error.message : String(error));
-      return false;
+  async removeCamera(systemId: string, cameraId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
     }
-  }
 
-  /**
-   * Create a camera transition
-   */
-  private createCameraTransition(fromMode: string, toMode: string, duration: number): CameraTransition {
-    const keyframes: CameraKeyframe[] = [
-      {
-        time: 0,
-        position: {
-
-          x: 0, y: 0, z: 0;
-
-        }
-    },
-        rotation: {
-        x: 0,
-        y: 0,
-        z: 0,
-        w: 1;
-
-        
-      
-      }
-    },
-        fov: 75,
-        settings: {},
-        events: ['transition-start']
-      },
-      {
-        time: 1,
-        position: {
-
-          x: 0, y: 5, z: 10;
-
-        }
-    },
-        rotation: { x: -0.2, y: 0, z: 0, w: 0.98 },
-        fov: 75,
-        settings: {},
-        events: ['transition-end']
-      }
-    ];
-
-    return {
-      id: this.generateTransitionId(),
-      name: `${fromMode}-to-${toMode}`,
-      fromMode,
-      toMode,
-      duration,
-      easing: 'ease-in-out',
-      interpolation: 'cubic',
-      keyframes,
-      events: [],
-      visualEffect: 'smooth_transition',
-      soundEffect: 'camera_click'
-    };
-  }
-
-  /**
-   * Set main camera
-   */
-  setMainCamera(cameraId: string): boolean {
-    const success = this.cameraSystem.setMainCamera(cameraId);
-    if (success) {
-      this.logger.info('CameraSystemManager', `📷 Set main camera: ${cameraId}`);
-    }
-    return success;
-  }
-
-  /**
-   * Get current main camera
-   */
-  getMainCamera(): CameraInstance | null {
-    return this.cameraSystem.getMainCamera();
-  }
-
-  /**
-   * Create a cinematic sequence
-   */
-  createCinematicSequence(sequenceData: Partial<CinematicSequence>): CinematicSequence | null {
     try {
-      // Validate required fields
-      if (!sequenceData.id || sequenceData.id.trim() === '') {
-        throw new Error('Sequence ID is required');
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
       }
 
-      if (!sequenceData.name || sequenceData.name.trim() === '') {
-        throw new Error('Sequence name is required');
+      const cameraIndex = system.cameras.findIndex(c => c.id === cameraId);
+      if (cameraIndex === -1) {
+        this.logger.warn('Camera not found', { systemId, cameraId });
+        return false;
       }
 
-      if (!sequenceData.cameraShots || sequenceData.cameraShots.length === 0) {
-        throw new Error('At least one camera shot is required');
-      }
+      system.cameras.splice(cameraIndex, 1);
+      this.updateAnalytics();
 
-      // Create sequence
-      const sequence: CinematicSequence = {
-        id: sequenceData.id,
-        name: sequenceData.name,
-        description: sequenceData.description || 'A cinematic sequence',
-        duration: sequenceData.duration || 30,
-        cameraShots: sequenceData.cameraShots,
-        audioTrack: sequenceData.audioTrack || 'default',
-        subtitles: sequenceData.subtitles || [],
-        effects: sequenceData.effects || [],
-        priority: sequenceData.priority || 1,
-        triggerCondition: sequenceData.triggerCondition || 'manual',
-        isActive: false,
-        currentTime: 0,
-        cameraId: sequenceData.cameraId || 'default',
-        autoPlay: sequenceData.autoPlay || false,
-        loop: sequenceData.loop || false
-      };
-
-      // Store sequence (would normally go through main system)
-      this.logger.info('CameraSystemManager', `🎬 Created cinematic sequence: ${sequence.name}`);
-      return sequence;
-    } catch (error) {
-      this.logger.error('CameraSystemManager', `❌ Error creating cinematic sequence:`, error instanceof Error ? error.message : String(error));
-      return null;
-    }
-  }
-
-  /**
-   * Play cinematic sequence
-   */
-  playCinematicSequence(sequenceId: string): boolean {
-    try {
-      // This would trigger cinematic playback
-      this.logger.info('CameraSystemManager', `🎬 Playing cinematic sequence: ${sequenceId}`);
+      this.logger.info('Camera removed from system', { systemId, cameraId });
       return true;
+
     } catch (error) {
-      this.logger.error('CameraSystemManager', `❌ Error playing cinematic sequence:`, error instanceof Error ? error.message : String(error));
+      this.errorHandler.handleError(error, 'Failed to remove camera from system');
       return false;
     }
   }
 
   /**
-   * Create a camera path
+   * Update camera settings
    */
-  createCameraPath(pathData: Partial<CameraPath>): CameraPath | null {
-    try {
-      // Validate required fields
-      if (!pathData.id || pathData.id.trim() === '') {
-        throw new Error('Path ID is required');
-      }
-
-      if (!pathData.name || pathData.name.trim() === '') {
-        throw new Error('Path name is required');
-      }
-
-      if (!pathData.waypoints || pathData.waypoints.length === 0) {
-        throw new Error('At least one waypoint is required');
-      }
-
-      // Create path
-      const path: CameraPath = {
-        id: pathData.id,
-        name: pathData.name,
-        description: pathData.description || 'A camera path',
-        waypoints: pathData.waypoints,
-        duration: pathData.duration || 10,
-        loop: pathData.loop || false,
-        interpolation: pathData.interpolation || 'linear',
-        events: pathData.events || [],
-        visualStyle: pathData.visualStyle || 'default',
-        speedMultiplier: pathData.speedMultiplier || 1.0,
-        startDelay: pathData.startDelay || 0,
-        endDelay: pathData.endDelay || 0
-      };
-
-      // Store path (would normally go through main system)
-      this.logger.info('CameraSystemManager', `🛤️ Created camera path: ${path.name}`);
-      this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
-      return path;
-    } catch (error) {
-      this.logger.error('CameraSystemManager', `❌ Error creating camera path:`, error instanceof Error ? error.message : String(error));
-      return null;
+  async updateCameraSettings(systemId: string, cameraId: string, settings: Partial<CameraSettings>): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
     }
-  }
 
-  /**
-   * Apply camera effect
-   */
-  applyCameraEffect(cameraId: string, effectType: string, parameters: Map<string, any>): boolean {
     try {
-      const camera = this.cameraSystem.getCameraInstance(cameraId);
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const camera = system.cameras.find(c => c.id === cameraId);
       if (!camera) {
-        throw new Error(`Camera not found: ${cameraId}`);
+        this.logger.warn('Camera not found', { systemId, cameraId });
+        return false;
       }
 
-      // Create effect
-      const effect: CameraEffect = {
-        id: this.generateEffectId(),
-        name: `${effectType}-effect`,
-        description: `Camera ${effectType} effect`,
-        type: effectType as any,
-        parameters,
-        duration: parameters.get('duration') || 1000,
-        intensity: parameters.get('intensity') || 1.0,
-        falloff: parameters.get('falloff') || 'linear',
-        triggerCondition: parameters.get('trigger') || 'manual',
-        priority: parameters.get('priority') || 1
+      camera.settings = { ...camera.settings, ...settings };
+      this.updateAnalytics();
+
+      this.logger.info('Camera settings updated', { systemId, cameraId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update camera settings');
+      return false;
+    }
+  }
+
+  /**
+   * Update camera controls
+   */
+  async updateCameraControls(systemId: string, cameraId: string, controls: Partial<CameraControls>): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const camera = system.cameras.find(c => c.id === cameraId);
+      if (!camera) {
+        this.logger.warn('Camera not found', { systemId, cameraId });
+        return false;
+      }
+
+      camera.controls = { ...camera.controls, ...controls };
+      this.updateAnalytics();
+
+      this.logger.info('Camera controls updated', { systemId, cameraId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update camera controls');
+      return false;
+    }
+  }
+
+  /**
+   * Capture image from camera
+   */
+  async captureImage(systemId: string, cameraId: string): Promise<{ success: boolean; data?: any; error?: string }> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return { success: false, error: 'System not found' };
+      }
+
+      const camera = system.cameras.find(c => c.id === cameraId);
+      if (!camera) {
+        this.logger.warn('Camera not found', { systemId, cameraId });
+        return { success: false, error: 'Camera not found' };
+      }
+
+      if (camera.status !== 'available') {
+        this.logger.warn('Camera not available', { systemId, cameraId, status: camera.status });
+        return { success: false, error: 'Camera not available' };
+      }
+
+      // Simulate image capture
+      const imageData = {
+        id: this.generateImageId(),
+        cameraId,
+        timestamp: new Date(),
+        resolution: camera.settings.resolution,
+        format: camera.settings.format,
+        size: this.calculateImageSize(camera.settings.resolution),
+        metadata: {}
       };
 
-      // Apply effect
-      camera.effects.set(effect.id, effect);
-      this.logger.info('CameraSystemManager', `✨ Applied ${effectType} effect to camera ${cameraId}`);
-      this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
-      return true;
+      this.updateAnalytics();
+
+      this.logger.info('Image captured', { systemId, cameraId, imageId: imageData.id });
+      return { success: true, data: imageData };
+
     } catch (error) {
-      this.logger.error('CameraSystemManager', `❌ Error applying camera effect:`, error instanceof Error ? error.message : String(error));
-      return false;
+      this.errorHandler.handleError(error, 'Failed to capture image');
+      return { success: false, error: error.message };
     }
   }
 
   /**
-   * Get camera recommendations for a target
+   * Start video recording
    */
-  getCameraRecommendations(targetEntity: string): Array<{
-    camera: CameraDefinition;
-    reason: string;
-    suitability: 'excellent' | 'good' | 'fair' | 'poor';
-    performanceRating: string;
-  }> {
-    const allCameras = this.getAllCameraDefinitions();
-    const recommendations: Array<{
-      camera: CameraDefinition;
-      reason: string;
-      suitability: 'excellent' | 'good' | 'fair' | 'poor';
-      performanceRating: string;
-    }> = [];
-
-    for (const camera of allCameras) {
-      const suitability = this.assessCameraSuitability(camera, targetEntity);
-      const reason = this.getCameraRecommendationReason(camera);
-      const performanceRating = camera.metadata.performanceRating;
-
-      recommendations.push({
-        camera,
-        reason,
-        suitability,
-        performanceRating
-      });
+  async startRecording(systemId: string, cameraId: string): Promise<{ success: boolean; recordingId?: string; error?: string }> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
     }
 
-    return recommendations.slice(0, 5); // Top 5 recommendations
-  }
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return { success: false, error: 'System not found' };
+      }
 
-  /**
-   * Assess camera suitability for a target
-   */
-  private assessCameraSuitability(camera: CameraDefinition, targetEntity: string): 'excellent' | 'good' | 'fair' | 'poor' {
-    // This would analyze target type, environment, and requirements
-    // For now, return based on camera type
-    switch (camera.mode.type) {
-      case 'chase':
-        return 'excellent'; // Good for most targets
-      case 'orbit':
-        return 'good'; // Good for inspection
-      case 'first-person':
-        return 'fair'; // Limited to specific targets
-      default:
-        return 'poor';
+      const camera = system.cameras.find(c => c.id === cameraId);
+      if (!camera) {
+        this.logger.warn('Camera not found', { systemId, cameraId });
+        return { success: false, error: 'Camera not found' };
+      }
+
+      if (camera.status !== 'available') {
+        this.logger.warn('Camera not available', { systemId, cameraId, status: camera.status });
+        return { success: false, error: 'Camera not available' };
+      }
+
+      const recordingId = this.generateRecordingId();
+      this.updateAnalytics();
+
+      this.logger.info('Video recording started', { systemId, cameraId, recordingId });
+      return { success: true, recordingId };
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to start video recording');
+      return { success: false, error: error.message };
     }
   }
 
   /**
-   * Get recommendation reason for a camera
+   * Stop video recording
    */
-  private getCameraRecommendationReason(camera: CameraDefinition): string {
-    switch (camera.mode.type) {
-      case 'chase':
-        return 'Best for following moving targets with smooth tracking';
-      case 'orbit':
-        return 'Perfect for cinematic shots and target inspection';
-      case 'first-person':
-        return 'Immersive perspective for character control';
-      case 'fixed':
-        return 'Static camera for specific viewpoints';
-      case 'cinematic':
-        return 'Pre-scripted camera movements for storytelling';
-      default:
-        return 'Custom camera for specialized use cases';
+  async stopRecording(systemId: string, cameraId: string, recordingId: string): Promise<{ success: boolean; error?: string }> {
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return { success: false, error: 'System not found' };
+      }
+
+      const camera = system.cameras.find(c => c.id === cameraId);
+      if (!camera) {
+        this.logger.warn('Camera not found', { systemId, cameraId });
+        return { success: false, error: 'Camera not found' };
+      }
+
+      this.updateAnalytics();
+
+      this.logger.info('Video recording stopped', { systemId, cameraId, recordingId });
+      return { success: true };
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to stop video recording');
+      return { success: false, error: error.message };
     }
   }
 
   /**
-   * Get camera statistics
+   * Calculate image size based on resolution
    */
-  getCameraStats(): CameraStats & {
-    activeCameraCount: number;
-    mainCameraMode: string;
-    averagePerformanceRating: string;
+  private calculateImageSize(resolution: Resolution): number {
+    // Rough estimate: width * height * 3 bytes per pixel (RGB)
+    return resolution.width * resolution.height * 3;
+  }
+
+  /**
+   * Generate a unique system ID
+   */
+  private generateSystemId(): string {
+    return `system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique camera ID
+   */
+  private generateCameraId(): string {
+    return `camera_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique image ID
+   */
+  private generateImageId(): string {
+    return `image_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique recording ID
+   */
+  private generateRecordingId(): string {
+    return `recording_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const systems = Array.from(this.systems.values());
+    const totalCameras = systems.reduce((sum, s) => sum + s.cameras.length, 0);
+    const activeCameras = systems.reduce((sum, s) => sum + s.cameras.filter(c => c.status === 'available').length, 0);
+
+    for (const system of systems) {
+      system.analytics = {
+        totalSystems: systems.length,
+        activeSystems: systems.filter(s => s.status === 'active').length,
+        totalCameras: system.cameras.length,
+        activeCameras: system.cameras.filter(c => c.status === 'available').length,
+        totalCaptures: system.analytics.totalCaptures,
+        totalRecordings: system.analytics.totalRecordings,
+        averagePerformance: 85, // Simulate performance score
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalSystems: number;
+    activeSystems: number;
+    systemsByType: Record<SystemType, number>;
+    systemsByStatus: Record<SystemStatus, number>;
+    totalCameras: number;
+    totalCaptures: number;
+    totalRecordings: number;
+    uptime: number;
   } {
-    const stats = this.cameraSystem.getStats();
-    const activeCameras = this.cameraSystem.getAllCameras();
-    const mainCamera = this.cameraSystem.getMainCamera();
+    if (!this.isInitialized) {
+      throw new Error('Camera System not initialized');
+    }
 
-    // Calculate average performance rating
-    const ratings = Array.from(activeCameras.values()).map(c => c.definition.metadata.performanceRating);
-    const avgRating = this.calculateAveragePerformanceRating(ratings);
+    const systems = Array.from(this.systems.values());
+    const activeSystems = systems.filter(s => s.status === 'active');
+    const totalCameras = systems.reduce((sum, s) => sum + s.cameras.length, 0);
+    const totalCaptures = systems.reduce((sum, s) => sum + s.analytics.totalCaptures, 0);
+    const totalRecordings = systems.reduce((sum, s) => sum + s.analytics.totalRecordings, 0);
+
+    const systemsByType: Record<SystemType, number> = {
+      web: 0,
+      native: 0,
+      unity: 0,
+      godot: 0,
+      unreal: 0,
+      custom: 0
+    };
+
+    const systemsByStatus: Record<SystemStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const system of systems) {
+      systemsByType[system.type]++;
+      systemsByStatus[system.status]++;
+    }
 
     return {
-      ...stats,
-      activeCameraCount: activeCameras.size,
-      mainCameraMode: mainCamera?.definition.mode.type || 'none',
-      averagePerformanceRating: avgRating;
+      totalSystems: systems.length,
+      activeSystems: activeSystems.length,
+      systemsByType,
+      systemsByStatus,
+      totalCameras,
+      totalCaptures,
+      totalRecordings,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Calculate average performance rating
+   * Destroy the Camera System
    */
-  private calculateAveragePerformanceRating(ratings: string[]): string {
-    const ratingValues = {
-      'low': 1,
-      'medium': 2,
-      'high': 3,
-      'ultra': 4
-    };
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Camera System...');
 
-    const avgValue = ratings.reduce((sum, rating) => sum + (ratingValues[
-      rating,
-      as,
-      keyof,
-      typeof,
-      ratingValue,
-      s
-    ] || 2), 0) / ratings.length;
-    const avgRating = Math.round(avgValue);
-
-    switch (avgRating) {
-      case 1: return 'low';
-      case 2: return 'medium';
-      case 3: return 'high';
-      case 4: return 'ultra';
-      default: return 'medium';
-    }
-  }
-
-  /**
-   * Get all camera definitions
-   */
-  getAllCameraDefinitions(): CameraDefinition[] {
-    // This would normally come from the main system
-    return [];
-  }
-
-  /**
-   * Get all cameras
-   */
-  getAllCameras(): CameraInstance[] {
-    // This would normally come from the main system
-    return [];
-  }
-
-  /**
-   * Update camera statistics
-   */
-  updateStats(updates: Partial<CameraStats>): void {
-    // This would update the camera statistics
-    this.logger.info('CameraSystemManager', 'Updated camera statistics');
-  }
-
-  /**
-   * Validate camera definition
-   */
-  private validateCameraDefinition(camera: CameraDefinition): boolean {
-    if (!camera.id || camera.id.trim() === '') {
-      this.logger.error('CameraSystemManager', 'Camera ID is required');
-      return false;
-    }
-
-    if (!camera.name || camera.name.trim() === '') {
-      this.logger.error('CameraSystemManager', 'Camera name is required');
-      return false;
-    }
-
-    if (!camera.mode) {
-      this.logger.error('CameraSystemManager', 'Camera mode is required');
-      return false;
-    }
-
-    if (!camera.settings) {
-      this.logger.error('CameraSystemManager', 'Camera settings are required');
-      return false;
-    }
-
-    return true;
-  }
-
-  /**
-   * Generate unique transition ID
-   */
-  private generateTransitionId(): string {
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 8);
-    return `transition_${timestamp}_${random}`;
-  }
-
-  /**
-   * Generate unique effect ID
-   */
-  private generateEffectId(): string {
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 8);
-    return `effect_${timestamp}_${random}`;
-  }
-
-  /**
-   * Export camera system data
-   */
-  exportData(): {
-    cameras: CameraDefinition[];
-    activeCameras: CameraInstance[];
-    paths: CameraPath[];
-    sequences: CinematicSequence[];
-    stats: CameraStats;
-    config: CameraConfig;
-    timestamp: number;
-  } {
-    return {
-      cameras: this.getAllCameraDefinitions(),
-      activeCameras: this.getAllCameras(),
-      paths: [], // Would get from main system
-      sequences: [], // Would get from main system
-      stats: this.cameraSystem.getStats(),
-      config: this.cameraSystem.getConfig(),
-      timestamp: Date.now()
-    };
-  }
-
-  /**
-   * Import camera system data
-   */
-  importData(data: ReturnType<typeof this.exportData>): void {
-    // Import logic would go here
-    this.logger.info('CameraSystemManager', 'Camera system data imported');
-  }
-
-  /**
-   * Cleanup resources
-   */
-  destroy(): void {
-    this.logger.info('CameraSystemManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
+    this.systems.clear();
     this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+
+    this.logger.info('Camera System destroyed');
   }
 }
+
+// Export default instance
+export const cameraSystemManager = new CameraSystemManager();
+export default cameraSystemManager;

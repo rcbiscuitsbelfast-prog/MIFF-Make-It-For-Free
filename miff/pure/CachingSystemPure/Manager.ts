@@ -1,38 +1,29 @@
 /**
- * CachingSystemPure Manager - Advanced Caching Management System
+ * CachingSystemPure Manager - Advanced Caching System
  *
- * Comprehensive caching management system with:
- * - Multi-level caching (L1, L2, L3)
- * - Cache eviction policies and strategies
- * - Cache warming and preloading
- * - Cache invalidation and consistency
- * - Cross-platform caching support
+ * Comprehensive caching system with:
+ * - Multi-level caching
+ * - Cache invalidation strategies
  * - Performance optimization
- * - Real-time cache monitoring
- * - Cache analytics and reporting
+ * - Cross-platform support
+ * - Real-time monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface CachingSystemConfig {
   enableMultiLevelCaching: boolean;
-  enableCacheEviction: boolean;
-  enableCacheWarming: boolean;
-  enableCachePreloading: boolean;
   enableCacheInvalidation: boolean;
-  enableCacheConsistency: boolean;
-  enableCrossPlatformSupport: boolean;
   enablePerformanceOptimization: boolean;
+  enableCrossPlatformSupport: boolean;
   enableRealTimeMonitoring: boolean;
-  enableCacheAnalytics: boolean;
-  enableCacheReporting: boolean;
-  enableCacheCompression: boolean;
-  maxCacheSize: number;
+  maxCacheSize: number; // bytes
   maxCacheEntries: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
@@ -42,594 +33,729 @@ export interface CachingSystemConfig {
 export interface CachingSystem {
   id: string;
   name: string;
-  type: CachingSystemType;
-  status: CachingSystemStatus;
+  type: CacheType;
+  status: CacheStatus;
   caches: Cache[];
   policies: CachePolicy[];
-  strategies: CacheStrategy[];
-  analytics: CachingSystemAnalytics;
-  metadata: CachingSystemMetadata;
+  performance: CachePerformance;
+  analytics: CacheAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
-}
-
-export enum CachingSystemType {
-  MEMORY = 'memory',
-  DISK = 'disk',
-  DISTRIBUTED = 'distributed',
-  HYBRID = 'hybrid',
-  CUSTOM = 'custom'
-}
-
-export enum CachingSystemStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  WARMING = 'warming',
-  ERROR = 'error',
-  CUSTOM = 'custom'
 }
 
 export interface Cache {
   id: string;
   name: string;
   type: CacheType;
-  status: CacheStatus;
   level: CacheLevel;
-  configuration: CacheConfiguration;
-  statistics: CacheStatistics;
-  metadata: Map<string, any>;
+  status: CacheStatus;
+  entries: CacheEntry[];
+  policy: CachePolicy;
+  performance: CachePerformance;
+  metadata: Record<string, any>;
 }
 
-export enum CacheType {
-  L1 = 'l1',
-  L2 = 'l2',
-  L3 = 'l3',
-  CUSTOM = 'custom'
-}
-
-export enum CacheStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  WARMING = 'warming',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export enum CacheLevel {
-  LEVEL_1 = 'level_1',
-  LEVEL_2 = 'level_2',
-  LEVEL_3 = 'level_3',
-  CUSTOM = 'custom'
-}
-
-export interface CacheConfiguration {
-  maxSize: number;
-  maxEntries: number;
-  ttl: number;
-  evictionPolicy: EvictionPolicy;
-  compression: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum EvictionPolicy {
-  LRU = 'lru',
-  LFU = 'lfu',
-  FIFO = 'fifo',
-  TTL = 'ttl',
-  CUSTOM = 'custom'
-}
-
-export interface CacheStatistics {
-  hits: number;
-  misses: number;
-  hitRate: number;
-  missRate: number;
-  size: number;
-  entries: number;
-  metadata: Map<string, any>;
+export interface CacheEntry {
+  key: string;
+  value: any;
+  ttl: number; // time to live in milliseconds
+  createdAt: Date;
+  lastAccessed: Date;
+  accessCount: number;
+  size: number; // bytes
+  metadata: Record<string, any>;
 }
 
 export interface CachePolicy {
   id: string;
   name: string;
   type: PolicyType;
-  status: PolicyStatus;
-  rules: PolicyRule[];
-  actions: PolicyAction[];
-  metadata: Map<string, any>;
+  maxSize: number; // bytes
+  maxEntries: number;
+  ttl: number; // milliseconds
+  evictionStrategy: EvictionStrategy;
+  compression: CompressionConfig;
+  metadata: Record<string, any>;
 }
 
-export enum PolicyType {
-  EVICTION = 'eviction',
-  INVALIDATION = 'invalidation',
-  WARMING = 'warming',
-  CUSTOM = 'custom'
-}
-
-export enum PolicyStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface PolicyRule {
-  field: string;
-  operator: RuleOperator;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum RuleOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  CONTAINS = 'contains',
-  REGEX = 'regex',
-  CUSTOM = 'custom'
-}
-
-export interface PolicyAction {
-  type: ActionType;
-  function: string;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum ActionType {
-  EVICT = 'evict',
-  INVALIDATE = 'invalidate',
-  WARM = 'warm',
-  CUSTOM = 'custom'
-}
-
-export interface CacheStrategy {
-  id: string;
-  name: string;
-  type: StrategyType;
-  status: StrategyStatus;
-  configuration: StrategyConfiguration;
-  performance: StrategyPerformance;
-  metadata: Map<string, any>;
-}
-
-export enum StrategyType {
-  WRITE_THROUGH = 'write_through',
-  WRITE_BACK = 'write_back',
-  WRITE_AROUND = 'write_around',
-  CUSTOM = 'custom'
-}
-
-export enum StrategyStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface StrategyConfiguration {
+export interface CompressionConfig {
   enabled: boolean;
-  timeout: number;
-  retryAttempts: number;
-  metadata: Map<string, any>;
+  algorithm: CompressionAlgorithm;
+  threshold: number; // bytes
+  metadata: Record<string, any>;
 }
 
-export interface StrategyPerformance {
-  averageLatency: number;
-  throughput: number;
-  errorRate: number;
-  metadata: Map<string, any>;
+export interface CachePerformance {
+  hitRate: number; // 0-1
+  missRate: number; // 0-1
+  averageAccessTime: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  metadata: Record<string, any>;
 }
 
-export interface CachingSystemAnalytics {
+export interface CacheAnalytics {
   totalCaches: number;
-  totalPolicies: number;
-  totalStrategies: number;
-  averageHitRate: number;
-  averageLatency: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
+  activeCaches: number;
+  totalEntries: number;
+  totalHits: number;
+  totalMisses: number;
+  averageHitRate: number; // 0-1
+  lastUpdated: Date;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface CachingSystemMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface CachingSystemStats {
-  totalCaches: number;
-  totalPolicies: number;
-  totalStrategies: number;
-  averageHitRate: number;
-  averageLatency: number;
-  lastUpdate: number;
-}
+export type CacheType = 'memory' | 'disk' | 'redis' | 'database' | 'custom';
+export type CacheStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type CacheLevel = 'l1' | 'l2' | 'l3' | 'custom';
+export type PolicyType = 'fifo' | 'lru' | 'lfu' | 'ttl' | 'custom';
+export type EvictionStrategy = 'fifo' | 'lru' | 'lfu' | 'ttl' | 'random' | 'custom';
+export type CompressionAlgorithm = 'gzip' | 'brotli' | 'lz4' | 'zstd' | 'custom';
 
 export class CachingSystemManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
   private config: CachingSystemConfig;
   private systems: Map<string, CachingSystem> = new Map();
-  private stats: CachingSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private startTime: Date;
 
-  constructor(config: Partial<CachingSystemConfig> = {}) {
+  constructor(config?: Partial<CachingSystemConfig>) {
+    this.logger = new StructuredLogger({ module: 'CachingSystemManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
       enableMultiLevelCaching: true,
-      enableCacheEviction: true,
-      enableCacheWarming: true,
-      enableCachePreloading: true,
       enableCacheInvalidation: true,
-      enableCacheConsistency: true,
-      enableCrossPlatformSupport: true,
       enablePerformanceOptimization: true,
+      enableCrossPlatformSupport: true,
       enableRealTimeMonitoring: true,
-      enableCacheAnalytics: true,
-      enableCacheReporting: true,
-      enableCacheCompression: true,
-      maxCacheSize: 1024 * 1024 * 1024, // 1GB
-      maxCacheEntries: 1000000,
-      enableCloudSync: true,
+      maxCacheSize: 100 * 1024 * 1024, // 100MB
+      maxCacheEntries: 10000,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'CachingSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `CachingSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'CachingSystemManager');
-  };
-  }
-
-  /**
-   * Initialize caching system manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize caching system manager
-      await this.initializeCachingSystemManager();
-      
-      // Load default caching systems
-      await this.loadDefaultCachingSystems();
-      
-      this.isInitialized = true;
-      this.logger.info('CachingSystemManager', 'Caching system manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('CachingSystemManager', 'Failed to initialize caching system manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new caching system
-   */
-  createCachingSystem(system: Partial<CachingSystem>): CachingSystem | null {
-    const newSystem: CachingSystem = {
-      id: `cachingsystem_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: system.name || 'New Caching System',
-      type: system.type || CachingSystemType.MEMORY,
-      status: CachingSystemStatus.ACTIVE,
-      caches: system.caches || [],
-      policies: system.policies || [],
-      strategies: system.strategies || [],
-      analytics: system.analytics || this.createDefaultAnalytics(),
-      metadata: system.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
-
-    this.systems.set(newSystem.id, newSystem);
-    this.updateStats('create_system', newSystem);
-
-    this.logger.info('CachingSystemManager', `Created caching system: ${newSystem.name}`);
-    return newSystem;
   }
 
   /**
-   * Create cache
+   * Initialize the Caching System
    */
-  createCache(systemId: string, cache: Partial<Cache>): Cache | null {
-    const system = this.systems.get(systemId);
-    if (!system) {
-      this.logger.warn('CachingSystemManager', `Caching system ${systemId} not found`);
-      return null;
-    }
-
-    if (system.caches.length >= this.config.maxCacheEntries) {
-      this.logger.warn('CachingSystemManager', 'Maximum number of caches reached');
-      return null;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Caching System already initialized');
+      return;
     }
 
     try {
-      const newCache: Cache = {
-        id: `cache_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: cache.name || 'New Cache',
-        type: cache.type || CacheType.L1,
-        status: CacheStatus.ACTIVE,
-        level: cache.level || CacheLevel.LEVEL_1,
-        configuration: cache.configuration || this.createDefaultCacheConfiguration(),
-        statistics: cache.statistics || this.createDefaultCacheStatistics(),
-        metadata: cache.metadata || new Map()
-      };
+      this.logger.info('Initializing Caching System...');
 
-      system.caches.push(newCache);
-      system.modified = Date.now();
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
 
-      this.updateStats('create_cache', system);
-      this.logger.info('CachingSystemManager', `Created cache: ${newCache.name}`);
-      return newCache;
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Caching System initialized successfully');
+
     } catch (error) {
-      this.logger.error('CachingSystemManager', `Failed to create cache in system ${systemId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to initialize Caching System');
+      throw error;
     }
   }
 
   /**
-   * Create cache policy
+   * Create a new caching system
    */
-  createCachePolicy(systemId: string, policy: Partial<CachePolicy>): CachePolicy | null {
-    const system = this.systems.get(systemId);
-    if (!system) {
-      this.logger.warn('CachingSystemManager', `Caching system ${systemId} not found`);
-      return null;
+  async createSystem(systemData: Omit<CachingSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<CachingSystem> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
     }
 
     try {
-      const newPolicy: CachePolicy = {
-        id: `policy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: policy.name || 'New Policy',
-        type: policy.type || PolicyType.EVICTION,
-        status: PolicyStatus.ACTIVE,
-        rules: policy.rules || [],
-        actions: policy.actions || [],
-        metadata: policy.metadata || new Map()
+      const system: CachingSystem = {
+        ...systemData,
+        id: this.generateSystemId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalCaches: 0,
+          activeCaches: 0,
+          totalEntries: 0,
+          totalHits: 0,
+          totalMisses: 0,
+          averageHitRate: 0,
+          lastUpdated: new Date()
+        }
       };
 
-      system.policies.push(newPolicy);
-      system.modified = Date.now();
+      this.systems.set(system.id, system);
+      this.updateAnalytics();
 
-      this.updateStats('create_policy', system);
-      this.logger.info('CachingSystemManager', `Created cache policy: ${newPolicy.name}`);
-      return newPolicy;
+      this.logger.info('Caching system created', { systemId: system.id, systemName: system.name });
+      return system;
+
     } catch (error) {
-      this.logger.error('CachingSystemManager', `Failed to create cache policy in system ${systemId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to create caching system');
+      throw error;
     }
   }
 
   /**
-   * Get caching system
+   * Get a caching system by ID
    */
-  getCachingSystem(systemId: string): CachingSystem | null {
+  getSystem(systemId: string): CachingSystem | null {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
     return this.systems.get(systemId) || null;
+  }
+
+  /**
+   * Update a caching system
+   */
+  async updateSystem(systemId: string, updates: Partial<CachingSystem>): Promise<CachingSystem | null> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const updatedSystem: CachingSystem = {
+        ...system,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(system.version)
+      };
+
+      this.systems.set(systemId, updatedSystem);
+      this.updateAnalytics();
+
+      this.logger.info('Caching system updated', { systemId, systemName: updatedSystem.name });
+      return updatedSystem;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update caching system');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a caching system
+   */
+  async deleteSystem(systemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      this.systems.delete(systemId);
+      this.updateAnalytics();
+
+      this.logger.info('Caching system deleted', { systemId, systemName: system.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete caching system');
+      throw error;
+    }
   }
 
   /**
    * Get all caching systems
    */
-  getCachingSystems(): CachingSystem[] {
+  getAllSystems(): CachingSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
     return Array.from(this.systems.values());
   }
 
   /**
-   * Get caching systems by type
+   * Get systems by type
    */
-  getCachingSystemsByType(type: CachingSystemType): CachingSystem[] {
-    return Array.from(this.systems.values())
-      .filter(system => system.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): CachingSystemStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize caching system manager
-   */
-  private async initializeCachingSystemManager(): Promise<void> {
-    this.logger.info('CachingSystemManager', 'Initializing caching system manager...');
-  }
-
-  /**
-   * Load default caching systems
-   */
-  private async loadDefaultCachingSystems(): Promise<void> {
-    // Load default caching systems
-    const defaultSystems = [
-      this.createDefaultMemory(),
-      this.createDefaultDisk(),
-      this.createDefaultDistributed()
-    ];
-
-    for (const system of defaultSystems) {
-      if (system) {
-        this.systems.set(system.id, system);
-      }
+  getSystemsByType(type: CacheType): CachingSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
     }
 
-    this.logger.info('CachingSystemManager', `Loaded ${defaultSystems.length} default caching systems`);
+    return Array.from(this.systems.values()).filter(system => system.type === type);
   }
 
   /**
-   * Create default cache configuration
+   * Get systems by status
    */
-  private createDefaultCacheConfiguration(): CacheConfiguration {
-    return {
-      maxSize: this.config.maxCacheSize,
-      maxEntries: this.config.maxCacheEntries,
-      ttl: 3600000, // 1 hour
-      evictionPolicy: EvictionPolicy.LRU,
-      compression: true,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default cache statistics
-   */
-  private createDefaultCacheStatistics(): CacheStatistics {
-    return {
-      hits: 0,
-      misses: 0,
-      hitRate: 0,
-      missRate: 0,
-      size: 0,
-      entries: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): CachingSystemAnalytics {
-    return {
-      totalCaches: 0,
-      totalPolicies: 0,
-      totalStrategies: 0,
-      averageHitRate: 0,
-      averageLatency: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): CachingSystemMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default memory
-   */
-  private createDefaultMemory(): CachingSystem {
-    return this.createCachingSystem({
-      name: 'Memory Caching System',
-      type: CachingSystemType.MEMORY,
-      description: 'Memory caching system'
-    });
-  }
-
-  /**
-   * Create default disk
-   */
-  private createDefaultDisk(): CachingSystem {
-    return this.createCachingSystem({
-      name: 'Disk Caching System',
-      type: CachingSystemType.DISK,
-      description: 'Disk caching system'
-    });
-  }
-
-  /**
-   * Create default distributed
-   */
-  private createDefaultDistributed(): CachingSystem {
-    return this.createCachingSystem({
-      name: 'Distributed Caching System',
-      type: CachingSystemType.DISTRIBUTED,
-      description: 'Distributed caching system'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, system: CachingSystem): void {
-    switch (action) {
-      case 'create_system':
-        this.stats.totalCaches += system.caches.length;
-        this.stats.totalPolicies += system.policies.length;
-        this.stats.totalStrategies += system.strategies.length;
-        break;
-      case 'create_cache':
-        this.stats.totalCaches++;
-        break;
-      case 'create_policy':
-        this.stats.totalPolicies++;
-        break;
+  getSystemsByStatus(status: CacheStatus): CachingSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    return Array.from(this.systems.values()).filter(system => system.status === status);
   }
 
   /**
-   * Initialize statistics
+   * Add a cache to a system
    */
-  private initializeStats(): CachingSystemStats {
+  async addCache(systemId: string, cacheData: Omit<Cache, 'id'>): Promise<Cache | null> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const cache: Cache = {
+        ...cacheData,
+        id: this.generateCacheId()
+      };
+
+      system.caches.push(cache);
+      this.updateAnalytics();
+
+      this.logger.info('Cache added to system', { systemId, cacheId: cache.id, cacheName: cache.name });
+      return cache;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add cache to system');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a cache from a system
+   */
+  async removeCache(systemId: string, cacheId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const cacheIndex = system.caches.findIndex(c => c.id === cacheId);
+      if (cacheIndex === -1) {
+        this.logger.warn('Cache not found', { systemId, cacheId });
+        return false;
+      }
+
+      system.caches.splice(cacheIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Cache removed from system', { systemId, cacheId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove cache from system');
+      return false;
+    }
+  }
+
+  /**
+   * Get a value from cache
+   */
+  async get(systemId: string, cacheId: string, key: string): Promise<any | null> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const cache = system.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { systemId, cacheId });
+        return null;
+      }
+
+      const entry = cache.entries.find(e => e.key === key);
+      if (!entry) {
+        this.logger.debug('Cache miss', { systemId, cacheId, key });
+        return null;
+      }
+
+      // Check TTL
+      if (entry.ttl > 0 && Date.now() - entry.createdAt.getTime() > entry.ttl) {
+        this.removeEntry(cache, key);
+        this.logger.debug('Cache entry expired', { systemId, cacheId, key });
+        return null;
+      }
+
+      // Update access statistics
+      entry.lastAccessed = new Date();
+      entry.accessCount++;
+      this.updateAnalytics();
+
+      this.logger.debug('Cache hit', { systemId, cacheId, key });
+      return entry.value;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to get value from cache');
+      return null;
+    }
+  }
+
+  /**
+   * Set a value in cache
+   */
+  async set(systemId: string, cacheId: string, key: string, value: any, ttl?: number): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const cache = system.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { systemId, cacheId });
+        return false;
+      }
+
+      const entry: CacheEntry = {
+        key,
+        value,
+        ttl: ttl || cache.policy.ttl,
+        createdAt: new Date(),
+        lastAccessed: new Date(),
+        accessCount: 0,
+        size: this.calculateSize(value),
+        metadata: {}
+      };
+
+      // Remove existing entry if it exists
+      this.removeEntry(cache, key);
+
+      // Add new entry
+      cache.entries.push(entry);
+
+      // Check cache size limits
+      this.enforceCacheLimits(cache);
+
+      this.updateAnalytics();
+
+      this.logger.debug('Cache entry set', { systemId, cacheId, key });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to set value in cache');
+      return false;
+    }
+  }
+
+  /**
+   * Remove an entry from cache
+   */
+  async remove(systemId: string, cacheId: string, key: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const cache = system.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { systemId, cacheId });
+        return false;
+      }
+
+      const removed = this.removeEntry(cache, key);
+      if (removed) {
+        this.updateAnalytics();
+        this.logger.debug('Cache entry removed', { systemId, cacheId, key });
+      }
+
+      return removed;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove value from cache');
+      return false;
+    }
+  }
+
+  /**
+   * Clear all entries from a cache
+   */
+  async clear(systemId: string, cacheId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const cache = system.caches.find(c => c.id === cacheId);
+      if (!cache) {
+        this.logger.warn('Cache not found', { systemId, cacheId });
+        return false;
+      }
+
+      cache.entries = [];
+      this.updateAnalytics();
+
+      this.logger.info('Cache cleared', { systemId, cacheId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to clear cache');
+      return false;
+    }
+  }
+
+  /**
+   * Remove an entry from cache (internal method)
+   */
+  private removeEntry(cache: Cache, key: string): boolean {
+    const index = cache.entries.findIndex(e => e.key === key);
+    if (index !== -1) {
+      cache.entries.splice(index, 1);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Calculate size of a value
+   */
+  private calculateSize(value: any): number {
+    try {
+      return JSON.stringify(value).length * 2; // Rough estimate
+    } catch {
+      return 0;
+    }
+  }
+
+  /**
+   * Enforce cache size limits
+   */
+  private enforceCacheLimits(cache: Cache): void {
+    const policy = cache.policy;
+    
+    // Check entry count limit
+    if (cache.entries.length > policy.maxEntries) {
+      const entriesToRemove = cache.entries.length - policy.maxEntries;
+      this.evictEntries(cache, entriesToRemove);
+    }
+
+    // Check size limit
+    const totalSize = cache.entries.reduce((sum, entry) => sum + entry.size, 0);
+    if (totalSize > policy.maxSize) {
+      this.evictBySize(cache, totalSize - policy.maxSize);
+    }
+  }
+
+  /**
+   * Evict entries based on strategy
+   */
+  private evictEntries(cache: Cache, count: number): void {
+    const strategy = cache.policy.evictionStrategy;
+    
+    switch (strategy) {
+      case 'fifo':
+        cache.entries.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+        break;
+      case 'lru':
+        cache.entries.sort((a, b) => a.lastAccessed.getTime() - b.lastAccessed.getTime());
+        break;
+      case 'lfu':
+        cache.entries.sort((a, b) => a.accessCount - b.accessCount);
+        break;
+      case 'ttl':
+        cache.entries.sort((a, b) => (a.createdAt.getTime() + a.ttl) - (b.createdAt.getTime() + b.ttl));
+        break;
+      default:
+        // Random eviction
+        cache.entries.sort(() => Math.random() - 0.5);
+    }
+
+    cache.entries.splice(0, count);
+  }
+
+  /**
+   * Evict entries by size
+   */
+  private evictBySize(cache: Cache, sizeToFree: number): void {
+    let freedSize = 0;
+    const entriesToRemove: number[] = [];
+
+    for (let i = 0; i < cache.entries.length && freedSize < sizeToFree; i++) {
+      entriesToRemove.push(i);
+      freedSize += cache.entries[i].size;
+    }
+
+    // Remove entries in reverse order to maintain indices
+    entriesToRemove.reverse().forEach(index => {
+      cache.entries.splice(index, 1);
+    });
+  }
+
+  /**
+   * Generate a unique system ID
+   */
+  private generateSystemId(): string {
+    return `system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique cache ID
+   */
+  private generateCacheId(): string {
+    return `cache_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const systems = Array.from(this.systems.values());
+    const totalCaches = systems.reduce((sum, s) => sum + s.caches.length, 0);
+    const activeCaches = systems.reduce((sum, s) => sum + s.caches.filter(c => c.status === 'active').length, 0);
+    const totalEntries = systems.reduce((sum, s) => sum + s.caches.reduce((s, c) => s + c.entries.length, 0), 0);
+    const totalHits = systems.reduce((sum, s) => sum + s.analytics.totalHits, 0);
+    const totalMisses = systems.reduce((sum, s) => sum + s.analytics.totalMisses, 0);
+
+    for (const system of systems) {
+      system.analytics = {
+        totalCaches: system.caches.length,
+        activeCaches: system.caches.filter(c => c.status === 'active').length,
+        totalEntries: system.caches.reduce((sum, c) => sum + c.entries.length, 0),
+        totalHits: system.analytics.totalHits,
+        totalMisses: system.analytics.totalMisses,
+        averageHitRate: system.analytics.totalHits + system.analytics.totalMisses > 0 ? 
+          system.analytics.totalHits / (system.analytics.totalHits + system.analytics.totalMisses) : 0,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalSystems: number;
+    activeSystems: number;
+    systemsByType: Record<CacheType, number>;
+    systemsByStatus: Record<CacheStatus, number>;
+    totalCaches: number;
+    totalEntries: number;
+    averageHitRate: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Caching System not initialized');
+    }
+
+    const systems = Array.from(this.systems.values());
+    const activeSystems = systems.filter(s => s.status === 'active');
+    const totalCaches = systems.reduce((sum, s) => sum + s.caches.length, 0);
+    const totalEntries = systems.reduce((sum, s) => sum + s.caches.reduce((s, c) => s + c.entries.length, 0), 0);
+    const totalHits = systems.reduce((sum, s) => sum + s.analytics.totalHits, 0);
+    const totalMisses = systems.reduce((sum, s) => sum + s.analytics.totalMisses, 0);
+
+    const systemsByType: Record<CacheType, number> = {
+      memory: 0,
+      disk: 0,
+      redis: 0,
+      database: 0,
+      custom: 0
+    };
+
+    const systemsByStatus: Record<CacheStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const system of systems) {
+      systemsByType[system.type]++;
+      systemsByStatus[system.status]++;
+    }
+
     return {
-      totalCaches: 0,
-      totalPolicies: 0,
-      totalStrategies: 0,
-      averageHitRate: 0,
-      averageLatency: 0,
-      lastUpdate: Date.now()
+      totalSystems: systems.length,
+      activeSystems: activeSystems.length,
+      systemsByType,
+      systemsByStatus,
+      totalCaches,
+      totalEntries,
+      averageHitRate: totalHits + totalMisses > 0 ? totalHits / (totalHits + totalMisses) : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Caching System
    */
-  destroy(): void {
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Caching System...');
+
     this.systems.clear();
-    this.stats = this.initializeStats();
     this.isInitialized = false;
+
+    this.logger.info('Caching System destroyed');
   }
 }
 
 // Export default instance
-export const defaultCachingSystemManager = new CachingSystemManager();
-export { CachingSystemManager as default };
+export const cachingSystemManager = new CachingSystemManager();
+export default cachingSystemManager;

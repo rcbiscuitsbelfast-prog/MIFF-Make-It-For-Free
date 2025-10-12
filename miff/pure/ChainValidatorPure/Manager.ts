@@ -1,479 +1,749 @@
 /**
- * ChainValidatorPure - Graph Validation and Chain Analysis
+ * ChainValidatorPure Manager - Chain Validation System
  *
- * Provides a lightweight, pure TypeScript graph manager focused on validating
- * dependency chains, detecting cycles, computing statistics, and exporting
- * graph data in multiple formats.
+ * Comprehensive chain validation system with:
+ * - Multi-chain support
+ * - Validation rules and policies
+ * - Performance optimization
+ * - Cross-platform compatibility
+ * - Real-time monitoring
  *
- * @module ChainValidatorPure
  * @version 1.0.0
- * @license MIT
+ * @author MIFF Framework
  */
 
-export type ChainNodeType = 'chain' | 'quest' | 'task' | 'event' | 'checkpoint' | 'generic';
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
-export interface ChainNode {
+export interface ChainValidatorConfig {
+  enableMultiChainSupport: boolean;
+  enableValidationRules: boolean;
+  enablePerformanceOptimization: boolean;
+  enableCrossPlatformCompatibility: boolean;
+  enableRealTimeMonitoring: boolean;
+  enableChainAnalysis: boolean;
+  enablePolicyEnforcement: boolean;
+  enableAuditLogging: boolean;
+  enableMetrics: boolean;
+  enableAlerts: boolean;
+}
+
+export interface ChainValidator {
   id: string;
-  type: ChainNodeType;
-  label?: string;
-  metadata?: Record<string, any>;
+  name: string;
+  type: ValidatorType;
+  status: ValidatorStatus;
+  chains: Chain[];
+  rules: ValidationRule[];
+  policies: ValidationPolicy[];
+  performance: ValidatorPerformance;
+  analytics: ValidatorAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
 }
 
-export interface ChainEdge {
-  from: string;
-  to: string;
-  kind?: 'requires' | 'unlocks' | 'depends' | 'follows' | 'generic';
-  metadata?: Record<string, any>;
+export interface Chain {
+  id: string;
+  name: string;
+  type: ChainType;
+  status: ChainStatus;
+  blocks: ChainBlock[];
+  validation: ChainValidation;
+  metadata: Record<string, any>;
 }
 
-export interface ValidationIssue {
-  code: string;
+export interface ChainBlock {
+  id: string;
+  index: number;
+  data: any;
+  hash: string;
+  previousHash: string;
+  timestamp: Date;
+  metadata: Record<string, any>;
+}
+
+export interface ChainValidation {
+  isValid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationWarning[];
+  score: number; // 0-100
+  metadata: Record<string, any>;
+}
+
+export interface ValidationError {
+  id: string;
+  type: ErrorType;
+  severity: ErrorSeverity;
   message: string;
-  nodeId?: string;
-  edge?: { from: string; to: string;
-    };
+  blockId?: string;
+  metadata: Record<string, any>;
 }
 
-export interface ValidationResultEnvelope {
-  op: 'validate';
-  status: 'ok' | 'error' | 'warning';
-  result: {
-        isValid: boolean;
-    issues: ValidationIssue[];
-    warnings: string[];
-    summary: {
-      nodes: number;
-      edge,
-        s: number;
-      cycle,
-        s: number;
-      isolatedNode,
-        s: number;
-    
-
-  
-
-
-  
-      
-      }
-  };
+export interface ValidationWarning {
+  id: string;
+  type: WarningType;
+  message: string;
+  blockId?: string;
+  metadata: Record<string, any>;
 }
 
-export interface StatsEnvelope {
-  op: 'stats';
-  status: 'ok';
-  result: {
-        nodes: number;
-    edges: number;
-    density: number;
-    inDegree: { mi,
-        n: number; ma,
-        x: number; averag,
-        e: number;
-    
-
-
-  
-      
-      }
-    outDegree: {
-
-      min: number; max: number; average: number;
-    
-
-
-    }
-    };
-    components: number;
-    cycles: number;
-    topologicalOrder?: string[] | null;
-  };
+export interface ValidationRule {
+  id: string;
+  name: string;
+  type: RuleType;
+  enabled: boolean;
+  conditions: RuleCondition[];
+  actions: RuleAction[];
+  metadata: Record<string, any>;
 }
 
-export interface ExportEnvelope {
-  op: 'export';
-  status: 'ok';
-  format: 'json' | 'yaml' | 'csv';
-  result: any;
+export interface RuleCondition {
+  id: string;
+  type: ConditionType;
+  operator: ConditionOperator;
+  value: any;
+  metadata: Record<string, any>;
 }
+
+export interface RuleAction {
+  id: string;
+  type: ActionType;
+  parameters: Record<string, any>;
+  metadata: Record<string, any>;
+}
+
+export interface ValidationPolicy {
+  id: string;
+  name: string;
+  type: PolicyType;
+  rules: string[]; // Rule IDs
+  enabled: boolean;
+  metadata: Record<string, any>;
+}
+
+export interface ValidatorPerformance {
+  totalChains: number;
+  validatedChains: number;
+  averageValidationTime: number; // milliseconds
+  successRate: number; // 0-1
+  metadata: Record<string, any>;
+}
+
+export interface ValidatorAnalytics {
+  totalValidators: number;
+  activeValidators: number;
+  totalChains: number;
+  totalBlocks: number;
+  totalValidations: number;
+  successfulValidations: number;
+  failedValidations: number;
+  averageScore: number; // 0-100
+  lastUpdated: Date;
+}
+
+export type ValidatorType = 'blockchain' | 'data' | 'workflow' | 'custom';
+export type ValidatorStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type ChainType = 'blockchain' | 'data' | 'workflow' | 'custom';
+export type ChainStatus = 'valid' | 'invalid' | 'pending' | 'error';
+export type ErrorType = 'hash_mismatch' | 'invalid_data' | 'missing_block' | 'duplicate_block' | 'custom';
+export type WarningType = 'performance' | 'security' | 'compliance' | 'custom';
+export type RuleType = 'hash_validation' | 'data_validation' | 'sequence_validation' | 'custom';
+export type ConditionType = 'block_hash' | 'block_data' | 'block_sequence' | 'custom';
+export type ConditionOperator = 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'greater_than' | 'less_than' | 'custom';
+export type ActionType = 'reject' | 'warn' | 'log' | 'custom';
+export type PolicyType = 'mandatory' | 'recommended' | 'optional' | 'custom';
 
 export class ChainValidatorManager {
-  private nodes = new Map<string, ChainNode>();
-  private adjacency = new Map<string, Set<string>>();
-  private reverseAdjacency = new Map<string, Set<string>>();
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: ChainValidatorConfig;
+  private validators: Map<string, ChainValidator> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
-  // CRUD: Nodes;
-  addNode(node: ChainNode): { op: 'addNode'; status: 'ok' | 'error'; node?: ChainNode; issues?: string[] } {
-    const issues: string[] = [];
-    if (!node.id || typeof node.id !== 'string') {
-      issues.push('Node id must be a non-empty string');
-    }
-    if (this.nodes.has(node.id)) {
-      issues.push(`Node already exists: ${node.id}`);
-    }
-    if (issues.length > 0) {
-      return { op: 'addNode', status: 'error', issues } as any;
-    }
-    const normalized: ChainNode = { ...node, id: node.id.trim(), type: (node.type ?? 'generic') as ChainNodeType };
-    this.nodes.set(normalized.id, normalized);
-    if (!this.adjacency.has(normalized.id)) this.adjacency.set(normalized.id, new Set());
-    if (!this.reverseAdjacency.has(normalized.id)) this.reverseAdjacency.set(normalized.id, new Set());
-    return { op: 'addNode', status: 'ok', node: { ...normalized } } as any;
-  }
+  constructor(config?: Partial<ChainValidatorConfig>) {
+    this.logger = new StructuredLogger({ module: 'ChainValidatorManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
 
-  updateNode(id: string, updates: Partial<Omit<ChainNode, 'id'>>): { op: 'updateNode'; status: 'ok' | 'error'; node?: ChainNode; issues?: string[] } {
-    const issues: string[] = [];
-    const existing = this.nodes.get(id);
-    if (!existing) {
-      issues.push(`Node not found: ${id}`);
-      return { op: 'updateNode', status: 'error', issues } as any;
-    }
-    const updated: ChainNode = { ...existing, ...updates };
-    this.nodes.set(id, updated);
-    return { op: 'updateNode', status: 'ok', node: { ...updated } } as any;
-  }
-
-  removeNode(id: string): { op: 'removeNode'; status: 'ok' | 'error'; removed?: ChainNode; issues?: string[] } {
-    const issues: string[] = [];
-    const existing = this.nodes.get(id);
-    if (!existing) {
-      issues.push(`Node not found: ${id}`);
-      return { op: 'removeNode', status: 'error', issues } as any;
-    }
-    // Remove edges
-    const outgoing = this.adjacency.get(id) || new Set();
-    const incoming = this.reverseAdjacency.get(id) || new Set();
-    for (const to of outgoing) this.reverseAdjacency.get(to)?.delete(id);
-    for (const from of incoming) this.adjacency.get(from)?.delete(id);
-    this.adjacency.delete(id);
-    this.reverseAdjacency.delete(id);
-    this.nodes.delete(id);
-    return { op: 'removeNode', status: 'ok', removed: { ...existing } } as any;
-  }
-
-  // CRUD: Edges;
-  addEdge(edge: ChainEdge): { op: 'addEdge'; status: 'ok' | 'error'; edge?: ChainEdge; issues?: string[] } {
-    const issues: string[] = [];
-    if (!edge.from || !edge.to) issues.push('Edge must have from and to');
-    if (!this.nodes.has(edge.from)) issues.push(`Missing node: ${edge.from}`);
-    if (!this.nodes.has(edge.to)) issues.push(`Missing node: ${edge.to}`);
-    if (edge.from === edge.to) issues.push('Self-loop edges are not allowed');
-
-    const existingSet = this.adjacency.get(edge.from) || new Set();
-    if (existingSet.has(edge.to)) issues.push(`Duplicate edge: ${edge.from} -> ${edge.to}`);
-
-    if (issues.length > 0) return { op: 'addEdge', status: 'error', issues } as any;
-
-    if (!this.adjacency.has(edge.from)) this.adjacency.set(edge.from, new Set());
-    if (!this.reverseAdjacency.has(edge.to)) this.reverseAdjacency.set(edge.to, new Set());
-    this.adjacency.get(edge.from)!.add(edge.to);
-    this.reverseAdjacency.get(edge.to)!.add(edge.from);
-    return { op: 'addEdge', status: 'ok', edge: { ...edge } } as any;
-  }
-
-  removeEdge(from: string, to: string): { op: 'removeEdge'; status: 'ok' | 'error'; removed?: { from: string; to: string;
-    }; issues?: string[] } {
-    const issues: string[] = [];
-    if (!this.adjacency.get(from)?.has(to)) issues.push(`Edge not found: ${from} -> ${to}`);
-    if (issues.length > 0) return { op: 'removeEdge', status: 'error', issues } as any;
-    this.adjacency.get(from)!.delete(to);
-    this.reverseAdjacency.get(to)!.delete(from);
-    return { op: 'removeEdge', status: 'ok', removed: { from, to } } as any;
-  }
-
-  // Queries
-  getNode(id: string): ChainNode | null {
-    const n = this.nodes.get(id);
-    return n ? { ...n } : null;
-  }
-
-  listNodes(): ChainNode[] {
-    return Array.from(this.nodes.values()).map(n => ({ ...n }));
-  }
-
-  listEdges(): ChainEdge[] {
-    const edges: ChainEdge[] = [];
-    for (const [from, tos] of this.adjacency.entries()) {
-      for (const to of tos) edges.push({ from, to, kind: 'generic' });
-    }
-    return edges;
-  }
-
-  // Validation
-  validate(): ValidationResultEnvelope {
-    const issues: ValidationIssue[] = [];
-    const warnings: string[] = [];
-
-    // Detect orphans
-    const isolatedNodes = this.listIsolatedNodes();
-    for (const id of isolatedNodes) {
-      warnings.push(`Isolated node: ${id}`);
-    }
-
-    // Detect duplicates handled on add
-
-    // Detect missing references handled on add
-
-    // Detect cycles
-    const cycles = this.findCycles();
-    for (const cycle of cycles) {
-      issues.push({ code: 'cycle', message: `Cycle detected: ${cycle.join(' -> ')} -> ${cycle[0]}` });
-    }
-
-    const status: 'ok' | 'error' | 'warning' = issues.length > 0 ? 'error' : warnings.length > 0 ? 'warning' : 'ok';
-
-    return {
-      op: 'validate',
-      status,
-      result: {
-
-        isValid: issues.length === 0,
-        issues,
-        warnings,
-        summary: {
-        nodes: this.nodes.size,
-        edges: this.listEdges().length,
-        cycles: cycles.length,
-        isolatedNodes: isolatedNodes.length
-        
-
-      
-
-
-      
-      
-      
-      }
-      }
+    this.config = {
+      enableMultiChainSupport: true,
+      enableValidationRules: true,
+      enablePerformanceOptimization: true,
+      enableCrossPlatformCompatibility: true,
+      enableRealTimeMonitoring: true,
+      enableChainAnalysis: true,
+      enablePolicyEnforcement: true,
+      enableAuditLogging: true,
+      enableMetrics: true,
+      enableAlerts: true,
+      ...config
     };
   }
 
-  // Stats
-  getStats(): StatsEnvelope {
-    const nodes = this.nodes.size;
-    const edges = this.listEdges().length;
-    const density = nodes > 1 ? edges / (nodes * (nodes - 1)) : 0;
-    const inDegs: number[] = [];
-    const outDegs: number[] = [];
-    for (const id of this.nodes.keys()) {
-      inDegs.push(this.reverseAdjacency.get(id)?.size || 0);
-      outDegs.push(this.adjacency.get(id)?.size || 0);
+  /**
+   * Initialize the Chain Validator
+   */
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Chain Validator already initialized');
+      return;
     }
-    const inStats = this.statsFromArray(inDegs);
-    const outStats = this.statsFromArray(outDegs);
-    const components = this.countConnectedComponents();
-    const cycles = this.findCycles().length;
-    const topo = this.topologicalSort();
-    return {
-      op: 'stats',
-      status: 'ok',
-      result: {
 
-        nodes,
-        edges,
-        density: Math.round(density * 1e6) / 1e6,
-        inDegree: inStats,
-        outDegree: outStats,
-        components,
-        cycles,
-        topologicalOrder: topo.ok ? topo.order : null
-      
+    try {
+      this.logger.info('Initializing Chain Validator...');
 
-      
-
-
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
       }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Chain Validator initialized successfully');
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to initialize Chain Validator');
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new chain validator
+   */
+  async createValidator(validatorData: Omit<ChainValidator, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<ChainValidator> {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    try {
+      const validator: ChainValidator = {
+        ...validatorData,
+        id: this.generateValidatorId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalValidators: 0,
+          activeValidators: 0,
+          totalChains: 0,
+          totalBlocks: 0,
+          totalValidations: 0,
+          successfulValidations: 0,
+          failedValidations: 0,
+          averageScore: 0,
+          lastUpdated: new Date()
+        }
       };
-    };
-  }
 
-  // Export
-  exportGraph(format: 'json' | 'yaml' | 'csv' = 'json'): ExportEnvelope {
-    const payload = {
-      nodes: this.listNodes(),
-      edges: this.listEdges(),
-      stats: this.getStats().result,
-      exportedAt: new Date().toISOString(),
-      version: '1.0.0'
-    };
-    switch (format) {
-      case 'json':
-        return { op: 'export', status: 'ok', format, result: payload;
-    };
-      case 'yaml':
-        return { op: 'export', status: 'ok', format, result: this.toYAML(payload) };
-      case 'csv':
-        return { op: 'export', status: 'ok', format, result: this.toCSV(payload) };
-      default:
-        return { op: 'export', status: 'ok', format: 'json', result: payload;
-    };
+      this.validators.set(validator.id, validator);
+      this.updateAnalytics();
+
+      this.logger.info('Chain validator created', { validatorId: validator.id, validatorName: validator.name });
+      return validator;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create chain validator');
+      throw error;
     }
   }
 
-  // Utilities
-  private listIsolatedNodes(): string[] {
-    const isolated: string[] = [];
-    for (const id of this.nodes.keys()) {
-      const indeg = this.reverseAdjacency.get(id)?.size || 0;
-      const outdeg = this.adjacency.get(id)?.size || 0;
-      if (indeg === 0 && outdeg === 0) isolated.push(id);
+  /**
+   * Get a chain validator by ID
+   */
+  getValidator(validatorId: string): ChainValidator | null {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
     }
-    return isolated;
+
+    return this.validators.get(validatorId) || null;
   }
 
-  private findCycles(): string[][] {
-    const color = new Map<string, 0 | 1 | 2>(); // 0=unvisited,1=visiting,2=visited
-    const parent = new Map<string, string | null>();
-    const cycles: string[][] = [];
+  /**
+   * Update a chain validator
+   */
+  async updateValidator(validatorId: string, updates: Partial<ChainValidator>): Promise<ChainValidator | null> {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
 
-    const dfs = (u: string) => {
-      color.set(u, 1);
-      for (const v of this.adjacency.get(u) || []) {
-        if (!color.has(v)) {
-          parent.set(v, u);
-          dfs(v);
-        } else if (color.get(v) === 1) {
-          // found back edge, reconstruct cycle
-          const cycle: string[] = [v];
-          let x: string | null = u;
-          while (x && x !== v) {
-            cycle.push(x);
-            x = parent.get(x) || null;
-          }
-          cycle.push(v);
-          cycle.reverse();
-          // normalize cycle start for deduplication
-          const norm = this.normalizeCycle(cycle);
-          if (!this.cycleExists(cycles, norm)) cycles.push(norm);
+    try {
+      const validator = this.validators.get(validatorId);
+      if (!validator) {
+        this.logger.warn('Validator not found', { validatorId });
+        return null;
+      }
+
+      const updatedValidator: ChainValidator = {
+        ...validator,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(validator.version)
+      };
+
+      this.validators.set(validatorId, updatedValidator);
+      this.updateAnalytics();
+
+      this.logger.info('Chain validator updated', { validatorId, validatorName: updatedValidator.name });
+      return updatedValidator;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update chain validator');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a chain validator
+   */
+  async deleteValidator(validatorId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    try {
+      const validator = this.validators.get(validatorId);
+      if (!validator) {
+        this.logger.warn('Validator not found', { validatorId });
+        return false;
+      }
+
+      this.validators.delete(validatorId);
+      this.updateAnalytics();
+
+      this.logger.info('Chain validator deleted', { validatorId, validatorName: validator.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete chain validator');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all chain validators
+   */
+  getAllValidators(): ChainValidator[] {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    return Array.from(this.validators.values());
+  }
+
+  /**
+   * Get validators by type
+   */
+  getValidatorsByType(type: ValidatorType): ChainValidator[] {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    return Array.from(this.validators.values()).filter(validator => validator.type === type);
+  }
+
+  /**
+   * Get validators by status
+   */
+  getValidatorsByStatus(status: ValidatorStatus): ChainValidator[] {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    return Array.from(this.validators.values()).filter(validator => validator.status === status);
+  }
+
+  /**
+   * Add a chain to a validator
+   */
+  async addChain(validatorId: string, chainData: Omit<Chain, 'id'>): Promise<Chain | null> {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    try {
+      const validator = this.validators.get(validatorId);
+      if (!validator) {
+        this.logger.warn('Validator not found', { validatorId });
+        return null;
+      }
+
+      const chain: Chain = {
+        ...chainData,
+        id: this.generateChainId()
+      };
+
+      validator.chains.push(chain);
+      this.updateAnalytics();
+
+      this.logger.info('Chain added to validator', { validatorId, chainId: chain.id, chainName: chain.name });
+      return chain;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add chain to validator');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a chain from a validator
+   */
+  async removeChain(validatorId: string, chainId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    try {
+      const validator = this.validators.get(validatorId);
+      if (!validator) {
+        this.logger.warn('Validator not found', { validatorId });
+        return false;
+      }
+
+      const chainIndex = validator.chains.findIndex(c => c.id === chainId);
+      if (chainIndex === -1) {
+        this.logger.warn('Chain not found', { validatorId, chainId });
+        return false;
+      }
+
+      validator.chains.splice(chainIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Chain removed from validator', { validatorId, chainId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove chain from validator');
+      return false;
+    }
+  }
+
+  /**
+   * Validate a chain
+   */
+  async validateChain(validatorId: string, chainId: string): Promise<ChainValidation | null> {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    try {
+      const validator = this.validators.get(validatorId);
+      if (!validator) {
+        this.logger.warn('Validator not found', { validatorId });
+        return null;
+      }
+
+      const chain = validator.chains.find(c => c.id === chainId);
+      if (!chain) {
+        this.logger.warn('Chain not found', { validatorId, chainId });
+        return null;
+      }
+
+      const startTime = Date.now();
+      const validation = await this.performValidation(chain, validator.rules);
+      const endTime = Date.now();
+
+      chain.validation = validation;
+      this.updateAnalytics();
+
+      this.logger.info('Chain validation completed', { 
+        validatorId, 
+        chainId, 
+        isValid: validation.isValid, 
+        score: validation.score,
+        duration: endTime - startTime
+      });
+
+      return validation;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to validate chain');
+      return null;
+    }
+  }
+
+  /**
+   * Perform chain validation (internal method)
+   */
+  private async performValidation(chain: Chain, rules: ValidationRule[]): Promise<ChainValidation> {
+    const errors: ValidationError[] = [];
+    const warnings: ValidationWarning[] = [];
+    let score = 100;
+
+    // Validate chain structure
+    if (chain.blocks.length === 0) {
+      errors.push({
+        id: this.generateErrorId(),
+        type: 'invalid_data',
+        severity: 'high',
+        message: 'Chain has no blocks',
+        metadata: {}
+      });
+      score -= 50;
+    }
+
+    // Validate block sequence
+    for (let i = 0; i < chain.blocks.length; i++) {
+      const block = chain.blocks[i];
+      
+      // Check block index
+      if (block.index !== i) {
+        errors.push({
+          id: this.generateErrorId(),
+          type: 'invalid_data',
+          severity: 'high',
+          message: `Block index mismatch: expected ${i}, got ${block.index}`,
+          blockId: block.id,
+          metadata: {}
+        });
+        score -= 20;
+      }
+
+      // Check previous hash (except for first block)
+      if (i > 0) {
+        const previousBlock = chain.blocks[i - 1];
+        if (block.previousHash !== previousBlock.hash) {
+          errors.push({
+            id: this.generateErrorId(),
+            type: 'hash_mismatch',
+            severity: 'high',
+            message: 'Previous hash mismatch',
+            blockId: block.id,
+            metadata: {}
+          });
+          score -= 30;
         }
       }
-      color.set(u, 2);
-    };
 
-    for (const id of this.nodes.keys()) {
-      if (!color.has(id)) {
-        parent.set(id, null);
-        dfs(id);
+      // Check block hash
+      const expectedHash = this.calculateBlockHash(block);
+      if (block.hash !== expectedHash) {
+        errors.push({
+          id: this.generateErrorId(),
+          type: 'hash_mismatch',
+          severity: 'high',
+          message: 'Block hash mismatch',
+          blockId: block.id,
+          metadata: {}
+        });
+        score -= 25;
       }
     }
-    return cycles;
-  }
 
-  private normalizeCycle(cycle: string[]): string[] {
-    if (cycle.length === 0) return cycle;
-    // rotate so smallest id lexicographically is first
-    const body = cycle.slice(0, -1); // last equals first
-    let minIdx = 0;
-    for (let i = 1; i < body.length; i++) if (body[i] < body[
-      m,
-      i,
-      n,
-      I,
-      d,
-      x
-    ]) minIdx = i;
-    const rotated = [...body.slice(minIdx), ...body.slice(0, minIdx), body[
-      m,
-      i,
-      n,
-      I,
-      d,
-      x
-    ]];
-    return rotated;
-  }
+    // Apply validation rules
+    for (const rule of rules) {
+      if (!rule.enabled) continue;
 
-  private cycleExists(bag: string[][], cycle: string[]): boolean {
-    return bag.some(c => c.length === cycle.length && c.every((id, i) => id === cycle[i]));
-  }
-
-  private topologicalSort(): { ok: boolean; order?: string[] } {
-    const indeg = new Map<string, number>();
-    for (const id of this.nodes.keys()) indeg.set(id, 0);
-    for (const [u, vs] of this.adjacency.entries()) for (const v of vs) indeg.set(v, (indeg.get(v) || 0) + 1);
-    const queue: string[] = Array.from(indeg.entries()).filter(([, d]) => d === 0).map(([id]) => id);
-    const order: string[] = [];
-    const indegMutable = new Map(indeg);
-    while (queue.length > 0) {
-      const u = queue.shift()!;
-      order.push(u);
-      for (const v of this.adjacency.get(u) || []) {
-        const d = (indegMutable.get(v) || 0) - 1;
-        indegMutable.set(v, d);
-        if (d === 0) queue.push(v);
+      const ruleResult = await this.applyRule(chain, rule);
+      if (ruleResult.errors.length > 0) {
+        errors.push(...ruleResult.errors);
+        score -= ruleResult.errors.length * 5;
+      }
+      if (ruleResult.warnings.length > 0) {
+        warnings.push(...ruleResult.warnings);
+        score -= ruleResult.warnings.length * 2;
       }
     }
-    const ok = order.length === this.nodes.size;
-    return ok ? { ok: true, order } : { ok: false;
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+      warnings,
+      score: Math.max(0, score),
+      metadata: {}
     };
   }
 
-  private countConnectedComponents(): number {
-    const visited = new Set<string>();
-    let components = 0;
-    const undirected = new Map<string, Set<string>>();
-    for (const id of this.nodes.keys()) undirected.set(id, new Set());
-    for (const [u, vs] of this.adjacency.entries()) {
-      for (const v of vs) {
-        undirected.get(u)!.add(v);
-        undirected.get(v)!.add(u);
+  /**
+   * Apply a validation rule (internal method)
+   */
+  private async applyRule(chain: Chain, rule: ValidationRule): Promise<{ errors: ValidationError[]; warnings: ValidationWarning[] }> {
+    const errors: ValidationError[] = [];
+    const warnings: ValidationWarning[] = [];
+
+    // Simulate rule application
+    for (const condition of rule.conditions) {
+      switch (condition.type) {
+        case 'block_hash':
+          // Check if block hashes meet condition
+          break;
+        case 'block_data':
+          // Check if block data meets condition
+          break;
+        case 'block_sequence':
+          // Check if block sequence meets condition
+          break;
+        default:
+          // Custom condition
+          break;
       }
     }
-    const dfs = (u: string) => {
-      visited.add(u);
-      for (const v of undirected.get(u) || []) if (!visited.has(v)) dfs(v);
+
+    return { errors, warnings };
+  }
+
+  /**
+   * Calculate block hash (internal method)
+   */
+  private calculateBlockHash(block: ChainBlock): string {
+    // Simple hash calculation for demonstration
+    const data = JSON.stringify({
+      index: block.index,
+      data: block.data,
+      previousHash: block.previousHash,
+      timestamp: block.timestamp
+    });
+    
+    // Simple hash function (in production, use a proper hash function)
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      const char = data.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    
+    return hash.toString(16);
+  }
+
+  /**
+   * Generate a unique validator ID
+   */
+  private generateValidatorId(): string {
+    return `validator_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique chain ID
+   */
+  private generateChainId(): string {
+    return `chain_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique error ID
+   */
+  private generateErrorId(): string {
+    return `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const validators = Array.from(this.validators.values());
+    const totalChains = validators.reduce((sum, v) => sum + v.chains.length, 0);
+    const totalBlocks = validators.reduce((sum, v) => sum + v.chains.reduce((s, c) => s + c.blocks.length, 0), 0);
+    const totalValidations = validators.reduce((sum, v) => sum + v.analytics.totalValidations, 0);
+    const successfulValidations = validators.reduce((sum, v) => sum + v.analytics.successfulValidations, 0);
+    const failedValidations = validators.reduce((sum, v) => sum + v.analytics.failedValidations, 0);
+
+    for (const validator of validators) {
+      validator.analytics = {
+        totalValidators: validators.length,
+        activeValidators: validators.filter(v => v.status === 'active').length,
+        totalChains: validator.chains.length,
+        totalBlocks: validator.chains.reduce((sum, c) => sum + c.blocks.length, 0),
+        totalValidations: validator.analytics.totalValidations,
+        successfulValidations: validator.analytics.successfulValidations,
+        failedValidations: validator.analytics.failedValidations,
+        averageScore: validator.analytics.totalValidations > 0 ? 
+          validator.analytics.successfulValidations / validator.analytics.totalValidations * 100 : 0,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalValidators: number;
+    activeValidators: number;
+    validatorsByType: Record<ValidatorType, number>;
+    validatorsByStatus: Record<ValidatorStatus, number>;
+    totalChains: number;
+    totalBlocks: number;
+    totalValidations: number;
+    successRate: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Chain Validator not initialized');
+    }
+
+    const validators = Array.from(this.validators.values());
+    const activeValidators = validators.filter(v => v.status === 'active');
+    const totalChains = validators.reduce((sum, v) => sum + v.chains.length, 0);
+    const totalBlocks = validators.reduce((sum, v) => sum + v.chains.reduce((s, c) => s + c.blocks.length, 0), 0);
+    const totalValidations = validators.reduce((sum, v) => sum + v.analytics.totalValidations, 0);
+    const successfulValidations = validators.reduce((sum, v) => sum + v.analytics.successfulValidations, 0);
+
+    const validatorsByType: Record<ValidatorType, number> = {
+      blockchain: 0,
+      data: 0,
+      workflow: 0,
+      custom: 0
     };
-    for (const id of this.nodes.keys()) if (!visited.has(id)) {
-      components++;
-      dfs(id);
-    }
-    return components;
-  }
 
-  private statsFromArray(values: number[]): { min: number; max: number; average: number;
-    } {
-    if (values.length === 0) return { min: 0, max: 0, average: 0;
+    const validatorsByStatus: Record<ValidatorStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
     };
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const avg = values.reduce((a, b) => a + b, 0) / values.length;
-    return { min, max, average: Math.round(avg * 1e6) / 1e6 };
+
+    for (const validator of validators) {
+      validatorsByType[validator.type]++;
+      validatorsByStatus[validator.status]++;
+    }
+
+    return {
+      totalValidators: validators.length,
+      activeValidators: activeValidators.length,
+      validatorsByType,
+      validatorsByStatus,
+      totalChains,
+      totalBlocks,
+      totalValidations,
+      successRate: totalValidations > 0 ? successfulValidations / totalValidations : 0,
+      uptime: Date.now() - this.startTime.getTime()
+    };
   }
 
-  private toYAML(payload: any): string {
-    // Simple YAML emitter sufficient for golden tests; not a full serializer
-    const esc = (s: string) => s.replace(/"/g, '\\"');
-    const lines: string[] = [];
-    lines.push('nodes:');
-    for (const n of payload.nodes) {
-      lines.push(`  - id: "${esc(n.id)}"`);
-      lines.push(`    type: "${esc(n.type)}"`);
-      if (n.label) lines.push(`    label: "${esc(n.label)}"`);
-    }
-    lines.push('edges:');
-    for (const e of payload.edges) {
-      lines.push(`  - from: "${esc(e.from)}"`);
-      lines.push(`    to: "${esc(e.to)}"`);
-    }
-    lines.push('stats:');
-    lines.push(`  nodes: ${payload.stats.nodes}`);
-    lines.push(`  edges: ${payload.stats.edges}`);
-    lines.push(`  cycles: ${payload.stats.cycles}`);
-    lines.push(`  components: ${payload.stats.components}`);
-    lines.push(`exportedAt: "${esc(payload.exportedAt)}"`);
-    lines.push(`version: "${esc(payload.version)}"`);
-    return lines.join('\n');
-  }
+  /**
+   * Destroy the Chain Validator
+   */
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Chain Validator...');
 
-  private toCSV(payload: any): string {
-    const nodeRows = ['type,id,label'];
-    for (const n of payload.nodes) nodeRows.push(`${n.type},${n.id},${(n.label || '').replace(/,/g, ';')}`);
-    const edgeRows = ['from,to'];
-    for (const e of payload.edges) edgeRows.push(`${e.from},${e.to}`);
-    return ['[nodes]', ...nodeRows, '', '[edges]', ...edgeRows, '', '[stats]', `nodes,${payload.stats.nodes}`, `edges,${payload.stats.edges}`, `cycles,${payload.stats.cycles}`, `components,${payload.stats.components}`].join('\n');
+    this.validators.clear();
+    this.isInitialized = false;
+
+    this.logger.info('Chain Validator destroyed');
   }
 }
 
-export default ChainValidatorManager;
-
+// Export default instance
+export const chainValidatorManager = new ChainValidatorManager();
+export default chainValidatorManager;
