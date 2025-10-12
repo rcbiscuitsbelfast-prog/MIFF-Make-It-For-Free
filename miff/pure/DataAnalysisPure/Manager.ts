@@ -25,8 +25,8 @@ export interface DataAnalysisConfig {
   enableRealTimeProcessing: boolean;
   enableDataVisualization: boolean;
   enableMachineLearning: boolean;
-  enableDataCleaning: boolean;
-  enableDataTransformation: boolean;
+  enableDataExport: boolean;
+  enableDataImport: boolean;
   enableProfiling: boolean;
 }
 
@@ -37,7 +37,7 @@ export interface DataAnalysis {
   status: SystemStatus;
   datasets: Dataset[];
   analyses: Analysis[];
-  models: Model[];
+  visualizations: Visualization[];
   performance: SystemPerformance;
   analytics: SystemAnalytics;
   metadata: Record<string, any>;
@@ -51,16 +51,9 @@ export interface Dataset {
   name: string;
   type: DatasetType;
   status: DatasetStatus;
-  data: DataPoint[];
+  data: any[];
   schema: DataSchema;
   statistics: DatasetStatistics;
-  metadata: Record<string, any>;
-}
-
-export interface DataPoint {
-  id: string;
-  values: Record<string, any>;
-  timestamp: Date;
   metadata: Record<string, any>;
 }
 
@@ -76,19 +69,19 @@ export interface SchemaField {
   name: string;
   type: FieldType;
   nullable: boolean;
-  description: string;
+  unique: boolean;
+  indexed: boolean;
   metadata: Record<string, any>;
 }
 
 export interface DatasetStatistics {
-  count: number;
-  mean: Record<string, number>;
-  median: Record<string, number>;
-  mode: Record<string, any>;
-  standardDeviation: Record<string, number>;
-  variance: Record<string, number>;
-  min: Record<string, number>;
-  max: Record<string, number>;
+  totalRows: number;
+  totalColumns: number;
+  missingValues: number;
+  duplicateRows: number;
+  numericFields: number;
+  textFields: number;
+  dateFields: number;
   metadata: Record<string, any>;
 }
 
@@ -100,64 +93,65 @@ export interface Analysis {
   dataset: string; // Dataset ID
   parameters: AnalysisParameters;
   results: AnalysisResults;
+  created: Date;
+  completed?: Date;
   metadata: Record<string, any>;
 }
 
 export interface AnalysisParameters {
   method: string;
   options: Record<string, any>;
+  filters: AnalysisFilter[];
+  metadata: Record<string, any>;
+}
+
+export interface AnalysisFilter {
+  field: string;
+  operator: FilterOperator;
+  value: any;
   metadata: Record<string, any>;
 }
 
 export interface AnalysisResults {
-  summary: string;
-  data: Record<string, any>;
-  visualizations: Visualization[];
+  success: boolean;
+  data: any;
+  metrics: AnalysisMetrics;
+  errors: string[];
+  metadata: Record<string, any>;
+}
+
+export interface AnalysisMetrics {
+  accuracy?: number;
+  precision?: number;
+  recall?: number;
+  f1Score?: number;
+  rSquared?: number;
+  mse?: number;
+  mae?: number;
   metadata: Record<string, any>;
 }
 
 export interface Visualization {
   id: string;
+  name: string;
   type: VisualizationType;
-  title: string;
-  data: any;
+  status: VisualizationStatus;
+  dataset: string; // Dataset ID
+  analysis?: string; // Analysis ID
   config: VisualizationConfig;
+  data: any;
+  created: Date;
   metadata: Record<string, any>;
 }
 
 export interface VisualizationConfig {
-  width: number;
-  height: number;
-  colors: string[];
-  metadata: Record<string, any>;
-}
-
-export interface Model {
-  id: string;
-  name: string;
-  type: ModelType;
-  status: ModelStatus;
-  dataset: string; // Dataset ID
-  algorithm: string;
-  parameters: ModelParameters;
-  performance: ModelPerformance;
-  metadata: Record<string, any>;
-}
-
-export interface ModelParameters {
-  learningRate: number;
-  epochs: number;
-  batchSize: number;
-  regularization: number;
-  metadata: Record<string, any>;
-}
-
-export interface ModelPerformance {
-  accuracy: number;
-  precision: number;
-  recall: number;
-  f1Score: number;
-  confusionMatrix: number[][];
+  chartType: ChartType;
+  xAxis: string;
+  yAxis: string;
+  colorBy?: string;
+  groupBy?: string;
+  filters: AnalysisFilter[];
+  options: Record<string, any>;
   metadata: Record<string, any>;
 }
 
@@ -165,7 +159,7 @@ export interface SystemPerformance {
   totalDatasets: number;
   activeDatasets: number;
   totalAnalyses: number;
-  totalModels: number;
+  completedAnalyses: number;
   averageProcessingTime: number; // milliseconds
   memoryUsage: number; // bytes
   cpuUsage: number; // 0-1
@@ -177,22 +171,23 @@ export interface SystemAnalytics {
   activeSystems: number;
   totalDatasets: number;
   totalAnalyses: number;
-  totalModels: number;
+  totalVisualizations: number;
   averageAccuracy: number; // 0-1
   averagePerformance: number; // 0-100
   lastUpdated: Date;
 }
 
-export type SystemType = 'statistical' | 'machine_learning' | 'data_mining' | 'business_intelligence' | 'custom';
+export type SystemType = 'statistical' | 'machine_learning' | 'visualization' | 'custom';
 export type SystemStatus = 'active' | 'inactive' | 'error' | 'maintenance';
-export type DatasetType = 'tabular' | 'time_series' | 'text' | 'image' | 'custom';
-export type DatasetStatus = 'ready' | 'processing' | 'error' | 'archived';
-export type FieldType = 'numeric' | 'categorical' | 'text' | 'date' | 'boolean' | 'custom';
-export type AnalysisType = 'descriptive' | 'inferential' | 'predictive' | 'prescriptive' | 'custom';
+export type DatasetType = 'csv' | 'json' | 'xml' | 'database' | 'custom';
+export type DatasetStatus = 'loading' | 'ready' | 'error' | 'processing';
+export type FieldType = 'string' | 'number' | 'boolean' | 'date' | 'array' | 'object' | 'custom';
+export type AnalysisType = 'descriptive' | 'inferential' | 'predictive' | 'clustering' | 'custom';
 export type AnalysisStatus = 'pending' | 'running' | 'completed' | 'failed';
-export type VisualizationType = 'bar' | 'line' | 'scatter' | 'histogram' | 'heatmap' | 'custom';
-export type ModelType = 'classification' | 'regression' | 'clustering' | 'recommendation' | 'custom';
-export type ModelStatus = 'training' | 'trained' | 'deployed' | 'error';
+export type FilterOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
+export type VisualizationType = 'chart' | 'table' | 'map' | 'custom';
+export type VisualizationStatus = 'pending' | 'generating' | 'ready' | 'error';
+export type ChartType = 'bar' | 'line' | 'pie' | 'scatter' | 'histogram' | 'custom';
 
 export class DataAnalysisManager {
   private logger: StructuredLogger;
@@ -219,8 +214,8 @@ export class DataAnalysisManager {
       enableRealTimeProcessing: true,
       enableDataVisualization: true,
       enableMachineLearning: true,
-      enableDataCleaning: true,
-      enableDataTransformation: true,
+      enableDataExport: true,
+      enableDataImport: true,
       enableProfiling: false,
       ...config
     };
@@ -277,7 +272,7 @@ export class DataAnalysisManager {
           activeSystems: 0,
           totalDatasets: 0,
           totalAnalyses: 0,
-          totalModels: 0,
+          totalVisualizations: 0,
           averageAccuracy: 0,
           averagePerformance: 0,
           lastUpdated: new Date()
@@ -419,7 +414,7 @@ export class DataAnalysisManager {
       const dataset: Dataset = {
         ...datasetData,
         id: this.generateDatasetId(),
-        statistics: this.calculateDatasetStatistics(datasetData.data)
+        statistics: this.calculateDatasetStatistics(datasetData.data, datasetData.schema)
       };
 
       system.datasets.push(dataset);
@@ -470,7 +465,7 @@ export class DataAnalysisManager {
   /**
    * Run analysis on a dataset
    */
-  async runAnalysis(systemId: string, analysisData: Omit<Analysis, 'id' | 'status' | 'results'>): Promise<Analysis | null> {
+  async runAnalysis(systemId: string, analysisData: Omit<Analysis, 'id' | 'created' | 'status' | 'results'>): Promise<Analysis | null> {
     if (!this.isInitialized) {
       throw new Error('Data Analysis System not initialized');
     }
@@ -491,19 +486,24 @@ export class DataAnalysisManager {
       const analysis: Analysis = {
         ...analysisData,
         id: this.generateAnalysisId(),
-        status: 'running'
+        created: new Date(),
+        status: 'pending',
+        results: {
+          success: false,
+          data: null,
+          metrics: {},
+          errors: [],
+          metadata: {}
+        }
       };
 
       system.analyses.push(analysis);
-
-      // Simulate analysis execution
-      const results = await this.executeAnalysis(dataset, analysis.parameters);
-      analysis.results = results;
-      analysis.status = 'completed';
-
       this.updateAnalytics();
 
-      this.logger.info('Analysis completed', { systemId, analysisId: analysis.id, analysisName: analysis.name });
+      // Start analysis in background
+      this.performAnalysis(systemId, analysis.id);
+
+      this.logger.info('Analysis started', { systemId, analysisId: analysis.id, analysisName: analysis.name });
       return analysis;
 
     } catch (error) {
@@ -513,105 +513,157 @@ export class DataAnalysisManager {
   }
 
   /**
-   * Execute analysis (internal method)
+   * Perform analysis (internal method)
    */
-  private async executeAnalysis(dataset: Dataset, parameters: AnalysisParameters): Promise<AnalysisResults> {
-    // Simulate analysis execution based on method
-    const summary = `Analysis completed using ${parameters.method}`;
-    const data = {
-      method: parameters.method,
-      datasetSize: dataset.data.length,
-      timestamp: new Date()
-    };
+  private async performAnalysis(systemId: string, analysisId: string): Promise<void> {
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) return;
 
-    const visualizations: Visualization[] = [
-      {
-        id: this.generateVisualizationId(),
-        type: 'histogram',
-        title: 'Data Distribution',
-        data: dataset.statistics,
-        config: {
-          width: 800,
-          height: 600,
-          colors: ['#1f77b4', '#ff7f0e', '#2ca02c'],
-          metadata: {}
-        },
-        metadata: {}
+      const analysis = system.analyses.find(a => a.id === analysisId);
+      if (!analysis) return;
+
+      analysis.status = 'running';
+
+      // Simulate analysis based on type
+      switch (analysis.type) {
+        case 'descriptive':
+          await this.performDescriptiveAnalysis(analysis);
+          break;
+        case 'inferential':
+          await this.performInferentialAnalysis(analysis);
+          break;
+        case 'predictive':
+          await this.performPredictiveAnalysis(analysis);
+          break;
+        case 'clustering':
+          await this.performClusteringAnalysis(analysis);
+          break;
+        default:
+          await this.performCustomAnalysis(analysis);
       }
-    ];
 
-    return {
-      summary,
-      data,
-      visualizations,
+      analysis.status = 'completed';
+      analysis.completed = new Date();
+      this.updateAnalytics();
+
+      this.logger.info('Analysis completed', { systemId, analysisId });
+
+    } catch (error) {
+      const system = this.systems.get(systemId);
+      if (system) {
+        const analysis = system.analyses.find(a => a.id === analysisId);
+        if (analysis) {
+          analysis.status = 'failed';
+          analysis.results.errors.push(error.message);
+        }
+      }
+      this.errorHandler.handleError(error, 'Failed to perform analysis');
+    }
+  }
+
+  /**
+   * Perform descriptive analysis (internal method)
+   */
+  private async performDescriptiveAnalysis(analysis: Analysis): Promise<void> {
+    // Simulate descriptive analysis
+    analysis.results = {
+      success: true,
+      data: {
+        mean: 0,
+        median: 0,
+        mode: 0,
+        standardDeviation: 0,
+        variance: 0,
+        min: 0,
+        max: 0,
+        range: 0
+      },
+      metrics: {
+        accuracy: 0.95
+      },
+      errors: [],
       metadata: {}
     };
   }
 
   /**
-   * Train a model
+   * Perform inferential analysis (internal method)
    */
-  async trainModel(systemId: string, modelData: Omit<Model, 'id' | 'status' | 'performance'>): Promise<Model | null> {
-    if (!this.isInitialized) {
-      throw new Error('Data Analysis System not initialized');
-    }
-
-    try {
-      const system = this.systems.get(systemId);
-      if (!system) {
-        this.logger.warn('System not found', { systemId });
-        return null;
-      }
-
-      const dataset = system.datasets.find(d => d.id === modelData.dataset);
-      if (!dataset) {
-        this.logger.warn('Dataset not found', { systemId, datasetId: modelData.dataset });
-        return null;
-      }
-
-      const model: Model = {
-        ...modelData,
-        id: this.generateModelId(),
-        status: 'training'
-      };
-
-      system.models.push(model);
-
-      // Simulate model training
-      const performance = await this.trainModelInternal(dataset, model.parameters);
-      model.performance = performance;
-      model.status = 'trained';
-
-      this.updateAnalytics();
-
-      this.logger.info('Model training completed', { systemId, modelId: model.id, modelName: model.name });
-      return model;
-
-    } catch (error) {
-      this.errorHandler.handleError(error, 'Failed to train model');
-      return null;
-    }
+  private async performInferentialAnalysis(analysis: Analysis): Promise<void> {
+    // Simulate inferential analysis
+    analysis.results = {
+      success: true,
+      data: {
+        pValue: 0.05,
+        confidenceInterval: [0, 1],
+        testStatistic: 0,
+        degreesOfFreedom: 0
+      },
+      metrics: {
+        accuracy: 0.90
+      },
+      errors: [],
+      metadata: {}
+    };
   }
 
   /**
-   * Train model internally (internal method)
+   * Perform predictive analysis (internal method)
    */
-  private async trainModelInternal(dataset: Dataset, parameters: ModelParameters): Promise<ModelPerformance> {
-    // Simulate model training
-    const accuracy = 0.85 + Math.random() * 0.1; // 85-95%
-    const precision = 0.80 + Math.random() * 0.15; // 80-95%
-    const recall = 0.75 + Math.random() * 0.20; // 75-95%
-    const f1Score = 2 * (precision * recall) / (precision + recall);
+  private async performPredictiveAnalysis(analysis: Analysis): Promise<void> {
+    // Simulate predictive analysis
+    analysis.results = {
+      success: true,
+      data: {
+        predictions: [],
+        model: 'linear_regression',
+        coefficients: [],
+        intercept: 0
+      },
+      metrics: {
+        rSquared: 0.85,
+        mse: 0.1,
+        mae: 0.05
+      },
+      errors: [],
+      metadata: {}
+    };
+  }
 
-    return {
-      accuracy,
-      precision,
-      recall,
-      f1Score,
-      confusionMatrix: [
-        [50, 5],
-        [3, 42]
-      ],
+  /**
+   * Perform clustering analysis (internal method)
+   */
+  private async performClusteringAnalysis(analysis: Analysis): Promise<void> {
+    // Simulate clustering analysis
+    analysis.results = {
+      success: true,
+      data: {
+        clusters: [],
+        centroids: [],
+        labels: [],
+        inertia: 0
+      },
+      metrics: {
+        accuracy: 0.88
+      },
+      errors: [],
+      metadata: {}
+    };
+  }
+
+  /**
+   * Perform custom analysis (internal method)
+   */
+  private async performCustomAnalysis(analysis: Analysis): Promise<void> {
+    // Simulate custom analysis
+    analysis.results = {
+      success: true,
+      data: {},
+      metrics: {
+        accuracy: 0.80
+      },
+      errors: [],
       metadata: {}
     };
   }
@@ -619,52 +671,59 @@ export class DataAnalysisManager {
   /**
    * Calculate dataset statistics (internal method)
    */
-  private calculateDatasetStatistics(data: DataPoint[]): DatasetStatistics {
-    if (data.length === 0) {
-      return {
-        count: 0,
-        mean: {},
-        median: {},
-        mode: {},
-        standardDeviation: {},
-        variance: {},
-        min: {},
-        max: {},
-        metadata: {}
-      };
-    }
+  private calculateDatasetStatistics(data: any[], schema: DataSchema): DatasetStatistics {
+    const totalRows = data.length;
+    const totalColumns = schema.fields.length;
+    let missingValues = 0;
+    let duplicateRows = 0;
+    let numericFields = 0;
+    let textFields = 0;
+    let dateFields = 0;
 
-    const fields = Object.keys(data[0].values);
-    const statistics: DatasetStatistics = {
-      count: data.length,
-      mean: {},
-      median: {},
-      mode: {},
-      standardDeviation: {},
-      variance: {},
-      min: {},
-      max: {},
-      metadata: {}
-    };
-
-    for (const field of fields) {
-      const values = data.map(point => point.values[field]).filter(v => typeof v === 'number');
-      
-      if (values.length > 0) {
-        statistics.mean[field] = values.reduce((sum, val) => sum + val, 0) / values.length;
-        statistics.min[field] = Math.min(...values);
-        statistics.max[field] = Math.max(...values);
-        
-        const sortedValues = [...values].sort((a, b) => a - b);
-        statistics.median[field] = sortedValues[Math.floor(sortedValues.length / 2)];
-        
-        const variance = values.reduce((sum, val) => sum + Math.pow(val - statistics.mean[field], 2), 0) / values.length;
-        statistics.variance[field] = variance;
-        statistics.standardDeviation[field] = Math.sqrt(variance);
+    // Count field types
+    for (const field of schema.fields) {
+      switch (field.type) {
+        case 'number':
+          numericFields++;
+          break;
+        case 'string':
+          textFields++;
+          break;
+        case 'date':
+          dateFields++;
+          break;
       }
     }
 
-    return statistics;
+    // Count missing values and duplicates
+    const seenRows = new Set();
+    for (const row of data) {
+      // Check for missing values
+      for (const field of schema.fields) {
+        if (row[field.name] === null || row[field.name] === undefined) {
+          missingValues++;
+        }
+      }
+
+      // Check for duplicates
+      const rowKey = JSON.stringify(row);
+      if (seenRows.has(rowKey)) {
+        duplicateRows++;
+      } else {
+        seenRows.add(rowKey);
+      }
+    }
+
+    return {
+      totalRows,
+      totalColumns,
+      missingValues,
+      duplicateRows,
+      numericFields,
+      textFields,
+      dateFields,
+      metadata: {}
+    };
   }
 
   /**
@@ -689,20 +748,6 @@ export class DataAnalysisManager {
   }
 
   /**
-   * Generate a unique model ID
-   */
-  private generateModelId(): string {
-    return `model_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  /**
-   * Generate a unique visualization ID
-   */
-  private generateVisualizationId(): string {
-    return `viz_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  /**
    * Increment version number
    */
   private incrementVersion(version: string): string {
@@ -718,8 +763,8 @@ export class DataAnalysisManager {
     const systems = Array.from(this.systems.values());
     const totalDatasets = systems.reduce((sum, s) => sum + s.datasets.length, 0);
     const totalAnalyses = systems.reduce((sum, s) => sum + s.analyses.length, 0);
-    const totalModels = systems.reduce((sum, s) => sum + s.models.length, 0);
-    const averageAccuracy = systems.reduce((sum, s) => sum + s.models.reduce((sum, m) => sum + m.performance.accuracy, 0), 0) / totalModels;
+    const totalVisualizations = systems.reduce((sum, s) => sum + s.visualizations.length, 0);
+    const completedAnalyses = systems.reduce((sum, s) => sum + s.analyses.filter(a => a.status === 'completed').length, 0);
 
     for (const system of systems) {
       system.analytics = {
@@ -727,9 +772,9 @@ export class DataAnalysisManager {
         activeSystems: systems.filter(s => s.status === 'active').length,
         totalDatasets: system.datasets.length,
         totalAnalyses: system.analyses.length,
-        totalModels: system.models.length,
-        averageAccuracy: system.models.length > 0 ? 
-          system.models.reduce((sum, m) => sum + m.performance.accuracy, 0) / system.models.length : 0,
+        totalVisualizations: system.visualizations.length,
+        averageAccuracy: system.analyses.length > 0 ? 
+          system.analyses.reduce((sum, a) => sum + (a.results.metrics.accuracy || 0), 0) / system.analyses.length : 0,
         averagePerformance: 85, // Simulate performance score
         lastUpdated: new Date()
       };
@@ -746,7 +791,7 @@ export class DataAnalysisManager {
     systemsByStatus: Record<SystemStatus, number>;
     totalDatasets: number;
     totalAnalyses: number;
-    totalModels: number;
+    totalVisualizations: number;
     uptime: number;
   } {
     if (!this.isInitialized) {
@@ -757,13 +802,12 @@ export class DataAnalysisManager {
     const activeSystems = systems.filter(s => s.status === 'active');
     const totalDatasets = systems.reduce((sum, s) => sum + s.datasets.length, 0);
     const totalAnalyses = systems.reduce((sum, s) => sum + s.analyses.length, 0);
-    const totalModels = systems.reduce((sum, s) => sum + s.models.length, 0);
+    const totalVisualizations = systems.reduce((sum, s) => sum + s.visualizations.length, 0);
 
     const systemsByType: Record<SystemType, number> = {
       statistical: 0,
       machine_learning: 0,
-      data_mining: 0,
-      business_intelligence: 0,
+      visualization: 0,
       custom: 0
     };
 
@@ -786,7 +830,7 @@ export class DataAnalysisManager {
       systemsByStatus,
       totalDatasets,
       totalAnalyses,
-      totalModels,
+      totalVisualizations,
       uptime: Date.now() - this.startTime.getTime()
     };
   }
