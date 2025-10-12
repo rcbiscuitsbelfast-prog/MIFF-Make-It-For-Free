@@ -99,7 +99,6 @@ export interface Checkpoint {
     
 
 
-  }
   };
   type: 'start' | 'intermediate' | 'finish' | string;
   isRequired: boolean;
