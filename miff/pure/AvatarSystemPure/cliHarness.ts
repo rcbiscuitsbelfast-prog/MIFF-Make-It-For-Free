@@ -9,7 +9,7 @@
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log(`
+  this.logger.info(`
 AvatarSystemPure CLI Harness - Avatar Management System
 
 Usage: npx tsx miff/pure/AvatarSystemPure/cliHarness.ts [command] [options]
@@ -41,13 +41,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { AvatarSystemPure, AvatarRegistry, ResolveOptions, AssetRegistryRecord } from './index';
 import { AvatarManifest, AvatarStyle } from './schema';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AvatarSystemCLI {
+  private logger: StructuredLogger;
   private avatarSystem: AvatarSystemPure;
   private rl: readline.Interface;
   private registry: AvatarRegistry;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'AvatarSystemCLI' });
     this.avatarSystem = new AvatarSystemPure();
     this.registry = this.createSampleRegistry();
 
@@ -66,7 +70,7 @@ class AvatarSystemCLI {
     });
 
     this.rl.on('close', () => {
-      console.log('\n👋 Avatar System CLI closed');
+      this.logger.info('\n👋 Avatar System CLI closed');
       process.exit(0);
     });
   }
@@ -116,51 +120,51 @@ class AvatarSystemCLI {
         // Empty line, just show prompt
         break;
       default:
-        console.log(`❌ Unknown command: ${command}`);
-        console.log('Type "help" for available commands');
+        this.logger.info(`❌ Unknown command: ${command}`);
+        this.logger.info('Type "help" for available commands');
     }
 
     this.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
-    console.log('🧪 Running Avatar System tests...\n');
+    this.logger.info('🧪 Running Avatar System tests...\n');
 
     try {
       // Test 1: Style validation
-      console.log('1. Testing style validation...');
+      this.logger.info('1. Testing style validation...');
       const validStyles = ['3d', '2d-side', 'overlay', 'pixel-art', 'voxel', 'skeletal'];
       for (const style of validStyles) {
         const isValid = validStyles.includes(style);
-        console.log(`   ${isValid ? '✅' : '❌'} Style "${style}": ${isValid ? 'Valid' : 'Invalid'}`);
+        this.logger.info(`   ${isValid ? '✅' : '❌'} Style "${style}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
       // Test 2: Component validation
-      console.log('\n2. Testing component validation...');
+      this.logger.info('\n2. Testing component validation...');
       const validComponents = ['head', 'torso', 'legs', 'boots', 'shirt', 'cloak', 'hat'];
       for (const component of validComponents) {
         const isValid = validComponents.includes(component);
-        console.log(`   ${isValid ? '✅' : '❌'} Component "${component}": ${isValid ? 'Valid' : 'Invalid'}`);
+        this.logger.info(`   ${isValid ? '✅' : '❌'} Component "${component}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
       // Test 3: Animation state validation
-      console.log('\n3. Testing animation state validation...');
+      this.logger.info('\n3. Testing animation state validation...');
       const validAnimations = ['idle', 'walk', 'run', 'attack', 'defend', 'cast', 'death', 'victory'];
       for (const animation of validAnimations) {
         const isValid = validAnimations.includes(animation);
-        console.log(`   ${isValid ? '✅' : '❌'} Animation "${animation}": ${isValid ? 'Valid' : 'Invalid'}`);
+        this.logger.info(`   ${isValid ? '✅' : '❌'} Animation "${animation}": ${isValid ? 'Valid' : 'Invalid'}`);
       }
 
       // Test 4: Registry operations
-      console.log('\n4. Testing registry operations...');
+      this.logger.info('\n4. Testing registry operations...');
       const registrySize = this.registry.items.length;
-      console.log(`   ✅ Registry size: ${registrySize} items`);
+      this.logger.info(`   ✅ Registry size: ${registrySize} items`);
 
       const compatibleItems = this.registry.items.filter(item => item.compatibility.includes('web'));
-      console.log(`   ✅ Web-compatible items: ${compatibleItems.length}`);
+      this.logger.info(`   ✅ Web-compatible items: ${compatibleItems.length}`);
 
       // Test 5: Avatar resolution
-      console.log('\n5. Testing avatar resolution...');
+      this.logger.info('\n5. Testing avatar resolution...');
       const resolveOptions: ResolveOptions = {
         registry: this.registry,
         style: '3d'
@@ -175,46 +179,46 @@ class AvatarSystemCLI {
 
       const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
       if (resolvedAvatar) {
-        console.log(`   ✅ Avatar resolved successfully`);
-        console.log(`   📊 Components: ${resolvedAvatar.components.length}`);
-        console.log(`   🎨 Style: ${resolvedAvatar.assets.style}`);
+        this.logger.info(`   ✅ Avatar resolved successfully`);
+        this.logger.info(`   📊 Components: ${resolvedAvatar.components.length}`);
+        this.logger.info(`   🎨 Style: ${resolvedAvatar.assets.style}`);
       } else {
-        console.log('   ⚠️  Avatar resolution returned null (may be expected)');
+        this.logger.info('   ⚠️  Avatar resolution returned null (may be expected)');
       }
 
-      console.log('\n🎉 All tests passed!');
+      this.logger.info('\n🎉 All tests passed!');
 
     } catch (error) {
-      console.error('❌ Test failed:', error);
+      this.logger.error('❌ Test failed:', error);
     }
   }
 
   private async validateManifest(manifestPath?: string): Promise<void> {
     if (!manifestPath) {
-      console.log('❌ Usage: validate <manifest>');
+      this.logger.info('❌ Usage: validate <manifest>');
       return;
     }
 
     try {
       const manifestContent = fs.readFileSync(manifestPath, 'utf-8');
-      const manifest = JSON.parse(manifestContent);
+      const manifest = SafeJSONParser.parse(manifestContent);
 
       const result = AvatarSystemPure.validate(manifest);
       
       if (result.ok) {
-        console.log('✅ Manifest is valid');
+        this.logger.info('✅ Manifest is valid');
       } else {
-        console.log('❌ Manifest validation failed:');
-        result.errors.forEach(error => console.log(`   - ${error}`));
+        this.logger.info('❌ Manifest validation failed:');
+        result.errors.forEach(error => this.logger.info(`   - ${error}`));
       }
     } catch (error) {
-      console.error('❌ Validation failed:', error);
+      this.logger.error('❌ Validation failed:', error);
     }
   }
 
   private async resolveAvatar(style?: string): Promise<void> {
     if (!style) {
-      console.log('❌ Usage: resolve <style>');
+      this.logger.info('❌ Usage: resolve <style>');
       return;
     }
 
@@ -234,16 +238,16 @@ class AvatarSystemCLI {
       const resolvedAvatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
       
       if (resolvedAvatar) {
-        console.log('✅ Avatar resolved successfully:');
-        console.log(`   Style: ${resolvedAvatar.assets.style}`);
-        console.log(`   Components: ${resolvedAvatar.components.length}`);
-        console.log(`   Asset Entries: ${resolvedAvatar.assets.entries.length}`);
-        console.log(`   Manifest Base: ${resolvedAvatar.manifest.base}`);
+        this.logger.info('✅ Avatar resolved successfully:');
+        this.logger.info(`   Style: ${resolvedAvatar.assets.style}`);
+        this.logger.info(`   Components: ${resolvedAvatar.components.length}`);
+        this.logger.info(`   Asset Entries: ${resolvedAvatar.assets.entries.length}`);
+        this.logger.info(`   Manifest Base: ${resolvedAvatar.manifest.base}`);
       } else {
-        console.log('❌ Avatar resolution failed');
+        this.logger.info('❌ Avatar resolution failed');
       }
     } catch (error) {
-      console.error('❌ Resolution failed:', error);
+      this.logger.error('❌ Resolution failed:', error);
     }
   }
 
@@ -280,33 +284,33 @@ class AvatarSystemCLI {
 
       const manifestPath = 'sample-avatar-manifest.json';
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-      console.log(`✅ Sample manifest created: ${manifestPath}`);
+      this.logger.info(`✅ Sample manifest created: ${manifestPath}`);
     } catch (error) {
-      console.error('❌ Manifest creation failed:', error);
+      this.logger.error('❌ Manifest creation failed:', error);
     }
   }
 
   private listStyles(): void {
-    console.log('🎨 Supported Avatar Styles:');
+    this.logger.info('🎨 Supported Avatar Styles:');
     const styles = ['3d', '2d-side', 'overlay', 'pixel-art', 'voxel', 'skeletal'];
     styles.forEach(style => {
-      console.log(`   - ${style}`);
+      this.logger.info(`   - ${style}`);
     });
   }
 
   private listComponents(): void {
-    console.log('🧩 Supported Component Kinds:');
+    this.logger.info('🧩 Supported Component Kinds:');
     const components = ['head', 'torso', 'legs', 'boots', 'shirt', 'cloak', 'hat', 'accessory', 'weapon', 'shield', 'hair', 'eyes', 'mouth'];
     components.forEach(component => {
-      console.log(`   - ${component}`);
+      this.logger.info(`   - ${component}`);
     });
   }
 
   private listAnimations(): void {
-    console.log('🎭 Supported Animation States:');
+    this.logger.info('🎭 Supported Animation States:');
     const animations = ['idle', 'walk', 'run', 'attack', 'defend', 'cast', 'death', 'victory'];
     animations.forEach(animation => {
-      console.log(`   - ${animation}`);
+      this.logger.info(`   - ${animation}`);
     });
   }
 
@@ -319,21 +323,21 @@ class AvatarSystemCLI {
         animationCompression: true
       };
 
-      console.log('⚡ Avatar Optimization Configuration:');
-      console.log(`   LOD Levels: ${optimizations.lodLevels}`);
-      console.log(`   Texture Compression: ${optimizations.textureCompression}`);
-      console.log(`   Mesh Simplification: ${optimizations.meshSimplification}`);
-      console.log(`   Animation Compression: ${optimizations.animationCompression}`);
+      this.logger.info('⚡ Avatar Optimization Configuration:');
+      this.logger.info(`   LOD Levels: ${optimizations.lodLevels}`);
+      this.logger.info(`   Texture Compression: ${optimizations.textureCompression}`);
+      this.logger.info(`   Mesh Simplification: ${optimizations.meshSimplification}`);
+      this.logger.info(`   Animation Compression: ${optimizations.animationCompression}`);
       
-      console.log('✅ Optimization configuration applied');
+      this.logger.info('✅ Optimization configuration applied');
     } catch (error) {
-      console.error('❌ Optimization failed:', error);
+      this.logger.error('❌ Optimization failed:', error);
     }
   }
 
   private async exportAvatar(format?: string): Promise<void> {
     if (!format) {
-      console.log('❌ Usage: export <format>');
+      this.logger.info('❌ Usage: export <format>');
       return;
     }
 
@@ -341,28 +345,28 @@ class AvatarSystemCLI {
       const supportedFormats = ['json', 'gltf', 'fbx', 'obj'];
       
       if (!supportedFormats.includes(format.toLowerCase())) {
-        console.log(`❌ Unsupported format: ${format}`);
-        console.log(`   Supported formats: ${supportedFormats.join(', ')}`);
+        this.logger.info(`❌ Unsupported format: ${format}`);
+        this.logger.info(`   Supported formats: ${supportedFormats.join(', ')}`);
         return;
       }
 
-      console.log(`📤 Exporting avatar as ${format.toUpperCase()}...`);
+      this.logger.info(`📤 Exporting avatar as ${format.toUpperCase()}...`);
       
       // Simulate export process
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      console.log(`✅ Avatar exported successfully as ${format.toUpperCase()}`);
+      this.logger.info(`✅ Avatar exported successfully as ${format.toUpperCase()}`);
     } catch (error) {
-      console.error('❌ Export failed:', error);
+      this.logger.error('❌ Export failed:', error);
     }
   }
 
   private async simulate(): Promise<void> {
-    console.log('🎭 Starting avatar system simulation...');
+    this.logger.info('🎭 Starting avatar system simulation...');
     
     try {
       // Simulate avatar creation
-      console.log('1. Creating avatar...');
+      this.logger.info('1. Creating avatar...');
       const resolveOptions: ResolveOptions = {
         registry: this.registry,
         style: '3d'
@@ -376,44 +380,44 @@ class AvatarSystemCLI {
       };
 
       const avatar = AvatarSystemPure.resolve(testManifest, resolveOptions);
-      console.log(`   ✅ Avatar created with style: ${avatar?.assets.style || 'unknown'}`);
+      this.logger.info(`   ✅ Avatar created with style: ${avatar?.assets.style || 'unknown'}`);
 
       // Simulate component addition
-      console.log('2. Adding components...');
+      this.logger.info('2. Adding components...');
       const components = ['head', 'torso', 'legs', 'boots', 'shirt'];
       components.forEach(component => {
-        console.log(`   ✅ Added ${component} component`);
+        this.logger.info(`   ✅ Added ${component} component`);
       });
 
       // Simulate animation setup
-      console.log('3. Setting up animations...');
+      this.logger.info('3. Setting up animations...');
       const animations = ['idle', 'walk', 'run', 'attack'];
       animations.forEach(animation => {
-        console.log(`   ✅ Configured ${animation} animation`);
+        this.logger.info(`   ✅ Configured ${animation} animation`);
       });
 
       // Simulate customization
-      console.log('4. Applying customizations...');
+      this.logger.info('4. Applying customizations...');
       const customizations = ['hair-color', 'eye-color', 'skin-tone'];
       customizations.forEach(customization => {
-        console.log(`   ✅ Applied ${customization} customization`);
+        this.logger.info(`   ✅ Applied ${customization} customization`);
       });
 
       // Simulate optimization
-      console.log('5. Optimizing avatar...');
-      console.log('   ✅ Applied LOD optimization');
-      console.log('   ✅ Compressed textures');
-      console.log('   ✅ Simplified meshes');
+      this.logger.info('5. Optimizing avatar...');
+      this.logger.info('   ✅ Applied LOD optimization');
+      this.logger.info('   ✅ Compressed textures');
+      this.logger.info('   ✅ Simplified meshes');
 
-      console.log('✅ Avatar simulation completed successfully');
+      this.logger.info('✅ Avatar simulation completed successfully');
 
     } catch (error) {
-      console.error('❌ Simulation failed:', error);
+      this.logger.error('❌ Simulation failed:', error);
     }
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 Available commands:
   test                     - Run basic avatar system tests
   validate <manifest>      - Validate avatar manifest
@@ -463,8 +467,8 @@ Available commands:
   }
 
   public async start(): Promise<void> {
-    console.log('🚀 Avatar System CLI Started');
-    console.log('Type "help" for available commands or "test" to run tests\n');
+    this.logger.info('🚀 Avatar System CLI Started');
+    this.logger.info('Type "help" for available commands or "test" to run tests\n');
     
     this.rl.prompt();
   }

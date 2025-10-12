@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Transport Implementation
  * 
@@ -20,6 +22,7 @@ export interface TransportOptions {
 }
 
 export class RealTransport {
+  private logger: StructuredLogger;
   private ws: WebSocket | null = null;
   private messageHandlers: Map<string, Function[]> = new Map();
   private reconnectAttempts = 0;
@@ -27,6 +30,7 @@ export class RealTransport {
   private isConnected = false;
 
   constructor(options: TransportOptions = {}) {
+    this.logger = new StructuredLogger({ module: 'RealTransport' });
     this.options = {
       url: 'ws://localhost:8080',
       protocols: ['miff-protocol'],
@@ -44,16 +48,16 @@ export class RealTransport {
         this.ws.onopen = () => {
           this.isConnected = true;
           this.reconnectAttempts = 0;
-          console.log('Transport connected');
+          this.logger.info('Transport connected');
           resolve();
         };
 
         this.ws.onmessage = (event) => {
           try {
-            const message: TransportMessage = JSON.parse(event.data);
+            const message: TransportMessage = SafeJSONParser.parse(event.data);
             this.handleMessage(message);
           } catch (error) {
-            console.error('Failed to parse message:', error);
+            this.logger.error('Failed to parse message:', error);
           }
         };
 
@@ -63,7 +67,7 @@ export class RealTransport {
         };
 
         this.ws.onerror = (error) => {
-          console.error('Transport error:', error);
+          this.logger.error('Transport error:', error);
           reject(error);
         };
       } catch (error) {
@@ -127,7 +131,7 @@ export class RealTransport {
       try {
         handler(message.data);
       } catch (error) {
-        console.error('Error in message handler:', error);
+        this.logger.error('Error in message handler:', error);
       }
     });
   }
@@ -135,15 +139,15 @@ export class RealTransport {
   private handleReconnect(): void {
     if (this.reconnectAttempts < this.options.maxReconnectAttempts!) {
       this.reconnectAttempts++;
-      console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
+      this.logger.info(`Attempting to reconnect (${this.reconnectAttempts}/${this.options.maxReconnectAttempts})`);
       
       setTimeout(() => {
         this.connect().catch(error => {
-          console.error('Reconnect failed:', error);
+          this.logger.error('Reconnect failed:', error);
         });
       }, this.options.reconnectInterval);
     } else {
-      console.error('Max reconnect attempts reached');
+      this.logger.error('Max reconnect attempts reached');
     }
   }
 

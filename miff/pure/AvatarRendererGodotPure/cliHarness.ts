@@ -9,7 +9,7 @@
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log(`
+  this.logger.info(`
 AvatarRendererGodotPure CLI Harness - Godot Avatar Rendering System
 
 Usage: npx tsx miff/pure/AvatarRendererGodotPure/cliHarness.ts [command] [options]
@@ -37,11 +37,15 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { AvatarRendererGodotPure } from './index';
 import { ResolvedAvatar, AvatarManifest, AvatarStyle } from '../AvatarSystemPure/schema';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AvatarRendererGodotCLI {
+  private logger: StructuredLogger;
   private rl: readline.Interface;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'AvatarRendererGodotCLI' });
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -57,7 +61,7 @@ class AvatarRendererGodotCLI {
     });
 
     this.rl.on('close', () => {
-      console.log('\n👋 Godot Avatar Renderer CLI closed');
+      this.logger.info('\n👋 Godot Avatar Renderer CLI closed');
       process.exit(0);
     });
   }
@@ -98,127 +102,127 @@ class AvatarRendererGodotCLI {
         // Empty line, just show prompt
         break;
       default:
-        console.log(`❌ Unknown command: ${command}`);
-        console.log('Type "help" for available commands');
+        this.logger.info(`❌ Unknown command: ${command}`);
+        this.logger.info('Type "help" for available commands');
     }
 
     this.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
-    console.log('🧪 Running Godot Avatar Renderer tests...\n');
+    this.logger.info('🧪 Running Godot Avatar Renderer tests...\n');
 
     try {
       // Test 1: Renderer class instantiation
-      console.log('1. Testing renderer class...');
+      this.logger.info('1. Testing renderer class...');
       const renderer = AvatarRendererGodotPure;
-      console.log('   ✅ AvatarRendererGodotPure class accessible');
+      this.logger.info('   ✅ AvatarRendererGodotPure class accessible');
 
       // Test 2: Method availability
-      console.log('2. Testing method availability...');
+      this.logger.info('2. Testing method availability...');
       const hasToGodotSceneMethod = typeof renderer.toGodotSceneJSON === 'function';
       const hasManifestToNodesMethod = typeof renderer.manifestToGodotNodes === 'function';
-      console.log(`   ${hasToGodotSceneMethod ? '✅' : '❌'} toGodotSceneJSON method: ${hasToGodotSceneMethod ? 'Available' : 'Missing'}`);
-      console.log(`   ${hasManifestToNodesMethod ? '✅' : '❌'} manifestToGodotNodes method: ${hasManifestToNodesMethod ? 'Available' : 'Missing'}`);
+      this.logger.info(`   ${hasToGodotSceneMethod ? '✅' : '❌'} toGodotSceneJSON method: ${hasToGodotSceneMethod ? 'Available' : 'Missing'}`);
+      this.logger.info(`   ${hasManifestToNodesMethod ? '✅' : '❌'} manifestToGodotNodes method: ${hasManifestToNodesMethod ? 'Available' : 'Missing'}`);
 
       // Test 3: Sample avatar creation
-      console.log('3. Testing sample avatar creation...');
+      this.logger.info('3. Testing sample avatar creation...');
       const sampleAvatar = this.createSampleAvatarData();
-      console.log(`   ✅ Sample avatar created with ${sampleAvatar.components.length} components`);
-      console.log(`   ✅ Sample avatar has ${sampleAvatar.assets.entries.length} asset entries`);
+      this.logger.info(`   ✅ Sample avatar created with ${sampleAvatar.components.length} components`);
+      this.logger.info(`   ✅ Sample avatar has ${sampleAvatar.assets.entries.length} asset entries`);
 
       // Test 4: Godot scene conversion
-      console.log('4. Testing Godot scene conversion...');
+      this.logger.info('4. Testing Godot scene conversion...');
       const godotScene = renderer.toGodotSceneJSON(sampleAvatar);
-      console.log(`   ${godotScene ? '✅' : '❌'} Godot scene conversion: ${godotScene ? 'Success' : 'Failed'}`);
+      this.logger.info(`   ${godotScene ? '✅' : '❌'} Godot scene conversion: ${godotScene ? 'Success' : 'Failed'}`);
       if (godotScene) {
-        console.log(`      Scene type: ${godotScene.type}`);
-        console.log(`      Nodes count: ${godotScene.nodes.length}`);
-        console.log(`      Meta style: ${godotScene.meta.style}`);
+        this.logger.info(`      Scene type: ${godotScene.type}`);
+        this.logger.info(`      Nodes count: ${godotScene.nodes.length}`);
+        this.logger.info(`      Meta style: ${godotScene.meta.style}`);
       }
 
       // Test 5: Manifest conversion
-      console.log('5. Testing manifest conversion...');
+      this.logger.info('5. Testing manifest conversion...');
       const sampleManifest = this.createSampleManifestData();
       const godotNodes = renderer.manifestToGodotNodes(sampleManifest);
-      console.log(`   ${godotNodes ? '✅' : '❌'} Manifest to nodes conversion: ${godotNodes ? 'Success' : 'Failed'}`);
+      this.logger.info(`   ${godotNodes ? '✅' : '❌'} Manifest to nodes conversion: ${godotNodes ? 'Success' : 'Failed'}`);
       if (godotNodes) {
-        console.log(`      Generated nodes: ${godotNodes.length}`);
+        this.logger.info(`      Generated nodes: ${godotNodes.length}`);
         godotNodes.forEach((node, index) => {
-          console.log(`         ${index + 1}. ${node.name} (${node.type})`);
+          this.logger.info(`         ${index + 1}. ${node.name} (${node.type})`);
         });
       }
 
       // Test 6: Output validation
-      console.log('6. Testing output validation...');
+      this.logger.info('6. Testing output validation...');
       const isValidScene = this.validateGodotScene(godotScene);
       const isValidNodes = this.validateGodotNodes(godotNodes);
-      console.log(`   ${isValidScene ? '✅' : '❌'} Godot scene validation: ${isValidScene ? 'Valid' : 'Invalid'}`);
-      console.log(`   ${isValidNodes ? '✅' : '❌'} Godot nodes validation: ${isValidNodes ? 'Valid' : 'Invalid'}`);
+      this.logger.info(`   ${isValidScene ? '✅' : '❌'} Godot scene validation: ${isValidScene ? 'Valid' : 'Invalid'}`);
+      this.logger.info(`   ${isValidNodes ? '✅' : '❌'} Godot nodes validation: ${isValidNodes ? 'Valid' : 'Invalid'}`);
 
-      console.log('\n🎉 All tests passed!');
+      this.logger.info('\n🎉 All tests passed!');
 
     } catch (error) {
-      console.error('❌ Test failed:', error);
+      this.logger.error('❌ Test failed:', error);
     }
   }
 
   private async convertToScene(filePath?: string): Promise<void> {
     if (!filePath) {
-      console.log('❌ Usage: convert-to-scene <file>');
+      this.logger.info('❌ Usage: convert-to-scene <file>');
       return;
     }
 
     try {
       if (!fs.existsSync(filePath)) {
-        console.log(`❌ File not found: ${filePath}`);
+        this.logger.info(`❌ File not found: ${filePath}`);
         return;
       }
 
-      const avatarData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      const avatarData = SafeJSONParser.parse(fs.readFileSync(filePath, 'utf-8'));
       const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(avatarData);
       
       const outputPath = filePath.replace('.json', '_godot_scene.json');
       fs.writeFileSync(outputPath, JSON.stringify(godotScene, null, 2));
       
-      console.log(`✅ Avatar converted to Godot scene: ${outputPath}`);
-      console.log(`   Scene type: ${godotScene.type}`);
-      console.log(`   Nodes: ${godotScene.nodes.length}`);
-      console.log(`   Meta: ${JSON.stringify(godotScene.meta)}`);
+      this.logger.info(`✅ Avatar converted to Godot scene: ${outputPath}`);
+      this.logger.info(`   Scene type: ${godotScene.type}`);
+      this.logger.info(`   Nodes: ${godotScene.nodes.length}`);
+      this.logger.info(`   Meta: ${JSON.stringify(godotScene.meta)}`);
 
     } catch (error) {
-      console.error('❌ Scene conversion failed:', error);
+      this.logger.error('❌ Scene conversion failed:', error);
     }
   }
 
   private async convertManifest(filePath?: string): Promise<void> {
     if (!filePath) {
-      console.log('❌ Usage: convert-manifest <file>');
+      this.logger.info('❌ Usage: convert-manifest <file>');
       return;
     }
 
     try {
       if (!fs.existsSync(filePath)) {
-        console.log(`❌ File not found: ${filePath}`);
+        this.logger.info(`❌ File not found: ${filePath}`);
         return;
       }
 
-      const manifestData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      const manifestData = SafeJSONParser.parse(fs.readFileSync(filePath, 'utf-8'));
       const godotNodes = AvatarRendererGodotPure.manifestToGodotNodes(manifestData);
       
       const outputPath = filePath.replace('.json', '_godot_nodes.json');
       fs.writeFileSync(outputPath, JSON.stringify(godotNodes, null, 2));
       
-      console.log(`✅ Manifest converted to Godot nodes: ${outputPath}`);
-      console.log(`   Generated nodes: ${godotNodes.length}`);
+      this.logger.info(`✅ Manifest converted to Godot nodes: ${outputPath}`);
+      this.logger.info(`   Generated nodes: ${godotNodes.length}`);
       godotNodes.forEach((node, index) => {
-        console.log(`   ${index + 1}. ${node.name} (${node.type})`);
-        if (node.texture) console.log(`      Texture: ${node.texture}`);
-        if (node.position) console.log(`      Position: (${node.position.x}, ${node.position.y})`);
+        this.logger.info(`   ${index + 1}. ${node.name} (${node.type})`);
+        if (node.texture) this.logger.info(`      Texture: ${node.texture}`);
+        if (node.position) this.logger.info(`      Position: (${node.position.x}, ${node.position.y})`);
       });
 
     } catch (error) {
-      console.error('❌ Manifest conversion failed:', error);
+      this.logger.error('❌ Manifest conversion failed:', error);
     }
   }
 
@@ -228,13 +232,13 @@ class AvatarRendererGodotCLI {
       const outputPath = 'sample-avatar-godot.json';
       
       fs.writeFileSync(outputPath, JSON.stringify(sampleAvatar, null, 2));
-      console.log(`✅ Sample avatar created: ${outputPath}`);
-      console.log(`   Components: ${sampleAvatar.components.length}`);
-      console.log(`   Asset entries: ${sampleAvatar.assets.entries.length}`);
-      console.log(`   Style: ${sampleAvatar.assets.style}`);
+      this.logger.info(`✅ Sample avatar created: ${outputPath}`);
+      this.logger.info(`   Components: ${sampleAvatar.components.length}`);
+      this.logger.info(`   Asset entries: ${sampleAvatar.assets.entries.length}`);
+      this.logger.info(`   Style: ${sampleAvatar.assets.style}`);
 
     } catch (error) {
-      console.error('❌ Sample avatar creation failed:', error);
+      this.logger.error('❌ Sample avatar creation failed:', error);
     }
   }
 
@@ -244,31 +248,31 @@ class AvatarRendererGodotCLI {
       const outputPath = 'sample-manifest-godot.json';
       
       fs.writeFileSync(outputPath, JSON.stringify(sampleManifest, null, 2));
-      console.log(`✅ Sample manifest created: ${outputPath}`);
-      console.log(`   Base: ${sampleManifest.base}`);
-      console.log(`   Style: ${sampleManifest.style}`);
-      console.log(`   Clothing: ${sampleManifest.clothing.length} items`);
+      this.logger.info(`✅ Sample manifest created: ${outputPath}`);
+      this.logger.info(`   Base: ${sampleManifest.base}`);
+      this.logger.info(`   Style: ${sampleManifest.style}`);
+      this.logger.info(`   Clothing: ${sampleManifest.clothing.length} items`);
 
     } catch (error) {
-      console.error('❌ Sample manifest creation failed:', error);
+      this.logger.error('❌ Sample manifest creation failed:', error);
     }
   }
 
   private validateGodotOutput(): void {
-    console.log('🔍 Validating Godot output format...');
+    this.logger.info('🔍 Validating Godot output format...');
 
     try {
       // Test scene validation
       const sampleAvatar = this.createSampleAvatarData();
       const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(sampleAvatar);
       const sceneValid = this.validateGodotScene(godotScene);
-      console.log(`   ${sceneValid ? '✅' : '❌'} Godot scene format: ${sceneValid ? 'Valid' : 'Invalid'}`);
+      this.logger.info(`   ${sceneValid ? '✅' : '❌'} Godot scene format: ${sceneValid ? 'Valid' : 'Invalid'}`);
 
       // Test nodes validation
       const sampleManifest = this.createSampleManifestData();
       const godotNodes = AvatarRendererGodotPure.manifestToGodotNodes(sampleManifest);
       const nodesValid = this.validateGodotNodes(godotNodes);
-      console.log(`   ${nodesValid ? '✅' : '❌'} Godot nodes format: ${nodesValid ? 'Valid' : 'Invalid'}`);
+      this.logger.info(`   ${nodesValid ? '✅' : '❌'} Godot nodes format: ${nodesValid ? 'Valid' : 'Invalid'}`);
 
       // Test required fields
       if (godotScene) {
@@ -276,67 +280,67 @@ class AvatarRendererGodotCLI {
         const hasNodes = 'nodes' in godotScene && Array.isArray(godotScene.nodes);
         const hasMeta = 'meta' in godotScene;
         
-        console.log(`   ${hasType ? '✅' : '❌'} Scene has type field: ${hasType ? 'Yes' : 'No'}`);
-        console.log(`   ${hasNodes ? '✅' : '❌'} Scene has nodes array: ${hasNodes ? 'Yes' : 'No'}`);
-        console.log(`   ${hasMeta ? '✅' : '❌'} Scene has meta field: ${hasMeta ? 'Yes' : 'No'}`);
+        this.logger.info(`   ${hasType ? '✅' : '❌'} Scene has type field: ${hasType ? 'Yes' : 'No'}`);
+        this.logger.info(`   ${hasNodes ? '✅' : '❌'} Scene has nodes array: ${hasNodes ? 'Yes' : 'No'}`);
+        this.logger.info(`   ${hasMeta ? '✅' : '❌'} Scene has meta field: ${hasMeta ? 'Yes' : 'No'}`);
       }
 
-      console.log('✅ Godot output validation completed');
+      this.logger.info('✅ Godot output validation completed');
 
     } catch (error) {
-      console.error('❌ Godot output validation failed:', error);
+      this.logger.error('❌ Godot output validation failed:', error);
     }
   }
 
   private async simulateConversion(): Promise<void> {
-    console.log('🎭 Starting Godot conversion simulation...');
+    this.logger.info('🎭 Starting Godot conversion simulation...');
     
     try {
       // Create multiple test avatars
-      console.log('1. Creating test avatars...');
+      this.logger.info('1. Creating test avatars...');
       const avatars = [
         this.createSampleAvatarData('avatar-1', '3d'),
         this.createSampleAvatarData('avatar-2', '2d-side'),
         this.createSampleAvatarData('avatar-3', 'overlay')
       ];
-      console.log(`   ✅ Created ${avatars.length} test avatars`);
+      this.logger.info(`   ✅ Created ${avatars.length} test avatars`);
 
       // Convert each avatar to Godot scene
-      console.log('2. Converting avatars to Godot scenes...');
+      this.logger.info('2. Converting avatars to Godot scenes...');
       for (let i = 0; i < avatars.length; i++) {
         const avatar = avatars[i];
         const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(avatar);
         
-        console.log(`   🎨 Converting avatar ${i + 1} (${avatar.assets.style})...`);
-        console.log(`      Scene type: ${godotScene.type}`);
-        console.log(`      Nodes: ${godotScene.nodes.length}`);
-        console.log(`      Meta style: ${godotScene.meta.style}`);
+        this.logger.info(`   🎨 Converting avatar ${i + 1} (${avatar.assets.style})...`);
+        this.logger.info(`      Scene type: ${godotScene.type}`);
+        this.logger.info(`      Nodes: ${godotScene.nodes.length}`);
+        this.logger.info(`      Meta style: ${godotScene.meta.style}`);
       }
 
       // Create multiple test manifests
-      console.log('3. Creating test manifests...');
+      this.logger.info('3. Creating test manifests...');
       const manifests = [
         this.createSampleManifestData('manifest-1'),
         this.createSampleManifestData('manifest-2'),
         this.createSampleManifestData('manifest-3')
       ];
-      console.log(`   ✅ Created ${manifests.length} test manifests`);
+      this.logger.info(`   ✅ Created ${manifests.length} test manifests`);
 
       // Convert each manifest to Godot nodes
-      console.log('4. Converting manifests to Godot nodes...');
+      this.logger.info('4. Converting manifests to Godot nodes...');
       for (let i = 0; i < manifests.length; i++) {
         const manifest = manifests[i];
         const godotNodes = AvatarRendererGodotPure.manifestToGodotNodes(manifest);
         
-        console.log(`   🎨 Converting manifest ${i + 1} (${manifest.base})...`);
-        console.log(`      Generated nodes: ${godotNodes.length}`);
+        this.logger.info(`   🎨 Converting manifest ${i + 1} (${manifest.base})...`);
+        this.logger.info(`      Generated nodes: ${godotNodes.length}`);
         godotNodes.forEach((node, index) => {
-          console.log(`         ${index + 1}. ${node.name} (${node.type})`);
+          this.logger.info(`         ${index + 1}. ${node.name} (${node.type})`);
         });
       }
 
       // Simulate performance testing
-      console.log('5. Simulating performance testing...');
+      this.logger.info('5. Simulating performance testing...');
       const startTime = Date.now();
       
       for (let i = 0; i < 50; i++) {
@@ -346,23 +350,23 @@ class AvatarRendererGodotCLI {
       
       const endTime = Date.now();
       const duration = endTime - startTime;
-      console.log(`   ⚡ Converted 50 avatars in ${duration}ms (${(duration / 50).toFixed(2)}ms per avatar)`);
+      this.logger.info(`   ⚡ Converted 50 avatars in ${duration}ms (${(duration / 50).toFixed(2)}ms per avatar)`);
 
       // Simulate error handling
-      console.log('6. Simulating error handling...');
+      this.logger.info('6. Simulating error handling...');
       try {
         const invalidAvatar = { ...this.createSampleAvatarData(), assets: { style: '3d' as AvatarStyle, entries: [] } };
         const godotScene = AvatarRendererGodotPure.toGodotSceneJSON(invalidAvatar);
-        console.log('   ✅ Handled empty assets gracefully');
-        console.log(`      Generated scene with ${godotScene.nodes.length} nodes`);
+        this.logger.info('   ✅ Handled empty assets gracefully');
+        this.logger.info(`      Generated scene with ${godotScene.nodes.length} nodes`);
       } catch (error) {
-        console.log(`   ⚠️  Error handling: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        this.logger.info(`   ⚠️  Error handling: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
 
-      console.log('✅ Godot conversion simulation completed successfully');
+      this.logger.info('✅ Godot conversion simulation completed successfully');
 
     } catch (error) {
-      console.error('❌ Conversion simulation failed:', error);
+      this.logger.error('❌ Conversion simulation failed:', error);
     }
   }
 
@@ -485,7 +489,7 @@ class AvatarRendererGodotCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 Available commands:
   test                     - Run basic Godot renderer tests
   convert-to-scene <file>  - Convert avatar to Godot scene
@@ -503,8 +507,8 @@ Output files are saved as JSON for easy integration with Godot projects.
   }
 
   public async start(): Promise<void> {
-    console.log('🚀 Godot Avatar Renderer CLI Started');
-    console.log('Type "help" for available commands or "test" to run tests\n');
+    this.logger.info('🚀 Godot Avatar Renderer CLI Started');
+    this.logger.info('Type "help" for available commands or "test" to run tests\n');
     
     this.rl.prompt();
   }

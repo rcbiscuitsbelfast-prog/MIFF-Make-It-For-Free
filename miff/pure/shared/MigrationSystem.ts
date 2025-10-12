@@ -239,7 +239,7 @@ export class MigrationManager {
         return result;
       }
 
-      // TODO: Implement rollback logic based on stored rollback data
+      // TODO: Implement in next phase
       result.warnings.push('Rollback functionality not fully implemented');
       result.success = false;
       result.duration = Date.now() - startTime;
@@ -433,7 +433,7 @@ export class MigrationManager {
       successfulMigrations: successful,
       failedMigrations: failed,
       averageDuration: avgDuration,
-      mostUsedMigrations: [], // TODO: Implement usage tracking
+      mostUsedMigrations: [], // TODO: Implement in next phase
       errorRate: total > 0 ? (failed / total) * 100 : 0
     };
   }

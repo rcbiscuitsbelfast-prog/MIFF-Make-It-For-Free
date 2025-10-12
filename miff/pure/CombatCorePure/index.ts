@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // CombatCorePure - Advanced combat system for MIFF framework
 // Schema Version: v1
 
@@ -391,6 +392,7 @@ export interface CombatStatistics {
 }
 
 export class CombatEngine {
+  private logger: StructuredLogger;
   private sessions: Map<string, CombatSession> = new Map();
   private entities: Map<string, CombatEntity> = new Map();
   private scenarios: Map<string, CombatScenario> = new Map();
@@ -400,6 +402,7 @@ export class CombatEngine {
   private performanceMetrics: CombatPerformanceMetrics;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CombatEngine' });
     this.globalRules = this.createDefaultRules();
     this.performanceMetrics = this.initializePerformanceMetrics();
   }
@@ -543,7 +546,7 @@ export class CombatEngine {
     this.performanceMetrics.activeSessions++;
     this.performanceMetrics.totalSessions++;
 
-    console.log(`[CombatEngine] Started combat session: ${sessionId}`);
+    this.logger.info(`[CombatEngine] Started combat session: ${sessionId}`);
     return sessionId;
   }
 
@@ -1007,7 +1010,7 @@ export class CombatEngine {
     for (const condition of scenario.defeatConditions) {
       if (this.evaluateCondition(session, condition)) {
         session.state = CombatState.FINISHED;
-        console.log(`[CombatEngine] Defeat condition met: ${condition.description}`);
+        this.logger.info(`[CombatEngine] Defeat condition met: ${condition.description}`);
         return;
       }
     }
@@ -1019,7 +1022,7 @@ export class CombatEngine {
         session.winner = this.determineWinner(session);
         session.endTime = Date.now();
         session.duration = session.endTime - session.startTime;
-        console.log(`[CombatEngine] Victory condition met: ${condition.description}`);
+        this.logger.info(`[CombatEngine] Victory condition met: ${condition.description}`);
         return;
       }
     }
@@ -1095,7 +1098,7 @@ export class CombatEngine {
       this.activeSessionId = undefined;
     }
 
-    console.log(`[CombatEngine] Ended session: ${sessionId}`);
+    this.logger.info(`[CombatEngine] Ended session: ${sessionId}`);
     return true;
   }
 
@@ -1138,12 +1141,12 @@ export class CombatEngine {
     this.activeSessionId = undefined;
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    console.log('[CombatEngine] Reset to initial state');
+    this.logger.info('[CombatEngine] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[CombatEngine] Disposed successfully');
+    this.logger.info('[CombatEngine] Disposed successfully');
   }
 }
 

@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { LicenseAuditManager, LicenseType } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd = 
   | { op: 'auditModule'; moduleId: string; moduleName: string; licenseType: LicenseType; dependencies?: string[]; licenseFiles?: string[] }
@@ -18,13 +20,13 @@ function main() {
   
   // Load config if provided
   if (configPath && fs.existsSync(configPath)) {
-    const config = JSON.parse(fs.readFileSync(path.resolve(configPath), 'utf-8'));
+    const config = SafeJSONParser.parse(fs.readFileSync(path.resolve(configPath), 'utf-8'));
     mgr.setConfig(config);
   }
   
   // Load commands
   const commands: Cmd[] = cmdsPath && fs.existsSync(cmdsPath) 
-    ? JSON.parse(fs.readFileSync(path.resolve(cmdsPath), 'utf-8'))
+    ? SafeJSONParser.parse(fs.readFileSync(path.resolve(cmdsPath), 'utf-8'))
     : [{ op: 'getAuditStats' }];
   
   const outputs: any[] = [];
@@ -99,7 +101,7 @@ function main() {
     }
   }
   
-  console.log(JSON.stringify({ outputs }, null, 2));
+  this.logger.info(JSON.stringify({ outputs }, null, 2));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

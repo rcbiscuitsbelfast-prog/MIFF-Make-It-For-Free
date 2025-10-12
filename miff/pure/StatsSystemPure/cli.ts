@@ -11,6 +11,7 @@ import {
 } from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface StatsOperation {
   op: 'create-entity' | 'set-stat' | 'add-modifier' | 'calculate-stats' | 'get-entity' | 
@@ -27,7 +28,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cli.ts <op> [args]');
+    this.logger.error('Usage: tsx cli.ts <op> [args]');
     process.exit(1);
   }
 
@@ -108,7 +109,7 @@ async function main() {
         break;
     }
 
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result,
@@ -116,7 +117,7 @@ async function main() {
     }, null, 2));
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

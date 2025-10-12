@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type MessageHandler = (channel: string, payload: unknown) => void;
 
 export interface WebSocketBridgeOptions {
@@ -9,6 +11,7 @@ export interface WebSocketBridgeOptions {
 }
 
 export class WebSocketBridgePure {
+  private logger: StructuredLogger;
   private url?: string;
   private protocols?: string[];
   private useRealWebSocket: boolean = false;
@@ -24,6 +27,7 @@ export class WebSocketBridgePure {
   private channel: string = 'miff';
 
   constructor(opts: WebSocketBridgeOptions = {}){
+    this.logger = new StructuredLogger({ module: 'WebSocketBridgePure' });
     this.url = opts.url;
     this.protocols = opts.protocols;
     this.useRealWebSocket = opts.useRealWebSocket || false;
@@ -58,19 +62,19 @@ export class WebSocketBridgePure {
 
           this.ws.onmessage = (event) => {
             try {
-              const message = JSON.parse(event.data);
+              const message = SafeJSONParser.parse(event.data);
               if (message.type === 'broadcast' && message.channel === this.channel) {
                 this.handler?.(this.channel, message.payload);
               } else if (message.type === 'direct') {
                 this.handler?.(this.channel, message.payload);
               }
             } catch (error) {
-              console.warn('Failed to parse WebSocket message:', error);
+              this.logger.warn('Failed to parse WebSocket message:', error);
             }
           };
 
           this.ws.onerror = (error) => { 
-            console.warn('WebSocket connection failed, falling back to simulation:', error);
+            this.logger.warn('WebSocket connection failed, falling back to simulation:', error);
             this.isConnected = true; // Fallback to simulation
             this.onStatusChange?.('simulation');
             resolve(); // Resolve instead of reject to allow fallback
@@ -83,7 +87,7 @@ export class WebSocketBridgePure {
           };
         });
       } catch (error) {
-        console.warn('WebSocket connection failed, falling back to simulation:', error);
+        this.logger.warn('WebSocket connection failed, falling back to simulation:', error);
         this.isConnected = true; // Fallback to simulation
         this.onStatusChange?.('simulation');
       }

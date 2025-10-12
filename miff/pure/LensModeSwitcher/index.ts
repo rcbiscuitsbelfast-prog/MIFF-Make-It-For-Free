@@ -12,6 +12,7 @@
 import { PerceptionFilterManager, PerceptionMode, perceptionFilterManager } from '../PerceptionFilterLayer';
 import { ScanFeedbackManager, scanFeedbackManager } from '../ScanFeedbackLayer';
 import { OverlayFXManager, overlayFXManager } from '../OverlayFXPure';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export enum LensMode {
   NORMAL = 'normal',
@@ -43,6 +44,7 @@ export interface ModeSettings {
 }
 
 export class LensModeSwitcher {
+  private logger: StructuredLogger;
   private perceptionManager: PerceptionFilterManager;
   private scanManager: ScanFeedbackManager;
   private overlayManager: OverlayFXManager;
@@ -56,6 +58,7 @@ export class LensModeSwitcher {
     scanManager: ScanFeedbackManager,
     overlayManager: OverlayFXManager
   ) {
+    this.logger = new StructuredLogger({ module: 'LensModeSwitcher' });
     this.perceptionManager = perceptionManager;
     this.scanManager = scanManager;
     this.overlayManager = overlayManager;
@@ -150,7 +153,7 @@ export class LensModeSwitcher {
    */
   switchToMode(mode: LensMode): boolean {
     if (!this.config.availableModes.includes(mode)) {
-      console.warn(`Lens mode ${mode} is not available`);
+      this.logger.warn(`Lens mode ${mode} is not available`);
       return false;
     }
 
@@ -160,7 +163,7 @@ export class LensModeSwitcher {
 
     const settings = this.config.modeSettings[mode];
     if (!settings.enabled) {
-      console.warn(`Lens mode ${mode} is disabled`);
+      this.logger.warn(`Lens mode ${mode} is disabled`);
       return false;
     }
 

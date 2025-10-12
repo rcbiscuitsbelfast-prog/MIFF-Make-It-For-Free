@@ -1,6 +1,7 @@
 #!/usr/bin/env ts-node
 import { spawnSync } from 'child_process';
 import path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface AndroidExportOptions {
   preset: string;
@@ -48,7 +49,7 @@ function main() {
   const opts = parseArgs(process.argv);
   // Placeholder validation: ensure project exists
   const projectPath = path.resolve(process.cwd(), opts.project);
-  console.log(JSON.stringify({
+  this.logger.info(JSON.stringify({
     log: [
       `ExportAndroidPure: project=${projectPath}`,
       `preset=${opts.preset}`,
@@ -56,7 +57,7 @@ function main() {
     ],
     outputs: [ { config: opts } ]
   }));
-  // TODO: spawn Godot headless export in follow-up PR
+  // TODO: Implement in next phase
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

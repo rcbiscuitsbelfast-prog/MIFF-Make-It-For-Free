@@ -7,13 +7,16 @@
  */
 
 import { RigConfig, FaceConfig, FaceFeature, MorphTarget, Vec3, Quaternion, Transform } from './types';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class FacialDetailBuilder {
+  private logger: StructuredLogger;
   private rigConfig: RigConfig;
   private faceConfig: FaceConfig;
   private nextId: number = 0;
 
   constructor(rigConfig: RigConfig, initialFaceConfig?: Partial<FaceConfig>) {
+    this.logger = new StructuredLogger({ module: 'FacialDetailBuilder' });
     this.rigConfig = rigConfig;
     this.faceConfig = {
       id: initialFaceConfig?.id || this.generateId(),
@@ -288,7 +291,7 @@ export class FacialDetailBuilder {
 
     // Apply morph to feature vertices (simplified - in real implementation would affect actual mesh)
     // This is a placeholder for the actual morphing logic
-    console.log(`Applying morph ${morphTarget.name} to feature ${feature.name} with strength ${strength}`);
+    this.logger.info(`Applying morph ${morphTarget.name} to feature ${feature.name} with strength ${strength}`);
 
     return this;
   }

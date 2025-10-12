@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Enhanced CLI Harness Utilities with Scenario Orchestration
  * 
@@ -70,13 +71,13 @@ export function runCLI(cliPath: string, args: string[] = []): string {
       
       if (scenarioId && fixture) {
         const result: CLIOutput = orchestrateScenario(scenarioId, fixture, args);
-        console.log(JSON.stringify(result));
+        this.logger.info(JSON.stringify(result));
         return output.trim();
       }
       
       // Fallback to existing mock logic for backward compatibility
       let mockResponse: any = generateMockResponse(resolvedPath, args);
-      console.log(JSON.stringify(mockResponse));
+      this.logger.info(JSON.stringify(mockResponse));
       
     } finally {
       // Restore original console methods
@@ -561,27 +562,27 @@ function generateMockResponse(resolvedPath: string, args: string[]): any {
  */
 export function registerReplayHooks(system: any): void {
   if (!system || typeof system.on !== 'function') {
-    console.warn('[ReplayHook] System does not support event handling');
+    this.logger.warn('[ReplayHook] System does not support event handling');
     return;
   }
 
   system.on("hookRegistered", (hook: ReplayHook) => {
-    console.log(`[ReplayHook] Registered: ${hook.name}`);
+    this.logger.info(`[ReplayHook] Registered: ${hook.name}`);
   });
 
   system.on("replayStart", async () => {
     const unresolved = detectUnresolvedHooks(system);
     if (unresolved.length > 0) {
-      console.warn(`[ReplayHook] Unresolved hooks:`, unresolved);
+      this.logger.warn(`[ReplayHook] Unresolved hooks:`, unresolved);
     }
   });
 
   system.on("replayEnd", () => {
-    console.log('[ReplayHook] Replay session completed');
+    this.logger.info('[ReplayHook] Replay session completed');
   });
 
   system.on("hookError", (error: Error, hook: ReplayHook) => {
-    console.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
+    this.logger.error(`[ReplayHook] Error in hook ${hook.name}:`, error.message);
   });
 }
 

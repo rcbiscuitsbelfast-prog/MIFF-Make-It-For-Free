@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { createPrefabState, reducePrefabAction } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 
@@ -8,14 +9,14 @@ try {
   switch (mode) {
     case 'create': {
       const { id, name, blocks, tags } = params as any;
-      const state = createPrefabState({ id: id || 'prefab_001', name: name || 'Prefab', blocks: (typeof blocks === 'string' ? JSON.parse(blocks) : (blocks || [])), tags: (typeof tags === 'string' ? JSON.parse(tags) : (tags || [])) });
+      const state = createPrefabState({ id: id || 'prefab_001', name: name || 'Prefab', blocks: (typeof blocks === 'string' ? SafeJSONParser.parse(blocks) : (blocks || [])), tags: (typeof tags === 'string' ? SafeJSONParser.parse(tags) : (tags || [])) });
       handleSuccess({ state }, 'create');
       break;
     }
     case 'add': {
       const { id, block } = params as any;
       const initial = createPrefabState({ id: id || 'prefab_001', name: 'Prefab', blocks: [] });
-      const next = reducePrefabAction(initial, { type: 'add_block', block: (typeof block === 'string' ? JSON.parse(block) : block) });
+      const next = reducePrefabAction(initial, { type: 'add_block', block: (typeof block === 'string' ? SafeJSONParser.parse(block) : block) });
       handleSuccess({ state: next }, 'add');
       break;
     }

@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * NetworkBridgePure.ts
  * 
@@ -31,6 +33,7 @@ export interface GameState {
 }
 
 export class Peer {
+  private logger: StructuredLogger;
   public id: string;
   public isHost: boolean;
   public isConnected: boolean;
@@ -38,6 +41,7 @@ export class Peer {
   public lastSeen: number;
 
   constructor(id: string, isHost: boolean = false) {
+    this.logger = new StructuredLogger({ module: 'Peer' });
     this.id = id;
     this.isHost = isHost;
     this.isConnected = false;
@@ -211,7 +215,7 @@ export class NetworkBridge {
 
   private deserializeInput(data: Uint8Array): { frame: number; input: any } {
     const text = new TextDecoder().decode(data);
-    return JSON.parse(text);
+    return SafeJSONParser.parse(text);
   }
 
   update(): GameState | null {
@@ -287,7 +291,7 @@ class WebSocketTransport implements INetworkTransport {
         });
       }
     } catch (error) {
-      console.warn('WebSocket connection failed, falling back to local mode:', error);
+      this.logger.warn('WebSocket connection failed, falling back to local mode:', error);
       return false;
     }
   }
@@ -307,7 +311,7 @@ class WebSocketTransport implements INetworkTransport {
         ws.send(data);
         return true;
       } catch (error) {
-        console.warn('Failed to send data:', error);
+        this.logger.warn('Failed to send data:', error);
         return false;
       }
     }

@@ -1,3 +1,4 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 // RemixLineageTracker — Remix Origin and Asset Lineage Tracking (Remix-Safe)
 // Purpose: Tracks remix origin, contributor ID, and asset lineage with validation hooks
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
@@ -320,7 +321,7 @@ export class RemixLineageTracker {
     try {
       const fs = require('fs').promises;
       const data = await fs.readFile(this.metadataPath, 'utf-8');
-      const metadata: RemixMetadata = JSON.parse(data);
+      const metadata: RemixMetadata = SafeJSONParser.parse(data);
       this.importMetadata(metadata);
       this.logAudit(`Metadata loaded from ${this.metadataPath}`);
     } catch (error) {

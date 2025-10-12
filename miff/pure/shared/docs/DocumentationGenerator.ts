@@ -236,6 +236,7 @@ export interface SearchIndex {
  * Documentation Generator - Core documentation functionality
  */
 export class DocumentationGenerator {
+  private logger: StructuredLogger;
   private config: DocumentationConfig;
   private modules: Map<string, ModuleDocumentation> = new Map();
   private navigation: NavigationItem[] = [];
@@ -250,6 +251,7 @@ export class DocumentationGenerator {
   };
 
   constructor(config: DocumentationConfig) {
+    this.logger = new StructuredLogger({ module: 'DocumentationGenerator' });
     this.config = config;
     this.initialize();
   }
@@ -408,7 +410,7 @@ export class DocumentationGenerator {
   private generatePDFDocumentation(): void {
     // This would require a PDF generation library like puppeteer
     // For now, we'll generate HTML that can be converted to PDF
-    console.log('PDF generation requires additional dependencies');
+    this.logger.info('PDF generation requires additional dependencies');
   }
 
   /**
@@ -725,6 +727,7 @@ npm install ${this.config.repository}
 
 \`\`\`typescript
 import { ExampleClass } from '${this.config.repository}';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const example = new ExampleClass();
 \`\`\`
@@ -1004,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             const results = search(e.target.value);
-            console.log('Search results:', results);
+            this.logger.info('Search results:', results);
         });
     }
 });

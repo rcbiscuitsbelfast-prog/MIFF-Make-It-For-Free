@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Implementation Generator for MIFF Framework
  * 
@@ -36,11 +37,13 @@ export interface GenerationConfig {
 }
 
 export class RealImplementationGenerator {
+  private logger: StructuredLogger;
   private templates: Map<string, ImplementationTemplate> = new Map();
   private generatedImplementations: Map<string, GeneratedImplementation> = new Map();
   private config: GenerationConfig;
 
   constructor(config: Partial<GenerationConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'RealImplementationGenerator' });
     this.config = {
       targetModules: [],
       templateCategories: ['manager', 'processor', 'validator', 'bridge', 'converter'],
@@ -58,7 +61,7 @@ export class RealImplementationGenerator {
    * Generate real implementations for all target modules
    */
   async generateAllImplementations(): Promise<GeneratedImplementation[]> {
-    console.log('🔧 Generating real implementations for all target modules...');
+    this.logger.info('🔧 Generating real implementations for all target modules...');
     
     const results: GeneratedImplementation[] = [];
     
@@ -67,11 +70,11 @@ export class RealImplementationGenerator {
         const implementations = await this.generateModuleImplementations(moduleId);
         results.push(...implementations);
       } catch (error) {
-        console.error(`❌ Error generating implementations for ${moduleId}:`, error);
+        this.logger.error(`❌ Error generating implementations for ${moduleId}:`, error);
       }
     }
     
-    console.log(`✅ Generated ${results.length} implementations`);
+    this.logger.info(`✅ Generated ${results.length} implementations`);
     return results;
   }
 
@@ -79,7 +82,7 @@ export class RealImplementationGenerator {
    * Generate implementations for a specific module
    */
   async generateModuleImplementations(moduleId: string): Promise<GeneratedImplementation[]> {
-    console.log(`🔧 Generating implementations for module: ${moduleId}`);
+    this.logger.info(`🔧 Generating implementations for module: ${moduleId}`);
     
     const implementations: GeneratedImplementation[] = [];
     
@@ -89,7 +92,7 @@ export class RealImplementationGenerator {
           const implementation = await this.generateImplementation(moduleId, template);
           implementations.push(implementation);
         } catch (error) {
-          console.error(`❌ Error generating ${template.name} for ${moduleId}:`, error);
+          this.logger.error(`❌ Error generating ${template.name} for ${moduleId}:`, error);
         }
       }
     }
@@ -129,7 +132,7 @@ export class RealImplementationGenerator {
       implementation.status = 'validated';
     } else {
       implementation.status = 'failed';
-      console.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
+      this.logger.error(`❌ Validation failed for ${implementationId}:`, validation.errors);
     }
     
     this.generatedImplementations.set(implementationId, implementation);
@@ -290,7 +293,7 @@ export class {{moduleName}}Manager {
 
   private initialize(): void {
     // Initialize manager with real functionality
-    console.log('{{moduleName}}Manager initialized');
+    this.logger.info('{{moduleName}}Manager initialized');
   }
 
   async process(data: any): Promise<any> {

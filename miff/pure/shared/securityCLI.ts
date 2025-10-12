@@ -10,11 +10,14 @@
 import { SecurityHardening, SecurityAudit, SecurityEvent } from './SecurityHardening.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class SecurityCLI {
+  private logger: StructuredLogger;
   private security: SecurityHardening;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'SecurityCLI' });
     this.security = new SecurityHardening({
       enableSSL: false, // Set to true for production
       enableSecurityHeaders: true,
@@ -82,66 +85,66 @@ class SecurityCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
 
   private async initializeSecurity(args: string[]): Promise<void> {
-    console.log('🔒 Initializing security hardening...');
+    this.logger.info('🔒 Initializing security hardening...');
     
     await this.security.initialize();
     
-    console.log('✅ Security hardening initialized');
-    console.log('📋 Security features enabled:');
-    console.log('  - Security headers');
-    console.log('  - Rate limiting');
-    console.log('  - Input validation');
-    console.log('  - Password policy enforcement');
-    console.log('  - Data encryption');
+    this.logger.info('✅ Security hardening initialized');
+    this.logger.info('📋 Security features enabled:');
+    this.logger.info('  - Security headers');
+    this.logger.info('  - Rate limiting');
+    this.logger.info('  - Input validation');
+    this.logger.info('  - Password policy enforcement');
+    this.logger.info('  - Data encryption');
   }
 
   private async runSecurityAudit(args: string[]): Promise<void> {
     const outputFile = args[0] || 'security-audit-report.json';
 
-    console.log('🔍 Running security audit...');
+    this.logger.info('🔍 Running security audit...');
     
     const audit = await this.security.runSecurityAudit();
     
     // Save audit report
     fs.writeFileSync(outputFile, JSON.stringify(audit, null, 2));
     
-    console.log('✅ Security audit completed');
-    console.log(`📄 Report saved to ${outputFile}`);
+    this.logger.info('✅ Security audit completed');
+    this.logger.info(`📄 Report saved to ${outputFile}`);
 
     // Display audit results
-    console.log('\n📊 Security Audit Results:');
-    console.log(`Overall Score: ${audit.score}/100`);
-    console.log(`Vulnerabilities: ${audit.vulnerabilities.length}`);
-    console.log(`Recommendations: ${audit.recommendations.length}`);
+    this.logger.info('\n📊 Security Audit Results:');
+    this.logger.info(`Overall Score: ${audit.score}/100`);
+    this.logger.info(`Vulnerabilities: ${audit.vulnerabilities.length}`);
+    this.logger.info(`Recommendations: ${audit.recommendations.length}`);
     
-    console.log('\n🔒 Compliance Status:');
-    console.log(`GDPR: ${audit.compliance.gdpr ? '✅' : '❌'}`);
-    console.log(`CCPA: ${audit.compliance.ccpa ? '✅' : '❌'}`);
-    console.log(`SOX: ${audit.compliance.sox ? '✅' : '❌'}`);
-    console.log(`PCI: ${audit.compliance.pci ? '✅' : '❌'}`);
-    console.log(`HIPAA: ${audit.compliance.hipaa ? '✅' : '❌'}`);
-    console.log(`Overall: ${audit.compliance.overall ? '✅' : '❌'}`);
+    this.logger.info('\n🔒 Compliance Status:');
+    this.logger.info(`GDPR: ${audit.compliance.gdpr ? '✅' : '❌'}`);
+    this.logger.info(`CCPA: ${audit.compliance.ccpa ? '✅' : '❌'}`);
+    this.logger.info(`SOX: ${audit.compliance.sox ? '✅' : '❌'}`);
+    this.logger.info(`PCI: ${audit.compliance.pci ? '✅' : '❌'}`);
+    this.logger.info(`HIPAA: ${audit.compliance.hipaa ? '✅' : '❌'}`);
+    this.logger.info(`Overall: ${audit.compliance.overall ? '✅' : '❌'}`);
     
     if (audit.vulnerabilities.length > 0) {
-      console.log('\n🚨 Vulnerabilities:');
+      this.logger.info('\n🚨 Vulnerabilities:');
       audit.vulnerabilities.forEach(vuln => {
         const severityIcon = vuln.severity === 'critical' ? '🔴' : 
                             vuln.severity === 'high' ? '🟠' : 
                             vuln.severity === 'medium' ? '🟡' : '🟢';
-        console.log(`  ${severityIcon} ${vuln.description} (${vuln.severity})`);
+        this.logger.info(`  ${severityIcon} ${vuln.description} (${vuln.severity})`);
       });
     }
     
     if (audit.recommendations.length > 0) {
-      console.log('\n💡 Recommendations:');
+      this.logger.info('\n💡 Recommendations:');
       audit.recommendations.forEach(rec => {
-        console.log(`  - ${rec}`);
+        this.logger.info(`  - ${rec}`);
       });
     }
   }
@@ -149,119 +152,119 @@ class SecurityCLI {
   private async showSecurityHeaders(args: string[]): Promise<void> {
     const outputFile = args[0] || 'security-headers.json';
 
-    console.log('📋 Security Headers:');
+    this.logger.info('📋 Security Headers:');
     
     const headers = this.security.getSecurityHeaders();
     
     // Save headers
     fs.writeFileSync(outputFile, JSON.stringify(headers, null, 2));
     
-    console.log('✅ Security headers generated');
-    console.log(`📄 Headers saved to ${outputFile}`);
+    this.logger.info('✅ Security headers generated');
+    this.logger.info(`📄 Headers saved to ${outputFile}`);
 
     // Display headers
-    console.log('\n📋 Security Headers:');
+    this.logger.info('\n📋 Security Headers:');
     Object.entries(headers).forEach(([key, value]) => {
-      console.log(`  ${key}: ${value}`);
+      this.logger.info(`  ${key}: ${value}`);
     });
   }
 
   private async validateInput(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.error('Usage: validate <input> <type>');
-      console.error('Types: string, number, email, url, json');
+      this.logger.error('Usage: validate <input> <type>');
+      this.logger.error('Types: string, number, email, url, json');
       return;
     }
 
     const input = args[0];
     const type = args[1] as 'string' | 'number' | 'email' | 'url' | 'json';
 
-    console.log(`🔍 Validating input as ${type}...`);
+    this.logger.info(`🔍 Validating input as ${type}...`);
     
     const result = this.security.validateInput(input, type);
     
     if (result.valid) {
-      console.log('✅ Input is valid');
+      this.logger.info('✅ Input is valid');
       if (result.sanitized !== undefined) {
-        console.log(`Sanitized: ${JSON.stringify(result.sanitized)}`);
+        this.logger.info(`Sanitized: ${JSON.stringify(result.sanitized)}`);
       }
     } else {
-      console.log('❌ Input is invalid');
-      console.log('Errors:');
+      this.logger.info('❌ Input is invalid');
+      this.logger.info('Errors:');
       result.errors.forEach(error => {
-        console.log(`  - ${error}`);
+        this.logger.info(`  - ${error}`);
       });
     }
   }
 
   private async validatePassword(args: string[]): Promise<void> {
     if (args.length < 1) {
-      console.error('Usage: password <password>');
+      this.logger.error('Usage: password <password>');
       return;
     }
 
     const password = args[0];
 
-    console.log('🔍 Validating password...');
+    this.logger.info('🔍 Validating password...');
     
     const result = this.security.validatePassword(password);
     
     if (result.valid) {
-      console.log('✅ Password is valid');
+      this.logger.info('✅ Password is valid');
     } else {
-      console.log('❌ Password is invalid');
-      console.log('Errors:');
+      this.logger.info('❌ Password is invalid');
+      this.logger.info('Errors:');
       result.errors.forEach(error => {
-        console.log(`  - ${error}`);
+        this.logger.info(`  - ${error}`);
       });
     }
   }
 
   private async encryptData(args: string[]): Promise<void> {
     if (args.length < 1) {
-      console.error('Usage: encrypt <data>');
+      this.logger.error('Usage: encrypt <data>');
       return;
     }
 
     const data = args[0];
 
-    console.log('🔐 Encrypting data...');
+    this.logger.info('🔐 Encrypting data...');
     
     const encrypted = this.security.encrypt(data);
     
-    console.log('✅ Data encrypted');
-    console.log(`Encrypted: ${encrypted}`);
+    this.logger.info('✅ Data encrypted');
+    this.logger.info(`Encrypted: ${encrypted}`);
   }
 
   private async decryptData(args: string[]): Promise<void> {
     if (args.length < 1) {
-      console.error('Usage: decrypt <encrypted_data>');
+      this.logger.error('Usage: decrypt <encrypted_data>');
       return;
     }
 
     const encryptedData = args[0];
 
-    console.log('🔓 Decrypting data...');
+    this.logger.info('🔓 Decrypting data...');
     
     try {
       const decrypted = this.security.decrypt(encryptedData);
-      console.log('✅ Data decrypted');
-      console.log(`Decrypted: ${decrypted}`);
+      this.logger.info('✅ Data decrypted');
+      this.logger.info(`Decrypted: ${decrypted}`);
     } catch (error) {
-      console.log('❌ Decryption failed');
-      console.log('Error:', error instanceof Error ? error.message : error);
+      this.logger.info('❌ Decryption failed');
+      this.logger.info('Error:', error instanceof Error ? error.message : error);
     }
   }
 
   private async showSecurityEvents(args: string[]): Promise<void> {
     const limit = args[0] ? parseInt(args[0]) : 50;
 
-    console.log(`📊 Security Events (last ${limit}):`);
+    this.logger.info(`📊 Security Events (last ${limit}):`);
     
     const events = this.security.getSecurityEvents(limit);
     
     if (events.length === 0) {
-      console.log('No security events found');
+      this.logger.info('No security events found');
       return;
     }
 
@@ -269,76 +272,76 @@ class SecurityCLI {
       const severityIcon = event.severity === 'critical' ? '🔴' : 
                           event.severity === 'high' ? '🟠' : 
                           event.severity === 'medium' ? '🟡' : '🟢';
-      console.log(`  ${severityIcon} ${event.type} (${event.severity}) - ${event.timestamp.toISOString()}`);
-      console.log(`    Source: ${event.source}`);
-      console.log(`    Details: ${JSON.stringify(event.details)}`);
+      this.logger.info(`  ${severityIcon} ${event.type} (${event.severity}) - ${event.timestamp.toISOString()}`);
+      this.logger.info(`    Source: ${event.source}`);
+      this.logger.info(`    Details: ${JSON.stringify(event.details)}`);
     });
   }
 
   private async showSecurityStats(args: string[]): Promise<void> {
     const outputFile = args[0] || 'security-stats.json';
 
-    console.log('📊 Security Statistics:');
+    this.logger.info('📊 Security Statistics:');
     
     const stats = this.security.getSecurityStats();
     
     // Save stats
     fs.writeFileSync(outputFile, JSON.stringify(stats, null, 2));
     
-    console.log('✅ Security statistics generated');
-    console.log(`📄 Stats saved to ${outputFile}`);
+    this.logger.info('✅ Security statistics generated');
+    this.logger.info(`📄 Stats saved to ${outputFile}`);
 
     // Display stats
-    console.log(`\n📊 Security Statistics:`);
-    console.log(`Total Events: ${stats.totalEvents}`);
-    console.log(`Recent Events (24h): ${stats.recentEvents}`);
-    console.log(`Blocked IPs: ${stats.blockedIPs}`);
+    this.logger.info(`\n📊 Security Statistics:`);
+    this.logger.info(`Total Events: ${stats.totalEvents}`);
+    this.logger.info(`Recent Events (24h): ${stats.recentEvents}`);
+    this.logger.info(`Blocked IPs: ${stats.blockedIPs}`);
     
-    console.log('\nEvents by Type:');
+    this.logger.info('\nEvents by Type:');
     for (const [type, count] of stats.eventsByType.entries()) {
-      console.log(`  ${type}: ${count}`);
+      this.logger.info(`  ${type}: ${count}`);
     }
     
-    console.log('\nEvents by Severity:');
+    this.logger.info('\nEvents by Severity:');
     for (const [severity, count] of stats.eventsBySeverity.entries()) {
-      console.log(`  ${severity}: ${count}`);
+      this.logger.info(`  ${severity}: ${count}`);
     }
   }
 
   private async blockIP(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.error('Usage: block <ip> <reason>');
+      this.logger.error('Usage: block <ip> <reason>');
       return;
     }
 
     const ip = args[0];
     const reason = args.slice(1).join(' ');
 
-    console.log(`🚫 Blocking IP: ${ip}`);
+    this.logger.info(`🚫 Blocking IP: ${ip}`);
     
     this.security.blockIP(ip, reason);
     
-    console.log(`✅ IP ${ip} blocked`);
-    console.log(`Reason: ${reason}`);
+    this.logger.info(`✅ IP ${ip} blocked`);
+    this.logger.info(`Reason: ${reason}`);
   }
 
   private async unblockIP(args: string[]): Promise<void> {
     if (args.length < 1) {
-      console.error('Usage: unblock <ip>');
+      this.logger.error('Usage: unblock <ip>');
       return;
     }
 
     const ip = args[0];
 
-    console.log(`🔓 Unblocking IP: ${ip}`);
+    this.logger.info(`🔓 Unblocking IP: ${ip}`);
     
     this.security.unblockIP(ip);
     
-    console.log(`✅ IP ${ip} unblocked`);
+    this.logger.info(`✅ IP ${ip} unblocked`);
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 🔒 MIFF Security Hardening CLI
 
 Usage: tsx securityCLI.ts <command> [options]

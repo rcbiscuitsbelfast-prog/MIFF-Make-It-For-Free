@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * CLI Harness for BridgeInspectorPure
  * 
@@ -19,8 +20,8 @@ function main(): void {
   const { command, args, options } = parseComplexCLIArgs(process.argv);
 
   if (!command || command === 'help' || command === '--help' || command === '-h') {
-    console.log('BridgeInspectorPure CLI - Bridge compatibility inspector');
-    console.log('Usage: BridgeInspectorPure/cliHarness.ts demo');
+    this.logger.info('BridgeInspectorPure CLI - Bridge compatibility inspector');
+    this.logger.info('Usage: BridgeInspectorPure/cliHarness.ts demo');
     return;
   }
 

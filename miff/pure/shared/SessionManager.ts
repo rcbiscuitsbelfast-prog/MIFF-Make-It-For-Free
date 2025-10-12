@@ -6,6 +6,7 @@
  */
 
 import { AuthenticationSystem, Session, User } from './AuthenticationSystem.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SessionConfig {
   maxSessionsPerUser: number;
@@ -53,6 +54,7 @@ export interface SessionMonitor {
 }
 
 export class SessionManager {
+  private logger: StructuredLogger;
   private authSystem: AuthenticationSystem;
   private config: SessionConfig;
   private monitor: SessionMonitor;
@@ -62,6 +64,7 @@ export class SessionManager {
   private stats: SessionStats;
 
   constructor(authSystem: AuthenticationSystem, config: Partial<SessionConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'SessionManager' });
     this.authSystem = authSystem;
     this.config = {
       maxSessionsPerUser: 5,
@@ -186,7 +189,7 @@ export class SessionManager {
 
       return true;
     } catch (error) {
-      console.error('Failed to update session activity:', error);
+      this.logger.error('Failed to update session activity:', error);
       return false;
     }
   }
@@ -218,7 +221,7 @@ export class SessionManager {
 
       return true;
     } catch (error) {
-      console.error('Failed to refresh session:', error);
+      this.logger.error('Failed to refresh session:', error);
       return false;
     }
   }
@@ -251,7 +254,7 @@ export class SessionManager {
 
       return true;
     } catch (error) {
-      console.error('Failed to terminate session:', error);
+      this.logger.error('Failed to terminate session:', error);
       return false;
     }
   }
@@ -272,7 +275,7 @@ export class SessionManager {
 
       return terminatedCount;
     } catch (error) {
-      console.error('Failed to terminate user sessions:', error);
+      this.logger.error('Failed to terminate user sessions:', error);
       return 0;
     }
   }
@@ -316,7 +319,7 @@ export class SessionManager {
 
       return cleanedCount;
     } catch (error) {
-      console.error('Failed to cleanup expired sessions:', error);
+      this.logger.error('Failed to cleanup expired sessions:', error);
       return 0;
     }
   }
@@ -403,10 +406,10 @@ export class SessionManager {
       try {
         const cleanedCount = await this.cleanupExpiredSessions();
         if (cleanedCount > 0) {
-          console.log(`Cleaned up ${cleanedCount} expired sessions`);
+          this.logger.info(`Cleaned up ${cleanedCount} expired sessions`);
         }
       } catch (error) {
-        console.error('Session cleanup error:', error);
+        this.logger.error('Session cleanup error:', error);
       }
     }, this.config.cleanupInterval * 1000);
   }
@@ -419,10 +422,10 @@ export class SessionManager {
         this.updateStats();
         const alerts = this.getAlerts();
         if (alerts.length > 0 && this.monitor.notifications.log) {
-          console.log('Session monitoring alerts:', alerts);
+          this.logger.info('Session monitoring alerts:', alerts);
         }
       } catch (error) {
-        console.error('Session monitoring error:', error);
+        this.logger.error('Session monitoring error:', error);
       }
     }, this.monitor.checkInterval * 1000);
   }

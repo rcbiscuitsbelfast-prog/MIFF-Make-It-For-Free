@@ -3,6 +3,7 @@
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
 
 import { OverlinkZone, DrawReducer, AssetBinding, ModuleConnection } from './OverlinkZone';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export type ScenarioState = {
   step: number;
@@ -180,7 +181,7 @@ export function runScenario(cfg: ScenarioConfig = {}): ScenarioOutput {
   // Step 5.8: Setup badges if requested
   if (enableBadges && badgeOptions) {
     // Badge system is automatically initialized with sample data
-    console.log('Badge system initialized with contributor recognition');
+    this.logger.info('Badge system initialized with contributor recognition');
   }
 
   // Step 6: Activate modules

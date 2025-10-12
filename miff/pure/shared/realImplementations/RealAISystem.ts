@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real AI System Implementation
  * 
@@ -63,6 +64,7 @@ export interface AIPerformanceMetrics {
 }
 
 export class RealAISystem {
+  private logger: StructuredLogger;
   private models: Map<string, AIModel> = new Map();
   private tasks: Map<string, AITask> = new Map();
   private learningSessions: Map<string, AILearningSession> = new Map();
@@ -81,6 +83,7 @@ export class RealAISystem {
   };
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealAISystem' });
     this.initializeDefaultModels();
   }
 
@@ -139,7 +142,7 @@ export class RealAISystem {
       this.emit('modelAdded', { modelId: model.id, model });
       return true;
     } catch (error) {
-      console.error('Error adding AI model:', error);
+      this.logger.error('Error adding AI model:', error);
       return false;
     }
   }
@@ -171,7 +174,7 @@ export class RealAISystem {
       this.emit('modelUpdated', { modelId, model: updatedModel });
       return true;
     } catch (error) {
-      console.error('Error updating AI model:', error);
+      this.logger.error('Error updating AI model:', error);
       return false;
     }
   }
@@ -189,7 +192,7 @@ export class RealAISystem {
       this.emit('modelRemoved', { modelId, model });
       return true;
     } catch (error) {
-      console.error('Error removing AI model:', error);
+      this.logger.error('Error removing AI model:', error);
       return false;
     }
   }
@@ -489,7 +492,7 @@ export class RealAISystem {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          this.logger.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

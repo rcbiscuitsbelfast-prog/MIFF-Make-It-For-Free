@@ -13,6 +13,7 @@ import { AnimationSequencer } from './AnimationSequencer';
 import { ExportIntegration } from './ExportIntegration';
 import { UIBuilder } from './UIBuilder';
 import { SkeletonState, RigConfig, SkinConfig, FaceConfig, AnimationConfig } from './types';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export class SkeletonAnimatorManager {
   private rigBuilder: RigBuilder;
@@ -465,7 +466,7 @@ export class SkeletonAnimatorManager {
    * Import system state
    */
   importState(json: string): SkeletonAnimatorManager {
-    const importData = JSON.parse(json);
+    const importData = SafeJSONParser.parse(json);
     this.skeletonState = importData.skeletonState;
     
     // Reinitialize components with imported state

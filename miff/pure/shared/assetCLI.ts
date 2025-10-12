@@ -10,11 +10,15 @@
 import { AssetValidator, AssetType } from './AssetValidator.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class AssetCLI {
+  private logger: StructuredLogger;
   private validator: AssetValidator;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'AssetCLI' });
     this.validator = new AssetValidator();
   }
 
@@ -42,7 +46,7 @@ class AssetCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -51,15 +55,15 @@ class AssetCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'asset-references.json';
 
-    console.log(`🔍 Scanning for asset references in ${rootPath}...`);
+    this.logger.info(`🔍 Scanning for asset references in ${rootPath}...`);
     
     const references = await this.validator.scanAssetReferences(rootPath);
     
     // Save references to file
     fs.writeFileSync(outputFile, JSON.stringify(references, null, 2));
     
-    console.log(`✅ Found ${references.length} asset references`);
-    console.log(`📄 References saved to ${outputFile}`);
+    this.logger.info(`✅ Found ${references.length} asset references`);
+    this.logger.info(`📄 References saved to ${outputFile}`);
 
     // Show breakdown by type
     const typeCounts = new Map<AssetType, number>();
@@ -68,9 +72,9 @@ class AssetCLI {
       typeCounts.set(ref.type, count + 1);
     }
 
-    console.log('\n📊 Asset references by type:');
+    this.logger.info('\n📊 Asset references by type:');
     for (const [type, count] of typeCounts) {
-      console.log(`  ${type}: ${count}`);
+      this.logger.info(`  ${type}: ${count}`);
     }
   }
 
@@ -78,7 +82,7 @@ class AssetCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'asset-validation.json';
 
-    console.log(`🔍 Validating assets in ${rootPath}...`);
+    this.logger.info(`🔍 Validating assets in ${rootPath}...`);
     
     // First scan for references
     await this.validator.scanAssetReferences(rootPath);
@@ -91,35 +95,35 @@ class AssetCLI {
     
     const stats = this.validator.getStats();
     
-    console.log('\n📊 Asset Validation Results:');
-    console.log(`Total assets: ${stats.totalAssets}`);
-    console.log(`Valid assets: ${stats.validAssets}`);
-    console.log(`Invalid assets: ${stats.invalidAssets}`);
-    console.log(`Missing assets: ${stats.missingAssets}`);
-    console.log(`Broken references: ${stats.brokenReferences}`);
-    console.log(`Total size: ${this.formatBytes(stats.totalSize)}`);
-    console.log(`Average size: ${this.formatBytes(stats.averageSize)}`);
+    this.logger.info('\n📊 Asset Validation Results:');
+    this.logger.info(`Total assets: ${stats.totalAssets}`);
+    this.logger.info(`Valid assets: ${stats.validAssets}`);
+    this.logger.info(`Invalid assets: ${stats.invalidAssets}`);
+    this.logger.info(`Missing assets: ${stats.missingAssets}`);
+    this.logger.info(`Broken references: ${stats.brokenReferences}`);
+    this.logger.info(`Total size: ${this.formatBytes(stats.totalSize)}`);
+    this.logger.info(`Average size: ${this.formatBytes(stats.averageSize)}`);
     
     if (stats.invalidAssets > 0) {
-      console.log('\n❌ Invalid assets:');
+      this.logger.info('\n❌ Invalid assets:');
       const invalidResults = results.filter(r => !r.valid);
       for (const result of invalidResults.slice(0, 10)) { // Show first 10
-        console.log(`  ${result.asset.path} (${result.asset.module})`);
-        result.errors.forEach(error => console.log(`    - ${error}`));
+        this.logger.info(`  ${result.asset.path} (${result.asset.module})`);
+        result.errors.forEach(error => this.logger.info(`    - ${error}`));
       }
       if (invalidResults.length > 10) {
-        console.log(`  ... and ${invalidResults.length - 10} more`);
+        this.logger.info(`  ... and ${invalidResults.length - 10} more`);
       }
     }
     
-    console.log(`\n📄 Detailed results saved to ${outputFile}`);
+    this.logger.info(`\n📄 Detailed results saved to ${outputFile}`);
   }
 
   private async checkPipeline(args: string[]): Promise<void> {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'pipeline-integrity.json';
 
-    console.log(`🔍 Checking pipeline integrity in ${rootPath}...`);
+    this.logger.info(`🔍 Checking pipeline integrity in ${rootPath}...`);
     
     // First scan for references
     await this.validator.scanAssetReferences(rootPath);
@@ -130,34 +134,34 @@ class AssetCLI {
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    console.log('\n📊 Pipeline Integrity Results:');
+    this.logger.info('\n📊 Pipeline Integrity Results:');
     for (const result of results) {
       const status = result.valid ? '✅' : '❌';
-      console.log(`${status} ${result.pipeline} Pipeline`);
+      this.logger.info(`${status} ${result.pipeline} Pipeline`);
       
       if (result.missingAssets.length > 0) {
-        console.log(`  Missing assets: ${result.missingAssets.length}`);
-        result.missingAssets.slice(0, 5).forEach(asset => console.log(`    - ${asset}`));
+        this.logger.info(`  Missing assets: ${result.missingAssets.length}`);
+        result.missingAssets.slice(0, 5).forEach(asset => this.logger.info(`    - ${asset}`));
         if (result.missingAssets.length > 5) {
-          console.log(`    ... and ${result.missingAssets.length - 5} more`);
+          this.logger.info(`    ... and ${result.missingAssets.length - 5} more`);
         }
       }
       
       if (result.brokenReferences.length > 0) {
-        console.log(`  Broken references: ${result.brokenReferences.length}`);
+        this.logger.info(`  Broken references: ${result.brokenReferences.length}`);
       }
       
       if (result.versionMismatches.length > 0) {
-        console.log(`  Version mismatches: ${result.versionMismatches.length}`);
+        this.logger.info(`  Version mismatches: ${result.versionMismatches.length}`);
       }
       
       if (result.recommendations.length > 0) {
-        console.log(`  Recommendations:`);
-        result.recommendations.forEach(rec => console.log(`    - ${rec}`));
+        this.logger.info(`  Recommendations:`);
+        result.recommendations.forEach(rec => this.logger.info(`    - ${rec}`));
       }
     }
     
-    console.log(`\n📄 Detailed results saved to ${outputFile}`);
+    this.logger.info(`\n📄 Detailed results saved to ${outputFile}`);
   }
 
   private async generateReport(args: string[]): Promise<void> {
@@ -165,17 +169,17 @@ class AssetCLI {
     const outputFile = args[1] || 'asset-report.html';
 
     if (!fs.existsSync(inputFile)) {
-      console.error(`❌ Validation file not found: ${inputFile}`);
-      console.error('Run asset validation first with: tsx assetCLI.ts validate');
+      this.logger.error(`❌ Validation file not found: ${inputFile}`);
+      this.logger.error('Run asset validation first with: tsx assetCLI.ts validate');
       return;
     }
 
-    const results = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+    const results = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
     const report = this.validator.generateReport();
     const html = this.generateHTMLReport(results);
 
     fs.writeFileSync(outputFile, html);
-    console.log(`📄 HTML report generated: ${outputFile}`);
+    this.logger.info(`📄 HTML report generated: ${outputFile}`);
   }
 
   private generateHTMLReport(results: any[]): string {
@@ -273,7 +277,7 @@ class AssetCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 🎨 MIFF Asset Validation CLI
 
 Usage: tsx assetCLI.ts <command> [options]

@@ -4,6 +4,7 @@ import { SpiritTamerManager } from './Manager';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SpiritTamerOperation {
   op: 'demo' | 'scenario' | 'tame' | 'battle' | 'dump' | 'list' | 'player' | 'move' | 'startTaming' | 'rhythm' | 'session' | 'sessions' | 'stats' | 'export' | 'reset';
@@ -21,9 +22,11 @@ interface SpiritTamerOperation {
 }
 
 class SpiritTamerCLI {
+  private logger: StructuredLogger;
   private manager: SpiritTamerManager;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'SpiritTamerCLI' });
     this.manager = new SpiritTamerManager();
   }
 
@@ -448,7 +451,7 @@ async function main() {
   if (process.argv.length < 3) {
     // Run demo by default when no arguments provided
     const result = await cli.execute({ op: 'demo' });
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
     return;
   }
 
@@ -544,9 +547,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('Error:', error instanceof Error ? error.message : error);
+    this.logger.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

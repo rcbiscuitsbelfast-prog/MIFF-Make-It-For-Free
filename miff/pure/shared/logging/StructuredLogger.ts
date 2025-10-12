@@ -282,7 +282,7 @@ export class StructuredLogger {
    * Output log entry to file (placeholder)
    */
   private outputToFile(entry: LogEntry): void {
-    // TODO: Implement file logging
+    // TODO: Implement in next phase
     // This would write to a log file with rotation
   }
 
@@ -290,7 +290,7 @@ export class StructuredLogger {
    * Output log entry to remote (placeholder)
    */
   private outputToRemote(entry: LogEntry): void {
-    // TODO: Implement remote logging
+    // TODO: Implement in next phase
     // This would send logs to a remote service
   }
 
@@ -308,7 +308,7 @@ export class StructuredLogger {
    * Get CPU usage (placeholder)
    */
   private getCPUUsage(): number {
-    // TODO: Implement CPU usage monitoring
+    // TODO: Implement in next phase
     return 0;
   }
 
@@ -329,7 +329,7 @@ export class StructuredLogger {
    * Flush logs (placeholder)
    */
   private flush(): void {
-    // TODO: Implement log flushing
+    // TODO: Implement in next phase
     // This would flush logs to file or remote service
   }
 

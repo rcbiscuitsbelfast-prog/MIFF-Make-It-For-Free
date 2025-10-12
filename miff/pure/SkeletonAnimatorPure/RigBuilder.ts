@@ -6,6 +6,7 @@
  */
 
 import { RigConfig, RigNode, SnapPoint, Constraint, Vec3, Quaternion, Transform } from './types';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export class RigBuilder {
   private config: RigConfig;
@@ -207,7 +208,7 @@ export class RigBuilder {
    * Load rig from JSON
    */
   static fromJSON(json: string): RigBuilder {
-    const config = JSON.parse(json) as RigConfig;
+    const config = SafeJSONParser.parse(json) as RigConfig;
     return new RigBuilder(config);
   }
 

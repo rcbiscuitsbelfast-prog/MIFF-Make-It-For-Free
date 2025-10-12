@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * MIFF Bundle Optimizer
  *
@@ -44,6 +45,7 @@ export interface OptimizationResult {
 }
 
 export class BundleOptimizer {
+  private logger: StructuredLogger;
   private config: BundleConfig;
   private analyzedModules: Map<string, ModuleAnalysis> = new Map();
   private dependencyGraph: DependencyGraph = new Map();
@@ -51,6 +53,7 @@ export class BundleOptimizer {
   private unusedExports: Map<string, Set<string>> = new Map();
 
   constructor(config: BundleConfig) {
+    this.logger = new StructuredLogger({ module: 'BundleOptimizer' });
     // Start with provided config and apply defaults field-by-field to avoid duplicate key warnings
     this.config = { ...config } as BundleConfig;
     this.config.optimizationLevel = this.config.optimizationLevel ?? 'aggressive';
@@ -548,7 +551,7 @@ export class BundleOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[BUNDLEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[BUNDLEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 }
 

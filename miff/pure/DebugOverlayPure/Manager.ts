@@ -4,6 +4,7 @@ import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
 import { RenderData, RenderPayload } from '../shared/ConsolidatedSchema';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export enum DebugVisualizationMode {
   TEXT = 'text',
@@ -542,7 +543,7 @@ export class DebugOverlayManager {
 
       lines.forEach(line => {
         try {
-          const parsed = JSON.parse(line.trim());
+          const parsed = SafeJSONParser.parse(line.trim());
           if (parsed.renderData && Array.isArray(parsed.renderData)) {
             payloads.push(parsed);
           }
@@ -1605,7 +1606,7 @@ export class DebugOverlayManager {
       }
 
       const content = fs.readFileSync(testPath, 'utf-8');
-      return JSON.parse(content);
+      return SafeJSONParser.parse(content);
     } catch (error) {
       return null;
     }

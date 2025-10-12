@@ -18,6 +18,7 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export type XPCurveType = 'linear' | 'exponential' | 'custom';
 
@@ -346,7 +347,7 @@ export class XPManager {
 
   public importProgressionData(data: string): boolean {
     try {
-      const parsed = JSON.parse(data);
+      const parsed = SafeJSONParser.parse(data);
 
       if (parsed.curve) {
         this.curve = parsed.curve;

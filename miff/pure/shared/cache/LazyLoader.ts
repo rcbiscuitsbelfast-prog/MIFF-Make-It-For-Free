@@ -5,6 +5,7 @@
  */
 
 import { CacheManager, CacheEntry } from './CacheManager';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ModuleInfo {
   name: string;
@@ -26,6 +27,7 @@ export interface LoadingStrategy {
 }
 
 export class LazyLoader {
+  private logger: StructuredLogger;
   private cacheManager: CacheManager;
   private moduleRegistry: Map<string, ModuleInfo> = new Map();
   private loadingStrategies: LoadingStrategy[] = [];
@@ -35,6 +37,7 @@ export class LazyLoader {
   private idleCallbackId?: number;
 
   constructor(cacheManager: CacheManager) {
+    this.logger = new StructuredLogger({ module: 'LazyLoader' });
     this.cacheManager = cacheManager;
     this.initializeModuleRegistry();
     this.initializeLoadingStrategies();
@@ -399,7 +402,7 @@ export class LazyLoader {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[LAZYLOADER:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[LAZYLOADER:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

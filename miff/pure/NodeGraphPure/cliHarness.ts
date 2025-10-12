@@ -5,6 +5,8 @@ import { NodeGraphManager, GraphDefinition } from './Manager';
 import { TextureSynthManager } from '../TextureSynthPure/Manager';
 import { MeshFactoryManager } from '../MeshFactoryPure/Manager';
 import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function main(){
   const { command, options } = parseComplexCLIArgs(process.argv);
@@ -15,7 +17,7 @@ function main(){
         const file = options.file as string;
         const seed = parseInt(options.seed || '1');
         if(!file) throw new Error('Missing --file <graphDefinition.json>');
-        const def = JSON.parse(fs.readFileSync(path.resolve(file),'utf-8')) as GraphDefinition;
+        const def = SafeJSONParser.parse(fs.readFileSync(path.resolve(file),'utf-8')) as GraphDefinition;
         const mgr = new NodeGraphManager();
         const tex = new TextureSynthManager();
         const mesh = new MeshFactoryManager();
@@ -35,7 +37,7 @@ function main(){
     out = { log: ['error'], outputs: [{ error: e instanceof Error ? e.message : String(e) }] };
     process.exitCode = 1;
   }
-  console.log(formatOutput(out));
+  this.logger.info(formatOutput(out));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

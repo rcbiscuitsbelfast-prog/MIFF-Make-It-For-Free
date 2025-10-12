@@ -10,6 +10,8 @@ import {
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface AudioOperation {
   op: 'create' | 'register-sound' | 'play' | 'stop' | 'pause' | 'set-volume' | 'set-spatial' | 'demo' | 'dump';
@@ -30,7 +32,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -40,7 +42,7 @@ function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as AudioOperation;
     } else {
       // Parse subcommand
@@ -48,7 +50,7 @@ function main() {
         case 'create':
           const configFile = argv[1];
           const config = configFile && fs.existsSync(configFile) 
-            ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
+            ? SafeJSONParser.parse(fs.readFileSync(configFile, 'utf-8'))
             : {
                 sampleRate: 44100,
                 channels: 2,
@@ -356,7 +358,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -365,11 +367,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

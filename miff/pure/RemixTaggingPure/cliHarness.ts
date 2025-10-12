@@ -3,6 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { RemixTaggingManager, type RemixLevel } from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Operation =
   | { op: 'tag'; moduleId: string; moduleName: string; level?: RemixLevel; reason?: string }
@@ -15,13 +17,13 @@ type Operation =
 
 function readJSON(file: string): any {
   const p = path.isAbsolute(file) ? file : path.resolve(process.cwd(), file);
-  return JSON.parse(fs.readFileSync(p, 'utf-8'));
+  return SafeJSONParser.parse(fs.readFileSync(p, 'utf-8'));
 }
 
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html]');
     process.exit(1);
   }
   try {
@@ -137,15 +139,15 @@ function main() {
       'Module tagging results'
     );
 
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: op.op,
       status: 'ok',
       result: finalResult,
       timestamp: Date.now()
     }, null, 2));
-    if (exportData) console.error('\n' + exportData);
+    if (exportData) this.logger.error('\n' + exportData);
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * ButtonStylePure - Stateless Button Styling Presets
  * 
@@ -84,10 +86,12 @@ export interface ButtonTheme {
 }
 
 export class ButtonStyleManager {
+  private logger: StructuredLogger;
   private themes: Map<string, ButtonTheme> = new Map();
   private currentTheme: string = 'default';
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'ButtonStyleManager' });
     this.initializeDefaultThemes();
   }
 
@@ -631,11 +635,11 @@ export class ButtonStyleManager {
    */
   importTheme(themeJson: string): boolean {
     try {
-      const theme = JSON.parse(themeJson) as ButtonTheme;
+      const theme = SafeJSONParser.parse(themeJson) as ButtonTheme;
       this.addTheme(theme);
       return true;
     } catch (error) {
-      console.error('Failed to import theme:', error);
+      this.logger.error('Failed to import theme:', error);
       return false;
     }
   }

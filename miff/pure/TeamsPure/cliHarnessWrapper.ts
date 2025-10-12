@@ -6,6 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { TeamsManager, Team, TeamMember } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const manager = new TeamsManager();
@@ -15,7 +16,7 @@ try {
     case 'createTeam': {
       const { teamId, name, members, formation } = params;
       
-      const membersList = typeof members === 'string' ? JSON.parse(members) :
+      const membersList = typeof members === 'string' ? SafeJSONParser.parse(members) :
                          Array.isArray(members) ? members.map((m: any, i: number) => ({
                            id: typeof m === 'string' ? m : m.id || `member_${i}`,
                            name: typeof m === 'string' ? m : m.name || `Member ${i}`,

@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { pathfind, createGrid, isPathClear, Grid, Point } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'pathfind'; start: Point; goal: Point }
@@ -19,13 +20,13 @@ function main() {
   
   const pathResult = SafePathUtils.safeReadFile(inputPath, process.cwd());
   if (!pathResult.success) {
-    console.error('Error reading input file:', pathResult.error);
+    this.logger.error('Error reading input file:', pathResult.error);
     process.exit(1);
   }
   
   const jsonResult = SafeJSONParser.parse(pathResult.data!);
   if (!jsonResult.success) {
-    console.error('Error parsing JSON:', jsonResult.error);
+    this.logger.error('Error parsing JSON:', jsonResult.error);
     process.exit(1);
   }
   
@@ -38,7 +39,7 @@ function main() {
 
   const log: string[] = [];
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
     { op: 'pathfind', start: input.start, goal: input.goal } as Cmd
   ];
   const outputs: any[] = [];
@@ -58,7 +59,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

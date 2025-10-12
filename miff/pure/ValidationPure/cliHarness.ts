@@ -12,6 +12,8 @@
 import { ValidationManager, ValidationConfig, ValidationInput } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import * as fsLocal from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, args } = parseCLIArgs(process.argv);
 
@@ -35,9 +37,9 @@ let output: any;
 try {
   const candidatePath = legacyInputPath || mode;
   if (candidatePath && !String(candidatePath).startsWith('--') && String(candidatePath).endsWith('.json') && fsLocal.existsSync(candidatePath)) {
-    const legacyInput = JSON.parse(fsLocal.readFileSync(candidatePath, 'utf-8')) as ValidationInput;
+    const legacyInput = SafeJSONParser.parse(fsLocal.readFileSync(candidatePath, 'utf-8')) as ValidationInput;
     const legacyResult = manager.validateAll(legacyInput);
-    console.log(formatOutput({ outputs: [legacyResult] }));
+    this.logger.info(formatOutput({ outputs: [legacyResult] }));
     process.exit(0);
   }
 } catch {}
@@ -45,7 +47,7 @@ try {
 try {
   switch (mode) {
     case 'configure':
-      const config: ValidationConfig = args.includes('--config') ? JSON.parse(args.find(arg => arg.startsWith('--config='))!.split('=')[1]) : {
+      const config: ValidationConfig = args.includes('--config') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--config='))!.split('=')[1]) : {
         rules: ['missing_refs', 'stat_bounds', 'zone_overlap'],
         combatExpectedStatKeys: ['hp', 'attack', 'defense']
       };
@@ -56,9 +58,9 @@ try {
       let input: ValidationInput;
       const inline = args.find(arg => arg.startsWith('--input='));
       if (inline) {
-        input = JSON.parse(inline.split('=')[1]);
+        input = SafeJSONParser.parse(inline.split('=')[1]);
       } else if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
-        input = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
+        input = SafeJSONParser.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
       } else {
         input = {
           refs: { 'ref1': { ok: true }, 'ref2': { ok: false } },
@@ -75,7 +77,7 @@ try {
             { id: 'asset1', name: 'Test Asset 1', type: 'texture', path: '/assets/texture1.png', size: 1024, checksum: 'abc123' },
             { id: 'asset2', name: 'Test Asset 2', type: 'model', path: '/assets/model1.obj', size: 2048, checksum: 'def456' }
           ],
-          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { console.log("test"); }', language: 'javascript', dependencies: ['library1'] } ]
+          scripts: [ { id: 'script1', name: 'Test Script 1', type: 'behavior', content: 'function update() { this.logger.info("test"); }', language: 'javascript', dependencies: ['library1'] } ]
         };
       }
       output = manager.validateAll(input);
@@ -263,7 +265,7 @@ try {
 
     default: {
       if (legacyInputPath && fsLocal.existsSync(legacyInputPath)) {
-        const legacyInput = JSON.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
+        const legacyInput = SafeJSONParser.parse(fsLocal.readFileSync(legacyInputPath, 'utf-8')) as ValidationInput;
         const legacyResult = manager.validateAll(legacyInput);
         output = { outputs: [legacyResult] };
       } else {
@@ -302,4 +304,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

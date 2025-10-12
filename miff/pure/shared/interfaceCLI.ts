@@ -9,11 +9,14 @@
 import { InterfaceStandardizer } from './InterfaceStandardizer.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class InterfaceCLI {
+  private logger: StructuredLogger;
   private standardizer: InterfaceStandardizer;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'InterfaceCLI' });
     this.standardizer = new InterfaceStandardizer();
   }
 
@@ -41,7 +44,7 @@ class InterfaceCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -50,37 +53,37 @@ class InterfaceCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'interface-standardization.json';
 
-    console.log(`🔧 Standardizing interfaces in ${rootPath}...`);
+    this.logger.info(`🔧 Standardizing interfaces in ${rootPath}...`);
     
     const results = await this.standardizer.standardizeAllInterfaces(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    console.log(`✅ Standardized interfaces for ${results.length} modules`);
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info(`✅ Standardized interfaces for ${results.length} modules`);
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary
     const stats = this.standardizer.getStats();
-    console.log('\n📊 Standardization Summary:');
-    console.log(`Total modules: ${stats.totalModules}`);
-    console.log(`Compliant modules: ${stats.compliantModules}`);
-    console.log(`Non-compliant modules: ${stats.nonCompliantModules}`);
-    console.log(`Average score: ${stats.averageScore.toFixed(1)}%`);
-    console.log(`Critical issues: ${stats.criticalIssues}`);
-    console.log(`Total recommendations: ${stats.recommendations}`);
+    this.logger.info('\n📊 Standardization Summary:');
+    this.logger.info(`Total modules: ${stats.totalModules}`);
+    this.logger.info(`Compliant modules: ${stats.compliantModules}`);
+    this.logger.info(`Non-compliant modules: ${stats.nonCompliantModules}`);
+    this.logger.info(`Average score: ${stats.averageScore.toFixed(1)}%`);
+    this.logger.info(`Critical issues: ${stats.criticalIssues}`);
+    this.logger.info(`Total recommendations: ${stats.recommendations}`);
 
     // Show non-compliant modules
     const nonCompliant = this.standardizer.getNonCompliantModules();
     if (nonCompliant.length > 0) {
-      console.log('\n❌ Non-Compliant Modules:');
+      this.logger.info('\n❌ Non-Compliant Modules:');
       nonCompliant.forEach(result => {
-        console.log(`  ${result.module} (${result.interface}): ${result.score}%`);
+        this.logger.info(`  ${result.module} (${result.interface}): ${result.score}%`);
         if (result.missingMethods.length > 0) {
-          console.log(`    Missing methods: ${result.missingMethods.join(', ')}`);
+          this.logger.info(`    Missing methods: ${result.missingMethods.join(', ')}`);
         }
         if (result.missingProperties.length > 0) {
-          console.log(`    Missing properties: ${result.missingProperties.join(', ')}`);
+          this.logger.info(`    Missing properties: ${result.missingProperties.join(', ')}`);
         }
       });
     }
@@ -90,84 +93,84 @@ class InterfaceCLI {
     const moduleName = args[0];
     
     if (!moduleName) {
-      console.error('❌ Module name required');
-      console.error('Usage: tsx interfaceCLI.ts check <module-name>');
+      this.logger.error('❌ Module name required');
+      this.logger.error('Usage: tsx interfaceCLI.ts check <module-name>');
       return;
     }
 
-    console.log(`✅ Checking compliance for module: ${moduleName}`);
+    this.logger.info(`✅ Checking compliance for module: ${moduleName}`);
     
     const results = this.standardizer.getAllResults();
     const result = results.find(r => r.module === moduleName);
     
     if (!result) {
-      console.error(`❌ Module not found: ${moduleName}`);
+      this.logger.error(`❌ Module not found: ${moduleName}`);
       return;
     }
 
-    console.log(`\n📊 Compliance Check for ${result.module}:`);
-    console.log(`Interface: ${result.interface}`);
-    console.log(`Compliant: ${result.compliant ? 'Yes' : 'No'}`);
-    console.log(`Score: ${result.score}%`);
+    this.logger.info(`\n📊 Compliance Check for ${result.module}:`);
+    this.logger.info(`Interface: ${result.interface}`);
+    this.logger.info(`Compliant: ${result.compliant ? 'Yes' : 'No'}`);
+    this.logger.info(`Score: ${result.score}%`);
 
     if (result.missingMethods.length > 0) {
-      console.log(`\n❌ Missing Methods:`);
-      result.missingMethods.forEach(method => console.log(`  - ${method}`));
+      this.logger.info(`\n❌ Missing Methods:`);
+      result.missingMethods.forEach(method => this.logger.info(`  - ${method}`));
     }
 
     if (result.extraMethods.length > 0) {
-      console.log(`\n⚠️ Extra Methods:`);
-      result.extraMethods.forEach(method => console.log(`  - ${method}`));
+      this.logger.info(`\n⚠️ Extra Methods:`);
+      result.extraMethods.forEach(method => this.logger.info(`  - ${method}`));
     }
 
     if (result.missingProperties.length > 0) {
-      console.log(`\n❌ Missing Properties:`);
-      result.missingProperties.forEach(prop => console.log(`  - ${prop}`));
+      this.logger.info(`\n❌ Missing Properties:`);
+      result.missingProperties.forEach(prop => this.logger.info(`  - ${prop}`));
     }
 
     if (result.extraProperties.length > 0) {
-      console.log(`\n⚠️ Extra Properties:`);
-      result.extraProperties.forEach(prop => console.log(`  - ${prop}`));
+      this.logger.info(`\n⚠️ Extra Properties:`);
+      result.extraProperties.forEach(prop => this.logger.info(`  - ${prop}`));
     }
 
     if (result.missingEvents.length > 0) {
-      console.log(`\n❌ Missing Events:`);
-      result.missingEvents.forEach(event => console.log(`  - ${event}`));
+      this.logger.info(`\n❌ Missing Events:`);
+      result.missingEvents.forEach(event => this.logger.info(`  - ${event}`));
     }
 
     if (result.extraEvents.length > 0) {
-      console.log(`\n⚠️ Extra Events:`);
-      result.extraEvents.forEach(event => console.log(`  - ${event}`));
+      this.logger.info(`\n⚠️ Extra Events:`);
+      result.extraEvents.forEach(event => this.logger.info(`  - ${event}`));
     }
 
     // Lifecycle compliance
-    console.log(`\n🔄 Lifecycle Compliance:`);
-    console.log(`  Initialize: ${result.lifecycleCompliance.initialize ? '✅' : '❌'}`);
-    console.log(`  Destroy: ${result.lifecycleCompliance.destroy ? '✅' : '❌'}`);
-    console.log(`  Update: ${result.lifecycleCompliance.update ? '✅' : '❌'}`);
-    console.log(`  Reset: ${result.lifecycleCompliance.reset ? '✅' : '❌'}`);
-    console.log(`  Pause: ${result.lifecycleCompliance.pause ? '✅' : '❌'}`);
-    console.log(`  Resume: ${result.lifecycleCompliance.resume ? '✅' : '❌'}`);
-    console.log(`  Score: ${result.lifecycleCompliance.score.toFixed(1)}%`);
+    this.logger.info(`\n🔄 Lifecycle Compliance:`);
+    this.logger.info(`  Initialize: ${result.lifecycleCompliance.initialize ? '✅' : '❌'}`);
+    this.logger.info(`  Destroy: ${result.lifecycleCompliance.destroy ? '✅' : '❌'}`);
+    this.logger.info(`  Update: ${result.lifecycleCompliance.update ? '✅' : '❌'}`);
+    this.logger.info(`  Reset: ${result.lifecycleCompliance.reset ? '✅' : '❌'}`);
+    this.logger.info(`  Pause: ${result.lifecycleCompliance.pause ? '✅' : '❌'}`);
+    this.logger.info(`  Resume: ${result.lifecycleCompliance.resume ? '✅' : '❌'}`);
+    this.logger.info(`  Score: ${result.lifecycleCompliance.score.toFixed(1)}%`);
 
     // Error handling compliance
-    console.log(`\n🛡️ Error Handling Compliance:`);
-    console.log(`  Throw on Error: ${result.errorHandlingCompliance.throwOnError ? '✅' : '❌'}`);
-    console.log(`  Return Error: ${result.errorHandlingCompliance.returnError ? '✅' : '❌'}`);
-    console.log(`  Log Errors: ${result.errorHandlingCompliance.logErrors ? '✅' : '❌'}`);
-    console.log(`  Error Types: ${result.errorHandlingCompliance.errorTypes.join(', ')}`);
-    console.log(`  Score: ${result.errorHandlingCompliance.score.toFixed(1)}%`);
+    this.logger.info(`\n🛡️ Error Handling Compliance:`);
+    this.logger.info(`  Throw on Error: ${result.errorHandlingCompliance.throwOnError ? '✅' : '❌'}`);
+    this.logger.info(`  Return Error: ${result.errorHandlingCompliance.returnError ? '✅' : '❌'}`);
+    this.logger.info(`  Log Errors: ${result.errorHandlingCompliance.logErrors ? '✅' : '❌'}`);
+    this.logger.info(`  Error Types: ${result.errorHandlingCompliance.errorTypes.join(', ')}`);
+    this.logger.info(`  Score: ${result.errorHandlingCompliance.score.toFixed(1)}%`);
 
     if (result.recommendations.length > 0) {
-      console.log(`\n💡 Recommendations:`);
-      result.recommendations.forEach(rec => console.log(`  - ${rec}`));
+      this.logger.info(`\n💡 Recommendations:`);
+      result.recommendations.forEach(rec => this.logger.info(`  - ${rec}`));
     }
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'interface-compliance-report.html';
 
-    console.log('📊 Generating interface compliance report...');
+    this.logger.info('📊 Generating interface compliance report...');
     
     const report = this.standardizer.generateComplianceReport();
     const html = this.generateHTMLReport(report);
@@ -175,47 +178,47 @@ class InterfaceCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    console.log(`✅ Interface compliance report generated`);
-    console.log(`📄 Report saved to ${outputFile}`);
+    this.logger.info(`✅ Interface compliance report generated`);
+    this.logger.info(`📄 Report saved to ${outputFile}`);
   }
 
   private async fixInterfaces(args: string[]): Promise<void> {
     const moduleName = args[0];
     
     if (!moduleName) {
-      console.error('❌ Module name required');
-      console.error('Usage: tsx interfaceCLI.ts fix <module-name>');
+      this.logger.error('❌ Module name required');
+      this.logger.error('Usage: tsx interfaceCLI.ts fix <module-name>');
       return;
     }
 
-    console.log(`🔧 Fixing interface for module: ${moduleName}`);
+    this.logger.info(`🔧 Fixing interface for module: ${moduleName}`);
     
     const results = this.standardizer.getAllResults();
     const result = results.find(r => r.module === moduleName);
     
     if (!result) {
-      console.error(`❌ Module not found: ${moduleName}`);
+      this.logger.error(`❌ Module not found: ${moduleName}`);
       return;
     }
 
     if (result.compliant) {
-      console.log(`✅ Module ${moduleName} is already compliant`);
+      this.logger.info(`✅ Module ${moduleName} is already compliant`);
       return;
     }
 
-    console.log(`\n🔧 Fixing ${result.module} interface...`);
+    this.logger.info(`\n🔧 Fixing ${result.module} interface...`);
     
     // Generate fix suggestions
     const fixes = this.generateFixSuggestions(result);
     
-    console.log(`\n💡 Fix Suggestions for ${result.module}:`);
-    fixes.forEach(fix => console.log(`  - ${fix}`));
+    this.logger.info(`\n💡 Fix Suggestions for ${result.module}:`);
+    fixes.forEach(fix => this.logger.info(`  - ${fix}`));
     
     // Save fix suggestions to file
     const fixFile = `${moduleName}-interface-fixes.md`;
     fs.writeFileSync(fixFile, this.generateFixMarkdown(result, fixes));
     
-    console.log(`\n📄 Fix suggestions saved to ${fixFile}`);
+    this.logger.info(`\n📄 Fix suggestions saved to ${fixFile}`);
   }
 
   private generateFixSuggestions(result: any): string[] {
@@ -356,7 +359,7 @@ class InterfaceCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 🔧 MIFF Interface Standardization CLI
 
 Usage: tsx interfaceCLI.ts <command> [options]

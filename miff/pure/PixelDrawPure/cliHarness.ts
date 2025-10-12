@@ -4,6 +4,8 @@ import { PixelDrawPure, PixelGrid, PixelCell, RgbHex } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelDrawOperation {
   op: 'create' | 'set-color' | 'get-color' | 'draw-rect' | 'draw-circle' | 'draw-line' | 'fill' | 'clear' | 'export-json' | 'demo' | 'dump';
@@ -26,7 +28,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -36,7 +38,7 @@ function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as PixelDrawOperation;
     } else {
       // Parse subcommand
@@ -59,7 +61,7 @@ function main() {
             x: parseInt(argv[1]),
             y: parseInt(argv[2]),
             color: argv[3] as RgbHex,
-            grid: JSON.parse(argv[4])
+            grid: SafeJSONParser.parse(argv[4])
           };
           break;
         case 'get-color':
@@ -70,7 +72,7 @@ function main() {
             op: 'get-color', 
             x: parseInt(argv[1]),
             y: parseInt(argv[2]),
-            grid: JSON.parse(argv[3])
+            grid: SafeJSONParser.parse(argv[3])
           };
           break;
         case 'draw-rect':
@@ -84,7 +86,7 @@ function main() {
             width: parseInt(argv[3]),
             height: parseInt(argv[4]),
             color: argv[5] as RgbHex,
-            grid: JSON.parse(argv[6])
+            grid: SafeJSONParser.parse(argv[6])
           };
           break;
         case 'draw-circle':
@@ -97,7 +99,7 @@ function main() {
             y: parseInt(argv[2]),
             radius: parseInt(argv[3]),
             color: argv[4] as RgbHex,
-            grid: JSON.parse(argv[5])
+            grid: SafeJSONParser.parse(argv[5])
           };
           break;
         case 'draw-line':
@@ -111,7 +113,7 @@ function main() {
             x2: parseInt(argv[3]),
             y2: parseInt(argv[4]),
             color: argv[5] as RgbHex,
-            grid: JSON.parse(argv[6])
+            grid: SafeJSONParser.parse(argv[6])
           };
           break;
         case 'fill':
@@ -121,16 +123,16 @@ function main() {
           operation = { 
             op: 'fill', 
             color: argv[1] as RgbHex,
-            grid: JSON.parse(argv[2])
+            grid: SafeJSONParser.parse(argv[2])
           };
           break;
         case 'clear':
           if (!argv[1]) throw new Error('clear requires grid JSON');
-          operation = { op: 'clear', grid: JSON.parse(argv[1]) };
+          operation = { op: 'clear', grid: SafeJSONParser.parse(argv[1]) };
           break;
         case 'export-json':
           if (!argv[1]) throw new Error('export-json requires grid JSON');
-          operation = { op: 'export-json', grid: JSON.parse(argv[1]) };
+          operation = { op: 'export-json', grid: SafeJSONParser.parse(argv[1]) };
           break;
         case 'demo':
           operation = { op: 'demo' };
@@ -500,7 +502,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -509,11 +511,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

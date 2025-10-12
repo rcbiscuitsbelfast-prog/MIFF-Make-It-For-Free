@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { AudioManager, AudioCmd } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'process'; commands: AudioCmd[] }
@@ -13,12 +15,12 @@ function main() {
   const inputPath = process.argv[2] || 'AudioBridgePure/fixtures/audio.json';
   const commandsPath = process.argv[3] || '';
   
-  const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
+  const input = SafeJSONParser.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
   const manager = new AudioManager();
 
   const log: string[] = [];
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
     { op: 'process', commands: input.commands } as Cmd
   ];
   const outputs: any[] = [];
@@ -40,7 +42,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // EconomyPure - Comprehensive economic simulation system for MIFF framework
 // Schema Version: v1
 
@@ -354,6 +355,7 @@ export interface Prediction {
 }
 
 export class EconomicEngine {
+  private logger: StructuredLogger;
   private entities: Map<string, EconomicEntity> = new Map();
   private markets: Map<string, Market> = new Map();
   private currencies: Map<CurrencyType, Currency> = new Map();
@@ -368,6 +370,7 @@ export class EconomicEngine {
   private reportCounter = 0;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'EconomicEngine' });
     this.initializeDefaultCurrencies();
     this.initializeDefaultMarkets();
     this.performanceMetrics = this.initializePerformanceMetrics();
@@ -522,7 +525,7 @@ export class EconomicEngine {
       // Validate transaction
       const validation = this.validateTransaction(transaction);
       if (!validation.valid) {
-        console.error(`Invalid transaction: ${validation.reason}`);
+        this.logger.error(`Invalid transaction: ${validation.reason}`);
         return false;
       }
 
@@ -538,7 +541,7 @@ export class EconomicEngine {
       const totalCost = transaction.price * transaction.quantity + fees + taxes;
 
       if (!this.hasSufficientFunds(buyer!, transaction.currency, totalCost)) {
-        console.error('Insufficient funds for transaction');
+        this.logger.error('Insufficient funds for transaction');
         return false;
       }
 
@@ -559,13 +562,13 @@ export class EconomicEngine {
         // Trigger economic events if needed
         this.checkEconomicTriggers(transaction);
 
-        console.log(`Transaction processed: ${transaction.id}`);
+        this.logger.info(`Transaction processed: ${transaction.id}`);
         return true;
       }
 
       return false;
     } catch (error) {
-      console.error('Transaction processing failed:', error);
+      this.logger.error('Transaction processing failed:', error);
       return false;
     }
   }
@@ -782,7 +785,7 @@ export class EconomicEngine {
     };
 
     this.economicEvents.set(event.id, event);
-    console.log(`Economic event triggered: ${event.name}`);
+    this.logger.info(`Economic event triggered: ${event.name}`);
   }
 
   // Market operations
@@ -1037,12 +1040,12 @@ export class EconomicEngine {
     this.initializeDefaultMarkets();
     this.performanceMetrics = this.initializePerformanceMetrics();
 
-    console.log('[EconomicEngine] Reset to initial state');
+    this.logger.info('[EconomicEngine] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[EconomicEngine] Disposed successfully');
+    this.logger.info('[EconomicEngine] Disposed successfully');
   }
 }
 

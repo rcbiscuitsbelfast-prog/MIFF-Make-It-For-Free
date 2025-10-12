@@ -8,6 +8,7 @@
 import { RenderWorldPure } from './index';
 import type { RenderWorldGameState } from './index';
 import { RenderPayloadManager as RenderPayloadPure } from '../RenderPayloadPure';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AdvancedRenderConfig {
   enableShaders: boolean;
@@ -130,6 +131,7 @@ export interface RenderBatch {
 }
 
 export class AdvancedRendering {
+  private logger: StructuredLogger;
   private config: AdvancedRenderConfig;
   private lights: Map<string, LightSource> = new Map();
   private shaders: Map<string, ShaderProgram> = new Map();
@@ -141,6 +143,7 @@ export class AdvancedRendering {
   private renderQueue: RenderBatch[] = [];
 
   constructor(config?: Partial<AdvancedRenderConfig>) {
+    this.logger = new StructuredLogger({ module: 'AdvancedRendering' });
     this.config = {
       enableShaders: true,
       enableLighting: true,
@@ -205,7 +208,7 @@ export class AdvancedRendering {
       shader.compiled = true;
       return true;
     } catch (error) {
-      console.error(`Failed to compile shader ${shaderId}:`, error);
+      this.logger.error(`Failed to compile shader ${shaderId}:`, error);
       return false;
     }
   }
@@ -235,7 +238,7 @@ export class AdvancedRendering {
     if (!system || !system.enabled) return;
 
     // In a real implementation, this would create and manage particle instances
-    console.log(`Emitted ${count} particles from system ${systemId}`);
+    this.logger.info(`Emitted ${count} particles from system ${systemId}`);
   }
 
   /**
@@ -357,7 +360,7 @@ export class AdvancedRendering {
     // 3. Bind textures and materials
     // 4. Draw the mesh
 
-    console.log(`Rendering batch ${batch.id} on layer ${layer.id}`);
+    this.logger.info(`Rendering batch ${batch.id} on layer ${layer.id}`);
   }
 
   /**
@@ -388,7 +391,7 @@ export class AdvancedRendering {
     const contrast = filter.parameters.get('contrast') || 1.0;
     const saturation = filter.parameters.get('saturation') || 1.0;
 
-    console.log(`Applying color filter: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
+    this.logger.info(`Applying color filter: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
   }
 
   /**
@@ -398,7 +401,7 @@ export class AdvancedRendering {
     const radius = filter.parameters.get('radius') || 1.0;
     const quality = filter.parameters.get('quality') || 1.0;
 
-    console.log(`Applying blur filter: radius=${radius}, quality=${quality}`);
+    this.logger.info(`Applying blur filter: radius=${radius}, quality=${quality}`);
   }
 
   /**
@@ -407,7 +410,7 @@ export class AdvancedRendering {
   private applySharpenFilter(filter: RenderFilter, batches: RenderBatch[]): void {
     const strength = filter.parameters.get('strength') || 1.0;
 
-    console.log(`Applying sharpen filter: strength=${strength}`);
+    this.logger.info(`Applying sharpen filter: strength=${strength}`);
   }
 
   /**
@@ -417,7 +420,7 @@ export class AdvancedRendering {
     const threshold = filter.parameters.get('threshold') || 0.5;
     const color = filter.parameters.get('color') || { r: 1, g: 1, b: 1, a: 1 };
 
-    console.log(`Applying edge detection filter: threshold=${threshold}, color=${JSON.stringify(color)}`);
+    this.logger.info(`Applying edge detection filter: threshold=${threshold}, color=${JSON.stringify(color)}`);
   }
 
   /**
@@ -461,7 +464,7 @@ export class AdvancedRendering {
     const threshold = effect.parameters.get('threshold') || 0.8;
     const intensity = effect.intensity;
 
-    console.log(`Applying bloom effect: threshold=${threshold}, intensity=${intensity}`);
+    this.logger.info(`Applying bloom effect: threshold=${threshold}, intensity=${intensity}`);
   }
 
   /**
@@ -471,7 +474,7 @@ export class AdvancedRendering {
     const radius = effect.parameters.get('radius') || 1.0;
     const intensity = effect.intensity;
 
-    console.log(`Applying blur effect: radius=${radius}, intensity=${intensity}`);
+    this.logger.info(`Applying blur effect: radius=${radius}, intensity=${intensity}`);
   }
 
   /**
@@ -482,7 +485,7 @@ export class AdvancedRendering {
     const contrast = effect.parameters.get('contrast') || 1.0;
     const saturation = effect.parameters.get('saturation') || 1.0;
 
-    console.log(`Applying color correction: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
+    this.logger.info(`Applying color correction: brightness=${brightness}, contrast=${contrast}, saturation=${saturation}`);
   }
 
   /**
@@ -492,7 +495,7 @@ export class AdvancedRendering {
     const focusDistance = effect.parameters.get('focusDistance') || 10.0;
     const aperture = effect.parameters.get('aperture') || 1.0;
 
-    console.log(`Applying depth of field: focusDistance=${focusDistance}, aperture=${aperture}`);
+    this.logger.info(`Applying depth of field: focusDistance=${focusDistance}, aperture=${aperture}`);
   }
 
   /**
@@ -502,7 +505,7 @@ export class AdvancedRendering {
     const samples = effect.parameters.get('samples') || 8;
     const intensity = effect.intensity;
 
-    console.log(`Applying motion blur: samples=${samples}, intensity=${intensity}`);
+    this.logger.info(`Applying motion blur: samples=${samples}, intensity=${intensity}`);
   }
 
   /**

@@ -11,11 +11,15 @@ import { MutationTester, JestTestRunner } from './MutationTesting.js';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class MutationCLI {
+  private logger: StructuredLogger;
   private mutationTester: MutationTester;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'MutationCLI' });
     const testRunner = new JestTestRunner();
     this.mutationTester = new MutationTester(testRunner);
   }
@@ -41,7 +45,7 @@ class MutationCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -50,18 +54,18 @@ class MutationCLI {
     const targetPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'mutation-report.json';
 
-    console.log(`🧬 Running mutation testing on ${targetPath}...`);
+    this.logger.info(`🧬 Running mutation testing on ${targetPath}...`);
 
     // Find TypeScript files
     const files = glob.sync(`${targetPath}/**/*.ts`, {
       ignore: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.test.ts', '**/*.spec.ts']
     });
 
-    console.log(`📁 Found ${files.length} TypeScript files to test`);
+    this.logger.info(`📁 Found ${files.length} TypeScript files to test`);
 
     // Generate mutations for each file
     for (const file of files) {
-      console.log(`🔄 Generating mutations for ${file}...`);
+      this.logger.info(`🔄 Generating mutations for ${file}...`);
       await this.mutationTester.generateMutations(file);
     }
 
@@ -72,27 +76,27 @@ class MutationCLI {
     const report = this.generateMutationReport(stats);
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
 
-    console.log('\n📊 Mutation Testing Results:');
-    console.log(`Total mutations: ${stats.totalMutations}`);
-    console.log(`Killed mutations: ${stats.killedMutations}`);
-    console.log(`Survived mutations: ${stats.survivedMutations}`);
-    console.log(`Error mutations: ${stats.errorMutations}`);
-    console.log(`Mutation score: ${stats.mutationScore.toFixed(1)}%`);
-    console.log(`Test quality: ${stats.testQuality}`);
+    this.logger.info('\n📊 Mutation Testing Results:');
+    this.logger.info(`Total mutations: ${stats.totalMutations}`);
+    this.logger.info(`Killed mutations: ${stats.killedMutations}`);
+    this.logger.info(`Survived mutations: ${stats.survivedMutations}`);
+    this.logger.info(`Error mutations: ${stats.errorMutations}`);
+    this.logger.info(`Mutation score: ${stats.mutationScore.toFixed(1)}%`);
+    this.logger.info(`Test quality: ${stats.testQuality}`);
 
     if (stats.recommendations.length > 0) {
-      console.log('\n💡 Recommendations:');
-      stats.recommendations.forEach(rec => console.log(`  - ${rec}`));
+      this.logger.info('\n💡 Recommendations:');
+      stats.recommendations.forEach(rec => this.logger.info(`  - ${rec}`));
     }
 
-    console.log(`\n📄 Detailed report saved to ${outputFile}`);
+    this.logger.info(`\n📄 Detailed report saved to ${outputFile}`);
   }
 
   private async generateMutations(args: string[]): Promise<void> {
     const targetPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'mutations.json';
 
-    console.log(`🔬 Generating mutations for ${targetPath}...`);
+    this.logger.info(`🔬 Generating mutations for ${targetPath}...`);
 
     // Find TypeScript files
     const files = glob.sync(`${targetPath}/**/*.ts`, {
@@ -102,7 +106,7 @@ class MutationCLI {
     const allMutations = [];
 
     for (const file of files) {
-      console.log(`🔄 Processing ${file}...`);
+      this.logger.info(`🔄 Processing ${file}...`);
       const mutations = await this.mutationTester.generateMutations(file);
       allMutations.push(...mutations);
     }
@@ -110,8 +114,8 @@ class MutationCLI {
     // Save mutations to file
     fs.writeFileSync(outputFile, JSON.stringify(allMutations, null, 2));
 
-    console.log(`✅ Generated ${allMutations.length} mutations`);
-    console.log(`📄 Mutations saved to ${outputFile}`);
+    this.logger.info(`✅ Generated ${allMutations.length} mutations`);
+    this.logger.info(`📄 Mutations saved to ${outputFile}`);
 
     // Show mutation breakdown by type
     const typeCounts = allMutations.reduce((acc, mutation) => {
@@ -119,9 +123,9 @@ class MutationCLI {
       return acc;
     }, {} as Record<string, number>);
 
-    console.log('\n📊 Mutation breakdown by type:');
+    this.logger.info('\n📊 Mutation breakdown by type:');
     for (const [type, count] of Object.entries(typeCounts)) {
-      console.log(`  ${type}: ${count}`);
+      this.logger.info(`  ${type}: ${count}`);
     }
   }
 
@@ -130,16 +134,16 @@ class MutationCLI {
     const outputFile = args[1] || 'mutation-report.html';
 
     if (!fs.existsSync(inputFile)) {
-      console.error(`❌ Report file not found: ${inputFile}`);
-      console.error('Run mutation testing first with: tsx mutationCLI.ts test');
+      this.logger.error(`❌ Report file not found: ${inputFile}`);
+      this.logger.error('Run mutation testing first with: tsx mutationCLI.ts test');
       return;
     }
 
-    const report = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+    const report = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
     const html = this.generateHTMLReport(report);
 
     fs.writeFileSync(outputFile, html);
-    console.log(`📄 HTML report generated: ${outputFile}`);
+    this.logger.info(`📄 HTML report generated: ${outputFile}`);
   }
 
   private generateMutationReport(stats: any): any {
@@ -223,7 +227,7 @@ class MutationCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 🧬 MIFF Mutation Testing CLI
 
 Usage: tsx mutationCLI.ts <command> [options]

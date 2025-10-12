@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * AudioMixerPure.ts - Advanced Audio Mixing Engine
  *
@@ -119,6 +120,7 @@ export interface AudioSource {
 }
 
 export class AudioMixerPure {
+  private logger: StructuredLogger;
   private config: MixingConfig;
   private audioContext: AudioContext | null = null;
   private masterGain: GainNode | null = null;
@@ -133,6 +135,7 @@ export class AudioMixerPure {
   private spatialEnabled = false;
 
   constructor(config: MixingConfig) {
+    this.logger = new StructuredLogger({ module: 'AudioMixerPure' });
     this.config = config;
     this.initializeAudioContext();
     this.initializeBuses();
@@ -169,9 +172,9 @@ export class AudioMixerPure {
       }
 
       this.isInitialized = true;
-      console.log('🎵 AudioMixer initialized successfully');
+      this.logger.info('🎵 AudioMixer initialized successfully');
     } catch (error) {
-      console.error('Failed to initialize AudioContext:', error);
+      this.logger.error('Failed to initialize AudioContext:', error);
       this.isInitialized = false;
     }
   }
@@ -286,9 +289,9 @@ export class AudioMixerPure {
       };
 
       this.sources.set(id, source);
-      console.log(`✅ Audio loaded: ${id}`);
+      this.logger.info(`✅ Audio loaded: ${id}`);
     } catch (error) {
-      console.error(`Failed to load audio ${id}:`, error);
+      this.logger.error(`Failed to load audio ${id}:`, error);
       throw error;
     }
   }
@@ -299,7 +302,7 @@ export class AudioMixerPure {
       const arrayBuffer = await response.arrayBuffer();
       await this.loadAudioFromArrayBuffer(arrayBuffer, id);
     } catch (error) {
-      console.error(`Failed to load audio from URL ${url}:`, error);
+      this.logger.error(`Failed to load audio from URL ${url}:`, error);
       throw error;
     }
   }
@@ -316,13 +319,13 @@ export class AudioMixerPure {
     } = {}
   ): Promise<string | null> {
     if (!this.audioContext || !this.isInitialized) {
-      console.warn('Audio context not initialized');
+      this.logger.warn('Audio context not initialized');
       return null;
     }
 
     const source = this.sources.get(id);
     if (!source) {
-      console.warn(`Audio source not found: ${id}`);
+      this.logger.warn(`Audio source not found: ${id}`);
       return null;
     }
 
@@ -330,7 +333,7 @@ export class AudioMixerPure {
     const channel = options.channel || AudioChannel.SFX;
     const bus = this.getBusForChannel(channel);
     if (!bus) {
-      console.warn(`No bus found for channel: ${channel}`);
+      this.logger.warn(`No bus found for channel: ${channel}`);
       return null;
     }
 
@@ -384,10 +387,10 @@ export class AudioMixerPure {
     // Handle playback end
     bufferSource.onended = () => {
       this.activeSources.delete(instanceId);
-      console.log(`🎵 Audio ended: ${instanceId}`);
+      this.logger.info(`🎵 Audio ended: ${instanceId}`);
     };
 
-    console.log(`🎵 Playing audio: ${id} (instance: ${instanceId})`);
+    this.logger.info(`🎵 Playing audio: ${id} (instance: ${instanceId})`);
     return instanceId;
   }
 
@@ -416,7 +419,7 @@ export class AudioMixerPure {
       this.activeSources.delete(instanceId);
     }
 
-    console.log(`⏹️  Stopping audio: ${instanceId}`);
+    this.logger.info(`⏹️  Stopping audio: ${instanceId}`);
   }
 
   public stopAllAudio(fadeOut: number = 0): void {
@@ -581,7 +584,7 @@ export class AudioMixerPure {
 
   public createBus(bus: AudioBus): void {
     this.buses.set(bus.id, bus);
-    console.log(`🚌 Created audio bus: ${bus.name} (${bus.id})`);
+    this.logger.info(`🚌 Created audio bus: ${bus.name} (${bus.id})`);
   }
 
   public getBus(busId: string): AudioBus | undefined {
@@ -865,7 +868,7 @@ export class AudioMixerPure {
   private updateBusRouting(bus: AudioBus): void {
     // Update bus volume and effects routing
     // In a real implementation, this would update the audio graph
-    console.log(`🔄 Updated bus routing for: ${bus.name}`);
+    this.logger.info(`🔄 Updated bus routing for: ${bus.name}`);
   }
 
   private findGainNodeForSource(source: AudioBufferSourceNode): GainNode | null {

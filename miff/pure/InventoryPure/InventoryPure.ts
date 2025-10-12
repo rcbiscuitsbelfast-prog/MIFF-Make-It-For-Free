@@ -1,3 +1,4 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 /**
  * InventoryPure.ts
  * 
@@ -494,7 +495,7 @@ export class InventoryManager {
   }
 
   deserialize(data: string): void {
-    const parsed = JSON.parse(data);
+    const parsed = SafeJSONParser.parse(data);
     
     // Restore items
     this.system.items = new Map(Object.entries(parsed.items));

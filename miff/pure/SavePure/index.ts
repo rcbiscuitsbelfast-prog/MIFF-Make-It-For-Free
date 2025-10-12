@@ -1,3 +1,4 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 /**
  * SavePure - Game Save/Load System
  *
@@ -1038,7 +1039,7 @@ export class SaveManager implements ISaveManager {
       }
 
       // Parse JSON
-      const data = JSON.parse(jsonData);
+      const data = SafeJSONParser.parse(jsonData);
       let snapshot = SaveSnapshot.fromJSON(data);
 
       // Validate snapshot
@@ -1109,7 +1110,7 @@ export class SaveManager implements ISaveManager {
         jsonData = await this.decompressData(data as Uint8Array);
       }
 
-      const parsedData = JSON.parse(jsonData);
+      const parsedData = SafeJSONParser.parse(jsonData);
       let snapshot = SaveSnapshot.fromJSON(parsedData);
 
       // Validate

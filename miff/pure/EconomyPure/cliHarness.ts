@@ -13,6 +13,8 @@ import {
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface EconomyOperation {
   op: 'create-rule' | 'create-vendor' | 'create-currency' | 'create-event' | 'calculate-price' | 
@@ -36,7 +38,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -46,7 +48,7 @@ async function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as EconomyOperation;
     } else {
       // Legacy compatibility: allow "op,arg1,arg2,..." packed in first token
@@ -56,13 +58,13 @@ async function main() {
         const rest = parts.slice(1);
         switch (op) {
           case 'create-rule':
-            operation = { op: 'create-rule', rule: JSON.parse(rest.join(',')) };
+            operation = { op: 'create-rule', rule: SafeJSONParser.parse(rest.join(',')) };
             break;
           case 'create-vendor':
-            operation = { op: 'create-vendor', vendor: JSON.parse(rest.join(',')) };
+            operation = { op: 'create-vendor', vendor: SafeJSONParser.parse(rest.join(',')) };
             break;
           case 'create-event':
-            operation = { op: 'create-event', event: JSON.parse(rest.join(',')) };
+            operation = { op: 'create-event', event: SafeJSONParser.parse(rest.join(',')) };
             break;
           case 'calculate-price':
             operation = { op: 'calculate-price', vendorId: rest[0], itemId: rest[1], quantity: rest[2] ? parseInt(rest[2]) : 1 };
@@ -84,19 +86,19 @@ async function main() {
       switch (first) {
         case 'create-rule':
           if (!argv[1]) throw new Error('create-rule requires rule JSON');
-          operation = { op: 'create-rule', rule: JSON.parse(argv[1]) };
+          operation = { op: 'create-rule', rule: SafeJSONParser.parse(argv[1]) };
           break;
         case 'create-vendor':
           if (!argv[1]) throw new Error('create-vendor requires vendor JSON');
-          operation = { op: 'create-vendor', vendor: JSON.parse(argv[1]) };
+          operation = { op: 'create-vendor', vendor: SafeJSONParser.parse(argv[1]) };
           break;
         case 'create-currency':
           if (!argv[1]) throw new Error('create-currency requires currency JSON');
-          operation = { op: 'create-currency', currency: JSON.parse(argv[1]) };
+          operation = { op: 'create-currency', currency: SafeJSONParser.parse(argv[1]) };
           break;
         case 'create-event':
           if (!argv[1]) throw new Error('create-event requires event JSON');
-          operation = { op: 'create-event', event: JSON.parse(argv[1]) };
+          operation = { op: 'create-event', event: SafeJSONParser.parse(argv[1]) };
           break;
         case 'calculate-price':
           if (!argv[1] || !argv[2]) throw new Error('calculate-price requires vendorId and itemId');
@@ -487,7 +489,7 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -496,11 +498,11 @@ async function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -9,11 +9,14 @@
 import { TestCoverageAnalyzer } from './TestCoverageAnalyzer.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CoverageCLI {
+  private logger: StructuredLogger;
   private analyzer: TestCoverageAnalyzer;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CoverageCLI' });
     this.analyzer = new TestCoverageAnalyzer();
   }
 
@@ -41,7 +44,7 @@ class CoverageCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -50,31 +53,31 @@ class CoverageCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'coverage-report.json';
 
-    console.log(`📊 Analyzing test coverage in ${rootPath}...`);
+    this.logger.info(`📊 Analyzing test coverage in ${rootPath}...`);
     
     const report = await this.analyzer.analyzeCoverage(rootPath);
     
     // Save report to file
     fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
     
-    console.log(`✅ Coverage analysis completed`);
-    console.log(`📄 Report saved to ${outputFile}`);
+    this.logger.info(`✅ Coverage analysis completed`);
+    this.logger.info(`📄 Report saved to ${outputFile}`);
 
     // Show summary
-    console.log('\n📊 Coverage Summary:');
-    console.log(`Overall coverage: ${report.overallCoverage.toFixed(1)}%`);
-    console.log(`Total files: ${report.totalFiles}`);
-    console.log(`Total lines: ${report.totalLines}`);
-    console.log(`Covered lines: ${report.coveredLines}`);
-    console.log(`Modules analyzed: ${report.modules.length}`);
+    this.logger.info('\n📊 Coverage Summary:');
+    this.logger.info(`Overall coverage: ${report.overallCoverage.toFixed(1)}%`);
+    this.logger.info(`Total files: ${report.totalFiles}`);
+    this.logger.info(`Total lines: ${report.totalLines}`);
+    this.logger.info(`Covered lines: ${report.coveredLines}`);
+    this.logger.info(`Modules analyzed: ${report.modules.length}`);
 
     if (report.criticalModules.length > 0) {
-      console.log(`\n🚨 Critical modules (coverage < 50%): ${report.criticalModules.join(', ')}`);
+      this.logger.info(`\n🚨 Critical modules (coverage < 50%): ${report.criticalModules.join(', ')}`);
     }
 
     if (report.recommendations.length > 0) {
-      console.log('\n💡 Recommendations:');
-      report.recommendations.forEach(rec => console.log(`  - ${rec}`));
+      this.logger.info('\n💡 Recommendations:');
+      report.recommendations.forEach(rec => this.logger.info(`  - ${rec}`));
     }
   }
 
@@ -82,40 +85,40 @@ class CoverageCLI {
     const moduleName = args[0];
     
     if (!moduleName) {
-      console.error('❌ Module name required');
-      console.error('Usage: tsx coverageCLI.ts module <module-name>');
+      this.logger.error('❌ Module name required');
+      this.logger.error('Usage: tsx coverageCLI.ts module <module-name>');
       return;
     }
 
-    console.log(`📊 Coverage for module: ${moduleName}`);
+    this.logger.info(`📊 Coverage for module: ${moduleName}`);
     
     const coverage = this.analyzer.getModuleCoverage(moduleName);
     
     if (!coverage) {
-      console.error(`❌ Module not found: ${moduleName}`);
+      this.logger.error(`❌ Module not found: ${moduleName}`);
       return;
     }
 
-    console.log(`\n📊 ${moduleName} Coverage Details:`);
-    console.log(`Total lines: ${coverage.totalLines}`);
-    console.log(`Covered lines: ${coverage.coveredLines}`);
-    console.log(`Coverage percentage: ${coverage.coveragePercentage.toFixed(1)}%`);
-    console.log(`Branch coverage: ${coverage.branchCoverage.toFixed(1)}%`);
-    console.log(`Function coverage: ${coverage.functionCoverage.toFixed(1)}%`);
-    console.log(`Statement coverage: ${coverage.statementCoverage.toFixed(1)}%`);
-    console.log(`Quality: ${coverage.quality.toUpperCase()}`);
+    this.logger.info(`\n📊 ${moduleName} Coverage Details:`);
+    this.logger.info(`Total lines: ${coverage.totalLines}`);
+    this.logger.info(`Covered lines: ${coverage.coveredLines}`);
+    this.logger.info(`Coverage percentage: ${coverage.coveragePercentage.toFixed(1)}%`);
+    this.logger.info(`Branch coverage: ${coverage.branchCoverage.toFixed(1)}%`);
+    this.logger.info(`Function coverage: ${coverage.functionCoverage.toFixed(1)}%`);
+    this.logger.info(`Statement coverage: ${coverage.statementCoverage.toFixed(1)}%`);
+    this.logger.info(`Quality: ${coverage.quality.toUpperCase()}`);
 
     if (coverage.files.length > 0) {
-      console.log('\n📁 File Coverage:');
+      this.logger.info('\n📁 File Coverage:');
       for (const file of coverage.files) {
         const fileCoverage = (file.coveredLines / file.totalLines) * 100;
-        console.log(`  ${file.filePath}: ${fileCoverage.toFixed(1)}% (${file.coveredLines}/${file.totalLines})`);
+        this.logger.info(`  ${file.filePath}: ${fileCoverage.toFixed(1)}% (${file.coveredLines}/${file.totalLines})`);
       }
     }
 
     if (coverage.recommendations.length > 0) {
-      console.log('\n💡 Recommendations:');
-      coverage.recommendations.forEach(rec => console.log(`  - ${rec}`));
+      this.logger.info('\n💡 Recommendations:');
+      coverage.recommendations.forEach(rec => this.logger.info(`  - ${rec}`));
     }
   }
 
@@ -124,32 +127,32 @@ class CoverageCLI {
     const outputFile = args[1] || `coverage-report.${format}`;
 
     if (!['json', 'html', 'csv'].includes(format)) {
-      console.error('❌ Invalid format. Supported formats: json, html, csv');
+      this.logger.error('❌ Invalid format. Supported formats: json, html, csv');
       return;
     }
 
-    console.log(`📄 Exporting coverage data as ${format.toUpperCase()}...`);
+    this.logger.info(`📄 Exporting coverage data as ${format.toUpperCase()}...`);
     
     const data = this.analyzer.exportCoverage(format as 'json' | 'html' | 'csv');
     
     fs.writeFileSync(outputFile, data);
     
-    console.log(`✅ Coverage data exported to ${outputFile}`);
+    this.logger.info(`✅ Coverage data exported to ${outputFile}`);
   }
 
   private async showRecommendations(args: string[]): Promise<void> {
-    console.log('💡 Generating coverage recommendations...');
+    this.logger.info('💡 Generating coverage recommendations...');
     
     const recommendations = this.analyzer.generateRecommendations();
     
     if (recommendations.length === 0) {
-      console.log('✅ No specific recommendations at this time.');
+      this.logger.info('✅ No specific recommendations at this time.');
       return;
     }
 
-    console.log('\n💡 Coverage Recommendations:');
+    this.logger.info('\n💡 Coverage Recommendations:');
     recommendations.forEach((rec, index) => {
-      console.log(`${index + 1}. ${rec}`);
+      this.logger.info(`${index + 1}. ${rec}`);
     });
 
     // Show module-specific recommendations
@@ -157,18 +160,18 @@ class CoverageCLI {
     const lowCoverageModules = modules.filter(m => m.coveragePercentage < 70);
     
     if (lowCoverageModules.length > 0) {
-      console.log('\n📊 Low Coverage Modules:');
+      this.logger.info('\n📊 Low Coverage Modules:');
       lowCoverageModules.forEach(module => {
-        console.log(`  ${module.module}: ${module.coveragePercentage.toFixed(1)}%`);
+        this.logger.info(`  ${module.module}: ${module.coveragePercentage.toFixed(1)}%`);
         if (module.recommendations.length > 0) {
-          module.recommendations.forEach(rec => console.log(`    - ${rec}`));
+          module.recommendations.forEach(rec => this.logger.info(`    - ${rec}`));
         }
       });
     }
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 📊 MIFF Test Coverage CLI
 
 Usage: tsx coverageCLI.ts <command> [options]

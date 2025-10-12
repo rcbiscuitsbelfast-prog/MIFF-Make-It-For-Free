@@ -2,6 +2,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WitcherExplorerOperation {
   op: 'demo' | 'navigate' | 'dialogue' | 'quest' | 'dump';
@@ -18,10 +20,12 @@ interface WitcherGroveState {
 }
 
 class WitcherExplorerDemo {
+  private logger: StructuredLogger;
   private state: WitcherGroveState;
   private scenario: any;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'WitcherExplorerDemo' });
     this.state = {
       player: { x: 85, y: 262 },
       currentLocation: 'grove_clearing',
@@ -36,7 +40,7 @@ class WitcherExplorerDemo {
     const currentDir = path.dirname(new URL(import.meta.url).pathname);
     const fixturePath = path.resolve(currentDir, 'fixtures/witcher_grove.golden.json');
     if (fs.existsSync(fixturePath)) {
-      this.scenario = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
+      this.scenario = SafeJSONParser.parse(fs.readFileSync(fixturePath, 'utf-8'));
     } else {
       this.scenario = {
         scenarioId: 'witcher-grove-demo-v1',
@@ -160,7 +164,7 @@ function main() {
       // Default to demo mode
       operation = { op: 'demo' };
     } else if (argv[0].endsWith('.json') && fs.existsSync(argv[0])) {
-      const content = JSON.parse(fs.readFileSync(argv[0], 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(argv[0], 'utf-8'));
       operation = content as WitcherExplorerOperation;
     } else {
       // Parse subcommand
@@ -207,7 +211,7 @@ function main() {
         throw new Error(`Unknown operation: ${(operation as any).op}`);
     }
 
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
 
   } catch (error) {
     const errorResult = {
@@ -216,7 +220,7 @@ function main() {
       error: error instanceof Error ? error.message : String(error),
       timestamp: Date.now()
     };
-    console.error(JSON.stringify(errorResult, null, 2));
+    this.logger.error(JSON.stringify(errorResult, null, 2));
     process.exit(1);
   }
 }

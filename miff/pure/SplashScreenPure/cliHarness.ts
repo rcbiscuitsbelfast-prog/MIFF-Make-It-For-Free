@@ -18,6 +18,7 @@ import {
 } from '../shared/cliHarnessUtils';
 
 import { splashScreenDemo } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode } = parseCLIArgs(process.argv);
 
@@ -36,4 +37,4 @@ switch (mode) {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

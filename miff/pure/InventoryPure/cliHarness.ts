@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { InventoryManager } from './InventoryPure';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function main() {
   const args = process.argv.slice(2);
@@ -94,7 +95,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(manager: InventoryManager): any {

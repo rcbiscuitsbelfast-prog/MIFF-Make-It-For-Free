@@ -16,6 +16,7 @@
 
 import { EventBus } from '../../EventBusPure/index.js';
 import * as crypto from 'crypto';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // ============================================================================
 // SECURITY MANAGER INTERFACES
@@ -182,6 +183,7 @@ export interface SecurityMetrics {
  * Security Manager - Core security functionality
  */
 export class SecurityManager {
+  private logger: StructuredLogger;
   private config: SecurityConfig;
   private eventBus: EventBus;
   private events: SecurityEvent[] = [];
@@ -196,6 +198,7 @@ export class SecurityManager {
   private complianceChecks: Record<string, boolean> = {};
 
   constructor(config: SecurityConfig, eventBus: EventBus) {
+    this.logger = new StructuredLogger({ module: 'SecurityManager' });
     this.config = config;
     this.eventBus = eventBus;
     this.encryptionKey = this.generateEncryptionKey();
@@ -266,7 +269,7 @@ export class SecurityManager {
   private log(message: string, level: 'info' | 'warn' | 'error' = 'info'): void {
     const ts = new Date().toISOString();
     // eslint-disable-next-line no-console
-    console.log(`[SECURITY:${level.toUpperCase()}] ${ts} - ${message}`);
+    this.logger.info(`[SECURITY:${level.toUpperCase()}] ${ts} - ${message}`);
   }
 
   private checkGDPRCompliance(): boolean {

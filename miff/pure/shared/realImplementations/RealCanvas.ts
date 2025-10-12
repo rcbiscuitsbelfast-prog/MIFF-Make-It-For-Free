@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Canvas Implementation
  * 
@@ -45,6 +46,7 @@ export interface AnimationFrame {
 }
 
 export class RealCanvas {
+  private logger: StructuredLogger;
   private canvases: Map<string, CanvasInfo> = new Map();
   private contexts: Map<string, DrawingContext> = new Map();
   private animations: Map<number, AnimationFrame> = new Map();
@@ -54,6 +56,7 @@ export class RealCanvas {
   private isInitialized: boolean = false;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealCanvas' });
     this.initialize();
   }
 
@@ -443,7 +446,7 @@ export class RealCanvas {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in canvas event handler for ${event}:`, error);
+          this.logger.error(`Error in canvas event handler for ${event}:`, error);
         }
       });
     }

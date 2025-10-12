@@ -31,10 +31,12 @@ export interface DiscoveryStats {
 }
 
 export class CapabilityDiscovery {
+  private logger: StructuredLogger;
   private discoveryResults: Map<string, DiscoveryResult> = new Map();
   private stats: DiscoveryStats;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CapabilityDiscovery' });
     this.stats = this.initializeStats();
   }
 
@@ -42,14 +44,14 @@ export class CapabilityDiscovery {
    * Discover capabilities across all modules
    */
   async discoverAllCapabilities(rootPath: string): Promise<DiscoveryResult[]> {
-    console.log('🔍 Discovering capabilities across all modules...');
+    this.logger.info('🔍 Discovering capabilities across all modules...');
     
     const results: DiscoveryResult[] = [];
     
     try {
       // Find all *Capable.ts files
       const capableFiles = await this.findCapableFiles(rootPath);
-      console.log(`📁 Found ${capableFiles.length} capability files`);
+      this.logger.info(`📁 Found ${capableFiles.length} capability files`);
       
       // Discover capabilities from each file
       for (const filePath of capableFiles) {
@@ -59,12 +61,12 @@ export class CapabilityDiscovery {
       }
       
       this.updateStats(results);
-      console.log(`✅ Discovered capabilities for ${results.length} modules`);
+      this.logger.info(`✅ Discovered capabilities for ${results.length} modules`);
       
       return results;
       
     } catch (error) {
-      console.error('❌ Error discovering capabilities:', error);
+      this.logger.error('❌ Error discovering capabilities:', error);
       return [];
     }
   }
@@ -132,7 +134,7 @@ export class CapabilityDiscovery {
       }
     }
 
-    // CLI interface - TODO: Add CLI interface support
+    // CLI interface - TODO: Add CLI interface support in next iteration
 
     // Data processing capabilities
     if (capabilities.dataProcessing && capabilities.dataProcessing.length > 0) {
@@ -174,6 +176,7 @@ export class CapabilityDiscovery {
 
 import { ${result.moduleName} } from './index.js';
 import { expect } from 'chai';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 describe('${result.moduleName} Capabilities', () => {
   let module: ${result.moduleName};
@@ -261,7 +264,7 @@ describe('${result.moduleName} Capabilities', () => {
       const files = await glob(pattern);
       return files;
     } catch (error) {
-      console.error('Error finding capable files:', error);
+      this.logger.error('Error finding capable files:', error);
       return [];
     }
   }

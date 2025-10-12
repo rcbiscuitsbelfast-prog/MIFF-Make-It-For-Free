@@ -17,6 +17,8 @@ import { BattleAI } from '../AIPure/Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface UnrealCLIOperation {
   op: 'connect' | 'disconnect' | 'test' | 'demo' | 'status' | 'config' | 'export' | 'import' | 'simulate' | 'build' | 'validate';
@@ -33,27 +35,27 @@ interface UnrealCLIOperation {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx unreal-cli.ts <op> <module> [options...]');
-    console.error('Operations:');
-    console.error('  connect    - Connect to Unreal Editor');
-    console.error('  disconnect - Disconnect from Unreal Editor');
-    console.error('  test       - Run tests (all, bridge, payload, scene, assets, events, integration, performance)');
-    console.error('  demo       - Run demos (combat, items, ai, scene, full, default)');
-    console.error('  status     - Get current status');
-    console.error('  config     - Manage configuration');
-    console.error('  export     - Export data');
-    console.error('  import     - Import data');
-    console.error('  simulate   - Run simulation');
-    console.error('  build      - Build Unreal project');
-    console.error('  validate   - Validate setup');
-    console.error('');
-    console.error('Examples:');
-    console.error('  tsx unreal-cli.ts connect combat');
-    console.error('  tsx unreal-cli.ts test all');
-    console.error('  tsx unreal-cli.ts demo combat');
-    console.error('  tsx unreal-cli.ts status');
-    console.error('  tsx unreal-cli.ts config update enableDebugLogging true');
-    console.error('  tsx unreal-cli.ts export scene markdown scene-report.md');
+    this.logger.error('Usage: tsx unreal-cli.ts <op> <module> [options...]');
+    this.logger.error('Operations:');
+    this.logger.error('  connect    - Connect to Unreal Editor');
+    this.logger.error('  disconnect - Disconnect from Unreal Editor');
+    this.logger.error('  test       - Run tests (all, bridge, payload, scene, assets, events, integration, performance)');
+    this.logger.error('  demo       - Run demos (combat, items, ai, scene, full, default)');
+    this.logger.error('  status     - Get current status');
+    this.logger.error('  config     - Manage configuration');
+    this.logger.error('  export     - Export data');
+    this.logger.error('  import     - Import data');
+    this.logger.error('  simulate   - Run simulation');
+    this.logger.error('  build      - Build Unreal project');
+    this.logger.error('  validate   - Validate setup');
+    this.logger.error('');
+    this.logger.error('Examples:');
+    this.logger.error('  tsx unreal-cli.ts connect combat');
+    this.logger.error('  tsx unreal-cli.ts test all');
+    this.logger.error('  tsx unreal-cli.ts demo combat');
+    this.logger.error('  tsx unreal-cli.ts status');
+    this.logger.error('  tsx unreal-cli.ts config update enableDebugLogging true');
+    this.logger.error('  tsx unreal-cli.ts export scene markdown scene-report.md');
     process.exit(1);
   }
 
@@ -62,12 +64,12 @@ function main() {
     if (argv.length >= 2 && !argv[2]?.endsWith('.json')) {
       input = { op: argv[0] as any, module: argv[1] } as UnrealCLIOperation;
     } else if (argv.length >= 3) {
-      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
-      const configOverride = argv[3] && fs.existsSync(argv[3]) ? JSON.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
+      const payload = argv[2] && fs.existsSync(argv[2]) ? SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
+      const configOverride = argv[3] && fs.existsSync(argv[3]) ? SafeJSONParser.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
       input = { op: argv[0] as any, module: argv[1], data: payload, config: configOverride } as UnrealCLIOperation;
     } else {
       const inputFile = argv[0];
-      input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as UnrealCLIOperation;
+      input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8')) as UnrealCLIOperation;
     }
 
     if (!input || typeof input !== 'object') {
@@ -165,7 +167,7 @@ function main() {
     executeOperation(harness, input);
 
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 
@@ -280,13 +282,13 @@ function main() {
           const exportData = harness.generateReport();
 
           if (exportFormat === 'csv') {
-            const csvData = convertToCSV(JSON.parse(exportData));
+            const csvData = convertToCSV(SafeJSONParser.parse(exportData));
             result = { op: 'export', status: 'ok', format: 'csv', result: csvData };
           } else if (exportFormat === 'markdown') {
-            const markdownData = convertToMarkdown(JSON.parse(exportData));
+            const markdownData = convertToMarkdown(SafeJSONParser.parse(exportData));
             result = { op: 'export', status: 'ok', format: 'markdown', result: markdownData };
           } else if (exportFormat === 'html') {
-            const htmlData = convertToHTML(JSON.parse(exportData));
+            const htmlData = convertToHTML(SafeJSONParser.parse(exportData));
             result = { op: 'export', status: 'ok', format: 'html', result: htmlData };
           } else {
             result = { op: 'export', status: 'ok', format: 'json', result: exportData };
@@ -371,10 +373,10 @@ function main() {
           throw new Error(`Unknown operation: ${input.op}`);
       }
 
-      console.log(JSON.stringify(result, null, 2));
+      this.logger.info(JSON.stringify(result, null, 2));
 
     } catch (error) {
-      console.error('Error executing operation:', error);
+      this.logger.error('Error executing operation:', error);
       result = {
         op: input.op,
         status: 'error',
@@ -385,7 +387,7 @@ function main() {
           stack: error instanceof Error ? error.stack : undefined
         }
       };
-      console.log(JSON.stringify(result, null, 2));
+      this.logger.info(JSON.stringify(result, null, 2));
       process.exit(1);
     }
   }

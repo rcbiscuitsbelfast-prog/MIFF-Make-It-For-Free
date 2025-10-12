@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 #!/usr/bin/env npx tsx
 
 /**
@@ -27,10 +29,12 @@ interface CLIResult {
 }
 
 class CombatCLI {
+  private logger: StructuredLogger;
   private battleEngine: BattleEngine;
   private typeChart: TypeEffectiveness;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CombatCLI' });
     this.typeChart = new TypeEffectiveness();
     this.battleEngine = new BattleEngine(this.typeChart);
   }
@@ -38,31 +42,31 @@ class CombatCLI {
   // Test method for module validation
   public test(): CLIResult {
     try {
-      console.log('🧪 Testing CombatPure module...');
+      this.logger.info('🧪 Testing CombatPure module...');
       
       // Test 1: Create basic combatants
       const player = CombatUtils.createStandardSpirit(1, 'Player', 5, 100, 50, 30, 20);
       const enemy = CombatUtils.createStandardSpirit(2, 'Enemy', 3, 80, 40, 25, 15);
       
-      console.log('✅ Created combatants');
+      this.logger.info('✅ Created combatants');
       
       // Test 2: Add to battle engine
       this.battleEngine.addCombatant(player);
       this.battleEngine.addCombatant(enemy);
       
-      console.log('✅ Added combatants to battle');
+      this.logger.info('✅ Added combatants to battle');
       
       // Test 3: Create moves
       const basicAttack = CombatUtils.createStandardMove('basic_attack', 'Basic Attack', MoveCategory.PHYSICAL, 40, 'normal');
       const specialAttack = CombatUtils.createStandardMove('special_attack', 'Special Attack', MoveCategory.SPECIAL, 60, 'fire');
       
-      console.log('✅ Created moves');
+      this.logger.info('✅ Created moves');
       
       // Test 4: Test damage calculation
       const damageCalc = new DamageCalculator(this.typeChart);
       const damageResult = damageCalc.calculateDamage(basicAttack, player, enemy);
       
-      console.log(`✅ Damage calculation: ${damageResult.damage} damage`);
+      this.logger.info(`✅ Damage calculation: ${damageResult.damage} damage`);
       
       // Test 5: Test battle actions
       this.battleEngine.startBattle();
@@ -75,16 +79,16 @@ class CombatCLI {
       });
       
       const turnResult = this.battleEngine.processTurn();
-      console.log(`✅ Battle turn processed: ${turnResult.results.join(', ')}`);
+      this.logger.info(`✅ Battle turn processed: ${turnResult.results.join(', ')}`);
       
       // Test 6: Validate combatants
       const playerErrors = CombatUtils.validateSpiritInstance(player);
       const enemyErrors = CombatUtils.validateSpiritInstance(enemy);
       
       if (playerErrors.length > 0 || enemyErrors.length > 0) {
-        console.log('⚠️ Validation errors found');
+        this.logger.info('⚠️ Validation errors found');
       } else {
-        console.log('✅ Combatant validation passed');
+        this.logger.info('✅ Combatant validation passed');
       }
       
       return {
@@ -379,12 +383,12 @@ function main() {
         break;
         
       case 'create_battle':
-        const combatantsData = args[1] ? JSON.parse(args[1]) : [];
+        const combatantsData = args[1] ? SafeJSONParser.parse(args[1]) : [];
         result = cli.createBattle(combatantsData);
         break;
         
       case 'add_combatant':
-        const combatantData = args[1] ? JSON.parse(args[1]) : {};
+        const combatantData = args[1] ? SafeJSONParser.parse(args[1]) : {};
         result = cli.addCombatant(combatantData);
         break;
         
@@ -397,14 +401,14 @@ function main() {
         break;
         
       case 'create_move':
-        const moveData = args[1] ? JSON.parse(args[1]) : {};
+        const moveData = args[1] ? SafeJSONParser.parse(args[1]) : {};
         result = cli.createMove(moveData);
         break;
         
       case 'calculate_damage':
-        const move = args[1] ? JSON.parse(args[1]) : {};
-        const attacker = args[2] ? JSON.parse(args[2]) : {};
-        const defender = args[3] ? JSON.parse(args[3]) : {};
+        const move = args[1] ? SafeJSONParser.parse(args[1]) : {};
+        const attacker = args[2] ? SafeJSONParser.parse(args[2]) : {};
+        const defender = args[3] ? SafeJSONParser.parse(args[3]) : {};
         result = cli.calculateDamage(move, attacker, defender);
         break;
         
@@ -414,10 +418,10 @@ function main() {
         break;
     }
     
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: command,
       status: 'error',
       error: error instanceof Error ? error.message : 'Unknown error',

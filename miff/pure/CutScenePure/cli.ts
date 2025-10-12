@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 #!/usr/bin/env node
 
 /**
@@ -35,7 +36,7 @@ function parseFlags(args: string[]): Flags {
 }
 
 function showHelp() {
-  console.log(`
+  this.logger.info(`
 🎬 MIFF CLI - CutScene Commands
 
 Usage:
@@ -102,22 +103,22 @@ async function handlePreview() {
   const debug = Boolean(flags['debug']);
 
   if (Boolean(flags['verbose'])) {
-    console.log(`🎬 Previewing cut scene...`);
-    console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
-    console.log(`🖥️  Fullscreen: ${fullscreen ? 'yes' : 'no'}`);
-    console.log(`🎛️  Controls: ${noControls ? 'hidden' : 'visible'}`);
-    console.log(`🔄 Loop: ${loop ? 'enabled' : 'disabled'}`);
-    console.log(`💬 Dialogue: ${noDialogue ? 'disabled' : 'enabled'}`);
-    console.log(`🎭 Animations: ${skipAnimations ? 'disabled' : 'enabled'}`);
-    console.log(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
+    this.logger.info(`🎬 Previewing cut scene...`);
+    this.logger.info(`📁 Input: ${inputFile || 'built-in sample'}`);
+    this.logger.info(`🖥️  Fullscreen: ${fullscreen ? 'yes' : 'no'}`);
+    this.logger.info(`🎛️  Controls: ${noControls ? 'hidden' : 'visible'}`);
+    this.logger.info(`🔄 Loop: ${loop ? 'enabled' : 'disabled'}`);
+    this.logger.info(`💬 Dialogue: ${noDialogue ? 'disabled' : 'enabled'}`);
+    this.logger.info(`🎭 Animations: ${skipAnimations ? 'disabled' : 'enabled'}`);
+    this.logger.info(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
   }
 
   if (!inputFile) {
-    console.log('📝 Using built-in sample cut scene for preview');
+    this.logger.info('📝 Using built-in sample cut scene for preview');
   }
 
   // Simulate preview setup
-  console.log('🌐 Starting browser preview...');
+  this.logger.info('🌐 Starting browser preview...');
 
   const steps = [
     'Loading cut scene definition',
@@ -129,21 +130,21 @@ async function handlePreview() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
+    this.logger.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
-  console.log('✅ Preview ready!');
-  console.log('🌐 Opening browser at http://localhost:8080');
-  console.log('');
-  console.log('🎮 Preview Controls:');
-  console.log('   - SPACE: Play/Pause');
-  console.log('   - ESC: Skip cut scene');
-  console.log('   - R: Restart from beginning');
-  console.log('   - D: Toggle debug info');
+  this.logger.info('✅ Preview ready!');
+  this.logger.info('🌐 Opening browser at http://localhost:8080');
+  this.logger.info('');
+  this.logger.info('🎮 Preview Controls:');
+  this.logger.info('   - SPACE: Play/Pause');
+  this.logger.info('   - ESC: Skip cut scene');
+  this.logger.info('   - R: Restart from beginning');
+  this.logger.info('   - D: Toggle debug info');
 
   if (fullscreen) {
-    console.log('   - F11: Toggle fullscreen');
+    this.logger.info('   - F11: Toggle fullscreen');
   }
 
   return {
@@ -173,29 +174,29 @@ async function handleExport() {
   const skipAnimations = Boolean(flags['skip-animations']);
 
   if (Boolean(flags['verbose'])) {
-    console.log(`📦 Exporting cut scene for ${engine} engine...`);
-    console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
-    console.log(`📂 Output: ${outputDir}`);
-    console.log(`🎯 Format: ${format}`);
-    console.log(`⚡ Optimize: ${optimize ? 'yes' : 'no'}`);
-    console.log(`📦 Include assets: ${includeAssets ? 'yes' : 'no'}`);
-    console.log(`💬 Dialogue: ${noDialogue ? 'disabled' : 'enabled'}`);
-    console.log(`🎭 Animations: ${skipAnimations ? 'disabled' : 'enabled'}`);
+    this.logger.info(`📦 Exporting cut scene for ${engine} engine...`);
+    this.logger.info(`📁 Input: ${inputFile || 'built-in sample'}`);
+    this.logger.info(`📂 Output: ${outputDir}`);
+    this.logger.info(`🎯 Format: ${format}`);
+    this.logger.info(`⚡ Optimize: ${optimize ? 'yes' : 'no'}`);
+    this.logger.info(`📦 Include assets: ${includeAssets ? 'yes' : 'no'}`);
+    this.logger.info(`💬 Dialogue: ${noDialogue ? 'disabled' : 'enabled'}`);
+    this.logger.info(`🎭 Animations: ${skipAnimations ? 'disabled' : 'enabled'}`);
   }
 
   if (!inputFile) {
-    console.log('📝 Using built-in sample cut scene for export');
+    this.logger.info('📝 Using built-in sample cut scene for export');
   }
 
   // Validate engine support
   const supportedEngines = ['web', 'unity', 'unreal', 'godot'];
   if (!supportedEngines.includes(engine)) {
-    console.error(`❌ Unsupported engine: ${engine}`);
-    console.error(`Supported engines: ${supportedEngines.join(', ')}`);
+    this.logger.error(`❌ Unsupported engine: ${engine}`);
+    this.logger.error(`Supported engines: ${supportedEngines.join(', ')}`);
     process.exit(1);
   }
 
-  console.log(`🎮 Exporting for ${engine.toUpperCase()}...`);
+  this.logger.info(`🎮 Exporting for ${engine.toUpperCase()}...`);
 
   const steps = [
     'Loading cut scene definition',
@@ -207,16 +208,16 @@ async function handleExport() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
+    this.logger.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 400));
   }
 
   const outputFiles = generateOutputFiles(engine, format, outputDir);
 
-  console.log(`✅ Export completed!`);
-  console.log(`📂 Output directory: ${outputDir}`);
-  console.log(`📄 Generated files:`);
-  outputFiles.forEach(file => console.log(`   - ${file}`));
+  this.logger.info(`✅ Export completed!`);
+  this.logger.info(`📂 Output directory: ${outputDir}`);
+  this.logger.info(`📄 Generated files:`);
+  outputFiles.forEach(file => this.logger.info(`   - ${file}`));
 
   return {
     command: 'export',
@@ -281,19 +282,19 @@ async function handleValidate() {
   const fix = Boolean(flags['fix']);
 
   if (Boolean(flags['verbose'])) {
-    console.log(`🔍 Validating cut scene definition...`);
-    console.log(`📁 Input: ${inputFile}`);
-    console.log(`🔒 Strict mode: ${strict ? 'yes' : 'no'}`);
-    console.log(`🔧 Auto-fix: ${fix ? 'yes' : 'no'}`);
+    this.logger.info(`🔍 Validating cut scene definition...`);
+    this.logger.info(`📁 Input: ${inputFile}`);
+    this.logger.info(`🔒 Strict mode: ${strict ? 'yes' : 'no'}`);
+    this.logger.info(`🔧 Auto-fix: ${fix ? 'yes' : 'no'}`);
   }
 
   if (!inputFile) {
-    console.error('❌ Input file required for validation');
-    console.error('Use --input or -i to specify the cut scene definition file');
+    this.logger.error('❌ Input file required for validation');
+    this.logger.error('Use --input or -i to specify the cut scene definition file');
     process.exit(1);
   }
 
-  console.log('📋 Validating cut scene structure...');
+  this.logger.info('📋 Validating cut scene structure...');
 
   const validationSteps = [
     'Checking JSON syntax',
@@ -304,7 +305,7 @@ async function handleValidate() {
   ];
 
   for (let i = 0; i < validationSteps.length; i++) {
-    console.log(`   ${i + 1}/${validationSteps.length} ${validationSteps[i]}...`);
+    this.logger.info(`   ${i + 1}/${validationSteps.length} ${validationSteps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
@@ -316,23 +317,23 @@ async function handleValidate() {
     warnings.push('Missing optional metadata field');
   }
 
-  console.log(`✅ Validation completed`);
-  console.log(`⚠️  Issues found: ${issues.length}`);
-  console.log(`⚠️  Warnings: ${warnings.length}`);
+  this.logger.info(`✅ Validation completed`);
+  this.logger.info(`⚠️  Issues found: ${issues.length}`);
+  this.logger.info(`⚠️  Warnings: ${warnings.length}`);
 
   if (issues.length > 0) {
-    console.log('\n❌ Issues:');
-    issues.forEach(issue => console.log(`   - ${issue}`));
+    this.logger.info('\n❌ Issues:');
+    issues.forEach(issue => this.logger.info(`   - ${issue}`));
     process.exit(1);
   }
 
   if (warnings.length > 0) {
-    console.log('\n⚠️  Warnings:');
-    warnings.forEach(warning => console.log(`   - ${warning}`));
+    this.logger.info('\n⚠️  Warnings:');
+    warnings.forEach(warning => this.logger.info(`   - ${warning}`));
   }
 
   if (issues.length === 0) {
-    console.log('🎉 Cut scene definition is valid!');
+    this.logger.info('🎉 Cut scene definition is valid!');
   }
 
   return {
@@ -352,17 +353,17 @@ async function handleSimulate() {
   const debug = Boolean(flags['debug']);
 
   if (Boolean(flags['verbose'])) {
-    console.log(`🎭 Simulating cut scene timing...`);
-    console.log(`📁 Input: ${inputFile || 'built-in sample'}`);
-    console.log(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
+    this.logger.info(`🎭 Simulating cut scene timing...`);
+    this.logger.info(`📁 Input: ${inputFile || 'built-in sample'}`);
+    this.logger.info(`🐛 Debug: ${debug ? 'enabled' : 'disabled'}`);
   }
 
   if (!inputFile) {
-    console.log('📝 Using built-in sample cut scene for simulation');
+    this.logger.info('📝 Using built-in sample cut scene for simulation');
   }
 
-  console.log('⏱️  Simulating cut scene playback...');
-  console.log('');
+  this.logger.info('⏱️  Simulating cut scene playback...');
+  this.logger.info('');
 
   const simulationSteps = [
     { time: 0, action: 'Initialize cut scene engine' },
@@ -380,25 +381,25 @@ async function handleSimulate() {
   ];
 
   for (const step of simulationSteps) {
-    console.log(`[${step.time.toString().padStart(4, ' ')}ms] ${step.action}`);
+    this.logger.info(`[${step.time.toString().padStart(4, ' ')}ms] ${step.action}`);
     await new Promise(resolve => setTimeout(resolve, Math.max(100, step.time * 0.1)));
   }
 
-  console.log('');
-  console.log('📊 Simulation Results:');
-  console.log('   ✅ All actions executed successfully');
-  console.log('   ✅ Timing constraints satisfied');
-  console.log('   ✅ No conflicts detected');
-  console.log('   ⏱️  Total duration: 5000ms');
-  console.log('   🎬 Actions processed: 12');
+  this.logger.info('');
+  this.logger.info('📊 Simulation Results:');
+  this.logger.info('   ✅ All actions executed successfully');
+  this.logger.info('   ✅ Timing constraints satisfied');
+  this.logger.info('   ✅ No conflicts detected');
+  this.logger.info('   ⏱️  Total duration: 5000ms');
+  this.logger.info('   🎬 Actions processed: 12');
 
   if (debug) {
-    console.log('');
-    console.log('🐛 Debug Information:');
-    console.log('   Tracks: camera, dialogue, audio');
-    console.log('   Events: scene.dialogue_start, scene.dialogue_end');
-    console.log('   Variables: playerName, hasVisitedBefore');
-    console.log('   Memory usage: ~2.3MB');
+    this.logger.info('');
+    this.logger.info('🐛 Debug Information:');
+    this.logger.info('   Tracks: camera, dialogue, audio');
+    this.logger.info('   Events: scene.dialogue_start, scene.dialogue_end');
+    this.logger.info('   Variables: playerName, hasVisitedBefore');
+    this.logger.info('   Memory usage: ~2.3MB');
   }
 
   return {
@@ -416,11 +417,11 @@ async function handleDemo() {
   const outputDir = (flags['output'] || flags['o'] || './demo-scenes') as string;
 
   if (Boolean(flags['verbose'])) {
-    console.log(`🎬 Creating demo cut scene definitions...`);
-    console.log(`📂 Output: ${outputDir}`);
+    this.logger.info(`🎬 Creating demo cut scene definitions...`);
+    this.logger.info(`📂 Output: ${outputDir}`);
   }
 
-  console.log('🎭 Generating sample cut scenes...');
+  this.logger.info('🎭 Generating sample cut scenes...');
 
   const demoScenes = [
     'welcome_cutscene.json',
@@ -437,20 +438,20 @@ async function handleDemo() {
   ];
 
   for (let i = 0; i < steps.length; i++) {
-    console.log(`   ${i + 1}/${steps.length} ${steps[i]}...`);
+    this.logger.info(`   ${i + 1}/${steps.length} ${steps[i]}...`);
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
-  console.log(`✅ Demo scenes created in: ${outputDir}`);
-  console.log('📄 Generated files:');
-  demoScenes.forEach(scene => console.log(`   - ${scene}`));
+  this.logger.info(`✅ Demo scenes created in: ${outputDir}`);
+  this.logger.info('📄 Generated files:');
+  demoScenes.forEach(scene => this.logger.info(`   - ${scene}`));
 
-  console.log('');
-  console.log('🎮 Demo Scenes Overview:');
-  console.log('   🌟 welcome_cutscene.json - RenderWorld introduction');
-  console.log('   ⚔️  battle_intro.json - Epic battle opening');
-  console.log('   🗺️  exploration_sequence.json - World discovery');
-  console.log('   🎬 ending_credits.json - Game conclusion');
+  this.logger.info('');
+  this.logger.info('🎮 Demo Scenes Overview:');
+  this.logger.info('   🌟 welcome_cutscene.json - RenderWorld introduction');
+  this.logger.info('   ⚔️  battle_intro.json - Epic battle opening');
+  this.logger.info('   🗺️  exploration_sequence.json - World discovery');
+  this.logger.info('   🎬 ending_credits.json - Game conclusion');
 
   return {
     command: 'demo',
@@ -486,19 +487,19 @@ async function main() {
         result = await handleDemo();
         break;
       default:
-        console.error(`❌ Unknown command: ${command}`);
+        this.logger.error(`❌ Unknown command: ${command}`);
         showHelp();
         process.exit(1);
     }
 
     if (Boolean(flags['verbose'])) {
-      console.log('\n📊 Command Result:');
-      console.log(JSON.stringify(result, null, 2));
+      this.logger.info('\n📊 Command Result:');
+      this.logger.info(JSON.stringify(result, null, 2));
     }
 
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Command failed: ${message}`);
+    this.logger.error(`❌ Command failed: ${message}`);
     process.exit(1);
   }
 }
@@ -506,7 +507,7 @@ async function main() {
 // Run CLI
 main().catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);
-  console.error(`💥 Unexpected error: ${message}`);
+  this.logger.error(`💥 Unexpected error: ${message}`);
   process.exit(1);
 });
 

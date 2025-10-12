@@ -8,6 +8,7 @@
  */
 
 import * as readline from 'readline';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import {
   BattleHUDModel,
   HUDManager,
@@ -26,7 +27,7 @@ interface CLIState {
 }
 
 function printHelp(): void {
-  console.log(`
+  this.logger.info(`
 HUDPure CLI - Battle HUD Management Testing
 ==========================================
 
@@ -68,66 +69,66 @@ Examples:
 function printStatus(state: CLIState): void {
   const model = state.hudManager.getModel();
 
-  console.log('\n🎮 HUD Status:');
-  console.log(`Player Spirits: ${model.player.length}`);
-  console.log(`Opponent Spirits: ${model.opponent.length}`);
-  console.log(`Current Phase: ${model.turn.phaseName}`);
-  console.log(`Active Spirit: ${model.turn.activeSpiritId || 'None'}`);
-  console.log(`Update History: ${state.updateHistory.length} events`);
-  console.log(`Simulation Mode: ${state.simulationMode ? 'Active' : 'Inactive'}`);
+  this.logger.info('\n🎮 HUD Status:');
+  this.logger.info(`Player Spirits: ${model.player.length}`);
+  this.logger.info(`Opponent Spirits: ${model.opponent.length}`);
+  this.logger.info(`Current Phase: ${model.turn.phaseName}`);
+  this.logger.info(`Active Spirit: ${model.turn.activeSpiritId || 'None'}`);
+  this.logger.info(`Update History: ${state.updateHistory.length} events`);
+  this.logger.info(`Simulation Mode: ${state.simulationMode ? 'Active' : 'Inactive'}`);
 }
 
 function printStats(state: CLIState): void {
   const model = state.hudManager.getModel();
   const stats = HUDPureUtils.calculateHealthStats(model);
 
-  console.log('\n📊 Battle Statistics:');
-  console.log(`Player Health Total: ${stats.playerTotal.toFixed(0)}%`);
-  console.log(`Opponent Health Total: ${stats.opponentTotal.toFixed(0)}%`);
-  console.log(`Player Health Average: ${stats.playerAverage.toFixed(1)}%`);
-  console.log(`Opponent Health Average: ${stats.opponentAverage.toFixed(1)}%`);
+  this.logger.info('\n📊 Battle Statistics:');
+  this.logger.info(`Player Health Total: ${stats.playerTotal.toFixed(0)}%`);
+  this.logger.info(`Opponent Health Total: ${stats.opponentTotal.toFixed(0)}%`);
+  this.logger.info(`Player Health Average: ${stats.playerAverage.toFixed(1)}%`);
+  this.logger.info(`Opponent Health Average: ${stats.opponentAverage.toFixed(1)}%`);
 
   const livingSpirits = model.player.filter(s => !s.isKO);
   const koSpirits = model.player.filter(s => s.isKO);
 
-  console.log(`Player Living: ${livingSpirits.length}/${model.player.length}`);
-  console.log(`Player KO'd: ${koSpirits.length}/${model.player.length}`);
+  this.logger.info(`Player Living: ${livingSpirits.length}/${model.player.length}`);
+  this.logger.info(`Player KO'd: ${koSpirits.length}/${model.player.length}`);
 
   const opponentLiving = model.opponent.filter(s => !s.isKO);
   const opponentKO = model.opponent.filter(s => s.isKO);
 
-  console.log(`Opponent Living: ${opponentLiving.length}/${model.opponent.length}`);
-  console.log(`Opponent KO'd: ${opponentKO.length}/${model.opponent.length}`);
+  this.logger.info(`Opponent Living: ${opponentLiving.length}/${model.opponent.length}`);
+  this.logger.info(`Opponent KO'd: ${opponentKO.length}/${model.opponent.length}`);
 
   if (model.player.length > 0 || model.opponent.length > 0) {
-    console.log(`\nPriority Order:`);
+    this.logger.info(`\nPriority Order:`);
     const priorityOrder = HUDPureUtils.getSpiritsByPriority(model);
     priorityOrder.forEach((spirit, index) => {
-      console.log(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
+      this.logger.info(`  ${index + 1}. ${spirit.name} (${spirit.hpPercentage.toFixed(0)}% HP) ${spirit.isKO ? '[KO]' : ''}`);
     });
   }
 }
 
 function printHistory(updateHistory: IHUDUpdateEvent[]): void {
   if (updateHistory.length === 0) {
-    console.log('📜 No updates in history');
+    this.logger.info('📜 No updates in history');
     return;
   }
 
-  console.log('\n📜 Update History (last 10):');
+  this.logger.info('\n📜 Update History (last 10):');
   updateHistory.slice(-10).forEach((event, index) => {
     const time = new Date(event.timestamp).toLocaleTimeString();
     const spiritInfo = event.spiritId ? ` [${event.spiritId}]` : '';
-    console.log(`  ${updateHistory.length - 10 + index + 1}. ${time} - ${event.type}${spiritInfo}`);
+    this.logger.info(`  ${updateHistory.length - 10 + index + 1}. ${time} - ${event.type}${spiritInfo}`);
   });
 
   if (updateHistory.length > 10) {
-    console.log(`  ... and ${updateHistory.length - 10} more`);
+    this.logger.info(`  ... and ${updateHistory.length - 10} more`);
   }
 }
 
 function createDemoData(): { hudManager: HUDManager; updateHistory: IHUDUpdateEvent[] } {
-  console.log('🎮 Creating demo battle HUD...');
+  this.logger.info('🎮 Creating demo battle HUD...');
 
   // Create demo spirits
   const playerSpirits = [
@@ -152,50 +153,50 @@ function createDemoData(): { hudManager: HUDManager; updateHistory: IHUDUpdateEv
     updateHistory.push(event);
   });
 
-  console.log('✅ Demo data created with battle in progress');
+  this.logger.info('✅ Demo data created with battle in progress');
   return { hudManager, updateHistory };
 }
 
 function runDemo(state: CLIState): void {
-  console.log('🎯 Running HUDPure Demo...\n');
+  this.logger.info('🎯 Running HUDPure Demo...\n');
 
   const demoData = createDemoData();
   state.hudManager = demoData.hudManager;
   state.updateHistory = demoData.updateHistory;
 
-  console.log('Initial state:');
-  console.log(state.hudManager.render());
+  this.logger.info('Initial state:');
+  this.logger.info(state.hudManager.render());
 
   // Simulate damage resolution
-  console.log('\n--- Simulating Damage Resolution ---');
+  this.logger.info('\n--- Simulating Damage Resolution ---');
   state.hudManager.updateSpirit('ember', { currentHP: 28 - 14 });
 
-  console.log('\nAfter damage:');
-  console.log(state.hudManager.render());
+  this.logger.info('\nAfter damage:');
+  this.logger.info(state.hudManager.render());
 
   // Change phase
-  console.log('\n--- Changing to Resolution Phase ---');
+  this.logger.info('\n--- Changing to Resolution Phase ---');
   state.hudManager.changePhase('ResolveAction', 'waterling', 'water_burst -> ember (resolved)');
 
-  console.log('\nAfter phase change:');
-  console.log(state.hudManager.render());
+  this.logger.info('\nAfter phase change:');
+  this.logger.info(state.hudManager.render());
 
   // Add status effect
-  console.log('\n--- Adding Status Effects ---');
+  this.logger.info('\n--- Adding Status Effects ---');
   state.hudManager.updateSpirit('ember', { statusEffects: ['burn'] });
 
-  console.log('\nAfter status effect:');
-  console.log(state.hudManager.render());
+  this.logger.info('\nAfter status effect:');
+  this.logger.info(state.hudManager.render());
 
-  console.log('\n✅ Demo complete!');
+  this.logger.info('\n✅ Demo complete!');
 }
 
 function runSimulation(state: CLIState, turns: number): void {
-  console.log(`🎲 Running ${turns} turn simulation...\n`);
+  this.logger.info(`🎲 Running ${turns} turn simulation...\n`);
 
   const model = state.hudManager.getModel();
   if (model.player.length === 0 || model.opponent.length === 0) {
-    console.log('❌ Need both player and opponent spirits for simulation');
+    this.logger.info('❌ Need both player and opponent spirits for simulation');
     return;
   }
 
@@ -208,7 +209,7 @@ function runSimulation(state: CLIState, turns: number): void {
   );
 
   for (let turn = 1; turn <= turns; turn++) {
-    console.log(`\n--- Turn ${turn} ---`);
+    this.logger.info(`\n--- Turn ${turn} ---`);
 
     // Random action phase
     const randomPlayer = simManager.getModel().player.filter(s => !s.isKO)[Math.floor(Math.random() * Math.max(1, simManager.getModel().player.filter(s => !s.isKO).length))];
@@ -221,14 +222,14 @@ function runSimulation(state: CLIState, turns: number): void {
       const damage = Math.floor(Math.random() * 20) + 5;
       simManager.updateSpirit(randomOpponent.spiritId, { currentHP: Math.max(0, randomOpponent.currentHP - damage) });
 
-      console.log(`  ${randomPlayer.name} attacks ${randomOpponent.name} for ${damage} damage!`);
-      console.log(`  ${randomOpponent.name} HP: ${Math.max(0, randomOpponent.currentHP - damage)}/${randomOpponent.maxHP}`);
+      this.logger.info(`  ${randomPlayer.name} attacks ${randomOpponent.name} for ${damage} damage!`);
+      this.logger.info(`  ${randomOpponent.name} HP: ${Math.max(0, randomOpponent.currentHP - damage)}/${randomOpponent.maxHP}`);
     }
 
     // Check for KO
     const livingOpponents = simManager.getModel().opponent.filter(s => !s.isKO);
     if (livingOpponents.length === 0) {
-      console.log('  🎉 All opponents defeated! Battle simulation ends.');
+      this.logger.info('  🎉 All opponents defeated! Battle simulation ends.');
       break;
     }
 
@@ -241,15 +242,15 @@ function runSimulation(state: CLIState, turns: number): void {
 
       if (targetSpirit && !targetSpirit.hasStatusEffect(randomEffect)) {
         simManager.updateSpirit(targetSpirit.spiritId, { statusEffects: [...targetSpirit.statusEffects, randomEffect] });
-        console.log(`  ${targetSpirit.name} gets ${randomEffect} status effect!`);
+        this.logger.info(`  ${targetSpirit.name} gets ${randomEffect} status effect!`);
       }
     }
   }
 
   // Update main state with simulation results
   state.hudManager = simManager;
-  console.log('\n✅ Simulation complete!');
-  console.log(state.hudManager.render());
+  this.logger.info('\n✅ Simulation complete!');
+  this.logger.info(state.hudManager.render());
 }
 
 async function runCLI(): Promise<void> {
@@ -268,7 +269,7 @@ async function runCLI(): Promise<void> {
     state.updateHistory.push(event);
   });
 
-  console.log('🎮 HUDPure CLI - Type "help" for commands or "demo" to see battle HUD in action\n');
+  this.logger.info('🎮 HUDPure CLI - Type "help" for commands or "demo" to see battle HUD in action\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -294,12 +295,12 @@ async function runCLI(): Promise<void> {
         break;
 
       case 'render':
-        console.log('\n' + state.hudManager.render());
+        this.logger.info('\n' + state.hudManager.render());
         break;
 
       case 'add':
         if (args.length < 4) {
-          console.log('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp] [level] [element]');
+          this.logger.info('❌ Usage: add <side> <spirit_id> <name> <max_hp> [current_hp] [level] [element]');
         } else {
           const side = args[0];
           const spiritId = args[1];
@@ -310,51 +311,51 @@ async function runCLI(): Promise<void> {
           const element = args[6];
 
           if (isNaN(maxHP) || maxHP <= 0) {
-            console.log('❌ Max HP must be a positive number');
+            this.logger.info('❌ Max HP must be a positive number');
           } else if (isNaN(currentHP) || currentHP < 0) {
-            console.log('❌ Current HP must be a non-negative number');
+            this.logger.info('❌ Current HP must be a non-negative number');
           } else {
             const spirit = HUDPureUtils.createSpirit(spiritId, name, currentHP, maxHP, { level, element });
             const success = state.hudManager['model'].addSpirit(spirit, side as 'player' | 'opponent');
-            console.log(success ? `✅ Added ${name} to ${side}` : '❌ Failed to add spirit');
+            this.logger.info(success ? `✅ Added ${name} to ${side}` : '❌ Failed to add spirit');
           }
         }
         break;
 
       case 'update':
         if (args.length < 2) {
-          console.log('❌ Usage: update <spirit_id> <current_hp>');
+          this.logger.info('❌ Usage: update <spirit_id> <current_hp>');
         } else {
           const spiritId = args[0];
           const currentHP = parseInt(args[1]);
 
           if (isNaN(currentHP) || currentHP < 0) {
-            console.log('❌ Current HP must be a non-negative number');
+            this.logger.info('❌ Current HP must be a non-negative number');
           } else {
             const success = state.hudManager.updateSpirit(spiritId, { currentHP });
-            console.log(success ? `✅ Updated ${spiritId} HP to ${currentHP}` : '❌ Spirit not found');
+            this.logger.info(success ? `✅ Updated ${spiritId} HP to ${currentHP}` : '❌ Spirit not found');
           }
         }
         break;
 
       case 'damage':
         if (args.length < 2) {
-          console.log('❌ Usage: damage <spirit_id> <amount>');
+          this.logger.info('❌ Usage: damage <spirit_id> <amount>');
         } else {
           const spiritId = args[0];
           const amount = parseInt(args[1]);
 
           if (isNaN(amount) || amount <= 0) {
-            console.log('❌ Damage amount must be a positive number');
+            this.logger.info('❌ Damage amount must be a positive number');
           } else {
             const model = state.hudManager.getModel();
             const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
             if (spirit) {
               const actualDamage = spirit.takeDamage(amount);
               state.hudManager.updateSpirit(spiritId, { currentHP: spirit.currentHP });
-              console.log(`✅ ${spirit.name} takes ${actualDamage} damage (${spirit.currentHP}/${spirit.maxHP} HP remaining)`);
+              this.logger.info(`✅ ${spirit.name} takes ${actualDamage} damage (${spirit.currentHP}/${spirit.maxHP} HP remaining)`);
             } else {
-              console.log('❌ Spirit not found');
+              this.logger.info('❌ Spirit not found');
             }
           }
         }
@@ -362,22 +363,22 @@ async function runCLI(): Promise<void> {
 
       case 'heal':
         if (args.length < 2) {
-          console.log('❌ Usage: heal <spirit_id> <amount>');
+          this.logger.info('❌ Usage: heal <spirit_id> <amount>');
         } else {
           const spiritId = args[0];
           const amount = parseInt(args[1]);
 
           if (isNaN(amount) || amount <= 0) {
-            console.log('❌ Heal amount must be a positive number');
+            this.logger.info('❌ Heal amount must be a positive number');
           } else {
             const model = state.hudManager.getModel();
             const spirit = model.player.find(s => s.spiritId === spiritId) || model.opponent.find(s => s.spiritId === spiritId);
             if (spirit) {
               const actualHeal = spirit.heal(amount);
               state.hudManager.updateSpirit(spiritId, { currentHP: spirit.currentHP });
-              console.log(`✅ ${spirit.name} heals ${actualHeal} HP (${spirit.currentHP}/${spirit.maxHP} HP)`);
+              this.logger.info(`✅ ${spirit.name} heals ${actualHeal} HP (${spirit.currentHP}/${spirit.maxHP} HP)`);
             } else {
-              console.log('❌ Spirit not found');
+              this.logger.info('❌ Spirit not found');
             }
           }
         }
@@ -385,7 +386,7 @@ async function runCLI(): Promise<void> {
 
       case 'status':
         if (args.length < 2) {
-          console.log('❌ Usage: status <spirit_id> <effect>');
+          this.logger.info('❌ Usage: status <spirit_id> <effect>');
         } else {
           const spiritId = args[0];
           const effect = args[1];
@@ -396,14 +397,14 @@ async function runCLI(): Promise<void> {
             if (spirit.hasStatusEffect(effect)) {
               spirit.removeStatusEffect(effect);
               state.hudManager.updateSpirit(spiritId, { statusEffects: spirit.statusEffects });
-              console.log(`✅ Removed ${effect} from ${spirit.name}`);
+              this.logger.info(`✅ Removed ${effect} from ${spirit.name}`);
             } else {
               spirit.addStatusEffect(effect);
               state.hudManager.updateSpirit(spiritId, { statusEffects: spirit.statusEffects });
-              console.log(`✅ Added ${effect} to ${spirit.name}`);
+              this.logger.info(`✅ Added ${effect} to ${spirit.name}`);
             }
           } else {
-            console.log('❌ Spirit not found');
+            this.logger.info('❌ Spirit not found');
           }
         }
         break;
@@ -413,37 +414,37 @@ async function runCLI(): Promise<void> {
         const activeSpiritId = args[1];
 
         if (!phaseName) {
-          console.log('❌ Usage: phase <phase_name> [active_spirit_id]');
+          this.logger.info('❌ Usage: phase <phase_name> [active_spirit_id]');
         } else {
           state.hudManager.changePhase(phaseName, activeSpiritId, `Action in ${phaseName} phase`);
-          console.log(`✅ Changed to phase: ${phaseName}${activeSpiritId ? ` (active: ${activeSpiritId})` : ''}`);
+          this.logger.info(`✅ Changed to phase: ${phaseName}${activeSpiritId ? ` (active: ${activeSpiritId})` : ''}`);
         }
         break;
 
       case 'turn':
         if (args.length === 0) {
-          console.log('❌ Usage: turn <number>');
+          this.logger.info('❌ Usage: turn <number>');
         } else {
           const turnNumber = parseInt(args[0]);
           if (isNaN(turnNumber) || turnNumber < 0) {
-            console.log('❌ Turn number must be a non-negative integer');
+            this.logger.info('❌ Turn number must be a non-negative integer');
           } else {
             state.hudManager.updateTurn({ turnNumber });
-            console.log(`✅ Set turn number to ${turnNumber}`);
+            this.logger.info(`✅ Set turn number to ${turnNumber}`);
           }
         }
         break;
 
       case 'round':
         if (args.length === 0) {
-          console.log('❌ Usage: round <number>');
+          this.logger.info('❌ Usage: round <number>');
         } else {
           const roundNumber = parseInt(args[0]);
           if (isNaN(roundNumber) || roundNumber < 0) {
-            console.log('❌ Round number must be a non-negative integer');
+            this.logger.info('❌ Round number must be a non-negative integer');
           } else {
             state.hudManager.updateTurn({ roundNumber });
-            console.log(`✅ Set round number to ${roundNumber}`);
+            this.logger.info(`✅ Set round number to ${roundNumber}`);
           }
         }
         break;
@@ -451,7 +452,7 @@ async function runCLI(): Promise<void> {
       case 'clear':
         state.hudManager.clear();
         state.updateHistory.length = 0;
-        console.log('✅ HUD cleared');
+        this.logger.info('✅ HUD cleared');
         break;
 
       case 'demo':
@@ -460,11 +461,11 @@ async function runCLI(): Promise<void> {
 
       case 'simulate':
         if (args.length === 0) {
-          console.log('❌ Usage: simulate <turns>');
+          this.logger.info('❌ Usage: simulate <turns>');
         } else {
           const turns = parseInt(args[0]);
           if (isNaN(turns) || turns <= 0) {
-            console.log('❌ Turns must be a positive number');
+            this.logger.info('❌ Turns must be a positive number');
           } else {
             runSimulation(state, turns);
           }
@@ -482,13 +483,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        console.log('👋 Goodbye!');
+        this.logger.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          console.log(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -496,7 +497,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    console.log('\n👋 Goodbye!');
+    this.logger.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -505,7 +506,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', error);
+    this.logger.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

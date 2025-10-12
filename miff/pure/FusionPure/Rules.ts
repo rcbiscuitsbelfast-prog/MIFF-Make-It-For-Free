@@ -1,3 +1,4 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 /**
  * FusionPure Rules - AAA Quality Fusion Rules System
  *
@@ -295,7 +296,7 @@ export class FusionRules {
 
   public importRules(data: string): boolean {
     try {
-      const parsed = JSON.parse(data);
+      const parsed = SafeJSONParser.parse(data);
 
       if (parsed.pairRules && Array.isArray(parsed.pairRules)) {
         this.pairRules = parsed.pairRules;

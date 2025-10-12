@@ -14,6 +14,7 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export type FusionStatus = 'success' | 'incompatible_pair' | 'already_fused' | 'constraints_not_met' | 'missing_requirements';
 export type TraitType = 'stat_boost' | 'ability_learned' | 'type_change' | 'evolution_trigger' | 'special_effect';
@@ -320,7 +321,7 @@ export class FusionManager {
 
   public importFusionHistory(data: string): boolean {
     try {
-      const parsed = JSON.parse(data);
+      const parsed = SafeJSONParser.parse(data);
 
       if (parsed.fusionHistory && Array.isArray(parsed.fusionHistory)) {
         this.context.fusionHistory = parsed.fusionHistory;

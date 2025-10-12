@@ -4,6 +4,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { ProceduralWorldManager, TerrainOptions, BiomeRulesSchema } from './Manager';
 import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function toInt(value: any, fallback: number): number { const n = parseInt(String(value)); return Number.isFinite(n) ? n : fallback; }
 function toFloat(value: any, fallback: number): number { const n = parseFloat(String(value)); return Number.isFinite(n) ? n : fallback; }
@@ -42,8 +44,8 @@ function main() {
         const heightmapPath = options.heightmap as string;
         const rulesPath = options.rules as string;
         if (!heightmapPath || !rulesPath) throw new Error('Missing --heightmap <file> or --rules <file>');
-        const heightmap = JSON.parse(fs.readFileSync(path.resolve(heightmapPath), 'utf-8')) as number[][];
-        const rules = JSON.parse(fs.readFileSync(path.resolve(rulesPath), 'utf-8')) as BiomeRulesSchema;
+        const heightmap = SafeJSONParser.parse(fs.readFileSync(path.resolve(heightmapPath), 'utf-8')) as number[][];
+        const rules = SafeJSONParser.parse(fs.readFileSync(path.resolve(rulesPath), 'utf-8')) as BiomeRulesSchema;
         const biomes = mgr.applyBiomes(heightmap, rules);
         out = { log: [`seed=${seed}`, `biomes=${rules.biomes.length}`], outputs: [{ biomes }] };
         break;
@@ -52,7 +54,7 @@ function main() {
         const heightmapPath = options.heightmap as string;
         const threshold = toFloat(options.threshold ?? 0.05, 0.05);
         if (!heightmapPath) throw new Error('Missing --heightmap <file>');
-        const heightmap = JSON.parse(fs.readFileSync(path.resolve(heightmapPath), 'utf-8')) as number[][];
+        const heightmap = SafeJSONParser.parse(fs.readFileSync(path.resolve(heightmapPath), 'utf-8')) as number[][];
         const rivers = mgr.carveRivers(heightmap, { threshold, maxRivers: toInt(options.maxRivers ?? 8, 8) });
         out = { log: [`seed=${seed}`, `rivers=${rivers.length}`], outputs: [{ rivers }] };
         break;
@@ -75,7 +77,7 @@ function main() {
     process.exitCode = 1;
   }
 
-  console.log(formatOutput(out));
+  this.logger.info(formatOutput(out));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { SettingsManager, SettingsConfig, SettingsValidation, SettingsStats } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function main() {
   const args = process.argv.slice(2);
@@ -56,7 +58,7 @@ function main() {
         const categoryData = args[2];
         if (setCategory && categoryData) {
           try {
-            const values = JSON.parse(categoryData);
+            const values = SafeJSONParser.parse(categoryData);
             const success = manager.setCategory(setCategory, values);
             result.result = { success, message: success ? 'Category updated' : 'Invalid values' };
           } catch (error) {
@@ -160,7 +162,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(manager: SettingsManager): any {

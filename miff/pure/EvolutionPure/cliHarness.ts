@@ -11,17 +11,20 @@
 
 import * as readline from 'readline';
 import { EvolutionManager, EvolutionCondition, SpeciesEvolutionData, EvolutionUtils, EvolutionStatus, EvolutionConditionType, TimeOfDay, IPlayerContext } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 /**
  * CLI Harness for EvolutionPure
  */
 export class EvolutionPureCLI {
+  private logger: StructuredLogger;
   private evolutionManager: EvolutionManager;
   private rl: readline.Interface;
   private isRunning: boolean = false;
   private mockContext: IPlayerContext;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'EvolutionPureCLI' });
     this.mockContext = EvolutionUtils.createMockPlayerContext();
     this.evolutionManager = EvolutionManager.create(this.mockContext);
     this.rl = readline.createInterface({
@@ -71,8 +74,8 @@ export class EvolutionPureCLI {
    */
   async start(): Promise<void> {
     this.isRunning = true;
-    console.log('🧬 EvolutionPure CLI - Spirit Evolution System');
-    console.log('Type "help" for commands or "exit" to quit.\n');
+    this.logger.info('🧬 EvolutionPure CLI - Spirit Evolution System');
+    this.logger.info('Type "help" for commands or "exit" to quit.\n');
 
     while (this.isRunning) {
       const input = await this.prompt('evolution> ');
@@ -86,7 +89,7 @@ export class EvolutionPureCLI {
   stop(): void {
     this.isRunning = false;
     this.rl.close();
-    console.log('👋 EvolutionPure CLI stopped.');
+    this.logger.info('👋 EvolutionPure CLI stopped.');
   }
 
   /**
@@ -137,10 +140,10 @@ export class EvolutionPureCLI {
           console.clear();
           break;
         default:
-          console.log('❌ Unknown command. Type "help" for available commands.');
+          this.logger.info('❌ Unknown command. Type "help" for available commands.');
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : 'Unknown error');
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : 'Unknown error');
     }
   }
 
@@ -148,26 +151,26 @@ export class EvolutionPureCLI {
    * Show help information
    */
   private showHelp(): void {
-    console.log('\n🧬 EvolutionPure Commands:');
-    console.log('  help                    - Show this help message');
-    console.log('  exit/quit               - Exit the CLI');
-    console.log('  clear                   - Clear the console');
-    console.log('');
-    console.log('  create <name> <type> <level> - Create a test spirit');
-    console.log('  evolve <spirit_id>      - Attempt to evolve a spirit');
-    console.log('  check <species_id>      - Check evolution possibilities');
-    console.log('  list                    - List all registered species');
-    console.log('  register <species> <target> - Register simple evolution');
-    console.log('  chain <species_id>      - Show evolution chain');
-    console.log('  stats                   - Show evolution statistics');
-    console.log('  validate                - Validate all evolution data');
-    console.log('  demo                    - Run evolution demo');
-    console.log('');
-    console.log('💡 Examples:');
-    console.log('  create "Fire Spirit" fire 25');
-    console.log('  evolve fire_spirit');
-    console.log('  register "basic_spirit" "intermediate_spirit"');
-    console.log('  chain "basic_spirit"');
+    this.logger.info('\n🧬 EvolutionPure Commands:');
+    this.logger.info('  help                    - Show this help message');
+    this.logger.info('  exit/quit               - Exit the CLI');
+    this.logger.info('  clear                   - Clear the console');
+    this.logger.info('');
+    this.logger.info('  create <name> <type> <level> - Create a test spirit');
+    this.logger.info('  evolve <spirit_id>      - Attempt to evolve a spirit');
+    this.logger.info('  check <species_id>      - Check evolution possibilities');
+    this.logger.info('  list                    - List all registered species');
+    this.logger.info('  register <species> <target> - Register simple evolution');
+    this.logger.info('  chain <species_id>      - Show evolution chain');
+    this.logger.info('  stats                   - Show evolution statistics');
+    this.logger.info('  validate                - Validate all evolution data');
+    this.logger.info('  demo                    - Run evolution demo');
+    this.logger.info('');
+    this.logger.info('💡 Examples:');
+    this.logger.info('  create "Fire Spirit" fire 25');
+    this.logger.info('  evolve fire_spirit');
+    this.logger.info('  register "basic_spirit" "intermediate_spirit"');
+    this.logger.info('  chain "basic_spirit"');
   }
 
   /**
@@ -175,7 +178,7 @@ export class EvolutionPureCLI {
    */
   private async createSpirit(args: string[]): Promise<void> {
     if (args.length < 3) {
-      console.log('❌ Usage: create <name> <type> <level>');
+      this.logger.info('❌ Usage: create <name> <type> <level>');
       return;
     }
 
@@ -184,7 +187,7 @@ export class EvolutionPureCLI {
     const level = parseInt(args[2], 10);
 
     if (level <= 0 || level > 100) {
-      console.log('❌ Level must be between 1 and 100');
+      this.logger.info('❌ Level must be between 1 and 100');
       return;
     }
 
@@ -197,18 +200,18 @@ export class EvolutionPureCLI {
       }
     });
 
-    console.log(`✅ Created spirit: ${name} (${type}, Level ${level})`);
-    console.log(`   Species ID: ${speciesId}`);
-    console.log(`   Instance ID: ${spirit.instanceId}`);
+    this.logger.info(`✅ Created spirit: ${name} (${type}, Level ${level})`);
+    this.logger.info(`   Species ID: ${speciesId}`);
+    this.logger.info(`   Instance ID: ${spirit.instanceId}`);
 
     // Check evolution possibilities
     const canEvolve = this.evolutionManager.canEvolve(spirit);
     const target = this.evolutionManager.getEvolutionTarget(spirit);
 
     if (canEvolve && target) {
-      console.log(`   🌟 Can evolve to: ${target}`);
+      this.logger.info(`   🌟 Can evolve to: ${target}`);
     } else {
-      console.log('   📍 No evolution available');
+      this.logger.info('   📍 No evolution available');
     }
   }
 
@@ -217,39 +220,39 @@ export class EvolutionPureCLI {
    */
   private async evolveSpirit(args: string[]): Promise<void> {
     if (args.length < 1) {
-      console.log('❌ Usage: evolve <spirit_id>');
+      this.logger.info('❌ Usage: evolve <spirit_id>');
       return;
     }
 
     const spiritId = args[0];
     const spirit = EvolutionUtils.createMockSpirit(spiritId, 1);
 
-    console.log(`🔄 Attempting to evolve: ${spiritId}`);
+    this.logger.info(`🔄 Attempting to evolve: ${spiritId}`);
 
     const result = this.evolutionManager.evolveSpirit(spirit);
 
-    console.log(`Result: ${result.toString()}`);
+    this.logger.info(`Result: ${result.toString()}`);
 
     if (result.isSuccess) {
-      console.log('🎉 Evolution successful!');
-      console.log(`   New species: ${result.newSpeciesId}`);
+      this.logger.info('🎉 Evolution successful!');
+      this.logger.info(`   New species: ${result.newSpeciesId}`);
 
       // Show next evolution if available
       const nextTarget = this.evolutionManager.getEvolutionTarget(spirit);
       if (nextTarget) {
-        console.log(`   Next evolution available: ${nextTarget}`);
+        this.logger.info(`   Next evolution available: ${nextTarget}`);
       }
     } else {
-      console.log('❌ Evolution failed');
+      this.logger.info('❌ Evolution failed');
       switch (result.status) {
         case EvolutionStatus.CONDITIONS_NOT_MET:
-          console.log('   💡 Try meeting the evolution requirements');
+          this.logger.info('   💡 Try meeting the evolution requirements');
           break;
         case EvolutionStatus.ALREADY_EVOLVED:
-          console.log('   ✨ Spirit is already at its final evolution');
+          this.logger.info('   ✨ Spirit is already at its final evolution');
           break;
         case EvolutionStatus.INVALID_SPIRIT:
-          console.log('   💡 Spirit not found or invalid');
+          this.logger.info('   💡 Spirit not found or invalid');
           break;
       }
     }
@@ -260,38 +263,38 @@ export class EvolutionPureCLI {
    */
   private checkEvolution(args: string[]): void {
     if (args.length < 1) {
-      console.log('❌ Usage: check <species_id>');
+      this.logger.info('❌ Usage: check <species_id>');
       return;
     }
 
     const speciesId = args[0];
     const spirit = EvolutionUtils.createMockSpirit(speciesId, 1);
 
-    console.log(`🔍 Checking evolution for: ${speciesId}`);
+    this.logger.info(`🔍 Checking evolution for: ${speciesId}`);
 
     const canEvolve = this.evolutionManager.canEvolve(spirit);
     const target = this.evolutionManager.getEvolutionTarget(spirit);
     const availableEvolutions = this.evolutionManager.getAvailableEvolutions(spirit);
 
-    console.log(`Can evolve: ${canEvolve ? '✅ Yes' : '❌ No'}`);
+    this.logger.info(`Can evolve: ${canEvolve ? '✅ Yes' : '❌ No'}`);
 
     if (target) {
-      console.log(`Evolution target: ${target}`);
+      this.logger.info(`Evolution target: ${target}`);
     }
 
     if (availableEvolutions.length > 0) {
-      console.log('Available evolutions:');
+      this.logger.info('Available evolutions:');
       availableEvolutions.forEach(evolution => {
-        console.log(`  • ${evolution}`);
+        this.logger.info(`  • ${evolution}`);
       });
     }
 
     // Show requirements
     const requirements = EvolutionUtils.getEvolutionRequirements(this.evolutionManager, speciesId);
     if (requirements.targetSpecies) {
-      console.log(`\n📋 Requirements for ${requirements.targetSpecies}:`);
+      this.logger.info(`\n📋 Requirements for ${requirements.targetSpecies}:`);
       requirements.conditions.forEach((condition: any) => {
-        console.log(`  • ${condition.description}`);
+        this.logger.info(`  • ${condition.description}`);
       });
     }
   }
@@ -302,22 +305,22 @@ export class EvolutionPureCLI {
   private listSpecies(): void {
     const stats = this.evolutionManager.getEvolutionStatistics();
 
-    console.log('\n🧬 Registered Species:');
-    console.log(`Total species: ${stats.totalSpecies}`);
-    console.log(`Evolvable species: ${stats.evolvableSpecies}`);
-    console.log(`Total evolutions: ${stats.totalEvolutions}`);
-    console.log(`Max chain length: ${stats.maxChainLength}`);
+    this.logger.info('\n🧬 Registered Species:');
+    this.logger.info(`Total species: ${stats.totalSpecies}`);
+    this.logger.info(`Evolvable species: ${stats.evolvableSpecies}`);
+    this.logger.info(`Total evolutions: ${stats.totalEvolutions}`);
+    this.logger.info(`Max chain length: ${stats.maxChainLength}`);
 
-    console.log('\nSpecies with evolutions:');
+    this.logger.info('\nSpecies with evolutions:');
     for (const [speciesId, data] of this.evolutionManager['speciesData']) {
       if (data.evolutionTargetId) {
-        console.log(`  ${speciesId} → ${data.evolutionTargetId}`);
+        this.logger.info(`  ${speciesId} → ${data.evolutionTargetId}`);
       }
     }
 
-    console.log('\nConditions by type:');
+    this.logger.info('\nConditions by type:');
     Object.entries(stats.conditionsByType).forEach(([type, count]) => {
-      console.log(`  ${type}: ${count}`);
+      this.logger.info(`  ${type}: ${count}`);
     });
   }
 
@@ -326,8 +329,8 @@ export class EvolutionPureCLI {
    */
   private async registerEvolution(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: register <species> <target> [condition_type] [value]');
-      console.log('Condition types: level, item, sync, friendship, battles');
+      this.logger.info('❌ Usage: register <species> <target> [condition_type] [value]');
+      this.logger.info('Condition types: level, item, sync, friendship, battles');
       return;
     }
 
@@ -343,14 +346,14 @@ export class EvolutionPureCLI {
         const level = parseInt(value, 10);
         if (level > 0) {
           condition = EvolutionCondition.levelAtLeast(level);
-          console.log(`✅ Registered level evolution: ${speciesId} → ${targetId} (Level ${level})`);
+          this.logger.info(`✅ Registered level evolution: ${speciesId} → ${targetId} (Level ${level})`);
         }
         break;
 
       case 'item':
         if (value) {
           condition = EvolutionCondition.requiresItem(value);
-          console.log(`✅ Registered item evolution: ${speciesId} → ${targetId} (Item: ${value})`);
+          this.logger.info(`✅ Registered item evolution: ${speciesId} → ${targetId} (Item: ${value})`);
         }
         break;
 
@@ -358,7 +361,7 @@ export class EvolutionPureCLI {
         const syncLevel = parseInt(value, 10);
         if (syncLevel >= 0 && syncLevel <= 100) {
           condition = EvolutionCondition.syncAtLeast(syncLevel);
-          console.log(`✅ Registered sync evolution: ${speciesId} → ${targetId} (Sync: ${syncLevel}%)`);
+          this.logger.info(`✅ Registered sync evolution: ${speciesId} → ${targetId} (Sync: ${syncLevel}%)`);
         }
         break;
 
@@ -366,7 +369,7 @@ export class EvolutionPureCLI {
         const friendship = parseInt(value, 10);
         if (friendship >= 0 && friendship <= 100) {
           condition = EvolutionCondition.friendshipLevel(friendship);
-          console.log(`✅ Registered friendship evolution: ${speciesId} → ${targetId} (Friendship: ${friendship})`);
+          this.logger.info(`✅ Registered friendship evolution: ${speciesId} → ${targetId} (Friendship: ${friendship})`);
         }
         break;
 
@@ -374,12 +377,12 @@ export class EvolutionPureCLI {
         const battleCount = parseInt(value, 10);
         if (battleCount >= 0) {
           condition = EvolutionCondition.battleCount(battleCount);
-          console.log(`✅ Registered battle evolution: ${speciesId} → ${targetId} (Battles: ${battleCount})`);
+          this.logger.info(`✅ Registered battle evolution: ${speciesId} → ${targetId} (Battles: ${battleCount})`);
         }
         break;
 
       default:
-        console.log(`✅ Registered unconditional evolution: ${speciesId} → ${targetId}`);
+        this.logger.info(`✅ Registered unconditional evolution: ${speciesId} → ${targetId}`);
     }
 
     const evolutionData = new SpeciesEvolutionDataImpl(
@@ -396,28 +399,28 @@ export class EvolutionPureCLI {
    */
   private showEvolutionChain(args: string[]): void {
     if (args.length < 1) {
-      console.log('❌ Usage: chain <species_id>');
+      this.logger.info('❌ Usage: chain <species_id>');
       return;
     }
 
     const speciesId = args[0];
     const chain = this.evolutionManager.getEvolutionChain(speciesId);
 
-    console.log(`\n🧬 Evolution Chain for ${speciesId}:`);
+    this.logger.info(`\n🧬 Evolution Chain for ${speciesId}:`);
     if (chain.length === 1) {
-      console.log('  No evolutions found');
+      this.logger.info('  No evolutions found');
       return;
     }
 
     chain.forEach((species, index) => {
       const prefix = index === 0 ? '  ' : '  → ';
-      console.log(`${prefix}${species}`);
+      this.logger.info(`${prefix}${species}`);
     });
 
-    console.log(`\n📊 Chain Statistics:`);
-    console.log(`  Length: ${chain.length}`);
-    console.log(`  Starting species: ${chain[0]}`);
-    console.log(`  Final evolution: ${chain[chain.length - 1]}`);
+    this.logger.info(`\n📊 Chain Statistics:`);
+    this.logger.info(`  Length: ${chain.length}`);
+    this.logger.info(`  Starting species: ${chain[0]}`);
+    this.logger.info(`  Final evolution: ${chain[chain.length - 1]}`);
   }
 
   /**
@@ -426,19 +429,19 @@ export class EvolutionPureCLI {
   private showStatistics(): void {
     const stats = this.evolutionManager.getEvolutionStatistics();
 
-    console.log('\n📊 Evolution System Statistics:');
-    console.log(`Total Species: ${stats.totalSpecies}`);
-    console.log(`Evolvable Species: ${stats.evolvableSpecies}`);
-    console.log(`Total Evolutions: ${stats.totalEvolutions}`);
-    console.log(`Max Chain Length: ${stats.maxChainLength}`);
+    this.logger.info('\n📊 Evolution System Statistics:');
+    this.logger.info(`Total Species: ${stats.totalSpecies}`);
+    this.logger.info(`Evolvable Species: ${stats.evolvableSpecies}`);
+    this.logger.info(`Total Evolutions: ${stats.totalEvolutions}`);
+    this.logger.info(`Max Chain Length: ${stats.maxChainLength}`);
 
-    console.log('\n📋 Conditions Breakdown:');
+    this.logger.info('\n📋 Conditions Breakdown:');
     Object.entries(stats.conditionsByType).forEach(([conditionType, count]) => {
-      console.log(`  ${conditionType}: ${count}`);
+      this.logger.info(`  ${conditionType}: ${count}`);
     });
 
     if (stats.totalSpecies === 0) {
-      console.log('\n💡 No species registered. Try "register" command or "demo" for examples.');
+      this.logger.info('\n💡 No species registered. Try "register" command or "demo" for examples.');
     }
   }
 
@@ -449,11 +452,11 @@ export class EvolutionPureCLI {
     const errors = this.evolutionManager.validateEvolutionData();
 
     if (errors.length === 0) {
-      console.log('✅ All evolution data is valid!');
+      this.logger.info('✅ All evolution data is valid!');
     } else {
-      console.log('❌ Evolution data validation errors:');
+      this.logger.info('❌ Evolution data validation errors:');
       errors.forEach((error, index) => {
-        console.log(`  ${index + 1}. ${error}`);
+        this.logger.info(`  ${index + 1}. ${error}`);
       });
     }
   }
@@ -462,7 +465,7 @@ export class EvolutionPureCLI {
    * Run evolution demo
    */
   private runDemo(): void {
-    console.log('🚀 Running EvolutionPure Demo...\n');
+    this.logger.info('🚀 Running EvolutionPure Demo...\n');
 
     // Create demo spirits
     const spirits = [
@@ -487,31 +490,31 @@ export class EvolutionPureCLI {
     ];
 
     scenarios.forEach((scenario, index) => {
-      console.log(`\n${index + 1}. ${scenario.name}:`);
-      console.log(`   Species: ${scenario.spirit.speciesId}`);
-      console.log(`   Level: ${scenario.spirit.level}`);
+      this.logger.info(`\n${index + 1}. ${scenario.name}:`);
+      this.logger.info(`   Species: ${scenario.spirit.speciesId}`);
+      this.logger.info(`   Level: ${scenario.spirit.level}`);
 
       const canEvolve = this.evolutionManager.canEvolve(scenario.spirit);
       const target = this.evolutionManager.getEvolutionTarget(scenario.spirit);
 
-      console.log(`   Can Evolve: ${canEvolve ? '✅ Yes' : '❌ No'}`);
+      this.logger.info(`   Can Evolve: ${canEvolve ? '✅ Yes' : '❌ No'}`);
       if (target) {
-        console.log(`   Target: ${target}`);
+        this.logger.info(`   Target: ${target}`);
       }
 
       // Try evolution
       const result = this.evolutionManager.evolveSpirit(scenario.spirit);
-      console.log(`   Result: ${result.toString()}`);
+      this.logger.info(`   Result: ${result.toString()}`);
     });
 
-    console.log('\n📋 Demo Summary:');
-    console.log('  • Level-based evolutions require reaching specific levels');
-    console.log('  • Item-based evolutions require specific items');
-    console.log('  • Sync-based evolutions require high sync percentages');
-    console.log('  • Complex evolutions can require multiple conditions');
-    console.log('\n💡 Try: create "My Spirit" normal 25');
-    console.log('💡 Try: check basic_spirit');
-    console.log('💡 Try: evolve basic_spirit');
+    this.logger.info('\n📋 Demo Summary:');
+    this.logger.info('  • Level-based evolutions require reaching specific levels');
+    this.logger.info('  • Item-based evolutions require specific items');
+    this.logger.info('  • Sync-based evolutions require high sync percentages');
+    this.logger.info('  • Complex evolutions can require multiple conditions');
+    this.logger.info('\n💡 Try: create "My Spirit" normal 25');
+    this.logger.info('💡 Try: check basic_spirit');
+    this.logger.info('💡 Try: evolve basic_spirit');
   }
 
   /**
@@ -550,7 +553,7 @@ export const EvolutionPureCLIUtils = {
    */
   createManagerFromArgs(args: string[]): EvolutionManager | null {
     if (args.length < 1) {
-      console.error('❌ Usage: --create-manager <player_id>');
+      this.logger.error('❌ Usage: --create-manager <player_id>');
       return null;
     }
 
@@ -563,7 +566,7 @@ export const EvolutionPureCLIUtils = {
    */
   registerEvolutionFromArgs(manager: EvolutionManager, args: string[]): boolean {
     if (args.length < 2) {
-      console.error('❌ Usage: --register-evolution <species> <target> [condition_type] [value]');
+      this.logger.error('❌ Usage: --register-evolution <species> <target> [condition_type] [value]');
       return false;
     }
 
@@ -579,14 +582,14 @@ export const EvolutionPureCLIUtils = {
         const level = parseInt(value, 10);
         if (level > 0) {
           condition = EvolutionCondition.levelAtLeast(level);
-          console.log(`✅ Registered level evolution: ${speciesId} → ${targetId} (Level ${level})`);
+          this.logger.info(`✅ Registered level evolution: ${speciesId} → ${targetId} (Level ${level})`);
         }
         break;
 
       case 'item':
         if (value) {
           condition = EvolutionCondition.requiresItem(value);
-          console.log(`✅ Registered item evolution: ${speciesId} → ${targetId} (Item: ${value})`);
+          this.logger.info(`✅ Registered item evolution: ${speciesId} → ${targetId} (Item: ${value})`);
         }
         break;
 
@@ -594,12 +597,12 @@ export const EvolutionPureCLIUtils = {
         const syncLevel = parseInt(value, 10);
         if (syncLevel >= 0 && syncLevel <= 100) {
           condition = EvolutionCondition.syncAtLeast(syncLevel);
-          console.log(`✅ Registered sync evolution: ${speciesId} → ${targetId} (Sync: ${syncLevel}%)`);
+          this.logger.info(`✅ Registered sync evolution: ${speciesId} → ${targetId} (Sync: ${syncLevel}%)`);
         }
         break;
 
       default:
-        console.log(`✅ Registered unconditional evolution: ${speciesId} → ${targetId}`);
+        this.logger.info(`✅ Registered unconditional evolution: ${speciesId} → ${targetId}`);
     }
 
     const evolutionData = new SpeciesEvolutionData(
@@ -617,25 +620,25 @@ export const EvolutionPureCLIUtils = {
    */
   testEvolutionFromArgs(manager: EvolutionManager, args: string[]): void {
     if (args.length < 1) {
-      console.error('❌ Usage: --test-evolution <species_id>');
+      this.logger.error('❌ Usage: --test-evolution <species_id>');
       return;
     }
 
     const speciesId = args[0];
     const spirit = EvolutionUtils.createMockSpirit(speciesId, 25);
 
-    console.log(`🧬 Testing evolution for: ${speciesId}`);
+    this.logger.info(`🧬 Testing evolution for: ${speciesId}`);
 
     const canEvolve = manager.canEvolve(spirit);
     const target = manager.getEvolutionTarget(spirit);
     const chain = manager.getEvolutionChain(speciesId);
 
-    console.log(`Can Evolve: ${canEvolve ? '✅ Yes' : '❌ No'}`);
+    this.logger.info(`Can Evolve: ${canEvolve ? '✅ Yes' : '❌ No'}`);
     if (target) {
-      console.log(`Target: ${target}`);
+      this.logger.info(`Target: ${target}`);
     }
 
-    console.log(`Evolution Chain: ${chain.join(' → ')}`);
+    this.logger.info(`Evolution Chain: ${chain.join(' → ')}`);
   }
 };
 
@@ -646,15 +649,15 @@ if (require.main === module) {
   if (args.includes('--demo')) {
     EvolutionPureCLIUtils.runDemo();
   } else if (args.includes('--help')) {
-    console.log('EvolutionPure CLI Usage:');
-    console.log('  node cliHarness.ts              - Run interactive CLI');
-    console.log('  node cliHarness.ts --demo       - Run demo with sample data');
-    console.log('  node cliHarness.ts --help       - Show this help');
-    console.log('');
-    console.log('Examples:');
-    console.log('  node cliHarness.ts --create-manager "player1"');
-    console.log('  node cliHarness.ts --register-evolution "pikachu" "raichu" level 25');
-    console.log('  node cliHarness.ts --test-evolution "pikachu"');
+    this.logger.info('EvolutionPure CLI Usage:');
+    this.logger.info('  node cliHarness.ts              - Run interactive CLI');
+    this.logger.info('  node cliHarness.ts --demo       - Run demo with sample data');
+    this.logger.info('  node cliHarness.ts --help       - Show this help');
+    this.logger.info('');
+    this.logger.info('Examples:');
+    this.logger.info('  node cliHarness.ts --create-manager "player1"');
+    this.logger.info('  node cliHarness.ts --register-evolution "pikachu" "raichu" level 25');
+    this.logger.info('  node cliHarness.ts --test-evolution "pikachu"');
   } else {
     EvolutionPureCLIUtils.runCLI();
   }

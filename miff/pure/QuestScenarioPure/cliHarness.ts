@@ -1,6 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Scenario = {
 	schema: 'v13';
@@ -27,12 +29,12 @@ function runScenario(s:Scenario): Output {
 function main(){
 	const scenarioPath = process.argv[2] || 'QuestScenarioPure/scenario.json';
 	const cmd = process.argv[3] || 'run';
-	const s = JSON.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
+	const s = SafeJSONParser.parse(fs.readFileSync(path.resolve(scenarioPath),'utf-8')) as Scenario;
 	if(cmd==='dump'){
-		console.log(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
+		this.logger.info(JSON.stringify({ outputs:[{ op:'dumpScenario', status:'ok', events:[], finalState:s }]},null,2));
 		return;
 	}
 	const out = runScenario(s);
-	console.log(JSON.stringify({ outputs:[out] }, null, 2));
+	this.logger.info(JSON.stringify({ outputs:[out] }, null, 2));
 }
 if(import.meta.url === `file://${process.argv[1]}`) main();

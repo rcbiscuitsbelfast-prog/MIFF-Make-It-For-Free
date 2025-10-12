@@ -1,6 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { 
   SkillTreeManager, 
   Skill, 
@@ -39,7 +41,7 @@ function main() {
           }
 
           if (fileToRead) {
-            const raw = JSON.parse(fs.readFileSync(fileToRead, 'utf-8')) as any;
+            const raw = SafeJSONParser.parse(fs.readFileSync(fileToRead, 'utf-8')) as any;
             const skills: Skill[] = Array.isArray(raw) ? raw : (Array.isArray(raw?.skills) ? raw.skills : []);
             if (!Array.isArray(skills) || skills.length === 0) {
               result.status = 'error';
@@ -189,7 +191,7 @@ function main() {
         const filterFile = args[1];
         let filter: SkillTreeFilter | undefined;
         if (filterFile && fs.existsSync(filterFile)) {
-          filter = JSON.parse(fs.readFileSync(path.resolve(filterFile), 'utf-8')) as SkillTreeFilter;
+          filter = SafeJSONParser.parse(fs.readFileSync(path.resolve(filterFile), 'utf-8')) as SkillTreeFilter;
         }
         result.result = mgr.listSkills(filter);
         break;
@@ -252,7 +254,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(mgr: SkillTreeManager): any {

@@ -22,7 +22,7 @@ import { EventBus } from '../EventBusPure/index';
 class CLIEventBus extends EventBus {
   emit(event: string, data: any) {
     super.publish(event, data);
-    console.log(`📡 Event: ${event}`, data);
+    this.logger.info(`📡 Event: ${event}`, data);
   }
 
   on(event: string, handler: Function) {
@@ -36,13 +36,13 @@ import { HealthSystemManager } from '../HealthSystemPure/Manager';
 class CLIHealthSystem extends HealthSystemManager {
   damageEntity(entityId: string, damage: number) {
     const result = super.applyDamage(entityId, damage);
-    console.log(`💔 ${entityId} takes ${damage} damage (HP: ${result.newHP}/${result.maxHP})`);
+    this.logger.info(`💔 ${entityId} takes ${damage} damage (HP: ${result.newHP}/${result.maxHP})`);
     return result;
   }
 
   healEntity(entityId: string, healing: number) {
     const result = super.applyHealing(entityId, healing);
-    console.log(`💚 ${entityId} heals ${healing} health (HP: ${result.newHP}/${result.maxHP})`);
+    this.logger.info(`💚 ${entityId} heals ${healing} health (HP: ${result.newHP}/${result.maxHP})`);
     return result;
   }
 }
@@ -53,9 +53,11 @@ class MockCombatSystem {
 
 // Real RNG integration for CLI
 import { RNGManager } from '../RNGPure/index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CLIRNG extends RNGManager {
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CLIEventBus' });
     super('magic_system_cli');
   }
 
@@ -98,20 +100,20 @@ class MagicSystemCLI {
    */
   start(): void {
     this.isRunning = true;
-    console.log('🔮 Welcome to MIFF MagicSystemPure CLI!');
-    console.log('=====================================');
-    console.log('Available commands:');
-    console.log('  spells        - List all spells');
-    console.log('  cast <spell>  - Cast a spell');
-    console.log('  learn <spell> - Learn a spell');
-    console.log('  mana          - Show mana status');
-    console.log('  elements      - List all elements');
-    console.log('  schools       - List spell schools');
-    console.log('  stats         - Show spell statistics');
-    console.log('  demo          - Run demo sequence');
-    console.log('  help          - Show this help');
-    console.log('  exit          - Exit the CLI');
-    console.log('');
+    this.logger.info('🔮 Welcome to MIFF MagicSystemPure CLI!');
+    this.logger.info('=====================================');
+    this.logger.info('Available commands:');
+    this.logger.info('  spells        - List all spells');
+    this.logger.info('  cast <spell>  - Cast a spell');
+    this.logger.info('  learn <spell> - Learn a spell');
+    this.logger.info('  mana          - Show mana status');
+    this.logger.info('  elements      - List all elements');
+    this.logger.info('  schools       - List spell schools');
+    this.logger.info('  stats         - Show spell statistics');
+    this.logger.info('  demo          - Run demo sequence');
+    this.logger.info('  help          - Show this help');
+    this.logger.info('  exit          - Exit the CLI');
+    this.logger.info('');
 
     this.showPrompt();
   }
@@ -143,7 +145,7 @@ class MagicSystemCLI {
 
         case 'cast':
           if (args.length === 0) {
-            console.log('❌ Usage: cast <spell-name>');
+            this.logger.info('❌ Usage: cast <spell-name>');
           } else {
             await this.castSpell(args[0]);
           }
@@ -151,7 +153,7 @@ class MagicSystemCLI {
 
         case 'learn':
           if (args.length === 0) {
-            console.log('❌ Usage: learn <spell-name>');
+            this.logger.info('❌ Usage: learn <spell-name>');
           } else {
             this.learnSpell(args[0]);
           }
@@ -186,12 +188,12 @@ class MagicSystemCLI {
           return;
 
         default:
-          console.log(`❓ Unknown command: ${command}`);
-          console.log('Type "help" for available commands.');
+          this.logger.info(`❓ Unknown command: ${command}`);
+          this.logger.info('Type "help" for available commands.');
           break;
       }
     } catch (error) {
-      console.error(`❌ Error: ${error.message}`);
+      this.logger.error(`❌ Error: ${error.message}`);
     }
 
     if (this.isRunning) {
@@ -206,18 +208,18 @@ class MagicSystemCLI {
     const spells = this.magicSystem.getAllSpellDefinitions();
     const casterSpells = this.magicSystem.getSpellsForCaster(this.currentCaster);
 
-    console.log('\n📚 Available Spells:');
-    console.log('===================');
+    this.logger.info('\n📚 Available Spells:');
+    this.logger.info('===================');
 
     spells.forEach(spell => {
       const isLearned = casterSpells.some(s => s.definition.id === spell.id);
       const status = isLearned ? '✅ Learned' : '❌ Not Learned';
 
-      console.log(`${spell.name} (${spell.id})`);
-      console.log(`   School: ${spell.school} | Mana: ${spell.manaCost} | Cooldown: ${spell.cooldown}ms`);
-      console.log(`   Description: ${spell.description}`);
-      console.log(`   Status: ${status}`);
-      console.log('');
+      this.logger.info(`${spell.name} (${spell.id})`);
+      this.logger.info(`   School: ${spell.school} | Mana: ${spell.manaCost} | Cooldown: ${spell.cooldown}ms`);
+      this.logger.info(`   Description: ${spell.description}`);
+      this.logger.info(`   Status: ${status}`);
+      this.logger.info('');
     });
   }
 
@@ -229,7 +231,7 @@ class MagicSystemCLI {
     const spell = spells.find(s => s.name.toLowerCase() === spellName.toLowerCase() || s.id === spellName);
 
     if (!spell) {
-      console.log(`❌ Spell not found: ${spellName}`);
+      this.logger.info(`❌ Spell not found: ${spellName}`);
       return;
     }
 
@@ -239,28 +241,28 @@ class MagicSystemCLI {
 
     if (!isLearned) {
       this.magicSystem.unlockSpell(this.currentCaster, spell.id);
-      console.log(`📚 Learned spell: ${spell.name}`);
+      this.logger.info(`📚 Learned spell: ${spell.name}`);
     }
 
     // Cast the spell
-    console.log(`🎯 Casting ${spell.name}...`);
+    this.logger.info(`🎯 Casting ${spell.name}...`);
     const result = this.magicSystem.castSpell(this.currentCaster, spell.id, ['target-enemy']);
 
     if (result.success) {
-      console.log(`✅ Spell cast successfully!`);
-      console.log(`   Mana spent: ${result.manaSpent}`);
-      console.log(`   Damage dealt: ${result.damageDealt}`);
-      console.log(`   Healing done: ${result.healingDone}`);
+      this.logger.info(`✅ Spell cast successfully!`);
+      this.logger.info(`   Mana spent: ${result.manaSpent}`);
+      this.logger.info(`   Damage dealt: ${result.damageDealt}`);
+      this.logger.info(`   Healing done: ${result.healingDone}`);
 
       if (result.buffsApplied.length > 0) {
-        console.log(`   Buffs applied: ${result.buffsApplied.join(', ')}`);
+        this.logger.info(`   Buffs applied: ${result.buffsApplied.join(', ')}`);
       }
 
       if (result.debuffsApplied.length > 0) {
-        console.log(`   Debuffs applied: ${result.debuffsApplied.join(', ')}`);
+        this.logger.info(`   Debuffs applied: ${result.debuffsApplied.join(', ')}`);
       }
     } else {
-      console.log(`❌ Spell cast failed: ${result.failureReason}`);
+      this.logger.info(`❌ Spell cast failed: ${result.failureReason}`);
     }
   }
 
@@ -272,15 +274,15 @@ class MagicSystemCLI {
     const spell = spells.find(s => s.name.toLowerCase() === spellName.toLowerCase() || s.id === spellName);
 
     if (!spell) {
-      console.log(`❌ Spell not found: ${spellName}`);
+      this.logger.info(`❌ Spell not found: ${spellName}`);
       return;
     }
 
     const success = this.magicSystem.unlockSpell(this.currentCaster, spell.id);
     if (success) {
-      console.log(`📚 Successfully learned: ${spell.name}`);
+      this.logger.info(`📚 Successfully learned: ${spell.name}`);
     } else {
-      console.log(`❌ Failed to learn: ${spell.name}`);
+      this.logger.info(`❌ Failed to learn: ${spell.name}`);
     }
   }
 
@@ -291,26 +293,26 @@ class MagicSystemCLI {
     const manaPool = this.magicSystem.getManaPool(this.currentCaster);
 
     if (!manaPool) {
-      console.log('❌ No mana pool found. Create one first.');
+      this.logger.info('❌ No mana pool found. Create one first.');
       return;
     }
 
-    console.log('\n💧 Mana Pool Status:');
-    console.log('==================');
-    console.log(`Current Mana: ${manaPool.current}/${manaPool.maximum}`);
-    console.log(`Regeneration Rate: ${manaPool.regenerationRate} mana/second`);
-    console.log(`Mana Percentage: ${((manaPool.current / manaPool.maximum) * 100).toFixed(1)}%`);
+    this.logger.info('\n💧 Mana Pool Status:');
+    this.logger.info('==================');
+    this.logger.info(`Current Mana: ${manaPool.current}/${manaPool.maximum}`);
+    this.logger.info(`Regeneration Rate: ${manaPool.regenerationRate} mana/second`);
+    this.logger.info(`Mana Percentage: ${((manaPool.current / manaPool.maximum) * 100).toFixed(1)}%`);
 
     // Show elemental affinities
-    console.log('\nElemental Affinities:');
+    this.logger.info('\nElemental Affinities:');
     manaPool.elementalAffinities.forEach((affinity, element) => {
-      console.log(`  ${element}: ${(affinity * 100).toFixed(0)}%`);
+      this.logger.info(`  ${element}: ${(affinity * 100).toFixed(0)}%`);
     });
 
     // Show spell school modifiers
-    console.log('\nSpell School Modifiers:');
+    this.logger.info('\nSpell School Modifiers:');
     manaPool.modifiers.forEach((modifier, school) => {
-      console.log(`  ${school}: ${(modifier * 100).toFixed(0)}%`);
+      this.logger.info(`  ${school}: ${(modifier * 100).toFixed(0)}%`);
     });
   }
 
@@ -320,15 +322,15 @@ class MagicSystemCLI {
   private showElements(): void {
     const elements = this.magicSystem.getAllElements();
 
-    console.log('\n🧪 Elemental System:');
-    console.log('===================');
+    this.logger.info('\n🧪 Elemental System:');
+    this.logger.info('===================');
 
     elements.forEach(element => {
-      console.log(`${element.name.toUpperCase()} (${element.color})`);
-      console.log(`  Description: ${element.description}`);
-      console.log(`  Strengths: ${element.strengths.join(', ')}`);
-      console.log(`  Weaknesses: ${element.weaknesses.join(', ')}`);
-      console.log('');
+      this.logger.info(`${element.name.toUpperCase()} (${element.color})`);
+      this.logger.info(`  Description: ${element.description}`);
+      this.logger.info(`  Strengths: ${element.strengths.join(', ')}`);
+      this.logger.info(`  Weaknesses: ${element.weaknesses.join(', ')}`);
+      this.logger.info('');
     });
   }
 
@@ -338,16 +340,16 @@ class MagicSystemCLI {
   private showSchools(): void {
     const schools = this.magicSystem.getAllSpellSchools();
 
-    console.log('\n🎓 Spell Schools:');
-    console.log('=================');
+    this.logger.info('\n🎓 Spell Schools:');
+    this.logger.info('=================');
 
     schools.forEach(school => {
-      console.log(`${school.icon} ${school.name.toUpperCase()} (${school.color})`);
-      console.log(`  Description: ${school.description}`);
-      console.log(`  Passive Bonus: ${school.passiveBonus}`);
-      console.log(`  Strength: ${school.strength}`);
-      console.log(`  Weakness: ${school.weakness}`);
-      console.log('');
+      this.logger.info(`${school.icon} ${school.name.toUpperCase()} (${school.color})`);
+      this.logger.info(`  Description: ${school.description}`);
+      this.logger.info(`  Passive Bonus: ${school.passiveBonus}`);
+      this.logger.info(`  Strength: ${school.strength}`);
+      this.logger.info(`  Weakness: ${school.weakness}`);
+      this.logger.info('');
     });
   }
 
@@ -358,16 +360,16 @@ class MagicSystemCLI {
     const casterSpells = this.magicSystem.getSpellsForCaster(this.currentCaster);
     const manaPool = this.magicSystem.getManaPool(this.currentCaster);
 
-    console.log('\n📊 Magic Statistics:');
-    console.log('====================');
+    this.logger.info('\n📊 Magic Statistics:');
+    this.logger.info('====================');
 
     if (manaPool) {
-      console.log(`Mana Pool: ${manaPool.current}/${manaPool.maximum}`);
-      console.log(`Regeneration: ${manaPool.regenerationRate}/sec`);
+      this.logger.info(`Mana Pool: ${manaPool.current}/${manaPool.maximum}`);
+      this.logger.info(`Regeneration: ${manaPool.regenerationRate}/sec`);
     }
 
-    console.log(`Learned Spells: ${casterSpells.length}`);
-    console.log(`Available Spells: ${this.magicSystem.getAllSpellDefinitions().length}`);
+    this.logger.info(`Learned Spells: ${casterSpells.length}`);
+    this.logger.info(`Available Spells: ${this.magicSystem.getAllSpellDefinitions().length}`);
 
     // Show spell breakdown by school
     const schoolCount = new Map<string, number>();
@@ -376,9 +378,9 @@ class MagicSystemCLI {
       schoolCount.set(school, (schoolCount.get(school) || 0) + 1);
     });
 
-    console.log('\nSpells by School:');
+    this.logger.info('\nSpells by School:');
     schoolCount.forEach((count, school) => {
-      console.log(`  ${school}: ${count}`);
+      this.logger.info(`  ${school}: ${count}`);
     });
   }
 
@@ -386,8 +388,8 @@ class MagicSystemCLI {
    * Run demo sequence
    */
   private async runDemo(): Promise<void> {
-    console.log('\n🎬 Running Magic System Demo...');
-    console.log('===============================');
+    this.logger.info('\n🎬 Running Magic System Demo...');
+    this.logger.info('===============================');
 
     // Ensure we have some spells learned
     const spells = this.magicSystem.getAllSpellDefinitions();
@@ -395,66 +397,66 @@ class MagicSystemCLI {
       // Learn first few spells
       for (let i = 0; i < Math.min(3, spells.length); i++) {
         this.magicSystem.unlockSpell(this.currentCaster, spells[i].id);
-        console.log(`📚 Learned: ${spells[i].name}`);
+        this.logger.info(`📚 Learned: ${spells[i].name}`);
       }
 
       // Cast some spells
-      console.log('\n🔥 Casting spells...');
+      this.logger.info('\n🔥 Casting spells...');
       for (let i = 0; i < 3; i++) {
         const spell = spells[i];
         if (spell) {
-          console.log(`\n🎯 Casting ${spell.name}...`);
+          this.logger.info(`\n🎯 Casting ${spell.name}...`);
           const result = this.magicSystem.castSpell(this.currentCaster, spell.id, ['demo-target']);
-          console.log(`   Result: ${result.success ? 'Success' : 'Failed'}`);
-          console.log(`   Mana spent: ${result.manaSpent}`);
-          console.log(`   Damage: ${result.damageDealt}, Healing: ${result.healingDone}`);
+          this.logger.info(`   Result: ${result.success ? 'Success' : 'Failed'}`);
+          this.logger.info(`   Mana spent: ${result.manaSpent}`);
+          this.logger.info(`   Damage: ${result.damageDealt}, Healing: ${result.healingDone}`);
         }
       }
     }
 
     // Show final mana status
-    console.log('\n💧 Final Mana Status:');
+    this.logger.info('\n💧 Final Mana Status:');
     this.showMana();
 
-    console.log('\n✅ Demo complete!');
+    this.logger.info('\n✅ Demo complete!');
   }
 
   /**
    * Show help information
    */
   private showHelp(): void {
-    console.log('\n🔮 MIFF MagicSystemPure CLI Help');
-    console.log('===============================');
-    console.log('');
-    console.log('COMMANDS:');
-    console.log('  spells        - List all available spells');
-    console.log('  cast <spell>  - Cast a spell by name or ID');
-    console.log('  learn <spell> - Learn a spell by name or ID');
-    console.log('  mana          - Show current mana status');
-    console.log('  elements      - List all magic elements');
-    console.log('  schools       - List all spell schools');
-    console.log('  stats         - Show spell casting statistics');
-    console.log('  demo          - Run automated demo sequence');
-    console.log('  help          - Show this help information');
-    console.log('  exit          - Exit the CLI');
-    console.log('');
-    console.log('EXAMPLES:');
-    console.log('  cast firebolt     # Cast Fire Bolt spell');
-    console.log('  learn heal        # Learn Minor Heal spell');
-    console.log('  cast magic-missile # Cast Magic Missile spell');
-    console.log('');
-    console.log('NOTES:');
-    console.log('- Spells must be learned before they can be cast');
-    console.log('- Mana regenerates over time');
-    console.log('- Elements have strengths and weaknesses');
-    console.log('- Spell schools provide different bonuses');
+    this.logger.info('\n🔮 MIFF MagicSystemPure CLI Help');
+    this.logger.info('===============================');
+    this.logger.info('');
+    this.logger.info('COMMANDS:');
+    this.logger.info('  spells        - List all available spells');
+    this.logger.info('  cast <spell>  - Cast a spell by name or ID');
+    this.logger.info('  learn <spell> - Learn a spell by name or ID');
+    this.logger.info('  mana          - Show current mana status');
+    this.logger.info('  elements      - List all magic elements');
+    this.logger.info('  schools       - List all spell schools');
+    this.logger.info('  stats         - Show spell casting statistics');
+    this.logger.info('  demo          - Run automated demo sequence');
+    this.logger.info('  help          - Show this help information');
+    this.logger.info('  exit          - Exit the CLI');
+    this.logger.info('');
+    this.logger.info('EXAMPLES:');
+    this.logger.info('  cast firebolt     # Cast Fire Bolt spell');
+    this.logger.info('  learn heal        # Learn Minor Heal spell');
+    this.logger.info('  cast magic-missile # Cast Magic Missile spell');
+    this.logger.info('');
+    this.logger.info('NOTES:');
+    this.logger.info('- Spells must be learned before they can be cast');
+    this.logger.info('- Mana regenerates over time');
+    this.logger.info('- Elements have strengths and weaknesses');
+    this.logger.info('- Spell schools provide different bonuses');
   }
 
   /**
    * Exit the CLI
    */
   private exit(): void {
-    console.log('\n👋 Thank you for using MIFF MagicSystemPure CLI!');
+    this.logger.info('\n👋 Thank you for using MIFF MagicSystemPure CLI!');
     this.isRunning = false;
     this.rl.close();
     process.exit(0);

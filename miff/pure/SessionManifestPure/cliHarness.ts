@@ -5,6 +5,8 @@ import { SessionPlayerRef, SessionManifestPure } from './index';
 import { exportDataToFormat, ExportFormat, addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SessionOperation {
   op: 'create' | 'get' | 'list' | 'addPlayer' | 'removePlayer' | 'updateStatus' | 'delete' | 'cleanup' | 'stats' | 'simulate' | 'export' | 'validate';
@@ -23,9 +25,11 @@ interface SessionOperation {
 }
 
 class SessionManifestCLI {
+  private logger: StructuredLogger;
   private manager: SessionManifestManager;
 
   constructor(config?: SessionConfig) {
+    this.logger = new StructuredLogger({ module: 'SessionManifestCLI' });
     this.manager = new SessionManifestManager(config);
     this.initializeSampleSessions();
   }
@@ -401,14 +405,14 @@ async function main() {
   const cli = new SessionManifestCLI();
   
   if (process.argv.length < 3) {
-    console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: create, get, list, addPlayer, removePlayer, updateStatus, delete, cleanup, stats, simulate, export, validate');
-    console.error('Examples:');
-    console.error('  cliHarness.ts list');
-    console.error('  cliHarness.ts get demo-toppler');
-    console.error('  cliHarness.ts stats');
-    console.error('  cliHarness.ts simulate demo-toppler 60');
-    console.error('  cliHarness.ts export demo-toppler yaml');
+    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
+    this.logger.error('Operations: create, get, list, addPlayer, removePlayer, updateStatus, delete, cleanup, stats, simulate, export, validate');
+    this.logger.error('Examples:');
+    this.logger.error('  cliHarness.ts list');
+    this.logger.error('  cliHarness.ts get demo-toppler');
+    this.logger.error('  cliHarness.ts stats');
+    this.logger.error('  cliHarness.ts simulate demo-toppler 60');
+    this.logger.error('  cliHarness.ts export demo-toppler yaml');
     process.exit(1);
   }
 
@@ -503,7 +507,7 @@ async function main() {
         
       case 'validate':
         if (args.length < 1) throw new Error('validate requires JSON file path');
-        const data = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const data = SafeJSONParser.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'validate', data };
         break;
         
@@ -512,9 +516,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('Error:', error instanceof Error ? error.message : error);
+    this.logger.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

@@ -12,6 +12,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 /**
  * Validation result interface
@@ -84,8 +85,8 @@ export class SchemaValidator {
       const schemaContent = fs.readFileSync(schemaPath, 'utf8');
       const jsonContent = fs.readFileSync(jsonPath, 'utf8');
 
-      const schema = JSON.parse(schemaContent) as SchemaDefinition;
-      const jsonData = JSON.parse(jsonContent);
+      const schema = SafeJSONParser.parse(schemaContent) as SchemaDefinition;
+      const jsonData = SafeJSONParser.parse(jsonContent);
 
       return this.validateData(jsonData, schema);
     } catch (error) {
@@ -203,7 +204,7 @@ export class SchemaValidator {
       }
 
       const content = fs.readFileSync(schemaPath, 'utf8');
-      return JSON.parse(content) as SchemaDefinition;
+      return SafeJSONParser.parse(content) as SchemaDefinition;
     } catch (error) {
       return null;
     }

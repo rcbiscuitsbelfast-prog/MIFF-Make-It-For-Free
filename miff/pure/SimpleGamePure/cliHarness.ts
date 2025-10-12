@@ -12,6 +12,7 @@
  */
 
 import * as readline from 'readline';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import {
   SimpleGameBuilder,
   GameType,
@@ -24,11 +25,13 @@ import {
 } from './index';
 
 class SimpleGameCLI {
+  private logger: StructuredLogger;
   private rl: readline.Interface;
   private currentGame: any = null;
   private gameLoop: NodeJS.Timeout | null = null;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'SimpleGameCLI' });
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
@@ -39,23 +42,23 @@ class SimpleGameCLI {
   }
 
   private showWelcome(): void {
-    console.log('\n🎮 Welcome to SimpleGamePure CLI Harness! 🎮\n');
-    console.log('This interactive tool lets you test and play with SimpleGamePure.');
-    console.log('Perfect for game jams, prototypes, and learning MIFF modules.\n');
+    this.logger.info('\n🎮 Welcome to SimpleGamePure CLI Harness! 🎮\n');
+    this.logger.info('This interactive tool lets you test and play with SimpleGamePure.');
+    this.logger.info('Perfect for game jams, prototypes, and learning MIFF modules.\n');
   }
 
   private showMenu(): void {
-    console.log('📋 Available Commands:');
-    console.log('1. 🎯 Create Clicker Game');
-    console.log('2. 🕹️ Create Platformer Game');
-    console.log('3. 👾 Create Arcade Game');
-    console.log('4. ⚔️ Create RPG Game');
-    console.log('5. 🎮 Play Current Game');
-    console.log('6. 📊 Show Game Stats');
-    console.log('7. 🏆 Show Achievements');
-    console.log('8. 💾 Save Game');
-    console.log('9. 📁 Load Game');
-    console.log('0. 🚪 Exit\n');
+    this.logger.info('📋 Available Commands:');
+    this.logger.info('1. 🎯 Create Clicker Game');
+    this.logger.info('2. 🕹️ Create Platformer Game');
+    this.logger.info('3. 👾 Create Arcade Game');
+    this.logger.info('4. ⚔️ Create RPG Game');
+    this.logger.info('5. 🎮 Play Current Game');
+    this.logger.info('6. 📊 Show Game Stats');
+    this.logger.info('7. 🏆 Show Achievements');
+    this.logger.info('8. 💾 Save Game');
+    this.logger.info('9. 📁 Load Game');
+    this.logger.info('0. 🚪 Exit\n');
 
     this.askForCommand();
   }
@@ -99,13 +102,13 @@ class SimpleGameCLI {
         this.exit();
         break;
       default:
-        console.log('❌ Invalid command. Please enter a number from 0-9.\n');
+        this.logger.info('❌ Invalid command. Please enter a number from 0-9.\n');
         this.showMenu();
     }
   }
 
   private createClickerGame(): void {
-    console.log('\n🎯 Creating Clicker Game...\n');
+    this.logger.info('\n🎯 Creating Clicker Game...\n');
 
     this.currentGame = SimpleGameBuilder.createClickerGame({
       title: 'CLI Clicker Demo',
@@ -116,13 +119,13 @@ class SimpleGameCLI {
     });
 
     this.currentGame.start();
-    console.log('✅ Clicker Game created and started!');
-    console.log('💡 Type "5" to start playing, or "6" to see stats.\n');
+    this.logger.info('✅ Clicker Game created and started!');
+    this.logger.info('💡 Type "5" to start playing, or "6" to see stats.\n');
     this.showMenu();
   }
 
   private createPlatformerGame(): void {
-    console.log('\n🕹️ Creating Platformer Game...\n');
+    this.logger.info('\n🕹️ Creating Platformer Game...\n');
 
     this.currentGame = SimpleGameBuilder.createPlatformerGame({
       title: 'CLI Platformer Demo',
@@ -133,13 +136,13 @@ class SimpleGameCLI {
     });
 
     this.currentGame.start();
-    console.log('✅ Platformer Game created and started!');
-    console.log('💡 Use WASD to move, Space to jump.\n');
+    this.logger.info('✅ Platformer Game created and started!');
+    this.logger.info('💡 Use WASD to move, Space to jump.\n');
     this.showMenu();
   }
 
   private createArcadeGame(): void {
-    console.log('\n👾 Creating Arcade Game...\n');
+    this.logger.info('\n👾 Creating Arcade Game...\n');
 
     this.currentGame = SimpleGameBuilder.createArcadeGame({
       title: 'CLI Arcade Demo',
@@ -150,13 +153,13 @@ class SimpleGameCLI {
     });
 
     this.currentGame.start();
-    console.log('✅ Arcade Game created and started!');
-    console.log('💡 Use Space to shoot, avoid enemies.\n');
+    this.logger.info('✅ Arcade Game created and started!');
+    this.logger.info('💡 Use Space to shoot, avoid enemies.\n');
     this.showMenu();
   }
 
   private createRPGGame(): void {
-    console.log('\n⚔️ Creating RPG Game...\n');
+    this.logger.info('\n⚔️ Creating RPG Game...\n');
 
     this.currentGame = SimpleGameBuilder.createRPGGame({
       title: 'CLI RPG Demo',
@@ -167,45 +170,45 @@ class SimpleGameCLI {
     });
 
     this.currentGame.start();
-    console.log('✅ RPG Game created and started!');
-    console.log('💡 Explore and fight enemies.\n');
+    this.logger.info('✅ RPG Game created and started!');
+    this.logger.info('💡 Explore and fight enemies.\n');
     this.showMenu();
   }
 
   private playGame(): void {
     if (!this.currentGame) {
-      console.log('❌ No game created. Please create a game first (options 1-4).\n');
+      this.logger.info('❌ No game created. Please create a game first (options 1-4).\n');
       this.showMenu();
       return;
     }
 
-    console.log('\n🎮 Game Controls:');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    this.logger.info('\n🎮 Game Controls:');
+    this.logger.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
     if (this.currentGame instanceof SimpleClickerGame) {
-      console.log('🖱️  Click anywhere to earn currency');
-      console.log('🆙 Type "upgrade" to upgrade click power');
-      console.log('🤖 Type "auto" to buy auto-clickers');
-      console.log('💰 Type "stats" to see currency and upgrades');
+      this.logger.info('🖱️  Click anywhere to earn currency');
+      this.logger.info('🆙 Type "upgrade" to upgrade click power');
+      this.logger.info('🤖 Type "auto" to buy auto-clickers');
+      this.logger.info('💰 Type "stats" to see currency and upgrades');
     } else if (this.currentGame instanceof SimplePlatformerGame) {
-      console.log('⌨️  Movement: W/A/S/D keys');
-      console.log('🦘 Jump: Spacebar');
-      console.log('🪙 Type "collect" to collect coins');
-      console.log('📍 Type "pos" to show player position');
+      this.logger.info('⌨️  Movement: W/A/S/D keys');
+      this.logger.info('🦘 Jump: Spacebar');
+      this.logger.info('🪙 Type "collect" to collect coins');
+      this.logger.info('📍 Type "pos" to show player position');
     } else if (this.currentGame instanceof SimpleArcadeGame) {
-      console.log('🔫 Shoot: Spacebar');
-      console.log('💔 Lives remaining: ' + this.currentGame.getLives());
-      console.log('🎯 Type "shoot" to fire');
-      console.log('📊 Type "stats" to show game stats');
+      this.logger.info('🔫 Shoot: Spacebar');
+      this.logger.info('💔 Lives remaining: ' + this.currentGame.getLives());
+      this.logger.info('🎯 Type "shoot" to fire');
+      this.logger.info('📊 Type "stats" to show game stats');
     } else if (this.currentGame instanceof SimpleRPGGame) {
-      console.log('⚔️  Type "attack" to attack enemies');
-      console.log('🏃 Type "explore" to find enemies');
-      console.log('🩸 Health: ' + this.currentGame.getPlayer().health);
-      console.log('📈 Level: ' + this.currentGame.getStats().level);
+      this.logger.info('⚔️  Type "attack" to attack enemies');
+      this.logger.info('🏃 Type "explore" to find enemies');
+      this.logger.info('🩸 Health: ' + this.currentGame.getPlayer().health);
+      this.logger.info('📈 Level: ' + this.currentGame.getStats().level);
     }
 
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('📝 Type "menu" to return to main menu\n');
+    this.logger.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    this.logger.info('📝 Type "menu" to return to main menu\n');
 
     this.startInteractiveMode();
   }
@@ -232,13 +235,13 @@ class SimpleGameCLI {
         clearInterval(this.gameLoop);
         this.gameLoop = null;
       }
-      console.log('\n📋 Returning to main menu...\n');
+      this.logger.info('\n📋 Returning to main menu...\n');
       this.showMenu();
       return;
     }
 
     if (!this.currentGame) {
-      console.log('❌ No active game. Type "menu" to return.\n');
+      this.logger.info('❌ No active game. Type "menu" to return.\n');
       this.startInteractiveMode();
       return;
     }
@@ -246,7 +249,7 @@ class SimpleGameCLI {
     try {
       this.processGameCommand(input);
     } catch (error) {
-      console.log('❌ Error processing command:', error);
+      this.logger.info('❌ Error processing command:', error);
     }
 
     this.startInteractiveMode();
@@ -262,7 +265,7 @@ class SimpleGameCLI {
     } else if (this.currentGame instanceof SimpleRPGGame) {
       this.handleRPGCommands(command);
     } else {
-      console.log('❓ Unknown command. Type "menu" for help.');
+      this.logger.info('❓ Unknown command. Type "menu" for help.');
     }
   }
 
@@ -270,59 +273,59 @@ class SimpleGameCLI {
     switch (command) {
       case '':
         this.currentGame.click();
-        console.log('🖱️ Clicked! +1 currency');
+        this.logger.info('🖱️ Clicked! +1 currency');
         break;
       case 'upgrade':
         if (this.currentGame.upgradeClickPower()) {
-          console.log('🆙 Click power upgraded! New power: ' + this.currentGame.getClickPower());
+          this.logger.info('🆙 Click power upgraded! New power: ' + this.currentGame.getClickPower());
         } else {
-          console.log('❌ Not enough currency for upgrade');
+          this.logger.info('❌ Not enough currency for upgrade');
         }
         break;
       case 'auto':
         if (this.currentGame.buyAutoClicker()) {
-          console.log('🤖 Auto-clicker purchased! Total: ' + this.currentGame.getAutoClickers());
+          this.logger.info('🤖 Auto-clicker purchased! Total: ' + this.currentGame.getAutoClickers());
         } else {
-          console.log('❌ Not enough currency for auto-clicker');
+          this.logger.info('❌ Not enough currency for auto-clicker');
         }
         break;
       case 'stats':
         this.showStats();
         break;
       default:
-        console.log('❓ Clicker commands: [click], "upgrade", "auto", "stats", or "menu"');
+        this.logger.info('❓ Clicker commands: [click], "upgrade", "auto", "stats", or "menu"');
     }
   }
 
   private handlePlatformerCommands(command: string): void {
     switch (command) {
       case 'w':
-        console.log('⬆️ Moving up');
+        this.logger.info('⬆️ Moving up');
         break;
       case 'a':
-        console.log('⬅️ Moving left');
+        this.logger.info('⬅️ Moving left');
         break;
       case 's':
-        console.log('⬇️ Moving down');
+        this.logger.info('⬇️ Moving down');
         break;
       case 'd':
-        console.log('➡️ Moving right');
+        this.logger.info('➡️ Moving right');
         break;
       case ' ':
       case 'space':
         this.currentGame.jump();
-        console.log('🦘 Jumped!');
+        this.logger.info('🦘 Jumped!');
         break;
       case 'collect':
         this.currentGame.collectCoin();
-        console.log('🪙 Coin collected!');
+        this.logger.info('🪙 Coin collected!');
         break;
       case 'pos':
         const pos = this.currentGame.getPlayerPosition();
-        console.log(`📍 Player position: (${pos.x}, ${pos.y})`);
+        this.logger.info(`📍 Player position: (${pos.x}, ${pos.y})`);
         break;
       default:
-        console.log('❓ Platformer commands: w/a/s/d, "space", "collect", "pos", or "menu"');
+        this.logger.info('❓ Platformer commands: w/a/s/d, "space", "collect", "pos", or "menu"');
     }
   }
 
@@ -331,16 +334,16 @@ class SimpleGameCLI {
       case ' ':
       case 'space':
         if (this.currentGame.shoot()) {
-          console.log('🔫 Shot fired!');
+          this.logger.info('🔫 Shot fired!');
         } else {
-          console.log('❌ Cannot shoot yet (rate limit)');
+          this.logger.info('❌ Cannot shoot yet (rate limit)');
         }
         break;
       case 'stats':
         this.showStats();
         break;
       default:
-        console.log('❓ Arcade commands: "space", "stats", or "menu"');
+        this.logger.info('❓ Arcade commands: "space", "stats", or "menu"');
     }
   }
 
@@ -348,94 +351,94 @@ class SimpleGameCLI {
     switch (command) {
       case 'attack':
         if (this.currentGame.attack()) {
-          console.log('⚔️ Attacked!');
+          this.logger.info('⚔️ Attacked!');
         } else {
-          console.log('❌ No enemy in combat');
+          this.logger.info('❌ No enemy in combat');
         }
         break;
       case 'explore':
-        console.log('🏃 Exploring for enemies...');
+        this.logger.info('🏃 Exploring for enemies...');
         break;
       case 'stats':
         this.showStats();
         break;
       default:
-        console.log('❓ RPG commands: "attack", "explore", "stats", or "menu"');
+        this.logger.info('❓ RPG commands: "attack", "explore", "stats", or "menu"');
     }
   }
 
   private showStats(): void {
     if (!this.currentGame) {
-      console.log('❌ No active game');
+      this.logger.info('❌ No active game');
       return;
     }
 
     const stats = this.currentGame.getStats();
     const config = this.currentGame.getConfig();
 
-    console.log('\n📊 Game Statistics:');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log(`🎮 Game: ${config.title}`);
-    console.log(`🎯 Type: ${config.gameType}`);
-    console.log(`⭐ Difficulty: ${config.difficulty}`);
-    console.log(`⏰ Play Time: ${SimpleGameUtils.formatTime(stats.playTime)}`);
-    console.log(`💰 Currency: ${SimpleGameUtils.formatCurrency(stats.currency)}`);
-    console.log(`🎖️ Score: ${stats.score.toLocaleString()}`);
-    console.log(`📊 Level: ${stats.level}`);
-    console.log(`🪙 Items Collected: ${stats.itemsCollected}`);
-    console.log(`🏆 Achievements: ${stats.achievements.length}`);
+    this.logger.info('\n📊 Game Statistics:');
+    this.logger.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    this.logger.info(`🎮 Game: ${config.title}`);
+    this.logger.info(`🎯 Type: ${config.gameType}`);
+    this.logger.info(`⭐ Difficulty: ${config.difficulty}`);
+    this.logger.info(`⏰ Play Time: ${SimpleGameUtils.formatTime(stats.playTime)}`);
+    this.logger.info(`💰 Currency: ${SimpleGameUtils.formatCurrency(stats.currency)}`);
+    this.logger.info(`🎖️ Score: ${stats.score.toLocaleString()}`);
+    this.logger.info(`📊 Level: ${stats.level}`);
+    this.logger.info(`🪙 Items Collected: ${stats.itemsCollected}`);
+    this.logger.info(`🏆 Achievements: ${stats.achievements.length}`);
 
     // Game-specific stats
     if (this.currentGame instanceof SimpleClickerGame) {
-      console.log(`🖱️ Click Power: ${this.currentGame.getClickPower()}`);
-      console.log(`🤖 Auto-Clickers: ${this.currentGame.getAutoClickers()}`);
+      this.logger.info(`🖱️ Click Power: ${this.currentGame.getClickPower()}`);
+      this.logger.info(`🤖 Auto-Clickers: ${this.currentGame.getAutoClickers()}`);
     } else if (this.currentGame instanceof SimplePlatformerGame) {
-      console.log(`🪙 Coins: ${this.currentGame.getCoins()}`);
+      this.logger.info(`🪙 Coins: ${this.currentGame.getCoins()}`);
     } else if (this.currentGame instanceof SimpleArcadeGame) {
-      console.log(`❤️ Lives: ${this.currentGame.getLives()}`);
+      this.logger.info(`❤️ Lives: ${this.currentGame.getLives()}`);
     } else if (this.currentGame instanceof SimpleRPGGame) {
       const player = this.currentGame.getPlayer();
-      console.log(`❤️ Health: ${player.health}/${player.maxHealth}`);
-      console.log(`⚔️ Attack: ${player.attack}`);
-      console.log(`🛡️ Defense: ${player.defense}`);
-      console.log(`📈 Experience: ${player.experience}/${player.experienceToNext}`);
+      this.logger.info(`❤️ Health: ${player.health}/${player.maxHealth}`);
+      this.logger.info(`⚔️ Attack: ${player.attack}`);
+      this.logger.info(`🛡️ Defense: ${player.defense}`);
+      this.logger.info(`📈 Experience: ${player.experience}/${player.experienceToNext}`);
     }
 
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    this.logger.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
   }
 
   private showAchievements(): void {
     if (!this.currentGame) {
-      console.log('❌ No active game');
+      this.logger.info('❌ No active game');
       return;
     }
 
     const achievements = this.currentGame.getAchievements();
 
-    console.log('\n🏆 Achievements:');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    this.logger.info('\n🏆 Achievements:');
+    this.logger.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
     if (achievements.length === 0) {
-      console.log('📭 No achievements unlocked yet');
+      this.logger.info('📭 No achievements unlocked yet');
     } else {
       achievements.forEach((achievement, index) => {
-        console.log(`${index + 1}. ${achievement.icon} ${achievement.name}`);
-        console.log(`   ${achievement.description}`);
+        this.logger.info(`${index + 1}. ${achievement.icon} ${achievement.name}`);
+        this.logger.info(`   ${achievement.description}`);
       });
     }
 
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+    this.logger.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
   }
 
   private saveGame(): void {
-    console.log('\n💾 Save feature coming soon!');
-    console.log('This would save the current game state.\n');
+    this.logger.info('\n💾 Save feature coming soon!');
+    this.logger.info('This would save the current game state.\n');
     this.showMenu();
   }
 
   private loadGame(): void {
-    console.log('\n📁 Load feature coming soon!');
-    console.log('This would load a previously saved game.\n');
+    this.logger.info('\n📁 Load feature coming soon!');
+    this.logger.info('This would load a previously saved game.\n');
     this.showMenu();
   }
 
@@ -446,11 +449,11 @@ class SimpleGameCLI {
 
     if (this.currentGame) {
       this.currentGame.stop();
-      console.log('⏹️ Game stopped.');
+      this.logger.info('⏹️ Game stopped.');
     }
 
-    console.log('\n👋 Thanks for using SimpleGamePure CLI!');
-    console.log('Happy game development! 🎮✨\n');
+    this.logger.info('\n👋 Thanks for using SimpleGamePure CLI!');
+    this.logger.info('Happy game development! 🎮✨\n');
 
     this.rl.close();
     process.exit(0);

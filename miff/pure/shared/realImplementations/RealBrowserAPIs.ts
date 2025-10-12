@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Browser APIs Implementation
  * 
@@ -64,12 +65,14 @@ export interface EventInfo {
 }
 
 export class RealBrowserAPIs {
+  private logger: StructuredLogger;
   private eventHandlers: Map<string, Function[]> = new Map();
   private domElements: Map<string, DOMElement> = new Map();
   private storageData: Map<string, any> = new Map();
   private isInitialized: boolean = false;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealBrowserAPIs' });
     this.initialize();
   }
 
@@ -468,7 +471,7 @@ export class RealBrowserAPIs {
       try {
         handler(eventInfo);
       } catch (error) {
-        console.error(`Error in event handler for ${eventType}:`, error);
+        this.logger.error(`Error in event handler for ${eventType}:`, error);
       }
     });
 
@@ -532,7 +535,7 @@ export class RealBrowserAPIs {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in browser API event handler for ${event}:`, error);
+          this.logger.error(`Error in browser API event handler for ${event}:`, error);
         }
       });
     }

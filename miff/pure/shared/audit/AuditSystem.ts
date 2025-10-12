@@ -16,6 +16,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // ============================================================================
 // AUDIT SYSTEM INTERFACES
@@ -177,6 +179,7 @@ export interface AuditSystemConfig {
  * Audit System - Core audit functionality
  */
 export class AuditSystem {
+  private logger: StructuredLogger;
   private config: AuditSystemConfig;
   private issues: Map<string, AuditIssue> = new Map();
   private metrics: AuditMetrics;
@@ -186,6 +189,7 @@ export class AuditSystem {
   private auditTimer?: NodeJS.Timeout;
 
   constructor(config: AuditSystemConfig) {
+    this.logger = new StructuredLogger({ module: 'AuditSystem' });
     this.config = config;
     this.metrics = this.initializeMetrics();
     this.initialize();
@@ -260,7 +264,7 @@ export class AuditSystem {
     const startTime = Date.now();
 
     try {
-      console.log('🔍 Starting comprehensive audit...');
+      this.logger.info('🔍 Starting comprehensive audit...');
       
       // Clear previous issues
       this.issues.clear();
@@ -292,7 +296,7 @@ export class AuditSystem {
       }
       
       const duration = Date.now() - startTime;
-      console.log(`✅ Audit completed in ${duration}ms`);
+      this.logger.info(`✅ Audit completed in ${duration}ms`);
       
       return report;
     } finally {
@@ -308,7 +312,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📊 Running code quality audit...');
+    this.logger.info('📊 Running code quality audit...');
     
     const files = this.getFilesToAudit();
     
@@ -329,7 +333,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('⚡ Running performance audit...');
+    this.logger.info('⚡ Running performance audit...');
     
     // Check for performance anti-patterns
     const files = this.getFilesToAudit();
@@ -348,7 +352,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🔒 Running security audit...');
+    this.logger.info('🔒 Running security audit...');
     
     // Check for security vulnerabilities
     const files = this.getFilesToAudit();
@@ -367,12 +371,12 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📦 Running dependency audit...');
+    this.logger.info('📦 Running dependency audit...');
     
     // Check package.json for outdated dependencies
     const packageJsonPath = path.join(process.cwd(), 'package.json');
     if (fs.existsSync(packageJsonPath)) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+      const packageJson = SafeJSONParser.parse(fs.readFileSync(packageJsonPath, 'utf8'));
       this.checkDependencyIssues(packageJson);
     }
   }
@@ -385,7 +389,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🧪 Running testing audit...');
+    this.logger.info('🧪 Running testing audit...');
     
     // Check test coverage and quality
     const testFiles = this.getTestFiles();
@@ -404,7 +408,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📚 Running documentation audit...');
+    this.logger.info('📚 Running documentation audit...');
     
     // Check documentation completeness
     const files = this.getFilesToAudit();
@@ -423,7 +427,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('📋 Running compliance audit...');
+    this.logger.info('📋 Running compliance audit...');
     
     // Check compliance with standards
     this.checkComplianceIssues();
@@ -437,7 +441,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('♿ Running accessibility audit...');
+    this.logger.info('♿ Running accessibility audit...');
     
     // Check accessibility issues
     const files = this.getFilesToAudit();
@@ -456,7 +460,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🔧 Running maintainability audit...');
+    this.logger.info('🔧 Running maintainability audit...');
     
     // Check maintainability issues
     const files = this.getFilesToAudit();
@@ -475,7 +479,7 @@ export class AuditSystem {
       return;
     }
 
-    console.log('🛡️ Running reliability audit...');
+    this.logger.info('🛡️ Running reliability audit...');
     
     // Check reliability issues
     const files = this.getFilesToAudit();
@@ -1136,7 +1140,7 @@ export class AuditSystem {
    */
   private async sendNotifications(report: AuditReport): Promise<void> {
     // This would send notifications via webhook, Slack, email, etc.
-    console.log('📧 Sending audit notifications...');
+    this.logger.info('📧 Sending audit notifications...');
   }
 
   /**
@@ -1162,7 +1166,7 @@ export class AuditSystem {
    */
   private startRealTimeMonitoring(): void {
     // This would watch for file changes and run audits
-    console.log('👀 Starting real-time monitoring...');
+    this.logger.info('👀 Starting real-time monitoring...');
   }
 
   /**

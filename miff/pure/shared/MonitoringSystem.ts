@@ -8,6 +8,7 @@
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface SystemMetrics {
   timestamp: Date;
@@ -120,6 +121,7 @@ export interface HealthCheck {
 }
 
 export class MonitoringSystem {
+  private logger: StructuredLogger;
   private config: MonitoringConfig;
   private metrics: SystemMetrics[] = [];
   private appMetrics: ApplicationMetrics[] = [];
@@ -130,6 +132,7 @@ export class MonitoringSystem {
   private isRunning: boolean = false;
 
   constructor(config: Partial<MonitoringConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'MonitoringSystem' });
     this.config = {
       enabled: true,
       collectionInterval: 30, // 30 seconds
@@ -166,7 +169,7 @@ export class MonitoringSystem {
       this.collectMetrics();
     }, this.config.collectionInterval * 1000);
 
-    console.log('🔍 Monitoring system started');
+    this.logger.info('🔍 Monitoring system started');
   }
 
   /**
@@ -180,7 +183,7 @@ export class MonitoringSystem {
       clearInterval(this.collectionTimer);
     }
 
-    console.log('🔍 Monitoring system stopped');
+    this.logger.info('🔍 Monitoring system stopped');
   }
 
   /**
@@ -202,10 +205,10 @@ export class MonitoringSystem {
 
       // Log metrics if enabled
       if (this.config.notifications.log) {
-        console.log(`📊 Metrics collected - CPU: ${systemMetrics.cpu.usage.toFixed(1)}%, Memory: ${systemMetrics.memory.usage.toFixed(1)}%`);
+        this.logger.info(`📊 Metrics collected - CPU: ${systemMetrics.cpu.usage.toFixed(1)}%, Memory: ${systemMetrics.memory.usage.toFixed(1)}%`);
       }
     } catch (error) {
-      console.error('Failed to collect metrics:', error);
+      this.logger.error('Failed to collect metrics:', error);
     }
   }
 
@@ -661,11 +664,11 @@ export class MonitoringSystem {
 
   private sendNotifications(alert: Alert): void {
     if (this.config.notifications.console) {
-      console.log(`🚨 ALERT [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.message}`);
+      this.logger.info(`🚨 ALERT [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.message}`);
     }
 
     if (this.config.notifications.log) {
-      console.log(`Alert created: ${JSON.stringify(alert, null, 2)}`);
+      this.logger.info(`Alert created: ${JSON.stringify(alert, null, 2)}`);
     }
 
     // In a real implementation, send email and webhook notifications

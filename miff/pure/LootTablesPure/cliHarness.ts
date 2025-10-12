@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { LootTablesManager, LootTable, LootEntry } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'list' }
@@ -17,12 +19,12 @@ function main() {
   const commandsPath = process.argv[3];
   
   if (!tablesPath || !commandsPath) {
-    console.error('Usage: cliHarness.ts <tables.json> <commands.json>');
+    this.logger.error('Usage: cliHarness.ts <tables.json> <commands.json>');
     process.exit(1);
   }
 
-  const tablesData = JSON.parse(fs.readFileSync(tablesPath, 'utf-8'));
-  const commands: Cmd[] = JSON.parse(fs.readFileSync(commandsPath, 'utf-8'));
+  const tablesData = SafeJSONParser.parse(fs.readFileSync(tablesPath, 'utf-8'));
+  const commands: Cmd[] = SafeJSONParser.parse(fs.readFileSync(commandsPath, 'utf-8'));
   
   const manager = new LootTablesManager();
   const outputs: any[] = [];
@@ -98,7 +100,7 @@ function main() {
     }
   });
 
-  console.log(JSON.stringify({ log, outputs }, null, 2));
+  this.logger.info(JSON.stringify({ log, outputs }, null, 2));
 }
 
 main();

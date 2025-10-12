@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Test Infrastructure Stabilization System for MIFF Framework
  * 
@@ -62,6 +63,7 @@ export interface TestInfrastructureStats {
 }
 
 export class TestInfrastructureManager {
+  private logger: StructuredLogger;
   private modules: Map<string, TestModule> = new Map();
   private mockReplacements: Map<string, MockReplacement> = new Map();
   private testCoverage: Map<string, TestCoverage> = new Map();
@@ -69,6 +71,7 @@ export class TestInfrastructureManager {
   private stats: TestInfrastructureStats;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'TestInfrastructureManager' });
     this.stats = this.initializeStats();
   }
 
@@ -76,7 +79,7 @@ export class TestInfrastructureManager {
    * Scan and analyze test infrastructure
    */
   async scanTestInfrastructure(rootPath: string): Promise<TestModule[]> {
-    console.log('🔍 Scanning test infrastructure...');
+    this.logger.info('🔍 Scanning test infrastructure...');
     
     const modules: TestModule[] = [];
     
@@ -93,12 +96,12 @@ export class TestInfrastructureManager {
       }
       
       this.updateStats();
-      console.log(`✅ Scanned ${modules.length} modules`);
+      this.logger.info(`✅ Scanned ${modules.length} modules`);
       
       return modules;
       
     } catch (error) {
-      console.error('❌ Error scanning test infrastructure:', error);
+      this.logger.error('❌ Error scanning test infrastructure:', error);
       return [];
     }
   }
@@ -107,7 +110,7 @@ export class TestInfrastructureManager {
    * Identify mock replacements needed
    */
   async identifyMockReplacements(): Promise<MockReplacement[]> {
-    console.log('🔍 Identifying mock replacements...');
+    this.logger.info('🔍 Identifying mock replacements...');
     
     const replacements: MockReplacement[] = [];
     
@@ -121,7 +124,7 @@ export class TestInfrastructureManager {
       }
     }
     
-    console.log(`✅ Identified ${replacements.length} mock replacements`);
+    this.logger.info(`✅ Identified ${replacements.length} mock replacements`);
     return replacements;
   }
 
@@ -129,7 +132,7 @@ export class TestInfrastructureManager {
    * Generate test coverage report
    */
   async generateTestCoverage(): Promise<TestCoverage[]> {
-    console.log('📊 Generating test coverage report...');
+    this.logger.info('📊 Generating test coverage report...');
     
     const coverage: TestCoverage[] = [];
     
@@ -139,7 +142,7 @@ export class TestInfrastructureManager {
       this.testCoverage.set(name, moduleCoverage);
     }
     
-    console.log(`✅ Generated coverage for ${coverage.length} modules`);
+    this.logger.info(`✅ Generated coverage for ${coverage.length} modules`);
     return coverage;
   }
 
@@ -147,7 +150,7 @@ export class TestInfrastructureManager {
    * Assess test quality
    */
   async assessTestQuality(): Promise<TestQuality[]> {
-    console.log('🧪 Assessing test quality...');
+    this.logger.info('🧪 Assessing test quality...');
     
     const quality: TestQuality[] = [];
     
@@ -157,7 +160,7 @@ export class TestInfrastructureManager {
       this.testQuality.set(name, moduleQuality);
     }
     
-    console.log(`✅ Assessed quality for ${quality.length} modules`);
+    this.logger.info(`✅ Assessed quality for ${quality.length} modules`);
     return quality;
   }
 
@@ -165,7 +168,7 @@ export class TestInfrastructureManager {
    * Replace critical mocks with real implementations
    */
   async replaceCriticalMocks(): Promise<void> {
-    console.log('🔄 Replacing critical mocks...');
+    this.logger.info('🔄 Replacing critical mocks...');
     
     const criticalReplacements = Array.from(this.mockReplacements.values())
       .filter(r => r.priority === 'critical' && r.status === 'pending');
@@ -174,10 +177,10 @@ export class TestInfrastructureManager {
       try {
         await this.executeMockReplacement(replacement);
         replacement.status = 'completed';
-        console.log(`✅ Replaced mock: ${replacement.id}`);
+        this.logger.info(`✅ Replaced mock: ${replacement.id}`);
       } catch (error) {
         replacement.status = 'failed';
-        console.error(`❌ Failed to replace mock: ${replacement.id}`, error);
+        this.logger.error(`❌ Failed to replace mock: ${replacement.id}`, error);
       }
     }
     
@@ -308,7 +311,7 @@ export class TestInfrastructureManager {
   private async executeMockReplacement(replacement: MockReplacement): Promise<void> {
     // This would execute the actual mock replacement
     // For now, just log
-    console.log(`Executing mock replacement: ${replacement.id}`);
+    this.logger.info(`Executing mock replacement: ${replacement.id}`);
   }
 
   private updateStats(): void {

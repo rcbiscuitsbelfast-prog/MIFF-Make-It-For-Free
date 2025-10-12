@@ -1,5 +1,6 @@
 import { WebSocket, WebSocketServer } from 'ws';
 import { EventEmitter } from 'events';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export interface WebSocketServerOptions {
   port?: number;
@@ -61,7 +62,7 @@ export class WebSocketServerPure extends EventEmitter {
 
         ws.on('message', (data: Buffer) => {
           try {
-            const message = JSON.parse(data.toString());
+            const message = SafeJSONParser.parse(data.toString());
             this.handleMessage(clientId, message);
           } catch (error) {
             this.emit('error', { clientId, error: 'Invalid JSON message' });

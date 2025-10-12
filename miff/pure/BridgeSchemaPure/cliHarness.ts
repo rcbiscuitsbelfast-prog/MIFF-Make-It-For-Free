@@ -5,6 +5,8 @@ import { BridgeSchemaConfig } from './index';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface BridgeSchemaOperation {
   op: 'addSchema' | 'getSchema' | 'listSchemas' | 'validate' | 'convert' | 'generate' | 'addConversion' | 'stats' | 'export' | 'clearCache';
@@ -22,9 +24,11 @@ interface BridgeSchemaOperation {
 }
 
 class BridgeSchemaCLI {
+  private logger: StructuredLogger;
   private manager: BridgeSchemaManager;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'BridgeSchemaCLI' });
     this.manager = new BridgeSchemaManager({
       version: '1.0.0',
       strict: true,
@@ -347,17 +351,17 @@ async function main() {
   const cli = new BridgeSchemaCLI();
   
   if (process.argv.length < 3) {
-    console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: addSchema, getSchema, listSchemas, validate, convert, generate, addConversion, stats, export, clearCache');
-    console.error('Examples:');
-    console.error('  cliHarness.ts listSchemas');
-    console.error('  cliHarness.ts listSchemas unity');
-    console.error('  cliHarness.ts getSchema unity-bridge-v1');
-    console.error('  cliHarness.ts validate unity-bridge-v1 data.json');
-    console.error('  cliHarness.ts convert data.json unity web');
-    console.error('  cliHarness.ts generate data.json my-schema "My Schema" web');
-    console.error('  cliHarness.ts stats');
-    console.error('  cliHarness.ts export yaml');
+    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
+    this.logger.error('Operations: addSchema, getSchema, listSchemas, validate, convert, generate, addConversion, stats, export, clearCache');
+    this.logger.error('Examples:');
+    this.logger.error('  cliHarness.ts listSchemas');
+    this.logger.error('  cliHarness.ts listSchemas unity');
+    this.logger.error('  cliHarness.ts getSchema unity-bridge-v1');
+    this.logger.error('  cliHarness.ts validate unity-bridge-v1 data.json');
+    this.logger.error('  cliHarness.ts convert data.json unity web');
+    this.logger.error('  cliHarness.ts generate data.json my-schema "My Schema" web');
+    this.logger.error('  cliHarness.ts stats');
+    this.logger.error('  cliHarness.ts export yaml');
     process.exit(1);
   }
 
@@ -370,7 +374,7 @@ async function main() {
     switch (operation) {
       case 'addSchema':
         if (args.length < 1) throw new Error('addSchema requires JSON file path');
-        const schemaData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const schemaData = SafeJSONParser.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'addSchema', schema: schemaData };
         break;
         
@@ -385,13 +389,13 @@ async function main() {
         
       case 'validate':
         if (args.length < 2) throw new Error('validate requires schemaId and data file');
-        const validateData = JSON.parse(fs.readFileSync(args[1], 'utf-8'));
+        const validateData = SafeJSONParser.parse(fs.readFileSync(args[1], 'utf-8'));
         op = { op: 'validate', schemaId: args[0], data: validateData };
         break;
         
       case 'convert':
         if (args.length < 3) throw new Error('convert requires data file, fromEngine, toEngine');
-        const convertData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const convertData = SafeJSONParser.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { 
           op: 'convert', 
           data: convertData, 
@@ -402,7 +406,7 @@ async function main() {
         
       case 'generate':
         if (args.length < 4) throw new Error('generate requires data file, id, name, engine');
-        const genData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const genData = SafeJSONParser.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { 
           op: 'generate', 
           data: genData, 
@@ -414,7 +418,7 @@ async function main() {
         
       case 'addConversion':
         if (args.length < 1) throw new Error('addConversion requires JSON file path');
-        const ruleData = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const ruleData = SafeJSONParser.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'addConversion', rule: ruleData };
         break;
         
@@ -438,9 +442,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('Error:', error instanceof Error ? error.message : error);
+    this.logger.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

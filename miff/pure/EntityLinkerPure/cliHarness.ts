@@ -1,6 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { 
   EntityLinkerManager, 
   ExternalRefMaps, 
@@ -28,10 +29,10 @@ function main() {
   const externFile = args[1];
   if (externFile && fs.existsSync(externFile)) {
     try {
-      const extern = JSON.parse(fs.readFileSync(path.resolve(externFile), 'utf-8')) as ExternalRefMaps;
+      const extern = SafeJSONParser.parse(fs.readFileSync(path.resolve(externFile), 'utf-8')) as ExternalRefMaps;
       mgr.inject(extern);
     } catch (error) {
-      console.error('Error loading external references:', error);
+      this.logger.error('Error loading external references:', error);
       process.exit(1);
     }
   }
@@ -81,7 +82,7 @@ function main() {
         
         if (validateInputFile && fs.existsSync(validateInputFile)) {
           try {
-            validateInput = JSON.parse(fs.readFileSync(path.resolve(validateInputFile), 'utf-8')) as LinkInput;
+            validateInput = SafeJSONParser.parse(fs.readFileSync(path.resolve(validateInputFile), 'utf-8')) as LinkInput;
           } catch (error) {
             result.status = 'error';
             result.result = { error: 'Invalid input file format' };
@@ -141,7 +142,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(mgr: EntityLinkerManager): any {

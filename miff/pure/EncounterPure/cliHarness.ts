@@ -19,6 +19,7 @@ import {
   IPlayerState
 } from './index';
 import { RNGProvider } from '../RNGPure/index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLIState {
   controller: EncounterController;
@@ -29,7 +30,7 @@ interface CLIState {
 }
 
 function printHelp(): void {
-  console.log(`
+  this.logger.info(`
 EncounterPure CLI - Encounter Management Testing
 ===============================================
 
@@ -65,19 +66,19 @@ Examples:
 }
 
 function printStatus(controller: EncounterController, playerState: IPlayerState): void {
-  console.log('\n🏰 Encounter System Status:');
-  console.log(`Current Zone: ${playerState.zoneId}`);
-  console.log(`Tile Type: ${playerState.tileType}`);
-  console.log(`Time of Day: ${playerState.timeOfDay}`);
-  console.log(`Steps Since Last: ${playerState.stepsSinceLastEncounter}`);
-  console.log(`Tables: ${controller.getTableCount()}`);
-  console.log(`Triggers: ${controller.getTriggerCount()}`);
+  this.logger.info('\n🏰 Encounter System Status:');
+  this.logger.info(`Current Zone: ${playerState.zoneId}`);
+  this.logger.info(`Tile Type: ${playerState.tileType}`);
+  this.logger.info(`Time of Day: ${playerState.timeOfDay}`);
+  this.logger.info(`Steps Since Last: ${playerState.stepsSinceLastEncounter}`);
+  this.logger.info(`Tables: ${controller.getTableCount()}`);
+  this.logger.info(`Triggers: ${controller.getTriggerCount()}`);
 
   const tables = controller.getAllTables();
   if (tables.length > 0) {
-    console.log('\n📋 Zones:');
+    this.logger.info('\n📋 Zones:');
     tables.forEach(table => {
-      console.log(`  ${table.zoneId}: ${table.entries.length} entries, ${table.getTotalWeight()} total weight`);
+      this.logger.info(`  ${table.zoneId}: ${table.entries.length} entries, ${table.getTotalWeight()} total weight`);
     });
   }
 }
@@ -85,34 +86,34 @@ function printStatus(controller: EncounterController, playerState: IPlayerState)
 function printTable(controller: EncounterController, zoneId: string): void {
   const table = controller.getTable(zoneId);
   if (!table) {
-    console.log(`❌ No encounter table found for zone: ${zoneId}`);
+    this.logger.info(`❌ No encounter table found for zone: ${zoneId}`);
     return;
   }
 
-  console.log(`\n📊 Encounter Table: ${table.zoneId}`);
-  console.log(`Total Entries: ${table.entries.length}`);
-  console.log(`Total Weight: ${table.getTotalWeight()}`);
+  this.logger.info(`\n📊 Encounter Table: ${table.zoneId}`);
+  this.logger.info(`Total Entries: ${table.entries.length}`);
+  this.logger.info(`Total Weight: ${table.getTotalWeight()}`);
 
   if (table.entries.length > 0) {
-    console.log('\nEntries:');
+    this.logger.info('\nEntries:');
     table.getEntriesByWeight().forEach((entry, index) => {
-      console.log(`  ${index + 1}. ${entry.spiritId} (weight: ${entry.weight}, levels: ${entry.minLevel}-${entry.maxLevel})`);
+      this.logger.info(`  ${index + 1}. ${entry.spiritId} (weight: ${entry.weight}, levels: ${entry.minLevel}-${entry.maxLevel})`);
     });
   } else {
-    console.log('  No entries in table');
+    this.logger.info('  No entries in table');
   }
 }
 
 function printPlayerState(playerState: IPlayerState): void {
-  console.log('\n👤 Player State:');
-  console.log(`Zone: ${playerState.zoneId}`);
-  console.log(`Tile: ${playerState.tileType}`);
-  console.log(`Time: ${playerState.timeOfDay}`);
-  console.log(`Steps: ${playerState.stepsSinceLastEncounter}`);
+  this.logger.info('\n👤 Player State:');
+  this.logger.info(`Zone: ${playerState.zoneId}`);
+  this.logger.info(`Tile: ${playerState.tileType}`);
+  this.logger.info(`Time: ${playerState.timeOfDay}`);
+  this.logger.info(`Steps: ${playerState.stepsSinceLastEncounter}`);
 }
 
 function createDemoData(): { controller: EncounterController; rng: IRNGProvider } {
-  console.log('🎮 Creating demo encounter system...');
+  this.logger.info('🎮 Creating demo encounter system...');
 
   const controller = new EncounterController();
   const rng = new RNGProvider(12345);
@@ -147,12 +148,12 @@ function createDemoData(): { controller: EncounterController; rng: IRNGProvider 
   controller.registerTrigger(EncounterUtils.createTileTrigger('grassland', 'grass'));
   controller.registerTrigger(EncounterUtils.createTimeTrigger('cave', 'night'));
 
-  console.log('✅ Demo data created with 3 zones and multiple triggers');
+  this.logger.info('✅ Demo data created with 3 zones and multiple triggers');
   return { controller, rng };
 }
 
 function runDemo(controller: EncounterController, rng: IRNGProvider): void {
-  console.log('🎯 Running EncounterPure Demo...\n');
+  this.logger.info('🎯 Running EncounterPure Demo...\n');
 
   // Create demo player states
   const states = [
@@ -161,10 +162,10 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
     new PlayerState('cave', 'stone', 'night', 0)
   ];
 
-  console.log('Simulating encounters in different zones...\n');
+  this.logger.info('Simulating encounters in different zones...\n');
 
   states.forEach((state, index) => {
-    console.log(`--- Zone ${index + 1}: ${state.zoneId} (${state.tileType}, ${state.timeOfDay}) ---`);
+    this.logger.info(`--- Zone ${index + 1}: ${state.zoneId} (${state.tileType}, ${state.timeOfDay}) ---`);
 
     let encounters = 0;
     let totalSteps = 0;
@@ -178,7 +179,7 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
 
       if (result.triggered) {
         encounters++;
-        console.log(`  Step ${totalSteps}: Encounter! ${result.spiritId} (level ${result.level})`);
+        this.logger.info(`  Step ${totalSteps}: Encounter! ${result.spiritId} (level ${result.level})`);
 
         // Reset steps after encounter
         state.resetSteps();
@@ -186,22 +187,22 @@ function runDemo(controller: EncounterController, rng: IRNGProvider): void {
     }
 
     if (encounters === 0) {
-      console.log(`  No encounters in ${totalSteps} steps`);
+      this.logger.info(`  No encounters in ${totalSteps} steps`);
     } else {
-      console.log(`  Total encounters: ${encounters} in ${totalSteps} steps`);
+      this.logger.info(`  Total encounters: ${encounters} in ${totalSteps} steps`);
     }
 
-    console.log('');
+    this.logger.info('');
   });
 
   // Show statistics
-  console.log('📊 Encounter Statistics:');
-  console.log(`Zones: ${controller.getTableCount()}`);
-  console.log(`Total Triggers: ${controller.getTriggerCount()}`);
+  this.logger.info('📊 Encounter Statistics:');
+  this.logger.info(`Zones: ${controller.getTableCount()}`);
+  this.logger.info(`Total Triggers: ${controller.getTriggerCount()}`);
 
   const tables = controller.getAllTables();
   tables.forEach(table => {
-    console.log(`  ${table.zoneId}: ${table.entries.length} spirits, ${table.getTotalWeight()} total weight`);
+    this.logger.info(`  ${table.zoneId}: ${table.entries.length} spirits, ${table.getTotalWeight()} total weight`);
   });
 }
 
@@ -214,7 +215,7 @@ async function runCLI(): Promise<void> {
     simulationRunning: false
   };
 
-  console.log('🎲 EncounterPure CLI - Type "help" for commands or "demo" to see encounters in action\n');
+  this.logger.info('🎲 EncounterPure CLI - Type "help" for commands or "demo" to see encounters in action\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -241,11 +242,11 @@ async function runCLI(): Promise<void> {
 
       case 'zone':
         if (args.length === 0) {
-          console.log(`Current zone: ${state.currentZone}`);
+          this.logger.info(`Current zone: ${state.currentZone}`);
         } else {
           state.currentZone = args[0];
           state.playerState.zoneId = state.currentZone;
-          console.log(`Set zone to: ${state.currentZone}`);
+          this.logger.info(`Set zone to: ${state.currentZone}`);
         }
         break;
 
@@ -256,7 +257,7 @@ async function runCLI(): Promise<void> {
 
       case 'add':
         if (args.length < 2) {
-          console.log('❌ Usage: add <spirit_id> <weight> [min_level] [max_level]');
+          this.logger.info('❌ Usage: add <spirit_id> <weight> [min_level] [max_level]');
         } else {
           const spiritId = args[0];
           const weight = parseInt(args[1]);
@@ -264,7 +265,7 @@ async function runCLI(): Promise<void> {
           const maxLevel = args[3] ? parseInt(args[3]) : 5;
 
           if (isNaN(weight) || weight <= 0) {
-            console.log('❌ Weight must be a positive number');
+            this.logger.info('❌ Weight must be a positive number');
           } else {
             const table = state.controller.getTable(state.currentZone);
             if (!table) {
@@ -282,9 +283,9 @@ async function runCLI(): Promise<void> {
             );
 
             if (updatedTable.addEntry(entry)) {
-              console.log(`✅ Added ${spiritId} to ${state.currentZone} (weight: ${weight})`);
+              this.logger.info(`✅ Added ${spiritId} to ${state.currentZone} (weight: ${weight})`);
             } else {
-              console.log('❌ Failed to add entry');
+              this.logger.info('❌ Failed to add entry');
             }
           }
         }
@@ -292,7 +293,7 @@ async function runCLI(): Promise<void> {
 
       case 'trigger':
         if (args.length < 1) {
-          console.log('❌ Usage: trigger <type> [param]');
+          this.logger.info('❌ Usage: trigger <type> [param]');
         } else {
           const triggerTypeStr = args[0];
           let triggerType: TriggerType;
@@ -303,20 +304,20 @@ async function runCLI(): Promise<void> {
               break;
             case 'tile':
               if (args.length < 2) {
-                console.log('❌ Tile trigger requires tile type parameter');
+                this.logger.info('❌ Tile trigger requires tile type parameter');
                 return;
               }
               triggerType = TriggerType.TILE_TYPE;
               break;
             case 'time':
               if (args.length < 2) {
-                console.log('❌ Time trigger requires time of day parameter');
+                this.logger.info('❌ Time trigger requires time of day parameter');
                 return;
               }
               triggerType = TriggerType.TIME_OF_DAY;
               break;
             default:
-              console.log('❌ Invalid trigger type. Use: zone, tile, or time');
+              this.logger.info('❌ Invalid trigger type. Use: zone, tile, or time');
               return;
           }
 
@@ -334,21 +335,21 @@ async function runCLI(): Promise<void> {
           );
 
           state.controller.registerTrigger(trigger);
-          console.log(`✅ Added ${triggerTypeStr} trigger to ${state.currentZone}`);
+          this.logger.info(`✅ Added ${triggerTypeStr} trigger to ${state.currentZone}`);
         }
         break;
 
       case 'simulate':
       case 'sim':
         if (args.length === 0) {
-          console.log('❌ Usage: simulate <steps>');
+          this.logger.info('❌ Usage: simulate <steps>');
         } else {
           const steps = parseInt(args[0]);
 
           if (isNaN(steps) || steps <= 0) {
-            console.log('❌ Steps must be a positive number');
+            this.logger.info('❌ Steps must be a positive number');
           } else {
-            console.log(`🎲 Simulating ${steps} encounter checks...`);
+            this.logger.info(`🎲 Simulating ${steps} encounter checks...`);
 
             let encounters = 0;
             for (let i = 0; i < steps; i++) {
@@ -357,12 +358,12 @@ async function runCLI(): Promise<void> {
 
               if (result.triggered) {
                 encounters++;
-                console.log(`  Step ${i + 1}: Encounter! ${result.spiritId} (level ${result.level})`);
+                this.logger.info(`  Step ${i + 1}: Encounter! ${result.spiritId} (level ${result.level})`);
                 state.playerState.resetSteps();
               }
             }
 
-            console.log(`\n📊 Simulation complete: ${encounters}/${steps} encounters (${((encounters / steps) * 100).toFixed(2)}%)`);
+            this.logger.info(`\n📊 Simulation complete: ${encounters}/${steps} encounters (${((encounters / steps) * 100).toFixed(2)}%)`);
           }
         }
         break;
@@ -373,22 +374,22 @@ async function runCLI(): Promise<void> {
 
       case 'setstate':
         if (args.length < 2) {
-          console.log('❌ Usage: setstate <tile_type> <time_of_day>');
+          this.logger.info('❌ Usage: setstate <tile_type> <time_of_day>');
         } else {
           state.playerState.tileType = args[0];
           state.playerState.timeOfDay = args[1];
-          console.log(`✅ Set tile type to: ${args[0]}, time of day to: ${args[1]}`);
+          this.logger.info(`✅ Set tile type to: ${args[0]}, time of day to: ${args[1]}`);
         }
         break;
 
       case 'reset':
         state.playerState.resetSteps();
-        console.log('✅ Steps reset to 0');
+        this.logger.info('✅ Steps reset to 0');
         break;
 
       case 'clear':
         state.controller.clear();
-        console.log('✅ All tables and triggers cleared');
+        this.logger.info('✅ All tables and triggers cleared');
         break;
 
       case 'demo':
@@ -403,13 +404,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        console.log('👋 Goodbye!');
+        this.logger.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          console.log(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -417,7 +418,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    console.log('\n👋 Goodbye!');
+    this.logger.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -426,7 +427,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', error);
+    this.logger.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

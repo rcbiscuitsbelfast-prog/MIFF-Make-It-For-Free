@@ -3,6 +3,8 @@
 import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer, SceneOptimizationMode, SceneExportFormat } from './index';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SceneBuilderOperation {
   op: 'build' | 'validate' | 'export' | 'template' | 'info';
@@ -15,7 +17,7 @@ interface SceneBuilderOperation {
 async function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op> [template] [output]');
+    this.logger.error('Usage: tsx cliHarness.ts <op> [template] [output]');
     process.exit(1);
   }
 
@@ -25,7 +27,7 @@ async function main() {
       input = { op: argv[0] as any, template: argv[1] } as SceneBuilderOperation;
     } else if (argv.length >= 2) {
       const configFile = argv[1];
-      const config = fs.existsSync(configFile) ? JSON.parse(fs.readFileSync(configFile, 'utf-8')) : {};
+      const config = fs.existsSync(configFile) ? SafeJSONParser.parse(fs.readFileSync(configFile, 'utf-8')) : {};
       input = { op: argv[0] as any, config } as SceneBuilderOperation;
     } else {
       input = { op: argv[0] as any } as SceneBuilderOperation;
@@ -90,16 +92,16 @@ async function main() {
         throw new Error(`Unknown operation: ${input.op}`);
     }
 
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
 
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 }
 
 async function buildScene(builder: SceneBuilderManager, templateId?: string): Promise<any> {
-  console.log(`[SceneBuilder CLI] Building scene${templateId ? ` with template: ${templateId}` : ''}...`);
+  this.logger.info(`[SceneBuilder CLI] Building scene${templateId ? ` with template: ${templateId}` : ''}...`);
 
   try {
     const result = await builder.buildScene(templateId);
@@ -125,7 +127,7 @@ async function buildScene(builder: SceneBuilderManager, templateId?: string): Pr
 }
 
 function validateScene(builder: SceneBuilderManager): any {
-  console.log('[SceneBuilder CLI] Validating scene...');
+  this.logger.info('[SceneBuilder CLI] Validating scene...');
 
   const validation = builder.validateScene();
 
@@ -142,7 +144,7 @@ function validateScene(builder: SceneBuilderManager): any {
 }
 
 async function exportScene(builder: SceneBuilderManager, format: SceneExportFormat): Promise<any> {
-  console.log(`[SceneBuilder CLI] Exporting scene to ${format}...`);
+  this.logger.info(`[SceneBuilder CLI] Exporting scene to ${format}...`);
 
   try {
     // Update configuration to include the desired format

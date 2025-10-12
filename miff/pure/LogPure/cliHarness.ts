@@ -10,6 +10,7 @@
 import * as readline from 'readline';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import {
   BattleLogger,
   BattleLogEntry,
@@ -48,7 +49,7 @@ class LogPureCLI {
    * Initialize demo data
    */
   private initializeDemoData(): void {
-    console.log('Initializing LogPure CLI with demo data...');
+    this.logger.info('Initializing LogPure CLI with demo data...');
 
     // Simulate a battle log
     this.simulateBattleLog();
@@ -109,26 +110,26 @@ class LogPureCLI {
    * Start CLI application
    */
   start(): void {
-    console.log('='.repeat(60));
-    console.log('📝 LogPure CLI - Logging and Debugging System');
-    console.log('='.repeat(60));
-    console.log('');
-    console.log('Available commands:');
-    console.log('  log [message]     - Add custom log entry');
-    console.log('  phase [phase]     - Log phase change');
-    console.log('  action [actor] [target] [move] - Log battle action');
-    console.log('  effect [id] [desc] [source] [target] - Log battle effect');
-    console.log('  show [filter]     - Show log entries');
-    console.log('  stats             - Show log statistics');
-    console.log('  filter [category] [level] - Set log filter');
-    console.log('  export [format]   - Export log to file');
-    console.log('  import [file]     - Import log from file');
-    console.log('  playback          - Toggle playback mode');
-    console.log('  clear             - Clear all logs');
-    console.log('  validate          - Validate log integrity');
-    console.log('  help              - Show this help');
-    console.log('  exit              - Exit application');
-    console.log('');
+    this.logger.info('='.repeat(60));
+    this.logger.info('📝 LogPure CLI - Logging and Debugging System');
+    this.logger.info('='.repeat(60));
+    this.logger.info('');
+    this.logger.info('Available commands:');
+    this.logger.info('  log [message]     - Add custom log entry');
+    this.logger.info('  phase [phase]     - Log phase change');
+    this.logger.info('  action [actor] [target] [move] - Log battle action');
+    this.logger.info('  effect [id] [desc] [source] [target] - Log battle effect');
+    this.logger.info('  show [filter]     - Show log entries');
+    this.logger.info('  stats             - Show log statistics');
+    this.logger.info('  filter [category] [level] - Set log filter');
+    this.logger.info('  export [format]   - Export log to file');
+    this.logger.info('  import [file]     - Import log from file');
+    this.logger.info('  playback          - Toggle playback mode');
+    this.logger.info('  clear             - Clear all logs');
+    this.logger.info('  validate          - Validate log integrity');
+    this.logger.info('  help              - Show this help');
+    this.logger.info('  exit              - Exit application');
+    this.logger.info('');
 
     this.showPrompt();
   }
@@ -203,11 +204,11 @@ class LogPureCLI {
           this.exit();
           return;
         default:
-          console.log(`❌ Unknown command: ${command}`);
-          console.log('Type "help" for available commands.');
+          this.logger.info(`❌ Unknown command: ${command}`);
+          this.logger.info('Type "help" for available commands.');
       }
     } catch (error) {
-      console.log(`❌ Error: ${error}`);
+      this.logger.info(`❌ Error: ${error}`);
     }
 
     this.showPrompt();
@@ -217,34 +218,34 @@ class LogPureCLI {
    * Show help information
    */
   private showHelp(): void {
-    console.log('='.repeat(60));
-    console.log('📚 LogPure CLI Help');
-    console.log('='.repeat(60));
-    console.log('');
-    console.log('Commands:');
-    console.log('  help                    - Show this help');
-    console.log('  log [message]           - Add custom log entry');
-    console.log('  phase [phase_name]      - Log phase change');
-    console.log('  action [actor] [target] [move] - Log battle action');
-    console.log('  effect [id] [desc] [source] [target] - Log battle effect');
-    console.log('  show [filter]           - Show log entries (all, battle, system, etc.)');
-    console.log('  stats                   - Show log statistics');
-    console.log('  filter [category] [level] - Set persistent filter');
-    console.log('  export [format]         - Export log (json, csv, console)');
-    console.log('  import [file]           - Import log from JSON file');
-    console.log('  playback                - Toggle playback mode');
-    console.log('  clear                   - Clear all logs');
-    console.log('  validate                - Validate log integrity');
-    console.log('  exit                    - Exit the application');
-    console.log('');
-    console.log('Examples:');
-    console.log('  log Battle system initialized');
-    console.log('  phase pre_turn');
-    console.log('  action 1 2 fire_blast');
-    console.log('  effect burn "Applied burn" 1 2');
-    console.log('  show battle');
-    console.log('  export json battle_log.json');
-    console.log('');
+    this.logger.info('='.repeat(60));
+    this.logger.info('📚 LogPure CLI Help');
+    this.logger.info('='.repeat(60));
+    this.logger.info('');
+    this.logger.info('Commands:');
+    this.logger.info('  help                    - Show this help');
+    this.logger.info('  log [message]           - Add custom log entry');
+    this.logger.info('  phase [phase_name]      - Log phase change');
+    this.logger.info('  action [actor] [target] [move] - Log battle action');
+    this.logger.info('  effect [id] [desc] [source] [target] - Log battle effect');
+    this.logger.info('  show [filter]           - Show log entries (all, battle, system, etc.)');
+    this.logger.info('  stats                   - Show log statistics');
+    this.logger.info('  filter [category] [level] - Set persistent filter');
+    this.logger.info('  export [format]         - Export log (json, csv, console)');
+    this.logger.info('  import [file]           - Import log from JSON file');
+    this.logger.info('  playback                - Toggle playback mode');
+    this.logger.info('  clear                   - Clear all logs');
+    this.logger.info('  validate                - Validate log integrity');
+    this.logger.info('  exit                    - Exit the application');
+    this.logger.info('');
+    this.logger.info('Examples:');
+    this.logger.info('  log Battle system initialized');
+    this.logger.info('  phase pre_turn');
+    this.logger.info('  action 1 2 fire_blast');
+    this.logger.info('  effect burn "Applied burn" 1 2');
+    this.logger.info('  show battle');
+    this.logger.info('  export json battle_log.json');
+    this.logger.info('');
   }
 
   /**
@@ -252,13 +253,13 @@ class LogPureCLI {
    */
   private addLogEntry(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: log [message]');
+      this.logger.info('❌ Usage: log [message]');
       return;
     }
 
     const message = args.join(' ');
     this.logger.logSystem(message, LogCategory.SYSTEM, LogLevel.INFO);
-    console.log(`✅ Logged: ${message}`);
+    this.logger.info(`✅ Logged: ${message}`);
   }
 
   /**
@@ -266,7 +267,7 @@ class LogPureCLI {
    */
   private logPhaseChange(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: phase [phase_name]');
+      this.logger.info('❌ Usage: phase [phase_name]');
       return;
     }
 
@@ -275,10 +276,10 @@ class LogPureCLI {
 
     if (Object.values(BattlePhase).includes(phase)) {
       this.logger.logPhaseChange(phase);
-      console.log(`✅ Phase changed to: ${phase}`);
+      this.logger.info(`✅ Phase changed to: ${phase}`);
     } else {
-      console.log(`❌ Invalid phase: ${phaseName}`);
-      console.log('Valid phases: pre_turn, select_action, resolve_action, turn_end, battle_end');
+      this.logger.info(`❌ Invalid phase: ${phaseName}`);
+      this.logger.info('Valid phases: pre_turn, select_action, resolve_action, turn_end, battle_end');
     }
   }
 
@@ -287,7 +288,7 @@ class LogPureCLI {
    */
   private logBattleAction(args: string[]): void {
     if (args.length < 3) {
-      console.log('❌ Usage: action [actor_id] [target_id] [move_id]');
+      this.logger.info('❌ Usage: action [actor_id] [target_id] [move_id]');
       return;
     }
 
@@ -305,7 +306,7 @@ class LogPureCLI {
     const result: IBattleResult = BattleResult.success();
 
     this.logger.logAction(action, result);
-    console.log(`✅ Action logged: ${moveId} by actor ${actorId} on target ${targetId}`);
+    this.logger.info(`✅ Action logged: ${moveId} by actor ${actorId} on target ${targetId}`);
   }
 
   /**
@@ -313,7 +314,7 @@ class LogPureCLI {
    */
   private logBattleEffect(args: string[]): void {
     if (args.length < 4) {
-      console.log('❌ Usage: effect [effect_id] [description] [source_actor] [target_actor]');
+      this.logger.info('❌ Usage: effect [effect_id] [description] [source_actor] [target_actor]');
       return;
     }
 
@@ -330,7 +331,7 @@ class LogPureCLI {
     );
 
     this.logger.logEffect(effect);
-    console.log(`✅ Effect logged: ${effectId} - ${description}`);
+    this.logger.info(`✅ Effect logged: ${effectId} - ${description}`);
   }
 
   /**
@@ -371,21 +372,21 @@ class LogPureCLI {
 
     const entries = this.logger.getFilteredEntries(filter);
 
-    console.log('='.repeat(60));
-    console.log(`📋 Log Entries (${entries.length} found)`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`📋 Log Entries (${entries.length} found)`);
+    this.logger.info('='.repeat(60));
 
     if (entries.length === 0) {
-      console.log('No entries match the filter criteria.');
+      this.logger.info('No entries match the filter criteria.');
       return;
     }
 
     entries.forEach((entry, index) => {
-      console.log(`${index + 1}. ${LogUtils.formatEntryForConsole(entry)}`);
+      this.logger.info(`${index + 1}. ${LogUtils.formatEntryForConsole(entry)}`);
     });
 
-    console.log('');
-    console.log(`Total: ${entries.length} entries`);
+    this.logger.info('');
+    this.logger.info(`Total: ${entries.length} entries`);
   }
 
   /**
@@ -394,46 +395,46 @@ class LogPureCLI {
   private showStatistics(): void {
     const stats = this.logger.getStatistics();
 
-    console.log('='.repeat(60));
-    console.log('📊 Log Statistics');
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info('📊 Log Statistics');
+    this.logger.info('='.repeat(60));
 
-    console.log(`Total Entries: ${stats.totalEntries}`);
-    console.log(`Time Span: ${stats.timeSpan}ms`);
-    console.log(`Current Turn: ${this.logger.getCurrentTurn()}`);
-    console.log(`Average Entries/Turn: ${stats.averageEntriesPerTurn.toFixed(1)}`);
-    console.log('');
+    this.logger.info(`Total Entries: ${stats.totalEntries}`);
+    this.logger.info(`Time Span: ${stats.timeSpan}ms`);
+    this.logger.info(`Current Turn: ${this.logger.getCurrentTurn()}`);
+    this.logger.info(`Average Entries/Turn: ${stats.averageEntriesPerTurn.toFixed(1)}`);
+    this.logger.info('');
 
-    console.log('By Category:');
+    this.logger.info('By Category:');
     Object.entries(stats.entriesByCategory).forEach(([category, count]) => {
       if (count > 0) {
-        console.log(`  ${category}: ${count}`);
+        this.logger.info(`  ${category}: ${count}`);
       }
     });
-    console.log('');
+    this.logger.info('');
 
-    console.log('By Level:');
+    this.logger.info('By Level:');
     Object.entries(stats.entriesByLevel).forEach(([level, count]) => {
       if (count > 0) {
-        console.log(`  ${level}: ${count}`);
+        this.logger.info(`  ${level}: ${count}`);
       }
     });
-    console.log('');
+    this.logger.info('');
 
-    console.log('By Phase:');
+    this.logger.info('By Phase:');
     Object.entries(stats.entriesByPhase).forEach(([phase, count]) => {
       if (count > 0) {
-        console.log(`  ${phase}: ${count}`);
+        this.logger.info(`  ${phase}: ${count}`);
       }
     });
-    console.log('');
+    this.logger.info('');
 
-    console.log('By Actor:');
+    this.logger.info('By Actor:');
     Object.entries(stats.entriesByActor)
       .sort(([,a], [,b]) => b - a)
       .slice(0, 5)
       .forEach(([actorId, count]) => {
-        console.log(`  Actor ${actorId}: ${count}`);
+        this.logger.info(`  Actor ${actorId}: ${count}`);
       });
   }
 
@@ -442,15 +443,15 @@ class LogPureCLI {
    */
   private setFilter(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: filter [category] [level]');
+      this.logger.info('❌ Usage: filter [category] [level]');
       return;
     }
 
     const category = args[0] as LogCategory;
     const level = args[1] as LogLevel;
 
-    console.log(`✅ Filter set: ${category} / ${level}`);
-    console.log('This filter will be used for subsequent show commands.');
+    this.logger.info(`✅ Filter set: ${category} / ${level}`);
+    this.logger.info('This filter will be used for subsequent show commands.');
   }
 
   /**
@@ -458,7 +459,7 @@ class LogPureCLI {
    */
   private exportLog(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: export [format] [filename]');
+      this.logger.info('❌ Usage: export [format] [filename]');
       return;
     }
 
@@ -480,15 +481,15 @@ class LogPureCLI {
           .join('\n');
         break;
       default:
-        console.log(`❌ Unsupported format: ${format}`);
+        this.logger.info(`❌ Unsupported format: ${format}`);
         return;
     }
 
     try {
       fs.writeFileSync(filename, exportData);
-      console.log(`✅ Log exported to ${filename} (${exportData.length} bytes)`);
+      this.logger.info(`✅ Log exported to ${filename} (${exportData.length} bytes)`);
     } catch (error) {
-      console.log(`❌ Failed to export log: ${error}`);
+      this.logger.info(`❌ Failed to export log: ${error}`);
     }
   }
 
@@ -497,7 +498,7 @@ class LogPureCLI {
    */
   private importLog(args: string[]): void {
     if (args.length === 0) {
-      console.log('❌ Usage: import [filename]');
+      this.logger.info('❌ Usage: import [filename]');
       return;
     }
 
@@ -505,7 +506,7 @@ class LogPureCLI {
 
     try {
       if (!fs.existsSync(filename)) {
-        console.log(`❌ File not found: ${filename}`);
+        this.logger.info(`❌ File not found: ${filename}`);
         return;
       }
 
@@ -513,10 +514,10 @@ class LogPureCLI {
       const importedLogger = BattleLogger.importFromJSON(fileContent);
 
       this.logger = importedLogger;
-      console.log(`✅ Log imported from ${filename}`);
-      console.log(`📊 Imported ${importedLogger.getEntryCount()} entries`);
+      this.logger.info(`✅ Log imported from ${filename}`);
+      this.logger.info(`📊 Imported ${importedLogger.getEntryCount()} entries`);
     } catch (error) {
-      console.log(`❌ Failed to import log: ${error}`);
+      this.logger.info(`❌ Failed to import log: ${error}`);
     }
   }
 
@@ -528,10 +529,10 @@ class LogPureCLI {
     this.playbackIndex = 0;
 
     if (this.playbackMode) {
-      console.log('▶️ Playback mode enabled');
-      console.log('Use "show all" to start playback, or "playback" again to disable');
+      this.logger.info('▶️ Playback mode enabled');
+      this.logger.info('Use "show all" to start playback, or "playback" again to disable');
     } else {
-      console.log('⏸️ Playback mode disabled');
+      this.logger.info('⏸️ Playback mode disabled');
     }
   }
 
@@ -541,7 +542,7 @@ class LogPureCLI {
   private clearLogs(): void {
     const entryCount = this.logger.getEntryCount();
     this.logger.clear();
-    console.log(`🗑️ Cleared ${entryCount} log entries`);
+    this.logger.info(`🗑️ Cleared ${entryCount} log entries`);
   }
 
   /**
@@ -563,35 +564,35 @@ class LogPureCLI {
       }
     });
 
-    console.log('='.repeat(60));
-    console.log('🔍 Log Validation Results');
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info('🔍 Log Validation Results');
+    this.logger.info('='.repeat(60));
 
-    console.log(`Valid Entries: ${validCount}`);
-    console.log(`Invalid Entries: ${invalidCount}`);
-    console.log(`Total Entries: ${entries.length}`);
-    console.log('');
+    this.logger.info(`Valid Entries: ${validCount}`);
+    this.logger.info(`Invalid Entries: ${invalidCount}`);
+    this.logger.info(`Total Entries: ${entries.length}`);
+    this.logger.info('');
 
     if (errors.length > 0) {
-      console.log('Validation Errors:');
-      errors.slice(0, 10).forEach(error => console.log(`  ❌ ${error}`));
+      this.logger.info('Validation Errors:');
+      errors.slice(0, 10).forEach(error => this.logger.info(`  ❌ ${error}`));
       if (errors.length > 10) {
-        console.log(`  ... and ${errors.length - 10} more errors`);
+        this.logger.info(`  ... and ${errors.length - 10} more errors`);
       }
     } else {
-      console.log('✅ All entries are valid');
+      this.logger.info('✅ All entries are valid');
     }
 
     const hash = LogUtils.calculateLogHash(this.logger);
-    console.log(`🔐 Log Hash: ${hash}`);
+    this.logger.info(`🔐 Log Hash: ${hash}`);
   }
 
   /**
    * Exit application
    */
   private exit(): void {
-    console.log('');
-    console.log('👋 Thank you for using LogPure CLI!');
+    this.logger.info('');
+    this.logger.info('👋 Thank you for using LogPure CLI!');
     this.rl.close();
     process.exit(0);
   }

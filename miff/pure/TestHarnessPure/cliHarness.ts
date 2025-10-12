@@ -13,6 +13,8 @@ import {
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface TestHarnessOperation {
   op: 'create' | 'add-suite' | 'add-test' | 'run' | 'run-suite' | 'run-test' | 'get-report' | 'demo' | 'dump';
@@ -28,7 +30,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -38,7 +40,7 @@ async function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as TestHarnessOperation;
     } else {
       // Parse subcommand
@@ -46,7 +48,7 @@ async function main() {
         case 'create':
           const configFile = argv[1];
           const config = configFile && fs.existsSync(configFile) 
-            ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
+            ? SafeJSONParser.parse(fs.readFileSync(configFile, 'utf-8'))
             : {
                 enabled: true,
                 autoRun: false,
@@ -61,11 +63,11 @@ async function main() {
           break;
         case 'add-suite':
           if (!argv[1]) throw new Error('add-suite requires suite JSON');
-          operation = { op: 'add-suite', suite: JSON.parse(argv[1]) };
+          operation = { op: 'add-suite', suite: SafeJSONParser.parse(argv[1]) };
           break;
         case 'add-test':
           if (!argv[1] || !argv[2]) throw new Error('add-test requires suiteId and test JSON');
-          operation = { op: 'add-test', suiteId: argv[1], test: JSON.parse(argv[2]) };
+          operation = { op: 'add-test', suiteId: argv[1], test: SafeJSONParser.parse(argv[2]) };
           break;
         case 'run':
           operation = { op: 'run' };
@@ -442,7 +444,7 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -451,11 +453,11 @@ async function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

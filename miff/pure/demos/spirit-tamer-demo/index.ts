@@ -23,6 +23,7 @@ import { SaveManager } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces
 interface SpiritType {
@@ -194,6 +195,7 @@ const MOVES: Record<string, any> = {
 
 // Game Systems
 class SpiritTamerGame {
+  private logger: StructuredLogger;
   private player: Player;
   private healthSystem: any;
   private combatSystem: any;
@@ -206,6 +208,7 @@ class SpiritTamerGame {
   private battleState: BattleState | null = null;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'SpiritTamerGame' });
     this.player = {
       name: 'Player',
       spirits: [],
@@ -235,9 +238,9 @@ class SpiritTamerGame {
   }
 
   private initializeGame(): void {
-    console.log('\x1b[2J\x1b[0;0H'); // Clear screen
-    console.log('🌟 Welcome to Spirit Tamer! 🌟');
-    console.log('A creature collection adventure game built with MIFF Framework\n');
+    this.logger.info('\x1b[2J\x1b[0;0H'); // Clear screen
+    this.logger.info('🌟 Welcome to Spirit Tamer! 🌟');
+    this.logger.info('A creature collection adventure game built with MIFF Framework\n');
 
     this.askQuestion('What is your name, trainer? ')
       .then((name: string) => {
@@ -320,22 +323,22 @@ class SpiritTamerGame {
   }
 
   private startGame(): void {
-    console.log(`\n🎉 Welcome, ${this.player.name}!`);
-    console.log('Your adventure begins in Pallet Town.');
-    console.log(`You have ${this.player.spirits.length} spirits in your collection.`);
+    this.logger.info(`\n🎉 Welcome, ${this.player.name}!`);
+    this.logger.info('Your adventure begins in Pallet Town.');
+    this.logger.info(`You have ${this.player.spirits.length} spirits in your collection.`);
 
     this.showMainMenu();
   }
 
   private showMainMenu(): void {
-    console.log('\n📋 Main Menu:');
-    console.log('1. 🏃 Explore');
-    console.log('2. ⚔️  Battle Training');
-    console.log('3. 🎒 Inventory');
-    console.log('4. 👥 Team Management');
-    console.log('5. 💾 Save Game');
-    console.log('6. 📊 Statistics');
-    console.log('7. ❌ Quit');
+    this.logger.info('\n📋 Main Menu:');
+    this.logger.info('1. 🏃 Explore');
+    this.logger.info('2. ⚔️  Battle Training');
+    this.logger.info('3. 🎒 Inventory');
+    this.logger.info('4. 👥 Team Management');
+    this.logger.info('5. 💾 Save Game');
+    this.logger.info('6. 📊 Statistics');
+    this.logger.info('7. ❌ Quit');
 
     this.askQuestion('What would you like to do? ')
       .then((choice: string) => {
@@ -359,18 +362,18 @@ class SpiritTamerGame {
             this.showStatistics();
             break;
           case '7':
-            console.log('👋 Thanks for playing Spirit Tamer!');
+            this.logger.info('👋 Thanks for playing Spirit Tamer!');
             this.rl.close();
             break;
           default:
-            console.log('❌ Invalid choice. Please try again.');
+            this.logger.info('❌ Invalid choice. Please try again.');
             this.showMainMenu();
         }
       });
   }
 
   private explore(): void {
-    console.log('\n🗺️  Exploring...');
+    this.logger.info('\n🗺️  Exploring...');
 
     const locations = [
       'viridian_forest',
@@ -387,16 +390,16 @@ class SpiritTamerGame {
     const randomLocation = locations[Math.floor(Math.random() * locations.length)];
     this.player.location = randomLocation;
 
-    console.log(`You are now in ${randomLocation.replace('_', ' ').toUpperCase()}!`);
+    this.logger.info(`You are now in ${randomLocation.replace('_', ' ').toUpperCase()}!`);
 
     const encounters = this.getRandomEncounters(randomLocation);
     if (encounters.length > 0 && Math.random() < 0.3) {
       const enemy = this.generateWildSpirit(encounters);
-      console.log(`\n⚔️  A wild ${enemy.name} appeared!`);
+      this.logger.info(`\n⚔️  A wild ${enemy.name} appeared!`);
 
       this.startWildBattle(enemy);
     } else {
-      console.log('Nothing interesting happened...');
+      this.logger.info('Nothing interesting happened...');
 
       setTimeout(() => {
         this.showMainMenu();
@@ -453,7 +456,7 @@ class SpiritTamerGame {
 
   private startWildBattle(enemy: PlayerSpirit): void {
     if (this.player.activeTeam.length === 0) {
-      console.log('❌ You have no spirits ready for battle!');
+      this.logger.info('❌ You have no spirits ready for battle!');
       this.showMainMenu();
       return;
     }
@@ -470,8 +473,8 @@ class SpiritTamerGame {
       terrain: 'normal'
     };
 
-    console.log(`\n⚔️  ${this.player.name}'s ${playerSpirit.name} vs Wild ${enemy.name}!`);
-    console.log(`Level ${playerSpirit.level} vs Level ${enemy.level}`);
+    this.logger.info(`\n⚔️  ${this.player.name}'s ${playerSpirit.name} vs Wild ${enemy.name}!`);
+    this.logger.info(`Level ${playerSpirit.level} vs Level ${enemy.level}`);
 
     this.battleLoop();
   }
@@ -481,9 +484,9 @@ class SpiritTamerGame {
 
     const { playerSpirit, enemySpirit } = this.battleState;
 
-    console.log(`\n🔄 Turn ${this.battleState.turn}`);
-    console.log(`${playerSpirit.name} (${playerSpirit.currentHp}/${playerSpirit.maxHp} HP)`);
-    console.log(`${enemySpirit.name} (${enemySpirit.currentHp}/${enemySpirit.maxHp} HP)`);
+    this.logger.info(`\n🔄 Turn ${this.battleState.turn}`);
+    this.logger.info(`${playerSpirit.name} (${playerSpirit.currentHp}/${playerSpirit.maxHp} HP)`);
+    this.logger.info(`${enemySpirit.name} (${enemySpirit.currentHp}/${enemySpirit.maxHp} HP)`);
 
     this.askQuestion('Choose your action (attack, item, switch, run): ')
       .then((action: string) => {
@@ -499,15 +502,15 @@ class SpiritTamerGame {
             break;
           case 'run':
             if (Math.random() < 0.5) {
-              console.log('🏃 You got away safely!');
+              this.logger.info('🏃 You got away safely!');
               this.endBattle();
             } else {
-              console.log('❌ Couldn\'t escape!');
+              this.logger.info('❌ Couldn\'t escape!');
               this.enemyTurn();
             }
             break;
           default:
-            console.log('❌ Invalid action!');
+            this.logger.info('❌ Invalid action!');
             this.battleLoop();
         }
       });
@@ -516,10 +519,10 @@ class SpiritTamerGame {
   private showMoves(): void {
     if (!this.battleState) return;
 
-    console.log('\n⚔️  Available Moves:');
+    this.logger.info('\n⚔️  Available Moves:');
     this.battleState.playerMoves.forEach((move, index) => {
       const moveData = MOVES[move];
-      console.log(`${index + 1}. ${moveData.name} (${moveData.type}, ${moveData.category})`);
+      this.logger.info(`${index + 1}. ${moveData.name} (${moveData.type}, ${moveData.category})`);
     });
 
     this.askQuestion('Choose a move (1-4): ')
@@ -529,7 +532,7 @@ class SpiritTamerGame {
           const moveName = this.battleState.playerMoves[moveIndex];
           this.executeMove(moveName);
         } else {
-          console.log('❌ Invalid move!');
+          this.logger.info('❌ Invalid move!');
           this.showMoves();
         }
       });
@@ -541,7 +544,7 @@ class SpiritTamerGame {
     const moveData = MOVES[moveName];
     const { playerSpirit, enemySpirit } = this.battleState;
 
-    console.log(`\n${playerSpirit.name} used ${moveData.name}!`);
+    this.logger.info(`\n${playerSpirit.name} used ${moveData.name}!`);
 
     // Calculate damage
     let damage = Math.floor(moveData.power * (playerSpirit.stats.attack / enemySpirit.stats.defense));
@@ -553,13 +556,13 @@ class SpiritTamerGame {
     // Apply damage
     enemySpirit.currentHp = Math.max(0, enemySpirit.currentHp - damage);
 
-    console.log(`It dealt ${damage} damage!`);
-    if (effectiveness > 1) console.log('💪 It\'s super effective!');
-    if (effectiveness < 1) console.log('💨 It\'s not very effective...');
+    this.logger.info(`It dealt ${damage} damage!`);
+    if (effectiveness > 1) this.logger.info('💪 It\'s super effective!');
+    if (effectiveness < 1) this.logger.info('💨 It\'s not very effective...');
 
     // Check if enemy fainted
     if (enemySpirit.currentHp <= 0) {
-      console.log(`${enemySpirit.name} fainted!`);
+      this.logger.info(`${enemySpirit.name} fainted!`);
       this.gainExperience(enemySpirit);
       this.endBattle();
       return;
@@ -576,14 +579,14 @@ class SpiritTamerGame {
     const availableMoves = enemySpirit.moves.filter(move => MOVES[move]);
 
     if (availableMoves.length === 0) {
-      console.log(`${enemySpirit.name} struggles!`);
+      this.logger.info(`${enemySpirit.name} struggles!`);
       return;
     }
 
     const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     const moveData = MOVES[randomMove];
 
-    console.log(`\n${enemySpirit.name} used ${moveData.name}!`);
+    this.logger.info(`\n${enemySpirit.name} used ${moveData.name}!`);
 
     let damage = Math.floor(moveData.power * (enemySpirit.stats.attack / playerSpirit.stats.defense));
     const effectiveness = this.getTypeEffectiveness(moveData.type, playerSpirit.type);
@@ -591,11 +594,11 @@ class SpiritTamerGame {
 
     playerSpirit.currentHp = Math.max(0, playerSpirit.currentHp - damage);
 
-    console.log(`It dealt ${damage} damage!`);
+    this.logger.info(`It dealt ${damage} damage!`);
 
     // Check if player fainted
     if (playerSpirit.currentHp <= 0) {
-      console.log(`${playerSpirit.name} fainted!`);
+      this.logger.info(`${playerSpirit.name} fainted!`);
       this.endBattle();
       return;
     }
@@ -618,7 +621,7 @@ class SpiritTamerGame {
 
   private gainExperience(enemy: PlayerSpirit): void {
     const expGained = enemy.level * 10;
-    console.log(`\n⭐ Gained ${expGained} experience points!`);
+    this.logger.info(`\n⭐ Gained ${expGained} experience points!`);
 
     // Distribute XP to all active team members
     this.player.activeTeam.forEach(spirit => {
@@ -636,7 +639,7 @@ class SpiritTamerGame {
       spirit.level++;
       spirit.experience -= expNeeded;
 
-      console.log(`🎉 ${spirit.name} reached level ${spirit.level}!`);
+      this.logger.info(`🎉 ${spirit.name} reached level ${spirit.level}!`);
 
       // Update stats
       const species = SPIRIT_SPECIES[spirit.speciesId];
@@ -657,7 +660,7 @@ class SpiritTamerGame {
       newMoves.forEach(move => {
         if (!spirit.moves.includes(move)) {
           spirit.moves.push(move);
-          console.log(`📚 ${spirit.name} learned ${MOVES[move].name}!`);
+          this.logger.info(`📚 ${spirit.name} learned ${MOVES[move].name}!`);
         }
       });
 
@@ -681,19 +684,19 @@ class SpiritTamerGame {
 
     const evolution = evolutions[spirit.speciesId];
     if (evolution) {
-      console.log(`\n✨ ${spirit.name} is evolving!`);
+      this.logger.info(`\n✨ ${spirit.name} is evolving!`);
 
       spirit.speciesId = evolution;
       spirit.name = SPIRIT_SPECIES[evolution]?.name || spirit.name;
       spirit.canEvolve = false;
 
-      console.log(`🎉 ${spirit.name} evolved!`);
+      this.logger.info(`🎉 ${spirit.name} evolved!`);
     }
   }
 
   private endBattle(): void {
     this.battleState = null;
-    console.log('\n🏁 Battle ended!');
+    this.logger.info('\n🏁 Battle ended!');
 
     setTimeout(() => {
       this.showMainMenu();
@@ -701,12 +704,12 @@ class SpiritTamerGame {
   }
 
   private startBattleTraining(): void {
-    console.log('\n⚔️  Battle Training Mode');
-    console.log('Choose a spirit to battle against:');
+    this.logger.info('\n⚔️  Battle Training Mode');
+    this.logger.info('Choose a spirit to battle against:');
 
     this.player.spirits.forEach((spirit, index) => {
       if (index < this.player.activeTeam.length) {
-        console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level})`);
+        this.logger.info(`${index + 1}. ${spirit.name} (Level ${spirit.level})`);
       }
     });
 
@@ -717,7 +720,7 @@ class SpiritTamerGame {
           const enemy = this.player.activeTeam[index];
           this.startTrainingBattle(enemy);
         } else {
-          console.log('❌ Invalid choice!');
+          this.logger.info('❌ Invalid choice!');
           this.showMainMenu();
         }
       });
@@ -736,16 +739,16 @@ class SpiritTamerGame {
       terrain: 'normal'
     };
 
-    console.log(`\n⚔️  Training Battle: ${playerSpirit.name} vs ${enemy.name}!`);
+    this.logger.info(`\n⚔️  Training Battle: ${playerSpirit.name} vs ${enemy.name}!`);
     this.battleLoop();
   }
 
   private showInventory(): void {
-    console.log('\n🎒 Inventory:');
-    console.log(`💰 Money: $${this.player.money}`);
+    this.logger.info('\n🎒 Inventory:');
+    this.logger.info(`💰 Money: $${this.player.money}`);
 
     this.player.inventory.forEach((quantity, item) => {
-      console.log(`${item}: ${quantity}`);
+      this.logger.info(`${item}: ${quantity}`);
     });
 
     this.askQuestion('Use an item? (y/n): ')
@@ -759,10 +762,10 @@ class SpiritTamerGame {
   }
 
   private useItem(): void {
-    console.log('\n💊 Available Items:');
+    this.logger.info('\n💊 Available Items:');
     const items = Array.from(this.player.inventory.keys());
     items.forEach((item, index) => {
-      console.log(`${index + 1}. ${item}`);
+      this.logger.info(`${index + 1}. ${item}`);
     });
 
     this.askQuestion('Choose an item (1-4): ')
@@ -773,7 +776,7 @@ class SpiritTamerGame {
           const quantity = this.player.inventory.get(item) || 0;
 
           if (quantity > 0) {
-            console.log(`Using ${item}...`);
+            this.logger.info(`Using ${item}...`);
             this.player.inventory.set(item, quantity - 1);
 
             // Apply item effects
@@ -783,41 +786,41 @@ class SpiritTamerGame {
                   this.player.activeTeam[0].maxHp,
                   this.player.activeTeam[0].currentHp + 20
                 );
-                console.log('❤️ HP restored by 20!');
+                this.logger.info('❤️ HP restored by 20!');
                 break;
               case 'super_potion':
                 this.player.activeTeam[0].currentHp = Math.min(
                   this.player.activeTeam[0].maxHp,
                   this.player.activeTeam[0].currentHp + 50
                 );
-                console.log('❤️ HP restored by 50!');
+                this.logger.info('❤️ HP restored by 50!');
                 break;
               case 'antidote':
                 if (this.player.activeTeam[0].status !== 'normal') {
                   this.player.activeTeam[0].status = 'normal';
-                  console.log('🧪 Status condition cured!');
+                  this.logger.info('🧪 Status condition cured!');
                 }
                 break;
             }
 
             this.showMainMenu();
           } else {
-            console.log('❌ Not enough of that item!');
+            this.logger.info('❌ Not enough of that item!');
             this.useItem();
           }
         } else {
-          console.log('❌ Invalid item!');
+          this.logger.info('❌ Invalid item!');
           this.useItem();
         }
       });
   }
 
   private manageTeam(): void {
-    console.log('\n👥 Team Management');
-    console.log('Current Team:');
+    this.logger.info('\n👥 Team Management');
+    this.logger.info('Current Team:');
 
     this.player.activeTeam.forEach((spirit, index) => {
-      console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level}, ${spirit.currentHp}/${spirit.maxHp} HP)`);
+      this.logger.info(`${index + 1}. ${spirit.name} (Level ${spirit.level}, ${spirit.currentHp}/${spirit.maxHp} HP)`);
     });
 
     this.askQuestion('Switch spirits? (y/n): ')
@@ -831,12 +834,12 @@ class SpiritTamerGame {
   }
 
   private switchSpirits(): void {
-    console.log('\n🔄 Switch Spirits');
-    console.log('Available Spirits:');
+    this.logger.info('\n🔄 Switch Spirits');
+    this.logger.info('Available Spirits:');
 
     this.player.spirits.forEach((spirit, index) => {
       const inTeam = this.player.activeTeam.some(teamSpirit => teamSpirit.id === spirit.id);
-      console.log(`${index + 1}. ${spirit.name} (Level ${spirit.level}) ${inTeam ? '[IN TEAM]' : ''}`);
+      this.logger.info(`${index + 1}. ${spirit.name} (Level ${spirit.level}) ${inTeam ? '[IN TEAM]' : ''}`);
     });
 
     this.askQuestion('Choose spirits to switch (format: 1 2): ')
@@ -848,7 +851,7 @@ class SpiritTamerGame {
           const spirit2 = this.player.spirits[indices[1]];
 
           if (spirit1 && spirit2) {
-            console.log(`🔄 Switching ${spirit1.name} and ${spirit2.name}...`);
+            this.logger.info(`🔄 Switching ${spirit1.name} and ${spirit2.name}...`);
 
             // Simple switch logic
             const temp = spirit1;
@@ -856,10 +859,10 @@ class SpiritTamerGame {
             this.player.spirits[indices[1]] = temp;
 
             this.updateActiveTeam();
-            console.log('✅ Spirits switched!');
+            this.logger.info('✅ Spirits switched!');
           }
         } else {
-          console.log('❌ Invalid choice!');
+          this.logger.info('❌ Invalid choice!');
         }
 
         this.showMainMenu();
@@ -867,7 +870,7 @@ class SpiritTamerGame {
   }
 
   private saveGame(): void {
-    console.log('\n💾 Saving Game...');
+    this.logger.info('\n💾 Saving Game...');
 
     try {
       const saveData = {
@@ -879,27 +882,27 @@ class SpiritTamerGame {
       const savePath = path.join(process.cwd(), 'saves', this.player.saveFile);
       fs.writeFileSync(savePath, JSON.stringify(saveData, null, 2));
 
-      console.log('✅ Game saved successfully!');
+      this.logger.info('✅ Game saved successfully!');
       this.showMainMenu();
 
     } catch (error) {
-      console.log('❌ Failed to save game!');
+      this.logger.info('❌ Failed to save game!');
       this.showMainMenu();
     }
   }
 
   private showStatistics(): void {
-    console.log('\n📊 Player Statistics');
-    console.log(`👤 Name: ${this.player.name}`);
-    console.log(`📍 Location: ${this.player.location.replace('_', ' ').toUpperCase()}`);
-    console.log(`💰 Money: $${this.player.money}`);
-    console.log(`🎒 Spirits Owned: ${this.player.spirits.length}`);
-    console.log(`🏆 Badges: ${this.player.badges.length}`);
-    console.log(`⏱️  Play Time: ${Math.floor(this.player.playTime / 60)}m ${this.player.playTime % 60}s`);
+    this.logger.info('\n📊 Player Statistics');
+    this.logger.info(`👤 Name: ${this.player.name}`);
+    this.logger.info(`📍 Location: ${this.player.location.replace('_', ' ').toUpperCase()}`);
+    this.logger.info(`💰 Money: $${this.player.money}`);
+    this.logger.info(`🎒 Spirits Owned: ${this.player.spirits.length}`);
+    this.logger.info(`🏆 Badges: ${this.player.badges.length}`);
+    this.logger.info(`⏱️  Play Time: ${Math.floor(this.player.playTime / 60)}m ${this.player.playTime % 60}s`);
 
-    console.log('\n👥 Team:');
+    this.logger.info('\n👥 Team:');
     this.player.activeTeam.forEach((spirit, index) => {
-      console.log(`  ${index + 1}. ${spirit.name} (Lv.${spirit.level}) - ${spirit.type}`);
+      this.logger.info(`  ${index + 1}. ${spirit.name} (Lv.${spirit.level}) - ${spirit.type}`);
     });
 
     this.showMainMenu();
@@ -908,15 +911,15 @@ class SpiritTamerGame {
 
 // Demo Entry Point
 async function main() {
-  console.log('🎮 Spirit Tamer Demo - MIFF Framework');
-  console.log('=====================================');
-  console.log('A complete creature collection game featuring:');
-  console.log('• Battle system with type effectiveness');
-  console.log('• Team management and strategy');
-  console.log('• Experience and leveling');
-  console.log('• Item usage and inventory');
-  console.log('• Save/load functionality');
-  console.log('• Multiple creature types and abilities\n');
+  this.logger.info('🎮 Spirit Tamer Demo - MIFF Framework');
+  this.logger.info('=====================================');
+  this.logger.info('A complete creature collection game featuring:');
+  this.logger.info('• Battle system with type effectiveness');
+  this.logger.info('• Team management and strategy');
+  this.logger.info('• Experience and leveling');
+  this.logger.info('• Item usage and inventory');
+  this.logger.info('• Save/load functionality');
+  this.logger.info('• Multiple creature types and abilities\n');
 
   const game = new SpiritTamerGame();
 }

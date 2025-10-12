@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { DialogSim } from './DialogSim';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'listDialogs' }
@@ -13,7 +15,7 @@ type Cmd =
 function main() {
   const dialogsPath = process.argv[2] || path.resolve('DialogPure/sample_dialog.json');
   const commandsPath = process.argv[3] || '';
-  const obj = JSON.parse(fs.readFileSync(path.resolve(dialogsPath), 'utf-8'));
+  const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(dialogsPath), 'utf-8'));
   const sim = new DialogSim({
     onDialogChoiceMade: (d, c) => {/* hook for remix */},
     onDialogComplete: (d) => {/* hook for remix */},
@@ -23,7 +25,7 @@ function main() {
   sim.loadFromObject(obj);
 
   const log: string[] = [];
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listDialogs' } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listDialogs' } as Cmd];
 
   const outputs: any[] = [];
   for (const c of cmds) {
@@ -41,7 +43,7 @@ function main() {
     }
   }
 
-  console.log(JSON.stringify({ outputs }, null, 2));
+  this.logger.info(JSON.stringify({ outputs }, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -10,9 +10,11 @@ import {
   MountInstance
 } from './index';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function showUsage() {
-  console.log(`
+  this.logger.info(`
 MountSystemPure CLI Harness
 
 USAGE:
@@ -52,13 +54,13 @@ async function main() {
     case 'legacy': {
       const inputFile = process.argv[3];
       if (!inputFile) {
-        console.error('Error: legacy command requires input file');
+        this.logger.error('Error: legacy command requires input file');
         showUsage();
         process.exit(1);
       }
 
       try {
-        const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+        const input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
 
         if (!input.state || !input.events) {
           throw new Error('Invalid input: missing required fields "state" and "events"');
@@ -68,23 +70,23 @@ async function main() {
         const events: MountEvent[] = input.events;
 
         const result = applyMount(state, events);
-        console.log('=== LEGACY MOUNT SYSTEM RESULT ===');
-        console.log(JSON.stringify(result, null, 2));
+        this.logger.info('=== LEGACY MOUNT SYSTEM RESULT ===');
+        this.logger.info(JSON.stringify(result, null, 2));
       } catch (error) {
-        console.error('Error:', error);
+        this.logger.error('Error:', error);
         process.exit(1);
       }
       break;
     }
 
     case 'demo': {
-      console.log('=== MOUNTSYSTEMPURE COMPREHENSIVE DEMO ===\n');
+      this.logger.info('=== MOUNTSYSTEMPURE COMPREHENSIVE DEMO ===\n');
 
       // Create mount manager
       const manager = new MountManager();
 
       // Create some sample mounts
-      console.log('1. Creating sample mounts...');
+      this.logger.info('1. Creating sample mounts...');
       const horse1: MountInstance = {
         id: 'horse_001',
         name: 'Thunder',
@@ -212,59 +214,59 @@ async function main() {
         }
       ];
 
-      console.log(`✅ Created ${Object.keys(manager.state.mounts).length} mounts`);
+      this.logger.info(`✅ Created ${Object.keys(manager.state.mounts).length} mounts`);
 
       // Demonstrate mounting
-      console.log('\n2. Testing mount/dismount...');
+      this.logger.info('\n2. Testing mount/dismount...');
       const mountResult = manager.mount('player_001', 'horse_001');
-      console.log(`✅ ${mountResult.message}`);
+      this.logger.info(`✅ ${mountResult.message}`);
 
       const dismountResult = manager.dismount('player_001');
-      console.log(`✅ ${dismountResult.message}`);
+      this.logger.info(`✅ ${dismountResult.message}`);
 
       // Demonstrate training
-      console.log('\n3. Training mounts...');
+      this.logger.info('\n3. Training mounts...');
       const trainResult = manager.train('horse_001', 'advanced_speed_training');
-      console.log(`✅ ${trainResult.message}`);
+      this.logger.info(`✅ ${trainResult.message}`);
 
       // Demonstrate equipment
-      console.log('\n4. Equipping mounts...');
+      this.logger.info('\n4. Equipping mounts...');
       const equipResult = manager.equip('horse_001', {
         saddle: 'racing_saddle',
         armor: 'reinforced_armor'
       });
-      console.log(`✅ ${equipResult.message}`);
+      this.logger.info(`✅ ${equipResult.message}`);
 
       // Demonstrate breeding
-      console.log('\n5. Breeding mounts...');
+      this.logger.info('\n5. Breeding mounts...');
       const breedResult = manager.breed('horse_001', 'horse_002');
       if (breedResult.status === 'ok') {
-        console.log(`✅ ${breedResult.message}`);
-        console.log(`✅ Offspring created: ${breedResult.offspring?.offspring.name}`);
+        this.logger.info(`✅ ${breedResult.message}`);
+        this.logger.info(`✅ Offspring created: ${breedResult.offspring?.offspring.name}`);
       }
 
       // Demonstrate market
-      console.log('\n6. Market system...');
+      this.logger.info('\n6. Market system...');
       const marketResult = manager.purchaseMount('player_002', MountType.LAND);
       if (marketResult.status === 'ok') {
-        console.log(`✅ ${marketResult.message}`);
-        console.log(`💰 Cost: ${marketResult.cost} gold`);
+        this.logger.info(`✅ ${marketResult.message}`);
+        this.logger.info(`💰 Cost: ${marketResult.cost} gold`);
       }
 
       // Show statistics
-      console.log('\n7. Mount Statistics:');
+      this.logger.info('\n7. Mount Statistics:');
       const stats = manager.getMountStatistics();
-      console.log(`📊 Total Mounts: ${stats.totalMounts}`);
-      console.log(`🏇 Mounted: ${stats.mountedCount}`);
-      console.log(`🎠 Available: ${stats.availableCount}`);
-      console.log(`📈 Average Level: ${stats.averageLevel.toFixed(1)}`);
-      console.log(`⚡ Average Stamina: ${stats.averageStamina.toFixed(1)}%`);
-      console.log(`🏆 Type Distribution:`, JSON.stringify(stats.typeDistribution, null, 2));
+      this.logger.info(`📊 Total Mounts: ${stats.totalMounts}`);
+      this.logger.info(`🏇 Mounted: ${stats.mountedCount}`);
+      this.logger.info(`🎠 Available: ${stats.availableCount}`);
+      this.logger.info(`📈 Average Level: ${stats.averageLevel.toFixed(1)}`);
+      this.logger.info(`⚡ Average Stamina: ${stats.averageStamina.toFixed(1)}%`);
+      this.logger.info(`🏆 Type Distribution:`, JSON.stringify(stats.typeDistribution, null, 2));
 
-      console.log('\n=== DEMO COMPLETE ===');
-      console.log('✅ Comprehensive MountSystemPure functionality demonstrated');
-      console.log('✅ All major features working: mount/dismount, training, equipment, breeding, market');
-      console.log('✅ System ready for AAA game integration');
+      this.logger.info('\n=== DEMO COMPLETE ===');
+      this.logger.info('✅ Comprehensive MountSystemPure functionality demonstrated');
+      this.logger.info('✅ All major features working: mount/dismount, training, equipment, breeding, market');
+      this.logger.info('✅ System ready for AAA game integration');
 
       break;
     }
@@ -272,7 +274,7 @@ async function main() {
     case 'create-mount': {
       const [id, name, type, rarity] = process.argv.slice(3);
       if (!id || !name || !type || !rarity) {
-        console.error('Error: create-mount requires id, name, type, rarity');
+        this.logger.error('Error: create-mount requires id, name, type, rarity');
         showUsage();
         process.exit(1);
       }
@@ -303,15 +305,15 @@ async function main() {
       };
 
       manager.state.mounts[id] = mount;
-      console.log(`✅ Created mount: ${name} (${type} - ${rarity})`);
-      console.log(`📊 Stats: Level ${mount.stats.level}, Health ${mount.stats.health}/${mount.stats.maxHealth}`);
+      this.logger.info(`✅ Created mount: ${name} (${type} - ${rarity})`);
+      this.logger.info(`📊 Stats: Level ${mount.stats.level}, Health ${mount.stats.health}/${mount.stats.maxHealth}`);
       break;
     }
 
     case 'train': {
       const [mountId, activity] = process.argv.slice(3);
       if (!mountId || !activity) {
-        console.error('Error: train requires mount-id and activity');
+        this.logger.error('Error: train requires mount-id and activity');
         showUsage();
         process.exit(1);
       }
@@ -319,14 +321,14 @@ async function main() {
       const manager = new MountManager();
       // Load existing mount data here in real implementation
       const result = manager.train(mountId, activity);
-      console.log(result.status === 'ok' ? '✅' : '❌', result.message);
+      this.logger.info(result.status === 'ok' ? '✅' : '❌', result.message);
       break;
     }
 
     case 'breed': {
       const [mount1Id, mount2Id] = process.argv.slice(3);
       if (!mount1Id || !mount2Id) {
-        console.error('Error: breed requires mount1-id and mount2-id');
+        this.logger.error('Error: breed requires mount1-id and mount2-id');
         showUsage();
         process.exit(1);
       }
@@ -334,26 +336,26 @@ async function main() {
       const manager = new MountManager();
       // Load existing mount data here in real implementation
       const result = manager.breed(mount1Id, mount2Id);
-      console.log(result.status === 'ok' ? '✅' : '❌', result.message);
+      this.logger.info(result.status === 'ok' ? '✅' : '❌', result.message);
       break;
     }
 
     case 'equip': {
       const [mountId, equipmentJson] = process.argv.slice(3);
       if (!mountId || !equipmentJson) {
-        console.error('Error: equip requires mount-id and equipment-json');
+        this.logger.error('Error: equip requires mount-id and equipment-json');
         showUsage();
         process.exit(1);
       }
 
       try {
-        const equipment = JSON.parse(equipmentJson);
+        const equipment = SafeJSONParser.parse(equipmentJson);
         const manager = new MountManager();
         // Load existing mount data here in real implementation
         const result = manager.equip(mountId, equipment);
-        console.log(result.status === 'ok' ? '✅' : '❌', result.message);
+        this.logger.info(result.status === 'ok' ? '✅' : '❌', result.message);
       } catch (error) {
-        console.error('Error parsing equipment JSON:', error);
+        this.logger.error('Error parsing equipment JSON:', error);
         process.exit(1);
       }
       break;
@@ -362,7 +364,7 @@ async function main() {
     case 'market': {
       const type = process.argv[3];
       if (!type) {
-        console.error('Error: market requires mount type');
+        this.logger.error('Error: market requires mount type');
         showUsage();
         process.exit(1);
       }
@@ -370,7 +372,7 @@ async function main() {
       const manager = new MountManager();
       // Setup market data here in real implementation
       const result = manager.purchaseMount('player', type as MountType);
-      console.log(result.status === 'ok' ? '✅' : '❌', result.message);
+      this.logger.info(result.status === 'ok' ? '✅' : '❌', result.message);
       break;
     }
 
@@ -378,13 +380,13 @@ async function main() {
       const manager = new MountManager();
       // Load existing mount data here in real implementation
       const stats = manager.getMountStatistics();
-      console.log('=== MOUNT STATISTICS ===');
-      console.log(JSON.stringify(stats, null, 2));
+      this.logger.info('=== MOUNT STATISTICS ===');
+      this.logger.info(JSON.stringify(stats, null, 2));
       break;
     }
 
     default:
-      console.error(`Unknown command: ${command}`);
+      this.logger.error(`Unknown command: ${command}`);
       showUsage();
       process.exit(1);
   }
@@ -392,7 +394,7 @@ async function main() {
 
 if (require.main === module) {
   main().catch(error => {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   });
 }

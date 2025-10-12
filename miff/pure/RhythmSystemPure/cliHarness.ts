@@ -2,15 +2,17 @@
 
 import { beats, judge } from './index';
 import fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const inputFile = process.argv[2];
 if (!inputFile) {
-  console.error('Usage: ts-node cliHarness.ts <input-file>');
+  this.logger.error('Usage: ts-node cliHarness.ts <input-file>');
   process.exit(1);
 }
 
 try {
-  const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+  const input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
   const command = input.command;
   
   let result;
@@ -37,8 +39,8 @@ try {
     throw new Error(`Unknown command: ${command}`);
   }
   
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 } catch (error) {
-  console.error('Error:', error);
+  this.logger.error('Error:', error);
   process.exit(1);
 }

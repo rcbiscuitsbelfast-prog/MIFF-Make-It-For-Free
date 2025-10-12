@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Modding System Implementation
  * 
@@ -104,6 +105,7 @@ export interface ModValidationResult {
 }
 
 export class RealModdingSystem {
+  private logger: StructuredLogger;
   private mods: Map<string, Mod> = new Map();
   private loadedMods: Set<string> = new Set();
   private modOrder: string[] = [];
@@ -112,6 +114,7 @@ export class RealModdingSystem {
   private modDirectory: string = './mods';
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealModdingSystem' });
     this.initialize();
   }
 
@@ -544,7 +547,7 @@ export class RealModdingSystem {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in modding system event handler for ${event}:`, error);
+          this.logger.error(`Error in modding system event handler for ${event}:`, error);
         }
       });
     }

@@ -6,6 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { nextNode, Dialogue, Node } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 
@@ -20,7 +21,7 @@ try {
           root: {
             id: 'root',
             text: `Dialogue triggered for ${npcId}`,
-            choices: typeof choices === 'string' ? JSON.parse(choices) : 
+            choices: typeof choices === 'string' ? SafeJSONParser.parse(choices) : 
                     Array.isArray(choices) ? choices.map((c: string, i: number) => ({
                       text: c,
                       next: `choice_${i}`
@@ -45,7 +46,7 @@ try {
     case 'presentDialogueChoice': {
       const { npcId, question, responses, trustLevel } = params;
       
-      const responseList = typeof responses === 'string' ? JSON.parse(responses) :
+      const responseList = typeof responses === 'string' ? SafeJSONParser.parse(responses) :
                           Array.isArray(responses) ? responses : 
                           ['Option 1', 'Option 2', 'Option 3'];
       

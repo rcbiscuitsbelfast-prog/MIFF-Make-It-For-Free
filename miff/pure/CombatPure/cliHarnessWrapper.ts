@@ -6,6 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { CombatEngine, Combatant } from './engine';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const engine = new CombatEngine();
@@ -15,9 +16,9 @@ try {
     case 'initCombat': {
       const { combatId, playerTeam, enemyTeam, environment } = params;
       
-      const players = typeof playerTeam === 'string' ? JSON.parse(playerTeam) :
+      const players = typeof playerTeam === 'string' ? SafeJSONParser.parse(playerTeam) :
                      Array.isArray(playerTeam) ? playerTeam : ['player'];
-      const enemies = typeof enemyTeam === 'string' ? JSON.parse(enemyTeam) :
+      const enemies = typeof enemyTeam === 'string' ? SafeJSONParser.parse(enemyTeam) :
                      Array.isArray(enemyTeam) ? enemyTeam : ['shadow_dragon'];
       
       // Create combatants

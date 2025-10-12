@@ -10,16 +10,18 @@ import {
   exportReplayData 
 } from './index';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 async function main() {
   const inputFile = process.argv[2];
   if (!inputFile) {
-    console.error('Usage: ts-node cliHarness.ts <input-file>');
+    this.logger.error('Usage: ts-node cliHarness.ts <input-file>');
     process.exit(1);
   }
 
   try {
-    const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+    const input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
     
     if (!input || typeof input !== 'object') {
       throw new Error('Invalid input: expected JSON object');
@@ -80,21 +82,21 @@ async function main() {
     const replayResult = generateReplayResult(session, recordedFrames);
     
     // Always emit full JSON on stdout; attach exports to stderr only
-    console.log(JSON.stringify(replayResult, null, 2));
+    this.logger.info(JSON.stringify(replayResult, null, 2));
     if (input.exportFormat) {
       const exported = exportReplayData(replayResult, input.exportFormat);
       if (input.exportFormat === 'csv' || input.exportFormat === 'summary') {
-        console.error('\n' + exported);
+        this.logger.error('\n' + exported);
       }
     }
     
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 }
 
 main().catch(error => {
-  console.error('Unhandled error:', error);
+  this.logger.error('Unhandled error:', error);
   process.exit(1);
 });

@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * TestHarnessPure.ts
  * 
@@ -93,6 +94,7 @@ export interface CodeInjection {
 }
 
 export class TestHarness {
+  private logger: StructuredLogger;
   private config: TestConfig;
   private suites: Map<string, TestSuite>;
   private results: TestResult[];
@@ -102,6 +104,7 @@ export class TestHarness {
   private codeInjections: Map<string, CodeInjection>;
 
   constructor(config: TestConfig, hotReloadConfig?: HotReloadConfig) {
+    this.logger = new StructuredLogger({ module: 'TestHarness' });
     this.config = config;
     this.suites = new Map();
     this.results = [];
@@ -303,11 +306,11 @@ export class TestHarness {
 
   private startFileWatcher(): void {
     // In a real implementation, this would use fs.watch or similar
-    console.log('[TestHarnessPure] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
+    this.logger.info('[TestHarnessPure] Hot reload enabled for paths:', this.hotReloadConfig.watchPaths);
   }
 
   private stopFileWatcher(): void {
-    console.log('[TestHarnessPure] Hot reload disabled');
+    this.logger.info('[TestHarnessPure] Hot reload disabled');
   }
 
   // Code Injection Management
@@ -332,7 +335,7 @@ export class TestHarness {
     try {
       // In a real implementation, this would modify the actual code
       // For now, we'll simulate the injection
-      console.log(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
+      this.logger.info(`[TestHarnessPure] Code injection applied: ${injection.id} -> ${injection.target}`);
       
       // Store original function if it exists
       const target = (globalThis as any)[injection.target];
@@ -366,7 +369,7 @@ export class TestHarness {
           break;
       }
     } catch (error) {
-      console.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, error);
+      this.logger.error(`[TestHarnessPure] Code injection failed: ${injection.id}`, error);
     }
   }
 
@@ -382,9 +385,9 @@ export class TestHarness {
         delete (globalThis as any)[injection.target];
       }
       
-      console.log(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
+      this.logger.info(`[TestHarnessPure] Code injection reverted: ${injection.id}`);
     } catch (error) {
-      console.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, error);
+      this.logger.error(`[TestHarnessPure] Code injection revert failed: ${injection.id}`, error);
     }
   }
 
@@ -442,7 +445,7 @@ export class TestHarness {
             break;
         }
       } catch (error) {
-        console.error('[TestHarnessPure] Observer error:', error);
+        this.logger.error('[TestHarnessPure] Observer error:', error);
       }
     });
   }

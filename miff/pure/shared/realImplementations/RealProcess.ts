@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Process Implementation
  * 
@@ -44,12 +45,14 @@ export interface ProcessConfig {
 }
 
 export class RealProcess {
+  private logger: StructuredLogger;
   private config: ProcessConfig;
   private eventHandlers: Map<string, Function[]> = new Map();
   private monitoringInterval?: NodeJS.Timeout;
   private isMonitoring: boolean = false;
 
   constructor(config?: Partial<ProcessConfig>) {
+    this.logger = new StructuredLogger({ module: 'RealProcess' });
     this.config = {
       maxMemoryUsage: 1024 * 1024 * 1024, // 1GB
       maxCPUUsage: 80, // 80%
@@ -343,7 +346,7 @@ export class RealProcess {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          this.logger.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

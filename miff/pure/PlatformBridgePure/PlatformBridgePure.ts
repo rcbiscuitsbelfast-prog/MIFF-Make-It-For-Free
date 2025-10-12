@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * PlatformBridgePure.ts - Cross-Genre & Platform Abstraction System
  * 
@@ -99,6 +100,7 @@ export interface PlatformStats {
  * and platform-specific features.
  */
 export class PlatformBridge {
+  private logger: StructuredLogger;
   private config: PlatformConfig;
   private renderTargets: Map<string, RenderTarget> = new Map();
   private inputDevices: Map<string, InputDevice> = new Map();
@@ -111,6 +113,7 @@ export class PlatformBridge {
   private networkBackend: any;
 
   constructor(config: PlatformConfig) {
+    this.logger = new StructuredLogger({ module: 'PlatformBridge' });
     this.config = config;
     this.capabilities = this.detectCapabilities();
     this.stats = this.initializeStats();
@@ -155,7 +158,7 @@ export class PlatformBridge {
     height: number,
     format: string = 'rgba8'
   ): Promise<RenderTarget> {
-    console.log(`🎨 Creating render target: ${id} (${width}x${height})`);
+    this.logger.info(`🎨 Creating render target: ${id} (${width}x${height})`);
 
     const handle = await this.renderBackend.createTarget(type, width, height, format);
     
@@ -170,7 +173,7 @@ export class PlatformBridge {
     };
 
     this.renderTargets.set(id, target);
-    console.log(`✅ Render target created: ${id}`);
+    this.logger.info(`✅ Render target created: ${id}`);
     
     return target;
   }
@@ -193,7 +196,7 @@ export class PlatformBridge {
 
     this.renderBackend.destroyTarget(target.handle);
     this.renderTargets.delete(id);
-    console.log(`🗑️  Render target destroyed: ${id}`);
+    this.logger.info(`🗑️  Render target destroyed: ${id}`);
     
     return true;
   }
@@ -216,7 +219,7 @@ export class PlatformBridge {
    */
   registerInputDevice(device: InputDevice): void {
     this.inputDevices.set(device.id, device);
-    console.log(`🎮 Input device registered: ${device.name} (${device.type})`);
+    this.logger.info(`🎮 Input device registered: ${device.name} (${device.type})`);
   }
 
   /**
@@ -229,7 +232,7 @@ export class PlatformBridge {
     }
 
     this.inputDevices.delete(deviceId);
-    console.log(`🎮 Input device unregistered: ${device.name}`);
+    this.logger.info(`🎮 Input device unregistered: ${device.name}`);
     
     return true;
   }
@@ -276,7 +279,7 @@ export class PlatformBridge {
     } = {}
   ): Promise<void> {
     if (!this.audioBackend) {
-      console.warn('Audio backend not available');
+      this.logger.warn('Audio backend not available');
       return;
     }
 
@@ -300,7 +303,7 @@ export class PlatformBridge {
    */
   async saveData(key: string, data: any): Promise<boolean> {
     if (!this.storageBackend) {
-      console.warn('Storage backend not available');
+      this.logger.warn('Storage backend not available');
       return false;
     }
 
@@ -312,7 +315,7 @@ export class PlatformBridge {
    */
   async loadData(key: string): Promise<any> {
     if (!this.storageBackend) {
-      console.warn('Storage backend not available');
+      this.logger.warn('Storage backend not available');
       return null;
     }
 
@@ -331,7 +334,7 @@ export class PlatformBridge {
     } = {}
   ): Promise<boolean> {
     if (!this.networkBackend) {
-      console.warn('Network backend not available');
+      this.logger.warn('Network backend not available');
       return false;
     }
 
@@ -397,7 +400,7 @@ export class PlatformBridge {
    */
   updateConfig(updates: Partial<PlatformConfig>): void {
     this.config = { ...this.config, ...updates };
-    console.log('⚙️  Platform configuration updated');
+    this.logger.info('⚙️  Platform configuration updated');
   }
 
   /**
@@ -417,7 +420,7 @@ export class PlatformBridge {
       limitations: this.detectLimitations(platform)
     };
 
-    console.log(`🔍 Platform capabilities detected: ${platform}`);
+    this.logger.info(`🔍 Platform capabilities detected: ${platform}`);
     return capabilities;
   }
 
@@ -834,7 +837,7 @@ export class PlatformManager {
   private initializePlatform(): void {
     const bridge = new PlatformBridge(this.config);
     this.bridges.set(this.currentPlatform, bridge);
-    console.log(`🚀 Platform initialized: ${this.currentPlatform}`);
+    this.logger.info(`🚀 Platform initialized: ${this.currentPlatform}`);
   }
 
   /**
@@ -852,7 +855,7 @@ export class PlatformManager {
    * Switch platform
    */
   async switchPlatform(platform: Platform, config?: Partial<PlatformConfig>): Promise<void> {
-    console.log(`🔄 Switching platform: ${this.currentPlatform} -> ${platform}`);
+    this.logger.info(`🔄 Switching platform: ${this.currentPlatform} -> ${platform}`);
 
     const newConfig = { ...this.config, ...config, platform };
     const bridge = new PlatformBridge(newConfig);
@@ -861,7 +864,7 @@ export class PlatformManager {
     this.currentPlatform = platform;
     this.config = newConfig;
 
-    console.log(`✅ Platform switched to: ${platform}`);
+    this.logger.info(`✅ Platform switched to: ${platform}`);
   }
 
   /**

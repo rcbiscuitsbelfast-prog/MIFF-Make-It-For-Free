@@ -3,6 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { ChainValidatorManager, type ChainNode, type ChainEdge } from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Operation =
   | { op: 'create'; nodes?: ChainNode[]; edges?: ChainEdge[] }
@@ -20,13 +22,13 @@ type Operation =
 
 function readJSONFile<T = any>(filePath: string): T {
   const abs = path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
-  return JSON.parse(fs.readFileSync(abs, 'utf-8')) as T;
+  return SafeJSONParser.parse(fs.readFileSync(abs, 'utf-8')) as T;
 }
 
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html|yaml]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args] [--format json|csv|markdown|html|yaml]');
     process.exit(1);
   }
 
@@ -195,12 +197,12 @@ function main() {
     };
     if (operation.op === 'export') envelope.format = (operation as any).format || 'json';
 
-    console.log(JSON.stringify(envelope, null, 2));
+    this.logger.info(JSON.stringify(envelope, null, 2));
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

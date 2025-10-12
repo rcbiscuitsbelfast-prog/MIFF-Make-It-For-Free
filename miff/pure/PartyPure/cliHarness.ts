@@ -9,6 +9,7 @@
 
 import * as readline from 'readline';
 import { PartyManager, PartySlot, KOHandler, PartyUtils, IPartyMember } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLIState {
   party: PartyManager;
@@ -17,7 +18,7 @@ interface CLIState {
 }
 
 function printHelp(): void {
-  console.log(`
+  this.logger.info(`
 PartyPure CLI - Party Management Testing
 ========================================
 
@@ -53,52 +54,52 @@ Examples:
 }
 
 function printPartyStatus(party: PartyManager): void {
-  console.log('\n🏰 Party Status:');
-  console.log(`Size: ${party.memberCount}/${party.maxSize}`);
-  console.log(`Active: ${party.activeMemberCount}`);
-  console.log(`KO: ${party.hasKOMembers() ? 'Yes' : 'No'}`);
+  this.logger.info('\n🏰 Party Status:');
+  this.logger.info(`Size: ${party.memberCount}/${party.maxSize}`);
+  this.logger.info(`Active: ${party.activeMemberCount}`);
+  this.logger.info(`KO: ${party.hasKOMembers() ? 'Yes' : 'No'}`);
 
   const summary = party.getStatusSummary();
-  console.log(`Total HP: ${summary.totalHP}/${summary.totalMaxHP}`);
-  console.log(`Average HP: ${summary.averageHPPercent.toFixed(1)}%`);
+  this.logger.info(`Total HP: ${summary.totalHP}/${summary.totalMaxHP}`);
+  this.logger.info(`Average HP: ${summary.averageHPPercent.toFixed(1)}%`);
 
   if (summary.totalMembers === 0) {
-    console.log('  Party is empty');
+    this.logger.info('  Party is empty');
   }
 }
 
 function printMembers(party: PartyManager): void {
-  console.log('\n👥 Party Members:');
+  this.logger.info('\n👥 Party Members:');
   const members = party.getActiveMembers();
 
   if (members.length === 0) {
-    console.log('  No active members');
+    this.logger.info('  No active members');
     return;
   }
 
   members.forEach((member, index) => {
     const hpPercent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
     const status = member.currentHP <= 0 ? '💀 KO' : `❤️ ${member.currentHP}/${member.maxHP} (${hpPercent}%)`;
-    console.log(`  ${index}. ${member.name} [${member.id}] - ${status}`);
+    this.logger.info(`  ${index}. ${member.name} [${member.id}] - ${status}`);
   });
 }
 
 function printSlots(party: PartyManager): void {
-  console.log('\n🎒 Party Slots:');
+  this.logger.info('\n🎒 Party Slots:');
   party.slots.forEach((slot, index) => {
     if (slot.isEmpty) {
-      console.log(`  ${index}. [Empty]`);
+      this.logger.info(`  ${index}. [Empty]`);
     } else {
       const member = slot.member!;
       const hpPercent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
       const status = slot.isKO ? '💀 KO' : `❤️ ${member.currentHP}/${member.maxHP} (${hpPercent}%)`;
-      console.log(`  ${index}. ${member.name} [${member.id}] - ${status}`);
+      this.logger.info(`  ${index}. ${member.name} [${member.id}] - ${status}`);
     }
   });
 }
 
 function createDemoParty(): PartyManager {
-  console.log('🎮 Creating demo party...');
+  this.logger.info('🎮 Creating demo party...');
 
   const party = new PartyManager(6);
 
@@ -113,61 +114,61 @@ function createDemoParty(): PartyManager {
   party.addMember(warrior);
   party.addMember(healer);
 
-  console.log('✅ Demo party created with 4 members');
+  this.logger.info('✅ Demo party created with 4 members');
   return party;
 }
 
 function runDemo(party: PartyManager, koHandler: KOHandler): void {
-  console.log('🎯 Running PartyPure Demo...\n');
+  this.logger.info('🎯 Running PartyPure Demo...\n');
 
   // Show initial state
   printPartyStatus(party);
   printMembers(party);
 
   // Simulate combat damage
-  console.log('\n⚔️  Simulating combat damage...');
+  this.logger.info('\n⚔️  Simulating combat damage...');
   party.getMemberAt(0)!.currentHP = 25; // Hero takes damage
   party.getMemberAt(1)!.currentHP = 0;  // Mage gets KO'd
 
-  console.log('Mage has been knocked out!');
+  this.logger.info('Mage has been knocked out!');
   koHandler.markKO('2');
 
   printPartyStatus(party);
   printMembers(party);
 
   // Heal party
-  console.log('\n🩹 Healing party...');
+  this.logger.info('\n🩹 Healing party...');
   const revivedMembers = party.healAll();
   revivedMembers.forEach(member => {
     koHandler.revive(member.id.toString());
-    console.log(`${member.name} has been revived!`);
+    this.logger.info(`${member.name} has been revived!`);
   });
 
   printPartyStatus(party);
   printMembers(party);
 
   // Show utility functions
-  console.log('\n📊 Party Analysis:');
+  this.logger.info('\n📊 Party Analysis:');
   const effectiveness = PartyUtils.calculateEffectiveness(party);
-  console.log(`Combat Effectiveness: ${effectiveness.toFixed(1)}%`);
+  this.logger.info(`Combat Effectiveness: ${effectiveness.toFixed(1)}%`);
 
   const lowest = PartyUtils.findLowestHPMember(party);
   if (lowest) {
-    console.log(`Lowest HP: ${lowest.name} (${((lowest.currentHP / lowest.maxHP) * 100).toFixed(1)}%)`);
+    this.logger.info(`Lowest HP: ${lowest.name} (${((lowest.currentHP / lowest.maxHP) * 100).toFixed(1)}%)`);
   }
 
   const healable = PartyUtils.getHealableMembers(party);
-  console.log(`Members that can be healed: ${healable.length}`);
+  this.logger.info(`Members that can be healed: ${healable.length}`);
 
   const critical = PartyUtils.getCriticalMembers(party);
-  console.log(`Critical members: ${critical.length}`);
+  this.logger.info(`Critical members: ${critical.length}`);
 
   // Demonstrate sorting
-  console.log('\n📋 Members by HP (ascending):');
+  this.logger.info('\n📋 Members by HP (ascending):');
   const sortedByHP = PartyUtils.getMembersByHP(party, true);
   sortedByHP.forEach(member => {
     const percent = ((member.currentHP / member.maxHP) * 100).toFixed(1);
-    console.log(`  ${member.name}: ${percent}%`);
+    this.logger.info(`  ${member.name}: ${percent}%`);
   });
 }
 
@@ -178,7 +179,7 @@ async function runCLI(): Promise<void> {
     selectedSlot: 0
   };
 
-  console.log('🎮 PartyPure CLI - Type "help" for commands or "demo" to see party management in action\n');
+  this.logger.info('🎮 PartyPure CLI - Type "help" for commands or "demo" to see party management in action\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -205,18 +206,18 @@ async function runCLI(): Promise<void> {
 
       case 'add':
         if (args.length < 2) {
-          console.log('❌ Usage: add <name> <maxHP> [currentHP]');
+          this.logger.info('❌ Usage: add <name> <maxHP> [currentHP]');
         } else {
           const name = args[0];
           const maxHP = parseInt(args[1]);
           const currentHP = args[2] ? parseInt(args[2]) : maxHP;
 
           if (isNaN(maxHP) || maxHP <= 0) {
-            console.log('❌ Max HP must be a positive number');
+            this.logger.info('❌ Max HP must be a positive number');
           } else {
             const member = PartyUtils.createPartyMember(Date.now().toString(), name, maxHP, currentHP);
             const success = state.party.addMember(member);
-            console.log(success ? '✅ Member added' : '❌ Party is full');
+            this.logger.info(success ? '✅ Member added' : '❌ Party is full');
           }
         }
         break;
@@ -224,49 +225,49 @@ async function runCLI(): Promise<void> {
       case 'remove':
       case 'rem':
         if (args.length === 0) {
-          console.log('❌ Usage: remove <id>');
+          this.logger.info('❌ Usage: remove <id>');
         } else {
           const memberId = args[0];
           const success = state.party.removeMember(memberId);
-          console.log(success ? '✅ Member removed' : '❌ Member not found');
+          this.logger.info(success ? '✅ Member removed' : '❌ Member not found');
         }
         break;
 
       case 'swap':
         if (args.length < 2) {
-          console.log('❌ Usage: swap <slot1> <slot2>');
+          this.logger.info('❌ Usage: swap <slot1> <slot2>');
         } else {
           const slotA = parseInt(args[0]);
           const slotB = parseInt(args[1]);
 
           if (isNaN(slotA) || isNaN(slotB)) {
-            console.log('❌ Slot indices must be numbers');
+            this.logger.info('❌ Slot indices must be numbers');
           } else {
             const success = state.party.swapMembers(slotA, slotB);
-            console.log(success ? '✅ Members swapped' : '❌ Invalid slots');
+            this.logger.info(success ? '✅ Members swapped' : '❌ Invalid slots');
           }
         }
         break;
 
       case 'move':
         if (args.length < 2) {
-          console.log('❌ Usage: move <fromSlot> <toSlot>');
+          this.logger.info('❌ Usage: move <fromSlot> <toSlot>');
         } else {
           const fromSlot = parseInt(args[0]);
           const toSlot = parseInt(args[1]);
 
           if (isNaN(fromSlot) || isNaN(toSlot)) {
-            console.log('❌ Slot indices must be numbers');
+            this.logger.info('❌ Slot indices must be numbers');
           } else {
             const success = state.party.moveMember(fromSlot, toSlot);
-            console.log(success ? '✅ Member moved' : '❌ Cannot move to occupied slot');
+            this.logger.info(success ? '✅ Member moved' : '❌ Cannot move to occupied slot');
           }
         }
         break;
 
       case 'heal':
         if (args.length === 0) {
-          console.log('❌ Usage: heal <id>');
+          this.logger.info('❌ Usage: heal <id>');
         } else {
           const memberId = args[0];
           const member = state.party.getMemberAt(state.selectedSlot);
@@ -275,12 +276,12 @@ async function runCLI(): Promise<void> {
             member.currentHP = member.maxHP;
             if (wasKO) {
               state.koHandler.revive(memberId);
-              console.log('✅ Member healed and revived!');
+              this.logger.info('✅ Member healed and revived!');
             } else {
-              console.log('✅ Member healed to full HP');
+              this.logger.info('✅ Member healed to full HP');
             }
           } else {
-            console.log('❌ Member not found or not in selected slot');
+            this.logger.info('❌ Member not found or not in selected slot');
           }
         }
         break;
@@ -288,13 +289,13 @@ async function runCLI(): Promise<void> {
       case 'damage':
       case 'dmg':
         if (args.length < 2) {
-          console.log('❌ Usage: damage <id> <amount>');
+          this.logger.info('❌ Usage: damage <id> <amount>');
         } else {
           const memberId = args[0];
           const amount = parseInt(args[1]);
 
           if (isNaN(amount) || amount <= 0) {
-            console.log('❌ Damage amount must be a positive number');
+            this.logger.info('❌ Damage amount must be a positive number');
           } else {
             const member = state.party.getMemberAt(state.selectedSlot);
             if (member && (member.id.toString() === memberId || member.spiritId === memberId)) {
@@ -302,12 +303,12 @@ async function runCLI(): Promise<void> {
               member.currentHP = Math.max(0, member.currentHP - amount);
               if (wasKO && member.currentHP <= 0) {
                 state.koHandler.markKO(memberId);
-                console.log('💀 Member knocked out!');
+                this.logger.info('💀 Member knocked out!');
               } else {
-                console.log('✅ Damage dealt');
+                this.logger.info('✅ Damage dealt');
               }
             } else {
-              console.log('❌ Member not found or not in selected slot');
+              this.logger.info('❌ Member not found or not in selected slot');
             }
           }
         }
@@ -315,22 +316,22 @@ async function runCLI(): Promise<void> {
 
       case 'ko':
         if (args.length === 0) {
-          console.log('❌ Usage: ko <id>');
+          this.logger.info('❌ Usage: ko <id>');
         } else {
           const memberId = args[0];
           const success = state.koHandler.markKO(memberId);
           if (success) {
             state.party.handleKO(memberId);
-            console.log('💀 Member marked as KO');
+            this.logger.info('💀 Member marked as KO');
           } else {
-            console.log('❌ Member not found or already KO');
+            this.logger.info('❌ Member not found or already KO');
           }
         }
         break;
 
       case 'revive':
         if (args.length === 0) {
-          console.log('❌ Usage: revive <id>');
+          this.logger.info('❌ Usage: revive <id>');
         } else {
           const memberId = args[0];
           const success = state.koHandler.revive(memberId);
@@ -340,9 +341,9 @@ async function runCLI(): Promise<void> {
             if (member && (member.id.toString() === memberId || member.spiritId === memberId)) {
               member.currentHP = member.maxHP;
             }
-            console.log('💚 Member revived!');
+            this.logger.info('💚 Member revived!');
           } else {
-            console.log('❌ Member not found or not fainted');
+            this.logger.info('❌ Member not found or not fainted');
           }
         }
         break;
@@ -357,27 +358,27 @@ async function runCLI(): Promise<void> {
 
       case 'summary':
         const summary = state.party.getStatusSummary();
-        console.log('\n📊 Party Summary:');
-        console.log(`Members: ${summary.totalMembers}/${state.party.maxSize}`);
-        console.log(`Active: ${summary.activeMembers}`);
-        console.log(`KO: ${summary.koMembers}`);
-        console.log(`Total HP: ${summary.totalHP}/${summary.totalMaxHP}`);
-        console.log(`Average HP: ${summary.averageHPPercent.toFixed(1)}%`);
+        this.logger.info('\n📊 Party Summary:');
+        this.logger.info(`Members: ${summary.totalMembers}/${state.party.maxSize}`);
+        this.logger.info(`Active: ${summary.activeMembers}`);
+        this.logger.info(`KO: ${summary.koMembers}`);
+        this.logger.info(`Total HP: ${summary.totalHP}/${summary.totalMaxHP}`);
+        this.logger.info(`Average HP: ${summary.averageHPPercent.toFixed(1)}%`);
 
         const effectiveness = PartyUtils.calculateEffectiveness(state.party);
-        console.log(`Combat Effectiveness: ${effectiveness.toFixed(1)}%`);
+        this.logger.info(`Combat Effectiveness: ${effectiveness.toFixed(1)}%`);
         break;
 
       case 'select':
         if (args.length === 0) {
-          console.log(`Current slot: ${state.selectedSlot}`);
+          this.logger.info(`Current slot: ${state.selectedSlot}`);
         } else {
           const slot = parseInt(args[0]);
           if (isNaN(slot) || slot < 0 || slot >= state.party.maxSize) {
-            console.log(`❌ Invalid slot. Must be 0-${state.party.maxSize - 1}`);
+            this.logger.info(`❌ Invalid slot. Must be 0-${state.party.maxSize - 1}`);
           } else {
             state.selectedSlot = slot;
-            console.log(`Selected slot: ${slot}`);
+            this.logger.info(`Selected slot: ${slot}`);
           }
         }
         break;
@@ -385,7 +386,7 @@ async function runCLI(): Promise<void> {
       case 'clear':
         state.party.clear();
         state.koHandler.clear();
-        console.log('✅ Party cleared');
+        this.logger.info('✅ Party cleared');
         break;
 
       case 'demo':
@@ -396,13 +397,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        console.log('👋 Goodbye!');
+        this.logger.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          console.log(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -410,7 +411,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    console.log('\n👋 Goodbye!');
+    this.logger.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -419,7 +420,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (import.meta.url === `file://${process.argv[1]}`) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', error);
+    this.logger.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

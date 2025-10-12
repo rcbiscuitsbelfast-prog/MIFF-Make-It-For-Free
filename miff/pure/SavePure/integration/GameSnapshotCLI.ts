@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 import { handleSuccess, handleError, parseKeyValueArgs } from '../../shared/cliHarnessUtils';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const sessionPath = '/workspace/session/sessionState.json';
@@ -8,7 +9,7 @@ const sessionPath = '/workspace/session/sessionState.json';
 try {
   switch (mode) {
     case 'load':
-      try { const j = JSON.parse(readFileSync(sessionPath, 'utf-8')); handleSuccess({ snapshot: j }, 'load'); }
+      try { const j = SafeJSONParser.parse(readFileSync(sessionPath, 'utf-8')); handleSuccess({ snapshot: j }, 'load'); }
       catch { handleSuccess({ snapshot: null }, 'load'); }
       break;
     case 'save':
@@ -17,7 +18,7 @@ try {
         writeFileSync(sessionPath, JSON.stringify((params as any).snapshot, null, 2));
       } else {
         // If no snapshot provided, keep current session state (noop persist)
-        try { JSON.parse(readFileSync(sessionPath, 'utf-8')); } catch { writeFileSync(sessionPath, JSON.stringify({}, null, 2)); }
+        try { SafeJSONParser.parse(readFileSync(sessionPath, 'utf-8')); } catch { writeFileSync(sessionPath, JSON.stringify({}, null, 2)); }
       }
       handleSuccess({ saved: true }, 'save');
       break;

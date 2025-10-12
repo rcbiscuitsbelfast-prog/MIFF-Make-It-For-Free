@@ -7,6 +7,7 @@
 
 import { EventEmitter } from 'events';
 import { MIFFCapable } from './MIFFCapable.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface ManagerConfig {
   id: string;
@@ -61,6 +62,7 @@ export abstract class BaseManager extends EventEmitter {
   protected timers: Map<string, NodeJS.Timeout> = new Map();
 
   constructor(config: ManagerConfig) {
+    this.logger = new StructuredLogger({ module: 'for' });
     super();
     this.config = {
       enableLogging: true,
@@ -338,7 +340,7 @@ export abstract class BaseManager extends EventEmitter {
     }
 
     // Basic console logging (can be replaced with proper logging system)
-    console.log(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
+    this.logger.info(`[${logEntry.timestamp}] ${level.toUpperCase()} [${this.config.id}]: ${message}`, metadata || '');
   }
 
   /**

@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Console Implementation
  * 
@@ -43,12 +44,14 @@ export interface PerformanceMetrics {
 }
 
 export class RealConsole {
+  private logger: StructuredLogger;
   private config: ConsoleConfig;
   private logHistory: LogEntry[] = [];
   private performanceMetrics: PerformanceMetrics;
   private eventHandlers: Map<string, Function[]> = new Map();
 
   constructor(config?: Partial<ConsoleConfig>) {
+    this.logger = new StructuredLogger({ module: 'RealConsole' });
     this.config = {
       logLevel: 'info',
       enableColors: true,
@@ -170,19 +173,19 @@ export class RealConsole {
     
     switch (entry.level) {
       case 'debug':
-        console.debug(formattedMessage);
+        this.logger.debug(formattedMessage);
         break;
       case 'info':
-        console.info(formattedMessage);
+        this.logger.info(formattedMessage);
         break;
       case 'warn':
-        console.warn(formattedMessage);
+        this.logger.warn(formattedMessage);
         break;
       case 'error':
-        console.error(formattedMessage);
+        this.logger.error(formattedMessage);
         break;
       case 'fatal':
-        console.error(formattedMessage);
+        this.logger.error(formattedMessage);
         break;
     }
   }
@@ -220,7 +223,7 @@ export class RealConsole {
         try {
           destination.write(entry);
         } catch (error) {
-          console.error('Error writing to custom destination:', error);
+          this.logger.error('Error writing to custom destination:', error);
         }
       }
     });
@@ -339,7 +342,7 @@ export class RealConsole {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          this.logger.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

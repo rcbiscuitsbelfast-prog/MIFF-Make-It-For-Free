@@ -4,6 +4,8 @@ import { GodotBridgeManager, GodotBridgeConfiguration, GodotBridgeType } from '.
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface GodotBridgeOperation {
   op: 'simulate' | 'render' | 'interop' | 'dump' | 'export';
@@ -16,7 +18,7 @@ interface GodotBridgeOperation {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
+    this.logger.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
     process.exit(1);
   }
 
@@ -25,12 +27,12 @@ function main() {
     if (argv.length >= 2 && !argv[2]?.endsWith('.json')) {
       input = { op: argv[0] as any, module: argv[1] } as GodotBridgeOperation;
     } else if (argv.length >= 3) {
-      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
-      const configOverride = argv[3] && fs.existsSync(argv[3]) ? JSON.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
+      const payload = argv[2] && fs.existsSync(argv[2]) ? SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
+      const configOverride = argv[3] && fs.existsSync(argv[3]) ? SafeJSONParser.parse(fs.readFileSync(argv[3], 'utf-8')) : undefined;
       input = { op: argv[0] as any, module: argv[1], data: payload, config: configOverride } as GodotBridgeOperation;
     } else {
       const inputFile = argv[0];
-      input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
+      input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8')) as GodotBridgeOperation;
     }
     
     if (!input || typeof input !== 'object') {
@@ -202,10 +204,10 @@ ${renderData.nodes.map((n:any)=>`<tr><td>${n.id}</td><td>${n.type}</td><td>${n.p
         throw new Error(`Unknown operation: ${input.op}`);
     }
     
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 }

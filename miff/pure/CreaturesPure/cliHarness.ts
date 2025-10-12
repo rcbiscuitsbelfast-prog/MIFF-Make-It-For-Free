@@ -1,5 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Minimal in-memory data model to avoid Unity deps
 interface Stats { level:number; hp:number; attack:number; defense:number; speed:number }
@@ -9,13 +11,15 @@ interface Species { id:string; nameId:string; baseHp:number; baseAttack:number; 
 const rand = (max:number)=>Math.floor(Math.random()*max);
 
 class World {
+  private logger: StructuredLogger;
   creatures: Creature[] = [];
   party: string[] = [];
   species: Record<string, Species> = {};
   createdIds: string[] = [];
   constructor(speciesPath:string){
+    this.logger = new StructuredLogger({ module: 'World' });
     const txt = fs.readFileSync(speciesPath,'utf-8');
-    const data = JSON.parse(txt) as {species:Species[]};
+    const data = SafeJSONParser.parse(txt) as {species:Species[]};
     for(const s of data.species) this.species[s.id]=s;
   }
   create(speciesId:string, level:number){
@@ -57,10 +61,10 @@ function run(speciesPath:string, cmds:Cmd[]){
 function main(){
   const speciesPath = process.argv[2];
   const cmdPath = process.argv[3];
-  if(!speciesPath||!cmdPath){ console.error('Usage: cliHarness.ts <species.json> <commands.json>'); process.exit(1); }
-  const cmds:Cmd[] = JSON.parse(fs.readFileSync(cmdPath,'utf-8'));
+  if(!speciesPath||!cmdPath){ this.logger.error('Usage: cliHarness.ts <species.json> <commands.json>'); process.exit(1); }
+  const cmds:Cmd[] = SafeJSONParser.parse(fs.readFileSync(cmdPath,'utf-8'));
   const out = run(speciesPath, cmds);
-  console.log(JSON.stringify(out,null,2));
+  this.logger.info(JSON.stringify(out,null,2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

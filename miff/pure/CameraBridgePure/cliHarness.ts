@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { CameraManager, CameraCommand } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'process'; commands: CameraCommand[] }
@@ -16,12 +18,12 @@ function main() {
   const inputPath = process.argv[2] || 'CameraBridgePure/fixtures/camera.json';
   const commandsPath = process.argv[3] || '';
   
-  const input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
+  const input = SafeJSONParser.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
   const manager = new CameraManager();
 
   const log: string[] = [];
 
-  const cmds: CameraCommand[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
+  const cmds: CameraCommand[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
     { op: 'follow', target: input.target, alpha: input.alpha ?? 1 } as CameraCommand
   ];
   const outputs: any[] = [];
@@ -32,7 +34,7 @@ function main() {
 
   // Additional commands
   if (commandsPath) {
-    const additionalCmds: Cmd[] = JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8'));
+    const additionalCmds: Cmd[] = SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8'));
     for (const c of additionalCmds) {
       if (c.op === 'list') {
         const camera = manager.getCamera();
@@ -45,7 +47,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

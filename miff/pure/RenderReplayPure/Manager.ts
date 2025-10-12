@@ -3,6 +3,7 @@
 import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export interface ReplayConfig {
   engine: 'unity' | 'web' | 'godot';
@@ -359,7 +360,7 @@ export class RenderReplayManager {
         try {
           if (fs.existsSync(candidate)) {
             const content = fs.readFileSync(candidate, 'utf-8');
-            const data = JSON.parse(content);
+            const data = SafeJSONParser.parse(content);
             // Normalize common shapes to a unified object with frames/steps
             if (data && data.examples) {
               const ex = data.examples.basic || data.examples.unity_replay || data.examples.web_replay || data.examples.godot_replay;
@@ -441,7 +442,7 @@ export class RenderReplayManager {
 
     lines.forEach(line => {
       try {
-        const parsed = JSON.parse(line.trim());
+        const parsed = SafeJSONParser.parse(line.trim());
         if (parsed.renderData && Array.isArray(parsed.renderData)) {
           payloads.push(parsed);
         }

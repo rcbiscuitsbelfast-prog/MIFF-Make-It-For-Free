@@ -8,6 +8,7 @@
  */
 
 import * as readline from 'readline';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import {
   EffectManager,
   BattleEffect,
@@ -36,6 +37,7 @@ class MockEntityContext implements IEntityContext {
   private currentPhase: EffectPhase = EffectPhase.PRE_TURN;
   
   constructor() {
+    this.logger = new StructuredLogger({ module: 'MockEntityContext' });
     // Initialize with realistic entity data
     this.initializeDefaultEntities();
   }
@@ -157,7 +159,7 @@ class EffectsPureCLI {
    * Initialize demo data
    */
   private initializeDemoData(): void {
-    console.log('Initializing EffectsPure CLI with demo data...');
+    this.logger.info('Initializing EffectsPure CLI with demo data...');
 
     // Set up initial entity stats
     this.entityContext.setEntityHp('player', 100);
@@ -173,7 +175,7 @@ class EffectsPureCLI {
     // Create demo effects
     this.createDemoEffects();
 
-    console.log('Demo data created. Use "list" to see available commands.');
+    this.logger.info('Demo data created. Use "list" to see available commands.');
   }
 
   /**
@@ -252,7 +254,7 @@ class EffectsPureCLI {
     this.effectManager.applyEffect('enemy', poison);
     this.effectManager.applyEffect('enemy', regeneration);
 
-    console.log('Created demo effects: strength boost, defense boost, poison, regeneration, shield, stun');
+    this.logger.info('Created demo effects: strength boost, defense boost, poison, regeneration, shield, stun');
   }
 
   /**
@@ -260,23 +262,23 @@ class EffectsPureCLI {
    */
   private setupEventHandlers(): void {
     this.effectManager.onEffectApplied = (entityId, effect, activeEffect) => {
-      console.log(`✨ Effect applied: ${effect.name} to ${entityId}`);
+      this.logger.info(`✨ Effect applied: ${effect.name} to ${entityId}`);
     };
 
     this.effectManager.onEffectRefreshed = (entityId, effect, activeEffect) => {
-      console.log(`🔄 Effect refreshed: ${effect.name} on ${entityId} (stacks: ${activeEffect.stacks})`);
+      this.logger.info(`🔄 Effect refreshed: ${effect.name} on ${entityId} (stacks: ${activeEffect.stacks})`);
     };
 
     this.effectManager.onEffectExpired = (entityId, effect, activeEffect) => {
-      console.log(`⏰ Effect expired: ${effect.name} on ${entityId}`);
+      this.logger.info(`⏰ Effect expired: ${effect.name} on ${entityId}`);
     };
 
     this.effectManager.onEffectRemoved = (entityId, effect, activeEffect) => {
-      console.log(`🗑️ Effect removed: ${effect.name} from ${entityId}`);
+      this.logger.info(`🗑️ Effect removed: ${effect.name} from ${entityId}`);
     };
 
     this.effectManager.onEffectTick = (entityId, effect, activeEffect) => {
-      console.log(`⏱️ Effect tick: ${effect.name} on ${entityId}`);
+      this.logger.info(`⏱️ Effect tick: ${effect.name} on ${entityId}`);
     };
   }
 
@@ -284,26 +286,26 @@ class EffectsPureCLI {
    * Start CLI application
    */
   start(): void {
-    console.log('='.repeat(70));
-    console.log('✨ EffectsPure CLI - Effects Management System');
-    console.log('='.repeat(70));
-    console.log('');
-    console.log('Available commands:');
-    console.log('  list [entity]     - List active effects on entity');
-    console.log('  apply [effect]    - Apply effect to current entity');
-    console.log('  remove [effect]   - Remove effect from current entity');
-    console.log('  create [type]     - Create new effect');
-    console.log('  stats [entity]    - Show entity stats');
-    console.log('  update [time]     - Update effects (simulate time passing)');
-    console.log('  switch [entity]   - Switch current entity');
-    console.log('  phase [phase]     - Set current phase');
-    console.log('  immunity [tag]    - Add/remove immunity');
-    console.log('  demo              - Reset demo data');
-    console.log('  help              - Show this help');
-    console.log('  exit              - Exit application');
-    console.log('');
-    console.log(`Current entity: ${this.currentEntityId}`);
-    console.log(`Current phase: ${this.entityContext.getCurrentPhase()}`);
+    this.logger.info('='.repeat(70));
+    this.logger.info('✨ EffectsPure CLI - Effects Management System');
+    this.logger.info('='.repeat(70));
+    this.logger.info('');
+    this.logger.info('Available commands:');
+    this.logger.info('  list [entity]     - List active effects on entity');
+    this.logger.info('  apply [effect]    - Apply effect to current entity');
+    this.logger.info('  remove [effect]   - Remove effect from current entity');
+    this.logger.info('  create [type]     - Create new effect');
+    this.logger.info('  stats [entity]    - Show entity stats');
+    this.logger.info('  update [time]     - Update effects (simulate time passing)');
+    this.logger.info('  switch [entity]   - Switch current entity');
+    this.logger.info('  phase [phase]     - Set current phase');
+    this.logger.info('  immunity [tag]    - Add/remove immunity');
+    this.logger.info('  demo              - Reset demo data');
+    this.logger.info('  help              - Show this help');
+    this.logger.info('  exit              - Exit application');
+    this.logger.info('');
+    this.logger.info(`Current entity: ${this.currentEntityId}`);
+    this.logger.info(`Current phase: ${this.entityContext.getCurrentPhase()}`);
 
     this.showPrompt();
   }
@@ -381,11 +383,11 @@ class EffectsPureCLI {
           this.exit();
           return;
         default:
-          console.log(`❌ Unknown command: ${command}`);
-          console.log('Type "help" for available commands.');
+          this.logger.info(`❌ Unknown command: ${command}`);
+          this.logger.info('Type "help" for available commands.');
       }
     } catch (error) {
-      console.log(`❌ Error: ${error}`);
+      this.logger.info(`❌ Error: ${error}`);
     }
 
     this.showPrompt();
@@ -395,8 +397,8 @@ class EffectsPureCLI {
    * Show help information
    */
   private showHelp(): void {
-    console.log('✨ EffectsPure CLI Help');
-    console.log('Commands: help, list, apply, remove, create, stats, update, switch, phase, immunity, demo, exit');
+    this.logger.info('✨ EffectsPure CLI Help');
+    this.logger.info('Commands: help, list, apply, remove, create, stats, update, switch, phase, immunity, demo, exit');
   }
 
   /**
@@ -406,12 +408,12 @@ class EffectsPureCLI {
     const targetEntity = entityId || this.currentEntityId;
     const effects = this.effectManager.getActiveEffects(targetEntity);
 
-    console.log('='.repeat(70));
-    console.log(`⚡ Active Effects on ${targetEntity} (${effects.length} effects)`);
-    console.log('='.repeat(70));
+    this.logger.info('='.repeat(70));
+    this.logger.info(`⚡ Active Effects on ${targetEntity} (${effects.length} effects)`);
+    this.logger.info('='.repeat(70));
 
     if (effects.length === 0) {
-      console.log('No active effects.');
+      this.logger.info('No active effects.');
       return;
     }
 
@@ -420,10 +422,10 @@ class EffectsPureCLI {
       const duration = effect.getDurationPercentage();
       const durationBar = this.createProgressBar(duration, 10);
 
-      console.log(`${index + 1}. ${typeIcon} ${effect.effect.name} x${effect.stacks}`);
-      console.log(`   ID: ${effect.effect.effectId} | Duration: ${durationBar} | Type: ${effect.effect.effectType}`);
-      console.log(`   Description: ${effect.effect.description}`);
-      console.log('');
+      this.logger.info(`${index + 1}. ${typeIcon} ${effect.effect.name} x${effect.stacks}`);
+      this.logger.info(`   ID: ${effect.effect.effectId} | Duration: ${durationBar} | Type: ${effect.effect.effectType}`);
+      this.logger.info(`   Description: ${effect.effect.description}`);
+      this.logger.info('');
     });
 
     // Show entity stats
@@ -435,14 +437,14 @@ class EffectsPureCLI {
    */
   private applyEffect(effectId: string): void {
     if (!effectId) {
-      console.log('❌ Usage: apply [effect_id]');
-      console.log('Available effects: strength_boost, defense_boost, poison, regeneration, shield, stun');
+      this.logger.info('❌ Usage: apply [effect_id]');
+      this.logger.info('Available effects: strength_boost, defense_boost, poison, regeneration, shield, stun');
       return;
     }
 
     const effect = this.createEffectById(effectId);
     if (!effect) {
-      console.log(`❌ Effect not found: ${effectId}`);
+      this.logger.info(`❌ Effect not found: ${effectId}`);
       return;
     }
 
@@ -450,13 +452,13 @@ class EffectsPureCLI {
 
     switch (result) {
       case EffectApplicationResult.APPLIED:
-        console.log(`✅ Applied ${effect.name} to ${this.currentEntityId}`);
+        this.logger.info(`✅ Applied ${effect.name} to ${this.currentEntityId}`);
         break;
       case EffectApplicationResult.REFRESHED:
-        console.log(`🔄 Refreshed ${effect.name} on ${this.currentEntityId}`);
+        this.logger.info(`🔄 Refreshed ${effect.name} on ${this.currentEntityId}`);
         break;
       case EffectApplicationResult.REJECTED:
-        console.log(`❌ Could not apply ${effect.name} to ${this.currentEntityId}`);
+        this.logger.info(`❌ Could not apply ${effect.name} to ${this.currentEntityId}`);
         break;
     }
   }
@@ -466,16 +468,16 @@ class EffectsPureCLI {
    */
   private removeEffect(effectId: string): void {
     if (!effectId) {
-      console.log('❌ Usage: remove [effect_id]');
+      this.logger.info('❌ Usage: remove [effect_id]');
       return;
     }
 
     const success = this.effectManager.removeEffect(this.currentEntityId, effectId);
 
     if (success) {
-      console.log(`✅ Removed ${effectId} from ${this.currentEntityId}`);
+      this.logger.info(`✅ Removed ${effectId} from ${this.currentEntityId}`);
     } else {
-      console.log(`❌ Effect ${effectId} not found on ${this.currentEntityId}`);
+      this.logger.info(`❌ Effect ${effectId} not found on ${this.currentEntityId}`);
     }
   }
 
@@ -484,8 +486,8 @@ class EffectsPureCLI {
    */
   private createEffect(args: string[]): void {
     if (args.length < 3) {
-      console.log('❌ Usage: create [type] [name] [description] [value]');
-      console.log('Types: stat, dot, heal, stun, shield');
+      this.logger.info('❌ Usage: create [type] [name] [description] [value]');
+      this.logger.info('Types: stat, dot, heal, stun, shield');
       return;
     }
 
@@ -547,12 +549,12 @@ class EffectsPureCLI {
         );
         break;
       default:
-        console.log('❌ Invalid effect type. Use: stat, dot, heal, stun, shield');
+        this.logger.info('❌ Invalid effect type. Use: stat, dot, heal, stun, shield');
         return;
     }
 
     const result = this.effectManager.applyEffect(this.currentEntityId, effect);
-    console.log(`✅ Created and applied ${effect.name} (${result})`);
+    this.logger.info(`✅ Created and applied ${effect.name} (${result})`);
   }
 
   /**
@@ -576,16 +578,16 @@ class EffectsPureCLI {
       TargetStat.SPDEF
     ];
 
-    console.log(`📊 Stats for ${entityId}:`);
+    this.logger.info(`📊 Stats for ${entityId}:`);
     stats.forEach(stat => {
       const value = this.entityContext.getEntityStat(entityId, stat);
       const icon = this.getStatIcon(stat);
-      console.log(`  ${icon} ${stat.toUpperCase()}: ${value}`);
+      this.logger.info(`  ${icon} ${stat.toUpperCase()}: ${value}`);
     });
 
     const effectCount = this.effectManager.getEffectCount(entityId);
-    console.log(`  ✨ Active Effects: ${effectCount}`);
-    console.log('');
+    this.logger.info(`  ✨ Active Effects: ${effectCount}`);
+    this.logger.info('');
   }
 
   /**
@@ -595,24 +597,24 @@ class EffectsPureCLI {
     const deltaTime = deltaTimeStr ? parseFloat(deltaTimeStr) : 1.0;
 
     if (isNaN(deltaTime) || deltaTime <= 0) {
-      console.log('❌ Usage: update [delta_time_seconds]');
+      this.logger.info('❌ Usage: update [delta_time_seconds]');
       return;
     }
 
-    console.log(`⏱️ Updating effects with delta time: ${deltaTime}s`);
-    console.log(`📍 Current phase: ${this.entityContext.getCurrentPhase()}`);
+    this.logger.info(`⏱️ Updating effects with delta time: ${deltaTime}s`);
+    this.logger.info(`📍 Current phase: ${this.entityContext.getCurrentPhase()}`);
 
     const resolution = this.effectManager.updateEffects(deltaTime, this.entityContext);
     this.lastResolution = resolution;
 
-    console.log(`📊 Update Results:`);
-    console.log(`  - Effects processed: ${resolution.resolvedEffects.length}`);
-    console.log(`  - Stat changes: ${resolution.statChanges.size}`);
+    this.logger.info(`📊 Update Results:`);
+    this.logger.info(`  - Effects processed: ${resolution.resolvedEffects.length}`);
+    this.logger.info(`  - Stat changes: ${resolution.statChanges.size}`);
 
     if (resolution.statChanges.size > 0) {
-      console.log('  Stat Changes:');
+      this.logger.info('  Stat Changes:');
       resolution.statChanges.forEach((change, stat) => {
-        console.log(`    ${stat.toUpperCase()}: ${change >= 0 ? '+' : ''}${change}`);
+        this.logger.info(`    ${stat.toUpperCase()}: ${change >= 0 ? '+' : ''}${change}`);
       });
     }
 
@@ -623,10 +625,10 @@ class EffectsPureCLI {
     });
 
     if (resolution.events.length > 0) {
-      console.log(`  Events triggered: ${resolution.events.length}`);
+      this.logger.info(`  Events triggered: ${resolution.events.length}`);
     }
 
-    console.log('✅ Effects updated successfully');
+    this.logger.info('✅ Effects updated successfully');
   }
 
   /**
@@ -634,8 +636,8 @@ class EffectsPureCLI {
    */
   private switchEntity(entityId: string): void {
     if (!entityId) {
-      console.log('❌ Usage: switch [entity_id]');
-      console.log('Available entities: player, enemy');
+      this.logger.info('❌ Usage: switch [entity_id]');
+      this.logger.info('Available entities: player, enemy');
       return;
     }
 
@@ -648,7 +650,7 @@ class EffectsPureCLI {
     }
 
     this.currentEntityId = entityId;
-    console.log(`✅ Switched to entity: ${entityId}`);
+    this.logger.info(`✅ Switched to entity: ${entityId}`);
     this.showEntityStats(entityId);
   }
 
@@ -657,8 +659,8 @@ class EffectsPureCLI {
    */
   private setPhase(phaseStr: string): void {
     if (!phaseStr) {
-      console.log('❌ Usage: phase [phase_name]');
-      console.log('Available phases: pre_turn, select_action, resolve_action, end_turn');
+      this.logger.info('❌ Usage: phase [phase_name]');
+      this.logger.info('Available phases: pre_turn, select_action, resolve_action, end_turn');
       return;
     }
 
@@ -676,11 +678,11 @@ class EffectsPureCLI {
         this.entityContext.setCurrentPhase(EffectPhase.END_TURN);
         break;
       default:
-        console.log('❌ Invalid phase. Use: pre_turn, select_action, resolve_action, end_turn');
+        this.logger.info('❌ Invalid phase. Use: pre_turn, select_action, resolve_action, end_turn');
         return;
     }
 
-    console.log(`✅ Set phase to: ${this.entityContext.getCurrentPhase()}`);
+    this.logger.info(`✅ Set phase to: ${this.entityContext.getCurrentPhase()}`);
   }
 
   /**
@@ -688,7 +690,7 @@ class EffectsPureCLI {
    */
   private toggleImmunity(immunityTag: string): void {
     if (!immunityTag) {
-      console.log('❌ Usage: immunity [immunity_tag]');
+      this.logger.info('❌ Usage: immunity [immunity_tag]');
       return;
     }
 
@@ -696,14 +698,14 @@ class EffectsPureCLI {
 
     if (hasImmunity) {
       this.entityContext.removeImmunity(this.currentEntityId, immunityTag);
-      console.log(`✅ Removed immunity: ${immunityTag} from ${this.currentEntityId}`);
+      this.logger.info(`✅ Removed immunity: ${immunityTag} from ${this.currentEntityId}`);
     } else {
       this.entityContext.addImmunity(this.currentEntityId, immunityTag);
-      console.log(`✅ Added immunity: ${immunityTag} to ${this.currentEntityId}`);
+      this.logger.info(`✅ Added immunity: ${immunityTag} to ${this.currentEntityId}`);
     }
 
     const immunities = this.entityContext.getEntityImmunities(this.currentEntityId);
-    console.log(`Current immunities: ${immunities.join(', ') || 'none'}`);
+    this.logger.info(`Current immunities: ${immunities.join(', ') || 'none'}`);
   }
 
   /**
@@ -712,7 +714,7 @@ class EffectsPureCLI {
   private resetDemo(): void {
     this.effectManager.clearAllEffects();
     this.initializeDemoData();
-    console.log('🔄 Demo data reset');
+    this.logger.info('🔄 Demo data reset');
   }
 
   /**
@@ -829,8 +831,8 @@ class EffectsPureCLI {
    * Exit application
    */
   private exit(): void {
-    console.log('');
-    console.log('👋 Thank you for using EffectsPure CLI!');
+    this.logger.info('');
+    this.logger.info('👋 Thank you for using EffectsPure CLI!');
     this.rl.close();
     process.exit(0);
   }

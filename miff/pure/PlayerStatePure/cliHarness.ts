@@ -4,6 +4,8 @@ import { PlayerStatePure, PlayerStateSnapshot, InputState } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PlayerStateOperation {
   op: 'create' | 'apply-input' | 'simulate' | 'serialize' | 'deserialize' | 'demo' | 'dump';
@@ -21,7 +23,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -31,7 +33,7 @@ function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as PlayerStateOperation;
     } else {
       // Parse subcommand
@@ -48,19 +50,19 @@ function main() {
         case 'apply-input':
           if (!argv[1]) throw new Error('apply-input requires JSON state file');
           if (!argv[2]) throw new Error('apply-input requires input JSON');
-          const state = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
-          const input = JSON.parse(fs.readFileSync(argv[2], 'utf-8')) as Partial<InputState>;
+          const state = SafeJSONParser.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
+          const input = SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8')) as Partial<InputState>;
           operation = { op: 'apply-input', data: { state, input } };
           break;
         case 'simulate':
           if (!argv[1]) throw new Error('simulate requires JSON state file');
-          const simState = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
+          const simState = SafeJSONParser.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
           const dt = parseFloat(argv[2]) || 0.016; // 60 FPS default
           operation = { op: 'simulate', data: { state: simState, dt } };
           break;
         case 'serialize':
           if (!argv[1]) throw new Error('serialize requires JSON state file');
-          const serState = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
+          const serState = SafeJSONParser.parse(fs.readFileSync(argv[1], 'utf-8')) as PlayerStateSnapshot;
           operation = { op: 'serialize', data: { state: serState } };
           break;
         case 'deserialize':
@@ -250,7 +252,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -259,11 +261,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

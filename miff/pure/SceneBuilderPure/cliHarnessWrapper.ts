@@ -6,6 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { SceneBuilder, Scene, SceneObject } from './Builder';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 const builder = new SceneBuilder();
@@ -15,7 +16,7 @@ try {
     case 'buildScene': {
       const { sceneId, type, dimensions, procedural } = params;
       
-      const dims = typeof dimensions === 'string' ? JSON.parse(dimensions) : dimensions || { width: 100, height: 100 };
+      const dims = typeof dimensions === 'string' ? SafeJSONParser.parse(dimensions) : dimensions || { width: 100, height: 100 };
       
       const scene: Scene = {
         id: sceneId || 'scene_001',
@@ -50,7 +51,7 @@ try {
 
     case 'addObject': {
       const { sceneId, objectId, objectType, position } = params;
-      const pos = typeof position === 'string' ? JSON.parse(position) : position || { x: 0, y: 0, z: 0 };
+      const pos = typeof position === 'string' ? SafeJSONParser.parse(position) : position || { x: 0, y: 0, z: 0 };
       const obj: SceneObject = {
         id: objectId || 'object_001',
         type: objectType || 'prop',

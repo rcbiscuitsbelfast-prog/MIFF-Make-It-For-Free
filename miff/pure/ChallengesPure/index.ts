@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * ChallengesPure - Challenge Management System
  *
@@ -672,6 +673,7 @@ export class ChallengeRuleset implements IChallengeRuleset {
     bannedItems: string[] = [],
     environmentTag?: string
   ) {
+    this.logger = new StructuredLogger({ module: 'BattleChallenge' });
     this.allowedSpiritTypes = [...allowedSpiritTypes];
     this.turnLimit = turnLimit;
     this.bannedItems = [...bannedItems];
@@ -1041,13 +1043,13 @@ export class ChallengeManager implements IChallengeManager {
    */
   registerChallenge(challenge: IBattleChallenge): boolean {
     if (!challenge || !challenge.challengeId || challenge.challengeId.trim() === '') {
-      console.warn('Invalid challenge registration: missing or empty challenge ID');
+      this.logger.warn('Invalid challenge registration: missing or empty challenge ID');
       return false;
     }
 
     const errors = challenge.validate();
     if (errors.length > 0) {
-      console.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
+      this.logger.warn(`Invalid challenge ${challenge.challengeId}:`, errors);
       return false;
     }
 

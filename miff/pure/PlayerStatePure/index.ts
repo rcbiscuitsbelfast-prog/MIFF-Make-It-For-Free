@@ -1,3 +1,4 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 /**
  * PlayerStatePure - stateless movement/interaction/animation state reducer
  */
@@ -121,7 +122,7 @@ export class PlayerStatePure {
   }
 
   public static deserialize(json: string): PlayerStateSnapshot {
-    const o = JSON.parse(json);
+    const o = SafeJSONParser.parse(json);
     return o as PlayerStateSnapshot;
   }
 }

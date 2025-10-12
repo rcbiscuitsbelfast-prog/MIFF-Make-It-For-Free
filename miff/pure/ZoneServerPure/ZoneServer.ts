@@ -1,5 +1,6 @@
 import { PlayerStatePure, PlayerStateSnapshot } from '../PlayerStatePure';
 import { PerfMetricsPure } from '../PerfMetricsPure';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Mock WebSocketBridgePure interface for ZoneServerPure
 interface WebSocketBridgePure {
@@ -87,6 +88,7 @@ export interface ZoneEvent {
 }
 
 export class ZoneServerPure {
+  private logger: StructuredLogger;
   private readonly config: ZoneServerConfig;
   private readonly players: Map<string, PlayerStateSnapshot> = new Map();
   private readonly zoneConnections: ZoneConnection[] = [];
@@ -102,6 +104,7 @@ export class ZoneServerPure {
   private eventSubscribers: Map<string, (event: any) => void> = new Map();
 
   constructor(config: ZoneServerConfig) {
+    this.logger = new StructuredLogger({ module: 'ZoneServerPure' });
     this.config = config;
     this.zoneMetrics = this.initializeMetrics();
     this.initializeDefaultConnections();
@@ -268,7 +271,7 @@ export class ZoneServerPure {
         this.players.set(id, next);
         simulated += 1;
       } catch (error) {
-        console.error(`Error simulating player ${id}:`, error);
+        this.logger.error(`Error simulating player ${id}:`, error);
       }
     }
 
@@ -544,7 +547,7 @@ export class ZoneServerPure {
       try {
         callback({ type: eventType, data, zoneId: this.config.zoneId, timestamp: Date.now() });
       } catch (error) {
-        console.error(`Error in event listener for ${eventType}:`, error);
+        this.logger.error(`Error in event listener for ${eventType}:`, error);
       }
     }
   }

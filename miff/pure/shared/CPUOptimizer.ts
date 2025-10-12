@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * CPU Optimization System for MIFF Framework
  * 
@@ -58,6 +59,7 @@ export interface ResourcePool {
 }
 
 export class CPUOptimizer {
+  private logger: StructuredLogger;
   private config: CPUOptimizationConfig;
   private cache: Map<string, CacheEntry> = new Map();
   private resourcePools: Map<string, ResourcePool> = new Map();
@@ -65,6 +67,7 @@ export class CPUOptimizer {
   private isOptimizing: boolean = false;
 
   constructor(config: Partial<CPUOptimizationConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'CPUOptimizer' });
     this.config = {
       enableCaching: true,
       enableLazyLoading: true,
@@ -94,7 +97,7 @@ export class CPUOptimizer {
     const results: OptimizationResult[] = [];
 
     try {
-      console.log('🚀 Starting CPU optimization...');
+      this.logger.info('🚀 Starting CPU optimization...');
 
       // Get baseline metrics
       const baselineMetrics = await this.getCPUMetrics();
@@ -130,11 +133,11 @@ export class CPUOptimizer {
       }
 
       this.optimizationResults.push(...results);
-      console.log(`✅ CPU optimization completed - ${results.length} optimizations applied`);
+      this.logger.info(`✅ CPU optimization completed - ${results.length} optimizations applied`);
 
       return results;
     } catch (error) {
-      console.error('❌ CPU optimization failed:', error);
+      this.logger.error('❌ CPU optimization failed:', error);
       throw error;
     } finally {
       this.isOptimizing = false;

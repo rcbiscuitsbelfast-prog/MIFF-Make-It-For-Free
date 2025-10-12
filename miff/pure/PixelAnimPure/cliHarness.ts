@@ -5,6 +5,8 @@ import { Animation, PixelAnimPure } from './index';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelAnimOperation {
   op: 'create' | 'createFromPreset' | 'get' | 'list' | 'addPreset' | 'listPresets' | 'createSequence' | 'getSequence' | 'listSequences' | 'createSpriteSheet' | 'simulate' | 'stats' | 'export' | 'validate' | 'delete';
@@ -27,9 +29,11 @@ interface PixelAnimOperation {
 }
 
 class PixelAnimCLI {
+  private logger: StructuredLogger;
   private manager: PixelAnimManager;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'PixelAnimCLI' });
     this.manager = new PixelAnimManager();
   }
 
@@ -477,15 +481,15 @@ async function main() {
   const cli = new PixelAnimCLI();
   
   if (process.argv.length < 3) {
-    console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: create, createFromPreset, get, list, addPreset, listPresets, createSequence, getSequence, listSequences, createSpriteSheet, simulate, stats, export, validate, delete');
-    console.error('Examples:');
-    console.error('  cliHarness.ts list');
-    console.error('  cliHarness.ts listPresets character');
-    console.error('  cliHarness.ts createFromPreset walk-basic');
-    console.error('  cliHarness.ts create my-anim frame1.png,frame2.png,frame3.png 10 true');
-    console.error('  cliHarness.ts simulate "Basic Walk Cycle" 3000');
-    console.error('  cliHarness.ts export "Basic Walk Cycle" manifest');
+    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
+    this.logger.error('Operations: create, createFromPreset, get, list, addPreset, listPresets, createSequence, getSequence, listSequences, createSpriteSheet, simulate, stats, export, validate, delete');
+    this.logger.error('Examples:');
+    this.logger.error('  cliHarness.ts list');
+    this.logger.error('  cliHarness.ts listPresets character');
+    this.logger.error('  cliHarness.ts createFromPreset walk-basic');
+    this.logger.error('  cliHarness.ts create my-anim frame1.png,frame2.png,frame3.png 10 true');
+    this.logger.error('  cliHarness.ts simulate "Basic Walk Cycle" 3000');
+    this.logger.error('  cliHarness.ts export "Basic Walk Cycle" manifest');
     process.exit(1);
   }
 
@@ -581,7 +585,7 @@ async function main() {
         
       case 'validate':
         if (args.length < 1) throw new Error('validate requires JSON file path');
-        const data = JSON.parse(fs.readFileSync(args[0], 'utf-8'));
+        const data = SafeJSONParser.parse(fs.readFileSync(args[0], 'utf-8'));
         op = { op: 'validate', data };
         break;
         
@@ -595,9 +599,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('Error:', error instanceof Error ? error.message : error);
+    this.logger.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * MIFF Asset Pipeline
  *
@@ -57,6 +58,7 @@ export interface ProcessingTask {
 }
 
 export class AssetPipeline {
+  private logger: StructuredLogger;
   private config: AssetConfig;
   private assetRegistry: Map<string, AssetInfo> = new Map();
   private processingQueue: ProcessingTask[] = [];
@@ -68,6 +70,7 @@ export class AssetPipeline {
   private processingTimer?: NodeJS.Timeout;
 
   constructor(config: AssetConfig) {
+    this.logger = new StructuredLogger({ module: 'AssetPipeline' });
     // Apply defaults without duplicating keys in a single object literal
     this.config = { ...config } as AssetConfig;
     this.config.optimizationLevel = this.config.optimizationLevel ?? 'high';
@@ -702,7 +705,7 @@ export class AssetPipeline {
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[ASSETPIPE:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[ASSETPIPE:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

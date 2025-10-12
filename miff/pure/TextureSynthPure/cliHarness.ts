@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 import { TextureSynthManager } from './Manager';
 import { parseComplexCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function main(){
   const { command, options } = parseComplexCLIArgs(process.argv);
@@ -34,7 +35,7 @@ function main(){
     out = { log: ['error'], outputs: [{ error: e instanceof Error ? e.message : String(e) }] };
     process.exitCode = 1;
   }
-  console.log(formatOutput(out));
+  this.logger.info(formatOutput(out));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

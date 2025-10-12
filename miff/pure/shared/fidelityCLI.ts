@@ -9,11 +9,14 @@
 import { RuntimeFidelityManager, MockImplementation } from './RuntimeFidelityManager.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FidelityCLI {
+  private logger: StructuredLogger;
   private manager: RuntimeFidelityManager;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'FidelityCLI' });
     this.manager = new RuntimeFidelityManager();
   }
 
@@ -47,7 +50,7 @@ class FidelityCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -56,15 +59,15 @@ class FidelityCLI {
     const rootPath = args[0] || 'miff/pure';
     const outputFile = args[1] || 'mock-implementations.json';
 
-    console.log(`🔍 Scanning for mock implementations in ${rootPath}...`);
+    this.logger.info(`🔍 Scanning for mock implementations in ${rootPath}...`);
     
     const mocks = await this.manager.scanMockImplementations(rootPath);
     
     // Save results to file
     fs.writeFileSync(outputFile, JSON.stringify(mocks, null, 2));
     
-    console.log(`✅ Found ${mocks.length} mock implementations`);
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info(`✅ Found ${mocks.length} mock implementations`);
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Show summary by priority
     const critical = mocks.filter(m => m.priority === 'critical');
@@ -72,11 +75,11 @@ class FidelityCLI {
     const medium = mocks.filter(m => m.priority === 'medium');
     const low = mocks.filter(m => m.priority === 'low');
 
-    console.log('\n📊 Mock Implementations by Priority:');
-    console.log(`Critical: ${critical.length}`);
-    console.log(`High: ${high.length}`);
-    console.log(`Medium: ${medium.length}`);
-    console.log(`Low: ${low.length}`);
+    this.logger.info('\n📊 Mock Implementations by Priority:');
+    this.logger.info(`Critical: ${critical.length}`);
+    this.logger.info(`High: ${high.length}`);
+    this.logger.info(`Medium: ${medium.length}`);
+    this.logger.info(`Low: ${low.length}`);
 
     // Show mock types
     const mockTypes = new Map<string, number>();
@@ -85,15 +88,15 @@ class FidelityCLI {
       mockTypes.set(mock.type, count + 1);
     }
 
-    console.log('\n📊 Mock Types:');
+    this.logger.info('\n📊 Mock Types:');
     for (const [type, count] of mockTypes) {
-      console.log(`${type}: ${count}`);
+      this.logger.info(`${type}: ${count}`);
     }
 
     if (critical.length > 0) {
-      console.log('\n🚨 Critical Mock Implementations:');
+      this.logger.info('\n🚨 Critical Mock Implementations:');
       critical.forEach(mock => {
-        console.log(`  ${mock.module}: ${mock.description} (${mock.filePath}:${mock.lineNumber})`);
+        this.logger.info(`  ${mock.module}: ${mock.description} (${mock.filePath}:${mock.lineNumber})`);
       });
     }
   }
@@ -101,43 +104,43 @@ class FidelityCLI {
   private async replaceMocks(args: string[]): Promise<void> {
     const priority = args[0] || 'critical';
 
-    console.log(`🔄 Replacing ${priority} priority mock implementations...`);
+    this.logger.info(`🔄 Replacing ${priority} priority mock implementations...`);
     
     await this.manager.replaceCriticalMocks();
     
     const stats = this.manager.getStats();
-    console.log(`✅ Replaced ${stats.replacedMocks} mock implementations`);
-    console.log(`📊 Remaining critical mocks: ${stats.criticalMocks}`);
+    this.logger.info(`✅ Replaced ${stats.replacedMocks} mock implementations`);
+    this.logger.info(`📊 Remaining critical mocks: ${stats.criticalMocks}`);
   }
 
   private async implementTransport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'transport-layers.json';
 
-    console.log('🌐 Implementing real transport layers...');
+    this.logger.info('🌐 Implementing real transport layers...');
     
     await this.manager.implementTransportLayers();
     
     const stats = this.manager.getStats();
-    console.log(`✅ Implemented ${stats.transportLayers} transport layers`);
-    console.log(`📄 Transport layers saved to ${outputFile}`);
+    this.logger.info(`✅ Implemented ${stats.transportLayers} transport layers`);
+    this.logger.info(`📄 Transport layers saved to ${outputFile}`);
   }
 
   private async implementLifecycle(args: string[]): Promise<void> {
     const outputFile = args[0] || 'lifecycle-hooks.json';
 
-    console.log('🔄 Implementing lifecycle hooks...');
+    this.logger.info('🔄 Implementing lifecycle hooks...');
     
     await this.manager.implementLifecycleHooks();
     
     const stats = this.manager.getStats();
-    console.log(`✅ Implemented ${stats.lifecycleHooks} lifecycle hooks`);
-    console.log(`📄 Lifecycle hooks saved to ${outputFile}`);
+    this.logger.info(`✅ Implemented ${stats.lifecycleHooks} lifecycle hooks`);
+    this.logger.info(`📄 Lifecycle hooks saved to ${outputFile}`);
   }
 
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'runtime-fidelity-report.html';
 
-    console.log('📊 Generating runtime fidelity report...');
+    this.logger.info('📊 Generating runtime fidelity report...');
     
     const report = this.manager.generateReport();
     const html = this.generateHTMLReport(report);
@@ -145,8 +148,8 @@ class FidelityCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    console.log(`✅ Runtime fidelity report generated`);
-    console.log(`📄 Report saved to ${outputFile}`);
+    this.logger.info(`✅ Runtime fidelity report generated`);
+    this.logger.info(`📄 Report saved to ${outputFile}`);
   }
 
   private async analyzeModule(args: string[]): Promise<void> {
@@ -154,48 +157,48 @@ class FidelityCLI {
     const outputFile = args[1];
 
     if (!moduleName) {
-      console.error('❌ Module name required');
-      console.error('Usage: tsx fidelityCLI.ts analyze <module-name> [output-file]');
+      this.logger.error('❌ Module name required');
+      this.logger.error('Usage: tsx fidelityCLI.ts analyze <module-name> [output-file]');
       return;
     }
 
-    console.log(`📊 Analyzing runtime fidelity for module: ${moduleName}`);
+    this.logger.info(`📊 Analyzing runtime fidelity for module: ${moduleName}`);
     
     const criticalMocks = this.manager.getMocksByPriority('critical');
     const highMocks = this.manager.getMocksByPriority('high');
     const moduleMocks = [...criticalMocks, ...highMocks].filter(m => m.module === moduleName);
     
     if (moduleMocks.length === 0) {
-      console.log(`✅ No critical or high-priority mocks found for module: ${moduleName}`);
+      this.logger.info(`✅ No critical or high-priority mocks found for module: ${moduleName}`);
       return;
     }
 
-    console.log(`\n📊 ${moduleName} Runtime Fidelity Analysis:`);
-    console.log(`Total mocks: ${moduleMocks.length}`);
-    console.log(`Critical: ${moduleMocks.filter(m => m.priority === 'critical').length}`);
-    console.log(`High: ${moduleMocks.filter(m => m.priority === 'high').length}`);
+    this.logger.info(`\n📊 ${moduleName} Runtime Fidelity Analysis:`);
+    this.logger.info(`Total mocks: ${moduleMocks.length}`);
+    this.logger.info(`Critical: ${moduleMocks.filter(m => m.priority === 'critical').length}`);
+    this.logger.info(`High: ${moduleMocks.filter(m => m.priority === 'high').length}`);
 
     // Show mock details
-    console.log('\n📋 Mock Implementations:');
+    this.logger.info('\n📋 Mock Implementations:');
     for (const mock of moduleMocks) {
       const priority = mock.priority === 'critical' ? '🔴' : '🟠';
-      console.log(`  ${priority} ${mock.type}: ${mock.description}`);
-      console.log(`    File: ${mock.filePath}:${mock.lineNumber}`);
-      console.log(`    Effort: ${mock.estimatedEffort} hours`);
-      console.log(`    Replacement: ${mock.replacement}`);
-      console.log('');
+      this.logger.info(`  ${priority} ${mock.type}: ${mock.description}`);
+      this.logger.info(`    File: ${mock.filePath}:${mock.lineNumber}`);
+      this.logger.info(`    Effort: ${mock.estimatedEffort} hours`);
+      this.logger.info(`    Replacement: ${mock.replacement}`);
+      this.logger.info('');
     }
 
     // Show recommendations
-    console.log('💡 Recommendations:');
+    this.logger.info('💡 Recommendations:');
     if (moduleMocks.some(m => m.priority === 'critical')) {
-      console.log('  - Replace critical mock implementations immediately');
+      this.logger.info('  - Replace critical mock implementations immediately');
     }
     if (moduleMocks.some(m => m.priority === 'high')) {
-      console.log('  - Replace high-priority mock implementations soon');
+      this.logger.info('  - Replace high-priority mock implementations soon');
     }
-    console.log('  - Implement real transport layers for bridge modules');
-    console.log('  - Add complete lifecycle hook implementations');
+    this.logger.info('  - Implement real transport layers for bridge modules');
+    this.logger.info('  - Add complete lifecycle hook implementations');
 
     // Save to file if requested
     if (outputFile) {
@@ -210,7 +213,7 @@ class FidelityCLI {
         ]
       };
       fs.writeFileSync(outputFile, JSON.stringify(analysis, null, 2));
-      console.log(`\n📄 Analysis saved to ${outputFile}`);
+      this.logger.info(`\n📄 Analysis saved to ${outputFile}`);
     }
   }
 
@@ -287,7 +290,7 @@ class FidelityCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 ⚡ MIFF Runtime Fidelity CLI
 
 Usage: tsx fidelityCLI.ts <command> [options]
@@ -314,7 +317,7 @@ Mock Types:
   - mock: Explicit mock implementations
   - stub: Stubbed functionality
   - placeholder: Placeholder implementations
-  - todo: TODO/FIXME comments
+  - todo: TODO/FIXME comments (acceptable in audit tools)
 
 Priority Levels:
   - critical: Must be replaced immediately

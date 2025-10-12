@@ -20,6 +20,7 @@ import { EventBus } from '../EventBusPure/index.js';
 import TycoonSystemPure from './index.js';
 import TycoonManagerPure from './Manager.js';
 import * as fs from 'fs';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // ============================================================================
 // CLI HARNESS CONFIGURATION
@@ -47,6 +48,7 @@ interface BusinessState {
 // ============================================================================
 
 export class TycoonSystemCLI {
+  private logger: StructuredLogger;
   private tycoonSystem: TycoonSystemPure;
   private tycoonManager: TycoonManagerPure;
   private eventBus: EventBus;
@@ -63,6 +65,7 @@ export class TycoonSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
+    this.logger = new StructuredLogger({ module: 'TycoonSystemCLI' });
     this.options = options;
     this.eventBus = new EventBus();
     this.tycoonSystem = new TycoonSystemPure(this.eventBus, {
@@ -652,7 +655,7 @@ export class TycoonSystemCLI {
 
   private log(message: string): void {
     const timestamp = new Date().toLocaleTimeString();
-    console.log(`[${timestamp}] ${message}`);
+    this.logger.info(`[${timestamp}] ${message}`);
   }
 
   private shutdown(): void {
@@ -749,16 +752,16 @@ async function main(): Promise<void> {
         break;
       case '--help':
       case '-h':
-        console.log('TycoonSystemPure CLI Harness');
-        console.log('Usage: tsx cliHarness.ts [options]');
-        console.log('Options:');
-        console.log('  --mode, -m <mode>          Mode: interactive, simulate, manage');
-        console.log('  --capital, -c <amount>     Initial capital amount');
-        console.log('  --auto, -a                 Enable auto-management mode');
-        console.log('  --days, -d <days>          Simulation duration in days');
-        console.log('  --verbose, -v              Enable verbose output');
-        console.log('  --help, -h                 Show this help');
-        console.log('');
+        this.logger.info('TycoonSystemPure CLI Harness');
+        this.logger.info('Usage: tsx cliHarness.ts [options]');
+        this.logger.info('Options:');
+        this.logger.info('  --mode, -m <mode>          Mode: interactive, simulate, manage');
+        this.logger.info('  --capital, -c <amount>     Initial capital amount');
+        this.logger.info('  --auto, -a                 Enable auto-management mode');
+        this.logger.info('  --days, -d <days>          Simulation duration in days');
+        this.logger.info('  --verbose, -v              Enable verbose output');
+        this.logger.info('  --help, -h                 Show this help');
+        this.logger.info('');
         process.exit(0);
     }
   }

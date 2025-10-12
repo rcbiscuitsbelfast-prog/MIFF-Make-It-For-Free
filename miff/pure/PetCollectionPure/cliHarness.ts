@@ -18,6 +18,7 @@
 import { EventBus } from '../EventBusPure/EventBusPure';
 import { PetCollectionManager, PetCollectionConfig } from './Manager.js';
 import { PetRarity, EggType, PetType } from './index.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CliCommand {
   command: string;
@@ -26,6 +27,7 @@ interface CliCommand {
 }
 
 class PetCollectionCli {
+  private logger: StructuredLogger;
   private manager: PetCollectionManager;
   private eventBus: EventBus;
   private commands: Map<string, CliCommand> = new Map();
@@ -34,14 +36,15 @@ class PetCollectionCli {
   private demoMode: boolean = false;
 
   constructor(config?: PetCollectionConfig) {
+    this.logger = new StructuredLogger({ module: 'PetCollectionCli' });
     this.eventBus = new EventBus();
     this.manager = new PetCollectionManager(this.eventBus, config);
 
     this.setupCommands();
     this.setupEventListeners();
 
-    console.log('🐾 PetCollectionPure CLI - AAA Pet Collection System');
-    console.log('Type "help" for available commands or "quit" to exit.\n');
+    this.logger.info('🐾 PetCollectionPure CLI - AAA Pet Collection System');
+    this.logger.info('Type "help" for available commands or "quit" to exit.\n');
   }
 
   private setupCommands(): void {
@@ -144,103 +147,103 @@ class PetCollectionCli {
 
   private setupEventListeners(): void {
     this.eventBus.on('pet:egg_created', (data) => {
-      console.log(`🥚 Egg created: ${data.egg.species} (${data.egg.rarity})`);
+      this.logger.info(`🥚 Egg created: ${data.egg.species} (${data.egg.rarity})`);
     });
 
     this.eventBus.on('pet:egg_hatched', (data) => {
-      console.log(`✨ Pet hatched: ${data.pet.name} (${data.pet.species} - ${data.pet.rarity})`);
+      this.logger.info(`✨ Pet hatched: ${data.pet.name} (${data.pet.species} - ${data.pet.rarity})`);
     });
 
     this.eventBus.on('pet:trade_created', (data) => {
-      console.log(`🤝 Trade offer created for ${data.tradeOffer.petId}`);
+      this.logger.info(`🤝 Trade offer created for ${data.tradeOffer.petId}`);
     });
 
     this.eventBus.on('pet:trade_completed', (data) => {
-      console.log(`✅ Trade completed between players`);
+      this.logger.info(`✅ Trade completed between players`);
     });
 
     this.eventBus.on('pet:fed', (data) => {
-      console.log(`🍖 Pet fed successfully`);
+      this.logger.info(`🍖 Pet fed successfully`);
     });
 
     this.eventBus.on('pet:favorite_toggled', (data) => {
-      console.log(`⭐ Pet favorite status changed`);
+      this.logger.info(`⭐ Pet favorite status changed`);
     });
   }
 
   private handleCreatePlayer(args: string[]): void {
     if (args.length < 2) {
-      console.log('Usage: create-player <id> <name>');
+      this.logger.info('Usage: create-player <id> <name>');
       return;
     }
 
     const [playerId, playerName] = args;
     this.currentPlayerId = playerId;
 
-    console.log(`👤 Player created: ${playerName} (${playerId})`);
-    console.log(`Current player set to: ${this.currentPlayerId}`);
+    this.logger.info(`👤 Player created: ${playerName} (${playerId})`);
+    this.logger.info(`Current player set to: ${this.currentPlayerId}`);
   }
 
   private handleCreateEgg(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: create-egg <type> [species]');
+      this.logger.info('Usage: create-egg <type> [species]');
       return;
     }
 
     const [eggType, species = 'dragon'] = args;
 
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.createEgg(this.currentPlayerId, eggType as EggType, species);
 
     if (result.success) {
-      console.log(result.message);
+      this.logger.info(result.message);
       if (result.data) {
         const egg = result.data.egg;
-        console.log(`   Species: ${egg.species}`);
-        console.log(`   Rarity: ${egg.rarity}`);
-        console.log(`   Incubation: ${egg.incubationTime}s`);
+        this.logger.info(`   Species: ${egg.species}`);
+        this.logger.info(`   Rarity: ${egg.rarity}`);
+        this.logger.info(`   Incubation: ${egg.incubationTime}s`);
       }
     } else {
-      console.log('❌', result.message);
+      this.logger.info('❌', result.message);
     }
   }
 
   private handleHatchEgg(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: hatch-egg <eggId>');
+      this.logger.info('Usage: hatch-egg <eggId>');
       return;
     }
 
     const [eggId] = args;
 
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.hatchEgg(eggId, this.currentPlayerId);
 
     if (result.success) {
-      console.log(result.message);
+      this.logger.info(result.message);
       if (result.data) {
         const pet = result.data.pet;
-        console.log(`   Name: ${pet.name}`);
-        console.log(`   Species: ${pet.species}`);
-        console.log(`   Rarity: ${pet.rarity}`);
-        console.log(`   Stats: H:${pet.stats.health} A:${pet.stats.attack} D:${pet.stats.defense}`);
+        this.logger.info(`   Name: ${pet.name}`);
+        this.logger.info(`   Species: ${pet.species}`);
+        this.logger.info(`   Rarity: ${pet.rarity}`);
+        this.logger.info(`   Stats: H:${pet.stats.health} A:${pet.stats.attack} D:${pet.stats.defense}`);
       }
     } else {
-      console.log('❌', result.message);
+      this.logger.info('❌', result.message);
     }
   }
 
   private handleShowPets(args: string[]): void {
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -249,14 +252,14 @@ class PetCollectionCli {
     if (result.success && result.data) {
       const pets = result.data.pets;
       if (pets.length === 0) {
-        console.log('No pets found.');
+        this.logger.info('No pets found.');
         return;
       }
 
-      console.log(`\n🐾 Your Pets (${pets.length}):`);
-      console.log('─'.repeat(80));
-      console.log('Name                    | Species    | Rarity    | Lvl | HP  | ATK | DEF | Fav');
-      console.log('─'.repeat(80));
+      this.logger.info(`\n🐾 Your Pets (${pets.length}):`);
+      this.logger.info('─'.repeat(80));
+      this.logger.info('Name                    | Species    | Rarity    | Lvl | HP  | ATK | DEF | Fav');
+      this.logger.info('─'.repeat(80));
 
       pets.forEach(pet => {
         const name = pet.name.padEnd(23);
@@ -268,17 +271,17 @@ class PetCollectionCli {
         const def = pet.stats.defense.toString().padStart(3);
         const fav = pet.isFavorite ? '⭐' : '  ';
 
-        console.log(`${name} | ${species} | ${rarity} | ${level} | ${hp} | ${atk} | ${def} | ${fav}`);
+        this.logger.info(`${name} | ${species} | ${rarity} | ${level} | ${hp} | ${atk} | ${def} | ${fav}`);
       });
-      console.log('─'.repeat(80));
+      this.logger.info('─'.repeat(80));
     } else {
-      console.log('❌ Failed to get pets');
+      this.logger.info('❌ Failed to get pets');
     }
   }
 
   private handleShowEggs(args: string[]): void {
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -287,14 +290,14 @@ class PetCollectionCli {
     if (result.success && result.data) {
       const eggs = result.data.eggs;
       if (eggs.length === 0) {
-        console.log('No eggs found.');
+        this.logger.info('No eggs found.');
         return;
       }
 
-      console.log(`\n🥚 Your Eggs (${eggs.length}):`);
-      console.log('─'.repeat(60));
-      console.log('Species    | Rarity    | Progress | Time Left');
-      console.log('─'.repeat(60));
+      this.logger.info(`\n🥚 Your Eggs (${eggs.length}):`);
+      this.logger.info('─'.repeat(60));
+      this.logger.info('Species    | Rarity    | Progress | Time Left');
+      this.logger.info('─'.repeat(60));
 
       eggs.forEach(egg => {
         const species = egg.species.padEnd(10);
@@ -303,17 +306,17 @@ class PetCollectionCli {
         const timeLeft = Math.max(0, egg.hatchTime - Date.now());
         const timeLeftStr = timeLeft > 0 ? `${Math.round(timeLeft / 1000)}s` : 'Ready!';
 
-        console.log(`${species} | ${rarity} | ${progress} | ${timeLeftStr}`);
+        this.logger.info(`${species} | ${rarity} | ${progress} | ${timeLeftStr}`);
       });
-      console.log('─'.repeat(60));
+      this.logger.info('─'.repeat(60));
     } else {
-      console.log('❌ Failed to get eggs');
+      this.logger.info('❌ Failed to get eggs');
     }
   }
 
   private handleShowStats(args: string[]): void {
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -322,69 +325,69 @@ class PetCollectionCli {
     if (result.success && result.data) {
       const stats = result.data.stats;
 
-      console.log(`\n📊 Collection Stats for ${this.currentPlayerId}:`);
-      console.log('─'.repeat(40));
-      console.log(`Total Pets: ${stats.totalPets}`);
-      console.log(`Unique Species: ${stats.uniqueSpecies}`);
-      console.log(`Average Rarity: ${(stats.averageRarity).toFixed(1)}`);
-      console.log(`Eggs Hatched: ${stats.eggsHatched}`);
-      console.log(`Favorite Pets: ${stats.favoritePets}`);
-      console.log(`Max Level: ${stats.maxLevel}`);
-      console.log(`Total Trades: ${stats.totalTrades}`);
-      console.log(`Collection Value: ${stats.collectionValue}`);
-      console.log('─'.repeat(40));
+      this.logger.info(`\n📊 Collection Stats for ${this.currentPlayerId}:`);
+      this.logger.info('─'.repeat(40));
+      this.logger.info(`Total Pets: ${stats.totalPets}`);
+      this.logger.info(`Unique Species: ${stats.uniqueSpecies}`);
+      this.logger.info(`Average Rarity: ${(stats.averageRarity).toFixed(1)}`);
+      this.logger.info(`Eggs Hatched: ${stats.eggsHatched}`);
+      this.logger.info(`Favorite Pets: ${stats.favoritePets}`);
+      this.logger.info(`Max Level: ${stats.maxLevel}`);
+      this.logger.info(`Total Trades: ${stats.totalTrades}`);
+      this.logger.info(`Collection Value: ${stats.collectionValue}`);
+      this.logger.info('─'.repeat(40));
     } else {
-      console.log('❌ Failed to get stats');
+      this.logger.info('❌ Failed to get stats');
     }
   }
 
   private handleFeedPet(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: feed-pet <petId>');
+      this.logger.info('Usage: feed-pet <petId>');
       return;
     }
 
     const [petId] = args;
 
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.feedPet(petId, this.currentPlayerId);
 
     if (result.success) {
-      console.log(result.message);
+      this.logger.info(result.message);
     } else {
-      console.log('❌', result.message);
+      this.logger.info('❌', result.message);
     }
   }
 
   private handleToggleFavorite(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: toggle-favorite <petId>');
+      this.logger.info('Usage: toggle-favorite <petId>');
       return;
     }
 
     const [petId] = args;
 
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.toggleFavorite(petId, this.currentPlayerId);
 
     if (result.success) {
-      console.log(result.message);
+      this.logger.info(result.message);
     } else {
-      console.log('❌', result.message);
+      this.logger.info('❌', result.message);
     }
   }
 
   private handleCreateTrade(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: create-trade <petId> [requestedPetId] [item1,item2,...]');
+      this.logger.info('Usage: create-trade <petId> [requestedPetId] [item1,item2,...]');
       return;
     }
 
@@ -392,7 +395,7 @@ class PetCollectionCli {
     const requestedItems = itemsStr ? itemsStr.split(',') : undefined;
 
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
@@ -404,45 +407,45 @@ class PetCollectionCli {
     );
 
     if (result.success) {
-      console.log(result.message);
+      this.logger.info(result.message);
     } else {
-      console.log('❌', result.message);
+      this.logger.info('❌', result.message);
     }
   }
 
   private handleAcceptTrade(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: accept-trade <tradeId>');
+      this.logger.info('Usage: accept-trade <tradeId>');
       return;
     }
 
     const [tradeId] = args;
 
     if (!this.currentPlayerId) {
-      console.log('❌ No current player set. Use create-player first.');
+      this.logger.info('❌ No current player set. Use create-player first.');
       return;
     }
 
     const result = this.manager.acceptTradeOffer(tradeId, this.currentPlayerId);
 
     if (result.success) {
-      console.log(result.message);
+      this.logger.info(result.message);
     } else {
-      console.log('❌', result.message);
+      this.logger.info('❌', result.message);
     }
   }
 
   private handleDemo(args: string[]): void {
     if (args.length < 1) {
-      console.log('Usage: demo <mode>');
-      console.log('Available modes: hatch, collect, trade');
+      this.logger.info('Usage: demo <mode>');
+      this.logger.info('Available modes: hatch, collect, trade');
       return;
     }
 
     const [mode] = args;
     this.demoMode = true;
 
-    console.log(`🎮 Starting ${mode} demo mode...`);
+    this.logger.info(`🎮 Starting ${mode} demo mode...`);
 
     switch (mode) {
       case 'hatch':
@@ -455,17 +458,17 @@ class PetCollectionCli {
         this.runTradeDemo();
         break;
       default:
-        console.log('❌ Unknown demo mode:', mode);
+        this.logger.info('❌ Unknown demo mode:', mode);
     }
   }
 
   private async runHatchDemo(): Promise<void> {
     if (!this.currentPlayerId) {
-      console.log('Creating demo player...');
+      this.logger.info('Creating demo player...');
       this.currentPlayerId = 'demo_player';
     }
 
-    console.log('Creating various eggs...');
+    this.logger.info('Creating various eggs...');
 
     // Create different types of eggs
     const eggTypes: EggType[] = ['basic', 'premium', 'golden'];
@@ -478,7 +481,7 @@ class PetCollectionCli {
       }
     }
 
-    console.log('Hatching all eggs...');
+    this.logger.info('Hatching all eggs...');
 
     // Wait a bit then hatch all eggs
     await this.sleep(2000);
@@ -500,7 +503,7 @@ class PetCollectionCli {
       this.currentPlayerId = 'demo_player';
     }
 
-    console.log('Creating a large collection...');
+    this.logger.info('Creating a large collection...');
 
     const species = ['dragon', 'phoenix', 'unicorn', 'griffin', 'cerberus', 'pegasus'];
 
@@ -533,7 +536,7 @@ class PetCollectionCli {
     }
 
     // Create some pets for trading
-    console.log('Creating pets for trading...');
+    this.logger.info('Creating pets for trading...');
 
     for (let i = 0; i < 5; i++) {
       const species = ['dragon', 'phoenix', 'unicorn'][i % 3];
@@ -550,16 +553,16 @@ class PetCollectionCli {
       }
     }
 
-    console.log('Creating trade offers...');
+    this.logger.info('Creating trade offers...');
     this.demoMode = false;
   }
 
   private async handleSimulate(args: string[]): Promise<void> {
     const rounds = parseInt(args[0]) || 5;
-    console.log(`🧪 Running simulation for ${rounds} rounds...`);
+    this.logger.info(`🧪 Running simulation for ${rounds} rounds...`);
 
     for (let i = 0; i < rounds; i++) {
-      console.log(`\n--- Round ${i + 1} ---`);
+      this.logger.info(`\n--- Round ${i + 1} ---`);
 
       // Create eggs
       const eggTypes: EggType[] = ['basic', 'premium', 'golden'];
@@ -590,13 +593,13 @@ class PetCollectionCli {
       await this.sleep(200);
     }
 
-    console.log('\n✅ Simulation completed!');
+    this.logger.info('\n✅ Simulation completed!');
     this.handleShowStats([]);
   }
 
   private async handleBenchmark(args: string[]): Promise<void> {
     const operations = parseInt(args[0]) || 1000;
-    console.log(`🔬 Running benchmark with ${operations} operations...`);
+    this.logger.info(`🔬 Running benchmark with ${operations} operations...`);
 
     const startTime = performance.now();
 
@@ -618,10 +621,10 @@ class PetCollectionCli {
     const duration = endTime - startTime;
     const opsPerSecond = (operations / duration) * 1000;
 
-    console.log(`\n📈 Benchmark Results:`);
-    console.log(`   Total Operations: ${operations}`);
-    console.log(`   Duration: ${duration.toFixed(2)}ms`);
-    console.log(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
+    this.logger.info(`\n📈 Benchmark Results:`);
+    this.logger.info(`   Total Operations: ${operations}`);
+    this.logger.info(`   Duration: ${duration.toFixed(2)}ms`);
+    this.logger.info(`   Operations/sec: ${opsPerSecond.toFixed(0)}`);
 
     // Cleanup
     await this.sleep(1000);
@@ -629,25 +632,25 @@ class PetCollectionCli {
 
   private handleSpecies(args: string[]): void {
     const species = this.manager.getAvailableSpecies();
-    console.log('\n🦄 Available Species:');
-    console.log('─'.repeat(30));
+    this.logger.info('\n🦄 Available Species:');
+    this.logger.info('─'.repeat(30));
     species.forEach((species, index) => {
-      console.log(`${(index + 1).toString().padStart(2)}. ${species}`);
+      this.logger.info(`${(index + 1).toString().padStart(2)}. ${species}`);
     });
-    console.log('─'.repeat(30));
+    this.logger.info('─'.repeat(30));
   }
 
   private handleHelp(args: string[]): void {
-    console.log('\n🛠️ Available Commands:');
-    console.log('─'.repeat(50));
+    this.logger.info('\n🛠️ Available Commands:');
+    this.logger.info('─'.repeat(50));
     this.commands.forEach((cmd, key) => {
-      console.log(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
+      this.logger.info(`  ${cmd.command.padEnd(40)} | ${cmd.description}`);
     });
-    console.log('─'.repeat(50));
+    this.logger.info('─'.repeat(50));
   }
 
   private handleQuit(args: string[]): void {
-    console.log('👋 Goodbye!');
+    this.logger.info('👋 Goodbye!');
     this.isRunning = false;
   }
 
@@ -680,7 +683,7 @@ class PetCollectionCli {
         if (cmd) {
           cmd.handler(args);
         } else {
-          console.log(`❌ Unknown command: ${command}. Type "help" for available commands.`);
+          this.logger.info(`❌ Unknown command: ${command}. Type "help" for available commands.`);
         }
       }
 
@@ -692,7 +695,7 @@ class PetCollectionCli {
     });
 
     rl.on('close', () => {
-      console.log('CLI session ended.');
+      this.logger.info('CLI session ended.');
       process.exit(0);
     });
   }
@@ -716,12 +719,12 @@ async function main() {
 
 // Handle process termination
 process.on('SIGINT', () => {
-  console.log('\n👋 Received SIGINT. Exiting...');
+  this.logger.info('\n👋 Received SIGINT. Exiting...');
   process.exit(0);
 });
 
 process.on('SIGTERM', () => {
-  console.log('\n👋 Received SIGTERM. Exiting...');
+  this.logger.info('\n👋 Received SIGTERM. Exiting...');
   process.exit(0);
 });
 

@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // UnrealBridgePure - Unreal Engine bridge system for MIFF framework
 // Schema Version: v1.0
 // Compatible with Unreal Engine 4.27+ and 5.x
@@ -1005,6 +1006,7 @@ export interface UnrealTickFunction {
 }
 
 export class UnrealBridgeManager {
+  private logger: StructuredLogger;
   private configuration: UnrealBridgeConfiguration;
   private connections: Map<string, UnrealConnection> = new Map();
   private actors: Map<string, UnrealActorBridge> = new Map();
@@ -1036,6 +1038,7 @@ export class UnrealBridgeManager {
   private maxReconnectAttempts = 10;
 
   constructor(configuration: UnrealBridgeConfiguration) {
+    this.logger = new StructuredLogger({ module: 'UnrealBridgeManager' });
     this.validateConfiguration(configuration);
     this.configuration = {
       ...configuration,
@@ -1204,7 +1207,7 @@ export class UnrealBridgeManager {
   }
 
   private async initializeBridge(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing Unreal bridge...');
+    this.logger.info('[UnrealBridgeManager] Initializing Unreal bridge...');
 
     try {
       // Initialize communication protocol
@@ -1220,9 +1223,9 @@ export class UnrealBridgeManager {
       this.startHeartbeat();
 
       this.isInitialized = true;
-      console.log('[UnrealBridgeManager] Unreal bridge initialized successfully');
+      this.logger.info('[UnrealBridgeManager] Unreal bridge initialized successfully');
     } catch (error) {
-      console.error('[UnrealBridgeManager] Failed to initialize Unreal bridge:', error);
+      this.logger.error('[UnrealBridgeManager] Failed to initialize Unreal bridge:', error);
       throw new Error(`Unreal bridge initialization failed: ${error}`);
     }
   }
@@ -1280,82 +1283,82 @@ export class UnrealBridgeManager {
   }
 
   private async initializeMessagePassing(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing message passing protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing message passing protocol...');
     // Implementation for message passing communication
   }
 
   private async initializeSharedMemory(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing shared memory protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing shared memory protocol...');
     // Implementation for shared memory communication
   }
 
   private async initializeNetworkSockets(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing network sockets protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing network sockets protocol...');
     // Implementation for network socket communication
   }
 
   private async initializeFileSystem(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing file system protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing file system protocol...');
     // Implementation for file system communication
   }
 
   private async initializeDatabase(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing database protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing database protocol...');
     // Implementation for database communication
   }
 
   private async initializeDirectCall(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing direct call protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing direct call protocol...');
     // Implementation for direct function calls
   }
 
   private async initializeBlueprintEvent(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing blueprint event protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing blueprint event protocol...');
     // Implementation for blueprint event communication
   }
 
   private async initializeDelegateBinding(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing delegate binding protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing delegate binding protocol...');
     // Implementation for delegate-based communication
   }
 
   private async initializeInterfaceMessaging(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing interface messaging protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing interface messaging protocol...');
     // Implementation for interface-based messaging
   }
 
   private async initializeWorldContext(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing world context protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing world context protocol...');
     // Implementation for world context communication
   }
 
   private async initializeGameInstance(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing game instance protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing game instance protocol...');
     // Implementation for game instance communication
   }
 
   private async initializeSubsystem(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing subsystem protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing subsystem protocol...');
     // Implementation for subsystem communication
   }
 
   private async initializeNetworkReplication(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing network replication protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing network replication protocol...');
     // Implementation for network replication communication
   }
 
   private async initializeCustomEvent(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing custom event protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing custom event protocol...');
     // Implementation for custom event communication
   }
 
   private async initializeFunctionLibrary(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing function library protocol...');
+    this.logger.info('[UnrealBridgeManager] Initializing function library protocol...');
     // Implementation for function library communication
   }
 
   private async initializeSubsystems(): Promise<void> {
-    console.log('[UnrealBridgeManager] Initializing subsystems...');
+    this.logger.info('[UnrealBridgeManager] Initializing subsystems...');
 
     // Initialize engine subsystems
     const engineSubsystem: UnrealSystemBridge = {
@@ -1393,7 +1396,7 @@ export class UnrealBridgeManager {
 
     this.systems.set('editor_subsystem', editorSubsystem);
 
-    console.log('[UnrealBridgeManager] Subsystems initialized');
+    this.logger.info('[UnrealBridgeManager] Subsystems initialized');
   }
 
   private startMessageProcessing(): void {
@@ -1426,7 +1429,7 @@ export class UnrealBridgeManager {
 
   // Core bridge functionality
   async connect(target: string, protocol?: UnrealCommunicationProtocol): Promise<UnrealConnection> {
-    console.log(`[UnrealBridgeManager] Connecting to Unreal instance: ${target}`);
+    this.logger.info(`[UnrealBridgeManager] Connecting to Unreal instance: ${target}`);
 
     try {
       const connection: UnrealConnection = {
@@ -1449,10 +1452,10 @@ export class UnrealBridgeManager {
       connection.status = 'connected';
       this.isConnected = true;
       this.reconnectAttempts = 0;
-      console.log(`[UnrealBridgeManager] Successfully connected to Unreal instance: ${target}`);
+      this.logger.info(`[UnrealBridgeManager] Successfully connected to Unreal instance: ${target}`);
       return connection;
     } catch (error) {
-      console.error(`[UnrealBridgeManager] Connection failed: ${error}`);
+      this.logger.error(`[UnrealBridgeManager] Connection failed: ${error}`);
       throw error;
     }
   }
@@ -1535,14 +1538,14 @@ export class UnrealBridgeManager {
   }
 
   async disconnect(connectionId?: string): Promise<boolean> {
-    console.log('[UnrealBridgeManager] Disconnecting from Unreal...');
+    this.logger.info('[UnrealBridgeManager] Disconnecting from Unreal...');
 
     if (connectionId) {
       const connection = this.connections.get(connectionId);
       if (connection) {
         connection.status = 'disconnected';
         this.connections.delete(connectionId);
-        console.log(`[UnrealBridgeManager] Disconnected connection: ${connectionId}`);
+        this.logger.info(`[UnrealBridgeManager] Disconnected connection: ${connectionId}`);
         return true;
       }
       return false;
@@ -1552,7 +1555,7 @@ export class UnrealBridgeManager {
       }
       this.connections.clear();
       this.isConnected = false;
-      console.log('[UnrealBridgeManager] Disconnected from Unreal');
+      this.logger.info('[UnrealBridgeManager] Disconnected from Unreal');
       return true;
     }
   }
@@ -1578,7 +1581,7 @@ export class UnrealBridgeManager {
 
       return true;
     } catch (error) {
-      console.error(`[UnrealBridgeManager] Failed to send message: ${error}`);
+      this.logger.error(`[UnrealBridgeManager] Failed to send message: ${error}`);
       return false;
     }
   }
@@ -1610,7 +1613,7 @@ export class UnrealBridgeManager {
         await this.processPropertySyncMessage(message);
         break;
       default:
-        console.warn(`[UnrealBridgeManager] Unknown message type: ${message.type}`);
+        this.logger.warn(`[UnrealBridgeManager] Unknown message type: ${message.type}`);
     }
   }
 
@@ -1724,7 +1727,7 @@ export class UnrealBridgeManager {
 
   private async handleEvent(event: UnrealEvent): Promise<void> {
     // Implementation for handling Unreal events
-    console.log(`[UnrealBridgeManager] Handling event: ${event.name}`);
+    this.logger.info(`[UnrealBridgeManager] Handling event: ${event.name}`);
   }
 
   private async processResponseMessage(message: UnrealMessage): Promise<void> {
@@ -1742,17 +1745,17 @@ export class UnrealBridgeManager {
 
   private async processBroadcastMessage(message: UnrealMessage): Promise<void> {
     // Implementation for processing broadcast messages
-    console.log(`[UnrealBridgeManager] Processing broadcast: ${message.id}`);
+    this.logger.info(`[UnrealBridgeManager] Processing broadcast: ${message.id}`);
   }
 
   private async processRPCMessage(message: UnrealMessage): Promise<void> {
     // Implementation for processing RPC messages
-    console.log(`[UnrealBridgeManager] Processing RPC: ${message.id}`);
+    this.logger.info(`[UnrealBridgeManager] Processing RPC: ${message.id}`);
   }
 
   private async processPropertySyncMessage(message: UnrealMessage): Promise<void> {
     // Implementation for processing property sync messages
-    console.log(`[UnrealBridgeManager] Processing property sync: ${message.id}`);
+    this.logger.info(`[UnrealBridgeManager] Processing property sync: ${message.id}`);
   }
 
   private async sendResponse(response: UnrealResponse): Promise<void> {
@@ -2139,12 +2142,12 @@ export class UnrealBridgeManager {
     this.lastHeartbeat = 0;
     this.reconnectAttempts = 0;
 
-    console.log('[UnrealBridgeManager] Reset to initial state');
+    this.logger.info('[UnrealBridgeManager] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
     this.isInitialized = false;
-    console.log('[UnrealBridgeManager] Disposed successfully');
+    this.logger.info('[UnrealBridgeManager] Disposed successfully');
   }
 }

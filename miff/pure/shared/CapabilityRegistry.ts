@@ -9,12 +9,14 @@ import { CapabilityManager, CapabilityRegistry } from './MIFFCapable.js';
 import { EventBus } from '../EventBusPure/index.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class CapabilityRegistryManager extends CapabilityManager {
   private dataPath: string;
   private isInitialized: boolean = false;
 
   constructor(eventBus: EventBus, dataPath: string = 'data/capabilities') {
+    this.logger = new StructuredLogger({ module: 'CapabilityRegistryManager' });
     super(eventBus);
     this.dataPath = dataPath;
   }
@@ -34,15 +36,15 @@ export class CapabilityRegistryManager extends CapabilityManager {
     await this.autoDiscoverModules();
 
     this.isInitialized = true;
-    console.log(`✅ Capability Registry initialized`);
+    this.logger.info(`✅ Capability Registry initialized`);
   }
 
   /**
    * Auto-discover modules with MIFFCapable implementations
    */
   private async autoDiscoverModules(): Promise<void> {
-    // TODO: Implement module discovery
-    console.log('Module discovery not yet implemented');
+    // TODO: Implement in next phase
+    this.logger.info('Module discovery not yet implemented');
   }
 
   /**

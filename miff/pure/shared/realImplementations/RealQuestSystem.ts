@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Quest System Implementation
  * 
@@ -46,12 +47,14 @@ export interface QuestProgress {
 }
 
 export class RealQuestSystem {
+  private logger: StructuredLogger;
   private quests: Map<string, Quest> = new Map();
   private activeQuests: Map<string, QuestProgress> = new Map();
   private completedQuests: Set<string> = new Set();
   private questEvents: Map<string, Function[]> = new Map();
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealQuestSystem' });
     this.initializeDefaultQuests();
   }
 
@@ -61,13 +64,13 @@ export class RealQuestSystem {
   addQuest(quest: Quest): boolean {
     try {
       if (this.quests.has(quest.id)) {
-        console.warn(`Quest ${quest.id} already exists`);
+        this.logger.warn(`Quest ${quest.id} already exists`);
         return false;
       }
 
       // Validate quest structure
       if (!this.validateQuest(quest)) {
-        console.error(`Invalid quest structure for ${quest.id}`);
+        this.logger.error(`Invalid quest structure for ${quest.id}`);
         return false;
       }
 
@@ -75,7 +78,7 @@ export class RealQuestSystem {
       this.emit('questAdded', { quest });
       return true;
     } catch (error) {
-      console.error(`Failed to add quest ${quest.id}:`, error);
+      this.logger.error(`Failed to add quest ${quest.id}:`, error);
       return false;
     }
   }
@@ -94,18 +97,18 @@ export class RealQuestSystem {
     try {
       const quest = this.quests.get(questId);
       if (!quest) {
-        console.warn(`Quest ${questId} not found`);
+        this.logger.warn(`Quest ${questId} not found`);
         return false;
       }
 
       if (quest.status !== 'available') {
-        console.warn(`Quest ${questId} is not available`);
+        this.logger.warn(`Quest ${questId} is not available`);
         return false;
       }
 
       // Check prerequisites
       if (!this.checkPrerequisites(quest, playerId)) {
-        console.warn(`Prerequisites not met for quest ${questId}`);
+        this.logger.warn(`Prerequisites not met for quest ${questId}`);
         return false;
       }
 
@@ -132,7 +135,7 @@ export class RealQuestSystem {
       this.emit('questStarted', { questId, playerId, quest });
       return true;
     } catch (error) {
-      console.error(`Failed to start quest ${questId}:`, error);
+      this.logger.error(`Failed to start quest ${questId}:`, error);
       return false;
     }
   }
@@ -147,13 +150,13 @@ export class RealQuestSystem {
       const quest = this.quests.get(questId);
 
       if (!progress || !quest) {
-        console.warn(`Quest ${questId} not found or not active for player ${playerId}`);
+        this.logger.warn(`Quest ${questId} not found or not active for player ${playerId}`);
         return false;
       }
 
       // Check if all objectives are completed
       if (!this.areAllObjectivesCompleted(quest, progress)) {
-        console.warn(`Not all objectives completed for quest ${questId}`);
+        this.logger.warn(`Not all objectives completed for quest ${questId}`);
         return false;
       }
 
@@ -172,7 +175,7 @@ export class RealQuestSystem {
       this.emit('questCompleted', { questId, playerId, quest });
       return true;
     } catch (error) {
-      console.error(`Failed to complete quest ${questId}:`, error);
+      this.logger.error(`Failed to complete quest ${questId}:`, error);
       return false;
     }
   }
@@ -211,7 +214,7 @@ export class RealQuestSystem {
 
       return true;
     } catch (error) {
-      console.error(`Failed to update objective ${objectiveId}:`, error);
+      this.logger.error(`Failed to update objective ${objectiveId}:`, error);
       return false;
     }
   }
@@ -298,7 +301,7 @@ export class RealQuestSystem {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in quest event handler for ${event}:`, error);
+          this.logger.error(`Error in quest event handler for ${event}:`, error);
         }
       });
     }
@@ -344,7 +347,7 @@ export class RealQuestSystem {
   private awardRewards(quest: Quest, playerId: string): void {
     quest.rewards.forEach(reward => {
       // This would integrate with player systems to award rewards
-      console.log(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
+      this.logger.info(`Awarding ${reward.quantity} ${reward.type} to player ${playerId}`);
     });
   }
 

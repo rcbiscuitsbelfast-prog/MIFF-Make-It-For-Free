@@ -1,6 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { 
   PerfMetricsPure, 
   PerfConfig, 
@@ -17,9 +19,9 @@ function main() {
   let config: Partial<PerfConfig> = {};
   if (configFile && fs.existsSync(configFile)) {
     try {
-      config = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
+      config = SafeJSONParser.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
     } catch (error) {
-      console.error('Error loading config:', error);
+      this.logger.error('Error loading config:', error);
       process.exit(1);
     }
   }
@@ -32,7 +34,7 @@ function main() {
       case 'record':
         const sampleData = args[1];
         if (sampleData && fs.existsSync(sampleData)) {
-          const samples = JSON.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
+          const samples = SafeJSONParser.parse(fs.readFileSync(path.resolve(sampleData), 'utf-8')) as PerfSample[];
           samples.forEach(sample => {
             perf.record(
               sample.dtMs, 
@@ -75,7 +77,7 @@ function main() {
       case 'updateConfig':
         const newConfigFile = args[1];
         if (newConfigFile && fs.existsSync(newConfigFile)) {
-          const newConfig = JSON.parse(fs.readFileSync(path.resolve(newConfigFile), 'utf-8'));
+          const newConfig = SafeJSONParser.parse(fs.readFileSync(path.resolve(newConfigFile), 'utf-8'));
           perf.updateConfig(newConfig);
           result.result = { message: 'Configuration updated successfully' };
         } else {
@@ -120,7 +122,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(perf: PerfMetricsPure): any {

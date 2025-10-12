@@ -8,6 +8,7 @@
  */
 
 import * as readline from 'readline';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import {
   OverworldBattleSliceTool,
   SliceUtils,
@@ -23,6 +24,7 @@ import {
 
 // CLI Application
 class SlicePureCLI {
+  private logger: StructuredLogger;
   private rl: readline.Interface;
   private currentState: PlayerState;
   private encounterController: IEncounterController;
@@ -31,6 +33,7 @@ class SlicePureCLI {
   private encounterCount: number = 0;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'SlicePureCLI' });
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
@@ -49,11 +52,11 @@ class SlicePureCLI {
 
     return {
       registerTable: (table: EncounterTable) => {
-        console.log(`📋 Registered encounter table for ${table.zoneId} with ${table.entries.length} entries`);
+        this.logger.info(`📋 Registered encounter table for ${table.zoneId} with ${table.entries.length} entries`);
       },
 
       registerTrigger: (trigger: EncounterTrigger) => {
-        console.log(`🎯 Registered encounter trigger for ${trigger.zoneId} (${trigger.triggerType})`);
+        this.logger.info(`🎯 Registered encounter trigger for ${trigger.zoneId} (${trigger.triggerType})`);
       },
 
       checkForEncounter: (state: PlayerState, rng: RNGProvider) => {
@@ -92,11 +95,11 @@ class SlicePureCLI {
       },
 
       clearTables: () => {
-        console.log('🗑️ Cleared encounter tables');
+        this.logger.info('🗑️ Cleared encounter tables');
       },
 
       clearTriggers: () => {
-        console.log('🗑️ Cleared encounter triggers');
+        this.logger.info('🗑️ Cleared encounter triggers');
       }
     };
   }
@@ -105,30 +108,30 @@ class SlicePureCLI {
    * Start CLI application
    */
   start(): void {
-    console.log('='.repeat(80));
-    console.log('🎮 SlicePure CLI - Overworld Battle Vertical Slice');
-    console.log('='.repeat(80));
-    console.log('');
-    console.log('🎯 This demo shows a complete game loop:');
-    console.log('   1. Overworld roaming with random encounters');
-    console.log('   2. Battle system integration');
-    console.log('   3. Turn-based combat simulation');
-    console.log('   4. Experience and rewards');
-    console.log('');
-    console.log('Available commands:');
-    console.log('  roam [steps]      - Roam around and look for encounters');
-    console.log('  battle            - Trigger battle with random spirit');
-    console.log('  status            - Show current player state');
-    console.log('  move [direction]  - Move to specific direction (n, s, e, w)');
-    console.log('  time [time]       - Set time of day (dawn, day, dusk, night)');
-    console.log('  weather [weather] - Set weather (clear, rain, fog, storm)');
-    console.log('  reset             - Reset player state');
-    console.log('  demo              - Run automated demo');
-    console.log('  help              - Show this help');
-    console.log('  exit              - Exit application');
-    console.log('');
-    console.log('🎮 Try "demo" for an automated demonstration!');
-    console.log('');
+    this.logger.info('='.repeat(80));
+    this.logger.info('🎮 SlicePure CLI - Overworld Battle Vertical Slice');
+    this.logger.info('='.repeat(80));
+    this.logger.info('');
+    this.logger.info('🎯 This demo shows a complete game loop:');
+    this.logger.info('   1. Overworld roaming with random encounters');
+    this.logger.info('   2. Battle system integration');
+    this.logger.info('   3. Turn-based combat simulation');
+    this.logger.info('   4. Experience and rewards');
+    this.logger.info('');
+    this.logger.info('Available commands:');
+    this.logger.info('  roam [steps]      - Roam around and look for encounters');
+    this.logger.info('  battle            - Trigger battle with random spirit');
+    this.logger.info('  status            - Show current player state');
+    this.logger.info('  move [direction]  - Move to specific direction (n, s, e, w)');
+    this.logger.info('  time [time]       - Set time of day (dawn, day, dusk, night)');
+    this.logger.info('  weather [weather] - Set weather (clear, rain, fog, storm)');
+    this.logger.info('  reset             - Reset player state');
+    this.logger.info('  demo              - Run automated demo');
+    this.logger.info('  help              - Show this help');
+    this.logger.info('  exit              - Exit application');
+    this.logger.info('');
+    this.logger.info('🎮 Try "demo" for an automated demonstration!');
+    this.logger.info('');
 
     this.showStatus();
     this.showPrompt();
@@ -200,11 +203,11 @@ class SlicePureCLI {
           this.exit();
           return;
         default:
-          console.log(`❌ Unknown command: ${command}`);
-          console.log('Type "help" for available commands.');
+          this.logger.info(`❌ Unknown command: ${command}`);
+          this.logger.info('Type "help" for available commands.');
       }
     } catch (error) {
-      console.log(`❌ Error: ${error}`);
+      this.logger.info(`❌ Error: ${error}`);
     }
 
     this.showPrompt();
@@ -214,32 +217,32 @@ class SlicePureCLI {
    * Show help information
    */
   private showHelp(): void {
-    console.log('🎮 SlicePure CLI Help');
-    console.log('');
-    console.log('Commands:');
-    console.log('  roam [steps]      - Roam around looking for encounters');
-    console.log('  battle            - Trigger battle with random spirit');
-    console.log('  status            - Show current player state');
-    console.log('  move [direction]  - Move (n, s, e, w)');
-    console.log('  time [time]       - Set time (dawn, day, dusk, night)');
-    console.log('  weather [weather] - Set weather (clear, rain, fog)');
-    console.log('  reset             - Reset to starting state');
-    console.log('  demo              - Run automated demonstration');
-    console.log('  help              - Show this help');
-    console.log('  exit              - Exit application');
-    console.log('');
-    console.log('🎯 The "demo" command shows the complete vertical slice!');
+    this.logger.info('🎮 SlicePure CLI Help');
+    this.logger.info('');
+    this.logger.info('Commands:');
+    this.logger.info('  roam [steps]      - Roam around looking for encounters');
+    this.logger.info('  battle            - Trigger battle with random spirit');
+    this.logger.info('  status            - Show current player state');
+    this.logger.info('  move [direction]  - Move (n, s, e, w)');
+    this.logger.info('  time [time]       - Set time (dawn, day, dusk, night)');
+    this.logger.info('  weather [weather] - Set weather (clear, rain, fog)');
+    this.logger.info('  reset             - Reset to starting state');
+    this.logger.info('  demo              - Run automated demonstration');
+    this.logger.info('  help              - Show this help');
+    this.logger.info('  exit              - Exit application');
+    this.logger.info('');
+    this.logger.info('🎯 The "demo" command shows the complete vertical slice!');
   }
 
   /**
    * Roam for specified number of steps
    */
   private async roamSteps(steps: number): Promise<void> {
-    console.log(`🚶 Starting to roam for ${steps} steps...`);
-    console.log(`📍 Current position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
-    console.log(`🗺️ Zone: ${this.currentState.zoneId} | Tile: ${this.currentState.tileType}`);
-    console.log(`⏰ Time: ${this.currentState.timeOfDay} | Weather: ${this.currentState.weather}`);
-    console.log('='.repeat(60));
+    this.logger.info(`🚶 Starting to roam for ${steps} steps...`);
+    this.logger.info(`📍 Current position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
+    this.logger.info(`🗺️ Zone: ${this.currentState.zoneId} | Tile: ${this.currentState.tileType}`);
+    this.logger.info(`⏰ Time: ${this.currentState.timeOfDay} | Weather: ${this.currentState.weather}`);
+    this.logger.info('='.repeat(60));
 
     let encounters = 0;
 
@@ -254,26 +257,26 @@ class SlicePureCLI {
 
       // Display step info
       if (i % 5 === 0 || encounterResult.triggered) {
-        console.log(`🚶 Step ${i}: (${stepResult.state.position.x}, ${stepResult.state.position.y})`);
+        this.logger.info(`🚶 Step ${i}: (${stepResult.state.position.x}, ${stepResult.state.position.y})`);
       }
 
       if (encounterResult.triggered) {
         encounters++;
         this.encounterCount++;
-        console.log('');
-        console.log('🎯 ENCOUNTER TRIGGERED! 🎯');
-        console.log(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
-        console.log(`📊 Encounter rate: ${this.encounterController.getEncounterRate(this.currentState.zoneId, this.currentState).toFixed(2)}`);
+        this.logger.info('');
+        this.logger.info('🎯 ENCOUNTER TRIGGERED! 🎯');
+        this.logger.info(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
+        this.logger.info(`📊 Encounter rate: ${this.encounterController.getEncounterRate(this.currentState.zoneId, this.currentState).toFixed(2)}`);
 
         // Ask if user wants to battle
-        console.log('');
-        console.log('💥 Would you like to battle? (type "battle" to engage, or continue roaming)');
-        console.log('🔄 Or continue roaming automatically...');
-        console.log('');
+        this.logger.info('');
+        this.logger.info('💥 Would you like to battle? (type "battle" to engage, or continue roaming)');
+        this.logger.info('🔄 Or continue roaming automatically...');
+        this.logger.info('');
 
         // Auto-continue after a brief pause
         setTimeout(() => {
-          console.log(`🔄 Continuing to roam... (${i + 1}/${steps})`);
+          this.logger.info(`🔄 Continuing to roam... (${i + 1}/${steps})`);
         }, 2000);
 
         break; // Stop roaming on encounter for demo purposes
@@ -283,20 +286,20 @@ class SlicePureCLI {
       this.currentState = stepResult.state;
     }
 
-    console.log('='.repeat(60));
-    console.log(`🏁 Roaming complete!`);
-    console.log(`📊 Steps taken: ${this.stepCount}`);
-    console.log(`⚔️ Encounters found: ${this.encounterCount}`);
-    console.log(`📈 Encounter rate: ${(this.encounterCount / this.stepCount * 100).toFixed(1)}%`);
-    console.log('');
+    this.logger.info('='.repeat(60));
+    this.logger.info(`🏁 Roaming complete!`);
+    this.logger.info(`📊 Steps taken: ${this.stepCount}`);
+    this.logger.info(`⚔️ Encounters found: ${this.encounterCount}`);
+    this.logger.info(`📈 Encounter rate: ${(this.encounterCount / this.stepCount * 100).toFixed(1)}%`);
+    this.logger.info('');
   }
 
   /**
    * Trigger battle with random spirit
    */
   private triggerBattle(): void {
-    console.log('⚔️ TRIGGERING BATTLE...');
-    console.log('='.repeat(50));
+    this.logger.info('⚔️ TRIGGERING BATTLE...');
+    this.logger.info('='.repeat(50));
 
     // Create player spirit
     const playerSpirit = this.createDemoPlayerSpirit();
@@ -307,39 +310,39 @@ class SlicePureCLI {
     const wildLevel = this.rng.nextInt(3, 8);
     const wildSpirit = this.createDemoWildSpirit(wildSpiritId, wildLevel);
 
-    console.log(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
-    console.log(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
-    console.log('');
+    this.logger.info(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
+    this.logger.info(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
+    this.logger.info('');
 
     // Simulate battle
     this.simulateBattle(playerSpirit, wildSpirit);
 
-    console.log('='.repeat(50));
-    console.log('🏁 Battle complete!');
+    this.logger.info('='.repeat(50));
+    this.logger.info('🏁 Battle complete!');
   }
 
   /**
    * Simulate battle between two spirits
    */
   private simulateBattle(playerSpirit: ISpiritInstance, wildSpirit: ISpiritInstance): void {
-    console.log('⚔️ BATTLE START!');
-    console.log('');
+    this.logger.info('⚔️ BATTLE START!');
+    this.logger.info('');
 
     let turn = 1;
     const maxTurns = 20; // Prevent infinite battles
 
     while (playerSpirit.isAlive() && wildSpirit.isAlive() && turn <= maxTurns) {
-      console.log(`🔄 Turn ${turn}:`);
+      this.logger.info(`🔄 Turn ${turn}:`);
 
       // Player attacks first
       const playerDamage = this.calculateDamage(playerSpirit, wildSpirit);
       wildSpirit.takeDamage(playerDamage);
 
-      console.log(`  ${playerSpirit.name} attacks for ${playerDamage} damage!`);
-      console.log(`  ${wildSpirit.name}: ${wildSpirit.currentHp}/${wildSpirit.maxHp} HP remaining`);
+      this.logger.info(`  ${playerSpirit.name} attacks for ${playerDamage} damage!`);
+      this.logger.info(`  ${wildSpirit.name}: ${wildSpirit.currentHp}/${wildSpirit.maxHp} HP remaining`);
 
       if (!wildSpirit.isAlive()) {
-        console.log(`  ${wildSpirit.name} fainted!`);
+        this.logger.info(`  ${wildSpirit.name} fainted!`);
         break;
       }
 
@@ -347,15 +350,15 @@ class SlicePureCLI {
       const wildDamage = this.calculateDamage(wildSpirit, playerSpirit);
       playerSpirit.takeDamage(wildDamage);
 
-      console.log(`  ${wildSpirit.name} attacks for ${wildDamage} damage!`);
-      console.log(`  ${playerSpirit.name}: ${playerSpirit.currentHp}/${playerSpirit.maxHp} HP remaining`);
+      this.logger.info(`  ${wildSpirit.name} attacks for ${wildDamage} damage!`);
+      this.logger.info(`  ${playerSpirit.name}: ${playerSpirit.currentHp}/${playerSpirit.maxHp} HP remaining`);
 
       if (!playerSpirit.isAlive()) {
-        console.log(`  ${playerSpirit.name} fainted!`);
+        this.logger.info(`  ${playerSpirit.name} fainted!`);
         break;
       }
 
-      console.log('');
+      this.logger.info('');
       turn++;
     }
 
@@ -363,23 +366,23 @@ class SlicePureCLI {
     const winner = playerSpirit.isAlive() ? playerSpirit : wildSpirit;
     const loser = playerSpirit.isAlive() ? wildSpirit : playerSpirit;
 
-    console.log('');
-    console.log('🏆 BATTLE RESULT:');
-    console.log(`  Winner: ${winner.name}`);
-    console.log(`  Loser: ${loser.name}`);
-    console.log(`  Turns: ${turn}`);
+    this.logger.info('');
+    this.logger.info('🏆 BATTLE RESULT:');
+    this.logger.info(`  Winner: ${winner.name}`);
+    this.logger.info(`  Loser: ${loser.name}`);
+    this.logger.info(`  Turns: ${turn}`);
 
     // Calculate rewards
     const experienceGained = loser.level * 15;
     const goldGained = loser.level * 25;
     const syncGained = Math.floor(turn * 3.5);
 
-    console.log('');
-    console.log('🎖️ REWARDS:');
-    console.log(`  Experience: ${experienceGained} XP`);
-    console.log(`  Gold: ${goldGained} coins`);
-    console.log(`  Sync Points: ${syncGained}`);
-    console.log(`  Total Playtime: ${Math.floor(turn * 30)} seconds`);
+    this.logger.info('');
+    this.logger.info('🎖️ REWARDS:');
+    this.logger.info(`  Experience: ${experienceGained} XP`);
+    this.logger.info(`  Gold: ${goldGained} coins`);
+    this.logger.info(`  Sync Points: ${syncGained}`);
+    this.logger.info(`  Total Playtime: ${Math.floor(turn * 30)} seconds`);
   }
 
   /**
@@ -400,8 +403,8 @@ class SlicePureCLI {
    */
   private movePlayer(direction?: string): void {
     if (!direction) {
-      console.log('❌ Usage: move [direction]');
-      console.log('Directions: n (north), s (south), e (east), w (west)');
+      this.logger.info('❌ Usage: move [direction]');
+      this.logger.info('Directions: n (north), s (south), e (east), w (west)');
       return;
     }
 
@@ -430,22 +433,22 @@ class SlicePureCLI {
         moved = true;
         break;
       default:
-        console.log('❌ Invalid direction. Use: n, s, e, w');
+        this.logger.info('❌ Invalid direction. Use: n, s, e, w');
         return;
     }
 
     if (moved) {
       this.currentState.stepsSinceLastEncounter++;
       this.stepCount++;
-      console.log(`🚶 Moved ${dir.toUpperCase()} to (${this.currentState.position.x}, ${this.currentState.position.y})`);
-      console.log(`📊 Steps since last encounter: ${this.currentState.stepsSinceLastEncounter}`);
+      this.logger.info(`🚶 Moved ${dir.toUpperCase()} to (${this.currentState.position.x}, ${this.currentState.position.y})`);
+      this.logger.info(`📊 Steps since last encounter: ${this.currentState.stepsSinceLastEncounter}`);
 
       // Check for encounter after movement
       const encounterResult = this.encounterController.checkForEncounter(this.currentState, this.rng);
       if (encounterResult.triggered) {
-        console.log('');
-        console.log('🎯 ENCOUNTER TRIGGERED! 🎯');
-        console.log(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
+        this.logger.info('');
+        this.logger.info('🎯 ENCOUNTER TRIGGERED! 🎯');
+        this.logger.info(`👻 Wild ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
       }
     }
   }
@@ -455,8 +458,8 @@ class SlicePureCLI {
    */
   private setTimeOfDay(timeStr?: string): void {
     if (!timeStr) {
-      console.log('❌ Usage: time [time_of_day]');
-      console.log('Times: dawn, day, dusk, night');
+      this.logger.info('❌ Usage: time [time_of_day]');
+      this.logger.info('Times: dawn, day, dusk, night');
       return;
     }
 
@@ -464,22 +467,22 @@ class SlicePureCLI {
     switch (time) {
       case 'dawn':
         this.currentState.setTimeOfDay(TimeOfDay.DAWN);
-        console.log('🌅 Set time to DAWN');
+        this.logger.info('🌅 Set time to DAWN');
         break;
       case 'day':
         this.currentState.setTimeOfDay(TimeOfDay.DAY);
-        console.log('☀️ Set time to DAY');
+        this.logger.info('☀️ Set time to DAY');
         break;
       case 'dusk':
         this.currentState.setTimeOfDay(TimeOfDay.DUSK);
-        console.log('🌇 Set time to DUSK');
+        this.logger.info('🌇 Set time to DUSK');
         break;
       case 'night':
         this.currentState.setTimeOfDay(TimeOfDay.NIGHT);
-        console.log('🌙 Set time to NIGHT');
+        this.logger.info('🌙 Set time to NIGHT');
         break;
       default:
-        console.log('❌ Invalid time. Use: dawn, day, dusk, night');
+        this.logger.info('❌ Invalid time. Use: dawn, day, dusk, night');
     }
   }
 
@@ -488,35 +491,35 @@ class SlicePureCLI {
    */
   private setWeather(weatherStr?: string): void {
     if (!weatherStr) {
-      console.log('❌ Usage: weather [weather_type]');
-      console.log('Weather: clear, sunny, rain, fog, storm, wind');
+      this.logger.info('❌ Usage: weather [weather_type]');
+      this.logger.info('Weather: clear, sunny, rain, fog, storm, wind');
       return;
     }
 
     const weather = weatherStr.toLowerCase();
     this.currentState.setWeather(weather);
-    console.log(`🌤️ Set weather to ${weather.toUpperCase()}`);
+    this.logger.info(`🌤️ Set weather to ${weather.toUpperCase()}`);
   }
 
   /**
    * Show current status
    */
   private showStatus(): void {
-    console.log('='.repeat(60));
-    console.log('📊 CURRENT STATUS');
-    console.log('='.repeat(60));
-    console.log(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
-    console.log(`🗺️ Zone: ${this.currentState.zoneId} | Tile: ${this.currentState.tileType}`);
-    console.log(`⏰ Time: ${this.currentState.timeOfDay} | Weather: ${this.currentState.weather}`);
-    console.log(`🚶 Steps since encounter: ${this.currentState.stepsSinceLastEncounter}`);
-    console.log(`📈 Total steps: ${this.stepCount}`);
-    console.log(`⚔️ Total encounters: ${this.encounterCount}`);
-    console.log(`📊 Encounter rate: ${this.encounterCount > 0 ? (this.encounterCount / this.stepCount * 100).toFixed(1) : '0.0'}%`);
-    console.log(`🎲 RNG Seed: ${this.rng.seed}`);
-    console.log('');
-    console.log(`🎯 Encounter rate: ${this.encounterController.getEncounterRate(this.currentState.zoneId, this.currentState).toFixed(2)}`);
-    console.log(`👻 Available spirits: ${this.encounterController.getAvailableSpirits(this.currentState.zoneId).join(', ')}`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info('📊 CURRENT STATUS');
+    this.logger.info('='.repeat(60));
+    this.logger.info(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
+    this.logger.info(`🗺️ Zone: ${this.currentState.zoneId} | Tile: ${this.currentState.tileType}`);
+    this.logger.info(`⏰ Time: ${this.currentState.timeOfDay} | Weather: ${this.currentState.weather}`);
+    this.logger.info(`🚶 Steps since encounter: ${this.currentState.stepsSinceLastEncounter}`);
+    this.logger.info(`📈 Total steps: ${this.stepCount}`);
+    this.logger.info(`⚔️ Total encounters: ${this.encounterCount}`);
+    this.logger.info(`📊 Encounter rate: ${this.encounterCount > 0 ? (this.encounterCount / this.stepCount * 100).toFixed(1) : '0.0'}%`);
+    this.logger.info(`🎲 RNG Seed: ${this.rng.seed}`);
+    this.logger.info('');
+    this.logger.info(`🎯 Encounter rate: ${this.encounterController.getEncounterRate(this.currentState.zoneId, this.currentState).toFixed(2)}`);
+    this.logger.info(`👻 Available spirits: ${this.encounterController.getAvailableSpirits(this.currentState.zoneId).join(', ')}`);
+    this.logger.info('='.repeat(60));
   }
 
   /**
@@ -527,7 +530,7 @@ class SlicePureCLI {
     this.stepCount = 0;
     this.encounterCount = 0;
     this.rng = new RNGProvider();
-    console.log('🔄 Reset to initial state');
+    this.logger.info('🔄 Reset to initial state');
     this.showStatus();
   }
 
@@ -535,14 +538,14 @@ class SlicePureCLI {
    * Run automated demo
    */
   private async runDemo(): Promise<void> {
-    console.log('🎮 STARTING AUTOMATED DEMO...');
-    console.log('='.repeat(60));
+    this.logger.info('🎮 STARTING AUTOMATED DEMO...');
+    this.logger.info('='.repeat(60));
 
     const demoSteps = 25;
 
     for (let i = 0; i < demoSteps; i++) {
-      console.log(`\n🚶 DEMO STEP ${i + 1}/${demoSteps}`);
-      console.log(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
+      this.logger.info(`\n🚶 DEMO STEP ${i + 1}/${demoSteps}`);
+      this.logger.info(`📍 Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
 
       // Simulate step
       const stepResult = SliceUtils.simulateOverworldStep(this.currentState, this.rng);
@@ -552,10 +555,10 @@ class SlicePureCLI {
       const encounterResult = this.encounterController.checkForEncounter(this.currentState, this.rng);
 
       if (encounterResult.triggered) {
-        console.log('');
-        console.log('🎯 ENCOUNTER! 🎯');
-        console.log(`👻 ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
-        console.log('');
+        this.logger.info('');
+        this.logger.info('🎯 ENCOUNTER! 🎯');
+        this.logger.info(`👻 ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
+        this.logger.info('');
 
         // Simulate battle
         const playerSpirit = this.createDemoPlayerSpirit();
@@ -563,9 +566,9 @@ class SlicePureCLI {
 
         this.simulateBattle(playerSpirit, wildSpirit);
 
-        console.log('');
-        console.log('🏁 Demo continues roaming...');
-        console.log('');
+        this.logger.info('');
+        this.logger.info('🏁 Demo continues roaming...');
+        this.logger.info('');
 
         // Short pause
         await this.sleep(1000);
@@ -573,22 +576,22 @@ class SlicePureCLI {
 
       // Show progress every 5 steps
       if ((i + 1) % 5 === 0) {
-        console.log(`📊 Progress: ${i + 1}/${demoSteps} steps completed`);
-        console.log(`⚔️ Encounters: ${this.encounterCount}`);
+        this.logger.info(`📊 Progress: ${i + 1}/${demoSteps} steps completed`);
+        this.logger.info(`⚔️ Encounters: ${this.encounterCount}`);
       }
     }
 
-    console.log('='.repeat(60));
-    console.log('🎉 DEMO COMPLETE!');
-    console.log('='.repeat(60));
-    console.log('📊 Final Statistics:');
-    console.log(`  Total Steps: ${this.stepCount}`);
-    console.log(`  Encounters: ${this.encounterCount}`);
-    console.log(`  Encounter Rate: ${(this.encounterCount / this.stepCount * 100).toFixed(1)}%`);
-    console.log(`  Final Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
-    console.log('');
-    console.log('🎮 Try "roam 10" to continue exploring!');
-    console.log('💡 Or "battle" to trigger an immediate encounter!');
+    this.logger.info('='.repeat(60));
+    this.logger.info('🎉 DEMO COMPLETE!');
+    this.logger.info('='.repeat(60));
+    this.logger.info('📊 Final Statistics:');
+    this.logger.info(`  Total Steps: ${this.stepCount}`);
+    this.logger.info(`  Encounters: ${this.encounterCount}`);
+    this.logger.info(`  Encounter Rate: ${(this.encounterCount / this.stepCount * 100).toFixed(1)}%`);
+    this.logger.info(`  Final Position: (${this.currentState.position.x}, ${this.currentState.position.y})`);
+    this.logger.info('');
+    this.logger.info('🎮 Try "roam 10" to continue exploring!');
+    this.logger.info('💡 Or "battle" to trigger an immediate encounter!');
   }
 
   /**
@@ -716,16 +719,16 @@ class SlicePureCLI {
    * Exit application
    */
   private exit(): void {
-    console.log('');
-    console.log('👋 Thank you for using SlicePure CLI!');
-    console.log('🎮 This demo showed the complete MIFF game loop:');
-    console.log('   1. Overworld roaming with encounter generation');
-    console.log('   2. Random encounter triggering');
-    console.log('   3. Battle system integration');
-    console.log('   4. Turn-based combat simulation');
-    console.log('   5. Experience and reward calculation');
-    console.log('');
-    console.log('🎯 All MIFF modules work together seamlessly!');
+    this.logger.info('');
+    this.logger.info('👋 Thank you for using SlicePure CLI!');
+    this.logger.info('🎮 This demo showed the complete MIFF game loop:');
+    this.logger.info('   1. Overworld roaming with encounter generation');
+    this.logger.info('   2. Random encounter triggering');
+    this.logger.info('   3. Battle system integration');
+    this.logger.info('   4. Turn-based combat simulation');
+    this.logger.info('   5. Experience and reward calculation');
+    this.logger.info('');
+    this.logger.info('🎯 All MIFF modules work together seamlessly!');
     this.rl.close();
     process.exit(0);
   }

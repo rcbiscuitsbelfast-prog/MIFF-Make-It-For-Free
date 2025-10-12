@@ -108,6 +108,7 @@ export interface SettingsStats {
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export class SettingsManager {
   private settings: SettingsConfig;
@@ -120,7 +121,7 @@ export class SettingsManager {
     
     if (initPath && fs.existsSync(initPath)) {
       try {
-        const data = JSON.parse(fs.readFileSync(path.resolve(initPath), 'utf-8'));
+        const data = SafeJSONParser.parse(fs.readFileSync(path.resolve(initPath), 'utf-8'));
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
     
     // Initialize structured logging
@@ -685,7 +686,7 @@ export class SettingsManager {
 
   load(path: string): boolean {
     try {
-      const data = JSON.parse(fs.readFileSync(path, 'utf-8'));
+      const data = SafeJSONParser.parse(fs.readFileSync(path, 'utf-8'));
       this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
     } catch (error) {

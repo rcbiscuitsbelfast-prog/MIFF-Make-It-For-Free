@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { CraftingManager, Recipe, Inventory } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'list' }
@@ -15,7 +17,7 @@ function main() {
   const recipesPath = process.argv[2] || 'CraftingPure/sample_recipes.json';
   const commandsPath = process.argv[3] || '';
   
-  const obj = JSON.parse(fs.readFileSync(path.resolve(recipesPath), 'utf-8')) as { 
+  const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(recipesPath), 'utf-8')) as { 
     recipes: Array<{ id: string; inputs: Record<string, number>; outputs: Record<string, number>; statMods?: any[] }> 
   };
 
@@ -44,7 +46,7 @@ function main() {
     mgr.createRecipe(fullRecipe);
   }
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'list' } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'list' } as Cmd];
   const outputs: any[] = [];
 
   for (const c of cmds) {
@@ -75,7 +77,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

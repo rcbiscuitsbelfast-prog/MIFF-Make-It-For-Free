@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface AssetReference {
   id: string;
@@ -62,11 +63,13 @@ export interface AssetValidationStats {
 }
 
 export class AssetValidator {
+  private logger: StructuredLogger;
   private assetReferences: Map<string, AssetReference> = new Map();
   private validationResults: Map<string, AssetValidationResult> = new Map();
   private supportedExtensions: Map<string, AssetType> = new Map();
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'AssetValidator' });
     this.initializeSupportedExtensions();
   }
 
@@ -74,7 +77,7 @@ export class AssetValidator {
    * Scan for asset references in codebase
    */
   async scanAssetReferences(rootPath: string): Promise<AssetReference[]> {
-    console.log(`🔍 Scanning for asset references in ${rootPath}...`);
+    this.logger.info(`🔍 Scanning for asset references in ${rootPath}...`);
     
     const references: AssetReference[] = [];
     
@@ -120,11 +123,11 @@ export class AssetValidator {
         }
       }
       
-      console.log(`✅ Found ${references.length} asset references`);
+      this.logger.info(`✅ Found ${references.length} asset references`);
       return references;
       
     } catch (error) {
-      console.error('❌ Error scanning asset references:', error);
+      this.logger.error('❌ Error scanning asset references:', error);
       return [];
     }
   }
@@ -133,7 +136,7 @@ export class AssetValidator {
    * Validate asset existence
    */
   async validateAssets(rootPath: string): Promise<AssetValidationResult[]> {
-    console.log('🔍 Validating asset existence...');
+    this.logger.info('🔍 Validating asset existence...');
     
     const results: AssetValidationResult[] = [];
     
@@ -150,7 +153,7 @@ export class AssetValidator {
    * Check pipeline integrity
    */
   async checkPipelineIntegrity(rootPath: string): Promise<PipelineIntegrityResult[]> {
-    console.log('🔍 Checking pipeline integrity...');
+    this.logger.info('🔍 Checking pipeline integrity...');
     
     const results: PipelineIntegrityResult[] = [];
     

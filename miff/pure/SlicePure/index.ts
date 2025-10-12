@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * SlicePure - Overworld Battle Vertical Slice
  *
@@ -344,6 +345,7 @@ export class PlayerState implements IPlayerState {
     position: { x: number; y: number } = { x: 0, y: 0 },
     weather: string = 'clear'
   ) {
+    this.logger = new StructuredLogger({ module: 'PlayerState' });
     this.zoneId = zoneId;
     this.tileType = tileType;
     this.timeOfDay = timeOfDay;
@@ -1120,26 +1122,26 @@ export class OverworldBattleSliceTool {
     const rngSeed = seed ?? 12345;
     const rng = new RNGProvider(rngSeed);
 
-    console.log(`🌱 Seed=${rngSeed} | Starting overworld battle slice demonstration...`);
-    console.log('='.repeat(80));
+    this.logger.info(`🌱 Seed=${rngSeed} | Starting overworld battle slice demonstration...`);
+    this.logger.info('='.repeat(80));
 
     // 1) Setup Encounter table and triggers for Newhaven
     const encounterController = this.setupEncounterSystem();
 
     const playerState = new PlayerState('newhaven', 'grass', TimeOfDay.DAY, 0, { x: 0, y: 0 }, 'clear');
 
-    console.log(`🗺️ Roaming in ${playerState.zoneId} on ${playerState.tileType} tiles...`);
+    this.logger.info(`🗺️ Roaming in ${playerState.zoneId} on ${playerState.tileType} tiles...`);
 
     // 2) Roam until encounter
     const encounterResult = this.roamUntilEncounter(encounterController, playerState, rng, 50);
 
     if (!encounterResult.triggered) {
-      console.log('❌ No encounter occurred within 50 steps.');
+      this.logger.info('❌ No encounter occurred within 50 steps.');
       return;
     }
 
-    console.log(`⚔️ Encounter! ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
-    console.log('='.repeat(80));
+    this.logger.info(`⚔️ Encounter! ${encounterResult.spiritId} (Level ${encounterResult.level}) appeared!`);
+    this.logger.info('='.repeat(80));
 
     // 3) Setup Battle System
     const battleSystem = this.setupBattleSystem(rng);
@@ -1147,8 +1149,8 @@ export class OverworldBattleSliceTool {
     // 4) Execute Battle
     this.executeBattle(battleSystem, encounterResult, rng);
 
-    console.log('='.repeat(80));
-    console.log('🎮 Overworld battle slice demonstration complete!');
+    this.logger.info('='.repeat(80));
+    this.logger.info('🎮 Overworld battle slice demonstration complete!');
   }
 
   /**
@@ -1158,8 +1160,8 @@ export class OverworldBattleSliceTool {
     // This would be implemented with actual EncounterController
     // For demo purposes, we'll create a simple implementation
     return {
-      registerTable: (table: IEncounterTable) => console.log(`Registered encounter table for ${table.zoneId}`),
-      registerTrigger: (trigger: IEncounterTrigger) => console.log(`Registered trigger for ${trigger.zoneId}`),
+      registerTable: (table: IEncounterTable) => this.logger.info(`Registered encounter table for ${table.zoneId}`),
+      registerTrigger: (trigger: IEncounterTrigger) => this.logger.info(`Registered trigger for ${trigger.zoneId}`),
       checkForEncounter: (state: IPlayerState, rng: IRNGProvider) => {
         // Simple encounter logic for demo
         if (state.stepsSinceLastEncounter >= 5 && rng.nextFloat() < 0.3) {
@@ -1210,13 +1212,13 @@ export class OverworldBattleSliceTool {
       const result = encounterController.checkForEncounter(playerState, rng);
 
       if (result.triggered) {
-        console.log(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y})`);
-        console.log(`🎯 Encounter triggered after ${steps} steps!`);
+        this.logger.info(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y})`);
+        this.logger.info(`🎯 Encounter triggered after ${steps} steps!`);
         return result;
       }
 
       if (steps % 10 === 0) {
-        console.log(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y}) - No encounter`);
+        this.logger.info(`🚶 Step ${steps}: Moved to (${playerState.position.x}, ${playerState.position.y}) - No encounter`);
       }
     }
 
@@ -1231,9 +1233,9 @@ export class OverworldBattleSliceTool {
     // For demo purposes, we'll create a simple implementation
     return {
       executeBattle: (playerSpirit: ISpiritInstance, wildSpirit: ISpiritInstance, rng: IRNGProvider) => {
-        console.log(`⚔️ Battle Start: ${playerSpirit.name} vs ${wildSpirit.name}`);
-        console.log(`📊 ${playerSpirit.name}: HP ${playerSpirit.currentHp}/${playerSpirit.maxHp}, Type: ${playerSpirit.typeTag}`);
-        console.log(`📊 ${wildSpirit.name}: HP ${wildSpirit.currentHp}/${wildSpirit.maxHp}, Type: ${wildSpirit.typeTag}`);
+        this.logger.info(`⚔️ Battle Start: ${playerSpirit.name} vs ${wildSpirit.name}`);
+        this.logger.info(`📊 ${playerSpirit.name}: HP ${playerSpirit.currentHp}/${playerSpirit.maxHp}, Type: ${playerSpirit.typeTag}`);
+        this.logger.info(`📊 ${wildSpirit.name}: HP ${wildSpirit.currentHp}/${wildSpirit.maxHp}, Type: ${wildSpirit.typeTag}`);
 
         const typeEffectiveness = new TypeEffectiveness();
         const effectiveness = typeEffectiveness.getMultiplier(playerSpirit.typeTag, wildSpirit.typeTag);
@@ -1243,7 +1245,7 @@ export class OverworldBattleSliceTool {
         // Simple battle simulation
         let turn = 1;
         while (playerSpirit.isAlive() && wildSpirit.isAlive()) {
-          console.log(`\n🔄 Turn ${turn}:`);
+          this.logger.info(`\n🔄 Turn ${turn}:`);
 
           // Player attacks
           const playerDamage = Math.max(1, Math.floor(playerSpirit.attack * effectiveness * (0.8 + rng.nextFloat() * 0.4)));
@@ -1271,10 +1273,10 @@ export class OverworldBattleSliceTool {
         const winner = playerSpirit.isAlive() ? playerSpirit : wildSpirit;
         const loser = playerSpirit.isAlive() ? wildSpirit : playerSpirit;
 
-        console.log(`\n🏆 Battle Result: ${winner.name} wins!`);
-        console.log(`📝 Battle Log:`);
+        this.logger.info(`\n🏆 Battle Result: ${winner.name} wins!`);
+        this.logger.info(`📝 Battle Log:`);
         battleLog.forEach((entry, index) => {
-          console.log(`  ${index + 1}. ${entry}`);
+          this.logger.info(`  ${index + 1}. ${entry}`);
         });
 
         return {
@@ -1295,23 +1297,23 @@ export class OverworldBattleSliceTool {
     const playerSpirit = this.createPlayerSpirit('waterling', 'water', 6);
     const wildSpirit = this.createWildSpirit(encounterResult.spiritId!, encounterResult.level!);
 
-    console.log(`\n⚔️ Starting Battle...`);
-    console.log(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
-    console.log(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
+    this.logger.info(`\n⚔️ Starting Battle...`);
+    this.logger.info(`👤 Player: ${playerSpirit.name} (Level ${playerSpirit.level}) - ${playerSpirit.typeTag} type`);
+    this.logger.info(`👾 Wild: ${wildSpirit.name} (Level ${wildSpirit.level}) - ${wildSpirit.typeTag} type`);
 
     // Execute battle
     const result = battleSystem.executeBattle(playerSpirit, wildSpirit, rng);
 
-    console.log(`\n🎉 Battle completed in ${result.turns} turns!`);
-    console.log(`🏆 Winner: ${result.winner.name}`);
-    console.log(`💔 Loser: ${result.loser.name}`);
+    this.logger.info(`\n🎉 Battle completed in ${result.turns} turns!`);
+    this.logger.info(`🏆 Winner: ${result.winner.name}`);
+    this.logger.info(`💔 Loser: ${result.loser.name}`);
 
     // Experience and rewards
     const experienceGained = result.loser.level * 10;
-    console.log(`\n🎖️ Rewards:`);
-    console.log(`📈 Experience gained: ${experienceGained}`);
-    console.log(`💰 Gold earned: ${result.loser.level * 25}`);
-    console.log(`🔮 Sync points: ${Math.floor(result.turns * 2.5)}`);
+    this.logger.info(`\n🎖️ Rewards:`);
+    this.logger.info(`📈 Experience gained: ${experienceGained}`);
+    this.logger.info(`💰 Gold earned: ${result.loser.level * 25}`);
+    this.logger.info(`🔮 Sync points: ${Math.floor(result.turns * 2.5)}`);
   }
 
   /**

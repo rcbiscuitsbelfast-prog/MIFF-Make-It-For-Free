@@ -3,9 +3,11 @@
 import fs from 'fs';
 import path from 'path';
 import { ConvertToUnityManager } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function printUsage(){
-  console.log(`
+  this.logger.info(`
 ConvertToUnityPure CLI
 
 Usage:
@@ -19,10 +21,10 @@ function main(){
     printUsage();
     return;
   }
-  const payload = JSON.parse(fs.readFileSync(path.resolve(file), 'utf-8'));
+  const payload = SafeJSONParser.parse(fs.readFileSync(path.resolve(file), 'utf-8'));
   const mgr = new ConvertToUnityManager();
   const out = mgr.convert(payload);
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

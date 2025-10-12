@@ -8,6 +8,7 @@
  */
 
 import { EventBus } from '../EventsPure/index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // Avoid hard dependency during type-check; stub RNG
 type RNGPure = any;
 
@@ -199,6 +200,7 @@ export interface Vector3 {
 }
 
 export class RitualSystemPure {
+  private logger: StructuredLogger;
   private ritualDefinitions: Map<string, RitualDefinition> = new Map();
   private activeRituals: Map<string, RitualInstance> = new Map();
   private completedRituals: RitualResult[] = [];
@@ -208,6 +210,7 @@ export class RitualSystemPure {
   private rng: RNGPure;
 
   constructor(eventBus: EventBus, rng: RNGPure) {
+    this.logger = new StructuredLogger({ module: 'RitualSystemPure' });
     this.eventBus = eventBus;
     this.rng = rng;
     this.config = this.initializeConfig();
@@ -529,20 +532,20 @@ export class RitualSystemPure {
   startRitual(ritualId: string, leaderId: string, participantIds: string[] = []): RitualInstance | null {
     const ritualDef = this.ritualDefinitions.get(ritualId);
     if (!ritualDef) {
-      console.warn(`Ritual definition not found: ${ritualId}`);
+      this.logger.warn(`Ritual definition not found: ${ritualId}`);
       return null;
     }
 
     // Check active ritual limit
     if (this.activeRituals.size >= this.config.maxActiveRituals) {
-      console.warn('Maximum active rituals reached');
+      this.logger.warn('Maximum active rituals reached');
       return null;
     }
 
     // Check participant count
     const totalParticipants = [leaderId, ...participantIds];
     if (totalParticipants.length < ritualDef.minParticipants || totalParticipants.length > ritualDef.maxParticipants) {
-      console.warn(`Invalid participant count: ${totalParticipants.length} (min: ${ritualDef.minParticipants}, max: ${ritualDef.maxParticipants})`);
+      this.logger.warn(`Invalid participant count: ${totalParticipants.length} (min: ${ritualDef.minParticipants}, max: ${ritualDef.maxParticipants})`);
       return null;
     }
 
@@ -591,7 +594,7 @@ export class RitualSystemPure {
       participantCount: totalParticipants.length
     });
 
-    console.log(`✅ Started ritual: ${ritualDef.name} (${ritualInstance.id})`);
+    this.logger.info(`✅ Started ritual: ${ritualDef.name} (${ritualInstance.id})`);
     return ritualInstance;
   }
 
@@ -648,24 +651,24 @@ export class RitualSystemPure {
   progressRitual(ritualId: string): RitualResult | null {
     const ritual = this.activeRituals.get(ritualId);
     if (!ritual) {
-      console.warn(`Ritual not found: ${ritualId}`);
+      this.logger.warn(`Ritual not found: ${ritualId}`);
       return null;
     }
 
     if (ritual.status !== 'active') {
-      console.warn(`Ritual not active: ${ritualId}`);
+      this.logger.warn(`Ritual not active: ${ritualId}`);
       return null;
     }
 
     const currentStep = ritual.definition.steps[ritual.currentStep];
     if (!currentStep) {
-      console.warn(`No current step for ritual: ${ritualId}`);
+      this.logger.warn(`No current step for ritual: ${ritualId}`);
       return null;
     }
 
     // Check if step requirements are met
     if (!this.checkStepRequirements(ritual, currentStep)) {
-      console.warn(`Step requirements not met for ritual: ${ritualId}`);
+      this.logger.warn(`Step requirements not met for ritual: ${ritualId}`);
       return null;
     }
 
@@ -716,7 +719,7 @@ export class RitualSystemPure {
    * Execute a ritual step
    */
   private executeRitualStep(ritual: RitualInstance, step: RitualStep): RitualResult {
-    console.log(`🔮 Executing ritual step: ${step.name}`);
+    this.logger.info(`🔮 Executing ritual step: ${step.name}`);
 
     // Consume energy
     const energyConsumed = step.energyCost;
@@ -764,7 +767,7 @@ export class RitualSystemPure {
       return; // Effect doesn't trigger
     }
 
-    console.log(`✨ Applying ritual effect: ${effect.description}`);
+    this.logger.info(`✨ Applying ritual effect: ${effect.description}`);
 
     switch (effect.type) {
       case 'summon':
@@ -818,14 +821,14 @@ export class RitualSystemPure {
     };
 
     ritual.summonedEntities.push(summonedEntity);
-    console.log(`👻 Summoned entity: ${summonedEntity.name} (Level ${summonedEntity.level})`);
+    this.logger.info(`👻 Summoned entity: ${summonedEntity.name} (Level ${summonedEntity.level})`);
   }
 
   /**
    * Apply buff effect
    */
   private applyBuff(ritual: RitualInstance, effect: RitualEffect): void {
-    console.log(`💪 Applied buff: +${effect.magnitude} to participants`);
+    this.logger.info(`💪 Applied buff: +${effect.magnitude} to participants`);
     // Would integrate with status effect system
   }
 
@@ -833,7 +836,7 @@ export class RitualSystemPure {
    * Apply debuff effect
    */
   private applyDebuff(ritual: RitualInstance, effect: RitualEffect): void {
-    console.log(`😵 Applied debuff: -${effect.magnitude} to participants`);
+    this.logger.info(`😵 Applied debuff: -${effect.magnitude} to participants`);
     // Would integrate with status effect system
   }
 
@@ -841,7 +844,7 @@ export class RitualSystemPure {
    * Apply damage effect
    */
   private applyDamage(ritual: RitualInstance, effect: RitualEffect): void {
-    console.log(`💔 Applied damage: ${effect.magnitude} to participants`);
+    this.logger.info(`💔 Applied damage: ${effect.magnitude} to participants`);
     // Would integrate with health system
   }
 
@@ -849,7 +852,7 @@ export class RitualSystemPure {
    * Apply healing effect
    */
   private applyHealing(ritual: RitualInstance, effect: RitualEffect): void {
-    console.log(`💚 Applied healing: +${effect.magnitude} to participants`);
+    this.logger.info(`💚 Applied healing: +${effect.magnitude} to participants`);
     // Would integrate with health system
   }
 
@@ -858,7 +861,7 @@ export class RitualSystemPure {
    */
   private createItem(ritual: RitualInstance, effect: RitualEffect): void {
     const itemType = effect.parameters.get('itemType') || 'generic';
-    console.log(`🎁 Created item: ${itemType}`);
+    this.logger.info(`🎁 Created item: ${itemType}`);
     // Would integrate with item creation system
   }
 
@@ -867,7 +870,7 @@ export class RitualSystemPure {
    */
   private applyStatus(ritual: RitualInstance, effect: RitualEffect): void {
     const statusType = effect.parameters.get('statusType') || 'generic';
-    console.log(`📊 Applied status: ${statusType} for ${effect.duration}ms`);
+    this.logger.info(`📊 Applied status: ${statusType} for ${effect.duration}ms`);
     // Would integrate with status effect system
   }
 
@@ -877,7 +880,7 @@ export class RitualSystemPure {
   private grantExperience(ritual: RitualInstance, effect: RitualEffect): void {
     const expAmount = effect.magnitude;
     ritual.experienceGained += expAmount;
-    console.log(`⭐ Granted experience: ${expAmount}`);
+    this.logger.info(`⭐ Granted experience: ${expAmount}`);
   }
 
   /**
@@ -923,7 +926,7 @@ export class RitualSystemPure {
       summonedEntities: ritual.summonedEntities.length
     });
 
-    console.log(`🎉 Ritual completed: ${ritual.definition.name} (Quality: ${(quality * 100).toFixed(1)}%)`);
+    this.logger.info(`🎉 Ritual completed: ${ritual.definition.name} (Quality: ${(quality * 100).toFixed(1)}%)`);
     return result;
   }
 
@@ -1025,7 +1028,7 @@ export class RitualSystemPure {
       reason: 'user-cancelled'
     });
 
-    console.log(`❌ Cancelled ritual: ${ritual.definition.name}`);
+    this.logger.info(`❌ Cancelled ritual: ${ritual.definition.name}`);
     return true;
   }
 
@@ -1034,7 +1037,7 @@ export class RitualSystemPure {
    */
   updateConfig(newConfig: Partial<RitualConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    console.log('Ritual configuration updated');
+    this.logger.info('Ritual configuration updated');
   }
 
   /**
@@ -1099,7 +1102,7 @@ export class RitualSystemPure {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[RITUAL:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[RITUAL:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 }
 

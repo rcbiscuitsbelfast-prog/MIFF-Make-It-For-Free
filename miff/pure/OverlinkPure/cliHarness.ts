@@ -11,6 +11,8 @@
 
 import { handleError, handleSuccess, parseCLIArgs } from '../shared/cliHarnessUtils';
 import { runScenario } from './ScenarioPackOverlinkPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 function main() {
   const { mode, args } = parseCLIArgs(process.argv);
@@ -32,19 +34,19 @@ function main() {
   const configFile = args[0];
   
   if (!configFile) {
-    console.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
+    this.logger.error('Usage: OverlinkPure/cliHarness.ts <config.json> or OverlinkPure/cliHarness.ts demo');
     process.exit(1);
   }
 
   try {
     // Parse config file
-    const config = JSON.parse(require('fs').readFileSync(configFile, 'utf-8'));
+    const config = SafeJSONParser.parse(require('fs').readFileSync(configFile, 'utf-8'));
     
     // Run scenario with config
     const result = runScenario(config);
     
     // Output result as JSON
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
     
     // Exit with error code if scenario failed
     if (result.status === 'error') {

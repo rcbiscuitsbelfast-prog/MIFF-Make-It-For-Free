@@ -10,11 +10,14 @@
 import { FinalIntegrationTester, FinalValidationReport, TestSuite, IntegrationTest, PerformanceTest, SecurityTest, UserAcceptanceTest } from './FinalIntegrationTester.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FinalTestCLI {
+  private logger: StructuredLogger;
   private tester: FinalIntegrationTester;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'FinalTestCLI' });
     this.tester = new FinalIntegrationTester();
   }
 
@@ -54,7 +57,7 @@ class FinalTestCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -62,7 +65,7 @@ class FinalTestCLI {
   private async runEndToEndTesting(args: string[]): Promise<void> {
     const outputFile = args[0] || 'e2e-test-results.json';
 
-    console.log('🧪 Running comprehensive end-to-end testing...');
+    this.logger.info('🧪 Running comprehensive end-to-end testing...');
     
     await this.tester.runEndToEndTesting();
     
@@ -73,45 +76,45 @@ class FinalTestCLI {
       fs.writeFileSync(outputFile, JSON.stringify(e2eSuite, null, 2));
     }
     
-    console.log('✅ End-to-end testing completed');
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info('✅ End-to-end testing completed');
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
     if (e2eSuite) {
-      console.log('\n📊 End-to-End Testing Summary:');
-      console.log(`Status: ${e2eSuite.status}`);
-      console.log(`Duration: ${e2eSuite.duration}ms`);
-      console.log(`Test Cases: ${e2eSuite.testCases.length}`);
-      console.log(`Passed: ${e2eSuite.testCases.filter(tc => tc.status === 'passed').length}`);
-      console.log(`Failed: ${e2eSuite.testCases.filter(tc => tc.status === 'failed').length}`);
+      this.logger.info('\n📊 End-to-End Testing Summary:');
+      this.logger.info(`Status: ${e2eSuite.status}`);
+      this.logger.info(`Duration: ${e2eSuite.duration}ms`);
+      this.logger.info(`Test Cases: ${e2eSuite.testCases.length}`);
+      this.logger.info(`Passed: ${e2eSuite.testCases.filter(tc => tc.status === 'passed').length}`);
+      this.logger.info(`Failed: ${e2eSuite.testCases.filter(tc => tc.status === 'failed').length}`);
     }
   }
 
   private async runIntegrationTesting(args: string[]): Promise<void> {
     const outputFile = args[0] || 'integration-test-results.json';
 
-    console.log('🔗 Running integration validation tests...');
+    this.logger.info('🔗 Running integration validation tests...');
     
     await this.tester.runIntegrationValidation();
     
     const integrationTests = this.tester.getIntegrationTests();
     fs.writeFileSync(outputFile, JSON.stringify(integrationTests, null, 2));
     
-    console.log('✅ Integration testing completed');
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info('✅ Integration testing completed');
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
-    console.log('\n📊 Integration Testing Summary:');
-    console.log(`Total Tests: ${integrationTests.length}`);
-    console.log(`Passed: ${integrationTests.filter(it => it.status === 'passed').length}`);
-    console.log(`Failed: ${integrationTests.filter(it => it.status === 'failed').length}`);
+    this.logger.info('\n📊 Integration Testing Summary:');
+    this.logger.info(`Total Tests: ${integrationTests.length}`);
+    this.logger.info(`Passed: ${integrationTests.filter(it => it.status === 'passed').length}`);
+    this.logger.info(`Failed: ${integrationTests.filter(it => it.status === 'failed').length}`);
     
     // Show failed tests
     const failedTests = integrationTests.filter(it => it.status === 'failed');
     if (failedTests.length > 0) {
-      console.log('\n❌ Failed Integration Tests:');
+      this.logger.info('\n❌ Failed Integration Tests:');
       failedTests.forEach(test => {
-        console.log(`  - ${test.name}: ${test.errorMessage || 'Unknown error'}`);
+        this.logger.info(`  - ${test.name}: ${test.errorMessage || 'Unknown error'}`);
       });
     }
   }
@@ -119,29 +122,29 @@ class FinalTestCLI {
   private async runPerformanceTesting(args: string[]): Promise<void> {
     const outputFile = args[0] || 'performance-test-results.json';
 
-    console.log('⚡ Running performance and load testing...');
+    this.logger.info('⚡ Running performance and load testing...');
     
     await this.tester.runPerformanceTesting();
     
     const performanceTests = this.tester.getPerformanceTests();
     fs.writeFileSync(outputFile, JSON.stringify(performanceTests, null, 2));
     
-    console.log('✅ Performance testing completed');
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info('✅ Performance testing completed');
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
-    console.log('\n📊 Performance Testing Summary:');
+    this.logger.info('\n📊 Performance Testing Summary:');
     performanceTests.forEach(test => {
-      console.log(`\n${test.name} (${test.type}):`);
-      console.log(`  Status: ${test.status}`);
-      console.log(`  Duration: ${test.duration}ms`);
+      this.logger.info(`\n${test.name} (${test.type}):`);
+      this.logger.info(`  Status: ${test.status}`);
+      this.logger.info(`  Duration: ${test.duration}ms`);
       if (test.results) {
-        console.log(`  Total Requests: ${test.results.totalRequests}`);
-        console.log(`  Successful: ${test.results.successfulRequests}`);
-        console.log(`  Failed: ${test.results.failedRequests}`);
-        console.log(`  Avg Response Time: ${test.results.averageResponseTime.toFixed(2)}ms`);
-        console.log(`  Throughput: ${test.results.throughput.toFixed(2)} req/s`);
-        console.log(`  Error Rate: ${test.results.errorRate.toFixed(2)}%`);
+        this.logger.info(`  Total Requests: ${test.results.totalRequests}`);
+        this.logger.info(`  Successful: ${test.results.successfulRequests}`);
+        this.logger.info(`  Failed: ${test.results.failedRequests}`);
+        this.logger.info(`  Avg Response Time: ${test.results.averageResponseTime.toFixed(2)}ms`);
+        this.logger.info(`  Throughput: ${test.results.throughput.toFixed(2)} req/s`);
+        this.logger.info(`  Error Rate: ${test.results.errorRate.toFixed(2)}%`);
       }
     });
   }
@@ -149,31 +152,31 @@ class FinalTestCLI {
   private async runSecurityTesting(args: string[]): Promise<void> {
     const outputFile = args[0] || 'security-test-results.json';
 
-    console.log('🔒 Running security testing and validation...');
+    this.logger.info('🔒 Running security testing and validation...');
     
     await this.tester.runSecurityTesting();
     
     const securityTests = this.tester.getSecurityTests();
     fs.writeFileSync(outputFile, JSON.stringify(securityTests, null, 2));
     
-    console.log('✅ Security testing completed');
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info('✅ Security testing completed');
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
-    console.log('\n📊 Security Testing Summary:');
+    this.logger.info('\n📊 Security Testing Summary:');
     securityTests.forEach(test => {
-      console.log(`\n${test.name} (${test.type}):`);
-      console.log(`  Status: ${test.status}`);
-      console.log(`  Duration: ${test.duration}ms`);
-      console.log(`  Findings: ${test.findings.length}`);
+      this.logger.info(`\n${test.name} (${test.type}):`);
+      this.logger.info(`  Status: ${test.status}`);
+      this.logger.info(`  Duration: ${test.duration}ms`);
+      this.logger.info(`  Findings: ${test.findings.length}`);
       
       if (test.findings.length > 0) {
-        console.log('  Security Findings:');
+        this.logger.info('  Security Findings:');
         test.findings.forEach(finding => {
           const severityColor = finding.severity === 'critical' ? '🔴' : 
                                finding.severity === 'high' ? '🟠' : 
                                finding.severity === 'medium' ? '🟡' : '🟢';
-          console.log(`    ${severityColor} ${finding.title} (${finding.severity})`);
+          this.logger.info(`    ${severityColor} ${finding.title} (${finding.severity})`);
         });
       }
     });
@@ -182,31 +185,31 @@ class FinalTestCLI {
   private async runUserAcceptanceTesting(args: string[]): Promise<void> {
     const outputFile = args[0] || 'uat-test-results.json';
 
-    console.log('👥 Running user acceptance testing...');
+    this.logger.info('👥 Running user acceptance testing...');
     
     await this.tester.runUserAcceptanceTesting();
     
     const uatTests = this.tester.getUserAcceptanceTests();
     fs.writeFileSync(outputFile, JSON.stringify(uatTests, null, 2));
     
-    console.log('✅ User acceptance testing completed');
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info('✅ User acceptance testing completed');
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
-    console.log('\n📊 User Acceptance Testing Summary:');
-    console.log(`Total Tests: ${uatTests.length}`);
-    console.log(`Passed: ${uatTests.filter(uat => uat.status === 'passed').length}`);
-    console.log(`Failed: ${uatTests.filter(uat => uat.status === 'failed').length}`);
+    this.logger.info('\n📊 User Acceptance Testing Summary:');
+    this.logger.info(`Total Tests: ${uatTests.length}`);
+    this.logger.info(`Passed: ${uatTests.filter(uat => uat.status === 'passed').length}`);
+    this.logger.info(`Failed: ${uatTests.filter(uat => uat.status === 'failed').length}`);
     
     // Show test details
     uatTests.forEach(test => {
-      console.log(`\n${test.name}:`);
-      console.log(`  Status: ${test.status}`);
-      console.log(`  User Story: ${test.userStory}`);
-      console.log(`  Expected: ${test.expectedOutcome}`);
-      console.log(`  Actual: ${test.actualOutcome}`);
+      this.logger.info(`\n${test.name}:`);
+      this.logger.info(`  Status: ${test.status}`);
+      this.logger.info(`  User Story: ${test.userStory}`);
+      this.logger.info(`  Expected: ${test.expectedOutcome}`);
+      this.logger.info(`  Actual: ${test.actualOutcome}`);
       if (test.userFeedback) {
-        console.log(`  Feedback: ${test.userFeedback}`);
+        this.logger.info(`  Feedback: ${test.userFeedback}`);
       }
     });
   }
@@ -214,7 +217,7 @@ class FinalTestCLI {
   private async runAllTests(args: string[]): Promise<void> {
     const outputFile = args[0] || 'all-test-results.json';
 
-    console.log('🚀 Running all test suites...');
+    this.logger.info('🚀 Running all test suites...');
     
     try {
       // Run all test types
@@ -230,40 +233,40 @@ class FinalTestCLI {
       // Save report
       fs.writeFileSync(outputFile, JSON.stringify(report, null, 2));
       
-      console.log('✅ All test suites completed');
-      console.log(`📄 Results saved to ${outputFile}`);
+      this.logger.info('✅ All test suites completed');
+      this.logger.info(`📄 Results saved to ${outputFile}`);
 
       // Display summary
-      console.log('\n📊 Final Testing Summary:');
-      console.log(`Overall Status: ${report.overallStatus}`);
-      console.log(`Readiness Score: ${report.readinessScore}/100`);
-      console.log(`Release Ready: ${report.releaseReadiness ? 'Yes' : 'No'}`);
-      console.log(`Critical Issues: ${report.criticalIssues.length}`);
-      console.log(`Recommendations: ${report.recommendations.length}`);
+      this.logger.info('\n📊 Final Testing Summary:');
+      this.logger.info(`Overall Status: ${report.overallStatus}`);
+      this.logger.info(`Readiness Score: ${report.readinessScore}/100`);
+      this.logger.info(`Release Ready: ${report.releaseReadiness ? 'Yes' : 'No'}`);
+      this.logger.info(`Critical Issues: ${report.criticalIssues.length}`);
+      this.logger.info(`Recommendations: ${report.recommendations.length}`);
       
       if (report.criticalIssues.length > 0) {
-        console.log('\n🚨 Critical Issues:');
+        this.logger.info('\n🚨 Critical Issues:');
         report.criticalIssues.forEach(issue => {
-          console.log(`  - ${issue}`);
+          this.logger.info(`  - ${issue}`);
         });
       }
       
       if (report.recommendations.length > 0) {
-        console.log('\n💡 Recommendations:');
+        this.logger.info('\n💡 Recommendations:');
         report.recommendations.forEach(rec => {
-          console.log(`  - ${rec}`);
+          this.logger.info(`  - ${rec}`);
         });
       }
       
       if (report.nextSteps.length > 0) {
-        console.log('\n🎯 Next Steps:');
+        this.logger.info('\n🎯 Next Steps:');
         report.nextSteps.forEach(step => {
-          console.log(`  - ${step}`);
+          this.logger.info(`  - ${step}`);
         });
       }
       
     } catch (error) {
-      console.error('❌ Error running all tests:', error);
+      this.logger.error('❌ Error running all tests:', error);
       throw error;
     }
   }
@@ -271,7 +274,7 @@ class FinalTestCLI {
   private async generateReport(args: string[]): Promise<void> {
     const outputFile = args[0] || 'final-validation-report.html';
 
-    console.log('📊 Generating final validation report...');
+    this.logger.info('📊 Generating final validation report...');
     
     const report = this.tester.generateFinalValidationReport();
     const html = this.generateHTMLReport(report);
@@ -279,23 +282,23 @@ class FinalTestCLI {
     // Save report to file
     fs.writeFileSync(outputFile, html);
     
-    console.log('✅ Final validation report generated');
-    console.log(`📄 Report saved to ${outputFile}`);
+    this.logger.info('✅ Final validation report generated');
+    this.logger.info(`📄 Report saved to ${outputFile}`);
 
     // Display summary
-    console.log('\n📊 Final Validation Report Summary:');
-    console.log(`Overall Status: ${report.overallStatus}`);
-    console.log(`Readiness Score: ${report.readinessScore}/100`);
-    console.log(`Release Ready: ${report.releaseReadiness ? 'Yes' : 'No'}`);
-    console.log(`Test Suites: ${report.testSuites.length}`);
-    console.log(`Integration Tests: ${report.integrationTests.length}`);
-    console.log(`Performance Tests: ${report.performanceTests.length}`);
-    console.log(`Security Tests: ${report.securityTests.length}`);
-    console.log(`User Acceptance Tests: ${report.userAcceptanceTests.length}`);
+    this.logger.info('\n📊 Final Validation Report Summary:');
+    this.logger.info(`Overall Status: ${report.overallStatus}`);
+    this.logger.info(`Readiness Score: ${report.readinessScore}/100`);
+    this.logger.info(`Release Ready: ${report.releaseReadiness ? 'Yes' : 'No'}`);
+    this.logger.info(`Test Suites: ${report.testSuites.length}`);
+    this.logger.info(`Integration Tests: ${report.integrationTests.length}`);
+    this.logger.info(`Performance Tests: ${report.performanceTests.length}`);
+    this.logger.info(`Security Tests: ${report.securityTests.length}`);
+    this.logger.info(`User Acceptance Tests: ${report.userAcceptanceTests.length}`);
   }
 
   private async showStatus(args: string[]): Promise<void> {
-    console.log('📊 Showing test status...');
+    this.logger.info('📊 Showing test status...');
     
     const testSuites = this.tester.getTestSuites();
     const integrationTests = this.tester.getIntegrationTests();
@@ -303,56 +306,56 @@ class FinalTestCLI {
     const securityTests = this.tester.getSecurityTests();
     const uatTests = this.tester.getUserAcceptanceTests();
     
-    console.log('\n📊 Test Status Overview:');
-    console.log(`Test Suites: ${testSuites.length}`);
-    console.log(`Integration Tests: ${integrationTests.length}`);
-    console.log(`Performance Tests: ${performanceTests.length}`);
-    console.log(`Security Tests: ${securityTests.length}`);
-    console.log(`User Acceptance Tests: ${uatTests.length}`);
+    this.logger.info('\n📊 Test Status Overview:');
+    this.logger.info(`Test Suites: ${testSuites.length}`);
+    this.logger.info(`Integration Tests: ${integrationTests.length}`);
+    this.logger.info(`Performance Tests: ${performanceTests.length}`);
+    this.logger.info(`Security Tests: ${securityTests.length}`);
+    this.logger.info(`User Acceptance Tests: ${uatTests.length}`);
     
     // Show test suite status
-    console.log('\n📋 Test Suite Status:');
+    this.logger.info('\n📋 Test Suite Status:');
     testSuites.forEach(suite => {
       const statusIcon = suite.status === 'passed' ? '✅' : 
                         suite.status === 'failed' ? '❌' : 
                         suite.status === 'running' ? '🔄' : '⏳';
-      console.log(`  ${statusIcon} ${suite.name}: ${suite.status}`);
+      this.logger.info(`  ${statusIcon} ${suite.name}: ${suite.status}`);
     });
     
     // Show integration test status
-    console.log('\n🔗 Integration Test Status:');
+    this.logger.info('\n🔗 Integration Test Status:');
     integrationTests.forEach(test => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.log(`  ${statusIcon} ${test.name}: ${test.status}`);
+      this.logger.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show performance test status
-    console.log('\n⚡ Performance Test Status:');
+    this.logger.info('\n⚡ Performance Test Status:');
     performanceTests.forEach(test => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.log(`  ${statusIcon} ${test.name}: ${test.status}`);
+      this.logger.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show security test status
-    console.log('\n🔒 Security Test Status:');
+    this.logger.info('\n🔒 Security Test Status:');
     securityTests.forEach(test => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.log(`  ${statusIcon} ${test.name}: ${test.status}`);
+      this.logger.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
     
     // Show UAT status
-    console.log('\n👥 User Acceptance Test Status:');
+    this.logger.info('\n👥 User Acceptance Test Status:');
     uatTests.forEach(test => {
       const statusIcon = test.status === 'passed' ? '✅' : 
                         test.status === 'failed' ? '❌' : 
                         test.status === 'running' ? '🔄' : '⏳';
-      console.log(`  ${statusIcon} ${test.name}: ${test.status}`);
+      this.logger.info(`  ${statusIcon} ${test.name}: ${test.status}`);
     });
   }
 
@@ -523,7 +526,7 @@ class FinalTestCLI {
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 🧪 MIFF Final Integration Testing CLI
 
 Usage: tsx finalTestCLI.ts <command> [options]

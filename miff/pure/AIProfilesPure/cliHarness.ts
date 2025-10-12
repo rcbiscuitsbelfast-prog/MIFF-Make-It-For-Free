@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { AIProfileManager, Role } from './AIProfileManager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'listProfiles' }
@@ -14,7 +16,7 @@ type Cmd =
 function main() {
   const profilesPath = process.argv[2] || 'AIProfilesPure/sample_profiles.json';
   const commandsPath = process.argv[3] || '';
-  const obj = JSON.parse(fs.readFileSync(path.resolve(profilesPath), 'utf-8')) as { profiles: any[] };
+  const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(profilesPath), 'utf-8')) as { profiles: any[] };
 
   const log: string[] = [];
   const interacted = new Set<string>();
@@ -32,7 +34,7 @@ function main() {
   });
   mgr.loadProfiles(obj.profiles);
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listProfiles' } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listProfiles' } as Cmd];
   const outputs: any[] = [];
 
   for (const c of cmds) {
@@ -44,7 +46,7 @@ function main() {
     else if (c.op === 'linkQuest') { mgr.linkQuest(c.npcId, c.questId); outputs.push({ op: 'linkQuest', npcId: c.npcId, questId: c.questId }); }
   }
 
-  console.log(JSON.stringify({ log, outputs }, null, 2));
+  this.logger.info(JSON.stringify({ log, outputs }, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

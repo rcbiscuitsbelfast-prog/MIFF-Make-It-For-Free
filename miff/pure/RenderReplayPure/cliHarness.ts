@@ -4,6 +4,8 @@ import { RenderReplaySystem } from './index';
 import { RenderReplayManager, ReplayConfig } from './Manager';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface RenderReplayOperation {
   op: 'record' | 'playback' | 'analyze' | 'export' | 'dump';
@@ -30,23 +32,23 @@ function parseFlags(argv: string[]): Record<string, any> {
 }
 
 function printHelp(): void {
-  console.log('RenderReplayPure CLI - Visual replay tool for MIFF engine bridges');
-  console.log('');
-  console.log('Usage:');
-  console.log('  tsx cliHarness.ts <command> [args] [--flags]');
-  console.log('');
-  console.log('Commands:');
-  console.log('  replay-golden <testPath> --engine <unity|web|godot> [--speed <n>] [--loop] [--no-debug] [--format <json|markdown|html>]');
-  console.log('  replay-cli <jsonPath> --engine <unity|web|godot> [--format <json|markdown|html>]');
-  console.log('  replay-payload <jsonPath> --engine <unity|web|godot> [--format <json|markdown|html>]');
-  console.log('  export <sessionId> <outputPath> --format <json|markdown|html>');
-  console.log('  help');
-  console.log('');
-  console.log('Options:');
-  console.log('  --engine, --speed, --loop, --no-debug, --format');
-  console.log('');
-  console.log('Examples:');
-  console.log('  tsx cliHarness.ts replay-golden BridgeSchemaPure/sample_render.json --engine web --format json');
+  this.logger.info('RenderReplayPure CLI - Visual replay tool for MIFF engine bridges');
+  this.logger.info('');
+  this.logger.info('Usage:');
+  this.logger.info('  tsx cliHarness.ts <command> [args] [--flags]');
+  this.logger.info('');
+  this.logger.info('Commands:');
+  this.logger.info('  replay-golden <testPath> --engine <unity|web|godot> [--speed <n>] [--loop] [--no-debug] [--format <json|markdown|html>]');
+  this.logger.info('  replay-cli <jsonPath> --engine <unity|web|godot> [--format <json|markdown|html>]');
+  this.logger.info('  replay-payload <jsonPath> --engine <unity|web|godot> [--format <json|markdown|html>]');
+  this.logger.info('  export <sessionId> <outputPath> --format <json|markdown|html>');
+  this.logger.info('  help');
+  this.logger.info('');
+  this.logger.info('Options:');
+  this.logger.info('  --engine, --speed, --loop, --no-debug, --format');
+  this.logger.info('');
+  this.logger.info('Examples:');
+  this.logger.info('  tsx cliHarness.ts replay-golden BridgeSchemaPure/sample_render.json --engine web --format json');
 }
 
 function ensureConfig(flags: Record<string, any>): ReplayConfig {
@@ -60,22 +62,22 @@ function ensureConfig(flags: Record<string, any>): ReplayConfig {
 
 function printReplayResult(prefix: string, out: any): void {
   if (out.status === 'ok') {
-    console.log('✅ Replay successful!');
+    this.logger.info('✅ Replay successful!');
   } else {
-    console.log('❌ Replay failed:');
+    this.logger.info('❌ Replay failed:');
   }
   const engine = out.session?.summary?.engine ?? out.session?.config?.engine ?? 'unknown';
   const speedNum = out.session?.config?.speed ?? 1;
   const loopOn = Boolean(out.session?.config?.loop);
   const debugOn = Boolean(out.session?.config?.showDebug);
-  console.log(`🎯 Engine: ${engine}`);
-  console.log(`⚡ Speed: ${Number.isFinite(speedNum) ? `${speedNum}x` : '1x'}`);
-  console.log(`🔄 Loop: ${loopOn ? 'Yes' : 'No'}`);
-  console.log(`🐛 Debug: ${debugOn ? 'Yes' : 'No'}`);
-  console.log(`📈 Steps: ${out.session?.summary?.totalSteps ?? 0}`);
-  console.log(`🎨 RenderData: ${out.session?.summary?.totalRenderData ?? 0}`);
-  console.log('📄 JSON Output:');
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(`🎯 Engine: ${engine}`);
+  this.logger.info(`⚡ Speed: ${Number.isFinite(speedNum) ? `${speedNum}x` : '1x'}`);
+  this.logger.info(`🔄 Loop: ${loopOn ? 'Yes' : 'No'}`);
+  this.logger.info(`🐛 Debug: ${debugOn ? 'Yes' : 'No'}`);
+  this.logger.info(`📈 Steps: ${out.session?.summary?.totalSteps ?? 0}`);
+  this.logger.info(`🎨 RenderData: ${out.session?.summary?.totalRenderData ?? 0}`);
+  this.logger.info('📄 JSON Output:');
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 function main() {
@@ -90,7 +92,7 @@ function main() {
       case 'replay-golden': {
         let testPath = rest[0];
         if (!testPath) {
-          console.log('Error: Test path required');
+          this.logger.info('Error: Test path required');
           printHelp();
           return;
         }
@@ -119,7 +121,7 @@ function main() {
       case 'replay-cli': {
         const jsonPath = rest[0];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
-          console.log('Error reading CLI output file: file not found');
+          this.logger.info('Error reading CLI output file: file not found');
           return;
         }
         const flags = parseFlags(rest.slice(1));
@@ -132,13 +134,13 @@ function main() {
       case 'replay-payload': {
         const jsonPath = rest[0];
         if (!jsonPath || !fs.existsSync(jsonPath)) {
-          console.log('Error reading JSON payload file: file not found');
+          this.logger.info('Error reading JSON payload file: file not found');
           return;
         }
         const flags = parseFlags(rest.slice(1));
         const config = ensureConfig(flags);
         const mgr = new RenderReplayManager(config);
-        const payload = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+        const payload = SafeJSONParser.parse(fs.readFileSync(jsonPath, 'utf-8'));
         const out = mgr.replayFromPayload(payload);
         printReplayResult('replay-payload', out);
         break;
@@ -149,7 +151,7 @@ function main() {
         const flags = parseFlags(rest.slice(2));
         const config = ensureConfig(flags);
         if (!sessionId || !outputPath) {
-          console.log('Error: Missing arguments for export');
+          this.logger.info('Error: Missing arguments for export');
           printHelp();
           return;
         }
@@ -160,9 +162,9 @@ function main() {
           steps: [],
           summary: { totalSteps: 0, totalRenderData: 0, totalIssues: 0, duration: '0ms', engine: config.engine }
         } as any;
-        console.log(`📤 Exporting session: ${sessionId}`);
-        console.log(`📁 Output: ${outputPath}`);
-        console.log(`📄 Format: ${config.outputFormat}`);
+        this.logger.info(`📤 Exporting session: ${sessionId}`);
+        this.logger.info(`📁 Output: ${outputPath}`);
+        this.logger.info(`📄 Format: ${config.outputFormat}`);
         // Write exports relative to repo root if a relative path was provided,
         // so tests reading from project root find the files.
         const resolvedOutput = path.isAbsolute(outputPath)
@@ -170,21 +172,21 @@ function main() {
           : path.resolve(process.cwd(), outputPath);
         const res = mgr.exportReplay(dummySession, resolvedOutput);
         if (res.success) {
-          console.log(`✅ Export successful: ${outputPath}`);
+          this.logger.info(`✅ Export successful: ${outputPath}`);
         } else {
-          console.log(`❌ Export failed: ${(res.issues || []).join(', ')}`);
+          this.logger.info(`❌ Export failed: ${(res.issues || []).join(', ')}`);
           process.exitCode = 1;
         }
         break;
       }
       default: {
-        console.log('Error: Unknown command');
+        this.logger.info('Error: Unknown command');
         printHelp();
         
       }
     }
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exitCode = 1;
   }
 }

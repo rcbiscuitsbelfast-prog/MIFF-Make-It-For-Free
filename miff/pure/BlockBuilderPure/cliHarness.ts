@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { createBlockState, reduceBlockAction } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 
@@ -9,7 +10,7 @@ try {
   switch (mode) {
     case 'register': {
       const { block } = params as any;
-      const next = reduceBlockAction(base, { type: 'register', block: (typeof block === 'string' ? JSON.parse(block) : block) });
+      const next = reduceBlockAction(base, { type: 'register', block: (typeof block === 'string' ? SafeJSONParser.parse(block) : block) });
       handleSuccess({ state: next }, 'register');
       break;
     }

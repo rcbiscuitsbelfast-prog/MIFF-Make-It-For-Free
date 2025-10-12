@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * MIFF Mobile Optimizer
  *
@@ -37,6 +38,7 @@ export interface TouchConfig {
 }
 
 export class MobileOptimizer {
+  private logger: StructuredLogger;
   private config: MobileConfig;
   private metrics: MobileMetrics;
   private touchConfig: TouchConfig;
@@ -47,6 +49,7 @@ export class MobileOptimizer {
   private touchEventListeners: Map<string, Function[]> = new Map();
 
   constructor(config: Partial<MobileConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'MobileOptimizer' });
     this.config = {
       targetPlatform: 'web-mobile',
       deviceClass: 'phone',
@@ -802,7 +805,7 @@ export class MobileOptimizer {
 
   private log(message: string, level: 'info' | 'debug' | 'warn' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[MOBILEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[MOBILEOPT:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

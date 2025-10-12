@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Platform Bridge Implementation
  * 
@@ -145,6 +146,7 @@ export interface PerformanceMetrics {
 }
 
 export class RealPlatformBridge {
+  private logger: StructuredLogger;
   private platformInfo: PlatformInfo;
   private deviceInfo: DeviceInfo;
   private eventHandlers: Map<string, Function[]> = new Map();
@@ -153,6 +155,7 @@ export class RealPlatformBridge {
   private monitoringInterval?: NodeJS.Timeout;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealPlatformBridge' });
     this.platformInfo = this.detectPlatform();
     this.deviceInfo = this.detectDevice();
     this.performanceMetrics = this.initializePerformanceMetrics();
@@ -683,7 +686,7 @@ export class RealPlatformBridge {
       const result = await navigator.permissions.query({ name: permission as PermissionName });
       return result.state === 'granted';
     } catch (error) {
-      console.error('Error requesting permission:', error);
+      this.logger.error('Error requesting permission:', error);
       return false;
     }
   }
@@ -700,7 +703,7 @@ export class RealPlatformBridge {
           usage: estimate.usage || 0
         };
       } catch (error) {
-        console.error('Error getting storage quota:', error);
+        this.logger.error('Error getting storage quota:', error);
       }
     }
     
@@ -715,7 +718,7 @@ export class RealPlatformBridge {
       try {
         return await navigator.storage.persist();
       } catch (error) {
-        console.error('Error requesting persistent storage:', error);
+        this.logger.error('Error requesting persistent storage:', error);
       }
     }
     
@@ -749,7 +752,7 @@ export class RealPlatformBridge {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          this.logger.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

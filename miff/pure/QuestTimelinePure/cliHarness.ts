@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { runTimeline, QuestTimeline } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'run' }
@@ -13,11 +15,11 @@ function main() {
   const timelinePath = process.argv[2] || 'QuestTimelinePure/fixtures/helmet_of_fate.timeline.json';
   const commandsPath = process.argv[3] || '';
   
-  const timeline: QuestTimeline = JSON.parse(fs.readFileSync(path.resolve(timelinePath), 'utf-8'));
+  const timeline: QuestTimeline = SafeJSONParser.parse(fs.readFileSync(path.resolve(timelinePath), 'utf-8'));
 
   const log: string[] = [];
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'run' } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'run' } as Cmd];
   const outputs: any[] = [];
 
   for (const c of cmds) {
@@ -35,7 +37,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

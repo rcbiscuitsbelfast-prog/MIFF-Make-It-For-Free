@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { resolve, VisualItemEvent, ResolveOptions } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'resolve'; event: VisualItemEvent; options?: ResolveOptions }
@@ -14,7 +16,7 @@ function main() {
   
   let input: any = {};
   try {
-    input = JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
+    input = SafeJSONParser.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'));
   } catch (err) {
     // Use default event if file doesn't exist
     input = { event: { type: 'helmet.split' }, options: {} };
@@ -24,7 +26,7 @@ function main() {
   const event: VisualItemEvent = input.event || { type: 'helmet.split' };
   const options: ResolveOptions = input.options || {};
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'resolve', event, options } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'resolve', event, options } as Cmd];
   const outputs: any[] = [];
 
   for (const c of cmds) {
@@ -39,7 +41,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

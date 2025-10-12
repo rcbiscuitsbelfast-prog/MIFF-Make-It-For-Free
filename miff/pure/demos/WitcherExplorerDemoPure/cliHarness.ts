@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * CLI Harness for WitcherExplorerDemoPure
  * 
@@ -19,4 +20,4 @@ const { mode } = parseCLIArgs(process.argv);
 
 // Select output based on CLI argument (default to witcher demo)
 const output = witcherExplorerDemo();
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

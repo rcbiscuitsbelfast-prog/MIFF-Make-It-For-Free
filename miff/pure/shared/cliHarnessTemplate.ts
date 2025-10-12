@@ -14,6 +14,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Standard CLI operation types
 export type CLIOperation = 
@@ -76,6 +78,7 @@ export class CLIError extends Error {
     message: string,
     public details?: any
   ) {
+    this.logger = new StructuredLogger({ module: 'export' });
     super(message);
     this.name = 'CLIError';
   }
@@ -120,7 +123,7 @@ export function parseCLIArgs(argv: string[]): CLIArgs {
   if (result.inputFile && fs.existsSync(result.inputFile)) {
     try {
       const fileContent = fs.readFileSync(result.inputFile, 'utf-8');
-      result.data = JSON.parse(fileContent);
+      result.data = SafeJSONParser.parse(fileContent);
     } catch (error) {
       throw new CLIError(
         CLIErrorCode.INVALID_JSON,
@@ -249,7 +252,7 @@ export abstract class BaseCLIHarness {
       const args = parseCLIArgs(process.argv);
       
       if (args.help) {
-        console.log(generateHelpText(this.moduleName, this.supportedOperations));
+        this.logger.info(generateHelpText(this.moduleName, this.supportedOperations));
         return;
       }
       
@@ -271,15 +274,15 @@ export abstract class BaseCLIHarness {
       if (args.outputFile) {
         fs.writeFileSync(args.outputFile, output);
         if (args.verbose) {
-          console.log(`Output written to: ${args.outputFile}`);
+          this.logger.info(`Output written to: ${args.outputFile}`);
         }
       } else {
-        console.log(output);
+        this.logger.info(output);
       }
       
     } catch (error) {
       const result = handleCLIError(error, 'unknown', this.moduleName);
-      console.error(formatOutput(result, 'json'));
+      this.logger.error(formatOutput(result, 'json'));
       process.exit(1);
     }
   }

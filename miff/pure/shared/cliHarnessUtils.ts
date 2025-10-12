@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Shared CLI Harness Utilities for Pure Modules
  * 
@@ -84,7 +86,7 @@ function parseKeyValueArgs(argv: string[]) {
         // Try to parse as JSON for objects/arrays
         if (value.startsWith('{') || value.startsWith('[')) {
           try {
-            value = JSON.parse(value);
+            value = SafeJSONParser.parse(value);
           } catch {
             // Keep as string if JSON parse fails
           }
@@ -132,7 +134,7 @@ function handleError(error: unknown, exitCode = 1) {
     timestamp: Date.now()
   };
   
-  console.error(formatOutput(errorOutput));
+  this.logger.error(formatOutput(errorOutput));
   process.exit(exitCode);
 }
 
@@ -150,7 +152,7 @@ function handleSuccess(data: any, operation = 'operation') {
     timestamp: Date.now()
   };
   
-  console.log(formatOutput(successOutput));
+  this.logger.info(formatOutput(successOutput));
 }
 
 /**

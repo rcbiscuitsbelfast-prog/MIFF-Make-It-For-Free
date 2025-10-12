@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Scheduler Implementation
  * 
@@ -59,6 +60,7 @@ export interface SchedulerMetrics {
 }
 
 export class RealScheduler {
+  private logger: StructuredLogger;
   private tasks: Map<string, Task> = new Map();
   private scheduleRules: Map<string, ScheduleRule> = new Map();
   private runningTasks: Set<string> = new Set();
@@ -70,6 +72,7 @@ export class RealScheduler {
   private nextTaskId: number = 1;
 
   constructor(config?: Partial<SchedulerConfig>) {
+    this.logger = new StructuredLogger({ module: 'RealScheduler' });
     this.config = {
       maxConcurrentTasks: 10,
       defaultTimeout: 30000,
@@ -413,7 +416,7 @@ export class RealScheduler {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in scheduler event handler for ${event}:`, error);
+          this.logger.error(`Error in scheduler event handler for ${event}:`, error);
         }
       });
     }

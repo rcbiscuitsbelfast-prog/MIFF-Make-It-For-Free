@@ -21,6 +21,8 @@ import { DebugOverlayManager } from '../../DebugOverlayPure/index';
 import { SaveManager } from '../../SavePure/index';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Game Types and Interfaces
 interface Vector2D {
@@ -224,6 +226,7 @@ const LEVEL_TEMPLATES: Record<string, Level[]> = {
 
 // Game Systems
 class TopplerGame {
+  private logger: StructuredLogger;
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private gameState: GameState;
@@ -239,6 +242,7 @@ class TopplerGame {
   private keys: Set<string> = new Set();
 
   constructor(canvas: HTMLCanvasElement) {
+    this.logger = new StructuredLogger({ module: 'TopplerGame' });
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d')!;
     this.gameState = this.createInitialState();
@@ -305,11 +309,11 @@ class TopplerGame {
     try {
       const savePath = path.join(process.cwd(), 'toppler_save.json');
       if (fs.existsSync(savePath)) {
-        const data = JSON.parse(fs.readFileSync(savePath, 'utf8'));
+        const data = SafeJSONParser.parse(fs.readFileSync(savePath, 'utf8'));
         return data.highScore || 0;
       }
     } catch (error) {
-      console.warn('Could not load save file:', error);
+      this.logger.warn('Could not load save file:', error);
     }
     return 0;
   }
@@ -320,7 +324,7 @@ class TopplerGame {
       const data = { highScore: score, timestamp: Date.now() };
       fs.writeFileSync(savePath, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.warn('Could not save high score:', error);
+      this.logger.warn('Could not save high score:', error);
     }
   }
 
@@ -876,14 +880,14 @@ class TopplerGame {
 
 // Demo Entry Point
 function main() {
-  console.log('🎮 Toppler Demo - MIFF Framework');
-  console.log('================================');
-  console.log('A physics-based puzzle platformer featuring:');
-  console.log('• Real-time physics simulation');
-  console.log('• Progressive difficulty levels');
-  console.log('• Score and time tracking');
-  console.log('• Procedural level generation');
-  console.log('• Debug and profiling tools\n');
+  this.logger.info('🎮 Toppler Demo - MIFF Framework');
+  this.logger.info('================================');
+  this.logger.info('A physics-based puzzle platformer featuring:');
+  this.logger.info('• Real-time physics simulation');
+  this.logger.info('• Progressive difficulty levels');
+  this.logger.info('• Score and time tracking');
+  this.logger.info('• Procedural level generation');
+  this.logger.info('• Debug and profiling tools\n');
 
   // Create canvas
   const canvas = document.createElement('canvas');
@@ -919,9 +923,9 @@ function main() {
     game.destroy();
   });
 
-  console.log('✅ Toppler demo started!');
-  console.log('🎮 Use arrow keys/WASD to move, space to jump');
-  console.log('🎯 Collect yellow items, avoid red spikes, reach green goal');
+  this.logger.info('✅ Toppler demo started!');
+  this.logger.info('🎮 Use arrow keys/WASD to move, space to jump');
+  this.logger.info('🎯 Collect yellow items, avoid red spikes, reach green goal');
 }
 
 // Export for use in other modules

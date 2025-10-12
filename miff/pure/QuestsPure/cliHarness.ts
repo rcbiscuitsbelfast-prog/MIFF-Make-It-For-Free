@@ -13,6 +13,8 @@ import { QuestsManager, Quest, QuestStep, QuestReward } from './Manager';
 import * as fs from 'fs';
 import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new QuestsManager();
@@ -251,7 +253,7 @@ try {
         try {
           const fixturePath = path.isAbsolute(args[0]) ? args[0] : path.resolve(args[0]);
           const seed = parseInt(args[1]);
-          const content = JSON.parse(fs.readFileSync(fixturePath, 'utf-8'));
+          const content = SafeJSONParser.parse(fs.readFileSync(fixturePath, 'utf-8'));
           // Simulate deterministic quest based on seed
           const quests = [{ id: 'fetch_item', step: 1, status: 'Completed' }];
           const log = [
@@ -306,4 +308,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

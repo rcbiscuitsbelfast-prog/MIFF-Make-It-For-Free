@@ -5,6 +5,7 @@ import { WorldManifest, WorldTile, WorldManifestPure } from './index';
 import { exportDataToFormat, ExportFormat } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WorldOperation {
   op: 'create' | 'get' | 'list' | 'addZone' | 'removeZone' | 'placeAsset' | 'removeAsset' | 'findAssets' | 'generate' | 'validate' | 'stats' | 'export' | 'delete' | 'globalStats';
@@ -26,9 +27,11 @@ interface WorldOperation {
 }
 
 class WorldManifestCLI {
+  private logger: StructuredLogger;
   private manager: WorldManifestManager;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'WorldManifestCLI' });
     this.manager = new WorldManifestManager();
   }
 
@@ -459,16 +462,16 @@ async function main() {
   const cli = new WorldManifestCLI();
   
   if (process.argv.length < 3) {
-    console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: create, get, list, addZone, removeZone, placeAsset, removeAsset, findAssets, generate, validate, stats, export, delete, globalStats');
-    console.error('Examples:');
-    console.error('  cliHarness.ts list');
-    console.error('  cliHarness.ts create my-world "My World" 50 40');
-    console.error('  cliHarness.ts addZone my-world zone1 "Zone One" 20 15');
-    console.error('  cliHarness.ts placeAsset my-world zone1 5 5 tree-oak 1');
-    console.error('  cliHarness.ts generate my-world zone1 --seed 12345 --density 0.6 --style forest');
-    console.error('  cliHarness.ts stats my-world');
-    console.error('  cliHarness.ts export my-world yaml');
+    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
+    this.logger.error('Operations: create, get, list, addZone, removeZone, placeAsset, removeAsset, findAssets, generate, validate, stats, export, delete, globalStats');
+    this.logger.error('Examples:');
+    this.logger.error('  cliHarness.ts list');
+    this.logger.error('  cliHarness.ts create my-world "My World" 50 40');
+    this.logger.error('  cliHarness.ts addZone my-world zone1 "Zone One" 20 15');
+    this.logger.error('  cliHarness.ts placeAsset my-world zone1 5 5 tree-oak 1');
+    this.logger.error('  cliHarness.ts generate my-world zone1 --seed 12345 --density 0.6 --style forest');
+    this.logger.error('  cliHarness.ts stats my-world');
+    this.logger.error('  cliHarness.ts export my-world yaml');
     process.exit(1);
   }
 
@@ -621,9 +624,9 @@ async function main() {
     }
 
     const result = await cli.execute(op);
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
   } catch (error) {
-    console.error('Error:', error instanceof Error ? error.message : error);
+    this.logger.error('Error:', error instanceof Error ? error.message : error);
     process.exit(1);
   }
 }

@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { PhysicsManager, PhysicsWorld, Body, Force, Constraint } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'list' }
@@ -29,12 +31,12 @@ function main(){
     
     const mgr = new PhysicsManager();
     if (fs.existsSync(sample)){
-      const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8')) as PhysicsWorld;
+      const j = SafeJSONParser.parse(fs.readFileSync(path.resolve(sample), 'utf-8')) as PhysicsWorld;
       mgr.load(j);
     }
     
     const cmds: Cmd[] = commands 
-      ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
+      ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
       : [{ op: 'demo' } as Cmd];
     
     // Tests expect raw operation objects (legacy shape), not wrapped in {op,status,result}
@@ -113,9 +115,9 @@ function main(){
       }
     }
     
-    console.log(JSON.stringify({ outputs }, null, 2));
+    this.logger.info(JSON.stringify({ outputs }, null, 2));
   } catch (error) {
-    console.log(JSON.stringify({ 
+    this.logger.info(JSON.stringify({ 
       outputs: [{ 
         op: 'error', 
         status: 'error', 
@@ -192,7 +194,7 @@ function runDemo(mgr: PhysicsManager): any {
 }
 
 function showHelp() {
-  console.log(`
+  this.logger.info(`
 PhysicsSystemPure CLI - Advanced 2D Physics Simulation
 
 USAGE:

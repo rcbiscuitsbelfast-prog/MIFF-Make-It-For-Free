@@ -2,10 +2,12 @@
 import fs from 'fs';
 import path from 'path';
 import { StatusEffectsManager, StatusEffect } from './StatusEffectsManager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log(`
+  this.logger.info(`
 StatusEffectsPure CLI Harness - Status Effects Management System
 
 Usage: npx tsx miff/pure/StatusEffectsPure/cliHarness.ts [statusFile] [commandsFile]
@@ -41,7 +43,7 @@ function main() {
   const statusPath = process.argv[2] || 'StatusEffectsPure/sample_status.json';
   const commandsPath = process.argv[3] || '';
   
-  const obj = JSON.parse(fs.readFileSync(path.resolve(statusPath), 'utf-8')) as { 
+  const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(statusPath), 'utf-8')) as { 
     entities: Array<{ id: string; hp: number; effects: Array<{ id: string; type: string; magnitude: number; duration: number }> }> 
   };
 
@@ -69,7 +71,7 @@ function main() {
     mgr.createEntity(entity.id, entity.hp, fullEffects);
   }
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'list' } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'list' } as Cmd];
   const outputs: any[] = [];
 
   for (const c of cmds) {
@@ -99,7 +101,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

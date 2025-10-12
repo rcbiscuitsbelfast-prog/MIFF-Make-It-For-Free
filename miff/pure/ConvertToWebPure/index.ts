@@ -383,6 +383,7 @@ export interface WebEvent {
 }
 
 export class WebConverter {
+  private logger: StructuredLogger;
   private project: WebProject;
   private renderer: WebRenderer;
   private platform: WebPlatform;
@@ -395,6 +396,7 @@ export class WebConverter {
   private sceneMap: Map<string, WebScene> = new Map();
 
   constructor(options: ConversionOptions = {}) {
+    this.logger = new StructuredLogger({ module: 'WebConverter' });
     this.options = {
       platform: WebPlatform.WEBGL,
       renderer: WebRenderer.PIXI_JS,
@@ -582,7 +584,7 @@ export class WebConverter {
   // Core conversion functionality
   async convertMIFFProject(miffProject: any): Promise<WebBuildResult> {
     const startTime = Date.now();
-    console.log('[WebConverter] Starting conversion to web format...');
+    this.logger.info('[WebConverter] Starting conversion to web format...');
 
     try {
       // Reset project
@@ -626,7 +628,7 @@ export class WebConverter {
       const buildTime = Date.now() - startTime;
       this.statistics.buildTime = buildTime;
 
-      console.log(`[WebConverter] Conversion completed in ${buildTime}ms`);
+      this.logger.info(`[WebConverter] Conversion completed in ${buildTime}ms`);
 
       return {
         success: true,
@@ -645,7 +647,7 @@ export class WebConverter {
       };
 
     } catch (error) {
-      console.error('[WebConverter] Conversion failed:', error);
+      this.logger.error('[WebConverter] Conversion failed:', error);
 
       return {
         success: false,
@@ -938,6 +940,7 @@ export class WebConverter {
     return `
 // MIFF Web Game - Main Entry Point
 import { Game } from './game.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 window.addEventListener('load', () => {
   const game = new Game({
@@ -1339,12 +1342,12 @@ self.addEventListener('fetch', (event) => {
     this.sceneMap.clear();
     this.eventQueue = [];
 
-    console.log('[WebConverter] Reset to initial state');
+    this.logger.info('[WebConverter] Reset to initial state');
   }
 
   dispose(): void {
     this.reset();
-    console.log('[WebConverter] Disposed successfully');
+    this.logger.info('[WebConverter] Disposed successfully');
   }
 }
 

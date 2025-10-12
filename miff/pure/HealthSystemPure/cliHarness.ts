@@ -11,6 +11,7 @@
 
 import { HealthSystemManager, Shield, RegenerationEffect } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new HealthSystemManager();
@@ -313,4 +314,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

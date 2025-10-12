@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Window Implementation
  * 
@@ -56,12 +57,14 @@ export interface WindowEvent {
 }
 
 export class RealWindow {
+  private logger: StructuredLogger;
   private windows: Map<string, WindowInfo> = new Map();
   private eventHandlers: Map<string, Function[]> = new Map();
   private nextWindowId: number = 1;
   private isInitialized: boolean = false;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealWindow' });
     this.initialize();
   }
 
@@ -335,7 +338,7 @@ export class RealWindow {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in window event handler for ${event}:`, error);
+          this.logger.error(`Error in window event handler for ${event}:`, error);
         }
       });
     }

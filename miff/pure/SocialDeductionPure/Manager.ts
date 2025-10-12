@@ -13,6 +13,7 @@
  */
 
 import { EventBus } from '../EventBusPure/index.js';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 // Types are defined in this file to avoid circular imports
 
 export enum GamePhase {
@@ -441,7 +442,7 @@ export class SocialDeductionManager {
 
   public importGameState(stateJson: string): boolean {
     try {
-      const state = JSON.parse(stateJson);
+      const state = SafeJSONParser.parse(stateJson);
 
       // Restore game state
       // Note: This is a simplified restoration - full implementation would need more complex state management

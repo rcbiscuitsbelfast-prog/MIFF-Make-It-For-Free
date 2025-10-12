@@ -5,6 +5,7 @@
  */
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 // Create mock types and class
 type Session = {
   id: string;
@@ -50,7 +51,7 @@ try {
     case 'createSession': {
       const { sessionId, platform, exportFormats } = params;
       
-      const formats = typeof exportFormats === 'string' ? JSON.parse(exportFormats) :
+      const formats = typeof exportFormats === 'string' ? SafeJSONParser.parse(exportFormats) :
                      Array.isArray(exportFormats) ? exportFormats :
                      ['web', 'unity', 'godot', 'android'];
       

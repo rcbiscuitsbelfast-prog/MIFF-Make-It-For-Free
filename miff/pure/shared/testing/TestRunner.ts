@@ -19,6 +19,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const execAsync = promisify(exec);
 
@@ -185,6 +187,7 @@ export interface TestEnvironment {
  * Test Runner - Core test management functionality
  */
 export class TestRunner {
+  private logger: StructuredLogger;
   private config: TestConfig;
   private eventBus: EventBus;
   private suites: Map<string, TestSuite> = new Map();
@@ -194,6 +197,7 @@ export class TestRunner {
   private currentRunId?: string;
 
   constructor(config: TestConfig, eventBus: EventBus) {
+    this.logger = new StructuredLogger({ module: 'TestRunner' });
     this.config = config;
     this.eventBus = eventBus;
     this.initialize();
@@ -414,7 +418,7 @@ export class TestRunner {
       });
       
       if (stderr) {
-        console.warn('Jest stderr:', stderr);
+        this.logger.warn('Jest stderr:', stderr);
       }
       
       return stdout;
@@ -468,7 +472,7 @@ export class TestRunner {
    */
   private parseJestResults(jestOutput: string, file: string): TestResult[] {
     try {
-      const jestResult = JSON.parse(jestOutput);
+      const jestResult = SafeJSONParser.parse(jestOutput);
       const results: TestResult[] = [];
       
       for (const testResult of jestResult.testResults) {
@@ -501,7 +505,7 @@ export class TestRunner {
       
       return results;
     } catch (error: unknown) {
-      console.error('Error parsing Jest results:', error);
+      this.logger.error('Error parsing Jest results:', error);
       return [];
     }
   }

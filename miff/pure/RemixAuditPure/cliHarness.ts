@@ -2,16 +2,18 @@
 
 import { auditModules, generateAuditReport } from './index';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 async function main() {
   const inputFile = process.argv[2];
   if (!inputFile) {
-    console.error('Usage: ts-node cliHarness.ts <input-file>');
+    this.logger.error('Usage: ts-node cliHarness.ts <input-file>');
     process.exit(1);
   }
 
   try {
-    const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+    const input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
     
     if (!input || typeof input !== 'object') {
       throw new Error('Invalid input: expected JSON object');
@@ -27,19 +29,19 @@ async function main() {
     const report = await auditModules(modulePaths);
     
     // Output JSON result
-    console.log(JSON.stringify(report, null, 2));
+    this.logger.info(JSON.stringify(report, null, 2));
     
     // Also output human-readable report if requested
     if (input.verbose) {
-      console.error('\n' + generateAuditReport(report));
+      this.logger.error('\n' + generateAuditReport(report));
     }
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 }
 
 main().catch(error => {
-  console.error('Unhandled error:', error);
+  this.logger.error('Unhandled error:', error);
   process.exit(1);
 });

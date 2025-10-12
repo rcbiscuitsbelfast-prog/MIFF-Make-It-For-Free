@@ -15,6 +15,8 @@ import * as path from 'path';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new NPCsManager();
@@ -41,7 +43,7 @@ try {
       if (args.length > 1 && !args[1].startsWith('--')) {
         const filePath = path.isAbsolute(args[1]) ? args[1] : path.resolve(args[1]);
         if (fs.existsSync(filePath)) {
-          const raw = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+          const raw = SafeJSONParser.parse(fs.readFileSync(filePath, 'utf-8'));
           // Normalize shapes where stats are object -> array of {key, base}
           const statsArr = Array.isArray(raw.stats)
             ? raw.stats
@@ -299,4 +301,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

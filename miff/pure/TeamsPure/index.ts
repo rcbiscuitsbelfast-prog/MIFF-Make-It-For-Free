@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * TeamsPure - Team Management System
  *
@@ -336,6 +337,7 @@ export class ValidationResult implements IValidationResult {
     warnings: string[] = [],
     errors: string[] = []
   ) {
+    this.logger = new StructuredLogger({ module: 'ValidationResult' });
     this.status = status;
     this.message = message;
     this.warnings = [...warnings];
@@ -1902,7 +1904,7 @@ export const TeamUtils = {
       if (result !== TeamOperationResult.SUCCESS) {
         // If adding to active team fails, try reserves
         if (team.spirits.length < team.maxSize) {
-          console.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
+          this.logger.warn(`Failed to add spirit ${sortedSpirits[i].name} to team: ${result}`);
         }
       }
     }

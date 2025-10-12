@@ -20,9 +20,12 @@ type CameraSystemPure = any;
 type AudioPure = any;
 type AvatarSystemPure = any;
 import { PixelAnimPure } from '../PixelAnimPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Animation system for cut scenes
 class AnimationPure {
+  private logger: StructuredLogger;
   private activeAnimations: Map<string, any> = new Map();
 
   async playAnimation(animationId: string, target: any): Promise<void> {
@@ -53,7 +56,7 @@ class AnimationPure {
         }, 16); // ~60fps
       });
     } catch (error) {
-      console.error(`Animation error: ${error}`);
+      this.logger.error(`Animation error: ${error}`);
       throw error;
     }
   }
@@ -145,9 +148,9 @@ class DialogueSystemPureStub {
       // Simulate dialogue loading
       await new Promise(resolve => setTimeout(resolve, 100));
       
-      console.log(`Started dialogue: ${dialogueId}`);
+      this.logger.info(`Started dialogue: ${dialogueId}`);
     } catch (error) {
-      console.error(`Dialogue error: ${error}`);
+      this.logger.error(`Dialogue error: ${error}`);
       throw error;
     }
   }
@@ -156,7 +159,7 @@ class DialogueSystemPureStub {
     if (this.currentDialogue) {
       this.currentDialogue.completed = true;
       this.currentDialogue = null;
-      console.log('Dialogue completed');
+      this.logger.info('Dialogue completed');
     }
   }
 
@@ -213,7 +216,7 @@ class CameraSystemPureStub {
         }, 16); // ~60fps
       });
     } catch (error) {
-      console.error(`Camera transition error: ${error}`);
+      this.logger.error(`Camera transition error: ${error}`);
       throw error;
     }
   }
@@ -224,7 +227,7 @@ class CameraSystemPureStub {
     
     if (transition) {
       transition.payload = { ...transition.payload, ...payload };
-      console.log(`Updated camera transition: ${transitionId}`);
+      this.logger.info(`Updated camera transition: ${transitionId}`);
     }
   }
 
@@ -235,7 +238,7 @@ class CameraSystemPureStub {
       transition.progress = 1;
       this.activeTransitions.delete(id);
     }
-    console.log('Completed camera transitions');
+    this.logger.info('Completed camera transitions');
   }
 
   getTransitionProgress(transitionId: string): number {
@@ -280,7 +283,7 @@ class AudioPureStub {
         }
       });
     } catch (error) {
-      console.error(`Audio error: ${error}`);
+      this.logger.error(`Audio error: ${error}`);
       throw error;
     }
   }
@@ -289,7 +292,7 @@ class AudioPureStub {
     const sound = this.activeSounds.get(soundId);
     if (sound) {
       Object.assign(sound, properties);
-      console.log(`Updated sound: ${soundId}`);
+      this.logger.info(`Updated sound: ${soundId}`);
     }
   }
 
@@ -298,7 +301,7 @@ class AudioPureStub {
     if (sound) {
       sound.playing = false;
       this.activeSounds.delete(soundId);
-      console.log(`Stopped sound: ${soundId}`);
+      this.logger.info(`Stopped sound: ${soundId}`);
     }
   }
 
@@ -307,7 +310,7 @@ class AudioPureStub {
       sound.playing = false;
     }
     this.activeSounds.clear();
-    console.log('Stopped all sounds');
+    this.logger.info('Stopped all sounds');
   }
 
   isSoundPlaying(soundId: string): boolean {
@@ -467,6 +470,7 @@ export class CutSceneEngine {
   private cutScene: CutScenePure;
 
   constructor(definition: CutSceneDefinition) {
+    this.logger = new StructuredLogger({ module: 'AnimationPure' });
     this.cutScene = new CutScenePure(definition);
   }
 
@@ -512,12 +516,12 @@ export class CutSceneEngine {
 
   setCurrentTime(time: number): void {
     // Simplified implementation
-    console.log(`Setting cut scene time to ${time}`);
+    this.logger.info(`Setting cut scene time to ${time}`);
   }
 
   setTrackProperty(trackId: string, property: string, value: any): void {
     // Simplified implementation
-    console.log(`Setting track ${trackId} property ${property} to ${value}`);
+    this.logger.info(`Setting track ${trackId} property ${property} to ${value}`);
   }
 }
 
@@ -752,12 +756,12 @@ export class CutScenePure {
       }
     }
 
-    console.log(`✅ Cut scene "${this.config.id}" validated successfully`);
+    this.logger.info(`✅ Cut scene "${this.config.id}" validated successfully`);
   }
 
   public async play(onComplete?: (result: any) => void): Promise<any> {
     if (this.state.isPlaying) {
-      console.warn('Cut scene is already playing');
+      this.logger.warn('Cut scene is already playing');
       return;
     }
 
@@ -765,7 +769,7 @@ export class CutScenePure {
     this.state.isPlaying = true;
     this.state.currentTime = 0;
 
-    console.log(`🎬 Starting cut scene: ${this.config.name}`);
+    this.logger.info(`🎬 Starting cut scene: ${this.config.name}`);
 
     // Notify engine-specific systems
     EventBus.publish('cutscene.playing', {
@@ -827,7 +831,7 @@ export class CutScenePure {
   }
 
   public skip(): void {
-    console.log(`⏭️ Skipping cut scene: ${this.config.name}`);
+    this.logger.info(`⏭️ Skipping cut scene: ${this.config.name}`);
     this.stop();
     EventBus.publish('cutscene.skipped', { cutSceneId: this.config.id });
   }
@@ -889,7 +893,7 @@ export class CutScenePure {
   }
 
   private async executeAction(action: CutSceneAction): Promise<void> {
-    console.log(`🎬 Executing action: ${action.id} (${action.type})`);
+    this.logger.info(`🎬 Executing action: ${action.id} (${action.type})`);
 
     switch (action.type) {
       case 'start':
@@ -1160,7 +1164,7 @@ export class CutScenePure {
 
   private handleEngineReady(event: any): void {
     this.state.engineContext = event.engineType;
-    console.log(`🔧 Cut scene engine ready: ${event.engineType}`);
+    this.logger.info(`🔧 Cut scene engine ready: ${event.engineType}`);
   }
 
   // Public API methods
@@ -1322,7 +1326,7 @@ export class CutScenePure {
   }
 
   public static parseFromJSON(jsonString: string): CutSceneDefinition {
-    const data = JSON.parse(jsonString);
+    const data = SafeJSONParser.parse(jsonString);
 
     // Validate and convert to proper format
     if (!data.config || !data.tracks || !data.actions) {

@@ -1,6 +1,7 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { 
   ModdingSystem, 
   PluginDiscovery, 
@@ -225,7 +226,7 @@ async function runDemo(system: ModdingSystem): Promise<any> {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((err) => {
-    console.error(err instanceof Error ? err.message : String(err));
+    this.logger.error(err instanceof Error ? err.message : String(err));
     process.exit(1);
   });
 }

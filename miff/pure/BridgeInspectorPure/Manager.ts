@@ -4,6 +4,7 @@ import { BridgeSchemaValidator, RenderSignal } from '../BridgeSchemaPure/schema'
 import { RenderData, RenderPayload } from '../shared/ConsolidatedSchema';
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export interface InspectionConfig {
   validateSchema: boolean;
@@ -852,7 +853,7 @@ export class BridgeInspectorManager {
       }
 
       const content = fs.readFileSync(testPath, 'utf-8');
-      return JSON.parse(content);
+      return SafeJSONParser.parse(content);
     } catch (error) {
       return null;
     }

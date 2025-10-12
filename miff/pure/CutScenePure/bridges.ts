@@ -14,17 +14,21 @@
 
 import { CutScenePure, CutSceneDefinition } from './index';
 import { createEventBus, EventBus as CoreEventBus } from '../EventBusPure/EventBusPure.js';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Strongly typed event bus instance from EventBusPure
 const EventBus: CoreEventBus = createEventBus();
 
 // Web Bridge Implementation
 export class CutSceneWebBridge {
+  private logger: StructuredLogger;
   private cutScene: CutScenePure | null = null;
   private container: HTMLElement | null = null;
   private isInitialized = false;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CutSceneWebBridge' });
     this.setupEventListeners();
   }
 
@@ -35,7 +39,7 @@ export class CutSceneWebBridge {
   }
 
   private handleWebReady(event: any): void {
-    console.log('🌐 Web bridge ready for cut scenes');
+    this.logger.info('🌐 Web bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -98,7 +102,7 @@ export class CutSceneWebBridge {
       this.container.appendChild(this.overlay);
       document.body.appendChild(this.container);
 
-      console.log('🎬 CutSceneWebPlayer initialized');
+      this.logger.info('🎬 CutSceneWebPlayer initialized');
     }
 
     async play() {
@@ -109,7 +113,7 @@ export class CutSceneWebBridge {
       this.currentTime = 0;
       this.completedActions.clear();
 
-      console.log('🎬 Starting web cut scene:', this.definition.config.name);
+      this.logger.info('🎬 Starting web cut scene:', this.definition.config.name);
 
       // Emit play event
       window.dispatchEvent(new CustomEvent('cutscene.playing', {
@@ -127,7 +131,7 @@ export class CutSceneWebBridge {
         cancelAnimationFrame(this.animationFrame);
       }
 
-      console.log('⏹️ Cut scene stopped');
+      this.logger.info('⏹️ Cut scene stopped');
     }
 
     startPlaybackLoop() {
@@ -258,7 +262,7 @@ export class CutSceneWebBridge {
       const track = this.definition.tracks.find(t => t.id === action.trackId);
       if (!track) return;
 
-      console.log('🎬 Executing action:', action.id);
+      this.logger.info('🎬 Executing action:', action.id);
 
       switch (action.type) {
         case 'start':
@@ -273,13 +277,13 @@ export class CutSceneWebBridge {
     startTrack(track) {
       switch (track.type) {
         case 'camera':
-          console.log('📹 Starting camera track');
+          this.logger.info('📹 Starting camera track');
           break;
         case 'dialogue':
-          console.log('💬 Starting dialogue track');
+          this.logger.info('💬 Starting dialogue track');
           break;
         case 'audio':
-          console.log('🔊 Starting audio track');
+          this.logger.info('🔊 Starting audio track');
           break;
       }
     }
@@ -287,7 +291,7 @@ export class CutSceneWebBridge {
     completeTrack(track) {
       switch (track.type) {
         case 'camera':
-          console.log('📹 Completing camera track');
+          this.logger.info('📹 Completing camera track');
           break;
         case 'dialogue':
           // Hide dialogue
@@ -297,7 +301,7 @@ export class CutSceneWebBridge {
           }
           break;
         case 'audio':
-          console.log('🔊 Completing audio track');
+          this.logger.info('🔊 Completing audio track');
           break;
       }
     }
@@ -320,12 +324,12 @@ export class CutSceneWebBridge {
   }
 
   private playCutScene(event: any): void {
-    console.log('🎬 Playing cut scene via web bridge');
+    this.logger.info('🎬 Playing cut scene via web bridge');
     // Implementation would trigger the cut scene player
   }
 
   private injectCutSceneLogic(event: any): void {
-    console.log('🔧 Injecting cut scene logic into web page');
+    this.logger.info('🔧 Injecting cut scene logic into web page');
     // Implementation would inject the cut scene script
   }
 
@@ -350,7 +354,7 @@ export class CutSceneUnityBridge {
   }
 
   private handleUnityReady(event: any): void {
-    console.log('🎮 Unity bridge ready for cut scenes');
+    this.logger.info('🎮 Unity bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -492,12 +496,12 @@ public class CutScenePlayer : MonoBehaviour
   }
 
   private injectIntoUnityScene(event: any): void {
-    console.log('🏗️ Injecting cut scene into Unity scene');
+    this.logger.info('🏗️ Injecting cut scene into Unity scene');
     // Implementation would inject C# script into Unity scene
   }
 
   private playCutScene(event: any): void {
-    console.log('🎬 Playing cut scene via Unity bridge');
+    this.logger.info('🎬 Playing cut scene via Unity bridge');
     // Implementation would trigger Unity cut scene player
   }
 
@@ -522,7 +526,7 @@ export class CutSceneGodotBridge {
   }
 
   private handleGodotReady(event: any): void {
-    console.log('🎲 Godot bridge ready for cut scenes');
+    this.logger.info('🎲 Godot bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -551,7 +555,7 @@ func load_cut_scene_definition():
     var file = File.new()
     if file.open("res://cutscenes/${cutSceneDefinition.config.id}.json", File.READ):
         var content = file.get_as_text()
-        cut_scene_definition = JSON.parse(content).result
+        cut_scene_definition = SafeJSONParser.parse(content).result
         file.close()
     else:
         push_error("Failed to load cut scene definition")
@@ -705,12 +709,12 @@ func skip_cut_scene():
   }
 
   private injectIntoGodotScene(event: any): void {
-    console.log('🎲 Injecting cut scene into Godot scene');
+    this.logger.info('🎲 Injecting cut scene into Godot scene');
     // Implementation would inject GDScript into Godot scene
   }
 
   private playCutScene(event: any): void {
-    console.log('🎬 Playing cut scene via Godot bridge');
+    this.logger.info('🎬 Playing cut scene via Godot bridge');
     // Implementation would trigger Godot cut scene player
   }
 
@@ -735,7 +739,7 @@ export class CutSceneUnrealBridge {
   }
 
   private handleUnrealReady(event: any): void {
-    console.log('🎯 Unreal bridge ready for cut scenes');
+    this.logger.info('🎯 Unreal bridge ready for cut scenes');
     this.isInitialized = true;
   }
 
@@ -1056,12 +1060,12 @@ void ACutScenePlayer::OnDialogueEvent(const FString& DialogueId, const FString& 
   }
 
   private injectIntoUnrealLevel(event: any): void {
-    console.log('🎯 Injecting cut scene into Unreal level');
+    this.logger.info('🎯 Injecting cut scene into Unreal level');
     // Implementation would inject C++ code into Unreal project
   }
 
   private playCutScene(event: any): void {
-    console.log('🎬 Playing cut scene via Unreal bridge');
+    this.logger.info('🎬 Playing cut scene via Unreal bridge');
     // Implementation would trigger Unreal cut scene player
   }
 

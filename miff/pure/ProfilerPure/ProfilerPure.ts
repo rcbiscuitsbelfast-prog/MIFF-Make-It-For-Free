@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * ProfilerPure.ts
  * 
@@ -76,6 +77,7 @@ export interface HotReloadConfig {
 }
 
 export class Profiler {
+  private logger: StructuredLogger;
   private config: ProfilerConfig;
   private frames: ProfilerFrame[];
   private currentFrame?: ProfilerFrame;
@@ -85,6 +87,7 @@ export class Profiler {
   private isRunning: boolean;
 
   constructor(config: ProfilerConfig) {
+    this.logger = new StructuredLogger({ module: 'Profiler' });
     this.config = config;
     this.frames = [];
     this.activeSamples = new Map();
@@ -279,7 +282,7 @@ export class Profiler {
             break;
         }
       } catch (error) {
-        console.error('[ProfilerPure] Observer error:', error);
+        this.logger.error('[ProfilerPure] Observer error:', error);
       }
     });
   }

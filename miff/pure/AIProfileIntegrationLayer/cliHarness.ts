@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { AIProfileIntegrationLayer, AIProfile, AIAction, AILearningData } from './Manager';
 import { addExportSupport } from '../shared/exportUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'createProfile'; profile: AIProfile }
@@ -22,7 +24,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -32,7 +34,7 @@ function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as Cmd;
     } else {
       // Parse subcommand
@@ -41,14 +43,14 @@ function main() {
           if (!argv[1]) {
             throw new Error('createProfile requires profile data JSON file');
           }
-          const profileData = JSON.parse(fs.readFileSync(argv[1], 'utf-8'));
+          const profileData = SafeJSONParser.parse(fs.readFileSync(argv[1], 'utf-8'));
           operation = { op: 'createProfile', profile: profileData };
           break;
         case 'updateProfile':
           if (!argv[1] || !argv[2]) {
             throw new Error('updateProfile requires profileId and updates JSON file');
           }
-          const updatesData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const updatesData = SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8'));
           operation = { op: 'updateProfile', profileId: argv[1], updates: updatesData };
           break;
         case 'getProfile':
@@ -61,7 +63,7 @@ function main() {
           if (!argv[1] || !argv[2] || !argv[3]) {
             throw new Error('makeDecision requires profileId, situation, and actions JSON file');
           }
-          const actionsData = JSON.parse(fs.readFileSync(argv[3], 'utf-8'));
+          const actionsData = SafeJSONParser.parse(fs.readFileSync(argv[3], 'utf-8'));
           operation = { 
             op: 'makeDecision', 
             profileId: argv[1],
@@ -73,7 +75,7 @@ function main() {
           if (!argv[1] || !argv[2]) {
             throw new Error('integrateWithGameplay requires profileId and gameState JSON file');
           }
-          const gameStateData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const gameStateData = SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8'));
           operation = { 
             op: 'integrateWithGameplay', 
             profileId: argv[1],
@@ -84,7 +86,7 @@ function main() {
           if (!argv[1] || !argv[2]) {
             throw new Error('recordLearning requires profileId and learningData JSON file');
           }
-          const learningData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const learningData = SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8'));
           operation = { 
             op: 'recordLearning', 
             profileId: argv[1],
@@ -113,7 +115,7 @@ function main() {
           if (!argv[1] || !argv[2]) {
             throw new Error('simulateAI requires profileId and gameState JSON file');
           }
-          const simGameStateData = JSON.parse(fs.readFileSync(argv[2], 'utf-8'));
+          const simGameStateData = SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8'));
           operation = { 
             op: 'simulateAI', 
             profileId: argv[1],
@@ -322,7 +324,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -331,11 +333,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -13,6 +13,7 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 import {
   SportsSystemPure,
   Game,
@@ -658,7 +659,7 @@ export class SportsManager {
 
   public importGameState(gameData: string): boolean {
     try {
-      const data = JSON.parse(gameData);
+      const data = SafeJSONParser.parse(gameData);
 
       // This would restore game state
       // Implementation depends on specific requirements

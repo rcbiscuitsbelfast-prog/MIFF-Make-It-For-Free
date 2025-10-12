@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Dialogue Engine Implementation
  * 
@@ -102,6 +103,7 @@ export interface DialogueSession {
 }
 
 export class RealDialogueEngine {
+  private logger: StructuredLogger;
   private dialogueTrees: Map<string, DialogueNode[]> = new Map();
   private characters: Map<string, Character> = new Map();
   private activeSessions: Map<string, DialogueSession> = new Map();
@@ -110,6 +112,7 @@ export class RealDialogueEngine {
   private voiceSynthesis?: SpeechSynthesis;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealDialogueEngine' });
     this.initializeDefaultCharacters();
     this.initializeVoiceSynthesis();
   }
@@ -191,7 +194,7 @@ export class RealDialogueEngine {
       this.emit('dialogueTreeAdded', { treeId, nodeCount: nodes.length });
       return true;
     } catch (error) {
-      console.error('Error adding dialogue tree:', error);
+      this.logger.error('Error adding dialogue tree:', error);
       return false;
     }
   }
@@ -212,7 +215,7 @@ export class RealDialogueEngine {
       this.emit('characterAdded', { characterId: character.id, character });
       return true;
     } catch (error) {
-      console.error('Error adding character:', error);
+      this.logger.error('Error adding character:', error);
       return false;
     }
   }
@@ -596,7 +599,7 @@ export class RealDialogueEngine {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in event handler for ${event}:`, error);
+          this.logger.error(`Error in event handler for ${event}:`, error);
         }
       });
     }

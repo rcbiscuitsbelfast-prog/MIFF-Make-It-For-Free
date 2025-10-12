@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Documentation Generator for MIFF Framework
  * 
@@ -157,6 +158,7 @@ export interface DocumentationStats {
 }
 
 export class DocumentationGenerator {
+  private logger: StructuredLogger;
   private targets: Map<string, DocumentationTarget> = new Map();
   private apiDocs: Map<string, APIDocumentation> = new Map();
   private contributorGuides: Map<string, ContributorGuide> = new Map();
@@ -165,6 +167,7 @@ export class DocumentationGenerator {
   private stats: DocumentationStats;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'DocumentationGenerator' });
     this.stats = this.initializeStats();
   }
 
@@ -172,7 +175,7 @@ export class DocumentationGenerator {
    * Generate comprehensive documentation for all modules
    */
   async generateDocumentation(rootPath: string): Promise<void> {
-    console.log('📚 Generating comprehensive documentation...');
+    this.logger.info('📚 Generating comprehensive documentation...');
     
     try {
       // Generate API documentation
@@ -190,10 +193,10 @@ export class DocumentationGenerator {
       // Update statistics
       this.updateStats();
       
-      console.log('✅ Documentation generation completed');
+      this.logger.info('✅ Documentation generation completed');
       
     } catch (error) {
-      console.error('❌ Error generating documentation:', error);
+      this.logger.error('❌ Error generating documentation:', error);
     }
   }
 
@@ -201,7 +204,7 @@ export class DocumentationGenerator {
    * Generate API documentation for all modules
    */
   async generateAPIDocumentation(rootPath: string): Promise<void> {
-    console.log('📖 Generating API documentation...');
+    this.logger.info('📖 Generating API documentation...');
     
     const modules = await this.getModulesForDocumentation(rootPath);
     
@@ -209,9 +212,9 @@ export class DocumentationGenerator {
       try {
         const apiDoc = await this.createAPIDocumentation(module);
         this.apiDocs.set(module, apiDoc);
-        console.log(`✅ Generated API documentation for ${module}`);
+        this.logger.info(`✅ Generated API documentation for ${module}`);
       } catch (error) {
-        console.error(`❌ Failed to generate API documentation for ${module}:`, error);
+        this.logger.error(`❌ Failed to generate API documentation for ${module}:`, error);
       }
     }
   }
@@ -220,7 +223,7 @@ export class DocumentationGenerator {
    * Generate contributor guides
    */
   async generateContributorGuides(): Promise<void> {
-    console.log('👥 Generating contributor guides...');
+    this.logger.info('👥 Generating contributor guides...');
     
     const guideTopics = [
       'Getting Started',
@@ -237,9 +240,9 @@ export class DocumentationGenerator {
       try {
         const guide = await this.createContributorGuide(topic);
         this.contributorGuides.set(guide.id, guide);
-        console.log(`✅ Generated contributor guide: ${guide.title}`);
+        this.logger.info(`✅ Generated contributor guide: ${guide.title}`);
       } catch (error) {
-        console.error(`❌ Failed to generate contributor guide for ${topic}:`, error);
+        this.logger.error(`❌ Failed to generate contributor guide for ${topic}:`, error);
       }
     }
   }
@@ -248,7 +251,7 @@ export class DocumentationGenerator {
    * Generate tutorials
    */
   async generateTutorials(): Promise<void> {
-    console.log('🎓 Generating tutorials...');
+    this.logger.info('🎓 Generating tutorials...');
     
     const tutorialTopics = [
       'Building Your First Game',
@@ -265,9 +268,9 @@ export class DocumentationGenerator {
       try {
         const tutorial = await this.createTutorial(topic);
         this.tutorials.set(tutorial.id, tutorial);
-        console.log(`✅ Generated tutorial: ${tutorial.title}`);
+        this.logger.info(`✅ Generated tutorial: ${tutorial.title}`);
       } catch (error) {
-        console.error(`❌ Failed to generate tutorial for ${topic}:`, error);
+        this.logger.error(`❌ Failed to generate tutorial for ${topic}:`, error);
       }
     }
   }
@@ -276,7 +279,7 @@ export class DocumentationGenerator {
    * Generate code examples
    */
   async generateCodeExamples(): Promise<void> {
-    console.log('💻 Generating code examples...');
+    this.logger.info('💻 Generating code examples...');
     
     const exampleCategories = [
       'Basic Usage',
@@ -295,9 +298,9 @@ export class DocumentationGenerator {
         for (const example of examples) {
           this.codeExamples.set(example.id, example);
         }
-        console.log(`✅ Generated ${examples.length} code examples for ${category}`);
+        this.logger.info(`✅ Generated ${examples.length} code examples for ${category}`);
       } catch (error) {
-        console.error(`❌ Failed to generate code examples for ${category}:`, error);
+        this.logger.error(`❌ Failed to generate code examples for ${category}:`, error);
       }
     }
   }
@@ -567,7 +570,7 @@ export class DocumentationGenerator {
         id: `example_${category.toLowerCase().replace(/\s+/g, '_')}_${i + 1}`,
         title: `${category} Example ${i + 1}`,
         description: `Example demonstrating ${category.toLowerCase()}`,
-        code: `// ${category} example code\nconsole.log('Hello, MIFF!');`,
+        code: `// ${category} example code\nthis.logger.info('Hello, MIFF!');`,
         language: 'typescript',
         category,
         tags: [category.toLowerCase(), 'example'],

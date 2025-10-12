@@ -9,7 +9,7 @@
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log(`
+  this.logger.info(`
 ObstacleCoursePure CLI Harness - Obstacle Course System
 
 Usage: npx tsx miff/pure/ObstacleCoursePure/cliHarness.ts [command] [options]
@@ -37,13 +37,16 @@ Examples:
 
 import * as readline from 'readline';
 import { ObstacleCoursePure, ObstacleType, Difficulty, Obstacle, Checkpoint } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class ObstacleCourseCLI {
+  private logger: StructuredLogger;
   private obstacleCourse: ObstacleCoursePure;
   private rl: readline.Interface;
   private currentCourse: string | null = null;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'ObstacleCourseCLI' });
     this.obstacleCourse = new ObstacleCoursePure();
     this.rl = readline.createInterface({
       input: process.stdin,
@@ -60,7 +63,7 @@ class ObstacleCourseCLI {
     });
 
     this.rl.on('close', () => {
-      console.log('\n👋 Obstacle Course CLI closed');
+      this.logger.info('\n👋 Obstacle Course CLI closed');
       process.exit(0);
     });
   }
@@ -107,24 +110,24 @@ class ObstacleCourseCLI {
         // Empty line, just show prompt
         break;
       default:
-        console.log(`❌ Unknown command: ${command}`);
-        console.log('Type "help" for available commands');
+        this.logger.info(`❌ Unknown command: ${command}`);
+        this.logger.info('Type "help" for available commands');
     }
 
     this.rl.prompt();
   }
 
   private async runTests(): Promise<void> {
-    console.log('🧪 Running Obstacle Course tests...\n');
+    this.logger.info('🧪 Running Obstacle Course tests...\n');
 
     try {
       // Test 1: Course creation
-      console.log('1. Testing course creation...');
+      this.logger.info('1. Testing course creation...');
       const courseId = this.obstacleCourse.createCourse('Test Course');
-      console.log(`   ✅ Course created with ID: ${courseId}`);
+      this.logger.info(`   ✅ Course created with ID: ${courseId}`);
 
       // Test 2: Obstacle addition
-      console.log('2. Testing obstacle addition...');
+      this.logger.info('2. Testing obstacle addition...');
       const obstacle: Obstacle = {
         id: 'obstacle-1',
         type: 'jump',
@@ -135,10 +138,10 @@ class ObstacleCourseCLI {
       };
       
       const addResult = this.obstacleCourse.addObstacle(courseId, obstacle);
-      console.log(`   ${addResult ? '✅' : '❌'} Obstacle added: ${addResult ? 'Success' : 'Failed'}`);
+      this.logger.info(`   ${addResult ? '✅' : '❌'} Obstacle added: ${addResult ? 'Success' : 'Failed'}`);
 
       // Test 3: Checkpoint addition
-      console.log('3. Testing checkpoint addition...');
+      this.logger.info('3. Testing checkpoint addition...');
       const checkpoint: Checkpoint = {
         id: 'checkpoint-1',
         position: { x: 20, y: 10 },
@@ -146,59 +149,59 @@ class ObstacleCourseCLI {
       };
       
       const checkpointResult = this.obstacleCourse.addCheckpoint(courseId, checkpoint);
-      console.log(`   ${checkpointResult ? '✅' : '❌'} Checkpoint added: ${checkpointResult ? 'Success' : 'Failed'}`);
+      this.logger.info(`   ${checkpointResult ? '✅' : '❌'} Checkpoint added: ${checkpointResult ? 'Success' : 'Failed'}`);
 
       // Test 4: Trial start
-      console.log('4. Testing trial start...');
+      this.logger.info('4. Testing trial start...');
       const trialResult = this.obstacleCourse.startTrial(courseId);
-      console.log(`   ${trialResult ? '✅' : '❌'} Trial started: ${trialResult ? 'Success' : 'Failed'}`);
+      this.logger.info(`   ${trialResult ? '✅' : '❌'} Trial started: ${trialResult ? 'Success' : 'Failed'}`);
 
       // Test 5: Score calculation
-      console.log('5. Testing score calculation...');
+      this.logger.info('5. Testing score calculation...');
       const score = this.obstacleCourse.getScore(courseId);
-      console.log(`   ✅ Current score: ${score}`);
+      this.logger.info(`   ✅ Current score: ${score}`);
 
       // Test 6: Time tracking
-      console.log('6. Testing time tracking...');
+      this.logger.info('6. Testing time tracking...');
       const time = this.obstacleCourse.getTime(courseId);
-      console.log(`   ✅ Current time: ${time}ms`);
+      this.logger.info(`   ✅ Current time: ${time}ms`);
 
       // Test 7: Course validation
-      console.log('7. Testing course validation...');
+      this.logger.info('7. Testing course validation...');
       const isValid = this.obstacleCourse.validateCourse(courseId);
-      console.log(`   ${isValid ? '✅' : '❌'} Course validation: ${isValid ? 'Valid' : 'Invalid'}`);
+      this.logger.info(`   ${isValid ? '✅' : '❌'} Course validation: ${isValid ? 'Valid' : 'Invalid'}`);
 
-      console.log('\n🎉 All tests passed!');
+      this.logger.info('\n🎉 All tests passed!');
 
     } catch (error) {
-      console.error('❌ Test failed:', error);
+      this.logger.error('❌ Test failed:', error);
     }
   }
 
   private async createCourse(name?: string): Promise<void> {
     if (!name) {
-      console.log('❌ Usage: create-course <name>');
+      this.logger.info('❌ Usage: create-course <name>');
       return;
     }
 
     try {
       const courseId = this.obstacleCourse.createCourse(name);
       this.currentCourse = courseId;
-      console.log(`✅ Course "${name}" created with ID: ${courseId}`);
+      this.logger.info(`✅ Course "${name}" created with ID: ${courseId}`);
     } catch (error) {
-      console.error('❌ Course creation failed:', error);
+      this.logger.error('❌ Course creation failed:', error);
     }
   }
 
   private async addObstacle(type?: string): Promise<void> {
     if (!type) {
-      console.log('❌ Usage: add-obstacle <type>');
-      console.log('   Types: jump, climb, swing, balance, speed, precision');
+      this.logger.info('❌ Usage: add-obstacle <type>');
+      this.logger.info('   Types: jump, climb, swing, balance, speed, precision');
       return;
     }
 
     if (!this.currentCourse) {
-      console.log('❌ No active course. Create a course first.');
+      this.logger.info('❌ No active course. Create a course first.');
       return;
     }
 
@@ -214,24 +217,24 @@ class ObstacleCourseCLI {
 
       const result = this.obstacleCourse.addObstacle(this.currentCourse, obstacle);
       if (result) {
-        console.log(`✅ Obstacle added: ${type} at (${obstacle.position.x.toFixed(1)}, ${obstacle.position.y.toFixed(1)})`);
-        console.log(`   Points: ${obstacle.points}, Time Limit: ${obstacle.timeLimit}s`);
+        this.logger.info(`✅ Obstacle added: ${type} at (${obstacle.position.x.toFixed(1)}, ${obstacle.position.y.toFixed(1)})`);
+        this.logger.info(`   Points: ${obstacle.points}, Time Limit: ${obstacle.timeLimit}s`);
       } else {
-        console.log('❌ Failed to add obstacle');
+        this.logger.info('❌ Failed to add obstacle');
       }
     } catch (error) {
-      console.error('❌ Obstacle addition failed:', error);
+      this.logger.error('❌ Obstacle addition failed:', error);
     }
   }
 
   private async addCheckpoint(x?: string, y?: string): Promise<void> {
     if (!x || !y) {
-      console.log('❌ Usage: add-checkpoint <x> <y>');
+      this.logger.info('❌ Usage: add-checkpoint <x> <y>');
       return;
     }
 
     if (!this.currentCourse) {
-      console.log('❌ No active course. Create a course first.');
+      this.logger.info('❌ No active course. Create a course first.');
       return;
     }
 
@@ -244,87 +247,87 @@ class ObstacleCourseCLI {
 
       const result = this.obstacleCourse.addCheckpoint(this.currentCourse, checkpoint);
       if (result) {
-        console.log(`✅ Checkpoint added at (${x}, ${y})`);
+        this.logger.info(`✅ Checkpoint added at (${x}, ${y})`);
       } else {
-        console.log('❌ Failed to add checkpoint');
+        this.logger.info('❌ Failed to add checkpoint');
       }
     } catch (error) {
-      console.error('❌ Checkpoint addition failed:', error);
+      this.logger.error('❌ Checkpoint addition failed:', error);
     }
   }
 
   private async startTrial(): Promise<void> {
     if (!this.currentCourse) {
-      console.log('❌ No active course. Create a course first.');
+      this.logger.info('❌ No active course. Create a course first.');
       return;
     }
 
     try {
       const result = this.obstacleCourse.startTrial(this.currentCourse);
       if (result) {
-        console.log('✅ Trial started! Timer is running...');
+        this.logger.info('✅ Trial started! Timer is running...');
       } else {
-        console.log('❌ Failed to start trial');
+        this.logger.info('❌ Failed to start trial');
       }
     } catch (error) {
-      console.error('❌ Trial start failed:', error);
+      this.logger.error('❌ Trial start failed:', error);
     }
   }
 
   private getScore(): void {
     if (!this.currentCourse) {
-      console.log('❌ No active course. Create a course first.');
+      this.logger.info('❌ No active course. Create a course first.');
       return;
     }
 
     try {
       const score = this.obstacleCourse.getScore(this.currentCourse);
-      console.log(`📊 Current score: ${score} points`);
+      this.logger.info(`📊 Current score: ${score} points`);
     } catch (error) {
-      console.error('❌ Failed to get score:', error);
+      this.logger.error('❌ Failed to get score:', error);
     }
   }
 
   private getTime(): void {
     if (!this.currentCourse) {
-      console.log('❌ No active course. Create a course first.');
+      this.logger.info('❌ No active course. Create a course first.');
       return;
     }
 
     try {
       const time = this.obstacleCourse.getTime(this.currentCourse);
-      console.log(`⏱️  Current time: ${time}ms (${(time / 1000).toFixed(2)}s)`);
+      this.logger.info(`⏱️  Current time: ${time}ms (${(time / 1000).toFixed(2)}s)`);
     } catch (error) {
-      console.error('❌ Failed to get time:', error);
+      this.logger.error('❌ Failed to get time:', error);
     }
   }
 
   private async reset(): Promise<void> {
     if (!this.currentCourse) {
-      console.log('❌ No active course. Create a course first.');
+      this.logger.info('❌ No active course. Create a course first.');
       return;
     }
 
     try {
       this.obstacleCourse.reset(this.currentCourse);
-      console.log('✅ Course reset successfully');
+      this.logger.info('✅ Course reset successfully');
     } catch (error) {
-      console.error('❌ Reset failed:', error);
+      this.logger.error('❌ Reset failed:', error);
     }
   }
 
   private async simulate(): Promise<void> {
-    console.log('🎭 Starting obstacle course simulation...');
+    this.logger.info('🎭 Starting obstacle course simulation...');
     
     try {
       // Create a test course
-      console.log('1. Creating test course...');
+      this.logger.info('1. Creating test course...');
       const courseId = this.obstacleCourse.createCourse('Simulation Course');
       this.currentCourse = courseId;
-      console.log(`   ✅ Course created: ${courseId}`);
+      this.logger.info(`   ✅ Course created: ${courseId}`);
 
       // Add various obstacles
-      console.log('2. Adding obstacles...');
+      this.logger.info('2. Adding obstacles...');
       const obstacleTypes: ObstacleType[] = ['jump', 'climb', 'swing', 'balance', 'speed', 'precision'];
       const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'expert'];
       
@@ -342,11 +345,11 @@ class ObstacleCourseCLI {
         };
 
         this.obstacleCourse.addObstacle(courseId, obstacle);
-        console.log(`   ✅ Added ${type} obstacle (${difficulty}) at (${obstacle.position.x}, ${obstacle.position.y})`);
+        this.logger.info(`   ✅ Added ${type} obstacle (${difficulty}) at (${obstacle.position.x}, ${obstacle.position.y})`);
       }
 
       // Add checkpoints
-      console.log('3. Adding checkpoints...');
+      this.logger.info('3. Adding checkpoints...');
       for (let i = 0; i < 3; i++) {
         const checkpoint: Checkpoint = {
           id: `sim-checkpoint-${i + 1}`,
@@ -355,42 +358,42 @@ class ObstacleCourseCLI {
         };
 
         this.obstacleCourse.addCheckpoint(courseId, checkpoint);
-        console.log(`   ✅ Added checkpoint at (${checkpoint.position.x}, ${checkpoint.position.y})`);
+        this.logger.info(`   ✅ Added checkpoint at (${checkpoint.position.x}, ${checkpoint.position.y})`);
       }
 
       // Start trial
-      console.log('4. Starting trial...');
+      this.logger.info('4. Starting trial...');
       this.obstacleCourse.startTrial(courseId);
-      console.log('   ✅ Trial started');
+      this.logger.info('   ✅ Trial started');
 
       // Simulate progress
-      console.log('5. Simulating progress...');
+      this.logger.info('5. Simulating progress...');
       for (let i = 0; i < 5; i++) {
         await new Promise(resolve => setTimeout(resolve, 1000));
         const score = this.obstacleCourse.getScore(courseId);
         const time = this.obstacleCourse.getTime(courseId);
-        console.log(`   📊 Progress: ${score} points, ${(time / 1000).toFixed(1)}s`);
+        this.logger.info(`   📊 Progress: ${score} points, ${(time / 1000).toFixed(1)}s`);
       }
 
       // Final results
-      console.log('6. Final results...');
+      this.logger.info('6. Final results...');
       const finalScore = this.obstacleCourse.getScore(courseId);
       const finalTime = this.obstacleCourse.getTime(courseId);
       const isValid = this.obstacleCourse.validateCourse(courseId);
       
-      console.log(`   🏆 Final Score: ${finalScore} points`);
-      console.log(`   ⏱️  Final Time: ${(finalTime / 1000).toFixed(2)}s`);
-      console.log(`   ✅ Course Valid: ${isValid ? 'Yes' : 'No'}`);
+      this.logger.info(`   🏆 Final Score: ${finalScore} points`);
+      this.logger.info(`   ⏱️  Final Time: ${(finalTime / 1000).toFixed(2)}s`);
+      this.logger.info(`   ✅ Course Valid: ${isValid ? 'Yes' : 'No'}`);
 
-      console.log('✅ Obstacle course simulation completed successfully');
+      this.logger.info('✅ Obstacle course simulation completed successfully');
 
     } catch (error) {
-      console.error('❌ Simulation failed:', error);
+      this.logger.error('❌ Simulation failed:', error);
     }
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 Available commands:
   test                     - Run basic obstacle course tests
   create-course <name>     - Create new obstacle course
@@ -410,8 +413,8 @@ Difficulties: easy, medium, hard, expert
   }
 
   public async start(): Promise<void> {
-    console.log('🚀 Obstacle Course CLI Started');
-    console.log('Type "help" for available commands or "test" to run tests\n');
+    this.logger.info('🚀 Obstacle Course CLI Started');
+    this.logger.info('Type "help" for available commands or "test" to run tests\n');
     
     this.rl.prompt();
   }

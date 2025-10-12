@@ -3,6 +3,8 @@
 import { nextNode, Dialogue, Node } from './index';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface DialogueOperation {
   op: 'start' | 'next' | 'dump' | 'simulate' | 'export' | 'validate' | 'reset';
@@ -14,12 +16,14 @@ interface DialogueOperation {
 }
 
 class DialogueCLI {
+  private logger: StructuredLogger;
   private currentDialogue: Dialogue | null = null;
   private currentNode: string | null = null;
   private history: Array<{ node: string; choice?: string; timestamp: number }> = [];
   private log: string[] = [];
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'DialogueCLI' });
     this.initializeSampleDialogue();
   }
 
@@ -670,7 +674,7 @@ async function main() {
   if (argv.length === 1 && argv[0].endsWith('.json')) {
     try {
       const jsonPath = argv[0];
-      const raw = JSON.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
+      const raw = SafeJSONParser.parse(fs.readFileSync(path.resolve(jsonPath), 'utf-8')) as any;
       const data: Dialogue = (raw && raw.dialogue) ? raw.dialogue : raw;
       const choiceIndex = typeof raw?.choiceIndex === 'number' ? raw.choiceIndex : 0;
       // Start then take first choice deterministically
@@ -680,19 +684,19 @@ async function main() {
       const issue = step.result?.issue;
       const status = step.status;
       const out = { op: 'dialogue.next', status, id, issue };
-      console.log(JSON.stringify(out));
+      this.logger.info(JSON.stringify(out));
       return;
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Unknown error';
       const out = { op: 'dialogue.next', status: 'error', issue: message };
-      console.log(JSON.stringify(out));
+      this.logger.info(JSON.stringify(out));
       process.exit(1);
     }
   }
 
   if (process.argv.length < 3) {
-    console.error('Usage: cliHarness.ts <operation> [args...]');
-    console.error('Operations: start, next [choiceIndex], dump, simulate, validate, reset, export [format]');
+    this.logger.error('Usage: cliHarness.ts <operation> [args...]');
+    this.logger.error('Operations: start, next [choiceIndex], dump, simulate, validate, reset, export [format]');
     process.exit(1);
   }
 
@@ -724,12 +728,12 @@ async function main() {
       op = { op: 'export', format: args[0] as any || 'json' };
       break;
     default:
-      console.error(`Unknown operation: ${operation}`);
+      this.logger.error(`Unknown operation: ${operation}`);
       process.exit(1);
   }
 
   const result = await cli.execute(op);
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

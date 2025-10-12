@@ -16,6 +16,8 @@ import {
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface EventBusOperation {
   op: 'create' | 'subscribe' | 'unsubscribe' | 'publish' | 'get-events' | 'get-stats' | 'clear-events' | 'demo' | 'dump';
@@ -34,7 +36,7 @@ async function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -44,7 +46,7 @@ async function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as EventBusOperation;
     } else {
       // Parse subcommand
@@ -52,7 +54,7 @@ async function main() {
         case 'create':
           const configFile = argv[1];
           const config = configFile && fs.existsSync(configFile) 
-            ? JSON.parse(fs.readFileSync(configFile, 'utf-8'))
+            ? SafeJSONParser.parse(fs.readFileSync(configFile, 'utf-8'))
             : { enableLogging: true, maxEvents: 1000 };
           operation = { op: 'create', config };
           break;
@@ -70,7 +72,7 @@ async function main() {
           break;
         case 'publish':
           if (!argv[1] || !argv[2]) throw new Error('publish requires eventType and data');
-          const data = JSON.parse(argv[2]);
+          const data = SafeJSONParser.parse(argv[2]);
           operation = { 
             op: 'publish', 
             eventType: argv[1], 
@@ -136,7 +138,7 @@ async function main() {
         const handlerId = eventBus.subscribe(
           operation.eventType!,
           (event) => {
-            console.log(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
+            this.logger.info(`📡 Handler ${operation.handlerId} received event:`, event.type, event.data);
           },
           {
             id: operation.handlerId,
@@ -220,11 +222,11 @@ async function main() {
 
         // Add some subscriptions
         const sub1 = demoBus.subscribe('player.move', (event) => {
-          console.log(`Player moved: ${event.data.x}, ${event.data.y}`);
+          this.logger.info(`Player moved: ${event.data.x}, ${event.data.y}`);
         }, { id: 'player-move-handler' });
 
         const sub2 = demoBus.subscribe('player.action', (event) => {
-          console.log(`Player action: ${event.data.action}`);
+          this.logger.info(`Player action: ${event.data.action}`);
         }, { id: 'player-action-handler' });
 
         // Add a filter
@@ -328,7 +330,7 @@ async function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -337,11 +339,11 @@ async function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * EffectsPure - Effects Management System
  *
@@ -253,6 +254,7 @@ export class BattleEffect implements IBattleEffect {
     refreshOnStack: boolean = true,
     triggers: EffectTrigger = EffectTrigger.ON_APPLY | EffectTrigger.ON_TICK | EffectTrigger.ON_REMOVE
   ) {
+    this.logger = new StructuredLogger({ module: 'BattleEffect' });
     this.effectId = effectId;
     this.name = name;
     this.description = description;
@@ -528,7 +530,7 @@ export class BattleEffect implements IBattleEffect {
 
     if (this.value === 0 && this.effectType !== EffectType.STUN) {
       // Some effects might legitimately have 0 value, but warn about it
-      console.warn(`Effect ${this.effectId} has value of 0`);
+      this.logger.warn(`Effect ${this.effectId} has value of 0`);
     }
 
     return errors;
@@ -1304,7 +1306,7 @@ export class EffectManager implements IEffectManager {
 
     const errors = effect.validate();
     if (errors.length > 0) {
-      console.warn(`Invalid effect ${effect.effectId}:`, errors);
+      this.logger.warn(`Invalid effect ${effect.effectId}:`, errors);
       return EffectApplicationResult.REJECTED;
     }
 

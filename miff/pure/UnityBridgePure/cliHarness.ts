@@ -4,6 +4,8 @@ import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType } from '.
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface UnityBridgeOperation {
   op: 'simulate' | 'render' | 'interop' | 'dump' | 'export';
@@ -16,7 +18,7 @@ interface UnityBridgeOperation {
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
+    this.logger.error('Usage: tsx cliHarness.ts <op> <module> [json-file]');
     process.exit(1);
   }
 
@@ -26,12 +28,12 @@ function main() {
       // subcommand style without payload file
       input = { op: argv[0] as any, module: argv[1] } as UnityBridgeOperation;
     } else if (argv.length >= 3) {
-      const payload = argv[2] && fs.existsSync(argv[2]) ? JSON.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
+      const payload = argv[2] && fs.existsSync(argv[2]) ? SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8')) : {};
       input = { op: argv[0] as any, module: argv[1], data: payload } as UnityBridgeOperation;
     } else {
       // file-only invocation
       const inputFile = argv[0];
-      input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as UnityBridgeOperation;
+      input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8')) as UnityBridgeOperation;
     }
     
     if (!input || typeof input !== 'object') {
@@ -196,10 +198,10 @@ ${renderData.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.gameObject?.name
         throw new Error(`Unknown operation: ${input.op}`);
     }
     
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 }

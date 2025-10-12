@@ -12,11 +12,14 @@ import { UnityBridgeManager, UnityBridgeConfiguration, UnityBridgeType, UnityCom
 import { CombatUtils, SpiritInstance, MoveData, MoveCategory } from '../CombatPure/engine';
 import { ItemUsageManager, Item, ItemType, ItemEffectType } from '../ItemsPure';
 import { BattleAI, AIPolicy } from '../AIPure/Manager';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class UnityBridgeHarness {
+  private logger: StructuredLogger;
   private bridge: UnityBridgeManager;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'UnityBridgeHarness' });
     const config: UnityBridgeConfiguration = {
       bridgeType: UnityBridgeType.GAME_OBJECT,
       communicationProtocol: UnityCommunicationProtocol.MESSAGE_PASSING,
@@ -45,7 +48,7 @@ export class UnityBridgeHarness {
   }
 
   async testCombatIntegration(): Promise<void> {
-    console.log('⚔️  Testing CombatPure integration with Unity bridge...');
+    this.logger.info('⚔️  Testing CombatPure integration with Unity bridge...');
 
     try {
       // Create sample combat data
@@ -98,21 +101,21 @@ export class UnityBridgeHarness {
         metadata: {}
       };
 
-      console.log('📤 Sending combat integration test...');
+      this.logger.info('📤 Sending combat integration test...');
       const success = await this.bridge.sendMessage(testMessage);
 
       if (success) {
-        console.log('✅ Combat integration test sent successfully');
+        this.logger.info('✅ Combat integration test sent successfully');
       } else {
-        console.log('❌ Failed to send combat integration test');
+        this.logger.info('❌ Failed to send combat integration test');
       }
     } catch (error) {
-      console.error('💥 Combat integration test failed:', error);
+      this.logger.error('💥 Combat integration test failed:', error);
     }
   }
 
   async testItemIntegration(): Promise<void> {
-    console.log('🎒 Testing ItemsPure integration with Unity bridge...');
+    this.logger.info('🎒 Testing ItemsPure integration with Unity bridge...');
 
     try {
       // Create sample item data
@@ -156,21 +159,21 @@ export class UnityBridgeHarness {
         metadata: {}
       };
 
-      console.log('📤 Sending item integration test...');
+      this.logger.info('📤 Sending item integration test...');
       const success = await this.bridge.sendMessage(testMessage);
 
       if (success) {
-        console.log('✅ Item integration test sent successfully');
+        this.logger.info('✅ Item integration test sent successfully');
       } else {
-        console.log('❌ Failed to send item integration test');
+        this.logger.info('❌ Failed to send item integration test');
       }
     } catch (error) {
-      console.error('💥 Item integration test failed:', error);
+      this.logger.error('💥 Item integration test failed:', error);
     }
   }
 
   async testAIIntegration(): Promise<void> {
-    console.log('🤖 Testing AIPure integration with Unity bridge...');
+    this.logger.info('🤖 Testing AIPure integration with Unity bridge...');
 
     try {
       // Create sample AI policy
@@ -200,28 +203,28 @@ export class UnityBridgeHarness {
         metadata: {}
       };
 
-      console.log('📤 Sending AI integration test...');
+      this.logger.info('📤 Sending AI integration test...');
       const success = await this.bridge.sendMessage(testMessage);
 
       if (success) {
-        console.log('✅ AI integration test sent successfully');
+        this.logger.info('✅ AI integration test sent successfully');
       } else {
-        console.log('❌ Failed to send AI integration test');
+        this.logger.info('❌ Failed to send AI integration test');
       }
     } catch (error) {
-      console.error('💥 AI integration test failed:', error);
+      this.logger.error('💥 AI integration test failed:', error);
     }
   }
 
   async runFullIntegrationTest(): Promise<void> {
-    console.log('🔗 Running full Unity bridge integration test...');
-    console.log('=================================================');
+    this.logger.info('🔗 Running full Unity bridge integration test...');
+    this.logger.info('=================================================');
 
     try {
       // Test connection
-      console.log('1️⃣  Testing Unity connection...');
+      this.logger.info('1️⃣  Testing Unity connection...');
       // const connected = await this.bridge.connect('localhost:8080');
-      // console.log(connected ? '✅ Connected' : '❌ Connection failed');
+      // this.logger.info(connected ? '✅ Connected' : '❌ Connection failed');
 
       // Test combat integration
       await this.testCombatIntegration();
@@ -234,38 +237,38 @@ export class UnityBridgeHarness {
 
       // Get bridge statistics
       const stats = this.bridge.getStatistics();
-      console.log('📊 Bridge Statistics:');
-      console.log(`   - Total Messages: ${stats.totalMessages}`);
-      console.log(`   - Error Rate: ${stats.errorRate.toFixed(3)}`);
-      console.log(`   - Active Connections: ${stats.activeConnections}`);
+      this.logger.info('📊 Bridge Statistics:');
+      this.logger.info(`   - Total Messages: ${stats.totalMessages}`);
+      this.logger.info(`   - Error Rate: ${stats.errorRate.toFixed(3)}`);
+      this.logger.info(`   - Active Connections: ${stats.activeConnections}`);
 
-      console.log('✅ Unity bridge integration test completed successfully');
+      this.logger.info('✅ Unity bridge integration test completed successfully');
     } catch (error) {
-      console.error('💥 Unity bridge integration test failed:', error);
+      this.logger.error('💥 Unity bridge integration test failed:', error);
     }
   }
 
   async demo(): Promise<void> {
-    console.log('🎮 Unity Bridge Demo');
-    console.log('=====================');
+    this.logger.info('🎮 Unity Bridge Demo');
+    this.logger.info('=====================');
 
-    console.log('This demo shows how MIFF core modules integrate with Unity:');
-    console.log('');
-    console.log('1. ⚔️  CombatPure → Unity Battle System');
-    console.log('   - Spirit stats and moves sync to Unity GameObjects');
-    console.log('   - Damage calculations flow through Unity physics');
-    console.log('   - Battle events trigger Unity animations');
-    console.log('');
-    console.log('2. 🎒 ItemsPure → Unity Inventory System');
-    console.log('   - Items are represented as Unity ScriptableObjects');
-    console.log('   - Item effects trigger Unity particle systems');
-    console.log('   - Inventory UI is rendered in Unity Canvas');
-    console.log('');
-    console.log('3. 🤖 AIPure → Unity Decision Making');
-    console.log('   - AI policies control Unity NPC behavior');
-    console.log('   - Decision trees integrate with Unity NavMesh');
-    console.log('   - Tactical analysis drives Unity formations');
-    console.log('');
+    this.logger.info('This demo shows how MIFF core modules integrate with Unity:');
+    this.logger.info('');
+    this.logger.info('1. ⚔️  CombatPure → Unity Battle System');
+    this.logger.info('   - Spirit stats and moves sync to Unity GameObjects');
+    this.logger.info('   - Damage calculations flow through Unity physics');
+    this.logger.info('   - Battle events trigger Unity animations');
+    this.logger.info('');
+    this.logger.info('2. 🎒 ItemsPure → Unity Inventory System');
+    this.logger.info('   - Items are represented as Unity ScriptableObjects');
+    this.logger.info('   - Item effects trigger Unity particle systems');
+    this.logger.info('   - Inventory UI is rendered in Unity Canvas');
+    this.logger.info('');
+    this.logger.info('3. 🤖 AIPure → Unity Decision Making');
+    this.logger.info('   - AI policies control Unity NPC behavior');
+    this.logger.info('   - Decision trees integrate with Unity NavMesh');
+    this.logger.info('   - Tactical analysis drives Unity formations');
+    this.logger.info('');
 
     await this.runFullIntegrationTest();
   }
@@ -295,13 +298,13 @@ if (require.main === module) {
       harness.demo();
       break;
     default:
-      console.log('Unity Bridge Harness');
-      console.log('Usage:');
-      console.log('  node unity-harness.ts combat      # Test CombatPure integration');
-      console.log('  node unity-harness.ts items       # Test ItemsPure integration');
-      console.log('  node unity-harness.ts ai          # Test AIPure integration');
-      console.log('  node unity-harness.ts integration # Run full integration test');
-      console.log('  node unity-harness.ts demo        # Run interactive demo');
+      this.logger.info('Unity Bridge Harness');
+      this.logger.info('Usage:');
+      this.logger.info('  node unity-harness.ts combat      # Test CombatPure integration');
+      this.logger.info('  node unity-harness.ts items       # Test ItemsPure integration');
+      this.logger.info('  node unity-harness.ts ai          # Test AIPure integration');
+      this.logger.info('  node unity-harness.ts integration # Run full integration test');
+      this.logger.info('  node unity-harness.ts demo        # Run interactive demo');
       break;
   }
 }

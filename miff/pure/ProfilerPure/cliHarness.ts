@@ -1,6 +1,8 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
 import path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import { 
   Profiler, 
   ProfilerConfig, 
@@ -27,10 +29,10 @@ function main() {
 
   if (configFile && fs.existsSync(configFile)) {
     try {
-      const loadedConfig = JSON.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
+      const loadedConfig = SafeJSONParser.parse(fs.readFileSync(path.resolve(configFile), 'utf-8'));
       config = { ...config, ...loadedConfig };
     } catch (error) {
-      console.error('Error loading config:', error);
+      this.logger.error('Error loading config:', error);
       process.exit(1);
     }
   }
@@ -167,7 +169,7 @@ function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 function runDemo(profiler: Profiler): any {

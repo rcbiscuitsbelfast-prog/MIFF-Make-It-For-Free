@@ -4,6 +4,8 @@ import { PixelGenPure, PixelAsset, PixelGenPreset, RgbHex } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface PixelGenOperation {
   op: 'generate' | 'list-presets' | 'create-preset' | 'demo' | 'dump';
@@ -23,7 +25,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -33,7 +35,7 @@ function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as PixelGenOperation;
     } else {
       // Parse subcommand
@@ -54,8 +56,8 @@ function main() {
           if (!argv[1] || !argv[2] || !argv[3] || !argv[4]) {
             throw new Error('create-preset requires name, style, width, height');
           }
-          const colors = argv[5] ? JSON.parse(argv[5]) : ['#000000', '#FFFFFF'];
-          const patterns = argv[6] ? JSON.parse(argv[6]) : ['default'];
+          const colors = argv[5] ? SafeJSONParser.parse(argv[5]) : ['#000000', '#FFFFFF'];
+          const patterns = argv[6] ? SafeJSONParser.parse(argv[6]) : ['default'];
           operation = { 
             op: 'create-preset', 
             name: argv[1],
@@ -265,7 +267,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -274,11 +276,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

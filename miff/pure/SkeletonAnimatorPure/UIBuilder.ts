@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * UI Builder Interface
  * 
@@ -19,12 +21,14 @@ import {
 } from './types';
 
 export class UIBuilder {
+  private logger: StructuredLogger;
   private skeletonState: SkeletonState;
   private uiState: UIState;
   private actionHistory: UIAction[] = [];
   private nextActionId: number = 0;
 
   constructor(skeletonState: SkeletonState) {
+    this.logger = new StructuredLogger({ module: 'UIBuilder' });
     this.skeletonState = skeletonState;
     this.uiState = {
       mode: 'rig',
@@ -232,7 +236,7 @@ export class UIBuilder {
    */
   private createRigNode(data: any): void {
     // This would integrate with RigBuilder
-    console.log('Creating rig node:', data);
+    this.logger.info('Creating rig node:', data);
   }
 
   /**
@@ -240,7 +244,7 @@ export class UIBuilder {
    */
   private createLimbNode(data: any): void {
     // This would integrate with LimbAttachment
-    console.log('Creating limb node:', data);
+    this.logger.info('Creating limb node:', data);
   }
 
   /**
@@ -248,7 +252,7 @@ export class UIBuilder {
    */
   private createFaceFeature(data: any): void {
     // This would integrate with FacialDetailBuilder
-    console.log('Creating face feature:', data);
+    this.logger.info('Creating face feature:', data);
   }
 
   /**
@@ -256,7 +260,7 @@ export class UIBuilder {
    */
   private createMorphTarget(data: any): void {
     // This would integrate with SkinMeshGenerator
-    console.log('Creating morph target:', data);
+    this.logger.info('Creating morph target:', data);
   }
 
   /**
@@ -264,7 +268,7 @@ export class UIBuilder {
    */
   private createKeyframe(data: any): void {
     // This would integrate with AnimationSequencer
-    console.log('Creating keyframe:', data);
+    this.logger.info('Creating keyframe:', data);
   }
 
   /**
@@ -287,7 +291,7 @@ export class UIBuilder {
    */
   private updateLimbNode(nodeId: string, data: any): void {
     // This would integrate with LimbAttachment
-    console.log('Updating limb node:', nodeId, data);
+    this.logger.info('Updating limb node:', nodeId, data);
   }
 
   /**
@@ -322,7 +326,7 @@ export class UIBuilder {
    */
   private updateKeyframe(keyframeId: string, data: any): void {
     // This would integrate with AnimationSequencer
-    console.log('Updating keyframe:', keyframeId, data);
+    this.logger.info('Updating keyframe:', keyframeId, data);
   }
 
   /**
@@ -340,7 +344,7 @@ export class UIBuilder {
    */
   private deleteLimbNode(nodeId: string): void {
     // This would integrate with LimbAttachment
-    console.log('Deleting limb node:', nodeId);
+    this.logger.info('Deleting limb node:', nodeId);
   }
 
   /**
@@ -366,7 +370,7 @@ export class UIBuilder {
    */
   private deleteKeyframe(keyframeId: string): void {
     // This would integrate with AnimationSequencer
-    console.log('Deleting keyframe:', keyframeId);
+    this.logger.info('Deleting keyframe:', keyframeId);
   }
 
   /**
@@ -529,7 +533,7 @@ export class UIBuilder {
    */
   private reverseAction(action: UIAction): void {
     // This would implement the reverse of each action
-    console.log('Reversing action:', action);
+    this.logger.info('Reversing action:', action);
   }
 
   /**
@@ -579,7 +583,7 @@ export class UIBuilder {
    * Import UI state
    */
   importUIState(json: string): UIBuilder {
-    const importData = JSON.parse(json);
+    const importData = SafeJSONParser.parse(json);
     this.uiState = importData.uiState;
     this.skeletonState = importData.skeletonState;
     this.actionHistory = importData.actionHistory || [];

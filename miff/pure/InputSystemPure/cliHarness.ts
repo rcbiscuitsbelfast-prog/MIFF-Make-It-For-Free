@@ -11,6 +11,8 @@
 
 import { InputSystemManager, InputEvent, InputAction, InputBinding, InputGesture } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new InputSystemManager();
@@ -51,7 +53,7 @@ try {
         description: args.find(arg => arg.startsWith('--description='))?.split('=')[1] || 'Test action description',
         category: args.find(arg => arg.startsWith('--category='))?.split('=')[1] || 'general',
         defaultBindings: [],
-        modifiers: args.includes('--modifiers') ? JSON.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
+        modifiers: args.includes('--modifiers') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
         priority: parseInt(args.find(arg => arg.startsWith('--priority='))?.split('=')[1] || '1'),
         enabled: !args.includes('--disabled')
       };
@@ -64,8 +66,8 @@ try {
         actionId: actionId,
         inputType: eventType,
         code: eventCode,
-        modifiers: args.includes('--modifiers') ? JSON.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
-        conditions: args.includes('--conditions') ? JSON.parse(args.find(arg => arg.startsWith('--conditions='))!.split('=')[1]) : [],
+        modifiers: args.includes('--modifiers') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--modifiers='))!.split('=')[1]) : [],
+        conditions: args.includes('--conditions') ? SafeJSONParser.parse(args.find(arg => arg.startsWith('--conditions='))!.split('=')[1]) : [],
         enabled: !args.includes('--disabled')
       };
       output = manager.addBinding(binding);
@@ -360,4 +362,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

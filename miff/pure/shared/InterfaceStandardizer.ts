@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Interface Standardization System for MIFF Framework
  * 
@@ -93,11 +94,13 @@ export interface StandardizationStats {
 }
 
 export class InterfaceStandardizer {
+  private logger: StructuredLogger;
   private standards: Map<string, InterfaceStandard> = new Map();
   private results: Map<string, StandardizationResult> = new Map();
   private stats: StandardizationStats;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'InterfaceStandardizer' });
     this.stats = this.initializeStats();
     this.initializeStandards();
   }
@@ -106,14 +109,14 @@ export class InterfaceStandardizer {
    * Standardize interfaces across all modules
    */
   async standardizeAllInterfaces(rootPath: string): Promise<StandardizationResult[]> {
-    console.log('🔧 Standardizing interfaces across all modules...');
+    this.logger.info('🔧 Standardizing interfaces across all modules...');
     
     const results: StandardizationResult[] = [];
     
     try {
       // Find all modules
       const modules = await this.findModules(rootPath);
-      console.log(`📁 Found ${modules.length} modules to standardize`);
+      this.logger.info(`📁 Found ${modules.length} modules to standardize`);
       
       // Standardize each module
       for (const module of modules) {
@@ -123,12 +126,12 @@ export class InterfaceStandardizer {
       }
       
       this.updateStats(results);
-      console.log(`✅ Standardized interfaces for ${results.length} modules`);
+      this.logger.info(`✅ Standardized interfaces for ${results.length} modules`);
       
       return results;
       
     } catch (error) {
-      console.error('❌ Error standardizing interfaces:', error);
+      this.logger.error('❌ Error standardizing interfaces:', error);
       return [];
     }
   }
@@ -137,7 +140,7 @@ export class InterfaceStandardizer {
    * Standardize a specific module interface
    */
   async standardizeModuleInterface(module: { name: string; path: string; interface: string }): Promise<StandardizationResult> {
-    console.log(`🔧 Standardizing ${module.name} interface...`);
+    this.logger.info(`🔧 Standardizing ${module.name} interface...`);
     
     const standard = this.standards.get(module.interface);
     if (!standard) {

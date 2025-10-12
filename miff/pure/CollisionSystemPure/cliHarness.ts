@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { CollisionManager, CollisionShape, AABB, Circle } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'list' }
@@ -28,14 +30,14 @@ function main(){
     
     const mgr = new CollisionManager();
     if (fs.existsSync(sample)){
-      const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8'));
+      const j = SafeJSONParser.parse(fs.readFileSync(path.resolve(sample), 'utf-8'));
       // Support both legacy format and new format
       const shapes = j.shapes || j.boxes || [];
       mgr.load(shapes);
     }
     
     const cmds: Cmd[] = commands 
-      ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
+      ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
       : [{ op: 'demo' } as Cmd];
     
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
@@ -114,9 +116,9 @@ function main(){
       }
     }
     
-    console.log(JSON.stringify({ outputs }, null, 2));
+    this.logger.info(JSON.stringify({ outputs }, null, 2));
   } catch (error) {
-    console.log(JSON.stringify({ 
+    this.logger.info(JSON.stringify({ 
       outputs: [{ 
         op: 'error', 
         status: 'error', 
@@ -206,7 +208,7 @@ function runDemo(mgr: CollisionManager): any {
 }
 
 function showHelp() {
-  console.log(`
+  this.logger.info(`
 CollisionSystemPure CLI - Advanced 2D Collision Detection
 
 USAGE:

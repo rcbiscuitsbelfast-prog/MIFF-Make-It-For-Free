@@ -9,7 +9,7 @@
 
 // Check for help command
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
-  console.log(`
+  this.logger.info(`
 BattleAIPure CLI Harness - Battle AI Management System
 
 Usage: npx tsx miff/pure/BattleAIPure/cliHarness.ts [command] [options]
@@ -45,6 +45,7 @@ import {
   IAIDecisionProfile
 } from './index';
 import { Spirit } from '../SpiritsPure/index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // Real Spirit Instance for CLI - using actual Spirit class
 class CLISpiritInstance extends Spirit implements ISpiritInstance {
@@ -74,6 +75,7 @@ class CLISpiritInstance extends Spirit implements ISpiritInstance {
     specialDefense: number = 45,
     speed: number = 35
   ) {
+    this.logger = new StructuredLogger({ module: 'class' });
     this.id = id;
     this.name = name;
     this.typeTag = typeTag;
@@ -305,25 +307,25 @@ class BattleAIPureCLI {
    * Start CLI application
    */
   start(): void {
-    console.log('='.repeat(60));
-    console.log('🤖 BattleAIPure CLI - Battle AI Management System');
-    console.log('='.repeat(60));
-    console.log('');
-    console.log('Available commands:');
-    console.log('  profiles          - Show all AI profiles');
-    console.log('  spirits           - Show all spirits');
-    console.log('  moves             - Show all moves');
-    console.log('  decide [spirit] [opponent] [profile] - Show AI decision');
-    console.log('  battle [spirit1] [spirit2] [profile] - Simulate battle');
-    console.log('  threat [spirit] [opponent] - Evaluate threat level');
-    console.log('  profile [id]      - Show profile details');
-    console.log('  compare [profile1] [profile2] - Compare profiles');
-    console.log('  heal [spirit] [amount] - Heal spirit');
-    console.log('  damage [spirit] [amount] - Damage spirit');
-    console.log('  status [spirit]   - Show spirit status');
-    console.log('  help              - Show this help');
-    console.log('  exit              - Exit application');
-    console.log('');
+    this.logger.info('='.repeat(60));
+    this.logger.info('🤖 BattleAIPure CLI - Battle AI Management System');
+    this.logger.info('='.repeat(60));
+    this.logger.info('');
+    this.logger.info('Available commands:');
+    this.logger.info('  profiles          - Show all AI profiles');
+    this.logger.info('  spirits           - Show all spirits');
+    this.logger.info('  moves             - Show all moves');
+    this.logger.info('  decide [spirit] [opponent] [profile] - Show AI decision');
+    this.logger.info('  battle [spirit1] [spirit2] [profile] - Simulate battle');
+    this.logger.info('  threat [spirit] [opponent] - Evaluate threat level');
+    this.logger.info('  profile [id]      - Show profile details');
+    this.logger.info('  compare [profile1] [profile2] - Compare profiles');
+    this.logger.info('  heal [spirit] [amount] - Heal spirit');
+    this.logger.info('  damage [spirit] [amount] - Damage spirit');
+    this.logger.info('  status [spirit]   - Show spirit status');
+    this.logger.info('  help              - Show this help');
+    this.logger.info('  exit              - Exit application');
+    this.logger.info('');
 
     this.showPrompt();
   }
@@ -403,11 +405,11 @@ class BattleAIPureCLI {
           this.exit();
           return;
         default:
-          console.log(`❌ Unknown command: ${command}`);
-          console.log('Type "help" for available commands.');
+          this.logger.info(`❌ Unknown command: ${command}`);
+          this.logger.info('Type "help" for available commands.');
       }
     } catch (error) {
-      console.log(`❌ Error: ${error}`);
+      this.logger.info(`❌ Error: ${error}`);
     }
 
     this.showPrompt();
@@ -417,51 +419,51 @@ class BattleAIPureCLI {
    * Show help information
    */
   private showHelp(): void {
-    console.log('='.repeat(60));
-    console.log('📚 BattleAIPure CLI Help');
-    console.log('='.repeat(60));
-    console.log('');
-    console.log('Commands:');
-    console.log('  help                    - Show this help');
-    console.log('  profiles                - List all AI profiles');
-    console.log('  spirits                 - List all available spirits');
-    console.log('  moves                   - List all available moves');
-    console.log('  decide [s] [opp] [prof] - Show AI decision for spirit');
-    console.log('  battle [s1] [s2] [prof] - Simulate battle between spirits');
-    console.log('  threat [s] [opp]        - Evaluate threat level of opponent');
-    console.log('  profile [id]            - Show detailed profile info');
-    console.log('  compare [p1] [p2]       - Compare two profiles');
-    console.log('  heal [spirit] [amount]  - Heal spirit (default: 20)');
-    console.log('  damage [spirit] [amount]- Damage spirit (default: 20)');
-    console.log('  status [spirit]         - Show detailed spirit status');
-    console.log('  exit                    - Exit the application');
-    console.log('');
-    console.log('Examples:');
-    console.log('  decide fire_spirit water_spirit aggressive');
-    console.log('  battle fire_spirit water_spirit balanced');
-    console.log('  threat water_spirit fire_spirit');
-    console.log('  compare aggressive defensive');
-    console.log('');
+    this.logger.info('='.repeat(60));
+    this.logger.info('📚 BattleAIPure CLI Help');
+    this.logger.info('='.repeat(60));
+    this.logger.info('');
+    this.logger.info('Commands:');
+    this.logger.info('  help                    - Show this help');
+    this.logger.info('  profiles                - List all AI profiles');
+    this.logger.info('  spirits                 - List all available spirits');
+    this.logger.info('  moves                   - List all available moves');
+    this.logger.info('  decide [s] [opp] [prof] - Show AI decision for spirit');
+    this.logger.info('  battle [s1] [s2] [prof] - Simulate battle between spirits');
+    this.logger.info('  threat [s] [opp]        - Evaluate threat level of opponent');
+    this.logger.info('  profile [id]            - Show detailed profile info');
+    this.logger.info('  compare [p1] [p2]       - Compare two profiles');
+    this.logger.info('  heal [spirit] [amount]  - Heal spirit (default: 20)');
+    this.logger.info('  damage [spirit] [amount]- Damage spirit (default: 20)');
+    this.logger.info('  status [spirit]         - Show detailed spirit status');
+    this.logger.info('  exit                    - Exit the application');
+    this.logger.info('');
+    this.logger.info('Examples:');
+    this.logger.info('  decide fire_spirit water_spirit aggressive');
+    this.logger.info('  battle fire_spirit water_spirit balanced');
+    this.logger.info('  threat water_spirit fire_spirit');
+    this.logger.info('  compare aggressive defensive');
+    this.logger.info('');
   }
 
   /**
    * Show all profiles
    */
   private showProfiles(): void {
-    console.log('='.repeat(60));
-    console.log('📋 AI Profiles');
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info('📋 AI Profiles');
+    this.logger.info('='.repeat(60));
 
     const profiles = this.aiManager.getAllProfiles();
     if (profiles.length === 0) {
-      console.log('No profiles registered.');
+      this.logger.info('No profiles registered.');
       return;
     }
 
     profiles.forEach((profile, index) => {
-      console.log(`${index + 1}. ${this.getProfileIcon(profile)} ${profile.getSummary()}`);
-      console.log(`   ${BattleAIUtils.getBehaviorDescription(profile)}`);
-      console.log('');
+      this.logger.info(`${index + 1}. ${this.getProfileIcon(profile)} ${profile.getSummary()}`);
+      this.logger.info(`   ${BattleAIUtils.getBehaviorDescription(profile)}`);
+      this.logger.info('');
     });
   }
 
@@ -469,21 +471,21 @@ class BattleAIPureCLI {
    * Show all spirits
    */
   private showSpirits(): void {
-    console.log('='.repeat(60));
-    console.log('👻 Available Spirits');
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info('👻 Available Spirits');
+    this.logger.info('='.repeat(60));
 
     if (this.spirits.size === 0) {
-      console.log('No spirits available.');
+      this.logger.info('No spirits available.');
       return;
     }
 
     Array.from(this.spirits.values()).forEach((spirit, index) => {
-      console.log(`${index + 1}. ${spirit.getCombatSummary()}`);
+      this.logger.info(`${index + 1}. ${spirit.getCombatSummary()}`);
       if (spirit.knownMoves.length > 0) {
-        console.log(`   Moves: ${spirit.knownMoves.join(', ')}`);
+        this.logger.info(`   Moves: ${spirit.knownMoves.join(', ')}`);
       }
-      console.log('');
+      this.logger.info('');
     });
   }
 
@@ -491,21 +493,21 @@ class BattleAIPureCLI {
    * Show all moves
    */
   private showMoves(): void {
-    console.log('='.repeat(60));
-    console.log('⚔️ Available Moves');
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info('⚔️ Available Moves');
+    this.logger.info('='.repeat(60));
 
     if (this.moves.size === 0) {
-      console.log('No moves available.');
+      this.logger.info('No moves available.');
       return;
     }
 
     Array.from(this.moves.values()).forEach((move, index) => {
       const categoryIcon = this.getMoveCategoryIcon(move.category);
-      console.log(`${index + 1}. ${categoryIcon} ${move.name}`);
-      console.log(`   ID: ${move.moveId} | Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
-      console.log(`   Cost: ${move.cost} | Type: ${move.typeTag}`);
-      console.log('');
+      this.logger.info(`${index + 1}. ${categoryIcon} ${move.name}`);
+      this.logger.info(`   ID: ${move.moveId} | Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
+      this.logger.info(`   Cost: ${move.cost} | Type: ${move.typeTag}`);
+      this.logger.info('');
     });
   }
 
@@ -514,7 +516,7 @@ class BattleAIPureCLI {
    */
   private async showDecision(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: decide [spirit] [opponent] [profile]');
+      this.logger.info('❌ Usage: decide [spirit] [opponent] [profile]');
       return;
     }
 
@@ -527,57 +529,57 @@ class BattleAIPureCLI {
     const profile = this.aiManager.getProfile(profileId);
 
     if (!spirit) {
-      console.log(`❌ Spirit not found: ${spiritId}`);
+      this.logger.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
     if (!opponent) {
-      console.log(`❌ Opponent not found: ${opponentId}`);
+      this.logger.info(`❌ Opponent not found: ${opponentId}`);
       return;
     }
 
     if (!profile) {
-      console.log(`❌ Profile not found: ${profileId}`);
+      this.logger.info(`❌ Profile not found: ${profileId}`);
       return;
     }
 
-    console.log('='.repeat(60));
-    console.log(`🤔 AI Decision: ${spirit.name} vs ${opponent.name}`);
-    console.log(`🤖 Profile: ${profile.getSummary()}`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`🤔 AI Decision: ${spirit.name} vs ${opponent.name}`);
+    this.logger.info(`🤖 Profile: ${profile.getSummary()}`);
+    this.logger.info('='.repeat(60));
 
-    console.log(`${spirit.name}: ${spirit.getCombatSummary()}`);
-    console.log(`${opponent.name}: ${opponent.getCombatSummary()}`);
-    console.log('');
+    this.logger.info(`${spirit.name}: ${spirit.getCombatSummary()}`);
+    this.logger.info(`${opponent.name}: ${opponent.getCombatSummary()}`);
+    this.logger.info('');
 
     const ai = this.aiManager.getAIController(profileId);
 
-    console.log('Available moves:');
+    this.logger.info('Available moves:');
     spirit.knownMoves.forEach(moveId => {
       const move = this.moves.get(moveId);
       if (move) {
         const categoryIcon = this.getMoveCategoryIcon(move.category);
-        console.log(`  ${categoryIcon} ${move.name} (${move.power} power, ${move.accuracy * 100}% acc)`);
+        this.logger.info(`  ${categoryIcon} ${move.name} (${move.power} power, ${move.accuracy * 100}% acc)`);
       }
     });
-    console.log('');
+    this.logger.info('');
 
     const selectedMove = ai.selectMove(spirit, opponent);
 
     if (selectedMove) {
       const move = this.moves.get(selectedMove);
       if (move) {
-        console.log(`🎯 AI chooses: ${move.name}`);
-        console.log(`   Category: ${move.category} | Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
-        console.log(`   Cost: ${move.cost} | Type: ${move.typeTag} vs ${opponent.typeTag}`);
+        this.logger.info(`🎯 AI chooses: ${move.name}`);
+        this.logger.info(`   Category: ${move.category} | Power: ${move.power} | Accuracy: ${Math.round(move.accuracy * 100)}%`);
+        this.logger.info(`   Cost: ${move.cost} | Type: ${move.typeTag} vs ${opponent.typeTag}`);
 
         const threatLevel = ai.evaluateThreatLevel(opponent);
-        console.log(`   Threat Level: ${threatLevel.toFixed(2)} (${BattleAIUtils.getThreatLevelDescription(threatLevel)})`);
+        this.logger.info(`   Threat Level: ${threatLevel.toFixed(2)} (${BattleAIUtils.getThreatLevelDescription(threatLevel)})`);
       } else {
-        console.log(`🎯 AI chooses: ${selectedMove} (move not found)`);
+        this.logger.info(`🎯 AI chooses: ${selectedMove} (move not found)`);
       }
     } else {
-      console.log('🎯 AI chooses: No suitable move found');
+      this.logger.info('🎯 AI chooses: No suitable move found');
     }
   }
 
@@ -586,7 +588,7 @@ class BattleAIPureCLI {
    */
   private async simulateBattle(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.log('❌ Usage: battle [spirit1] [spirit2] [profile]');
+      this.logger.info('❌ Usage: battle [spirit1] [spirit2] [profile]');
       return;
     }
 
@@ -599,71 +601,71 @@ class BattleAIPureCLI {
     const profile = this.aiManager.getProfile(profileId);
 
     if (!spirit1) {
-      console.log(`❌ Spirit not found: ${spirit1Id}`);
+      this.logger.info(`❌ Spirit not found: ${spirit1Id}`);
       return;
     }
 
     if (!spirit2) {
-      console.log(`❌ Spirit not found: ${spirit2Id}`);
+      this.logger.info(`❌ Spirit not found: ${spirit2Id}`);
       return;
     }
 
     if (!profile) {
-      console.log(`❌ Profile not found: ${profileId}`);
+      this.logger.info(`❌ Profile not found: ${profileId}`);
       return;
     }
 
-    console.log('='.repeat(60));
-    console.log(`⚔️ Battle: ${spirit1.name} vs ${spirit2.name}`);
-    console.log(`🤖 Profile: ${profile.getSummary()}`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`⚔️ Battle: ${spirit1.name} vs ${spirit2.name}`);
+    this.logger.info(`🤖 Profile: ${profile.getSummary()}`);
+    this.logger.info('='.repeat(60));
 
     const ai1 = this.aiManager.getAIController(profileId);
     const ai2 = this.aiManager.getAIController(profileId);
 
-    console.log(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
-    console.log(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
-    console.log('');
+    this.logger.info(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
+    this.logger.info(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
+    this.logger.info('');
 
     let turn = 1;
     const maxTurns = 20;
 
     while (!spirit1.isFainted() && !spirit2.isFainted() && turn <= maxTurns) {
-      console.log(`📍 Turn ${turn}`);
+      this.logger.info(`📍 Turn ${turn}`);
 
       // Spirit 1 attacks
       const action1 = ai1.selectMove(spirit1, spirit2);
       if (action1) {
-        console.log(`🔥 ${spirit1.name} chooses ${action1}`);
+        this.logger.info(`🔥 ${spirit1.name} chooses ${action1}`);
       } else {
-        console.log(`💤 ${spirit1.name} cannot move!`);
+        this.logger.info(`💤 ${spirit1.name} cannot move!`);
       }
 
       // Spirit 2 attacks
       const action2 = ai2.selectMove(spirit2, spirit1);
       if (action2) {
-        console.log(`💥 ${spirit2.name} chooses ${action2}`);
+        this.logger.info(`💥 ${spirit2.name} chooses ${action2}`);
       } else {
-        console.log(`💤 ${spirit2.name} cannot move!`);
+        this.logger.info(`💤 ${spirit2.name} cannot move!`);
       }
 
-      console.log(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
-      console.log(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
-      console.log('');
+      this.logger.info(`${spirit1.name}: ${spirit1.getCombatSummary()}`);
+      this.logger.info(`${spirit2.name}: ${spirit2.getCombatSummary()}`);
+      this.logger.info('');
 
       turn++;
       if (turn > maxTurns) {
-        console.log('🔄 Battle took too long, declaring draw!');
+        this.logger.info('🔄 Battle took too long, declaring draw!');
         break;
       }
     }
 
     if (spirit1.isFainted()) {
-      console.log(`💀 ${spirit1.name} fainted!`);
-      console.log(`🏆 ${spirit2.name} wins!`);
+      this.logger.info(`💀 ${spirit1.name} fainted!`);
+      this.logger.info(`🏆 ${spirit2.name} wins!`);
     } else if (spirit2.isFainted()) {
-      console.log(`💀 ${spirit2.name} fainted!`);
-      console.log(`🏆 ${spirit1.name} wins!`);
+      this.logger.info(`💀 ${spirit2.name} fainted!`);
+      this.logger.info(`🏆 ${spirit1.name} wins!`);
     }
 
     // Reset spirits for next battle
@@ -675,7 +677,7 @@ class BattleAIPureCLI {
    */
   private showThreatLevel(args: string[]): void {
     if (args.length < 2) {
-      console.log('❌ Usage: threat [spirit] [opponent]');
+      this.logger.info('❌ Usage: threat [spirit] [opponent]');
       return;
     }
 
@@ -686,34 +688,34 @@ class BattleAIPureCLI {
     const opponent = this.spirits.get(opponentId);
 
     if (!spirit) {
-      console.log(`❌ Spirit not found: ${spiritId}`);
+      this.logger.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
     if (!opponent) {
-      console.log(`❌ Opponent not found: ${opponentId}`);
+      this.logger.info(`❌ Opponent not found: ${opponentId}`);
       return;
     }
 
-    console.log('='.repeat(60));
-    console.log(`🎯 Threat Assessment: ${spirit.name} vs ${opponent.name}`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`🎯 Threat Assessment: ${spirit.name} vs ${opponent.name}`);
+    this.logger.info('='.repeat(60));
 
     const ai = this.aiManager.getAIController('balanced');
     const threatLevel = ai.evaluateThreatLevel(opponent);
 
-    console.log(`${spirit.name}: ${spirit.getCombatSummary()}`);
-    console.log(`${opponent.name}: ${opponent.getCombatSummary()}`);
-    console.log('');
+    this.logger.info(`${spirit.name}: ${spirit.getCombatSummary()}`);
+    this.logger.info(`${opponent.name}: ${opponent.getCombatSummary()}`);
+    this.logger.info('');
 
-    console.log(`Threat Level: ${threatLevel.toFixed(3)}`);
-    console.log(`Threat Assessment: ${BattleAIUtils.getThreatLevelDescription(threatLevel)}`);
-    console.log('');
+    this.logger.info(`Threat Level: ${threatLevel.toFixed(3)}`);
+    this.logger.info(`Threat Assessment: ${BattleAIUtils.getThreatLevelDescription(threatLevel)}`);
+    this.logger.info('');
 
-    console.log('Threat Factors:');
-    console.log(`  Opponent HP Ratio: ${(opponent.currentHP / opponent.maxHP).toFixed(3)}`);
-    console.log(`  Level Difference: ${opponent.level - spirit.level}`);
-    console.log(`  Status Effects: ${opponent.statusEffects.length}`);
+    this.logger.info('Threat Factors:');
+    this.logger.info(`  Opponent HP Ratio: ${(opponent.currentHP / opponent.maxHP).toFixed(3)}`);
+    this.logger.info(`  Level Difference: ${opponent.level - spirit.level}`);
+    this.logger.info(`  Status Effects: ${opponent.statusEffects.length}`);
   }
 
   /**
@@ -721,41 +723,41 @@ class BattleAIPureCLI {
    */
   private showProfileDetails(profileId: string): void {
     if (!profileId) {
-      console.log('❌ Usage: profile [profile_id]');
+      this.logger.info('❌ Usage: profile [profile_id]');
       return;
     }
 
     const profile = this.aiManager.getProfile(profileId);
     if (!profile) {
-      console.log(`❌ Profile not found: ${profileId}`);
+      this.logger.info(`❌ Profile not found: ${profileId}`);
       return;
     }
 
-    console.log('='.repeat(60));
-    console.log(`📋 Profile Details: ${profile.profileID}`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`📋 Profile Details: ${profile.profileID}`);
+    this.logger.info('='.repeat(60));
 
-    console.log(`Style: ${profile.style} - ${profile.getStyleDescription()}`);
-    console.log('');
+    this.logger.info(`Style: ${profile.style} - ${profile.getStyleDescription()}`);
+    this.logger.info('');
 
-    console.log('Move Priority Weights:');
+    this.logger.info('Move Priority Weights:');
     Object.entries(profile.movePriorityWeights).forEach(([category, weight]) => {
       const bar = this.getWeightBar(weight);
-      console.log(`  ${category}: ${weight.toFixed(2)} ${bar}`);
+      this.logger.info(`  ${category}: ${weight.toFixed(2)} ${bar}`);
     });
-    console.log('');
+    this.logger.info('');
 
     if (profile.preferredTypes.length > 0) {
-      console.log(`Preferred Types: ${profile.preferredTypes.join(', ')}`);
-      console.log('');
+      this.logger.info(`Preferred Types: ${profile.preferredTypes.join(', ')}`);
+      this.logger.info('');
     }
 
     const errors = profile.validate();
     if (errors.length === 0) {
-      console.log('✅ Profile is valid');
+      this.logger.info('✅ Profile is valid');
     } else {
-      console.log('❌ Validation errors:');
-      errors.forEach(error => console.log(`   - ${error}`));
+      this.logger.info('❌ Validation errors:');
+      errors.forEach(error => this.logger.info(`   - ${error}`));
     }
   }
 
@@ -764,7 +766,7 @@ class BattleAIPureCLI {
    */
   private compareProfiles(profileId1: string, profileId2: string): void {
     if (!profileId1 || !profileId2) {
-      console.log('❌ Usage: compare [profile1] [profile2]');
+      this.logger.info('❌ Usage: compare [profile1] [profile2]');
       return;
     }
 
@@ -772,44 +774,44 @@ class BattleAIPureCLI {
     const profile2 = this.aiManager.getProfile(profileId2);
 
     if (!profile1) {
-      console.log(`❌ Profile 1 not found: ${profileId1}`);
+      this.logger.info(`❌ Profile 1 not found: ${profileId1}`);
       return;
     }
 
     if (!profile2) {
-      console.log(`❌ Profile 2 not found: ${profileId2}`);
+      this.logger.info(`❌ Profile 2 not found: ${profileId2}`);
       return;
     }
 
-    console.log('='.repeat(60));
-    console.log(`⚖️ Profile Comparison`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`⚖️ Profile Comparison`);
+    this.logger.info('='.repeat(60));
 
-    console.log(`${profileId1}: ${profile1.getSummary()}`);
-    console.log(`  ${BattleAIUtils.getBehaviorDescription(profile1)}`);
-    console.log('');
+    this.logger.info(`${profileId1}: ${profile1.getSummary()}`);
+    this.logger.info(`  ${BattleAIUtils.getBehaviorDescription(profile1)}`);
+    this.logger.info('');
 
-    console.log(`${profileId2}: ${profile2.getSummary()}`);
-    console.log(`  ${BattleAIUtils.getBehaviorDescription(profile2)}`);
-    console.log('');
+    this.logger.info(`${profileId2}: ${profile2.getSummary()}`);
+    this.logger.info(`  ${BattleAIUtils.getBehaviorDescription(profile2)}`);
+    this.logger.info('');
 
     const comparison = BattleAIUtils.compareProfiles(profile1, profile2);
 
-    console.log('Comparison Results:');
-    console.log(`  Style Match: ${comparison.styleMatch ? '✅' : '❌'}`);
-    console.log(`  Weight Difference: ${comparison.weightDifference.toFixed(3)}`);
-    console.log(`  Type Preferences Match: ${comparison.typePreferencesMatch ? '✅' : '❌'}`);
-    console.log(`  Total Difference: ${comparison.totalDifference.toFixed(3)}`);
-    console.log('');
+    this.logger.info('Comparison Results:');
+    this.logger.info(`  Style Match: ${comparison.styleMatch ? '✅' : '❌'}`);
+    this.logger.info(`  Weight Difference: ${comparison.weightDifference.toFixed(3)}`);
+    this.logger.info(`  Type Preferences Match: ${comparison.typePreferencesMatch ? '✅' : '❌'}`);
+    this.logger.info(`  Total Difference: ${comparison.totalDifference.toFixed(3)}`);
+    this.logger.info('');
 
     if (comparison.totalDifference < 0.1) {
-      console.log('📊 Profiles are identical');
+      this.logger.info('📊 Profiles are identical');
     } else if (comparison.totalDifference < 1.0) {
-      console.log('📊 Profiles are very similar');
+      this.logger.info('📊 Profiles are very similar');
     } else if (comparison.totalDifference < 2.0) {
-      console.log('📊 Profiles are somewhat similar');
+      this.logger.info('📊 Profiles are somewhat similar');
     } else {
-      console.log('📊 Profiles are quite different');
+      this.logger.info('📊 Profiles are quite different');
     }
   }
 
@@ -819,15 +821,15 @@ class BattleAIPureCLI {
   private healSpirit(spiritId: string, amount: number): void {
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      console.log(`❌ Spirit not found: ${spiritId}`);
+      this.logger.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
     const oldHP = spirit.currentHP;
     spirit.heal(amount);
 
-    console.log(`❤️ Healed ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    this.logger.info(`❤️ Healed ${spirit.name} by ${amount} HP`);
+    this.logger.info(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
   }
 
   /**
@@ -836,18 +838,18 @@ class BattleAIPureCLI {
   private damageSpirit(spiritId: string, amount: number): void {
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      console.log(`❌ Spirit not found: ${spiritId}`);
+      this.logger.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
     const oldHP = spirit.currentHP;
     spirit.takeDamage(amount);
 
-    console.log(`💔 Damaged ${spirit.name} by ${amount} HP`);
-    console.log(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
+    this.logger.info(`💔 Damaged ${spirit.name} by ${amount} HP`);
+    this.logger.info(`📊 HP: ${oldHP} → ${spirit.currentHP}/${spirit.maxHP}`);
 
     if (spirit.isFainted()) {
-      console.log(`💀 ${spirit.name} fainted!`);
+      this.logger.info(`💀 ${spirit.name} fainted!`);
     }
   }
 
@@ -856,36 +858,36 @@ class BattleAIPureCLI {
    */
   private showSpiritStatus(spiritId: string): void {
     if (!spiritId) {
-      console.log('❌ Usage: status [spirit_id]');
+      this.logger.info('❌ Usage: status [spirit_id]');
       return;
     }
 
     const spirit = this.spirits.get(spiritId);
     if (!spirit) {
-      console.log(`❌ Spirit not found: ${spiritId}`);
+      this.logger.info(`❌ Spirit not found: ${spiritId}`);
       return;
     }
 
-    console.log('='.repeat(60));
-    console.log(`📊 Spirit Status: ${spirit.name}`);
-    console.log('='.repeat(60));
+    this.logger.info('='.repeat(60));
+    this.logger.info(`📊 Spirit Status: ${spirit.name}`);
+    this.logger.info('='.repeat(60));
 
-    console.log(`ID: ${spirit.id}`);
-    console.log(`Type: ${spirit.typeTag}`);
-    console.log(`Level: ${spirit.level}`);
-    console.log(`HP: ${spirit.currentHP}/${spirit.maxHP}`);
-    console.log(`Stats: ATK ${spirit.attack} | DEF ${spirit.defense} | SP.ATK ${spirit.specialAttack} | SP.DEF ${spirit.specialDefense} | SPD ${spirit.speed}`);
-    console.log(`Status Effects: ${spirit.statusEffects.length > 0 ? spirit.statusEffects.join(', ') : 'None'}`);
-    console.log(`Known Moves: ${spirit.knownMoves.length > 0 ? spirit.knownMoves.join(', ') : 'None'}`);
+    this.logger.info(`ID: ${spirit.id}`);
+    this.logger.info(`Type: ${spirit.typeTag}`);
+    this.logger.info(`Level: ${spirit.level}`);
+    this.logger.info(`HP: ${spirit.currentHP}/${spirit.maxHP}`);
+    this.logger.info(`Stats: ATK ${spirit.attack} | DEF ${spirit.defense} | SP.ATK ${spirit.specialAttack} | SP.DEF ${spirit.specialDefense} | SPD ${spirit.speed}`);
+    this.logger.info(`Status Effects: ${spirit.statusEffects.length > 0 ? spirit.statusEffects.join(', ') : 'None'}`);
+    this.logger.info(`Known Moves: ${spirit.knownMoves.length > 0 ? spirit.knownMoves.join(', ') : 'None'}`);
 
     if (spirit.isFainted()) {
-      console.log('Status: 💀 Fainted');
+      this.logger.info('Status: 💀 Fainted');
     } else {
       const hpRatio = spirit.currentHP / spirit.maxHP;
-      if (hpRatio > 0.8) console.log('Status: ✅ Healthy');
-      else if (hpRatio > 0.5) console.log('Status: ⚠️ Wounded');
-      else if (hpRatio > 0.2) console.log('Status: 🚨 Critical');
-      else console.log('Status: 💀 Near Death');
+      if (hpRatio > 0.8) this.logger.info('Status: ✅ Healthy');
+      else if (hpRatio > 0.5) this.logger.info('Status: ⚠️ Wounded');
+      else if (hpRatio > 0.2) this.logger.info('Status: 🚨 Critical');
+      else this.logger.info('Status: 💀 Near Death');
     }
   }
 
@@ -942,8 +944,8 @@ class BattleAIPureCLI {
    * Exit application
    */
   private exit(): void {
-    console.log('');
-    console.log('👋 Thank you for using BattleAIPure CLI!');
+    this.logger.info('');
+    this.logger.info('👋 Thank you for using BattleAIPure CLI!');
     this.rl.close();
     process.exit(0);
   }

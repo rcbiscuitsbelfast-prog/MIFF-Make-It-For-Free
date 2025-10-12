@@ -6,6 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { CraftingManager, Recipe, Inventory } from './Manager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 
@@ -22,7 +23,7 @@ try {
         name: recipe || 'Custom Recipe',
         description: 'Custom crafted recipe',
         category: 'material',
-        inputs: typeof materials === 'string' ? JSON.parse(materials) : (materials || {}),
+        inputs: typeof materials === 'string' ? SafeJSONParser.parse(materials) : (materials || {}),
         outputs: { [recipe || 'crafted_item']: 1 },
         craftingTime: craftingTime || 10,
         difficulty: 'easy',
@@ -35,7 +36,7 @@ try {
       
       // Simulate crafting
       const inventory: Inventory = {};
-      const materialsList = typeof materials === 'string' ? JSON.parse(materials) : (materials || []);
+      const materialsList = typeof materials === 'string' ? SafeJSONParser.parse(materials) : (materials || []);
       if (Array.isArray(materialsList)) {
         materialsList.forEach((mat: string) => {
           inventory[mat] = 10; // Assume we have enough
@@ -65,7 +66,7 @@ try {
 
     case 'simulate': {
       const { recipeId, inventory } = params;
-      const inv = typeof inventory === 'string' ? JSON.parse(inventory) : (inventory || {});
+      const inv = typeof inventory === 'string' ? SafeJSONParser.parse(inventory) : (inventory || {});
       const result = manager.simulate(recipeId, inv);
       handleSuccess({ recipeId, result }, 'simulate');
       break;

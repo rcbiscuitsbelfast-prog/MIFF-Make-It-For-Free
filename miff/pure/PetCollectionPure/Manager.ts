@@ -13,6 +13,7 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 // Types are defined in this file to avoid circular imports
 
 export enum PetRarity {
@@ -625,7 +626,7 @@ export class PetCollectionManager {
 
   public importCollection(ownerId: string, collectionData: string): boolean {
     try {
-      const data = JSON.parse(collectionData);
+      const data = SafeJSONParser.parse(collectionData);
 
       // Import pets
       if (data.pets && Array.isArray(data.pets)) {

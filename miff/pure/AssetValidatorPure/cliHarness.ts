@@ -2,15 +2,17 @@
 
 import { validateAssetBundle, AssetReference, AssetManifest } from './index';
 import * as fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const inputFile = process.argv[2];
 if (!inputFile) {
-  console.error('Usage: ts-node cliHarness.ts <input-file>');
+  this.logger.error('Usage: ts-node cliHarness.ts <input-file>');
   process.exit(1);
 }
 
 try {
-  const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8'));
+  const input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8'));
   
   if (!input || typeof input !== 'object') {
     throw new Error('Invalid input: expected JSON object');
@@ -26,8 +28,8 @@ try {
   const strictMode = input.strictMode !== false; // Default to true
   
   const result = validateAssetBundle(scenarioAssets, manifestAssets, platform, strictMode);
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 } catch (error) {
-  console.error('Error:', error);
+  this.logger.error('Error:', error);
   process.exit(1);
 }

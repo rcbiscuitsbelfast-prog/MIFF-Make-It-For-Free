@@ -2,9 +2,11 @@
 import fs from 'fs';
 import path from 'path';
 import { SaveLoadManager, GameDataV11, SaveSlot, StorageAdapter } from './SaveLoadManager';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class FileStorageAdapter implements StorageAdapter {
-  constructor(private filePath: string) {}
+  constructor(private filePath: string) {
+    this.logger = new StructuredLogger({ module: 'FileStorageAdapter' });}
 
   async read(): Promise<unknown | null> {
     try {
@@ -17,7 +19,7 @@ class FileStorageAdapter implements StorageAdapter {
       }
       return null;
     } catch (error) {
-      console.error('Error reading save file:', error);
+      this.logger.error('Error reading save file:', error);
       return null;
     }
   }
@@ -26,7 +28,7 @@ class FileStorageAdapter implements StorageAdapter {
     try {
       fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.error('Error writing save file:', error);
+      this.logger.error('Error writing save file:', error);
       throw error;
     }
   }
@@ -73,7 +75,7 @@ async function main() {
           case 'dumpState': default: break;
         }
       }
-      console.log(JSON.stringify({ data: mgr.data }, null, 2));
+      this.logger.info(JSON.stringify({ data: mgr.data }, null, 2));
       return;
     }
     switch (command) {
@@ -187,7 +189,7 @@ async function main() {
           const migrateData = [second, third].find(a => typeof a === 'string' && a.endsWith('.json'));
           let rawData: any = null;
           if (migrateData && fs.existsSync(migrateData)) {
-            rawData = JSON.parse(fs.readFileSync(path.resolve(migrateData), 'utf-8'));
+            rawData = SafeJSONParser.parse(fs.readFileSync(path.resolve(migrateData), 'utf-8'));
           } else {
             // Fallback to a minimal legacy v10-like structure
             rawData = { xp: [{ id: 'hero', xp: 10 }], inventory: [{ id: 'potion', quantity: 1 }] };
@@ -236,7 +238,7 @@ async function main() {
     result.result = { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 async function runDemo(storage: StorageAdapter): Promise<any> {

@@ -58,6 +58,7 @@ import {
 import { RenderPayloadManager as RenderPayloadPure } from '../RenderPayloadPure';
 
 import { EventBus } from '../EventBusPure/EventBusPure.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 import {
   AvatarSystemPure
@@ -236,6 +237,7 @@ export interface RenderWorldGameState {
 }
 
 export class RenderWorldPure {
+  private logger: StructuredLogger;
   private state: RenderWorldGameState;
   private engines: {
     combat: CombatEngine;
@@ -264,6 +266,7 @@ export class RenderWorldPure {
   private lastFPSUpdate: number = 0;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RenderWorldPure' });
     this.state = this.initializeGameState();
     this.engines = this.initializeEngines();
     this.setupEventListeners();
@@ -1506,7 +1509,7 @@ export class RenderWorldPure {
     if (!this.engines.mobilePerformance.isPerformanceAcceptable()) {
       const recommendations = this.engines.mobilePerformance.getOptimizationRecommendations();
       if (recommendations.length > 0) {
-        console.warn('Performance optimization recommendations:', recommendations);
+        this.logger.warn('Performance optimization recommendations:', recommendations);
       }
     }
   }

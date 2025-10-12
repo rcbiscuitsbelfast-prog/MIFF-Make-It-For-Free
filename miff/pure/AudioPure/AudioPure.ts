@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * AudioPure.ts
  * 
@@ -61,6 +62,7 @@ export interface SoundDefinition {
 export type AudioCallback = (event: AudioEvent) => void;
 
 export class AudioSystem {
+  private logger: StructuredLogger;
   private config: AudioConfig;
   private sounds: Map<string, SoundDefinition>;
   private activeSounds: Map<string, any>; // Sound instances
@@ -80,6 +82,7 @@ export class AudioSystem {
   private masterGain?: GainNode;
 
   constructor(config: AudioConfig, headless: boolean = false) {
+    this.logger = new StructuredLogger({ module: 'AudioSystem' });
     this.config = config;
     this.sounds = new Map();
     this.activeSounds = new Map();
@@ -99,7 +102,7 @@ export class AudioSystem {
     }
 
     if (this.isHeadless) {
-      console.log('[AudioPure] Running in headless mode - audio events will be logged only');
+      this.logger.info('[AudioPure] Running in headless mode - audio events will be logged only');
     }
   }
 
@@ -128,9 +131,9 @@ export class AudioSystem {
         await this.createReverbNode();
       }
 
-      console.log('[AudioPure] Audio context initialized successfully');
+      this.logger.info('[AudioPure] Audio context initialized successfully');
     } catch (error) {
-      console.error('[AudioPure] Failed to initialize audio context:', error);
+      this.logger.error('[AudioPure] Failed to initialize audio context:', error);
     }
   }
 
@@ -173,14 +176,14 @@ export class AudioSystem {
 
   private emitEvent(event: AudioEvent): void {
     if (this.isHeadless) {
-      console.log(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
+      this.logger.info(`[AudioPure] ${event.type.toUpperCase()}: ${event.soundId}`, event.data || '');
     }
 
     this.callbacks.forEach(callback => {
       try {
         callback(event);
       } catch (error) {
-        console.error('[AudioPure] Callback error:', error);
+        this.logger.error('[AudioPure] Callback error:', error);
       }
     });
   }
@@ -213,13 +216,13 @@ export class AudioSystem {
   playSound(soundId: string, volume: number = 1.0, pitch: number = 1.0): string | null {
     const sound = this.sounds.get(soundId);
     if (!sound) {
-      console.warn(`[AudioPure] Sound not found: ${soundId}`);
+      this.logger.warn(`[AudioPure] Sound not found: ${soundId}`);
       return null;
     }
 
     // Check if we've reached the maximum simultaneous sounds
     if (this.activeSounds.size >= this.config.maxSimultaneousSounds) {
-      console.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
+      this.logger.warn(`[AudioPure] Maximum simultaneous sounds reached (${this.config.maxSimultaneousSounds})`);
       return null;
     }
 
@@ -382,12 +385,12 @@ export class AudioSystem {
 
   public enableHRTF(enable: boolean): void {
     this.hrtfEnabled = enable;
-    console.log(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
+    this.logger.info(`[AudioPure] HRTF ${enable ? 'enabled' : 'disabled'}`);
   }
 
   public enableReverb(enable: boolean): void {
     this.reverbEnabled = enable;
-    console.log(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
+    this.logger.info(`[AudioPure] Reverb ${enable ? 'enabled' : 'disabled'}`);
   }
 
   public setReverbParameters(decay: number, damping: number): void {

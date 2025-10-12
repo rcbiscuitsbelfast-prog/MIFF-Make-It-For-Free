@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * StatsSystemPure Enhanced Manager
  * 
@@ -116,12 +117,14 @@ export interface StatsOutput {
 }
 
 export class EnhancedStatsManager {
+  private logger: StructuredLogger;
   private config: StatConfig;
   private entities: Map<string, EntityStats> = new Map();
   private progressions: Map<string, StatProgression> = new Map();
   private calculationCache: Map<string, { result: any; timestamp: number }> = new Map();
 
   constructor(config?: Partial<StatConfig>) {
+    this.logger = new StructuredLogger({ module: 'EnhancedStatsManager' });
     this.config = {
       enableModifiers: true,
       enableDependencies: true,
@@ -909,11 +912,11 @@ export class EnhancedStatsManager {
       if (result.success) {
         return result.result;
       } else {
-        console.warn(`Formula evaluation failed: ${formula}`, result.error);
+        this.logger.warn(`Formula evaluation failed: ${formula}`, result.error);
         return 0;
       }
     } catch (error) {
-      console.warn(`Formula evaluation failed: ${formula}`, error);
+      this.logger.warn(`Formula evaluation failed: ${formula}`, error);
       return 0;
     }
   }

@@ -2,6 +2,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface ExportWebArgs {
   project: string;
@@ -36,7 +37,7 @@ function emitManifest(buildDir: string) {
 async function main() {
   const argv = process.argv.slice(2);
   if (argv[0] === 'help' || argv.length === 0) {
-    console.log('export:web --project ./docs/godot --output ./build/web --deploy pages');
+    this.logger.info('export:web --project ./docs/godot --output ./build/web --deploy pages');
     process.exit(0);
   }
   const { project, output, deploy } = parseArgs(argv);
@@ -45,7 +46,7 @@ async function main() {
   // For now, simulate export by copying static files if present
   const src = path.resolve(project, 'export', 'web');
   if (!fs.existsSync(src)) {
-    console.error(`Expected Godot web export at ${src}`);
+    this.logger.error(`Expected Godot web export at ${src}`);
     process.exit(2);
   }
   for (const f of fs.readdirSync(src)) {
@@ -54,8 +55,8 @@ async function main() {
   emitManifest(output);
 
   const result = { op: 'export:web', status: 'ok', output, deploy };
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch(err => { this.logger.error(err); process.exit(1); });
 

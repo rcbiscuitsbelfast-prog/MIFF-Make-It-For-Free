@@ -9,6 +9,7 @@
 
 import * as readline from 'readline';
 import { PerfTimer, HighResPerfTimer, PerfProfiler, PerfUtils, defaultProfiler } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface CLITest {
   name: string;
@@ -17,7 +18,7 @@ interface CLITest {
 }
 
 function printHelp(): void {
-  console.log(`
+  this.logger.info(`
 PerfPure CLI - Performance Testing & Profiling
 ===============================================
 
@@ -149,10 +150,12 @@ function createDemoTests(): CLITest[] {
       description: 'Object creation/destruction patterns',
       fn: () => {
         class TestObject {
+  private logger: StructuredLogger;
           public value: number;
           public data: string;
 
           constructor(value: number) {
+    this.logger = new StructuredLogger({ module: 'TestObject' });
             this.value = value;
             this.data = 'x'.repeat(100);
           }
@@ -233,15 +236,15 @@ function createDemoTests(): CLITest[] {
 }
 
 function runDemo(): void {
-  console.log('🚀 Running PerfPure Comprehensive Demo...\n');
+  this.logger.info('🚀 Running PerfPure Comprehensive Demo...\n');
 
   const tests = createDemoTests();
 
-  console.log(`Running ${tests.length} performance tests...\n`);
+  this.logger.info(`Running ${tests.length} performance tests...\n`);
 
   tests.forEach((test, index) => {
-    console.log(`--- Test ${index + 1}/${tests.length}: ${test.name} ---`);
-    console.log(`${test.description}`);
+    this.logger.info(`--- Test ${index + 1}/${tests.length}: ${test.name} ---`);
+    this.logger.info(`${test.description}`);
 
     const timer = new HighResPerfTimer(`Demo_${test.name}`);
     try {
@@ -249,24 +252,24 @@ function runDemo(): void {
       timer.stop();
     } catch (error) {
       timer.dispose();
-      console.log(`❌ Test failed: ${error}`);
+      this.logger.info(`❌ Test failed: ${error}`);
     }
 
-    console.log('');
+    this.logger.info('');
   });
 
   // Show summary
   const summary = defaultProfiler.getSummary();
-  console.log('📊 Overall Performance Summary:');
-  console.log(`Total measurements: ${summary.totalMeasurements}`);
-  console.log(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
-  console.log(`Min duration: ${summary.minMs.toFixed(2)} ms`);
-  console.log(`Max duration: ${summary.maxMs.toFixed(2)} ms`);
-  console.log(`Total time: ${summary.totalMs.toFixed(2)} ms`);
+  this.logger.info('📊 Overall Performance Summary:');
+  this.logger.info(`Total measurements: ${summary.totalMeasurements}`);
+  this.logger.info(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
+  this.logger.info(`Min duration: ${summary.minMs.toFixed(2)} ms`);
+  this.logger.info(`Max duration: ${summary.maxMs.toFixed(2)} ms`);
+  this.logger.info(`Total time: ${summary.totalMs.toFixed(2)} ms`);
 }
 
 async function runCLI(): Promise<void> {
-  console.log('⚡ PerfPure CLI - Type "help" for commands or "demo" to see performance testing in action\n');
+  this.logger.info('⚡ PerfPure CLI - Type "help" for commands or "demo" to see performance testing in action\n');
 
   const rl = readline.createInterface({
     input: process.stdin,
@@ -290,10 +293,10 @@ async function runCLI(): Promise<void> {
       case 'timer':
       case 'time':
         if (args.length === 0) {
-          console.log('❌ Usage: timer <label>');
+          this.logger.info('❌ Usage: timer <label>');
         } else {
           const label = args.join(' ');
-          console.log(`⏱️  Creating timer: "${label}"`);
+          this.logger.info(`⏱️  Creating timer: "${label}"`);
 
           const timer = new PerfTimer(label);
           // Simulate some work
@@ -303,24 +306,24 @@ async function runCLI(): Promise<void> {
           }
           timer.dispose();
 
-          console.log(`✅ Timer completed. Result: ${result.toFixed(2)}`);
+          this.logger.info(`✅ Timer completed. Result: ${result.toFixed(2)}`);
         }
         break;
 
       case 'benchmark':
       case 'bench':
         if (args.length < 2) {
-          console.log('❌ Usage: benchmark <label> <iterations>');
+          this.logger.info('❌ Usage: benchmark <label> <iterations>');
         } else {
           const label = args[0];
           const iterations = parseInt(args[1]);
 
           if (isNaN(iterations) || iterations <= 0) {
-            console.log('❌ Iterations must be a positive number');
+            this.logger.info('❌ Iterations must be a positive number');
             break;
           }
 
-          console.log(`🔬 Running benchmark: "${label}" (${iterations} iterations)`);
+          this.logger.info(`🔬 Running benchmark: "${label}" (${iterations} iterations)`);
 
           PerfUtils.benchmark(label, iterations, () => {
             // Simulate work
@@ -335,27 +338,27 @@ async function runCLI(): Promise<void> {
       case 'profile':
       case 'start':
         if (args.length === 0) {
-          console.log('❌ Usage: profile <label>');
+          this.logger.info('❌ Usage: profile <label>');
         } else {
           const label = args.join(' ');
           const timer = defaultProfiler.start(label);
-          console.log(`▶️  Started profiling: "${label}"`);
-          console.log('💡 Use "stop <label>" when finished');
+          this.logger.info(`▶️  Started profiling: "${label}"`);
+          this.logger.info('💡 Use "stop <label>" when finished');
         }
         break;
 
       case 'stop':
       case 'end':
         if (args.length === 0) {
-          console.log('❌ Usage: stop <label>');
+          this.logger.info('❌ Usage: stop <label>');
         } else {
           const label = args.join(' ');
           const result = defaultProfiler.stop(label);
           if (result) {
-            console.log(`⏹️  Stopped profiling: "${label}"`);
-            console.log(`   Duration: ${result.durationMs.toFixed(2)} ms`);
+            this.logger.info(`⏹️  Stopped profiling: "${label}"`);
+            this.logger.info(`   Duration: ${result.durationMs.toFixed(2)} ms`);
           } else {
-            console.log(`❌ No active timer found for: "${label}"`);
+            this.logger.info(`❌ No active timer found for: "${label}"`);
           }
         }
         break;
@@ -364,11 +367,11 @@ async function runCLI(): Promise<void> {
       case 'list':
         const results = defaultProfiler.getResults();
         if (results.length === 0) {
-          console.log('No profiling results available');
+          this.logger.info('No profiling results available');
         } else {
-          console.log('\n📋 Profiling Results:');
+          this.logger.info('\n📋 Profiling Results:');
           results.forEach((result, index) => {
-            console.log(`${index + 1}. ${result.label}: ${result.durationMs.toFixed(2)} ms`);
+            this.logger.info(`${index + 1}. ${result.label}: ${result.durationMs.toFixed(2)} ms`);
           });
         }
         break;
@@ -376,17 +379,17 @@ async function runCLI(): Promise<void> {
       case 'summary':
       case 'stats':
         const summary = defaultProfiler.getSummary();
-        console.log('\n📊 Performance Summary:');
-        console.log(`Total measurements: ${summary.totalMeasurements}`);
-        console.log(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
-        console.log(`Min duration: ${summary.minMs.toFixed(2)} ms`);
-        console.log(`Max duration: ${summary.maxMs.toFixed(2)} ms`);
-        console.log(`Total time: ${summary.totalMs.toFixed(2)} ms`);
+        this.logger.info('\n📊 Performance Summary:');
+        this.logger.info(`Total measurements: ${summary.totalMeasurements}`);
+        this.logger.info(`Average duration: ${summary.averageMs.toFixed(2)} ms`);
+        this.logger.info(`Min duration: ${summary.minMs.toFixed(2)} ms`);
+        this.logger.info(`Max duration: ${summary.maxMs.toFixed(2)} ms`);
+        this.logger.info(`Total time: ${summary.totalMs.toFixed(2)} ms`);
         break;
 
       case 'clear':
         defaultProfiler.clear();
-        console.log('✅ Cleared all profiling data');
+        this.logger.info('✅ Cleared all profiling data');
         break;
 
       case 'demo':
@@ -395,29 +398,29 @@ async function runCLI(): Promise<void> {
 
       case 'test':
         if (args.length === 0) {
-          console.log('❌ Usage: test <name>');
-          console.log('Available tests: cpu, memory, io, math, array, object, sort');
+          this.logger.info('❌ Usage: test <name>');
+          this.logger.info('Available tests: cpu, memory, io, math, array, object, sort');
         } else {
           const testName = args[0];
           const tests = createDemoTests();
           const test = tests.find(t => t.name === testName);
 
           if (test) {
-            console.log(`🧪 Running test: ${test.name}`);
-            console.log(`${test.description}`);
+            this.logger.info(`🧪 Running test: ${test.name}`);
+            this.logger.info(`${test.description}`);
 
             const timer = new HighResPerfTimer(`Test_${testName}`);
             try {
               test.fn();
               timer.stop();
-              console.log('✅ Test completed successfully');
+              this.logger.info('✅ Test completed successfully');
             } catch (error) {
               timer.dispose();
-              console.log(`❌ Test failed: ${error}`);
+              this.logger.info(`❌ Test failed: ${error}`);
             }
           } else {
-            console.log(`❌ Unknown test: ${testName}`);
-            console.log('Available tests: cpu, memory, io, math, array, object, sort');
+            this.logger.info(`❌ Unknown test: ${testName}`);
+            this.logger.info('Available tests: cpu, memory, io, math, array, object, sort');
           }
         }
         break;
@@ -425,13 +428,13 @@ async function runCLI(): Promise<void> {
       case 'quit':
       case 'exit':
       case 'q':
-        console.log('👋 Goodbye!');
+        this.logger.info('👋 Goodbye!');
         rl.close();
         process.exit(0);
 
       default:
         if (command !== '') {
-          console.log(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
+          this.logger.info(`❌ Unknown command: ${command}. Type 'help' for available commands.`);
         }
     }
 
@@ -439,7 +442,7 @@ async function runCLI(): Promise<void> {
   });
 
   rl.on('SIGINT', () => {
-    console.log('\n👋 Goodbye!');
+    this.logger.info('\n👋 Goodbye!');
     rl.close();
     process.exit(0);
   });
@@ -448,7 +451,7 @@ async function runCLI(): Promise<void> {
 // Main execution
 if (require.main === module) {
   runCLI().catch(error => {
-    console.error('❌ CLI Error:', error);
+    this.logger.error('❌ CLI Error:', error);
     process.exit(1);
   });
 }

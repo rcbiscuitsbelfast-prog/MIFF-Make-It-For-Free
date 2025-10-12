@@ -8,6 +8,7 @@
  */
 
 import { EventBus } from '../EventBusPure/index.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type HealthSystemPure = any;
 type CombatPure = any;
 type RNGPure = any;
@@ -103,6 +104,7 @@ export interface SpellSchool {
 }
 
 export class MagicSystemPure {
+  private logger: StructuredLogger;
   private spellDefinitions: Map<string, SpellDefinition> = new Map();
   private spellInstances: Map<string, Map<string, SpellInstance>> = new Map(); // casterId -> spellId -> instance
   private manaPools: Map<string, ManaPool> = new Map(); // entityId -> mana pool
@@ -119,6 +121,7 @@ export class MagicSystemPure {
     combatSystem: CombatPure,
     rng: RNGPure
   ) {
+    this.logger = new StructuredLogger({ module: 'MagicSystemPure' });
     this.eventBus = eventBus;
     this.healthSystem = healthSystem;
     this.combatSystem = combatSystem;
@@ -709,7 +712,7 @@ export class MagicSystemPure {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[MAGIC:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[MAGIC:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 }
 

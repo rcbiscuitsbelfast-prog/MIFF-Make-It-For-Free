@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * TopplerDemoPure CLI Harness
  * Simulates physics demo with falling object
@@ -60,7 +61,7 @@ function main() {
     issues: []
   };
   
-  console.log(JSON.stringify(result, null, 2));
+  this.logger.info(JSON.stringify(result, null, 2));
 }
 
 // Run if called directly

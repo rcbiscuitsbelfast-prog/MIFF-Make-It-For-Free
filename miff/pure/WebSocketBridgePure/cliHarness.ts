@@ -6,6 +6,7 @@
 
 import { parseKeyValueArgs, handleSuccess, handleError } from '../shared/cliHarnessUtils';
 import { WebSocketBridgePure, WebSocketConfig, ConnectionStatus } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, params } = parseKeyValueArgs(process.argv);
 
@@ -23,7 +24,7 @@ const bridgeOptions = {
   url: `${config.protocol}://${config.host}:${config.port}`,
   useRealWebSocket: true,
   serverUrl: `${config.protocol}://${config.host}:${config.port}`,
-  onStatusChange: (status: string) => console.log(`WebSocket status: ${status}`)
+  onStatusChange: (status: string) => this.logger.info(`WebSocket status: ${status}`)
 };
 
 const bridge = new WebSocketBridgePure(bridgeOptions);

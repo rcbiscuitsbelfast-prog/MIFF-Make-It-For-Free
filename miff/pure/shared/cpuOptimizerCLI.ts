@@ -10,11 +10,14 @@
 import { CPUOptimizer, OptimizationResult, CPUMetrics } from './CPUOptimizer.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 class CPUOptimizerCLI {
+  private logger: StructuredLogger;
   private optimizer: CPUOptimizer;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'CPUOptimizerCLI' });
     this.optimizer = new CPUOptimizer();
   }
 
@@ -48,7 +51,7 @@ class CPUOptimizerCLI {
           break;
       }
     } catch (error) {
-      console.error('❌ Error:', error instanceof Error ? error.message : error);
+      this.logger.error('❌ Error:', error instanceof Error ? error.message : error);
       process.exit(1);
     }
   }
@@ -56,53 +59,53 @@ class CPUOptimizerCLI {
   private async optimizeCPU(args: string[]): Promise<void> {
     const outputFile = args[0] || 'cpu-optimization-results.json';
 
-    console.log('🚀 Starting CPU optimization...');
+    this.logger.info('🚀 Starting CPU optimization...');
     
     const results = await this.optimizer.optimizeCPU();
     
     // Save results
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    console.log('✅ CPU optimization completed');
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info('✅ CPU optimization completed');
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display summary
-    console.log('\n📊 CPU Optimization Summary:');
-    console.log(`Optimizations Applied: ${results.length}`);
+    this.logger.info('\n📊 CPU Optimization Summary:');
+    this.logger.info(`Optimizations Applied: ${results.length}`);
     
     const totalImprovement = results.reduce((sum, result) => sum + result.improvement, 0);
     const averageImprovement = totalImprovement / results.length;
     
-    console.log(`Average Improvement: ${averageImprovement.toFixed(2)}%`);
+    this.logger.info(`Average Improvement: ${averageImprovement.toFixed(2)}%`);
     
     results.forEach(result => {
       const statusIcon = result.status === 'applied' ? '✅' : 
                         result.status === 'failed' ? '❌' : '⏳';
-      console.log(`  ${statusIcon} ${result.description}: ${result.improvement.toFixed(2)}% improvement`);
+      this.logger.info(`  ${statusIcon} ${result.description}: ${result.improvement.toFixed(2)}% improvement`);
     });
   }
 
   private async showMetrics(args: string[]): Promise<void> {
     const outputFile = args[0] || 'cpu-metrics.json';
 
-    console.log('📊 Collecting CPU metrics...');
+    this.logger.info('📊 Collecting CPU metrics...');
     
     const metrics = await this.optimizer.getCPUMetrics();
     
     // Save metrics
     fs.writeFileSync(outputFile, JSON.stringify(metrics, null, 2));
     
-    console.log('✅ CPU metrics collected');
-    console.log(`📄 Metrics saved to ${outputFile}`);
+    this.logger.info('✅ CPU metrics collected');
+    this.logger.info(`📄 Metrics saved to ${outputFile}`);
 
     // Display metrics
-    console.log('\n📊 Current CPU Metrics:');
-    console.log(`CPU Usage: ${metrics.usage.toFixed(2)}%`);
-    console.log(`Load Average: ${metrics.loadAverage.map(avg => avg.toFixed(2)).join(', ')}`);
-    console.log(`Process Count: ${metrics.processCount}`);
-    console.log(`Memory Usage: ${metrics.memory.toFixed(2)} MB`);
-    console.log(`Response Time: ${metrics.responseTime.toFixed(2)} ms`);
-    console.log(`Throughput: ${metrics.throughput.toFixed(2)} ops/sec`);
+    this.logger.info('\n📊 Current CPU Metrics:');
+    this.logger.info(`CPU Usage: ${metrics.usage.toFixed(2)}%`);
+    this.logger.info(`Load Average: ${metrics.loadAverage.map(avg => avg.toFixed(2)).join(', ')}`);
+    this.logger.info(`Process Count: ${metrics.processCount}`);
+    this.logger.info(`Memory Usage: ${metrics.memory.toFixed(2)} MB`);
+    this.logger.info(`Response Time: ${metrics.responseTime.toFixed(2)} ms`);
+    this.logger.info(`Throughput: ${metrics.throughput.toFixed(2)} ops/sec`);
   }
 
   private async manageCache(args: string[]): Promise<void> {
@@ -122,34 +125,34 @@ class CPUOptimizerCLI {
         await this.getCacheValue(args.slice(1));
         break;
       default:
-        console.log('Cache management commands:');
-        console.log('  stats  - Show cache statistics');
-        console.log('  clear  - Clear all cache entries');
-        console.log('  set <key> <value> [ttl] - Set cache value');
-        console.log('  get <key> - Get cache value');
+        this.logger.info('Cache management commands:');
+        this.logger.info('  stats  - Show cache statistics');
+        this.logger.info('  clear  - Clear all cache entries');
+        this.logger.info('  set <key> <value> [ttl] - Set cache value');
+        this.logger.info('  get <key> - Get cache value');
         break;
     }
   }
 
   private async showCacheStats(): Promise<void> {
-    console.log('📊 Cache Statistics:');
+    this.logger.info('📊 Cache Statistics:');
     
     const stats = this.optimizer.getCacheStats();
     
-    console.log(`Cache Size: ${stats.size} entries`);
-    console.log(`Hit Rate: ${(stats.hitRate * 100).toFixed(2)}%`);
-    console.log(`Total Accesses: ${stats.totalAccesses}`);
-    console.log(`Average Access Time: ${stats.averageAccessTime.toFixed(2)} ms`);
+    this.logger.info(`Cache Size: ${stats.size} entries`);
+    this.logger.info(`Hit Rate: ${(stats.hitRate * 100).toFixed(2)}%`);
+    this.logger.info(`Total Accesses: ${stats.totalAccesses}`);
+    this.logger.info(`Average Access Time: ${stats.averageAccessTime.toFixed(2)} ms`);
   }
 
   private async clearCache(): Promise<void> {
     this.optimizer.clearCache();
-    console.log('✅ Cache cleared');
+    this.logger.info('✅ Cache cleared');
   }
 
   private async setCacheValue(args: string[]): Promise<void> {
     if (args.length < 2) {
-      console.error('Usage: cache set <key> <value> [ttl]');
+      this.logger.error('Usage: cache set <key> <value> [ttl]');
       return;
     }
 
@@ -158,12 +161,12 @@ class CPUOptimizerCLI {
     const ttl = args[2] ? parseInt(args[2]) : 300000; // 5 minutes default
 
     this.optimizer.cacheValue(key, value, ttl);
-    console.log(`✅ Cached value for key: ${key}`);
+    this.logger.info(`✅ Cached value for key: ${key}`);
   }
 
   private async getCacheValue(args: string[]): Promise<void> {
     if (args.length < 1) {
-      console.error('Usage: cache get <key>');
+      this.logger.error('Usage: cache get <key>');
       return;
     }
 
@@ -171,10 +174,10 @@ class CPUOptimizerCLI {
     const value = this.optimizer.getCached(key);
     
     if (value !== null) {
-      console.log(`✅ Cache hit for key: ${key}`);
-      console.log(`Value: ${JSON.stringify(value)}`);
+      this.logger.info(`✅ Cache hit for key: ${key}`);
+      this.logger.info(`Value: ${JSON.stringify(value)}`);
     } else {
-      console.log(`❌ Cache miss for key: ${key}`);
+      this.logger.info(`❌ Cache miss for key: ${key}`);
     }
   }
 
@@ -189,75 +192,75 @@ class CPUOptimizerCLI {
         await this.listResourcePools();
         break;
       default:
-        console.log('Resource pool management commands:');
-        console.log('  stats - Show resource pool statistics');
-        console.log('  list  - List all resource pools');
+        this.logger.info('Resource pool management commands:');
+        this.logger.info('  stats - Show resource pool statistics');
+        this.logger.info('  list  - List all resource pools');
         break;
     }
   }
 
   private async showResourcePoolStats(): Promise<void> {
-    console.log('📊 Resource Pool Statistics:');
+    this.logger.info('📊 Resource Pool Statistics:');
     
     const stats = this.optimizer.getResourcePoolStats();
     
     for (const [id, poolStats] of stats.entries()) {
-      console.log(`\n${id}:`);
-      console.log(`  Max Size: ${poolStats.maxSize}`);
-      console.log(`  Current Size: ${poolStats.currentSize}`);
-      console.log(`  Available: ${poolStats.available}`);
-      console.log(`  In Use: ${poolStats.inUse}`);
-      console.log(`  Utilization: ${poolStats.utilization.toFixed(2)}%`);
+      this.logger.info(`\n${id}:`);
+      this.logger.info(`  Max Size: ${poolStats.maxSize}`);
+      this.logger.info(`  Current Size: ${poolStats.currentSize}`);
+      this.logger.info(`  Available: ${poolStats.available}`);
+      this.logger.info(`  In Use: ${poolStats.inUse}`);
+      this.logger.info(`  Utilization: ${poolStats.utilization.toFixed(2)}%`);
     }
   }
 
   private async listResourcePools(): Promise<void> {
-    console.log('📋 Resource Pools:');
+    this.logger.info('📋 Resource Pools:');
     
     const stats = this.optimizer.getResourcePoolStats();
     const poolIds = Array.from(stats.keys());
     
     poolIds.forEach(id => {
-      console.log(`  - ${id}`);
+      this.logger.info(`  - ${id}`);
     });
   }
 
   private async showResults(args: string[]): Promise<void> {
     const outputFile = args[0] || 'optimization-results.json';
 
-    console.log('📊 Optimization Results:');
+    this.logger.info('📊 Optimization Results:');
     
     const results = this.optimizer.getOptimizationResults();
     
     if (results.length === 0) {
-      console.log('No optimization results available. Run "optimize" first.');
+      this.logger.info('No optimization results available. Run "optimize" first.');
       return;
     }
 
     // Save results
     fs.writeFileSync(outputFile, JSON.stringify(results, null, 2));
     
-    console.log(`📄 Results saved to ${outputFile}`);
+    this.logger.info(`📄 Results saved to ${outputFile}`);
 
     // Display results
     results.forEach(result => {
       const statusIcon = result.status === 'applied' ? '✅' : 
                         result.status === 'failed' ? '❌' : '⏳';
-      console.log(`\n${statusIcon} ${result.description}`);
-      console.log(`  Type: ${result.type}`);
-      console.log(`  Improvement: ${result.improvement.toFixed(2)}%`);
-      console.log(`  Status: ${result.status}`);
-      console.log(`  Timestamp: ${result.timestamp.toISOString()}`);
+      this.logger.info(`\n${statusIcon} ${result.description}`);
+      this.logger.info(`  Type: ${result.type}`);
+      this.logger.info(`  Improvement: ${result.improvement.toFixed(2)}%`);
+      this.logger.info(`  Status: ${result.status}`);
+      this.logger.info(`  Timestamp: ${result.timestamp.toISOString()}`);
     });
   }
 
   private async resetOptimizations(args: string[]): Promise<void> {
     this.optimizer.resetOptimizationResults();
-    console.log('✅ Optimization results reset');
+    this.logger.info('✅ Optimization results reset');
   }
 
   private showHelp(): void {
-    console.log(`
+    this.logger.info(`
 🚀 MIFF CPU Optimizer CLI
 
 Usage: tsx cpuOptimizerCLI.ts <command> [options]

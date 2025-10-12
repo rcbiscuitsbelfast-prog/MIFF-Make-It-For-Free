@@ -1,16 +1,19 @@
 #!/usr/bin/env -S node --no-warnings
 import fs from 'fs';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type LoreEntry = { id:string; title:string; body:string; tags?:string[]; unlockHint?:string };
 
 class Codex {
+  private logger: StructuredLogger;
   unlocked = new Set<string>();
 }
 
 class LoreWorld {
   db = new Map<string, LoreEntry>();
   codex = new Codex();
-  load(path:string){ const txt=fs.readFileSync(path,'utf-8'); const j=JSON.parse(txt) as {entries:LoreEntry[]}; this.db.clear(); for(const e of j.entries) this.db.set(e.id,e); }
+  load(path:string){ const txt=fs.readFileSync(path,'utf-8'); const j=SafeJSONParser.parse(txt) as {entries:LoreEntry[]}; this.db.clear(); for(const e of j.entries) this.db.set(e.id,e); }
   unlock(id:string){ if(this.db.has(id)) this.codex.unlocked.add(id); }
   isUnlocked(id:string){ return this.codex.unlocked.has(id); }
   list(){ return Array.from(this.codex.unlocked).map(id=>this.db.get(id)); }
@@ -33,10 +36,10 @@ function run(cmds:Cmd[]){
 
 function main(){
   const cmdPath = process.argv[2];
-  if(!cmdPath){ console.error('Usage: cliHarness.ts <commands.json>'); process.exit(1); }
-  const cmds:Cmd[] = JSON.parse(fs.readFileSync(cmdPath,'utf-8'));
+  if(!cmdPath){ this.logger.error('Usage: cliHarness.ts <commands.json>'); process.exit(1); }
+  const cmds:Cmd[] = SafeJSONParser.parse(fs.readFileSync(cmdPath,'utf-8'));
   const out = run(cmds);
-  console.log(JSON.stringify(out,null,2));
+  this.logger.info(JSON.stringify(out,null,2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

@@ -4,6 +4,8 @@ import { SyncManagerPure, SnapshotPacket } from './index';
 import { addExportSupport } from '../shared/exportUtils';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface SyncManagerOperation {
   op: 'diff' | 'snapshot' | 'simulate' | 'dump';
@@ -22,7 +24,7 @@ function main() {
   const argv = process.argv.slice(2);
   
   if (argv.length === 0) {
-    console.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
+    this.logger.error('Usage: tsx cliHarness.ts <op|json-file> [args]');
     process.exit(1);
   }
 
@@ -32,7 +34,7 @@ function main() {
 
     // Handle direct command or JSON file input
     if (first.endsWith('.json') && fs.existsSync(first)) {
-      const content = JSON.parse(fs.readFileSync(first, 'utf-8'));
+      const content = SafeJSONParser.parse(fs.readFileSync(first, 'utf-8'));
       operation = content as SyncManagerOperation;
     } else {
       // Parse subcommand
@@ -41,8 +43,8 @@ function main() {
           if (!argv[1] || !argv[2]) {
             throw new Error('diff requires two snapshot files');
           }
-          const prev = JSON.parse(fs.readFileSync(argv[1], 'utf-8')) as SnapshotPacket;
-          const next = JSON.parse(fs.readFileSync(argv[2], 'utf-8')) as SnapshotPacket;
+          const prev = SafeJSONParser.parse(fs.readFileSync(argv[1], 'utf-8')) as SnapshotPacket;
+          const next = SafeJSONParser.parse(fs.readFileSync(argv[2], 'utf-8')) as SnapshotPacket;
           operation = { op: 'diff', data: { prev, next } };
           break;
         case 'snapshot':
@@ -51,7 +53,7 @@ function main() {
           }
           const tick = parseInt(argv[1]);
           const statesFile = argv[2] || 'sample_states.json';
-          const states = JSON.parse(fs.readFileSync(statesFile, 'utf-8')) as PlayerStateSnapshot[];
+          const states = SafeJSONParser.parse(fs.readFileSync(statesFile, 'utf-8')) as PlayerStateSnapshot[];
           operation = { op: 'snapshot', data: { tick, states } };
           break;
         case 'simulate':
@@ -151,7 +153,7 @@ function main() {
     );
 
     // Output in JSON envelope format
-    console.log(JSON.stringify({
+    this.logger.info(JSON.stringify({
       op: operation.op,
       status: 'ok',
       result: finalResult,
@@ -160,11 +162,11 @@ function main() {
 
     // Output export data to stderr if available
     if (exportData) {
-      console.error('\n' + exportData);
+      this.logger.error('\n' + exportData);
     }
 
   } catch (error) {
-    console.error(JSON.stringify({
+    this.logger.error(JSON.stringify({
       op: 'error',
       status: 'error',
       error: error instanceof Error ? error.message : String(error),

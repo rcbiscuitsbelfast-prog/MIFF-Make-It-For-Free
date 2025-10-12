@@ -1,3 +1,5 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // SettingsPure - Comprehensive settings management for MIFF framework
 // Schema Version: v1
 
@@ -65,12 +67,14 @@ export interface SettingsStats {
 }
 
 export class SettingsManager {
+  private logger: StructuredLogger;
   private settings: SettingsConfig;
   private defaults: SettingsConfig;
   private history: Array<{ timestamp: number; changes: Record<string, any> }> = [];
   private validationRules: Map<string, (value: any) => boolean> = new Map();
 
   constructor(initPath?: string) {
+    this.logger = new StructuredLogger({ module: 'SettingsManager' });
     this.defaults = this.createDefaultSettings();
 
     if (initPath && this.fileExists(initPath)) {
@@ -78,7 +82,7 @@ export class SettingsManager {
         const data = this.loadSettingsFile(initPath);
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
       } catch (error) {
-        console.warn('Failed to load settings, using defaults:', error);
+        this.logger.warn('Failed to load settings, using defaults:', error);
         this.settings = { ...this.defaults };
       }
     } else {
@@ -193,7 +197,7 @@ export class SettingsManager {
     try {
       const fs = require('fs');
       const content = fs.readFileSync(path, 'utf-8');
-      return JSON.parse(content);
+      return SafeJSONParser.parse(content);
     } catch (error) {
       throw new Error(`Failed to load settings file: ${error}`);
     }
@@ -504,7 +508,7 @@ export class SettingsManager {
       this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
     } catch (error) {
-      console.error('Failed to load settings:', error);
+      this.logger.error('Failed to load settings:', error);
       return false;
     }
   }

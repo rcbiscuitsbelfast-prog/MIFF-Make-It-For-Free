@@ -4,6 +4,7 @@
 import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure/Manager';
 import { UnrealDataType, type UnrealCollisionChannel, UnrealReplicationMode, UnrealTickGroup } from './index';
 import { UnrealBridgeManager, UnrealActorBridge, UnrealComponentBridge, UnrealAssetBridge, UnrealSceneBridge } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export enum PayloadConversionMode {
   STATIC_MESH = 'static_mesh',
@@ -304,18 +305,20 @@ export interface UnrealTextureConversionOptions {
 }
 
 export class UnrealPayloadAdapterPure {
+  private logger: StructuredLogger;
   private renderPayloadManager: RenderPayloadManager;
   private bridgeManager: UnrealBridgeManager;
   private conversionConfigurations: Map<string, PayloadConversionConfiguration> = new Map();
 
   constructor(renderPayloadManager: RenderPayloadManager, bridgeManager: UnrealBridgeManager) {
+    this.logger = new StructuredLogger({ module: 'UnrealPayloadAdapterPure' });
     this.renderPayloadManager = renderPayloadManager;
     this.bridgeManager = bridgeManager;
     this.initializeDefaultConfigurations();
   }
 
   private initializeDefaultConfigurations(): void {
-    console.log('[UnrealPayloadAdapterPure] Initializing default conversion configurations...');
+    this.logger.info('[UnrealPayloadAdapterPure] Initializing default conversion configurations...');
 
     // Static Mesh Configuration
     const staticMeshConfig: PayloadConversionConfiguration = {
@@ -529,7 +532,7 @@ export class UnrealPayloadAdapterPure {
 
     this.conversionConfigurations.set('material', materialConfig);
 
-    console.log(`[UnrealPayloadAdapterPure] Initialized ${this.conversionConfigurations.size} conversion configurations`);
+    this.logger.info(`[UnrealPayloadAdapterPure] Initialized ${this.conversionConfigurations.size} conversion configurations`);
   }
 
   async convertRenderPayload(
@@ -537,7 +540,7 @@ export class UnrealPayloadAdapterPure {
     configurationId?: string,
     options?: Partial<PayloadConversionConfiguration>
   ): Promise<UnrealPayloadConversionResult> {
-    console.log(`[UnrealPayloadAdapterPure] Converting render payload: ${payloadId}`);
+    this.logger.info(`[UnrealPayloadAdapterPure] Converting render payload: ${payloadId}`);
 
     try {
       // Get source payload
@@ -729,15 +732,15 @@ export class UnrealPayloadAdapterPure {
         }
       };
 
-      console.log(`[UnrealPayloadAdapterPure] Conversion completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
-      console.log(`[UnrealPayloadAdapterPure] Converted ${convertedAssets.length} assets, ${convertedActors.length} actors, ${convertedComponents.length} components, ${convertedScenes.length} scenes`);
-      console.log(`[UnrealPayloadAdapterPure] Conversion time: ${conversionTime}ms`);
-      console.log(`[UnrealPayloadAdapterPure] Warnings: ${warnings.length}, Errors: ${errors.length}`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Conversion completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${convertedAssets.length} assets, ${convertedActors.length} actors, ${convertedComponents.length} components, ${convertedScenes.length} scenes`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Conversion time: ${conversionTime}ms`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Warnings: ${warnings.length}, Errors: ${errors.length}`);
 
       return result;
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Conversion failed:', error);
 
       return {
         success: false,
@@ -763,7 +766,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; actors: UnrealActorBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to static mesh...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to static mesh...');
 
     const assets: UnrealAssetBridge[] = [];
     const actors: UnrealActorBridge[] = [];
@@ -1019,11 +1022,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} static meshes and ${actors.length} actors`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} static meshes and ${actors.length} actors`);
       return { assets, actors, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Static mesh conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Static mesh conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
@@ -1033,7 +1036,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; actors: UnrealActorBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to skeletal mesh...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to skeletal mesh...');
 
     const assets: UnrealAssetBridge[] = [];
     const actors: UnrealActorBridge[] = [];
@@ -1329,11 +1332,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} skeletal meshes and ${actors.length} actors`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} skeletal meshes and ${actors.length} actors`);
       return { assets, actors, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Skeletal mesh conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Skeletal mesh conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
@@ -1343,7 +1346,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; actors: UnrealActorBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to blueprint...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to blueprint...');
 
     const assets: UnrealAssetBridge[] = [];
     const actors: UnrealActorBridge[] = [];
@@ -1394,11 +1397,11 @@ export class UnrealPayloadAdapterPure {
 
       assets.push(blueprintAsset);
 
-      console.log('[UnrealPayloadAdapterPure] Converted to blueprint');
+      this.logger.info('[UnrealPayloadAdapterPure] Converted to blueprint');
       return { assets, actors, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Blueprint conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Blueprint conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], actors: [], warnings, errors };
     }
@@ -1408,7 +1411,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ scenes: UnrealSceneBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to level...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to level...');
 
     const scenes: UnrealSceneBridge[] = [];
     const warnings: string[] = [];
@@ -1464,11 +1467,11 @@ export class UnrealPayloadAdapterPure {
 
       scenes.push(levelScene);
 
-      console.log('[UnrealPayloadAdapterPure] Converted to level');
+      this.logger.info('[UnrealPayloadAdapterPure] Converted to level');
       return { scenes, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Level conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Level conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { scenes: [], warnings, errors };
     }
@@ -1478,7 +1481,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to material...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to material...');
 
     const assets: UnrealAssetBridge[] = [];
     const warnings: string[] = [];
@@ -1529,11 +1532,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} materials`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} materials`);
       return { assets, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Material conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Material conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1543,7 +1546,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to texture...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to texture...');
 
     const assets: UnrealAssetBridge[] = [];
     const warnings: string[] = [];
@@ -1596,11 +1599,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} textures`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} textures`);
       return { assets, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Texture conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Texture conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1610,7 +1613,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to animation...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to animation...');
 
     const assets: UnrealAssetBridge[] = [];
     const warnings: string[] = [];
@@ -1662,11 +1665,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} animations`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} animations`);
       return { assets, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Animation conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Animation conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1676,7 +1679,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to particle system...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to particle system...');
 
     const assets: UnrealAssetBridge[] = [];
     const warnings: string[] = [];
@@ -1729,11 +1732,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} particle systems`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} particle systems`);
       return { assets, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Particle system conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Particle system conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1743,7 +1746,7 @@ export class UnrealPayloadAdapterPure {
     sourcePayload: any,
     config: PayloadConversionConfiguration
   ): Promise<{ assets: UnrealAssetBridge[]; warnings: string[]; errors: string[] }> {
-    console.log('[UnrealPayloadAdapterPure] Converting to sound...');
+    this.logger.info('[UnrealPayloadAdapterPure] Converting to sound...');
 
     const assets: UnrealAssetBridge[] = [];
     const warnings: string[] = [];
@@ -1795,11 +1798,11 @@ export class UnrealPayloadAdapterPure {
         }
       }
 
-      console.log(`[UnrealPayloadAdapterPure] Converted ${assets.length} sounds`);
+      this.logger.info(`[UnrealPayloadAdapterPure] Converted ${assets.length} sounds`);
       return { assets, warnings, errors };
 
     } catch (error) {
-      console.error('[UnrealPayloadAdapterPure] Sound conversion failed:', error);
+      this.logger.error('[UnrealPayloadAdapterPure] Sound conversion failed:', error);
       errors.push(error instanceof Error ? error.message : 'Unknown error');
       return { assets: [], warnings, errors };
     }
@@ -1844,8 +1847,8 @@ export class UnrealPayloadAdapterPure {
   }
 
   dispose(): void {
-    console.log('[UnrealPayloadAdapterPure] Disposing payload adapter...');
+    this.logger.info('[UnrealPayloadAdapterPure] Disposing payload adapter...');
     this.conversionConfigurations.clear();
-    console.log('[UnrealPayloadAdapterPure] Payload adapter disposed successfully');
+    this.logger.info('[UnrealPayloadAdapterPure] Payload adapter disposed successfully');
   }
 }

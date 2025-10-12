@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // SceneBuilderPure - Scene composition and world building system for MIFF framework
 // Schema Version: v1
 
@@ -317,6 +318,7 @@ export interface SceneBuilderProgress {
 }
 
 export class SceneBuilderManager {
+  private logger: StructuredLogger;
   private configuration: SceneBuildConfiguration;
   private nodes: Map<string, SceneNode> = new Map();
   private assets: Map<string, SceneAsset> = new Map();
@@ -333,12 +335,13 @@ export class SceneBuilderManager {
   private buildProgress?: SceneBuilderProgress;
 
   constructor(configuration: SceneBuildConfiguration) {
+    this.logger = new StructuredLogger({ module: 'SceneBuilderManager' });
     this.configuration = configuration;
     this.initializeBuilder();
   }
 
   private initializeBuilder(): void {
-    console.log('[SceneBuilderManager] Initializing scene builder...');
+    this.logger.info('[SceneBuilderManager] Initializing scene builder...');
 
     // Initialize default templates
     this.initializeDefaultTemplates();
@@ -346,7 +349,7 @@ export class SceneBuilderManager {
     // Initialize optimization systems
     this.initializeOptimizationSystems();
 
-    console.log('[SceneBuilderManager] Scene builder initialized successfully');
+    this.logger.info('[SceneBuilderManager] Scene builder initialized successfully');
   }
 
   private initializeDefaultTemplates(): void {
@@ -489,7 +492,7 @@ export class SceneBuilderManager {
   private initializeOptimizationSystems(): void {
     // Initialize optimization systems based on configuration
     if (this.configuration && this.configuration.optimizationMode !== SceneOptimizationMode.NONE) {
-      console.log(`[SceneBuilderManager] Initializing optimization system: ${this.configuration.optimizationMode}`);
+      this.logger.info(`[SceneBuilderManager] Initializing optimization system: ${this.configuration.optimizationMode}`);
     }
   }
 
@@ -511,7 +514,7 @@ export class SceneBuilderManager {
     };
 
     try {
-      console.log('[SceneBuilderManager] Starting scene build...');
+      this.logger.info('[SceneBuilderManager] Starting scene build...');
 
       // Initialize scene
       this.updateProgress('initialization', 10, 'Setting up scene structure...');
@@ -556,11 +559,11 @@ export class SceneBuilderManager {
         }
       };
 
-      console.log('[SceneBuilderManager] Scene build completed successfully');
+      this.logger.info('[SceneBuilderManager] Scene build completed successfully');
       return result;
 
     } catch (error) {
-      console.error('[SceneBuilderManager] Scene build failed:', error);
+      this.logger.error('[SceneBuilderManager] Scene build failed:', error);
 
       const result: SceneBuildResult = {
         success: false,
@@ -614,7 +617,7 @@ export class SceneBuilderManager {
     if (templateId) {
       const template = this.templates.get(templateId);
       if (template) {
-        console.log(`[SceneBuilderManager] Loading template: ${template.name}`);
+        this.logger.info(`[SceneBuilderManager] Loading template: ${template.name}`);
 
         // Apply template configuration
         Object.assign(this.configuration, template.configuration);
@@ -636,18 +639,18 @@ export class SceneBuilderManager {
 
   private async loadAssets(): Promise<void> {
     // Simulate asset loading
-    console.log('[SceneBuilderManager] Loading assets...');
+    this.logger.info('[SceneBuilderManager] Loading assets...');
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
   private async buildSceneNodes(): Promise<void> {
     // Build scene hierarchy
-    console.log('[SceneBuilderManager] Building scene nodes...');
+    this.logger.info('[SceneBuilderManager] Building scene nodes...');
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
   private async applyOptimizations(): Promise<void> {
-    console.log(`[SceneBuilderManager] Applying optimizations: ${this.configuration.optimizationMode}`);
+    this.logger.info(`[SceneBuilderManager] Applying optimizations: ${this.configuration.optimizationMode}`);
 
     switch (this.configuration.optimizationMode) {
       case SceneOptimizationMode.CULLING:
@@ -666,34 +669,34 @@ export class SceneBuilderManager {
         await this.applyOcclusionOptimizations();
         break;
       default:
-        console.log('[SceneBuilderManager] No optimizations applied');
+        this.logger.info('[SceneBuilderManager] No optimizations applied');
     }
 
     await new Promise(resolve => setTimeout(resolve, 150));
   }
 
   private async applyCullingOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager] Applying culling optimizations...');
+    this.logger.info('[SceneBuilderManager] Applying culling optimizations...');
     // Implementation for frustum culling, occlusion culling, etc.
   }
 
   private async applyLODOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager] Applying LOD optimizations...');
+    this.logger.info('[SceneBuilderManager] Applying LOD optimizations...');
     // Implementation for level of detail optimizations
   }
 
   private async applyBatchingOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager] Applying batching optimizations...');
+    this.logger.info('[SceneBuilderManager] Applying batching optimizations...');
     // Implementation for static/dynamic batching
   }
 
   private async applyInstancingOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager] Applying instancing optimizations...');
+    this.logger.info('[SceneBuilderManager] Applying instancing optimizations...');
     // Implementation for GPU instancing
   }
 
   private async applyOcclusionOptimizations(): Promise<void> {
-    console.log('[SceneBuilderManager] Applying occlusion optimizations...');
+    this.logger.info('[SceneBuilderManager] Applying occlusion optimizations...');
     // Implementation for occlusion culling
   }
 
@@ -701,7 +704,7 @@ export class SceneBuilderManager {
     const exportPaths: Record<SceneExportFormat, string> = {} as Record<SceneExportFormat, string>;
 
     for (const format of this.configuration.exportFormats) {
-      console.log(`[SceneBuilderManager] Exporting to ${format}...`);
+      this.logger.info(`[SceneBuilderManager] Exporting to ${format}...`);
 
       switch (format) {
         case SceneExportFormat.UNITY:
@@ -747,7 +750,7 @@ export class SceneBuilderManager {
   }
 
   private async finalizeScene(): Promise<void> {
-    console.log('[SceneBuilderManager] Finalizing scene...');
+    this.logger.info('[SceneBuilderManager] Finalizing scene...');
     await new Promise(resolve => setTimeout(resolve, 50));
   }
 
@@ -776,7 +779,7 @@ export class SceneBuilderManager {
       this.buildProgress.message = message;
       this.buildProgress.currentOperation = message;
 
-      console.log(`[SceneBuilderManager] Progress: ${progress}% - ${message}`);
+      this.logger.info(`[SceneBuilderManager] Progress: ${progress}% - ${message}`);
     }
   }
 
@@ -964,7 +967,7 @@ export class SceneBuilderManager {
     this.postProcessing.clear();
     this.templates.clear();
 
-    console.log('[SceneBuilderManager] Disposed successfully');
+    this.logger.info('[SceneBuilderManager] Disposed successfully');
   }
 }
 

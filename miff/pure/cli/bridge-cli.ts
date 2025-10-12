@@ -22,6 +22,7 @@ import { RenderPayloadManager, RenderPayloadBuilder } from '../RenderPayloadPure
 import { CombatUtils } from '../CombatPure/engine';
 import { ItemUsageManager } from '../ItemsPure';
 import { BattleAI } from '../AIPure/Manager';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const program = new Command();
 
@@ -39,8 +40,8 @@ program
   .option('--test', 'Run Unity bridge tests')
   .option('--demo', 'Run Unity bridge demo')
   .action(async (options) => {
-    console.log('🚀 Unity Bridge Operations');
-    console.log('=========================');
+    this.logger.info('🚀 Unity Bridge Operations');
+    this.logger.info('=========================');
 
     if (options.init) {
       const config: UnityBridgeConfiguration = {
@@ -68,22 +69,22 @@ program
       };
 
       const bridge = new UnityBridgeManager(config);
-      console.log('✅ Unity bridge initialized successfully');
-      console.log('📊 Configuration:', JSON.stringify(config, null, 2));
+      this.logger.info('✅ Unity bridge initialized successfully');
+      this.logger.info('📊 Configuration:', JSON.stringify(config, null, 2));
     }
 
     if (options.connect) {
-      console.log(`🔌 Connecting to Unity at: ${options.connect}`);
+      this.logger.info(`🔌 Connecting to Unity at: ${options.connect}`);
       // Implementation would connect to Unity instance
     }
 
     if (options.test) {
-      console.log('🧪 Running Unity bridge tests...');
+      this.logger.info('🧪 Running Unity bridge tests...');
       // Run automated tests
     }
 
     if (options.demo) {
-      console.log('🎮 Running Unity bridge demo...');
+      this.logger.info('🎮 Running Unity bridge demo...');
       // Run demo with sample data
     }
   });
@@ -97,23 +98,23 @@ program
   .option('--test', 'Run Godot bridge tests')
   .option('--demo', 'Run Godot bridge demo')
   .action(async (options) => {
-    console.log('🚀 Godot Bridge Operations');
-    console.log('==========================');
+    this.logger.info('🚀 Godot Bridge Operations');
+    this.logger.info('==========================');
 
     if (options.init) {
-      console.log('✅ Godot bridge initialized');
+      this.logger.info('✅ Godot bridge initialized');
     }
 
     if (options.scene) {
-      console.log(`🎭 Loading scene: ${options.scene}`);
+      this.logger.info(`🎭 Loading scene: ${options.scene}`);
     }
 
     if (options.test) {
-      console.log('🧪 Running Godot bridge tests...');
+      this.logger.info('🧪 Running Godot bridge tests...');
     }
 
     if (options.demo) {
-      console.log('🎮 Running Godot bridge demo...');
+      this.logger.info('🎮 Running Godot bridge demo...');
     }
   });
 
@@ -126,8 +127,8 @@ program
   .option('--test', 'Run web bridge tests')
   .option('--demo', 'Run web bridge demo')
   .action(async (options) => {
-    console.log('🌐 Web Bridge Operations');
-    console.log('========================');
+    this.logger.info('🌐 Web Bridge Operations');
+    this.logger.info('========================');
 
     if (options.init) {
       const config: WebBridgeConfig = {
@@ -138,21 +139,21 @@ program
       };
 
       const bridge = new WebBridge(config);
-      console.log('✅ Web bridge initialized successfully');
+      this.logger.info('✅ Web bridge initialized successfully');
     }
 
     if (options.simulate) {
       const bridge = new WebBridge();
       const result = bridge.simulate(options.simulate, { testData: true }, { useWebGL: true });
-      console.log('🖥️  Simulation result:', JSON.stringify(result, null, 2));
+      this.logger.info('🖥️  Simulation result:', JSON.stringify(result, null, 2));
     }
 
     if (options.test) {
-      console.log('🧪 Running web bridge tests...');
+      this.logger.info('🧪 Running web bridge tests...');
     }
 
     if (options.demo) {
-      console.log('🎮 Running web bridge demo...');
+      this.logger.info('🎮 Running web bridge demo...');
     }
   });
 
@@ -165,23 +166,23 @@ program
   .option('--test', 'Run render tests')
   .option('--demo', 'Run render demo')
   .action(async (options) => {
-    console.log('🎨 Render Payload Operations');
-    console.log('===========================');
+    this.logger.info('🎨 Render Payload Operations');
+    this.logger.info('===========================');
 
     if (options.init) {
-      console.log('✅ Render system initialized');
+      this.logger.info('✅ Render system initialized');
     }
 
     if (options.build) {
-      console.log('🔨 Building render payload...');
+      this.logger.info('🔨 Building render payload...');
     }
 
     if (options.test) {
-      console.log('🧪 Running render tests...');
+      this.logger.info('🧪 Running render tests...');
     }
 
     if (options.demo) {
-      console.log('🎮 Running render demo...');
+      this.logger.info('🎮 Running render demo...');
     }
   });
 
@@ -194,26 +195,26 @@ program
   .option('--ai', 'Test AIPure integration')
   .option('--all', 'Test all integrations')
   .action(async (options) => {
-    console.log('🔗 Integration Testing');
-    console.log('======================');
+    this.logger.info('🔗 Integration Testing');
+    this.logger.info('======================');
 
     if (options.combat) {
-      console.log('⚔️  Testing CombatPure integration...');
+      this.logger.info('⚔️  Testing CombatPure integration...');
       // Test combat system through bridges
     }
 
     if (options.items) {
-      console.log('🎒 Testing ItemsPure integration...');
+      this.logger.info('🎒 Testing ItemsPure integration...');
       // Test item system through bridges
     }
 
     if (options.ai) {
-      console.log('🤖 Testing AIPure integration...');
+      this.logger.info('🤖 Testing AIPure integration...');
       // Test AI system through bridges
     }
 
     if (options.all) {
-      console.log('🔄 Testing all integrations...');
+      this.logger.info('🔄 Testing all integrations...');
       // Comprehensive integration test
     }
   });
@@ -228,26 +229,26 @@ program
   .option('--render', 'Validate Render bridge')
   .option('--all', 'Validate all bridges')
   .action(async (options) => {
-    console.log('✅ Bridge Validation');
-    console.log('===================');
+    this.logger.info('✅ Bridge Validation');
+    this.logger.info('===================');
 
     if (options.unity || options.all) {
-      console.log('🔧 Validating Unity bridge...');
+      this.logger.info('🔧 Validating Unity bridge...');
       // Validate Unity bridge functionality
     }
 
     if (options.godot || options.all) {
-      console.log('🔧 Validating Godot bridge...');
+      this.logger.info('🔧 Validating Godot bridge...');
       // Validate Godot bridge functionality
     }
 
     if (options.web || options.all) {
-      console.log('🔧 Validating Web bridge...');
+      this.logger.info('🔧 Validating Web bridge...');
       // Validate Web bridge functionality
     }
 
     if (options.render || options.all) {
-      console.log('🔧 Validating Render bridge...');
+      this.logger.info('🔧 Validating Render bridge...');
       // Validate Render bridge functionality
     }
   });
@@ -261,8 +262,8 @@ program
   .option('--web', 'Web bridge demo')
   .option('--render', 'Render bridge demo')
   .action(async (options) => {
-    console.log('🎮 Interactive Bridge Demo');
-    console.log('===========================');
+    this.logger.info('🎮 Interactive Bridge Demo');
+    this.logger.info('===========================');
 
     const rl = readline.createInterface({
       input: process.stdin,
@@ -277,28 +278,28 @@ program
 
     try {
       if (options.unity) {
-        console.log('🎯 Unity Bridge Demo');
+        this.logger.info('🎯 Unity Bridge Demo');
         const target = await ask('Enter Unity connection target (e.g., localhost:8080): ');
-        console.log(`🎮 Connecting to Unity at ${target}...`);
+        this.logger.info(`🎮 Connecting to Unity at ${target}...`);
       }
 
       if (options.godot) {
-        console.log('🎯 Godot Bridge Demo');
+        this.logger.info('🎯 Godot Bridge Demo');
         const scene = await ask('Enter Godot scene to load: ');
-        console.log(`🎮 Loading Godot scene: ${scene}...`);
+        this.logger.info(`🎮 Loading Godot scene: ${scene}...`);
       }
 
       if (options.web) {
-        console.log('🎯 Web Bridge Demo');
+        this.logger.info('🎯 Web Bridge Demo');
         const module = await ask('Enter module to simulate: ');
         const webBridge = new WebBridge();
         const result = webBridge.simulate(module, { demo: true }, { useWebGL: true });
-        console.log('🌐 Web simulation result:', result);
+        this.logger.info('🌐 Web simulation result:', result);
       }
 
       if (options.render) {
-        console.log('🎯 Render Bridge Demo');
-        console.log('🎨 Render system demo coming soon...');
+        this.logger.info('🎯 Render Bridge Demo');
+        this.logger.info('🎨 Render system demo coming soon...');
       }
     } finally {
       rl.close();

@@ -6,6 +6,7 @@
  */
 
 import { Quest, QuestStep, QuestReward, QuestStats } from './index';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 type QuestStatus = 'available' | 'active' | 'completed' | 'failed' | 'expired';
 
 export interface DynamicQuest {
@@ -203,6 +204,7 @@ export interface QuestGenerator {
 }
 
 export class AdvancedQuests {
+  private logger: StructuredLogger;
   private dynamicQuests: Map<string, DynamicQuest> = new Map();
   private questTemplates: Map<string, QuestTemplate> = new Map();
   private questHistory: Map<string, QuestHistoryEntry[]> = new Map();
@@ -210,6 +212,7 @@ export class AdvancedQuests {
   private questGenerators: Map<string, QuestGenerator> = new Map();
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'AdvancedQuests' });
     this.initializeDefaultTemplates();
     this.initializeDefaultGenerators();
   }
@@ -441,7 +444,7 @@ export class AdvancedQuests {
         conditions: this.generateRewardConditions(rewardTemplate, context),
         apply: (ctx) => {
           // Apply reward logic
-          console.log(`Applied reward: ${rewardTemplate.type} = ${reward.value}`);
+          this.logger.info(`Applied reward: ${rewardTemplate.type} = ${reward.value}`);
         }
       };
       rewards.push(reward);
@@ -485,7 +488,7 @@ export class AdvancedQuests {
           type: triggerTemplate.type as any,
           action: (ctx) => {
             // Implement trigger action logic
-            console.log(`Triggered: ${triggerTemplate.type}`);
+            this.logger.info(`Triggered: ${triggerTemplate.type}`);
           },
           conditions: this.generateTriggerConditions(triggerTemplate, context)
         };
@@ -647,7 +650,7 @@ export class AdvancedQuests {
     return template.rewards.map(reward => ({
       type: reward.type as any,
       value: reward.value,
-      apply: (ctx) => console.log(`Applied step reward: ${reward.type}`)
+      apply: (ctx) => this.logger.info(`Applied step reward: ${reward.type}`)
     }));
   }
 

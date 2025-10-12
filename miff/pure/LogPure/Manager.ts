@@ -18,6 +18,7 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { EventBus } from '../EventBusPure/index.js';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 // ============================================================================
 // LOG MANAGER INTERFACES
@@ -617,10 +618,10 @@ export class LogManager {
     
     switch (entry.level) {
       case LogLevel.DEBUG:
-        console.debug(logMessage, entry.metadata);
+        this.logger.debug(logMessage, entry.metadata);
         break;
       case LogLevel.INFO:
-        console.info(logMessage, entry.metadata);
+        this.logger.info(logMessage, entry.metadata);
         break;
       case LogLevel.WARN:
         this.logger.warn('LogManager', logMessage, entry.metadata);
@@ -1527,7 +1528,7 @@ export class LogUtils {
 
   static importFromJSON(json: string): LogEntry[] {
     try {
-      const data = JSON.parse(json);
+      const data = SafeJSONParser.parse(json);
       return data.map((item: any) => ({
         ...item,
         timestamp: new Date(item.timestamp)

@@ -11,6 +11,7 @@
 
 import { RenderPayloadManager, FrameBuildOptions } from './Manager';
 import { parseCLIArgs, formatOutput } from '../shared/cliHarnessUtils';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 const { mode, args } = parseCLIArgs(process.argv);
 const manager = new RenderPayloadManager();
@@ -235,4 +236,4 @@ try {
 }
 
 // Output valid JSON to stdout for test runner to consume
-console.log(formatOutput(output));
+this.logger.info(formatOutput(output));

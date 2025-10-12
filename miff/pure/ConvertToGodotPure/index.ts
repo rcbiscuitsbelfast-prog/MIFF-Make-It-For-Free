@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // ConvertToGodotPure - Godot export system for MIFF framework
 // Schema Version: v1
 
@@ -230,6 +231,7 @@ export interface ConversionStatistics {
 }
 
 export class GodotConverter {
+  private logger: StructuredLogger;
   private conversionOptions: ConversionOptions;
   private currentProject: GodotProject;
   private nodeCounter = 0;
@@ -238,6 +240,7 @@ export class GodotConverter {
   private conversionStartTime: number = 0;
 
   constructor(options: Partial<ConversionOptions> = {}) {
+    this.logger = new StructuredLogger({ module: 'GodotConverter' });
     this.conversionOptions = {
       targetVersion: '4.2',
       exportPlatform: 'windows',
@@ -314,7 +317,7 @@ export class GodotConverter {
     const errors: string[] = [];
 
     try {
-      console.log('[GodotConverter] Starting conversion...');
+      this.logger.info('[GodotConverter] Starting conversion...');
 
       // Reset counters
       this.nodeCounter = 0;
@@ -369,7 +372,7 @@ export class GodotConverter {
         optimizationSavings: this.calculateOptimizationSavings()
       };
 
-      console.log('[GodotConverter] Conversion completed successfully');
+      this.logger.info('[GodotConverter] Conversion completed successfully');
 
       return {
         success: errors.length === 0,
@@ -380,7 +383,7 @@ export class GodotConverter {
       };
 
     } catch (error) {
-      console.error('[GodotConverter] Conversion failed:', error);
+      this.logger.error('[GodotConverter] Conversion failed:', error);
       return {
         success: false,
         project: this.currentProject,
@@ -476,7 +479,7 @@ export class GodotConverter {
             scene.rootNode = entityId;
           }
         } catch (error) {
-          console.warn(`Failed to convert entity ${entityId}:`, error);
+          this.logger.warn(`Failed to convert entity ${entityId}:`, error);
         }
       }
     }
@@ -488,7 +491,7 @@ export class GodotConverter {
           const node = await this.convertSystemToNode(systemData, systemId);
           scene.nodes.set(systemId, node);
         } catch (error) {
-          console.warn(`Failed to convert system ${systemId}:`, error);
+          this.logger.warn(`Failed to convert system ${systemId}:`, error);
         }
       }
     }
@@ -864,7 +867,7 @@ func quit_game():
   // Export functionality
   async exportProject(outputPath: string, presetName?: string): Promise<boolean> {
     try {
-      console.log(`[GodotConverter] Exporting project to ${outputPath}...`);
+      this.logger.info(`[GodotConverter] Exporting project to ${outputPath}...`);
 
       // Create project structure
       await this.createProjectStructure(outputPath);
@@ -880,11 +883,11 @@ func quit_game():
       // Create final package
       const success = await this.createFinalPackage(outputPath, presetName);
 
-      console.log(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
+      this.logger.info(`[GodotConverter] Export completed: ${success ? 'SUCCESS' : 'FAILED'}`);
       return success;
 
     } catch (error) {
-      console.error('[GodotConverter] Export failed:', error);
+      this.logger.error('[GodotConverter] Export failed:', error);
       return false;
     }
   }
@@ -990,13 +993,13 @@ func _ready():
       throw new Error(`Export preset not found: ${presetName}`);
     }
 
-    console.log(`[GodotConverter] Applying export preset: ${presetName}`);
+    this.logger.info(`[GodotConverter] Applying export preset: ${presetName}`);
     // Apply preset-specific configurations
   }
 
   private async createFinalPackage(outputPath: string, presetName?: string): Promise<boolean> {
     // Simulate packaging process
-    console.log('[GodotConverter] Creating final package...');
+    this.logger.info('[GodotConverter] Creating final package...');
 
     // In a real implementation, this would use Godot's export system
     // For now, we'll just create a zip file or copy files as needed
@@ -1024,6 +1027,6 @@ func _ready():
     this.currentProject.scenes.clear();
     this.currentProject.resources.clear();
     this.currentProject.autoloads.clear();
-    console.log('[GodotConverter] Disposed successfully');
+    this.logger.info('[GodotConverter] Disposed successfully');
   }
 }

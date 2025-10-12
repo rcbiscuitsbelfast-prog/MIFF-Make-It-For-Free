@@ -19,6 +19,7 @@ import WeatherSystemPure, { WeatherType, WeatherIntensity } from './index.js';
 import WeatherManagerPure from './Manager.js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // ============================================================================
 // CLI HARNESS CONFIGURATION
@@ -50,6 +51,7 @@ interface SimulationConfig {
  * Provides comprehensive testing and interaction capabilities
  */
 export class WeatherSystemCLI {
+  private logger: StructuredLogger;
   private weatherSystem: WeatherSystemPure;
   private weatherManager: WeatherManagerPure;
   private eventBus: EventBus;
@@ -65,6 +67,7 @@ export class WeatherSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
+    this.logger = new StructuredLogger({ module: 'WeatherSystemCLI' });
     this.options = options;
     this.eventBus = new EventBus();
     this.weatherSystem = new WeatherSystemPure(this.eventBus, options.seed);
@@ -410,7 +413,7 @@ export class WeatherSystemCLI {
    */
   private log(message: string): void {
     const timestamp = new Date().toLocaleTimeString();
-    console.log(`[${timestamp}] ${message}`);
+    this.logger.info(`[${timestamp}] ${message}`);
   }
 
   /**
@@ -637,19 +640,19 @@ async function main(): Promise<void> {
         break;
       case '--help':
       case '-h':
-        console.log('WeatherSystemPure CLI Harness');
-        console.log('');
-        console.log('Usage: tsx cliHarness.ts [options]');
-        console.log('');
-        console.log('Options:');
-        console.log('  --mode, -m <mode>          Mode: interactive, simulate, test, benchmark, export');
-        console.log('  --seed, -s <number>        Random seed for deterministic weather');
-        console.log('  --duration, -d <seconds>   Simulation duration');
-        console.log('  --output, -o <file>        Output file for export mode');
-        console.log('  --verbose, -v              Enable verbose output');
-        console.log('  --performance, -p <mode>   Performance mode: high, medium, low');
-        console.log('  --help, -h                 Show this help');
-        console.log('');
+        this.logger.info('WeatherSystemPure CLI Harness');
+        this.logger.info('');
+        this.logger.info('Usage: tsx cliHarness.ts [options]');
+        this.logger.info('');
+        this.logger.info('Options:');
+        this.logger.info('  --mode, -m <mode>          Mode: interactive, simulate, test, benchmark, export');
+        this.logger.info('  --seed, -s <number>        Random seed for deterministic weather');
+        this.logger.info('  --duration, -d <seconds>   Simulation duration');
+        this.logger.info('  --output, -o <file>        Output file for export mode');
+        this.logger.info('  --verbose, -v              Enable verbose output');
+        this.logger.info('  --performance, -p <mode>   Performance mode: high, medium, low');
+        this.logger.info('  --help, -h                 Show this help');
+        this.logger.info('');
         process.exit(0);
     }
   }

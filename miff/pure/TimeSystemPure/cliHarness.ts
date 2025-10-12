@@ -8,13 +8,16 @@
 
 import { EventBus } from '../EventBusPure/index.js';
 import TimeSystemPure, { TimeAcceleration } from './index.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export class TimeSystemCLI {
+  private logger: StructuredLogger;
   private timeSystem: TimeSystemPure;
   private eventBus: EventBus;
   private readline: any;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'TimeSystemCLI' });
     this.eventBus = new EventBus();
     this.timeSystem = new TimeSystemPure(this.eventBus);
     this.setupEventHandlers();
@@ -23,7 +26,7 @@ export class TimeSystemCLI {
 
   private setupEventHandlers(): void {
     this.eventBus.on('time:time_of_day_change', (data) => {
-      console.log(`🌅 Time changed: ${data.old} → ${data.new}`);
+      this.logger.info(`🌅 Time changed: ${data.old} → ${data.new}`);
     });
   }
 
@@ -40,7 +43,7 @@ export class TimeSystemCLI {
     });
 
     this.readline.on('SIGINT', () => {
-      console.log('\n👋 Shutting down...');
+      this.logger.info('\n👋 Shutting down...');
       this.readline.close();
       process.exit(0);
     });
@@ -67,17 +70,17 @@ export class TimeSystemCLI {
 
       case 'pause':
         this.timeSystem.setPaused(true);
-        console.log('⏸️  Paused');
+        this.logger.info('⏸️  Paused');
         break;
 
       case 'resume':
         this.timeSystem.setPaused(false);
-        console.log('▶️  Resumed');
+        this.logger.info('▶️  Resumed');
         break;
 
       case 'reset':
         this.timeSystem.reset();
-        console.log('🔄 Reset');
+        this.logger.info('🔄 Reset');
         break;
 
       case 'quit':
@@ -95,18 +98,18 @@ export class TimeSystemCLI {
     const timeData = this.timeSystem.getCurrentTimeData();
     const stats = this.timeSystem.getStats();
 
-    console.log('\n=== TIME STATUS ===');
-    console.log(`🕐 Time: ${Math.floor(timeData.hour)}:${Math.floor(timeData.minute)}:${Math.floor(timeData.second)}`);
-    console.log(`🌅 Period: ${timeData.timeOfDay}`);
-    console.log(`🍂 Season: ${timeData.season}`);
-    console.log(`📊 Progress: ${(timeData.dayProgress * 100).toFixed(1)}%`);
-    console.log(`⚡ Speed: ${timeData.acceleration}`);
-    console.log('');
+    this.logger.info('\n=== TIME STATUS ===');
+    this.logger.info(`🕐 Time: ${Math.floor(timeData.hour)}:${Math.floor(timeData.minute)}:${Math.floor(timeData.second)}`);
+    this.logger.info(`🌅 Period: ${timeData.timeOfDay}`);
+    this.logger.info(`🍂 Season: ${timeData.season}`);
+    this.logger.info(`📊 Progress: ${(timeData.dayProgress * 100).toFixed(1)}%`);
+    this.logger.info(`⚡ Speed: ${timeData.acceleration}`);
+    this.logger.info('');
   }
 
   private setTime(args: string[]): void {
     if (args.length < 3) {
-      console.log('Usage: set <hour> <minute> <second>');
+      this.logger.info('Usage: set <hour> <minute> <second>');
       return;
     }
 
@@ -115,45 +118,45 @@ export class TimeSystemCLI {
     const second = parseInt(args[2]);
 
     if (isNaN(hour) || isNaN(minute) || isNaN(second)) {
-      console.log('Invalid time values');
+      this.logger.info('Invalid time values');
       return;
     }
 
     const gameTime = hour * 3600 + minute * 60 + second;
     this.timeSystem.reset(gameTime);
-    console.log(`✅ Set to ${hour}:${minute}:${second}`);
+    this.logger.info(`✅ Set to ${hour}:${minute}:${second}`);
   }
 
   private setSpeed(args: string[]): void {
     if (args.length === 0) {
-      console.log('Usage: speed <acceleration>');
-      console.log('Accelerations: paused, x1, x2, x5, x10, x50, x100, max');
+      this.logger.info('Usage: speed <acceleration>');
+      this.logger.info('Accelerations: paused, x1, x2, x5, x10, x50, x100, max');
       return;
     }
 
     const acceleration = args[0] as TimeAcceleration;
     this.timeSystem.setTimeAcceleration(acceleration);
-    console.log(`✅ Speed set to ${acceleration}`);
+    this.logger.info(`✅ Speed set to ${acceleration}`);
   }
 
   private showHelp(): void {
-    console.log('\n=== TIME SYSTEM CLI ===');
-    console.log('📊 status/s          - Show current time status');
-    console.log('⏰ set <h> <m> <s>    - Set specific time');
-    console.log('⚡ speed <accel>      - Set time acceleration');
-    console.log('⏸️  pause             - Pause time system');
-    console.log('▶️  resume            - Resume time system');
-    console.log('🔄 reset             - Reset to 00:00:00');
-    console.log('👋 quit/exit          - Exit CLI');
-    console.log('');
-    console.log('⚡ Accelerations: paused, x1, x2, x5, x10, x50, x100, max');
-    console.log('');
+    this.logger.info('\n=== TIME SYSTEM CLI ===');
+    this.logger.info('📊 status/s          - Show current time status');
+    this.logger.info('⏰ set <h> <m> <s>    - Set specific time');
+    this.logger.info('⚡ speed <accel>      - Set time acceleration');
+    this.logger.info('⏸️  pause             - Pause time system');
+    this.logger.info('▶️  resume            - Resume time system');
+    this.logger.info('🔄 reset             - Reset to 00:00:00');
+    this.logger.info('👋 quit/exit          - Exit CLI');
+    this.logger.info('');
+    this.logger.info('⚡ Accelerations: paused, x1, x2, x5, x10, x50, x100, max');
+    this.logger.info('');
   }
 
   public run(): void {
-    console.log('⏰ TimeSystemPure CLI v1.0.0');
-    console.log('Type "help" for commands');
-    console.log('');
+    this.logger.info('⏰ TimeSystemPure CLI v1.0.0');
+    this.logger.info('Type "help" for commands');
+    this.logger.info('');
     this.readline.prompt();
   }
 }

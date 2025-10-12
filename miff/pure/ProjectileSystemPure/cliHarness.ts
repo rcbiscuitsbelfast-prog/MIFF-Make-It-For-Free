@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { ProjectileManager, Projectile, ProjectileWorld } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'list' }
@@ -28,14 +30,14 @@ function main(){
     
     const mgr = new ProjectileManager();
     if (fs.existsSync(sample)){
-      const j = JSON.parse(fs.readFileSync(path.resolve(sample), 'utf-8'));
+      const j = SafeJSONParser.parse(fs.readFileSync(path.resolve(sample), 'utf-8'));
       // Support both legacy format and new format
       const world: ProjectileWorld = j.projectiles ? j : { projectiles: j };
       mgr.load(world);
     }
     
     const cmds: Cmd[] = commands 
-      ? JSON.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
+      ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commands), 'utf-8')) 
       : [{ op: 'step', dt: 0.1 } as any];
     
     const outputs: Array<{ op: string; status: string; timestamp: string; result?: any; issues?: string[] }> = [];
@@ -133,12 +135,12 @@ function main(){
     const stepOutput = outputs.find(o => o.op === 'projectiles.step');
     if (stepOutput) {
       // For golden test compatibility, emit just the step result
-      console.log(JSON.stringify(stepOutput, null, 2));
+      this.logger.info(JSON.stringify(stepOutput, null, 2));
     } else {
-      console.log(JSON.stringify({ outputs }, null, 2));
+      this.logger.info(JSON.stringify({ outputs }, null, 2));
     }
   } catch (error) {
-    console.log(JSON.stringify({ 
+    this.logger.info(JSON.stringify({ 
       outputs: [{ 
         op: 'error', 
         status: 'error', 
@@ -240,7 +242,7 @@ function runDemo(mgr: ProjectileManager): any {
 }
 
 function showHelp() {
-  console.log(`
+  this.logger.info(`
 ProjectileSystemPure CLI - Advanced Projectile Simulation
 
 USAGE:

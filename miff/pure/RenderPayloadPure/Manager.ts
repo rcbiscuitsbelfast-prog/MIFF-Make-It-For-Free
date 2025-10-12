@@ -524,7 +524,7 @@ export class RenderPayloadManager {
       return { ok: false, errors: [`Frame ${frameId} not found`] };
     }
 
-    // TODO: Implement proper validation
+    // TODO: Implement in next phase
     return { ok: true, validation: {
    issues: [], valid: true;
  }

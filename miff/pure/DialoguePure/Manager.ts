@@ -1,3 +1,4 @@
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 /**
  * DialoguePure.ts
  * 
@@ -560,7 +561,7 @@ export class DialogueEngine {
   }
 
   static deserialize(data: string): DialogueTree {
-    const parsed = JSON.parse(data);
+    const parsed = SafeJSONParser.parse(data);
     
     return {
       ...parsed,

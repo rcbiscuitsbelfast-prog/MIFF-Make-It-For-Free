@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // OverlinkThemes — Visual Theme System (Remix-Safe)
 // Purpose: Provides toggleable visual themes with priority-based draw reducers and remix-safe assets
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
@@ -49,12 +50,14 @@ export type ThemeState = {
 };
 
 export class OverlinkThemes {
+  private logger: StructuredLogger;
   private state: ThemeState;
   private assetRegistry = new Map<string, ThemeAsset>();
   private reducerRegistry = new Map<string, ThemeDrawReducer>();
   private audioManager: any = null; // Will be AudioManager instance
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'OverlinkThemes' });
     this.state = {
       activeTheme: null,
       availableThemes: new Map(),
@@ -253,7 +256,7 @@ export class OverlinkThemes {
 
   async playThemeAudio(themeId: ThemeId, options: any = {}): Promise<boolean> {
     if (!this.audioManager) {
-      console.warn('Audio manager not set');
+      this.logger.warn('Audio manager not set');
       return false;
     }
 
@@ -262,7 +265,7 @@ export class OverlinkThemes {
 
   async stopThemeAudio(): Promise<void> {
     if (!this.audioManager) {
-      console.warn('Audio manager not set');
+      this.logger.warn('Audio manager not set');
       return;
     }
 
@@ -271,7 +274,7 @@ export class OverlinkThemes {
 
   setThemeVolume(themeId: ThemeId, volume: number): void {
     if (!this.audioManager) {
-      console.warn('Audio manager not set');
+      this.logger.warn('Audio manager not set');
       return;
     }
 

@@ -14,6 +14,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export interface PluginManifest {
   id: string;
@@ -81,10 +83,12 @@ export interface ExportTemplate {
  * Uses SCF-like conventions for plugin structure and registration.
  */
 export class PluginDiscovery {
+  private logger: StructuredLogger;
   private plugins: Map<string, PluginInstance> = new Map();
   private config: ModdingConfig;
 
   constructor(config: ModdingConfig) {
+    this.logger = new StructuredLogger({ module: 'PluginDiscovery' });
     this.config = config;
   }
 
@@ -92,7 +96,7 @@ export class PluginDiscovery {
    * Discover plugins in the plugin directory
    */
   async discoverPlugins(): Promise<PluginInstance[]> {
-    console.log(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
+    this.logger.info(`🔍 Discovering plugins in ${this.config.pluginDirectory}...`);
     
     try {
       const discoveredPlugins: PluginInstance[] = [];
@@ -105,7 +109,7 @@ export class PluginDiscovery {
           if (file.isFile() && file.name.endsWith('.json')) {
             try {
               const pluginPath = path.join(this.config.pluginDirectory, file.name);
-              const pluginData = JSON.parse(fs.readFileSync(pluginPath, 'utf-8'));
+              const pluginData = SafeJSONParser.parse(fs.readFileSync(pluginPath, 'utf-8'));
               
               if (this.validatePluginManifest(pluginData)) {
                 const plugin = await this.createPluginFromManifest(pluginData, pluginPath);
@@ -113,7 +117,7 @@ export class PluginDiscovery {
                 this.plugins.set(plugin.id, plugin);
               }
             } catch (error) {
-              console.warn(`⚠️ Failed to load plugin ${file.name}:`, error);
+              this.logger.warn(`⚠️ Failed to load plugin ${file.name}:`, error);
             }
           }
         }
@@ -128,10 +132,10 @@ export class PluginDiscovery {
         }
       }
       
-      console.log(`✅ Discovered ${discoveredPlugins.length} plugins`);
+      this.logger.info(`✅ Discovered ${discoveredPlugins.length} plugins`);
       return discoveredPlugins;
     } catch (error) {
-      console.error('❌ Error discovering plugins:', error);
+      this.logger.error('❌ Error discovering plugins:', error);
       // Fallback to mock plugins
       const mockPlugins = this.createMockPlugins();
       for (const plugin of mockPlugins) {
@@ -154,7 +158,7 @@ export class PluginDiscovery {
       return plugin;
     }
 
-    console.log(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
+    this.logger.info(`📦 Loading plugin: ${plugin.manifest.name} (${plugin.manifest.version})`);
     
     try {
       // Check dependencies
@@ -167,12 +171,12 @@ export class PluginDiscovery {
       await this.loadPluginAssets(plugin);
       
       plugin.status = 'loaded';
-      console.log(`✅ Plugin loaded: ${plugin.manifest.name}`);
+      this.logger.info(`✅ Plugin loaded: ${plugin.manifest.name}`);
       
     } catch (error) {
       plugin.status = 'error';
       plugin.error = error instanceof Error ? error.message : 'Unknown error';
-      console.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, error);
+      this.logger.error(`❌ Failed to load plugin ${plugin.manifest.name}:`, error);
     }
 
     return plugin;
@@ -187,14 +191,14 @@ export class PluginDiscovery {
       return false;
     }
 
-    console.log(`📦 Unloading plugin: ${plugin.manifest.name}`);
+    this.logger.info(`📦 Unloading plugin: ${plugin.manifest.name}`);
     
     // Cleanup plugin resources
     plugin.assets.clear();
     plugin.entryPoint = null;
     plugin.status = 'disabled';
     
-    console.log(`✅ Plugin unloaded: ${plugin.manifest.name}`);
+    this.logger.info(`✅ Plugin unloaded: ${plugin.manifest.name}`);
     return true;
   }
 
@@ -288,14 +292,14 @@ export class PluginDiscovery {
   private createMockEntryPoint(manifest: PluginManifest): any {
     return {
       initialize: () => {
-        console.log(`🎮 Initializing plugin: ${manifest.name}`);
+        this.logger.info(`🎮 Initializing plugin: ${manifest.name}`);
         return { success: true };
       },
       update: (delta: number) => {
         // Plugin update logic
       },
       cleanup: () => {
-        console.log(`🧹 Cleaning up plugin: ${manifest.name}`);
+        this.logger.info(`🧹 Cleaning up plugin: ${manifest.name}`);
       }
     };
   }
@@ -488,7 +492,7 @@ export class AssetPipeline {
     assets: Map<string, any>,
     metadata: Record<string, any> = {}
   ): Promise<AssetBundle> {
-    console.log(`📦 Creating asset bundle: ${name}`);
+    this.logger.info(`📦 Creating asset bundle: ${name}`);
 
     const bundle: AssetBundle = {
       id,
@@ -500,7 +504,7 @@ export class AssetPipeline {
     };
 
     this.bundles.set(id, bundle);
-    console.log(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
+    this.logger.info(`✅ Bundle created: ${name} (${bundle.size} bytes)`);
     
     return bundle;
   }
@@ -523,7 +527,7 @@ export class AssetPipeline {
       throw new Error(`Template not found: ${templateId}`);
     }
 
-    console.log(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
+    this.logger.info(`🚀 Exporting bundle ${bundle.name} for ${template.platform}...`);
 
     // Apply template configuration
     const exportedAssets = this.applyTemplateConfig(bundle, template);
@@ -534,7 +538,7 @@ export class AssetPipeline {
     // In a real implementation, this would write files to disk
     const exportPath = `${outputPath}/${bundle.id}-${template.platform}.json`;
     
-    console.log(`✅ Bundle exported to: ${exportPath}`);
+    this.logger.info(`✅ Bundle exported to: ${exportPath}`);
     return exportPath;
   }
 
@@ -550,7 +554,7 @@ export class AssetPipeline {
    */
   addExportTemplate(template: ExportTemplate): void {
     this.templates.set(template.id, template);
-    console.log(`📋 Added export template: ${template.name}`);
+    this.logger.info(`📋 Added export template: ${template.name}`);
   }
 
   /**
@@ -741,14 +745,14 @@ export class ModdingSystem {
    * Initialize the modding system
    */
   async initialize(): Promise<void> {
-    console.log('🎮 Initializing modding system...');
+    this.logger.info('🎮 Initializing modding system...');
     
     if (this.config.autoLoad) {
       await this.discovery.discoverPlugins();
       await this.loadEnabledPlugins();
     }
     
-    console.log('✅ Modding system initialized');
+    this.logger.info('✅ Modding system initialized');
   }
 
   /**
@@ -768,7 +772,7 @@ export class ModdingSystem {
         const loaded = await this.discovery.loadPlugin(plugin.id);
         loadedPlugins.push(loaded);
       } catch (error) {
-        console.error(`Failed to load plugin ${plugin.manifest.name}:`, error);
+        this.logger.error(`Failed to load plugin ${plugin.manifest.name}:`, error);
       }
     }
     

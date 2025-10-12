@@ -11,6 +11,7 @@
 
 import { RenderWorldPure } from './index';
 import { EventBus } from '../EventBusPure/EventBusPure.js';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WebRendererConfig {
   canvas: HTMLCanvasElement;
@@ -36,6 +37,7 @@ interface RenderWorldWebState {
 }
 
 export class RenderWorldWebBridge {
+  private logger: StructuredLogger;
   private config: WebRendererConfig;
   private state: RenderWorldWebState;
   private gl: WebGLRenderingContext | null = null;
@@ -51,6 +53,7 @@ export class RenderWorldWebBridge {
   };
 
   constructor(canvas: HTMLCanvasElement, config: Partial<WebRendererConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'RenderWorldWebBridge' });
     this.config = {
       canvas,
       width: canvas.width,
@@ -220,7 +223,7 @@ export class RenderWorldWebBridge {
     this.gl.compileShader(shader);
 
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-      console.error('Shader compilation error: ' + this.gl.getShaderInfoLog(shader));
+      this.logger.error('Shader compilation error: ' + this.gl.getShaderInfoLog(shader));
       this.gl.deleteShader(shader);
       return null;
     }

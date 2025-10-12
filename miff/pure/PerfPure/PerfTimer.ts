@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * PerfTimer - Performance Timer Implementation
  * 
@@ -13,12 +14,14 @@ export interface PerfResult {
 }
 
 export class PerfTimer {
+  private logger: StructuredLogger;
   public readonly label: string;
   public readonly startTime: number;
   private _endTime: number | null = null;
   private _isDisposed: boolean = false;
 
   constructor(label: string) {
+    this.logger = new StructuredLogger({ module: 'PerfTimer' });
     if (!label || label.trim() === '') {
       throw new Error('Timer label cannot be empty');
     }
@@ -110,7 +113,7 @@ export class PerfTimer {
     }
 
     const result = this.getResult();
-    console.log(`[perf] ${this.label}: ${result.durationMs.toFixed(2)}ms`);
+    this.logger.info(`[perf] ${this.label}: ${result.durationMs.toFixed(2)}ms`);
     
     this._isDisposed = true;
   }
@@ -276,7 +279,7 @@ export class PerfUtils {
     const timer = new PerfTimer(label);
     try {
       const result = fn();
-      console.log(`[perf] ${label}: ${timer.elapsedMs.toFixed(2)}ms`);
+      this.logger.info(`[perf] ${label}: ${timer.elapsedMs.toFixed(2)}ms`);
       return result;
     } finally {
       timer.dispose();

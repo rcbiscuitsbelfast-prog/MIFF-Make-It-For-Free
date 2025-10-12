@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Test Coverage Analyzer for MIFF Framework
  * 
@@ -42,6 +43,7 @@ export interface CoverageReport {
 }
 
 export class TestCoverageAnalyzer {
+  private logger: StructuredLogger;
   private coverageData: Map<string, CoverageData[]> = new Map();
   private moduleCoverage: Map<string, ModuleCoverage> = new Map();
 
@@ -49,7 +51,7 @@ export class TestCoverageAnalyzer {
    * Analyze test coverage for all modules
    */
   async analyzeCoverage(rootPath: string): Promise<CoverageReport> {
-    console.log('📊 Analyzing test coverage...');
+    this.logger.info('📊 Analyzing test coverage...');
     
     const modules = await this.findModules(rootPath);
     const moduleCoverages: ModuleCoverage[] = [];
@@ -61,7 +63,7 @@ export class TestCoverageAnalyzer {
     }
     
     const report = this.generateCoverageReport(moduleCoverages);
-    console.log(`✅ Analyzed coverage for ${modules.length} modules`);
+    this.logger.info(`✅ Analyzed coverage for ${modules.length} modules`);
     
     return report;
   }

@@ -8,6 +8,7 @@
  */
 
 import * as readline from 'readline';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 import {
   RitualSystemPure,
   RitualDefinition,
@@ -16,8 +17,9 @@ import {
 
 // Mock dependencies for CLI demo
 class RealEventBus {
+  private logger: StructuredLogger;
   emit(event: string, data: any) {
-    console.log(`📡 Event: ${event}`, data);
+    this.logger.info(`📡 Event: ${event}`, data);
   }
 
   on(event: string, handler: Function) {
@@ -38,6 +40,7 @@ class RitualSystemCLI {
   private currentRitual: RitualInstance | null = null;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealEventBus' });
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
@@ -55,7 +58,7 @@ class RitualSystemCLI {
    * Setup demo data for demonstration
    */
   private setupDemoData(): void {
-    console.log('🔮 Setting up ritual demo data...');
+    this.logger.info('🔮 Setting up ritual demo data...');
 
     // Create some ritual participants
     const participants = [
@@ -64,8 +67,8 @@ class RitualSystemCLI {
       { id: 'scholar-carol', name: 'Scholar Carol', role: 'observer' as const }
     ];
 
-    console.log(`✅ Demo participants created: ${participants.length}`);
-    console.log('✅ Ritual system ready for testing!');
+    this.logger.info(`✅ Demo participants created: ${participants.length}`);
+    this.logger.info('✅ Ritual system ready for testing!');
   }
 
   /**
@@ -73,21 +76,21 @@ class RitualSystemCLI {
    */
   start(): void {
     this.isRunning = true;
-    console.log('🎭 Welcome to MIFF RitualSystemPure CLI!');
-    console.log('=====================================');
-    console.log('Available commands:');
-    console.log('  rituals        - List all available rituals');
-    console.log('  start <ritual> - Start a ritual');
-    console.log('  progress       - Progress current ritual');
-    console.log('  status         - Show current ritual status');
-    console.log('  participants   - List ritual participants');
-    console.log('  contribute     - Contribute to current ritual');
-    console.log('  cancel         - Cancel current ritual');
-    console.log('  stats          - Show ritual statistics');
-    console.log('  demo           - Run automated demo');
-    console.log('  help           - Show this help');
-    console.log('  exit           - Exit the CLI');
-    console.log('');
+    this.logger.info('🎭 Welcome to MIFF RitualSystemPure CLI!');
+    this.logger.info('=====================================');
+    this.logger.info('Available commands:');
+    this.logger.info('  rituals        - List all available rituals');
+    this.logger.info('  start <ritual> - Start a ritual');
+    this.logger.info('  progress       - Progress current ritual');
+    this.logger.info('  status         - Show current ritual status');
+    this.logger.info('  participants   - List ritual participants');
+    this.logger.info('  contribute     - Contribute to current ritual');
+    this.logger.info('  cancel         - Cancel current ritual');
+    this.logger.info('  stats          - Show ritual statistics');
+    this.logger.info('  demo           - Run automated demo');
+    this.logger.info('  help           - Show this help');
+    this.logger.info('  exit           - Exit the CLI');
+    this.logger.info('');
 
     this.showPrompt();
   }
@@ -119,7 +122,7 @@ class RitualSystemCLI {
 
         case 'start':
           if (args.length === 0) {
-            console.log('❌ Usage: start <ritual-name>');
+            this.logger.info('❌ Usage: start <ritual-name>');
           } else {
             await this.startRitual(args[0]);
           }
@@ -162,12 +165,12 @@ class RitualSystemCLI {
           return;
 
         default:
-          console.log(`❓ Unknown command: ${command}`);
-          console.log('Type "help" for available commands.');
+          this.logger.info(`❓ Unknown command: ${command}`);
+          this.logger.info('Type "help" for available commands.');
           break;
       }
     } catch (error) {
-      console.error(`❌ Error: ${error.message}`);
+      this.logger.error(`❌ Error: ${error.message}`);
     }
 
     if (this.isRunning) {
@@ -181,23 +184,23 @@ class RitualSystemCLI {
   private showRituals(): void {
     const ritualDefinitions = this.getRitualDefinitions();
 
-    console.log('\n📜 Available Rituals:');
-    console.log('=====================');
+    this.logger.info('\n📜 Available Rituals:');
+    this.logger.info('=====================');
 
     if (ritualDefinitions.length === 0) {
-      console.log('No rituals available. The system will initialize with basic rituals.');
+      this.logger.info('No rituals available. The system will initialize with basic rituals.');
       return;
     }
 
     ritualDefinitions.forEach(ritual => {
-      console.log(`${ritual.name} (${ritual.id})`);
-      console.log(`  Category: ${ritual.category} | Tier: ${ritual.tier}`);
-      console.log(`  Participants: ${ritual.minParticipants}-${ritual.maxParticipants}`);
-      console.log(`  Mana Cost: ${ritual.manaCost}`);
-      console.log(`  Duration: ${Math.round(ritual.baseDuration / 1000)}s`);
-      console.log(`  Steps: ${ritual.steps.length}`);
-      console.log(`  Description: ${ritual.description}`);
-      console.log('');
+      this.logger.info(`${ritual.name} (${ritual.id})`);
+      this.logger.info(`  Category: ${ritual.category} | Tier: ${ritual.tier}`);
+      this.logger.info(`  Participants: ${ritual.minParticipants}-${ritual.maxParticipants}`);
+      this.logger.info(`  Mana Cost: ${ritual.manaCost}`);
+      this.logger.info(`  Duration: ${Math.round(ritual.baseDuration / 1000)}s`);
+      this.logger.info(`  Steps: ${ritual.steps.length}`);
+      this.logger.info(`  Description: ${ritual.description}`);
+      this.logger.info('');
     });
   }
 
@@ -309,13 +312,13 @@ class RitualSystemCLI {
    * Start a ritual
    */
   private async startRitual(ritualName: string): Promise<void> {
-    console.log(`🎭 Starting ritual: ${ritualName}`);
+    this.logger.info(`🎭 Starting ritual: ${ritualName}`);
 
     const rituals = this.getRitualDefinitions();
     const ritual = rituals.find(r => r.name.toLowerCase() === ritualName.toLowerCase() || r.id === ritualName);
 
     if (!ritual) {
-      console.log(`❌ Ritual not found: ${ritualName}`);
+      this.logger.info(`❌ Ritual not found: ${ritualName}`);
       return;
     }
 
@@ -323,12 +326,12 @@ class RitualSystemCLI {
     this.currentRitual = this.ritualSystem.startRitual(ritual.id, 'mage-alice', ['apprentice-bob']);
 
     if (this.currentRitual) {
-      console.log(`✅ Ritual started: ${ritual.name}`);
-      console.log(`   Leader: mage-alice`);
-      console.log(`   Participants: ${this.currentRitual.participants.length}`);
-      console.log(`   Steps: ${ritual.steps.length}`);
+      this.logger.info(`✅ Ritual started: ${ritual.name}`);
+      this.logger.info(`   Leader: mage-alice`);
+      this.logger.info(`   Participants: ${this.currentRitual.participants.length}`);
+      this.logger.info(`   Steps: ${ritual.steps.length}`);
     } else {
-      console.log('❌ Failed to start ritual');
+      this.logger.info('❌ Failed to start ritual');
     }
   }
 
@@ -337,35 +340,35 @@ class RitualSystemCLI {
    */
   private progressRitual(): void {
     if (!this.currentRitual) {
-      console.log('❌ No active ritual to progress');
+      this.logger.info('❌ No active ritual to progress');
       return;
     }
 
-    console.log('🔄 Progressing ritual...');
+    this.logger.info('🔄 Progressing ritual...');
 
     const result = this.ritualSystem.progressRitual(this.currentRitual.id);
 
     if (result) {
-      console.log(`✅ Step completed!`);
-      console.log(`   Success: ${result.success}`);
-      console.log(`   Energy spent: ${result.energySpent}`);
-      console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
+      this.logger.info(`✅ Step completed!`);
+      this.logger.info(`   Success: ${result.success}`);
+      this.logger.info(`   Energy spent: ${result.energySpent}`);
+      this.logger.info(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
 
       if (result.effectsApplied.length > 0) {
-        console.log('   Effects applied:');
+        this.logger.info('   Effects applied:');
         result.effectsApplied.forEach(effect => {
-          console.log(`     - ${effect.description}`);
+          this.logger.info(`     - ${effect.description}`);
         });
       }
 
       if (result.summonedEntities.length > 0) {
-        console.log('   Summoned entities:');
+        this.logger.info('   Summoned entities:');
         result.summonedEntities.forEach(entity => {
-          console.log(`     - ${entity.name} (${entity.type})`);
+          this.logger.info(`     - ${entity.name} (${entity.type})`);
         });
       }
     } else {
-      console.log('❌ Failed to progress ritual');
+      this.logger.info('❌ Failed to progress ritual');
     }
   }
 
@@ -374,24 +377,24 @@ class RitualSystemCLI {
    */
   private showRitualStatus(): void {
     if (!this.currentRitual) {
-      console.log('❌ No active ritual');
+      this.logger.info('❌ No active ritual');
       return;
     }
 
     const ritual = this.currentRitual;
     const currentStep = ritual.definition.steps[ritual.currentStep];
 
-    console.log('\n📊 Ritual Status:');
-    console.log('=================');
-    console.log(`Ritual: ${ritual.definition.name}`);
-    console.log(`Status: ${ritual.status}`);
-    console.log(`Progress: ${(ritual.progress * 100).toFixed(1)}%`);
-    console.log(`Current Step: ${currentStep?.name || 'None'}`);
-    console.log(`Energy Spent: ${ritual.energySpent}`);
-    console.log(`Participants: ${ritual.participants.length}`);
-    console.log(`Summoned Entities: ${ritual.summonedEntities.length}`);
-    console.log(`Quality: ${(ritual.quality * 100).toFixed(1)}%`);
-    console.log(`Duration: ${Math.round((Date.now() - ritual.startTime) / 1000)}s`);
+    this.logger.info('\n📊 Ritual Status:');
+    this.logger.info('=================');
+    this.logger.info(`Ritual: ${ritual.definition.name}`);
+    this.logger.info(`Status: ${ritual.status}`);
+    this.logger.info(`Progress: ${(ritual.progress * 100).toFixed(1)}%`);
+    this.logger.info(`Current Step: ${currentStep?.name || 'None'}`);
+    this.logger.info(`Energy Spent: ${ritual.energySpent}`);
+    this.logger.info(`Participants: ${ritual.participants.length}`);
+    this.logger.info(`Summoned Entities: ${ritual.summonedEntities.length}`);
+    this.logger.info(`Quality: ${(ritual.quality * 100).toFixed(1)}%`);
+    this.logger.info(`Duration: ${Math.round((Date.now() - ritual.startTime) / 1000)}s`);
   }
 
   /**
@@ -399,20 +402,20 @@ class RitualSystemCLI {
    */
   private showParticipants(): void {
     if (!this.currentRitual) {
-      console.log('❌ No active ritual');
+      this.logger.info('❌ No active ritual');
       return;
     }
 
-    console.log('\n👥 Ritual Participants:');
-    console.log('=======================');
+    this.logger.info('\n👥 Ritual Participants:');
+    this.logger.info('=======================');
 
     this.currentRitual.participants.forEach(participant => {
-      console.log(`${participant.name} (${participant.role})`);
-      console.log(`  Status: ${participant.status}`);
-      console.log(`  Mana Contribution: ${participant.manaContribution || 0}`);
-      console.log(`  Energy Spent: ${participant.energySpent}`);
-      console.log(`  Items Contributed: ${participant.itemContributions.length}`);
-      console.log('');
+      this.logger.info(`${participant.name} (${participant.role})`);
+      this.logger.info(`  Status: ${participant.status}`);
+      this.logger.info(`  Mana Contribution: ${participant.manaContribution || 0}`);
+      this.logger.info(`  Energy Spent: ${participant.energySpent}`);
+      this.logger.info(`  Items Contributed: ${participant.itemContributions.length}`);
+      this.logger.info('');
     });
   }
 
@@ -421,24 +424,24 @@ class RitualSystemCLI {
    */
   private async contributeToRitual(): Promise<void> {
     if (!this.currentRitual) {
-      console.log('❌ No active ritual');
+      this.logger.info('❌ No active ritual');
       return;
     }
 
-    console.log('\n🎁 Contributing to Ritual');
-    console.log('=========================');
+    this.logger.info('\n🎁 Contributing to Ritual');
+    this.logger.info('=========================');
 
     const participantId = await this.askQuestion('Participant ID: ');
     const contributionType = await this.askQuestion('Contribution type (mana/item/time): ');
 
     if (contributionType === 'mana') {
       const amount = parseInt(await this.askQuestion('Mana amount: ') || '50');
-      console.log(`✅ Contributed ${amount} mana to the ritual`);
+      this.logger.info(`✅ Contributed ${amount} mana to the ritual`);
     } else if (contributionType === 'item') {
       const itemId = await this.askQuestion('Item ID: ');
-      console.log(`✅ Contributed ${itemId} to the ritual`);
+      this.logger.info(`✅ Contributed ${itemId} to the ritual`);
     } else {
-      console.log(`✅ Contributed time/effort to the ritual`);
+      this.logger.info(`✅ Contributed time/effort to the ritual`);
     }
   }
 
@@ -447,17 +450,17 @@ class RitualSystemCLI {
    */
   private cancelRitual(): void {
     if (!this.currentRitual) {
-      console.log('❌ No active ritual to cancel');
+      this.logger.info('❌ No active ritual to cancel');
       return;
     }
 
     const success = this.ritualSystem.cancelRitual(this.currentRitual.id);
 
     if (success) {
-      console.log(`❌ Cancelled ritual: ${this.currentRitual.definition.name}`);
+      this.logger.info(`❌ Cancelled ritual: ${this.currentRitual.definition.name}`);
       this.currentRitual = null;
     } else {
-      console.log('❌ Failed to cancel ritual');
+      this.logger.info('❌ Failed to cancel ritual');
     }
   }
 
@@ -467,36 +470,36 @@ class RitualSystemCLI {
   private showStats(): void {
     const stats = this.ritualSystem.getStats();
 
-    console.log('\n📊 Ritual Statistics:');
-    console.log('=====================');
-    console.log(`Total Rituals: ${stats.totalRituals}`);
-    console.log(`Active Rituals: ${stats.activeRituals}`);
-    console.log(`Completed Rituals: ${stats.completedRituals}`);
-    console.log(`Average Quality: ${(stats.averageQuality * 100).toFixed(1)}%`);
-    console.log(`Most Common Category: ${stats.mostCommonCategory}`);
-    console.log(`Total Experience Granted: ${stats.totalExperienceGranted}`);
+    this.logger.info('\n📊 Ritual Statistics:');
+    this.logger.info('=====================');
+    this.logger.info(`Total Rituals: ${stats.totalRituals}`);
+    this.logger.info(`Active Rituals: ${stats.activeRituals}`);
+    this.logger.info(`Completed Rituals: ${stats.completedRituals}`);
+    this.logger.info(`Average Quality: ${(stats.averageQuality * 100).toFixed(1)}%`);
+    this.logger.info(`Most Common Category: ${stats.mostCommonCategory}`);
+    this.logger.info(`Total Experience Granted: ${stats.totalExperienceGranted}`);
   }
 
   /**
    * Run demo sequence
    */
   private async runDemo(): Promise<void> {
-    console.log('\n🎬 Running Ritual System Demo...');
-    console.log('=================================');
+    this.logger.info('\n🎬 Running Ritual System Demo...');
+    this.logger.info('=================================');
 
     // Show available rituals
-    console.log('\n📜 Available rituals:');
+    this.logger.info('\n📜 Available rituals:');
     this.showRituals();
 
     // Start a ritual
-    console.log('\n🎭 Starting demo ritual...');
+    this.logger.info('\n🎭 Starting demo ritual...');
     await this.startRitual('summon-familiar');
 
     // Progress through steps
     if (this.currentRitual) {
-      console.log('\n🔄 Progressing through ritual steps...');
+      this.logger.info('\n🔄 Progressing through ritual steps...');
       for (let i = 0; i < 3; i++) {
-        console.log(`\nStep ${i + 1}:`);
+        this.logger.info(`\nStep ${i + 1}:`);
         this.progressRitual();
 
         // Small delay for dramatic effect
@@ -505,61 +508,61 @@ class RitualSystemCLI {
     }
 
     // Show final results
-    console.log('\n📊 Demo Results:');
+    this.logger.info('\n📊 Demo Results:');
     this.showStats();
 
     if (this.currentRitual) {
       this.showRitualStatus();
     }
 
-    console.log('\n✅ Demo complete!');
+    this.logger.info('\n✅ Demo complete!');
   }
 
   /**
    * Show help information
    */
   private showHelp(): void {
-    console.log('\n🎭 MIFF RitualSystemPure CLI Help');
-    console.log('=================================');
-    console.log('');
-    console.log('COMMANDS:');
-    console.log('  rituals        - List all available rituals');
-    console.log('  start <ritual> - Start a ritual by name');
-    console.log('  progress       - Progress current ritual to next step');
-    console.log('  status         - Show current ritual status');
-    console.log('  participants   - List ritual participants');
-    console.log('  contribute     - Contribute to current ritual');
-    console.log('  cancel         - Cancel current ritual');
-    console.log('  stats          - Show ritual statistics');
-    console.log('  demo           - Run automated demo sequence');
-    console.log('  help           - Show this help information');
-    console.log('  exit           - Exit the CLI');
-    console.log('');
-    console.log('EXAMPLES:');
-    console.log('  start summon-familiar     # Start familiar summoning ritual');
-    console.log('  progress                  # Move to next ritual step');
-    console.log('  contribute                # Contribute mana or items');
-    console.log('');
-    console.log('RITUAL TYPES:');
-    console.log('  Summoning      - Call forth spirits and creatures');
-    console.log('  Binding        - Bind spirits to objects or locations');
-    console.log('  Creation       - Create magical items and constructs');
-    console.log('  Transformation - Transform objects or participants');
-    console.log('  Divination     - Gain knowledge and foresight');
-    console.log('  Destruction    - Unleash destructive magical forces');
-    console.log('');
-    console.log('NOTES:');
-    console.log('- Rituals require participants and resources');
-    console.log('- Each step has different requirements and effects');
-    console.log('- Quality affects ritual outcomes and rewards');
-    console.log('- Failed rituals may have negative consequences');
+    this.logger.info('\n🎭 MIFF RitualSystemPure CLI Help');
+    this.logger.info('=================================');
+    this.logger.info('');
+    this.logger.info('COMMANDS:');
+    this.logger.info('  rituals        - List all available rituals');
+    this.logger.info('  start <ritual> - Start a ritual by name');
+    this.logger.info('  progress       - Progress current ritual to next step');
+    this.logger.info('  status         - Show current ritual status');
+    this.logger.info('  participants   - List ritual participants');
+    this.logger.info('  contribute     - Contribute to current ritual');
+    this.logger.info('  cancel         - Cancel current ritual');
+    this.logger.info('  stats          - Show ritual statistics');
+    this.logger.info('  demo           - Run automated demo sequence');
+    this.logger.info('  help           - Show this help information');
+    this.logger.info('  exit           - Exit the CLI');
+    this.logger.info('');
+    this.logger.info('EXAMPLES:');
+    this.logger.info('  start summon-familiar     # Start familiar summoning ritual');
+    this.logger.info('  progress                  # Move to next ritual step');
+    this.logger.info('  contribute                # Contribute mana or items');
+    this.logger.info('');
+    this.logger.info('RITUAL TYPES:');
+    this.logger.info('  Summoning      - Call forth spirits and creatures');
+    this.logger.info('  Binding        - Bind spirits to objects or locations');
+    this.logger.info('  Creation       - Create magical items and constructs');
+    this.logger.info('  Transformation - Transform objects or participants');
+    this.logger.info('  Divination     - Gain knowledge and foresight');
+    this.logger.info('  Destruction    - Unleash destructive magical forces');
+    this.logger.info('');
+    this.logger.info('NOTES:');
+    this.logger.info('- Rituals require participants and resources');
+    this.logger.info('- Each step has different requirements and effects');
+    this.logger.info('- Quality affects ritual outcomes and rewards');
+    this.logger.info('- Failed rituals may have negative consequences');
   }
 
   /**
    * Exit the CLI
    */
   private exit(): void {
-    console.log('\n👋 Thank you for using MIFF RitualSystemPure CLI!');
+    this.logger.info('\n👋 Thank you for using MIFF RitualSystemPure CLI!');
     this.isRunning = false;
     this.rl.close();
     process.exit(0);

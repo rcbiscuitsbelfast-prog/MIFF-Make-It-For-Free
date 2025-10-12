@@ -14,6 +14,7 @@
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
 
 export type EvolutionStatus = 'success' | 'conditions_not_met' | 'already_evolved' | 'missing_requirements';
 export type EvolutionConditionType = 'level_at_least' | 'requires_item' | 'sync_at_least' | 'lore_flag' | 'time_of_day' | 'at_location' | 'friendship_level' | 'battle_count';
@@ -534,7 +535,7 @@ export class EvolutionManager {
 
   public importEvolutionData(data: string): boolean {
     try {
-      const parsed = JSON.parse(data);
+      const parsed = SafeJSONParser.parse(data);
 
       if (parsed.speciesData && Array.isArray(parsed.speciesData)) {
         this.speciesData.clear();

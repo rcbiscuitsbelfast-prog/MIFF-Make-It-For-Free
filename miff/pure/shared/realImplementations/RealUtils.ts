@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * Real Utils Implementation
  * 
@@ -105,10 +106,12 @@ export interface MathUtils {
 }
 
 export class RealUtils {
+  private logger: StructuredLogger;
   private eventHandlers: Map<string, Function[]> = new Map();
   private isInitialized: boolean = false;
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'RealUtils' });
     this.initialize();
   }
 
@@ -523,7 +526,7 @@ export class RealUtils {
         try {
           handler(data);
         } catch (error) {
-          console.error(`Error in utils event handler for ${event}:`, error);
+          this.logger.error(`Error in utils event handler for ${event}:`, error);
         }
       });
     }

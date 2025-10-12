@@ -5,6 +5,7 @@ import { SceneBuilderManager, SceneBuildConfiguration, SceneLayer, SceneOptimiza
 import { UnrealBridgeManager, UnrealActorBridge, UnrealSceneBridge, UnrealLevelBridge, UnrealWorldBridge } from './index';
 import { RenderPayloadManager } from '../RenderPayloadPure';
 import { UnrealPayloadAdapterPure } from './UnrealPayloadAdapterPure';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 export enum UnrealSceneType {
   LEVEL = 'level',
@@ -435,6 +436,7 @@ export interface UnrealSceneBuildResult {
 }
 
 export class UnrealSceneBuilderPure {
+  private logger: StructuredLogger;
   private sceneBuilderManager: SceneBuilderManager;
   private bridgeManager: UnrealBridgeManager;
   private payloadAdapter: UnrealPayloadAdapterPure;
@@ -447,6 +449,7 @@ export class UnrealSceneBuilderPure {
     payloadAdapter: UnrealPayloadAdapterPure,
     renderPayloadManager: RenderPayloadManager
   ) {
+    this.logger = new StructuredLogger({ module: 'UnrealSceneBuilderPure' });
     this.sceneBuilderManager = sceneBuilderManager;
     this.bridgeManager = bridgeManager;
     this.payloadAdapter = payloadAdapter;
@@ -455,7 +458,7 @@ export class UnrealSceneBuilderPure {
   }
 
   private initializeDefaultConfigurations(): void {
-    console.log('[UnrealSceneBuilderPure] Initializing default scene configurations...');
+    this.logger.info('[UnrealSceneBuilderPure] Initializing default scene configurations...');
 
     // Default Game Scene Configuration
     const defaultGameConfig: UnrealSceneBuildConfiguration = {
@@ -684,7 +687,7 @@ export class UnrealSceneBuilderPure {
 
     this.sceneConfigurations.set('combat_arena', combatArenaConfig);
 
-    console.log(`[UnrealSceneBuilderPure] Initialized ${this.sceneConfigurations.size} scene configurations`);
+    this.logger.info(`[UnrealSceneBuilderPure] Initialized ${this.sceneConfigurations.size} scene configurations`);
   }
 
   async buildUnrealScene(
@@ -692,7 +695,7 @@ export class UnrealSceneBuilderPure {
     configurationId?: string,
     options?: Partial<UnrealSceneBuildConfiguration>
   ): Promise<UnrealSceneBuildResult> {
-    console.log(`[UnrealSceneBuilderPure] Building Unreal scene from payload: ${payloadId}`);
+    this.logger.info(`[UnrealSceneBuilderPure] Building Unreal scene from payload: ${payloadId}`);
 
     try {
       // Get or create configuration
@@ -800,7 +803,7 @@ export class UnrealSceneBuilderPure {
       const startTime = Date.now();
 
       // Convert payload to Unreal format
-      console.log('[UnrealSceneBuilderPure] Converting render payload to Unreal format...');
+      this.logger.info('[UnrealSceneBuilderPure] Converting render payload to Unreal format...');
       const conversionResult = await this.payloadAdapter.convertRenderPayload(payloadId, configurationId, config);
 
       if (!conversionResult.success) {
@@ -808,32 +811,32 @@ export class UnrealSceneBuilderPure {
       }
 
       // Build scene composition
-      console.log('[UnrealSceneBuilderPure] Building scene composition...');
+      this.logger.info('[UnrealSceneBuilderPure] Building scene composition...');
       const composition = await this.buildSceneComposition(config, conversionResult);
 
       // Create world and level structures
-      console.log('[UnrealSceneBuilderPure] Creating world and level structures...');
+      this.logger.info('[UnrealSceneBuilderPure] Creating world and level structures...');
       const world = this.createUnrealWorld(config, composition);
       const persistentLevel = this.createUnrealLevel(config, composition);
 
       // Create navigation system
-      console.log('[UnrealSceneBuilderPure] Creating navigation system...');
+      this.logger.info('[UnrealSceneBuilderPure] Creating navigation system...');
       const navigationSystem = this.createNavigationSystem(config);
 
       // Create lighting system
-      console.log('[UnrealSceneBuilderPure] Creating lighting system...');
+      this.logger.info('[UnrealSceneBuilderPure] Creating lighting system...');
       const lightingSystem = this.createLightingSystem(config);
 
       // Create physics system
-      console.log('[UnrealSceneBuilderPure] Creating physics system...');
+      this.logger.info('[UnrealSceneBuilderPure] Creating physics system...');
       const physicsSystem = this.createPhysicsSystem(config);
 
       // Create audio system
-      console.log('[UnrealSceneBuilderPure] Creating audio system...');
+      this.logger.info('[UnrealSceneBuilderPure] Creating audio system...');
       const audioSystem = this.createAudioSystem(config);
 
       // Register all components with bridge manager
-      console.log('[UnrealSceneBuilderPure] Registering components with bridge manager...');
+      this.logger.info('[UnrealSceneBuilderPure] Registering components with bridge manager...');
       this.registerSceneComponents(composition);
 
       const buildTime = Date.now() - startTime;
@@ -858,17 +861,17 @@ export class UnrealSceneBuilderPure {
         }
       };
 
-      console.log(`[UnrealSceneBuilderPure] Scene build completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
-      console.log(`[UnrealSceneBuilderPure] Created world: ${world.name} (${world.id})`);
-      console.log(`[UnrealSceneBuilderPure] Created level: ${persistentLevel.name} (${persistentLevel.id})`);
-      console.log(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors, ${composition.components.length} components`);
-      console.log(`[UnrealSceneBuilderPure] Build time: ${buildTime}ms`);
-      console.log(`[UnrealSceneBuilderPure] Warnings: ${result.warnings.length}, Errors: ${result.errors.length}`);
+      this.logger.info(`[UnrealSceneBuilderPure] Scene build completed: ${result.success ? 'SUCCESS' : 'PARTIAL'}`);
+      this.logger.info(`[UnrealSceneBuilderPure] Created world: ${world.name} (${world.id})`);
+      this.logger.info(`[UnrealSceneBuilderPure] Created level: ${persistentLevel.name} (${persistentLevel.id})`);
+      this.logger.info(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors, ${composition.components.length} components`);
+      this.logger.info(`[UnrealSceneBuilderPure] Build time: ${buildTime}ms`);
+      this.logger.info(`[UnrealSceneBuilderPure] Warnings: ${result.warnings.length}, Errors: ${result.errors.length}`);
 
       return result;
 
     } catch (error) {
-      console.error('[UnrealSceneBuilderPure] Scene build failed:', error);
+      this.logger.error('[UnrealSceneBuilderPure] Scene build failed:', error);
 
       return {
         success: false,
@@ -891,7 +894,7 @@ export class UnrealSceneBuilderPure {
     config: UnrealSceneBuildConfiguration,
     conversionResult: any
   ): Promise<UnrealSceneComposition> {
-    console.log('[UnrealSceneBuilderPure] Building scene composition...');
+    this.logger.info('[UnrealSceneBuilderPure] Building scene composition...');
 
     const composition: UnrealSceneComposition = {
       world: null as any,
@@ -1288,7 +1291,7 @@ export class UnrealSceneBuilderPure {
       this.bridgeManager.registerActor(actor);
     }
 
-    console.log(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors and ${composition.systems.length} systems`);
+    this.logger.info(`[UnrealSceneBuilderPure] Registered ${composition.actors.length} actors and ${composition.systems.length} systems`);
   }
 
   // Configuration management
@@ -1334,8 +1337,8 @@ export class UnrealSceneBuilderPure {
   }
 
   dispose(): void {
-    console.log('[UnrealSceneBuilderPure] Disposing scene builder...');
+    this.logger.info('[UnrealSceneBuilderPure] Disposing scene builder...');
     this.sceneConfigurations.clear();
-    console.log('[UnrealSceneBuilderPure] Scene builder disposed successfully');
+    this.logger.info('[UnrealSceneBuilderPure] Scene builder disposed successfully');
   }
 }

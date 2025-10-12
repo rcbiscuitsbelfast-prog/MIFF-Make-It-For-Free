@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { EquipmentManager, EquippedItem, StatModifier } from './EquipmentManager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type CatalogItem = Omit<EquippedItem, 'source'>;
 
@@ -15,7 +17,7 @@ type Cmd =
 function main() {
   const catalogPath = process.argv[2] || 'EquipmentPure/sample_equipment.json';
   const commandsPath = process.argv[3] || '';
-  const obj = JSON.parse(fs.readFileSync(path.resolve(catalogPath), 'utf-8')) as { items: CatalogItem[], inventory?: { id: string, quantity: number }[] };
+  const obj = SafeJSONParser.parse(fs.readFileSync(path.resolve(catalogPath), 'utf-8')) as { items: CatalogItem[], inventory?: { id: string, quantity: number }[] };
 
   const inventory = new Map<string, number>();
   for (const e of obj.inventory || []) inventory.set(e.id, e.quantity);
@@ -36,7 +38,7 @@ function main() {
     onModifierApplied: (m, item) => {/* trace modifiers on dump only */},
   }, invPort);
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listEquipment' } as Cmd];
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [{ op: 'listEquipment' } as Cmd];
   const outputs: any[] = [];
 
   for (const c of cmds) {
@@ -62,7 +64,7 @@ function main() {
   }
 
   const out = { log, outputs, inventory: Array.from(inventory.entries()).map(([id, quantity]) => ({ id, quantity })) };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

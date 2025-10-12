@@ -3,6 +3,8 @@
 import { WebBridge } from './Bridge';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WebBridgeOperation {
   op: 'simulate' | 'render' | 'interop' | 'dump' | 'export';
@@ -15,12 +17,12 @@ interface WebBridgeOperation {
 function main() {
   const inputFile = process.argv[2];
   if (!inputFile) {
-    console.error('Usage: tsx cliHarness.ts <input-file>');
+    this.logger.error('Usage: tsx cliHarness.ts <input-file>');
     process.exit(1);
   }
 
   try {
-    const input = JSON.parse(fs.readFileSync(inputFile, 'utf-8')) as WebBridgeOperation;
+    const input = SafeJSONParser.parse(fs.readFileSync(inputFile, 'utf-8')) as WebBridgeOperation;
     
     if (!input || typeof input !== 'object') {
       throw new Error('Invalid input: expected JSON object');
@@ -118,10 +120,10 @@ ${rd.entities.map((e:any)=>`<tr><td>${e.id}</td><td>${e.type}</td><td>${e.x||0}<
         throw new Error(`Unknown operation: ${input.op}`);
     }
     
-    console.log(JSON.stringify(result, null, 2));
+    this.logger.info(JSON.stringify(result, null, 2));
     
   } catch (error) {
-    console.error('Error:', error);
+    this.logger.error('Error:', error);
     process.exit(1);
   }
 }

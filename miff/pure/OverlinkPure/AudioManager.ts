@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 // AudioManager — Ambient Audio Management for OverlinkThemes (Remix-Safe)
 // Purpose: Handles theme-based ambient audio with remix safety and fallback logic
 // Schema: Pure JSON outputs, deterministic, engine-agnostic
@@ -65,6 +66,7 @@ export type AudioManagerOptions = {
 };
 
 export class AudioManager {
+  private logger: StructuredLogger;
   private config: AudioBindingsConfig | null = null;
   private playbackState: AudioPlaybackState;
   private currentAudio: Map<string, any> = new Map();
@@ -73,6 +75,7 @@ export class AudioManager {
   private fadeTimers: Map<string, NodeJS.Timeout> = new Map();
 
   constructor() {
+    this.logger = new StructuredLogger({ module: 'AudioManager' });
     this.playbackState = {
       isPlaying: false,
       currentTheme: null,
@@ -203,7 +206,7 @@ export class AudioManager {
         }
       };
     } catch (error) {
-      console.error('Failed to load audio config:', error);
+      this.logger.error('Failed to load audio config:', error);
       throw error;
     }
   }
@@ -211,14 +214,14 @@ export class AudioManager {
   // Theme Audio Management
   async playThemeAudio(themeId: string, options: AudioManagerOptions = {}): Promise<boolean> {
     if (!this.config) {
-      console.warn('Audio config not loaded');
+      this.logger.warn('Audio config not loaded');
       this.playbackState.errorCount++;
       return false;
     }
 
     const themeBindings = this.config.themeAudioBindings[themeId];
     if (!themeBindings) {
-      console.warn(`No audio bindings found for theme: ${themeId}`);
+      this.logger.warn(`No audio bindings found for theme: ${themeId}`);
       this.playbackState.errorCount++;
       return false;
     }
@@ -273,7 +276,7 @@ export class AudioManager {
       
       if (options.remix && !binding.remixSafe) {
         audioPath = binding.fallback;
-        console.log(`Using fallback audio for remix mode: ${binding.fallback}`);
+        this.logger.info(`Using fallback audio for remix mode: ${binding.fallback}`);
       }
 
       // Simulate audio playback (in real implementation, this would use Web Audio API)
@@ -296,11 +299,11 @@ export class AudioManager {
         startTime: Date.now()
       });
 
-      console.log(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
+      this.logger.info(`Playing ${type} audio: ${audioPath} (volume: ${binding.volume})`);
       return true;
 
     } catch (error) {
-      console.error(`Failed to play audio binding ${binding.id}:`, error);
+      this.logger.error(`Failed to play audio binding ${binding.id}:`, error);
       this.playbackState.errorCount++;
       return false;
     }
@@ -341,7 +344,7 @@ export class AudioManager {
 
     for (const [audioId, audio] of this.currentAudio) {
       // In real implementation, this would pause the audio
-      console.log(`Paused audio: ${audioId}`);
+      this.logger.info(`Paused audio: ${audioId}`);
     }
 
     this.playbackState.isPlaying = false;
@@ -352,7 +355,7 @@ export class AudioManager {
 
     for (const [audioId, audio] of this.currentAudio) {
       // In real implementation, this would resume the audio
-      console.log(`Resumed audio: ${audioId}`);
+      this.logger.info(`Resumed audio: ${audioId}`);
     }
 
     this.playbackState.isPlaying = true;
@@ -370,7 +373,7 @@ export class AudioManager {
       }
     }
 
-    console.log(`Master volume set to: ${clampedVolume}`);
+    this.logger.info(`Master volume set to: ${clampedVolume}`);
   }
 
   setThemeVolume(themeId: string, volume: number): void {
@@ -397,7 +400,7 @@ export class AudioManager {
       }
     }
 
-    console.log(`Theme ${themeId} volume set to: ${clampedVolume}`);
+    this.logger.info(`Theme ${themeId} volume set to: ${clampedVolume}`);
   }
 
   // Fade Control

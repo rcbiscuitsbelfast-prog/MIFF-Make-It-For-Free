@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { PathfindingManager, Grid, Node } from './PathfindingManager';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd = 
   | { op: 'list' }
@@ -16,14 +18,14 @@ function main() {
   // Load grid if provided
   let gridData: any = null;
   if (gridPath && fs.existsSync(gridPath)) {
-    gridData = JSON.parse(fs.readFileSync(path.resolve(gridPath), 'utf-8'));
+    gridData = SafeJSONParser.parse(fs.readFileSync(path.resolve(gridPath), 'utf-8'));
     if (gridData.grid) {
       manager.loadGrid(gridData.grid);
     }
   }
 
   const log: string[] = [];
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
     { op: 'list' } as Cmd
   ];
   const outputs: any[] = [];
@@ -42,7 +44,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

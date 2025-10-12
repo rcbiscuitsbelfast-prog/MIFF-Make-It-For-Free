@@ -20,6 +20,7 @@ import { EventBus } from '../EventBusPure/index.js';
 import IdleSystemPure from './index.js';
 import IdleManagerPure from './Manager.js';
 import * as fs from 'fs';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 // ============================================================================
 // CLI HARNESS CONFIGURATION
@@ -47,6 +48,7 @@ interface GameState {
 // ============================================================================
 
 export class IdleSystemCLI {
+  private logger: StructuredLogger;
   private idleSystem: IdleSystemPure;
   private idleManager: IdleManagerPure;
   private eventBus: EventBus;
@@ -63,6 +65,7 @@ export class IdleSystemCLI {
   private isInteractive: boolean = false;
 
   constructor(options: CLIOptions) {
+    this.logger = new StructuredLogger({ module: 'IdleSystemCLI' });
     this.options = options;
     this.eventBus = new EventBus();
     this.idleSystem = new IdleSystemPure(this.eventBus, {
@@ -512,7 +515,7 @@ export class IdleSystemCLI {
 
   private log(message: string): void {
     const timestamp = new Date().toLocaleTimeString();
-    console.log(`[${timestamp}] ${message}`);
+    this.logger.info(`[${timestamp}] ${message}`);
   }
 
   private shutdown(): void {
@@ -609,16 +612,16 @@ async function main(): Promise<void> {
         break;
       case '--help':
       case '-h':
-        console.log('IdleSystemPure CLI Harness');
-        console.log('Usage: tsx cliHarness.ts [options]');
-        console.log('Options:');
-        console.log('  --mode, -m <mode>          Mode: interactive, simulate, auto');
-        console.log('  --currency, -c <amount>    Initial currency amount');
-        console.log('  --auto, -a                 Enable auto-buy mode');
-        console.log('  --time, -t <seconds>       Simulation duration');
-        console.log('  --verbose, -v              Enable verbose output');
-        console.log('  --help, -h                 Show this help');
-        console.log('');
+        this.logger.info('IdleSystemPure CLI Harness');
+        this.logger.info('Usage: tsx cliHarness.ts [options]');
+        this.logger.info('Options:');
+        this.logger.info('  --mode, -m <mode>          Mode: interactive, simulate, auto');
+        this.logger.info('  --currency, -c <amount>    Initial currency amount');
+        this.logger.info('  --auto, -a                 Enable auto-buy mode');
+        this.logger.info('  --time, -t <seconds>       Simulation duration');
+        this.logger.info('  --verbose, -v              Enable verbose output');
+        this.logger.info('  --help, -h                 Show this help');
+        this.logger.info('');
         process.exit(0);
     }
   }

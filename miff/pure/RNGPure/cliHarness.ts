@@ -2,6 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import { RNGProvider, createRNGProvider, RNGUtils } from './index';
+import { SafeJSONParser } from '../shared/security/SafeJSONParser';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 type Cmd =
   | { op: 'nextInt'; min: number; max: number }
@@ -21,7 +23,7 @@ function main() {
 
   const log: string[] = [];
 
-  const cmds: Cmd[] = commandsPath ? JSON.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
+  const cmds: Cmd[] = commandsPath ? SafeJSONParser.parse(fs.readFileSync(path.resolve(commandsPath), 'utf-8')) : [
     { op: 'getSeed' } as Cmd
   ];
   const outputs: any[] = [];
@@ -59,7 +61,7 @@ function main() {
   }
 
   const out = { log, outputs };
-  console.log(JSON.stringify(out, null, 2));
+  this.logger.info(JSON.stringify(out, null, 2));
 }
 
 if(import.meta.url === `file://${process.argv[1]}`) main();

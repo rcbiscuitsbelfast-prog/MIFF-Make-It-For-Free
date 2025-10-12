@@ -1,3 +1,4 @@
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 /**
  * MIFF Advanced Cache Manager
  *
@@ -39,6 +40,7 @@ export interface CacheConfig {
 }
 
 export class CacheManager {
+  private logger: StructuredLogger;
   private cache: Map<string, CacheEntry> = new Map();
   private accessHistory: string[] = [];
   private config: CacheConfig;
@@ -53,6 +55,7 @@ export class CacheManager {
   private persistenceTimer?: NodeJS.Timeout;
 
   constructor(config: Partial<CacheConfig> = {}) {
+    this.logger = new StructuredLogger({ module: 'CacheManager' });
     this.config = {
       maxSize: 100 * 1024 * 1024, // 100MB
       maxEntries: 10000,
@@ -428,7 +431,7 @@ export class CacheManager {
 
   private log(message: string, level: 'info' | 'debug' | 'error' = 'info'): void {
     const timestamp = new Date().toISOString();
-    console.log(`[CACHE:${level.toUpperCase()}] ${timestamp} - ${message}`);
+    this.logger.info(`[CACHE:${level.toUpperCase()}] ${timestamp} - ${message}`);
   }
 
   /**

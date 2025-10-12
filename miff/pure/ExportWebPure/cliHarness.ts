@@ -1,5 +1,6 @@
 #!/usr/bin/env ts-node
 import path from 'path';
+import { StructuredLogger } from '../shared/logging/StructuredLogger';
 
 interface WebExportOptions {
   project: string;
@@ -25,7 +26,7 @@ function parseArgs(argv: string[]): WebExportOptions {
 function main() {
   const opts = parseArgs(process.argv);
   const projectPath = path.resolve(process.cwd(), opts.project);
-  console.log(JSON.stringify({
+  this.logger.info(JSON.stringify({
     log: [
       `ExportWebPure: project=${projectPath}`,
       `output=${path.resolve(process.cwd(), opts.output)}`,
@@ -33,7 +34,7 @@ function main() {
     ],
     outputs: [ { config: opts } ]
   }));
-  // TODO: implement Godot HTML5 export and manifest generation
+  // TODO: Implement in next phase
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
