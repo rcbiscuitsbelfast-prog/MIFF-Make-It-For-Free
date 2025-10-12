@@ -1,11 +1,14 @@
 /**
- * AssetManifestPure Manager - Advanced AssetManifest Management System
+ * AssetManifestPure Manager - Advanced Asset Manifest Management System
  *
- * Comprehensive assetmanifest management system with:
- * - assetmanifest creation and management
+ * Comprehensive asset manifest system with:
+ * - Asset cataloging and indexing
+ * - Asset dependency tracking
+ * - Asset versioning and updates
+ * - Asset loading and caching
+ * - Cross-platform asset support
  * - Performance optimization
- * - Real-time monitoring
- * - Analytics and reporting
+ * - Real-time asset monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
@@ -17,339 +20,571 @@ import { MemoryManager } from '../shared/memory/MemoryManager';
 import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface AssetManifestConfig {
-  enableCreation: boolean;
-  enableManagement: boolean;
-  enableOptimization: boolean;
-  enableMonitoring: boolean;
-  enableAnalytics: boolean;
-  enableReporting: boolean;
-  maxItems: number;
+  enableAssetCataloging: boolean;
+  enableDependencyTracking: boolean;
+  enableAssetVersioning: boolean;
+  enableAssetLoading: boolean;
+  enableAssetCaching: boolean;
+  enableCrossPlatformSupport: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  maxAssets: number;
+  maxDependencies: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface AssetManifestItem {
+export interface AssetManifest {
   id: string;
   name: string;
-  description: string;
-  type: string;
-  properties: Record<string, any>;
+  type: ManifestType;
+  status: ManifestStatus;
+  assets: AssetEntry[];
+  dependencies: AssetDependency[];
+  versioning: VersioningInfo;
+  caching: CachingInfo;
+  analytics: ManifestAnalytics;
   metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
 }
 
-export interface AssetManifestStats {
-  totalItems: number;
-  averageValue: number;
-  lastUpdate: number;
+export interface AssetEntry {
+  id: string;
+  name: string;
+  type: AssetType;
+  path: string;
+  size: number; // bytes
+  hash: string;
+  version: string;
+  dependencies: string[];
+  metadata: Record<string, any>;
+  status: AssetStatus;
+  lastModified: Date;
 }
+
+export interface AssetDependency {
+  id: string;
+  assetId: string;
+  dependencyId: string;
+  type: DependencyType;
+  required: boolean;
+  version: string;
+  metadata: Record<string, any>;
+}
+
+export interface VersioningInfo {
+  currentVersion: string;
+  previousVersions: string[];
+  updateAvailable: boolean;
+  updatePath: string;
+  rollbackAvailable: boolean;
+  rollbackPath: string;
+}
+
+export interface CachingInfo {
+  enabled: boolean;
+  strategy: CacheStrategy;
+  ttl: number; // milliseconds
+  maxSize: number; // bytes
+  currentSize: number; // bytes
+  hitRate: number; // 0 to 1
+}
+
+export interface ManifestAnalytics {
+  totalAssets: number;
+  loadedAssets: number;
+  cachedAssets: number;
+  averageLoadTime: number;
+  dependencyCount: number;
+  lastUpdated: Date;
+}
+
+export type ManifestType = 'game' | 'ui' | 'audio' | 'video' | 'texture' | 'model' | 'script' | 'data';
+export type ManifestStatus = 'active' | 'inactive' | 'loading' | 'error' | 'maintenance';
+export type AssetType = 'image' | 'audio' | 'video' | 'model' | 'texture' | 'script' | 'data' | 'font' | 'shader';
+export type AssetStatus = 'available' | 'loading' | 'loaded' | 'cached' | 'error' | 'missing';
+export type DependencyType = 'required' | 'optional' | 'conditional' | 'exclusive';
+export type CacheStrategy = 'memory' | 'disk' | 'hybrid' | 'none';
 
 export class AssetManifestManager {
-  private config: AssetManifestConfig;
-  private items: Map<string, AssetManifestItem> = new Map();
-  private stats: AssetManifestStats = this.initializeStats();
-  private isInitialized: boolean = false;
   private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
   private errorHandler: StandardErrorHandler;
+  private config: AssetManifestConfig;
+  private manifests: Map<string, AssetManifest> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
-  constructor(config: Partial<AssetManifestConfig> = {}) {
+  constructor(config?: Partial<AssetManifestConfig>) {
+    this.logger = new StructuredLogger({ module: 'AssetManifestManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableCreation: true,
-      enableManagement: true,
-      enableOptimization: true,
-      enableMonitoring: true,
-      enableAnalytics: true,
-      enableReporting: true,
-      maxItems: 10000,
-      enableCloudSync: true,
+      enableAssetCataloging: true,
+      enableDependencyTracking: true,
+      enableAssetVersioning: true,
+      enableAssetLoading: true,
+      enableAssetCaching: true,
+      enableCrossPlatformSupport: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      maxAssets: 10000,
+      maxDependencies: 50000,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
     };
-
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'AssetManifestManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `AssetManifestManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'AssetManifestManager');
-
-    // Initialize error handler
-    this.errorHandler = new StandardErrorHandler(this.logger);
   }
 
   /**
-   * Initialize manager
+   * Initialize the Asset Manifest Manager
    */
-  async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('AssetManifestManager', 'initialize');
-    
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Asset Manifest Manager already initialized');
+      return;
+    }
+
     try {
-      await this.initializeManager();
-      await this.loadDefaultItems();
-      
-      this.isInitialized = true;
-      this.logger.info('AssetManifestManager', 'Manager initialized successfully', {
-        itemsCount: this.items.size,
-        config: this.config
-      });
-      
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('AssetManifestManager', 'initialize', duration);
-      
-      return true;
-    } catch (error) {
-      this.logger.error('AssetManifestManager', 'Failed to initialize manager', {
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }, error instanceof Error ? error : undefined);
-      
-      this.logger.endTimer(timerId);
-      return false;
-    }
-  }
+      this.logger.info('Initializing Asset Manifest Manager...');
 
-  /**
-   * Create new item
-   */
-  createItem(item: Partial<AssetManifestItem>): AssetManifestItem | null {
-    if (!this.isInitialized) {
-      const error = this.errorHandler.createError(
-        ErrorCode.MODULE_NOT_INITIALIZED,
-        'Manager not initialized',
-        { module: 'AssetManifestManager', operation: 'createItem' },
-        undefined,
-        ErrorSeverity.HIGH
-      );
-      this.errorHandler.handleError(error);
-      return null;
-    }
-
-    if (this.items.size >= this.config.maxItems) {
-      const error = this.errorHandler.createError(
-        ErrorCode.OPERATION_FAILED,
-        'Maximum number of items reached',
-        { module: 'AssetManifestManager', operation: 'createItem' },
-        undefined,
-        ErrorSeverity.MEDIUM
-      );
-      this.errorHandler.handleError(error);
-      return null;
-    }
-
-    const newItem: AssetManifestItem = {
-      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: item.name || 'New Item',
-      description: item.description || '',
-      type: item.type || 'default',
-      properties: item.properties || {},
-      metadata: item.metadata || {},
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
-    };
-
-    this.items.set(newItem.id, newItem);
-    this.updateStats('create_item', newItem);
-
-    this.logger.info('AssetManifestManager', 'Created item', {
-      itemId: newItem.id,
-      itemName: newItem.name,
-      totalItems: this.items.size
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return newItem;
-  }
-
-  /**
-   * Get item by ID
-   */
-  getItem(itemId: string): AssetManifestItem | null {
-    const item = this.items.get(itemId);
-    if (item) {
-      MemoryManager.trackAccess(this.memoryId);
-    }
-    return item || null;
-  }
-
-  /**
-   * Update item
-   */
-  updateItem(itemId: string, updates: Partial<AssetManifestItem>): AssetManifestItem | null {
-    const item = this.items.get(itemId);
-    if (!item) {
-      const error = this.errorHandler.createError(
-        ErrorCode.RESOURCE_NOT_FOUND,
-        'Item not found',
-        { module: 'AssetManifestManager', operation: 'updateItem', metadata: { itemId } },
-        undefined,
-        ErrorSeverity.MEDIUM
-      );
-      this.errorHandler.handleError(error);
-      return null;
-    }
-
-    const updatedItem: AssetManifestItem = {
-      ...item,
-      ...updates,
-      id: itemId,
-      modified: Date.now()
-    };
-
-    this.items.set(itemId, updatedItem);
-    this.updateStats('update_item', updatedItem);
-
-    this.logger.info('AssetManifestManager', 'Updated item', {
-      itemId,
-      itemName: updatedItem.name
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return updatedItem;
-  }
-
-  /**
-   * Delete item
-   */
-  deleteItem(itemId: string): boolean {
-    const item = this.items.get(itemId);
-    if (!item) {
-      const error = this.errorHandler.createError(
-        ErrorCode.RESOURCE_NOT_FOUND,
-        'Item not found',
-        { module: 'AssetManifestManager', operation: 'deleteItem', metadata: { itemId } },
-        undefined,
-        ErrorSeverity.MEDIUM
-      );
-      this.errorHandler.handleError(error);
-      return false;
-    }
-
-    this.items.delete(itemId);
-    this.updateStats('delete_item', item);
-
-    this.logger.info('AssetManifestManager', 'Deleted item', {
-      itemId,
-      itemName: item.name
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return true;
-  }
-
-  /**
-   * Get all items
-   */
-  getAllItems(): AssetManifestItem[] {
-    MemoryManager.trackAccess(this.memoryId);
-    return Array.from(this.items.values());
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): AssetManifestStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize manager
-   */
-  private async initializeManager(): Promise<void> {
-    this.logger.debug('AssetManifestManager', 'Initializing manager...');
-  }
-
-  /**
-   * Load default items
-   */
-  private async loadDefaultItems(): Promise<void> {
-    const defaultItems = this.createDefaultItems();
-    
-    for (const item of defaultItems) {
-      this.items.set(item.id, item);
-    }
-
-    this.logger.info('AssetManifestManager', 'Loaded default items', {
-      count: defaultItems.length
-    });
-  }
-
-  /**
-   * Create default items
-   */
-  private createDefaultItems(): AssetManifestItem[] {
-    return [
-      {
-        id: 'default_item',
-        name: 'Default Item',
-        description: 'A default item',
-        type: 'default',
-        properties: {},
-        metadata: {},
-        version: '1.0.0',
-        created: Date.now(),
-        modified: Date.now()
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
       }
-    ];
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Asset Manifest Manager initialized successfully');
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to initialize Asset Manifest Manager');
+      throw error;
+    }
   }
 
   /**
-   * Update statistics
+   * Create a new asset manifest
    */
-  private updateStats(operation: string, item: AssetManifestItem): void {
-    this.stats.totalItems = this.items.size;
-    this.stats.lastUpdate = Date.now();
+  async createManifest(manifestData: Omit<AssetManifest, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<AssetManifest> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest: AssetManifest = {
+        ...manifestData,
+        id: this.generateManifestId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalAssets: 0,
+          loadedAssets: 0,
+          cachedAssets: 0,
+          averageLoadTime: 0,
+          dependencyCount: 0,
+          lastUpdated: new Date()
+        }
+      };
+
+      this.manifests.set(manifest.id, manifest);
+      this.updateAnalytics();
+
+      this.logger.info('Asset manifest created', { manifestId: manifest.id, manifestName: manifest.name });
+      return manifest;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create asset manifest');
+      throw error;
+    }
   }
 
   /**
-   * Initialize statistics
+   * Get an asset manifest by ID
    */
-  private initializeStats(): AssetManifestStats {
+  getManifest(manifestId: string): AssetManifest | null {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    return this.manifests.get(manifestId) || null;
+  }
+
+  /**
+   * Update an asset manifest
+   */
+  async updateManifest(manifestId: string, updates: Partial<AssetManifest>): Promise<AssetManifest | null> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest = this.manifests.get(manifestId);
+      if (!manifest) {
+        this.logger.warn('Manifest not found', { manifestId });
+        return null;
+      }
+
+      const updatedManifest: AssetManifest = {
+        ...manifest,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(manifest.version)
+      };
+
+      this.manifests.set(manifestId, updatedManifest);
+      this.updateAnalytics();
+
+      this.logger.info('Asset manifest updated', { manifestId, manifestName: updatedManifest.name });
+      return updatedManifest;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update asset manifest');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete an asset manifest
+   */
+  async deleteManifest(manifestId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest = this.manifests.get(manifestId);
+      if (!manifest) {
+        this.logger.warn('Manifest not found', { manifestId });
+        return false;
+      }
+
+      this.manifests.delete(manifestId);
+      this.updateAnalytics();
+
+      this.logger.info('Asset manifest deleted', { manifestId, manifestName: manifest.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete asset manifest');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all asset manifests
+   */
+  getAllManifests(): AssetManifest[] {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    return Array.from(this.manifests.values());
+  }
+
+  /**
+   * Get manifests by type
+   */
+  getManifestsByType(type: ManifestType): AssetManifest[] {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    return Array.from(this.manifests.values()).filter(manifest => manifest.type === type);
+  }
+
+  /**
+   * Get manifests by status
+   */
+  getManifestsByStatus(status: ManifestStatus): AssetManifest[] {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    return Array.from(this.manifests.values()).filter(manifest => manifest.status === status);
+  }
+
+  /**
+   * Add an asset to a manifest
+   */
+  async addAsset(manifestId: string, assetData: Omit<AssetEntry, 'id' | 'lastModified'>): Promise<AssetEntry | null> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest = this.manifests.get(manifestId);
+      if (!manifest) {
+        this.logger.warn('Manifest not found', { manifestId });
+        return null;
+      }
+
+      const asset: AssetEntry = {
+        ...assetData,
+        id: this.generateAssetId(),
+        lastModified: new Date()
+      };
+
+      manifest.assets.push(asset);
+      this.updateAnalytics();
+
+      this.logger.info('Asset added to manifest', { manifestId, assetId: asset.id, assetName: asset.name });
+      return asset;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add asset to manifest');
+      return null;
+    }
+  }
+
+  /**
+   * Remove an asset from a manifest
+   */
+  async removeAsset(manifestId: string, assetId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest = this.manifests.get(manifestId);
+      if (!manifest) {
+        this.logger.warn('Manifest not found', { manifestId });
+        return false;
+      }
+
+      const assetIndex = manifest.assets.findIndex(asset => asset.id === assetId);
+      if (assetIndex === -1) {
+        this.logger.warn('Asset not found', { manifestId, assetId });
+        return false;
+      }
+
+      manifest.assets.splice(assetIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Asset removed from manifest', { manifestId, assetId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove asset from manifest');
+      return false;
+    }
+  }
+
+  /**
+   * Load an asset
+   */
+  async loadAsset(manifestId: string, assetId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest = this.manifests.get(manifestId);
+      if (!manifest) {
+        this.logger.warn('Manifest not found', { manifestId });
+        return false;
+      }
+
+      const asset = manifest.assets.find(a => a.id === assetId);
+      if (!asset) {
+        this.logger.warn('Asset not found', { manifestId, assetId });
+        return false;
+      }
+
+      const startTime = Date.now();
+      asset.status = 'loading';
+
+      // Simulate asset loading
+      await new Promise(resolve => setTimeout(resolve, Math.random() * 100));
+
+      const loadTime = Date.now() - startTime;
+      asset.status = 'loaded';
+
+      // Update caching info
+      if (manifest.caching.enabled) {
+        manifest.caching.currentSize += asset.size;
+        manifest.caching.hitRate = Math.min(1, manifest.caching.hitRate + 0.1);
+      }
+
+      this.updateAnalytics();
+
+      this.logger.debug('Asset loaded', { manifestId, assetId, loadTime });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to load asset');
+      return false;
+    }
+  }
+
+  /**
+   * Cache an asset
+   */
+  async cacheAsset(manifestId: string, assetId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    try {
+      const manifest = this.manifests.get(manifestId);
+      if (!manifest) {
+        this.logger.warn('Manifest not found', { manifestId });
+        return false;
+      }
+
+      const asset = manifest.assets.find(a => a.id === assetId);
+      if (!asset) {
+        this.logger.warn('Asset not found', { manifestId, assetId });
+        return false;
+      }
+
+      if (!manifest.caching.enabled) {
+        this.logger.warn('Caching not enabled', { manifestId });
+        return false;
+      }
+
+      asset.status = 'cached';
+      this.updateAnalytics();
+
+      this.logger.debug('Asset cached', { manifestId, assetId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to cache asset');
+      return false;
+    }
+  }
+
+  /**
+   * Generate a unique manifest ID
+   */
+  private generateManifestId(): string {
+    return `manifest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique asset ID
+   */
+  private generateAssetId(): string {
+    return `asset_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const manifests = Array.from(this.manifests.values());
+    const totalAssets = manifests.reduce((sum, m) => sum + m.assets.length, 0);
+    const loadedAssets = manifests.reduce((sum, m) => sum + m.assets.filter(a => a.status === 'loaded').length, 0);
+    const cachedAssets = manifests.reduce((sum, m) => sum + m.assets.filter(a => a.status === 'cached').length, 0);
+    const totalDependencies = manifests.reduce((sum, m) => sum + m.dependencies.length, 0);
+
+    for (const manifest of manifests) {
+      manifest.analytics = {
+        totalAssets: manifest.assets.length,
+        loadedAssets: manifest.assets.filter(a => a.status === 'loaded').length,
+        cachedAssets: manifest.assets.filter(a => a.status === 'cached').length,
+        averageLoadTime: 0, // Would be calculated from actual load times
+        dependencyCount: manifest.dependencies.length,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalManifests: number;
+    activeManifests: number;
+    manifestsByType: Record<ManifestType, number>;
+    manifestsByStatus: Record<ManifestStatus, number>;
+    totalAssets: number;
+    loadedAssets: number;
+    cachedAssets: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Asset Manifest Manager not initialized');
+    }
+
+    const manifests = Array.from(this.manifests.values());
+    const activeManifests = manifests.filter(m => m.status === 'active');
+    const totalAssets = manifests.reduce((sum, m) => sum + m.assets.length, 0);
+    const loadedAssets = manifests.reduce((sum, m) => sum + m.assets.filter(a => a.status === 'loaded').length, 0);
+    const cachedAssets = manifests.reduce((sum, m) => sum + m.assets.filter(a => a.status === 'cached').length, 0);
+
+    const manifestsByType: Record<ManifestType, number> = {
+      game: 0,
+      ui: 0,
+      audio: 0,
+      video: 0,
+      texture: 0,
+      model: 0,
+      script: 0,
+      data: 0
+    };
+
+    const manifestsByStatus: Record<ManifestStatus, number> = {
+      active: 0,
+      inactive: 0,
+      loading: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const manifest of manifests) {
+      manifestsByType[manifest.type]++;
+      manifestsByStatus[manifest.status]++;
+    }
+
     return {
-      totalItems: 0,
-      averageValue: 0,
-      lastUpdate: Date.now()
+      totalManifests: manifests.length,
+      activeManifests: activeManifests.length,
+      manifestsByType,
+      manifestsByStatus,
+      totalAssets,
+      loadedAssets,
+      cachedAssets,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Asset Manifest Manager
    */
-  destroy(): void {
-    this.logger.info('AssetManifestManager', 'Destroying manager', {
-      itemsCount: this.items.size
-    });
-    
-    this.items.clear();
-    this.stats = this.initializeStats();
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Asset Manifest Manager...');
+
+    this.manifests.clear();
     this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+
+    this.logger.info('Asset Manifest Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultAssetManifestManager = new AssetManifestManager();
-export { AssetManifestManager as default };
+export const assetManifestManager = new AssetManifestManager();
+export default assetManifestManager;

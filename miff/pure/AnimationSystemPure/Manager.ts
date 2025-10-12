@@ -1,37 +1,32 @@
 /**
  * AnimationSystemPure Manager - Advanced Animation Management System
  *
- * Comprehensive animation management system with:
+ * Comprehensive animation system with:
  * - Animation creation and management
- * - Keyframe animation and interpolation
- * - Skeletal animation and rigging
+ * - Timeline and keyframe control
  * - Animation blending and transitions
- * - Animation compression and optimization
- * - Real-time animation processing
+ * - Performance optimization
  * - Cross-platform animation support
- * - Performance monitoring and analytics
+ * - Real-time animation monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface AnimationSystemConfig {
   enableAnimationCreation: boolean;
-  enableAnimationManagement: boolean;
-  enableKeyframeAnimation: boolean;
-  enableInterpolation: boolean;
-  enableSkeletalAnimation: boolean;
-  enableRigging: boolean;
+  enableTimelineControl: boolean;
+  enableKeyframeControl: boolean;
   enableAnimationBlending: boolean;
-  enableAnimationTransitions: boolean;
-  enableAnimationCompression: boolean;
-  enableAnimationOptimization: boolean;
-  enableRealTimeProcessing: boolean;
+  enableTransitions: boolean;
+  enablePerformanceOptimization: boolean;
   enableCrossPlatformSupport: boolean;
+  enableRealTimeMonitoring: boolean;
   maxAnimations: number;
   maxKeyframes: number;
   enableCloudSync: boolean;
@@ -39,658 +34,601 @@ export interface AnimationSystemConfig {
   enableVersioning: boolean;
 }
 
-export interface AnimationSystem {
-  id: string;
-  name: string;
-  type: AnimationSystemType;
-  status: AnimationSystemStatus;
-  animations: Animation[];
-  skeletons: Skeleton[];
-  rigs: Rig[];
-  analytics: AnimationSystemAnalytics;
-  metadata: AnimationSystemMetadata;
-  version: string;
-  created: number;
-  modified: number;
-}
-
-export enum AnimationSystemType {
-  KEYFRAME = 'keyframe',
-  SKELETAL = 'skeletal',
-  PROCEDURAL = 'procedural',
-  PHYSICS = 'physics',
-  CUSTOM = 'custom'
-}
-
-export enum AnimationSystemStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
 export interface Animation {
   id: string;
   name: string;
   type: AnimationType;
   status: AnimationStatus;
-  duration: number;
+  timeline: AnimationTimeline;
   keyframes: Keyframe[];
-  tracks: AnimationTrack[];
-  properties: AnimationProperties;
-  metadata: Map<string, any>;
+  blending: BlendingConfig;
+  transitions: TransitionConfig;
+  analytics: AnimationAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
 }
 
-export enum AnimationType {
-  POSITION = 'position',
-  ROTATION = 'rotation',
-  SCALE = 'scale',
-  COLOR = 'color',
-  ALPHA = 'alpha',
-  CUSTOM = 'custom'
-}
-
-export enum AnimationStatus {
-  STOPPED = 'stopped',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  LOOPING = 'looping',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+export interface AnimationTimeline {
+  duration: number; // milliseconds
+  startTime: number; // milliseconds
+  endTime: number; // milliseconds
+  loop: boolean;
+  pingPong: boolean;
+  speed: number; // multiplier
+  currentTime: number; // milliseconds
 }
 
 export interface Keyframe {
-  time: number;
+  id: string;
+  time: number; // milliseconds
   value: any;
   interpolation: InterpolationType;
   easing: EasingType;
-  metadata: Map<string, any>;
+  properties: Record<string, any>;
 }
 
-export enum InterpolationType {
-  LINEAR = 'linear',
-  BEZIER = 'bezier',
-  STEP = 'step',
-  CUSTOM = 'custom'
-}
-
-export enum EasingType {
-  EASE_IN = 'ease_in',
-  EASE_OUT = 'ease_out',
-  EASE_IN_OUT = 'ease_in_out',
-  EASE_NONE = 'ease_none',
-  CUSTOM = 'custom'
-}
-
-export interface AnimationTrack {
-  id: string;
-  name: string;
-  property: string;
-  keyframes: Keyframe[];
+export interface BlendingConfig {
   enabled: boolean;
-  metadata: Map<string, any>;
+  mode: BlendingMode;
+  weight: number; // 0 to 1
+  duration: number; // milliseconds
+  curve: BlendingCurve;
 }
 
-export interface AnimationProperties {
-  loop: boolean;
-  speed: number;
-  delay: number;
-  reverse: boolean;
-  metadata: Map<string, any>;
+export interface TransitionConfig {
+  enabled: boolean;
+  duration: number; // milliseconds
+  easing: EasingType;
+  delay: number; // milliseconds
+  properties: string[];
 }
 
-export interface Skeleton {
-  id: string;
-  name: string;
-  type: SkeletonType;
-  status: SkeletonStatus;
-  bones: Bone[];
-  hierarchy: BoneHierarchy;
-  metadata: Map<string, any>;
-}
-
-export enum SkeletonType {
-  HUMAN = 'human',
-  ANIMAL = 'animal',
-  MECHANICAL = 'mechanical',
-  CUSTOM = 'custom'
-}
-
-export enum SkeletonStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Bone {
-  id: string;
-  name: string;
-  type: BoneType;
-  position: BonePosition;
-  rotation: BoneRotation;
-  scale: BoneScale;
-  parent: string;
-  children: string[];
-  metadata: Map<string, any>;
-}
-
-export enum BoneType {
-  ROOT = 'root',
-  JOINT = 'joint',
-  END_EFFECTOR = 'end_effector',
-  CUSTOM = 'custom'
-}
-
-export interface BonePosition {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
-}
-
-export interface BoneRotation {
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-  metadata: Map<string, any>;
-}
-
-export interface BoneScale {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
-}
-
-export interface BoneHierarchy {
-  root: string;
-  bones: Map<string, string[]>;
-  metadata: Map<string, any>;
-}
-
-export interface Rig {
-  id: string;
-  name: string;
-  type: RigType;
-  status: RigStatus;
-  bones: string[];
-  constraints: RigConstraint[];
-  controls: RigControl[];
-  metadata: Map<string, any>;
-}
-
-export enum RigType {
-  FK = 'fk',
-  IK = 'ik',
-  HYBRID = 'hybrid',
-  CUSTOM = 'custom'
-}
-
-export enum RigStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface RigConstraint {
-  type: ConstraintType;
-  target: string;
-  source: string;
-  properties: ConstraintProperties;
-  metadata: Map<string, any>;
-}
-
-export enum ConstraintType {
-  COPY_LOCATION = 'copy_location',
-  COPY_ROTATION = 'copy_rotation',
-  COPY_SCALE = 'copy_scale',
-  LIMIT_LOCATION = 'limit_location',
-  LIMIT_ROTATION = 'limit_rotation',
-  CUSTOM = 'custom'
-}
-
-export interface ConstraintProperties {
-  influence: number;
-  offset: boolean;
-  space: ConstraintSpace;
-  metadata: Map<string, any>;
-}
-
-export enum ConstraintSpace {
-  WORLD = 'world',
-  LOCAL = 'local',
-  CUSTOM = 'custom'
-}
-
-export interface RigControl {
-  name: string;
-  type: ControlType;
-  bone: string;
-  properties: ControlProperties;
-  metadata: Map<string, any>;
-}
-
-export enum ControlType {
-  BONE = 'bone',
-  NULL = 'null',
-  MESH = 'mesh',
-  CUSTOM = 'custom'
-}
-
-export interface ControlProperties {
-  visible: boolean;
-  selectable: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface AnimationSystemAnalytics {
+export interface AnimationAnalytics {
   totalAnimations: number;
-  totalSkeletons: number;
-  totalRigs: number;
-  averageFrameRate: number;
-  averageMemoryUsage: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
+  activeAnimations: number;
+  averageDuration: number;
+  keyframeCount: number;
+  transitionCount: number;
+  lastUpdated: Date;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface AnimationSystemMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface AnimationSystemStats {
-  totalAnimations: number;
-  totalSkeletons: number;
-  totalRigs: number;
-  averageFrameRate: number;
-  averageMemoryUsage: number;
-  lastUpdate: number;
-}
+export type AnimationType = 'position' | 'rotation' | 'scale' | 'color' | 'opacity' | 'custom';
+export type AnimationStatus = 'playing' | 'paused' | 'stopped' | 'completed' | 'error';
+export type InterpolationType = 'linear' | 'bezier' | 'step' | 'smooth';
+export type EasingType = 'easeIn' | 'easeOut' | 'easeInOut' | 'linear' | 'bounce' | 'elastic';
+export type BlendingMode = 'additive' | 'multiplicative' | 'override' | 'crossfade';
+export type BlendingCurve = 'linear' | 'smooth' | 'sharp' | 'custom';
 
 export class AnimationSystemManager {
-  private config: AnimationSystemConfig;
-  private systems: Map<string, AnimationSystem> = new Map();
-  private stats: AnimationSystemStats = this.initializeStats();
-  private isInitialized: boolean = false;
   private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: AnimationSystemConfig;
+  private animations: Map<string, Animation> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
-  constructor(config: Partial<AnimationSystemConfig> = {}) {
+  constructor(config?: Partial<AnimationSystemConfig>) {
+    this.logger = new StructuredLogger({ module: 'AnimationSystemManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
       enableAnimationCreation: true,
-      enableAnimationManagement: true,
-      enableKeyframeAnimation: true,
-      enableInterpolation: true,
-      enableSkeletalAnimation: true,
-      enableRigging: true,
+      enableTimelineControl: true,
+      enableKeyframeControl: true,
       enableAnimationBlending: true,
-      enableAnimationTransitions: true,
-      enableAnimationCompression: true,
-      enableAnimationOptimization: true,
-      enableRealTimeProcessing: true,
+      enableTransitions: true,
+      enablePerformanceOptimization: true,
       enableCrossPlatformSupport: true,
-      maxAnimations: 10000,
-      maxKeyframes: 1000000,
-      enableCloudSync: true,
+      enableRealTimeMonitoring: true,
+      maxAnimations: 1000,
+      maxKeyframes: 10000,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'AnimationSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `AnimationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'AnimationSystemManager');
-  };
+    };
   }
 
   /**
-   * Initialize animation system manager
+   * Initialize the Animation System Manager
    */
-  async initialize(): Promise<boolean> {
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Animation System Manager already initialized');
+      return;
+    }
+
     try {
-      // Initialize animation system manager
-      await this.initializeAnimationSystemManager();
-      
-      // Load default animation systems
-      await this.loadDefaultAnimationSystems();
-      
+      this.logger.info('Initializing Animation System Manager...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
       this.isInitialized = true;
-      this.logger.info('AnimationSystemManager', 'Animation system manager initialized successfully');
-      return true;
+      this.logger.info('Animation System Manager initialized successfully');
+
     } catch (error) {
-      this.logger.error('AnimationSystemManager', 'Failed to initialize animation system manager:', error);
+      this.errorHandler.handleError(error, 'Failed to initialize Animation System Manager');
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new animation
+   */
+  async createAnimation(animationData: Omit<Animation, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<Animation> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    try {
+      const animation: Animation = {
+        ...animationData,
+        id: this.generateAnimationId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalAnimations: 0,
+          activeAnimations: 0,
+          averageDuration: 0,
+          keyframeCount: 0,
+          transitionCount: 0,
+          lastUpdated: new Date()
+        }
+      };
+
+      this.animations.set(animation.id, animation);
+      this.updateAnalytics();
+
+      this.logger.info('Animation created', { animationId: animation.id, animationName: animation.name });
+      return animation;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create animation');
+      throw error;
+    }
+  }
+
+  /**
+   * Get an animation by ID
+   */
+  getAnimation(animationId: string): Animation | null {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    return this.animations.get(animationId) || null;
+  }
+
+  /**
+   * Update an animation
+   */
+  async updateAnimation(animationId: string, updates: Partial<Animation>): Promise<Animation | null> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    try {
+      const animation = this.animations.get(animationId);
+      if (!animation) {
+        this.logger.warn('Animation not found', { animationId });
+        return null;
+      }
+
+      const updatedAnimation: Animation = {
+        ...animation,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(animation.version)
+      };
+
+      this.animations.set(animationId, updatedAnimation);
+      this.updateAnalytics();
+
+      this.logger.info('Animation updated', { animationId, animationName: updatedAnimation.name });
+      return updatedAnimation;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update animation');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete an animation
+   */
+  async deleteAnimation(animationId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    try {
+      const animation = this.animations.get(animationId);
+      if (!animation) {
+        this.logger.warn('Animation not found', { animationId });
+        return false;
+      }
+
+      this.animations.delete(animationId);
+      this.updateAnalytics();
+
+      this.logger.info('Animation deleted', { animationId, animationName: animation.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete animation');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all animations
+   */
+  getAllAnimations(): Animation[] {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    return Array.from(this.animations.values());
+  }
+
+  /**
+   * Get animations by type
+   */
+  getAnimationsByType(type: AnimationType): Animation[] {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    return Array.from(this.animations.values()).filter(animation => animation.type === type);
+  }
+
+  /**
+   * Get animations by status
+   */
+  getAnimationsByStatus(status: AnimationStatus): Animation[] {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    return Array.from(this.animations.values()).filter(animation => animation.status === status);
+  }
+
+  /**
+   * Play an animation
+   */
+  async playAnimation(animationId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    try {
+      const animation = this.animations.get(animationId);
+      if (!animation) {
+        this.logger.warn('Animation not found', { animationId });
+        return false;
+      }
+
+      animation.status = 'playing';
+      animation.timeline.currentTime = 0;
+
+      this.logger.debug('Animation started', { animationId, animationName: animation.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to play animation');
       return false;
     }
   }
 
   /**
-   * Create new animation system
+   * Pause an animation
    */
-  createAnimationSystem(system: Partial<AnimationSystem>): AnimationSystem | null {
-    const newSystem: AnimationSystem = {
-      id: `animationsystem_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: system.name || 'New Animation System',
-      type: system.type || AnimationSystemType.KEYFRAME,
-      status: AnimationSystemStatus.ACTIVE,
-      animations: system.animations || [],
-      skeletons: system.skeletons || [],
-      rigs: system.rigs || [],
-      analytics: system.analytics || this.createDefaultAnalytics(),
-      metadata: system.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
-    };
-
-    this.systems.set(newSystem.id, newSystem);
-    this.updateStats('create_system', newSystem);
-
-    this.logger.info('AnimationSystemManager', `Created animation system: ${newSystem.name}`);
-    return newSystem;
-  }
-
-  /**
-   * Create animation
-   */
-  createAnimation(systemId: string, animation: Partial<Animation>): Animation | null {
-    const system = this.systems.get(systemId);
-    if (!system) {
-      this.logger.warn('AnimationSystemManager', `Animation system ${systemId} not found`);
-      return null;
-    }
-
-    if (system.animations.length >= this.config.maxAnimations) {
-      this.logger.warn('AnimationSystemManager', 'Maximum number of animations reached');
-      return null;
+  async pauseAnimation(animationId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const newAnimation: Animation = {
-        id: `animation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: animation.name || 'New Animation',
-        type: animation.type || AnimationType.POSITION,
-        status: AnimationStatus.STOPPED,
-        duration: animation.duration || 1.0,
-        keyframes: animation.keyframes || [],
-        tracks: animation.tracks || [],
-        properties: animation.properties || this.createDefaultAnimationProperties(),
-        metadata: animation.metadata || new Map()
-      };
+      const animation = this.animations.get(animationId);
+      if (!animation) {
+        this.logger.warn('Animation not found', { animationId });
+        return false;
+      }
 
-      system.animations.push(newAnimation);
-      system.modified = Date.now();
+      if (animation.status === 'playing') {
+        animation.status = 'paused';
+        this.logger.debug('Animation paused', { animationId, animationName: animation.name });
+      }
 
-      this.updateStats('create_animation', system);
-      this.logger.info('AnimationSystemManager', `Created animation: ${newAnimation.name}`);
-      return newAnimation;
+      return true;
+
     } catch (error) {
-      this.logger.error('AnimationSystemManager', `Failed to create animation in system ${systemId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to pause animation');
+      return false;
     }
   }
 
   /**
-   * Create skeleton
+   * Stop an animation
    */
-  createSkeleton(systemId: string, skeleton: Partial<Skeleton>): Skeleton | null {
-    const system = this.systems.get(systemId);
-    if (!system) {
-      this.logger.warn('AnimationSystemManager', `Animation system ${systemId} not found`);
-      return null;
+  async stopAnimation(animationId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
     }
 
     try {
-      const newSkeleton: Skeleton = {
-        id: `skeleton_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: skeleton.name || 'New Skeleton',
-        type: skeleton.type || SkeletonType.HUMAN,
-        status: SkeletonStatus.ACTIVE,
-        bones: skeleton.bones || [],
-        hierarchy: skeleton.hierarchy || this.createDefaultBoneHierarchy(),
-        metadata: skeleton.metadata || new Map()
-      };
+      const animation = this.animations.get(animationId);
+      if (!animation) {
+        this.logger.warn('Animation not found', { animationId });
+        return false;
+      }
 
-      system.skeletons.push(newSkeleton);
-      system.modified = Date.now();
+      animation.status = 'stopped';
+      animation.timeline.currentTime = 0;
 
-      this.updateStats('create_skeleton', system);
-      this.logger.info('AnimationSystemManager', `Created skeleton: ${newSkeleton.name}`);
-      return newSkeleton;
+      this.logger.debug('Animation stopped', { animationId, animationName: animation.name });
+      return true;
+
     } catch (error) {
-      this.logger.error('AnimationSystemManager', `Failed to create skeleton in system ${systemId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to stop animation');
+      return false;
     }
   }
 
   /**
-   * Get animation system
+   * Update animation timeline
    */
-  getAnimationSystem(systemId: string): AnimationSystem | null {
-    return this.systems.get(systemId) || null;
+  async updateTimeline(animationId: string, deltaTime: number): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
+    }
+
+    try {
+      const animation = this.animations.get(animationId);
+      if (!animation) {
+        this.logger.warn('Animation not found', { animationId });
+        return false;
+      }
+
+      if (animation.status !== 'playing') {
+        return false;
+      }
+
+      // Update current time
+      animation.timeline.currentTime += deltaTime * animation.timeline.speed;
+
+      // Check if animation is complete
+      if (animation.timeline.currentTime >= animation.timeline.duration) {
+        if (animation.timeline.loop) {
+          animation.timeline.currentTime = 0;
+        } else {
+          animation.status = 'completed';
+        }
+      }
+
+      // Update keyframe values
+      this.updateKeyframeValues(animation);
+
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update timeline');
+      return false;
+    }
   }
 
   /**
-   * Get all animation systems
+   * Update keyframe values based on current time
    */
-  getAnimationSystems(): AnimationSystem[] {
-    return Array.from(this.systems.values());
-  }
+  private updateKeyframeValues(animation: Animation): void {
+    const currentTime = animation.timeline.currentTime;
+    const keyframes = animation.keyframes.sort((a, b) => a.time - b.time);
 
-  /**
-   * Get animation systems by type
-   */
-  getAnimationSystemsByType(type: AnimationSystemType): AnimationSystem[] {
-    return Array.from(this.systems.values())
-      .filter(system => system.type === type);
-  }
+    // Find current keyframe
+    let currentKeyframe: Keyframe | null = null;
+    let nextKeyframe: Keyframe | null = null;
 
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): AnimationSystemStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize animation system manager
-   */
-  private async initializeAnimationSystemManager(): Promise<void> {
-    this.logger.info('AnimationSystemManager', 'Initializing animation system manager...');
-  }
-
-  /**
-   * Load default animation systems
-   */
-  private async loadDefaultAnimationSystems(): Promise<void> {
-    // Load default animation systems
-    const defaultSystems = [
-      this.createDefaultKeyframe(),
-      this.createDefaultSkeletal(),
-      this.createDefaultProcedural()
-    ];
-
-    for (const system of defaultSystems) {
-      if (system) {
-        this.systems.set(system.id, system);
+    for (let i = 0; i < keyframes.length; i++) {
+      if (keyframes[i].time <= currentTime) {
+        currentKeyframe = keyframes[i];
+        nextKeyframe = keyframes[i + 1] || null;
       }
     }
 
-    this.logger.info('AnimationSystemManager', `Loaded ${defaultSystems.length} default animation systems`);
+    if (currentKeyframe && nextKeyframe) {
+      // Interpolate between keyframes
+      const progress = (currentTime - currentKeyframe.time) / (nextKeyframe.time - currentKeyframe.time);
+      const interpolatedValue = this.interpolateValue(
+        currentKeyframe.value,
+        nextKeyframe.value,
+        progress,
+        currentKeyframe.interpolation
+      );
+
+      // Update animation value
+      animation.metadata.currentValue = interpolatedValue;
+    } else if (currentKeyframe) {
+      // Use current keyframe value
+      animation.metadata.currentValue = currentKeyframe.value;
+    }
   }
 
   /**
-   * Create default animation properties
+   * Interpolate between two values
    */
-  private createDefaultAnimationProperties(): AnimationProperties {
-    return {
-      loop: false,
-      speed: 1.0,
-      delay: 0,
-      reverse: false,
-      metadata: new Map()
-    };
+  private interpolateValue(startValue: any, endValue: any, progress: number, interpolation: InterpolationType): any {
+    switch (interpolation) {
+      case 'linear':
+        return this.linearInterpolation(startValue, endValue, progress);
+      case 'bezier':
+        return this.bezierInterpolation(startValue, endValue, progress);
+      case 'step':
+        return progress < 1 ? startValue : endValue;
+      case 'smooth':
+        return this.smoothInterpolation(startValue, endValue, progress);
+      default:
+        return startValue;
+    }
   }
 
   /**
-   * Create default bone hierarchy
+   * Linear interpolation
    */
-  private createDefaultBoneHierarchy(): BoneHierarchy {
-    return {
-      root: '',
-      bones: new Map(),
-      metadata: new Map()
-    };
+  private linearInterpolation(start: any, end: any, progress: number): any {
+    if (typeof start === 'number' && typeof end === 'number') {
+      return start + (end - start) * progress;
+    }
+    return progress < 0.5 ? start : end;
   }
 
   /**
-   * Create default analytics
+   * Bezier interpolation
    */
-  private createDefaultAnalytics(): AnimationSystemAnalytics {
-    return {
-      totalAnimations: 0,
-      totalSkeletons: 0,
-      totalRigs: 0,
-      averageFrameRate: 0,
-      averageMemoryUsage: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
+  private bezierInterpolation(start: any, end: any, progress: number): any {
+    if (typeof start === 'number' && typeof end === 'number') {
+      const t = progress;
+      const t2 = t * t;
+      const t3 = t2 * t;
+      const mt = 1 - t;
+      const mt2 = mt * mt;
+      const mt3 = mt2 * mt;
+      return mt3 * start + 3 * mt2 * t * start + 3 * mt * t2 * end + t3 * end;
+    }
+    return progress < 0.5 ? start : end;
   }
 
   /**
-   * Create default metadata
+   * Smooth interpolation
    */
-  private createDefaultMetadata(): AnimationSystemMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
+  private smoothInterpolation(start: any, end: any, progress: number): any {
+    if (typeof start === 'number' && typeof end === 'number') {
+      const smoothProgress = progress * progress * (3 - 2 * progress);
+      return start + (end - start) * smoothProgress;
+    }
+    return progress < 0.5 ? start : end;
   }
 
   /**
-   * Create default keyframe
+   * Generate a unique animation ID
    */
-  private createDefaultKeyframe(): AnimationSystem {
-    return this.createAnimationSystem({
-      name: 'Keyframe Animation System',
-      type: AnimationSystemType.KEYFRAME,
-      description: 'Keyframe animation system'
-    });
+  private generateAnimationId(): string {
+    return `anim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
-   * Create default skeletal
+   * Increment version number
    */
-  private createDefaultSkeletal(): AnimationSystem {
-    return this.createAnimationSystem({
-      name: 'Skeletal Animation System',
-      type: AnimationSystemType.SKELETAL,
-      description: 'Skeletal animation system'
-    });
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
   }
 
   /**
-   * Create default procedural
+   * Update analytics
    */
-  private createDefaultProcedural(): AnimationSystem {
-    return this.createAnimationSystem({
-      name: 'Procedural Animation System',
-      type: AnimationSystemType.PROCEDURAL,
-      description: 'Procedural animation system'
-    });
+  private updateAnalytics(): void {
+    const animations = Array.from(this.animations.values());
+    const activeAnimations = animations.filter(a => a.status === 'playing');
+    const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
+    const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
+    const totalTransitions = animations.reduce((sum, a) => sum + (a.transitions.enabled ? 1 : 0), 0);
+
+    for (const animation of animations) {
+      animation.analytics = {
+        totalAnimations: animations.length,
+        activeAnimations: activeAnimations.length,
+        averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
+        keyframeCount: totalKeyframes,
+        transitionCount: totalTransitions,
+        lastUpdated: new Date()
+      };
+    }
   }
 
   /**
-   * Update statistics
+   * Get system statistics
    */
-  private updateStats(action: string, system: AnimationSystem): void {
-    switch (action) {
-      case 'create_system':
-        this.stats.totalAnimations += system.animations.length;
-        this.stats.totalSkeletons += system.skeletons.length;
-        this.stats.totalRigs += system.rigs.length;
-        break;
-      case 'create_animation':
-        this.stats.totalAnimations++;
-        break;
-      case 'create_skeleton':
-        this.stats.totalSkeletons++;
-        break;
+  getStatistics(): {
+    totalAnimations: number;
+    activeAnimations: number;
+    animationsByType: Record<AnimationType, number>;
+    animationsByStatus: Record<AnimationStatus, number>;
+    averageDuration: number;
+    totalKeyframes: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Animation System Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
-  }
+    const animations = Array.from(this.animations.values());
+    const activeAnimations = animations.filter(a => a.status === 'playing');
+    const totalDuration = animations.reduce((sum, a) => sum + a.timeline.duration, 0);
+    const totalKeyframes = animations.reduce((sum, a) => sum + a.keyframes.length, 0);
 
-  /**
-   * Initialize statistics
-   */
-  private initializeStats(): AnimationSystemStats {
+    const animationsByType: Record<AnimationType, number> = {
+      position: 0,
+      rotation: 0,
+      scale: 0,
+      color: 0,
+      opacity: 0,
+      custom: 0
+    };
+
+    const animationsByStatus: Record<AnimationStatus, number> = {
+      playing: 0,
+      paused: 0,
+      stopped: 0,
+      completed: 0,
+      error: 0
+    };
+
+    for (const animation of animations) {
+      animationsByType[animation.type]++;
+      animationsByStatus[animation.status]++;
+    }
+
     return {
-      totalAnimations: 0,
-      totalSkeletons: 0,
-      totalRigs: 0,
-      averageFrameRate: 0,
-      averageMemoryUsage: 0,
-      lastUpdate: Date.now()
+      totalAnimations: animations.length,
+      activeAnimations: activeAnimations.length,
+      animationsByType,
+      animationsByStatus,
+      averageDuration: animations.length > 0 ? totalDuration / animations.length : 0,
+      totalKeyframes,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Animation System Manager
    */
-  destroy(): void {
-    this.systems.clear();
-    this.stats = this.initializeStats();
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Animation System Manager...');
+
+    this.animations.clear();
     this.isInitialized = false;
+
+    this.logger.info('Animation System Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultAnimationSystemManager = new AnimationSystemManager();
-export { AnimationSystemManager as default };
+export const animationSystemManager = new AnimationSystemManager();
+export default animationSystemManager;
