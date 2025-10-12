@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface AudioConfig {
@@ -302,6 +306,8 @@ export class AudioManager {
   private audios: Map<string, Audio> = new Map();
   private stats: AudioStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<AudioConfig> = {}) {
     this.config = {
@@ -323,7 +329,21 @@ export class AudioManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AudioManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AudioManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AudioManager');
+  };
   }
 
   /**
@@ -338,10 +358,10 @@ export class AudioManager {
       await this.loadDefaultAudioSystems();
       
       this.isInitialized = true;
-      console.log('Audio manager initialized successfully');
+      this.logger.info('AudioManager', 'Audio manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize audio manager:', error);
+      this.logger.error('AudioManager', 'Failed to initialize audio manager:', error);
       return false;
     }
   }
@@ -369,7 +389,7 @@ export class AudioManager {
     this.audios.set(newAudio.id, newAudio);
     this.updateStats('create_audio', newAudio);
 
-    console.log(`Created audio system: ${newAudio.name}`);
+    this.logger.info('AudioManager', `Created audio system: ${newAudio.name}`);
     return newAudio;
   }
 
@@ -379,12 +399,12 @@ export class AudioManager {
   createAudioSource(audioId: string, source: Partial<AudioSource>): AudioSource | null {
     const audio = this.audios.get(audioId);
     if (!audio) {
-      console.warn(`Audio system ${audioId} not found`);
+      this.logger.warn('AudioManager', `Audio system ${audioId} not found`);
       return null;
     }
 
     if (audio.sources.length >= this.config.maxAudioSources) {
-      console.warn('Maximum number of audio sources reached');
+      this.logger.warn('AudioManager', 'Maximum number of audio sources reached');
       return null;
     }
 
@@ -404,10 +424,10 @@ export class AudioManager {
       audio.modified = Date.now();
 
       this.updateStats('create_source', audio);
-      console.log(`Created audio source: ${newSource.name}`);
+      this.logger.info('AudioManager', `Created audio source: ${newSource.name}`);
       return newSource;
     } catch (error) {
-      console.error(`Failed to create audio source in system ${audioId}:`, error);
+      this.logger.error('AudioManager', `Failed to create audio source in system ${audioId}:`, error);
       return null;
     }
   }
@@ -418,12 +438,12 @@ export class AudioManager {
   createAudioEffect(audioId: string, effect: Partial<AudioEffect>): AudioEffect | null {
     const audio = this.audios.get(audioId);
     if (!audio) {
-      console.warn(`Audio system ${audioId} not found`);
+      this.logger.warn('AudioManager', `Audio system ${audioId} not found`);
       return null;
     }
 
     if (audio.effects.length >= this.config.maxAudioEffects) {
-      console.warn('Maximum number of audio effects reached');
+      this.logger.warn('AudioManager', 'Maximum number of audio effects reached');
       return null;
     }
 
@@ -442,10 +462,10 @@ export class AudioManager {
       audio.modified = Date.now();
 
       this.updateStats('create_effect', audio);
-      console.log(`Created audio effect: ${newEffect.name}`);
+      this.logger.info('AudioManager', `Created audio effect: ${newEffect.name}`);
       return newEffect;
     } catch (error) {
-      console.error(`Failed to create audio effect in system ${audioId}:`, error);
+      this.logger.error('AudioManager', `Failed to create audio effect in system ${audioId}:`, error);
       return null;
     }
   }
@@ -483,7 +503,7 @@ export class AudioManager {
    * Initialize audio manager
    */
   private async initializeAudioManager(): Promise<void> {
-    console.log('Initializing audio manager...');
+    this.logger.info('AudioManager', 'Initializing audio manager...');
   }
 
   /**
@@ -503,7 +523,7 @@ export class AudioManager {
       }
     }
 
-    console.log(`Loaded ${defaultAudios.length} default audio systems`);
+    this.logger.info('AudioManager', `Loaded ${defaultAudios.length} default audio systems`);
   }
 
   /**

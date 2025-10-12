@@ -12,6 +12,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface QuestSystemConfig {
@@ -248,6 +252,8 @@ export class QuestSystemManager {
   private systems: Map<string, QuestSystem> = new Map();
   private stats: QuestStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<QuestSystemConfig> = {}) {
     this.config = {
@@ -269,7 +275,21 @@ export class QuestSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'QuestSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `QuestSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'QuestSystemManager');
+  };
   }
 
   /**
@@ -284,10 +304,10 @@ export class QuestSystemManager {
       await this.loadDefaultQuestSystems();
       
       this.isInitialized = true;
-      console.log('Quest system manager initialized successfully');
+      this.logger.info('QuestSystemManager', 'Quest system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize quest system manager:', error);
+      this.logger.error('QuestSystemManager', 'Failed to initialize quest system manager:', error);
       return false;
     }
   }
@@ -314,7 +334,7 @@ export class QuestSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created quest system: ${newSystem.name}`);
+    this.logger.info('QuestSystemManager', `Created quest system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -324,12 +344,12 @@ export class QuestSystemManager {
   createQuest(systemId: string, quest: Partial<Quest>): Quest | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Quest system ${systemId} not found`);
+      this.logger.warn('QuestSystemManager', `Quest system ${systemId} not found`);
       return null;
     }
 
     if (system.quests.length >= this.config.maxQuests) {
-      console.warn('Maximum number of quests reached');
+      this.logger.warn('QuestSystemManager', 'Maximum number of quests reached');
       return null;
     }
 
@@ -352,10 +372,10 @@ export class QuestSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_quest', system);
-      console.log(`Created quest: ${newQuest.name}`);
+      this.logger.info('QuestSystemManager', `Created quest: ${newQuest.name}`);
       return newQuest;
     } catch (error) {
-      console.error(`Failed to create quest in system ${systemId}:`, error);
+      this.logger.error('QuestSystemManager', `Failed to create quest in system ${systemId}:`, error);
       return null;
     }
   }
@@ -366,12 +386,12 @@ export class QuestSystemManager {
   createQuestObjective(systemId: string, objective: Partial<QuestObjective>): QuestObjective | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Quest system ${systemId} not found`);
+      this.logger.warn('QuestSystemManager', `Quest system ${systemId} not found`);
       return null;
     }
 
     if (system.objectives.length >= this.config.maxObjectives) {
-      console.warn('Maximum number of objectives reached');
+      this.logger.warn('QuestSystemManager', 'Maximum number of objectives reached');
       return null;
     }
 
@@ -391,10 +411,10 @@ export class QuestSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_objective', system);
-      console.log(`Created quest objective: ${newObjective.name}`);
+      this.logger.info('QuestSystemManager', `Created quest objective: ${newObjective.name}`);
       return newObjective;
     } catch (error) {
-      console.error(`Failed to create quest objective in system ${systemId}:`, error);
+      this.logger.error('QuestSystemManager', `Failed to create quest objective in system ${systemId}:`, error);
       return null;
     }
   }
@@ -432,7 +452,7 @@ export class QuestSystemManager {
    * Initialize quest system manager
    */
   private async initializeQuestSystemManager(): Promise<void> {
-    console.log('Initializing quest system manager...');
+    this.logger.info('QuestSystemManager', 'Initializing quest system manager...');
   }
 
   /**
@@ -452,7 +472,7 @@ export class QuestSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default quest systems`);
+    this.logger.info('QuestSystemManager', `Loaded ${defaultSystems.length} default quest systems`);
   }
 
   /**

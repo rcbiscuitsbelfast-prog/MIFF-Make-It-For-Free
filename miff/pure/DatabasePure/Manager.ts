@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DatabaseConfig {
@@ -322,6 +326,8 @@ export class DatabaseManager {
   private databases: Map<string, Database> = new Map();
   private stats: DatabaseStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DatabaseConfig> = {}) {
     this.config = {
@@ -343,7 +349,21 @@ export class DatabaseManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DatabaseManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DatabaseManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DatabaseManager');
+  };
   }
 
   /**
@@ -358,10 +378,10 @@ export class DatabaseManager {
       await this.loadDefaultDatabases();
       
       this.isInitialized = true;
-      console.log('Database manager initialized successfully');
+      this.logger.info('DatabaseManager', 'Database manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize database manager:', error);
+      this.logger.error('DatabaseManager', 'Failed to initialize database manager:', error);
       return false;
     }
   }
@@ -388,7 +408,7 @@ export class DatabaseManager {
     this.databases.set(newDatabase.id, newDatabase);
     this.updateStats('create_database', newDatabase);
 
-    console.log(`Created database: ${newDatabase.name}`);
+    this.logger.info('DatabaseManager', `Created database: ${newDatabase.name}`);
     return newDatabase;
   }
 
@@ -398,12 +418,12 @@ export class DatabaseManager {
   createDatabaseConnection(databaseId: string, connection: Partial<DatabaseConnection>): DatabaseConnection | null {
     const database = this.databases.get(databaseId);
     if (!database) {
-      console.warn(`Database ${databaseId} not found`);
+      this.logger.warn('DatabaseManager', `Database ${databaseId} not found`);
       return null;
     }
 
     if (database.connections.length >= this.config.maxConnections) {
-      console.warn('Maximum number of connections reached');
+      this.logger.warn('DatabaseManager', 'Maximum number of connections reached');
       return null;
     }
 
@@ -423,10 +443,10 @@ export class DatabaseManager {
       database.modified = Date.now();
 
       this.updateStats('create_connection', database);
-      console.log(`Created database connection: ${newConnection.name}`);
+      this.logger.info('DatabaseManager', `Created database connection: ${newConnection.name}`);
       return newConnection;
     } catch (error) {
-      console.error(`Failed to create database connection in database ${databaseId}:`, error);
+      this.logger.error('DatabaseManager', `Failed to create database connection in database ${databaseId}:`, error);
       return null;
     }
   }
@@ -437,12 +457,12 @@ export class DatabaseManager {
   createDatabaseQuery(databaseId: string, query: Partial<DatabaseQuery>): DatabaseQuery | null {
     const database = this.databases.get(databaseId);
     if (!database) {
-      console.warn(`Database ${databaseId} not found`);
+      this.logger.warn('DatabaseManager', `Database ${databaseId} not found`);
       return null;
     }
 
     if (database.queries.length >= this.config.maxQueries) {
-      console.warn('Maximum number of queries reached');
+      this.logger.warn('DatabaseManager', 'Maximum number of queries reached');
       return null;
     }
 
@@ -462,10 +482,10 @@ export class DatabaseManager {
       database.modified = Date.now();
 
       this.updateStats('create_query', database);
-      console.log(`Created database query: ${newQuery.name}`);
+      this.logger.info('DatabaseManager', `Created database query: ${newQuery.name}`);
       return newQuery;
     } catch (error) {
-      console.error(`Failed to create database query in database ${databaseId}:`, error);
+      this.logger.error('DatabaseManager', `Failed to create database query in database ${databaseId}:`, error);
       return null;
     }
   }
@@ -503,7 +523,7 @@ export class DatabaseManager {
    * Initialize database manager
    */
   private async initializeDatabaseManager(): Promise<void> {
-    console.log('Initializing database manager...');
+    this.logger.info('DatabaseManager', 'Initializing database manager...');
   }
 
   /**
@@ -523,7 +543,7 @@ export class DatabaseManager {
       }
     }
 
-    console.log(`Loaded ${defaultDatabases.length} default databases`);
+    this.logger.info('DatabaseManager', `Loaded ${defaultDatabases.length} default databases`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ErrorHandlingConfig {
@@ -264,6 +268,8 @@ export class ErrorHandlingManager {
   private handlers: Map<string, ErrorHandling> = new Map();
   private stats: ErrorHandlingStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ErrorHandlingConfig> = {}) {
     this.config = {
@@ -285,7 +291,21 @@ export class ErrorHandlingManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ErrorHandlingManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ErrorHandlingManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ErrorHandlingManager');
+  };
   }
 
   /**
@@ -300,10 +320,10 @@ export class ErrorHandlingManager {
       await this.loadDefaultErrorHandlers();
       
       this.isInitialized = true;
-      console.log('Error handling manager initialized successfully');
+      this.logger.info('ErrorHandlingManager', 'Error handling manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize error handling manager:', error);
+      this.logger.error('ErrorHandlingManager', 'Failed to initialize error handling manager:', error);
       return false;
     }
   }
@@ -330,7 +350,7 @@ export class ErrorHandlingManager {
     this.handlers.set(newHandler.id, newHandler);
     this.updateStats('create_handler', newHandler);
 
-    console.log(`Created error handling: ${newHandler.name}`);
+    this.logger.info('ErrorHandlingManager', `Created error handling: ${newHandler.name}`);
     return newHandler;
   }
 
@@ -340,12 +360,12 @@ export class ErrorHandlingManager {
   createError(handlerId: string, error: Partial<Error>): Error | null {
     const handler = this.handlers.get(handlerId);
     if (!handler) {
-      console.warn(`Error handling ${handlerId} not found`);
+      this.logger.warn('ErrorHandlingManager', `Error handling ${handlerId} not found`);
       return null;
     }
 
     if (handler.errors.length >= this.config.maxErrors) {
-      console.warn('Maximum number of errors reached');
+      this.logger.warn('ErrorHandlingManager', 'Maximum number of errors reached');
       return null;
     }
 
@@ -366,10 +386,10 @@ export class ErrorHandlingManager {
       handler.modified = Date.now();
 
       this.updateStats('create_error', handler);
-      console.log(`Created error: ${newError.message}`);
+      this.logger.info('ErrorHandlingManager', `Created error: ${newError.message}`);
       return newError;
     } catch (error) {
-      console.error(`Failed to create error in handler ${handlerId}:`, error);
+      this.logger.error('ErrorHandlingManager', `Failed to create error in handler ${handlerId}:`, error);
       return null;
     }
   }
@@ -380,7 +400,7 @@ export class ErrorHandlingManager {
   createErrorPolicy(handlerId: string, policy: Partial<ErrorPolicy>): ErrorPolicy | null {
     const handler = this.handlers.get(handlerId);
     if (!handler) {
-      console.warn(`Error handling ${handlerId} not found`);
+      this.logger.warn('ErrorHandlingManager', `Error handling ${handlerId} not found`);
       return null;
     }
 
@@ -399,10 +419,10 @@ export class ErrorHandlingManager {
       handler.modified = Date.now();
 
       this.updateStats('create_policy', handler);
-      console.log(`Created error policy: ${newPolicy.name}`);
+      this.logger.info('ErrorHandlingManager', `Created error policy: ${newPolicy.name}`);
       return newPolicy;
     } catch (error) {
-      console.error(`Failed to create error policy in handler ${handlerId}:`, error);
+      this.logger.error('ErrorHandlingManager', `Failed to create error policy in handler ${handlerId}:`, error);
       return null;
     }
   }
@@ -440,7 +460,7 @@ export class ErrorHandlingManager {
    * Initialize error handling manager
    */
   private async initializeErrorHandlingManager(): Promise<void> {
-    console.log('Initializing error handling manager...');
+    this.logger.info('ErrorHandlingManager', 'Initializing error handling manager...');
   }
 
   /**
@@ -460,7 +480,7 @@ export class ErrorHandlingManager {
       }
     }
 
-    console.log(`Loaded ${defaultHandlers.length} default error handlers`);
+    this.logger.info('ErrorHandlingManager', `Loaded ${defaultHandlers.length} default error handlers`);
   }
 
   /**

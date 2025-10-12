@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface UIInterfaceConfig {
@@ -346,6 +350,8 @@ export class UIInterfaceManager {
   private interfaces: Map<string, UIInterface> = new Map();
   private stats: UIInterfaceStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<UIInterfaceConfig> = {}) {
     this.config = {
@@ -367,7 +373,21 @@ export class UIInterfaceManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'UIInterfaceManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `UIInterfaceManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'UIInterfaceManager');
+  };
   }
 
   /**
@@ -382,10 +402,10 @@ export class UIInterfaceManager {
       await this.loadDefaultUIInterfaces();
       
       this.isInitialized = true;
-      console.log('UI interface manager initialized successfully');
+      this.logger.info('UIInterfaceManager', 'UI interface manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize UI interface manager:', error);
+      this.logger.error('UIInterfaceManager', 'Failed to initialize UI interface manager:', error);
       return false;
     }
   }
@@ -412,7 +432,7 @@ export class UIInterfaceManager {
     this.interfaces.set(newInterface.id, newInterface);
     this.updateStats('create_interface', newInterface);
 
-    console.log(`Created UI interface: ${newInterface.name}`);
+    this.logger.info('UIInterfaceManager', `Created UI interface: ${newInterface.name}`);
     return newInterface;
   }
 
@@ -422,12 +442,12 @@ export class UIInterfaceManager {
   createUIComponent(interfaceId: string, component: Partial<UIComponent>): UIComponent | null {
     const interface_ = this.interfaces.get(interfaceId);
     if (!interface_) {
-      console.warn(`UI interface ${interfaceId} not found`);
+      this.logger.warn('UIInterfaceManager', `UI interface ${interfaceId} not found`);
       return null;
     }
 
     if (interface_.components.length >= this.config.maxComponents) {
-      console.warn('Maximum number of components reached');
+      this.logger.warn('UIInterfaceManager', 'Maximum number of components reached');
       return null;
     }
 
@@ -448,10 +468,10 @@ export class UIInterfaceManager {
       interface_.modified = Date.now();
 
       this.updateStats('create_component', interface_);
-      console.log(`Created UI component: ${newComponent.name}`);
+      this.logger.info('UIInterfaceManager', `Created UI component: ${newComponent.name}`);
       return newComponent;
     } catch (error) {
-      console.error(`Failed to create UI component in interface ${interfaceId}:`, error);
+      this.logger.error('UIInterfaceManager', `Failed to create UI component in interface ${interfaceId}:`, error);
       return null;
     }
   }
@@ -462,12 +482,12 @@ export class UIInterfaceManager {
   createUITheme(interfaceId: string, theme: Partial<UITheme>): UITheme | null {
     const interface_ = this.interfaces.get(interfaceId);
     if (!interface_) {
-      console.warn(`UI interface ${interfaceId} not found`);
+      this.logger.warn('UIInterfaceManager', `UI interface ${interfaceId} not found`);
       return null;
     }
 
     if (interface_.themes.length >= this.config.maxThemes) {
-      console.warn('Maximum number of themes reached');
+      this.logger.warn('UIInterfaceManager', 'Maximum number of themes reached');
       return null;
     }
 
@@ -487,10 +507,10 @@ export class UIInterfaceManager {
       interface_.modified = Date.now();
 
       this.updateStats('create_theme', interface_);
-      console.log(`Created UI theme: ${newTheme.name}`);
+      this.logger.info('UIInterfaceManager', `Created UI theme: ${newTheme.name}`);
       return newTheme;
     } catch (error) {
-      console.error(`Failed to create UI theme in interface ${interfaceId}:`, error);
+      this.logger.error('UIInterfaceManager', `Failed to create UI theme in interface ${interfaceId}:`, error);
       return null;
     }
   }
@@ -528,7 +548,7 @@ export class UIInterfaceManager {
    * Initialize UI interface manager
    */
   private async initializeUIInterfaceManager(): Promise<void> {
-    console.log('Initializing UI interface manager...');
+    this.logger.info('UIInterfaceManager', 'Initializing UI interface manager...');
   }
 
   /**
@@ -548,7 +568,7 @@ export class UIInterfaceManager {
       }
     }
 
-    console.log(`Loaded ${defaultInterfaces.length} default UI interfaces`);
+    this.logger.info('UIInterfaceManager', `Loaded ${defaultInterfaces.length} default UI interfaces`);
   }
 
   /**

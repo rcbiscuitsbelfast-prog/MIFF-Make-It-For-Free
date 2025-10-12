@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ResourceManagerConfig {
@@ -246,6 +250,8 @@ export class ResourceManagerManager {
   private managers: Map<string, ResourceManager> = new Map();
   private stats: ResourceManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ResourceManagerConfig> = {}) {
     this.config = {
@@ -267,7 +273,21 @@ export class ResourceManagerManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ResourceManagerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ResourceManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ResourceManagerManager');
+  };
   }
 
   /**
@@ -282,10 +302,10 @@ export class ResourceManagerManager {
       await this.loadDefaultResourceManagers();
       
       this.isInitialized = true;
-      console.log('Resource manager initialized successfully');
+      this.logger.info('ResourceManagerManager', 'Resource manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize resource manager:', error);
+      this.logger.error('ResourceManagerManager', 'Failed to initialize resource manager:', error);
       return false;
     }
   }
@@ -312,7 +332,7 @@ export class ResourceManagerManager {
     this.managers.set(newManager.id, newManager);
     this.updateStats('create_manager', newManager);
 
-    console.log(`Created resource manager: ${newManager.name}`);
+    this.logger.info('ResourceManagerManager', `Created resource manager: ${newManager.name}`);
     return newManager;
   }
 
@@ -322,12 +342,12 @@ export class ResourceManagerManager {
   createResource(managerId: string, resource: Partial<Resource>): Resource | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`Resource manager ${managerId} not found`);
+      this.logger.warn('ResourceManagerManager', `Resource manager ${managerId} not found`);
       return null;
     }
 
     if (manager.resources.length >= this.config.maxResources) {
-      console.warn('Maximum number of resources reached');
+      this.logger.warn('ResourceManagerManager', 'Maximum number of resources reached');
       return null;
     }
 
@@ -348,10 +368,10 @@ export class ResourceManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_resource', manager);
-      console.log(`Created resource: ${newResource.name}`);
+      this.logger.info('ResourceManagerManager', `Created resource: ${newResource.name}`);
       return newResource;
     } catch (error) {
-      console.error(`Failed to create resource in manager ${managerId}:`, error);
+      this.logger.error('ResourceManagerManager', `Failed to create resource in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -362,7 +382,7 @@ export class ResourceManagerManager {
   createResourceDependency(managerId: string, dependency: Partial<ResourceDependency>): ResourceDependency | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`Resource manager ${managerId} not found`);
+      this.logger.warn('ResourceManagerManager', `Resource manager ${managerId} not found`);
       return null;
     }
 
@@ -380,10 +400,10 @@ export class ResourceManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_dependency', manager);
-      console.log(`Created resource dependency: ${newDependency.id}`);
+      this.logger.info('ResourceManagerManager', `Created resource dependency: ${newDependency.id}`);
       return newDependency;
     } catch (error) {
-      console.error(`Failed to create resource dependency in manager ${managerId}:`, error);
+      this.logger.error('ResourceManagerManager', `Failed to create resource dependency in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -421,7 +441,7 @@ export class ResourceManagerManager {
    * Initialize resource manager
    */
   private async initializeResourceManager(): Promise<void> {
-    console.log('Initializing resource manager...');
+    this.logger.info('ResourceManagerManager', 'Initializing resource manager...');
   }
 
   /**
@@ -441,7 +461,7 @@ export class ResourceManagerManager {
       }
     }
 
-    console.log(`Loaded ${defaultManagers.length} default resource managers`);
+    this.logger.info('ResourceManagerManager', `Loaded ${defaultManagers.length} default resource managers`);
   }
 
   /**

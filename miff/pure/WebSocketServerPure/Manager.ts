@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface WebSocketServerConfig {
@@ -249,6 +253,8 @@ export class WebSocketServerManager {
   private servers: Map<string, WebSocketServer> = new Map();
   private stats: WebSocketServerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<WebSocketServerConfig> = {}) {
     this.config = {
@@ -271,7 +277,21 @@ export class WebSocketServerManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'WebSocketServerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `WebSocketServerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'WebSocketServerManager');
+  };
   }
 
   /**
@@ -286,10 +306,10 @@ export class WebSocketServerManager {
       await this.loadDefaultWebSocketServers();
       
       this.isInitialized = true;
-      console.log('WebSocket server manager initialized successfully');
+      this.logger.info('WebSocketServerManager', 'WebSocket server manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize WebSocket server manager:', error);
+      this.logger.error('WebSocketServerManager', 'Failed to initialize WebSocket server manager:', error);
       return false;
     }
   }
@@ -316,7 +336,7 @@ export class WebSocketServerManager {
     this.servers.set(newServer.id, newServer);
     this.updateStats('create_server', newServer);
 
-    console.log(`Created WebSocket server: ${newServer.name}`);
+    this.logger.info('WebSocketServerManager', `Created WebSocket server: ${newServer.name}`);
     return newServer;
   }
 
@@ -326,12 +346,12 @@ export class WebSocketServerManager {
   createServer(webSocketServerId: string, server: Partial<Server>): Server | null {
     const webSocketServer = this.servers.get(webSocketServerId);
     if (!webSocketServer) {
-      console.warn(`WebSocket server ${webSocketServerId} not found`);
+      this.logger.warn('WebSocketServerManager', `WebSocket server ${webSocketServerId} not found`);
       return null;
     }
 
     if (webSocketServer.servers.length >= this.config.maxServers) {
-      console.warn('Maximum number of servers reached');
+      this.logger.warn('WebSocketServerManager', 'Maximum number of servers reached');
       return null;
     }
 
@@ -351,10 +371,10 @@ export class WebSocketServerManager {
       webSocketServer.modified = Date.now();
 
       this.updateStats('create_server', webSocketServer);
-      console.log(`Created server: ${newServer.name}`);
+      this.logger.info('WebSocketServerManager', `Created server: ${newServer.name}`);
       return newServer;
     } catch (error) {
-      console.error(`Failed to create server in WebSocket server ${webSocketServerId}:`, error);
+      this.logger.error('WebSocketServerManager', `Failed to create server in WebSocket server ${webSocketServerId}:`, error);
       return null;
     }
   }
@@ -365,12 +385,12 @@ export class WebSocketServerManager {
   createWebSocketConnection(webSocketServerId: string, connection: Partial<WebSocketConnection>): WebSocketConnection | null {
     const webSocketServer = this.servers.get(webSocketServerId);
     if (!webSocketServer) {
-      console.warn(`WebSocket server ${webSocketServerId} not found`);
+      this.logger.warn('WebSocketServerManager', `WebSocket server ${webSocketServerId} not found`);
       return null;
     }
 
     if (webSocketServer.connections.length >= this.config.maxConnections) {
-      console.warn('Maximum number of connections reached');
+      this.logger.warn('WebSocketServerManager', 'Maximum number of connections reached');
       return null;
     }
 
@@ -390,10 +410,10 @@ export class WebSocketServerManager {
       webSocketServer.modified = Date.now();
 
       this.updateStats('create_connection', webSocketServer);
-      console.log(`Created WebSocket connection: ${newConnection.id}`);
+      this.logger.info('WebSocketServerManager', `Created WebSocket connection: ${newConnection.id}`);
       return newConnection;
     } catch (error) {
-      console.error(`Failed to create WebSocket connection in WebSocket server ${webSocketServerId}:`, error);
+      this.logger.error('WebSocketServerManager', `Failed to create WebSocket connection in WebSocket server ${webSocketServerId}:`, error);
       return null;
     }
   }
@@ -431,7 +451,7 @@ export class WebSocketServerManager {
    * Initialize WebSocket server manager
    */
   private async initializeWebSocketServerManager(): Promise<void> {
-    console.log('Initializing WebSocket server manager...');
+    this.logger.info('WebSocketServerManager', 'Initializing WebSocket server manager...');
   }
 
   /**
@@ -451,7 +471,7 @@ export class WebSocketServerManager {
       }
     }
 
-    console.log(`Loaded ${defaultServers.length} default WebSocket servers`);
+    this.logger.info('WebSocketServerManager', `Loaded ${defaultServers.length} default WebSocket servers`);
   }
 
   /**

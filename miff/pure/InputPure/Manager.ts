@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface InputConfig {
@@ -199,6 +203,8 @@ export class InputManager {
   private inputs: Map<string, Input> = new Map();
   private stats: InputStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<InputConfig> = {}) {
     this.config = {
@@ -220,7 +226,21 @@ export class InputManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'InputManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `InputManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'InputManager');
+  };
   }
 
   /**
@@ -235,10 +255,10 @@ export class InputManager {
       await this.loadDefaultInputs();
       
       this.isInitialized = true;
-      console.log('Input manager initialized successfully');
+      this.logger.info('InputManager', 'Input manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize input manager:', error);
+      this.logger.error('InputManager', 'Failed to initialize input manager:', error);
       return false;
     }
   }
@@ -264,7 +284,7 @@ export class InputManager {
     this.inputs.set(newInput.id, newInput);
     this.updateStats('create_input', newInput);
 
-    console.log(`Created input: ${newInput.name}`);
+    this.logger.info('InputManager', `Created input: ${newInput.name}`);
     return newInput;
   }
 
@@ -274,12 +294,12 @@ export class InputManager {
   createInputDevice(inputId: string, device: Partial<InputDevice>): InputDevice | null {
     const input = this.inputs.get(inputId);
     if (!input) {
-      console.warn(`Input ${inputId} not found`);
+      this.logger.warn('InputManager', `Input ${inputId} not found`);
       return null;
     }
 
     if (input.devices.length >= this.config.maxDevices) {
-      console.warn('Maximum number of devices reached');
+      this.logger.warn('InputManager', 'Maximum number of devices reached');
       return null;
     }
 
@@ -298,10 +318,10 @@ export class InputManager {
       input.modified = Date.now();
 
       this.updateStats('create_device', input);
-      console.log(`Created input device: ${newDevice.name}`);
+      this.logger.info('InputManager', `Created input device: ${newDevice.name}`);
       return newDevice;
     } catch (error) {
-      console.error(`Failed to create input device in input ${inputId}:`, error);
+      this.logger.error('InputManager', `Failed to create input device in input ${inputId}:`, error);
       return null;
     }
   }
@@ -312,12 +332,12 @@ export class InputManager {
   createInputMapping(inputId: string, mapping: Partial<InputMapping>): InputMapping | null {
     const input = this.inputs.get(inputId);
     if (!input) {
-      console.warn(`Input ${inputId} not found`);
+      this.logger.warn('InputManager', `Input ${inputId} not found`);
       return null;
     }
 
     if (input.mappings.length >= this.config.maxMappings) {
-      console.warn('Maximum number of mappings reached');
+      this.logger.warn('InputManager', 'Maximum number of mappings reached');
       return null;
     }
 
@@ -336,10 +356,10 @@ export class InputManager {
       input.modified = Date.now();
 
       this.updateStats('create_mapping', input);
-      console.log(`Created input mapping: ${newMapping.name}`);
+      this.logger.info('InputManager', `Created input mapping: ${newMapping.name}`);
       return newMapping;
     } catch (error) {
-      console.error(`Failed to create input mapping in input ${inputId}:`, error);
+      this.logger.error('InputManager', `Failed to create input mapping in input ${inputId}:`, error);
       return null;
     }
   }
@@ -377,7 +397,7 @@ export class InputManager {
    * Initialize input manager
    */
   private async initializeInputManager(): Promise<void> {
-    console.log('Initializing input manager...');
+    this.logger.info('InputManager', 'Initializing input manager...');
   }
 
   /**
@@ -397,7 +417,7 @@ export class InputManager {
       }
     }
 
-    console.log(`Loaded ${defaultInputs.length} default inputs`);
+    this.logger.info('InputManager', `Loaded ${defaultInputs.length} default inputs`);
   }
 
   /**

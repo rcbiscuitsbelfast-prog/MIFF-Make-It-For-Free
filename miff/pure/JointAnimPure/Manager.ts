@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface JointAnimConfig {
@@ -279,6 +283,8 @@ export class JointAnimManager {
   private jointAnims: Map<string, JointAnim> = new Map();
   private stats: JointAnimStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<JointAnimConfig> = {}) {
     this.config = {
@@ -301,7 +307,21 @@ export class JointAnimManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'JointAnimManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `JointAnimManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'JointAnimManager');
+  };
   }
 
   /**
@@ -316,10 +336,10 @@ export class JointAnimManager {
       await this.loadDefaultJointAnims();
       
       this.isInitialized = true;
-      console.log('Joint animation manager initialized successfully');
+      this.logger.info('JointAnimManager', 'Joint animation manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize joint animation manager:', error);
+      this.logger.error('JointAnimManager', 'Failed to initialize joint animation manager:', error);
       return false;
     }
   }
@@ -346,7 +366,7 @@ export class JointAnimManager {
     this.jointAnims.set(newJointAnim.id, newJointAnim);
     this.updateStats('create_jointanim', newJointAnim);
 
-    console.log(`Created joint animation: ${newJointAnim.name}`);
+    this.logger.info('JointAnimManager', `Created joint animation: ${newJointAnim.name}`);
     return newJointAnim;
   }
 
@@ -356,12 +376,12 @@ export class JointAnimManager {
   createAnimation(jointAnimId: string, animation: Partial<Animation>): Animation | null {
     const jointAnim = this.jointAnims.get(jointAnimId);
     if (!jointAnim) {
-      console.warn(`Joint animation ${jointAnimId} not found`);
+      this.logger.warn('JointAnimManager', `Joint animation ${jointAnimId} not found`);
       return null;
     }
 
     if (jointAnim.animations.length >= this.config.maxAnimations) {
-      console.warn('Maximum number of animations reached');
+      this.logger.warn('JointAnimManager', 'Maximum number of animations reached');
       return null;
     }
 
@@ -382,10 +402,10 @@ export class JointAnimManager {
       jointAnim.modified = Date.now();
 
       this.updateStats('create_animation', jointAnim);
-      console.log(`Created animation: ${newAnimation.name}`);
+      this.logger.info('JointAnimManager', `Created animation: ${newAnimation.name}`);
       return newAnimation;
     } catch (error) {
-      console.error(`Failed to create animation in joint animation ${jointAnimId}:`, error);
+      this.logger.error('JointAnimManager', `Failed to create animation in joint animation ${jointAnimId}:`, error);
       return null;
     }
   }
@@ -396,12 +416,12 @@ export class JointAnimManager {
   createJoint(jointAnimId: string, joint: Partial<Joint>): Joint | null {
     const jointAnim = this.jointAnims.get(jointAnimId);
     if (!jointAnim) {
-      console.warn(`Joint animation ${jointAnimId} not found`);
+      this.logger.warn('JointAnimManager', `Joint animation ${jointAnimId} not found`);
       return null;
     }
 
     if (jointAnim.joints.length >= this.config.maxJoints) {
-      console.warn('Maximum number of joints reached');
+      this.logger.warn('JointAnimManager', 'Maximum number of joints reached');
       return null;
     }
 
@@ -422,10 +442,10 @@ export class JointAnimManager {
       jointAnim.modified = Date.now();
 
       this.updateStats('create_joint', jointAnim);
-      console.log(`Created joint: ${newJoint.name}`);
+      this.logger.info('JointAnimManager', `Created joint: ${newJoint.name}`);
       return newJoint;
     } catch (error) {
-      console.error(`Failed to create joint in joint animation ${jointAnimId}:`, error);
+      this.logger.error('JointAnimManager', `Failed to create joint in joint animation ${jointAnimId}:`, error);
       return null;
     }
   }
@@ -463,7 +483,7 @@ export class JointAnimManager {
    * Initialize joint animation manager
    */
   private async initializeJointAnimManager(): Promise<void> {
-    console.log('Initializing joint animation manager...');
+    this.logger.info('JointAnimManager', 'Initializing joint animation manager...');
   }
 
   /**
@@ -483,7 +503,7 @@ export class JointAnimManager {
       }
     }
 
-    console.log(`Loaded ${defaultJointAnims.length} default joint animations`);
+    this.logger.info('JointAnimManager', `Loaded ${defaultJointAnims.length} default joint animations`);
   }
 
   /**

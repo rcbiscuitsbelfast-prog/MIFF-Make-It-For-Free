@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SliceConfig {
@@ -261,6 +265,8 @@ export class SliceManager {
   private slices: Map<string, Slice> = new Map();
   private stats: SliceStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SliceConfig> = {}) {
     this.config = {
@@ -283,7 +289,21 @@ export class SliceManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SliceManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SliceManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SliceManager');
+  };
   }
 
   /**
@@ -298,10 +318,10 @@ export class SliceManager {
       await this.loadDefaultSlices();
       
       this.isInitialized = true;
-      console.log('Slice manager initialized successfully');
+      this.logger.info('SliceManager', 'Slice manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize slice manager:', error);
+      this.logger.error('SliceManager', 'Failed to initialize slice manager:', error);
       return false;
     }
   }
@@ -328,7 +348,7 @@ export class SliceManager {
     this.slices.set(newSlice.id, newSlice);
     this.updateStats('create_slice', newSlice);
 
-    console.log(`Created slice: ${newSlice.name}`);
+    this.logger.info('SliceManager', `Created slice: ${newSlice.name}`);
     return newSlice;
   }
 
@@ -338,12 +358,12 @@ export class SliceManager {
   createSliceData(sliceId: string, sliceData: Partial<SliceData>): SliceData | null {
     const slice = this.slices.get(sliceId);
     if (!slice) {
-      console.warn(`Slice ${sliceId} not found`);
+      this.logger.warn('SliceManager', `Slice ${sliceId} not found`);
       return null;
     }
 
     if (slice.slices.length >= this.config.maxSlices) {
-      console.warn('Maximum number of slices reached');
+      this.logger.warn('SliceManager', 'Maximum number of slices reached');
       return null;
     }
 
@@ -363,10 +383,10 @@ export class SliceManager {
       slice.modified = Date.now();
 
       this.updateStats('create_slicedata', slice);
-      console.log(`Created slice data: ${newSliceData.name}`);
+      this.logger.info('SliceManager', `Created slice data: ${newSliceData.name}`);
       return newSliceData;
     } catch (error) {
-      console.error(`Failed to create slice data in slice ${sliceId}:`, error);
+      this.logger.error('SliceManager', `Failed to create slice data in slice ${sliceId}:`, error);
       return null;
     }
   }
@@ -377,7 +397,7 @@ export class SliceManager {
   createSliceVisualization(sliceId: string, visualization: Partial<SliceVisualization>): SliceVisualization | null {
     const slice = this.slices.get(sliceId);
     if (!slice) {
-      console.warn(`Slice ${sliceId} not found`);
+      this.logger.warn('SliceManager', `Slice ${sliceId} not found`);
       return null;
     }
 
@@ -396,10 +416,10 @@ export class SliceManager {
       slice.modified = Date.now();
 
       this.updateStats('create_visualization', slice);
-      console.log(`Created slice visualization: ${newVisualization.name}`);
+      this.logger.info('SliceManager', `Created slice visualization: ${newVisualization.name}`);
       return newVisualization;
     } catch (error) {
-      console.error(`Failed to create slice visualization in slice ${sliceId}:`, error);
+      this.logger.error('SliceManager', `Failed to create slice visualization in slice ${sliceId}:`, error);
       return null;
     }
   }
@@ -437,7 +457,7 @@ export class SliceManager {
    * Initialize slice manager
    */
   private async initializeSliceManager(): Promise<void> {
-    console.log('Initializing slice manager...');
+    this.logger.info('SliceManager', 'Initializing slice manager...');
   }
 
   /**
@@ -457,7 +477,7 @@ export class SliceManager {
       }
     }
 
-    console.log(`Loaded ${defaultSlices.length} default slices`);
+    this.logger.info('SliceManager', `Loaded ${defaultSlices.length} default slices`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface VisualReplaySystemConfig {
@@ -287,6 +291,8 @@ export class VisualReplaySystemManager {
   private systems: Map<string, VisualReplaySystem> = new Map();
   private stats: VisualReplaySystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<VisualReplaySystemConfig> = {}) {
     this.config = {
@@ -309,7 +315,21 @@ export class VisualReplaySystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'VisualReplaySystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `VisualReplaySystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'VisualReplaySystemManager');
+  };
   }
 
   /**
@@ -324,10 +344,10 @@ export class VisualReplaySystemManager {
       await this.loadDefaultVisualReplaySystems();
       
       this.isInitialized = true;
-      console.log('Visual replay system manager initialized successfully');
+      this.logger.info('VisualReplaySystemManager', 'Visual replay system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize visual replay system manager:', error);
+      this.logger.error('VisualReplaySystemManager', 'Failed to initialize visual replay system manager:', error);
       return false;
     }
   }
@@ -354,7 +374,7 @@ export class VisualReplaySystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created visual replay system: ${newSystem.name}`);
+    this.logger.info('VisualReplaySystemManager', `Created visual replay system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -364,12 +384,12 @@ export class VisualReplaySystemManager {
   createReplay(systemId: string, replay: Partial<Replay>): Replay | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Visual replay system ${systemId} not found`);
+      this.logger.warn('VisualReplaySystemManager', `Visual replay system ${systemId} not found`);
       return null;
     }
 
     if (system.replays.length >= this.config.maxReplays) {
-      console.warn('Maximum number of replays reached');
+      this.logger.warn('VisualReplaySystemManager', 'Maximum number of replays reached');
       return null;
     }
 
@@ -390,10 +410,10 @@ export class VisualReplaySystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_replay', system);
-      console.log(`Created replay: ${newReplay.name}`);
+      this.logger.info('VisualReplaySystemManager', `Created replay: ${newReplay.name}`);
       return newReplay;
     } catch (error) {
-      console.error(`Failed to create replay in visual replay system ${systemId}:`, error);
+      this.logger.error('VisualReplaySystemManager', `Failed to create replay in visual replay system ${systemId}:`, error);
       return null;
     }
   }
@@ -404,7 +424,7 @@ export class VisualReplaySystemManager {
   createRecording(systemId: string, recording: Partial<Recording>): Recording | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Visual replay system ${systemId} not found`);
+      this.logger.warn('VisualReplaySystemManager', `Visual replay system ${systemId} not found`);
       return null;
     }
 
@@ -423,10 +443,10 @@ export class VisualReplaySystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_recording', system);
-      console.log(`Created recording: ${newRecording.name}`);
+      this.logger.info('VisualReplaySystemManager', `Created recording: ${newRecording.name}`);
       return newRecording;
     } catch (error) {
-      console.error(`Failed to create recording in visual replay system ${systemId}:`, error);
+      this.logger.error('VisualReplaySystemManager', `Failed to create recording in visual replay system ${systemId}:`, error);
       return null;
     }
   }
@@ -464,7 +484,7 @@ export class VisualReplaySystemManager {
    * Initialize visual replay system manager
    */
   private async initializeVisualReplaySystemManager(): Promise<void> {
-    console.log('Initializing visual replay system manager...');
+    this.logger.info('VisualReplaySystemManager', 'Initializing visual replay system manager...');
   }
 
   /**
@@ -484,7 +504,7 @@ export class VisualReplaySystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default visual replay systems`);
+    this.logger.info('VisualReplaySystemManager', `Loaded ${defaultSystems.length} default visual replay systems`);
   }
 
   /**

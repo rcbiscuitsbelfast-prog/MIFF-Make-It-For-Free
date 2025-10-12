@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface AvatarSystemConfig {
@@ -301,6 +305,8 @@ export class AvatarSystemManager {
   private systems: Map<string, AvatarSystem> = new Map();
   private stats: AvatarStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<AvatarSystemConfig> = {}) {
     this.config = {
@@ -324,7 +330,21 @@ export class AvatarSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AvatarSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AvatarSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AvatarSystemManager');
+  };
   }
 
   /**
@@ -339,10 +359,10 @@ export class AvatarSystemManager {
       await this.loadDefaultAvatarSystems();
       
       this.isInitialized = true;
-      console.log('Avatar system manager initialized successfully');
+      this.logger.info('AvatarSystemManager', 'Avatar system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize avatar system manager:', error);
+      this.logger.error('AvatarSystemManager', 'Failed to initialize avatar system manager:', error);
       return false;
     }
   }
@@ -369,7 +389,7 @@ export class AvatarSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created avatar system: ${newSystem.name}`);
+    this.logger.info('AvatarSystemManager', `Created avatar system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -379,12 +399,12 @@ export class AvatarSystemManager {
   createAvatar(systemId: string, avatar: Partial<Avatar>): Avatar | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Avatar system ${systemId} not found`);
+      this.logger.warn('AvatarSystemManager', `Avatar system ${systemId} not found`);
       return null;
     }
 
     if (system.avatars.length >= this.config.maxAvatars) {
-      console.warn('Maximum number of avatars reached');
+      this.logger.warn('AvatarSystemManager', 'Maximum number of avatars reached');
       return null;
     }
 
@@ -405,10 +425,10 @@ export class AvatarSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_avatar', system);
-      console.log(`Created avatar: ${newAvatar.name}`);
+      this.logger.info('AvatarSystemManager', `Created avatar: ${newAvatar.name}`);
       return newAvatar;
     } catch (error) {
-      console.error(`Failed to create avatar in avatar system ${systemId}:`, error);
+      this.logger.error('AvatarSystemManager', `Failed to create avatar in avatar system ${systemId}:`, error);
       return null;
     }
   }
@@ -419,12 +439,12 @@ export class AvatarSystemManager {
   createAnimation(systemId: string, animation: Partial<Animation>): Animation | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Avatar system ${systemId} not found`);
+      this.logger.warn('AvatarSystemManager', `Avatar system ${systemId} not found`);
       return null;
     }
 
     if (system.animations.length >= this.config.maxAnimations) {
-      console.warn('Maximum number of animations reached');
+      this.logger.warn('AvatarSystemManager', 'Maximum number of animations reached');
       return null;
     }
 
@@ -442,10 +462,10 @@ export class AvatarSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_animation', system);
-      console.log(`Created animation: ${newAnimation.name}`);
+      this.logger.info('AvatarSystemManager', `Created animation: ${newAnimation.name}`);
       return newAnimation;
     } catch (error) {
-      console.error(`Failed to create animation in avatar system ${systemId}:`, error);
+      this.logger.error('AvatarSystemManager', `Failed to create animation in avatar system ${systemId}:`, error);
       return null;
     }
   }
@@ -483,7 +503,7 @@ export class AvatarSystemManager {
    * Initialize avatar system manager
    */
   private async initializeAvatarSystemManager(): Promise<void> {
-    console.log('Initializing avatar system manager...');
+    this.logger.info('AvatarSystemManager', 'Initializing avatar system manager...');
   }
 
   /**
@@ -503,7 +523,7 @@ export class AvatarSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default avatar systems`);
+    this.logger.info('AvatarSystemManager', `Loaded ${defaultSystems.length} default avatar systems`);
   }
 
   /**

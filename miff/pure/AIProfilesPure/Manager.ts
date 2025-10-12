@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface AIProfilesConfig {
@@ -288,6 +292,8 @@ export class AIProfilesManager {
   private profiles: Map<string, AIProfiles> = new Map();
   private stats: AIProfilesStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<AIProfilesConfig> = {}) {
     this.config = {
@@ -310,7 +316,21 @@ export class AIProfilesManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AIProfilesManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AIProfilesManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AIProfilesManager');
+  };
   }
 
   /**
@@ -325,10 +345,10 @@ export class AIProfilesManager {
       await this.loadDefaultAIProfiles();
       
       this.isInitialized = true;
-      console.log('AI profiles manager initialized successfully');
+      this.logger.info('AIProfilesManager', 'AI profiles manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize AI profiles manager:', error);
+      this.logger.error('AIProfilesManager', 'Failed to initialize AI profiles manager:', error);
       return false;
     }
   }
@@ -355,7 +375,7 @@ export class AIProfilesManager {
     this.profiles.set(newProfiles.id, newProfiles);
     this.updateStats('create_profiles', newProfiles);
 
-    console.log(`Created AI profiles: ${newProfiles.name}`);
+    this.logger.info('AIProfilesManager', `Created AI profiles: ${newProfiles.name}`);
     return newProfiles;
   }
 
@@ -365,12 +385,12 @@ export class AIProfilesManager {
   createAIProfile(profilesId: string, profile: Partial<AIProfile>): AIProfile | null {
     const profiles = this.profiles.get(profilesId);
     if (!profiles) {
-      console.warn(`AI profiles ${profilesId} not found`);
+      this.logger.warn('AIProfilesManager', `AI profiles ${profilesId} not found`);
       return null;
     }
 
     if (profiles.profiles.length >= this.config.maxProfiles) {
-      console.warn('Maximum number of profiles reached');
+      this.logger.warn('AIProfilesManager', 'Maximum number of profiles reached');
       return null;
     }
 
@@ -392,10 +412,10 @@ export class AIProfilesManager {
       profiles.modified = Date.now();
 
       this.updateStats('create_profile', profiles);
-      console.log(`Created AI profile: ${newProfile.name}`);
+      this.logger.info('AIProfilesManager', `Created AI profile: ${newProfile.name}`);
       return newProfile;
     } catch (error) {
-      console.error(`Failed to create AI profile in AI profiles ${profilesId}:`, error);
+      this.logger.error('AIProfilesManager', `Failed to create AI profile in AI profiles ${profilesId}:`, error);
       return null;
     }
   }
@@ -406,7 +426,7 @@ export class AIProfilesManager {
   createAIBehavior(profilesId: string, behavior: Partial<AIBehavior>): AIBehavior | null {
     const profiles = this.profiles.get(profilesId);
     if (!profiles) {
-      console.warn(`AI profiles ${profilesId} not found`);
+      this.logger.warn('AIProfilesManager', `AI profiles ${profilesId} not found`);
       return null;
     }
 
@@ -426,10 +446,10 @@ export class AIProfilesManager {
       profiles.modified = Date.now();
 
       this.updateStats('create_behavior', profiles);
-      console.log(`Created AI behavior: ${newBehavior.name}`);
+      this.logger.info('AIProfilesManager', `Created AI behavior: ${newBehavior.name}`);
       return newBehavior;
     } catch (error) {
-      console.error(`Failed to create AI behavior in AI profiles ${profilesId}:`, error);
+      this.logger.error('AIProfilesManager', `Failed to create AI behavior in AI profiles ${profilesId}:`, error);
       return null;
     }
   }
@@ -467,7 +487,7 @@ export class AIProfilesManager {
    * Initialize AI profiles manager
    */
   private async initializeAIProfilesManager(): Promise<void> {
-    console.log('Initializing AI profiles manager...');
+    this.logger.info('AIProfilesManager', 'Initializing AI profiles manager...');
   }
 
   /**
@@ -487,7 +507,7 @@ export class AIProfilesManager {
       }
     }
 
-    console.log(`Loaded ${defaultProfiles.length} default AI profiles`);
+    this.logger.info('AIProfilesManager', `Loaded ${defaultProfiles.length} default AI profiles`);
   }
 
   /**

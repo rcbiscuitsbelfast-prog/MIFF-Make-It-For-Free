@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface NetworkConfig {
@@ -263,6 +267,8 @@ export class NetworkManager {
   private networks: Map<string, Network> = new Map();
   private stats: NetworkStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<NetworkConfig> = {}) {
     this.config = {
@@ -284,7 +290,21 @@ export class NetworkManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'NetworkManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `NetworkManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'NetworkManager');
+  };
   }
 
   /**
@@ -299,10 +319,10 @@ export class NetworkManager {
       await this.loadDefaultNetworkSystems();
       
       this.isInitialized = true;
-      console.log('Network manager initialized successfully');
+      this.logger.info('NetworkManager', 'Network manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize network manager:', error);
+      this.logger.error('NetworkManager', 'Failed to initialize network manager:', error);
       return false;
     }
   }
@@ -329,7 +349,7 @@ export class NetworkManager {
     this.networks.set(newNetwork.id, newNetwork);
     this.updateStats('create_network', newNetwork);
 
-    console.log(`Created network system: ${newNetwork.name}`);
+    this.logger.info('NetworkManager', `Created network system: ${newNetwork.name}`);
     return newNetwork;
   }
 
@@ -339,12 +359,12 @@ export class NetworkManager {
   createNetworkConnection(networkId: string, connection: Partial<NetworkConnection>): NetworkConnection | null {
     const network = this.networks.get(networkId);
     if (!network) {
-      console.warn(`Network system ${networkId} not found`);
+      this.logger.warn('NetworkManager', `Network system ${networkId} not found`);
       return null;
     }
 
     if (network.connections.length >= this.config.maxConnections) {
-      console.warn('Maximum number of connections reached');
+      this.logger.warn('NetworkManager', 'Maximum number of connections reached');
       return null;
     }
 
@@ -365,10 +385,10 @@ export class NetworkManager {
       network.modified = Date.now();
 
       this.updateStats('create_connection', network);
-      console.log(`Created network connection: ${newConnection.name}`);
+      this.logger.info('NetworkManager', `Created network connection: ${newConnection.name}`);
       return newConnection;
     } catch (error) {
-      console.error(`Failed to create network connection in system ${networkId}:`, error);
+      this.logger.error('NetworkManager', `Failed to create network connection in system ${networkId}:`, error);
       return null;
     }
   }
@@ -379,7 +399,7 @@ export class NetworkManager {
   createNetworkProtocol(networkId: string, protocol: Partial<NetworkProtocol>): NetworkProtocol | null {
     const network = this.networks.get(networkId);
     if (!network) {
-      console.warn(`Network system ${networkId} not found`);
+      this.logger.warn('NetworkManager', `Network system ${networkId} not found`);
       return null;
     }
 
@@ -398,10 +418,10 @@ export class NetworkManager {
       network.modified = Date.now();
 
       this.updateStats('create_protocol', network);
-      console.log(`Created network protocol: ${newProtocol.name}`);
+      this.logger.info('NetworkManager', `Created network protocol: ${newProtocol.name}`);
       return newProtocol;
     } catch (error) {
-      console.error(`Failed to create network protocol in system ${networkId}:`, error);
+      this.logger.error('NetworkManager', `Failed to create network protocol in system ${networkId}:`, error);
       return null;
     }
   }
@@ -439,7 +459,7 @@ export class NetworkManager {
    * Initialize network manager
    */
   private async initializeNetworkManager(): Promise<void> {
-    console.log('Initializing network manager...');
+    this.logger.info('NetworkManager', 'Initializing network manager...');
   }
 
   /**
@@ -459,7 +479,7 @@ export class NetworkManager {
       }
     }
 
-    console.log(`Loaded ${defaultNetworks.length} default network systems`);
+    this.logger.info('NetworkManager', `Loaded ${defaultNetworks.length} default network systems`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ValidationSystemConfig {
@@ -249,6 +253,8 @@ export class ValidationSystemManager {
   private systems: Map<string, ValidationSystem> = new Map();
   private stats: ValidationSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ValidationSystemConfig> = {}) {
     this.config = {
@@ -270,7 +276,21 @@ export class ValidationSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ValidationSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ValidationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ValidationSystemManager');
+  };
   }
 
   /**
@@ -285,10 +305,10 @@ export class ValidationSystemManager {
       await this.loadDefaultValidationSystems();
       
       this.isInitialized = true;
-      console.log('Validation system manager initialized successfully');
+      this.logger.info('ValidationSystemManager', 'Validation system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize validation system manager:', error);
+      this.logger.error('ValidationSystemManager', 'Failed to initialize validation system manager:', error);
       return false;
     }
   }
@@ -315,7 +335,7 @@ export class ValidationSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created validation system: ${newSystem.name}`);
+    this.logger.info('ValidationSystemManager', `Created validation system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -325,12 +345,12 @@ export class ValidationSystemManager {
   createValidator(systemId: string, validator: Partial<Validator>): Validator | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Validation system ${systemId} not found`);
+      this.logger.warn('ValidationSystemManager', `Validation system ${systemId} not found`);
       return null;
     }
 
     if (system.validators.length >= this.config.maxValidators) {
-      console.warn('Maximum number of validators reached');
+      this.logger.warn('ValidationSystemManager', 'Maximum number of validators reached');
       return null;
     }
 
@@ -350,10 +370,10 @@ export class ValidationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_validator', system);
-      console.log(`Created validator: ${newValidator.name}`);
+      this.logger.info('ValidationSystemManager', `Created validator: ${newValidator.name}`);
       return newValidator;
     } catch (error) {
-      console.error(`Failed to create validator in system ${systemId}:`, error);
+      this.logger.error('ValidationSystemManager', `Failed to create validator in system ${systemId}:`, error);
       return null;
     }
   }
@@ -364,12 +384,12 @@ export class ValidationSystemManager {
   createValidationRule(systemId: string, rule: Partial<ValidationRule>): ValidationRule | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Validation system ${systemId} not found`);
+      this.logger.warn('ValidationSystemManager', `Validation system ${systemId} not found`);
       return null;
     }
 
     if (system.rules.length >= this.config.maxRules) {
-      console.warn('Maximum number of rules reached');
+      this.logger.warn('ValidationSystemManager', 'Maximum number of rules reached');
       return null;
     }
 
@@ -388,10 +408,10 @@ export class ValidationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_rule', system);
-      console.log(`Created validation rule: ${newRule.name}`);
+      this.logger.info('ValidationSystemManager', `Created validation rule: ${newRule.name}`);
       return newRule;
     } catch (error) {
-      console.error(`Failed to create validation rule in system ${systemId}:`, error);
+      this.logger.error('ValidationSystemManager', `Failed to create validation rule in system ${systemId}:`, error);
       return null;
     }
   }
@@ -429,7 +449,7 @@ export class ValidationSystemManager {
    * Initialize validation system manager
    */
   private async initializeValidationSystemManager(): Promise<void> {
-    console.log('Initializing validation system manager...');
+    this.logger.info('ValidationSystemManager', 'Initializing validation system manager...');
   }
 
   /**
@@ -449,7 +469,7 @@ export class ValidationSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default validation systems`);
+    this.logger.info('ValidationSystemManager', `Loaded ${defaultSystems.length} default validation systems`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DataPipelineConfig {
@@ -270,6 +274,8 @@ export class DataPipelineManager {
   private dataPipelines: Map<string, DataPipeline> = new Map();
   private stats: DataPipelineStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DataPipelineConfig> = {}) {
     this.config = {
@@ -292,7 +298,21 @@ export class DataPipelineManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DataPipelineManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DataPipelineManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DataPipelineManager');
+  };
   }
 
   /**
@@ -307,10 +327,10 @@ export class DataPipelineManager {
       await this.loadDefaultDataPipelines();
       
       this.isInitialized = true;
-      console.log('Data pipeline manager initialized successfully');
+      this.logger.info('DataPipelineManager', 'Data pipeline manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize data pipeline manager:', error);
+      this.logger.error('DataPipelineManager', 'Failed to initialize data pipeline manager:', error);
       return false;
     }
   }
@@ -337,7 +357,7 @@ export class DataPipelineManager {
     this.dataPipelines.set(newDataPipeline.id, newDataPipeline);
     this.updateStats('create_datapipeline', newDataPipeline);
 
-    console.log(`Created data pipeline: ${newDataPipeline.name}`);
+    this.logger.info('DataPipelineManager', `Created data pipeline: ${newDataPipeline.name}`);
     return newDataPipeline;
   }
 
@@ -347,12 +367,12 @@ export class DataPipelineManager {
   createPipeline(dataPipelineId: string, pipeline: Partial<Pipeline>): Pipeline | null {
     const dataPipeline = this.dataPipelines.get(dataPipelineId);
     if (!dataPipeline) {
-      console.warn(`Data pipeline ${dataPipelineId} not found`);
+      this.logger.warn('DataPipelineManager', `Data pipeline ${dataPipelineId} not found`);
       return null;
     }
 
     if (dataPipeline.pipelines.length >= this.config.maxPipelines) {
-      console.warn('Maximum number of pipelines reached');
+      this.logger.warn('DataPipelineManager', 'Maximum number of pipelines reached');
       return null;
     }
 
@@ -371,10 +391,10 @@ export class DataPipelineManager {
       dataPipeline.modified = Date.now();
 
       this.updateStats('create_pipeline', dataPipeline);
-      console.log(`Created pipeline: ${newPipeline.name}`);
+      this.logger.info('DataPipelineManager', `Created pipeline: ${newPipeline.name}`);
       return newPipeline;
     } catch (error) {
-      console.error(`Failed to create pipeline in data pipeline ${dataPipelineId}:`, error);
+      this.logger.error('DataPipelineManager', `Failed to create pipeline in data pipeline ${dataPipelineId}:`, error);
       return null;
     }
   }
@@ -385,12 +405,12 @@ export class DataPipelineManager {
   createPipelineStage(dataPipelineId: string, stage: Partial<PipelineStage>): PipelineStage | null {
     const dataPipeline = this.dataPipelines.get(dataPipelineId);
     if (!dataPipeline) {
-      console.warn(`Data pipeline ${dataPipelineId} not found`);
+      this.logger.warn('DataPipelineManager', `Data pipeline ${dataPipelineId} not found`);
       return null;
     }
 
     if (dataPipeline.stages.length >= this.config.maxStages) {
-      console.warn('Maximum number of stages reached');
+      this.logger.warn('DataPipelineManager', 'Maximum number of stages reached');
       return null;
     }
 
@@ -411,10 +431,10 @@ export class DataPipelineManager {
       dataPipeline.modified = Date.now();
 
       this.updateStats('create_stage', dataPipeline);
-      console.log(`Created pipeline stage: ${newStage.name}`);
+      this.logger.info('DataPipelineManager', `Created pipeline stage: ${newStage.name}`);
       return newStage;
     } catch (error) {
-      console.error(`Failed to create pipeline stage in data pipeline ${dataPipelineId}:`, error);
+      this.logger.error('DataPipelineManager', `Failed to create pipeline stage in data pipeline ${dataPipelineId}:`, error);
       return null;
     }
   }
@@ -452,7 +472,7 @@ export class DataPipelineManager {
    * Initialize data pipeline manager
    */
   private async initializeDataPipelineManager(): Promise<void> {
-    console.log('Initializing data pipeline manager...');
+    this.logger.info('DataPipelineManager', 'Initializing data pipeline manager...');
   }
 
   /**
@@ -472,7 +492,7 @@ export class DataPipelineManager {
       }
     }
 
-    console.log(`Loaded ${defaultDataPipelines.length} default data pipelines`);
+    this.logger.info('DataPipelineManager', `Loaded ${defaultDataPipelines.length} default data pipelines`);
   }
 
   /**

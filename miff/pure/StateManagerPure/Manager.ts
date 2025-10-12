@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface StateManagerConfig {
@@ -235,6 +239,8 @@ export class StateManagerManager {
   private managers: Map<string, StateManager> = new Map();
   private stats: StateManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<StateManagerConfig> = {}) {
     this.config = {
@@ -256,7 +262,21 @@ export class StateManagerManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'StateManagerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `StateManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'StateManagerManager');
+  };
   }
 
   /**
@@ -271,10 +291,10 @@ export class StateManagerManager {
       await this.loadDefaultStateManagers();
       
       this.isInitialized = true;
-      console.log('State manager initialized successfully');
+      this.logger.info('StateManagerManager', 'State manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize state manager:', error);
+      this.logger.error('StateManagerManager', 'Failed to initialize state manager:', error);
       return false;
     }
   }
@@ -301,7 +321,7 @@ export class StateManagerManager {
     this.managers.set(newManager.id, newManager);
     this.updateStats('create_manager', newManager);
 
-    console.log(`Created state manager: ${newManager.name}`);
+    this.logger.info('StateManagerManager', `Created state manager: ${newManager.name}`);
     return newManager;
   }
 
@@ -311,12 +331,12 @@ export class StateManagerManager {
   createState(managerId: string, state: Partial<State>): State | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`State manager ${managerId} not found`);
+      this.logger.warn('StateManagerManager', `State manager ${managerId} not found`);
       return null;
     }
 
     if (manager.states.length >= this.config.maxStates) {
-      console.warn('Maximum number of states reached');
+      this.logger.warn('StateManagerManager', 'Maximum number of states reached');
       return null;
     }
 
@@ -335,10 +355,10 @@ export class StateManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_state', manager);
-      console.log(`Created state: ${newState.name}`);
+      this.logger.info('StateManagerManager', `Created state: ${newState.name}`);
       return newState;
     } catch (error) {
-      console.error(`Failed to create state in manager ${managerId}:`, error);
+      this.logger.error('StateManagerManager', `Failed to create state in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -349,12 +369,12 @@ export class StateManagerManager {
   createStateTransition(managerId: string, transition: Partial<StateTransition>): StateTransition | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`State manager ${managerId} not found`);
+      this.logger.warn('StateManagerManager', `State manager ${managerId} not found`);
       return null;
     }
 
     if (manager.transitions.length >= this.config.maxTransitions) {
-      console.warn('Maximum number of transitions reached');
+      this.logger.warn('StateManagerManager', 'Maximum number of transitions reached');
       return null;
     }
 
@@ -374,10 +394,10 @@ export class StateManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_transition', manager);
-      console.log(`Created state transition: ${newTransition.name}`);
+      this.logger.info('StateManagerManager', `Created state transition: ${newTransition.name}`);
       return newTransition;
     } catch (error) {
-      console.error(`Failed to create state transition in manager ${managerId}:`, error);
+      this.logger.error('StateManagerManager', `Failed to create state transition in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -415,7 +435,7 @@ export class StateManagerManager {
    * Initialize state manager
    */
   private async initializeStateManager(): Promise<void> {
-    console.log('Initializing state manager...');
+    this.logger.info('StateManagerManager', 'Initializing state manager...');
   }
 
   /**
@@ -435,7 +455,7 @@ export class StateManagerManager {
       }
     }
 
-    console.log(`Loaded ${defaultManagers.length} default state managers`);
+    this.logger.info('StateManagerManager', `Loaded ${defaultManagers.length} default state managers`);
   }
 
   /**

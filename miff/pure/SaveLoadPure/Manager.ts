@@ -12,6 +12,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SaveLoadConfig {
@@ -302,6 +306,8 @@ export class SaveLoadManager {
   private systems: Map<string, SaveLoad> = new Map();
   private stats: SaveLoadStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SaveLoadConfig> = {}) {
     this.config = {
@@ -323,7 +329,21 @@ export class SaveLoadManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SaveLoadManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SaveLoadManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SaveLoadManager');
+  };
   }
 
   /**
@@ -338,10 +358,10 @@ export class SaveLoadManager {
       await this.loadDefaultSaveLoadSystems();
       
       this.isInitialized = true;
-      console.log('Save/load manager initialized successfully');
+      this.logger.info('SaveLoadManager', 'Save/load manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize save/load manager:', error);
+      this.logger.error('SaveLoadManager', 'Failed to initialize save/load manager:', error);
       return false;
     }
   }
@@ -367,7 +387,7 @@ export class SaveLoadManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created save/load system: ${newSystem.name}`);
+    this.logger.info('SaveLoadManager', `Created save/load system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -377,12 +397,12 @@ export class SaveLoadManager {
   createSaveFile(systemId: string, save: Partial<SaveFile>): SaveFile | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Save/load system ${systemId} not found`);
+      this.logger.warn('SaveLoadManager', `Save/load system ${systemId} not found`);
       return null;
     }
 
     if (system.saves.length >= this.config.maxSaves) {
-      console.warn('Maximum number of saves reached');
+      this.logger.warn('SaveLoadManager', 'Maximum number of saves reached');
       return null;
     }
 
@@ -402,10 +422,10 @@ export class SaveLoadManager {
       system.modified = Date.now();
 
       this.updateStats('create_save', system);
-      console.log(`Created save file: ${newSave.name}`);
+      this.logger.info('SaveLoadManager', `Created save file: ${newSave.name}`);
       return newSave;
     } catch (error) {
-      console.error(`Failed to create save file in system ${systemId}:`, error);
+      this.logger.error('SaveLoadManager', `Failed to create save file in system ${systemId}:`, error);
       return null;
     }
   }
@@ -416,7 +436,7 @@ export class SaveLoadManager {
   createLoadFile(systemId: string, load: Partial<LoadFile>): LoadFile | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Save/load system ${systemId} not found`);
+      this.logger.warn('SaveLoadManager', `Save/load system ${systemId} not found`);
       return null;
     }
 
@@ -436,10 +456,10 @@ export class SaveLoadManager {
       system.modified = Date.now();
 
       this.updateStats('create_load', system);
-      console.log(`Created load file: ${newLoad.name}`);
+      this.logger.info('SaveLoadManager', `Created load file: ${newLoad.name}`);
       return newLoad;
     } catch (error) {
-      console.error(`Failed to create load file in system ${systemId}:`, error);
+      this.logger.error('SaveLoadManager', `Failed to create load file in system ${systemId}:`, error);
       return null;
     }
   }
@@ -477,7 +497,7 @@ export class SaveLoadManager {
    * Initialize save/load manager
    */
   private async initializeSaveLoadManager(): Promise<void> {
-    console.log('Initializing save/load manager...');
+    this.logger.info('SaveLoadManager', 'Initializing save/load manager...');
   }
 
   /**
@@ -497,7 +517,7 @@ export class SaveLoadManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default save/load systems`);
+    this.logger.info('SaveLoadManager', `Loaded ${defaultSystems.length} default save/load systems`);
   }
 
   /**

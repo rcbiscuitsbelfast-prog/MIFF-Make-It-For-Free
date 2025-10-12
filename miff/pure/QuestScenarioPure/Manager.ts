@@ -15,6 +15,10 @@
  * @author MIFF Framework
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface QuestScenarioConfig {
   enableScenarioCreation: boolean;
   enableScenarioManagement: boolean;
@@ -333,6 +337,8 @@ export class QuestScenarioManager {
   private scenarios: Map<string, QuestScenario> = new Map();
   private stats: QuestScenarioStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<QuestScenarioConfig> = {}) {
     this.config = {
@@ -356,6 +362,20 @@ export class QuestScenarioManager {
       enableVersioning: true,
       ...config
     };
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'QuestScenarioManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `QuestScenarioManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'QuestScenarioManager');
   }
 
   /**
@@ -370,10 +390,10 @@ export class QuestScenarioManager {
       await this.loadDefaultQuestScenarios();
       
       this.isInitialized = true;
-      console.log('Quest scenario manager initialized successfully');
+      this.logger.info('QuestScenarioManager', 'Quest scenario manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize quest scenario manager:', error);
+      this.logger.error('QuestScenarioManager', 'Failed to initialize quest scenario manager:', error);
       return false;
     }
   }
@@ -400,7 +420,7 @@ export class QuestScenarioManager {
     this.scenarios.set(newScenario.id, newScenario);
     this.updateStats('create_scenario', newScenario);
 
-    console.log(`Created quest scenario: ${newScenario.name}`);
+    this.logger.info('QuestScenarioManager', `Created quest scenario: ${newScenario.name}`);
     return newScenario;
   }
 
@@ -410,12 +430,12 @@ export class QuestScenarioManager {
   createScenario(questScenarioId: string, scenario: Partial<Scenario>): Scenario | null {
     const questScenario = this.scenarios.get(questScenarioId);
     if (!questScenario) {
-      console.warn(`Quest scenario ${questScenarioId} not found`);
+      this.logger.warn('QuestScenarioManager', `Quest scenario ${questScenarioId} not found`);
       return null;
     }
 
     if (questScenario.scenarios.length >= this.config.maxScenarios) {
-      console.warn('Maximum number of scenarios reached');
+      this.logger.warn('QuestScenarioManager', 'Maximum number of scenarios reached');
       return null;
     }
 
@@ -436,10 +456,10 @@ export class QuestScenarioManager {
       questScenario.modified = Date.now();
 
       this.updateStats('create_scenario', questScenario);
-      console.log(`Created scenario: ${newScenario.name}`);
+      this.logger.info('QuestScenarioManager', `Created scenario: ${newScenario.name}`);
       return newScenario;
     } catch (error) {
-      console.error(`Failed to create scenario in quest scenario ${questScenarioId}:`, error);
+      this.logger.error('QuestScenarioManager', `Failed to create scenario in quest scenario ${questScenarioId}:`, error);
       return null;
     }
   }
@@ -450,12 +470,12 @@ export class QuestScenarioManager {
   createQuest(questScenarioId: string, quest: Partial<Quest>): Quest | null {
     const questScenario = this.scenarios.get(questScenarioId);
     if (!questScenario) {
-      console.warn(`Quest scenario ${questScenarioId} not found`);
+      this.logger.warn('QuestScenarioManager', `Quest scenario ${questScenarioId} not found`);
       return null;
     }
 
     if (questScenario.quests.length >= this.config.maxQuests) {
-      console.warn('Maximum number of quests reached');
+      this.logger.warn('QuestScenarioManager', 'Maximum number of quests reached');
       return null;
     }
 
@@ -476,10 +496,10 @@ export class QuestScenarioManager {
       questScenario.modified = Date.now();
 
       this.updateStats('create_quest', questScenario);
-      console.log(`Created quest: ${newQuest.name}`);
+      this.logger.info('QuestScenarioManager', `Created quest: ${newQuest.name}`);
       return newQuest;
     } catch (error) {
-      console.error(`Failed to create quest in quest scenario ${questScenarioId}:`, error);
+      this.logger.error('QuestScenarioManager', `Failed to create quest in quest scenario ${questScenarioId}:`, error);
       return null;
     }
   }
@@ -517,7 +537,7 @@ export class QuestScenarioManager {
    * Initialize quest scenario manager
    */
   private async initializeQuestScenarioManager(): Promise<void> {
-    console.log('Initializing quest scenario manager...');
+    this.logger.info('QuestScenarioManager', 'Initializing quest scenario manager...');
   }
 
   /**
@@ -537,7 +557,7 @@ export class QuestScenarioManager {
       }
     }
 
-    console.log(`Loaded ${defaultScenarios.length} default quest scenarios`);
+    this.logger.info('QuestScenarioManager', `Loaded ${defaultScenarios.length} default quest scenarios`);
   }
 
   /**

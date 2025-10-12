@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface MonitoringSystemConfig {
@@ -266,6 +270,8 @@ export class MonitoringSystemManager {
   private systems: Map<string, MonitoringSystem> = new Map();
   private stats: MonitoringSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<MonitoringSystemConfig> = {}) {
     this.config = {
@@ -287,7 +293,21 @@ export class MonitoringSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'MonitoringSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `MonitoringSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'MonitoringSystemManager');
+  };
   }
 
   /**
@@ -302,10 +322,10 @@ export class MonitoringSystemManager {
       await this.loadDefaultMonitoringSystems();
       
       this.isInitialized = true;
-      console.log('Monitoring system manager initialized successfully');
+      this.logger.info('MonitoringSystemManager', 'Monitoring system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize monitoring system manager:', error);
+      this.logger.error('MonitoringSystemManager', 'Failed to initialize monitoring system manager:', error);
       return false;
     }
   }
@@ -332,7 +352,7 @@ export class MonitoringSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created monitoring system: ${newSystem.name}`);
+    this.logger.info('MonitoringSystemManager', `Created monitoring system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -342,12 +362,12 @@ export class MonitoringSystemManager {
   createMetric(systemId: string, metric: Partial<Metric>): Metric | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Monitoring system ${systemId} not found`);
+      this.logger.warn('MonitoringSystemManager', `Monitoring system ${systemId} not found`);
       return null;
     }
 
     if (system.metrics.length >= this.config.maxMetrics) {
-      console.warn('Maximum number of metrics reached');
+      this.logger.warn('MonitoringSystemManager', 'Maximum number of metrics reached');
       return null;
     }
 
@@ -368,10 +388,10 @@ export class MonitoringSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_metric', system);
-      console.log(`Created metric: ${newMetric.name}`);
+      this.logger.info('MonitoringSystemManager', `Created metric: ${newMetric.name}`);
       return newMetric;
     } catch (error) {
-      console.error(`Failed to create metric in system ${systemId}:`, error);
+      this.logger.error('MonitoringSystemManager', `Failed to create metric in system ${systemId}:`, error);
       return null;
     }
   }
@@ -382,12 +402,12 @@ export class MonitoringSystemManager {
   createAlert(systemId: string, alert: Partial<Alert>): Alert | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Monitoring system ${systemId} not found`);
+      this.logger.warn('MonitoringSystemManager', `Monitoring system ${systemId} not found`);
       return null;
     }
 
     if (system.alerts.length >= this.config.maxAlerts) {
-      console.warn('Maximum number of alerts reached');
+      this.logger.warn('MonitoringSystemManager', 'Maximum number of alerts reached');
       return null;
     }
 
@@ -407,10 +427,10 @@ export class MonitoringSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_alert', system);
-      console.log(`Created alert: ${newAlert.name}`);
+      this.logger.info('MonitoringSystemManager', `Created alert: ${newAlert.name}`);
       return newAlert;
     } catch (error) {
-      console.error(`Failed to create alert in system ${systemId}:`, error);
+      this.logger.error('MonitoringSystemManager', `Failed to create alert in system ${systemId}:`, error);
       return null;
     }
   }
@@ -448,7 +468,7 @@ export class MonitoringSystemManager {
    * Initialize monitoring system manager
    */
   private async initializeMonitoringSystemManager(): Promise<void> {
-    console.log('Initializing monitoring system manager...');
+    this.logger.info('MonitoringSystemManager', 'Initializing monitoring system manager...');
   }
 
   /**
@@ -468,7 +488,7 @@ export class MonitoringSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default monitoring systems`);
+    this.logger.info('MonitoringSystemManager', `Loaded ${defaultSystems.length} default monitoring systems`);
   }
 
   /**

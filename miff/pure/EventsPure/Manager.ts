@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface EventsConfig {
@@ -285,6 +289,8 @@ export class EventsManager {
   private events: Map<string, Events> = new Map();
   private stats: EventStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<EventsConfig> = {}) {
     this.config = {
@@ -307,7 +313,21 @@ export class EventsManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EventsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EventsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EventsManager');
+  };
   }
 
   /**
@@ -322,10 +342,10 @@ export class EventsManager {
       await this.loadDefaultEvents();
       
       this.isInitialized = true;
-      console.log('Events manager initialized successfully');
+      this.logger.info('EventsManager', 'Events manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize events manager:', error);
+      this.logger.error('EventsManager', 'Failed to initialize events manager:', error);
       return false;
     }
   }
@@ -351,7 +371,7 @@ export class EventsManager {
     this.events.set(newEvents.id, newEvents);
     this.updateStats('create_events', newEvents);
 
-    console.log(`Created events: ${newEvents.name}`);
+    this.logger.info('EventsManager', `Created events: ${newEvents.name}`);
     return newEvents;
   }
 
@@ -361,12 +381,12 @@ export class EventsManager {
   createEvent(eventsId: string, event: Partial<Event>): Event | null {
     const events = this.events.get(eventsId);
     if (!events) {
-      console.warn(`Events ${eventsId} not found`);
+      this.logger.warn('EventsManager', `Events ${eventsId} not found`);
       return null;
     }
 
     if (events.events.length >= this.config.maxEvents) {
-      console.warn('Maximum number of events reached');
+      this.logger.warn('EventsManager', 'Maximum number of events reached');
       return null;
     }
 
@@ -386,10 +406,10 @@ export class EventsManager {
       events.modified = Date.now();
 
       this.updateStats('create_event', events);
-      console.log(`Created event: ${newEvent.name}`);
+      this.logger.info('EventsManager', `Created event: ${newEvent.name}`);
       return newEvent;
     } catch (error) {
-      console.error(`Failed to create event in events ${eventsId}:`, error);
+      this.logger.error('EventsManager', `Failed to create event in events ${eventsId}:`, error);
       return null;
     }
   }
@@ -400,12 +420,12 @@ export class EventsManager {
   createEventSubscriber(eventsId: string, subscriber: Partial<EventSubscriber>): EventSubscriber | null {
     const events = this.events.get(eventsId);
     if (!events) {
-      console.warn(`Events ${eventsId} not found`);
+      this.logger.warn('EventsManager', `Events ${eventsId} not found`);
       return null;
     }
 
     if (events.subscribers.length >= this.config.maxSubscribers) {
-      console.warn('Maximum number of subscribers reached');
+      this.logger.warn('EventsManager', 'Maximum number of subscribers reached');
       return null;
     }
 
@@ -425,10 +445,10 @@ export class EventsManager {
       events.modified = Date.now();
 
       this.updateStats('create_subscriber', events);
-      console.log(`Created event subscriber: ${newSubscriber.name}`);
+      this.logger.info('EventsManager', `Created event subscriber: ${newSubscriber.name}`);
       return newSubscriber;
     } catch (error) {
-      console.error(`Failed to create event subscriber in events ${eventsId}:`, error);
+      this.logger.error('EventsManager', `Failed to create event subscriber in events ${eventsId}:`, error);
       return null;
     }
   }
@@ -466,7 +486,7 @@ export class EventsManager {
    * Initialize events manager
    */
   private async initializeEventsManager(): Promise<void> {
-    console.log('Initializing events manager...');
+    this.logger.info('EventsManager', 'Initializing events manager...');
   }
 
   /**
@@ -486,7 +506,7 @@ export class EventsManager {
       }
     }
 
-    console.log(`Loaded ${defaultEvents.length} default events`);
+    this.logger.info('EventsManager', `Loaded ${defaultEvents.length} default events`);
   }
 
   /**

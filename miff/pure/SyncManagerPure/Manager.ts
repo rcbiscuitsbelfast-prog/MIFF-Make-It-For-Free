@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SyncManagerConfig {
@@ -262,6 +266,8 @@ export class SyncManagerManager {
   private managers: Map<string, SyncManager> = new Map();
   private stats: SyncStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SyncManagerConfig> = {}) {
     this.config = {
@@ -283,7 +289,21 @@ export class SyncManagerManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SyncManagerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SyncManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SyncManagerManager');
+  };
   }
 
   /**
@@ -298,10 +318,10 @@ export class SyncManagerManager {
       await this.loadDefaultSyncManagers();
       
       this.isInitialized = true;
-      console.log('Sync manager initialized successfully');
+      this.logger.info('SyncManagerManager', 'Sync manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize sync manager:', error);
+      this.logger.error('SyncManagerManager', 'Failed to initialize sync manager:', error);
       return false;
     }
   }
@@ -328,7 +348,7 @@ export class SyncManagerManager {
     this.managers.set(newManager.id, newManager);
     this.updateStats('create_manager', newManager);
 
-    console.log(`Created sync manager: ${newManager.name}`);
+    this.logger.info('SyncManagerManager', `Created sync manager: ${newManager.name}`);
     return newManager;
   }
 
@@ -338,12 +358,12 @@ export class SyncManagerManager {
   createSyncSource(managerId: string, source: Partial<SyncSource>): SyncSource | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`Sync manager ${managerId} not found`);
+      this.logger.warn('SyncManagerManager', `Sync manager ${managerId} not found`);
       return null;
     }
 
     if (manager.sources.length >= this.config.maxSources) {
-      console.warn('Maximum number of sources reached');
+      this.logger.warn('SyncManagerManager', 'Maximum number of sources reached');
       return null;
     }
 
@@ -362,10 +382,10 @@ export class SyncManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_source', manager);
-      console.log(`Created sync source: ${newSource.name}`);
+      this.logger.info('SyncManagerManager', `Created sync source: ${newSource.name}`);
       return newSource;
     } catch (error) {
-      console.error(`Failed to create sync source in manager ${managerId}:`, error);
+      this.logger.error('SyncManagerManager', `Failed to create sync source in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -376,12 +396,12 @@ export class SyncManagerManager {
   createSyncConflict(managerId: string, conflict: Partial<SyncConflict>): SyncConflict | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`Sync manager ${managerId} not found`);
+      this.logger.warn('SyncManagerManager', `Sync manager ${managerId} not found`);
       return null;
     }
 
     if (manager.conflicts.length >= this.config.maxConflicts) {
-      console.warn('Maximum number of conflicts reached');
+      this.logger.warn('SyncManagerManager', 'Maximum number of conflicts reached');
       return null;
     }
 
@@ -400,10 +420,10 @@ export class SyncManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_conflict', manager);
-      console.log(`Created sync conflict: ${newConflict.id}`);
+      this.logger.info('SyncManagerManager', `Created sync conflict: ${newConflict.id}`);
       return newConflict;
     } catch (error) {
-      console.error(`Failed to create sync conflict in manager ${managerId}:`, error);
+      this.logger.error('SyncManagerManager', `Failed to create sync conflict in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -441,7 +461,7 @@ export class SyncManagerManager {
    * Initialize sync manager
    */
   private async initializeSyncManager(): Promise<void> {
-    console.log('Initializing sync manager...');
+    this.logger.info('SyncManagerManager', 'Initializing sync manager...');
   }
 
   /**
@@ -461,7 +481,7 @@ export class SyncManagerManager {
       }
     }
 
-    console.log(`Loaded ${defaultManagers.length} default sync managers`);
+    this.logger.info('SyncManagerManager', `Loaded ${defaultManagers.length} default sync managers`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface GameLogicConfig {
@@ -255,6 +259,8 @@ export class GameLogicManager {
   private gameLogics: Map<string, GameLogic> = new Map();
   private stats: GameLogicStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<GameLogicConfig> = {}) {
     this.config = {
@@ -276,7 +282,21 @@ export class GameLogicManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'GameLogicManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `GameLogicManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'GameLogicManager');
+  };
   }
 
   /**
@@ -291,10 +311,10 @@ export class GameLogicManager {
       await this.loadDefaultGameLogics();
       
       this.isInitialized = true;
-      console.log('Game logic manager initialized successfully');
+      this.logger.info('GameLogicManager', 'Game logic manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize game logic manager:', error);
+      this.logger.error('GameLogicManager', 'Failed to initialize game logic manager:', error);
       return false;
     }
   }
@@ -321,7 +341,7 @@ export class GameLogicManager {
     this.gameLogics.set(newGameLogic.id, newGameLogic);
     this.updateStats('create_gamelogic', newGameLogic);
 
-    console.log(`Created game logic: ${newGameLogic.name}`);
+    this.logger.info('GameLogicManager', `Created game logic: ${newGameLogic.name}`);
     return newGameLogic;
   }
 
@@ -331,12 +351,12 @@ export class GameLogicManager {
   createGameState(gameLogicId: string, state: Partial<GameState>): GameState | null {
     const gameLogic = this.gameLogics.get(gameLogicId);
     if (!gameLogic) {
-      console.warn(`Game logic ${gameLogicId} not found`);
+      this.logger.warn('GameLogicManager', `Game logic ${gameLogicId} not found`);
       return null;
     }
 
     if (gameLogic.states.length >= this.config.maxStates) {
-      console.warn('Maximum number of states reached');
+      this.logger.warn('GameLogicManager', 'Maximum number of states reached');
       return null;
     }
 
@@ -355,10 +375,10 @@ export class GameLogicManager {
       gameLogic.modified = Date.now();
 
       this.updateStats('create_state', gameLogic);
-      console.log(`Created game state: ${newState.name}`);
+      this.logger.info('GameLogicManager', `Created game state: ${newState.name}`);
       return newState;
     } catch (error) {
-      console.error(`Failed to create game state in logic ${gameLogicId}:`, error);
+      this.logger.error('GameLogicManager', `Failed to create game state in logic ${gameLogicId}:`, error);
       return null;
     }
   }
@@ -369,12 +389,12 @@ export class GameLogicManager {
   createGameRule(gameLogicId: string, rule: Partial<GameRule>): GameRule | null {
     const gameLogic = this.gameLogics.get(gameLogicId);
     if (!gameLogic) {
-      console.warn(`Game logic ${gameLogicId} not found`);
+      this.logger.warn('GameLogicManager', `Game logic ${gameLogicId} not found`);
       return null;
     }
 
     if (gameLogic.rules.length >= this.config.maxRules) {
-      console.warn('Maximum number of rules reached');
+      this.logger.warn('GameLogicManager', 'Maximum number of rules reached');
       return null;
     }
 
@@ -394,10 +414,10 @@ export class GameLogicManager {
       gameLogic.modified = Date.now();
 
       this.updateStats('create_rule', gameLogic);
-      console.log(`Created game rule: ${newRule.name}`);
+      this.logger.info('GameLogicManager', `Created game rule: ${newRule.name}`);
       return newRule;
     } catch (error) {
-      console.error(`Failed to create game rule in logic ${gameLogicId}:`, error);
+      this.logger.error('GameLogicManager', `Failed to create game rule in logic ${gameLogicId}:`, error);
       return null;
     }
   }
@@ -435,7 +455,7 @@ export class GameLogicManager {
    * Initialize game logic manager
    */
   private async initializeGameLogicManager(): Promise<void> {
-    console.log('Initializing game logic manager...');
+    this.logger.info('GameLogicManager', 'Initializing game logic manager...');
   }
 
   /**
@@ -455,7 +475,7 @@ export class GameLogicManager {
       }
     }
 
-    console.log(`Loaded ${defaultGameLogics.length} default game logics`);
+    this.logger.info('GameLogicManager', `Loaded ${defaultGameLogics.length} default game logics`);
   }
 
   /**

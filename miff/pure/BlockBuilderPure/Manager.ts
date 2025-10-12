@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface BlockBuilderConfig {
@@ -283,6 +287,8 @@ export class BlockBuilderManager {
   private builders: Map<string, BlockBuilder> = new Map();
   private stats: BlockBuilderStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<BlockBuilderConfig> = {}) {
     this.config = {
@@ -305,7 +311,21 @@ export class BlockBuilderManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'BlockBuilderManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `BlockBuilderManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'BlockBuilderManager');
+  };
   }
 
   /**
@@ -320,10 +340,10 @@ export class BlockBuilderManager {
       await this.loadDefaultBlockBuilders();
       
       this.isInitialized = true;
-      console.log('Block builder manager initialized successfully');
+      this.logger.info('BlockBuilderManager', 'Block builder manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize block builder manager:', error);
+      this.logger.error('BlockBuilderManager', 'Failed to initialize block builder manager:', error);
       return false;
     }
   }
@@ -350,7 +370,7 @@ export class BlockBuilderManager {
     this.builders.set(newBuilder.id, newBuilder);
     this.updateStats('create_builder', newBuilder);
 
-    console.log(`Created block builder: ${newBuilder.name}`);
+    this.logger.info('BlockBuilderManager', `Created block builder: ${newBuilder.name}`);
     return newBuilder;
   }
 
@@ -360,12 +380,12 @@ export class BlockBuilderManager {
   createBlock(builderId: string, block: Partial<Block>): Block | null {
     const builder = this.builders.get(builderId);
     if (!builder) {
-      console.warn(`Block builder ${builderId} not found`);
+      this.logger.warn('BlockBuilderManager', `Block builder ${builderId} not found`);
       return null;
     }
 
     if (builder.blocks.length >= this.config.maxBlocks) {
-      console.warn('Maximum number of blocks reached');
+      this.logger.warn('BlockBuilderManager', 'Maximum number of blocks reached');
       return null;
     }
 
@@ -387,10 +407,10 @@ export class BlockBuilderManager {
       builder.modified = Date.now();
 
       this.updateStats('create_block', builder);
-      console.log(`Created block: ${newBlock.name}`);
+      this.logger.info('BlockBuilderManager', `Created block: ${newBlock.name}`);
       return newBlock;
     } catch (error) {
-      console.error(`Failed to create block in block builder ${builderId}:`, error);
+      this.logger.error('BlockBuilderManager', `Failed to create block in block builder ${builderId}:`, error);
       return null;
     }
   }
@@ -401,12 +421,12 @@ export class BlockBuilderManager {
   createBlockTemplate(builderId: string, template: Partial<BlockTemplate>): BlockTemplate | null {
     const builder = this.builders.get(builderId);
     if (!builder) {
-      console.warn(`Block builder ${builderId} not found`);
+      this.logger.warn('BlockBuilderManager', `Block builder ${builderId} not found`);
       return null;
     }
 
     if (builder.templates.length >= this.config.maxTemplates) {
-      console.warn('Maximum number of templates reached');
+      this.logger.warn('BlockBuilderManager', 'Maximum number of templates reached');
       return null;
     }
 
@@ -424,10 +444,10 @@ export class BlockBuilderManager {
       builder.modified = Date.now();
 
       this.updateStats('create_template', builder);
-      console.log(`Created block template: ${newTemplate.name}`);
+      this.logger.info('BlockBuilderManager', `Created block template: ${newTemplate.name}`);
       return newTemplate;
     } catch (error) {
-      console.error(`Failed to create block template in block builder ${builderId}:`, error);
+      this.logger.error('BlockBuilderManager', `Failed to create block template in block builder ${builderId}:`, error);
       return null;
     }
   }
@@ -465,7 +485,7 @@ export class BlockBuilderManager {
    * Initialize block builder manager
    */
   private async initializeBlockBuilderManager(): Promise<void> {
-    console.log('Initializing block builder manager...');
+    this.logger.info('BlockBuilderManager', 'Initializing block builder manager...');
   }
 
   /**
@@ -485,7 +505,7 @@ export class BlockBuilderManager {
       }
     }
 
-    console.log(`Loaded ${defaultBuilders.length} default block builders`);
+    this.logger.info('BlockBuilderManager', `Loaded ${defaultBuilders.length} default block builders`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface WorkflowEngineConfig {
@@ -336,6 +340,8 @@ export class WorkflowEngineManager {
   private engines: Map<string, WorkflowEngine> = new Map();
   private stats: WorkflowEngineStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<WorkflowEngineConfig> = {}) {
     this.config = {
@@ -358,7 +364,21 @@ export class WorkflowEngineManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'WorkflowEngineManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `WorkflowEngineManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'WorkflowEngineManager');
+  };
   }
 
   /**
@@ -373,10 +393,10 @@ export class WorkflowEngineManager {
       await this.loadDefaultWorkflowEngines();
       
       this.isInitialized = true;
-      console.log('Workflow engine manager initialized successfully');
+      this.logger.info('WorkflowEngineManager', 'Workflow engine manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize workflow engine manager:', error);
+      this.logger.error('WorkflowEngineManager', 'Failed to initialize workflow engine manager:', error);
       return false;
     }
   }
@@ -403,7 +423,7 @@ export class WorkflowEngineManager {
     this.engines.set(newEngine.id, newEngine);
     this.updateStats('create_engine', newEngine);
 
-    console.log(`Created workflow engine: ${newEngine.name}`);
+    this.logger.info('WorkflowEngineManager', `Created workflow engine: ${newEngine.name}`);
     return newEngine;
   }
 
@@ -413,12 +433,12 @@ export class WorkflowEngineManager {
   createWorkflow(engineId: string, workflow: Partial<Workflow>): Workflow | null {
     const engine = this.engines.get(engineId);
     if (!engine) {
-      console.warn(`Workflow engine ${engineId} not found`);
+      this.logger.warn('WorkflowEngineManager', `Workflow engine ${engineId} not found`);
       return null;
     }
 
     if (engine.workflows.length >= this.config.maxWorkflows) {
-      console.warn('Maximum number of workflows reached');
+      this.logger.warn('WorkflowEngineManager', 'Maximum number of workflows reached');
       return null;
     }
 
@@ -438,10 +458,10 @@ export class WorkflowEngineManager {
       engine.modified = Date.now();
 
       this.updateStats('create_workflow', engine);
-      console.log(`Created workflow: ${newWorkflow.name}`);
+      this.logger.info('WorkflowEngineManager', `Created workflow: ${newWorkflow.name}`);
       return newWorkflow;
     } catch (error) {
-      console.error(`Failed to create workflow in engine ${engineId}:`, error);
+      this.logger.error('WorkflowEngineManager', `Failed to create workflow in engine ${engineId}:`, error);
       return null;
     }
   }
@@ -452,12 +472,12 @@ export class WorkflowEngineManager {
   createWorkflowExecution(engineId: string, execution: Partial<WorkflowExecution>): WorkflowExecution | null {
     const engine = this.engines.get(engineId);
     if (!engine) {
-      console.warn(`Workflow engine ${engineId} not found`);
+      this.logger.warn('WorkflowEngineManager', `Workflow engine ${engineId} not found`);
       return null;
     }
 
     if (engine.executions.length >= this.config.maxExecutions) {
-      console.warn('Maximum number of executions reached');
+      this.logger.warn('WorkflowEngineManager', 'Maximum number of executions reached');
       return null;
     }
 
@@ -478,10 +498,10 @@ export class WorkflowEngineManager {
       engine.modified = Date.now();
 
       this.updateStats('create_execution', engine);
-      console.log(`Created workflow execution: ${newExecution.id}`);
+      this.logger.info('WorkflowEngineManager', `Created workflow execution: ${newExecution.id}`);
       return newExecution;
     } catch (error) {
-      console.error(`Failed to create workflow execution in engine ${engineId}:`, error);
+      this.logger.error('WorkflowEngineManager', `Failed to create workflow execution in engine ${engineId}:`, error);
       return null;
     }
   }
@@ -519,7 +539,7 @@ export class WorkflowEngineManager {
    * Initialize workflow engine manager
    */
   private async initializeWorkflowEngineManager(): Promise<void> {
-    console.log('Initializing workflow engine manager...');
+    this.logger.info('WorkflowEngineManager', 'Initializing workflow engine manager...');
   }
 
   /**
@@ -539,7 +559,7 @@ export class WorkflowEngineManager {
       }
     }
 
-    console.log(`Loaded ${defaultEngines.length} default workflow engines`);
+    this.logger.info('WorkflowEngineManager', `Loaded ${defaultEngines.length} default workflow engines`);
   }
 
   /**

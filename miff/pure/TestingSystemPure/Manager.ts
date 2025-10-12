@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface TestingSystemConfig {
@@ -296,6 +300,8 @@ export class TestingSystemManager {
   private systems: Map<string, TestingSystem> = new Map();
   private stats: TestingSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<TestingSystemConfig> = {}) {
     this.config = {
@@ -317,7 +323,21 @@ export class TestingSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'TestingSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `TestingSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'TestingSystemManager');
+  };
   }
 
   /**
@@ -332,10 +352,10 @@ export class TestingSystemManager {
       await this.loadDefaultTestingSystems();
       
       this.isInitialized = true;
-      console.log('Testing system manager initialized successfully');
+      this.logger.info('TestingSystemManager', 'Testing system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize testing system manager:', error);
+      this.logger.error('TestingSystemManager', 'Failed to initialize testing system manager:', error);
       return false;
     }
   }
@@ -362,7 +382,7 @@ export class TestingSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created testing system: ${newSystem.name}`);
+    this.logger.info('TestingSystemManager', `Created testing system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -372,12 +392,12 @@ export class TestingSystemManager {
   createTest(systemId: string, test: Partial<Test>): Test | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Testing system ${systemId} not found`);
+      this.logger.warn('TestingSystemManager', `Testing system ${systemId} not found`);
       return null;
     }
 
     if (system.tests.length >= this.config.maxTests) {
-      console.warn('Maximum number of tests reached');
+      this.logger.warn('TestingSystemManager', 'Maximum number of tests reached');
       return null;
     }
 
@@ -398,10 +418,10 @@ export class TestingSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_test', system);
-      console.log(`Created test: ${newTest.name}`);
+      this.logger.info('TestingSystemManager', `Created test: ${newTest.name}`);
       return newTest;
     } catch (error) {
-      console.error(`Failed to create test in system ${systemId}:`, error);
+      this.logger.error('TestingSystemManager', `Failed to create test in system ${systemId}:`, error);
       return null;
     }
   }
@@ -412,12 +432,12 @@ export class TestingSystemManager {
   createTestSuite(systemId: string, suite: Partial<TestSuite>): TestSuite | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Testing system ${systemId} not found`);
+      this.logger.warn('TestingSystemManager', `Testing system ${systemId} not found`);
       return null;
     }
 
     if (system.suites.length >= this.config.maxTestSuites) {
-      console.warn('Maximum number of test suites reached');
+      this.logger.warn('TestingSystemManager', 'Maximum number of test suites reached');
       return null;
     }
 
@@ -436,10 +456,10 @@ export class TestingSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_suite', system);
-      console.log(`Created test suite: ${newSuite.name}`);
+      this.logger.info('TestingSystemManager', `Created test suite: ${newSuite.name}`);
       return newSuite;
     } catch (error) {
-      console.error(`Failed to create test suite in system ${systemId}:`, error);
+      this.logger.error('TestingSystemManager', `Failed to create test suite in system ${systemId}:`, error);
       return null;
     }
   }
@@ -477,7 +497,7 @@ export class TestingSystemManager {
    * Initialize testing system manager
    */
   private async initializeTestingSystemManager(): Promise<void> {
-    console.log('Initializing testing system manager...');
+    this.logger.info('TestingSystemManager', 'Initializing testing system manager...');
   }
 
   /**
@@ -497,7 +517,7 @@ export class TestingSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default testing systems`);
+    this.logger.info('TestingSystemManager', `Loaded ${defaultSystems.length} default testing systems`);
   }
 
   /**

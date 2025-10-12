@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ItemsConfig {
@@ -235,6 +239,8 @@ export class ItemsManager {
   private items: Map<string, Items> = new Map();
   private stats: ItemsStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ItemsConfig> = {}) {
     this.config = {
@@ -258,7 +264,21 @@ export class ItemsManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ItemsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ItemsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ItemsManager');
+  };
   }
 
   /**
@@ -273,10 +293,10 @@ export class ItemsManager {
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      console.log('Items manager initialized successfully');
+      this.logger.info('ItemsManager', 'Items manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize items manager:', error);
+      this.logger.error('ItemsManager', 'Failed to initialize items manager:', error);
       return false;
     }
   }
@@ -303,7 +323,7 @@ export class ItemsManager {
     this.items.set(newItems.id, newItems);
     this.updateStats('create_items', newItems);
 
-    console.log(`Created items: ${newItems.name}`);
+    this.logger.info('ItemsManager', `Created items: ${newItems.name}`);
     return newItems;
   }
 
@@ -313,12 +333,12 @@ export class ItemsManager {
   createItem(itemsId: string, item: Partial<Item>): Item | null {
     const items = this.items.get(itemsId);
     if (!items) {
-      console.warn(`Items ${itemsId} not found`);
+      this.logger.warn('ItemsManager', `Items ${itemsId} not found`);
       return null;
     }
 
     if (items.items.length >= this.config.maxItems) {
-      console.warn('Maximum number of items reached');
+      this.logger.warn('ItemsManager', 'Maximum number of items reached');
       return null;
     }
 
@@ -341,10 +361,10 @@ export class ItemsManager {
       items.modified = Date.now();
 
       this.updateStats('create_item', items);
-      console.log(`Created item: ${newItem.name}`);
+      this.logger.info('ItemsManager', `Created item: ${newItem.name}`);
       return newItem;
     } catch (error) {
-      console.error(`Failed to create item in items ${itemsId}:`, error);
+      this.logger.error('ItemsManager', `Failed to create item in items ${itemsId}:`, error);
       return null;
     }
   }
@@ -355,7 +375,7 @@ export class ItemsManager {
   createItemCategory(itemsId: string, category: Partial<ItemCategory>): ItemCategory | null {
     const items = this.items.get(itemsId);
     if (!items) {
-      console.warn(`Items ${itemsId} not found`);
+      this.logger.warn('ItemsManager', `Items ${itemsId} not found`);
       return null;
     }
 
@@ -374,10 +394,10 @@ export class ItemsManager {
       items.modified = Date.now();
 
       this.updateStats('create_category', items);
-      console.log(`Created item category: ${newCategory.name}`);
+      this.logger.info('ItemsManager', `Created item category: ${newCategory.name}`);
       return newCategory;
     } catch (error) {
-      console.error(`Failed to create item category in items ${itemsId}:`, error);
+      this.logger.error('ItemsManager', `Failed to create item category in items ${itemsId}:`, error);
       return null;
     }
   }
@@ -415,7 +435,7 @@ export class ItemsManager {
    * Initialize items manager
    */
   private async initializeItemsManager(): Promise<void> {
-    console.log('Initializing items manager...');
+    this.logger.info('ItemsManager', 'Initializing items manager...');
   }
 
   /**
@@ -435,7 +455,7 @@ export class ItemsManager {
       }
     }
 
-    console.log(`Loaded ${defaultItems.length} default items`);
+    this.logger.info('ItemsManager', `Loaded ${defaultItems.length} default items`);
   }
 
   /**

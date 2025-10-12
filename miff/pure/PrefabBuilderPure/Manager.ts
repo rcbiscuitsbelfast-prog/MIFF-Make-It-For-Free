@@ -15,6 +15,10 @@
  * @author MIFF Framework
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface PrefabBuilderConfig {
   enablePrefabCreation: boolean;
   enablePrefabManagement: boolean;
@@ -289,6 +293,8 @@ export class PrefabBuilderManager {
   private builders: Map<string, PrefabBuilder> = new Map();
   private stats: PrefabBuilderStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<PrefabBuilderConfig> = {}) {
     this.config = {
@@ -311,7 +317,21 @@ export class PrefabBuilderManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'PrefabBuilderManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `PrefabBuilderManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'PrefabBuilderManager');
+  };
   }
 
   /**
@@ -326,10 +346,10 @@ export class PrefabBuilderManager {
       await this.loadDefaultPrefabBuilders();
       
       this.isInitialized = true;
-      console.log('Prefab builder manager initialized successfully');
+      this.logger.info('PrefabBuilderManager', 'Prefab builder manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize prefab builder manager:', error);
+      this.logger.error('PrefabBuilderManager', 'Failed to initialize prefab builder manager:', error);
       return false;
     }
   }
@@ -356,7 +376,7 @@ export class PrefabBuilderManager {
     this.builders.set(newBuilder.id, newBuilder);
     this.updateStats('create_builder', newBuilder);
 
-    console.log(`Created prefab builder: ${newBuilder.name}`);
+    this.logger.info('PrefabBuilderManager', `Created prefab builder: ${newBuilder.name}`);
     return newBuilder;
   }
 
@@ -366,12 +386,12 @@ export class PrefabBuilderManager {
   createPrefab(builderId: string, prefab: Partial<Prefab>): Prefab | null {
     const builder = this.builders.get(builderId);
     if (!builder) {
-      console.warn(`Prefab builder ${builderId} not found`);
+      this.logger.warn('PrefabBuilderManager', `Prefab builder ${builderId} not found`);
       return null;
     }
 
     if (builder.prefabs.length >= this.config.maxPrefabs) {
-      console.warn('Maximum number of prefabs reached');
+      this.logger.warn('PrefabBuilderManager', 'Maximum number of prefabs reached');
       return null;
     }
 
@@ -391,10 +411,10 @@ export class PrefabBuilderManager {
       builder.modified = Date.now();
 
       this.updateStats('create_prefab', builder);
-      console.log(`Created prefab: ${newPrefab.name}`);
+      this.logger.info('PrefabBuilderManager', `Created prefab: ${newPrefab.name}`);
       return newPrefab;
     } catch (error) {
-      console.error(`Failed to create prefab in prefab builder ${builderId}:`, error);
+      this.logger.error('PrefabBuilderManager', `Failed to create prefab in prefab builder ${builderId}:`, error);
       return null;
     }
   }
@@ -405,12 +425,12 @@ export class PrefabBuilderManager {
   createPrefabInstance(builderId: string, instance: Partial<PrefabInstance>): PrefabInstance | null {
     const builder = this.builders.get(builderId);
     if (!builder) {
-      console.warn(`Prefab builder ${builderId} not found`);
+      this.logger.warn('PrefabBuilderManager', `Prefab builder ${builderId} not found`);
       return null;
     }
 
     if (builder.instances.length >= this.config.maxInstances) {
-      console.warn('Maximum number of instances reached');
+      this.logger.warn('PrefabBuilderManager', 'Maximum number of instances reached');
       return null;
     }
 
@@ -429,10 +449,10 @@ export class PrefabBuilderManager {
       builder.modified = Date.now();
 
       this.updateStats('create_instance', builder);
-      console.log(`Created prefab instance: ${newInstance.name}`);
+      this.logger.info('PrefabBuilderManager', `Created prefab instance: ${newInstance.name}`);
       return newInstance;
     } catch (error) {
-      console.error(`Failed to create prefab instance in prefab builder ${builderId}:`, error);
+      this.logger.error('PrefabBuilderManager', `Failed to create prefab instance in prefab builder ${builderId}:`, error);
       return null;
     }
   }
@@ -470,7 +490,7 @@ export class PrefabBuilderManager {
    * Initialize prefab builder manager
    */
   private async initializePrefabBuilderManager(): Promise<void> {
-    console.log('Initializing prefab builder manager...');
+    this.logger.info('PrefabBuilderManager', 'Initializing prefab builder manager...');
   }
 
   /**
@@ -490,7 +510,7 @@ export class PrefabBuilderManager {
       }
     }
 
-    console.log(`Loaded ${defaultBuilders.length} default prefab builders`);
+    this.logger.info('PrefabBuilderManager', `Loaded ${defaultBuilders.length} default prefab builders`);
   }
 
   /**

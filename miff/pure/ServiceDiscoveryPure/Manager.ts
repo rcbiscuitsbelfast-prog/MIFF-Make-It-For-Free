@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ServiceDiscoveryConfig {
@@ -230,6 +234,8 @@ export class ServiceDiscoveryManager {
   private discoveries: Map<string, ServiceDiscovery> = new Map();
   private stats: ServiceDiscoveryStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ServiceDiscoveryConfig> = {}) {
     this.config = {
@@ -251,7 +257,21 @@ export class ServiceDiscoveryManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ServiceDiscoveryManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ServiceDiscoveryManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ServiceDiscoveryManager');
+  };
   }
 
   /**
@@ -266,10 +286,10 @@ export class ServiceDiscoveryManager {
       await this.loadDefaultServiceDiscoveries();
       
       this.isInitialized = true;
-      console.log('Service discovery manager initialized successfully');
+      this.logger.info('ServiceDiscoveryManager', 'Service discovery manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize service discovery manager:', error);
+      this.logger.error('ServiceDiscoveryManager', 'Failed to initialize service discovery manager:', error);
       return false;
     }
   }
@@ -296,7 +316,7 @@ export class ServiceDiscoveryManager {
     this.discoveries.set(newDiscovery.id, newDiscovery);
     this.updateStats('create_discovery', newDiscovery);
 
-    console.log(`Created service discovery: ${newDiscovery.name}`);
+    this.logger.info('ServiceDiscoveryManager', `Created service discovery: ${newDiscovery.name}`);
     return newDiscovery;
   }
 
@@ -306,12 +326,12 @@ export class ServiceDiscoveryManager {
   createService(discoveryId: string, service: Partial<Service>): Service | null {
     const discovery = this.discoveries.get(discoveryId);
     if (!discovery) {
-      console.warn(`Service discovery ${discoveryId} not found`);
+      this.logger.warn('ServiceDiscoveryManager', `Service discovery ${discoveryId} not found`);
       return null;
     }
 
     if (discovery.services.length >= this.config.maxServices) {
-      console.warn('Maximum number of services reached');
+      this.logger.warn('ServiceDiscoveryManager', 'Maximum number of services reached');
       return null;
     }
 
@@ -332,10 +352,10 @@ export class ServiceDiscoveryManager {
       discovery.modified = Date.now();
 
       this.updateStats('create_service', discovery);
-      console.log(`Created service: ${newService.name}`);
+      this.logger.info('ServiceDiscoveryManager', `Created service: ${newService.name}`);
       return newService;
     } catch (error) {
-      console.error(`Failed to create service in discovery ${discoveryId}:`, error);
+      this.logger.error('ServiceDiscoveryManager', `Failed to create service in discovery ${discoveryId}:`, error);
       return null;
     }
   }
@@ -346,12 +366,12 @@ export class ServiceDiscoveryManager {
   createServiceInstance(discoveryId: string, instance: Partial<ServiceInstance>): ServiceInstance | null {
     const discovery = this.discoveries.get(discoveryId);
     if (!discovery) {
-      console.warn(`Service discovery ${discoveryId} not found`);
+      this.logger.warn('ServiceDiscoveryManager', `Service discovery ${discoveryId} not found`);
       return null;
     }
 
     if (discovery.instances.length >= this.config.maxInstances) {
-      console.warn('Maximum number of instances reached');
+      this.logger.warn('ServiceDiscoveryManager', 'Maximum number of instances reached');
       return null;
     }
 
@@ -371,10 +391,10 @@ export class ServiceDiscoveryManager {
       discovery.modified = Date.now();
 
       this.updateStats('create_instance', discovery);
-      console.log(`Created service instance: ${newInstance.id}`);
+      this.logger.info('ServiceDiscoveryManager', `Created service instance: ${newInstance.id}`);
       return newInstance;
     } catch (error) {
-      console.error(`Failed to create service instance in discovery ${discoveryId}:`, error);
+      this.logger.error('ServiceDiscoveryManager', `Failed to create service instance in discovery ${discoveryId}:`, error);
       return null;
     }
   }
@@ -412,7 +432,7 @@ export class ServiceDiscoveryManager {
    * Initialize service discovery manager
    */
   private async initializeServiceDiscoveryManager(): Promise<void> {
-    console.log('Initializing service discovery manager...');
+    this.logger.info('ServiceDiscoveryManager', 'Initializing service discovery manager...');
   }
 
   /**
@@ -432,7 +452,7 @@ export class ServiceDiscoveryManager {
       }
     }
 
-    console.log(`Loaded ${defaultDiscoveries.length} default service discoveries`);
+    this.logger.info('ServiceDiscoveryManager', `Loaded ${defaultDiscoveries.length} default service discoveries`);
   }
 
   /**

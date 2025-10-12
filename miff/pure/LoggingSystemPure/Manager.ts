@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface LoggingSystemConfig {
@@ -232,6 +236,8 @@ export class LoggingSystemManager {
   private systems: Map<string, LoggingSystem> = new Map();
   private stats: LoggingSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<LoggingSystemConfig> = {}) {
     this.config = {
@@ -253,7 +259,21 @@ export class LoggingSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'LoggingSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `LoggingSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'LoggingSystemManager');
+  };
   }
 
   /**
@@ -268,10 +288,10 @@ export class LoggingSystemManager {
       await this.loadDefaultLoggingSystems();
       
       this.isInitialized = true;
-      console.log('Logging system manager initialized successfully');
+      this.logger.info('LoggingSystemManager', 'Logging system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize logging system manager:', error);
+      this.logger.error('LoggingSystemManager', 'Failed to initialize logging system manager:', error);
       return false;
     }
   }
@@ -298,7 +318,7 @@ export class LoggingSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created logging system: ${newSystem.name}`);
+    this.logger.info('LoggingSystemManager', `Created logging system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -308,12 +328,12 @@ export class LoggingSystemManager {
   createLog(systemId: string, log: Partial<Log>): Log | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Logging system ${systemId} not found`);
+      this.logger.warn('LoggingSystemManager', `Logging system ${systemId} not found`);
       return null;
     }
 
     if (system.logs.length >= this.config.maxLogs) {
-      console.warn('Maximum number of logs reached');
+      this.logger.warn('LoggingSystemManager', 'Maximum number of logs reached');
       return null;
     }
 
@@ -332,10 +352,10 @@ export class LoggingSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_log', system);
-      console.log(`Created log: ${newLog.message}`);
+      this.logger.info('LoggingSystemManager', `Created log: ${newLog.message}`);
       return newLog;
     } catch (error) {
-      console.error(`Failed to create log in system ${systemId}:`, error);
+      this.logger.error('LoggingSystemManager', `Failed to create log in system ${systemId}:`, error);
       return null;
     }
   }
@@ -346,7 +366,7 @@ export class LoggingSystemManager {
   createLogAppender(systemId: string, appender: Partial<LogAppender>): LogAppender | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Logging system ${systemId} not found`);
+      this.logger.warn('LoggingSystemManager', `Logging system ${systemId} not found`);
       return null;
     }
 
@@ -365,10 +385,10 @@ export class LoggingSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_appender', system);
-      console.log(`Created log appender: ${newAppender.name}`);
+      this.logger.info('LoggingSystemManager', `Created log appender: ${newAppender.name}`);
       return newAppender;
     } catch (error) {
-      console.error(`Failed to create log appender in system ${systemId}:`, error);
+      this.logger.error('LoggingSystemManager', `Failed to create log appender in system ${systemId}:`, error);
       return null;
     }
   }
@@ -406,7 +426,7 @@ export class LoggingSystemManager {
    * Initialize logging system manager
    */
   private async initializeLoggingSystemManager(): Promise<void> {
-    console.log('Initializing logging system manager...');
+    this.logger.info('LoggingSystemManager', 'Initializing logging system manager...');
   }
 
   /**
@@ -426,7 +446,7 @@ export class LoggingSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default logging systems`);
+    this.logger.info('LoggingSystemManager', `Loaded ${defaultSystems.length} default logging systems`);
   }
 
   /**

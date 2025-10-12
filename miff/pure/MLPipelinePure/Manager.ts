@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface MLPipelineConfig {
@@ -352,6 +356,8 @@ export class MLPipelineManager {
   private mlPipelines: Map<string, MLPipeline> = new Map();
   private stats: MLPipelineStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<MLPipelineConfig> = {}) {
     this.config = {
@@ -374,7 +380,21 @@ export class MLPipelineManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'MLPipelineManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `MLPipelineManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'MLPipelineManager');
+  };
   }
 
   /**
@@ -389,10 +409,10 @@ export class MLPipelineManager {
       await this.loadDefaultMLPipelines();
       
       this.isInitialized = true;
-      console.log('ML pipeline manager initialized successfully');
+      this.logger.info('MLPipelineManager', 'ML pipeline manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize ML pipeline manager:', error);
+      this.logger.error('MLPipelineManager', 'Failed to initialize ML pipeline manager:', error);
       return false;
     }
   }
@@ -419,7 +439,7 @@ export class MLPipelineManager {
     this.mlPipelines.set(newMLPipeline.id, newMLPipeline);
     this.updateStats('create_mlpipeline', newMLPipeline);
 
-    console.log(`Created ML pipeline: ${newMLPipeline.name}`);
+    this.logger.info('MLPipelineManager', `Created ML pipeline: ${newMLPipeline.name}`);
     return newMLPipeline;
   }
 
@@ -429,12 +449,12 @@ export class MLPipelineManager {
   createPipeline(mlPipelineId: string, pipeline: Partial<Pipeline>): Pipeline | null {
     const mlPipeline = this.mlPipelines.get(mlPipelineId);
     if (!mlPipeline) {
-      console.warn(`ML pipeline ${mlPipelineId} not found`);
+      this.logger.warn('MLPipelineManager', `ML pipeline ${mlPipelineId} not found`);
       return null;
     }
 
     if (mlPipeline.pipelines.length >= this.config.maxPipelines) {
-      console.warn('Maximum number of pipelines reached');
+      this.logger.warn('MLPipelineManager', 'Maximum number of pipelines reached');
       return null;
     }
 
@@ -453,10 +473,10 @@ export class MLPipelineManager {
       mlPipeline.modified = Date.now();
 
       this.updateStats('create_pipeline', mlPipeline);
-      console.log(`Created pipeline: ${newPipeline.name}`);
+      this.logger.info('MLPipelineManager', `Created pipeline: ${newPipeline.name}`);
       return newPipeline;
     } catch (error) {
-      console.error(`Failed to create pipeline in ML pipeline ${mlPipelineId}:`, error);
+      this.logger.error('MLPipelineManager', `Failed to create pipeline in ML pipeline ${mlPipelineId}:`, error);
       return null;
     }
   }
@@ -467,12 +487,12 @@ export class MLPipelineManager {
   createMLModel(mlPipelineId: string, model: Partial<MLModel>): MLModel | null {
     const mlPipeline = this.mlPipelines.get(mlPipelineId);
     if (!mlPipeline) {
-      console.warn(`ML pipeline ${mlPipelineId} not found`);
+      this.logger.warn('MLPipelineManager', `ML pipeline ${mlPipelineId} not found`);
       return null;
     }
 
     if (mlPipeline.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('MLPipelineManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -493,10 +513,10 @@ export class MLPipelineManager {
       mlPipeline.modified = Date.now();
 
       this.updateStats('create_model', mlPipeline);
-      console.log(`Created ML model: ${newModel.name}`);
+      this.logger.info('MLPipelineManager', `Created ML model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create ML model in ML pipeline ${mlPipelineId}:`, error);
+      this.logger.error('MLPipelineManager', `Failed to create ML model in ML pipeline ${mlPipelineId}:`, error);
       return null;
     }
   }
@@ -534,7 +554,7 @@ export class MLPipelineManager {
    * Initialize ML pipeline manager
    */
   private async initializeMLPipelineManager(): Promise<void> {
-    console.log('Initializing ML pipeline manager...');
+    this.logger.info('MLPipelineManager', 'Initializing ML pipeline manager...');
   }
 
   /**
@@ -554,7 +574,7 @@ export class MLPipelineManager {
       }
     }
 
-    console.log(`Loaded ${defaultMLPipelines.length} default ML pipelines`);
+    this.logger.info('MLPipelineManager', `Loaded ${defaultMLPipelines.length} default ML pipelines`);
   }
 
   /**

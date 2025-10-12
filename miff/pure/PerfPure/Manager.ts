@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface PerfConfig {
@@ -282,6 +286,8 @@ export class PerfManager {
   private perfs: Map<string, Perf> = new Map();
   private stats: PerfStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<PerfConfig> = {}) {
     this.config = {
@@ -303,7 +309,21 @@ export class PerfManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'PerfManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `PerfManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'PerfManager');
+  };
   }
 
   /**
@@ -318,10 +338,10 @@ export class PerfManager {
       await this.loadDefaultPerfSystems();
       
       this.isInitialized = true;
-      console.log('Performance manager initialized successfully');
+      this.logger.info('PerfManager', 'Performance manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize performance manager:', error);
+      this.logger.error('PerfManager', 'Failed to initialize performance manager:', error);
       return false;
     }
   }
@@ -348,7 +368,7 @@ export class PerfManager {
     this.perfs.set(newPerf.id, newPerf);
     this.updateStats('create_perf', newPerf);
 
-    console.log(`Created performance system: ${newPerf.name}`);
+    this.logger.info('PerfManager', `Created performance system: ${newPerf.name}`);
     return newPerf;
   }
 
@@ -358,12 +378,12 @@ export class PerfManager {
   createPerformanceMetric(perfId: string, metric: Partial<PerformanceMetric>): PerformanceMetric | null {
     const perf = this.perfs.get(perfId);
     if (!perf) {
-      console.warn(`Performance system ${perfId} not found`);
+      this.logger.warn('PerfManager', `Performance system ${perfId} not found`);
       return null;
     }
 
     if (perf.metrics.length >= this.config.maxMetrics) {
-      console.warn('Maximum number of metrics reached');
+      this.logger.warn('PerfManager', 'Maximum number of metrics reached');
       return null;
     }
 
@@ -382,10 +402,10 @@ export class PerfManager {
       perf.modified = Date.now();
 
       this.updateStats('create_metric', perf);
-      console.log(`Created performance metric: ${newMetric.name}`);
+      this.logger.info('PerfManager', `Created performance metric: ${newMetric.name}`);
       return newMetric;
     } catch (error) {
-      console.error(`Failed to create performance metric in system ${perfId}:`, error);
+      this.logger.error('PerfManager', `Failed to create performance metric in system ${perfId}:`, error);
       return null;
     }
   }
@@ -396,12 +416,12 @@ export class PerfManager {
   createPerformanceProfile(perfId: string, profile: Partial<PerformanceProfile>): PerformanceProfile | null {
     const perf = this.perfs.get(perfId);
     if (!perf) {
-      console.warn(`Performance system ${perfId} not found`);
+      this.logger.warn('PerfManager', `Performance system ${perfId} not found`);
       return null;
     }
 
     if (perf.profiles.length >= this.config.maxProfiles) {
-      console.warn('Maximum number of profiles reached');
+      this.logger.warn('PerfManager', 'Maximum number of profiles reached');
       return null;
     }
 
@@ -421,10 +441,10 @@ export class PerfManager {
       perf.modified = Date.now();
 
       this.updateStats('create_profile', perf);
-      console.log(`Created performance profile: ${newProfile.name}`);
+      this.logger.info('PerfManager', `Created performance profile: ${newProfile.name}`);
       return newProfile;
     } catch (error) {
-      console.error(`Failed to create performance profile in system ${perfId}:`, error);
+      this.logger.error('PerfManager', `Failed to create performance profile in system ${perfId}:`, error);
       return null;
     }
   }
@@ -462,7 +482,7 @@ export class PerfManager {
    * Initialize performance manager
    */
   private async initializePerfManager(): Promise<void> {
-    console.log('Initializing performance manager...');
+    this.logger.info('PerfManager', 'Initializing performance manager...');
   }
 
   /**
@@ -482,7 +502,7 @@ export class PerfManager {
       }
     }
 
-    console.log(`Loaded ${defaultPerfs.length} default performance systems`);
+    this.logger.info('PerfManager', `Loaded ${defaultPerfs.length} default performance systems`);
   }
 
   /**

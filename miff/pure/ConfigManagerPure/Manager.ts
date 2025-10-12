@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ConfigManagerConfig {
@@ -236,6 +240,8 @@ export class ConfigManagerManager {
   private managers: Map<string, ConfigManager> = new Map();
   private stats: ConfigManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ConfigManagerConfig> = {}) {
     this.config = {
@@ -257,7 +263,21 @@ export class ConfigManagerManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ConfigManagerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ConfigManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ConfigManagerManager');
+  };
   }
 
   /**
@@ -272,10 +292,10 @@ export class ConfigManagerManager {
       await this.loadDefaultConfigManagers();
       
       this.isInitialized = true;
-      console.log('Config manager initialized successfully');
+      this.logger.info('ConfigManagerManager', 'Config manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize config manager:', error);
+      this.logger.error('ConfigManagerManager', 'Failed to initialize config manager:', error);
       return false;
     }
   }
@@ -302,7 +322,7 @@ export class ConfigManagerManager {
     this.managers.set(newManager.id, newManager);
     this.updateStats('create_manager', newManager);
 
-    console.log(`Created config manager: ${newManager.name}`);
+    this.logger.info('ConfigManagerManager', `Created config manager: ${newManager.name}`);
     return newManager;
   }
 
@@ -312,12 +332,12 @@ export class ConfigManagerManager {
   createConfiguration(managerId: string, config: Partial<Configuration>): Configuration | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`Config manager ${managerId} not found`);
+      this.logger.warn('ConfigManagerManager', `Config manager ${managerId} not found`);
       return null;
     }
 
     if (manager.configs.length >= this.config.maxConfigs) {
-      console.warn('Maximum number of configurations reached');
+      this.logger.warn('ConfigManagerManager', 'Maximum number of configurations reached');
       return null;
     }
 
@@ -338,10 +358,10 @@ export class ConfigManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_config', manager);
-      console.log(`Created configuration: ${newConfig.name}`);
+      this.logger.info('ConfigManagerManager', `Created configuration: ${newConfig.name}`);
       return newConfig;
     } catch (error) {
-      console.error(`Failed to create configuration in manager ${managerId}:`, error);
+      this.logger.error('ConfigManagerManager', `Failed to create configuration in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -352,7 +372,7 @@ export class ConfigManagerManager {
   createConfigSchema(managerId: string, schema: Partial<ConfigSchema>): ConfigSchema | null {
     const manager = this.managers.get(managerId);
     if (!manager) {
-      console.warn(`Config manager ${managerId} not found`);
+      this.logger.warn('ConfigManagerManager', `Config manager ${managerId} not found`);
       return null;
     }
 
@@ -371,10 +391,10 @@ export class ConfigManagerManager {
       manager.modified = Date.now();
 
       this.updateStats('create_schema', manager);
-      console.log(`Created config schema: ${newSchema.name}`);
+      this.logger.info('ConfigManagerManager', `Created config schema: ${newSchema.name}`);
       return newSchema;
     } catch (error) {
-      console.error(`Failed to create config schema in manager ${managerId}:`, error);
+      this.logger.error('ConfigManagerManager', `Failed to create config schema in manager ${managerId}:`, error);
       return null;
     }
   }
@@ -412,7 +432,7 @@ export class ConfigManagerManager {
    * Initialize config manager
    */
   private async initializeConfigManager(): Promise<void> {
-    console.log('Initializing config manager...');
+    this.logger.info('ConfigManagerManager', 'Initializing config manager...');
   }
 
   /**
@@ -432,7 +452,7 @@ export class ConfigManagerManager {
       }
     }
 
-    console.log(`Loaded ${defaultManagers.length} default config managers`);
+    this.logger.info('ConfigManagerManager', `Loaded ${defaultManagers.length} default config managers`);
   }
 
   /**

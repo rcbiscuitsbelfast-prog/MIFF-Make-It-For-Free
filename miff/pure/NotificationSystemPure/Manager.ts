@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface NotificationSystemConfig {
@@ -265,6 +269,8 @@ export class NotificationSystemManager {
   private systems: Map<string, NotificationSystem> = new Map();
   private stats: NotificationSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<NotificationSystemConfig> = {}) {
     this.config = {
@@ -286,7 +292,21 @@ export class NotificationSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'NotificationSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `NotificationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'NotificationSystemManager');
+  };
   }
 
   /**
@@ -301,10 +321,10 @@ export class NotificationSystemManager {
       await this.loadDefaultNotificationSystems();
       
       this.isInitialized = true;
-      console.log('Notification system manager initialized successfully');
+      this.logger.info('NotificationSystemManager', 'Notification system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize notification system manager:', error);
+      this.logger.error('NotificationSystemManager', 'Failed to initialize notification system manager:', error);
       return false;
     }
   }
@@ -331,7 +351,7 @@ export class NotificationSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created notification system: ${newSystem.name}`);
+    this.logger.info('NotificationSystemManager', `Created notification system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -341,12 +361,12 @@ export class NotificationSystemManager {
   createNotification(systemId: string, notification: Partial<Notification>): Notification | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Notification system ${systemId} not found`);
+      this.logger.warn('NotificationSystemManager', `Notification system ${systemId} not found`);
       return null;
     }
 
     if (system.notifications.length >= this.config.maxNotifications) {
-      console.warn('Maximum number of notifications reached');
+      this.logger.warn('NotificationSystemManager', 'Maximum number of notifications reached');
       return null;
     }
 
@@ -368,10 +388,10 @@ export class NotificationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_notification', system);
-      console.log(`Created notification: ${newNotification.title}`);
+      this.logger.info('NotificationSystemManager', `Created notification: ${newNotification.title}`);
       return newNotification;
     } catch (error) {
-      console.error(`Failed to create notification in system ${systemId}:`, error);
+      this.logger.error('NotificationSystemManager', `Failed to create notification in system ${systemId}:`, error);
       return null;
     }
   }
@@ -382,12 +402,12 @@ export class NotificationSystemManager {
   createNotificationTemplate(systemId: string, template: Partial<NotificationTemplate>): NotificationTemplate | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Notification system ${systemId} not found`);
+      this.logger.warn('NotificationSystemManager', `Notification system ${systemId} not found`);
       return null;
     }
 
     if (system.templates.length >= this.config.maxTemplates) {
-      console.warn('Maximum number of templates reached');
+      this.logger.warn('NotificationSystemManager', 'Maximum number of templates reached');
       return null;
     }
 
@@ -406,10 +426,10 @@ export class NotificationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_template', system);
-      console.log(`Created notification template: ${newTemplate.name}`);
+      this.logger.info('NotificationSystemManager', `Created notification template: ${newTemplate.name}`);
       return newTemplate;
     } catch (error) {
-      console.error(`Failed to create notification template in system ${systemId}:`, error);
+      this.logger.error('NotificationSystemManager', `Failed to create notification template in system ${systemId}:`, error);
       return null;
     }
   }
@@ -447,7 +467,7 @@ export class NotificationSystemManager {
    * Initialize notification system manager
    */
   private async initializeNotificationSystemManager(): Promise<void> {
-    console.log('Initializing notification system manager...');
+    this.logger.info('NotificationSystemManager', 'Initializing notification system manager...');
   }
 
   /**
@@ -467,7 +487,7 @@ export class NotificationSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default notification systems`);
+    this.logger.info('NotificationSystemManager', `Loaded ${defaultSystems.length} default notification systems`);
   }
 
   /**

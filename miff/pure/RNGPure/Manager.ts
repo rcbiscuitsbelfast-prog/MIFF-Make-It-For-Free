@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface RNGConfig {
@@ -217,6 +221,8 @@ export class RNGManager {
   private rngs: Map<string, RNG> = new Map();
   private stats: RNGStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<RNGConfig> = {}) {
     this.config = {
@@ -238,7 +244,21 @@ export class RNGManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'RNGManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `RNGManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'RNGManager');
+  };
   }
 
   /**
@@ -253,10 +273,10 @@ export class RNGManager {
       await this.loadDefaultRNGs();
       
       this.isInitialized = true;
-      console.log('RNG manager initialized successfully');
+      this.logger.info('RNGManager', 'RNG manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize RNG manager:', error);
+      this.logger.error('RNGManager', 'Failed to initialize RNG manager:', error);
       return false;
     }
   }
@@ -283,7 +303,7 @@ export class RNGManager {
     this.rngs.set(newRNG.id, newRNG);
     this.updateStats('create_rng', newRNG);
 
-    console.log(`Created RNG: ${newRNG.name}`);
+    this.logger.info('RNGManager', `Created RNG: ${newRNG.name}`);
     return newRNG;
   }
 
@@ -293,12 +313,12 @@ export class RNGManager {
   createRNGGenerator(rngId: string, generator: Partial<RNGGenerator>): RNGGenerator | null {
     const rng = this.rngs.get(rngId);
     if (!rng) {
-      console.warn(`RNG ${rngId} not found`);
+      this.logger.warn('RNGManager', `RNG ${rngId} not found`);
       return null;
     }
 
     if (rng.generators.length >= this.config.maxGenerators) {
-      console.warn('Maximum number of generators reached');
+      this.logger.warn('RNGManager', 'Maximum number of generators reached');
       return null;
     }
 
@@ -318,10 +338,10 @@ export class RNGManager {
       rng.modified = Date.now();
 
       this.updateStats('create_generator', rng);
-      console.log(`Created RNG generator: ${newGenerator.name}`);
+      this.logger.info('RNGManager', `Created RNG generator: ${newGenerator.name}`);
       return newGenerator;
     } catch (error) {
-      console.error(`Failed to create RNG generator in RNG ${rngId}:`, error);
+      this.logger.error('RNGManager', `Failed to create RNG generator in RNG ${rngId}:`, error);
       return null;
     }
   }
@@ -332,12 +352,12 @@ export class RNGManager {
   createRNGSeed(rngId: string, seed: Partial<RNGSeed>): RNGSeed | null {
     const rng = this.rngs.get(rngId);
     if (!rng) {
-      console.warn(`RNG ${rngId} not found`);
+      this.logger.warn('RNGManager', `RNG ${rngId} not found`);
       return null;
     }
 
     if (rng.seeds.length >= this.config.maxSeeds) {
-      console.warn('Maximum number of seeds reached');
+      this.logger.warn('RNGManager', 'Maximum number of seeds reached');
       return null;
     }
 
@@ -355,10 +375,10 @@ export class RNGManager {
       rng.modified = Date.now();
 
       this.updateStats('create_seed', rng);
-      console.log(`Created RNG seed: ${newSeed.name}`);
+      this.logger.info('RNGManager', `Created RNG seed: ${newSeed.name}`);
       return newSeed;
     } catch (error) {
-      console.error(`Failed to create RNG seed in RNG ${rngId}:`, error);
+      this.logger.error('RNGManager', `Failed to create RNG seed in RNG ${rngId}:`, error);
       return null;
     }
   }
@@ -396,7 +416,7 @@ export class RNGManager {
    * Initialize RNG manager
    */
   private async initializeRNGManager(): Promise<void> {
-    console.log('Initializing RNG manager...');
+    this.logger.info('RNGManager', 'Initializing RNG manager...');
   }
 
   /**
@@ -416,7 +436,7 @@ export class RNGManager {
       }
     }
 
-    console.log(`Loaded ${defaultRNGs.length} default RNGs`);
+    this.logger.info('RNGManager', `Loaded ${defaultRNGs.length} default RNGs`);
   }
 
   /**

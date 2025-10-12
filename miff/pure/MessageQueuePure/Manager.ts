@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface MessageQueueConfig {
@@ -225,6 +229,8 @@ export class MessageQueueManager {
   private messageQueues: Map<string, MessageQueue> = new Map();
   private stats: MessageQueueStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<MessageQueueConfig> = {}) {
     this.config = {
@@ -246,7 +252,21 @@ export class MessageQueueManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'MessageQueueManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `MessageQueueManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'MessageQueueManager');
+  };
   }
 
   /**
@@ -261,10 +281,10 @@ export class MessageQueueManager {
       await this.loadDefaultMessageQueues();
       
       this.isInitialized = true;
-      console.log('Message queue manager initialized successfully');
+      this.logger.info('MessageQueueManager', 'Message queue manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize message queue manager:', error);
+      this.logger.error('MessageQueueManager', 'Failed to initialize message queue manager:', error);
       return false;
     }
   }
@@ -291,7 +311,7 @@ export class MessageQueueManager {
     this.messageQueues.set(newMessageQueue.id, newMessageQueue);
     this.updateStats('create_messagequeue', newMessageQueue);
 
-    console.log(`Created message queue: ${newMessageQueue.name}`);
+    this.logger.info('MessageQueueManager', `Created message queue: ${newMessageQueue.name}`);
     return newMessageQueue;
   }
 
@@ -301,12 +321,12 @@ export class MessageQueueManager {
   createQueue(messageQueueId: string, queue: Partial<Queue>): Queue | null {
     const messageQueue = this.messageQueues.get(messageQueueId);
     if (!messageQueue) {
-      console.warn(`Message queue ${messageQueueId} not found`);
+      this.logger.warn('MessageQueueManager', `Message queue ${messageQueueId} not found`);
       return null;
     }
 
     if (messageQueue.queues.length >= this.config.maxQueues) {
-      console.warn('Maximum number of queues reached');
+      this.logger.warn('MessageQueueManager', 'Maximum number of queues reached');
       return null;
     }
 
@@ -326,10 +346,10 @@ export class MessageQueueManager {
       messageQueue.modified = Date.now();
 
       this.updateStats('create_queue', messageQueue);
-      console.log(`Created queue: ${newQueue.name}`);
+      this.logger.info('MessageQueueManager', `Created queue: ${newQueue.name}`);
       return newQueue;
     } catch (error) {
-      console.error(`Failed to create queue in message queue ${messageQueueId}:`, error);
+      this.logger.error('MessageQueueManager', `Failed to create queue in message queue ${messageQueueId}:`, error);
       return null;
     }
   }
@@ -340,12 +360,12 @@ export class MessageQueueManager {
   createMessage(messageQueueId: string, message: Partial<Message>): Message | null {
     const messageQueue = this.messageQueues.get(messageQueueId);
     if (!messageQueue) {
-      console.warn(`Message queue ${messageQueueId} not found`);
+      this.logger.warn('MessageQueueManager', `Message queue ${messageQueueId} not found`);
       return null;
     }
 
     if (messageQueue.messages.length >= this.config.maxMessages) {
-      console.warn('Maximum number of messages reached');
+      this.logger.warn('MessageQueueManager', 'Maximum number of messages reached');
       return null;
     }
 
@@ -365,10 +385,10 @@ export class MessageQueueManager {
       messageQueue.modified = Date.now();
 
       this.updateStats('create_message', messageQueue);
-      console.log(`Created message: ${newMessage.id}`);
+      this.logger.info('MessageQueueManager', `Created message: ${newMessage.id}`);
       return newMessage;
     } catch (error) {
-      console.error(`Failed to create message in message queue ${messageQueueId}:`, error);
+      this.logger.error('MessageQueueManager', `Failed to create message in message queue ${messageQueueId}:`, error);
       return null;
     }
   }
@@ -406,7 +426,7 @@ export class MessageQueueManager {
    * Initialize message queue manager
    */
   private async initializeMessageQueueManager(): Promise<void> {
-    console.log('Initializing message queue manager...');
+    this.logger.info('MessageQueueManager', 'Initializing message queue manager...');
   }
 
   /**
@@ -426,7 +446,7 @@ export class MessageQueueManager {
       }
     }
 
-    console.log(`Loaded ${defaultMessageQueues.length} default message queues`);
+    this.logger.info('MessageQueueManager', `Loaded ${defaultMessageQueues.length} default message queues`);
   }
 
   /**

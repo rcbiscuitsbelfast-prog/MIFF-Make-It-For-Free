@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface GraphicsConfig {
@@ -382,6 +386,8 @@ export class GraphicsManager {
   private graphics: Map<string, Graphics> = new Map();
   private stats: GraphicsStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<GraphicsConfig> = {}) {
     this.config = {
@@ -403,7 +409,21 @@ export class GraphicsManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'GraphicsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `GraphicsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'GraphicsManager');
+  };
   }
 
   /**
@@ -418,10 +438,10 @@ export class GraphicsManager {
       await this.loadDefaultGraphicsSystems();
       
       this.isInitialized = true;
-      console.log('Graphics manager initialized successfully');
+      this.logger.info('GraphicsManager', 'Graphics manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize graphics manager:', error);
+      this.logger.error('GraphicsManager', 'Failed to initialize graphics manager:', error);
       return false;
     }
   }
@@ -449,7 +469,7 @@ export class GraphicsManager {
     this.graphics.set(newGraphics.id, newGraphics);
     this.updateStats('create_graphics', newGraphics);
 
-    console.log(`Created graphics system: ${newGraphics.name}`);
+    this.logger.info('GraphicsManager', `Created graphics system: ${newGraphics.name}`);
     return newGraphics;
   }
 
@@ -459,7 +479,7 @@ export class GraphicsManager {
   createGraphicsPipeline(graphicsId: string, pipeline: Partial<GraphicsPipeline>): GraphicsPipeline | null {
     const graphics = this.graphics.get(graphicsId);
     if (!graphics) {
-      console.warn(`Graphics system ${graphicsId} not found`);
+      this.logger.warn('GraphicsManager', `Graphics system ${graphicsId} not found`);
       return null;
     }
 
@@ -479,10 +499,10 @@ export class GraphicsManager {
       graphics.modified = Date.now();
 
       this.updateStats('create_pipeline', graphics);
-      console.log(`Created graphics pipeline: ${newPipeline.name}`);
+      this.logger.info('GraphicsManager', `Created graphics pipeline: ${newPipeline.name}`);
       return newPipeline;
     } catch (error) {
-      console.error(`Failed to create graphics pipeline in system ${graphicsId}:`, error);
+      this.logger.error('GraphicsManager', `Failed to create graphics pipeline in system ${graphicsId}:`, error);
       return null;
     }
   }
@@ -493,7 +513,7 @@ export class GraphicsManager {
   createGraphicsShader(graphicsId: string, shader: Partial<GraphicsShader>): GraphicsShader | null {
     const graphics = this.graphics.get(graphicsId);
     if (!graphics) {
-      console.warn(`Graphics system ${graphicsId} not found`);
+      this.logger.warn('GraphicsManager', `Graphics system ${graphicsId} not found`);
       return null;
     }
 
@@ -513,10 +533,10 @@ export class GraphicsManager {
       graphics.modified = Date.now();
 
       this.updateStats('create_shader', graphics);
-      console.log(`Created graphics shader: ${newShader.name}`);
+      this.logger.info('GraphicsManager', `Created graphics shader: ${newShader.name}`);
       return newShader;
     } catch (error) {
-      console.error(`Failed to create graphics shader in system ${graphicsId}:`, error);
+      this.logger.error('GraphicsManager', `Failed to create graphics shader in system ${graphicsId}:`, error);
       return null;
     }
   }
@@ -554,7 +574,7 @@ export class GraphicsManager {
    * Initialize graphics manager
    */
   private async initializeGraphicsManager(): Promise<void> {
-    console.log('Initializing graphics manager...');
+    this.logger.info('GraphicsManager', 'Initializing graphics manager...');
   }
 
   /**
@@ -574,7 +594,7 @@ export class GraphicsManager {
       }
     }
 
-    console.log(`Loaded ${defaultGraphics.length} default graphics systems`);
+    this.logger.info('GraphicsManager', `Loaded ${defaultGraphics.length} default graphics systems`);
   }
 
   /**

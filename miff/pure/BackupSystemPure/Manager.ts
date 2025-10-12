@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface BackupSystemConfig {
@@ -289,6 +293,8 @@ export class BackupSystemManager {
   private systems: Map<string, BackupSystem> = new Map();
   private stats: BackupSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<BackupSystemConfig> = {}) {
     this.config = {
@@ -310,7 +316,21 @@ export class BackupSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'BackupSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `BackupSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'BackupSystemManager');
+  };
   }
 
   /**
@@ -325,10 +345,10 @@ export class BackupSystemManager {
       await this.loadDefaultBackupSystems();
       
       this.isInitialized = true;
-      console.log('Backup system manager initialized successfully');
+      this.logger.info('BackupSystemManager', 'Backup system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize backup system manager:', error);
+      this.logger.error('BackupSystemManager', 'Failed to initialize backup system manager:', error);
       return false;
     }
   }
@@ -355,7 +375,7 @@ export class BackupSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created backup system: ${newSystem.name}`);
+    this.logger.info('BackupSystemManager', `Created backup system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -365,12 +385,12 @@ export class BackupSystemManager {
   createBackup(systemId: string, backup: Partial<Backup>): Backup | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Backup system ${systemId} not found`);
+      this.logger.warn('BackupSystemManager', `Backup system ${systemId} not found`);
       return null;
     }
 
     if (system.backups.length >= this.config.maxBackups) {
-      console.warn('Maximum number of backups reached');
+      this.logger.warn('BackupSystemManager', 'Maximum number of backups reached');
       return null;
     }
 
@@ -392,10 +412,10 @@ export class BackupSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_backup', system);
-      console.log(`Created backup: ${newBackup.name}`);
+      this.logger.info('BackupSystemManager', `Created backup: ${newBackup.name}`);
       return newBackup;
     } catch (error) {
-      console.error(`Failed to create backup in system ${systemId}:`, error);
+      this.logger.error('BackupSystemManager', `Failed to create backup in system ${systemId}:`, error);
       return null;
     }
   }
@@ -406,12 +426,12 @@ export class BackupSystemManager {
   createBackupSchedule(systemId: string, schedule: Partial<BackupSchedule>): BackupSchedule | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Backup system ${systemId} not found`);
+      this.logger.warn('BackupSystemManager', `Backup system ${systemId} not found`);
       return null;
     }
 
     if (system.schedules.length >= this.config.maxSchedules) {
-      console.warn('Maximum number of schedules reached');
+      this.logger.warn('BackupSystemManager', 'Maximum number of schedules reached');
       return null;
     }
 
@@ -431,10 +451,10 @@ export class BackupSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_schedule', system);
-      console.log(`Created backup schedule: ${newSchedule.name}`);
+      this.logger.info('BackupSystemManager', `Created backup schedule: ${newSchedule.name}`);
       return newSchedule;
     } catch (error) {
-      console.error(`Failed to create backup schedule in system ${systemId}:`, error);
+      this.logger.error('BackupSystemManager', `Failed to create backup schedule in system ${systemId}:`, error);
       return null;
     }
   }
@@ -472,7 +492,7 @@ export class BackupSystemManager {
    * Initialize backup system manager
    */
   private async initializeBackupSystemManager(): Promise<void> {
-    console.log('Initializing backup system manager...');
+    this.logger.info('BackupSystemManager', 'Initializing backup system manager...');
   }
 
   /**
@@ -492,7 +512,7 @@ export class BackupSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default backup systems`);
+    this.logger.info('BackupSystemManager', `Loaded ${defaultSystems.length} default backup systems`);
   }
 
   /**

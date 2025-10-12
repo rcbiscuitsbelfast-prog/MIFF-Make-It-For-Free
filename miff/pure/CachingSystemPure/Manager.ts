@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CachingSystemConfig {
@@ -260,6 +264,8 @@ export class CachingSystemManager {
   private systems: Map<string, CachingSystem> = new Map();
   private stats: CachingSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CachingSystemConfig> = {}) {
     this.config = {
@@ -281,7 +287,21 @@ export class CachingSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CachingSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CachingSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CachingSystemManager');
+  };
   }
 
   /**
@@ -296,10 +316,10 @@ export class CachingSystemManager {
       await this.loadDefaultCachingSystems();
       
       this.isInitialized = true;
-      console.log('Caching system manager initialized successfully');
+      this.logger.info('CachingSystemManager', 'Caching system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize caching system manager:', error);
+      this.logger.error('CachingSystemManager', 'Failed to initialize caching system manager:', error);
       return false;
     }
   }
@@ -326,7 +346,7 @@ export class CachingSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created caching system: ${newSystem.name}`);
+    this.logger.info('CachingSystemManager', `Created caching system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -336,12 +356,12 @@ export class CachingSystemManager {
   createCache(systemId: string, cache: Partial<Cache>): Cache | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Caching system ${systemId} not found`);
+      this.logger.warn('CachingSystemManager', `Caching system ${systemId} not found`);
       return null;
     }
 
     if (system.caches.length >= this.config.maxCacheEntries) {
-      console.warn('Maximum number of caches reached');
+      this.logger.warn('CachingSystemManager', 'Maximum number of caches reached');
       return null;
     }
 
@@ -361,10 +381,10 @@ export class CachingSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_cache', system);
-      console.log(`Created cache: ${newCache.name}`);
+      this.logger.info('CachingSystemManager', `Created cache: ${newCache.name}`);
       return newCache;
     } catch (error) {
-      console.error(`Failed to create cache in system ${systemId}:`, error);
+      this.logger.error('CachingSystemManager', `Failed to create cache in system ${systemId}:`, error);
       return null;
     }
   }
@@ -375,7 +395,7 @@ export class CachingSystemManager {
   createCachePolicy(systemId: string, policy: Partial<CachePolicy>): CachePolicy | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Caching system ${systemId} not found`);
+      this.logger.warn('CachingSystemManager', `Caching system ${systemId} not found`);
       return null;
     }
 
@@ -394,10 +414,10 @@ export class CachingSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_policy', system);
-      console.log(`Created cache policy: ${newPolicy.name}`);
+      this.logger.info('CachingSystemManager', `Created cache policy: ${newPolicy.name}`);
       return newPolicy;
     } catch (error) {
-      console.error(`Failed to create cache policy in system ${systemId}:`, error);
+      this.logger.error('CachingSystemManager', `Failed to create cache policy in system ${systemId}:`, error);
       return null;
     }
   }
@@ -435,7 +455,7 @@ export class CachingSystemManager {
    * Initialize caching system manager
    */
   private async initializeCachingSystemManager(): Promise<void> {
-    console.log('Initializing caching system manager...');
+    this.logger.info('CachingSystemManager', 'Initializing caching system manager...');
   }
 
   /**
@@ -455,7 +475,7 @@ export class CachingSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default caching systems`);
+    this.logger.info('CachingSystemManager', `Loaded ${defaultSystems.length} default caching systems`);
   }
 
   /**

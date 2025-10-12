@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface RestaurantSimulationConfig {
@@ -421,6 +425,8 @@ export class RestaurantSimulationManager {
   private simulations: Map<string, RestaurantSimulation> = new Map();
   private stats: RestaurantSimulationStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<RestaurantSimulationConfig> = {}) {
     this.config = {
@@ -441,7 +447,21 @@ export class RestaurantSimulationManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'RestaurantSimulationManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `RestaurantSimulationManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'RestaurantSimulationManager');
+  };
   }
 
   /**
@@ -456,10 +476,10 @@ export class RestaurantSimulationManager {
       await this.loadDefaultRestaurantSimulations();
       
       this.isInitialized = true;
-      console.log('Restaurant simulation manager initialized successfully');
+      this.logger.info('RestaurantSimulationManager', 'Restaurant simulation manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize restaurant simulation manager:', error);
+      this.logger.error('RestaurantSimulationManager', 'Failed to initialize restaurant simulation manager:', error);
       return false;
     }
   }
@@ -486,7 +506,7 @@ export class RestaurantSimulationManager {
     this.simulations.set(newSimulation.id, newSimulation);
     this.updateStats('create_simulation', newSimulation);
 
-    console.log(`Created restaurant simulation: ${newSimulation.name}`);
+    this.logger.info('RestaurantSimulationManager', `Created restaurant simulation: ${newSimulation.name}`);
     return newSimulation;
   }
 
@@ -496,12 +516,12 @@ export class RestaurantSimulationManager {
   createRestaurant(simulationId: string, restaurant: Partial<Restaurant>): Restaurant | null {
     const simulation = this.simulations.get(simulationId);
     if (!simulation) {
-      console.warn(`Restaurant simulation ${simulationId} not found`);
+      this.logger.warn('RestaurantSimulationManager', `Restaurant simulation ${simulationId} not found`);
       return null;
     }
 
     if (simulation.restaurants.length >= this.config.maxRestaurants) {
-      console.warn('Maximum number of restaurants reached');
+      this.logger.warn('RestaurantSimulationManager', 'Maximum number of restaurants reached');
       return null;
     }
 
@@ -522,10 +542,10 @@ export class RestaurantSimulationManager {
       simulation.modified = Date.now();
 
       this.updateStats('create_restaurant', simulation);
-      console.log(`Created restaurant: ${newRestaurant.name}`);
+      this.logger.info('RestaurantSimulationManager', `Created restaurant: ${newRestaurant.name}`);
       return newRestaurant;
     } catch (error) {
-      console.error(`Failed to create restaurant in simulation ${simulationId}:`, error);
+      this.logger.error('RestaurantSimulationManager', `Failed to create restaurant in simulation ${simulationId}:`, error);
       return null;
     }
   }
@@ -536,12 +556,12 @@ export class RestaurantSimulationManager {
   createCustomer(simulationId: string, customer: Partial<Customer>): Customer | null {
     const simulation = this.simulations.get(simulationId);
     if (!simulation) {
-      console.warn(`Restaurant simulation ${simulationId} not found`);
+      this.logger.warn('RestaurantSimulationManager', `Restaurant simulation ${simulationId} not found`);
       return null;
     }
 
     if (simulation.customers.length >= this.config.maxCustomers) {
-      console.warn('Maximum number of customers reached');
+      this.logger.warn('RestaurantSimulationManager', 'Maximum number of customers reached');
       return null;
     }
 
@@ -561,10 +581,10 @@ export class RestaurantSimulationManager {
       simulation.modified = Date.now();
 
       this.updateStats('create_customer', simulation);
-      console.log(`Created customer: ${newCustomer.name}`);
+      this.logger.info('RestaurantSimulationManager', `Created customer: ${newCustomer.name}`);
       return newCustomer;
     } catch (error) {
-      console.error(`Failed to create customer in simulation ${simulationId}:`, error);
+      this.logger.error('RestaurantSimulationManager', `Failed to create customer in simulation ${simulationId}:`, error);
       return null;
     }
   }
@@ -602,7 +622,7 @@ export class RestaurantSimulationManager {
    * Initialize restaurant simulation manager
    */
   private async initializeRestaurantSimulationManager(): Promise<void> {
-    console.log('Initializing restaurant simulation manager...');
+    this.logger.info('RestaurantSimulationManager', 'Initializing restaurant simulation manager...');
   }
 
   /**
@@ -622,7 +642,7 @@ export class RestaurantSimulationManager {
       }
     }
 
-    console.log(`Loaded ${defaultSimulations.length} default restaurant simulations`);
+    this.logger.info('RestaurantSimulationManager', `Loaded ${defaultSimulations.length} default restaurant simulations`);
   }
 
   /**

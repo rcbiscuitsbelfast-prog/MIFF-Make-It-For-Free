@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SecuritySystemConfig {
@@ -234,6 +238,8 @@ export class SecuritySystemManager {
   private systems: Map<string, SecuritySystem> = new Map();
   private stats: SecuritySystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SecuritySystemConfig> = {}) {
     this.config = {
@@ -255,7 +261,21 @@ export class SecuritySystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SecuritySystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SecuritySystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SecuritySystemManager');
+  };
   }
 
   /**
@@ -270,10 +290,10 @@ export class SecuritySystemManager {
       await this.loadDefaultSecuritySystems();
       
       this.isInitialized = true;
-      console.log('Security system manager initialized successfully');
+      this.logger.info('SecuritySystemManager', 'Security system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize security system manager:', error);
+      this.logger.error('SecuritySystemManager', 'Failed to initialize security system manager:', error);
       return false;
     }
   }
@@ -300,7 +320,7 @@ export class SecuritySystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created security system: ${newSystem.name}`);
+    this.logger.info('SecuritySystemManager', `Created security system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -310,12 +330,12 @@ export class SecuritySystemManager {
   createSecurityUser(systemId: string, user: Partial<SecurityUser>): SecurityUser | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Security system ${systemId} not found`);
+      this.logger.warn('SecuritySystemManager', `Security system ${systemId} not found`);
       return null;
     }
 
     if (system.users.length >= this.config.maxUsers) {
-      console.warn('Maximum number of users reached');
+      this.logger.warn('SecuritySystemManager', 'Maximum number of users reached');
       return null;
     }
 
@@ -335,10 +355,10 @@ export class SecuritySystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_user', system);
-      console.log(`Created security user: ${newUser.username}`);
+      this.logger.info('SecuritySystemManager', `Created security user: ${newUser.username}`);
       return newUser;
     } catch (error) {
-      console.error(`Failed to create security user in system ${systemId}:`, error);
+      this.logger.error('SecuritySystemManager', `Failed to create security user in system ${systemId}:`, error);
       return null;
     }
   }
@@ -349,12 +369,12 @@ export class SecuritySystemManager {
   createSecurityPolicy(systemId: string, policy: Partial<SecurityPolicy>): SecurityPolicy | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Security system ${systemId} not found`);
+      this.logger.warn('SecuritySystemManager', `Security system ${systemId} not found`);
       return null;
     }
 
     if (system.policies.length >= this.config.maxPolicies) {
-      console.warn('Maximum number of policies reached');
+      this.logger.warn('SecuritySystemManager', 'Maximum number of policies reached');
       return null;
     }
 
@@ -373,10 +393,10 @@ export class SecuritySystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_policy', system);
-      console.log(`Created security policy: ${newPolicy.name}`);
+      this.logger.info('SecuritySystemManager', `Created security policy: ${newPolicy.name}`);
       return newPolicy;
     } catch (error) {
-      console.error(`Failed to create security policy in system ${systemId}:`, error);
+      this.logger.error('SecuritySystemManager', `Failed to create security policy in system ${systemId}:`, error);
       return null;
     }
   }
@@ -414,7 +434,7 @@ export class SecuritySystemManager {
    * Initialize security system manager
    */
   private async initializeSecuritySystemManager(): Promise<void> {
-    console.log('Initializing security system manager...');
+    this.logger.info('SecuritySystemManager', 'Initializing security system manager...');
   }
 
   /**
@@ -434,7 +454,7 @@ export class SecuritySystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default security systems`);
+    this.logger.info('SecuritySystemManager', `Loaded ${defaultSystems.length} default security systems`);
   }
 
   /**

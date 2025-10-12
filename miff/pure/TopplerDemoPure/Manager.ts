@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface TopplerDemoConfig {
@@ -350,6 +354,8 @@ export class TopplerDemoManager {
   private demos: Map<string, TopplerDemo> = new Map();
   private stats: TopplerDemoStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<TopplerDemoConfig> = {}) {
     this.config = {
@@ -372,7 +378,21 @@ export class TopplerDemoManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'TopplerDemoManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `TopplerDemoManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'TopplerDemoManager');
+  };
   }
 
   /**
@@ -387,10 +407,10 @@ export class TopplerDemoManager {
       await this.loadDefaultTopplerDemos();
       
       this.isInitialized = true;
-      console.log('Toppler demo manager initialized successfully');
+      this.logger.info('TopplerDemoManager', 'Toppler demo manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize toppler demo manager:', error);
+      this.logger.error('TopplerDemoManager', 'Failed to initialize toppler demo manager:', error);
       return false;
     }
   }
@@ -417,7 +437,7 @@ export class TopplerDemoManager {
     this.demos.set(newDemo.id, newDemo);
     this.updateStats('create_demo', newDemo);
 
-    console.log(`Created toppler demo: ${newDemo.name}`);
+    this.logger.info('TopplerDemoManager', `Created toppler demo: ${newDemo.name}`);
     return newDemo;
   }
 
@@ -427,12 +447,12 @@ export class TopplerDemoManager {
   createDemo(topplerDemoId: string, demo: Partial<Demo>): Demo | null {
     const topplerDemo = this.demos.get(topplerDemoId);
     if (!topplerDemo) {
-      console.warn(`Toppler demo ${topplerDemoId} not found`);
+      this.logger.warn('TopplerDemoManager', `Toppler demo ${topplerDemoId} not found`);
       return null;
     }
 
     if (topplerDemo.demos.length >= this.config.maxDemos) {
-      console.warn('Maximum number of demos reached');
+      this.logger.warn('TopplerDemoManager', 'Maximum number of demos reached');
       return null;
     }
 
@@ -453,10 +473,10 @@ export class TopplerDemoManager {
       topplerDemo.modified = Date.now();
 
       this.updateStats('create_demo', topplerDemo);
-      console.log(`Created demo: ${newDemo.name}`);
+      this.logger.info('TopplerDemoManager', `Created demo: ${newDemo.name}`);
       return newDemo;
     } catch (error) {
-      console.error(`Failed to create demo in toppler demo ${topplerDemoId}:`, error);
+      this.logger.error('TopplerDemoManager', `Failed to create demo in toppler demo ${topplerDemoId}:`, error);
       return null;
     }
   }
@@ -467,12 +487,12 @@ export class TopplerDemoManager {
   createLevel(topplerDemoId: string, level: Partial<Level>): Level | null {
     const topplerDemo = this.demos.get(topplerDemoId);
     if (!topplerDemo) {
-      console.warn(`Toppler demo ${topplerDemoId} not found`);
+      this.logger.warn('TopplerDemoManager', `Toppler demo ${topplerDemoId} not found`);
       return null;
     }
 
     if (topplerDemo.levels.length >= this.config.maxLevels) {
-      console.warn('Maximum number of levels reached');
+      this.logger.warn('TopplerDemoManager', 'Maximum number of levels reached');
       return null;
     }
 
@@ -493,10 +513,10 @@ export class TopplerDemoManager {
       topplerDemo.modified = Date.now();
 
       this.updateStats('create_level', topplerDemo);
-      console.log(`Created level: ${newLevel.name}`);
+      this.logger.info('TopplerDemoManager', `Created level: ${newLevel.name}`);
       return newLevel;
     } catch (error) {
-      console.error(`Failed to create level in toppler demo ${topplerDemoId}:`, error);
+      this.logger.error('TopplerDemoManager', `Failed to create level in toppler demo ${topplerDemoId}:`, error);
       return null;
     }
   }
@@ -534,7 +554,7 @@ export class TopplerDemoManager {
    * Initialize toppler demo manager
    */
   private async initializeTopplerDemoManager(): Promise<void> {
-    console.log('Initializing toppler demo manager...');
+    this.logger.info('TopplerDemoManager', 'Initializing toppler demo manager...');
   }
 
   /**
@@ -554,7 +574,7 @@ export class TopplerDemoManager {
       }
     }
 
-    console.log(`Loaded ${defaultDemos.length} default toppler demos`);
+    this.logger.info('TopplerDemoManager', `Loaded ${defaultDemos.length} default toppler demos`);
   }
 
   /**

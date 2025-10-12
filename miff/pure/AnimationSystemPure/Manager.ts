@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface AnimationSystemConfig {
@@ -325,6 +329,8 @@ export class AnimationSystemManager {
   private systems: Map<string, AnimationSystem> = new Map();
   private stats: AnimationSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<AnimationSystemConfig> = {}) {
     this.config = {
@@ -346,7 +352,21 @@ export class AnimationSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AnimationSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AnimationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AnimationSystemManager');
+  };
   }
 
   /**
@@ -361,10 +381,10 @@ export class AnimationSystemManager {
       await this.loadDefaultAnimationSystems();
       
       this.isInitialized = true;
-      console.log('Animation system manager initialized successfully');
+      this.logger.info('AnimationSystemManager', 'Animation system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize animation system manager:', error);
+      this.logger.error('AnimationSystemManager', 'Failed to initialize animation system manager:', error);
       return false;
     }
   }
@@ -391,7 +411,7 @@ export class AnimationSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created animation system: ${newSystem.name}`);
+    this.logger.info('AnimationSystemManager', `Created animation system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -401,12 +421,12 @@ export class AnimationSystemManager {
   createAnimation(systemId: string, animation: Partial<Animation>): Animation | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Animation system ${systemId} not found`);
+      this.logger.warn('AnimationSystemManager', `Animation system ${systemId} not found`);
       return null;
     }
 
     if (system.animations.length >= this.config.maxAnimations) {
-      console.warn('Maximum number of animations reached');
+      this.logger.warn('AnimationSystemManager', 'Maximum number of animations reached');
       return null;
     }
 
@@ -427,10 +447,10 @@ export class AnimationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_animation', system);
-      console.log(`Created animation: ${newAnimation.name}`);
+      this.logger.info('AnimationSystemManager', `Created animation: ${newAnimation.name}`);
       return newAnimation;
     } catch (error) {
-      console.error(`Failed to create animation in system ${systemId}:`, error);
+      this.logger.error('AnimationSystemManager', `Failed to create animation in system ${systemId}:`, error);
       return null;
     }
   }
@@ -441,7 +461,7 @@ export class AnimationSystemManager {
   createSkeleton(systemId: string, skeleton: Partial<Skeleton>): Skeleton | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Animation system ${systemId} not found`);
+      this.logger.warn('AnimationSystemManager', `Animation system ${systemId} not found`);
       return null;
     }
 
@@ -460,10 +480,10 @@ export class AnimationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_skeleton', system);
-      console.log(`Created skeleton: ${newSkeleton.name}`);
+      this.logger.info('AnimationSystemManager', `Created skeleton: ${newSkeleton.name}`);
       return newSkeleton;
     } catch (error) {
-      console.error(`Failed to create skeleton in system ${systemId}:`, error);
+      this.logger.error('AnimationSystemManager', `Failed to create skeleton in system ${systemId}:`, error);
       return null;
     }
   }
@@ -501,7 +521,7 @@ export class AnimationSystemManager {
    * Initialize animation system manager
    */
   private async initializeAnimationSystemManager(): Promise<void> {
-    console.log('Initializing animation system manager...');
+    this.logger.info('AnimationSystemManager', 'Initializing animation system manager...');
   }
 
   /**
@@ -521,7 +541,7 @@ export class AnimationSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default animation systems`);
+    this.logger.info('AnimationSystemManager', `Loaded ${defaultSystems.length} default animation systems`);
   }
 
   /**

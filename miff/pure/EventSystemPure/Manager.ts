@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface EventSystemConfig {
@@ -284,6 +288,8 @@ export class EventSystemManager {
   private systems: Map<string, EventSystem> = new Map();
   private stats: EventSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<EventSystemConfig> = {}) {
     this.config = {
@@ -305,7 +311,21 @@ export class EventSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EventSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EventSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EventSystemManager');
+  };
   }
 
   /**
@@ -320,10 +340,10 @@ export class EventSystemManager {
       await this.loadDefaultEventSystems();
       
       this.isInitialized = true;
-      console.log('Event system manager initialized successfully');
+      this.logger.info('EventSystemManager', 'Event system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize event system manager:', error);
+      this.logger.error('EventSystemManager', 'Failed to initialize event system manager:', error);
       return false;
     }
   }
@@ -350,7 +370,7 @@ export class EventSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created event system: ${newSystem.name}`);
+    this.logger.info('EventSystemManager', `Created event system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -360,12 +380,12 @@ export class EventSystemManager {
   createEvent(systemId: string, event: Partial<Event>): Event | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Event system ${systemId} not found`);
+      this.logger.warn('EventSystemManager', `Event system ${systemId} not found`);
       return null;
     }
 
     if (system.events.length >= this.config.maxEvents) {
-      console.warn('Maximum number of events reached');
+      this.logger.warn('EventSystemManager', 'Maximum number of events reached');
       return null;
     }
 
@@ -385,10 +405,10 @@ export class EventSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_event', system);
-      console.log(`Created event: ${newEvent.name}`);
+      this.logger.info('EventSystemManager', `Created event: ${newEvent.name}`);
       return newEvent;
     } catch (error) {
-      console.error(`Failed to create event in system ${systemId}:`, error);
+      this.logger.error('EventSystemManager', `Failed to create event in system ${systemId}:`, error);
       return null;
     }
   }
@@ -399,12 +419,12 @@ export class EventSystemManager {
   createEventSubscriber(systemId: string, subscriber: Partial<EventSubscriber>): EventSubscriber | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Event system ${systemId} not found`);
+      this.logger.warn('EventSystemManager', `Event system ${systemId} not found`);
       return null;
     }
 
     if (system.subscribers.length >= this.config.maxSubscribers) {
-      console.warn('Maximum number of subscribers reached');
+      this.logger.warn('EventSystemManager', 'Maximum number of subscribers reached');
       return null;
     }
 
@@ -424,10 +444,10 @@ export class EventSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_subscriber', system);
-      console.log(`Created event subscriber: ${newSubscriber.name}`);
+      this.logger.info('EventSystemManager', `Created event subscriber: ${newSubscriber.name}`);
       return newSubscriber;
     } catch (error) {
-      console.error(`Failed to create event subscriber in system ${systemId}:`, error);
+      this.logger.error('EventSystemManager', `Failed to create event subscriber in system ${systemId}:`, error);
       return null;
     }
   }
@@ -465,7 +485,7 @@ export class EventSystemManager {
    * Initialize event system manager
    */
   private async initializeEventSystemManager(): Promise<void> {
-    console.log('Initializing event system manager...');
+    this.logger.info('EventSystemManager', 'Initializing event system manager...');
   }
 
   /**
@@ -485,7 +505,7 @@ export class EventSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default event systems`);
+    this.logger.info('EventSystemManager', `Loaded ${defaultSystems.length} default event systems`);
   }
 
   /**

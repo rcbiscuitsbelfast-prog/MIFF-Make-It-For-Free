@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface PhysicsConfig {
@@ -264,6 +268,8 @@ export class PhysicsManager {
   private physics: Map<string, Physics> = new Map();
   private stats: PhysicsStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<PhysicsConfig> = {}) {
     this.config = {
@@ -285,7 +291,21 @@ export class PhysicsManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'PhysicsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `PhysicsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'PhysicsManager');
+  };
   }
 
   /**
@@ -300,10 +320,10 @@ export class PhysicsManager {
       await this.loadDefaultPhysicsSystems();
       
       this.isInitialized = true;
-      console.log('Physics manager initialized successfully');
+      this.logger.info('PhysicsManager', 'Physics manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize physics manager:', error);
+      this.logger.error('PhysicsManager', 'Failed to initialize physics manager:', error);
       return false;
     }
   }
@@ -330,7 +350,7 @@ export class PhysicsManager {
     this.physics.set(newPhysics.id, newPhysics);
     this.updateStats('create_physics', newPhysics);
 
-    console.log(`Created physics system: ${newPhysics.name}`);
+    this.logger.info('PhysicsManager', `Created physics system: ${newPhysics.name}`);
     return newPhysics;
   }
 
@@ -340,12 +360,12 @@ export class PhysicsManager {
   createPhysicsBody(physicsId: string, body: Partial<PhysicsBody>): PhysicsBody | null {
     const physics = this.physics.get(physicsId);
     if (!physics) {
-      console.warn(`Physics system ${physicsId} not found`);
+      this.logger.warn('PhysicsManager', `Physics system ${physicsId} not found`);
       return null;
     }
 
     if (physics.bodies.length >= this.config.maxBodies) {
-      console.warn('Maximum number of physics bodies reached');
+      this.logger.warn('PhysicsManager', 'Maximum number of physics bodies reached');
       return null;
     }
 
@@ -367,10 +387,10 @@ export class PhysicsManager {
       physics.modified = Date.now();
 
       this.updateStats('create_body', physics);
-      console.log(`Created physics body: ${newBody.name}`);
+      this.logger.info('PhysicsManager', `Created physics body: ${newBody.name}`);
       return newBody;
     } catch (error) {
-      console.error(`Failed to create physics body in system ${physicsId}:`, error);
+      this.logger.error('PhysicsManager', `Failed to create physics body in system ${physicsId}:`, error);
       return null;
     }
   }
@@ -381,12 +401,12 @@ export class PhysicsManager {
   createPhysicsConstraint(physicsId: string, constraint: Partial<PhysicsConstraint>): PhysicsConstraint | null {
     const physics = this.physics.get(physicsId);
     if (!physics) {
-      console.warn(`Physics system ${physicsId} not found`);
+      this.logger.warn('PhysicsManager', `Physics system ${physicsId} not found`);
       return null;
     }
 
     if (physics.constraints.length >= this.config.maxConstraints) {
-      console.warn('Maximum number of physics constraints reached');
+      this.logger.warn('PhysicsManager', 'Maximum number of physics constraints reached');
       return null;
     }
 
@@ -405,10 +425,10 @@ export class PhysicsManager {
       physics.modified = Date.now();
 
       this.updateStats('create_constraint', physics);
-      console.log(`Created physics constraint: ${newConstraint.name}`);
+      this.logger.info('PhysicsManager', `Created physics constraint: ${newConstraint.name}`);
       return newConstraint;
     } catch (error) {
-      console.error(`Failed to create physics constraint in system ${physicsId}:`, error);
+      this.logger.error('PhysicsManager', `Failed to create physics constraint in system ${physicsId}:`, error);
       return null;
     }
   }
@@ -446,7 +466,7 @@ export class PhysicsManager {
    * Initialize physics manager
    */
   private async initializePhysicsManager(): Promise<void> {
-    console.log('Initializing physics manager...');
+    this.logger.info('PhysicsManager', 'Initializing physics manager...');
   }
 
   /**
@@ -466,7 +486,7 @@ export class PhysicsManager {
       }
     }
 
-    console.log(`Loaded ${defaultPhysics.length} default physics systems`);
+    this.logger.info('PhysicsManager', `Loaded ${defaultPhysics.length} default physics systems`);
   }
 
   /**

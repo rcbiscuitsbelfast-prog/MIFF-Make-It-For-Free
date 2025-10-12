@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface NavigationSystemConfig {
@@ -221,6 +225,8 @@ export class NavigationSystemManager {
   private systems: Map<string, NavigationSystem> = new Map();
   private stats: NavigationStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<NavigationSystemConfig> = {}) {
     this.config = {
@@ -242,7 +248,21 @@ export class NavigationSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'NavigationSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `NavigationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'NavigationSystemManager');
+  };
   }
 
   /**
@@ -257,10 +277,10 @@ export class NavigationSystemManager {
       await this.loadDefaultNavigationSystems();
       
       this.isInitialized = true;
-      console.log('Navigation system manager initialized successfully');
+      this.logger.info('NavigationSystemManager', 'Navigation system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize navigation system manager:', error);
+      this.logger.error('NavigationSystemManager', 'Failed to initialize navigation system manager:', error);
       return false;
     }
   }
@@ -288,7 +308,7 @@ export class NavigationSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created navigation system: ${newSystem.name}`);
+    this.logger.info('NavigationSystemManager', `Created navigation system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -298,12 +318,12 @@ export class NavigationSystemManager {
   createNavigationAgent(systemId: string, agent: Partial<NavigationAgent>): NavigationAgent | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Navigation system ${systemId} not found`);
+      this.logger.warn('NavigationSystemManager', `Navigation system ${systemId} not found`);
       return null;
     }
 
     if (system.agents.length >= this.config.maxAgents) {
-      console.warn('Maximum number of agents reached');
+      this.logger.warn('NavigationSystemManager', 'Maximum number of agents reached');
       return null;
     }
 
@@ -324,10 +344,10 @@ export class NavigationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_agent', system);
-      console.log(`Created navigation agent: ${newAgent.name}`);
+      this.logger.info('NavigationSystemManager', `Created navigation agent: ${newAgent.name}`);
       return newAgent;
     } catch (error) {
-      console.error(`Failed to create navigation agent in system ${systemId}:`, error);
+      this.logger.error('NavigationSystemManager', `Failed to create navigation agent in system ${systemId}:`, error);
       return null;
     }
   }
@@ -338,12 +358,12 @@ export class NavigationSystemManager {
   createWaypoint(systemId: string, waypoint: Partial<Waypoint>): Waypoint | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Navigation system ${systemId} not found`);
+      this.logger.warn('NavigationSystemManager', `Navigation system ${systemId} not found`);
       return null;
     }
 
     if (system.waypoints.length >= this.config.maxWaypoints) {
-      console.warn('Maximum number of waypoints reached');
+      this.logger.warn('NavigationSystemManager', 'Maximum number of waypoints reached');
       return null;
     }
 
@@ -362,10 +382,10 @@ export class NavigationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_waypoint', system);
-      console.log(`Created waypoint: ${newWaypoint.name}`);
+      this.logger.info('NavigationSystemManager', `Created waypoint: ${newWaypoint.name}`);
       return newWaypoint;
     } catch (error) {
-      console.error(`Failed to create waypoint in system ${systemId}:`, error);
+      this.logger.error('NavigationSystemManager', `Failed to create waypoint in system ${systemId}:`, error);
       return null;
     }
   }
@@ -403,7 +423,7 @@ export class NavigationSystemManager {
    * Initialize navigation system manager
    */
   private async initializeNavigationSystemManager(): Promise<void> {
-    console.log('Initializing navigation system manager...');
+    this.logger.info('NavigationSystemManager', 'Initializing navigation system manager...');
   }
 
   /**
@@ -423,7 +443,7 @@ export class NavigationSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default navigation systems`);
+    this.logger.info('NavigationSystemManager', `Loaded ${defaultSystems.length} default navigation systems`);
   }
 
   /**

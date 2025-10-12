@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DeploymentSystemConfig {
@@ -288,6 +292,8 @@ export class DeploymentSystemManager {
   private systems: Map<string, DeploymentSystem> = new Map();
   private stats: DeploymentSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DeploymentSystemConfig> = {}) {
     this.config = {
@@ -309,7 +315,21 @@ export class DeploymentSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DeploymentSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DeploymentSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DeploymentSystemManager');
+  };
   }
 
   /**
@@ -324,10 +344,10 @@ export class DeploymentSystemManager {
       await this.loadDefaultDeploymentSystems();
       
       this.isInitialized = true;
-      console.log('Deployment system manager initialized successfully');
+      this.logger.info('DeploymentSystemManager', 'Deployment system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize deployment system manager:', error);
+      this.logger.error('DeploymentSystemManager', 'Failed to initialize deployment system manager:', error);
       return false;
     }
   }
@@ -354,7 +374,7 @@ export class DeploymentSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created deployment system: ${newSystem.name}`);
+    this.logger.info('DeploymentSystemManager', `Created deployment system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -364,12 +384,12 @@ export class DeploymentSystemManager {
   createDeployment(systemId: string, deployment: Partial<Deployment>): Deployment | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Deployment system ${systemId} not found`);
+      this.logger.warn('DeploymentSystemManager', `Deployment system ${systemId} not found`);
       return null;
     }
 
     if (system.deployments.length >= this.config.maxDeployments) {
-      console.warn('Maximum number of deployments reached');
+      this.logger.warn('DeploymentSystemManager', 'Maximum number of deployments reached');
       return null;
     }
 
@@ -390,10 +410,10 @@ export class DeploymentSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_deployment', system);
-      console.log(`Created deployment: ${newDeployment.name}`);
+      this.logger.info('DeploymentSystemManager', `Created deployment: ${newDeployment.name}`);
       return newDeployment;
     } catch (error) {
-      console.error(`Failed to create deployment in system ${systemId}:`, error);
+      this.logger.error('DeploymentSystemManager', `Failed to create deployment in system ${systemId}:`, error);
       return null;
     }
   }
@@ -404,12 +424,12 @@ export class DeploymentSystemManager {
   createEnvironment(systemId: string, environment: Partial<Environment>): Environment | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Deployment system ${systemId} not found`);
+      this.logger.warn('DeploymentSystemManager', `Deployment system ${systemId} not found`);
       return null;
     }
 
     if (system.environments.length >= this.config.maxEnvironments) {
-      console.warn('Maximum number of environments reached');
+      this.logger.warn('DeploymentSystemManager', 'Maximum number of environments reached');
       return null;
     }
 
@@ -428,10 +448,10 @@ export class DeploymentSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_environment', system);
-      console.log(`Created environment: ${newEnvironment.name}`);
+      this.logger.info('DeploymentSystemManager', `Created environment: ${newEnvironment.name}`);
       return newEnvironment;
     } catch (error) {
-      console.error(`Failed to create environment in system ${systemId}:`, error);
+      this.logger.error('DeploymentSystemManager', `Failed to create environment in system ${systemId}:`, error);
       return null;
     }
   }
@@ -469,7 +489,7 @@ export class DeploymentSystemManager {
    * Initialize deployment system manager
    */
   private async initializeDeploymentSystemManager(): Promise<void> {
-    console.log('Initializing deployment system manager...');
+    this.logger.info('DeploymentSystemManager', 'Initializing deployment system manager...');
   }
 
   /**
@@ -489,7 +509,7 @@ export class DeploymentSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default deployment systems`);
+    this.logger.info('DeploymentSystemManager', `Loaded ${defaultSystems.length} default deployment systems`);
   }
 
   /**

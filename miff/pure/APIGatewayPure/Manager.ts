@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface APIGatewayConfig {
@@ -285,6 +289,8 @@ export class APIGatewayManager {
   private gateways: Map<string, APIGateway> = new Map();
   private stats: APIGatewayStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<APIGatewayConfig> = {}) {
     this.config = {
@@ -306,7 +312,21 @@ export class APIGatewayManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'APIGatewayManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `APIGatewayManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'APIGatewayManager');
+  };
   }
 
   /**
@@ -321,10 +341,10 @@ export class APIGatewayManager {
       await this.loadDefaultAPIGateways();
       
       this.isInitialized = true;
-      console.log('API gateway manager initialized successfully');
+      this.logger.info('APIGatewayManager', 'API gateway manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize API gateway manager:', error);
+      this.logger.error('APIGatewayManager', 'Failed to initialize API gateway manager:', error);
       return false;
     }
   }
@@ -351,7 +371,7 @@ export class APIGatewayManager {
     this.gateways.set(newGateway.id, newGateway);
     this.updateStats('create_gateway', newGateway);
 
-    console.log(`Created API gateway: ${newGateway.name}`);
+    this.logger.info('APIGatewayManager', `Created API gateway: ${newGateway.name}`);
     return newGateway;
   }
 
@@ -361,12 +381,12 @@ export class APIGatewayManager {
   createAPI(gatewayId: string, api: Partial<API>): API | null {
     const gateway = this.gateways.get(gatewayId);
     if (!gateway) {
-      console.warn(`API gateway ${gatewayId} not found`);
+      this.logger.warn('APIGatewayManager', `API gateway ${gatewayId} not found`);
       return null;
     }
 
     if (gateway.apis.length >= this.config.maxAPIs) {
-      console.warn('Maximum number of APIs reached');
+      this.logger.warn('APIGatewayManager', 'Maximum number of APIs reached');
       return null;
     }
 
@@ -388,10 +408,10 @@ export class APIGatewayManager {
       gateway.modified = Date.now();
 
       this.updateStats('create_api', gateway);
-      console.log(`Created API: ${newAPI.name}`);
+      this.logger.info('APIGatewayManager', `Created API: ${newAPI.name}`);
       return newAPI;
     } catch (error) {
-      console.error(`Failed to create API in gateway ${gatewayId}:`, error);
+      this.logger.error('APIGatewayManager', `Failed to create API in gateway ${gatewayId}:`, error);
       return null;
     }
   }
@@ -402,12 +422,12 @@ export class APIGatewayManager {
   createAPIRoute(gatewayId: string, route: Partial<APIRoute>): APIRoute | null {
     const gateway = this.gateways.get(gatewayId);
     if (!gateway) {
-      console.warn(`API gateway ${gatewayId} not found`);
+      this.logger.warn('APIGatewayManager', `API gateway ${gatewayId} not found`);
       return null;
     }
 
     if (gateway.routes.length >= this.config.maxRoutes) {
-      console.warn('Maximum number of routes reached');
+      this.logger.warn('APIGatewayManager', 'Maximum number of routes reached');
       return null;
     }
 
@@ -427,10 +447,10 @@ export class APIGatewayManager {
       gateway.modified = Date.now();
 
       this.updateStats('create_route', gateway);
-      console.log(`Created API route: ${newRoute.name}`);
+      this.logger.info('APIGatewayManager', `Created API route: ${newRoute.name}`);
       return newRoute;
     } catch (error) {
-      console.error(`Failed to create API route in gateway ${gatewayId}:`, error);
+      this.logger.error('APIGatewayManager', `Failed to create API route in gateway ${gatewayId}:`, error);
       return null;
     }
   }
@@ -468,7 +488,7 @@ export class APIGatewayManager {
    * Initialize API gateway manager
    */
   private async initializeAPIGatewayManager(): Promise<void> {
-    console.log('Initializing API gateway manager...');
+    this.logger.info('APIGatewayManager', 'Initializing API gateway manager...');
   }
 
   /**
@@ -488,7 +508,7 @@ export class APIGatewayManager {
       }
     }
 
-    console.log(`Loaded ${defaultGateways.length} default API gateways`);
+    this.logger.info('APIGatewayManager', `Loaded ${defaultGateways.length} default API gateways`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface WebSocketBridgeConfig {
@@ -274,6 +278,8 @@ export class WebSocketBridgeManager {
   private bridges: Map<string, WebSocketBridge> = new Map();
   private stats: WebSocketBridgeStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<WebSocketBridgeConfig> = {}) {
     this.config = {
@@ -295,7 +301,21 @@ export class WebSocketBridgeManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'WebSocketBridgeManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `WebSocketBridgeManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'WebSocketBridgeManager');
+  };
   }
 
   /**
@@ -310,10 +330,10 @@ export class WebSocketBridgeManager {
       await this.loadDefaultWebSocketBridges();
       
       this.isInitialized = true;
-      console.log('WebSocket bridge manager initialized successfully');
+      this.logger.info('WebSocketBridgeManager', 'WebSocket bridge manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize WebSocket bridge manager:', error);
+      this.logger.error('WebSocketBridgeManager', 'Failed to initialize WebSocket bridge manager:', error);
       return false;
     }
   }
@@ -340,7 +360,7 @@ export class WebSocketBridgeManager {
     this.bridges.set(newBridge.id, newBridge);
     this.updateStats('create_bridge', newBridge);
 
-    console.log(`Created WebSocket bridge: ${newBridge.name}`);
+    this.logger.info('WebSocketBridgeManager', `Created WebSocket bridge: ${newBridge.name}`);
     return newBridge;
   }
 
@@ -350,12 +370,12 @@ export class WebSocketBridgeManager {
   createBridge(webSocketBridgeId: string, bridge: Partial<Bridge>): Bridge | null {
     const webSocketBridge = this.bridges.get(webSocketBridgeId);
     if (!webSocketBridge) {
-      console.warn(`WebSocket bridge ${webSocketBridgeId} not found`);
+      this.logger.warn('WebSocketBridgeManager', `WebSocket bridge ${webSocketBridgeId} not found`);
       return null;
     }
 
     if (webSocketBridge.bridges.length >= this.config.maxBridges) {
-      console.warn('Maximum number of bridges reached');
+      this.logger.warn('WebSocketBridgeManager', 'Maximum number of bridges reached');
       return null;
     }
 
@@ -375,10 +395,10 @@ export class WebSocketBridgeManager {
       webSocketBridge.modified = Date.now();
 
       this.updateStats('create_bridge', webSocketBridge);
-      console.log(`Created bridge: ${newBridge.name}`);
+      this.logger.info('WebSocketBridgeManager', `Created bridge: ${newBridge.name}`);
       return newBridge;
     } catch (error) {
-      console.error(`Failed to create bridge in WebSocket bridge ${webSocketBridgeId}:`, error);
+      this.logger.error('WebSocketBridgeManager', `Failed to create bridge in WebSocket bridge ${webSocketBridgeId}:`, error);
       return null;
     }
   }
@@ -389,12 +409,12 @@ export class WebSocketBridgeManager {
   createWebSocketConnection(webSocketBridgeId: string, connection: Partial<WebSocketConnection>): WebSocketConnection | null {
     const webSocketBridge = this.bridges.get(webSocketBridgeId);
     if (!webSocketBridge) {
-      console.warn(`WebSocket bridge ${webSocketBridgeId} not found`);
+      this.logger.warn('WebSocketBridgeManager', `WebSocket bridge ${webSocketBridgeId} not found`);
       return null;
     }
 
     if (webSocketBridge.connections.length >= this.config.maxConnections) {
-      console.warn('Maximum number of connections reached');
+      this.logger.warn('WebSocketBridgeManager', 'Maximum number of connections reached');
       return null;
     }
 
@@ -413,10 +433,10 @@ export class WebSocketBridgeManager {
       webSocketBridge.modified = Date.now();
 
       this.updateStats('create_connection', webSocketBridge);
-      console.log(`Created WebSocket connection: ${newConnection.id}`);
+      this.logger.info('WebSocketBridgeManager', `Created WebSocket connection: ${newConnection.id}`);
       return newConnection;
     } catch (error) {
-      console.error(`Failed to create WebSocket connection in WebSocket bridge ${webSocketBridgeId}:`, error);
+      this.logger.error('WebSocketBridgeManager', `Failed to create WebSocket connection in WebSocket bridge ${webSocketBridgeId}:`, error);
       return null;
     }
   }
@@ -454,7 +474,7 @@ export class WebSocketBridgeManager {
    * Initialize WebSocket bridge manager
    */
   private async initializeWebSocketBridgeManager(): Promise<void> {
-    console.log('Initializing WebSocket bridge manager...');
+    this.logger.info('WebSocketBridgeManager', 'Initializing WebSocket bridge manager...');
   }
 
   /**
@@ -474,7 +494,7 @@ export class WebSocketBridgeManager {
       }
     }
 
-    console.log(`Loaded ${defaultBridges.length} default WebSocket bridges`);
+    this.logger.info('WebSocketBridgeManager', `Loaded ${defaultBridges.length} default WebSocket bridges`);
   }
 
   /**

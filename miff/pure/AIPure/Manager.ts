@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface AIConfig {
@@ -302,6 +306,8 @@ export class AIManager {
   private ais: Map<string, AI> = new Map();
   private stats: AIStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<AIConfig> = {}) {
     this.config = {
@@ -323,7 +329,21 @@ export class AIManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AIManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AIManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AIManager');
+  };
   }
 
   /**
@@ -338,10 +358,10 @@ export class AIManager {
       await this.loadDefaultAISystems();
       
       this.isInitialized = true;
-      console.log('AI manager initialized successfully');
+      this.logger.info('AIManager', 'AI manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize AI manager:', error);
+      this.logger.error('AIManager', 'Failed to initialize AI manager:', error);
       return false;
     }
   }
@@ -367,7 +387,7 @@ export class AIManager {
     this.ais.set(newAI.id, newAI);
     this.updateStats('create_ai', newAI);
 
-    console.log(`Created AI system: ${newAI.name}`);
+    this.logger.info('AIManager', `Created AI system: ${newAI.name}`);
     return newAI;
   }
 
@@ -377,12 +397,12 @@ export class AIManager {
   createAIModel(aiId: string, model: Partial<AIModel>): AIModel | null {
     const ai = this.ais.get(aiId);
     if (!ai) {
-      console.warn(`AI system ${aiId} not found`);
+      this.logger.warn('AIManager', `AI system ${aiId} not found`);
       return null;
     }
 
     if (ai.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('AIManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -402,10 +422,10 @@ export class AIManager {
       ai.modified = Date.now();
 
       this.updateStats('create_model', ai);
-      console.log(`Created AI model: ${newModel.name}`);
+      this.logger.info('AIManager', `Created AI model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create AI model in system ${aiId}:`, error);
+      this.logger.error('AIManager', `Failed to create AI model in system ${aiId}:`, error);
       return null;
     }
   }
@@ -416,12 +436,12 @@ export class AIManager {
   createAIPipeline(aiId: string, pipeline: Partial<AIPipeline>): AIPipeline | null {
     const ai = this.ais.get(aiId);
     if (!ai) {
-      console.warn(`AI system ${aiId} not found`);
+      this.logger.warn('AIManager', `AI system ${aiId} not found`);
       return null;
     }
 
     if (ai.pipelines.length >= this.config.maxPipelines) {
-      console.warn('Maximum number of pipelines reached');
+      this.logger.warn('AIManager', 'Maximum number of pipelines reached');
       return null;
     }
 
@@ -440,10 +460,10 @@ export class AIManager {
       ai.modified = Date.now();
 
       this.updateStats('create_pipeline', ai);
-      console.log(`Created AI pipeline: ${newPipeline.name}`);
+      this.logger.info('AIManager', `Created AI pipeline: ${newPipeline.name}`);
       return newPipeline;
     } catch (error) {
-      console.error(`Failed to create AI pipeline in system ${aiId}:`, error);
+      this.logger.error('AIManager', `Failed to create AI pipeline in system ${aiId}:`, error);
       return null;
     }
   }
@@ -481,7 +501,7 @@ export class AIManager {
    * Initialize AI manager
    */
   private async initializeAIManager(): Promise<void> {
-    console.log('Initializing AI manager...');
+    this.logger.info('AIManager', 'Initializing AI manager...');
   }
 
   /**
@@ -501,7 +521,7 @@ export class AIManager {
       }
     }
 
-    console.log(`Loaded ${defaultAIs.length} default AI systems`);
+    this.logger.info('AIManager', `Loaded ${defaultAIs.length} default AI systems`);
   }
 
   /**
