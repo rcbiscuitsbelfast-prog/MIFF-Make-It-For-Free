@@ -1,21 +1,20 @@
-/**
- * PathfindingPure Module
- * 
- * Advanced pathfinding system including A* algorithm, grid management,
- * dynamic obstacles, path optimization, and comprehensive pathfinding workflows.
- * 
- * @module PathfindingPure
- * @version 1.0.0
- * @license MIT
- */
+// Re-export all public APIs
+export * from './Manager';
+export { defaultPathfindingPureManager as default } from './Manager';
 
-export { 
-  PathfindingManager,
-  type Grid,
-  type Node,
-  type PathfindingRequest,
-  type PathfindingResult,
-  type PathfindingStats,
-  type PathfindingFilter,
-  // PathfindingOutput is permissive; avoid re-export conflicts
-} from './PathfindingManager';
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'PathfindingPure',
+    version: '1.0.0',
+    type: 'PathfindingPure'
+  };
+}
+
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}

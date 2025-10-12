@@ -1,12 +1,20 @@
-// DialogueSystemPure - branching dialogue nodes
+// Re-export all public APIs
+export * from './Manager';
+export { defaultDialogueSystemPureManager as default } from './Manager';
 
-export type Node = { id:string; text:string; choices?: Array<{ text:string; next:string }> };
-export type Dialogue = { start:string; nodes: Record<string,Node> };
-
-export function nextNode(d: Dialogue, current: string, choiceIndex=0): { op:'dialogue.next'; status:'ok'|'error'; id?:string; issue?:string }{
-  const n = d.nodes[current];
-  if(!n) return { op:'dialogue.next', status:'error', issue:'missing node' };
-  if(!n.choices || !n.choices[choiceIndex]) return { op:'dialogue.next', status:'error', issue:'invalid choice' };
-  return { op:'dialogue.next', status:'ok', id: n.choices[choiceIndex].next };
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'DialogueSystemPure',
+    version: '1.0.0',
+    type: 'DialogueSystemPure'
+  };
 }
 
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}
