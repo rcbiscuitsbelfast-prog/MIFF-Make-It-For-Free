@@ -1,15 +1,13 @@
 /**
  * ButtonStylePure Manager - Advanced Button Style Management System
  *
- * Comprehensive button style management system with:
- * - Button style creation and management
- * - Style theme and customization
- * - Style inheritance and composition
- * - Style animation and transitions
- * - Cross-platform button style support
+ * Comprehensive button style system with:
+ * - Style definition and management
+ * - Theme support
+ * - Animation and effects
  * - Performance optimization
- * - Real-time style monitoring
- * - Button style analytics and reporting
+ * - Cross-platform compatibility
+ * - Real-time monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
@@ -18,21 +16,15 @@
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface ButtonStyleConfig {
-  enableStyleCreation: boolean;
-  enableStyleManagement: boolean;
-  enableStyleTheme: boolean;
-  enableStyleCustomization: boolean;
-  enableStyleInheritance: boolean;
-  enableStyleComposition: boolean;
-  enableStyleAnimation: boolean;
-  enableStyleTransitions: boolean;
-  enableCrossPlatformSupport: boolean;
+  enableStyleDefinition: boolean;
+  enableThemeSupport: boolean;
+  enableAnimationEffects: boolean;
   enablePerformanceOptimization: boolean;
+  enableCrossPlatformCompatibility: boolean;
   enableRealTimeMonitoring: boolean;
-  enableButtonStyleAnalytics: boolean;
-  enableButtonStyleReporting: boolean;
   maxStyles: number;
   maxThemes: number;
   enableCloudSync: boolean;
@@ -43,81 +35,142 @@ export interface ButtonStyleConfig {
 export interface ButtonStyle {
   id: string;
   name: string;
-  type: ButtonStyleType;
-  status: ButtonStyleStatus;
-  styles: Style[];
-  themes: StyleTheme[];
-  animations: StyleAnimation[];
-  analytics: ButtonStyleAnalytics;
-  metadata: ButtonStyleMetadata;
-  version: string;
-  created: number;
-  modified: number;
-}
-
-export enum ButtonStyleType {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  SUCCESS = 'success',
-  WARNING = 'warning',
-  DANGER = 'danger',
-  CUSTOM = 'custom'
-}
-
-export enum ButtonStyleStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DRAFT = 'draft',
-  PUBLISHED = 'published',
-  CUSTOM = 'custom'
-}
-
-export interface Style {
-  id: string;
-  name: string;
   type: StyleType;
   status: StyleStatus;
+  definition: StyleDefinition;
+  theme: StyleTheme;
+  animation: StyleAnimation;
+  performance: StylePerformance;
+  analytics: StyleAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
+}
+
+export interface StyleDefinition {
+  name: string;
+  description: string;
   properties: StyleProperties;
   states: StyleState[];
-  metadata: Map<string, any>;
-}
-
-export enum StyleType {
-  BUTTON = 'button',
-  ICON_BUTTON = 'icon_button',
-  TOGGLE_BUTTON = 'toggle_button',
-  DROPDOWN_BUTTON = 'dropdown_button',
-  CUSTOM = 'custom'
-}
-
-export enum StyleStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DEPRECATED = 'deprecated',
-  CUSTOM = 'custom'
+  variants: StyleVariant[];
+  metadata: Record<string, any>;
 }
 
 export interface StyleProperties {
-  backgroundColor: Color;
-  borderColor: Color;
-  textColor: Color;
+  backgroundColor: string;
+  textColor: string;
+  borderColor: string;
   borderWidth: number;
   borderRadius: number;
   padding: Padding;
   margin: Margin;
   fontSize: number;
   fontFamily: string;
-  fontWeight: FontWeight;
+  fontWeight: string;
   textAlign: TextAlign;
-  metadata: Map<string, any>;
+  cursor: CursorType;
+  opacity: number;
+  metadata: Record<string, any>;
 }
 
-export interface Color {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-  metadata: Map<string, any>;
+export interface StyleState {
+  name: string;
+  properties: Partial<StyleProperties>;
+  transitions: StyleTransition[];
+  metadata: Record<string, any>;
+}
+
+export interface StyleVariant {
+  name: string;
+  properties: Partial<StyleProperties>;
+  conditions: StyleCondition[];
+  metadata: Record<string, any>;
+}
+
+export interface StyleTransition {
+  property: string;
+  duration: number; // milliseconds
+  easing: EasingType;
+  delay: number; // milliseconds
+  metadata: Record<string, any>;
+}
+
+export interface StyleCondition {
+  type: ConditionType;
+  value: any;
+  operator: ComparisonOperator;
+  metadata: Record<string, any>;
+}
+
+export interface StyleTheme {
+  name: string;
+  colors: ThemeColors;
+  typography: ThemeTypography;
+  spacing: ThemeSpacing;
+  metadata: Record<string, any>;
+}
+
+export interface ThemeColors {
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+  surface: string;
+  text: string;
+  metadata: Record<string, any>;
+}
+
+export interface ThemeTypography {
+  fontFamily: string;
+  fontSize: number;
+  fontWeight: string;
+  lineHeight: number;
+  letterSpacing: number;
+  metadata: Record<string, any>;
+}
+
+export interface ThemeSpacing {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+  metadata: Record<string, any>;
+}
+
+export interface StyleAnimation {
+  enabled: boolean;
+  effects: AnimationEffect[];
+  duration: number; // milliseconds
+  easing: EasingType;
+  metadata: Record<string, any>;
+}
+
+export interface AnimationEffect {
+  name: string;
+  type: EffectType;
+  properties: Record<string, any>;
+  duration: number; // milliseconds
+  easing: EasingType;
+  metadata: Record<string, any>;
+}
+
+export interface StylePerformance {
+  renderTime: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  cacheHitRate: number; // 0-1
+  metadata: Record<string, any>;
+}
+
+export interface StyleAnalytics {
+  totalStyles: number;
+  activeStyles: number;
+  totalThemes: number;
+  activeThemes: number;
+  averageRenderTime: number; // milliseconds
+  lastUpdated: Date;
 }
 
 export interface Padding {
@@ -125,7 +178,6 @@ export interface Padding {
   right: number;
   bottom: number;
   left: number;
-  metadata: Map<string, any>;
 }
 
 export interface Margin {
@@ -133,598 +185,441 @@ export interface Margin {
   right: number;
   bottom: number;
   left: number;
-  metadata: Map<string, any>;
 }
 
-export enum FontWeight {
-  NORMAL = 'normal',
-  BOLD = 'bold',
-  LIGHT = 'light',
-  CUSTOM = 'custom'
-}
-
-export enum TextAlign {
-  LEFT = 'left',
-  CENTER = 'center',
-  RIGHT = 'right',
-  JUSTIFY = 'justify',
-  CUSTOM = 'custom'
-}
-
-export interface StyleState {
-  name: string;
-  properties: StyleProperties;
-  metadata: Map<string, any>;
-}
-
-export interface StyleTheme {
-  id: string;
-  name: string;
-  type: ThemeType;
-  status: ThemeStatus;
-  styles: string[];
-  variables: ThemeVariable[];
-  metadata: Map<string, any>;
-}
-
-export enum ThemeType {
-  LIGHT = 'light',
-  DARK = 'dark',
-  HIGH_CONTRAST = 'high_contrast',
-  CUSTOM = 'custom'
-}
-
-export enum ThemeStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DRAFT = 'draft',
-  CUSTOM = 'custom'
-}
-
-export interface ThemeVariable {
-  name: string;
-  value: any;
-  type: VariableType;
-  metadata: Map<string, any>;
-}
-
-export enum VariableType {
-  COLOR = 'color',
-  NUMBER = 'number',
-  STRING = 'string',
-  BOOLEAN = 'boolean',
-  CUSTOM = 'custom'
-}
-
-export interface StyleAnimation {
-  id: string;
-  name: string;
-  type: AnimationType;
-  status: AnimationStatus;
-  duration: number;
-  easing: EasingType;
-  keyframes: AnimationKeyframe[];
-  metadata: Map<string, any>;
-}
-
-export enum AnimationType {
-  HOVER = 'hover',
-  FOCUS = 'focus',
-  ACTIVE = 'active',
-  DISABLED = 'disabled',
-  CUSTOM = 'custom'
-}
-
-export enum AnimationStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  CUSTOM = 'custom'
-}
-
-export enum EasingType {
-  LINEAR = 'linear',
-  EASE_IN = 'ease_in',
-  EASE_OUT = 'ease_out',
-  EASE_IN_OUT = 'ease_in_out',
-  CUSTOM = 'custom'
-}
-
-export interface AnimationKeyframe {
-  time: number;
-  properties: StyleProperties;
-  metadata: Map<string, any>;
-}
-
-export interface ButtonStyleAnalytics {
-  totalStyles: number;
-  totalThemes: number;
-  totalAnimations: number;
-  averageUsage: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface ButtonStyleMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface ButtonStyleStats {
-  totalStyles: number;
-  totalThemes: number;
-  totalAnimations: number;
-  averageUsage: number;
-  lastUpdate: number;
-}
+export type StyleType = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'custom';
+export type StyleStatus = 'active' | 'inactive' | 'deprecated' | 'error';
+export type TextAlign = 'left' | 'center' | 'right' | 'justify';
+export type CursorType = 'default' | 'pointer' | 'text' | 'move' | 'not-allowed';
+export type EasingType = 'linear' | 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'custom';
+export type ConditionType = 'screen-size' | 'device-type' | 'theme' | 'state' | 'custom';
+export type ComparisonOperator = 'equals' | 'not-equals' | 'greater-than' | 'less-than' | 'contains' | 'custom';
+export type EffectType = 'fade' | 'slide' | 'scale' | 'rotate' | 'bounce' | 'custom';
 
 export class ButtonStyleManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
   private config: ButtonStyleConfig;
   private styles: Map<string, ButtonStyle> = new Map();
-  private stats: ButtonStyleStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private startTime: Date;
 
-  constructor(config: Partial<ButtonStyleConfig> = {}) {
+  constructor(config?: Partial<ButtonStyleConfig>) {
+    this.logger = new StructuredLogger({ module: 'ButtonStyleManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableStyleCreation: true,
-      enableStyleManagement: true,
-      enableStyleTheme: true,
-      enableStyleCustomization: true,
-      enableStyleInheritance: true,
-      enableStyleComposition: true,
-      enableStyleAnimation: true,
-      enableStyleTransitions: true,
-      enableCrossPlatformSupport: true,
+      enableStyleDefinition: true,
+      enableThemeSupport: true,
+      enableAnimationEffects: true,
       enablePerformanceOptimization: true,
+      enableCrossPlatformCompatibility: true,
       enableRealTimeMonitoring: true,
-      enableButtonStyleAnalytics: true,
-      enableButtonStyleReporting: true,
-      maxStyles: 10000,
-      maxThemes: 1000,
-      enableCloudSync: true,
+      maxStyles: 1000,
+      maxThemes: 100,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
     };
+  }
 
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
+  /**
+   * Initialize the Button Style Manager
+   */
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Button Style Manager already initialized');
+      return;
+    }
 
-        'ButtonStyleManager': LogLevel.DEBUG
-      
+    try {
+      this.logger.info('Initializing Button Style Manager...');
 
-      
-
-
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
       }
-      };
-    });
 
-    // Register with memory manager
-    this.memoryId = `ButtonStyleManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'ButtonStyleManager');
-  }
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
 
-  /**
-   * Initialize button style manager
-   */
-  async initialize(): Promise<boolean> {
-    const timerId = this.logger.startTimer('ButtonStyleManager', 'initialize');
-    
-    try {
-      // Initialize button style manager
-      await this.initializeButtonStyleManager();
-      
-      // Load default button styles
-      await this.loadDefaultButtonStyles();
-      
       this.isInitialized = true;
-      this.logger.info('ButtonStyleManager', 'Button style manager initialized successfully', {
-        stylesCount: this.styles.size,
-        config: this.config
-      });
-      
-      const duration = this.logger.endTimer(timerId);
-      this.logger.logPerformance('ButtonStyleManager', 'initialize', duration);
-      
-      return true;
+      this.logger.info('Button Style Manager initialized successfully');
+
     } catch (error) {
-      this.logger.error('ButtonStyleManager', 'Failed to initialize button style manager', {
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }, error instanceof Error ? error : undefined);
-      
-      this.logger.endTimer(timerId);
-      return false;
+      this.errorHandler.handleError(error, 'Failed to initialize Button Style Manager');
+      throw error;
     }
   }
 
   /**
-   * Create new button style
+   * Create a new button style
    */
-  createButtonStyle(style: Partial<ButtonStyle>): ButtonStyle | null {
-    const newStyle: ButtonStyle = {
-      id: `buttonstyle_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: style.name || 'New Button Style',
-      type: style.type || ButtonStyleType.PRIMARY,
-      status: ButtonStyleStatus.ACTIVE,
-      styles: style.styles || [],
-      themes: style.themes || [],
-      animations: style.animations || [],
-      analytics: style.analytics || this.createDefaultAnalytics(),
-      metadata: style.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
-    };
-
-    this.styles.set(newStyle.id, newStyle);
-    this.updateStats('create_style', newStyle);
-
-    this.logger.info('ButtonStyleManager', 'Created button style', {
-      styleId: newStyle.id,
-      styleName: newStyle.name,
-      styleType: newStyle.type,
-      totalStyles: this.styles.size
-    });
-    
-    MemoryManager.trackAccess(this.memoryId);
-    return newStyle;
-  }
-
-  /**
-   * Create style
-   */
-  createStyle(buttonStyleId: string, style: Partial<Style>): Style | null {
-    const buttonStyle = this.styles.get(buttonStyleId);
-    if (!buttonStyle) {
-      this.logger.warn('ButtonStyleManager', `Button style ${buttonStyleId} not found`);
-      return null;
-    }
-
-    if (buttonStyle.styles.length >= this.config.maxStyles) {
-      this.logger.warn('ButtonStyleManager', 'Maximum number of styles reached');
-      return null;
+  async createStyle(styleData: Omit<ButtonStyle, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<ButtonStyle> {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
     }
 
     try {
-      const newStyle: Style = {
-        id: `style_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: style.name || 'New Style',
-        type: style.type || StyleType.BUTTON,
-        status: StyleStatus.ACTIVE,
-        properties: style.properties || this.createDefaultStyleProperties(),
-        states: style.states || [],
-        metadata: style.metadata || new Map()
+      const style: ButtonStyle = {
+        ...styleData,
+        id: this.generateStyleId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalStyles: 0,
+          activeStyles: 0,
+          totalThemes: 0,
+          activeThemes: 0,
+          averageRenderTime: 0,
+          lastUpdated: new Date()
+        }
       };
 
-      buttonStyle.styles.push(newStyle);
-      buttonStyle.modified = Date.now();
+      this.styles.set(style.id, style);
+      this.updateAnalytics();
 
-      this.updateStats('create_style', buttonStyle);
-      this.logger.info('ButtonStyleManager', 'Created style', {
-        styleId: newStyle.id,
-        styleName: newStyle.name,
-        styleType: newStyle.type,
-        buttonStyleId: buttonStyle.id
-      });
-      return newStyle;
+      this.logger.info('Button style created', { styleId: style.id, styleName: style.name, styleType: style.type });
+      return style;
+
     } catch (error) {
-      this.logger.error('ButtonStyleManager', 'Failed to create style in button style', {
-        buttonStyleId,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }, error instanceof Error ? error : undefined);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to create button style');
+      throw error;
     }
   }
 
   /**
-   * Create style theme
+   * Get a button style by ID
    */
-  createStyleTheme(buttonStyleId: string, theme: Partial<StyleTheme>): StyleTheme | null {
-    const buttonStyle = this.styles.get(buttonStyleId);
-    if (!buttonStyle) {
-      this.logger.warn('ButtonStyleManager', `Button style ${buttonStyleId} not found`);
-      return null;
+  getStyle(styleId: string): ButtonStyle | null {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
     }
 
-    if (buttonStyle.themes.length >= this.config.maxThemes) {
-      this.logger.warn('ButtonStyleManager', 'Maximum number of themes reached');
-      return null;
-    }
-
-    try {
-      const newTheme: StyleTheme = {
-        id: `theme_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: theme.name || 'New Theme',
-        type: theme.type || ThemeType.LIGHT,
-        status: ThemeStatus.ACTIVE,
-        styles: theme.styles || [],
-        variables: theme.variables || [],
-        metadata: theme.metadata || new Map()
-      };
-
-      buttonStyle.themes.push(newTheme);
-      buttonStyle.modified = Date.now();
-
-      this.updateStats('create_theme', buttonStyle);
-      this.logger.info('ButtonStyleManager', 'Created style theme', {
-        themeId: newTheme.id,
-        themeName: newTheme.name,
-        themeType: newTheme.type,
-        buttonStyleId: buttonStyle.id
-      });
-      return newTheme;
-    } catch (error) {
-      this.logger.error('ButtonStyleManager', 'Failed to create style theme in button style', {
-        buttonStyleId,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }, error instanceof Error ? error : undefined);
-      return null;
-    }
-  }
-
-  /**
-   * Get button style
-   */
-  getButtonStyle(styleId: string): ButtonStyle | null {
     return this.styles.get(styleId) || null;
+  }
+
+  /**
+   * Update a button style
+   */
+  async updateStyle(styleId: string, updates: Partial<ButtonStyle>): Promise<ButtonStyle | null> {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
+    try {
+      const style = this.styles.get(styleId);
+      if (!style) {
+        this.logger.warn('Style not found', { styleId });
+        return null;
+      }
+
+      const updatedStyle: ButtonStyle = {
+        ...style,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(style.version)
+      };
+
+      this.styles.set(styleId, updatedStyle);
+      this.updateAnalytics();
+
+      this.logger.info('Button style updated', { styleId, styleName: updatedStyle.name });
+      return updatedStyle;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update button style');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a button style
+   */
+  async deleteStyle(styleId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
+    try {
+      const style = this.styles.get(styleId);
+      if (!style) {
+        this.logger.warn('Style not found', { styleId });
+        return false;
+      }
+
+      this.styles.delete(styleId);
+      this.updateAnalytics();
+
+      this.logger.info('Button style deleted', { styleId, styleName: style.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete button style');
+      throw error;
+    }
   }
 
   /**
    * Get all button styles
    */
-  getButtonStyles(): ButtonStyle[] {
+  getAllStyles(): ButtonStyle[] {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
     return Array.from(this.styles.values());
   }
 
   /**
-   * Get button styles by type
+   * Get styles by type
    */
-  getButtonStylesByType(type: ButtonStyleType): ButtonStyle[] {
-    return Array.from(this.styles.values())
-      .filter(style => style.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): ButtonStyleStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize button style manager
-   */
-  private async initializeButtonStyleManager(): Promise<void> {
-    this.logger.debug('ButtonStyleManager', 'Initializing button style manager...');
-  }
-
-  /**
-   * Load default button styles
-   */
-  private async loadDefaultButtonStyles(): Promise<void> {
-    // Load default button styles
-    const defaultStyles = [
-      this.createDefaultPrimary(),
-      this.createDefaultSecondary(),
-      this.createDefaultSuccess()
-    ];
-
-    for (const style of defaultStyles) {
-      if (style) {
-        this.styles.set(style.id, style);
-      }
+  getStylesByType(type: StyleType): ButtonStyle[] {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
     }
 
-    this.logger.info('ButtonStyleManager', 'Loaded default button styles', {
-      count: defaultStyles.length,
-      styles: defaultStyles.map(s => s.name)
-    });
+    return Array.from(this.styles.values()).filter(style => style.type === type);
   }
 
   /**
-   * Create default style properties
+   * Get styles by status
    */
-  private createDefaultStyleProperties(): StyleProperties {
-    return {
-      backgroundColor: {
-
-        r: 0.2,
-        g: 0.4,
-        b: 0.8,
-        a: 1.0,
-        metadata: new Map()
-
-      }
-      },
-      borderColor: {
-
-        r: 0.1,
-        g: 0.3,
-        b: 0.7,
-        a: 1.0,
-        metadata: new Map()
-
-      }
-      },
-      textColor: {
-
-        r: 1.0,
-        g: 1.0,
-        b: 1.0,
-        a: 1.0,
-        metadata: new Map()
-
-      }
-      },
-      borderWidth: 1,
-      borderRadius: 4,
-      padding: {
-
-        top: 8,
-        right: 16,
-        bottom: 8,
-        left: 16,
-        metadata: new Map()
-
-      }
-      },
-      margin: {
-
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        metadata: new Map()
-
-      }
-      },
-      fontSize: 14,
-      fontFamily: 'Arial',
-      fontWeight: FontWeight.NORMAL,
-      textAlign: TextAlign.CENTER,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): ButtonStyleAnalytics {
-    return {
-      totalStyles: 0,
-      totalThemes: 0,
-      totalAnimations: 0,
-      averageUsage: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): ButtonStyleMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default primary
-   */
-  private createDefaultPrimary(): ButtonStyle {
-    return this.createButtonStyle({
-      name: 'Primary Button Style',
-      type: ButtonStyleType.PRIMARY,
-      description: 'Primary button style'
-    });
-  }
-
-  /**
-   * Create default secondary
-   */
-  private createDefaultSecondary(): ButtonStyle {
-    return this.createButtonStyle({
-      name: 'Secondary Button Style',
-      type: ButtonStyleType.SECONDARY,
-      description: 'Secondary button style'
-    });
-  }
-
-  /**
-   * Create default success
-   */
-  private createDefaultSuccess(): ButtonStyle {
-    return this.createButtonStyle({
-      name: 'Success Button Style',
-      type: ButtonStyleType.SUCCESS,
-      description: 'Success button style'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, style: ButtonStyle): void {
-    switch (action) {
-      case 'create_style':
-        this.stats.totalStyles += style.styles.length;
-        this.stats.totalThemes += style.themes.length;
-        this.stats.totalAnimations += style.animations.length;
-        break;
-      case 'create_theme':
-        this.stats.totalThemes++;
-        break;
+  getStylesByStatus(status: StyleStatus): ButtonStyle[] {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    return Array.from(this.styles.values()).filter(style => style.status === status);
   }
 
   /**
-   * Initialize statistics
+   * Apply style to button
    */
-  private initializeStats(): ButtonStyleStats {
+  async applyStyle(styleId: string, buttonElement: HTMLElement): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
+    try {
+      const style = this.styles.get(styleId);
+      if (!style) {
+        this.logger.warn('Style not found', { styleId });
+        return false;
+      }
+
+      const startTime = Date.now();
+      await this.performStyleApplication(style, buttonElement);
+      const renderTime = Date.now() - startTime;
+
+      // Update performance metrics
+      style.performance.renderTime = renderTime;
+      this.updateAnalytics();
+
+      this.logger.debug('Style applied to button', { styleId, renderTime });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to apply style to button');
+      return false;
+    }
+  }
+
+  /**
+   * Perform style application
+   */
+  private async performStyleApplication(style: ButtonStyle, buttonElement: HTMLElement): Promise<void> {
+    // Simulate style application
+    await new Promise(resolve => setTimeout(resolve, 1));
+
+    // Apply basic styles
+    const props = style.definition.properties;
+    buttonElement.style.backgroundColor = props.backgroundColor;
+    buttonElement.style.color = props.textColor;
+    buttonElement.style.borderColor = props.borderColor;
+    buttonElement.style.borderWidth = `${props.borderWidth}px`;
+    buttonElement.style.borderRadius = `${props.borderRadius}px`;
+    buttonElement.style.padding = `${props.padding.top}px ${props.padding.right}px ${props.padding.bottom}px ${props.padding.left}px`;
+    buttonElement.style.fontSize = `${props.fontSize}px`;
+    buttonElement.style.fontFamily = props.fontFamily;
+    buttonElement.style.fontWeight = props.fontWeight;
+    buttonElement.style.textAlign = props.textAlign;
+    buttonElement.style.cursor = props.cursor;
+    buttonElement.style.opacity = props.opacity.toString();
+  }
+
+  /**
+   * Create style theme
+   */
+  async createTheme(themeData: Omit<StyleTheme, 'name'>): Promise<StyleTheme | null> {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
+    try {
+      const theme: StyleTheme = {
+        ...themeData,
+        name: this.generateThemeName()
+      };
+
+      this.logger.info('Style theme created', { themeName: theme.name });
+      return theme;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create style theme');
+      return null;
+    }
+  }
+
+  /**
+   * Apply theme to style
+   */
+  async applyTheme(styleId: string, theme: StyleTheme): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
+    try {
+      const style = this.styles.get(styleId);
+      if (!style) {
+        this.logger.warn('Style not found', { styleId });
+        return false;
+      }
+
+      style.theme = theme;
+      this.updateAnalytics();
+
+      this.logger.info('Theme applied to style', { styleId, themeName: theme.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to apply theme to style');
+      return false;
+    }
+  }
+
+  /**
+   * Generate a unique style ID
+   */
+  private generateStyleId(): string {
+    return `style_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique theme name
+   */
+  private generateThemeName(): string {
+    return `theme_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const styles = Array.from(this.styles.values());
+    const totalStyles = styles.length;
+    const activeStyles = styles.filter(s => s.status === 'active').length;
+    const totalThemes = styles.filter(s => s.theme).length;
+    const activeThemes = styles.filter(s => s.theme && s.status === 'active').length;
+    const totalRenderTime = styles.reduce((sum, s) => sum + s.performance.renderTime, 0);
+
+    for (const style of styles) {
+      style.analytics = {
+        totalStyles: totalStyles,
+        activeStyles: activeStyles,
+        totalThemes: totalThemes,
+        activeThemes: activeThemes,
+        averageRenderTime: style.performance.renderTime,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalStyles: number;
+    activeStyles: number;
+    stylesByType: Record<StyleType, number>;
+    stylesByStatus: Record<StyleStatus, number>;
+    totalThemes: number;
+    averageRenderTime: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Button Style Manager not initialized');
+    }
+
+    const styles = Array.from(this.styles.values());
+    const activeStyles = styles.filter(s => s.status === 'active');
+    const totalThemes = styles.filter(s => s.theme).length;
+    const totalRenderTime = styles.reduce((sum, s) => sum + s.performance.renderTime, 0);
+
+    const stylesByType: Record<StyleType, number> = {
+      primary: 0,
+      secondary: 0,
+      success: 0,
+      warning: 0,
+      danger: 0,
+      info: 0,
+      custom: 0
+    };
+
+    const stylesByStatus: Record<StyleStatus, number> = {
+      active: 0,
+      inactive: 0,
+      deprecated: 0,
+      error: 0
+    };
+
+    for (const style of styles) {
+      stylesByType[style.type]++;
+      stylesByStatus[style.status]++;
+    }
+
     return {
-      totalStyles: 0,
-      totalThemes: 0,
-      totalAnimations: 0,
-      averageUsage: 0,
-      lastUpdate: Date.now()
+      totalStyles: styles.length,
+      activeStyles: activeStyles.length,
+      stylesByType,
+      stylesByStatus,
+      totalThemes,
+      averageRenderTime: styles.length > 0 ? totalRenderTime / styles.length : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Button Style Manager
    */
-  destroy(): void {
-    this.logger.info('ButtonStyleManager', 'Destroying button style manager', {
-      stylesCount: this.styles.size
-    });
-    
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Button Style Manager...');
+
     this.styles.clear();
-    this.stats = this.initializeStats();
     this.isInitialized = false;
-    
-    // Unregister from memory manager
-    MemoryManager.unregisterObject(this.memoryId);
-    
-    // Destroy logger
-    this.logger.destroy();
+
+    this.logger.info('Button Style Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultButtonStyleManager = new ButtonStyleManager();
-export { ButtonStyleManager as default };
+export const buttonStyleManager = new ButtonStyleManager();
+export default buttonStyleManager;
