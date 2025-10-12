@@ -67,7 +67,10 @@ export class PixelAnimManager {
         loop: true,
         metadata: {
 
-          frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['movement', 'character'] 
+          frameWidth: 32,
+          frameHeight: 32,
+          style: 'pixel',
+          tags: ['movement', 'character'] 
 
         
 
