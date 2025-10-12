@@ -28,15 +28,8 @@ export class TeleportationManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'TeleportationSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

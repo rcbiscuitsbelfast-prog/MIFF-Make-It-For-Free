@@ -324,15 +324,8 @@ export class PrefabBuilderManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'PrefabBuilderManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

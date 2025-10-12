@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface IndustryLeadershipConfig {
   enableMarketAnalysis: boolean;
@@ -550,15 +550,8 @@ export class IndustryLeadershipManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'IndustryLeadershipManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
