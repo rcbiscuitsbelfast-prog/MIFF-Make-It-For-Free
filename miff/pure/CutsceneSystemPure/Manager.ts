@@ -15,6 +15,10 @@
  * @author MIFF Framework
  */
 
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
+
 export interface CutsceneSystemConfig {
   enableCutsceneCreation: boolean;
   enableCutsceneManagement: boolean;
@@ -300,6 +304,8 @@ export class CutsceneSystemManager {
   private systems: Map<string, CutsceneSystem> = new Map();
   private stats: CutsceneSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CutsceneSystemConfig> = {}) {
     this.config = {
@@ -323,6 +329,20 @@ export class CutsceneSystemManager {
       enableVersioning: true,
       ...config
     };
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CutsceneSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CutsceneSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CutsceneSystemManager');
   }
 
   /**
@@ -337,10 +357,15 @@ export class CutsceneSystemManager {
       await this.loadDefaultCutsceneSystems();
       
       this.isInitialized = true;
-      console.log('Cutscene system manager initialized successfully');
+      this.logger.info('CutsceneSystemManager', 'Cutscene system manager initialized successfully', {
+        systemsCount: this.systems.size,
+        config: this.config
+      });
       return true;
     } catch (error) {
-      console.error('Failed to initialize cutscene system manager:', error);
+      this.logger.error('CutsceneSystemManager', 'Failed to initialize cutscene system manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return false;
     }
   }
@@ -367,7 +392,14 @@ export class CutsceneSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created cutscene system: ${newSystem.name}`);
+    this.logger.info('CutsceneSystemManager', 'Created cutscene system', {
+      systemId: newSystem.id,
+      systemName: newSystem.name,
+      systemType: newSystem.type,
+      totalSystems: this.systems.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
     return newSystem;
   }
 
@@ -377,12 +409,17 @@ export class CutsceneSystemManager {
   createCutscene(systemId: string, cutscene: Partial<Cutscene>): Cutscene | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Cutscene system ${systemId} not found`);
+      this.logger.warn('CutsceneSystemManager', 'Cutscene system not found', {
+        systemId
+      });
       return null;
     }
 
     if (system.cutscenes.length >= this.config.maxCutscenes) {
-      console.warn('Maximum number of cutscenes reached');
+      this.logger.warn('CutsceneSystemManager', 'Maximum number of cutscenes reached', {
+        currentCount: system.cutscenes.length,
+        maxCutscenes: this.config.maxCutscenes
+      });
       return null;
     }
 
@@ -403,10 +440,18 @@ export class CutsceneSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_cutscene', system);
-      console.log(`Created cutscene: ${newCutscene.name}`);
+      this.logger.info('CutsceneSystemManager', 'Created cutscene', {
+        cutsceneId: newCutscene.id,
+        cutsceneName: newCutscene.name,
+        cutsceneType: newCutscene.type,
+        systemId: system.id
+      });
       return newCutscene;
     } catch (error) {
-      console.error(`Failed to create cutscene in cutscene system ${systemId}:`, error);
+      this.logger.error('CutsceneSystemManager', 'Failed to create cutscene in cutscene system', {
+        systemId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -417,12 +462,17 @@ export class CutsceneSystemManager {
   createCutsceneTrack(systemId: string, track: Partial<CutsceneTrack>): CutsceneTrack | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Cutscene system ${systemId} not found`);
+      this.logger.warn('CutsceneSystemManager', 'Cutscene system not found', {
+        systemId
+      });
       return null;
     }
 
     if (system.tracks.length >= this.config.maxTracks) {
-      console.warn('Maximum number of tracks reached');
+      this.logger.warn('CutsceneSystemManager', 'Maximum number of tracks reached', {
+        currentCount: system.tracks.length,
+        maxTracks: this.config.maxTracks
+      });
       return null;
     }
 
@@ -441,10 +491,18 @@ export class CutsceneSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_track', system);
-      console.log(`Created cutscene track: ${newTrack.name}`);
+      this.logger.info('CutsceneSystemManager', 'Created cutscene track', {
+        trackId: newTrack.id,
+        trackName: newTrack.name,
+        trackType: newTrack.type,
+        systemId: system.id
+      });
       return newTrack;
     } catch (error) {
-      console.error(`Failed to create cutscene track in cutscene system ${systemId}:`, error);
+      this.logger.error('CutsceneSystemManager', 'Failed to create cutscene track in cutscene system', {
+        systemId,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
       return null;
     }
   }
@@ -482,7 +540,7 @@ export class CutsceneSystemManager {
    * Initialize cutscene system manager
    */
   private async initializeCutsceneSystemManager(): Promise<void> {
-    console.log('Initializing cutscene system manager...');
+    this.logger.debug('CutsceneSystemManager', 'Initializing cutscene system manager...');
   }
 
   /**
@@ -502,7 +560,10 @@ export class CutsceneSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default cutscene systems`);
+    this.logger.info('CutsceneSystemManager', 'Loaded default cutscene systems', {
+      count: defaultSystems.length,
+      systems: defaultSystems.map(s => s.name)
+    });
   }
 
   /**
@@ -624,9 +685,19 @@ export class CutsceneSystemManager {
    * Cleanup resources
    */
   destroy(): void {
+    this.logger.info('CutsceneSystemManager', 'Destroying cutscene system manager', {
+      systemsCount: this.systems.size
+    });
+    
     this.systems.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 
