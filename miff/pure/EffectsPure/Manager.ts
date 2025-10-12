@@ -605,7 +605,7 @@ export class EffectsManager {
       interactionType: InteractionType.CANCEL,
       result: 'Both effects are removed',
       priority: 10,
-      isActive: true
+      isActive: true;
     };
   }
 
@@ -620,7 +620,7 @@ export class EffectsManager {
       interactionType: InteractionType.CANCEL,
       result: 'Both effects are removed',
       priority: 5,
-      isActive: true
+      isActive: true;
     };
   }
 
@@ -635,7 +635,7 @@ export class EffectsManager {
       interactionType: InteractionType.BLOCK,
       result: 'Shield absorbs damage',
       priority: 15,
-      isActive: true
+      isActive: true;
     };
   }
 
@@ -650,7 +650,7 @@ export class EffectsManager {
       interactionType: InteractionType.MERGE,
       result: 'Effects are combined',
       priority: 20,
-      isActive: true
+      isActive: true;
     };
   }
 
@@ -665,7 +665,7 @@ export class EffectsManager {
       interactionType: InteractionType.CANCEL,
       result: 'Both effects are removed',
       priority: 8,
-      isActive: true
+      isActive: true;
     };
   }
 
@@ -680,7 +680,7 @@ export class EffectsManager {
       interactionType: InteractionType.CANCEL,
       result: 'Invisibility is removed',
       priority: 12,
-      isActive: true
+      isActive: true;
     };
   }
 
@@ -924,8 +924,8 @@ export class EffectsManager {
           type: ModifierType.ADD,
           value: 10,
           isPercentage: false,
-          isFlat: true
-        });
+          isFlat: true;
+    });
         break;
 
       case EffectType.DEBUFF:
@@ -934,8 +934,8 @@ export class EffectsManager {
           type: ModifierType.SUBTRACT,
           value: 10,
           isPercentage: false,
-          isFlat: true
-        });
+          isFlat: true;
+    });
         break;
 
       case EffectType.SLOW:
@@ -944,8 +944,8 @@ export class EffectsManager {
           type: ModifierType.MULTIPLY,
           value: 0.5,
           isPercentage: true,
-          isFlat: false
-        });
+          isFlat: false;
+    });
         break;
 
       case EffectType.HASTE:
@@ -954,8 +954,8 @@ export class EffectsManager {
           type: ModifierType.MULTIPLY,
           value: 1.5,
           isPercentage: true,
-          isFlat: false
-        });
+          isFlat: false;
+    });
         break;
 
       case EffectType.SHIELD:
@@ -964,8 +964,8 @@ export class EffectsManager {
           type: ModifierType.ADD,
           value: 100,
           isPercentage: false,
-          isFlat: true
-        });
+          isFlat: true;
+    });
         break;
     }
 
@@ -1124,7 +1124,7 @@ export class EffectsManager {
       triggersFired: 0,
       dispels: 0,
       refreshes: 0,
-      extensions: 0
+      extensions: 0;
     };
   }
 

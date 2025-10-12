@@ -40,7 +40,8 @@ export type HapticPattern =
   | { type: 'custom'; durationMs: number; intensity: number; frequency?: number; waveform?: HapticWaveform }
   | { type: 'sequence'; effects: HapticEffect[]; timing: number[]; loop?: boolean; adaptive?: boolean }
   | { type: 'rhythmic'; bpm: number; pattern: string; measures?: number; intensity?: number }
-  | { type: 'environmental'; condition: string; threshold: number; response: HapticPattern }
+  | { type: 'environmental'; condition: string; threshold: number; response: HapticPattern;
+    }
   | { type: 'adaptive'; basePattern: HapticPattern; modifiers: HapticModifier[] };
 
 export interface HapticModifier {
@@ -162,14 +163,14 @@ export class HapticsManager {
           supportsMultipleActuators: false,
           maxSimultaneousEffects: 1,
           supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
-          latency: 5
-        },
+          latency: 5;
+    },
         connected: false,
         supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.SQUARE],
         maxIntensity: 1.0,
         maxFrequency: 1000,
-        maxDuration: 5000
-      },
+        maxDuration: 5000;
+    },
       {
         id: 'default_mobile',
         type: HapticDeviceType.MOBILE,
@@ -183,14 +184,14 @@ export class HapticsManager {
           supportsMultipleActuators: true,
           maxSimultaneousEffects: 4,
           supportedEffects: Object.values(HapticEffect),
-          latency: 10
-        },
+          latency: 10;
+    },
         connected: true,
         supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.PULSE],
         maxIntensity: 1.0,
         maxFrequency: 300,
-        maxDuration: 10000
-      }
+        maxDuration: 10000;
+    }
     ];
 
     for (const device of defaultDevices) {
@@ -208,7 +209,7 @@ export class HapticsManager {
       supportsMultipleActuators: false,
       maxSimultaneousEffects: 1,
       supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
-      latency: 5
+      latency: 5;
     });
 
     this.deviceCapabilities.set(HapticDeviceType.MOBILE, {
@@ -220,7 +221,7 @@ export class HapticsManager {
       supportsMultipleActuators: true,
       maxSimultaneousEffects: 4,
       supportedEffects: Object.values(HapticEffect),
-      latency: 10
+      latency: 10;
     });
 
     this.deviceCapabilities.set(HapticDeviceType.WEARABLE, {
@@ -232,7 +233,7 @@ export class HapticsManager {
       supportsMultipleActuators: true,
       maxSimultaneousEffects: 8,
       supportedEffects: Object.values(HapticEffect),
-      latency: 2
+      latency: 2;
     });
   }
 
@@ -243,20 +244,20 @@ export class HapticsManager {
         condition: 'collision',
         threshold: 0.5,
         pattern: { type: 'impact', style: 'medium' },
-        cooldown: 100
-      },
+        cooldown: 100;
+    },
       {
         condition: 'health_low',
         threshold: 25,
         pattern: { type: 'notification', level: 'warning' },
-        cooldown: 5000
-      },
+        cooldown: 5000;
+    },
       {
         condition: 'proximity_alert',
         threshold: 10,
         pattern: { type: 'custom', durationMs: 200, intensity: 0.8 },
-        cooldown: 1000
-      }
+        cooldown: 1000;
+    }
     ];
   }
 
@@ -422,8 +423,8 @@ export class HapticsManager {
           const request: HapticRequest = {
             id: `env_${condition}_${now}`,
             pattern: response.pattern,
-            priority: 5
-          };
+            priority: 5;
+    };
 
           const result = await this.playImmediate(request);
           if (result) {
@@ -513,8 +514,8 @@ export class HapticsManager {
         id: req.id,
         status: 'error',
         reason: 'No haptic device available',
-        timestamp: current
-      };
+        timestamp: current;
+    };
     }
 
     // Check scheduling
@@ -523,8 +524,8 @@ export class HapticsManager {
         id: req.id,
         status: 'skipped',
         reason: 'scheduled-too-far',
-        timestamp: current
-      };
+        timestamp: current;
+    };
     }
 
     if (req.at && req.at > current) {
@@ -541,8 +542,8 @@ export class HapticsManager {
         id: req.id,
         status: 'skipped',
         reason: 'device-busy',
-        timestamp: current
-      };
+        timestamp: current;
+    };
     }
 
     try {
@@ -587,16 +588,16 @@ export class HapticsManager {
         return {
           type: 'simple',
           duration: Math.floor(50 * intensity),
-          intensity: intensity
-        };
+          intensity: intensity;
+    };
 
       case 'notification':
         const levelIntensity = pattern.level === 'success' ? 0.4 : pattern.level === 'warning' ? 0.7 : 1.0;
         return {
           type: 'pattern',
           pattern: pattern.level === 'success' ? [50, 100, 50] : [100, 80, 100],
-          intensity: levelIntensity
-        };
+          intensity: levelIntensity;
+    };
 
       case 'selection':
         return {
@@ -639,7 +640,8 @@ export class HapticsManager {
         return this.applyAdaptiveModifiers(pattern.basePattern, pattern.modifiers, capabilities);
 
       default:
-        return { type: 'simple', duration: 0, intensity: 0 };
+        return { type: 'simple', duration: 0, intensity: 0;
+    };
     }
   }
 
@@ -660,7 +662,8 @@ export class HapticsManager {
     return modifiedPattern;
   }
 
-  private async playVibration(vibration: any, device?: HapticDevice): Promise<{ duration: number; intensity: number }> {
+  private async playVibration(vibration: any, device?: HapticDevice): Promise<{ duration: number; intensity: number;
+    }> {
     // Check if Web Vibration API is available
     if (typeof (globalThis as any).navigator !== 'undefined' && typeof (globalThis as any).navigator.vibrate === 'function') {
       if (vibration.type === 'simple') {

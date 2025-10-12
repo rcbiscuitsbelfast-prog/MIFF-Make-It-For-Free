@@ -57,7 +57,8 @@ export interface DialogueContext {
   variables: Map<string, any>;
   flags: Set<string>;
   inventory: Set<string>;
-  quests: Map<string, { status: 'active' | 'completed' | 'failed'; progress: number }>;
+  quests: Map<string, { status: 'active' | 'completed' | 'failed'; progress: number;
+    }>;
   history: string[];
   currentNode?: string;
 }
@@ -155,7 +156,8 @@ export class DialogueParser {
         context.inventory.delete(action.target);
         break;
       case 'start_quest':
-        context.quests.set(action.target, { status: 'active', progress: 0 });
+        context.quests.set(action.target, { status: 'active', progress: 0;
+    });
         break;
       case 'complete_quest':
         const quest = context.quests.get(action.target);

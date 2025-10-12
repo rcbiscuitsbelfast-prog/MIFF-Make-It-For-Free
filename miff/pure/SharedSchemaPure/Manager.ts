@@ -1,9 +1,13 @@
 export type SchemaVersion = 'v12';
 export type EntityID = string;
-export type StatBlock = { key: string; base: number }[];
-export type ZoneRef = { zoneId: string };
-export type EquipmentRef = { itemId: string };
-export type QuestRef = { questId: string };
+export type StatBlock = { key: string; base: number;
+    }[];
+export type ZoneRef = { zoneId: string;
+    };
+export type EquipmentRef = { itemId: string;
+    };
+export type QuestRef = { questId: string;
+    };
 
 export type DumpTypesOutput = {
   op: 'dumpTypes';

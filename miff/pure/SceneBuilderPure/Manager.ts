@@ -789,7 +789,7 @@ export class SceneBuilderManager {
       metadata: this.createDefaultMetadata(),
       isDirty: false,
       isLocked: false,
-      lockExpiry: 0
+      lockExpiry: 0;
     };
 
     this.scenes.set(scene.id, scene);
@@ -850,9 +850,12 @@ export class SceneBuilderManager {
       id: `obj_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: object.name || 'New Object',
       type: object.type || ObjectType.EMPTY,
-      position: object.position || { x: 0, y: 0, z: 0 },
-      rotation: object.rotation || { x: 0, y: 0, z: 0, w: 1 },
-      scale: object.scale || { x: 1, y: 1, z: 1 },
+      position: object.position || { x: 0, y: 0, z: 0;
+    },
+      rotation: object.rotation || { x: 0, y: 0, z: 0, w: 1;
+    },
+      scale: object.scale || { x: 1, y: 1, z: 1;
+    },
       visible: object.visible !== false,
       locked: object.locked || false,
       parent: object.parent || null,
@@ -952,8 +955,10 @@ export class SceneBuilderManager {
       id: `light_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: light.name || 'New Light',
       type: light.type || LightType.POINT,
-      position: light.position || { x: 0, y: 0, z: 0 },
-      rotation: light.rotation || { x: 0, y: 0, z: 0, w: 1 },
+      position: light.position || { x: 0, y: 0, z: 0;
+    },
+      rotation: light.rotation || { x: 0, y: 0, z: 0, w: 1;
+    },
       color: light.color || [1, 1, 1],
       intensity: light.intensity || 1.0,
       range: light.range || 10.0,
@@ -992,8 +997,10 @@ export class SceneBuilderManager {
     const newCamera: SceneCamera = {
       id: `camera_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: camera.name || 'New Camera',
-      position: camera.position || { x: 0, y: 0, z: 0 },
-      rotation: camera.rotation || { x: 0, y: 0, z: 0, w: 1 },
+      position: camera.position || { x: 0, y: 0, z: 0;
+    },
+      rotation: camera.rotation || { x: 0, y: 0, z: 0, w: 1;
+    },
       projection: camera.projection || ProjectionType.PERSPECTIVE,
       fov: camera.fov || 60.0,
       near: camera.near || 0.1,
@@ -1208,8 +1215,8 @@ export class SceneBuilderManager {
         HFReference: 0,
         LFReference: 0,
         diffusion: 0,
-        density: 0
-      },
+        density: 0;
+    },
       metadata: new Map()
     };
   }

@@ -1,6 +1,5 @@
 // BridgeInspectorPure - Bridge inspection and validation tool for MIFF engine bridges
-// Schema Version: v1
-
+// Schema Version: v1;
 import { BridgeSchemaValidator, RenderSignal } from '../BridgeSchemaPure/schema';
 import { RenderData, RenderPayload } from '../shared/ConsolidatedSchema';
 import fs from 'fs';
@@ -128,8 +127,8 @@ export class BridgeInspectorManager {
             totalWarnings: 0,
             overallStatus: 'fail'
           },
-          issues: validationIssues
-        };
+          issues: validationIssues;
+    };
       }
 
       // Create inspection
@@ -241,13 +240,15 @@ export class BridgeInspectorManager {
       // Ensure output directory exists
       const outputDir = path.dirname(outputPath);
       if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+        fs.mkdirSync(outputDir, { recursive: true;
+    });
       }
 
       // Write file
       fs.writeFileSync(outputPath, content, 'utf-8');
 
-      return { success: true };
+      return { success: true;
+    };
     } catch (error) {
       return {
         success: false,
@@ -580,7 +581,7 @@ export class BridgeInspectorManager {
     engineHints: EngineHintAnalysis,
     signals: SignalAnalysis,
     metadata: MetadataAnalysis,
-    compatibility: CompatibilityAnalysis
+    compatibility: CompatibilityAnalysis;
   ): InspectionWarning[] {
     const warnings: InspectionWarning[] = [];
 
@@ -633,7 +634,7 @@ export class BridgeInspectorManager {
     engineHints: EngineHintAnalysis,
     signals: SignalAnalysis,
     metadata: MetadataAnalysis,
-    compatibility: CompatibilityAnalysis
+    compatibility: CompatibilityAnalysis;
   ): InspectionSummary {
     const errorIssues = issues.filter(issue => issue.severity === 'error');
     const warningIssues = issues.filter(issue => issue.severity === 'warning');

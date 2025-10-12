@@ -8,7 +8,8 @@
 export interface LevelEntry {
   level: number;
   nextLevelXp: number;
-  statBoosts?: { stat: string; amount: number }[];
+  statBoosts?: { stat: string; amount: number;
+    }[];
   unlockedSkills?: string[];
   rewards?: { type: 'item' | 'skill' | 'ability'; id: string; quantity?: number }[];
   metadata?: Record<string, any>;
@@ -75,7 +76,8 @@ export interface LevelUpResult {
   oldLevel: number;
   newLevel: number;
   xpGained: number;
-  statBoosts: { stat: string; amount: number }[];
+  statBoosts: { stat: string; amount: number;
+    }[];
   unlockedSkills: string[];
   rewards: { type: string; id: string; quantity?: number }[];
   totalXp: number;
@@ -168,13 +170,18 @@ export class XPLevelingManager {
         level,
         nextLevelXp,
         statBoosts: [
-          { stat: 'health', amount: 10 },
-          { stat: 'mana', amount: 5 },
-          { stat: 'strength', amount: 1 },
-          { stat: 'intelligence', amount: 1 }
+          { stat: 'health', amount: 10;
+    },
+          { stat: 'mana', amount: 5;
+    },
+          { stat: 'strength', amount: 1;
+    },
+          { stat: 'intelligence', amount: 1;
+    }
         ],
         unlockedSkills: level % 5 === 0 ? [`skill_${level}`] : [],
-        rewards: level % 10 === 0 ? [{ type: 'item', id: 'level_reward', quantity: 1 }] : []
+        rewards: level % 10 === 0 ? [{ type: 'item', id: 'level_reward', quantity: 1;
+    }] : []
       });
 
       currentXp *= growthRate;
@@ -231,7 +238,7 @@ export class XPLevelingManager {
     return {
       op: 'create',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -253,7 +260,7 @@ export class XPLevelingManager {
     return {
       op: 'get_level',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -297,8 +304,8 @@ export class XPLevelingManager {
       return {
         op: 'force_level_up',
         status: 'ok',
-        result: levelUpResult
-      };
+        result: levelUpResult;
+    };
     } else {
       return {
         op: 'force_level_up',
@@ -325,7 +332,7 @@ export class XPLevelingManager {
     return {
       op: 'set_skill',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -346,7 +353,8 @@ export class XPLevelingManager {
     return {
       op: 'get_skill',
       status: 'ok',
-      result: { skillId, level: skillLevel }
+      result: { skillId, level: skillLevel;
+    }
     };
   }
 
@@ -367,7 +375,7 @@ export class XPLevelingManager {
     return {
       op: 'set_stat',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -388,7 +396,8 @@ export class XPLevelingManager {
     return {
       op: 'get_stat',
       status: 'ok',
-      result: { statId, value: statValue }
+      result: { statId, value: statValue;
+    }
     };
   }
 
@@ -420,7 +429,7 @@ export class XPLevelingManager {
     return {
       op: 'list',
       status: 'ok',
-      result: entities
+      result: entities;
     };
   }
 
@@ -437,7 +446,7 @@ export class XPLevelingManager {
       levelDistribution: {},
       skillDistribution: {},
       mostCommonLevel: 1,
-      highestLevel: 1
+      highestLevel: 1;
     };
 
     if (entities.length > 0) {
@@ -467,7 +476,7 @@ export class XPLevelingManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats;
     };
   }
 
@@ -487,7 +496,7 @@ export class XPLevelingManager {
     return {
       op: 'create_curve',
       status: 'ok',
-      result: curve
+      result: curve;
     };
   }
 
@@ -507,7 +516,7 @@ export class XPLevelingManager {
     return {
       op: 'get_curve',
       status: 'ok',
-      result: curve
+      result: curve;
     };
   }
 
@@ -619,7 +628,8 @@ export class XPLevelingManager {
     entity.lastLevelUp = Date.now();
 
     // Apply stat boosts
-    const statBoosts: { stat: string; amount: number }[] = [];
+    const statBoosts: { stat: string; amount: number;
+    }[] = [];
     if (levelEntry.statBoosts) {
       levelEntry.statBoosts.forEach(boost => {
         const currentValue = entity.stats.get(boost.stat) || 0;
@@ -760,7 +770,7 @@ export class XPLevelingManager {
     return {
       op: 'add_multiplier',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -793,12 +803,13 @@ export class XPLevelingManager {
       };
     }
 
-    this.challenges.set(challenge.id, { ...challenge, isActive: true });
+    this.challenges.set(challenge.id, { ...challenge, isActive: true;
+    });
 
     return {
       op: 'create_challenge',
       status: 'ok',
-      result: challenge
+      result: challenge;
     };
   }
 
@@ -907,7 +918,7 @@ export class XPLevelingManager {
     return {
       op: 'detailed_stats',
       status: 'ok',
-      result: detailedStats
+      result: detailedStats;
     };
   }
 
@@ -930,7 +941,7 @@ export class XPLevelingManager {
     return {
       op: 'get_active_challenges',
       status: 'ok',
-      result: activeChallenges
+      result: activeChallenges;
     };
   }
 
@@ -958,7 +969,7 @@ export class XPLevelingManager {
     return {
       op: 'get_xp_currency_breakdown',
       status: 'ok',
-      result: breakdown
+      result: breakdown;
     };
   }
 
@@ -973,36 +984,42 @@ export class XPLevelingManager {
         description: 'Defeat your first enemy in combat',
         xpReward: 100,
         currency: XPCurrency.COMBAT,
-        requirements: { combat: { victories: 1 } },
-        isActive: true
-      },
+        requirements: { combat: { victories: 1;
+    } },
+        isActive: true;
+    },
       {
         id: 'level_up',
         name: 'Growing Stronger',
         description: 'Reach level 5',
         xpReward: 250,
         currency: XPCurrency.ACHIEVEMENT,
-        requirements: { level: 5 },
-        isActive: true
-      },
+        requirements: {
+
+          level: 5;
+    },
+        isActive: true;
+    },
       {
         id: 'skill_master',
         name: 'Skill Master',
         description: 'Reach level 10 in any skill',
         xpReward: 500,
         currency: XPCurrency.ACHIEVEMENT,
-        requirements: { skill: { level: 10 } },
-        isActive: true
-      },
+        requirements: { skill: { level: 10;
+    } },
+        isActive: true;
+    },
       {
         id: 'explorer',
         name: 'Explorer',
         description: 'Complete 5 exploration activities',
         xpReward: 150,
         currency: XPCurrency.EXPLORATION,
-        requirements: { exploration: { activities: 5 } },
-        isActive: true
-      }
+        requirements: { exploration: { activities: 5;
+    } },
+        isActive: true;
+    }
     ];
 
     sampleChallenges.forEach(challenge => this.challenges.set(challenge.id, challenge));

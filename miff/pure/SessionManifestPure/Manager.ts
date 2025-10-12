@@ -82,7 +82,8 @@ export class SessionManifestManager {
   /**
    * List all sessions with optional filtering
    */
-  listSessions(filter?: { zone?: string; status?: 'active' | 'expired' }): { ok: boolean; sessions: SessionManifest[]; total: number } {
+  listSessions(filter?: { zone?: string; status?: 'active' | 'expired' }): { ok: boolean; sessions: SessionManifest[]; total: number;
+    } {
     let sessions = Array.from(this.sessions.values());
     // Provide stable ordering for deterministic tests
     sessions.sort((a, b) => a.id.localeCompare(b.id));
@@ -184,7 +185,8 @@ export class SessionManifestManager {
     this.sessions.delete(id);
     this.sessionStartTimes.delete(id);
 
-    return { ok: true };
+    return { ok: true;
+    };
   }
 
   /**
@@ -291,7 +293,8 @@ export class SessionManifestManager {
 
     switch (format) {
       case 'json':
-        return { ok: true, data: session };
+        return { ok: true, data: session;
+    };
       
       case 'manifest':
         return {

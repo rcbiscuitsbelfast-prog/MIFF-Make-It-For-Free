@@ -82,7 +82,8 @@ class TileHash {
 }
 
 function fbmNoise(width: number, height: number, opts: Required<Pick<TerrainOptions,'seed'|'noise'|'octaves'|'persistence'|'lacunarity'|'scale'>>): number[][] {
-	const out: number[][] = Array.from({ length: height }, () => Array<number>(width).fill(0));
+	const out: number[][] = Array.from({ length: height;
+    }, () => Array<number>(width).fill(0));
 	const hash = new TileHash(opts.seed);
 	const baseScale = Math.max(1e-6, opts.scale);
 	let maxAmp = 0;
@@ -144,7 +145,8 @@ export class ProceduralWorldManager {
 	applyBiomes(heightmap: number[][], rules: BiomeRulesSchema): string[][] {
 		const h = heightmap.length;
 		const w = heightmap[0]?.length ?? 0;
-		const biomes: string[][] = Array.from({ length: h }, () => Array<string>(w).fill('unknown'));
+		const biomes: string[][] = Array.from({ length: h;
+    }, () => Array<string>(w).fill('unknown'));
 		for (let y = 0; y < h; y++) {
 			for (let x = 0; x < w; x++) {
 				const z = heightmap[y][x];
@@ -163,14 +165,16 @@ export class ProceduralWorldManager {
 	carveRivers(heightmap: number[][], opts: RiverOptions): RiverSegment[] {
 		const h = heightmap.length; if (h === 0) return [];
 		const w = heightmap[0].length;
-		const flat: { x: number; y: number; z: number }[] = [];
+		const flat: { x: number; y: number; z: number;
+    }[] = [];
 		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y][x] });
 		flat.sort((a, b) => b.z - a.z);
 		const numSources = Math.max(1, Math.min(flat.length, Math.floor((opts.threshold <= 1 ? opts.threshold : 0.1) * flat.length)));
 		const maxR = opts.maxRivers ?? Math.min(10, numSources);
 		const maxLen = opts.maxLength ?? (w + h) * 4;
 		const segs: RiverSegment[] = [];
-		const used: boolean[][] = Array.from({ length: h }, () => Array<boolean>(w).fill(false));
+		const used: boolean[][] = Array.from({ length: h;
+    }, () => Array<boolean>(w).fill(false));
 		const neighbors = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
 		let started = 0;
 		for (let i = 0; i < flat.length && started < maxR; i++) {

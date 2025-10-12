@@ -106,7 +106,8 @@ export class SportsManager {
 
   private setupEventListeners(): void {
     this.eventBus.subscribe('sports:game_created', (event: any) => {
-      const data = event?.data as { game: Game } | undefined;
+      const data = event?.data as { game: Game;
+    } | undefined;
       if (data?.game) {
         this.handleGameCreated(data.game);
       }
@@ -120,7 +121,8 @@ export class SportsManager {
     });
 
     this.eventBus.subscribe('sports:game_ended', (event: any) => {
-      const data = event?.data as { gameId: string; result: MatchResult } | undefined;
+      const data = event?.data as { gameId: string; result: MatchResult;
+    } | undefined;
       if (data?.gameId && data?.result) {
         this.handleGameEnded(data.gameId, data.result);
       }
@@ -132,7 +134,12 @@ export class SportsManager {
     this.activeMatches.set(game.id, {
       gameId: game.id,
       teams: game.teams,
-      finalScore: { team1: 0, team2: 0 },
+      finalScore: {
+
+        team1: 0,
+
+        team2: 0;
+    },
       winner: null,
       duration: 0,
       highlights: [],
@@ -391,7 +398,8 @@ export class SportsManager {
     }
   }
 
-  public shootBall(gameId: string, playerId: string, targetPosition: { x: number; y: number; z: number }): SportsOutput {
+  public shootBall(gameId: string, playerId: string, targetPosition: { x: number; y: number; z: number;
+    }): SportsOutput {
     try {
       const success = this.sportsSystem.shootBall(gameId, playerId, targetPosition);
 

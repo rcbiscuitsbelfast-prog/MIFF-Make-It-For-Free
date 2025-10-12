@@ -9,7 +9,8 @@ export interface LootEntry {
   id: string;
   weight: number;
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  statRolls?: { key: string; min: number; max: number }[];
+  statRolls?: { key: string; min: number; max: number;
+    }[];
   conditions?: LootCondition[];
   metadata?: Record<string, any>;
 }
@@ -53,7 +54,8 @@ export interface LootStats {
   totalEntries: number;
   averageWeight: number;
   rarityDistribution: Record<string, number>;
-  mostCommonItems: Array<{ id: string; frequency: number }>;
+  mostCommonItems: Array<{ id: string; frequency: number;
+    }>;
   totalValue: number;
 }
 
@@ -74,7 +76,8 @@ export interface LootOutput {
 
 export class LootTablesManager {
   private tables = new Map<string, LootTable>();
-  private rollHistory: Array<{ tableId: string; result: LootResult; timestamp: number }> = [];
+  private rollHistory: Array<{ tableId: string; result: LootResult; timestamp: number;
+    }> = [];
 
   constructor() {
     this.initializeDefaultTables();
@@ -90,7 +93,8 @@ export class LootTablesManager {
             id: 'gold_coin',
             weight: 50,
             rarity: 'common',
-            statRolls: [{ key: 'value', min: 1, max: 5 }]
+            statRolls: [{ key: 'value', min: 1, max: 5;
+    }]
           },
           {
             id: 'health_potion',
@@ -102,8 +106,10 @@ export class LootTablesManager {
             weight: 10,
             rarity: 'uncommon',
             statRolls: [
-              { key: 'damage', min: 5, max: 10 },
-              { key: 'durability', min: 50, max: 100 }
+              { key: 'damage', min: 5, max: 10;
+    },
+              { key: 'durability', min: 50, max: 100;
+    }
             ]
           },
           {
@@ -111,7 +117,8 @@ export class LootTablesManager {
             weight: 5,
             rarity: 'rare',
             statRolls: [
-              { key: 'magic_power', min: 10, max: 25 }
+              { key: 'magic_power', min: 10, max: 25;
+    }
             ]
           }
         ],
@@ -127,7 +134,8 @@ export class LootTablesManager {
             weight: 100,
             rarity: 'epic',
             statRolls: [
-              { key: 'power', min: 50, max: 100 }
+              { key: 'power', min: 50, max: 100;
+    }
             ]
           },
           {
@@ -135,8 +143,10 @@ export class LootTablesManager {
             weight: 30,
             rarity: 'legendary',
             statRolls: [
-              { key: 'damage', min: 25, max: 50 },
-              { key: 'special_ability', min: 1, max: 3 }
+              { key: 'damage', min: 25, max: 50;
+    },
+              { key: 'special_ability', min: 1, max: 3;
+    }
             ]
           },
           {
@@ -144,8 +154,10 @@ export class LootTablesManager {
             weight: 50,
             rarity: 'epic',
             statRolls: [
-              { key: 'defense', min: 15, max: 30 },
-              { key: 'durability', min: 100, max: 200 }
+              { key: 'defense', min: 15, max: 30;
+    },
+              { key: 'durability', min: 100, max: 200;
+    }
             ]
           }
         ],
@@ -183,7 +195,7 @@ export class LootTablesManager {
     return {
       op: 'create',
       status: 'ok',
-      result: table
+      result: table;
     };
   }
 
@@ -216,7 +228,7 @@ export class LootTablesManager {
     return {
       op: 'update',
       status: 'ok',
-      result: updatedTable
+      result: updatedTable;
     };
   }
 
@@ -255,7 +267,7 @@ export class LootTablesManager {
     return {
       op: 'get',
       status: 'ok',
-      result: table
+      result: table;
     };
   }
 
@@ -290,7 +302,7 @@ export class LootTablesManager {
     return {
       op: 'list',
       status: 'ok',
-      result: tables
+      result: tables;
     };
   }
 
@@ -374,7 +386,7 @@ export class LootTablesManager {
       averageWeight: allEntries.reduce((sum, entry) => sum + entry.weight, 0) / allEntries.length,
       rarityDistribution: {},
       mostCommonItems: [],
-      totalValue: 0
+      totalValue: 0;
     };
 
     // Calculate rarity distribution
@@ -396,7 +408,7 @@ export class LootTablesManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats;
     };
   }
 

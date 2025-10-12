@@ -413,7 +413,10 @@ export class AIProfileIntegrationLayer {
         name: 'Attack',
         type: 'attack',
         target: gameState.enemies[0],
-        parameters: { damage: 10 },
+        parameters: {
+
+          damage: 10;
+    },
         confidence: 0.5,
         reasoning: 'Attack available enemy'
       });
@@ -424,7 +427,10 @@ export class AIProfileIntegrationLayer {
         id: 'heal_1',
         name: 'Heal',
         type: 'heal',
-        parameters: { amount: 20 },
+        parameters: {
+
+          amount: 20;
+    },
         confidence: 0.6,
         reasoning: 'Heal to restore health'
       });

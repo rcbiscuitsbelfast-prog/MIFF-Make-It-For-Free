@@ -135,7 +135,7 @@ export class ScoreManager {
       averageScore: 0,
       highestScore: 0,
       totalBonuses: 0,
-      totalPenalties: 0
+      totalPenalties: 0;
     };
   }
 
@@ -168,7 +168,7 @@ export class ScoreManager {
     return {
       op: 'create-score',
       status: 'ok',
-      result: scoreState
+      result: scoreState;
     };
   }
 
@@ -187,7 +187,7 @@ export class ScoreManager {
     return {
       op: 'get-score',
       status: 'ok',
-      result: score
+      result: score;
     };
   }
 
@@ -210,7 +210,7 @@ export class ScoreManager {
     return {
       op: 'update-score',
       status: 'ok',
-      result: updatedScore
+      result: updatedScore;
     };
   }
 
@@ -264,7 +264,7 @@ export class ScoreManager {
     return {
       op: 'apply-events',
       status: 'ok',
-      result: score
+      result: score;
     };
   }
 
@@ -286,7 +286,7 @@ export class ScoreManager {
     return {
       op: 'add-bonus',
       status: 'ok',
-      result: score
+      result: score;
     };
   }
 
@@ -308,7 +308,7 @@ export class ScoreManager {
     return {
       op: 'add-penalty',
       status: 'ok',
-      result: score
+      result: score;
     };
   }
 
@@ -329,7 +329,7 @@ export class ScoreManager {
     return {
       op: 'register-achievement',
       status: 'ok',
-      result: achievement
+      result: achievement;
     };
   }
 
@@ -422,7 +422,7 @@ export class ScoreManager {
     return {
       op: 'update-leaderboard',
       status: 'ok',
-      result: leaderboard
+      result: leaderboard;
     };
   }
 
@@ -474,7 +474,7 @@ export class ScoreManager {
     return {
       op: 'list-scores',
       status: 'ok',
-      result: scores
+      result: scores;
     };
   }
 
@@ -570,7 +570,7 @@ export class ScoreManager {
       averageScore: 0,
       highestScore: 0,
       totalBonuses: 0,
-      totalPenalties: 0
+      totalPenalties: 0;
     };
     return {
       op: 'reset',

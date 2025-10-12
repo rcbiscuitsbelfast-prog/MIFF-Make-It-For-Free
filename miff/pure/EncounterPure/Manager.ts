@@ -646,14 +646,14 @@ export class EncounterUtils {
       spiritId: 'fire_spirit',
       name: 'Fire Spirit',
       level: 5,
-      weight: 100
+      weight: 100;
     });
 
     table.addEntry({
       spiritId: 'water_spirit',
       name: 'Water Spirit',
       level: 5,
-      weight: 100
+      weight: 100;
     });
 
     return table;

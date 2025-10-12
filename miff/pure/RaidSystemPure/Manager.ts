@@ -63,7 +63,8 @@ export type RaidMember = {
   defense: number;
   role: 'tank' | 'healer' | 'dps' | 'support';
   abilities: string[];
-  position: { x: number; y: number };
+  position: { x: number; y: number;
+    };
 };
 
 export type RaidEncounter = {
@@ -524,10 +525,46 @@ export class RaidManager {
 
     // Difficulty breakdown
     const difficultyBreakdown: Record<RaidDifficulty, any> = {
-      normal: { encounters: 0, victories: 0, averageDuration: 0, successRate: 0 },
-      heroic: { encounters: 0, victories: 0, averageDuration: 0, successRate: 0 },
-      mythic: { encounters: 0, victories: 0, averageDuration: 0, successRate: 0 },
-      legendary: { encounters: 0, victories: 0, averageDuration: 0, successRate: 0 }
+      normal: {
+
+        encounters: 0,
+
+        victories: 0,
+
+        averageDuration: 0,
+
+        successRate: 0;
+    },
+      heroic: {
+
+        encounters: 0,
+
+        victories: 0,
+
+        averageDuration: 0,
+
+        successRate: 0;
+    },
+      mythic: {
+
+        encounters: 0,
+
+        victories: 0,
+
+        averageDuration: 0,
+
+        successRate: 0;
+    },
+      legendary: {
+
+        encounters: 0,
+
+        victories: 0,
+
+        averageDuration: 0,
+
+        successRate: 0;
+    },
     };
 
     Object.keys(difficultyBreakdown).forEach(diff => {

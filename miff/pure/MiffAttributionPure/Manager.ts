@@ -26,7 +26,8 @@ export type LicenseInfo = {
 export type AttributionOutput = { 
   op: 'showAttribution'; 
   status: 'ok' | 'skipped'; 
-  issues: { code: string; message: string }[]; 
+  issues: { code: string; message: string;
+    }[]; 
   resolvedRefs: {}; 
   rendered?: { 
     message: string; 
@@ -73,7 +74,7 @@ export class MiffAttributionManager {
         "Source code must be open",
         "Commercial use requires license"
       ],
-      remixSafe: true
+      remixSafe: true;
     };
   }
 
@@ -106,8 +107,8 @@ export class MiffAttributionManager {
         message: cfg.message,
         style: cfg.style,
         durationMs: cfg.durationMs,
-        remixStatus: remixStatus
-      };
+        remixStatus: remixStatus;
+    };
 
       if (cfg.showLicense !== false) {
         rendered.license = license;
@@ -147,7 +148,8 @@ export class MiffAttributionManager {
     return this.override?.getContributors?.() || this.getDefaultContributors();
   }
 
-  getRemixSafetyInfo(): { status: 'remix-required' | 'remix-optional' | 'remix-safe'; details: string } {
+  getRemixSafetyInfo(): { status: 'remix-required' | 'remix-optional' | 'remix-safe'; details: string;
+    } {
     const status = this.getRemixStatus();
     const details = status === 'remix-safe' 
       ? "This module is designed for safe remixing and distribution"

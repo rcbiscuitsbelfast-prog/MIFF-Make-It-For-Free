@@ -13,7 +13,8 @@ export class EquipmentManager {
 
   equip(playerId: string, item: EquipmentItem): void {
     const slots = this.ensurePlayer(playerId);
-    slots.set(item.slot, { ...item, equipped: true });
+    slots.set(item.slot, { ...item, equipped: true;
+    });
   }
 
   unequip(playerId: string, slot: EquipmentSlot): void {
@@ -25,13 +26,15 @@ export class EquipmentManager {
     return Array.from(this.ensurePlayer(playerId).values());
   }
 
-  calculateStats(playerId: string): { attack: number; defense: number } {
+  calculateStats(playerId: string): { attack: number; defense: number;
+    } {
     const items = this.getEquipped(playerId);
     return items.reduce((acc, item) => {
       acc.attack += item.stats.attack || 0;
       acc.defense += item.stats.defense || 0;
       return acc;
-    }, { attack: 0, defense: 0 });
+    }, { attack: 0, defense: 0;
+    });
   }
 
   private ensurePlayer(playerId: string): Map<EquipmentSlot, EquipmentItem> {

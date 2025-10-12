@@ -841,7 +841,8 @@ export class BlockchainManager {
   /**
    * Perform contract deployment
    */
-  private async performContractDeployment(contract: SmartContract): Promise<{ success: boolean; message: string; gasUsed: number }> {
+  private async performContractDeployment(contract: SmartContract): Promise<{ success: boolean; message: string; gasUsed: number;
+    }> {
     // Simulate contract deployment
     await new Promise(resolve => setTimeout(resolve, 2000));
     
@@ -859,7 +860,8 @@ export class BlockchainManager {
   /**
    * Process transaction
    */
-  private async processTransaction(transaction: Transaction): Promise<{ success: boolean; message: string; gasUsed: number; blockNumber: number; blockHash: string }> {
+  private async processTransaction(transaction: Transaction): Promise<{ success: boolean; message: string; gasUsed: number; blockNumber: number; blockHash: string;
+    }> {
     // Simulate transaction processing
     await new Promise(resolve => setTimeout(resolve, 1000));
     

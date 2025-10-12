@@ -1374,7 +1374,7 @@ export class PlayerStateManager {
       checksum: '',
       isDirty: true,
       isLocked: false,
-      lockExpiry: 0
+      lockExpiry: 0;
     };
 
     // Calculate checksum
@@ -1669,9 +1669,20 @@ export class PlayerStateManager {
    */
   private createDefaultStateData(initialData: Partial<PlayerStateData>): PlayerStateData {
     return {
-      position: { x: 0, y: 0, z: 0 },
-      rotation: { x: 0, y: 0, z: 0, w: 1 },
-      velocity: { x: 0, y: 0, z: 0 },
+      position: { x: 0, y: 0, z: 0;
+    },
+      rotation: {
+
+        x: 0,
+
+        y: 0,
+
+        z: 0,
+
+        w: 1;
+    },
+      velocity: { x: 0, y: 0, z: 0;
+    },
       health: {
         current: 100,
         maximum: 100,
@@ -1723,8 +1734,8 @@ export class PlayerStateManager {
         skillPoints: 0,
         attributePoints: 0,
         talentPoints: 0,
-        masteryPoints: 0
-      },
+        masteryPoints: 0;
+    },
       stats: {
         strength: 10,
         dexterity: 10,
@@ -1746,8 +1757,8 @@ export class PlayerStateManager {
           luck: 10,
           perception: 10,
           endurance: 10,
-          agility: 10
-        },
+          agility: 10;
+    },
         bonusStats: {
           strength: 0,
           dexterity: 0,
@@ -1758,8 +1769,8 @@ export class PlayerStateManager {
           luck: 0,
           perception: 0,
           endurance: 0,
-          agility: 0
-        },
+          agility: 0;
+    },
         temporaryStats: {
           strength: 0,
           dexterity: 0,
@@ -1772,8 +1783,8 @@ export class PlayerStateManager {
           endurance: 0,
           agility: 0,
           duration: 0,
-          endTime: 0
-        }
+          endTime: 0;
+    }
       },
       equipment: {
         weapon: {
@@ -1807,26 +1818,120 @@ export class PlayerStateManager {
           cape: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] }
         },
         consumables: {
-          potion1: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          potion2: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          potion3: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          potion4: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          food1: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          food2: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          scroll1: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 },
-          scroll2: { item: null, quantity: 0, maxQuantity: 0, cooldown: 0, lastUsed: 0 }
+          potion1: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          potion2: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          potion3: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          potion4: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          food1: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          food2: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          scroll1: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
+          scroll2: {
+
+            item: null,
+
+            quantity: 0,
+
+            maxQuantity: 0,
+
+            cooldown: 0,
+
+            lastUsed: 0;
+    },
         },
         totalWeight: 0,
         maxWeight: 100,
         encumbrance: 0,
         durability: {
+
           total: 0,
+
           maximum: 0,
+
           average: 0,
+
           critical: false,
+
           broken: false,
-          repairCost: 0
-        }
+
+          repairCost: 0;
+    },
       },
       inventory: {
         items: [],
@@ -1853,8 +1958,8 @@ export class PlayerStateManager {
           primary: SortField.NAME,
           secondary: SortField.TYPE,
           tertiary: SortField.QUALITY,
-          ascending: true
-        },
+          ascending: true;
+    },
         searchQuery: ''
       },
       abilities: [],
@@ -1895,8 +2000,8 @@ export class PlayerStateManager {
           enableOcclusion: true,
           audioDevice: 'default',
           sampleRate: 44100,
-          bitDepth: 16
-        },
+          bitDepth: 16;
+    },
         controls: {
           mouseSensitivity: 1.0,
           invertMouse: false,
@@ -1930,8 +2035,8 @@ export class PlayerStateManager {
           minimapEnabled: true,
           chatEnabled: true,
           notificationsEnabled: true,
-          tooltipsEnabled: true
-        },
+          tooltipsEnabled: true;
+    },
         gameplay: {
           difficulty: DifficultyLevel.NORMAL,
           autoSave: true,
@@ -1942,8 +2047,8 @@ export class PlayerStateManager {
           enableMods: false,
           enableCheats: false,
           enableDebug: false,
-          enableProfiling: false
-        }
+          enableProfiling: false;
+    }
       },
       preferences: {
         favoriteItems: [],

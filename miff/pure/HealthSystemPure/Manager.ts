@@ -122,7 +122,7 @@ export class HealthSystemManager {
     return {
       op: 'create',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -142,7 +142,7 @@ export class HealthSystemManager {
     return {
       op: 'get',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -180,8 +180,8 @@ export class HealthSystemManager {
       return {
         op: 'damage',
         status: 'ok',
-        result: entity
-      };
+        result: entity;
+    };
     }
 
     // Apply resistance
@@ -226,7 +226,7 @@ export class HealthSystemManager {
     return {
       op: 'damage',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -263,7 +263,7 @@ export class HealthSystemManager {
     return {
       op: 'heal',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -296,7 +296,7 @@ export class HealthSystemManager {
     return {
       op: 'add-shield',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -329,7 +329,7 @@ export class HealthSystemManager {
     return {
       op: 'add-regeneration',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -378,7 +378,7 @@ export class HealthSystemManager {
     return {
       op: 'simulate',
       status: 'ok',
-      result: updatedEntities
+      result: updatedEntities;
     };
   }
 
@@ -413,7 +413,7 @@ export class HealthSystemManager {
     return {
       op: 'list',
       status: 'ok',
-      result: entities
+      result: entities;
     };
   }
 
@@ -467,7 +467,7 @@ export class HealthSystemManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats;
     };
   }
 

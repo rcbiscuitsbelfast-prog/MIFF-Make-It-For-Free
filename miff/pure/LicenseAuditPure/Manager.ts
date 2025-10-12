@@ -524,7 +524,7 @@ export class LicenseAuditManager {
     const byStatus: Record<'pass' | 'warning' | 'fail', number> = {
       pass: 0,
       warning: 0,
-      fail: 0
+      fail: 0;
     };
 
     const byLicenseType: Record<LicenseType, number> = {
@@ -537,7 +537,7 @@ export class LicenseAuditManager {
       'CC-BY-4.0': 0,
       CC0: 0,
       Proprietary: 0,
-      Custom: 0
+      Custom: 0;
     };
     
     let totalScore = 0;

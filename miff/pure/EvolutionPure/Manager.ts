@@ -458,8 +458,8 @@ export class EvolutionManager {
       return {
         canEvolve: false,
         missingConditions: ['No evolution data available'],
-        progress: 0
-      };
+        progress: 0;
+    };
     }
 
     if (!data.conditions || data.conditions.length === 0) {
@@ -467,8 +467,8 @@ export class EvolutionManager {
         canEvolve: true,
         targetSpecies: data.evolutionTargetId,
         missingConditions: [],
-        progress: 100
-      };
+        progress: 100;
+    };
     }
 
     const missingConditions: string[] = [];
@@ -488,7 +488,7 @@ export class EvolutionManager {
       canEvolve: missingConditions.length === 0,
       targetSpecies: data.evolutionTargetId,
       missingConditions: missingConditions,
-      progress: progress
+      progress: progress;
     };
   }
 
@@ -505,7 +505,7 @@ export class EvolutionManager {
       averageLevelRequired: 25,
       mostEvolvedSpecies: 'fire_spirit',
       evolutionStreak: 0,
-      bestStreak: 0
+      bestStreak: 0;
     };
   }
 
@@ -540,7 +540,7 @@ export class EvolutionManager {
     return {
       status: status,
       message: message,
-      success: false
+      success: false;
     };
   }
 
@@ -549,7 +549,7 @@ export class EvolutionManager {
       status: 'success',
       message: message,
       newSpeciesId: newSpeciesId,
-      success: true
+      success: true;
     };
   }
 
@@ -557,7 +557,7 @@ export class EvolutionManager {
     type: EvolutionConditionType,
     intValue: number,
     stringValue: string,
-    description: string
+    description: string;
   ): EvolutionCondition {
     return new EvolutionCondition(type, intValue, stringValue, description);
   }
@@ -567,7 +567,7 @@ export class EvolutionManager {
     intValue: number,
     stringValue: string,
     spirit: any,
-    context: PlayerContext
+    context: PlayerContext;
   ): boolean {
     switch (type) {
       case 'level_at_least':

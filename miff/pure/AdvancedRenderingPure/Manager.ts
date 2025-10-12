@@ -543,8 +543,8 @@ export class AdvancedRenderingManager {
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
-        dirty: true
-      },
+        dirty: true;
+    },
       burstCount: 0,
       burstInterval: 0,
       lastBurst: 0,
@@ -576,8 +576,8 @@ export class AdvancedRenderingManager {
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
-        dirty: true
-      },
+        dirty: true;
+    },
       burstCount: 0,
       burstInterval: 0,
       lastBurst: 0,
@@ -609,8 +609,8 @@ export class AdvancedRenderingManager {
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
-        dirty: true
-      },
+        dirty: true;
+    },
       burstCount: 2000,
       burstInterval: 0,
       lastBurst: 0,
@@ -642,8 +642,8 @@ export class AdvancedRenderingManager {
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
-        dirty: true
-      },
+        dirty: true;
+    },
       burstCount: 0,
       burstInterval: 0,
       lastBurst: 0,
@@ -675,8 +675,8 @@ export class AdvancedRenderingManager {
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
-        dirty: true
-      },
+        dirty: true;
+    },
       burstCount: 0,
       burstInterval: 0,
       lastBurst: 0,
@@ -708,8 +708,8 @@ export class AdvancedRenderingManager {
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
-        dirty: true
-      },
+        dirty: true;
+    },
       burstCount: 0,
       burstInterval: 0,
       lastBurst: 0,
@@ -1018,8 +1018,8 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 0,
-          enabled: true
-        },
+          enabled: true;
+    },
         {
           id: 'lighting',
           name: 'Lighting Pass',
@@ -1030,11 +1030,11 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 1,
-          enabled: true
-        }
+          enabled: true;
+    }
       ],
       enabled: true,
-      priority: 0
+      priority: 0;
     };
   }
 
@@ -1056,8 +1056,8 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 0,
-          enabled: true
-        },
+          enabled: true;
+    },
         {
           id: 'lighting',
           name: 'Lighting Pass',
@@ -1068,11 +1068,11 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 1,
-          enabled: true
-        }
+          enabled: true;
+    }
       ],
       enabled: false,
-      priority: 1
+      priority: 1;
     };
   }
 
@@ -1094,8 +1094,8 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 0,
-          enabled: true
-        },
+          enabled: true;
+    },
         {
           id: 'light_culling',
           name: 'Light Culling',
@@ -1106,8 +1106,8 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 1,
-          enabled: true
-        },
+          enabled: true;
+    },
         {
           id: 'forward_plus',
           name: 'Forward+ Pass',
@@ -1118,11 +1118,11 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 2,
-          enabled: true
-        }
+          enabled: true;
+    }
       ],
       enabled: false,
-      priority: 2
+      priority: 2;
     };
   }
 
@@ -1144,11 +1144,11 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 0,
-          enabled: true
-        }
+          enabled: true;
+    }
       ],
       enabled: false,
-      priority: 3
+      priority: 3;
     };
   }
 
@@ -1170,8 +1170,8 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 0,
-          enabled: true
-        },
+          enabled: true;
+    },
         {
           id: 'vr_right',
           name: 'VR Right Eye',
@@ -1182,11 +1182,11 @@ export class AdvancedRenderingManager {
           clearColor: [0, 0, 0, 1],
           cullingMask: 0xFFFFFFFF,
           order: 1,
-          enabled: true
-        }
+          enabled: true;
+    }
       ],
       enabled: false,
-      priority: 4
+      priority: 4;
     };
   }
 
@@ -1203,7 +1203,7 @@ export class AdvancedRenderingManager {
       cullMode: 'none',
       depthTest: true,
       depthWrite: false,
-      wireframe: false
+      wireframe: false;
     };
   }
 
@@ -1320,7 +1320,7 @@ export class AdvancedRenderingManager {
       maxLifetime: system.lifetime,
       rotation: Math.random() * Math.PI * 2,
       angularVelocity: (Math.random() - 0.5) * 4,
-      alive: true
+      alive: true;
     };
   }
 

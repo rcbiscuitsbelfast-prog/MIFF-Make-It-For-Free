@@ -94,8 +94,7 @@ export class TimeManager {
     initialTime: 0,
     updateInterval: 1000,
     enablePersistence: false,
-    debugMode: false
-
+    debugMode: false;
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -123,7 +122,7 @@ export class TimeManager {
       timeScales: 0,
       averageTimerDuration: 0,
       averageCooldownDuration: 0,
-      totalUpdates: 0
+      totalUpdates: 0;
     };
 
     this.startUpdateLoop();
@@ -198,7 +197,7 @@ export class TimeManager {
     const newTimer = {
       ...timer,
       remaining: timer.duration,
-      currentRepeats: 0
+      currentRepeats: 0;
     };
     
     this.timers.set(timer.id, newTimer);
@@ -208,7 +207,7 @@ export class TimeManager {
     return {
       op: 'add-timer',
       status: 'ok',
-      result: newTimer
+      result: newTimer;
     };
   }
 
@@ -230,7 +229,7 @@ export class TimeManager {
     return {
       op: 'add-cooldown',
       status: 'ok',
-      result: cooldown
+      result: cooldown;
     };
   }
 
@@ -252,7 +251,7 @@ export class TimeManager {
     return {
       op: 'schedule',
       status: 'ok',
-      result: scheduled
+      result: scheduled;
     };
   }
 
@@ -266,7 +265,7 @@ export class TimeManager {
     return {
       op: 'add-scale',
       status: 'ok',
-      result: scale
+      result: scale;
     };
   }
 
@@ -390,8 +389,8 @@ export class TimeManager {
           dt: 0,
           time: this.time,
           fired: [],
-          paused: true
-        } as any
+          paused: true;
+    } as any
       };
     }
 
@@ -473,8 +472,8 @@ export class TimeManager {
         dt: scaledDt,
         time: this.round(this.time),
         fired,
-        paused: false
-      } as any
+        paused: false;
+    } as any
     };
   }
 
@@ -653,7 +652,7 @@ export class TimeManager {
       timeScales: 0,
       averageTimerDuration: 0,
       averageCooldownDuration: 0,
-      totalUpdates: 0
+      totalUpdates: 0;
     };
     
     return {

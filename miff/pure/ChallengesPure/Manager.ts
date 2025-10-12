@@ -529,8 +529,8 @@ export class ChallengeManager {
         completedMilestones: [],
         lastUpdate: Date.now(),
         estimatedCompletion: 0,
-        isCompleted: false
-      },
+        isCompleted: false;
+    },
       requirements: { ...template.requirements },
       rewards: { ...template.rewards },
       timeLimit: template.timeLimit,

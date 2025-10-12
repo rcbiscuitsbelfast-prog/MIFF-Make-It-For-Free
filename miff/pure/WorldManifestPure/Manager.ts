@@ -108,7 +108,8 @@ export class WorldManifestManager {
   /**
    * List all worlds
    */
-  listWorlds(): { ok: boolean; worlds: WorldManifest[]; total: number } {
+  listWorlds(): { ok: boolean; worlds: WorldManifest[]; total: number;
+    } {
     const worlds = Array.from(this.worlds.values());
     return { ok: true, worlds, total: worlds.length };
   }
@@ -134,8 +135,8 @@ export class WorldManifestManager {
       tiles: [],
       metadata: {
         style: 'pixel-topdown',
-        generated: false
-      }
+        generated: false;
+    }
     };
 
     world.zones.push(zone);
@@ -171,7 +172,8 @@ export class WorldManifestManager {
       }
     });
 
-    return { ok: true };
+    return { ok: true;
+    };
   }
 
   /**
@@ -255,7 +257,8 @@ export class WorldManifestManager {
         }
       });
 
-      return { ok: true, removed: tilesToRemove };
+      return { ok: true, removed: tilesToRemove;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
@@ -426,7 +429,8 @@ export class WorldManifestManager {
 
     switch (format) {
       case 'json':
-        return { ok: true, data: world };
+        return { ok: true, data: world;
+    };
       
       case 'manifest':
         return {
@@ -455,7 +459,8 @@ export class WorldManifestManager {
         };
       
       case 'tiles':
-        const allTiles: Array<WorldTile & { zoneId: string; zoneName: string }> = [];
+        const allTiles: Array<WorldTile & { zoneId: string; zoneName: string;
+    }> = [];
         world.zones.forEach(zone => {
           zone.tiles.forEach(tile => {
             allTiles.push({
@@ -494,13 +499,15 @@ export class WorldManifestManager {
     });
 
     this.worlds.delete(id);
-    return { ok: true };
+    return { ok: true;
+    };
   }
 
   /**
    * Get global statistics across all worlds
    */
-  getGlobalStats(): { totalWorlds: number; totalZones: number; totalTiles: number; totalAssets: number } {
+  getGlobalStats(): { totalWorlds: number; totalZones: number; totalTiles: number; totalAssets: number;
+    } {
     const worlds = Array.from(this.worlds.values());
     const totalWorlds = worlds.length;
     const totalZones = worlds.reduce((sum, world) => sum + world.zones.length, 0);

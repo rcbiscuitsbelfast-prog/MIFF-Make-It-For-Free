@@ -237,8 +237,8 @@ export class ConvertToGodotManager {
       name: data.id || `scene_${this.sceneCounter++}`,
       properties: {
         transform: this.convertTransform(data.position, data.rotation, data.scale),
-        visible: true
-      },
+        visible: true;
+    },
       children: [],
       scripts: [],
       resources: []
@@ -277,7 +277,10 @@ export class ConvertToGodotManager {
         return {
           type: 'Node3D',
           name: `sprite_${this.sceneCounter++}`,
-          properties: { texture: asset },
+          properties: {
+
+            texture: asset;
+    },
           children: [],
           scripts: [],
           resources: []
@@ -286,7 +289,10 @@ export class ConvertToGodotManager {
         return {
           type: 'Node3D',
           name: `text_${this.sceneCounter++}`,
-          properties: { text: asset },
+          properties: {
+
+            text: asset;
+    },
           children: [],
           scripts: [],
           resources: []
@@ -295,7 +301,10 @@ export class ConvertToGodotManager {
         return {
           type: 'Node3D',
           name: `sound_${this.sceneCounter++}`,
-          properties: { stream: asset },
+          properties: {
+
+            stream: asset;
+    },
           children: [],
           scripts: [],
           resources: []
@@ -304,7 +313,10 @@ export class ConvertToGodotManager {
         return {
           type: 'Node3D',
           name: `asset_${this.sceneCounter++}`,
-          properties: { asset: asset },
+          properties: {
+
+            asset: asset;
+    },
           children: [],
           scripts: [],
           resources: []
@@ -315,13 +327,15 @@ export class ConvertToGodotManager {
   private convertTransform(position?: any, rotation?: any, scale?: any): any {
     // Convert MIFF transform to Godot Transform3D
     return {
-      origin: position || { x: 0, y: 0, z: 0 },
+      origin: position || { x: 0, y: 0, z: 0;
+    },
       basis: this.convertRotation(rotation) || [
         [1, 0, 0],
         [0, 1, 0],
         [0, 0, 1]
       ],
-      scale: scale || { x: 1, y: 1, z: 1 }
+      scale: scale || { x: 1, y: 1, z: 1;
+    }
     };
   }
 
@@ -364,8 +378,8 @@ export class ConvertToGodotManager {
         mesh: this.generateMeshResource(mesh),
         material_override: null,
         cast_shadow: true,
-        layers: 1
-      },
+        layers: 1;
+    },
       children: [],
       scripts: [],
       resources: []
@@ -378,7 +392,8 @@ export class ConvertToGodotManager {
       name: light.id || 'light',
       properties: {
         light_energy: light.intensity || 1,
-        light_color: light.color || { r: 1, g: 1, b: 1 },
+        light_color: light.color || { r: 1, g: 1, b: 1;
+    },
         light_range: light.range || 10,
         light_attenuation: light.attenuation || 1,
         shadow_enabled: light.castShadow !== false
@@ -459,10 +474,12 @@ export class ConvertToGodotManager {
       path: `res://${resourceId}.tres`,
       dependencies: [],
       data: {
-        albedo_color: material.color || { r: 1, g: 1, b: 1, a: 1 },
+        albedo_color: material.color || { r: 1, g: 1, b: 1, a: 1;
+    },
         metallic: material.metallic || 0,
         roughness: material.roughness || 0.5,
-        emission: material.emissive || { r: 0, g: 0, b: 0 },
+        emission: material.emissive || { r: 0, g: 0, b: 0;
+    },
         normal_scale: material.normalScale || 1,
         alpha_scissor_threshold: material.alphaTest || 0
       }
@@ -480,7 +497,8 @@ export class ConvertToGodotManager {
       dependencies: [],
       data: {
         type: collider.type || 'box',
-        extents: collider.size || { x: 1, y: 1, z: 1 },
+        extents: collider.size || { x: 1, y: 1, z: 1;
+    },
         radius: collider.radius || 0.5,
         height: collider.height || 2
       }
@@ -641,7 +659,8 @@ void fragment():
     this.logger.info('ConvertToGodotManager', 'Godot export configuration updated');
   }
 
-  public exportProject(outputPath: string): { success: boolean; path: string; size: number } {
+  public exportProject(outputPath: string): { success: boolean; path: string; size: number;
+    } {
     // In a real implementation, this would export the Godot project
     this.logger.info('ConvertToGodotManager', `Exporting Godot project to: ${outputPath}`);
 
@@ -652,7 +671,7 @@ void fragment():
     return {
       success: true,
       path: projectPath,
-      size: exportSize
+      size: exportSize;
     };
   }
 

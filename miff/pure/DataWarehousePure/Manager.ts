@@ -912,7 +912,8 @@ export class DataWarehouseManager {
   /**
    * Perform query execution
    */
-  private async performQueryExecution(query: DataQuery): Promise<{ success: boolean; message: string; data: any; rowsAffected: number }> {
+  private async performQueryExecution(query: DataQuery): Promise<{ success: boolean; message: string; data: any; rowsAffected: number;
+    }> {
     // Simulate query execution
     await new Promise(resolve => setTimeout(resolve, 500));
     
@@ -923,7 +924,8 @@ export class DataWarehouseManager {
     return {
       success,
       message: success ? 'Query executed successfully' : 'Query execution failed',
-      data: success ? { rows: rowsAffected } : null,
+      data: success ? { rows: rowsAffected;
+    } : null,
       rowsAffected
     };
   }

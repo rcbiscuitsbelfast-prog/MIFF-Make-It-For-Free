@@ -30,7 +30,8 @@ export interface ValidationIssue {
   code: string;
   message: string;
   nodeId?: string;
-  edge?: { from: string; to: string };
+  edge?: { from: string; to: string;
+    };
 }
 
 export interface ValidationResultEnvelope {
@@ -56,8 +57,10 @@ export interface StatsEnvelope {
     nodes: number;
     edges: number;
     density: number;
-    inDegree: { min: number; max: number; average: number };
-    outDegree: { min: number; max: number; average: number };
+    inDegree: { min: number; max: number; average: number;
+    };
+    outDegree: { min: number; max: number; average: number;
+    };
     components: number;
     cycles: number;
     topologicalOrder?: string[] | null;
@@ -76,7 +79,7 @@ export class ChainValidatorManager {
   private adjacency = new Map<string, Set<string>>();
   private reverseAdjacency = new Map<string, Set<string>>();
 
-  // CRUD: Nodes
+  // CRUD: Nodes;
   addNode(node: ChainNode): { op: 'addNode'; status: 'ok' | 'error'; node?: ChainNode; issues?: string[] } {
     const issues: string[] = [];
     if (!node.id || typeof node.id !== 'string') {
@@ -125,7 +128,7 @@ export class ChainValidatorManager {
     return { op: 'removeNode', status: 'ok', removed: { ...existing } } as any;
   }
 
-  // CRUD: Edges
+  // CRUD: Edges;
   addEdge(edge: ChainEdge): { op: 'addEdge'; status: 'ok' | 'error'; edge?: ChainEdge; issues?: string[] } {
     const issues: string[] = [];
     if (!edge.from || !edge.to) issues.push('Edge must have from and to');
@@ -145,7 +148,8 @@ export class ChainValidatorManager {
     return { op: 'addEdge', status: 'ok', edge: { ...edge } } as any;
   }
 
-  removeEdge(from: string, to: string): { op: 'removeEdge'; status: 'ok' | 'error'; removed?: { from: string; to: string }; issues?: string[] } {
+  removeEdge(from: string, to: string): { op: 'removeEdge'; status: 'ok' | 'error'; removed?: { from: string; to: string;
+    }; issues?: string[] } {
     const issues: string[] = [];
     if (!this.adjacency.get(from)?.has(to)) issues.push(`Edge not found: ${from} -> ${to}`);
     if (issues.length > 0) return { op: 'removeEdge', status: 'error', issues } as any;
@@ -255,13 +259,15 @@ export class ChainValidatorManager {
     };
     switch (format) {
       case 'json':
-        return { op: 'export', status: 'ok', format, result: payload };
+        return { op: 'export', status: 'ok', format, result: payload;
+    };
       case 'yaml':
         return { op: 'export', status: 'ok', format, result: this.toYAML(payload) };
       case 'csv':
         return { op: 'export', status: 'ok', format, result: this.toCSV(payload) };
       default:
-        return { op: 'export', status: 'ok', format: 'json', result: payload };
+        return { op: 'export', status: 'ok', format: 'json', result: payload;
+    };
     }
   }
 
@@ -345,7 +351,8 @@ export class ChainValidatorManager {
       }
     }
     const ok = order.length === this.nodes.size;
-    return ok ? { ok: true, order } : { ok: false };
+    return ok ? { ok: true, order } : { ok: false;
+    };
   }
 
   private countConnectedComponents(): number {
@@ -370,8 +377,10 @@ export class ChainValidatorManager {
     return components;
   }
 
-  private statsFromArray(values: number[]): { min: number; max: number; average: number } {
-    if (values.length === 0) return { min: 0, max: 0, average: 0 };
+  private statsFromArray(values: number[]): { min: number; max: number; average: number;
+    } {
+    if (values.length === 0) return { min: 0, max: 0, average: 0;
+    };
     const min = Math.min(...values);
     const max = Math.max(...values);
     const avg = values.reduce((a, b) => a + b, 0) / values.length;

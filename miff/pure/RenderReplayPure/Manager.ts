@@ -1,6 +1,5 @@
 // RenderReplayPure - Visual replay tool for MIFF engine bridges
-// Schema Version: v1
-
+// Schema Version: v1;
 import { BridgeSchemaValidator, RenderData, RenderPayload } from '../BridgeSchemaPure/schema';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -256,7 +255,8 @@ export class RenderReplayManager {
 
       // Write directly; path.dirname('file') => '.' which exists under Jest CWD
       fs.writeFileSync(outputPath, content, 'utf-8');
-      return { success: true };
+      return { success: true;
+    };
     } catch (error) {
       return { success: false, issues: [String((error as Error).message || error)] };
     }

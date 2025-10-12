@@ -2,7 +2,8 @@ export type GestureType = 'tap' | 'doubleTap' | 'longPress' | 'swipe' | 'pinch' 
 
 export interface TouchEventLike {
   time: number;
-  points: { x: number; y: number }[];
+  points: { x: number; y: number;
+    }[];
   type: 'down' | 'move' | 'up';
 }
 
@@ -58,10 +59,12 @@ export class TouchGestureManager {
         if (duration < 180 && dist < 8) {
           const now = up.time;
           if (now - this.lastTapAt < 300) {
-            gestures.push({ type: 'doubleTap', at: now });
+            gestures.push({ type: 'doubleTap', at: now;
+    });
             this.lastTapAt = 0;
           } else {
-            gestures.push({ type: 'tap', at: now });
+            gestures.push({ type: 'tap', at: now;
+    });
             this.lastTapAt = now;
           }
         } else if (duration >= 500 && dist < 12) {

@@ -55,7 +55,8 @@ export interface PlayerContext {
   playerId: string;
   energy: number;
   level: number;
-  location?: { x: number; y: number; z: number };
+  location?: { x: number; y: number; z: number;
+    };
   inventory: string[];
   fusionHistory: string[];
   lastFusionTime: number;
@@ -271,7 +272,7 @@ export class FusionManager {
     return {
       status: status,
       message: message,
-      success: false
+      success: false;
     };
   }
 
@@ -281,7 +282,7 @@ export class FusionManager {
       message: message,
       newSpiritId: newSpiritId,
       inheritedTraits: inheritedTraits,
-      success: true
+      success: true;
     };
   }
 

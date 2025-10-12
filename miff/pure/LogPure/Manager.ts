@@ -990,7 +990,8 @@ export class BattleLogEntry implements IBattleLogEntry {
       undefined,
       undefined,
       turnNumber,
-      { duration: 3 }
+      { duration: 3;
+    }
     );
   }
 
@@ -1243,7 +1244,7 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1320,20 +1321,21 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
   logBattleAction(actionType: string, targetId: number, result: string, debugNotes: string, damageDealt?: number, turnNumber?: number): void {
     const entry = BattleLogEntry.createActionEntry(
       { actorId: 0, moveId: actionType, targetId, debugNotes } as any,
-      { success: result === 'success', damage: damageDealt } as any,
+      { success: result === 'success', damage: damageDealt;
+    } as any,
       turnNumber
     );
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1345,7 +1347,7 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.info(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1359,7 +1361,7 @@ export class BattleLogger {
       : 'info';
     (this.logManager as any)[levelMethod](`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1368,7 +1370,7 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.debug(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1377,7 +1379,7 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.warn(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1386,7 +1388,7 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.error(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1395,7 +1397,7 @@ export class BattleLogger {
     this.entries.push(entry);
     this.logManager.critical(`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
-      entry: entry
+      entry: entry;
     });
   }
 
@@ -1491,7 +1493,7 @@ export const defaultLogManager = new LogManager({
     enableUserTracking: true,
     enableErrorTracking: true,
     batchSize: 100,
-    flushInterval: 5000
-  },
+    flushInterval: 5000;
+    },
   integrations: []
 });

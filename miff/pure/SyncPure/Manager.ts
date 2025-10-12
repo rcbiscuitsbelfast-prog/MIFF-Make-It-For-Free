@@ -122,7 +122,7 @@ export class SyncManager {
       conflictsResolved: 0,
       dataTransferred: 0,
       lastSyncTime: new Date(),
-      averageSyncTime: 0
+      averageSyncTime: 0;
     };
 
     this.initialize();
@@ -166,7 +166,7 @@ export class SyncManager {
       checksum: this.calculateChecksum(data),
       deviceId,
       userId,
-      isDeleted: false
+      isDeleted: false;
     };
 
     this.data.set(id, syncData);
@@ -258,7 +258,8 @@ export class SyncManager {
     const startTime = Date.now();
 
     try {
-      this.eventBus.publish('sync:start', { startedAt: startTime });
+      this.eventBus.publish('sync:start', { startedAt: startTime;
+    });
       
       // Notify integrations
       this.integrations.forEach(integration => {
@@ -276,7 +277,8 @@ export class SyncManager {
       this.stats.lastSyncTime = new Date();
       this.stats.averageSyncTime = (this.stats.averageSyncTime + syncTime) / 2;
 
-      this.eventBus.publish('sync:complete', this.stats, { metadata: { durationMs: syncTime } } as any);
+      this.eventBus.publish('sync:complete', this.stats, { metadata: { durationMs: syncTime;
+    } } as any);
 
       // Notify integrations
       this.integrations.forEach(integration => {
@@ -477,7 +479,7 @@ export class SyncManager {
       conflictsResolved: 0,
       dataTransferred: 0,
       lastSyncTime: new Date(),
-      averageSyncTime: 0
+      averageSyncTime: 0;
     };
   }
 
@@ -524,7 +526,7 @@ export const defaultSyncManager = new SyncManager({
     maxRetries: 3,
     batchSize: 100,
     compressionEnabled: true,
-    encryptionEnabled: false
-  },
+    encryptionEnabled: false;
+    },
   integrations: []
 });

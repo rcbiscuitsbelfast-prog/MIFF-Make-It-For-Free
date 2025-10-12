@@ -99,21 +99,24 @@ export class QuestsManager {
             type: 'talk',
             description: 'Talk to Elder Oak',
             target: 'npc_001',
-            completed: false
-          },
+            completed: false;
+    },
           {
             id: 'collect_herbs',
             type: 'collect',
             description: 'Collect 5 healing herbs',
             target: 'healing_herb',
             quantity: 5,
-            completed: false
-          }
+            completed: false;
+    }
         ],
         rewards: [
-          { type: 'experience', amount: 100 },
-          { type: 'gold', amount: 50 },
-          { type: 'item', id: 'health_potion', amount: 3 }
+          { type: 'experience', amount: 100;
+    },
+          { type: 'gold', amount: 50;
+    },
+          { type: 'item', id: 'health_potion', amount: 3;
+    }
         ],
         level: 1,
         category: 'tutorial',
@@ -132,28 +135,31 @@ export class QuestsManager {
             type: 'explore',
             description: 'Enter the ancient dungeon',
             target: 'dungeon_entrance',
-            completed: false
-          },
+            completed: false;
+    },
           {
             id: 'defeat_guardian',
             type: 'kill',
             description: 'Defeat the dungeon guardian',
             target: 'dungeon_guardian',
-            completed: false
-          },
+            completed: false;
+    },
           {
             id: 'retrieve_artifact',
             type: 'collect',
             description: 'Retrieve the ancient artifact',
             target: 'ancient_artifact',
             quantity: 1,
-            completed: false
-          }
+            completed: false;
+    }
         ],
         rewards: [
-          { type: 'experience', amount: 500 },
-          { type: 'gold', amount: 200 },
-          { type: 'item', id: 'ancient_sword', amount: 1 }
+          { type: 'experience', amount: 500;
+    },
+          { type: 'gold', amount: 200;
+    },
+          { type: 'item', id: 'ancient_sword', amount: 1;
+    }
         ],
         prerequisites: ['tutorial_quest'],
         level: 5,
@@ -189,7 +195,7 @@ export class QuestsManager {
     return {
       op: 'create',
       status: 'ok',
-      result: newQuest
+      result: newQuest;
     };
   }
 
@@ -216,7 +222,7 @@ export class QuestsManager {
     return {
       op: 'update',
       status: 'ok',
-      result: updatedQuest
+      result: updatedQuest;
     };
   }
 
@@ -257,7 +263,7 @@ export class QuestsManager {
     return {
       op: 'get',
       status: 'ok',
-      result: quest
+      result: quest;
     };
   }
 
@@ -284,7 +290,7 @@ export class QuestsManager {
     return {
       op: 'list',
       status: 'ok',
-      result: quests
+      result: quests;
     };
   }
 
@@ -336,14 +342,14 @@ export class QuestsManager {
       completedSteps: 0,
       totalSteps: quest.steps.length,
       progress: 0,
-      timeSpent: 0
+      timeSpent: 0;
     };
     this.questProgress.set(questId, progress);
 
     return {
       op: 'start',
       status: 'ok',
-      result: quest
+      result: quest;
     };
   }
 
@@ -395,7 +401,7 @@ export class QuestsManager {
     return {
       op: 'complete',
       status: 'ok',
-      result: quest
+      result: quest;
     };
   }
 
@@ -437,7 +443,7 @@ export class QuestsManager {
     return {
       op: 'progress',
       status: 'ok',
-      result: progress
+      result: progress;
     };
   }
 
@@ -455,7 +461,7 @@ export class QuestsManager {
       questsByCategory: {},
       averageCompletionTime: 0,
       totalExperienceRewarded: 0,
-      totalGoldRewarded: 0
+      totalGoldRewarded: 0;
     };
 
     // Calculate category distribution

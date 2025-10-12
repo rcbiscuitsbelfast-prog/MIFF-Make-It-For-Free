@@ -175,12 +175,14 @@ export class TeleportationManager {
       return {
         success: false,
         entityId: request.entityId,
-        fromPosition: { x: 0, y: 0, z: 0 },
-        toPosition: { x: 0, y: 0, z: 0 },
+        fromPosition: { x: 0, y: 0, z: 0;
+    },
+        toPosition: { x: 0, y: 0, z: 0;
+    },
         energySpent: 0,
         cooldownApplied: 0,
-        failureReason: message
-      };
+        failureReason: message;
+    };
     }
   }
 
@@ -274,7 +276,8 @@ export class TeleportationManager {
       distance: number;
     }> = [];
 
-    const currentPosition = { x: 0, y: 0, z: 0 }; // Would get from entity system
+    const currentPosition = { x: 0, y: 0, z: 0;
+    }; // Would get from entity system
 
     // Add accessible anchors
     const allAnchors = (this.teleportationSystem as any).getAllAnchors?.() ?? [];

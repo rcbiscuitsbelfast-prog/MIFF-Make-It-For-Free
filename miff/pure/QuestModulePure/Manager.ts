@@ -615,8 +615,8 @@ export class QuestManager {
         milestones: [],
         lastUpdate: Date.now(),
         estimatedCompletion: 0,
-        isCompleted: false
-      },
+        isCompleted: false;
+    },
       objectives: [...template.objectives],
       requirements: { ...template.requirements },
       rewards: { ...template.rewards },

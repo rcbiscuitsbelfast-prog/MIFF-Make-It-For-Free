@@ -1123,8 +1123,8 @@ export class CombatManager {
         value: effect.value,
         isPercentage: effect.isPercentage,
         duration: effect.duration,
-        isPermanent: false
-      }],
+        isPermanent: false;
+    }],
       isDebuff: effect.type === EffectType.DEBUFF,
       isDispellable: true,
       stackable: false,
@@ -1289,13 +1289,19 @@ export class CombatManager {
       duration: 0,
       efficiency: 0,
       performance: {
+
         averageResponseTime: 0,
+
         totalOperations: 0,
+
         cacheHitRate: 0,
+
         memoryUsage: 0,
+
         cpuUsage: 0,
-        lastOptimization: 0
-      }
+
+        lastOptimization: 0;
+    },
     };
   }
 

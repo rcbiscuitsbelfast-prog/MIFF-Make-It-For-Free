@@ -815,13 +815,15 @@ export class PhysicsSystemManager {
     return {
       id: 'default_world',
       name: 'Default Physics World',
-      gravity: { x: 0, y: -9.81, z: 0 },
+      gravity: { x: 0, y: -9.81, z: 0;
+    },
       airResistance: 0.01,
       timeStep: 1/60,
       iterations: 10,
       bounds: {
         min: { x: -1000, y: -1000, z: -1000 },
-        max: { x: 1000, y: 1000, z: 1000 },
+        max: { x: 1000, y: 1000, z: 1000;
+    },
         shape: BoundsShape.BOX,
         metadata: new Map()
       },

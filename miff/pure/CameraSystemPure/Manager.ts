@@ -91,8 +91,8 @@ export class CameraManager {
         avoidanceDistance: 2,
         followSpeed: 1.5,
         predictionTime: 0.5,
-        deadZone: 1
-      },
+        deadZone: 1;
+    },
       effects: cameraData.effects || [],
       inputBindings: cameraData.inputBindings || new Map(),
       visualStyle: cameraData.visualStyle || {
@@ -207,15 +207,26 @@ export class CameraManager {
     const keyframes: CameraKeyframe[] = [
       {
         time: 0,
-        position: { x: 0, y: 0, z: 0 },
-        rotation: { x: 0, y: 0, z: 0, w: 1 },
+        position: { x: 0, y: 0, z: 0;
+    },
+        rotation: {
+
+          x: 0,
+
+          y: 0,
+
+          z: 0,
+
+          w: 1;
+    },
         fov: 75,
         settings: {},
         events: ['transition-start']
       },
       {
         time: 1,
-        position: { x: 0, y: 5, z: 10 },
+        position: { x: 0, y: 5, z: 10;
+    },
         rotation: { x: -0.2, y: 0, z: 0, w: 0.98 },
         fov: 75,
         settings: {},
@@ -486,7 +497,7 @@ export class CameraManager {
       ...stats,
       activeCameraCount: activeCameras.size,
       mainCameraMode: mainCamera?.definition.mode.type || 'none',
-      averagePerformanceRating: avgRating
+      averagePerformanceRating: avgRating;
     };
   }
 

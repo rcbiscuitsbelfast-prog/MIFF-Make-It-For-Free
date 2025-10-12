@@ -834,7 +834,7 @@ export class InventoryManager {
     const itemCopy: InventoryItem = {
       ...item,
       id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      quantity: quantity
+      quantity: quantity;
     };
 
     // Add to destination inventory
@@ -1134,8 +1134,18 @@ export class InventoryManager {
       for (let col = 0; col < cols; col++) {
         slots.push({
           id: `slot_${row}_${col}`,
-          position: { x: col, y: row },
-          size: { width: 1, height: 1 },
+          position: {
+
+            x: col,
+
+            y: row;
+    },
+          size: {
+
+            width: 1,
+
+            height: 1;
+    },
           type: SlotType.NORMAL,
           isOccupied: false,
           item: null,

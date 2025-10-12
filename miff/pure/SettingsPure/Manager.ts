@@ -142,21 +142,21 @@ export class SettingsManager {
         autoSave: true,
         autoSaveInterval: 300,
         tutorialEnabled: true,
-        hintsEnabled: true
-      },
+        hintsEnabled: true;
+    },
       accessibility: {
         colorBlindSupport: false,
         fontSize: 'medium',
         highContrast: false,
         screenReader: false,
-        reducedMotion: false
-      },
+        reducedMotion: false;
+    },
       advanced: {
         debugMode: false,
         loggingLevel: 'info',
         performanceMode: 'balanced',
-        experimentalFeatures: false
-      }
+        experimentalFeatures: false;
+    }
     };
   }
 
@@ -237,7 +237,8 @@ export class SettingsManager {
     // Record the change
     this.history.push({
       timestamp: Date.now(),
-      changes: { [key]: { old: oldValue, new: value } }
+      changes: { [key]: { old: oldValue, new: value;
+    } }
     });
     
     // Keep only last 100 changes
@@ -271,7 +272,8 @@ export class SettingsManager {
     
     this.history.push({
       timestamp: Date.now(),
-      changes: { [category]: { old: oldValues, new: values } }
+      changes: { [category]: { old: oldValues, new: values;
+    } }
     });
     
     return true;
@@ -319,7 +321,10 @@ export class SettingsManager {
     this.settings = { ...this.defaults };
     this.history.push({
       timestamp: Date.now(),
-      changes: { reset: true }
+      changes: {
+
+        reset: true;
+    },
     });
   }
 

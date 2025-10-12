@@ -92,7 +92,8 @@ export interface MovementFilter {
   state?: string;
   minSpeed?: number;
   maxSpeed?: number;
-  inRange?: { center: Vector2; radius: number };
+  inRange?: { center: Vector2; radius: number;
+    };
 }
 
 export interface MovementOutput {
@@ -106,9 +107,15 @@ export class MovementManager {
   private entities: Map<string, MovementEntity> = new Map();
   private events: MovementEvent[] = [];
   private obstacles: Vector2[] = [];
-  private worldBounds: { min: Vector2; max: Vector2 } = {
+  private worldBounds: { min: Vector2; max: Vector2;
+    } = {
     min: { x: -1000, y: -1000 },
-    max: { x: 1000, y: 1000 }
+    max: {
+
+      x: 1000,
+
+      y: 1000;
+    },
   };
 
   constructor() {
@@ -134,8 +141,18 @@ export class MovementManager {
     const entity: MovementEntity = {
       id,
       position: { ...position },
-      velocity: { x: 0, y: 0 },
-      acceleration: { x: 0, y: 0 },
+      velocity: {
+
+        x: 0,
+
+        y: 0;
+    },
+      acceleration: {
+
+        x: 0,
+
+        y: 0;
+    },
       rotation: 0,
       pattern: { ...pattern },
       state: {
@@ -143,8 +160,8 @@ export class MovementManager {
         pathIndex: 0,
         stuckTime: 0,
         lastPosition: { ...position },
-        collisionCount: 0
-      },
+        collisionCount: 0;
+    },
       lastUpdate: Date.now()
     };
 
@@ -152,7 +169,7 @@ export class MovementManager {
     return {
       op: 'create',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -180,7 +197,7 @@ export class MovementManager {
     return {
       op: 'update_pattern',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -204,7 +221,7 @@ export class MovementManager {
     return {
       op: 'set_follow_target',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -229,7 +246,7 @@ export class MovementManager {
     return {
       op: 'set_waypoints',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -248,7 +265,7 @@ export class MovementManager {
     return {
       op: 'simulate_tick',
       status: 'ok',
-      result: results
+      result: results;
     };
   }
 
@@ -546,7 +563,10 @@ export class MovementManager {
           type: 'collided',
           entityId: entity.id,
           timestamp: Date.now(),
-          data: { otherEntity: otherId }
+          data: {
+
+            otherEntity: otherId;
+    },
         });
       }
     }
@@ -609,7 +629,8 @@ export class MovementManager {
     const dy = to.y - from.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
     
-    if (distance === 0) return { x: 0, y: 0 };
+    if (distance === 0) return { x: 0, y: 0;
+    };
     
     return { x: dx / distance, y: dy / distance };
   }
@@ -649,7 +670,7 @@ export class MovementManager {
     return {
       op: 'get',
       status: 'ok',
-      result: entity
+      result: entity;
     };
   }
 
@@ -682,7 +703,7 @@ export class MovementManager {
     return {
       op: 'list',
       status: 'ok',
-      result: entities
+      result: entities;
     };
   }
 
@@ -718,7 +739,7 @@ export class MovementManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats;
     };
   }
 
@@ -730,7 +751,7 @@ export class MovementManager {
     return {
       op: 'add_obstacle',
       status: 'ok',
-      result: position
+      result: position;
     };
   }
 

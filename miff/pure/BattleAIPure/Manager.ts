@@ -88,7 +88,8 @@ export interface AIState {
   statusEffects: string[];
   buffs: string[];
   debuffs: string[];
-  position: { x: number; y: number };
+  position: { x: number; y: number;
+    };
   isAlive: boolean;
   lastAction?: AIAction;
 }
@@ -270,7 +271,7 @@ export class BattleAIManager {
       successRate: 0.7,
       usageCount: 0,
       lastUsed: new Date(),
-      isActive: true
+      isActive: true;
     });
 
     // Defensive Strategy
@@ -304,7 +305,7 @@ export class BattleAIManager {
       successRate: 0.8,
       usageCount: 0,
       lastUsed: new Date(),
-      isActive: true
+      isActive: true;
     });
 
     // Balanced Strategy
@@ -330,7 +331,7 @@ export class BattleAIManager {
       successRate: 0.75,
       usageCount: 0,
       lastUsed: new Date(),
-      isActive: true
+      isActive: true;
     });
   }
 
@@ -644,7 +645,8 @@ export class BattleAIManager {
         integration.callbacks.onStrategyChanged?.(oldStrategy!, strategy);
       });
       
-      this.eventBus.publish('ai:strategyChanged', { oldStrategy, newStrategy: strategy });
+      this.eventBus.publish('ai:strategyChanged', { oldStrategy, newStrategy: strategy;
+    });
       return true;
     }
     return false;

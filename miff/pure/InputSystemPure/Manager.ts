@@ -763,13 +763,19 @@ export class InputSystemManager {
         {
           type: AccessibilityFeatureType.STICKY_KEYS,
           enabled: false,
-          parameters: { timeout: 5000 },
+          parameters: {
+
+            timeout: 5000;
+    },
           metadata: new Map()
         },
         {
           type: AccessibilityFeatureType.SLOW_KEYS,
           enabled: false,
-          parameters: { delay: 1000 },
+          parameters: {
+
+            delay: 1000;
+    },
           metadata: new Map()
         }
       ],

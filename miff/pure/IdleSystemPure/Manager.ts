@@ -272,8 +272,7 @@ export class IdleManagerPure {
     enableAchievements: true,
     enablePrestige: true,
     performanceMode: 'high',
-    debugMode: false
-
+    debugMode: false;
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -683,8 +682,8 @@ export class IdleManagerPure {
     if (now - this.lastAnalyticsUpdate > 60000) {
       this.eventBus.emit('idle:analytics_update', {
         stats: stats,
-        timestamp: now
-      });
+        timestamp: now;
+    });
 
       this.lastAnalyticsUpdate = now;
     }

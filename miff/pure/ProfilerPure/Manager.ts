@@ -1248,29 +1248,41 @@ export class ProfilerManager {
         frameTime: 0,
         averageFrameTime: 0,
         minFrameTime: 0,
-        maxFrameTime: 0
-      },
+        maxFrameTime: 0;
+    },
       memory: {
         total: 0,
         used: 0,
         free: 0,
         available: 0,
         heap: {
+
           total: 0,
+
           used: 0,
+
           free: 0,
+
           peak: 0,
+
           current: 0,
+
           limit: 0,
-          fragmentation: 0
-        },
+
+          fragmentation: 0;
+    },
         native: {
+
           total: 0,
+
           used: 0,
+
           free: 0,
+
           peak: 0,
-          current: 0
-        },
+
+          current: 0;
+    },
         gpu: {
           total: 0,
           used: 0,
@@ -1279,8 +1291,8 @@ export class ProfilerManager {
           current: 0,
           textures: 0,
           buffers: 0,
-          shaders: 0
-        },
+          shaders: 0;
+    },
         leaks: [],
         allocations: {
           total: 0,
@@ -1300,8 +1312,8 @@ export class ProfilerManager {
           minTime: 0,
           lastGC: 0,
           frequency: 0,
-          pressure: 0
-        }
+          pressure: 0;
+    }
       },
       cpu: {
         usage: 0,
@@ -1313,8 +1325,8 @@ export class ProfilerManager {
         loadAverage: [0, 0, 0],
         temperature: 0,
         frequency: 0,
-        power: 0
-      },
+        power: 0;
+    },
       gpu: {
         usage: 0,
         memory: {
@@ -1325,20 +1337,27 @@ export class ProfilerManager {
           current: 0,
           textures: 0,
           buffers: 0,
-          shaders: 0
-        },
+          shaders: 0;
+    },
         temperature: 0,
         frequency: 0,
         power: 0,
         utilization: {
+
           compute: 0,
+
           geometry: 0,
+
           rasterization: 0,
+
           pixel: 0,
+
           memory: 0,
+
           video: 0,
-          overall: 0
-        },
+
+          overall: 0;
+    },
         drawCalls: 0,
         triangles: 0,
         vertices: 0,
@@ -1352,8 +1371,8 @@ export class ProfilerManager {
           compilationTime: 0,
           averageCompilationTime: 0,
           maxCompilationTime: 0,
-          minCompilationTime: 0
-        },
+          minCompilationTime: 0;
+    },
         textures: {
           total: 0,
           size: 0,
@@ -1364,8 +1383,8 @@ export class ProfilerManager {
           uncompressed: 0,
           uploads: 0,
           downloads: 0,
-          bindings: 0
-        },
+          bindings: 0;
+    },
         buffers: {
           total: 0,
           size: 0,
@@ -1374,8 +1393,8 @@ export class ProfilerManager {
           downloads: 0,
           bindings: 0,
           updates: 0,
-          copies: 0
-        }
+          copies: 0;
+    }
       },
       network: {
         latency: 0,
@@ -1391,8 +1410,8 @@ export class ProfilerManager {
           totalBytes: 0,
           averageSize: 0,
           maxSize: 0,
-          minSize: 0
-        },
+          minSize: 0;
+    },
         connections: [],
         protocols: new Map(),
         errors: [],
@@ -1404,8 +1423,8 @@ export class ProfilerManager {
           average: 0,
           current: 0,
           efficiency: 0,
-          utilization: 0
-        }
+          utilization: 0;
+    }
       },
       disk: {
         total: 0,
@@ -1430,8 +1449,8 @@ export class ProfilerManager {
           pendingSectors: 0,
           uncorrectableSectors: 0,
           smartStatus: '',
-          lastCheck: 0
-        },
+          lastCheck: 0;
+    },
         partitions: []
       },
       custom: new Map(),
@@ -1540,7 +1559,7 @@ export class ProfilerManager {
       minTime: 0,
       lastGC: 0,
       frequency: 0,
-      pressure: 0
+      pressure: 0;
     };
   }
 
@@ -1559,7 +1578,7 @@ export class ProfilerManager {
       loadAverage: [0, 0, 0],
       temperature: 0,
       frequency: 0,
-      power: 0
+      power: 0;
     };
   }
 
@@ -1578,20 +1597,27 @@ export class ProfilerManager {
         current: 0,
         textures: 0,
         buffers: 0,
-        shaders: 0
-      },
+        shaders: 0;
+    },
       temperature: 0,
       frequency: 0,
       power: 0,
       utilization: {
+
         compute: 0,
+
         geometry: 0,
+
         rasterization: 0,
+
         pixel: 0,
+
         memory: 0,
+
         video: 0,
-        overall: 0
-      },
+
+        overall: 0;
+    },
       drawCalls: 0,
       triangles: 0,
       vertices: 0,
@@ -1605,8 +1631,8 @@ export class ProfilerManager {
         compilationTime: 0,
         averageCompilationTime: 0,
         maxCompilationTime: 0,
-        minCompilationTime: 0
-      },
+        minCompilationTime: 0;
+    },
       textures: {
         total: 0,
         size: 0,
@@ -1617,8 +1643,8 @@ export class ProfilerManager {
         uncompressed: 0,
         uploads: 0,
         downloads: 0,
-        bindings: 0
-      },
+        bindings: 0;
+    },
       buffers: {
         total: 0,
         size: 0,
@@ -1627,8 +1653,8 @@ export class ProfilerManager {
         downloads: 0,
         bindings: 0,
         updates: 0,
-        copies: 0
-      }
+        copies: 0;
+    }
     };
   }
 
@@ -1651,8 +1677,8 @@ export class ProfilerManager {
         totalBytes: 0,
         averageSize: 0,
         maxSize: 0,
-        minSize: 0
-      },
+        minSize: 0;
+    },
       connections: [],
       protocols: new Map(),
       errors: [],
@@ -1664,8 +1690,8 @@ export class ProfilerManager {
         average: 0,
         current: 0,
         efficiency: 0,
-        utilization: 0
-      }
+        utilization: 0;
+    }
     };
   }
 
@@ -1697,8 +1723,8 @@ export class ProfilerManager {
         pendingSectors: 0,
         uncorrectableSectors: 0,
         smartStatus: '',
-        lastCheck: 0
-      },
+        lastCheck: 0;
+    },
       partitions: []
     };
   }

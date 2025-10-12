@@ -42,7 +42,8 @@ export interface SchemaStats {
   schemasByEngine: Record<string, number>;
   totalConversions: number;
   validationCacheSize: number;
-  mostUsedSchemas: Array<{ id: string; usage: number }>;
+  mostUsedSchemas: Array<{ id: string; usage: number;
+    }>;
 }
 
 export class BridgeSchemaManager {
@@ -86,9 +87,12 @@ export class BridgeSchemaManager {
               transform: {
                 type: 'object',
                 properties: {
-                  position: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3 },
-                  rotation: { type: 'array', items: { type: 'number' }, minItems: 4, maxItems: 4 },
-                  scale: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3 }
+                  position: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3;
+    },
+                  rotation: { type: 'array', items: { type: 'number' }, minItems: 4, maxItems: 4;
+    },
+                  scale: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3;
+    }
                 },
                 required: ['position', 'rotation', 'scale']
               },
@@ -179,9 +183,11 @@ export class BridgeSchemaManager {
             properties: {
               name: { type: 'string' },
               type: { type: 'string' },
-              position: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3 },
+              position: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3;
+    },
               rotation: { type: 'number' },
-              scale: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3 },
+              scale: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3;
+    },
               properties: { type: 'object' },
               children: {
                 type: 'array',
@@ -257,7 +263,8 @@ export class BridgeSchemaManager {
       }
 
       this.registry.schemas.set(schema.id, schema);
-      return { ok: true };
+      return { ok: true;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
@@ -277,7 +284,8 @@ export class BridgeSchemaManager {
   /**
    * List all schemas
    */
-  listSchemas(engine?: string): { ok: boolean; schemas: SchemaDefinition[]; total: number } {
+  listSchemas(engine?: string): { ok: boolean; schemas: SchemaDefinition[]; total: number;
+    } {
     let schemas = Array.from(this.registry.schemas.values());
     
     if (engine) {
@@ -299,13 +307,15 @@ export class BridgeSchemaManager {
     const cacheKey = `${schemaId}:${JSON.stringify(data).substring(0, 100)}`;
     const cached = this.registry.validationCache.get(cacheKey);
     if (cached) {
-      return { ok: true, result: cached };
+      return { ok: true, result: cached;
+    };
     }
 
     try {
       const validation = this.validateAgainstJSONSchema(data, schemaResult.schema.schema);
       this.registry.validationCache.set(cacheKey, validation);
-      return { ok: true, result: validation };
+      return { ok: true, result: validation;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Validation error'] };
     }
@@ -321,7 +331,8 @@ export class BridgeSchemaManager {
       }
 
       this.registry.conversions.set(rule.id, rule);
-      return { ok: true };
+      return { ok: true;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
@@ -341,7 +352,8 @@ export class BridgeSchemaManager {
       }
 
       const converted = this.applyConversionRule(data, rule);
-      return { ok: true, result: converted };
+      return { ok: true, result: converted;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Conversion error'] };
     }
@@ -368,7 +380,8 @@ export class BridgeSchemaManager {
         }
       };
 
-      return { ok: true, schema: schemaDefinition };
+      return { ok: true, schema: schemaDefinition;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Schema generation error'] };
     }
@@ -403,7 +416,8 @@ export class BridgeSchemaManager {
   /**
    * Clear validation cache
    */
-  clearCache(): { ok: boolean; cleared: number } {
+  clearCache(): { ok: boolean; cleared: number;
+    } {
     const cleared = this.registry.validationCache.size;
     this.registry.validationCache.clear();
     return { ok: true, cleared };
@@ -543,8 +557,8 @@ export class BridgeSchemaManager {
       const itemSchema = data.length > 0 ? this.inferSchemaFromData(data[0]) : { type: 'any' };
       return {
         type: 'array',
-        items: itemSchema
-      };
+        items: itemSchema;
+    };
     }
 
     if (typeof data === 'object') {

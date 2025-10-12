@@ -1105,10 +1105,10 @@ export interface EnchantmentReward {
 }
 
 export interface EnchantmentEffect {
-    type: string;
-    value: number;
-    duration: number;
-    isPercentage: boolean;
+  type: string;
+  value: number;
+  duration: number;
+  isPercentage: boolean;
 }
 
 export interface AchievementReward {
@@ -1573,8 +1573,10 @@ export class WitcherExplorerManager {
             type,
             description: `A ${type} region`,
             bounds: {
-                min: { x: 0, y: 0, z: 0 },
-                max: { x: 1000, y: 1000, z: 100 }
+                min: { x: 0, y: 0, z: 0;
+    },
+                max: { x: 1000, y: 1000, z: 100;
+    }
             },
             biome: BiomeType.TEMPERATE,
             level: 1,

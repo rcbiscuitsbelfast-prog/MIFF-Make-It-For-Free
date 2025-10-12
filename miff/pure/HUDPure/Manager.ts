@@ -54,8 +54,10 @@ export interface HUDElement {
   name: string;
   visible: boolean;
   enabled: boolean;
-  position: { x: number; y: number };
-  size: { width: number; height: number };
+  position: { x: number; y: number;
+    };
+  size: { width: number; height: number;
+    };
   zIndex: number;
   parentId?: string;
   children: string[];
@@ -150,7 +152,8 @@ export interface HUDIntegration {
  */
 export interface HUDManagerConfig {
   eventBus: EventBus;
-  config: HUDConfig & { defaultLayout: any };
+  config: HUDConfig & { defaultLayout: any;
+    };
   integrations: HUDIntegration[];
 }
 
@@ -181,7 +184,7 @@ export class HUDManager {
       averageRenderTime: 0,
       memory: 0,
       lastUpdateTime: new Date(),
-      performanceScore: 100
+      performanceScore: 100;
     };
 
     this.initialize();
@@ -244,8 +247,10 @@ export class HUDManager {
       name: elementData.name || 'Unnamed Element',
       visible: elementData.visible ?? true,
       enabled: elementData.enabled ?? true,
-      position: elementData.position || { x: 0, y: 0 },
-      size: elementData.size || { width: 100, height: 100 },
+      position: elementData.position || { x: 0, y: 0;
+    },
+      size: elementData.size || { width: 100, height: 100;
+    },
       zIndex: elementData.zIndex || 0,
       parentId: elementData.parentId,
       children: elementData.children || [],
@@ -256,8 +261,8 @@ export class HUDManager {
       accessibility: elementData.accessibility || {
         highContrastMode: false,
         fontSize: 'medium',
-        colorBlindFriendly: false
-      },
+        colorBlindFriendly: false;
+    },
       createdAt: new Date(),
       updatedAt: new Date(),
       ...elementData
@@ -361,14 +366,16 @@ export class HUDManager {
    * Show element
    */
   showElement(elementId: string): boolean {
-    return this.updateElement(elementId, { visible: true });
+    return this.updateElement(elementId, { visible: true;
+    });
   }
 
   /**
    * Hide element
    */
   hideElement(elementId: string): boolean {
-    return this.updateElement(elementId, { visible: false });
+    return this.updateElement(elementId, { visible: false;
+    });
   }
 
   /**
@@ -385,14 +392,16 @@ export class HUDManager {
   /**
    * Set element position
    */
-  setElementPosition(elementId: string, position: { x: number; y: number }): boolean {
+  setElementPosition(elementId: string, position: { x: number; y: number;
+    }): boolean {
     return this.updateElement(elementId, { position });
   }
 
   /**
    * Set element size
    */
-  setElementSize(elementId: string, size: { width: number; height: number }): boolean {
+  setElementSize(elementId: string, size: { width: number; height: number;
+    }): boolean {
     return this.updateElement(elementId, { size });
   }
 
@@ -538,8 +547,8 @@ export class HUDManager {
     if (focusedElement) {
       this.eventBus.publish('hud:keyboardNavigation', {
         key: event.key,
-        element: focusedElement
-      });
+        element: focusedElement;
+    });
     }
   }
 
@@ -779,7 +788,7 @@ export const defaultHUDManager = new HUDManager({
     animationDuration: 300,
     transitionDuration: 200,
     maxElements: 1000,
-    enablePerformanceMode: false
-  },
+    enablePerformanceMode: false;
+    },
   integrations: []
 });

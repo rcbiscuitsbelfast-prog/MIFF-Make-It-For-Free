@@ -195,7 +195,8 @@ export class PixelAnimManager {
   /**
    * List all animations
    */
-  listAnimations(filter?: { category?: string; loop?: boolean }): { ok: boolean; animations: Animation[]; total: number } {
+  listAnimations(filter?: { category?: string; loop?: boolean }): { ok: boolean; animations: Animation[]; total: number;
+    } {
     let animations = Array.from(this.animations.values());
 
     if (filter?.loop !== undefined) {
@@ -253,7 +254,8 @@ export class PixelAnimManager {
   /**
    * List all sequences
    */
-  listSequences(): { ok: boolean; sequences: AnimationSequence[]; total: number } {
+  listSequences(): { ok: boolean; sequences: AnimationSequence[]; total: number;
+    } {
     const sequences = Array.from(this.sequences.values());
     return { ok: true, sequences, total: sequences.length };
   }
@@ -294,7 +296,8 @@ export class PixelAnimManager {
       }
 
       this.presets.set(preset.id, preset);
-      return { ok: true };
+      return { ok: true;
+    };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
     }
@@ -303,7 +306,8 @@ export class PixelAnimManager {
   /**
    * List all presets
    */
-  listPresets(category?: string): { ok: boolean; presets: AnimationPreset[]; total: number } {
+  listPresets(category?: string): { ok: boolean; presets: AnimationPreset[]; total: number;
+    } {
     let presets = Array.from(this.presets.values());
     
     if (category) {
@@ -408,7 +412,8 @@ export class PixelAnimManager {
 
     switch (format) {
       case 'json':
-        return { ok: true, data: animation };
+        return { ok: true, data: animation;
+    };
       
       case 'manifest':
         return {
@@ -458,7 +463,8 @@ export class PixelAnimManager {
     }
 
     this.animations.delete(name);
-    return { ok: true };
+    return { ok: true;
+    };
   }
 
   /**
@@ -470,7 +476,8 @@ export class PixelAnimManager {
     }
 
     this.sequences.delete(id);
-    return { ok: true };
+    return { ok: true;
+    };
   }
 
   /**

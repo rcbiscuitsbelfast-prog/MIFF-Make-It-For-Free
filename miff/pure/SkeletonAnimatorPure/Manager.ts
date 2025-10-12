@@ -34,18 +34,24 @@ export class SkeletonAnimatorManager {
         selectedTool: 'select',
         viewport: {
           camera: {
-            position: { x: 0, y: 2, z: 5 },
-            target: { x: 0, y: 0, z: 0 },
-            fov: 60
-          },
+            position: { x: 0, y: 2, z: 5;
+    },
+            target: { x: 0, y: 0, z: 0;
+    },
+            fov: 60;
+    },
           grid: {
+
             visible: true,
-            size: 1
-          },
+
+            size: 1;
+    },
           gizmos: {
+
             visible: true,
-            size: 1
-          }
+
+            size: 1;
+    },
         },
         panels: []
       }
@@ -248,7 +254,7 @@ export class SkeletonAnimatorManager {
     const exportConfig = this.exportIntegration!.createCreatureExport(name, format, {
       includeAnimations: true,
       includeMorphTargets: true,
-      compressionLevel: 6
+      compressionLevel: 6;
     });
 
     switch (format) {
@@ -394,18 +400,24 @@ export class SkeletonAnimatorManager {
         selectedTool: 'select',
         viewport: {
           camera: {
-            position: { x: 0, y: 2, z: 5 },
-            target: { x: 0, y: 0, z: 0 },
-            fov: 60
-          },
+            position: { x: 0, y: 2, z: 5;
+    },
+            target: { x: 0, y: 0, z: 0;
+    },
+            fov: 60;
+    },
           grid: {
+
             visible: true,
-            size: 1
-          },
+
+            size: 1;
+    },
           gizmos: {
+
             visible: true,
-            size: 1
-          }
+
+            size: 1;
+    },
         },
         panels: []
       }

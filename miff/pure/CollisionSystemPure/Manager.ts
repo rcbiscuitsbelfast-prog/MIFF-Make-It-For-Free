@@ -1,4 +1,5 @@
-export type Vec2 = { x: number; y: number };
+export type Vec2 = { x: number; y: number;
+    };
 
 export type AABB = { 
   id: string; 
@@ -45,15 +46,20 @@ export type SpatialGrid = {
   cells: Map<string, Set<string>>;
 };
 
-export type ListOutput = { op: 'list'; ids: string[]; aabbs: number; circles: number; spatialCells: number };
-export type CheckOutput = { op: 'check'; collisions: Collision[]; triggers: Trigger[]; broadPhaseTests: number; narrowPhaseTests: number };
+export type ListOutput = { op: 'list'; ids: string[]; aabbs: number; circles: number; spatialCells: number;
+    };
+export type CheckOutput = { op: 'check'; collisions: Collision[]; triggers: Trigger[]; broadPhaseTests: number; narrowPhaseTests: number;
+    };
 export type ResolveOutput = { op: 'resolve'; resolved: Array<{ id: string; min?: Vec2; max?: Vec2; center?: Vec2 }>; collisions: Collision[] };
 export type DumpOutput = { op: 'dump'; shape?: CollisionShape };
 export type UpsertOutput = { op: 'upsert'; status: 'ok' | 'error'; id: string; issues?: string[] };
-export type RemoveOutput = { op: 'remove'; status: 'ok' | 'error'; removed: boolean };
-export type AnalyticsOutput = { op: 'analytics'; totalShapes: number; activeCells: number; averageShapesPerCell: number; collisionTests: number };
+export type RemoveOutput = { op: 'remove'; status: 'ok' | 'error'; removed: boolean;
+    };
+export type AnalyticsOutput = { op: 'analytics'; totalShapes: number; activeCells: number; averageShapesPerCell: number; collisionTests: number;
+    };
 export type ExportOutput = { op: 'export'; status: 'ok' | 'error'; format: string; data?: any; issues?: string[] };
-export type ClearOutput = { op: 'clear'; status: 'ok'; removed: number };
+export type ClearOutput = { op: 'clear'; status: 'ok'; removed: number;
+    };
 
 export class CollisionManager {
   private aabbs = new Map<string, AABB>();
@@ -61,7 +67,8 @@ export class CollisionManager {
   private spatialGrid: SpatialGrid;
   private collisionTests = 0;
 
-  constructor(cellSize: number = 4, worldBounds: AABB = { id: 'world', min: { x: -100, y: -100 }, max: { x: 100, y: 100 } }) {
+  constructor(cellSize: number = 4, worldBounds: AABB = { id: 'world', min: { x: -100, y: -100 }, max: { x: 100, y: 100;
+    } }) {
     this.spatialGrid = {
       cellSize,
       bounds: worldBounds,
@@ -144,7 +151,8 @@ export class CollisionManager {
     this.aabbs.clear();
     this.circles.clear();
     this.spatialGrid.cells.clear();
-    return { op: 'clear', status: 'ok', removed: count };
+    return { op: 'clear', status: 'ok', removed: count;
+    };
   }
 
   dump(id: string): DumpOutput { 
@@ -306,7 +314,10 @@ export class CollisionManager {
             schema: 'CollisionWorld',
             version: '2.0',
             timestamp: new Date().toISOString(),
-            data: { shapes: allShapes },
+            data: {
+
+              shapes: allShapes;
+    },
             metadata: {
               totalShapes: allShapes.length,
               aabbs: this.aabbs.size,
@@ -401,7 +412,8 @@ export class CollisionManager {
     
     if (overlapX < overlapY) {
       depth = overlapX;
-      normal = { x: this.center(a).x < this.center(b).x ? -1 : 1, y: 0 };
+      normal = { x: this.center(a).x < this.center(b).x ? -1 : 1, y: 0;
+    };
     } else {
       depth = overlapY;
       normal = { x: 0, y: this.center(a).y < this.center(b).y ? -1 : 1 };
@@ -415,7 +427,8 @@ export class CollisionManager {
     return {
       a: a.id,
       b: b.id,
-      overlap: this.roundVec({ x: overlapX, y: overlapY }),
+      overlap: this.roundVec({ x: overlapX, y: overlapY;
+    }),
       normal: this.roundVec(normal),
       depth: this.round(depth),
       point: this.roundVec(point)
@@ -433,7 +446,8 @@ export class CollisionManager {
     const depth = totalRadius - distance;
     const normal = distance > 0 
       ? { x: dx / distance, y: dy / distance }
-      : { x: 1, y: 0 }; // Default normal if circles are at same position
+      : { x: 1, y: 0;
+    }; // Default normal if circles are at same position
     
     const point = {
       x: a.center.x + normal.x * a.radius,
@@ -443,7 +457,8 @@ export class CollisionManager {
     return {
       a: a.id,
       b: b.id,
-      overlap: this.roundVec({ x: depth, y: depth }),
+      overlap: this.roundVec({ x: depth, y: depth;
+    }),
       normal: this.roundVec(normal),
       depth: this.round(depth),
       point: this.roundVec(point)
@@ -466,12 +481,14 @@ export class CollisionManager {
       ? { x: dx / distance, y: dy / distance }
       : { x: 0, y: -1 }; // Default normal if circle center is inside AABB
     
-    const point = { x: closestX, y: closestY };
+    const point = { x: closestX, y: closestY;
+    };
     
     return {
       a: aabb.id,
       b: circle.id,
-      overlap: this.roundVec({ x: depth, y: depth }),
+      overlap: this.roundVec({ x: depth, y: depth;
+    }),
       normal: this.roundVec(normal),
       depth: this.round(depth),
       point: this.roundVec(point)

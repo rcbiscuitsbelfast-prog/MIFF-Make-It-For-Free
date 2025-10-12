@@ -5,7 +5,8 @@
  */
 
 // Local type stubs to satisfy strict type-checking without pulling heavy dependencies
-export interface Vector3 { x: number; y: number; z: number }
+export interface Vector3 { x: number; y: number; z: number;
+    }
 
 export interface VehicleAbilityEffect {
   type: string;
@@ -92,7 +93,8 @@ export interface Checkpoint {
   id: string;
   position: Vector3;
   direction: Vector3;
-  size: { width: number; height: number };
+  size: { width: number; height: number;
+    };
   type: 'start' | 'intermediate' | 'finish' | string;
   isRequired: boolean;
   visualEffect?: string;
@@ -101,7 +103,8 @@ export interface Checkpoint {
 export interface Obstacle { id: string; position: Vector3; radius?: number; }
 export interface PowerUp { id: string; type: string; position: Vector3; }
 export interface WeatherZone { id: string; type: string; intensity?: number }
-export interface MovementPattern { id: string; type: string }
+export interface MovementPattern { id: string; type: string;
+    }
 
 export interface TrackDefinition {
   id: string;
@@ -110,8 +113,10 @@ export interface TrackDefinition {
   type: 'circuit' | 'sprint' | 'drag' | string;
   waypoints: Vector3[];
   checkpoints: Checkpoint[];
-  startLine: { position: Vector3; direction: Vector3 };
-  finishLine: { position: Vector3; direction: Vector3 };
+  startLine: { position: Vector3; direction: Vector3;
+    };
+  finishLine: { position: Vector3; direction: Vector3;
+    };
   length: number;
   width: number;
   elevation: number;
@@ -131,7 +136,8 @@ export interface TrackDefinition {
   ambientSounds: string[];
 }
 
-export interface DrivingPenalty { type: string; timePenalty: number }
+export interface DrivingPenalty { type: string; timePenalty: number;
+    }
 
 export interface DrivingStats {
   totalSessions: number;
@@ -231,7 +237,8 @@ export class DrivingSystemPure {
       height: 1.4,
       terrainTypes: ['road', 'track'],
       weatherEffects: new Map(),
-      abilities: [{ id: 'boost', name: 'Boost', description: '', type: 'active', cooldown: 10000, duration: 3000, effects: [{ type: 'boost', magnitude: 1.5, duration: 3000 }] }],
+      abilities: [{ id: 'boost', name: 'Boost', description: '', type: 'active', cooldown: 10000, duration: 3000, effects: [{ type: 'boost', magnitude: 1.5, duration: 3000;
+    }] }],
       model: 'demo_model',
       texture: 'demo_tex',
       soundProfile: 'demo_sound',
@@ -247,8 +254,7 @@ export class DrivingSystemPure {
       manufacturer: 'MIFF',
       modelYear: 2025,
       rarity: 'common',
-      value: 0
-  
+      value: 0;
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -271,17 +277,33 @@ export class DrivingSystemPure {
       description: 'A simple circuit',
       type: 'circuit',
       waypoints: [
-        { x: 0, y: 0, z: 0 },
-        { x: 100, y: 0, z: 0 },
-        { x: 100, y: 0, z: 100 },
-        { x: 0, y: 0, z: 100 }
+        { x: 0, y: 0, z: 0;
+    },
+        { x: 100, y: 0, z: 0;
+    },
+        { x: 100, y: 0, z: 100;
+    },
+        { x: 0, y: 0, z: 100;
+    }
       ],
       checkpoints: [
-        { id: 'start-finish', position: { x: 0, y: 0, z: 0 }, direction: { x: 1, y: 0, z: 0 }, size: { width: 20, height: 5 }, type: 'start', isRequired: true },
-        { id: 'cp-1', position: { x: 100, y: 0, z: 0 }, direction: { x: 0, y: 0, z: 1 }, size: { width: 20, height: 5 }, type: 'intermediate', isRequired: true }
+        { id: 'start-finish', position: { x: 0, y: 0, z: 0;
+    }, direction: { x: 1, y: 0, z: 0;
+    }, size: { width: 20, height: 5;
+    }, type: 'start', isRequired: true;
+    },
+        { id: 'cp-1', position: { x: 100, y: 0, z: 0;
+    }, direction: { x: 0, y: 0, z: 1;
+    }, size: { width: 20, height: 5;
+    }, type: 'intermediate', isRequired: true;
+    }
       ],
-      startLine: { position: { x: 0, y: 0, z: 0 }, direction: { x: 1, y: 0, z: 0 } },
-      finishLine: { position: { x: 0, y: 0, z: 0 }, direction: { x: 1, y: 0, z: 0 } },
+      startLine: { position: { x: 0, y: 0, z: 0;
+    }, direction: { x: 1, y: 0, z: 0;
+    } },
+      finishLine: { position: { x: 0, y: 0, z: 0;
+    }, direction: { x: 1, y: 0, z: 0;
+    } },
       length: 400,
       width: 15,
       elevation: 0,
@@ -329,7 +351,8 @@ export class DrivingSystemPure {
       steering: 0,
       brakeInput: 0,
       currentSpeed: 0,
-      currentPosition: { x: 0, y: 0, z: 0 }
+      currentPosition: { x: 0, y: 0, z: 0;
+    }
     };
     this.vehicles.set(instance.id, instance);
     return instance;

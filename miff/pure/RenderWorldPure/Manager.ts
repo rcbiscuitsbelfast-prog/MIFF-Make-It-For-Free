@@ -222,8 +222,8 @@ export class RenderWorldManager {
     memoryUsage: 0,
     gpuMemoryUsage: 0,
     frameTime: 0,
-    fps: 0
-  };
+    fps: 0;
+    };
 
   constructor(config: Partial<RenderWorldConfig> = {}) {
     this.config = {
@@ -695,18 +695,25 @@ export class RenderWorldManager {
         }
       `,
       uniforms: [
-        { name: 'u_modelMatrix', type: 'mat4', location: 0, value: null },
-        { name: 'u_viewMatrix', type: 'mat4', location: 0, value: null },
-        { name: 'u_projectionMatrix', type: 'mat4', location: 0, value: null },
+        { name: 'u_modelMatrix', type: 'mat4', location: 0, value: null;
+    },
+        { name: 'u_viewMatrix', type: 'mat4', location: 0, value: null;
+    },
+        { name: 'u_projectionMatrix', type: 'mat4', location: 0, value: null;
+    },
         { name: 'u_color', type: 'vec3', location: 0, value: [1, 1, 1] },
       ],
       attributes: [
-        { name: 'a_position', type: 'vec3', location: 0, size: 3 },
-        { name: 'a_normal', type: 'vec3', location: 1, size: 3 },
-        { name: 'a_uv', type: 'vec2', location: 2, size: 2 },
+        { name: 'a_position', type: 'vec3', location: 0, size: 3;
+    },
+        { name: 'a_normal', type: 'vec3', location: 1, size: 3;
+    },
+        { name: 'a_uv', type: 'vec2', location: 2, size: 2;
+    },
       ],
       samplers: [
-        { name: 'u_texture', type: 'sampler2D', location: 0, unit: 0 },
+        { name: 'u_texture', type: 'sampler2D', location: 0, unit: 0;
+    },
       ]
     };
 
@@ -726,7 +733,7 @@ export class RenderWorldManager {
       cullMode: 'back',
       depthTest: true,
       depthWrite: true,
-      wireframe: false
+      wireframe: false;
     };
 
     this.materials.set('basic_material', basicMaterial);
@@ -756,8 +763,8 @@ export class RenderWorldManager {
       submeshes: [{
         indexStart: 0,
         indexCount: 6,
-        materialIndex: 0
-      }]
+        materialIndex: 0;
+    }]
     };
 
     this.meshes.set('quad', quadMesh);

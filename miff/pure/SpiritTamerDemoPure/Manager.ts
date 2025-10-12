@@ -55,7 +55,8 @@ export interface PlayerState {
   name: string;
   level: number;
   experience: number;
-  location: { x: number; y: number; zone: string };
+  location: { x: number; y: number; zone: string;
+    };
   inventory: string[];
   tamedSpirits: string[];
   equipment: {
@@ -84,7 +85,8 @@ export interface BattleTurn {
   action: string;
   damage: number;
   effect?: string;
-  healthAfter: { player: number; spirit: number };
+  healthAfter: { player: number; spirit: number;
+    };
 }
 
 export class SpiritTamerManager {
@@ -103,14 +105,18 @@ export class SpiritTamerManager {
       tamedSpirits: [],
       equipment: {
         instrument: 'spirit_flute',
-        accessory: null
-      },
+        accessory: null;
+    },
       stats: {
+
         totalSpirits: 0,
+
         successfulTamings: 0,
+
         battleWins: 0,
-        rhythmAccuracy: 0
-      }
+
+        rhythmAccuracy: 0;
+    },
     };
 
     this.initializeSpirits();
@@ -125,17 +131,23 @@ export class SpiritTamerManager {
         level: 3,
         rarity: 'common',
         stats: {
+
           health: 45,
+
           maxHealth: 45,
+
           attack: 12,
+
           defense: 8,
+
           speed: 15,
-          tamingDifficulty: 3
-        },
+
+          tamingDifficulty: 3;
+    },
         abilities: ['flame_burst', 'quick_strike'],
         location: 'grove',
-        isWild: true
-      },
+        isWild: true;
+    },
       {
         id: 'glimmerbat',
         name: 'Glimmerbat',
@@ -143,17 +155,23 @@ export class SpiritTamerManager {
         level: 2,
         rarity: 'common',
         stats: {
+
           health: 30,
+
           maxHealth: 30,
+
           attack: 8,
+
           defense: 5,
+
           speed: 20,
-          tamingDifficulty: 2
-        },
+
+          tamingDifficulty: 2;
+    },
         abilities: ['shadow_dash', 'echo_location'],
         location: 'grove',
-        isWild: true
-      },
+        isWild: true;
+    },
       {
         id: 'whisperwind',
         name: 'Whisperwind',
@@ -161,17 +179,23 @@ export class SpiritTamerManager {
         level: 5,
         rarity: 'uncommon',
         stats: {
+
           health: 60,
+
           maxHealth: 60,
+
           attack: 15,
+
           defense: 10,
+
           speed: 25,
-          tamingDifficulty: 5
-        },
+
+          tamingDifficulty: 5;
+    },
         abilities: ['wind_blade', 'aerial_dance', 'gust_shield'],
         location: 'grove',
-        isWild: true
-      },
+        isWild: true;
+    },
       {
         id: 'stoneheart',
         name: 'Stoneheart',
@@ -179,17 +203,23 @@ export class SpiritTamerManager {
         level: 7,
         rarity: 'rare',
         stats: {
+
           health: 100,
+
           maxHealth: 100,
+
           attack: 20,
+
           defense: 25,
+
           speed: 8,
-          tamingDifficulty: 7
-        },
+
+          tamingDifficulty: 7;
+    },
         abilities: ['rock_throw', 'earth_armor', 'tremor'],
         location: 'grove',
-        isWild: true
-      }
+        isWild: true;
+    }
     ];
 
     defaultSpirits.forEach(spirit => {
@@ -200,7 +230,8 @@ export class SpiritTamerManager {
   /**
    * Get player state
    */
-  getPlayer(): { ok: boolean; player: PlayerState } {
+  getPlayer(): { ok: boolean; player: PlayerState;
+    } {
     return { ok: true, player: this.player };
   }
 
@@ -233,7 +264,8 @@ export class SpiritTamerManager {
   /**
    * List spirits in area or all spirits
    */
-  listSpirits(location?: string, includeWild: boolean = true): { ok: boolean; spirits: Spirit[]; total: number } {
+  listSpirits(location?: string, includeWild: boolean = true): { ok: boolean; spirits: Spirit[]; total: number;
+    } {
     let spirits = Array.from(this.spirits.values());
 
     if (location) {
@@ -273,11 +305,12 @@ export class SpiritTamerManager {
         spiritId,
         startTime: Date.now(),
         beats,
-        timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false }],
+        timeline: [{ time: 0, hits: 0, misses: 0, aggression: spirit.stats.tamingDifficulty, progress: 0, tamed: false;
+    }],
         result: 'in_progress',
         score: 0,
-        accuracy: 0
-      };
+        accuracy: 0;
+    };
 
       this.activeSession = session;
       this.tamingSessions.set(session.id, session);
@@ -413,7 +446,12 @@ export class SpiritTamerManager {
           actor: 'player',
           action: 'attack',
           damage: playerDamage,
-          healthAfter: { player: playerHealth, spirit: spiritHealth }
+          healthAfter: {
+
+            player: playerHealth,
+
+            spirit: spiritHealth;
+    },
         });
 
         if (spiritHealth <= 0) break;
@@ -429,7 +467,12 @@ export class SpiritTamerManager {
           actor: 'spirit',
           action: spirit.abilities[Math.floor(Math.random() * spirit.abilities.length)],
           damage: spiritDamage,
-          healthAfter: { player: playerHealth, spirit: spiritHealth }
+          healthAfter: {
+
+            player: playerHealth,
+
+            spirit: spiritHealth;
+    },
         });
       }
 
@@ -470,7 +513,8 @@ export class SpiritTamerManager {
   /**
    * List all taming sessions
    */
-  listTamingSessions(): { ok: boolean; sessions: TamingSession[]; total: number } {
+  listTamingSessions(): { ok: boolean; sessions: TamingSession[]; total: number;
+    } {
     const sessions = Array.from(this.tamingSessions.values());
     return { ok: true, sessions, total: sessions.length };
   }
@@ -478,7 +522,8 @@ export class SpiritTamerManager {
   /**
    * Get game statistics
    */
-  getStats(): { ok: boolean; stats: any } {
+  getStats(): { ok: boolean; stats: any;
+    } {
     const wildSpirits = Array.from(this.spirits.values()).filter(s => s.isWild).length;
     const tamedSpirits = this.player.tamedSpirits.length;
     const completedSessions = Array.from(this.tamingSessions.values()).filter(s => s.result !== 'in_progress').length;
@@ -579,7 +624,8 @@ export class SpiritTamerManager {
   /**
    * Reset game state
    */
-  reset(): { ok: boolean; message: string } {
+  reset(): { ok: boolean; message: string;
+    } {
     this.player = {
       name: 'Tamer',
       level: 1,
@@ -587,8 +633,18 @@ export class SpiritTamerManager {
       location: { x: 85, y: 262, zone: 'grove' },
       inventory: ['spirit_flute', 'calming_herbs', 'energy_crystal'],
       tamedSpirits: [],
-      equipment: { instrument: 'spirit_flute', accessory: null },
-      stats: { totalSpirits: 0, successfulTamings: 0, battleWins: 0, rhythmAccuracy: 0 }
+      equipment: { instrument: 'spirit_flute', accessory: null;
+    },
+      stats: {
+
+        totalSpirits: 0,
+
+        successfulTamings: 0,
+
+        battleWins: 0,
+
+        rhythmAccuracy: 0;
+    },
     };
 
     this.spirits.clear();

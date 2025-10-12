@@ -2,9 +2,12 @@ export type ValidationRule = 'missing_refs' | 'stat_bounds' | 'zone_overlap' | '
 export type ValidationConfig = { rules: ValidationRule[], combatExpectedStatKeys?: string[] };
 
 export type ValidationInput = {
-	refs?: Record<string, { ok: boolean }>; // from EntityLinker
-	stats?: { id: string; stats: { key: string; base: number }[] }[];
-	zones?: { id: string; x: number; y: number; w: number; h: number }[];
+	refs?: Record<string, { ok: boolean;
+    }>; // from EntityLinker
+	stats?: { id: string; stats: { key: string; base: number;
+    }[] }[];
+	zones?: { id: string; x: number; y: number; w: number; h: number;
+    }[];
 };
 
 export type ValidateOutput = {
@@ -31,7 +34,8 @@ export class ValidationManager {
 		const issues: ValidateOutput['issues'] = [];
 		// missing_refs
 		if(this.config.rules.includes('missing_refs')){
-			for(const [k,v] of Object.entries(input.refs||{})) if(!v.ok) issues.push({ code:'missing_ref', message:`Missing reference ${k}`, ref:k });
+			for(const [k,v] of Object.entries(input.refs||{})) if(!v.ok) issues.push({ code:'missing_ref', message:`Missing reference ${k}`, ref: k;
+    });
 		}
 		// stat_bounds (ensure base within 0..999)
 		if(this.config.rules.includes('stat_bounds')){

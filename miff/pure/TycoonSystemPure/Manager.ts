@@ -50,7 +50,8 @@ export class TycoonSystemPure {
   setIntegrations(integrations: any): void {}
   
   getStats(): any { 
-    return { isInitialized: true, totalFacilities: 0, totalRevenue: 0 }; 
+    return { isInitialized: true, totalFacilities: 0, totalRevenue: 0;
+    }; 
   }
   
   setPaused(paused: boolean): void {}
@@ -196,7 +197,8 @@ export interface TycoonManagerConfig {
  * Facility manager for construction and optimization
  */
 export interface FacilityManager {
-  getOptimalFacilityLocation: (type: BusinessType) => { x: number; y: number };
+  getOptimalFacilityLocation: (type: BusinessType) => { x: number; y: number;
+    };
   calculateFacilityROI: (facilityId: string) => number;
   optimizeFacilityLayout: () => void;
   getFacilityUpgradePriority: () => string[];
@@ -213,7 +215,8 @@ export interface StaffManager {
   optimizeStaffAllocation: () => void;
   getTrainingRecommendations: () => string[];
   predictStaffTurnover: (timeframe: number) => number;
-  getHiringPriority: () => { facilityId: string; role: StaffRole; count: number }[];
+  getHiringPriority: () => { facilityId: string; role: StaffRole; count: number;
+    }[];
 }
 
 /**
@@ -246,7 +249,8 @@ export interface MarketManager {
 
 export interface FacilityExpansion {
   type: BusinessType;
-  location: { x: number; y: number };
+  location: { x: number; y: number;
+    };
   expectedROI: number;
   constructionCost: number;
   timeframe: number;
@@ -339,7 +343,8 @@ export interface CompetitiveAdvantage {
 
 export interface PricingStrategy {
   optimalPrice: number;
-  priceRange: { min: number; max: number };
+  priceRange: { min: number; max: number;
+    };
   competitorPrices: number[];
   recommendedAction: 'increase' | 'decrease' | 'maintain';
   expectedImpact: number;
@@ -380,8 +385,7 @@ export class TycoonManagerPure {
     enableMarketAnalysis: true,
     riskTolerance: 'medium',
     performanceMode: 'high',
-    debugMode: false
-
+    debugMode: false;
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -423,11 +427,16 @@ export class TycoonManagerPure {
       getOptimalFacilityLocation: (type: BusinessType) => {
         // Simplified location optimization
         const locations = [
-          { x: 100, y: 100 },
-          { x: 200, y: 150 },
-          { x: 150, y: 200 },
-          { x: 250, y: 100 },
-          { x: 300, y: 200 }
+          { x: 100, y: 100;
+    },
+          { x: 200, y: 150;
+    },
+          { x: 150, y: 200;
+    },
+          { x: 250, y: 100;
+    },
+          { x: 300, y: 200;
+    }
         ];
 
         return locations[Math.floor(Math.random() * locations.length)];
@@ -569,7 +578,8 @@ export class TycoonManagerPure {
       },
 
       getHiringPriority: () => {
-        const priorities: { facilityId: string; role: StaffRole; count: number }[] = [];
+        const priorities: { facilityId: string; role: StaffRole; count: number;
+    }[] = [];
         const facilities = this.tycoonSystem.getFacilities();
 
         facilities.forEach((facility, facilityId) => {
@@ -582,8 +592,8 @@ export class TycoonManagerPure {
             priorities.push({
               facilityId: facilityId,
               role: StaffRole.EMPLOYEE, // Default role
-              count: neededStaff
-            });
+              count: neededStaff;
+    });
           }
         });
 
@@ -811,7 +821,12 @@ export class TycoonManagerPure {
       optimizePricingStrategy: () => {
         return {
           optimalPrice: 100,
-          priceRange: { min: 80, max: 120 },
+          priceRange: {
+
+            min: 80,
+
+            max: 120;
+    },
           competitorPrices: [90, 95, 105, 110],
           recommendedAction: 'increase',
           expectedImpact: 0.15
@@ -915,8 +930,8 @@ export class TycoonManagerPure {
     if (now - this.lastAnalyticsUpdate > 60000) {
       this.eventBus.emit('tycoon:analytics_update', {
         stats: stats,
-        timestamp: now
-      });
+        timestamp: now;
+    });
 
       this.lastAnalyticsUpdate = now;
     }
@@ -996,7 +1011,8 @@ export class TycoonManagerPure {
   /**
    * Get optimal facility location
    */
-  public getOptimalFacilityLocation(type: BusinessType): { x: number; y: number } {
+  public getOptimalFacilityLocation(type: BusinessType): { x: number; y: number;
+    } {
     return this.facilityManager.getOptimalFacilityLocation(type);
   }
 
@@ -1017,7 +1033,8 @@ export class TycoonManagerPure {
   /**
    * Get hiring priority
    */
-  public getHiringPriority(): { facilityId: string; role: StaffRole; count: number }[] {
+  public getHiringPriority(): { facilityId: string; role: StaffRole; count: number;
+    }[] {
     return this.staffManager.getHiringPriority();
   }
 

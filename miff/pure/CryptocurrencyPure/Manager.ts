@@ -765,7 +765,8 @@ export class CryptocurrencyManager {
   /**
    * Process transaction
    */
-  private async processTransaction(transaction: CryptoTransaction): Promise<{ success: boolean; message: string; blockNumber: number }> {
+  private async processTransaction(transaction: CryptoTransaction): Promise<{ success: boolean; message: string; blockNumber: number;
+    }> {
     // Simulate transaction processing
     await new Promise(resolve => setTimeout(resolve, 1000));
     

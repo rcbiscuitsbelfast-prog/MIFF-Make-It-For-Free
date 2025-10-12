@@ -101,16 +101,18 @@ export class CraftingManager {
         inputs: { 'iron_ingot': 2, 'wood': 1 },
         outputs: { 'iron_sword': 1 },
         statMods: [
-          { key: 'damage', base: 15 },
-          { key: 'durability', base: 100 }
+          { key: 'damage', base: 15;
+    },
+          { key: 'durability', base: 100;
+    }
         ],
         skillRequired: 'smithing',
         skillLevel: 1,
         craftingTime: 30,
         difficulty: 'easy',
         quality: 'normal',
-        unlockLevel: 1
-      },
+        unlockLevel: 1;
+    },
       {
         id: 'health_potion',
         name: 'Health Potion',
@@ -119,15 +121,16 @@ export class CraftingManager {
         inputs: { 'healing_herb': 3, 'water': 1, 'bottle': 1 },
         outputs: { 'health_potion': 2 },
         statMods: [
-          { key: 'healing', base: 50 }
+          { key: 'healing', base: 50;
+    }
         ],
         skillRequired: 'alchemy',
         skillLevel: 1,
         craftingTime: 15,
         difficulty: 'easy',
         quality: 'normal',
-        unlockLevel: 1
-      },
+        unlockLevel: 1;
+    },
       {
         id: 'leather_armor',
         name: 'Leather Armor',
@@ -136,16 +139,18 @@ export class CraftingManager {
         inputs: { 'leather': 4, 'thread': 2 },
         outputs: { 'leather_armor': 1 },
         statMods: [
-          { key: 'defense', base: 8 },
-          { key: 'durability', base: 80 }
+          { key: 'defense', base: 8;
+    },
+          { key: 'durability', base: 80;
+    }
         ],
         skillRequired: 'tailoring',
         skillLevel: 1,
         craftingTime: 45,
         difficulty: 'easy',
         quality: 'normal',
-        unlockLevel: 1
-      },
+        unlockLevel: 1;
+    },
       {
         id: 'steel_sword',
         name: 'Steel Sword',
@@ -154,8 +159,10 @@ export class CraftingManager {
         inputs: { 'steel_ingot': 3, 'iron_ingot': 1, 'wood': 1 },
         outputs: { 'steel_sword': 1 },
         statMods: [
-          { key: 'damage', base: 25 },
-          { key: 'durability', base: 150 }
+          { key: 'damage', base: 25;
+    },
+          { key: 'durability', base: 150;
+    }
         ],
         skillRequired: 'smithing',
         skillLevel: 3,
@@ -163,8 +170,8 @@ export class CraftingManager {
         difficulty: 'medium',
         quality: 'good',
         prerequisites: ['iron_sword'],
-        unlockLevel: 5
-      }
+        unlockLevel: 5;
+    }
     ];
 
     defaultRecipes.forEach(recipe => this.recipes.set(recipe.id, recipe));
@@ -233,7 +240,7 @@ export class CraftingManager {
     return {
       op: 'create',
       status: 'ok',
-      result: recipe
+      result: recipe;
     };
   }
 
@@ -266,7 +273,7 @@ export class CraftingManager {
     return {
       op: 'update',
       status: 'ok',
-      result: updatedRecipe
+      result: updatedRecipe;
     };
   }
 
@@ -305,7 +312,7 @@ export class CraftingManager {
     return {
       op: 'get',
       status: 'ok',
-      result: recipe
+      result: recipe;
     };
   }
 
@@ -333,7 +340,7 @@ export class CraftingManager {
     return {
       op: 'list',
       status: 'ok',
-      result: recipes
+      result: recipes;
     };
   }
 
@@ -371,14 +378,14 @@ export class CraftingManager {
       quality: this.calculateBaseQuality(recipe),
       materials: { ...recipe.inputs },
       outputs: { ...recipe.outputs },
-      experience: 0
+      experience: 0;
     };
 
     this.sessions.set(sessionId, session);
     return {
       op: 'start_crafting',
       status: 'ok',
-      result: session
+      result: session;
     };
   }
 
@@ -486,7 +493,7 @@ export class CraftingManager {
     return {
       op: 'cancel_crafting',
       status: 'ok',
-      result: session
+      result: session;
     };
   }
 
@@ -506,7 +513,7 @@ export class CraftingManager {
     return {
       op: 'get_session',
       status: 'ok',
-      result: session
+      result: session;
     };
   }
 
@@ -544,7 +551,7 @@ export class CraftingManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats;
     };
   }
 
@@ -560,15 +567,15 @@ export class CraftingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: recipes
-        };
+          result: recipes;
+    };
       
       case 'manifest':
         return {
           op: 'export',
           status: 'ok',
-          result: recipes
-        };
+          result: recipes;
+    };
       
       case 'summary':
         const stats = this.getCraftingStats();
@@ -605,7 +612,7 @@ export class CraftingManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: undefined
+      result: undefined;
     };
   }
 

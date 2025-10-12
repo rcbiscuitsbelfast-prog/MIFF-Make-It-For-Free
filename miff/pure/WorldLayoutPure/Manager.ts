@@ -165,8 +165,8 @@ export class WorldLayoutPureManager {
         ...itemData,
         id,
         createdAt: now,
-        updatedAt: now
-      };
+        updatedAt: now;
+    };
 
       this.items.set(id, item);
       this.updateAnalytics();
@@ -204,7 +204,8 @@ export class WorldLayoutPureManager {
     try {
       const item = this.items.get(id);
       if (!item) {
-        this.logger.warn('Item not found for update', { itemId: id });
+        this.logger.warn('Item not found for update', { itemId: id;
+    });
         return undefined;
       }
 
@@ -242,9 +243,11 @@ export class WorldLayoutPureManager {
       const deleted = this.items.delete(id);
       if (deleted) {
         this.updateAnalytics();
-        this.logger.info('Item deleted successfully', { itemId: id });
+        this.logger.info('Item deleted successfully', { itemId: id;
+    });
       } else {
-        this.logger.warn('Item not found for deletion', { itemId: id });
+        this.logger.warn('Item not found for deletion', { itemId: id;
+    });
       }
       return deleted;
       
@@ -252,8 +255,8 @@ export class WorldLayoutPureManager {
       this.errorHandler.handleError(error, {
         context: 'deleteItem',
         module: 'WorldLayoutPureManager',
-        itemId: id
-      });
+        itemId: id;
+    });
       throw error;
     }
   }

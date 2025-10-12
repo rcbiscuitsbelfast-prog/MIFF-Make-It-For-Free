@@ -497,8 +497,14 @@ export class ItemManager {
         category: this.getDefaultItemCategory(),
         rarity: this.getDefaultItemRarity(),
         quality: this.getDefaultItemQuality(),
-        properties: { weight: 2.5, value: 50, durability: 100, stackable: false, tradeable: true, droppable: true, sellable: true },
-        stats: { attack: 10, speed: 5 },
+        properties: { weight: 2.5, value: 50, durability: 100, stackable: false, tradeable: true, droppable: true, sellable: true;
+    },
+        stats: {
+
+          attack: 10,
+
+          speed: 5;
+    },
         requirements: { level: 1, attributes: {}, skills: {}, items: {} },
         effects: [],
         crafting: this.getDefaultItemCrafting(),
@@ -579,7 +585,7 @@ export class ItemManager {
       stackable: false,
       tradeable: true,
       droppable: true,
-      sellable: true
+      sellable: true;
     };
   }
 
@@ -605,7 +611,7 @@ export class ItemManager {
       tools: [],
       time: 0,
       skill: '',
-      level: 0
+      level: 0;
     };
   }
 
@@ -619,7 +625,7 @@ export class ItemManager {
       maxLevel: 0,
       materials: {},
       successRate: 0,
-      failureRate: 0
+      failureRate: 0;
     };
   }
 

@@ -66,7 +66,8 @@ export type LinkerStats = {
   successfulResolutions: number;
   failedResolutions: number;
   averageResolutionTime: number;
-  mostCommonIssues: Array<{ code: string; count: number }>;
+  mostCommonIssues: Array<{ code: string; count: number;
+    }>;
   resolutionHistory: Array<{
     timestamp: number;
     operation: string;

@@ -81,7 +81,8 @@ export class RenderPayloadManager {
         type: 'texture',
         size: 1024,
         format: 'PNG',
-        metadata: { width: 64, height: 64, channels: 4 }
+        metadata: { width: 64, height: 64, channels: 4;
+    }
       },
       {
         id: 'town_theme',
@@ -89,7 +90,12 @@ export class RenderPayloadManager {
         type: 'audio',
         size: 2048,
         format: 'MP3',
-        metadata: { duration: 120, sampleRate: 44100 }
+        metadata: {
+
+          duration: 120,
+
+          sampleRate: 44100;
+    },
       },
       {
         id: 'smoke_effect',
@@ -97,7 +103,8 @@ export class RenderPayloadManager {
         type: 'texture',
         size: 512,
         format: 'PNG',
-        metadata: { width: 32, height: 32, animated: true }
+        metadata: { width: 32, height: 32, animated: true;
+    }
       }
     ];
 
@@ -125,9 +132,12 @@ export class RenderPayloadManager {
         duration: 1.5,
         loop: true,
         keyframes: [
-          { frame: 0, properties: { position: { y: 0 } } },
-          { frame: 4, properties: { position: { y: 2 } } },
-          { frame: 8, properties: { position: { y: 0 } } }
+          { frame: 0, properties: { position: { y: 0;
+    } } },
+          { frame: 4, properties: { position: { y: 2;
+    } } },
+          { frame: 8, properties: { position: { y: 0;
+    } } }
         ]
       }
     ];
@@ -154,8 +164,8 @@ export class RenderPayloadManager {
           timestamp: new Date().toISOString(),
           module: 'render_payload_pure',
           frameId: id,
-          frameName: name
-        }
+          frameName: name;
+    }
       };
 
       this.frames.set(id, frame);
@@ -179,7 +189,8 @@ export class RenderPayloadManager {
   /**
    * List all frames
    */
-  listFrames(): { ok: boolean; frames: RenderPayload[]; total: number } {
+  listFrames(): { ok: boolean; frames: RenderPayload[]; total: number;
+    } {
     const frames = Array.from(this.frames.values());
     return { ok: true, frames, total: frames.length };
   }
@@ -261,21 +272,26 @@ export class RenderPayloadManager {
     this.builder.addNode({
       id: 'npc_001',
       name: 'Guard Captain Marcus',
-      position: { x: 640, y: 960, z: 0 },
-      props: { npc_id: 'npc_001', has_quests: true },
+      position: { x: 640, y: 960, z: 0;
+    },
+      props: { npc_id: 'npc_001', has_quests: true;
+    },
       children: [
         {
           id: 'npc_001_sprite',
           type: 'sprite',
-          position: { x: 0, y: 0, z: 0 },
+          position: { x: 0, y: 0, z: 0;
+    },
           asset: 'npc_sprite',
           props: { texture: 'npc_sprite.png' }
         },
         {
           id: 'npc_001_title',
           type: 'text',
-          position: { x: 0, y: -24, z: 0 },
-          props: { text: 'Marcus', color: '#ffe08a', fontSize: 16 }
+          position: { x: 0, y: -24, z: 0;
+    },
+          props: { text: 'Marcus', color: '#ffe08a', fontSize: 16;
+    }
         }
       ],
       signals: [
@@ -287,7 +303,12 @@ export class RenderPayloadManager {
     this.builder.addAnimation({
       id: 'ambient_smoke',
       name: 'AmbientSmoke',
-      position: { x: 620, y: 980 },
+      position: {
+
+        x: 620,
+
+        y: 980;
+    },
       props: { 
         loop: true, 
         frames: 16,
@@ -300,7 +321,8 @@ export class RenderPayloadManager {
     this.builder.addSound({
       id: 'town_theme',
       name: 'TownTheme',
-      props: { volume: 0.6, loop: true },
+      props: { volume: 0.6, loop: true;
+    },
       asset: 'town_theme'
     });
 
@@ -308,14 +330,29 @@ export class RenderPayloadManager {
     this.builder.addNode({
       id: 'ui_overlay',
       name: 'UIOverlay',
-      position: { x: 10, y: 10 },
-      scale: { x: 300, y: 60 },
+      position: {
+
+        x: 10,
+
+        y: 10;
+    },
+      scale: {
+
+        x: 300,
+
+        y: 60;
+    },
       props: { ui_type: 'overlay' },
       children: [
         {
           id: 'ui_gold_text',
           type: 'text',
-          position: { x: 0, y: 0 },
+          position: {
+
+            x: 0,
+
+            y: 0;
+    },
           props: { text: 'Gold: 123', fontSize: 16, color: '#ffffff' }
         }
       ]
@@ -326,7 +363,12 @@ export class RenderPayloadManager {
       this.builder.addNode({
         id: 'particle_system',
         name: 'ParticleSystem',
-        position: { x: 0, y: 0 },
+        position: {
+
+          x: 0,
+
+          y: 0;
+    },
         props: { particle_count: quality === 'ultra' ? 4000 : 2000 }
       });
       // Inflate renderData to simulate complex frames for performance testing
@@ -369,7 +411,8 @@ export class RenderPayloadManager {
     }
 
     // TODO: Implement proper validation
-    return { ok: true, validation: { issues: [], valid: true } };
+    return { ok: true, validation: { issues: [], valid: true;
+    } };
   }
 
   /**
@@ -384,7 +427,8 @@ export class RenderPayloadManager {
     try {
       switch (format) {
         case 'json':
-          return { ok: true, data: frame };
+          return { ok: true, data: frame;
+    };
         
         case 'manifest':
           return {
@@ -453,7 +497,8 @@ export class RenderPayloadManager {
   /**
    * Get render statistics
    */
-  getStats(): { ok: boolean; stats: RenderStats } {
+  getStats(): { ok: boolean; stats: RenderStats;
+    } {
     const frames = Array.from(this.frames.values());
     const totalFrames = frames.length;
     const totalAssets = this.assets.size;
@@ -480,8 +525,8 @@ export class RenderPayloadManager {
         performanceMetrics: {
           buildTime: 0, // Would be tracked in real implementation
           validationTime: 0,
-          exportTime: 0
-        }
+          exportTime: 0;
+    }
       }
     };
   }
@@ -495,13 +540,15 @@ export class RenderPayloadManager {
     }
 
     this.frames.delete(id);
-    return { ok: true };
+    return { ok: true;
+    };
   }
 
   /**
    * Clear all frames
    */
-  clearFrames(): { ok: boolean; cleared: number } {
+  clearFrames(): { ok: boolean; cleared: number;
+    } {
     const cleared = this.frames.size;
     this.frames.clear();
     return { ok: true, cleared };
@@ -572,20 +619,24 @@ export function createSampleFrame(): RenderPayload {
     .addNode({
       id: 'npc_001',
       name: 'Guard Captain Marcus',
-      position: { x: 640, y: 960, z: 0 },
-      props: { npc_id: 'npc_001', has_quests: true },
+      position: { x: 640, y: 960, z: 0;
+    },
+      props: { npc_id: 'npc_001', has_quests: true;
+    },
       children: [
         {
           id: 'npc_001_sprite',
           type: 'sprite',
-          position: { x: 0, y: 0, z: 0 },
+          position: { x: 0, y: 0, z: 0;
+    },
           asset: 'npc_sprite.png',
           props: { texture: 'npc_sprite.png' }
         },
         {
           id: 'npc_001_title',
           type: 'text',
-          position: { x: 0, y: -24, z: 0 },
+          position: { x: 0, y: -24, z: 0;
+    },
           props: { text: 'Marcus', color: '#ffe08a' }
         }
       ],
@@ -596,26 +647,52 @@ export function createSampleFrame(): RenderPayload {
     .addAnimation({
       id: 'ambient_smoke',
       name: 'AmbientSmoke',
-      position: { x: 620, y: 980 },
-      props: { loop: true, frames: 16 }
+      position: {
+
+        x: 620,
+
+        y: 980;
+    },
+      props: {
+
+        loop: true,
+
+        frames: 16;
+    },
     })
     .addSound({
       id: 'town_theme',
       name: 'TownTheme',
-      props: { volume: 0.6, loop: true },
+      props: { volume: 0.6, loop: true;
+    },
       asset: 'town_theme.mp3'
     })
     .addNode({
       id: 'ui_overlay',
       name: 'UIOverlay',
-      position: { x: 10, y: 10 },
-      scale: { x: 300, y: 60 },
+      position: {
+
+        x: 10,
+
+        y: 10;
+    },
+      scale: {
+
+        x: 300,
+
+        y: 60;
+    },
       props: { ui_type: 'overlay' },
       children: [
         {
           id: 'ui_gold_text',
           type: 'text',
-          position: { x: 0, y: 0 },
+          position: {
+
+            x: 0,
+
+            y: 0;
+    },
           props: { text: 'Gold: 123', font_size: 16, color: '#ffffff' }
         }
       ]

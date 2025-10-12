@@ -108,8 +108,8 @@ export class MagicManager {
         buffsApplied: [],
         debuffsApplied: [],
         success: false,
-        failureReason: message
-      };
+        failureReason: message;
+    };
     }
   }
 
@@ -145,7 +145,7 @@ export class MagicManager {
       unlockedSpells: spells.filter(s => s.isUnlocked).length,
       totalManaSpent,
       favoriteSpell,
-      elementalPreferences: elementalUsage
+      elementalPreferences: elementalUsage;
     };
   }
 
@@ -380,7 +380,8 @@ export class MagicManager {
     const allSchools = this.magicSystem.getAllSpellSchools();
     // Approximate mana pools by iterating unique caster IDs from spells
     const casterIds = new Set<string>();
-    const pools: Array<{ maximum: number }> = [];
+    const pools: Array<{ maximum: number;
+    }> = [];
     for (const spell of allSpells) {
       // If there is a pool for this spell's caster, include it
       const pool = this.magicSystem.getManaPool((spell as any).casterId as string);

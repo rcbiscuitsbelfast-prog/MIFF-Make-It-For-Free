@@ -118,10 +118,14 @@ export class NPCsManager {
         id: 'npc_001' as EntityID,
         name: 'Elder Oak',
         stats: [
-          { key: 'health', base: 100 },
-          { key: 'mana', base: 50 },
-          { key: 'strength', base: 15 },
-          { key: 'wisdom', base: 20 }
+          { key: 'health', base: 100;
+    },
+          { key: 'mana', base: 50;
+    },
+          { key: 'strength', base: 15;
+    },
+          { key: 'wisdom', base: 20;
+    }
         ],
         behavior: {
           type: 'quest_giver',
@@ -130,39 +134,50 @@ export class NPCsManager {
           loyalty: 90,
           schedule: {
             activities: [
-              { time: '06:00', activity: 'meditation', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15 } },
-              { time: '12:00', activity: 'counseling', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15 } },
-              { time: '18:00', activity: 'evening_walk', location: { zoneId: 'zone_forest' as EntityID, x: 5, y: 8 } }
+              { time: '06:00', activity: 'meditation', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+    } },
+              { time: '12:00', activity: 'counseling', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+    } },
+              { time: '18:00', activity: 'evening_walk', location: { zoneId: 'zone_forest' as EntityID, x: 5, y: 8;
+    } }
             ]
           }
         },
-        location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15 },
+        location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+    },
         questIds: ['quest_tutorial' as EntityID],
-        movementPattern: { type: 'idle', speed: 1 },
+        movementPattern: { type: 'idle', speed: 1;
+    },
         faction: 'village_elders',
-        reputation: 100
-      },
+        reputation: 100;
+    },
       {
         id: 'npc_002' as EntityID,
         name: 'Merchant Sarah',
         stats: [
-          { key: 'health', base: 80 },
-          { key: 'mana', base: 30 },
-          { key: 'strength', base: 8 },
-          { key: 'wisdom', base: 15 }
+          { key: 'health', base: 80;
+    },
+          { key: 'mana', base: 30;
+    },
+          { key: 'strength', base: 8;
+    },
+          { key: 'wisdom', base: 15;
+    }
         ],
         behavior: {
           type: 'merchant',
           aggression: 10,
           curiosity: 60,
-          loyalty: 70
-        },
-        location: { zoneId: 'zone_market' as EntityID, x: 25, y: 12 },
+          loyalty: 70;
+    },
+        location: { zoneId: 'zone_market' as EntityID, x: 25, y: 12;
+    },
         questIds: [],
-        movementPattern: { type: 'patrol', speed: 2, range: 5 },
+        movementPattern: { type: 'patrol', speed: 2, range: 5;
+    },
         faction: 'merchants',
-        reputation: 75
-      }
+        reputation: 75;
+    }
     ];
 
     defaultNPCs.forEach(npc => this.npcs.set(npc.id, npc));
@@ -187,10 +202,12 @@ export class NPCsManager {
       return { op: 'create', status: 'error', issues: ['location missing'] };
     }
     if (!npc.behavior) {
-      npc.behavior = { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50 } as any;
+      npc.behavior = { type: 'passive', aggression: 0, curiosity: 50, loyalty: 50;
+    } as any;
     }
     if (!npc.movementPattern) {
-      npc.movementPattern = { type: 'idle', speed: 1 };
+      npc.movementPattern = { type: 'idle', speed: 1;
+    };
     }
     if (!npc.questIds) npc.questIds = [];
 
@@ -198,7 +215,7 @@ export class NPCsManager {
     return {
       op: 'create',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -217,7 +234,7 @@ export class NPCsManager {
     return {
       op: 'update',
       status: 'ok',
-      result: updatedNPC
+      result: updatedNPC;
     };
   }
 
@@ -250,7 +267,7 @@ export class NPCsManager {
     return {
       op: 'get',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -273,7 +290,7 @@ export class NPCsManager {
     return {
       op: 'list',
       status: 'ok',
-      result: npcs
+      result: npcs;
     };
   }
 
@@ -339,7 +356,7 @@ export class NPCsManager {
     return {
       op: 'simulate',
       status: 'ok',
-      result: simulation
+      result: simulation;
     };
   }
 
@@ -364,7 +381,7 @@ export class NPCsManager {
     return {
       op: 'update_location',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -394,7 +411,7 @@ export class NPCsManager {
     return {
       op: 'add_quest',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -425,7 +442,7 @@ export class NPCsManager {
     return {
       op: 'remove_quest',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -447,7 +464,7 @@ export class NPCsManager {
     return {
       op: 'update_behavior',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -469,7 +486,7 @@ export class NPCsManager {
     return {
       op: 'update_reputation',
       status: 'ok',
-      result: npc
+      result: npc;
     };
   }
 
@@ -481,7 +498,7 @@ export class NPCsManager {
     return {
       op: 'get_by_behavior',
       status: 'ok',
-      result: npcs
+      result: npcs;
     };
   }
 
@@ -496,7 +513,7 @@ export class NPCsManager {
     return {
       op: 'get_by_reputation',
       status: 'ok',
-      result: npcs
+      result: npcs;
     };
   }
 
@@ -524,7 +541,7 @@ export class NPCsManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: stats
+      result: stats;
     };
   }
 

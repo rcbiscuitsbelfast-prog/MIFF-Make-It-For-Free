@@ -1947,8 +1947,8 @@ export class SaveManager {
         isCloudSynced: false,
         checksum: '',
         metadata: this.createSaveMetadata(profile, gameData),
-        data: gameData
-      };
+        data: gameData;
+    };
 
       // Compress data if enabled
       if (this.config.enableCompression) {
@@ -2105,8 +2105,8 @@ export class SaveManager {
         metadata: {
           ...saveSlot.metadata,
           isBackup: true,
-          parentSaveId: slotId
-        }
+          parentSaveId: slotId;
+    }
       };
 
       this.saveSlots.set(backupId, backup);
@@ -2142,8 +2142,8 @@ export class SaveManager {
         metadata: {
           ...backup.metadata,
           isBackup: false,
-          parentSaveId: null
-        }
+          parentSaveId: null;
+    }
       };
 
       this.saveSlots.set(originalId, restored);
@@ -2239,8 +2239,8 @@ export class SaveManager {
         enableOcclusion: true,
         audioDevice: 'default',
         sampleRate: 44100,
-        bitDepth: 16
-      },
+        bitDepth: 16;
+    },
       controls: {
         mouseSensitivity: 1.0,
         invertMouse: false,
@@ -2274,8 +2274,8 @@ export class SaveManager {
         minimapEnabled: true,
         chatEnabled: true,
         notificationsEnabled: true,
-        tooltipsEnabled: true
-      },
+        tooltipsEnabled: true;
+    },
       gameplay: {
         difficulty: DifficultyLevel.NORMAL,
         autoSave: true,
@@ -2286,8 +2286,8 @@ export class SaveManager {
         enableMods: false,
         enableCheats: false,
         enableDebug: false,
-        enableProfiling: false
-      }
+        enableProfiling: false;
+    }
     };
   }
 

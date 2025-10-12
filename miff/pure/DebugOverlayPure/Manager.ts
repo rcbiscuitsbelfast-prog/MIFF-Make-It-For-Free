@@ -1,6 +1,5 @@
 // DebugOverlayPure - Real-time debug overlay for MIFF engine bridges
-// Schema Version: v1
-
+// Schema Version: v1;
 import { BridgeSchemaValidator } from '../BridgeSchemaPure/schema';
 import { RenderData, RenderPayload } from '../shared/ConsolidatedSchema';
 import * as fs from 'fs';
@@ -110,7 +109,8 @@ export interface DebugFrameAnalysis {
 }
 
 export interface DebugInputAnalysis {
-  mousePosition: { x: number; y: number };
+  mousePosition: { x: number; y: number;
+    };
   mouseButtons: boolean[];
   keyboardState: Set<string>;
   touchPoints: number;
@@ -587,13 +587,15 @@ export class DebugOverlayManager {
       // Ensure output directory exists
       const outputDir = path.dirname(outputPath);
       if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
+        fs.mkdirSync(outputDir, { recursive: true;
+    });
       }
 
       // Write file
       fs.writeFileSync(outputPath, content, 'utf-8');
 
-      return { success: true };
+      return { success: true;
+    };
     } catch (error) {
       return {
         success: false,
@@ -888,8 +890,8 @@ export class DebugOverlayManager {
         leakSuspects: [],
         gcCollections: 0,
         gcTime: 0,
-        allocationRate: 0
-      };
+        allocationRate: 0;
+    };
     }
 
     return {
@@ -901,7 +903,7 @@ export class DebugOverlayManager {
       leakSuspects: [],
       gcCollections: 0,
       gcTime: 0,
-      allocationRate: 0
+      allocationRate: 0;
     };
   }
 
@@ -922,13 +924,18 @@ export class DebugOverlayManager {
       frameEfficiency: 0.85,
       droppedFrames: false,
       longFrame: false,
-      vsyncAligned: true
+      vsyncAligned: true;
     };
   }
 
   private extractInputAnalysis(): DebugInputAnalysis {
     return {
-      mousePosition: { x: 0, y: 0 },
+      mousePosition: {
+
+        x: 0,
+
+        y: 0;
+    },
       mouseButtons: [false, false, false],
       keyboardState: new Set(),
       touchPoints: 0,
@@ -936,7 +943,7 @@ export class DebugOverlayManager {
       inputLatency: 0,
       inputThroughput: 1000,
       inputEvents: 0,
-      inputDrops: 0
+      inputDrops: 0;
     };
   }
 
@@ -978,10 +985,15 @@ export class DebugOverlayManager {
         type: 'heatmap',
         title: 'Performance Heatmap',
         data: this.generatePerformanceHeatmap(),
-        config: { width: 200, height: 100 },
+        config: {
+
+          width: 200,
+
+          height: 100;
+    },
         interactive: true,
-        realTime: true
-      });
+        realTime: true;
+    });
     }
 
     if (this.config.enableFlameGraphs) {
@@ -992,8 +1004,8 @@ export class DebugOverlayManager {
         data: this.generateFlameGraphData(),
         config: {},
         interactive: true,
-        realTime: false
-      });
+        realTime: false;
+    });
     }
 
     return visualizations;
@@ -1089,7 +1101,7 @@ export class DebugOverlayManager {
       ],
       totalTime: 16.67,
       selfTime: 2.0,
-      depth: 1
+      depth: 1;
     };
   }
 
@@ -1151,7 +1163,7 @@ export class DebugOverlayManager {
       category,
       source: 'DebugOverlayManager',
       autoResolve: false,
-      resolved: false
+      resolved: false;
     };
   }
 
@@ -1207,8 +1219,8 @@ export class DebugOverlayManager {
       overall: {
         score: overallScore,
         grade: overallGrade,
-        status: overallStatus
-      },
+        status: overallStatus;
+    },
       performance: {
         score: performanceScore,
         trends: this.analyzePerformanceTrends(),
@@ -1223,8 +1235,8 @@ export class DebugOverlayManager {
       memory: {
         score: memoryScore,
         leaks: this.memoryHistory.reduce((count, m) => count + m.leakSuspects.length, 0),
-        efficiency: memoryScore
-      },
+        efficiency: memoryScore;
+    },
       rendering: {
         score: renderingScore,
         bottlenecks: this.identifyBottlenecks(),
@@ -1356,7 +1368,7 @@ export class DebugOverlayManager {
         ? this.performanceHistory.reduce((sum, p) => sum + p.fps, 0) / this.performanceHistory.length
         : 0,
       alertsGenerated: this.alerts.length,
-      recommendationsApplied: 0
+      recommendationsApplied: 0;
     };
   }
 
@@ -1368,8 +1380,8 @@ export class DebugOverlayManager {
         timestamp: new Date().toISOString(),
         renderDataCount: 0,
         engineHints: [],
-        signalsCount: 0
-      },
+        signalsCount: 0;
+    },
       renderData: [],
       issues: [],
       annotations: [],
@@ -1378,10 +1390,22 @@ export class DebugOverlayManager {
       recommendations: [],
       metrics: {
         overall: { score: 0, grade: 'F', status: 'critical' },
-        performance: { score: 0, trends: 'declining', issues: 0 },
-        stability: { score: 0, crashes: 0, errors: 0, warnings: 0 },
-        memory: { score: 0, leaks: 0, efficiency: 0 },
-        rendering: { score: 0, bottlenecks: [], optimizations: 0 }
+        performance: { score: 0, trends: 'declining', issues: 0;
+    },
+        stability: {
+
+          score: 0,
+
+          crashes: 0,
+
+          errors: 0,
+
+          warnings: 0;
+    },
+        memory: { score: 0, leaks: 0, efficiency: 0;
+    },
+        rendering: { score: 0, bottlenecks: [], optimizations: 0;
+    }
       }
     };
   }

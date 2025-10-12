@@ -127,7 +127,8 @@ export interface PetFilter {
   rarity?: PetRarity[];
   type?: PetType[];
   species?: string[];
-  level?: { min: number; max: number };
+  level?: { min: number; max: number;
+    };
   isFavorite?: boolean;
   isLocked?: boolean;
 }
