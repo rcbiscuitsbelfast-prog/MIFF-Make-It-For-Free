@@ -1,617 +1,774 @@
 /**
- * ConfigManagerPure Manager - Advanced Configuration Management System
+ * ConfigManagerPure Manager - Configuration Management System
  *
  * Comprehensive configuration management system with:
- * - Configuration creation and management
- * - Configuration validation and schema enforcement
- * - Configuration versioning and rollback
- * - Environment-specific configurations
- * - Configuration synchronization and replication
- * - Configuration analytics and monitoring
- * - Cross-platform configuration handling
+ * - Multi-config support
+ * - Configuration validation
  * - Performance optimization
+ * - Cross-platform compatibility
+ * - Real-time updates
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface ConfigManagerConfig {
-  enableConfigCreation: boolean;
-  enableConfigManagement: boolean;
-  enableConfigValidation: boolean;
-  enableSchemaEnforcement: boolean;
+  enableMultiConfigSupport: boolean;
+  enableConfigurationValidation: boolean;
+  enablePerformanceOptimization: boolean;
+  enableCrossPlatformCompatibility: boolean;
+  enableRealTimeUpdates: boolean;
   enableConfigVersioning: boolean;
-  enableConfigRollback: boolean;
-  enableEnvironmentSpecific: boolean;
+  enableConfigBackup: boolean;
+  enableConfigEncryption: boolean;
   enableConfigSynchronization: boolean;
-  enableConfigReplication: boolean;
-  enableConfigAnalytics: boolean;
-  enableConfigMonitoring: boolean;
-  enableCrossPlatformHandling: boolean;
-  maxConfigs: number;
-  maxVersions: number;
-  enableCloudSync: boolean;
-  enableBackup: boolean;
-  enableVersioning: boolean;
+  enableProfiling: boolean;
 }
 
 export interface ConfigManager {
   id: string;
   name: string;
-  type: ConfigManagerType;
-  status: ConfigManagerStatus;
+  type: ManagerType;
+  status: ManagerStatus;
   configs: Configuration[];
   schemas: ConfigSchema[];
-  environments: ConfigEnvironment[];
-  analytics: ConfigManagerAnalytics;
-  metadata: ConfigManagerMetadata;
+  validators: ConfigValidator[];
+  performance: ManagerPerformance;
+  analytics: ManagerAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
-}
-
-export enum ConfigManagerType {
-  APPLICATION = 'application',
-  RUNTIME = 'runtime',
-  USER = 'user',
-  SYSTEM = 'system',
-  CUSTOM = 'custom'
-}
-
-export enum ConfigManagerStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  LOADING = 'loading',
-  ERROR = 'error',
-  CUSTOM = 'custom'
 }
 
 export interface Configuration {
   id: string;
   name: string;
-  type: ConfigurationType;
-  status: ConfigurationStatus;
-  data: ConfigData;
-  schema: string;
-  environment: string;
+  type: ConfigType;
+  status: ConfigStatus;
+  data: Record<string, any>;
+  schema: string; // Schema ID
   version: string;
-  metadata: Map<string, any>;
-}
-
-export enum ConfigurationType {
-  JSON = 'json',
-  YAML = 'yaml',
-  XML = 'xml',
-  INI = 'ini',
-  ENV = 'env',
-  CUSTOM = 'custom'
-}
-
-export enum ConfigurationStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  VALIDATING = 'validating',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface ConfigData {
-  properties: Map<string, any>;
-  sections: Map<string, ConfigSection>;
-  metadata: Map<string, any>;
-}
-
-export interface ConfigSection {
-  name: string;
-  properties: Map<string, any>;
-  metadata: Map<string, any>;
+  encrypted: boolean;
+  lastModified: Date;
+  metadata: Record<string, any>;
 }
 
 export interface ConfigSchema {
   id: string;
   name: string;
   type: SchemaType;
-  status: SchemaStatus;
-  definition: SchemaDefinition;
-  validation: SchemaValidation;
-  metadata: Map<string, any>;
-}
-
-export enum SchemaType {
-  JSON_SCHEMA = 'json_schema',
-  XSD = 'xsd',
-  CUSTOM = 'custom'
-}
-
-export enum SchemaStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface SchemaDefinition {
   version: string;
-  properties: SchemaProperty[];
-  required: string[];
-  metadata: Map<string, any>;
+  fields: SchemaField[];
+  validation: SchemaValidation;
+  metadata: Record<string, any>;
 }
 
-export interface SchemaProperty {
+export interface SchemaField {
+  id: string;
   name: string;
-  type: PropertyType;
+  type: FieldType;
   required: boolean;
   defaultValue: any;
-  validation: PropertyValidation;
-  metadata: Map<string, any>;
+  validation: FieldValidation;
+  metadata: Record<string, any>;
 }
 
-export enum PropertyType {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  OBJECT = 'object',
-  ARRAY = 'array',
-  CUSTOM = 'custom'
-}
-
-export interface PropertyValidation {
-  minLength: number;
-  maxLength: number;
-  pattern: string;
-  minimum: number;
-  maximum: number;
-  metadata: Map<string, any>;
+export interface FieldValidation {
+  min?: number;
+  max?: number;
+  pattern?: string;
+  enum?: any[];
+  custom?: string;
+  metadata: Record<string, any>;
 }
 
 export interface SchemaValidation {
-  enabled: boolean;
   strict: boolean;
-  metadata: Map<string, any>;
+  allowUnknown: boolean;
+  coerce: boolean;
+  metadata: Record<string, any>;
 }
 
-export interface ConfigEnvironment {
+export interface ConfigValidator {
   id: string;
   name: string;
-  type: EnvironmentType;
-  status: EnvironmentStatus;
-  properties: Map<string, any>;
-  overrides: Map<string, any>;
-  metadata: Map<string, any>;
+  type: ValidatorType;
+  enabled: boolean;
+  rules: ValidationRule[];
+  metadata: Record<string, any>;
 }
 
-export enum EnvironmentType {
-  DEVELOPMENT = 'development',
-  STAGING = 'staging',
-  PRODUCTION = 'production',
-  TESTING = 'testing',
-  CUSTOM = 'custom'
+export interface ValidationRule {
+  id: string;
+  name: string;
+  type: RuleType;
+  condition: RuleCondition;
+  action: RuleAction;
+  metadata: Record<string, any>;
 }
 
-export enum EnvironmentStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+export interface RuleCondition {
+  field: string;
+  operator: ConditionOperator;
+  value: any;
+  metadata: Record<string, any>;
 }
 
-export interface ConfigManagerAnalytics {
+export interface RuleAction {
+  type: ActionType;
+  parameters: Record<string, any>;
+  metadata: Record<string, any>;
+}
+
+export interface ManagerPerformance {
+  totalConfigs: number;
+  activeConfigs: number;
+  averageLoadTime: number; // milliseconds
+  averageValidationTime: number; // milliseconds
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+  metadata: Record<string, any>;
+}
+
+export interface ManagerAnalytics {
+  totalManagers: number;
+  activeManagers: number;
   totalConfigs: number;
   totalSchemas: number;
-  totalEnvironments: number;
-  averageValidationTime: number;
-  validationErrors: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
+  totalValidators: number;
+  averagePerformance: number; // 0-100
+  lastUpdated: Date;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface ConfigManagerMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface ConfigManagerStats {
-  totalConfigs: number;
-  totalSchemas: number;
-  totalEnvironments: number;
-  averageValidationTime: number;
-  validationErrors: number;
-  lastUpdate: number;
-}
+export type ManagerType = 'local' | 'remote' | 'hybrid' | 'custom';
+export type ManagerStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type ConfigType = 'application' | 'user' | 'system' | 'environment' | 'custom';
+export type ConfigStatus = 'valid' | 'invalid' | 'pending' | 'error';
+export type SchemaType = 'json' | 'yaml' | 'xml' | 'ini' | 'custom';
+export type FieldType = 'string' | 'number' | 'boolean' | 'array' | 'object' | 'custom';
+export type ValidatorType = 'schema' | 'custom' | 'external' | 'custom';
+export type RuleType = 'validation' | 'transformation' | 'notification' | 'custom';
+export type ConditionOperator = 'equals' | 'not_equals' | 'greater_than' | 'less_than' | 'contains' | 'custom';
+export type ActionType = 'error' | 'warning' | 'transform' | 'notify' | 'custom';
 
 export class ConfigManagerManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
   private config: ConfigManagerConfig;
   private managers: Map<string, ConfigManager> = new Map();
-  private stats: ConfigManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private startTime: Date;
 
-  constructor(config: Partial<ConfigManagerConfig> = {}) {
+  constructor(config?: Partial<ConfigManagerConfig>) {
+    this.logger = new StructuredLogger({ module: 'ConfigManagerManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableConfigCreation: true,
-      enableConfigManagement: true,
-      enableConfigValidation: true,
-      enableSchemaEnforcement: true,
+      enableMultiConfigSupport: true,
+      enableConfigurationValidation: true,
+      enablePerformanceOptimization: true,
+      enableCrossPlatformCompatibility: true,
+      enableRealTimeUpdates: true,
       enableConfigVersioning: true,
-      enableConfigRollback: true,
-      enableEnvironmentSpecific: true,
+      enableConfigBackup: true,
+      enableConfigEncryption: false,
       enableConfigSynchronization: true,
-      enableConfigReplication: true,
-      enableConfigAnalytics: true,
-      enableConfigMonitoring: true,
-      enableCrossPlatformHandling: true,
-      maxConfigs: 10000,
-      maxVersions: 1000,
-      enableCloudSync: true,
-      enableBackup: true,
-      enableVersioning: true,
+      enableProfiling: false,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'ConfigManagerManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `ConfigManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'ConfigManagerManager');
-  };
-  }
-
-  /**
-   * Initialize config manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize config manager
-      await this.initializeConfigManager();
-      
-      // Load default config managers
-      await this.loadDefaultConfigManagers();
-      
-      this.isInitialized = true;
-      this.logger.info('ConfigManagerManager', 'Config manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('ConfigManagerManager', 'Failed to initialize config manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new config manager
-   */
-  createConfigManager(manager: Partial<ConfigManager>): ConfigManager | null {
-    const newManager: ConfigManager = {
-      id: `configmanager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: manager.name || 'New Config Manager',
-      type: manager.type || ConfigManagerType.APPLICATION,
-      status: ConfigManagerStatus.ACTIVE,
-      configs: manager.configs || [],
-      schemas: manager.schemas || [],
-      environments: manager.environments || [],
-      analytics: manager.analytics || this.createDefaultAnalytics(),
-      metadata: manager.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
-
-    this.managers.set(newManager.id, newManager);
-    this.updateStats('create_manager', newManager);
-
-    this.logger.info('ConfigManagerManager', `Created config manager: ${newManager.name}`);
-    return newManager;
   }
 
   /**
-   * Create configuration
+   * Initialize the Config Manager
    */
-  createConfiguration(managerId: string, config: Partial<Configuration>): Configuration | null {
-    const manager = this.managers.get(managerId);
-    if (!manager) {
-      this.logger.warn('ConfigManagerManager', `Config manager ${managerId} not found`);
-      return null;
-    }
-
-    if (manager.configs.length >= this.config.maxConfigs) {
-      this.logger.warn('ConfigManagerManager', 'Maximum number of configurations reached');
-      return null;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Config Manager already initialized');
+      return;
     }
 
     try {
-      const newConfig: Configuration = {
-        id: `config_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: config.name || 'New Configuration',
-        type: config.type || ConfigurationType.JSON,
-        status: ConfigurationStatus.ACTIVE,
-        data: config.data || this.createDefaultConfigData(),
-        schema: config.schema || '',
-        environment: config.environment || 'default',
+      this.logger.info('Initializing Config Manager...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableProfiling) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Config Manager initialized successfully');
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to initialize Config Manager');
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new config manager
+   */
+  async createManager(managerData: Omit<ConfigManager, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<ConfigManager> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager: ConfigManager = {
+        ...managerData,
+        id: this.generateManagerId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         version: '1.0.0',
-        metadata: config.metadata || new Map()
+        analytics: {
+          totalManagers: 0,
+          activeManagers: 0,
+          totalConfigs: 0,
+          totalSchemas: 0,
+          totalValidators: 0,
+          averagePerformance: 0,
+          lastUpdated: new Date()
+        }
       };
 
-      manager.configs.push(newConfig);
-      manager.modified = Date.now();
+      this.managers.set(manager.id, manager);
+      this.updateAnalytics();
 
-      this.updateStats('create_config', manager);
-      this.logger.info('ConfigManagerManager', `Created configuration: ${newConfig.name}`);
-      return newConfig;
+      this.logger.info('Config manager created', { managerId: manager.id, managerName: manager.name });
+      return manager;
+
     } catch (error) {
-      this.logger.error('ConfigManagerManager', `Failed to create configuration in manager ${managerId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to create config manager');
+      throw error;
     }
   }
 
   /**
-   * Create config schema
+   * Get a config manager by ID
    */
-  createConfigSchema(managerId: string, schema: Partial<ConfigSchema>): ConfigSchema | null {
-    const manager = this.managers.get(managerId);
-    if (!manager) {
-      this.logger.warn('ConfigManagerManager', `Config manager ${managerId} not found`);
-      return null;
+  getManager(managerId: string): ConfigManager | null {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    return this.managers.get(managerId) || null;
+  }
+
+  /**
+   * Update a config manager
+   */
+  async updateManager(managerId: string, updates: Partial<ConfigManager>): Promise<ConfigManager | null> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
     }
 
     try {
-      const newSchema: ConfigSchema = {
-        id: `schema_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: schema.name || 'New Schema',
-        type: schema.type || SchemaType.JSON_SCHEMA,
-        status: SchemaStatus.ACTIVE,
-        definition: schema.definition || this.createDefaultSchemaDefinition(),
-        validation: schema.validation || this.createDefaultSchemaValidation(),
-        metadata: schema.metadata || new Map()
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
+      }
+
+      const updatedManager: ConfigManager = {
+        ...manager,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(manager.version)
       };
 
-      manager.schemas.push(newSchema);
-      manager.modified = Date.now();
+      this.managers.set(managerId, updatedManager);
+      this.updateAnalytics();
 
-      this.updateStats('create_schema', manager);
-      this.logger.info('ConfigManagerManager', `Created config schema: ${newSchema.name}`);
-      return newSchema;
+      this.logger.info('Config manager updated', { managerId, managerName: updatedManager.name });
+      return updatedManager;
+
     } catch (error) {
-      this.logger.error('ConfigManagerManager', `Failed to create config schema in manager ${managerId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to update config manager');
+      throw error;
     }
   }
 
   /**
-   * Get config manager
+   * Delete a config manager
    */
-  getConfigManager(managerId: string): ConfigManager | null {
-    return this.managers.get(managerId) || null;
+  async deleteManager(managerId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      this.managers.delete(managerId);
+      this.updateAnalytics();
+
+      this.logger.info('Config manager deleted', { managerId, managerName: manager.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete config manager');
+      throw error;
+    }
   }
 
   /**
    * Get all config managers
    */
-  getConfigManagers(): ConfigManager[] {
+  getAllManagers(): ConfigManager[] {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
     return Array.from(this.managers.values());
   }
 
   /**
-   * Get config managers by type
+   * Get managers by type
    */
-  getConfigManagersByType(type: ConfigManagerType): ConfigManager[] {
-    return Array.from(this.managers.values())
-      .filter(manager => manager.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): ConfigManagerStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize config manager
-   */
-  private async initializeConfigManager(): Promise<void> {
-    this.logger.info('ConfigManagerManager', 'Initializing config manager...');
-  }
-
-  /**
-   * Load default config managers
-   */
-  private async loadDefaultConfigManagers(): Promise<void> {
-    // Load default config managers
-    const defaultManagers = [
-      this.createDefaultApplication(),
-      this.createDefaultRuntime(),
-      this.createDefaultUser()
-    ];
-
-    for (const manager of defaultManagers) {
-      if (manager) {
-        this.managers.set(manager.id, manager);
-      }
+  getManagersByType(type: ManagerType): ConfigManager[] {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
     }
 
-    this.logger.info('ConfigManagerManager', `Loaded ${defaultManagers.length} default config managers`);
+    return Array.from(this.managers.values()).filter(manager => manager.type === type);
   }
 
   /**
-   * Create default config data
+   * Get managers by status
    */
-  private createDefaultConfigData(): ConfigData {
-    return {
-      properties: new Map(),
-      sections: new Map(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default schema definition
-   */
-  private createDefaultSchemaDefinition(): SchemaDefinition {
-    return {
-      version: '1.0.0',
-      properties: [],
-      required: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default schema validation
-   */
-  private createDefaultSchemaValidation(): SchemaValidation {
-    return {
-      enabled: true,
-      strict: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): ConfigManagerAnalytics {
-    return {
-      totalConfigs: 0,
-      totalSchemas: 0,
-      totalEnvironments: 0,
-      averageValidationTime: 0,
-      validationErrors: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
-      }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): ConfigManagerMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default application
-   */
-  private createDefaultApplication(): ConfigManager {
-    return this.createConfigManager({
-      name: 'Application Config Manager',
-      type: ConfigManagerType.APPLICATION,
-      description: 'Application configuration management'
-    });
-  }
-
-  /**
-   * Create default runtime
-   */
-  private createDefaultRuntime(): ConfigManager {
-    return this.createConfigManager({
-      name: 'Runtime Config Manager',
-      type: ConfigManagerType.RUNTIME,
-      description: 'Runtime configuration management'
-    });
-  }
-
-  /**
-   * Create default user
-   */
-  private createDefaultUser(): ConfigManager {
-    return this.createConfigManager({
-      name: 'User Config Manager',
-      type: ConfigManagerType.USER,
-      description: 'User configuration management'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, manager: ConfigManager): void {
-    switch (action) {
-      case 'create_manager':
-        this.stats.totalConfigs += manager.configs.length;
-        this.stats.totalSchemas += manager.schemas.length;
-        this.stats.totalEnvironments += manager.environments.length;
-        break;
-      case 'create_config':
-        this.stats.totalConfigs++;
-        break;
-      case 'create_schema':
-        this.stats.totalSchemas++;
-        break;
+  getManagersByStatus(status: ManagerStatus): ConfigManager[] {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    return Array.from(this.managers.values()).filter(manager => manager.status === status);
   }
 
   /**
-   * Initialize statistics
+   * Add a configuration to a manager
    */
-  private initializeStats(): ConfigManagerStats {
+  async addConfiguration(managerId: string, configData: Omit<Configuration, 'id' | 'lastModified'>): Promise<Configuration | null> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
+      }
+
+      const configuration: Configuration = {
+        ...configData,
+        id: this.generateConfigId(),
+        lastModified: new Date()
+      };
+
+      manager.configs.push(configuration);
+      this.updateAnalytics();
+
+      this.logger.info('Configuration added to manager', { managerId, configId: configuration.id, configName: configuration.name });
+      return configuration;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add configuration to manager');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a configuration from a manager
+   */
+  async removeConfiguration(managerId: string, configId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      const configIndex = manager.configs.findIndex(c => c.id === configId);
+      if (configIndex === -1) {
+        this.logger.warn('Configuration not found', { managerId, configId });
+        return false;
+      }
+
+      manager.configs.splice(configIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Configuration removed from manager', { managerId, configId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove configuration from manager');
+      return false;
+    }
+  }
+
+  /**
+   * Update a configuration
+   */
+  async updateConfiguration(managerId: string, configId: string, updates: Partial<Configuration>): Promise<Configuration | null> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
+      }
+
+      const configuration = manager.configs.find(c => c.id === configId);
+      if (!configuration) {
+        this.logger.warn('Configuration not found', { managerId, configId });
+        return null;
+      }
+
+      const updatedConfiguration: Configuration = {
+        ...configuration,
+        ...updates,
+        lastModified: new Date(),
+        version: this.incrementVersion(configuration.version)
+      };
+
+      const configIndex = manager.configs.findIndex(c => c.id === configId);
+      manager.configs[configIndex] = updatedConfiguration;
+      this.updateAnalytics();
+
+      this.logger.info('Configuration updated', { managerId, configId });
+      return updatedConfiguration;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update configuration');
+      return null;
+    }
+  }
+
+  /**
+   * Get a configuration by ID
+   */
+  getConfiguration(managerId: string, configId: string): Configuration | null {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
+      }
+
+      return manager.configs.find(c => c.id === configId) || null;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to get configuration');
+      return null;
+    }
+  }
+
+  /**
+   * Validate a configuration
+   */
+  async validateConfiguration(managerId: string, configId: string): Promise<{ valid: boolean; errors: string[] }> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return { valid: false, errors: ['Manager not found'] };
+      }
+
+      const configuration = manager.configs.find(c => c.id === configId);
+      if (!configuration) {
+        this.logger.warn('Configuration not found', { managerId, configId });
+        return { valid: false, errors: ['Configuration not found'] };
+      }
+
+      const schema = manager.schemas.find(s => s.id === configuration.schema);
+      if (!schema) {
+        this.logger.warn('Schema not found', { managerId, configId, schemaId: configuration.schema });
+        return { valid: false, errors: ['Schema not found'] };
+      }
+
+      const errors: string[] = [];
+      
+      // Validate against schema
+      for (const field of schema.fields) {
+        const value = configuration.data[field.name];
+        
+        if (field.required && (value === undefined || value === null)) {
+          errors.push(`Required field '${field.name}' is missing`);
+          continue;
+        }
+
+        if (value !== undefined && value !== null) {
+          // Type validation
+          if (!this.validateFieldType(value, field.type)) {
+            errors.push(`Field '${field.name}' has invalid type. Expected ${field.type}`);
+          }
+
+          // Range validation
+          if (field.validation.min !== undefined && value < field.validation.min) {
+            errors.push(`Field '${field.name}' value ${value} is less than minimum ${field.validation.min}`);
+          }
+
+          if (field.validation.max !== undefined && value > field.validation.max) {
+            errors.push(`Field '${field.name}' value ${value} is greater than maximum ${field.validation.max}`);
+          }
+
+          // Enum validation
+          if (field.validation.enum && !field.validation.enum.includes(value)) {
+            errors.push(`Field '${field.name}' value ${value} is not in allowed values: ${field.validation.enum.join(', ')}`);
+          }
+        }
+      }
+
+      const valid = errors.length === 0;
+      this.updateAnalytics();
+
+      this.logger.debug('Configuration validation completed', { managerId, configId, valid, errorCount: errors.length });
+      return { valid, errors };
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to validate configuration');
+      return { valid: false, errors: [error.message] };
+    }
+  }
+
+  /**
+   * Validate field type (internal method)
+   */
+  private validateFieldType(value: any, type: FieldType): boolean {
+    switch (type) {
+      case 'string':
+        return typeof value === 'string';
+      case 'number':
+        return typeof value === 'number';
+      case 'boolean':
+        return typeof value === 'boolean';
+      case 'array':
+        return Array.isArray(value);
+      case 'object':
+        return typeof value === 'object' && value !== null && !Array.isArray(value);
+      default:
+        return true; // Custom types are not validated
+    }
+  }
+
+  /**
+   * Add a schema to a manager
+   */
+  async addSchema(managerId: string, schemaData: Omit<ConfigSchema, 'id'>): Promise<ConfigSchema | null> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return null;
+      }
+
+      const schema: ConfigSchema = {
+        ...schemaData,
+        id: this.generateSchemaId()
+      };
+
+      manager.schemas.push(schema);
+      this.updateAnalytics();
+
+      this.logger.info('Schema added to manager', { managerId, schemaId: schema.id, schemaName: schema.name });
+      return schema;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add schema to manager');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a schema from a manager
+   */
+  async removeSchema(managerId: string, schemaId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    try {
+      const manager = this.managers.get(managerId);
+      if (!manager) {
+        this.logger.warn('Manager not found', { managerId });
+        return false;
+      }
+
+      const schemaIndex = manager.schemas.findIndex(s => s.id === schemaId);
+      if (schemaIndex === -1) {
+        this.logger.warn('Schema not found', { managerId, schemaId });
+        return false;
+      }
+
+      manager.schemas.splice(schemaIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Schema removed from manager', { managerId, schemaId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove schema from manager');
+      return false;
+    }
+  }
+
+  /**
+   * Generate a unique manager ID
+   */
+  private generateManagerId(): string {
+    return `manager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique config ID
+   */
+  private generateConfigId(): string {
+    return `config_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique schema ID
+   */
+  private generateSchemaId(): string {
+    return `schema_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const managers = Array.from(this.managers.values());
+    const totalConfigs = managers.reduce((sum, m) => sum + m.configs.length, 0);
+    const totalSchemas = managers.reduce((sum, m) => sum + m.schemas.length, 0);
+    const totalValidators = managers.reduce((sum, m) => sum + m.validators.length, 0);
+
+    for (const manager of managers) {
+      manager.analytics = {
+        totalManagers: managers.length,
+        activeManagers: managers.filter(m => m.status === 'active').length,
+        totalConfigs: manager.configs.length,
+        totalSchemas: manager.schemas.length,
+        totalValidators: manager.validators.length,
+        averagePerformance: 85, // Simulate performance score
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalManagers: number;
+    activeManagers: number;
+    managersByType: Record<ManagerType, number>;
+    managersByStatus: Record<ManagerStatus, number>;
+    totalConfigs: number;
+    totalSchemas: number;
+    totalValidators: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Config Manager not initialized');
+    }
+
+    const managers = Array.from(this.managers.values());
+    const activeManagers = managers.filter(m => m.status === 'active');
+    const totalConfigs = managers.reduce((sum, m) => sum + m.configs.length, 0);
+    const totalSchemas = managers.reduce((sum, m) => sum + m.schemas.length, 0);
+    const totalValidators = managers.reduce((sum, m) => sum + m.validators.length, 0);
+
+    const managersByType: Record<ManagerType, number> = {
+      local: 0,
+      remote: 0,
+      hybrid: 0,
+      custom: 0
+    };
+
+    const managersByStatus: Record<ManagerStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const manager of managers) {
+      managersByType[manager.type]++;
+      managersByStatus[manager.status]++;
+    }
+
     return {
-      totalConfigs: 0,
-      totalSchemas: 0,
-      totalEnvironments: 0,
-      averageValidationTime: 0,
-      validationErrors: 0,
-      lastUpdate: Date.now()
+      totalManagers: managers.length,
+      activeManagers: activeManagers.length,
+      managersByType,
+      managersByStatus,
+      totalConfigs,
+      totalSchemas,
+      totalValidators,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Config Manager
    */
-  destroy(): void {
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Config Manager...');
+
     this.managers.clear();
-    this.stats = this.initializeStats();
     this.isInitialized = false;
+
+    this.logger.info('Config Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultConfigManagerManager = new ConfigManagerManager();
-export { ConfigManagerManager as default };
+export const configManagerManager = new ConfigManagerManager();
+export default configManagerManager;
