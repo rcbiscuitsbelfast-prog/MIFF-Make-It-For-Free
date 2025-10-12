@@ -33,12 +33,9 @@ export interface SettingsConfig {
         masterVolume: number;
     musicVolume: number;
     sfxVolume: number;
-    voiceVolum,
-        e: number;
-    ambientVolum,
-        e: number;
-    audioDevic,
-        e: string;
+    voiceVolume: number;
+    ambientVolume: number;
+    audioDevice: string;
   
 
 
@@ -48,12 +45,9 @@ export interface SettingsConfig {
   gameplay: {
         difficulty: 'easy' | 'normal' | 'hard' | 'expert';
     autoSave: boolean;
-    autoSaveInterva,
-        l: number;
-    tutorialEnable,
-        d: boolean;
-    hintsEnable,
-        d: boolean;
+    autoSaveInterval: number;
+    tutorialEnabled: boolean;
+    hintsEnabled: boolean;
   
 
 

@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface DataMiningConfig {
   enableDataPreprocessing: boolean;
@@ -542,15 +542,8 @@ export class DataMiningManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'DataMiningManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
