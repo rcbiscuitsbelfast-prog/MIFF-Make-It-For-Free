@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface NetworkConfig {
   enableMultiProtocolSupport: boolean;
@@ -297,15 +297,8 @@ export class NetworkManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'NetworkManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager
