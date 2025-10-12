@@ -108,18 +108,11 @@ export class MovementManager {
   private events: MovementEvent[] = [];
   private obstacles: Vector2[] = [];
   private worldBounds: {
-   min: Vector2; max: Vector2;
- }
-    } = {
+    min: Vector2;
+    max: Vector2;
+  } = {
     min: { x: -1000, y: -1000 },
-    max: {
-
-      x: 1000,
-
-      y: 1000;
-
-    }
-    },
+    max: { x: 1000, y: 1000 }
   };
 
   constructor() {
