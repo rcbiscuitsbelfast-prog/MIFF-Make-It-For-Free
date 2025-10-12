@@ -266,8 +266,15 @@ export class LoggingSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'LoggingSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -483,11 +490,14 @@ export class LoggingSystemManager {
       maxSize: 10 * 1024 * 1024, // 10MB
       maxFiles: 10,
       rotation: {
+
         enabled: true,
         size: 10 * 1024 * 1024, // 10MB
         time: 24 * 60 * 60 * 1000, // 24 hours
         count: 10,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -504,11 +514,14 @@ export class LoggingSystemManager {
       averageLogSize: 0,
       logThroughput: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

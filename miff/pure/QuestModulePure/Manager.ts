@@ -549,8 +549,15 @@ export class QuestManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'QuestModuleManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -608,6 +615,7 @@ export class QuestManager {
       difficulty: template.difficulty,
       status: QuestStatus.AVAILABLE,
       progress: {
+
         current: 0,
         target: 100,
         percentage: 0,
@@ -616,6 +624,8 @@ export class QuestManager {
         lastUpdate: Date.now(),
         estimatedCompletion: 0,
         isCompleted: false;
+
+      }
     },
       objectives: [...template.objectives],
       requirements: { ...template.requirements },
@@ -1022,7 +1032,10 @@ export class QuestManager {
           hidden: false,
           prerequisites: [],
           rewards: {
+
             experience: 100,
+
+          }
             currency: { gold: 50, silver: 0, copper: 0, gems: 0, tokens: 0, custom: new Map() },
             items: [],
             achievements: [],
@@ -1032,7 +1045,10 @@ export class QuestManager {
         }
       ],
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1042,7 +1058,10 @@ export class QuestManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 500,
+
+      }
         currency: { gold: 200, silver: 0, copper: 0, gems: 10, tokens: 0, custom: new Map() },
         items: [],
         achievements: [],
@@ -1086,7 +1105,10 @@ export class QuestManager {
           hidden: false,
           prerequisites: [],
           rewards: {
+
             experience: 50,
+
+          }
             currency: { gold: 25, silver: 0, copper: 0, gems: 0, tokens: 0, custom: new Map() },
             items: [],
             achievements: [],
@@ -1096,7 +1118,10 @@ export class QuestManager {
         }
       ],
       requirements: {
+
         level: 5,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1106,7 +1131,10 @@ export class QuestManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 200,
+
+      }
         currency: { gold: 100, silver: 0, copper: 0, gems: 5, tokens: 0, custom: new Map() },
         items: [],
         achievements: [],
@@ -1150,7 +1178,10 @@ export class QuestManager {
           hidden: false,
           prerequisites: [],
           rewards: {
+
             experience: 25,
+
+          }
             currency: { gold: 10, silver: 0, copper: 0, gems: 0, tokens: 0, custom: new Map() },
             items: [],
             achievements: [],
@@ -1160,7 +1191,10 @@ export class QuestManager {
         }
       ],
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1170,7 +1204,10 @@ export class QuestManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 100,
+
+      }
         currency: { gold: 50, silver: 0, copper: 0, gems: 2, tokens: 0, custom: new Map() },
         items: [],
         achievements: [],
@@ -1214,7 +1251,10 @@ export class QuestManager {
           hidden: false,
           prerequisites: [],
           rewards: {
+
             experience: 100,
+
+          }
             currency: { gold: 50, silver: 0, copper: 0, gems: 5, tokens: 0, custom: new Map() },
             items: [],
             achievements: [],
@@ -1224,7 +1264,10 @@ export class QuestManager {
         }
       ],
       requirements: {
+
         level: 10,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1234,7 +1277,10 @@ export class QuestManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 1000,
+
+      }
         currency: { gold: 500, silver: 0, copper: 0, gems: 25, tokens: 0, custom: new Map() },
         items: [],
         achievements: [],
@@ -1278,7 +1324,10 @@ export class QuestManager {
           hidden: false,
           prerequisites: [],
           rewards: {
+
             experience: 200,
+
+          }
             currency: { gold: 100, silver: 0, copper: 0, gems: 10, tokens: 0, custom: new Map() },
             items: [],
             achievements: [],
@@ -1288,7 +1337,10 @@ export class QuestManager {
         }
       ],
       requirements: {
+
         level: 15,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1298,7 +1350,10 @@ export class QuestManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 2000,
+
+      }
         currency: { gold: 1000, silver: 0, copper: 0, gems: 50, tokens: 0, custom: new Map() },
         items: [],
         achievements: [],
@@ -1329,7 +1384,14 @@ export class QuestManager {
     }
 
     const randomIndex = Math.floor(Math.random() * templates.length);
-    return templates[randomIndex];
+    return templates[
+      random,
+      I,
+      n,
+      d,
+      e,
+      x
+    ];
   }
 
   /**

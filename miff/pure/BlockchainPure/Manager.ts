@@ -363,8 +363,15 @@ export class BlockchainManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'BlockchainManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -755,11 +762,14 @@ export class BlockchainManager {
       averageGasPrice: 0,
       networkHashRate: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         diskUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

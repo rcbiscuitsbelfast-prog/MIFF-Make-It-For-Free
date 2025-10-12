@@ -298,8 +298,15 @@ export class PhysicsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'PhysicsManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -510,11 +517,14 @@ export class PhysicsManager {
     return {
       type: ShapeType.BOX,
       dimensions: {
+
         width: 1.0,
         height: 1.0,
         depth: 1.0,
         radius: 0.5,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -580,11 +590,14 @@ export class PhysicsManager {
       averageFPS: 0,
       averageStepTime: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

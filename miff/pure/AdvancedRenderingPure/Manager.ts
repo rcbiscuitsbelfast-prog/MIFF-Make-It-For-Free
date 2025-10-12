@@ -199,8 +199,15 @@ export class AdvancedRenderingManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AdvancedRenderingManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -539,11 +546,14 @@ export class AdvancedRenderingManager {
       texture: null,
       material: this.createParticleMaterial('fire'),
       transform: {
+
         position: [0, 0, 0],
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
         dirty: true;
+
+      }
     },
       burstCount: 0,
       burstInterval: 0,
@@ -572,11 +582,14 @@ export class AdvancedRenderingManager {
       texture: null,
       material: this.createParticleMaterial('smoke'),
       transform: {
+
         position: [0, 0, 0],
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
         dirty: true;
+
+      }
     },
       burstCount: 0,
       burstInterval: 0,
@@ -605,11 +618,14 @@ export class AdvancedRenderingManager {
       texture: null,
       material: this.createParticleMaterial('explosion'),
       transform: {
+
         position: [0, 0, 0],
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
         dirty: true;
+
+      }
     },
       burstCount: 2000,
       burstInterval: 0,
@@ -638,11 +654,14 @@ export class AdvancedRenderingManager {
       texture: null,
       material: this.createParticleMaterial('rain'),
       transform: {
+
         position: [0, 0, 0],
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
         dirty: true;
+
+      }
     },
       burstCount: 0,
       burstInterval: 0,
@@ -671,11 +690,14 @@ export class AdvancedRenderingManager {
       texture: null,
       material: this.createParticleMaterial('snow'),
       transform: {
+
         position: [0, 0, 0],
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
         dirty: true;
+
+      }
     },
       burstCount: 0,
       burstInterval: 0,
@@ -704,11 +726,14 @@ export class AdvancedRenderingManager {
       texture: null,
       material: this.createParticleMaterial('dust'),
       transform: {
+
         position: [0, 0, 0],
         rotation: [0, 0, 0, 1],
         scale: [1, 1, 1],
         matrix: new Float32Array(16),
         dirty: true;
+
+      }
     },
       burstCount: 0,
       burstInterval: 0,

@@ -463,8 +463,15 @@ export class ChallengeManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ChallengesManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -522,6 +529,7 @@ export class ChallengeManager {
       difficulty: template.difficulty,
       status: ChallengeStatus.AVAILABLE,
       progress: {
+
         current: 0,
         target: 100,
         percentage: 0,
@@ -530,6 +538,8 @@ export class ChallengeManager {
         lastUpdate: Date.now(),
         estimatedCompletion: 0,
         isCompleted: false;
+
+      }
     },
       requirements: { ...template.requirements },
       rewards: { ...template.rewards },
@@ -899,7 +909,10 @@ export class ChallengeManager {
       category: ChallengeCategory.COMBAT,
       difficulty: DifficultyLevel.NORMAL,
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -909,6 +922,7 @@ export class ChallengeManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 100,
         currency: {
           gold: 50,
@@ -917,6 +931,8 @@ export class ChallengeManager {
           gems: 0,
           tokens: 0,
           custom: new Map()
+
+      }
         },
         items: [],
         achievements: [],
@@ -946,7 +962,10 @@ export class ChallengeManager {
       category: ChallengeCategory.EXPLORATION,
       difficulty: DifficultyLevel.NORMAL,
       requirements: {
+
         level: 5,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -956,6 +975,7 @@ export class ChallengeManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 500,
         currency: {
           gold: 200,
@@ -964,6 +984,8 @@ export class ChallengeManager {
           gems: 10,
           tokens: 0,
           custom: new Map()
+
+      }
         },
         items: [],
         achievements: [],
@@ -993,7 +1015,10 @@ export class ChallengeManager {
       category: ChallengeCategory.CRAFTING,
       difficulty: DifficultyLevel.HARD,
       requirements: {
+
         level: 10,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1003,6 +1028,7 @@ export class ChallengeManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 2000,
         currency: {
           gold: 1000,
@@ -1011,6 +1037,8 @@ export class ChallengeManager {
           gems: 50,
           tokens: 0,
           custom: new Map()
+
+      }
         },
         items: [],
         achievements: [],
@@ -1040,7 +1068,10 @@ export class ChallengeManager {
       category: ChallengeCategory.CUSTOM,
       difficulty: DifficultyLevel.EXPERT,
       requirements: {
+
         level: 15,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1050,6 +1081,7 @@ export class ChallengeManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 5000,
         currency: {
           gold: 2500,
@@ -1058,6 +1090,8 @@ export class ChallengeManager {
           gems: 100,
           tokens: 0,
           custom: new Map()
+
+      }
         },
         items: [],
         achievements: [],
@@ -1087,7 +1121,10 @@ export class ChallengeManager {
       category: ChallengeCategory.CUSTOM,
       difficulty: DifficultyLevel.EASY,
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         items: [],
         achievements: [],
@@ -1097,6 +1134,7 @@ export class ChallengeManager {
         custom: new Map()
       },
       rewards: {
+
         experience: 50,
         currency: {
           gold: 25,
@@ -1105,6 +1143,8 @@ export class ChallengeManager {
           gems: 0,
           tokens: 0,
           custom: new Map()
+
+      }
         },
         items: [],
         achievements: [],
@@ -1134,7 +1174,14 @@ export class ChallengeManager {
     }
 
     const randomIndex = Math.floor(Math.random() * templates.length);
-    return templates[randomIndex];
+    return templates[
+      random,
+      I,
+      n,
+      d,
+      e,
+      x
+    ];
   }
 
   /**
@@ -1262,12 +1309,15 @@ export class ChallengeManager {
     return {
       experience: 100,
       currency: {
+
         gold: 50,
         silver: 0,
         copper: 0,
         gems: 0,
         tokens: 0,
         custom: new Map()
+
+      }
       },
       items: [],
       achievements: [],

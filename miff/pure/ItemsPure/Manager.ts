@@ -124,9 +124,27 @@ export interface ItemStats {
 
 export interface ItemRequirements {
   level: number;
-  attributes: { [key: string]: number };
-  skills: { [key: string]: number };
-  items: { [key: string]: number };
+  attributes: {
+
+    [key: string]: number 
+
+
+  }
+  };
+  skills: {
+
+    [key: string]: number 
+
+
+  }
+  };
+  items: {
+
+    [key: string]: number 
+
+
+  }
+  };
 }
 
 export interface ItemEffect {
@@ -140,7 +158,13 @@ export interface ItemEffect {
 
 export interface ItemCrafting {
   enabled: boolean;
-  materials: { [key: string]: number };
+  materials: {
+
+    [key: string]: number 
+
+
+  }
+  };
   tools: string[];
   time: number;
   skill: string;
@@ -151,7 +175,13 @@ export interface ItemEnhancement {
   enabled: boolean;
   level: number;
   maxLevel: number;
-  materials: { [key: string]: number };
+  materials: {
+
+    [key: string]: number 
+
+
+  }
+  };
   successRate: number;
   failureRate: number;
 }
@@ -220,8 +250,15 @@ export class ItemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ItemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -497,13 +534,19 @@ export class ItemManager {
         category: this.getDefaultItemCategory(),
         rarity: this.getDefaultItemRarity(),
         quality: this.getDefaultItemQuality(),
-        properties: { weight: 2.5, value: 50, durability: 100, stackable: false, tradeable: true, droppable: true, sellable: true;
+        properties: {
+
+          weight: 2.5, value: 50, durability: 100, stackable: false, tradeable: true, droppable: true, sellable: true;
+
+        }
     },
         stats: {
 
           attack: 10,
 
           speed: 5;
+
+        }
     },
         requirements: { level: 1, attributes: {}, skills: {}, items: {} },
         effects: [],

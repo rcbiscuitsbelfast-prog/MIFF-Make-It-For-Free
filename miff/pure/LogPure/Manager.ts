@@ -117,9 +117,14 @@ export interface LogIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
+
     onLogEntry?: (entry: LogEntry) => void;
     onLogBatch?: (entries: LogEntry[]) => void;
     onError?: (error: Error) => void;
+  
+
+
+  }
   };
 }
 
@@ -214,8 +219,15 @@ export class BattleResult implements IBattleResult {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'LogManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -236,7 +248,14 @@ export class BattleResult implements IBattleResult {
   }
 
   static createWithStatus(message: string, statusEffect: string): BattleResult {
-    return new BattleResult(true, message, undefined, [statusEffect]);
+    return new BattleResult(true, message, undefined, [
+      statusE,
+      f,
+      f,
+      e,
+      c,
+      t
+    ]);
   }
 
   static withDamage(damage: number, effects: string[] = []): BattleResult {
@@ -244,7 +263,14 @@ export class BattleResult implements IBattleResult {
   }
 
   static withEffect(message: string, effectType: string): BattleResult {
-    return new BattleResult(true, message, undefined, [effectType]);
+    return new BattleResult(true, message, undefined, [
+      effec,
+      t,
+      T,
+      y,
+      p,
+      e
+    ]);
   }
 
   toString(): string {
@@ -376,12 +402,26 @@ export class LogManager {
     // Initialize stats
     Object.values(LogLevel).forEach(level => {
       if (typeof level === 'number') {
-        this.stats.entriesByLevel[level as LogLevel] = 0;
+        this.stats.entriesByLevel[
+      level,
+      as,
+      LogLe,
+      v,
+      e,
+      l
+    ] = 0;
       }
     });
 
     Object.values(LogCategory).forEach(category => {
-      this.stats.entriesByCategory[category as LogCategory] = 0;
+      this.stats.entriesByCategory[
+      category,
+      as,
+      LogCateg,
+      o,
+      r,
+      y
+    ] = 0;
     });
 
     // Set up batch flushing
@@ -720,12 +760,26 @@ export class LogManager {
     // Reinitialize stats
     Object.values(LogLevel).forEach(level => {
       if (typeof level === 'number') {
-        this.stats.entriesByLevel[level as LogLevel] = 0;
+        this.stats.entriesByLevel[
+      level,
+      as,
+      LogLe,
+      v,
+      e,
+      l
+    ] = 0;
       }
     });
 
     Object.values(LogCategory).forEach(category => {
-      this.stats.entriesByCategory[category as LogCategory] = 0;
+      this.stats.entriesByCategory[
+      category,
+      as,
+      LogCateg,
+      o,
+      r,
+      y
+    ] = 0;
     });
   }
 
@@ -1359,7 +1413,14 @@ export class BattleLogger {
       : level === LogLevel.ERROR ? 'error'
       : level === LogLevel.CRITICAL ? 'critical'
       : 'info';
-    (this.logManager as any)[levelMethod](`Battle ${this.battleId}: ${entry.debugNotes}`, {
+    (this.logManager as any)[
+      levelM,
+      e,
+      t,
+      h,
+      o,
+      d
+    ](`Battle ${this.battleId}: ${entry.debugNotes}`, {
       battleId: this.battleId,
       entry: entry;
     });
@@ -1483,6 +1544,7 @@ export class LogUtils {
 export const defaultLogManager = new LogManager({
   eventBus: new (require('../EventBusPure/EventBusPure').EventBus)(),
   config: {
+
     maxEntries: 10000,
     retentionDays: 30,
     enableConsole: true,
@@ -1494,6 +1556,8 @@ export const defaultLogManager = new LogManager({
     enableErrorTracking: true,
     batchSize: 100,
     flushInterval: 5000;
+
+  }
     },
   integrations: []
 });

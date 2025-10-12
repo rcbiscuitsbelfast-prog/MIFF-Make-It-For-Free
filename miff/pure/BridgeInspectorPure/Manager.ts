@@ -48,7 +48,13 @@ export interface InspectionWarning {
 
 export interface EngineHintAnalysis {
   totalHints: number;
-  engineSpecific: { [engine: string]: number };
+  engineSpecific: {
+
+    [engine: string]: number 
+
+
+  }
+  };
   commonHints: string[];
   missingHints: string[];
   invalidHints: string[];
@@ -56,8 +62,20 @@ export interface EngineHintAnalysis {
 
 export interface SignalAnalysis {
   totalSignals: number;
-  engineSpecific: { [engine: string]: number };
-  signalTypes: { [type: string]: number };
+  engineSpecific: {
+
+    [engine: string]: number 
+
+
+  }
+  };
+  signalTypes: {
+
+    [type: string]: number 
+
+
+  }
+  };
   orphanedSignals: string[];
   invalidSignals: string[];
 }
@@ -94,11 +112,19 @@ export interface BridgeInspectorOutput {
   status: 'ok' | 'error';
   inspections: BridgeInspection[];
   summary: {
-    totalBridges: number;
-    totalIssues: number;
-    totalWarnings: number;
-    overallStatus: 'pass' | 'fail' | 'warning';
-  };
+        totalBridges: number;
+    totalIssue,
+        s: number;
+    totalWarning,
+        s: number;
+    overallStatu,
+        s: 'pass' | 'fail' | 'warning';
+  
+
+
+  
+      
+      }
   issues?: string[];
 }
 
@@ -122,10 +148,14 @@ export class BridgeInspectorManager {
           status: 'error',
           inspections: [],
           summary: {
-            totalBridges: 0,
-            totalIssues: validationIssues.length,
-            totalWarnings: 0,
-            overallStatus: 'fail'
+        totalBridges: 0,
+        totalIssues: validationIssues.length,
+        totalWarnings: 0,
+        overallStatus: 'fail'
+
+          
+      
+      }
           },
           issues: validationIssues;
     };
@@ -137,12 +167,23 @@ export class BridgeInspectorManager {
       return {
         op: 'inspect',
         status: 'ok',
-        inspections: [inspection],
+        inspections: [
+      inspe,
+      c,
+      t,
+      i,
+      o,
+      n
+    ],
         summary: {
-          totalBridges: 1,
-          totalIssues: inspection.summary.totalIssues,
-          totalWarnings: inspection.summary.totalWarnings,
-          overallStatus: inspection.summary.overallStatus
+        totalBridges: 1,
+        totalIssues: inspection.summary.totalIssues,
+        totalWarnings: inspection.summary.totalWarnings,
+        overallStatus: inspection.summary.overallStatus
+
+        
+      
+      }
         },
         issues: []
       };
@@ -152,10 +193,14 @@ export class BridgeInspectorManager {
         status: 'error',
         inspections: [],
         summary: {
-          totalBridges: 0,
-          totalIssues: 1,
-          totalWarnings: 0,
-          overallStatus: 'fail'
+        totalBridges: 0,
+        totalIssues: 1,
+        totalWarnings: 0,
+        overallStatus: 'fail'
+
+        
+      
+      }
         },
         issues: [`Inspection failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
       };
@@ -193,10 +238,13 @@ export class BridgeInspectorManager {
         status: 'ok',
         inspections,
         summary: {
+
           totalBridges: inspections.length,
           totalIssues,
           totalWarnings,
           overallStatus
+
+        }
         },
         issues: []
       };
@@ -206,10 +254,14 @@ export class BridgeInspectorManager {
         status: 'error',
         inspections: [],
         summary: {
-          totalBridges: 0,
-          totalIssues: 1,
-          totalWarnings: 0,
-          overallStatus: 'fail'
+        totalBridges: 0,
+        totalIssues: 1,
+        totalWarnings: 0,
+        overallStatus: 'fail'
+
+        
+      
+      }
         },
         issues: [`Golden test inspection failed: ${error instanceof Error ? error.message : 'Unknown error'}`]
       };
@@ -345,7 +397,21 @@ export class BridgeInspectorManager {
     payload.renderData?.forEach(data => {
       if (data.engineHints) {
         Object.entries(data.engineHints).forEach(([engine, hints]) => {
-          engineSpecific[engine] = (engineSpecific[engine] || 0) + 1;
+          engineSpecific[
+      e,
+      n,
+      g,
+      i,
+      n,
+      e
+    ] = (engineSpecific[
+      e,
+      n,
+      g,
+      i,
+      n,
+      e
+    ] || 0) + 1;
           totalHints++;
 
           // Validate engine hints
@@ -375,7 +441,15 @@ export class BridgeInspectorManager {
         category: 'engine_hints',
         severity: 'error',
         message: hint,
-        details: { invalidHints: engineHints.invalidHints }
+        details: {
+
+          invalidHints: engineHints.invalidHints 
+
+        
+
+
+        }
+        };
       });
     });
 
@@ -384,7 +458,15 @@ export class BridgeInspectorManager {
         category: 'engine_hints',
         severity: 'warning',
         message: `${engineHints.missingHints.length} renderData items missing engine hints`,
-        details: { missingHints: engineHints.missingHints }
+        details: {
+
+          missingHints: engineHints.missingHints 
+
+        
+
+
+        }
+        };
       });
     }
 
@@ -439,7 +521,15 @@ export class BridgeInspectorManager {
         category: 'signals',
         severity: 'error',
         message: signal,
-        details: { invalidSignals: signals.invalidSignals }
+        details: {
+
+          invalidSignals: signals.invalidSignals 
+
+        
+
+
+        }
+        };
       });
     });
 
@@ -448,7 +538,15 @@ export class BridgeInspectorManager {
         category: 'signals',
         severity: 'warning',
         message: `${signals.orphanedSignals.length} signals without engine specification`,
-        details: { orphanedSignals: signals.orphanedSignals }
+        details: {
+
+          orphanedSignals: signals.orphanedSignals 
+
+        
+
+
+        }
+        };
       });
     }
 
@@ -492,7 +590,15 @@ export class BridgeInspectorManager {
         category: 'metadata',
         severity: 'error',
         message: field,
-        details: { invalidFields: metadata.invalidFields }
+        details: {
+
+          invalidFields: metadata.invalidFields 
+
+        
+
+
+        }
+        };
       });
     });
 
@@ -501,7 +607,15 @@ export class BridgeInspectorManager {
         category: 'metadata',
         severity: 'warning',
         message: `Missing metadata fields: ${metadata.missingFields.join(', ')}`,
-        details: { missingFields: metadata.missingFields }
+        details: {
+
+          missingFields: metadata.missingFields 
+
+        
+
+
+        }
+        };
       });
     }
 
@@ -560,7 +674,15 @@ export class BridgeInspectorManager {
         category: 'compatibility',
         severity: 'warning',
         message: 'Not fully cross-engine compatible',
-        details: { engineSpecificFeatures: compatibility.engineSpecificFeatures }
+        details: {
+
+          engineSpecificFeatures: compatibility.engineSpecificFeatures 
+
+        
+
+
+        }
+        };
       });
     }
 
@@ -569,7 +691,15 @@ export class BridgeInspectorManager {
         category: 'compatibility',
         severity: 'info',
         message: warning,
-        details: { conversionWarnings: compatibility.conversionWarnings }
+        details: {
+
+          conversionWarnings: compatibility.conversionWarnings 
+
+        
+
+
+        }
+        };
       });
     });
 

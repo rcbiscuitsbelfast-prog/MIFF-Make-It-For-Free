@@ -34,10 +34,15 @@ export type ResolveOutput = {
   issues: LinkIssue[];
   resolvedRefs: Record<string, { ok: boolean; target?: string; type?: string }>;
   statistics: {
+
     total: number;
     resolved: number;
     unresolved: number;
     byCategory: Record<string, number>;
+  
+
+
+  }
   };
 };
 
@@ -47,10 +52,15 @@ export type DumpLinksOutput = {
   issues: [];
   resolvedRefs: Record<string, { ok: boolean; target?: string; type?: string }>;
   statistics: {
+
     total: number;
     resolved: number;
     unresolved: number;
     byCategory: Record<string, number>;
+  
+
+
+  }
   };
 };
 

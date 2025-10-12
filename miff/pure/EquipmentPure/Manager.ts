@@ -4,7 +4,13 @@ export interface EquipmentItem {
   id: string;
   name: string;
   slot: EquipmentSlot;
-  stats: { attack?: number; defense?: number };
+  stats: {
+
+    attack?: number; defense?: number 
+
+
+  }
+  };
   equipped?: boolean;
 }
 

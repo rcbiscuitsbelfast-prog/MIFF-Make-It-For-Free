@@ -380,8 +380,15 @@ export class UIInterfaceManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'UIInterfaceManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -581,13 +588,21 @@ export class UIInterfaceManager {
         y: 0,
         z: 0,
         metadata: new Map()
+
+      
+      
+      }
       },
       size: {
+
         width: 100,
         height: 100,
         metadata: new Map()
+
+      }
       },
       style: {
+
         backgroundColor: '#ffffff',
         color: '#000000',
         fontSize: 14,
@@ -598,35 +613,51 @@ export class UIInterfaceManager {
           color: '#000000',
           radius: 0,
           metadata: new Map()
+
+      }
         },
         padding: {
+
           top: 0,
           right: 0,
           bottom: 0,
           left: 0,
           metadata: new Map()
+
+        }
         },
         margin: {
+
           top: 0,
           right: 0,
           bottom: 0,
           left: 0,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
       data: {
+
         value: null,
         binding: {
-          source: '',
-          property: '',
-          twoWay: false,
-          metadata: new Map()
+        source: '',
+        property: '',
+        twoWay: false,
+        metadata: new Map()
+
+      
+      
+      }
         },
         validation: {
+
           rules: [],
           enabled: false,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
@@ -686,11 +717,14 @@ export class UIInterfaceManager {
       averageLoadTime: 0,
       userInteractions: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

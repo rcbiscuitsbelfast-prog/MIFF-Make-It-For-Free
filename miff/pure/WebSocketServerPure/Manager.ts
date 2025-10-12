@@ -284,8 +284,15 @@ export class WebSocketServerManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'WebSocketServerManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -483,18 +490,24 @@ export class WebSocketServerManager {
       port: 8080,
       protocol: WebSocketProtocol.WS,
       ssl: {
+
         enabled: false,
         cert: '',
         key: '',
         ca: '',
         metadata: new Map()
+
+      }
       },
       limits: {
+
         maxConnections: 1000,
         maxMessageSize: 1024 * 1024, // 1MB
         connectionTimeout: 30000,
         pingInterval: 30000,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -511,11 +524,14 @@ export class WebSocketServerManager {
       averageLatency: 0,
       messageThroughput: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

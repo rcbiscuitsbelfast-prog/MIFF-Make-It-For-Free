@@ -99,8 +99,15 @@ export class XPManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ProgressionManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

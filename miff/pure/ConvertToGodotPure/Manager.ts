@@ -56,11 +56,19 @@ export interface GodotResource {
 
 export interface GodotProject {
   project: {
-    config_version: number;
-    name: string;
-    version: string;
-    features: string[];
-  };
+        config_version: number;
+    nam,
+        e: string;
+    versio,
+        n: string;
+    feature,
+        s: string[];
+  
+
+
+  
+      
+      }
   scenes: GodotSceneNode[];
   resources: GodotResource[];
   scripts: string[];
@@ -107,8 +115,15 @@ export class ConvertToGodotManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ConvertToGodotManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -126,6 +141,10 @@ export class ConvertToGodotManager {
         name: this.config.projectName,
         version: this.config.version,
         features: this.config.features
+
+      
+      
+      }
       },
       scenes: [],
       resources: [],
@@ -236,8 +255,11 @@ export class ConvertToGodotManager {
       type: 'Node3D',
       name: data.id || `scene_${this.sceneCounter++}`,
       properties: {
+
         transform: this.convertTransform(data.position, data.rotation, data.scale),
         visible: true;
+
+      }
     },
       children: [],
       scripts: [],
@@ -280,6 +302,8 @@ export class ConvertToGodotManager {
           properties: {
 
             texture: asset;
+
+          }
     },
           children: [],
           scripts: [],
@@ -292,6 +316,8 @@ export class ConvertToGodotManager {
           properties: {
 
             text: asset;
+
+          }
     },
           children: [],
           scripts: [],
@@ -304,6 +330,8 @@ export class ConvertToGodotManager {
           properties: {
 
             stream: asset;
+
+          }
     },
           children: [],
           scripts: [],
@@ -316,6 +344,8 @@ export class ConvertToGodotManager {
           properties: {
 
             asset: asset;
+
+          }
     },
           children: [],
           scripts: [],
@@ -379,6 +409,10 @@ export class ConvertToGodotManager {
         material_override: null,
         cast_shadow: true,
         layers: 1;
+
+      
+      
+      }
     },
       children: [],
       scripts: [],
@@ -392,7 +426,13 @@ export class ConvertToGodotManager {
       name: light.id || 'light',
       properties: {
         light_energy: light.intensity || 1,
-        light_color: light.color || { r: 1, g: 1, b: 1;
+        light_color: light.color || { r: 1,
+        g: 1,
+        b: 1;
+
+      
+      
+      }
     },
         light_range: light.range || 10,
         light_attenuation: light.attenuation || 1,
@@ -409,11 +449,14 @@ export class ConvertToGodotManager {
       type: 'Node3D',
       name: camera.id || 'camera',
       properties: {
+
         fov: camera.fov || 75,
         near: camera.near || 0.1,
         far: camera.far || 1000,
         environment: null,
         current: camera.active || false
+
+      }
       },
       children: [],
       scripts: [],
@@ -430,13 +473,20 @@ export class ConvertToGodotManager {
         friction: physics.friction || 0.5,
         bounce: physics.bounce || 0,
         gravity_scale: physics.gravityScale || 1
+
+      
+      
+      }
       },
       children: [
         {
           type: 'CollisionShape3D',
           name: 'collision_shape',
           properties: {
+
             shape: this.generateCollisionShape(physics.collider)
+
+          }
           },
           children: [],
           scripts: [],
@@ -456,10 +506,17 @@ export class ConvertToGodotManager {
       path: `res://${resourceId}.tres`,
       dependencies: [],
       data: {
+
         surfaces: mesh.surfaces || [],
         blend_shapes: mesh.blendShapes || [],
         shadows: mesh.castShadow !== false
+      
+
+      
+
+
       }
+      };
     };
 
     this.project.resources.push(resource);
@@ -474,7 +531,14 @@ export class ConvertToGodotManager {
       path: `res://${resourceId}.tres`,
       dependencies: [],
       data: {
-        albedo_color: material.color || { r: 1, g: 1, b: 1, a: 1;
+        albedo_color: material.color || { r: 1,
+        g: 1,
+        b: 1,
+        a: 1;
+
+      
+      
+      }
     },
         metallic: material.metallic || 0,
         roughness: material.roughness || 0.5,
@@ -497,7 +561,13 @@ export class ConvertToGodotManager {
       dependencies: [],
       data: {
         type: collider.type || 'box',
-        extents: collider.size || { x: 1, y: 1, z: 1;
+        extents: collider.size || { x: 1,
+        y: 1,
+        z: 1;
+
+      
+      
+      }
     },
         radius: collider.radius || 0.5,
         height: collider.height || 2
@@ -520,11 +590,19 @@ export class ConvertToGodotManager {
           path: renderData.asset,
           dependencies: [],
           data: {
-            width: 256,
-            height: 256,
-            format: 'RGBA8',
-            flags: 'normal'
-          }
+        width: 256,
+        height: 256,
+        format: 'RGBA8',
+        flags: 'normal'
+          
+
+          
+
+
+          
+      
+      
+      }
         };
         resources.push(resource);
       }

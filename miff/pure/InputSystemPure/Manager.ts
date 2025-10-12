@@ -464,8 +464,15 @@ export class InputSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'InputSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -707,12 +714,15 @@ export class InputSystemManager {
       inputs: [],
       strategy: BufferStrategy.FIFO,
       statistics: {
+
         totalInputs: 0,
         processedInputs: 0,
         droppedInputs: 0,
         averageLatency: 0,
         lastUpdate: Date.now(),
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -728,15 +738,22 @@ export class InputSystemManager {
         {
           type: ValidationRuleType.RATE_LIMIT,
           condition: {
-            type: ConditionType.GREATER_THAN,
-            value: 1000,
-            operator: ConditionOperator.AND,
-            metadata: new Map()
+        type: ConditionType.GREATER_THAN,
+        value: 1000,
+        operator: ConditionOperator.AND,
+        metadata: new Map()
+
+          
+      
+      }
           },
           action: {
+
             type: ActionType.TRIGGER_EVENT,
             value: 'rate_limit_exceeded',
             metadata: new Map()
+
+          }
           },
           metadata: new Map()
         }
@@ -766,6 +783,8 @@ export class InputSystemManager {
           parameters: {
 
             timeout: 5000;
+
+          }
     },
           metadata: new Map()
         },
@@ -775,16 +794,21 @@ export class InputSystemManager {
           parameters: {
 
             delay: 1000;
+
+          }
     },
           metadata: new Map()
         }
       ],
       settings: {
+
         fontSize: 16,
         contrast: 1.0,
         brightness: 1.0,
         volume: 1.0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };

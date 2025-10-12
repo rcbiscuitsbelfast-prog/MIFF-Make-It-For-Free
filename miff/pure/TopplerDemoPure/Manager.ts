@@ -385,8 +385,15 @@ export class TopplerDemoManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'TopplerDemoManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -604,12 +611,15 @@ export class TopplerDemoManager {
       type: PlayerType.HUMAN,
       status: PlayerStatus.ACTIVE,
       stats: {
+
         gamesPlayed: 0,
         highScore: 0,
         totalScore: 0,
         averageScore: 0,
         winRate: 0,
         metadata: new Map()
+
+      }
       },
       inventory: [],
       achievements: [],
@@ -655,11 +665,14 @@ export class TopplerDemoManager {
       averageScore: 0,
       completionRate: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

@@ -552,8 +552,15 @@ export class DataWarehouseManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DataWarehouseManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -720,10 +727,13 @@ export class DataWarehouseManager {
         sql: query.sql || '',
         parameters: query.parameters || new Map(),
         execution: {
+
           startTime,
           endTime: 0,
           duration: 0,
           rowsAffected: 0,
+
+        }
           plan: { steps: [], cost: 0, metadata: new Map() },
           metadata: new Map()
         },
@@ -852,11 +862,14 @@ export class DataWarehouseManager {
       averageQueryTime: 0,
       totalDataSize: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         diskUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

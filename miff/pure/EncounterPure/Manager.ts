@@ -128,8 +128,15 @@ export class EncounterManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'EncounterManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -144,13 +151,27 @@ export class EncounterManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    this.logger.info('EncounterManager', '[EncounterManager] Initializing encounter system...');
+    this.logger.info('EncounterManager', '[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Initializing encounter system...');
     
     // Initialize default areas
     this.initializeDefaultAreas();
     
     this.isInitialized = true;
-    this.logger.info('EncounterManager', '[EncounterManager] Encounter system initialized successfully');
+    this.logger.info('EncounterManager', '[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Encounter system initialized successfully');
   }
 
   private initializeDefaultAreas(): void {
@@ -215,12 +236,26 @@ export class EncounterManager {
    */
   addArea(area: EncounterArea): boolean {
     if (!area.id || !area.name) {
-      this.logger.error('EncounterManager', '[EncounterManager] Invalid area: missing required fields');
+      this.logger.error('EncounterManager', '[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Invalid area: missing required fields');
       return false;
     }
 
     this.areas.set(area.id, area);
-    this.logger.info('EncounterManager', `[EncounterManager] Added area: ${area.name}`);
+    this.logger.info('EncounterManager', `[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Added area: ${area.name}`);
     return true;
   }
 
@@ -244,7 +279,14 @@ export class EncounterManager {
   triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
     const area = this.areas.get(areaId);
     if (!area) {
-      this.logger.warn('EncounterManager', `[EncounterManager] Area not found: ${areaId}`);
+      this.logger.warn('EncounterManager', `[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Area not found: ${areaId}`);
       return null;
     }
 
@@ -318,7 +360,14 @@ export class EncounterManager {
     this.areas.clear();
     this.encounterHistory = [];
     this.isInitialized = false;
-    this.logger.info('EncounterManager', '[EncounterManager] Encounter system reset');
+    this.logger.info('EncounterManager', '[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Encounter system reset');
   }
 
   /**
@@ -326,7 +375,14 @@ export class EncounterManager {
    */
   dispose(): void {
     this.reset();
-    this.logger.info('EncounterManager', '[EncounterManager] Encounter system disposed');
+    this.logger.info('EncounterManager', '[
+      EncounterMa,
+      n,
+      a,
+      g,
+      e,
+      r
+    ] Encounter system disposed');
   }
 }
 

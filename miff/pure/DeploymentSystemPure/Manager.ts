@@ -322,8 +322,15 @@ export class DeploymentSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DeploymentSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -523,6 +530,10 @@ export class DeploymentSystemManager {
         interval: 0,
         timeout: 300,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -539,6 +550,10 @@ export class DeploymentSystemManager {
         memory: '128Mi',
         storage: '1Gi',
         metadata: new Map()
+
+      
+      
+      }
       },
       healthChecks: [],
       metadata: new Map()
@@ -581,11 +596,14 @@ export class DeploymentSystemManager {
       successRate: 0,
       averageDeploymentTime: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

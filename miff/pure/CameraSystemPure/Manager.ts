@@ -44,8 +44,15 @@ export class CameraManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'CameraSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -207,17 +214,21 @@ export class CameraManager {
     const keyframes: CameraKeyframe[] = [
       {
         time: 0,
-        position: { x: 0, y: 0, z: 0;
+        position: {
+
+          x: 0, y: 0, z: 0;
+
+        }
     },
         rotation: {
+        x: 0,
+        y: 0,
+        z: 0,
+        w: 1;
 
-          x: 0,
-
-          y: 0,
-
-          z: 0,
-
-          w: 1;
+        
+      
+      }
     },
         fov: 75,
         settings: {},
@@ -225,7 +236,11 @@ export class CameraManager {
       },
       {
         time: 1,
-        position: { x: 0, y: 5, z: 10;
+        position: {
+
+          x: 0, y: 5, z: 10;
+
+        }
     },
         rotation: { x: -0.2, y: 0, z: 0, w: 0.98 },
         fov: 75,
@@ -512,7 +527,14 @@ export class CameraManager {
       'ultra': 4
     };
 
-    const avgValue = ratings.reduce((sum, rating) => sum + (ratingValues[rating as keyof typeof ratingValues] || 2), 0) / ratings.length;
+    const avgValue = ratings.reduce((sum, rating) => sum + (ratingValues[
+      rating,
+      as,
+      keyof,
+      typeof,
+      ratingValue,
+      s
+    ] || 2), 0) / ratings.length;
     const avgRating = Math.round(avgValue);
 
     switch (avgRating) {

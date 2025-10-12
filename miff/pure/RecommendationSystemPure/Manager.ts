@@ -512,8 +512,15 @@ export class RecommendationSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'RecommendationSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -728,14 +735,20 @@ export class RecommendationSystemManager {
       categories: [],
       features: [],
       diversity: {
+
         level: DiversityLevel.MEDIUM,
         weight: 0.5,
         metadata: new Map()
+
+      }
       },
       novelty: {
+
         level: NoveltyLevel.MEDIUM,
         weight: 0.5,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -761,9 +774,12 @@ export class RecommendationSystemManager {
   private createDefaultDemographics(): Demographics {
     return {
       age: {
+
         min: 18,
         max: 65,
         metadata: new Map()
+
+      }
       },
       gender: 'unknown',
       location: 'unknown',
@@ -772,6 +788,10 @@ export class RecommendationSystemManager {
         max: 100000,
         currency: 'USD',
         metadata: new Map()
+
+      
+      
+      }
       },
       education: 'unknown',
       metadata: new Map()
@@ -832,11 +852,14 @@ export class RecommendationSystemManager {
       averageCoverage: 0,
       averageDiversity: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

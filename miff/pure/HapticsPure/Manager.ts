@@ -155,6 +155,7 @@ export class HapticsManager {
         type: HapticDeviceType.GAMEPAD,
         name: 'Gamepad',
         capabilities: {
+
           supportsWaveforms: true,
           supportsAmplitudeControl: true,
           supportsFrequencyControl: true,
@@ -164,6 +165,8 @@ export class HapticsManager {
           maxSimultaneousEffects: 1,
           supportedEffects: [HapticEffect.BUZZ, HapticEffect.CLICK, HapticEffect.THUMP],
           latency: 5;
+
+        }
     },
         connected: false,
         supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.SQUARE],
@@ -176,6 +179,7 @@ export class HapticsManager {
         type: HapticDeviceType.MOBILE,
         name: 'Mobile Device',
         capabilities: {
+
           supportsWaveforms: true,
           supportsAmplitudeControl: true,
           supportsFrequencyControl: false,
@@ -185,6 +189,8 @@ export class HapticsManager {
           maxSimultaneousEffects: 4,
           supportedEffects: Object.values(HapticEffect),
           latency: 10;
+
+        }
     },
         connected: true,
         supportedWaveforms: [HapticWaveform.SINE, HapticWaveform.PULSE],
@@ -262,7 +268,14 @@ export class HapticsManager {
   }
 
   enqueue(requests: HapticRequest | HapticRequest[]): number {
-    const list = Array.isArray(requests) ? requests : [requests];
+    const list = Array.isArray(requests) ? requests : [
+      req,
+      u,
+      e,
+      s,
+      t,
+      s
+    ];
     let added = 0;
 
     for (const request of list) {

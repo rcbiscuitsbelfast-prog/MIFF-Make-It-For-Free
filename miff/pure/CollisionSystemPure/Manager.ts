@@ -67,7 +67,9 @@ export class CollisionManager {
   private spatialGrid: SpatialGrid;
   private collisionTests = 0;
 
-  constructor(cellSize: number = 4, worldBounds: AABB = { id: 'world', min: { x: -100, y: -100 }, max: { x: 100, y: 100;
+  constructor(cellSize: number = 4, worldBounds: AABB = { id: 'world', min: { x: -100, y: -100 }, max: {
+   x: 100, y: 100;
+ }
     } }) {
     this.spatialGrid = {
       cellSize,
@@ -317,14 +319,23 @@ export class CollisionManager {
             data: {
 
               shapes: allShapes;
+
+            }
     },
             metadata: {
+
               totalShapes: allShapes.length,
               aabbs: this.aabbs.size,
               circles: this.circles.size,
               spatialCells: this.spatialGrid.cells.size,
               cellSize: this.spatialGrid.cellSize
+            
+
+            
+
+
             }
+            };
           };
           break;
         case 'summary':
@@ -538,7 +549,15 @@ export class CollisionManager {
       return {
         id: shape.id,
         min: { x: shape.center.x - shape.radius, y: shape.center.y - shape.radius },
-        max: { x: shape.center.x + shape.radius, y: shape.center.y + shape.radius }
+        max: {
+
+          x: shape.center.x + shape.radius, y: shape.center.y + shape.radius 
+
+        
+
+
+        }
+        };
       };
     }
   }

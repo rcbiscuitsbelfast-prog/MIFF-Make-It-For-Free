@@ -392,8 +392,15 @@ export class EventBusManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'EventBusManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -595,11 +602,18 @@ export class EventBusManager {
         fields: [],
         required: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       validation: {
+
         rules: [],
         enabled: false,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -637,11 +651,14 @@ export class EventBusManager {
   private createDefaultSubscriberConfiguration(): SubscriberConfiguration {
     return {
       retryPolicy: {
+
         enabled: true,
         maxAttempts: 3,
         delay: 1000,
         backoff: BackoffType.EXPONENTIAL,
         metadata: new Map()
+
+      }
       },
       timeout: 30000,
       batchSize: 1,
@@ -662,11 +679,14 @@ export class EventBusManager {
       throughput: 0,
       errorRate: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

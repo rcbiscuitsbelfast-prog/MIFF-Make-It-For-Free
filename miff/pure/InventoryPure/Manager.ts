@@ -649,8 +649,15 @@ export class InventoryManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'InventoryManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -784,7 +791,14 @@ export class InventoryManager {
       return false;
     }
 
-    const item = inventory.items[itemIndex];
+    const item = inventory.items[
+      item,
+      I,
+      n,
+      d,
+      e,
+      x
+    ];
     
     if (item.quantity < quantity) {
       this.logger.warn('InventoryManager', `Not enough quantity of item ${itemId}`);
@@ -1139,12 +1153,16 @@ export class InventoryManager {
             x: col,
 
             y: row;
+
+          }
     },
           size: {
 
             width: 1,
 
             height: 1;
+
+          }
     },
           type: SlotType.NORMAL,
           isOccupied: false,

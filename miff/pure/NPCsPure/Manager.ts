@@ -128,6 +128,7 @@ export class NPCsManager {
     }
         ],
         behavior: {
+
           type: 'quest_giver',
           aggression: 0,
           curiosity: 80,
@@ -135,18 +136,32 @@ export class NPCsManager {
           schedule: {
             activities: [
               { time: '06:00', activity: 'meditation', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+
+        }
     } },
-              { time: '12:00', activity: 'counseling', location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+              { time: '12:00', activity: 'counseling', location: {
+   zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+ }
     } },
-              { time: '18:00', activity: 'evening_walk', location: { zoneId: 'zone_forest' as EntityID, x: 5, y: 8;
+              { time: '18:00', activity: 'evening_walk', location: {
+   zoneId: 'zone_forest' as EntityID, x: 5, y: 8;
+ }
     } }
             ]
           }
         },
-        location: { zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+        location: {
+
+          zoneId: 'zone_village' as EntityID, x: 10, y: 15;
+
+        }
     },
         questIds: ['quest_tutorial' as EntityID],
-        movementPattern: { type: 'idle', speed: 1;
+        movementPattern: {
+
+          type: 'idle', speed: 1;
+
+        }
     },
         faction: 'village_elders',
         reputation: 100;
@@ -165,15 +180,27 @@ export class NPCsManager {
     }
         ],
         behavior: {
-          type: 'merchant',
-          aggression: 10,
-          curiosity: 60,
-          loyalty: 70;
+        type: 'merchant',
+        aggression: 10,
+        curiosity: 60,
+        loyalty: 70;
+
+        
+      
+      }
     },
-        location: { zoneId: 'zone_market' as EntityID, x: 25, y: 12;
+        location: {
+
+          zoneId: 'zone_market' as EntityID, x: 25, y: 12;
+
+        }
     },
         questIds: [],
-        movementPattern: { type: 'patrol', speed: 2, range: 5;
+        movementPattern: {
+
+          type: 'patrol', speed: 2, range: 5;
+
+        }
     },
         faction: 'merchants',
         reputation: 75;
@@ -556,7 +583,15 @@ export class NPCsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { npcs, total: npcs.length }
+          result: {
+
+            npcs, total: npcs.length 
+
+          
+
+
+          }
+          };
         };
       
       case 'manifest':
@@ -564,11 +599,18 @@ export class NPCsManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.npcs.export.v1',
             npcs,
             exportedAt: new Date().toISOString(),
             total: npcs.length
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -577,6 +619,7 @@ export class NPCsManager {
           op: 'export',
           status: 'ok',
           result: {
+
             summary: stats.result,
             npcs: npcs.map(npc => ({
               id: npc.id,
@@ -585,6 +628,8 @@ export class NPCsManager {
               faction: npc.faction,
               questCount: npc.questIds.length,
               reputation: npc.reputation
+
+          }
             }))
           }
         };
@@ -595,11 +640,15 @@ export class NPCsManager {
           op: 'export',
           status: 'ok',
           result: {
-            questNPCs: questNPCs.map(npc => ({
+        questNPCs: questNPCs.map(npc => ({
               id: npc.id,
-              name: npc.name,
-              questIds: npc.questIds,
-              location: npc.location
+        name: npc.name,
+        questIds: npc.questIds,
+        location: npc.location
+
+          
+      
+      }
             })),
             total: questNPCs.length
           }
@@ -623,7 +672,15 @@ export class NPCsManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: { message: 'All NPCs reset to default state' }
+      result: {
+
+        message: 'All NPCs reset to default state' 
+
+      
+
+
+      }
+      };
     };
   }
 

@@ -65,7 +65,15 @@ export class PixelAnimManager {
         frames: ['walk1.png', 'walk2.png', 'walk3.png', 'walk4.png'],
         fps: 8,
         loop: true,
-        metadata: { frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['movement', 'character'] }
+        metadata: {
+
+          frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['movement', 'character'] 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'idle-basic',
@@ -75,7 +83,15 @@ export class PixelAnimManager {
         frames: ['idle1.png', 'idle2.png'],
         fps: 4,
         loop: true,
-        metadata: { frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['idle', 'character'] }
+        metadata: {
+
+          frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['idle', 'character'] 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'attack-sword',
@@ -85,7 +101,15 @@ export class PixelAnimManager {
         frames: ['attack1.png', 'attack2.png', 'attack3.png'],
         fps: 12,
         loop: false,
-        metadata: { frameWidth: 48, frameHeight: 48, style: 'pixel', tags: ['combat', 'weapon'] }
+        metadata: {
+
+          frameWidth: 48, frameHeight: 48, style: 'pixel', tags: ['combat', 'weapon'] 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'flame-flicker',
@@ -95,7 +119,15 @@ export class PixelAnimManager {
         frames: ['flame1.png', 'flame2.png', 'flame3.png', 'flame2.png'],
         fps: 10,
         loop: true,
-        metadata: { frameWidth: 16, frameHeight: 24, style: 'pixel', tags: ['fire', 'environment'] }
+        metadata: {
+
+          frameWidth: 16, frameHeight: 24, style: 'pixel', tags: ['fire', 'environment'] 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'water-flow',
@@ -105,7 +137,15 @@ export class PixelAnimManager {
         frames: ['water1.png', 'water2.png', 'water3.png', 'water4.png'],
         fps: 6,
         loop: true,
-        metadata: { frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['water', 'environment'] }
+        metadata: {
+
+          frameWidth: 32, frameHeight: 32, style: 'pixel', tags: ['water', 'environment'] 
+
+        
+
+
+        }
+        };
       }
     ];
 
@@ -228,9 +268,16 @@ export class PixelAnimManager {
         animations,
         transitions,
         metadata: {
+
           created: new Date().toISOString(),
           category: 'custom'
+        
+
+        
+
+
         }
+        };
       };
 
       this.sequences.set(id, sequence);
@@ -356,6 +403,7 @@ export class PixelAnimManager {
     return {
       ok: true,
       simulation: {
+
         animationName,
         duration,
         totalCycles: cycles,
@@ -363,7 +411,13 @@ export class PixelAnimManager {
         frameDuration,
         animationDuration,
         events: events.slice(0, 50) // Limit events for output
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -419,24 +473,45 @@ export class PixelAnimManager {
         return {
           ok: true,
           data: {
+
             schema: 'miff.pixel.animation.manifest.v1',
             animation: PixelAnimPure.exportAnimation(animation),
             metadata: {
               exportedAt: new Date().toISOString(),
               frameCount: animation.frames.length,
               duration: (animation.frames.length * 1000) / animation.speed
-            }
+            
+
+          
+
+
+          }
+          };
           }
         };
       
       case 'spritesheet':
-        const spriteSheet = PixelAnimPure.createSpriteSheet([animation], 32, 32);
+        const spriteSheet = PixelAnimPure.createSpriteSheet([
+      anim,
+      a,
+      t,
+      i,
+      o,
+      n
+    ], 32, 32);
         return {
           ok: true,
           data: {
+
             spriteSheet: PixelAnimPure.exportSpriteSheet(spriteSheet),
             animation: PixelAnimPure.exportAnimation(animation)
+          
+
+          
+
+
           }
+          };
         };
       
       default:

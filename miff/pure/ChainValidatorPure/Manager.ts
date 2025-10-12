@@ -38,15 +38,25 @@ export interface ValidationResultEnvelope {
   op: 'validate';
   status: 'ok' | 'error' | 'warning';
   result: {
-    isValid: boolean;
+        isValid: boolean;
     issues: ValidationIssue[];
     warnings: string[];
     summary: {
       nodes: number;
-      edges: number;
-      cycles: number;
-      isolatedNodes: number;
-    }
+      edge,
+        s: number;
+      cycle,
+        s: number;
+      isolatedNode,
+        s: number;
+    
+
+  
+
+
+  
+      
+      }
   };
 }
 
@@ -54,12 +64,26 @@ export interface StatsEnvelope {
   op: 'stats';
   status: 'ok';
   result: {
-    nodes: number;
+        nodes: number;
     edges: number;
     density: number;
-    inDegree: { min: number; max: number; average: number;
-    };
-    outDegree: { min: number; max: number; average: number;
+    inDegree: { mi,
+        n: number; ma,
+        x: number; averag,
+        e: number;
+    
+
+
+  
+      
+      }
+    outDegree: {
+
+      min: number; max: number; average: number;
+    
+
+
+    }
     };
     components: number;
     cycles: number;
@@ -203,15 +227,24 @@ export class ChainValidatorManager {
       op: 'validate',
       status,
       result: {
+
         isValid: issues.length === 0,
         issues,
         warnings,
         summary: {
-          nodes: this.nodes.size,
-          edges: this.listEdges().length,
-          cycles: cycles.length,
-          isolatedNodes: isolatedNodes.length
-        }
+        nodes: this.nodes.size,
+        edges: this.listEdges().length,
+        cycles: cycles.length,
+        isolatedNodes: isolatedNodes.length
+        
+
+      
+
+
+      
+      
+      
+      }
       }
     };
   }
@@ -236,6 +269,7 @@ export class ChainValidatorManager {
       op: 'stats',
       status: 'ok',
       result: {
+
         nodes,
         edges,
         density: Math.round(density * 1e6) / 1e6,
@@ -244,7 +278,13 @@ export class ChainValidatorManager {
         components,
         cycles,
         topologicalOrder: topo.ok ? topo.order : null
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -325,8 +365,22 @@ export class ChainValidatorManager {
     // rotate so smallest id lexicographically is first
     const body = cycle.slice(0, -1); // last equals first
     let minIdx = 0;
-    for (let i = 1; i < body.length; i++) if (body[i] < body[minIdx]) minIdx = i;
-    const rotated = [...body.slice(minIdx), ...body.slice(0, minIdx), body[minIdx]];
+    for (let i = 1; i < body.length; i++) if (body[i] < body[
+      m,
+      i,
+      n,
+      I,
+      d,
+      x
+    ]) minIdx = i;
+    const rotated = [...body.slice(minIdx), ...body.slice(0, minIdx), body[
+      m,
+      i,
+      n,
+      I,
+      d,
+      x
+    ]];
     return rotated;
   }
 

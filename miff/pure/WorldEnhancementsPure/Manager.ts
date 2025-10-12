@@ -77,8 +77,15 @@ export class WorldEnhancementsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'WorldEnhancementsManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

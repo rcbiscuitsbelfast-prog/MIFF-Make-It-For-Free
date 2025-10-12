@@ -76,7 +76,11 @@ export interface LevelUpResult {
   oldLevel: number;
   newLevel: number;
   xpGained: number;
-  statBoosts: { stat: string; amount: number;
+  statBoosts: {
+
+    stat: string; amount: number;
+
+  }
     }[];
   unlockedSkills: string[];
   rewards: { type: string; id: string; quantity?: number }[];
@@ -132,7 +136,15 @@ export class XPLevelingManager {
         baseXp: 100,
         growthRate: 1.1,
         levels: this.generateLevelEntries(100, 100, 1.1),
-        metadata: { type: 'balanced' }
+        metadata: {
+
+          type: 'balanced' 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'fast',
@@ -142,7 +154,15 @@ export class XPLevelingManager {
         baseXp: 50,
         growthRate: 1.05,
         levels: this.generateLevelEntries(50, 50, 1.05),
-        metadata: { type: 'casual' }
+        metadata: {
+
+          type: 'casual' 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'slow',
@@ -152,7 +172,15 @@ export class XPLevelingManager {
         baseXp: 200,
         growthRate: 1.15,
         levels: this.generateLevelEntries(200, 200, 1.15),
-        metadata: { type: 'hardcore' }
+        metadata: {
+
+          type: 'hardcore' 
+
+        
+
+
+        }
+        };
       }
     ];
 
@@ -281,7 +309,15 @@ export class XPLevelingManager {
     return {
       op: 'check_level_up',
       status: 'ok',
-      result: { canLevelUp, currentXp: entity.xp, requiredXp: entity.nextLevelXp }
+      result: {
+
+        canLevelUp, currentXp: entity.xp, requiredXp: entity.nextLevelXp 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -353,8 +389,16 @@ export class XPLevelingManager {
     return {
       op: 'get_skill',
       status: 'ok',
-      result: { skillId, level: skillLevel;
-    }
+      result: {
+
+        skillId, level: skillLevel;
+    
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -396,8 +440,16 @@ export class XPLevelingManager {
     return {
       op: 'get_stat',
       status: 'ok',
-      result: { statId, value: statValue;
-    }
+      result: {
+
+        statId, value: statValue;
+    
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -468,7 +520,21 @@ export class XPLevelingManager {
       // Calculate skill distribution
       entities.forEach(entity => {
         entity.skills.forEach((level, skillId) => {
-          stats.skillDistribution[skillId] = (stats.skillDistribution[skillId] || 0) + level;
+          stats.skillDistribution[
+      sk,
+      i,
+      l,
+      l,
+      I,
+      d
+    ] = (stats.skillDistribution[
+      sk,
+      i,
+      l,
+      l,
+      I,
+      d
+    ] || 0) + level;
         });
       });
     }
@@ -532,7 +598,15 @@ export class XPLevelingManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities.length }
+          result: {
+
+            entities, total: entities.length 
+
+          
+
+
+          }
+          };
         };
       
       case 'manifest':
@@ -540,13 +614,20 @@ export class XPLevelingManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.xp.export.v1',
             entities,
             curves,
             history: this.levelUpHistory.slice(-100), // Last 100 level ups
             exportedAt: new Date().toISOString(),
             total: entities.length
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -555,6 +636,7 @@ export class XPLevelingManager {
           op: 'export',
           status: 'ok',
           result: {
+
             summary: stats.result,
             entities: entities.map(entity => ({
               id: entity.id,
@@ -563,6 +645,8 @@ export class XPLevelingManager {
               totalXp: entity.totalXp,
               skills: Object.fromEntries(entity.skills),
               stats: Object.fromEntries(entity.stats)
+
+          }
             }))
           }
         };
@@ -572,9 +656,16 @@ export class XPLevelingManager {
           op: 'export',
           status: 'ok',
           result: {
+
             levelUpHistory: this.levelUpHistory,
             total: this.levelUpHistory.length
+          
+
+          
+
+
           }
+          };
         };
       
       default:
@@ -596,7 +687,15 @@ export class XPLevelingManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: { message: 'All XP data reset to default state' }
+      result: {
+
+        message: 'All XP data reset to default state' 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -628,7 +727,9 @@ export class XPLevelingManager {
     entity.lastLevelUp = Date.now();
 
     // Apply stat boosts
-    const statBoosts: { stat: string; amount: number;
+    const statBoosts: {
+   stat: string; amount: number;
+ }
     }[] = [];
     if (levelEntry.statBoosts) {
       levelEntry.statBoosts.forEach(boost => {
@@ -707,12 +808,19 @@ export class XPLevelingManager {
       op: 'add_xp',
       status: 'ok',
       result: {
+
         ...entity,
         multiplierUsed: multiplier,
         originalAmount: amount,
         finalAmount,
         source: source as XPCurrency
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -787,7 +895,15 @@ export class XPLevelingManager {
     return {
       op: 'add_global_multiplier',
       status: 'ok',
-      result: { message: 'Global XP multiplier added', multiplier }
+      result: {
+
+        message: 'Global XP multiplier added', multiplier 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -893,7 +1009,21 @@ export class XPLevelingManager {
       // Calculate XP by currency
       entities.forEach(entity => {
         entity.xpByCurrency.forEach((xp, currency) => {
-          detailedStats.totalXpByCurrency[currency] = (detailedStats.totalXpByCurrency[currency] || 0) + xp;
+          detailedStats.totalXpByCurrency[
+      cur,
+      r,
+      e,
+      n,
+      c,
+      y
+    ] = (detailedStats.totalXpByCurrency[
+      cur,
+      r,
+      e,
+      n,
+      c,
+      y
+    ] || 0) + xp;
         });
       });
 
@@ -910,7 +1040,21 @@ export class XPLevelingManager {
       // Calculate skill distribution
       entities.forEach(entity => {
         entity.skills.forEach((level, skillId) => {
-          detailedStats.skillDistribution[skillId] = (detailedStats.skillDistribution[skillId] || 0) + level;
+          detailedStats.skillDistribution[
+      sk,
+      i,
+      l,
+      l,
+      I,
+      d
+    ] = (detailedStats.skillDistribution[
+      sk,
+      i,
+      l,
+      l,
+      I,
+      d
+    ] || 0) + level;
         });
       });
     }
@@ -984,7 +1128,11 @@ export class XPLevelingManager {
         description: 'Defeat your first enemy in combat',
         xpReward: 100,
         currency: XPCurrency.COMBAT,
-        requirements: { combat: { victories: 1;
+        requirements: {
+
+          combat: { victories: 1;
+
+        }
     } },
         isActive: true;
     },
@@ -997,6 +1145,8 @@ export class XPLevelingManager {
         requirements: {
 
           level: 5;
+
+        }
     },
         isActive: true;
     },
@@ -1006,7 +1156,11 @@ export class XPLevelingManager {
         description: 'Reach level 10 in any skill',
         xpReward: 500,
         currency: XPCurrency.ACHIEVEMENT,
-        requirements: { skill: { level: 10;
+        requirements: {
+
+          skill: { level: 10;
+
+        }
     } },
         isActive: true;
     },
@@ -1016,7 +1170,11 @@ export class XPLevelingManager {
         description: 'Complete 5 exploration activities',
         xpReward: 150,
         currency: XPCurrency.EXPLORATION,
-        requirements: { exploration: { activities: 5;
+        requirements: {
+
+          exploration: { activities: 5;
+
+        }
     } },
         isActive: true;
     }

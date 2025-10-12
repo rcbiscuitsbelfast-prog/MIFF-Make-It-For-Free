@@ -77,8 +77,15 @@ export class InputManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'InputManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

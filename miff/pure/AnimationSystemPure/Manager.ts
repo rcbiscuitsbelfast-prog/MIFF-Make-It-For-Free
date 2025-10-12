@@ -359,8 +359,15 @@ export class AnimationSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AnimationSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -579,11 +586,14 @@ export class AnimationSystemManager {
       averageFrameRate: 0,
       averageMemoryUsage: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

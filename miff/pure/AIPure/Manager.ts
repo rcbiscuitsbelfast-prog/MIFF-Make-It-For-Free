@@ -329,21 +329,28 @@ export class AIManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AIManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
     this.memoryId = `AIManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'AIManager');
-  };
   }
 
   /**
@@ -535,11 +542,18 @@ export class AIManager {
         learningRate: 0.001,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       lossFunction: {
+
         type: LossType.MEAN_SQUARED_ERROR,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       activationFunctions: [],
       metadata: new Map()
@@ -573,6 +587,10 @@ export class AIManager {
         patience: 10,
         minDelta: 0.001,
         metadata: new Map()
+
+      
+      
+      }
       },
       callbacks: [],
       metadata: new Map()
@@ -587,11 +605,14 @@ export class AIManager {
       parallel: false,
       timeout: 3600000,
       retryPolicy: {
+
         enabled: true,
         maxAttempts: 3,
         delay: 1000,
         backoff: BackoffType.EXPONENTIAL,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -607,11 +628,14 @@ export class AIManager {
       averageAccuracy: 0,
       averageTrainingTime: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

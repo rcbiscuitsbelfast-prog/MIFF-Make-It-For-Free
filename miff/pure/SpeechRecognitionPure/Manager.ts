@@ -495,8 +495,15 @@ export class SpeechRecognitionManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'SpeechRecognitionManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -713,27 +720,43 @@ export class SpeechRecognitionManager {
         method: NormalizationMethod.PEAK,
         targetLevel: -3.0,
         metadata: new Map()
+
+      
+      
+      }
       },
       filtering: {
+
         enabled: true,
         highPass: {
-          enabled: true,
-          frequency: 80,
-          order: 2,
-          metadata: new Map()
+        enabled: true,
+        frequency: 80,
+        order: 2,
+        metadata: new Map()
+
+      
+      
+      }
         },
         lowPass: {
-          enabled: true,
-          frequency: 8000,
-          order: 2,
-          metadata: new Map()
+        enabled: true,
+        frequency: 8000,
+        order: 2,
+        metadata: new Map()
+
+        
+      
+      }
         },
         bandPass: {
+
           enabled: false,
           lowFrequency: 300,
           highFrequency: 3400,
           order: 2,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
@@ -742,12 +765,20 @@ export class SpeechRecognitionManager {
         algorithm: NoiseReductionAlgorithm.SPECTRAL_SUBTRACTION,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       voiceActivityDetection: {
         enabled: true,
         algorithm: VADAlgorithm.ENERGY_BASED,
         threshold: 0.5,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -763,22 +794,36 @@ export class SpeechRecognitionManager {
         delta: [],
         deltaDelta: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       spectrogram: {
         magnitude: [],
         phase: [],
         melSpectrogram: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       pitch: {
+
         fundamental: [],
         harmonics: [],
         metadata: new Map()
+
+      }
       },
       energy: {
+
         frameEnergy: [],
         spectralEnergy: [],
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -855,11 +900,14 @@ export class SpeechRecognitionManager {
       averageAccuracy: 0,
       averageWordErrorRate: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

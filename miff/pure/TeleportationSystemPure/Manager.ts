@@ -28,8 +28,15 @@ export class TeleportationManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'TeleportationSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -175,9 +182,17 @@ export class TeleportationManager {
       return {
         success: false,
         entityId: request.entityId,
-        fromPosition: { x: 0, y: 0, z: 0;
+        fromPosition: {
+
+          x: 0, y: 0, z: 0;
+
+        }
     },
-        toPosition: { x: 0, y: 0, z: 0;
+        toPosition: {
+
+          x: 0, y: 0, z: 0;
+
+        }
     },
         energySpent: 0,
         cooldownApplied: 0,
@@ -230,7 +245,14 @@ export class TeleportationManager {
     const recentFailures = Array.from(stats.failureReasons.entries())
       .sort((a: [string, number], b: [string, number]) => b[1] - a[1])
       .slice(0, 5)
-      .map(([reason]) => reason);
+      .map(([
+      r,
+      e,
+      a,
+      s,
+      o,
+      n
+    ]) => reason);
 
     return {
       totalTeleports: stats.totalTeleports,

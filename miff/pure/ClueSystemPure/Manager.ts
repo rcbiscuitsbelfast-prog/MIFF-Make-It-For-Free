@@ -77,8 +77,15 @@ export class ClueSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ClueSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

@@ -740,8 +740,15 @@ export class SceneBuilderManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'SceneBuilderManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1129,6 +1136,7 @@ export class SceneBuilderManager {
       ambientColor: [0.2, 0.2, 0.2],
       ambientIntensity: 0.2,
       fog: {
+
         enabled: false,
         color: [0.5, 0.5, 0.5],
         density: 0.1,
@@ -1136,16 +1144,22 @@ export class SceneBuilderManager {
         endDistance: 1000,
         heightFalloff: 0.1,
         type: FogType.LINEAR
+
+      }
       },
       wind: {
+
         enabled: false,
         direction: [1, 0, 0],
         speed: 1.0,
         turbulence: 0.1,
         gustiness: 0.1,
         metadata: new Map()
+
+      }
       },
       weather: {
+
         type: WeatherType.CLEAR,
         intensity: 1.0,
         precipitation: 0.0,
@@ -1154,8 +1168,11 @@ export class SceneBuilderManager {
         pressure: 1013.25,
         visibility: 10000.0,
         metadata: new Map()
+
+      }
       },
       time: {
+
         currentTime: 0,
         day: 1,
         month: 1,
@@ -1164,6 +1181,8 @@ export class SceneBuilderManager {
         timeOfDay: TimeOfDay.NOON,
         isPaused: false,
         speed: 1.0
+
+      }
       },
       metadata: new Map()
     };
@@ -1201,6 +1220,7 @@ export class SceneBuilderManager {
       enableReverb: true,
       enableOcclusion: true,
       reverb: {
+
         enabled: false,
         preset: ReverbPreset.OFF,
         room: 0,
@@ -1216,6 +1236,8 @@ export class SceneBuilderManager {
         LFReference: 0,
         diffusion: 0,
         density: 0;
+
+      }
     },
       metadata: new Map()
     };

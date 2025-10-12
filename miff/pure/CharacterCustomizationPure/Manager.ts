@@ -1229,8 +1229,15 @@ export class CharacterCustomizationManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'CharacterCustomizationManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1397,11 +1404,14 @@ export class CharacterCustomizationManager {
       description: preset.description || '',
       category: preset.category || PresetCategory.COMPLETE,
       customizations: {
+
         appearance: customization.appearance,
         body: customization.body,
         face: customization.face,
         hair: customization.hair,
         clothing: customization.clothing
+
+      }
       },
       thumbnail: preset.thumbnail || '',
       tags: preset.tags || [],
@@ -1576,13 +1586,17 @@ export class CharacterCustomizationManager {
       neckLength: 15,
       headSize: 25,
       morphing: {
+
         enabled: false,
         regions: [],
         intensity: 1.0,
         smoothness: 1.0,
         metadata: new Map()
+
+      }
       },
       scaling: {
+
         enabled: false,
         uniform: true,
         x: 1.0,
@@ -1590,6 +1604,8 @@ export class CharacterCustomizationManager {
         z: 1.0,
         preserveProportions: true,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -1601,6 +1617,7 @@ export class CharacterCustomizationManager {
   private createDefaultFace(): FacialCustomization {
     return {
       headShape: {
+
         type: HeadShapeType.OVAL,
         width: 1.0,
         height: 1.0,
@@ -1608,8 +1625,11 @@ export class CharacterCustomizationManager {
         roundness: 0.5,
         angularity: 0.5,
         metadata: new Map()
+
+      }
       },
       eyes: {
+
         shape: EyeShape.ALMOND,
         size: 1.0,
         spacing: 1.0,
@@ -1621,68 +1641,116 @@ export class CharacterCustomizationManager {
           crease: 0.5,
           hood: 0.0,
           metadata: new Map()
+
+      }
         },
         eyebrow: {
+
           shape: EyebrowShape.ARCHED,
           thickness: 0.5,
           arch: 0.5,
           spacing: 1.0,
           length: 1.0,
+
+        }
           color: { r: 0.2, g: 0.2, b: 0.2, a: 1.0 },
           metadata: new Map()
         },
         eyelash: {
+
           length: 0.5,
           thickness: 0.5,
           curl: 0.5,
+
+        }
           color: { r: 0.2, g: 0.2, b: 0.2, a: 1.0 },
           metadata: new Map()
         },
         metadata: new Map()
       },
       nose: {
+
         shape: NoseShape.STRAIGHT,
         size: 1.0,
         width: 1.0,
         height: 1.0,
         bridge: {
-          height: 0.5,
-          width: 0.5,
-          curve: 0.0,
-          metadata: new Map()
+        height: 0.5,
+        width: 0.5,
+        curve: 0.0,
+        metadata: new Map()
+
+      
+      
+      }
         },
         tip: {
-          shape: NoseTipShape.ROUND,
-          size: 0.5,
-          angle: 0.0,
-          metadata: new Map()
+        shape: NoseTipShape.ROUND,
+        size: 0.5,
+        angle: 0.0,
+        metadata: new Map()
+
+        
+      
+      }
         },
         nostrils: {
-          size: 0.5,
-          width: 0.5,
-          flare: 0.0,
-          metadata: new Map()
+        size: 0.5,
+        width: 0.5,
+        flare: 0.0,
+        metadata: new Map()
+
+        
+      
+      }
         },
         metadata: new Map()
       },
       mouth: {
+
         shape: MouthShape.WIDE,
         size: 1.0,
         width: 1.0,
         height: 1.0,
         fullness: 0.5,
         lips: {
-          upperLip: {
-            thickness: 0.5,
-            fullness: 0.5,
-            definition: 0.5,
-            color: { r: 0.8, g: 0.4, b: 0.4, a: 1.0 }
+        upperLip: {
+          thickness: 0.5,
+        fullness: 0.5,
+        definition: 0.5,
+        color: {
+      
+        
+      }
+        r: 0.8,
+        g: 0.4,
+        b: 0.4,
+        a: 1.0 
+
+      
+
+
+      
+      }
+      };
           },
           lowerLip: {
-            thickness: 0.5,
-            fullness: 0.5,
-            definition: 0.5,
-            color: { r: 0.8, g: 0.4, b: 0.4, a: 1.0 }
+        thickness: 0.5,
+        fullness: 0.5,
+        definition: 0.5,
+        color: {
+      }
+        r: 0.8,
+        g: 0.4,
+        b: 0.4,
+        a: 1.0 
+
+          
+
+
+          
+      }
+          };
           },
           cupidsBow: 0.5,
           metadata: new Map()
@@ -1696,47 +1764,64 @@ export class CharacterCustomizationManager {
         metadata: new Map()
       },
       ears: {
+
         size: 1.0,
         width: 1.0,
         height: 1.0,
         angle: 0.0,
         lobe: {
-          size: 0.5,
-          attachment: EarLobeAttachment.FREE,
-          piercing: [],
-          metadata: new Map()
+        size: 0.5,
+        attachment: EarLobeAttachment.FREE,
+        piercing: [],
+        metadata: new Map()
+
+      
+      
+      }
         },
         metadata: new Map()
       },
       jaw: {
+
         shape: JawShape.SQUARE,
         width: 1.0,
         height: 1.0,
         angle: 0.0,
         strength: 0.5,
         metadata: new Map()
+
+      }
       },
       cheeks: {
+
         prominence: 0.5,
         width: 1.0,
         height: 1.0,
         definition: 0.5,
         hollows: 0.0,
         metadata: new Map()
+
+      }
       },
       forehead: {
+
         height: 1.0,
         width: 1.0,
         slope: 0.0,
         prominence: 0.5,
         metadata: new Map()
+
+      }
       },
       chin: {
+
         shape: ChinShape.ROUND,
         size: 1.0,
         prominence: 0.5,
         cleft: 0.0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -1748,12 +1833,15 @@ export class CharacterCustomizationManager {
   private createDefaultHair(): HairCustomization {
     return {
       style: {
+
         id: 'default_hair',
         name: 'Default Hair',
         type: HairType.STRAIGHT,
         category: HairCategory.MEDIUM,
         description: 'Default hair style',
         metadata: new Map()
+
+      }
       },
       color: { r: 0.2, g: 0.2, b: 0.2, a: 1.0 },
       length: HairLength.MEDIUM,
@@ -1789,17 +1877,23 @@ export class CharacterCustomizationManager {
         highlights: { r: 0.9, g: 0.7, b: 0.5, a: 1.0 },
         shadows: { r: 0.6, g: 0.4, b: 0.2, a: 1.0 },
         freckles: {
+
           enabled: false,
           density: 0.1,
           size: 0.5,
+
+        }
           color: { r: 0.6, g: 0.4, b: 0.2, a: 1.0 },
           distribution: FreckleDistribution.RANDOM,
           metadata: new Map()
         },
         moles: {
+
           enabled: false,
           count: 0,
           size: 0.5,
+
+        }
           color: { r: 0.4, g: 0.2, b: 0.1, a: 1.0 },
           positions: [],
           metadata: new Map()
@@ -1838,26 +1932,35 @@ export class CharacterCustomizationManager {
   private createDefaultTextures(): TextureCustomization {
     return {
       skin: {
+
         roughness: 0.5,
         bumpiness: 0.3,
         pores: 0.2,
         wrinkles: 0.1,
         age: 0.0,
         metadata: new Map()
+
+      }
       },
       hair: {
+
         roughness: 0.3,
         shininess: 0.7,
         frizz: 0.2,
         curl: 0.0,
         metadata: new Map()
+
+      }
       },
       clothing: {
+
         roughness: 0.6,
         shininess: 0.2,
         bumpiness: 0.1,
         weave: 0.3,
         metadata: new Map()
+
+      }
       },
       accessories: [],
       metadata: new Map()
@@ -1888,7 +1991,10 @@ export class CharacterCustomizationManager {
       description: 'Default facial features',
       category: PresetCategory.FACE,
       customizations: {
+
         face: this.createDefaultFace()
+
+      }
       },
       thumbnail: '',
       tags: ['face', 'default'],
@@ -1909,7 +2015,10 @@ export class CharacterCustomizationManager {
       description: 'Default body proportions',
       category: PresetCategory.BODY,
       customizations: {
+
         body: this.createDefaultBody()
+
+      }
       },
       thumbnail: '',
       tags: ['body', 'default'],
@@ -1930,7 +2039,10 @@ export class CharacterCustomizationManager {
       description: 'Default hair style',
       category: PresetCategory.HAIR,
       customizations: {
+
         hair: this.createDefaultHair()
+
+      }
       },
       thumbnail: '',
       tags: ['hair', 'default'],
@@ -1951,7 +2063,10 @@ export class CharacterCustomizationManager {
       description: 'Default clothing style',
       category: PresetCategory.CLOTHING,
       customizations: {
+
         clothing: this.createDefaultClothing()
+
+      }
       },
       thumbnail: '',
       tags: ['clothing', 'default'],
@@ -1972,14 +2087,20 @@ export class CharacterCustomizationManager {
       description: 'Default character template',
       category: TemplateCategory.CHARACTER,
       customizations: {
+
         appearance: this.createDefaultAppearance(),
         body: this.createDefaultBody(),
         face: this.createDefaultFace(),
         hair: this.createDefaultHair(),
         clothing: this.createDefaultClothing()
+
+      }
       },
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         class: [],
         race: [],
@@ -2008,14 +2129,20 @@ export class CharacterCustomizationManager {
       description: 'Default NPC template',
       category: TemplateCategory.NPC,
       customizations: {
+
         appearance: this.createDefaultAppearance(),
         body: this.createDefaultBody(),
         face: this.createDefaultFace(),
         hair: this.createDefaultHair(),
         clothing: this.createDefaultClothing()
+
+      }
       },
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         class: [],
         race: [],
@@ -2044,14 +2171,20 @@ export class CharacterCustomizationManager {
       description: 'Default monster template',
       category: TemplateCategory.MONSTER,
       customizations: {
+
         appearance: this.createDefaultAppearance(),
         body: this.createDefaultBody(),
         face: this.createDefaultFace(),
         hair: this.createDefaultHair(),
         clothing: this.createDefaultClothing()
+
+      }
       },
       requirements: {
+
         level: 1,
+
+      }
         stats: {},
         class: [],
         race: [],

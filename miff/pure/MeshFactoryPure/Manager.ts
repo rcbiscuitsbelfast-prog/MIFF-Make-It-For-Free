@@ -2,7 +2,14 @@
 
 export interface MeshData { vertices: number[][]; indices: number[][]; metadata?: { type: string; seed: number;
     } }
-export interface TreeParams { trunkHeight: number; trunkRadius: number; trunkSegments: number; canopyRadius: number; canopyHeight: number; canopySegments: number; }
+export interface TreeParams {
+  trunkHeight: number;
+  trunkRadius: number;
+  trunkSegments: number;
+  canopyRadius: number;
+  canopyHeight: number;
+  canopySegments: number;
+}
 export interface RockParams { radius: number; segments: number; noise: number; seed?: number; }
 
 function clamp(v: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, v)); }

@@ -77,8 +77,15 @@ export class AIProfilesManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AIProfilesManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

@@ -1059,12 +1059,12 @@ export enum LocationRestrictionType {
 }
 
 export interface CoordinateRange {
-    minX: number;
-    maxX: number;
-    minY: number;
-    maxY: number;
-    minZ: number;
-    maxZ: number;
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
+  minZ: number;
+  maxZ: number;
 }
 
 export interface QuestRewards {
@@ -1131,12 +1131,12 @@ export enum AchievementRarity {
 }
 
 export interface TitleReward {
-    id: string;
-    name: string;
-    description: string;
-    color: string;
-    prefix: boolean;
-    rarity: TitleRarity;
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  prefix: boolean;
+  rarity: TitleRarity;
 }
 
 export enum TitleRarity {
@@ -1425,8 +1425,15 @@ export class WitcherExplorerManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'WitcherExplorerDemoManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1573,10 +1580,21 @@ export class WitcherExplorerManager {
             type,
             description: `A ${type} region`,
             bounds: {
-                min: { x: 0, y: 0, z: 0;
+
+              min: { x: 0, y: 0, z: 0;
+
+            }
     },
-                max: { x: 1000, y: 1000, z: 100;
-    }
+                max: {
+
+                  x: 1000, y: 1000, z: 100;
+    
+
+                
+
+
+                }
+                };
             },
             biome: BiomeType.TEMPERATE,
             level: 1,
@@ -1587,7 +1605,8 @@ export class WitcherExplorerManager {
             locations: [],
             events: [],
             weather: {
-                type: WeatherType.CLEAR,
+
+              type: WeatherType.CLEAR,
                 intensity: 1.0,
                 temperature: 20,
                 humidity: 50,
@@ -1596,6 +1615,8 @@ export class WitcherExplorerManager {
                 precipitation: 0,
                 visibility: 10000,
                 metadata: new Map()
+
+            }
             },
             metadata: new Map()
         };

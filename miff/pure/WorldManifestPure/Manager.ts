@@ -134,9 +134,16 @@ export class WorldManifestManager {
       height,
       tiles: [],
       metadata: {
+
         style: 'pixel-topdown',
         generated: false;
-    }
+    
+
+      
+
+
+      }
+      };
     };
 
     world.zones.push(zone);
@@ -344,7 +351,15 @@ export class WorldManifestManager {
           y,
           layer,
           zoneId,
-          metadata: { tags: ['generated'] }
+          metadata: {
+
+            tags: ['generated'] 
+
+          
+
+
+          }
+          };
         };
 
         const existing = this.assetRegistry.get(assetId) || [];
@@ -436,11 +451,18 @@ export class WorldManifestManager {
         return {
           ok: true,
           data: {
+
             schema: 'miff.world.export.v1',
             world,
             anchors: Object.fromEntries(this.assetRegistry.entries()),
             exportedAt: new Date().toISOString()
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -448,6 +470,7 @@ export class WorldManifestManager {
         return {
           ok: true,
           data: {
+
             id: worldId,
             name: world.metadata?.title || 'Unnamed World',
             zones: world.zones.length,
@@ -455,7 +478,13 @@ export class WorldManifestManager {
             created: world.metadata?.created,
             schema: world.schema,
             version: world.version
+          
+
+          
+
+
           }
+          };
         };
       
       case 'tiles':

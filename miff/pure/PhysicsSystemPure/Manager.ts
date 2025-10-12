@@ -536,8 +536,15 @@ export class PhysicsSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'PhysicsSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -815,14 +822,22 @@ export class PhysicsSystemManager {
     return {
       id: 'default_world',
       name: 'Default Physics World',
-      gravity: { x: 0, y: -9.81, z: 0;
+      gravity: {
+
+        x: 0, y: -9.81, z: 0;
+
+      }
     },
       airResistance: 0.01,
       timeStep: 1/60,
       iterations: 10,
       bounds: {
         min: { x: -1000, y: -1000, z: -1000 },
-        max: { x: 1000, y: 1000, z: 1000;
+        max: {
+
+          x: 1000, y: 1000, z: 1000;
+
+        }
     },
         shape: BoundsShape.BOX,
         metadata: new Map()
@@ -845,12 +860,15 @@ export class PhysicsSystemManager {
         restitution: 0.3,
         damping: 0.1,
         properties: {
+
           elasticity: 0.8,
           plasticity: 0.2,
           viscosity: 0.0,
           thermalConductivity: 0.0,
           electricalConductivity: 0.0,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
@@ -862,12 +880,15 @@ export class PhysicsSystemManager {
         restitution: 0.1,
         damping: 0.05,
         properties: {
+
           elasticity: 0.9,
           plasticity: 0.1,
           viscosity: 0.0,
           thermalConductivity: 1.0,
           electricalConductivity: 1.0,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
@@ -879,12 +900,15 @@ export class PhysicsSystemManager {
         restitution: 0.8,
         damping: 0.2,
         properties: {
+
           elasticity: 0.6,
           plasticity: 0.4,
           viscosity: 0.1,
           thermalConductivity: 0.0,
           electricalConductivity: 0.0,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       }

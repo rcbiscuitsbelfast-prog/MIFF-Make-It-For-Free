@@ -77,8 +77,15 @@ export class SimpleGameManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'SimpleGameManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

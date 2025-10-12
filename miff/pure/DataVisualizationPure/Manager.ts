@@ -638,8 +638,15 @@ export class DataVisualizationManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DataVisualizationManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -837,11 +844,14 @@ export class DataVisualizationManager {
   private createDefaultChartData(): ChartData {
     return {
       source: {
+
         type: SourceType.DATABASE,
         connection: '',
         query: '',
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       columns: [],
       rows: [],
@@ -857,6 +867,7 @@ export class DataVisualizationManager {
   private createDefaultChartConfiguration(): ChartConfiguration {
     return {
       axes: {
+
         x: {
           title: 'X Axis',
           min: 0,
@@ -864,14 +875,19 @@ export class DataVisualizationManager {
           scale: ScaleType.LINEAR,
           format: '',
           metadata: new Map()
+
+      }
         },
         y: {
+
           title: 'Y Axis',
           min: 0,
           max: 100,
           scale: ScaleType.LINEAR,
           format: '',
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
@@ -880,18 +896,30 @@ export class DataVisualizationManager {
         position: LegendPosition.RIGHT,
         orientation: LegendOrientation.VERTICAL,
         metadata: new Map()
+
+      
+      
+      }
       },
       tooltip: {
         enabled: true,
         format: '',
         position: TooltipPosition.AUTO,
         metadata: new Map()
+
+      
+      
+      }
       },
       animation: {
         enabled: true,
         duration: 1000,
         easing: EasingType.EASE_IN_OUT,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -903,21 +931,28 @@ export class DataVisualizationManager {
   private createDefaultChartStyling(): ChartStyling {
     return {
       colors: {
+
         primary: '#3498db',
         secondary: '#e74c3c',
         background: '#ffffff',
         text: '#333333',
         palette: ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6'],
         metadata: new Map()
+
+      }
       },
       fonts: {
+
         family: 'Arial, sans-serif',
         size: 12,
         weight: FontWeight.NORMAL,
         style: FontStyle.NORMAL,
         metadata: new Map()
+
+      }
       },
       layout: {
+
         width: 800,
         height: 600,
         margin: {
@@ -926,13 +961,18 @@ export class DataVisualizationManager {
           bottom: 20,
           left: 20,
           metadata: new Map()
+
+      }
         },
         padding: {
+
           top: 10,
           right: 10,
           bottom: 10,
           left: 10,
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
@@ -941,6 +981,10 @@ export class DataVisualizationManager {
         gradients: false,
         transparency: 1.0,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -955,13 +999,19 @@ export class DataVisualizationManager {
       columns: 12,
       rows: 8,
       grid: {
+
         gap: 16,
         padding: 16,
         metadata: new Map()
+
+      }
       },
       responsive: {
+
         breakpoints: [],
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -991,11 +1041,14 @@ export class DataVisualizationManager {
       averageLoadTime: 0,
       averageInteractions: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

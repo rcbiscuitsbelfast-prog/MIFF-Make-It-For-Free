@@ -77,8 +77,15 @@ export class AvatarSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AvatarSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

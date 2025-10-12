@@ -77,8 +77,15 @@ export class SaveLoadManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'SaveLoadManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

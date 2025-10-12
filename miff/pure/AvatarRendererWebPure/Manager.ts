@@ -77,8 +77,15 @@ export class AvatarRendererWebManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AvatarRendererWebManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

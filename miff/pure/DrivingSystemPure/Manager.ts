@@ -93,8 +93,14 @@ export interface Checkpoint {
   id: string;
   position: Vector3;
   direction: Vector3;
-  size: { width: number; height: number;
-    };
+  size: {
+
+    width: number; height: number;
+    
+
+
+  }
+  };
   type: 'start' | 'intermediate' | 'finish' | string;
   isRequired: boolean;
   visualEffect?: string;
@@ -113,10 +119,22 @@ export interface TrackDefinition {
   type: 'circuit' | 'sprint' | 'drag' | string;
   waypoints: Vector3[];
   checkpoints: Checkpoint[];
-  startLine: { position: Vector3; direction: Vector3;
-    };
-  finishLine: { position: Vector3; direction: Vector3;
-    };
+  startLine: {
+
+    position: Vector3; direction: Vector3;
+    
+
+
+  }
+  };
+  finishLine: {
+
+    position: Vector3; direction: Vector3;
+    
+
+
+  }
+  };
   length: number;
   width: number;
   elevation: number;
@@ -261,8 +279,15 @@ export class DrivingSystemPure {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DrivingSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -287,22 +312,46 @@ export class DrivingSystemPure {
     }
       ],
       checkpoints: [
-        { id: 'start-finish', position: { x: 0, y: 0, z: 0;
-    }, direction: { x: 1, y: 0, z: 0;
-    }, size: { width: 20, height: 5;
+        { id: 'start-finish', position: {
+   x: 0, y: 0, z: 0;
+ }
+    }, direction: {
+   x: 1, y: 0, z: 0;
+ }
+    }, size: {
+   width: 20, height: 5;
+ }
     }, type: 'start', isRequired: true;
     },
-        { id: 'cp-1', position: { x: 100, y: 0, z: 0;
-    }, direction: { x: 0, y: 0, z: 1;
-    }, size: { width: 20, height: 5;
+        { id: 'cp-1', position: {
+   x: 100, y: 0, z: 0;
+ }
+    }, direction: {
+   x: 0, y: 0, z: 1;
+ }
+    }, size: {
+   width: 20, height: 5;
+ }
     }, type: 'intermediate', isRequired: true;
     }
       ],
-      startLine: { position: { x: 0, y: 0, z: 0;
-    }, direction: { x: 1, y: 0, z: 0;
+      startLine: {
+
+        position: { x: 0, y: 0, z: 0;
+
+      }
+    }, direction: {
+   x: 1, y: 0, z: 0;
+ }
     } },
-      finishLine: { position: { x: 0, y: 0, z: 0;
-    }, direction: { x: 1, y: 0, z: 0;
+      finishLine: {
+
+        position: { x: 0, y: 0, z: 0;
+
+      }
+    }, direction: {
+   x: 1, y: 0, z: 0;
+ }
     } },
       length: 400,
       width: 15,
@@ -351,8 +400,16 @@ export class DrivingSystemPure {
       steering: 0,
       brakeInput: 0,
       currentSpeed: 0,
-      currentPosition: { x: 0, y: 0, z: 0;
-    }
+      currentPosition: {
+
+        x: 0, y: 0, z: 0;
+    
+
+      
+
+
+      }
+      };
     };
     this.vehicles.set(instance.id, instance);
     return instance;
@@ -552,11 +609,12 @@ export class DrivingManager {
    * Update vehicle controls
    */
   updateVehicleControls(vehicleId: string, controls: {
-    throttle?: number;
+   throttle?: number;
     steering?: number;
     brake?: number;
     boost?: boolean;
     ability?: string;
+ }
   }): boolean {
     const vehicle = this.drivingSystem.getVehicleInstance(vehicleId);
     if (!vehicle) return false;

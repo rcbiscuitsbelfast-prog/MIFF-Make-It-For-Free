@@ -63,8 +63,14 @@ export type RaidMember = {
   defense: number;
   role: 'tank' | 'healer' | 'dps' | 'support';
   abilities: string[];
-  position: { x: number; y: number;
-    };
+  position: {
+
+    x: number; y: number;
+    
+
+
+  }
+  };
 };
 
 export type RaidEncounter = {
@@ -137,7 +143,14 @@ export class RaidManager {
     const baseBoss = this.bosses.get(bossId);
     if (!baseBoss) return null;
 
-    const scalingFactor = this.scalingConfig[difficulty];
+    const scalingFactor = this.scalingConfig[
+      diffi,
+      c,
+      u,
+      l,
+      t,
+      y
+    ];
     const scaledBoss: RaidBoss = {
       ...baseBoss,
       level: Math.floor(baseBoss.level * scalingFactor),
@@ -189,7 +202,21 @@ export class RaidManager {
     const memberIndex = party.members.findIndex(m => m.id === memberId);
     if (memberIndex === -1) return false;
 
-    party.members[memberIndex] = { ...party.members[memberIndex], ...updates };
+    party.members[
+      member,
+      I,
+      n,
+      d,
+      e,
+      x
+    ] = { ...party.members[
+      member,
+      I,
+      n,
+      d,
+      e,
+      x
+    ], ...updates };
     
     // Recalculate party statistics
     party.totalHealth = party.members.reduce((sum, member) => sum + member.maxHealth, 0);
@@ -390,7 +417,7 @@ export class RaidManager {
     op: 'exportRaidStats';
     status: 'ok';
     data: {
-      summary: {
+        summary: {
         totalBosses: number;
         totalParties: number;
         totalEncounters: number;
@@ -398,10 +425,18 @@ export class RaidManager {
         completedEncounters: number;
         failedEncounters: number;
         averageEncounterDuration: number;
-        totalDamageDealt: number;
-        totalHealingDone: number;
-        totalLootGenerated: number;
-      };
+        totalDamageDeal,
+        t: number;
+        totalHealingDon,
+        e: number;
+        totalLootGenerate,
+        d: number;
+      
+
+
+    
+      
+      }
       bosses: Array<{
         id: string;
         name: string;
@@ -526,44 +561,44 @@ export class RaidManager {
     // Difficulty breakdown
     const difficultyBreakdown: Record<RaidDifficulty, any> = {
       normal: {
-
         encounters: 0,
-
         victories: 0,
-
         averageDuration: 0,
-
         successRate: 0;
+
+      
+      
+      }
     },
       heroic: {
-
         encounters: 0,
-
         victories: 0,
-
         averageDuration: 0,
-
         successRate: 0;
+
+      
+      
+      }
     },
       mythic: {
-
         encounters: 0,
-
         victories: 0,
-
         averageDuration: 0,
-
         successRate: 0;
+
+      
+      
+      }
     },
       legendary: {
-
         encounters: 0,
-
         victories: 0,
-
         averageDuration: 0,
-
         successRate: 0;
+
+      
+      
+      }
     },
     };
 
@@ -576,7 +611,14 @@ export class RaidManager {
         : 0;
       const successRate = diffEncounters.length > 0 ? victories / diffEncounters.length : 0;
 
-      difficultyBreakdown[diff as RaidDifficulty] = {
+      difficultyBreakdown[
+      diff,
+      as,
+      RaidDifficu,
+      l,
+      t,
+      y
+    ] = {
         encounters: diffEncounters.length,
         victories,
         averageDuration: Math.round(avgDuration),
@@ -588,6 +630,7 @@ export class RaidManager {
       op: 'exportRaidStats',
       status: 'ok',
       data: {
+
         summary: {
           totalBosses: this.bosses.size,
           totalParties: this.parties.size,
@@ -601,6 +644,8 @@ export class RaidManager {
           totalLootGenerated: completedEncounters.reduce((sum, e) => {
             const boss = this.bosses.get(e.bossId);
             return sum + (boss ? boss.lootTable.length : 0);
+
+      }
           }, 0)
         },
         bosses: bossStats,

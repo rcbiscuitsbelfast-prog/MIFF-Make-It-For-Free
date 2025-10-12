@@ -77,8 +77,15 @@ export class RacingSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'RacingSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

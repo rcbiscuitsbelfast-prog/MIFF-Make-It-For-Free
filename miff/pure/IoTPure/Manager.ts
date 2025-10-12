@@ -713,8 +713,15 @@ export class IoTManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'IoTManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -882,6 +889,10 @@ export class IoTManager {
         longitude: -122.4194,
         altitude: 0,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -893,6 +904,7 @@ export class IoTManager {
   private createDefaultDeviceCapabilities(): DeviceCapabilities {
     return {
       sensing: {
+
         temperature: true,
         humidity: false,
         pressure: false,
@@ -901,23 +913,32 @@ export class IoTManager {
         sound: false,
         custom: [],
         metadata: new Map()
+
+      }
       },
       actuation: {
+
         relay: false,
         motor: false,
         valve: false,
         light: false,
         custom: [],
         metadata: new Map()
+
+      }
       },
       processing: {
+
         cpu: 'ARM Cortex-M4',
         memory: 256,
         storage: 1024,
         os: 'FreeRTOS',
         metadata: new Map()
+
+      }
       },
       communication: {
+
         wifi: true,
         bluetooth: false,
         zigbee: false,
@@ -926,6 +947,8 @@ export class IoTManager {
         ethernet: false,
         custom: [],
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -938,17 +961,24 @@ export class IoTManager {
     return {
       protocol: ProtocolType.MQTT,
       network: {
+
         ssid: 'IoT_Network',
         ip: '192.168.1.100',
         port: 1883,
         signal: -50,
         metadata: new Map()
+
+      }
       },
       security: {
         encryption: EncryptionType.WPA2,
         authentication: AuthType.PASSWORD,
         certificates: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -961,17 +991,24 @@ export class IoTManager {
     return {
       source: PowerSource.AC,
       battery: {
+
         level: 100,
         voltage: 3.7,
         current: 0,
         temperature: 25,
         metadata: new Map()
+
+      }
       },
       consumption: {
         current: 0.1,
         average: 0.1,
         peak: 0.2,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -989,11 +1026,14 @@ export class IoTManager {
       trends: [],
       insights: [],
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         networkUsage: 0,
         storageUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()
@@ -1010,24 +1050,40 @@ export class IoTManager {
         algorithm: 'AES-256',
         keySize: 256,
         metadata: new Map()
+
+      
+      
+      }
       },
       authentication: {
         enabled: true,
         method: 'JWT',
         tokens: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       accessControl: {
         enabled: true,
         roles: [],
         permissions: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       monitoring: {
         enabled: true,
         alerts: [],
         logs: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };

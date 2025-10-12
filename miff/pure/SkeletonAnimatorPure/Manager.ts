@@ -30,13 +30,20 @@ export class SkeletonAnimatorManager {
       rig: this.rigBuilder.getConfig(),
       animations: {},
       uiState: {
+
         mode: 'rig',
         selectedTool: 'select',
         viewport: {
           camera: {
             position: { x: 0, y: 2, z: 5;
+
+      }
     },
-            target: { x: 0, y: 0, z: 0;
+            target: {
+
+              x: 0, y: 0, z: 0;
+
+            }
     },
             fov: 60;
     },
@@ -45,12 +52,16 @@ export class SkeletonAnimatorManager {
             visible: true,
 
             size: 1;
+
+          }
     },
           gizmos: {
 
             visible: true,
 
             size: 1;
+
+          }
     },
         },
         panels: []
@@ -121,11 +132,12 @@ export class SkeletonAnimatorManager {
    * Complete workflow: Create a full character
    */
   createFullCharacter(name: string, options: {
-    includeLimbs?: boolean;
+   includeLimbs?: boolean;
     includeSkin?: boolean;
     includeFace?: boolean;
     includeAnimations?: boolean;
     characterType?: 'humanoid' | 'creature' | 'robot';
+ }
   } = {}): SkeletonAnimatorManager {
     const {
       includeLimbs = true,
@@ -396,13 +408,20 @@ export class SkeletonAnimatorManager {
       rig: this.rigBuilder.getConfig(),
       animations: {},
       uiState: {
+
         mode: 'rig',
         selectedTool: 'select',
         viewport: {
           camera: {
             position: { x: 0, y: 2, z: 5;
+
+      }
     },
-            target: { x: 0, y: 0, z: 0;
+            target: {
+
+              x: 0, y: 0, z: 0;
+
+            }
     },
             fov: 60;
     },
@@ -411,12 +430,16 @@ export class SkeletonAnimatorManager {
             visible: true,
 
             size: 1;
+
+          }
     },
           gizmos: {
 
             visible: true,
 
             size: 1;
+
+          }
     },
         },
         panels: []

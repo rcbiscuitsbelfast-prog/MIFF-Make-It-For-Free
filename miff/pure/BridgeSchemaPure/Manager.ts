@@ -77,16 +77,22 @@ export class BridgeSchemaManager {
       version: '1.0.0',
       engine: 'unity',
       schema: {
+
         $schema: 'miff.bridge.unity.v1',
         type: 'object',
         properties: {
           gameObject: {
             type: 'object',
             properties: {
+
+      }
               name: { type: 'string' },
               transform: {
+
                 type: 'object',
                 properties: {
+
+              }
                   position: { type: 'array', items: { type: 'number' }, minItems: 3, maxItems: 3;
     },
                   rotation: { type: 'array', items: { type: 'number' }, minItems: 4, maxItems: 4;
@@ -97,12 +103,23 @@ export class BridgeSchemaManager {
                 required: ['position', 'rotation', 'scale']
               },
               components: {
+
                 type: 'array',
                 items: {
                   type: 'object',
                   properties: {
+
+              }
                     type: { type: 'string' },
-                    properties: { type: 'object' }
+                    properties: {
+
+                      type: 'object' 
+
+                    
+
+
+                    }
+                    };
                   }
                 }
               }
@@ -113,12 +130,19 @@ export class BridgeSchemaManager {
         required: ['gameObject']
       },
       metadata: {
+
         description: 'Standard Unity bridge schema for game objects',
         author: 'MIFF Framework',
         created: new Date().toISOString(),
         tags: ['unity', 'bridge', 'gameobject'],
         compatibility: ['unity-2021.3', 'unity-2022.3', 'unity-2023.3']
+      
+
+      
+
+
       }
+      };
     };
 
     // Web Bridge Schema
@@ -128,30 +152,51 @@ export class BridgeSchemaManager {
       version: '1.0.0',
       engine: 'web',
       schema: {
+
         $schema: 'miff.bridge.web.v1',
         type: 'object',
         properties: {
           element: {
             type: 'object',
             properties: {
+
+      }
               tag: { type: 'string' },
               id: { type: 'string' },
               className: { type: 'string' },
               style: {
+
                 type: 'object',
                 properties: {
+
+              }
                   position: { type: 'string', enum: ['absolute', 'relative', 'fixed'] },
                   left: { type: 'string' },
                   top: { type: 'string' },
                   width: { type: 'string' },
                   height: { type: 'string' },
-                  transform: { type: 'string' }
+                  transform: {
+
+                    type: 'string' 
+
+                  
+
+
+                  }
+                  };
                 }
               },
               attributes: { type: 'object' },
               children: {
+
                 type: 'array',
-                items: { $ref: '#/properties/element' }
+                items: { $ref: '#/properties/element' 
+
+              
+
+
+              }
+              };
               }
             },
             required: ['tag']
@@ -160,12 +205,19 @@ export class BridgeSchemaManager {
         required: ['element']
       },
       metadata: {
+
         description: 'Standard Web/HTML bridge schema for DOM elements',
         author: 'MIFF Framework',
         created: new Date().toISOString(),
         tags: ['web', 'bridge', 'dom', 'html'],
         compatibility: ['chrome', 'firefox', 'safari', 'edge']
+      
+
+      
+
+
       }
+      };
     };
 
     // Godot Bridge Schema
@@ -175,12 +227,15 @@ export class BridgeSchemaManager {
       version: '1.0.0',
       engine: 'godot',
       schema: {
+
         $schema: 'miff.bridge.godot.v1',
         type: 'object',
         properties: {
           node: {
             type: 'object',
             properties: {
+
+      }
               name: { type: 'string' },
               type: { type: 'string' },
               position: { type: 'array', items: { type: 'number' }, minItems: 2, maxItems: 3;
@@ -190,8 +245,15 @@ export class BridgeSchemaManager {
     },
               properties: { type: 'object' },
               children: {
+
                 type: 'array',
-                items: { $ref: '#/properties/node' }
+                items: { $ref: '#/properties/node' 
+
+              
+
+
+              }
+              };
               }
             },
             required: ['name', 'type']
@@ -200,12 +262,19 @@ export class BridgeSchemaManager {
         required: ['node']
       },
       metadata: {
+
         description: 'Standard Godot bridge schema for nodes',
         author: 'MIFF Framework',
         created: new Date().toISOString(),
         tags: ['godot', 'bridge', 'node'],
         compatibility: ['godot-4.0', 'godot-4.1', 'godot-4.2']
+      
+
+      
+
+
       }
+      };
     };
 
     // Add schemas to registry
@@ -220,9 +289,12 @@ export class BridgeSchemaManager {
       fromEngine: 'unity',
       toEngine: 'web',
       mappings: {
+
         'gameObject.name': 'element.id',
         'gameObject.transform.position': 'element.style.transform',
         'gameObject.components': 'element.attributes'
+
+      }
       },
       transformations: {
         position: (pos: number[]) => `translate3d(${pos[0]}px, ${pos[1]}px, ${pos[2]}px)`,
@@ -236,14 +308,24 @@ export class BridgeSchemaManager {
       fromEngine: 'web',
       toEngine: 'godot',
       mappings: {
+
         'element.id': 'node.name',
         'element.tag': 'node.type',
         'element.style.left': 'node.position[0]',
         'element.style.top': 'node.position[1]'
+
+      }
       },
       transformations: {
+
         position: (styleValue: string) => parseFloat(styleValue.replace('px', '')) || 0
+      
+
+      
+
+
       }
+      };
     });
   }
 
@@ -440,11 +522,18 @@ export class BridgeSchemaManager {
           return {
             ok: true,
             data: {
+
               version: this.config.version,
               schemas,
               conversions,
               exportedAt: new Date().toISOString()
+            
+
+            
+
+
             }
+            };
           };
       }
     } catch (error) {
@@ -545,7 +634,14 @@ export class BridgeSchemaManager {
       if (!(key in current)) current[key] = {};
       return current[key];
     }, obj);
-    target[lastKey] = value;
+    target[
+      la,
+      s,
+      t,
+      K,
+      e,
+      y
+    ] = value;
   }
 
   private inferSchemaFromData(data: any): any {

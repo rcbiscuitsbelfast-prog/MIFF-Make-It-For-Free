@@ -250,8 +250,15 @@ export class RenderWorldManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'RenderWorldManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

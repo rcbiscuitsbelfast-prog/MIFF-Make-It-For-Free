@@ -323,8 +323,15 @@ export class BackupSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'BackupSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -539,6 +546,10 @@ export class BackupSystemManager {
         password: '',
         token: '',
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -591,11 +602,14 @@ export class BackupSystemManager {
       averageBackupSize: 0,
       averageBackupTime: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

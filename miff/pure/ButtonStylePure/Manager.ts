@@ -306,8 +306,15 @@ export class ButtonStyleManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ButtonStyleManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -538,41 +545,56 @@ export class ButtonStyleManager {
   private createDefaultStyleProperties(): StyleProperties {
     return {
       backgroundColor: {
+
         r: 0.2,
         g: 0.4,
         b: 0.8,
         a: 1.0,
         metadata: new Map()
+
+      }
       },
       borderColor: {
+
         r: 0.1,
         g: 0.3,
         b: 0.7,
         a: 1.0,
         metadata: new Map()
+
+      }
       },
       textColor: {
+
         r: 1.0,
         g: 1.0,
         b: 1.0,
         a: 1.0,
         metadata: new Map()
+
+      }
       },
       borderWidth: 1,
       borderRadius: 4,
       padding: {
+
         top: 8,
         right: 16,
         bottom: 8,
         left: 16,
         metadata: new Map()
+
+      }
       },
       margin: {
+
         top: 0,
         right: 0,
         bottom: 0,
         left: 0,
         metadata: new Map()
+
+      }
       },
       fontSize: 14,
       fontFamily: 'Arial',
@@ -592,11 +614,14 @@ export class ButtonStyleManager {
       totalAnimations: 0,
       averageUsage: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

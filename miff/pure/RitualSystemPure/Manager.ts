@@ -30,8 +30,15 @@ export class RitualManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'RitualSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

@@ -168,7 +168,14 @@ export class DialogueParser {
         break;
       case 'play_sound':
         // Would trigger audio system
-        this.logger.info('DialogueManager', `[DialoguePure] Playing sound: ${action.target}`);
+        this.logger.info('DialogueManager', `[
+      Dialogu,
+      e,
+      P,
+      u,
+      r,
+      e
+    ] Playing sound: ${action.target}`);
         break;
     }
   }
@@ -180,10 +187,24 @@ export class DialogueParser {
         break;
       case 'condition':
         // Execute conditional action
-        this.logger.info('DialogueManager', `[DialoguePure] Executing conditional action: ${parsed.action}`);
+        this.logger.info('DialogueManager', `[
+      Dialogu,
+      e,
+      P,
+      u,
+      r,
+      e
+    ] Executing conditional action: ${parsed.action}`);
         break;
       default:
-        this.logger.info('DialogueManager', `[DialoguePure] Executing script: ${JSON.stringify(parsed)}`);
+        this.logger.info('DialogueManager', `[
+      Dialogu,
+      e,
+      P,
+      u,
+      r,
+      e
+    ] Executing script: ${JSON.stringify(parsed)}`);
     }
   }
 }
@@ -207,8 +228,15 @@ export class DialogueEngine {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DialogueManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -220,7 +248,14 @@ export class DialogueEngine {
   start(startNodeId: string = 'start'): DialogueResult | null {
     const startNode = this.tree.nodes.get(startNodeId);
     if (!startNode) {
-      this.logger.error('DialogueManager', `[DialoguePure] Start node not found: ${startNodeId}`);
+      this.logger.error('DialogueManager', `[
+      Dialogu,
+      e,
+      P,
+      u,
+      r,
+      e
+    ] Start node not found: ${startNodeId}`);
       return null;
     }
 
@@ -230,7 +265,15 @@ export class DialogueEngine {
       node: startNode,
       canContinue: !!startNode.next,
       isEnd: !startNode.next || startNode.next === 'end',
-      context: { ...this.context }
+      context: {
+
+        ...this.context 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -269,7 +312,15 @@ export class DialogueEngine {
         node: nextNode,
         canContinue: !!nextNode.next,
         isEnd: !nextNode.next || nextNode.next === 'end',
-        context: { ...this.context }
+        context: {
+
+          ...this.context 
+
+        
+
+
+        }
+        };
       };
       if (nextNode.type === 'choice' && nextNode.choices) {
         result.choices = nextNode.choices.filter(choice => {
@@ -313,7 +364,15 @@ export class DialogueEngine {
       node: currentNode, // Return current node as fallback
       canContinue: false,
       isEnd: true,
-      context: { ...this.context }
+      context: {
+
+        ...this.context 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -373,7 +432,15 @@ export class DialogueEngine {
       node,
       canContinue: !!nextNodeId && nextNodeId !== 'end',
       isEnd: !nextNodeId || nextNodeId === 'end',
-      context: { ...this.context }
+      context: {
+
+        ...this.context 
+
+      
+
+
+      }
+      };
     };
 
     if (node.type === 'choice' && node.choices) {
@@ -421,7 +488,15 @@ export class DialogueEngine {
       node: fallbackNode || node,
       canContinue: false,
       isEnd: true,
-      context: { ...this.context }
+      context: {
+
+        ...this.context 
+
+      
+
+
+      }
+      };
     };
   }
 

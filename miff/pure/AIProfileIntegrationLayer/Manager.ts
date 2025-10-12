@@ -262,24 +262,44 @@ export class AIProfileIntegrationLayer {
         defend: -0.2,
         heal: -0.1,
         wait: -0.3
+
+      
+      
+      }
       },
       cooperation: {
         heal: 0.3,
         interact: 0.2,
         attack: -0.2,
         wait: -0.1
+
+      
+      
+      }
       },
       caution: {
         defend: 0.3,
         wait: 0.2,
         attack: -0.3,
         move: 0.1
+
+      
+      
+      }
       },
       curiosity: {
         interact: 0.3,
         move: 0.2,
         wait: -0.2,
         defend: -0.1
+      
+
+      
+
+
+      
+      
+      
       }
     };
 
@@ -291,25 +311,41 @@ export class AIProfileIntegrationLayer {
     // Map preferences to actions
     const preferenceActionMap: Record<string, Record<string, number>> = {
       combat_style: {
+
         attack: 0.4,
         defend: 0.2,
         heal: -0.1
+
+      }
       },
       exploration_style: {
+
         move: 0.4,
         interact: 0.3,
         wait: -0.2
+
+      }
       },
       social_style: {
+
         interact: 0.4,
         heal: 0.2,
         attack: -0.2
+
+      }
       },
       resource_management: {
+
         wait: 0.2,
         heal: 0.1,
         attack: -0.1
+      
+
+      
+
+
       }
+      };
     };
 
     const actionInfluence = preferenceActionMap[preference.type]?.[action.type] || 0;
@@ -416,6 +452,8 @@ export class AIProfileIntegrationLayer {
         parameters: {
 
           damage: 10;
+
+        }
     },
         confidence: 0.5,
         reasoning: 'Attack available enemy'
@@ -430,6 +468,8 @@ export class AIProfileIntegrationLayer {
         parameters: {
 
           amount: 20;
+
+        }
     },
         confidence: 0.6,
         reasoning: 'Heal to restore health'

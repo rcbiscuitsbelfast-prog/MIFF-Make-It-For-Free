@@ -435,8 +435,22 @@ export class EvolutionManager {
 
   public getEvolutionChain(speciesId: string): string[] {
     const data = this.speciesData.get(speciesId);
-    if (!data) return [speciesId];
-    const chain: string[] = [speciesId];
+    if (!data) return [
+      spec,
+      i,
+      e,
+      s,
+      I,
+      d
+    ];
+    const chain: string[] = [
+      spec,
+      i,
+      e,
+      s,
+      I,
+      d
+    ];
     let currentSpecies: string | null = data.evolutionTargetId || null;
     while (currentSpecies) {
       chain.push(currentSpecies);
@@ -599,7 +613,14 @@ export class EvolutionManager {
     if (!context || !flagKey) return false;
 
     if (context.gameData?.onboardingFlags) {
-      return context.gameData.onboardingFlags[flagKey] === true;
+      return context.gameData.onboardingFlags[
+      fl,
+      a,
+      g,
+      K,
+      e,
+      y
+    ] === true;
     }
 
     return false;

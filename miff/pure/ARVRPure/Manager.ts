@@ -820,8 +820,15 @@ export class ARVRManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ARVRManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1058,6 +1065,10 @@ export class ARVRManager {
         broadPhase: BroadPhaseType.AABB,
         narrowPhase: NarrowPhaseType.GJK,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -1080,6 +1091,10 @@ export class ARVRManager {
         roomSize: 0.5,
         damping: 0.5,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -1099,7 +1114,10 @@ export class ARVRManager {
       },
       hands: [],
       eyes: {
+
         leftEye: {
+
+      }
           position: { x: 0, y: 0, z: 0, metadata: new Map() },
           rotation: { x: 0, y: 0, z: 0, w: 1, metadata: new Map() },
           pupilSize: 0.003,
@@ -1126,6 +1144,10 @@ export class ARVRManager {
         planes: [],
         meshes: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -1159,11 +1181,14 @@ export class ARVRManager {
       averageFPS: 0,
       averageLatency: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

@@ -55,9 +55,14 @@ export interface RenderStats {
   averageComplexity: number;
   engineDistribution: Record<string, number>;
   performanceMetrics: {
+
     buildTime: number;
     validationTime: number;
     exportTime: number;
+  
+
+
+  }
   };
 }
 
@@ -81,8 +86,16 @@ export class RenderPayloadManager {
         type: 'texture',
         size: 1024,
         format: 'PNG',
-        metadata: { width: 64, height: 64, channels: 4;
-    }
+        metadata: {
+
+          width: 64, height: 64, channels: 4;
+    
+
+        
+
+
+        }
+        };
       },
       {
         id: 'town_theme',
@@ -95,6 +108,8 @@ export class RenderPayloadManager {
           duration: 120,
 
           sampleRate: 44100;
+
+        }
     },
       },
       {
@@ -103,8 +118,16 @@ export class RenderPayloadManager {
         type: 'texture',
         size: 512,
         format: 'PNG',
-        metadata: { width: 32, height: 32, animated: true;
-    }
+        metadata: {
+
+          width: 32, height: 32, animated: true;
+    
+
+        
+
+
+        }
+        };
       }
     ];
 
@@ -132,11 +155,17 @@ export class RenderPayloadManager {
         duration: 1.5,
         loop: true,
         keyframes: [
-          { frame: 0, properties: { position: { y: 0;
+          { frame: 0, properties: {
+   position: { y: 0;
+ }
     } } },
-          { frame: 4, properties: { position: { y: 2;
+          { frame: 4, properties: {
+   position: { y: 2;
+ }
     } } },
-          { frame: 8, properties: { position: { y: 0;
+          { frame: 8, properties: {
+   position: { y: 0;
+ }
     } } }
         ]
       }
@@ -159,13 +188,20 @@ export class RenderPayloadManager {
         status: 'ok',
         renderData: [],
         metadata: {
+
           schemaVersion: 'v1',
           engine,
           timestamp: new Date().toISOString(),
           module: 'render_payload_pure',
           frameId: id,
           frameName: name;
-    }
+    
+
+        
+
+
+        }
+        };
       };
 
       this.frames.set(id, frame);
@@ -272,26 +308,58 @@ export class RenderPayloadManager {
     this.builder.addNode({
       id: 'npc_001',
       name: 'Guard Captain Marcus',
-      position: { x: 640, y: 960, z: 0;
+      position: {
+
+        x: 640, y: 960, z: 0;
+
+      }
     },
-      props: { npc_id: 'npc_001', has_quests: true;
+      props: {
+
+        npc_id: 'npc_001', has_quests: true;
+
+      }
     },
       children: [
         {
           id: 'npc_001_sprite',
           type: 'sprite',
-          position: { x: 0, y: 0, z: 0;
+          position: {
+
+            x: 0, y: 0, z: 0;
+
+          }
     },
           asset: 'npc_sprite',
-          props: { texture: 'npc_sprite.png' }
+          props: {
+
+            texture: 'npc_sprite.png' 
+
+          
+
+
+          }
+          };
         },
         {
           id: 'npc_001_title',
           type: 'text',
-          position: { x: 0, y: -24, z: 0;
+          position: {
+
+            x: 0, y: -24, z: 0;
+
+          }
     },
-          props: { text: 'Marcus', color: '#ffe08a', fontSize: 16;
-    }
+          props: {
+
+            text: 'Marcus', color: '#ffe08a', fontSize: 16;
+    
+
+          
+
+
+          }
+          };
         }
       ],
       signals: [
@@ -308,12 +376,22 @@ export class RenderPayloadManager {
         x: 620,
 
         y: 980;
+
+      }
     },
-      props: { 
-        loop: true, 
+      props: {
+        loop: true,
         frames: 16,
         duration: 2.0,
         asset: 'smoke_effect'
+      
+
+      
+
+
+      
+      
+      
       }
     });
 
@@ -321,7 +399,11 @@ export class RenderPayloadManager {
     this.builder.addSound({
       id: 'town_theme',
       name: 'TownTheme',
-      props: { volume: 0.6, loop: true;
+      props: {
+
+        volume: 0.6, loop: true;
+
+      }
     },
       asset: 'town_theme'
     });
@@ -335,12 +417,16 @@ export class RenderPayloadManager {
         x: 10,
 
         y: 10;
+
+      }
     },
       scale: {
 
         x: 300,
 
         y: 60;
+
+      }
     },
       props: { ui_type: 'overlay' },
       children: [
@@ -352,8 +438,18 @@ export class RenderPayloadManager {
             x: 0,
 
             y: 0;
+
+          }
     },
-          props: { text: 'Gold: 123', fontSize: 16, color: '#ffffff' }
+          props: {
+
+            text: 'Gold: 123', fontSize: 16, color: '#ffffff' 
+
+          
+
+
+          }
+          };
         }
       ]
     });
@@ -368,8 +464,18 @@ export class RenderPayloadManager {
           x: 0,
 
           y: 0;
+
+        }
     },
-        props: { particle_count: quality === 'ultra' ? 4000 : 2000 }
+        props: {
+
+          particle_count: quality === 'ultra' ? 4000 : 2000 
+
+        
+
+
+        }
+        };
       });
       // Inflate renderData to simulate complex frames for performance testing
       const count = quality === 'ultra' ? 2500 : 2000;
@@ -379,7 +485,15 @@ export class RenderPayloadManager {
           name: `Particle_${i}`,
           position: { x: (i % 100) * 5, y: Math.floor(i / 100) * 5 },
           asset: 'smoke_effect',
-          props: { frame: i % 16 }
+          props: {
+
+            frame: i % 16 
+
+          
+
+
+          }
+          };
         } as any);
       }
     }
@@ -411,7 +525,9 @@ export class RenderPayloadManager {
     }
 
     // TODO: Implement proper validation
-    return { ok: true, validation: { issues: [], valid: true;
+    return { ok: true, validation: {
+   issues: [], valid: true;
+ }
     } };
   }
 
@@ -434,25 +550,39 @@ export class RenderPayloadManager {
           return {
             ok: true,
             data: {
+
               schema: 'miff.render.export.v1',
               frame,
               assets: Array.from(this.assets.values()),
               animations: Array.from(this.animations.values()),
               exportedAt: new Date().toISOString()
+            
+
+            
+
+
             }
+            };
           };
         
         case 'summary':
           return {
             ok: true,
             data: {
+
               frameId,
               frameName: frame.metadata?.frameName || 'Unnamed Frame',
               renderDataCount: frame.renderData.length,
               engine: frame.metadata?.engine || 'unified',
               created: frame.metadata?.timestamp,
               complexity: this.calculateComplexity(frame)
+            
+
+            
+
+
             }
+            };
           };
         
         case 'assets':
@@ -460,10 +590,17 @@ export class RenderPayloadManager {
           return {
             ok: true,
             data: {
+
               assets: usedAssets,
               total: usedAssets.length,
               totalSize: usedAssets.reduce((sum, asset) => sum + asset.size, 0)
+            
+
+            
+
+
             }
+            };
           };
         
         default:
@@ -511,12 +648,27 @@ export class RenderPayloadManager {
     const engineDistribution: Record<string, number> = {};
     frames.forEach(frame => {
       const engine = frame.metadata?.engine || 'unified';
-      engineDistribution[engine] = (engineDistribution[engine] || 0) + 1;
+      engineDistribution[
+      e,
+      n,
+      g,
+      i,
+      n,
+      e
+    ] = (engineDistribution[
+      e,
+      n,
+      g,
+      i,
+      n,
+      e
+    ] || 0) + 1;
     });
 
     return {
       ok: true,
       stats: {
+
         totalFrames,
         totalAssets,
         totalAnimations,
@@ -526,7 +678,13 @@ export class RenderPayloadManager {
           buildTime: 0, // Would be tracked in real implementation
           validationTime: 0,
           exportTime: 0;
-    }
+    
+
+      
+
+
+      }
+      };
       }
     };
   }
@@ -603,6 +761,14 @@ export class RenderPayloadBuilder {
         engine: options.engine || 'unified',
         timestamp: options.timestamp || new Date().toISOString(),
         module: options.module || 'generic'
+      
+
+      
+
+
+      
+      
+      
       }
     };
 
@@ -619,25 +785,57 @@ export function createSampleFrame(): RenderPayload {
     .addNode({
       id: 'npc_001',
       name: 'Guard Captain Marcus',
-      position: { x: 640, y: 960, z: 0;
+      position: {
+
+        x: 640, y: 960, z: 0;
+
+      }
     },
-      props: { npc_id: 'npc_001', has_quests: true;
+      props: {
+
+        npc_id: 'npc_001', has_quests: true;
+
+      }
     },
       children: [
         {
           id: 'npc_001_sprite',
           type: 'sprite',
-          position: { x: 0, y: 0, z: 0;
+          position: {
+
+            x: 0, y: 0, z: 0;
+
+          }
     },
           asset: 'npc_sprite.png',
-          props: { texture: 'npc_sprite.png' }
+          props: {
+
+            texture: 'npc_sprite.png' 
+
+          
+
+
+          }
+          };
         },
         {
           id: 'npc_001_title',
           type: 'text',
-          position: { x: 0, y: -24, z: 0;
+          position: {
+
+            x: 0, y: -24, z: 0;
+
+          }
     },
-          props: { text: 'Marcus', color: '#ffe08a' }
+          props: {
+
+            text: 'Marcus', color: '#ffe08a' 
+
+          
+
+
+          }
+          };
         }
       ],
       signals: [
@@ -652,18 +850,26 @@ export function createSampleFrame(): RenderPayload {
         x: 620,
 
         y: 980;
+
+      }
     },
       props: {
 
         loop: true,
 
         frames: 16;
+
+      }
     },
     })
     .addSound({
       id: 'town_theme',
       name: 'TownTheme',
-      props: { volume: 0.6, loop: true;
+      props: {
+
+        volume: 0.6, loop: true;
+
+      }
     },
       asset: 'town_theme.mp3'
     })
@@ -675,12 +881,16 @@ export function createSampleFrame(): RenderPayload {
         x: 10,
 
         y: 10;
+
+      }
     },
       scale: {
 
         x: 300,
 
         y: 60;
+
+      }
     },
       props: { ui_type: 'overlay' },
       children: [
@@ -692,8 +902,18 @@ export function createSampleFrame(): RenderPayload {
             x: 0,
 
             y: 0;
+
+          }
     },
-          props: { text: 'Gold: 123', font_size: 16, color: '#ffffff' }
+          props: {
+
+            text: 'Gold: 123', font_size: 16, color: '#ffffff' 
+
+          
+
+
+          }
+          };
         }
       ]
     });

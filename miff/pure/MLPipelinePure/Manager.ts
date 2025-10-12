@@ -387,8 +387,15 @@ export class MLPipelineManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'MLPipelineManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -616,6 +623,10 @@ export class MLPipelineManager {
         encoding: 'one_hot',
         imputation: 'mean',
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -632,11 +643,14 @@ export class MLPipelineManager {
       averageTrainingTime: 0,
       modelAccuracy: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

@@ -372,9 +372,16 @@ export class ScoreManager {
       op: 'check-achievements',
       status: 'ok',
       result: {
+
         unlocked: unlockedAchievements,
         totalAchievements: score.achievements.length
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -398,8 +405,22 @@ export class ScoreManager {
     // Update or add entry
     const existingIndex = leaderboard.entries.findIndex(e => e.playerId === playerId);
     if (existingIndex >= 0) {
-      leaderboard.entries[existingIndex].score = score;
-      leaderboard.entries[existingIndex].timestamp = Date.now();
+      leaderboard.entries[
+      existing,
+      I,
+      n,
+      d,
+      e,
+      x
+    ].score = score;
+      leaderboard.entries[
+      existing,
+      I,
+      n,
+      d,
+      e,
+      x
+    ].timestamp = Date.now();
     } else {
       leaderboard.entries.push({
         playerId,
@@ -444,9 +465,16 @@ export class ScoreManager {
       op: 'get-leaderboard',
       status: 'ok',
       result: {
+
         ...leaderboard,
         entries
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -485,7 +513,15 @@ export class ScoreManager {
     return {
       op: 'get-stats',
       status: 'ok',
-      result: { ...this.stats }
+      result: {
+
+        ...this.stats 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -503,11 +539,18 @@ export class ScoreManager {
           op: 'export',
           status: 'ok',
           result: {
+
             scores,
             achievements,
             leaderboards,
             stats: this.stats
+          
+
+          
+
+
           }
+          };
         };
       
       case 'manifest':
@@ -515,13 +558,20 @@ export class ScoreManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.scores.export.v1',
             scores,
             achievements,
             leaderboards,
             stats: this.stats,
             exportedAt: new Date().toISOString()
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -529,11 +579,19 @@ export class ScoreManager {
           op: 'export',
           status: 'ok',
           result: {
-            summary: this.stats,
-            totalScores: scores.length,
-            totalAchievements: achievements.length,
-            totalLeaderboards: leaderboards.length
-          }
+        summary: this.stats,
+        totalScores: scores.length,
+        totalAchievements: achievements.length,
+        totalLeaderboards: leaderboards.length
+          
+
+          
+
+
+          
+      
+      
+      }
         };
       
       case 'leaderboards':
@@ -541,9 +599,16 @@ export class ScoreManager {
           op: 'export',
           status: 'ok',
           result: {
+
             leaderboards,
             total: leaderboards.length
+          
+
+          
+
+
           }
+          };
         };
       
       default:

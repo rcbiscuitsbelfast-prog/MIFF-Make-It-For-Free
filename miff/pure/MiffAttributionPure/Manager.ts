@@ -26,7 +26,11 @@ export type LicenseInfo = {
 export type AttributionOutput = { 
   op: 'showAttribution'; 
   status: 'ok' | 'skipped'; 
-  issues: { code: string; message: string;
+  issues: {
+ 
+    code: string; message: string;
+ 
+  }
     }[]; 
   resolvedRefs: {}; 
   rendered?: { 

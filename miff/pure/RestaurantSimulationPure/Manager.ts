@@ -454,8 +454,15 @@ export class RestaurantSimulationManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'RestaurantSimulationManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -652,27 +659,43 @@ export class RestaurantSimulationManager {
     return {
       tables: [],
       kitchen: {
+
         stations: [],
         equipment: [],
         metadata: new Map()
+
+      }
       },
       bar: {
+
         stations: [],
         inventory: [],
         metadata: new Map()
+
+      }
       },
       entrance: {
         waitingArea: {
           capacity: 20,
-          currentWait: 0,
-          customers: [],
-          metadata: new Map()
+        currentWait: 0,
+        customers: [],
+        metadata: new Map()
+
+      
+      
+        
+      }
+      }
         },
         hostStation: {
-          id: 'host_station_1',
-          status: HostStationStatus.AVAILABLE,
-          currentHost: '',
-          metadata: new Map()
+        id: 'host_station_1',
+        status: HostStationStatus.AVAILABLE,
+        currentHost: '',
+        metadata: new Map()
+
+        
+      
+      }
         },
         metadata: new Map()
       },
@@ -718,6 +741,10 @@ export class RestaurantSimulationManager {
         customerSatisfaction: 0,
         efficiency: 0,
         metadata: new Map()
+
+      
+      
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

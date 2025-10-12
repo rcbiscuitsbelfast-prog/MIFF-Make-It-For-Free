@@ -139,6 +139,8 @@ export class SportsManager {
         team1: 0,
 
         team2: 0;
+
+      }
     },
       winner: null,
       duration: 0,
@@ -398,7 +400,9 @@ export class SportsManager {
     }
   }
 
-  public shootBall(gameId: string, playerId: string, targetPosition: { x: number; y: number; z: number;
+  public shootBall(gameId: string, playerId: string, targetPosition: {
+   x: number; y: number; z: number;
+ }
     }): SportsOutput {
     try {
       const success = this.sportsSystem.shootBall(gameId, playerId, targetPosition);

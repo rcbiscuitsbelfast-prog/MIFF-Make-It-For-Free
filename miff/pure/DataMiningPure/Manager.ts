@@ -542,8 +542,15 @@ export class DataMiningManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DataMiningManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -746,11 +753,14 @@ export class DataMiningManager {
       size: 0,
       format: 'unknown',
       quality: {
+
         completeness: 0,
         accuracy: 0,
         consistency: 0,
         validity: 0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -766,40 +776,63 @@ export class DataMiningManager {
         threshold: 0.1,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       outliers: {
         method: OutlierMethod.Z_SCORE,
         threshold: 3,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       normalization: {
+
         method: NormalizationMethod.Z_SCORE,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       encoding: {
+
         categorical: {
           method: CategoricalEncodingMethod.ONE_HOT,
           parameters: new Map(),
           metadata: new Map()
+
+      }
         },
         numerical: {
+
           method: NumericalEncodingMethod.BINNING,
           parameters: new Map(),
           metadata: new Map()
+
+        }
         },
         text: {
+
           method: TextEncodingMethod.TF_IDF,
           parameters: new Map(),
           metadata: new Map()
+
+        }
         },
         metadata: new Map()
       },
       featureScaling: {
+
         method: FeatureScalingMethod.STANDARD,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -838,17 +871,24 @@ export class DataMiningManager {
       features: [],
       target: '',
       split: {
+
         trainRatio: 0.7,
         testRatio: 0.2,
         validationRatio: 0.1,
         randomState: 42,
         metadata: new Map()
+
+      }
       },
       crossValidation: {
         enabled: true,
         folds: 5,
         method: CrossValidationMethod.K_FOLD,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -884,11 +924,14 @@ export class DataMiningManager {
       averageAccuracy: 0,
       averagePerformance: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

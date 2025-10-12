@@ -77,8 +77,15 @@ export class EventsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'EventsManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

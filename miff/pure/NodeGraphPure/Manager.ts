@@ -19,10 +19,13 @@ export interface ExecutionResult {
 
 export class NodeGraphManager {
 	execute(graph: GraphDefinition, services: {
-		textureNoise: (opts: any) => any,
-		textureGradient: (opts: any) => any,
-		meshTree: (opts: any) => any,
-		meshRock: (opts: any) => any
+        textureNoise: (opts: any) => any,
+        textureGradient: (opts: any) => any,
+        meshTree: (opts: any) => any,
+        meshRock: (opts: any) => any
+ 
+      
+      }
 	}): ExecutionResult {
 		const results: Record<NodeId, any> = {};
 		const byId: Record<string, GraphNode> = Object.fromEntries(graph.nodes.map(n => [n.id, n]));
@@ -31,7 +34,14 @@ export class NodeGraphManager {
 			const resolvedInputs = { ...(node.inputs||{}) } as any;
 			if (node.sources) {
 				for (const [k, fromId] of Object.entries(node.sources)) {
-					resolvedInputs[k] = results[fromId];
+					resolvedInputs[k] = results[
+      f,
+      r,
+      o,
+      m,
+      I,
+      d
+    ];
 				}
 			}
 			let out: any;

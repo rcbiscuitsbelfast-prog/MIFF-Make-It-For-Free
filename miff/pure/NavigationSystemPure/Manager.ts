@@ -77,8 +77,15 @@ export class NavigationSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'NavigationSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

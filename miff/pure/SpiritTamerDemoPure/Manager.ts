@@ -12,13 +12,21 @@ export interface Spirit {
   level: number;
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
   stats: {
-    health: number;
+        health: number;
     maxHealth: number;
     attack: number;
-    defense: number;
-    speed: number;
-    tamingDifficulty: number; // 1-10
-  };
+    defens,
+        e: number;
+    spee,
+        d: number;
+    tamingDifficult,
+        y: number; // 1-10
+  
+
+
+  
+      
+      }
   abilities: string[];
   location: string;
   isWild: boolean;
@@ -55,20 +63,39 @@ export interface PlayerState {
   name: string;
   level: number;
   experience: number;
-  location: { x: number; y: number; zone: string;
-    };
+  location: {
+
+    x: number; y: number; zone: string;
+    
+
+
+  }
+  };
   inventory: string[];
   tamedSpirits: string[];
   equipment: {
+
     instrument: string | null;
     accessory: string | null;
+  
+
+
+  }
   };
   stats: {
-    totalSpirits: number;
-    successfulTamings: number;
-    battleWins: number;
-    rhythmAccuracy: number;
-  };
+        totalSpirits: number;
+    successfulTaming,
+        s: number;
+    battleWin,
+        s: number;
+    rhythmAccurac,
+        y: number;
+  
+
+
+  
+      
+      }
 }
 
 export interface BattleResult {
@@ -85,8 +112,14 @@ export interface BattleTurn {
   action: string;
   damage: number;
   effect?: string;
-  healthAfter: { player: number; spirit: number;
-    };
+  healthAfter: {
+
+    player: number; spirit: number;
+    
+
+
+  }
+  };
 }
 
 export class SpiritTamerManager {
@@ -104,18 +137,21 @@ export class SpiritTamerManager {
       inventory: ['spirit_flute', 'calming_herbs', 'energy_crystal'],
       tamedSpirits: [],
       equipment: {
+
         instrument: 'spirit_flute',
         accessory: null;
+
+      }
     },
       stats: {
-
         totalSpirits: 0,
-
         successfulTamings: 0,
-
         battleWins: 0,
-
         rhythmAccuracy: 0;
+
+      
+      
+      }
     },
     };
 
@@ -143,6 +179,8 @@ export class SpiritTamerManager {
           speed: 15,
 
           tamingDifficulty: 3;
+
+        }
     },
         abilities: ['flame_burst', 'quick_strike'],
         location: 'grove',
@@ -167,6 +205,8 @@ export class SpiritTamerManager {
           speed: 20,
 
           tamingDifficulty: 2;
+
+        }
     },
         abilities: ['shadow_dash', 'echo_location'],
         location: 'grove',
@@ -191,6 +231,8 @@ export class SpiritTamerManager {
           speed: 25,
 
           tamingDifficulty: 5;
+
+        }
     },
         abilities: ['wind_blade', 'aerial_dance', 'gust_shield'],
         location: 'grove',
@@ -215,6 +257,8 @@ export class SpiritTamerManager {
           speed: 8,
 
           tamingDifficulty: 7;
+
+        }
     },
         abilities: ['rock_throw', 'earth_armor', 'tremor'],
         location: 'grove',
@@ -385,13 +429,20 @@ export class SpiritTamerManager {
       return {
         ok: true,
         result: {
+
           timing,
           accuracy,
           progress,
           aggression: newEntry.aggression,
           tamed: newEntry.tamed,
           sessionComplete: session.result !== 'in_progress'
+        
+
+        
+
+
         }
+        };
       };
     } catch (error) {
       return { ok: false, errors: [error instanceof Error ? error.message : 'Unknown error'] };
@@ -451,6 +502,8 @@ export class SpiritTamerManager {
             player: playerHealth,
 
             spirit: spiritHealth;
+
+          }
     },
         });
 
@@ -472,6 +525,8 @@ export class SpiritTamerManager {
             player: playerHealth,
 
             spirit: spiritHealth;
+
+          }
     },
         });
       }
@@ -531,17 +586,25 @@ export class SpiritTamerManager {
     return {
       ok: true,
       stats: {
+
         player: this.player.stats,
         spirits: {
-          total: this.spirits.size,
-          wild: wildSpirits,
-          tamed: tamedSpirits,
-          tamingRate: this.spirits.size > 0 ? (tamedSpirits / this.spirits.size) * 100 : 0
+        total: this.spirits.size,
+        wild: wildSpirits,
+        tamed: tamedSpirits,
+        tamingRate: this.spirits.size > 0 ? (tamedSpirits / this.spirits.size) * 100 : 0
+
+      
+      
+      }
         },
         sessions: {
+
           total: this.tamingSessions.size,
           completed: completedSessions,
           active: this.activeSession ? 1 : 0
+
+        }
         },
         location: this.player.location
       }
@@ -558,13 +621,20 @@ export class SpiritTamerManager {
           return {
             ok: true,
             data: {
+
               schema: 'miff.spirit-tamer.save.v1',
               player: this.player,
               spirits: Object.fromEntries(this.spirits.entries()),
               sessions: Object.fromEntries(this.tamingSessions.entries()),
               activeSession: this.activeSession?.id || null,
               exportedAt: new Date().toISOString()
+            
+
+            
+
+
             }
+            };
           };
 
         case 'scenario':
@@ -572,13 +642,20 @@ export class SpiritTamerManager {
           return {
             ok: true,
             data: {
+
               op: 'scenario',
               status: 'ok',
               name: 'SpiritTamerDemoPure',
               beats: activeSession?.beats || [],
               timeline: activeSession?.timeline || [],
               issues: []
+            
+
+            
+
+
             }
+            };
           };
 
         case 'summary':
@@ -586,6 +663,7 @@ export class SpiritTamerManager {
           return {
             ok: true,
             data: {
+
               playerName: this.player.name,
               level: this.player.level,
               experience: this.player.experience,
@@ -593,7 +671,13 @@ export class SpiritTamerManager {
               successRate: stats.stats.spirits.tamingRate,
               currentLocation: this.player.location,
               inventory: this.player.inventory.length
+            
+
+            
+
+
             }
+            };
           };
 
         default:
@@ -633,17 +717,21 @@ export class SpiritTamerManager {
       location: { x: 85, y: 262, zone: 'grove' },
       inventory: ['spirit_flute', 'calming_herbs', 'energy_crystal'],
       tamedSpirits: [],
-      equipment: { instrument: 'spirit_flute', accessory: null;
+      equipment: {
+
+        instrument: 'spirit_flute', accessory: null;
+
+      }
     },
       stats: {
-
         totalSpirits: 0,
-
         successfulTamings: 0,
-
         battleWins: 0,
-
         rhythmAccuracy: 0;
+
+      
+      
+      }
     },
     };
 

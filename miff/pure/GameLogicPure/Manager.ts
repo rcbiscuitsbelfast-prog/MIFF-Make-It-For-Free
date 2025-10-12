@@ -289,8 +289,15 @@ export class GameLogicManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'GameLogicManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -524,11 +531,14 @@ export class GameLogicManager {
       averageExecutionTime: 0,
       averageMemoryUsage: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

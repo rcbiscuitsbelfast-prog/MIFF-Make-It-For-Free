@@ -1837,8 +1837,15 @@ export class SaveManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'SaveManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -2103,10 +2110,17 @@ export class SaveManager {
         id: backupId,
         name: `${saveSlot.name} (Backup)`,
         metadata: {
+
           ...saveSlot.metadata,
           isBackup: true,
           parentSaveId: slotId;
-    }
+    
+
+        
+
+
+        }
+        };
       };
 
       this.saveSlots.set(backupId, backup);
@@ -2140,10 +2154,17 @@ export class SaveManager {
         id: originalId,
         name: backup.name.replace(' (Backup)', ''),
         metadata: {
+
           ...backup.metadata,
           isBackup: false,
           parentSaveId: null;
-    }
+    
+
+        
+
+
+        }
+        };
       };
 
       this.saveSlots.set(originalId, restored);
@@ -2214,6 +2235,7 @@ export class SaveManager {
   private createDefaultPreferences(): UserPreferences {
     return {
       graphics: {
+
         resolution: [1920, 1080],
         fullscreen: false,
         vsync: true,
@@ -2227,8 +2249,11 @@ export class SaveManager {
         brightness: 1.0,
         contrast: 1.0,
         gamma: 1.0
+
+      }
       },
       audio: {
+
         masterVolume: 1.0,
         musicVolume: 0.8,
         sfxVolume: 1.0,
@@ -2240,8 +2265,11 @@ export class SaveManager {
         audioDevice: 'default',
         sampleRate: 44100,
         bitDepth: 16;
+
+      }
     },
       controls: {
+
         mouseSensitivity: 1.0,
         invertMouse: false,
         keyBindings: new Map(),
@@ -2251,8 +2279,11 @@ export class SaveManager {
         aimAssist: true,
         movementDeadzone: 0.1,
         lookDeadzone: 0.1
+
+      }
       },
       accessibility: {
+
         colorBlindMode: ColorBlindMode.NONE,
         highContrast: false,
         largeText: false,
@@ -2263,8 +2294,11 @@ export class SaveManager {
         hapticFeedback: true,
         reducedMotion: false,
         customColors: new Map()
+
+      }
       },
       ui: {
+
         scale: 1.0,
         theme: UITheme.DARK,
         language: 'en',
@@ -2275,8 +2309,11 @@ export class SaveManager {
         chatEnabled: true,
         notificationsEnabled: true,
         tooltipsEnabled: true;
+
+      }
     },
       gameplay: {
+
         difficulty: DifficultyLevel.NORMAL,
         autoSave: true,
         autoSaveInterval: 300000,
@@ -2287,7 +2324,13 @@ export class SaveManager {
         enableCheats: false,
         enableDebug: false,
         enableProfiling: false;
-    }
+    
+
+      
+
+
+      }
+      };
     };
   }
 

@@ -109,8 +109,14 @@ export interface DebugFrameAnalysis {
 }
 
 export interface DebugInputAnalysis {
-  mousePosition: { x: number; y: number;
-    };
+  mousePosition: {
+
+    x: number; y: number;
+    
+
+
+  }
+  };
   mouseButtons: boolean[];
   keyboardState: Set<string>;
   touchPoints: number;
@@ -256,30 +262,58 @@ export interface DebugRecommendation {
 
 export interface DebugMetricsSummary {
   overall: {
+
     score: number; // 0-100
     grade: 'A+' | 'A' | 'B' | 'C' | 'D' | 'F';
     status: 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
+  
+
+
+  }
   };
   performance: {
+
     score: number;
     trends: 'improving' | 'stable' | 'declining';
     issues: number;
+  
+
+
+  }
   };
   stability: {
-    score: number;
-    crashes: number;
-    errors: number;
-    warnings: number;
-  };
+        score: number;
+    crashe,
+        s: number;
+    error,
+        s: number;
+    warning,
+        s: number;
+  
+
+
+  
+      
+      }
   memory: {
+
     score: number;
     leaks: number;
     efficiency: number;
+  
+
+
+  }
   };
   rendering: {
+
     score: number;
     bottlenecks: string[];
     optimizations: number;
+  
+
+
+  }
   };
 }
 
@@ -343,8 +377,15 @@ export class DebugOverlayManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'DebugOverlayManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -443,12 +484,19 @@ export class DebugOverlayManager {
 
       const overlay: DebugOverlay = {
         debugInfo: {
+
           ...debugInfo,
           history: {
             performance: [...this.performanceHistory],
             memory: [...this.memoryHistory],
             frames: [...this.frameHistory]
-          }
+          
+
+        
+
+
+        }
+        };
         },
         renderData,
         issues,
@@ -744,6 +792,7 @@ export class DebugOverlayManager {
       signalsCount,
       metadata: payload.metadata,
       performance: {
+
         frameTime: 16.67,
         fps: 60,
         memory: typeof (process as any).gpuMemoryUsage === 'function' ? (process as any).gpuMemoryUsage().heapUsed : 0,
@@ -759,7 +808,13 @@ export class DebugOverlayManager {
         frameTimeVariance: 0,
         bottleneck: 'unknown',
         duration
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -827,7 +882,14 @@ export class DebugOverlayManager {
     const interval = this.config.autoRefreshInterval || 1000;
     this.autoRefreshTimer = setInterval(() => {
       // Auto-refresh logic would trigger overlay updates
-      this.logger.info('DebugOverlayManager', `[DebugOverlay] Auto-refresh tick: ${this.frameCounter}`);
+      this.logger.info('DebugOverlayManager', `[
+      DebugOv,
+      e,
+      r,
+      l,
+      a,
+      y
+    ] Auto-refresh tick: ${this.frameCounter}`);
     }, interval);
   }
 
@@ -935,6 +997,8 @@ export class DebugOverlayManager {
         x: 0,
 
         y: 0;
+
+      }
     },
       mouseButtons: [false, false, false],
       keyboardState: new Set(),
@@ -990,6 +1054,8 @@ export class DebugOverlayManager {
           width: 200,
 
           height: 100;
+
+        }
     },
         interactive: true,
         realTime: true;
@@ -1217,31 +1283,51 @@ export class DebugOverlayManager {
 
     return {
       overall: {
+
         score: overallScore,
         grade: overallGrade,
         status: overallStatus;
+
+      }
     },
       performance: {
+
         score: performanceScore,
         trends: this.analyzePerformanceTrends(),
         issues: this.alerts.filter(a => a.type === 'performance').length
+
+      }
       },
       stability: {
         score: stabilityScore,
         crashes: 0,
         errors: this.alerts.filter(a => a.type === 'error').length,
         warnings: this.alerts.filter(a => a.type === 'warning').length
+
+      
+      
+      }
       },
       memory: {
+
         score: memoryScore,
         leaks: this.memoryHistory.reduce((count, m) => count + m.leakSuspects.length, 0),
         efficiency: memoryScore;
+
+      }
     },
       rendering: {
+
         score: renderingScore,
         bottlenecks: this.identifyBottlenecks(),
         optimizations: this.recommendations.filter(r => r.category === 'rendering').length
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -1375,12 +1461,15 @@ export class DebugOverlayManager {
   private createEmptyOverlay(): DebugOverlay {
     return {
       debugInfo: {
+
         op: 'unknown',
         status: 'error',
         timestamp: new Date().toISOString(),
         renderDataCount: 0,
         engineHints: [],
         signalsCount: 0;
+
+      }
     },
       renderData: [],
       issues: [],
@@ -1390,22 +1479,38 @@ export class DebugOverlayManager {
       recommendations: [],
       metrics: {
         overall: { score: 0, grade: 'F', status: 'critical' },
-        performance: { score: 0, trends: 'declining', issues: 0;
+        performance: {
+
+          score: 0, trends: 'declining', issues: 0;
+
+        }
     },
         stability: {
+        score: 0,
+        crashes: 0,
+        errors: 0,
+        warnings: 0;
 
-          score: 0,
-
-          crashes: 0,
-
-          errors: 0,
-
-          warnings: 0;
+        
+      
+      }
     },
-        memory: { score: 0, leaks: 0, efficiency: 0;
+        memory: {
+
+          score: 0, leaks: 0, efficiency: 0;
+
+        }
     },
-        rendering: { score: 0, bottlenecks: [], optimizations: 0;
-    }
+        rendering: {
+
+          score: 0, bottlenecks: [], optimizations: 0;
+    
+
+        
+
+
+        }
+        };
       }
     };
   }
@@ -1435,27 +1540,62 @@ export class DebugOverlayManager {
 
   private initializeMemoryTracking(): void {
     // Memory tracking initialization would go here
-    this.logger.info('DebugOverlayManager', '[DebugOverlay] Memory tracking enabled');
+    this.logger.info('DebugOverlayManager', '[
+      DebugOv,
+      e,
+      r,
+      l,
+      a,
+      y
+    ] Memory tracking enabled');
   }
 
   private initializeFrameProfiling(): void {
     // Frame profiling initialization would go here
-    this.logger.info('DebugOverlayManager', '[DebugOverlay] Frame profiling enabled');
+    this.logger.info('DebugOverlayManager', '[
+      DebugOv,
+      e,
+      r,
+      l,
+      a,
+      y
+    ] Frame profiling enabled');
   }
 
   private initializeInputAnalysis(): void {
     // Input analysis initialization would go here
-    this.logger.info('DebugOverlayManager', '[DebugOverlay] Input analysis enabled');
+    this.logger.info('DebugOverlayManager', '[
+      DebugOv,
+      e,
+      r,
+      l,
+      a,
+      y
+    ] Input analysis enabled');
   }
 
   private initializeAudioAnalysis(): void {
     // Audio analysis initialization would go here
-    this.logger.info('DebugOverlayManager', '[DebugOverlay] Audio analysis enabled');
+    this.logger.info('DebugOverlayManager', '[
+      DebugOv,
+      e,
+      r,
+      l,
+      a,
+      y
+    ] Audio analysis enabled');
   }
 
   private initializeNetworkMonitoring(): void {
     // Network monitoring initialization would go here
-    this.logger.info('DebugOverlayManager', '[DebugOverlay] Network monitoring enabled');
+    this.logger.info('DebugOverlayManager', '[
+      DebugOv,
+      e,
+      r,
+      l,
+      a,
+      y
+    ] Network monitoring enabled');
   }
 
   private loadGoldenTest(testPath: string): any {

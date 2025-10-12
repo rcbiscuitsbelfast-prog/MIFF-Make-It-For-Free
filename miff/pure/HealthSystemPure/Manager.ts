@@ -94,10 +94,11 @@ export class HealthSystemManager {
    * Create a new health entity
    */
   createEntity(id: string, maxHp: number, options: {
-    currentHp?: number;
+   currentHp?: number;
     shields?: Shield[];
     immunities?: string[];
     resistances?: Record<string, number>;
+ }
   } = {}): HealthOutput {
     if (this.entities.has(id)) {
       return {
@@ -150,10 +151,11 @@ export class HealthSystemManager {
    * Apply damage to entity
    */
   applyDamage(entityId: string, amount: number, options: {
-    damageType?: 'physical' | 'magical' | 'elemental' | 'pure';
+   damageType?: 'physical' | 'magical' | 'elemental' | 'pure';
     element?: 'fire' | 'ice' | 'lightning' | 'poison' | 'holy' | 'dark';
     source?: string;
     bypassShields?: boolean;
+ }
   } = {}): HealthOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {
@@ -234,8 +236,9 @@ export class HealthSystemManager {
    * Apply healing to entity
    */
   applyHealing(entityId: string, amount: number, options: {
-    source?: string;
+   source?: string;
     overheal?: boolean;
+ }
   } = {}): HealthOutput {
     const entity = this.entities.get(entityId);
     if (!entity) {

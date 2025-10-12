@@ -500,7 +500,15 @@ export class QuestsManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { quests, total: quests.length }
+          result: {
+
+            quests, total: quests.length 
+
+          
+
+
+          }
+          };
         };
       
       case 'manifest':
@@ -508,12 +516,19 @@ export class QuestsManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.quests.export.v1',
             quests,
             progress: Array.from(this.questProgress.values()),
             exportedAt: new Date().toISOString(),
             total: quests.length
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -568,7 +583,15 @@ export class QuestsManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: { message: 'All quests reset to default state' }
+      result: {
+
+        message: 'All quests reset to default state' 
+
+      
+
+
+      }
+      };
     };
   }
 }

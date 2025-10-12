@@ -308,8 +308,15 @@ export class GodotBridgeManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'GodotBridgeManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -571,6 +578,10 @@ export class GodotBridgeManager {
         interval: 5000,
         timeout: 1000,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -587,11 +598,14 @@ export class GodotBridgeManager {
       averagePerformance: 0,
       connectionStability: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

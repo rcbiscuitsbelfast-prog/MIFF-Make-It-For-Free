@@ -23,13 +23,22 @@ export type TaggingResult = {
   status: 'ok' | 'warning' | 'error';
   moduleId: string;
   remixLevel: RemixLevel;
-  issues: { code: string; message: string;
+  issues: {
+
+    code: string; message: string;
+
+  }
     }[];
   warnings: string[];
   metadata: {
+
     taggedAt: string;
     config: TaggingConfig;
     dependencies: string[];
+  
+
+
+  }
   };
 };
 
@@ -101,7 +110,14 @@ export class RemixTaggingManager {
       'default': []
     };
 
-    return commonDeps[moduleId] || commonDeps.default;
+    return commonDeps[
+      mod,
+      u,
+      l,
+      e,
+      I,
+      d
+    ] || commonDeps.default;
   }
 
   private generateReason(remixLevel: RemixLevel, dependencies: string[]): string {
@@ -132,7 +148,9 @@ export class RemixTaggingManager {
     customLevel?: RemixLevel,
     customReason?: string
   ): TaggingResult {
-    const issues: { code: string; message: string;
+    const issues: {
+   code: string; message: string;
+ }
     }[] = [];
     const warnings: string[] = [];
 
@@ -195,10 +213,17 @@ export class RemixTaggingManager {
       issues,
       warnings,
       metadata: {
+
         taggedAt: new Date().toISOString(),
         config: this.config,
         dependencies
+      
+
+      
+
+
       }
+      };
     };
   }
 

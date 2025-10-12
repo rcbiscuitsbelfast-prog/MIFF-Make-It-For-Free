@@ -2,7 +2,11 @@ export type GestureType = 'tap' | 'doubleTap' | 'longPress' | 'swipe' | 'pinch' 
 
 export interface TouchEventLike {
   time: number;
-  points: { x: number; y: number;
+  points: {
+
+    x: number; y: number;
+
+  }
     }[];
   type: 'down' | 'move' | 'up';
 }

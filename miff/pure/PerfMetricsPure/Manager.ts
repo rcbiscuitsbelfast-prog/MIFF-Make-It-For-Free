@@ -335,8 +335,15 @@ export class PerfMetricsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'PerfMetricsManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -654,7 +661,14 @@ export class PerfMetricsManager {
       impact: Impact.MEDIUM,
       effort: Effort.MEDIUM,
       metrics: [id.replace('_optimization', '')],
-      suggestions: [description],
+      suggestions: [
+      descri,
+      p,
+      t,
+      i,
+      o,
+      n
+    ],
       examples: [],
       resources: [],
       estimatedImprovement: 20,

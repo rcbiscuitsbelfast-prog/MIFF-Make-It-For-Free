@@ -573,8 +573,15 @@ export class CombatManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'CombatManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1224,7 +1231,14 @@ export class CombatManager {
     const currentIndex = aliveCombatants.findIndex(c => c.id === session.currentCombatant);
     const nextIndex = (currentIndex + 1) % aliveCombatants.length;
     
-    session.currentCombatant = aliveCombatants[nextIndex].id;
+    session.currentCombatant = aliveCombatants[
+      next,
+      I,
+      n,
+      d,
+      e,
+      x
+    ].id;
     session.currentTurn++;
   }
 
@@ -1301,6 +1315,8 @@ export class CombatManager {
         cpuUsage: 0,
 
         lastOptimization: 0;
+
+      }
     },
     };
   }

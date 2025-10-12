@@ -764,8 +764,15 @@ export class EcosystemExpansionManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'EcosystemExpansionManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1072,11 +1079,14 @@ export class EcosystemExpansionManager {
       size: CompanySize.MEDIUM,
       location: 'Global',
       contact: {
+
         name: 'Contact Person',
         email: 'contact@partner.com',
         phone: '+1-555-0123',
         role: 'Business Development',
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -1126,6 +1136,7 @@ export class EcosystemExpansionManager {
       totalSDKs: 0,
       totalDevelopers: 0,
       performance: {
+
         marketGrowth: 0,
         partnershipValue: 0,
         communityEngagement: 0,
@@ -1134,6 +1145,8 @@ export class EcosystemExpansionManager {
         sdkAdoption: 0,
         developerSatisfaction: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

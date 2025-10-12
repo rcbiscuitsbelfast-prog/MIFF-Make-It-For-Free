@@ -90,10 +90,15 @@ export interface IdleIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
+
     onResourceChange?: (resource: Resource) => void;
     onGeneratorLevelUp?: (generator: Generator) => void;
     onUpgradePurchased?: (upgrade: Upgrade) => void;
     onAchievementUnlocked?: (achievement: Achievement) => void;
+  
+
+
+  }
   };
 }
 
@@ -279,8 +284,15 @@ export class IdleManagerPure {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'IdleSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

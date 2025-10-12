@@ -165,7 +165,9 @@ export class ProceduralWorldManager {
 	carveRivers(heightmap: number[][], opts: RiverOptions): RiverSegment[] {
 		const h = heightmap.length; if (h === 0) return [];
 		const w = heightmap[0].length;
-		const flat: { x: number; y: number; z: number;
+		const flat: {
+   x: number; y: number; z: number;
+ }
     }[] = [];
 		for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) flat.push({ x, y, z: heightmap[y][x] });
 		flat.sort((a, b) => b.z - a.z);

@@ -484,8 +484,15 @@ export class TimeSeriesAnalysisManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'TimeSeriesAnalysisManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -687,6 +694,10 @@ export class TimeSeriesAnalysisManager {
         value: 1,
         unit: FrequencyUnit.HOUR,
         metadata: new Map()
+
+      
+      
+      }
       },
       length: 0,
       startTime: 0,
@@ -701,26 +712,40 @@ export class TimeSeriesAnalysisManager {
   private createDefaultPreprocessingConfig(): PreprocessingConfig {
     return {
       missingValues: {
+
         method: MissingValueMethod.INTERPOLATION,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       outliers: {
         method: OutlierMethod.Z_SCORE,
         threshold: 3,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       smoothing: {
         method: SmoothingMethod.MOVING_AVERAGE,
         window: 5,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       normalization: {
+
         method: NormalizationMethod.Z_SCORE,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -736,26 +761,40 @@ export class TimeSeriesAnalysisManager {
         strength: 0,
         slope: 0,
         metadata: new Map()
+
+      
+      
+      }
       },
       seasonality: {
+
         present: false,
         period: 0,
         strength: 0,
         pattern: SeasonalityPattern.ADDITIVE,
         metadata: new Map()
+
+      }
       },
       stationarity: {
+
         isStationary: false,
         adfStatistic: 0,
         pValue: 0,
         criticalValues: new Map(),
         metadata: new Map()
+
+      }
       },
       autocorrelation: {
         acf: [],
         pacf: [],
         lags: [],
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -818,11 +857,14 @@ export class TimeSeriesAnalysisManager {
       averagePrecision: 0,
       averageRecall: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

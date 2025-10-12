@@ -77,8 +77,15 @@ export class ThemeParkManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'ThemeParkManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

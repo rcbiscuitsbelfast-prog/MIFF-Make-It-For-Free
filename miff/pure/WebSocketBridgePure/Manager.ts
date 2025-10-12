@@ -308,8 +308,15 @@ export class WebSocketBridgeManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'WebSocketBridgeManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -505,6 +512,7 @@ export class WebSocketBridgeManager {
       url: 'ws://localhost:8080',
       protocol: WebSocketProtocol.WS,
       authentication: {
+
         type: AuthType.NONE,
         credentials: {
           username: '',
@@ -512,6 +520,8 @@ export class WebSocketBridgeManager {
           token: '',
           apiKey: '',
           metadata: new Map()
+
+      }
         },
         metadata: new Map()
       },
@@ -532,12 +542,20 @@ export class WebSocketBridgeManager {
         interval: 30000,
         timeout: 10000,
         metadata: new Map()
+
+      
+      
+      }
       },
       compression: {
         enabled: false,
         algorithm: CompressionAlgorithm.NONE,
         level: 6,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -554,11 +572,14 @@ export class WebSocketBridgeManager {
       averageLatency: 0,
       messageThroughput: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

@@ -588,8 +588,15 @@ export class WeatherSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'WeatherSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -837,8 +844,12 @@ export class WeatherSystemManager {
         speed: 5,
         direction: {
           angle: 0,
-          name: 'North',
-          metadata: new Map()
+        name: 'North',
+        metadata: new Map()
+
+      
+      
+      }
         },
         gust: 0,
         turbulence: 0,
@@ -847,11 +858,14 @@ export class WeatherSystemManager {
       visibility: 10000,
       cloudCover: 0,
       precipitation: {
+
         type: PrecipitationType.NONE,
         intensity: 0,
         amount: 0,
         duration: 0,
         metadata: new Map()
+
+      }
       },
       timestamp: Date.now(),
       duration: 0,
@@ -866,46 +880,61 @@ export class WeatherSystemManager {
     return {
       type: ClimateType.TEMPERATE,
       temperature: {
+
         average: 20,
         min: -10,
         max: 35,
         variation: 5,
         units: TemperatureUnit.CELSIUS,
         metadata: new Map()
+
+      }
       },
       humidity: {
+
         average: 50,
         min: 20,
         max: 80,
         variation: 10,
         metadata: new Map()
+
+      }
       },
       pressure: {
+
         average: 1013.25,
         min: 950,
         max: 1050,
         variation: 20,
         units: PressureUnit.BAR,
         metadata: new Map()
+
+      }
       },
       wind: {
+
         averageSpeed: 5,
         maxSpeed: 50,
         direction: {
           angle: 0,
           name: 'North',
           metadata: new Map()
+
+      }
         },
         variation: 2,
         units: WindSpeedUnit.MPS,
         metadata: new Map()
       },
       precipitation: {
+
         average: 1000,
         max: 2000,
         variation: 200,
         units: PrecipitationUnit.MM,
         metadata: new Map()
+
+      }
       },
       seasons: this.createDefaultSeasons(),
       trends: [],
@@ -926,34 +955,46 @@ export class WeatherSystemManager {
         startDate: new Date(currentYear, 2, 20), // March 20
         endDate: new Date(currentYear, 5, 20), // June 20
         temperature: {
+
           average: 15,
           min: 5,
           max: 25,
           variation: 3,
           units: TemperatureUnit.CELSIUS,
           metadata: new Map()
+
+        }
         },
         humidity: {
+
           average: 60,
           min: 40,
           max: 80,
           variation: 10,
           metadata: new Map()
+
+        }
         },
         precipitation: {
+
           average: 200,
           max: 400,
           variation: 50,
           units: PrecipitationUnit.MM,
           metadata: new Map()
+
+        }
         },
         wind: {
+
           averageSpeed: 8,
           maxSpeed: 30,
           direction: {
             angle: 45,
             name: 'Northeast',
             metadata: new Map()
+
+        }
           },
           variation: 3,
           units: WindSpeedUnit.MPS,
@@ -966,34 +1007,46 @@ export class WeatherSystemManager {
         startDate: new Date(currentYear, 5, 21), // June 21
         endDate: new Date(currentYear, 8, 22), // September 22
         temperature: {
+
           average: 25,
           min: 15,
           max: 35,
           variation: 5,
           units: TemperatureUnit.CELSIUS,
           metadata: new Map()
+
+        }
         },
         humidity: {
+
           average: 70,
           min: 50,
           max: 90,
           variation: 15,
           metadata: new Map()
+
+        }
         },
         precipitation: {
+
           average: 300,
           max: 600,
           variation: 100,
           units: PrecipitationUnit.MM,
           metadata: new Map()
+
+        }
         },
         wind: {
+
           averageSpeed: 6,
           maxSpeed: 25,
           direction: {
             angle: 90,
             name: 'East',
             metadata: new Map()
+
+        }
           },
           variation: 2,
           units: WindSpeedUnit.MPS,
@@ -1006,34 +1059,46 @@ export class WeatherSystemManager {
         startDate: new Date(currentYear, 8, 23), // September 23
         endDate: new Date(currentYear, 11, 20), // December 20
         temperature: {
+
           average: 10,
           min: 0,
           max: 20,
           variation: 4,
           units: TemperatureUnit.CELSIUS,
           metadata: new Map()
+
+        }
         },
         humidity: {
+
           average: 65,
           min: 45,
           max: 85,
           variation: 12,
           metadata: new Map()
+
+        }
         },
         precipitation: {
+
           average: 250,
           max: 500,
           variation: 75,
           units: PrecipitationUnit.MM,
           metadata: new Map()
+
+        }
         },
         wind: {
+
           averageSpeed: 10,
           maxSpeed: 40,
           direction: {
             angle: 180,
             name: 'South',
             metadata: new Map()
+
+        }
           },
           variation: 4,
           units: WindSpeedUnit.MPS,
@@ -1046,34 +1111,46 @@ export class WeatherSystemManager {
         startDate: new Date(currentYear, 11, 21), // December 21
         endDate: new Date(currentYear + 1, 2, 19), // March 19
         temperature: {
+
           average: 0,
           min: -20,
           max: 10,
           variation: 6,
           units: TemperatureUnit.CELSIUS,
           metadata: new Map()
+
+        }
         },
         humidity: {
+
           average: 80,
           min: 60,
           max: 95,
           variation: 8,
           metadata: new Map()
+
+        }
         },
         precipitation: {
+
           average: 150,
           max: 300,
           variation: 50,
           units: PrecipitationUnit.MM,
           metadata: new Map()
+
+        }
         },
         wind: {
+
           averageSpeed: 12,
           maxSpeed: 60,
           direction: {
             angle: 270,
             name: 'West',
             metadata: new Map()
+
+        }
           },
           variation: 5,
           units: WindSpeedUnit.MPS,

@@ -26,12 +26,20 @@ export interface ReplaySession {
   config: ReplayConfig;
   steps: ReplayStep[];
   summary: {
-    totalSteps: number;
+        totalSteps: number;
     totalRenderData: number;
-    totalIssues: number;
-    duration: string;
-    engine: string;
-  };
+    totalIssue,
+        s: number;
+    duratio,
+        n: string;
+    engin,
+        e: string;
+  
+
+
+  
+      
+      }
 }
 
 export interface RenderReplayOutput {
@@ -143,7 +151,14 @@ export class RenderReplayManager {
       const issues = BridgeSchemaValidator.validateRenderPayload(payload);
       if (issues.length > 0) {
         // still construct session so downstream export works
-        const session = this.createReplaySession([payload]);
+        const session = this.createReplaySession([
+      pa,
+      y,
+      l,
+      o,
+      a,
+      d
+    ]);
         // Ensure compatibility with tests expecting an invalid type message
         if (!issues.some(msg => msg.includes('Invalid render type'))) {
           issues.push('Invalid render type: invalid_type');
@@ -157,7 +172,14 @@ export class RenderReplayManager {
       }
 
       // Create replay session
-      const session = this.createReplaySession([payload]);
+      const session = this.createReplaySession([
+      pa,
+      y,
+      l,
+      o,
+      a,
+      d
+    ]);
       
       return {
         op: 'replay',
@@ -207,6 +229,7 @@ export class RenderReplayManager {
           annotations: frame.annotations || []
         })),
         summary: {
+
           totalSteps: sessionData.frames.length,
           totalRenderData: sessionData.frames.reduce((sum: number, frame: any) => 
             sum + (frame.data ? 1 : 0), 0),
@@ -214,7 +237,13 @@ export class RenderReplayManager {
             sum + (frame.issues ? frame.issues.length : 0), 0),
           duration: sessionData.metadata?.duration || '0ms',
           engine: this.config.engine
+        
+
+        
+
+
         }
+        };
       };
 
       return {
@@ -453,12 +482,19 @@ export class RenderReplayManager {
       config: this.config,
       steps,
       summary: {
+
         totalSteps: steps.length,
         totalRenderData,
         totalIssues,
         duration,
         engine: this.config.engine
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -468,12 +504,19 @@ export class RenderReplayManager {
       config: this.config,
       steps: [],
       summary: {
+
         totalSteps: 0,
         totalRenderData: 0,
         totalIssues: 0,
         duration: '0ms',
         engine: this.config.engine
+      
+
+      
+
+
       }
+      };
     };
   }
 

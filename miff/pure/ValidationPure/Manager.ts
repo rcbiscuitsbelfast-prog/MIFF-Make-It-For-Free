@@ -4,7 +4,9 @@ export type ValidationConfig = { rules: ValidationRule[], combatExpectedStatKeys
 export type ValidationInput = {
 	refs?: Record<string, { ok: boolean;
     }>; // from EntityLinker
-	stats?: { id: string; stats: { key: string; base: number;
+	stats?: { id: string; stats: {
+   key: string; base: number;
+ }
     }[] }[];
 	zones?: { id: string; x: number; y: number; w: number; h: number;
     }[];

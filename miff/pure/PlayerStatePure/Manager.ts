@@ -1322,8 +1322,15 @@ export class PlayerStateManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'PlayerStateManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1669,21 +1676,30 @@ export class PlayerStateManager {
    */
   private createDefaultStateData(initialData: Partial<PlayerStateData>): PlayerStateData {
     return {
-      position: { x: 0, y: 0, z: 0;
+      position: {
+
+        x: 0, y: 0, z: 0;
+
+      }
     },
       rotation: {
-
         x: 0,
-
         y: 0,
-
         z: 0,
-
         w: 1;
+
+      
+      
+      }
     },
-      velocity: { x: 0, y: 0, z: 0;
+      velocity: {
+
+        x: 0, y: 0, z: 0;
+
+      }
     },
       health: {
+
         current: 100,
         maximum: 100,
         regeneration: 1,
@@ -1694,8 +1710,11 @@ export class PlayerStateManager {
         damageReduction: 0,
         absorption: 0,
         shields: []
+
+      }
       },
       mana: {
+
         current: 100,
         maximum: 100,
         regeneration: 1,
@@ -1704,8 +1723,11 @@ export class PlayerStateManager {
         costReduction: 0,
         efficiency: 1,
         pools: []
+
+      }
       },
       stamina: {
+
         current: 100,
         maximum: 100,
         regeneration: 1,
@@ -1714,8 +1736,11 @@ export class PlayerStateManager {
         costReduction: 0,
         efficiency: 1,
         pools: []
+
+      }
       },
       experience: {
+
         current: 0,
         maximum: 1000,
         total: 0,
@@ -1723,8 +1748,11 @@ export class PlayerStateManager {
         bonus: 0,
         multiplier: 1,
         sources: []
+
+      }
       },
       level: {
+
         current: 1,
         experience: 0,
         experienceToNext: 1000,
@@ -1735,8 +1763,11 @@ export class PlayerStateManager {
         attributePoints: 0,
         talentPoints: 0,
         masteryPoints: 0;
+
+      }
     },
       stats: {
+
         strength: 10,
         dexterity: 10,
         intelligence: 10,
@@ -1758,8 +1789,11 @@ export class PlayerStateManager {
           perception: 10,
           endurance: 10,
           agility: 10;
+
+      }
     },
         bonusStats: {
+
           strength: 0,
           dexterity: 0,
           intelligence: 0,
@@ -1770,8 +1804,11 @@ export class PlayerStateManager {
           perception: 0,
           endurance: 0,
           agility: 0;
+
+        }
     },
         temporaryStats: {
+
           strength: 0,
           dexterity: 0,
           intelligence: 0,
@@ -1784,15 +1821,24 @@ export class PlayerStateManager {
           agility: 0,
           duration: 0,
           endTime: 0;
-    }
+    
+
+        
+
+
+        }
+        };
       },
       equipment: {
+
         weapon: {
           item: null,
           isEquipped: false,
           durability: 0,
           maxDurability: 0,
           enchantments: []
+
+      }
         },
         armor: {
           helmet: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
@@ -1803,7 +1849,15 @@ export class PlayerStateManager {
           ring1: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
           ring2: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
           amulet: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
-          cloak: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] }
+          cloak: {
+
+            item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] 
+
+          
+
+
+          }
+          };
         },
         accessories: {
           ring1: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
@@ -1815,9 +1869,18 @@ export class PlayerStateManager {
           earring1: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
           earring2: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
           belt: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] },
-          cape: { item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] }
+          cape: {
+
+            item: null, isEquipped: false, durability: 0, maxDurability: 0, enchantments: [] 
+
+          
+
+
+          }
+          };
         },
         consumables: {
+
           potion1: {
 
             item: null,
@@ -1829,6 +1892,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+        }
     },
           potion2: {
 
@@ -1841,6 +1906,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
           potion3: {
 
@@ -1853,6 +1920,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
           potion4: {
 
@@ -1865,6 +1934,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
           food1: {
 
@@ -1877,6 +1948,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
           food2: {
 
@@ -1889,6 +1962,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
           scroll1: {
 
@@ -1901,6 +1976,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
           scroll2: {
 
@@ -1913,6 +1990,8 @@ export class PlayerStateManager {
             cooldown: 0,
 
             lastUsed: 0;
+
+          }
     },
         },
         totalWeight: 0,
@@ -1931,9 +2010,12 @@ export class PlayerStateManager {
           broken: false,
 
           repairCost: 0;
+
+        }
     },
       },
       inventory: {
+
         items: [],
         currency: {
           gold: 0,
@@ -1942,23 +2024,33 @@ export class PlayerStateManager {
           gems: 0,
           tokens: 0,
           custom: new Map()
+
+      }
         },
         capacity: 100,
         maxCapacity: 100,
         weight: 0,
         maxWeight: 100,
         organization: {
-          type: OrganizationType.NONE,
-          categories: [],
-          groups: [],
-          tags: []
+        type: OrganizationType.NONE,
+        categories: [],
+        groups: [],
+        tags: []
+
+        
+      
+      }
         },
         filters: [],
         sortOrder: {
-          primary: SortField.NAME,
-          secondary: SortField.TYPE,
-          tertiary: SortField.QUALITY,
-          ascending: true;
+        primary: SortField.NAME,
+        secondary: SortField.TYPE,
+        tertiary: SortField.QUALITY,
+        ascending: true;
+
+        
+      
+      }
     },
         searchQuery: ''
       },
@@ -1967,13 +2059,17 @@ export class PlayerStateManager {
       quests: [],
       relationships: [],
       reputation: {
+
         factions: new Map(),
         regions: new Map(),
         guilds: new Map(),
         overall: 0,
         metadata: new Map()
+
+      }
       },
       settings: {
+
         graphics: {
           resolution: [1920, 1080],
           fullscreen: false,
@@ -1988,8 +2084,11 @@ export class PlayerStateManager {
           brightness: 1.0,
           contrast: 1.0,
           gamma: 1.0
+
+      }
         },
         audio: {
+
           masterVolume: 1.0,
           musicVolume: 0.8,
           sfxVolume: 1.0,
@@ -2001,8 +2100,11 @@ export class PlayerStateManager {
           audioDevice: 'default',
           sampleRate: 44100,
           bitDepth: 16;
+
+        }
     },
         controls: {
+
           mouseSensitivity: 1.0,
           invertMouse: false,
           keyBindings: new Map(),
@@ -2012,8 +2114,11 @@ export class PlayerStateManager {
           aimAssist: true,
           movementDeadzone: 0.1,
           lookDeadzone: 0.1
+
+        }
         },
         accessibility: {
+
           colorBlindMode: ColorBlindMode.NONE,
           highContrast: false,
           largeText: false,
@@ -2024,8 +2129,11 @@ export class PlayerStateManager {
           hapticFeedback: true,
           reducedMotion: false,
           customColors: new Map()
+
+        }
         },
         ui: {
+
           scale: 1.0,
           theme: UITheme.DARK,
           language: 'en',
@@ -2036,8 +2144,11 @@ export class PlayerStateManager {
           chatEnabled: true,
           notificationsEnabled: true,
           tooltipsEnabled: true;
+
+        }
     },
         gameplay: {
+
           difficulty: DifficultyLevel.NORMAL,
           autoSave: true,
           autoSaveInterval: 300000,
@@ -2048,9 +2159,16 @@ export class PlayerStateManager {
           enableCheats: false,
           enableDebug: false,
           enableProfiling: false;
-    }
+    
+
+        
+
+
+        }
+        };
       },
       preferences: {
+
         favoriteItems: [],
         favoriteAbilities: [],
         favoriteQuests: [],
@@ -2060,9 +2178,12 @@ export class PlayerStateManager {
         notes: new Map(),
         bookmarks: [],
         shortcuts: []
+
+      }
       },
       achievements: [],
       statistics: {
+
         totalPlayTime: 0,
         sessionsPlayed: 0,
         levelsCompleted: 0,
@@ -2074,6 +2195,8 @@ export class PlayerStateManager {
         resourcesGathered: 0,
         buildingsConstructed: 0,
         customStatistics: new Map()
+
+      }
       },
       customData: new Map(),
       ...initialData

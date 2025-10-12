@@ -550,8 +550,15 @@ export class IndustryLeadershipManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'IndustryLeadershipManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -779,11 +786,14 @@ export class IndustryLeadershipManager {
       kpis: [],
       targets: [],
       progress: {
+
         completion: 0,
         velocity: 0,
         quality: 0,
         efficiency: 0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -799,11 +809,14 @@ export class IndustryLeadershipManager {
       size: CompanySize.MEDIUM,
       location: 'Global',
       contact: {
+
         name: 'Contact Person',
         email: 'contact@partner.com',
         phone: '+1-555-0123',
         role: 'Business Development',
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -852,12 +865,15 @@ export class IndustryLeadershipManager {
       totalInsights: 0,
       publishedInsights: 0,
       performance: {
+
         strategySuccess: 0,
         partnershipValue: 0,
         contentEngagement: 0,
         trendAccuracy: 0,
         insightImpact: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

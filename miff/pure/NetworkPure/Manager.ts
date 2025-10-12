@@ -297,8 +297,15 @@ export class NetworkManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'NetworkManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -559,11 +566,14 @@ export class NetworkManager {
       averageLatency: 0,
       averageThroughput: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

@@ -318,8 +318,15 @@ export class BlockBuilderManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'BlockBuilderManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -554,12 +561,15 @@ export class BlockBuilderManager {
       name: 'Default Material',
       type: MaterialType.SOLID,
       properties: {
+
         color: {
           r: 0.5,
           g: 0.5,
           b: 0.5,
           a: 1.0,
           metadata: new Map()
+
+      }
         },
         roughness: 0.5,
         metallic: 0.0,
@@ -567,6 +577,7 @@ export class BlockBuilderManager {
         metadata: new Map()
       },
       texture: {
+
         id: 'default_texture',
         name: 'Default Texture',
         type: TextureType.DIFFUSE,
@@ -575,6 +586,8 @@ export class BlockBuilderManager {
           width: 512,
           height: 512,
           metadata: new Map()
+
+      }
         },
         metadata: new Map()
       },
@@ -607,11 +620,14 @@ export class BlockBuilderManager {
       averageBuildTime: 0,
       complexity: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

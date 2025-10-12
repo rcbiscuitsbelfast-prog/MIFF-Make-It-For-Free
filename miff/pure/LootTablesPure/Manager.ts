@@ -123,7 +123,15 @@ export class LootTablesManager {
           }
         ],
         maxRolls: 3,
-        metadata: { description: 'Basic loot from common enemies' }
+        metadata: {
+
+          description: 'Basic loot from common enemies' 
+
+        
+
+
+        }
+        };
       },
       {
         id: 'boss_drops',
@@ -162,7 +170,15 @@ export class LootTablesManager {
           }
         ],
         guaranteedDrops: ['boss_essence'],
-        metadata: { description: 'Loot from boss encounters' }
+        metadata: {
+
+          description: 'Loot from boss encounters' 
+
+        
+
+
+        }
+        };
       }
     ];
 
@@ -423,7 +439,15 @@ export class LootTablesManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { tables, total: tables.length }
+          result: {
+
+            tables, total: tables.length 
+
+          
+
+
+          }
+          };
         };
       
       case 'manifest':
@@ -431,12 +455,19 @@ export class LootTablesManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.loot.export.v1',
             tables,
             rollHistory: this.rollHistory.slice(-100), // Last 100 rolls
             exportedAt: new Date().toISOString(),
             total: tables.length
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -445,6 +476,7 @@ export class LootTablesManager {
           op: 'export',
           status: 'ok',
           result: {
+
             summary: stats.result,
             tables: tables.map(table => ({
               id: table.id,
@@ -452,6 +484,8 @@ export class LootTablesManager {
               entryCount: table.entries.length,
               maxRolls: table.maxRolls,
               guaranteedDrops: table.guaranteedDrops?.length || 0
+
+          }
             }))
           }
         };
@@ -461,9 +495,16 @@ export class LootTablesManager {
           op: 'export',
           status: 'ok',
           result: {
+
             rollHistory: this.rollHistory,
             total: this.rollHistory.length
+          
+
+          
+
+
           }
+          };
         };
       
       default:
@@ -485,7 +526,15 @@ export class LootTablesManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: { message: 'All loot tables reset to default state' }
+      result: {
+
+        message: 'All loot tables reset to default state' 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -579,7 +628,14 @@ export class LootTablesManager {
       'epic': 100,
       'legendary': 500
     };
-    return values[rarity as keyof typeof values] || 1;
+    return values[
+      rarity,
+      as,
+      keyof,
+      typeof,
+      value,
+      s
+    ] || 1;
   }
 
   private seededRandom(seed: number): number {

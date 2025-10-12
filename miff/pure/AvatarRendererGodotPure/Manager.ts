@@ -842,8 +842,15 @@ export class AvatarRendererManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AvatarRendererGodotManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1217,20 +1224,26 @@ export class AvatarRendererManager {
       hairColor: { r: 0.2, g: 0.2, b: 0.2, a: 1.0 },
       eyeColor: { r: 0.0, g: 0.5, b: 0.8, a: 1.0 },
       hairStyle: {
+
         id: 'default_hair',
         name: 'Default Hair',
         type: HairType.STRAIGHT,
         length: HairLength.MEDIUM,
         style: HairStyleType.BOB,
+
+      }
         color: { r: 0.2, g: 0.2, b: 0.2, a: 1.0 },
         texture: 'default_hair_texture',
         metadata: new Map()
       },
       facialHair: {
+
         id: 'no_facial_hair',
         name: 'No Facial Hair',
         type: FacialHairType.NONE,
         style: FacialHairStyle.CLEAN,
+
+      }
         color: { r: 0.0, g: 0.0, b: 0.0, a: 0.0 },
         density: 0,
         length: 0,
@@ -1275,9 +1288,12 @@ export class AvatarRendererManager {
       shadowCasting: this.config.enableShadows,
       shadowReceiving: this.config.enableShadows,
       lighting: {
+
         enabled: this.config.enableLighting,
         type: LightingType.DIRECTIONAL,
         intensity: 1.0,
+
+      }
         color: { r: 1.0, g: 1.0, b: 1.0, a: 1.0 },
         shadows: this.config.enableShadows,
         metadata: new Map()

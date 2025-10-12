@@ -299,8 +299,15 @@ export class NotificationSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'NotificationSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -500,6 +507,7 @@ export class NotificationSystemManager {
       phone: '',
       deviceToken: '',
       preferences: {
+
         channels: [],
         frequency: 'immediate',
         quietHours: {
@@ -508,6 +516,8 @@ export class NotificationSystemManager {
           end: '08:00',
           timezone: 'UTC',
           metadata: new Map()
+
+      }
         },
         metadata: new Map()
       },
@@ -538,11 +548,14 @@ export class NotificationSystemManager {
       deliveryRate: 0,
       averageLatency: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

@@ -173,9 +173,14 @@ export interface TycoonIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
+
     onRevenueChange?: (revenue: number) => void;
     onExpenseChange?: (expense: number) => void;
     onMarketChange?: (marketData: MarketData) => void;
+  
+
+
+  }
   };
 }
 
@@ -249,8 +254,14 @@ export interface MarketManager {
 
 export interface FacilityExpansion {
   type: BusinessType;
-  location: { x: number; y: number;
-    };
+  location: {
+
+    x: number; y: number;
+    
+
+
+  }
+  };
   expectedROI: number;
   constructionCost: number;
   timeframe: number;
@@ -343,8 +354,14 @@ export interface CompetitiveAdvantage {
 
 export interface PricingStrategy {
   optimalPrice: number;
-  priceRange: { min: number; max: number;
-    };
+  priceRange: {
+
+    min: number; max: number;
+    
+
+
+  }
+  };
   competitorPrices: number[];
   recommendedAction: 'increase' | 'decrease' | 'maintain';
   expectedImpact: number;
@@ -392,8 +409,15 @@ export class TycoonManagerPure {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'TycoonSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -578,7 +602,9 @@ export class TycoonManagerPure {
       },
 
       getHiringPriority: () => {
-        const priorities: { facilityId: string; role: StaffRole; count: number;
+        const priorities: {
+   facilityId: string; role: StaffRole; count: number;
+ }
     }[] = [];
         const facilities = this.tycoonSystem.getFacilities();
 
@@ -826,6 +852,8 @@ export class TycoonManagerPure {
             min: 80,
 
             max: 120;
+
+          }
     },
           competitorPrices: [90, 95, 105, 110],
           recommendedAction: 'increase',

@@ -107,7 +107,9 @@ export class MovementManager {
   private entities: Map<string, MovementEntity> = new Map();
   private events: MovementEvent[] = [];
   private obstacles: Vector2[] = [];
-  private worldBounds: { min: Vector2; max: Vector2;
+  private worldBounds: {
+   min: Vector2; max: Vector2;
+ }
     } = {
     min: { x: -1000, y: -1000 },
     max: {
@@ -115,6 +117,8 @@ export class MovementManager {
       x: 1000,
 
       y: 1000;
+
+    }
     },
   };
 
@@ -146,19 +150,26 @@ export class MovementManager {
         x: 0,
 
         y: 0;
+
+      }
     },
       acceleration: {
 
         x: 0,
 
         y: 0;
+
+      }
     },
       rotation: 0,
       pattern: { ...pattern },
       state: {
+
         current: 'idle',
         pathIndex: 0,
         stuckTime: 0,
+
+      }
         lastPosition: { ...position },
         collisionCount: 0;
     },
@@ -547,7 +558,15 @@ export class MovementManager {
           type: 'collided',
           entityId: entity.id,
           timestamp: Date.now(),
-          data: { obstacle }
+          data: {
+
+            obstacle 
+
+          
+
+
+          }
+          };
         });
       }
     }
@@ -566,6 +585,8 @@ export class MovementManager {
           data: {
 
             otherEntity: otherId;
+
+          }
     },
         });
       }
@@ -785,7 +806,15 @@ export class MovementManager {
         return {
           op: 'export',
           status: 'ok',
-          result: { entities, total: entities.length }
+          result: {
+
+            entities, total: entities.length 
+
+          
+
+
+          }
+          };
         };
       
       case 'manifest':
@@ -793,6 +822,7 @@ export class MovementManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.movement.export.v1',
             entities,
             events: this.events.slice(-100), // Last 100 events
@@ -800,7 +830,13 @@ export class MovementManager {
             worldBounds: this.worldBounds,
             exportedAt: new Date().toISOString(),
             total: entities.length
+          
+
+          
+
+
           }
+          };
         };
       
       case 'summary':
@@ -809,6 +845,7 @@ export class MovementManager {
           op: 'export',
           status: 'ok',
           result: {
+
             summary: stats.result,
             entities: entities.map(entity => ({
               id: entity.id,
@@ -816,6 +853,8 @@ export class MovementManager {
               pattern: entity.pattern.type,
               state: entity.state.current,
               speed: Math.sqrt(entity.velocity.x ** 2 + entity.velocity.y ** 2)
+
+          }
             }))
           }
         };
@@ -825,9 +864,16 @@ export class MovementManager {
           op: 'export',
           status: 'ok',
           result: {
+
             events: this.events,
             total: this.events.length
+          
+
+          
+
+
           }
+          };
         };
       
       default:
@@ -849,7 +895,15 @@ export class MovementManager {
     return {
       op: 'reset',
       status: 'ok',
-      result: { message: 'All movement data reset' }
+      result: {
+
+        message: 'All movement data reset' 
+
+      
+
+
+      }
+      };
     };
   }
 }

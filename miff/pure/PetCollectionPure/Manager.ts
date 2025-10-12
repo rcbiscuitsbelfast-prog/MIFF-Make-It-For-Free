@@ -599,7 +599,14 @@ export class PetCollectionManager {
       [PetRarity.MYTHICAL]: 6
     } as any;
 
-    return values[rarity];
+    return values[
+      r,
+      a,
+      r,
+      i,
+      t,
+      y
+    ];
   }
 
   public exportCollection(ownerId: string): string {

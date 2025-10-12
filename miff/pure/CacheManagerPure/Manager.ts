@@ -484,8 +484,15 @@ export class CacheManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'CacheManagerManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -841,12 +848,15 @@ export class CacheManager {
       enabled: true,
       strategies: [],
       statistics: {
+
         totalWarmed: 0,
         successfulWarms: 0,
         failedWarms: 0,
         averageWarmTime: 0,
         lastWarm: 0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -860,12 +870,15 @@ export class CacheManager {
       enabled: true,
       strategies: [],
       statistics: {
+
         totalInvalidations: 0,
         successfulInvalidations: 0,
         failedInvalidations: 0,
         averageInvalidationTime: 0,
         lastInvalidation: 0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -881,12 +894,15 @@ export class CacheManager {
       level: 6,
       threshold: 1024,
       statistics: {
+
         totalCompressed: 0,
         compressionRatio: 1.0,
         averageCompressionTime: 0,
         spaceSaved: 0,
         lastCompression: 0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -903,16 +919,26 @@ export class CacheManager {
         algorithm: EncryptionAlgorithm.AES_256,
         key: '',
         metadata: new Map()
+
+      
+      
+      }
       },
       access: {
+
         enabled: false,
         permissions: [],
         metadata: new Map()
+
+      }
       },
       audit: {
+
         enabled: false,
         events: [],
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -931,11 +957,14 @@ export class CacheManager {
       averageAccessTime: 0,
       memoryUsage: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         diskUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

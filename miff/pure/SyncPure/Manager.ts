@@ -82,10 +82,15 @@ export interface SyncIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
+
     onSyncStart?: () => void;
     onSyncComplete?: (stats: SyncStats) => void;
     onConflictDetected?: (conflict: SyncConflict) => void;
     onDataChanged?: (data: SyncData) => void;
+  
+
+
+  }
   };
 }
 
@@ -277,7 +282,9 @@ export class SyncManager {
       this.stats.lastSyncTime = new Date();
       this.stats.averageSyncTime = (this.stats.averageSyncTime + syncTime) / 2;
 
-      this.eventBus.publish('sync:complete', this.stats, { metadata: { durationMs: syncTime;
+      this.eventBus.publish('sync:complete', this.stats, { metadata: {
+   durationMs: syncTime;
+ }
     } } as any);
 
       // Notify integrations
@@ -520,6 +527,7 @@ export class SyncManager {
 export const defaultSyncManager = new SyncManager({
   eventBus: new (require('../EventBusPure/EventBusPure').EventBus)(),
   config: {
+
     autoSync: true,
     syncInterval: 30000,
     conflictResolution: ConflictResolution.LAST_WRITE_WINS,
@@ -527,6 +535,8 @@ export const defaultSyncManager = new SyncManager({
     batchSize: 100,
     compressionEnabled: true,
     encryptionEnabled: false;
+
+  }
     },
   integrations: []
 });

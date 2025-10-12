@@ -314,8 +314,15 @@ export class JointAnimManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'JointAnimManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -516,19 +523,30 @@ export class JointAnimManager {
         y: 0,
         z: 0,
         metadata: new Map()
+
+      
+      
+      }
       },
       rotation: {
+
         x: 0,
         y: 0,
         z: 0,
         w: 1,
         metadata: new Map()
+
+      }
       },
       scale: {
         x: 1,
         y: 1,
         z: 1,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -545,11 +563,14 @@ export class JointAnimManager {
       averageAnimationLength: 0,
       compressionRatio: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

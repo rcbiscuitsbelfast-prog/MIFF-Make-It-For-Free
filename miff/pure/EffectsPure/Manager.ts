@@ -205,8 +205,15 @@ export class EffectsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'EffectsManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

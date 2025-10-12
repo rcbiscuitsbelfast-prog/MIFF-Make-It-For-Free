@@ -799,8 +799,15 @@ export class CutSceneManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'CutSceneManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -1285,12 +1292,15 @@ export class CutSceneManager {
     return {
       experience: 100,
       currency: {
+
         gold: 50,
         silver: 0,
         copper: 0,
         gems: 0,
         tokens: 0,
         custom: new Map()
+
+      }
       },
       items: [],
       achievements: [],

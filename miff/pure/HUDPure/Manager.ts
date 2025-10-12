@@ -54,10 +54,22 @@ export interface HUDElement {
   name: string;
   visible: boolean;
   enabled: boolean;
-  position: { x: number; y: number;
-    };
-  size: { width: number; height: number;
-    };
+  position: {
+
+    x: number; y: number;
+    
+
+
+  }
+  };
+  size: {
+
+    width: number; height: number;
+    
+
+
+  }
+  };
   zIndex: number;
   parentId?: string;
   children: string[];
@@ -139,11 +151,16 @@ export interface HUDIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
+
     onElementCreated?: (element: HUDElement) => void;
     onElementUpdated?: (element: HUDElement) => void;
     onElementDeleted?: (elementId: string) => void;
     onLayoutChanged?: (layout: HUDLayout) => void;
     onThemeChanged?: (theme: HUDTheme) => void;
+  
+
+
+  }
   };
 }
 
@@ -392,7 +409,9 @@ export class HUDManager {
   /**
    * Set element position
    */
-  setElementPosition(elementId: string, position: { x: number; y: number;
+  setElementPosition(elementId: string, position: {
+   x: number; y: number;
+ }
     }): boolean {
     return this.updateElement(elementId, { position });
   }
@@ -400,7 +419,9 @@ export class HUDManager {
   /**
    * Set element size
    */
-  setElementSize(elementId: string, size: { width: number; height: number;
+  setElementSize(elementId: string, size: {
+   width: number; height: number;
+ }
     }): boolean {
     return this.updateElement(elementId, { size });
   }
@@ -778,6 +799,7 @@ export class HUDManager {
 export const defaultHUDManager = new HUDManager({
   eventBus: {} as EventBus,
   config: {
+
     defaultTheme: HUDTheme.DARK,
     defaultLayout: HUDLayoutEnum.DESKTOP as any,
     enableAnimations: true,
@@ -789,6 +811,8 @@ export const defaultHUDManager = new HUDManager({
     transitionDuration: 200,
     maxElements: 1000,
     enablePerformanceMode: false;
+
+  }
     },
   integrations: []
 });

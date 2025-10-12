@@ -263,7 +263,15 @@ export class SessionManifestManager {
             timestamp: startTime + (i * 1000),
             playerId: player.playerId,
             action,
-            data: { x: Math.random() * 100, y: Math.random() * 100 }
+            data: {
+
+              x: Math.random() * 100, y: Math.random() * 100 
+
+            
+
+
+            }
+            };
           });
         }
       }
@@ -272,13 +280,20 @@ export class SessionManifestManager {
     return {
       ok: true,
       simulation: {
+
         sessionId,
         duration,
         events,
         playerCount: session.players.length,
         totalEvents: events.length,
         eventsPerPlayer: events.length / session.players.length
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -300,13 +315,20 @@ export class SessionManifestManager {
         return {
           ok: true,
           data: {
+
             schema: 'miff.session.manifest.v1',
             session,
             metadata: {
               exportedAt: new Date().toISOString(),
               startTime: this.sessionStartTimes.get(sessionId),
               playerCount: session.players.length
-            }
+            
+
+          
+
+
+          }
+          };
           }
         };
       
@@ -314,14 +336,17 @@ export class SessionManifestManager {
         return {
           ok: true,
           data: {
-            id: session.id,
-            zone: session.zone,
-            playerCount: session.players.length,
-            players: session.players.map(p => ({
+        id: session.id,
+        zone: session.zone,
+        playerCount: session.players.length,
+        players: session.players.map(p => ({
+      }
               id: p.playerId,
               avatar: p.avatar,
               style: p.style,
               status: p.status || 'active'
+
+          }
             })),
             createdAt: session.createdAt,
             seed: session.seed

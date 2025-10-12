@@ -68,11 +68,19 @@ export type AuditResult = {
   warnings: string[];
   recommendations: string[];
   metadata: {
-    auditedAt: string;
-    config: AuditConfig;
-    dependencies: string[];
-    licenseFiles: string[];
-  };
+        auditedAt: string;
+    confi,
+        g: AuditConfig;
+    dependencie,
+        s: string[];
+    licenseFile,
+        s: string[];
+  
+
+
+  
+      
+      }
 };
 
 export type LicenseAuditOverride = {
@@ -490,11 +498,18 @@ export class LicenseAuditManager {
       warnings,
       recommendations,
       metadata: {
+
         auditedAt: new Date().toISOString(),
         config: this.config,
         dependencies,
         licenseFiles
+      
+
+      
+
+
       }
+      };
     };
   }
 
@@ -547,11 +562,32 @@ export class LicenseAuditManager {
       // Count by status
       const status = module.issues.some(i => i.severity === 'error') ? 'fail' :
                     module.issues.some(i => i.severity === 'warning') || module.remixSafetyScore < this.config.maxRemixScore! ? 'warning' : 'pass';
-      byStatus[status]++;
+      byStatus[
+      s,
+      t,
+      a,
+      t,
+      u,
+      s
+    ]++;
 
       // Count by license type
       const licenseType = module.license.type;
-      byLicenseType[licenseType] = (byLicenseType[licenseType] || 0) + 1;
+      byLicenseType[
+      licens,
+      e,
+      T,
+      y,
+      p,
+      e
+    ] = (byLicenseType[
+      licens,
+      e,
+      T,
+      y,
+      p,
+      e
+    ] || 0) + 1;
 
       // Accumulate scores
       totalScore += module.remixSafetyScore;

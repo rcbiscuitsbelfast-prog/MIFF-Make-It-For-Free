@@ -575,8 +575,15 @@ export class AudioSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AudioSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

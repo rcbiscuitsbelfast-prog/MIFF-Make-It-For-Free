@@ -422,8 +422,15 @@ export class NaturalLanguageProcessingManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'NaturalLanguageProcessingManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -621,33 +628,48 @@ export class NaturalLanguageProcessingManager {
   private createDefaultTextPreprocessing(): TextPreprocessing {
     return {
       tokenization: {
+
         method: TokenizationMethod.WHITESPACE,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       normalization: {
+
         lowercase: true,
         removeAccents: false,
         removePunctuation: false,
         removeNumbers: false,
         metadata: new Map()
+
+      }
       },
       filtering: {
+
         minLength: 1,
         maxLength: 1000,
         stopWords: [],
         customFilters: [],
         metadata: new Map()
+
+      }
       },
       stemming: {
+
         enabled: false,
         algorithm: StemmingAlgorithm.PORTER,
         metadata: new Map()
+
+      }
       },
       lemmatization: {
+
         enabled: false,
         posTagging: false,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -710,11 +732,14 @@ export class NaturalLanguageProcessingManager {
       averageProcessingTime: 0,
       averageAccuracy: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

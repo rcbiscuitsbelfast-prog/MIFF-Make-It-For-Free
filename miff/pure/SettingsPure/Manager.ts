@@ -4,46 +4,91 @@ export interface SettingsConfig {
   language: string;
   showSubtitles: boolean;
   graphics: {
-    resolution: string;
+        resolution: string;
     fullscreen: boolean;
     vsync: boolean;
-    antiAliasing: boolean;
-    shadows: boolean;
-    textureQuality: 'low' | 'medium' | 'high' | 'ultra';
-  };
+    antiAliasin,
+        g: boolean;
+    shadow,
+        s: boolean;
+    textureQualit,
+        y: 'low' | 'medium' | 'high' | 'ultra';
+  
+
+
+  
+      
+      }
   controls: {
+
     mouseSensitivity: number;
     invertMouse: boolean;
     keyBindings: Record<string, string>;
+  
+
+
+  }
   };
   audio: {
-    masterVolume: number;
+        masterVolume: number;
     musicVolume: number;
     sfxVolume: number;
-    voiceVolume: number;
-    ambientVolume: number;
-    audioDevice: string;
-  };
+    voiceVolum,
+        e: number;
+    ambientVolum,
+        e: number;
+    audioDevic,
+        e: string;
+  
+
+
+  
+      
+      }
   gameplay: {
-    difficulty: 'easy' | 'normal' | 'hard' | 'expert';
+        difficulty: 'easy' | 'normal' | 'hard' | 'expert';
     autoSave: boolean;
-    autoSaveInterval: number;
-    tutorialEnabled: boolean;
-    hintsEnabled: boolean;
-  };
+    autoSaveInterva,
+        l: number;
+    tutorialEnable,
+        d: boolean;
+    hintsEnable,
+        d: boolean;
+  
+
+
+  
+      
+      }
   accessibility: {
-    colorBlindSupport: boolean;
+        colorBlindSupport: boolean;
     fontSize: 'small' | 'medium' | 'large';
-    highContrast: boolean;
-    screenReader: boolean;
-    reducedMotion: boolean;
-  };
+    highContras,
+        t: boolean;
+    screenReade,
+        r: boolean;
+    reducedMotio,
+        n: boolean;
+  
+
+
+  
+      
+      }
   advanced: {
-    debugMode: boolean;
-    loggingLevel: 'error' | 'warn' | 'info' | 'debug';
-    performanceMode: 'quality' | 'balanced' | 'performance';
-    experimentalFeatures: boolean;
-  };
+        debugMode: boolean;
+    loggingLeve,
+        l: 'error' | 'warn' | 'info' | 'debug';
+    performanceMod,
+        e: 'quality' | 'balanced' | 'performance';
+    experimentalFeature,
+        s: boolean;
+  
+
+
+  
+      
+      }
 }
 
 export interface SettingsValidation {
@@ -84,8 +129,15 @@ export class SettingsManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'SettingsManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -109,14 +161,18 @@ export class SettingsManager {
       language: 'en',
       showSubtitles: true,
       graphics: {
+
         resolution: '1920x1080',
         fullscreen: false,
         vsync: true,
         antiAliasing: true,
         shadows: true,
         textureQuality: 'high'
+
+      }
       },
       controls: {
+
         mouseSensitivity: 1.0,
         invertMouse: false,
         keyBindings: {
@@ -127,36 +183,59 @@ export class SettingsManager {
           'jump': 'Space',
           'crouch': 'Ctrl',
           'run': 'Shift'
-        }
+        
+
+      
+
+
+      }
+      };
       },
       audio: {
+
         masterVolume: 1.0,
         musicVolume: 0.8,
         sfxVolume: 0.8,
         voiceVolume: 0.9,
         ambientVolume: 0.7,
         audioDevice: 'default'
+
+      }
       },
       gameplay: {
+
         difficulty: 'normal',
         autoSave: true,
         autoSaveInterval: 300,
         tutorialEnabled: true,
         hintsEnabled: true;
+
+      }
     },
       accessibility: {
+
         colorBlindSupport: false,
         fontSize: 'medium',
         highContrast: false,
         screenReader: false,
         reducedMotion: false;
+
+      }
     },
       advanced: {
         debugMode: false,
         loggingLevel: 'info',
         performanceMode: 'balanced',
         experimentalFeatures: false;
-    }
+    
+
+      
+
+
+      
+      
+      
+      }
     };
   }
 
@@ -166,8 +245,29 @@ export class SettingsManager {
     // Deep merge nested objects
     for (const [key, value] of Object.entries(loaded as Record<string, any>)) {
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        if (merged[key as keyof SettingsConfig] && typeof (merged[key as keyof SettingsConfig] as any) === 'object') {
-          (merged as any)[key] = { ...(merged[key as keyof SettingsConfig] as any), ...value };
+        if (merged[
+      key,
+      as,
+      keyof,
+      SettingsConf,
+      i,
+      g
+    ] && typeof (merged[
+      key,
+      as,
+      keyof,
+      SettingsConf,
+      i,
+      g
+    ] as any) === 'object') {
+          (merged as any)[key] = { ...(merged[
+      key,
+      as,
+      keyof,
+      SettingsConf,
+      i,
+      g
+    ] as any), ...value };
         } else {
           (merged as any)[key] = value;
         }
@@ -229,15 +329,33 @@ export class SettingsManager {
     }
     
     // Store the old value for history
-    const oldValue = target[lastKey];
+    const oldValue = target[
+      la,
+      s,
+      t,
+      K,
+      e,
+      y
+    ];
     
     // Set the new value
-    target[lastKey] = value;
+    target[
+      la,
+      s,
+      t,
+      K,
+      e,
+      y
+    ] = value;
     
     // Record the change
     this.history.push({
       timestamp: Date.now(),
-      changes: { [key]: { old: oldValue, new: value;
+      changes: {
+
+        [key]: { old: oldValue, new: value;
+
+      }
     } }
     });
     
@@ -250,7 +368,14 @@ export class SettingsManager {
   }
 
   getCategory(category: string): any {
-    return this.settings[category as keyof SettingsConfig];
+    return this.settings[
+      category,
+      as,
+      keyof,
+      SettingsConf,
+      i,
+      g
+    ];
   }
 
   setCategory(category: string, values: Record<string, any>): boolean {
@@ -258,7 +383,14 @@ export class SettingsManager {
       return false;
     }
     
-    const oldValues = { ...(this.settings as any)[category] };
+    const oldValues = { ...(this.settings as any)[
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ] };
     
     for (const [key, value] of Object.entries(values)) {
       const fullKey = `${category}.${key}`;
@@ -268,11 +400,29 @@ export class SettingsManager {
       }
     }
     
-    (this.settings as any)[category] = { ...oldValues, ...values };
+    (this.settings as any)[
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ] = { ...oldValues, ...values };
     
     this.history.push({
       timestamp: Date.now(),
-      changes: { [category]: { old: oldValues, new: values;
+      changes: {
+
+        [
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ]: { old: oldValues, new: values;
+
+      }
     } }
     });
     
@@ -324,6 +474,8 @@ export class SettingsManager {
       changes: {
 
         reset: true;
+
+      }
     },
     });
   }
@@ -333,12 +485,51 @@ export class SettingsManager {
       return false;
     }
     
-    const oldValues = { ...(this.settings as any)[category] };
-    (this.settings as any)[category] = { ...(this.defaults as any)[category] };
+    const oldValues = { ...(this.settings as any)[
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ] };
+    (this.settings as any)[
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ] = { ...(this.defaults as any)[
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ] };
     
     this.history.push({
       timestamp: Date.now(),
-      changes: { [category]: { old: oldValues, new: (this.defaults as any)[category] } }
+      changes: {
+
+        [
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+    ]: { old: oldValues, new: (this.defaults as any)[
+      cat,
+      e,
+      g,
+      o,
+      r,
+      y
+
+      }
+    ] } }
     });
     
     return true;
@@ -476,10 +667,17 @@ export class SettingsManager {
     const data = {
       settings: this.settings,
       metadata: {
+
         version: '1.0.0',
         timestamp: new Date().toISOString(),
         stats: this.getStats()
+      
+
+      
+
+
       }
+      };
     };
     
     fs.writeFileSync(path, JSON.stringify(data, null, 2));

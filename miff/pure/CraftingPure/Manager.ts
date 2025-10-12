@@ -359,11 +359,25 @@ export class CraftingManager {
 
     // Check if materials are available
     for (const [material, required] of Object.entries(recipe.inputs)) {
-      if ((inventory[material] || 0) < required) {
+      if ((inventory[
+      mat,
+      e,
+      r,
+      i,
+      a,
+      l
+    ] || 0) < required) {
         return {
           op: 'start_crafting',
           status: 'error',
-          issues: [`Insufficient ${material}: need ${required}, have ${inventory[material] || 0}`]
+          issues: [`Insufficient ${material}: need ${required}, have ${inventory[
+      mat,
+      e,
+      r,
+      i,
+      a,
+      l
+    ] || 0}`]
         };
       }
     }
@@ -431,7 +445,21 @@ export class CraftingManager {
     if (success) {
       // Remove materials
       for (const [material, required] of Object.entries(recipe.inputs)) {
-        remaining[material] = (remaining[material] || 0) - required;
+        remaining[
+      mat,
+      e,
+      r,
+      i,
+      a,
+      l
+    ] = (remaining[
+      mat,
+      e,
+      r,
+      i,
+      a,
+      l
+    ] || 0) - required;
       }
 
       // Add outputs
@@ -452,10 +480,17 @@ export class CraftingManager {
       sessionId,
       craftingTime: Date.now() - session.startTime,
       metadata: {
+
         recipeId: session.recipeId,
         crafterId: session.crafterId,
         difficulty: recipe.difficulty
+      
+
+      
+
+
       }
+      };
     };
 
     // Update session
@@ -676,7 +711,14 @@ export class CraftingManager {
       'expert': -20,
       'master': -30
     };
-    return modifiers[difficulty as keyof typeof modifiers] || 0;
+    return modifiers[
+      difficulty,
+      as,
+      keyof,
+      typeof,
+      modifier,
+      s
+    ] || 0;
   }
 
   private calculateSuccess(session: CraftingSession, recipe: Recipe, quality: number): boolean {
@@ -705,6 +747,13 @@ export class CraftingManager {
       'expert': 2.5,
       'master': 3.0
     };
-    return multipliers[difficulty as keyof typeof multipliers] || 1.0;
+    return multipliers[
+      difficulty,
+      as,
+      keyof,
+      typeof,
+      multiplier,
+      s
+    ] || 1.0;
   }
 }

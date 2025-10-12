@@ -77,8 +77,15 @@ export class AssetManifestManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'AssetManifestManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager

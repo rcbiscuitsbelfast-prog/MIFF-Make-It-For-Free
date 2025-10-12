@@ -79,17 +79,31 @@ export interface AIState {
   level: number;
   experience: number;
   stats: {
-    attack: number;
+        attack: number;
     defense: number;
-    speed: number;
-    intelligence: number;
-    luck: number;
-  };
+    spee,
+        d: number;
+    intelligenc,
+        e: number;
+    luc,
+        k: number;
+  
+
+
+  
+      
+      }
   statusEffects: string[];
   buffs: string[];
   debuffs: string[];
-  position: { x: number; y: number;
-    };
+  position: {
+
+    x: number; y: number;
+    
+
+
+  }
+  };
   isAlive: boolean;
   lastAction?: AIAction;
 }
@@ -101,9 +115,14 @@ export interface AIContext {
   allies: AIState[];
   enemies: AIState[];
   environment: {
+
     weather: string;
     terrain: string;
     obstacles: any[];
+  
+
+
+  }
   };
   objectives: string[];
   constraints: string[];
@@ -140,10 +159,15 @@ export interface AIDecision {
   confidence: number;
   alternatives: AIAction[];
   expectedOutcome: {
+
     damage?: number;
     healing?: number;
     effects?: string[];
     probability: number;
+  
+
+
+  }
   };
   timestamp: Date;
 }
@@ -178,10 +202,15 @@ export interface AIIntegration {
   enabled: boolean;
   priority: number;
   callbacks: {
+
     onDecisionMade?: (decision: AIDecision) => void;
     onStrategyChanged?: (oldStrategy: AIStrategyConfig, newStrategy: AIStrategyConfig) => void;
     onPerformanceUpdated?: (performance: AIPerformance) => void;
     onActionExecuted?: (action: AIAction, result: any) => void;
+  
+
+
+  }
   };
 }
 
@@ -762,6 +791,7 @@ export class BattleAIManager {
 export const defaultBattleAIManager = new BattleAIManager({
   eventBus: createEventBus(),
   config: {
+
     defaultDifficulty: AIDifficulty.NORMAL,
     defaultStrategy: AIStrategyType.BALANCED,
     enableLearning: true,
@@ -773,6 +803,8 @@ export const defaultBattleAIManager = new BattleAIManager({
     enableDebugMode: false,
     maxStrategies: 50,
     learningRate: 0.1
+
+  }
   },
   integrations: []
 });

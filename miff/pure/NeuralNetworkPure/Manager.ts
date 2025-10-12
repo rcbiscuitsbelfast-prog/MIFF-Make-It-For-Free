@@ -569,8 +569,15 @@ export class NeuralNetworkManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'NeuralNetworkManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -781,23 +788,32 @@ export class NeuralNetworkManager {
   private createDefaultModelParameters(): ModelParameters {
     return {
       weights: {
+
         values: [],
+
+      }
         shape: { dimensions: [], metadata: new Map() },
         initialization: 'xavier',
         metadata: new Map()
       },
       biases: {
+
         values: [],
+
+      }
         shape: { dimensions: [], metadata: new Map() },
         initialization: 'zeros',
         metadata: new Map()
       },
       batchNorm: {
+
         gamma: [],
         beta: [],
         movingMean: [],
         movingVariance: [],
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -813,11 +829,18 @@ export class NeuralNetworkManager {
         learningRate: 0.001,
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       loss: {
+
         type: LossType.CROSSENTROPY,
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       metrics: [],
       callbacks: [],
@@ -826,6 +849,10 @@ export class NeuralNetworkManager {
         metrics: ['accuracy'],
         frequency: 1,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -842,15 +869,22 @@ export class NeuralNetworkManager {
       recall: 0,
       f1Score: 0,
       confusionMatrix: {
+
         matrix: [],
         labels: [],
         metadata: new Map()
+
+      }
       },
       rocCurve: {
         fpr: [],
         tpr: [],
         auc: 0,
         metadata: new Map()
+
+      
+      
+      }
       },
       metadata: new Map()
     };
@@ -876,20 +910,30 @@ export class NeuralNetworkManager {
   private createDefaultPreprocessingConfig(): PreprocessingConfig {
     return {
       normalization: {
+
         method: 'minmax',
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       augmentation: {
         enabled: false,
         techniques: [],
         parameters: new Map(),
         metadata: new Map()
+
+      
+      
+      }
       },
       encoding: {
+
         method: 'onehot',
         parameters: new Map(),
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
@@ -934,11 +978,14 @@ export class NeuralNetworkManager {
       averageAccuracy: 0,
       averageTrainingTime: 0,
       performance: {
+
         cpuUsage: 0,
         memoryUsage: 0,
         gpuUsage: 0,
         networkUsage: 0,
         metadata: new Map()
+
+      }
       },
       lastUpdate: Date.now(),
       metadata: new Map()

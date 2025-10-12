@@ -101,8 +101,15 @@ export class TimeManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'TimeSystemManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -332,9 +339,12 @@ export class TimeManager {
       op: 'check-cooldown',
       status: 'ok',
       result: {
+
         id,
         ready: cooldown.remaining <= 0,
         remaining: cooldown.remaining
+
+      }
       } as any
     };
   }
@@ -351,9 +361,12 @@ export class TimeManager {
         op: 'get-remaining',
         status: 'ok',
         result: {
+
           id,
           type: 'timer',
           remaining: timer.remaining
+
+        }
         } as any
       };
     }
@@ -363,9 +376,12 @@ export class TimeManager {
         op: 'get-remaining',
         status: 'ok',
         result: {
+
           id,
           type: 'cooldown',
           remaining: cooldown.remaining
+
+        }
         } as any
       };
     }
@@ -386,10 +402,14 @@ export class TimeManager {
         op: 'tick',
         status: 'ok',
         result: {
-          dt: 0,
-          time: this.time,
-          fired: [],
-          paused: true;
+        dt: 0,
+        time: this.time,
+        fired: [],
+        paused: true;
+
+        
+      
+      }
     } as any
       };
     }
@@ -469,10 +489,13 @@ export class TimeManager {
       op: 'tick',
       status: 'ok',
       result: {
+
         dt: scaledDt,
         time: this.round(this.time),
         fired,
         paused: false;
+
+      }
     } as any
     };
   }
@@ -556,7 +579,15 @@ export class TimeManager {
     return {
       op: 'stats',
       status: 'ok',
-      result: { ...this.stats }
+      result: {
+
+        ...this.stats 
+
+      
+
+
+      }
+      };
     };
   }
 
@@ -570,12 +601,15 @@ export class TimeManager {
           op: 'export',
           status: 'ok',
           result: {
+
             time: this.time,
             timers: Array.from(this.timers.values()),
             cooldowns: Array.from(this.cooldowns.values()),
             scheduled: this.scheduled,
             scales: Array.from(this.timeScales.values()),
             stats: this.stats
+
+          }
           } as any
         };
       
@@ -584,6 +618,7 @@ export class TimeManager {
           op: 'export',
           status: 'ok',
           result: {
+
             schema: 'miff.time.export.v1',
             time: this.time,
             timers: Array.from(this.timers.values()),
@@ -592,6 +627,8 @@ export class TimeManager {
             scales: Array.from(this.timeScales.values()),
             exportedAt: new Date().toISOString(),
             stats: this.stats
+
+          }
           } as any
         };
       
@@ -600,16 +637,25 @@ export class TimeManager {
           op: 'export',
           status: 'ok',
           result: {
+
             summary: this.stats,
             currentTime: this.time,
             paused: this.paused,
             timeScale: this.timeScale,
             activeCounts: {
-              timers: this.stats.activeTimers,
-              cooldowns: this.stats.activeCooldowns,
-              scheduled: this.stats.scheduledEvents,
-              scales: this.stats.timeScales
-            }
+        timers: this.stats.activeTimers,
+        cooldowns: this.stats.activeCooldowns,
+        scheduled: this.stats.scheduledEvents,
+        scales: this.stats.timeScales
+            
+
+          
+
+
+          
+      
+      
+      }
           } as any
         };
       
@@ -618,8 +664,11 @@ export class TimeManager {
           op: 'export',
           status: 'ok',
           result: {
+
             scheduled: this.scheduled,
             total: this.scheduled.length
+
+          }
           } as any
         };
       
@@ -670,10 +719,13 @@ export class TimeManager {
       op: 'dump',
       status: 'ok',
       result: {
+
         time: this.round(this.time),
         timers: Array.from(this.timers.values()).map(t => ({
           ...t,
           remaining: this.round(t.remaining)
+
+      }
         })),
         cooldowns: Array.from(this.cooldowns.values()).map(c => ({
           ...c,

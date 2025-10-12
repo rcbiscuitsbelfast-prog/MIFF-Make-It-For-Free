@@ -474,8 +474,15 @@ export class UnrealBridgeManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
+
         'UnrealBridgeManager': LogLevel.DEBUG
+      
+
+      
+
+
       }
+      };
     });
 
     // Register with memory manager
@@ -567,10 +574,11 @@ export class UnrealBridgeManager {
    * Import asset from Unreal Engine
    */
   async importAsset(assetPath: string, options: {
-    quality?: AssetQuality;
+   quality?: AssetQuality;
     compression?: boolean;
     lodLevels?: number;
     streaming?: boolean;
+ }
   } = {}): Promise<UnrealAsset | null> {
     try {
       if (!this.isConnected) {
@@ -887,6 +895,7 @@ export class UnrealBridgeManager {
       ambientColor: [0.2, 0.2, 0.2],
       ambientIntensity: 0.2,
       fog: {
+
         enabled: false,
         color: [0.5, 0.5, 0.5],
         density: 0.1,
@@ -894,16 +903,22 @@ export class UnrealBridgeManager {
         endDistance: 1000,
         heightFalloff: 0.1,
         type: FogType.LINEAR
+
+      }
       },
       wind: {
+
         enabled: false,
         direction: [1, 0, 0],
         speed: 1.0,
         turbulence: 0.1,
         gustiness: 0.1,
         metadata: new Map()
+
+      }
       },
       weather: {
+
         type: WeatherType.CLEAR,
         intensity: 1.0,
         precipitation: 0.0,
@@ -912,6 +927,8 @@ export class UnrealBridgeManager {
         pressure: 1013.25,
         visibility: 10000.0,
         metadata: new Map()
+
+      }
       },
       metadata: new Map()
     };
