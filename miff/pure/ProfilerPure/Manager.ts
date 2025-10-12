@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ProfilerConfig {
@@ -607,6 +611,8 @@ export class ProfilerManager {
   private customMetrics: Map<string, CustomMetric> = new Map();
   private monitoringTimer: NodeJS.Timeout | null = null;
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ProfilerConfig> = {}) {
     this.config = {
@@ -628,7 +634,21 @@ export class ProfilerManager {
         networkLatency: 100,
         diskUsage: 80,
         custom: new Map()
-      },
+    
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ProfilerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ProfilerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ProfilerManager');
+  },
       enableReporting: true,
       enableExport: true,
       enableHistoricalData: true,
@@ -651,10 +671,10 @@ export class ProfilerManager {
       }
       
       this.isInitialized = true;
-      console.log('Profiler initialized successfully');
+      this.logger.info('ProfilerManager', 'Profiler initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize profiler:', error);
+      this.logger.error('ProfilerManager', 'Failed to initialize profiler:', error);
       return false;
     }
   }
@@ -941,7 +961,7 @@ export class ProfilerManager {
     };
 
     this.alerts.set(alertId, alert);
-    console.warn(`Alert: ${message} (${currentValue})`);
+    this.logger.warn('ProfilerManager', `Alert: ${message} (${currentValue})`);
   }
 
   /**
@@ -1206,7 +1226,7 @@ export class ProfilerManager {
    * Initialize profiler
    */
   private async initializeProfiler(): Promise<void> {
-    console.log('Initializing profiler...');
+    this.logger.info('ProfilerManager', 'Initializing profiler...');
   }
 
   /**

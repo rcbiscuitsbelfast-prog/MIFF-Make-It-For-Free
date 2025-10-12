@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface EdgeComputingConfig {
@@ -714,6 +718,8 @@ export class EdgeComputingManager {
   private edgeComputings: Map<string, EdgeComputing> = new Map();
   private stats: EdgeStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<EdgeComputingConfig> = {}) {
     this.config = {
@@ -735,7 +741,21 @@ export class EdgeComputingManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EdgeComputingManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EdgeComputingManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EdgeComputingManager');
+  };
   }
 
   /**
@@ -750,10 +770,10 @@ export class EdgeComputingManager {
       await this.loadDefaultEdgeComputings();
       
       this.isInitialized = true;
-      console.log('Edge computing manager initialized successfully');
+      this.logger.info('EdgeComputingManager', 'Edge computing manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize edge computing manager:', error);
+      this.logger.error('EdgeComputingManager', 'Failed to initialize edge computing manager:', error);
       return false;
     }
   }
@@ -782,7 +802,7 @@ export class EdgeComputingManager {
     this.edgeComputings.set(newEdgeComputing.id, newEdgeComputing);
     this.updateStats('create_edgecomputing', newEdgeComputing);
 
-    console.log(`Created edge computing: ${newEdgeComputing.name}`);
+    this.logger.info('EdgeComputingManager', `Created edge computing: ${newEdgeComputing.name}`);
     return newEdgeComputing;
   }
 
@@ -792,12 +812,12 @@ export class EdgeComputingManager {
   createEdgeNode(edgeComputingId: string, node: Partial<EdgeNode>): EdgeNode | null {
     const edgeComputing = this.edgeComputings.get(edgeComputingId);
     if (!edgeComputing) {
-      console.warn(`Edge computing ${edgeComputingId} not found`);
+      this.logger.warn('EdgeComputingManager', `Edge computing ${edgeComputingId} not found`);
       return null;
     }
 
     if (edgeComputing.nodes.length >= this.config.maxNodes) {
-      console.warn('Maximum number of nodes reached');
+      this.logger.warn('EdgeComputingManager', 'Maximum number of nodes reached');
       return null;
     }
 
@@ -820,10 +840,10 @@ export class EdgeComputingManager {
       edgeComputing.modified = Date.now();
 
       this.updateStats('create_node', edgeComputing);
-      console.log(`Created edge node: ${newNode.name}`);
+      this.logger.info('EdgeComputingManager', `Created edge node: ${newNode.name}`);
       return newNode;
     } catch (error) {
-      console.error(`Failed to create edge node in edge computing ${edgeComputingId}:`, error);
+      this.logger.error('EdgeComputingManager', `Failed to create edge node in edge computing ${edgeComputingId}:`, error);
       return null;
     }
   }
@@ -834,12 +854,12 @@ export class EdgeComputingManager {
   createWorkload(edgeComputingId: string, workload: Partial<Workload>): Workload | null {
     const edgeComputing = this.edgeComputings.get(edgeComputingId);
     if (!edgeComputing) {
-      console.warn(`Edge computing ${edgeComputingId} not found`);
+      this.logger.warn('EdgeComputingManager', `Edge computing ${edgeComputingId} not found`);
       return null;
     }
 
     if (edgeComputing.workloads.length >= this.config.maxWorkloads) {
-      console.warn('Maximum number of workloads reached');
+      this.logger.warn('EdgeComputingManager', 'Maximum number of workloads reached');
       return null;
     }
 
@@ -861,10 +881,10 @@ export class EdgeComputingManager {
       edgeComputing.modified = Date.now();
 
       this.updateStats('create_workload', edgeComputing);
-      console.log(`Created workload: ${newWorkload.name}`);
+      this.logger.info('EdgeComputingManager', `Created workload: ${newWorkload.name}`);
       return newWorkload;
     } catch (error) {
-      console.error(`Failed to create workload in edge computing ${edgeComputingId}:`, error);
+      this.logger.error('EdgeComputingManager', `Failed to create workload in edge computing ${edgeComputingId}:`, error);
       return null;
     }
   }
@@ -902,7 +922,7 @@ export class EdgeComputingManager {
    * Initialize edge computing manager
    */
   private async initializeEdgeComputingManager(): Promise<void> {
-    console.log('Initializing edge computing manager...');
+    this.logger.info('EdgeComputingManager', 'Initializing edge computing manager...');
   }
 
   /**
@@ -922,7 +942,7 @@ export class EdgeComputingManager {
       }
     }
 
-    console.log(`Loaded ${defaultEdgeComputings.length} default edge computings`);
+    this.logger.info('EdgeComputingManager', `Loaded ${defaultEdgeComputings.length} default edge computings`);
   }
 
   /**

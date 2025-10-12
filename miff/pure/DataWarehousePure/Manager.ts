@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DataWarehouseConfig {
@@ -513,6 +517,8 @@ export class DataWarehouseManager {
   private warehouses: Map<string, DataWarehouse> = new Map();
   private stats: DataWarehouseStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DataWarehouseConfig> = {}) {
     this.config = {
@@ -539,7 +545,21 @@ export class DataWarehouseManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DataWarehouseManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DataWarehouseManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DataWarehouseManager');
+  };
   }
 
   /**
@@ -554,10 +574,10 @@ export class DataWarehouseManager {
       await this.loadDefaultWarehouses();
       
       this.isInitialized = true;
-      console.log('Data warehouse manager initialized successfully');
+      this.logger.info('DataWarehouseManager', 'Data warehouse manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize data warehouse manager:', error);
+      this.logger.error('DataWarehouseManager', 'Failed to initialize data warehouse manager:', error);
       return false;
     }
   }
@@ -588,7 +608,7 @@ export class DataWarehouseManager {
     this.warehouses.set(newWarehouse.id, newWarehouse);
     this.updateStats('create_warehouse', newWarehouse);
 
-    console.log(`Created data warehouse: ${newWarehouse.name}`);
+    this.logger.info('DataWarehouseManager', `Created data warehouse: ${newWarehouse.name}`);
     return newWarehouse;
   }
 
@@ -598,12 +618,12 @@ export class DataWarehouseManager {
   createDataSchema(warehouseId: string, schema: Partial<DataSchema>): DataSchema | null {
     const warehouse = this.warehouses.get(warehouseId);
     if (!warehouse) {
-      console.warn(`Data warehouse ${warehouseId} not found`);
+      this.logger.warn('DataWarehouseManager', `Data warehouse ${warehouseId} not found`);
       return null;
     }
 
     if (warehouse.schemas.length >= this.config.maxSchemas) {
-      console.warn('Maximum number of schemas reached');
+      this.logger.warn('DataWarehouseManager', 'Maximum number of schemas reached');
       return null;
     }
 
@@ -624,10 +644,10 @@ export class DataWarehouseManager {
       warehouse.modified = Date.now();
 
       this.updateStats('create_schema', warehouse);
-      console.log(`Created data schema: ${newSchema.name}`);
+      this.logger.info('DataWarehouseManager', `Created data schema: ${newSchema.name}`);
       return newSchema;
     } catch (error) {
-      console.error(`Failed to create data schema in warehouse ${warehouseId}:`, error);
+      this.logger.error('DataWarehouseManager', `Failed to create data schema in warehouse ${warehouseId}:`, error);
       return null;
     }
   }
@@ -638,12 +658,12 @@ export class DataWarehouseManager {
   createDataTable(warehouseId: string, table: Partial<DataTable>): DataTable | null {
     const warehouse = this.warehouses.get(warehouseId);
     if (!warehouse) {
-      console.warn(`Data warehouse ${warehouseId} not found`);
+      this.logger.warn('DataWarehouseManager', `Data warehouse ${warehouseId} not found`);
       return null;
     }
 
     if (warehouse.tables.length >= this.config.maxTables) {
-      console.warn('Maximum number of tables reached');
+      this.logger.warn('DataWarehouseManager', 'Maximum number of tables reached');
       return null;
     }
 
@@ -666,10 +686,10 @@ export class DataWarehouseManager {
       warehouse.modified = Date.now();
 
       this.updateStats('create_table', warehouse);
-      console.log(`Created data table: ${newTable.name}`);
+      this.logger.info('DataWarehouseManager', `Created data table: ${newTable.name}`);
       return newTable;
     } catch (error) {
-      console.error(`Failed to create data table in warehouse ${warehouseId}:`, error);
+      this.logger.error('DataWarehouseManager', `Failed to create data table in warehouse ${warehouseId}:`, error);
       return null;
     }
   }
@@ -738,7 +758,7 @@ export class DataWarehouseManager {
         metadata: new Map()
       };
     } catch (error) {
-      console.error(`Failed to execute query in warehouse ${warehouseId}:`, error);
+      this.logger.error('DataWarehouseManager', `Failed to execute query in warehouse ${warehouseId}:`, error);
       return {
         success: false,
         message: `Query execution failed: ${error}`,
@@ -781,7 +801,7 @@ export class DataWarehouseManager {
    * Initialize data warehouse manager
    */
   private async initializeDataWarehouseManager(): Promise<void> {
-    console.log('Initializing data warehouse manager...');
+    this.logger.info('DataWarehouseManager', 'Initializing data warehouse manager...');
   }
 
   /**
@@ -801,7 +821,7 @@ export class DataWarehouseManager {
       }
     }
 
-    console.log(`Loaded ${defaultWarehouses.length} default data warehouses`);
+    this.logger.info('DataWarehouseManager', `Loaded ${defaultWarehouses.length} default data warehouses`);
   }
 
   /**

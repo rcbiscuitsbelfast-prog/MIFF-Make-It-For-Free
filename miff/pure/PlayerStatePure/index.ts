@@ -96,13 +96,15 @@ export class PlayerStatePure {
   }
 
   public static applyInput(state: PlayerStateSnapshot, input: Partial<InputState>): PlayerStateSnapshot {
-    const next: PlayerStateSnapshot = JSON.parse(JSON.stringify(state));
-    Object.assign(next.input, input);
+    const next: PlayerStateSnapshot = PerformanceOptimizer.optimizeObjectCloning(state, true).result;
+    // Optimized: Use PerformanceOptimizer.optimizeObjectMerging
+    // Original: Object.assign(next.input, input)
+    PerformanceOptimizer.optimizeObjectMerging(next.input, input).result;
     return next;
   }
 
   public static simulate(state: PlayerStateSnapshot, dt: number): PlayerStateSnapshot {
-    const next: PlayerStateSnapshot = JSON.parse(JSON.stringify(state));
+    const next: PlayerStateSnapshot = PerformanceOptimizer.optimizeObjectCloning(state, true).result;
     const speed = 120; // px/s
     const vx = (next.input.left ? -1 : 0) + (next.input.right ? 1 : 0);
     const vy = (next.input.up ? -1 : 0) + (next.input.down ? 1 : 0);

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CryptocurrencyConfig {
@@ -316,6 +320,8 @@ export class CryptocurrencyManager {
   private cryptocurrencies: Map<string, Cryptocurrency> = new Map();
   private stats: CryptocurrencyStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CryptocurrencyConfig> = {}) {
     this.config = {
@@ -340,7 +346,21 @@ export class CryptocurrencyManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CryptocurrencyManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CryptocurrencyManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CryptocurrencyManager');
+  };
   }
 
   /**
@@ -355,10 +375,10 @@ export class CryptocurrencyManager {
       await this.loadDefaultCryptocurrencies();
       
       this.isInitialized = true;
-      console.log('Cryptocurrency manager initialized successfully');
+      this.logger.info('CryptocurrencyManager', 'Cryptocurrency manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize cryptocurrency manager:', error);
+      this.logger.error('CryptocurrencyManager', 'Failed to initialize cryptocurrency manager:', error);
       return false;
     }
   }
@@ -388,7 +408,7 @@ export class CryptocurrencyManager {
     this.cryptocurrencies.set(newCryptocurrency.id, newCryptocurrency);
     this.updateStats('create_cryptocurrency', newCryptocurrency);
 
-    console.log(`Created cryptocurrency: ${newCryptocurrency.name}`);
+    this.logger.info('CryptocurrencyManager', `Created cryptocurrency: ${newCryptocurrency.name}`);
     return newCryptocurrency;
   }
 
@@ -398,12 +418,12 @@ export class CryptocurrencyManager {
   createCryptoWallet(cryptoId: string, wallet: Partial<CryptoWallet>): CryptoWallet | null {
     const cryptocurrency = this.cryptocurrencies.get(cryptoId);
     if (!cryptocurrency) {
-      console.warn(`Cryptocurrency ${cryptoId} not found`);
+      this.logger.warn('CryptocurrencyManager', `Cryptocurrency ${cryptoId} not found`);
       return null;
     }
 
     if (cryptocurrency.wallets.length >= this.config.maxWallets) {
-      console.warn('Maximum number of wallets reached');
+      this.logger.warn('CryptocurrencyManager', 'Maximum number of wallets reached');
       return null;
     }
 
@@ -424,10 +444,10 @@ export class CryptocurrencyManager {
       cryptocurrency.modified = Date.now();
 
       this.updateStats('create_wallet', cryptocurrency);
-      console.log(`Created crypto wallet: ${newWallet.name}`);
+      this.logger.info('CryptocurrencyManager', `Created crypto wallet: ${newWallet.name}`);
       return newWallet;
     } catch (error) {
-      console.error(`Failed to create crypto wallet in cryptocurrency ${cryptoId}:`, error);
+      this.logger.error('CryptocurrencyManager', `Failed to create crypto wallet in cryptocurrency ${cryptoId}:`, error);
       return null;
     }
   }
@@ -438,12 +458,12 @@ export class CryptocurrencyManager {
   createPortfolio(cryptoId: string, portfolio: Partial<Portfolio>): Portfolio | null {
     const cryptocurrency = this.cryptocurrencies.get(cryptoId);
     if (!cryptocurrency) {
-      console.warn(`Cryptocurrency ${cryptoId} not found`);
+      this.logger.warn('CryptocurrencyManager', `Cryptocurrency ${cryptoId} not found`);
       return null;
     }
 
     if (cryptocurrency.portfolios.length >= this.config.maxPortfolios) {
-      console.warn('Maximum number of portfolios reached');
+      this.logger.warn('CryptocurrencyManager', 'Maximum number of portfolios reached');
       return null;
     }
 
@@ -463,10 +483,10 @@ export class CryptocurrencyManager {
       cryptocurrency.modified = Date.now();
 
       this.updateStats('create_portfolio', cryptocurrency);
-      console.log(`Created portfolio: ${newPortfolio.name}`);
+      this.logger.info('CryptocurrencyManager', `Created portfolio: ${newPortfolio.name}`);
       return newPortfolio;
     } catch (error) {
-      console.error(`Failed to create portfolio in cryptocurrency ${cryptoId}:`, error);
+      this.logger.error('CryptocurrencyManager', `Failed to create portfolio in cryptocurrency ${cryptoId}:`, error);
       return null;
     }
   }
@@ -534,7 +554,7 @@ export class CryptocurrencyManager {
         metadata: new Map()
       };
     } catch (error) {
-      console.error(`Failed to send transaction in cryptocurrency ${cryptoId}:`, error);
+      this.logger.error('CryptocurrencyManager', `Failed to send transaction in cryptocurrency ${cryptoId}:`, error);
       return {
         success: false,
         message: `Transaction failed: ${error}`,
@@ -577,7 +597,7 @@ export class CryptocurrencyManager {
    * Initialize cryptocurrency manager
    */
   private async initializeCryptocurrencyManager(): Promise<void> {
-    console.log('Initializing cryptocurrency manager...');
+    this.logger.info('CryptocurrencyManager', 'Initializing cryptocurrency manager...');
   }
 
   /**
@@ -597,7 +617,7 @@ export class CryptocurrencyManager {
       }
     }
 
-    console.log(`Loaded ${defaultCryptocurrencies.length} default cryptocurrencies`);
+    this.logger.info('CryptocurrencyManager', `Loaded ${defaultCryptocurrencies.length} default cryptocurrencies`);
   }
 
   /**

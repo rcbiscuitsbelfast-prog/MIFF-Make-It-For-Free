@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface PhysicsSystemConfig {
@@ -502,6 +506,8 @@ export class PhysicsSystemManager {
   private physicsSystems: Map<string, PhysicsSystem> = new Map();
   private stats: PhysicsSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<PhysicsSystemConfig> = {}) {
     this.config = {
@@ -523,7 +529,21 @@ export class PhysicsSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'PhysicsSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `PhysicsSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'PhysicsSystemManager');
+  };
   }
 
   /**
@@ -538,10 +558,10 @@ export class PhysicsSystemManager {
       await this.loadDefaultPhysicsSystems();
       
       this.isInitialized = true;
-      console.log('Physics system manager initialized successfully');
+      this.logger.info('PhysicsSystemManager', 'Physics system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize physics system manager:', error);
+      this.logger.error('PhysicsSystemManager', 'Failed to initialize physics system manager:', error);
       return false;
     }
   }
@@ -571,7 +591,7 @@ export class PhysicsSystemManager {
     this.physicsSystems.set(newPhysicsSystem.id, newPhysicsSystem);
     this.updateStats('create_physics_system', newPhysicsSystem);
 
-    console.log(`Created physics system: ${newPhysicsSystem.name}`);
+    this.logger.info('PhysicsSystemManager', `Created physics system: ${newPhysicsSystem.name}`);
     return newPhysicsSystem;
   }
 
@@ -581,12 +601,12 @@ export class PhysicsSystemManager {
   addPhysicsBody(physicsSystemId: string, body: PhysicsBody): boolean {
     const physicsSystem = this.physicsSystems.get(physicsSystemId);
     if (!physicsSystem) {
-      console.warn(`Physics system ${physicsSystemId} not found`);
+      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
       return false;
     }
 
     if (physicsSystem.bodies.length >= this.config.maxRigidBodies) {
-      console.warn('Maximum number of physics bodies reached');
+      this.logger.warn('PhysicsSystemManager', 'Maximum number of physics bodies reached');
       return false;
     }
 
@@ -595,10 +615,10 @@ export class PhysicsSystemManager {
       physicsSystem.modified = Date.now();
 
       this.updateStats('add_physics_body', physicsSystem);
-      console.log(`Added physics body: ${body.name}`);
+      this.logger.info('PhysicsSystemManager', `Added physics body: ${body.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add physics body to system ${physicsSystemId}:`, error);
+      this.logger.error('PhysicsSystemManager', `Failed to add physics body to system ${physicsSystemId}:`, error);
       return false;
     }
   }
@@ -609,12 +629,12 @@ export class PhysicsSystemManager {
   addPhysicsConstraint(physicsSystemId: string, constraint: PhysicsConstraint): boolean {
     const physicsSystem = this.physicsSystems.get(physicsSystemId);
     if (!physicsSystem) {
-      console.warn(`Physics system ${physicsSystemId} not found`);
+      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
       return false;
     }
 
     if (physicsSystem.constraints.length >= this.config.maxConstraints) {
-      console.warn('Maximum number of physics constraints reached');
+      this.logger.warn('PhysicsSystemManager', 'Maximum number of physics constraints reached');
       return false;
     }
 
@@ -623,10 +643,10 @@ export class PhysicsSystemManager {
       physicsSystem.modified = Date.now();
 
       this.updateStats('add_physics_constraint', physicsSystem);
-      console.log(`Added physics constraint: ${constraint.name}`);
+      this.logger.info('PhysicsSystemManager', `Added physics constraint: ${constraint.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add physics constraint to system ${physicsSystemId}:`, error);
+      this.logger.error('PhysicsSystemManager', `Failed to add physics constraint to system ${physicsSystemId}:`, error);
       return false;
     }
   }
@@ -637,12 +657,12 @@ export class PhysicsSystemManager {
   addPhysicsParticle(physicsSystemId: string, particle: PhysicsParticle): boolean {
     const physicsSystem = this.physicsSystems.get(physicsSystemId);
     if (!physicsSystem) {
-      console.warn(`Physics system ${physicsSystemId} not found`);
+      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
       return false;
     }
 
     if (physicsSystem.particles.length >= this.config.maxParticles) {
-      console.warn('Maximum number of physics particles reached');
+      this.logger.warn('PhysicsSystemManager', 'Maximum number of physics particles reached');
       return false;
     }
 
@@ -651,10 +671,10 @@ export class PhysicsSystemManager {
       physicsSystem.modified = Date.now();
 
       this.updateStats('add_physics_particle', physicsSystem);
-      console.log(`Added physics particle: ${particle.name}`);
+      this.logger.info('PhysicsSystemManager', `Added physics particle: ${particle.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add physics particle to system ${physicsSystemId}:`, error);
+      this.logger.error('PhysicsSystemManager', `Failed to add physics particle to system ${physicsSystemId}:`, error);
       return false;
     }
   }
@@ -665,7 +685,7 @@ export class PhysicsSystemManager {
   addPhysicsFluid(physicsSystemId: string, fluid: PhysicsFluid): boolean {
     const physicsSystem = this.physicsSystems.get(physicsSystemId);
     if (!physicsSystem) {
-      console.warn(`Physics system ${physicsSystemId} not found`);
+      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
       return false;
     }
 
@@ -674,10 +694,10 @@ export class PhysicsSystemManager {
       physicsSystem.modified = Date.now();
 
       this.updateStats('add_physics_fluid', physicsSystem);
-      console.log(`Added physics fluid: ${fluid.name}`);
+      this.logger.info('PhysicsSystemManager', `Added physics fluid: ${fluid.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add physics fluid to system ${physicsSystemId}:`, error);
+      this.logger.error('PhysicsSystemManager', `Failed to add physics fluid to system ${physicsSystemId}:`, error);
       return false;
     }
   }
@@ -688,7 +708,7 @@ export class PhysicsSystemManager {
   addPhysicsCloth(physicsSystemId: string, cloth: PhysicsCloth): boolean {
     const physicsSystem = this.physicsSystems.get(physicsSystemId);
     if (!physicsSystem) {
-      console.warn(`Physics system ${physicsSystemId} not found`);
+      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
       return false;
     }
 
@@ -697,10 +717,10 @@ export class PhysicsSystemManager {
       physicsSystem.modified = Date.now();
 
       this.updateStats('add_physics_cloth', physicsSystem);
-      console.log(`Added physics cloth: ${cloth.name}`);
+      this.logger.info('PhysicsSystemManager', `Added physics cloth: ${cloth.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add physics cloth to system ${physicsSystemId}:`, error);
+      this.logger.error('PhysicsSystemManager', `Failed to add physics cloth to system ${physicsSystemId}:`, error);
       return false;
     }
   }
@@ -711,7 +731,7 @@ export class PhysicsSystemManager {
   simulatePhysicsStep(physicsSystemId: string, deltaTime: number): boolean {
     const physicsSystem = this.physicsSystems.get(physicsSystemId);
     if (!physicsSystem) {
-      console.warn(`Physics system ${physicsSystemId} not found`);
+      this.logger.warn('PhysicsSystemManager', `Physics system ${physicsSystemId} not found`);
       return false;
     }
 
@@ -727,7 +747,7 @@ export class PhysicsSystemManager {
 
       return true;
     } catch (error) {
-      console.error(`Failed to simulate physics step for system ${physicsSystemId}:`, error);
+      this.logger.error('PhysicsSystemManager', `Failed to simulate physics step for system ${physicsSystemId}:`, error);
       return false;
     }
   }
@@ -765,7 +785,7 @@ export class PhysicsSystemManager {
    * Initialize physics system manager
    */
   private async initializePhysicsSystemManager(): Promise<void> {
-    console.log('Initializing physics system manager...');
+    this.logger.info('PhysicsSystemManager', 'Initializing physics system manager...');
   }
 
   /**
@@ -785,7 +805,7 @@ export class PhysicsSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default physics systems`);
+    this.logger.info('PhysicsSystemManager', `Loaded ${defaultSystems.length} default physics systems`);
   }
 
   /**
@@ -942,7 +962,7 @@ export class PhysicsSystemManager {
    */
   private performPhysicsSimulation(physicsSystem: PhysicsSystem, deltaTime: number): void {
     // This would perform the actual physics simulation
-    console.log(`Simulating physics for system: ${physicsSystem.name}`);
+    this.logger.info('PhysicsSystemManager', `Simulating physics for system: ${physicsSystem.name}`);
   }
 
   /**

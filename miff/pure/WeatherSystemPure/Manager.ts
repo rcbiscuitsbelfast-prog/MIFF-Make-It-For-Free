@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface WeatherSystemConfig {
@@ -553,6 +557,8 @@ export class WeatherSystemManager {
   private weatherSystems: Map<string, WeatherSystem> = new Map();
   private stats: WeatherSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<WeatherSystemConfig> = {}) {
     this.config = {
@@ -575,7 +581,21 @@ export class WeatherSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'WeatherSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `WeatherSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'WeatherSystemManager');
+  };
   }
 
   /**
@@ -590,10 +610,10 @@ export class WeatherSystemManager {
       await this.loadDefaultWeatherSystems();
       
       this.isInitialized = true;
-      console.log('Weather system manager initialized successfully');
+      this.logger.info('WeatherSystemManager', 'Weather system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize weather system manager:', error);
+      this.logger.error('WeatherSystemManager', 'Failed to initialize weather system manager:', error);
       return false;
     }
   }
@@ -624,7 +644,7 @@ export class WeatherSystemManager {
     this.weatherSystems.set(newWeatherSystem.id, newWeatherSystem);
     this.updateStats('create_weather_system', newWeatherSystem);
 
-    console.log(`Created weather system: ${newWeatherSystem.name}`);
+    this.logger.info('WeatherSystemManager', `Created weather system: ${newWeatherSystem.name}`);
     return newWeatherSystem;
   }
 
@@ -634,7 +654,7 @@ export class WeatherSystemManager {
   updateWeatherState(weatherSystemId: string, weatherState: WeatherState): boolean {
     const weatherSystem = this.weatherSystems.get(weatherSystemId);
     if (!weatherSystem) {
-      console.warn(`Weather system ${weatherSystemId} not found`);
+      this.logger.warn('WeatherSystemManager', `Weather system ${weatherSystemId} not found`);
       return false;
     }
 
@@ -654,10 +674,10 @@ export class WeatherSystemManager {
       this.updateWeatherAnalytics(weatherSystem, weatherState);
 
       this.updateStats('update_weather_state', weatherSystem);
-      console.log(`Updated weather state for system: ${weatherSystem.name}`);
+      this.logger.info('WeatherSystemManager', `Updated weather state for system: ${weatherSystem.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to update weather state for system ${weatherSystemId}:`, error);
+      this.logger.error('WeatherSystemManager', `Failed to update weather state for system ${weatherSystemId}:`, error);
       return false;
     }
   }
@@ -668,12 +688,12 @@ export class WeatherSystemManager {
   addWeatherZone(weatherSystemId: string, zone: WeatherZone): boolean {
     const weatherSystem = this.weatherSystems.get(weatherSystemId);
     if (!weatherSystem) {
-      console.warn(`Weather system ${weatherSystemId} not found`);
+      this.logger.warn('WeatherSystemManager', `Weather system ${weatherSystemId} not found`);
       return false;
     }
 
     if (weatherSystem.zones.length >= this.config.maxWeatherZones) {
-      console.warn('Maximum number of weather zones reached');
+      this.logger.warn('WeatherSystemManager', 'Maximum number of weather zones reached');
       return false;
     }
 
@@ -682,10 +702,10 @@ export class WeatherSystemManager {
       weatherSystem.modified = Date.now();
 
       this.updateStats('add_weather_zone', weatherSystem);
-      console.log(`Added weather zone: ${zone.name}`);
+      this.logger.info('WeatherSystemManager', `Added weather zone: ${zone.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add weather zone to system ${weatherSystemId}:`, error);
+      this.logger.error('WeatherSystemManager', `Failed to add weather zone to system ${weatherSystemId}:`, error);
       return false;
     }
   }
@@ -696,12 +716,12 @@ export class WeatherSystemManager {
   createWeatherEvent(weatherSystemId: string, event: Partial<WeatherEvent>): WeatherEvent | null {
     const weatherSystem = this.weatherSystems.get(weatherSystemId);
     if (!weatherSystem) {
-      console.warn(`Weather system ${weatherSystemId} not found`);
+      this.logger.warn('WeatherSystemManager', `Weather system ${weatherSystemId} not found`);
       return null;
     }
 
     if (weatherSystem.events.length >= this.config.maxWeatherEvents) {
-      console.warn('Maximum number of weather events reached');
+      this.logger.warn('WeatherSystemManager', 'Maximum number of weather events reached');
       return null;
     }
 
@@ -724,7 +744,7 @@ export class WeatherSystemManager {
     weatherSystem.modified = Date.now();
 
     this.updateStats('create_weather_event', weatherSystem);
-    console.log(`Created weather event: ${newEvent.name}`);
+    this.logger.info('WeatherSystemManager', `Created weather event: ${newEvent.name}`);
     return newEvent;
   }
 
@@ -734,7 +754,7 @@ export class WeatherSystemManager {
   getWeatherForecast(weatherSystemId: string, days: number = 7): WeatherForecast[] {
     const weatherSystem = this.weatherSystems.get(weatherSystemId);
     if (!weatherSystem) {
-      console.warn(`Weather system ${weatherSystemId} not found`);
+      this.logger.warn('WeatherSystemManager', `Weather system ${weatherSystemId} not found`);
       return [];
     }
 
@@ -780,7 +800,7 @@ export class WeatherSystemManager {
    * Initialize weather system manager
    */
   private async initializeWeatherSystemManager(): Promise<void> {
-    console.log('Initializing weather system manager...');
+    this.logger.info('WeatherSystemManager', 'Initializing weather system manager...');
   }
 
   /**
@@ -800,7 +820,7 @@ export class WeatherSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default weather systems`);
+    this.logger.info('WeatherSystemManager', `Loaded ${defaultSystems.length} default weather systems`);
   }
 
   /**

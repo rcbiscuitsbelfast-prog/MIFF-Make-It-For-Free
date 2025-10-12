@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ChallengeConfig {
@@ -433,6 +437,8 @@ export class ChallengeManager {
   private instances: Map<string, ChallengeInstance> = new Map();
   private stats: ChallengeManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ChallengeConfig> = {}) {
     this.config = {
@@ -450,7 +456,21 @@ export class ChallengeManager {
       enableStatistics: true,
       enableAnalytics: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ChallengesManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ChallengesManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ChallengesManager');
+  };
   }
 
   /**
@@ -470,10 +490,10 @@ export class ChallengeManager {
       }
       
       this.isInitialized = true;
-      console.log('Challenge manager initialized successfully');
+      this.logger.info('ChallengesManager', 'Challenge manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize challenge manager:', error);
+      this.logger.error('ChallengesManager', 'Failed to initialize challenge manager:', error);
       return false;
     }
   }
@@ -484,12 +504,12 @@ export class ChallengeManager {
   createChallenge(templateId: string, customData?: Partial<Challenge>): Challenge | null {
     const template = this.templates.get(templateId);
     if (!template) {
-      console.warn(`Challenge template ${templateId} not found`);
+      this.logger.warn('ChallengesManager', `Challenge template ${templateId} not found`);
       return null;
     }
 
     if (!template.isActive) {
-      console.warn(`Challenge template ${templateId} is not active`);
+      this.logger.warn('ChallengesManager', `Challenge template ${templateId} is not active`);
       return null;
     }
 
@@ -529,7 +549,7 @@ export class ChallengeManager {
     this.challenges.set(challenge.id, challenge);
     this.updateStats('create_challenge', challenge);
 
-    console.log(`Created challenge: ${challenge.name}`);
+    this.logger.info('ChallengesManager', `Created challenge: ${challenge.name}`);
     return challenge;
   }
 
@@ -539,24 +559,24 @@ export class ChallengeManager {
   startChallenge(challengeId: string, userId: string): boolean {
     const challenge = this.challenges.get(challengeId);
     if (!challenge) {
-      console.warn(`Challenge ${challengeId} not found`);
+      this.logger.warn('ChallengesManager', `Challenge ${challengeId} not found`);
       return false;
     }
 
     if (challenge.status !== ChallengeStatus.AVAILABLE) {
-      console.warn(`Challenge ${challengeId} is not available`);
+      this.logger.warn('ChallengesManager', `Challenge ${challengeId} is not available`);
       return false;
     }
 
     // Check requirements
     if (!this.checkRequirements(challenge, userId)) {
-      console.warn(`User ${userId} does not meet requirements for challenge ${challengeId}`);
+      this.logger.warn('ChallengesManager', `User ${userId} does not meet requirements for challenge ${challengeId}`);
       return false;
     }
 
     // Check active challenge limit
     if (this.getUserActiveChallenges(userId).length >= this.config.maxActiveChallenges) {
-      console.warn(`User ${userId} has reached maximum active challenges`);
+      this.logger.warn('ChallengesManager', `User ${userId} has reached maximum active challenges`);
       return false;
     }
 
@@ -593,7 +613,7 @@ export class ChallengeManager {
     this.instances.set(instance.id, instance);
     this.updateStats('start_challenge', challenge);
 
-    console.log(`Started challenge ${challengeId} for user ${userId}`);
+    this.logger.info('ChallengesManager', `Started challenge ${challengeId} for user ${userId}`);
     return true;
   }
 
@@ -603,30 +623,30 @@ export class ChallengeManager {
   updateProgress(challengeId: string, userId: string, progress: Partial<ChallengeProgress>): boolean {
     const challenge = this.challenges.get(challengeId);
     if (!challenge) {
-      console.warn(`Challenge ${challengeId} not found`);
+      this.logger.warn('ChallengesManager', `Challenge ${challengeId} not found`);
       return false;
     }
 
     if (challenge.status !== ChallengeStatus.ACTIVE) {
-      console.warn(`Challenge ${challengeId} is not active`);
+      this.logger.warn('ChallengesManager', `Challenge ${challengeId} is not active`);
       return false;
     }
 
     if (!challenge.participants.includes(userId)) {
-      console.warn(`User ${userId} is not participating in challenge ${challengeId}`);
+      this.logger.warn('ChallengesManager', `User ${userId} is not participating in challenge ${challengeId}`);
       return false;
     }
 
     // Find challenge instance
     const instance = this.findChallengeInstance(challengeId, userId);
     if (!instance) {
-      console.warn(`Challenge instance not found for challenge ${challengeId} and user ${userId}`);
+      this.logger.warn('ChallengesManager', `Challenge instance not found for challenge ${challengeId} and user ${userId}`);
       return false;
     }
 
     const participant = instance.participants.get(userId);
     if (!participant) {
-      console.warn(`Participant ${userId} not found in challenge instance`);
+      this.logger.warn('ChallengesManager', `Participant ${userId} not found in challenge instance`);
       return false;
     }
 
@@ -643,7 +663,7 @@ export class ChallengeManager {
     // Update leaderboard
     this.updateLeaderboard(instance);
 
-    console.log(`Updated progress for challenge ${challengeId}, user ${userId}: ${participant.progress.percentage.toFixed(2)}%`);
+    this.logger.info('ChallengesManager', `Updated progress for challenge ${challengeId}, user ${userId}: ${participant.progress.percentage.toFixed(2)}%`);
     return true;
   }
 
@@ -653,19 +673,19 @@ export class ChallengeManager {
   completeChallenge(challengeId: string, userId: string): boolean {
     const challenge = this.challenges.get(challengeId);
     if (!challenge) {
-      console.warn(`Challenge ${challengeId} not found`);
+      this.logger.warn('ChallengesManager', `Challenge ${challengeId} not found`);
       return false;
     }
 
     const instance = this.findChallengeInstance(challengeId, userId);
     if (!instance) {
-      console.warn(`Challenge instance not found for challenge ${challengeId} and user ${userId}`);
+      this.logger.warn('ChallengesManager', `Challenge instance not found for challenge ${challengeId} and user ${userId}`);
       return false;
     }
 
     const participant = instance.participants.get(userId);
     if (!participant) {
-      console.warn(`Participant ${userId} not found in challenge instance`);
+      this.logger.warn('ChallengesManager', `Participant ${userId} not found in challenge instance`);
       return false;
     }
 
@@ -691,7 +711,7 @@ export class ChallengeManager {
 
     this.updateStats('complete_challenge', challenge);
 
-    console.log(`Completed challenge ${challengeId} for user ${userId}`);
+    this.logger.info('ChallengesManager', `Completed challenge ${challengeId} for user ${userId}`);
     return true;
   }
 
@@ -701,19 +721,19 @@ export class ChallengeManager {
   failChallenge(challengeId: string, userId: string, reason: string): boolean {
     const challenge = this.challenges.get(challengeId);
     if (!challenge) {
-      console.warn(`Challenge ${challengeId} not found`);
+      this.logger.warn('ChallengesManager', `Challenge ${challengeId} not found`);
       return false;
     }
 
     const instance = this.findChallengeInstance(challengeId, userId);
     if (!instance) {
-      console.warn(`Challenge instance not found for challenge ${challengeId} and user ${userId}`);
+      this.logger.warn('ChallengesManager', `Challenge instance not found for challenge ${challengeId} and user ${userId}`);
       return false;
     }
 
     const participant = instance.participants.get(userId);
     if (!participant) {
-      console.warn(`Participant ${userId} not found in challenge instance`);
+      this.logger.warn('ChallengesManager', `Participant ${userId} not found in challenge instance`);
       return false;
     }
 
@@ -726,7 +746,7 @@ export class ChallengeManager {
 
     this.updateStats('fail_challenge', challenge);
 
-    console.log(`Failed challenge ${challengeId} for user ${userId}: ${reason}`);
+    this.logger.info('ChallengesManager', `Failed challenge ${challengeId} for user ${userId}: ${reason}`);
     return true;
   }
 
@@ -789,7 +809,7 @@ export class ChallengeManager {
    */
   createTemplate(template: Partial<ChallengeTemplate>): ChallengeTemplate | null {
     if (!this.config.enableCustomCreation) {
-      console.warn('Custom challenge creation is disabled');
+      this.logger.warn('ChallengesManager', 'Custom challenge creation is disabled');
       return null;
     }
 
@@ -811,7 +831,7 @@ export class ChallengeManager {
     };
 
     this.templates.set(newTemplate.id, newTemplate);
-    console.log(`Created challenge template: ${newTemplate.name}`);
+    this.logger.info('ChallengesManager', `Created challenge template: ${newTemplate.name}`);
     return newTemplate;
   }
 
@@ -819,7 +839,7 @@ export class ChallengeManager {
    * Initialize challenge manager
    */
   private async initializeChallengeManager(): Promise<void> {
-    console.log('Initializing challenge manager...');
+    this.logger.info('ChallengesManager', 'Initializing challenge manager...');
   }
 
   /**
@@ -841,7 +861,7 @@ export class ChallengeManager {
       }
     }
 
-    console.log(`Loaded ${defaultTemplates.length} default templates`);
+    this.logger.info('ChallengesManager', `Loaded ${defaultTemplates.length} default templates`);
   }
 
   /**
@@ -864,7 +884,7 @@ export class ChallengeManager {
       }
     }
 
-    console.log('Generated initial challenges');
+    this.logger.info('ChallengesManager', 'Generated initial challenges');
   }
 
   /**
@@ -1216,7 +1236,7 @@ export class ChallengeManager {
    */
   private distributeRewards(challenge: Challenge, userId: string): void {
     // This would distribute rewards to the user
-    console.log(`Distributing rewards for challenge ${challenge.id} to user ${userId}`);
+    this.logger.info('ChallengesManager', `Distributing rewards for challenge ${challenge.id} to user ${userId}`);
   }
 
   /**

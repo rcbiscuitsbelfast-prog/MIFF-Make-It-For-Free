@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DataLakeConfig {
@@ -416,6 +420,8 @@ export class DataLakeManager {
   private lakes: Map<string, DataLake> = new Map();
   private stats: DataLakeStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DataLakeConfig> = {}) {
     this.config = {
@@ -441,7 +447,21 @@ export class DataLakeManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DataLakeManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DataLakeManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DataLakeManager');
+  };
   }
 
   /**
@@ -456,10 +476,10 @@ export class DataLakeManager {
       await this.loadDefaultLakes();
       
       this.isInitialized = true;
-      console.log('Data lake manager initialized successfully');
+      this.logger.info('DataLakeManager', 'Data lake manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize data lake manager:', error);
+      this.logger.error('DataLakeManager', 'Failed to initialize data lake manager:', error);
       return false;
     }
   }
@@ -488,7 +508,7 @@ export class DataLakeManager {
     this.lakes.set(newLake.id, newLake);
     this.updateStats('create_lake', newLake);
 
-    console.log(`Created data lake: ${newLake.name}`);
+    this.logger.info('DataLakeManager', `Created data lake: ${newLake.name}`);
     return newLake;
   }
 
@@ -498,12 +518,12 @@ export class DataLakeManager {
   createDataset(lakeId: string, dataset: Partial<Dataset>): Dataset | null {
     const lake = this.lakes.get(lakeId);
     if (!lake) {
-      console.warn(`Data lake ${lakeId} not found`);
+      this.logger.warn('DataLakeManager', `Data lake ${lakeId} not found`);
       return null;
     }
 
     if (lake.datasets.length >= this.config.maxDatasets) {
-      console.warn('Maximum number of datasets reached');
+      this.logger.warn('DataLakeManager', 'Maximum number of datasets reached');
       return null;
     }
 
@@ -524,10 +544,10 @@ export class DataLakeManager {
       lake.modified = Date.now();
 
       this.updateStats('create_dataset', lake);
-      console.log(`Created dataset: ${newDataset.name}`);
+      this.logger.info('DataLakeManager', `Created dataset: ${newDataset.name}`);
       return newDataset;
     } catch (error) {
-      console.error(`Failed to create dataset in lake ${lakeId}:`, error);
+      this.logger.error('DataLakeManager', `Failed to create dataset in lake ${lakeId}:`, error);
       return null;
     }
   }
@@ -538,7 +558,7 @@ export class DataLakeManager {
   createDataCatalog(lakeId: string, catalog: Partial<DataCatalog>): DataCatalog | null {
     const lake = this.lakes.get(lakeId);
     if (!lake) {
-      console.warn(`Data lake ${lakeId} not found`);
+      this.logger.warn('DataLakeManager', `Data lake ${lakeId} not found`);
       return null;
     }
 
@@ -558,10 +578,10 @@ export class DataLakeManager {
       lake.modified = Date.now();
 
       this.updateStats('create_catalog', lake);
-      console.log(`Created data catalog: ${newCatalog.name}`);
+      this.logger.info('DataLakeManager', `Created data catalog: ${newCatalog.name}`);
       return newCatalog;
     } catch (error) {
-      console.error(`Failed to create data catalog in lake ${lakeId}:`, error);
+      this.logger.error('DataLakeManager', `Failed to create data catalog in lake ${lakeId}:`, error);
       return null;
     }
   }
@@ -572,7 +592,7 @@ export class DataLakeManager {
   searchDatasets(lakeId: string, query: SearchQuery): Dataset[] {
     const lake = this.lakes.get(lakeId);
     if (!lake) {
-      console.warn(`Data lake ${lakeId} not found`);
+      this.logger.warn('DataLakeManager', `Data lake ${lakeId} not found`);
       return [];
     }
 
@@ -600,7 +620,7 @@ export class DataLakeManager {
 
       return datasets;
     } catch (error) {
-      console.error(`Failed to search datasets in lake ${lakeId}:`, error);
+      this.logger.error('DataLakeManager', `Failed to search datasets in lake ${lakeId}:`, error);
       return [];
     }
   }
@@ -638,7 +658,7 @@ export class DataLakeManager {
    * Initialize data lake manager
    */
   private async initializeDataLakeManager(): Promise<void> {
-    console.log('Initializing data lake manager...');
+    this.logger.info('DataLakeManager', 'Initializing data lake manager...');
   }
 
   /**
@@ -658,7 +678,7 @@ export class DataLakeManager {
       }
     }
 
-    console.log(`Loaded ${defaultLakes.length} default data lakes`);
+    this.logger.info('DataLakeManager', `Loaded ${defaultLakes.length} default data lakes`);
   }
 
   /**

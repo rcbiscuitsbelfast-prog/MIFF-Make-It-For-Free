@@ -10,6 +10,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CombatConfig {
@@ -541,6 +545,8 @@ export class CombatManager {
   private items: Map<string, any> = new Map();
   private analytics: CombatAnalytics = this.initializeAnalytics();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CombatConfig> = {}) {
     this.config = {
@@ -560,7 +566,21 @@ export class CombatManager {
       enableStatusEffects: true,
       enableEnvironmentalDamage: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CombatManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CombatManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CombatManager');
+  };
   }
 
   /**
@@ -578,10 +598,10 @@ export class CombatManager {
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      console.log('Combat system initialized successfully');
+      this.logger.info('CombatManager', 'Combat system initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize combat system:', error);
+      this.logger.error('CombatManager', 'Failed to initialize combat system:', error);
       return false;
     }
   }
@@ -616,7 +636,7 @@ export class CombatManager {
     // Store session
     this.sessions.set(session.id, session);
 
-    console.log(`Created combat session: ${name} with ${combatants.length} combatants`);
+    this.logger.info('CombatManager', `Created combat session: ${name} with ${combatants.length} combatants`);
     return session;
   }
 
@@ -626,12 +646,12 @@ export class CombatManager {
   startSession(sessionId: string): boolean {
     const session = this.sessions.get(sessionId);
     if (!session) {
-      console.warn(`Combat session ${sessionId} not found`);
+      this.logger.warn('CombatManager', `Combat session ${sessionId} not found`);
       return false;
     }
 
     if (session.phase !== CombatPhase.PREPARATION) {
-      console.warn(`Cannot start session ${sessionId} - not in preparation phase`);
+      this.logger.warn('CombatManager', `Cannot start session ${sessionId} - not in preparation phase`);
       return false;
     }
 
@@ -640,7 +660,7 @@ export class CombatManager {
     session.currentCombatant = sortedCombatants[0].id;
     session.phase = CombatPhase.ACTIVE;
 
-    console.log(`Started combat session: ${session.name}`);
+    this.logger.info('CombatManager', `Started combat session: ${session.name}`);
     return true;
   }
 
@@ -650,17 +670,17 @@ export class CombatManager {
   async executeAction(sessionId: string, action: CombatAction): Promise<CombatResult | null> {
     const session = this.sessions.get(sessionId);
     if (!session) {
-      console.warn(`Combat session ${sessionId} not found`);
+      this.logger.warn('CombatManager', `Combat session ${sessionId} not found`);
       return null;
     }
 
     if (session.phase !== CombatPhase.ACTIVE) {
-      console.warn(`Cannot execute action - session not active`);
+      this.logger.warn('CombatManager', `Cannot execute action - session not active`);
       return null;
     }
 
     if (session.currentCombatant !== action.combatantId) {
-      console.warn(`Not ${action.combatantId}'s turn`);
+      this.logger.warn('CombatManager', `Not ${action.combatantId}'s turn`);
       return null;
     }
 
@@ -709,7 +729,7 @@ export class CombatManager {
       this.advanceTurn(session);
     }
 
-    console.log(`Executed action: ${action.type} by ${action.combatantId}`);
+    this.logger.info('CombatManager', `Executed action: ${action.type} by ${action.combatantId}`);
     return result;
   }
 
@@ -1229,7 +1249,7 @@ export class CombatManager {
    * Initialize combat system
    */
   private async initializeCombatSystem(): Promise<void> {
-    console.log('Initializing combat system...');
+    this.logger.info('CombatManager', 'Initializing combat system...');
   }
 
   /**
@@ -1237,7 +1257,7 @@ export class CombatManager {
    */
   private async loadDefaultAbilities(): Promise<void> {
     // Load default abilities
-    console.log('Loading default abilities...');
+    this.logger.info('CombatManager', 'Loading default abilities...');
   }
 
   /**
@@ -1245,7 +1265,7 @@ export class CombatManager {
    */
   private async loadDefaultItems(): Promise<void> {
     // Load default items
-    console.log('Loading default items...');
+    this.logger.info('CombatManager', 'Loading default items...');
   }
 
   /**

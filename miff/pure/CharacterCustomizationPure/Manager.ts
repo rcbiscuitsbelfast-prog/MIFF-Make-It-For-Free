@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CharacterCustomizationConfig {
@@ -1191,6 +1195,8 @@ export class CharacterCustomizationManager {
   private templates: Map<string, CustomizationTemplate> = new Map();
   private stats: CharacterCustomizationStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CharacterCustomizationConfig> = {}) {
     this.config = {
@@ -1216,7 +1222,21 @@ export class CharacterCustomizationManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CharacterCustomizationManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CharacterCustomizationManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CharacterCustomizationManager');
+  };
   }
 
   /**
@@ -1234,10 +1254,10 @@ export class CharacterCustomizationManager {
       await this.loadDefaultTemplates();
       
       this.isInitialized = true;
-      console.log('Character customization manager initialized successfully');
+      this.logger.info('CharacterCustomizationManager', 'Character customization manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize character customization manager:', error);
+      this.logger.error('CharacterCustomizationManager', 'Failed to initialize character customization manager:', error);
       return false;
     }
   }
@@ -1247,7 +1267,7 @@ export class CharacterCustomizationManager {
    */
   createCustomization(customization: Partial<CharacterCustomization>): CharacterCustomization | null {
     if (this.customizations.size >= this.config.maxCustomizations) {
-      console.warn('Maximum number of customizations reached');
+      this.logger.warn('CharacterCustomizationManager', 'Maximum number of customizations reached');
       return null;
     }
 
@@ -1277,7 +1297,7 @@ export class CharacterCustomizationManager {
     this.customizations.set(newCustomization.id, newCustomization);
     this.updateStats('create_customization', newCustomization);
 
-    console.log(`Created customization: ${newCustomization.name}`);
+    this.logger.info('CharacterCustomizationManager', `Created customization: ${newCustomization.name}`);
     return newCustomization;
   }
 
@@ -1287,7 +1307,7 @@ export class CharacterCustomizationManager {
   updateCustomization(customizationId: string, updates: Partial<CharacterCustomization>): boolean {
     const customization = this.customizations.get(customizationId);
     if (!customization) {
-      console.warn(`Customization ${customizationId} not found`);
+      this.logger.warn('CharacterCustomizationManager', `Customization ${customizationId} not found`);
       return false;
     }
 
@@ -1302,10 +1322,10 @@ export class CharacterCustomizationManager {
       }
 
       this.updateStats('update_customization', customization);
-      console.log(`Updated customization: ${customization.name}`);
+      this.logger.info('CharacterCustomizationManager', `Updated customization: ${customization.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to update customization ${customizationId}:`, error);
+      this.logger.error('CharacterCustomizationManager', `Failed to update customization ${customizationId}:`, error);
       return false;
     }
   }
@@ -1318,12 +1338,12 @@ export class CharacterCustomizationManager {
     const preset = this.presets.get(presetId);
 
     if (!customization) {
-      console.warn(`Customization ${customizationId} not found`);
+      this.logger.warn('CharacterCustomizationManager', `Customization ${customizationId} not found`);
       return false;
     }
 
     if (!preset) {
-      console.warn(`Preset ${presetId} not found`);
+      this.logger.warn('CharacterCustomizationManager', `Preset ${presetId} not found`);
       return false;
     }
 
@@ -1348,10 +1368,10 @@ export class CharacterCustomizationManager {
       customization.modified = Date.now();
       this.updateStats('apply_preset', customization);
 
-      console.log(`Applied preset ${preset.name} to customization ${customization.name}`);
+      this.logger.info('CharacterCustomizationManager', `Applied preset ${preset.name} to customization ${customization.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to apply preset ${presetId} to customization ${customizationId}:`, error);
+      this.logger.error('CharacterCustomizationManager', `Failed to apply preset ${presetId} to customization ${customizationId}:`, error);
       return false;
     }
   }
@@ -1362,12 +1382,12 @@ export class CharacterCustomizationManager {
   createPreset(customizationId: string, preset: Partial<CustomizationPreset>): CustomizationPreset | null {
     const customization = this.customizations.get(customizationId);
     if (!customization) {
-      console.warn(`Customization ${customizationId} not found`);
+      this.logger.warn('CharacterCustomizationManager', `Customization ${customizationId} not found`);
       return null;
     }
 
     if (this.presets.size >= this.config.maxPresets) {
-      console.warn('Maximum number of presets reached');
+      this.logger.warn('CharacterCustomizationManager', 'Maximum number of presets reached');
       return null;
     }
 
@@ -1394,7 +1414,7 @@ export class CharacterCustomizationManager {
     this.presets.set(newPreset.id, newPreset);
     this.updateStats('create_preset', newPreset);
 
-    console.log(`Created preset: ${newPreset.name}`);
+    this.logger.info('CharacterCustomizationManager', `Created preset: ${newPreset.name}`);
     return newPreset;
   }
 
@@ -1475,7 +1495,7 @@ export class CharacterCustomizationManager {
    * Initialize character customization manager
    */
   private async initializeCharacterCustomizationManager(): Promise<void> {
-    console.log('Initializing character customization manager...');
+    this.logger.info('CharacterCustomizationManager', 'Initializing character customization manager...');
   }
 
   /**
@@ -1496,7 +1516,7 @@ export class CharacterCustomizationManager {
       }
     }
 
-    console.log(`Loaded ${defaultPresets.length} default presets`);
+    this.logger.info('CharacterCustomizationManager', `Loaded ${defaultPresets.length} default presets`);
   }
 
   /**
@@ -1516,7 +1536,7 @@ export class CharacterCustomizationManager {
       }
     }
 
-    console.log(`Loaded ${defaultTemplates.length} default templates`);
+    this.logger.info('CharacterCustomizationManager', `Loaded ${defaultTemplates.length} default templates`);
   }
 
   /**

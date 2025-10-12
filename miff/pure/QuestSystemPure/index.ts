@@ -79,7 +79,7 @@ export interface QuestResult {
  * This is the main function that handles all quest logic
  */
 export function applyQuestEvent(state: QuestState, event: QuestEvent): QuestResult {
-  const newState = JSON.parse(JSON.stringify(state)) as QuestState;
+  const newState = PerformanceOptimizer.optimizeObjectCloning(state, true).result as QuestState;
   const newEvents: QuestEvent[] = [];
   const completedQuests: string[] = [];
   const failedQuests: string[] = [];

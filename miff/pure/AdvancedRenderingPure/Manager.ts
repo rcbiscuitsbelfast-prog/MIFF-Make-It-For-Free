@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { RenderWorldManager, Material, Shader, Texture, Transform } from '../RenderWorldPure/Manager.js';
@@ -161,6 +165,8 @@ export class AdvancedRenderingManager {
   private shaderLibraries: Map<string, ShaderLibrary> = new Map();
   private renderingPipelines: Map<string, RenderingPipeline> = new Map();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(renderWorld: RenderWorldManager, config: Partial<AdvancedRenderingConfig> = {}) {
     this.renderWorld = renderWorld;
@@ -186,7 +192,21 @@ export class AdvancedRenderingManager {
       enableVertexCompression: true,
       enableIndexCompression: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AdvancedRenderingManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AdvancedRenderingManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AdvancedRenderingManager');
+  };
   }
 
   /**
@@ -220,10 +240,10 @@ export class AdvancedRenderingManager {
       }
 
       this.isInitialized = true;
-      console.log('AdvancedRendering initialized successfully');
+      this.logger.info('AdvancedRenderingManager', 'AdvancedRendering initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize AdvancedRendering:', error);
+      this.logger.error('AdvancedRenderingManager', 'Failed to initialize AdvancedRendering:', error);
       return false;
     }
   }

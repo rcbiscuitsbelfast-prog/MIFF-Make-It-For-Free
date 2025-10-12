@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface Web3Config {
@@ -412,6 +416,8 @@ export class Web3Manager {
   private web3s: Map<string, Web3> = new Map();
   private stats: Web3Stats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<Web3Config> = {}) {
     this.config = {
@@ -435,7 +441,21 @@ export class Web3Manager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'Web3Manager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `Web3Manager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'Web3Manager');
+  };
   }
 
   /**
@@ -450,10 +470,10 @@ export class Web3Manager {
       await this.loadDefaultWeb3s();
       
       this.isInitialized = true;
-      console.log('Web3 manager initialized successfully');
+      this.logger.info('Web3Manager', 'Web3 manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize Web3 manager:', error);
+      this.logger.error('Web3Manager', 'Failed to initialize Web3 manager:', error);
       return false;
     }
   }
@@ -483,7 +503,7 @@ export class Web3Manager {
     this.web3s.set(newWeb3.id, newWeb3);
     this.updateStats('create_web3', newWeb3);
 
-    console.log(`Created Web3: ${newWeb3.name}`);
+    this.logger.info('Web3Manager', `Created Web3: ${newWeb3.name}`);
     return newWeb3;
   }
 
@@ -493,12 +513,12 @@ export class Web3Manager {
   createDApp(web3Id: string, dApp: Partial<DApp>): DApp | null {
     const web3 = this.web3s.get(web3Id);
     if (!web3) {
-      console.warn(`Web3 ${web3Id} not found`);
+      this.logger.warn('Web3Manager', `Web3 ${web3Id} not found`);
       return null;
     }
 
     if (web3.dApps.length >= this.config.maxDApps) {
-      console.warn('Maximum number of DApps reached');
+      this.logger.warn('Web3Manager', 'Maximum number of DApps reached');
       return null;
     }
 
@@ -521,10 +541,10 @@ export class Web3Manager {
       web3.modified = Date.now();
 
       this.updateStats('create_dapp', web3);
-      console.log(`Created DApp: ${newDApp.name}`);
+      this.logger.info('Web3Manager', `Created DApp: ${newDApp.name}`);
       return newDApp;
     } catch (error) {
-      console.error(`Failed to create DApp in Web3 ${web3Id}:`, error);
+      this.logger.error('Web3Manager', `Failed to create DApp in Web3 ${web3Id}:`, error);
       return null;
     }
   }
@@ -535,12 +555,12 @@ export class Web3Manager {
   createNFT(web3Id: string, nft: Partial<NFT>): NFT | null {
     const web3 = this.web3s.get(web3Id);
     if (!web3) {
-      console.warn(`Web3 ${web3Id} not found`);
+      this.logger.warn('Web3Manager', `Web3 ${web3Id} not found`);
       return null;
     }
 
     if (web3.nfts.length >= this.config.maxNFTs) {
-      console.warn('Maximum number of NFTs reached');
+      this.logger.warn('Web3Manager', 'Maximum number of NFTs reached');
       return null;
     }
 
@@ -564,10 +584,10 @@ export class Web3Manager {
       web3.modified = Date.now();
 
       this.updateStats('create_nft', web3);
-      console.log(`Created NFT: ${newNFT.name}`);
+      this.logger.info('Web3Manager', `Created NFT: ${newNFT.name}`);
       return newNFT;
     } catch (error) {
-      console.error(`Failed to create NFT in Web3 ${web3Id}:`, error);
+      this.logger.error('Web3Manager', `Failed to create NFT in Web3 ${web3Id}:`, error);
       return null;
     }
   }
@@ -578,7 +598,7 @@ export class Web3Manager {
   createDAO(web3Id: string, dao: Partial<DAO>): DAO | null {
     const web3 = this.web3s.get(web3Id);
     if (!web3) {
-      console.warn(`Web3 ${web3Id} not found`);
+      this.logger.warn('Web3Manager', `Web3 ${web3Id} not found`);
       return null;
     }
 
@@ -600,10 +620,10 @@ export class Web3Manager {
       web3.modified = Date.now();
 
       this.updateStats('create_dao', web3);
-      console.log(`Created DAO: ${newDAO.name}`);
+      this.logger.info('Web3Manager', `Created DAO: ${newDAO.name}`);
       return newDAO;
     } catch (error) {
-      console.error(`Failed to create DAO in Web3 ${web3Id}:`, error);
+      this.logger.error('Web3Manager', `Failed to create DAO in Web3 ${web3Id}:`, error);
       return null;
     }
   }
@@ -641,7 +661,7 @@ export class Web3Manager {
    * Initialize Web3 manager
    */
   private async initializeWeb3Manager(): Promise<void> {
-    console.log('Initializing Web3 manager...');
+    this.logger.info('Web3Manager', 'Initializing Web3 manager...');
   }
 
   /**
@@ -661,7 +681,7 @@ export class Web3Manager {
       }
     }
 
-    console.log(`Loaded ${defaultWeb3s.length} default Web3s`);
+    this.logger.info('Web3Manager', `Loaded ${defaultWeb3s.length} default Web3s`);
   }
 
   /**

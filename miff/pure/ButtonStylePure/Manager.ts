@@ -387,12 +387,12 @@ export class ButtonStyleManager {
   createStyle(buttonStyleId: string, style: Partial<Style>): Style | null {
     const buttonStyle = this.styles.get(buttonStyleId);
     if (!buttonStyle) {
-      console.warn(`Button style ${buttonStyleId} not found`);
+      this.logger.warn('ButtonStyleManager', `Button style ${buttonStyleId} not found`);
       return null;
     }
 
     if (buttonStyle.styles.length >= this.config.maxStyles) {
-      console.warn('Maximum number of styles reached');
+      this.logger.warn('ButtonStyleManager', 'Maximum number of styles reached');
       return null;
     }
 
@@ -433,12 +433,12 @@ export class ButtonStyleManager {
   createStyleTheme(buttonStyleId: string, theme: Partial<StyleTheme>): StyleTheme | null {
     const buttonStyle = this.styles.get(buttonStyleId);
     if (!buttonStyle) {
-      console.warn(`Button style ${buttonStyleId} not found`);
+      this.logger.warn('ButtonStyleManager', `Button style ${buttonStyleId} not found`);
       return null;
     }
 
     if (buttonStyle.themes.length >= this.config.maxThemes) {
-      console.warn('Maximum number of themes reached');
+      this.logger.warn('ButtonStyleManager', 'Maximum number of themes reached');
       return null;
     }
 

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DataMiningConfig {
@@ -506,6 +510,8 @@ export class DataMiningManager {
   private minings: Map<string, DataMining> = new Map();
   private stats: MiningStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DataMiningConfig> = {}) {
     this.config = {
@@ -529,7 +535,21 @@ export class DataMiningManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DataMiningManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DataMiningManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DataMiningManager');
+  };
   }
 
   /**
@@ -544,10 +564,10 @@ export class DataMiningManager {
       await this.loadDefaultDataMinings();
       
       this.isInitialized = true;
-      console.log('Data mining manager initialized successfully');
+      this.logger.info('DataMiningManager', 'Data mining manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize data mining manager:', error);
+      this.logger.error('DataMiningManager', 'Failed to initialize data mining manager:', error);
       return false;
     }
   }
@@ -577,7 +597,7 @@ export class DataMiningManager {
     this.minings.set(newMining.id, newMining);
     this.updateStats('create_mining', newMining);
 
-    console.log(`Created data mining: ${newMining.name}`);
+    this.logger.info('DataMiningManager', `Created data mining: ${newMining.name}`);
     return newMining;
   }
 
@@ -587,12 +607,12 @@ export class DataMiningManager {
   createMiningDataset(miningId: string, dataset: Partial<MiningDataset>): MiningDataset | null {
     const mining = this.minings.get(miningId);
     if (!mining) {
-      console.warn(`Data mining ${miningId} not found`);
+      this.logger.warn('DataMiningManager', `Data mining ${miningId} not found`);
       return null;
     }
 
     if (mining.datasets.length >= this.config.maxDatasets) {
-      console.warn('Maximum number of datasets reached');
+      this.logger.warn('DataMiningManager', 'Maximum number of datasets reached');
       return null;
     }
 
@@ -612,10 +632,10 @@ export class DataMiningManager {
       mining.modified = Date.now();
 
       this.updateStats('create_dataset', mining);
-      console.log(`Created mining dataset: ${newDataset.name}`);
+      this.logger.info('DataMiningManager', `Created mining dataset: ${newDataset.name}`);
       return newDataset;
     } catch (error) {
-      console.error(`Failed to create mining dataset in data mining ${miningId}:`, error);
+      this.logger.error('DataMiningManager', `Failed to create mining dataset in data mining ${miningId}:`, error);
       return null;
     }
   }
@@ -626,12 +646,12 @@ export class DataMiningManager {
   createMiningModel(miningId: string, model: Partial<MiningModel>): MiningModel | null {
     const mining = this.minings.get(miningId);
     if (!mining) {
-      console.warn(`Data mining ${miningId} not found`);
+      this.logger.warn('DataMiningManager', `Data mining ${miningId} not found`);
       return null;
     }
 
     if (mining.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('DataMiningManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -652,10 +672,10 @@ export class DataMiningManager {
       mining.modified = Date.now();
 
       this.updateStats('create_model', mining);
-      console.log(`Created mining model: ${newModel.name}`);
+      this.logger.info('DataMiningManager', `Created mining model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create mining model in data mining ${miningId}:`, error);
+      this.logger.error('DataMiningManager', `Failed to create mining model in data mining ${miningId}:`, error);
       return null;
     }
   }
@@ -693,7 +713,7 @@ export class DataMiningManager {
    * Initialize data mining manager
    */
   private async initializeDataMiningManager(): Promise<void> {
-    console.log('Initializing data mining manager...');
+    this.logger.info('DataMiningManager', 'Initializing data mining manager...');
   }
 
   /**
@@ -713,7 +733,7 @@ export class DataMiningManager {
       }
     }
 
-    console.log(`Loaded ${defaultMinings.length} default data minings`);
+    this.logger.info('DataMiningManager', `Loaded ${defaultMinings.length} default data minings`);
   }
 
   /**

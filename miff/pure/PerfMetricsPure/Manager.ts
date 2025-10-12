@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface PerfMetricsConfig {
@@ -304,6 +308,8 @@ export class PerfMetricsManager {
   private customMetrics: Map<string, CustomMetric> = new Map();
   private monitoringTimer: NodeJS.Timeout | null = null;
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<PerfMetricsConfig> = {}) {
     this.config = {
@@ -322,7 +328,21 @@ export class PerfMetricsManager {
       enableComparison: true,
       enableTrends: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'PerfMetricsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `PerfMetricsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'PerfMetricsManager');
+  };
   }
 
   /**
@@ -339,10 +359,10 @@ export class PerfMetricsManager {
       }
       
       this.isInitialized = true;
-      console.log('Performance metrics manager initialized successfully');
+      this.logger.info('PerfMetricsManager', 'Performance metrics manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize performance metrics manager:', error);
+      this.logger.error('PerfMetricsManager', 'Failed to initialize performance metrics manager:', error);
       return false;
     }
   }
@@ -585,7 +605,7 @@ export class PerfMetricsManager {
     };
 
     this.alerts.set(alertId, alert);
-    console.warn(`Alert: ${message} (${currentValue} > ${threshold})`);
+    this.logger.warn('PerfMetricsManager', `Alert: ${message} (${currentValue} > ${threshold})`);
   }
 
   /**
@@ -664,7 +684,7 @@ export class PerfMetricsManager {
     };
 
     this.benchmarks.set(benchmark.id, benchmark);
-    console.log(`Created benchmark: ${name}`);
+    this.logger.info('PerfMetricsManager', `Created benchmark: ${name}`);
     return benchmark;
   }
 
@@ -681,7 +701,7 @@ export class PerfMetricsManager {
     const startTime = Date.now();
     const endTime = startTime + benchmark.duration;
 
-    console.log(`Running benchmark: ${benchmark.name}`);
+    this.logger.info('PerfMetricsManager', `Running benchmark: ${benchmark.name}`);
 
     while (Date.now() < endTime) {
       const iterationStart = Date.now();
@@ -722,7 +742,7 @@ export class PerfMetricsManager {
     }
 
     benchmark.results = results;
-    console.log(`Completed benchmark: ${benchmark.name} (${results.length} results)`);
+    this.logger.info('PerfMetricsManager', `Completed benchmark: ${benchmark.name} (${results.length} results)`);
     return results;
   }
 
@@ -759,7 +779,7 @@ export class PerfMetricsManager {
     };
 
     this.reports.set(report.id, report);
-    console.log(`Generated report: ${name}`);
+    this.logger.info('PerfMetricsManager', `Generated report: ${name}`);
     return report;
   }
 
@@ -951,7 +971,7 @@ export class PerfMetricsManager {
    * Initialize metrics manager
    */
   private async initializeMetricsManager(): Promise<void> {
-    console.log('Initializing performance metrics manager...');
+    this.logger.info('PerfMetricsManager', 'Initializing performance metrics manager...');
   }
 
   /**

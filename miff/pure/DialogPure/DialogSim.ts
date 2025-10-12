@@ -52,7 +52,7 @@ export class DialogSim {
 
   exportDialog(id: string): DialogTree | undefined {
     const d = this.dialogs.get(id);
-    return d ? JSON.parse(JSON.stringify(d)) : undefined;
+    return d ? PerformanceOptimizer.optimizeObjectCloning(d, true).result : undefined;
   }
 
   simulateDialog(dialogId: string): DialogResult {

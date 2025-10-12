@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface BlockchainConfig {
@@ -326,6 +330,8 @@ export class BlockchainManager {
   private blockchains: Map<string, Blockchain> = new Map();
   private stats: BlockchainStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<BlockchainConfig> = {}) {
     this.config = {
@@ -350,7 +356,21 @@ export class BlockchainManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'BlockchainManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `BlockchainManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'BlockchainManager');
+  };
   }
 
   /**
@@ -365,10 +385,10 @@ export class BlockchainManager {
       await this.loadDefaultBlockchains();
       
       this.isInitialized = true;
-      console.log('Blockchain manager initialized successfully');
+      this.logger.info('BlockchainManager', 'Blockchain manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize blockchain manager:', error);
+      this.logger.error('BlockchainManager', 'Failed to initialize blockchain manager:', error);
       return false;
     }
   }
@@ -399,7 +419,7 @@ export class BlockchainManager {
     this.blockchains.set(newBlockchain.id, newBlockchain);
     this.updateStats('create_blockchain', newBlockchain);
 
-    console.log(`Created blockchain: ${newBlockchain.name}`);
+    this.logger.info('BlockchainManager', `Created blockchain: ${newBlockchain.name}`);
     return newBlockchain;
   }
 
@@ -475,7 +495,7 @@ export class BlockchainManager {
         metadata: new Map()
       };
     } catch (error) {
-      console.error(`Failed to deploy contract in blockchain ${blockchainId}:`, error);
+      this.logger.error('BlockchainManager', `Failed to deploy contract in blockchain ${blockchainId}:`, error);
       return {
         success: false,
         message: `Contract deployment failed: ${error}`,
@@ -491,12 +511,12 @@ export class BlockchainManager {
   createWallet(blockchainId: string, wallet: Partial<Wallet>): Wallet | null {
     const blockchain = this.blockchains.get(blockchainId);
     if (!blockchain) {
-      console.warn(`Blockchain ${blockchainId} not found`);
+      this.logger.warn('BlockchainManager', `Blockchain ${blockchainId} not found`);
       return null;
     }
 
     if (blockchain.wallets.length >= this.config.maxWallets) {
-      console.warn('Maximum number of wallets reached');
+      this.logger.warn('BlockchainManager', 'Maximum number of wallets reached');
       return null;
     }
 
@@ -517,10 +537,10 @@ export class BlockchainManager {
       blockchain.modified = Date.now();
 
       this.updateStats('create_wallet', blockchain);
-      console.log(`Created wallet: ${newWallet.name}`);
+      this.logger.info('BlockchainManager', `Created wallet: ${newWallet.name}`);
       return newWallet;
     } catch (error) {
-      console.error(`Failed to create wallet in blockchain ${blockchainId}:`, error);
+      this.logger.error('BlockchainManager', `Failed to create wallet in blockchain ${blockchainId}:`, error);
       return null;
     }
   }
@@ -594,7 +614,7 @@ export class BlockchainManager {
         metadata: new Map()
       };
     } catch (error) {
-      console.error(`Failed to send transaction in blockchain ${blockchainId}:`, error);
+      this.logger.error('BlockchainManager', `Failed to send transaction in blockchain ${blockchainId}:`, error);
       return {
         success: false,
         message: `Transaction failed: ${error}`,
@@ -637,7 +657,7 @@ export class BlockchainManager {
    * Initialize blockchain manager
    */
   private async initializeBlockchainManager(): Promise<void> {
-    console.log('Initializing blockchain manager...');
+    this.logger.info('BlockchainManager', 'Initializing blockchain manager...');
   }
 
   /**
@@ -657,7 +677,7 @@ export class BlockchainManager {
       }
     }
 
-    console.log(`Loaded ${defaultBlockchains.length} default blockchains`);
+    this.logger.info('BlockchainManager', `Loaded ${defaultBlockchains.length} default blockchains`);
   }
 
   /**

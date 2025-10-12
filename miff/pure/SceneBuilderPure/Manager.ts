@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SceneBuilderConfig {
@@ -707,6 +711,8 @@ export class SceneBuilderManager {
   private redoStack: Scene[] = [];
   private stats: SceneBuilderStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SceneBuilderConfig> = {}) {
     this.config = {
@@ -727,7 +733,21 @@ export class SceneBuilderManager {
       enableCollisionPreview: true,
       enablePerformanceMonitoring: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SceneBuilderManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SceneBuilderManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SceneBuilderManager');
+  };
   }
 
   /**
@@ -739,10 +759,10 @@ export class SceneBuilderManager {
       await this.initializeSceneBuilder();
       
       this.isInitialized = true;
-      console.log('Scene builder initialized successfully');
+      this.logger.info('SceneBuilderManager', 'Scene builder initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize scene builder:', error);
+      this.logger.error('SceneBuilderManager', 'Failed to initialize scene builder:', error);
       return false;
     }
   }
@@ -775,7 +795,7 @@ export class SceneBuilderManager {
     this.scenes.set(scene.id, scene);
     this.currentScene = scene.id;
 
-    console.log(`Created scene: ${name}`);
+    this.logger.info('SceneBuilderManager', `Created scene: ${name}`);
     return scene;
   }
 
@@ -785,12 +805,12 @@ export class SceneBuilderManager {
   loadScene(sceneId: string): boolean {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return false;
     }
 
     this.currentScene = sceneId;
-    console.log(`Loaded scene: ${scene.name}`);
+    this.logger.info('SceneBuilderManager', `Loaded scene: ${scene.name}`);
     return true;
   }
 
@@ -800,14 +820,14 @@ export class SceneBuilderManager {
   saveScene(sceneId: string): boolean {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return false;
     }
 
     scene.modified = Date.now();
     scene.isDirty = false;
 
-    console.log(`Saved scene: ${scene.name}`);
+    this.logger.info('SceneBuilderManager', `Saved scene: ${scene.name}`);
     return true;
   }
 
@@ -817,12 +837,12 @@ export class SceneBuilderManager {
   addObject(sceneId: string, object: Partial<SceneObject>): SceneObject | null {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return null;
     }
 
     if (scene.objects.length >= this.config.maxObjects) {
-      console.warn(`Maximum objects reached for scene ${sceneId}`);
+      this.logger.warn('SceneBuilderManager', `Maximum objects reached for scene ${sceneId}`);
       return null;
     }
 
@@ -853,7 +873,7 @@ export class SceneBuilderManager {
       this.addToUndoStack(scene);
     }
 
-    console.log(`Added object to scene: ${newObject.name}`);
+    this.logger.info('SceneBuilderManager', `Added object to scene: ${newObject.name}`);
     return newObject;
   }
 
@@ -863,13 +883,13 @@ export class SceneBuilderManager {
   removeObject(sceneId: string, objectId: string): boolean {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return false;
     }
 
     const index = scene.objects.findIndex(obj => obj.id === objectId);
     if (index === -1) {
-      console.warn(`Object ${objectId} not found in scene ${sceneId}`);
+      this.logger.warn('SceneBuilderManager', `Object ${objectId} not found in scene ${sceneId}`);
       return false;
     }
 
@@ -881,7 +901,7 @@ export class SceneBuilderManager {
       this.addToUndoStack(scene);
     }
 
-    console.log(`Removed object from scene: ${objectId}`);
+    this.logger.info('SceneBuilderManager', `Removed object from scene: ${objectId}`);
     return true;
   }
 
@@ -891,13 +911,13 @@ export class SceneBuilderManager {
   updateObject(sceneId: string, objectId: string, updates: Partial<SceneObject>): boolean {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return false;
     }
 
     const object = scene.objects.find(obj => obj.id === objectId);
     if (!object) {
-      console.warn(`Object ${objectId} not found in scene ${sceneId}`);
+      this.logger.warn('SceneBuilderManager', `Object ${objectId} not found in scene ${sceneId}`);
       return false;
     }
 
@@ -909,7 +929,7 @@ export class SceneBuilderManager {
       this.addToUndoStack(scene);
     }
 
-    console.log(`Updated object in scene: ${objectId}`);
+    this.logger.info('SceneBuilderManager', `Updated object in scene: ${objectId}`);
     return true;
   }
 
@@ -919,12 +939,12 @@ export class SceneBuilderManager {
   addLight(sceneId: string, light: Partial<SceneLight>): SceneLight | null {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return null;
     }
 
     if (scene.lights.length >= this.config.maxLights) {
-      console.warn(`Maximum lights reached for scene ${sceneId}`);
+      this.logger.warn('SceneBuilderManager', `Maximum lights reached for scene ${sceneId}`);
       return null;
     }
 
@@ -955,7 +975,7 @@ export class SceneBuilderManager {
       this.addToUndoStack(scene);
     }
 
-    console.log(`Added light to scene: ${newLight.name}`);
+    this.logger.info('SceneBuilderManager', `Added light to scene: ${newLight.name}`);
     return newLight;
   }
 
@@ -965,7 +985,7 @@ export class SceneBuilderManager {
   addCamera(sceneId: string, camera: Partial<SceneCamera>): SceneCamera | null {
     const scene = this.scenes.get(sceneId);
     if (!scene) {
-      console.warn(`Scene ${sceneId} not found`);
+      this.logger.warn('SceneBuilderManager', `Scene ${sceneId} not found`);
       return null;
     }
 
@@ -997,7 +1017,7 @@ export class SceneBuilderManager {
       this.addToUndoStack(scene);
     }
 
-    console.log(`Added camera to scene: ${newCamera.name}`);
+    this.logger.info('SceneBuilderManager', `Added camera to scene: ${newCamera.name}`);
     return newCamera;
   }
 
@@ -1021,7 +1041,7 @@ export class SceneBuilderManager {
     const previousScene = this.undoStack.pop();
     if (previousScene) {
       this.scenes.set(currentScene.id, previousScene);
-      console.log('Undid last action');
+      this.logger.info('SceneBuilderManager', 'Undid last action');
       return true;
     }
 
@@ -1048,7 +1068,7 @@ export class SceneBuilderManager {
     const nextScene = this.redoStack.pop();
     if (nextScene) {
       this.scenes.set(currentScene.id, nextScene);
-      console.log('Redid last undone action');
+      this.logger.info('SceneBuilderManager', 'Redid last undone action');
       return true;
     }
 
@@ -1090,7 +1110,7 @@ export class SceneBuilderManager {
    * Initialize scene builder
    */
   private async initializeSceneBuilder(): Promise<void> {
-    console.log('Initializing scene builder...');
+    this.logger.info('SceneBuilderManager', 'Initializing scene builder...');
   }
 
   /**

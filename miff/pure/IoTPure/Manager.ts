@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface IoTConfig {
@@ -679,6 +683,8 @@ export class IoTManager {
   private iots: Map<string, IoT> = new Map();
   private stats: IoTStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<IoTConfig> = {}) {
     this.config = {
@@ -700,7 +706,21 @@ export class IoTManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'IoTManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `IoTManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'IoTManager');
+  };
   }
 
   /**
@@ -715,10 +735,10 @@ export class IoTManager {
       await this.loadDefaultIoTs();
       
       this.isInitialized = true;
-      console.log('IoT manager initialized successfully');
+      this.logger.info('IoTManager', 'IoT manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize IoT manager:', error);
+      this.logger.error('IoTManager', 'Failed to initialize IoT manager:', error);
       return false;
     }
   }
@@ -747,7 +767,7 @@ export class IoTManager {
     this.iots.set(newIoT.id, newIoT);
     this.updateStats('create_iot', newIoT);
 
-    console.log(`Created IoT: ${newIoT.name}`);
+    this.logger.info('IoTManager', `Created IoT: ${newIoT.name}`);
     return newIoT;
   }
 
@@ -757,12 +777,12 @@ export class IoTManager {
   createIoTDevice(iotId: string, device: Partial<IoTDevice>): IoTDevice | null {
     const iot = this.iots.get(iotId);
     if (!iot) {
-      console.warn(`IoT ${iotId} not found`);
+      this.logger.warn('IoTManager', `IoT ${iotId} not found`);
       return null;
     }
 
     if (iot.devices.length >= this.config.maxDevices) {
-      console.warn('Maximum number of devices reached');
+      this.logger.warn('IoTManager', 'Maximum number of devices reached');
       return null;
     }
 
@@ -785,10 +805,10 @@ export class IoTManager {
       iot.modified = Date.now();
 
       this.updateStats('create_device', iot);
-      console.log(`Created IoT device: ${newDevice.name}`);
+      this.logger.info('IoTManager', `Created IoT device: ${newDevice.name}`);
       return newDevice;
     } catch (error) {
-      console.error(`Failed to create IoT device in IoT ${iotId}:`, error);
+      this.logger.error('IoTManager', `Failed to create IoT device in IoT ${iotId}:`, error);
       return null;
     }
   }
@@ -826,7 +846,7 @@ export class IoTManager {
    * Initialize IoT manager
    */
   private async initializeIoTManager(): Promise<void> {
-    console.log('Initializing IoT manager...');
+    this.logger.info('IoTManager', 'Initializing IoT manager...');
   }
 
   /**
@@ -846,7 +866,7 @@ export class IoTManager {
       }
     }
 
-    console.log(`Loaded ${defaultIoTs.length} default IoTs`);
+    this.logger.info('IoTManager', `Loaded ${defaultIoTs.length} default IoTs`);
   }
 
   /**

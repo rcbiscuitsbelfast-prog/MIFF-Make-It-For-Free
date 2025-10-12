@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface RecommendationSystemConfig {
@@ -478,6 +482,8 @@ export class RecommendationSystemManager {
   private systems: Map<string, RecommendationSystem> = new Map();
   private stats: RecommendationStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<RecommendationSystemConfig> = {}) {
     this.config = {
@@ -499,7 +505,21 @@ export class RecommendationSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'RecommendationSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `RecommendationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'RecommendationSystemManager');
+  };
   }
 
   /**
@@ -514,10 +534,10 @@ export class RecommendationSystemManager {
       await this.loadDefaultRecommendationSystems();
       
       this.isInitialized = true;
-      console.log('Recommendation system manager initialized successfully');
+      this.logger.info('RecommendationSystemManager', 'Recommendation system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize recommendation system manager:', error);
+      this.logger.error('RecommendationSystemManager', 'Failed to initialize recommendation system manager:', error);
       return false;
     }
   }
@@ -546,7 +566,7 @@ export class RecommendationSystemManager {
     this.systems.set(newSystem.id, newSystem);
     this.updateStats('create_system', newSystem);
 
-    console.log(`Created recommendation system: ${newSystem.name}`);
+    this.logger.info('RecommendationSystemManager', `Created recommendation system: ${newSystem.name}`);
     return newSystem;
   }
 
@@ -556,12 +576,12 @@ export class RecommendationSystemManager {
   createUser(systemId: string, user: Partial<User>): User | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Recommendation system ${systemId} not found`);
+      this.logger.warn('RecommendationSystemManager', `Recommendation system ${systemId} not found`);
       return null;
     }
 
     if (system.users.length >= this.config.maxUsers) {
-      console.warn('Maximum number of users reached');
+      this.logger.warn('RecommendationSystemManager', 'Maximum number of users reached');
       return null;
     }
 
@@ -582,10 +602,10 @@ export class RecommendationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_user', system);
-      console.log(`Created user: ${newUser.name}`);
+      this.logger.info('RecommendationSystemManager', `Created user: ${newUser.name}`);
       return newUser;
     } catch (error) {
-      console.error(`Failed to create user in recommendation system ${systemId}:`, error);
+      this.logger.error('RecommendationSystemManager', `Failed to create user in recommendation system ${systemId}:`, error);
       return null;
     }
   }
@@ -596,12 +616,12 @@ export class RecommendationSystemManager {
   createItem(systemId: string, item: Partial<Item>): Item | null {
     const system = this.systems.get(systemId);
     if (!system) {
-      console.warn(`Recommendation system ${systemId} not found`);
+      this.logger.warn('RecommendationSystemManager', `Recommendation system ${systemId} not found`);
       return null;
     }
 
     if (system.items.length >= this.config.maxItems) {
-      console.warn('Maximum number of items reached');
+      this.logger.warn('RecommendationSystemManager', 'Maximum number of items reached');
       return null;
     }
 
@@ -623,10 +643,10 @@ export class RecommendationSystemManager {
       system.modified = Date.now();
 
       this.updateStats('create_item', system);
-      console.log(`Created item: ${newItem.name}`);
+      this.logger.info('RecommendationSystemManager', `Created item: ${newItem.name}`);
       return newItem;
     } catch (error) {
-      console.error(`Failed to create item in recommendation system ${systemId}:`, error);
+      this.logger.error('RecommendationSystemManager', `Failed to create item in recommendation system ${systemId}:`, error);
       return null;
     }
   }
@@ -664,7 +684,7 @@ export class RecommendationSystemManager {
    * Initialize recommendation system manager
    */
   private async initializeRecommendationSystemManager(): Promise<void> {
-    console.log('Initializing recommendation system manager...');
+    this.logger.info('RecommendationSystemManager', 'Initializing recommendation system manager...');
   }
 
   /**
@@ -684,7 +704,7 @@ export class RecommendationSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default recommendation systems`);
+    this.logger.info('RecommendationSystemManager', `Loaded ${defaultSystems.length} default recommendation systems`);
   }
 
   /**

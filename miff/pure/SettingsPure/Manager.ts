@@ -77,8 +77,22 @@ export class SettingsManager {
       try {
         const data = JSON.parse(fs.readFileSync(path.resolve(initPath), 'utf-8'));
         this.settings = this.mergeSettings(this.defaults, data.settings || data);
-      } catch (error) {
-        console.warn('Failed to load settings, using defaults:', error);
+    
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SettingsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SettingsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SettingsManager');
+  } catch (error) {
+        this.logger.warn('SettingsManager', 'Failed to load settings, using defaults:', error);
         this.settings = { ...this.defaults };
       }
     } else {
@@ -472,8 +486,27 @@ export class SettingsManager {
       this.settings = this.mergeSettings(this.defaults, data.settings || data);
       return true;
     } catch (error) {
-      console.error('Failed to load settings:', error);
+      this.logger.error('SettingsManager', 'Failed to load settings:', error);
       return false;
     }
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('SettingsManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

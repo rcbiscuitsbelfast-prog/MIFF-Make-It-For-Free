@@ -23,6 +23,20 @@ export class RitualManager {
 
   constructor(ritualSystem: RitualSystemPure) {
     this.ritualSystem = ritualSystem;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'RitualSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `RitualSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'RitualSystemManager');
   }
 
   /**
@@ -31,22 +45,22 @@ export class RitualManager {
   createRitualDefinition(ritualData: Partial<RitualDefinition>): RitualDefinition | null {
     // Validate required fields
     if (!ritualData.id || ritualData.id.trim() === '') {
-      console.error('❌ Ritual ID is required');
+      this.logger.error('RitualSystemManager', '❌ Ritual ID is required');
       return null;
     }
 
     if (!ritualData.name || ritualData.name.trim() === '') {
-      console.error('❌ Ritual name is required');
+      this.logger.error('RitualSystemManager', '❌ Ritual name is required');
       return null;
     }
 
     if (!ritualData.steps || ritualData.steps.length === 0) {
-      console.error('❌ Ritual must have at least one step');
+      this.logger.error('RitualSystemManager', '❌ Ritual must have at least one step');
       return null;
     }
 
     if ((ritualData.minParticipants ?? 0) > (ritualData.maxParticipants ?? Number.MAX_SAFE_INTEGER)) {
-      console.error('❌ Minimum participants cannot exceed maximum');
+      this.logger.error('RitualSystemManager', '❌ Minimum participants cannot exceed maximum');
       return null;
     }
 
@@ -88,12 +102,12 @@ export class RitualManager {
   registerRitual(ritual: RitualDefinition): boolean {
     // Validate ritual
     if (!this.validateRitualDefinition(ritual)) {
-      console.error(`❌ Invalid ritual definition: ${ritual.id}`);
+      this.logger.error('RitualSystemManager', `❌ Invalid ritual definition: ${ritual.id}`);
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered ritual: ${ritual.name} (${ritual.id})`);
+    this.logger.info('RitualSystemManager', `✅ Registered ritual: ${ritual.name} (${ritual.id})`);
     return true;
   }
 
@@ -133,15 +147,15 @@ export class RitualManager {
       const ritual = this.ritualSystem.startRitual(ritualId, leaderId, participantIds);
 
       if (ritual) {
-        console.log(`🎭 Started ritual: ${ritualDef.name} led by ${leaderId}`);
-        console.log(`   Participants: ${ritual.participants.length}`);
-        console.log(`   Steps: ${ritualDef.steps.length}`);
+        this.logger.info('RitualSystemManager', `🎭 Started ritual: ${ritualDef.name} led by ${leaderId}`);
+        this.logger.info('RitualSystemManager', `   Participants: ${ritual.participants.length}`);
+        this.logger.info('RitualSystemManager', `   Steps: ${ritualDef.steps.length}`);
       }
 
       return ritual;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Failed to start ritual ${ritualId}: ${message}`);
+      this.logger.error('RitualSystemManager', `❌ Failed to start ritual ${ritualId}: ${message}`);
       return null;
     }
   }
@@ -168,19 +182,19 @@ export class RitualManager {
     try {
       const ritual = this.ritualSystem.getActiveRitual(ritualId);
       if (!ritual) {
-        console.warn(`⚠️ Ritual not found: ${ritualId}`);
+        this.logger.warn('RitualSystemManager', `⚠️ Ritual not found: ${ritualId}`);
         return null;
       }
 
       const currentStep = ritual.definition.steps[ritual.currentStep];
       if (!currentStep) {
-        console.warn(`⚠️ No current step for ritual: ${ritualId}`);
+        this.logger.warn('RitualSystemManager', `⚠️ No current step for ritual: ${ritualId}`);
         return null;
       }
 
       // Check if ritual can progress
       if (ritual.status !== 'active') {
-        console.warn(`⚠️ Ritual not active: ${ritualId}`);
+        this.logger.warn('RitualSystemManager', `⚠️ Ritual not active: ${ritualId}`);
         return null;
       }
 
@@ -196,14 +210,14 @@ export class RitualManager {
       const result = this.ritualSystem.progressRitual(ritualId);
 
       if (result) {
-        console.log(`✅ Ritual step completed: ${currentStep.name}`);
-        console.log(`   Quality: ${(result.quality * 100).toFixed(1)}%`);
+        this.logger.info('RitualSystemManager', `✅ Ritual step completed: ${currentStep.name}`);
+        this.logger.info('RitualSystemManager', `   Quality: ${(result.quality * 100).toFixed(1)}%`);
       }
 
       return result;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Error progressing ritual ${ritualId}: ${message}`);
+      this.logger.error('RitualSystemManager', `❌ Error progressing ritual ${ritualId}: ${message}`);
       return null;
     }
   }
@@ -254,7 +268,7 @@ export class RitualManager {
    * Handle step failure
    */
   private handleStepFailure(ritual: RitualInstance, step: RitualStep): RitualResult {
-    console.warn(`⚠️ Ritual step failed: ${step.name}`);
+    this.logger.warn('RitualSystemManager', `⚠️ Ritual step failed: ${step.name}`);
 
     // Apply failure effects
     for (const effect of step.failureEffects) {
@@ -288,7 +302,7 @@ export class RitualManager {
    * Apply failure effect
    */
   private applyFailureEffect(ritual: RitualInstance, effect: RitualEffect): void {
-    console.log(`💥 Applying failure effect: ${effect.description}`);
+    this.logger.info('RitualSystemManager', `💥 Applying failure effect: ${effect.description}`);
 
     // This would apply negative effects to participants
     // Integration with health/damage systems would happen here
@@ -459,27 +473,27 @@ export class RitualManager {
    */
   private validateRitualDefinition(ritual: RitualDefinition): boolean {
     if (!ritual.id || ritual.id.trim() === '') {
-      console.error('Ritual ID is required');
+      this.logger.error('RitualSystemManager', 'Ritual ID is required');
       return false;
     }
 
     if (!ritual.name || ritual.name.trim() === '') {
-      console.error('Ritual name is required');
+      this.logger.error('RitualSystemManager', 'Ritual name is required');
       return false;
     }
 
     if (ritual.steps.length === 0) {
-      console.error('Ritual must have at least one step');
+      this.logger.error('RitualSystemManager', 'Ritual must have at least one step');
       return false;
     }
 
     if (ritual.minParticipants > ritual.maxParticipants) {
-      console.error('Minimum participants cannot exceed maximum');
+      this.logger.error('RitualSystemManager', 'Minimum participants cannot exceed maximum');
       return false;
     }
 
     if (ritual.manaCost < 0) {
-      console.error('Mana cost cannot be negative');
+      this.logger.error('RitualSystemManager', 'Mana cost cannot be negative');
       return false;
     }
 
@@ -508,6 +522,25 @@ export class RitualManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Ritual system data imported');
+    this.logger.info('RitualSystemManager', 'Ritual system data imported');
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('RitualSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

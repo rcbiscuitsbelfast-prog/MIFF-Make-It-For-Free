@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CutSceneConfig {
@@ -766,6 +770,8 @@ export class CutSceneManager {
   private instances: Map<string, CutSceneInstance> = new Map();
   private stats: CutSceneManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CutSceneConfig> = {}) {
     this.config = {
@@ -786,7 +792,21 @@ export class CutSceneManager {
       enableSoundEffects: true,
       enableVisualEffects: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CutSceneManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CutSceneManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CutSceneManager');
+  };
   }
 
   /**
@@ -801,10 +821,10 @@ export class CutSceneManager {
       await this.loadDefaultCutScenes();
       
       this.isInitialized = true;
-      console.log('Cutscene manager initialized successfully');
+      this.logger.info('CutSceneManager', 'Cutscene manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize cutscene manager:', error);
+      this.logger.error('CutSceneManager', 'Failed to initialize cutscene manager:', error);
       return false;
     }
   }
@@ -840,7 +860,7 @@ export class CutSceneManager {
     this.cutScenes.set(newCutScene.id, newCutScene);
     this.updateStats('create_cutscene', newCutScene);
 
-    console.log(`Created cutscene: ${newCutScene.name}`);
+    this.logger.info('CutSceneManager', `Created cutscene: ${newCutScene.name}`);
     return newCutScene;
   }
 
@@ -850,18 +870,18 @@ export class CutSceneManager {
   playCutScene(cutSceneId: string, userId: string): CutSceneInstance | null {
     const cutScene = this.cutScenes.get(cutSceneId);
     if (!cutScene) {
-      console.warn(`Cutscene ${cutSceneId} not found`);
+      this.logger.warn('CutSceneManager', `Cutscene ${cutSceneId} not found`);
       return null;
     }
 
     if (cutScene.status !== CutSceneStatus.READY) {
-      console.warn(`Cutscene ${cutSceneId} is not ready to play`);
+      this.logger.warn('CutSceneManager', `Cutscene ${cutSceneId} is not ready to play`);
       return null;
     }
 
     // Check requirements
     if (!this.checkRequirements(cutScene, userId)) {
-      console.warn(`User ${userId} does not meet requirements for cutscene ${cutSceneId}`);
+      this.logger.warn('CutSceneManager', `User ${userId} does not meet requirements for cutscene ${cutSceneId}`);
       return null;
     }
 
@@ -889,7 +909,7 @@ export class CutSceneManager {
     // Start playback
     this.startPlayback(instance);
 
-    console.log(`Playing cutscene: ${cutScene.name}`);
+    this.logger.info('CutSceneManager', `Playing cutscene: ${cutScene.name}`);
     return instance;
   }
 
@@ -899,19 +919,19 @@ export class CutSceneManager {
   pauseCutScene(instanceId: string): boolean {
     const instance = this.instances.get(instanceId);
     if (!instance) {
-      console.warn(`Cutscene instance ${instanceId} not found`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} not found`);
       return false;
     }
 
     if (!instance.isPlaying) {
-      console.warn(`Cutscene instance ${instanceId} is not playing`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} is not playing`);
       return false;
     }
 
     instance.isPlaying = false;
     instance.isPaused = true;
 
-    console.log(`Paused cutscene: ${instance.cutScene.name}`);
+    this.logger.info('CutSceneManager', `Paused cutscene: ${instance.cutScene.name}`);
     return true;
   }
 
@@ -921,19 +941,19 @@ export class CutSceneManager {
   resumeCutScene(instanceId: string): boolean {
     const instance = this.instances.get(instanceId);
     if (!instance) {
-      console.warn(`Cutscene instance ${instanceId} not found`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} not found`);
       return false;
     }
 
     if (!instance.isPaused) {
-      console.warn(`Cutscene instance ${instanceId} is not paused`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} is not paused`);
       return false;
     }
 
     instance.isPlaying = true;
     instance.isPaused = false;
 
-    console.log(`Resumed cutscene: ${instance.cutScene.name}`);
+    this.logger.info('CutSceneManager', `Resumed cutscene: ${instance.cutScene.name}`);
     return true;
   }
 
@@ -943,12 +963,12 @@ export class CutSceneManager {
   skipCutScene(instanceId: string): boolean {
     const instance = this.instances.get(instanceId);
     if (!instance) {
-      console.warn(`Cutscene instance ${instanceId} not found`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} not found`);
       return false;
     }
 
     if (!instance.cutScene.isSkippable) {
-      console.warn(`Cutscene ${instance.cutScene.name} cannot be skipped`);
+      this.logger.warn('CutSceneManager', `Cutscene ${instance.cutScene.name} cannot be skipped`);
       return false;
     }
 
@@ -960,7 +980,7 @@ export class CutSceneManager {
 
     this.updateStats('skip_cutscene', instance.cutScene);
 
-    console.log(`Skipped cutscene: ${instance.cutScene.name}`);
+    this.logger.info('CutSceneManager', `Skipped cutscene: ${instance.cutScene.name}`);
     return true;
   }
 
@@ -970,7 +990,7 @@ export class CutSceneManager {
   stopCutScene(instanceId: string): boolean {
     const instance = this.instances.get(instanceId);
     if (!instance) {
-      console.warn(`Cutscene instance ${instanceId} not found`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} not found`);
       return false;
     }
 
@@ -981,7 +1001,7 @@ export class CutSceneManager {
 
     this.updateStats('stop_cutscene', instance.cutScene);
 
-    console.log(`Stopped cutscene: ${instance.cutScene.name}`);
+    this.logger.info('CutSceneManager', `Stopped cutscene: ${instance.cutScene.name}`);
     return true;
   }
 
@@ -991,7 +1011,7 @@ export class CutSceneManager {
   updateProgress(instanceId: string, time: number): boolean {
     const instance = this.instances.get(instanceId);
     if (!instance) {
-      console.warn(`Cutscene instance ${instanceId} not found`);
+      this.logger.warn('CutSceneManager', `Cutscene instance ${instanceId} not found`);
       return false;
     }
 
@@ -1061,7 +1081,7 @@ export class CutSceneManager {
    * Initialize cutscene manager
    */
   private async initializeCutSceneManager(): Promise<void> {
-    console.log('Initializing cutscene manager...');
+    this.logger.info('CutSceneManager', 'Initializing cutscene manager...');
   }
 
   /**
@@ -1081,7 +1101,7 @@ export class CutSceneManager {
       }
     }
 
-    console.log(`Loaded ${defaultCutScenes.length} default cutscenes`);
+    this.logger.info('CutSceneManager', `Loaded ${defaultCutScenes.length} default cutscenes`);
   }
 
   /**
@@ -1185,7 +1205,7 @@ export class CutSceneManager {
    */
   private startPlayback(instance: CutSceneInstance): void {
     // This would start the actual cutscene playback
-    console.log(`Starting playback of cutscene: ${instance.cutScene.name}`);
+    this.logger.info('CutSceneManager', `Starting playback of cutscene: ${instance.cutScene.name}`);
   }
 
   /**
@@ -1218,7 +1238,7 @@ export class CutSceneManager {
 
     this.updateStats('complete_cutscene', instance.cutScene);
 
-    console.log(`Completed cutscene: ${instance.cutScene.name}`);
+    this.logger.info('CutSceneManager', `Completed cutscene: ${instance.cutScene.name}`);
   }
 
   /**

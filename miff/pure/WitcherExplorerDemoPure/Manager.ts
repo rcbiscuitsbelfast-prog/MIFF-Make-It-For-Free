@@ -12,6 +12,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface WitcherExplorerConfig {
@@ -1387,6 +1391,8 @@ export class WitcherExplorerManager {
     private worlds: Map<string, WitcherExplorerWorld> = new Map();
     private stats: WitcherExplorerStats = this.initializeStats();
     private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
     constructor(config: Partial<WitcherExplorerConfig> = {}) {
         this.config = {
@@ -1412,7 +1418,21 @@ export class WitcherExplorerManager {
             enableSaveSystem: true,
             enableMultiplayer: false,
             ...config
-        };
+      
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'WitcherExplorerDemoManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `WitcherExplorerDemoManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'WitcherExplorerDemoManager');
+  };
     }
 
     /**
@@ -1427,10 +1447,10 @@ export class WitcherExplorerManager {
             await this.loadDefaultWorld();
             
             this.isInitialized = true;
-            console.log('Witcher Explorer initialized successfully');
+            this.logger.info('WitcherExplorerDemoManager', 'Witcher Explorer initialized successfully');
             return true;
         } catch (error) {
-            console.error('Failed to initialize Witcher Explorer:', error);
+            this.logger.error('WitcherExplorerDemoManager', 'Failed to initialize Witcher Explorer:', error);
             return false;
         }
     }
@@ -1461,7 +1481,7 @@ export class WitcherExplorerManager {
         this.worlds.set(newWorld.id, newWorld);
         this.updateStats('create_world', newWorld);
 
-        console.log(`Created world: ${newWorld.name}`);
+        this.logger.info('WitcherExplorerDemoManager', `Created world: ${newWorld.name}`);
         return newWorld;
     }
 
@@ -1471,12 +1491,12 @@ export class WitcherExplorerManager {
     loadWorld(worldId: string): boolean {
         const world = this.worlds.get(worldId);
         if (!world) {
-            console.warn(`World ${worldId} not found`);
+            this.logger.warn('WitcherExplorerDemoManager', `World ${worldId} not found`);
             return false;
         }
 
         this.updateStats('load_world', world);
-        console.log(`Loaded world: ${world.name}`);
+        this.logger.info('WitcherExplorerDemoManager', `Loaded world: ${world.name}`);
         return true;
     }
 
@@ -1505,7 +1525,7 @@ export class WitcherExplorerManager {
      * Initialize Witcher Explorer
      */
     private async initializeWitcherExplorer(): Promise<void> {
-        console.log('Initializing Witcher Explorer...');
+        this.logger.info('WitcherExplorerDemoManager', 'Initializing Witcher Explorer...');
     }
 
     /**
@@ -1515,7 +1535,7 @@ export class WitcherExplorerManager {
         const defaultWorld = this.createDefaultWorld();
         if (defaultWorld) {
             this.worlds.set(defaultWorld.id, defaultWorld);
-            console.log('Loaded default world');
+            this.logger.info('WitcherExplorerDemoManager', 'Loaded default world');
         }
     }
 

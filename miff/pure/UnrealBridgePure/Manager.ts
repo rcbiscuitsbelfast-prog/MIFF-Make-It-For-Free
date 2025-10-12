@@ -10,6 +10,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface UnrealConfig {
@@ -442,6 +446,8 @@ export class UnrealBridgeManager {
   private stats: UnrealStats = this.initializeStats();
   private isConnected: boolean = false;
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<UnrealConfig> = {}) {
     this.config = {
@@ -461,7 +467,21 @@ export class UnrealBridgeManager {
       enableStreaming: true,
       enableMemoryOptimization: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'UnrealBridgeManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `UnrealBridgeManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'UnrealBridgeManager');
+  };
   }
 
   /**
@@ -493,10 +513,10 @@ export class UnrealBridgeManager {
       }
 
       this.isInitialized = true;
-      console.log('UnrealBridge initialized successfully');
+      this.logger.info('UnrealBridgeManager', 'UnrealBridge initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize UnrealBridge:', error);
+      this.logger.error('UnrealBridgeManager', 'Failed to initialize UnrealBridge:', error);
       return false;
     }
   }
@@ -508,7 +528,7 @@ export class UnrealBridgeManager {
     // This would establish connection to Unreal Engine
     // Implementation depends on specific Unreal integration method
     this.isConnected = true;
-    console.log('Connected to Unreal Engine');
+    this.logger.info('UnrealBridgeManager', 'Connected to Unreal Engine');
   }
 
   /**
@@ -516,7 +536,7 @@ export class UnrealBridgeManager {
    */
   private async initializeAssetPipeline(): Promise<void> {
     // Initialize asset management system
-    console.log('Asset pipeline initialized');
+    this.logger.info('UnrealBridgeManager', 'Asset pipeline initialized');
   }
 
   /**
@@ -524,7 +544,7 @@ export class UnrealBridgeManager {
    */
   private async initializeSceneSync(): Promise<void> {
     // Initialize scene synchronization system
-    console.log('Scene synchronization initialized');
+    this.logger.info('UnrealBridgeManager', 'Scene synchronization initialized');
   }
 
   /**
@@ -532,7 +552,7 @@ export class UnrealBridgeManager {
    */
   private async initializePerformanceMonitoring(): Promise<void> {
     // Initialize performance monitoring system
-    console.log('Performance monitoring initialized');
+    this.logger.info('UnrealBridgeManager', 'Performance monitoring initialized');
   }
 
   /**
@@ -540,7 +560,7 @@ export class UnrealBridgeManager {
    */
   private async initializeBlueprintIntegration(): Promise<void> {
     // Initialize blueprint integration system
-    console.log('Blueprint integration initialized');
+    this.logger.info('UnrealBridgeManager', 'Blueprint integration initialized');
   }
 
   /**
@@ -585,10 +605,10 @@ export class UnrealBridgeManager {
       // Update stats
       this.updateStats('import_asset', asset);
 
-      console.log(`Imported asset: ${asset.name}`);
+      this.logger.info('UnrealBridgeManager', `Imported asset: ${asset.name}`);
       return asset;
     } catch (error) {
-      console.error(`Failed to import asset ${assetPath}:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to import asset ${assetPath}:`, error);
       return null;
     }
   }
@@ -605,10 +625,10 @@ export class UnrealBridgeManager {
       // Export asset to Unreal Engine
       await this.exportAssetToUnreal(asset, targetPath);
 
-      console.log(`Exported asset: ${asset.name} to ${targetPath}`);
+      this.logger.info('UnrealBridgeManager', `Exported asset: ${asset.name} to ${targetPath}`);
       return true;
     } catch (error) {
-      console.error(`Failed to export asset ${asset.name}:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to export asset ${asset.name}:`, error);
       return false;
     }
   }
@@ -645,10 +665,10 @@ export class UnrealBridgeManager {
       // Update stats
       this.updateStats('create_scene', scene);
 
-      console.log(`Created scene: ${scene.name}`);
+      this.logger.info('UnrealBridgeManager', `Created scene: ${scene.name}`);
       return scene;
     } catch (error) {
-      console.error(`Failed to create scene:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to create scene:`, error);
       return null;
     }
   }
@@ -670,10 +690,10 @@ export class UnrealBridgeManager {
       // Update scene in Unreal Engine
       await this.updateSceneInUnreal(scene);
 
-      console.log(`Updated scene: ${scene.name}`);
+      this.logger.info('UnrealBridgeManager', `Updated scene: ${scene.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to update scene ${sceneId}:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to update scene ${sceneId}:`, error);
       return false;
     }
   }
@@ -697,10 +717,10 @@ export class UnrealBridgeManager {
       // Update stats
       this.updateStats('delete_scene', scene);
 
-      console.log(`Deleted scene: ${scene.name}`);
+      this.logger.info('UnrealBridgeManager', `Deleted scene: ${scene.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to delete scene ${sceneId}:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to delete scene ${sceneId}:`, error);
       return false;
     }
   }
@@ -737,10 +757,10 @@ export class UnrealBridgeManager {
       // Update stats
       this.updateStats('create_blueprint', blueprint);
 
-      console.log(`Created blueprint: ${blueprint.name}`);
+      this.logger.info('UnrealBridgeManager', `Created blueprint: ${blueprint.name}`);
       return blueprint;
     } catch (error) {
-      console.error(`Failed to create blueprint:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to create blueprint:`, error);
       return null;
     }
   }
@@ -758,10 +778,10 @@ export class UnrealBridgeManager {
       // Execute function in Unreal Engine
       const result = await this.executeFunctionInUnreal(blueprint, functionName, parameters);
 
-      console.log(`Executed blueprint function: ${functionName}`);
+      this.logger.info('UnrealBridgeManager', `Executed blueprint function: ${functionName}`);
       return result;
     } catch (error) {
-      console.error(`Failed to execute blueprint function ${functionName}:`, error);
+      this.logger.error('UnrealBridgeManager', `Failed to execute blueprint function ${functionName}:`, error);
       return null;
     }
   }
@@ -938,7 +958,7 @@ export class UnrealBridgeManager {
   private async importAssetFromUnreal(asset: UnrealAsset): Promise<void> {
     // This would import the asset from Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Importing asset from Unreal: ${asset.path}`);
+    this.logger.info('UnrealBridgeManager', `Importing asset from Unreal: ${asset.path}`);
   }
 
   /**
@@ -947,7 +967,7 @@ export class UnrealBridgeManager {
   private async exportAssetToUnreal(asset: UnrealAsset, targetPath: string): Promise<void> {
     // This would export the asset to Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Exporting asset to Unreal: ${asset.name} -> ${targetPath}`);
+    this.logger.info('UnrealBridgeManager', `Exporting asset to Unreal: ${asset.name} -> ${targetPath}`);
   }
 
   /**
@@ -956,7 +976,7 @@ export class UnrealBridgeManager {
   private async createSceneInUnreal(scene: UnrealScene): Promise<void> {
     // This would create the scene in Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Creating scene in Unreal: ${scene.name}`);
+    this.logger.info('UnrealBridgeManager', `Creating scene in Unreal: ${scene.name}`);
   }
 
   /**
@@ -965,7 +985,7 @@ export class UnrealBridgeManager {
   private async updateSceneInUnreal(scene: UnrealScene): Promise<void> {
     // This would update the scene in Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Updating scene in Unreal: ${scene.name}`);
+    this.logger.info('UnrealBridgeManager', `Updating scene in Unreal: ${scene.name}`);
   }
 
   /**
@@ -974,7 +994,7 @@ export class UnrealBridgeManager {
   private async deleteSceneFromUnreal(scene: UnrealScene): Promise<void> {
     // This would delete the scene from Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Deleting scene from Unreal: ${scene.name}`);
+    this.logger.info('UnrealBridgeManager', `Deleting scene from Unreal: ${scene.name}`);
   }
 
   /**
@@ -983,7 +1003,7 @@ export class UnrealBridgeManager {
   private async createBlueprintInUnreal(blueprint: UnrealBlueprint): Promise<void> {
     // This would create the blueprint in Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Creating blueprint in Unreal: ${blueprint.name}`);
+    this.logger.info('UnrealBridgeManager', `Creating blueprint in Unreal: ${blueprint.name}`);
   }
 
   /**
@@ -992,7 +1012,7 @@ export class UnrealBridgeManager {
   private async executeFunctionInUnreal(blueprint: UnrealBlueprint, functionName: string, parameters: any[]): Promise<any> {
     // This would execute the function in Unreal Engine
     // Implementation depends on specific Unreal integration method
-    console.log(`Executing function in Unreal: ${functionName}`);
+    this.logger.info('UnrealBridgeManager', `Executing function in Unreal: ${functionName}`);
     return null;
   }
 

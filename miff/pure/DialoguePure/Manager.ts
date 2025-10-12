@@ -166,7 +166,7 @@ export class DialogueParser {
         break;
       case 'play_sound':
         // Would trigger audio system
-        console.log(`[DialoguePure] Playing sound: ${action.target}`);
+        this.logger.info('DialogueManager', `[DialoguePure] Playing sound: ${action.target}`);
         break;
     }
   }
@@ -178,10 +178,10 @@ export class DialogueParser {
         break;
       case 'condition':
         // Execute conditional action
-        console.log(`[DialoguePure] Executing conditional action: ${parsed.action}`);
+        this.logger.info('DialogueManager', `[DialoguePure] Executing conditional action: ${parsed.action}`);
         break;
       default:
-        console.log(`[DialoguePure] Executing script: ${JSON.stringify(parsed)}`);
+        this.logger.info('DialogueManager', `[DialoguePure] Executing script: ${JSON.stringify(parsed)}`);
     }
   }
 }
@@ -198,13 +198,27 @@ export class DialogueEngine {
       inventory: new Set(Array.isArray(tree.metadata?.__inventory) ? tree.metadata?.__inventory : []),
       quests: new Map(),
       history: []
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DialogueManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DialogueManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DialogueManager');
+  };
   }
 
   start(startNodeId: string = 'start'): DialogueResult | null {
     const startNode = this.tree.nodes.get(startNodeId);
     if (!startNode) {
-      console.error(`[DialoguePure] Start node not found: ${startNodeId}`);
+      this.logger.error('DialogueManager', `[DialoguePure] Start node not found: ${startNodeId}`);
       return null;
     }
 
@@ -484,6 +498,25 @@ export class DialogueEngine {
 export function createDialogueEngine(treeData: string): DialogueEngine {
   const tree = DialogueEngine.deserialize(treeData);
   return new DialogueEngine(tree);
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('DialogueManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
+  }
 }
 
 // Export for CLI usage

@@ -76,10 +76,10 @@ export class CollisionManager {
     
     for (const shape of shapes) {
       if (this.isAABB(shape)) {
-        this.aabbs.set(shape.id, JSON.parse(JSON.stringify(shape)));
+        this.aabbs.set(shape.id, PerformanceOptimizer.optimizeObjectCloning(shape, true).result);
         this.addToSpatialGrid(shape.id, shape);
       } else if (this.isCircle(shape)) {
-        this.circles.set(shape.id, JSON.parse(JSON.stringify(shape)));
+        this.circles.set(shape.id, PerformanceOptimizer.optimizeObjectCloning(shape, true).result);
         this.addToSpatialGrid(shape.id, shape);
       }
     }
@@ -117,9 +117,9 @@ export class CollisionManager {
       
       // Add to appropriate collection
       if (this.isAABB(shape)) {
-        this.aabbs.set(shape.id, JSON.parse(JSON.stringify(shape)));
+        this.aabbs.set(shape.id, PerformanceOptimizer.optimizeObjectCloning(shape, true).result);
       } else {
-        this.circles.set(shape.id, JSON.parse(JSON.stringify(shape)));
+        this.circles.set(shape.id, PerformanceOptimizer.optimizeObjectCloning(shape, true).result);
       }
       
       // Add to spatial grid
@@ -151,7 +151,7 @@ export class CollisionManager {
     const aabb = this.aabbs.get(id);
     const circle = this.circles.get(id);
     const shape = aabb || circle;
-    return { op: 'dump', shape: shape ? JSON.parse(JSON.stringify(shape)) : undefined }; 
+    return { op: 'dump', shape: shape ? PerformanceOptimizer.optimizeObjectCloning(shape, true).result : undefined }; 
   }
 
   check(filterTags?: string[]): CheckOutput {

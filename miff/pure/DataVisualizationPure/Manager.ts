@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface DataVisualizationConfig {
@@ -604,6 +608,8 @@ export class DataVisualizationManager {
   private visualizations: Map<string, DataVisualization> = new Map();
   private stats: VisualizationStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<DataVisualizationConfig> = {}) {
     this.config = {
@@ -625,7 +631,21 @@ export class DataVisualizationManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DataVisualizationManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DataVisualizationManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DataVisualizationManager');
+  };
   }
 
   /**
@@ -640,10 +660,10 @@ export class DataVisualizationManager {
       await this.loadDefaultDataVisualizations();
       
       this.isInitialized = true;
-      console.log('Data visualization manager initialized successfully');
+      this.logger.info('DataVisualizationManager', 'Data visualization manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize data visualization manager:', error);
+      this.logger.error('DataVisualizationManager', 'Failed to initialize data visualization manager:', error);
       return false;
     }
   }
@@ -671,7 +691,7 @@ export class DataVisualizationManager {
     this.visualizations.set(newVisualization.id, newVisualization);
     this.updateStats('create_visualization', newVisualization);
 
-    console.log(`Created data visualization: ${newVisualization.name}`);
+    this.logger.info('DataVisualizationManager', `Created data visualization: ${newVisualization.name}`);
     return newVisualization;
   }
 
@@ -681,12 +701,12 @@ export class DataVisualizationManager {
   createChart(visualizationId: string, chart: Partial<Chart>): Chart | null {
     const visualization = this.visualizations.get(visualizationId);
     if (!visualization) {
-      console.warn(`Data visualization ${visualizationId} not found`);
+      this.logger.warn('DataVisualizationManager', `Data visualization ${visualizationId} not found`);
       return null;
     }
 
     if (visualization.charts.length >= this.config.maxCharts) {
-      console.warn('Maximum number of charts reached');
+      this.logger.warn('DataVisualizationManager', 'Maximum number of charts reached');
       return null;
     }
 
@@ -707,10 +727,10 @@ export class DataVisualizationManager {
       visualization.modified = Date.now();
 
       this.updateStats('create_chart', visualization);
-      console.log(`Created chart: ${newChart.name}`);
+      this.logger.info('DataVisualizationManager', `Created chart: ${newChart.name}`);
       return newChart;
     } catch (error) {
-      console.error(`Failed to create chart in data visualization ${visualizationId}:`, error);
+      this.logger.error('DataVisualizationManager', `Failed to create chart in data visualization ${visualizationId}:`, error);
       return null;
     }
   }
@@ -721,12 +741,12 @@ export class DataVisualizationManager {
   createDashboard(visualizationId: string, dashboard: Partial<Dashboard>): Dashboard | null {
     const visualization = this.visualizations.get(visualizationId);
     if (!visualization) {
-      console.warn(`Data visualization ${visualizationId} not found`);
+      this.logger.warn('DataVisualizationManager', `Data visualization ${visualizationId} not found`);
       return null;
     }
 
     if (visualization.dashboards.length >= this.config.maxDashboards) {
-      console.warn('Maximum number of dashboards reached');
+      this.logger.warn('DataVisualizationManager', 'Maximum number of dashboards reached');
       return null;
     }
 
@@ -747,10 +767,10 @@ export class DataVisualizationManager {
       visualization.modified = Date.now();
 
       this.updateStats('create_dashboard', visualization);
-      console.log(`Created dashboard: ${newDashboard.name}`);
+      this.logger.info('DataVisualizationManager', `Created dashboard: ${newDashboard.name}`);
       return newDashboard;
     } catch (error) {
-      console.error(`Failed to create dashboard in data visualization ${visualizationId}:`, error);
+      this.logger.error('DataVisualizationManager', `Failed to create dashboard in data visualization ${visualizationId}:`, error);
       return null;
     }
   }
@@ -788,7 +808,7 @@ export class DataVisualizationManager {
    * Initialize data visualization manager
    */
   private async initializeDataVisualizationManager(): Promise<void> {
-    console.log('Initializing data visualization manager...');
+    this.logger.info('DataVisualizationManager', 'Initializing data visualization manager...');
   }
 
   /**
@@ -808,7 +828,7 @@ export class DataVisualizationManager {
       }
     }
 
-    console.log(`Loaded ${defaultVisualizations.length} default data visualizations`);
+    this.logger.info('DataVisualizationManager', `Loaded ${defaultVisualizations.length} default data visualizations`);
   }
 
   /**

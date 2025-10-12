@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CacheManagerConfig {
@@ -447,6 +451,8 @@ export class CacheManager {
   private cacheManagers: Map<string, CacheManager> = new Map();
   private stats: CacheManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CacheManagerConfig> = {}) {
     this.config = {
@@ -471,7 +477,21 @@ export class CacheManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CacheManagerManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CacheManagerManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CacheManagerManager');
+  };
   }
 
   /**
@@ -486,10 +506,10 @@ export class CacheManager {
       await this.loadDefaultCacheManagers();
       
       this.isInitialized = true;
-      console.log('Cache manager initialized successfully');
+      this.logger.info('CacheManagerManager', 'Cache manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize cache manager:', error);
+      this.logger.error('CacheManagerManager', 'Failed to initialize cache manager:', error);
       return false;
     }
   }
@@ -520,7 +540,7 @@ export class CacheManager {
     this.cacheManagers.set(newCacheManager.id, newCacheManager);
     this.updateStats('create_cache_manager', newCacheManager);
 
-    console.log(`Created cache manager: ${newCacheManager.name}`);
+    this.logger.info('CacheManagerManager', `Created cache manager: ${newCacheManager.name}`);
     return newCacheManager;
   }
 
@@ -530,7 +550,7 @@ export class CacheManager {
   createCache(cacheManagerId: string, cache: Partial<Cache>): Cache | null {
     const cacheManager = this.cacheManagers.get(cacheManagerId);
     if (!cacheManager) {
-      console.warn(`Cache manager ${cacheManagerId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
       return null;
     }
 
@@ -551,10 +571,10 @@ export class CacheManager {
       cacheManager.modified = Date.now();
 
       this.updateStats('create_cache', cacheManager);
-      console.log(`Created cache: ${newCache.name}`);
+      this.logger.info('CacheManagerManager', `Created cache: ${newCache.name}`);
       return newCache;
     } catch (error) {
-      console.error(`Failed to create cache in manager ${cacheManagerId}:`, error);
+      this.logger.error('CacheManagerManager', `Failed to create cache in manager ${cacheManagerId}:`, error);
       return null;
     }
   }
@@ -565,13 +585,13 @@ export class CacheManager {
   get(cacheManagerId: string, cacheId: string, key: string): any | null {
     const cacheManager = this.cacheManagers.get(cacheManagerId);
     if (!cacheManager) {
-      console.warn(`Cache manager ${cacheManagerId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
       return null;
     }
 
     const cache = cacheManager.caches.find(c => c.id === cacheId);
     if (!cache) {
-      console.warn(`Cache ${cacheId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
       return null;
     }
 
@@ -597,10 +617,10 @@ export class CacheManager {
       cache.statistics.hitCount++;
       this.updateCacheHitRate(cache);
 
-      console.log(`Cache hit for key: ${key}`);
+      this.logger.info('CacheManagerManager', `Cache hit for key: ${key}`);
       return entry.value;
     } catch (error) {
-      console.error(`Failed to get value from cache ${cacheId}:`, error);
+      this.logger.error('CacheManagerManager', `Failed to get value from cache ${cacheId}:`, error);
       return null;
     }
   }
@@ -611,13 +631,13 @@ export class CacheManager {
   set(cacheManagerId: string, cacheId: string, key: string, value: any, ttl: number = 0): boolean {
     const cacheManager = this.cacheManagers.get(cacheManagerId);
     if (!cacheManager) {
-      console.warn(`Cache manager ${cacheManagerId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
       return false;
     }
 
     const cache = cacheManager.caches.find(c => c.id === cacheId);
     if (!cache) {
-      console.warn(`Cache ${cacheId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
       return false;
     }
 
@@ -654,10 +674,10 @@ export class CacheManager {
       }
 
       cacheManager.modified = Date.now();
-      console.log(`Set value in cache for key: ${key}`);
+      this.logger.info('CacheManagerManager', `Set value in cache for key: ${key}`);
       return true;
     } catch (error) {
-      console.error(`Failed to set value in cache ${cacheId}:`, error);
+      this.logger.error('CacheManagerManager', `Failed to set value in cache ${cacheId}:`, error);
       return false;
     }
   }
@@ -668,20 +688,20 @@ export class CacheManager {
   delete(cacheManagerId: string, cacheId: string, key: string): boolean {
     const cacheManager = this.cacheManagers.get(cacheManagerId);
     if (!cacheManager) {
-      console.warn(`Cache manager ${cacheManagerId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
       return false;
     }
 
     const cache = cacheManager.caches.find(c => c.id === cacheId);
     if (!cache) {
-      console.warn(`Cache ${cacheId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
       return false;
     }
 
     try {
       const entryIndex = cache.entries.findIndex(e => e.key === key);
       if (entryIndex === -1) {
-        console.warn(`Entry with key ${key} not found`);
+        this.logger.warn('CacheManagerManager', `Entry with key ${key} not found`);
         return false;
       }
 
@@ -689,10 +709,10 @@ export class CacheManager {
       cache.statistics.totalEntries--;
       cacheManager.modified = Date.now();
 
-      console.log(`Deleted value from cache for key: ${key}`);
+      this.logger.info('CacheManagerManager', `Deleted value from cache for key: ${key}`);
       return true;
     } catch (error) {
-      console.error(`Failed to delete value from cache ${cacheId}:`, error);
+      this.logger.error('CacheManagerManager', `Failed to delete value from cache ${cacheId}:`, error);
       return false;
     }
   }
@@ -703,13 +723,13 @@ export class CacheManager {
   clear(cacheManagerId: string, cacheId: string): boolean {
     const cacheManager = this.cacheManagers.get(cacheManagerId);
     if (!cacheManager) {
-      console.warn(`Cache manager ${cacheManagerId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache manager ${cacheManagerId} not found`);
       return false;
     }
 
     const cache = cacheManager.caches.find(c => c.id === cacheId);
     if (!cache) {
-      console.warn(`Cache ${cacheId} not found`);
+      this.logger.warn('CacheManagerManager', `Cache ${cacheId} not found`);
       return false;
     }
 
@@ -718,10 +738,10 @@ export class CacheManager {
       cache.statistics.totalEntries = 0;
       cacheManager.modified = Date.now();
 
-      console.log(`Cleared cache: ${cache.name}`);
+      this.logger.info('CacheManagerManager', `Cleared cache: ${cache.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to clear cache ${cacheId}:`, error);
+      this.logger.error('CacheManagerManager', `Failed to clear cache ${cacheId}:`, error);
       return false;
     }
   }
@@ -759,7 +779,7 @@ export class CacheManager {
    * Initialize cache manager
    */
   private async initializeCacheManager(): Promise<void> {
-    console.log('Initializing cache manager...');
+    this.logger.info('CacheManagerManager', 'Initializing cache manager...');
   }
 
   /**
@@ -779,7 +799,7 @@ export class CacheManager {
       }
     }
 
-    console.log(`Loaded ${defaultManagers.length} default cache managers`);
+    this.logger.info('CacheManagerManager', `Loaded ${defaultManagers.length} default cache managers`);
   }
 
   /**

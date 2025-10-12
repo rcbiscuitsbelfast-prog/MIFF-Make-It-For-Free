@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface QuestConfig {
@@ -517,6 +521,8 @@ export class QuestManager {
   private instances: Map<string, QuestInstance> = new Map();
   private stats: QuestManagerStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<QuestConfig> = {}) {
     this.config = {
@@ -536,7 +542,21 @@ export class QuestManager {
       enableStatistics: true,
       enableAnalytics: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'QuestModuleManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `QuestModuleManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'QuestModuleManager');
+  };
   }
 
   /**
@@ -556,10 +576,10 @@ export class QuestManager {
       }
       
       this.isInitialized = true;
-      console.log('Quest manager initialized successfully');
+      this.logger.info('QuestModuleManager', 'Quest manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize quest manager:', error);
+      this.logger.error('QuestModuleManager', 'Failed to initialize quest manager:', error);
       return false;
     }
   }
@@ -570,12 +590,12 @@ export class QuestManager {
   createQuest(templateId: string, customData?: Partial<Quest>): Quest | null {
     const template = this.templates.get(templateId);
     if (!template) {
-      console.warn(`Quest template ${templateId} not found`);
+      this.logger.warn('QuestModuleManager', `Quest template ${templateId} not found`);
       return null;
     }
 
     if (!template.isActive) {
-      console.warn(`Quest template ${templateId} is not active`);
+      this.logger.warn('QuestModuleManager', `Quest template ${templateId} is not active`);
       return null;
     }
 
@@ -620,7 +640,7 @@ export class QuestManager {
     this.quests.set(quest.id, quest);
     this.updateStats('create_quest', quest);
 
-    console.log(`Created quest: ${quest.name}`);
+    this.logger.info('QuestModuleManager', `Created quest: ${quest.name}`);
     return quest;
   }
 
@@ -630,30 +650,30 @@ export class QuestManager {
   startQuest(questId: string, userId: string): boolean {
     const quest = this.quests.get(questId);
     if (!quest) {
-      console.warn(`Quest ${questId} not found`);
+      this.logger.warn('QuestModuleManager', `Quest ${questId} not found`);
       return false;
     }
 
     if (quest.status !== QuestStatus.AVAILABLE) {
-      console.warn(`Quest ${questId} is not available`);
+      this.logger.warn('QuestModuleManager', `Quest ${questId} is not available`);
       return false;
     }
 
     // Check requirements
     if (!this.checkRequirements(quest, userId)) {
-      console.warn(`User ${userId} does not meet requirements for quest ${questId}`);
+      this.logger.warn('QuestModuleManager', `User ${userId} does not meet requirements for quest ${questId}`);
       return false;
     }
 
     // Check dependencies
     if (!this.checkDependencies(quest, userId)) {
-      console.warn(`User ${userId} does not meet dependencies for quest ${questId}`);
+      this.logger.warn('QuestModuleManager', `User ${userId} does not meet dependencies for quest ${questId}`);
       return false;
     }
 
     // Check active quest limit
     if (this.getUserActiveQuests(userId).length >= this.config.maxActiveQuests) {
-      console.warn(`User ${userId} has reached maximum active quests`);
+      this.logger.warn('QuestModuleManager', `User ${userId} has reached maximum active quests`);
       return false;
     }
 
@@ -690,7 +710,7 @@ export class QuestManager {
     this.instances.set(instance.id, instance);
     this.updateStats('start_quest', quest);
 
-    console.log(`Started quest ${questId} for user ${userId}`);
+    this.logger.info('QuestModuleManager', `Started quest ${questId} for user ${userId}`);
     return true;
   }
 
@@ -700,37 +720,37 @@ export class QuestManager {
   updateProgress(questId: string, userId: string, objectiveId: string, progress: number): boolean {
     const quest = this.quests.get(questId);
     if (!quest) {
-      console.warn(`Quest ${questId} not found`);
+      this.logger.warn('QuestModuleManager', `Quest ${questId} not found`);
       return false;
     }
 
     if (quest.status !== QuestStatus.ACTIVE) {
-      console.warn(`Quest ${questId} is not active`);
+      this.logger.warn('QuestModuleManager', `Quest ${questId} is not active`);
       return false;
     }
 
     if (!quest.participants.includes(userId)) {
-      console.warn(`User ${userId} is not participating in quest ${questId}`);
+      this.logger.warn('QuestModuleManager', `User ${userId} is not participating in quest ${questId}`);
       return false;
     }
 
     // Find quest instance
     const instance = this.findQuestInstance(questId, userId);
     if (!instance) {
-      console.warn(`Quest instance not found for quest ${questId} and user ${userId}`);
+      this.logger.warn('QuestModuleManager', `Quest instance not found for quest ${questId} and user ${userId}`);
       return false;
     }
 
     const participant = instance.participants.get(userId);
     if (!participant) {
-      console.warn(`Participant ${userId} not found in quest instance`);
+      this.logger.warn('QuestModuleManager', `Participant ${userId} not found in quest instance`);
       return false;
     }
 
     // Update objective progress
     const objective = quest.objectives.find(obj => obj.id === objectiveId);
     if (!objective) {
-      console.warn(`Objective ${objectiveId} not found in quest ${questId}`);
+      this.logger.warn('QuestModuleManager', `Objective ${objectiveId} not found in quest ${questId}`);
       return false;
     }
 
@@ -755,7 +775,7 @@ export class QuestManager {
     // Update leaderboard
     this.updateLeaderboard(instance);
 
-    console.log(`Updated progress for quest ${questId}, user ${userId}: ${quest.progress.percentage.toFixed(2)}%`);
+    this.logger.info('QuestModuleManager', `Updated progress for quest ${questId}, user ${userId}: ${quest.progress.percentage.toFixed(2)}%`);
     return true;
   }
 
@@ -765,19 +785,19 @@ export class QuestManager {
   completeQuest(questId: string, userId: string): boolean {
     const quest = this.quests.get(questId);
     if (!quest) {
-      console.warn(`Quest ${questId} not found`);
+      this.logger.warn('QuestModuleManager', `Quest ${questId} not found`);
       return false;
     }
 
     const instance = this.findQuestInstance(questId, userId);
     if (!instance) {
-      console.warn(`Quest instance not found for quest ${questId} and user ${userId}`);
+      this.logger.warn('QuestModuleManager', `Quest instance not found for quest ${questId} and user ${userId}`);
       return false;
     }
 
     const participant = instance.participants.get(userId);
     if (!participant) {
-      console.warn(`Participant ${userId} not found in quest instance`);
+      this.logger.warn('QuestModuleManager', `Participant ${userId} not found in quest instance`);
       return false;
     }
 
@@ -803,7 +823,7 @@ export class QuestManager {
 
     this.updateStats('complete_quest', quest);
 
-    console.log(`Completed quest ${questId} for user ${userId}`);
+    this.logger.info('QuestModuleManager', `Completed quest ${questId} for user ${userId}`);
     return true;
   }
 
@@ -813,19 +833,19 @@ export class QuestManager {
   failQuest(questId: string, userId: string, reason: string): boolean {
     const quest = this.quests.get(questId);
     if (!quest) {
-      console.warn(`Quest ${questId} not found`);
+      this.logger.warn('QuestModuleManager', `Quest ${questId} not found`);
       return false;
     }
 
     const instance = this.findQuestInstance(questId, userId);
     if (!instance) {
-      console.warn(`Quest instance not found for quest ${questId} and user ${userId}`);
+      this.logger.warn('QuestModuleManager', `Quest instance not found for quest ${questId} and user ${userId}`);
       return false;
     }
 
     const participant = instance.participants.get(userId);
     if (!participant) {
-      console.warn(`Participant ${userId} not found in quest instance`);
+      this.logger.warn('QuestModuleManager', `Participant ${userId} not found in quest instance`);
       return false;
     }
 
@@ -838,7 +858,7 @@ export class QuestManager {
 
     this.updateStats('fail_quest', quest);
 
-    console.log(`Failed quest ${questId} for user ${userId}: ${reason}`);
+    this.logger.info('QuestModuleManager', `Failed quest ${questId} for user ${userId}: ${reason}`);
     return true;
   }
 
@@ -921,7 +941,7 @@ export class QuestManager {
     };
 
     this.templates.set(newTemplate.id, newTemplate);
-    console.log(`Created quest template: ${newTemplate.name}`);
+    this.logger.info('QuestModuleManager', `Created quest template: ${newTemplate.name}`);
     return newTemplate;
   }
 
@@ -929,7 +949,7 @@ export class QuestManager {
    * Initialize quest manager
    */
   private async initializeQuestManager(): Promise<void> {
-    console.log('Initializing quest manager...');
+    this.logger.info('QuestModuleManager', 'Initializing quest manager...');
   }
 
   /**
@@ -951,7 +971,7 @@ export class QuestManager {
       }
     }
 
-    console.log(`Loaded ${defaultTemplates.length} default templates`);
+    this.logger.info('QuestModuleManager', `Loaded ${defaultTemplates.length} default templates`);
   }
 
   /**
@@ -974,7 +994,7 @@ export class QuestManager {
       }
     }
 
-    console.log('Generated initial quests');
+    this.logger.info('QuestModuleManager', 'Generated initial quests');
   }
 
   /**
@@ -1420,7 +1440,7 @@ export class QuestManager {
    */
   private distributeRewards(quest: Quest, userId: string): void {
     // This would distribute rewards to the user
-    console.log(`Distributing rewards for quest ${quest.id} to user ${userId}`);
+    this.logger.info('QuestModuleManager', `Distributing rewards for quest ${quest.id} to user ${userId}`);
   }
 
   /**

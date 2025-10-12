@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface InventoryConfig {
@@ -611,6 +615,8 @@ export class InventoryManager {
   private inventories: Map<string, Inventory> = new Map();
   private stats: InventoryStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<InventoryConfig> = {}) {
     this.config = {
@@ -636,7 +642,21 @@ export class InventoryManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'InventoryManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `InventoryManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'InventoryManager');
+  };
   }
 
   /**
@@ -648,10 +668,10 @@ export class InventoryManager {
       await this.initializeInventoryManager();
       
       this.isInitialized = true;
-      console.log('Inventory manager initialized successfully');
+      this.logger.info('InventoryManager', 'Inventory manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize inventory manager:', error);
+      this.logger.error('InventoryManager', 'Failed to initialize inventory manager:', error);
       return false;
     }
   }
@@ -685,7 +705,7 @@ export class InventoryManager {
     this.inventories.set(newInventory.id, newInventory);
     this.updateStats('create_inventory', newInventory);
 
-    console.log(`Created inventory: ${newInventory.name}`);
+    this.logger.info('InventoryManager', `Created inventory: ${newInventory.name}`);
     return newInventory;
   }
 
@@ -695,21 +715,21 @@ export class InventoryManager {
   addItem(inventoryId: string, item: InventoryItem): boolean {
     const inventory = this.inventories.get(inventoryId);
     if (!inventory) {
-      console.warn(`Inventory ${inventoryId} not found`);
+      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
       return false;
     }
 
     // Check weight limit
     if (this.config.enableWeightManagement && 
         inventory.weight + item.weight > inventory.maxWeight) {
-      console.warn(`Adding item would exceed weight limit`);
+      this.logger.warn('InventoryManager', `Adding item would exceed weight limit`);
       return false;
     }
 
     // Check capacity limit
     if (this.config.enableCapacityManagement && 
         inventory.items.length >= inventory.maxCapacity) {
-      console.warn(`Adding item would exceed capacity limit`);
+      this.logger.warn('InventoryManager', `Adding item would exceed capacity limit`);
       return false;
     }
 
@@ -727,7 +747,7 @@ export class InventoryManager {
         inventory.weight += item.weight;
         inventory.modified = Date.now();
         this.updateStats('add_item', inventory);
-        console.log(`Stacked item: ${item.name}`);
+        this.logger.info('InventoryManager', `Stacked item: ${item.name}`);
         return true;
       }
     }
@@ -744,7 +764,7 @@ export class InventoryManager {
     }
 
     this.updateStats('add_item', inventory);
-    console.log(`Added item: ${item.name}`);
+    this.logger.info('InventoryManager', `Added item: ${item.name}`);
     return true;
   }
 
@@ -754,20 +774,20 @@ export class InventoryManager {
   removeItem(inventoryId: string, itemId: string, quantity: number = 1): boolean {
     const inventory = this.inventories.get(inventoryId);
     if (!inventory) {
-      console.warn(`Inventory ${inventoryId} not found`);
+      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
       return false;
     }
 
     const itemIndex = inventory.items.findIndex(i => i.id === itemId);
     if (itemIndex === -1) {
-      console.warn(`Item ${itemId} not found in inventory`);
+      this.logger.warn('InventoryManager', `Item ${itemId} not found in inventory`);
       return false;
     }
 
     const item = inventory.items[itemIndex];
     
     if (item.quantity < quantity) {
-      console.warn(`Not enough quantity of item ${itemId}`);
+      this.logger.warn('InventoryManager', `Not enough quantity of item ${itemId}`);
       return false;
     }
 
@@ -783,7 +803,7 @@ export class InventoryManager {
 
     inventory.modified = Date.now();
     this.updateStats('remove_item', inventory);
-    console.log(`Removed item: ${item.name}`);
+    this.logger.info('InventoryManager', `Removed item: ${item.name}`);
     return true;
   }
 
@@ -795,18 +815,18 @@ export class InventoryManager {
     const toInventory = this.inventories.get(toInventoryId);
 
     if (!fromInventory || !toInventory) {
-      console.warn('Source or destination inventory not found');
+      this.logger.warn('InventoryManager', 'Source or destination inventory not found');
       return false;
     }
 
     const item = fromInventory.items.find(i => i.id === itemId);
     if (!item) {
-      console.warn(`Item ${itemId} not found in source inventory`);
+      this.logger.warn('InventoryManager', `Item ${itemId} not found in source inventory`);
       return false;
     }
 
     if (item.quantity < quantity) {
-      console.warn(`Not enough quantity of item ${itemId}`);
+      this.logger.warn('InventoryManager', `Not enough quantity of item ${itemId}`);
       return false;
     }
 
@@ -819,14 +839,14 @@ export class InventoryManager {
 
     // Add to destination inventory
     if (!this.addItem(toInventoryId, itemCopy)) {
-      console.warn('Failed to add item to destination inventory');
+      this.logger.warn('InventoryManager', 'Failed to add item to destination inventory');
       return false;
     }
 
     // Remove from source inventory
     this.removeItem(fromInventoryId, itemId, quantity);
 
-    console.log(`Moved item: ${item.name}`);
+    this.logger.info('InventoryManager', `Moved item: ${item.name}`);
     return true;
   }
 
@@ -836,7 +856,7 @@ export class InventoryManager {
   sortInventory(inventoryId: string): boolean {
     const inventory = this.inventories.get(inventoryId);
     if (!inventory) {
-      console.warn(`Inventory ${inventoryId} not found`);
+      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
       return false;
     }
 
@@ -853,10 +873,10 @@ export class InventoryManager {
       });
 
       inventory.modified = Date.now();
-      console.log(`Sorted inventory: ${inventory.name}`);
+      this.logger.info('InventoryManager', `Sorted inventory: ${inventory.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to sort inventory ${inventoryId}:`, error);
+      this.logger.error('InventoryManager', `Failed to sort inventory ${inventoryId}:`, error);
       return false;
     }
   }
@@ -867,7 +887,7 @@ export class InventoryManager {
   filterItems(inventoryId: string, filter: InventoryFilter): InventoryItem[] {
     const inventory = this.inventories.get(inventoryId);
     if (!inventory) {
-      console.warn(`Inventory ${inventoryId} not found`);
+      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
       return [];
     }
 
@@ -884,7 +904,7 @@ export class InventoryManager {
   searchItems(inventoryId: string, query: string): InventoryItem[] {
     const inventory = this.inventories.get(inventoryId);
     if (!inventory) {
-      console.warn(`Inventory ${inventoryId} not found`);
+      this.logger.warn('InventoryManager', `Inventory ${inventoryId} not found`);
       return [];
     }
 
@@ -942,7 +962,7 @@ export class InventoryManager {
    * Initialize inventory manager
    */
   private async initializeInventoryManager(): Promise<void> {
-    console.log('Initializing inventory manager...');
+    this.logger.info('InventoryManager', 'Initializing inventory manager...');
   }
 
   /**

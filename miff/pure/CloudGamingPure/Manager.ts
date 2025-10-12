@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface CloudGamingConfig {
@@ -456,6 +460,8 @@ export class CloudGamingManager {
   private cloudGamings: Map<string, CloudGaming> = new Map();
   private stats: CloudGamingStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<CloudGamingConfig> = {}) {
     this.config = {
@@ -477,7 +483,21 @@ export class CloudGamingManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CloudGamingManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CloudGamingManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CloudGamingManager');
+  };
   }
 
   /**
@@ -492,10 +512,10 @@ export class CloudGamingManager {
       await this.loadDefaultCloudGamings();
       
       this.isInitialized = true;
-      console.log('Cloud gaming manager initialized successfully');
+      this.logger.info('CloudGamingManager', 'Cloud gaming manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize cloud gaming manager:', error);
+      this.logger.error('CloudGamingManager', 'Failed to initialize cloud gaming manager:', error);
       return false;
     }
   }
@@ -524,7 +544,7 @@ export class CloudGamingManager {
     this.cloudGamings.set(newCloudGaming.id, newCloudGaming);
     this.updateStats('create_cloudgaming', newCloudGaming);
 
-    console.log(`Created cloud gaming: ${newCloudGaming.name}`);
+    this.logger.info('CloudGamingManager', `Created cloud gaming: ${newCloudGaming.name}`);
     return newCloudGaming;
   }
 
@@ -534,12 +554,12 @@ export class CloudGamingManager {
   createCloudGame(cloudGamingId: string, game: Partial<CloudGame>): CloudGame | null {
     const cloudGaming = this.cloudGamings.get(cloudGamingId);
     if (!cloudGaming) {
-      console.warn(`Cloud gaming ${cloudGamingId} not found`);
+      this.logger.warn('CloudGamingManager', `Cloud gaming ${cloudGamingId} not found`);
       return null;
     }
 
     if (cloudGaming.games.length >= this.config.maxGames) {
-      console.warn('Maximum number of games reached');
+      this.logger.warn('CloudGamingManager', 'Maximum number of games reached');
       return null;
     }
 
@@ -560,10 +580,10 @@ export class CloudGamingManager {
       cloudGaming.modified = Date.now();
 
       this.updateStats('create_game', cloudGaming);
-      console.log(`Created cloud game: ${newGame.name}`);
+      this.logger.info('CloudGamingManager', `Created cloud game: ${newGame.name}`);
       return newGame;
     } catch (error) {
-      console.error(`Failed to create cloud game in cloud gaming ${cloudGamingId}:`, error);
+      this.logger.error('CloudGamingManager', `Failed to create cloud game in cloud gaming ${cloudGamingId}:`, error);
       return null;
     }
   }
@@ -574,12 +594,12 @@ export class CloudGamingManager {
   createGameSession(cloudGamingId: string, session: Partial<GameSession>): GameSession | null {
     const cloudGaming = this.cloudGamings.get(cloudGamingId);
     if (!cloudGaming) {
-      console.warn(`Cloud gaming ${cloudGamingId} not found`);
+      this.logger.warn('CloudGamingManager', `Cloud gaming ${cloudGamingId} not found`);
       return null;
     }
 
     if (cloudGaming.sessions.length >= this.config.maxSessions) {
-      console.warn('Maximum number of sessions reached');
+      this.logger.warn('CloudGamingManager', 'Maximum number of sessions reached');
       return null;
     }
 
@@ -602,10 +622,10 @@ export class CloudGamingManager {
       cloudGaming.modified = Date.now();
 
       this.updateStats('create_session', cloudGaming);
-      console.log(`Created game session: ${newSession.id}`);
+      this.logger.info('CloudGamingManager', `Created game session: ${newSession.id}`);
       return newSession;
     } catch (error) {
-      console.error(`Failed to create game session in cloud gaming ${cloudGamingId}:`, error);
+      this.logger.error('CloudGamingManager', `Failed to create game session in cloud gaming ${cloudGamingId}:`, error);
       return null;
     }
   }
@@ -643,7 +663,7 @@ export class CloudGamingManager {
    * Initialize cloud gaming manager
    */
   private async initializeCloudGamingManager(): Promise<void> {
-    console.log('Initializing cloud gaming manager...');
+    this.logger.info('CloudGamingManager', 'Initializing cloud gaming manager...');
   }
 
   /**
@@ -663,7 +683,7 @@ export class CloudGamingManager {
       }
     }
 
-    console.log(`Loaded ${defaultCloudGamings.length} default cloud gamings`);
+    this.logger.info('CloudGamingManager', `Loaded ${defaultCloudGamings.length} default cloud gamings`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface EventBusConfig {
@@ -358,6 +362,8 @@ export class EventBusManager {
   private buses: Map<string, EventBus> = new Map();
   private stats: EventStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<EventBusConfig> = {}) {
     this.config = {
@@ -379,7 +385,21 @@ export class EventBusManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EventBusManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EventBusManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EventBusManager');
+  };
   }
 
   /**
@@ -394,10 +414,10 @@ export class EventBusManager {
       await this.loadDefaultEventBuses();
       
       this.isInitialized = true;
-      console.log('Event bus manager initialized successfully');
+      this.logger.info('EventBusManager', 'Event bus manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize event bus manager:', error);
+      this.logger.error('EventBusManager', 'Failed to initialize event bus manager:', error);
       return false;
     }
   }
@@ -424,7 +444,7 @@ export class EventBusManager {
     this.buses.set(newBus.id, newBus);
     this.updateStats('create_bus', newBus);
 
-    console.log(`Created event bus: ${newBus.name}`);
+    this.logger.info('EventBusManager', `Created event bus: ${newBus.name}`);
     return newBus;
   }
 
@@ -434,12 +454,12 @@ export class EventBusManager {
   createEvent(busId: string, event: Partial<Event>): Event | null {
     const bus = this.buses.get(busId);
     if (!bus) {
-      console.warn(`Event bus ${busId} not found`);
+      this.logger.warn('EventBusManager', `Event bus ${busId} not found`);
       return null;
     }
 
     if (bus.events.length >= this.config.maxEvents) {
-      console.warn('Maximum number of events reached');
+      this.logger.warn('EventBusManager', 'Maximum number of events reached');
       return null;
     }
 
@@ -460,10 +480,10 @@ export class EventBusManager {
       bus.modified = Date.now();
 
       this.updateStats('create_event', bus);
-      console.log(`Created event: ${newEvent.name}`);
+      this.logger.info('EventBusManager', `Created event: ${newEvent.name}`);
       return newEvent;
     } catch (error) {
-      console.error(`Failed to create event in event bus ${busId}:`, error);
+      this.logger.error('EventBusManager', `Failed to create event in event bus ${busId}:`, error);
       return null;
     }
   }
@@ -474,12 +494,12 @@ export class EventBusManager {
   createSubscriber(busId: string, subscriber: Partial<Subscriber>): Subscriber | null {
     const bus = this.buses.get(busId);
     if (!bus) {
-      console.warn(`Event bus ${busId} not found`);
+      this.logger.warn('EventBusManager', `Event bus ${busId} not found`);
       return null;
     }
 
     if (bus.subscribers.length >= this.config.maxSubscribers) {
-      console.warn('Maximum number of subscribers reached');
+      this.logger.warn('EventBusManager', 'Maximum number of subscribers reached');
       return null;
     }
 
@@ -500,10 +520,10 @@ export class EventBusManager {
       bus.modified = Date.now();
 
       this.updateStats('create_subscriber', bus);
-      console.log(`Created subscriber: ${newSubscriber.name}`);
+      this.logger.info('EventBusManager', `Created subscriber: ${newSubscriber.name}`);
       return newSubscriber;
     } catch (error) {
-      console.error(`Failed to create subscriber in event bus ${busId}:`, error);
+      this.logger.error('EventBusManager', `Failed to create subscriber in event bus ${busId}:`, error);
       return null;
     }
   }
@@ -541,7 +561,7 @@ export class EventBusManager {
    * Initialize event bus manager
    */
   private async initializeEventBusManager(): Promise<void> {
-    console.log('Initializing event bus manager...');
+    this.logger.info('EventBusManager', 'Initializing event bus manager...');
   }
 
   /**
@@ -561,7 +581,7 @@ export class EventBusManager {
       }
     }
 
-    console.log(`Loaded ${defaultBuses.length} default event buses`);
+    this.logger.info('EventBusManager', `Loaded ${defaultBuses.length} default event buses`);
   }
 
   /**

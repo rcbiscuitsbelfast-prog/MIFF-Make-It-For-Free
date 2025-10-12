@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SaveConfig {
@@ -1806,6 +1810,8 @@ export class SaveManager {
   private currentSave: string | null = null;
   private autoSaveTimer: NodeJS.Timeout | null = null;
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SaveConfig> = {}) {
     this.config = {
@@ -1824,7 +1830,21 @@ export class SaveManager {
       enableSaveValidation: true,
       enableRecovery: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SaveManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SaveManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SaveManager');
+  };
   }
 
   /**
@@ -1842,10 +1862,10 @@ export class SaveManager {
       this.startAutoSave();
       
       this.isInitialized = true;
-      console.log('Save system initialized successfully');
+      this.logger.info('SaveManager', 'Save system initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize save system:', error);
+      this.logger.error('SaveManager', 'Failed to initialize save system:', error);
       return false;
     }
   }
@@ -1855,7 +1875,7 @@ export class SaveManager {
    */
   createProfile(name: string, userId: string, platform: Platform): SaveProfile | null {
     if (this.profiles.size >= this.config.maxProfiles) {
-      console.warn('Maximum number of profiles reached');
+      this.logger.warn('SaveManager', 'Maximum number of profiles reached');
       return null;
     }
 
@@ -1876,7 +1896,7 @@ export class SaveManager {
     };
 
     this.profiles.set(profile.id, profile);
-    console.log(`Created profile: ${name}`);
+    this.logger.info('SaveManager', `Created profile: ${name}`);
     return profile;
   }
 
@@ -1886,13 +1906,13 @@ export class SaveManager {
   loadProfile(profileId: string): boolean {
     const profile = this.profiles.get(profileId);
     if (!profile) {
-      console.warn(`Profile ${profileId} not found`);
+      this.logger.warn('SaveManager', `Profile ${profileId} not found`);
       return false;
     }
 
     this.currentProfile = profileId;
     profile.lastPlayed = Date.now();
-    console.log(`Loaded profile: ${profile.name}`);
+    this.logger.info('SaveManager', `Loaded profile: ${profile.name}`);
     return true;
   }
 
@@ -1901,14 +1921,14 @@ export class SaveManager {
    */
   async saveGame(slotId: string, gameData: SaveData, name?: string): Promise<boolean> {
     if (!this.currentProfile) {
-      console.warn('No profile loaded');
+      this.logger.warn('SaveManager', 'No profile loaded');
       return false;
     }
 
     try {
       const profile = this.profiles.get(this.currentProfile);
       if (!profile) {
-        console.warn('Current profile not found');
+        this.logger.warn('SaveManager', 'Current profile not found');
         return false;
       }
 
@@ -1959,10 +1979,10 @@ export class SaveManager {
         await this.syncToCloud(saveSlot);
       }
 
-      console.log(`Game saved to slot: ${slotId}`);
+      this.logger.info('SaveManager', `Game saved to slot: ${slotId}`);
       return true;
     } catch (error) {
-      console.error(`Failed to save game to slot ${slotId}:`, error);
+      this.logger.error('SaveManager', `Failed to save game to slot ${slotId}:`, error);
       return false;
     }
   }
@@ -1974,7 +1994,7 @@ export class SaveManager {
     try {
       const saveSlot = this.saveSlots.get(slotId);
       if (!saveSlot) {
-        console.warn(`Save slot ${slotId} not found`);
+        this.logger.warn('SaveManager', `Save slot ${slotId} not found`);
         return null;
       }
 
@@ -1982,7 +2002,7 @@ export class SaveManager {
       if (this.config.enableSaveValidation) {
         const currentChecksum = await this.calculateChecksum(saveSlot.data);
         if (currentChecksum !== saveSlot.checksum) {
-          console.warn(`Save slot ${slotId} checksum mismatch - data may be corrupted`);
+          this.logger.warn('SaveManager', `Save slot ${slotId} checksum mismatch - data may be corrupted`);
           if (this.config.enableRecovery) {
             return await this.recoverSave(saveSlot);
           }
@@ -2003,10 +2023,10 @@ export class SaveManager {
       }
 
       this.currentSave = slotId;
-      console.log(`Game loaded from slot: ${slotId}`);
+      this.logger.info('SaveManager', `Game loaded from slot: ${slotId}`);
       return data;
     } catch (error) {
-      console.error(`Failed to load game from slot ${slotId}:`, error);
+      this.logger.error('SaveManager', `Failed to load game from slot ${slotId}:`, error);
       return null;
     }
   }
@@ -2017,12 +2037,12 @@ export class SaveManager {
   deleteSave(slotId: string): boolean {
     const saveSlot = this.saveSlots.get(slotId);
     if (!saveSlot) {
-      console.warn(`Save slot ${slotId} not found`);
+      this.logger.warn('SaveManager', `Save slot ${slotId} not found`);
       return false;
     }
 
     this.saveSlots.delete(slotId);
-    console.log(`Deleted save slot: ${slotId}`);
+    this.logger.info('SaveManager', `Deleted save slot: ${slotId}`);
     return true;
   }
 
@@ -2072,7 +2092,7 @@ export class SaveManager {
   async createBackup(slotId: string): Promise<boolean> {
     const saveSlot = this.saveSlots.get(slotId);
     if (!saveSlot) {
-      console.warn(`Save slot ${slotId} not found`);
+      this.logger.warn('SaveManager', `Save slot ${slotId} not found`);
       return false;
     }
 
@@ -2090,10 +2110,10 @@ export class SaveManager {
       };
 
       this.saveSlots.set(backupId, backup);
-      console.log(`Created backup for save slot: ${slotId}`);
+      this.logger.info('SaveManager', `Created backup for save slot: ${slotId}`);
       return true;
     } catch (error) {
-      console.error(`Failed to create backup for save slot ${slotId}:`, error);
+      this.logger.error('SaveManager', `Failed to create backup for save slot ${slotId}:`, error);
       return false;
     }
   }
@@ -2104,14 +2124,14 @@ export class SaveManager {
   async restoreFromBackup(backupId: string): Promise<boolean> {
     const backup = this.saveSlots.get(backupId);
     if (!backup || !backup.metadata.isBackup) {
-      console.warn(`Backup ${backupId} not found`);
+      this.logger.warn('SaveManager', `Backup ${backupId} not found`);
       return false;
     }
 
     try {
       const originalId = backup.metadata.parentSaveId;
       if (!originalId) {
-        console.warn(`No parent save ID found for backup ${backupId}`);
+        this.logger.warn('SaveManager', `No parent save ID found for backup ${backupId}`);
         return false;
       }
 
@@ -2127,10 +2147,10 @@ export class SaveManager {
       };
 
       this.saveSlots.set(originalId, restored);
-      console.log(`Restored from backup: ${backupId}`);
+      this.logger.info('SaveManager', `Restored from backup: ${backupId}`);
       return true;
     } catch (error) {
-      console.error(`Failed to restore from backup ${backupId}:`, error);
+      this.logger.error('SaveManager', `Failed to restore from backup ${backupId}:`, error);
       return false;
     }
   }
@@ -2139,14 +2159,14 @@ export class SaveManager {
    * Initialize save system
    */
   private async initializeSaveSystem(): Promise<void> {
-    console.log('Initializing save system...');
+    this.logger.info('SaveManager', 'Initializing save system...');
   }
 
   /**
    * Load profiles
    */
   private async loadProfiles(): Promise<void> {
-    console.log('Loading profiles...');
+    this.logger.info('SaveManager', 'Loading profiles...');
   }
 
   /**
@@ -2173,10 +2193,10 @@ export class SaveManager {
       const gameData = this.getCurrentGameData();
       if (gameData) {
         await this.saveGame(this.currentSave, gameData, 'Auto Save');
-        console.log('Auto-save completed');
+        this.logger.info('SaveManager', 'Auto-save completed');
       }
     } catch (error) {
-      console.error('Auto-save failed:', error);
+      this.logger.error('SaveManager', 'Auto-save failed:', error);
     }
   }
 
@@ -2319,7 +2339,7 @@ export class SaveManager {
    */
   private async compressData(data: SaveData): Promise<SaveData> {
     // This would use a compression library like pako or zlib
-    console.log('Compressing save data...');
+    this.logger.info('SaveManager', 'Compressing save data...');
     return data;
   }
 
@@ -2328,7 +2348,7 @@ export class SaveManager {
    */
   private async decompressData(data: SaveData): Promise<SaveData> {
     // This would use a compression library like pako or zlib
-    console.log('Decompressing save data...');
+    this.logger.info('SaveManager', 'Decompressing save data...');
     return data;
   }
 
@@ -2337,7 +2357,7 @@ export class SaveManager {
    */
   private async encryptData(data: SaveData): Promise<SaveData> {
     // This would use an encryption library like crypto-js
-    console.log('Encrypting save data...');
+    this.logger.info('SaveManager', 'Encrypting save data...');
     return data;
   }
 
@@ -2346,7 +2366,7 @@ export class SaveManager {
    */
   private async decryptData(data: SaveData): Promise<SaveData> {
     // This would use an encryption library like crypto-js
-    console.log('Decrypting save data...');
+    this.logger.info('SaveManager', 'Decrypting save data...');
     return data;
   }
 
@@ -2363,14 +2383,14 @@ export class SaveManager {
    * Sync to cloud
    */
   private async syncToCloud(saveSlot: SaveSlot): Promise<void> {
-    console.log(`Syncing save slot ${saveSlot.id} to cloud...`);
+    this.logger.info('SaveManager', `Syncing save slot ${saveSlot.id} to cloud...`);
   }
 
   /**
    * Recover save
    */
   private async recoverSave(saveSlot: SaveSlot): Promise<SaveData | null> {
-    console.log(`Attempting to recover save slot ${saveSlot.id}...`);
+    this.logger.info('SaveManager', `Attempting to recover save slot ${saveSlot.id}...`);
     // This would implement save recovery logic
     return null;
   }

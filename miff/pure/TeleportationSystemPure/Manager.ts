@@ -21,6 +21,20 @@ export class TeleportationManager {
 
   constructor(teleportationSystem: TeleportationSystemPure) {
     this.teleportationSystem = teleportationSystem;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'TeleportationSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `TeleportationSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'TeleportationSystemManager');
   }
 
   /**
@@ -29,42 +43,42 @@ export class TeleportationManager {
   createAnchor(anchorData: Partial<SpatialAnchor>): SpatialAnchor | null {
     // Validate anchor data
     if (!anchorData.name || anchorData.name.trim() === '') {
-      console.error('❌ Anchor name is required');
+      this.logger.error('TeleportationSystemManager', '❌ Anchor name is required');
       return null;
     }
 
     if (!anchorData.position) {
-      console.error('❌ Anchor position is required');
+      this.logger.error('TeleportationSystemManager', '❌ Anchor position is required');
       return null;
     }
 
     if (!anchorData.zoneId) {
-      console.error('❌ Zone ID is required');
+      this.logger.error('TeleportationSystemManager', '❌ Zone ID is required');
       return null;
     }
 
     // Check if zone exists and has capacity
     const zone = this.teleportationSystem.getZone(anchorData.zoneId);
     if (!zone) {
-      console.error(`❌ Zone not found: ${anchorData.zoneId}`);
+      this.logger.error('TeleportationSystemManager', `❌ Zone not found: ${anchorData.zoneId}`);
       return null;
     }
 
     if (!zone.teleportEnabled) {
-      console.error(`❌ Teleportation disabled in zone: ${zone.name}`);
+      this.logger.error('TeleportationSystemManager', `❌ Teleportation disabled in zone: ${zone.name}`);
       return null;
     }
 
     const existingAnchors = this.teleportationSystem.getAnchorsInZone(zone.id);
     if (existingAnchors.length >= zone.anchorLimit) {
-      console.error(`❌ Zone at anchor capacity: ${zone.name} (${zone.anchorLimit})`);
+      this.logger.error('TeleportationSystemManager', `❌ Zone at anchor capacity: ${zone.name} (${zone.anchorLimit})`);
       return null;
     }
 
     // Create the anchor
     const anchor = this.teleportationSystem.createSpatialAnchor(anchorData);
     if (anchor) {
-      console.log(`✅ Created anchor: ${anchor.name} in ${zone.name}`);
+      this.logger.info('TeleportationSystemManager', `✅ Created anchor: ${anchor.name} in ${zone.name}`);
     }
 
     return anchor;
@@ -78,17 +92,17 @@ export class TeleportationManager {
     const destinationAnchor = this.teleportationSystem.getAnchor(destinationAnchorId);
 
     if (!sourceAnchor) {
-      console.error(`❌ Source anchor not found: ${sourceAnchorId}`);
+      this.logger.error('TeleportationSystemManager', `❌ Source anchor not found: ${sourceAnchorId}`);
       return null;
     }
 
     if (!destinationAnchor) {
-      console.error(`❌ Destination anchor not found: ${destinationAnchorId}`);
+      this.logger.error('TeleportationSystemManager', `❌ Destination anchor not found: ${destinationAnchorId}`);
       return null;
     }
 
     if (!sourceAnchor.isActive || !destinationAnchor.isActive) {
-      console.error('❌ One or both anchors are inactive');
+      this.logger.error('TeleportationSystemManager', '❌ One or both anchors are inactive');
       return null;
     }
 
@@ -97,7 +111,7 @@ export class TeleportationManager {
     const maxDistance = (this.teleportationSystem as any).getConfig?.().maxPortalDistance ?? 1000;
 
     if (distance > maxDistance) {
-      console.error(`❌ Distance ${distance.toFixed(1)} exceeds limit ${maxDistance}`);
+      this.logger.error('TeleportationSystemManager', `❌ Distance ${distance.toFixed(1)} exceeds limit ${maxDistance}`);
       return null;
     }
 
@@ -106,7 +120,7 @@ export class TeleportationManager {
     const maxPortals = (this.teleportationSystem as any).getConfig?.().maxPortalsPerAnchor ?? 3;
 
     if (existingPortals.length >= maxPortals) {
-      console.error(`❌ Source anchor at portal limit (${maxPortals})`);
+      this.logger.error('TeleportationSystemManager', `❌ Source anchor at portal limit (${maxPortals})`);
       return null;
     }
 
@@ -119,7 +133,7 @@ export class TeleportationManager {
 
     const portal = this.teleportationSystem.createPortal(portalDataWithAnchors);
     if (portal) {
-      console.log(`✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
+      this.logger.info('TeleportationSystemManager', `✅ Created portal: ${portal.name} (${distance.toFixed(1)} units)`);
     }
 
     return portal;
@@ -144,9 +158,9 @@ export class TeleportationManager {
 
       // Log result
       if (result.success) {
-        console.log(`✅ Teleportation successful: ${request.entityId} → ${request.destinationId}`);
+        this.logger.info('TeleportationSystemManager', `✅ Teleportation successful: ${request.entityId} → ${request.destinationId}`);
       } else {
-        console.warn(`⚠️ Teleportation failed: ${request.entityId} - ${result.failureReason}`);
+        this.logger.warn('TeleportationSystemManager', `⚠️ Teleportation failed: ${request.entityId} - ${result.failureReason}`);
       }
 
       // Apply side effects if any
@@ -157,7 +171,7 @@ export class TeleportationManager {
       return result;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Teleportation error: ${message}`);
+      this.logger.error('TeleportationSystemManager', `❌ Teleportation error: ${message}`);
       return {
         success: false,
         entityId: request.entityId,
@@ -393,24 +407,24 @@ export class TeleportationManager {
    */
   private applySideEffects(entityId: string, sideEffects: TeleportationSideEffect[]): void {
     for (const effect of sideEffects) {
-      console.log(`✨ Applying side effect: ${effect.description}`);
+      this.logger.info('TeleportationSystemManager', `✨ Applying side effect: ${effect.description}`);
 
       // This would integrate with health, status effect, or other systems
       switch (effect.type) {
         case 'buff':
-          console.log(`  💪 ${entityId} gains buff: +${effect.magnitude} for ${effect.duration}s`);
+          this.logger.info('TeleportationSystemManager', `  💪 ${entityId} gains buff: +${effect.magnitude} for ${effect.duration}s`);
           break;
         case 'debuff':
-          console.log(`  😵 ${entityId} gains debuff: -${effect.magnitude} for ${effect.duration}s`);
+          this.logger.info('TeleportationSystemManager', `  😵 ${entityId} gains debuff: -${effect.magnitude} for ${effect.duration}s`);
           break;
         case 'damage':
-          console.log(`  💔 ${entityId} takes ${effect.magnitude} teleportation damage`);
+          this.logger.info('TeleportationSystemManager', `  💔 ${entityId} takes ${effect.magnitude} teleportation damage`);
           break;
         case 'heal':
-          console.log(`  💚 ${entityId} heals ${effect.magnitude} from teleportation`);
+          this.logger.info('TeleportationSystemManager', `  💚 ${entityId} heals ${effect.magnitude} from teleportation`);
           break;
         case 'environmental':
-          console.log(`  🌍 Environmental effect: ${effect.description}`);
+          this.logger.info('TeleportationSystemManager', `  🌍 Environmental effect: ${effect.description}`);
           break;
       }
     }
@@ -428,7 +442,7 @@ export class TeleportationManager {
    */
   updateConfig(newConfig: Partial<TeleportationConfig>): void {
     this.teleportationSystem.updateConfig(newConfig);
-    console.log('Teleportation configuration updated');
+    this.logger.info('TeleportationSystemManager', 'Teleportation configuration updated');
   }
 
   /**
@@ -521,6 +535,25 @@ export class TeleportationManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Teleportation system data imported');
+    this.logger.info('TeleportationSystemManager', 'Teleportation system data imported');
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('TeleportationSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

@@ -248,7 +248,21 @@ export class DrivingSystemPure {
       modelYear: 2025,
       rarity: 'common',
       value: 0
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DrivingSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DrivingSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DrivingSystemManager');
+  };
     this.vehicleDefinitions.set(demoVehicle.id, demoVehicle);
 
     const demoTrack: TrackDefinition = {
@@ -335,27 +349,27 @@ export class DrivingManager {
   createVehicleDefinition(vehicleData: Partial<VehicleDefinition>): VehicleDefinition | null {
     // Validate required fields
     if (!vehicleData.id || vehicleData.id.trim() === '') {
-      console.error('❌ Vehicle ID is required');
+      this.logger.error('DrivingSystemManager', '❌ Vehicle ID is required');
       return null;
     }
 
     if (!vehicleData.name || vehicleData.name.trim() === '') {
-      console.error('❌ Vehicle name is required');
+      this.logger.error('DrivingSystemManager', '❌ Vehicle name is required');
       return null;
     }
 
     if (!vehicleData.type) {
-      console.error('❌ Vehicle type is required');
+      this.logger.error('DrivingSystemManager', '❌ Vehicle type is required');
       return null;
     }
 
     if (!vehicleData.mass || vehicleData.mass <= 0) {
-      console.error('❌ Vehicle mass must be positive');
+      this.logger.error('DrivingSystemManager', '❌ Vehicle mass must be positive');
       return null;
     }
 
     if (!vehicleData.maxSpeed || vehicleData.maxSpeed <= 0) {
-      console.error('❌ Vehicle max speed must be positive');
+      this.logger.error('DrivingSystemManager', '❌ Vehicle max speed must be positive');
       return null;
     }
 
@@ -410,12 +424,12 @@ export class DrivingManager {
   registerVehicle(vehicle: VehicleDefinition): boolean {
     // Validate vehicle
     if (!this.validateVehicleDefinition(vehicle)) {
-      console.error(`❌ Invalid vehicle definition: ${vehicle.id}`);
+      this.logger.error('DrivingSystemManager', `❌ Invalid vehicle definition: ${vehicle.id}`);
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered vehicle: ${vehicle.name} (${vehicle.id})`);
+    this.logger.info('DrivingSystemManager', `✅ Registered vehicle: ${vehicle.name} (${vehicle.id})`);
     return true;
   }
 
@@ -426,7 +440,7 @@ export class DrivingManager {
     try {
       // Check if vehicle is unlocked for this player
       if (!this.isVehicleUnlocked(vehicleId, playerId)) {
-        console.warn(`⚠️ Vehicle not unlocked: ${vehicleId} for player ${playerId}`);
+        this.logger.warn('DrivingSystemManager', `⚠️ Vehicle not unlocked: ${vehicleId} for player ${playerId}`);
         return null;
       }
 
@@ -434,14 +448,14 @@ export class DrivingManager {
       const vehicle = this.drivingSystem.createVehicle(vehicleId, playerId);
 
       if (vehicle) {
-        console.log(`🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
+        this.logger.info('DrivingSystemManager', `🚗 Created vehicle for ${playerId}: ${vehicle.definition.name}`);
         this.updateStats({ vehiclesOwned: this.drivingSystem.getStats().vehiclesOwned + 1 });
       }
 
       return vehicle;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Error creating vehicle ${vehicleId}: ${message}`);
+      this.logger.error('DrivingSystemManager', `❌ Error creating vehicle ${vehicleId}: ${message}`);
       return null;
     }
   }
@@ -502,11 +516,11 @@ export class DrivingManager {
       // Store session (would normally go through main system)
       this.updateStats({ totalSessions: this.drivingSystem.getStats().totalSessions + 1 });
 
-      console.log(`🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
+      this.logger.info('DrivingSystemManager', `🏁 Started driving session: ${track.name} with ${vehicle.definition.name}`);
       return session;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Error starting session: ${message}`);
+      this.logger.error('DrivingSystemManager', `❌ Error starting session: ${message}`);
       return null;
     }
   }
@@ -752,7 +766,7 @@ export class DrivingManager {
    */
   applyPenalty(sessionId: string, penalty: DrivingPenalty): void {
     // This would apply penalty to a driving session
-    console.log(`⚠️ Applied penalty: ${penalty.type} (${penalty.timePenalty}s)`);
+    this.logger.info('DrivingSystemManager', `⚠️ Applied penalty: ${penalty.type} (${penalty.timePenalty}s)`);
   }
 
   /**
@@ -760,7 +774,7 @@ export class DrivingManager {
    */
   updateStats(updates: Partial<DrivingStats>): void {
     // This would update the player's driving statistics
-    console.log('Updated driving statistics');
+    this.logger.info('DrivingSystemManager', 'Updated driving statistics');
   }
 
   /**
@@ -768,27 +782,27 @@ export class DrivingManager {
    */
   private validateVehicleDefinition(vehicle: VehicleDefinition): boolean {
     if (!vehicle.id || vehicle.id.trim() === '') {
-      console.error('Vehicle ID is required');
+      this.logger.error('DrivingSystemManager', 'Vehicle ID is required');
       return false;
     }
 
     if (!vehicle.name || vehicle.name.trim() === '') {
-      console.error('Vehicle name is required');
+      this.logger.error('DrivingSystemManager', 'Vehicle name is required');
       return false;
     }
 
     if (vehicle.mass <= 0) {
-      console.error('Vehicle mass must be positive');
+      this.logger.error('DrivingSystemManager', 'Vehicle mass must be positive');
       return false;
     }
 
     if (vehicle.maxSpeed <= 0) {
-      console.error('Vehicle max speed must be positive');
+      this.logger.error('DrivingSystemManager', 'Vehicle max speed must be positive');
       return false;
     }
 
     if (vehicle.acceleration <= 0) {
-      console.error('Vehicle acceleration must be positive');
+      this.logger.error('DrivingSystemManager', 'Vehicle acceleration must be positive');
       return false;
     }
 
@@ -828,6 +842,25 @@ export class DrivingManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Driving system data imported');
+    this.logger.info('DrivingSystemManager', 'Driving system data imported');
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('DrivingSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

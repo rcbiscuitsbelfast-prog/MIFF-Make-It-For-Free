@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ComputerVisionConfig {
@@ -568,6 +572,8 @@ export class ComputerVisionManager {
   private visions: Map<string, ComputerVision> = new Map();
   private stats: VisionStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ComputerVisionConfig> = {}) {
     this.config = {
@@ -589,7 +595,21 @@ export class ComputerVisionManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ComputerVisionManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ComputerVisionManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ComputerVisionManager');
+  };
   }
 
   /**
@@ -604,10 +624,10 @@ export class ComputerVisionManager {
       await this.loadDefaultComputerVisions();
       
       this.isInitialized = true;
-      console.log('Computer vision manager initialized successfully');
+      this.logger.info('ComputerVisionManager', 'Computer vision manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize computer vision manager:', error);
+      this.logger.error('ComputerVisionManager', 'Failed to initialize computer vision manager:', error);
       return false;
     }
   }
@@ -635,7 +655,7 @@ export class ComputerVisionManager {
     this.visions.set(newVision.id, newVision);
     this.updateStats('create_vision', newVision);
 
-    console.log(`Created computer vision: ${newVision.name}`);
+    this.logger.info('ComputerVisionManager', `Created computer vision: ${newVision.name}`);
     return newVision;
   }
 
@@ -645,12 +665,12 @@ export class ComputerVisionManager {
   createImageData(visionId: string, image: Partial<ImageData>): ImageData | null {
     const vision = this.visions.get(visionId);
     if (!vision) {
-      console.warn(`Computer vision ${visionId} not found`);
+      this.logger.warn('ComputerVisionManager', `Computer vision ${visionId} not found`);
       return null;
     }
 
     if (vision.images.length >= this.config.maxImages) {
-      console.warn('Maximum number of images reached');
+      this.logger.warn('ComputerVisionManager', 'Maximum number of images reached');
       return null;
     }
 
@@ -670,10 +690,10 @@ export class ComputerVisionManager {
       vision.modified = Date.now();
 
       this.updateStats('create_image', vision);
-      console.log(`Created image data: ${newImage.name}`);
+      this.logger.info('ComputerVisionManager', `Created image data: ${newImage.name}`);
       return newImage;
     } catch (error) {
-      console.error(`Failed to create image data in computer vision ${visionId}:`, error);
+      this.logger.error('ComputerVisionManager', `Failed to create image data in computer vision ${visionId}:`, error);
       return null;
     }
   }
@@ -684,12 +704,12 @@ export class ComputerVisionManager {
   createVideoData(visionId: string, video: Partial<VideoData>): VideoData | null {
     const vision = this.visions.get(visionId);
     if (!vision) {
-      console.warn(`Computer vision ${visionId} not found`);
+      this.logger.warn('ComputerVisionManager', `Computer vision ${visionId} not found`);
       return null;
     }
 
     if (vision.videos.length >= this.config.maxVideos) {
-      console.warn('Maximum number of videos reached');
+      this.logger.warn('ComputerVisionManager', 'Maximum number of videos reached');
       return null;
     }
 
@@ -709,10 +729,10 @@ export class ComputerVisionManager {
       vision.modified = Date.now();
 
       this.updateStats('create_video', vision);
-      console.log(`Created video data: ${newVideo.name}`);
+      this.logger.info('ComputerVisionManager', `Created video data: ${newVideo.name}`);
       return newVideo;
     } catch (error) {
-      console.error(`Failed to create video data in computer vision ${visionId}:`, error);
+      this.logger.error('ComputerVisionManager', `Failed to create video data in computer vision ${visionId}:`, error);
       return null;
     }
   }
@@ -750,7 +770,7 @@ export class ComputerVisionManager {
    * Initialize computer vision manager
    */
   private async initializeComputerVisionManager(): Promise<void> {
-    console.log('Initializing computer vision manager...');
+    this.logger.info('ComputerVisionManager', 'Initializing computer vision manager...');
   }
 
   /**
@@ -770,7 +790,7 @@ export class ComputerVisionManager {
       }
     }
 
-    console.log(`Loaded ${defaultVisions.length} default computer visions`);
+    this.logger.info('ComputerVisionManager', `Loaded ${defaultVisions.length} default computer visions`);
   }
 
   /**

@@ -336,6 +336,20 @@ export class DebugOverlayManager {
     InputAnalyzer: class InputAnalyzer { constructor() {} },
     AudioAnalyzer: class AudioAnalyzer { constructor() {} },
     NetworkMonitor: class NetworkMonitor { constructor() {} }
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'DebugOverlayManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `DebugOverlayManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'DebugOverlayManager');
   };
 
   constructor(config: DebugConfig) {
@@ -811,7 +825,7 @@ export class DebugOverlayManager {
     const interval = this.config.autoRefreshInterval || 1000;
     this.autoRefreshTimer = setInterval(() => {
       // Auto-refresh logic would trigger overlay updates
-      console.log(`[DebugOverlay] Auto-refresh tick: ${this.frameCounter}`);
+      this.logger.info('DebugOverlayManager', `[DebugOverlay] Auto-refresh tick: ${this.frameCounter}`);
     }, interval);
   }
 
@@ -1397,27 +1411,27 @@ export class DebugOverlayManager {
 
   private initializeMemoryTracking(): void {
     // Memory tracking initialization would go here
-    console.log('[DebugOverlay] Memory tracking enabled');
+    this.logger.info('DebugOverlayManager', '[DebugOverlay] Memory tracking enabled');
   }
 
   private initializeFrameProfiling(): void {
     // Frame profiling initialization would go here
-    console.log('[DebugOverlay] Frame profiling enabled');
+    this.logger.info('DebugOverlayManager', '[DebugOverlay] Frame profiling enabled');
   }
 
   private initializeInputAnalysis(): void {
     // Input analysis initialization would go here
-    console.log('[DebugOverlay] Input analysis enabled');
+    this.logger.info('DebugOverlayManager', '[DebugOverlay] Input analysis enabled');
   }
 
   private initializeAudioAnalysis(): void {
     // Audio analysis initialization would go here
-    console.log('[DebugOverlay] Audio analysis enabled');
+    this.logger.info('DebugOverlayManager', '[DebugOverlay] Audio analysis enabled');
   }
 
   private initializeNetworkMonitoring(): void {
     // Network monitoring initialization would go here
-    console.log('[DebugOverlay] Network monitoring enabled');
+    this.logger.info('DebugOverlayManager', '[DebugOverlay] Network monitoring enabled');
   }
 
   private loadGoldenTest(testPath: string): any {
@@ -1570,4 +1584,23 @@ export class DebugOverlayManager {
     return lines.join('\n');
   }
 
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('DebugOverlayManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
+  }
 }

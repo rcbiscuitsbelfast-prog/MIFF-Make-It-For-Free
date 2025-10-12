@@ -10,6 +10,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface PlayerStateConfig {
@@ -1294,6 +1298,8 @@ export class PlayerStateManager {
   private syncTimer: NodeJS.Timeout | null = null;
   private validationTimer: NodeJS.Timeout | null = null;
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<PlayerStateConfig> = {}) {
     this.config = {
@@ -1309,7 +1315,21 @@ export class PlayerStateManager {
       enableOptimization: true,
       enableDebugging: false,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'PlayerStateManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `PlayerStateManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'PlayerStateManager');
+  };
   }
 
   /**
@@ -1331,10 +1351,10 @@ export class PlayerStateManager {
       }
       
       this.isInitialized = true;
-      console.log('Player state manager initialized successfully');
+      this.logger.info('PlayerStateManager', 'Player state manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize player state manager:', error);
+      this.logger.error('PlayerStateManager', 'Failed to initialize player state manager:', error);
       return false;
     }
   }
@@ -1366,7 +1386,7 @@ export class PlayerStateManager {
     // Initialize state history
     this.stateHistory.set(state.id, [state]);
 
-    console.log(`Created player state for user ${userId}`);
+    this.logger.info('PlayerStateManager', `Created player state for user ${userId}`);
     return state;
   }
 
@@ -1376,12 +1396,12 @@ export class PlayerStateManager {
   updateState(stateId: string, updates: Partial<PlayerStateData>): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      console.warn(`Player state ${stateId} not found`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} not found`);
       return false;
     }
 
     if (state.isLocked && Date.now() < state.lockExpiry) {
-      console.warn(`Player state ${stateId} is locked`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} is locked`);
       return false;
     }
 
@@ -1398,10 +1418,10 @@ export class PlayerStateManager {
       // Add to history
       this.addToHistory(state);
 
-      console.log(`Updated player state ${stateId}`);
+      this.logger.info('PlayerStateManager', `Updated player state ${stateId}`);
       return true;
     } catch (error) {
-      console.error(`Failed to update player state ${stateId}:`, error);
+      this.logger.error('PlayerStateManager', `Failed to update player state ${stateId}:`, error);
       return false;
     }
   }
@@ -1435,13 +1455,13 @@ export class PlayerStateManager {
   lockState(stateId: string, duration: number = 30000): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      console.warn(`Player state ${stateId} not found`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} not found`);
       return false;
     }
 
     state.isLocked = true;
     state.lockExpiry = Date.now() + duration;
-    console.log(`Locked player state ${stateId} for ${duration}ms`);
+    this.logger.info('PlayerStateManager', `Locked player state ${stateId} for ${duration}ms`);
     return true;
   }
 
@@ -1451,13 +1471,13 @@ export class PlayerStateManager {
   unlockState(stateId: string): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      console.warn(`Player state ${stateId} not found`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} not found`);
       return false;
     }
 
     state.isLocked = false;
     state.lockExpiry = 0;
-    console.log(`Unlocked player state ${stateId}`);
+    this.logger.info('PlayerStateManager', `Unlocked player state ${stateId}`);
     return true;
   }
 
@@ -1467,7 +1487,7 @@ export class PlayerStateManager {
   validateState(stateId: string): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      console.warn(`Player state ${stateId} not found`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} not found`);
       return false;
     }
 
@@ -1476,21 +1496,21 @@ export class PlayerStateManager {
       const isValid = this.validateStateData(state.data);
       
       if (!isValid) {
-        console.warn(`Player state ${stateId} validation failed`);
+        this.logger.warn('PlayerStateManager', `Player state ${stateId} validation failed`);
         return false;
       }
 
       // Validate checksum
       const currentChecksum = this.calculateChecksum(state.data);
       if (currentChecksum !== state.checksum) {
-        console.warn(`Player state ${stateId} checksum mismatch`);
+        this.logger.warn('PlayerStateManager', `Player state ${stateId} checksum mismatch`);
         return false;
       }
 
-      console.log(`Player state ${stateId} validation passed`);
+      this.logger.info('PlayerStateManager', `Player state ${stateId} validation passed`);
       return true;
     } catch (error) {
-      console.error(`Failed to validate player state ${stateId}:`, error);
+      this.logger.error('PlayerStateManager', `Failed to validate player state ${stateId}:`, error);
       return false;
     }
   }
@@ -1501,7 +1521,7 @@ export class PlayerStateManager {
   resolveConflicts(stateId: string, conflictingState: PlayerState): boolean {
     const state = this.states.get(stateId);
     if (!state) {
-      console.warn(`Player state ${stateId} not found`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} not found`);
       return false;
     }
 
@@ -1515,13 +1535,13 @@ export class PlayerStateManager {
         this.mergeStates(state, conflictingState);
       } else {
         // Current state is newer or same, keep current
-        console.log(`Keeping current state for ${stateId}`);
+        this.logger.info('PlayerStateManager', `Keeping current state for ${stateId}`);
       }
 
-      console.log(`Resolved conflicts for player state ${stateId}`);
+      this.logger.info('PlayerStateManager', `Resolved conflicts for player state ${stateId}`);
       return true;
     } catch (error) {
-      console.error(`Failed to resolve conflicts for player state ${stateId}:`, error);
+      this.logger.error('PlayerStateManager', `Failed to resolve conflicts for player state ${stateId}:`, error);
       return false;
     }
   }
@@ -1532,7 +1552,7 @@ export class PlayerStateManager {
   async syncState(stateId: string): Promise<boolean> {
     const state = this.states.get(stateId);
     if (!state) {
-      console.warn(`Player state ${stateId} not found`);
+      this.logger.warn('PlayerStateManager', `Player state ${stateId} not found`);
       return false;
     }
 
@@ -1543,10 +1563,10 @@ export class PlayerStateManager {
       // Mark as synced
       state.isDirty = false;
       
-      console.log(`Synced player state ${stateId}`);
+      this.logger.info('PlayerStateManager', `Synced player state ${stateId}`);
       return true;
     } catch (error) {
-      console.error(`Failed to sync player state ${stateId}:`, error);
+      this.logger.error('PlayerStateManager', `Failed to sync player state ${stateId}:`, error);
       return false;
     }
   }
@@ -1564,7 +1584,7 @@ export class PlayerStateManager {
   revertToPreviousState(stateId: string): boolean {
     const history = this.stateHistory.get(stateId);
     if (!history || history.length < 2) {
-      console.warn(`No previous state found for ${stateId}`);
+      this.logger.warn('PlayerStateManager', `No previous state found for ${stateId}`);
       return false;
     }
 
@@ -1582,10 +1602,10 @@ export class PlayerStateManager {
         currentState.checksum = this.calculateChecksum(currentState.data);
       }
 
-      console.log(`Reverted player state ${stateId} to previous version`);
+      this.logger.info('PlayerStateManager', `Reverted player state ${stateId} to previous version`);
       return true;
     } catch (error) {
-      console.error(`Failed to revert player state ${stateId}:`, error);
+      this.logger.error('PlayerStateManager', `Failed to revert player state ${stateId}:`, error);
       return false;
     }
   }
@@ -1594,7 +1614,7 @@ export class PlayerStateManager {
    * Initialize state manager
    */
   private async initializeStateManager(): Promise<void> {
-    console.log('Initializing player state manager...');
+    this.logger.info('PlayerStateManager', 'Initializing player state manager...');
   }
 
   /**
@@ -1626,7 +1646,7 @@ export class PlayerStateManager {
       try {
         await this.syncState(state.id);
       } catch (error) {
-        console.error(`Failed to sync state ${state.id}:`, error);
+        this.logger.error('PlayerStateManager', `Failed to sync state ${state.id}:`, error);
       }
     }
   }
@@ -1639,7 +1659,7 @@ export class PlayerStateManager {
       try {
         this.validateState(stateId);
       } catch (error) {
-        console.error(`Failed to validate state ${stateId}:`, error);
+        this.logger.error('PlayerStateManager', `Failed to validate state ${stateId}:`, error);
       }
     }
   }
@@ -2031,7 +2051,7 @@ export class PlayerStateManager {
    * Sync to server
    */
   private async syncToServer(state: PlayerState): Promise<void> {
-    console.log(`Syncing state ${state.id} to server...`);
+    this.logger.info('PlayerStateManager', `Syncing state ${state.id} to server...`);
   }
 
   /**

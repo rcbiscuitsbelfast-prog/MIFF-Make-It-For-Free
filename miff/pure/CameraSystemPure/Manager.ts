@@ -37,6 +37,20 @@ export class CameraManager {
 
   constructor(cameraSystem: CameraSystemPure) {
     this.cameraSystem = cameraSystem;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'CameraSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `CameraSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'CameraSystemManager');
   }
 
   /**
@@ -45,22 +59,22 @@ export class CameraManager {
   createCameraDefinition(cameraData: Partial<CameraDefinition>): CameraDefinition | null {
     // Validate required fields
     if (!cameraData.id || cameraData.id.trim() === '') {
-      console.error('❌ Camera ID is required');
+      this.logger.error('CameraSystemManager', '❌ Camera ID is required');
       return null;
     }
 
     if (!cameraData.name || cameraData.name.trim() === '') {
-      console.error('❌ Camera name is required');
+      this.logger.error('CameraSystemManager', '❌ Camera name is required');
       return null;
     }
 
     if (!cameraData.mode) {
-      console.error('❌ Camera mode is required');
+      this.logger.error('CameraSystemManager', '❌ Camera mode is required');
       return null;
     }
 
     if (!cameraData.settings) {
-      console.error('❌ Camera settings are required');
+      this.logger.error('CameraSystemManager', '❌ Camera settings are required');
       return null;
     }
 
@@ -114,12 +128,12 @@ export class CameraManager {
   registerCamera(camera: CameraDefinition): boolean {
     // Validate camera
     if (!this.validateCameraDefinition(camera)) {
-      console.error(`❌ Invalid camera definition: ${camera.id}`);
+      this.logger.error('CameraSystemManager', `❌ Invalid camera definition: ${camera.id}`);
       return false;
     }
 
     // Store in system (this would normally go through the main system)
-    console.log(`✅ Registered camera: ${camera.name} (${camera.id})`);
+    this.logger.info('CameraSystemManager', `✅ Registered camera: ${camera.name} (${camera.id})`);
     return true;
   }
 
@@ -138,12 +152,12 @@ export class CameraManager {
       const camera = this.cameraSystem.createCamera(cameraId, targetEntity);
 
       if (camera) {
-        console.log(`📷 Created camera for ${targetEntity}: ${cameraDef.name}`);
+        this.logger.info('CameraSystemManager', `📷 Created camera for ${targetEntity}: ${cameraDef.name}`);
       }
 
       return camera;
     } catch (error) {
-      console.error(`❌ Error creating camera ${cameraId}:`, error instanceof Error ? error.message : String(error));
+      this.logger.error('CameraSystemManager', `❌ Error creating camera ${cameraId}:`, error instanceof Error ? error.message : String(error));
       return null;
     }
   }
@@ -175,13 +189,13 @@ export class CameraManager {
       const success = this.cameraSystem.switchCameraMode(cameraId, newMode);
 
       if (success) {
-        console.log(`📷 Switched camera ${cameraId} to mode: ${newMode}`);
+        this.logger.info('CameraSystemManager', `📷 Switched camera ${cameraId} to mode: ${newMode}`);
         this.updateStats({ modeSwitches: this.cameraSystem.getStats().modeSwitches + 1 });
       }
 
       return success;
     } catch (error) {
-      console.error(`❌ Error switching camera mode:`, error instanceof Error ? error.message : String(error));
+      this.logger.error('CameraSystemManager', `❌ Error switching camera mode:`, error instanceof Error ? error.message : String(error));
       return false;
     }
   }
@@ -230,7 +244,7 @@ export class CameraManager {
   setMainCamera(cameraId: string): boolean {
     const success = this.cameraSystem.setMainCamera(cameraId);
     if (success) {
-      console.log(`📷 Set main camera: ${cameraId}`);
+      this.logger.info('CameraSystemManager', `📷 Set main camera: ${cameraId}`);
     }
     return success;
   }
@@ -280,10 +294,10 @@ export class CameraManager {
       };
 
       // Store sequence (would normally go through main system)
-      console.log(`🎬 Created cinematic sequence: ${sequence.name}`);
+      this.logger.info('CameraSystemManager', `🎬 Created cinematic sequence: ${sequence.name}`);
       return sequence;
     } catch (error) {
-      console.error(`❌ Error creating cinematic sequence:`, error instanceof Error ? error.message : String(error));
+      this.logger.error('CameraSystemManager', `❌ Error creating cinematic sequence:`, error instanceof Error ? error.message : String(error));
       return null;
     }
   }
@@ -294,10 +308,10 @@ export class CameraManager {
   playCinematicSequence(sequenceId: string): boolean {
     try {
       // This would trigger cinematic playback
-      console.log(`🎬 Playing cinematic sequence: ${sequenceId}`);
+      this.logger.info('CameraSystemManager', `🎬 Playing cinematic sequence: ${sequenceId}`);
       return true;
     } catch (error) {
-      console.error(`❌ Error playing cinematic sequence:`, error instanceof Error ? error.message : String(error));
+      this.logger.error('CameraSystemManager', `❌ Error playing cinematic sequence:`, error instanceof Error ? error.message : String(error));
       return false;
     }
   }
@@ -337,11 +351,11 @@ export class CameraManager {
       };
 
       // Store path (would normally go through main system)
-      console.log(`🛤️ Created camera path: ${path.name}`);
+      this.logger.info('CameraSystemManager', `🛤️ Created camera path: ${path.name}`);
       this.updateStats({ pathsCreated: this.cameraSystem.getStats().pathsCreated + 1 });
       return path;
     } catch (error) {
-      console.error(`❌ Error creating camera path:`, error instanceof Error ? error.message : String(error));
+      this.logger.error('CameraSystemManager', `❌ Error creating camera path:`, error instanceof Error ? error.message : String(error));
       return null;
     }
   }
@@ -372,11 +386,11 @@ export class CameraManager {
 
       // Apply effect
       camera.effects.set(effect.id, effect);
-      console.log(`✨ Applied ${effectType} effect to camera ${cameraId}`);
+      this.logger.info('CameraSystemManager', `✨ Applied ${effectType} effect to camera ${cameraId}`);
       this.updateStats({ effectsApplied: this.cameraSystem.getStats().effectsApplied + 1 });
       return true;
     } catch (error) {
-      console.error(`❌ Error applying camera effect:`, error instanceof Error ? error.message : String(error));
+      this.logger.error('CameraSystemManager', `❌ Error applying camera effect:`, error instanceof Error ? error.message : String(error));
       return false;
     }
   }
@@ -520,7 +534,7 @@ export class CameraManager {
    */
   updateStats(updates: Partial<CameraStats>): void {
     // This would update the camera statistics
-    console.log('Updated camera statistics');
+    this.logger.info('CameraSystemManager', 'Updated camera statistics');
   }
 
   /**
@@ -528,22 +542,22 @@ export class CameraManager {
    */
   private validateCameraDefinition(camera: CameraDefinition): boolean {
     if (!camera.id || camera.id.trim() === '') {
-      console.error('Camera ID is required');
+      this.logger.error('CameraSystemManager', 'Camera ID is required');
       return false;
     }
 
     if (!camera.name || camera.name.trim() === '') {
-      console.error('Camera name is required');
+      this.logger.error('CameraSystemManager', 'Camera name is required');
       return false;
     }
 
     if (!camera.mode) {
-      console.error('Camera mode is required');
+      this.logger.error('CameraSystemManager', 'Camera mode is required');
       return false;
     }
 
     if (!camera.settings) {
-      console.error('Camera settings are required');
+      this.logger.error('CameraSystemManager', 'Camera settings are required');
       return false;
     }
 
@@ -596,6 +610,25 @@ export class CameraManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Camera system data imported');
+    this.logger.info('CameraSystemManager', 'Camera system data imported');
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('CameraSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

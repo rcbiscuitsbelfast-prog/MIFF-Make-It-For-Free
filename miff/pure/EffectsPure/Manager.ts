@@ -10,6 +10,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface EffectConfig {
@@ -187,11 +191,27 @@ export class EffectsManager {
   private interactions: Map<string, EffectInteraction> = new Map();
   private stats: EffectStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor() {
     this.initializeDefaultEffects();
     this.initializeDefaultInteractions();
     this.isInitialized = true;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EffectsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EffectsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EffectsManager');
   }
 
   /**
@@ -670,7 +690,7 @@ export class EffectsManager {
   applyEffect(effectId: string, targetId: string, casterId: string, stacks: number = 1): boolean {
     const config = this.configs.get(effectId);
     if (!config) {
-      console.warn(`Effect ${effectId} not found`);
+      this.logger.warn('EffectsManager', `Effect ${effectId} not found`);
       return false;
     }
 
@@ -690,7 +710,7 @@ export class EffectsManager {
     // Update stats
     this.updateStats('apply', instance);
 
-    console.log(`Applied effect ${effectId} to target ${targetId}`);
+    this.logger.info('EffectsManager', `Applied effect ${effectId} to target ${targetId}`);
     return true;
   }
 
@@ -700,7 +720,7 @@ export class EffectsManager {
   removeEffect(instanceId: string): boolean {
     const instance = this.instances.get(instanceId);
     if (!instance) {
-      console.warn(`Effect instance ${instanceId} not found`);
+      this.logger.warn('EffectsManager', `Effect instance ${instanceId} not found`);
       return false;
     }
 
@@ -710,7 +730,7 @@ export class EffectsManager {
     // Update stats
     this.updateStats('remove', instance);
 
-    console.log(`Removed effect ${instance.config.id} from target ${instance.targetId}`);
+    this.logger.info('EffectsManager', `Removed effect ${instance.config.id} from target ${instance.targetId}`);
     return true;
   }
 
@@ -735,7 +755,7 @@ export class EffectsManager {
       }
     }
 
-    console.log(`Removed ${removedCount} effects from target ${targetId}`);
+    this.logger.info('EffectsManager', `Removed ${removedCount} effects from target ${targetId}`);
     return removedCount;
   }
 
@@ -971,7 +991,7 @@ export class EffectsManager {
    */
   private handleDamageOverTime(instance: EffectInstance): void {
     const damage = 5 * instance.stacks; // Base damage per stack
-    console.log(`DOT: ${damage} damage to target ${instance.targetId}`);
+    this.logger.info('EffectsManager', `DOT: ${damage} damage to target ${instance.targetId}`);
     // In a real implementation, this would apply damage to the target
   }
 
@@ -980,7 +1000,7 @@ export class EffectsManager {
    */
   private handleHealOverTime(instance: EffectInstance): void {
     const healing = 3 * instance.stacks; // Base healing per stack
-    console.log(`HOT: ${healing} healing to target ${instance.targetId}`);
+    this.logger.info('EffectsManager', `HOT: ${healing} healing to target ${instance.targetId}`);
     // In a real implementation, this would apply healing to the target
   }
 
@@ -1134,12 +1154,12 @@ export class EffectsManager {
    */
   addEffectConfig(config: EffectConfig): boolean {
     if (this.configs.has(config.id)) {
-      console.warn(`Effect config ${config.id} already exists`);
+      this.logger.warn('EffectsManager', `Effect config ${config.id} already exists`);
       return false;
     }
 
     this.configs.set(config.id, config);
-    console.log(`Added effect config ${config.id}`);
+    this.logger.info('EffectsManager', `Added effect config ${config.id}`);
     return true;
   }
 
@@ -1148,7 +1168,7 @@ export class EffectsManager {
    */
   removeEffectConfig(effectId: string): boolean {
     if (!this.configs.has(effectId)) {
-      console.warn(`Effect config ${effectId} not found`);
+      this.logger.warn('EffectsManager', `Effect config ${effectId} not found`);
       return false;
     }
 
@@ -1165,7 +1185,7 @@ export class EffectsManager {
     }
 
     this.configs.delete(effectId);
-    console.log(`Removed effect config ${effectId}`);
+    this.logger.info('EffectsManager', `Removed effect config ${effectId}`);
     return true;
   }
 

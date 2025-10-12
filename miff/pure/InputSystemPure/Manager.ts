@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface InputSystemConfig {
@@ -429,6 +433,8 @@ export class InputSystemManager {
   private inputSystems: Map<string, InputSystem> = new Map();
   private stats: InputSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<InputSystemConfig> = {}) {
     this.config = {
@@ -451,7 +457,21 @@ export class InputSystemManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'InputSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `InputSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'InputSystemManager');
+  };
   }
 
   /**
@@ -466,10 +486,10 @@ export class InputSystemManager {
       await this.loadDefaultInputSystems();
       
       this.isInitialized = true;
-      console.log('Input system manager initialized successfully');
+      this.logger.info('InputSystemManager', 'Input system manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize input system manager:', error);
+      this.logger.error('InputSystemManager', 'Failed to initialize input system manager:', error);
       return false;
     }
   }
@@ -499,7 +519,7 @@ export class InputSystemManager {
     this.inputSystems.set(newInputSystem.id, newInputSystem);
     this.updateStats('create_input_system', newInputSystem);
 
-    console.log(`Created input system: ${newInputSystem.name}`);
+    this.logger.info('InputSystemManager', `Created input system: ${newInputSystem.name}`);
     return newInputSystem;
   }
 
@@ -509,12 +529,12 @@ export class InputSystemManager {
   addDevice(inputSystemId: string, device: InputDevice): boolean {
     const inputSystem = this.inputSystems.get(inputSystemId);
     if (!inputSystem) {
-      console.warn(`Input system ${inputSystemId} not found`);
+      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
       return false;
     }
 
     if (inputSystem.devices.length >= this.config.maxInputDevices) {
-      console.warn('Maximum number of input devices reached');
+      this.logger.warn('InputSystemManager', 'Maximum number of input devices reached');
       return false;
     }
 
@@ -523,10 +543,10 @@ export class InputSystemManager {
       inputSystem.modified = Date.now();
 
       this.updateStats('add_device', inputSystem);
-      console.log(`Added input device: ${device.name}`);
+      this.logger.info('InputSystemManager', `Added input device: ${device.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add device to input system ${inputSystemId}:`, error);
+      this.logger.error('InputSystemManager', `Failed to add device to input system ${inputSystemId}:`, error);
       return false;
     }
   }
@@ -537,12 +557,12 @@ export class InputSystemManager {
   addMapping(inputSystemId: string, mapping: InputMapping): boolean {
     const inputSystem = this.inputSystems.get(inputSystemId);
     if (!inputSystem) {
-      console.warn(`Input system ${inputSystemId} not found`);
+      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
       return false;
     }
 
     if (inputSystem.mappings.length >= this.config.maxInputMappings) {
-      console.warn('Maximum number of input mappings reached');
+      this.logger.warn('InputSystemManager', 'Maximum number of input mappings reached');
       return false;
     }
 
@@ -551,10 +571,10 @@ export class InputSystemManager {
       inputSystem.modified = Date.now();
 
       this.updateStats('add_mapping', inputSystem);
-      console.log(`Added input mapping: ${mapping.name}`);
+      this.logger.info('InputSystemManager', `Added input mapping: ${mapping.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add mapping to input system ${inputSystemId}:`, error);
+      this.logger.error('InputSystemManager', `Failed to add mapping to input system ${inputSystemId}:`, error);
       return false;
     }
   }
@@ -565,7 +585,7 @@ export class InputSystemManager {
   addGesture(inputSystemId: string, gesture: InputGesture): boolean {
     const inputSystem = this.inputSystems.get(inputSystemId);
     if (!inputSystem) {
-      console.warn(`Input system ${inputSystemId} not found`);
+      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
       return false;
     }
 
@@ -574,10 +594,10 @@ export class InputSystemManager {
       inputSystem.modified = Date.now();
 
       this.updateStats('add_gesture', inputSystem);
-      console.log(`Added input gesture: ${gesture.name}`);
+      this.logger.info('InputSystemManager', `Added input gesture: ${gesture.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to add gesture to input system ${inputSystemId}:`, error);
+      this.logger.error('InputSystemManager', `Failed to add gesture to input system ${inputSystemId}:`, error);
       return false;
     }
   }
@@ -588,7 +608,7 @@ export class InputSystemManager {
   processInputEvent(inputSystemId: string, event: InputEvent): boolean {
     const inputSystem = this.inputSystems.get(inputSystemId);
     if (!inputSystem) {
-      console.warn(`Input system ${inputSystemId} not found`);
+      this.logger.warn('InputSystemManager', `Input system ${inputSystemId} not found`);
       return false;
     }
 
@@ -612,10 +632,10 @@ export class InputSystemManager {
       inputSystem.modified = Date.now();
       this.updateStats('process_input_event', inputSystem);
       
-      console.log(`Processed input event: ${event.type}`);
+      this.logger.info('InputSystemManager', `Processed input event: ${event.type}`);
       return true;
     } catch (error) {
-      console.error(`Failed to process input event in system ${inputSystemId}:`, error);
+      this.logger.error('InputSystemManager', `Failed to process input event in system ${inputSystemId}:`, error);
       return false;
     }
   }
@@ -653,7 +673,7 @@ export class InputSystemManager {
    * Initialize input system manager
    */
   private async initializeInputSystemManager(): Promise<void> {
-    console.log('Initializing input system manager...');
+    this.logger.info('InputSystemManager', 'Initializing input system manager...');
   }
 
   /**
@@ -673,7 +693,7 @@ export class InputSystemManager {
       }
     }
 
-    console.log(`Loaded ${defaultSystems.length} default input systems`);
+    this.logger.info('InputSystemManager', `Loaded ${defaultSystems.length} default input systems`);
   }
 
   /**
@@ -871,7 +891,7 @@ export class InputSystemManager {
    */
   private executeMappingAction(mapping: InputMapping, event: InputEvent): void {
     // This would execute the mapping action
-    console.log(`Executing mapping action: ${mapping.target.action}`);
+    this.logger.info('InputSystemManager', `Executing mapping action: ${mapping.target.action}`);
   }
 
   /**
@@ -902,7 +922,7 @@ export class InputSystemManager {
    */
   private executeGestureAction(gesture: InputGesture, event: InputEvent): void {
     // This would execute the gesture action
-    console.log(`Executing gesture action: ${gesture.action.type}`);
+    this.logger.info('InputSystemManager', `Executing gesture action: ${gesture.action.type}`);
   }
 
   /**

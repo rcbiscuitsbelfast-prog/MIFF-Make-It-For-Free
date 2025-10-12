@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { EventBus } from '../EventBusPure/EventBusPure';
@@ -88,7 +92,21 @@ export class XPManager {
       levelCap: 100,
       debugMode: false,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ProgressionManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ProgressionManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ProgressionManager');
+  };
 
     this.initializeDefaultLevelUpEffects();
   }
@@ -127,7 +145,7 @@ export class XPManager {
     spirit.experience = (spirit.experience || 0) + actualAmount;
 
     if (this.config.debugMode) {
-      console.log(`XP Added: ${actualAmount} to ${spirit.instanceId} (Total: ${spirit.experience})`);
+      this.logger.info('ProgressionManager', `XP Added: ${actualAmount} to ${spirit.instanceId} (Total: ${spirit.experience})`);
     }
 
     this.eventBus.publish('xp:gained', {
@@ -187,7 +205,7 @@ export class XPManager {
     }
 
     if (this.config.debugMode) {
-      console.log(`Level Up: ${spirit.instanceId} leveled up to ${spirit.level}`);
+      this.logger.info('ProgressionManager', `Level Up: ${spirit.instanceId} leveled up to ${spirit.level}`);
     }
 
     this.eventBus.publish('progression:level_up', {
@@ -298,7 +316,7 @@ export class XPManager {
     spirit.experience = Math.max(0, amount);
 
     if (this.config.debugMode) {
-      console.log(`XP Set: ${amount} for ${spirit.instanceId}`);
+      this.logger.info('ProgressionManager', `XP Set: ${amount} for ${spirit.instanceId}`);
     }
   }
 
@@ -339,6 +357,25 @@ export class XPManager {
     } catch (error) {
       return false;
     }
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('ProgressionManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

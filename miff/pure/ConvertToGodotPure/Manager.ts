@@ -100,7 +100,21 @@ export class ConvertToGodotManager {
       features: ['web'],
       customSettings: {},
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ConvertToGodotManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ConvertToGodotManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ConvertToGodotManager');
+  };
 
     this.project = this.initializeProject();
   }
@@ -624,12 +638,12 @@ void fragment():
 
   public updateConfig(config: Partial<GodotExportConfig>): void {
     this.config = { ...this.config, ...config };
-    console.log('Godot export configuration updated');
+    this.logger.info('ConvertToGodotManager', 'Godot export configuration updated');
   }
 
   public exportProject(outputPath: string): { success: boolean; path: string; size: number } {
     // In a real implementation, this would export the Godot project
-    console.log(`Exporting Godot project to: ${outputPath}`);
+    this.logger.info('ConvertToGodotManager', `Exporting Godot project to: ${outputPath}`);
 
     // Simulate export process
     const projectPath = `${outputPath}/${this.config.projectName}`;
@@ -640,6 +654,25 @@ void fragment():
       path: projectPath,
       size: exportSize
     };
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('ConvertToGodotManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

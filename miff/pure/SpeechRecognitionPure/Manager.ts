@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface SpeechRecognitionConfig {
@@ -461,6 +465,8 @@ export class SpeechRecognitionManager {
   private recognitions: Map<string, SpeechRecognition> = new Map();
   private stats: SpeechStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<SpeechRecognitionConfig> = {}) {
     this.config = {
@@ -482,7 +488,21 @@ export class SpeechRecognitionManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'SpeechRecognitionManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `SpeechRecognitionManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'SpeechRecognitionManager');
+  };
   }
 
   /**
@@ -497,10 +517,10 @@ export class SpeechRecognitionManager {
       await this.loadDefaultSpeechRecognitions();
       
       this.isInitialized = true;
-      console.log('Speech recognition manager initialized successfully');
+      this.logger.info('SpeechRecognitionManager', 'Speech recognition manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize speech recognition manager:', error);
+      this.logger.error('SpeechRecognitionManager', 'Failed to initialize speech recognition manager:', error);
       return false;
     }
   }
@@ -528,7 +548,7 @@ export class SpeechRecognitionManager {
     this.recognitions.set(newRecognition.id, newRecognition);
     this.updateStats('create_recognition', newRecognition);
 
-    console.log(`Created speech recognition: ${newRecognition.name}`);
+    this.logger.info('SpeechRecognitionManager', `Created speech recognition: ${newRecognition.name}`);
     return newRecognition;
   }
 
@@ -538,12 +558,12 @@ export class SpeechRecognitionManager {
   createAudioData(recognitionId: string, audio: Partial<AudioData>): AudioData | null {
     const recognition = this.recognitions.get(recognitionId);
     if (!recognition) {
-      console.warn(`Speech recognition ${recognitionId} not found`);
+      this.logger.warn('SpeechRecognitionManager', `Speech recognition ${recognitionId} not found`);
       return null;
     }
 
     if (recognition.audios.length >= this.config.maxAudios) {
-      console.warn('Maximum number of audios reached');
+      this.logger.warn('SpeechRecognitionManager', 'Maximum number of audios reached');
       return null;
     }
 
@@ -564,10 +584,10 @@ export class SpeechRecognitionManager {
       recognition.modified = Date.now();
 
       this.updateStats('create_audio', recognition);
-      console.log(`Created audio data: ${newAudio.name}`);
+      this.logger.info('SpeechRecognitionManager', `Created audio data: ${newAudio.name}`);
       return newAudio;
     } catch (error) {
-      console.error(`Failed to create audio data in speech recognition ${recognitionId}:`, error);
+      this.logger.error('SpeechRecognitionManager', `Failed to create audio data in speech recognition ${recognitionId}:`, error);
       return null;
     }
   }
@@ -578,12 +598,12 @@ export class SpeechRecognitionManager {
   createSpeechModel(recognitionId: string, model: Partial<SpeechModel>): SpeechModel | null {
     const recognition = this.recognitions.get(recognitionId);
     if (!recognition) {
-      console.warn(`Speech recognition ${recognitionId} not found`);
+      this.logger.warn('SpeechRecognitionManager', `Speech recognition ${recognitionId} not found`);
       return null;
     }
 
     if (recognition.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('SpeechRecognitionManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -604,10 +624,10 @@ export class SpeechRecognitionManager {
       recognition.modified = Date.now();
 
       this.updateStats('create_model', recognition);
-      console.log(`Created speech model: ${newModel.name}`);
+      this.logger.info('SpeechRecognitionManager', `Created speech model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create speech model in speech recognition ${recognitionId}:`, error);
+      this.logger.error('SpeechRecognitionManager', `Failed to create speech model in speech recognition ${recognitionId}:`, error);
       return null;
     }
   }
@@ -645,7 +665,7 @@ export class SpeechRecognitionManager {
    * Initialize speech recognition manager
    */
   private async initializeSpeechRecognitionManager(): Promise<void> {
-    console.log('Initializing speech recognition manager...');
+    this.logger.info('SpeechRecognitionManager', 'Initializing speech recognition manager...');
   }
 
   /**
@@ -665,7 +685,7 @@ export class SpeechRecognitionManager {
       }
     }
 
-    console.log(`Loaded ${defaultRecognitions.length} default speech recognitions`);
+    this.logger.info('SpeechRecognitionManager', `Loaded ${defaultRecognitions.length} default speech recognitions`);
   }
 
   /**

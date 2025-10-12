@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { EventBus } from '../EventBusPure/index.js';
@@ -377,6 +381,20 @@ export class TycoonManagerPure {
     riskTolerance: 'medium',
     performanceMode: 'high',
     debugMode: false
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'TycoonSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `TycoonSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'TycoonSystemManager');
   }) {
     this.eventBus = eventBus;
     this.config = config;
@@ -825,7 +843,7 @@ export class TycoonManagerPure {
       });
 
     } catch (error) {
-      console.error('TycoonManager initialization failed:', error);
+      this.logger.error('TycoonSystemManager', 'TycoonManager initialization failed:', error);
       throw new Error(`TycoonManager initialization failed: ${error}`);
     }
   }
@@ -1102,6 +1120,25 @@ export class TycoonManagerPure {
     this.analyticsData = [];
     this.decisionHistory = [];
     this.tycoonSystem.setPaused(true);
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('TycoonSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

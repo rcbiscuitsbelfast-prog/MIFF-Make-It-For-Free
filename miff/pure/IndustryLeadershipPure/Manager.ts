@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface IndustryLeadershipConfig {
@@ -516,6 +520,8 @@ export class IndustryLeadershipManager {
   private leaderships: Map<string, IndustryLeadership> = new Map();
   private stats: LeadershipStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<IndustryLeadershipConfig> = {}) {
     this.config = {
@@ -537,7 +543,21 @@ export class IndustryLeadershipManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'IndustryLeadershipManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `IndustryLeadershipManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'IndustryLeadershipManager');
+  };
   }
 
   /**
@@ -552,10 +572,10 @@ export class IndustryLeadershipManager {
       await this.loadDefaultIndustryLeaderships();
       
       this.isInitialized = true;
-      console.log('Industry leadership manager initialized successfully');
+      this.logger.info('IndustryLeadershipManager', 'Industry leadership manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize industry leadership manager:', error);
+      this.logger.error('IndustryLeadershipManager', 'Failed to initialize industry leadership manager:', error);
       return false;
     }
   }
@@ -584,7 +604,7 @@ export class IndustryLeadershipManager {
     this.leaderships.set(newLeadership.id, newLeadership);
     this.updateStats('create_leadership', newLeadership);
 
-    console.log(`Created industry leadership: ${newLeadership.name}`);
+    this.logger.info('IndustryLeadershipManager', `Created industry leadership: ${newLeadership.name}`);
     return newLeadership;
   }
 
@@ -594,12 +614,12 @@ export class IndustryLeadershipManager {
   createStrategy(leadershipId: string, strategy: Partial<Strategy>): Strategy | null {
     const leadership = this.leaderships.get(leadershipId);
     if (!leadership) {
-      console.warn(`Industry leadership ${leadershipId} not found`);
+      this.logger.warn('IndustryLeadershipManager', `Industry leadership ${leadershipId} not found`);
       return null;
     }
 
     if (leadership.strategies.length >= this.config.maxStrategies) {
-      console.warn('Maximum number of strategies reached');
+      this.logger.warn('IndustryLeadershipManager', 'Maximum number of strategies reached');
       return null;
     }
 
@@ -622,10 +642,10 @@ export class IndustryLeadershipManager {
       leadership.modified = Date.now();
 
       this.updateStats('create_strategy', leadership);
-      console.log(`Created strategy: ${newStrategy.name}`);
+      this.logger.info('IndustryLeadershipManager', `Created strategy: ${newStrategy.name}`);
       return newStrategy;
     } catch (error) {
-      console.error(`Failed to create strategy in industry leadership ${leadershipId}:`, error);
+      this.logger.error('IndustryLeadershipManager', `Failed to create strategy in industry leadership ${leadershipId}:`, error);
       return null;
     }
   }
@@ -636,12 +656,12 @@ export class IndustryLeadershipManager {
   createPartnership(leadershipId: string, partnership: Partial<Partnership>): Partnership | null {
     const leadership = this.leaderships.get(leadershipId);
     if (!leadership) {
-      console.warn(`Industry leadership ${leadershipId} not found`);
+      this.logger.warn('IndustryLeadershipManager', `Industry leadership ${leadershipId} not found`);
       return null;
     }
 
     if (leadership.partnerships.length >= this.config.maxPartnerships) {
-      console.warn('Maximum number of partnerships reached');
+      this.logger.warn('IndustryLeadershipManager', 'Maximum number of partnerships reached');
       return null;
     }
 
@@ -662,10 +682,10 @@ export class IndustryLeadershipManager {
       leadership.modified = Date.now();
 
       this.updateStats('create_partnership', leadership);
-      console.log(`Created partnership: ${newPartnership.name}`);
+      this.logger.info('IndustryLeadershipManager', `Created partnership: ${newPartnership.name}`);
       return newPartnership;
     } catch (error) {
-      console.error(`Failed to create partnership in industry leadership ${leadershipId}:`, error);
+      this.logger.error('IndustryLeadershipManager', `Failed to create partnership in industry leadership ${leadershipId}:`, error);
       return null;
     }
   }
@@ -703,7 +723,7 @@ export class IndustryLeadershipManager {
    * Initialize industry leadership manager
    */
   private async initializeIndustryLeadershipManager(): Promise<void> {
-    console.log('Initializing industry leadership manager...');
+    this.logger.info('IndustryLeadershipManager', 'Initializing industry leadership manager...');
   }
 
   /**
@@ -723,7 +743,7 @@ export class IndustryLeadershipManager {
       }
     }
 
-    console.log(`Loaded ${defaultLeaderships.length} default industry leaderships`);
+    this.logger.info('IndustryLeadershipManager', `Loaded ${defaultLeaderships.length} default industry leaderships`);
   }
 
   /**

@@ -21,6 +21,20 @@ export class MagicManager {
 
   constructor(magicSystem: MagicSystemPure) {
     this.magicSystem = magicSystem;
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'MagicSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `MagicSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'MagicSystemManager');
   }
 
   /**
@@ -58,7 +72,7 @@ export class MagicManager {
   registerSpell(spell: SpellDefinition): boolean {
     // Validate spell
     if (!this.validateSpellDefinition(spell)) {
-      console.error(`Invalid spell definition: ${spell.id}`);
+      this.logger.error('MagicSystemManager', `Invalid spell definition: ${spell.id}`);
       return false;
     }
 
@@ -75,15 +89,15 @@ export class MagicManager {
 
       // Log successful casts
       if (result.success) {
-        console.log(`✅ Spell cast: ${spellId} by ${casterId}`);
+        this.logger.info('MagicSystemManager', `✅ Spell cast: ${spellId} by ${casterId}`);
       } else {
-        console.warn(`⚠️ Spell cast failed: ${spellId} - ${result.failureReason}`);
+        this.logger.warn('MagicSystemManager', `⚠️ Spell cast failed: ${spellId} - ${result.failureReason}`);
       }
 
       return result;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Spell cast error: ${spellId} - ${message}`);
+      this.logger.error('MagicSystemManager', `❌ Spell cast error: ${spellId} - ${message}`);
       return {
         spellInstance: {} as SpellInstance,
         targets: [],
@@ -142,15 +156,15 @@ export class MagicManager {
     try {
       const success = this.magicSystem.unlockSpell(casterId, spellId);
       if (success) {
-        console.log(`📚 Learned spell: ${spellId} for ${casterId}`);
+        this.logger.info('MagicSystemManager', `📚 Learned spell: ${spellId} for ${casterId}`);
         return true;
       } else {
-        console.warn(`⚠️ Failed to learn spell: ${spellId} for ${casterId}`);
+        this.logger.warn('MagicSystemManager', `⚠️ Failed to learn spell: ${spellId} for ${casterId}`);
         return false;
       }
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`❌ Error learning spell ${spellId}: ${message}`);
+      this.logger.error('MagicSystemManager', `❌ Error learning spell ${spellId}: ${message}`);
       return false;
     }
   }
@@ -275,7 +289,7 @@ export class MagicManager {
     const success = this.learnSpell(casterId, upgradeSpellId);
 
     if (success) {
-      console.log(`⬆️ Upgraded ${spellId} to ${upgradeSpellId} for ${casterId}`);
+      this.logger.info('MagicSystemManager', `⬆️ Upgraded ${spellId} to ${upgradeSpellId} for ${casterId}`);
     }
 
     return success;
@@ -315,27 +329,27 @@ export class MagicManager {
    */
   private validateSpellDefinition(spell: SpellDefinition): boolean {
     if (!spell.id || spell.id.trim() === '') {
-      console.error('Spell ID is required');
+      this.logger.error('MagicSystemManager', 'Spell ID is required');
       return false;
     }
 
     if (!spell.name || spell.name.trim() === '') {
-      console.error('Spell name is required');
+      this.logger.error('MagicSystemManager', 'Spell name is required');
       return false;
     }
 
     if (spell.manaCost < 0) {
-      console.error('Mana cost cannot be negative');
+      this.logger.error('MagicSystemManager', 'Mana cost cannot be negative');
       return false;
     }
 
     if (spell.cooldown < 0) {
-      console.error('Cooldown cannot be negative');
+      this.logger.error('MagicSystemManager', 'Cooldown cannot be negative');
       return false;
     }
 
     if (spell.effects.length === 0) {
-      console.error('Spell must have at least one effect');
+      this.logger.error('MagicSystemManager', 'Spell must have at least one effect');
       return false;
     }
 
@@ -411,6 +425,25 @@ export class MagicManager {
    */
   importData(data: ReturnType<typeof this.exportData>): void {
     // Import logic would go here
-    console.log('Magic system data imported');
+    this.logger.info('MagicSystemManager', 'Magic system data imported');
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('MagicSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

@@ -95,6 +95,20 @@ export class TimeManager {
     updateInterval: 1000,
     enablePersistence: false,
     debugMode: false
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'TimeSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `TimeSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'TimeSystemManager');
   }) {
     this.config = config;
     this.updateInterval = config.updateInterval || 1000;
@@ -401,7 +415,7 @@ export class TimeManager {
           try {
             timer.callback();
           } catch (error) {
-            console.error(`Error in timer callback ${timer.id}:`, error);
+            this.logger.error('TimeSystemManager', `Error in timer callback ${timer.id}:`, error);
           }
         }
         
@@ -437,7 +451,7 @@ export class TimeManager {
         try {
           scheduled.callback();
         } catch (error) {
-          console.error(`Error in scheduled event callback ${scheduled.id}:`, error);
+          this.logger.error('TimeSystemManager', `Error in scheduled event callback ${scheduled.id}:`, error);
         }
       }
       
@@ -676,5 +690,24 @@ export class TimeManager {
 
   private round(n: number): number { 
     return Math.round(n * 100) / 100; 
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('TimeSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }

@@ -10,6 +10,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface RenderWorldConfig {
@@ -186,6 +190,8 @@ export class RenderWorldManager {
   private gl: WebGL2RenderingContext | null = null;
   private gpu: GPUDevice | null = null;
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
   private isRunning: boolean = false;
   private lastFrameTime: number = 0;
   private frameCount: number = 0;
@@ -237,7 +243,21 @@ export class RenderWorldManager {
       enableInstancing: true,
       enableBatching: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'RenderWorldManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `RenderWorldManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'RenderWorldManager');
+  };
   }
 
   /**
@@ -252,7 +272,7 @@ export class RenderWorldManager {
         const adapter = await (navigator as any).gpu.requestAdapter();
         if (adapter) {
           this.gpu = await adapter.requestDevice();
-          console.log('WebGPU initialized successfully');
+          this.logger.info('RenderWorldManager', 'WebGPU initialized successfully');
         }
       }
 
@@ -262,7 +282,7 @@ export class RenderWorldManager {
         if (!this.gl) {
           throw new Error('WebGL2 not supported');
         }
-        console.log('WebGL2 initialized successfully');
+        this.logger.info('RenderWorldManager', 'WebGL2 initialized successfully');
       }
 
       // Set up canvas
@@ -272,10 +292,10 @@ export class RenderWorldManager {
       await this.initializeDefaultResources();
       
       this.isInitialized = true;
-      console.log('RenderWorld initialized successfully');
+      this.logger.info('RenderWorldManager', 'RenderWorld initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize RenderWorld:', error);
+      this.logger.error('RenderWorldManager', 'Failed to initialize RenderWorld:', error);
       return false;
     }
   }
@@ -295,7 +315,7 @@ export class RenderWorldManager {
     this.fpsTime = 0;
     
     this.renderLoop();
-    console.log('RenderWorld started');
+    this.logger.info('RenderWorldManager', 'RenderWorld started');
   }
 
   /**
@@ -303,7 +323,7 @@ export class RenderWorldManager {
    */
   stop(): void {
     this.isRunning = false;
-    console.log('RenderWorld stopped');
+    this.logger.info('RenderWorldManager', 'RenderWorld stopped');
   }
 
   /**

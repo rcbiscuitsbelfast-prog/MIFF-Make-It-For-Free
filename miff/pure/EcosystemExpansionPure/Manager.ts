@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface EcosystemExpansionConfig {
@@ -730,6 +734,8 @@ export class EcosystemExpansionManager {
   private expansions: Map<string, EcosystemExpansion> = new Map();
   private stats: EcosystemStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<EcosystemExpansionConfig> = {}) {
     this.config = {
@@ -751,7 +757,21 @@ export class EcosystemExpansionManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EcosystemExpansionManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EcosystemExpansionManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EcosystemExpansionManager');
+  };
   }
 
   /**
@@ -766,10 +786,10 @@ export class EcosystemExpansionManager {
       await this.loadDefaultEcosystemExpansions();
       
       this.isInitialized = true;
-      console.log('Ecosystem expansion manager initialized successfully');
+      this.logger.info('EcosystemExpansionManager', 'Ecosystem expansion manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize ecosystem expansion manager:', error);
+      this.logger.error('EcosystemExpansionManager', 'Failed to initialize ecosystem expansion manager:', error);
       return false;
     }
   }
@@ -800,7 +820,7 @@ export class EcosystemExpansionManager {
     this.expansions.set(newExpansion.id, newExpansion);
     this.updateStats('create_expansion', newExpansion);
 
-    console.log(`Created ecosystem expansion: ${newExpansion.name}`);
+    this.logger.info('EcosystemExpansionManager', `Created ecosystem expansion: ${newExpansion.name}`);
     return newExpansion;
   }
 
@@ -810,7 +830,7 @@ export class EcosystemExpansionManager {
   createMarket(expansionId: string, market: Partial<Market>): Market | null {
     const expansion = this.expansions.get(expansionId);
     if (!expansion) {
-      console.warn(`Ecosystem expansion ${expansionId} not found`);
+      this.logger.warn('EcosystemExpansionManager', `Ecosystem expansion ${expansionId} not found`);
       return null;
     }
 
@@ -832,10 +852,10 @@ export class EcosystemExpansionManager {
       expansion.modified = Date.now();
 
       this.updateStats('create_market', expansion);
-      console.log(`Created market: ${newMarket.name}`);
+      this.logger.info('EcosystemExpansionManager', `Created market: ${newMarket.name}`);
       return newMarket;
     } catch (error) {
-      console.error(`Failed to create market in ecosystem expansion ${expansionId}:`, error);
+      this.logger.error('EcosystemExpansionManager', `Failed to create market in ecosystem expansion ${expansionId}:`, error);
       return null;
     }
   }
@@ -846,12 +866,12 @@ export class EcosystemExpansionManager {
   createPartnership(expansionId: string, partnership: Partial<EcosystemPartnership>): EcosystemPartnership | null {
     const expansion = this.expansions.get(expansionId);
     if (!expansion) {
-      console.warn(`Ecosystem expansion ${expansionId} not found`);
+      this.logger.warn('EcosystemExpansionManager', `Ecosystem expansion ${expansionId} not found`);
       return null;
     }
 
     if (expansion.partnerships.length >= this.config.maxPartnerships) {
-      console.warn('Maximum number of partnerships reached');
+      this.logger.warn('EcosystemExpansionManager', 'Maximum number of partnerships reached');
       return null;
     }
 
@@ -872,10 +892,10 @@ export class EcosystemExpansionManager {
       expansion.modified = Date.now();
 
       this.updateStats('create_partnership', expansion);
-      console.log(`Created partnership: ${newPartnership.name}`);
+      this.logger.info('EcosystemExpansionManager', `Created partnership: ${newPartnership.name}`);
       return newPartnership;
     } catch (error) {
-      console.error(`Failed to create partnership in ecosystem expansion ${expansionId}:`, error);
+      this.logger.error('EcosystemExpansionManager', `Failed to create partnership in ecosystem expansion ${expansionId}:`, error);
       return null;
     }
   }
@@ -913,7 +933,7 @@ export class EcosystemExpansionManager {
    * Initialize ecosystem expansion manager
    */
   private async initializeEcosystemExpansionManager(): Promise<void> {
-    console.log('Initializing ecosystem expansion manager...');
+    this.logger.info('EcosystemExpansionManager', 'Initializing ecosystem expansion manager...');
   }
 
   /**
@@ -933,7 +953,7 @@ export class EcosystemExpansionManager {
       }
     }
 
-    console.log(`Loaded ${defaultExpansions.length} default ecosystem expansions`);
+    this.logger.info('EcosystemExpansionManager', `Loaded ${defaultExpansions.length} default ecosystem expansions`);
   }
 
   /**

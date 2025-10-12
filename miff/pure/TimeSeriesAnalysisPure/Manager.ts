@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface TimeSeriesAnalysisConfig {
@@ -449,6 +453,8 @@ export class TimeSeriesAnalysisManager {
   private analyses: Map<string, TimeSeriesAnalysis> = new Map();
   private stats: TimeSeriesStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<TimeSeriesAnalysisConfig> = {}) {
     this.config = {
@@ -471,7 +477,21 @@ export class TimeSeriesAnalysisManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'TimeSeriesAnalysisManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `TimeSeriesAnalysisManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'TimeSeriesAnalysisManager');
+  };
   }
 
   /**
@@ -486,10 +506,10 @@ export class TimeSeriesAnalysisManager {
       await this.loadDefaultTimeSeriesAnalyses();
       
       this.isInitialized = true;
-      console.log('Time series analysis manager initialized successfully');
+      this.logger.info('TimeSeriesAnalysisManager', 'Time series analysis manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize time series analysis manager:', error);
+      this.logger.error('TimeSeriesAnalysisManager', 'Failed to initialize time series analysis manager:', error);
       return false;
     }
   }
@@ -517,7 +537,7 @@ export class TimeSeriesAnalysisManager {
     this.analyses.set(newAnalysis.id, newAnalysis);
     this.updateStats('create_analysis', newAnalysis);
 
-    console.log(`Created time series analysis: ${newAnalysis.name}`);
+    this.logger.info('TimeSeriesAnalysisManager', `Created time series analysis: ${newAnalysis.name}`);
     return newAnalysis;
   }
 
@@ -527,12 +547,12 @@ export class TimeSeriesAnalysisManager {
   createTimeSeries(analysisId: string, timeSeries: Partial<TimeSeries>): TimeSeries | null {
     const analysis = this.analyses.get(analysisId);
     if (!analysis) {
-      console.warn(`Time series analysis ${analysisId} not found`);
+      this.logger.warn('TimeSeriesAnalysisManager', `Time series analysis ${analysisId} not found`);
       return null;
     }
 
     if (analysis.timeSeries.length >= this.config.maxTimeSeries) {
-      console.warn('Maximum number of time series reached');
+      this.logger.warn('TimeSeriesAnalysisManager', 'Maximum number of time series reached');
       return null;
     }
 
@@ -552,10 +572,10 @@ export class TimeSeriesAnalysisManager {
       analysis.modified = Date.now();
 
       this.updateStats('create_timeseries', analysis);
-      console.log(`Created time series: ${newTimeSeries.name}`);
+      this.logger.info('TimeSeriesAnalysisManager', `Created time series: ${newTimeSeries.name}`);
       return newTimeSeries;
     } catch (error) {
-      console.error(`Failed to create time series in analysis ${analysisId}:`, error);
+      this.logger.error('TimeSeriesAnalysisManager', `Failed to create time series in analysis ${analysisId}:`, error);
       return null;
     }
   }
@@ -566,12 +586,12 @@ export class TimeSeriesAnalysisManager {
   createTimeSeriesModel(analysisId: string, model: Partial<TimeSeriesModel>): TimeSeriesModel | null {
     const analysis = this.analyses.get(analysisId);
     if (!analysis) {
-      console.warn(`Time series analysis ${analysisId} not found`);
+      this.logger.warn('TimeSeriesAnalysisManager', `Time series analysis ${analysisId} not found`);
       return null;
     }
 
     if (analysis.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('TimeSeriesAnalysisManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -591,10 +611,10 @@ export class TimeSeriesAnalysisManager {
       analysis.modified = Date.now();
 
       this.updateStats('create_model', analysis);
-      console.log(`Created time series model: ${newModel.name}`);
+      this.logger.info('TimeSeriesAnalysisManager', `Created time series model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create time series model in analysis ${analysisId}:`, error);
+      this.logger.error('TimeSeriesAnalysisManager', `Failed to create time series model in analysis ${analysisId}:`, error);
       return null;
     }
   }
@@ -632,7 +652,7 @@ export class TimeSeriesAnalysisManager {
    * Initialize time series analysis manager
    */
   private async initializeTimeSeriesAnalysisManager(): Promise<void> {
-    console.log('Initializing time series analysis manager...');
+    this.logger.info('TimeSeriesAnalysisManager', 'Initializing time series analysis manager...');
   }
 
   /**
@@ -652,7 +672,7 @@ export class TimeSeriesAnalysisManager {
       }
     }
 
-    console.log(`Loaded ${defaultAnalyses.length} default time series analyses`);
+    this.logger.info('TimeSeriesAnalysisManager', `Loaded ${defaultAnalyses.length} default time series analyses`);
   }
 
   /**

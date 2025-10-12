@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface ARVRConfig {
@@ -786,6 +790,8 @@ export class ARVRManager {
   private arvrs: Map<string, ARVR> = new Map();
   private stats: ARVRStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<ARVRConfig> = {}) {
     this.config = {
@@ -807,7 +813,21 @@ export class ARVRManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'ARVRManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `ARVRManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ARVRManager');
+  };
   }
 
   /**
@@ -822,10 +842,10 @@ export class ARVRManager {
       await this.loadDefaultARVRs();
       
       this.isInitialized = true;
-      console.log('AR/VR manager initialized successfully');
+      this.logger.info('ARVRManager', 'AR/VR manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize AR/VR manager:', error);
+      this.logger.error('ARVRManager', 'Failed to initialize AR/VR manager:', error);
       return false;
     }
   }
@@ -853,7 +873,7 @@ export class ARVRManager {
     this.arvrs.set(newARVR.id, newARVR);
     this.updateStats('create_arvr', newARVR);
 
-    console.log(`Created AR/VR: ${newARVR.name}`);
+    this.logger.info('ARVRManager', `Created AR/VR: ${newARVR.name}`);
     return newARVR;
   }
 
@@ -863,12 +883,12 @@ export class ARVRManager {
   createARVREnvironment(arvrId: string, environment: Partial<ARVREnvironment>): ARVREnvironment | null {
     const arvr = this.arvrs.get(arvrId);
     if (!arvr) {
-      console.warn(`AR/VR ${arvrId} not found`);
+      this.logger.warn('ARVRManager', `AR/VR ${arvrId} not found`);
       return null;
     }
 
     if (arvr.environments.length >= this.config.maxEnvironments) {
-      console.warn('Maximum number of environments reached');
+      this.logger.warn('ARVRManager', 'Maximum number of environments reached');
       return null;
     }
 
@@ -890,10 +910,10 @@ export class ARVRManager {
       arvr.modified = Date.now();
 
       this.updateStats('create_environment', arvr);
-      console.log(`Created AR/VR environment: ${newEnvironment.name}`);
+      this.logger.info('ARVRManager', `Created AR/VR environment: ${newEnvironment.name}`);
       return newEnvironment;
     } catch (error) {
-      console.error(`Failed to create AR/VR environment in AR/VR ${arvrId}:`, error);
+      this.logger.error('ARVRManager', `Failed to create AR/VR environment in AR/VR ${arvrId}:`, error);
       return null;
     }
   }
@@ -904,12 +924,12 @@ export class ARVRManager {
   createARVRSession(arvrId: string, session: Partial<ARVRSession>): ARVRSession | null {
     const arvr = this.arvrs.get(arvrId);
     if (!arvr) {
-      console.warn(`AR/VR ${arvrId} not found`);
+      this.logger.warn('ARVRManager', `AR/VR ${arvrId} not found`);
       return null;
     }
 
     if (arvr.sessions.length >= this.config.maxSessions) {
-      console.warn('Maximum number of sessions reached');
+      this.logger.warn('ARVRManager', 'Maximum number of sessions reached');
       return null;
     }
 
@@ -932,10 +952,10 @@ export class ARVRManager {
       arvr.modified = Date.now();
 
       this.updateStats('create_session', arvr);
-      console.log(`Created AR/VR session: ${newSession.id}`);
+      this.logger.info('ARVRManager', `Created AR/VR session: ${newSession.id}`);
       return newSession;
     } catch (error) {
-      console.error(`Failed to create AR/VR session in AR/VR ${arvrId}:`, error);
+      this.logger.error('ARVRManager', `Failed to create AR/VR session in AR/VR ${arvrId}:`, error);
       return null;
     }
   }
@@ -973,7 +993,7 @@ export class ARVRManager {
    * Initialize AR/VR manager
    */
   private async initializeARVRManager(): Promise<void> {
-    console.log('Initializing AR/VR manager...');
+    this.logger.info('ARVRManager', 'Initializing AR/VR manager...');
   }
 
   /**
@@ -993,7 +1013,7 @@ export class ARVRManager {
       }
     }
 
-    console.log(`Loaded ${defaultARVRs.length} default AR/VRs`);
+    this.logger.info('ARVRManager', `Loaded ${defaultARVRs.length} default AR/VRs`);
   }
 
   /**

@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface NLPConfig {
@@ -388,6 +392,8 @@ export class NaturalLanguageProcessingManager {
   private nlps: Map<string, NLP> = new Map();
   private stats: NLPStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<NLPConfig> = {}) {
     this.config = {
@@ -409,7 +415,21 @@ export class NaturalLanguageProcessingManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'NaturalLanguageProcessingManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `NaturalLanguageProcessingManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'NaturalLanguageProcessingManager');
+  };
   }
 
   /**
@@ -424,10 +444,10 @@ export class NaturalLanguageProcessingManager {
       await this.loadDefaultNLPs();
       
       this.isInitialized = true;
-      console.log('NLP manager initialized successfully');
+      this.logger.info('NaturalLanguageProcessingManager', 'NLP manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize NLP manager:', error);
+      this.logger.error('NaturalLanguageProcessingManager', 'Failed to initialize NLP manager:', error);
       return false;
     }
   }
@@ -455,7 +475,7 @@ export class NaturalLanguageProcessingManager {
     this.nlps.set(newNLP.id, newNLP);
     this.updateStats('create_nlp', newNLP);
 
-    console.log(`Created NLP: ${newNLP.name}`);
+    this.logger.info('NaturalLanguageProcessingManager', `Created NLP: ${newNLP.name}`);
     return newNLP;
   }
 
@@ -465,12 +485,12 @@ export class NaturalLanguageProcessingManager {
   createTextData(nlpId: string, text: Partial<TextData>): TextData | null {
     const nlp = this.nlps.get(nlpId);
     if (!nlp) {
-      console.warn(`NLP ${nlpId} not found`);
+      this.logger.warn('NaturalLanguageProcessingManager', `NLP ${nlpId} not found`);
       return null;
     }
 
     if (nlp.texts.length >= this.config.maxTexts) {
-      console.warn('Maximum number of texts reached');
+      this.logger.warn('NaturalLanguageProcessingManager', 'Maximum number of texts reached');
       return null;
     }
 
@@ -491,10 +511,10 @@ export class NaturalLanguageProcessingManager {
       nlp.modified = Date.now();
 
       this.updateStats('create_text', nlp);
-      console.log(`Created text data: ${newText.name}`);
+      this.logger.info('NaturalLanguageProcessingManager', `Created text data: ${newText.name}`);
       return newText;
     } catch (error) {
-      console.error(`Failed to create text data in NLP ${nlpId}:`, error);
+      this.logger.error('NaturalLanguageProcessingManager', `Failed to create text data in NLP ${nlpId}:`, error);
       return null;
     }
   }
@@ -505,12 +525,12 @@ export class NaturalLanguageProcessingManager {
   createNLPModel(nlpId: string, model: Partial<NLPModel>): NLPModel | null {
     const nlp = this.nlps.get(nlpId);
     if (!nlp) {
-      console.warn(`NLP ${nlpId} not found`);
+      this.logger.warn('NaturalLanguageProcessingManager', `NLP ${nlpId} not found`);
       return null;
     }
 
     if (nlp.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('NaturalLanguageProcessingManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -531,10 +551,10 @@ export class NaturalLanguageProcessingManager {
       nlp.modified = Date.now();
 
       this.updateStats('create_model', nlp);
-      console.log(`Created NLP model: ${newModel.name}`);
+      this.logger.info('NaturalLanguageProcessingManager', `Created NLP model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create NLP model in NLP ${nlpId}:`, error);
+      this.logger.error('NaturalLanguageProcessingManager', `Failed to create NLP model in NLP ${nlpId}:`, error);
       return null;
     }
   }
@@ -572,7 +592,7 @@ export class NaturalLanguageProcessingManager {
    * Initialize NLP manager
    */
   private async initializeNLPManager(): Promise<void> {
-    console.log('Initializing NLP manager...');
+    this.logger.info('NaturalLanguageProcessingManager', 'Initializing NLP manager...');
   }
 
   /**
@@ -592,7 +612,7 @@ export class NaturalLanguageProcessingManager {
       }
     }
 
-    console.log(`Loaded ${defaultNLPs.length} default NLPs`);
+    this.logger.info('NaturalLanguageProcessingManager', `Loaded ${defaultNLPs.length} default NLPs`);
   }
 
   /**

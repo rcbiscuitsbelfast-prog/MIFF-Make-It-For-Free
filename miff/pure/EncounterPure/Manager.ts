@@ -10,6 +10,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 // Enums
@@ -107,6 +111,8 @@ export class EncounterManager {
   private areas: Map<string, EncounterArea> = new Map();
   private encounterHistory: string[] = [];
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<EncounterConfig> = {}) {
     this.config = {
@@ -115,7 +121,21 @@ export class EncounterManager {
       enableRareEncounters: true,
       debugMode: false,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'EncounterManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `EncounterManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'EncounterManager');
+  };
   }
 
   /**
@@ -124,13 +144,13 @@ export class EncounterManager {
   initialize(): void {
     if (this.isInitialized) return;
 
-    console.log('[EncounterManager] Initializing encounter system...');
+    this.logger.info('EncounterManager', '[EncounterManager] Initializing encounter system...');
     
     // Initialize default areas
     this.initializeDefaultAreas();
     
     this.isInitialized = true;
-    console.log('[EncounterManager] Encounter system initialized successfully');
+    this.logger.info('EncounterManager', '[EncounterManager] Encounter system initialized successfully');
   }
 
   private initializeDefaultAreas(): void {
@@ -195,12 +215,12 @@ export class EncounterManager {
    */
   addArea(area: EncounterArea): boolean {
     if (!area.id || !area.name) {
-      console.error('[EncounterManager] Invalid area: missing required fields');
+      this.logger.error('EncounterManager', '[EncounterManager] Invalid area: missing required fields');
       return false;
     }
 
     this.areas.set(area.id, area);
-    console.log(`[EncounterManager] Added area: ${area.name}`);
+    this.logger.info('EncounterManager', `[EncounterManager] Added area: ${area.name}`);
     return true;
   }
 
@@ -224,7 +244,7 @@ export class EncounterManager {
   triggerEncounter(areaId: string, playerLevel: number = 1): Encounter | null {
     const area = this.areas.get(areaId);
     if (!area) {
-      console.warn(`[EncounterManager] Area not found: ${areaId}`);
+      this.logger.warn('EncounterManager', `[EncounterManager] Area not found: ${areaId}`);
       return null;
     }
 
@@ -298,7 +318,7 @@ export class EncounterManager {
     this.areas.clear();
     this.encounterHistory = [];
     this.isInitialized = false;
-    console.log('[EncounterManager] Encounter system reset');
+    this.logger.info('EncounterManager', '[EncounterManager] Encounter system reset');
   }
 
   /**
@@ -306,7 +326,7 @@ export class EncounterManager {
    */
   dispose(): void {
     this.reset();
-    console.log('[EncounterManager] Encounter system disposed');
+    this.logger.info('EncounterManager', '[EncounterManager] Encounter system disposed');
   }
 }
 
@@ -391,12 +411,12 @@ export class EncounterTable {
 
   addEntry(entry: EncounterTableEntry): boolean {
     if (!entry.spiritId || entry.spiritId.trim() === '') {
-      console.warn('Invalid entry: Spirit ID cannot be empty');
+      this.logger.warn('EncounterManager', 'Invalid entry: Spirit ID cannot be empty');
       return false;
     }
 
     if (entry.weight < 0) {
-      console.warn('Invalid entry: Weight cannot be negative');
+      this.logger.warn('EncounterManager', 'Invalid entry: Weight cannot be negative');
       return false;
     }
 
@@ -722,6 +742,25 @@ export class EncounterUtils {
    */
   static createDefaultPlayerState(): PlayerState {
     return new PlayerState();
+  }
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('EncounterManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

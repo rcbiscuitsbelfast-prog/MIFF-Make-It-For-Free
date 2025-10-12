@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { EventBus } from '../EventBusPure/index.js';
@@ -203,6 +207,20 @@ export class BattleResult implements IBattleResult {
     this.damage = damage;
     this.effects = [...effects];
     this.metadata = { ...metadata };
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'LogManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `LogManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'LogManager');
   }
 
   static createSuccess(message: string, damage?: number, effects: string[] = []): BattleResult {
@@ -565,13 +583,13 @@ export class LogManager {
         console.info(logMessage, entry.metadata);
         break;
       case LogLevel.WARN:
-        console.warn(logMessage, entry.metadata);
+        this.logger.warn('LogManager', logMessage, entry.metadata);
         break;
       case LogLevel.ERROR:
       case LogLevel.CRITICAL:
-        console.error(logMessage, entry.metadata);
+        this.logger.error('LogManager', logMessage, entry.metadata);
         if (entry.stackTrace) {
-          console.error(entry.stackTrace);
+          this.logger.error('LogManager', entry.stackTrace);
         }
         break;
     }

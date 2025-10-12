@@ -137,7 +137,7 @@ export class TypeEffectiveness {
   }
 
   exportChart(): Record<string, Record<string, number>> {
-    return JSON.parse(JSON.stringify(this.chart));
+    return PerformanceOptimizer.optimizeObjectCloning(this.chart, true).result;
   }
 
   getAttackTypes(): string[] {

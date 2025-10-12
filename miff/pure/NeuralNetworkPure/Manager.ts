@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface NeuralNetworkConfig {
@@ -535,6 +539,8 @@ export class NeuralNetworkManager {
   private networks: Map<string, NeuralNetwork> = new Map();
   private stats: NetworkStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<NeuralNetworkConfig> = {}) {
     this.config = {
@@ -556,7 +562,21 @@ export class NeuralNetworkManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'NeuralNetworkManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `NeuralNetworkManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'NeuralNetworkManager');
+  };
   }
 
   /**
@@ -571,10 +591,10 @@ export class NeuralNetworkManager {
       await this.loadDefaultNeuralNetworks();
       
       this.isInitialized = true;
-      console.log('Neural network manager initialized successfully');
+      this.logger.info('NeuralNetworkManager', 'Neural network manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize neural network manager:', error);
+      this.logger.error('NeuralNetworkManager', 'Failed to initialize neural network manager:', error);
       return false;
     }
   }
@@ -602,7 +622,7 @@ export class NeuralNetworkManager {
     this.networks.set(newNetwork.id, newNetwork);
     this.updateStats('create_network', newNetwork);
 
-    console.log(`Created neural network: ${newNetwork.name}`);
+    this.logger.info('NeuralNetworkManager', `Created neural network: ${newNetwork.name}`);
     return newNetwork;
   }
 
@@ -612,12 +632,12 @@ export class NeuralNetworkManager {
   createModel(networkId: string, model: Partial<Model>): Model | null {
     const network = this.networks.get(networkId);
     if (!network) {
-      console.warn(`Neural network ${networkId} not found`);
+      this.logger.warn('NeuralNetworkManager', `Neural network ${networkId} not found`);
       return null;
     }
 
     if (network.models.length >= this.config.maxModels) {
-      console.warn('Maximum number of models reached');
+      this.logger.warn('NeuralNetworkManager', 'Maximum number of models reached');
       return null;
     }
 
@@ -638,10 +658,10 @@ export class NeuralNetworkManager {
       network.modified = Date.now();
 
       this.updateStats('create_model', network);
-      console.log(`Created model: ${newModel.name}`);
+      this.logger.info('NeuralNetworkManager', `Created model: ${newModel.name}`);
       return newModel;
     } catch (error) {
-      console.error(`Failed to create model in neural network ${networkId}:`, error);
+      this.logger.error('NeuralNetworkManager', `Failed to create model in neural network ${networkId}:`, error);
       return null;
     }
   }
@@ -652,12 +672,12 @@ export class NeuralNetworkManager {
   createDataset(networkId: string, dataset: Partial<Dataset>): Dataset | null {
     const network = this.networks.get(networkId);
     if (!network) {
-      console.warn(`Neural network ${networkId} not found`);
+      this.logger.warn('NeuralNetworkManager', `Neural network ${networkId} not found`);
       return null;
     }
 
     if (network.datasets.length >= this.config.maxDatasets) {
-      console.warn('Maximum number of datasets reached');
+      this.logger.warn('NeuralNetworkManager', 'Maximum number of datasets reached');
       return null;
     }
 
@@ -677,10 +697,10 @@ export class NeuralNetworkManager {
       network.modified = Date.now();
 
       this.updateStats('create_dataset', network);
-      console.log(`Created dataset: ${newDataset.name}`);
+      this.logger.info('NeuralNetworkManager', `Created dataset: ${newDataset.name}`);
       return newDataset;
     } catch (error) {
-      console.error(`Failed to create dataset in neural network ${networkId}:`, error);
+      this.logger.error('NeuralNetworkManager', `Failed to create dataset in neural network ${networkId}:`, error);
       return null;
     }
   }
@@ -718,7 +738,7 @@ export class NeuralNetworkManager {
    * Initialize neural network manager
    */
   private async initializeNeuralNetworkManager(): Promise<void> {
-    console.log('Initializing neural network manager...');
+    this.logger.info('NeuralNetworkManager', 'Initializing neural network manager...');
   }
 
   /**
@@ -738,7 +758,7 @@ export class NeuralNetworkManager {
       }
     }
 
-    console.log(`Loaded ${defaultNetworks.length} default neural networks`);
+    this.logger.info('NeuralNetworkManager', `Loaded ${defaultNetworks.length} default neural networks`);
   }
 
   /**

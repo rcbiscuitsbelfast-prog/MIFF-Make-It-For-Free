@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface StatusEffectsConfig {
@@ -321,6 +325,8 @@ export class StatusEffectsManager {
   private effects: Map<string, StatusEffects> = new Map();
   private stats: EffectsStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<StatusEffectsConfig> = {}) {
     this.config = {
@@ -344,7 +350,21 @@ export class StatusEffectsManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'StatusEffectsManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `StatusEffectsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'StatusEffectsManager');
+  };
   }
 
   /**
@@ -359,10 +379,10 @@ export class StatusEffectsManager {
       await this.loadDefaultStatusEffects();
       
       this.isInitialized = true;
-      console.log('Status effects manager initialized successfully');
+      this.logger.info('StatusEffectsManager', 'Status effects manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize status effects manager:', error);
+      this.logger.error('StatusEffectsManager', 'Failed to initialize status effects manager:', error);
       return false;
     }
   }
@@ -389,7 +409,7 @@ export class StatusEffectsManager {
     this.effects.set(newEffects.id, newEffects);
     this.updateStats('create_effects', newEffects);
 
-    console.log(`Created status effects: ${newEffects.name}`);
+    this.logger.info('StatusEffectsManager', `Created status effects: ${newEffects.name}`);
     return newEffects;
   }
 
@@ -399,12 +419,12 @@ export class StatusEffectsManager {
   createEffect(effectsId: string, effect: Partial<Effect>): Effect | null {
     const statusEffects = this.effects.get(effectsId);
     if (!statusEffects) {
-      console.warn(`Status effects ${effectsId} not found`);
+      this.logger.warn('StatusEffectsManager', `Status effects ${effectsId} not found`);
       return null;
     }
 
     if (statusEffects.effects.length >= this.config.maxEffects) {
-      console.warn('Maximum number of effects reached');
+      this.logger.warn('StatusEffectsManager', 'Maximum number of effects reached');
       return null;
     }
 
@@ -426,10 +446,10 @@ export class StatusEffectsManager {
       statusEffects.modified = Date.now();
 
       this.updateStats('create_effect', statusEffects);
-      console.log(`Created effect: ${newEffect.name}`);
+      this.logger.info('StatusEffectsManager', `Created effect: ${newEffect.name}`);
       return newEffect;
     } catch (error) {
-      console.error(`Failed to create effect in status effects ${effectsId}:`, error);
+      this.logger.error('StatusEffectsManager', `Failed to create effect in status effects ${effectsId}:`, error);
       return null;
     }
   }
@@ -440,12 +460,12 @@ export class StatusEffectsManager {
   createEffectStack(effectsId: string, stack: Partial<EffectStack>): EffectStack | null {
     const statusEffects = this.effects.get(effectsId);
     if (!statusEffects) {
-      console.warn(`Status effects ${effectsId} not found`);
+      this.logger.warn('StatusEffectsManager', `Status effects ${effectsId} not found`);
       return null;
     }
 
     if (statusEffects.stacks.length >= this.config.maxStacks) {
-      console.warn('Maximum number of stacks reached');
+      this.logger.warn('StatusEffectsManager', 'Maximum number of stacks reached');
       return null;
     }
 
@@ -463,10 +483,10 @@ export class StatusEffectsManager {
       statusEffects.modified = Date.now();
 
       this.updateStats('create_stack', statusEffects);
-      console.log(`Created effect stack: ${newStack.id}`);
+      this.logger.info('StatusEffectsManager', `Created effect stack: ${newStack.id}`);
       return newStack;
     } catch (error) {
-      console.error(`Failed to create effect stack in status effects ${effectsId}:`, error);
+      this.logger.error('StatusEffectsManager', `Failed to create effect stack in status effects ${effectsId}:`, error);
       return null;
     }
   }
@@ -504,7 +524,7 @@ export class StatusEffectsManager {
    * Initialize status effects manager
    */
   private async initializeStatusEffectsManager(): Promise<void> {
-    console.log('Initializing status effects manager...');
+    this.logger.info('StatusEffectsManager', 'Initializing status effects manager...');
   }
 
   /**
@@ -524,7 +544,7 @@ export class StatusEffectsManager {
       }
     }
 
-    console.log(`Loaded ${defaultEffects.length} default status effects`);
+    this.logger.info('StatusEffectsManager', `Loaded ${defaultEffects.length} default status effects`);
   }
 
   /**

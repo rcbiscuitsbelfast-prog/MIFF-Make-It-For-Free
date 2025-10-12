@@ -63,7 +63,7 @@ export class ProjectileManager {
     this.timeStep = world.timeStep ?? 1/60;
     
     for (const p of world.projectiles) {
-      this.projectiles.set(p.id, JSON.parse(JSON.stringify(p)));
+      this.projectiles.set(p.id, PerformanceOptimizer.optimizeObjectCloning(p, true).result);
     }
   }
 
@@ -105,7 +105,7 @@ export class ProjectileManager {
       ...projectile
     };
     
-    this.projectiles.set(projectile.id, JSON.parse(JSON.stringify(fullProjectile)));
+    this.projectiles.set(projectile.id, PerformanceOptimizer.optimizeObjectCloning(fullProjectile, true).result);
     return { op: 'create', status: 'ok', projectile: fullProjectile };
   }
 
@@ -179,7 +179,7 @@ export class ProjectileManager {
       projectile.velocity = this.roundVec(projectile.velocity);
       projectile.ttl = this.round(projectile.ttl);
       
-      updated.push(JSON.parse(JSON.stringify(projectile)));
+      updated.push(PerformanceOptimizer.optimizeObjectCloning(projectile, true).result);
     }
     
     // Remove expired and out-of-bounds projectiles
@@ -192,7 +192,7 @@ export class ProjectileManager {
 
   dump(id: string): DumpOutput {
     const projectile = this.projectiles.get(id);
-    return { op: 'dump', projectile: projectile ? JSON.parse(JSON.stringify(projectile)) : undefined };
+    return { op: 'dump', projectile: projectile ? PerformanceOptimizer.optimizeObjectCloning(projectile, true).result : undefined };
   }
 
   analytics(): AnalyticsOutput {

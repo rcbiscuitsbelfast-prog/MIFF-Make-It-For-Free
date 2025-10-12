@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface AvatarRendererConfig {
@@ -807,6 +811,8 @@ export class AvatarRendererManager {
   private avatars: Map<string, Avatar> = new Map();
   private stats: AvatarRendererStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<AvatarRendererConfig> = {}) {
     this.config = {
@@ -829,7 +835,21 @@ export class AvatarRendererManager {
       enableFrustumCulling: true,
       enableOcclusionCulling: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'AvatarRendererGodotManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `AvatarRendererGodotManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'AvatarRendererGodotManager');
+  };
   }
 
   /**
@@ -841,10 +861,10 @@ export class AvatarRendererManager {
       await this.initializeAvatarRenderer();
       
       this.isInitialized = true;
-      console.log('Avatar renderer initialized successfully');
+      this.logger.info('AvatarRendererGodotManager', 'Avatar renderer initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize avatar renderer:', error);
+      this.logger.error('AvatarRendererGodotManager', 'Failed to initialize avatar renderer:', error);
       return false;
     }
   }
@@ -854,7 +874,7 @@ export class AvatarRendererManager {
    */
   createAvatar(avatar: Partial<Avatar>): Avatar | null {
     if (this.avatars.size >= this.config.maxAvatars) {
-      console.warn('Maximum number of avatars reached');
+      this.logger.warn('AvatarRendererGodotManager', 'Maximum number of avatars reached');
       return null;
     }
 
@@ -880,7 +900,7 @@ export class AvatarRendererManager {
     // Load avatar
     this.loadAvatar(newAvatar.id);
 
-    console.log(`Created avatar: ${newAvatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Created avatar: ${newAvatar.name}`);
     return newAvatar;
   }
 
@@ -890,7 +910,7 @@ export class AvatarRendererManager {
   private async loadAvatar(avatarId: string): Promise<void> {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return;
     }
 
@@ -912,9 +932,9 @@ export class AvatarRendererManager {
       avatar.status = AvatarStatus.READY;
       this.updateStats('load_avatar', avatar);
       
-      console.log(`Loaded avatar: ${avatar.name}`);
+      this.logger.info('AvatarRendererGodotManager', `Loaded avatar: ${avatar.name}`);
     } catch (error) {
-      console.error(`Failed to load avatar ${avatarId}:`, error);
+      this.logger.error('AvatarRendererGodotManager', `Failed to load avatar ${avatarId}:`, error);
       avatar.status = AvatarStatus.ERROR;
     }
   }
@@ -925,12 +945,12 @@ export class AvatarRendererManager {
   renderAvatar(avatarId: string): boolean {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return false;
     }
 
     if (avatar.status !== AvatarStatus.READY) {
-      console.warn(`Avatar ${avatarId} is not ready for rendering`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} is not ready for rendering`);
       return false;
     }
 
@@ -947,7 +967,7 @@ export class AvatarRendererManager {
       
       return true;
     } catch (error) {
-      console.error(`Failed to render avatar ${avatarId}:`, error);
+      this.logger.error('AvatarRendererGodotManager', `Failed to render avatar ${avatarId}:`, error);
       return false;
     }
   }
@@ -958,14 +978,14 @@ export class AvatarRendererManager {
   hideAvatar(avatarId: string): boolean {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return false;
     }
 
     avatar.status = AvatarStatus.HIDDEN;
     this.updateStats('hide_avatar', avatar);
     
-    console.log(`Hidden avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Hidden avatar: ${avatar.name}`);
     return true;
   }
 
@@ -975,7 +995,7 @@ export class AvatarRendererManager {
   showAvatar(avatarId: string): boolean {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return false;
     }
 
@@ -983,7 +1003,7 @@ export class AvatarRendererManager {
       avatar.status = AvatarStatus.READY;
       this.updateStats('show_avatar', avatar);
       
-      console.log(`Shown avatar: ${avatar.name}`);
+      this.logger.info('AvatarRendererGodotManager', `Shown avatar: ${avatar.name}`);
       return true;
     }
 
@@ -996,7 +1016,7 @@ export class AvatarRendererManager {
   updateAppearance(avatarId: string, appearance: Partial<AvatarAppearance>): boolean {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return false;
     }
 
@@ -1007,10 +1027,10 @@ export class AvatarRendererManager {
       // Update rendering
       this.updateAvatarRendering(avatar);
       
-      console.log(`Updated appearance for avatar: ${avatar.name}`);
+      this.logger.info('AvatarRendererGodotManager', `Updated appearance for avatar: ${avatar.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to update appearance for avatar ${avatarId}:`, error);
+      this.logger.error('AvatarRendererGodotManager', `Failed to update appearance for avatar ${avatarId}:`, error);
       return false;
     }
   }
@@ -1021,13 +1041,13 @@ export class AvatarRendererManager {
   playAnimation(avatarId: string, animationId: string): boolean {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return false;
     }
 
     const animation = avatar.animations.find(anim => anim.id === animationId);
     if (!animation) {
-      console.warn(`Animation ${animationId} not found for avatar ${avatarId}`);
+      this.logger.warn('AvatarRendererGodotManager', `Animation ${animationId} not found for avatar ${avatarId}`);
       return false;
     }
 
@@ -1035,10 +1055,10 @@ export class AvatarRendererManager {
       // Play animation
       this.performAnimationPlayback(avatar, animation);
       
-      console.log(`Playing animation ${animationId} for avatar: ${avatar.name}`);
+      this.logger.info('AvatarRendererGodotManager', `Playing animation ${animationId} for avatar: ${avatar.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to play animation ${animationId} for avatar ${avatarId}:`, error);
+      this.logger.error('AvatarRendererGodotManager', `Failed to play animation ${animationId} for avatar ${avatarId}:`, error);
       return false;
     }
   }
@@ -1049,13 +1069,13 @@ export class AvatarRendererManager {
   stopAnimation(avatarId: string, animationId: string): boolean {
     const avatar = this.avatars.get(avatarId);
     if (!avatar) {
-      console.warn(`Avatar ${avatarId} not found`);
+      this.logger.warn('AvatarRendererGodotManager', `Avatar ${avatarId} not found`);
       return false;
     }
 
     const animation = avatar.animations.find(anim => anim.id === animationId);
     if (!animation) {
-      console.warn(`Animation ${animationId} not found for avatar ${avatarId}`);
+      this.logger.warn('AvatarRendererGodotManager', `Animation ${animationId} not found for avatar ${avatarId}`);
       return false;
     }
 
@@ -1063,10 +1083,10 @@ export class AvatarRendererManager {
       // Stop animation
       this.performAnimationStop(avatar, animation);
       
-      console.log(`Stopped animation ${animationId} for avatar: ${avatar.name}`);
+      this.logger.info('AvatarRendererGodotManager', `Stopped animation ${animationId} for avatar: ${avatar.name}`);
       return true;
     } catch (error) {
-      console.error(`Failed to stop animation ${animationId} for avatar ${avatarId}:`, error);
+      this.logger.error('AvatarRendererGodotManager', `Failed to stop animation ${animationId} for avatar ${avatarId}:`, error);
       return false;
     }
   }
@@ -1104,7 +1124,7 @@ export class AvatarRendererManager {
    * Initialize avatar renderer
    */
   private async initializeAvatarRenderer(): Promise<void> {
-    console.log('Initializing avatar renderer...');
+    this.logger.info('AvatarRendererGodotManager', 'Initializing avatar renderer...');
   }
 
   /**
@@ -1112,7 +1132,7 @@ export class AvatarRendererManager {
    */
   private async loadAvatarResources(avatar: Avatar): Promise<void> {
     // This would load avatar resources (models, textures, animations, etc.)
-    console.log(`Loading resources for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Loading resources for avatar: ${avatar.name}`);
   }
 
   /**
@@ -1120,7 +1140,7 @@ export class AvatarRendererManager {
    */
   private async initializeAvatarRendering(avatar: Avatar): Promise<void> {
     // This would initialize rendering components
-    console.log(`Initializing rendering for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Initializing rendering for avatar: ${avatar.name}`);
   }
 
   /**
@@ -1128,7 +1148,7 @@ export class AvatarRendererManager {
    */
   private async initializeAvatarPhysics(avatar: Avatar): Promise<void> {
     // This would initialize physics components
-    console.log(`Initializing physics for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Initializing physics for avatar: ${avatar.name}`);
   }
 
   /**
@@ -1136,7 +1156,7 @@ export class AvatarRendererManager {
    */
   private async initializeAvatarAnimations(avatar: Avatar): Promise<void> {
     // This would initialize animation components
-    console.log(`Initializing animations for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Initializing animations for avatar: ${avatar.name}`);
   }
 
   /**
@@ -1144,7 +1164,7 @@ export class AvatarRendererManager {
    */
   private performAvatarRendering(avatar: Avatar): void {
     // This would perform the actual rendering
-    console.log(`Rendering avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Rendering avatar: ${avatar.name}`);
   }
 
   /**
@@ -1163,7 +1183,7 @@ export class AvatarRendererManager {
    */
   private updateAvatarRendering(avatar: Avatar): void {
     // This would update rendering based on appearance changes
-    console.log(`Updating rendering for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Updating rendering for avatar: ${avatar.name}`);
   }
 
   /**
@@ -1171,7 +1191,7 @@ export class AvatarRendererManager {
    */
   private performAnimationPlayback(avatar: Avatar, animation: AvatarAnimation): void {
     // This would perform animation playback
-    console.log(`Playing animation ${animation.name} for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Playing animation ${animation.name} for avatar: ${avatar.name}`);
   }
 
   /**
@@ -1179,7 +1199,7 @@ export class AvatarRendererManager {
    */
   private performAnimationStop(avatar: Avatar, animation: AvatarAnimation): void {
     // This would stop animation playback
-    console.log(`Stopping animation ${animation.name} for avatar: ${avatar.name}`);
+    this.logger.info('AvatarRendererGodotManager', `Stopping animation ${animation.name} for avatar: ${avatar.name}`);
   }
 
   /**

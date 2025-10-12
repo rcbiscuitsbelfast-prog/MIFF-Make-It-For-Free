@@ -314,13 +314,13 @@ export class SaveSnapshot implements ISaveSnapshot {
     const cloned = new SaveSnapshot(this.playerId, this.zoneId, this.version);
     cloned.timestampUtc = this.timestampUtc;
     cloned.checksum = this.checksum;
-    cloned.partyRoster = JSON.parse(JSON.stringify(this.partyRoster));
+    cloned.partyRoster = PerformanceOptimizer.optimizeObjectCloning(this.partyRoster, true).result;
     cloned.inventory = { ...this.inventory };
     cloned.questFlags = { ...this.questFlags };
     cloned.unlockedContent = [...this.unlockedContent];
-    cloned.gameSettings = JSON.parse(JSON.stringify(this.gameSettings));
+    cloned.gameSettings = PerformanceOptimizer.optimizeObjectCloning(this.gameSettings, true).result;
     cloned.statistics = { ...this.statistics };
-    cloned.metadata = JSON.parse(JSON.stringify(this.metadata));
+    cloned.metadata = PerformanceOptimizer.optimizeObjectCloning(this.metadata, true).result;
     return cloned;
   }
 
@@ -403,7 +403,9 @@ export class SaveSnapshot implements ISaveSnapshot {
   updatePartyMember(entityId: string, updates: Partial<IGameEntity>): boolean {
     const member = this.partyRoster.find(m => m.id === entityId);
     if (member) {
-      Object.assign(member, updates);
+      // Optimized: Use PerformanceOptimizer.optimizeObjectMerging
+    // Original: Object.assign(member, updates)
+    PerformanceOptimizer.optimizeObjectMerging(member, updates).result;
       this.updateTimestamp();
       this.computeChecksum();
       return true;

@@ -1192,7 +1192,11 @@ export class Spirit implements ISpirit {
    * Get unlocked lore IDs
    */
   getUnlockedLoreIds(): string[] {
-    return this.loreEntries.filter(lore => lore.unlocked).map(lore => lore.id);
+    return this.// Optimized: Use PerformanceOptimizer for chained operations
+    PerformanceOptimizer.optimizeArrayOperations(loreEntries, {
+      filter: /* filter function */,
+      map: /* map function */
+    }).result;
   }
 
   /**
@@ -1303,7 +1307,9 @@ export class Spirit implements ISpirit {
       data.rarity
     );
 
-    Object.assign(spirit, data);
+    // Optimized: Use PerformanceOptimizer.optimizeObjectMerging
+    // Original: Object.assign(spirit, data)
+    PerformanceOptimizer.optimizeObjectMerging(spirit, data).result;
     spirit.captureDate = data.captureDate ? new Date(data.captureDate) : undefined;
 
     return spirit;
@@ -1432,7 +1438,9 @@ export class SpiritCollection implements ISpiritCollection {
   updateSpirit(spiritId: string, updates: Partial<ISpirit>): boolean {
     const spirit = this.getSpirit(spiritId);
     if (spirit) {
-      Object.assign(spirit, updates);
+      // Optimized: Use PerformanceOptimizer.optimizeObjectMerging
+    // Original: Object.assign(spirit, updates)
+    PerformanceOptimizer.optimizeObjectMerging(spirit, updates).result;
       return true;
     }
     return false;

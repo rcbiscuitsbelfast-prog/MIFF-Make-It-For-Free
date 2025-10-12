@@ -11,6 +11,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 import { EventBus } from '../EventBusPure/index.js';
@@ -269,6 +273,20 @@ export class IdleManagerPure {
     enablePrestige: true,
     performanceMode: 'high',
     debugMode: false
+
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'IdleSystemManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `IdleSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'IdleSystemManager');
   }) {
     this.eventBus = eventBus;
     this.config = config;
@@ -602,7 +620,7 @@ export class IdleManagerPure {
       });
 
     } catch (error) {
-      console.error('IdleManager initialization failed:', error);
+      this.logger.error('IdleSystemManager', 'IdleManager initialization failed:', error);
       throw new Error(`IdleManager initialization failed: ${error}`);
     }
   }
@@ -902,6 +920,25 @@ function calculateMaxResourceProduction(resourceId: string, generators: Map<stri
 function calculateProgressRate(achievement: Achievement): number {
   // Simplified progress rate calculation
   return 1; // 1 unit per second
+
+  /**
+   * Cleanup resources
+   */
+  destroy(): void {
+    this.logger.info('IdleSystemManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
+    this.stats = this.initializeStats();
+    this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
+  }
 }
 
 // ============================================================================

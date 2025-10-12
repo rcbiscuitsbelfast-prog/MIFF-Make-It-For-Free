@@ -13,6 +13,10 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+
+import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
+import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
+import { MemoryManager } from '../shared/memory/MemoryManager';
  */
 
 export interface QuantumComputingConfig {
@@ -519,6 +523,8 @@ export class QuantumComputingManager {
   private quantumComputings: Map<string, QuantumComputing> = new Map();
   private stats: QuantumStats = this.initializeStats();
   private isInitialized: boolean = false;
+  private logger: StructuredLogger;
+  private memoryId: string;
 
   constructor(config: Partial<QuantumComputingConfig> = {}) {
     this.config = {
@@ -540,7 +546,21 @@ export class QuantumComputingManager {
       enableBackup: true,
       enableVersioning: true,
       ...config
-    };
+  
+    // Initialize structured logging
+    this.logger = new StructuredLogger({
+      level: LogLevel.INFO,
+      enableConsole: true,
+      performanceMonitoring: true,
+      modules: {
+        'QuantumComputingManager': LogLevel.DEBUG
+      }
+    });
+
+    // Register with memory manager
+    this.memoryId = `QuantumComputingManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'QuantumComputingManager');
+  };
   }
 
   /**
@@ -555,10 +575,10 @@ export class QuantumComputingManager {
       await this.loadDefaultQuantumComputings();
       
       this.isInitialized = true;
-      console.log('Quantum computing manager initialized successfully');
+      this.logger.info('QuantumComputingManager', 'Quantum computing manager initialized successfully');
       return true;
     } catch (error) {
-      console.error('Failed to initialize quantum computing manager:', error);
+      this.logger.error('QuantumComputingManager', 'Failed to initialize quantum computing manager:', error);
       return false;
     }
   }
@@ -587,7 +607,7 @@ export class QuantumComputingManager {
     this.quantumComputings.set(newQuantumComputing.id, newQuantumComputing);
     this.updateStats('create_quantumcomputing', newQuantumComputing);
 
-    console.log(`Created quantum computing: ${newQuantumComputing.name}`);
+    this.logger.info('QuantumComputingManager', `Created quantum computing: ${newQuantumComputing.name}`);
     return newQuantumComputing;
   }
 
@@ -597,12 +617,12 @@ export class QuantumComputingManager {
   createQuantumCircuit(quantumComputingId: string, circuit: Partial<QuantumCircuit>): QuantumCircuit | null {
     const quantumComputing = this.quantumComputings.get(quantumComputingId);
     if (!quantumComputing) {
-      console.warn(`Quantum computing ${quantumComputingId} not found`);
+      this.logger.warn('QuantumComputingManager', `Quantum computing ${quantumComputingId} not found`);
       return null;
     }
 
     if (quantumComputing.circuits.length >= this.config.maxCircuits) {
-      console.warn('Maximum number of circuits reached');
+      this.logger.warn('QuantumComputingManager', 'Maximum number of circuits reached');
       return null;
     }
 
@@ -625,10 +645,10 @@ export class QuantumComputingManager {
       quantumComputing.modified = Date.now();
 
       this.updateStats('create_circuit', quantumComputing);
-      console.log(`Created quantum circuit: ${newCircuit.name}`);
+      this.logger.info('QuantumComputingManager', `Created quantum circuit: ${newCircuit.name}`);
       return newCircuit;
     } catch (error) {
-      console.error(`Failed to create quantum circuit in quantum computing ${quantumComputingId}:`, error);
+      this.logger.error('QuantumComputingManager', `Failed to create quantum circuit in quantum computing ${quantumComputingId}:`, error);
       return null;
     }
   }
@@ -639,12 +659,12 @@ export class QuantumComputingManager {
   createQuantumAlgorithm(quantumComputingId: string, algorithm: Partial<QuantumAlgorithm>): QuantumAlgorithm | null {
     const quantumComputing = this.quantumComputings.get(quantumComputingId);
     if (!quantumComputing) {
-      console.warn(`Quantum computing ${quantumComputingId} not found`);
+      this.logger.warn('QuantumComputingManager', `Quantum computing ${quantumComputingId} not found`);
       return null;
     }
 
     if (quantumComputing.algorithms.length >= this.config.maxAlgorithms) {
-      console.warn('Maximum number of algorithms reached');
+      this.logger.warn('QuantumComputingManager', 'Maximum number of algorithms reached');
       return null;
     }
 
@@ -665,10 +685,10 @@ export class QuantumComputingManager {
       quantumComputing.modified = Date.now();
 
       this.updateStats('create_algorithm', quantumComputing);
-      console.log(`Created quantum algorithm: ${newAlgorithm.name}`);
+      this.logger.info('QuantumComputingManager', `Created quantum algorithm: ${newAlgorithm.name}`);
       return newAlgorithm;
     } catch (error) {
-      console.error(`Failed to create quantum algorithm in quantum computing ${quantumComputingId}:`, error);
+      this.logger.error('QuantumComputingManager', `Failed to create quantum algorithm in quantum computing ${quantumComputingId}:`, error);
       return null;
     }
   }
@@ -706,7 +726,7 @@ export class QuantumComputingManager {
    * Initialize quantum computing manager
    */
   private async initializeQuantumComputingManager(): Promise<void> {
-    console.log('Initializing quantum computing manager...');
+    this.logger.info('QuantumComputingManager', 'Initializing quantum computing manager...');
   }
 
   /**
@@ -726,7 +746,7 @@ export class QuantumComputingManager {
       }
     }
 
-    console.log(`Loaded ${defaultQuantumComputings.length} default quantum computings`);
+    this.logger.info('QuantumComputingManager', `Loaded ${defaultQuantumComputings.length} default quantum computings`);
   }
 
   /**
