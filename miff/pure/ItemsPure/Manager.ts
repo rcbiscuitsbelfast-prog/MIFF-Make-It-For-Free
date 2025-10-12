@@ -129,18 +129,12 @@ export interface ItemRequirements {
     [key: string]: number 
 
 
-  }
   };
   skills: {
-
-    [key: string]: number 
-
-
-  }
+    [key: string]: number;
   };
   items: {
-
-    [key: string]: number 
+    [key: string]: number;
 
 
   }
