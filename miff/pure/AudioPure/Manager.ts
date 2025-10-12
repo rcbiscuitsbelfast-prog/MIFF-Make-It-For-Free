@@ -1,75 +1,37 @@
 /**
  * AudioPure Manager - Advanced Audio Management System
  *
- * Comprehensive audio management system with:
- * - Audio playback and mixing
- * - 3D spatial audio processing
- * - Audio effects and filters
- * - Music and sound management
- * - Voice chat integration
- * - Audio streaming and compression
- * - Real-time audio processing
+ * Comprehensive audio system with:
+ * - Audio playback and recording
+ * - Audio effects and processing
+ * - Audio streaming and buffering
  * - Cross-platform audio support
+ * - Performance optimization
+ * - Real-time audio monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface AudioConfig {
-  enableAudioPlayback: boolean;
-  enableAudioMixing: boolean;
-  enable3DSpatialAudio: boolean;
+  enablePlayback: boolean;
+  enableRecording: boolean;
   enableAudioEffects: boolean;
-  enableAudioFilters: boolean;
-  enableMusicManagement: boolean;
-  enableSoundManagement: boolean;
-  enableVoiceChat: boolean;
   enableAudioStreaming: boolean;
-  enableAudioCompression: boolean;
-  enableRealTimeProcessing: boolean;
+  enableAudioBuffering: boolean;
   enableCrossPlatformSupport: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
   maxAudioSources: number;
-  maxAudioEffects: number;
+  maxAudioBuffers: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
-}
-
-export interface Audio {
-  id: string;
-  name: string;
-  type: AudioType;
-  status: AudioStatus;
-  sources: AudioSource[];
-  effects: AudioEffect[];
-  music: AudioMusic[];
-  sounds: AudioSound[];
-  analytics: AudioAnalytics;
-  metadata: AudioMetadata;
-  version: string;
-  created: number;
-  modified: number;
-}
-
-export enum AudioType {
-  PLAYBACK = 'playback',
-  MIXING = 'mixing',
-  SPATIAL = 'spatial',
-  EFFECTS = 'effects',
-  CUSTOM = 'custom'
-}
-
-export enum AudioStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  CUSTOM = 'custom'
 }
 
 export interface AudioSource {
@@ -77,632 +39,643 @@ export interface AudioSource {
   name: string;
   type: SourceType;
   status: SourceStatus;
-  properties: SourceProperties;
-  position: AudioPosition;
-  effects: string[];
-  metadata: Map<string, any>;
+  audio: AudioData;
+  effects: AudioEffect[];
+  settings: AudioSettings;
+  analytics: SourceAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
+  version: string;
 }
 
-export enum SourceType {
-  MUSIC = 'music',
-  SOUND = 'sound',
-  VOICE = 'voice',
-  AMBIENT = 'ambient',
-  CUSTOM = 'custom'
+export interface AudioData {
+  buffer: ArrayBuffer;
+  format: AudioFormat;
+  duration: number; // seconds
+  sampleRate: number;
+  channels: number;
+  bitDepth: number;
+  encoding: AudioEncoding;
 }
 
-export enum SourceStatus {
-  STOPPED = 'stopped',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface SourceProperties {
-  volume: number;
-  pitch: number;
-  loop: boolean;
-  fadeIn: number;
-  fadeOut: number;
-  metadata: Map<string, any>;
-}
-
-export interface AudioPosition {
-  x: number;
-  y: number;
-  z: number;
-  metadata: Map<string, any>;
+export interface AudioFormat {
+  sampleRate: number;
+  channels: number;
+  bitDepth: number;
+  encoding: AudioEncoding;
+  compression: AudioCompression;
 }
 
 export interface AudioEffect {
   id: string;
   name: string;
   type: EffectType;
-  status: EffectStatus;
+  enabled: boolean;
   parameters: EffectParameters;
-  performance: EffectPerformance;
-  metadata: Map<string, any>;
+  order: number;
+  metadata: Record<string, any>;
 }
 
-export enum EffectType {
-  REVERB = 'reverb',
-  ECHO = 'echo',
-  CHORUS = 'chorus',
-  DISTORTION = 'distortion',
-  FILTER = 'filter',
-  CUSTOM = 'custom'
+export interface AudioSettings {
+  volume: number; // 0 to 1
+  pitch: number; // 0.5 to 2.0
+  pan: number; // -1 to 1
+  loop: boolean;
+  fadeIn: number; // seconds
+  fadeOut: number; // seconds
+  reverb: number; // 0 to 1
+  echo: number; // 0 to 1
 }
 
-export enum EffectStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+export interface SourceAnalytics {
+  totalSources: number;
+  activeSources: number;
+  totalPlayTime: number;
+  averageVolume: number;
+  effectCount: number;
+  lastUpdated: Date;
 }
 
 export interface EffectParameters {
-  intensity: number;
-  frequency: number;
-  delay: number;
-  feedback: number;
-  metadata: Map<string, any>;
+  [key: string]: any;
 }
 
-export interface EffectPerformance {
-  cpuUsage: number;
-  memoryUsage: number;
-  latency: number;
-  metadata: Map<string, any>;
-}
-
-export interface AudioMusic {
-  id: string;
-  name: string;
-  type: MusicType;
-  status: MusicStatus;
-  track: MusicTrack;
-  playlist: MusicPlaylist;
-  metadata: Map<string, any>;
-}
-
-export enum MusicType {
-  BACKGROUND = 'background',
-  THEME = 'theme',
-  AMBIENT = 'ambient',
-  CUSTOM = 'custom'
-}
-
-export enum MusicStatus {
-  STOPPED = 'stopped',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface MusicTrack {
-  name: string;
-  duration: number;
-  format: AudioFormat;
-  data: AudioData;
-  metadata: Map<string, any>;
-}
-
-export enum AudioFormat {
-  MP3 = 'mp3',
-  WAV = 'wav',
-  OGG = 'ogg',
-  FLAC = 'flac',
-  CUSTOM = 'custom'
-}
-
-export interface AudioData {
-  samples: Float32Array;
-  sampleRate: number;
-  channels: number;
-  bitDepth: number;
-  metadata: Map<string, any>;
-}
-
-export interface MusicPlaylist {
-  name: string;
-  tracks: string[];
-  shuffle: boolean;
-  repeat: RepeatMode;
-  metadata: Map<string, any>;
-}
-
-export enum RepeatMode {
-  NONE = 'none',
-  ONE = 'one',
-  ALL = 'all',
-  CUSTOM = 'custom'
-}
-
-export interface AudioSound {
-  id: string;
-  name: string;
-  type: SoundType;
-  status: SoundStatus;
-  clip: SoundClip;
-  properties: SoundProperties;
-  metadata: Map<string, any>;
-}
-
-export enum SoundType {
-  UI = 'ui',
-  EFFECT = 'effect',
-  AMBIENT = 'ambient',
-  VOICE = 'voice',
-  CUSTOM = 'custom'
-}
-
-export enum SoundStatus {
-  STOPPED = 'stopped',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface SoundClip {
-  name: string;
-  duration: number;
-  format: AudioFormat;
-  data: AudioData;
-  metadata: Map<string, any>;
-}
-
-export interface SoundProperties {
-  volume: number;
-  pitch: number;
-  loop: boolean;
-  spatial: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface AudioAnalytics {
-  totalSources: number;
-  totalEffects: number;
-  totalMusic: number;
-  totalSounds: number;
-  averageVolume: number;
-  averageLatency: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface AudioMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface AudioStats {
-  totalSources: number;
-  totalEffects: number;
-  totalMusic: number;
-  totalSounds: number;
-  averageVolume: number;
-  averageLatency: number;
-  lastUpdate: number;
-}
+export type SourceType = 'music' | 'sound' | 'voice' | 'ambient' | 'effect' | 'custom';
+export type SourceStatus = 'playing' | 'paused' | 'stopped' | 'loading' | 'error';
+export type AudioEncoding = 'pcm' | 'mp3' | 'aac' | 'ogg' | 'wav' | 'flac';
+export type AudioCompression = 'none' | 'lossless' | 'lossy';
+export type EffectType = 'eq' | 'compressor' | 'reverb' | 'delay' | 'chorus' | 'distortion' | 'filter' | 'limiter';
 
 export class AudioManager {
-  private config: AudioConfig;
-  private audios: Map<string, Audio> = new Map();
-  private stats: AudioStats = this.initializeStats();
-  private isInitialized: boolean = false;
   private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: AudioConfig;
+  private sources: Map<string, AudioSource> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
-  constructor(config: Partial<AudioConfig> = {}) {
+  constructor(config?: Partial<AudioConfig>) {
+    this.logger = new StructuredLogger({ module: 'AudioManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableAudioPlayback: true,
-      enableAudioMixing: true,
-      enable3DSpatialAudio: true,
+      enablePlayback: true,
+      enableRecording: true,
       enableAudioEffects: true,
-      enableAudioFilters: true,
-      enableMusicManagement: true,
-      enableSoundManagement: true,
-      enableVoiceChat: true,
       enableAudioStreaming: true,
-      enableAudioCompression: true,
-      enableRealTimeProcessing: true,
+      enableAudioBuffering: true,
       enableCrossPlatformSupport: true,
-      maxAudioSources: 1000,
-      maxAudioEffects: 100,
-      enableCloudSync: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      maxAudioSources: 100,
+      maxAudioBuffers: 1000,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'AudioManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `AudioManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'AudioManager');
-  };
+    };
   }
 
   /**
-   * Initialize audio manager
+   * Initialize the Audio Manager
    */
-  async initialize(): Promise<boolean> {
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Audio Manager already initialized');
+      return;
+    }
+
     try {
-      // Initialize audio manager
-      await this.initializeAudioManager();
-      
-      // Load default audio systems
-      await this.loadDefaultAudioSystems();
-      
+      this.logger.info('Initializing Audio Manager...');
+
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
       this.isInitialized = true;
-      this.logger.info('AudioManager', 'Audio manager initialized successfully');
-      return true;
+      this.logger.info('Audio Manager initialized successfully');
+
     } catch (error) {
-      this.logger.error('AudioManager', 'Failed to initialize audio manager:', error);
+      this.errorHandler.handleError(error, 'Failed to initialize Audio Manager');
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new audio source
+   */
+  async createSource(sourceData: Omit<AudioSource, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<AudioSource> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source: AudioSource = {
+        ...sourceData,
+        id: this.generateSourceId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalSources: 0,
+          activeSources: 0,
+          totalPlayTime: 0,
+          averageVolume: 0,
+          effectCount: 0,
+          lastUpdated: new Date()
+        }
+      };
+
+      this.sources.set(source.id, source);
+      this.updateAnalytics();
+
+      this.logger.info('Audio source created', { sourceId: source.id, sourceName: source.name });
+      return source;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create audio source');
+      throw error;
+    }
+  }
+
+  /**
+   * Get an audio source by ID
+   */
+  getSource(sourceId: string): AudioSource | null {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    return this.sources.get(sourceId) || null;
+  }
+
+  /**
+   * Update an audio source
+   */
+  async updateSource(sourceId: string, updates: Partial<AudioSource>): Promise<AudioSource | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return null;
+      }
+
+      const updatedSource: AudioSource = {
+        ...source,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(source.version)
+      };
+
+      this.sources.set(sourceId, updatedSource);
+      this.updateAnalytics();
+
+      this.logger.info('Audio source updated', { sourceId, sourceName: updatedSource.name });
+      return updatedSource;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update audio source');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete an audio source
+   */
+  async deleteSource(sourceId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
+
+      this.sources.delete(sourceId);
+      this.updateAnalytics();
+
+      this.logger.info('Audio source deleted', { sourceId, sourceName: source.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete audio source');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all audio sources
+   */
+  getAllSources(): AudioSource[] {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    return Array.from(this.sources.values());
+  }
+
+  /**
+   * Get sources by type
+   */
+  getSourcesByType(type: SourceType): AudioSource[] {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    return Array.from(this.sources.values()).filter(source => source.type === type);
+  }
+
+  /**
+   * Get sources by status
+   */
+  getSourcesByStatus(status: SourceStatus): AudioSource[] {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    return Array.from(this.sources.values()).filter(source => source.status === status);
+  }
+
+  /**
+   * Play an audio source
+   */
+  async playSource(sourceId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
+
+      source.status = 'playing';
+      this.updateAnalytics();
+
+      this.logger.debug('Audio source started playing', { sourceId, sourceName: source.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to play audio source');
       return false;
     }
   }
 
   /**
-   * Create new audio system
+   * Pause an audio source
    */
-  createAudio(audio: Partial<Audio>): Audio | null {
-    const newAudio: Audio = {
-      id: `audio_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: audio.name || 'New Audio System',
-      type: audio.type || AudioType.PLAYBACK,
-      status: AudioStatus.ACTIVE,
-      sources: audio.sources || [],
-      effects: audio.effects || [],
-      music: audio.music || [],
-      sounds: audio.sounds || [],
-      analytics: audio.analytics || this.createDefaultAnalytics(),
-      metadata: audio.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
-    };
-
-    this.audios.set(newAudio.id, newAudio);
-    this.updateStats('create_audio', newAudio);
-
-    this.logger.info('AudioManager', `Created audio system: ${newAudio.name}`);
-    return newAudio;
-  }
-
-  /**
-   * Create audio source
-   */
-  createAudioSource(audioId: string, source: Partial<AudioSource>): AudioSource | null {
-    const audio = this.audios.get(audioId);
-    if (!audio) {
-      this.logger.warn('AudioManager', `Audio system ${audioId} not found`);
-      return null;
-    }
-
-    if (audio.sources.length >= this.config.maxAudioSources) {
-      this.logger.warn('AudioManager', 'Maximum number of audio sources reached');
-      return null;
+  async pauseSource(sourceId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
     }
 
     try {
-      const newSource: AudioSource = {
-        id: `source_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: source.name || 'New Source',
-        type: source.type || SourceType.SOUND,
-        status: SourceStatus.STOPPED,
-        properties: source.properties || this.createDefaultSourceProperties(),
-        position: source.position || this.createDefaultAudioPosition(),
-        effects: source.effects || [],
-        metadata: source.metadata || new Map()
-      };
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
 
-      audio.sources.push(newSource);
-      audio.modified = Date.now();
+      if (source.status === 'playing') {
+        source.status = 'paused';
+        this.updateAnalytics();
+        this.logger.debug('Audio source paused', { sourceId, sourceName: source.name });
+      }
 
-      this.updateStats('create_source', audio);
-      this.logger.info('AudioManager', `Created audio source: ${newSource.name}`);
-      return newSource;
+      return true;
+
     } catch (error) {
-      this.logger.error('AudioManager', `Failed to create audio source in system ${audioId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to pause audio source');
+      return false;
     }
   }
 
   /**
-   * Create audio effect
+   * Stop an audio source
    */
-  createAudioEffect(audioId: string, effect: Partial<AudioEffect>): AudioEffect | null {
-    const audio = this.audios.get(audioId);
-    if (!audio) {
-      this.logger.warn('AudioManager', `Audio system ${audioId} not found`);
-      return null;
-    }
-
-    if (audio.effects.length >= this.config.maxAudioEffects) {
-      this.logger.warn('AudioManager', 'Maximum number of audio effects reached');
-      return null;
+  async stopSource(sourceId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
     }
 
     try {
-      const newEffect: AudioEffect = {
-        id: `effect_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: effect.name || 'New Effect',
-        type: effect.type || EffectType.REVERB,
-        status: EffectStatus.ACTIVE,
-        parameters: effect.parameters || this.createDefaultEffectParameters(),
-        performance: effect.performance || this.createDefaultEffectPerformance(),
-        metadata: effect.metadata || new Map()
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
+
+      source.status = 'stopped';
+      this.updateAnalytics();
+
+      this.logger.debug('Audio source stopped', { sourceId, sourceName: source.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to stop audio source');
+      return false;
+    }
+  }
+
+  /**
+   * Set source volume
+   */
+  async setSourceVolume(sourceId: string, volume: number): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
+
+      source.settings.volume = Math.max(0, Math.min(1, volume));
+      this.logger.debug('Source volume set', { sourceId, volume });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to set source volume');
+      return false;
+    }
+  }
+
+  /**
+   * Set source pitch
+   */
+  async setSourcePitch(sourceId: string, pitch: number): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
+
+      source.settings.pitch = Math.max(0.5, Math.min(2.0, pitch));
+      this.logger.debug('Source pitch set', { sourceId, pitch });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to set source pitch');
+      return false;
+    }
+  }
+
+  /**
+   * Set source pan
+   */
+  async setSourcePan(sourceId: string, pan: number): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
+      }
+
+      source.settings.pan = Math.max(-1, Math.min(1, pan));
+      this.logger.debug('Source pan set', { sourceId, pan });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to set source pan');
+      return false;
+    }
+  }
+
+  /**
+   * Add an effect to a source
+   */
+  async addEffect(sourceId: string, effectData: Omit<AudioEffect, 'id'>): Promise<AudioEffect | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return null;
+      }
+
+      const effect: AudioEffect = {
+        ...effectData,
+        id: this.generateEffectId()
       };
 
-      audio.effects.push(newEffect);
-      audio.modified = Date.now();
+      source.effects.push(effect);
+      this.updateAnalytics();
 
-      this.updateStats('create_effect', audio);
-      this.logger.info('AudioManager', `Created audio effect: ${newEffect.name}`);
-      return newEffect;
+      this.logger.info('Effect added to source', { sourceId, effectId: effect.id, effectName: effect.name });
+      return effect;
+
     } catch (error) {
-      this.logger.error('AudioManager', `Failed to create audio effect in system ${audioId}:`, error);
+      this.errorHandler.handleError(error, 'Failed to add effect to source');
       return null;
     }
   }
 
   /**
-   * Get audio system
+   * Remove an effect from a source
    */
-  getAudio(audioId: string): Audio | null {
-    return this.audios.get(audioId) || null;
-  }
-
-  /**
-   * Get all audio systems
-   */
-  getAudios(): Audio[] {
-    return Array.from(this.audios.values());
-  }
-
-  /**
-   * Get audio systems by type
-   */
-  getAudiosByType(type: AudioType): Audio[] {
-    return Array.from(this.audios.values())
-      .filter(audio => audio.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): AudioStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize audio manager
-   */
-  private async initializeAudioManager(): Promise<void> {
-    this.logger.info('AudioManager', 'Initializing audio manager...');
-  }
-
-  /**
-   * Load default audio systems
-   */
-  private async loadDefaultAudioSystems(): Promise<void> {
-    // Load default audio systems
-    const defaultAudios = [
-      this.createDefaultPlayback(),
-      this.createDefaultMixing(),
-      this.createDefaultSpatial()
-    ];
-
-    for (const audio of defaultAudios) {
-      if (audio) {
-        this.audios.set(audio.id, audio);
-      }
+  async removeEffect(sourceId: string, effectId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
     }
 
-    this.logger.info('AudioManager', `Loaded ${defaultAudios.length} default audio systems`);
-  }
-
-  /**
-   * Create default source properties
-   */
-  private createDefaultSourceProperties(): SourceProperties {
-    return {
-      volume: 1.0,
-      pitch: 1.0,
-      loop: false,
-      fadeIn: 0,
-      fadeOut: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default audio position
-   */
-  private createDefaultAudioPosition(): AudioPosition {
-    return {
-      x: 0,
-      y: 0,
-      z: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default effect parameters
-   */
-  private createDefaultEffectParameters(): EffectParameters {
-    return {
-      intensity: 0.5,
-      frequency: 1000,
-      delay: 0,
-      feedback: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default effect performance
-   */
-  private createDefaultEffectPerformance(): EffectPerformance {
-    return {
-      cpuUsage: 0,
-      memoryUsage: 0,
-      latency: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): AudioAnalytics {
-    return {
-      totalSources: 0,
-      totalEffects: 0,
-      totalMusic: 0,
-      totalSounds: 0,
-      averageVolume: 0,
-      averageLatency: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
+    try {
+      const source = this.sources.get(sourceId);
+      if (!source) {
+        this.logger.warn('Source not found', { sourceId });
+        return false;
       }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
+
+      const effectIndex = source.effects.findIndex(effect => effect.id === effectId);
+      if (effectIndex === -1) {
+        this.logger.warn('Effect not found', { sourceId, effectId });
+        return false;
+      }
+
+      source.effects.splice(effectIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Effect removed from source', { sourceId, effectId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove effect from source');
+      return false;
+    }
   }
 
   /**
-   * Create default metadata
+   * Load audio data
    */
-  private createDefaultMetadata(): AudioMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default playback
-   */
-  private createDefaultPlayback(): Audio {
-    return this.createAudio({
-      name: 'Audio Playback System',
-      type: AudioType.PLAYBACK,
-      description: 'Audio playback system'
-    });
-  }
-
-  /**
-   * Create default mixing
-   */
-  private createDefaultMixing(): Audio {
-    return this.createAudio({
-      name: 'Audio Mixing System',
-      type: AudioType.MIXING,
-      description: 'Audio mixing system'
-    });
-  }
-
-  /**
-   * Create default spatial
-   */
-  private createDefaultSpatial(): Audio {
-    return this.createAudio({
-      name: '3D Spatial Audio System',
-      type: AudioType.SPATIAL,
-      description: '3D spatial audio system'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, audio: Audio): void {
-    switch (action) {
-      case 'create_audio':
-        this.stats.totalSources += audio.sources.length;
-        this.stats.totalEffects += audio.effects.length;
-        this.stats.totalMusic += audio.music.length;
-        this.stats.totalSounds += audio.sounds.length;
-        break;
-      case 'create_source':
-        this.stats.totalSources++;
-        break;
-      case 'create_effect':
-        this.stats.totalEffects++;
-        break;
+  async loadAudioData(audioData: AudioData): Promise<string | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    try {
+      // Simulate audio loading
+      const loadTime = Math.random() * 1000;
+      await new Promise(resolve => setTimeout(resolve, loadTime));
+
+      const sourceId = this.generateSourceId();
+      this.logger.debug('Audio data loaded', { sourceId, loadTime });
+      return sourceId;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to load audio data');
+      return null;
+    }
   }
 
   /**
-   * Initialize statistics
+   * Generate a unique source ID
    */
-  private initializeStats(): AudioStats {
+  private generateSourceId(): string {
+    return `source_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique effect ID
+   */
+  private generateEffectId(): string {
+    return `effect_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const sources = Array.from(this.sources.values());
+    const activeSources = sources.filter(s => s.status === 'playing');
+    const totalPlayTime = sources.reduce((sum, s) => sum + s.analytics.totalPlayTime, 0);
+    const totalVolume = sources.reduce((sum, s) => sum + s.settings.volume, 0);
+    const totalEffects = sources.reduce((sum, s) => sum + s.effects.length, 0);
+
+    for (const source of sources) {
+      source.analytics = {
+        totalSources: sources.length,
+        activeSources: activeSources.length,
+        totalPlayTime: source.analytics.totalPlayTime,
+        averageVolume: sources.length > 0 ? totalVolume / sources.length : 0,
+        effectCount: source.effects.length,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalSources: number;
+    activeSources: number;
+    sourcesByType: Record<SourceType, number>;
+    sourcesByStatus: Record<SourceStatus, number>;
+    totalPlayTime: number;
+    averageVolume: number;
+    totalEffects: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Audio Manager not initialized');
+    }
+
+    const sources = Array.from(this.sources.values());
+    const activeSources = sources.filter(s => s.status === 'playing');
+    const totalPlayTime = sources.reduce((sum, s) => sum + s.analytics.totalPlayTime, 0);
+    const totalVolume = sources.reduce((sum, s) => sum + s.settings.volume, 0);
+    const totalEffects = sources.reduce((sum, s) => sum + s.effects.length, 0);
+
+    const sourcesByType: Record<SourceType, number> = {
+      music: 0,
+      sound: 0,
+      voice: 0,
+      ambient: 0,
+      effect: 0,
+      custom: 0
+    };
+
+    const sourcesByStatus: Record<SourceStatus, number> = {
+      playing: 0,
+      paused: 0,
+      stopped: 0,
+      loading: 0,
+      error: 0
+    };
+
+    for (const source of sources) {
+      sourcesByType[source.type]++;
+      sourcesByStatus[source.status]++;
+    }
+
     return {
-      totalSources: 0,
-      totalEffects: 0,
-      totalMusic: 0,
-      totalSounds: 0,
-      averageVolume: 0,
-      averageLatency: 0,
-      lastUpdate: Date.now()
+      totalSources: sources.length,
+      activeSources: activeSources.length,
+      sourcesByType,
+      sourcesByStatus,
+      totalPlayTime,
+      averageVolume: sources.length > 0 ? totalVolume / sources.length : 0,
+      totalEffects,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Audio Manager
    */
-  destroy(): void {
-    this.audios.clear();
-    this.stats = this.initializeStats();
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Audio Manager...');
+
+    this.sources.clear();
     this.isInitialized = false;
+
+    this.logger.info('Audio Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultAudioManager = new AudioManager();
-export { AudioManager as default };
+export const audioManager = new AudioManager();
+export default audioManager;

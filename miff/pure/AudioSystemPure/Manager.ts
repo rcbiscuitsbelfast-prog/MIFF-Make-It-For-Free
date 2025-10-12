@@ -1,40 +1,32 @@
 /**
- * AudioSystemPure Manager - Advanced Audio Management System
+ * AudioSystemPure Manager - Advanced Audio System Management
  *
- * Comprehensive audio system with:
- * - 3D spatial audio
- * - Dynamic audio mixing
- * - Audio effects and filters
- * - Music and sound management
- * - Voice chat integration
- * - Audio streaming
- * - Audio compression and optimization
- * - Real-time audio processing
+ * Comprehensive audio system management with:
+ * - Audio device management
+ * - Audio context management
+ * - Audio processing pipeline
+ * - Cross-platform audio integration
+ * - Performance optimization
+ * - Real-time audio monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface AudioSystemConfig {
-  enable3DSpatialAudio: boolean;
-  enableDynamicMixing: boolean;
-  enableAudioEffects: boolean;
-  enableMusicManagement: boolean;
-  enableSoundManagement: boolean;
-  enableVoiceChat: boolean;
-  enableAudioStreaming: boolean;
-  enableAudioCompression: boolean;
-  enableRealTimeProcessing: boolean;
-  enableAudioAnalytics: boolean;
-  enableAudioRecording: boolean;
-  enableAudioPlayback: boolean;
-  maxAudioSources: number;
-  maxAudioChannels: number;
-  maxAudioEffects: number;
+  enableDeviceManagement: boolean;
+  enableContextManagement: boolean;
+  enableProcessingPipeline: boolean;
+  enableCrossPlatformIntegration: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
+  maxDevices: number;
+  maxContexts: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
@@ -43,1063 +35,728 @@ export interface AudioSystemConfig {
 export interface AudioSystem {
   id: string;
   name: string;
-  type: AudioSystemType;
-  status: AudioSystemStatus;
-  sources: AudioSource[];
-  channels: AudioChannel[];
-  effects: AudioEffect[];
-  music: MusicTrack[];
-  sounds: SoundEffect[];
-  voice: VoiceChat;
-  streaming: AudioStreaming;
-  analytics: AudioAnalytics;
-  metadata: AudioMetadata;
+  type: SystemType;
+  status: SystemStatus;
+  devices: AudioDevice[];
+  contexts: AudioContext[];
+  pipeline: ProcessingPipeline;
+  performance: SystemPerformance;
+  analytics: SystemAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
 }
 
-export enum AudioSystemType {
-  GAME = 'game',
-  MUSIC = 'music',
-  VOICE = 'voice',
-  STREAMING = 'streaming',
-  RECORDING = 'recording',
-  CUSTOM = 'custom'
-}
-
-export enum AudioSystemStatus {
-  ACTIVE = 'active',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  ERROR = 'error',
-  MAINTENANCE = 'maintenance'
-}
-
-export interface AudioSource {
+export interface AudioDevice {
   id: string;
   name: string;
-  type: AudioSourceType;
-  status: AudioSourceStatus;
-  position: Position3D;
-  rotation: Rotation3D;
-  velocity: Vector3D;
-  volume: number;
-  pitch: number;
-  pan: number;
-  loop: boolean;
-  priority: AudioPriority;
-  attenuation: AudioAttenuation;
-  effects: AudioEffect[];
-  metadata: Map<string, any>;
+  type: DeviceType;
+  status: DeviceStatus;
+  capabilities: DeviceCapabilities;
+  settings: DeviceSettings;
+  metadata: Record<string, any>;
 }
 
-export enum AudioSourceType {
-  STATIC = 'static',
-  DYNAMIC = 'dynamic',
-  AMBIENT = 'ambient',
-  MUSIC = 'music',
-  VOICE = 'voice',
-  EFFECT = 'effect',
-  CUSTOM = 'custom'
-}
-
-export enum AudioSourceStatus {
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  LOADING = 'loading',
-  ERROR = 'error'
-}
-
-export interface Position3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export interface Rotation3D {
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-}
-
-export interface Vector3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export enum AudioPriority {
-  LOW = 'low',
-  NORMAL = 'normal',
-  HIGH = 'high',
-  CRITICAL = 'critical',
-  CUSTOM = 'custom'
-}
-
-export interface AudioAttenuation {
-  type: AttenuationType;
-  minDistance: number;
-  maxDistance: number;
-  rolloffFactor: number;
-  curve: AttenuationCurve;
-  metadata: Map<string, any>;
-}
-
-export enum AttenuationType {
-  NONE = 'none',
-  LINEAR = 'linear',
-  LOGARITHMIC = 'logarithmic',
-  INVERSE = 'inverse',
-  CUSTOM = 'custom'
-}
-
-export interface AttenuationCurve {
-  points: CurvePoint[];
-  interpolation: CurveInterpolation;
-  metadata: Map<string, any>;
-}
-
-export interface CurvePoint {
-  distance: number;
-  volume: number;
-  metadata: Map<string, any>;
-}
-
-export enum CurveInterpolation {
-  LINEAR = 'linear',
-  BEZIER = 'bezier',
-  SPLINE = 'spline',
-  CUSTOM = 'custom'
-}
-
-export interface AudioChannel {
+export interface AudioContext {
   id: string;
   name: string;
-  type: AudioChannelType;
-  status: AudioChannelStatus;
-  volume: number;
-  mute: boolean;
-  solo: boolean;
-  effects: AudioEffect[];
-  sources: string[];
-  metadata: Map<string, any>;
+  type: ContextType;
+  status: ContextStatus;
+  sampleRate: number;
+  bufferSize: number;
+  channels: number;
+  settings: ContextSettings;
+  metadata: Record<string, any>;
 }
 
-export enum AudioChannelType {
-  MASTER = 'master',
-  MUSIC = 'music',
-  SFX = 'sfx',
-  VOICE = 'voice',
-  AMBIENT = 'ambient',
-  UI = 'ui',
-  CUSTOM = 'custom'
-}
-
-export enum AudioChannelStatus {
-  ACTIVE = 'active',
-  MUTED = 'muted',
-  SOLO = 'solo',
-  INACTIVE = 'inactive'
-}
-
-export interface AudioEffect {
-  id: string;
-  name: string;
-  type: AudioEffectType;
-  status: AudioEffectStatus;
-  parameters: AudioEffectParameters;
+export interface ProcessingPipeline {
+  stages: ProcessingStage[];
+  connections: PipelineConnection[];
   enabled: boolean;
-  bypass: boolean;
-  wet: number;
-  dry: number;
-  metadata: Map<string, any>;
+  latency: number; // milliseconds
+  throughput: number; // samples per second
 }
 
-export enum AudioEffectType {
-  REVERB = 'reverb',
-  ECHO = 'echo',
-  DELAY = 'delay',
-  CHORUS = 'chorus',
-  FLANGER = 'flanger',
-  DISTORTION = 'distortion',
-  COMPRESSOR = 'compressor',
-  LIMITER = 'limiter',
-  EQUALIZER = 'equalizer',
-  FILTER = 'filter',
-  CUSTOM = 'custom'
+export interface ProcessingStage {
+  id: string;
+  name: string;
+  type: StageType;
+  enabled: boolean;
+  parameters: StageParameters;
+  order: number;
+  metadata: Record<string, any>;
 }
 
-export enum AudioEffectStatus {
-  ACTIVE = 'active',
-  BYPASSED = 'bypassed',
-  INACTIVE = 'inactive',
-  ERROR = 'error'
+export interface PipelineConnection {
+  id: string;
+  sourceStage: string;
+  targetStage: string;
+  enabled: boolean;
+  gain: number; // 0 to 1
+  metadata: Record<string, any>;
 }
 
-export interface AudioEffectParameters {
+export interface DeviceCapabilities {
+  maxChannels: number;
+  maxSampleRate: number;
+  supportedFormats: AudioFormat[];
+  inputChannels: number;
+  outputChannels: number;
+  latency: number; // milliseconds
+}
+
+export interface DeviceSettings {
+  volume: number; // 0 to 1
+  mute: boolean;
+  latency: number; // milliseconds
+  quality: AudioQuality;
+  bufferSize: number;
+}
+
+export interface ContextSettings {
+  sampleRate: number;
+  bufferSize: number;
+  channels: number;
+  latency: number; // milliseconds
+  quality: AudioQuality;
+}
+
+export interface AudioFormat {
+  sampleRate: number;
+  channels: number;
+  bitDepth: number;
+  encoding: AudioEncoding;
+}
+
+export interface StageParameters {
   [key: string]: any;
 }
 
-export interface MusicTrack {
-  id: string;
-  name: string;
-  type: MusicType;
-  status: MusicStatus;
-  file: AudioFile;
-  duration: number;
-  bpm: number;
-  key: MusicKey;
-  genre: MusicGenre;
-  mood: MusicMood;
-  volume: number;
-  fadeIn: number;
-  fadeOut: number;
-  loop: boolean;
-  crossfade: boolean;
-  metadata: Map<string, any>;
+export interface SystemPerformance {
+  cpuUsage: number; // 0 to 1
+  memoryUsage: number; // bytes
+  latency: number; // milliseconds
+  throughput: number; // samples per second
+  errorRate: number; // 0 to 1
+  droppedFrames: number;
 }
 
-export enum MusicType {
-  BACKGROUND = 'background',
-  AMBIENT = 'ambient',
-  COMBAT = 'combat',
-  MENU = 'menu',
-  CUTSCENE = 'cutscene',
-  CUSTOM = 'custom'
+export interface SystemAnalytics {
+  totalSystems: number;
+  activeSystems: number;
+  totalDevices: number;
+  activeDevices: number;
+  totalContexts: number;
+  activeContexts: number;
+  averageLatency: number;
+  lastUpdated: Date;
 }
 
-export enum MusicStatus {
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  LOADING = 'loading',
-  ERROR = 'error'
-}
-
-export interface AudioFile {
-  id: string;
-  name: string;
-  path: string;
-  format: AudioFormat;
-  quality: AudioQuality;
-  bitrate: number;
-  sampleRate: number;
-  channels: number;
-  duration: number;
-  size: number;
-  compressed: boolean;
-  metadata: Map<string, any>;
-}
-
-export enum AudioFormat {
-  WAV = 'wav',
-  MP3 = 'mp3',
-  OGG = 'ogg',
-  FLAC = 'flac',
-  AAC = 'aac',
-  WMA = 'wma',
-  CUSTOM = 'custom'
-}
-
-export enum AudioQuality {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  LOSSLESS = 'lossless',
-  CUSTOM = 'custom'
-}
-
-export enum MusicKey {
-  C_MAJOR = 'c_major',
-  C_MINOR = 'c_minor',
-  D_MAJOR = 'd_major',
-  D_MINOR = 'd_minor',
-  E_MAJOR = 'e_major',
-  E_MINOR = 'e_minor',
-  F_MAJOR = 'f_major',
-  F_MINOR = 'f_minor',
-  G_MAJOR = 'g_major',
-  G_MINOR = 'g_minor',
-  A_MAJOR = 'a_major',
-  A_MINOR = 'a_minor',
-  B_MAJOR = 'b_major',
-  B_MINOR = 'b_minor',
-  CUSTOM = 'custom'
-}
-
-export enum MusicGenre {
-  CLASSICAL = 'classical',
-  JAZZ = 'jazz',
-  ROCK = 'rock',
-  POP = 'pop',
-  ELECTRONIC = 'electronic',
-  AMBIENT = 'ambient',
-  ORCHESTRAL = 'orchestral',
-  CUSTOM = 'custom'
-}
-
-export enum MusicMood {
-  HAPPY = 'happy',
-  SAD = 'sad',
-  EXCITING = 'exciting',
-  CALM = 'calm',
-  MYSTERIOUS = 'mysterious',
-  EPIC = 'epic',
-  ROMANTIC = 'romantic',
-  CUSTOM = 'custom'
-}
-
-export interface SoundEffect {
-  id: string;
-  name: string;
-  type: SoundEffectType;
-  status: SoundEffectStatus;
-  file: AudioFile;
-  volume: number;
-  pitch: number;
-  pan: number;
-  loop: boolean;
-  priority: AudioPriority;
-  attenuation: AudioAttenuation;
-  effects: AudioEffect[];
-  metadata: Map<string, any>;
-}
-
-export enum SoundEffectType {
-  UI = 'ui',
-  AMBIENT = 'ambient',
-  FOOTSTEP = 'footstep',
-  WEAPON = 'weapon',
-  EXPLOSION = 'explosion',
-  VEHICLE = 'vehicle',
-  ANIMAL = 'animal',
-  CUSTOM = 'custom'
-}
-
-export enum SoundEffectStatus {
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  LOADING = 'loading',
-  ERROR = 'error'
-}
-
-export interface VoiceChat {
-  enabled: boolean;
-  quality: VoiceQuality;
-  compression: VoiceCompression;
-  echoCancellation: boolean;
-  noiseSuppression: boolean;
-  autoGainControl: boolean;
-  participants: VoiceParticipant[];
-  channels: VoiceChannel[];
-  metadata: Map<string, any>;
-}
-
-export enum VoiceQuality {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  ULTRA = 'ultra',
-  CUSTOM = 'custom'
-}
-
-export enum VoiceCompression {
-  NONE = 'none',
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CUSTOM = 'custom'
-}
-
-export interface VoiceParticipant {
-  id: string;
-  name: string;
-  status: VoiceStatus;
-  volume: number;
-  mute: boolean;
-  deafen: boolean;
-  position: Position3D;
-  metadata: Map<string, any>;
-}
-
-export enum VoiceStatus {
-  CONNECTED = 'connected',
-  CONNECTING = 'connecting',
-  DISCONNECTED = 'disconnected',
-  MUTED = 'muted',
-  DEAFENED = 'deafened',
-  ERROR = 'error'
-}
-
-export interface VoiceChannel {
-  id: string;
-  name: string;
-  type: VoiceChannelType;
-  participants: string[];
-  position: Position3D;
-  radius: number;
-  metadata: Map<string, any>;
-}
-
-export enum VoiceChannelType {
-  GLOBAL = 'global',
-  PROXIMITY = 'proximity',
-  TEAM = 'team',
-  GUILD = 'guild',
-  PRIVATE = 'private',
-  CUSTOM = 'custom'
-}
-
-export interface AudioStreaming {
-  enabled: boolean;
-  quality: StreamingQuality;
-  bitrate: number;
-  bufferSize: number;
-  latency: number;
-  streams: AudioStream[];
-  metadata: Map<string, any>;
-}
-
-export enum StreamingQuality {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  ULTRA = 'ultra',
-  CUSTOM = 'custom'
-}
-
-export interface AudioStream {
-  id: string;
-  name: string;
-  type: StreamType;
-  url: string;
-  format: AudioFormat;
-  quality: AudioQuality;
-  bitrate: number;
-  status: StreamStatus;
-  metadata: Map<string, any>;
-}
-
-export enum StreamType {
-  MUSIC = 'music',
-  RADIO = 'radio',
-  PODCAST = 'podcast',
-  LIVE = 'live',
-  CUSTOM = 'custom'
-}
-
-export enum StreamStatus {
-  CONNECTING = 'connecting',
-  CONNECTED = 'connected',
-  BUFFERING = 'buffering',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  STOPPED = 'stopped',
-  ERROR = 'error'
-}
-
-export interface AudioAnalytics {
-  totalSources: number;
-  activeSources: number;
-  totalChannels: number;
-  activeChannels: number;
-  totalEffects: number;
-  activeEffects: number;
-  averageVolume: number;
-  peakVolume: number;
-  totalPlayTime: number;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface AudioMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface AudioSystemStats {
-  totalSources: number;
-  activeSources: number;
-  totalChannels: number;
-  activeChannels: number;
-  totalEffects: number;
-  activeEffects: number;
-  totalMusicTracks: number;
-  totalSoundEffects: number;
-  totalVoiceParticipants: number;
-  averageVolume: number;
-  peakVolume: number;
-  lastUpdate: number;
-}
+export type SystemType = 'master' | 'subsystem' | 'virtual' | 'network' | 'hybrid';
+export type SystemStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type DeviceType = 'input' | 'output' | 'bidirectional' | 'virtual' | 'network';
+export type DeviceStatus = 'connected' | 'disconnected' | 'error' | 'muted';
+export type ContextType = 'playback' | 'recording' | 'duplex' | 'monitoring';
+export type ContextStatus = 'active' | 'inactive' | 'error' | 'suspended';
+export type StageType = 'input' | 'output' | 'filter' | 'effect' | 'mixer' | 'analyzer';
+export type AudioEncoding = 'pcm' | 'mp3' | 'aac' | 'ogg' | 'wav' | 'flac';
+export type AudioQuality = 'low' | 'medium' | 'high' | 'ultra';
 
 export class AudioSystemManager {
-  private config: AudioSystemConfig;
-  private audioSystems: Map<string, AudioSystem> = new Map();
-  private stats: AudioSystemStats = this.initializeStats();
-  private isInitialized: boolean = false;
   private logger: StructuredLogger;
-  private memoryId: string;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
+  private config: AudioSystemConfig;
+  private systems: Map<string, AudioSystem> = new Map();
+  private isInitialized: boolean = false;
+  private startTime: Date;
 
-  constructor(config: Partial<AudioSystemConfig> = {}) {
+  constructor(config?: Partial<AudioSystemConfig>) {
+    this.logger = new StructuredLogger({ module: 'AudioSystemManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enable3DSpatialAudio: true,
-      enableDynamicMixing: true,
-      enableAudioEffects: true,
-      enableMusicManagement: true,
-      enableSoundManagement: true,
-      enableVoiceChat: true,
-      enableAudioStreaming: true,
-      enableAudioCompression: true,
-      enableRealTimeProcessing: true,
-      enableAudioAnalytics: true,
-      enableAudioRecording: true,
-      enableAudioPlayback: true,
-      maxAudioSources: 1000,
-      maxAudioChannels: 32,
-      maxAudioEffects: 100,
-      enableCloudSync: true,
+      enableDeviceManagement: true,
+      enableContextManagement: true,
+      enableProcessingPipeline: true,
+      enableCrossPlatformIntegration: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
+      maxDevices: 10,
+      maxContexts: 5,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'AudioSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `AudioSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'AudioSystemManager');
-  };
-  }
-
-  /**
-   * Initialize audio system manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize audio system manager
-      await this.initializeAudioSystemManager();
-      
-      // Load default audio systems
-      await this.loadDefaultAudioSystems();
-      
-      this.isInitialized = true;
-      this.logger.info('AudioSystemManager', 'Audio system manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('AudioSystemManager', 'Failed to initialize audio system manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new audio system
-   */
-  createAudioSystem(audioSystem: Partial<AudioSystem>): AudioSystem | null {
-    const newAudioSystem: AudioSystem = {
-      id: `audio_system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: audioSystem.name || 'New Audio System',
-      type: audioSystem.type || AudioSystemType.GAME,
-      status: AudioSystemStatus.ACTIVE,
-      sources: audioSystem.sources || [],
-      channels: audioSystem.channels || this.createDefaultChannels(),
-      effects: audioSystem.effects || [],
-      music: audioSystem.music || [],
-      sounds: audioSystem.sounds || [],
-      voice: audioSystem.voice || this.createDefaultVoiceChat(),
-      streaming: audioSystem.streaming || this.createDefaultStreaming(),
-      analytics: audioSystem.analytics || this.createDefaultAnalytics(),
-      metadata: audioSystem.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
-
-    this.audioSystems.set(newAudioSystem.id, newAudioSystem);
-    this.updateStats('create_audio_system', newAudioSystem);
-
-    this.logger.info('AudioSystemManager', `Created audio system: ${newAudioSystem.name}`);
-    return newAudioSystem;
   }
 
   /**
-   * Add audio source
+   * Initialize the Audio System Manager
    */
-  addAudioSource(audioSystemId: string, source: AudioSource): boolean {
-    const audioSystem = this.audioSystems.get(audioSystemId);
-    if (!audioSystem) {
-      this.logger.warn('AudioSystemManager', `Audio system ${audioSystemId} not found`);
-      return false;
-    }
-
-    if (audioSystem.sources.length >= this.config.maxAudioSources) {
-      this.logger.warn('AudioSystemManager', 'Maximum number of audio sources reached');
-      return false;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Audio System Manager already initialized');
+      return;
     }
 
     try {
-      audioSystem.sources.push(source);
-      audioSystem.modified = Date.now();
+      this.logger.info('Initializing Audio System Manager...');
 
-      this.updateStats('add_audio_source', audioSystem);
-      this.logger.info('AudioSystemManager', `Added audio source: ${source.name}`);
-      return true;
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
+
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Audio System Manager initialized successfully');
+
     } catch (error) {
-      this.logger.error('AudioSystemManager', `Failed to add audio source to system ${audioSystemId}:`, error);
-      return false;
+      this.errorHandler.handleError(error, 'Failed to initialize Audio System Manager');
+      throw error;
     }
   }
 
   /**
-   * Play audio source
+   * Create a new audio system
    */
-  playAudioSource(audioSystemId: string, sourceId: string): boolean {
-    const audioSystem = this.audioSystems.get(audioSystemId);
-    if (!audioSystem) {
-      this.logger.warn('AudioSystemManager', `Audio system ${audioSystemId} not found`);
-      return false;
-    }
-
-    const source = audioSystem.sources.find(s => s.id === sourceId);
-    if (!source) {
-      this.logger.warn('AudioSystemManager', `Audio source ${sourceId} not found`);
-      return false;
+  async createSystem(systemData: Omit<AudioSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<AudioSystem> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      source.status = AudioSourceStatus.PLAYING;
-      audioSystem.modified = Date.now();
+      const system: AudioSystem = {
+        ...systemData,
+        id: this.generateSystemId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalSystems: 0,
+          activeSystems: 0,
+          totalDevices: 0,
+          activeDevices: 0,
+          totalContexts: 0,
+          activeContexts: 0,
+          averageLatency: 0,
+          lastUpdated: new Date()
+        }
+      };
 
-      this.updateStats('play_audio_source', audioSystem);
-      this.logger.info('AudioSystemManager', `Playing audio source: ${source.name}`);
-      return true;
+      this.systems.set(system.id, system);
+      this.updateAnalytics();
+
+      this.logger.info('Audio system created', { systemId: system.id, systemName: system.name });
+      return system;
+
     } catch (error) {
-      this.logger.error('AudioSystemManager', `Failed to play audio source ${sourceId}:`, error);
-      return false;
+      this.errorHandler.handleError(error, 'Failed to create audio system');
+      throw error;
     }
   }
 
   /**
-   * Stop audio source
+   * Get an audio system by ID
    */
-  stopAudioSource(audioSystemId: string, sourceId: string): boolean {
-    const audioSystem = this.audioSystems.get(audioSystemId);
-    if (!audioSystem) {
-      this.logger.warn('AudioSystemManager', `Audio system ${audioSystemId} not found`);
-      return false;
+  getSystem(systemId: string): AudioSystem | null {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
     }
 
-    const source = audioSystem.sources.find(s => s.id === sourceId);
-    if (!source) {
-      this.logger.warn('AudioSystemManager', `Audio source ${sourceId} not found`);
-      return false;
+    return this.systems.get(systemId) || null;
+  }
+
+  /**
+   * Update an audio system
+   */
+  async updateSystem(systemId: string, updates: Partial<AudioSystem>): Promise<AudioSystem | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      source.status = AudioSourceStatus.STOPPED;
-      audioSystem.modified = Date.now();
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
 
-      this.updateStats('stop_audio_source', audioSystem);
-      this.logger.info('AudioSystemManager', `Stopped audio source: ${source.name}`);
-      return true;
+      const updatedSystem: AudioSystem = {
+        ...system,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(system.version)
+      };
+
+      this.systems.set(systemId, updatedSystem);
+      this.updateAnalytics();
+
+      this.logger.info('Audio system updated', { systemId, systemName: updatedSystem.name });
+      return updatedSystem;
+
     } catch (error) {
-      this.logger.error('AudioSystemManager', `Failed to stop audio source ${sourceId}:`, error);
-      return false;
+      this.errorHandler.handleError(error, 'Failed to update audio system');
+      throw error;
     }
   }
 
   /**
-   * Add audio effect
+   * Delete an audio system
    */
-  addAudioEffect(audioSystemId: string, effect: AudioEffect): boolean {
-    const audioSystem = this.audioSystems.get(audioSystemId);
-    if (!audioSystem) {
-      this.logger.warn('AudioSystemManager', `Audio system ${audioSystemId} not found`);
-      return false;
-    }
-
-    if (audioSystem.effects.length >= this.config.maxAudioEffects) {
-      this.logger.warn('AudioSystemManager', 'Maximum number of audio effects reached');
-      return false;
+  async deleteSystem(systemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
     }
 
     try {
-      audioSystem.effects.push(effect);
-      audioSystem.modified = Date.now();
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
 
-      this.updateStats('add_audio_effect', audioSystem);
-      this.logger.info('AudioSystemManager', `Added audio effect: ${effect.name}`);
+      this.systems.delete(systemId);
+      this.updateAnalytics();
+
+      this.logger.info('Audio system deleted', { systemId, systemName: system.name });
       return true;
+
     } catch (error) {
-      this.logger.error('AudioSystemManager', `Failed to add audio effect to system ${audioSystemId}:`, error);
-      return false;
+      this.errorHandler.handleError(error, 'Failed to delete audio system');
+      throw error;
     }
-  }
-
-  /**
-   * Add music track
-   */
-  addMusicTrack(audioSystemId: string, track: MusicTrack): boolean {
-    const audioSystem = this.audioSystems.get(audioSystemId);
-    if (!audioSystem) {
-      this.logger.warn('AudioSystemManager', `Audio system ${audioSystemId} not found`);
-      return false;
-    }
-
-    try {
-      audioSystem.music.push(track);
-      audioSystem.modified = Date.now();
-
-      this.updateStats('add_music_track', audioSystem);
-      this.logger.info('AudioSystemManager', `Added music track: ${track.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('AudioSystemManager', `Failed to add music track to system ${audioSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Add sound effect
-   */
-  addSoundEffect(audioSystemId: string, sound: SoundEffect): boolean {
-    const audioSystem = this.audioSystems.get(audioSystemId);
-    if (!audioSystem) {
-      this.logger.warn('AudioSystemManager', `Audio system ${audioSystemId} not found`);
-      return false;
-    }
-
-    try {
-      audioSystem.sounds.push(sound);
-      audioSystem.modified = Date.now();
-
-      this.updateStats('add_sound_effect', audioSystem);
-      this.logger.info('AudioSystemManager', `Added sound effect: ${sound.name}`);
-      return true;
-    } catch (error) {
-      this.logger.error('AudioSystemManager', `Failed to add sound effect to system ${audioSystemId}:`, error);
-      return false;
-    }
-  }
-
-  /**
-   * Get audio system
-   */
-  getAudioSystem(audioSystemId: string): AudioSystem | null {
-    return this.audioSystems.get(audioSystemId) || null;
   }
 
   /**
    * Get all audio systems
    */
-  getAudioSystems(): AudioSystem[] {
-    return Array.from(this.audioSystems.values());
-  }
-
-  /**
-   * Get audio systems by type
-   */
-  getAudioSystemsByType(type: AudioSystemType): AudioSystem[] {
-    return Array.from(this.audioSystems.values())
-      .filter(system => system.type === type);
-  }
-
-  /**
-   * Get manager statistics
-   */
-  getManagerStats(): AudioSystemStats {
-    return { ...this.stats };
-  }
-
-  /**
-   * Initialize audio system manager
-   */
-  private async initializeAudioSystemManager(): Promise<void> {
-    this.logger.info('AudioSystemManager', 'Initializing audio system manager...');
-  }
-
-  /**
-   * Load default audio systems
-   */
-  private async loadDefaultAudioSystems(): Promise<void> {
-    // Load default audio systems
-    const defaultSystems = [
-      this.createDefaultGameAudioSystem(),
-      this.createDefaultMusicAudioSystem(),
-      this.createDefaultVoiceAudioSystem()
-    ];
-
-    for (const system of defaultSystems) {
-      if (system) {
-        this.audioSystems.set(system.id, system);
-      }
+  getAllSystems(): AudioSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
     }
 
-    this.logger.info('AudioSystemManager', `Loaded ${defaultSystems.length} default audio systems`);
+    return Array.from(this.systems.values());
   }
 
   /**
-   * Create default channels
+   * Get systems by type
    */
-  private createDefaultChannels(): AudioChannel[] {
-    return [
-      {
-        id: 'master_channel',
-        name: 'Master',
-        type: AudioChannelType.MASTER,
-        status: AudioChannelStatus.ACTIVE,
-        volume: 1.0,
-        mute: false,
-        solo: false,
-        effects: [],
-        sources: [],
-        metadata: new Map()
-      },
-      {
-        id: 'music_channel',
-        name: 'Music',
-        type: AudioChannelType.MUSIC,
-        status: AudioChannelStatus.ACTIVE,
-        volume: 0.8,
-        mute: false,
-        solo: false,
-        effects: [],
-        sources: [],
-        metadata: new Map()
-      },
-      {
-        id: 'sfx_channel',
-        name: 'Sound Effects',
-        type: AudioChannelType.SFX,
-        status: AudioChannelStatus.ACTIVE,
-        volume: 0.9,
-        mute: false,
-        solo: false,
-        effects: [],
-        sources: [],
-        metadata: new Map()
-      },
-      {
-        id: 'voice_channel',
-        name: 'Voice',
-        type: AudioChannelType.VOICE,
-        status: AudioChannelStatus.ACTIVE,
-        volume: 1.0,
-        mute: false,
-        solo: false,
-        effects: [],
-        sources: [],
-        metadata: new Map()
-      },
-      {
-        id: 'ambient_channel',
-        name: 'Ambient',
-        type: AudioChannelType.AMBIENT,
-        status: AudioChannelStatus.ACTIVE,
-        volume: 0.7,
-        mute: false,
-        solo: false,
-        effects: [],
-        sources: [],
-        metadata: new Map()
-      },
-      {
-        id: 'ui_channel',
-        name: 'UI',
-        type: AudioChannelType.UI,
-        status: AudioChannelStatus.ACTIVE,
-        volume: 0.8,
-        mute: false,
-        solo: false,
-        effects: [],
-        sources: [],
-        metadata: new Map()
-      }
-    ];
-  }
-
-  /**
-   * Create default voice chat
-   */
-  private createDefaultVoiceChat(): VoiceChat {
-    return {
-      enabled: true,
-      quality: VoiceQuality.HIGH,
-      compression: VoiceCompression.MEDIUM,
-      echoCancellation: true,
-      noiseSuppression: true,
-      autoGainControl: true,
-      participants: [],
-      channels: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default streaming
-   */
-  private createDefaultStreaming(): AudioStreaming {
-    return {
-      enabled: false,
-      quality: StreamingQuality.HIGH,
-      bitrate: 320,
-      bufferSize: 1024,
-      latency: 100,
-      streams: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): AudioAnalytics {
-    return {
-      totalSources: 0,
-      activeSources: 0,
-      totalChannels: 0,
-      activeChannels: 0,
-      totalEffects: 0,
-      activeEffects: 0,
-      averageVolume: 0.5,
-      peakVolume: 0.0,
-      totalPlayTime: 0,
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): AudioMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default game audio system
-   */
-  private createDefaultGameAudioSystem(): AudioSystem {
-    return this.createAudioSystem({
-      name: 'Game Audio System',
-      type: AudioSystemType.GAME,
-      description: 'Game audio system for gameplay sounds'
-    });
-  }
-
-  /**
-   * Create default music audio system
-   */
-  private createDefaultMusicAudioSystem(): AudioSystem {
-    return this.createAudioSystem({
-      name: 'Music Audio System',
-      type: AudioSystemType.MUSIC,
-      description: 'Music audio system for background music'
-    });
-  }
-
-  /**
-   * Create default voice audio system
-   */
-  private createDefaultVoiceAudioSystem(): AudioSystem {
-    return this.createAudioSystem({
-      name: 'Voice Audio System',
-      type: AudioSystemType.VOICE,
-      description: 'Voice audio system for voice chat'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, audioSystem: AudioSystem): void {
-    switch (action) {
-      case 'create_audio_system':
-        this.stats.totalSources += audioSystem.sources.length;
-        this.stats.totalChannels += audioSystem.channels.length;
-        this.stats.totalEffects += audioSystem.effects.length;
-        this.stats.totalMusicTracks += audioSystem.music.length;
-        this.stats.totalSoundEffects += audioSystem.sounds.length;
-        break;
-      case 'add_audio_source':
-        this.stats.totalSources++;
-        break;
-      case 'play_audio_source':
-        this.stats.activeSources++;
-        break;
-      case 'stop_audio_source':
-        this.stats.activeSources--;
-        break;
-      case 'add_audio_effect':
-        this.stats.totalEffects++;
-        break;
-      case 'add_music_track':
-        this.stats.totalMusicTracks++;
-        break;
-      case 'add_sound_effect':
-        this.stats.totalSoundEffects++;
-        break;
+  getSystemsByType(type: SystemType): AudioSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    return Array.from(this.systems.values()).filter(system => system.type === type);
   }
 
   /**
-   * Initialize statistics
+   * Get systems by status
    */
-  private initializeStats(): AudioSystemStats {
+  getSystemsByStatus(status: SystemStatus): AudioSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    return Array.from(this.systems.values()).filter(system => system.status === status);
+  }
+
+  /**
+   * Add a device to a system
+   */
+  async addDevice(systemId: string, deviceData: Omit<AudioDevice, 'id'>): Promise<AudioDevice | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const device: AudioDevice = {
+        ...deviceData,
+        id: this.generateDeviceId()
+      };
+
+      system.devices.push(device);
+      this.updateAnalytics();
+
+      this.logger.info('Device added to system', { systemId, deviceId: device.id, deviceName: device.name });
+      return device;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add device to system');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a device from a system
+   */
+  async removeDevice(systemId: string, deviceId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const deviceIndex = system.devices.findIndex(device => device.id === deviceId);
+      if (deviceIndex === -1) {
+        this.logger.warn('Device not found', { systemId, deviceId });
+        return false;
+      }
+
+      system.devices.splice(deviceIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Device removed from system', { systemId, deviceId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove device from system');
+      return false;
+    }
+  }
+
+  /**
+   * Add a context to a system
+   */
+  async addContext(systemId: string, contextData: Omit<AudioContext, 'id'>): Promise<AudioContext | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const context: AudioContext = {
+        ...contextData,
+        id: this.generateContextId()
+      };
+
+      system.contexts.push(context);
+      this.updateAnalytics();
+
+      this.logger.info('Context added to system', { systemId, contextId: context.id, contextName: context.name });
+      return context;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add context to system');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a context from a system
+   */
+  async removeContext(systemId: string, contextId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const contextIndex = system.contexts.findIndex(context => context.id === contextId);
+      if (contextIndex === -1) {
+        this.logger.warn('Context not found', { systemId, contextId });
+        return false;
+      }
+
+      system.contexts.splice(contextIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Context removed from system', { systemId, contextId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove context from system');
+      return false;
+    }
+  }
+
+  /**
+   * Add a processing stage to a system
+   */
+  async addProcessingStage(systemId: string, stageData: Omit<ProcessingStage, 'id'>): Promise<ProcessingStage | null> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const stage: ProcessingStage = {
+        ...stageData,
+        id: this.generateStageId()
+      };
+
+      system.pipeline.stages.push(stage);
+      this.updateAnalytics();
+
+      this.logger.info('Processing stage added to system', { systemId, stageId: stage.id, stageName: stage.name });
+      return stage;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to add processing stage to system');
+      return null;
+    }
+  }
+
+  /**
+   * Remove a processing stage from a system
+   */
+  async removeProcessingStage(systemId: string, stageId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const stageIndex = system.pipeline.stages.findIndex(stage => stage.id === stageId);
+      if (stageIndex === -1) {
+        this.logger.warn('Processing stage not found', { systemId, stageId });
+        return false;
+      }
+
+      system.pipeline.stages.splice(stageIndex, 1);
+      this.updateAnalytics();
+
+      this.logger.info('Processing stage removed from system', { systemId, stageId });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to remove processing stage from system');
+      return false;
+    }
+  }
+
+  /**
+   * Start a system
+   */
+  async startSystem(systemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      system.status = 'active';
+      this.updateAnalytics();
+
+      this.logger.info('Audio system started', { systemId, systemName: system.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to start audio system');
+      return false;
+    }
+  }
+
+  /**
+   * Stop a system
+   */
+  async stopSystem(systemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      system.status = 'inactive';
+      this.updateAnalytics();
+
+      this.logger.info('Audio system stopped', { systemId, systemName: system.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to stop audio system');
+      return false;
+    }
+  }
+
+  /**
+   * Generate a unique system ID
+   */
+  private generateSystemId(): string {
+    return `system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique device ID
+   */
+  private generateDeviceId(): string {
+    return `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique context ID
+   */
+  private generateContextId(): string {
+    return `context_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique stage ID
+   */
+  private generateStageId(): string {
+    return `stage_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const systems = Array.from(this.systems.values());
+    const activeSystems = systems.filter(s => s.status === 'active');
+    const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
+    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter(d => d.status === 'connected').length, 0);
+    const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
+    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter(c => c.status === 'active').length, 0);
+    const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
+
+    for (const system of systems) {
+      system.analytics = {
+        totalSystems: systems.length,
+        activeSystems: activeSystems.length,
+        totalDevices: totalDevices,
+        activeDevices: activeDevices,
+        totalContexts: totalContexts,
+        activeContexts: activeContexts,
+        averageLatency: systems.length > 0 ? totalLatency / systems.length : 0,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalSystems: number;
+    activeSystems: number;
+    systemsByType: Record<SystemType, number>;
+    systemsByStatus: Record<SystemStatus, number>;
+    totalDevices: number;
+    activeDevices: number;
+    totalContexts: number;
+    activeContexts: number;
+    averageLatency: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Audio System Manager not initialized');
+    }
+
+    const systems = Array.from(this.systems.values());
+    const activeSystems = systems.filter(s => s.status === 'active');
+    const totalDevices = systems.reduce((sum, s) => sum + s.devices.length, 0);
+    const activeDevices = systems.reduce((sum, s) => sum + s.devices.filter(d => d.status === 'connected').length, 0);
+    const totalContexts = systems.reduce((sum, s) => sum + s.contexts.length, 0);
+    const activeContexts = systems.reduce((sum, s) => sum + s.contexts.filter(c => c.status === 'active').length, 0);
+    const totalLatency = systems.reduce((sum, s) => sum + s.performance.latency, 0);
+
+    const systemsByType: Record<SystemType, number> = {
+      master: 0,
+      subsystem: 0,
+      virtual: 0,
+      network: 0,
+      hybrid: 0
+    };
+
+    const systemsByStatus: Record<SystemStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const system of systems) {
+      systemsByType[system.type]++;
+      systemsByStatus[system.status]++;
+    }
+
     return {
-      totalSources: 0,
-      activeSources: 0,
-      totalChannels: 0,
-      activeChannels: 0,
-      totalEffects: 0,
-      activeEffects: 0,
-      totalMusicTracks: 0,
-      totalSoundEffects: 0,
-      totalVoiceParticipants: 0,
-      averageVolume: 0.5,
-      peakVolume: 0.0,
-      lastUpdate: Date.now()
+      totalSystems: systems.length,
+      activeSystems: activeSystems.length,
+      systemsByType,
+      systemsByStatus,
+      totalDevices,
+      activeDevices,
+      totalContexts,
+      activeContexts,
+      averageLatency: systems.length > 0 ? totalLatency / systems.length : 0,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Audio System Manager
    */
-  destroy(): void {
-    this.audioSystems.clear();
-    this.stats = this.initializeStats();
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Audio System Manager...');
+
+    this.systems.clear();
     this.isInitialized = false;
+
+    this.logger.info('Audio System Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultAudioSystemManager = new AudioSystemManager();
-export { AudioSystemManager as default };
+export const audioSystemManager = new AudioSystemManager();
+export default audioSystemManager;
