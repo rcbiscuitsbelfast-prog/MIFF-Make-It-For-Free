@@ -294,3 +294,15 @@ class StatsSystemCLI extends BaseCLIHarness {
 // Run the CLI
 const cli = new StatsSystemCLI();
 cli.run().catch(console.error);
+// Export CLI utilities
+export function getCliVersion(): string {
+  return '1.0.0';
+}
+
+export function getCliHelp(): string {
+  return 'Use --help for more information';
+}
+
+export function validateCliArgs(args: string[]): boolean {
+  return args.length > 0;
+}

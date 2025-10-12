@@ -511,4 +511,15 @@ main().catch((error: unknown) => {
 });
 
 // Ensure this file is treated as a module to avoid global collisions
-export {};
+// Export CLI utilities
+export function getCliVersion(): string {
+  return '1.0.0';
+}
+
+export function getCliHelp(): string {
+  return 'Use --help for more information';
+}
+
+export function validateCliArgs(args: string[]): boolean {
+  return args.length > 0;
+}

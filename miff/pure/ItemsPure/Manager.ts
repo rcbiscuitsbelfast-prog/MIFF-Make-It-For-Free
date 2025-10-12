@@ -3,633 +3,676 @@
  *
  * Comprehensive item management system with:
  * - Item creation and management
- * - Item categorization and filtering
  * - Item properties and attributes
- * - Item stacking and inventory management
- * - Item trading and economy
- * - Item durability and enhancement
- * - Item analytics and monitoring
+ * - Item categories and types
+ * - Item rarity and quality systems
+ * - Item crafting and enhancement
+ * - Cross-platform item support
  * - Performance optimization
+ * - Real-time item monitoring
+ * - Item analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
-export interface ItemsConfig {
+export interface ItemConfig {
   enableItemCreation: boolean;
   enableItemManagement: boolean;
-  enableItemCategorization: boolean;
-  enableItemFiltering: boolean;
   enableItemProperties: boolean;
-  enableItemAttributes: boolean;
-  enableItemStacking: boolean;
-  enableInventoryManagement: boolean;
-  enableItemTrading: boolean;
-  enableItemEconomy: boolean;
-  enableItemDurability: boolean;
+  enableItemCategories: boolean;
+  enableItemTypes: boolean;
+  enableItemRarity: boolean;
+  enableItemQuality: boolean;
+  enableItemCrafting: boolean;
   enableItemEnhancement: boolean;
+  enableCrossPlatformSupport: boolean;
+  enablePerformanceOptimization: boolean;
+  enableRealTimeMonitoring: boolean;
   enableItemAnalytics: boolean;
-  enableItemMonitoring: boolean;
+  enableItemReporting: boolean;
   maxItems: number;
-  maxStacks: number;
+  maxCategories: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface Items {
+export interface Item {
   id: string;
   name: string;
+  description: string;
   type: ItemType;
-  status: ItemStatus;
-  items: Item[];
-  categories: ItemCategory[];
-  properties: ItemProperty[];
-  analytics: ItemsAnalytics;
-  metadata: ItemsMetadata;
+  category: ItemCategory;
+  rarity: ItemRarity;
+  quality: ItemQuality;
+  properties: ItemProperties;
+  stats: ItemStats;
+  requirements: ItemRequirements;
+  effects: ItemEffect[];
+  crafting: ItemCrafting;
+  enhancement: ItemEnhancement;
+  metadata: ItemMetadata;
   version: string;
   created: number;
   modified: number;
 }
 
-export enum ItemType {
-  WEAPON = 'weapon',
-  ARMOR = 'armor',
-  CONSUMABLE = 'consumable',
-  MATERIAL = 'material',
-  TOOL = 'tool',
-  QUEST = 'quest',
-  CUSTOM = 'custom'
-}
-
-export enum ItemStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Item {
+export interface ItemType {
   id: string;
   name: string;
-  type: ItemType;
-  status: ItemStatus;
+  description: string;
   category: string;
-  properties: ItemProperties;
-  attributes: ItemAttributes;
-  stacking: ItemStacking;
-  durability: ItemDurability;
-  enhancement: ItemEnhancement;
-  metadata: Map<string, any>;
+  properties: string[];
+  requirements: string[];
+  effects: string[];
+}
+
+export interface ItemCategory {
+  id: string;
+  name: string;
+  description: string;
+  parent?: string;
+  children: string[];
+  properties: string[];
+  types: string[];
+}
+
+export interface ItemRarity {
+  id: string;
+  name: string;
+  level: number;
+  color: string;
+  multiplier: number;
+  properties: string[];
+}
+
+export interface ItemQuality {
+  id: string;
+  name: string;
+  level: number;
+  multiplier: number;
+  durability: number;
+  properties: string[];
 }
 
 export interface ItemProperties {
-  description: string;
-  value: number;
+  [key: string]: any;
   weight: number;
-  rarity: ItemRarity;
-  level: number;
-  requirements: ItemRequirements;
-  metadata: Map<string, any>;
+  value: number;
+  durability: number;
+  stackable: boolean;
+  tradeable: boolean;
+  droppable: boolean;
+  sellable: boolean;
 }
 
-export enum ItemRarity {
-  COMMON = 'common',
-  UNCOMMON = 'uncommon',
-  RARE = 'rare',
-  EPIC = 'epic',
-  LEGENDARY = 'legendary',
-  CUSTOM = 'custom'
+export interface ItemStats {
+  [key: string]: number;
+  attack?: number;
+  defense?: number;
+  speed?: number;
+  health?: number;
+  mana?: number;
+  stamina?: number;
 }
 
 export interface ItemRequirements {
   level: number;
-  stats: Map<string, number>;
-  classes: string[];
-  metadata: Map<string, any>;
+  attributes: { [key: string]: number };
+  skills: { [key: string]: number };
+  items: { [key: string]: number };
 }
 
-export interface ItemAttributes {
-  strength: number;
-  dexterity: number;
-  intelligence: number;
-  constitution: number;
-  wisdom: number;
-  charisma: number;
-  metadata: Map<string, any>;
+export interface ItemEffect {
+  id: string;
+  type: string;
+  value: number;
+  duration: number;
+  condition: string;
+  target: string;
 }
 
-export interface ItemStacking {
+export interface ItemCrafting {
   enabled: boolean;
-  maxStack: number;
-  currentStack: number;
-  metadata: Map<string, any>;
-}
-
-export interface ItemDurability {
-  enabled: boolean;
-  current: number;
-  maximum: number;
-  degradation: number;
-  metadata: Map<string, any>;
+  materials: { [key: string]: number };
+  tools: string[];
+  time: number;
+  skill: string;
+  level: number;
 }
 
 export interface ItemEnhancement {
   enabled: boolean;
   level: number;
   maxLevel: number;
-  enhancements: Enhancement[];
-  metadata: Map<string, any>;
+  materials: { [key: string]: number };
+  successRate: number;
+  failureRate: number;
 }
 
-export interface Enhancement {
-  type: EnhancementType;
-  value: number;
-  metadata: Map<string, any>;
-}
-
-export enum EnhancementType {
-  DAMAGE = 'damage',
-  DEFENSE = 'defense',
-  SPEED = 'speed',
-  DURABILITY = 'durability',
-  CUSTOM = 'custom'
-}
-
-export interface ItemCategory {
-  id: string;
-  name: string;
-  type: CategoryType;
-  parent: string;
-  children: string[];
-  items: string[];
-  metadata: Map<string, any>;
-}
-
-export enum CategoryType {
-  WEAPON = 'weapon',
-  ARMOR = 'armor',
-  CONSUMABLE = 'consumable',
-  MATERIAL = 'material',
-  TOOL = 'tool',
-  QUEST = 'quest',
-  CUSTOM = 'custom'
-}
-
-export interface ItemProperty {
-  id: string;
-  name: string;
-  type: PropertyType;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum PropertyType {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  ARRAY = 'array',
-  OBJECT = 'object',
-  CUSTOM = 'custom'
-}
-
-export interface ItemsAnalytics {
-  totalItems: number;
-  totalCategories: number;
-  totalProperties: number;
-  averageValue: number;
-  mostCommonRarity: ItemRarity;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface ItemsMetadata {
-  author: string;
-  version: string;
+export interface ItemMetadata {
+  [key: string]: any;
   tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
+  flags: string[];
+  notes: string;
+  source: string;
+  creator: string;
 }
 
-export interface ItemsStats {
+export interface ItemStats {
   totalItems: number;
   totalCategories: number;
-  totalProperties: number;
+  totalTypes: number;
+  totalRarities: number;
+  totalQualities: number;
   averageValue: number;
-  mostCommonRarity: ItemRarity;
+  mostCommonType: string;
+  rarestItem: string;
   lastUpdate: number;
 }
 
-export class ItemsManager {
-  private config: ItemsConfig;
-  private items: Map<string, Items> = new Map();
-  private stats: ItemsStats = this.initializeStats();
+export class ItemManager {
+  private config: ItemConfig;
+  private items: Map<string, Item> = new Map();
+  private types: Map<string, ItemType> = new Map();
+  private categories: Map<string, ItemCategory> = new Map();
+  private rarities: Map<string, ItemRarity> = new Map();
+  private qualities: Map<string, ItemQuality> = new Map();
+  private stats: ItemStats = this.initializeStats();
   private isInitialized: boolean = false;
   private logger: StructuredLogger;
   private memoryId: string;
+  private errorHandler: StandardErrorHandler;
 
-  constructor(config: Partial<ItemsConfig> = {}) {
+  constructor(config: Partial<ItemConfig> = {}) {
     this.config = {
       enableItemCreation: true,
       enableItemManagement: true,
-      enableItemCategorization: true,
-      enableItemFiltering: true,
       enableItemProperties: true,
-      enableItemAttributes: true,
-      enableItemStacking: true,
-      enableInventoryManagement: true,
-      enableItemTrading: true,
-      enableItemEconomy: true,
-      enableItemDurability: true,
+      enableItemCategories: true,
+      enableItemTypes: true,
+      enableItemRarity: true,
+      enableItemQuality: true,
+      enableItemCrafting: true,
       enableItemEnhancement: true,
+      enableCrossPlatformSupport: true,
+      enablePerformanceOptimization: true,
+      enableRealTimeMonitoring: true,
       enableItemAnalytics: true,
-      enableItemMonitoring: true,
+      enableItemReporting: true,
       maxItems: 100000,
-      maxStacks: 1000,
+      maxCategories: 1000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-        'ItemsManager': LogLevel.DEBUG
+        'ItemManager': LogLevel.DEBUG
       }
     });
 
     // Register with memory manager
-    this.memoryId = `ItemsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'ItemsManager');
-  };
+    this.memoryId = `ItemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    MemoryManager.registerObject(this.memoryId, this, 'ItemManager');
+
+    // Initialize error handler
+    this.errorHandler = new StandardErrorHandler(this.logger);
   }
 
   /**
-   * Initialize items manager
+   * Initialize item manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('ItemManager', 'initialize');
+    
     try {
-      // Initialize items manager
-      await this.initializeItemsManager();
+      // Initialize item manager
+      await this.initializeItemManager();
       
       // Load default items
       await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('ItemsManager', 'Items manager initialized successfully');
+      this.logger.info('ItemManager', 'Item manager initialized successfully', {
+        itemsCount: this.items.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('ItemManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      this.logger.error('ItemsManager', 'Failed to initialize items manager:', error);
+      this.logger.error('ItemManager', 'Failed to initialize item manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
 
   /**
-   * Create new items
+   * Create new item
    */
-  createItems(items: Partial<Items>): Items | null {
-    const newItems: Items = {
-      id: `items_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: items.name || 'New Items',
-      type: items.type || ItemType.WEAPON,
-      status: ItemStatus.ACTIVE,
-      items: items.items || [],
-      categories: items.categories || [],
-      properties: items.properties || [],
-      analytics: items.analytics || this.createDefaultAnalytics(),
-      metadata: items.metadata || this.createDefaultMetadata(),
+  createItem(item: Partial<Item>): Item | null {
+    if (!this.isInitialized) {
+      const error = this.errorHandler.createError(
+        ErrorCode.MODULE_NOT_INITIALIZED,
+        'Item manager not initialized',
+        { module: 'ItemManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.HIGH
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    if (this.items.size >= this.config.maxItems) {
+      const error = this.errorHandler.createError(
+        ErrorCode.OPERATION_FAILED,
+        'Maximum number of items reached',
+        { module: 'ItemManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    const newItem: Item = {
+      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: item.name || 'New Item',
+      description: item.description || '',
+      type: item.type || this.getDefaultItemType(),
+      category: item.category || this.getDefaultItemCategory(),
+      rarity: item.rarity || this.getDefaultItemRarity(),
+      quality: item.quality || this.getDefaultItemQuality(),
+      properties: item.properties || this.getDefaultItemProperties(),
+      stats: item.stats || {},
+      requirements: item.requirements || this.getDefaultItemRequirements(),
+      effects: item.effects || [],
+      crafting: item.crafting || this.getDefaultItemCrafting(),
+      enhancement: item.enhancement || this.getDefaultItemEnhancement(),
+      metadata: item.metadata || this.getDefaultItemMetadata(),
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.items.set(newItems.id, newItems);
-    this.updateStats('create_items', newItems);
+    this.items.set(newItem.id, newItem);
+    this.updateStats('create_item', newItem);
 
-    this.logger.info('ItemsManager', `Created items: ${newItems.name}`);
-    return newItems;
+    this.logger.info('ItemManager', 'Created item', {
+      itemId: newItem.id,
+      itemName: newItem.name,
+      itemType: newItem.type.name,
+      totalItems: this.items.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return newItem;
   }
 
   /**
-   * Create item
+   * Get item by ID
    */
-  createItem(itemsId: string, item: Partial<Item>): Item | null {
-    const items = this.items.get(itemsId);
-    if (!items) {
-      this.logger.warn('ItemsManager', `Items ${itemsId} not found`);
-      return null;
+  getItem(itemId: string): Item | null {
+    const item = this.items.get(itemId);
+    if (item) {
+      MemoryManager.trackAccess(this.memoryId);
     }
-
-    if (items.items.length >= this.config.maxItems) {
-      this.logger.warn('ItemsManager', 'Maximum number of items reached');
-      return null;
-    }
-
-    try {
-      const newItem: Item = {
-        id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: item.name || 'New Item',
-        type: item.type || ItemType.WEAPON,
-        status: ItemStatus.ACTIVE,
-        category: item.category || 'default',
-        properties: item.properties || this.createDefaultItemProperties(),
-        attributes: item.attributes || this.createDefaultItemAttributes(),
-        stacking: item.stacking || this.createDefaultItemStacking(),
-        durability: item.durability || this.createDefaultItemDurability(),
-        enhancement: item.enhancement || this.createDefaultItemEnhancement(),
-        metadata: item.metadata || new Map()
-      };
-
-      items.items.push(newItem);
-      items.modified = Date.now();
-
-      this.updateStats('create_item', items);
-      this.logger.info('ItemsManager', `Created item: ${newItem.name}`);
-      return newItem;
-    } catch (error) {
-      this.logger.error('ItemsManager', `Failed to create item in items ${itemsId}:`, error);
-      return null;
-    }
+    return item || null;
   }
 
   /**
-   * Create item category
+   * Update item
    */
-  createItemCategory(itemsId: string, category: Partial<ItemCategory>): ItemCategory | null {
-    const items = this.items.get(itemsId);
-    if (!items) {
-      this.logger.warn('ItemsManager', `Items ${itemsId} not found`);
+  updateItem(itemId: string, updates: Partial<Item>): Item | null {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'ItemManager', operation: 'updateItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
       return null;
     }
 
-    try {
-      const newCategory: ItemCategory = {
-        id: `category_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: category.name || 'New Category',
-        type: category.type || CategoryType.WEAPON,
-        parent: category.parent || '',
-        children: category.children || [],
-        items: category.items || [],
-        metadata: category.metadata || new Map()
-      };
+    const updatedItem: Item = {
+      ...item,
+      ...updates,
+      id: itemId, // Prevent ID changes
+      modified: Date.now()
+    };
 
-      items.categories.push(newCategory);
-      items.modified = Date.now();
+    this.items.set(itemId, updatedItem);
+    this.updateStats('update_item', updatedItem);
 
-      this.updateStats('create_category', items);
-      this.logger.info('ItemsManager', `Created item category: ${newCategory.name}`);
-      return newCategory;
-    } catch (error) {
-      this.logger.error('ItemsManager', `Failed to create item category in items ${itemsId}:`, error);
-      return null;
-    }
+    this.logger.info('ItemManager', 'Updated item', {
+      itemId,
+      itemName: updatedItem.name,
+      changes: Object.keys(updates)
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return updatedItem;
   }
 
   /**
-   * Get items
+   * Delete item
    */
-  getItems(itemsId: string): Items | null {
-    return this.items.get(itemsId) || null;
+  deleteItem(itemId: string): boolean {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'ItemManager', operation: 'deleteItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return false;
+    }
+
+    this.items.delete(itemId);
+    this.updateStats('delete_item', item);
+
+    this.logger.info('ItemManager', 'Deleted item', {
+      itemId,
+      itemName: item.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return true;
   }
 
   /**
    * Get all items
    */
-  getItemsList(): Items[] {
+  getAllItems(): Item[] {
+    MemoryManager.trackAccess(this.memoryId);
     return Array.from(this.items.values());
   }
 
   /**
    * Get items by type
    */
-  getItemsByType(type: ItemType): Items[] {
-    return Array.from(this.items.values())
-      .filter(items => items.type === type);
+  getItemsByType(typeId: string): Item[] {
+    const items = Array.from(this.items.values()).filter(item => item.type.id === typeId);
+    MemoryManager.trackAccess(this.memoryId);
+    return items;
+  }
+
+  /**
+   * Get items by category
+   */
+  getItemsByCategory(categoryId: string): Item[] {
+    const items = Array.from(this.items.values()).filter(item => item.category.id === categoryId);
+    MemoryManager.trackAccess(this.memoryId);
+    return items;
+  }
+
+  /**
+   * Get items by rarity
+   */
+  getItemsByRarity(rarityId: string): Item[] {
+    const items = Array.from(this.items.values()).filter(item => item.rarity.id === rarityId);
+    MemoryManager.trackAccess(this.memoryId);
+    return items;
+  }
+
+  /**
+   * Search items
+   */
+  searchItems(query: string): Item[] {
+    const searchTerm = query.toLowerCase();
+    const items = Array.from(this.items.values()).filter(item => 
+      item.name.toLowerCase().includes(searchTerm) ||
+      item.description.toLowerCase().includes(searchTerm) ||
+      item.type.name.toLowerCase().includes(searchTerm) ||
+      item.category.name.toLowerCase().includes(searchTerm)
+    );
+    MemoryManager.trackAccess(this.memoryId);
+    return items;
   }
 
   /**
    * Get manager statistics
    */
-  getManagerStats(): ItemsStats {
+  getManagerStats(): ItemStats {
     return { ...this.stats };
   }
 
   /**
-   * Initialize items manager
+   * Initialize item manager
    */
-  private async initializeItemsManager(): Promise<void> {
-    this.logger.info('ItemsManager', 'Initializing items manager...');
+  private async initializeItemManager(): Promise<void> {
+    this.logger.debug('ItemManager', 'Initializing item manager...');
   }
 
   /**
    * Load default items
    */
   private async loadDefaultItems(): Promise<void> {
-    // Load default items
-    const defaultItems = [
-      this.createDefaultWeapons(),
-      this.createDefaultArmor(),
-      this.createDefaultConsumables()
-    ];
-
-    for (const items of defaultItems) {
-      if (items) {
-        this.items.set(items.id, items);
-      }
+    const defaultItems = this.createDefaultItems();
+    
+    for (const item of defaultItems) {
+      this.items.set(item.id, item);
     }
 
-    this.logger.info('ItemsManager', `Loaded ${defaultItems.length} default items`);
+    this.logger.info('ItemManager', 'Loaded default items', {
+      count: defaultItems.length,
+      items: defaultItems.map(i => i.name)
+    });
   }
 
   /**
-   * Create default item properties
+   * Create default items
    */
-  private createDefaultItemProperties(): ItemProperties {
+  private createDefaultItems(): Item[] {
+    return [
+      {
+        id: 'item_sword_basic',
+        name: 'Basic Sword',
+        description: 'A simple iron sword',
+        type: this.getDefaultItemType(),
+        category: this.getDefaultItemCategory(),
+        rarity: this.getDefaultItemRarity(),
+        quality: this.getDefaultItemQuality(),
+        properties: { weight: 2.5, value: 50, durability: 100, stackable: false, tradeable: true, droppable: true, sellable: true },
+        stats: { attack: 10, speed: 5 },
+        requirements: { level: 1, attributes: {}, skills: {}, items: {} },
+        effects: [],
+        crafting: this.getDefaultItemCrafting(),
+        enhancement: this.getDefaultItemEnhancement(),
+        metadata: { tags: ['weapon', 'sword'], flags: [], notes: '', source: 'default', creator: 'system' },
+        version: '1.0.0',
+        created: Date.now(),
+        modified: Date.now()
+      }
+    ];
+  }
+
+  /**
+   * Get default item type
+   */
+  private getDefaultItemType(): ItemType {
     return {
-      description: '',
-      value: 0,
-      weight: 0,
-      rarity: ItemRarity.COMMON,
+      id: 'type_weapon',
+      name: 'Weapon',
+      description: 'A weapon item',
+      category: 'equipment',
+      properties: ['attack', 'speed'],
+      requirements: ['strength'],
+      effects: ['damage']
+    };
+  }
+
+  /**
+   * Get default item category
+   */
+  private getDefaultItemCategory(): ItemCategory {
+    return {
+      id: 'category_equipment',
+      name: 'Equipment',
+      description: 'Equipment items',
+      children: [],
+      properties: ['durability'],
+      types: ['weapon', 'armor']
+    };
+  }
+
+  /**
+   * Get default item rarity
+   */
+  private getDefaultItemRarity(): ItemRarity {
+    return {
+      id: 'rarity_common',
+      name: 'Common',
       level: 1,
-      requirements: {
-        level: 1,
-        stats: new Map(),
-        classes: [],
-        metadata: new Map()
-      },
-      metadata: new Map()
+      color: '#ffffff',
+      multiplier: 1.0,
+      properties: []
     };
   }
 
   /**
-   * Create default item attributes
+   * Get default item quality
    */
-  private createDefaultItemAttributes(): ItemAttributes {
+  private getDefaultItemQuality(): ItemQuality {
     return {
-      strength: 0,
-      dexterity: 0,
-      intelligence: 0,
-      constitution: 0,
-      wisdom: 0,
-      charisma: 0,
-      metadata: new Map()
+      id: 'quality_normal',
+      name: 'Normal',
+      level: 1,
+      multiplier: 1.0,
+      durability: 100,
+      properties: []
     };
   }
 
   /**
-   * Create default item stacking
+   * Get default item properties
    */
-  private createDefaultItemStacking(): ItemStacking {
+  private getDefaultItemProperties(): ItemProperties {
     return {
-      enabled: true,
-      maxStack: 1,
-      currentStack: 1,
-      metadata: new Map()
+      weight: 1.0,
+      value: 10,
+      durability: 100,
+      stackable: false,
+      tradeable: true,
+      droppable: true,
+      sellable: true
     };
   }
 
   /**
-   * Create default item durability
+   * Get default item requirements
    */
-  private createDefaultItemDurability(): ItemDurability {
+  private getDefaultItemRequirements(): ItemRequirements {
+    return {
+      level: 1,
+      attributes: {},
+      skills: {},
+      items: {}
+    };
+  }
+
+  /**
+   * Get default item crafting
+   */
+  private getDefaultItemCrafting(): ItemCrafting {
     return {
       enabled: false,
-      current: 100,
-      maximum: 100,
-      degradation: 0,
-      metadata: new Map()
+      materials: {},
+      tools: [],
+      time: 0,
+      skill: '',
+      level: 0
     };
   }
 
   /**
-   * Create default item enhancement
+   * Get default item enhancement
    */
-  private createDefaultItemEnhancement(): ItemEnhancement {
+  private getDefaultItemEnhancement(): ItemEnhancement {
     return {
       enabled: false,
       level: 0,
-      maxLevel: 10,
-      enhancements: [],
-      metadata: new Map()
+      maxLevel: 0,
+      materials: {},
+      successRate: 0,
+      failureRate: 0
     };
   }
 
   /**
-   * Create default analytics
+   * Get default item metadata
    */
-  private createDefaultAnalytics(): ItemsAnalytics {
+  private getDefaultItemMetadata(): ItemMetadata {
     return {
-      totalItems: 0,
-      totalCategories: 0,
-      totalProperties: 0,
-      averageValue: 0,
-      mostCommonRarity: ItemRarity.COMMON,
-      performance: {
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): ItemsMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
       tags: [],
-      description: '',
-      customMetadata: new Map()
+      flags: [],
+      notes: '',
+      source: 'default',
+      creator: 'system'
     };
-  }
-
-  /**
-   * Create default weapons
-   */
-  private createDefaultWeapons(): Items {
-    return this.createItems({
-      name: 'Weapons',
-      type: ItemType.WEAPON,
-      description: 'Weapon items collection'
-    });
-  }
-
-  /**
-   * Create default armor
-   */
-  private createDefaultArmor(): Items {
-    return this.createItems({
-      name: 'Armor',
-      type: ItemType.ARMOR,
-      description: 'Armor items collection'
-    });
-  }
-
-  /**
-   * Create default consumables
-   */
-  private createDefaultConsumables(): Items {
-    return this.createItems({
-      name: 'Consumables',
-      type: ItemType.CONSUMABLE,
-      description: 'Consumable items collection'
-    });
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, items: Items): void {
-    switch (action) {
-      case 'create_items':
-        this.stats.totalItems += items.items.length;
-        this.stats.totalCategories += items.categories.length;
-        this.stats.totalProperties += items.properties.length;
-        break;
-      case 'create_item':
-        this.stats.totalItems++;
-        break;
-      case 'create_category':
-        this.stats.totalCategories++;
-        break;
-    }
-
+  private updateStats(operation: string, item: Item): void {
+    this.stats.totalItems = this.items.size;
     this.stats.lastUpdate = Date.now();
+    
+    // Update other statistics based on operation
+    if (operation === 'create_item') {
+      this.stats.averageValue = this.calculateAverageValue();
+    }
+  }
+
+  /**
+   * Calculate average item value
+   */
+  private calculateAverageValue(): number {
+    const items = Array.from(this.items.values());
+    if (items.length === 0) return 0;
+    
+    const totalValue = items.reduce((sum, item) => sum + (item.properties.value || 0), 0);
+    return totalValue / items.length;
   }
 
   /**
    * Initialize statistics
    */
-  private initializeStats(): ItemsStats {
+  private initializeStats(): ItemStats {
     return {
       totalItems: 0,
       totalCategories: 0,
-      totalProperties: 0,
+      totalTypes: 0,
+      totalRarities: 0,
+      totalQualities: 0,
       averageValue: 0,
-      mostCommonRarity: ItemRarity.COMMON,
+      mostCommonType: '',
+      rarestItem: '',
       lastUpdate: Date.now()
     };
   }
@@ -638,12 +681,26 @@ export class ItemsManager {
    * Cleanup resources
    */
   destroy(): void {
+    this.logger.info('ItemManager', 'Destroying item manager', {
+      itemsCount: this.items.size
+    });
+    
     this.items.clear();
+    this.types.clear();
+    this.categories.clear();
+    this.rarities.clear();
+    this.qualities.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 
 // Export default instance
-export const defaultItemsManager = new ItemsManager();
-export { ItemsManager as default };
+export const defaultItemManager = new ItemManager();
+export { ItemManager as default };
