@@ -1,39 +1,35 @@
 /**
- * BackupSystemPure Manager - Advanced Backup Management System
+ * BackupSystemPure Manager - Advanced Backup and Recovery System
  *
- * Comprehensive backup management system with:
- * - Data backup and restoration
- * - Incremental and differential backups
- * - Backup scheduling and automation
- * - Cross-platform backup support
- * - Performance optimization
- * - Real-time backup monitoring
- * - Backup analytics and reporting
- * - Disaster recovery planning
+ * Comprehensive backup system with:
+ * - Automated backup scheduling
+ * - Incremental and full backups
+ * - Data compression and encryption
+ * - Cross-platform support
+ * - Cloud storage integration
+ * - Recovery management
+ * - Real-time monitoring
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface BackupSystemConfig {
-  enableDataBackup: boolean;
-  enableDataRestoration: boolean;
-  enableIncrementalBackup: boolean;
-  enableDifferentialBackup: boolean;
-  enableBackupScheduling: boolean;
-  enableBackupAutomation: boolean;
+  enableAutomatedBackups: boolean;
+  enableIncrementalBackups: boolean;
+  enableDataCompression: boolean;
+  enableDataEncryption: boolean;
   enableCrossPlatformSupport: boolean;
-  enablePerformanceOptimization: boolean;
+  enableCloudStorageIntegration: boolean;
+  enableRecoveryManagement: boolean;
   enableRealTimeMonitoring: boolean;
-  enableBackupAnalytics: boolean;
-  enableBackupReporting: boolean;
-  enableDisasterRecovery: boolean;
   maxBackups: number;
-  maxSchedules: number;
+  backupRetentionDays: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
@@ -42,32 +38,18 @@ export interface BackupSystemConfig {
 export interface BackupSystem {
   id: string;
   name: string;
-  type: BackupSystemType;
-  status: BackupSystemStatus;
+  type: SystemType;
+  status: SystemStatus;
   backups: Backup[];
   schedules: BackupSchedule[];
   policies: BackupPolicy[];
-  analytics: BackupSystemAnalytics;
-  metadata: BackupSystemMetadata;
+  storage: StorageConfig;
+  performance: SystemPerformance;
+  analytics: SystemAnalytics;
+  metadata: Record<string, any>;
+  createdAt: Date;
+  updatedAt: Date;
   version: string;
-  created: number;
-  modified: number;
-}
-
-export enum BackupSystemType {
-  FULL = 'full',
-  INCREMENTAL = 'incremental',
-  DIFFERENTIAL = 'differential',
-  CONTINUOUS = 'continuous',
-  CUSTOM = 'custom'
-}
-
-export enum BackupSystemStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  BACKING_UP = 'backing_up',
-  ERROR = 'error',
-  CUSTOM = 'custom'
 }
 
 export interface Backup {
@@ -77,636 +59,725 @@ export interface Backup {
   status: BackupStatus;
   source: BackupSource;
   destination: BackupDestination;
-  size: number;
-  compression: BackupCompression;
-  encryption: BackupEncryption;
-  metadata: Map<string, any>;
-}
-
-export enum BackupType {
-  FULL = 'full',
-  INCREMENTAL = 'incremental',
-  DIFFERENTIAL = 'differential',
-  SNAPSHOT = 'snapshot',
-  CUSTOM = 'custom'
-}
-
-export enum BackupStatus {
-  PENDING = 'pending',
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
-}
-
-export interface BackupSource {
-  path: string;
-  type: SourceType;
-  filters: string[];
-  metadata: Map<string, any>;
-}
-
-export enum SourceType {
-  FILE = 'file',
-  DIRECTORY = 'directory',
-  DATABASE = 'database',
-  CUSTOM = 'custom'
-}
-
-export interface BackupDestination {
-  path: string;
-  type: DestinationType;
-  credentials: BackupCredentials;
-  metadata: Map<string, any>;
-}
-
-export enum DestinationType {
-  LOCAL = 'local',
-  NETWORK = 'network',
-  CLOUD = 'cloud',
-  TAPE = 'tape',
-  CUSTOM = 'custom'
-}
-
-export interface BackupCredentials {
-  username: string;
-  password: string;
-  token: string;
-  metadata: Map<string, any>;
-}
-
-export interface BackupCompression {
-  enabled: boolean;
-  algorithm: CompressionAlgorithm;
-  level: number;
-  metadata: Map<string, any>;
-}
-
-export enum CompressionAlgorithm {
-  NONE = 'none',
-  GZIP = 'gzip',
-  BZIP2 = 'bzip2',
-  LZ4 = 'lz4',
-  CUSTOM = 'custom'
-}
-
-export interface BackupEncryption {
-  enabled: boolean;
-  algorithm: EncryptionAlgorithm;
-  key: string;
-  metadata: Map<string, any>;
-}
-
-export enum EncryptionAlgorithm {
-  NONE = 'none',
-  AES256 = 'aes256',
-  RSA = 'rsa',
-  CUSTOM = 'custom'
+  size: number; // bytes
+  compressedSize: number; // bytes
+  encryption: EncryptionConfig;
+  schedule: string;
+  createdAt: Date;
+  completedAt?: Date;
+  metadata: Record<string, any>;
 }
 
 export interface BackupSchedule {
   id: string;
   name: string;
   type: ScheduleType;
-  status: ScheduleStatus;
-  cron: string;
-  backup: string;
-  retention: RetentionPolicy;
-  metadata: Map<string, any>;
-}
-
-export enum ScheduleType {
-  HOURLY = 'hourly',
-  DAILY = 'daily',
-  WEEKLY = 'weekly',
-  MONTHLY = 'monthly',
-  CUSTOM = 'custom'
-}
-
-export enum ScheduleStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface RetentionPolicy {
+  frequency: ScheduleFrequency;
+  time: string; // HH:MM format
+  days: number[]; // 0-6 (Sunday-Saturday)
   enabled: boolean;
-  maxBackups: number;
-  maxAge: number;
-  metadata: Map<string, any>;
+  lastRun?: Date;
+  nextRun?: Date;
+  metadata: Record<string, any>;
 }
 
 export interface BackupPolicy {
   id: string;
   name: string;
   type: PolicyType;
-  status: PolicyStatus;
   rules: PolicyRule[];
-  actions: PolicyAction[];
-  metadata: Map<string, any>;
+  retention: RetentionConfig;
+  compression: CompressionConfig;
+  encryption: EncryptionConfig;
+  metadata: Record<string, any>;
 }
 
-export enum PolicyType {
-  RETENTION = 'retention',
-  COMPRESSION = 'compression',
-  ENCRYPTION = 'encryption',
-  CUSTOM = 'custom'
+export interface StorageConfig {
+  local: LocalStorageConfig;
+  cloud: CloudStorageConfig[];
+  network: NetworkStorageConfig[];
 }
 
-export enum PolicyStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
-  CUSTOM = 'custom'
+export interface LocalStorageConfig {
+  enabled: boolean;
+  path: string;
+  maxSize: number; // bytes
+  freeSpace: number; // bytes
+}
+
+export interface CloudStorageConfig {
+  id: string;
+  provider: CloudProvider;
+  enabled: boolean;
+  credentials: CloudCredentials;
+  bucket: string;
+  region: string;
+  maxSize: number; // bytes
+  metadata: Record<string, any>;
+}
+
+export interface NetworkStorageConfig {
+  id: string;
+  name: string;
+  enabled: boolean;
+  host: string;
+  port: number;
+  path: string;
+  credentials: NetworkCredentials;
+  maxSize: number; // bytes
+  metadata: Record<string, any>;
+}
+
+export interface BackupSource {
+  type: SourceType;
+  path: string;
+  includes: string[];
+  excludes: string[];
+  filters: FilterConfig[];
+  metadata: Record<string, any>;
+}
+
+export interface BackupDestination {
+  type: DestinationType;
+  path: string;
+  storage: string;
+  metadata: Record<string, any>;
+}
+
+export interface EncryptionConfig {
+  enabled: boolean;
+  algorithm: EncryptionAlgorithm;
+  keySize: number;
+  keyId: string;
+  metadata: Record<string, any>;
+}
+
+export interface CompressionConfig {
+  enabled: boolean;
+  algorithm: CompressionAlgorithm;
+  level: number; // 1-9
+  metadata: Record<string, any>;
+}
+
+export interface RetentionConfig {
+  maxBackups: number;
+  maxAge: number; // days
+  maxSize: number; // bytes
+  policy: RetentionPolicy;
+  metadata: Record<string, any>;
 }
 
 export interface PolicyRule {
-  field: string;
-  operator: RuleOperator;
-  value: any;
-  metadata: Map<string, any>;
+  id: string;
+  name: string;
+  condition: string;
+  action: string;
+  priority: number;
+  metadata: Record<string, any>;
 }
 
-export enum RuleOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  CONTAINS = 'contains',
-  REGEX = 'regex',
-  CUSTOM = 'custom'
+export interface FilterConfig {
+  id: string;
+  type: FilterType;
+  pattern: string;
+  enabled: boolean;
+  metadata: Record<string, any>;
 }
 
-export interface PolicyAction {
-  type: ActionType;
-  function: string;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
+export interface CloudCredentials {
+  accessKey: string;
+  secretKey: string;
+  region: string;
+  metadata: Record<string, any>;
 }
 
-export enum ActionType {
-  COMPRESS = 'compress',
-  ENCRYPT = 'encrypt',
-  DELETE = 'delete',
-  CUSTOM = 'custom'
+export interface NetworkCredentials {
+  username: string;
+  password: string;
+  domain?: string;
+  metadata: Record<string, any>;
 }
 
-export interface BackupSystemAnalytics {
+export interface SystemPerformance {
+  backupSpeed: number; // MB/s
+  restoreSpeed: number; // MB/s
+  compressionRatio: number; // 0-1
+  encryptionOverhead: number; // 0-1
+  memoryUsage: number; // bytes
+  cpuUsage: number; // 0-1
+}
+
+export interface SystemAnalytics {
   totalBackups: number;
-  totalSchedules: number;
-  totalPolicies: number;
-  averageBackupSize: number;
-  averageBackupTime: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
+  successfulBackups: number;
+  failedBackups: number;
+  totalSize: number; // bytes
+  compressedSize: number; // bytes
+  averageBackupTime: number; // seconds
+  lastBackup?: Date;
+  lastUpdated: Date;
 }
 
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface BackupSystemMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface BackupSystemStats {
-  totalBackups: number;
-  totalSchedules: number;
-  totalPolicies: number;
-  averageBackupSize: number;
-  averageBackupTime: number;
-  lastUpdate: number;
-}
+export type SystemType = 'local' | 'cloud' | 'hybrid' | 'custom';
+export type SystemStatus = 'active' | 'inactive' | 'error' | 'maintenance';
+export type BackupType = 'full' | 'incremental' | 'differential' | 'custom';
+export type BackupStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+export type ScheduleType = 'manual' | 'scheduled' | 'continuous' | 'event-driven';
+export type ScheduleFrequency = 'once' | 'hourly' | 'daily' | 'weekly' | 'monthly';
+export type PolicyType = 'retention' | 'compression' | 'encryption' | 'custom';
+export type SourceType = 'file' | 'directory' | 'database' | 'application';
+export type DestinationType = 'local' | 'cloud' | 'network' | 'tape';
+export type CloudProvider = 'aws' | 'azure' | 'gcp' | 'dropbox' | 'custom';
+export type EncryptionAlgorithm = 'aes-256' | 'aes-128' | 'blowfish' | 'custom';
+export type CompressionAlgorithm = 'gzip' | 'bzip2' | 'lz4' | 'zstd' | 'custom';
+export type RetentionPolicy = 'fifo' | 'lifo' | 'size-based' | 'age-based';
+export type FilterType = 'include' | 'exclude' | 'regex' | 'extension';
 
 export class BackupSystemManager {
+  private logger: StructuredLogger;
+  private performanceOptimizer: PerformanceOptimizer;
+  private memoryManager: MemoryManager;
+  private errorHandler: StandardErrorHandler;
   private config: BackupSystemConfig;
   private systems: Map<string, BackupSystem> = new Map();
-  private stats: BackupSystemStats = this.initializeStats();
   private isInitialized: boolean = false;
-  private logger: StructuredLogger;
-  private memoryId: string;
+  private startTime: Date;
 
-  constructor(config: Partial<BackupSystemConfig> = {}) {
+  constructor(config?: Partial<BackupSystemConfig>) {
+    this.logger = new StructuredLogger({ module: 'BackupSystemManager' });
+    this.performanceOptimizer = new PerformanceOptimizer();
+    this.memoryManager = new MemoryManager();
+    this.errorHandler = new StandardErrorHandler();
+    this.startTime = new Date();
+
     this.config = {
-      enableDataBackup: true,
-      enableDataRestoration: true,
-      enableIncrementalBackup: true,
-      enableDifferentialBackup: true,
-      enableBackupScheduling: true,
-      enableBackupAutomation: true,
+      enableAutomatedBackups: true,
+      enableIncrementalBackups: true,
+      enableDataCompression: true,
+      enableDataEncryption: true,
       enableCrossPlatformSupport: true,
-      enablePerformanceOptimization: true,
+      enableCloudStorageIntegration: true,
+      enableRecoveryManagement: true,
       enableRealTimeMonitoring: true,
-      enableBackupAnalytics: true,
-      enableBackupReporting: true,
-      enableDisasterRecovery: true,
-      maxBackups: 10000,
-      maxSchedules: 1000,
-      enableCloudSync: true,
+      maxBackups: 100,
+      backupRetentionDays: 30,
+      enableCloudSync: false,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
-    // Initialize structured logging
-    this.logger = new StructuredLogger({
-      level: LogLevel.INFO,
-      enableConsole: true,
-      performanceMonitoring: true,
-      modules: {
-
-        'BackupSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
-      }
-      };
-    });
-
-    // Register with memory manager
-    this.memoryId = `BackupSystemManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    MemoryManager.registerObject(this.memoryId, this, 'BackupSystemManager');
-  };
-  }
-
-  /**
-   * Initialize backup system manager
-   */
-  async initialize(): Promise<boolean> {
-    try {
-      // Initialize backup system manager
-      await this.initializeBackupSystemManager();
-      
-      // Load default backup systems
-      await this.loadDefaultBackupSystems();
-      
-      this.isInitialized = true;
-      this.logger.info('BackupSystemManager', 'Backup system manager initialized successfully');
-      return true;
-    } catch (error) {
-      this.logger.error('BackupSystemManager', 'Failed to initialize backup system manager:', error);
-      return false;
-    }
-  }
-
-  /**
-   * Create new backup system
-   */
-  createBackupSystem(system: Partial<BackupSystem>): BackupSystem | null {
-    const newSystem: BackupSystem = {
-      id: `backupsystem_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: system.name || 'New Backup System',
-      type: system.type || BackupSystemType.FULL,
-      status: BackupSystemStatus.ACTIVE,
-      backups: system.backups || [],
-      schedules: system.schedules || [],
-      policies: system.policies || [],
-      analytics: system.analytics || this.createDefaultAnalytics(),
-      metadata: system.metadata || this.createDefaultMetadata(),
-      version: '1.0.0',
-      created: Date.now(),
-      modified: Date.now()
     };
-
-    this.systems.set(newSystem.id, newSystem);
-    this.updateStats('create_system', newSystem);
-
-    this.logger.info('BackupSystemManager', `Created backup system: ${newSystem.name}`);
-    return newSystem;
   }
 
   /**
-   * Create backup
+   * Initialize the Backup System Manager
    */
-  createBackup(systemId: string, backup: Partial<Backup>): Backup | null {
-    const system = this.systems.get(systemId);
-    if (!system) {
-      this.logger.warn('BackupSystemManager', `Backup system ${systemId} not found`);
-      return null;
-    }
-
-    if (system.backups.length >= this.config.maxBackups) {
-      this.logger.warn('BackupSystemManager', 'Maximum number of backups reached');
-      return null;
+  async initialize(): Promise<void> {
+    if (this.isInitialized) {
+      this.logger.warn('Backup System Manager already initialized');
+      return;
     }
 
     try {
-      const newBackup: Backup = {
-        id: `backup_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: backup.name || 'New Backup',
-        type: backup.type || BackupType.FULL,
-        status: BackupStatus.PENDING,
-        source: backup.source || this.createDefaultBackupSource(),
-        destination: backup.destination || this.createDefaultBackupDestination(),
-        size: backup.size || 0,
-        compression: backup.compression || this.createDefaultBackupCompression(),
-        encryption: backup.encryption || this.createDefaultBackupEncryption(),
-        metadata: backup.metadata || new Map()
-      };
+      this.logger.info('Initializing Backup System Manager...');
 
-      system.backups.push(newBackup);
-      system.modified = Date.now();
+      // Initialize performance optimizer
+      if (this.config.enablePerformanceOptimization) {
+        await this.performanceOptimizer.initialize();
+      }
 
-      this.updateStats('create_backup', system);
-      this.logger.info('BackupSystemManager', `Created backup: ${newBackup.name}`);
-      return newBackup;
+      // Initialize memory manager
+      if (this.config.enableRealTimeMonitoring) {
+        await this.memoryManager.initialize();
+      }
+
+      this.isInitialized = true;
+      this.logger.info('Backup System Manager initialized successfully');
+
     } catch (error) {
-      this.logger.error('BackupSystemManager', `Failed to create backup in system ${systemId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to initialize Backup System Manager');
+      throw error;
     }
   }
 
   /**
-   * Create backup schedule
+   * Create a new backup system
    */
-  createBackupSchedule(systemId: string, schedule: Partial<BackupSchedule>): BackupSchedule | null {
-    const system = this.systems.get(systemId);
-    if (!system) {
-      this.logger.warn('BackupSystemManager', `Backup system ${systemId} not found`);
-      return null;
-    }
-
-    if (system.schedules.length >= this.config.maxSchedules) {
-      this.logger.warn('BackupSystemManager', 'Maximum number of schedules reached');
-      return null;
+  async createSystem(systemData: Omit<BackupSystem, 'id' | 'createdAt' | 'updatedAt' | 'version' | 'analytics'>): Promise<BackupSystem> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
     }
 
     try {
-      const newSchedule: BackupSchedule = {
-        id: `schedule_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: schedule.name || 'New Schedule',
-        type: schedule.type || ScheduleType.DAILY,
-        status: ScheduleStatus.ACTIVE,
-        cron: schedule.cron || '0 0 * * *',
-        backup: schedule.backup || '',
-        retention: schedule.retention || this.createDefaultRetentionPolicy(),
-        metadata: schedule.metadata || new Map()
+      const system: BackupSystem = {
+        ...systemData,
+        id: this.generateSystemId(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        version: '1.0.0',
+        analytics: {
+          totalBackups: 0,
+          successfulBackups: 0,
+          failedBackups: 0,
+          totalSize: 0,
+          compressedSize: 0,
+          averageBackupTime: 0,
+          lastUpdated: new Date()
+        }
       };
 
-      system.schedules.push(newSchedule);
-      system.modified = Date.now();
+      this.systems.set(system.id, system);
+      this.updateAnalytics();
 
-      this.updateStats('create_schedule', system);
-      this.logger.info('BackupSystemManager', `Created backup schedule: ${newSchedule.name}`);
-      return newSchedule;
+      this.logger.info('Backup system created', { systemId: system.id, systemName: system.name });
+      return system;
+
     } catch (error) {
-      this.logger.error('BackupSystemManager', `Failed to create backup schedule in system ${systemId}:`, error);
-      return null;
+      this.errorHandler.handleError(error, 'Failed to create backup system');
+      throw error;
     }
   }
 
   /**
-   * Get backup system
+   * Get a backup system by ID
    */
-  getBackupSystem(systemId: string): BackupSystem | null {
+  getSystem(systemId: string): BackupSystem | null {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
     return this.systems.get(systemId) || null;
+  }
+
+  /**
+   * Update a backup system
+   */
+  async updateSystem(systemId: string, updates: Partial<BackupSystem>): Promise<BackupSystem | null> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const updatedSystem: BackupSystem = {
+        ...system,
+        ...updates,
+        updatedAt: new Date(),
+        version: this.incrementVersion(system.version)
+      };
+
+      this.systems.set(systemId, updatedSystem);
+      this.updateAnalytics();
+
+      this.logger.info('Backup system updated', { systemId, systemName: updatedSystem.name });
+      return updatedSystem;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to update backup system');
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a backup system
+   */
+  async deleteSystem(systemId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      this.systems.delete(systemId);
+      this.updateAnalytics();
+
+      this.logger.info('Backup system deleted', { systemId, systemName: system.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to delete backup system');
+      throw error;
+    }
   }
 
   /**
    * Get all backup systems
    */
-  getBackupSystems(): BackupSystem[] {
+  getAllSystems(): BackupSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
     return Array.from(this.systems.values());
   }
 
   /**
-   * Get backup systems by type
+   * Get systems by type
    */
-  getBackupSystemsByType(type: BackupSystemType): BackupSystem[] {
-    return Array.from(this.systems.values())
-      .filter(system => system.type === type);
+  getSystemsByType(type: SystemType): BackupSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    return Array.from(this.systems.values()).filter(system => system.type === type);
   }
 
   /**
-   * Get manager statistics
+   * Get systems by status
    */
-  getManagerStats(): BackupSystemStats {
-    return { ...this.stats };
+  getSystemsByStatus(status: SystemStatus): BackupSystem[] {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    return Array.from(this.systems.values()).filter(system => system.status === status);
   }
 
   /**
-   * Initialize backup system manager
+   * Create a new backup
    */
-  private async initializeBackupSystemManager(): Promise<void> {
-    this.logger.info('BackupSystemManager', 'Initializing backup system manager...');
+  async createBackup(systemId: string, backupData: Omit<Backup, 'id' | 'createdAt'>): Promise<Backup | null> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const backup: Backup = {
+        ...backupData,
+        id: this.generateBackupId(),
+        createdAt: new Date()
+      };
+
+      system.backups.push(backup);
+      this.updateAnalytics();
+
+      this.logger.info('Backup created', { systemId, backupId: backup.id, backupName: backup.name });
+      return backup;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create backup');
+      return null;
+    }
   }
 
   /**
-   * Load default backup systems
+   * Execute a backup
    */
-  private async loadDefaultBackupSystems(): Promise<void> {
-    // Load default backup systems
-    const defaultSystems = [
-      this.createDefaultFull(),
-      this.createDefaultIncremental(),
-      this.createDefaultDifferential()
-    ];
+  async executeBackup(systemId: string, backupId: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
 
-    for (const system of defaultSystems) {
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
+      }
+
+      const backup = system.backups.find(b => b.id === backupId);
+      if (!backup) {
+        this.logger.warn('Backup not found', { systemId, backupId });
+        return false;
+      }
+
+      backup.status = 'running';
+      this.logger.info('Starting backup execution', { systemId, backupId, backupName: backup.name });
+
+      // Simulate backup execution
+      await this.performBackup(backup);
+
+      backup.status = 'completed';
+      backup.completedAt = new Date();
+      this.updateAnalytics();
+
+      this.logger.info('Backup completed successfully', { systemId, backupId, backupName: backup.name });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to execute backup');
+      const system = this.systems.get(systemId);
       if (system) {
-        this.systems.set(system.id, system);
+        const backup = system.backups.find(b => b.id === backupId);
+        if (backup) {
+          backup.status = 'failed';
+        }
       }
+      return false;
+    }
+  }
+
+  /**
+   * Restore from a backup
+   */
+  async restoreBackup(systemId: string, backupId: string, destination: string): Promise<boolean> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
     }
 
-    this.logger.info('BackupSystemManager', `Loaded ${defaultSystems.length} default backup systems`);
-  }
-
-  /**
-   * Create default backup source
-   */
-  private createDefaultBackupSource(): BackupSource {
-    return {
-      path: '/',
-      type: SourceType.DIRECTORY,
-      filters: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default backup destination
-   */
-  private createDefaultBackupDestination(): BackupDestination {
-    return {
-      path: '/backup',
-      type: DestinationType.LOCAL,
-      credentials: {
-        username: '',
-        password: '',
-        token: '',
-        metadata: new Map()
-
-      
-      
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return false;
       }
-      },
-      metadata: new Map()
-    };
-  }
 
-  /**
-   * Create default backup compression
-   */
-  private createDefaultBackupCompression(): BackupCompression {
-    return {
-      enabled: true,
-      algorithm: CompressionAlgorithm.GZIP,
-      level: 6,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default backup encryption
-   */
-  private createDefaultBackupEncryption(): BackupEncryption {
-    return {
-      enabled: false,
-      algorithm: EncryptionAlgorithm.NONE,
-      key: '',
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default retention policy
-   */
-  private createDefaultRetentionPolicy(): RetentionPolicy {
-    return {
-      enabled: true,
-      maxBackups: 30,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): BackupSystemAnalytics {
-    return {
-      totalBackups: 0,
-      totalSchedules: 0,
-      totalPolicies: 0,
-      averageBackupSize: 0,
-      averageBackupTime: 0,
-      performance: {
-
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-
+      const backup = system.backups.find(b => b.id === backupId);
+      if (!backup) {
+        this.logger.warn('Backup not found', { systemId, backupId });
+        return false;
       }
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
+
+      if (backup.status !== 'completed') {
+        this.logger.warn('Backup not completed', { systemId, backupId, status: backup.status });
+        return false;
+      }
+
+      this.logger.info('Starting backup restore', { systemId, backupId, destination });
+
+      // Simulate restore operation
+      await this.performRestore(backup, destination);
+
+      this.logger.info('Backup restored successfully', { systemId, backupId, destination });
+      return true;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to restore backup');
+      return false;
+    }
   }
 
   /**
-   * Create default metadata
+   * Create a backup schedule
    */
-  private createDefaultMetadata(): BackupSystemMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default full
-   */
-  private createDefaultFull(): BackupSystem {
-    return this.createBackupSystem({
-      name: 'Full Backup System',
-      type: BackupSystemType.FULL,
-      description: 'Full backup system'
-    });
-  }
-
-  /**
-   * Create default incremental
-   */
-  private createDefaultIncremental(): BackupSystem {
-    return this.createBackupSystem({
-      name: 'Incremental Backup System',
-      type: BackupSystemType.INCREMENTAL,
-      description: 'Incremental backup system'
-    });
-  }
-
-  /**
-   * Create default differential
-   */
-  private createDefaultDifferential(): BackupSystem {
-    return this.createBackupSystem({
-      name: 'Differential Backup System',
-      type: BackupSystemType.DIFFERENTIAL,
-      description: 'Differential backup system'
-    });
-  }
-
-  /**
-   * Update statistics
-   */
-  private updateStats(action: string, system: BackupSystem): void {
-    switch (action) {
-      case 'create_system':
-        this.stats.totalBackups += system.backups.length;
-        this.stats.totalSchedules += system.schedules.length;
-        this.stats.totalPolicies += system.policies.length;
-        break;
-      case 'create_backup':
-        this.stats.totalBackups++;
-        break;
-      case 'create_schedule':
-        this.stats.totalSchedules++;
-        break;
+  async createSchedule(systemId: string, scheduleData: Omit<BackupSchedule, 'id'>): Promise<BackupSchedule | null> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
     }
 
-    this.stats.lastUpdate = Date.now();
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const schedule: BackupSchedule = {
+        ...scheduleData,
+        id: this.generateScheduleId()
+      };
+
+      system.schedules.push(schedule);
+      this.logger.info('Backup schedule created', { systemId, scheduleId: schedule.id, scheduleName: schedule.name });
+      return schedule;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create backup schedule');
+      return null;
+    }
   }
 
   /**
-   * Initialize statistics
+   * Create a backup policy
    */
-  private initializeStats(): BackupSystemStats {
+  async createPolicy(systemId: string, policyData: Omit<BackupPolicy, 'id'>): Promise<BackupPolicy | null> {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    try {
+      const system = this.systems.get(systemId);
+      if (!system) {
+        this.logger.warn('System not found', { systemId });
+        return null;
+      }
+
+      const policy: BackupPolicy = {
+        ...policyData,
+        id: this.generatePolicyId()
+      };
+
+      system.policies.push(policy);
+      this.logger.info('Backup policy created', { systemId, policyId: policy.id, policyName: policy.name });
+      return policy;
+
+    } catch (error) {
+      this.errorHandler.handleError(error, 'Failed to create backup policy');
+      return null;
+    }
+  }
+
+  /**
+   * Perform backup operation
+   */
+  private async performBackup(backup: Backup): Promise<void> {
+    // Simulate backup operation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Update backup size (simulated)
+    backup.size = Math.floor(Math.random() * 1000000) + 100000;
+    backup.compressedSize = Math.floor(backup.size * 0.7);
+  }
+
+  /**
+   * Perform restore operation
+   */
+  private async performRestore(backup: Backup, destination: string): Promise<void> {
+    // Simulate restore operation
+    await new Promise(resolve => setTimeout(resolve, 2000));
+  }
+
+  /**
+   * Generate a unique system ID
+   */
+  private generateSystemId(): string {
+    return `system_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique backup ID
+   */
+  private generateBackupId(): string {
+    return `backup_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique schedule ID
+   */
+  private generateScheduleId(): string {
+    return `schedule_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Generate a unique policy ID
+   */
+  private generatePolicyId(): string {
+    return `policy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
+   * Increment version number
+   */
+  private incrementVersion(version: string): string {
+    const parts = version.split('.');
+    const patch = parseInt(parts[2]) + 1;
+    return `${parts[0]}.${parts[1]}.${patch}`;
+  }
+
+  /**
+   * Update analytics
+   */
+  private updateAnalytics(): void {
+    const systems = Array.from(this.systems.values());
+    const totalBackups = systems.reduce((sum, s) => sum + s.backups.length, 0);
+    const successfulBackups = systems.reduce((sum, s) => sum + s.backups.filter(b => b.status === 'completed').length, 0);
+    const failedBackups = systems.reduce((sum, s) => sum + s.backups.filter(b => b.status === 'failed').length, 0);
+    const totalSize = systems.reduce((sum, s) => sum + s.backups.reduce((s, b) => s + b.size, 0), 0);
+    const compressedSize = systems.reduce((sum, s) => sum + s.backups.reduce((s, b) => s + b.compressedSize, 0), 0);
+
+    for (const system of systems) {
+      system.analytics = {
+        totalBackups: system.backups.length,
+        successfulBackups: system.backups.filter(b => b.status === 'completed').length,
+        failedBackups: system.backups.filter(b => b.status === 'failed').length,
+        totalSize: system.backups.reduce((sum, b) => sum + b.size, 0),
+        compressedSize: system.backups.reduce((sum, b) => sum + b.compressedSize, 0),
+        averageBackupTime: 0, // Would be calculated from actual backup times
+        lastBackup: system.backups.length > 0 ? 
+          system.backups.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0].createdAt : undefined,
+        lastUpdated: new Date()
+      };
+    }
+  }
+
+  /**
+   * Get system statistics
+   */
+  getStatistics(): {
+    totalSystems: number;
+    activeSystems: number;
+    systemsByType: Record<SystemType, number>;
+    systemsByStatus: Record<SystemStatus, number>;
+    totalBackups: number;
+    successfulBackups: number;
+    failedBackups: number;
+    totalSize: number;
+    compressedSize: number;
+    uptime: number;
+  } {
+    if (!this.isInitialized) {
+      throw new Error('Backup System Manager not initialized');
+    }
+
+    const systems = Array.from(this.systems.values());
+    const activeSystems = systems.filter(s => s.status === 'active');
+    const totalBackups = systems.reduce((sum, s) => sum + s.backups.length, 0);
+    const successfulBackups = systems.reduce((sum, s) => sum + s.backups.filter(b => b.status === 'completed').length, 0);
+    const failedBackups = systems.reduce((sum, s) => sum + s.backups.filter(b => b.status === 'failed').length, 0);
+    const totalSize = systems.reduce((sum, s) => sum + s.backups.reduce((s, b) => s + b.size, 0), 0);
+    const compressedSize = systems.reduce((sum, s) => sum + s.backups.reduce((s, b) => s + b.compressedSize, 0), 0);
+
+    const systemsByType: Record<SystemType, number> = {
+      local: 0,
+      cloud: 0,
+      hybrid: 0,
+      custom: 0
+    };
+
+    const systemsByStatus: Record<SystemStatus, number> = {
+      active: 0,
+      inactive: 0,
+      error: 0,
+      maintenance: 0
+    };
+
+    for (const system of systems) {
+      systemsByType[system.type]++;
+      systemsByStatus[system.status]++;
+    }
+
     return {
-      totalBackups: 0,
-      totalSchedules: 0,
-      totalPolicies: 0,
-      averageBackupSize: 0,
-      averageBackupTime: 0,
-      lastUpdate: Date.now()
+      totalSystems: systems.length,
+      activeSystems: activeSystems.length,
+      systemsByType,
+      systemsByStatus,
+      totalBackups,
+      successfulBackups,
+      failedBackups,
+      totalSize,
+      compressedSize,
+      uptime: Date.now() - this.startTime.getTime()
     };
   }
 
   /**
-   * Cleanup resources
+   * Destroy the Backup System Manager
    */
-  destroy(): void {
+  async destroy(): Promise<void> {
+    this.logger.info('Destroying Backup System Manager...');
+
     this.systems.clear();
-    this.stats = this.initializeStats();
     this.isInitialized = false;
+
+    this.logger.info('Backup System Manager destroyed');
   }
 }
 
 // Export default instance
-export const defaultBackupSystemManager = new BackupSystemManager();
-export { BackupSystemManager as default };
+export const backupSystemManager = new BackupSystemManager();
+export default backupSystemManager;
