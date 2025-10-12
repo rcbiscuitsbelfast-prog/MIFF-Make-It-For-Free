@@ -1,250 +1,76 @@
 /**
- * RNGPure Manager - Advanced Random Number Generation Management System
+ * RNGPure Manager - Advanced RNG Management System
  *
- * Comprehensive random number generation system with:
- * - Multiple RNG algorithms and generators
- * - Seed management and reproducibility
- * - Distribution sampling and generation
- * - Performance optimization and benchmarking
- * - Cross-platform compatibility
- * - Real-time random number generation
- * - Statistical analysis and validation
- * - Cryptographic security support
+ * Comprehensive rng management system with:
+ * - rng creation and management
+ * - Performance optimization
+ * - Real-time monitoring
+ * - Analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface RNGConfig {
-  enableAlgorithmSelection: boolean;
-  enableSeedManagement: boolean;
-  enableReproducibility: boolean;
-  enableDistributionSampling: boolean;
-  enablePerformanceOptimization: boolean;
-  enableCrossPlatformCompatibility: boolean;
-  enableRealTimeGeneration: boolean;
-  enableStatisticalAnalysis: boolean;
-  enableValidation: boolean;
-  enableCryptographicSecurity: boolean;
-  enableBenchmarking: boolean;
+  enableCreation: boolean;
+  enableManagement: boolean;
+  enableOptimization: boolean;
   enableMonitoring: boolean;
-  maxGenerators: number;
-  maxSeeds: number;
+  enableAnalytics: boolean;
+  enableReporting: boolean;
+  maxItems: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface RNG {
+export interface RNGItem {
   id: string;
   name: string;
-  type: RNGType;
-  status: RNGStatus;
-  generators: RNGGenerator[];
-  seeds: RNGSeed[];
-  distributions: RNGGDistribution[];
-  analytics: RNGAnalytics;
-  metadata: RNGMetadata;
+  description: string;
+  type: string;
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
   version: string;
   created: number;
   modified: number;
 }
 
-export enum RNGType {
-  PSEUDO_RANDOM = 'pseudo_random',
-  TRUE_RANDOM = 'true_random',
-  CRYPTOGRAPHIC = 'cryptographic',
-  CUSTOM = 'custom'
-}
-
-export enum RNGStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface RNGGenerator {
-  id: string;
-  name: string;
-  type: GeneratorType;
-  status: GeneratorStatus;
-  algorithm: GeneratorAlgorithm;
-  configuration: GeneratorConfiguration;
-  performance: GeneratorPerformance;
-  metadata: Map<string, any>;
-}
-
-export enum GeneratorType {
-  LINEAR_CONGRUENTIAL = 'linear_congruential',
-  MERSENNE_TWISTER = 'mersenne_twister',
-  XORSHIFT = 'xorshift',
-  WELL = 'well',
-  CUSTOM = 'custom'
-}
-
-export enum GeneratorStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  SEEDED = 'seeded',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface GeneratorAlgorithm {
-  name: string;
-  type: AlgorithmType;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum AlgorithmType {
-  DETERMINISTIC = 'deterministic',
-  NON_DETERMINISTIC = 'non_deterministic',
-  CRYPTOGRAPHIC = 'cryptographic',
-  CUSTOM = 'custom'
-}
-
-export interface GeneratorConfiguration {
-  seed: number;
-  state: GeneratorState;
-  period: number;
-  metadata: Map<string, any>;
-}
-
-export interface GeneratorState {
-  current: number;
-  previous: number;
-  history: number[];
-  metadata: Map<string, any>;
-}
-
-export interface GeneratorPerformance {
-  speed: number;
-  memory: number;
-  quality: number;
-  metadata: Map<string, any>;
-}
-
-export interface RNGSeed {
-  id: string;
-  name: string;
-  type: SeedType;
-  value: number;
-  source: SeedSource;
-  metadata: Map<string, any>;
-}
-
-export enum SeedType {
-  MANUAL = 'manual',
-  TIME_BASED = 'time_based',
-  ENTROPY = 'entropy',
-  CUSTOM = 'custom'
-}
-
-export enum SeedSource {
-  USER = 'user',
-  SYSTEM = 'system',
-  HARDWARE = 'hardware',
-  CUSTOM = 'custom'
-}
-
-export interface RNGGDistribution {
-  id: string;
-  name: string;
-  type: DistributionType;
-  parameters: DistributionParameters;
-  samples: number[];
-  metadata: Map<string, any>;
-}
-
-export enum DistributionType {
-  UNIFORM = 'uniform',
-  NORMAL = 'normal',
-  EXPONENTIAL = 'exponential',
-  GAMMA = 'gamma',
-  BETA = 'beta',
-  CUSTOM = 'custom'
-}
-
-export interface DistributionParameters {
-  mean: number;
-  variance: number;
-  min: number;
-  max: number;
-  metadata: Map<string, any>;
-}
-
-export interface RNGAnalytics {
-  totalGenerators: number;
-  totalSeeds: number;
-  totalDistributions: number;
-  averageSpeed: number;
-  averageQuality: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface RNGMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
 export interface RNGStats {
-  totalGenerators: number;
-  totalSeeds: number;
-  totalDistributions: number;
-  averageSpeed: number;
-  averageQuality: number;
+  totalItems: number;
+  averageValue: number;
   lastUpdate: number;
 }
 
 export class RNGManager {
   private config: RNGConfig;
-  private rngs: Map<string, RNG> = new Map();
+  private items: Map<string, RNGItem> = new Map();
   private stats: RNGStats = this.initializeStats();
   private isInitialized: boolean = false;
   private logger: StructuredLogger;
   private memoryId: string;
+  private errorHandler: StandardErrorHandler;
 
   constructor(config: Partial<RNGConfig> = {}) {
     this.config = {
-      enableAlgorithmSelection: true,
-      enableSeedManagement: true,
-      enableReproducibility: true,
-      enableDistributionSampling: true,
-      enablePerformanceOptimization: true,
-      enableCrossPlatformCompatibility: true,
-      enableRealTimeGeneration: true,
-      enableStatisticalAnalysis: true,
-      enableValidation: true,
-      enableCryptographicSecurity: true,
-      enableBenchmarking: true,
+      enableCreation: true,
+      enableManagement: true,
+      enableOptimization: true,
       enableMonitoring: true,
-      maxGenerators: 1000,
-      maxSeeds: 10000,
+      enableAnalytics: true,
+      enableReporting: true,
+      maxItems: 10000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -258,151 +84,176 @@ export class RNGManager {
     // Register with memory manager
     this.memoryId = `RNGManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'RNGManager');
-  };
+
+    // Initialize error handler
+    this.errorHandler = new StandardErrorHandler(this.logger);
   }
 
   /**
-   * Initialize RNG manager
+   * Initialize manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('RNGManager', 'initialize');
+    
     try {
-      // Initialize RNG manager
-      await this.initializeRNGManager();
-      
-      // Load default RNGs
-      await this.loadDefaultRNGs();
+      await this.initializeManager();
+      await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('RNGManager', 'RNG manager initialized successfully');
+      this.logger.info('RNGManager', 'Manager initialized successfully', {
+        itemsCount: this.items.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('RNGManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      this.logger.error('RNGManager', 'Failed to initialize RNG manager:', error);
+      this.logger.error('RNGManager', 'Failed to initialize manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
 
   /**
-   * Create new RNG
+   * Create new item
    */
-  createRNG(rng: Partial<RNG>): RNG | null {
-    const newRNG: RNG = {
-      id: `rng_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: rng.name || 'New RNG',
-      type: rng.type || RNGType.PSEUDO_RANDOM,
-      status: RNGStatus.ACTIVE,
-      generators: rng.generators || [],
-      seeds: rng.seeds || [],
-      distributions: rng.distributions || [],
-      analytics: rng.analytics || this.createDefaultAnalytics(),
-      metadata: rng.metadata || this.createDefaultMetadata(),
+  createItem(item: Partial<RNGItem>): RNGItem | null {
+    if (!this.isInitialized) {
+      const error = this.errorHandler.createError(
+        ErrorCode.MODULE_NOT_INITIALIZED,
+        'Manager not initialized',
+        { module: 'RNGManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.HIGH
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    if (this.items.size >= this.config.maxItems) {
+      const error = this.errorHandler.createError(
+        ErrorCode.OPERATION_FAILED,
+        'Maximum number of items reached',
+        { module: 'RNGManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    const newItem: RNGItem = {
+      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: item.name || 'New Item',
+      description: item.description || '',
+      type: item.type || 'default',
+      properties: item.properties || {},
+      metadata: item.metadata || {},
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.rngs.set(newRNG.id, newRNG);
-    this.updateStats('create_rng', newRNG);
+    this.items.set(newItem.id, newItem);
+    this.updateStats('create_item', newItem);
 
-    this.logger.info('RNGManager', `Created RNG: ${newRNG.name}`);
-    return newRNG;
+    this.logger.info('RNGManager', 'Created item', {
+      itemId: newItem.id,
+      itemName: newItem.name,
+      totalItems: this.items.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return newItem;
   }
 
   /**
-   * Create RNG generator
+   * Get item by ID
    */
-  createRNGGenerator(rngId: string, generator: Partial<RNGGenerator>): RNGGenerator | null {
-    const rng = this.rngs.get(rngId);
-    if (!rng) {
-      this.logger.warn('RNGManager', `RNG ${rngId} not found`);
-      return null;
+  getItem(itemId: string): RNGItem | null {
+    const item = this.items.get(itemId);
+    if (item) {
+      MemoryManager.trackAccess(this.memoryId);
     }
-
-    if (rng.generators.length >= this.config.maxGenerators) {
-      this.logger.warn('RNGManager', 'Maximum number of generators reached');
-      return null;
-    }
-
-    try {
-      const newGenerator: RNGGenerator = {
-        id: `generator_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: generator.name || 'New Generator',
-        type: generator.type || GeneratorType.LINEAR_CONGRUENTIAL,
-        status: GeneratorStatus.ACTIVE,
-        algorithm: generator.algorithm || this.createDefaultGeneratorAlgorithm(),
-        configuration: generator.configuration || this.createDefaultGeneratorConfiguration(),
-        performance: generator.performance || this.createDefaultGeneratorPerformance(),
-        metadata: generator.metadata || new Map()
-      };
-
-      rng.generators.push(newGenerator);
-      rng.modified = Date.now();
-
-      this.updateStats('create_generator', rng);
-      this.logger.info('RNGManager', `Created RNG generator: ${newGenerator.name}`);
-      return newGenerator;
-    } catch (error) {
-      this.logger.error('RNGManager', `Failed to create RNG generator in RNG ${rngId}:`, error);
-      return null;
-    }
+    return item || null;
   }
 
   /**
-   * Create RNG seed
+   * Update item
    */
-  createRNGSeed(rngId: string, seed: Partial<RNGSeed>): RNGSeed | null {
-    const rng = this.rngs.get(rngId);
-    if (!rng) {
-      this.logger.warn('RNGManager', `RNG ${rngId} not found`);
+  updateItem(itemId: string, updates: Partial<RNGItem>): RNGItem | null {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'RNGManager', operation: 'updateItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
       return null;
     }
 
-    if (rng.seeds.length >= this.config.maxSeeds) {
-      this.logger.warn('RNGManager', 'Maximum number of seeds reached');
-      return null;
+    const updatedItem: RNGItem = {
+      ...item,
+      ...updates,
+      id: itemId,
+      modified: Date.now()
+    };
+
+    this.items.set(itemId, updatedItem);
+    this.updateStats('update_item', updatedItem);
+
+    this.logger.info('RNGManager', 'Updated item', {
+      itemId,
+      itemName: updatedItem.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return updatedItem;
+  }
+
+  /**
+   * Delete item
+   */
+  deleteItem(itemId: string): boolean {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'RNGManager', operation: 'deleteItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return false;
     }
 
-    try {
-      const newSeed: RNGSeed = {
-        id: `seed_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: seed.name || 'New Seed',
-        type: seed.type || SeedType.TIME_BASED,
-        value: seed.value || Date.now(),
-        source: seed.source || SeedSource.SYSTEM,
-        metadata: seed.metadata || new Map()
-      };
+    this.items.delete(itemId);
+    this.updateStats('delete_item', item);
 
-      rng.seeds.push(newSeed);
-      rng.modified = Date.now();
-
-      this.updateStats('create_seed', rng);
-      this.logger.info('RNGManager', `Created RNG seed: ${newSeed.name}`);
-      return newSeed;
-    } catch (error) {
-      this.logger.error('RNGManager', `Failed to create RNG seed in RNG ${rngId}:`, error);
-      return null;
-    }
+    this.logger.info('RNGManager', 'Deleted item', {
+      itemId,
+      itemName: item.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return true;
   }
 
   /**
-   * Get RNG
+   * Get all items
    */
-  getRNG(rngId: string): RNG | null {
-    return this.rngs.get(rngId) || null;
-  }
-
-  /**
-   * Get all RNGs
-   */
-  getRNGs(): RNG[] {
-    return Array.from(this.rngs.values());
-  }
-
-  /**
-   * Get RNGs by type
-   */
-  getRNGsByType(type: RNGType): RNG[] {
-    return Array.from(this.rngs.values())
-      .filter(rng => rng.type === type);
+  getAllItems(): RNGItem[] {
+    MemoryManager.trackAccess(this.memoryId);
+    return Array.from(this.items.values());
   }
 
   /**
@@ -413,159 +264,51 @@ export class RNGManager {
   }
 
   /**
-   * Initialize RNG manager
+   * Initialize manager
    */
-  private async initializeRNGManager(): Promise<void> {
-    this.logger.info('RNGManager', 'Initializing RNG manager...');
+  private async initializeManager(): Promise<void> {
+    this.logger.debug('RNGManager', 'Initializing manager...');
   }
 
   /**
-   * Load default RNGs
+   * Load default items
    */
-  private async loadDefaultRNGs(): Promise<void> {
-    // Load default RNGs
-    const defaultRNGs = [
-      this.createDefaultPseudoRandom(),
-      this.createDefaultTrueRandom(),
-      this.createDefaultCryptographic()
-    ];
-
-    for (const rng of defaultRNGs) {
-      if (rng) {
-        this.rngs.set(rng.id, rng);
-      }
+  private async loadDefaultItems(): Promise<void> {
+    const defaultItems = this.createDefaultItems();
+    
+    for (const item of defaultItems) {
+      this.items.set(item.id, item);
     }
 
-    this.logger.info('RNGManager', `Loaded ${defaultRNGs.length} default RNGs`);
-  }
-
-  /**
-   * Create default generator algorithm
-   */
-  private createDefaultGeneratorAlgorithm(): GeneratorAlgorithm {
-    return {
-      name: 'Linear Congruential Generator',
-      type: AlgorithmType.DETERMINISTIC,
-      parameters: new Map(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default generator configuration
-   */
-  private createDefaultGeneratorConfiguration(): GeneratorConfiguration {
-    return {
-      seed: Date.now(),
-      state: {
-        current: 0,
-        previous: 0,
-        history: [],
-        metadata: new Map()
-      },
-      period: 2147483647,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default generator performance
-   */
-  private createDefaultGeneratorPerformance(): GeneratorPerformance {
-    return {
-      speed: 0,
-      memory: 0,
-      quality: 0,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): RNGAnalytics {
-    return {
-      totalGenerators: 0,
-      totalSeeds: 0,
-      totalDistributions: 0,
-      averageSpeed: 0,
-      averageQuality: 0,
-      performance: {
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): RNGMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default pseudo random
-   */
-  private createDefaultPseudoRandom(): RNG {
-    return this.createRNG({
-      name: 'Pseudo Random RNG',
-      type: RNGType.PSEUDO_RANDOM,
-      description: 'Pseudo random number generator'
+    this.logger.info('RNGManager', 'Loaded default items', {
+      count: defaultItems.length
     });
   }
 
   /**
-   * Create default true random
+   * Create default items
    */
-  private createDefaultTrueRandom(): RNG {
-    return this.createRNG({
-      name: 'True Random RNG',
-      type: RNGType.TRUE_RANDOM,
-      description: 'True random number generator'
-    });
-  }
-
-  /**
-   * Create default cryptographic
-   */
-  private createDefaultCryptographic(): RNG {
-    return this.createRNG({
-      name: 'Cryptographic RNG',
-      type: RNGType.CRYPTOGRAPHIC,
-      description: 'Cryptographically secure random number generator'
-    });
+  private createDefaultItems(): RNGItem[] {
+    return [
+      {
+        id: 'default_item',
+        name: 'Default Item',
+        description: 'A default item',
+        type: 'default',
+        properties: {},
+        metadata: {},
+        version: '1.0.0',
+        created: Date.now(),
+        modified: Date.now()
+      }
+    ];
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, rng: RNG): void {
-    switch (action) {
-      case 'create_rng':
-        this.stats.totalGenerators += rng.generators.length;
-        this.stats.totalSeeds += rng.seeds.length;
-        this.stats.totalDistributions += rng.distributions.length;
-        break;
-      case 'create_generator':
-        this.stats.totalGenerators++;
-        break;
-      case 'create_seed':
-        this.stats.totalSeeds++;
-        break;
-    }
-
+  private updateStats(operation: string, item: RNGItem): void {
+    this.stats.totalItems = this.items.size;
     this.stats.lastUpdate = Date.now();
   }
 
@@ -574,11 +317,8 @@ export class RNGManager {
    */
   private initializeStats(): RNGStats {
     return {
-      totalGenerators: 0,
-      totalSeeds: 0,
-      totalDistributions: 0,
-      averageSpeed: 0,
-      averageQuality: 0,
+      totalItems: 0,
+      averageValue: 0,
       lastUpdate: Date.now()
     };
   }
@@ -587,9 +327,19 @@ export class RNGManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.rngs.clear();
+    this.logger.info('RNGManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

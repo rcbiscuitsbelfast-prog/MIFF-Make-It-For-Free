@@ -1,13 +1,20 @@
-/**
- * PerfPure - Performance Monitoring System
- *
- * A lightweight performance monitoring system for measuring execution time,
- * profiling code sections, and analyzing performance bottlenecks in modular
- * gameplay systems.
- *
- * @module PerfPure
- * @version 1.0.0
- * @license MIT
- */
+// Re-export all public APIs
+export * from './Manager';
+export { defaultPerfManager as default } from './Manager';
 
-export * from './PerfTimer';
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'PerfPure',
+    version: '1.0.0',
+    type: 'PerfPure'
+  };
+}
+
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}

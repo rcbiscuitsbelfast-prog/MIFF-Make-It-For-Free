@@ -1,13 +1,13 @@
 // Re-export all public APIs
 export * from './Manager';
-export { defaultNavigationSystemManager as default } from './Manager';
+export { defaultWorldEnhancementsManager as default } from './Manager';
 
 // Export module utilities
 export function getModuleInfo(): { name: string; version: string; type: string } {
   return {
-    name: 'NavigationSystemPure',
+    name: 'WorldEnhancementsPure',
     version: '1.0.0',
-    type: 'NavigationSystemPure'
+    type: 'WorldEnhancementsPure'
   };
 }
 

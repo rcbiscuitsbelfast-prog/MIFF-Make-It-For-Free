@@ -1,15 +1,20 @@
-// ZoneServerPure - Comprehensive Zone Server System
-// Main entry point - exports the complete ZoneServer implementation
+// Re-export all public APIs
+export * from './Manager';
+export { defaultZoneServerManager as default } from './Manager';
 
-export {
-  ZoneServerPure,
-  ZoneServerConfig,
-  ZoneMetrics,
-  ZoneTransition,
-  ZoneConnection,
-  ZoneEvent,
-  ZoneType,
-  ZoneStatus,
-  LoadBalanceStrategy
-} from './ZoneServer';
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'ZoneServerPure',
+    version: '1.0.0',
+    type: 'ZoneServerPure'
+  };
+}
 
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}

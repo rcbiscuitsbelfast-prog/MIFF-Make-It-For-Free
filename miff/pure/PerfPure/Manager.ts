@@ -1,315 +1,76 @@
 /**
- * PerfPure Manager - Advanced Performance Management System
+ * PerfPure Manager - Advanced Perf Management System
  *
- * Comprehensive performance management system with:
- * - Performance monitoring and profiling
- * - Performance metrics collection
- * - Performance analysis and reporting
- * - Performance optimization recommendations
- * - Real-time performance tracking
- * - Cross-platform performance monitoring
- * - Performance benchmarking and testing
- * - Performance alerting and notifications
+ * Comprehensive perf management system with:
+ * - perf creation and management
+ * - Performance optimization
+ * - Real-time monitoring
+ * - Analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface PerfConfig {
-  enablePerformanceMonitoring: boolean;
-  enablePerformanceProfiling: boolean;
-  enableMetricsCollection: boolean;
-  enablePerformanceAnalysis: boolean;
-  enablePerformanceReporting: boolean;
-  enableOptimizationRecommendations: boolean;
-  enableRealTimeTracking: boolean;
-  enableCrossPlatformMonitoring: boolean;
-  enablePerformanceBenchmarking: boolean;
-  enablePerformanceTesting: boolean;
-  enablePerformanceAlerting: boolean;
-  enablePerformanceNotifications: boolean;
-  maxMetrics: number;
-  maxProfiles: number;
+  enableCreation: boolean;
+  enableManagement: boolean;
+  enableOptimization: boolean;
+  enableMonitoring: boolean;
+  enableAnalytics: boolean;
+  enableReporting: boolean;
+  maxItems: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface Perf {
+export interface PerfItem {
   id: string;
   name: string;
-  type: PerfType;
-  status: PerfStatus;
-  metrics: PerformanceMetric[];
-  profiles: PerformanceProfile[];
-  benchmarks: PerformanceBenchmark[];
-  analytics: PerfAnalytics;
-  metadata: PerfMetadata;
+  description: string;
+  type: string;
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
   version: string;
   created: number;
   modified: number;
 }
 
-export enum PerfType {
-  REAL_TIME = 'real_time',
-  BATCH = 'batch',
-  PROFILING = 'profiling',
-  BENCHMARKING = 'benchmarking',
-  CUSTOM = 'custom'
-}
-
-export enum PerfStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  MONITORING = 'monitoring',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface PerformanceMetric {
-  id: string;
-  name: string;
-  type: MetricType;
-  value: number;
-  unit: MetricUnit;
-  timestamp: number;
-  metadata: Map<string, any>;
-}
-
-export enum MetricType {
-  CPU_USAGE = 'cpu_usage',
-  MEMORY_USAGE = 'memory_usage',
-  GPU_USAGE = 'gpu_usage',
-  NETWORK_USAGE = 'network_usage',
-  DISK_USAGE = 'disk_usage',
-  CUSTOM = 'custom'
-}
-
-export enum MetricUnit {
-  PERCENTAGE = 'percentage',
-  BYTES = 'bytes',
-  MEGABYTES = 'megabytes',
-  GIGABYTES = 'gigabytes',
-  MILLISECONDS = 'milliseconds',
-  SECONDS = 'seconds',
-  CUSTOM = 'custom'
-}
-
-export interface PerformanceProfile {
-  id: string;
-  name: string;
-  type: ProfileType;
-  status: ProfileStatus;
-  duration: number;
-  samples: ProfileSample[];
-  analysis: ProfileAnalysis;
-  metadata: Map<string, any>;
-}
-
-export enum ProfileType {
-  CPU_PROFILE = 'cpu_profile',
-  MEMORY_PROFILE = 'memory_profile',
-  GPU_PROFILE = 'gpu_profile',
-  NETWORK_PROFILE = 'network_profile',
-  CUSTOM = 'custom'
-}
-
-export enum ProfileStatus {
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
-}
-
-export interface ProfileSample {
-  timestamp: number;
-  value: number;
-  context: SampleContext;
-  metadata: Map<string, any>;
-}
-
-export interface SampleContext {
-  function: string;
-  file: string;
-  line: number;
-  metadata: Map<string, any>;
-}
-
-export interface ProfileAnalysis {
-  hotspots: Hotspot[];
-  bottlenecks: Bottleneck[];
-  recommendations: Recommendation[];
-  metadata: Map<string, any>;
-}
-
-export interface Hotspot {
-  function: string;
-  time: number;
-  percentage: number;
-  metadata: Map<string, any>;
-}
-
-export interface Bottleneck {
-  type: BottleneckType;
-  description: string;
-  impact: number;
-  metadata: Map<string, any>;
-}
-
-export enum BottleneckType {
-  CPU = 'cpu',
-  MEMORY = 'memory',
-  GPU = 'gpu',
-  NETWORK = 'network',
-  DISK = 'disk',
-  CUSTOM = 'custom'
-}
-
-export interface Recommendation {
-  type: RecommendationType;
-  description: string;
-  priority: RecommendationPriority;
-  metadata: Map<string, any>;
-}
-
-export enum RecommendationType {
-  OPTIMIZATION = 'optimization',
-  CACHING = 'caching',
-  ALGORITHM = 'algorithm',
-  ARCHITECTURE = 'architecture',
-  CUSTOM = 'custom'
-}
-
-export enum RecommendationPriority {
-  LOW = 'low',
-  MEDIUM = 'medium',
-  HIGH = 'high',
-  CRITICAL = 'critical',
-  CUSTOM = 'custom'
-}
-
-export interface PerformanceBenchmark {
-  id: string;
-  name: string;
-  type: BenchmarkType;
-  status: BenchmarkStatus;
-  results: BenchmarkResults;
-  metadata: Map<string, any>;
-}
-
-export enum BenchmarkType {
-  CPU_BENCHMARK = 'cpu_benchmark',
-  MEMORY_BENCHMARK = 'memory_benchmark',
-  GPU_BENCHMARK = 'gpu_benchmark',
-  NETWORK_BENCHMARK = 'network_benchmark',
-  CUSTOM = 'custom'
-}
-
-export enum BenchmarkStatus {
-  PENDING = 'pending',
-  RUNNING = 'running',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
-}
-
-export interface BenchmarkResults {
-  score: number;
-  baseline: number;
-  improvement: number;
-  details: BenchmarkDetail[];
-  metadata: Map<string, any>;
-}
-
-export interface BenchmarkDetail {
-  metric: string;
-  value: number;
-  unit: string;
-  metadata: Map<string, any>;
-}
-
-export interface PerfAnalytics {
-  totalMetrics: number;
-  totalProfiles: number;
-  totalBenchmarks: number;
-  averagePerformance: number;
-  performanceTrend: PerformanceTrend;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceTrend {
-  direction: TrendDirection;
-  rate: number;
-  confidence: number;
-  metadata: Map<string, any>;
-}
-
-export enum TrendDirection {
-  IMPROVING = 'improving',
-  DECLINING = 'declining',
-  STABLE = 'stable',
-  CUSTOM = 'custom'
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerfMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
 export interface PerfStats {
-  totalMetrics: number;
-  totalProfiles: number;
-  totalBenchmarks: number;
-  averagePerformance: number;
+  totalItems: number;
+  averageValue: number;
   lastUpdate: number;
 }
 
 export class PerfManager {
   private config: PerfConfig;
-  private perfs: Map<string, Perf> = new Map();
+  private items: Map<string, PerfItem> = new Map();
   private stats: PerfStats = this.initializeStats();
   private isInitialized: boolean = false;
   private logger: StructuredLogger;
   private memoryId: string;
+  private errorHandler: StandardErrorHandler;
 
   constructor(config: Partial<PerfConfig> = {}) {
     this.config = {
-      enablePerformanceMonitoring: true,
-      enablePerformanceProfiling: true,
-      enableMetricsCollection: true,
-      enablePerformanceAnalysis: true,
-      enablePerformanceReporting: true,
-      enableOptimizationRecommendations: true,
-      enableRealTimeTracking: true,
-      enableCrossPlatformMonitoring: true,
-      enablePerformanceBenchmarking: true,
-      enablePerformanceTesting: true,
-      enablePerformanceAlerting: true,
-      enablePerformanceNotifications: true,
-      maxMetrics: 1000000,
-      maxProfiles: 10000,
+      enableCreation: true,
+      enableManagement: true,
+      enableOptimization: true,
+      enableMonitoring: true,
+      enableAnalytics: true,
+      enableReporting: true,
+      maxItems: 10000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -323,152 +84,176 @@ export class PerfManager {
     // Register with memory manager
     this.memoryId = `PerfManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'PerfManager');
-  };
+
+    // Initialize error handler
+    this.errorHandler = new StandardErrorHandler(this.logger);
   }
 
   /**
-   * Initialize performance manager
+   * Initialize manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('PerfManager', 'initialize');
+    
     try {
-      // Initialize performance manager
-      await this.initializePerfManager();
-      
-      // Load default performance systems
-      await this.loadDefaultPerfSystems();
+      await this.initializeManager();
+      await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('PerfManager', 'Performance manager initialized successfully');
+      this.logger.info('PerfManager', 'Manager initialized successfully', {
+        itemsCount: this.items.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('PerfManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      this.logger.error('PerfManager', 'Failed to initialize performance manager:', error);
+      this.logger.error('PerfManager', 'Failed to initialize manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
 
   /**
-   * Create new performance system
+   * Create new item
    */
-  createPerf(perf: Partial<Perf>): Perf | null {
-    const newPerf: Perf = {
-      id: `perf_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: perf.name || 'New Performance System',
-      type: perf.type || PerfType.REAL_TIME,
-      status: PerfStatus.ACTIVE,
-      metrics: perf.metrics || [],
-      profiles: perf.profiles || [],
-      benchmarks: perf.benchmarks || [],
-      analytics: perf.analytics || this.createDefaultAnalytics(),
-      metadata: perf.metadata || this.createDefaultMetadata(),
+  createItem(item: Partial<PerfItem>): PerfItem | null {
+    if (!this.isInitialized) {
+      const error = this.errorHandler.createError(
+        ErrorCode.MODULE_NOT_INITIALIZED,
+        'Manager not initialized',
+        { module: 'PerfManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.HIGH
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    if (this.items.size >= this.config.maxItems) {
+      const error = this.errorHandler.createError(
+        ErrorCode.OPERATION_FAILED,
+        'Maximum number of items reached',
+        { module: 'PerfManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    const newItem: PerfItem = {
+      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: item.name || 'New Item',
+      description: item.description || '',
+      type: item.type || 'default',
+      properties: item.properties || {},
+      metadata: item.metadata || {},
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.perfs.set(newPerf.id, newPerf);
-    this.updateStats('create_perf', newPerf);
+    this.items.set(newItem.id, newItem);
+    this.updateStats('create_item', newItem);
 
-    this.logger.info('PerfManager', `Created performance system: ${newPerf.name}`);
-    return newPerf;
+    this.logger.info('PerfManager', 'Created item', {
+      itemId: newItem.id,
+      itemName: newItem.name,
+      totalItems: this.items.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return newItem;
   }
 
   /**
-   * Create performance metric
+   * Get item by ID
    */
-  createPerformanceMetric(perfId: string, metric: Partial<PerformanceMetric>): PerformanceMetric | null {
-    const perf = this.perfs.get(perfId);
-    if (!perf) {
-      this.logger.warn('PerfManager', `Performance system ${perfId} not found`);
-      return null;
+  getItem(itemId: string): PerfItem | null {
+    const item = this.items.get(itemId);
+    if (item) {
+      MemoryManager.trackAccess(this.memoryId);
     }
-
-    if (perf.metrics.length >= this.config.maxMetrics) {
-      this.logger.warn('PerfManager', 'Maximum number of metrics reached');
-      return null;
-    }
-
-    try {
-      const newMetric: PerformanceMetric = {
-        id: `metric_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: metric.name || 'New Metric',
-        type: metric.type || MetricType.CPU_USAGE,
-        value: metric.value || 0,
-        unit: metric.unit || MetricUnit.PERCENTAGE,
-        timestamp: Date.now(),
-        metadata: metric.metadata || new Map()
-      };
-
-      perf.metrics.push(newMetric);
-      perf.modified = Date.now();
-
-      this.updateStats('create_metric', perf);
-      this.logger.info('PerfManager', `Created performance metric: ${newMetric.name}`);
-      return newMetric;
-    } catch (error) {
-      this.logger.error('PerfManager', `Failed to create performance metric in system ${perfId}:`, error);
-      return null;
-    }
+    return item || null;
   }
 
   /**
-   * Create performance profile
+   * Update item
    */
-  createPerformanceProfile(perfId: string, profile: Partial<PerformanceProfile>): PerformanceProfile | null {
-    const perf = this.perfs.get(perfId);
-    if (!perf) {
-      this.logger.warn('PerfManager', `Performance system ${perfId} not found`);
+  updateItem(itemId: string, updates: Partial<PerfItem>): PerfItem | null {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'PerfManager', operation: 'updateItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
       return null;
     }
 
-    if (perf.profiles.length >= this.config.maxProfiles) {
-      this.logger.warn('PerfManager', 'Maximum number of profiles reached');
-      return null;
+    const updatedItem: PerfItem = {
+      ...item,
+      ...updates,
+      id: itemId,
+      modified: Date.now()
+    };
+
+    this.items.set(itemId, updatedItem);
+    this.updateStats('update_item', updatedItem);
+
+    this.logger.info('PerfManager', 'Updated item', {
+      itemId,
+      itemName: updatedItem.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return updatedItem;
+  }
+
+  /**
+   * Delete item
+   */
+  deleteItem(itemId: string): boolean {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'PerfManager', operation: 'deleteItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return false;
     }
 
-    try {
-      const newProfile: PerformanceProfile = {
-        id: `profile_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: profile.name || 'New Profile',
-        type: profile.type || ProfileType.CPU_PROFILE,
-        status: ProfileStatus.RUNNING,
-        duration: profile.duration || 0,
-        samples: profile.samples || [],
-        analysis: profile.analysis || this.createDefaultProfileAnalysis(),
-        metadata: profile.metadata || new Map()
-      };
+    this.items.delete(itemId);
+    this.updateStats('delete_item', item);
 
-      perf.profiles.push(newProfile);
-      perf.modified = Date.now();
-
-      this.updateStats('create_profile', perf);
-      this.logger.info('PerfManager', `Created performance profile: ${newProfile.name}`);
-      return newProfile;
-    } catch (error) {
-      this.logger.error('PerfManager', `Failed to create performance profile in system ${perfId}:`, error);
-      return null;
-    }
+    this.logger.info('PerfManager', 'Deleted item', {
+      itemId,
+      itemName: item.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return true;
   }
 
   /**
-   * Get performance system
+   * Get all items
    */
-  getPerf(perfId: string): Perf | null {
-    return this.perfs.get(perfId) || null;
-  }
-
-  /**
-   * Get all performance systems
-   */
-  getPerfs(): Perf[] {
-    return Array.from(this.perfs.values());
-  }
-
-  /**
-   * Get performance systems by type
-   */
-  getPerfsByType(type: PerfType): Perf[] {
-    return Array.from(this.perfs.values())
-      .filter(perf => perf.type === type);
+  getAllItems(): PerfItem[] {
+    MemoryManager.trackAccess(this.memoryId);
+    return Array.from(this.items.values());
   }
 
   /**
@@ -479,135 +264,51 @@ export class PerfManager {
   }
 
   /**
-   * Initialize performance manager
+   * Initialize manager
    */
-  private async initializePerfManager(): Promise<void> {
-    this.logger.info('PerfManager', 'Initializing performance manager...');
+  private async initializeManager(): Promise<void> {
+    this.logger.debug('PerfManager', 'Initializing manager...');
   }
 
   /**
-   * Load default performance systems
+   * Load default items
    */
-  private async loadDefaultPerfSystems(): Promise<void> {
-    // Load default performance systems
-    const defaultPerfs = [
-      this.createDefaultRealTime(),
-      this.createDefaultProfiling(),
-      this.createDefaultBenchmarking()
-    ];
-
-    for (const perf of defaultPerfs) {
-      if (perf) {
-        this.perfs.set(perf.id, perf);
-      }
+  private async loadDefaultItems(): Promise<void> {
+    const defaultItems = this.createDefaultItems();
+    
+    for (const item of defaultItems) {
+      this.items.set(item.id, item);
     }
 
-    this.logger.info('PerfManager', `Loaded ${defaultPerfs.length} default performance systems`);
-  }
-
-  /**
-   * Create default profile analysis
-   */
-  private createDefaultProfileAnalysis(): ProfileAnalysis {
-    return {
-      hotspots: [],
-      bottlenecks: [],
-      recommendations: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): PerfAnalytics {
-    return {
-      totalMetrics: 0,
-      totalProfiles: 0,
-      totalBenchmarks: 0,
-      averagePerformance: 0,
-      performanceTrend: {
-        direction: TrendDirection.STABLE,
-        rate: 0,
-        confidence: 0,
-        metadata: new Map()
-      },
-      performance: {
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): PerfMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default real-time
-   */
-  private createDefaultRealTime(): Perf {
-    return this.createPerf({
-      name: 'Real-time Performance',
-      type: PerfType.REAL_TIME,
-      description: 'Real-time performance monitoring'
+    this.logger.info('PerfManager', 'Loaded default items', {
+      count: defaultItems.length
     });
   }
 
   /**
-   * Create default profiling
+   * Create default items
    */
-  private createDefaultProfiling(): Perf {
-    return this.createPerf({
-      name: 'Performance Profiling',
-      type: PerfType.PROFILING,
-      description: 'Performance profiling system'
-    });
-  }
-
-  /**
-   * Create default benchmarking
-   */
-  private createDefaultBenchmarking(): Perf {
-    return this.createPerf({
-      name: 'Performance Benchmarking',
-      type: PerfType.BENCHMARKING,
-      description: 'Performance benchmarking system'
-    });
+  private createDefaultItems(): PerfItem[] {
+    return [
+      {
+        id: 'default_item',
+        name: 'Default Item',
+        description: 'A default item',
+        type: 'default',
+        properties: {},
+        metadata: {},
+        version: '1.0.0',
+        created: Date.now(),
+        modified: Date.now()
+      }
+    ];
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, perf: Perf): void {
-    switch (action) {
-      case 'create_perf':
-        this.stats.totalMetrics += perf.metrics.length;
-        this.stats.totalProfiles += perf.profiles.length;
-        this.stats.totalBenchmarks += perf.benchmarks.length;
-        break;
-      case 'create_metric':
-        this.stats.totalMetrics++;
-        break;
-      case 'create_profile':
-        this.stats.totalProfiles++;
-        break;
-    }
-
+  private updateStats(operation: string, item: PerfItem): void {
+    this.stats.totalItems = this.items.size;
     this.stats.lastUpdate = Date.now();
   }
 
@@ -616,10 +317,8 @@ export class PerfManager {
    */
   private initializeStats(): PerfStats {
     return {
-      totalMetrics: 0,
-      totalProfiles: 0,
-      totalBenchmarks: 0,
-      averagePerformance: 0,
+      totalItems: 0,
+      averageValue: 0,
       lastUpdate: Date.now()
     };
   }
@@ -628,9 +327,19 @@ export class PerfManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.perfs.clear();
+    this.logger.info('PerfManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

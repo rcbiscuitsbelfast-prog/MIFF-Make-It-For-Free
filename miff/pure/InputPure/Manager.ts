@@ -2,231 +2,75 @@
  * InputPure Manager - Advanced Input Management System
  *
  * Comprehensive input management system with:
- * - Input device detection and management
- * - Input mapping and configuration
- * - Input validation and filtering
- * - Input analytics and monitoring
- * - Cross-platform input handling
+ * - input creation and management
  * - Performance optimization
- * - Real-time input processing
- * - Accessibility support
+ * - Real-time monitoring
+ * - Analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface InputConfig {
-  enableDeviceDetection: boolean;
-  enableDeviceManagement: boolean;
-  enableInputMapping: boolean;
-  enableInputConfiguration: boolean;
-  enableInputValidation: boolean;
-  enableInputFiltering: boolean;
-  enableInputAnalytics: boolean;
-  enableInputMonitoring: boolean;
-  enableCrossPlatformHandling: boolean;
-  enablePerformanceOptimization: boolean;
-  enableRealTimeProcessing: boolean;
-  enableAccessibilitySupport: boolean;
-  maxDevices: number;
-  maxMappings: number;
+  enableCreation: boolean;
+  enableManagement: boolean;
+  enableOptimization: boolean;
+  enableMonitoring: boolean;
+  enableAnalytics: boolean;
+  enableReporting: boolean;
+  maxItems: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface Input {
+export interface InputItem {
   id: string;
   name: string;
-  type: InputType;
-  status: InputStatus;
-  devices: InputDevice[];
-  mappings: InputMapping[];
-  analytics: InputAnalytics;
-  metadata: InputMetadata;
+  description: string;
+  type: string;
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
   version: string;
   created: number;
   modified: number;
 }
 
-export enum InputType {
-  KEYBOARD = 'keyboard',
-  MOUSE = 'mouse',
-  GAMEPAD = 'gamepad',
-  TOUCH = 'touch',
-  VOICE = 'voice',
-  CUSTOM = 'custom'
-}
-
-export enum InputStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface InputDevice {
-  id: string;
-  name: string;
-  type: DeviceType;
-  status: DeviceStatus;
-  capabilities: DeviceCapabilities;
-  properties: DeviceProperties;
-  metadata: Map<string, any>;
-}
-
-export enum DeviceType {
-  KEYBOARD = 'keyboard',
-  MOUSE = 'mouse',
-  GAMEPAD = 'gamepad',
-  TOUCH_SCREEN = 'touch_screen',
-  MICROPHONE = 'microphone',
-  CUSTOM = 'custom'
-}
-
-export enum DeviceStatus {
-  CONNECTED = 'connected',
-  DISCONNECTED = 'disconnected',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface DeviceCapabilities {
-  buttons: number;
-  axes: number;
-  haptics: boolean;
-  wireless: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface DeviceProperties {
-  vendor: string;
-  product: string;
-  version: string;
-  serial: string;
-  metadata: Map<string, any>;
-}
-
-export interface InputMapping {
-  id: string;
-  name: string;
-  type: MappingType;
-  source: InputSource;
-  target: InputTarget;
-  conditions: InputCondition[];
-  metadata: Map<string, any>;
-}
-
-export enum MappingType {
-  DIRECT = 'direct',
-  MODIFIED = 'modified',
-  CHORD = 'chord',
-  SEQUENCE = 'sequence',
-  CUSTOM = 'custom'
-}
-
-export interface InputSource {
-  device: string;
-  input: string;
-  modifiers: string[];
-  metadata: Map<string, any>;
-}
-
-export interface InputTarget {
-  action: string;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export interface InputCondition {
-  type: ConditionType;
-  value: any;
-  operator: ConditionOperator;
-  metadata: Map<string, any>;
-}
-
-export enum ConditionType {
-  DEVICE = 'device',
-  MODIFIER = 'modifier',
-  CONTEXT = 'context',
-  CUSTOM = 'custom'
-}
-
-export enum ConditionOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  CONTAINS = 'contains',
-  CUSTOM = 'custom'
-}
-
-export interface InputAnalytics {
-  totalDevices: number;
-  totalMappings: number;
-  averageLatency: number;
-  inputFrequency: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface InputMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
 export interface InputStats {
-  totalDevices: number;
-  totalMappings: number;
-  averageLatency: number;
-  inputFrequency: number;
+  totalItems: number;
+  averageValue: number;
   lastUpdate: number;
 }
 
 export class InputManager {
   private config: InputConfig;
-  private inputs: Map<string, Input> = new Map();
+  private items: Map<string, InputItem> = new Map();
   private stats: InputStats = this.initializeStats();
   private isInitialized: boolean = false;
   private logger: StructuredLogger;
   private memoryId: string;
+  private errorHandler: StandardErrorHandler;
 
   constructor(config: Partial<InputConfig> = {}) {
     this.config = {
-      enableDeviceDetection: true,
-      enableDeviceManagement: true,
-      enableInputMapping: true,
-      enableInputConfiguration: true,
-      enableInputValidation: true,
-      enableInputFiltering: true,
-      enableInputAnalytics: true,
-      enableInputMonitoring: true,
-      enableCrossPlatformHandling: true,
-      enablePerformanceOptimization: true,
-      enableRealTimeProcessing: true,
-      enableAccessibilitySupport: true,
-      maxDevices: 100,
-      maxMappings: 10000,
+      enableCreation: true,
+      enableManagement: true,
+      enableOptimization: true,
+      enableMonitoring: true,
+      enableAnalytics: true,
+      enableReporting: true,
+      maxItems: 10000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -240,150 +84,176 @@ export class InputManager {
     // Register with memory manager
     this.memoryId = `InputManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'InputManager');
-  };
+
+    // Initialize error handler
+    this.errorHandler = new StandardErrorHandler(this.logger);
   }
 
   /**
-   * Initialize input manager
+   * Initialize manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('InputManager', 'initialize');
+    
     try {
-      // Initialize input manager
-      await this.initializeInputManager();
-      
-      // Load default inputs
-      await this.loadDefaultInputs();
+      await this.initializeManager();
+      await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('InputManager', 'Input manager initialized successfully');
+      this.logger.info('InputManager', 'Manager initialized successfully', {
+        itemsCount: this.items.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('InputManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      this.logger.error('InputManager', 'Failed to initialize input manager:', error);
+      this.logger.error('InputManager', 'Failed to initialize manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
 
   /**
-   * Create new input
+   * Create new item
    */
-  createInput(input: Partial<Input>): Input | null {
-    const newInput: Input = {
-      id: `input_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: input.name || 'New Input',
-      type: input.type || InputType.KEYBOARD,
-      status: InputStatus.ACTIVE,
-      devices: input.devices || [],
-      mappings: input.mappings || [],
-      analytics: input.analytics || this.createDefaultAnalytics(),
-      metadata: input.metadata || this.createDefaultMetadata(),
+  createItem(item: Partial<InputItem>): InputItem | null {
+    if (!this.isInitialized) {
+      const error = this.errorHandler.createError(
+        ErrorCode.MODULE_NOT_INITIALIZED,
+        'Manager not initialized',
+        { module: 'InputManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.HIGH
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    if (this.items.size >= this.config.maxItems) {
+      const error = this.errorHandler.createError(
+        ErrorCode.OPERATION_FAILED,
+        'Maximum number of items reached',
+        { module: 'InputManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    const newItem: InputItem = {
+      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: item.name || 'New Item',
+      description: item.description || '',
+      type: item.type || 'default',
+      properties: item.properties || {},
+      metadata: item.metadata || {},
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.inputs.set(newInput.id, newInput);
-    this.updateStats('create_input', newInput);
+    this.items.set(newItem.id, newItem);
+    this.updateStats('create_item', newItem);
 
-    this.logger.info('InputManager', `Created input: ${newInput.name}`);
-    return newInput;
+    this.logger.info('InputManager', 'Created item', {
+      itemId: newItem.id,
+      itemName: newItem.name,
+      totalItems: this.items.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return newItem;
   }
 
   /**
-   * Create input device
+   * Get item by ID
    */
-  createInputDevice(inputId: string, device: Partial<InputDevice>): InputDevice | null {
-    const input = this.inputs.get(inputId);
-    if (!input) {
-      this.logger.warn('InputManager', `Input ${inputId} not found`);
-      return null;
+  getItem(itemId: string): InputItem | null {
+    const item = this.items.get(itemId);
+    if (item) {
+      MemoryManager.trackAccess(this.memoryId);
     }
-
-    if (input.devices.length >= this.config.maxDevices) {
-      this.logger.warn('InputManager', 'Maximum number of devices reached');
-      return null;
-    }
-
-    try {
-      const newDevice: InputDevice = {
-        id: `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: device.name || 'New Device',
-        type: device.type || DeviceType.KEYBOARD,
-        status: DeviceStatus.CONNECTED,
-        capabilities: device.capabilities || this.createDefaultDeviceCapabilities(),
-        properties: device.properties || this.createDefaultDeviceProperties(),
-        metadata: device.metadata || new Map()
-      };
-
-      input.devices.push(newDevice);
-      input.modified = Date.now();
-
-      this.updateStats('create_device', input);
-      this.logger.info('InputManager', `Created input device: ${newDevice.name}`);
-      return newDevice;
-    } catch (error) {
-      this.logger.error('InputManager', `Failed to create input device in input ${inputId}:`, error);
-      return null;
-    }
+    return item || null;
   }
 
   /**
-   * Create input mapping
+   * Update item
    */
-  createInputMapping(inputId: string, mapping: Partial<InputMapping>): InputMapping | null {
-    const input = this.inputs.get(inputId);
-    if (!input) {
-      this.logger.warn('InputManager', `Input ${inputId} not found`);
+  updateItem(itemId: string, updates: Partial<InputItem>): InputItem | null {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'InputManager', operation: 'updateItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
       return null;
     }
 
-    if (input.mappings.length >= this.config.maxMappings) {
-      this.logger.warn('InputManager', 'Maximum number of mappings reached');
-      return null;
+    const updatedItem: InputItem = {
+      ...item,
+      ...updates,
+      id: itemId,
+      modified: Date.now()
+    };
+
+    this.items.set(itemId, updatedItem);
+    this.updateStats('update_item', updatedItem);
+
+    this.logger.info('InputManager', 'Updated item', {
+      itemId,
+      itemName: updatedItem.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return updatedItem;
+  }
+
+  /**
+   * Delete item
+   */
+  deleteItem(itemId: string): boolean {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'InputManager', operation: 'deleteItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return false;
     }
 
-    try {
-      const newMapping: InputMapping = {
-        id: `mapping_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: mapping.name || 'New Mapping',
-        type: mapping.type || MappingType.DIRECT,
-        source: mapping.source || this.createDefaultInputSource(),
-        target: mapping.target || this.createDefaultInputTarget(),
-        conditions: mapping.conditions || [],
-        metadata: mapping.metadata || new Map()
-      };
+    this.items.delete(itemId);
+    this.updateStats('delete_item', item);
 
-      input.mappings.push(newMapping);
-      input.modified = Date.now();
-
-      this.updateStats('create_mapping', input);
-      this.logger.info('InputManager', `Created input mapping: ${newMapping.name}`);
-      return newMapping;
-    } catch (error) {
-      this.logger.error('InputManager', `Failed to create input mapping in input ${inputId}:`, error);
-      return null;
-    }
+    this.logger.info('InputManager', 'Deleted item', {
+      itemId,
+      itemName: item.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return true;
   }
 
   /**
-   * Get input
+   * Get all items
    */
-  getInput(inputId: string): Input | null {
-    return this.inputs.get(inputId) || null;
-  }
-
-  /**
-   * Get all inputs
-   */
-  getInputs(): Input[] {
-    return Array.from(this.inputs.values());
-  }
-
-  /**
-   * Get inputs by type
-   */
-  getInputsByType(type: InputType): Input[] {
-    return Array.from(this.inputs.values())
-      .filter(input => input.type === type);
+  getAllItems(): InputItem[] {
+    MemoryManager.trackAccess(this.memoryId);
+    return Array.from(this.items.values());
   }
 
   /**
@@ -394,165 +264,51 @@ export class InputManager {
   }
 
   /**
-   * Initialize input manager
+   * Initialize manager
    */
-  private async initializeInputManager(): Promise<void> {
-    this.logger.info('InputManager', 'Initializing input manager...');
+  private async initializeManager(): Promise<void> {
+    this.logger.debug('InputManager', 'Initializing manager...');
   }
 
   /**
-   * Load default inputs
+   * Load default items
    */
-  private async loadDefaultInputs(): Promise<void> {
-    // Load default inputs
-    const defaultInputs = [
-      this.createDefaultKeyboard(),
-      this.createDefaultMouse(),
-      this.createDefaultGamepad()
-    ];
-
-    for (const input of defaultInputs) {
-      if (input) {
-        this.inputs.set(input.id, input);
-      }
+  private async loadDefaultItems(): Promise<void> {
+    const defaultItems = this.createDefaultItems();
+    
+    for (const item of defaultItems) {
+      this.items.set(item.id, item);
     }
 
-    this.logger.info('InputManager', `Loaded ${defaultInputs.length} default inputs`);
-  }
-
-  /**
-   * Create default device capabilities
-   */
-  private createDefaultDeviceCapabilities(): DeviceCapabilities {
-    return {
-      buttons: 0,
-      axes: 0,
-      haptics: false,
-      wireless: false,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default device properties
-   */
-  private createDefaultDeviceProperties(): DeviceProperties {
-    return {
-      vendor: '',
-      product: '',
-      version: '',
-      serial: '',
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default input source
-   */
-  private createDefaultInputSource(): InputSource {
-    return {
-      device: '',
-      input: '',
-      modifiers: [],
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default input target
-   */
-  private createDefaultInputTarget(): InputTarget {
-    return {
-      action: '',
-      parameters: new Map(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): InputAnalytics {
-    return {
-      totalDevices: 0,
-      totalMappings: 0,
-      averageLatency: 0,
-      inputFrequency: 0,
-      performance: {
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): InputMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default keyboard
-   */
-  private createDefaultKeyboard(): Input {
-    return this.createInput({
-      name: 'Keyboard Input',
-      type: InputType.KEYBOARD,
-      description: 'Keyboard input system'
+    this.logger.info('InputManager', 'Loaded default items', {
+      count: defaultItems.length
     });
   }
 
   /**
-   * Create default mouse
+   * Create default items
    */
-  private createDefaultMouse(): Input {
-    return this.createInput({
-      name: 'Mouse Input',
-      type: InputType.MOUSE,
-      description: 'Mouse input system'
-    });
-  }
-
-  /**
-   * Create default gamepad
-   */
-  private createDefaultGamepad(): Input {
-    return this.createInput({
-      name: 'Gamepad Input',
-      type: InputType.GAMEPAD,
-      description: 'Gamepad input system'
-    });
+  private createDefaultItems(): InputItem[] {
+    return [
+      {
+        id: 'default_item',
+        name: 'Default Item',
+        description: 'A default item',
+        type: 'default',
+        properties: {},
+        metadata: {},
+        version: '1.0.0',
+        created: Date.now(),
+        modified: Date.now()
+      }
+    ];
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, input: Input): void {
-    switch (action) {
-      case 'create_input':
-        this.stats.totalDevices += input.devices.length;
-        this.stats.totalMappings += input.mappings.length;
-        break;
-      case 'create_device':
-        this.stats.totalDevices++;
-        break;
-      case 'create_mapping':
-        this.stats.totalMappings++;
-        break;
-    }
-
+  private updateStats(operation: string, item: InputItem): void {
+    this.stats.totalItems = this.items.size;
     this.stats.lastUpdate = Date.now();
   }
 
@@ -561,10 +317,8 @@ export class InputManager {
    */
   private initializeStats(): InputStats {
     return {
-      totalDevices: 0,
-      totalMappings: 0,
-      averageLatency: 0,
-      inputFrequency: 0,
+      totalItems: 0,
+      averageValue: 0,
       lastUpdate: Date.now()
     };
   }
@@ -573,9 +327,19 @@ export class InputManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.inputs.clear();
+    this.logger.info('InputManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

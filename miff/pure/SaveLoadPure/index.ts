@@ -1,28 +1,20 @@
-/**
- * SaveLoadPure - Save and Load System
- * 
- * Comprehensive save and load system for game state persistence.
- * Provides serialization, compression, and version management.
- */
+// Re-export all public APIs
+export * from './Manager';
+export { defaultSaveLoadManager as default } from './Manager';
 
-export * from './SaveLoadManager';
-export { SaveLoadManager as default } from './SaveLoadManager';
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'SaveLoadPure',
+    version: '1.0.0',
+    type: 'SaveLoadPure'
+  };
+}
 
-// Module metadata
-export const MODULE_INFO = {
-  name: 'SaveLoadPure',
-  version: '1.0.0',
-  description: 'Save and load system for game state persistence',
-  features: [
-    'Game state serialization',
-    'Compression and optimization',
-    'Version management',
-    'Multiple save slots',
-    'Auto-save functionality',
-    'Cross-platform compatibility'
-  ],
-  exports: ['json', 'save'],
-  cliCommands: [
-    'save', 'load', 'list', 'delete', 'export', 'import', 'help'
-  ]
-};
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}

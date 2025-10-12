@@ -1,26 +1,20 @@
-/**
- * AIProfilesPure Module
- * 
- * Advanced AI profile management system including behavior trees,
- * scheduling, role assignment, and comprehensive AI workflows.
- * 
- * @module AIProfilesPure
- * @version 1.0.0
- * @license MIT
- */
+// Re-export all public APIs
+export * from './Manager';
+export { defaultAIProfilesManager as default } from './Manager';
 
-export { 
-  AIProfileManager,
-  type AIProfile,
-  type ScheduleEntry,
-  type PersonalityTraits,
-  type SkillSet,
-  type RelationshipMap,
-  type RelationshipEvent,
-  type BehaviorResult,
-  type AIStats,
-  type AIFilter,
-  type AIOutput,
-  type Hooks,
-  type Role
-} from './AIProfileManager';
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'AIProfilesPure',
+    version: '1.0.0',
+    type: 'AIProfilesPure'
+  };
+}
+
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}

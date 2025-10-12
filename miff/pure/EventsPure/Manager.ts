@@ -1,319 +1,76 @@
 /**
- * EventsPure Manager - Advanced Event Management System
+ * EventsPure Manager - Advanced Events Management System
  *
- * Comprehensive event management system with:
- * - Event creation and management
- * - Event subscription and publishing
- * - Event filtering and routing
- * - Event analytics and monitoring
+ * Comprehensive events management system with:
+ * - events creation and management
  * - Performance optimization
- * - Cross-platform event handling
- * - Real-time event processing
- * - Event persistence and recovery
+ * - Real-time monitoring
+ * - Analytics and reporting
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
+import { StandardErrorHandler, ErrorCode, ErrorSeverity } from '../shared/error/StandardErrorHandler';
 
 export interface EventsConfig {
-  enableEventCreation: boolean;
-  enableEventManagement: boolean;
-  enableEventSubscription: boolean;
-  enableEventPublishing: boolean;
-  enableEventFiltering: boolean;
-  enableEventRouting: boolean;
-  enableEventAnalytics: boolean;
-  enableEventMonitoring: boolean;
-  enablePerformanceOptimization: boolean;
-  enableCrossPlatformHandling: boolean;
-  enableRealTimeProcessing: boolean;
-  enableEventPersistence: boolean;
-  enableEventRecovery: boolean;
-  maxEvents: number;
-  maxSubscribers: number;
+  enableCreation: boolean;
+  enableManagement: boolean;
+  enableOptimization: boolean;
+  enableMonitoring: boolean;
+  enableAnalytics: boolean;
+  enableReporting: boolean;
+  maxItems: number;
   enableCloudSync: boolean;
   enableBackup: boolean;
   enableVersioning: boolean;
 }
 
-export interface Events {
+export interface EventsItem {
   id: string;
   name: string;
-  type: EventType;
-  status: EventStatus;
-  events: Event[];
-  subscribers: EventSubscriber[];
-  analytics: EventAnalytics;
-  metadata: EventMetadata;
+  description: string;
+  type: string;
+  properties: Record<string, any>;
+  metadata: Record<string, any>;
   version: string;
   created: number;
   modified: number;
 }
 
-export enum EventType {
-  USER = 'user',
-  SYSTEM = 'system',
-  GAME = 'game',
-  NETWORK = 'network',
-  CUSTOM = 'custom'
-}
-
-export enum EventStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface Event {
-  id: string;
-  name: string;
-  type: EventEventType;
-  status: EventEventStatus;
-  data: EventData;
-  metadata: EventEventMetadata;
-  timestamp: number;
-  version: string;
-}
-
-export enum EventEventType {
-  ACTION = 'action',
-  STATE_CHANGE = 'state_change',
-  NOTIFICATION = 'notification',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export enum EventEventStatus {
-  PENDING = 'pending',
-  PUBLISHED = 'published',
-  PROCESSED = 'processed',
-  FAILED = 'failed',
-  CUSTOM = 'custom'
-}
-
-export interface EventData {
-  payload: any;
-  schema: EventSchema;
-  validation: EventValidation;
-  metadata: Map<string, any>;
-}
-
-export interface EventSchema {
-  version: string;
-  fields: SchemaField[];
-  required: string[];
-  metadata: Map<string, any>;
-}
-
-export interface SchemaField {
-  name: string;
-  type: FieldType;
-  required: boolean;
-  defaultValue: any;
-  metadata: Map<string, any>;
-}
-
-export enum FieldType {
-  STRING = 'string',
-  NUMBER = 'number',
-  BOOLEAN = 'boolean',
-  OBJECT = 'object',
-  ARRAY = 'array',
-  CUSTOM = 'custom'
-}
-
-export interface EventValidation {
-  rules: ValidationRule[];
-  enabled: boolean;
-  metadata: Map<string, any>;
-}
-
-export interface ValidationRule {
-  field: string;
-  type: ValidationType;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum ValidationType {
-  REQUIRED = 'required',
-  MIN_LENGTH = 'min_length',
-  MAX_LENGTH = 'max_length',
-  PATTERN = 'pattern',
-  CUSTOM = 'custom'
-}
-
-export interface EventEventMetadata {
-  source: string;
-  correlationId: string;
-  causationId: string;
-  priority: EventPriority;
-  ttl: number;
-  metadata: Map<string, any>;
-}
-
-export enum EventPriority {
-  LOW = 'low',
-  NORMAL = 'normal',
-  HIGH = 'high',
-  CRITICAL = 'critical',
-  CUSTOM = 'custom'
-}
-
-export interface EventSubscriber {
-  id: string;
-  name: string;
-  type: SubscriberType;
-  status: SubscriberStatus;
-  filters: EventFilter[];
-  handler: EventHandler;
-  configuration: SubscriberConfiguration;
-  metadata: Map<string, any>;
-}
-
-export enum SubscriberType {
-  FUNCTION = 'function',
-  SERVICE = 'service',
-  QUEUE = 'queue',
-  STREAM = 'stream',
-  CUSTOM = 'custom'
-}
-
-export enum SubscriberStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PROCESSING = 'processing',
-  ERROR = 'error',
-  CUSTOM = 'custom'
-}
-
-export interface EventFilter {
-  field: string;
-  operator: FilterOperator;
-  value: any;
-  metadata: Map<string, any>;
-}
-
-export enum FilterOperator {
-  EQUALS = 'equals',
-  NOT_EQUALS = 'not_equals',
-  GREATER_THAN = 'greater_than',
-  LESS_THAN = 'less_than',
-  CONTAINS = 'contains',
-  REGEX = 'regex',
-  CUSTOM = 'custom'
-}
-
-export interface EventHandler {
-  type: HandlerType;
-  function: string;
-  parameters: Map<string, any>;
-  metadata: Map<string, any>;
-}
-
-export enum HandlerType {
-  SYNC = 'sync',
-  ASYNC = 'async',
-  BATCH = 'batch',
-  STREAM = 'stream',
-  CUSTOM = 'custom'
-}
-
-export interface SubscriberConfiguration {
-  retryPolicy: RetryPolicy;
-  timeout: number;
-  batchSize: number;
-  concurrency: number;
-  metadata: Map<string, any>;
-}
-
-export interface RetryPolicy {
-  enabled: boolean;
-  maxAttempts: number;
-  delay: number;
-  backoff: BackoffType;
-  metadata: Map<string, any>;
-}
-
-export enum BackoffType {
-  FIXED = 'fixed',
-  EXPONENTIAL = 'exponential',
-  LINEAR = 'linear',
-  CUSTOM = 'custom'
-}
-
-export interface EventAnalytics {
-  totalEvents: number;
-  totalSubscribers: number;
-  averageLatency: number;
-  throughput: number;
-  errorRate: number;
-  performance: PerformanceMetrics;
-  lastUpdate: number;
-  metadata: Map<string, any>;
-}
-
-export interface PerformanceMetrics {
-  cpuUsage: number;
-  memoryUsage: number;
-  gpuUsage: number;
-  networkUsage: number;
-  metadata: Map<string, any>;
-}
-
-export interface EventMetadata {
-  author: string;
-  version: string;
-  tags: string[];
-  description: string;
-  customMetadata: Map<string, any>;
-}
-
-export interface EventStats {
-  totalEvents: number;
-  totalSubscribers: number;
-  averageLatency: number;
-  throughput: number;
-  errorRate: number;
+export interface EventsStats {
+  totalItems: number;
+  averageValue: number;
   lastUpdate: number;
 }
 
 export class EventsManager {
   private config: EventsConfig;
-  private events: Map<string, Events> = new Map();
-  private stats: EventStats = this.initializeStats();
+  private items: Map<string, EventsItem> = new Map();
+  private stats: EventsStats = this.initializeStats();
   private isInitialized: boolean = false;
   private logger: StructuredLogger;
   private memoryId: string;
+  private errorHandler: StandardErrorHandler;
 
   constructor(config: Partial<EventsConfig> = {}) {
     this.config = {
-      enableEventCreation: true,
-      enableEventManagement: true,
-      enableEventSubscription: true,
-      enableEventPublishing: true,
-      enableEventFiltering: true,
-      enableEventRouting: true,
-      enableEventAnalytics: true,
-      enableEventMonitoring: true,
-      enablePerformanceOptimization: true,
-      enableCrossPlatformHandling: true,
-      enableRealTimeProcessing: true,
-      enableEventPersistence: true,
-      enableEventRecovery: true,
-      maxEvents: 1000000,
-      maxSubscribers: 10000,
+      enableCreation: true,
+      enableManagement: true,
+      enableOptimization: true,
+      enableMonitoring: true,
+      enableAnalytics: true,
+      enableReporting: true,
+      maxItems: 10000,
       enableCloudSync: true,
       enableBackup: true,
       enableVersioning: true,
       ...config
-  
+    };
+
     // Initialize structured logging
     this.logger = new StructuredLogger({
       level: LogLevel.INFO,
@@ -327,352 +84,241 @@ export class EventsManager {
     // Register with memory manager
     this.memoryId = `EventsManager_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     MemoryManager.registerObject(this.memoryId, this, 'EventsManager');
-  };
+
+    // Initialize error handler
+    this.errorHandler = new StandardErrorHandler(this.logger);
   }
 
   /**
-   * Initialize events manager
+   * Initialize manager
    */
   async initialize(): Promise<boolean> {
+    const timerId = this.logger.startTimer('EventsManager', 'initialize');
+    
     try {
-      // Initialize events manager
-      await this.initializeEventsManager();
-      
-      // Load default events
-      await this.loadDefaultEvents();
+      await this.initializeManager();
+      await this.loadDefaultItems();
       
       this.isInitialized = true;
-      this.logger.info('EventsManager', 'Events manager initialized successfully');
+      this.logger.info('EventsManager', 'Manager initialized successfully', {
+        itemsCount: this.items.size,
+        config: this.config
+      });
+      
+      const duration = this.logger.endTimer(timerId);
+      this.logger.logPerformance('EventsManager', 'initialize', duration);
+      
       return true;
     } catch (error) {
-      this.logger.error('EventsManager', 'Failed to initialize events manager:', error);
+      this.logger.error('EventsManager', 'Failed to initialize manager', {
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }, error instanceof Error ? error : undefined);
+      
+      this.logger.endTimer(timerId);
       return false;
     }
   }
 
   /**
-   * Create new events
+   * Create new item
    */
-  createEvents(events: Partial<Events>): Events | null {
-    const newEvents: Events = {
-      id: `events_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      name: events.name || 'New Events',
-      type: events.type || EventType.USER,
-      status: EventStatus.ACTIVE,
-      events: events.events || [],
-      subscribers: events.subscribers || [],
-      analytics: events.analytics || this.createDefaultAnalytics(),
-      metadata: events.metadata || this.createDefaultMetadata(),
+  createItem(item: Partial<EventsItem>): EventsItem | null {
+    if (!this.isInitialized) {
+      const error = this.errorHandler.createError(
+        ErrorCode.MODULE_NOT_INITIALIZED,
+        'Manager not initialized',
+        { module: 'EventsManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.HIGH
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    if (this.items.size >= this.config.maxItems) {
+      const error = this.errorHandler.createError(
+        ErrorCode.OPERATION_FAILED,
+        'Maximum number of items reached',
+        { module: 'EventsManager', operation: 'createItem' },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return null;
+    }
+
+    const newItem: EventsItem = {
+      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name: item.name || 'New Item',
+      description: item.description || '',
+      type: item.type || 'default',
+      properties: item.properties || {},
+      metadata: item.metadata || {},
       version: '1.0.0',
       created: Date.now(),
       modified: Date.now()
     };
 
-    this.events.set(newEvents.id, newEvents);
-    this.updateStats('create_events', newEvents);
+    this.items.set(newItem.id, newItem);
+    this.updateStats('create_item', newItem);
 
-    this.logger.info('EventsManager', `Created events: ${newEvents.name}`);
-    return newEvents;
+    this.logger.info('EventsManager', 'Created item', {
+      itemId: newItem.id,
+      itemName: newItem.name,
+      totalItems: this.items.size
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return newItem;
   }
 
   /**
-   * Create event
+   * Get item by ID
    */
-  createEvent(eventsId: string, event: Partial<Event>): Event | null {
-    const events = this.events.get(eventsId);
-    if (!events) {
-      this.logger.warn('EventsManager', `Events ${eventsId} not found`);
-      return null;
+  getItem(itemId: string): EventsItem | null {
+    const item = this.items.get(itemId);
+    if (item) {
+      MemoryManager.trackAccess(this.memoryId);
     }
-
-    if (events.events.length >= this.config.maxEvents) {
-      this.logger.warn('EventsManager', 'Maximum number of events reached');
-      return null;
-    }
-
-    try {
-      const newEvent: Event = {
-        id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: event.name || 'New Event',
-        type: event.type || EventEventType.ACTION,
-        status: EventEventStatus.PENDING,
-        data: event.data || this.createDefaultEventData(),
-        metadata: event.metadata || this.createDefaultEventMetadata(),
-        timestamp: Date.now(),
-        version: '1.0.0'
-      };
-
-      events.events.push(newEvent);
-      events.modified = Date.now();
-
-      this.updateStats('create_event', events);
-      this.logger.info('EventsManager', `Created event: ${newEvent.name}`);
-      return newEvent;
-    } catch (error) {
-      this.logger.error('EventsManager', `Failed to create event in events ${eventsId}:`, error);
-      return null;
-    }
+    return item || null;
   }
 
   /**
-   * Create event subscriber
+   * Update item
    */
-  createEventSubscriber(eventsId: string, subscriber: Partial<EventSubscriber>): EventSubscriber | null {
-    const events = this.events.get(eventsId);
-    if (!events) {
-      this.logger.warn('EventsManager', `Events ${eventsId} not found`);
+  updateItem(itemId: string, updates: Partial<EventsItem>): EventsItem | null {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'EventsManager', operation: 'updateItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
       return null;
     }
 
-    if (events.subscribers.length >= this.config.maxSubscribers) {
-      this.logger.warn('EventsManager', 'Maximum number of subscribers reached');
-      return null;
+    const updatedItem: EventsItem = {
+      ...item,
+      ...updates,
+      id: itemId,
+      modified: Date.now()
+    };
+
+    this.items.set(itemId, updatedItem);
+    this.updateStats('update_item', updatedItem);
+
+    this.logger.info('EventsManager', 'Updated item', {
+      itemId,
+      itemName: updatedItem.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return updatedItem;
+  }
+
+  /**
+   * Delete item
+   */
+  deleteItem(itemId: string): boolean {
+    const item = this.items.get(itemId);
+    if (!item) {
+      const error = this.errorHandler.createError(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Item not found',
+        { module: 'EventsManager', operation: 'deleteItem', metadata: { itemId } },
+        undefined,
+        ErrorSeverity.MEDIUM
+      );
+      this.errorHandler.handleError(error);
+      return false;
     }
 
-    try {
-      const newSubscriber: EventSubscriber = {
-        id: `subscriber_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        name: subscriber.name || 'New Subscriber',
-        type: subscriber.type || SubscriberType.FUNCTION,
-        status: SubscriberStatus.ACTIVE,
-        filters: subscriber.filters || [],
-        handler: subscriber.handler || this.createDefaultEventHandler(),
-        configuration: subscriber.configuration || this.createDefaultSubscriberConfiguration(),
-        metadata: subscriber.metadata || new Map()
-      };
+    this.items.delete(itemId);
+    this.updateStats('delete_item', item);
 
-      events.subscribers.push(newSubscriber);
-      events.modified = Date.now();
-
-      this.updateStats('create_subscriber', events);
-      this.logger.info('EventsManager', `Created event subscriber: ${newSubscriber.name}`);
-      return newSubscriber;
-    } catch (error) {
-      this.logger.error('EventsManager', `Failed to create event subscriber in events ${eventsId}:`, error);
-      return null;
-    }
+    this.logger.info('EventsManager', 'Deleted item', {
+      itemId,
+      itemName: item.name
+    });
+    
+    MemoryManager.trackAccess(this.memoryId);
+    return true;
   }
 
   /**
-   * Get events
+   * Get all items
    */
-  getEvents(eventsId: string): Events | null {
-    return this.events.get(eventsId) || null;
-  }
-
-  /**
-   * Get all events
-   */
-  getEventsList(): Events[] {
-    return Array.from(this.events.values());
-  }
-
-  /**
-   * Get events by type
-   */
-  getEventsByType(type: EventType): Events[] {
-    return Array.from(this.events.values())
-      .filter(events => events.type === type);
+  getAllItems(): EventsItem[] {
+    MemoryManager.trackAccess(this.memoryId);
+    return Array.from(this.items.values());
   }
 
   /**
    * Get manager statistics
    */
-  getManagerStats(): EventStats {
+  getManagerStats(): EventsStats {
     return { ...this.stats };
   }
 
   /**
-   * Initialize events manager
+   * Initialize manager
    */
-  private async initializeEventsManager(): Promise<void> {
-    this.logger.info('EventsManager', 'Initializing events manager...');
+  private async initializeManager(): Promise<void> {
+    this.logger.debug('EventsManager', 'Initializing manager...');
   }
 
   /**
-   * Load default events
+   * Load default items
    */
-  private async loadDefaultEvents(): Promise<void> {
-    // Load default events
-    const defaultEvents = [
-      this.createDefaultUser(),
-      this.createDefaultSystem(),
-      this.createDefaultGame()
-    ];
-
-    for (const events of defaultEvents) {
-      if (events) {
-        this.events.set(events.id, events);
-      }
+  private async loadDefaultItems(): Promise<void> {
+    const defaultItems = this.createDefaultItems();
+    
+    for (const item of defaultItems) {
+      this.items.set(item.id, item);
     }
 
-    this.logger.info('EventsManager', `Loaded ${defaultEvents.length} default events`);
+    this.logger.info('EventsManager', 'Loaded default items', {
+      count: defaultItems.length
+    });
   }
 
   /**
-   * Create default event data
+   * Create default items
    */
-  private createDefaultEventData(): EventData {
-    return {
-      payload: {},
-      schema: {
+  private createDefaultItems(): EventsItem[] {
+    return [
+      {
+        id: 'default_item',
+        name: 'Default Item',
+        description: 'A default item',
+        type: 'default',
+        properties: {},
+        metadata: {},
         version: '1.0.0',
-        fields: [],
-        required: [],
-        metadata: new Map()
-      },
-      validation: {
-        rules: [],
-        enabled: false,
-        metadata: new Map()
-      },
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default event metadata
-   */
-  private createDefaultEventMetadata(): EventEventMetadata {
-    return {
-      source: 'system',
-      correlationId: '',
-      causationId: '',
-      priority: EventPriority.NORMAL,
-      ttl: 3600000,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default event handler
-   */
-  private createDefaultEventHandler(): EventHandler {
-    return {
-      type: HandlerType.SYNC,
-      function: '',
-      parameters: new Map(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default subscriber configuration
-   */
-  private createDefaultSubscriberConfiguration(): SubscriberConfiguration {
-    return {
-      retryPolicy: {
-        enabled: true,
-        maxAttempts: 3,
-        delay: 1000,
-        backoff: BackoffType.EXPONENTIAL,
-        metadata: new Map()
-      },
-      timeout: 30000,
-      batchSize: 1,
-      concurrency: 1,
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default analytics
-   */
-  private createDefaultAnalytics(): EventAnalytics {
-    return {
-      totalEvents: 0,
-      totalSubscribers: 0,
-      averageLatency: 0,
-      throughput: 0,
-      errorRate: 0,
-      performance: {
-        cpuUsage: 0,
-        memoryUsage: 0,
-        gpuUsage: 0,
-        networkUsage: 0,
-        metadata: new Map()
-      },
-      lastUpdate: Date.now(),
-      metadata: new Map()
-    };
-  }
-
-  /**
-   * Create default metadata
-   */
-  private createDefaultMetadata(): EventMetadata {
-    return {
-      author: 'System',
-      version: '1.0.0',
-      tags: [],
-      description: '',
-      customMetadata: new Map()
-    };
-  }
-
-  /**
-   * Create default user
-   */
-  private createDefaultUser(): Events {
-    return this.createEvents({
-      name: 'User Events',
-      type: EventType.USER,
-      description: 'User interaction events'
-    });
-  }
-
-  /**
-   * Create default system
-   */
-  private createDefaultSystem(): Events {
-    return this.createEvents({
-      name: 'System Events',
-      type: EventType.SYSTEM,
-      description: 'System events'
-    });
-  }
-
-  /**
-   * Create default game
-   */
-  private createDefaultGame(): Events {
-    return this.createEvents({
-      name: 'Game Events',
-      type: EventType.GAME,
-      description: 'Game events'
-    });
+        created: Date.now(),
+        modified: Date.now()
+      }
+    ];
   }
 
   /**
    * Update statistics
    */
-  private updateStats(action: string, events: Events): void {
-    switch (action) {
-      case 'create_events':
-        this.stats.totalEvents += events.events.length;
-        this.stats.totalSubscribers += events.subscribers.length;
-        break;
-      case 'create_event':
-        this.stats.totalEvents++;
-        break;
-      case 'create_subscriber':
-        this.stats.totalSubscribers++;
-        break;
-    }
-
+  private updateStats(operation: string, item: EventsItem): void {
+    this.stats.totalItems = this.items.size;
     this.stats.lastUpdate = Date.now();
   }
 
   /**
    * Initialize statistics
    */
-  private initializeStats(): EventStats {
+  private initializeStats(): EventsStats {
     return {
-      totalEvents: 0,
-      totalSubscribers: 0,
-      averageLatency: 0,
-      throughput: 0,
-      errorRate: 0,
+      totalItems: 0,
+      averageValue: 0,
       lastUpdate: Date.now()
     };
   }
@@ -681,9 +327,19 @@ export class EventsManager {
    * Cleanup resources
    */
   destroy(): void {
-    this.events.clear();
+    this.logger.info('EventsManager', 'Destroying manager', {
+      itemsCount: this.items.size
+    });
+    
+    this.items.clear();
     this.stats = this.initializeStats();
     this.isInitialized = false;
+    
+    // Unregister from memory manager
+    MemoryManager.unregisterObject(this.memoryId);
+    
+    // Destroy logger
+    this.logger.destroy();
   }
 }
 

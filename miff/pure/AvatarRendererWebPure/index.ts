@@ -1,20 +1,20 @@
-import { ResolvedAvatar } from '../AvatarSystemPure/schema';
+// Re-export all public APIs
+export * from './Manager';
+export { defaultAvatarRendererWebManager as default } from './Manager';
 
-export class AvatarRendererWebPure {
-  public static renderToCanvas(ctx: CanvasRenderingContext2D, avatar: ResolvedAvatar): void {
-    // Simple painter: draw assets by anchor ordering
-    const order = ['anchor_cloak','anchor_shirt','anchor_torso','anchor_head','anchor_hat','anchor_accessory'];
-    for (const key of order) {
-      const entry = avatar.assets.entries.find(e => e.anchor === key);
-      if (!entry) continue;
-      const img = new Image();
-      img.src = entry.url;
-      if (img.complete) {
-        ctx.drawImage(img, 0, 0);
-      } else {
-        img.onload = () => ctx.drawImage(img, 0, 0);
-      }
-    }
-  }
+// Export module utilities
+export function getModuleInfo(): { name: string; version: string; type: string } {
+  return {
+    name: 'AvatarRendererWebPure',
+    version: '1.0.0',
+    type: 'AvatarRendererWebPure'
+  };
 }
 
+export function isModuleAvailable(): boolean {
+  return true;
+}
+
+export function getModuleCapabilities(): string[] {
+  return ['core', 'management', 'optimization'];
+}
