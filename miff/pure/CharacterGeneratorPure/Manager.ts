@@ -165,7 +165,7 @@ export class CharacterGeneratorPureManager {
         ...itemData,
         id,
         createdAt: now,
-        updatedAt: now;
+        updatedAt: now
     };
 
       this.items.set(id, item);
