@@ -1,6 +1,6 @@
 /**
  * NetworkBridgePure.test.ts
- * 
+ *
  * Tests for NetworkBridgePure module covering peer management, state sync, and rollback netcode.
  */
 
@@ -21,7 +21,7 @@ describe('NetworkBridgePure', () => {
   describe('Peer', () => {
     it('should create a peer with correct initial state', () => {
       const peer = new Peer('test-peer', true);
-      
+
       expect(peer.id).toBe('test-peer');
       expect(peer.isHost).toBe(true);
       expect(peer.isConnected).toBe(false);
@@ -31,19 +31,19 @@ describe('NetworkBridgePure', () => {
     it('should update latency and last seen timestamp', () => {
       const peer = new Peer('test-peer');
       const before = Date.now();
-      
+
       peer.updateLatency(50);
-      
+
       expect(peer.latency).toBe(50);
       expect(peer.lastSeen).toBeGreaterThanOrEqual(before);
     });
 
     it('should mark connection status correctly', () => {
       const peer = new Peer('test-peer');
-      
+
       peer.markConnected();
       expect(peer.isConnected).toBe(true);
-      
+
       peer.markDisconnected();
       expect(peer.isConnected).toBe(false);
     });
@@ -59,15 +59,15 @@ describe('NetworkBridgePure', () => {
     it('should add and remove peers correctly', () => {
       const peer1 = new Peer('peer1');
       const peer2 = new Peer('peer2');
-      
+
       scheduler.addPeer(peer1);
       scheduler.addPeer(peer2);
-      
+
       // Access private property for testing
-      const peers = (scheduler as any).peers;
+      const { peers } = (scheduler as any);
       expect(peers.has('peer1')).toBe(true);
       expect(peers.has('peer2')).toBe(true);
-      
+
       scheduler.removePeer('peer1');
       expect(peers.has('peer1')).toBe(false);
       expect(peers.has('peer2')).toBe(true);
@@ -76,12 +76,12 @@ describe('NetworkBridgePure', () => {
     it('should submit and retrieve inputs correctly', () => {
       const peer = new Peer('test-peer');
       scheduler.addPeer(peer);
-      
+
       const input = { move: 'up' };
       scheduler.submitInput('test-peer', 5, input);
-      
+
       // Access private property for testing
-      const inputBuffer = (scheduler as any).inputBuffer;
+      const { inputBuffer } = (scheduler as any);
       expect(inputBuffer.get('test-peer').get(5)).toEqual(input);
     });
 
@@ -89,7 +89,7 @@ describe('NetworkBridgePure', () => {
       const peer = new Peer('test-peer');
       peer.markConnected();
       scheduler.addPeer(peer);
-      
+
       const result = scheduler.advanceFrame();
       expect(result).toBeNull();
     });
@@ -98,10 +98,10 @@ describe('NetworkBridgePure', () => {
       const peer = new Peer('test-peer');
       peer.markConnected();
       scheduler.addPeer(peer);
-      
+
       // Submit input for current frame
       scheduler.submitInput('test-peer', 0, { move: 'up' });
-      
+
       const result = scheduler.advanceFrame();
       expect(result).not.toBeNull();
       expect(result?.frame).toBe(0);
@@ -112,17 +112,17 @@ describe('NetworkBridgePure', () => {
       const peer = new Peer('test-peer');
       peer.markConnected();
       scheduler.addPeer(peer);
-      
+
       // Advance a few frames
       for (let i = 0; i < 5; i++) {
         scheduler.submitInput('test-peer', i, { move: 'up' });
         scheduler.advanceFrame();
       }
-      
+
       scheduler.rollbackToFrame(2);
-      
+
       // Access private property for testing
-      const currentFrame = (scheduler as any).currentFrame;
+      const { currentFrame } = (scheduler as any);
       expect(currentFrame).toBe(2);
     });
   });
@@ -142,79 +142,79 @@ describe('NetworkBridgePure', () => {
       bridge = new NetworkBridge(mockTransport, config);
     });
 
-    it('should start hosting successfully', async () => {
+    it('should start hosting successfully', async() => {
       const hostId = await bridge.startHosting();
-      
+
       expect(hostId).toBeDefined();
       expect(hostId.length).toBeGreaterThan(0);
-      
+
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(1);
       expect(peers[0].isHost).toBe(true);
     });
 
-    it('should join game successfully', async () => {
+    it('should join game successfully', async() => {
       const success = await bridge.joinGame('host-id');
-      
+
       expect(success).toBe(true);
       expect(mockTransport.connect).toHaveBeenCalledWith('host-id');
-      
+
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(1);
       expect(peers[0].isHost).toBe(false);
     });
 
-    it('should submit local input and broadcast to peers', async () => {
+    it('should submit local input and broadcast to peers', async() => {
       // Start hosting first
       await bridge.startHosting();
-      
+
       // Add a remote peer to simulate a joined player
       const remotePeer = new Peer('remote-peer', false);
       remotePeer.markConnected();
       (bridge as any).peers.set('remote-peer', remotePeer);
-      
+
       const input = { move: 'left' };
       await bridge.submitLocalInput(input);
       await Promise.resolve();
-      
+
       // Should have called send for each connected peer (except self)
       expect(mockTransport.send).toHaveBeenCalled();
     });
 
-    it('should disconnect all peers', async () => {
+    it('should disconnect all peers', async() => {
       // Start hosting first
       await bridge.startHosting();
-      
+
       // Add a remote peer to simulate a joined player
       const remotePeer = new Peer('remote-peer', false);
       remotePeer.markConnected();
       (bridge as any).peers.set('remote-peer', remotePeer);
-      
+
       await bridge.disconnect();
       await Promise.resolve();
-      
+
       expect(mockTransport.disconnect).toHaveBeenCalled();
       const peers = bridge.getConnectedPeers();
       expect(peers.length).toBe(0);
     });
 
-    it('should update and process incoming messages', async () => {
+    it('should update and process incoming messages', async() => {
       // Mock incoming message
       const mockMessage = {
         peerId: 'remote-peer',
         data: new TextEncoder().encode(JSON.stringify({ frame: 0, input: { move: 'up' } }))
       };
       mockTransport.receive.mockResolvedValueOnce(mockMessage);
-      
+
       const result = bridge.update();
-      
+
       // Should process the message and potentially advance frame
       expect(mockTransport.receive).toHaveBeenCalled();
     });
   });
 
   describe('Integration Tests', () => {
-    it('should handle multi-peer scenario', async () => {
+    it('should handle multi-peer scenario', async() => {
       const bridge1 = new NetworkBridge({
         connect: jest.fn().mockResolvedValue(true),
         disconnect: jest.fn(),
@@ -233,11 +233,11 @@ describe('NetworkBridgePure', () => {
 
       // Bridge 1 hosts
       const hostId = await bridge1.startHosting();
-      
+
       // Bridge 2 joins
       const joined = await bridge2.joinGame(hostId);
       expect(joined).toBe(true);
-      
+
       // Both should have peers
       expect(bridge1.getConnectedPeers().length).toBe(1);
       expect(bridge2.getConnectedPeers().length).toBe(1);
@@ -248,19 +248,19 @@ describe('NetworkBridgePure', () => {
       const peer = new Peer('test-peer');
       peer.markConnected();
       scheduler.addPeer(peer);
-      
+
       // Submit inputs for frames 0-4
       for (let i = 0; i < 5; i++) {
         scheduler.submitInput('test-peer', i, { move: 'up' });
         scheduler.advanceFrame();
       }
-      
+
       // Rollback to frame 2
       scheduler.rollbackToFrame(2);
-      
+
       // Submit different input for frame 2
       scheduler.submitInput('test-peer', 2, { move: 'down' });
-      
+
       // Should be able to advance from frame 2
       const result = scheduler.advanceFrame();
       expect(result?.frame).toBe(2);

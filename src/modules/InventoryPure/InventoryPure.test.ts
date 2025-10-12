@@ -1,16 +1,16 @@
 /**
  * InventoryPure.test.ts
- * 
+ *
  * Tests for InventoryPure module covering ECS components, item management, and Torque persistence.
  */
 
-import { 
-  InventoryManager, 
-  ItemDefinition, 
-  ItemInstance, 
+import {
+  InventoryManager,
+  ItemDefinition,
+  ItemInstance,
   InventoryComponent,
   InventoryTransaction,
-  InventoryObserver 
+  InventoryObserver
 } from '../../../miff/pure/InventoryPure/InventoryPure';
 
 describe('InventoryPure', () => {
@@ -19,7 +19,7 @@ describe('InventoryPure', () => {
 
   beforeEach(() => {
     manager = new InventoryManager();
-    
+
     // Create sample items
     sampleItems = [
       {
@@ -100,7 +100,7 @@ describe('InventoryPure', () => {
   describe('Inventory Management', () => {
     it('should create inventory for entity', () => {
       const inventory = manager.createInventory('player1', 50, 10);
-      
+
       expect(inventory.entityId).toBe('player1');
       expect(inventory.maxWeight).toBe(50);
       expect(inventory.maxSlots).toBe(10);
@@ -112,7 +112,7 @@ describe('InventoryPure', () => {
     it('should retrieve created inventory', () => {
       manager.createInventory('player1');
       const inventory = manager.getInventory('player1');
-      
+
       expect(inventory).toBeDefined();
       expect(inventory?.entityId).toBe('player1');
     });
@@ -131,7 +131,7 @@ describe('InventoryPure', () => {
     it('should add item to inventory', () => {
       const success = manager.addItem('player1', 'sword');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.size).toBe(1);
     });
@@ -149,7 +149,7 @@ describe('InventoryPure', () => {
     it('should respect weight limits', () => {
       // Create inventory with very low weight limit
       manager.createInventory('player2', 1, 20);
-      
+
       const success = manager.addItem('player2', 'sword'); // Weight: 3.0
       expect(success).toBe(false);
     });
@@ -157,10 +157,10 @@ describe('InventoryPure', () => {
     it('should stack stackable items', () => {
       manager.addItem('player1', 'health_potion', 5);
       manager.addItem('player1', 'health_potion', 3);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.size).toBe(1); // Should be stacked
-      
+
       const item = Array.from(inventory!.items.values())[0];
       expect(item.quantity).toBe(8);
     });
@@ -175,7 +175,7 @@ describe('InventoryPure', () => {
       manager.addItem('player1', 'sword');
       const success = manager.removeItem('player1', 'slot_0');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.size).toBe(0);
     });
@@ -184,7 +184,7 @@ describe('InventoryPure', () => {
       manager.addItem('player1', 'health_potion', 5);
       const success = manager.removeItem('player1', 'slot_0', 2);
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       const item = Array.from(inventory!.items.values())[0];
       expect(item.quantity).toBe(3);
@@ -194,7 +194,7 @@ describe('InventoryPure', () => {
       manager.addItem('player1', 'sword', 1, 'slot_0');
       const success = manager.moveItem('player1', 'slot_0', 'slot_5');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.has('slot_0')).toBe(false);
       expect(inventory?.items.has('slot_5')).toBe(true);
@@ -203,7 +203,7 @@ describe('InventoryPure', () => {
     it('should not move to occupied slot', () => {
       manager.addItem('player1', 'sword', 1, 'slot_0');
       manager.addItem('player1', 'health_potion', 1, 'slot_5');
-      
+
       const success = manager.moveItem('player1', 'slot_0', 'slot_5');
       expect(success).toBe(false);
     });
@@ -219,7 +219,7 @@ describe('InventoryPure', () => {
     it('should equip weapon', () => {
       const success = manager.equipItem('player1', 'slot_0', 'weapon_slot');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.equipped.get('weapon_slot')).toBeDefined();
     });
@@ -227,7 +227,7 @@ describe('InventoryPure', () => {
     it('should equip armor', () => {
       const success = manager.equipItem('player1', 'slot_1', 'chest_slot');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.equipped.get('chest_slot')).toBeDefined();
     });
@@ -242,7 +242,7 @@ describe('InventoryPure', () => {
       manager.equipItem('player1', 'slot_0', 'weapon_slot');
       const success = manager.unequipItem('player1', 'weapon_slot');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.equipped.has('weapon_slot')).toBe(false);
     });
@@ -251,7 +251,7 @@ describe('InventoryPure', () => {
       manager.equipItem('player1', 'slot_0', 'weapon_slot');
       manager.addItem('player1', 'sword', 1, 'slot_3'); // Another sword
       manager.equipItem('player1', 'slot_3', 'weapon_slot');
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.equipped.get('weapon_slot')).toBeDefined();
     });
@@ -266,7 +266,7 @@ describe('InventoryPure', () => {
     it('should use consumable items', () => {
       const success = manager.useItem('player1', 'slot_0');
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       const item = Array.from(inventory!.items.values())[0];
       expect(item.quantity).toBe(2);
@@ -276,7 +276,7 @@ describe('InventoryPure', () => {
       manager.useItem('player1', 'slot_0'); // 3 -> 2
       manager.useItem('player1', 'slot_0'); // 2 -> 1
       manager.useItem('player1', 'slot_0'); // 1 -> 0, should remove
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.items.size).toBe(0);
     });
@@ -291,7 +291,7 @@ describe('InventoryPure', () => {
       const beforeUse = Date.now();
       manager.useItem('player1', 'slot_0');
       const afterUse = Date.now();
-      
+
       const inventory = manager.getInventory('player1');
       const item = Array.from(inventory!.items.values())[0];
       expect(item.lastUsed).toBeGreaterThanOrEqual(beforeUse);
@@ -307,7 +307,7 @@ describe('InventoryPure', () => {
     it('should add currency', () => {
       const success = manager.addCurrency('player1', 'gold', 100);
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.currency.get('gold')).toBe(100);
     });
@@ -316,7 +316,7 @@ describe('InventoryPure', () => {
       manager.addCurrency('player1', 'gold', 100);
       const success = manager.removeCurrency('player1', 'gold', 30);
       expect(success).toBe(true);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.currency.get('gold')).toBe(70);
     });
@@ -325,7 +325,7 @@ describe('InventoryPure', () => {
       manager.addCurrency('player1', 'gold', 50);
       const success = manager.removeCurrency('player1', 'gold', 100);
       expect(success).toBe(false);
-      
+
       const inventory = manager.getInventory('player1');
       expect(inventory?.currency.get('gold')).toBe(50); // Unchanged
     });
@@ -335,12 +335,12 @@ describe('InventoryPure', () => {
     beforeEach(() => {
       manager.createInventory('player1');
       manager.createInventory('player2');
-      
+
       // Add various items to player1
       manager.addItem('player1', 'sword');
       manager.addItem('player1', 'health_potion', 5);
       manager.addItem('player1', 'leather_armor');
-      
+
       // Add items to player2
       manager.addItem('player2', 'sword');
       manager.addItem('player2', 'health_potion', 2);
@@ -367,7 +367,7 @@ describe('InventoryPure', () => {
     });
 
     it('should combine multiple query filters', () => {
-      const results = manager.queryInventory({ 
+      const results = manager.queryInventory({
         entityId: 'player1',
         itemType: 'consumable'
       });
@@ -382,14 +382,14 @@ describe('InventoryPure', () => {
     beforeEach(() => {
       manager.createInventory('player1');
       receivedTransactions = [];
-      
+
       observer = {
         id: 'test_observer',
         onItemAdded: (transaction) => receivedTransactions.push(transaction),
         onItemRemoved: (transaction) => receivedTransactions.push(transaction),
         onItemUsed: (transaction) => receivedTransactions.push(transaction)
       };
-      
+
       manager.addObserver(observer);
     });
 
@@ -433,7 +433,7 @@ describe('InventoryPure', () => {
       const serialized = manager.serialize();
       const newManager = new InventoryManager();
       newManager.deserialize(serialized);
-      
+
       // Verify items are restored
       const inventory = newManager.getInventory('player1');
       expect(inventory).toBeDefined();
@@ -446,7 +446,7 @@ describe('InventoryPure', () => {
       const serialized = manager.serialize();
       const newManager = new InventoryManager();
       newManager.deserialize(serialized);
-      
+
       const sword = newManager.getItemDefinition('sword');
       expect(sword).toBeDefined();
       expect(sword?.name).toBe('Iron Sword');
@@ -456,7 +456,7 @@ describe('InventoryPure', () => {
       const serialized = manager.serialize();
       const newManager = new InventoryManager();
       newManager.deserialize(serialized);
-      
+
       const stats = newManager.getStats();
       expect(stats.totalTransactions).toBeGreaterThan(0);
     });
@@ -470,7 +470,7 @@ describe('InventoryPure', () => {
     it('should calculate inventory weight', () => {
       manager.addItem('player1', 'sword'); // Weight: 3.0
       manager.addItem('player1', 'health_potion', 2); // Weight: 0.5 * 2 = 1.0
-      
+
       const inventory = manager.getInventory('player1')!;
       const weight = manager.calculateInventoryWeight(inventory);
       expect(weight).toBe(4.0);
@@ -479,10 +479,10 @@ describe('InventoryPure', () => {
     it('should calculate inventory space', () => {
       manager.addItem('player1', 'sword');
       manager.addItem('player1', 'health_potion');
-      
+
       const inventory = manager.getInventory('player1')!;
       const space = manager.getInventorySpace(inventory);
-      
+
       expect(space.used).toBe(2);
       expect(space.total).toBe(10);
       expect(space.available).toBe(8);
@@ -494,43 +494,43 @@ describe('InventoryPure', () => {
       // Create multiple players
       manager.createInventory('player1', 100, 20);
       manager.createInventory('player2', 50, 10);
-      
+
       // Player 1 gets items
       manager.addItem('player1', 'sword');
       manager.addItem('player1', 'health_potion', 10);
       manager.addItem('player1', 'leather_armor');
       manager.addCurrency('player1', 'gold', 500);
-      
+
       // Player 2 gets items
       manager.addItem('player2', 'sword');
       manager.addItem('player2', 'health_potion', 3);
       manager.addCurrency('player2', 'silver', 200);
-      
+
       // Equip items
       manager.equipItem('player1', 'slot_0', 'weapon_slot');
       manager.equipItem('player1', 'slot_2', 'chest_slot');
-      
+
       // Use items
       manager.useItem('player1', 'slot_1'); // Use health potion
-      
+
       // Move items
       manager.moveItem('player1', 'slot_1', 'slot_5');
-      
+
       // Verify final state
       const player1Inv = manager.getInventory('player1')!;
       const player2Inv = manager.getInventory('player2')!;
-      
+
       expect(player1Inv.items.size).toBeGreaterThanOrEqual(2);
       expect(player1Inv.equipped.size).toBe(2); // weapon and armor
       expect(player1Inv.currency.get('gold')).toBe(500);
-      
+
       expect(player2Inv.items.size).toBe(2);
       expect(player2Inv.currency.get('silver')).toBe(200);
-      
+
       // Query across all inventories
       const allWeapons = manager.queryInventory({ itemType: 'weapon' });
       expect(allWeapons.length).toBe(2);
-      
+
       const allPotions = manager.queryInventory({ itemType: 'consumable' });
       expect(allPotions.length).toBe(2); // Two stacks of health potions
     });

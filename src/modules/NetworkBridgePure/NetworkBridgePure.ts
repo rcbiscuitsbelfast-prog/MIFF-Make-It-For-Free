@@ -1,9 +1,9 @@
 /**
  * NetworkBridgePure.ts
- * 
+ *
  * Inspired by Godot's high-level multiplayer node API and rollback netcode patterns.
  * Provides pure, remix-safe networking for MIFF games with deterministic state sync.
- * 
+ *
  * Attribution: Godot Engine (MIT License) - multiplayer node system patterns
  * Attribution: GGPO (MIT License) - rollback netcode concepts
  */
@@ -248,10 +248,10 @@ export class NetworkBridge {
 
 export function createNetworkBridge(config: NetworkConfig): NetworkBridge {
   const mockTransport: INetworkTransport = {
-    connect: async () => true,
+    connect: async() => true,
     disconnect: () => {},
-    send: async () => true,
-    receive: async () => null,
+    send: async() => true,
+    receive: async() => null,
     getConnectedPeers: () => []
   };
   return new NetworkBridge(mockTransport, config);

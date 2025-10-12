@@ -1,6 +1,6 @@
 /**
  * AudioPure.test.ts
- * 
+ *
  * Tests for AudioPure module covering sound management, spatial audio, and headless mode.
  */
 
@@ -95,7 +95,7 @@ describe('AudioPure', () => {
       // Create a new audio system with limited simultaneous sounds for this test
       const limitedConfig = { ...config, maxSimultaneousSounds: 2 };
       const limitedAudioSystem = new AudioSystem(limitedConfig, true);
-      
+
       // Clear any previous console.warn calls and create a fresh spy
       jest.clearAllMocks();
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -115,11 +115,11 @@ describe('AudioPure', () => {
         expect(results[1]).toBeTruthy();
         expect(results[2]).toBeNull();
         expect(results[3]).toBeNull();
-        
+
         expect(limitedAudioSystem.getActiveSounds()).toHaveLength(2); // Max limit
-        
+
         // Check that we got exactly 2 warnings about maximum simultaneous sounds
-        const maxSoundsWarnings = warnSpy.mock.calls.filter(call => 
+        const maxSoundsWarnings = warnSpy.mock.calls.filter(call =>
           call[0] && call[0].includes('Maximum simultaneous sounds reached')
         );
         expect(maxSoundsWarnings).toHaveLength(2);
@@ -362,7 +362,7 @@ describe('AudioPure', () => {
       audioSystem.playSound('test-sound');
 
       const report = audioSystem.generateAudioReport();
-      
+
       expect(report).toContain('Audio System Report');
       expect(report).toContain('Total Registered Sounds: 1');
       expect(report).toContain('Active Sounds: 1');

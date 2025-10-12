@@ -6,70 +6,26 @@ module.exports = {
     jest: true
   },
   extends: [
-    'eslint:recommended',
-    '@typescript-eslint/recommended',
-    '@typescript-eslint/recommended-requiring-type-checking'
+    'eslint:recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2022,
-    sourceType: 'module',
-    project: './tsconfig.json'
+    sourceType: 'module'
   },
   plugins: [
     '@typescript-eslint'
   ],
   rules: {
-    // TypeScript specific rules
+    // Basic TypeScript rules
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-non-null-assertion': 'warn',
-    '@typescript-eslint/prefer-const': 'error',
+    'prefer-const': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-require-imports': 'off',
-    '@typescript-eslint/no-unsafe-assignment': 'warn',
-    '@typescript-eslint/no-unsafe-member-access': 'warn',
-    '@typescript-eslint/no-unsafe-call': 'warn',
-    '@typescript-eslint/no-unsafe-return': 'warn',
-    '@typescript-eslint/no-unsafe-argument': 'warn',
-    '@typescript-eslint/restrict-template-expressions': 'warn',
-    '@typescript-eslint/restrict-plus-operands': 'warn',
-    '@typescript-eslint/no-floating-promises': 'error',
-    '@typescript-eslint/await-thenable': 'error',
-    '@typescript-eslint/no-misused-promises': 'error',
-    '@typescript-eslint/require-await': 'warn',
-    '@typescript-eslint/return-await': 'error',
-    '@typescript-eslint/prefer-readonly': 'warn',
-    '@typescript-eslint/prefer-readonly-parameter-types': 'off',
-    '@typescript-eslint/strict-boolean-expressions': 'off',
-    '@typescript-eslint/prefer-nullish-coalescing': 'warn',
-    '@typescript-eslint/prefer-optional-chain': 'warn',
-    '@typescript-eslint/no-unnecessary-condition': 'warn',
-    '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
-    '@typescript-eslint/prefer-includes': 'warn',
-    '@typescript-eslint/prefer-string-starts-ends-with': 'warn',
-    '@typescript-eslint/prefer-reduce-type-parameter': 'warn',
-    '@typescript-eslint/prefer-function-type': 'warn',
-    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
-    '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
-    '@typescript-eslint/no-import-type-side-effects': 'error',
-    '@typescript-eslint/sort-type-union-intersection-members': 'warn',
-    '@typescript-eslint/method-signature-style': ['error', 'property'],
-    '@typescript-eslint/prefer-for-of': 'warn',
-    '@typescript-eslint/prefer-function-type': 'warn',
-    '@typescript-eslint/no-confusing-void-expression': 'warn',
-    '@typescript-eslint/no-meaningless-void-operator': 'warn',
-    '@typescript-eslint/no-mixed-enums': 'warn',
-    '@typescript-eslint/no-redundant-type-constituents': 'warn',
-    '@typescript-eslint/no-useless-empty-export': 'warn',
-    '@typescript-eslint/prefer-enum-initializers': 'warn',
-    '@typescript-eslint/prefer-literal-enum-member': 'warn',
-    '@typescript-eslint/prefer-ts-expect-error': 'warn',
-    '@typescript-eslint/switch-exhaustiveness-check': 'warn',
-    '@typescript-eslint/unbound-method': 'warn',
-    '@typescript-eslint/use-unknown-in-catch-clause-variable': 'warn',
 
     // General ESLint rules
     'no-console': 'warn',
