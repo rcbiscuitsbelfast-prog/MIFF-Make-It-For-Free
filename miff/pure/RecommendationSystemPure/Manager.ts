@@ -13,11 +13,11 @@
  *
  * @version 1.0.0
  * @author MIFF Framework
+ */
 
 import { StructuredLogger, LogLevel } from '../shared/logging/StructuredLogger';
 import { PerformanceOptimizer } from '../shared/performance/PerformanceOptimizer';
 import { MemoryManager } from '../shared/memory/MemoryManager';
- */
 
 export interface RecommendationSystemConfig {
   enableCollaborativeFiltering: boolean;
@@ -512,15 +512,8 @@ export class RecommendationSystemManager {
       enableConsole: true,
       performanceMonitoring: true,
       modules: {
-
         'RecommendationSystemManager': LogLevel.DEBUG
-      
-
-      
-
-
       }
-      };
     });
 
     // Register with memory manager

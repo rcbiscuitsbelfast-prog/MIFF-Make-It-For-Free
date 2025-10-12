@@ -118,14 +118,10 @@ export class NPCsManager {
         id: 'npc_001' as EntityID,
         name: 'Elder Oak',
         stats: [
-          { key: 'health', base: 100;
-    },
-          { key: 'mana', base: 50;
-    },
-          { key: 'strength', base: 15;
-    },
-          { key: 'wisdom', base: 20;
-    }
+          { key: 'health', base: 100 },
+          { key: 'mana', base: 50 },
+          { key: 'strength', base: 15 },
+          { key: 'wisdom', base: 20 }
         ],
         behavior: {
 
